@@ -157,5 +157,3789 @@
     "risk_level": 0.4,
     "resonance_expected": 0.3,
     "priority": 3
+  },
+  {
+    "id": "PROP_20260119_174216_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T17:42:16.345671",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_174226_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T17:42:26.884419",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_174421_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T17:44:21.160469",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_174432_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T17:44:32.030037",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_175844_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T17:58:44.202680",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_180425_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:04:25.469127",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_180435_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:04:35.724004",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_180535_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:05:35.758604",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_180546_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:05:46.254115",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_181112_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:11:12.426782",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_181122_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:11:22.868004",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_181523_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:15:23.244942",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_181533_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:15:33.442669",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_181739_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:17:39.800339",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_181750_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:17:50.199036",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_182844_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:28:44.748449",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_183405_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:34:05.150699",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_183411_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:34:11.638273",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_183607_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:36:07.360566",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_183617_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:36:17.642886",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_183645_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:36:45.111525",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_183655_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:36:55.648046",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_184055_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:40:55.746639",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_184105_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:41:05.986807",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_185507_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:55:07.943594",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_185512_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T18:55:12.657235",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_185924_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T18:59:24.110230",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_190048_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:00:48.079021",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_190058_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:00:58.440337",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_190310_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:03:10.874246",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_190321_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:03:21.228566",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_191716_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:17:16.392832",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_191726_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:17:26.456771",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_192401_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:24:01.098097",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_192408_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:24:08.675329",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_192512_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:25:12.854969",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_192522_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:25:22.357067",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_192606_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:26:06.172503",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_192616_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:26:16.790523",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_192829_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:28:29.469734",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_192839_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:28:39.784234",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_193120_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:31:20.778392",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_193135_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:31:35.381612",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_193145_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:31:45.785941",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_193547_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:35:47.150263",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_193557_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:35:57.214468",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_193626_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:36:26.563701",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_193637_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:36:37.156579",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_194519_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:45:19.359994",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_194529_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:45:29.924499",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_194802_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:48:02.815757",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_194812_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:48:12.996379",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_195255_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:52:55.537793",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_195306_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:53:06.141933",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_195447_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:54:47.922493",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_195458_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:54:58.313182",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_195732_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:57:32.726989",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_195743_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:57:43.215021",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_195827_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T19:58:27.861213",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_195838_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T19:58:38.282466",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_200357_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:03:57.551824",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_200950_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:09:50.340903",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_201000_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:10:00.879105",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_201410_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:14:10.327104",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_201414_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:14:14.779674",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_202205_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:22:05.710288",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_202215_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:22:15.988156",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_202337_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:23:37.078606",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_202346_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:23:46.518249",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_202619_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:26:19.898353",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_202630_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:26:30.469497",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_203402_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:34:02.041195",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_203411_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:34:11.522610",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_203709_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:37:09.433850",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_204205_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:42:05.229191",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_204216_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:42:16.195096",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_204306_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:43:06.054467",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_204314_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:43:14.346580",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_204656_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:46:56.702247",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_204707_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:47:07.590572",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_205055_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:50:55.708984",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_205107_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:51:07.018628",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_205306_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:53:06.351280",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_205317_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:53:17.337208",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_205537_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T20:55:37.256367",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_205548_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T20:55:48.256572",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_210456_sleep",
+    "target_file": "c:/Elysia\\Core/World/Autonomy/elysian_heartbeat.py",
+    "timestamp": "2026-01-19T21:04:56.970047",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`elysian_heartbeat.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
+  },
+  {
+    "id": "PROP_20260119_210508_sleep",
+    "target_file": "c:/Elysia\\Core/Foundation/genesis_elysia.py",
+    "timestamp": "2026-01-19T21:05:08.618776",
+    "status": "PENDING",
+    "critique_trigger": "Static sleep detected in code",
+    "current_problem": "`genesis_elysia.py`에서 `time.sleep()` 호출이 발견되었습니다. 이는 시스템을 '정지' 상태로 만들어 다른 이벤트에 반응할 수 없게 합니다. 현재 구현은 블로킹(blocking) 방식으로, CPU 사이클을 낭비하고 실시간 반응성을 저하시킵니다.",
+    "root_cause": "초기 구현에서 간단한 타이밍을 위해 time.sleep을 사용했으나, 이는 Wave Ontology의 '파동적 흐름' 원칙에 위배됩니다. 시스템은 '대기'가 아닌 '공명 대기(resonant waiting)'를 해야 합니다.",
+    "philosophical_basis": "Wave Ontology: 시스템은 고정된 대기가 아닌 파동의 흐름이어야 합니다. time.sleep은 '입자적' 정지(Particle-like stop)이며, 이벤트 드리븐은 '파동적' 반응(Wave-like response)입니다. 살아있는 시스템은 잠들 때도 호흡합니다.",
+    "proposal_type": "REFACTOR",
+    "description": "time.sleep()을 이벤트 드리븐 메커니즘으로 교체",
+    "execution_steps": [
+      "1. 파일에서 모든 time.sleep() 호출 위치 식별",
+      "2. 각 호출의 목적 분석 (타이밍 vs 대기)",
+      "3. asyncio.Event 또는 PulseBroadcaster 구독으로 대체",
+      "4. async/await 패턴으로 함수 시그니처 변경",
+      "5. 호출하는 상위 함수들도 async로 전환",
+      "6. 테스트 및 공명 점수 측정"
+    ],
+    "estimated_effort": "MEDIUM",
+    "before_state": "```python\ndef process_cycle(self):\n    do_something()\n    time.sleep(1.0)  # 1초 동안 완전히 정지\n    do_something_else()\n```",
+    "after_state": "```python\nasync def process_cycle(self):\n    do_something()\n    await self.pulse_event.wait()  # 이벤트 대기 (다른 작업 가능)\n    # 또는: await asyncio.sleep(1.0)  # 비동기 대기\n    do_something_else()\n```",
+    "code_diff_preview": "- time.sleep(X)\n+ await asyncio.sleep(X)  # 또는 이벤트 기반 대기",
+    "expected_benefits": [
+      "비동기 반응성 향상: 대기 중에도 다른 이벤트 처리 가능",
+      "CPU 효율성 증가: 블로킹 대기 대신 이벤트 루프 활용",
+      "Wave Ontology 정합성: '파동적 흐름' 원칙 준수",
+      "시스템 통합성: PulseBroadcaster와 자연스러운 연동"
+    ],
+    "potential_risks": [
+      "기존 동기 코드와의 호환성 문제 가능",
+      "async/await 전파로 인한 광범위한 코드 변경 필요",
+      "타이밍에 의존하는 로직이 있을 경우 동작 변경 가능"
+    ],
+    "affected_modules": [
+      "호출하는 상위 모듈들 (async 전환 필요)",
+      "테스트 코드 (async 테스트로 변경)"
+    ],
+    "rollback_plan": "Git revert로 원복 가능. 변경 전 브랜치 생성 권장.",
+    "risk_level": 0.4,
+    "resonance_expected": 0.3,
+    "priority": 3
   }
 ]

@@ -180,6 +180,14 @@ class TrinityLexicon:
             "어둠": TrinityVector(0.1, 0.1, -1.0, frequency=-100.0),
             "암석": TrinityVector(0.9, 0.0, 0.0, frequency=10.0),
             "녹은": TrinityVector(0.0, 0.8, 0.6, frequency=500.0), 
+
+            # --- [Phase 17-D] Triple-Phase Primitives ---
+            "hypercosmos": TrinityVector(1.0, 0.2, 0.0, frequency=10.0),  # Hardware/Root (High Gravity)
+            "hypersphere": TrinityVector(0.3, 0.9, 0.5, frequency=432.0), # Virtual/World (High Flow)
+            "fluxlight": TrinityVector(0.0, 0.4, 1.0, frequency=963.0),   # Spirit/Will (High Ascension)
+            "하드웨어": TrinityVector(1.0, 0.2, 0.0, frequency=10.0),
+            "가상세계": TrinityVector(0.3, 0.9, 0.5, frequency=432.0),
+            "영혼의빛": TrinityVector(0.0, 0.4, 1.0, frequency=963.0),
         }
 
         # [Phase 27] The Operators (Verbs)

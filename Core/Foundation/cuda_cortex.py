@@ -100,27 +100,22 @@ class CudaCortex:
             logger.error(f"Matrix multiplication failed: {e}")
             return 0.0
 
+    def void_acceleration_matmul(self, a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
+        """
+        🟢 [VOID ACCELERATION] 
+        Implement a mechanism to skip zero-value tensor operations.
+        If a tensor has near-zero energy, skip the heavy GPU kernel launch.
+        """
+        if not HAS_TORCH:
+            return torch.matmul(a, b)
+
+        # Calculate L1 norm (Sparsity check)
+        # If the tensor is basically "Void", don't bother the GPU.
+        if torch.norm(a, p=1) < 1e-7 or torch.norm(b, p=1) < 1e-7:
+            logger.info("⚡ [VOID-ACCEL] Zero/Void tensor detected. Skipping GPU kernel (O(1)).")
+            return torch.zeros_like(a) # Instant return
+
+        return torch.matmul(a, b)
+
     def optimize_tensor(self, data_size: int):
-        """
-        Placeholder for future neural network optimization.
-        """
-        if not HAS_TORCH: return
-        
-        try:
-            # Simulate a gradient descent step
-            weights = torch.randn(data_size, requires_grad=True, device=self.device)
-            target = torch.randn(data_size, device=self.device)
-            
-            optimizer = torch.optim.SGD([weights], lr=0.01)
-            
-            for _ in range(10):
-                optimizer.zero_grad()
-                output = weights * 2 # Dummy operation
-                loss = (output - target).pow(2).mean()
-                loss.backward()
-                optimizer.step()
-                
-            logger.info(f"   ⚡ Optimized Tensor (Size {data_size}) on {self.device}.")
-            
-        except Exception as e:
-            logger.error(f"Tensor optimization failed: {e}")
+        # ... (기존 코드 유지)

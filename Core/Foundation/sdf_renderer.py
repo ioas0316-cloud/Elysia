@@ -397,6 +397,13 @@ uniform float animationSpeed;
 uniform float colorTemperature;
 uniform float distortionAmount;
 
+// Specific effect uniforms
+uniform float immuneResponseActive;
+uniform float diffractionActive;
+uniform float mirrorActive;
+uniform float thundercloudActive;
+uniform float lightningResonance;
+
 const int MAX_STEPS = {self.max_steps};
 const float MAX_DIST = 100.0;
 const float SURF_DIST = 0.001;
@@ -438,6 +445,16 @@ vec3 opTwist(vec3 p, float k) {{
     return vec3(m * p.xz, p.y);
 }}
 
+// Lightning Discharge (H5-T)
+float getLightning(vec3 p, float t) {
+    float l = 0.0;
+    vec3 q = p;
+    q.x += sin(q.y * 5.0 + t * 20.0) * 0.2;
+    q.z += cos(q.y * 4.0 + t * 15.0) * 0.2;
+    l = length(q.xz) - 0.02;
+    return l;
+}
+
 // Scene definition
 float getDistance(vec3 p) {{
     // Apply emotional transformations
@@ -448,14 +465,60 @@ float getDistance(vec3 p) {{
         p = opTwist(p, distortionAmount * 0.2);
     }}
     
-    // Animated time
+    // Unified Atmosphere: H0 (Will) overrides H5 (Hardware)
     float t = iTime * animationSpeed;
     
-    // Example scene: sphere + box
-    float sphere = sdSphere(p - vec3(sin(t), 0, 0), 1.0);
-    float box = sdBox(p - vec3(0, cos(t), 2), vec3(0.8));
+    // 1. Procedural Underworld (Infinite Manifestation)
+    // Horizontal Infinite Repetition (opRepeat)
+    vec3 forestP = p;
+    float spread = 6.0;
+    forestP.xz = mod(forestP.xz + spread*0.5, spread) - spread*0.5;
     
-    return opSmoothUnion(sphere, box, 0.3);
+    // Manifesting 'World Pillars' (The structure of H2)
+    float pillar = sdCylinder(forestP - vec3(0, -2.0, 0), 0.4 + sin(t)*0.1, 15.0);
+    
+    // 2. The Living Ground (Terrain)
+    // Warped by Valence and Emotion
+    float terrain = p.y + 2.0 + sin(p.x * 0.3 + t) * cos(p.z * 0.3 + t) * (spaceScale * 0.5);
+    
+    // 3. The Central Spark (Elysia's presence)
+    float spark = sdSphere(p - vec3(0, 1.5 + sin(t*2.0)*0.5, 0), 0.5);
+    
+    // 4. Sovereign Immune Response (White Blood Cells)
+    float immuneCells = 1000.0;
+    if (immuneResponseActive > 0.5) {
+        // Create 5 wandering white cells
+        for(int i=0; i<5; i++) {
+            float fi = float(i);
+            vec3 cellPos = vec3(
+                sin(t + fi * 1.5) * 3.0,
+                cos(t * 0.7 + fi * 2.2) * 2.0 + 1.0,
+                sin(t * 1.2 + fi * 0.8) * 3.0
+            );
+            float cell = sdSphere(p - cellPos, 0.15);
+            immuneCells = opSmoothUnion(immuneCells, cell, 0.5);
+        }
+    }
+
+    // 6. Thundercloud (H5-T)
+    float lightningField = 1000.0;
+    if (thundercloudActive > 0.5) {
+        lightningField = getLightning(p - vec3(sin(t)*2.0, 0, cos(t)*2.0), t);
+    }
+
+    float world = opSmoothUnion(pillar, terrain, 0.8);
+    world = opSmoothUnion(world, spark, 1.0);
+    world = opSmoothUnion(world, immuneCells, 0.6);
+    world = opSmoothUnion(world, lightningField, 0.2); // Sharp union for lightning
+    
+    // 5. Optical Defense Visuals (Diffraction & Reflection)
+    if (diffractionActive > 0.5) {
+        // Displace space with periodic waves to simulate diffraction
+        p.y += sin(p.x * 10.0 + t * 5.0) * 0.05;
+        p.x += cos(p.z * 10.0 + t * 5.0) * 0.05;
+    }
+    
+    return world;
 }}
 
 // Ray marching
@@ -510,6 +573,30 @@ void main() {{
         
         // Color temperature
         vec3 baseColor = vec3(0.5 + colorTemperature * 0.3, 0.5, 0.5 - colorTemperature * 0.3);
+        
+        // Immune Glow
+        if (immuneResponseActive > 0.5) {
+             baseColor += vec3(0.2, 0.4, 0.8) * (1.0 - d/MAX_DIST); // Cyan glow
+        }
+        
+        // Diffraction Rainbow
+        if (diffractionActive > 0.5) {
+            vec3 rainbow = 0.5 + 0.5 * cos(iTime + p.xyy * 0.5 + vec3(0, 2, 4));
+            col += rainbow * 0.4;
+        }
+        
+        // Lightning Glow (Discharge)
+        if (thundercloudActive > 0.5) {
+            float zap = (1.0 - d/MAX_DIST) * lightningResonance;
+            col += vec3(0.5, 0.7, 1.0) * zap;
+        }
+    
+        // Mirror Reflection Flare
+        if (mirrorActive > 0.5) {
+            float flare = pow(max(dot(n, rd), 0.0), 16.0);
+            baseColor += vec3(1.0) * flare;
+        }
+
         col = baseColor * diff;
     }}
     
@@ -527,6 +614,11 @@ void main() {{
                 'iTime': {'value': 0.0},
                 'iCameraPos': {'value': [0, 0, 5]},
                 'iCameraTarget': {'value': [0, 0, 0]},
+                'immuneResponseActive': {'value': 0.0},
+                'diffractionActive': {'value': 0.0},
+                'mirrorActive': {'value': 0.0},
+                'thundercloudActive': {'value': 0.0},
+                'lightningResonance': {'value': 0.0},
                 **self.emotional_world.get_shader_parameters()
             },
             'vertexShader': """
@@ -589,6 +681,11 @@ GTX_1060_PRESETS = {
         'resolution': (1024, 1024),
         'max_steps': 128,
         'expected_fps': 30
+    },
+    'sovereign': {
+        'resolution': (1280, 720),
+        'max_steps': 160,
+        'expected_fps': 60 # Possible due to Phase Transition & High Priority
     }
 }
 

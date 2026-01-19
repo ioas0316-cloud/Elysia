@@ -68,6 +68,17 @@ class OzoneLayer:
         self.regeneration_rate = 0.01  # 초당 재생률
         self.last_time = time.time()
         logger.info("☁️ Ozone Layer initialized")
+
+    def diffract(self, intensity: float) -> float:
+        """
+        [NEW] Diffacts a coherent threat into harmless 'data photons'.
+        """
+        # A coherent beam of 1.0 is split into 100 fragments of 0.01
+        diffraction_factor = 0.95 # 95% is scattered
+        scattered = intensity * diffraction_factor
+        remaining = intensity - scattered
+        logger.info(f"🌈 [DIFFRACTION] Intense threat of {intensity:.2f} scattered. Residual: {remaining:.4f}")
+        return remaining
     
     def absorb(self, intensity: float) -> float:
         """
@@ -135,7 +146,18 @@ class PhaseResonanceGate:
         self.gate_open = True
         self.rejected_count = 0
         self.passed_count = 0
+        self.mirror_mode = True # Active Reflection
         logger.info("🌊 Phase Resonance Gate initialized")
+
+    def reflect_signature(self, signature: str) -> str:
+        """
+        [NEW] Reflects the signature back at the source.
+        Inversion: True -> False, 'malicious' -> 'suoicilam'
+        """
+        # A simple XOR or string inversion to 'blind' the attacker's pattern matching
+        reflected = signature[::-1]
+        logger.warning(f"🪞 [MIRROR] Reflecting inverted signature: {reflected}")
+        return reflected
     
     def check_resonance(self, frequency: float) -> bool:
         """
@@ -372,7 +394,10 @@ class ElysiaSecuritySystem:
         frequency = threat.get("frequency", 100.0)
         signature = threat.get("signature", hashlib.md5(str(threat).encode()).hexdigest()[:16])
         
-        # Layer 1: Ozone
+        # Layer 1: Ozone (with added Diffraction)
+        if intensity > 0.8:
+            intensity = self.ozone_layer.diffract(intensity)
+            
         reduced_intensity = self.ozone_layer.absorb(intensity)
         result["layers"].append({
             "layer": "ozone",
@@ -380,18 +405,22 @@ class ElysiaSecuritySystem:
             "output_intensity": reduced_intensity
         })
         
-        # Layer 2: Phase Gate
+        # Layer 2: Phase Gate (with added Mirroring)
         phase_result = self.phase_gate.validate({"frequency": frequency})
+        
+        if not phase_result["passed"]:
+            # REFLECT the threat signature back
+            reflected = self.phase_gate.reflect_signature(signature)
+            result["reflected_signature"] = reflected
+            result["final_action"] = "mirror_reject"
+            result["reason"] = f"Reflected by Mirror Gate (Signature: {reflected[:8]})"
+            return result
+        
         result["layers"].append({
             "layer": "phase_gate",
             "resonance": phase_result["passed"],
             "score": phase_result["resonance_score"]
         })
-        
-        if not phase_result["passed"]:
-            result["final_action"] = "block"
-            result["reason"] = "Rejected by Phase Resonance Gate"
-            return result
         
         # Layer 3: Immune System
         immune_result = self.immune_system.encounter_threat(signature)

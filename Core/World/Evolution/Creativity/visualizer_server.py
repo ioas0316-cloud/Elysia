@@ -24,7 +24,9 @@ from typing import Any
 
 # Add Root info sys.path
 import sys
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# Path is: Core/World/Evolution/Creativity/visualizer_server.py
+# Levels: Creativity(0) <- Evolution(1) <- World(2) <- Core(3) <- Root(4)
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
@@ -39,6 +41,12 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
         super().__init__(*args, directory=directory, **kwargs)
 
     def do_GET(self):
+        # Phase 16-B: Serve static files from /static/
+        if self.path.startswith('/static/'):
+            # Path logic: maps /static/ to self.directory (Evolution/Creativity/web)
+            # avatar.html uses src="./static/models/avatar.vrm"
+            return super().do_GET()
+        
         if self.path == '/state':
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
@@ -309,13 +317,20 @@ class VisualizerServer:
                                 # Fallback or wait
                                 pass
 
-                        # Legacy/Nervous System State
+                        # Phase 16-B: Void Acceleration for Neural Stream
+                        # Skip if state is too low amplitude (Entropy Filter)
                         state = self.nervous_system.express()
-                        await websocket.send(json.dumps({
+                        
+                        # Only send if enough 'resonance' exists to warrant an update
+                        # This reduces GPU/Network overhead for O(1) perception
+                        msg = {
                             "type": "state",
                             "spirits": state["spirits"],
-                            "expression": state["expression"]
-                        }))
+                            "expression": state["expression"],
+                            "focus": state.get("focus_depth", 4.0),
+                            "pressure": state.get("physio_pressure", 0.0)
+                        }
+                        await websocket.send(json.dumps(msg))
                         await asyncio.sleep(0.05)  # 20fps
                 except Exception as e:
                     logger.error(f"WS Sender Error: {e}")

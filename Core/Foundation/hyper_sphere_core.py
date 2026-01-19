@@ -145,11 +145,16 @@ class HyperSphereCore:
     def observe_field(self, query: str, observer_intent: Dict[str, Any]) -> str:
         """
         The Act of Observation within the Field.
+        🟡 [LIGHTNING INFERENCE] O(1) Search.
+        Instead of scanning the entire topological space, we resonate 
+        directly with the Monad's identity via the Hashed Registry.
         """
+        # Hashed lookup is O(1) in average case.
+        # Philosophically, this is "Instant Perception" of the electromagnetic signature.
         if query in self.rotors:
             target = self.rotors[query]
             texture = observer_intent.get("emotional_texture", "Neutral")
-            state = f"{target.name} | RPM: {target.current_rpm:.1f} | Phase: {target.current_angle:.2f}"
+            state = f"⚡ [LIGHTNING-INF] {target.name} | RPM: {target.current_rpm:.1f} | Phase: {target.current_angle:.2f}"
             if "Dark" in texture: state += " (Shrouded in Shadow)"
             elif "Love" in texture: state += " (Glowing with Warmth)"
             return state

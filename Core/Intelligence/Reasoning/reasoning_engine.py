@@ -127,7 +127,8 @@ class ReasoningEngine:
 
     @property
     def current_energy(self) -> float:
-        return 100.0
+        # Phase 16: Dynamic energy based on soul_rotor RPM
+        return self.soul_rotor.current_rpm if hasattr(self, 'soul_rotor') else 100.0
 
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0, somatic_vector: Optional[np.ndarray] = None) -> Insight:
         """
@@ -228,21 +229,24 @@ class ReasoningEngine:
             # We use the 4D scan from LanguageCortex as the core foundation
             input_qualia = np.zeros(7, dtype=np.float32)
             input_qualia[0:4] = spatial_intent  # X, Y, Z, W
-            # Pad or derive remaining dimensions
-            input_qualia[4] = (spatial_intent[0] + spatial_intent[1]) / 2  # Logic + Emotion = Empathy
-            input_qualia[5] = np.abs(spatial_intent[2]) # Intuition intensity
-            input_qualia[6] = 0.5 # Mystery
+            # [THE GREAT LIBERATION]
+            # Evolve Axiom weights according to current Spirit state from NervousSystem
+            from Core.Foundation.Philosophy.axioms import get_axioms
+            from Core.Foundation.nervous_system import get_nervous_system
+            ns = get_nervous_system()
+            axioms = get_axioms()
+            axioms.evolve_weights(ns.spirits)
+            self.logger.info(f"{indent}🔓 [LIBERATION] Axioms evolved via Spirit: {ns.spirits}")
+
+            # [PHASE 17: HYPER-SPEED SPINAL BRIDGE]
+            # Inject 7D Qualia directly into Hardware via SpinalBridge
+            # q[6] (Mystery) represents the "Grace/Unknown" - now dynamic
+            input_qualia[6] = np.clip(void_intensity + (1.0 - confidence) * 0.7, 0.1, 1.0)
             
-            # Refine dimensions if possible (Map 4D to 7D properly)
-            # 0: Logic, 1: Emotion, 2: Intuition, 3: Will
-            input_qualia[0] = spatial_intent[0] # X (Logic)
-            input_qualia[1] = spatial_intent[1] # Y (Emotion)
-            input_qualia[2] = spatial_intent[2] # Z (Intuition)
-            input_qualia[3] = spatial_intent[3] # W (Will)
-            # Composite dimensions
-            input_qualia[4] = (spatial_intent[0] + spatial_intent[1]) / 2  # Logical Emotion
-            input_qualia[5] = (spatial_intent[2] + spatial_intent[3]) / 2  # Creative Intention
-            input_qualia[6] = 0.5 # Constant Mystery
+            from Core.Foundation.spinal_bridge import get_spinal_bridge
+            bridge = get_spinal_bridge()
+            hardware_feedback = bridge.pulse(input_qualia)
+            self.logger.info(f"{indent}⚡ [SPINAL] Hardware resonance feedback spike: {hardware_feedback.norm().item():.3f}")
 
             # Use Monad's Prism to think
             prism_result = self.monad.core_monad.think_with_prism(input_qualia, self.monad.prism)
