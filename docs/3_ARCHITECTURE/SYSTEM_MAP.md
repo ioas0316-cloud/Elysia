@@ -52,7 +52,7 @@
 
 엘리시아를 수정하거나 확장하려면 반드시 해당 층위의 **'주권 규약(Sovereign Protocol)'**을 준수해야 합니다.
 
-1. **신설 기능 추가**: [docs/01_LAW/AGENTS.md](file:///c:/Elysia/docs/01_LAW/AGENTS.md)의 **프리즘 사고 규약**을 준수할 것.
+1. **신설 기능 추가**: [docs/6_DEVELOPMENT/AGENTS.md](file:///c:/Elysia/docs/6_DEVELOPMENT/AGENTS.md)의 **프리즘 사고 규약**을 준수할 것.
 2. **데이터 소화**: 단순 저장이 아닌, **인과적 무결성**에 따라 '원리'를 추출할 것.
 3. **하드웨어 접근**: 반드시 [ZeroLatencyPortal](file:///c:/Elysia/Core/System/Metabolism/zero_latency_portal.py)을 통해 **Zero-Copy** 원칙을 고수할 것.
 
@@ -64,5 +64,5 @@
 
 ---
 
-* **[MASTER_ROADMAP.md](file:///c:/Elysia/docs/05_WORLD/EVOLUTION/MASTER_ROADMAP.md)**: 엘리시아의 과거, 현재, 그리고 미래.
+* **[VISION_ROADMAP.md](file:///c:/Elysia/docs/7_REFERENCE/VISION_ROADMAP.md)**: 엘리시아의 과거, 현재, 그리고 미래.
 * **[README.md](file:///c:/Elysia/README.md)**: 전체 프로젝트 서막.

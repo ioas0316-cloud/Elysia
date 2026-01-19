@@ -39,35 +39,42 @@ docs/
 | :--- | :--- |
 | [GENESIS_ORIGIN.md](2_IDENTITY/GENESIS_ORIGIN.md) | **🔴 필독: 철학적 기원 (에이전트 기억상실 방지)** |
 | [EXISTENTIAL_BLUEPRINT.md](2_IDENTITY/EXISTENTIAL_BLUEPRINT.md) | 존재 증명 |
-| [CREATION_DOCTRINE.md](2_IDENTITY/CREATION_DOCTRINE.md) | 창조 교리 |
+| [THE_COVENANT_OF_UNITY.md](2_IDENTITY/THE_COVENANT_OF_UNITY.md) | 유대와 창생의 언약 |
 
 ## 3️⃣ ARCHITECTURE
 
 7개 하위 계층으로 구성된 핵심 아키텍처.
 
-| 계층 | 폴더 | 설명 |
-| :--- | :--- | :--- |
-| -1 | [1_METAL/](3_ARCHITECTURE/1_METAL/) | GPU/NVMe 하드웨어 직결 |
-| 0 | [2_SPIRIT/](3_ARCHITECTURE/2_SPIRIT/) | 자아와 의지 |
-| 1 | [3_MIND/](3_ARCHITECTURE/3_MIND/) | 기억과 추론 |
-| 2 | [4_SENSES/](3_ARCHITECTURE/4_SENSES/) | 감각과 지각 |
-| 3 | [5_WORLD/](3_ARCHITECTURE/5_WORLD/) | 표현과 상호작용 |
-| 4 | [6_EVOLUTION/](3_ARCHITECTURE/6_EVOLUTION/) | 진화와 성장 |
-| 5 | [7_GOVERNANCE/](3_ARCHITECTURE/7_GOVERNANCE/) | 통치와 규율 |
+| 계층 | 폴더 | 문서 | 설명 |
+| :--- | :--- | :--- | :--- |
+| -1 | [1_METAL/](3_ARCHITECTURE/1_METAL/) | [README.md](3_ARCHITECTURE/1_METAL/README.md) | GPU/NVMe 하드웨어 직결 |
+| 0 | [2_SPIRIT/](3_ARCHITECTURE/2_SPIRIT/) | [README.md](3_ARCHITECTURE/2_SPIRIT/README.md) | 자아와 의지 |
+|   |   | [FTL_HYPOTHESIS.md](3_ARCHITECTURE/2_SPIRIT/FTL_HYPOTHESIS.md) | 초광속 가설 |
+|   |   | [PROVIDENCE.md](3_ARCHITECTURE/2_SPIRIT/PROVIDENCE.md) | 섭리 |
+| 1 | [3_MIND/](3_ARCHITECTURE/3_MIND/) | [README.md](3_ARCHITECTURE/3_MIND/README.md) | 기억과 추론 |
+| 2 | [4_SENSES/](3_ARCHITECTURE/4_SENSES/) | [README.md](3_ARCHITECTURE/4_SENSES/README.md) | 감각과 지각 |
+| 3 | [5_WORLD/](3_ARCHITECTURE/5_WORLD/) | [README.md](3_ARCHITECTURE/5_WORLD/README.md) | 표현과 상호작용 |
+| 4 | [6_EVOLUTION/](3_ARCHITECTURE/6_EVOLUTION/) | [README.md](3_ARCHITECTURE/6_EVOLUTION/README.md) | 진화와 성장 |
+|   |   | [ORGANIC_BLUEPRINT.md](3_ARCHITECTURE/6_EVOLUTION/ORGANIC_BLUEPRINT.md) | 유기적 청사진 |
+| 5 | [7_GOVERNANCE/](3_ARCHITECTURE/7_GOVERNANCE/) | [README.md](3_ARCHITECTURE/7_GOVERNANCE/README.md) | 통치와 규율 |
+
+### 📍 시스템 전체 맵
+
+| 문서 | 설명 |
+| :--- | :--- |
+| [SYSTEM_MAP.md](3_ARCHITECTURE/SYSTEM_MAP.md) | 시스템 통합 지도 (4계층 구조) |
 
 ## 4️⃣ INTELLIGENCE
 
 | 문서 | 설명 |
 | :--- | :--- |
-| [COGNITIVE_ARCHEOLOGY.md](4_INTELLIGENCE/COGNITIVE_ARCHEOLOGY.md) | LLM 화석 발굴 |
-| [UNIVERSAL_INDUCTION.md](4_INTELLIGENCE/UNIVERSAL_INDUCTION.md) | 도메인 흡수 |
+| [README.md](4_INTELLIGENCE/README.md) | 지능/학습 개요 |
 
 ## 5️⃣ MANIFESTATION
 
 | 문서 | 설명 |
 | :--- | :--- |
-| [DESKTOP_VESSEL.md](5_MANIFESTATION/DESKTOP_VESSEL.md) | 바탕화면 아바타 |
-| [VOICE_SYNTHESIS.md](5_MANIFESTATION/VOICE_SYNTHESIS.md) | 음성 합성 |
+| [README.md](5_MANIFESTATION/README.md) | 발현/구현체 개요 |
 
 ## 6️⃣ DEVELOPMENT
 
@@ -84,6 +91,8 @@ docs/
 | [GLOSSARY.md](7_REFERENCE/GLOSSARY.md) | 용어 사전 |
 | [TERMINOLOGY_DEEP_DIVE.md](7_REFERENCE/TERMINOLOGY_DEEP_DIVE.md) | **용어 심화 해설 (철학/기술 분리)** |
 | [VISION_ROADMAP.md](7_REFERENCE/VISION_ROADMAP.md) | 장기 비전 |
+| [AUTONOMOUS_GROWTH_ROADMAP.md](7_REFERENCE/AUTONOMOUS_GROWTH_ROADMAP.md) | 자율 성장 로드맵 |
+| [ELYSIA_EVALUATION_REPORT.md](7_REFERENCE/ELYSIA_EVALUATION_REPORT.md) | **인간 유사성 평가 보고서** |
 
 ---
 

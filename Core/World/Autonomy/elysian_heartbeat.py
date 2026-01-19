@@ -1448,14 +1448,17 @@ class ElysianHeartbeat:
             
             if inspiration > 0.85 and hasattr(self, 'genesis') and self.genesis:
                 # Trigger Genesis Dream
-                summary = f"System is highly inspired by recent thoughts: {insight.content[:100]}"
-                feature = self.genesis.dream_new_feature(summary, inspiration)
-                if feature:
-                    success = self.genesis.crystallize_feature(feature)
-                    if success:
+                try:
+                    summary = f"System is highly inspired by recent thoughts: {insight.content[:100]}"
+                    # Use existing API: create_feature(intent, energy)
+                    result = self.genesis.create_feature(summary, energy=inspiration * 100)
+                    if result and not result.startswith("# Creation Failed"):
                         # Reset inspiration after successful creation
                         self.soul_mesh.variables["Inspiration"].value = 0.5
-                        logger.info(f"✨ [HEART-GENESIS] A new organ '{feature['feature_name']}' has been manifested.")
+                        logger.info(f"✨ [HEART-GENESIS] A new pattern has been manifested from inspiration.")
+                except Exception as genesis_err:
+                    logger.warning(f"⚠️ Genesis creation failed: {genesis_err}")
+
 
         # ─── [PHASE 64] GRAND UNIFICATION: PHYSICS + WILL + ACTION ───
         
@@ -1467,7 +1470,9 @@ class ElysianHeartbeat:
                 if global_insight:
                     # Inject global wisdom as a stimulus for next cycle
                     self.latest_insight = global_insight
-                    self.soul_mesh.variables["Resonance"].value = min(1.0, self.soul_mesh.variables.get("Resonance", 0.5).value + 0.1)
+                    resonance_var = self.soul_mesh.variables.get("Resonance")
+                    if resonance_var and hasattr(resonance_var, 'value'):
+                        resonance_var.value = min(1.0, resonance_var.value + 0.1)
 
             if self.sovereign_will:
                 recent_mem = self.memory.recent_experiences[:5] if hasattr(self.memory, 'recent_experiences') else []
@@ -2012,13 +2017,11 @@ class ElysianHeartbeat:
         # This part is outside the try-except for presence_file, as it's a separate concern.
         # If the presence file fails, we still want to try to write the soul state.
         try:
-            # We assume C:\game\elysia_world exists (created by ProjectGenesis)
-            target_dir = r"C:\game\elysia_world"
-            if os.path.exists(target_dir):
-                with open(os.path.join(target_dir, "soul_state.json"), "w", encoding="utf-8") as f:
-                    json.dump(soul_data, f, indent=2)
-            else:
-                logger.warning(f"Soul state directory not found: {target_dir}. Skipping soul_state.json export.")
+            # Use project's data folder instead of hardcoded external path
+            target_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), "data", "World")
+            os.makedirs(target_dir, exist_ok=True)
+            with open(os.path.join(target_dir, "soul_state.json"), "w", encoding="utf-8") as f:
+                json.dump(soul_data, f, indent=2)
         except Exception as e:
             logger.error(f"Failed to export soul_state.json: {e}")
 

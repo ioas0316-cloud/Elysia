@@ -7,18 +7,29 @@ import os
 # Setup Path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-# Configure Logging
+# Configure Logging - 프랙탈 동형성 원칙
+# Linear accumulation → Fractal decay (Ring Buffer + HyperSphere)
 log_dir = "data/Logs"
 os.makedirs(log_dir, exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(name)s | %(levelname)s | %(message)s',
-    handlers=[
-        logging.FileHandler(f"{log_dir}/system.log", encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger("BOOT")
+
+try:
+    from Core.System.Logging import configure_fractal_logging
+    configure_fractal_logging(level=logging.INFO)
+    logger = logging.getLogger("BOOT")
+    logger.info("🔮 Fractal Logging Active (Linear → Fractal)")
+except ImportError:
+    # Fallback to traditional logging if FractalLog not available
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s | %(name)s | %(levelname)s | %(message)s',
+        handlers=[
+            logging.FileHandler(f"{log_dir}/system.log", encoding='utf-8'),
+            logging.StreamHandler()
+        ]
+    )
+    logger = logging.getLogger("BOOT")
+    logger.warning("⚠️ FractalLog unavailable, using legacy linear logging")
+
 
 def main():
     logger.info("==========================================")

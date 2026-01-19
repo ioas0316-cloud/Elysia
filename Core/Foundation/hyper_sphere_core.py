@@ -158,6 +158,28 @@ class HyperSphereCore:
     @property
     def primary_rotor(self) -> Rotor:
         return self.rotors.get("Elysia")
+    
+    @property
+    def spin(self):
+        """
+        Returns the current spin state as a quaternion-like object.
+        Used by Conductor for holodeck projection.
+        """
+        from Core.Foundation.hyper_quaternion import Quaternion
+        rotor = self.primary_rotor
+        if rotor:
+            # Map rotor angle to quaternion representation
+            import math
+            angle = rotor.current_angle
+            return Quaternion(
+                w=math.cos(angle / 2),
+                x=0.0,
+                y=math.sin(angle / 2),
+                z=0.0
+            )
+        # Default identity quaternion
+        return Quaternion(w=1.0, x=0.0, y=0.0, z=0.0)
+
 
     def ignite(self):
         logger.info("🔥 HyperSphere Ignition Sequence Complete.")
