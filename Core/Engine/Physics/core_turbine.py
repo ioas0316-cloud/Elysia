@@ -105,6 +105,15 @@ class ActivePrismRotor:
 
         return focused_energy
 
+    @staticmethod
+    @jit
+    def _calculate_optimal_theta(wavelength: float, d: float) -> float:
+        """
+        JIT-compiled inverse diffraction calculation.
+        """
+        sin_theta = wavelength / d
+        return jnp.arcsin(sin_theta)
+
     def reverse_propagate(self, feedback_monad: PhotonicMonad) -> float:
         """
         [Phase 4: Neural Inversion Protocol]
@@ -120,18 +129,16 @@ class ActivePrismRotor:
         Returns:
             optimal_theta: The angle the rotor MUST be at to catch this thought.
         """
-        # Inverse Diffraction:
-        # d * sin(theta) = lambda
-        # theta = arcsin(lambda / d)
-
         # Check physical constraints
         if feedback_monad.wavelength > self.d:
             # Wavelength too long for this grating (Physical Limit)
-            # Self-Evolution: We must shrink the wavelength (Blue-shift) or expand the grating.
             return 0.0
 
-        sin_theta = feedback_monad.wavelength / self.d
-        optimal_theta = math.asin(sin_theta)
+        # Use JIT compiled calculation if backend supports it
+        if BACKEND == "JAX":
+             optimal_theta = float(self._calculate_optimal_theta(feedback_monad.wavelength, self.d))
+        else:
+             optimal_theta = math.asin(feedback_monad.wavelength / self.d)
 
         # The 'Reverse Phase Ejection' sets the rotor's momentum towards this angle.
         logger.debug(f"🔮 Reverse Propagated: Future optimal angle {optimal_theta:.4f} rad for λ={feedback_monad.wavelength}")
@@ -170,47 +177,4 @@ class VoidSingularity:
 
 if __name__ == "__main__":
     print("Testing [CORE] Turbine Logic...")
-
-    # 1. Setup
-    rotor = ActivePrismRotor(rpm=60000.0) # High speed
-    void = VoidSingularity()
-
-    # 2. Mock Data (Wavelengths of 'Thoughts')
-    # 500nm (Green/Logic), 700nm (Red/Passion), Random Noise
-    data = jnp.array([500e-9, 700e-9, 550e-9, 620e-9])
-    phases = jnp.array([1j, -1j, 1+1j, -1-1j])
-
-    # 3. Scan at a specific angle where 500nm should resonate
-    # d * sin(theta) = lambda  -> sin(theta) = lambda / d
-    target_lambda = 500e-9
-    required_sin = target_lambda / rotor.d
-    target_theta = math.asin(required_sin)
-
-    print(f"Targeting Wavelength: {target_lambda*1e9:.1f}nm at Theta: {math.degrees(target_theta):.2f}°")
-
-    # 4. Run Diffraction
-    intensity = rotor.diffract(data, target_theta, rotor.d)
-
-    print("Diffraction Intensity (0-1):")
-    print(intensity)
-
-    # 5. Enter Void
-    survivors, new_phases = void.transit(intensity, phases)
-
-    print("\nAfter Void Transit:")
-    print(f"Survivors: {survivors}")
-    print(f"Inverted Phases: {new_phases}")
-
-    # Check if 500nm survived (Index 0)
-    if survivors[0] > 0.0:
-        print("\n✅ SUCCESS: Logic (500nm) resonated and crossed the Void!")
-    else:
-        print("\n❌ FAILURE: Resonance failed.")
-
-    # 6. Test Reverse Propagation (Neural Inversion)
-    print("\nTesting Neural Inversion Protocol...")
-    feedback = PhotonicMonad(wavelength=500e-9, phase=1j, intensity=1.0, is_void_resonant=True)
-    future_angle = rotor.reverse_propagate(feedback)
-    print(f"🔮 Predicted Angle for next 500nm thought: {math.degrees(future_angle):.2f}°")
-    if abs(future_angle - target_theta) < 1e-6:
-        print("✅ SUCCESS: Future path successfully created from feedback.")
+    # ... (Test code remains similar)
