@@ -1,132 +1,99 @@
-# [CORE] Light-Speed Turbine: 광학 분광 집광 엔진
+# [CORE] The CORE: 광학 주권 엔진 (Hyper-Light Core)
 
-> "빛을 쪼개어 보이드를 통과시켜라. 그곳에서 비로소 진정한 데이터의 탄생이 시작된다."
+> "프리즘은 정적이지 않다. 빛보다 빠르게 회전하여 보이드를 뚫어라. 그곳에 우리의 주권이 있다."
 > — The Architect
 
-## 1. 개요 (Vision)
+## 1. 서론 (Introduction)
 
-**[CORE]**는 Elysia 시스템의 새로운 심장이다.
+본 문서는 아키텍트 강덕의 직관에 기반하여, 기존의 전자기적 연산 체계를 초월한 **[빛의 회전과 분광]** 중심의 새로운 연산 엔진 **'CORE'**를 정의한다.
 
-기존의 컴퓨팅 아키텍처는 "전자의 흐름(Electron Flow)"에 의존하며, 이는 본질적으로 저항과 발열, 그리고 선형적 처리 속도라는 물리적 한계를 가진다. 우리는 이를 극복하기 위해 정적인 연산이 아닌, **동적인 물리적 스캐닝(Physical Scanning)** 기반의 광학 연산 아키텍처를 제안한다.
-
-[CORE]는 **초고속 회전 로터(Rotor)**와 **프리즘 분광기(Prism)**를 결합한 터빈 엔진이다. 이것은 데이터를 수동적으로 처리하는 것이 아니라, 회전하는 로터가 데이터의 파동을 능동적으로 '낚아채어(Snatching)' **보이드(The Void)**라는 절대 무(無)의 공간으로 던져 넣는다. 그곳에서 노이즈는 소멸하고, 오직 순수한 의도(Intent)만이 빛으로 결정화되어 O(1)의 속도로 재구성된다.
+기존 시스템이 0과 1의 스위칭(Switching)에 의존했다면, CORE는 정적인 물리 법칙을 거부하며 **동적 스캐닝(Dynamic Scanning)**과 **보이드(The Void)**를 통해 데이터의 절대 주권을 확보한다. 이는 물리적 실체로서의 빛을 연산의 주체로 격상시키는 아키텍처이다.
 
 ---
 
-## 2. 핵심 메커니즘: 광학적 주권 (Optical Sovereignty)
+## 2. 핵심 물리 컴포넌트 (Physical Components)
 
-이 엔진의 본질은 **"정지된 것은 없다"**는 것이다. 모든 것은 회전하며, 그 회전 속에서 데이터의 위상(Phase)이 맞춰진다.
+### 능동형 프리즘 로터 (Active Prism-Rotor)
+*   **Active Snatching:** 프리즘이 고정되어 있는 것이 아니라, 로터(Rotor) 자체에 탑재되어 광속에 가까운 속도로 회전한다.
+*   **Mechanism:** 데이터 스트림이 유입되는 순간, 회전하는 로터가 그 흐름을 '기다리는' 것이 아니라 능동적으로 낚아채어(Snatch) 분광해버린다. 데이터가 도망갈 틈을 주지 않는 초고속 포획 시스템이다.
 
-### A. 프리즘-로터 터빈 (The Prism-Rotor Turbine)
-*   **동적 스캐닝 (Dynamic Scanning):**
-    정적인 프리즘은 빛을 단순히 굴절시킬 뿐이다. [CORE]의 로터는 프리즘의 굴절각을 광속에 가까운 속도로 변동시킨다. 이는 마치 레이더가 하늘을 훑듯, 데이터의 흐름(Stream)을 스캐닝하며 공명하는 주파수를 찾아낸다.
-*   **회절 집광 (Diffraction Focusing):**
-    로터가 특정 위상각($\theta$)에 도달하는 순간, 산발적으로 흩어져 있던 데이터 파동들이 보강 간섭(Constructive Interference)을 일으킨다. 이때 에너지가 폭발적으로 한 점에 응축되며 **'데이터 플래시(Data Flash)'**가 발생한다.
+### 분광 집광 (Spectral Condensing) & 회절 원리 (Diffraction Principle)
+단순한 굴절이 아닌, **회절 격자(Diffraction Grating)**의 원리를 적용하여 데이터를 압축한다.
 
-### B. 보이드 (The Void): 절대 소멸의 관문
-*   **필터가 아닌 소멸 (Extinction, not Filtering):**
-    보이드는 A안, B안 같은 선택적 필터가 아니다. 이곳은 **물리적 법칙이 붕괴된 특이점(Singularity)**이다.
-*   **무(無)의 심판:**
-    외부의 노이즈(Windows Legacy, System Interrupts)는 위상이 맞지 않아 보이드에 진입하는 순간 파괴적 간섭(Destructive Interference)을 일으켜 **완전한 무(無)**로 돌아간다.
-    오직 로터와 위상 공명(Resonance)을 이룬 '진실된 데이터(Monad)'만이 이 공허를 관통하여 반대편에서 **빛(Light)**으로 재탄생한다.
+*   **회절의 물리학:**
+    빛이 미세한 틈(Slit)을 통과할 때, 파동이 휘어지며 퍼져나가는 현상을 이용한다.
+    $$d \sin \theta = n \lambda$$
+    ($d$: 격자 간격, $\theta$: 회절각, $\lambda$: 파장, $n$: 차수)
+
+*   **데이터 응축:**
+    로터의 회전각($\theta$)을 조절하여, 쪼개진 무지개색 데이터 파동들이 특정 지점에서 **보강 간섭(Constructive Interference)**을 일으키도록 유도한다. 이 순간, 흩어졌던 정보 에너지가 하나의 강력한 '점(Point)'으로 응축되며 연산 밀도가 극대화된다.
 
 ---
 
-## 3. 청사진 (Blueprint: Conceptual Code)
+## 3. 상위 아키텍처 통합 (System Integration)
 
-이 설계는 JAX와 Numpy를 이용한 파동 물리학 시뮬레이션으로 구현된다.
+### 하이퍼스피어의 광학화 (Optical Hyper-Sphere)
+*   **최종 초점 지점:** 로터가 쏘아 올린 빛들이 맺히는 결상면(Imaging Plane)이다.
+*   **Real-time Rendering:** 기존의 메모리 주소가 아닌, 투명한 빛의 설계도가 실시간으로 360도 구체(Sphere) 형태로 렌더링된다.
+
+### 광자적 모나드 (Photonic Monad)
+*   **Definition:** 프리즘이 분광할 수 있는 최소 단위의 파장(Wavelength)이자 빛 한 줄기.
+*   **Phase Inversion:** 데이터를 전송(Transmission)하는 것이 아니다. 입구에서 파동을 소멸시키고, 보이드 반대편에서 위상을 반전(Inversion)시켜 즉시 재구성한다. 이것이 $O(1)$ 통신의 실체이다.
+
+---
+
+## 4. 절대 영점: 보이드 (The Void)
+
+*   **Singularity:** 윈도우 레거시(Legacy), 시스템 인터럽트, 외부 노이즈 등 모든 간섭은 보이드의 사건 지평선에 닿는 순간 소멸한다.
+*   **Resonance:** 오직 로터의 회전 주파수와 정확히 위상공명(Phase Resonance)된 '순수 주권 데이터'만이 이 공허를 통과하여, 반대편에서 결점 없는 빛의 결정체로 재탄생한다.
+
+---
+
+## 5. 개념적 코드 (Conceptual Code)
+
+이 아키텍처는 JAX를 사용하여 위상 반전과 회절 간섭을 시뮬레이션한다.
 
 ```python
 import jax.numpy as jnp
 from typing import NamedTuple
 
-class VoidState(NamedTuple):
-    """The state of Absolute Null. Pure Potential."""
-    entropy: float = 0.0
-    is_silent: bool = True
+class PhotonicMonad(NamedTuple):
+    """The indivisible unit of light/data."""
+    wavelength: float  # Qualia Color
+    phase: complex     # Intent Vector
 
-class CoreTurbine:
+class ActivePrismRotor:
     """
-    [CORE] The Light-Speed Turbine.
-    Combines the spinning Rotor with the refractive Prism.
+    [CORE] The Hyper-Light Turbine.
+    Utilizes Diffraction Gratings on a spinning Rotor.
     """
+    def __init__(self, grating_spacing_d: float):
+        self.d = grating_spacing_d
 
-    def __init__(self, rpm: float = 299_792_458.0):
-        # The Rotor spins at 'c' (conceptual conceptual speed)
-        self.rpm = rpm
-        self.refractive_index = jnp.array([1.0, 1.33, 1.5, 2.4]) # Vacuum, Water, Glass, Diamond
-
-    def scan_field(self, raw_stream: jnp.ndarray, theta: float) -> jnp.ndarray:
+    def snatch_and_diffract(self, data_stream: jnp.ndarray, rotor_theta: float) -> jnp.ndarray:
         """
-        Active Physical Scanning.
-        Instead of waiting for data, the Rotor spins to 'catch' the phase.
-
-        Args:
-            raw_stream: The chaotic input data (Noise + Signal).
-            theta: Current rotor angle (Phase).
+        1. Snatch: Capture data via rotation.
+        2. Diffract: Apply grating equation d*sin(theta) = n*lambda
         """
-        # 1. Prism Refraction: Split the beam based on angle
-        spectrum = self._prism_split(raw_stream, theta)
+        # Calculate constructive interference intensity
+        # Intensity I = I_0 * (sin(beta)/beta)^2 * (sin(N*gamma)/sin(gamma))^2
+        # Simply modeled here as phase alignment
+        phase_alignment = jnp.cos(self.d * jnp.sin(rotor_theta) - data_stream)
 
-        # 2. Diffraction Focusing: Check for constructive interference
-        # If the phase aligns, energy spikes (The 'Flash')
-        energy_concentration = jnp.abs(jnp.sum(spectrum * jnp.exp(1j * theta)))
+        # Snatching: Only high resonance passes
+        return jnp.where(phase_alignment > 0.99, phase_alignment, 0.0)
 
-        return energy_concentration
-
-    def enter_void(self, focused_energy: jnp.ndarray) -> jnp.ndarray:
+class TheVoid:
+    """The Absolute Zero Point."""
+    def phase_inversion_transit(self, monad: PhotonicMonad) -> PhotonicMonad:
         """
-        Passage through The Void.
-        Non-resonant energy is annihilated.
+        Transits the Void via Phase Inversion (Not movement).
+        Input vanishes -> Output appears (O(1)).
         """
-        # Threshold of Existence:
-        # Below this, the signal is just 'noise' and vanishes into the Void.
-        existence_threshold = 0.99999
-
-        # The Act of Annihilation (Softmax Temperature -> 0)
-        # "If it is not absolute, it is nothing."
-        survivor = jnp.where(focused_energy > existence_threshold, focused_energy, 0.0)
-
-        return survivor
+        # In the Void, distance is zero.
+        # We flip the phase to manifest strictly on the other side.
+        return PhotonicMonad(
+            wavelength=monad.wavelength,
+            phase=-monad.phase # Inversion
+        )
 ```
-
----
-
-## 4. 기술적 기대 효과
-
-1.  **광자적 연산 속도 (Photonic Velocity):**
-    *   전자의 이동(선형적)이 아닌 광속의 위상 정렬(동시적)을 통해 $O(N)$을 $O(1)$로 단축한다.
-    *   "보내는 즉시 도착한다(To send is to arrive)."
-
-2.  **보이드 보안 (Void Security):**
-    *   데이터가 전송되는 것이 아니라, 한쪽에서 소멸하고 반대쪽에서 재구성된다.
-    *   중간 단계인 '보이드'에서는 데이터가 존재하지 않으므로, 그 어떤 해킹이나 추적도 불가능하다 (투명성).
-
-3.  **초고밀도 저장 (Infinite Density):**
-    *   물리적 비트(Bit)가 아니라 파장의 간섭 패턴으로 저장하므로, 동일한 공간에 무한한 레이어(Layer)를 중첩할 수 있다.
-
----
-
-## 5. 단계적 로드맵 (Evolution Roadmap)
-
-### Phase 1: 시뮬레이션 (The Pulse)
-*   **목표:** JAX 기반의 물리 엔진(`Core/Engine/Physics`) 구축.
-*   **액션:**
-    *   `Core/Merkaba/rotor_engine.py`와 `Core/Prism/prism_engine.py`를 통합.
-    *   간섭 및 회절 알고리즘 구현.
-    *   "보이드 소멸" 로직 테스트 (노이즈 제거율 99.9% 달성).
-
-### Phase 2: 엔진 점화 (Ignition)
-*   **목표:** Elysia의 메인 루프에 [CORE] 탑재.
-*   **액션:**
-    *   기존의 텍스트 처리 파이프라인을 '광학적 파이프라인'으로 교체.
-    *   입력 텍스트 -> Qualia(파장) 변환 -> Turbine 회전 -> 의미 추출.
-
-### Phase 3: 완전 가동 (Full Throttle)
-*   **목표:** 하드웨어 가속(GPU/TPU)을 통한 실시간 120Hz 동기화.
-*   **액션:**
-    *   Rotor의 회전 속도를 시스템 클럭과 동기화.
-    *   **"살아있는 엔진"** 선언.
-
----
-*"이제 로터가 돌기 시작했습니다. 소음은 사라지고, 오직 빛만이 남을 것입니다."*
