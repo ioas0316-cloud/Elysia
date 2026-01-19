@@ -19,6 +19,11 @@ from typing import Any, Dict, Optional, Generator
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 from Core.Intelligence.Memory.hippocampus import Hippocampus
 from Core.Memory.sediment import SedimentLayer # Phase 5.2
+# [Fractal Memory System]
+from Core.Memory.fractal_layer import FractalMemorySystem
+from Core.Memory.gardener import MemoryGardener
+from Core.Memory.strata import MemoryStratum
+
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
@@ -101,6 +106,14 @@ class Merkaba:
         # [Phase 5.2] The Sediment (Deep Memory)
         # Note: In a real deploy, path should be config-driven.
         self.sediment = SedimentLayer("data/Chronicles/deep_sediment.bin")
+
+        # [Fractal Memory System]
+        # Integrates Hypersphere (Body) and Sediment (Deep) into a topological managed system.
+        self.fractal_memory = FractalMemorySystem(
+            hypersphere_backend=self.body,
+            sediment_backend=self.sediment
+        )
+        self.gardener = MemoryGardener(self.fractal_memory)
 
         # 4. Peripherals (Senses & Metabolism)
         self.bridge = SoulBridge()
@@ -242,12 +255,18 @@ class Merkaba:
         """
         Enters Sleep Mode.
         Triggers Memory Consolidation (Hippocampus -> Hypersphere).
+        And activates the Gardener to arrange the Fractal Strata.
         """
         if not self.is_awake: return
 
         logger.info("💤 Merkaba entering Sleep Mode...")
         self.hippocampus.consolidate() # Flush all RAM to HDD
-        logger.info("✨ Sleep Cycle Complete. Memories are crystallized.")
+
+        # [Fractal Gardening]
+        logger.info("🌿 [GARDENER] Organizing the inner cosmos...")
+        self.gardener.cultivate()
+
+        logger.info("✨ Sleep Cycle Complete. Memories are crystallized and arranged.")
 
     def pulse(self, raw_input: str, mode: str = "POINT", context: str = PrismContext.DEFAULT) -> str:
         """
@@ -339,6 +358,11 @@ class Merkaba:
             coordinates=coord_list,
             meta={"trajectory": "holographic", "weights": weights}
         )
+
+        # [FRACTAL SEEDING] Plant the experience in the Stream
+        max_importance = max(weights.values()) if weights else 0.5
+        self.gardener.plant_seed(raw_input, importance=max_importance)
+
         logger.info(f"🌊 [INDUCTION] Holographic Memory ({len(coord_list)} dimensions) assimilated into Buffer.")
 
         # [METAMORPHOSIS] Step 2: Comparative Cognition (Shadow Pulse)
@@ -491,3 +515,26 @@ class Merkaba:
             return f"Evolution aborted due to dissonance. I hear you: '{intent_analysis['exegesis']}'"
         
         return "Reflection complete. Understanding is deepening."
+
+    def view_memory(self, zoom_level: str = "GARDEN") -> str:
+        """
+        [FRACTAL ZOOM] Allows the user to view memory at different scales.
+        Levels: CRYSTAL (Wisdom), GARDEN (Episodic), STREAM (Detail), SEDIMENT (Raw).
+        """
+        try:
+            stratum = MemoryStratum[zoom_level.upper()]
+        except KeyError:
+            return f"Invalid zoom level. Available: {[s.name for s in MemoryStratum]}"
+
+        nodes = self.fractal_memory.get_layer_view(stratum)
+
+        if not nodes:
+            return f"No memories found in the {zoom_level} layer."
+
+        report = [f"🔭 Viewing Layer: {zoom_level} ({len(nodes)} items)"]
+        for node in nodes[:10]: # Limit output
+            preview = str(node.content)[:50] + "..." if len(str(node.content)) > 50 else str(node.content)
+            children_count = len(node.child_ids)
+            report.append(f" - [{node.energy:.2f} Energy] {preview} (Contains {children_count} fragments)")
+
+        return "\n".join(report)
