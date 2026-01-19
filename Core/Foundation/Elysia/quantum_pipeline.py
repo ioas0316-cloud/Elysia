@@ -49,15 +49,14 @@ class QuantumArithmeticCortex(ResonantModule):
 
 
     def absorb(self, input_wave: SoulTensor) -> SoulTensor:
+        # 🟢 [VOID ACCELERATION] Easy: 에너지가 없는(Void) 파동은 연산을 즉시 스킵 (O(1))
+        if input_wave.wave.amplitude < 0.001:
+            print("⚡ [VOID-ACCEL] Zero amplitude detected. Skipping heavy math.")
+            return input_wave # No change needed for Void
 
         # Logic: "Calculate" (Transmute wave)
-
-        # Mock result: Reduce entropy (richness), increase structure (X)
-
         output_space = input_wave.space * 1.5
-
         output_wave = FrequencyWave(input_wave.wave.frequency, input_wave.wave.amplitude, input_wave.wave.phase, richness=0.0)
-
         return SoulTensor(output_space, output_wave, input_wave.spin)
 
 

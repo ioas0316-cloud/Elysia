@@ -34,16 +34,11 @@ class VesselAPI:
         except Exception as e:
             print(f"Error sending chat: {e}")
 
-def run_server():
-    os.chdir(os.path.dirname(os.path.abspath(__file__)) + "/../../..")
-    server = HTTPServer(('127.0.0.1', 58008), SimpleHTTPRequestHandler)
-    server.serve_forever()
-
 def create_vessel():
-    # Start local server to avoid file:// protocol issues
-    threading.Thread(target=run_server, daemon=True).start()
+    # Phase 16-B: Align with VisualizerServer (Port 8000)
+    # No need to start a separate local server here anymore.
     
-    url = "http://127.0.0.1:58008/monitor/avatar.html"
+    url = "http://127.0.0.1:8000/avatar"
     
     window = webview.create_window(
         'Elysia Vessel',
@@ -56,14 +51,12 @@ def create_vessel():
         frameless=True,
         resizable=True,
         min_size=(300, 300),
-        # Try setting background_color to something very specific that might aid transparency
         background_color='#000000'
     )
     
     api = VesselAPI(window)
     window.expose(api.minimize, api.toggle_fullscreen, api.close, api.start_resize, api.send_chat)
 
-    # Use Edge Chromium and enable debug momentarily to see if we can catch errors
     webview.start(gui='edgechromium', debug=False)
 
 if __name__ == "__main__":

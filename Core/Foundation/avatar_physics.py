@@ -270,9 +270,6 @@ class AvatarPhysicsEngine:
     def initialize_hair_springs(self, bone_positions: List[Vector3D]):
         """
         Initialize spring nodes for hair bones.
-        
-        Args:
-            bone_positions: List of initial bone positions
         """
         self.hair_springs = []
         for pos in bone_positions:
@@ -282,29 +279,41 @@ class AvatarPhysicsEngine:
                 velocity=Vector3D()
             )
             self.hair_springs.append(spring)
-    
-    def update_from_emotion(self, valence: float, arousal: float, dominance: float):
+
+    def update_from_bridge(self, bridge: Optional[Any], valence: float, arousal: float, dominance: float):
         """
-        Update physics parameters from emotional state.
-        
-        Args:
-            valence: -1 (negative) to 1 (positive)
-            arousal: 0 (calm) to 1 (excited)
-            dominance: 0 (submissive) to 1 (dominant)
+        Sovereign update: Considers Phase and Will.
         """
+        phase = getattr(bridge, 'active_phase', 'IDLE')
+        # Simulate hardware stress from bridge if possible
+        hardware_stress = 0.0
+        if bridge:
+             # Extract from governance or direct sensor
+             hardware_stress = bridge.gov.shells[2].stress_level if hasattr(bridge, 'gov') else 0.0
+
+        if phase == "WORLD":
+            # [IMAGINATION FIRST] 
+            # High arousal creates world storms regardless of CPU fan speed
+            self.wind.base_strength = 2.0 + arousal * 5.0 # Stronger base world wind
+            self.wind.turbulence = 0.4 + arousal * 0.6
+            
+            # Hardware stress only adds subtle 'Existential Jitter'
+            self.wind.turbulence += hardware_stress * 0.05
+            
+            # Gravity is completely controlled by spirit/will
+            # Upward bias if inspired
+            gravity_y = -9.8 + (valence * 5.0) 
+            self.gravity.direction = Vector3D(0, gravity_y, 0)
+        else:
+            # [DASHBOARD/OS MODE]
+            # World reflects the physical machine
+            self.wind.base_strength = 0.5 + hardware_stress * 3.0
+            self.wind.turbulence = hardware_stress
+            self.gravity.direction = Vector3D(0, -9.8, 0)
+
         self.emotion_wave.valence = valence
         self.emotion_wave.arousal = arousal
         self.emotion_wave.dominance = dominance
-        
-        # Update wind based on arousal (excitement = more wind)
-        self.wind.base_strength = 0.5 + arousal * 3.0  # 0.5-3.5 m/s
-        self.wind.turbulence = 0.2 + arousal * 0.5  # 0.2-0.7
-        
-        # Update gravity direction based on valence
-        # Positive emotions: slight upward bias
-        # Negative emotions: stronger downward pull
-        gravity_y = -1.0 + self.emotion_wave.valence * 0.2  # -1.2 to -0.8
-        self.gravity.direction = Vector3D(0, gravity_y, 0)
     
     def update(self, delta_time: Optional[float] = None) -> Dict[str, any]:
         """

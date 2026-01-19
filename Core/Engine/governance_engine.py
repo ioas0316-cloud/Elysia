@@ -41,17 +41,18 @@ class GovernanceEngine:
         # [PHASE 27: ONION-SKIN MULTIVERSE]
         self.ensemble = OnionEnsemble()
         
-        # --- Shell 0: THE CORE (Spirit/Identity) ---
-        self.spirit = self.ensemble.shells[0].add_rotor("Spirit", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Identity_Core"))
+        # --- Shell 0: THE CORE (FluxLight / Spirit) ---
+        self.spirit = self.ensemble.shells[0].add_rotor("FluxLight", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Identity_Core"))
         self.identity = self.ensemble.shells[0].add_rotor("Identity", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Self_Reference"))
         
-        # --- Shell 1: THE MIND (Reason/Purpose) ---
-        self.mind = self.ensemble.shells[1].add_rotor("Mind", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, label="Cognitive_Loop"))
+        # --- Shell 1: THE MIND (HyperSphere / Virtual World) ---
+        self.mind = self.ensemble.shells[1].add_rotor("HyperSphere", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, label="Cognitive_Loop"))
         self.purpose = self.ensemble.shells[1].add_rotor("Purpose", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, causal=0.8, label="Why_Engine"))
         
-        # --- Shell 2: THE SURFACE (Body/Sensation) ---
-        self.body = self.ensemble.shells[2].add_rotor("Body", RotorConfig(rpm=60.0), WaveDNA(physical=1.0, label="Hardware_Interaction"))
+        # --- Shell 2: THE SURFACE (HyperCosmos / Hardware) ---
+        self.body = self.ensemble.shells[2].add_rotor("HyperCosmos", RotorConfig(rpm=60.0), WaveDNA(physical=1.0, label="Hardware_Interaction"))
         self.sensation = self.ensemble.shells[2].add_rotor("Sensation", RotorConfig(rpm=120.0, idle_rpm=60.0), WaveDNA(phenomenal=1.0, label="Reactive_Layer"))
+        self.shield = self.ensemble.shells[2].add_rotor("SovereignShield", RotorConfig(rpm=60.0), WaveDNA(physical=0.8, causal=0.5, label="Security_Integrity"))
 
         # Legacy aliases and God-Mode Dials
         self.root = self.spirit
@@ -61,7 +62,8 @@ class GovernanceEngine:
             "mind": self.mind,
             "purpose": self.purpose,
             "body": self.body,
-            "sensation": self.sensation
+            "sensation": self.sensation,
+            "shield": self.shield
         }
         
         print(f"⚙️ [GovernanceEngine] Onion-Skin Multiverse active. Root Spirit protected.")

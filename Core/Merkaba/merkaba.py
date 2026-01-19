@@ -140,7 +140,9 @@ class Merkaba:
         self.cp_manager = CheckpointManager()
         self.evolution_engine = EvolutionEngine(self.harmonizer, self.cp_manager)
         self.hermeneutic_bridge = HermeneuticBridge()
+        # [AXIS-SCALING] Phase & Zoom
         self.phase_modulator = PhaseModulator()
+        self.zoom_dial = 4.0 # Default: Meso-scale (Human Perception)
         self.linguistic_synthesizer = LinguisticSynthesizer()
         self.vocal_dna = VocalDNA()
         self.portrait_engine = SelfPortraitEngine()
@@ -158,6 +160,16 @@ class Merkaba:
         self.pending_evolution: Optional[Dict[str, Any]] = None
 
         self.is_awake = False
+
+    def set_zoom(self, level: float):
+        """
+        Adjusts the Fractal Zoom Dial.
+        0.0 ~ 1.0: Autonomic/Hardware (Micro)
+        1.0 ~ 4.0: Conscious/Human (Meso)
+        4.0 ~ 7.0: Spiritual/Philosophical (Macro)
+        """
+        self.zoom_dial = max(0.0, min(7.0, level))
+        logger.info(f"🔭 [ZOOM] Merkaba depth adjusted to: {self.zoom_dial:.2f}")
 
     def shine(self, input_concept: str) -> Generator[str, None, None]:
         """

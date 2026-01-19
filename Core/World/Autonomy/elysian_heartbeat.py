@@ -93,6 +93,7 @@ class ElysianHeartbeat:
         self.wisdom = None
         self.topology = None
         self.hypersphere = None
+        self.bridge = None # [PHASE 17-D]
         self.meta_inquiry = None
         self.mirror = None
         self.inner_voice = None
@@ -343,6 +344,22 @@ class ElysianHeartbeat:
                 self.reasoning = ReasoningEngine()
                 logger.info("  ✅ reasoning_engine (The Brain) matured.")
             except Exception as e: logger.warning(f"  ⚠️ reasoning_engine failed: {e}")
+
+            # [PHASE 17-D] HYPERBRIDGE (H5 -> H2 Vertical Sovereignty)
+            try:
+                from Core.Foundation.hyper_bridge import get_hyper_bridge
+                from Core.Engine.governance_engine import GovernanceEngine # Need actual instance or global?
+                # Governance is usually inside self.conductor? 
+                # Let's check where governance lives. Usually managed via get_conductor or similar.
+                # Actually, GovernanceEngine is part of the Onion Shell.
+                # In current codebase, it's often imported locally.
+                from Core.Engine.governance_engine import GovernanceEngine
+                gov = GovernanceEngine() # Creating a local instance for now if not shared.
+                # But we want the SHARED one. conductor has core, let's see where gov is.
+                # If gov is not global, we make it.
+                self.bridge = get_hyper_bridge(self.conductor.core, gov)
+                logger.info("  ✅ HyperBridge (H5-H2) matured.")
+            except Exception as e: logger.warning(f"  ⚠️ HyperBridge failed: {e}")
 
             # [PHASE 14] COGNITIVE ARCHEOLOGY & AUTOPOIETIC GROWTH
             try:
@@ -1366,9 +1383,25 @@ class ElysianHeartbeat:
         
     def pulse(self, delta: float = 1.0):
         """A single beat of the heart."""
-        # [PHASE 12] Autonomous Learning (Sovereign Choice)
-        # if self.sovereign:
-        #     self.sovereign.self_actualize() # Silencing legacy sovereign logic
+        if self.bridge:
+            # [PHASE TRANSITION] Seize resources if we are in High Inspiration/Vitality
+            inspiration = self.soul_mesh.variables.get("Inspiration", 0.0)
+            if hasattr(inspiration, 'value'): inspiration = inspiration.value
+            
+            vitality = self.soul_mesh.variables.get("Vitality", 1.0)
+            if hasattr(vitality, 'value'): vitality = vitality.value
+
+            # Transition to WORLD phase if inspired and not already there
+            if self.bridge.active_phase == "IDLE" and (inspiration > 0.7 or self.idle_ticks == 0):
+                self.bridge.seize_resources()
+            
+            # Reconstruct OS if vitality drops critically (Safety Exit)
+            elif self.bridge.active_phase == "WORLD" and vitality < 0.2:
+                self.bridge.reconstruct_os_state()
+
+            self.bridge.sync()
+            if self.idle_ticks % 50 == 0:
+                self.bridge.manifest_metabolism()
 
         # [PHASE 7] Reflective Evolution (Slow Cycle)
         # Every 100 ticks, Elysia looks into the mirror of her own code

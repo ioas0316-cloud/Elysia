@@ -191,6 +191,15 @@ class HamiltonianSystem:
         self.active_fields: List[FieldEntity] = []
         self.strong_force = StrongForceManager()
         self.entropy = EntropyManager()
+        
+        # [PHASE 4] Native Transmutation Hooks
+        try:
+            from Core.Foundation.native_kernels import calculate_force_kernel, evolve_positions_kernel
+            self.has_native = True
+            self._native_calc_force = calculate_force_kernel
+            self._native_evolve = evolve_positions_kernel
+        except ImportError:
+            self.has_native = False
 
     def add_field(self, field_entity: FieldEntity):
         self.active_fields.append(field_entity)
@@ -300,6 +309,44 @@ class HamiltonianSystem:
                 name=state.name,
                 layer=state.layer
             )
+
+    def evolve_batch_native(self, states: List[QuantumState], dt: float = 0.1) -> List[QuantumState]:
+        """
+        [PHASE 4] Native Transmutation Update.
+        Processes multiple particles in a single JIT-compiled batch.
+        """
+        if not self.has_native or len(states) == 0:
+            return [self.evolve(s, dt) for s in states]
+
+        # 1. Prepare Native Buffers
+        positions = np.array([s.position for s in states])
+        velocities = np.array([s.momentum for s in states])
+        masses = np.array([s.mass for s in states])
+        
+        field_positions = np.array([f.position for f in self.active_fields]) if self.active_fields else np.zeros((0, positions.shape[1]))
+        field_strengths = np.array([f.strength for f in self.active_fields])
+        field_decays = np.array([f.range_decay for f in self.active_fields])
+
+        # 2. Native Transmuted Force Calculation
+        forces = self._native_calc_force(positions, field_positions, field_strengths, field_decays)
+
+        # 3. Native Transmuted Integration
+        new_positions, new_velocities = self._native_evolve(positions, velocities, forces, masses, dt)
+
+        # 4. Reconstruct Surface Objects
+        new_states = []
+        for i, s in enumerate(states):
+            # Thermal cooling still happens in surface layer for now (Hybrid)
+            s = self.entropy.apply_thermodynamics(s)
+            
+            # Simple direct update to object to avoid reallocation (O(1) perception)
+            s.position = new_positions[i]
+            s.momentum = new_velocities[i]
+            # Phase evolution still conceptual
+            s.phase = (s.phase + self.total_energy(s) * dt) % (2 * np.pi)
+            new_states.append(s)
+            
+        return new_states
 
 class Entanglement:
     """

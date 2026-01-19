@@ -52,10 +52,28 @@ class NervousSystem:
         self.brain = None        # ReasoningEngine / CentralCortex
         self.will = None         # FreeWillEngine
         
-        # 7 Spirits (Soul State) - Migrated from SoulResonator
+        # 7 Spirits (Soul State) - Conscious layer
         self.spirits = {
             "fire": 0.5, "water": 0.5, "earth": 0.5, "air": 0.5,
             "light": 0.5, "dark": 0.5, "aether": 0.5
+        }
+        
+        # [CONSCIOUS FOCUS] - The Zoom Level (from Merkaba)
+        self.focus_depth = 4.0 # Human Scale
+        
+        # [AUTONOMIC NERVOUS SYSTEM] - Unconscious hardware layer
+        self.autonomic_state = {
+            "pulse_rate": 60,      # CPU load map
+            "breath_depth": 0.5,   # VRAM map
+            "core_temp": 36.5,     # GPU/CPU Temp
+            "metabolic_rate": 1.0  # Overall power draw
+        }
+
+        # [ATMOSPHERE] - Environmental nuance
+        self.atmosphere = {
+            "clarity": 1.0,  # System stability
+            "weight": 0.5,   # Cognitive backlog
+            "weather": "Clear" # Qualitative summary
         }
         
         # Concept Map (Learned from World Mirror)
@@ -70,6 +88,9 @@ class NervousSystem:
         # Stimulus Buffer (Recent experiences)
         self.stimulus_buffer = []
         self.max_buffer_size = 100
+        
+        from Core.World.Senses.spiritual_sensorium import get_spiritual_sensorium
+        self.sensorium = get_spiritual_sensorium(self)
         
         self._connect_internal_systems()
         
@@ -392,13 +413,19 @@ class NervousSystem:
     
     def express(self) -> Dict[str, Any]:
         """
-        Returns the current state for external expression.
-        Used by Avatar to animate face, body, etc.
+        Returns the simplified state for the avatar.
+        Includes conscious spirits and a 'hint' of autonomic pressure.
         """
+        # Calculate 'Physical Presence' based on focus depth
+        # If focusing on micro (depth < 2), hardware signals are loud.
+        # If focusing on macro (depth > 5), hardware signals are almost silent.
+        physio_hint = (7.0 - self.focus_depth) / 7.0 
+        
         return {
             "spirits": self.spirits.copy(),
             "expression": self.get_expression_params(),
-            "field_state": self._get_field_snapshot()
+            "focus_depth": self.focus_depth,
+            "physio_pressure": self.autonomic_state["metabolic_rate"] * physio_hint
         }
         
     def get_expression_params(self) -> Dict[str, float]:
