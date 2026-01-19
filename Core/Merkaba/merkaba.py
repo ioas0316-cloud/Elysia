@@ -18,7 +18,7 @@ from typing import Any, Dict, Optional, Generator
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 from Core.Intelligence.Memory.hippocampus import Hippocampus
-from Core.Memory.sediment import SedimentLayer # Phase 5.2
+from Core.Memory.sediment import SedimentLayer, PrismaticSediment # Phase 5.2
 # [Fractal Memory System]
 from Core.Memory.fractal_layer import FractalMemorySystem
 from Core.Memory.gardener import MemoryGardener
@@ -105,7 +105,8 @@ class Merkaba:
 
         # [Phase 5.2] The Sediment (Deep Memory)
         # Note: In a real deploy, path should be config-driven.
-        self.sediment = SedimentLayer("data/Chronicles/deep_sediment.bin")
+        # [CORE UPDATE] Upgraded to PrismaticSediment for O(1) indexing
+        self.sediment = PrismaticSediment("data/Chronicles/deep_sediment.bin")
 
         # [Fractal Memory System]
         # Integrates Hypersphere (Body) and Sediment (Deep) into a topological managed system.

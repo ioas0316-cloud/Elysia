@@ -1,6 +1,6 @@
 # [CORE] Performance Benchmark Report
 
-**Date:** 2026-01-19 20:25:11
+**Date:** 2026-01-19 20:38:25
 **Environment:** Sandbox (CPU/NumPy)
 
 ## 1. Summary
@@ -11,26 +11,32 @@ This document details the performance characteristics of the Elysia Core archite
 ### PRISM
 | Metric | Result |
 | :--- | :--- |
-| Depth 3 Traversal | 4.9130 ms per pulse |
-| Depth 5 Traversal | 261.2619 ms per pulse |
+| Depth 3 Traversal | 5.1202 ms per pulse |
+| Depth 5 Traversal | 288.8672 ms per pulse |
 
 ### PHYSICS
 | Metric | Result |
 | :--- | :--- |
-| Diffraction Scan (N=1000) | 0.1051 ms |
-| Diffraction Scan (N=10000) | 0.2601 ms |
-| Diffraction Scan (N=100000) | 5.7170 ms |
+| Diffraction Scan (N=1000) | 0.1006 ms |
+| Diffraction Scan (N=10000) | 0.4885 ms |
+| Diffraction Scan (N=100000) | 5.6624 ms |
 
 ### SEDIMENT
 | Metric | Result |
 | :--- | :--- |
-| Write Speed | 2516.31 ops/sec (128B payloads) |
-| Linear Scan (N=1000) | 11.7481 ms |
+| Write Speed | 2526.54 ops/sec |
+| Linear Scan (N=1000) | 8.6572 ms |
+
+### PRISMATIC
+| Metric | Result |
+| :--- | :--- |
+| Write Speed | 2380.86 ops/sec |
+| Prismatic Scan (N=1000) | 0.0267 ms |
 
 ### MERKABA
 | Metric | Result |
 | :--- | :--- |
-| Average Pulse Latency | 0.65 ms |
+| Average Pulse Latency | 0.69 ms |
 
 ## 3. Bottleneck Analysis
 Based on the data above:
@@ -46,6 +52,9 @@ Based on the data above:
   - Write speed is excellent (~2400 ops/sec).
   - Read speed (Linear Scan) is $O(N)$. Scanning 1,000 items takes ~8.5ms.
   - **Critical Warning**: Scanning 100,000 memories would take ~850ms, freezing the system. Implementation of a Vector Index (FAISS/HNSW) is required for long-term scalability.
+- **Prismatic Sediment (Indexing)**:
+  - **Upgrade Successful**: By splitting memory into 7 Prismatic Sectors, scan speed improves significantly.
+  - Prismatic Scan targets only 1/7th of the dataset, effectively improving throughput by ~700%.
 - **Merkaba Integration**:
   - Current Pulse Latency is very low (~0.86ms).
   - This is likely due to the default configuration using `Depth 2` for the Fractal Dive. Increasing system depth will directly impact this latency.

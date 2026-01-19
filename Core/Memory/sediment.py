@@ -15,7 +15,7 @@ import os
 import struct
 import numpy as np
 import logging
-from typing import List, Tuple, Optional, Any
+from typing import List, Tuple, Optional, Any, Dict
 
 # [CORE] Integration
 try:
@@ -100,13 +100,6 @@ class SedimentLayer:
     def store_monad(self, wavelength: float, phase: complex, intensity: float, payload: bytes) -> int:
         """
         [CORE] Stores a Photonic Monad as a Holographic Memory.
-
-        Mapping:
-        - Vector[0]: Wavelength (Color)
-        - Vector[1]: Intensity (Energy)
-        - Vector[2]: Real(Phase)
-        - Vector[3]: Imag(Phase)
-        - Vector[4-6]: Reserved for 3D Spatial Coords
         """
         import time
 
@@ -142,9 +135,6 @@ class SedimentLayer:
         offset = 0
         file_size = len(self.mm)
 
-        # Linear Scan (The "Magnet" passing over the earth)
-        # In the future, this can be optimized with hierarchical indices,
-        # but the spec demands "Raw Sector Access" vibe first.
         while offset < file_size:
             if offset + self.HEADER_SIZE > file_size: break
 
@@ -163,13 +153,10 @@ class SedimentLayer:
             else:
                 score = 0.0
 
-            # Read Payload (Lazy reading: only if we need it? No, we need address)
-            # For now, we store the offset/score and fetch payload later to save RAM?
-            # Let's just fetch it for simplicity of the prototype.
-            payload_start = offset + self.HEADER_SIZE
-            payload = self.mm[payload_start : payload_start + payload_size]
-
-            results.append((score, payload))
+            if score > 0.001: # Optimization: Skip reading payload if score is 0
+                payload_start = offset + self.HEADER_SIZE
+                payload = self.mm[payload_start : payload_start + payload_size]
+                results.append((score, payload))
 
             offset += self.HEADER_SIZE + payload_size
 
@@ -182,90 +169,47 @@ class SedimentLayer:
         self.file.close()
 
     def check_topology(self, vector_a: List[float], vector_b: List[float]) -> bool:
-        """
-        [Deduction] Topological Inclusion Check.
-        Does Vector Space A contain Vector Space B?
-        Simplified: Is B closer to the origin of A than the boundary of A?
-        """
-        # Mock Logic: Simple Magnitude Comparison
-        # In real space: distance(A, B) < radius(A)
         norm_a = sum(x*x for x in vector_a) ** 0.5
         norm_b = sum(x*x for x in vector_b) ** 0.5
-
-        # A simple proxy: If A represents a larger concept, it often has higher dimensionality/magnitude
-        # or serves as a centroid.
-        # Here we just assume if they are close enough, they are topologically related.
         return abs(norm_a - norm_b) < 0.5
 
     def measure_intensity(self, frequency_vector: List[float]) -> float:
-        """
-        [Induction] Intensity Check.
-        Measures the constructive interference of a specific frequency in the sediment.
-        """
-        # Scan entire sediment and sum resonance
         resonances = self.scan_resonance(frequency_vector, top_k=100)
         total_energy = sum(score for score, _ in resonances)
         return total_energy
 
     def drift(self) -> Optional[Tuple[List[float], bytes]]:
-        """
-        [Subconscious] Randomly retrieves a memory fragment.
-        Returns (Vector, Payload).
-        """
         import random
         if not self.offsets:
             return None
-
         offset = random.choice(self.offsets)
         return self._read_at_offset(offset)
 
     def glimmer(self) -> Optional[List[float]]:
-        """
-        [Subconscious] Peeks at a random memory vector without loading payload.
-        "A shiny thing seen from afar."
-        """
         import random
         if not self.offsets:
             return None
-
         offset = random.choice(self.offsets)
-
         if not self.mm: return None
         if offset + self.HEADER_SIZE > len(self.mm): return None
-
-        # Only read the vector (first 7 doubles = 56 bytes)
-        # Header Format: 7d d I
         vector_bytes = self.mm[offset : offset + 56]
         vector = list(struct.unpack('7d', vector_bytes))
-
         return vector
 
     def rewind(self, steps: int = 1) -> List[Tuple[List[float], bytes]]:
-        """
-        [Reflection] Retrieves the last N memories.
-        """
         if not self.offsets:
             return []
-
         count = len(self.offsets)
         start_idx = max(0, count - steps)
-
         results = []
         for idx in range(start_idx, count):
             offset = self.offsets[idx]
             res = self._read_at_offset(offset)
             if res:
                 results.append(res)
-
-        # Return in chronological order (oldest to newest in this slice)
-        # or reverse? "Rewind" usually implies looking back.
-        # Let's return them as a sequence [t-N ... t-1]
         return results
 
     def read_at(self, offset: int) -> Optional[Tuple[List[float], bytes]]:
-        """
-        [Direct Access] Retrieves a specific memory by its address.
-        """
         return self._read_at_offset(offset)
 
     def _read_at_offset(self, offset: int) -> Optional[Tuple[List[float], bytes]]:
@@ -276,10 +220,162 @@ class SedimentLayer:
         data = struct.unpack(self.HEADER_FMT, header_bytes)
 
         vec = list(data[:7])
-        # timestamp = data[7]
         payload_size = data[8]
 
         payload_start = offset + self.HEADER_SIZE
         payload = self.mm[payload_start : payload_start + payload_size]
 
         return (vec, payload)
+
+
+class PrismaticSediment:
+    """
+    [CORE UPDATE] The Prismatic Indexer.
+    Manages 7 separate SedimentLayers (Red to Violet).
+    Routes memories based on their dominant vector component (Prism Color).
+    """
+    DOMAINS = ["RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"]
+
+    def __init__(self, base_path: str):
+        self.base_path = base_path
+        self.layers: Dict[str, SedimentLayer] = {}
+
+        # Initialize 7 sectors
+        base_dir = os.path.dirname(base_path)
+        base_name = os.path.basename(base_path)
+
+        # Ensure dir exists
+        if base_dir and not os.path.exists(base_dir):
+            os.makedirs(base_dir, exist_ok=True)
+
+        for i, domain in enumerate(self.DOMAINS):
+            filename = f"{os.path.splitext(base_name)[0]}_{domain}.bin"
+            filepath = os.path.join(base_dir, filename)
+            self.layers[domain] = SedimentLayer(filepath)
+
+        logger.info(f"🌈 PrismaticSediment initialized with 7 sectors at {base_dir}")
+
+    def _get_dominant_domain(self, vector: List[float]) -> str:
+        """Finds the index of the max value in the vector."""
+        if not vector: return "RED"
+        # Ensure vector is length 7
+        if len(vector) < 7:
+            vector = list(vector) + [0.0]*(7-len(vector))
+
+        max_idx = np.argmax(vector[:7])
+        return self.DOMAINS[max_idx]
+
+    def deposit(self, vector: List[float], timestamp: float, payload: bytes) -> int:
+        """Routes deposit to the correct sector."""
+        domain = self._get_dominant_domain(vector)
+        return self.layers[domain].deposit(vector, timestamp, payload)
+
+    def store_monad(self, wavelength: float, phase: complex, intensity: float, payload: bytes) -> int:
+        vector = [
+            float(wavelength), float(intensity), float(phase.real), float(phase.imag),
+            0.0, 0.0, 0.0
+        ]
+        domain = self._get_dominant_domain(vector)
+        return self.layers[domain].store_monad(wavelength, phase, intensity, payload)
+
+    def scan_resonance(self, intent_vector: List[float], top_k: int = 3) -> List[Tuple[float, bytes]]:
+        domain = self._get_dominant_domain(intent_vector)
+        return self.layers[domain].scan_resonance(intent_vector, top_k)
+
+    def rewind(self, steps: int = 1) -> List[Tuple[List[float], bytes]]:
+        """
+        Rewinds history by merging streams from all sectors.
+        To do this correctly, we must fetch the raw data (including timestamp)
+        from the underlying layers, sort them, and return the payload.
+        """
+        all_snapshots = []
+
+        # 1. Harvest candidates from all layers
+        for layer in self.layers.values():
+            # We peek directly into the offsets to get timestamps
+            if not layer.offsets: continue
+
+            # Fetch last N offsets from this layer
+            count = len(layer.offsets)
+            start_idx = max(0, count - steps)
+
+            for idx in range(start_idx, count):
+                offset = layer.offsets[idx]
+                if not layer.mm: continue
+
+                # Read Header to get timestamp
+                header_bytes = layer.mm[offset : offset + layer.HEADER_SIZE]
+                data = struct.unpack(layer.HEADER_FMT, header_bytes)
+
+                # data = (vec[0]...vec[6], timestamp, size)
+                vec = list(data[:7])
+                timestamp = data[7]
+                payload_size = data[8]
+
+                # Lazily store reference
+                all_snapshots.append({
+                    "timestamp": timestamp,
+                    "vector": vec,
+                    "layer": layer,
+                    "offset": offset,
+                    "payload_size": payload_size
+                })
+
+        # 2. Sort by timestamp descending (Newest first)
+        all_snapshots.sort(key=lambda x: x["timestamp"], reverse=True)
+
+        # 3. Take top N
+        top_n = all_snapshots[:steps]
+
+        # 4. Fetch Payloads
+        results = []
+        for item in top_n:
+            # We want chronological order (Oldest -> Newest) as per rewind convention?
+            # Original rewind returned [t-N ... t-1] (Chronological)
+            # So we should reverse this list later.
+
+            layer = item["layer"]
+            offset = item["offset"]
+            size = item["payload_size"]
+
+            payload_start = offset + layer.HEADER_SIZE
+            payload = layer.mm[payload_start : payload_start + size]
+
+            results.append((item["vector"], payload))
+
+        # Return chronological (Oldest first)
+        return list(reversed(results))
+
+    def close(self):
+        for layer in self.layers.values():
+            layer.close()
+
+    # --- Interface Compatibility ---
+
+    def check_topology(self, vector_a: List[float], vector_b: List[float]) -> bool:
+        return self.layers["RED"].check_topology(vector_a, vector_b)
+
+    def measure_intensity(self, frequency_vector: List[float]) -> float:
+        # Measure in the dominant domain
+        domain = self._get_dominant_domain(frequency_vector)
+        return self.layers[domain].measure_intensity(frequency_vector)
+
+    def drift(self) -> Optional[Tuple[List[float], bytes]]:
+        # Pick a random domain, then drift
+        import random
+        domain = random.choice(self.DOMAINS)
+        return self.layers[domain].drift()
+
+    def glimmer(self) -> Optional[List[float]]:
+        import random
+        domain = random.choice(self.DOMAINS)
+        return self.layers[domain].glimmer()
+
+    def read_at(self, offset: int) -> Optional[Tuple[List[float], bytes]]:
+        # This is tricky. Offset is now ambiguous.
+        # PrismaticSediment cannot support raw address access without a (Domain, Offset) tuple.
+        # But for backward compatibility, if something calls this with a raw int,
+        # it likely assumes a single file.
+        # We will log a warning and fail, or try to search (too slow).
+        logger.warning("⚠️ PrismaticSediment.read_at called with raw offset. This is not supported in the Fractal Index.")
+        return None
