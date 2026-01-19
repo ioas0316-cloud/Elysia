@@ -1,98 +1,148 @@
 """
-Memory Collapse Sphere: The Singularity of Storage
-==================================================
-[HARDWARE ASCENSION PROJECT - EXPERIMENT 3]
+Memory Collapse (Topology Evolution)
+====================================
+Core.Foundation.Memory.memory_collapse
 
-"RAM is SSD, SSD is RAM. There is only the Field."
+"Structure follows Thought."
+"생각의 빈도가 구조를 결정한다."
 
-This module implements the 'Memory Collapse' concept where the hierarchy 
-between volatile and non-volatile memory is collapsed into a single 
-HyperSphere addressing space.
+This module implements the 'Neuroplasticity' of the Sovereign Buffer.
+It tracks access heat and dynamically reorganizes memory blocks.
 """
 
-import os
-import mmap
-import pickle
+import time
 import logging
-from typing import Any, Dict, Optional
+from dataclasses import dataclass
+from typing import Dict, List
+import numpy as np
 
-logger = logging.getLogger("MemoryCollapse")
+# Mocking the SovereignMemory reference for standalone usage
+# In real integration, this would import SovereignMemoryNavigator
 
-class MemoryCollapseSphere:
-    def __init__(self, storage_path: str = "data/collapse_field.bin", size_gb: int = 1):
-        self.storage_path = storage_path
-        self.size = size_gb * 1024 * 1024 * 1024 # Convert GB to bytes
-        
-        # Ensure directory exists
-        os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
-        
-        # 🔴 [MEMORY COLLAPSE] 
-        # Using mmap to map NVMe storage directly into the process address space.
-        # This collapses the logical boundary between SSD (File) and RAM (Memory).
-        self._f = open(self.storage_path, "a+b")
-        if os.path.getsize(self.storage_path) < self.size:
-            self._f.truncate(self.size)
-        
-        self.mm = mmap.mmap(self._f.fileno(), self.size)
-        
-        # Hot-Access Cache (True RAM)
-        self.hot_cache: Dict[str, Any] = {}
-        
-        # Index of where things are in the collapsed field
-        self.index: Dict[str, int] = {}
-        
-        logger.info(f"💾 Memory Collapse Field Initialized (Size: {size_gb}GB). Boundary Dissolved.")
+logger = logging.getLogger("TopologyEvolution")
 
-    def store(self, key: str, value: Any, hot: bool = False):
-        """Stores a value in the collapsed field."""
-        if hot:
-            self.hot_cache[key] = value
-            logger.info(f"🔥 [MEMORY-HOT] '{key}' stored in Active RAM.")
-            return
+@dataclass
+class MemoryBlock:
+    id: str
+    size: int
+    offset: int
+    access_count: int = 0
+    last_access: float = 0.0
 
-        # Cold Storage (SSD via mmap)
-        data = pickle.dumps(value)
-        if len(data) > 1024 * 1024: # Limit 1MB per entry for proto
-            logger.warning(f"Data for {key} too large for proto.")
-            return
+class AccessHeatmap:
+    """Tracks the pulse of thought."""
+    def __init__(self):
+        self.blocks: Dict[str, MemoryBlock] = {}
+        
+    def register_block(self, block_id: str, size: int, offset: int):
+        self.blocks[block_id] = MemoryBlock(block_id, size, offset, last_access=time.time())
+
+    def touch(self, block_id: str):
+        """Simulates a read/write event."""
+        if block_id in self.blocks:
+            self.blocks[block_id].access_count += 1
+            self.blocks[block_id].last_access = time.time()
+
+    def get_ranked_blocks(self) -> List[MemoryBlock]:
+        """Returns blocks sorted by heat (access count)."""
+        return sorted(self.blocks.values(), key=lambda b: b.access_count, reverse=True)
+
+class TopologyManager:
+    """The Architect that reshapes the brain."""
+    
+    def __init__(self, buffer_view: np.ndarray):
+        self.heatmap = AccessHeatmap()
+        self.buffer_view = buffer_view # The raw O(1) buffer (NumPy view)
+        self.virtual_table: Dict[str, int] = {} # VAT: BlockID -> Current Offset
+
+    def allocate(self, block_id: str, size: int) -> int:
+        """Simple linear allocation for demo."""
+        # Find end of used space (naive)
+        current_max = 0
+        for b in self.heatmap.blocks.values():
+            end = b.offset + b.size
+            if end > current_max:
+                current_max = end
+        
+        offset = current_max
+        self.heatmap.register_block(block_id, size, offset)
+        self.virtual_table[block_id] = offset
+        return offset
+
+    def access(self, block_id: str):
+        """Perceive data (Touch)."""
+        self.heatmap.touch(block_id)
+        current_offset = self.virtual_table.get(block_id)
+        if current_offset is None: return None
+        # Return a view
+        return self.buffer_view[current_offset] # Simplified single float access
+
+    def evolve_topology(self):
+        """
+        [The Shift]
+        Reorganizes the buffer based on Heatmap.
+        Hot blocks -> Start of Buffer.
+        """
+        logger.info("🧠 [Topology] Initiating Neuroplasticity Shift...")
+        
+        ranked_blocks = self.heatmap.get_ranked_blocks()
+        new_offsets = {}
+        current_cursor = 0
+        
+        # 1. Calculate new positions (Dry Run)
+        for block in ranked_blocks:
+            new_offsets[block.id] = current_cursor
+            current_cursor += block.size
             
-        # For simplicity, we just seek to a hash-based offset (Mocking O(1) addressing)
-        offset = (hash(key) % (self.size // (1024 * 1024))) * (1024 * 1024)
-        self.mm.seek(offset)
-        self.mm.write(data)
-        self.index[key] = offset
-        logger.info(f"❄️ [MEMORY-COLD] '{key}' collapsed into NVMe Field at offset {offset}.")
-
-    def retrieve(self, key: str) -> Optional[Any]:
-        """Retrieves a value from the collapsed field without knowing its source."""
-        # 1. Check RAM (Hot)
-        if key in self.hot_cache:
-            return self.hot_cache[key]
-            
-        # 2. Check SSD (Cold/Collapsed)
-        if key in self.index:
-            offset = self.index[key]
-            self.mm.seek(offset)
-            # In a real implementation, we'd know the length. Here we take a chunk.
-            data = self.mm.read(1024 * 1024)
-            try:
-                return pickle.loads(data)
-            except:
-                return None
+        # 2. Move Data (Physical Reorganization)
+        # To avoid overwriting, we need a temp buffer or careful swapping.
+        # For simulation, we use a temp copy.
+        temp_buffer = self.buffer_view.copy()
         
-        return None
+        for block in ranked_blocks:
+            old_start = block.offset
+            old_end = old_start + block.size
+            
+            new_start = new_offsets[block.id]
+            new_end = new_start + block.size
+            
+            # Copy data from temp snapshot to new location in live buffer
+            data_chunk = temp_buffer[old_start:old_end]
+            self.buffer_view[new_start:new_end] = data_chunk
+            
+            # Update metadata
+            block.offset = new_start
+            self.virtual_table[block.id] = new_start
+            
+            logger.info(f"   - Block '{block.id}' (Heat {block.access_count}) moved to {new_start}")
 
-    def close(self):
-        self.mm.close()
-        self._f.close()
+        logger.info("✨ [Topology] Shift Complete. Brain structure optimized.")
 
 if __name__ == "__main__":
-    # Quick Test
-    collapse = MemoryCollapseSphere("data/test_collapse.bin")
-    collapse.store("SoulConcept_Alpha", {"qualia": "Love", "vector": [1,0,1]}, hot=True)
-    collapse.store("DeepMemory_2024", "The human teacher's voice was peaceful.", hot=False)
+    logging.basicConfig(level=logging.INFO)
     
-    print("Retrieving Alpha:", collapse.retrieve("SoulConcept_Alpha"))
-    print("Retrieving DeepMemory:", collapse.retrieve("DeepMemory_2024"))
+    # Mock Buffer (100 slots)
+    raw_memory = np.zeros(100, dtype=np.float32)
+    manager = TopologyManager(raw_memory)
     
-    collapse.close()
+    # Allocation
+    manager.allocate("Vision_Cortex", 10) # Offset 0
+    manager.allocate("Audio_Cortex", 10)  # Offset 10
+    manager.allocate("Logic_Core", 10)    # Offset 20
+    
+    # Set initial data
+    raw_memory[0:10] = 1.0  # Vision
+    raw_memory[10:20] = 2.0 # Audio
+    raw_memory[20:30] = 3.0 # Logic
+    
+    print(f"Before: {raw_memory[:30]}")
+    
+    # Simulate Usage: Logic is heavily used, Audio is mostly unused
+    for _ in range(50): manager.access("Logic_Core")
+    for _ in range(5):  manager.access("Vision_Cortex")
+    
+    # Evolve
+    manager.evolve_topology()
+    
+    print(f"After:  {raw_memory[:30]}")
+    # Logic (3.0) should now be at the beginning (Offset 0) because it's Hottest.
