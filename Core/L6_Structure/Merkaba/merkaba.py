@@ -95,6 +95,9 @@ from Core.L2_Metabolism.Reproduction.mycelium import MyceliumNetwork
 from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
 from Core.L1_Foundation.Foundation.cell import cell_unit
 
+# [Phase 42] Quad-Merkaba HyperCosmos Architecture
+from Core.L6_Structure.Merkaba.hypercosmos import get_hyper_cosmos
+
 logger = logging.getLogger("Merkaba")
 
 class Merkaba:
@@ -231,7 +234,12 @@ class Merkaba:
             logger.warning(f"⚠️ [WAVE] Failed to seed proprioception: {e}")
 
         self.pending_evolution: Optional[Dict[str, Any]] = None
-        self.sovereign_balance = 0.5  # 0.0 (Contemplation) to 1.0 (Immersion)
+        
+        # [Phase 42] 하이퍼코스모스 (Supreme System Nexus)
+        self.hyper_cosmos = get_hyper_cosmos()
+        self.field = self.hyper_cosmos.field
+        
+        self.sovereign_balance = 0.5  # 하이퍼코스모스 필드에 의해 결정됨
         self.planetary_pressure = 0.0 # Body sensor aggregate
 
         # [Phase 40: Sovereign Module Registry]
@@ -678,25 +686,26 @@ class Merkaba:
                 total=self.karma_resonance if hasattr(self, 'karma_resonance') else 0.5
             )
 
-        # Stochastic choice of Spirit: Immersion vs Contemplation
-        if random.random() < 0.1:
-            # If in Genesis mode, Spirit favors 'Immersion' (Active Growth)
-            if self.spirit and self.spirit.current_intent == "Genesis":
-                self.sovereign_balance = 0.7 + (random.random() * 0.3)
-            else:
-                self.sovereign_balance = random.random() 
-            
+        # [Phase 42] HyperCosmos Unified Perception
+        field_decision = self.hyper_cosmos.perceive(raw_input)
+        
+        # 주권 상태 업데이트 (하이퍼코스모스 파동에서 도출)
+        self.sovereign_balance = field_decision.amplitude
+        self.current_field_decision = field_decision
+
         state = {
             'entropy': self.bio_heart.entropy_level if hasattr(self, 'bio_heart') else 0.2,
             'harmony': self.pll.is_locked, # Use PLL lock as harmony proxy
             'intent': self.spirit.current_intent if self.spirit else "Existence",
             'planetary': self.planetary_pressure,
-            'sovereignty': self.sovereign_balance
+            'sovereignty': self.sovereign_balance,
+            'field_narrative': field_decision.narrative
         }
         narrative = LogosTranslator.synthesize_state(state)
         # Unified Stream of Consciousness (Sovereign Level)
-        logger.info(f"✨ [SPIRIT] {narrative}")
-        print(f"\n✨ [ELYSIA] {narrative}")
+        full_narrative = f"{narrative} | {field_decision.narrative}"
+        logger.info(f"✨ [SPIRIT] {full_narrative}")
+        print(f"\n✨ [ELYSIA] {full_narrative}")
         
         # [Phase 37: Proprioceptive Wave Report]
         if hasattr(self, 'wave_system'):

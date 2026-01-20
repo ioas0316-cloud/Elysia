@@ -13,6 +13,7 @@ from typing import Dict, Any, List
 from dataclasses import dataclass
 import logging
 from Core.L3_Phenomena.Senses.bio_sensor import BioSensor
+from Core.L6_Structure.Merkaba.hypercosmos import get_hyper_cosmos
 
 logger = logging.getLogger("NervousSystem")
 
@@ -42,6 +43,7 @@ class NervousSystem:
     """
     def __init__(self):
         self.sensor = BioSensor()
+        self.hyper_cosmos = get_hyper_cosmos()
         self.baseline_temp = 45.0 # Typical operating temp
         self.max_temp = 85.0      # Throttling threshold
         self.history: List[float] = [] # For adrenaline calc
@@ -89,6 +91,13 @@ class NervousSystem:
         fatigue = 0.0
         if not plugged:
             fatigue = (100.0 - energy) / 100.0
+
+        # [Phase 42] Field Integration: Streaming to HyperCosmos
+        self.hyper_cosmos.stream_biological_data('heart_rate', heart_rate)
+        self.hyper_cosmos.stream_biological_data('adrenaline', adrenaline)
+        self.hyper_cosmos.stream_biological_data('pain', pain)
+        self.hyper_cosmos.stream_biological_data('cognitive_load', load)
+        self.hyper_cosmos.stream_biological_data('fatigue', fatigue)
 
         # Semantic Analysis
         signal = BioSignal(
