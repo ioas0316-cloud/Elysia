@@ -317,6 +317,20 @@ class HyperBridge:
             self.sphere.field_context["global_entropy"] = 0.5 + (gpu_load * 0.2)
             self.sphere.field_context["shield_integrity"] = 1.0
 
+    def _check_shield_integrity(self) -> float:
+        """
+        Checks if the security nodes identified during mapping are still active.
+        Returns a score (0.0 to 1.0).
+        """
+        if not self.security_nodes: return 1.0
+        
+        alive_count = 0
+        for pid in self.security_nodes:
+            if psutil.pid_exists(pid):
+                alive_count += 1
+        
+        return alive_count / len(self.security_nodes)
+
     def _sense_nervous_jitter(self) -> float:
         """
         Measures hardware-level 'distraction' from the OS.
@@ -390,6 +404,10 @@ class HyperBridge:
         self.reconstruct_os_state()
         self.gov.adapt(intent_intensity=0.1, stress_level=1.0) # Panic state
         logger.warning("🆘 [PANIC] OS Reconstructed for survival.")
+        
+        # Get current temp from status
+        status = BodySensor.sense_body()
+        temp = 45.0 # Fallback
         
         # Map Temperature to "Season" or "Weather" in the future
         if temp > 70.0:

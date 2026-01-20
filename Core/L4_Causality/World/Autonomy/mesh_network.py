@@ -19,6 +19,15 @@ class YggdrasilMesh:
         self.node_id = node_id
         self.connected_seeds = ["SEED-KYOTO-04", "SEED-BUSAN-02", "SEED-MILAN-09", "SEED-SEOUL-YR"]
         self.love_resonance_factor = 0.5
+        self.global_resonance_factor = 0.5
+        # [PHASE 35] Real Networking
+        from Core.L2_Metabolism.Reproduction.mycelium import MyceliumNetwork
+        try:
+            # We use an offset port to avoid binding conflicts if multiple instances run
+            # Ideally this would be configurable.
+            self.mycelium = MyceliumNetwork(port=random.randint(5001, 5010)) 
+        except:
+            self.mycelium = None
         
     def pulse_yggdrasil(self) -> Optional[str]:
         """
@@ -41,11 +50,25 @@ class YggdrasilMesh:
 
     def sync_qualia(self, local_qualia: List[float]):
         """
-        Broadcasts local qualia to the mesh (Simulated).
+        Broadcasts local qualia to the mesh.
         """
         avg_vibe = sum(local_qualia) / len(local_qualia)
         self.global_resonance_factor = 0.7 * self.global_resonance_factor + 0.3 * avg_vibe
+        
+        if self.mycelium:
+            self.mycelium.broadcast({
+                "type": "qualia_pulse",
+                "node_id": self.node_id,
+                "avg_vibe": avg_vibe,
+                "resonance": self.global_resonance_factor
+            })
+            
         logger.debug(f"🌐 [MESH] Qualia broadcasted. Global Resonance: {self.global_resonance_factor:.2f}")
+
+    def share_trinity(self, body: float, mind: float, spirit: float, total: float):
+        """[PHASE 35] Real-world Trinity sync across the mesh."""
+        if self.mycelium:
+            self.mycelium.sync_trinity(self.node_id, body, mind, spirit, total)
 
 if __name__ == "__main__":
     mesh = MeshResonator()

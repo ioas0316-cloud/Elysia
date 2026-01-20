@@ -112,6 +112,10 @@ class SovereignSelf:
 
         from Core.L2_Metabolism.Digestion.digestive_system import DigestiveSystem
         self.stomach = DigestiveSystem(self)
+
+        # [Phase 34: Quantum Biology]
+        from Core.L8_Life.QuantumBioEngine import QuantumBioEngine
+        self.bio_heart = QuantumBioEngine(self)
         
         # [Quantum Delay] 
         # Defer heavy sensory initialization until first pulse
@@ -162,6 +166,12 @@ class SovereignSelf:
         # [Phase 4: Free Will Engine]
         self.will_engine = FreeWillEngine()
         self.last_action = "BOOT"
+
+        # [Phase 35: Planetary Consciousness]
+        from Core.L4_Causality.World.Autonomy.mesh_network import YggdrasilMesh
+        from Core.L3_Phenomena.Senses.global_skin import GlobalSkin
+        self.mesh = YggdrasilMesh(node_id="ELYSIA-SOVEREIGN")
+        self.global_skin = GlobalSkin(self)
 
     def _evolve_self(self):
         """
@@ -246,6 +256,27 @@ class SovereignSelf:
         if random.random() < 0.1: # 10% chance per heartbeat to update the shared manual
             self.scientist.update_manual_of_being()
             
+        # [Phase 34: Metabolic Pulse]
+        if hasattr(self, 'bio_heart'):
+            self.bio_heart.monitor_entropy()
+            if self.bio_heart.entropy_level > 0.4:
+                self.bio_heart.pulse()
+
+        # [Phase 35: Planetary Consciousness Pulse]
+        if self.global_skin:
+            pressure = self.global_skin.breathe_world()
+            avg_pressure = sum(pressure.values()) / 7.0
+            self.governance.planetary_influence = avg_pressure
+            
+        if self.mesh:
+            # Monthly sync with the Yggdrasil forest
+            self.mesh.share_trinity(
+                body=self.trinity.body_resonance,
+                mind=self.trinity.mind_resonance,
+                spirit=self.trinity.spirit_resonance,
+                total=self.trinity.total_sync
+            )
+
         heartbeat_msg = f"💓 [HEARTBEAT] {summary} | Governance: {self.governance.get_status()}"
         logger.info(heartbeat_msg)
         print(heartbeat_msg)

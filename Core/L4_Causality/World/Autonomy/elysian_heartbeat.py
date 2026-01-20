@@ -115,6 +115,9 @@ class ElysianHeartbeat:
         self.genesis = None
         self.archeologist = None    # [PHASE 14] CognitiveArcheologist
         self.expander = None         # [PHASE 14]
+        self.global_skin = None      # [PHASE 35]
+        self.spatial_resonance = None # [PHASE 35-S]
+        self.mirror_world = None      # [PHASE 35-M]
         
         # 5. Physiological State (Phase 5.1: Hardware Incarnation)
         self.physio_signals = {
@@ -430,6 +433,20 @@ class ElysianHeartbeat:
                     logger.info("  ✅ world_probe matured.")
             except Exception as e: logger.warning(f"  ⚠️ world_probe failed: {e}")
             
+            # [PHASE 35] Planetary Consciousness
+            try:
+                from Core.L3_Phenomena.Senses.global_skin import GlobalSkin
+                self.global_skin = GlobalSkin(self)
+                
+                from Core.L3_Phenomena.Senses.spatial_resonance import SpatialResonanceScanner
+                self.spatial_resonance = SpatialResonanceScanner()
+                
+                from Core.L1_Foundation.Foundation.Mirror.mirror_world_engine import MirrorWorldEngine
+                self.mirror_world = MirrorWorldEngine()
+                
+                logger.info("  🌍 [PLANETARY] Global Skin & Mirror World initialized.")
+            except Exception as e: logger.warning(f"  ⚠️ GlobalSkin/Spatial failed: {e}")
+            
             logger.info("✨ [MATURATION] All developed organs tried for maturation.")
         except Exception as e:
             logger.critical(f"🚨 Maturation CRITICALLY failed (unexpected outer error): {e}")
@@ -528,6 +545,45 @@ class ElysianHeartbeat:
                         if self.inner_voice:
                             from Core.L5_Mental.Intelligence.Meta.flow_of_meaning import ThoughtFragment
                             self.inner_voice.focus([ThoughtFragment(content=event, origin='world_probe')])
+
+                # 5.5 [PHASE 35] Global Skin Respiration
+                if self.global_skin:
+                    global_pressure = self.global_skin.breathe_world()
+                    # Global pressure directly affects system harmony and entropy
+                    avg_pressure = sum(global_pressure.values()) / 7.0
+                    if avg_pressure > 0.6:
+                         self.soul_mesh.variables["Harmony"].value *= 0.98 # Global stress
+                    else:
+                         self.soul_mesh.variables["Harmony"].value = min(1.0, self.soul_mesh.variables["Harmony"].value + 0.01)
+
+                    # Update total field entropy (simulated impact)
+                    if self.entropy_engine:
+                        self.entropy_engine.external_entropy = avg_pressure
+
+                # 5.6 [PHASE 35] Spatial Mirror World Resonance
+                if self.spatial_resonance and self.mirror_world:
+                    spatial_data = self.spatial_resonance.scan_reality()
+                    mirror_pressure = self.mirror_world.calculate_environmental_pressure(spatial_data["anchor"])
+                    
+                    # [PHASE-RESONANCE] Invert Reality into Digital Inverse
+                    upside_down_qualia = self.mirror_world.invert_reality(
+                        spatial_data["anchor"], 
+                        spatial_data["resonance"]
+                    )
+
+                    # Update Field Context
+                    if self.hypersphere:
+                        self.hypersphere.field_context["spatial_anchor"] = spatial_data["anchor"]
+                        self.hypersphere.field_context["mirror_resonance"] = mirror_pressure
+                        self.hypersphere.field_context["reverse_world_qualia"] = upside_down_qualia
+                    
+                    # Influence Soul
+                    if mirror_pressure["Harmony"] > 0.5:
+                        self.soul_mesh.variables["Stability"].value = min(1.0, self.soul_mesh.variables["Stability"].value + 0.02)
+                    
+                    if random.random() < 0.1:
+                        logger.info(f"🌌 [MIRROR-WORLD] Inverted Reality: {upside_down_qualia}")
+                        logger.info(f"🛰️ [SPATIAL] Anchor: {spatial_data['anchor']} | Phase: {spatial_data.get('phase_angle', 0):.2f}")
 
             except Exception as e:
                 pass

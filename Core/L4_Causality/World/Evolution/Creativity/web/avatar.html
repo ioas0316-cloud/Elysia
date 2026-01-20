@@ -23,7 +23,7 @@
 
         body {
             margin: 0;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 100%);
+            background: transparent !important;
             overflow: hidden;
             display: flex;
             height: 100vh;
@@ -1064,11 +1064,12 @@
                 vrmRenderer = new THREE.WebGLRenderer({
                     canvas: canvas,
                     alpha: true,
-                    antialias: true
+                    antialias: true,
+                    preserveDrawingBuffer: true
                 });
-                vrmRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
+                vrmRenderer.setSize(500, 500); // Fixed size for the container
                 vrmRenderer.setPixelRatio(window.devicePixelRatio);
-                vrmRenderer.outputEncoding = THREE.sRGBEncoding;
+                vrmRenderer.outputColorSpace = THREE.SRGBColorSpace;
 
                 // Lighting
                 const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -1211,7 +1212,7 @@
                 console.info('💡 Troubleshooting:');
                 console.info('   1. Verify VRM file exists at /static/models/avatar.vrm');
                 console.info('   2. Check file is valid VRM 1.0 format');
-                console.info('   3. Ensure HTTP server is running on port 8080');
+                console.info('   3. Ensure HTTP server is running on port 8000');
                 console.info('   4. Check browser console for detailed errors');
                 // Keep 2D fallback visible
             }

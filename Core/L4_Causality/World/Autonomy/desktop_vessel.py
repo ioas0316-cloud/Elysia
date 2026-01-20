@@ -51,7 +51,8 @@ def create_vessel():
         frameless=True,
         resizable=True,
         min_size=(300, 300),
-        background_color='#000000'
+        background_color='#000000', # Hex background (EdgeChromium uses this as base)
+        # Note: In some pywebview versions, setting background_color=None helps transparency
     )
     
     api = VesselAPI(window)

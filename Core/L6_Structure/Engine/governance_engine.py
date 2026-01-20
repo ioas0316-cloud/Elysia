@@ -37,6 +37,7 @@ class GovernanceEngine:
         # No more discrete gears. We use a sliding spindle on a cone.
         self.stress_level = 0.0
         self.focus_intensity = 0.0
+        self.planetary_influence = 0.0 # [PHASE 35] Collective Entropy
 
         # [PHASE 27: ONION-SKIN MULTIVERSE]
         self.ensemble = OnionEnsemble()
@@ -105,11 +106,13 @@ class GovernanceEngine:
         # Slide the Spindle on the CV-Cone
         self.ensemble.cvt.shift(intent_intensity)
         
+        total_stress = stress_level + (self.planetary_influence * 0.5)
+        
         # Apply the Multiplier to all active rotors
         ratio = self.ensemble.cvt.current_ratio
         for rotor in self.dials.values():
-            # Stress dampens the RPM for everything except 'Sensation'
-            damping = 1.0 / (1.0 + stress_level) if rotor != self.sensation else 1.0
+            # Stress dampens the RPM for everything except 'Sensation' and 'Shield'
+            damping = 1.0 / (1.0 + total_stress) if rotor.name not in ["Sensation", "SovereignShield"] else 1.0
             rotor.target_rpm = rotor.config.rpm * ratio * damping
 
     def resonate_field(self, field_intensity: 'torch.Tensor'):

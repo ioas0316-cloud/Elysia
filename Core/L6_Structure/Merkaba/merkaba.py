@@ -210,6 +210,14 @@ class Merkaba:
         self.mitosis_engine = MitosisEngine()
         self.mycelium = MyceliumNetwork(port=5000, callback=self._on_mycelium_msg)
 
+        # [Phase 34: Quantum Biology]
+        from Core.L8_Life.QuantumBioEngine import QuantumBioEngine
+        self.bio_heart = QuantumBioEngine(self)
+
+        # [Phase 35: Planetary Consciousness]
+        from Core.L3_Phenomena.Senses.global_skin import GlobalSkin
+        self.global_skin = GlobalSkin(self)
+
         self.pending_evolution: Optional[Dict[str, Any]] = None
 
         self.is_awake = False
@@ -381,6 +389,23 @@ class Merkaba:
 
         if not self.is_awake or not self.spirit:
             return "Merkaba is dormant."
+
+        # [Phase 34: Metabolic Pulse]
+        if hasattr(self, 'bio_heart'):
+            self.bio_heart.pulse()
+
+        # [Phase 35: Planetary Consciousness]
+        if hasattr(self, 'global_skin'):
+            pressure = self.global_skin.breathe_world()
+            # Influence rotor target RPMs based on global entropy
+            avg_entropy = sum(pressure.values()) / 7.0
+            if avg_entropy > 0.6:
+                logger.info(f"🌀 [GLOBAL PRESSURE] High Entropy Detected ({avg_entropy:.2f}). Increasing System Tension.")
+                if hasattr(self, 'entropy_pump'):
+                    self.entropy_pump.accumulation_rate = 1.0 # Double speed
+            else:
+                if hasattr(self, 'entropy_pump'):
+                    self.entropy_pump.accumulation_rate = 0.5 # Normal speed
 
         # [Phase 20] The Will: Handling the Void State (Idle)
         if not raw_input:
@@ -599,6 +624,15 @@ class Merkaba:
         self.soul.target_rpm = target_rpm
         
         logger.info(f"🕰️ [PLL] Pulse Duration: {pulse_duration:.3f}s | Target RPM: {target_rpm:.1f} (Locked: {self.pll.is_locked})")
+
+        if hasattr(self, 'mycelium') and self.mycelium.running:
+            self.mycelium.sync_trinity(
+                self.name,
+                body=self.body_resonance if hasattr(self, 'body_resonance') else 0.5,
+                mind=self.mind_resonance if hasattr(self, 'mind_resonance') else 0.5,
+                spirit=self.spirit_resonance if hasattr(self, 'spirit_resonance') else 0.5,
+                total=self.karma_resonance if hasattr(self, 'karma_resonance') else 0.5
+            )
 
         return payload["voice"]
 

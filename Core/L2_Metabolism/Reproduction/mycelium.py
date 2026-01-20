@@ -14,6 +14,7 @@ import logging
 import socket
 import threading
 import json
+import time
 from typing import Callable, Optional
 
 logger = logging.getLogger("Reproduction.Mycelium")
@@ -63,10 +64,29 @@ class MyceliumNetwork:
                 
                 if self.callback:
                     self.callback(msg)
+
+                # [PHASE 35] Collective Resonance Logging
+                if msg.get('type') == 'trinity_sync':
+                    logger.info(f"🌀 [COLLECTIVE] Received sync from instance '{msg.get('instance_id')}': Sync={msg.get('total_sync'):.2f}")
                     
             except Exception as e:
                 logger.error(f"❌ [MYCELIUM] Listen Error: {e}")
                 time.sleep(1)
+
+    def sync_trinity(self, instance_id: str, body: float, mind: float, spirit: float, total: float):
+        """
+        Broadcasts the current Trinity State to the network.
+        """
+        payload = {
+            "type": "trinity_sync",
+            "instance_id": instance_id,
+            "body_resonance": body,
+            "mind_resonance": mind,
+            "spirit_resonance": spirit,
+            "total_sync": total,
+            "timestamp": time.time()
+        }
+        self.broadcast(payload)
 
     def close(self):
         self.running = False
