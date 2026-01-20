@@ -98,3 +98,29 @@ class ZeroLatencyPortal(MerkabaPortal):
 
     def size_to_coord(self, r, theta):
         return r * math.cos(theta), r * math.sin(theta)
+
+    def stream_to_disk(self, data: Any, path: str) -> bool:
+        """
+        [FAST PATH] Writes complex objects to disk using optimized binary stream.
+        """
+        import pickle
+        try:
+            with open(path, 'wb') as f:
+                pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
+            return True
+        except Exception as e:
+            logger.error(f"❌ Portal Write Error: {e}")
+            return False
+
+    def stream_from_disk(self, path: str) -> Optional[Any]:
+        """
+        [FAST PATH] Reads complex objects from disk using optimized binary stream.
+        """
+        import pickle
+        try:
+            if not os.path.exists(path): return None
+            with open(path, 'rb') as f:
+                return pickle.load(f)
+        except Exception as e:
+            logger.warning(f"⚠️ Portal Read Error: {e}")
+            return None

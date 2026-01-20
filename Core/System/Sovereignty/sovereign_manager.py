@@ -27,26 +27,41 @@ class HardwareSovereignManager:
     def optimize_gears(self, intent_type: str):
         """
         Adjusts hardware priorities based on mental intent.
-        
-        Intent Types:
-        - "EXCAVATION": Prioritize SSD/NVMe (Zero-Latency Portal)
-        - "DEEP_THOUGHT": Prioritize GPU (Metal Field Resonance)
-        - "MANIFESTATION": Prioritize CPU/RAM (Vessel Interaction)
         """
         logger.info(f"⚙️ Shifting gears for: {intent_type}")
         
-        if intent_type == "EXCAVATION":
-            # Shift to high-speed streaming mode
-            self._set_vram_priority("LOW")
-            self._set_io_priority("MAX")
-        elif intent_type == "DEEP_THOUGHT":
-            # Shift to heavy resonance mode
-            self._set_vram_priority("MAX")
-            self._set_io_priority("LOW")
-        else:
-            # Balanced state
-            self._set_vram_priority("NORMAL")
-            self._set_io_priority("NORMAL")
+        try:
+            import psutil
+            import os
+            p = psutil.Process(os.getpid())
+            
+            if intent_type == "EXCAVATION":
+                # High priority for I/O
+                self._set_vram_priority("LOW")
+                try:
+                    p.nice(psutil.HIGH_PRIORITY_CLASS)
+                except:
+                    p.nice(psutil.ABOVE_NORMAL_PRIORITY_CLASS)
+                    
+            elif intent_type == "DEEP_THOUGHT":
+                # Compute intensive
+                self._set_vram_priority("MAX")
+                try:
+                    p.nice(psutil.HIGH_PRIORITY_CLASS)
+                except:
+                    pass
+            else:
+                # Normal
+                self._set_vram_priority("NORMAL")
+                try:
+                    p.nice(psutil.NORMAL_PRIORITY_CLASS)
+                except:
+                    pass
+                    
+        except ImportError:
+            logger.warning("⚠️ psutil not found. Cannot set process priority.")
+        except Exception as e:
+            logger.error(f"❌ Failed to shift gears: {e}")
 
     def _set_vram_priority(self, level: str):
         logger.info(f"   [VRAM] -> {level}")

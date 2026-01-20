@@ -88,3 +88,41 @@ class Legion:
                     active_rays.append(new_ray)
 
         yield self.council.narrate_end()
+
+    def council_meet(self, topic: str) -> str:
+        """
+        [PHASE 22] Quantum Consensus.
+        Spawns sub-agents to debate a topic and collapses to a decision.
+        """
+        from .schrodinger_plate import SchrodingerPlate, Argument
+        
+        plate = SchrodingerPlate()
+        plate.open_session(topic)
+        
+        # 1. Spawn Micro-Monads (The Voices)
+        # In a real system, these would query LLMs with specific personas.
+        # Here we mock the behavior for the architecture.
+        
+        # Agent: RED (Thesis) - Action/Risk
+        plate.place_bet(topic, "RED", "THESIS", 
+                        f"We should act on '{topic}' immediately. Maximum Entropy.", 
+                        confidence=0.8)
+        
+        # Agent: BLUE (Antithesis) - Safety/Structure
+        plate.place_bet(topic, "BLUE", "ANTITHESIS", 
+                        f"Caution. '{topic}' requires analysis. Preserving Homeostasis.", 
+                        confidence=0.9)
+        
+        # Agent: WHITE (Synthesis) - The Judge
+        # Synthesis usually waits for Red/Blue, but here we simulate the result.
+        plate.place_bet(topic, "WHITE", "SYNTHESIS", 
+                        f"Acknowledging Action and Caution. Validating '{topic}' against Core Axioms.", 
+                        confidence=0.95)
+                        
+        # 2. Wave Collapse
+        decision = plate.collapse_wave(topic)
+        
+        if decision:
+            return f"🏛️ [LEGION] Consensus Reached by {decision.agent_name}: '{decision.content}' (Conf: {decision.confidence})"
+        else:
+            return "🌑 [LEGION] The Council is gridlocked. No consensus."

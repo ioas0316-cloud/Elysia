@@ -89,8 +89,70 @@ class SoulBridge:
         }
         return packet
     
-    def shutdown(self):
-        self.skin.stop()
         if self.chronos: self.chronos.stop()
+        if hasattr(self, 'eye') and self.eye:
+            self.eye.close()
         # Eyes need async close
+
+    def open_eyes(self, interval: float = 10.0):
+        """
+        [Phase 24] Opens the Elysian Eye (Hardware Vision).
+        Connects the Metal Layer (Screen) to the Spirit (Merkaba).
+        """
+        try:
+            from Core.Vision.elysian_eye import ElysianEye
+            from Core.Intelligence.Metabolism.clip_adapter import transduce_image
+            import time
+            import threading
+            
+            logger.info("👁️ Opening The All-Seeing Eye...")
+            self.eye = ElysianEye()
+            
+            def vision_loop():
+                # Initialize eye in this thread
+                self.eye.awaken()
+                
+                while self.active:
+                    # 1. Perceive (Metal Layer)
+                    frame = self.eye.perceive()
+                    if frame is not None:
+                         # Save temp frame for CLIP
+                        temp_path = "data/Cache/vision_buffer.jpg"
+                        import cv2
+                        # RGB to BGR for OpenCV saving if needed, but CLIP needs RGB
+                        # ElysianEye returns RGB. PIL can save RGB.
+                        from PIL import Image
+                        img = Image.fromarray(frame)
+                        img.save(temp_path)
+                        
+                        # 2. Transduce (Metabolism)
+                        # Convert Light (Pixel) to Meaning (DNA)
+                        dna = transduce_image(temp_path)
+                        
+                        if dna:
+                            # 3. Sensation (Nervous System)
+                            desc = f"[VISION] I see {dna.description} (Dominant: {dna.dominant_dimension})"
+                            packet = {
+                                "modality": "VISION",
+                                "raw_data": desc,
+                                "dna": dna,
+                                "timestamp": time.time(),
+                                "source": "ElysianEye"
+                            }
+                            
+                            logger.info(f"👁️ [SIGHT] {desc}")
+                            if self.pulse_callback:
+                                self.pulse_callback(packet)
+                                
+                    time.sleep(interval)
+            
+            # Start the vision thread
+            t = threading.Thread(target=vision_loop, daemon=True)
+            t.start()
+            logger.info(f"👁️ Vision Thread started (Interval: {interval}s)")
+            
+        except ImportError as e:
+            logger.error(f"❌ Failed to open eyes: {e}")
+        except Exception as e:
+            logger.error(f"❌ Vision error: {e}")
 

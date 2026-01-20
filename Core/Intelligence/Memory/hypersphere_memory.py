@@ -23,6 +23,9 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple, Union
 from collections import defaultdict
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.System.Metabolism.zero_latency_portal import ZeroLatencyPortal
+
+logger = logging.getLogger("Memory.Hypersphere")
 
 @dataclass
 class HypersphericalCoord:
@@ -254,6 +257,14 @@ class HypersphereMemory:
         self._phase_buckets: Dict[Tuple[int, int, int], List[Tuple[HypersphericalCoord, ResonancePattern]]] = defaultdict(list)
         self._item_count = 0
         
+        # [Phase 26] Zero-Latency Memory Streaming
+        try:
+            self.portal = ZeroLatencyPortal("data/State/memory_swap.bin")
+            logger.info("⚡ ZeroLatencyPortal connected to Hypersphere.")
+        except Exception as e:
+            self.portal = None
+            logger.warning(f"⚠️ ZeroLatencyPortal unavailable ({e}). Using Slow-Path Memory.")
+        
         # Auto-load if exists
         if os.path.exists(self.state_path):
             self.load_state()
@@ -283,6 +294,15 @@ class HypersphereMemory:
                 serializable_buckets[k_str] = item_list
             
             os.makedirs(os.path.dirname(self.state_path), exist_ok=True)
+            
+            if self.portal:
+                # [Fast Path] NVMe Streaming
+                success = self.portal.stream_to_disk(serializable_buckets, self.state_path)
+                if success:
+                   logger.info(f"⚡ [PORTAL] Hypersphere Memory streamed to {self.state_path} ({self._item_count} items)")
+                   return
+            
+            # [Slow Path] Standard JSON
             with open(self.state_path, 'w', encoding='utf-8') as f:
                 json.dump(serializable_buckets, f, ensure_ascii=False, indent=2)
             logger.info(f"💾 Hypersphere Memory state saved to {self.state_path} ({self._item_count} items)")
@@ -293,8 +313,15 @@ class HypersphereMemory:
         """Loads memory state from disk."""
         logger = logging.getLogger("Memory.Hypersphere")
         try:
-            with open(self.state_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
+            data = None
+            if self.portal:
+                 # [Fast Path]
+                 data = self.portal.stream_from_disk(self.state_path)
+            
+            if data is None:
+                # [Slow Path]
+                with open(self.state_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
             
             self._phase_buckets.clear()
             self._item_count = 0

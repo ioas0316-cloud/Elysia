@@ -46,16 +46,19 @@ class ElysianEye:
         self.height = 0
         self.last_frame = None
         self.frame_count = 0
+        self.sct = None # Lazy init for thread safety
         
-        # Initialize the appropriate backend
+    def awaken(self):
+        """Initializes the MSS context in the current thread."""
         if MSS_AVAILABLE:
+            if self.sct: return
             self.sct = mss.mss()
-            self.monitor = self.sct.monitors[0]  # Primary monitor (full screen)
+            self.monitor = self.sct.monitors[0]
             self.width = self.monitor["width"]
             self.height = self.monitor["height"]
             logger.info(f"👁️ Elysian Eye awakened. Resolution: {self.width}x{self.height}")
         else:
-            logger.error("❌ No screen capture backend available. Install 'mss' package.")
+            logger.error("❌ No screen capture backend available.")
             
     def perceive(self) -> Optional[np.ndarray]:
         """

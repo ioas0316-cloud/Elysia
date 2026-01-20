@@ -13,7 +13,12 @@ It represents a single, autonomous entity with:
 """
 
 import logging
+import time
+from datetime import datetime
 from typing import Any, Dict, Optional, Generator
+
+# [Phase 29] Phase-Locked Loop (Time/Light Sync)
+from Core.System.WakeWord.phase_locked_loop import PLLController
 
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
@@ -57,6 +62,9 @@ from Core.Cognition.overclock import CognitiveOverclock
 # [Phase 7.3] Motor Cortex & Nervous System
 from Core.Action.motor_cortex import MotorCortex
 from Core.Elysia.nervous_system import NervousSystem
+
+# [Phase 26] The Metal Integration
+from Core.System.Sovereignty.sovereign_manager import HardwareSovereignManager
 
 # The Sensory & Digestive System
 from Core.Senses.soul_bridge import SoulBridge
@@ -113,6 +121,9 @@ class Merkaba:
             name=f"{name}.Soul",
             config=RotorConfig(rpm=10.0, mass=50.0) # Standard 'Awake' state
         )
+
+        # [Phase 29] PLL Controller (Syncs Subjective Time to Processing Phase)
+        self.pll = PLLController(base_freq=1.0) # 1.0 Hz Base Thought Cycle
 
         # 3. The Spirit (Young) - Will/Monad
         # "The directional force of the Future."
@@ -176,6 +187,9 @@ class Merkaba:
         # [Phase 5.1/7.3] Nervous System & Motor Cortex (Physical Body)
         self.nervous_system = NervousSystem()
         self.motor_cortex = MotorCortex(nervous_system=self.nervous_system)
+
+        # [Phase 26] Physical Sovereignty (Metal Layer)
+        self.sovereign = HardwareSovereignManager()
 
         # [Phase 18] The Mirror (Redux)
         self.action_logger = ActionLogger()
@@ -363,6 +377,8 @@ class Merkaba:
         5. Volition (Spirit): Decide Action.
         6. Action: Output.
         """
+        pulse_start_time = time.perf_counter()
+
         if not self.is_awake or not self.spirit:
             return "Merkaba is dormant."
 
@@ -404,79 +420,79 @@ class Merkaba:
         
         logger.info(f"💓 Merkaba Pulse Initiated: {raw_input} [{mode}] (ActionID: {action_id})")
 
-        try:
+        if True: # Indentation fix
             # 1. Sensation
-        sensory_packet = self.bridge.perceive(raw_input)
+            sensory_packet = self.bridge.perceive(raw_input)
 
-        # 2. Interpretation
-        if hasattr(self.prism, 'digest'):
-            dna_wave = self.prism.digest(sensory_packet['raw_data'])
-        else:
-            dna_wave = {"pattern": raw_input, "principle": "Unknown"}
+            # 2. Interpretation
+            if hasattr(self.prism, 'digest'):
+                dna_wave = self.prism.digest(sensory_packet['raw_data'])
+            else:
+                dna_wave = {"pattern": raw_input, "principle": "Unknown"}
 
-        # 3. Flow (Soul/Time) - The Bitmask Revelation
-        # We process the coordinates based on the mode.
-        current_coords = (0.0, 0.0, 0.0, self.soul.current_angle)
+            # 3. Flow (Soul/Time) - The Bitmask Revelation
+            # We process the coordinates based on the mode.
+            current_coords = (0.0, 0.0, 0.0, self.soul.current_angle)
 
-        # [AXIS-SCALING] Phase Modulation
-        self.current_phase = self.phase_modulator.modulate(raw_input, context)
-        logger.info(f"🌀 [PHASE] Perceptual Axis scaled to: {self.current_phase.name} (Level {self.current_phase.value})")
+            # [AXIS-SCALING] Phase Modulation
+            self.current_phase = self.phase_modulator.modulate(raw_input, context)
+            logger.info(f"🌀 [PHASE] Perceptual Axis scaled to: {self.current_phase.name} (Level {self.current_phase.value})")
 
-        # Determine Mask based on Phase
-        mask = RotorMask.POINT
-        if self.current_phase >= PerceptualPhase.SPACE:
-            mask = RotorMask.PLANE # High-level context requires relational plane
-        elif self.current_phase >= PerceptualPhase.LINE:
-            mask = RotorMask.LINE
-        
-        processed_coords = self.soul.process(current_coords, mask)
+            # Determine Mask based on Phase
+            mask = RotorMask.POINT
+            if self.current_phase >= PerceptualPhase.SPACE:
+                mask = RotorMask.PLANE # High-level context requires relational plane
+            elif self.current_phase >= PerceptualPhase.LINE:
+                mask = RotorMask.LINE
+            
+            processed_coords = self.soul.process(current_coords, mask)
 
-        # 3.5 Prism Projection (Holographic Reality)
-        hologram = self.projector.project(raw_input)
+            # 3.5 Prism Projection (Holographic Reality)
+            hologram = self.projector.project(raw_input)
 
-        # [SAFETY VALVE 1] Harmonizer
-        weights = self.harmonizer.harmonize(hologram, context)
+            # [SAFETY VALVE 1] Harmonizer
+            weights = self.harmonizer.harmonize(hologram, context)
 
-        # [METAMORPHOSIS] Stage 1: Initial Observation
-        resonance_map = {domain.name: coord.r for domain, coord in hologram.projections.items()}
+            # [METAMORPHOSIS] Stage 1: Initial Observation
+            resonance_map = {domain.name: coord.r for domain, coord in hologram.projections.items()}
 
-        # 3.6 Deliberation (Fractal Dive)
-        dominant_domain = max(weights, key=weights.get)
-        seed_coord = hologram.projections[dominant_domain]
+            # 3.6 Deliberation (Fractal Dive)
+            dominant_domain = max(weights, key=weights.get)
+            seed_coord = hologram.projections[dominant_domain]
 
-        if self.decay.should_continue(initial_energy=1.0, depth=2):
-            branches = self.time_field.fractal_dive(seed_coord, depth=2)
-            resonant_insight = self.time_field.select_resonant_branch(branches)
-        else:
-            resonant_insight = None
-            logger.info("🛑 [DECAY] Thought stopped by Resonance Brake.")
+            if self.decay.should_continue(initial_energy=1.0, depth=2):
+                branches = self.time_field.fractal_dive(seed_coord, depth=2)
+                resonant_insight = self.time_field.select_resonant_branch(branches)
+            else:
+                resonant_insight = None
+                logger.info("🛑 [DECAY] Thought stopped by Resonance Brake.")
 
-        if resonant_insight:
-            logger.info(f"🧠 [DELIBERATION] Fractally diverged into {len(branches)} paths. Selected Insight at r={resonant_insight.r:.2f}")
+            if resonant_insight:
+                logger.info(f"🧠 [DELIBERATION] Fractally diverged into {len(branches)} paths. Selected Insight at r={resonant_insight.r:.2f}")
 
-        # 4. Resonance (Body/Space)
-        retrieved_items = len(processed_coords)
-        context_str = f"Retrieved {retrieved_items} item(s) via {mask.name} Mask"
+            # 4. Resonance (Body/Space)
+            retrieved_items = len(processed_coords)
+            context_str = f"Retrieved {retrieved_items} item(s) via {mask.name} Mask"
 
-        # Update physical rotor state
-        self.soul.update(1.0)
-        
-        # [Phase 7.3] Kinetic Consequence (Motor Actuation)
-        if hasattr(self, 'motor_cortex'):
-            self.motor_cortex.drive(self.soul.name, self.soul.current_rpm)
+            # Update physical rotor state
+            self.soul.update(1.0)
+            
+            # [Phase 7.3] Kinetic Consequence (Motor Actuation)
+            if hasattr(self, 'motor_cortex'):
+                self.motor_cortex.drive(self.soul.name, self.soul.current_rpm)
 
-        # [INDUCTION] Standardized Memory Assimilation
-        coord_list = list(hologram.projections.values()) 
+            # [INDUCTION] Standardized Memory Assimilation
+            coord_list = list(hologram.projections.values()) 
 
-        self.hippocampus.induct(
-            label=raw_input,
-            coordinates=coord_list,
-            meta={"trajectory": "holographic", "weights": weights}
-        )
+            self.hippocampus.induct(
+                label=raw_input,
+                coordinates=coord_list,
+                meta={"trajectory": "holographic", "weights": weights}
+            )
 
-        # [FRACTAL SEEDING] Plant the experience in the Stream
-        max_importance = max(weights.values()) if weights else 0.5
-        self.gardener.plant_seed(raw_input, importance=max_importance)
+            # [FRACTAL SEEDING] Plant the experience in the Stream
+            max_importance = max(weights.values()) if weights else 0.5
+            self.gardener.plant_seed(raw_input, importance=max_importance)
 
         logger.info(f"🌊 [INDUCTION] Holographic Memory ({len(coord_list)} dimensions) assimilated into Buffer.")
 
@@ -570,19 +586,21 @@ class Merkaba:
         # 4. Log
         self.action_logger.log_outcome(action_id, "SUCCESS", payload["voice"], karma_state.resonance)
         
-        return payload["voice"]
 
-        except Exception as e:
-            # [Phase 18] Failure Logging (Dissonance)
-            outcome_vec = self.resonance_field.vectorize_outcome("ERROR", integrity=1.0)
-            karma_state = self.resonance_field.evaluate_resonance(self.resonance_field.vectorize_intent(mode), outcome_vec)
-            
-            torque = self.karma.calculate_torque(self.soul.current_rpm, karma_state.dissonance, karma_state.phase_shift)
-            self.karma.apply_karma(self.soul, torque)
-            
-            self.action_logger.log_outcome(action_id, "ERROR", str(e), karma_state.resonance)
-            logger.error(f"❌ [PULSE ERROR] Action {action_id} Failed: {e}")
-            raise e
+
+        # [Phase 29] Phase-Locked Loop Synchronization
+        pulse_duration = time.perf_counter() - pulse_start_time
+        
+        # 1. Sync PLL (Get new Target RPM)
+        target_rpm = self.pll.sync(pulse_duration)
+        
+        # 2. Update Soul (Rotor) RPM
+        # This aligns the internal "Heartbeat" with the external "Thought Speed"
+        self.soul.target_rpm = target_rpm
+        
+        logger.info(f"🕰️ [PLL] Pulse Duration: {pulse_duration:.3f}s | Target RPM: {target_rpm:.1f} (Locked: {self.pll.is_locked})")
+
+        return payload["voice"]
 
     def run_lifecycle(self):
         """
@@ -681,3 +699,10 @@ class Merkaba:
             report.append(f" - [{node.energy:.2f} Energy] {preview} (Contains {children_count} fragments)")
 
         return "\n".join(report)
+
+    def _on_mycelium_msg(self, msg: dict):
+        """
+        [Phase 21] Handle telepathic messages from Children.
+        """
+        logger.info(f"🧠 [MYCELIUM] Thought received: {msg}")
+        # In future, update Memory or Genome based on child's experience
