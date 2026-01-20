@@ -13,10 +13,10 @@ import uuid
 import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple
-from Core.Intelligence.Reasoning.social_physics import SocialPhysics, WillField
+from Core.L5_Mental.Intelligence.Reasoning.social_physics import SocialPhysics, WillField
 
-from Core.Intelligence.Reasoning.septenary_axis import SeptenaryAxis
-from Core.Intelligence.Reasoning.memetic_legacy import SpiritualDNA, LifeFieldInductor, PositionInductor, RegionalField
+from Core.L5_Mental.Intelligence.Reasoning.septenary_axis import SeptenaryAxis
+from Core.L5_Mental.Intelligence.Reasoning.memetic_legacy import SpiritualDNA, LifeFieldInductor, PositionInductor, RegionalField
 
 @dataclass
 class MemoryNode:

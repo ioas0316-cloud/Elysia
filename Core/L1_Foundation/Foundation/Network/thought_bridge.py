@@ -15,10 +15,10 @@ from typing import Dict, Any, Tuple, List, Optional
 from datetime import datetime
 import numpy as np
 
-from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
-from Core.Foundation.enhanced_thought_language_bridge import EnhancedThoughtLanguageBridge, ThoughtPackage
-from Core.Foundation.Wave.resonance_field import ResonanceField
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.thought_layer_bridge import ThoughtLayerBridge
+from Core.L1_Foundation.Foundation.enhanced_thought_language_bridge import EnhancedThoughtLanguageBridge, ThoughtPackage
+from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("ThoughtBridge")
 

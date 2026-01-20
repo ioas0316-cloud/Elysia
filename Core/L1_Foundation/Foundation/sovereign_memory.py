@@ -1,7 +1,7 @@
 """
 Sovereign Memory Navigator (O(1) Perception)
 =============================================
-Core.Foundation.sovereign_memory
+Core.L1_Foundation.Foundation.sovereign_memory
 
 "Data is not moved; it is perceived where it resides."
 "데이터는 이동하지 않는다. 그것이 머무는 곳에서 인지될 뿐이다."

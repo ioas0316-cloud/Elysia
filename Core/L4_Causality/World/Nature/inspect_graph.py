@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
-from Core.Foundation.Graph.torch_graph import TorchGraph
+from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
 try:
     g = TorchGraph(use_cuda=True)
     target_path = "c:/Elysia/Core/World/Nature/graph_memory.pt"

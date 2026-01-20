@@ -13,11 +13,11 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.Elysia.sovereign_self import SovereignSelf
-from Core.Intelligence.Meta.fractal_wfc import FractalWFC
-from Core.Foundation.Wave.wave_dna import WaveDNA
-from Core.World.Physics.providence_engine import ProvidenceEngine
-from Core.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L5_Mental.Intelligence.Meta.fractal_wfc import FractalWFC
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L4_Causality.World.Physics.providence_engine import ProvidenceEngine
+from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 
 def test_civilization_genesis_v2():
     print("--- 🌍 Experiment: Civilization Genesis V2 (Real Physics) ---")

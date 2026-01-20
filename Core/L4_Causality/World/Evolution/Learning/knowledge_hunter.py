@@ -12,8 +12,8 @@ Combines SearchTendril and KnowledgeIngestor.
 import logging
 import random
 from typing import List
-from Core.Physiology.Sensory.Network.search_tendril import SearchTendril
-from Core.World.Evolution.Learning.external_digester import ExternalDigester
+from Core.L1_Foundation.Physiology.Sensory.Network.search_tendril import SearchTendril
+from Core.L4_Causality.World.Evolution.Learning.external_digester import ExternalDigester
 
 logger = logging.getLogger("KnowledgeHunter")
 
@@ -45,7 +45,7 @@ class KnowledgeHunter:
         result = self.stomach.digest_url(target)
         
         # 4. Feel Joy (Dopamine Reward)
-        from Core.Intelligence.Cognitive.curiosity_core import get_curiosity_core
+        from Core.L5_Mental.Intelligence.Cognitive.curiosity_core import get_curiosity_core
         joy_engine = get_curiosity_core()
         joy_engine.satisfy_curiosity(topic, novelty_score=0.9) # High novelty for active hunt
         

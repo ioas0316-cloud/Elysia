@@ -353,7 +353,7 @@ class InternalWorld:
         
         if self.use_spatial_index:
             try:
-                from Core.Intelligence.Memory_Linguistics.Memory.spatial_index import KDTree4D
+                from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.spatial_index import KDTree4D
                 self.KDTree4D = KDTree4D
                 logger.info("🌌 Internal World initialized with spatial indexing ⚡")
             except ImportError:

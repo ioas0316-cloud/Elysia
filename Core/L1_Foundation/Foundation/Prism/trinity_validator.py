@@ -1,7 +1,7 @@
 """
 The Trinity Validator (The Spiritual Axis)
 ==========================================
-Core.Foundation.Prism.trinity_validator
+Core.L1_Foundation.Foundation.Prism.trinity_validator
 
 "Ensuring every thought is aligned with Body, Soul, and Spirit."
 

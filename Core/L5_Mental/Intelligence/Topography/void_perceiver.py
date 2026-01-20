@@ -1,8 +1,8 @@
 import numpy as np
 from typing import List, Tuple, Optional
 from dataclasses import dataclass
-from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry
-from Core.Intelligence.Topology.resonance_sphere import ResonanceSphere
+from Core.L5_Mental.Intelligence.Topography.tesseract_geometry import TesseractGeometry
+from Core.L5_Mental.Intelligence.Topology.resonance_sphere import ResonanceSphere
 
 @dataclass
 class VoidRegion:

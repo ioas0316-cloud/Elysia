@@ -12,8 +12,8 @@ System Architecture:
 """
 
 from typing import List, Dict, Any
-from Core.Engine.Genesis.concept_monad import ConceptMonad
-from Core.Engine.Genesis.genesis_lab import GenesisLab
+from Core.L6_Structure.Engine.Genesis.concept_monad import ConceptMonad
+from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
 
 class BlockMonad(ConceptMonad):
     """

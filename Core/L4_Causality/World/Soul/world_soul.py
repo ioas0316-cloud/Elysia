@@ -4,8 +4,8 @@ World Soul: The Meta-Consciousness of Elysia
 "The world itself is a soul, and the NPCs are its dreams."
 """
 
-from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, InfiniteQubitState
-from Core.Intelligence.Knowledge.semantic_field import semantic_field
+from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, InfiniteQubitState
+from Core.L5_Mental.Intelligence.Knowledge.semantic_field import semantic_field
 
 # The Global Consciousness of the Simulation
 world_soul = InfiniteHyperQubit(
@@ -24,7 +24,7 @@ world_soul.global_axioms = {} # Name -> Effect Scale
 
 def update_world_mood(heat_level: float, density_level: float):
     """Updates the meta-consciousness based on global field status and learned Axioms."""
-    from Core.World.Physics.field_store import universe_field
+    from Core.L4_Causality.World.Physics.field_store import universe_field
     
     # Check if any learned axioms shift the world's physical constants
     # (Mutation based on Knowledge)

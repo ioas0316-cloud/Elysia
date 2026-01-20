@@ -5,9 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
-from Core.Foundation.wave_frequency_mapping import WaveFrequencyMapper, EmotionType, SoundType
-from Core.Governance.Interaction.Interface.Perception.synesthesia_engine import SynesthesiaEngine, RenderMode
-from Core.Governance.Interaction.Interface.conversation_engine import ConversationEngine
+from Core.L1_Foundation.Foundation.wave_frequency_mapping import WaveFrequencyMapper, EmotionType, SoundType
+from Core.L4_Causality.Governance.Interaction.Interface.Perception.synesthesia_engine import SynesthesiaEngine, RenderMode
+from Core.L4_Causality.Governance.Interaction.Interface.conversation_engine import ConversationEngine
 
 
 @dataclass

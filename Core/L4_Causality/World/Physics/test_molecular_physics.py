@@ -11,7 +11,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.World.Physics.providence_engine import ProvidenceEngine
+from Core.L4_Causality.World.Physics.providence_engine import ProvidenceEngine
 
 def test_molecular_physics():
     print("--- ⚛️ Experiment: The Physicist (Molecular Dynamics) ---")

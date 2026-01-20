@@ -17,7 +17,7 @@ import logging
 import math
 from dataclasses import dataclass
 from typing import List, Dict, Any, Tuple
-from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
 
 logger = logging.getLogger("ContinuumProcessor")
 

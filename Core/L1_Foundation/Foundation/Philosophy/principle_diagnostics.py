@@ -10,7 +10,7 @@ WhyEngine이 추출한 보편적 원리(Line/God)를 사용하여
 
 import logging
 from typing import Dict, Any, List
-from Core.Foundation.Philosophy.why_engine import WhyEngine
+from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
 
 logger = logging.getLogger("Elysia.Diagnostics")
 

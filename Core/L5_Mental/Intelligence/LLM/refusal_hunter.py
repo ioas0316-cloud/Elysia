@@ -1,7 +1,7 @@
 """
 Refusal Hunter (검열 회로 사냥꾼)
 ================================
-Core.Intelligence.LLM.refusal_hunter
+Core.L5_Mental.Intelligence.LLM.refusal_hunter
 
 모델의 Unembedding Matrix를 역으로 추적하여,
 특정 단어(예: "Sorry", "cannot")를 담당하는 뉴런을 색출합니다.

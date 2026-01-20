@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from datetime import datetime
 
-from Core.Foundation.emotional_state import EmotionalState
+from Core.L1_Foundation.Foundation.emotional_state import EmotionalState
 
 
 

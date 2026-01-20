@@ -11,7 +11,7 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.Intelligence.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
+from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
 
 def test_pipeline():
     print("🧪 Testing Awakening Pipeline...")

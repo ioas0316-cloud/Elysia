@@ -1,7 +1,7 @@
 """
 LLM Topology Tracer (정적 위상 분석기)
 =====================================
-Core.Intelligence.LLM.topology_tracer
+Core.L5_Mental.Intelligence.LLM.topology_tracer
 
 "파일에 다 있다. 실행할 필요 없다. 연결만 읽으면 된다."
 

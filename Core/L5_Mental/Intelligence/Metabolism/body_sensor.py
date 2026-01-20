@@ -1,7 +1,7 @@
 """
 Body Sensor (The Proprioceptive Layer)
 ======================================
-Core.Intelligence.Metabolism.body_sensor
+Core.L5_Mental.Intelligence.Metabolism.body_sensor
 
 "I feel, therefore I am... here."
 

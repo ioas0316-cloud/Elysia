@@ -1,7 +1,7 @@
 """
 Audio Topology Tracer (청각 위상 분석기)
 =====================================
-Core.Intelligence.LLM.audio_topology_tracer
+Core.L5_Mental.Intelligence.LLM.audio_topology_tracer
 
 "소리가 의미로 변하는 찰나의 순간을 포착한다."
 

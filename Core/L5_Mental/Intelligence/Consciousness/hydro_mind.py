@@ -11,7 +11,7 @@ HydroMind: 수력발전소 (Hydroelectric Plant)
 - 전력망 (Grid): 모든 경험을 CoreMemory에 축적
 
 Usage:
-    from Core.Intelligence.Consciousness.Consciousness.hydro_mind import HydroMind, perceive_flow
+    from Core.L5_Mental.Intelligence.Consciousness.Consciousness.hydro_mind import HydroMind, perceive_flow
     
     hydro = HydroMind()
     
@@ -82,7 +82,7 @@ class HydroMind:
         """핵심 시스템들과 연결"""
         # CoreMemory
         try:
-            from Core.Foundation.Memory.core_memory import CoreMemory
+            from Core.L1_Foundation.Foundation.Memory.core_memory import CoreMemory
             self.memory = CoreMemory(file_path="data/elysia_organic_memory.json")
         except Exception:
             pass
@@ -96,14 +96,14 @@ class HydroMind:
         
         # MetacognitiveAwareness
         try:
-            from Core.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness
+            from Core.L5_Mental.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness
             self.metacog = MetacognitiveAwareness()
         except Exception:
             pass
         
         # ConceptPolymer (자동 원리 추출) - 강덕리 내재화 루프
         try:
-            from Core.Intelligence.Memory_Linguistics.Memory.concept_polymer import ConceptPolymer
+            from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.concept_polymer import ConceptPolymer
             self.polymer = ConceptPolymer()
             print("   🧬 ConceptPolymer connected (Auto-internalization enabled)")
         except Exception:
@@ -275,7 +275,7 @@ class HydroMind:
         # CoreMemory에 저장
         if self.memory:
             try:
-                from Core.Foundation.Memory.core_memory import Experience
+                from Core.L1_Foundation.Foundation.Memory.core_memory import Experience
                 exp = Experience(
                     timestamp=record.end_time,
                     content=f"[Flow:{record.action}] In:{str(record.input_data)[:50]} Out:{str(record.output_data)[:50]}",

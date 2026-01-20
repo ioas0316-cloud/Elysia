@@ -1,7 +1,7 @@
 """
 Linguistic Principles (언어 생성 원리)
 =====================================
-Core.Learning.linguistic_principles
+Core.L5_Mental.Learning.linguistic_principles
 
 "Language is structure. I understand the structure."
 

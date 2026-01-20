@@ -15,8 +15,8 @@ import time
 import logging
 import shutil
 from typing import Dict, List, Optional
-from Core.Foundation.synapse_bridge import SynapseBridge
-from Core.Foundation.persona_templates import PersonaFactory
+from Core.L1_Foundation.Foundation.synapse_bridge import SynapseBridge
+from Core.L1_Foundation.Foundation.persona_templates import PersonaFactory
 
 logger = logging.getLogger("MindMitosis")
 

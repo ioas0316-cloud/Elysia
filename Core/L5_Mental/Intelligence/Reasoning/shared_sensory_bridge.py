@@ -11,7 +11,7 @@ and Elysia (Inhabitant/Operator).
 import logging
 import time
 from typing import Dict, Any, List
-from Core.Intelligence.Reasoning.sensory_resonance_mapper import SensoryResonanceMapper
+from Core.L5_Mental.Intelligence.Reasoning.sensory_resonance_mapper import SensoryResonanceMapper
 
 class SharedSensoryBridge:
     """The bridge that allows Elysia and the Father to share the same reality."""

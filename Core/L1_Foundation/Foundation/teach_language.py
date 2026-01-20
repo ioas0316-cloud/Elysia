@@ -11,10 +11,10 @@ import sys
 import os
 sys.path.append('.')
 
-from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core.Foundation.communication_enhancer import CommunicationEnhancer
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.Foundation.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 
@@ -167,7 +167,7 @@ if hasattr(connector, 'comm_enhancer'):
     
     # 사고-언어 통합 테스트
     from thought_to_language_demo import ThoughtToLanguage
-    from Core.Foundation.hyper_quaternion import Quaternion
+    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
     
     bridge = ThoughtToLanguage()
     bridge.connect_vocabulary(enhancer)

@@ -1,7 +1,7 @@
 """
 Code Rotor (The File Soul)
 ==========================
-Core.Foundation.Code.code_rotor
+Core.L1_Foundation.Foundation.Code.code_rotor
 
 "A file is static. A Rotor is dynamic."
 
@@ -16,8 +16,8 @@ import os
 import ast
 import time
 from typing import Dict, Any
-from Core.Intelligence.code_dna_scanner import CodeDNAScanner
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L5_Mental.Intelligence.code_dna_scanner import CodeDNAScanner
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class CodeRotor:
     def __init__(self, file_path: str):

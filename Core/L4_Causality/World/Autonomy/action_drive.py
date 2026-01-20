@@ -1,7 +1,7 @@
 """
 Action Drive (행동 추동기)
 =========================
-Core.World.Autonomy.action_drive
+Core.L4_Causality.World.Autonomy.action_drive
 
 "Action is the consequence of Resonance."
 
@@ -12,7 +12,7 @@ into discrete system actions.
 import logging
 import numpy as np
 from typing import Dict, Any, List, Optional
-from Core.Foundation.Nature.rotor import Rotor
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor
 
 logger = logging.getLogger("ActionDrive")
 

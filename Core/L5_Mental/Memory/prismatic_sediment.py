@@ -1,7 +1,7 @@
 """
 Prismatic Sediment: The Spectral Memory Vault
 =============================================
-Core.Memory.prismatic_sediment
+Core.L5_Mental.Memory.prismatic_sediment
 
 "Don't search the whole earth. Just tune the dial to the color of the jewel."
 
@@ -14,7 +14,7 @@ import os
 import numpy as np
 import logging
 from typing import List, Tuple, Optional, Dict
-from Core.Memory.sediment import SedimentLayer
+from Core.L5_Mental.Memory.sediment import SedimentLayer
 
 logger = logging.getLogger("PrismaticSediment")
 

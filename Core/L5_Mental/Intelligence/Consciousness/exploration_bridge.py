@@ -84,7 +84,7 @@ class ExplorationBridge:
         # 1. WhyEngine (탐구 필요 감지)
         self.why_engine = None
         try:
-            from Core.Foundation.Philosophy.why_engine import WhyEngine
+            from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
             self.why_engine = WhyEngine()
             logger.info("✅ WhyEngine connected")
         except Exception as e:
@@ -93,7 +93,7 @@ class ExplorationBridge:
         # 2. FreeWillEngine (욕구/의지)
         self.free_will = None
         try:
-            from Core.Foundation.free_will_engine import FreeWillEngine
+            from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
             self.free_will = FreeWillEngine()
             logger.info("✅ FreeWillEngine connected")
         except Exception as e:
@@ -102,7 +102,7 @@ class ExplorationBridge:
         # 3. ExplorationCore (외부 탐색)
         self.exploration_core = None
         try:
-            from Core.Foundation.exploration_core import ExplorationCore
+            from Core.L1_Foundation.Foundation.exploration_core import ExplorationCore
             self.exploration_core = ExplorationCore()
             logger.info("✅ ExplorationCore connected")
         except Exception as e:
@@ -111,7 +111,7 @@ class ExplorationBridge:
         # 4. AutonomousLearner (학습)
         self.learner = None
         try:
-            from Core.World.Evolution.Learning.Learning.autonomous_learner import AutonomousLearner
+            from Core.L4_Causality.World.Evolution.Learning.Learning.autonomous_learner import AutonomousLearner
             self.learner = AutonomousLearner()
             logger.info("✅ AutonomousLearner connected")
         except Exception as e:
@@ -120,7 +120,7 @@ class ExplorationBridge:
         # 5. NaverSearchConnector (한글 검색 최적화)
         self.naver = None
         try:
-            from Core.Physiology.Sensory.Network.naver_connector import NaverSearchConnector
+            from Core.L1_Foundation.Physiology.Sensory.Network.naver_connector import NaverSearchConnector
             self.naver = NaverSearchConnector()
             if self.naver.available:
                 logger.info("✅ NaverConnector connected")
@@ -130,7 +130,7 @@ class ExplorationBridge:
         # 6. KoreanEnglishMapper (언어 브릿지)
         self.lang_mapper = None
         try:
-            from Core.Foundation.extreme_hyper_learning import KoreanEnglishMapper
+            from Core.L1_Foundation.Foundation.extreme_hyper_learning import KoreanEnglishMapper
             self.lang_mapper = KoreanEnglishMapper()
             logger.info("✅ KoreanEnglishMapper connected")
         except Exception as e:
@@ -139,7 +139,7 @@ class ExplorationBridge:
         # 7. PotentialCausalityStore (잠재적 인과 저장)
         self.potential_store = None
         try:
-            from Core.Intelligence.Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
+            from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
             self.potential_store = PotentialCausalityStore()
             logger.info("✅ PotentialCausalityStore connected")
         except Exception as e:
@@ -384,7 +384,7 @@ class ExplorationBridge:
     def _try_inner_dialogue(self, question: str) -> tuple:
         """내면 대화로 자체 추론 시도"""
         try:
-            from Core.Intelligence.Consciousness.Consciousness.inner_dialogue import DeepContemplation
+            from Core.L5_Mental.Intelligence.Consciousness.Consciousness.inner_dialogue import DeepContemplation
             dc = DeepContemplation(max_depth=2)
             result = dc.dive(question)
             

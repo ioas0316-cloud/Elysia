@@ -427,7 +427,7 @@ class StructuralUnifier:
         logger.info("🌊 Initiating Resonance Scan (Phase-Space Analysis)...")
         
         # 1. Initialize Resonance Field
-        from Core.Foundation.Wave.resonance_field import ResonanceField, PillarType
+        from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField, PillarType
         field = ResonanceField()
         
         # 2. Fast AST Scan (Mass & Connections)
@@ -492,7 +492,7 @@ class StructuralUnifier:
             if target in field.nodes:
                 field._connect(source, target)
             else:
-                # Try to find partial match (e.g. Core.Foundation -> Foundation)
+                # Try to find partial match (e.g. Core.L1_Foundation.Foundation -> Foundation)
                 parts = target.split('.')
                 if parts[-1] in field.nodes:
                     field._connect(source, parts[-1])

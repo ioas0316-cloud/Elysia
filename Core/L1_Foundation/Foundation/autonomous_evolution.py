@@ -15,8 +15,8 @@ from typing import List
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from Core.Intelligence.Intelligence.Reasoning import ReasoningEngine
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L5_Mental.Intelligence.Intelligence.Reasoning import ReasoningEngine
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

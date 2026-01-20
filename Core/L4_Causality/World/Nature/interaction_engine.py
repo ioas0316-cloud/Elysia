@@ -9,9 +9,9 @@ It asks the question: "What happens when X applies Y to Z?"
 
 import logging
 from typing import Dict, List, Tuple, Any
-from Core.World.Physics.trinity_fields import TrinityPhysics, TrinityVector
-from Core.World.Nature.semantic_object import SemanticObject, InteractionResult
-from Core.World.Nature.trinity_lexicon import TrinityLexicon
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityPhysics, TrinityVector
+from Core.L4_Causality.World.Nature.semantic_object import SemanticObject, InteractionResult
+from Core.L4_Causality.World.Nature.trinity_lexicon import TrinityLexicon
 
 logger = logging.getLogger("InteractionEngine")
 

@@ -165,7 +165,7 @@ class WaveWebServer:
         Connect to the Wave Integration Hub to resonate with system waves.
         """
         try:
-            from Core.Foundation.wave_integration_hub import get_wave_hub
+            from Core.L1_Foundation.Foundation.wave_integration_hub import get_wave_hub
             self.hub = get_wave_hub()
             
             # Register as Visual Cortex (High Frequency Interface)

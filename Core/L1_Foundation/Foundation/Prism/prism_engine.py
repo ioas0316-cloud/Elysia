@@ -1,7 +1,7 @@
 """
 The Prism Engine (Dispersion Module)
 ====================================
-Core.Foundation.Prism.prism_engine
+Core.L1_Foundation.Foundation.Prism.prism_engine
 
 "Splitting the White Light of Intent into the Spectrum of Possibility."
 

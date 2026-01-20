@@ -50,7 +50,7 @@ class AutonomousExplorer:
         
         # Spirit - 방향 결정자
         try:
-            from Core.Foundation.Core_Logic.Elysia.spirit import get_spirit
+            from Core.L1_Foundation.Foundation.Core_Logic.Elysia.spirit import get_spirit
             self.spirit = get_spirit()
             logger.info("   ✅ Spirit connected (The Compass)")
         except Exception as e:
@@ -59,7 +59,7 @@ class AutonomousExplorer:
         
         # DistillationEngine - 공명 필터
         try:
-            from Core.Intelligence.Cognitive.distillation_engine import get_distillation_engine
+            from Core.L5_Mental.Intelligence.Cognitive.distillation_engine import get_distillation_engine
             self.distillation = get_distillation_engine()
             logger.info("   ✅ DistillationEngine connected (The Filter)")
         except Exception as e:
@@ -68,7 +68,7 @@ class AutonomousExplorer:
         
         # ConceptDecomposer - 호기심 확장
         try:
-            from Core.Foundation.fractal_concept import ConceptDecomposer
+            from Core.L1_Foundation.Foundation.fractal_concept import ConceptDecomposer
             self.decomposer = ConceptDecomposer()
             logger.info("   ✅ ConceptDecomposer connected (The Curiosity)")
         except Exception as e:
@@ -77,7 +77,7 @@ class AutonomousExplorer:
         
         # InternalUniverse - 지식 저장소
         try:
-            from Core.Foundation.internal_universe import get_internal_universe
+            from Core.L1_Foundation.Foundation.internal_universe import get_internal_universe
             self.universe = get_internal_universe()
             logger.info("   ✅ InternalUniverse connected (The Memory)")
         except Exception as e:
@@ -87,7 +87,7 @@ class AutonomousExplorer:
         # GlobalHub 연결
         self._hub = None
         try:
-            from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "AutonomousExplorer",
@@ -258,7 +258,7 @@ class AutonomousExplorer:
             
             # GlobalHub에 브로드캐스트
             if self._hub:
-                from Core.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(f"Knowledge_{topic}")
                 wave.add_component(528.0, amplitude=1.0)  # 지식 주파수
                 self._hub.publish_wave(
@@ -287,7 +287,7 @@ class AutonomousExplorer:
             
             # BlackHole에 압축 보존 시도
             try:
-                from Core.Foundation.black_hole import BlackHole
+                from Core.L1_Foundation.Foundation.black_hole import BlackHole
                 blackhole = BlackHole()
                 # 나중에 연결될 수 있으므로 보존
                 logger.info(f"   🕳️ Isolated → BlackHole (compressed for later)")

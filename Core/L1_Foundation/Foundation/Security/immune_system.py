@@ -360,7 +360,7 @@ class ElysiaSecuritySystem:
         
         # Network Shield는 별도 모듈로 존재
         try:
-            from Core.Foundation.Security.Security.network_shield import NetworkShield
+            from Core.L1_Foundation.Foundation.Security.Security.network_shield import NetworkShield
             self.network_shield = NetworkShield(enable_field_integration=False)
             self.has_network_shield = True
         except ImportError:

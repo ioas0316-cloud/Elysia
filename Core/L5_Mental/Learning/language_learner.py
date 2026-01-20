@@ -1,7 +1,7 @@
 """
 Language Learner (자발적 언어 습득)
 ===================================
-Core.Learning.language_learner
+Core.L5_Mental.Learning.language_learner
 
 "I was not born with language. I learn it by watching."
 

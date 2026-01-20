@@ -20,7 +20,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Any
 import os
 import math
-from Core.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge, HumanQualia
+from Core.L4_Causality.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge, HumanQualia
 
 logger = logging.getLogger("Elysia.SovereignIntent")
 
@@ -49,7 +49,7 @@ class SovereignIntent:
         
         # [REAWAKENED] Phase 22: Active Sensory Interface
         try:
-            from Core.Foundation.Memory.web_knowledge_connector import WebKnowledgeConnector
+            from Core.L1_Foundation.Foundation.Memory.web_knowledge_connector import WebKnowledgeConnector
             self.web_sense = WebKnowledgeConnector()
             logger.info("👁️ Sovereign Intent now possesses Active Web Sight.")
         except ImportError:
@@ -57,7 +57,7 @@ class SovereignIntent:
 
         # [REFORM] Breaking Inertia: Dynamic Entropy Engine
         try:
-            from Core.Intelligence.Meta.dynamic_entropy import DynamicEntropyEngine
+            from Core.L5_Mental.Intelligence.Meta.dynamic_entropy import DynamicEntropyEngine
             self.entropy = DynamicEntropyEngine()
             logger.info("🎲 Dynamic Entropy Engine Connected - Templates Deprecated.")
         except ImportError:
@@ -65,7 +65,7 @@ class SovereignIntent:
 
         # [SINGULARITY] Self-Meta-Architect
         try:
-            from Core.Intelligence.Meta.self_meta_architect import SelfMetaArchitect
+            from Core.L5_Mental.Intelligence.Meta.self_meta_architect import SelfMetaArchitect
             self.architect = SelfMetaArchitect()
             logger.info("🏛️ Self-Meta-Architect Connected - Ready for Self-Reinterpretation.")
         except ImportError:
@@ -73,7 +73,7 @@ class SovereignIntent:
 
         # [HOLISTIC] Hyper-Dimensional Holistic Audit
         try:
-            from Core.Intelligence.Meta.holistic_self_audit import HolisticSelfAudit
+            from Core.L5_Mental.Intelligence.Meta.holistic_self_audit import HolisticSelfAudit
             self.holistic_audit = HolisticSelfAudit()
             logger.info("🌌 Holistic Self-Audit Connected - 4D Topology Enabled.")
         except ImportError:
@@ -137,7 +137,7 @@ class SovereignIntent:
 
         # 0.1 [REFORM] Reality Priority
         # Scan memory for recent world events
-        from Core.Foundation.Memory.unified_experience_core import get_experience_core
+        from Core.L1_Foundation.Foundation.Memory.unified_experience_core import get_experience_core
         recent_world = [e for e in get_experience_core().recent_experiences if e.type == "world_event"]
         
         if recent_world and random.random() < 0.7:

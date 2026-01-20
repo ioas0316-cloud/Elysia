@@ -9,8 +9,8 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.World.Nature.semantic_nature import SemanticNature, SemanticObject
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Nature.semantic_nature import SemanticNature, SemanticObject
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_logos_physics():
     print("--- 1. Initializing Social World ---")

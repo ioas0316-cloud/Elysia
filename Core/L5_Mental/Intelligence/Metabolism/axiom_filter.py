@@ -1,7 +1,7 @@
 """
 AXIOM FILTER (공리 정제자)
 ========================
-Core.Intelligence.Metabolism.axiom_filter
+Core.L5_Mental.Intelligence.Metabolism.axiom_filter
 
 "Identity is the act of choosing which thoughts are yours."
 
@@ -16,7 +16,7 @@ import os
 from typing import Dict, Any, List
 # Fix absolute import path for standalone execution
 try:
-    from Core.Intelligence.Metabolism.concept_algebra import ConceptAlgebra
+    from Core.L5_Mental.Intelligence.Metabolism.concept_algebra import ConceptAlgebra
 except ImportError:
     from concept_algebra import ConceptAlgebra # Fallback for local run
 

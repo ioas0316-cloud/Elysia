@@ -18,8 +18,8 @@ import hashlib
 import math
 from pathlib import Path
 from typing import Dict, List, Tuple
-from Core.Foundation.potential_field import PotentialField
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.potential_field import PotentialField
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 class CodeGravitySystem:
     def __init__(self, root_path: str):
@@ -89,7 +89,7 @@ class CodeGravitySystem:
             
             for imp in data["imports"]:
                 # Try to find the imported file in our nodes
-                # Import "Core.Physics" -> "Core\Physics\__init__.py" or "Core\Physics.py"
+                # Import "Core.L1_Foundation.Physics" -> "Core\Physics\__init__.py" or "Core\Physics.py"
                 # This is a rough matching
                 target_path = None
                 imp_path = imp.replace(".", "\\")

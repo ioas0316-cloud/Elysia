@@ -31,10 +31,10 @@ from typing import List, Dict, Any
 # Core Systems
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from Core.Foundation.Wave.resonance_field import ResonanceField
-from Core.Foundation.fractal_kernel import FractalKernel
-from Core.Foundation.autonomous_fractal_learning import FractalLearner
-from Core.Foundation.wave_memory import WaveMemory
+from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L1_Foundation.Foundation.fractal_kernel import FractalKernel
+from Core.L1_Foundation.Foundation.autonomous_fractal_learning import FractalLearner
+from Core.L1_Foundation.Foundation.wave_memory import WaveMemory
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -64,7 +64,7 @@ class ElysiaIntegrator:
         """SystemRegistry 인스턴스 획득 (지연 로딩)"""
         if self.registry is None:
             try:
-                from Core.Foundation.System.system_registry import get_system_registry
+                from Core.L1_Foundation.Foundation.System.system_registry import get_system_registry
                 self.registry = get_system_registry()
                 logger.info("   ✓ SystemRegistry connected")
             except ImportError as e:
@@ -199,7 +199,7 @@ class ElysiaIntegrator:
         
         # Check API Status
         try:
-            from Core.Foundation.gemini_api import GeminiAPI
+            from Core.L1_Foundation.Foundation.gemini_api import GeminiAPI
             api = GeminiAPI()
             if not api._is_configured:
                 print("   ✨ Detected Missing API Key -> Harmonizing with Mock Mode.")

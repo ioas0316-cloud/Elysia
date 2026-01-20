@@ -12,8 +12,8 @@ import sys
 # Add project root to path
 sys.path.append(os.getcwd())
 
-from Core.Merkaba.merkaba import Merkaba
-from Core.Interface.GlassCockpit.parser import StreamParser, EventType, StreamEvent, StreamState
+from Core.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.L3_Phenomena.Interface.GlassCockpit.parser import StreamParser, EventType, StreamEvent, StreamState
 
 class ChatBubble(Static):
     """A widget to display a single chat message."""

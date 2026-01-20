@@ -1,7 +1,7 @@
 """
 COGNITIVE ARCHEOLOGIST: The Uncovering of Latent Principles
 ===========================================================
-Core.Intelligence.Metabolism.topology_predator
+Core.L5_Mental.Intelligence.Metabolism.topology_predator
 
 "I do not just consume the weights. I read the struggle of the creators
 and the silent laws of the space they were trying to fill."
@@ -21,9 +21,9 @@ import mmap
 import random
 import math
 from typing import Dict, List, Any, Optional, Tuple
-from Core.Merkaba.portal import MerkabaPortal
-from Core.Intelligence.LLM.target_registry import TargetLLM, ModelType
-from Core.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
+from Core.L6_Structure.Merkaba.portal import MerkabaPortal
+from Core.L5_Mental.Intelligence.LLM.target_registry import TargetLLM, ModelType
+from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
 
 logger = logging.getLogger("Elysia.Metabolism.Archeologist")
 

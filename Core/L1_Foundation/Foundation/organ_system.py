@@ -69,11 +69,11 @@ class OrganSystem:
         # Target Sectors (The "Chakras")
         sectors = [
             "Core.Sensory",
-            "Core.Memory",
-            "Core.Cognition",
-            "Core.Expression",
+            "Core.L5_Mental.Memory",
+            "Core.L5_Mental.Cognition",
+            "Core.L3_Phenomena.Expression",
             "Core.Ether",
-            "Core.Foundation" # Self-referential, but useful for tools
+            "Core.L1_Foundation.Foundation" # Self-referential, but useful for tools
         ]
 
         found_count = 0

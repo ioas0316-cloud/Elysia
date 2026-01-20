@@ -23,10 +23,10 @@ sys.path.append('.')
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.Foundation.internal_universe import InternalUniverse
-from Core.Foundation.communication_enhancer import CommunicationEnhancer
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
+from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer
 
 
 @dataclass
@@ -385,7 +385,7 @@ if __name__ == "__main__":
     bridge = ThoughtLanguageBridge()
     
     # 2. 커뮤니케이션 엔진 연결 (학습 필요)
-    from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+    from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
     
     print("📚 Learning concepts...\n")
     connector = WebKnowledgeConnector()

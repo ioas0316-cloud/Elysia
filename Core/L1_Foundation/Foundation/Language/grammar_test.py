@@ -11,8 +11,8 @@ Tests if Elysia can:
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Foundation.rapid_learning_engine import RapidLearningEngine
-from Core.Foundation.grammar_engine import GrammarRole
+from Core.L1_Foundation.Foundation.rapid_learning_engine import RapidLearningEngine
+from Core.L1_Foundation.Foundation.grammar_engine import GrammarRole
 import time
 
 def main():

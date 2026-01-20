@@ -16,11 +16,11 @@ import numpy as np
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.Foundation.Core_Logic.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
-from Core.Foundation.Physics.gravity import GravityEngine
-from Core.Foundation.Mind.perception import FractalPerception
-from Core.Foundation.Mind.emotional_palette import EmotionalPalette
-from Core.Foundation.Mind.episodic_memory import EpisodicMemory
+from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
+from Core.L1_Foundation.Foundation.Physics.gravity import GravityEngine
+from Core.L1_Foundation.Foundation.Mind.perception import FractalPerception
+from Core.L1_Foundation.Foundation.Mind.emotional_palette import EmotionalPalette
+from Core.L1_Foundation.Foundation.Mind.episodic_memory import EpisodicMemory
 
 def plant_demo_tree():
     """Plant a rich tree for visualization."""

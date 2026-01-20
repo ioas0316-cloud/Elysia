@@ -19,7 +19,7 @@ from abc import ABC, abstractmethod
 from typing import Dict, Any, Tuple, Union, List
 import random
 
-from Core.Foundation.Wave.wave_tensor import WaveTensor
+from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
 
 logger = logging.getLogger("Transducers")
 

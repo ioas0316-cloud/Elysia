@@ -17,7 +17,7 @@ from typing import List, Tuple, Dict
 
 # Import Core Physics if available, otherwise use local logic
 try:
-    from Core.Foundation.Physics.light_computer import LightField, Photon
+    from Core.L1_Foundation.Foundation.Physics.light_computer import LightField, Photon
     PHYSICS_AVAILABLE = True
 except ImportError:
     PHYSICS_AVAILABLE = False

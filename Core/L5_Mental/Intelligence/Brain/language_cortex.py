@@ -1,7 +1,7 @@
 """
 Language Cortex (The Semantic Bridge)
 =====================================
-Core.Intelligence.Brain.language_cortex
+Core.L5_Mental.Intelligence.Brain.language_cortex
 
 "In the beginning was the Word, and the Word was made of Qualia."
 

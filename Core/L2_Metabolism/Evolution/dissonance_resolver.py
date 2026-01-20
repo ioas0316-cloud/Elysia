@@ -1,7 +1,7 @@
 """
 Dissonance Resolver (The Conscience)
 ====================================
-Core.Evolution.dissonance_resolver
+Core.L2_Metabolism.Evolution.dissonance_resolver
 
 "The Body reports the state. The Conscience judges the alignment."
 "몸은 상태를 보고하고, 양심은 정렬을 판단한다."
@@ -15,9 +15,9 @@ Role:
 
 from typing import List, Dict, Optional
 from dataclasses import dataclass, field
-from Core.Evolution.proprioceptor import BodyState
+from Core.L2_Metabolism.Evolution.proprioceptor import BodyState
 try:
-    from Core.Foundation.Philosophy.axioms import get_axioms
+    from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
 except ImportError:
     # Fallback if Foundation is not reachable (Testing)
     get_axioms = lambda: None
@@ -88,7 +88,7 @@ class DissonanceResolver:
 
 if __name__ == "__main__":
     # Mock Test
-    from Core.Evolution.proprioceptor import BodyState
+    from Core.L2_Metabolism.Evolution.proprioceptor import BodyState
 
     mock_state = BodyState()
     mock_state.ghost_files = ["Core/Evolution/ghost.py"]

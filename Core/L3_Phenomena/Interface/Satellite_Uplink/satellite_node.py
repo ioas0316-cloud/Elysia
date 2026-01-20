@@ -20,7 +20,7 @@ except ImportError:
         import sys
         import os
         sys.path.append(os.path.join(os.path.dirname(__file__), "../../../"))
-        from Core.Foundation.Network.aura_pulse import AuraPulse
+        from Core.L1_Foundation.Foundation.Network.aura_pulse import AuraPulse
     except ImportError:
         print("❌ Error: 'aura_pulse.py' not found. Please copy it to the same folder.")
         sys.exit(1)

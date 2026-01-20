@@ -22,8 +22,8 @@ import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple, Union
 from collections import defaultdict
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
-from Core.System.Metabolism.zero_latency_portal import ZeroLatencyPortal
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.System.Metabolism.zero_latency_portal import ZeroLatencyPortal
 
 logger = logging.getLogger("Memory.Hypersphere")
 

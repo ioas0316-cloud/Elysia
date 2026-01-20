@@ -1,7 +1,7 @@
 """
 LLM Crystallizer (LLM 결정화기)
 ================================
-Core.Intelligence.LLM.llm_crystallizer
+Core.L5_Mental.Intelligence.LLM.llm_crystallizer
 
 "관측된 패턴을 모나드로 결정화한다."
 
@@ -12,10 +12,10 @@ import logging
 import torch
 from typing import Optional
 
-from Core.Intelligence.LLM.llm_observer import LLMCrystal, get_llm_observer
-from Core.Monad.monad_core import Monad, MonadCategory
-from Core.Evolution.double_helix_dna import DoubleHelixDNA
-from Core.Foundation.Graph.torch_graph import TorchGraph
+from Core.L5_Mental.Intelligence.LLM.llm_observer import LLMCrystal, get_llm_observer
+from Core.L7_Spirit.Monad.monad_core import Monad, MonadCategory
+from Core.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
+from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
 
 logger = logging.getLogger("LLMCrystallizer")
 

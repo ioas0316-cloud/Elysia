@@ -12,7 +12,7 @@ import logging
 
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Any
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("FractalConcept")
 

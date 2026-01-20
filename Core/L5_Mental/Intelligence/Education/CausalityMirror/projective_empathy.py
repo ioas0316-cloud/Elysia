@@ -14,8 +14,8 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
 
-from Core.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HistoricalWave
-from Core.Intelligence.Education.CausalityMirror.impact_engine import ImpactEngine, Consequence
+from Core.L5_Mental.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HistoricalWave
+from Core.L5_Mental.Intelligence.Education.CausalityMirror.impact_engine import ImpactEngine, Consequence
 
 logger = logging.getLogger("ProjectiveEmpathy")
 
@@ -107,7 +107,7 @@ class ProjectiveEmpathy:
         # This wave represents the "Reading Experience"
         # It's less intense than 'Real Life' (Amplitude lower) but high frequency (Intellect).
         
-        from Core.Foundation.hyper_quaternion import HyperQuaternion
+        from Core.L1_Foundation.Foundation.hyper_quaternion import HyperQuaternion
         q = HyperQuaternion(
             w=alignment * 5, # Time/Alignment
             x=best_choice.empathy_score * 5 if is_aligned else 2.0, # Emotion

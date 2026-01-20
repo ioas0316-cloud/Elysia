@@ -1,7 +1,7 @@
 """
 LLM 표적 등록부 (Target Registry)
 ==================================
-Core.Intelligence.LLM.target_registry
+Core.L5_Mental.Intelligence.LLM.target_registry
 
 "먹을 순서대로 나열된 먹잇감 목록"
 """

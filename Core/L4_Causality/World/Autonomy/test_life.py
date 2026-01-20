@@ -12,7 +12,7 @@ import logging
 # So ../../../ takes us to c:/Elysia
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 # Logging to stdout
 logging.basicConfig(level=logging.INFO)

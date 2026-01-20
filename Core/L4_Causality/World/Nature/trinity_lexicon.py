@@ -2,14 +2,14 @@ import math
 import json
 import os
 from typing import Dict, List, Tuple, Optional
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 try:
-    from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+    from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
 except ImportError:
     WebKnowledgeConnector = None
 
 try:
-    from Core.Foundation.Graph.torch_graph import TorchGraph
+    from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
 except ImportError:
     TorchGraph = None
 

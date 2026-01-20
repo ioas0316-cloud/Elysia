@@ -303,7 +303,7 @@ class AscensionAxis:
             PotentialField with gravity wells at each cosmic layer
         """
         try:
-            from Core.Foundation.potential_field import PotentialField
+            from Core.L1_Foundation.Foundation.potential_field import PotentialField
         except ImportError:
             logger.warning("PotentialField not available")
             return None

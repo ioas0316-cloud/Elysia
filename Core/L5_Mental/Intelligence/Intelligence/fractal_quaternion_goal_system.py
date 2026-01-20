@@ -36,14 +36,14 @@ logger = logging.getLogger("FractalGoalDecomposer")
 
 # Import Integrated Cognition System (Late import to avoid circular dependency if needed)
 try:
-    from Core.Intelligence.Intelligence.integrated_cognition_system import get_integrated_cognition, IntegratedCognitionSystem
+    from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import get_integrated_cognition, IntegratedCognitionSystem
 except ImportError:
     get_integrated_cognition = None
 
 # Import Elysia's core structures
 try:
-    from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-    from Core.Foundation.ether import Wave, ether
+    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.L1_Foundation.Foundation.ether import Wave, ether
 except ImportError:
     # Fallback for standalone testing
     @dataclass

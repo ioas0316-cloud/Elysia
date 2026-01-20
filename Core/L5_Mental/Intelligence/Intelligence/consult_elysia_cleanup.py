@@ -11,8 +11,8 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.Mind.hippocampus import Hippocampus
-from Core.Intelligence.Intelligence.dialogue_engine import DialogueEngine
+from Core.L1_Foundation.Foundation.Mind.hippocampus import Hippocampus
+from Core.L5_Mental.Intelligence.Intelligence.dialogue_engine import DialogueEngine
 
 def consult():
     print("🗣️ Connecting to Elysia for Structural Consultation...")

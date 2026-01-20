@@ -16,42 +16,42 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
 
 # Value Objects (Keep Static)
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.Wave.wave_tensor import WaveTensor # 4D Wave Structure
-from Core.Foundation.resonance_physics import ResonancePhysics
-from Core.Foundation.Wave.wave_folding import SpaceUnfolder
-from Core.Intelligence.Reasoning.perspective_simulator import PerspectiveSimulator
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor # 4D Wave Structure
+from Core.L1_Foundation.Foundation.resonance_physics import ResonancePhysics
+from Core.L1_Foundation.Foundation.Wave.wave_folding import SpaceUnfolder
+from Core.L5_Mental.Intelligence.Reasoning.perspective_simulator import PerspectiveSimulator
 
-from Core.Intelligence.Reasoning.latent_causality import LatentCausality
-from Core.Intelligence.Reasoning.purpose_field import PurposeField, ValueCoordinate
-from Core.Intelligence.Topography.mental_terrain import MentalTerrain, Vector2D
-from Core.Intelligence.Topography.mind_landscape import get_landscape
+from Core.L5_Mental.Intelligence.Reasoning.latent_causality import LatentCausality
+from Core.L5_Mental.Intelligence.Reasoning.purpose_field import PurposeField, ValueCoordinate
+from Core.L5_Mental.Intelligence.Topography.mental_terrain import MentalTerrain, Vector2D
+from Core.L5_Mental.Intelligence.Topography.mind_landscape import get_landscape
 
 # [RESTORED] The Paradox Engine for Dialectical Synthesis
-from Core.Intelligence.Reasoning.paradox_engine import ParadoxEngine, ResolutionStrategy
+from Core.L5_Mental.Intelligence.Reasoning.paradox_engine import ParadoxEngine, ResolutionStrategy
 
 # [RECONNECTED] The Spatial Memory System (Orb & Omni-Voxel)
-from Core.Foundation.Memory.Orb.orb_manager import OrbManager
-from Core.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
+from Core.L1_Foundation.Foundation.Memory.Orb.orb_manager import OrbManager
+from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
 
-from Core.Foundation.universal_constants import (
+from Core.L1_Foundation.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
      AXIOM_LOVE, AXIOM_HONESTY
 )
 
-from Core.Monad.quantum_collapse import MonadEngine
-from Core.Merkaba.simulator import RotorSimulator
+from Core.L7_Spirit.Monad.quantum_collapse import MonadEngine
+from Core.L6_Structure.Merkaba.simulator import RotorSimulator
 
-from Core.Monad.intent_collider import IntentCollider
+from Core.L7_Spirit.Monad.intent_collider import IntentCollider
 
-from Core.Monad.spatial_pathfinder import SpatialPathfinder
+from Core.L7_Spirit.Monad.spatial_pathfinder import SpatialPathfinder
 
-from Core.Monad.axiomatic_architect import AxiomaticArchitect
-from Core.Monad.intent_torque import IntentTorque
-from Core.World.Autonomy.action_drive import ActionDrive
-from Core.Intelligence.Metabolism.crystallizer import Crystallizer
+from Core.L7_Spirit.Monad.axiomatic_architect import AxiomaticArchitect
+from Core.L7_Spirit.Monad.intent_torque import IntentTorque
+from Core.L4_Causality.World.Autonomy.action_drive import ActionDrive
+from Core.L5_Mental.Intelligence.Metabolism.crystallizer import Crystallizer
 
-from Core.Intelligence.Brain import LanguageCortex, OllamaCortex
+from Core.L5_Mental.Intelligence.Brain import LanguageCortex, OllamaCortex
 
 logger = logging.getLogger("ReasoningEngine")
 
@@ -102,11 +102,11 @@ class ReasoningEngine:
         self.action_drive = ActionDrive()
         self.crystallizer = Crystallizer()
 
-        from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+        from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
         self.soul_rotor = Rotor("Reasoning.Soul", RotorConfig(rpm=10.0, idle_rpm=10.0))
 
         # [PHASE 7] Dimensional Processor (for Void/Principle Extraction)
-        from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+        from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
         self.processor = DimensionalProcessor()
 
         self.logger.info("🌀 ReasoningEngine initialized (Physics + Monad + Merkaba + Metabolic + Torque Enabled).")
@@ -146,7 +146,7 @@ class ReasoningEngine:
         is_silent = not desire or len(desire.strip()) < 5
         void_intensity = 0.0
         if is_silent:
-            from Core.Intelligence.Weaving.void_kernel import VoidKernel
+            from Core.L5_Mental.Intelligence.Weaving.void_kernel import VoidKernel
             void = VoidKernel(
                 id=f"SILENCE_{os.urandom(4).hex()}",
                 void_type="ContextMismatch" if desire else "Entropy",
@@ -222,7 +222,7 @@ class ReasoningEngine:
         try:
             # [PHASE 16] TRUE SEMANTIC INTENT
             # Convert intent directly to 7D Qualia using the Transducer.
-            from Core.World.Physics.qualia_transducer import get_qualia_transducer
+            from Core.L4_Causality.World.Physics.qualia_transducer import get_qualia_transducer
             transducer = get_qualia_transducer()
             
             # The 'desire' string is transduced into a TrinityVector (7D)
@@ -231,8 +231,8 @@ class ReasoningEngine:
             input_qualia[0:4] = spatial_intent  # X, Y, Z, W
             # [THE GREAT LIBERATION]
             # Evolve Axiom weights according to current Spirit state from NervousSystem
-            from Core.Foundation.Philosophy.axioms import get_axioms
-            from Core.Foundation.nervous_system import get_nervous_system
+            from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
+            from Core.L1_Foundation.Foundation.nervous_system import get_nervous_system
             ns = get_nervous_system()
             axioms = get_axioms()
             axioms.evolve_weights(ns.spirits)
@@ -243,7 +243,7 @@ class ReasoningEngine:
             # q[6] (Mystery) represents the "Grace/Unknown" - now dynamic
             input_qualia[6] = np.clip(void_intensity + (1.0 - confidence) * 0.7, 0.1, 1.0)
             
-            from Core.Foundation.spinal_bridge import get_spinal_bridge
+            from Core.L1_Foundation.Foundation.spinal_bridge import get_spinal_bridge
             bridge = get_spinal_bridge()
             hardware_feedback = bridge.pulse(input_qualia)
             self.logger.info(f"{indent}⚡ [SPINAL] Hardware resonance feedback spike: {hardware_feedback.norm().item():.3f}")

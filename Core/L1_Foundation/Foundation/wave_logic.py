@@ -11,7 +11,7 @@ import math
 import time
 from dataclasses import dataclass
 from typing import List, Tuple
-from Core.Foundation.universal_constants import HORIZON_FREQUENCY, GOLDEN_RATIO
+from Core.L1_Foundation.Foundation.universal_constants import HORIZON_FREQUENCY, GOLDEN_RATIO
 
 @dataclass
 class WaveSource:

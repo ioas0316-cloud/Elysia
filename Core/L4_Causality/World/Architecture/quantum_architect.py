@@ -1,7 +1,7 @@
 """
 Quantum Architect (The WFC Engine)
 ==================================
-Core.World.Architecture.quantum_architect
+Core.L4_Causality.World.Architecture.quantum_architect
 
 "The observer decides the form."
 
@@ -10,8 +10,8 @@ This module implements the Wave Function Collapse logic to extrude 2D intent int
 
 import numpy as np
 import logging
-from Core.World.Architecture.spatial_memory import SpatialMemory
-from Core.World.Architecture.blueprint_analyzer import BlueprintGenerator
+from Core.L4_Causality.World.Architecture.spatial_memory import SpatialMemory
+from Core.L4_Causality.World.Architecture.blueprint_analyzer import BlueprintGenerator
 
 logger = logging.getLogger("QuantumArchitect")
 

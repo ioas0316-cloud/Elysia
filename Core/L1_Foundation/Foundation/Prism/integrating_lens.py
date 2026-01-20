@@ -1,7 +1,7 @@
 """
 The Integrating Lens (Convergence Module)
 =========================================
-Core.Foundation.Prism.integrating_lens
+Core.L1_Foundation.Foundation.Prism.integrating_lens
 
 "Focusing the Spectrum back into a Single Point of Intent."
 

@@ -61,7 +61,7 @@ class LocalDatasetAbsorber:
         
         # InternalUniverse 연결
         try:
-            from Core.Foundation.internal_universe import InternalUniverse
+            from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
             logger.info("✅ Connected to InternalUniverse")
         except Exception as e:
@@ -70,7 +70,7 @@ class LocalDatasetAbsorber:
         
         # BlackHoleWhiteHoleCycle 연결
         try:
-            from Core.Foundation.white_hole import get_blackhole_whitehole_cycle
+            from Core.L1_Foundation.Foundation.white_hole import get_blackhole_whitehole_cycle
             self.cycle = get_blackhole_whitehole_cycle()
             logger.info("✅ Connected to BlackHoleWhiteHoleCycle")
         except Exception as e:

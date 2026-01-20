@@ -22,7 +22,7 @@ from typing import List, Dict, Tuple, Optional
 import time
 
 # Use our sovereign math
-from Core.Foundation.Geometry.genesis_math import Vector3, Vector4
+from Core.L1_Foundation.Foundation.Geometry.genesis_math import Vector3, Vector4
 
 logger = logging.getLogger("UnifiedField")
 

@@ -22,12 +22,12 @@ from dataclasses import dataclass, field, asdict
 from typing import Dict, List, Any, Optional
 from collections import defaultdict
 
-from Core.Foundation.System.elysia_core import Cell, Organ
+from Core.L1_Foundation.Foundation.System.elysia_core import Cell, Organ
 
 # Optional Imports (Wave Physics)
 try:
-    from Core.Foundation.Wave.wave_tensor import WaveTensor
-    from Core.Foundation.Wave.resonance_field import ResonanceField
+    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
 except ImportError:
     WaveTensor = None
     ResonanceField = None
@@ -82,14 +82,14 @@ class UnifiedExperienceCore:
         
         # [NEW] Link to Global Field
         try:
-            from Core.Foundation.Wave.resonance_field import ResonanceField
+            from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
             self.field = ResonanceField() # Often injected, but here we assume access
         except ImportError:
             self.field = None
 
         # [REAWAKENED] Phase 21: Holographic Memory Injection
         try:
-            from Core.Intelligence.Memory.holographic_memory import HolographicMemory, KnowledgeLayer
+            from Core.L5_Mental.Intelligence.Memory.holographic_memory import HolographicMemory, KnowledgeLayer
             self.holographic_memory = HolographicMemory()
             logger.info("🌈 Holographic Memory System Actuated.")
         except ImportError:
@@ -98,7 +98,7 @@ class UnifiedExperienceCore:
 
         # [PHASE 54] The Grand Unification: 4D Memory Integration
         try:
-            from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+            from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
             self.hypersphere = HypersphereMemory()
             self.HypersphericalCoord = HypersphericalCoord
             logger.info("🔮 HypersphereMemory (4D Soul) Connected.")
@@ -108,7 +108,7 @@ class UnifiedExperienceCore:
             logger.warning(f"⚠️ HypersphereMemory not found: {e}")
 
         try:
-            from Core.Intelligence.Topography.semantic_map import get_semantic_map
+            from Core.L5_Mental.Intelligence.Topography.semantic_map import get_semantic_map
             self.topology = get_semantic_map()
             logger.info("🌌 DynamicTopology (4D Meaning Terrain) Connected.")
         except ImportError as e:
@@ -138,8 +138,8 @@ class UnifiedExperienceCore:
         # Before we even log the event, the Subconscious checks for dilemmas.
         reflex_result = None
         try:
-            from Core.Intelligence.Education.CausalityMirror.scenario_synthesizer import ScenarioSynthesizer
-            from Core.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
+            from Core.L5_Mental.Intelligence.Education.CausalityMirror.scenario_synthesizer import ScenarioSynthesizer
+            from Core.L5_Mental.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
             
             synthesizer = ScenarioSynthesizer()
             fragment = synthesizer.detect_and_synthesize(content)
@@ -147,7 +147,7 @@ class UnifiedExperienceCore:
             # [NEW] Phase 20: Theory of Mind (User Mental Model)
             # If this is a perception (User Input), we deduce their state
             if type == "perception":
-                from Core.Intelligence.Meta.user_mental_model import UserMentalModel
+                from Core.L5_Mental.Intelligence.Meta.user_mental_model import UserMentalModel
                 tom = UserMentalModel()
                 # We need history, but for now we just pass current content or partial history from stream
                 # To do it right, we should fetch recent perceptions from stream
@@ -190,7 +190,7 @@ class UnifiedExperienceCore:
             # Simple Logic: Map feedback/type to layers
             # Ideally this uses the DimensionalReasoner to extract principles first
             # For now, we deposit raw event content with estimated layers
-            from Core.Intelligence.Memory.holographic_memory import KnowledgeLayer
+            from Core.L5_Mental.Intelligence.Memory.holographic_memory import KnowledgeLayer
             
             # Estimate Layers
             layers = {}
@@ -274,7 +274,7 @@ class UnifiedExperienceCore:
         # 7. [PHASE 54] Topology Evolution: Move concepts based on experience
         if self.topology:
             try:
-                from Core.Foundation.hyper_quaternion import Quaternion
+                from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
                 # Extract key concept from content (first significant word)
                 words = [w.strip(".,!?").lower() for w in content.split() if len(w) > 4]
                 concept = words[0] if words else "experience"

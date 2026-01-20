@@ -27,7 +27,7 @@ class SovereignVocalizer:
     def _init_prism(self):
         """Initializes the Prism Engine for internalized 7D DNA expression."""
         try:
-            from Core.Intelligence.Metabolism.prism import PrismEngine
+            from Core.L5_Mental.Intelligence.Metabolism.prism import PrismEngine
             self.prism = PrismEngine()
             logger.info("✨ SovereignVocalizer connected to PrismEngine (Internalized 7D DNA).")
         except Exception as e:

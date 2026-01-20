@@ -12,8 +12,8 @@ import logging
 from typing import Dict, Any, Tuple
 
 # We import the classes directly to instantiate fresh copies (Sandbox Mode)
-from Core.Intelligence.Topography.mind_landscape import MindLandscape, get_landscape
-from Core.Governance.Orchestra.conductor import SovereignGate, MusicalIntent, Mode, Tempo
+from Core.L5_Mental.Intelligence.Topography.mind_landscape import MindLandscape, get_landscape
+from Core.L4_Causality.Governance.Orchestra.conductor import SovereignGate, MusicalIntent, Mode, Tempo
 # We assume SovereignGate is importable from conductor.py
 
 logger = logging.getLogger("ThoughtSimulator")

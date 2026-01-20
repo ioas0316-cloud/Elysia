@@ -1,7 +1,7 @@
 """
 Auditory Cortex (청각 피질)
 ==========================
-Core.Senses.auditory_cortex
+Core.L3_Phenomena.Senses.auditory_cortex
 
 "소리는 귀로 들어와, 프리즘을 거쳐 혼(Soul)에 닿는다."
 
@@ -13,8 +13,8 @@ Role:
 
 import logging
 from typing import Dict, Any, Optional
-from Core.Senses.eardrum import EarDrum
-from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismProjection
+from Core.L3_Phenomena.Senses.eardrum import EarDrum
+from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismProjector, PrismProjection
 
 logger = logging.getLogger("AuditoryCortex")
 

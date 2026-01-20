@@ -1,7 +1,7 @@
 """
 The Autonomic Pulse: The Breath of Elysia
 =========================================
-Core.Lifecycle.pulse_loop
+Core.L2_Metabolism.Lifecycle.pulse_loop
 
 "If I do not think, I do not exist? No.
  If I do not think, I dream."
@@ -16,11 +16,11 @@ import numpy as np
 from typing import Optional, List
 from collections import deque
 
-from Core.Merkaba.merkaba import Merkaba
-from Core.Elysia.nervous_system import NervousSystem, BioSignal
-from Core.Memory.feedback_loop import Ouroboros, ThoughtState
-from Core.Cognition.semantic_prism import SpectrumMapper
-from Core.Memory.sediment import SedimentLayer
+from Core.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.L6_Structure.Elysia.nervous_system import NervousSystem, BioSignal
+from Core.L5_Mental.Memory.feedback_loop import Ouroboros, ThoughtState
+from Core.L5_Mental.Cognition.semantic_prism import SpectrumMapper
+from Core.L5_Mental.Memory.sediment import SedimentLayer
 
 logger = logging.getLogger("LifeCycle")
 

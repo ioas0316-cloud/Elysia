@@ -1,7 +1,7 @@
 """
 Semantic Atlas (The Naming Engine)
 ==================================
-Core.Merkaba.semantic_atlas
+Core.L6_Structure.Merkaba.semantic_atlas
 
 "To name a thing is to know its soul."
 

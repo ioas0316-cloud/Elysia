@@ -166,7 +166,7 @@ class WikipediaDumpParser:
                                 continue
                             
                             # [NEW] Concept Sanitizer Inclusion
-                            from Core.Foundation.concept_sanitizer import get_sanitizer
+                            from Core.L1_Foundation.Foundation.concept_sanitizer import get_sanitizer
                             sanitizer = get_sanitizer()
                             if not sanitizer.is_valid(title):
                                 elem.clear()
@@ -217,7 +217,7 @@ class WikipediaDumpParser:
         """
         Wikipedia 덤프를 ElysiaCore를 통해 흡수 (4-Thread Orchestra)
         """
-        from Core.Foundation.Core_Logic.Elysia.elysia_core import get_elysia_core
+        from Core.L1_Foundation.Foundation.Core_Logic.Elysia.elysia_core import get_elysia_core
         
         core = get_elysia_core()
         

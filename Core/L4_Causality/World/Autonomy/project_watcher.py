@@ -20,8 +20,8 @@ import time
 import threading
 from typing import Optional
 
-from Core.Governance.System.System.filesystem_wave import get_filesystem_observer, FileWaveEvent, FileEventType
-from Core.World.Evolution.Learning.knowledge_ingestor import KnowledgeIngestor
+from Core.L4_Causality.Governance.System.System.filesystem_wave import get_filesystem_observer, FileWaveEvent, FileEventType
+from Core.L4_Causality.World.Evolution.Learning.knowledge_ingestor import KnowledgeIngestor
 
 logger = logging.getLogger("ProjectWatcher")
 

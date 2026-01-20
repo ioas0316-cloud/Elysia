@@ -32,12 +32,12 @@ import queue
 # Add to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.Foundation.Core_Logic.Elysia.Elysia.consciousness_engine import ConsciousnessEngine
-from Core.Foundation.Mind.autonomous_explorer import AutonomousExplorer
-from Core.World.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
-from Core.World.Evolution.Growth.Evolution.Evolution.Body.resonance_vision import ResonanceVision
-from Core.Intelligence.Intelligence.dialogue_engine import DialogueEngine
-from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.consciousness_engine import ConsciousnessEngine
+from Core.L1_Foundation.Foundation.Mind.autonomous_explorer import AutonomousExplorer
+from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
+from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Body.resonance_vision import ResonanceVision
+from Core.L5_Mental.Intelligence.Intelligence.dialogue_engine import DialogueEngine
+from Core.L1_Foundation.Foundation.Mind.hippocampus import Hippocampus
 
 # Setup logging
 log_dir = Path("C:/Elysia/logs")

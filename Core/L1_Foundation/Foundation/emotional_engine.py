@@ -3,8 +3,8 @@ from typing import Dict, List, Optional, Any
 
 # Import physics types with graceful fallback
 try:
-    from Core.Foundation.hangul_physics import Tensor3D
-    from Core.Intelligence.Memory_Linguistics.Memory.unified_types import FrequencyWave
+    from Core.L1_Foundation.Foundation.hangul_physics import Tensor3D
+    from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.unified_types import FrequencyWave
 except ImportError:
     # Fallback stub classes if imports fail
     class Tensor3D:
@@ -83,7 +83,7 @@ class EmotionalEngine:
         self._conversation_memory = None
         if enable_conversation_memory:
             try:
-                from Core.Intelligence.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
+                from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
                 self._conversation_memory = create_conversation_memory(context_turns=10)
             except ImportError:
                 pass  # Memory system not available
@@ -191,7 +191,7 @@ class EmotionalEngine:
             Poetic description of the emotional state
         """
         try:
-            from Core.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+            from Core.L1_Foundation.Foundation.linguistic_collapse import LinguisticCollapseProtocol
             
             if not hasattr(self, '_linguistic_protocol'):
                 language = getattr(self, '_preferred_language', 'ko')
@@ -261,7 +261,7 @@ class EmotionalEngine:
             Short poetic expression of the emotional state
         """
         try:
-            from Core.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+            from Core.L1_Foundation.Foundation.linguistic_collapse import LinguisticCollapseProtocol
             
             if not hasattr(self, '_linguistic_protocol'):
                 language = getattr(self, '_preferred_language', 'ko')
@@ -286,10 +286,10 @@ class EmotionalEngine:
             context_turns: Number of recent turns to keep in active context
         """
         try:
-            from Core.Intelligence.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
+            from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
             self._conversation_memory = create_conversation_memory(context_turns=context_turns)
         except ImportError:
-            raise ImportError("ConversationMemory system not available. Install Core.Foundation.Memory.conversation_memory")
+            raise ImportError("ConversationMemory system not available. Install Core.L1_Foundation.Foundation.Memory.conversation_memory")
     
     def record_conversation_turn(self,
                                 user_message: str,

@@ -15,8 +15,8 @@ import json
 import logging
 import re
 from typing import List, Tuple, Dict, Optional
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.resonance_physics import ResonancePhysics
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.resonance_physics import ResonancePhysics
 
 logger = logging.getLogger("QuantumReader")
 

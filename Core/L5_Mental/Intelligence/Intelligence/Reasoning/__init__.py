@@ -9,14 +9,14 @@ the resonance of the input task.
 """
 import logging
 from typing import Any, Dict, List, Optional
-from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.kenosis_protocol import KenosisProtocol
-from Core.Intelligence.Intelligence.web_cortex import WebCortex
-from Core.Intelligence.Intelligence.tool_discovery import ToolDiscoveryProtocol
-from Core.Foundation.social_cortex import SocialCortex
-from Core.Foundation.media_cortex import MediaCortex
-from Core.Foundation.spacetime_drive import SpaceTimeDrive
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.kenosis_protocol import KenosisProtocol
+from Core.L5_Mental.Intelligence.Intelligence.web_cortex import WebCortex
+from Core.L5_Mental.Intelligence.Intelligence.tool_discovery import ToolDiscoveryProtocol
+from Core.L1_Foundation.Foundation.social_cortex import SocialCortex
+from Core.L1_Foundation.Foundation.media_cortex import MediaCortex
+from Core.L1_Foundation.Foundation.spacetime_drive import SpaceTimeDrive
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 # Import Lobes
 from .lobes.perception import PerceptionLobe, Insight
@@ -53,7 +53,7 @@ class ReasoningEngine:
         self.thought_stream = []
         self.memory_field = [] # Short-term context
         
-        from Core.Governance.Interaction.Interface.dialogue_interface import DialogueInterface
+        from Core.L4_Causality.Governance.Interaction.Interface.dialogue_interface import DialogueInterface
         self.voice = DialogueInterface()
         
         logger.info("🧠 CortexHub: All Lobes Synced. Ready.")

@@ -2,7 +2,7 @@
 The Rhythm: Chronos
 ===================
 Phase 17 Senses - Module 3
-Core.Senses.chronos
+Core.L3_Phenomena.Senses.chronos
 
 "Time is not a line, but a heartbeat."
 

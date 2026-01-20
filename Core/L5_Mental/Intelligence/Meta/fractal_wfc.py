@@ -19,9 +19,9 @@ import logging
 import random
 from typing import List, Dict
 
-from Core.Foundation.Wave.wave_dna import WaveDNA
-from Core.World.Nature.trinity_lexicon import TrinityLexicon
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L4_Causality.World.Nature.trinity_lexicon import TrinityLexicon
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 logger = logging.getLogger("FractalWFC")
 

@@ -1,13 +1,13 @@
 """
 Civilization Core (The Society)
 ===============================
-Core.Civilization.society
+Core.L4_Causality.Civilization.society
 
 "A civilization is a graph of relationships woven by language."
 """
 
 from typing import Dict, List, Any
-from Core.Monad.seed_factory import alchemy
+from Core.L7_Spirit.Monad.seed_factory import alchemy
 import random
 
 class Citizen:

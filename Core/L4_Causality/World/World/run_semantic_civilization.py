@@ -11,7 +11,7 @@ import time
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.World.World.living_village import village
+from Core.L4_Causality.World.World.living_village import village
 
 def run_semantic_civilization():
     print("=== Genesis: The Age of Logos ===")

@@ -1,5 +1,5 @@
 """
-Core.Engine.Genesis.universal_rotor
+Core.L6_Structure.Engine.Genesis.universal_rotor
 ===================================
 The Engine of ANY Process.
 
@@ -7,7 +7,7 @@ Instead of hardcoded 'Gravity' or 'Economy', this rotor takes a LAW (function).
 """
 
 from typing import Callable, Any, Dict
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
 
 class UniversalRotor(Rotor):
     """

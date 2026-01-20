@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 from dataclasses import dataclass
-from Core.Intelligence.Topography.resonance_sphere import ResonanceSphere
+from Core.L5_Mental.Intelligence.Topography.resonance_sphere import ResonanceSphere
 
 @dataclass
 class ValueHierarchy:

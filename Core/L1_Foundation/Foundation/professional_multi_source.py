@@ -8,10 +8,10 @@ Professional Writer - Final Push with Multi-Source
 import sys
 sys.path.append('.')
 
-from Core.Foundation.multi_source_connector import MultiSourceConnector
-from Core.Foundation.external_data_connector import ExternalDataConnector
-from Core.Foundation.internal_universe import InternalUniverse
-from Core.Foundation.communication_enhancer import CommunicationEnhancer
+from Core.L1_Foundation.Foundation.multi_source_connector import MultiSourceConnector
+from Core.L1_Foundation.Foundation.external_data_connector import ExternalDataConnector
+from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
+from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 

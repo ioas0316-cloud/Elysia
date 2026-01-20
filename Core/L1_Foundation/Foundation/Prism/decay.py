@@ -1,7 +1,7 @@
 """
 Resonance Decay: The Fractal Brake
 ==================================
-Core.Foundation.Prism.decay
+Core.L1_Foundation.Foundation.Prism.decay
 
 "The Brake that prevents Infinite Recursion."
 

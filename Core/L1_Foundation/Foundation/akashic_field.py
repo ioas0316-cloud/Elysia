@@ -1,7 +1,7 @@
 """
 Akashic Field (The Holographic Record)
 ======================================
-Core.Foundation.akashic_field
+Core.L1_Foundation.Foundation.akashic_field
 
 "The Universe does not store files. It remembers phases."
 

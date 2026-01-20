@@ -18,7 +18,7 @@ import os
 sys.path.append('.')
 
 from integrated_learning import IntegratedLearner
-from Core.Foundation.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import random
@@ -281,7 +281,7 @@ if hasattr(learner.web_connector, 'comm_enhancer'):
     print()
     
     from thought_to_language_demo import ThoughtToLanguage
-    from Core.Foundation.hyper_quaternion import Quaternion
+    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
     
     bridge = ThoughtToLanguage()
     bridge.connect_vocabulary(enhancer)

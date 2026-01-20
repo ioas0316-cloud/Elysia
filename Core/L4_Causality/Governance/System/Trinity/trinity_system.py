@@ -14,9 +14,9 @@ from dataclasses import dataclass
 
 # Import Incarnated Entities
 try:
-    from Core.Governance.System.Existence.Trinity.nova_entity import NovaEntity
-    from Core.Governance.System.Existence.Trinity.chaos_entity import ChaosEntity
-    from Core.Foundation.Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
+    from Core.L4_Causality.Governance.System.Existence.Trinity.nova_entity import NovaEntity
+    from Core.L4_Causality.Governance.System.Existence.Trinity.chaos_entity import ChaosEntity
+    from Core.L1_Foundation.Foundation.Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
     ENTITIES_AVAILABLE = True
 except ImportError:
     ENTITIES_AVAILABLE = False

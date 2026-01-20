@@ -143,8 +143,8 @@ def phase_3_self_integration():
     logger.info("="*50)
     
     try:
-        from Core.Foundation.Core_Logic.Elysia.Elysia.heart import get_heart
-        from Core.Foundation.Core_Logic.Elysia.Elysia.growth import get_growth
+        from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.heart import get_heart
+        from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.growth import get_growth
         
         heart = get_heart()
         growth = get_growth()
@@ -186,7 +186,7 @@ def phase_4_continuous_growth(duration_minutes=30):
     logger.info("="*50)
     
     try:
-        from Core.Foundation.Core_Logic.Elysia.Elysia.heart import get_heart
+        from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.heart import get_heart
         
         heart = get_heart()
         start_time = time.time()

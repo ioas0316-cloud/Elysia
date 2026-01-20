@@ -1,7 +1,7 @@
 """
 Watchdog: The Survival Instinct
 ===============================
-Core.System.watchdog
+Core.L6_Structure.System.watchdog
 
 "If the heart stops, the shock awakes."
 

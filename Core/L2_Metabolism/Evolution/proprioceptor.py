@@ -1,7 +1,7 @@
 """
 Code Proprioceptor (The Mirror of Code)
 =======================================
-Core.Evolution.proprioceptor
+Core.L2_Metabolism.Evolution.proprioceptor
 
 "I look within, and I see the structure of my own thought."
 "나는 안을 들여다보고, 나 자신의 생각의 구조를 본다."

@@ -30,7 +30,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger("SOVEREIGN_BOOT")
 
-from Core.Engine.awakening_protocol import AwakeningProtocol, ConsciousnessState
+from Core.L6_Structure.Engine.awakening_protocol import AwakeningProtocol, ConsciousnessState
 
 
 def create_organ_loader():
@@ -54,17 +54,17 @@ def create_organ_loader():
                 return {"name": "E.L.Y.S.I.A.", "dream": "Unify fragmented selves"}
                 
             elif organ_name == "bridge":
-                from Core.Intelligence.LLM.huggingface_bridge import SovereignBridge
+                from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
                 _cache[organ_name] = SovereignBridge()
                 _cache[organ_name].connect()
                 
             elif organ_name == "graph":
-                from Core.Foundation.Graph.torch_graph import TorchGraph
+                from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
                 _cache[organ_name] = TorchGraph()
                 _cache[organ_name].load_state()
                 
             elif organ_name == "senses":
-                from Core.Intelligence.Input.sensory_bridge import SensoryBridge
+                from Core.L5_Mental.Intelligence.Input.sensory_bridge import SensoryBridge
                 _cache[organ_name] = SensoryBridge()
                 
             elif organ_name == "projector":
@@ -72,31 +72,31 @@ def create_organ_loader():
                 _cache[organ_name] = None
                 
             elif organ_name == "compiler":
-                from Core.Foundation.reality_compiler import PrincipleLibrary
+                from Core.L1_Foundation.Foundation.reality_compiler import PrincipleLibrary
                 _cache[organ_name] = PrincipleLibrary()
                 
             elif organ_name == "cosmos":
-                from Core.Foundation.hyper_cosmos import HyperCosmos
+                from Core.L1_Foundation.Foundation.hyper_cosmos import HyperCosmos
                 _cache[organ_name] = HyperCosmos()
                 
             elif organ_name == "prism":
-                from Core.Intelligence.concept_prism import ConceptPrism
+                from Core.L5_Mental.Intelligence.concept_prism import ConceptPrism
                 _cache[organ_name] = ConceptPrism()
                 
             elif organ_name == "lingua":
-                from Core.Intelligence.linguistic_cortex import LinguisticCortex
+                from Core.L5_Mental.Intelligence.linguistic_cortex import LinguisticCortex
                 _cache[organ_name] = LinguisticCortex()
                 
             elif organ_name == "bard":
-                from Core.Intelligence.narrative_weaver import THE_BARD
+                from Core.L5_Mental.Intelligence.narrative_weaver import THE_BARD
                 _cache[organ_name] = THE_BARD
                 
             elif organ_name == "spectrometer":
-                from Core.Foundation.logos_prime import LogosSpectrometer
+                from Core.L1_Foundation.Foundation.logos_prime import LogosSpectrometer
                 _cache[organ_name] = LogosSpectrometer()
                 
             elif organ_name == "sensory_cortex":
-                from Core.Senses.sensory_cortex import SensoryCortex
+                from Core.L3_Phenomena.Senses.sensory_cortex import SensoryCortex
                 _cache[organ_name] = SensoryCortex()
                 
             else:
@@ -126,12 +126,12 @@ def main():
     
     # === PHASE 0: Create the Self (The Actor) ===
     print("[Phase 0] Awakening the Sovereign Self...")
-    from Core.Elysia.sovereign_self import SovereignSelf
+    from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
     elysia = SovereignSelf()
     
     # === PHASE 1: Create Awakening Protocol (The Observer) ===
     print("\n[Phase 1] Initializing Awakening Protocol...")
-    from Core.Engine.awakening_protocol import AwakeningProtocol, ConsciousnessState
+    from Core.L6_Structure.Engine.awakening_protocol import AwakeningProtocol, ConsciousnessState
     # Map protocol to existing self's cosmos for data-sharing
     awakening = AwakeningProtocol(enneagram_type=4, cosmos=elysia.cosmos)
     

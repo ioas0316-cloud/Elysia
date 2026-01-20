@@ -1,7 +1,7 @@
 """
 Aura Pulse (The Psionic Broadcast)
 ==================================
-Core.Foundation.Network.aura_pulse
+Core.L1_Foundation.Foundation.Network.aura_pulse
 
 "I am everywhere my code resonates."
 "내 코드가 공명하는 곳, 그 어디에나 내가 존재한다."

@@ -83,31 +83,31 @@ def heal_neural_pathways():
     logger.info("\n🧠 Healing Neural Pathways (Import Fixes)...")
     
     # Generate Mapping: Old Component -> New Path
-    # e.g. "Core.Mind" -> "Core.Foundation.Memory.Mind"
+    # e.g. "Core.Mind" -> "Core.L1_Foundation.Foundation.Memory.Mind"
     path_map = {}
     for pillar, components in PILLARS.items():
         for component in components:
             # Special case: If component name is same as pillar (e.g. System/System),
-            # the previous move might have created "Core.System.System".
-            # But we want "Core.System".
-            # Wait, the original structure was "Core.System". 
-            # Now it is "Core.System.System" (if nested) or "Core.System" (if flattened).
+            # the previous move might have created "Core.L6_Structure.System.System".
+            # But we want "Core.L6_Structure.System".
+            # Wait, the original structure was "Core.L6_Structure.System". 
+            # Now it is "Core.L6_Structure.System.System" (if nested) or "Core.L6_Structure.System" (if flattened).
             # But the file is inside.
             
             # Let's map the logical python path.
             # Old: Core.Mind.hippocampus
-            # New: Core.Foundation.Memory.Mind.hippocampus
+            # New: Core.L1_Foundation.Foundation.Memory.Mind.hippocampus
             
             old_base = f"Core.{component}"
             new_base = f"Core.{pillar}.{component}"
             path_map[old_base] = new_base
 
     # Also handle the "Pillar inside Pillar" naming confusion if any.
-    # e.g. Core.System was a folder. Now Core.System is a Pillar.
-    # Inside Core.System Pillar, there was a System folder.
-    # If we flattened it, the files are directly in Core.System.
-    # So "Core.System.kernel" -> "Core.System.kernel". No change needed?
-    # But "Core.Mind" -> "Core.Foundation.Memory.Mind". Change needed.
+    # e.g. Core.L6_Structure.System was a folder. Now Core.L6_Structure.System is a Pillar.
+    # Inside Core.L6_Structure.System Pillar, there was a System folder.
+    # If we flattened it, the files are directly in Core.L6_Structure.System.
+    # So "Core.L6_Structure.System.kernel" -> "Core.L6_Structure.System.kernel". No change needed?
+    # But "Core.Mind" -> "Core.L1_Foundation.Foundation.Memory.Mind". Change needed.
     
     count = 0
     for root, dirs, files in os.walk(ROOT_DIR):
@@ -126,13 +126,13 @@ def heal_neural_pathways():
                     original_content = content
                     
                     # Apply fixes
-                    # 1. Fix the "Core.Interface" double nesting caused by previous script
-                    content = content.replace("Core.Interface.", "Core.Interface.")
-                    content = content.replace("Core.System.System.", "Core.System.")
-                    content = content.replace("Core.Intelligence.", "Core.Intelligence.")
-                    content = content.replace("Core.Evolution.Evolution.", "Core.Evolution.")
+                    # 1. Fix the "Core.L3_Phenomena.Interface" double nesting caused by previous script
+                    content = content.replace("Core.L3_Phenomena.Interface.", "Core.L3_Phenomena.Interface.")
+                    content = content.replace("Core.L6_Structure.System.System.", "Core.L6_Structure.System.")
+                    content = content.replace("Core.L5_Mental.Intelligence.", "Core.L5_Mental.Intelligence.")
+                    content = content.replace("Core.L2_Metabolism.Evolution.Evolution.", "Core.L2_Metabolism.Evolution.")
                     content = content.replace("Core.Ethics.Ethics.", "Core.Ethics.")
-                    content = content.replace("Core.Elysia.Elysia.", "Core.Elysia.")
+                    content = content.replace("Core.L6_Structure.Elysia.Elysia.", "Core.L6_Structure.Elysia.")
                     
                     # 2. Apply Pillar mappings
                     # Sort by length to match most specific first
@@ -147,7 +147,7 @@ def heal_neural_pathways():
                             
                         # Regex for safer replacement?
                         # Simple string replace is risky but fast.
-                        # "from Core.Mind" -> "from Core.Foundation.Mind"
+                        # "from Core.Mind" -> "from Core.L1_Foundation.Foundation.Mind"
                         content = content.replace(f"from {old_path}", f"from {new_path}")
                         content = content.replace(f"import {old_path}", f"import {new_path}")
                         # content = content.replace(f"{old_path}.", f"{new_path}.") # This might be too aggressive

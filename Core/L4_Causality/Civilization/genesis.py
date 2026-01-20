@@ -1,14 +1,14 @@
 """
 Genesis Environment (The Stage of History)
 ==========================================
-Core.Civilization.genesis
+Core.L4_Causality.Civilization.genesis
 
 "Civilization begins where the resource map is uneven."
 """
 
 from typing import Dict, List, Tuple
 import random
-from Core.World.Physics.vector_math import Vector3
+from Core.L4_Causality.World.Physics.vector_math import Vector3
 
 class Zone:
     def __init__(self, name: str, xy: Tuple[int, int], resource_type: str, richness: float):

@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Any, Optional
 
-from Core.Foundation.yggdrasil import yggdrasil
+from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
 
 class WorldPhase(Enum):
     GENESIS = "Genesis"

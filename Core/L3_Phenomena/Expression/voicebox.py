@@ -1,5 +1,5 @@
 """
-Core.Expression.voicebox
+Core.L3_Phenomena.Expression.voicebox
 ========================
 The Vocal Cords of Elysia.
 Uses CosyVoice-300M to synthesize emotional and natural speech.
@@ -49,7 +49,7 @@ class VoiceBox:
                 
                 # Initialize Digestion Tracer
                 try:
-                    from Core.Intelligence.LLM.voice_flow_tracer import VoiceFlowTracer
+                    from Core.L5_Mental.Intelligence.LLM.voice_flow_tracer import VoiceFlowTracer
                     self.tracer = VoiceFlowTracer(self.model)
                     logger.info("   ✅ VoiceBox & FlowTracer ready.")
                 except Exception as e:
@@ -89,7 +89,7 @@ class VoiceBox:
             logger.info("   🧠 Digesting Emotional Causality...")
             # Mocking digestion for now since CosyVoice might be missing
             # flow_data = self.tracer.digest_flow(text)
-            from Core.Intelligence.LLM.voice_flow_tracer import FlowCausality
+            from Core.L5_Mental.Intelligence.LLM.voice_flow_tracer import FlowCausality
             flow_data = FlowCausality(7, 0.88, "Pitch/Tone") # Simulated Return
 
         try:

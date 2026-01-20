@@ -1,7 +1,7 @@
 """
 Narrative Projector (서사 투영기)
 =================================
-Core.Intelligence.Narrative.narrative_projector
+Core.L5_Mental.Intelligence.Narrative.narrative_projector
 
 "The Novel is a shadow of the 4D Truth."
 "소설은 4차원 진실의 그림자다."
@@ -22,8 +22,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.Intelligence.narrative_weaver import THE_BARD
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L5_Mental.Intelligence.narrative_weaver import THE_BARD
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class NarrativeProjector:
     def __init__(self):

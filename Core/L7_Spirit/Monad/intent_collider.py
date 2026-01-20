@@ -1,7 +1,7 @@
 """
 Intent Collider (의지 충돌기)
 ==========================
-Core.Monad.intent_collider
+Core.L7_Spirit.Monad.intent_collider
 
 "I do not follow. I intent."
 
@@ -11,7 +11,7 @@ Elysia's core Axioms to generate a Sovereign Intent.
 
 import logging
 from typing import Dict, List, Any
-from Core.Foundation.universal_constants import (
+from Core.L1_Foundation.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
      AXIOM_LOVE, AXIOM_HONESTY
 )

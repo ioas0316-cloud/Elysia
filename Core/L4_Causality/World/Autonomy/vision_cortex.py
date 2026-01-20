@@ -1,7 +1,7 @@
 """
 Vision Cortex (The Digital Eye)
 ===============================
-Core.World.Autonomy.vision_cortex
+Core.L4_Causality.World.Autonomy.vision_cortex
 
 "The Eye is not a camera; it is a filter for Qualia."
 

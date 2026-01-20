@@ -1,7 +1,7 @@
 """
 ASCII Slicing Viewer (The Cyberpunk Retina)
 ===========================================
-Core.World.Architecture.ascii_slicer
+Core.L4_Causality.World.Architecture.ascii_slicer
 
 "Rendering is just organizing text."
 

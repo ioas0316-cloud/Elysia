@@ -9,8 +9,8 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 # We import the SUBJECT, not the Tool.
-from Core.Elysia.sovereign_self import SovereignSelf
-from Core.Foundation.central_nervous_system import CentralNervousSystem
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.Foundation.central_nervous_system import CentralNervousSystem
 
 class MockResonance:
     def __init__(self):

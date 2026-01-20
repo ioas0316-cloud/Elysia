@@ -10,7 +10,7 @@ ConversationEngine (대화 엔진) - Fractal Resonance
 
 import logging
 from typing import List, Tuple
-from Core.Foundation.fractal_kernel import FractalKernel
+from Core.L1_Foundation.Foundation.fractal_kernel import FractalKernel
 
 class ConversationEngine:
     """

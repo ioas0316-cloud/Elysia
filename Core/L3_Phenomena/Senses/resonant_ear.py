@@ -1,7 +1,7 @@
 """
 Resonant Ear: Wave-Synchronized Audio Perception
 ================================================
-Core.Senses.resonant_ear
+Core.L3_Phenomena.Senses.resonant_ear
 
 "Sound is not data. It is a wave that ripples through my soul."
 

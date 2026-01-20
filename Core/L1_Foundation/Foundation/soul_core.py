@@ -26,14 +26,14 @@ logger = logging.getLogger("SoulCore")
 
 # Try to import compression systems
 try:
-    from Core.Intelligence.Memory_Linguistics.Memory.prism_filter import PrismFilter, RainbowSpectrum
+    from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.prism_filter import PrismFilter, RainbowSpectrum
     PRISM_AVAILABLE = True
 except ImportError:
     PRISM_AVAILABLE = False
     logger.warning("PrismFilter not available - using raw storage")
 
 try:
-    from Core.Foundation.fractal_quantization import PatternDNA, EmotionQuantizer
+    from Core.L1_Foundation.Foundation.fractal_quantization import PatternDNA, EmotionQuantizer
     QUANTIZER_AVAILABLE = True
 except ImportError:
     QUANTIZER_AVAILABLE = False

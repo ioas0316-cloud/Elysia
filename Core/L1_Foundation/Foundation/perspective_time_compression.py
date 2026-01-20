@@ -9,7 +9,7 @@ Integration of time compression with perspective modes.
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from Core.Foundation.spacetime_drive import SpaceTimeDrive
+from Core.L1_Foundation.Foundation.spacetime_drive import SpaceTimeDrive
 from Legacy.Language.time_accelerated_language import InfinitelyAcceleratedLanguageEngine
 
 class PerspectiveTimeCompression:

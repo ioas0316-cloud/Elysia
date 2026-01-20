@@ -20,8 +20,8 @@ import time
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.World.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
-from Core.World.Evolution.Growth.Evolution.Evolution.Body.sensory_motor_cortex import SensoryMotorCortex
+from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
+from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Body.sensory_motor_cortex import SensoryMotorCortex
 
 def run_demo():
     print("\n" + "="*70)

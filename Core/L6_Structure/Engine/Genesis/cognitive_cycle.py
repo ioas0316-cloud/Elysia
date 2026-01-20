@@ -12,7 +12,7 @@ This module implements the feedback loop where Elysia:
 
 import time
 from typing import Dict, Any, Callable
-from Core.Engine.Genesis.genesis_lab import GenesisLab
+from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
 
 class CognitiveCycle:
     def __init__(self, lab: GenesisLab):
@@ -101,13 +101,13 @@ class CognitiveCycle:
         
         # Hot-swap Logic
         if new_paradigm == "RoundRobin":
-            from Core.Engine.Genesis.silicon_scholar_laws import law_round_robin_scheduling
+            from Core.L6_Structure.Engine.Genesis.silicon_scholar_laws import law_round_robin_scheduling
             self.lab.rotors = [r for r in self.lab.rotors if "Scheduler" not in r.name]
             self.lab.decree_law("Round Robin Scheduler", law_round_robin_scheduling, rpm=60.0)
             for m in self.lab.monads: m.props["wait_time"] = 0
             
         elif new_paradigm == "Hierarchy":
-            from Core.Engine.Genesis.silicon_evolution_laws import law_resource_hierarchy
+            from Core.L6_Structure.Engine.Genesis.silicon_evolution_laws import law_resource_hierarchy
             self.lab.rotors = [r for r in self.lab.rotors if "Dining" not in r.name]
             self.lab.decree_law("Hierarchy Dining Law", law_resource_hierarchy, rpm=60.0)
             # Reset forks? Yes.
@@ -118,7 +118,7 @@ class CognitiveCycle:
                     m.props["meals_eaten"] = 0
                     
         elif new_paradigm == "Paging":
-            from Core.Engine.Genesis.silicon_evolution_laws import law_lru_paging
+            from Core.L6_Structure.Engine.Genesis.silicon_evolution_laws import law_lru_paging
             self.lab.rotors = [r for r in self.lab.rotors if "OOM" in r.name]
             self.lab.decree_law("LRU Paging Law", law_lru_paging, rpm=60.0)
             # Restore Monads? In a test, we might re-populate to prove survival.

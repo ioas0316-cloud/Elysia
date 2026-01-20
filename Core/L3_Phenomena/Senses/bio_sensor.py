@@ -1,7 +1,7 @@
 """
 BioSensor: The Raw Sensory Interface
 ====================================
-Core.Senses.bio_sensor
+Core.L3_Phenomena.Senses.bio_sensor
 
 "I feel the electricity, therefore I am."
 

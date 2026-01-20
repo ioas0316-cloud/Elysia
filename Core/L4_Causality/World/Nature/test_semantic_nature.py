@@ -10,8 +10,8 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.World.Nature.semantic_nature import SemanticNature
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Nature.semantic_nature import SemanticNature
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_semantic_nature():
     print("--- 1. Initializing Nature ---")

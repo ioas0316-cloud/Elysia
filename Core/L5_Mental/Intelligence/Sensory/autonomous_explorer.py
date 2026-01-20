@@ -1,8 +1,8 @@
 import logging
 import json
 from typing import Dict, Any, List
-from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
-from Core.Intelligence.Weaving.void_kernel import VoidKernel
+from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.L5_Mental.Intelligence.Weaving.void_kernel import VoidKernel
 
 logger = logging.getLogger("AutonomousExplorer")
 
@@ -50,7 +50,7 @@ class AutonomousExplorer:
             # [PHASE 16] TRUE SEMANTIC GROUNDING
             # Digestion: Text -> Qualia (7D Vector) -> Imprint
             
-            from Core.World.Physics.qualia_transducer import get_qualia_transducer
+            from Core.L4_Causality.World.Physics.qualia_transducer import get_qualia_transducer
             transducer = get_qualia_transducer()
             
             # The summary is the 'Flesh' of the knowledge.

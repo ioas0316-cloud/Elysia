@@ -1,8 +1,8 @@
 import logging
 import os
 from typing import List, Dict, Any, Optional, Tuple
-from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
-from Core.Intelligence.Brain.language_cortex import LanguageCortex
+from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.L5_Mental.Intelligence.Brain.language_cortex import LanguageCortex
 
 logger = logging.getLogger("SelfArchitect")
 
@@ -24,7 +24,7 @@ class SelfArchitect:
     def proposer(self):
         """Lazy load PatchProposer to avoid circular imports."""
         if self._proposer is None:
-            from Core.Intelligence.Meta.patch_proposer import get_patch_proposer
+            from Core.L5_Mental.Intelligence.Meta.patch_proposer import get_patch_proposer
             self._proposer = get_patch_proposer()
         return self._proposer
     def audit_file(self, file_path: str, generate_proposal: bool = True) -> str:

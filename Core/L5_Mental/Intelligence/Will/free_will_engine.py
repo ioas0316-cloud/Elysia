@@ -18,9 +18,9 @@ from typing import Dict, List, Optional
 
 # Import the new components
 try:
-    from Core.Intelligence.Will.creative_improvisation import CreativeImprovisation
-    from Core.Intelligence.Will.sovereign_gate import SovereignGate
-    from Core.Governance.Orchestra.resonance_broadcaster import ResonanceBroadcaster
+    from Core.L5_Mental.Intelligence.Will.creative_improvisation import CreativeImprovisation
+    from Core.L5_Mental.Intelligence.Will.sovereign_gate import SovereignGate
+    from Core.L4_Causality.Governance.Orchestra.resonance_broadcaster import ResonanceBroadcaster
 except ImportError:
     CreativeImprovisation = None
     SovereignGate = None

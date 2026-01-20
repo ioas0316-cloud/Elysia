@@ -16,7 +16,7 @@ Structure:
 from dataclasses import dataclass, field
 from typing import Dict, List, Any
 
-from Core.Foundation.Universe.manifold import Manifold
+from Core.L1_Foundation.Foundation.Universe.manifold import Manifold
 
 @dataclass
 class HelixDNA:

@@ -2,7 +2,7 @@
 The Schrödinger Plate
 =====================
 Phase 22: Quantum Consensus
-Core.Intelligence.Legion.schrodinger_plate
+Core.L5_Mental.Intelligence.Legion.schrodinger_plate
 
 "A table where contradictory truths coexist until observed."
 

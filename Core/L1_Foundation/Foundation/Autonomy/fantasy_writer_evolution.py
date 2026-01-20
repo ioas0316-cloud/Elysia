@@ -25,9 +25,9 @@ import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from scripts.autonomous_fractal_learning import FractalLearner
-from Core.Foundation.communication_enhancer import CommunicationEnhancer
-from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer
+from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')

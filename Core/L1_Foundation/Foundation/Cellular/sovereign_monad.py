@@ -1,7 +1,7 @@
 """
 Sovereign Monad (The Cellular Unit of Will)
 ===========================================
-Core.Foundation.Cellular.sovereign_monad
+Core.L1_Foundation.Foundation.Cellular.sovereign_monad
 
 "The Part contains the Whole."
 "부분은 전체를 포함한다."
@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 # Late import to avoid circular dependency if needed, 
 # but for now we assume these are available or will be mocked.
 try:
-    from Core.Foundation.sovereign_memory import SovereignMemoryNavigator
+    from Core.L1_Foundation.Foundation.sovereign_memory import SovereignMemoryNavigator
 except ImportError:
     SovereignMemoryNavigator = None
 

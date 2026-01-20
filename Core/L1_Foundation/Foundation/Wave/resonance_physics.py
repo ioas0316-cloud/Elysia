@@ -12,7 +12,7 @@ import time
 import random
 import logging
 from typing import Dict, Tuple, List
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 
 logger = logging.getLogger("ResonancePhysics")
 

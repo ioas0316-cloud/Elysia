@@ -21,10 +21,10 @@ from typing import Dict, Any, List
 # Add project root to sys.path for standalone testing
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Engine.governance_engine import GovernanceEngine
-from Core.Engine.reality_projector import RealityProjector, CoagulationMode
-from Core.Engine.code_field_engine import CodebaseFieldEngine
-from Core.Engine.recursive_loop import RecursiveOptimizer
+from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
+from Core.L6_Structure.Engine.reality_projector import RealityProjector, CoagulationMode
+from Core.L6_Structure.Engine.code_field_engine import CodebaseFieldEngine
+from Core.L6_Structure.Engine.recursive_loop import RecursiveOptimizer
 
 logger = logging.getLogger("MerkavaUnity")
 

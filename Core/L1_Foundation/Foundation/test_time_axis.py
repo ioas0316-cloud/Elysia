@@ -9,8 +9,8 @@ from dataclasses import dataclass
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 # Mock Vector since we don't want to load full Lexicon
 @dataclass

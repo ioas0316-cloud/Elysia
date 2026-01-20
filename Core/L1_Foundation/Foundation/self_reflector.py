@@ -4,7 +4,7 @@ import ast
 import logging
 from typing import Dict, Any, List
 
-from Core.Foundation.causal_narrative_engine import (
+from Core.L1_Foundation.Foundation.causal_narrative_engine import (
     ThoughtUniverse, EpistemicSpace, ContextPlane, ConceptPoint, 
     DimensionLevel, CausalRelationType
 )

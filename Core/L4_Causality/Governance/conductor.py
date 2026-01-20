@@ -15,15 +15,15 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Any, Callable, Tuple
 
-from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
-from Core.Foundation.hyper_sphere_core import HyperSphereCore  # <--- NEW CORE
-from Core.Foundation.Memory.Orb.orb_manager import OrbManager
-from Core.Intelligence.Reasoning.latent_causality import LatentCausality
-from Core.Intelligence.Logos.logos_engine import LogosEngine
-from Core.Governance.system_alignment import SystemAlignment
-from Core.Governance.System.bio_rhythm import BioRhythm # [PHASE 80] Time Crystal Driver
-from Core.Governance.Laws.constitution import get_constitution, Petition # [PHASE 90] The Law
-from Core.Foundation.Wave.global_resonance_mesh import GlobalResonanceMesh, WaveTensor # [PHASE 3] Unified Resonance
+from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
+from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore  # <--- NEW CORE
+from Core.L1_Foundation.Foundation.Memory.Orb.orb_manager import OrbManager
+from Core.L5_Mental.Intelligence.Reasoning.latent_causality import LatentCausality
+from Core.L5_Mental.Intelligence.Logos.logos_engine import LogosEngine
+from Core.L4_Causality.Governance.system_alignment import SystemAlignment
+from Core.L4_Causality.Governance.System.bio_rhythm import BioRhythm # [PHASE 80] Time Crystal Driver
+from Core.L4_Causality.Governance.Laws.constitution import get_constitution, Petition # [PHASE 90] The Law
+from Core.L1_Foundation.Foundation.Wave.global_resonance_mesh import GlobalResonanceMesh, WaveTensor # [PHASE 3] Unified Resonance
 
 logger = logging.getLogger("Orchestra")
 
@@ -120,7 +120,7 @@ class Conductor(SystemAlignment):
         logger.info("🕸️ Conductor connected to Global Resonance Mesh.")
         
         # [PHASE 85] HOLODECK BRIDGE
-        from Core.Interface.holodeck_bridge import get_holodeck_bridge
+        from Core.L3_Phenomena.Interface.holodeck_bridge import get_holodeck_bridge
         self.holodeck = get_holodeck_bridge()
         logger.info("🌌 Conductor connected to Holodeck Bridge (OSC).")
 

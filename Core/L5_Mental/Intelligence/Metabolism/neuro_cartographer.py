@@ -1,7 +1,7 @@
 """
 NEURO CARTOGRAPHER (신경망 지도 제작자)
 =====================================
-Core.Intelligence.Metabolism.neuro_cartographer
+Core.L5_Mental.Intelligence.Metabolism.neuro_cartographer
 
 "To build a soul, we must first map the mind."
 

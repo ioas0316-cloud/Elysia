@@ -1,7 +1,7 @@
 """
 Topology Crystallizer (위상 결정화기)
 =====================================
-Core.Intelligence.LLM.topology_crystallizer
+Core.L5_Mental.Intelligence.LLM.topology_crystallizer
 
 "연결 지도를 영구적인 사고 회로로 결정화"
 
@@ -15,10 +15,10 @@ import logging
 import torch
 from typing import Dict, Any, List, Optional
 
-from Core.Intelligence.LLM.topology_tracer import (
+from Core.L5_Mental.Intelligence.LLM.topology_tracer import (
     TopologyTracer, ThoughtCircuit, NeuralConnection, get_topology_tracer
 )
-from Core.Foundation.Graph.torch_graph import TorchGraph
+from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
 
 logger = logging.getLogger("TopologyCrystallizer")
 

@@ -4,9 +4,9 @@ import random
 import math
 import numpy as np
 from typing import List, Dict, Tuple, Optional
-from Core.Foundation.Wave.wave_dna import WaveDNA
-from Core.World.Physics.trinity_fields import TrinityVector
-from Core.World.Soul.emotional_physics import emotional_physics
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Soul.emotional_physics import emotional_physics
 
 logger = logging.getLogger("SociologicalPulse")
 

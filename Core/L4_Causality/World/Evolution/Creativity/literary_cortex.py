@@ -15,10 +15,10 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field, asdict
 
 # Core Systems
-from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.nervous_system import get_nervous_system
-from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
-from Core.Intelligence.Intelligence.logos_engine import LogosEngine
+from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.nervous_system import get_nervous_system
+from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
+from Core.L5_Mental.Intelligence.Intelligence.logos_engine import LogosEngine
 
 logger = logging.getLogger("LiteraryCortex")
 
@@ -181,7 +181,7 @@ class LiteraryCortex:
         
         # [Saga Upgrade] Macro-Plot Awareness
         # Instead of simple cycles, we use the Grand Plan.
-        from Core.World.Evolution.Creativity.saga_architect import SagaArchitect
+        from Core.L4_Causality.World.Evolution.Creativity.saga_architect import SagaArchitect
         architect = SagaArchitect()
         
         # Ensure Bible has Saga data (Backward Compat)
@@ -268,7 +268,7 @@ class LiteraryCortex:
             )
 
         # Check for Professional Writer (Ollama)
-        from Core.Foundation.ollama_bridge import ollama
+        from Core.L1_Foundation.Foundation.ollama_bridge import ollama
         
         if ollama.is_available():
             system_prompt = (

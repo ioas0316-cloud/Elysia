@@ -12,8 +12,8 @@ import os
 import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.World.Nature.trinity_lexicon import TrinityLexicon
-from Core.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.L4_Causality.World.Nature.trinity_lexicon import TrinityLexicon
+from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 
 def test_synapse():
     print("--- ⚡ Experiment: The Synapse (Unified Mind) ---")

@@ -200,7 +200,7 @@ class VisualCortex:
         """
         if graph is None:
             try:
-                from Core.Foundation.Graph.torch_graph import get_torch_graph
+                from Core.L1_Foundation.Foundation.Graph.torch_graph import get_torch_graph
                 graph = get_torch_graph()
             except:
                 print("[VisualCortex] Warning: No TorchGraph available for memory storage.")
@@ -241,7 +241,7 @@ class VisualCortex:
         """
         if graph is None:
             try:
-                from Core.Foundation.Graph.torch_graph import get_torch_graph
+                from Core.L1_Foundation.Foundation.Graph.torch_graph import get_torch_graph
                 graph = get_torch_graph()
             except:
                 return None

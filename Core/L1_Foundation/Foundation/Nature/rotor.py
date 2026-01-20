@@ -23,7 +23,7 @@ import math
 import random
 from enum import Enum
 from typing import Dict, Optional, List, Tuple, Any
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class RotorMask(Enum):
     """

@@ -14,7 +14,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 from typing import List, Dict, Any
 from dataclasses import dataclass
 

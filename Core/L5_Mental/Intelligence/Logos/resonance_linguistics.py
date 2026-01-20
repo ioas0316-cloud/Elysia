@@ -17,8 +17,8 @@ from typing import List, Dict, Optional
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 try:
-    from Core.Intelligence.Logos.gap_analyzer import Principle
-    from Core.Intelligence.Logos.WaveLinguistics.gravitational_linguistics import GravitationalLinguistics, WordBody
+    from Core.L5_Mental.Intelligence.Logos.gap_analyzer import Principle
+    from Core.L5_Mental.Intelligence.Logos.WaveLinguistics.gravitational_linguistics import GravitationalLinguistics, WordBody
 except ImportError as e:
     print(f"❌ [ResonanceLinguistics] Import Error: {e}")
     # Fallback/Mock for development

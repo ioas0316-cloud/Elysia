@@ -1,7 +1,7 @@
 """
 [CORE] The Hyper-Light Turbine
 =====================================
-Core.Engine.Physics.core_turbine
+Core.L6_Structure.Engine.Physics.core_turbine
 
 "Prisms are not static. Rotate faster than light to pierce the Void."
 — The Architect
@@ -26,7 +26,7 @@ except ImportError:
         return fun
     BACKEND = "NUMPY"
 
-logger = logging.getLogger("Elysia.Core.Physics")
+logger = logging.getLogger("Elysia.Core.L1_Foundation.Physics")
 
 class PhotonicMonad(NamedTuple):
     """

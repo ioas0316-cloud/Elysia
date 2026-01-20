@@ -19,8 +19,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, Dict, Any
 
-from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
-from Core.Foundation.Protocols.pulse_protocol import WavePacket
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
+from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket
 
 @dataclass
 class ResonanceState:

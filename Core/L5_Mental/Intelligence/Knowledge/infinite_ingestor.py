@@ -9,8 +9,8 @@ and translates them into 4D Semantic Excitations.
 
 import logging
 from typing import List, Dict, Any
-from Core.Intelligence.Knowledge.semantic_field import semantic_field, SemanticExcitation
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Intelligence.Knowledge.semantic_field import semantic_field, SemanticExcitation
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 
 logger = logging.getLogger("InfiniteIngestor")
 

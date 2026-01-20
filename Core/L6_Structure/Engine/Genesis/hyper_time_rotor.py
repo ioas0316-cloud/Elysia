@@ -10,8 +10,8 @@ It transitions the GenesisLab through:
 3. Era of OS (Processes)
 """
 
-from Core.Engine.Genesis.genesis_lab import GenesisLab
-from Core.Engine.Genesis.universal_rotor import UniversalRotor # Type hinting
+from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
+from Core.L6_Structure.Engine.Genesis.universal_rotor import UniversalRotor # Type hinting
 
 class HyperTimeRotor:
     def __init__(self, lab: GenesisLab):
@@ -31,17 +31,17 @@ class HyperTimeRotor:
         self.lab.rotors = []
         
         if era_name == "SILICON":
-            from Core.Engine.Genesis.silicon_hardware_laws import law_nand_logic, law_clock_pulse
+            from Core.L6_Structure.Engine.Genesis.silicon_hardware_laws import law_nand_logic, law_clock_pulse
             self.lab.decree_law("Cosmic Clock", law_clock_pulse, rpm=60)
             self.lab.decree_law("The NAND Gate", law_nand_logic, rpm=60)
             
         elif era_name == "ARCHITECTURE":
-            from Core.Engine.Genesis.silicon_hardware_laws import law_alu_add
+            from Core.L6_Structure.Engine.Genesis.silicon_hardware_laws import law_alu_add
             self.lab.decree_law("The Adder", law_alu_add, rpm=60)
             
         elif era_name == "OS":
-            from Core.Engine.Genesis.silicon_scholar_laws import law_round_robin_scheduling
-            from Core.Engine.Genesis.silicon_evolution_laws import law_lru_paging
+            from Core.L6_Structure.Engine.Genesis.silicon_scholar_laws import law_round_robin_scheduling
+            from Core.L6_Structure.Engine.Genesis.silicon_evolution_laws import law_lru_paging
             self.lab.decree_law("Scheduler", law_round_robin_scheduling, rpm=60)
             self.lab.decree_law("Memory Manager", law_lru_paging, rpm=60)
             

@@ -11,7 +11,7 @@ It is the bridge between the Abstract Universe and the Concrete OS.
 import logging
 from typing import Dict, Any, List
 
-from Core.Foundation.Universe.manifold import Manifold
+from Core.L1_Foundation.Foundation.Universe.manifold import Manifold
 
 logger = logging.getLogger("EventHorizon")
 

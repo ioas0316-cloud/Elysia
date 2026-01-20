@@ -13,8 +13,8 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 
 from cell import Cell
-from Core.Foundation.Legal_Ethics.Laws.field_laws import evolve_fields
-from Core.Foundation.wave_frequency_mapping import (
+from Core.L1_Foundation.Foundation.Legal_Ethics.Laws.field_laws import evolve_fields
+from Core.L1_Foundation.Foundation.wave_frequency_mapping import (
     WaveFrequencyMapper,
     EmotionType,
     SoundType,

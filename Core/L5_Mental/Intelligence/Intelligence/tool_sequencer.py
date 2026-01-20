@@ -19,10 +19,10 @@ import random
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, field
 
-from Core.Intelligence.Intelligence.fractal_quaternion_goal_system import FractalStation, Dimension
-# Import UltraDimensionalReasoning (assuming it's in Core.Foundation based on file view)
+from Core.L5_Mental.Intelligence.Intelligence.fractal_quaternion_goal_system import FractalStation, Dimension
+# Import UltraDimensionalReasoning (assuming it's in Core.L1_Foundation.Foundation based on file view)
 try:
-    from Core.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
+    from Core.L1_Foundation.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
 except ImportError:
     UltraDimensionalReasoning = Any 
 

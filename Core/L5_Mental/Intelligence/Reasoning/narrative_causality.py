@@ -1,7 +1,7 @@
 import logging
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
-from Core.Intelligence.Reasoning.models import CognitiveResult
+from Core.L5_Mental.Intelligence.Reasoning.models import CognitiveResult
 
 logger = logging.getLogger("NarrativeCausality")
 

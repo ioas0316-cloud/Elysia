@@ -3,9 +3,9 @@ import random
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
 from enum import Enum
-from Core.Foundation.dual_layer_personality import EnneagramType, DualLayerPersonality
-from Core.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L1_Foundation.Foundation.dual_layer_personality import EnneagramType, DualLayerPersonality
+from Core.L4_Causality.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 
 logger = logging.getLogger("PluralisticBrain")
 

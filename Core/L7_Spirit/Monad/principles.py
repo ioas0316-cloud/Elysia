@@ -1,7 +1,7 @@
 """
 Universal Principles (The Toolbox of God)
 =========================================
-Core.Monad.principles
+Core.L7_Spirit.Monad.principles
 
 "Principles are the silent verbs of the Universe."
 
@@ -11,9 +11,9 @@ Elysia uses these to 'unfold' a Seed into Reality.
 
 from typing import Dict, Any
 import math
-from Core.Monad.monad_core import FractalRule
+from Core.L7_Spirit.Monad.monad_core import FractalRule
 
-from Core.World.Physics.vector_math import Vector3
+from Core.L4_Causality.World.Physics.vector_math import Vector3
 
 # --- PHYSICS: FIRE (Combustion & Thermodynamics) ---
 class ThermodynamicsRule(FractalRule):

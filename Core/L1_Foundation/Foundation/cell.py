@@ -46,8 +46,8 @@ def cell_unit(func):
     Decorator that links a function to the ResonantField.
     When the function is called, it creates a ripple in the high-dimensional field.
     """
-    from Core.Foundation.Wave.resonant_field import resonant_field
-    from Core.Foundation.hyper_quaternion import Quaternion
+    from Core.L1_Foundation.Foundation.Wave.resonant_field import resonant_field
+    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
     import functools
 
     @functools.wraps(func)

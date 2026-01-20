@@ -2,7 +2,7 @@
 """
 LLM Topology Batch Runner (거대 모델용)
 =====================================
-Core.Intelligence.LLM.topology_batch_runner
+Core.L5_Mental.Intelligence.LLM.topology_batch_runner
 
 Qwen2-72B와 같이 여러 파일로 쪼개진(Sharded) 모델을
 순차적으로 분석하고 결과를 통합하는 배치 러너입니다.

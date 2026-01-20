@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.path.abspath("."))
 
-from Core.Governance.System.Existence.Trinity.trinity_system import get_trinity_system
+from Core.L4_Causality.Governance.System.Existence.Trinity.trinity_system import get_trinity_system
 
 def ask_elysia():
     trinity = get_trinity_system()

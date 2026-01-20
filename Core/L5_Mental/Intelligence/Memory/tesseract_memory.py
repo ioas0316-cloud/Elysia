@@ -20,7 +20,7 @@ import os
 import logging
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple, Any
-from Core.Intelligence.Topography.tesseract_geometry import TesseractVector, TesseractGeometry
+from Core.L5_Mental.Intelligence.Topography.tesseract_geometry import TesseractVector, TesseractGeometry
 
 logger = logging.getLogger("TesseractMemory")
 
@@ -93,7 +93,7 @@ class TesseractMemory:
         """Lazy load FractalQuantizer."""
         if self.quantizer is None:
             try:
-                from Core.Foundation.Memory.fractal_quantization import FractalQuantizer
+                from Core.L1_Foundation.Foundation.Memory.fractal_quantization import FractalQuantizer
                 self.quantizer = FractalQuantizer()
                 logger.info("🌀 FractalQuantizer loaded for wave compression.")
             except Exception as e:
@@ -104,7 +104,7 @@ class TesseractMemory:
         """[PHASE 32] Lazy load HyperQubit class."""
         if self.hyper_qubit_class is None:
             try:
-                from Core.Foundation.Wave.hyper_qubit import HyperQubit
+                from Core.L1_Foundation.Foundation.Wave.hyper_qubit import HyperQubit
                 self.hyper_qubit_class = HyperQubit
                 logger.info("🔷 HyperQubit loaded for 4-basis concept storage.")
             except Exception as e:
@@ -115,7 +115,7 @@ class TesseractMemory:
         """[PHASE 32] Lazy load QuaternionWaveDNA compressor."""
         if self.dna_compressor is None:
             try:
-                from Core.Foundation.Wave.quaternion_wave_dna import QuaternionCompressor
+                from Core.L1_Foundation.Foundation.Wave.quaternion_wave_dna import QuaternionCompressor
                 self.dna_compressor = QuaternionCompressor(default_top_k=10)
                 logger.info("🧬 QuaternionCompressor loaded for DNA text compression.")
             except Exception as e:
@@ -128,7 +128,7 @@ class TesseractMemory:
             self._universal_encoder = None
         if self._universal_encoder is None:
             try:
-                from Core.Foundation.Wave.universal_wave_encoder import UniversalWaveEncoder
+                from Core.L1_Foundation.Foundation.Wave.universal_wave_encoder import UniversalWaveEncoder
                 self._universal_encoder = UniversalWaveEncoder(default_top_k=64)
                 logger.info("🌌 UniversalWaveEncoder loaded for all sensory/cosmic data.")
             except Exception as e:
@@ -171,7 +171,7 @@ class TesseractMemory:
             return None
         
         try:
-            from Core.Foundation.Memory.fractal_quantization import PatternDNA
+            from Core.L1_Foundation.Foundation.Memory.fractal_quantization import PatternDNA
             dna = PatternDNA.from_dict(compressed_dna)
             restored = quantizer.unfold(dna, resolution)
             logger.info(f"🌊 Unfolded: {dna.name}")
@@ -242,7 +242,7 @@ class TesseractMemory:
         
         try:
             import numpy as np
-            from Core.Foundation.Wave.quaternion_wave_dna import QuaternionWaveDNA
+            from Core.L1_Foundation.Foundation.Wave.quaternion_wave_dna import QuaternionWaveDNA
             dna = QuaternionWaveDNA(
                 helix1_frequencies=np.array(dna_dict["helix1_freq"]),
                 helix1_amplitudes=np.array(dna_dict["helix1_amp"]),
@@ -305,7 +305,7 @@ class TesseractMemory:
         
         try:
             import numpy as np
-            from Core.Foundation.Wave.universal_wave_encoder import DataModality
+            from Core.L1_Foundation.Foundation.Wave.universal_wave_encoder import DataModality
             
             # Convert modality string to enum
             modality_enum = DataModality(modality.lower())
@@ -327,7 +327,7 @@ class TesseractMemory:
             return None
         
         try:
-            from Core.Foundation.Wave.universal_wave_encoder import WaveSignature
+            from Core.L1_Foundation.Foundation.Wave.universal_wave_encoder import WaveSignature
             sig = WaveSignature.from_dict(wave_signature)
             return encoder.decode(sig)
         except Exception as e:
@@ -481,7 +481,7 @@ class TesseractMemory:
     def _hydrate_hippocampus(self):
         """Import from Hippocampus DB."""
         try:
-            from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
+            from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
             hippocampus = Hippocampus()
             
             concept_ids = hippocampus.get_all_concept_ids(limit=500)

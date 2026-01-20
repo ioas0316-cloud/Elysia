@@ -21,7 +21,7 @@ logger = logging.getLogger("TrinityProtocol")
 
 # Import Khala base
 try:
-    from Core.Foundation.Wave.khala_wave_communication import KhalaWave, KhalaSoul, KhalaNetwork
+    from Core.L1_Foundation.Foundation.Wave.khala_wave_communication import KhalaWave, KhalaSoul, KhalaNetwork
     KHALA_AVAILABLE = True
 except ImportError:
     logger.warning("⚠️ KhalaWaveCommunication not available.")

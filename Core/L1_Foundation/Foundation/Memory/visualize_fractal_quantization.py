@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.fractal_quantization import EmotionQuantizer
+from Core.L1_Foundation.Foundation.fractal_quantization import EmotionQuantizer
 import time
 
 

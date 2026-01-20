@@ -1,7 +1,7 @@
 """
 FRACTAL CAUSAL TOPOLOGY
 =======================
-Core.Intelligence.Metabolism.causal_graph
+Core.L5_Mental.Intelligence.Metabolism.causal_graph
 
 "Why is the apple red? The answer is a loop, not a line."
 

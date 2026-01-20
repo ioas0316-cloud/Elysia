@@ -18,8 +18,8 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Foundation.internal_universe import InternalUniverse
-from Core.Foundation.external_data_connector import ExternalDataConnector
+from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
+from Core.L1_Foundation.Foundation.external_data_connector import ExternalDataConnector
 
 logger = logging.getLogger("KnowledgeAcquisition")
 

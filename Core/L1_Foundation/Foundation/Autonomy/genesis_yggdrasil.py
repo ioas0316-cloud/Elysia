@@ -7,14 +7,14 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
 # 1. Import The Structure
-from Core.Foundation.yggdrasil import yggdrasil
+from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
 
 # 2. Import The Organs
-from Core.Foundation.ether import ether
-from Core.Foundation.chronos import Chronos
-from Core.Foundation.genesis_cortex import GenesisEngine
-from Core.Foundation.free_will_engine import FreeWillEngine
-from Core.Foundation.planetary_cortex import PlanetaryCortex
+from Core.L1_Foundation.Foundation.ether import ether
+from Core.L1_Foundation.Foundation.chronos import Chronos
+from Core.L1_Foundation.Foundation.genesis_cortex import GenesisEngine
+from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
+from Core.L1_Foundation.Foundation.planetary_cortex import PlanetaryCortex
 
 # Configure logging
 logging.basicConfig(

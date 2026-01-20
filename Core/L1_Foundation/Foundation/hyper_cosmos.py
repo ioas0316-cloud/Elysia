@@ -24,9 +24,9 @@ import random
 import torch
 from typing import List, Dict, Any
 
-from Core.Intelligence.project_conductor import ProjectConductor
+from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
 
-from Core.Foundation.unified_monad import UnifiedMonad, Unified12DVector
+from Core.L1_Foundation.Foundation.unified_monad import UnifiedMonad, Unified12DVector
 
 class HyperCosmos:
     """
@@ -34,15 +34,15 @@ class HyperCosmos:
     Every entity is a UnifiedMonad (12D Agent).
     """
     def __init__(self, code_path: str = "c:/Elysia"):
-        from Core.Foundation.akashic_field import AkashicField
-        from Core.Foundation.quantum_monad import QuantumMonad
+        from Core.L1_Foundation.Foundation.akashic_field import AkashicField
+        from Core.L1_Foundation.Foundation.quantum_monad import QuantumMonad
         self.monads: List[UnifiedMonad] = []
         self.potential_monads: List[QuantumMonad] = [] # The Superposition Field
         self.akashic_record = AkashicField(kernel_size=2048) # The Memory Field
         self.field_intensity = torch.zeros(12) 
         
         # === PRE-ESTABLISHED HARMONY ===
-        from Core.Foundation.Psyche.psyche_sphere import get_psyche
+        from Core.L1_Foundation.Foundation.Psyche.psyche_sphere import get_psyche
         self.psyche = get_psyche(enneagram_type=4)
         
         self.cosmic_dt = 1.0 
@@ -99,7 +99,7 @@ class HyperCosmos:
 
     def record_potential(self, name: str):
         """Injects a new wave-function into the Superposition Field."""
-        from Core.Foundation.quantum_monad import QuantumMonad
+        from Core.L1_Foundation.Foundation.quantum_monad import QuantumMonad
         self.potential_monads.append(QuantumMonad(name))
         print(f"🌀 [QUANTUM] Potential Monad '{name}' added to Superposition Field.")
 
@@ -108,7 +108,7 @@ class HyperCosmos:
         [THE ACT OF GENESIS]
         Collapses potentiality into functional reality.
         """
-        from Core.Foundation.quantum_monad import CollapseEngine
+        from Core.L1_Foundation.Foundation.quantum_monad import CollapseEngine
         engine = CollapseEngine(observer_will)
         
         remaining = []

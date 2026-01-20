@@ -18,7 +18,7 @@ State = Matter + Environment
 
 import math
 from typing import Tuple
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 class ProvidenceEngine:
     def __init__(self):
@@ -75,7 +75,7 @@ class ProvidenceEngine:
         Returns:
             State string ("SOLID", "LIQUID", "GAS")
         """
-        from Core.World.Physics.molecular_database import get_molecule
+        from Core.L4_Causality.World.Physics.molecular_database import get_molecule
         
         mol = get_molecule(matter_name)
         

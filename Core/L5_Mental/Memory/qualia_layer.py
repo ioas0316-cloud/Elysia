@@ -1,7 +1,7 @@
 """
 Qualia Layer: The Subjective Experience
 =======================================
-Core.Memory.qualia_layer
+Core.L5_Mental.Memory.qualia_layer
 
 "The difference between knowing 'Red' (Hex Code) and seeing 'Red' (Feeling)."
 

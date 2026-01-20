@@ -11,8 +11,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.World.Physics.providence_engine import ProvidenceEngine
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Physics.providence_engine import ProvidenceEngine
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_hexagon():
     print("--- 🔯 Experiment: The Sacred Hexagon ---")

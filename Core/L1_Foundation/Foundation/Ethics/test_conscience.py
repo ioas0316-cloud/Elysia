@@ -7,9 +7,9 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from Core.Foundation.Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
-from Core.Governance.System.Existence.Trinity.trinity_system import TrinitySystem
-from Core.World.Evolution.Growth.Autonomy.self_modifier_v2 import SelfModifier
+from Core.L1_Foundation.Foundation.Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
+from Core.L4_Causality.Governance.System.Existence.Trinity.trinity_system import TrinitySystem
+from Core.L4_Causality.World.Evolution.Growth.Autonomy.self_modifier_v2 import SelfModifier
 import os
 
 def test_conscience_unit():

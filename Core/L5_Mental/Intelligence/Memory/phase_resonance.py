@@ -20,7 +20,7 @@ import numpy as np
 
 # Import from same directory
 try:
-    from Core.Intelligence.Memory_Linguistics.Memory.holographic_memory import KnowledgeLayer, HolographicMemory
+    from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.holographic_memory import KnowledgeLayer, HolographicMemory
 except ImportError:
     from holographic_memory import KnowledgeLayer, HolographicMemory
 

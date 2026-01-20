@@ -1,7 +1,7 @@
 """
 The Ouroboros: The Recursive Mirror
 ===================================
-Core.Memory.feedback_loop
+Core.L5_Mental.Memory.feedback_loop
 
 "The Snake that eats its own tail to sustain itself."
 

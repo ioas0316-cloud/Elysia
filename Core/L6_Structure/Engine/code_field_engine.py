@@ -1,7 +1,7 @@
 """
 Codebase Field Engine (Divine Coder)
 ===================================
-Core.Engine.code_field_engine
+Core.L6_Structure.Engine.code_field_engine
 
 "The entire codebase is a single oscillating field."
 "전체 코드베이스는 하나의 거대한 진동하는 장이다."
@@ -16,10 +16,10 @@ import os
 import math
 import torch
 from typing import Dict, List
-from Core.Foundation.Wave.wave_dna import WaveDNA
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
-from Core.Engine.code_rotor import CodebaseStructureRotor
-from Core.Intelligence.LLM.huggingface_bridge import SovereignBridge
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.Engine.code_rotor import CodebaseStructureRotor
+from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
 
 class CodebaseFieldEngine:
     def __init__(self, root: str = "c:\\Elysia"):

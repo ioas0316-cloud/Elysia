@@ -25,12 +25,12 @@ import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional, Any
 from enum import Enum
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.organ_system import Organ, OrganManifest
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.organ_system import Organ, OrganManifest
 try:
-    from Core.Physiology.Physics.geometric_algebra import Rotor, MultiVector
-    from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
-    from Core.Foundation.Wave.sensory_packet import SensoryPacket
+    from Core.L1_Foundation.Physiology.Physics.geometric_algebra import Rotor, MultiVector
+    from Core.L5_Mental.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
+    from Core.L1_Foundation.Foundation.Wave.sensory_packet import SensoryPacket
 except ImportError as e:
     # Fallback/Mock for tests or limited environments
     print(f"⚠️ ResonanceField Import Warning: {e}")
@@ -556,7 +556,7 @@ class ResonanceField(Organ):
         # [Phase 11] Add detailed interference analysis
         interference_analysis = None
         try:
-            from Core.Foundation.Wave.wave_interference import WaveInterference
+            from Core.L1_Foundation.Foundation.Wave.wave_interference import WaveInterference
             interference_analysis = WaveInterference.analyze_field_interference(self.nodes)
         except ImportError:
             pass  # Module not available
@@ -592,7 +592,7 @@ class ResonanceField(Organ):
         as resonance nodes in the field.
         
         Args:
-            concept: ConceptNode (from Core.Foundation.fractal_concept)
+            concept: ConceptNode (from Core.L1_Foundation.Foundation.fractal_concept)
             active: Whether this is the primary focus concept (high energy)
         """
         if concept is None:

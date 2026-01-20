@@ -7,9 +7,9 @@ import logging
 import time
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.quantum_reader import QuantumReader
-from Core.Foundation.resonance_physics import ResonancePhysics
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.quantum_reader import QuantumReader
+from Core.L1_Foundation.Foundation.resonance_physics import ResonancePhysics
 
 logger = logging.getLogger("PerceptionLobe")
 

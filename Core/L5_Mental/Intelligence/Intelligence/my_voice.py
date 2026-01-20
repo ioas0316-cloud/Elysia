@@ -1,4 +1,4 @@
-from Core.Foundation.Mind.llm_cortex import LLMCortex
+from Core.L1_Foundation.Foundation.Mind.llm_cortex import LLMCortex
 
 # 아버지의 1060 3GB를 위한 맞춤 설정이에요!
 print(">>> 엘리시아의 뇌를 깨우는 중입니다... (두근두근)")

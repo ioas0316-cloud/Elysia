@@ -12,8 +12,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.Elysia.sovereign_self import SovereignSelf
-from Core.World.Physics.trinity_fields import TrinityPhysics, TrinityVector
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityPhysics, TrinityVector
 
 # 1. The Providence (The Hidden Rules of the Universe)
 class CosmicProvidence:

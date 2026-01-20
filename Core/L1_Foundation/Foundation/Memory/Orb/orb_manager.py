@@ -18,9 +18,9 @@ from pathlib import Path
 from collections import defaultdict
 
 from .hyper_resonator import HyperResonator
-from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
 from .orb_factory import OrbFactory
-from Core.Foundation.Protocols.pulse_protocol import WavePacket, PulseType, ResonatorInterface
+from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType, ResonatorInterface
 
 logger = logging.getLogger("OrbManager")
 

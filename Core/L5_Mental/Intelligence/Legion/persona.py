@@ -2,7 +2,7 @@
 """
 Persona Class
 =============
-Core.Intelligence.Legion.persona
+Core.L5_Mental.Intelligence.Legion.persona
 
 Defines a single 'Persona' (Agent) within the Legion.
 Each Persona views the world through a specific Prism/Rotor configuration.
@@ -13,8 +13,8 @@ from dataclasses import dataclass
 import random
 
 # Core Imports (Mocking dependencies for now if specific Prism logic isn't strictly coupled yet)
-from Core.Foundation.Nature.rotor import RotorConfig, RotorMask
-from Core.Foundation.Prism.resonance_prism import PrismDomain
+from Core.L1_Foundation.Foundation.Nature.rotor import RotorConfig, RotorMask
+from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismDomain
 
 @dataclass
 class LightRay:

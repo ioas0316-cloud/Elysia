@@ -9,7 +9,7 @@ and the ability to trigger world-wide narrative shifts.
 """
 
 import logging
-from Core.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
 
 class ResonantBoss(SubjectiveEgo):
     """A high-dimensional entity that guards the Underworld's thresholds."""

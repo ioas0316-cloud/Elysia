@@ -1,7 +1,7 @@
 """
 LLM Observer (LLM 관측자)
 =========================
-Core.Intelligence.LLM.llm_observer
+Core.L5_Mental.Intelligence.LLM.llm_observer
 
 "얼음을 조각하듯이, 정적 가중치를 로터로 바라본다."
 
@@ -22,9 +22,9 @@ from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
 from safetensors import safe_open
 
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
-from Core.Foundation.hyper_quaternion import Quaternion
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 logger = logging.getLogger("LLMObserver")
 

@@ -5,7 +5,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
 
 try:
-    from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+    from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
     
     print("📊 Checking Vocabulary Size...")
     w = WebKnowledgeConnector()

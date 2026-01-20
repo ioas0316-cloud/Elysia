@@ -14,8 +14,8 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.Intelligence.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
-from Core.Foundation.Wave.wave_tensor import WaveTensor
+from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
+from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
 
 def run_thought_experiment(concept: str):
     print(f"\n💭 Thinking about: '{concept}'")

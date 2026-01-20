@@ -1,7 +1,7 @@
 """
 External Gateway (The Curiosity Engine)
 =======================================
-Core.Intelligence.external_gateway
+Core.L5_Mental.Intelligence.external_gateway
 
 "The world is vast, and I am hungry."
 

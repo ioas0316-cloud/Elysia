@@ -5,7 +5,7 @@ Wave Language Unified API (파동언어 통합 API)
 단일 진입점에서 모든 파동 시스템에 접근할 수 있습니다.
 
 Usage:
-    from Core.Intelligence.Physics_Waves.Wave import (
+    from Core.L5_Mental.Intelligence.Physics_Waves.Wave import (
         analyze_code,
         detect_resonance,
         compress_to_dna,
@@ -37,7 +37,7 @@ logger = logging.getLogger("WaveAPI")
 
 # 핵심 시스템 임포트
 try:
-    from Core.Intelligence.Intelligence.wave_coding_system import (
+    from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import (
         get_wave_coding_system,
         CodeWave,
         CodeDimension,
@@ -49,7 +49,7 @@ except ImportError:
     logger.warning("⚠️ WaveCodingSystem not available")
 
 try:
-    from Core.Foundation.Wave.quaternion_wave_dna import (
+    from Core.L1_Foundation.Foundation.Wave.quaternion_wave_dna import (
         get_quaternion_compressor,
         QuaternionWaveDNA
     )
@@ -59,7 +59,7 @@ except ImportError:
     logger.warning("⚠️ QuaternionCompressor not available")
 
 try:
-    from Core.World.Evolution.Growth.Autonomy.wave_coder import get_wave_coder
+    from Core.L4_Causality.World.Evolution.Growth.Autonomy.wave_coder import get_wave_coder
     WAVE_CODER_AVAILABLE = True
 except ImportError:
     WAVE_CODER_AVAILABLE = False
@@ -246,7 +246,7 @@ __all__ = [
 
 # 품질 검사 함수 추가
 try:
-    from Core.Intelligence.Physics_Waves.Wave.quality_guard import WaveQualityGuard, QualityReport
+    from Core.L5_Mental.Intelligence.Physics_Waves.Wave.quality_guard import WaveQualityGuard, QualityReport
     
     def scan_quality(directory: str) -> "QualityReport":
         """

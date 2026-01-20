@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any, List
-from Core.Foundation.Prism.resonance_prism import PrismProjection, PrismDomain
-from Core.Foundation.Meta.semantic_map import DOMAIN_DEVICES
+from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismProjection, PrismDomain
+from Core.L1_Foundation.Foundation.Meta.semantic_map import DOMAIN_DEVICES
 
 logger = logging.getLogger("CognitiveJudge")
 

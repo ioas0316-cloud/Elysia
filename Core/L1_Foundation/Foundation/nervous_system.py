@@ -89,7 +89,7 @@ class NervousSystem:
         self.stimulus_buffer = []
         self.max_buffer_size = 100
         
-        from Core.World.Senses.spiritual_sensorium import get_spiritual_sensorium
+        from Core.L4_Causality.World.Senses.spiritual_sensorium import get_spiritual_sensorium
         self.sensorium = get_spiritual_sensorium(self)
         
         self._connect_internal_systems()
@@ -97,21 +97,21 @@ class NervousSystem:
     def _connect_internal_systems(self):
         """Connects to all internal systems (The Mind)"""
         try:
-            from Core.Foundation.Wave.resonance_field import ResonanceField
+            from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
             self.field = ResonanceField()
             logger.info("🌊 ResonanceField Connected")
         except Exception as e:
             logger.warning(f"ResonanceField connection failed: {e}")
             
         try:
-            from Core.Foundation.internal_universe import InternalUniverse
+            from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
             logger.info("🌌 InternalUniverse Connected")
         except Exception as e:
             logger.warning(f"InternalUniverse connection failed: {e}")
             
         try:
-            from Core.Foundation.hippocampus import Hippocampus
+            from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
             self.memory = Hippocampus()
             logger.info("💾 Hippocampus Connected")
         except Exception as e:
@@ -119,14 +119,14 @@ class NervousSystem:
             
         # Try CentralCortex first, then fall back to ReasoningEngine directly
         try:
-            from Core.Foundation.central_cortex import CentralCortex
+            from Core.L1_Foundation.Foundation.central_cortex import CentralCortex
             self.brain = CentralCortex()
             logger.info("🧠 CentralCortex Connected")
         except Exception as e:
             logger.warning(f"CentralCortex failed: {e}, trying ReasoningEngine directly...")
             print(f"⚠️ CentralCortex Start Failed: {e}") # VISIBLE LOG
             try:
-                from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+                from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
                 self.brain = ReasoningEngine()
                 logger.info("🧠 ReasoningEngine Connected (Direct)")
             except Exception as e2:

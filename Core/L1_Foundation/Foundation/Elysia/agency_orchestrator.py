@@ -32,13 +32,13 @@ from Project_Elysia.core.action_memory import MemoryActionSelector
 
 
 
-from Core.Foundation.reading_coach import ReadingCoach
+from Core.L1_Foundation.Foundation.reading_coach import ReadingCoach
 
-from Core.Foundation.creative_writing_cortex import CreativeWritingCortex
+from Core.L1_Foundation.Foundation.creative_writing_cortex import CreativeWritingCortex
 
 from Project_Mirror.proof_renderer import ProofRenderer
 
-from Core.Foundation.math_cortex import MathCortex
+from Core.L1_Foundation.Foundation.math_cortex import MathCortex
 
 from tools.kg_manager import KGManager
 

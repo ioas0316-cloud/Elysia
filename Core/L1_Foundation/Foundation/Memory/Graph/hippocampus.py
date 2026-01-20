@@ -15,8 +15,8 @@ import logging
 import json
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.fractal_quantization import PatternDNA, EmotionQuantizer
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.fractal_quantization import PatternDNA, EmotionQuantizer
 
 logger = logging.getLogger("Hippocampus")
 
@@ -253,7 +253,7 @@ class Hippocampus:
         Stores a Fractal Concept Seed in the database.
         
         Args:
-            concept: ConceptNode from Core.Foundation.fractal_concept
+            concept: ConceptNode from Core.L1_Foundation.Foundation.fractal_concept
         """
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -301,7 +301,7 @@ class Hippocampus:
                 
                 row = cursor.fetchone()
                 if row:
-                    from Core.Foundation.fractal_concept import ConceptNode
+                    from Core.L1_Foundation.Foundation.fractal_concept import ConceptNode
                     data = json.loads(row[0])
                     concept = ConceptNode.from_dict(data)
                     logger.info(f"🧲 Seed Pulled: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
@@ -342,7 +342,7 @@ class Hippocampus:
         """
         # 1. Empirical Gravity Update
         try:
-             from Core.Foundation.Wave.resonance_field import ResonanceField
+             from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
              # Often the field is a singleton or accessed via CNS, here we assume current session access
              field = ResonanceField() 
              for node_id, res_node in field.nodes.items():
@@ -381,7 +381,7 @@ class Hippocampus:
                 
                 pruned_count = 0
                 for name, data_json in rows:
-                    from Core.Foundation.fractal_concept import ConceptNode
+                    from Core.L1_Foundation.Foundation.fractal_concept import ConceptNode
                     data = json.loads(data_json)
                     concept = ConceptNode.from_dict(data)
                     

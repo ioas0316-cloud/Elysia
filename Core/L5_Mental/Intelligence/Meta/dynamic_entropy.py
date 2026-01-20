@@ -14,7 +14,7 @@ This module provides 'Cognitive Friction' to Elysia's thought loops by:
 import os
 import random
 import logging
-from Core.Intelligence.Metabolism.body_sensor import BodySensor
+from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
 from typing import Dict, List, Optional, Any
 
 logger = logging.getLogger("DynamicEntropy")

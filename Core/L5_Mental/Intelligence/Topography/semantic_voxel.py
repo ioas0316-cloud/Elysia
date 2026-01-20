@@ -9,8 +9,8 @@ Gravitational Node in the Mind Landscape.
 """
 
 from typing import Tuple
-from Core.Foundation.Memory.Orb.hyper_resonator import HyperResonator
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.Memory.Orb.hyper_resonator import HyperResonator
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 class SemanticVoxel(HyperResonator):
     """

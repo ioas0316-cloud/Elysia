@@ -1,7 +1,7 @@
 """
 The Dimension Sorter (Cloud Logic)
 ==================================
-Core.Foundation.Prism.dimension_sorter
+Core.L1_Foundation.Foundation.Prism.dimension_sorter
 
 "Sorting thoughts into Earth (Ground), Sky (Cloud), or the Horizon (Hypothesis)."
 

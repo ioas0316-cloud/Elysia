@@ -2,7 +2,7 @@ import numpy as np
 import logging
 import time
 from typing import Dict, List, Any, Optional
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("ResonantField")
 

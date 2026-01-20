@@ -18,7 +18,7 @@ from typing import List, Dict, Any, Tuple, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
-from Core.Foundation.language_projector import LanguageProjector
+from Core.L1_Foundation.Foundation.language_projector import LanguageProjector
 
 logger = logging.getLogger("CosmicSyntax")
 
@@ -96,7 +96,7 @@ from typing import List, Dict, Any, Tuple, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
-from Core.Foundation.language_projector import LanguageProjector
+from Core.L1_Foundation.Foundation.language_projector import LanguageProjector
 
 logger = logging.getLogger("CosmicSyntax")
 

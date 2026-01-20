@@ -25,7 +25,7 @@ if ROOT not in sys.path:
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("ElysiaChat")
 
-from Core.Intelligence.Intelligence.Reasoning import ReasoningEngine
+from Core.L5_Mental.Intelligence.Intelligence.Reasoning import ReasoningEngine
 
 
 # Initialize the engine once

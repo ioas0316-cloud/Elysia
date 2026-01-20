@@ -8,7 +8,7 @@ Usage:
 
 import argparse
 import logging
-from Core.Governance.System.System.System.Kernel import kernel
+from Core.L4_Causality.Governance.System.System.System.Kernel import kernel
 
 logger = logging.getLogger("PhaseView")
 

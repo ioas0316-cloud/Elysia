@@ -10,7 +10,7 @@ Wave Attention (파동 어텐션)
 - Attention Weight = 공명 강도 (간섭 진폭)
 
 Usage:
-    from Core.Foundation.Wave.wave_attention import WaveAttention
+    from Core.L1_Foundation.Foundation.Wave.wave_attention import WaveAttention
     
     attn = WaveAttention()
     weights = attn.attend(query_wave, key_waves)
@@ -25,13 +25,13 @@ logger = logging.getLogger("WaveAttention")
 
 # 내부 파동 시스템 임포트
 try:
-    from Core.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
     WAVE_AVAILABLE = True
 except ImportError:
     WAVE_AVAILABLE = False
     
 try:
-    from Core.Foundation.tiny_brain import get_tiny_brain
+    from Core.L1_Foundation.Foundation.tiny_brain import get_tiny_brain
     EMBEDDING_AVAILABLE = True
 except ImportError:
     EMBEDDING_AVAILABLE = False

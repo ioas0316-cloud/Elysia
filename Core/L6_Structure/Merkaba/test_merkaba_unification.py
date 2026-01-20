@@ -1,7 +1,7 @@
 import unittest
-from Core.Merkaba.merkaba import Merkaba
-from Core.Monad.monad_core import Monad
-from Core.Foundation.Nature.rotor import Rotor, RotorMask
+from Core.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorMask
 
 class TestMerkabaUnification(unittest.TestCase):
 

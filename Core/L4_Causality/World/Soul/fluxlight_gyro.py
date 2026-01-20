@@ -16,8 +16,8 @@ Spin Zones:
 import math
 from dataclasses import dataclass
 from typing import Dict, Optional, Tuple
-from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
-from Core.Physiology.Physics.geometric_algebra import MultiVector
+from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+from Core.L1_Foundation.Physiology.Physics.geometric_algebra import MultiVector
 
 @dataclass
 class GyroState:
@@ -90,7 +90,7 @@ class GyroscopicFluxlight:
         Cognitive Induction: The Environment inducess state in the Hypersphere.
         This is NOT just reading data; it's the environment 'shaping' the soul.
         """
-        from Core.World.Physics.field_store import universe_field
+        from Core.L4_Causality.World.Physics.field_store import universe_field
         pos = (self.gyro.x, self.gyro.y, self.gyro.z, self.gyro.w)
         field_ex = universe_field.get_field_at(pos)
         grad = universe_field.calculate_gradient_w(pos)

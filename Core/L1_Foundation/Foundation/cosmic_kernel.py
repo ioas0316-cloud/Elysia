@@ -18,9 +18,9 @@ import math
 # Path hack
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core.Foundation.Space.hyper_space import HyperSpace
-from Core.Foundation.hyper_quaternion import Quaternion
-from Core.Foundation.Analysis.trajectory_analyzer import TrajectoryAnalyzer
+from Core.L1_Foundation.Foundation.Space.hyper_space import HyperSpace
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.Analysis.trajectory_analyzer import TrajectoryAnalyzer
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')
 logger = logging.getLogger("UnifiedField")

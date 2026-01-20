@@ -1,7 +1,7 @@
 """
 Trinity Citizen: The Union of Body, Soul, and Spirit
 ====================================================
-Core.Civilization.trinity_citizen
+Core.L4_Causality.Civilization.trinity_citizen
 
 "The Monad is the Atom. The Trinity Citizen is the Organism."
 
@@ -14,12 +14,12 @@ Components:
 from typing import Dict, Any, List, Tuple
 import random
 
-from Core.Monad.seed_factory import alchemy
-from Core.World.Physics.vector_math import Vector3
-from Core.World.Soul.emotional_physics import emotional_physics
-from Core.Foundation.Wave.wave_dna import WaveDNA, archetype_love, archetype_logic, archetype_nature
-from Core.Engine.character_field_engine import CharacterField
-from Core.Intelligence.Narrative.narrative_projector import THE_PROJECTOR
+from Core.L7_Spirit.Monad.seed_factory import alchemy
+from Core.L4_Causality.World.Physics.vector_math import Vector3
+from Core.L4_Causality.World.Soul.emotional_physics import emotional_physics
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA, archetype_love, archetype_logic, archetype_nature
+from Core.L6_Structure.Engine.character_field_engine import CharacterField
+from Core.L5_Mental.Intelligence.Narrative.narrative_projector import THE_PROJECTOR
 
 class TrinityCitizen:
     def __init__(self, name: str, archetype: str = "Explorer"):

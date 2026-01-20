@@ -2,12 +2,12 @@
 import logging
 import random
 from typing import List, Dict, Any
-from Core.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
-from Core.World.Soul.adventurer import Adventurer, Party
-from Core.World.Soul.world_soul import world_soul
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.Intelligence.Knowledge.semantic_field import semantic_field
-from Core.World.Autonomy.sovereign_will import sovereign_will
+from Core.L4_Causality.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
+from Core.L4_Causality.World.Soul.adventurer import Adventurer, Party
+from Core.L4_Causality.World.Soul.world_soul import world_soul
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Intelligence.Knowledge.semantic_field import semantic_field
+from Core.L4_Causality.World.Autonomy.sovereign_will import sovereign_will
 
 logger = logging.getLogger("GenesisEngine")
 

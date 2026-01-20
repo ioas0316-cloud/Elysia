@@ -2,7 +2,7 @@
 The Entropy Pump: Volitional Tension
 ====================================
 Phase 20 The Will - Module 1
-Core.Will.entropy_pump
+Core.L7_Spirit.Will.entropy_pump
 
 "Silence is not empty. It is full of tension waiting to break."
 

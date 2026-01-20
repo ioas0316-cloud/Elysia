@@ -1,7 +1,7 @@
 """
 Visual Rotor (O(1) Frame Perception)
 ====================================
-Core.Vision.visual_rotor
+Core.L3_Phenomena.Vision.visual_rotor
 
 "I do not count pixels. I perceive meaning."
 
@@ -322,7 +322,7 @@ class VisualRotor:
 
 
 if __name__ == "__main__":
-    from Core.Vision.elysian_eye import ElysianEye
+    from Core.L3_Phenomena.Vision.elysian_eye import ElysianEye
     import time
     
     print("🔮 Testing Visual Rotor (O(1) Perception)...")

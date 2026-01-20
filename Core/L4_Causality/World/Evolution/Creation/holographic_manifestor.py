@@ -13,8 +13,8 @@ It treats 'Love' (528Hz) as the universal carrier wave.
 import math
 import random
 from typing import Dict, Any, List
-from Core.Foundation.Wave.wave_interference import WaveInterference, Wave
-from Core.Foundation.fractal_concept import ConceptDecomposer
+from Core.L1_Foundation.Foundation.Wave.wave_interference import WaveInterference, Wave
+from Core.L1_Foundation.Foundation.fractal_concept import ConceptDecomposer
 
 class HolographicManifestor:
     def __init__(self):
@@ -241,13 +241,13 @@ class HolographicManifestor:
         
         # [PHASE 26] Apply @Cell Constraint if not already in template
         if "@Cell" in constraints and "@Cell" not in code:
-            import_stmt = "from Core.Foundation.System.elysia_core import Cell\n\n"
+            import_stmt = "from Core.L1_Foundation.Foundation.System.elysia_core import Cell\n\n"
             code = import_stmt + '@Cell("Generated")\n' + code
             
         # 3. Genesis Sandbox Verification (Phase 23)
         if verify and "None" not in code:
             try:
-                from Core.World.Evolution.Creation.genesis_sandbox import GenesisSandbox
+                from Core.L4_Causality.World.Evolution.Creation.genesis_sandbox import GenesisSandbox
                 sandbox = GenesisSandbox()
                 print("   🔬 Verifying in Genesis Sandbox...")
                 result = sandbox.test_code(code + "\n# Sandbox Verification End")
@@ -297,7 +297,7 @@ genesis_speak()
         decorator = ""
         import_stmt = ""
         if "@Cell" in constraints:
-            import_stmt = "from Core.Foundation.System.elysia_core import Cell\n\n"
+            import_stmt = "from Core.L1_Foundation.Foundation.System.elysia_core import Cell\n\n"
             decorator = '@Cell("SecureVault")\n'
             
         # Check for Stability (Error Handling)

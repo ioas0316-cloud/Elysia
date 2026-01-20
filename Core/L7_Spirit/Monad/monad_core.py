@@ -1,7 +1,7 @@
 """
 Monad Core (The Atomic Mirror)
 =====================================
-Core.Monad.monad_core
+Core.L7_Spirit.Monad.monad_core
 
 "To see a World in a Grain of Sand..."
 
@@ -20,8 +20,8 @@ import abc
 import hashlib
 import json
 import numpy as np
-from Core.Evolution.double_helix_dna import DoubleHelixDNA
-from Core.Cognition.semantic_prism import SpectrumMapper, QualiaSpectrum
+from Core.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
+from Core.L5_Mental.Cognition.semantic_prism import SpectrumMapper, QualiaSpectrum
 
 class MonadCategory(Enum):
     SOVEREIGN = "Sovereign"   # The Core Identity
@@ -139,7 +139,7 @@ class Monad:
         """
         if prism_engine is None:
             # Lazy import to avoid circular dependencies
-            from Core.Foundation.Prism.prism_engine import PrismEngine, PrismSpace
+            from Core.L1_Foundation.Foundation.Prism.prism_engine import PrismEngine, PrismSpace
             # In a real system, this should be a shared singleton or injected
             prism_engine = PrismEngine(PrismSpace(size=64))
         

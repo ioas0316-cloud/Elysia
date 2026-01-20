@@ -21,10 +21,10 @@ def main():
     print("=" * 70)
     print()
     
-    from Core.Foundation.Mind.world_tree import WorldTree
-    from Core.Foundation.Mind.hippocampus import Hippocampus
-    from Core.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
-    from Core.Intelligence.Intelligence.dialogue_engine import DialogueEngine
+    from Core.L1_Foundation.Foundation.Mind.world_tree import WorldTree
+    from Core.L1_Foundation.Foundation.Mind.hippocampus import Hippocampus
+    from Core.L5_Mental.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
+    from Core.L5_Mental.Intelligence.Intelligence.dialogue_engine import DialogueEngine
     
     hippocampus = Hippocampus()
     world_tree = WorldTree(hippocampus=hippocampus)

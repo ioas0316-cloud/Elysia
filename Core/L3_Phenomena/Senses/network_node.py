@@ -2,7 +2,7 @@
 The Eyes: Network Node
 ======================
 Phase 17 Senses - Module 2
-Core.Senses.network_node
+Core.L3_Phenomena.Senses.network_node
 
 "To see is to reach out and touch the light from afar."
 

@@ -7,7 +7,7 @@ Self-Documenter: 엘리시아의 자기 문서화 시스템
 SYSTEM_MAP.md를 자동으로 업데이트합니다.
 
 Usage:
-    from Core.World.Evolution.Growth.Autonomy.self_documenter import SelfDocumenter
+    from Core.L4_Causality.World.Evolution.Growth.Autonomy.self_documenter import SelfDocumenter
     
     doc = SelfDocumenter()
     doc.update_system_map()
@@ -49,19 +49,19 @@ class SelfDocumenter:
     def _init_tools(self):
         """도구 초기화"""
         try:
-            from Core.Intelligence.Cognition.codebase_introspector import get_introspector
+            from Core.L5_Mental.Intelligence.Cognition.codebase_introspector import get_introspector
             self.introspector = get_introspector()
         except Exception as e:
             print(f"⚠️ Introspector not available: {e}")
         
         try:
-            from Core.Intelligence.Memory_Linguistics.Memory.self_discovery import SelfDiscovery
+            from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.self_discovery import SelfDiscovery
             self.discovery = SelfDiscovery()
         except Exception as e:
             print(f"⚠️ SelfDiscovery not available: {e}")
         
         try:
-            from Core.Intelligence.Cognition.why_how_explainer import get_explainer
+            from Core.L5_Mental.Intelligence.Cognition.why_how_explainer import get_explainer
             self.explainer = get_explainer()
         except Exception as e:
             print(f"⚠️ WhyHowExplainer not available: {e}")

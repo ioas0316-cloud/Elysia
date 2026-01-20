@@ -1,7 +1,7 @@
 """
 Decay Manager: The Grim Reaper
 ==============================
-Core.Memory.decay_manager
+Core.L5_Mental.Memory.decay_manager
 
 "To remember is to choose. To forget is to live."
 
@@ -13,8 +13,8 @@ biological age and the time elapsed since the memory was last accessed.
 import math
 import random
 from typing import Tuple
-from Core.Memory.aging_clock import BiologicalClock
-from Core.Memory.qualia_layer import QualiaTag
+from Core.L5_Mental.Memory.aging_clock import BiologicalClock
+from Core.L5_Mental.Memory.qualia_layer import QualiaTag
 
 class DecayManager:
     """

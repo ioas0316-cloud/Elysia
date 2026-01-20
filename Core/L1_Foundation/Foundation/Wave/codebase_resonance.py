@@ -65,7 +65,7 @@ def build_resonance_graph(root_dir: str) -> nx.DiGraph:
     files = get_python_files(root_dir)
     
     # Map file paths to module names for linking
-    # e.g., c:\Elysia\Core\Physics\gravity.py -> Core.Foundation.Physics.gravity
+    # e.g., c:\Elysia\Core\Physics\gravity.py -> Core.L1_Foundation.Foundation.Physics.gravity
     path_to_module = {}
     module_to_path = {}
     
@@ -104,7 +104,7 @@ def build_resonance_graph(root_dir: str) -> nx.DiGraph:
             if imp in module_to_path:
                 target = imp
             
-            # 2. Submodule match (e.g. Core.Physics -> Core.Foundation.Physics.gravity)
+            # 2. Submodule match (e.g. Core.L1_Foundation.Physics -> Core.L1_Foundation.Foundation.Physics.gravity)
             # (Skipping for now to avoid noise)
             
             if target and target != module_name:

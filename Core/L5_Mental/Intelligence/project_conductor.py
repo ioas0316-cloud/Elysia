@@ -1,7 +1,7 @@
 """
 Project Conductor (The Overseer)
 ================================
-Core.Intelligence.project_conductor
+Core.L5_Mental.Intelligence.project_conductor
 
 "A conductor does not play an instrument. He aligns the resonance."
 
@@ -23,8 +23,8 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 from typing import List, Dict
-from Core.Foundation.Code.code_rotor import CodeRotor
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Code.code_rotor import CodeRotor
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class ProjectConductor:
     def __init__(self, root_path: str):

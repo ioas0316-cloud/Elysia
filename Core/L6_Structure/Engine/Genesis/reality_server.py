@@ -14,11 +14,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.
 
 # Import the core logic directly (Avoid WorldServer overhead for now)
 try:
-    from Core.Foundation.Nature.rotor import Rotor, RotorConfig
-    from Core.Engine.character_field_engine import CharacterField
-    from Core.Engine.governance_engine import GovernanceEngine
-    from Core.Foundation.Wave.wave_dna import WaveDNA
-    from Core.Foundation.Graph.torch_graph import TorchGraph # [Phase 43]
+    from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+    from Core.L6_Structure.Engine.character_field_engine import CharacterField
+    from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
+    from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+    from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph # [Phase 43]
 except ImportError as e:
     print(f"[Critical Error] Core modules missing: {e}")
     sys.exit(1)
@@ -117,7 +117,7 @@ class ImaginarySpace:
 class FractalCognition:
     """The 'Mind' Layer. Thinks by recursively expanding its internal Concept DNA."""
     def __init__(self, graph: TorchGraph = None):
-        from Core.Foundation.Philosophy.why_engine import WhyEngine
+        from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
         self.why = WhyEngine()
         self.graph = graph
         self.thought_stream = []

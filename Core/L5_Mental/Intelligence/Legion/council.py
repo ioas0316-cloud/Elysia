@@ -2,7 +2,7 @@
 """
 Council (The Narrator)
 ======================
-Core.Intelligence.Legion.council
+Core.L5_Mental.Intelligence.Legion.council
 
 The Observer that weaves the diverging rays into a coherent story.
 It does not synthesize a "final answer" but chronicles the "movement of thought".

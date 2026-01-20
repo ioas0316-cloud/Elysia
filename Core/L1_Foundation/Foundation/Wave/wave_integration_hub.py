@@ -60,7 +60,7 @@ class WaveIntegrationHub:
     def _initialize_ether(self):
         """Initialize connection to the Ether field"""
         try:
-            from Core.Foundation.ether import ether, Wave
+            from Core.L1_Foundation.Foundation.ether import ether, Wave
             self.ether = ether
             self.Wave = Wave
             self.active = True

@@ -17,8 +17,8 @@ import logging
 import random
 from typing import List, Dict, Tuple, Optional
 
-from Core.Foundation.Nature.multi_rotor import MultiRotor
-from Core.Foundation.Wave.helix_dna import HelixDNA
+from Core.L1_Foundation.Foundation.Nature.multi_rotor import MultiRotor
+from Core.L1_Foundation.Foundation.Wave.helix_dna import HelixDNA
 
 logger = logging.getLogger("VoidPhysics")
 

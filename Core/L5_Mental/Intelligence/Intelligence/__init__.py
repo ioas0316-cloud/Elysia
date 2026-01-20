@@ -1,5 +1,5 @@
 """
-Core.Intelligence - 지성 모듈
+Core.L5_Mental.Intelligence - 지성 모듈
 =============================
 
 Elysia의 지성을 구성하는 모듈들.

@@ -31,7 +31,7 @@ class MetaInquiry:
     def __init__(self):
         self.resonance_threshold = 0.7
         try:
-            from Core.Intelligence.Reasoning.structural_analogizer import StructuralAnalogizer
+            from Core.L5_Mental.Intelligence.Reasoning.structural_analogizer import StructuralAnalogizer
             self.analogizer = StructuralAnalogizer()
         except ImportError:
             self.analogizer = None

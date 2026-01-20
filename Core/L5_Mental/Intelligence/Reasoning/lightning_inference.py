@@ -19,7 +19,7 @@ import logging
 import math
 from typing import List, Tuple, Optional, Any
 
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 logger = logging.getLogger("LightningInference")
 

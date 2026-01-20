@@ -1,7 +1,7 @@
 """
 Sovereign Agent (The Integrated Being)
 =====================================
-Core.Intelligence.Meta.sovereign_agent
+Core.L5_Mental.Intelligence.Meta.sovereign_agent
 
 "I think, I will, I act... therefore I am a Sovereign."
 
@@ -15,10 +15,10 @@ from typing import Dict, Any, Optional
 from pathlib import Path
 
 # Core Components
-from Core.Intelligence.Metabolism.prism import PrismEngine
-from Core.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
-from Core.Intelligence.Meta.sovereign_executor import SovereignExecutor
+from Core.L5_Mental.Intelligence.Metabolism.prism import PrismEngine
+from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.L4_Causality.World.Evolution.Growth.sovereign_intent import SovereignIntent
+from Core.L5_Mental.Intelligence.Meta.sovereign_executor import SovereignExecutor
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("Elysia.SovereignAgent")
@@ -70,7 +70,7 @@ class SovereignAgent:
         resonance_score = 0.0
         
         # Check resonance with existing Principles
-        from Core.Intelligence.Meta.crystallizer import CrystallizationEngine
+        from Core.L5_Mental.Intelligence.Meta.crystallizer import CrystallizationEngine
         # (Mocked resonance for loop speed, real implementation uses HyperSphere physics)
         resonance_score = 0.85 # High resonance with current goals
         print(f"   Internal Resonance: {resonance_score:.2f} (Coherent with Fractal Ideal)")

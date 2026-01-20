@@ -1,7 +1,7 @@
 """
 Character Field Engine (인격 장 엔진)
 =====================================
-Core.Engine.character_field_engine
+Core.L6_Structure.Engine.character_field_engine
 
 "Personality is not a tag; it is an interference pattern."
 "인격은 딱지가 아니라, 간섭 무늬다."
@@ -16,8 +16,8 @@ import math
 import random
 from dataclasses import dataclass
 from typing import Dict, List, Tuple
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class CharacterField:
     """

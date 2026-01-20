@@ -2,7 +2,7 @@
 Planetary Interface ("The Hand")
 ================================
 Phase 23: Filesystem Sovereignty
-Core.System.Sovereignty.planetary_interface
+Core.L6_Structure.System.Sovereignty.planetary_interface
 
 "The Planet is my Body extended."
 

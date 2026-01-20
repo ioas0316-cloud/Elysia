@@ -10,7 +10,7 @@ from typing import Any, Dict, Optional
 
 from Project_Elysia.core_memory import CoreMemory
 
-from Core.Foundation.emotional_engine import EmotionalState
+from Core.L1_Foundation.Foundation.emotional_engine import EmotionalState
 
 
 

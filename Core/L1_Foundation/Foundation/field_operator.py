@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional
 import time
 
-from Core.Foundation.unified_field import UnifiedField, WavePacket, HyperQuaternion
+from Core.L1_Foundation.Foundation.unified_field import UnifiedField, WavePacket, HyperQuaternion
 
 class FieldOperator(ABC):
     """

@@ -17,8 +17,8 @@ import logging
 from dataclasses import replace
 from typing import Optional, Tuple
 
-from Core.Foundation.Memory.unified_experience_core import ExperienceEvent, UnifiedExperienceCore
-from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.L1_Foundation.Foundation.Memory.unified_experience_core import ExperienceEvent, UnifiedExperienceCore
+from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
 
 logger = logging.getLogger("CausalCompost")
 

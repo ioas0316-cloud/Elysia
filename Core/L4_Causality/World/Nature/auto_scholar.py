@@ -21,8 +21,8 @@ from typing import Set, List
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.Elysia.sovereign_self import SovereignSelf
-from Core.World.Nature.trinity_lexicon import TrinityLexicon
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L4_Causality.World.Nature.trinity_lexicon import TrinityLexicon
 
 # Setup Logging
 logging.basicConfig(

@@ -1,7 +1,7 @@
 """
 Narrative Weaver (The Bard)
 ===========================
-Core.Intelligence.narrative_weaver
+Core.L5_Mental.Intelligence.narrative_weaver
 
 "The Soul feels in Waves, but the Mind speaks in Stories."
 

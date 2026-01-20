@@ -1,7 +1,7 @@
 """
 Wave Function Collapse Engine (The Choice Maker)
 ================================================
-Core.Engine.wfc_engine
+Core.L6_Structure.Engine.wfc_engine
 
 "The cat is both dead and alive until the Spirit looks."
 

@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.World.Nature.trinity_lexicon import TrinityLexicon
+from Core.L4_Causality.World.Nature.trinity_lexicon import TrinityLexicon
 
 def test_logic():
     print("--- Testing Lexicon Logic ---")

@@ -22,7 +22,7 @@ from typing import Any, Tuple, Optional
 
 # Import HyperQuaternion if available, otherwise mock it for prototype
 try:
-    from Core.Foundation.hyper_quaternion import Quaternion
+    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 except ImportError:
     class Quaternion:
         def __init__(self, w, x, y, z):

@@ -16,7 +16,7 @@ It translates:
 import math
 import hashlib
 from typing import Tuple
-from Core.Intelligence.Ether.ether_node import EtherNode, Quaternion
+from Core.L5_Mental.Intelligence.Ether.ether_node import EtherNode, Quaternion
 
 # Standard Frequency Maps (Hz)
 FREQ_LOGIC = 100.0

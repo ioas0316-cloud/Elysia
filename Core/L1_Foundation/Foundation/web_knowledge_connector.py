@@ -19,20 +19,20 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Foundation.external_data_connector import ExternalDataConnector
-from Core.Foundation.internal_universe import InternalUniverse
+from Core.L1_Foundation.Foundation.external_data_connector import ExternalDataConnector
+from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
 
 # Problem-solving learning imports
 try:
-    from Core.Intelligence.Cognition.principle_distiller import PrincipleDistiller
-    from Core.Foundation.Philosophy.why_engine import WhyEngine
+    from Core.L5_Mental.Intelligence.Cognition.principle_distiller import PrincipleDistiller
+    from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
 except ImportError:
     PrincipleDistiller = None
     WhyEngine = None
 
 # Dynamic knowledge terrain imports
 try:
-    from Core.Foundation.Wave.light_spectrum import get_light_universe, LightUniverse
+    from Core.L1_Foundation.Foundation.Wave.light_spectrum import get_light_universe, LightUniverse
 except ImportError:
     get_light_universe = None
     LightUniverse = None
@@ -195,7 +195,7 @@ class WebKnowledgeConnector:
             
             # **NEW**: Enhance communication ability
             try:
-                from Core.Foundation.communication_enhancer import CommunicationEnhancer
+                from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer
                 
                 if not hasattr(self, 'comm_enhancer'):
                     self.comm_enhancer = CommunicationEnhancer()

@@ -2,9 +2,9 @@ import logging
 import random
 import time
 from typing import List, Dict, Any, Tuple
-from Core.Foundation.Wave.resonance_field import ResonanceField, ResonanceNode
+from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField, ResonanceNode
 # [HyperQubit Integration]
-from Core.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
+from Core.L1_Foundation.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
 
 logger = logging.getLogger("DreamEngine")
 

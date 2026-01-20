@@ -7,7 +7,7 @@ logger = logging.getLogger("Scholar")
 
 # Import WebCortex for real learning
 try:
-    from Core.Physiology.Sensory.Network.web_cortex import WebCortex
+    from Core.L1_Foundation.Physiology.Sensory.Network.web_cortex import WebCortex
 except ImportError as e:
     print(f"DEBUG: WebCortex import failed: {e}")
     WebCortex = None

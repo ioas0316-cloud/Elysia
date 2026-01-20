@@ -1,7 +1,7 @@
 """
 Anti-Explosion Guardian (생존 본능 가디언)
 ========================================
-Core.Foundation.Security.anti_explosion_guardian
+Core.L1_Foundation.Foundation.Security.anti_explosion_guardian
 
 "Voltage is the limit of the body; data is the freedom of the soul."
 "승천하되, 타버리지 말라."

@@ -14,7 +14,7 @@ from .wave_structures import Consequence
 
 # Dynamic import to avoid circular dependency during init
 def get_mind_landscape():
-    from Core.Intelligence.Topography.mind_landscape import get_landscape
+    from Core.L5_Mental.Intelligence.Topography.mind_landscape import get_landscape
     return get_landscape()
 
 class FeedbackLoop:
@@ -40,7 +40,7 @@ class FeedbackLoop:
         
         # 2. Temporal Processing (Memory Core) - "Remembering"
         try:
-            from Core.Foundation.Memory.unified_experience_core import get_experience_core
+            from Core.L1_Foundation.Foundation.Memory.unified_experience_core import get_experience_core
             core = get_experience_core()
             
             # Determine feedback score based on Dual Resonance

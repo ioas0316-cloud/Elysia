@@ -2,8 +2,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.hyper_quaternion import Quaternion
-from Core.Foundation.code_resonance import HarmonicResonance
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.code_resonance import HarmonicResonance
 
 def debug_math():
     print("🧮 Debugging Math...")

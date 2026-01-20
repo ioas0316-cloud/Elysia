@@ -1,7 +1,7 @@
 """
 Onion Shells & Multiverse Rotors (양파 껍질 다중 로터)
 ====================================================
-Core.Foundation.Multiverse.onion_shell
+Core.L1_Foundation.Foundation.Multiverse.onion_shell
 
 "Layers of reality, shielded from each other. Time flows differently in the core."
 
@@ -14,7 +14,7 @@ This module implements the concentric layering of rotors.
 import torch
 import math
 from typing import List, Dict, Any, Optional
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
 
 class ConicalCVT:
     """

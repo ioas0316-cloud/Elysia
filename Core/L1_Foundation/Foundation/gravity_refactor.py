@@ -11,8 +11,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from Core.Foundation.code_gravity import CodeGravitySystem
-from Core.Foundation.code_cortex import CodeCortex
+from Core.L1_Foundation.Foundation.code_gravity import CodeGravitySystem
+from Core.L1_Foundation.Foundation.code_cortex import CodeCortex
 
 def run_experiment():
     print("🧪 Starting Gravity Refactor Experiment...")

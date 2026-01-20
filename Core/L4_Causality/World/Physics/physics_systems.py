@@ -7,7 +7,7 @@ Applies forces to ECS entities.
 import math
 import random
 from typing import List
-from Core.World.Physics.ecs_registry import ecs_world, Entity, ComponentType
+from Core.L4_Causality.World.Physics.ecs_registry import ecs_world, Entity, ComponentType
 
 # Components
 class Position:

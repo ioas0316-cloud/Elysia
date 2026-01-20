@@ -1,7 +1,7 @@
 """
 The Sediment: Unstructured Geological Memory
 ============================================
-Core.Memory.sediment
+Core.L5_Mental.Memory.sediment
 
 "Don't organize. Just deposit."
 
@@ -19,7 +19,7 @@ from typing import List, Tuple, Optional, Any
 
 # [CORE] Integration
 try:
-    from Core.Engine.Physics.core_turbine import PhotonicMonad
+    from Core.L6_Structure.Engine.Physics.core_turbine import PhotonicMonad
 except ImportError:
     PhotonicMonad = Any # Placeholder
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 import uuid
 import time
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 
 @dataclass
 class CodeDNA:

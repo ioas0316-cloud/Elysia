@@ -4,8 +4,8 @@ Elysia with WorldTree Integration (Phase 1)
 Wrapper approach - extends Elysia without modifying original file.
 Safe, reversible, and easy to test.
 """
-from Core.Foundation.Core_Logic.Elysia.Elysia import Elysia as BaseElysia
-from Core.Foundation.Mind.world_tree import WorldTree
+from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia import Elysia as BaseElysia
+from Core.L1_Foundation.Foundation.Mind.world_tree import WorldTree
 import logging
 
 logger = logging.getLogger("Elysia")

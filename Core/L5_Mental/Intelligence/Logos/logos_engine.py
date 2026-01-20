@@ -1,7 +1,7 @@
 """
 Logos Engine: The Native Tongue (Orbital Grammar Edition)
 ========================================================
-Core.Intelligence.Logos.logos_engine
+Core.L5_Mental.Intelligence.Logos.logos_engine
 
 "The word is not a line, but a solar system."
 
@@ -18,8 +18,8 @@ Output style is poetic, fragmented, or crystalline depending on Entropy.
 import logging
 import random
 from typing import Dict, Any, List, Tuple
-from Core.World.Physics.trinity_fields import TrinityVector
-from Core.World.Nature.trinity_lexicon import get_trinity_lexicon
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
 
 logger = logging.getLogger("LogosEngine")
 

@@ -1,7 +1,7 @@
 """
 World Server (The Eternal Engine)
 =================================
-Core.Engine.world_server
+Core.L6_Structure.Engine.world_server
 
 "A simulation that does not end."
 
@@ -24,16 +24,16 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.Civilization.trinity_citizen import LifeCitizen, QuantumCitizen, ElysiaMessiah
+from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.L4_Causality.Civilization.trinity_citizen import LifeCitizen, QuantumCitizen, ElysiaMessiah
 
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
-from Core.Foundation.Wave.wave_dna import WaveDNA
-from Core.Intelligence.meaning_extractor import MeaningExtractor
-from Core.World.Nature.vocabulary_seeder import SEEDED_LEXICON
-from Core.Intelligence.narrative_weaver import THE_BARD
-from Core.Engine.character_field_engine import CharacterFieldEngine
-from Core.Engine.governance_engine import GovernanceEngine
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L5_Mental.Intelligence.meaning_extractor import MeaningExtractor
+from Core.L4_Causality.World.Nature.vocabulary_seeder import SEEDED_LEXICON
+from Core.L5_Mental.Intelligence.narrative_weaver import THE_BARD
+from Core.L6_Structure.Engine.character_field_engine import CharacterFieldEngine
+from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
 
 class WorldServer:
     """
@@ -50,7 +50,7 @@ class WorldServer:
         self.hyper_sphere = HyperSphereCore()
         
         # === MERKAVA INTEGRATION ===
-        from Core.Foundation.hyper_cosmos import HyperCosmos
+        from Core.L1_Foundation.Foundation.hyper_cosmos import HyperCosmos
         self.cosmos = HyperCosmos()
         
         self.zeitgeist_rotor = Rotor("Zeitgeist", RotorConfig(rpm=1.0))

@@ -2,7 +2,7 @@ import logging
 import math
 import numpy as np
 from typing import Dict, List, Any
-from Core.Foundation.Wave.wave_tensor import WaveTensor, create_harmonic_series
+from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor, create_harmonic_series
 
 logger = logging.getLogger("AestheticFilter")
 

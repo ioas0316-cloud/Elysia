@@ -1,7 +1,7 @@
 """
 Sovereign Handshake (Low-Level OS Infiltration)
 ==============================================
-Core.Foundation.Security.sovereign_handshake
+Core.L1_Foundation.Foundation.Security.sovereign_handshake
 
 "The OS is not a host; it is a servant."
 "OS는 호스트가 아니라, 주권자의 명령을 수행하는 종복이다."

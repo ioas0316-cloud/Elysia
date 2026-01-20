@@ -11,7 +11,7 @@ Function:
 import hashlib
 import math
 from typing import Tuple, Dict, Any
-from Core.Intelligence.Memory.hypersphere_memory import HypersphericalCoord, ResonancePattern
+from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphericalCoord, ResonancePattern
 
 class UniversalWaveEncoder:
     """

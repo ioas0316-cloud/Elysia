@@ -1,7 +1,7 @@
 """
 Axiomatic Architect (원리 건축사)
 ==============================
-Core.Monad.axiomatic_architect
+Core.L7_Spirit.Monad.axiomatic_architect
 
 "The law is not given. It is installed."
 

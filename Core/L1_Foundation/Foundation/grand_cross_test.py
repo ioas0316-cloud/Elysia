@@ -10,7 +10,7 @@ Verifies the alignment of Star, Planet, Satellite, and Gravity.
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Foundation.resonance_grammar import CosmicSyntaxEngine
+from Core.L1_Foundation.Foundation.resonance_grammar import CosmicSyntaxEngine
 
 def main():
     print("\n" + "="*70)

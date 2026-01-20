@@ -1,7 +1,7 @@
 """
 Seed Factory ( The Alchemist )
 ==============================
-Core.Monad.seed_factory
+Core.L7_Spirit.Monad.seed_factory
 
 "Give me a word, and I will give you the World."
 
@@ -11,8 +11,8 @@ Purpose:
 """
 
 from typing import List
-from Core.Monad.monad_core import Monad, FractalRule
-from Core.Monad.principles import ThermodynamicsRule, FluidDynamicsRule, OpticsRule, SemanticsRule, LinguisticsRule, SociologyRule
+from Core.L7_Spirit.Monad.monad_core import Monad, FractalRule
+from Core.L7_Spirit.Monad.principles import ThermodynamicsRule, FluidDynamicsRule, OpticsRule, SemanticsRule, LinguisticsRule, SociologyRule
 
 class SeedFactory:
     def __init__(self):

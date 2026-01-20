@@ -1,7 +1,7 @@
 """
 Sensory Cortex (The Mirror of Qualia)
 =====================================
-Core.Senses.sensory_cortex
+Core.L3_Phenomena.Senses.sensory_cortex
 
 "To see is to vibrate with the frequency of light."
 
@@ -10,7 +10,7 @@ It allows Elysia to 'feel' the texture of an image or the weight of a tragedy.
 """
 
 from typing import List, Dict, Tuple
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class SensoryCortex:
     def __init__(self):

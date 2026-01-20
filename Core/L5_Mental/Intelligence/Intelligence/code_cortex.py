@@ -94,7 +94,7 @@ class CodeCortex:
         This is the 'Writer' capability.
         """
         try:
-            from Core.Foundation.gemini_api import generate_text
+            from Core.L1_Foundation.Foundation.gemini_api import generate_text
             
             system_prompt = f"""
             You are the CodeCortex of Elysia.
@@ -116,7 +116,7 @@ class CodeCortex:
             if "(Mock Response)" in response or "(Error Response)" in response:
                 # Smart Mock for Ouroboros Testing
                 if "import" in prompt.lower() or "integrate" in prompt.lower():
-                     return f"# [Ouroboros Auto-Fix]\n# Generated in Mock Mode for Testing\nimport Core.Intelligence.Reasoning.reasoning_engine\n\n# Original content preserved conceptually..."
+                     return f"# [Ouroboros Auto-Fix]\n# Generated in Mock Mode for Testing\nimport Core.L5_Mental.Intelligence.Reasoning.reasoning_engine\n\n# Original content preserved conceptually..."
                 return f"# {response}" # Return as comment to avoid syntax error
             
             return response.strip()

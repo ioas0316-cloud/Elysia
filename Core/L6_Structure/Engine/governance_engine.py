@@ -1,7 +1,7 @@
 """
 Adaptive Governance Engine (Breathing Time)
 ===========================================
-Core.Engine.governance_engine
+Core.L6_Structure.Engine.governance_engine
 
 "The machine does not just spin; it breathes."
 "기계는 그저 도는 것이 아니라, 숨을 쉰다."
@@ -16,8 +16,8 @@ import math
 import random
 from typing import Dict, List, Optional
 from dataclasses import dataclass
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 @dataclass
 class AdaptiveGear:
@@ -32,7 +32,7 @@ class GovernanceEngine:
     [DNA Recursion] Self-Centric Governance Engine with Adaptive Breath.
     """
     def __init__(self):
-        from Core.Foundation.Multiverse.onion_shell import OnionEnsemble
+        from Core.L1_Foundation.Foundation.Multiverse.onion_shell import OnionEnsemble
         # [PHASE 27.5: CONICAL CVT] 
         # No more discrete gears. We use a sliding spindle on a cone.
         self.stress_level = 0.0

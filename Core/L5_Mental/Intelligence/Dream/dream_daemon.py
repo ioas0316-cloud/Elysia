@@ -4,7 +4,7 @@ import random
 import logging
 import threading
 from typing import List, Optional, Dict
-from Core.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
+from Core.L4_Causality.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
 
 logger = logging.getLogger("DreamDaemon")
 
@@ -28,7 +28,7 @@ def _get_graph():
     global _torch_graph
     if _torch_graph is None:
         try:
-            from Core.Foundation.torch_graph import get_torch_graph
+            from Core.L1_Foundation.Foundation.torch_graph import get_torch_graph
             _torch_graph = get_torch_graph()
         except Exception as e:
             logger.warning(f"TorchGraph unavailable: {e}")
@@ -39,7 +39,7 @@ def _get_logos():
     global _logos_engine
     if _logos_engine is None:
         try:
-            from Core.Intelligence.Intelligence.logos_engine import get_logos_engine
+            from Core.L5_Mental.Intelligence.Intelligence.logos_engine import get_logos_engine
             _logos_engine = get_logos_engine()
         except Exception as e:
             logger.warning(f"LogosEngine unavailable: {e}")
@@ -86,7 +86,7 @@ class DreamDaemon:
         if not hasattr(self, 'wiki_parser'):
              # Lazy Load
             try:
-                from Core.World.Evolution.Autonomy.wikipedia_dump_parser import WikipediaDumpParser
+                from Core.L4_Causality.World.Evolution.Autonomy.wikipedia_dump_parser import WikipediaDumpParser
                 dump_path = "c:\\Elysia\\data\\wikipedia\\kowiki-latest-pages-articles.xml.bz2"
                 self.wiki_gen = WikipediaDumpParser(dump_path).stream_articles()
                 self.wiki_parser = True
@@ -100,7 +100,7 @@ class DreamDaemon:
 
         # Delegate digestion to the Core Brain (Orchestra)
         # This ensures full compression, resonance, and memory integration.
-        from Core.Foundation.Core_Logic.Elysia.elysia_core import get_elysia_core
+        from Core.L1_Foundation.Foundation.Core_Logic.Elysia.elysia_core import get_elysia_core
         core = get_elysia_core()
 
         # [High-Velocity Ingestion]
@@ -139,7 +139,7 @@ class DreamDaemon:
             # [Phase 26] Lucid Dream Walk (Exploration of Dark Energy)
             # 10% chance to enter deep exploration
             if random.random() < 0.1:
-                from Core.World.Evolution.Autonomy.oneiric_navigator import get_oneiric_navigator
+                from Core.L4_Causality.World.Evolution.Autonomy.oneiric_navigator import get_oneiric_navigator
                 navigator = get_oneiric_navigator(self.graph)
                 navigator.explore_the_void()
             
@@ -244,7 +244,7 @@ class DreamDaemon:
         Uses PrincipleDistiller to extract the 'Being' (Principle/Mechanism) of a concept.
         Saves this wisdom into the node's metadata.
         """
-        from Core.Intelligence.Cognition.principle_distiller import get_principle_distiller
+        from Core.L5_Mental.Intelligence.Cognition.principle_distiller import get_principle_distiller
         distiller = get_principle_distiller()
         
         # 1. Pick a concept (Prioritize Hollow Nodes)
@@ -268,7 +268,7 @@ class DreamDaemon:
             
             # [NEW] Reality Grounding (Phase 15)
             # Check if this concept exists in Physical Reality
-            from Core.Intelligence.Cognition.reality_grounding import get_reality_grounding
+            from Core.L5_Mental.Intelligence.Cognition.reality_grounding import get_reality_grounding
             # We need the bridge from distiller
             grounding = get_reality_grounding(distiller.bridge)
             if grounding:
@@ -286,7 +286,7 @@ class DreamDaemon:
         Uses CodeGenesis to critique her own source code.
         This is the precursor to Self-Rewriting.
         """
-        from Core.World.Evolution.Autonomy.code_genesis import get_code_genesis
+        from Core.L4_Causality.World.Evolution.Autonomy.code_genesis import get_code_genesis
         import os
         
         genesis = get_code_genesis()
@@ -316,7 +316,7 @@ class DreamDaemon:
         Uses ComfyUI (VisualCortex) to see what a concept looks like.
         Absorbs the 'Aesthetic Signature' (Color, Chaos) into the vector.
         """
-        from Core.Physiology.Sensory.Visual.visual_cortex import get_visual_cortex
+        from Core.L1_Foundation.Physiology.Sensory.Visual.visual_cortex import get_visual_cortex
         cortex = get_visual_cortex()
         if not cortex.is_available(): return
 

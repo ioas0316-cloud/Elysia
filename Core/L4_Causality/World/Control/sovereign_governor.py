@@ -1,7 +1,7 @@
 """
 Sovereign Governor (Adaptive Architecture)
 ==========================================
-Core.World.Control.sovereign_governor
+Core.L4_Causality.World.Control.sovereign_governor
 
 "The Ruler adapts to the Territory."
 

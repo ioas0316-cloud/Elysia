@@ -17,8 +17,8 @@ Dimensions:
 import logging
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
-from Core.Foundation.unified_field import HyperQuaternion
-from Core.Intelligence.Reasoning.narrative_causality import NarrativeCausality
+from Core.L1_Foundation.Foundation.unified_field import HyperQuaternion
+from Core.L5_Mental.Intelligence.Reasoning.narrative_causality import NarrativeCausality
 
 logger = logging.getLogger("DimensionalReasoner")
 
@@ -55,7 +55,7 @@ class DimensionalReasoner:
         
         # 1D: Line (Logic) - WhyEngine
         try:
-            from Core.Foundation.Philosophy.why_engine import WhyEngine
+            from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
             why = WhyEngine()
             # Analyze purely for logical principle
             why_result = why.analyze(subject=kernel, content=kernel, domain="logic")
@@ -67,13 +67,13 @@ class DimensionalReasoner:
 
         # 2D: Plane (Context) - ContextWeaver
         try:
-            from Core.Intelligence.Weaving.context_weaver import ContextWeaver
-            from Core.Intelligence.Weaving.intelligence_line import IntelligenceLine
+            from Core.L5_Mental.Intelligence.Weaving.context_weaver import ContextWeaver
+            from Core.L5_Mental.Intelligence.Weaving.intelligence_line import IntelligenceLine
             # Create a temporary simulation of context
             weaver = ContextWeaver([])
             # We don't have live lines here, but we can simulate 'Mental Context'
             # For now, we associate keywords
-            from Core.Intelligence.Knowledge.semantic_field import semantic_field
+            from Core.L5_Mental.Intelligence.Knowledge.semantic_field import semantic_field
             pos = semantic_field.get_concept_pos(kernel)
             nearby = semantic_field.query_resonance(pos) if pos else []
             t.d2_context = [n.meaning for n in nearby] if nearby else ["Unknown Context"]
@@ -84,7 +84,7 @@ class DimensionalReasoner:
 
         # 3D: Space (Volume) - ParadoxEngine (Dialectics)
         try:
-            from Core.Intelligence.Reasoning.paradox_engine import ParadoxEngine
+            from Core.L5_Mental.Intelligence.Reasoning.paradox_engine import ParadoxEngine
             paradox = ParadoxEngine()
             # Check for inherent contradictions in the concept
             # Thesis: kernel, Antithesis: anti-kernel?
@@ -97,7 +97,7 @@ class DimensionalReasoner:
 
         # 4D: Law (Principle) - AxiomSynthesizer
         try:
-            from Core.Intelligence.Meta.axiom_synthesizer import AxiomSynthesizer
+            from Core.L5_Mental.Intelligence.Meta.axiom_synthesizer import AxiomSynthesizer
             synth = AxiomSynthesizer()
             # Synthesize all previous dimensions into a Law
             thought_vol = f"{t.d0_fact} -> {t.d1_logic} -> {t.d2_context} -> {t.d3_volume}"
@@ -113,7 +113,7 @@ class DimensionalReasoner:
 
         # [PHASE 37] Hypersphere Integration (Fragmentation Prevention)
         try:
-            from Core.Intelligence.Memory.tesseract_memory import get_tesseract_memory, TesseractVector
+            from Core.L5_Mental.Intelligence.Memory.tesseract_memory import get_tesseract_memory, TesseractVector
             memory = get_tesseract_memory()
             
             # Simple vector generation (in real system, use embeddings)
@@ -178,7 +178,7 @@ class DimensionalReasoner:
         """
         Projects the HyperThought as a cohesive dramatic arc.
         """
-        from Core.Intelligence.Reasoning.models import CognitiveResult
+        from Core.L5_Mental.Intelligence.Reasoning.models import CognitiveResult
         
         mock_results = [
             CognitiveResult("0D", thought.d0_fact, {}),

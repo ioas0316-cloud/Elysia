@@ -13,7 +13,7 @@ It answers:
 
 import math
 from typing import List, Dict, Optional
-from Core.Foundation.Space.hyper_space import FieldKnot
+from Core.L1_Foundation.Foundation.Space.hyper_space import FieldKnot
 
 class TrajectoryAnalyzer:
     def __init__(self, anchors: Dict[str, List[float]]):

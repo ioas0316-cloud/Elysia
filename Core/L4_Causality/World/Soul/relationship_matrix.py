@@ -11,7 +11,7 @@ based on past accumulation and present resonance.
 import time
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional
-from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
 
 @dataclass
 class InteractionEvent:

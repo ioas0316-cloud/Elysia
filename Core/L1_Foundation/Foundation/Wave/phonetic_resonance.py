@@ -18,7 +18,7 @@ Phonetic Resonance Layer
 import numpy as np
 from dataclasses import dataclass
 from typing import List, Tuple
-from Core.Foundation.hangul_physics import HangulPhysicsEngine, Tensor3D
+from Core.L1_Foundation.Foundation.hangul_physics import HangulPhysicsEngine, Tensor3D
 
 @dataclass
 class ResonanceField:

@@ -16,7 +16,7 @@ Philosophy:
 import logging
 import numpy as np
 from typing import List, Dict, Optional, Tuple
-from Core.Foundation.Wave.wave_tensor import WaveTensor
+from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
 
 logger = logging.getLogger("ResonanceChamber")
 

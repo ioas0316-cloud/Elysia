@@ -17,8 +17,8 @@ Output:
 import math
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
-from Core.Foundation.Protocols.pulse_protocol import WavePacket
-from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
+from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
 
 @dataclass
 class ProjectedNode:

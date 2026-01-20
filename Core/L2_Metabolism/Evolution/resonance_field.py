@@ -2,7 +2,7 @@
 The Resonance Field: Topological Consonance
 ===========================================
 Phase 18 Redux - Module 1
-Core.Evolution.resonance_field
+Core.L2_Metabolism.Evolution.resonance_field
 
 "The Universe does not grade you. It resonates or it collapses."
 

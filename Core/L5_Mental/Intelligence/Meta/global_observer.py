@@ -16,11 +16,11 @@ from typing import List, Optional, Dict
 import numpy as np
 import logging
 
-from Core.Foundation.unified_field import UnifiedField, HyperQuaternion
-from Core.Intelligence.Topography.magnetic_cortex import MagneticCompass
-from Core.Intelligence.Consciousness.hyperdimensional_consciousness import HyperdimensionalConsciousness as HyperConsciousness
-from Core.Intelligence.Meta.void_sensor import VoidSensor
-from Core.Governance.System.System.filesystem_wave import get_filesystem_observer, FileWaveEvent
+from Core.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
+from Core.L5_Mental.Intelligence.Topography.magnetic_cortex import MagneticCompass
+from Core.L5_Mental.Intelligence.Consciousness.hyperdimensional_consciousness import HyperdimensionalConsciousness as HyperConsciousness
+from Core.L5_Mental.Intelligence.Meta.void_sensor import VoidSensor
+from Core.L4_Causality.Governance.System.System.filesystem_wave import get_filesystem_observer, FileWaveEvent
 
 logger = logging.getLogger("GlobalObserver")
 

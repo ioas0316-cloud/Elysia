@@ -15,9 +15,9 @@ import logging
 from dataclasses import dataclass, field
 from typing import Dict, Any, Optional
 
-from Core.Foundation.quaternion_wave_dna import QuaternionCompressor, QuaternionWaveDNA, get_quaternion_compressor
-from Core.Foundation.phonetic_resonance import PhoneticResonanceEngine, ResonanceField, get_resonance_engine
-from Core.Foundation.fractal_knowledge import FractalKnowledgeSeed, get_fractal_seed
+from Core.L1_Foundation.Foundation.quaternion_wave_dna import QuaternionCompressor, QuaternionWaveDNA, get_quaternion_compressor
+from Core.L1_Foundation.Foundation.phonetic_resonance import PhoneticResonanceEngine, ResonanceField, get_resonance_engine
+from Core.L1_Foundation.Foundation.fractal_knowledge import FractalKnowledgeSeed, get_fractal_seed
 
 logger = logging.getLogger("ThoughtWave")
 

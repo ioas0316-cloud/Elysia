@@ -66,7 +66,7 @@ class Growth:
         """심장 가져오기 (지연 로딩)"""
         if self._heart is None:
             try:
-                from Core.Foundation.heart import get_heart
+                from Core.L1_Foundation.Foundation.heart import get_heart
                 self._heart = get_heart()
             except ImportError:
                 # Fallback: mock heart
@@ -263,7 +263,7 @@ class Growth:
         
         # 실제 import 시도
         try:
-            module = importlib.import_module(f"Core.Evolution.{fragment_name}")
+            module = importlib.import_module(f"Core.L2_Metabolism.Evolution.{fragment_name}")
             
             connection = Connection(
                 fragment=fragment,

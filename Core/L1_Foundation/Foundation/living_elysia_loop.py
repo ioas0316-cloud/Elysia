@@ -17,8 +17,8 @@ import logging
 # Path hack for testing
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 # Setup Logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')

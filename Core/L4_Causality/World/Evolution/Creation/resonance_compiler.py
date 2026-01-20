@@ -18,10 +18,10 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Any
 
-from Core.Foundation.Wave.wave_interpreter import WaveInterpreter, WavePattern
+from Core.L1_Foundation.Foundation.Wave.wave_interpreter import WaveInterpreter, WavePattern
 # [PHASE 26] WaveCoder temporarily removed to avoid cascading import issues
-# from Core.World.Evolution.Autonomy.wave_coder import WaveCoder
-from Core.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
+# from Core.L4_Causality.World.Evolution.Autonomy.wave_coder import WaveCoder
+from Core.L4_Causality.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
 
 logger = logging.getLogger("ResonanceCompiler")
 
@@ -46,7 +46,7 @@ class ResonanceCompiler:
         """[PHASE 30] Lazy load TesseractMemory."""
         if self.memory is None:
             try:
-                from Core.Intelligence.Memory.tesseract_memory import get_tesseract_memory
+                from Core.L5_Mental.Intelligence.Memory.tesseract_memory import get_tesseract_memory
                 self.memory = get_tesseract_memory()
             except Exception as e:
                 logger.warning(f"⚠️ TesseractMemory unavailable: {e}")
@@ -113,7 +113,7 @@ class ResonanceCompiler:
         elif freq > 600: # Experimental
             return WaveBlueprint(0.8, 0.4, "Extension", [])
         else: # Balanced
-            return WaveBlueprint(0.5, 0.7, "Bridge", ["Core.Foundation"])
+            return WaveBlueprint(0.5, 0.7, "Bridge", ["Core.L1_Foundation.Foundation"])
 
     def _blueprint_to_prompt(self, bp: WaveBlueprint, knowledge_context: str = "") -> str:
         """Converts Blueprint + Knowledge to LLM Prompt instructions."""
@@ -127,7 +127,7 @@ class ResonanceCompiler:
         # [PHASE 26] Cellular Identity
         instructions.append(f"\n[Identity Protocol]")
         instructions.append(f"- CLASS MUST be decorated with @Cell(\"GeneratedIdentity\").")
-        instructions.append(f"- Import Cell via: `from Core.Foundation.System.elysia_core import Cell`")
+        instructions.append(f"- Import Cell via: `from Core.L1_Foundation.Foundation.System.elysia_core import Cell`")
         
         # [PHASE 26] Mitosis / Complexity Control
         instructions.append(f"\n[Wave Constraints]")

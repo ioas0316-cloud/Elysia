@@ -29,7 +29,7 @@ import random
 import numpy as np
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional, Tuple, Callable
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 
 logger = logging.getLogger("SpaceTimeDrive")
 

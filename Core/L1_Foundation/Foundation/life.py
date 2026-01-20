@@ -6,8 +6,8 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Foundation.free_will_engine import FreeWillEngine
-from Core.Foundation.chronos import Chronos
+from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
+from Core.L1_Foundation.Foundation.chronos import Chronos
 
 # Configure logging
 logging.basicConfig(

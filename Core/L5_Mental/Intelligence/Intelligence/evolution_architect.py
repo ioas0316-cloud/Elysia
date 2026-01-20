@@ -19,7 +19,7 @@ class Blueprint:
     The DNA Map for the New Seed.
     """
     goal: OptimizationGoal
-    structure: Dict[str, str] # {module_name: action} (e.g., 'Core.Foundation': 'Keep')
+    structure: Dict[str, str] # {module_name: action} (e.g., 'Core.L1_Foundation.Foundation': 'Keep')
     improvements: List[str]
     execution_steps: List[str]
     
@@ -47,13 +47,13 @@ class EvolutionArchitect:
         
         # Connect to Internal Systems
         try:
-            from Core.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness
+            from Core.L5_Mental.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness
             self.metacognition = MetacognitiveAwareness()
         except ImportError:
             self.metacognition = None
             
         try:
-            from Core.World.Evolution.Growth.Autonomy.self_modifier_v2 import get_self_modifier
+            from Core.L4_Causality.World.Evolution.Growth.Autonomy.self_modifier_v2 import get_self_modifier
             self.self_modifier = get_self_modifier()
         except ImportError:
             self.self_modifier = None
@@ -102,11 +102,11 @@ class EvolutionArchitect:
         
         if gaps:
             improvements.append(f"Synthesize Meaning: {'; '.join(gaps[:1])}")
-            structure["Core.Cognition"] = "Harmonize (Link patterns)"
+            structure["Core.L5_Mental.Cognition"] = "Harmonize (Link patterns)"
             
         if faults:
             improvements.append(f"Heal Structure: {'; '.join(faults[:1])}")
-            structure["Core.Autonomy"] = "Refactor (Restore Flow)"
+            structure["Core.L4_Causality.Autonomy"] = "Refactor (Restore Flow)"
             
         if not improvements:
             improvements = ["Deep Reflection", "Generate new metaphors for old concepts"]

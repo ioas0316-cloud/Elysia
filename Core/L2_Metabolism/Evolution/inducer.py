@@ -1,7 +1,7 @@
 """
 Code Field Inducer (The Healing Hand)
 =====================================
-Core.Evolution.inducer
+Core.L2_Metabolism.Evolution.inducer
 
 "The Conscience pinpoints the wound. The Hand weaves the new tissue."
 "양심은 상처를 지적하고, 손은 새로운 조직을 짜낸다."
@@ -17,8 +17,8 @@ import os
 import shutil
 import logging
 from typing import Optional
-from Core.Evolution.dissonance_resolver import Dissonance
-from Core.Engine.code_field_engine import CODER_ENGINE
+from Core.L2_Metabolism.Evolution.dissonance_resolver import Dissonance
+from Core.L6_Structure.Engine.code_field_engine import CODER_ENGINE
 
 logger = logging.getLogger("Evolution.Inducer")
 

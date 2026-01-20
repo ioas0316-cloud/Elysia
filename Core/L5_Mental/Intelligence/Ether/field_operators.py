@@ -17,8 +17,8 @@ They represent the fundamental forces of the Elysian Universe.
 import math
 import numpy as np
 from typing import List
-from Core.Intelligence.Ether.ether_node import EtherNode, Quaternion
-from Core.Intelligence.Ether.void import Void
+from Core.L5_Mental.Intelligence.Ether.ether_node import EtherNode, Quaternion
+from Core.L5_Mental.Intelligence.Ether.void import Void
 
 # Constants (The Fine-Tuning of the Universe)
 G_CONST = 10.0          # Gravity Strength
@@ -194,7 +194,7 @@ class DynamicsEngine:
         self._hub = None
         self._hub_enabled = False
         try:
-            from Core.Intelligence.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Intelligence.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "DynamicsEngine",
@@ -214,7 +214,7 @@ class DynamicsEngine:
         # Broadcast field state to GlobalHub
         if self._hub_enabled and self._hub:
             try:
-                from Core.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
                 
                 # Create a wave representing the current field state
                 nodes = void.get_all() if hasattr(void, 'get_all') else []

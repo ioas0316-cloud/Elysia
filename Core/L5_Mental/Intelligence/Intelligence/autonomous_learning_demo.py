@@ -8,8 +8,8 @@ Shows ConsciousnessEngine with AutonomousExplorer actually learning!
 import sys
 sys.path.insert(0, "C:\\Elysia")
 
-from Core.Foundation.Core_Logic.Elysia.Elysia.consciousness_engine import ConsciousnessEngine
-from Core.Foundation.Mind.autonomous_explorer import AutonomousExplorer
+from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.consciousness_engine import ConsciousnessEngine
+from Core.L1_Foundation.Foundation.Mind.autonomous_explorer import AutonomousExplorer
 
 print("\n" + "="*70)
 print("🌌 AUTONOMOUS LEARNING DEMONSTRATION")

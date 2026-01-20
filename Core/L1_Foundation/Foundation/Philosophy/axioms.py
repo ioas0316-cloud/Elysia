@@ -1,7 +1,7 @@
 """
 AXIOMS (The Compass)
 ====================
-Core.Foundation.Philosophy.axioms
+Core.L1_Foundation.Foundation.Philosophy.axioms
 
 "The Engine provides Motion. The Axioms provide Direction."
 

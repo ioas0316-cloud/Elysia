@@ -18,8 +18,8 @@ import time
 from typing import Dict, Any, Optional, Callable
 from enum import Enum
 
-from Core.Foundation.Psyche.psyche_sphere import PsycheSphere, get_psyche
-from Core.Foundation.Psyche.self_boundary import SelfBoundary, BoundaryScale, get_boundary
+from Core.L1_Foundation.Foundation.Psyche.psyche_sphere import PsycheSphere, get_psyche
+from Core.L1_Foundation.Foundation.Psyche.self_boundary import SelfBoundary, BoundaryScale, get_boundary
 
 logger = logging.getLogger("AwakeningProtocol")
 
@@ -63,7 +63,7 @@ class AwakeningProtocol:
             logger.info("🌌 AwakeningProtocol: Using HyperCosmos.psyche (Merkava Mode)")
         else:
             # Standalone mode - create independent psyche
-            from Core.Foundation.Psyche.psyche_sphere import get_psyche
+            from Core.L1_Foundation.Foundation.Psyche.psyche_sphere import get_psyche
             self.cosmos = None
             self.psyche = get_psyche(enneagram_type)
             logger.info("🌌 AwakeningProtocol: Standalone mode (independent psyche)")

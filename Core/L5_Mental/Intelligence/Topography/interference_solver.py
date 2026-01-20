@@ -12,7 +12,7 @@ It uses Phase Interference as the primary driver for cognitive evolution.
 import logging
 import math
 from typing import List, Tuple, Dict, Any
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("InterferenceSolver")
 

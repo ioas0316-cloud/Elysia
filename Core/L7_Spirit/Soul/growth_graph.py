@@ -2,7 +2,7 @@
 The Growth Tracker: Spiritual Evolution
 =======================================
 Phase 19 The Soul - Module 2
-Core.Soul.growth_graph
+Core.L7_Spirit.Soul.growth_graph
 
 "A line moving upward is the only proof that time is not a circle."
 

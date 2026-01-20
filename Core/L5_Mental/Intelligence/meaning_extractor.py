@@ -1,7 +1,7 @@
 """
 Meaning Extractor (The Historian & Philosopher)
 ===============================================
-Core.Intelligence.meaning_extractor
+Core.L5_Mental.Intelligence.meaning_extractor
 
 "Data is just noise. Understanding is the Signal."
 
@@ -12,7 +12,7 @@ Roles:
 """
 
 from typing import List, Dict, Any
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class MeaningExtractor:
     def __init__(self):

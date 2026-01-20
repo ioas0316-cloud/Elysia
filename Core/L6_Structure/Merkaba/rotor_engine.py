@@ -1,7 +1,7 @@
 """
 Rotor Engine (The Perpetual Perspective)
 =====================================
-Core.Merkaba.rotor_engine
+Core.L6_Structure.Merkaba.rotor_engine
 
 "Motion is the illusion of the observer. The Data remains, the Stride changes."
 
@@ -21,14 +21,14 @@ from typing import Tuple, List, Any, Dict, Optional
 
 # Import the [CORE] Physics Engine
 try:
-    from Core.Engine.Physics.core_turbine import ActivePrismRotor, PhotonicMonad, VoidSingularity
+    from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor, PhotonicMonad, VoidSingularity
     CORE_AVAILABLE = True
 except ImportError:
     CORE_AVAILABLE = False
 
 # Import Bio-Clock
 try:
-    from Core.Memory.aging_clock import BiologicalClock
+    from Core.L5_Mental.Memory.aging_clock import BiologicalClock
 except ImportError:
     BiologicalClock = None
 

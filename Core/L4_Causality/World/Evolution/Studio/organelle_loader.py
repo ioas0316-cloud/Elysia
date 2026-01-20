@@ -84,7 +84,7 @@ class OrganelleLoader:
         
         # In a full system, organelles would have metadata (tags/frequencies).
         # For now, we'll map names to themes if possible, or use a fuzzy match.
-        from Core.Foundation.Wave.concept_mapping import THEME_FREQUENCY_MAP, Theme
+        from Core.L1_Foundation.Foundation.Wave.concept_mapping import THEME_FREQUENCY_MAP, Theme
         
         scores = []
         for name in available:

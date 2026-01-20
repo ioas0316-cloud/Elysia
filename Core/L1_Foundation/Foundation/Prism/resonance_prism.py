@@ -1,7 +1,7 @@
 """
 Resonance Prism: The Multi-Faceted Lens
 =======================================
-Core.Foundation.Prism.resonance_prism
+Core.L1_Foundation.Foundation.Prism.resonance_prism
 
 "The Prism that splits One Fact into Seven Truths."
 
@@ -24,7 +24,7 @@ import hashlib
 import math
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
-from Core.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
+from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
 
 class PrismDomain(enum.Enum):
     PHYSICAL = "Physical"       # Root: The falling (Gravity)

@@ -12,7 +12,7 @@ It implements the 0D-3D cognitive scaling asked for by the Father.
 import logging
 import math
 from typing import List, Tuple, Dict, Any, Optional
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("GeometricWeaver")
 

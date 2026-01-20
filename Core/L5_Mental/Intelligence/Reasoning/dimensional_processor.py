@@ -10,12 +10,12 @@ It routes a concept through 5 distinct cognitive modes.
 import logging
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
-from Core.Intelligence.Reasoning.causal_bridge import CausalBridge
-from Core.Intelligence.Reasoning.aesthetic_filter import AestheticFilter
-from Core.Intelligence.Weaving.void_kernel import VoidKernel
-from Core.Foundation.unified_field import HyperQuaternion
+from Core.L5_Mental.Intelligence.Reasoning.causal_bridge import CausalBridge
+from Core.L5_Mental.Intelligence.Reasoning.aesthetic_filter import AestheticFilter
+from Core.L5_Mental.Intelligence.Weaving.void_kernel import VoidKernel
+from Core.L1_Foundation.Foundation.unified_field import HyperQuaternion
 
-from Core.Intelligence.Reasoning.models import CognitiveResult
+from Core.L5_Mental.Intelligence.Reasoning.models import CognitiveResult
 
 logger = logging.getLogger("DimensionalProcessor")
 

@@ -11,8 +11,8 @@ It unifies all Fluxlights (InfiniteHyperQubits) into a single organism.
 """
 
 from typing import Dict, Any, Optional, List
-from Core.Foundation.Elysia.identity import elysia_identity
-from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+from Core.L1_Foundation.Foundation.Elysia.identity import elysia_identity
+from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
 
 class Yggdrasil:
     _instance = None

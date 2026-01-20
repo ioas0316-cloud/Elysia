@@ -23,7 +23,7 @@ logger = logging.getLogger("Elysia.SelfGovernance")
 
 # [NEW] GrowthJournal for visible evidence of change
 try:
-    from Core.Foundation.growth_journal import get_growth_journal
+    from Core.L1_Foundation.Foundation.growth_journal import get_growth_journal
 except ImportError:
     get_growth_journal = None
 
@@ -354,7 +354,7 @@ class SelfGovernance:
         
         # [Curriculum]
         try:
-            from Core.World.Evolution.Learning.Learning.academic_curriculum import CurriculumSystem
+            from Core.L4_Causality.World.Evolution.Learning.Learning.academic_curriculum import CurriculumSystem
             self.curriculum = CurriculumSystem()
         except ImportError:
             self.curriculum = None

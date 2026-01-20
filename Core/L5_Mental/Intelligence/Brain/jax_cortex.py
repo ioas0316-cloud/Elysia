@@ -1,7 +1,7 @@
 """
 JAX Cortex (The Language Brain)
 ================================
-Core.Intelligence.Brain.jax_cortex
+Core.L5_Mental.Intelligence.Brain.jax_cortex
 
 "Thought crystallizes into language; language ignites thought."
 

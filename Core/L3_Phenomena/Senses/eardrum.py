@@ -1,5 +1,5 @@
 """
-Core.Senses.eardrum
+Core.L3_Phenomena.Senses.eardrum
 ===================
 The Auditory Cortex of Elysia.
 Uses OpenAI Whisper (via Transformers) to perceive sound and convert it into language.
@@ -57,7 +57,7 @@ class EarDrum:
                 device=self.device,
             )
             # Initialize Digestion Tracer
-            from Core.Intelligence.LLM.audio_topology_tracer import AudioTopologyTracer
+            from Core.L5_Mental.Intelligence.LLM.audio_topology_tracer import AudioTopologyTracer
             self.tracer = AudioTopologyTracer(self.model_id, self.device)
             
             logger.info(f"   ✅ EarDrum initialized ({self.device})")

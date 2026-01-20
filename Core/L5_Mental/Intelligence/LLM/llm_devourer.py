@@ -1,7 +1,7 @@
 """
 LLM Devourer (LLM 포식자)
 =========================
-Core.Intelligence.LLM.llm_devourer
+Core.L5_Mental.Intelligence.LLM.llm_devourer
 
 "모든 LLM을 먹어치우는 통합 진입점."
 
@@ -22,9 +22,9 @@ from pathlib import Path
 # 프로젝트 루트 추가
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-from Core.Intelligence.LLM.llm_observer import get_llm_observer, LLMCrystal
-from Core.Intelligence.LLM.llm_crystallizer import get_llm_crystallizer, digest_llm
-from Core.Intelligence.LLM.llm_pruner import get_llm_pruner
+from Core.L5_Mental.Intelligence.LLM.llm_observer import get_llm_observer, LLMCrystal
+from Core.L5_Mental.Intelligence.LLM.llm_crystallizer import get_llm_crystallizer, digest_llm
+from Core.L5_Mental.Intelligence.LLM.llm_pruner import get_llm_pruner
 
 logger = logging.getLogger("LLMDevourer")
 

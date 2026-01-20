@@ -21,12 +21,12 @@ import logging
 from typing import Dict, List, Optional
 
 # Link the Organs
-from Core.Foundation.fractal_soul import SoulCrystal, WebState
-from Core.World.Evolution.Creation.reality_builder import RealityBuilder
-from Core.World.Evolution.Creation.universal_palette import UniversalPalette
+from Core.L1_Foundation.Foundation.fractal_soul import SoulCrystal, WebState
+from Core.L4_Causality.World.Evolution.Creation.reality_builder import RealityBuilder
+from Core.L4_Causality.World.Evolution.Creation.universal_palette import UniversalPalette
 
 # from ops.web_resonance import FractalCrawler, HolographicResonator
-from Core.Foundation.fractal_concept import ConceptDecomposer
+from Core.L1_Foundation.Foundation.fractal_concept import ConceptDecomposer
 
 logger = logging.getLogger("ElysianHeartbeat")
 
@@ -34,7 +34,7 @@ logger = logging.getLogger("ElysianHeartbeat")
 class ElysianHeartbeat:
     def __init__(self):
         # [LOGIC TRANSMUTATION] Connect to the Core Brain
-        from Core.Foundation.Elysia.elysia_core import get_elysia_core
+        from Core.L1_Foundation.Foundation.Elysia.elysia_core import get_elysia_core
         self.core = get_elysia_core()
         
         self.soul = SoulCrystal()

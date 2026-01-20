@@ -13,9 +13,9 @@ Purpose:
 import logging
 import random
 from typing import Dict, Any, List, Optional
-from Core.Foundation.behavior_morpher import ActionMorpher
-from Core.Foundation.Wave.resonance_field import get_resonance_field
-from Core.Foundation.organ_system import Organ, OrganManifest
+from Core.L1_Foundation.Foundation.behavior_morpher import ActionMorpher
+from Core.L1_Foundation.Foundation.Wave.resonance_field import get_resonance_field
+from Core.L1_Foundation.Foundation.organ_system import Organ, OrganManifest
 
 logger = logging.getLogger("Elysia.Architect")
 

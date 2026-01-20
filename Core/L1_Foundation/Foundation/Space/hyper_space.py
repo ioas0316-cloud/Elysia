@@ -12,8 +12,8 @@ import random
 from dataclasses import dataclass, field
 from typing import List, Dict, Deque
 from collections import deque
-from Core.Foundation.hyper_quaternion import Quaternion
-from Core.Foundation.Law.law_of_resonance import LawOfResonance
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.Law.law_of_resonance import LawOfResonance
 
 @dataclass
 class FieldKnot:

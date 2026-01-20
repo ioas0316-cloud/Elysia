@@ -9,9 +9,9 @@ and extract universal principles for her Hypercosmos.
 
 import logging
 from typing import List, Dict, Any
-from Core.Intelligence.Knowledge.infinite_ingestor import ingestor
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.World.Evolution.Studio.forge_engine import forge_engine
+from Core.L5_Mental.Intelligence.Knowledge.infinite_ingestor import ingestor
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L4_Causality.World.Evolution.Studio.forge_engine import forge_engine
 
 logger = logging.getLogger("ObserverProtocol")
 

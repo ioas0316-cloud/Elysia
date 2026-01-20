@@ -2,9 +2,9 @@ import logging
 import random
 from typing import Dict, List, Optional
 from dataclasses import dataclass
-from Core.Intelligence.Intelligence.web_cortex import WebCortex
+from Core.L5_Mental.Intelligence.Intelligence.web_cortex import WebCortex
 
-from Core.Foundation.celestial_grammar import SolarSystem, MagneticEngine, Galaxy, Nebula
+from Core.L1_Foundation.Foundation.celestial_grammar import SolarSystem, MagneticEngine, Galaxy, Nebula
 
 logger = logging.getLogger("LanguageCenter")
 

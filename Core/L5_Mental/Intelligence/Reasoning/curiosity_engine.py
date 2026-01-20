@@ -2,9 +2,9 @@
 import logging
 import random
 from typing import List, Tuple, Dict, Any
-from Core.Intelligence.Knowledge.semantic_field import semantic_field
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.World.Autonomy.sovereign_will import sovereign_will
+from Core.L5_Mental.Intelligence.Knowledge.semantic_field import semantic_field
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L4_Causality.World.Autonomy.sovereign_will import sovereign_will
 
 logger = logging.getLogger("CuriosityEngine")
 
@@ -92,7 +92,7 @@ class AutonomousExplorer:
     The Active Agent that bridge curiosity with the external world.
     """
     def __init__(self):
-        from Core.Intelligence.Knowledge.observer_protocol import observer
+        from Core.L5_Mental.Intelligence.Knowledge.observer_protocol import observer
         self.curiosity = CuriosityEngine()
         self.observer = observer
 

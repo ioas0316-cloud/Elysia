@@ -15,7 +15,7 @@ import random
 # Reuse existing physics structures if available, or define minimal versions here
 # to avoid circular imports during this prototype phase.
 try:
-    from Core.Intelligence.Memory_Linguistics.Language.jamo_utils import decompose_hangul
+    from Core.L5_Mental.Intelligence.Memory_Linguistics.Language.jamo_utils import decompose_hangul
 except ImportError:
     # Fallback if module path issue
     decompose_hangul = lambda x: (None, None, None)

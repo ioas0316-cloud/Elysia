@@ -16,7 +16,7 @@ import os
 import re
 import logging
 from typing import List, Dict, Any, Tuple, Optional
-from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
+from Core.L5_Mental.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
 
 logger = logging.getLogger("HolisticSelfAudit")
 

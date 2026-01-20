@@ -17,7 +17,7 @@ import random
 import os
 from pathlib import Path
 
-# from Core.Foundation.web_server import WebServer, incoming_messages -> REMOVED (Legacy Flask)
+# from Core.L1_Foundation.Foundation.web_server import WebServer, incoming_messages -> REMOVED (Legacy Flask)
 incoming_messages = [] # Shim for backward compatibility if needed
 
 logger = logging.getLogger("ActionDispatcher")

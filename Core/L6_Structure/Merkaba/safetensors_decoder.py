@@ -1,7 +1,7 @@
 """
 Safetensors Decoder (The Anatomist)
 =====================================
-Core.Merkaba.safetensors_decoder
+Core.L6_Structure.Merkaba.safetensors_decoder
 
 "Names are just labels for coordinates in the Infinite."
 
@@ -13,7 +13,7 @@ import json
 import struct
 import logging
 from typing import Dict, Any, Tuple, Optional
-from Core.Merkaba.portal import MerkabaPortal
+from Core.L6_Structure.Merkaba.portal import MerkabaPortal
 
 logger = logging.getLogger("Elysia.Merkaba.Decoder")
 

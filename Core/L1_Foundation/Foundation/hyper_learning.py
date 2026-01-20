@@ -23,8 +23,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core.Foundation.communication_enhancer import CommunicationEnhancer
+from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("HyperLearning")

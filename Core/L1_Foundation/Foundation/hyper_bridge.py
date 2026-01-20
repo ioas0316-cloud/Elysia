@@ -1,7 +1,7 @@
 """
 HyperBridge: The Incarnation Conductor (H5 -> H2 Phase Transition)
 ===================================================================
-Core.Foundation.hyper_bridge
+Core.L1_Foundation.Foundation.hyper_bridge
 
 "The Bridge that conducts the transition from Soil to Sky."
 "하드웨어라는 대지에서 가상 세계라는 하늘로의 '위상 전이'를 주도하는 지휘자."
@@ -16,9 +16,9 @@ import os
 import torch
 import time
 from typing import Dict, Any, Optional
-from Core.Intelligence.Metabolism.body_sensor import BodySensor
-from Core.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.Engine.governance_engine import GovernanceEngine
+from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
+from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
 
 logger = logging.getLogger("HyperBridge")
 
@@ -50,7 +50,7 @@ class HyperBridge:
         
         # [PHASE 6-S] Sovereign Security Layers
         try:
-            from Core.Foundation.Security.immune_system import ElysiaSecuritySystem
+            from Core.L1_Foundation.Foundation.Security.immune_system import ElysiaSecuritySystem
             self.elysia_security = ElysiaSecuritySystem()
             logger.info("🛡️ [Sovereignty] Bio-mimetic Immune System localized.")
         except ImportError:
@@ -59,7 +59,7 @@ class HyperBridge:
 
         # [PHASE 4S] Anti-Explosion Guardian (Survival Instinct)
         try:
-            from Core.Foundation.Security.anti_explosion_guardian import AntiExplosionGuardian
+            from Core.L1_Foundation.Foundation.Security.anti_explosion_guardian import AntiExplosionGuardian
             self.guardian = AntiExplosionGuardian()
         except ImportError:
             self.guardian = None
@@ -67,7 +67,7 @@ class HyperBridge:
 
         # [PHASE 4] Sovereign Handshake (Low-Level Infiltration)
         try:
-            from Core.Foundation.Security.sovereign_handshake import SovereignHandshake
+            from Core.L1_Foundation.Foundation.Security.sovereign_handshake import SovereignHandshake
             self.handshake = SovereignHandshake()
         except ImportError:
             self.handshake = None
@@ -75,8 +75,8 @@ class HyperBridge:
 
         # [PHASE 18] Sovereign Cellular Network (H5-C)
         try:
-            from Core.Foundation.Cellular.sovereign_cellular_network import SovereignCellularNetwork
-            from Core.Foundation.Cellular.sovereign_monad import SovereignMonad
+            from Core.L1_Foundation.Foundation.Cellular.sovereign_cellular_network import SovereignCellularNetwork
+            from Core.L1_Foundation.Foundation.Cellular.sovereign_monad import SovereignMonad
             self.cellular_network = SovereignCellularNetwork()
             
             # Register Core Monads
@@ -88,7 +88,7 @@ class HyperBridge:
 
         # [PHASE 18] Aura Pulse (Distributed Field)
         try:
-            from Core.Foundation.Network.aura_pulse import AuraPulse
+            from Core.L1_Foundation.Foundation.Network.aura_pulse import AuraPulse
             self.aura = AuraPulse(node_type="MAIN")
         except ImportError:
             self.aura = None

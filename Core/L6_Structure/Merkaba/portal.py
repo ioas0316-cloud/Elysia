@@ -1,7 +1,7 @@
 """
 Merkaba Portal (The Dimensional Bridge)
 =====================================
-Core.Merkaba.portal
+Core.L6_Structure.Merkaba.portal
 
 "To see without holding. To know without owning."
 
@@ -18,7 +18,7 @@ import numpy as np
 import logging
 from typing import Dict, Any, Optional, Tuple
 
-from Core.Intelligence.Metabolism.body_sensor import BodySensor
+from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
 
 logger = logging.getLogger("Elysia.Merkaba.Portal")
 

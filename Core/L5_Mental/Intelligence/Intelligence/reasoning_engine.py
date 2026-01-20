@@ -6,7 +6,7 @@ from dataclasses import dataclass
 # Late import to avoid circular dependency if needed, 
 # or assuming CodeCortex is the LLM interface
 try:
-    from Core.Intelligence.Intelligence.code_cortex import CodeCortex
+    from Core.L5_Mental.Intelligence.Intelligence.code_cortex import CodeCortex
 except ImportError:
     class CodeCortex:
         def generate_code(self, prompt): return "MOCK_DECISION"
@@ -42,7 +42,7 @@ class ReasoningEngine:
         # SymbolicSolver integration (Goal Reverse-Engineering)
         self._solver = None
         try:
-            from Core.Intelligence.Intelligence.symbolic_solver import get_symbolic_solver
+            from Core.L5_Mental.Intelligence.Intelligence.symbolic_solver import get_symbolic_solver
             self._solver = get_symbolic_solver()
             logger.info("   ✅ SymbolicSolver connected")
         except ImportError:
@@ -51,7 +51,7 @@ class ReasoningEngine:
         # GlobalHub integration (Central Nervous System)
         self._hub = None
         try:
-            from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "ReasoningEngine",
@@ -96,7 +96,7 @@ class ReasoningEngine:
         # Broadcast to GlobalHub
         if self._hub:
             try:
-                from Core.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=528.0 if result.success else 256.0,  # Love frequency for success
                     amplitude=result.confidence,

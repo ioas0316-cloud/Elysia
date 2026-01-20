@@ -15,9 +15,9 @@ import numpy as np
 from typing import Tuple, Dict, Any, List, Optional
 import logging
 
-from Core.Foundation.Memory.holographic_embedding import HolographicEmbedder as HolographicEmbedding
-from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
-from Core.Foundation.Memory.Orb.hyper_resonator import HyperResonator
+from Core.L1_Foundation.Foundation.Memory.holographic_embedding import HolographicEmbedder as HolographicEmbedding
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
+from Core.L1_Foundation.Foundation.Memory.Orb.hyper_resonator import HyperResonator
 
 # Configure logger
 logger = logging.getLogger("OrbFactory")

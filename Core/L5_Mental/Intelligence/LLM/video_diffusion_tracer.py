@@ -1,7 +1,7 @@
 """
 Video Diffusion Tracer (시공간 추적자)
 =====================================
-Core.Intelligence.LLM.video_diffusion_tracer
+Core.L5_Mental.Intelligence.LLM.video_diffusion_tracer
 
 "시간은 단어에서 태어난다."
 

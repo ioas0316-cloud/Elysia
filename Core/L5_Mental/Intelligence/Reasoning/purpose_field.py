@@ -21,8 +21,8 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Tuple
 
 # Use HyperQuaternion for 4D Value Space
-from Core.Foundation.hyper_quaternion import Quaternion
-from Core.Intelligence.Reasoning.existential_ground import ExistentialGround
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L5_Mental.Intelligence.Reasoning.existential_ground import ExistentialGround
 
 logger = logging.getLogger("PurposeField")
 

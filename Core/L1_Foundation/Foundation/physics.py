@@ -194,7 +194,7 @@ class HamiltonianSystem:
         
         # [PHASE 4] Native Transmutation Hooks
         try:
-            from Core.Foundation.native_kernels import calculate_force_kernel, evolve_positions_kernel
+            from Core.L1_Foundation.Foundation.native_kernels import calculate_force_kernel, evolve_positions_kernel
             self.has_native = True
             self._native_calc_force = calculate_force_kernel
             self._native_evolve = evolve_positions_kernel

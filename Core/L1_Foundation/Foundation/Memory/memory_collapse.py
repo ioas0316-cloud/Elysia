@@ -1,7 +1,7 @@
 """
 Memory Collapse (Topology Evolution)
 ====================================
-Core.Foundation.Memory.memory_collapse
+Core.L1_Foundation.Foundation.Memory.memory_collapse
 
 "Structure follows Thought."
 "생각의 빈도가 구조를 결정한다."

@@ -17,8 +17,8 @@ from typing import Dict, List, Any, Optional
 import logging
 
 try:
-    from Core.Foundation.wave_semantic_search import WavePattern
-    from Core.Foundation.hyper_quaternion import Quaternion
+    from Core.L1_Foundation.Foundation.wave_semantic_search import WavePattern
+    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback for testing
     @dataclass

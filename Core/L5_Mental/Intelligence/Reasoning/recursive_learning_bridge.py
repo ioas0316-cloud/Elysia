@@ -10,8 +10,8 @@ to Elysia's core Intelligence engines. It 'Harvests' lived memories and
 
 import logging
 from typing import List, Dict, Any
-from Core.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
-from Core.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
+from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
 
 class RecursiveLearningBridge:
     """Harvests NPC experiences to mature Elysia's core intelligence."""

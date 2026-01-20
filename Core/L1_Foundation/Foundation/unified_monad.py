@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 import torch
 import math
 from typing import List, Dict, Optional, Any
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
 
 @dataclass
 class Unified12DVector:

@@ -29,21 +29,21 @@ logger = logging.getLogger("SelfMaintenanceHub")
 
 # 기존 모듈 임포트
 try:
-    from Core.Foundation.self_reflector import SelfReflector, CodeMetrics
+    from Core.L1_Foundation.Foundation.self_reflector import SelfReflector, CodeMetrics
     HAS_REFLECTOR = True
 except ImportError as e:
     HAS_REFLECTOR = False
     logger.warning(f"SelfReflector not available: {e}")
 
 try:
-    from Core.Intelligence.Intelligence.system_self_awareness import SystemSelfAwareness
+    from Core.L5_Mental.Intelligence.Intelligence.system_self_awareness import SystemSelfAwareness
     HAS_AWARENESS = True
 except ImportError as e:
     HAS_AWARENESS = False
     logger.warning(f"SystemSelfAwareness not available: {e}")
 
 try:
-    from Core.Foundation.self_modification import (
+    from Core.L1_Foundation.Foundation.self_modification import (
         CodeAnalyzer, ProblemDetector, RefactorPlanner, 
         CodeEditor, Validator, CodeIssue, ModificationPlan
     )

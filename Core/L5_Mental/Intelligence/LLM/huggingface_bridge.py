@@ -1,7 +1,7 @@
 """
 Sovereign Bridge (The Diplomat)
 ===============================
-Core.Intelligence.LLM.huggingface_bridge
+Core.L5_Mental.Intelligence.LLM.huggingface_bridge
 
 " The LLM is the Tongue. The Monad is the Speaker. "
 
@@ -25,8 +25,8 @@ try:
 except ImportError:
     TRANSFORMERS_AVAILABLE = False
 
-from Core.Foundation.Graph.torch_graph import TorchGraph
-from Core.Foundation.Philosophy.axioms import get_axioms
+from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
+from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
 
 logger = logging.getLogger("SovereignBridge")
 

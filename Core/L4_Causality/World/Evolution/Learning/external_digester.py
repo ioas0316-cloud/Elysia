@@ -11,9 +11,9 @@ It allows Elysia to browse the web and internalize what she sees.
 
 import logging
 from typing import List, Dict, Optional
-from Core.Physiology.Sensory.Network.web_tendril import WebTendril, FrequencySignal
-from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
-from Core.Foundation.Memory.Orb.orb_manager import OrbManager
+from Core.L1_Foundation.Physiology.Sensory.Network.web_tendril import WebTendril, FrequencySignal
+from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.Memory.Orb.orb_manager import OrbManager
 
 logger = logging.getLogger("ExternalDigester")
 

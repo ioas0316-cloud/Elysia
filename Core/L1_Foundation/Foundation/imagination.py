@@ -7,12 +7,12 @@ import logging
 import time
 import random
 from typing import List, Dict, Any
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.imagination_core import ImaginationCore
-from Core.Foundation.dream_engine import DreamEngine
-from Core.Foundation.cosmic_studio import CosmicStudio
-from Core.Foundation.resonance_physics import ResonancePhysics
-from Core.Intelligence.Intelligence.Reasoning.lobes.perception import Insight
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.imagination_core import ImaginationCore
+from Core.L1_Foundation.Foundation.dream_engine import DreamEngine
+from Core.L1_Foundation.Foundation.cosmic_studio import CosmicStudio
+from Core.L1_Foundation.Foundation.resonance_physics import ResonancePhysics
+from Core.L5_Mental.Intelligence.Intelligence.Reasoning.lobes.perception import Insight
 
 logger = logging.getLogger("ImaginationLobe")
 
@@ -23,7 +23,7 @@ def get_poetry_engine():
     global _poetry_engine
     if _poetry_engine is None:
         try:
-            from Core.World.Evolution.Creativity.poetry_engine import PoetryEngine
+            from Core.L4_Causality.World.Evolution.Creativity.poetry_engine import PoetryEngine
             _poetry_engine = PoetryEngine()
         except ImportError:
             logger.warning("PoetryEngine not available, using simple expressions")
@@ -109,7 +109,7 @@ class ImaginationLobe:
         related_concepts = self.memory.recall(theme)
         
         try:
-            from Core.Foundation.communication_enhancer import CommunicationEnhancer
+            from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer
             if not self.comm_enhancer:
                 self.comm_enhancer = CommunicationEnhancer()
             # Logic for using enhancer would go here

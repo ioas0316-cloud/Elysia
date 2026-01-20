@@ -1,7 +1,7 @@
 """
 SoulBridge: The Sensory Interface
 =================================
-Core.Senses.soul_bridge
+Core.L3_Phenomena.Senses.soul_bridge
 Phase 17 Integrated
 
 The Bridge connects the External World (Phenomena) to the Internal World (Merkaba).
@@ -13,9 +13,9 @@ import logging
 import asyncio
 
 # The New Senses
-from Core.Senses.system_watcher import SystemWatcher
-from Core.Senses.network_node import NetworkNode
-from Core.Senses.chronos import Chronos
+from Core.L3_Phenomena.Senses.system_watcher import SystemWatcher
+from Core.L3_Phenomena.Senses.network_node import NetworkNode
+from Core.L3_Phenomena.Senses.chronos import Chronos
 
 logger = logging.getLogger("SoulBridge")
 
@@ -100,8 +100,8 @@ class SoulBridge:
         Connects the Metal Layer (Screen) to the Spirit (Merkaba).
         """
         try:
-            from Core.Vision.elysian_eye import ElysianEye
-            from Core.Intelligence.Metabolism.clip_adapter import transduce_image
+            from Core.L3_Phenomena.Vision.elysian_eye import ElysianEye
+            from Core.L5_Mental.Intelligence.Metabolism.clip_adapter import transduce_image
             import time
             import threading
             

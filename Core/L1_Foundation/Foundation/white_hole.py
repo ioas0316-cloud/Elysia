@@ -53,7 +53,7 @@ class GravitationalSearch:
     def __init__(self):
         # 파동 공명 기반 검색
         try:
-            from Core.Foundation.Wave.wave_tensor import WaveTensor
+            from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
             self.wave_enabled = True
         except:
             self.wave_enabled = False
@@ -92,7 +92,7 @@ class GravitationalSearch:
         AXIOM 시스템의 연결을 활용
         """
         try:
-            from Core.Foundation.fractal_concept import ConceptDecomposer
+            from Core.L1_Foundation.Foundation.fractal_concept import ConceptDecomposer
             decomposer = ConceptDecomposer()
             
             network = [concept]
@@ -189,7 +189,7 @@ class WhiteHole:
         
         # InternalUniverse에 흡수 시도
         try:
-            from Core.Foundation.internal_universe import InternalUniverse
+            from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
             universe = InternalUniverse()
             universe.absorb_text(data.content, source_name=f"Rebirth:{data.topic}")
             
@@ -251,7 +251,7 @@ class BlackHoleWhiteHoleCycle:
     """
     
     def __init__(self):
-        from Core.Foundation.black_hole import BlackHole
+        from Core.L1_Foundation.Foundation.black_hole import BlackHole
         self.blackhole = BlackHole()
         self.whitehole = WhiteHole()
         
@@ -274,7 +274,7 @@ class BlackHoleWhiteHoleCycle:
         # 1. InternalUniverse 흡수 시도
         connections = 0
         try:
-            from Core.Foundation.internal_universe import InternalUniverse
+            from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
             universe = InternalUniverse()
             universe.absorb_text(content, source_name=topic)
             connections = len(content.split()) // 10

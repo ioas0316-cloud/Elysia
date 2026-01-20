@@ -15,10 +15,10 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 import logging
 from typing import Dict, Any, Optional
 
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.internal_universe import InternalUniverse
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("NeuralIntegration")
@@ -170,13 +170,13 @@ class CentralCortex:
         
         # 1. Universe에 저장
         print("1️⃣ Storing in Concept Space...")
-        from Core.Foundation.external_data_connector import ExternalDataConnector
+        from Core.L1_Foundation.Foundation.external_data_connector import ExternalDataConnector
         connector = ExternalDataConnector(self.universe)
         connector.internalize_from_text(concept, content)
         
         # 2. Memory에 저장 [LOGIC TRANSMUTATION]
         print("2️⃣ Storing in Memory...")
-        from Core.Foundation.hyper_quaternion import HyperWavePacket
+        from Core.L1_Foundation.Foundation.hyper_quaternion import HyperWavePacket
         
         resonant = self.universe.query_resonance(sum(ord(c) for c in concept) % 1000, tolerance=100.0)
         concept_key = resonant[0] if resonant else concept
@@ -242,7 +242,7 @@ def demonstrate_integration():
     print("="*70)
     print()
     
-    from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+    from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
     
     connector = WebKnowledgeConnector()
     

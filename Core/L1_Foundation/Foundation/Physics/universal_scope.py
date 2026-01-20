@@ -16,7 +16,7 @@ import logging
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 
-from Core.Foundation.Physics.soul_physics import WavePacket, InputParticle
+from Core.L1_Foundation.Foundation.Physics.soul_physics import WavePacket, InputParticle
 
 logger = logging.getLogger("UniversalScope")
 

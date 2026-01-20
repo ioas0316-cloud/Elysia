@@ -11,7 +11,7 @@ It decides when to shift gears between CPU, GPU, and SSD-centric modes.
 
 import logging
 from typing import Dict, Any
-from Core.Intelligence.Metabolism.body_sensor import BodySensor
+from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
 
 logger = logging.getLogger("Elysia.System.Sovereignty")
 

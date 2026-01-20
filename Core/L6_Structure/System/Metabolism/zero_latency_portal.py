@@ -17,7 +17,7 @@ import logging
 from numba import cuda
 from typing import Dict, Any, Optional, Tuple
 
-from Core.Merkaba.portal import MerkabaPortal
+from Core.L6_Structure.Merkaba.portal import MerkabaPortal
 
 logger = logging.getLogger("Elysia.Merkaba.ZeroLatency")
 

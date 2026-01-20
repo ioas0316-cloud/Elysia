@@ -22,21 +22,21 @@ logger = logging.getLogger("SelfModifier")
 
 # Import existing systems
 try:
-    from Core.Governance.Interaction.Coordination.Synesthesia.code_wave import CodeWaveAnalyzer
+    from Core.L4_Causality.Governance.Interaction.Coordination.Synesthesia.code_wave import CodeWaveAnalyzer
     WAVE_SYSTEM_AVAILABLE = True
 except ImportError:
     logger.warning("⚠️ CodeWaveAnalyzer not available. Limited functionality.")
     WAVE_SYSTEM_AVAILABLE = False
 
 try:
-    from Core.World.Evolution.Growth.Autonomy.wave_coder import get_wave_coder, WaveCoder
+    from Core.L4_Causality.World.Evolution.Growth.Autonomy.wave_coder import get_wave_coder, WaveCoder
     WAVE_CODER_AVAILABLE = True
 except ImportError:
     logger.warning("⚠️ WaveCoder not available.")
     WAVE_CODER_AVAILABLE = False
 
 try:
-    from Core.Foundation.torch_graph import get_torch_graph
+    from Core.L1_Foundation.Foundation.torch_graph import get_torch_graph
     TORCH_GRAPH_AVAILABLE = True
 except ImportError:
     TORCH_GRAPH_AVAILABLE = False
@@ -69,7 +69,7 @@ class WaveAnalysisResult:
 
 # Import Conscience
 try:
-    from Core.Foundation.Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
+    from Core.L1_Foundation.Foundation.Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
     CONSCIENCE_AVAILABLE = True
 except ImportError:
     CONSCIENCE_AVAILABLE = False

@@ -20,7 +20,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.World.Evolution.Creativity.digital_atelier import DigitalAtelier
+from Core.L4_Causality.World.Evolution.Creativity.digital_atelier import DigitalAtelier
 
 # Configure Logger
 logging.basicConfig(level=logging.INFO, format='%(message)s')

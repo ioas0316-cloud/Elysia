@@ -10,8 +10,8 @@ is not a hardcoded template but a traversal of actual causal links.
 
 import logging
 from typing import List, Optional
-from Core.Foundation.Memory.fractal_causality import FractalCausalityEngine, FractalCausalNode
-from Core.Intelligence.Reasoning.dimensional_reasoner import HyperThought, DimensionalReasoner
+from Core.L1_Foundation.Foundation.Memory.fractal_causality import FractalCausalityEngine, FractalCausalNode
+from Core.L5_Mental.Intelligence.Reasoning.dimensional_reasoner import HyperThought, DimensionalReasoner
 
 logger = logging.getLogger("CausalBridge")
 

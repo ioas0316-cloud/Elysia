@@ -5,5 +5,5 @@ Hippocampus Redirect
 Redirects to the actual location in Core/Memory/Graph/hippocampus.py
 """
 
-from Core.Foundation.Memory.Graph.hippocampus import *
-from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import *
+from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus

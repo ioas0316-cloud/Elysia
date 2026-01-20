@@ -18,7 +18,7 @@ import math
 from dataclasses import dataclass
 from typing import Tuple, Dict, Optional
 
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 
 class TopologyType(Enum):
     POINT = 0       # No movement, static definition (1=1)

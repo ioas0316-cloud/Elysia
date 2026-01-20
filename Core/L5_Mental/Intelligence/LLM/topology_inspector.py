@@ -1,7 +1,7 @@
 """
 Topology Inspector (위상 검사기)
 ===============================
-Core.Intelligence.LLM.topology_inspector
+Core.L5_Mental.Intelligence.LLM.topology_inspector
 
 "뉴런의 ID표를 떼어내고 진짜 이름(의미)을 붙인다."
 

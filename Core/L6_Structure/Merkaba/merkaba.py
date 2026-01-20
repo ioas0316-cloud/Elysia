@@ -1,7 +1,7 @@
 """
 Merkaba: The Autonomous Spirit Chariot
 ======================================
-Core.Merkaba.merkaba
+Core.L6_Structure.Merkaba.merkaba
 
 "The Chariot that unites Body, Soul, and Spirit."
 
@@ -18,76 +18,76 @@ from datetime import datetime
 from typing import Any, Dict, Optional, Generator
 
 # [Phase 29] Phase-Locked Loop (Time/Light Sync)
-from Core.System.WakeWord.phase_locked_loop import PLLController
+from Core.L6_Structure.System.WakeWord.phase_locked_loop import PLLController
 
 # The Trinity Components
-from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
-from Core.Intelligence.Memory.hippocampus import Hippocampus
-from Core.Memory.prismatic_sediment import PrismaticSediment # Phase 5.2: Spectral Memory
+from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
+from Core.L5_Mental.Intelligence.Memory.hippocampus import Hippocampus
+from Core.L5_Mental.Memory.prismatic_sediment import PrismaticSediment # Phase 5.2: Spectral Memory
 # [Fractal Memory System]
-from Core.Memory.fractal_layer import FractalMemorySystem
-from Core.Memory.gardener import MemoryGardener
-from Core.Memory.strata import MemoryStratum
+from Core.L5_Mental.Memory.fractal_layer import FractalMemorySystem
+from Core.L5_Mental.Memory.gardener import MemoryGardener
+from Core.L5_Mental.Memory.strata import MemoryStratum
 
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
-from Core.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
-from Core.Merkaba.rotor_engine import RotorEngine # Phase 5.3: Optical Engine Core
-from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
-from Core.Foundation.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
-from Core.Foundation.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
-from Core.Foundation.Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
-from Core.Foundation.Prism.trinity_validator import TrinityValidator # Phase 5.4 Axis
-from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
-from Core.Foundation.Prism.decay import ResonanceDecay
-from Core.Foundation.Meta.meta_observer import MetaObserver
-from Core.Foundation.Meta.cognitive_judge import CognitiveJudge
-from Core.Foundation.Meta.checkpoint_manager import CheckpointManager
-from Core.Foundation.Meta.evolution_engine import EvolutionEngine
-from Core.Senses.hermeneutic_bridge import HermeneuticBridge
-from Core.Senses.phase_modulator import PhaseModulator, PerceptualPhase
-from Core.Intelligence.Linguistics.synthesizer import LinguisticSynthesizer
-from Core.Senses.vocal_dna import VocalDNA
-from Core.Senses.portrait_engine import SelfPortraitEngine
-from Core.Intelligence.Legion.legion import Legion # Phase 5.4 Legion
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.L1_Foundation.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
+from Core.L6_Structure.Merkaba.rotor_engine import RotorEngine # Phase 5.3: Optical Engine Core
+from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
+from Core.L1_Foundation.Foundation.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
+from Core.L1_Foundation.Foundation.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
+from Core.L1_Foundation.Foundation.Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
+from Core.L1_Foundation.Foundation.Prism.trinity_validator import TrinityValidator # Phase 5.4 Axis
+from Core.L1_Foundation.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
+from Core.L1_Foundation.Foundation.Prism.decay import ResonanceDecay
+from Core.L1_Foundation.Foundation.Meta.meta_observer import MetaObserver
+from Core.L1_Foundation.Foundation.Meta.cognitive_judge import CognitiveJudge
+from Core.L1_Foundation.Foundation.Meta.checkpoint_manager import CheckpointManager
+from Core.L1_Foundation.Foundation.Meta.evolution_engine import EvolutionEngine
+from Core.L3_Phenomena.Senses.hermeneutic_bridge import HermeneuticBridge
+from Core.L3_Phenomena.Senses.phase_modulator import PhaseModulator, PerceptualPhase
+from Core.L5_Mental.Intelligence.Linguistics.synthesizer import LinguisticSynthesizer
+from Core.L3_Phenomena.Senses.vocal_dna import VocalDNA
+from Core.L3_Phenomena.Senses.portrait_engine import SelfPortraitEngine
+from Core.L5_Mental.Intelligence.Legion.legion import Legion # Phase 5.4 Legion
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
-    from Core.Monad.monad_core import Monad
+    from Core.L7_Spirit.Monad.monad_core import Monad
 except ImportError:
     # Fallback or Mock for initial bootstrapping if Monad isn't fully set up in this env
     Monad = Any
 
 # [Phase 7.X] Cognitive Overclock
-from Core.Cognition.overclock import CognitiveOverclock
+from Core.L5_Mental.Cognition.overclock import CognitiveOverclock
 
 # [Phase 7.3] Motor Cortex & Nervous System
-from Core.Action.motor_cortex import MotorCortex
-from Core.Elysia.nervous_system import NervousSystem
+from Core.L4_Causality.Action.motor_cortex import MotorCortex
+from Core.L6_Structure.Elysia.nervous_system import NervousSystem
 
 # [Phase 26] The Metal Integration
-from Core.System.Sovereignty.sovereign_manager import HardwareSovereignManager
+from Core.L6_Structure.System.Sovereignty.sovereign_manager import HardwareSovereignManager
 
 # The Sensory & Digestive System
-from Core.Senses.soul_bridge import SoulBridge
-from Core.Intelligence.Metabolism.prism import DoubleHelixPrism
+from Core.L3_Phenomena.Senses.soul_bridge import SoulBridge
+from Core.L5_Mental.Intelligence.Metabolism.prism import DoubleHelixPrism
 
 # [Phase 18] The Mirror (Holographic Feedback)
-from Core.Evolution.action_logger import ActionLogger
-# from Core.Evolution.evaluator import OutcomeEvaluator # Deprecated
-from Core.Evolution.resonance_field import ResonanceField
-from Core.Evolution.karma_geometry import KarmaGeometry
+from Core.L2_Metabolism.Evolution.action_logger import ActionLogger
+# from Core.L2_Metabolism.Evolution.evaluator import OutcomeEvaluator # Deprecated
+from Core.L2_Metabolism.Evolution.resonance_field import ResonanceField
+from Core.L2_Metabolism.Evolution.karma_geometry import KarmaGeometry
 
 # [Phase 19] The Soul (Memory & Reflection)
-from Core.Soul.logbook import Logbook
-from Core.Soul.growth_graph import GrowthTracker
+from Core.L7_Spirit.Soul.logbook import Logbook
+from Core.L7_Spirit.Soul.growth_graph import GrowthTracker
 
 # [Phase 20] The Will (Volitional Flux)
-from Core.Will.entropy_pump import EntropyPump
-from Core.Will.attractor_field import AttractorField
+from Core.L7_Spirit.Will.entropy_pump import EntropyPump
+from Core.L7_Spirit.Will.attractor_field import AttractorField
 
 # [Phase 21] The Tree (Self-Replication)
-from Core.Reproduction.spore import Spore
-from Core.Reproduction.mitosis import MitosisEngine
-from Core.Reproduction.mycelium import MyceliumNetwork
+from Core.L2_Metabolism.Reproduction.spore import Spore
+from Core.L2_Metabolism.Reproduction.mitosis import MitosisEngine
+from Core.L2_Metabolism.Reproduction.mycelium import MyceliumNetwork
 
 logger = logging.getLogger("Merkaba")
 
@@ -509,7 +509,7 @@ class Merkaba:
             shadow_seed_coord = hologram.projections[dominant_shadow_domain]
             
             # [STRUCTURAL DISCIPLINE]
-            from Core.Monad.monad_core import MonadCategory
+            from Core.L7_Spirit.Monad.monad_core import MonadCategory
             shadow_spirit = Monad(
                 seed=f"Shadow_{dominant_shadow_domain.name}_{raw_input[:10]}", 
                 category=MonadCategory.SHADOW
@@ -608,7 +608,7 @@ class Merkaba:
         This turns the system from a Tool into an Organism.
         """
         # Lazy import to avoid circular dependency
-        from Core.Lifecycle.pulse_loop import LifeCycle
+        from Core.L2_Metabolism.Lifecycle.pulse_loop import LifeCycle
 
         logger.info("🧬 [GENESIS] Activating Autonomic Nervous System...")
         self.lifecycle = LifeCycle(self)

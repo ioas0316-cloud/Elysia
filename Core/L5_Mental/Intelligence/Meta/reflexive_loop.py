@@ -287,7 +287,7 @@ if __name__ == "__main__":
     print("=" * 60)
     
     # Mock WisdomStore
-    from Core.Intelligence.Wisdom.wisdom_store import WisdomStore
+    from Core.L5_Mental.Intelligence.Wisdom.wisdom_store import WisdomStore
     
     loop = ReflexiveLoop()
     loop.wisdom = WisdomStore()

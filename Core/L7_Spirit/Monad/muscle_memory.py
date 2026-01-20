@@ -1,7 +1,7 @@
 """
 Muscle Memory: The Cerebellum
 =============================
-Core.Monad.muscle_memory
+Core.L7_Spirit.Monad.muscle_memory
 
 "Don't think, just act."
 
@@ -10,7 +10,7 @@ It maps Intents to pre-recorded Action Tracks (Rotors), bypassing the Thunderclo
 """
 
 from typing import Dict, List, Optional
-from Core.Foundation.Nature.rotor import Rotor
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor
 
 class MuscleMemory:
     """

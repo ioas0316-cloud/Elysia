@@ -7,7 +7,7 @@ Principles are not words; they are functional kernels.
 from dataclasses import dataclass
 from typing import Callable, Any
 
-from Core.Foundation.Nature.rotor import RotorMask
+from Core.L1_Foundation.Foundation.Nature.rotor import RotorMask
 
 @dataclass
 class AxiomKernel:

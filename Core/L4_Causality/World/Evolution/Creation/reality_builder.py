@@ -19,10 +19,10 @@ Process:
 
 import random
 from typing import Dict, Any
-from Core.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
+from Core.L1_Foundation.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
 
 
-from Core.World.Evolution.Creation.universal_palette import UniversalPalette
+from Core.L4_Causality.World.Evolution.Creation.universal_palette import UniversalPalette
 
 class RealityBuilder:
     def __init__(self):

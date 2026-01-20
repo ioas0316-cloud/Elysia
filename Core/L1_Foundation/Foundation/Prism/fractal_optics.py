@@ -1,7 +1,7 @@
 """
 Fractal Optics: The 7^7 Prism Engine
 ====================================
-Core.Foundation.Prism.fractal_optics
+Core.L1_Foundation.Foundation.Prism.fractal_optics
 
 "Not calculation, but navigation. Not logic, but resonance."
 
@@ -15,7 +15,7 @@ import numpy as np
 import hashlib
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Tuple, Any
-from Core.Foundation.Prism.resonance_prism import PrismDomain
+from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismDomain
 
 @dataclass
 class WavePacket:

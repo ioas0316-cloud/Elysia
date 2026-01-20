@@ -5,8 +5,8 @@ import logging
 # Setup Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from Core.Intelligence.Intelligence.evolution_architect import EvolutionArchitect
-from Core.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness
+from Core.L5_Mental.Intelligence.Intelligence.evolution_architect import EvolutionArchitect
+from Core.L5_Mental.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness
 
 def run_evolution_test():
     print("\n🧬 Self-Evolution Protocol Initiated...")

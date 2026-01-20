@@ -19,9 +19,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from Core.Intelligence.Intelligence.ollama_bridge import ollama
-from Core.Foundation.korean_wave_converter import korean_wave
-from Core.Foundation.ether import ether, Wave
+from Core.L5_Mental.Intelligence.Intelligence.ollama_bridge import ollama
+from Core.L1_Foundation.Foundation.korean_wave_converter import korean_wave
+from Core.L1_Foundation.Foundation.ether import ether, Wave
 
 print("\n" + "="*70)
 print("🚀 Elysia 로컬 AI + 한글 파동 언어 Quick Start")

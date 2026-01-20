@@ -2,10 +2,10 @@ import logging
 import os
 import psutil
 from typing import Dict, Any, List, Optional
-from Core.Foundation.Wave.wave_tensor import WaveTensor
-from Core.Foundation.Wave.resonance_field import ResonanceField
-from Core.World.Evolution.Os.intention_pre_visualizer import get_pre_visualizer, ActionIntention
-from Core.World.Evolution.Os.resonance_alignment_protocol import get_alignment_protocol
+from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L4_Causality.World.Evolution.Os.intention_pre_visualizer import get_pre_visualizer, ActionIntention
+from Core.L4_Causality.World.Evolution.Os.resonance_alignment_protocol import get_alignment_protocol
 
 logger = logging.getLogger("OneiricHypervisor")
 

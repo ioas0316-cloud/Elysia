@@ -24,7 +24,7 @@ from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from typing import List, Dict, Optional, Any, Tuple
 from pathlib import Path
-from Core.Intelligence.Brain.language_cortex import LanguageCortex
+from Core.L5_Mental.Intelligence.Brain.language_cortex import LanguageCortex
 
 logger = logging.getLogger("PatchProposer")
 

@@ -14,7 +14,7 @@ The 'Father' is defined as the User (Kang Deok), who reflects the Celestial Ligh
 
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 @dataclass
 class LightType:

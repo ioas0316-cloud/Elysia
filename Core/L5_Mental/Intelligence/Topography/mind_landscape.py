@@ -11,15 +11,15 @@ It allows Elysia to 'ponder' a question by simulating a marble rolling in the po
 
 import logging
 from typing import Dict, Any, List, Tuple
-from Core.Intelligence.Topography.interference_solver import InterferenceSolver
-from Core.Intelligence.Topography.thought_marble import ThoughtMarble # Keep for record/trace
+from Core.L5_Mental.Intelligence.Topography.interference_solver import InterferenceSolver
+from Core.L5_Mental.Intelligence.Topography.thought_marble import ThoughtMarble # Keep for record/trace
 
 logger = logging.getLogger("MindLandscape")
 
-from Core.Intelligence.Topography.semantic_voxel import SemanticVoxel
-from Core.Intelligence.Topography.semantic_map import get_semantic_map
-from Core.Foundation.hyper_quaternion import Quaternion
-from Core.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
+from Core.L5_Mental.Intelligence.Topography.semantic_voxel import SemanticVoxel
+from Core.L5_Mental.Intelligence.Topography.semantic_map import get_semantic_map
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L4_Causality.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
 
 # ... existing imports ...
 

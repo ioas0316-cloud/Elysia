@@ -11,7 +11,7 @@ It allows Elysia to "dream" code by projecting her internal state into valid syn
 import ast
 import random
 from typing import Dict, Type, List, Any
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 
 class HarmonicResonance:
     """
@@ -68,7 +68,7 @@ class HarmonicResonance:
         # 2. Generate Simulation Setup
         lines = []
         lines.append(f"# Harmonic Manifestation of: {intent}")
-        lines.append("from Core.Foundation.simulation import ResonanceField, Attractor, Flow")
+        lines.append("from Core.L1_Foundation.Foundation.simulation import ResonanceField, Attractor, Flow")
         lines.append("")
         lines.append("# 1. Initialize Field")
         lines.append(f"field = ResonanceField(name='{intent.replace(' ', '_')}', energy={packet.energy:.1f})")

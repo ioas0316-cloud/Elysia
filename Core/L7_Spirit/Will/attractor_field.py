@@ -2,7 +2,7 @@
 The Attractor Field: Gravity of Desire
 ======================================
 Phase 20 The Will - Module 2
-Core.Will.attractor_field
+Core.L7_Spirit.Will.attractor_field
 
 "Desire is not a list. It is a gravity well."
 

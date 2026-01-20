@@ -1,7 +1,7 @@
 """
 Operation Lobotomy (수술 집도 스크립트)
 =====================================
-Core.Intelligence.LLM.surgery
+Core.L5_Mental.Intelligence.LLM.surgery
 
 지정된 뉴런(Hidden Index)의 연결을 물리적으로 끊습니다 (Zeroing Out).
 Target: LM Head의 특정 Column (해당 뉴런이 출력에 기여하는 가중치)

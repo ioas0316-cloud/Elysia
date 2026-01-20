@@ -11,8 +11,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.Elysia.sovereign_self import SovereignSelf
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_universal_mapping():
     print("--- 🌈 Experiment: Universal Spectrum Mapping ---")

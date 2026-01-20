@@ -1,7 +1,7 @@
 """
 Habit Engine: The Driving School
 ================================
-Core.Learning.habit_engine
+Core.L5_Mental.Learning.habit_engine
 
 "Repetition creates Reflex."
 
@@ -11,8 +11,8 @@ repeated patterns into unconscious reflexes (Rotor Tracks).
 
 from typing import Dict, List, Tuple
 from collections import defaultdict
-from Core.Merkaba.thundercloud import ThoughtCluster
-from Core.Monad.muscle_memory import MuscleMemory
+from Core.L6_Structure.Merkaba.thundercloud import ThoughtCluster
+from Core.L7_Spirit.Monad.muscle_memory import MuscleMemory
 
 class HabitEngine:
     """

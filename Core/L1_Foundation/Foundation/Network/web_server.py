@@ -29,7 +29,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 # Initialize Brain
-from Core.Intelligence.Intelligence.Reasoning import ReasoningEngine
+from Core.L5_Mental.Intelligence.Intelligence.Reasoning import ReasoningEngine
 try:
     logger.info("🧠 Initializing ReasoningEngine for Web Server...")
     brain = ReasoningEngine()
@@ -40,7 +40,7 @@ except Exception as e:
 
 
 # Initialize Nervous System (The Singleton)
-from Core.Foundation.nervous_system import get_nervous_system
+from Core.L1_Foundation.Foundation.nervous_system import get_nervous_system
 try:
     logger.info("⚡ Connecting to NervousSystem...")
     ns = get_nervous_system()

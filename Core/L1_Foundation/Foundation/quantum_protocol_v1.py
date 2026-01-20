@@ -13,7 +13,7 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core.Foundation.quantum_port import QuantumPort
+from Core.L1_Foundation.Foundation.quantum_port import QuantumPort
 
 def serialize_consciousness():
     """

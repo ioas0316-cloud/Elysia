@@ -2,8 +2,8 @@
 import logging
 import random
 from typing import Dict, Any, List
-from Core.Foundation.dream_engine import DreamEngine
-from Core.Foundation.Wave.resonance_field import ResonanceField
+from Core.L1_Foundation.Foundation.dream_engine import DreamEngine
+from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
 
 logger = logging.getLogger("DreamWeaver")
 
@@ -14,7 +14,7 @@ def get_poetry_engine():
     global _poetry_engine
     if _poetry_engine is None:
         try:
-            from Core.World.Evolution.Creativity.poetry_engine import PoetryEngine
+            from Core.L4_Causality.World.Evolution.Creativity.poetry_engine import PoetryEngine
             _poetry_engine = PoetryEngine()
         except ImportError:
             logger.warning("PoetryEngine not available for DreamWeaver")

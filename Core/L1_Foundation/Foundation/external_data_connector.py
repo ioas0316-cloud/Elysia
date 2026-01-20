@@ -22,8 +22,8 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Foundation.internal_universe import InternalUniverse, WorldCoordinate
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse, WorldCoordinate
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("ExternalDataConnector")
 
@@ -76,7 +76,7 @@ class ExternalDataConnector:
         related_concepts = []
         semantic_neighbors = []
         try:
-            from Core.Foundation.Graph.torch_graph import get_torch_graph
+            from Core.L1_Foundation.Foundation.Graph.torch_graph import get_torch_graph
             graph = get_torch_graph()
             
             if graph:
@@ -157,8 +157,8 @@ class ExternalDataConnector:
             List of (concept_name, similarity_score) tuples
         """
         try:
-            from Core.Foundation.tiny_brain import TinyBrain
-            from Core.Foundation.Graph.torch_graph import get_torch_graph
+            from Core.L1_Foundation.Foundation.tiny_brain import TinyBrain
+            from Core.L1_Foundation.Foundation.Graph.torch_graph import get_torch_graph
             
             brain = TinyBrain()
             graph = get_torch_graph()
@@ -262,7 +262,7 @@ class ExternalDataConnector:
         
         This maps semantic meaning to quaternion space.
         """
-        from Core.Foundation.internal_universe import InternalCoordinate
+        from Core.L1_Foundation.Foundation.internal_universe import InternalCoordinate
         
         # Map features to quaternion components
         # w = existence (always positive for real concepts)

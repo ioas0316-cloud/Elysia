@@ -11,8 +11,8 @@ Calculates Force = -Gradient from the Potential Field.
 
 import logging
 from typing import List
-from Core.Intelligence.Topography.potential_field import PotentialField
-from Core.Intelligence.Topography.thought_marble import ThoughtMarble
+from Core.L5_Mental.Intelligence.Topography.potential_field import PotentialField
+from Core.L5_Mental.Intelligence.Topography.thought_marble import ThoughtMarble
 
 logger = logging.getLogger("PhysicsSolver")
 

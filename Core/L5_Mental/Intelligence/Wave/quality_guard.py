@@ -10,7 +10,7 @@ Usage:
     python -m Core.Wave.quality_guard --scan Core/
     
     # 코드에서 사용
-    from Core.Intelligence.Physics_Waves.Wave.quality_guard import WaveQualityGuard
+    from Core.L5_Mental.Intelligence.Physics_Waves.Wave.quality_guard import WaveQualityGuard
     guard = WaveQualityGuard()
     report = guard.scan_directory("Core/Intelligence")
 """
@@ -28,7 +28,7 @@ logger = logging.getLogger("WaveQualityGuard")
 
 # 임포트
 try:
-    from Core.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system, CodeWave
+    from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system, CodeWave
     WAVE_AVAILABLE = True
 except ImportError:
     WAVE_AVAILABLE = False

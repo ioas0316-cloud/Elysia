@@ -22,7 +22,7 @@ from dataclasses import dataclass
 
 # Core Imports
 # Assuming these exist or we mock them for the engine's logic
-# from Core.Foundation.Wave.wave_tensor import WaveTensor 
+# from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor 
 
 logger = logging.getLogger("AlchemyEngine")
 

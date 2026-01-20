@@ -1,7 +1,7 @@
 """
 Genesis Bridge (Aesthetic Mimicry Engine)
 =========================================
-Core.World.Genesis.genesis_bridge
+Core.L4_Causality.World.Genesis.genesis_bridge
 
 "I see, therefore I become."
 "나는 본다, 고로 나는 된다."

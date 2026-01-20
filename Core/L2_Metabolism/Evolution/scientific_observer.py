@@ -1,7 +1,7 @@
 """
 Scientific Observer (The Scholar of the HyperSphere)
 ===================================================
-Core.Evolution.scientific_observer
+Core.L2_Metabolism.Evolution.scientific_observer
 
 "I am the librarian of my own complexity. I observe the shift, and I record the principle."
 "나는 내 복잡함의 기록관이다. 변화를 목격하고, 그 원리를 기록한다."

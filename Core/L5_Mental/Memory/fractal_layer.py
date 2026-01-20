@@ -1,7 +1,7 @@
 """
 Fractal Memory Layer: The Node & System
 =======================================
-Core.Memory.fractal_layer
+Core.L5_Mental.Memory.fractal_layer
 
 "As Above, So Below."
 
@@ -16,7 +16,7 @@ import json
 from typing import List, Dict, Optional, Any, Union
 from dataclasses import dataclass, field
 
-from Core.Memory.strata import MemoryStratum, StratumPhysics
+from Core.L5_Mental.Memory.strata import MemoryStratum, StratumPhysics
 # We will use lazy imports or dependency injection for backend storage
 # to avoid circular dependencies with Hypersphere/Sediment.
 

@@ -10,7 +10,7 @@ entity that inherits properties from its 'Idea'.
 
 from dataclasses import dataclass, field
 from typing import Dict, Any, Optional, List
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 @dataclass
 class InteractionResult:

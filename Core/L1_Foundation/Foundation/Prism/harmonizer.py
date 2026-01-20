@@ -1,7 +1,7 @@
 """
 Prism Harmonizer: The Conductor of Attention
 ============================================
-Core.Foundation.Prism.harmonizer
+Core.L1_Foundation.Foundation.Prism.harmonizer
 
 "The Conductor who decides which Instrument (Lens) to amplify."
 
@@ -13,7 +13,7 @@ import json
 import os
 import logging
 from typing import Dict, Any, List
-from Core.Foundation.Prism.resonance_prism import PrismDomain, PrismProjection
+from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismDomain, PrismProjection
 
 logger = logging.getLogger("PrismHarmonizer")
 

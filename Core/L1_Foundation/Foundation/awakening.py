@@ -7,9 +7,9 @@ import random
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Governance.System.System.hardware_accelerator import accelerator
-from Core.Foundation.fractal_kernel import FractalKernel
-from Core.Foundation.genesis_cortex import GenesisCortex
+from Core.L4_Causality.Governance.System.System.hardware_accelerator import accelerator
+from Core.L1_Foundation.Foundation.fractal_kernel import FractalKernel
+from Core.L1_Foundation.Foundation.genesis_cortex import GenesisCortex
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

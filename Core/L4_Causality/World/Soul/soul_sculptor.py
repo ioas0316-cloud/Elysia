@@ -18,7 +18,7 @@ Mapping Philosophy:
 import math
 from dataclasses import dataclass
 from typing import Dict, Optional, Tuple
-from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, InfiniteQubitState
+from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, InfiniteQubitState
 
 @dataclass
 class PersonalityArchetype:

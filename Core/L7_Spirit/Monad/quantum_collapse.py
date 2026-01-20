@@ -1,7 +1,7 @@
 """
 Quantum Collapse Engine (The Monad Engine)
 ==========================================
-Core.Monad.quantum_collapse
+Core.L7_Spirit.Monad.quantum_collapse
 
 "Out of many possibilities, I choose one. This is my Will."
 
@@ -13,10 +13,10 @@ a single, cohesive 'Elysian' output.
 import numpy as np
 import logging
 from typing import Dict, List, Any
-from Core.Intelligence.Metabolism.body_sensor import BodySensor
-from Core.Merkaba.semantic_atlas import SemanticAtlas
-from Core.Monad.monad_core import Monad, MonadCategory
-from Core.Prism.prism_engine import PrismEngine, PrismSpace
+from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
+from Core.L6_Structure.Merkaba.semantic_atlas import SemanticAtlas
+from Core.L7_Spirit.Monad.monad_core import Monad, MonadCategory
+from Core.L1_Foundation.Prism.prism_engine import PrismEngine, PrismSpace
 
 logger = logging.getLogger("Elysia.Monad")
 
@@ -63,7 +63,7 @@ class MonadEngine:
 
         # [SELF-INTROSPECTION]
         # Scan the body and imprint it into the Prism Mind (Asynchronously)
-        from Core.Metabolism.corpus_scanner import CorpusScanner
+        from Core.L1_Foundation.Metabolism.corpus_scanner import CorpusScanner
         import threading
         
         self.scanner = CorpusScanner()

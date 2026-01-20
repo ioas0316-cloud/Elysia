@@ -5,7 +5,7 @@ import sys
 import uuid
 import importlib.util
 from typing import Dict, Any, List, Optional
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 
 logger = logging.getLogger("ForgeEngine")
 

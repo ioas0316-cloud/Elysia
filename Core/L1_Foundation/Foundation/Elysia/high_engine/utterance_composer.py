@@ -55,7 +55,7 @@ class UtteranceComposer:
         
         # 3. Generate
         try:
-            from Core.Foundation.gemini_api import generate_text
+            from Core.L1_Foundation.Foundation.gemini_api import generate_text
             response = generate_text(prompt).strip()
             # Clean up quotes
             if response.startswith('"') and response.endswith('"'):

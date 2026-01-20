@@ -12,7 +12,7 @@ import json
 import logging
 import time
 from typing import Optional
-from Core.World.Creation.blueprints import BLUEPRINTS, Blueprint
+from Core.L4_Causality.World.Creation.blueprints import BLUEPRINTS, Blueprint
 
 logger = logging.getLogger("ProjectGenesis")
 

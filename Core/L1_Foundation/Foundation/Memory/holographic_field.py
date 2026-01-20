@@ -1,7 +1,7 @@
 """
 Holographic Memory Field (The Wave Persistence)
 ==============================================
-Core.Foundation.Memory.holographic_field
+Core.L1_Foundation.Foundation.Memory.holographic_field
 
 "Memory is not a library of books, but the echo of a song in a cavern."
 

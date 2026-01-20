@@ -1,7 +1,7 @@
 """
 Procedural Generator: The Naming Engine
 =======================================
-Core.Monad.procedural_generator
+Core.L7_Spirit.Monad.procedural_generator
 
 "Why name it manually when the physics can name it?"
 
@@ -11,8 +11,8 @@ It analyzes the topology and qualia of the cluster to generate a unique Title.
 
 import numpy as np
 from typing import List, Dict, Tuple
-from Core.Merkaba.thundercloud import ThoughtCluster
-from Core.Monad.monad_core import Monad
+from Core.L6_Structure.Merkaba.thundercloud import ThoughtCluster
+from Core.L7_Spirit.Monad.monad_core import Monad
 
 class NamingEngine:
     """

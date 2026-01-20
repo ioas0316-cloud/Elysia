@@ -68,7 +68,7 @@ class Protocol50Validator:
                     rule="PROTO-50.1.1",
                     message="Flat 3D vector 사용 금지. HyperQubit 사용 필요.",
                     old_code=line.strip(),
-                    suggested_fix="# Use HyperQubit instead:\nfrom Core.Foundation.Mind.hyper_qubit import HyperQubit\nqubit = HyperQubit(name='ConceptName')"
+                    suggested_fix="# Use HyperQubit instead:\nfrom Core.L1_Foundation.Foundation.Mind.hyper_qubit import HyperQubit\nqubit = HyperQubit(name='ConceptName')"
                 ))
     
     def _check_if_else_chains(self, lines: List[str], filepath: str):
@@ -114,7 +114,7 @@ class Protocol50Validator:
                     rule="PROTO-50.3.1",
                     message="String message 사용. FrequencyWave 권장.",
                     old_code=line.strip(),
-                    suggested_fix="# Use FrequencyWave:\nfrom Core.Foundation.Mind.tensor_wave import FrequencyWave, SoulTensor\nwave = FrequencyWave(frequency=50.0, amplitude=1.0)\noutbox.append(SoulTensor(wave=wave))"
+                    suggested_fix="# Use FrequencyWave:\nfrom Core.L1_Foundation.Foundation.Mind.tensor_wave import FrequencyWave, SoulTensor\nwave = FrequencyWave(frequency=50.0, amplitude=1.0)\noutbox.append(SoulTensor(wave=wave))"
                 ))
     
     def _check_activation_pattern(self, lines: List[str], filepath: str):

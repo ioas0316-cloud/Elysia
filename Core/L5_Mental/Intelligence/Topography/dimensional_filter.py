@@ -1,8 +1,8 @@
 import numpy as np
 from dataclasses import dataclass
 from typing import Tuple, List, Optional
-from Core.Intelligence.Topography.resonance_sphere import ResonanceSphere
-from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry
+from Core.L5_Mental.Intelligence.Topography.resonance_sphere import ResonanceSphere
+from Core.L5_Mental.Intelligence.Topography.tesseract_geometry import TesseractGeometry
 
 @dataclass
 class FilterResult:

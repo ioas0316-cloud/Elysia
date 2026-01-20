@@ -1,13 +1,13 @@
 """
 Semantic Physics Mapper (The Word-to-World Bridge)
 ==================================================
-Core.World.Nature.semantic_physics_mapper
+Core.L4_Causality.World.Nature.semantic_physics_mapper
 
 "And the Word became Flesh (Terrain)."
 """
 
 from typing import Dict, Any, Tuple
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 class SemanticPhysicsMapper:
     """

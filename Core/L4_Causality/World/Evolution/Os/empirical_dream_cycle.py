@@ -18,10 +18,10 @@ import logging
 # Ensure project root is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
-from Core.Foundation.Wave.resonance_field import ResonanceField
-from Core.Foundation.free_will_engine import FreeWillEngine
-from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
+from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
+from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
 
 # Configure logging to show the ripple
 logging.basicConfig(level=logging.INFO, format='%(name)s | %(message)s')

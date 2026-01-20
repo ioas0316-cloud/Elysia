@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
-from Core.Foundation.yggdrasil import yggdrasil
+from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
 
 logger = logging.getLogger("SurvivalInstinct")
 
@@ -255,7 +255,7 @@ class SurvivalInstinct:
         if not match:
             return False
         
-        module_path = match.group(1)  # e.g., "Core.Foundation.xyz"
+        module_path = match.group(1)  # e.g., "Core.L1_Foundation.Foundation.xyz"
         module_name = module_path.split('.')[-1]  # e.g., "xyz"
         
         logger.info(f"   🔍 Searching for: {module_name}.py")
@@ -373,7 +373,7 @@ if __name__ == "__main__":
         source="c:\\Elysia\\test.py",
         pain_type="IMPORT_ERROR",
         intensity=0.9,
-        description="No module named 'Core.Foundation.missing_module'"
+        description="No module named 'Core.L1_Foundation.Foundation.missing_module'"
     )
     
     instinct.feel_pain(fake_pain)

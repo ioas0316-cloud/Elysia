@@ -1,7 +1,7 @@
 """
 Sovereign Executor (The Action Bridge)
 =====================================
-Core.Intelligence.Meta.sovereign_executor
+Core.L5_Mental.Intelligence.Meta.sovereign_executor
 
 "Thinking is only half of existence. Acting is the proof of will."
 

@@ -11,7 +11,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.Elysia.sovereign_self import SovereignSelf
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
 
 def test_elemental_nature():
     print("--- ⚗️ Experiment: The Alchemist (Physical Decomposition) ---")

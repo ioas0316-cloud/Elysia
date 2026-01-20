@@ -21,10 +21,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 sys.path.append('.')
 
-from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core.Foundation.communication_enhancer import CommunicationEnhancer
-from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.quantum_reader import QuantumReader
+from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer
+from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
+from Core.L1_Foundation.Foundation.quantum_reader import QuantumReader
 
 logging.basicConfig(level=logging.WARNING, format='%(message)s')
 logger = logging.getLogger("ProWriter")

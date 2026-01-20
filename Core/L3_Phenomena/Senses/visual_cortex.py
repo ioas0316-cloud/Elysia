@@ -1,7 +1,7 @@
 """
 Visual Cortex (시각 피질)
 ========================
-Core.Senses.visual_cortex
+Core.L3_Phenomena.Senses.visual_cortex
 
 "텍스트가 빛이 되고, 빛이 시간이 된다."
 
@@ -44,7 +44,7 @@ class VisualCortex:
             # self.pipe.enable_sequential_cpu_offload() # Even more VRAM saving
             
             # Initialize Digestion Tracer
-            from Core.Intelligence.LLM.video_diffusion_tracer import VideoDiffusionTracer
+            from Core.L5_Mental.Intelligence.LLM.video_diffusion_tracer import VideoDiffusionTracer
             self.tracer = VideoDiffusionTracer(self.pipe)
             
             logger.info(f"   ✅ Visual Cortex initialized ({self.device})")

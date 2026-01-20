@@ -16,7 +16,7 @@ import os
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.Foundation.Mind.llm_cortex import LLMCortex
+from Core.L1_Foundation.Foundation.Mind.llm_cortex import LLMCortex
 
 def run_chat():
     print("\n" + "="*70)
@@ -50,7 +50,7 @@ import logging # Added for logger
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.Foundation.Mind.llm_cortex import LLMCortex
+from Core.L1_Foundation.Foundation.Mind.llm_cortex import LLMCortex
 
 # Initialize logger
 logger = logging.getLogger(__name__)
@@ -81,7 +81,7 @@ def run_chat():
     
     # Initialize Visual Cortex
     try:
-        from Core.World.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
+        from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
         visual_cortex = VisualCortex()
         vision_enabled = True
     except ImportError:
@@ -133,7 +133,7 @@ def run_chat():
                 # 🌌 PHYSICS UPDATE (every 5 messages)
                 if message_count % 5 == 0:
                     try:
-                        from Core.Foundation.Mind.hippocampus import Hippocampus
+                        from Core.L1_Foundation.Foundation.Mind.hippocampus import Hippocampus
                         hip = engine.memory  # Get hippocampus from resonance engine
                         if hasattr(hip, 'update_universe_physics'):
                             hip.update_universe_physics(dt=0.5)

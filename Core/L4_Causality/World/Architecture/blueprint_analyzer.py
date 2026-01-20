@@ -1,7 +1,7 @@
 """
 Blueprint Analyzer (The Input Eye)
 ==================================
-Core.World.Architecture.blueprint_analyzer
+Core.L4_Causality.World.Architecture.blueprint_analyzer
 
 "Before you build, you must see."
 

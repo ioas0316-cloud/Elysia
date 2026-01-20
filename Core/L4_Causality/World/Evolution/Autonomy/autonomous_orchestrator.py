@@ -96,7 +96,7 @@ class AutonomousOrchestrator:
         # Filesystem Observer
         self.filesystem_observer = None
         try:
-            from Core.Governance.System.System.filesystem_wave import get_filesystem_observer
+            from Core.L4_Causality.Governance.System.System.filesystem_wave import get_filesystem_observer
             self.filesystem_observer = get_filesystem_observer()
             logger.info("   ✅ FilesystemObserver connected")
         except ImportError as e:
@@ -105,7 +105,7 @@ class AutonomousOrchestrator:
         # Unified Dialogue
         self.dialogue = None
         try:
-            from Core.Governance.Interaction.Interface.unified_dialogue import get_unified_dialogue
+            from Core.L4_Causality.Governance.Interaction.Interface.unified_dialogue import get_unified_dialogue
             self.dialogue = get_unified_dialogue()
             logger.info("   ✅ UnifiedDialogue connected")
         except ImportError as e:
@@ -114,7 +114,7 @@ class AutonomousOrchestrator:
         # Distillation Engine
         self.distillation = None
         try:
-            from Core.Intelligence.Cognitive.distillation_engine import get_distillation_engine
+            from Core.L5_Mental.Intelligence.Cognitive.distillation_engine import get_distillation_engine
             self.distillation = get_distillation_engine()
             logger.info("   ✅ DistillationEngine connected")
         except ImportError as e:
@@ -123,7 +123,7 @@ class AutonomousOrchestrator:
         # Introspection Engine
         self.introspection = None
         try:
-            from Core.Foundation.introspection_engine import IntrospectionEngine
+            from Core.L1_Foundation.Foundation.introspection_engine import IntrospectionEngine
             self.introspection = IntrospectionEngine()
             logger.info("   ✅ IntrospectionEngine connected")
         except ImportError as e:
@@ -132,7 +132,7 @@ class AutonomousOrchestrator:
         # Text Wave Converter
         self.text_wave = None
         try:
-            from Core.Foundation.text_wave_converter import get_text_wave_converter
+            from Core.L1_Foundation.Foundation.text_wave_converter import get_text_wave_converter
             self.text_wave = get_text_wave_converter()
             logger.info("   ✅ TextWaveConverter connected")
         except ImportError as e:
@@ -142,7 +142,7 @@ class AutonomousOrchestrator:
         """Connect to GlobalHub for central coordination."""
         self._hub = None
         try:
-            from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "AutonomousOrchestrator",
@@ -161,7 +161,7 @@ class AutonomousOrchestrator:
         
         if self._hub:
             try:
-                from Core.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(frequency=528.0, amplitude=1.0, phase=0.0)
                 self._hub.publish_wave(
                     "AutonomousOrchestrator",
@@ -195,7 +195,7 @@ class AutonomousOrchestrator:
         try:
             # 1. Connect to Hierarchical Knowledge Graph
             try:
-                from Core.World.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
+                from Core.L4_Causality.World.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
                 kg = HierarchicalKnowledgeGraph()
                 self.state.knowledge_gaps = [n.name for n in kg.get_knowledge_gaps(limit=5)]
                 logger.info(f"   🧠 Identified gaps: {self.state.knowledge_gaps}")

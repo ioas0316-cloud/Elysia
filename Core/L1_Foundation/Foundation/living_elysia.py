@@ -9,19 +9,19 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 # [The New Biology]
-from Core.Foundation.genesis_handshake import verify_dimensional_integrity
-from Core.Foundation.organ_system import OrganSystem
-from Core.Foundation.central_nervous_system import CentralNervousSystem
-from Core.Foundation.yggdrasil import yggdrasil
-from Core.Foundation.chronos import Chronos
-from Core.Foundation.Wave.resonance_field import ResonanceField
-from Core.Foundation.entropy_sink import EntropySink
-from Core.Foundation.synapse_bridge import SynapseBridge
-from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
-from Core.Intelligence.Will.free_will_engine import FreeWillEngine
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.Foundation.autonomic_nervous_system import AutonomicNervousSystem, MemoryConsolidation, EntropyProcessor, SurvivalLoop, ResonanceDecay
-from Core.Elysia.sovereign_self import SovereignSelf # <--- The I AM
+from Core.L1_Foundation.Foundation.genesis_handshake import verify_dimensional_integrity
+from Core.L1_Foundation.Foundation.organ_system import OrganSystem
+from Core.L1_Foundation.Foundation.central_nervous_system import CentralNervousSystem
+from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
+from Core.L1_Foundation.Foundation.chronos import Chronos
+from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L1_Foundation.Foundation.entropy_sink import EntropySink
+from Core.L1_Foundation.Foundation.synapse_bridge import SynapseBridge
+from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.L5_Mental.Intelligence.Will.free_will_engine import FreeWillEngine
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L1_Foundation.Foundation.autonomic_nervous_system import AutonomicNervousSystem, MemoryConsolidation, EntropyProcessor, SurvivalLoop, ResonanceDecay
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf # <--- The I AM
 
 logging.basicConfig(
     level=logging.INFO,

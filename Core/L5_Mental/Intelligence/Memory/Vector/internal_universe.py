@@ -35,12 +35,12 @@ import json
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 
 # [LOGIC TRANSMUTATION] Unified Wave Storage
 # Import definitions from HolographicMemory to merge systems
 try:
-    from Core.Intelligence.Memory_Linguistics.Memory.holographic_memory import KnowledgeLayer
+    from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.holographic_memory import KnowledgeLayer
 except ImportError:
     # Fallback if module missing during refactor
     from enum import Enum
@@ -135,7 +135,7 @@ class InternalUniverse:
         # [Phase 11] Apply Wave Interference for multiple matches
         if len(hits) > 1:
             try:
-                from Core.Foundation.Wave.wave_interference import WaveInterference
+                from Core.L1_Foundation.Foundation.Wave.wave_interference import WaveInterference
                 interference_engine = WaveInterference()
                 hits = interference_engine.process_multiple_matches(hits, self.coordinate_map)
                 logger.debug(f"🌊 Wave Interference applied to {len(results)} resonant concepts")
@@ -555,7 +555,7 @@ class InternalUniverse:
             # === 1차: 파동 변환 ===
 
             # === 1차: 파동 변환 (Self-Correction: Used ConceptDecomposer) ===
-            from Core.Foundation.fractal_concept import ConceptDecomposer
+            from Core.L1_Foundation.Foundation.fractal_concept import ConceptDecomposer
             
             decomposer = ConceptDecomposer()
             # Infer essence
@@ -573,7 +573,7 @@ class InternalUniverse:
             synesthetic_color = "Unknown"
             resonance_score = 0.5
             try:
-                from Core.Intelligence.Cognitive.distillation_engine import get_distillation_engine
+                from Core.L5_Mental.Intelligence.Cognitive.distillation_engine import get_distillation_engine
                 distiller = get_distillation_engine()
                 distilled = distiller.distill(content, source_type="absorb")
                 
@@ -586,7 +586,7 @@ class InternalUniverse:
             # === 3차: DNA 시드 압축 ===
             dna_concepts = []
             try:
-                from Core.Intelligence.Cognitive.memoir_compressor import get_memoir_compressor
+                from Core.L5_Mental.Intelligence.Cognitive.memoir_compressor import get_memoir_compressor
                 import time as _time
                 compressor = get_memoir_compressor()
                 seed = compressor.compress(content, _time.time())
@@ -751,9 +751,9 @@ class InternalUniverse:
         "기존 감각 시스템과의 통합. 분절된 기능들의 조화."
         """
         import random
-        from Core.Foundation.hippocampus import Hippocampus
-        from Core.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
-        from Core.Intelligence.Cognitive.sensory_cortex import get_sensory_cortex
+        from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
+        from Core.L1_Foundation.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
+        from Core.L5_Mental.Intelligence.Cognitive.sensory_cortex import get_sensory_cortex
         
         logger.info(f"⏳ Initiating Chronos Chamber V5: Simulating {years} years with INTEGRATED SENSORIUM...")
         

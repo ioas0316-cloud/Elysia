@@ -23,8 +23,8 @@ class SenseDiscoveryProtocol:
     
     def __init__(self):
         self.known_senses = {
-            "vision": ["Core.Foundation.Synesthesia", "Core.Vision.Retina"],
-            "audio": ["Core.Evolution.Evolution.Life.symphony_engine", "Core.Audio.Cochlea"]
+            "vision": ["Core.L1_Foundation.Foundation.Synesthesia", "Core.L3_Phenomena.Vision.Retina"],
+            "audio": ["Core.L2_Metabolism.Evolution.Evolution.Life.symphony_engine", "Core.Audio.Cochlea"]
         }
         self.active_senses = {}
         

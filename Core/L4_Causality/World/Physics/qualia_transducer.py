@@ -1,7 +1,7 @@
 """
 Qualia Transducer: The Sense Maker
 ==================================
-Core.World.Physics.qualia_transducer
+Core.L4_Causality.World.Physics.qualia_transducer
 
 "To see the world is to measure its resonance against the Absolute."
 
@@ -23,7 +23,7 @@ import logging
 import torch
 import numpy as np
 from typing import List, Dict, Tuple, Optional
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 # Soft import
 try:

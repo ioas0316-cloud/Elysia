@@ -1,7 +1,7 @@
 """
 Monad Interface (The Universal Port)
 =====================================
-Core.Monad.monad_interface
+Core.L7_Spirit.Monad.monad_interface
 
 Defines the standard protocol for Monads to:
 1. Resonate (Communicate) with other Monads.

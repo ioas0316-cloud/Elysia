@@ -1,7 +1,7 @@
 """
 Code DNA Scanner
 ================
-Core.Intelligence.code_dna_scanner
+Core.L5_Mental.Intelligence.code_dna_scanner
 
 "The Code is not text. It is a Wave frozen in time."
 
@@ -22,7 +22,7 @@ import ast
 import os
 from dataclasses import dataclass
 from typing import Dict
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class CodeDNAScanner:
     def __init__(self):

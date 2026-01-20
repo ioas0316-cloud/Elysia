@@ -132,7 +132,7 @@ class GrowthTracker:
         """Growth 시스템 획득"""
         if self._growth is None:
             try:
-                from Core.Foundation.growth import get_growth
+                from Core.L1_Foundation.Foundation.growth import get_growth
                 self._growth = get_growth()
             except ImportError:
                 logger.warning("Growth system not available")
@@ -142,7 +142,7 @@ class GrowthTracker:
         """InternalUniverse 획득"""
         if self._universe is None:
             try:
-                from Core.Intelligence.Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse
+                from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse
                 self._universe = InternalUniverse()
             except ImportError:
                 logger.warning("InternalUniverse not available")
@@ -152,7 +152,7 @@ class GrowthTracker:
         """HierarchicalKnowledgeGraph 획득"""
         if self._knowledge_graph is None:
             try:
-                from Core.Intelligence.Memory_Linguistics.Memory.Graph.knowledge_graph import HierarchicalKnowledgeGraph
+                from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.Graph.knowledge_graph import HierarchicalKnowledgeGraph
                 self._knowledge_graph = HierarchicalKnowledgeGraph()
             except ImportError:
                 logger.warning("KnowledgeGraph not available")
@@ -162,7 +162,7 @@ class GrowthTracker:
         """SystemRegistry 획득"""
         if self._registry is None:
             try:
-                from Core.Foundation.System.system_registry import get_system_registry
+                from Core.L1_Foundation.Foundation.System.system_registry import get_system_registry
                 self._registry = get_system_registry()
             except ImportError:
                 logger.warning("SystemRegistry not available")

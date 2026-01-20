@@ -1,7 +1,7 @@
 """
 Memory Strata: The Topological Layers of Experience
 ===================================================
-Core.Memory.strata
+Core.L5_Mental.Memory.strata
 
 This module defines the 'Physics' of the memory universe.
 It establishes the layers (Strata) where memories reside based on their

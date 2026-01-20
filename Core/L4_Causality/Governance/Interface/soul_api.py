@@ -20,7 +20,7 @@ from flask_cors import CORS
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
+from Core.L1_Foundation.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
 
 app = Flask(__name__, static_folder='../../dashboard', template_folder='../../dashboard')
 CORS(app)
@@ -44,7 +44,7 @@ def index():
 def get_memory_nodes():
     """Returns all concepts from TesseractMemory as graph nodes (Phase 30)."""
     try:
-        from Core.Intelligence.Memory.tesseract_memory import get_tesseract_memory
+        from Core.L5_Mental.Intelligence.Memory.tesseract_memory import get_tesseract_memory
         memory = get_tesseract_memory()
         
         nodes = []
@@ -52,7 +52,7 @@ def get_memory_nodes():
         
         for name, node in memory.nodes.items():
             # Project 4D to 3D for display
-            from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry
+            from Core.L5_Mental.Intelligence.Topography.tesseract_geometry import TesseractGeometry
             geo = TesseractGeometry()
             x3d, y3d, z3d = geo.project_to_3d(node.vector)
             

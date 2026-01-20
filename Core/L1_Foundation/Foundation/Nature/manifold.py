@@ -1,7 +1,7 @@
 """
 Cognitive Manifold (The Thought Space)
 ======================================
-Core.Foundation.Nature.Manifold
+Core.L1_Foundation.Foundation.Nature.Manifold
 
 "Where waves meet, meaning is born."
 

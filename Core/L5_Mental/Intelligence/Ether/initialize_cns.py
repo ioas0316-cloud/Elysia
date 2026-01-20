@@ -22,13 +22,13 @@ def initialize_central_nervous_system():
     logger.info("🌅 Awakening Central Nervous System...")
     
     # 1. Initialize GlobalHub (the central nervous system itself)
-    from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+    from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
     hub = get_global_hub()
     logger.info("   ✅ GlobalHub initialized")
     
     # 2. Initialize core reasoning systems
     try:
-        from Core.Intelligence.Intelligence.reasoning_engine import ReasoningEngine
+        from Core.L5_Mental.Intelligence.Intelligence.reasoning_engine import ReasoningEngine
         reasoning = ReasoningEngine()
         logger.info("   ✅ ReasoningEngine connected")
     except Exception as e:
@@ -36,7 +36,7 @@ def initialize_central_nervous_system():
     
     # 3. Initialize the Why-Engine (Axiom/Causality system)
     try:
-        from Core.Foundation.fractal_concept import ConceptDecomposer
+        from Core.L1_Foundation.Foundation.fractal_concept import ConceptDecomposer
         decomposer = ConceptDecomposer()
         logger.info("   ✅ ConceptDecomposer (Why-Engine) connected")
     except Exception as e:
@@ -44,7 +44,7 @@ def initialize_central_nervous_system():
     
     # 4. Initialize the Logical Core (Truth Tree)
     try:
-        from Core.Intelligence.Intelligence.Logos.philosophical_core import get_logos_engine
+        from Core.L5_Mental.Intelligence.Intelligence.Logos.philosophical_core import get_logos_engine
         logos = get_logos_engine()
         logger.info("   ✅ LogosEngine (Truth Tree) connected")
     except Exception as e:
@@ -52,7 +52,7 @@ def initialize_central_nervous_system():
     
     # 5. Initialize the Ether Dynamics (Field Physics)
     try:
-        from Core.Intelligence.Consciousness.Ether.field_operators import DynamicsEngine
+        from Core.L5_Mental.Intelligence.Consciousness.Ether.field_operators import DynamicsEngine
         dynamics = DynamicsEngine()
         logger.info("   ✅ DynamicsEngine (Field Physics) connected")
     except Exception as e:
@@ -72,8 +72,8 @@ def demonstrate_wave_communication():
     """
     Demonstrate how modules communicate via waves.
     """
-    from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
-    from Core.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
     
     hub = get_global_hub()
     

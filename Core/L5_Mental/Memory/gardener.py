@@ -1,7 +1,7 @@
 """
 Memory Gardener: The Sovereign of the Internal Cosmos
 =====================================================
-Core.Memory.gardener
+Core.L5_Mental.Memory.gardener
 
 "The Gardener does not build the flower; he merely ensures the soil is right."
 
@@ -15,8 +15,8 @@ import random
 from typing import List, Dict
 from collections import defaultdict
 
-from Core.Memory.strata import MemoryStratum, StratumPhysics
-from Core.Memory.fractal_layer import FractalMemorySystem, FractalMemoryNode
+from Core.L5_Mental.Memory.strata import MemoryStratum, StratumPhysics
+from Core.L5_Mental.Memory.fractal_layer import FractalMemorySystem, FractalMemoryNode
 
 logger = logging.getLogger("Gardener")
 

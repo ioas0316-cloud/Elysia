@@ -31,7 +31,7 @@ from dataclasses import dataclass, field
 
 # Core Dependencies
 try:
-    from Core.Foundation.gemini_api import generate_text
+    from Core.L1_Foundation.Foundation.gemini_api import generate_text
     HAS_API = True
 except ImportError:
     HAS_API = False

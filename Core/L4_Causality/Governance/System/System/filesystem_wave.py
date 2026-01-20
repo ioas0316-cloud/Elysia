@@ -131,7 +131,7 @@ class FilesystemWaveObserver:
     def _connect_to_hub(self):
         """Connect to GlobalHub for wave broadcasting."""
         try:
-            from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "FilesystemObserver",
@@ -243,7 +243,7 @@ class FilesystemWaveObserver:
         # Broadcast to GlobalHub
         if self._hub:
             try:
-                from Core.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=event.frequency,
                     amplitude=event.amplitude,

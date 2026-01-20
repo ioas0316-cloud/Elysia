@@ -1,12 +1,12 @@
 
 from typing import Tuple, List, Dict, Any
-from Core.World.Soul.fluxlight_gyro import GyroscopicFluxlight
-from Core.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L4_Causality.World.Soul.fluxlight_gyro import GyroscopicFluxlight
+from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
 
 class Adventurer(GyroscopicFluxlight):
     def __init__(self, name: str, archetype: str, pos: Tuple[float, float, float, float] = (0, 0, 0, 0)):
-        from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
-        from Core.World.Soul.world_soul import world_soul
+        from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+        from Core.L4_Causality.World.Soul.world_soul import world_soul
         
         # 1. Soul (Physical)
         soul = InfiniteHyperQubit(name=name)
@@ -24,9 +24,9 @@ class Adventurer(GyroscopicFluxlight):
         self.elysia_thought = ""
 
     def live(self, dt: float = 1.0):
-        from Core.World.Physics.field_store import universe_field
-        from Core.World.Soul.world_soul import world_soul
-        from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+        from Core.L4_Causality.World.Physics.field_store import universe_field
+        from Core.L4_Causality.World.Soul.world_soul import world_soul
+        from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
         
         # 1. Environmental Induction
         self.internalize_field(dt)
@@ -68,8 +68,8 @@ class Adventurer(GyroscopicFluxlight):
         self.soul.state.normalize()
 
     def speak(self) -> str:
-        from Core.Intelligence.Logos.logos_engine import get_logos_engine
-        from Core.Intelligence.Reasoning.reasoning_engine import Insight
+        from Core.L5_Mental.Intelligence.Logos.logos_engine import get_logos_engine
+        from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import Insight
         
         logos = get_logos_engine()
         # Mix of archetype style and recent thought

@@ -13,10 +13,10 @@ from typing import Dict, Any, List
 # Import specialized cortices
 # Note: In a real refactor we might move these files to Core/World/Senses/
 # For now we import from where they are to avoid breaking existing paths immediately.
-from Core.World.Autonomy.vision_cortex import VisionCortex
-from Core.World.Autonomy.vrm_parser import VRMParser
+from Core.L4_Causality.World.Autonomy.vision_cortex import VisionCortex
+from Core.L4_Causality.World.Autonomy.vrm_parser import VRMParser
 # [PHASE 48] The Infinite Horizon
-from Core.World.Senses.web_cortex import WebCortex
+from Core.L4_Causality.World.Senses.web_cortex import WebCortex
 
 logger = logging.getLogger("Sensorium")
 

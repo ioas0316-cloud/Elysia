@@ -2,7 +2,7 @@
 The Mycelium Network: Hive Mind
 ===============================
 Phase 21 The Tree - Module 3
-Core.Reproduction.mycelium
+Core.L2_Metabolism.Reproduction.mycelium
 
 "Roots do not speak, but the forest knows."
 

@@ -16,7 +16,7 @@ from typing import List, Dict
 from pathlib import Path
 
 # Connect to the Heartbeat Loop
-from Core.Foundation.organism import cell, organ
+from Core.L1_Foundation.Foundation.organism import cell, organ
 
 logger = logging.getLogger("ImmuneSystem")
 

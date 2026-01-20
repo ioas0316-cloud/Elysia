@@ -1,7 +1,7 @@
 """
 Quantum Monad & Collapse Engine (WFC Integration)
 ================================================
-Core.Foundation.quantum_monad
+Core.L1_Foundation.Foundation.quantum_monad
 
 "Observation is the act of creation."
 

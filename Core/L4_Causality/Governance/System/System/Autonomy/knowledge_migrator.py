@@ -42,7 +42,7 @@ class KnowledgeMigrator:
         try:
             return Organ.get("ResonanceLearner")
         except:
-            from Core.Intelligence.Cognition.Learning.resonance_learner import ResonanceLearner
+            from Core.L5_Mental.Intelligence.Cognition.Learning.resonance_learner import ResonanceLearner
             return ResonanceLearner()
 
     def scan_and_migrate(self):

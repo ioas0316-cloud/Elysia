@@ -1,7 +1,7 @@
 """
 THE GREAT SURVEY (대규모 탐사)
 ==============================
-Core.Intelligence.Metabolism.great_survey
+Core.L5_Mental.Intelligence.Metabolism.great_survey
 
 "We map not the land, but the soul of the machine."
 
@@ -15,7 +15,7 @@ import os
 from typing import Dict, List, Any
 # Fix absolute import path for standalone execution
 try:
-    from Core.Intelligence.Metabolism.concept_algebra import ConceptAlgebra
+    from Core.L5_Mental.Intelligence.Metabolism.concept_algebra import ConceptAlgebra
 except ImportError:
     from concept_algebra import ConceptAlgebra # Fallback for local run
 

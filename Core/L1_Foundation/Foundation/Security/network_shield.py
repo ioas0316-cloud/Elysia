@@ -48,8 +48,8 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # Import resonance field for field theory integration
 try:
-    from Core.Foundation.Wave.resonance_field import ResonanceField, ResonanceNode
-    from Core.Foundation.physics import ResonanceGate, PhotonEntity
+    from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField, ResonanceNode
+    from Core.L1_Foundation.Foundation.physics import ResonanceGate, PhotonEntity
     FIELD_AVAILABLE = True
 except ImportError:
     FIELD_AVAILABLE = False

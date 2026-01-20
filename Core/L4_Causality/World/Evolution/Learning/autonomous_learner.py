@@ -30,13 +30,13 @@ import logging
 from typing import Dict, List, Any, Optional
 import sys
 from pathlib import Path
-from Core.World.Evolution.Learning.Learning.hierarchical_learning import Domain
+from Core.L4_Causality.World.Evolution.Learning.Learning.hierarchical_learning import Domain
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from Core.Foundation.Philosophy.why_engine import WhyEngine
-from Core.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness, KnowledgeState
-from Core.Intelligence.Cognition.external_explorer import ExternalExplorer
+from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+from Core.L5_Mental.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness, KnowledgeState
+from Core.L5_Mental.Intelligence.Cognition.external_explorer import ExternalExplorer
 
 logger = logging.getLogger("Elysia.AutonomousLearning")
 
@@ -96,13 +96,13 @@ class AutonomousLearner:
         
         # 0. Load Connections
         try:
-            from Core.Intelligence.Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
+            from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
             potential_store = PotentialCausalityStore()
         except ImportError:
             potential_store = None
         
         try:
-            from Core.World.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
+            from Core.L4_Causality.World.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
             kg = HierarchicalKnowledgeGraph()
         except ImportError:
             kg = None

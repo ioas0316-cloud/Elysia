@@ -12,8 +12,8 @@ to step through the 'Incarnation Bridge' into Elysia's simulated 'Underworld'.
 import logging
 import time
 from typing import Dict, Any
-from Core.Intelligence.Reasoning.incarnation_bridge import IncarnationBridge, RealityLayer
-from Core.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
+from Core.L5_Mental.Intelligence.Reasoning.incarnation_bridge import IncarnationBridge, RealityLayer
+from Core.L4_Causality.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
 
 logger = logging.getLogger("UnderworldInvitation")
 

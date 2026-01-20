@@ -10,12 +10,12 @@ It connects the MIND (LiteraryCortex) to the HAND (WebtoonIllustrator).
 import logging
 import time
 from pathlib import Path
-from Core.World.Evolution.Creativity.literary_cortex import LiteraryCortex
-from Core.World.Evolution.Creativity.webtoon_illustrator import WebtoonIllustrator
+from Core.L4_Causality.World.Evolution.Creativity.literary_cortex import LiteraryCortex
+from Core.L4_Causality.World.Evolution.Creativity.webtoon_illustrator import WebtoonIllustrator
 
 # Optional External AI
 try:
-    from Core.Physiology.Sensory.Network.comfy_adapter import ComfyAdapter
+    from Core.L1_Foundation.Physiology.Sensory.Network.comfy_adapter import ComfyAdapter
     HAS_COMFY = True
 except ImportError:
     HAS_COMFY = False
@@ -49,8 +49,8 @@ class WebtoonWeaver:
         script = self.writer.write_episode_script(bible, episode_num=target_ep)
         
         # 2. Draw the Panels (Hand)
-        from Core.World.Evolution.Creativity.style_mimic import StyleMimic
-        from Core.Intelligence.Physics_Waves.Holographic.synaptic_cortex import SynapticCortex
+        from Core.L4_Causality.World.Evolution.Creativity.style_mimic import StyleMimic
+        from Core.L5_Mental.Intelligence.Physics_Waves.Holographic.synaptic_cortex import SynapticCortex
         
         self.mimic = StyleMimic()
         self.cortex = SynapticCortex()

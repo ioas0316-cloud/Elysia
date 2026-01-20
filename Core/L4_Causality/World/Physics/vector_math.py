@@ -1,7 +1,7 @@
 """
 Vector Math (The Geometry of Space)
 ===================================
-Core.World.Physics.vector_math
+Core.L4_Causality.World.Physics.vector_math
 
 Simple Vector3 implementation for calculated 3D Spatial States.
 """

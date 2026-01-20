@@ -1,7 +1,7 @@
 """
 Sovereign Observer (The Eye of the World)
 =========================================
-Core.World.Observation.sovereign_observer
+Core.L4_Causality.World.Observation.sovereign_observer
 
 "To create a World, one must first observe a World."
 "세상을 창조하기 위해서는, 먼저 세상을 관찰해야 한다."

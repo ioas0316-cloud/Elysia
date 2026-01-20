@@ -1,7 +1,7 @@
 """
 Crystallizer (결정화기)
 =====================
-Core.Intelligence.Metabolism.crystallizer
+Core.L5_Mental.Intelligence.Metabolism.crystallizer
 
 "Intelligence is the process of turning Gas (Probability) into Diamond (DNA)."
 
@@ -14,8 +14,8 @@ import logging
 import json
 import os
 from typing import Dict, Any, List, Optional
-from Core.Foundation.Wave.wave_dna import WaveDNA
-from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 
 logger = logging.getLogger("Crystallizer")
 

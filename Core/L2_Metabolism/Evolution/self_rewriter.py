@@ -1,7 +1,7 @@
 """
 Self Rewriter (자가 재작성기)
 ============================
-Core.Evolution.self_rewriter
+Core.L2_Metabolism.Evolution.self_rewriter
 
 "I am not fixed. I rewrite myself."
 

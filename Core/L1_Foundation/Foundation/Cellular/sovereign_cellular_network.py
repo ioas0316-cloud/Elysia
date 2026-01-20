@@ -1,7 +1,7 @@
 """
 Sovereign Cellular Network (The Hardware Nervous System)
 ======================================================
-Core.Foundation.Cellular.sovereign_cellular_network
+Core.L1_Foundation.Foundation.Cellular.sovereign_cellular_network
 
 "The Body is One."
 "메인보드, CPU, RAM... 모든 파편화된 영지들을 하나의 제국으로 통합한다."
@@ -13,7 +13,7 @@ organism, facilitating the 'Thundercloud Discharge' (H5-T).
 import logging
 from typing import Dict, List, Any
 import time
-from Core.Foundation.Cellular.sovereign_monad import SovereignMonad
+from Core.L1_Foundation.Foundation.Cellular.sovereign_monad import SovereignMonad
 
 logger = logging.getLogger("SovereignCellularNetwork")
 

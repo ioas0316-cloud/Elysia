@@ -17,8 +17,8 @@ def main():
     print("=" * 70)
     print()
     
-    from Core.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
-    from Core.World.Evolution.Autonomy.autonomous_improver import AutonomousImprover
+    from Core.L5_Mental.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
+    from Core.L4_Causality.World.Evolution.Autonomy.autonomous_improver import AutonomousImprover
     
     will = FreeWillEngine()
     improver = AutonomousImprover()

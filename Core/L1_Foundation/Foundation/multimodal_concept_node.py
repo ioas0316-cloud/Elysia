@@ -21,7 +21,7 @@ import numpy as np
 
 # [PHASE 7.2] Import Phase Stratum for Holographic Layering
 try:
-    from Core.Intelligence.Topography.phase_stratum import PhaseStratum
+    from Core.L5_Mental.Intelligence.Topography.phase_stratum import PhaseStratum
 except ImportError:
     PhaseStratum = None
 
@@ -221,7 +221,7 @@ class MultimodalConceptIntegrator:
         
         # SynesthesiaEngine 연결
         try:
-            from Core.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
+            from Core.L1_Foundation.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
             self.synesthesia = SynesthesiaEngine()
             self.SignalType = SignalType
             logger.info("   ✅ SynesthesiaEngine connected")
@@ -231,7 +231,7 @@ class MultimodalConceptIntegrator:
         
         # TextWaveConverter 연결
         try:
-            from Core.Foundation.text_wave_converter import TextWaveConverter
+            from Core.L1_Foundation.Foundation.text_wave_converter import TextWaveConverter
             self.text_wave = TextWaveConverter()
             logger.info("   ✅ TextWaveConverter connected")
         except Exception as e:

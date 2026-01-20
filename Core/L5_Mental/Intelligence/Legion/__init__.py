@@ -2,7 +2,7 @@
 """
 Legion Intelligence Module
 ==========================
-Core.Intelligence.Legion
+Core.L5_Mental.Intelligence.Legion
 
 Implements the Swarm/Council Architecture.
 """

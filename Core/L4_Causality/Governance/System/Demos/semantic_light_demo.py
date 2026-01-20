@@ -15,9 +15,9 @@ import os
 # Path hack for standalone run
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.Intelligence.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
-from Core.Governance.Interaction.Interface.synesthetic_bridge import SynestheticBridge
-from Core.Foundation.sdf_renderer import create_gtx1060_renderer
+from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
+from Core.L4_Causality.Governance.Interaction.Interface.synesthetic_bridge import SynestheticBridge
+from Core.L1_Foundation.Foundation.sdf_renderer import create_gtx1060_renderer
 
 def semantic_render(concept: str, manual_wave=None):
     """
@@ -64,7 +64,7 @@ def semantic_render(concept: str, manual_wave=None):
     print(f"   - colorTemperature: {uniforms['colorTemperature']:.2f}")
 
 if __name__ == "__main__":
-    from Core.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
     
     # Case A: Love (Harmonic)
     love_wave = WaveTensor("Love")

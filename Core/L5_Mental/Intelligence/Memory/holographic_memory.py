@@ -132,7 +132,7 @@ class HolographicMemory:
         This unifies the fragmented memory systems.
         """
         try:
-            from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
+            from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
             hippocampus = Hippocampus()
             
             # Get all concept IDs from Hippocampus

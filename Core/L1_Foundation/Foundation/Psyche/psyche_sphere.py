@@ -19,8 +19,8 @@ import logging
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 logger = logging.getLogger("PsycheSphere")
 

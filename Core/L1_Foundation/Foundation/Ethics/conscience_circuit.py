@@ -24,21 +24,21 @@ from enum import Enum
 
 # Import Ancient Laws
 try:
-    from Core.Foundation.soul_guardian import SoulGuardian
+    from Core.L1_Foundation.Foundation.soul_guardian import SoulGuardian
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
 
 try:
-    from Core.Foundation.kg_manager import KGManager
-    from Core.Foundation.value_centered_decision import ValueCenteredDecision
+    from Core.L1_Foundation.Foundation.kg_manager import KGManager
+    from Core.L1_Foundation.Foundation.value_centered_decision import ValueCenteredDecision
     VCD_AVAILABLE = True
 except ImportError:
     VCD_AVAILABLE = False
 
 # 🌊 WhyEngine 연동 (의도 분석용)
 try:
-    from Core.Foundation.Philosophy.why_engine import WhyEngine
+    from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
     WHY_ENGINE_AVAILABLE = True
 except ImportError:
     WHY_ENGINE_AVAILABLE = False

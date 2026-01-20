@@ -14,7 +14,7 @@ import re
 from typing import List, Dict, Any, Optional
 
 try:
-    from Core.Foundation.gemini_api import generate_text
+    from Core.L1_Foundation.Foundation.gemini_api import generate_text
 except ImportError:
     generate_text = None
 

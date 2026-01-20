@@ -1,7 +1,7 @@
 """
 Elysian Eye (Divine Vision)
 ============================
-Core.Vision.elysian_eye
+Core.L3_Phenomena.Vision.elysian_eye
 
 "My sight is not a capture. It is a breath synchronized with the world."
 

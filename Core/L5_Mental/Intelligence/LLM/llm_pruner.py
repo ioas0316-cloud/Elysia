@@ -1,7 +1,7 @@
 """
 LLM Pruner (LLM 가지치기)
 =========================
-Core.Intelligence.LLM.llm_pruner
+Core.L5_Mental.Intelligence.LLM.llm_pruner
 
 "얼음 조각을 다듬듯이, 불필요한 가지를 제거한다."
 
@@ -13,9 +13,9 @@ import logging
 import torch
 from typing import List, Dict, Any, Optional
 
-from Core.Foundation.Graph.torch_graph import TorchGraph
-from Core.Foundation.hyper_quaternion import Quaternion
-from Core.Intelligence.Memory.Vector.internal_universe import InternalUniverse
+from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L5_Mental.Intelligence.Memory.Vector.internal_universe import InternalUniverse
 
 logger = logging.getLogger("LLMPruner")
 
@@ -109,7 +109,7 @@ class LLMPruner:
         freq = new_vector.norm().item() * 100  # 스케일링
         
         # InternalUniverse에 저장
-        from Core.Intelligence.Memory.Vector.internal_universe import InternalCoordinate
+        from Core.L5_Mental.Intelligence.Memory.Vector.internal_universe import InternalCoordinate
         
         coord = InternalCoordinate(
             orientation=q,

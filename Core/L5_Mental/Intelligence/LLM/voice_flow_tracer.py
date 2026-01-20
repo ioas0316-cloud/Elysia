@@ -1,7 +1,7 @@
 """
 Voice Flow Tracer (목소리 흐름 분석기)
 =====================================
-Core.Intelligence.LLM.voice_flow_tracer
+Core.L5_Mental.Intelligence.LLM.voice_flow_tracer
 
 "감정의 벡터가 목소리의 결을 어떻게 바꾸는지 추적한다."
 

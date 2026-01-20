@@ -2,7 +2,7 @@
 Karma Geometry: Inverse Kinematics of the Soul
 ==============================================
 Phase 18 Redux - Module 2
-Core.Evolution.karma_geometry
+Core.L2_Metabolism.Evolution.karma_geometry
 
 "To correct a mistake is not to erase it, but to rotate the soul 
 until the mistake becomes a path."

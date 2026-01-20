@@ -1,7 +1,7 @@
 """
 The Quality Gate (Threshold Module)
 ===================================
-Core.Foundation.Prism.quality_gate
+Core.L1_Foundation.Foundation.Prism.quality_gate
 
 "Filtering the Fog."
 

@@ -21,11 +21,11 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Any, Set
 from enum import Enum
 
-from Core.Foundation.System.elysia_core import Cell
+from Core.L1_Foundation.Foundation.System.elysia_core import Cell
 
 # Import Hyper-Quaternion for 4D Spin
 try:
-    from Core.Foundation.hyper_quaternion import Quaternion
+    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback if Foundation is not reachable yet
     @dataclass

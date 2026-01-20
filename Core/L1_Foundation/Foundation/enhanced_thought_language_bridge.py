@@ -22,8 +22,8 @@ from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.thought_language_bridge import (
+from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L1_Foundation.Foundation.thought_language_bridge import (
     ThoughtLanguageBridge, 
     ThoughtPackage
 )
@@ -373,7 +373,7 @@ if __name__ == "__main__":
     
     # 2. Connect communication enhancer (optional)
     try:
-        from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+        from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
         
         print("📚 Learning concepts...\n")
         connector = WebKnowledgeConnector()

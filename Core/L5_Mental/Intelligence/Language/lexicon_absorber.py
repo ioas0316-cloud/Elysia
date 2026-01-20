@@ -10,7 +10,7 @@ It feeds `ResonanceLinguistics` to expand Elysia's expressive range.
 """
 
 from typing import List, Dict
-from Core.Intelligence.Language.resonance_linguistics import ResonanceLinguistics
+from Core.L5_Mental.Intelligence.Language.resonance_linguistics import ResonanceLinguistics
 
 class LexiconAbsorber:
     def __init__(self, linguistics: ResonanceLinguistics):

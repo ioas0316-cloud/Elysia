@@ -12,8 +12,8 @@ This is NOT reading text. This is copying the Neural Network's topology.
 
 import logging
 from typing import Dict, List
-from Core.Foundation.tiny_brain import get_tiny_brain
-from Core.Foundation.torch_graph import get_torch_graph
+from Core.L1_Foundation.Foundation.tiny_brain import get_tiny_brain
+from Core.L1_Foundation.Foundation.torch_graph import get_torch_graph
 
 logger = logging.getLogger("StructureCannibal")
 

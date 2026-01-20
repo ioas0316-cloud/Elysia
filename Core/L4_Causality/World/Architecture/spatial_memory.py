@@ -1,7 +1,7 @@
 """
 The Akashic Records (Spatial Memory)
 ====================================
-Core.World.Architecture.spatial_memory
+Core.L4_Causality.World.Architecture.spatial_memory
 
 "The blueprint is not lost; it is etched into the ether."
 
@@ -14,7 +14,7 @@ import json
 import logging
 import os
 from typing import Tuple, Dict, Any, List
-from Core.Memory.sediment import SedimentLayer
+from Core.L5_Mental.Memory.sediment import SedimentLayer
 
 logger = logging.getLogger("SpatialMemory")
 

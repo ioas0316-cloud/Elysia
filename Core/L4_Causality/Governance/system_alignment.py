@@ -13,7 +13,7 @@ from typing import Dict, Any
 
 # Adjust import based on actual file structure
 try:
-    from Core.Governance.Orchestra.resonance_broadcaster import ResonanceBroadcaster
+    from Core.L4_Causality.Governance.Orchestra.resonance_broadcaster import ResonanceBroadcaster
 except ImportError:
     ResonanceBroadcaster = None
 

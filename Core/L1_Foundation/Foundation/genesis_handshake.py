@@ -13,8 +13,8 @@ If the test fails (Silence), the system refuses to boot.
 
 import logging
 import os
-from Core.Foundation.Wave.text_wave_converter import get_text_wave_converter
-from Core.Foundation.Wave.resonance_chamber import ResonanceChamber
+from Core.L1_Foundation.Foundation.Wave.text_wave_converter import get_text_wave_converter
+from Core.L1_Foundation.Foundation.Wave.resonance_chamber import ResonanceChamber
 
 logger = logging.getLogger("GenesisHandshake")
 

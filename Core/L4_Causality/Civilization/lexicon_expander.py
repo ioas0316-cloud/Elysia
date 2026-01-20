@@ -1,7 +1,7 @@
 """
 Lexicon Expander (The Seed Harvester)
 =====================================
-Core.Civilization.lexicon_expander
+Core.L4_Causality.Civilization.lexicon_expander
 
 Simulates the rapid expansion of vocabulary.
 """

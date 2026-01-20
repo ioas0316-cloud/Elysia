@@ -1,7 +1,7 @@
 """
 CONCEPT ALGEBRA (개념 대수학)
 =============================
-Core.Intelligence.Metabolism.concept_algebra
+Core.L5_Mental.Intelligence.Metabolism.concept_algebra
 
 "Mathematics is the language of God. Vector Algebra is the language of LLMs."
 

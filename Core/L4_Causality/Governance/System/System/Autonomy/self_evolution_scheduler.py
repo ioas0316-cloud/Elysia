@@ -177,7 +177,7 @@ class SelfEvolutionScheduler:
             try:
                 self._dream_daemon = Organ.get("DreamDaemon")
             except:
-                from Core.Governance.System.System.Autonomy.dream_daemon import DreamDaemon
+                from Core.L4_Causality.Governance.System.System.Autonomy.dream_daemon import DreamDaemon
                 return DreamDaemon()
         return self._dream_daemon
 
@@ -186,7 +186,7 @@ class SelfEvolutionScheduler:
             try:
                 self._free_will = Organ.get("FreeWillEngine")
             except:
-                from Core.Intelligence.Cognition.Reasoning.free_will_engine import FreeWillEngine
+                from Core.L5_Mental.Intelligence.Cognition.Reasoning.free_will_engine import FreeWillEngine
                 return FreeWillEngine()
         return self._free_will
 

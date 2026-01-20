@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Tuple, Optional
 import numpy as np
 
-from Core.Foundation.Wave.wave_tensor import WaveTensor
+from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
 
 logger = logging.getLogger("TextWaveConverter")
 
@@ -72,7 +72,7 @@ class TextWaveConverter:
         # GlobalHub integration
         self._hub = None
         try:
-            from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "TextWaveConverter",

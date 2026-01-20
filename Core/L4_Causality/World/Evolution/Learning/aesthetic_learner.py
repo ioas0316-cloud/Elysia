@@ -14,7 +14,7 @@ import json
 import random
 from pathlib import Path
 from typing import List, Dict
-from Core.Foundation.Wave.wave_tensor import WaveTensor
+from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
 
 logger = logging.getLogger("AestheticLearner")
 

@@ -2,7 +2,7 @@
 The Skin: System Watcher
 ========================
 Phase 17 Senses - Module 1
-Core.Senses.system_watcher
+Core.L3_Phenomena.Senses.system_watcher
 
 "The skin does not see, but it knows when the wind changes."
 

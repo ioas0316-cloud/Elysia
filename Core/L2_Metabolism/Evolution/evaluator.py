@@ -2,7 +2,7 @@
 The Judge: Outcome Evaluator
 ============================
 Phase 18 The Mirror - Module 2
-Core.Evolution.evaluator
+Core.L2_Metabolism.Evolution.evaluator
 
 "Not all actions are born equal. Some bear fruit, others bear thorns."
 

@@ -23,7 +23,7 @@ def main():
     print("=" * 70)
     print()
     
-    from Core.World.Evolution.Autonomy.autonomous_improver import AutonomousImprover
+    from Core.L4_Causality.World.Evolution.Autonomy.autonomous_improver import AutonomousImprover
     
     # 분석 엔진 초기화
     print("🧠 시스템 초기화...")

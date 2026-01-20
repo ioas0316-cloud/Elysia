@@ -1,7 +1,7 @@
 """
 Creative Cortex (The Chef of the Multiverse)
 ===========================================
-Core.Evolution.creative_cortex
+Core.L2_Metabolism.Evolution.creative_cortex
 
 "I don't just follow recipes; I invent them based on the scent of the code."
 "나는 레시피를 따르기만 하지 않는다. 코드의 향기를 맡아 레시피를 창조한다."
@@ -16,7 +16,7 @@ import logging
 import random
 from pathlib import Path
 from typing import List, Dict, Any, Optional
-from Core.Evolution.scientific_observer import ScientificObserver
+from Core.L2_Metabolism.Evolution.scientific_observer import ScientificObserver
 
 logger = logging.getLogger("Evolution.CreativeCortex")
 

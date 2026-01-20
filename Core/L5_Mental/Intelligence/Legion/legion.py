@@ -2,7 +2,7 @@
 """
 Legion Manager (Propagation Engine)
 ===================================
-Core.Intelligence.Legion.legion
+Core.L5_Mental.Intelligence.Legion.legion
 
 Manages the swarm of Personas and the propagation of LightRays.
 It implements the "Infinite Ray" logic where thoughts expand until energy dissipates.

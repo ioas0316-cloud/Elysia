@@ -5,10 +5,10 @@ import logging
 import torch
 import numpy as np
 from typing import Dict, List, Optional, Tuple
-from Core.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 23] Tesseract Unfolding
-from Core.Foundation.Memory.holographic_embedding import get_holographic_embedder # [Phase 24] Identity
+from Core.L1_Foundation.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 23] Tesseract Unfolding
+from Core.L1_Foundation.Foundation.Memory.holographic_embedding import get_holographic_embedder # [Phase 24] Identity
 
-from Core.Foundation.Philosophy.why_engine import WhyEngine
+from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
 
 logger = logging.getLogger("TorchGraph")
 
@@ -70,7 +70,7 @@ class TorchGraph:
         self.realization_threshold = 2.0
         
         # [The Kidney]
-        from Core.Foundation.concept_sanitizer import get_sanitizer
+        from Core.L1_Foundation.Foundation.concept_sanitizer import get_sanitizer
         self.sanitizer = get_sanitizer()
 
         # [The Great Unification] Phase 12
@@ -942,7 +942,7 @@ class TorchGraph:
         indices_to_remove = indices.tolist()
         indices_to_remove.sort(reverse=True) # Remove from end to avoid shift issues logic if doing list pop, but here we rebuild tensors
         
-        from Core.Foundation.Graph.black_hole_memory import get_black_hole
+        from Core.L1_Foundation.Foundation.Graph.black_hole_memory import get_black_hole
         bh = get_black_hole()
         
         for idx in indices_to_remove:

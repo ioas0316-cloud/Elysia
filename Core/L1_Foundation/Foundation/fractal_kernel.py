@@ -2,9 +2,9 @@ import logging
 import os
 from typing import Optional
 from pathlib import Path
-from Core.Foundation.gemini_api import generate_text
-from Core.Foundation.time_tools import get_current_time
-from Core.Foundation.potential_field import PotentialField
+from Core.L1_Foundation.Foundation.gemini_api import generate_text
+from Core.L1_Foundation.Foundation.time_tools import get_current_time
+from Core.L1_Foundation.Foundation.potential_field import PotentialField
 
 class FractalKernel:
     """

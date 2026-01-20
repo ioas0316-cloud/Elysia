@@ -13,7 +13,7 @@ import os
 # Ensure path to Core is valid
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core.Foundation.google_free_connector import GoogleFreeServicesConnector
+from Core.L1_Foundation.Foundation.google_free_connector import GoogleFreeServicesConnector
 
 class WebCortex:
     def __init__(self):

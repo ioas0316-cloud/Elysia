@@ -10,7 +10,7 @@ import time
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
-from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 
 logger = logging.getLogger("AxiomSynthesizer")
 

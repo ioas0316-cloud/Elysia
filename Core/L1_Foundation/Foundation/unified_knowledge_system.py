@@ -139,7 +139,7 @@ class UnifiedKnowledgeSystem:
         # Internal Universe integration (if available)
         self.universe = None
         try:
-            from Core.Foundation.internal_universe import InternalUniverse
+            from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
             logger.info("🌌 Internal Universe connected")
         except Exception as e:
@@ -545,7 +545,7 @@ class UnifiedKnowledgeSystem:
         try:
             # Use ExternalDataConnector if available
             try:
-                from Core.Foundation.external_data_connector import ExternalDataConnector
+                from Core.L1_Foundation.Foundation.external_data_connector import ExternalDataConnector
                 connector = ExternalDataConnector(self.universe)
                 return connector.internalize_from_text(concept, description)
             except:

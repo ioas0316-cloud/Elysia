@@ -1,7 +1,7 @@
 """
 Meaning Deconstructor (The Adapter)
 ===================================
-Core.Intelligence.Analysis.meaning_deconstructor
+Core.L5_Mental.Intelligence.Analysis.meaning_deconstructor
 
 "The prism that splits White Noise (Text) into Rainbows (WaveDNA)."
 
@@ -16,7 +16,7 @@ Current Status:
 """
 
 from typing import Dict, List, Any, Tuple
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class MeaningDeconstructor:
     def __init__(self):

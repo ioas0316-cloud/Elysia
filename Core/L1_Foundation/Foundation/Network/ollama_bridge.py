@@ -26,7 +26,7 @@ class OllamaBridge:
     Ollama 로컬 LLM과의 연결
     
     사용법:
-        from Core.Intelligence.Intelligence.ollama_bridge import ollama
+        from Core.L5_Mental.Intelligence.Intelligence.ollama_bridge import ollama
         
         if ollama.is_available():
             response = ollama.chat("안녕? 나는 Elysia야.")
@@ -42,7 +42,7 @@ class OllamaBridge:
         self.gemini = None
         
         # Initialize Gemini Connector as a potential fallback
-        from Core.Foundation.google_free_connector import GoogleGeminiConnector
+        from Core.L1_Foundation.Foundation.google_free_connector import GoogleGeminiConnector
         self.gemini = GoogleGeminiConnector()
         
         # Initial Check
@@ -59,7 +59,7 @@ class OllamaBridge:
             self._available = False
             logger.warning("⚠️ Ollama Offline. Attempting to engage TinyBrain...")
             # Fallback
-            from Core.Foundation.tiny_brain import get_tiny_brain
+            from Core.L1_Foundation.Foundation.tiny_brain import get_tiny_brain
             self.tiny_brain = get_tiny_brain()
             if self.tiny_brain.is_available():
                 logger.info("✅ TinyBrain Engaged (Simulated Bridge).")
@@ -87,7 +87,7 @@ class OllamaBridge:
             self._last_check = current_time
             # Try to engage TinyBrain if not already
             if not self.tiny_brain:
-                from Core.Foundation.tiny_brain import get_tiny_brain
+                from Core.L1_Foundation.Foundation.tiny_brain import get_tiny_brain
                 self.tiny_brain = get_tiny_brain()
             
         return (self._available or 
@@ -317,7 +317,7 @@ class OllamaBridge:
                     
                     
         # [The Kidney] Sanitation
-        from Core.Foundation.concept_sanitizer import get_sanitizer
+        from Core.L1_Foundation.Foundation.concept_sanitizer import get_sanitizer
         sanitizer = get_sanitizer()
 
         sanitized_chains = []
@@ -372,7 +372,7 @@ class OllamaBridge:
         else:
             response = self.generate(prompt, temperature=0.1)
         
-        from Core.Foundation.concept_sanitizer import get_sanitizer
+        from Core.L1_Foundation.Foundation.concept_sanitizer import get_sanitizer
         sanitizer = get_sanitizer()
 
         results = {}

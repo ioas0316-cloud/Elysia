@@ -12,9 +12,9 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.Elysia.sovereign_self import SovereignSelf
-from Core.Intelligence.Meta.fractal_wfc import FractalWFC
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L5_Mental.Intelligence.Meta.fractal_wfc import FractalWFC
+from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 def test_civilization_genesis():
     print("--- 🏛️ Experiment: The Rise of Civilization ---")

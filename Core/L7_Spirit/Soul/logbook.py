@@ -2,7 +2,7 @@
 The Chronicler: Logbook
 =======================
 Phase 19 The Soul - Module 1
-Core.Soul.logbook
+Core.L7_Spirit.Soul.logbook
 
 "The ink is dry, but the memory flows."
 

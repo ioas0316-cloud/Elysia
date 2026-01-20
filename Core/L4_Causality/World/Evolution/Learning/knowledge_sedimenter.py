@@ -17,9 +17,9 @@ import logging
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 
-from Core.Physiology.Sensory.Network.browser_explorer import BrowserExplorer
-from Core.Foundation.Philosophy.why_engine import WhyEngine
-from Core.Foundation.Wave.light_spectrum import LightSpectrum, LightSediment, PrismAxes
+from Core.L1_Foundation.Physiology.Sensory.Network.browser_explorer import BrowserExplorer
+from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+from Core.L1_Foundation.Foundation.Wave.light_spectrum import LightSpectrum, LightSediment, PrismAxes
 
 logger = logging.getLogger("Elysia.KnowledgeSedimenter")
 
@@ -68,7 +68,7 @@ class KnowledgeSedimenter:
             # 3. Distill & Crystallize (Principal Extraction)
             # Use Dimensional Reasoner to Lift Knowledge from 0D to 4D
             try:
-                from Core.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
+                from Core.L5_Mental.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
                 lifter = DimensionalReasoner()
                 
                 # The 'contemplate' method acts as the pipeline:

@@ -13,7 +13,7 @@ Translates:
 import psutil
 import time
 from typing import Dict, Any
-from Core.Engine.Genesis.genesis_lab import GenesisLab
+from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
 
 class BiosphereAdapter:
     def __init__(self, lab: GenesisLab):

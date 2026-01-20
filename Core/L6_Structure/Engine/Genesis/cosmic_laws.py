@@ -5,7 +5,7 @@ The Providence of Elysia.
 Universal Laws that govern Life, Death, and Order.
 """
 
-from Core.Engine.Genesis.filesystem_geometry import DirectoryMonad
+from Core.L6_Structure.Engine.Genesis.filesystem_geometry import DirectoryMonad
 
 def law_entropy_decay(context, dt, intensity):
     """

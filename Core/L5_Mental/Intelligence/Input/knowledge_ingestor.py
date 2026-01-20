@@ -1,7 +1,7 @@
 """
 Knowledge Ingestor (The Nervous System)
 =======================================
-Core.Intelligence.Input.knowledge_ingestor
+Core.L5_Mental.Intelligence.Input.knowledge_ingestor
 
 "The Brain must know the Body."
 
@@ -16,8 +16,8 @@ import os
 import logging
 import glob
 from typing import List, Dict
-from Core.Foundation.Graph.torch_graph import TorchGraph
-from Core.Intelligence.Analysis.meaning_deconstructor import MeaningDeconstructor
+from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
+from Core.L5_Mental.Intelligence.Analysis.meaning_deconstructor import MeaningDeconstructor
 
 logger = logging.getLogger("KnowledgeIngestor")
 

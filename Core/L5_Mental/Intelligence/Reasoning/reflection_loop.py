@@ -4,9 +4,9 @@ import logging
 from typing import Optional, Dict, Any
 from dataclasses import dataclass
 
-from Core.Intelligence.Topography.void_perceiver import VoidPerceiver
-from Core.Intelligence.Topography.resonance_sphere import ResonanceSphere, ReflectionResult, ReflectionModality
-from Core.Intelligence.Wisdom.wisdom_store import WisdomStore
+from Core.L5_Mental.Intelligence.Topography.void_perceiver import VoidPerceiver
+from Core.L5_Mental.Intelligence.Topography.resonance_sphere import ResonanceSphere, ReflectionResult, ReflectionModality
+from Core.L5_Mental.Intelligence.Wisdom.wisdom_store import WisdomStore
 
 logger = logging.getLogger("ReflectionLoop")
 

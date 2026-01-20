@@ -5,7 +5,7 @@ import os
 import time
 from typing import Dict, Any
 
-from Core.Foundation.Rotor.rotor_engine import RotorEngine
+from Core.L1_Foundation.Foundation.Rotor.rotor_engine import RotorEngine
 
 STATE_FILE = "c:/Elysia/data/psionic_state.json"
 os.makedirs("c:/Elysia/data", exist_ok=True)

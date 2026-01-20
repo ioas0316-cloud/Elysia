@@ -13,8 +13,8 @@ import os
 import re
 import logging
 from typing import List, Dict, Any, Optional
-from Core.Intelligence.Meta.holistic_self_audit import HolisticSelfAudit
-from Core.Intelligence.Meta.sovereign_vocalizer import SovereignVocalizer
+from Core.L5_Mental.Intelligence.Meta.holistic_self_audit import HolisticSelfAudit
+from Core.L5_Mental.Intelligence.Meta.sovereign_vocalizer import SovereignVocalizer
 
 logger = logging.getLogger("StructuralDescriber")
 

@@ -1,7 +1,7 @@
 """
 Elysian Voice (통합된 목소리)
 =============================
-Core.Voice.elysian_voice
+Core.L3_Phenomena.Voice.elysian_voice
 
 "All thoughts converge. One voice speaks."
 

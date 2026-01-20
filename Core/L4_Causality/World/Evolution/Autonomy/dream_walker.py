@@ -3,10 +3,10 @@ import random
 import logging
 import time
 from typing import List, Dict, Tuple
-from Core.Foundation.omni_graph import get_omni_graph, OmniNode
+from Core.L1_Foundation.Foundation.omni_graph import get_omni_graph, OmniNode
 # Attempt to use Logos/Poetry if available, else fallback
 try:
-    from Core.Intelligence.Intelligence.logos_engine import get_logos_engine
+    from Core.L5_Mental.Intelligence.Intelligence.logos_engine import get_logos_engine
 except ImportError:
     get_logos_engine = None
 

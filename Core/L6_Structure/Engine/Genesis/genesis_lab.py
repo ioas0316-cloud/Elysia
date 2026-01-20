@@ -1,5 +1,5 @@
 """
-Core.Engine.Genesis.genesis_lab
+Core.L6_Structure.Engine.Genesis.genesis_lab
 ===============================
 The God's Workbench.
 
@@ -12,9 +12,9 @@ Manages:
 import time
 import logging
 from typing import List, Dict, Callable
-from Core.Engine.Genesis.universal_rotor import UniversalRotor
-from Core.Engine.Genesis.concept_monad import ConceptMonad
-from Core.Foundation.Nature.rotor import RotorConfig
+from Core.L6_Structure.Engine.Genesis.universal_rotor import UniversalRotor
+from Core.L6_Structure.Engine.Genesis.concept_monad import ConceptMonad
+from Core.L1_Foundation.Foundation.Nature.rotor import RotorConfig
 
 logger = logging.getLogger("GenesisLab")
 

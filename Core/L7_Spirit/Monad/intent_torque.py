@@ -1,7 +1,7 @@
 """
 Intent Torque Bridge (의도 토크 브리지)
 =====================================
-Core.Monad.intent_torque
+Core.L7_Spirit.Monad.intent_torque
 
 "Words are not patterns. They are forces (Torque)."
 
@@ -13,7 +13,7 @@ not just a probabilistic text generation.
 import numpy as np
 import logging
 from typing import Dict, Any, List, Optional
-from Core.Foundation.Nature.rotor import Rotor
+from Core.L1_Foundation.Foundation.Nature.rotor import Rotor
 
 logger = logging.getLogger("IntentTorque")
 

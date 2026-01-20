@@ -20,7 +20,7 @@ class SpinalBridge:
     Allows for "Ultra-fast Thought" by staying in the GPU domain.
     """
     def __init__(self, cortex=None):
-        from Core.Foundation.cuda_cortex import get_cuda_cortex
+        from Core.L1_Foundation.Foundation.cuda_cortex import get_cuda_cortex
         self.cortex = cortex or get_cuda_cortex()
         self.thought_buffer = []
         logger.info("⚡ Spinal Bridge Established: Direct Hard-to-Mind link active.")
@@ -48,7 +48,7 @@ class SpinalBridge:
             vram_used = torch.cuda.memory_allocated(q_tensor.device) / (1024**2) 
             
         # Inject into Autonomic Nervous System (Not the Spirits!)
-        from Core.Foundation.nervous_system import get_nervous_system
+        from Core.L1_Foundation.Foundation.nervous_system import get_nervous_system
         ns = get_nervous_system()
         
         # VRAM is breathing depth/pressure

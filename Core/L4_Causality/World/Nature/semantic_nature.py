@@ -11,9 +11,9 @@ import uuid
 import random
 import math
 from typing import List, Optional
-from Core.World.Nature.semantic_object import SemanticObject
-from Core.World.Nature.interaction_engine import InteractionEngine, InteractionResult
-from Core.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.World.Nature.semantic_object import SemanticObject
+from Core.L4_Causality.World.Nature.interaction_engine import InteractionEngine, InteractionResult
+from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 class SemanticNature:
     def __init__(self):

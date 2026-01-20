@@ -26,15 +26,15 @@ import logging
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import all 9 systems!
-from Core.Foundation.aesthetic_filter import BeautyMetric, AestheticGovernor
-from Core.Foundation.convolution_engine import ConvolutionEngine
-from Core.Foundation.eigenvalue_destiny import EigenvalueDestiny, DestinyGuardian
-from Core.Foundation.sigma_algebra import SigmaAlgebra, MeasurableSet, ProbabilityMeasure
-from Core.Foundation.stability_controller import LyapunovController
-from Core.Foundation.legendre_bridge import LegendreTransform, ConceptDynamicsBridge
-from Core.Foundation.phase_portrait_neurons import IntegratorNeuron, ResonatorNeuron
-from Core.Foundation.neuron_cortex import CognitiveNeuron
-from Core.Foundation.laplace_engine import LaplaceEngine
+from Core.L1_Foundation.Foundation.aesthetic_filter import BeautyMetric, AestheticGovernor
+from Core.L1_Foundation.Foundation.convolution_engine import ConvolutionEngine
+from Core.L1_Foundation.Foundation.eigenvalue_destiny import EigenvalueDestiny, DestinyGuardian
+from Core.L1_Foundation.Foundation.sigma_algebra import SigmaAlgebra, MeasurableSet, ProbabilityMeasure
+from Core.L1_Foundation.Foundation.stability_controller import LyapunovController
+from Core.L1_Foundation.Foundation.legendre_bridge import LegendreTransform, ConceptDynamicsBridge
+from Core.L1_Foundation.Foundation.phase_portrait_neurons import IntegratorNeuron, ResonatorNeuron
+from Core.L1_Foundation.Foundation.neuron_cortex import CognitiveNeuron
+from Core.L1_Foundation.Foundation.laplace_engine import LaplaceEngine
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("UnifiedDemo")

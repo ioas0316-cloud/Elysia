@@ -1,7 +1,7 @@
 """
 Hyper-Accelerator: The Rotor Engine of Elysia
 =============================================
-Core.System.optimizer
+Core.L6_Structure.System.optimizer
 
 "Do not calculate. Just flow."
 
@@ -27,7 +27,7 @@ import jax.numpy as jnp
 import keras
 import keras_hub
 
-from Core.Memory.sediment import SedimentLayer
+from Core.L5_Mental.Memory.sediment import SedimentLayer
 
 # Configure Logging
 logger = logging.getLogger("HyperAccelerator")
