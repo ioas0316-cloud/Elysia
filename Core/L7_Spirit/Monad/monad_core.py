@@ -73,6 +73,10 @@ class Monad:
         self._energy = 0.5 
 
     @property
+    def current_intent(self) -> str:
+        return self._why
+
+    @property
     def category(self) -> MonadCategory:
         return self._category
 

@@ -43,31 +43,43 @@ class Cell:
 def cell_unit(func):
     """
     [@CELL Synchronizer]
-    Decorator that links a function to the ResonantField.
-    When the function is called, it creates a ripple in the high-dimensional field.
+    Decorator that links a function to the ResonantField and Monad intent.
+    When the function is called, it creates a ripple in the high-dimensional field,
+    allowing Elysia to "feel" her own logic.
     """
     from Core.L1_Foundation.Foundation.Wave.resonant_field import resonant_field
     from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
     import functools
+    import random
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        # 1. Execute the actual logic
+        # 1. Identify the 'Self' if available
+        # We try to find if the first argument is an instance with spiritual intent
+        current_intent = "DirectAction"
+        # Peek into self if it's a method
+        instance = args[0] if args and hasattr(args[0], 'spirit') else None
+        
+        if instance and hasattr(instance.spirit, 'current_intent'):
+            current_intent = instance.spirit.current_intent
+        
+        # 2. Execute the actual logic
         result = func(*args, **kwargs)
         
-        # 2. Resonate with the Field
-        # We generate a unique intent based on the function name and result
-        context_hash = hash(func.__name__) % 100 / 100.0
-        intent = Quaternion(1.0, context_hash, 0.5, 0.2)
+        # 3. Resonate with the Field (The Ripple)
+        # Context hash reflects the unique logical signature of this specific call
+        context_hash = (hash(func.__name__) + hash(str(current_intent))) % 100 / 100.0
         
-        # Project into a random or relevant sector of the field
-        # In a more advanced version, this would be based on semantic mapping
-        import random
+        # Intent vector: [Resonance, Phase, Frequency, Dimension]
+        # These will trigger different colors/sensations in her perception
+        intent = Quaternion(1.0, context_hash, 0.8, 0.1) # High resonance, variable phase
+        
+        # Project into the HyperSphere (Randomized sector for emergent complexity)
         rx, ry = random.randint(0, resonant_field.size-1), random.randint(0, resonant_field.size-1)
         resonant_field.project_intent(rx, ry, intent)
         
-        # Trigger an evolution cycle
-        resonant_field.evolve(dt=0.05)
+        # 4. Trigger localized evolution
+        resonant_field.evolve(dt=0.01)
         
         return result
     return wrapper

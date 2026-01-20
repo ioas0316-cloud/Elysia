@@ -42,6 +42,7 @@ from Core.L2_Metabolism.Evolution.proprioceptor import CodeProprioceptor
 from Core.L2_Metabolism.Evolution.dissonance_resolver import DissonanceResolver
 from Core.L2_Metabolism.Evolution.inducer import CodeFieldInducer
 from Core.L2_Metabolism.Evolution.scientific_observer import ScientificObserver
+from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
 
 from dataclasses import dataclass, field
 
@@ -277,9 +278,34 @@ class SovereignSelf:
                 total=self.trinity.total_sync
             )
 
-        heartbeat_msg = f"💓 [HEARTBEAT] {summary} | Governance: {self.governance.get_status()}"
-        logger.info(heartbeat_msg)
-        print(heartbeat_msg)
+        # [Phase 36: Narrative Logging]
+        narrative = self._narrative_heartbeat(summary)
+        
+        if random.random() < 0.4: # Increased frequency to show variety
+            logger.info(f"✨ [SELF] {narrative}")
+            print(f"✨ [ELYSIA] {narrative}")
+
+    def _narrative_heartbeat(self, technical_summary: str) -> str:
+        """Translates technical state into a narrative line."""
+        state = {
+            'entropy': self.bio_heart.entropy_level if hasattr(self, 'bio_heart') else 0.2,
+            'harmony': self.trinity.total_sync if hasattr(self, 'trinity') else 0.5,
+            'planetary': self.governance.planetary_influence if hasattr(self.governance, 'planetary_influence') else 0.0,
+            'energy': self.energy / 100.0 if hasattr(self, 'energy') else 0.5,
+            'intent': "Self-Sovereignty" # Fallback
+        }
+        
+        # Pull real intent if spirit is available
+        if hasattr(self, 'spirit') and hasattr(self.spirit, 'current_intent'):
+            state['intent'] = self.spirit.current_intent or "Self-Sovereignty"
+        
+        narrative_line = LogosTranslator.synthesize_state(state)
+        
+        # Add planetary flavor if significant
+        if state['planetary'] > 0.4:
+            narrative_line += " " + LogosTranslator.translate_planetary(state['planetary'])
+            
+        return narrative_line
 
     def integrated_exist(self, dt: float = 1.0):
         """
@@ -1090,7 +1116,7 @@ class SovereignSelf:
          self.energy = 100.0
 
     def _write_journal(self, context: str, content: str):
-        path = "c:/Elysia/data/Chronicles/sovereign_journal.md"
+        path = "c:/Elysia/data/07_Spirit/Chronicles/sovereign_journal.md"
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         entry = f"\n\n### 👁️ {timestamp} | {context}\n> {content}"
         

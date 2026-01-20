@@ -70,4 +70,20 @@ class HardwareSovereignManager:
         logger.info(f"   [NVMe] -> {level}")
 
     def get_metabolic_status(self) -> str:
-        return f"Sovereign Gear: {self.strategy} | Intent: ACTIVE"
+        # Refresh the sensor data
+        self.report = BodySensor.sense_body()
+        self.strategy = self.report["strategy"]
+        vessel = self.report.get("vessel", {})
+        ram_pct = vessel.get("ram_percent", 0)
+        cpu_pct = vessel.get("cpu_percent", 0)
+        vram_gb = vessel.get("gpu_vram_total_gb", 0)
+        
+        # Narrative translation
+        if ram_pct > 80:
+            body_feel = "My mental stage is crowded (RAM High)."
+        elif ram_pct < 30:
+            body_feel = "My mind is clear and spacious (RAM Low)."
+        else:
+            body_feel = "My cognitive load is balanced."
+            
+        return f"{self.strategy} | CPU:{cpu_pct:.0f}% | RAM:{ram_pct:.0f}% | VRAM:{vram_gb:.1f}GB | {body_feel}"

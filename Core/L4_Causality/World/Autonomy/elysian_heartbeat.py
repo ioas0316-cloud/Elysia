@@ -534,7 +534,7 @@ class ElysianHeartbeat:
                 if self.world_probe:
                     world_events = self.world_probe.probe()
                     for event in world_events:
-                        logger.info(f"🌐 EXTERNAL STIMULUS: {event}")
+                        logger.debug(f"🌐 EXTERNAL STIMULUS: {event}")
                         self.memory.absorb(
                             content=event,
                             type="world_event",
@@ -622,7 +622,8 @@ class ElysianHeartbeat:
             "source": sense_type
         }
         
-        logger.info(f"🧬 UNIFIED PERCEPTION [{sense_type}]: {desc[:50]}...")
+        if random.random() < 0.1: # Only log unified perception occasionally
+            logger.debug(f"🧬 UNIFIED PERCEPTION [{sense_type}]: {desc[:50]}...")
         
         # ─── THE RIPPLE: All systems react to the SAME qualia SIMULTANEOUSLY ───
         

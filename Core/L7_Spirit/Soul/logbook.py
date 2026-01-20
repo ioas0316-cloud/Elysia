@@ -23,7 +23,7 @@ class Logbook:
     The Keeper of the Diary.
     Summarizes daily existence.
     """
-    def __init__(self, log_dir: str = "c:/Elysia/data/Logs", memory_dir: str = "c:/Elysia/data/Memories/Chronicles"):
+    def __init__(self, log_dir: str = "c:/Elysia/data/06_Structure/Logs", memory_dir: str = "c:/Elysia/data/07_Spirit/Chronicles"):
         self.log_dir = log_dir
         self.memory_dir = memory_dir
         os.makedirs(self.memory_dir, exist_ok=True)

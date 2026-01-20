@@ -80,7 +80,7 @@ class FractalLogSphere:
         self.ring: deque = deque(maxlen=ring_size)
         self.sphere: Dict[str, LogEntry] = {}
         self.decay_rate = decay_rate
-        self.sphere_path = Path(sphere_path) if sphere_path else Path("data/Logs/log_sphere.json")
+        self.sphere_path = Path(sphere_path) if sphere_path else Path("data/06_Structure/Logs/log_sphere.json")
         self.decay_interval = decay_interval
         
         # 통계
@@ -283,7 +283,7 @@ _lock = threading.Lock()
 def get_fractal_logger(
     ring_size: int = 1000,
     decay_rate: float = 0.001,
-    sphere_path: str = "data/Logs/log_sphere.json"
+    sphere_path: str = "data/06_Structure/Logs/log_sphere.json"
 ) -> FractalLogSphere:
     """
     글로벌 FractalLogSphere 인스턴스를 반환합니다.

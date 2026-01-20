@@ -53,7 +53,7 @@ class QuantumBioEngine:
             logical_noise = 0.2
             
         self.entropy_level = (physical_noise + logical_noise) / 2.0
-        logger.info(f"🌀 Current Entropy: {self.entropy_level:.4f}")
+        logger.debug(f"🌀 Current Entropy: {self.entropy_level:.4f}")
         return self.entropy_level
 
     def pulse(self):
@@ -69,7 +69,7 @@ class QuantumBioEngine:
         elif entropy > 0.4:
             self._trigger_genetic_drift()
         else:
-            logger.info("🌳 System is in Stillness. No mutation required.")
+            logger.debug("🌳 System is in Stillness. No mutation required.")
 
         # Periodic Natural Selection Audit
         if time.time() - self.last_audit_time > self.audit_interval:
