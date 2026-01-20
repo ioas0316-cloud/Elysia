@@ -35,6 +35,27 @@ class DesktopNerve:
         self.cosmos = HyperCosmos()
         self.is_active = False
         
+    def capture_single_frame(self):
+        """
+        Capture a single frame and return 7D modulators.
+        Returns: (r_mean, g_mean, b_mean, entropy)
+        """
+        # 1. Capture Raw Buffer (Fastest way)
+        screenshot = self.sct.grab(self.monitor)
+        img = np.array(screenshot) # BGRA
+        
+        # 2. Extract Channel Energy
+        # Mean intensity of each channel (0-255) -> (0.0-1.0)
+        b_mean = np.mean(img[:,:,0]) / 255.0
+        g_mean = np.mean(img[:,:,1]) / 255.0
+        r_mean = np.mean(img[:,:,2]) / 255.0
+        
+        # 3. Extract Chaos (Phenomenal)
+        # Use Red channel variation as a proxy for 'Violence/Activity'
+        entropy = np.std(img[:,:,2]) / 80.0 # Approximate
+        
+        return r_mean, g_mean, b_mean, entropy
+        
     def _calculate_entropy(self, data):
         """Calculate Shannon Entropy of the image buffer (Chaos measure)"""
         # Simplified entropy for speed: use std dev of grayscale

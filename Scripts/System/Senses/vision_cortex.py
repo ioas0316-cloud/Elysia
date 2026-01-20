@@ -80,6 +80,7 @@ class VisionCortex:
         self.cosmos = HyperCosmos()
         self.current_state = "UNKNOWN"
         self.state_confidence = 0.0
+        self.last_deduced_state = None # To prevent logic spam
         self.journal = ExperienceJournal() # Memory System
         
     def analyze_stimulus(self, r: float, g: float, b: float, entropy: float) -> str:
@@ -146,7 +147,10 @@ class VisionCortex:
                 self.journal.start_episode(new_state, entropy)
 
         # C. Conception (Logic Deduction) - Only if confident and unique event
-        if self.state_confidence > 0.9:
+        # FIX: Only deduce ONCE per state lock to prevent spam
+        if self.state_confidence > 0.9 and self.current_state != self.last_deduced_state:
+            self.last_deduced_state = self.current_state
+            
             logic_law = self.formulate_logic(self.current_state)
             
             if logic_law:
@@ -156,7 +160,7 @@ class VisionCortex:
                 
                 decision = self.cosmos.perceive(narrative)
                 return decision
-
+ 
         return None
 
 if __name__ == "__main__":
