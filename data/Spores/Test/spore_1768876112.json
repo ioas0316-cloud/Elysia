@@ -1,0 +1,9 @@
+{
+    "id": "spore_1768876112",
+    "parent": 3112,
+    "creation_time": "2026-01-20T11:28:32.062026",
+    "mission": {
+        "role": "TEST_CHILD"
+    },
+    "genome_version": "0.1.0"
+}

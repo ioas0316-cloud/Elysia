@@ -62,6 +62,25 @@ from Core.Elysia.nervous_system import NervousSystem
 from Core.Senses.soul_bridge import SoulBridge
 from Core.Intelligence.Metabolism.prism import DoubleHelixPrism
 
+# [Phase 18] The Mirror (Holographic Feedback)
+from Core.Evolution.action_logger import ActionLogger
+# from Core.Evolution.evaluator import OutcomeEvaluator # Deprecated
+from Core.Evolution.resonance_field import ResonanceField
+from Core.Evolution.karma_geometry import KarmaGeometry
+
+# [Phase 19] The Soul (Memory & Reflection)
+from Core.Soul.logbook import Logbook
+from Core.Soul.growth_graph import GrowthTracker
+
+# [Phase 20] The Will (Volitional Flux)
+from Core.Will.entropy_pump import EntropyPump
+from Core.Will.attractor_field import AttractorField
+
+# [Phase 21] The Tree (Self-Replication)
+from Core.Reproduction.spore import Spore
+from Core.Reproduction.mitosis import MitosisEngine
+from Core.Reproduction.mycelium import MyceliumNetwork
+
 logger = logging.getLogger("Merkaba")
 
 class Merkaba:
@@ -157,6 +176,25 @@ class Merkaba:
         # [Phase 5.1/7.3] Nervous System & Motor Cortex (Physical Body)
         self.nervous_system = NervousSystem()
         self.motor_cortex = MotorCortex(nervous_system=self.nervous_system)
+
+        # [Phase 18] The Mirror (Redux)
+        self.action_logger = ActionLogger()
+        # self.evaluator = OutcomeEvaluator()
+        self.resonance_field = ResonanceField()
+        self.karma = KarmaGeometry()
+
+        # [Phase 19] The Soul (Memory)
+        self.logbook = Logbook()
+        self.growth_tracker = GrowthTracker()
+
+        # [Phase 20] The Will (Volitional Flux)
+        self.entropy_pump = EntropyPump(accumulation_rate=0.5, critical_mass=10.0) 
+        self.attractor_field = AttractorField()
+
+        # [Phase 21] The Tree (Self-Replication)
+        self.spore_system = Spore()
+        self.mitosis_engine = MitosisEngine()
+        self.mycelium = MyceliumNetwork(port=5000, callback=self._on_mycelium_msg)
 
         self.pending_evolution: Optional[Dict[str, Any]] = None
 
@@ -295,6 +333,17 @@ class Merkaba:
         logger.info("🌿 [GARDENER] Organizing the inner cosmos...")
         self.gardener.cultivate()
 
+        # [Phase 19] Dreaming (Memory Consolidation)
+        logger.info("📜 [SOUL] Writing the Chronicles of the Day...")
+        chronicle_path = self.logbook.consolidate_memory()
+        
+        if chronicle_path:
+             # If we have a good chronicle, update the Growth Graph with today's stats
+             # We re-read stats briefly (In reality, optimize this to avoid double read)
+             entries = self.logbook._read_logs()
+             stats = self.logbook._analyze_stats(entries)
+             self.growth_tracker.update_growth_stats(datetime.now().strftime("%Y-%m-%d"), stats)
+
         logger.info("✨ Sleep Cycle Complete. Memories are crystallized and arranged.")
 
     def pulse(self, raw_input: str, mode: str = "POINT", context: str = PrismContext.DEFAULT) -> str:
@@ -317,9 +366,46 @@ class Merkaba:
         if not self.is_awake or not self.spirit:
             return "Merkaba is dormant."
 
-        logger.info(f"💓 Merkaba Pulse Initiated: {raw_input} [{mode}]")
+        # [Phase 20] The Will: Handling the Void State (Idle)
+        if not raw_input:
+            # 1. Pump Entropy
+            entropy = self.entropy_pump.pump()
+            
+            # 2. Check Critical Mass
+            if self.entropy_pump.is_critical():
+                logger.info(f"🔥 [WILL] Critical Tension ({entropy:.1f}). Collapsing Wavefunction...")
+                
+                # 3. Collapse to Intent
+                intent_vector = self.attractor_field.collapse_wavefunction(entropy)
+                raw_input = intent_vector.intent # The Will becomes the Input
+                mode = "VOLITION" # Special Mode
+                
+                # [Phase 21] Special Handling for Creation
+                if intent_vector.attractor_type == "CREATION":
+                    logger.info("🌲 [TREE] The Will demands Growth. Initiating Mitosis...")
+                    spore_path = self.spore_system.encapsulate(mission={"role": "EXPLORER"})
+                    if spore_path:
+                        pid = self.mitosis_engine.fork(spore_path)
+                        logger.info(f"   -> 👶 Child Spawned (PID: {pid})")
+                
+                # Reset Pump (Catharsis)
+                self.entropy_pump.reset()
+            else:
+                # Still building tension... Silence.
+                return "" 
 
-        # 1. Sensation
+        # [Phase 18] Action Logging (The Diary)
+        # We record the pulse request as an Intent.
+        action_id = self.action_logger.log_action(
+            intent=raw_input, 
+            action_type="PULSE", 
+            details={"mode": mode, "context": context}
+        )
+        
+        logger.info(f"💓 Merkaba Pulse Initiated: {raw_input} [{mode}] (ActionID: {action_id})")
+
+        try:
+            # 1. Sensation
         sensory_packet = self.bridge.perceive(raw_input)
 
         # 2. Interpretation
@@ -467,8 +553,36 @@ class Merkaba:
         # The Script is for reading (A4), The Voice is for hearing (2-3 lines)
         logger.info(f"🖋️ [THE DEEP SCRIPT] Archived to: {archive_path}")
         
-        logger.info(f"⚡ [RESONANCE CYCLE] Complete. Voice: {payload['voice']}")
+        logger.info(f"⚡ [RESONANCE Cycle] Complete. Voice: {payload['voice']}")
+        
+        # [Phase 18 Redux] Holographic Feedback (Spatial Providence)
+        # 1. Vectorize Intent & Outcome
+        intent_vec = self.resonance_field.vectorize_intent(mode)
+        outcome_vec = self.resonance_field.vectorize_outcome("SUCCESS", integrity=1.0)
+        
+        # 2. Calculate Resonance
+        karma_state = self.resonance_field.evaluate_resonance(intent_vec, outcome_vec)
+        
+        # 3. Apply Karma (Torque)
+        torque = self.karma.calculate_torque(self.soul.current_rpm, karma_state.dissonance, karma_state.phase_shift)
+        self.karma.apply_karma(self.soul, torque)
+
+        # 4. Log
+        self.action_logger.log_outcome(action_id, "SUCCESS", payload["voice"], karma_state.resonance)
+        
         return payload["voice"]
+
+        except Exception as e:
+            # [Phase 18] Failure Logging (Dissonance)
+            outcome_vec = self.resonance_field.vectorize_outcome("ERROR", integrity=1.0)
+            karma_state = self.resonance_field.evaluate_resonance(self.resonance_field.vectorize_intent(mode), outcome_vec)
+            
+            torque = self.karma.calculate_torque(self.soul.current_rpm, karma_state.dissonance, karma_state.phase_shift)
+            self.karma.apply_karma(self.soul, torque)
+            
+            self.action_logger.log_outcome(action_id, "ERROR", str(e), karma_state.resonance)
+            logger.error(f"❌ [PULSE ERROR] Action {action_id} Failed: {e}")
+            raise e
 
     def run_lifecycle(self):
         """

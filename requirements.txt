@@ -20,3 +20,5 @@ jax
 jaxlib
 keras
 keras-hub
+watchdog
+aiohttp
