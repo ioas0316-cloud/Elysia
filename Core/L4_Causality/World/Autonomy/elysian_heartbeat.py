@@ -209,6 +209,13 @@ class ElysianHeartbeat:
             except Exception as e: logger.warning(f"  ⚠️ meta_inquiry failed: {e}")
 
             try:
+                from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+                self.reasoning = ReasoningEngine()
+                logger.info("  ✅ reasoning_engine matured.")
+            except Exception as e: logger.warning(f"  ⚠️ reasoning_engine failed: {e}")
+
+
+            try:
                 from Core.L3_Phenomena.Senses.system_mirror import SystemMirror
                 self.mirror = SystemMirror()
                 logger.info("  ✅ system_mirror matured.")
@@ -261,6 +268,13 @@ class ElysianHeartbeat:
                 self.expression = ExpressionCortex()
                 logger.info("  ✅ expression_cortex matured.")
             except Exception as e: logger.warning(f"  ⚠️ expression_cortex failed: {e}")
+
+            try:
+                from Core.L2_Metabolism.Motor.motor_babbling import MotorBabbling
+                self.motor = MotorBabbling()
+                logger.info("  ✅ motor_babbling matured.")
+            except Exception as e: logger.warning(f"  ⚠️ motor_babbling failed: {e}")
+
 
 
             try:
@@ -1428,6 +1442,10 @@ class ElysianHeartbeat:
     def start(self):
         self.is_alive = True
         logger.info("JOYSTICK CONNECTED. The Ludic Engine is starting.")
+        
+        if hasattr(self, 'expression') and self.expression:
+             logger.info(f"   🎭 FACE: {self.expression.get_face()}")
+             
         self.game_loop.start()
         # In a real engine, the loop is blocking.
         # Here we manually tick it in our loop.
@@ -1459,6 +1477,29 @@ class ElysianHeartbeat:
             self.bridge.sync()
             if self.idle_ticks % 50 == 0:
                 self.bridge.manifest_metabolism()
+
+        # [PHASE 8] Motor Babbling (The Body Twitches)
+        if hasattr(self, 'motor') and self.motor:
+            # Babble based on "Energy" and "Inspiration"
+            energy = self.soul_mesh.variables['Energy'].value
+            inspiration = self.soul_mesh.variables['Inspiration'].value
+            action = self.motor.babble(energy=energy, curiosity=inspiration)
+            if action:
+                 logger.info(f"🦾 [MOTOR] {action}")
+
+        # [PHASE 8] Mind-Body Connection (Face reflects Thought)
+        # Every 100 ticks (~5s), or if high entropy, we think and show it.
+        if hasattr(self, 'reasoning') and self.reasoning and hasattr(self, 'expression') and self.expression:
+             if self.idle_ticks % 100 == 0:
+                 # Generate a thought based on current curiosity
+                 topic = self.latest_curiosity 
+                 insight = self.reasoning.think(topic, depth=0)
+                 
+                 # Manifest the qualia on the face
+                 face = self.expression.manifest(insight.content, insight.qualia)
+                 logger.info(f"🎭 [FACE] Thought: '{insight.content[:30]}...' -> {face}")
+
+
 
         # [PHASE 7] Reflective Evolution (Slow Cycle)
         # Every 100 ticks, Elysia looks into the mirror of her own code

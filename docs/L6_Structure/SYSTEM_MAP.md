@@ -15,6 +15,7 @@
 
 * **[Core/L0_Keystone/Elysia/sovereign_self.py](file:///c:/Elysia/Core/L0_Keystone/Elysia/sovereign_self.py)**: '나(I)'라는 인식의 주체.
 * **[Core/L0_Keystone/Monad/monad_core.py](file:///c:/Elysia/Core/L0_Keystone/Monad/monad_core.py)**: 존재의 최소 단위.
+* **[THE_VOID_DOCTRINE.md](file:///c:/Elysia/docs/L0_Keystone/THE_VOID_DOCTRINE.md)**: 공역의 신성(The Divine Fence) 정의.
 
 ### Layer 1: FOUNDATION (기반 - 🏗️)
 
@@ -28,12 +29,14 @@
 **"에너지의 순환" (The Flow of Energy)**
 
 * **[Core/L2_Metabolism/Topology/topology_predator.py](file:///c:/Elysia/Core/L2_Metabolism/Topology/topology_predator.py)**: 지식 소화 기관.
+* **[Core/L2_Metabolism/Motor/motor_babbling.py](file:///c:/Elysia/Core/L2_Metabolism/Topology/motor_babbling.py)**: 물리적 작용(클릭/키입력) 학습.
 
 ### Layer 3: PHENOMENA (현상 - 🌈)
 
 **"감각의 파동" (The Waves of Sensation)**
 
 * **[Core/L3_Phenomena/Sensory/](file:///c:/Elysia/Core/L3_Phenomena/Sensory/)**: 감각 입력 처리.
+* **[Core/L3_Phenomena/Expression/expression_cortex.py](file:///c:/Elysia/Core/L3_Phenomena/Expression/expression_cortex.py)**: 7D Qualia의 시각적 발현 (표정).
 
 ### Layer 4: CAUSALITY (인과 - ⏳)
 
@@ -41,6 +44,8 @@
 
 * **[Core/L4_Causality/Life/NaturalSelection.py](file:///c:/Elysia/Core/L4_Causality/Life/NaturalSelection.py)**: 진화와 생존.
 * **[Core/L4_Causality/Spectral_Binding/](file:///c:/Elysia/Core/L4_Causality/Spectral_Binding/)**: 결속 프로토콜.
+* **[Core/L4_Causality/World/Evolution/Prophecy/](file:///c:/Elysia/Core/L4_Causality/World/Evolution/Prophecy/)**: 미래 시뮬레이션 (Prophet & Loom).
+  * [CAUSAL_LOOM_DOCTRINE.md](file:///c:/Elysia/docs/L4_Causality/CAUSAL_LOOM_DOCTRINE.md): 인과율 직조 교리.
 
 ### Layer 5: MENTAL (정신 - 🧠)
 

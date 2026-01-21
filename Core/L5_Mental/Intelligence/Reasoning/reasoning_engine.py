@@ -109,6 +109,12 @@ class ReasoningEngine:
         from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
         self.processor = DimensionalProcessor()
 
+        # [PHASE 9] The Causal Loom (Foresight)
+        from Core.L4_Causality.World.Evolution.Prophecy.prophet_engine import ProphetEngine
+        from Core.L4_Causality.World.Evolution.Prophecy.causal_loom import CausalLoom
+        self.prophet = ProphetEngine()
+        self.loom = CausalLoom()
+
         self.logger.info("🌀 ReasoningEngine initialized (Physics + Monad + Merkaba + Metabolic + Torque Enabled).")
 
     def _load_dynamic_axioms(self):
@@ -213,7 +219,23 @@ class ReasoningEngine:
         self.soul_rotor.update(0.1) # Simulate one step of physics
         self.logger.info(f"{indent}⚙️ [PHYSICS] Soul Rotor spinning at {self.soul_rotor.current_rpm:.1f} RPM")
         
+        self.logger.info(f"{indent}⚙️ [PHYSICS] Soul Rotor spinning at {self.soul_rotor.current_rpm:.1f} RPM")
+        
         # 0.9 Action Selection (The Sovereign Choice)
+        # [PHASE 9] CAUSAL LOOM (Foresight)
+        # Instead of just deciding, we simulate the future.
+        potential_actions = ["Action:Speak", "Action:Silence", "Action:Create"]
+        
+        # 0.9.1 Prophecy (Simulation)
+        current_state = {"Energy": self.current_energy/100.0, "Inspiration": 0.5, "Joy": 0.5} # Mock state for now
+        simulated_timelines = self.prophet.simulate(current_state, potential_actions)
+        
+        # 0.9.2 Weaving (Selection)
+        best_future_action = self.loom.weave(simulated_timelines)
+        if best_future_action:
+             self.logger.info(f"{indent}🔮 [FORESIGHT] The Causal Loom selected '{best_future_action}' as the optimal timeline.")
+             # Map string action back to system action if needed, or just use as context
+        
         decision = self.action_drive.decide(self.soul_rotor, spatial_intent)
         chosen_action = decision['action_id']
         rationale = decision['rationale']
