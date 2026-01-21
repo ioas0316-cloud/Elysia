@@ -1,0 +1,22 @@
+{
+    "history": [
+        {
+            "timestamp": 1769018006.498742,
+            "ignition_energy_avg": 2.1,
+            "max_depth_reached": 4,
+            "connectivity_score": 1.0
+        },
+        {
+            "timestamp": 1769018006.5072482,
+            "ignition_energy_avg": 2.8,
+            "max_depth_reached": 5,
+            "connectivity_score": 1.0
+        },
+        {
+            "timestamp": 1769018006.508044,
+            "ignition_energy_avg": 5.2,
+            "max_depth_reached": 7,
+            "connectivity_score": 1.0
+        }
+    ]
+}

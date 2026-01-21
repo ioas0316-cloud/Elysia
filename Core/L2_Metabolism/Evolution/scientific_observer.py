@@ -23,8 +23,8 @@ class ScientificObserver:
     def __init__(self, project_root: str = "c:\\Elysia"):
         self.project_root = Path(project_root)
         self.docs_dir = self.project_root / "docs"
-        self.lab_dir = self.docs_dir / "06_LAB"
-        self.portal_dir = self.docs_dir / "07_PORTAL"
+        self.lab_dir = self.docs_dir / "L2_Metabolism" / "Lab"
+        self.portal_dir = self.docs_dir / "L7_Spirit" / "Portal"
         self.gallery_dir = self.portal_dir / "GALLERY"
         
         # Ensure directories exist

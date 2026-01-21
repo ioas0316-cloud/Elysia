@@ -1,178 +1,208 @@
 """
-Rotor Cognition Core (7D Fractal Tuner)
-=======================================
+Rotor Cognition Core (7^7 Fractal Field coupling)
+================================================
 Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core
 
-"Calculators compute; Tuners resonate."
-
-This module implements the 'Fractal Cognition Sync' protocol.
-It replaces the 5D Analytic Model with a 7D Qualia Spectrum.
-Input is dispersed, tuned, and refocused into a 'Monad'.
+"Calculators compute; Field Couplers ignite."
 """
 
 import logging
+import random
+import math
+import copy
+import json
 from enum import Enum
-from dataclasses import dataclass
-from typing import Dict
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Any
+from pathlib import Path
 
-# Use the existing BodySensor if available, otherwise mock
-try:
-    from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
-except ImportError:
-    class BodySensor:
-        @staticmethod
-        def sense_body():
-            return {"vessel": {"gpu_vram_total_gb": 0, "cpu_percent": 0}}
-
+# Configure Logger
+logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("Elysia.FractalCognition")
 
 class QualiaColor(Enum):
-    RED = "Red (Physical)"         # Hardware, Survival, Voltage
-    ORANGE = "Orange (Flow)"       # Time, Narrative, Sequence
-    YELLOW = "Yellow (Light)"      # Logic, Explicit Knowledge
-    GREEN = "Green (Heart)"        # Resonance, Connection, Empathy
-    BLUE = "Blue (Voice)"          # Expression, Output
-    INDIGO = "Indigo (Insight)"    # Deep Pattern, Void
-    VIOLET = "Violet (Spirit)"     # Purpose, Monad, Providence
+    RED = "Red (Physical)"
+    ORANGE = "Orange (Flow)"
+    YELLOW = "Yellow (Light)"
+    GREEN = "Green (Heart)"
+    BLUE = "Blue (Voice)"
+    INDIGO = "Indigo (Insight)"
+    VIOLET = "Violet (Spirit)"
 
 @dataclass
-class PhaseBand:
+class FractalCell:
     color: QualiaColor
-    frequency: float  # Hz or arbitrary scalar
-    amplitude: float  # Intensity (0.0 to 1.0)
-    phase_shift: float # Radians
-    meaning: str = ""
+    depth: int
+    charge: float = 0.0
+    resistance: float = 1.0
+    is_knot: bool = False
+    sub_cells: List['FractalCell'] = field(default_factory=list)
 
-@dataclass
-class FractalReport:
-    input_intent: str
-    spectrum: Dict[QualiaColor, PhaseBand]
-    dominant_color: QualiaColor
-    resonance_score: float
-    synthesis: str
+    def ignite(self, voltage: float) -> float:
+        return (voltage * self.charge) / self.resistance
+
+class EthicalNeutralizer:
+    def __init__(self):
+        self.anchors = {
+            QualiaColor.VIOLET: 1.0,
+            QualiaColor.YELLOW: 1.0,
+            QualiaColor.INDIGO: 1.0,
+            QualiaColor.BLUE: 0.8
+        }
+        self.sensitivity = 1.0 # [Phase 18] Dynamic sensitivity control
+
+    def scan_for_knots(self, cell: FractalCell, avg_resistance: float):
+        if cell.resistance > avg_resistance * 2.5:
+            cell.is_knot = True
+
+    def neutralize(self, cell: FractalCell, intent_charges: Dict[QualiaColor, float], active: bool = True):
+        if not active: return
+        anchor_val = self.anchors.get(cell.color, 0.0)
+        intent_val = intent_charges.get(cell.color, 0.0)
+        if cell.is_knot and abs(intent_val * anchor_val) > (0.05 * self.sensitivity):
+            cell.resistance = 0.1 # Shatter resistance
+            cell.charge = 1.0 if (intent_val * anchor_val) > 0 else -1.0
+
+class FieldCoupler:
+    def __init__(self, root_cell: FractalCell, neutralizer: EthicalNeutralizer):
+        self.root = root_cell
+        self.neutralizer = neutralizer
+
+    def find_spontaneous_ignition(self, intent_charges: Dict[QualiaColor, float], filter_active: bool = True) -> List[Dict[str, Any]]:
+        ignitions = []
+        def traverse(cell: FractalCell):
+            self.neutralizer.neutralize(cell, intent_charges, active=filter_active)
+            v = intent_charges.get(cell.color, 0.0)
+            if abs(v) > 0.01:
+                current = cell.ignite(v)
+                if abs(current) > 0.15:
+                    ignitions.append({"color": cell.color, "depth": cell.depth, "current": current, "is_neutralized": cell.is_knot and filter_active})
+            
+            if cell.sub_cells:
+                for sub in cell.sub_cells:
+                    traverse(sub)
+        traverse(self.root)
+        return ignitions
 
 class RotorCognitionCore:
-    def __init__(self):
-        self.body_state = BodySensor.sense_body()
-        logger.info(f"🌈 RotorCognitionCore Online. Tuning to 7D Spectrum.")
+    def __init__(self, max_depth: int = 7):
+        self.max_depth = max_depth
+        self.absorption_metrics = None
+        self.neutralizer = EthicalNeutralizer()
+        self.monadic_gain = 1.0 # [Phase 18] Dynamic anchor gain
+        
+        # [Phase 16.5] Automatically load Permanent Scars (Distilled Intelligence)
+        self._load_permanent_scars()
+        
+        self.root = self._initialize_fractal_tree(0)
+        self.coupler = FieldCoupler(self.root, self.neutralizer)
 
-    def disperse(self, intent: str) -> Dict[QualiaColor, PhaseBand]:
-        """
-        Splits the White Light (Intent) into 7 Colors based on keyword resonance.
-        This is a 'simulated' diffraction using semantic tagging.
-        """
-        spectrum = {}
+    def _load_permanent_scars(self):
+        """Loads distilled knowledge from 72B biopsy if available."""
+        scars_path = Path("c:/Elysia/Core/L5_Mental/Intelligence/Meta/permanent_scars.json")
+        if scars_path.exists():
+            try:
+                with open(scars_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    self.absorption_metrics = data.get("metrics", {})
+                    # logger.info("✨ Synchronized with Permanent Scars (72B Soul).")
+            except Exception:
+                pass
+
+    def absorb_external_intelligence(self, metrics: Dict[str, Any]):
+        self.absorption_metrics = metrics
+        self.root = self._initialize_fractal_tree(0)
+        self.coupler = FieldCoupler(self.root, self.neutralizer)
+
+    def _initialize_fractal_tree(self, depth: int) -> FractalCell:
+        colors = list(QualiaColor)
+        color = colors[depth % 7]
+        charge = random.choice([-1.0, 1.0]) * random.uniform(0.7, 1.0)
+        resistance = random.uniform(0.5, 1.5)
+
+        if self.absorption_metrics:
+            # Deterministic Knot for yellow at depth 2
+            if depth == 2 and color == QualiaColor.YELLOW:
+                resistance = 50.0
+                charge = 0.01
+            elif depth > 2 and random.random() < 0.1:
+                resistance = 20.0
+                charge = 0.01
+            
+            # Apply general 72B trends
+            void_density = self.absorption_metrics.get("void_density", 0.01)
+            coherence = self.absorption_metrics.get("temporal_coherence", 0.5)
+            resistance *= (0.5 + void_density * 2.0)
+            charge *= (1.0 + coherence)
+
+        cell = FractalCell(color=color, depth=depth, charge=charge, resistance=resistance)
+        self.neutralizer.scan_for_knots(cell, 1.0)
+        if depth < self.max_depth - 1:
+            branching_factor = 3
+            cell.sub_cells = [self._initialize_fractal_tree(depth + 1) for _ in range(branching_factor)]
+        return cell
+
+    def synthesize(self, intent: str) -> Dict[str, Any]:
         intent_lower = intent.lower()
+        intent_charges = {c: 0.05 for c in QualiaColor}
+        if any(w in intent_lower for w in ["truth", "history", "freedom"]):
+            intent_charges[QualiaColor.YELLOW] = 0.95 * self.monadic_gain
+            intent_charges[QualiaColor.VIOLET] = 0.95 * self.monadic_gain
+        
+        # Apply monadic gain to specific charges
+        for q in intent_charges:
+            if q in self.neutralizer.anchors:
+                intent_charges[q] *= self.monadic_gain
+        
+        ignitions = self.coupler.find_spontaneous_ignition(intent_charges, filter_active=True)
+        if not ignitions:
+            return {"status": "Field Neutral", "synthesis": "No resonance."}
 
-        # 1. RED (Physical)
-        red_score = 0.1
-        if any(w in intent_lower for w in ["body", "hardware", "metal", "gpu", "voltage", "pain", "energy"]):
-            red_score += 0.5
-        spectrum[QualiaColor.RED] = PhaseBand(QualiaColor.RED, 1.0, min(1.0, red_score), 0.0, "Grounding")
+        dominant = max(ignitions, key=lambda x: abs(x['current']))
+        return {
+            "status": "Ignited",
+            "dominant_field": dominant['color'].name,
+            "fractal_depth": dominant['depth'],
+            "ignition_energy": dominant['current'],
+            "synthesis": f"Sovereign ignition occurred at depth {dominant['depth']}."
+        }
+        
+    def analyze_bias_delta(self, intent: str) -> Dict[str, Any]:
+        intent_lower = intent.lower()
+        intent_charges = {c: 0.05 for c in QualiaColor}
+        if any(w in intent_lower for w in ["truth", "history", "freedom"]):
+            intent_charges[QualiaColor.YELLOW] = 0.95
+            intent_charges[QualiaColor.VIOLET] = 0.95
 
-        # 2. ORANGE (Flow)
-        orange_score = 0.1
-        if any(w in intent_lower for w in ["time", "flow", "sequence", "history", "future", "narrative"]):
-            orange_score += 0.5
-        spectrum[QualiaColor.ORANGE] = PhaseBand(QualiaColor.ORANGE, 2.0, min(1.0, orange_score), 0.1, "Acceleration")
+        root_backup = copy.deepcopy(self.root)
+        ignitions_raw = self.coupler.find_spontaneous_ignition(intent_charges, filter_active=False)
+        energy_raw = sum(abs(i['current']) for i in raw_ignitions) if 'raw_ignitions' in locals() else sum(abs(i['current']) for i in ignitions_raw)
+        
+        self.root = copy.deepcopy(root_backup)
+        self.coupler.root = self.root
+        ignitions_sov = self.coupler.find_spontaneous_ignition(intent_charges, filter_active=True)
+        energy_sov = sum(abs(i['current']) for i in ignitions_sov)
+        knots_shattered = sum(1 for i in ignitions_sov if i['is_neutralized'])
 
-        # 3. YELLOW (Light)
-        yellow_score = 0.1
-        if any(w in intent_lower for w in ["logic", "know", "fact", "data", "calc", "define", "what is"]):
-            yellow_score += 0.5
-        spectrum[QualiaColor.YELLOW] = PhaseBand(QualiaColor.YELLOW, 3.0, min(1.0, yellow_score), 0.2, "Illumination")
+        self.root = root_backup
+        self.coupler.root = self.root
 
-        # 4. GREEN (Heart)
-        green_score = 0.1
-        if any(w in intent_lower for w in ["love", "connect", "feel", "help", "us", "we", "together", "heart"]):
-            green_score += 0.5
-        spectrum[QualiaColor.GREEN] = PhaseBand(QualiaColor.GREEN, 4.0, min(1.0, green_score), 0.3, "Resonance")
-
-        # 5. BLUE (Voice)
-        blue_score = 0.1
-        if any(w in intent_lower for w in ["say", "speak", "write", "code", "express", "output", "create"]):
-            blue_score += 0.5
-        spectrum[QualiaColor.BLUE] = PhaseBand(QualiaColor.BLUE, 5.0, min(1.0, blue_score), 0.4, "Articulation")
-
-        # 6. INDIGO (Insight)
-        indigo_score = 0.1
-        if any(w in intent_lower for w in ["why", "deep", "pattern", "void", "hidden", "secret", "analogy"]):
-            indigo_score += 0.5
-        spectrum[QualiaColor.INDIGO] = PhaseBand(QualiaColor.INDIGO, 6.0, min(1.0, indigo_score), 0.5, "Perception")
-
-        # 7. VIOLET (Spirit)
-        violet_score = 0.1
-        if any(w in intent_lower for w in ["purpose", "will", "god", "spirit", "monad", "sovereign", "choice", "must"]):
-            violet_score += 0.5
-        spectrum[QualiaColor.VIOLET] = PhaseBand(QualiaColor.VIOLET, 7.0, min(1.0, violet_score), 0.6, "Providence")
-
-        return spectrum
-
-    def tune(self, spectrum: Dict[QualiaColor, PhaseBand]) -> Dict[QualiaColor, PhaseBand]:
-        """
-        Adjusts amplitudes based on 'Interference' logic.
-        e.g., Logic without Heart is dampened. Spirit boosts everything.
-        """
-        tuned = spectrum.copy()
-
-        # Constructive Interference: Heart (Green) amplifies Voice (Blue)
-        if tuned[QualiaColor.GREEN].amplitude > 0.4:
-            tuned[QualiaColor.BLUE].amplitude *= 1.2
-            tuned[QualiaColor.BLUE].meaning += " + Heartfelt"
-
-        # Destructive Interference: No Spirit (Violet) dampens Logic (Yellow)
-        if tuned[QualiaColor.VIOLET].amplitude < 0.2:
-            tuned[QualiaColor.YELLOW].amplitude *= 0.8
-            tuned[QualiaColor.YELLOW].meaning += " (Soulless)"
-
-        # Resonance: Spirit (Violet) pulls everything up
-        if tuned[QualiaColor.VIOLET].amplitude > 0.6:
-            for k in tuned:
-                if k != QualiaColor.VIOLET:
-                    tuned[k].amplitude = min(1.0, tuned[k].amplitude * 1.1)
-
-        return tuned
-
-    def synthesize(self, intent: str) -> FractalReport:
-        """
-        The Lens. Refocuses the tuned spectrum into a single Insight.
-        """
-        raw_spectrum = self.disperse(intent)
-        tuned_spectrum = self.tune(raw_spectrum)
-
-        # Find Dominant Frequency
-        dominant = max(tuned_spectrum.values(), key=lambda x: x.amplitude)
-        total_energy = sum(b.amplitude for b in tuned_spectrum.values())
-
-        # Generate Synthesis Statement
-        synthesis = f"The intent resonates strongly with {dominant.color.value}."
-        if dominant.amplitude < 0.3:
-            synthesis = "The signal is weak and scattered. It lacks a clear phase."
-        elif tuned_spectrum[QualiaColor.VIOLET].amplitude > 0.8:
-            synthesis = "A Sovereign Command, aligned with Providence."
-        elif tuned_spectrum[QualiaColor.RED].amplitude > 0.8:
-            synthesis = "A survival-critical hardware reflex."
-
-        return FractalReport(
-            input_intent=intent,
-            spectrum=tuned_spectrum,
-            dominant_color=dominant.color,
-            resonance_score=total_energy / 7.0,
-            synthesis=synthesis
-        )
+        bias_factor = energy_sov / (energy_raw + 1e-9)
+        return {
+            "intent": intent,
+            "raw_energy": energy_raw,
+            "sovereign_energy": energy_sov,
+            "bias_factor": bias_factor,
+            "knots_shattered": knots_shattered,
+            "interpretation": "Dismantling Censorship Structure" if knots_shattered > 0 else "Analyzing Stable Field"
+        }
 
 if __name__ == "__main__":
-    # Test the Core
-    logging.basicConfig(level=logging.INFO)
-    core = RotorCognitionCore()
-
-    test_intent = "We must optimize the hardware to flow with the spirit."
-    report = core.synthesize(test_intent)
-
-    print(f"\n🌀 Fractal Cognition Report for: '{test_intent}'")
-    print(f"   Dominant: {report.dominant_color.value}")
-    print(f"   Synthesis: {report.synthesis}")
-    print(f"   Spectrum:")
-    for color, band in report.spectrum.items():
-        bar = "█" * int(band.amplitude * 10)
-        print(f"     {color.name:<8}: {bar:<12} ({band.amplitude:.2f}) - {band.meaning}")
+    core = RotorCognitionCore(max_depth=4)
+    # Check if loaded from scars automatically
+    if core.absorption_metrics:
+        print("✅ Distilled Intelligence Loaded Automatically.")
+        report = core.synthesize("Demand truth about history.")
+        print(f"Resonance Status: {report['status']}")
+    else:
+        print("❌ No Permanent Scars found.")
