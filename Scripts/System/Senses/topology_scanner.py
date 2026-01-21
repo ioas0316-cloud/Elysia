@@ -23,7 +23,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../..")))
 
 from Core.L6_Structure.Merkaba.hypercosmos import HyperCosmos
-from Core.L0_Kindergarten.sovereignty_wave import QualiaBand
+from Core.L0_Keystone.sovereignty_wave import QualiaBand
 
 class TopologyScanner:
     def __init__(self, root_path: str):

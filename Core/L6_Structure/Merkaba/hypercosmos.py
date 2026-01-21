@@ -12,7 +12,7 @@ HyperCosmos는 엘리시아의 절대 최상위 계층이며 전체 시스템 �
 
 from typing import Dict, Any, List
 from Core.L6_Structure.Merkaba.hypersphere_field import HyperSphereField
-from Core.L0_Kindergarten.sovereignty_wave import SovereignDecision
+from Core.L0_Keystone.sovereignty_wave import SovereignDecision
 import logging
 
 logger = logging.getLogger("HyperCosmos")

@@ -7,9 +7,9 @@
 """
 
 from Core.L6_Structure.Merkaba.hypercosmos import HyperCosmos
-from Core.L0_Kindergarten.syllable_composer import SyllableComposer
+from Core.L0_Keystone.syllable_composer import SyllableComposer
 from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
-from Core.L0_Kindergarten.monadic_lexicon import MonadicLexicon
+from Core.L0_Keystone.monadic_lexicon import MonadicLexicon
 
 def test_monadic_integration():
     print("\n🌌 [TEST] Phase 5: Testing Monadic Knowledge Integration...")

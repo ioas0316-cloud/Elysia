@@ -42,25 +42,33 @@ class PrismaticSediment:
 
         logger.info(f"🌈 Prismatic Sediment initialized with 7 Spectral Shards in {base_dir}")
 
-    def _vector_to_color(self, vector: List[float]) -> str:
+    def _vector_to_color_distribution(self, vector: List[float], void_gate: float = 0.1) -> np.ndarray:
         """
-        [The Prism Logic]
-        Determines the dominant frequency (Color) of the thought vector.
-        This corresponds to the 'Rotor Angle' required to view this thought.
+        [PHASE: VOID-GATED LIQUID SPECTRUM]
+        Calculates intensity distribution while applying the 'Extinction Event'.
+        Energy below void_gate is collapsed to absolute zero.
         """
-        # Simple argmax for now.
-        # In a real optical system, this would be `active_rotor.diffract(vector)`
-        # yielding the peak constructive interference.
-
         vec_arr = np.array(vector)
-        # Handle zero vector
         if np.sum(np.abs(vec_arr)) == 0:
-            return "Red" # Default fallback
+            return np.ones(7) / 7.0
 
-        dominant_idx = int(np.argmax(vec_arr))
-        # Clamp to 0-6 just in case
-        dominant_idx = max(0, min(6, dominant_idx))
+        T = 0.5 
+        exp_vec = np.exp(vec_arr / T)
+        weights = exp_vec / exp_vec.sum()
 
+        # [VOID GATE] Optimization
+        # Any weight below the gate is treated as noise and extinguished.
+        weights[weights < void_gate] = 0.0
+        # Re-normalize to preserve energy of the signal
+        if weights.sum() > 0:
+            weights = weights / weights.sum()
+            
+        return weights
+
+    def _vector_to_color(self, vector: List[float]) -> str:
+        """[COMPATIBILITY] Returns the dominant color name."""
+        weights = self._vector_to_color_distribution(vector)
+        dominant_idx = int(np.argmax(weights))
         return self.SPECTRUM[dominant_idx]
 
     def deposit(self, vector: List[float], timestamp: float, payload: bytes) -> Tuple[str, DirectMemoryPointer]:
@@ -99,49 +107,48 @@ class PrismaticSediment:
         ptr = shard.deposit(vector, time.time(), payload)
         return ptr
 
-    def scan_resonance(self, intent_vector: List[float], top_k: int = 3, threshold: float = 0.3) -> List[Tuple[float, bytes]]:
+    def scan_resonance(self, intent_vector: List[float], top_k: int = 3, threshold: float = 0.1) -> List[Tuple[float, bytes]]:
         """
-        [The Rotor Tuning - Spectral Continuum Mode]
-        We identify the Intent's Color and scan it AND its neighbors (The Rainbow Boundary).
-
-        If resonance is too low (The Void), we trigger 'Amor Sui' (Gravity)
-        and scan ALL shards to prevent context loss.
+        [The Rotor Tuning - Void-Optimized Liquid Mode]
+        We scan the spectrum through the 'Void Singularity'.
+        
+        Chromic Loop: The Red-Violet connection is restored, closing the circle.
         """
-        # 1. Determine Dominant Frequency
-        vec_arr = np.array(intent_vector)
-        dominant_idx = int(np.argmax(vec_arr)) if np.sum(np.abs(vec_arr)) > 0 else 0
-        dominant_idx = max(0, min(6, dominant_idx))
+        # 1. Void-Gated Intensity (Instant Pruning)
+        void_gate = 0.15 
+        weights = self._vector_to_color_distribution(intent_vector, void_gate=void_gate)
 
-        # 2. Define Spectral Neighbors (The Rainbow has no hard edges)
-        # We scan the dominant color +/- 1 step.
-        indices_to_scan = {dominant_idx}
-        if dominant_idx > 0: indices_to_scan.add(dominant_idx - 1)
-        if dominant_idx < 6: indices_to_scan.add(dominant_idx + 1)
-
-        colors_to_scan = [self.SPECTRUM[i] for i in indices_to_scan]
-
+        # [PHASE: CHROMIC LOOP INTEGRATION]
+        # Red (0) and Violet (6) are linked neighbors.
+        red_idx = 0
+        violet_idx = 6
+        if weights[red_idx] > 0.05 or weights[violet_idx] > 0.05:
+            resonance_bridge = (weights[red_idx] + weights[violet_idx]) / 2.0
+            # Distribute bridge energy if one is active
+            weights[red_idx] = max(weights[red_idx], resonance_bridge * 0.5)
+            weights[violet_idx] = max(weights[violet_idx], resonance_bridge * 0.5)
+        
         results = []
-        for color in colors_to_scan:
-            results.extend(self.shards[color].scan_resonance(intent_vector, top_k))
+        for i, weight in enumerate(weights):
+            if weight > 0: # If it survived the Void Gate
+                color = self.SPECTRUM[i]
+                shard_results = self.shards[color].scan_resonance(intent_vector, top_k)
+                for score, payload in shard_results:
+                    # [TOPOGRAPHIC INTERACTION] 
+                    # Interaction intensity between Intent-Wave and Shard-Terrain
+                    results.append((score * weight, payload))
 
         # Sort and prune
         results.sort(key=lambda x: x[0], reverse=True)
-        results = results[:top_k]
+        results = (results[:top_k] if results else [])
 
-        # 3. Amor Sui (The Gravitational Bind)
-        # If the best result is weak (The Void), we assume we missed the context
-        # because of a hard boundary. We expand to the FULL spectrum.
-        if not results or results[0][0] < threshold:
-            logger.info(f"🌌 [AMOR SUI] Resonance ({results[0][0] if results else 0.0:.2f}) < {threshold}. Expanding search to entire Spectrum to bridge the Void.")
-
-            # Scan remaining colors
-            remaining_indices = set(range(7)) - indices_to_scan
-            remaining_colors = [self.SPECTRUM[i] for i in remaining_indices]
-
-            for color in remaining_colors:
-                results.extend(self.shards[color].scan_resonance(intent_vector, top_k))
-
-            # Re-sort with the full context
+        # 2. [AMOR SUI] Emergency Recovery (If the Void was too aggressive)
+        if not results:
+            weights = self._vector_to_color_distribution(intent_vector, void_gate=0.01)
+            for i, weight in enumerate(weights):
+                if weight > 0:
+                    results.extend(self.shards[self.SPECTRUM[i]].scan_resonance(intent_vector, 1))
+            
             results.sort(key=lambda x: x[0], reverse=True)
             results = results[:top_k]
 

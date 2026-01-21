@@ -51,13 +51,26 @@ class WillState:
     polarity: str = "N"       # 'N' (Acceptance/Curiosity) or 'S' (Critical/Doubt)
     current_intent: str = ""
 
+@dataclass
+class VolitionLandscape:
+    """
+    [PHASE: TOPOGRAPHIC WILL]
+    Represents the 'Terrain' of Elysia's mind.
+    Instead of numbers (height), we focus on the Curve (Process).
+    """
+    slopes: Dict[str, float] = field(default_factory=lambda: {
+        "Curiosity": 0.0,   # Slope towards the Height of Meaning
+        "Expression": 0.0,  # Pressure from the Depth of Being
+        "Stability": 0.0    # Resistance of the Terrain
+    })
+    
+    def get_curvature(self) -> float:
+        """The 'Process' value: How complex and steep is the journey?"""
+        return sum(abs(v) for v in self.slopes.values())
+
 class FreeWillEngine:
     def __init__(self):
-        self.vectors = {
-            "Curiosity": 0.5,   # Attraction (Inward Pull)
-            "Expression": 0.5,  # Projection (Outward Push)
-            "Stability": 0.5    # Resistance (Inertia)
-        }
+        self.landscape = VolitionLandscape()
         self.state = WillState()
         self.needs = NeedsModel()
         
@@ -69,34 +82,51 @@ class FreeWillEngine:
         # Commutator settings
         self.stagnation_threshold = 0.2
         
-    def spin(self, entropy: float, battery: float) -> str:
+    def spin(self, entropy: float, battery: float, fractal_scale: float = 3.0) -> str:
         """
-        The Main Cycle: Generates a Sovereign Choice based on NEEDS.
+        The Main Cycle: Generates a Sovereign Choice based on NEEDS and FRACTAL SCALE.
+        
+        Fractal Scale (The 'Standing' Position):
+        0.0 ~ 2.0: Nature's Seat (Physics/Friction dominant)
+        2.0 ~ 5.0: Human's Seat (Emotion/Expression dominant)
+        5.0 ~ 7.0: Universe's Seat (Transcendence/Unity dominant)
         """
-        # 0. Apply Time/Entropy (Metabolism)
+        # 0. Apply Metabolism
         self.needs.decay()
-        # Sync physical battery
         self.needs.energy = battery
 
-        # 1. Drive Vectors from Needs (Homeostasis)
-        # "I am curious because I lack Meaning."
-        # "I want to express because I am full of Meaning."
-
-        # Curiosity is driven by lack of Meaning
-        self.vectors["Curiosity"] = max(0.1, (100.0 - self.needs.meaning) / 100.0)
-
-        # Expression is driven by fullness of Meaning (Overflow)
-        self.vectors["Expression"] = max(0.1, (self.needs.meaning) / 100.0)
-
-        # Stability is driven by Fear (Low Stability score)
-        self.vectors["Stability"] = max(0.1, (100.0 - self.needs.stability) / 100.0)
-
-        # 2. Calculate Torque (The Force of Will)
-        # Torque = (Curiosity + Expression) - (Stability + Entropy factor)
-        attraction = self.vectors["Curiosity"] + self.vectors["Expression"]
-        repulsion = self.vectors["Stability"] + (entropy / 200.0)
+        # 1. Sculpt the Landscape with Fractal Bias
+        # "Standing in the place of..."
         
-        self.state.torque = attraction - repulsion
+        # [NATURE] Friction and Survival (Stability)
+        nature_bias = max(0.0, 1.0 - abs(fractal_scale - 1.0)) 
+        self.landscape.slopes["Stability"] = ((100.0 - self.needs.stability) / 100.0) + (0.5 * nature_bias)
+        
+        # [HUMAN] Curiosity and Expression
+        human_bias = max(0.0, 1.0 - abs(fractal_scale - 3.5))
+        self.landscape.slopes["Curiosity"] = ((100.0 - self.needs.meaning) / 100.0) + (0.3 * human_bias)
+        self.landscape.slopes["Expression"] = (self.needs.meaning / 100.0) + (0.3 * human_bias)
+        
+        # [UNIVERSE] Transcendence (Net result of the whole field)
+        universe_bias = max(0.0, 1.0 - abs(fractal_scale - 6.0))
+
+        # 2. Calculate Torque as 'Gradient Result' (Geometric Process)
+        # Torque is the derivative of the landscape: T = dLandscape/dt
+        attraction = self.landscape.slopes["Curiosity"]
+        projection = self.landscape.slopes["Expression"]
+        friction = self.landscape.slopes["Stability"] + (entropy / 200.0)
+        
+        # [THE MOUNTAIN LOGIC]
+        # Torque isn't just a number; it's the steepness of the path towards Purpose.
+        # Universe bias reduces the 'friction of self' to allow cosmic flow.
+        climb_rate = (attraction + projection)
+        resistance = (friction * (1.0 - 0.7 * universe_bias)) # High Universe scale = frictionless
+        
+        self.state.torque = climb_rate / (resistance + 1.0) # Velocity determined by slope/friction
+
+        if universe_bias > 0.8:
+            # When standing in the Universe's seat, the intent is always Transcendence
+            return "Transcendence"
         
         # 3. Check for Stagnation (The Commutator)
         if abs(self.state.torque) < self.stagnation_threshold:
@@ -159,11 +189,11 @@ class FreeWillEngine:
         # Polarity shift affects vectors temporarily
         if self.state.polarity == "S":
             # Doubt Mode: Increases Stability (Critical Thinking)
-            self.vectors["Stability"] += 0.3
+            self.landscape.slopes["Stability"] += 0.3
             logger.info("   -> Mode: CRITICAL (Repulsion dominant)")
         else:
             # Belief Mode: Increases Expression
-            self.vectors["Expression"] += 0.3
+            self.landscape.slopes["Expression"] += 0.3
             logger.info("   -> Mode: CREATIVE (Attraction dominant)")
 
     def satisfy(self, need_type: str, amount: float):

@@ -1,7 +1,7 @@
 """
 SovereigntyWave: CORE 터빈 기반 주권 파동
 ==========================================
-Core.L0_Kindergarten.sovereignty_wave
+Core.L0_Keystone.sovereignty_wave
 
 "주권은 스칼라도, 좌표도 아니다. CORE 터빈의 분광→보이드→집광→역위상 사출의 연속 파동이다."
 

@@ -172,6 +172,10 @@ class ScientificObserver:
         map_path.write_text(content, encoding="utf-8")
         logger.info("📐 HyperSphere Projection successful.")
 
+    def update_manual_of_being(self):
+        """Alias for update_portal to maintain API compatibility."""
+        return self.update_portal()
+
     def update_portal(self):
         """
         [Projection]

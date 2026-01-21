@@ -69,6 +69,9 @@ class MyceliumNetwork:
                 if msg.get('type') == 'trinity_sync':
                     logger.info(f"🌀 [COLLECTIVE] Received sync from instance '{msg.get('instance_id')}': Sync={msg.get('total_sync'):.2f}")
                     
+            except ConnectionResetError:
+                # Windows UDP bug: previous send failed
+                continue
             except Exception as e:
                 logger.error(f"❌ [MYCELIUM] Listen Error: {e}")
                 time.sleep(1)

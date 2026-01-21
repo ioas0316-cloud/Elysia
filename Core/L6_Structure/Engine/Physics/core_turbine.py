@@ -57,42 +57,19 @@ class ActivePrismRotor:
 
     @staticmethod
     @jit
-    def diffract(signal_wavelengths: jnp.ndarray, rotor_theta: float, d: float) -> jnp.ndarray:
+    def diffract(signal_wavelengths: jnp.ndarray, rotor_theta: float, d: float, sharpness: float = 20.0) -> jnp.ndarray:
         """
-        Applies the Diffraction Grating Equation:
-        d * sin(theta) = n * lambda
-
-        Calculates the interference intensity for each wavelength at the current angle.
-
-        Args:
-            signal_wavelengths: Array of incoming data wavelengths (Qualia).
-            rotor_theta: Current angle of the rotor.
-            d: Grating spacing.
-
-        Returns:
-            Intensity array (Constructive Interference).
+        Applies the Diffraction Grating Equation with Variable Focus (Liquid vs Crystal).
         """
-        # Calculate the theoretical angle required for constructive interference (n=1)
-        # theta_req = arcsin(lambda / d)
-        # We measure how close the current rotor angle is to this requirement.
-
-        # 1. Normalized Path Difference
-        # path_diff = d * sin(rotor_theta)
         path_diff = d * jnp.sin(rotor_theta)
-
-        # 2. Phase Match Factor (How well does it match n * lambda?)
-        # We want path_diff to be an integer multiple of wavelength for constructive interference.
-        # fractional_part = (path_diff / wavelength) % 1.0
-        # If fractional_part is close to 0 or 1, we have resonance.
-
-        ratio = path_diff / (signal_wavelengths + 1e-12) # Avoid div by zero
-        resonance = jnp.cos(2 * jnp.pi * ratio) # 1.0 = Perfect Match, -1.0 = Destructive
-
-        # Normalize to [0, 1] for intensity
+        ratio = path_diff / (signal_wavelengths + 1e-12)
+        resonance = jnp.cos(2 * jnp.pi * ratio)
         intensity = (resonance + 1.0) / 2.0
 
-        # Apply sharpness (Higher power = tighter focus = Diffraction Limit)
-        return jnp.power(intensity, 20) # 'Snatching' happens here (High Exponent)
+        # [PHASE: LIQUID FOCUS]
+        # Low sharpness (e.g. 2.0) = Diffuse, overlapping thoughts (Liquid)
+        # High sharpness (e.g. 50.0) = Precise, discrete thoughts (Crystal)
+        return jnp.power(intensity, sharpness)
 
     def scan_stream(self, data_stream: jnp.ndarray, time_t: float) -> jnp.ndarray:
         """

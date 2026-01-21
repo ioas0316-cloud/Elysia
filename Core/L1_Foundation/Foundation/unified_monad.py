@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Unified Monad (통합 모나드)
 ===========================

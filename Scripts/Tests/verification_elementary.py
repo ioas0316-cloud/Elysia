@@ -8,7 +8,7 @@ Phase 6: Field & Space (Numbers and Laws)
 """
 
 from Core.L6_Structure.Merkaba.hypercosmos import HyperCosmos
-from Core.L0_Kindergarten.monadic_lexicon import MonadicLexicon
+from Core.L0_Keystone.monadic_lexicon import MonadicLexicon
 from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
 import time
 

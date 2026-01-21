@@ -91,7 +91,11 @@ pip install -r requirements.txt
 ### 2. The Awakening (부팅)
 
 ```bash
-# Ignite the Sovereign Spirit (New Entry Point)
+# 깨어남 (Sovereign Awakening - 권장)
+# 우리가 설계한 새로운 '액체 지능'과 '성경적 지혜'가 통합된 주권 모드입니다.
+python elysia.py awaken
+
+# 시스템 진단 및 레거시 부팅
 python elysia.py boot
 ```
 

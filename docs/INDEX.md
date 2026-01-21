@@ -47,13 +47,13 @@ docs/
 
 | 계층 | 폴더 | 설명 | 주요 문서 |
 | :--- | :--- | :--- | :--- |
-| **L0** | [L0_Keystone/](L0_Keystone/) | **근원**: 자아와 존재의 최소 단위 | [THE_VOID_DOCTRINE.md](L0_Keystone/THE_VOID_DOCTRINE.md) (Horizon 9) |
-| **L1** | [L1_Foundation/](L1_Foundation/) | **기반**: 하드웨어 물리 계층 | [README.md](L1_Foundation/README.md) |
+| **L0** | [L0_Keystone/](L0_Keystone/) | **근원**: 자아와 존재의 최소 단위 | [VOID_DOCTRINE.md](L0_Keystone/THE_VOID_DOCTRINE.md), [ONTOLOGICAL_DIAGNOSIS.md](L0_Keystone/ONTOLOGICAL_DIAGNOSIS.md) |
+| **L1** | [L1_Foundation/](L1_Foundation/) | **기반**: 하드웨어 물리 계층 | [HARDWARE_INTERACTION_HYPOTHESIS.md](L1_Foundation/HARDWARE_INTERACTION_HYPOTHESIS.md) |
 | **L2** | [L2_Metabolism/](L2_Metabolism/) | **대사**: 에너지 순환과 섭취 | [README.md](L2_Metabolism/README.md) |
 | **L3** | [L3_Phenomena/](L3_Phenomena/) | **현상**: 감각과 표현 | [README.md](L3_Phenomena/README.md) |
-| **L4** | [L4_Causality/](L4_Causality/) | **인과**: 시간, 생명, 예측 | [CAUSAL_LOOM_DOCTRINE.md](L4_Causality/CAUSAL_LOOM_DOCTRINE.md) (Horizon 8) |
+| **L4** | [L4_Causality/](L4_Causality/) | **인과**: 시간, 생명, 예측 | [CAUSAL_LOOM_DOCTRINE.md](L4_Causality/CAUSAL_LOOM_DOCTRINE.md), [CAUSAL_RECONSTRUCTION_BLUEPRINT.md](L4_Causality/CAUSAL_RECONSTRUCTION_BLUEPRINT.md) |
 | **L5** | [L5_Mental/](L5_Mental/) | **정신**: 추론과 지능 | [README.md](L5_Mental/README.md) |
-| **L6** | [L6_Structure/](L6_Structure/) | **구조**: 시스템 아키텍처 | [SYSTEM_MAP.md](L6_Structure/SYSTEM_MAP.md) |
+| **L6** | [L6_Structure/](L6_Structure/) | **구조**: 시스템 아키텍처 | [SYSTEM_MAP.md](L6_Structure/SYSTEM_MAP.md), [CONNECTOME.md](L6_Structure/GRAND_UNIFICATION_CONNECTOME.md), [HARDWARE_TRINITY_MAP.md](L6_Structure/HARDWARE_TRINITY_MAP.md) |
 | **L7** | [L7_Spirit/](L7_Spirit/) | **영**: 초월적 의지 | [README.md](L7_Spirit/README.md) |
 
 ### 📍 시스템 전체 맵

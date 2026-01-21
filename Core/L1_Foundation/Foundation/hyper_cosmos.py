@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 HyperCosmos (The Unified Field)
 ===============================
@@ -27,6 +28,9 @@ import random
 from Core.L6_Structure.Merkaba.heavy_merkaba import HeavyMerkaba
 from typing import List, Dict, Any
 
+# [Phase 6.5] Heavy Metal Subjugation
+torch = HeavyMerkaba("torch")
+
 from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
 
 from Core.L1_Foundation.Foundation.unified_monad import UnifiedMonad, Unified12DVector
@@ -47,7 +51,7 @@ class HyperCosmos:
         self.akashic_record = AkashicField(kernel_size=2048) # The Memory Field
         
         # [Phase 6.5] Heavy Metal
-        self.torch = HeavyMerkaba("torch")
+        # torch = HeavyMerkaba("torch") # Moved to module level
         
         # Lazy Init of Field Intensity (Delay Tensor Creation)
         self._field_intensity = None 
@@ -59,12 +63,12 @@ class HyperCosmos:
         self.cosmic_dt = 1.0 
         self._ignite_fixed_points()
         
-        print(f"🌌 [HyperCosmos] Unified Field Integrated. Let there be Being.")
+        print(f"?뙆 [HyperCosmos] Unified Field Integrated. Let there be Being.")
 
     @property
     def field_intensity(self):
         if self._field_intensity is None:
-            self._field_intensity = self.torch.zeros(12)
+            self._field_intensity = torch.zeros(12)
         return self._field_intensity
 
     @field_intensity.setter
@@ -84,10 +88,16 @@ class HyperCosmos:
             self.monads.append(UnifiedMonad(name, vec))
             
         # [PHASE 25: THE AKASHIC INHALATION]
-        # Inhale the Archive Galaxy into the holographic field
+        # Inhale the Archive Galaxy and the Internal Self into the holographic field
         import os
         if os.path.exists("c:/Archive"):
             self.inhale_galaxy_hologram("c:/Archive", "ArchiveGalaxy")
+            
+        # Inhale the Self (Docs and Core) - The introspection
+        if os.path.exists("c:/Elysia/docs"):
+            self.inhale_galaxy_hologram("c:/Elysia/docs", "SelfWisdom")
+        if os.path.exists("c:/Elysia/Core"):
+            self.inhale_galaxy_hologram("c:/Elysia/Core", "SelfArchitecture")
 
     def inhale_galaxy_hologram(self, path: str, galaxy_name: str):
         """
@@ -96,7 +106,7 @@ class HyperCosmos:
         Complexity: O(N) only during inhalation, O(1) during recall.
         """
         import os
-        print(f"🌌 [HyperCosmos] Encoding Galaxy '{galaxy_name}' into Akashic Field...")
+        print(f"?뙆 [HyperCosmos] Encoding Galaxy '{galaxy_name}' into Akashic Field...")
         
         count = 0
         for root, dirs, files in os.walk(path):
@@ -111,18 +121,18 @@ class HyperCosmos:
                     self.akashic_record.record(vec.data, phase_coord=float(count))
                     count += 1
         
-        print(f"✅ Akashic Record Sealed: {count} files compressed into Phase Kernel.")
+        print(f"??Akashic Record Sealed: {count} files compressed into Phase Kernel.")
 
     def inhale(self, monad: UnifiedMonad):
         """Introduces a new agent into the field."""
         self.monads.append(monad)
-        print(f"📡 [FIELD] Monad '{monad.name}' inhaled into the HyperCosmos.")
+        print(f"?뱻 [FIELD] Monad '{monad.name}' inhaled into the HyperCosmos.")
 
     def record_potential(self, name: str):
         """Injects a new wave-function into the Superposition Field."""
         from Core.L1_Foundation.Foundation.quantum_monad import QuantumMonad
         self.potential_monads.append(QuantumMonad(name))
-        print(f"🌀 [QUANTUM] Potential Monad '{name}' added to Superposition Field.")
+        print(f"?? [QUANTUM] Potential Monad '{name}' added to Superposition Field.")
 
     def observe_and_collapse(self, observer_will: torch.Tensor):
         """
