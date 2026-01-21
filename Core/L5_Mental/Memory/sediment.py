@@ -3,11 +3,15 @@ The Sediment: Unstructured Geological Memory
 ============================================
 Core.L5_Mental.Memory.sediment
 
-"Don't organize. Just deposit."
+"Don't organize. Just deposit. Let the strata form."
 
 This module implements Phase 5.2 (The Sediment) of the System Architecture Spec.
 It replaces the concept of a Database with a 'Geological Layer'.
-Data is appended as raw binary blobs to a file, and accessed via Memory Mapping (mmap).
+
+[Hardware Alignment Upgrade]:
+- Aligns writes to 4KB Pages (SSD Sector Simulation).
+- Exposes 'Physical Pointers' (Sector Address).
+- Implements `sync_barrier` for hardware coherence.
 """
 
 import mmap
@@ -15,7 +19,7 @@ import os
 import struct
 import numpy as np
 import logging
-from typing import List, Tuple, Optional, Any
+from typing import List, Tuple, Optional, Any, NamedTuple
 
 # [CORE] Integration
 try:
@@ -25,10 +29,34 @@ except ImportError:
 
 logger = logging.getLogger("Sediment")
 
+class DirectMemoryPointer(NamedTuple):
+    """
+    Physical Address Pointer.
+    Simulates a raw pointer to an SSD sector.
+    """
+    sector_index: int  # Logical Sector Number (LBA)
+    byte_offset: int   # Physical Byte Offset
+    length: int        # Payload Length
+
+class PageAlignedAllocator:
+    """
+    Manages 4KB Page Alignment for SSD Optimization.
+    "The body must breathe in rhythm."
+    """
+    PAGE_SIZE = 4096 # Standard 4KB Page
+
+    @staticmethod
+    def align_to_page(size: int) -> int:
+        """Calculates padding needed to align to the next page boundary."""
+        remainder = size % PageAlignedAllocator.PAGE_SIZE
+        if remainder == 0:
+            return 0
+        return PageAlignedAllocator.PAGE_SIZE - remainder
+
 class SedimentLayer:
     """
     A single geological layer (file).
-    Format: [Vector(7 floats) | Timestamp(1 float) | Payload_Size(1 int) | Payload(bytes)]
+    Format: [Vector(7 floats) | Timestamp(1 float) | Payload_Size(1 int) | Payload(bytes) | Padding]
     """
     # Header: 7 floats (vector) + 1 float (time) + 1 int (size) = 9 * 4 = 36 bytes (assuming float32/int32)
     # Actually let's use doubles for vector/time: 8 * 8 = 64 bytes. Int for size: 4 bytes.
@@ -71,12 +99,17 @@ class SedimentLayer:
             payload_size = struct.unpack('I', size_bytes)[0]
 
             self.offsets.append(offset)
-            offset += self.HEADER_SIZE + payload_size
 
-    def deposit(self, vector: List[float], timestamp: float, payload: bytes) -> int:
+            # Calculate total block size including padding
+            block_content_size = self.HEADER_SIZE + payload_size
+            padding = PageAlignedAllocator.align_to_page(block_content_size)
+
+            offset += block_content_size + padding
+
+    def deposit(self, vector: List[float], timestamp: float, payload: bytes) -> DirectMemoryPointer:
         """
         Deposits a new experience into the sediment.
-        Returns the byte offset (Address) of the deposited layer.
+        Returns the Physical Pointer (Address) of the deposited layer.
         """
         # Ensure vector is length 7
         if len(vector) != 7:
@@ -87,17 +120,35 @@ class SedimentLayer:
         offset = self.file.tell()
 
         header = struct.pack(self.HEADER_FMT, *vector, timestamp, len(payload))
+
+        # Calculate Padding for Page Alignment
+        total_content_size = len(header) + len(payload)
+        padding_size = PageAlignedAllocator.align_to_page(total_content_size)
+        padding = b'\x00' * padding_size
+
         self.file.write(header)
         self.file.write(payload)
-        self.file.flush()
+        self.file.write(padding) # Fill the page
 
-        # In a real high-throughput system, we wouldn't remap every write.
-        # But for 'Human-Speed' interaction, it's fine.
+        # Explicit Hardware Sync
+        self.sync_barrier()
+
+        # Update Memory Map
         self._remap()
 
-        return offset
+        # Return Typed Pointer
+        sector_idx = offset // PageAlignedAllocator.PAGE_SIZE
+        return DirectMemoryPointer(sector_index=sector_idx, byte_offset=offset, length=len(payload))
 
-    def store_monad(self, wavelength: float, phase: complex, intensity: float, payload: bytes) -> int:
+    def sync_barrier(self):
+        """
+        [Hardware] Flushes the write buffer to physical storage.
+        Simulates `fsync` or hardware barrier.
+        """
+        self.file.flush()
+        os.fsync(self.file.fileno())
+
+    def store_monad(self, wavelength: float, phase: complex, intensity: float, payload: bytes) -> DirectMemoryPointer:
         """
         [CORE] Stores a Photonic Monad as a Holographic Memory.
 
@@ -121,10 +172,10 @@ class SedimentLayer:
 
         # 2. Deposit
         timestamp = time.time()
-        offset = self.deposit(vector, timestamp, payload)
+        ptr = self.deposit(vector, timestamp, payload)
 
-        logger.info(f"💎 Monad Crystalized at offset {offset} (λ={wavelength:.1e})")
-        return offset
+        logger.info(f"💎 Monad Crystalized at Sector {ptr.sector_index} (λ={wavelength:.1e})")
+        return ptr
 
     def scan_resonance(self, intent_vector: List[float], top_k: int = 3) -> List[Tuple[float, bytes]]:
         """
@@ -163,15 +214,16 @@ class SedimentLayer:
             else:
                 score = 0.0
 
-            # Read Payload (Lazy reading: only if we need it? No, we need address)
-            # For now, we store the offset/score and fetch payload later to save RAM?
-            # Let's just fetch it for simplicity of the prototype.
+            # Read Payload
             payload_start = offset + self.HEADER_SIZE
             payload = self.mm[payload_start : payload_start + payload_size]
 
             results.append((score, payload))
 
-            offset += self.HEADER_SIZE + payload_size
+            # Jump to next block (Content + Padding)
+            block_size = self.HEADER_SIZE + payload_size
+            padding = PageAlignedAllocator.align_to_page(block_size)
+            offset += block_size + padding
 
         # Sort by Resonance (Descending)
         results.sort(key=lambda x: x[0], reverse=True)
