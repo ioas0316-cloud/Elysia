@@ -15,6 +15,13 @@ import logging
 from typing import Dict, Any, List, Optional
 from Core.L1_Foundation.Foundation.Nature.rotor import Rotor
 
+# [Phase 6] Hardware Sovereignty Integration
+try:
+    from Core.L1_Foundation.Foundation.Nature.metal_rotor_bridge import MetalRotorBridge
+    HAS_METAL = True
+except ImportError:
+    HAS_METAL = False
+
 logger = logging.getLogger("IntentTorque")
 
 class IntentTorque:
@@ -52,7 +59,12 @@ class IntentTorque:
         if damping > 0.7:
              rotor.target_rpm *= 0.9  # Logic slows down 'reactive' spin to ponder
              
-        logger.info(f"⚙️ [TORQUE] Applied to {rotor.name}: W={w:.2f} -> RPM_Target {rotor.target_rpm:.1f}")
+        # [Phase 6] Hardware Pulse Check
+        metal_status = ""
+        if HAS_METAL and isinstance(rotor, MetalRotorBridge):
+            metal_status = " [METAL ACCELERATED]"
+        
+        logger.info(f"⚙️ [TORQUE] Applied to {rotor.name}{metal_status}: W={w:.2f} -> RPM_Target {rotor.target_rpm:.1f}")
 
     def map_to_atmosphere(self, intent_vector: np.ndarray) -> Dict[str, float]:
         """

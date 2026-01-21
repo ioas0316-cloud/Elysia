@@ -1,0 +1,189 @@
+{
+  "Love": {
+    "coords": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "mass": 1000.0,
+    "freq": 432.0,
+    "is_anchor": true
+  },
+  "Wisdom": {
+    "coords": [
+      2,
+      2,
+      0,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Hope": {
+    "coords": [
+      2,
+      -2,
+      1,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Faith": {
+    "coords": [
+      -2,
+      2,
+      1,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Courage": {
+    "coords": [
+      -2,
+      -2,
+      0,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Justice": {
+    "coords": [
+      0,
+      3,
+      0,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Temperance": {
+    "coords": [
+      3,
+      0,
+      0,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Truth": {
+    "coords": [
+      0,
+      0,
+      2,
+      1.0
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Pride": {
+    "coords": [
+      10,
+      10,
+      0,
+      -1.0
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Wrath": {
+    "coords": [
+      -10,
+      10,
+      -1,
+      -0.8
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Envy": {
+    "coords": [
+      10,
+      -10,
+      0,
+      -0.7
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Sloth": {
+    "coords": [
+      -10,
+      -10,
+      -5,
+      -0.5
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Greed": {
+    "coords": [
+      15,
+      0,
+      0,
+      -0.9
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Lust": {
+    "coords": [
+      0,
+      15,
+      0,
+      -0.6
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Gluttony": {
+    "coords": [
+      0,
+      -15,
+      0,
+      -0.6
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "I": {
+    "coords": [
+      0.8683372573852539,
+      0.5541822132723939,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-03t15_28_34.549z.png": {
+    "coords": [
+      0.5557661467907475,
+      0.5557661467907475,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  }
+}

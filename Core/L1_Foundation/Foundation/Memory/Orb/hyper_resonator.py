@@ -67,8 +67,14 @@ class HyperResonator:
 
         # 2. Calculate Frequency Resonance (Harmonic Match)
         # Simple harmonic check: if abs(f1 - f2) is small, or harmonic ratio
+        # 2. Calculate Frequency Resonance (Harmonic Match)
+        # Simple harmonic check: if abs(f1 - f2) is small, or harmonic ratio
         freq_resonance = 0.0
-        if incoming_freq > 0:
+        
+        if incoming_freq == 0.0:
+            # [Universal Pulse] Resonate with everything (Amor Sui / Gravity)
+            freq_resonance = 1.0
+        elif incoming_freq > 0:
             diff = abs(self.frequency - incoming_freq)
             # Bell curve resonance window
             # [Adjusted Phase 3.5] Bandwidth increased from 10 to 30 (denominator 100 -> 900)

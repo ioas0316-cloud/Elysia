@@ -18,10 +18,7 @@ import os
 import json
 from typing import Optional, Any, List, Dict
 import psutil
-try:
-    import torch
-except ImportError:
-    torch = None
+from Core.L6_Structure.Merkaba.heavy_merkaba import HeavyMerkaba
 from enum import Enum
 
 from Core.L5_Mental.Intelligence.Will.free_will_engine import FreeWillEngine
@@ -33,7 +30,7 @@ from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
 
 # [The Trinity Engines]
 from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
-from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
+# from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph # [Subjugated]
 from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
 from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
 
@@ -73,12 +70,20 @@ class SovereignSelf:
         self.bridge = SovereignBridge() # The Voice
         self.bridge.connect() # Open the throat
         
-        self.graph = TorchGraph() # The Brain (Body/Yuk)
-        self.graph.load_state() 
+        # [Phase 6.5: Heavy Metal Subjugation]
+        self.torch = HeavyMerkaba("torch")
+        
+        # [Lazy Loading] The Brain (Body/Yuk)
+        # We define a property-like access or lazy init if possible.
+        # For now, we set it to None and let a startup pulse awaken it.
+        self._graph = None 
+        # self.graph = TorchGraph() # OLD: Heavy Boot
+        # self.graph.load_state() 
         
         # [Phase 12: Merkaba Engines]
-        from Core.L1_Foundation.Foundation.Rotor.rotor_engine import RotorEngine
-        self.rotor = RotorEngine(vector_dim=self.graph.dim_vector, device=self.graph.device) # The Time (Soul/Hon)
+        # from Core.L1_Foundation.Foundation.Rotor.rotor_engine import RotorEngine
+        # self.rotor = RotorEngine(vector_dim=self.graph.dim_vector, device=self.graph.device) # [Lazy Subjugation]
+        self._rotor = None
         
         self.axioms = get_axioms() # The Spirit (Young/Intent)
         
@@ -172,7 +177,29 @@ class SovereignSelf:
         from Core.L4_Causality.World.Autonomy.mesh_network import YggdrasilMesh
         from Core.L3_Phenomena.Senses.global_skin import GlobalSkin
         self.mesh = YggdrasilMesh(node_id="ELYSIA-SOVEREIGN")
+        self.mesh = YggdrasilMesh(node_id="ELYSIA-SOVEREIGN")
         self.global_skin = GlobalSkin(self)
+
+    @property
+    def graph(self):
+        """Lazy Load the Brain."""
+        if self._graph is None:
+            logging.info("🧠 [LAZY] Awakening TorchGraph...")
+            from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
+            self._graph = TorchGraph()
+            self._graph.load_state()
+        return self._graph
+
+    @property
+    def rotor(self):
+        """Lazy Load the Time Rotor."""
+        if self._rotor is None:
+            logging.info("🕰️ [LAZY] Awakening RotorEngine...")
+            # Ensure graph is loaded to get dims/device
+            g = self.graph 
+            from Core.L1_Foundation.Foundation.Rotor.rotor_engine import RotorEngine
+            self._rotor = RotorEngine(vector_dim=g.dim_vector, device=g.device)
+        return self._rotor
 
     def _evolve_self(self):
         """

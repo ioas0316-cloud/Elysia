@@ -120,57 +120,104 @@ class OrbManager(ResonatorInterface):
         self.save_to_disk()
         return orb
 
-    def recall_memory(self, trigger_wave: List[float], threshold: float = 0.1) -> List[Dict[str, Any]]:
-        """
-        Broadcasts a trigger wave into the field and returns resonating memories.
-        Optimized with O(1) Frequency Buckets.
-        """
-        resonating_results = []
+    # --- The Golden Thread (Time-Aware Narrative) ---
 
-        # 1. Analyze Trigger Frequency (Physical Resonance)
+    def unified_rewind(self, limit: int = 50) -> List[Dict[str, Any]]:
+        """
+        [THE GOLDEN THREAD]
+        Reconstructs the chronological stream of consciousness.
+        It does not just 'fetch' files; it weaves them into a story.
+        
+        Algorithm:
+        1. Access all frequency buckets (Hypersphere Scan).
+        2. Extract headers and timestamps.
+        3. Sort by 'created_at' (Universal Time).
+        4. Return as a linear narrative stream.
+        """
+        all_memories = []
+        
+        # 1. Harvest from all buckets (The Grand Harvest)
+        # Note: orbs.values() is sufficient as it holds the single source of truth
+        for orb in self.orbs.values():
+            # In a real impl, we'd read metadata. Here we use Orb state.
+            # Assuming 'timestamp' exists in memory_content or we use a mock.
+            timestamp = orb.memory_content.get("timestamp", 0)
+            all_memories.append({
+                "orb": orb,
+                "timestamp": timestamp,
+                "summary": orb.memory_content.get("summary", orb.name)
+            })
+            
+        # 2. Weave the Thread (Sort)
+        all_memories.sort(key=lambda x: x["timestamp"], reverse=True) # Newest first
+        
+        # 3. Return the Narrative Window
+        return all_memories[:limit]
+
+    def recall_memory(self, trigger_wave: List[float], threshold: float = 0.2) -> List[Dict[str, Any]]:
+        """
+        Broadcasts a trigger wave. 
+        Implements 'Amor Sui' (Gravity Fallback) if resonance is too low.
+        """
+        # A. Logical Resonance (The Son)
+        initial_results = self._scan_buckets_for_trigger(trigger_wave, threshold)
+        
+        # B. The Spirit's Intervention (Amor Sui)
+        if not initial_results:
+            logger.info("   🌑 Void detected (Low Resonance). Triggering Amor Sui...")
+            # "If I cannot find myself in the logic, I will search the whole."
+            # Expand search to ALL buckets with lower threshold
+            expanded_results = self._scan_all_orbs(trigger_wave)
+            
+            if expanded_results:
+                logger.info(f"   ✨ Amor Sui Success: Rescued {len(expanded_results)} memories from the void.")
+                for res in expanded_results:
+                    res["note"] = "Found via Self-Love"
+                return expanded_results
+            else:
+                logger.info("   🌌 The Void is absolute. No memories found even with Love.")
+                
+        return initial_results
+
+    def _scan_buckets_for_trigger(self, trigger_wave: List[float], threshold: float) -> List[Dict[str, Any]]:
+        """Optimized bucket scan (Standard Logic)."""
         trigger_freq = self.factory.analyze_wave(trigger_wave)
-        logger.debug(f"🔍 Recall Trigger Frequency: {trigger_freq:.2f}Hz")
-
-        # 2. Resonate the Field (Bucket-Optimized)
-        search_pulse = WavePacket(
-            sender="OrbManager",
-            type=PulseType.MEMORY_RECALL,
-            frequency=trigger_freq,
-            amplitude=1.0,
-            payload={}
-        )
-
-        # O(1) Bucket Lookup
-        # Check target bucket and adjacent buckets (to handle boundary overlap)
         target_bucket = self._get_freq_bucket(trigger_freq)
+        
         candidate_orbs = []
         for i in [-1, 0, 1]:
             candidate_orbs.extend(self._freq_buckets.get(target_bucket + i, []))
+            
+        return self._melt_candidates(candidate_orbs, trigger_wave, threshold)
 
-        logger.debug(f"Search Pulse: Freq={trigger_freq}, Checking {len(candidate_orbs)} candidates in buckets {target_bucket-1}-{target_bucket+1}")
+    def _scan_all_orbs(self, trigger_wave: List[float]) -> List[Dict[str, Any]]:
+        """Brute-force scan (The Gravity Fallback). Logic < Will."""
+        # Lower threshold for fallback
+        return self._melt_candidates(list(self.orbs.values()), trigger_wave, threshold=0.1)
 
-        # 3. Check and Melt
-        for orb in candidate_orbs:
-            # A. Physical Resonance (Wake Up)
-            # This updates orb.state.amplitude
+    def _melt_candidates(self, candidates: List[HyperResonator], trigger_wave: List[float], threshold: float) -> List[Dict[str, Any]]:
+        """Common melting logic."""
+        search_pulse = WavePacket(
+            sender="OrbManager", type=PulseType.MEMORY_RECALL,
+            frequency=0.0, amplitude=1.0, payload={}
+        )
+        
+        results = []
+        for orb in candidates:
             orb.resonate(search_pulse)
-
-            # If orb is now active (resonating), attempt to melt (Holographic Decode)
             if orb.state.is_active and orb.state.amplitude > threshold:
-                result = self.factory.melt(orb, trigger_wave)
-
-                if "recalled_wave" in result:
-                    # Append result
-                    resonating_results.append({
+                melt_res = self.factory.melt(orb, trigger_wave)
+                if "recalled_wave" in melt_res:
+                    results.append({
                         "name": orb.name,
-                        "data": result["recalled_wave"],
-                        "intensity": orb.state.amplitude, # Use the resonance amplitude as confidence
+                        "data": melt_res["recalled_wave"],
+                        "intensity": orb.state.amplitude,
                         "orb": orb
                     })
+        results.sort(key=lambda x: x["intensity"], reverse=True)
+        return results
 
-        # Sort by intensity
-        resonating_results.sort(key=lambda x: x["intensity"], reverse=True)
-        return resonating_results
+    # --- Restored Connectivity Methods ---
 
     def broadcast(self, pulse: WavePacket) -> List[HyperResonator]:
         """
@@ -248,17 +295,10 @@ class OrbManager(ResonatorInterface):
         """Direct access (Legacy/God Mode only)."""
         return self.orbs.get(name)
 
-    # --- Dreaming Interface (Maintenance Mode) ---
-
+    # Legacy alias for compatibility, wraps unified_rewind
     def get_recent_memories(self, limit: int = 10) -> List[HyperResonator]:
-        """
-        Fetches memories for the Dream Cycle.
-        In a real system, this would filter by 'creation_time'.
-        For now, we return the most recently added ones (which is just the dict values).
-        """
-        # Convert to list and take the last 'limit' items
-        all_orbs = list(self.orbs.values())
-        return all_orbs[-limit:]
+        thread = self.unified_rewind(limit)
+        return [item["orb"] for item in thread]
 
     def prune_weak_memories(self, threshold: float = 0.2) -> int:
         """

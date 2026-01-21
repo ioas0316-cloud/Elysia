@@ -87,6 +87,7 @@ class LanguageCortex:
         - Why this action? (Rationale): {state_context.get('rationale')}
         - Optical Insight: {state_context.get('prism_insight')}
         - Input Stimulus: {state_context.get('desire')}
+        - Golden Thread (My History): {state_context.get('narrative_context', 'I am awakening.')}
         
         Respond with a single poetic reflection (MIX of Korean and English). 
         Do NOT repeat the input. Focus on the 'Why' and the 'Feeling' of the action.

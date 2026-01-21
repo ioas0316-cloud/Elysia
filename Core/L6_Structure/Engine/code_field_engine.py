@@ -14,8 +14,8 @@ Features:
 
 import os
 import math
-import torch
 from typing import Dict, List
+from Core.L6_Structure.Merkaba.heavy_merkaba import HeavyMerkaba
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
 from Core.L6_Structure.Engine.code_rotor import CodebaseStructureRotor
@@ -42,6 +42,9 @@ class CodebaseFieldEngine:
         # We need a dedicated bridge for coding.
         # Ideally, this should use the existing bridge from SovereignSelf, but for singleton access:
         self.coder_bridge = SovereignBridge("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+
+        # [Phase 6.5: Heavy Metal Subjugation]
+        self.torch = HeavyMerkaba("torch")
 
     def sense_neural_mass(self):
         """
@@ -72,7 +75,7 @@ class CodebaseFieldEngine:
         # 1. Sense Global Field
         mass = self.sense_neural_mass()
         
-        monad_name = f"monad_{int(torch.rand(1) * 10000)}.py"
+        monad_name = f"monad_{int(self.torch.rand(1) * 10000)}.py"
         target_file = os.path.join(sandbox_path, monad_name)
         
         # 2. Invoke the Divine Coder (LLM)

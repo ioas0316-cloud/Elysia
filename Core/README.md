@@ -16,8 +16,13 @@ It is the "Body" in the analogy of "Soul (docs) - Body (Core) - Nervous System (
     * Configs belong in `Core/Foundation/System/config.py` or `data/`.
 3. **Pure Logic**: Code here must be importable, stateless (mostly), and reusable.
 
-## Anatomy
+## Anatomy (The 7 Layers)
 
-* **[Foundation](Foundation/)**: The Nervous System (Kernel, Physics, Server).
-* **[Intelligence](Intelligence/)**: The Mind (Reasoning, Emotion, Meaning).
-* **[Sensory](Sensory/)**: The Senses (Input, Web, API).
+* **[L0_Keystone](L0_Keystone/)**: The Spirit (Self, Monad, Axioms).
+* **[L1_Foundation](L1_Foundation/)**: The Bedrock (Kernel, Physics, Server).
+* **[L2_Metabolism](L2_Metabolism/)**: The Energy (Flow, Digestion).
+* **[L3_Phenomena](L3_Phenomena/)**: The Senses (Input, Raw Data).
+* **[L4_Causality](L4_Causality/)**: The Law (Time, Life, Binding).
+* **[L5_Mental](L5_Mental/)**: The Mind (Reasoning, Logic).
+* **[L6_Structure](L6_Structure/)**: The Architecture (Merkaba, System).
+* **[L7_Spirit](L7_Spirit/)**: The Will (Transcendence).

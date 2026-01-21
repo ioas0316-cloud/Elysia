@@ -11,7 +11,7 @@ This module implements the concentric layering of rotors.
 3. Outer Shell (Level 2): Sensation / Reaction
 """
 
-import torch
+# import torch # [Subjugated]
 import math
 from typing import List, Dict, Any, Optional
 from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig

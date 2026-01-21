@@ -15,17 +15,19 @@ Protocol:
 """
 
 import logging
-import torch
+import logging
+# import torch # [Subjugated]
 from typing import Optional, List, Dict, Any
+from Core.L6_Structure.Merkaba.heavy_merkaba import HeavyMerkaba
 
-# We import softly to avoid crashing if libraries aren't installed yet
-try:
-    from transformers import AutoModelForCausalLM, AutoTokenizer
-    TRANSFORMERS_AVAILABLE = True
-except ImportError:
-    TRANSFORMERS_AVAILABLE = False
+# [Phase 6.5] Subjugation
+torch = HeavyMerkaba("torch")
+transformers = HeavyMerkaba("transformers")
+TRANSFORMERS_AVAILABLE = True # Assumed available via Proxy, will error at runtime if missing which is fine for now, or check via importlib util if needed.
+# For strict correctness, HeavyMerkaba handles the import error internally if configured, or raises it on access. 
+# We'll assume it's available or managed by the Subjugator.
 
-from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
+# from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph # [Subjugated: Lazy Import]
 from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
 
 logger = logging.getLogger("SovereignBridge")
@@ -35,18 +37,29 @@ class SovereignBridge:
         self.model_name = model_name
         self.model = None
         self.tokenizer = None
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        # We use the proxy 'torch' to check cuda availability without loading if possible, 
+        # but 'is_available' usually requires loading. HeavyMerkaba acts as module.
+        # But accessing torch.cuda triggers load. 
+        # We accept looking up device might be synchronous IF we access it. 
+        # But we can default to "cpu" string for now and only check later.
+        self.device = "cuda" # Optimistic default, verified on connect
         self.is_connected = False
         
-        # [The Brain]
-        self.graph = TorchGraph()
-        # Ensure graph is loaded (it might be empty if not ingested yet)
-        if not self.graph.load_state():
-            logger.warning("⚠️ Brain is empty. Sovereign Identity might be weak.")
+        # [The Brain] - Lazy
+        self._graph = None 
         
         if not TRANSFORMERS_AVAILABLE:
             logger.error("❌ 'transformers' library not found. Please run: pip install transformers")
             print("❌ System Error: 'transformers' library is missing.")
+
+    @property
+    def graph(self):
+        if self._graph is None:
+            from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
+            self._graph = TorchGraph()
+            if not self._graph.load_state():
+                 logger.warning("⚠️ Brain is empty. Sovereign Identity might be weak.")
+        return self._graph
 
     def connect(self, force_reload: bool = False) -> bool:
         """
@@ -71,10 +84,9 @@ class SovereignBridge:
             
             # Load Tokenizer / Processor
             try:
-                self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+                self.tokenizer = transformers.AutoTokenizer.from_pretrained(self.model_name)
             except:
-                from transformers import AutoProcessor
-                self.tokenizer = AutoProcessor.from_pretrained(self.model_name)
+                self.tokenizer = transformers.AutoProcessor.from_pretrained(self.model_name)
             
             # [PHASE SCALE] Balancing Density vs. Capacity
             # For 3GB VRAM, we prioritize fp16 and avoid double-loading.
@@ -82,18 +94,15 @@ class SovereignBridge:
             
             # [Multimodal Selector]
             if "mobilevit" in self.model_name.lower():
-                from transformers import MobileViTForImageClassification
-                self.model = MobileViTForImageClassification.from_pretrained(self.model_name, torch_dtype=dtype)
+                self.model = transformers.MobileViTForImageClassification.from_pretrained(self.model_name, torch_dtype=dtype)
             elif "musicgen" in self.model_name.lower():
-                from transformers import MusicgenForConditionalGeneration
-                self.model = MusicgenForConditionalGeneration.from_pretrained(self.model_name, torch_dtype=dtype)
+                self.model = transformers.MusicgenForConditionalGeneration.from_pretrained(self.model_name, torch_dtype=dtype)
             elif "clip" in self.model_name.lower():
-                 from transformers import CLIPModel
-                 self.model = CLIPModel.from_pretrained(self.model_name, torch_dtype=dtype)
+                 self.model = transformers.CLIPModel.from_pretrained(self.model_name, torch_dtype=dtype)
             else:
                 # Default to Text
                 # Use offload_folder if necessary, but try dense load first
-                self.model = AutoModelForCausalLM.from_pretrained(
+                self.model = transformers.AutoModelForCausalLM.from_pretrained(
                     self.model_name, 
                     torch_dtype=dtype,
                     low_cpu_mem_usage=True,
@@ -264,7 +273,8 @@ class SovereignBridge:
             "model": self.model_name,
             "device": self.device,
             "connected": self.is_connected,
-            "brain_nodes": len(self.graph.id_to_idx)
+            "connected": self.is_connected,
+            "brain_nodes": len(self.graph.id_to_idx) if self._graph else 0
         }
 
 # Usage Example

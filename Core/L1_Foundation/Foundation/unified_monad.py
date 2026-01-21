@@ -8,10 +8,15 @@ Unifies Senses, Will, Logic, Emotion, Imagination, and Purpose into a 12D Field.
 """
 
 from dataclasses import dataclass, field
-import torch
+from dataclasses import dataclass, field
+# import torch # [Subjugated]
 import math
 from typing import List, Dict, Optional, Any
+from Core.L6_Structure.Merkaba.heavy_merkaba import HeavyMerkaba
 from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+
+# [Phase 6.5] Subjugation
+torch = HeavyMerkaba("torch")
 
 @dataclass
 class Unified12DVector:

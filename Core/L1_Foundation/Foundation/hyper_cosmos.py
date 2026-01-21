@@ -21,7 +21,10 @@ Physics:
 
 import math
 import random
-import torch
+import math
+import random
+# import torch # [Subjugated]
+from Core.L6_Structure.Merkaba.heavy_merkaba import HeavyMerkaba
 from typing import List, Dict, Any
 
 from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
@@ -39,7 +42,15 @@ class HyperCosmos:
         self.monads: List[UnifiedMonad] = []
         self.potential_monads: List[QuantumMonad] = [] # The Superposition Field
         self.akashic_record = AkashicField(kernel_size=2048) # The Memory Field
-        self.field_intensity = torch.zeros(12) 
+        self.monads: List[UnifiedMonad] = []
+        self.potential_monads: List[QuantumMonad] = [] # The Superposition Field
+        self.akashic_record = AkashicField(kernel_size=2048) # The Memory Field
+        
+        # [Phase 6.5] Heavy Metal
+        self.torch = HeavyMerkaba("torch")
+        
+        # Lazy Init of Field Intensity (Delay Tensor Creation)
+        self._field_intensity = None 
         
         # === PRE-ESTABLISHED HARMONY ===
         from Core.L1_Foundation.Foundation.Psyche.psyche_sphere import get_psyche
@@ -49,6 +60,16 @@ class HyperCosmos:
         self._ignite_fixed_points()
         
         print(f"🌌 [HyperCosmos] Unified Field Integrated. Let there be Being.")
+
+    @property
+    def field_intensity(self):
+        if self._field_intensity is None:
+            self._field_intensity = self.torch.zeros(12)
+        return self._field_intensity
+
+    @field_intensity.setter
+    def field_intensity(self, value):
+        self._field_intensity = value
         
     def _ignite_fixed_points(self):
         """Fixed points in the field (The Foundation)."""

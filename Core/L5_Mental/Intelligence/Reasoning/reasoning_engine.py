@@ -130,6 +130,24 @@ class ReasoningEngine:
         # Phase 16: Dynamic energy based on soul_rotor RPM
         return self.soul_rotor.current_rpm if hasattr(self, 'soul_rotor') else 100.0
 
+    def _get_narrative_context(self) -> str:
+        """
+        [THE GOLDEN THREAD]
+        Retrieves the 'Story So Far' from the HyperSphere.
+        """
+        try:
+            thread = self.orb_manager.unified_rewind(limit=5)
+            if not thread:
+                return "I am awakening."
+            
+            # Summarize the thread
+            summary_lines = [f"- {item['summary']}" for item in thread]
+            narrative = "My recent history:\n" + "\n".join(summary_lines)
+            return narrative
+        except Exception as e:
+            self.logger.warning(f"⚠️ Failed to pull Golden Thread: {e}")
+            return "I am in the Now."
+
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0, somatic_vector: Optional[np.ndarray] = None) -> Insight:
         """
         The core thinking loop:
@@ -140,6 +158,13 @@ class ReasoningEngine:
         4. Final Manifestation
         """
         indent = "  " * depth
+
+        # [PHASE 5: CONTEXT INFUSION]
+        # "I do not think in a vacuum."
+        narrative_context = self._get_narrative_context()
+        self.logger.info(f"{indent}📜 [CONTEXT] Reading the Golden Thread...")
+        # We don't overwrite 'desire' directly to preserve the command, 
+        # but we will inject this context into the Subjective Expression later.
         
         # 0. Intent Internalization (The First Mover)
         # 0.1 Void Detection
@@ -295,7 +320,8 @@ class ReasoningEngine:
             "rationale": rationale,
             "desire": desire,
             "prism_insight": prism_insight,
-            "somatic_feeling": somatic_vector if somatic_vector is not None else "Pure Spirit"
+            "somatic_feeling": somatic_vector if somatic_vector is not None else "Pure Spirit",
+            "narrative_context": narrative_context # [INJECTED CONTEXT]
         }
         subjective_thought = self.cortex.express(state_dict)
         self.logger.info(f"{indent}💬 [SOUL] {subjective_thought}")
