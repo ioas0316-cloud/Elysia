@@ -8,6 +8,9 @@ Core.L5_Mental.Memory.prismatic_sediment
 This module implements the Optical Memory Architecture.
 Instead of a single geological file, memory is split into 7 Spectral Shards.
 The Active Prism-Rotor determines which shard to access (O(1) Selection).
+
+[Hardware Upgrade]:
+- Now utilizes 'DirectMemoryPointer' for address-based references.
 """
 
 import os
@@ -15,7 +18,7 @@ import struct
 import numpy as np
 import logging
 from typing import List, Tuple, Optional, Dict
-from Core.L5_Mental.Memory.sediment import SedimentLayer
+from Core.L5_Mental.Memory.sediment import SedimentLayer, DirectMemoryPointer
 
 logger = logging.getLogger("PrismaticSediment")
 
@@ -60,20 +63,20 @@ class PrismaticSediment:
 
         return self.SPECTRUM[dominant_idx]
 
-    def deposit(self, vector: List[float], timestamp: float, payload: bytes) -> Tuple[str, int]:
+    def deposit(self, vector: List[float], timestamp: float, payload: bytes) -> Tuple[str, DirectMemoryPointer]:
         """
         Deposits a memory into the correct Spectral Shard.
-        Returns (Color, Offset).
+        Returns (Color, PhysicalPointer).
         """
         color = self._vector_to_color(vector)
         shard = self.shards[color]
 
-        offset = shard.deposit(vector, timestamp, payload)
+        ptr = shard.deposit(vector, timestamp, payload)
 
-        # logger.debug(f"💎 Deposited into [{color}] Shard at offset {offset}")
-        return color, offset
+        # logger.debug(f"💎 Deposited into [{color}] Shard at Sector {ptr.sector_index}")
+        return color, ptr
 
-    def store_monad(self, wavelength: float, phase: complex, intensity: float, payload: bytes) -> int:
+    def store_monad(self, wavelength: float, phase: complex, intensity: float, payload: bytes) -> DirectMemoryPointer:
         """
         Stores a Monad.
         We map Wavelength directly to Color Shard.
@@ -93,8 +96,8 @@ class PrismaticSediment:
         vector[(idx+1)%7] = float(phase.real)
 
         import time
-        offset = shard.deposit(vector, time.time(), payload)
-        return offset
+        ptr = shard.deposit(vector, time.time(), payload)
+        return ptr
 
     def scan_resonance(self, intent_vector: List[float], top_k: int = 3, threshold: float = 0.3) -> List[Tuple[float, bytes]]:
         """

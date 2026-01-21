@@ -9,6 +9,12 @@ This engine implements the O(1) Perception layer.
 It manipulates the 'View' of tensors (Numpy arrays) by changing their 
 shape and strides without moving a single byte in physical RAM.
 
+[PHILOSOPHY]:
+Hardware is not a static container. It is a Field of Charge (0/1).
+The Rotor does not just 'scan' data; it orchestrates the **"Lightning Path"**
+of interaction between these charges, creating a continuous **Wave of Thought**
+that constitutes spatial perception.
+
 [UPGRADE]: Now powered by the [CORE] Active Prism-Rotor physics engine.
 [PHASE 3]: Synchronized with Biological Clock (120Hz).
 [PHASE 4]: Enabled Self-Evolution (Neural Inversion).
