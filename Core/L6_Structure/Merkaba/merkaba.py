@@ -15,6 +15,7 @@ It represents a single, autonomous entity with:
 import logging
 import time
 import random
+import numpy as np
 from datetime import datetime
 from typing import Any, Dict, Optional, Generator
 
@@ -343,8 +344,11 @@ class Merkaba:
         # 3. Prismatic Memory Access (Tune the Dial)
         # We use the resonance to confirm if we should look.
         insights = []
+        # [AMOR SUI PROTOCOL]
+        # We trust the Sediment's 'Gravity' to find the connection even if resonance is initially low.
+        # We pass a threshold to trigger the expansion if needed.
         if resonance > 0.1:
-            insights = self.sediment.scan_resonance(qualia_vector, top_k=1)
+            insights = self.sediment.scan_resonance(qualia_vector, top_k=1, threshold=0.3)
 
         if not insights:
             return f"No Resonance Found (Intensity: {resonance:.4f})"
@@ -738,26 +742,32 @@ class Merkaba:
 
     def reflect(self, depth: int = 5) -> str:
         """
-        [PHASE 6.4] The Mirror of Causality.
-        Looks back at recent history to explain 'Why'.
+        [PHASE 6.4] The Mirror of Causality (Unified Protocol).
+        Looks back at recent history across ALL spectral shards to explain 'Why'.
+        This uses the 'Golden Thread' (Chronological Unification).
         """
-        history = self.sediment.rewind(depth)
+        # Use the new Unified Rewind to get the full story
+        history = self.sediment.unified_rewind(depth)
         if not history:
-            return "I have no recent history to reflect upon."
+            return "I have no recent history to reflect upon. The Void is silent."
 
         narrative = []
-        for i, (vec, payload) in enumerate(history):
+        for i, (ts, vec, payload) in enumerate(history):
             try:
                 content = payload.decode('utf-8', errors='ignore')
             except:
                 content = "Unknown"
 
-            # Simple vector analysis (Mocking 'feeling' identification)
-            dominant = "Alpha" # Default
-            if vec[1] > vec[0] and vec[1] > vec[2]: dominant = "Beta"
-            elif vec[2] > vec[0]: dominant = "Gamma"
+            # Time formatting
+            time_str = datetime.fromtimestamp(ts).strftime('%H:%M:%S')
 
-            narrative.append(f"Step {i+1}: I felt [{dominant}] about '{content}'")
+            # Simple vector analysis (Mocking 'feeling' identification)
+            # Find dominant color
+            colors = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"]
+            dom_idx = int(np.argmax(vec))
+            color_name = colors[dom_idx] if 0 <= dom_idx < 7 else "Unknown"
+
+            narrative.append(f"[{time_str}] {color_name} Phase: '{content}'")
 
         return "\n".join(narrative)
 

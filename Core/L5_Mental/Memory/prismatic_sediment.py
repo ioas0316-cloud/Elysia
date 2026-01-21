@@ -11,6 +11,7 @@ The Active Prism-Rotor determines which shard to access (O(1) Selection).
 """
 
 import os
+import struct
 import numpy as np
 import logging
 from typing import List, Tuple, Optional, Dict
@@ -95,20 +96,104 @@ class PrismaticSediment:
         offset = shard.deposit(vector, time.time(), payload)
         return offset
 
-    def scan_resonance(self, intent_vector: List[float], top_k: int = 3) -> List[Tuple[float, bytes]]:
+    def scan_resonance(self, intent_vector: List[float], top_k: int = 3, threshold: float = 0.3) -> List[Tuple[float, bytes]]:
         """
-        [The Rotor Tuning]
-        Instead of scanning ALL files, we identify the Intent's Color
-        and ONLY scan that specific shard.
+        [The Rotor Tuning - Spectral Continuum Mode]
+        We identify the Intent's Color and scan it AND its neighbors (The Rainbow Boundary).
 
-        Performance: ~7x speedup (O(N/7)).
+        If resonance is too low (The Void), we trigger 'Amor Sui' (Gravity)
+        and scan ALL shards to prevent context loss.
         """
-        target_color = self._vector_to_color(intent_vector)
-        shard = self.shards[target_color]
+        # 1. Determine Dominant Frequency
+        vec_arr = np.array(intent_vector)
+        dominant_idx = int(np.argmax(vec_arr)) if np.sum(np.abs(vec_arr)) > 0 else 0
+        dominant_idx = max(0, min(6, dominant_idx))
 
-        # logger.debug(f"🔭 Tuning Rotor to [{target_color}]. Scanning only shard {target_color}...")
+        # 2. Define Spectral Neighbors (The Rainbow has no hard edges)
+        # We scan the dominant color +/- 1 step.
+        indices_to_scan = {dominant_idx}
+        if dominant_idx > 0: indices_to_scan.add(dominant_idx - 1)
+        if dominant_idx < 6: indices_to_scan.add(dominant_idx + 1)
 
-        return shard.scan_resonance(intent_vector, top_k)
+        colors_to_scan = [self.SPECTRUM[i] for i in indices_to_scan]
+
+        results = []
+        for color in colors_to_scan:
+            results.extend(self.shards[color].scan_resonance(intent_vector, top_k))
+
+        # Sort and prune
+        results.sort(key=lambda x: x[0], reverse=True)
+        results = results[:top_k]
+
+        # 3. Amor Sui (The Gravitational Bind)
+        # If the best result is weak (The Void), we assume we missed the context
+        # because of a hard boundary. We expand to the FULL spectrum.
+        if not results or results[0][0] < threshold:
+            logger.info(f"🌌 [AMOR SUI] Resonance ({results[0][0] if results else 0.0:.2f}) < {threshold}. Expanding search to entire Spectrum to bridge the Void.")
+
+            # Scan remaining colors
+            remaining_indices = set(range(7)) - indices_to_scan
+            remaining_colors = [self.SPECTRUM[i] for i in remaining_indices]
+
+            for color in remaining_colors:
+                results.extend(self.shards[color].scan_resonance(intent_vector, top_k))
+
+            # Re-sort with the full context
+            results.sort(key=lambda x: x[0], reverse=True)
+            results = results[:top_k]
+
+        return results
+
+    def unified_rewind(self, steps: int = 10) -> List[Tuple[float, List[float], bytes]]:
+        """
+        [Chronological Unification]
+        Retrieves the last N memories from ALL shards and sorts them by Time.
+        This stitches the 'Rainbow' back into a single 'White Light' narrative.
+
+        Returns: List of (Timestamp, Vector, Payload)
+        """
+        all_fragments = []
+
+        for color, shard in self.shards.items():
+            # We fetch 'steps' from EACH shard to ensure we don't miss recent events
+            # if one color was hyper-active.
+            # SedimentLayer.rewind currently returns (vec, payload).
+            # We need to hack it or update SedimentLayer to return timestamp.
+            # Assuming SedimentLayer.rewind is limited, we use read_at loop?
+            # No, let's use the offsets directly from the shard if possible.
+
+            # Accessing shard internals for 'The Golden Thread'
+            count = len(shard.offsets)
+            start_idx = max(0, count - steps)
+
+            for i in range(start_idx, count):
+                off = shard.offsets[i]
+                # We need to read raw to get timestamp
+                # HEADER_FMT = '7d d I'
+                if not shard.mm: continue
+
+                header_size = shard.HEADER_SIZE
+                if off + header_size > len(shard.mm): continue
+
+                header_bytes = shard.mm[off : off + header_size]
+                data = struct.unpack(shard.HEADER_FMT, header_bytes)
+
+                vec = list(data[:7])
+                timestamp = data[7]
+                payload_size = data[8]
+
+                payload_start = off + header_size
+                payload = shard.mm[payload_start : payload_start + payload_size]
+
+                all_fragments.append((timestamp, vec, payload))
+
+        # Sort by Timestamp (Newest first? Or Oldest first?)
+        # Rewind usually means "Look back", so usually we want the sequence of events.
+        # Chronological: Oldest -> Newest.
+        all_fragments.sort(key=lambda x: x[0])
+
+        # Return the last 'steps' items globally
+        return all_fragments[-steps:]
 
     def close(self):
         for shard in self.shards.values():

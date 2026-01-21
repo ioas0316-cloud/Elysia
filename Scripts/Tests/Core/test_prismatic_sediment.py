@@ -45,10 +45,15 @@ class TestPrismaticSediment(unittest.TestCase):
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0][1], payload)
 
-        # Scan Blue (Should find nothing because we only scanned Blue shard)
+        # Scan Blue (Was: Should find nothing)
+        # New Protocol (Amor Sui): If Blue is empty, Gravity pulls the Red memory.
+        # So we EXPECT to find Red Memory now.
         vec_blue = [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]
         results_blue = self.prism.scan_resonance(vec_blue, top_k=1)
-        self.assertEqual(len(results_blue), 0)
+
+        # Verify Gravity engaged
+        self.assertEqual(len(results_blue), 1)
+        self.assertEqual(results_blue[0][1], payload)
 
     def test_store_monad(self):
         # 450nm is Blue/Indigo range?
