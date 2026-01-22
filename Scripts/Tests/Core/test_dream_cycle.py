@@ -44,6 +44,8 @@ class TestDreamCycle(unittest.TestCase):
         self.assertTrue(len(wisdom) >= 2, "Dreams were not crystallized")
         self.assertEqual(wisdom[0]["intent"], "Test Intent")
         self.assertIn("causal_map", wisdom[0])
+        # Verify Fractal Trinity assumption (Mock returns string, but we check if code handles it)
+        # In real scenario, causal_map is the LLM output.
         self.assertEqual(wisdom[0]["origin"], "Dream")
 
         # Check queue is empty

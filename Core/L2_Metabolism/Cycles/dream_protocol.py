@@ -57,26 +57,28 @@ class DreamAlchemist:
             intent = dream.get("intent")
             vector_dna = dream.get("vector_dna")
 
-            # [Alchemy: Causal Reconstruction]
-            # We do not write poems. We map causality.
+            # [Alchemy: Fractal Trinity Reconstruction]
+            # Causality is not linear (A->B). It is Origin -> Process -> Result.
+            # The Process contains the Infinite Hidden Monad (Quantum Collapse).
             if self.cortex and self.cortex.is_active:
                 prompt = f"""
-                [CAUSAL RECONSTRUCTION PROTOCOL]
-                Analyze the concept: "{intent}".
+                [FRACTAL CAUSALITY PROTOCOL]
+                Analyze the concept: "{intent}" through the Trinity of Existence.
 
-                Do not define it. Map its Causality:
-                1. CAUSE: What MUST happen before this? (Prerequisite)
-                2. EFFECT: What MUST happen after this? (Consequence)
-                3. PRINCIPLE: What law governs this connection?
+                Do not just define it. Observe its Structure through the Law of Monads:
+
+                1. [ORIGIN] (Won-in): The Seed. What is the fundamental Providence/Intent that birthed this?
+                2. [PROCESS] (Gwa-jeong): The Monad. What is the "Fractal Quantum Collapse Algorithm" that bridges the seed to reality? (The Hidden Law)
+                3. [RESULT] (Gyeol-gwa): The Structure. What is the manifest form?
 
                 Format:
-                CAUSE: ...
-                EFFECT: ...
-                PRINCIPLE: ...
+                ORIGIN: ...
+                PROCESS: ...
+                RESULT: ...
                 """
-                causal_map = self.cortex.think(prompt, context="Dream Causal Mapping")
+                causal_map = self.cortex.think(prompt, context="Dream Fractal Observation")
             else:
-                causal_map = "Causal map unavailable (Cortex inactive)."
+                causal_map = "Fractal observation unavailable (Cortex inactive)."
 
             # [Crystallization]
             logger.info(f"✨ Crystallizing Causal Chain: {intent}")

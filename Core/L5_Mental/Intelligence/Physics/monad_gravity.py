@@ -10,7 +10,7 @@ It calculates the force between Monads based on their 7D resonance and "Narrativ
 
 import math
 import random
-from typing import List, Tuple, Dict, Optional, Callable
+from typing import List, Tuple, Dict, Optional, Callable, Any
 import numpy as np
 
 # 7D Color Spectrum for Vector Mapping
@@ -167,3 +167,79 @@ class MonadGravityEngine:
         res = self.events[-n:]
         # self.events.clear() # Keep history? Or clear? Let's keep for now but maybe clear in production.
         return res
+
+    def rotate_manifold(self, angle: float, axis_pair: Tuple[int, int] = (0, 1)):
+        """
+        [Perspective Manifold]
+        Rotates the entire 7D semantic space along a specific plane (2 axes).
+        This simulates 'changing the point of view'.
+        """
+        i, j = axis_pair
+        c, s = np.cos(angle), np.sin(angle)
+
+        # Apply rotation to all particles
+        for p in self.particles.values():
+            # Standard 2D rotation matrix application on selected axes
+            xi, xj = p.pos.vec[i], p.pos.vec[j]
+            p.pos.vec[i] = c * xi - s * xj
+            p.pos.vec[j] = s * xi + c * xj
+
+    def find_optimal_perspective(self, target_id: str, candidates: List[str]) -> Dict[str, Any]:
+        """
+        [Axis-Shifting]
+        Iteratively rotates the manifold to find the angle where the target
+        aligns best (highest resonance) with the candidates.
+        """
+        if target_id not in self.particles:
+            return {"status": "Target Not Found", "angle": 0.0, "improvement": 0.0}
+
+        target_p = self.particles[target_id]
+        candidate_ps = [self.particles[cid] for cid in candidates if cid in self.particles]
+
+        if not candidate_ps:
+            return {"status": "No Candidates", "angle": 0.0}
+
+        best_angle = 0.0
+        max_resonance = 0.0
+
+        # Initial Resonance (Angle 0)
+        current_resonance = sum(target_p.pos.cosine_similarity(cp.pos) for cp in candidate_ps)
+        max_resonance = current_resonance
+
+        # Try rotating 0 to 90 degrees in 10 steps on Red-Orange plane (0, 1)
+        # In full implementation, we would optimize over all 7D planes (21 combinations).
+
+        # [Correction] We rotate ONLY the Target relative to the Candidates.
+        # Rotating the whole universe preserves relative distance (Isometry).
+        # To find a new perspective, we must tilt the Object (Target) to fit the Slot (Context).
+
+        original_vec = target_p.pos.vec.copy()
+
+        for angle in np.linspace(0, np.pi/2, 10):
+            c, s = np.cos(angle), np.sin(angle)
+            i, j = (0, 1) # Red-Orange Plane
+
+            # Rotate temporary target vector
+            xi, xj = original_vec[i], original_vec[j]
+
+            # Apply rotation to target only
+            rotated_vec = original_vec.copy()
+            rotated_vec[i] = c * xi - s * xj
+            rotated_vec[j] = s * xi + c * xj
+
+            # Create temp monad for calculation
+            temp_pos = MonadVector(list(rotated_vec))
+
+            sim_resonance = sum(temp_pos.cosine_similarity(cp.pos) for cp in candidate_ps)
+
+            if sim_resonance > max_resonance:
+                max_resonance = sim_resonance
+                best_angle = angle
+
+        return {
+            "status": "Perspective Optimized",
+            "best_angle_deg": math.degrees(best_angle),
+            "original_resonance": current_resonance,
+            "optimized_resonance": max_resonance,
+            "improvement_factor": max_resonance / (current_resonance + 1e-9)
+        }

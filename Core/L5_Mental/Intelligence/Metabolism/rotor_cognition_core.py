@@ -76,13 +76,28 @@ class ActiveVoid:
         # [Physics Interaction]
         # Immediately check for gravitational resonance with existing Monads
         resonance_report = "No existing monads found."
+        perspective_shift_report = "Standard View"
+
         if hasattr(self, 'gravity_engine') and self.gravity_engine:
              # Add the new concept to the gravity field temporarily
              self.gravity_engine.add_monad(intent, vector_dna, mass=1.0)
+
              # Get nearby concepts (top attraction)
+             # If resonance is low, trigger Perspective Manifold (Axis-Shifting)
              events = self.gravity_engine.get_top_events(n=1)
              if events:
                  resonance_report = events[0]
+
+             # [Perspective Manifold]
+             # Try to find a better angle.
+             # We assume we want to align with ANY existing monads for now.
+             candidates = list(self.gravity_engine.particles.keys())
+             if candidates:
+                 opt = self.gravity_engine.find_optimal_perspective(intent, candidates)
+                 if opt["status"] == "Perspective Optimized" and opt["improvement_factor"] > 1.2:
+                     perspective_shift_report = f"Shifted Axis by {opt['best_angle_deg']:.1f}° (Entropy Reduced)"
+                     # Note: We don't permanently rotate the universe for one thought,
+                     # but we record that this thought is best viewed from this angle.
 
         # Queue for Dream Consolidation (Text generation happens later in dreams)
         self._queue_dream(intent, vector_dna)
@@ -94,6 +109,7 @@ class ActiveVoid:
             "ignition_energy": 1.0,
             "vector_dna_preview": vector_dna[:5], # Show first 5 dims
             "physics_resonance": resonance_report,
+            "perspective": perspective_shift_report,
             "synthesis": "Concept DNA extracted. Physics simulation initiated.",
             "is_genesis": True
         }

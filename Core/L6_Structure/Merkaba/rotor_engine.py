@@ -38,6 +38,12 @@ try:
 except ImportError:
     BiologicalClock = None
 
+# Import Sovereign Core
+try:
+    from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
+except ImportError:
+    SovereignCore = None
+
 logger = logging.getLogger("Elysia.Merkaba.RotorEngine")
 
 class RotorEngine:
@@ -51,6 +57,7 @@ class RotorEngine:
     def __init__(self, use_core_physics: bool = True, rpm: float = 120.0):
         self.use_core = use_core_physics and CORE_AVAILABLE
         self.clock = BiologicalClock() if BiologicalClock else None
+        self.sovereign_core = SovereignCore() if SovereignCore else None
 
         # Self-Evolution Memory
         self.optimal_angle_cache: Dict[float, float] = {} # Wavelength -> Optimal Angle
@@ -78,13 +85,27 @@ class RotorEngine:
             self.optimal_angle_cache[key] = optimal_theta
             logger.info(f"🧬 Evolution: Path optimized for λ={key:.1e} -> θ={math.degrees(optimal_theta):.2f}°")
 
-    def scan_qualia(self, qualia_vector: List[float]) -> Tuple[float, Any]:
+    def scan_qualia(self, qualia_vector: List[float], intent_text: str = "Unknown") -> Tuple[float, Any]:
         """
         [CORE Mode] Scans a 7D Qualia vector using the Active Prism-Rotor.
         Returns (Resonance Intensity, Transmuted Phase).
         """
         if not self.use_core:
             return (0.0, None)
+
+        # [Sovereign Core] Check for Phase Shift (Torque)
+        # We modify the angle based on the Sovereign Core's feedback.
+        sovereign_torque = 0.0
+        if self.sovereign_core:
+            torque_data = self.sovereign_core.calculate_torque(qualia_vector)
+            stance = self.sovereign_core.assert_will(intent_text, torque_data)
+
+            if stance["decision"] == "REJECT":
+                logger.warning(f"🛡️ Sovereign Core REJECTED scan: {stance['reason']}")
+                return (-1.0, None) # Negative resonance indicates rejection
+
+            # Use perturbation as torque offset
+            sovereign_torque = torque_data.get("perturbation", 0.0)
 
         # 1. Convert Qualia to Wavelengths (Mapping 0.0-1.0 to 400nm-800nm)
         wavelengths = np.array([400e-9 + (x * 400e-9) for x in qualia_vector])
@@ -110,6 +131,11 @@ class RotorEngine:
             else:
                 # Static fallback
                 target_theta = 0.0
+
+        # [Sovereign Perturbation]
+        # Apply the torque from Sovereign Core to the target angle.
+        # This shifts the perspective slightly if we are in an "Echo Chamber".
+        target_theta += sovereign_torque
 
         # 3. Diffract (Snatch)
         intensity = self.turbine.diffract(wavelengths, target_theta, self.turbine.d)
