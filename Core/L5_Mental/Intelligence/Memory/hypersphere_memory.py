@@ -257,12 +257,12 @@ class HypersphereMemory:
         self._phase_buckets: Dict[Tuple[int, int, int], List[Tuple[HypersphericalCoord, ResonancePattern]]] = defaultdict(list)
         self._item_count = 0
         
-        # [Phase 26] Zero-Latency Memory Streaming
         try:
-            # [FIX] Use absolute path to prevent 'ddata' or relative path resolution errors
-            swap_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(self.state_path)))), "data", "State", "memory_swap.bin")
+            # [FIX] Force a clean absolute path to avoid 'cc:/' duplication ghosts
+            base_dir = "c:/Elysia" 
+            swap_path = os.path.abspath(os.path.join(base_dir, "data/State/memory_swap.bin"))
             self.portal = ZeroLatencyPortal(swap_path)
-            logger.info(f"⚡ ZeroLatencyPortal connected: {swap_path}")
+            # Silence internal portal connection log for purity
         except Exception as e:
             self.portal = None
             logger.warning(f"⚠️ ZeroLatencyPortal unavailable ({e}). Fallback to standard memory.")

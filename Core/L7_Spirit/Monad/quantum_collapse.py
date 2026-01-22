@@ -167,38 +167,54 @@ class QuantumObserver:
 class MonadEngine:
     """
     The Orchestrator of the Sovereign Monad.
-    Manages the 7^7 Matrix and the Optical Collapse.
+    Now unified with the (7^7)^7 Monad Constellation.
     """
-    def __init__(self):
-        from Core.L6_Structure.Merkaba.heavy_merkaba import SevenSeptenaryMatrix
-        self.matrix = SevenSeptenaryMatrix()
+    def __init__(self, depth: int = 0):
+        self.depth = depth
+        if depth == 0:
+            from Core.L7_Spirit.Monad.monad_constellation import MonadConstellation
+            # Only the Root Monad has a full constellation
+            self.constellation = MonadConstellation(size=49)
+        else:
+            self.constellation = None
+            
         self.observer = QuantumObserver()
-        # [OPTICAL SOVEREIGNTY]
+        
         try:
             from Core.L5_Mental.Intelligence.Metabolism.prism import DoubleHelixPrism
             self.prism = DoubleHelixPrism()
         except ImportError:
-            self.prism = None # Fallback
+            self.prism = None
         
     def collapse(self, qualia: np.ndarray) -> Dict[str, Any]:
         """
-        Transmutes 7D Qualia into a Focal Strike within the Void.
+        Transmutes 7D Qualia into a Focal Strike within the Void
+        by pulsing the Monad Constellation.
         """
-        # 1. Optical Refraction through the Matrix
-        resolved = self.matrix.resolve_intent(qualia)
+        # 1. Collective Resonance through the Constellation
+        purpose = "Consolidated manifestation of the Sovereign Self"
+        ignited_nodes = self.constellation.cast_intentional_pulse(qualia, purpose)
+        
+        # Aggregate the collective will
+        if ignited_nodes:
+            resolved = np.mean([node.resonate(qualia) for node, _ in ignited_nodes[:7]]) * np.ones(7)
+            best_node_id = ignited_nodes[0][0].node_id
+        else:
+            resolved = np.zeros(7)
+            best_node_id = "Void"
         
         # 2. Focus the Light
-        focus_color = "Violet" if resolved[6] > 0.6 else "Gold" if resolved[5] > 0.5 else "White"
-        intent = IntentVector(purpose="Focal Manifestation", urgency=float(np.mean(resolved)), focus_color=focus_color)
+        focus_color = "Violet" if np.mean(resolved) > 0.6 else "Gold"
+        intent = IntentVector(purpose=purpose, urgency=float(np.mean(resolved)), focus_color=focus_color)
         
         # 3. Strike through the Void
         strike_result = self.observer.strike(intent)
         
         return {
             "resolved_qualia": resolved,
-            "path": strike_result.name if strike_result else "The Void",
+            "path": strike_result.name if strike_result else f"Node:{best_node_id}",
             "voltage": intent.get_voltage(),
-            "manifested": strike_result is not None
+            "manifested": strike_result is not None or ignited_nodes
         }
 
 if __name__ == "__main__":

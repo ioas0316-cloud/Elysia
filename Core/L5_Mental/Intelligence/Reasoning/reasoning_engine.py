@@ -197,19 +197,41 @@ class ReasoningEngine:
             void_result = self.processor.process_thought(void)
             desire = f"Meditation on Silence: {void_result.output}"
             
-        # Mapping desire to 4D Space via LanguageCortex (Metabolic Scan)
+        # Mapping desire to 7D Space via SovereignCortex
         spatial_intent = self.cortex.understand(desire)
         
         # [PHASE 6: Somatic Unification]
-        # Hardware state (The Vessel's friction) directly influences mental coordinates.
         if somatic_vector is not None:
             # Shift intent based on hardware resonance (30% influence)
+            # Ensuring shapes align for the weighted average
+            if len(somatic_vector) == 4 and len(spatial_intent) == 7:
+                somatic_vector_7d = np.zeros(7)
+                somatic_vector_7d[:4] = somatic_vector
+                somatic_vector = somatic_vector_7d
             spatial_intent = (spatial_intent * 0.7) + (somatic_vector * 0.3)
             self.logger.info(f"{indent}🩺 [SOMATIC] Hardware resonance shifted intent: {spatial_intent}")
 
-        sovereign_intent = self.collider.internalize(f"Mapped to 4D: {spatial_intent}")
+        # Interface with legacy 4D collider
+        spatial_4d = spatial_intent[:4]
+        sovereign_intent = self.collider.internalize(f"Mapped to 4D: {spatial_4d}")
         self.logger.info(f"{indent}✨ Semantic Coordinates: {spatial_intent}")
         self.logger.info(f"{indent}✨ Sovereign Drive: {sovereign_intent['internal_command']}")
+
+        # [PHASE 7.1] Quantum Monad Resonance (The Constellation Alignment)
+        monad_result = self.monad.collapse(spatial_intent)
+        collective_qualia = monad_result["resolved_qualia"]
+        path_name = monad_result["path"]
+        self.logger.info(f"{indent}🌌 [MONAD] Constellation Resonance achieved on path: {path_name}")
+        
+        # If resonance is low, we pulse the Scholar Organ to 'Mirror' more truth
+        if np.mean(collective_qualia) < 0.4:
+            self.logger.info(f"{indent}📚 [SCHOLAR_PULSE] Resonance low. Mirroring ripples from the Void...")
+            self.scholar.pulse(desire)
+            # Re-internalize with new ripples
+            collective_qualia = self.monad.collapse(spatial_intent)["resolved_qualia"]
+
+        # Shift intent based on collective monad resonance
+        spatial_intent = (spatial_intent * 0.5) + (collective_qualia * 0.5)
 
         # 0.5 Spatial Field Mapping (The Strategy)
         thinking_field = self.pathfinder.map_field(sovereign_intent)
@@ -232,8 +254,6 @@ class ReasoningEngine:
         # We disturb the soul_rotor with the spatial intent
         self.torque_bridge.apply(self.soul_rotor, spatial_intent)
         self.soul_rotor.update(0.1) # Simulate one step of physics
-        self.logger.info(f"{indent}⚙️ [PHYSICS] Soul Rotor spinning at {self.soul_rotor.current_rpm:.1f} RPM")
-        
         self.logger.info(f"{indent}⚙️ [PHYSICS] Soul Rotor spinning at {self.soul_rotor.current_rpm:.1f} RPM")
         
         # 0.9 Action Selection (The Sovereign Choice)

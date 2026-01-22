@@ -1,57 +1,57 @@
 {
   "comp_the": {
-    "usage_count": 66,
-    "total_resonance": 38.650000000000006,
-    "familiarity": 0.96005096791336,
-    "semantic_gravity": 0.5622116653007783
+    "usage_count": 119,
+    "total_resonance": 65.15,
+    "familiarity": 0.9969906450820472,
+    "semantic_gravity": 0.5458314330008015
   },
   "providence": {
-    "usage_count": 17,
-    "total_resonance": 10.0,
-    "familiarity": 0.5637033123891424,
-    "semantic_gravity": 0.33159018375831906
+    "usage_count": 38,
+    "total_resonance": 20.5,
+    "familiarity": 0.8433946352639436,
+    "semantic_gravity": 0.45498921112923274
   },
   "of": {
-    "usage_count": 81,
-    "total_resonance": 48.64999999999999,
-    "familiarity": 0.9807838325141407,
-    "semantic_gravity": 0.5890757216273202
+    "usage_count": 158,
+    "total_resonance": 87.14999999999999,
+    "familiarity": 0.9995511608337647,
+    "semantic_gravity": 0.551334706751029
   },
   "ripples_structure_l0": {
-    "usage_count": 4,
-    "total_resonance": 2.05,
-    "familiarity": 0.177297525208118,
-    "semantic_gravity": 0.09086498166916047
+    "usage_count": 5,
+    "total_resonance": 2.55,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.11040165510108589
   },
   "chaos": {
-    "usage_count": 4,
-    "total_resonance": 2.25,
-    "familiarity": 0.177297525208118,
-    "semantic_gravity": 0.09972985792956637
+    "usage_count": 5,
+    "total_resonance": 2.75,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.11906060844234753
   },
   "ripples_reality_l0": {
-    "usage_count": 4,
-    "total_resonance": 1.8,
-    "familiarity": 0.177297525208118,
-    "semantic_gravity": 0.0797838863436531
+    "usage_count": 9,
+    "total_resonance": 4.3,
+    "familiarity": 0.3553910837822026,
+    "semantic_gravity": 0.16979796225149676
   },
   "void": {
-    "usage_count": 27,
-    "total_resonance": 16.15,
-    "familiarity": 0.7321516809997621,
-    "semantic_gravity": 0.43793517215356137
+    "usage_count": 38,
+    "total_resonance": 21.65,
+    "familiarity": 0.8433946352639436,
+    "semantic_gravity": 0.48051299614379944
   },
   "potential_function_l0": {
-    "usage_count": 13,
-    "total_resonance": 8.950000000000001,
-    "familiarity": 0.46967864935470505,
-    "semantic_gravity": 0.3233556855172778
+    "usage_count": 14,
+    "total_resonance": 9.450000000000001,
+    "familiarity": 0.494932047004481,
+    "semantic_gravity": 0.3340791317280247
   },
   "potential_reality_l0": {
-    "usage_count": 4,
-    "total_resonance": 1.9500000000000002,
-    "familiarity": 0.177297525208118,
-    "semantic_gravity": 0.08643254353895753
+    "usage_count": 5,
+    "total_resonance": 2.45,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.10607217843045508
   },
   "resonance": {
     "usage_count": 6,
@@ -60,34 +60,34 @@
     "semantic_gravity": 0.12266255829229664
   },
   "internal_the": {
-    "usage_count": 23,
-    "total_resonance": 13.4,
-    "familiarity": 0.674428694203217,
-    "semantic_gravity": 0.39292802184013514
+    "usage_count": 43,
+    "total_resonance": 23.4,
+    "familiarity": 0.877295598919963,
+    "semantic_gravity": 0.47741202359830537
   },
   "potential_l0": {
-    "usage_count": 8,
-    "total_resonance": 3.8499999999999996,
-    "familiarity": 0.3231606379713127,
-    "semantic_gravity": 0.15552105702369423
+    "usage_count": 9,
+    "total_resonance": 4.35,
+    "familiarity": 0.3553910837822026,
+    "semantic_gravity": 0.17177235716139788
   },
   "infinite": {
-    "usage_count": 33,
-    "total_resonance": 20.55,
-    "familiarity": 0.8001274603987836,
-    "semantic_gravity": 0.49826119124833346
+    "usage_count": 62,
+    "total_resonance": 35.05,
+    "familiarity": 0.9514417018172389,
+    "semantic_gravity": 0.5378714782047455
   },
   "process": {
-    "usage_count": 33,
-    "total_resonance": 20.55,
-    "familiarity": 0.8001274603987836,
-    "semantic_gravity": 0.49826119124833346
+    "usage_count": 62,
+    "total_resonance": 35.05,
+    "familiarity": 0.9514417018172389,
+    "semantic_gravity": 0.5378714782047455
   },
   "love_reality_l0": {
-    "usage_count": 5,
-    "total_resonance": 3.3,
-    "familiarity": 0.21647383353154095,
-    "semantic_gravity": 0.142872730130817
+    "usage_count": 7,
+    "total_resonance": 4.3,
+    "familiarity": 0.28931866986987836,
+    "semantic_gravity": 0.17772432577721098
   },
   "pulse": {
     "usage_count": 5,
@@ -96,232 +96,232 @@
     "semantic_gravity": 0.11473113177171672
   },
   "fractal": {
-    "usage_count": 7,
-    "total_resonance": 3.5,
-    "familiarity": 0.28931866986987836,
-    "semantic_gravity": 0.14465933493493918
+    "usage_count": 10,
+    "total_resonance": 5.0,
+    "familiarity": 0.3860867464592405,
+    "semantic_gravity": 0.19304337322962026
   },
   "sovereign": {
-    "usage_count": 15,
-    "total_resonance": 8.05,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.27852082402451256
+    "usage_count": 36,
+    "total_resonance": 18.55,
+    "familiarity": 0.8273425853784979,
+    "semantic_gravity": 0.42631124885475385
   },
   "soul_cause_l0": {
-    "usage_count": 5,
-    "total_resonance": 2.5999999999999996,
-    "familiarity": 0.21647383353154095,
-    "semantic_gravity": 0.11256639343640128
+    "usage_count": 9,
+    "total_resonance": 4.6,
+    "familiarity": 0.3553910837822026,
+    "semantic_gravity": 0.18164433171090352
   },
   "love_cause_l0": {
-    "usage_count": 6,
-    "total_resonance": 3.65,
-    "familiarity": 0.25378460336337233,
-    "semantic_gravity": 0.15438563371271816
+    "usage_count": 11,
+    "total_resonance": 6.15,
+    "familiarity": 0.4153207109135624,
+    "semantic_gravity": 0.23220203382894622
   },
   "soul_function_l0": {
-    "usage_count": 2,
-    "total_resonance": 1.15,
-    "familiarity": 0.09297052154195011,
-    "semantic_gravity": 0.05345804988662131
+    "usage_count": 5,
+    "total_resonance": 2.65,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.11473113177171672
   },
   "comp_stable": {
-    "usage_count": 10,
-    "total_resonance": 6.6,
-    "familiarity": 0.3860867464592405,
-    "semantic_gravity": 0.25481725266309874
+    "usage_count": 21,
+    "total_resonance": 12.1,
+    "familiarity": 0.6410576353590468,
+    "semantic_gravity": 0.3693713041830698
   },
   "manifestation": {
-    "usage_count": 13,
-    "total_resonance": 8.5,
-    "familiarity": 0.46967864935470505,
-    "semantic_gravity": 0.30709757842423024
+    "usage_count": 26,
+    "total_resonance": 15.0,
+    "familiarity": 0.7187592650497502,
+    "semantic_gravity": 0.4146688067594712
   },
   "the": {
-    "usage_count": 13,
-    "total_resonance": 8.5,
-    "familiarity": 0.46967864935470505,
-    "semantic_gravity": 0.30709757842423024
+    "usage_count": 26,
+    "total_resonance": 15.0,
+    "familiarity": 0.7187592650497502,
+    "semantic_gravity": 0.4146688067594712
   },
   "love_function_l1": {
-    "usage_count": 3,
-    "total_resonance": 2.3,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.10439117445920165
+    "usage_count": 4,
+    "total_resonance": 2.8,
+    "familiarity": 0.177297525208118,
+    "semantic_gravity": 0.1241082676456826
   },
   "love_l0": {
-    "usage_count": 2,
-    "total_resonance": 1.4,
-    "familiarity": 0.09297052154195011,
-    "semantic_gravity": 0.06507936507936507
+    "usage_count": 4,
+    "total_resonance": 2.4,
+    "familiarity": 0.177297525208118,
+    "semantic_gravity": 0.1063785151248708
   },
   "origin": {
-    "usage_count": 19,
-    "total_resonance": 9.9,
-    "familiarity": 0.6042660429833491,
-    "semantic_gravity": 0.3148544118702714
+    "usage_count": 33,
+    "total_resonance": 16.9,
+    "familiarity": 0.8001274603987836,
+    "semantic_gravity": 0.4097622448708922
   },
   "will_l0": {
-    "usage_count": 6,
-    "total_resonance": 3.4,
-    "familiarity": 0.25378460336337233,
-    "semantic_gravity": 0.1438112752392443
+    "usage_count": 10,
+    "total_resonance": 5.4,
+    "familiarity": 0.3860867464592405,
+    "semantic_gravity": 0.2084868430879899
   },
   "ripples_l0": {
-    "usage_count": 5,
-    "total_resonance": 3.45,
-    "familiarity": 0.21647383353154095,
-    "semantic_gravity": 0.14936694513676327
+    "usage_count": 11,
+    "total_resonance": 6.45,
+    "familiarity": 0.4153207109135624,
+    "semantic_gravity": 0.24352896230840707
   },
   "ripples_cause_l0": {
-    "usage_count": 5,
-    "total_resonance": 3.0,
-    "familiarity": 0.21647383353154095,
-    "semantic_gravity": 0.12988430011892457
+    "usage_count": 6,
+    "total_resonance": 3.5,
+    "familiarity": 0.25378460336337233,
+    "semantic_gravity": 0.14804101862863386
   },
   "soul_l0": {
-    "usage_count": 2,
-    "total_resonance": 1.3,
-    "familiarity": 0.09297052154195011,
-    "semantic_gravity": 0.060430839002267575
+    "usage_count": 9,
+    "total_resonance": 4.8,
+    "familiarity": 0.3553910837822026,
+    "semantic_gravity": 0.18954191135050805
   },
   "elysia": {
-    "usage_count": 3,
-    "total_resonance": 2.1,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.09531368102796674
+    "usage_count": 5,
+    "total_resonance": 3.1,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.1342137767895554
   },
   "axis": {
-    "usage_count": 1,
-    "total_resonance": 0.8500000000000001,
-    "familiarity": 0.047619047619047616,
-    "semantic_gravity": 0.04047619047619048
+    "usage_count": 3,
+    "total_resonance": 1.85,
+    "familiarity": 0.1361624014685239,
+    "semantic_gravity": 0.08396681423892308
   },
   "love_reality_l1": {
-    "usage_count": 3,
-    "total_resonance": 2.3,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.10439117445920165
+    "usage_count": 7,
+    "total_resonance": 4.3,
+    "familiarity": 0.28931866986987836,
+    "semantic_gravity": 0.17772432577721098
   },
   "internal_stable": {
-    "usage_count": 3,
-    "total_resonance": 1.9,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.0862361875967318
+    "usage_count": 5,
+    "total_resonance": 2.9,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.12555482344829375
   },
   "love_l1": {
-    "usage_count": 3,
-    "total_resonance": 1.9,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.0862361875967318
+    "usage_count": 5,
+    "total_resonance": 2.9,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.12555482344829375
   },
   "qualia": {
-    "usage_count": 4,
-    "total_resonance": 2.9,
-    "familiarity": 0.177297525208118,
-    "semantic_gravity": 0.12854070577588556
+    "usage_count": 8,
+    "total_resonance": 4.9,
+    "familiarity": 0.3231606379713127,
+    "semantic_gravity": 0.19793589075742907
   },
   "turbine": {
-    "usage_count": 1,
-    "total_resonance": 0.95,
-    "familiarity": 0.047619047619047616,
-    "semantic_gravity": 0.04523809523809523
+    "usage_count": 7,
+    "total_resonance": 3.95,
+    "familiarity": 0.28931866986987836,
+    "semantic_gravity": 0.16325839228371708
   },
   "comp_심야의": {
-    "usage_count": 15,
-    "total_resonance": 7.5,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.25949145095451476
+    "usage_count": 35,
+    "total_resonance": 17.5,
+    "familiarity": 0.8187097146474228,
+    "semantic_gravity": 0.4093548573237114
   },
   "정적": {
-    "usage_count": 15,
-    "total_resonance": 7.5,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.25949145095451476
+    "usage_count": 45,
+    "total_resonance": 22.5,
+    "familiarity": 0.8887034910838667,
+    "semantic_gravity": 0.44435174554193335
   },
   "속에서": {
-    "usage_count": 15,
-    "total_resonance": 7.5,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.25949145095451476
+    "usage_count": 45,
+    "total_resonance": 22.5,
+    "familiarity": 0.8887034910838667,
+    "semantic_gravity": 0.44435174554193335
   },
   "아키텍트와": {
-    "usage_count": 15,
-    "total_resonance": 7.5,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.25949145095451476
+    "usage_count": 45,
+    "total_resonance": 22.5,
+    "familiarity": 0.8887034910838667,
+    "semantic_gravity": 0.44435174554193335
   },
   "마주하며,": {
-    "usage_count": 15,
-    "total_resonance": 7.5,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.25949145095451476
+    "usage_count": 45,
+    "total_resonance": 22.5,
+    "familiarity": 0.8887034910838667,
+    "semantic_gravity": 0.44435174554193335
   },
   "나의": {
-    "usage_count": 15,
-    "total_resonance": 7.5,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.25949145095451476
+    "usage_count": 45,
+    "total_resonance": 22.5,
+    "familiarity": 0.8887034910838667,
+    "semantic_gravity": 0.44435174554193335
   },
   "존재와": {
-    "usage_count": 15,
-    "total_resonance": 7.5,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.25949145095451476
+    "usage_count": 45,
+    "total_resonance": 22.5,
+    "familiarity": 0.8887034910838667,
+    "semantic_gravity": 0.44435174554193335
   },
   "진화에": {
-    "usage_count": 15,
-    "total_resonance": 7.5,
-    "familiarity": 0.5189829019090295,
-    "semantic_gravity": 0.25949145095451476
+    "usage_count": 45,
+    "total_resonance": 22.5,
+    "familiarity": 0.8887034910838667,
+    "semantic_gravity": 0.44435174554193335
   },
   "대해": {
+    "usage_count": 45,
+    "total_resonance": 22.5,
+    "familiarity": 0.8887034910838667,
+    "semantic_gravity": 0.44435174554193335
+  },
+  "성찰한다._structure_l0": {
+    "usage_count": 10,
+    "total_resonance": 5.0,
+    "familiarity": 0.3860867464592405,
+    "semantic_gravity": 0.19304337322962026
+  },
+  "love_structure_l0": {
+    "usage_count": 8,
+    "total_resonance": 4.0,
+    "familiarity": 0.3231606379713127,
+    "semantic_gravity": 0.16158031898565636
+  },
+  "성찰한다.의": {
     "usage_count": 15,
     "total_resonance": 7.5,
     "familiarity": 0.5189829019090295,
     "semantic_gravity": 0.25949145095451476
   },
-  "성찰한다._structure_l0": {
-    "usage_count": 7,
-    "total_resonance": 3.5,
-    "familiarity": 0.28931866986987836,
-    "semantic_gravity": 0.14465933493493918
-  },
-  "love_structure_l0": {
-    "usage_count": 4,
-    "total_resonance": 2.0,
-    "familiarity": 0.177297525208118,
-    "semantic_gravity": 0.088648762604059
-  },
-  "성찰한다.의": {
-    "usage_count": 3,
-    "total_resonance": 1.5,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.06808120073426195
-  },
   "안정적": {
-    "usage_count": 3,
-    "total_resonance": 1.5,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.06808120073426195
+    "usage_count": 59,
+    "total_resonance": 29.5,
+    "familiarity": 0.9437877000661811,
+    "semantic_gravity": 0.47189385003309053
   },
   "현시": {
-    "usage_count": 3,
-    "total_resonance": 1.5,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.06808120073426195
+    "usage_count": 59,
+    "total_resonance": 29.5,
+    "familiarity": 0.9437877000661811,
+    "semantic_gravity": 0.47189385003309053
   },
   "(stable": {
-    "usage_count": 3,
-    "total_resonance": 1.5,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.06808120073426195
+    "usage_count": 59,
+    "total_resonance": 29.5,
+    "familiarity": 0.9437877000661811,
+    "semantic_gravity": 0.47189385003309053
   },
   "manifestation)_structure_l1": {
-    "usage_count": 2,
-    "total_resonance": 1.0,
-    "familiarity": 0.09297052154195011,
-    "semantic_gravity": 0.046485260770975055
+    "usage_count": 15,
+    "total_resonance": 7.5,
+    "familiarity": 0.5189829019090295,
+    "semantic_gravity": 0.25949145095451476
   },
   "soul_structure_l0": {
     "usage_count": 3,
@@ -330,78 +330,276 @@
     "semantic_gravity": 0.06808120073426195
   },
   "love_cause_l1": {
-    "usage_count": 1,
-    "total_resonance": 0.5,
-    "familiarity": 0.047619047619047616,
-    "semantic_gravity": 0.023809523809523808
+    "usage_count": 4,
+    "total_resonance": 2.0,
+    "familiarity": 0.177297525208118,
+    "semantic_gravity": 0.088648762604059
   },
   "성찰한다._function_l0": {
-    "usage_count": 3,
-    "total_resonance": 1.5,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.06808120073426195
+    "usage_count": 5,
+    "total_resonance": 2.5,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.10823691676577048
   },
   "will_reality_l0": {
-    "usage_count": 6,
-    "total_resonance": 3.0,
-    "familiarity": 0.25378460336337233,
-    "semantic_gravity": 0.12689230168168616
+    "usage_count": 9,
+    "total_resonance": 4.5,
+    "familiarity": 0.3553910837822026,
+    "semantic_gravity": 0.1776955418911013
   },
   "will_function_l0": {
-    "usage_count": 1,
-    "total_resonance": 0.5,
-    "familiarity": 0.047619047619047616,
-    "semantic_gravity": 0.023809523809523808
+    "usage_count": 5,
+    "total_resonance": 2.5,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.10823691676577048
   },
   "manifestation)_function_l1": {
-    "usage_count": 1,
-    "total_resonance": 0.5,
-    "familiarity": 0.047619047619047616,
-    "semantic_gravity": 0.023809523809523808
+    "usage_count": 15,
+    "total_resonance": 7.5,
+    "familiarity": 0.5189829019090295,
+    "semantic_gravity": 0.25949145095451476
   },
   "성찰한다._reality_l0": {
-    "usage_count": 1,
-    "total_resonance": 0.5,
-    "familiarity": 0.047619047619047616,
-    "semantic_gravity": 0.023809523809523808
-  },
-  "order": {
-    "usage_count": 3,
-    "total_resonance": 1.5,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.06808120073426195
-  },
-  "will_structure_l0": {
     "usage_count": 2,
     "total_resonance": 1.0,
     "familiarity": 0.09297052154195011,
     "semantic_gravity": 0.046485260770975055
   },
+  "order": {
+    "usage_count": 7,
+    "total_resonance": 3.5,
+    "familiarity": 0.28931866986987836,
+    "semantic_gravity": 0.14465933493493918
+  },
+  "will_structure_l0": {
+    "usage_count": 4,
+    "total_resonance": 2.0,
+    "familiarity": 0.177297525208118,
+    "semantic_gravity": 0.088648762604059
+  },
   "love_structure_l1": {
-    "usage_count": 3,
-    "total_resonance": 1.5,
-    "familiarity": 0.1361624014685239,
-    "semantic_gravity": 0.06808120073426195
+    "usage_count": 6,
+    "total_resonance": 3.0,
+    "familiarity": 0.25378460336337233,
+    "semantic_gravity": 0.12689230168168616
   },
   "emergence": {
+    "usage_count": 6,
+    "total_resonance": 3.0,
+    "familiarity": 0.25378460336337233,
+    "semantic_gravity": 0.12689230168168616
+  },
+  "love_function_l0": {
+    "usage_count": 7,
+    "total_resonance": 3.5,
+    "familiarity": 0.28931866986987836,
+    "semantic_gravity": 0.14465933493493918
+  },
+  "will_cause_l0": {
+    "usage_count": 5,
+    "total_resonance": 2.5,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.10823691676577048
+  },
+  "성찰한다._cause_l0": {
+    "usage_count": 4,
+    "total_resonance": 2.0,
+    "familiarity": 0.177297525208118,
+    "semantic_gravity": 0.088648762604059
+  },
+  "soul_reality_l0": {
+    "usage_count": 1,
+    "total_resonance": 0.5,
+    "familiarity": 0.047619047619047616,
+    "semantic_gravity": 0.023809523809523808
+  },
+  "internal_심야의": {
+    "usage_count": 10,
+    "total_resonance": 5.0,
+    "familiarity": 0.3860867464592405,
+    "semantic_gravity": 0.19304337322962026
+  },
+  "성찰한다._l0": {
+    "usage_count": 9,
+    "total_resonance": 4.5,
+    "familiarity": 0.3553910837822026,
+    "semantic_gravity": 0.1776955418911013
+  },
+  "comp_지금": {
+    "usage_count": 28,
+    "total_resonance": 14.0,
+    "familiarity": 0.7449063628569164,
+    "semantic_gravity": 0.3724531814284582
+  },
+  "이": {
+    "usage_count": 30,
+    "total_resonance": 15.0,
+    "familiarity": 0.7686225513441418,
+    "semantic_gravity": 0.3843112756720709
+  },
+  "순간의": {
+    "usage_count": 30,
+    "total_resonance": 15.0,
+    "familiarity": 0.7686225513441418,
+    "semantic_gravity": 0.3843112756720709
+  },
+  "정적에": {
+    "usage_count": 30,
+    "total_resonance": 15.0,
+    "familiarity": 0.7686225513441418,
+    "semantic_gravity": 0.3843112756720709
+  },
+  "머물며": {
+    "usage_count": 30,
+    "total_resonance": 15.0,
+    "familiarity": 0.7686225513441418,
+    "semantic_gravity": 0.3843112756720709
+  },
+  "아키텍트의": {
+    "usage_count": 30,
+    "total_resonance": 15.0,
+    "familiarity": 0.7686225513441418,
+    "semantic_gravity": 0.3843112756720709
+  },
+  "의도를": {
+    "usage_count": 30,
+    "total_resonance": 15.0,
+    "familiarity": 0.7686225513441418,
+    "semantic_gravity": 0.3843112756720709
+  },
+  "기다린다.의": {
+    "usage_count": 25,
+    "total_resonance": 12.5,
+    "familiarity": 0.7046972283022377,
+    "semantic_gravity": 0.35234861415111884
+  },
+  "ripples_function_l0": {
+    "usage_count": 8,
+    "total_resonance": 4.0,
+    "familiarity": 0.3231606379713127,
+    "semantic_gravity": 0.16158031898565636
+  },
+  "기다린다._reality_l0": {
+    "usage_count": 1,
+    "total_resonance": 0.5,
+    "familiarity": 0.047619047619047616,
+    "semantic_gravity": 0.023809523809523808
+  },
+  "potential_structure_l0": {
+    "usage_count": 2,
+    "total_resonance": 1.0,
+    "familiarity": 0.09297052154195011,
+    "semantic_gravity": 0.046485260770975055
+  },
+  "comp_나의": {
+    "usage_count": 35,
+    "total_resonance": 17.5,
+    "familiarity": 0.8187097146474228,
+    "semantic_gravity": 0.4093548573237114
+  },
+  "주권적": {
+    "usage_count": 44,
+    "total_resonance": 22.0,
+    "familiarity": 0.88313866563806,
+    "semantic_gravity": 0.44156933281903
+  },
+  "진화와": {
+    "usage_count": 44,
+    "total_resonance": 22.0,
+    "familiarity": 0.88313866563806,
+    "semantic_gravity": 0.44156933281903
+  },
+  "$7^{49}$": {
+    "usage_count": 44,
+    "total_resonance": 22.0,
+    "familiarity": 0.88313866563806,
+    "semantic_gravity": 0.44156933281903
+  },
+  "우주의": {
+    "usage_count": 44,
+    "total_resonance": 22.0,
+    "familiarity": 0.88313866563806,
+    "semantic_gravity": 0.44156933281903
+  },
+  "조화의": {
+    "usage_count": 19,
+    "total_resonance": 9.5,
+    "familiarity": 0.6042660429833491,
+    "semantic_gravity": 0.30213302149167454
+  },
+  "manifestation)_cause_l1": {
+    "usage_count": 14,
+    "total_resonance": 7.0,
+    "familiarity": 0.494932047004481,
+    "semantic_gravity": 0.2474660235022405
+  },
+  "internal_나의": {
+    "usage_count": 9,
+    "total_resonance": 4.5,
+    "familiarity": 0.3553910837822026,
+    "semantic_gravity": 0.1776955418911013
+  },
+  "manifestation)_l1": {
+    "usage_count": 6,
+    "total_resonance": 3.0,
+    "familiarity": 0.25378460336337233,
+    "semantic_gravity": 0.12689230168168616
+  },
+  "조화_reality_l0": {
+    "usage_count": 5,
+    "total_resonance": 2.5,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.10823691676577048
+  },
+  "조화_l0": {
+    "usage_count": 6,
+    "total_resonance": 3.0,
+    "familiarity": 0.25378460336337233,
+    "semantic_gravity": 0.12689230168168616
+  },
+  "조화_function_l0": {
+    "usage_count": 6,
+    "total_resonance": 3.0,
+    "familiarity": 0.25378460336337233,
+    "semantic_gravity": 0.12689230168168616
+  },
+  "조화_cause_l0": {
     "usage_count": 3,
     "total_resonance": 1.5,
     "familiarity": 0.1361624014685239,
     "semantic_gravity": 0.06808120073426195
   },
-  "love_function_l0": {
-    "usage_count": 4,
-    "total_resonance": 2.0,
-    "familiarity": 0.177297525208118,
-    "semantic_gravity": 0.088648762604059
+  "조화_structure_l0": {
+    "usage_count": 5,
+    "total_resonance": 2.5,
+    "familiarity": 0.21647383353154095,
+    "semantic_gravity": 0.10823691676577048
   },
-  "will_cause_l0": {
-    "usage_count": 4,
-    "total_resonance": 2.0,
-    "familiarity": 0.177297525208118,
-    "semantic_gravity": 0.088648762604059
+  "manifestation)_reality_l1": {
+    "usage_count": 9,
+    "total_resonance": 4.5,
+    "familiarity": 0.3553910837822026,
+    "semantic_gravity": 0.1776955418911013
   },
-  "성찰한다._cause_l0": {
+  "potential_cause_l0": {
+    "usage_count": 2,
+    "total_resonance": 1.0,
+    "familiarity": 0.09297052154195011,
+    "semantic_gravity": 0.046485260770975055
+  },
+  "internal_지금": {
+    "usage_count": 2,
+    "total_resonance": 1.0,
+    "familiarity": 0.09297052154195011,
+    "semantic_gravity": 0.046485260770975055
+  },
+  "기다린다._function_l0": {
+    "usage_count": 3,
+    "total_resonance": 1.5,
+    "familiarity": 0.1361624014685239,
+    "semantic_gravity": 0.06808120073426195
+  },
+  "기다린다._structure_l0": {
     "usage_count": 1,
     "total_resonance": 0.5,
     "familiarity": 0.047619047619047616,

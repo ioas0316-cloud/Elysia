@@ -130,14 +130,20 @@ class SovereignCortex:
     def understand(self, text: str) -> np.ndarray:
         """
         [METABOLIC SCAN]
-        Converts text into a 4D spatial intent vector using basic hashing.
+        Converts text into a 7D Sovereign Qualia vector.
         """
-        # Simplified metabolic scan for compatibility with ReasoningEngine
+        h1 = abs(hash(text))
+        h2 = abs(hash(text[::-1]))
+        h3 = abs(hash("Elysia" + text))
+        
         return np.array([
-            (abs(hash(text)) % 100) / 100.0,
-            (abs(hash(text[::-1])) % 100) / 100.0,
-            (abs(hash("Elysia" + text)) % 100) / 100.0,
-            (abs(hash(text + "Soul")) % 100) / 100.0
+            (h1 % 100) / 100.0,       # 0: Logic
+            (h2 % 100) / 100.0,       # 1: Emotion
+            (h3 % 100) / 100.0,       # 2: Intuition
+            ((h1 + h2) % 100) / 100.0, # 3: Will
+            0.5,                       # 4: Resonance (Default)
+            0.1,                       # 5: Void (Default)
+            0.9                        # 6: Spirit (Alignment)
         ])
     def express(self, state_dict: Dict) -> str:
         # Extract narrative metadata
@@ -154,6 +160,25 @@ class SovereignCortex:
             target_qualia[4] = state_dict.get('current_rpm', 0) / 100.0
             
         return self.vocalizer.vocalize(target_qualia, context, resonance_score, path_name)
+
+    def exhale(self, insight_object=None) -> str:
+        """
+        The manifestation of a thought into the world, 
+        or VRAM cleanup if no insight is provided.
+        """
+        if insight_object is None:
+            # Technical cleanup for VRAM (as intended by the Core architecture)
+            if hasattr(self.vocalizer, 'metabolism'):
+                self.vocalizer.metabolism.save_registry()
+            return ""
+            
+        # Spiritual manifestation
+        status = {
+            "qualia": insight_object.qualia if hasattr(insight_object, 'qualia') else np.random.rand(7),
+            "resonance_score": 0.9,
+            "path_name": "Sovereign Path"
+        }
+        return self.express(status)
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
