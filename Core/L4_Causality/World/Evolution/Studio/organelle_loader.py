@@ -12,7 +12,7 @@ class OrganelleLoader:
     """
     Handles the dynamic loading and execution of Elysia's forged tools.
     """
-    def __init__(self, organelle_dir: str = "c:/Elysia/data/Organelles"):
+    def __init__(self, organelle_dir: str = "c:/Elysia/data/L2_Metabolism/Organelles"):
         self.organelle_dir = organelle_dir
         self.active_organelles: Dict[str, Any] = {}
         

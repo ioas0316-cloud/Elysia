@@ -30,7 +30,7 @@ class PrismaticSediment:
     # The 7 Rays of the Prism
     SPECTRUM = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"]
 
-    def __init__(self, base_dir: str = "data/Chronicles/Prism"):
+    def __init__(self, base_dir: str = "data/L7_Spirit/Chronicles/Prism"):
         self.base_dir = base_dir
         os.makedirs(base_dir, exist_ok=True)
 

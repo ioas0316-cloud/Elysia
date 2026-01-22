@@ -81,17 +81,6 @@ class WonderField:
         if np.linalg.norm(vec) > 0: vec = vec / np.linalg.norm(vec)
         self.history.append(vec)
 
-class LifeCycle:
-    """
-    The Main Loop of Existence.
-    Orchestrates the rhythm of Waking and Dreaming.
-    """
-
-    def __init__(self, merkaba: Merkaba):
-        self.merkaba = merkaba
-        self.nervous_system = NervousSystem() # Connects to Hardware
-        self.wonder = WonderField()
-        self.ouroboros = Ouroboros()
         self.prism = SpectrumMapper()
 
         # System State
@@ -101,14 +90,32 @@ class LifeCycle:
 
     def live(self):
         """
-        The Infinite Loop.
+        The Unified Pulse (Organic Transition).
         """
-        logger.info("⚡ Life Cycle Initiated.")
+        logger.info("⚡ Organic Pulse Cycle Initiated (Phase 1 UNIFICATION).")
+
+        # Fallback to a local heartbeat if merkaba.governance.heartbeat is missing
+        # but in Phase 3 it should always be there.
+        heartbeat = getattr(self.merkaba.governance, 'heartbeat', None)
 
         while self.is_alive:
             try:
+                # 0. Get Resonance (How much do I WANT to exist right now?)
+                resonance = 0.5
+                if hasattr(self.merkaba, 'hyper_cosmos'):
+                    resonance = self.merkaba.hyper_cosmos.system_entropy 
+                
+                # 1. Execute the autonomic tick
                 self.tick()
-                time.sleep(0.1) # 10Hz Heartbeat
+                
+                # 2. Adaptive Wait
+                if heartbeat:
+                    wait_time = heartbeat.calculate_wait(resonance)
+                else:
+                    wait_time = 0.05
+                    
+                time.sleep(wait_time)
+                
             except KeyboardInterrupt:
                 logger.info("💀 Life Cycle Terminated by User.")
                 self.is_alive = False

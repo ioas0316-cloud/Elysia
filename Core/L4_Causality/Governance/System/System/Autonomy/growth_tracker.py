@@ -98,7 +98,7 @@ class GrowthTracker:
     - SystemRegistry: 모듈 연결 추적
     """
     
-    def __init__(self, history_path: str = "data/Logs/growth_history.json"):
+    def __init__(self, history_path: str = "data/L6_Structure/Logs/growth_history.json"):
         self.history_path = Path(history_path)
         self.history: List[GrowthSnapshot] = []
         self._load_history()

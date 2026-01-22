@@ -77,11 +77,11 @@ class LinguisticSynthesizer:
         from datetime import datetime
         
         # Sanitize filename
-        safe_stimulus = "".join([c for c in stimulus[:20] if c.isalnum() or c in (" ", "_")]).strip().replace(" ", "_")
+        safe_stimulus = "".join([c if c.isalnum() else "_" for c in stimulus[:20]])
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"data/Chronicles/{timestamp}_{safe_stimulus}.md"
+        filename = f"data/L7_Spirit/Chronicles/{timestamp}_{safe_stimulus}.md"
         
-        os.makedirs("data/Chronicles", exist_ok=True)
+        os.makedirs("data/L7_Spirit/Chronicles", exist_ok=True)
         with open(filename, "w", encoding="utf-8") as f:
             f.write(script)
         

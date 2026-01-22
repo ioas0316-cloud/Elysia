@@ -105,7 +105,7 @@ if __name__ == "__main__":
     parser.add_argument("--map", type=str, required=True, help="Path to topology map")
     parser.add_argument("--tensor", type=str, default=None, help="Specific tensor name")
     parser.add_argument("--concept", type=str, default=None, help="Concept to probe with")
-    parser.add_argument("--atlas", type=str, default="data/Logs/topology_maps/semantic_atlas.json", help="Path to semantic atlas")
+    parser.add_argument("--atlas", type=str, default="data/L6_Structure/Logs/topology_maps/semantic_atlas.json", help="Path to semantic atlas")
     args = parser.parse_args()
     
     perform_autopsy(args.index, args.map, args.tensor, args.concept, args.atlas)

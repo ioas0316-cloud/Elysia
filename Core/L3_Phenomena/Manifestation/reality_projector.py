@@ -15,7 +15,7 @@ class RealityProjector:
     """
     def __init__(self, elysia_ref):
         self.elysia = elysia_ref
-        self.output_dir = "c:/Elysia/data/Manifestations"
+        self.output_dir = "c:/Elysia/data/L3_Phenomena/Manifestations"
         os.makedirs(self.output_dir, exist_ok=True)
         
         # [The Architect]

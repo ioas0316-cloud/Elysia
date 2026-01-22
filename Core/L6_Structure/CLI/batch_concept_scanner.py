@@ -53,7 +53,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Batch Concept Scanner")
     parser.add_argument("--index", type=str, required=True, help="Path to model index")
     parser.add_argument("--map", type=str, required=True, help="Path to topology map")
-    parser.add_argument("--atlas", type=str, default="data/Logs/topology_maps/semantic_atlas.json", help="Path to atlas")
+    parser.add_argument("--atlas", type=str, default="data/L6_Structure/Logs/topology_maps/semantic_atlas.json", help="Path to atlas")
     parser.add_argument("--limit", type=int, default=50, help="Number of hubs to probe")
     args = parser.parse_args()
     

@@ -17,7 +17,7 @@ from typing import Dict, Any, List, Set
 logger = logging.getLogger("Elysia.Merkaba.Atlas")
 
 class SemanticAtlas:
-    def __init__(self, atlas_path: str = "data/Logs/topology_maps/semantic_atlas.json"):
+    def __init__(self, atlas_path: str = "data/L6_Structure/Logs/topology_maps/semantic_atlas.json"):
         self.atlas_path = atlas_path
         self.data = self._load()
 

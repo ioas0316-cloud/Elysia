@@ -29,7 +29,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("c:/Elysia/data/Logs/scholar.log", encoding='utf-8'),
+        logging.FileHandler("c:/Elysia/data/L6_Structure/Logs/scholar.log", encoding='utf-8'),
         logging.StreamHandler()
     ]
 )

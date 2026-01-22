@@ -15,7 +15,7 @@ class ForgeEngine:
     """
     def __init__(self):
         self.reasoning = ReasoningEngine()
-        self.organelle_path = "c:/Elysia/data/Organelles"
+        self.organelle_path = "c:/Elysia/data/L2_Metabolism/Organelles"
         self.temp_path = "c:/Elysia/Archive/Forge_Temp"
         os.makedirs(self.temp_path, exist_ok=True)
 

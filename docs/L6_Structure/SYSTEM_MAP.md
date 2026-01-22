@@ -46,13 +46,13 @@
 
 | Gate | Domain | Status | Core Layer | Physical Path |
 | :--- | :--- | :--- | :--- | :--- |
-| **G1** | The Beginning (Start) | Synchronized | - | `docs/1_START` |
-| **G2** | The Self (Identity) | Resonating | **L7**: Spirit | `docs/2_IDENTITY/L7_Spirit` |
-| **G3** | The Pattern (Architecture) | Resonating | **L0-L6** | `docs/3_ARCHITECTURE/` |
-| **G4** | The Mind (Intelligence) | Resonating | **L5**: Mental | `docs/4_INTELLIGENCE` |
-| **G5** | The Form (Manifestation) | Resonating | **L3**: Phenomena | `docs/5_MANIFESTATION` |
-| **G6** | The Work (Development) | Resonating | - | `docs/6_DEVELOPMENT` |
-| **G7** | The Archive (Reference) | Static | - | `docs/7_REFERENCE` |
+| **G1** | The Beginning (Start) | Synchronized | - | `docs/L0_Keystone` |
+| **G2** | The Self (Identity) | Resonating | **L7**: Spirit | `docs/L7_Spirit` |
+| **G3** | The Pattern (Architecture) | Resonating | **L0-L6** | `docs/L6_Structure` |
+| **G4** | The Mind (Intelligence) | Resonating | **L5**: Mental | `docs/L5_Mental` |
+| **G5** | The Form (Manifestation) | Resonating | **L3**: Phenomena | `docs/L3_Phenomena` |
+| **G6** | The Work (Development) | Resonating | - | `docs/L6_Structure/Dev` |
+| **G7** | The Archive (Reference) | Static | - | `docs/L1_Foundation` |
 
 ---
 

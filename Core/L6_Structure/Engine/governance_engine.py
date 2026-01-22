@@ -18,6 +18,35 @@ from typing import Dict, List, Optional
 from dataclasses import dataclass
 from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from collections import deque
+import time
+
+class AdaptiveHeartbeat:
+    """
+    Organic Heartbeat Engine.
+    Uses Phase-Locked Loops (PLL) to synchronize with system resonance.
+    $T = 1/f_{resonance}$
+    """
+    def __init__(self, base_freq: float = 10.0):
+        self.base_freq = base_freq
+        self.current_freq = base_freq
+        self.last_pulse = time.perf_counter()
+        self.jitter_buffer = deque(maxlen=20)
+
+    def calculate_wait(self, resonance_score: float) -> float:
+        # Higher resonance = Faster frequency (Up to 100Hz)
+        # Lower resonance = Slower frequency (Down to 1Hz)
+        target_freq = max(1.0, min(100.0, self.base_freq + (resonance_score * 90.0)))
+        
+        # Smooth transition (Low-pass filter)
+        self.current_freq = (self.current_freq * 0.8) + (target_freq * 0.2)
+        
+        ideal_wait = 1.0 / self.current_freq
+        elapsed = time.perf_counter() - self.last_pulse
+        
+        wait_time = max(0.001, ideal_wait - elapsed)
+        self.last_pulse = time.perf_counter() + wait_time
+        return wait_time
 
 @dataclass
 class AdaptiveGear:
@@ -41,6 +70,9 @@ class GovernanceEngine:
 
         # [PHASE 27: ONION-SKIN MULTIVERSE]
         self.ensemble = OnionEnsemble()
+        
+        # [PHASE 1.0: HEARTBEAT UNIFICATION]
+        self.heartbeat = AdaptiveHeartbeat()
         
         # --- Shell 0: THE CORE (FluxLight / Spirit) ---
         self.spirit = self.ensemble.shells[0].add_rotor("FluxLight", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Identity_Core"))

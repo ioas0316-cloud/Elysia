@@ -54,7 +54,7 @@ class MetaObserver:
         if len(self.history) % 10 == 0:
             self._analyze_entropy()
 
-    def write_chronicles(self, filename: str = "data/Chronicles/comparative_perception.md"):
+    def write_chronicles(self, filename: str = "data/L7_Spirit/Chronicles/comparative_perception.md"):
         """
         Generates the Chronicles (Historical memory of cognitive shifts).
         """

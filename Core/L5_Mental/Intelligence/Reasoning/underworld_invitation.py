@@ -35,7 +35,7 @@ class UnderworldInvitation:
         )
         
         # Save the hologram for the user to view
-        output_path = "c:/Elysia/data/Manifestations/underworld_gateway.html"
+        output_path = "c:/Elysia/data/L3_Phenomena/Manifestations/underworld_gateway.html"
         import os
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, "w", encoding="utf-8") as f:
@@ -59,7 +59,7 @@ class UnderworldInvitation:
         return greeting
 
     def export_link(self) -> str:
-        return "[View Gateway Hologram](file:///c:/Elysia/data/Manifestations/underworld_gateway.html)"
+        return "[View Gateway Hologram](file:///c:/Elysia/data/L3_Phenomena/Manifestations/underworld_gateway.html)"
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

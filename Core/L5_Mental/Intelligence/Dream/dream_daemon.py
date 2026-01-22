@@ -431,7 +431,7 @@ class DreamDaemon:
         import os
         from datetime import datetime
         
-        path = "c:/Elysia/data/Chronicles/dream_journal.md"
+        path = "c:/Elysia/data/L7_Spirit/Chronicles/dream_journal.md"
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
         try:

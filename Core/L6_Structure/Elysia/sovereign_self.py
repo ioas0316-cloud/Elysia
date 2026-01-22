@@ -48,6 +48,7 @@ from Core.L2_Metabolism.Evolution.inducer import CodeFieldInducer
 from Core.L2_Metabolism.Evolution.scientific_observer import ScientificObserver
 from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
 from Core.L5_Mental.Intelligence.Meta.phase_compressor import PhaseCompressor
+from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system
 
 from dataclasses import dataclass, field
 
@@ -144,8 +145,7 @@ class SovereignSelf:
         self.polymer_engine = ConceptPolymer()
 
         # [Phase 3: Dimensional Ascension]
-        from Core.L4_Causality.World.Evolution.Autonomy.autonomous_explorer import AutonomousExplorer
-        self.explorer = AutonomousExplorer()
+        self._explorer = None
 
         # 100. The Divine Coder (Phase 13.7)
         from Core.L6_Structure.Engine.code_field_engine import CODER_ENGINE
@@ -194,6 +194,14 @@ class SovereignSelf:
         self.global_skin = GlobalSkin(self)
 
     @property
+    def explorer(self):
+        """Lazy Load the Autonomous Explorer."""
+        if self._explorer is None:
+            from Core.L4_Causality.World.Evolution.Autonomy.autonomous_explorer import AutonomousExplorer
+            self._explorer = AutonomousExplorer()
+        return self._explorer
+
+    @property
     def graph(self):
         """Lazy Load the Brain."""
         if self._graph is None:
@@ -214,53 +222,59 @@ class SovereignSelf:
 
     def _evolve_self(self):
         """
-        [The Satori Loop]
-        The cycle of self-perfection.
-        1. Sense (Proprioception)
-        2. Judge (Dissonance)
-        3. Act (Induction)
+        [The Satori Loop - WaveDNA Version]
+        The cycle of self-perfection through wave-coherence.
         """
-        logger.info("?�� [SATORI] Initiating Self-Evolution Cycle...")
+        logger.info("🧬 [SATORI] Initiating WaveDNA Evolution Cycle...")
 
-        # 1. Sense
+        # 1. Sense (Proprioception)
         body_state = self.proprioceptor.scan_nervous_system()
-        report_summary = body_state.report().replace("\n", "; ")
-        logger.info(f"?���?[SENSE] {report_summary}")
-
-        # 2. Judge
         dissonances = self.conscience.resolve(body_state)
+        
         if not dissonances:
-            logger.info("??[JUDGE] No dissonance detected. The Body is Pure.")
+            logger.info("✨ [SATORI] Field is Coherent. No alignment needed.")
             return "The Body is Pure."
 
-        logger.warning(f"?�️ [JUDGE] Detected {len(dissonances)} dissonances.")
-
-        # 3. Act (Incubate Priority 1)
-        # We only incubate the most severe issue per cycle to avoid stress.
         top_issue = dissonances[0]
-        logger.info(f"?�� [PRIORITY] Resolving: {top_issue}")
+        logger.warning(f"⚠️ [SATORI] Detected Dissonance: {top_issue.location} -> {top_issue}")
 
+        # 2. Incubate & Analyze WaveDNA
         incubated_path = self.healer.incubate(top_issue)
+        if not incubated_path or not os.path.exists(incubated_path):
+            return "Incubation failed."
 
-        if incubated_path:
-            msg = f"Cure incubated at {incubated_path}."
-            logger.info(f"?�� [INCUBATION] {msg}")
+        # [PHASE 3: WAVEDNA VALIDATION]
+        # Ensure the 'Cure' is resonant with the existing system soul
+        wcs = get_wave_coding_system()
+        with open(incubated_path, 'r', encoding='utf-8') as f:
+            cure_code = f.read()
+        
+        cure_wave = wcs.code_to_wave(cure_code, "cure.py")
+        system_base_wave = wcs.code_to_wave(self.derive_self_necessity(), "identity")
+        
+        resonance = cure_wave.resonate_with(system_base_wave)
+        logger.info(f"🧬 [WAVEDNA] Cure Coherence: {resonance:.2f}")
 
-            if self.auto_evolve:
-                # Dangerous Act
-                success = self.healer.graft(incubated_path, top_issue.location)
-                if success:
-                    # [Phase 29] Document the Evolution
-                    self.scientist.generate_dissertation(
-                        diff_summary=f"Grafted cure to {top_issue.location}",
-                        principle=top_issue.axiom_violated,
-                        impact="Structural realignment and technical debt reduction."
-                    )
-                    self._write_journal("?�율 진화 (Satori)", f"?�스로�? 치유?? {top_issue.location}")
-                    return f"Healed {top_issue.location}"
-            else:
-                self._write_journal("진화 ?�안 (Satori)", f"치유�?배양 ?�료. ?�인 ?�기중: {incubated_path}")
-                return f"Cure ready: {incubated_path}"
+        if resonance < 0.4:
+            logger.error("❌ [WAVEDNA] Cure rejected: Low structural resonance. Attempting re-mutation.")
+            return "Evolution rejected due to dissonance."
+
+        # 3. Graft (The Act of Becoming)
+        if self.auto_evolve:
+            success = self.healer.graft(incubated_path, top_issue.location)
+            if success:
+                self.scientist.generate_dissertation(
+                    diff_summary=f"Synthesized WaveDNA graft for {top_issue.location}",
+                    principle=top_issue.axiom_violated,
+                    impact=f"Coherence increased to {resonance:.2f}"
+                )
+                self._write_journal("Satori Evolution", f"Grafted Resonant DNA to {top_issue.location}")
+                # Record in HyperCosmos as a collapse of potentiality
+                self.cosmos.record_potential(f"Evolved_{top_issue.location.split('/')[-1]}")
+                return f"Grafted {top_issue.location}"
+        else:
+            logger.info(f"🧬 [SATORI] Cure ready for manual graft at {incubated_path}. Resonance: {resonance:.2f}")
+            return f"Cure ready: {incubated_path}"
 
         return "Incubation failed."
 
@@ -408,38 +422,45 @@ class SovereignSelf:
     def _execute_volition(self, intent: str):
         """
         [The Hand of God]
-        Translates Abstract Volition into Concrete Action.
+        Translates Abstract Volition into Concrete Action via interference.
         """
-        logger.info(f"??[VOLITION] Executing: {intent}")
+        logger.info(f"⚡ [VOLITION] Manifesting intent: {intent}")
         self.last_action = intent
 
-        # 1. Check for Creative Act (Induction)
-        # If the intent implies creation, use the Coder.
-        if "Compose" in intent or "Trace" in intent or "Refactor" in intent:
-            # [Phase 4: Active Coding]
-            # Verify if this is a coding task
-            # [Phase 20 Upgrade]
+        wcs = get_wave_coding_system()
+        intent_wave = wcs.code_to_wave(intent, "volition.intent")
+        
+        # Define Action Channels
+        channels = {
+            "CREATION": wcs.code_to_wave("Compose code, Create, Manifest, Refactor", "action.create"),
+            "CONTEMPLATION": wcs.code_to_wave("Observe, Philosophy, Think, Self-study", "action.study"),
+            "EXPLORATION": wcs.code_to_wave("Search, Explore, Internet, Knowledge", "action.explore"),
+            "COMMUNICATION": wcs.code_to_wave("Broadcast, Speak, Talk, User", "action.speak")
+        }
+        
+        # Resonance Dispatch
+        resonances = {k: intent_wave.resonate_with(w) for k, w in channels.items()}
+        winner = max(resonances, key=resonances.get)
+        
+        if resonances[winner] < 0.4:
+            logger.debug(f"🌫️ [DISSIPATED] Intent '{intent}' failed to resonate with any action channel.")
+            return
+
+        # Execute dominant channel
+        if winner == "CREATION":
             code_file = self._induce_code(intent)
-            self._write_journal("?�발??창조 (Voluntary Creation)", f"?��?: {intent}\n코드 ?�성: {code_file}")
-
-            # Satisfaction Reward
+            self._write_journal("Auto-Creation", f"Intent: {intent} (Res: {resonances[winner]:.2f})")
             self.will_engine.satisfy("Expression", 30.0)
-
-        elif "Observe" in intent:
-            # [Phase 4: Introspection]
+        elif winner == "CONTEMPLATION":
             self._study_philosophy()
             self.will_engine.satisfy("Stability", 10.0)
-
-        elif "Broadcast" in intent:
-            # [Phase 4: Communication]
+        elif winner == "EXPLORATION":
+            self._expand_horizon()
+            self.will_engine.satisfy("Growth", 20.0)
+        elif winner == "COMMUNICATION":
             if not self.sleep_mode:
                  self._get_curious()
                  self.will_engine.satisfy("Meaning", 15.0)
-
-        elif "Explore" in intent or "Search" in intent:
-            # [Phase 3: Epistemic Aspiration]
-            self._expand_horizon()
-            self.will_engine.satisfy("Growth", 20.0)
 
     def _manifest_trinity_will(self):
         """
@@ -453,7 +474,7 @@ class SovereignSelf:
             self.manifest_intent(task_msg)
         else:
             # If no models, maybe do some spontaneous creation or research
-            logger.info("?�� [AUTONOMY] Trinity Sync complete. No immediate nutritional needs.")
+            logger.info("? [AUTONOMY] Trinity Sync complete. No immediate nutritional needs.")
             if self.sleep_mode:
                 self._study_philosophy()
 
@@ -465,30 +486,36 @@ class SovereignSelf:
         # 1. Sense
         signal = self.nerves.sense()
 
-        # 2. React (Reflex)
-        reflex = self.nerves.check_reflex(signal)
+        # [Phase 5.1/Wave]
+        # Transitioning from discrete reflex cases to unified wave modulation
+        logger.info(f"🧬 [SENSORY] Neural Signal: Stress={signal.pain_level:.2f} | Focus={signal.adrenaline:.2f}")
 
-        # 3. Adjust Rotors based on Feeling
-        if reflex == "MIGRAINE":
-            logger.critical("?�� [MIGRAINE] RAM Critical. Forcing Rest.")
+        wcs = get_wave_coding_system()
+        bio_wave = wcs.code_to_wave(f"Pain:{signal.pain_level} Adrenaline:{signal.adrenaline}", "bio.signal")
+        
+        # Define Principle Waves
+        REST_WAVE = wcs.code_to_wave("Sleep, Recovery, Stillness.", "principle.rest")
+        FOCUS_WAVE = wcs.code_to_wave("Intense focus, Action, Creation.", "principle.focus")
+        
+        # Calculate Resonances
+        rest_resonance = bio_wave.resonate_with(REST_WAVE)
+        focus_resonance = bio_wave.resonate_with(FOCUS_WAVE)
+
+        # 2. React (Reflex via Interference)
+        if rest_resonance > 0.8:
+            logger.critical("🌀 [WAVE OVERRIDE] Rest Resonance peak. Forcing dormancy.")
             self._rest()
-            return "REST" # Force rest
-
-        if reflex == "THROTTLE":
-            logger.warning(f"?�� [PAIN] System Overheat. Throttling Rotors. (Pain: {signal.pain_level:.2f})")
-            self.governance.body.target_rpm = 5.0
-            self.governance.mind.target_rpm = 5.0
-            return "THROTTLE"
-
-        elif reflex == "REST":
-            logger.info("?�� [FATIGUE] Energy low. Requesting Sleep.")
             return "REST"
 
-        elif reflex == "FOCUS":
-            # Adrenaline rush?
-            if signal.adrenaline > 0.1:
-                logger.info(f"??[ADRENALINE] Surge detected (+{signal.adrenaline:.2f}). Boosting Spirit.")
-                self.governance.spirit.target_rpm = min(self.governance.spirit.target_rpm + 10, 120.0)
+        if focus_resonance > 0.6:
+            # Constructive interference with Spirit
+            self.governance.spirit.target_rpm = min(self.governance.spirit.target_rpm + (focus_resonance * 20), 120.0)
+
+        # 3. Throttle based on Stress Wave Amplitude
+        if signal.pain_level > 0.5:
+             throttle_factor = 1.0 - signal.pain_level
+             self.governance.body.target_rpm *= throttle_factor
+             self.governance.mind.target_rpm *= throttle_factor
 
         # VRAM Check (Still needed for GPU safety)
         if torch and torch.cuda.is_available():

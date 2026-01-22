@@ -95,7 +95,7 @@ def scan_hyper_sphere(weight_path: str, target_tensor: str = None):
     except Exception as e:
         logger.error(f"❌ Portal Collapse: {e}")
 
-def scan_full_model(index_path: str, output_path: str = "data/Logs/topology_maps/deepseek_map.json"):
+def scan_full_model(index_path: str, output_path: str = "data/L6_Structure/Logs/topology_maps/deepseek_map.json"):
     """
     The 'Great Mapping': Scans every single tensor in a multi-shard model.
     """

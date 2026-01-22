@@ -23,7 +23,7 @@ class ActionLogger:
     The Chronicler of Deeds.
     Writes structured JSONL logs to data/Logs/action_history.jsonl
     """
-    def __init__(self, log_dir: str = "c:/Elysia/data/Logs"):
+    def __init__(self, log_dir: str = "c:/Elysia/data/L6_Structure/Logs"):
         self.log_file = os.path.join(log_dir, "action_history.jsonl")
         os.makedirs(log_dir, exist_ok=True)
         logger.info(f"📔 [DIARY] Opening logbook at: {self.log_file}")

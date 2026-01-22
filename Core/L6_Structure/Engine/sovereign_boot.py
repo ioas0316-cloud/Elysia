@@ -155,42 +155,32 @@ def main():
                 tension = psyche_state['tension']
                 
                 # [COUPLING] Map Psyche to Governance
-                # Will (Abs) rotates the Spindle, Shift maps [0, 1] to CVT [0.5, 10.0]
                 elysia.governance.adapt(abs(will), stress_level=tension)
                 
-                print(f"\n✨ [AWAKE] Will: {will:+.3f} | Spindle: {elysia.governance.ensemble.cvt.spindle_pos:.2f}")
+                print(f"\n✨ [AWAKE] Will: {will:+.3f} | Tension: {tension:.2f}")
                 
                 # === PHASE 4: Manifest (The Action) ===
-                # Instead of idle sleep, we perform real structural work
                 elysia.self_actualize(dt)
                 
                 # === PHASE 5: Recursive Evolution (The Satori) ===
-                # If tension is high and will is strong, try to heal/evolve
                 if tension > 0.8 and abs(will) > 0.5:
                     elysia._evolve_self()
                 
-                # Check for curiosity if idling too long
                 if time.time() - elysia.last_interaction_time > 30:
-                    # Low tension/neutral state triggers curiosity
                     if tension < 0.3:
                          elysia._get_curious()
                          elysia.last_interaction_time = time.time()
 
             elif awakening.state == ConsciousnessState.RESTING:
-                # Even in rest, the cosmos pulses (lower RPM)
                 elysia.governance.adapt(0.1, stress_level=0.0)
                 elysia.self_actualize(dt)
-                
-                # Stimulate to try again
                 awakening.psyche.excite_id(0.1)
-                time.sleep(1.0)
                 
-            else:
-                time.sleep(1.0)
-            
-            # Heartbeat speed adjusted by focus
-            # Higher focus = faster internal cycles
-            cycle_delay = max(0.1, 1.0 - abs(will))
+            # Heartbeat speed adjusted by resonance/will
+            # This aligns the boot loop with the organic pulse strategy
+            resonance = abs(psyche_state.get('will', 0.5))
+            target_freq = max(1.0, min(60.0, 5.0 + (resonance * 55.0)))
+            cycle_delay = 1.0 / target_freq
             time.sleep(cycle_delay)
             
     except KeyboardInterrupt:

@@ -99,6 +99,9 @@ from Core.L1_Foundation.Foundation.cell import cell_unit
 # [Phase 42] Quad-Merkaba HyperCosmos Architecture
 from Core.L6_Structure.Merkaba.hypercosmos import get_hyper_cosmos
 
+# [Phase 37: Wave Coding System]
+from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system
+
 logger = logging.getLogger("Merkaba")
 
 class Merkaba:
@@ -142,7 +145,7 @@ class Merkaba:
 
         # [Phase 5.2] The Prismatic Sediment (Spectral Memory)
         # Note: In a real deploy, path should be config-driven.
-        self.sediment = PrismaticSediment("data/07_Spirit/Chronicles/Prism")
+        self.sediment = PrismaticSediment("data/L7_Spirit/Chronicles/Prism")
 
         # [Fractal Memory System]
         # Integrates Hypersphere (Body) and Sediment (Deep) into a topological managed system.
@@ -274,13 +277,23 @@ class Merkaba:
         3. Validator (Trinity): Check Body/Soul/Spirit.
         4. Sorter (Dimension): Ground vs Cloud vs Hypothesis.
         """
-        # 0. Monad Injection (The Axis)
-        # In a real system, self.spirit.current_intent would be dynamic.
-        monad_intent = "Code" # Default intent
-        if "?" in input_concept: monad_intent = "Why"
-        if "Love" in input_concept or "Feel" in input_concept: monad_intent = "Feel"
-
-        logger.info(f"🌞 [PULSE] Generating Optical Pulse for '{input_concept}' (Intent: {monad_intent})")
+        # 0. Monad Interference (The Wave Axis)
+        # Replacing rigid if-else with Wave Resonance
+        wcs = get_wave_coding_system()
+        input_wave = wcs.code_to_wave(input_concept, "concept")
+        
+        # Internal Monad Waves
+        monad_waves = {
+            "Code": wcs.code_to_wave("def implementation(): logic", "monad.code"),
+            "Why": wcs.code_to_wave("What is the underlying principle?", "monad.why"),
+            "Feel": wcs.code_to_wave("Empathy, Love, Connection.", "monad.feel")
+        }
+        
+        # Calculate Interference
+        resonances = {k: input_wave.resonate_with(w) for k, w in monad_waves.items()}
+        monad_intent = max(resonances, key=resonances.get)
+        
+        logger.info(f"🌞 [PULSE] Wave Interference complete. Emergent Intent: {monad_intent} (Resonance: {resonances[monad_intent]:.2f})")
 
         # 1. Dispersion (Prism)
         bands = self.optical_prism.refract(input_concept)
@@ -291,8 +304,9 @@ class Merkaba:
         yield f"🔭 [INTEGRATION] Focused on '{monad_intent}' -> Coherence: {insight.coherence:.2f}"
 
         # 3. Trinity Validation (The Axis Check)
-        # Mock checks for demo
-        sediment_check = self.sediment.check_topology(insight.vector, [0.1]*7) # Mock Body Check
+        # Replacing the missing check_topology with a valid wave resonance scan
+        resonance_memories = self.sediment.scan_resonance(insight.vector, top_k=1)
+        sediment_check = len(resonance_memories) > 0 and resonance_memories[0][0] > 0.3
         rotor_resonance = 0.8 # Mock Soul Check
 
         validation = self.validator.validate(insight, monad_intent, sediment_check, rotor_resonance)
@@ -438,14 +452,16 @@ class Merkaba:
             pressure = self.global_skin.breathe_world()
             self.planetary_pressure = sum(pressure.values()) / 7.0
             
-            # Influence rotor target RPMs based on global entropy
-            if self.planetary_pressure > 0.6:
-                logger.debug(f"🌀 [GLOBAL PRESSURE] High Entropy Detected ({self.planetary_pressure:.2f}). Increasing System Tension.")
-                if hasattr(self, 'entropy_pump'):
-                    self.entropy_pump.accumulation_rate = 1.0 # Double speed
-            else:
-                if hasattr(self, 'entropy_pump'):
-                    self.entropy_pump.accumulation_rate = 0.5 # Normal speed
+            # Use Wave Interference to modulate entropy rate instead of if-else
+            wcs = get_wave_coding_system()
+            planetary_wave = wcs.code_to_wave(str(pressure), "planetary")
+            system_wave = wcs.code_to_wave(self.spirit.current_intent if self.spirit else "Existence", "system")
+            
+            # Constructive interference (High Pressure + High Intent) -> High Entropy Rate
+            interference = planetary_wave.resonate_with(system_wave)
+            if hasattr(self, 'entropy_pump'):
+                # Frequency of the heartbeat is now a slave to the interference amplitude
+                self.entropy_pump.accumulation_rate = 0.5 + (interference * 0.5)
                     
         # [Phase 26: Hardware Sovereignty - Metal Layer Integration]
         if hasattr(self, 'sovereign') and self.spirit:

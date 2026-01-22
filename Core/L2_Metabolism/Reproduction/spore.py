@@ -22,7 +22,7 @@ class Spore:
     """
     The DNA Packet for a new Instance.
     """
-    def __init__(self, output_dir: str = "c:/Elysia/data/Spores"):
+    def __init__(self, output_dir: str = "c:/Elysia/data/L2_Metabolism/Spores"):
         self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
         logger.info("🍄 [SPORE] Spore Generator ready.")
