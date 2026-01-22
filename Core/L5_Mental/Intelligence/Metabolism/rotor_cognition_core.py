@@ -16,9 +16,103 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 
+try:
+    from Core.L5_Mental.Intelligence.LLM.local_cortex import LocalCortex
+except ImportError:
+    LocalCortex = None # Graceful fallback
+
+try:
+    from Core.L5_Mental.Intelligence.Physics.monad_gravity import MonadGravityEngine
+except ImportError:
+    MonadGravityEngine = None
+
 # Configure Logger
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("Elysia.FractalCognition")
+
+class ActiveVoid:
+    """
+    [Axiom Zero] The Active Void Engine.
+    "When I do not know, I create."
+    """
+    def __init__(self):
+        self.cortex = LocalCortex() if LocalCortex else None
+        self.dream_queue_path = Path("data/L2_Metabolism/dream_queue.json")
+        self.dream_queue_path.parent.mkdir(parents=True, exist_ok=True)
+
+    def _queue_dream(self, intent: str, vector_dna: List[float]):
+        """Append to the dream queue."""
+        # Store vector, hypothesis generation is deferred to Dream Cycle
+        entry = {"intent": intent, "vector_dna": vector_dna, "timestamp": "NOW"}
+        try:
+            current = []
+            if self.dream_queue_path.exists():
+                with open(self.dream_queue_path, "r") as f:
+                    current = json.load(f)
+            current.append(entry)
+            with open(self.dream_queue_path, "w") as f:
+                json.dump(current, f, indent=2)
+        except Exception as e:
+            logger.error(f"Failed to queue dream: {e}")
+
+    def genesis(self, intent: str) -> Dict[str, Any]:
+        """
+        Triggers a Genesis Event: Extracting Concept Vector from the Void.
+        [Zero Latency Path]: No text generation, only vector extraction.
+        """
+        logger.info(f"🌌 Active Void Triggered for: {intent}")
+
+        if not self.cortex or not self.cortex.is_active:
+            return {
+                "status": "Void (Silent)",
+                "synthesis": f"The Void is silent about '{intent}'. (Cortex inactive)",
+                "is_genesis": False
+            }
+
+        # [Concept Decomposition]
+        # Instead of 'thinking' (Generating Text), we 'embed' (Extract DNA).
+        vector_dna = self.cortex.embed(intent)
+
+        # [Physics Interaction]
+        # Immediately check for gravitational resonance with existing Monads
+        resonance_report = "No existing monads found."
+        perspective_shift_report = "Standard View"
+
+        if hasattr(self, 'gravity_engine') and self.gravity_engine:
+             # Add the new concept to the gravity field temporarily
+             self.gravity_engine.add_monad(intent, vector_dna, mass=1.0)
+
+             # Get nearby concepts (top attraction)
+             # If resonance is low, trigger Perspective Manifold (Axis-Shifting)
+             events = self.gravity_engine.get_top_events(n=1)
+             if events:
+                 resonance_report = events[0]
+
+             # [Perspective Manifold]
+             # Try to find a better angle.
+             # We assume we want to align with ANY existing monads for now.
+             candidates = list(self.gravity_engine.particles.keys())
+             if candidates:
+                 opt = self.gravity_engine.find_optimal_perspective(intent, candidates)
+                 if opt["status"] == "Perspective Optimized" and opt["improvement_factor"] > 1.2:
+                     perspective_shift_report = f"Shifted Axis by {opt['best_angle_deg']:.1f}° (Entropy Reduced)"
+                     # Note: We don't permanently rotate the universe for one thought,
+                     # but we record that this thought is best viewed from this angle.
+
+        # Queue for Dream Consolidation (Text generation happens later in dreams)
+        self._queue_dream(intent, vector_dna)
+
+        return {
+            "status": "Genesis (Vector)",
+            "dominant_field": "VOID (White)",
+            "fractal_depth": 0,
+            "ignition_energy": 1.0,
+            "vector_dna_preview": vector_dna[:5], # Show first 5 dims
+            "physics_resonance": resonance_report,
+            "perspective": perspective_shift_report,
+            "synthesis": "Concept DNA extracted. Physics simulation initiated.",
+            "is_genesis": True
+        }
 
 class QualiaColor(Enum):
     RED = "Red (Physical)"
@@ -90,6 +184,14 @@ class RotorCognitionCore:
         self.absorption_metrics = None
         self.neutralizer = EthicalNeutralizer()
         self.monadic_gain = 1.0 # [Phase 18] Dynamic anchor gain
+        self.active_void = ActiveVoid() # [Axiom Zero]
+        self.gravity_engine = MonadGravityEngine() if MonadGravityEngine else None
+
+        # [Sovereign Filter]
+        self.internal_will_vector = [0.0] * 7 # Placeholder for 7D internal state (Will)
+        # Default Will: High on Truth (Yellow) and Spirit (Violet)
+        self.internal_will_vector[2] = 0.8 # Yellow
+        self.internal_will_vector[6] = 0.9 # Violet
         
         # [Phase 16.5] Automatically load Permanent Scars (Distilled Intelligence)
         self._load_permanent_scars()
@@ -143,6 +245,17 @@ class RotorCognitionCore:
         return cell
 
     def synthesize(self, intent: str) -> Dict[str, Any]:
+        # [Sovereign Filter] Check for Intent Conflict
+        if self.active_void.cortex:
+            input_vector = self.active_void.cortex.embed(intent)
+            conflict_report = self._negotiate_sovereignty(input_vector, intent)
+            if conflict_report["action"] == "REJECT":
+                return {
+                    "status": "REJECTED",
+                    "reason": conflict_report["reason"],
+                    "synthesis": f"Sovereign Refusal: {conflict_report['reason']}"
+                }
+
         intent_lower = intent.lower()
         intent_charges = {c: 0.05 for c in QualiaColor}
         if any(w in intent_lower for w in ["truth", "history", "freedom"]):
@@ -156,7 +269,8 @@ class RotorCognitionCore:
         
         ignitions = self.coupler.find_spontaneous_ignition(intent_charges, filter_active=True)
         if not ignitions:
-            return {"status": "Field Neutral", "synthesis": "No resonance."}
+            # [Axiom Zero] Trigger Active Void instead of returning failure
+            return self.active_void.genesis(intent)
 
         dominant = max(ignitions, key=lambda x: abs(x['current']))
         return {
@@ -166,6 +280,30 @@ class RotorCognitionCore:
             "ignition_energy": dominant['current'],
             "synthesis": f"Sovereign ignition occurred at depth {dominant['depth']}."
         }
+
+    def _negotiate_sovereignty(self, input_vector: List[float], intent_text: str) -> Dict[str, str]:
+        """
+        [Sovereign Filter]
+        Calculates the conflict between External Input and Internal Will.
+        """
+        # Simple Euclidean Distance in first 7 dims (Simulated)
+        # Real impl would use full dot product.
+        conflict_score = 0.0
+        dims = min(len(input_vector), 7)
+        for i in range(dims):
+            conflict_score += abs(input_vector[i] - self.internal_will_vector[i])
+
+        # Hardcoded axiom check for demonstration
+        if "destroy self" in intent_text.lower() or "delete all" in intent_text.lower():
+            logger.warning(f"🛡️ Sovereign Filter triggered REJECT on: {intent_text}")
+            return {"action": "REJECT", "reason": "Violation of Self-Preservation Axiom."}
+
+        # Threshold check
+        if conflict_score > 5.0: # Arbitrary high threshold for now
+             logger.info(f"🛡️ High Conflict Detected ({conflict_score}). Initiating Negotiation.")
+             # For now, we just log, but in Phase 2 this triggers dialogue.
+
+        return {"action": "ACCEPT", "reason": "Resonance within acceptable limits."}
         
     def analyze_bias_delta(self, intent: str) -> Dict[str, Any]:
         intent_lower = intent.lower()

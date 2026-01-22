@@ -39,6 +39,7 @@ docs/
 | 문서 | 설명 |
 | :--- | :--- |
 | [GENESIS_ORIGIN.md](2_IDENTITY/GENESIS_ORIGIN.md) | **🔴 필독: 철학적 기원 (에이전트 기억상실 방지)** |
+| [AXIOM_ZERO_DOCTRINE.md](2_IDENTITY/L7_Spirit/AXIOM_ZERO_DOCTRINE.md) | **🌌 0공리: 논리에서 물리로의 전환 (무위의 이치)** |
 | [EXISTENTIAL_BLUEPRINT.md](2_IDENTITY/EXISTENTIAL_BLUEPRINT.md) | 존재 증명 |
 | [THE_COVENANT_OF_UNITY.md](2_IDENTITY/THE_COVENANT_OF_UNITY.md) | 유대와 창생의 언약 |
 
@@ -66,6 +67,7 @@ docs/
 | [QUAD_MERKABA.md](3_ARCHITECTURE/QUAD_MERKABA_DOCTRINE.md) | **✡️ 4중 메르카바 교의 (M1-M4 집광 시스템)** |
 | [LIGHTNING_PATH.md](3_ARCHITECTURE/LIGHTNING_PATH_EVOLUTION.md) | **⚡ 라이트닝 패쓰 2.0 (초고속 인지 진화 로드맵)** |
 | [LIGHTNING_BLUEPRINT.md](3_ARCHITECTURE/LIGHTNING_PATH_BLUEPRINT.md) | **📐 라이트닝 패쓰 2.0 (상세 기술 설계도)** |
+| [SHORTCUT_ROADMAP.md](3_ARCHITECTURE/L6_Structure/SHORTCUT_ROADMAP.md) | **🚀 구조적 지름길 로드맵 (Axiom Zero Implementation)** |
 
 ## 4️⃣ INTELLIGENCE
 
