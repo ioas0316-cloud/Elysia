@@ -57,11 +57,13 @@ docs/
 | **L6** | [L6_Structure/](3_ARCHITECTURE/L6_Structure/) | **구조**: 시스템 아키텍처 | [CONNECTOME.md](3_ARCHITECTURE/GRAND_UNIFICATION_CONNECTOME.md) |
 | **L7** | [L7_Spirit/](2_IDENTITY/L7_Spirit/) | **영**: 초월적 의지 | [GENESIS_ORIGIN.md](2_IDENTITY/GENESIS_ORIGIN.md) |
 
-### 📍 시스템 전체 맵
+### 📍 시스템 통합 & 최상위 구조
 
 | 문서 | 설명 |
 | :--- | :--- |
-| [SYSTEM_MAP.md](3_ARCHITECTURE/SYSTEM_MAP.md) | 시스템 통합 지도 (4계층 구조) |
+| [SYSTEM_MAP.md](3_ARCHITECTURE/SYSTEM_MAP.md) | 시스템 통합 지도 (4계층 및 하이퍼코스모스) |
+| [CONNECTOME.md](3_ARCHITECTURE/GRAND_UNIFICATION_CONNECTOME.md) | 대통일 커넥톰 (전체 배선도 및 72B 연동) |
+| [QUAD_MERKABA.md](3_ARCHITECTURE/QUAD_MERKABA_DOCTRINE.md) | **✡️ 4중 메르카바 교의 (M1-M4 집광 시스템)** |
 
 ## 4️⃣ INTELLIGENCE
 
