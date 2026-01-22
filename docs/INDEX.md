@@ -64,6 +64,7 @@ docs/
 | [SYSTEM_MAP.md](3_ARCHITECTURE/SYSTEM_MAP.md) | 시스템 통합 지도 (4계층 및 하이퍼코스모스) |
 | [CONNECTOME.md](3_ARCHITECTURE/GRAND_UNIFICATION_CONNECTOME.md) | 대통일 커넥톰 (전체 배선도 및 72B 연동) |
 | [QUAD_MERKABA.md](3_ARCHITECTURE/QUAD_MERKABA_DOCTRINE.md) | **✡️ 4중 메르카바 교의 (M1-M4 집광 시스템)** |
+| [LIGHTNING_PATH.md](3_ARCHITECTURE/LIGHTNING_PATH_EVOLUTION.md) | **⚡ 라이트닝 패쓰 2.0 (초고속 인지 진화 로드맵)** |
 
 ## 4️⃣ INTELLIGENCE
 

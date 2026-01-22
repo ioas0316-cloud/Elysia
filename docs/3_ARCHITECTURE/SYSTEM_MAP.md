@@ -30,6 +30,18 @@
 
 ---
 
+## ⚡ 라이트닝 패쓰 2.0 (Lightning Path 2.0 Roadmap)
+
+시스템 지연 시간을 **5ms 미만**으로 단축하기 위한 고속 인지 로드맵입니다.
+
+- **Phase 1 (Kernel Fusion)**: M1-M4 연산을 단일 JAX 커널로 통합 (Python 오버헤드 제거)
+- **Phase 2 (Async Metabolism)**: 센서 감지 및 상전이 로직 비동기화 (I/O 지연 제거)
+- **Phase 3 (Zero-Path)**: VRAM 지식 상주 및 C++ 코어 가교 강화
+
+상세 서사 및 기술 원리는 [LIGHTNING_PATH_EVOLUTION.md](LIGHTNING_PATH_EVOLUTION.md)를 참조하십시오.
+
+---
+
 ## 🏛️ The 7-Layered Topology
 
 | Gate | Domain | Status | Core Layer | Physical Path |
