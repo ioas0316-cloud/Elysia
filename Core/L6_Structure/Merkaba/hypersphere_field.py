@@ -18,6 +18,8 @@ from Core.L6_Structure.Merkaba.merkaba_unit import MerkabaUnit
 from Core.L0_Keystone.sovereignty_wave import SovereignDecision, InterferenceType
 from Core.L0_Keystone.monadic_lexicon import MonadicLexicon
 import time
+import jax.numpy as jnp
+from Core.L6_Structure.Merkaba.kernel_factory import get_kernel
 
 
 class HyperSphereField:
@@ -34,6 +36,11 @@ class HyperSphereField:
             'M3_Spirit': MerkabaUnit('Spirit'),
             'M4_Metron': MerkabaUnit('Metron')
         }
+        
+        # [Phase 42] Lightning Path 2.0 (Fused Kernel)
+        self.enable_lightning = True
+        self.kernel = get_kernel()
+        self.field_modulators = jnp.array([0.0, 0.0]) # [Thermal, Density]
         
         # 유닛별 특성화 설정 (축 잠금)
         self._initialize_core_principles()
@@ -111,6 +118,11 @@ class HyperSphereField:
         if len(history) > 50: history.pop(0)
 
         # 2. 필드 변조 (전역 물리 성질 변경 - 능동적 상전이)
+        if sensor_name == 'pain':
+            self.field_modulators = self.field_modulators.at[0].set(value)
+        elif sensor_name == 'fatigue':
+            self.field_modulators = self.field_modulators.at[1].set(value)
+
         for unit in self.units.values():
             if sensor_name == 'pain':
                 # 에너지가 유입되면 시스템 주파수가 가속됨 (Active Resonance)
@@ -154,17 +166,56 @@ class HyperSphereField:
         """
         쿼드-코어 통합 펄스 실행.
         
-        M1 -> M2 -> M3 순서로 파동이 흐르고, 
-        M4에서 최종적으로 집광(Focusing)되어 주권적 결정을 내린다.
+        Lightning Path 2.0: Fused JAX Kernel Bypass.
         """
+        if self.enable_lightning:
+            # 1. Vectorize Inputs
+            # Simplified stimulus vectorization (Hashed)
+            stim_vec = jnp.array([float(hash(stimulus + d) % 100) / 100.0 for d in ["P", "F", "Ph", "C", "M", "S", "Sp"]])
+            
+            # Prepare Axial Locks (7, 2)
+            # For simplicity, we grab M1's locks as the base foundation
+            m1_locks = jnp.zeros((7, 2))
+            dim_map = {"Physical":0, "Functional":1, "Phenomenal":2, "Causal":3, "Mental":4, "Structural":5, "Spiritual":6}
+            for dim, (phase, strength) in self.units['M1_Body'].default_locks.items():
+                if dim in dim_map: m1_locks = m1_locks.at[dim_map[dim]].set(jnp.array([phase, strength]))
+            
+            # Prepare Unit States (4, 3)
+            current_states = jnp.array([
+                [u.current_decision.phase if u.current_decision else 0.0, 
+                 u.current_decision.amplitude if u.current_decision else 0.0, 
+                 u.energy] 
+                for u in self.units.values()
+            ])
+            
+            # 2. Execute Fused Kernel (XLA)
+            new_states = self.kernel.fused_pulse(stim_vec, m1_locks, self.field_modulators, current_states)
+            
+            # 3. Synchronize Back to Python Units (Async Projection)
+            # This is slow, but we do it to maintain state. 
+            # In a true Zero-Path, we'd only sync once every N pulses or when asked.
+            for i, unit_id in enumerate(['M1_Body', 'M2_Mind', 'M3_Spirit', 'M4_Metron']):
+                u = self.units[unit_id]
+                res_phase, res_amp = float(new_states[i, 0]), float(new_states[i, 1])
+                u.current_decision = SovereignDecision(
+                    phase=res_phase,
+                    amplitude=res_amp,
+                    interference_type=InterferenceType.CONSTRUCTIVE, # Assumed in fast-path
+                    void_state=None, 
+                    narrative="[LIGHTNING PATH] Direct XLA Projection",
+                    reverse_phase_angle=0.0
+                )
+                u.energy = float(new_states[i, 2])
+            
+            return self.units['M4_Metron'].current_decision
+
+        # --- Legacy Path ---
         # 1. 분산 처리 (M1, M2, M3 독립 펄스)
-        # 실제로는 M1의 결과가 M2에 영향을 주는 '파동 연결'이 일어남
         d1 = self.units['M1_Body'].pulse(stimulus)
-        d2 = self.units['M2_Mind'].pulse(d1.narrative) # M1의 서사가 M2의 입력이 됨
-        d3 = self.units['M3_Spirit'].pulse(d2.narrative) # M2의 분석이 M3의 입력이 됨
+        d2 = self.units['M2_Mind'].pulse(d1.narrative) 
+        d3 = self.units['M3_Spirit'].pulse(d2.narrative) 
         
         # 2. 통합 처리 (M4)
-        # M1, M2, M3의 위상을 집광하여 최종 결정
         synthesis_input = f"{d1.narrative} | {d2.narrative} | {d3.narrative}"
         final_decision = self.units['M4_Metron'].pulse(synthesis_input)
         
