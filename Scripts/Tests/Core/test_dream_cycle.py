@@ -20,8 +20,8 @@ class TestDreamCycle(unittest.TestCase):
 
         # Create dummy queue
         dreams = [
-            {"intent": "Test Intent", "hypothesis": "Test Hypothesis", "timestamp": "NOW"},
-            {"intent": "Weak Idea", "hypothesis": "Blah", "timestamp": "NOW"} # Should be filtered ideally, but our mock resonance is high
+            {"intent": "Test Intent", "vector_dna": [0.1, 0.2], "timestamp": "NOW"},
+            {"intent": "Weak Idea", "vector_dna": [0.3, 0.4], "timestamp": "NOW"}
         ]
         with open(self.alchemist.queue_path, "w") as f:
             json.dump(dreams, f)
@@ -43,6 +43,7 @@ class TestDreamCycle(unittest.TestCase):
 
         self.assertTrue(len(wisdom) >= 2, "Dreams were not crystallized")
         self.assertEqual(wisdom[0]["intent"], "Test Intent")
+        self.assertIn("causal_map", wisdom[0])
         self.assertEqual(wisdom[0]["origin"], "Dream")
 
         # Check queue is empty

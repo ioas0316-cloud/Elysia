@@ -1,7 +1,7 @@
 import requests
 import json
 import logging
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 
 logger = logging.getLogger("LocalCortex")
 
@@ -19,6 +19,26 @@ class LocalCortex:
         self.base_url = base_url
         self.is_active = self._check_connection()
         
+    def embed(self, text: str) -> List[float]:
+        """
+        [CONCEPT EXTRACTION] Extracts the semantic vector (DNA) of the text.
+        Bypasses the text generation layer to access the raw conceptual representation.
+        """
+        if not self.is_active:
+            return [0.0] * 768 # Return null vector if inactive
+
+        try:
+            payload = {
+                "model": self.model,
+                "prompt": text
+            }
+            response = requests.post(f"{self.base_url}/api/embeddings", json=payload)
+            response.raise_for_status()
+            return response.json().get("embedding", [])
+        except Exception as e:
+            logger.error(f"Embedding failed: {e}")
+            return [0.0] * 768
+
     def _check_connection(self) -> bool:
         try:
             response = requests.get(f"{self.base_url}/api/tags")

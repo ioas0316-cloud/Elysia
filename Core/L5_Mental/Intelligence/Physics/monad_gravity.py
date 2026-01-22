@@ -58,6 +58,11 @@ class GravityParticle:
         self.content = content
         self.age = 0
         self.is_anchored = False # If True, does not move (e.g., Core Truths)
+        self.causal_links: Dict[str, float] = {} # {target_id: weight} - Causal connection strength
+
+    def add_causal_link(self, target_id: str, weight: float):
+        """Register a causal connection (A causes B)."""
+        self.causal_links[target_id] = weight
 
     def apply_force(self, force_vec: np.ndarray):
         if self.is_anchored: return
@@ -106,18 +111,27 @@ class MonadGravityEngine:
 
                 p2 = self.particles[id2]
 
-                # 1. Calculate Resonance (Attraction)
-                # Resonance acts as Gravity in this space.
-                # Higher resonance = Closer they want to be.
-                resonance = p1.pos.cosine_similarity(p2.pos)
+                # 1. Calculate Vector Resonance (Similarity)
+                vector_sim = p1.pos.cosine_similarity(p2.pos)
 
-                # If resonance is high, they pull each other strongly.
+                # 2. Calculate Causal Potential (New)
+                # Check if p1 causes p2 or p2 causes p1
+                causal_weight = 0.0
+                if id2 in p1.causal_links:
+                    causal_weight += p1.causal_links[id2]
+                if id1 in p2.causal_links:
+                    causal_weight += p2.causal_links[id1]
+
+                # Total Resonance = (Vector * 0.3) + (Causal * 0.7)
+                # Meaning is defined by consequence, not just appearance.
+                total_resonance = (vector_sim * 0.3) + (causal_weight * 0.7)
+
+                # 3. Apply Gravity
                 # Force = G * (Resonance^3) / Distance^2
-                # Note: If distance is 0, we cap it.
                 dist = p1.pos.distance_to(p2.pos)
                 dist = max(dist, 0.1)
 
-                force_magnitude = (self.G * (resonance**3) * p1.mass * p2.mass) / (dist**2)
+                force_magnitude = (self.G * (total_resonance**3) * p1.mass * p2.mass) / (dist**2)
 
                 # Vector from p1 to p2
                 direction = p2.pos.vec - p1.pos.vec
@@ -129,9 +143,9 @@ class MonadGravityEngine:
                 p1.apply_force(direction * force_magnitude)
                 p2.apply_force(-direction * force_magnitude)
 
-                # 2. Check for Genesis (Collision/Fusion)
+                # 4. Check for Genesis (Collision/Fusion)
                 # If very close AND highly resonant
-                if dist < 0.5 and resonance > self.resonance_threshold:
+                if dist < 0.5 and total_resonance > self.resonance_threshold:
                     self._trigger_genesis(p1, p2)
 
         # Update positions

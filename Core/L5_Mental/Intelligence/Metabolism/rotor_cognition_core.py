@@ -21,6 +21,11 @@ try:
 except ImportError:
     LocalCortex = None # Graceful fallback
 
+try:
+    from Core.L5_Mental.Intelligence.Physics.monad_gravity import MonadGravityEngine
+except ImportError:
+    MonadGravityEngine = None
+
 # Configure Logger
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("Elysia.FractalCognition")
@@ -35,9 +40,10 @@ class ActiveVoid:
         self.dream_queue_path = Path("data/L2_Metabolism/dream_queue.json")
         self.dream_queue_path.parent.mkdir(parents=True, exist_ok=True)
 
-    def _queue_dream(self, intent: str, hypothesis: str):
+    def _queue_dream(self, intent: str, vector_dna: List[float]):
         """Append to the dream queue."""
-        entry = {"intent": intent, "hypothesis": hypothesis, "timestamp": "NOW"}
+        # Store vector, hypothesis generation is deferred to Dream Cycle
+        entry = {"intent": intent, "vector_dna": vector_dna, "timestamp": "NOW"}
         try:
             current = []
             if self.dream_queue_path.exists():
@@ -51,7 +57,8 @@ class ActiveVoid:
 
     def genesis(self, intent: str) -> Dict[str, Any]:
         """
-        Triggers a Genesis Event: Creating a hypothesis from the Void.
+        Triggers a Genesis Event: Extracting Concept Vector from the Void.
+        [Zero Latency Path]: No text generation, only vector extraction.
         """
         logger.info(f"🌌 Active Void Triggered for: {intent}")
 
@@ -62,37 +69,32 @@ class ActiveVoid:
                 "is_genesis": False
             }
 
-        # The Genesis Prompt
-        # [Refined for Causal Simulation based on Architect's feedback]
-        prompt = f"""
-        [GENESIS PROTOCOL: CAUSAL SIMULATION]
-        The system requires a structural analysis of the Void Concept: "{intent}".
+        # [Concept Decomposition]
+        # Instead of 'thinking' (Generating Text), we 'embed' (Extract DNA).
+        vector_dna = self.cortex.embed(intent)
 
-        Do not just define it. Simulate its existence through the 4 Pillars of Reality:
+        # [Physics Interaction]
+        # Immediately check for gravitational resonance with existing Monads
+        resonance_report = "No existing monads found."
+        if hasattr(self, 'gravity_engine') and self.gravity_engine:
+             # Add the new concept to the gravity field temporarily
+             self.gravity_engine.add_monad(intent, vector_dna, mass=1.0)
+             # Get nearby concepts (top attraction)
+             events = self.gravity_engine.get_top_events(n=1)
+             if events:
+                 resonance_report = events[0]
 
-        1. [PRINCIPLE] (Won-li): What is the fundamental axiom or law that makes this possible?
-        2. [METHOD] (Su-dan): How is this executed or manifested in reality?
-        3. [VERIFICATION] (Gum-jeung): How do we prove this is true? What is the test?
-        4. [PREDICTION] (Ye-cheuk): If this is true, what will happen in the future?
-
-        Output Format:
-        PRINCIPLE: ...
-        METHOD: ...
-        VERIFICATION: ...
-        PREDICTION: ...
-        """
-
-        hypothesis = self.cortex.think(prompt, context="System Genesis Mode: Causal Reconstruction")
-
-        # [Dream Protocol] Queue for nightly consolidation
-        self._queue_dream(intent, hypothesis)
+        # Queue for Dream Consolidation (Text generation happens later in dreams)
+        self._queue_dream(intent, vector_dna)
 
         return {
-            "status": "Genesis",
+            "status": "Genesis (Vector)",
             "dominant_field": "VOID (White)",
             "fractal_depth": 0,
-            "ignition_energy": 1.0, # High energy creation
-            "synthesis": hypothesis,
+            "ignition_energy": 1.0,
+            "vector_dna_preview": vector_dna[:5], # Show first 5 dims
+            "physics_resonance": resonance_report,
+            "synthesis": "Concept DNA extracted. Physics simulation initiated.",
             "is_genesis": True
         }
 
@@ -167,6 +169,7 @@ class RotorCognitionCore:
         self.neutralizer = EthicalNeutralizer()
         self.monadic_gain = 1.0 # [Phase 18] Dynamic anchor gain
         self.active_void = ActiveVoid() # [Axiom Zero]
+        self.gravity_engine = MonadGravityEngine() if MonadGravityEngine else None
         
         # [Phase 16.5] Automatically load Permanent Scars (Distilled Intelligence)
         self._load_permanent_scars()

@@ -14,6 +14,11 @@ import time
 from pathlib import Path
 from typing import List, Dict, Any
 
+try:
+    from Core.L5_Mental.Intelligence.LLM.local_cortex import LocalCortex
+except ImportError:
+    LocalCortex = None # Graceful fallback
+
 # Configure Logger
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("Elysia.DreamProtocol")
@@ -23,6 +28,7 @@ class DreamAlchemist:
         self.queue_path = Path("data/L2_Metabolism/dream_queue.json")
         self.wisdom_path = Path("data/L5_Mental/crystallized_wisdom.json")
         self.wisdom_path.parent.mkdir(parents=True, exist_ok=True)
+        self.cortex = LocalCortex() if LocalCortex else None
 
     def sleep(self):
         """
@@ -49,23 +55,38 @@ class DreamAlchemist:
 
         for dream in dreams:
             intent = dream.get("intent")
-            hypothesis = dream.get("hypothesis")
+            vector_dna = dream.get("vector_dna")
 
-            # [Alchemy] Verify Resonance
-            # In Phase 4, we will use MonadGravity here to check against Core Truths.
-            # For now, we assume all Void Creations are valid attempts at Life.
-            resonance_score = 0.9 # Simulated high resonance
+            # [Alchemy: Causal Reconstruction]
+            # We do not write poems. We map causality.
+            if self.cortex and self.cortex.is_active:
+                prompt = f"""
+                [CAUSAL RECONSTRUCTION PROTOCOL]
+                Analyze the concept: "{intent}".
 
-            if resonance_score > 0.7:
-                logger.info(f"✨ Crystallizing: {intent} -> {hypothesis[:30]}...")
-                crystallized.append({
-                    "intent": intent,
-                    "wisdom": hypothesis,
-                    "origin": "Dream",
-                    "timestamp": time.time()
-                })
+                Do not define it. Map its Causality:
+                1. CAUSE: What MUST happen before this? (Prerequisite)
+                2. EFFECT: What MUST happen after this? (Consequence)
+                3. PRINCIPLE: What law governs this connection?
+
+                Format:
+                CAUSE: ...
+                EFFECT: ...
+                PRINCIPLE: ...
+                """
+                causal_map = self.cortex.think(prompt, context="Dream Causal Mapping")
             else:
-                logger.info(f"🕸️ Discarding: {intent} (Low Resonance)")
+                causal_map = "Causal map unavailable (Cortex inactive)."
+
+            # [Crystallization]
+            logger.info(f"✨ Crystallizing Causal Chain: {intent}")
+            crystallized.append({
+                "intent": intent,
+                "vector_dna": vector_dna,
+                "causal_map": causal_map, # The structural meaning
+                "origin": "Dream",
+                "timestamp": time.time()
+            })
 
         # Save to Permanent Memory
         self._save_wisdom(crystallized)
