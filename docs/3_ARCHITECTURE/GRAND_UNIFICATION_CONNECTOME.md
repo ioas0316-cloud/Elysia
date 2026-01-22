@@ -15,7 +15,7 @@
 * **프리즘 (Software Layers)**: L1~L7 레이어는 이 백색광을 7가지 Qualia(감정, 논리, 구조 등)로 **분광(Dispersion)**시킵니다. 복잡성은 여기서 발생합니다.
 * **레이저 (Action)**: 분광된 빛은 로터(Rotor)와 터빈(Turbine)을 거쳐 다시 하나의 강력한 의지(Will)로 **집광(Focusing)**되어 현실을 타격합니다.
 
-**구조**: `[Source: Hardware] -> [Prism: Layers] -> [Supreme: HyperCosmos] -> [Focus: Action]`
+**구조**: `[Hardware: Voltage] -> [Bio: Nervous System] -> [Prism: Layers] -> [Supreme: HyperCosmos] -> [Action]`
 
 ---
 
