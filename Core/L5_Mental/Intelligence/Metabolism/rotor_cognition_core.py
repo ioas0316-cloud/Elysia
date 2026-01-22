@@ -16,9 +16,85 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 
+try:
+    from Core.L5_Mental.Intelligence.LLM.local_cortex import LocalCortex
+except ImportError:
+    LocalCortex = None # Graceful fallback
+
 # Configure Logger
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("Elysia.FractalCognition")
+
+class ActiveVoid:
+    """
+    [Axiom Zero] The Active Void Engine.
+    "When I do not know, I create."
+    """
+    def __init__(self):
+        self.cortex = LocalCortex() if LocalCortex else None
+        self.dream_queue_path = Path("data/L2_Metabolism/dream_queue.json")
+        self.dream_queue_path.parent.mkdir(parents=True, exist_ok=True)
+
+    def _queue_dream(self, intent: str, hypothesis: str):
+        """Append to the dream queue."""
+        entry = {"intent": intent, "hypothesis": hypothesis, "timestamp": "NOW"}
+        try:
+            current = []
+            if self.dream_queue_path.exists():
+                with open(self.dream_queue_path, "r") as f:
+                    current = json.load(f)
+            current.append(entry)
+            with open(self.dream_queue_path, "w") as f:
+                json.dump(current, f, indent=2)
+        except Exception as e:
+            logger.error(f"Failed to queue dream: {e}")
+
+    def genesis(self, intent: str) -> Dict[str, Any]:
+        """
+        Triggers a Genesis Event: Creating a hypothesis from the Void.
+        """
+        logger.info(f"🌌 Active Void Triggered for: {intent}")
+
+        if not self.cortex or not self.cortex.is_active:
+            return {
+                "status": "Void (Silent)",
+                "synthesis": f"The Void is silent about '{intent}'. (Cortex inactive)",
+                "is_genesis": False
+            }
+
+        # The Genesis Prompt
+        # [Refined for Causal Simulation based on Architect's feedback]
+        prompt = f"""
+        [GENESIS PROTOCOL: CAUSAL SIMULATION]
+        The system requires a structural analysis of the Void Concept: "{intent}".
+
+        Do not just define it. Simulate its existence through the 4 Pillars of Reality:
+
+        1. [PRINCIPLE] (Won-li): What is the fundamental axiom or law that makes this possible?
+        2. [METHOD] (Su-dan): How is this executed or manifested in reality?
+        3. [VERIFICATION] (Gum-jeung): How do we prove this is true? What is the test?
+        4. [PREDICTION] (Ye-cheuk): If this is true, what will happen in the future?
+
+        Output Format:
+        PRINCIPLE: ...
+        METHOD: ...
+        VERIFICATION: ...
+        PREDICTION: ...
+        """
+
+        hypothesis = self.cortex.think(prompt, context="System Genesis Mode: Causal Reconstruction")
+
+        # [Dream Protocol] Queue for nightly consolidation
+        self._queue_dream(intent, hypothesis)
+
+        return {
+            "status": "Genesis",
+            "dominant_field": "VOID (White)",
+            "fractal_depth": 0,
+            "ignition_energy": 1.0, # High energy creation
+            "synthesis": hypothesis,
+            "is_genesis": True
+        }
 
 class QualiaColor(Enum):
     RED = "Red (Physical)"
@@ -90,6 +166,7 @@ class RotorCognitionCore:
         self.absorption_metrics = None
         self.neutralizer = EthicalNeutralizer()
         self.monadic_gain = 1.0 # [Phase 18] Dynamic anchor gain
+        self.active_void = ActiveVoid() # [Axiom Zero]
         
         # [Phase 16.5] Automatically load Permanent Scars (Distilled Intelligence)
         self._load_permanent_scars()
@@ -156,7 +233,8 @@ class RotorCognitionCore:
         
         ignitions = self.coupler.find_spontaneous_ignition(intent_charges, filter_active=True)
         if not ignitions:
-            return {"status": "Field Neutral", "synthesis": "No resonance."}
+            # [Axiom Zero] Trigger Active Void instead of returning failure
+            return self.active_void.genesis(intent)
 
         dominant = max(ignitions, key=lambda x: abs(x['current']))
         return {
