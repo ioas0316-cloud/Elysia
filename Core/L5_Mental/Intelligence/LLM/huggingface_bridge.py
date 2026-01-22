@@ -28,8 +28,8 @@ TRANSFORMERS_AVAILABLE = True # Assumed available via Proxy, will error at runti
 # For strict correctness, HeavyMerkaba handles the import error internally if configured, or raises it on access. 
 # We'll assume it's available or managed by the Subjugator.
 
-# from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph # [Subjugated: Lazy Import]
 from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
+from Core.L5_Mental.Intelligence.LLM.local_cortex import LocalCortex
 
 logger = logging.getLogger("SovereignBridge")
 
@@ -45,6 +45,9 @@ class SovereignBridge:
         # But we can default to "cpu" string for now and only check later.
         self.device = "cuda" # Optimistic default, verified on connect
         self.is_connected = False
+        
+        # [Local Cortex] - Lightweight fallback
+        self.local = LocalCortex()
         
         # [The Brain] - Lazy
         self._graph = None 
@@ -74,6 +77,11 @@ class SovereignBridge:
              return True
 
         try:
+            if self.local.is_active:
+                print(f"🧠 [Bridge] Local Cortex (Ollama) is active. Skipping Heavy Transformers for now.")
+                self.is_connected = True
+                return True
+
             print(f"🔌 [Bridge] Connecting to '{self.model_name}' on {self.device}...")
             
             # [PHASE SCALE] Equilibrium Cleanup
@@ -174,6 +182,15 @@ class SovereignBridge:
             # Auto-connect if dropped
             if not self.connect():
                  return {"text": "Error: Voicebox disconnected.", "hidden_states": None}
+
+        # 0. Try Local Cortex First (Optimization)
+        if self.local.is_active:
+            res_text = self.local.think(prompt, context=system_context)
+            return {
+                "text": res_text,
+                "vector": torch.zeros(384), # Dummy vector for O(1) flow
+                "tensors_available": False
+            }
 
         # Prompt Engineering (Conversation Style)
         # ... (rest of generate) ...

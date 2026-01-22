@@ -14,7 +14,13 @@ import os
 import mmap
 import numpy as np
 import logging
-from numba import cuda
+try:
+    from numba import cuda
+    NUMBA_AVAILABLE = True
+except ImportError:
+    NUMBA_AVAILABLE = False
+    cuda = None
+
 from typing import Dict, Any, Optional, Tuple
 
 from Core.L6_Structure.Merkaba.portal import MerkabaPortal
@@ -29,8 +35,11 @@ class ZeroLatencyPortal(MerkabaPortal):
     def __init__(self, file_path: str):
         super().__init__(file_path)
         self._pinned_buffer = None
-        self._cuda_stream = cuda.stream()
-        logger.info("⚡ Zero-Latency Portal initialized. NVMe -> GPU path prioritized.")
+        self._cuda_stream = cuda.stream() if NUMBA_AVAILABLE else None
+        if NUMBA_AVAILABLE:
+            logger.info("⚡ Zero-Latency Portal initialized. NVMe -> GPU path prioritized.")
+        else:
+            logger.warning("🐌 Numba not found. Zero-Latency Portal falling back to standard memory.")
 
     def stream_to_metal(self, offset: int, length: int, dtype=np.float32):
         """
@@ -44,19 +53,21 @@ class ZeroLatencyPortal(MerkabaPortal):
         
         # 1. Acquire Pinned Memory (Fastest path for Host-to-Device transfer)
         # We reuse the same buffer if possible to avoid allocation overhead
-        if self._pinned_buffer is None or self._pinned_buffer.nbytes < length:
-            self._pinned_buffer = cuda.pinned_array(element_count, dtype=actual_dtype)
+        if NUMBA_AVAILABLE:
+            if self._pinned_buffer is None or self._pinned_buffer.nbytes < length:
+                self._pinned_buffer = cuda.pinned_array(element_count, dtype=actual_dtype)
         
         # 2. Map file chunk to pinned host memory (Zero-Copy View)
         view = np.frombuffer(self.mm, dtype=actual_dtype, count=element_count, offset=offset)
         
         # 3. Fast Copy to Pinned Buffer
         # Pinned memory allows the GPU to pull data via DMA without CPU intervention.
-        np.copyto(self._pinned_buffer[:element_count], view)
+        if NUMBA_AVAILABLE:
+            np.copyto(self._pinned_buffer[:element_count], view)
+            return self._pinned_buffer[:element_count]
         
-        # 4. Return Device-side view (or just the pinned host for now, 
-        # as GPU can access pinned host memory directly)
-        return self._pinned_buffer[:element_count]
+        # 4. Return standard view if numba missing
+        return view
 
     def scan_and_inject(self, field_bridge, start_offset: int, chunk_count: int, chunk_size: int):
         """

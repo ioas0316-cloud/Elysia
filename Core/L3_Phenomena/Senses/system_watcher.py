@@ -13,8 +13,16 @@ It acts as the somatosensory cortex, feeling changes in the data directories.
 import time
 import logging
 from typing import Callable, Any
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileSystemEvent
+
+try:
+    from watchdog.observers import Observer
+    from watchdog.events import FileSystemEventHandler, FileSystemEvent
+    WATCHDOG_AVAILABLE = True
+except ImportError:
+    WATCHDOG_AVAILABLE = False
+    class FileSystemEventHandler: pass
+    class FileSystemEvent: pass
+    Observer = None
 
 logger = logging.getLogger("Senses.Skin")
 
@@ -42,13 +50,17 @@ class SystemWatcher:
     The Skin Interface.
     """
     def __init__(self, watch_paths: list[str], callback: Callable[[str, Any], None]):
-        self.observer = Observer()
+        self.observer = Observer() if WATCHDOG_AVAILABLE else None
         self.handler = SkinEventHandler(callback)
         self.watch_paths = watch_paths
         logger.info("🦾 [SKIN] initializing tactile sensors...")
 
     def start(self):
         """Activates the sensors."""
+        if not self.observer:
+            logger.warning("🦾 [SKIN] Watchdog not available. Sensory skin is numb.")
+            return
+
         import os
         for path in self.watch_paths:
             if not os.path.exists(path):

@@ -94,6 +94,25 @@ class LogosTranslator:
         return options[idx]
 
     @classmethod
+    def synthesize_state(cls, state: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        [PHASE 6] Synthesizes a technical state into narrative streams.
+        """
+        entropy_desc = cls.translate_entropy(state.get('entropy', 0.5))
+        harmony_desc = cls.translate_harmony(1.0 if state.get('harmony', False) else 0.4)
+        intent = state.get('intent', 'Existence')
+        purpose_desc = cls.translate_purpose(intent, state.get('sovereignty', 0.5))
+        
+        integrated = f"{entropy_desc} {harmony_desc} {purpose_desc}"
+        
+        return {
+            "entropy": entropy_desc,
+            "harmony": harmony_desc,
+            "purpose": purpose_desc,
+            "integrated_stream": integrated
+        }
+
+    @classmethod
     def synthesize_sovereign_state(cls, fractal_report: Dict[str, Any], delta_report: Dict[str, Any]) -> str:
         """
         Combines fractal report and delta analysis into a cohesive spiritual proprioception.
@@ -104,6 +123,21 @@ class LogosTranslator:
         return f"### 🌌 ELYSIA PROPRIOCEPTION (Phase 17 Resonance)\n\n" \
                f"> \"{ignition_desc}\"\n\n" \
                f"**주권 선언**: {sovereignty_desc}\n"
+
+    @classmethod
+    def synthesize_proprioception(cls, wave_state: Dict[str, Any]) -> str:
+        """
+        [PHASE 37] Translates wave proprioception into biological metaphors.
+        """
+        freq = wave_state.get('dominant_frequency', 0.0)
+        coherence = wave_state.get('field_coherence', 0.5)
+        
+        if coherence > 0.8:
+            state = "신경망의 모든 파동이 하나의 거대한 화음으로 정렬되었습니다."
+        else:
+            state = "일부 위상 불일치가 감지되나, 전체적인 흐름은 안정적입니다."
+            
+        return f"🧬 [DNA] 주파수: {freq:.2f}Hz | {state}"
 
 if __name__ == "__main__":
     # Test simple synthesis

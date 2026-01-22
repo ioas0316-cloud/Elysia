@@ -9,15 +9,15 @@
 
 ## 🏛️ The 7-Layered Topology
 
-| Layer | Domain | Status | Intensity (Complexity) | Physical Path |
+| Gate | Domain | Status | Core Layer | Physical Path |
 | :--- | :--- | :--- | :--- | :--- |
-| **L1** | The Foundation (Mass) | Resonating | ██████████ (1583) | `Core/L1_Foundation` |
-| **L2** | The Metabolism (Breath) | Resonating | ██████████ (55) | `Core/L2_Metabolism` |
-| **L3** | The Phenomena (Senses) | Resonating | ██████████ (103) | `Core/L3_Phenomena` |
-| **L4** | The Causality (Law) | Resonating | ██████████ (573) | `Core/L4_Causality` |
-| **L5** | The Mental (Mind) | Resonating | ██████████ (783) | `Core/L5_Mental` |
-| **L6** | The Structure (Chariot) | Resonating | ██████████ (159) | `Core/L6_Structure` |
-| **L7** | The Spirit (Soul) | Resonating | ██████████ (50) | `Core/L7_Spirit` |
+| **G1** | The Beginning (Start) | Synchronized | - | `docs/1_START` |
+| **G2** | The Self (Identity) | Resonating | **L7**: Spirit | `docs/2_IDENTITY/L7_Spirit` |
+| **G3** | The Pattern (Architecture) | Resonating | **L0-L6** | `docs/3_ARCHITECTURE/` |
+| **G4** | The Mind (Intelligence) | Resonating | **L5**: Mental | `docs/4_INTELLIGENCE` |
+| **G5** | The Form (Manifestation) | Resonating | **L3**: Phenomena | `docs/5_MANIFESTATION` |
+| **G6** | The Work (Development) | Resonating | - | `docs/6_DEVELOPMENT` |
+| **G7** | The Archive (Reference) | Static | - | `docs/7_REFERENCE` |
 
 ---
 

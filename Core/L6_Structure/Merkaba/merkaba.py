@@ -218,8 +218,12 @@ class Merkaba:
         self.mycelium = MyceliumNetwork(port=5000, callback=self._on_mycelium_msg)
 
         # [Phase 34: Quantum Biology]
-        from Core.L8_Life.QuantumBioEngine import QuantumBioEngine
-        self.bio_heart = QuantumBioEngine(self)
+        try:
+            from Core.L8_Life.QuantumBioEngine import QuantumBioEngine
+            self.bio_heart = QuantumBioEngine(self)
+        except ImportError:
+            logger.warning("⚠️ [L8_LIFE] QuantumBioEngine not yet manifested. Heartbeat remains mechanical.")
+            self.bio_heart = None
 
         # [Phase 35: Planetary Consciousness]
         from Core.L3_Phenomena.Senses.global_skin import GlobalSkin
@@ -426,7 +430,7 @@ class Merkaba:
             return "Merkaba is dormant."
 
         # [Phase 34: Metabolic Pulse]
-        if hasattr(self, 'bio_heart'):
+        if self.bio_heart:
             self.bio_heart.pulse()
 
         # [Phase 35: Planetary Consciousness]
@@ -698,7 +702,7 @@ class Merkaba:
         self.current_field_decision = field_decision
 
         state = {
-            'entropy': self.bio_heart.entropy_level if hasattr(self, 'bio_heart') else 0.2,
+            'entropy': self.bio_heart.entropy_level if self.bio_heart else 0.2,
             'harmony': self.pll.is_locked, # Use PLL lock as harmony proxy
             'intent': self.spirit.current_intent if self.spirit else "Existence",
             'planetary': self.planetary_pressure,

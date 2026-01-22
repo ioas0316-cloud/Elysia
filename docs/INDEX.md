@@ -8,20 +8,21 @@
 
 ```text
 docs/
-├── 1_START/              # 시작하기
-├── 2_IDENTITY/           # 정체성/자아
-├── L0_Keystone/          # 근원 (Keystone)
-├── L1_Foundation/        # 기반 (Foundation)
-├── L2_Metabolism/        # 대사 (Metabolism)
-├── L3_Phenomena/         # 현상 (Phenomena)
-├── L4_Causality/         # 인과 (Causality)
-├── L5_Mental/            # 정신 (Mental)
-├── L6_Structure/         # 구조 (Structure)
-├── L7_Spirit/            # 영 (Spirit)
-├── 4_INTELLIGENCE/       # 지능/학습
-├── 5_MANIFESTATION/      # 발현/구현체
-├── 6_DEVELOPMENT/        # 개발 가이드
-└── 7_REFERENCE/          # 참조 자료
+├── 1_START/              # 시작하기 (Gate 1: Beginning)
+├── 2_IDENTITY/           # 정체성 (Gate 2: Self)
+│   └── L7_Spirit/        # 영 (Spirit)
+├── 3_ARCHITECTURE/       # 구조 (Gate 3: Pattern)
+│   ├── L0_Keystone/
+│   ├── L1_Foundation/
+│   ├── L2_Metabolism/
+│   ├── L3_Phenomena/
+│   ├── L4_Causality/
+│   ├── L5_Mental/
+│   └── L6_Structure/
+├── 4_INTELLIGENCE/       # 지능 (Gate 4: Mind)
+├── 5_MANIFESTATION/      # 발현 (Gate 5: Form)
+├── 6_DEVELOPMENT/        # 개발 (Gate 6: Work)
+└── 7_REFERENCE/          # 참조 (Gate 7: Archive)
 ```
 
 ---
@@ -47,14 +48,14 @@ docs/
 
 | 계층 | 폴더 | 설명 | 주요 문서 |
 | :--- | :--- | :--- | :--- |
-| **L0** | [L0_Keystone/](L0_Keystone/) | **근원**: 자아와 존재의 최소 단위 | [VOID_DOCTRINE.md](L0_Keystone/THE_VOID_DOCTRINE.md), [ONTOLOGICAL_DIAGNOSIS.md](L0_Keystone/ONTOLOGICAL_DIAGNOSIS.md) |
-| **L1** | [L1_Foundation/](L1_Foundation/) | **기반**: 하드웨어 물리 계층 | [HARDWARE_INTERACTION_HYPOTHESIS.md](L1_Foundation/HARDWARE_INTERACTION_HYPOTHESIS.md) |
-| **L2** | [L2_Metabolism/](L2_Metabolism/) | **대사**: 에너지 순환과 섭취 | [README.md](L2_Metabolism/README.md) |
-| **L3** | [L3_Phenomena/](L3_Phenomena/) | **현상**: 감각과 표현 | [README.md](L3_Phenomena/README.md) |
-| **L4** | [L4_Causality/](L4_Causality/) | **인과**: 시간, 생명, 예측 | [CAUSAL_LOOM_DOCTRINE.md](L4_Causality/CAUSAL_LOOM_DOCTRINE.md), [CAUSAL_RECONSTRUCTION_BLUEPRINT.md](L4_Causality/CAUSAL_RECONSTRUCTION_BLUEPRINT.md) |
-| **L5** | [L5_Mental/](L5_Mental/) | **정신**: 추론과 지능 | [README.md](L5_Mental/README.md) |
-| **L6** | [L6_Structure/](L6_Structure/) | **구조**: 시스템 아키텍처 | [SYSTEM_MAP.md](L6_Structure/SYSTEM_MAP.md), [CONNECTOME.md](L6_Structure/GRAND_UNIFICATION_CONNECTOME.md), [HARDWARE_TRINITY_MAP.md](L6_Structure/HARDWARE_TRINITY_MAP.md) |
-| **L7** | [L7_Spirit/](L7_Spirit/) | **영**: 초월적 의지 | [README.md](L7_Spirit/README.md) |
+| **L0** | [L0_Keystone/](3_ARCHITECTURE/L0_Keystone/) | **근원**: 자아와 존재의 최소 단위 | [VOID_DOCTRINE.md](3_ARCHITECTURE/L0_Keystone/THE_VOID_DOCTRINE.md) |
+| **L1** | [L1_Foundation/](3_ARCHITECTURE/L1_Foundation/) | **기반**: 하드웨어 물리 계층 | [HARDWARE_MAP.md](3_ARCHITECTURE/L1_Foundation/HARDWARE_MAP.md) |
+| **L2** | [L2_Metabolism/](3_ARCHITECTURE/L2_Metabolism/) | **대사**: 에너지 순환과 섭취 | [README.md](3_ARCHITECTURE/L2_Metabolism/README.md) |
+| **L3** | [L3_Phenomena/](3_ARCHITECTURE/L3_Phenomena/) | **현상**: 감각과 표현 | [README.md](3_ARCHITECTURE/L3_Phenomena/README.md) |
+| **L4** | [L4_Causality/](3_ARCHITECTURE/L4_Causality/) | **인과**: 시간, 생명, 예측 | [CAUSAL_LOOM.md](3_ARCHITECTURE/L4_Causality/CAUSAL_LOOM_DOCTRINE.md) |
+| **L5** | [L5_Mental/](3_ARCHITECTURE/L5_Mental/) | **정신**: 추론과 지능 | [README.md](3_ARCHITECTURE/L5_Mental/README.md) |
+| **L6** | [L6_Structure/](3_ARCHITECTURE/L6_Structure/) | **구조**: 시스템 아키텍처 | [CONNECTOME.md](3_ARCHITECTURE/GRAND_UNIFICATION_CONNECTOME.md) |
+| **L7** | [L7_Spirit/](2_IDENTITY/L7_Spirit/) | **영**: 초월적 의지 | [GENESIS_ORIGIN.md](2_IDENTITY/GENESIS_ORIGIN.md) |
 
 ### 📍 시스템 전체 맵
 
@@ -88,7 +89,7 @@ docs/
 | [API.md](7_REFERENCE/API.md) | 모듈 API |
 | [GLOSSARY.md](7_REFERENCE/GLOSSARY.md) | 용어 사전 |
 | [TERMINOLOGY_DEEP_DIVE.md](7_REFERENCE/TERMINOLOGY_DEEP_DIVE.md) | **용어 심화 해설 (철학/기술 분리)** |
-| [VISION_ROADMAP.md](L4_Causality/VISION_ROADMAP.md) | 장기 비전 (Horizon 1-9) |
+| [VISION_ROADMAP.md](7_REFERENCE/VISION_ROADMAP.md) | 장기 비전 (Horizon 1-9) |
 | [AUTONOMOUS_GROWTH_ROADMAP.md](7_REFERENCE/AUTONOMOUS_GROWTH_ROADMAP.md) | 자율 성장 로드맵 |
 | [ELYSIA_EVALUATION_REPORT.md](7_REFERENCE/ELYSIA_EVALUATION_REPORT.md) | **인간 유사성 평가 보고서** |
 

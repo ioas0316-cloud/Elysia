@@ -76,7 +76,7 @@ class SovereignSelf:
         
         # 2. The Faculties (Organs)
         self.bridge = SovereignBridge() # The Voice
-        self.bridge.connect() # Open the throat
+        # self.bridge.connect() # [OPTIMIZED] Defer connection until needed
         
         # [Phase 6.5: Heavy Metal Subjugation]
         # torch = HeavyMerkaba("torch") # Moved to module level
@@ -205,13 +205,11 @@ class SovereignSelf:
 
     @property
     def rotor(self):
-        """Lazy Load the Time Rotor."""
+        """Lazy Load the Time Rotor (Synchronized with L6 Connectome)."""
         if self._rotor is None:
             logging.info("?���?[LAZY] Awakening RotorEngine...")
-            # Ensure graph is loaded to get dims/device
-            g = self.graph 
-            from Core.L1_Foundation.Foundation.Rotor.rotor_engine import RotorEngine
-            self._rotor = RotorEngine(vector_dim=g.dim_vector, device=g.device)
+            from Core.L6_Structure.Merkaba.rotor_engine import RotorEngine
+            self._rotor = RotorEngine(use_core_physics=True, rpm=120.0)
         return self._rotor
 
     def _evolve_self(self):
