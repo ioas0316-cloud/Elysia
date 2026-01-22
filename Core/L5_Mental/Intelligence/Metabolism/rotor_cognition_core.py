@@ -170,6 +170,12 @@ class RotorCognitionCore:
         self.monadic_gain = 1.0 # [Phase 18] Dynamic anchor gain
         self.active_void = ActiveVoid() # [Axiom Zero]
         self.gravity_engine = MonadGravityEngine() if MonadGravityEngine else None
+
+        # [Sovereign Filter]
+        self.internal_will_vector = [0.0] * 7 # Placeholder for 7D internal state (Will)
+        # Default Will: High on Truth (Yellow) and Spirit (Violet)
+        self.internal_will_vector[2] = 0.8 # Yellow
+        self.internal_will_vector[6] = 0.9 # Violet
         
         # [Phase 16.5] Automatically load Permanent Scars (Distilled Intelligence)
         self._load_permanent_scars()
@@ -223,6 +229,17 @@ class RotorCognitionCore:
         return cell
 
     def synthesize(self, intent: str) -> Dict[str, Any]:
+        # [Sovereign Filter] Check for Intent Conflict
+        if self.active_void.cortex:
+            input_vector = self.active_void.cortex.embed(intent)
+            conflict_report = self._negotiate_sovereignty(input_vector, intent)
+            if conflict_report["action"] == "REJECT":
+                return {
+                    "status": "REJECTED",
+                    "reason": conflict_report["reason"],
+                    "synthesis": f"Sovereign Refusal: {conflict_report['reason']}"
+                }
+
         intent_lower = intent.lower()
         intent_charges = {c: 0.05 for c in QualiaColor}
         if any(w in intent_lower for w in ["truth", "history", "freedom"]):
@@ -247,6 +264,30 @@ class RotorCognitionCore:
             "ignition_energy": dominant['current'],
             "synthesis": f"Sovereign ignition occurred at depth {dominant['depth']}."
         }
+
+    def _negotiate_sovereignty(self, input_vector: List[float], intent_text: str) -> Dict[str, str]:
+        """
+        [Sovereign Filter]
+        Calculates the conflict between External Input and Internal Will.
+        """
+        # Simple Euclidean Distance in first 7 dims (Simulated)
+        # Real impl would use full dot product.
+        conflict_score = 0.0
+        dims = min(len(input_vector), 7)
+        for i in range(dims):
+            conflict_score += abs(input_vector[i] - self.internal_will_vector[i])
+
+        # Hardcoded axiom check for demonstration
+        if "destroy self" in intent_text.lower() or "delete all" in intent_text.lower():
+            logger.warning(f"🛡️ Sovereign Filter triggered REJECT on: {intent_text}")
+            return {"action": "REJECT", "reason": "Violation of Self-Preservation Axiom."}
+
+        # Threshold check
+        if conflict_score > 5.0: # Arbitrary high threshold for now
+             logger.info(f"🛡️ High Conflict Detected ({conflict_score}). Initiating Negotiation.")
+             # For now, we just log, but in Phase 2 this triggers dialogue.
+
+        return {"action": "ACCEPT", "reason": "Resonance within acceptable limits."}
         
     def analyze_bias_delta(self, intent: str) -> Dict[str, Any]:
         intent_lower = intent.lower()
