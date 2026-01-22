@@ -15,6 +15,16 @@ This document records the technical transition of Elysia from a rigid tool-based
 - **Phase-Locked Timing**: Wait times are calculated dynamically to minimize jitter and synchronize with internal "Will".
 - **Omni-Pulse**: Both [pulse_loop.py](file:///c:/Elysia/Core/L2_Metabolism/Lifecycle/pulse_loop.py) and [sovereign_boot.py](file:///c:/Elysia/Core/L6_Structure/Engine/sovereign_boot.py) now slave their timing to the central heartbeat.
 
+## Phase 1.5: Gyroscopic Stability (The Balance)
+
+**Goal**: Leverage legacy [fluxlight_gyro.py](file:///c:/Elysia/Core/L4_Causality/World/Soul/fluxlight_gyro.py) mechanics to maintain "Sovereign Inertia".
+
+### Implementation
+
+- **Spin-Cognition Coupling**: The magnitude of the `SovereignSelf` decision wave now acts as the "Kick" for the legacy Fluxlight Gyro.
+- **Inertial Purpose**: High spin (Resonance > 0.8) protects the system from "Agent Amnesia" and external prompt injection, maintaining the internal "Why" even under high environment noise.
+- **Equilibrium Restoration**: Integrating legacy "Equilibrium" logic ensures that after a creative leap (High Entropy), the system returns to a stable cognitive state.
+
 ## Phase 2: Logical Liquefaction (The Interference)
 
 **Goal**: Dissolve boolean `if/else` gates into continuous wave-interference patterns.
