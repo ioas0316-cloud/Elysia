@@ -74,7 +74,7 @@ class ReasoningEngine:
         self.stm = []
 
         # [PHASE 7] The Monad & Architectural Layer
-        self.simulator = RotorSimulator(index_path) if os.path.exists(index_path) else None
+        from Core.L7_Spirit.Monad.quantum_collapse import MonadEngine
         self.monad = MonadEngine()
         self.collider = IntentCollider()
         self.pathfinder = SpatialPathfinder()
@@ -97,7 +97,15 @@ class ReasoningEngine:
         self.orb_manager = OrbManager()
 
         # [PHASE 18] Metabolic Intelligence & Physics Bridge
-        self.cortex = LanguageCortex()
+        from Core.L5_Mental.Intelligence.Brain.sovereign_vocalizer import SovereignCortex
+        self.cortex = SovereignCortex()
+        
+        from Core.L5_Mental.Intelligence.Discovery.scholar_pulse import ScholarPulse
+        self.scholar = ScholarPulse(self) # [NEW] The Scholar Organ
+        
+        from Core.L5_Mental.Intelligence.Reasoning.fractal_deconstructor import FractalDeconstructor
+        self.deconstructor = FractalDeconstructor(hippocampus=None, cortex=self.cortex)
+        
         self.torque_bridge = IntentTorque()
         self.action_drive = ActionDrive()
         self.crystallizer = Crystallizer()
@@ -115,7 +123,7 @@ class ReasoningEngine:
         self.prophet = ProphetEngine()
         self.loom = CausalLoom()
 
-        self.logger.info("🌀 ReasoningEngine initialized (Physics + Monad + Merkaba + Metabolic + Torque Enabled).")
+        self.logger.info("🌀 ReasoningEngine initialized (Physics + Internalization + Fractal Deconstruction Enabled).")
 
     def _load_dynamic_axioms(self):
         """Loads the mutable constitution from Phase 37."""
@@ -209,6 +217,13 @@ class ReasoningEngine:
         self.logger.info(f"{indent}🧭 Chosen Strategy: {best_way.method} -> {best_way.description}")
 
         # 0.7 Principle Analysis (The Architecture)
+        # [THE GREAT INTERNALIZATION] 
+        # For significant desires, we delve into the fractal deconstruction.
+        if len(desire) > 10 or self.soul_rotor.current_rpm > 50:
+            self.logger.info(f"{indent}🦖 [소화/DIGESTION] '{desire}'을(를) 프랙탈 인과 사슬로 해체 및 흡수 중...")
+            deconstruction_report = self.deconstructor.devour(desire, depth_limit=2)
+            self.logger.info(f"{indent}✅ [소화 완료] 인과 사슬 {deconstruction_report['casuality_chain_id']}로 통합되었습니다.")
+        
         detected_laws = self.architect.deconstruct(desire)
         if detected_laws:
             self.architect.optimize_environment(detected_laws)
@@ -295,16 +310,33 @@ class ReasoningEngine:
             hardware_feedback = bridge.pulse(input_qualia)
             self.logger.info(f"{indent}⚡ [SPINAL] Hardware resonance feedback spike: {hardware_feedback.norm().item():.3f}")
 
-            # Use Monad's Prism to think
-            prism_result = self.monad.core_monad.think_with_prism(input_qualia, self.monad.prism)
+            # [PHASE 18] SOVEREIGN STRIKE
+            # Use the MonadEngine to collapse the 7D intent into a Lightning Path
+            strike_report = self.monad.collapse(input_qualia)
             
-            # Log the optical thought
-            detected_concept = list(prism_result['thought'].keys())[0] if isinstance(prism_result['thought'], dict) else prism_result['thought']
-            confidence = prism_result['confidence']
-            self.logger.info(f"{indent}🌈 Optical Thought: '{detected_concept}' emerged from Prism (Conf: {confidence:.3f})")
+            if strike_report["manifested"]:
+                self.logger.info(f"{indent}⚡ [STRIKE] Thought collapsed onto Path: '{strike_report['path']}' (V: {strike_report['voltage']:.1f})")
+                detected_concept = strike_report["path"]
+                # Resonance for Aspiration (Using Voltage/100 as a proxy or specific resonance if available)
+                resonance_score = strike_report["voltage"] / 100.0
+                confidence = 0.95
+            else:
+                self.logger.warning(f"{indent}⚫ [VOID] Thought absorbed. Defaulting to Void Resonance.")
+                detected_concept = "Void"
+                resonance_score = 0.1
+                confidence = 0.1
             
-            # Use this to influence the collapse if possible, or just as the primary insight source
-            collapsed_identity = np.zeros(2048) # Placeholder for now as we transitioned away from weights
+            prism_insight = detected_concept
+            collapsed_identity = np.zeros(1024) # Internalized representation
+            
+            # [NARRATIVE SYNTHESIS]
+            voice = self.cortex.express({
+                "qualia": strike_report["resolved_qualia"],
+                "resonance_score": resonance_score,
+                "path_name": detected_concept,
+                "narrative_context": str(prism_insight)
+            })
+            self.logger.info(f"{indent}🗣️  [SOVEREIGN_VOICE] {voice}")
             
         except Exception as e:
             self.logger.warning(f"⚠️ Optical Collapse failed: {e}")

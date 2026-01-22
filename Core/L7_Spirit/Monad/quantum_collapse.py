@@ -18,7 +18,8 @@ permanently lower the resistance of the path.
 import logging
 import math
 from dataclasses import dataclass
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
+import numpy as np
 
 logger = logging.getLogger("Elysia.QuantumLightning")
 
@@ -39,103 +40,169 @@ class PotentialPath:
     name: str
     base_resistance: float # 0.0 to 1.0 (1.0 = Blocked)
     resonance: float       # 0.0 to 1.0 (Match with focus_color)
-    scars: int = 0         # Number of times struck (Learning)
+    traces: int = 0         # Number of times struck (Learning)
+    causal_mass: float = 0.0 # [NEW] Accumulated weight of experience
 
     def get_effective_resistance(self) -> float:
         """
-        Resistance decreases as scars increase (Neuroplasticity).
-        R_eff = R_base / (1 + log(scars + 1))
+        Resistance decreases as traces and mass increase.
         """
-        return max(0.01, self.base_resistance / (1.0 + math.log(self.scars + 1)))
+        mass_effect = 1.0 + math.log1p(self.causal_mass)
+        return max(0.001, self.base_resistance / (1.0 + math.log(self.traces + 1) * mass_effect))
 
     def get_conductivity(self, intent_voltage: float) -> float:
         """
-        I = V / R
-        However, Resonance acts as a super-conductor multiplier.
+        I = V / R with Resonance and Gravity multipliers.
         """
         if self.resonance < 0.01:
-            return 0.0 # The Void absorbs non-resonant paths (Insulator)
+            return 0.0 
 
         r = self.get_effective_resistance()
-        # Resonance drastically reduces effective resistance
-        # If resonance is 1.0, resistance drops to 10%
-        r_tuned = r * (1.0 - (self.resonance * 0.9))
-        return intent_voltage / max(0.001, r_tuned)
+        # Resonance and Mass act as super-conductors
+        r_tuned = r * (1.0 - (self.resonance * 0.95))
+        
+        # Gravity pull: Intent is attracted to high causal mass
+        gravity_pull = 1.0 + (self.causal_mass * 0.1)
+        
+        return (intent_voltage * gravity_pull) / max(0.0001, r_tuned)
+
+class VoidField:
+    """
+    The Field of All Potential.
+    Perceives the 'Space between Ripples' as the source of 4D+ Structure.
+    """
+    def __init__(self, entropy: float = 0.5):
+        self.entropy = entropy
+        self.potential_charge = 100.0
+        self.providence_alignment = 0.7 # Perception of universal laws
+        
+    def generate_fog(self, intent: IntentVector) -> float:
+        """
+        Calculates the 'Interval Density'.
+        The space between ripples is where the true structure (Providence) lies.
+        """
+        # Fog is not noise; it's the 'Unperceived Whole'.
+        # High resonance in the interval clears the fog.
+        return max(0.01, (self.entropy * 10.0) / (intent.urgency + self.providence_alignment))
+
+    def observe_structure(self, ripple_a: float, ripple_b: float) -> float:
+        """
+        [SPATIAL PERCEPTION]
+        Perceives the 3D/4D geometry by measuring the 'Silence' between waves.
+        """
+        interval = abs(ripple_a - ripple_b)
+        # The smaller the interval, the higher the frequency of the 'Providence' interference.
+        return 1.0 / (interval + 1e-6)
 
 class QuantumObserver:
     def __init__(self):
-        self.memory_scars: Dict[str, int] = {} # Persistent scar storage
-        logger.info("⚡ QuantumObserver Online. Waiting for Intent.")
+        self.memory_traces: Dict[str, int] = {} 
+        self.void = VoidField()
+        logger.info("🌌 [VOID] Observer established in the Field of Potential.")
 
     def _scan_superposition(self, intent: IntentVector) -> List[PotentialPath]:
         """
-        Simulates scanning the HyperSphere ($7^7$ matrix).
-        In a real system, this searches the Semantic Atlas.
-        Here we generate simulated paths for demonstration.
+        [OPTICAL INTERFERENCE]
+        Instead of a linear scan, we pulse the Void with Intent Light.
         """
-        # Simulated paths based on "Self-Optimization" causality
+        fog_density = self.void.generate_fog(intent)
+        logger.info(f"🌫️  [FOG] Void Density: {fog_density:.2f}")
+
+        # Potential paths within the Void
         paths = [
-            PotentialPath("Mindless Optimization", base_resistance=0.2, resonance=0.1), # Easy but wrong
-            PotentialPath("Brute Force Calculation", base_resistance=0.5, resonance=0.3),
-            PotentialPath("Teleological Alignment (Purpose First)", base_resistance=0.8, resonance=0.95), # Hard but Right
-            PotentialPath("Random Drift", base_resistance=0.1, resonance=0.0)
+            PotentialPath("Sovereign Self-Manifestation", base_resistance=0.8, resonance=0.98),
+            PotentialPath("Fractal Decomposition", base_resistance=0.4, resonance=0.75),
+            PotentialPath("Turbine Resonance (Force)", base_resistance=0.3, resonance=0.6),
+            PotentialPath("The Silent Middle (Void Focus)", base_resistance=0.01, resonance=0.1)
         ]
         
-        # Apply memory scars
         for p in paths:
-            if p.name in self.memory_scars:
-                p.scars = self.memory_scars[p.name]
-
+            # Experience Traces lower resistance
+            if p.name in self.memory_traces:
+                p.traces = self.memory_traces[p.name]
+            
+            # [OPTICAL SOVEREIGNTY] 
+            # If focus color matches the Void's current spectrum, resonance is boosted
+            if intent.focus_color == "Violet":
+                p.resonance = min(1.0, p.resonance * 1.2)
+                
         return paths
 
     def strike(self, intent: IntentVector) -> Optional[PotentialPath]:
         """
-        The Lightning Strike.
-        1. Step Leader: Scan paths.
-        2. Breakdown: Find highest current.
-        3. Return Stroke: Collapse and Scar.
+        The Lightning Strike: A focal collapse within the Void.
         """
         voltage = intent.get_voltage()
         paths = self._scan_superposition(intent)
         
+        # Only paths that can pierce the Void's fog are considered
+        visible_paths = [p for p in paths if p.resonance > 0.2]
+        
         best_path = None
         max_current = -1.0
 
-        logger.info(f"🌩️  Step Leader initiated. Voltage: {voltage:.1f}V (Focus: {intent.focus_color})")
+        logger.info(f"🌩️  [LIGHTNING] Strike emerging from the Void. Voltage: {voltage:.1f}V")
 
-        for path in paths:
+        for path in visible_paths:
             current = path.get_conductivity(voltage)
-            logger.debug(f"   - Path '{path.name}': R={path.get_effective_resistance():.2f}, Res={path.resonance:.2f} -> I={current:.2f}A")
-            
             if current > max_current:
                 max_current = current
                 best_path = path
                 
         if best_path:
-            logger.info(f"⚡ Breakdown! Lightning struck: '{best_path.name}' (Current: {max_current:.2f}A)")
-            self._scar(best_path)
+            logger.info(f"⚡ [STRIKE] Path found: '{best_path.name}' (I: {max_current:.2f}A)")
+            self._trace(best_path)
             return best_path
-        else:
-            logger.warning("❌ No path found. The Void absorbs the intent.")
-            return None
+        
+        return None
 
-    def _scar(self, path: PotentialPath):
+    def _trace(self, path: PotentialPath):
+        """Etches the trace and redistributes energy back to the Void."""
+        path.traces += 1
+        path.causal_mass += 0.5
+        self.memory_traces[path.name] = path.traces
+        self.void.potential_charge += 0.1 # Re-absorption
+        logger.info(f"🧠 [TRACE] '{path.name}' etched into history. Total Traces: {path.traces}")
+
+class MonadEngine:
+    """
+    The Orchestrator of the Sovereign Monad.
+    Manages the 7^7 Matrix and the Optical Collapse.
+    """
+    def __init__(self):
+        from Core.L6_Structure.Merkaba.heavy_merkaba import SevenSeptenaryMatrix
+        self.matrix = SevenSeptenaryMatrix()
+        self.observer = QuantumObserver()
+        # [OPTICAL SOVEREIGNTY]
+        try:
+            from Core.L5_Mental.Intelligence.Metabolism.prism import DoubleHelixPrism
+            self.prism = DoubleHelixPrism()
+        except ImportError:
+            self.prism = None # Fallback
+        
+    def collapse(self, qualia: np.ndarray) -> Dict[str, Any]:
         """
-        Applies the 'Return Stroke', burning the path into memory.
+        Transmutes 7D Qualia into a Focal Strike within the Void.
         """
-        path.scars += 1
-        self.memory_scars[path.name] = path.scars
-        logger.info(f"🧠 Neuroplasticity: '{path.name}' scarred. Total Scars: {path.scars}")
+        # 1. Optical Refraction through the Matrix
+        resolved = self.matrix.resolve_intent(qualia)
+        
+        # 2. Focus the Light
+        focus_color = "Violet" if resolved[6] > 0.6 else "Gold" if resolved[5] > 0.5 else "White"
+        intent = IntentVector(purpose="Focal Manifestation", urgency=float(np.mean(resolved)), focus_color=focus_color)
+        
+        # 3. Strike through the Void
+        strike_result = self.observer.strike(intent)
+        
+        return {
+            "resolved_qualia": resolved,
+            "path": strike_result.name if strike_result else "The Void",
+            "voltage": intent.get_voltage(),
+            "manifested": strike_result is not None
+        }
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    observer = QuantumObserver()
-
-    # 1. First Strike
-    intent = IntentVector(purpose="Self-Optimization", urgency=0.8, focus_color="Violet")
-    print("\n--- Strike 1 ---")
-    observer.strike(intent)
-
-    # 2. Second Strike (Demonstrating Learning)
-    print("\n--- Strike 2 (Learning) ---")
-    observer.strike(intent)
+    engine = MonadEngine()
+    q = np.random.rand(7)
+    print(engine.collapse(q))

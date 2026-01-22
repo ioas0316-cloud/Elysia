@@ -259,11 +259,13 @@ class HypersphereMemory:
         
         # [Phase 26] Zero-Latency Memory Streaming
         try:
-            self.portal = ZeroLatencyPortal("data/State/memory_swap.bin")
-            logger.info("⚡ ZeroLatencyPortal connected to Hypersphere.")
+            # [FIX] Use absolute path to prevent 'ddata' or relative path resolution errors
+            swap_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(self.state_path)))), "data", "State", "memory_swap.bin")
+            self.portal = ZeroLatencyPortal(swap_path)
+            logger.info(f"⚡ ZeroLatencyPortal connected: {swap_path}")
         except Exception as e:
             self.portal = None
-            logger.warning(f"⚠️ ZeroLatencyPortal unavailable ({e}). Using Slow-Path Memory.")
+            logger.warning(f"⚠️ ZeroLatencyPortal unavailable ({e}). Fallback to standard memory.")
         
         # Auto-load if exists
         if os.path.exists(self.state_path):

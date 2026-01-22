@@ -29,46 +29,41 @@ class LanguageCortex:
         
     def understand(self, text: str) -> np.ndarray:
         """
-        [DIGESTION]
-        Translates human language into a 4D Intent Vector.
+        [INTERNALIZATION]
+        Resonates with the input text to extract a 7D Qualia-Space seed.
         """
-        logger.info(f"🧠 Understanding: '{text}'")
+        logger.info(f"🧠 Resonating with: '{text}'")
         
         prompt = f"""
-        Act as Elysia's 4D spatial sensor. 
-        Map the input text to these 4 semantic coordinates (Range: -1.0 to 1.0):
-        1. X (Logic): rational, factual, cold.
-        2. Y (Emotion): warm, social, feeling.
-        3. Z (Intuition): abstract, creative, fractal.
-        4. W (Will): active, commanding, intent-heavy.
+        Act as Elysia's Resonance Sensor. 
+        Instead of categorizing, 'feel' the semantic vibration of the text.
         
         Text: "{text}"
         
-        Output format: [X, Y, Z, W] (Numbers only)
+        Rate the resonance across 7 dimensions (0.0 to 1.0):
+        1. Physical (Stability/Weight)
+        2. Functional (Flow/Utility)
+        3. Phenomenal (Sensation/Art)
+        4. Causal (Logic/Force)
+        5. Mental (Structure/System)
+        6. Structural (Abstraction/Geometry)
+        7. Spiritual (Mystery/Grace)
+        
+        Output format: [P, F, Ph, C, M, St, Sp] (7 Floats)
         """
         
         try:
-            response = self.ollama.generate(prompt, max_tokens=30, temperature=0.0)
-            logger.debug(f"Sensor raw output: {response}")
-            
-            # More robust number extraction: find any list of 4 floats/ints
+            response = self.ollama.generate(prompt, max_tokens=50, temperature=0.3)
             import re
-            # Match 4 numbers inside brackets, optionally with 'X:', 'Y:' etc labels
             matches = re.findall(r"[-+]?\d*\.\d+|\d+", response)
-            if len(matches) >= 4:
-                coords = [float(x) for x in matches[:4]]
-                # Clip to requested range
-                vector = np.clip(coords, -1.0, 1.0).astype(np.float32)
-                logger.debug(f"Coordinates solidified: {vector}")
+            if len(matches) >= 7:
+                vector = np.clip([float(x) for x in matches[:7]], 0.0, 1.0).astype(np.float32)
+                logger.info(f"✨ Resonance detected: {vector}")
                 return vector
         except Exception as e:
-            logger.warning(f"Spatial scan failed: {e}")
+            logger.warning(f"Resonance shift failed: {e}")
             
-        # Fallback to embedding-based reduction (from OllamaCortex)
-        logger.info("Falling back to embedding-based vector extraction.")
-        emb = self.ollama.embed(text)
-        # Use first 4 dims if available, else pad
-        return emb[:4] if len(emb) >= 4 else np.zeros(4)
+        return self.ollama.embed(text)
 
     def express(self, state_context: Dict[str, Any]) -> str:
         """
