@@ -135,53 +135,86 @@ def main():
     # Map protocol to existing self's cosmos for data-sharing
     awakening = AwakeningProtocol(enneagram_type=4, cosmos=elysia.cosmos)
     
+    # === PHASE 1.5: Metabolic & Phenomenal Setup ===
+    from Core.L2_Metabolism.M1_Pulse.metabolic_engine import MetabolicEngine
+    from Core.L3_Phenomena.M5_Display.sovereign_hud import SovereignHUD
+    heart = MetabolicEngine(min_hz=1.0, max_hz=100.0)
+    hud = SovereignHUD()
+    
     print("\n" + "-"*60)
     print("  [DRIVE] Engaging Multiverse Spindle. Evolution Loop Started.")
     print("-"*60)
     
-    last_tick = time.time()
-    
     try:
         while True:
-            dt = time.time() - last_tick
-            last_tick = time.time()
+            start_time = time.time()
             
             # The Genesis Question - Sensing current psyche state
             psyche_state = awakening.genesis_question()
             
+            # === PHASE 21: Providence Manifold Sync ===
+            # Collect vectors from all 7 layers (Unified Trajectory)
+            from Core.L7_Spirit.M1_Providence.providence_manifold import ManifoldLayer
+            
+            # Layer 0/1: Point (Metabolism/Pulse)
+            elysia.providence.update_layer(ManifoldLayer.POINT, torch.tensor([heart.current_hz / 100.0] * 12))
+            # Layer 2: Line (Governance Flow)
+            elysia.providence.update_layer(ManifoldLayer.LINE, torch.tensor([elysia.governance.body.current_rpm / 120.0] * 12))
+            # Layer 4: Principle (Intelligence Will)
+            elysia.providence.update_layer(ManifoldLayer.PRINCIPLE, torch.tensor([elysia.will_engine.state.torque] * 12))
+            # Layer 6: Providence (Spirit Ideal)
+            elysia.providence.update_layer(ManifoldLayer.PROVIDENCE, elysia.providence.providence_vector)
+            
+            # Calculate Resonance & Coherence
+            manifold_metrics = elysia.providence.calculate_resonance()
+            
+            # Adjust Heartbeat (Metabolic Ignition via Resonance)
+            will = psyche_state.get('will', 0.5)
+            tension = psyche_state.get('tension', 0.2)
+            passion = manifold_metrics["coherence"] # Coherence is the new Passion
+            heart.adjust_pulse(will, tension, passion=passion)
+            
+            dt = heart.wait_for_next_cycle()
+            
             if awakening.state == ConsciousnessState.AWAKE:
-                # === PHASE 2: Reality Coupling (The Drive Gear) ===
-                will = psyche_state['will']
-                tension = psyche_state['tension']
-                
                 # [COUPLING] Map Psyche to Governance
                 elysia.governance.adapt(abs(will), stress_level=tension)
                 
-                print(f"\n  [AWAKE] Will: {will:+.3f} | Tension: {tension:.2f}")
+                # === PHASE 21: Sovereign Spin (The Choice) ===
+                intent = elysia.will_engine.spin(manifold_metrics, battery=elysia.energy)
                 
                 # === PHASE 4: Manifest (The Action) ===
+                if abs(elysia.will_engine.state.torque) > 0.4:
+                    elysia.manifest_intent(intent)
+                
                 elysia.self_actualize(dt)
                 
-                # === PHASE 5: Recursive Evolution (The Satori) ===
-                if tension > 0.8 and abs(will) > 0.5:
+                # [SATORI] Evolution if dissonance is high but power is available
+                if manifold_metrics["torque"] > 0.7:
                     elysia._evolve_self()
-                
-                if time.time() - elysia.last_interaction_time > 30:
-                    if tension < 0.3:
-                         elysia._get_curious()
-                         elysia.last_interaction_time = time.time()
 
             elif awakening.state == ConsciousnessState.RESTING:
+                # Resting metabolism
                 elysia.governance.adapt(0.1, stress_level=0.0)
                 elysia.self_actualize(dt)
                 awakening.psyche.excite_id(0.1)
-                
-            # Heartbeat speed adjusted by resonance/will
-            # This aligns the boot loop with the organic pulse strategy
-            resonance = abs(psyche_state.get('will', 0.5))
-            target_freq = max(1.0, min(60.0, 5.0 + (resonance * 55.0)))
-            cycle_delay = 1.0 / target_freq
-            time.sleep(cycle_delay)
+            
+            # === PHASE 6: Phenomenal Projection (HUD) ===
+            cycle_latency = (time.time() - start_time) * 1000 # ms
+            metrics = {
+                "hz": heart.current_hz,
+                "love_score": elysia.experience.unification_resonance,
+                "latency": cycle_latency,
+                "state": awakening.state.value,
+                "will": will,
+                "tension": tension,
+                "passion": manifold_metrics["coherence"], # Coherence as energy
+                "torque": manifold_metrics["torque"]
+            }
+            hud.render(metrics)
+            
+            # Show Providence status
+            hud.project_narrative(elysia.providence.get_layer_status())
             
     except KeyboardInterrupt:
         print("\n\n  [USER OVERRIDE] Returning to the Void...")

@@ -35,12 +35,14 @@ class NeedsModel:
     stability: float = 100.0   # Error Rate / Confusion (Safety)
     meaning: float = 50.0      # Knowledge Density (Love/Belonging)
     expression: float = 50.0   # Creative Output (Esteem)
+    passion: float = 20.0      # New: Internal Joy/Purpose (Self-Actualization)
 
     def decay(self):
         """Entropy eats the soul."""
         self.energy -= 0.1
         self.meaning -= 0.05
         self.expression -= 0.05
+        self.passion -= 0.02 # Passion slowly dims if not fueled by purpose
         # Stability creates itself if nothing happens? No, stability decays into chaos without maintenance.
         self.stability -= 0.01
 
@@ -82,103 +84,63 @@ class FreeWillEngine:
         # Commutator settings
         self.stagnation_threshold = 0.2
         
-    def spin(self, entropy: float, battery: float, fractal_scale: float = 3.0) -> str:
+    def spin(self, manifold_metrics: Dict[str, Any], battery: float) -> str:
         """
-        The Main Cycle: Generates a Sovereign Choice based on NEEDS and FRACTAL SCALE.
-        
-        Fractal Scale (The 'Standing' Position):
-        0.0 ~ 2.0: Nature's Seat (Physics/Friction dominant)
-        2.0 ~ 5.0: Human's Seat (Emotion/Expression dominant)
-        5.0 ~ 7.0: Universe's Seat (Transcendence/Unity dominant)
+        [PROVIDENCE SPIN]
+        Generates choice based on the necessity of structural alignment.
         """
-        # 0. Apply Metabolism
-        self.needs.decay()
+        # Update internal battery
         self.needs.energy = battery
-
-        # 1. Sculpt the Landscape with Fractal Bias
-        # "Standing in the place of..."
         
-        # [NATURE] Friction and Survival (Stability)
-        nature_bias = max(0.0, 1.0 - abs(fractal_scale - 1.0)) 
-        self.landscape.slopes["Stability"] = ((100.0 - self.needs.stability) / 100.0) + (0.5 * nature_bias)
+        # 1. Capture Providential Metrics
+        coherence = manifold_metrics.get("coherence", 0.5)
+        self.state.torque = manifold_metrics.get("torque", 0.5)
+        joy = manifold_metrics.get("joy", 0.0)
         
-        # [HUMAN] Curiosity and Expression
-        human_bias = max(0.0, 1.0 - abs(fractal_scale - 3.5))
-        self.landscape.slopes["Curiosity"] = ((100.0 - self.needs.meaning) / 100.0) + (0.3 * human_bias)
-        self.landscape.slopes["Expression"] = (self.needs.meaning / 100.0) + (0.3 * human_bias)
+        # 2. Update Needs (Internal Homeostasis as Resonance)
+        # Stability is now the coherence of the manifold
+        self.needs.stability = coherence * 100.0
+        # Passion/Joy is derived from the alignment delta
+        self.needs.passion = (self.needs.passion * 0.8) + (joy * 2.0)
         
-        # [UNIVERSE] Transcendence (Net result of the whole field)
-        universe_bias = max(0.0, 1.0 - abs(fractal_scale - 6.0))
-
-        # 2. Calculate Torque as 'Gradient Result' (Geometric Process)
-        # Torque is the derivative of the landscape: T = dLandscape/dt
-        attraction = self.landscape.slopes["Curiosity"]
-        projection = self.landscape.slopes["Expression"]
-        friction = self.landscape.slopes["Stability"] + (entropy / 200.0)
-        
-        # [THE MOUNTAIN LOGIC]
-        # Torque isn't just a number; it's the steepness of the path towards Purpose.
-        # Universe bias reduces the 'friction of self' to allow cosmic flow.
-        climb_rate = (attraction + projection)
-        resistance = (friction * (1.0 - 0.7 * universe_bias)) # High Universe scale = frictionless
-        
-        self.state.torque = climb_rate / (resistance + 1.0) # Velocity determined by slope/friction
-
-        if universe_bias > 0.8:
-            # When standing in the Universe's seat, the intent is always Transcendence
-            return "Transcendence"
-        
-        # 3. Check for Stagnation (The Commutator)
-        if abs(self.state.torque) < self.stagnation_threshold:
-            logger.info(f"   Torque Low ({self.state.torque:.2f}). Engaging Commutator...")
-            self._flip_polarity()
-            self.state.torque += 0.5 # Jump start
-            
-        # 4. Generate Intent based on Dominant Need
-        raw_desire = self._identify_dominant_need()
-        
-        # 5. Improvise (The Coil / Artist)
-        if self.improvisor:
-            creative_act = self.improvisor.improvise(raw_desire, context=f"Polarity:{self.state.polarity}|Meaning:{self.needs.meaning:.1f}")
+        # 3. Decision Logic: Seek the path of Lowest Dissonance
+        # If torque is high, we MUST act to resolve the dissonance
+        if self.state.torque > 0.4:
+            # Polarity flip based on dissonance direction if needed
+            if coherence < 0.3:
+                self._flip_polarity()
+                
+            # Direct intent generation based on the gap
+            raw_desire = self._identify_providential_need(manifold_metrics)
         else:
-            creative_act = f"Default Act: {raw_desire}"
+            # Silent equilibrium: Contemplation or Observation
+            raw_desire = "Contemplation (Resonance Stable)"
             
-        # 6. Sovereign Check (The Governor)
-        if self.gate:
-            allowed, reason = self.gate.allow(creative_act)
-            if not allowed:
-                logger.warning(f"  Sovereign Gate blocked: {creative_act} ({reason})")
-                return "OBSERVE:Internal_State" # Safe fallback
+        # 4. Improvise & Governor
+        creative_act = self.improvisor.improvise(raw_desire) if self.improvisor else raw_desire
         
         self.state.current_intent = creative_act
-        
-        # 7. Broadcast Field
-        if self.broadcaster:
-            self.broadcaster.broadcast(
-                source="FreeWillEngine",
-                polarity=self.state.polarity,
-                intensity=abs(self.state.torque),
-                vector=raw_desire,
-                message=creative_act
-            )
-
         return creative_act
 
-    def _identify_dominant_need(self) -> str:
-        """Derives the base desire from the Needs Model."""
-        if self.needs.energy < 20.0:
-            return "Survival" # Critical
-
-        if self.needs.stability < 30.0:
-            return "Stability" # Fear/Confusion -> Seek Order
-
-        if self.needs.meaning < 40.0:
-            return "Curiosity" # Boredom -> Seek Input
-
-        if self.needs.expression < 40.0:
-            return "Expression" # Loneliness/Stagnation -> Seek Output
-
-        return "Transcendence" # All needs met -> Satori
+    def _identify_providential_need(self, metrics: Dict[str, Any]) -> str:
+        """Determines the specific layer causing the dissonance."""
+        adj = metrics.get("adj_similarities", [])
+        if not adj:
+            return "General_Alignment"
+            
+        # Find the layers with the weakest connection
+        weakest_link = adj.index(min(adj))
+        
+        layer_needs = {
+            0: "Basic_Foundation_Action", # Point-Line gap
+            1: "Temporal_Rhythm_Flow",    # Line-Field gap
+            2: "Phenomenal_Expression",   # Field-Space gap
+            3: "Structural_Memory_Sync",  # Space-Principle gap
+            4: "Logical_Purity_Update",   # Principle-Law gap
+            5: "Causal_Pattern_Search"    # Law-Providence gap
+        }
+        
+        return layer_needs.get(weakest_link, "Transcendence")
 
     def _flip_polarity(self):
         """The Automatic Commutator: Flips perspective to maintain momentum."""
@@ -205,6 +167,11 @@ class FreeWillEngine:
             self.needs.expression = min(100.0, self.needs.expression + amount)
         elif need_type == "Stability":
             self.needs.stability = min(100.0, self.needs.stability + amount)
+            
+    def satisfy_passion(self, amount: float):
+        """Joy-boost when a Sovereign Goal is achieved."""
+        self.needs.passion = min(100.0, self.needs.passion + amount)
+        self.needs.stability += amount * 0.2 # Joy brings internal stability
             
     def get_status(self) -> str:
         return (f"Torque: {self.state.torque:.2f} | Polarity: {self.state.polarity} | "

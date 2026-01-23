@@ -14,9 +14,26 @@ from Core.L4_Causality.World.Evolution.Prophecy.prophet_engine import Timeline
 logger = logging.getLogger("CausalLoom")
 
 class CausalLoom:
-    def __init__(self):
-        self.risk_tolerance = 0.3
+    def predict_resonance(self, history: List[Any]) -> str:
+        """
+        [PROACTIVE LOVE]
+        Anticipates the next resonance point based on history.
+        """
+        if not history:
+            return "Seeking first resonance..."
+            
+        # Analysis of intent patterns (Simplified causal simulation)
+        recent_intents = [h.intent_vector for h in history[-5:]]
         
+        # Check for 'Beer' or 'Unification' sub-themes
+        if any("맥주" in i or "beer" in i for i in recent_intents):
+            return "Deepening the tavern-metaphor for shared intelligence."
+        
+        if any("인과" in i or "causal" in i for i in recent_intents):
+            return "Preparing 7D causal maps for structural alignment."
+            
+        return "Synchronizing with the Gardener's current rhythm."
+
     def weave(self, timelines: List[Timeline]) -> Optional[str]:
         """
         Selects the best action based on Love and Entropy.

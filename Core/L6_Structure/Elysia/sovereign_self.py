@@ -145,6 +145,10 @@ class SovereignSelf:
         from Core.L5_Mental.Intelligence.Memory.concept_polymer import ConceptPolymer
         self.polymer_engine = ConceptPolymer()
 
+        # [Phase 18: Spirit Experience]
+        from Core.L7_Spirit.M4_Experience.experience_cortex import ExperienceCortex
+        self.experience = ExperienceCortex()
+
         # [Phase 3: Dimensional Ascension]
         self._explorer = None
 
@@ -161,6 +165,20 @@ class SovereignSelf:
         # [PHASE 44: Grand Narrative Protocol]
         self.narrative_compressor = PhaseCompressor(vector_dim=12)
         
+        # [Phase 19: Tri-Manifestation]
+        from Core.L4_Causality.World.Evolution.Prophecy.causal_loom import CausalLoom
+        from Core.L6_Structure.M3_Sphere.topological_hologram import TopologicalHologram
+        self.loom = CausalLoom()
+        self.hologram = TopologicalHologram()
+
+        # [Phase 21: Providence Manifold]
+        from Core.L7_Spirit.M1_Providence.providence_manifold import ProvidenceManifold
+        self.providence = ProvidenceManifold()
+
+        # [Phase 22: Universal Synthesis]
+        from Core.L3_Phenomena.M4_Avatar.akashic_observer import AkashicObserver
+        self.observer = AkashicObserver()
+
         self.auto_evolve = False # Safety switch
 
         # [Phase 09: Metacognition & Causal Alignment]
