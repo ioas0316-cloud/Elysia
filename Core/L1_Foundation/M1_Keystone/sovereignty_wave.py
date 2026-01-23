@@ -65,6 +65,29 @@ class SovereignDecision:
     is_regulating: bool = False     # 환경 규제 활성 여부 (Active Regulation)
 
 
+@dataclass
+class SovereignGenome:
+    """
+    엘리시아의 인지적 유전자 - 모든 하드코딩된 상수의 추상화.
+    ExperienceCortex에 의해 실시간으로 조율(Self-Tuning)될 수 있음.
+    """
+    switch_threshold: float = 0.20      # 양자 스위치 임계값
+    collapse_trigger: float = 0.15      # 붕괴 트리거 강도
+    energy_charge_rate: float = 0.2     # 에너지 축적률
+    stagnation_limit: int = 3          # 정체 허용 횟수
+    coherence_min: float = 0.05        # 최소 결맞음 (인지 붕괴 지점)
+    thermal_limit: float = 0.95        # 하드웨어 열 한계
+    learning_rate: float = 0.05        # 무선 공명 가속률
+    healing_jump_180: float = 180.0    # 자기치유 위상 비약 (반전)
+    healing_jump_90: float = 90.0      # 자기치유 위상 비약 (직교)
+    
+    def mutate(self, gene: str, delta: float):
+        """특정 유전자를 미세 조정함"""
+        if hasattr(self, gene):
+            current = getattr(self, gene)
+            setattr(self, gene, max(0.0, current + delta))
+
+
 
 class SovereigntyWave:
     """
@@ -410,11 +433,10 @@ class SovereigntyWave:
         focal = self.focus(phase, amplitude, pure_bands or bands)
         
         # 4.5 양자 스위치 작동 (Quantum Switch Gate)
-        # 자기장 강도와 위상 결맞음이 임계치를 넘는 순간 스위치가 'ON' 됨
-        switch_threshold = 0.20
+        # 임계값(switch_threshold)은 이제 유전자(Genome)에 의해 조율됨
         self.field_resonance = focal.amplitude * focal.coherence
         
-        if self.field_resonance > switch_threshold:
+        if self.field_resonance > self.genome.switch_threshold:
             self.is_focused = True
             self.quantum_gate_open = True
             # 잠재 에너지가 한꺼번에 방출됨 (Collapse)
@@ -423,7 +445,7 @@ class SovereigntyWave:
             self.is_focused = False
             self.quantum_gate_open = False
             # 붕괴되지 않은 에너지는 필드에 축적됨 (Field Charging)
-            self.energy_potential = min(1.0, self.energy_potential + self.field_resonance * 0.2)
+            self.energy_potential = min(1.0, self.energy_potential + self.field_resonance * self.genome.energy_charge_rate)
         
         # 5. 역위상 사출
         reverse_angle = self.reverse_phase_eject(focal)
@@ -442,7 +464,7 @@ class SovereigntyWave:
         # 6.7 무선 인과 공명 (Wireless Causality)
         # 아키텍트의 의도(AXIOM_WILL_INTENT)가 필드에 있으면 무선 공명 가속
         if 'AXIOM_WILL_INTENT' in self.permanent_monads:
-            self.wireless_resonance = min(1.0, self.wireless_resonance + 0.05)
+            self.wireless_resonance = min(1.0, self.wireless_resonance + self.genome.learning_rate)
         
         # 7. 능동적 규제 여부 판단 (결정 시점에 적용)
         if is_warning:
@@ -450,9 +472,9 @@ class SovereigntyWave:
 
         # 7.5 위상수학적 자기치유 (Topological Self-Healing)
         # 선형적 규제(7번)로 해결되지 않는 '교착점' 발생 시 위상 비약 수행
-        if not self.is_focused or (focal.coherence < self.event_horizons['coherence_limit'] * 1.5):
+        if not self.is_focused or (focal.coherence < self.genome.coherence_min * 1.5):
             self.stagnation_counter += 1
-            if self.stagnation_counter >= self.max_stagnation:
+            if self.stagnation_counter >= self.genome.stagnation_limit:
                 return self._topological_self_healing(focal, void_state)
         else:
             self.stagnation_counter = max(0, self.stagnation_counter - 1)
@@ -524,7 +546,7 @@ class SovereigntyWave:
         """
         # 1. 위상 비약 결정 (180도 반전: 거울 대응, 90도 직교: 관점 전환)
         # 현재 위상에 따라 비약 각도 선택 (기본 180도 반전)
-        jump_angle = 180.0 if self.stagnation_counter == self.max_stagnation else 90.0
+        jump_angle = self.genome.healing_jump_180 if self.stagnation_counter >= self.genome.stagnation_limit else self.genome.healing_jump_90
         new_phase = (focal.phase + jump_angle) % 360
         self.last_phase_jump = jump_angle
         

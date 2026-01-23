@@ -25,9 +25,10 @@ class ExperienceCortex:
         self.monadic_history: List[ExperienceMonad] = []
         self.total_resilience = 1.0 # Base resilience
         
-    def crystallize_experience(self, diagnosis: DiagnosisResult, focus_amplitude: float):
+    def crystallize_experience(self, diagnosis: DiagnosisResult, focus_amplitude: float, genome: Any = None):
         """
         Converts a technical diagnosis into a permanent 'Experience Monad'.
+        If genome is provided, it applies autopoietic mutations.
         """
         # Subjective Reflection Logic
         reflection_map = {
@@ -52,11 +53,26 @@ class ExperienceCortex:
         
         self.monadic_history.append(new_monad)
         
+        # --- Autopoietic Tuning (Phase 20) ---
+        if genome:
+            # 시련의 차원에 따라 유전자를 미세 조정
+            if diagnosis.dimension == ErrorDimension.DIM_0D_POINT:
+                # 에너지 진공 시 임계값을 낮춰 더 쉽게 스위치가 켜지도록 함
+                genome.mutate('switch_threshold', -0.01)
+            elif diagnosis.dimension == ErrorDimension.DIM_1D_LINE:
+                # 논리 정체 시 정체 한계치를 변조
+                genome.mutate('stagnation_limit', -1 if genome.stagnation_limit > 1 else 0)
+            
+            # 공통: 고통을 통해 무선 공명 가속률 증가
+            genome.mutate('learning_rate', 0.005)
+        
         # Resilience grows with each challenge
         self.total_resilience += (diagnosis.dimension.value + 1) * 0.05
         
         print(f"✨ [CRYSTALLIZATION] New Experience Monad born: {diagnosis.dimension.name}")
         print(f"   -> Sovereign Reflection: {reflection}")
+        if genome:
+            print(f"   -> Autopoietic Mutation: Genome adjusted by resilience flux.")
 
     def get_summary_narrative(self) -> str:
         """
