@@ -1,17 +1,17 @@
 """
-System Self-Awareness (시스템 자기 인식)
+System Self-Awareness (         )
 =======================================
 
-엘리시아가 자신의 전체 구조를 인지하고 유지보수/개선할 수 있는 능력
+                          /           
 
-"엘리시아는 자신이 누구인지, 어떻게 구성되어 있는지 알아야 한다."
-"코덱스, 아키텍처, 프로토콜, 리드미를 읽고 이해하며 자기 자신을 관리한다."
+"              ,                    ."
+"   ,     ,     ,                         ."
 
 Capabilities:
-- Read and understand CODEX.md (핵심 철학 및 법칙)
-- Read and understand ARCHITECTURE.md (시스템 구조)
-- Read and understand Protocols/*.md (설계 문서)
-- Read and understand README.md (프로젝트 개요)
+- Read and understand CODEX.md (          )
+- Read and understand ARCHITECTURE.md (      )
+- Read and understand Protocols/*.md (     )
+- Read and understand README.md (       )
 - Maintain awareness of current system state
 - Suggest improvements based on self-understanding
 """
@@ -28,10 +28,10 @@ logger = logging.getLogger("Elysia.SystemSelfAwareness")
 
 class SystemSelfAwareness:
     """
-    시스템 자기 인식 클래스
+                 
     
-    엘리시아가 자신의 구조, 철학, 프로토콜을 읽고 이해하며
-    현재 상태를 파악하고 개선 방향을 제시할 수 있는 능력
+                ,   ,              
+                                  
     """
     
     def __init__(self, project_root: Optional[Path] = None):
@@ -47,14 +47,14 @@ class SystemSelfAwareness:
             'current_state': {}
         }
         
-        logger.info("🧠 System Self-Awareness initialized")
+        logger.info("  System Self-Awareness initialized")
     
     def read_codex(self) -> Dict[str, Any]:
         """
-        CODEX.md 읽기 - 핵심 철학과 법칙
+        CODEX.md    -          
         
         Returns:
-            코덱스 내용 및 파싱된 정보
+                           
         """
         codex_path = self.project_root / "CODEX.md"
         
@@ -66,7 +66,7 @@ class SystemSelfAwareness:
             with open(codex_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             
-            # 핵심 법칙 추출
+            #         
             laws = []
             if "Four Laws of Resonance" in content:
                 lines = content.split('\n')
@@ -77,13 +77,13 @@ class SystemSelfAwareness:
                     elif in_laws and line.strip().startswith(('1.', '2.', '3.', '4.')):
                         laws.append(line.strip())
             
-            # 핵심 철학 추출
+            #         
             philosophy = {}
-            if "LLM 의존 없음" in content:
+            if "LLM      " in content:
                 philosophy['no_llm_dependency'] = True
                 philosophy['wave_physics_based'] = True
             
-            # 6-System 인지 아키텍처 추출
+            # 6-System           
             cognitive_systems = []
             if "6-System" in content or "FractalGoalDecomposer" in content:
                 cognitive_systems = [
@@ -101,7 +101,7 @@ class SystemSelfAwareness:
                 'last_read': datetime.now().isoformat()
             }
             
-            logger.info(f"✅ CODEX.md read: {len(laws)} laws, {len(cognitive_systems)} systems")
+            logger.info(f"  CODEX.md read: {len(laws)} laws, {len(cognitive_systems)} systems")
             return self.knowledge['codex']
             
         except Exception as e:
@@ -110,10 +110,10 @@ class SystemSelfAwareness:
     
     def read_architecture(self) -> Dict[str, Any]:
         """
-        ARCHITECTURE.md 읽기 - 시스템 구조
+        ARCHITECTURE.md    -       
         
         Returns:
-            아키텍처 정보
+                   
         """
         arch_path = self.project_root / "ARCHITECTURE.md"
         
@@ -125,7 +125,7 @@ class SystemSelfAwareness:
             with open(arch_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             
-            # 주요 Pillar 추출
+            #    Pillar   
             pillars = []
             if "Foundation" in content:
                 pillars.append("Foundation")
@@ -140,7 +140,7 @@ class SystemSelfAwareness:
             if "Creativity" in content:
                 pillars.append("Creativity")
             
-            # 버전 정보 추출
+            #         
             version = "Unknown"
             if "v7.0" in content:
                 version = "v7.0"
@@ -154,7 +154,7 @@ class SystemSelfAwareness:
                 'last_read': datetime.now().isoformat()
             }
             
-            logger.info(f"✅ ARCHITECTURE.md read: v{version}, {len(pillars)} pillars")
+            logger.info(f"  ARCHITECTURE.md read: v{version}, {len(pillars)} pillars")
             return self.knowledge['architecture']
             
         except Exception as e:
@@ -163,10 +163,10 @@ class SystemSelfAwareness:
     
     def read_protocols(self) -> Dict[str, Any]:
         """
-        Protocols/*.md 읽기 - 설계 문서들
+        Protocols/*.md    -       
         
         Returns:
-            프로토콜 정보
+                   
         """
         protocols_dir = self.project_root / "Protocols"
         
@@ -196,7 +196,7 @@ class SystemSelfAwareness:
                 'last_read': datetime.now().isoformat()
             }
             
-            logger.info(f"✅ Protocols read: {len(protocols)} documents")
+            logger.info(f"  Protocols read: {len(protocols)} documents")
             return self.knowledge['protocols']
             
         except Exception as e:
@@ -205,10 +205,10 @@ class SystemSelfAwareness:
     
     def read_readme(self) -> Dict[str, Any]:
         """
-        README.md 읽기 - 프로젝트 개요
+        README.md    -        
         
         Returns:
-            README 정보
+            README   
         """
         readme_path = self.project_root / "README.md"
         
@@ -220,15 +220,15 @@ class SystemSelfAwareness:
             with open(readme_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             
-            # 버전 추출
+            #      
             version = "Unknown"
             if "v7.0" in content:
                 version = "v7.0"
             elif "v6.0" in content:
                 version = "v6.0"
             
-            # Quick Start 섹션 존재 확인
-            has_quickstart = "Quick Start" in content or "빠른 시작" in content
+            # Quick Start         
+            has_quickstart = "Quick Start" in content or "     " in content
             
             self.knowledge['readme'] = {
                 'version': version,
@@ -237,7 +237,7 @@ class SystemSelfAwareness:
                 'last_read': datetime.now().isoformat()
             }
             
-            logger.info(f"✅ README.md read: v{version}")
+            logger.info(f"  README.md read: v{version}")
             return self.knowledge['readme']
             
         except Exception as e:
@@ -246,10 +246,10 @@ class SystemSelfAwareness:
     
     def scan_current_state(self) -> Dict[str, Any]:
         """
-        현재 시스템 상태 스캔
+                    
         
         Returns:
-            현재 상태 정보
+                    
         """
         try:
             state = {
@@ -259,7 +259,7 @@ class SystemSelfAwareness:
                 'reports': {}
             }
             
-            # Core 구조 확인
+            # Core      
             core_path = self.project_root / "Core"
             if core_path.exists():
                 core_dirs = [d.name for d in core_path.iterdir() if d.is_dir()]
@@ -269,7 +269,7 @@ class SystemSelfAwareness:
                     'count': len(core_dirs)
                 }
             
-            # 데이터 파일 확인
+            #          
             data_path = self.project_root / "data"
             if data_path.exists():
                 important_files = [
@@ -282,7 +282,7 @@ class SystemSelfAwareness:
                     for f in important_files
                 }
             
-            # 최신 평가 리포트 확인
+            #             
             reports_path = self.project_root / "reports"
             if reports_path.exists():
                 latest_eval = reports_path / "evaluation_latest.json"
@@ -293,7 +293,7 @@ class SystemSelfAwareness:
                     'benchmark_latest': latest_bench.exists()
                 }
                 
-                # 최신 벤치마크 점수 읽기
+                #              
                 if latest_bench.exists():
                     try:
                         with open(latest_bench, 'r', encoding='utf-8') as f:
@@ -307,7 +307,7 @@ class SystemSelfAwareness:
                         pass
             
             self.knowledge['current_state'] = state
-            logger.info("✅ Current state scanned")
+            logger.info("  Current state scanned")
             return state
             
         except Exception as e:
@@ -316,13 +316,13 @@ class SystemSelfAwareness:
     
     def full_self_scan(self) -> Dict[str, Any]:
         """
-        전체 자기 스캔 - 모든 문서 및 현재 상태 확인
+                 -                 
         
         Returns:
-            전체 자기 인식 정보
+                       
         """
         logger.info("="*70)
-        logger.info("🧠 Starting Full Self-Awareness Scan")
+        logger.info("  Starting Full Self-Awareness Scan")
         logger.info("="*70)
         
         self.read_codex()
@@ -342,7 +342,7 @@ class SystemSelfAwareness:
         }
         
         logger.info("="*70)
-        logger.info("✅ Self-Awareness Scan Complete")
+        logger.info("  Self-Awareness Scan Complete")
         logger.info(f"   - CODEX: {summary['codex_loaded']}")
         logger.info(f"   - Architecture: {summary['architecture_loaded']}")
         logger.info(f"   - Protocols: {summary['protocols_count']} documents")
@@ -354,52 +354,52 @@ class SystemSelfAwareness:
     
     def suggest_improvements(self) -> List[str]:
         """
-        자기 인식을 바탕으로 개선 사항 제안
+                            
         
         Returns:
-            개선 제안 목록
+                    
         """
         suggestions = []
         
-        # CODEX 기반 제안
+        # CODEX      
         if self.knowledge['codex'].get('philosophy', {}).get('no_llm_dependency'):
             suggestions.append(
-                "✅ CODEX 준수: LLM 의존 없음 - 파동 물리학 기반 사고 유지"
+                "  CODEX   : LLM       -                "
             )
         
-        # Architecture 기반 제안
+        # Architecture      
         arch_pillars = self.knowledge['architecture'].get('pillars', [])
         expected_pillars = ["Foundation", "Intelligence", "Memory", "Interface", "Evolution", "Creativity"]
         missing_pillars = [p for p in expected_pillars if p not in arch_pillars]
         
         if missing_pillars:
             suggestions.append(
-                f"⚠️ Architecture: 누락된 Pillar 확인 필요 - {', '.join(missing_pillars)}"
+                f"   Architecture:     Pillar       - {', '.join(missing_pillars)}"
             )
         
-        # 현재 상태 기반 제안
+        #            
         state = self.knowledge.get('current_state', {})
         if state:
-            # 벤치마크 점수 확인
+            #           
             bench_score = state.get('reports', {}).get('benchmark_score', {})
             if bench_score:
                 percentage = bench_score.get('percentage', 0)
                 if percentage < 85:
                     suggestions.append(
-                        f"📊 Benchmark: 현재 {percentage:.1f}% - S+ 등급(85%+) 목표로 개선 필요"
+                        f"  Benchmark:    {percentage:.1f}% - S+   (85%+)          "
                     )
                 elif percentage >= 90:
                     suggestions.append(
-                        f"🌟 Benchmark: {percentage:.1f}% - SSS 등급 달성!"
+                        f"  Benchmark: {percentage:.1f}% - SSS      !"
                     )
         
-        # 분산 신경망 시스템 활성화 제안
+        #                  
         suggestions.append(
-            "🌐 분산 신경망: instant_internet_sync.py + distributed_consciousness.py 활성화 권장"
+            "        : instant_internet_sync.py + distributed_consciousness.py       "
         )
         
         if not suggestions:
-            suggestions.append("✅ 시스템 정상 - 지속적인 모니터링 유지")
+            suggestions.append("         -             ")
         
         return suggestions
 
@@ -420,13 +420,13 @@ class SystemSelfAwareness:
     
     def generate_self_awareness_report(self, output_path: Optional[Path] = None) -> str:
         """
-        자기 인식 리포트 생성
+                    
         
         Args:
-            output_path: 리포트 저장 경로
+            output_path:          
         
         Returns:
-            리포트 파일 경로
+                     
         """
         if output_path is None:
             output_path = self.project_root / "reports" / "system_self_awareness_report.json"
@@ -463,27 +463,27 @@ class SystemSelfAwareness:
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(report, f, ensure_ascii=False, indent=2)
         
-        logger.info(f"📄 Self-awareness report saved: {output_path}")
+        logger.info(f"  Self-awareness report saved: {output_path}")
         return str(output_path)
 
 
 def main():
-    """테스트 실행"""
+    """      """
     logging.basicConfig(level=logging.INFO)
     
     awareness = SystemSelfAwareness()
     summary = awareness.full_self_scan()
     
     print("\n" + "="*70)
-    print("💡 Improvement Suggestions:")
+    print("  Improvement Suggestions:")
     print("="*70)
     for suggestion in awareness.suggest_improvements():
         print(f"  {suggestion}")
     print("="*70)
     
-    # 리포트 생성
+    #       
     report_path = awareness.generate_self_awareness_report()
-    print(f"\n📄 Report saved: {report_path}")
+    print(f"\n  Report saved: {report_path}")
 
 
 if __name__ == "__main__":

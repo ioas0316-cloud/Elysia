@@ -37,7 +37,7 @@ class LanguageTrajectoryAnalyzer:
     def load(self):
         """Load JSONL records from log file."""
         if not self.log_path.exists():
-            logger.warning(f"⚠️  Log file not found: {self.log_path}")
+            logger.warning(f"    Log file not found: {self.log_path}")
             return
 
         with open(self.log_path, "r", encoding="utf-8") as fh:
@@ -46,9 +46,9 @@ class LanguageTrajectoryAnalyzer:
                     record = json.loads(line.strip())
                     self.records.append(record)
                 except json.JSONDecodeError as e:
-                    logger.warning(f"⚠️  Line {line_num}: {e}")
+                    logger.warning(f"    Line {line_num}: {e}")
 
-        logger.info(f"✅ Loaded {len(self.records)} trajectory records")
+        logger.info(f"  Loaded {len(self.records)} trajectory records")
 
     def analyze_path_entropy(self) -> Dict[str, Any]:
         """Calculate entropy of reasoning paths over time."""
@@ -185,7 +185,7 @@ class LanguageTrajectoryAnalyzer:
 
     def generate_report(self) -> Dict[str, Any]:
         """Generate comprehensive analysis report."""
-        logger.info("\n📊 Analyzing language trajectory...")
+        logger.info("\n  Analyzing language trajectory...")
 
         path_analysis = self.analyze_path_entropy()
         subject_analysis = self.analyze_subject_variance()
@@ -212,26 +212,26 @@ class LanguageTrajectoryAnalyzer:
 
         # Alert on low path entropy
         if path_analysis.get("average", 0) < 0.5:
-            alerts.append("⚠️  LOW PATH ENTROPY: Agent is repeating very similar reasoning paths. Consider diversifying curriculum.")
+            alerts.append("    LOW PATH ENTROPY: Agent is repeating very similar reasoning paths. Consider diversifying curriculum.")
 
         # Alert on extreme subject concentration
         top_subject_pct = subject_analysis.get("top_subject_percentage", 0)
         if top_subject_pct > 70:
-            alerts.append(f"⚠️  SUBJECT CONCENTRATION: {top_subject_pct:.1f}% of exploration is on '{subject_analysis.get('top_subject')}'. Try exposing to new concepts.")
+            alerts.append(f"    SUBJECT CONCENTRATION: {top_subject_pct:.1f}% of exploration is on '{subject_analysis.get('top_subject')}'. Try exposing to new concepts.")
 
         # Alert on convergence drift
         if convergence_analysis.get("is_converging"):
             drift = convergence_analysis.get("drift_score", 0)
-            alerts.append(f"⚠️  CONVERGENCE DRIFT: Subject variance dropped {drift*100:.1f}%. Agent may be narrowing focus excessively.")
+            alerts.append(f"    CONVERGENCE DRIFT: Subject variance dropped {drift*100:.1f}%. Agent may be narrowing focus excessively.")
 
         # Alert on intent imbalance
         intent_dist = intent_analysis.get("distribution", {})
         dominant_pct = intent_analysis.get("dominant_percentage", 0)
         if dominant_pct > 85:
-            alerts.append(f"⚠️  INTENT IMBALANCE: {dominant_pct:.1f}% are '{intent_analysis.get('dominant_intent')}'. Encourage variety in reasoning modes.")
+            alerts.append(f"    INTENT IMBALANCE: {dominant_pct:.1f}% are '{intent_analysis.get('dominant_intent')}'. Encourage variety in reasoning modes.")
 
         if not alerts:
-            alerts.append("✅ Language trajectory looks healthy — good diversity and balanced exploration.")
+            alerts.append("  Language trajectory looks healthy   good diversity and balanced exploration.")
 
         return alerts
 
@@ -244,7 +244,7 @@ class LanguageTrajectoryAnalyzer:
         report = self.generate_report()
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         Path(output_path).write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-        logger.info(f"📋 Report saved to: {output_path}")
+        logger.info(f"  Report saved to: {output_path}")
 
         return report
 
@@ -258,7 +258,7 @@ def main():
     analyzer = LanguageTrajectoryAnalyzer()
 
     if not analyzer.records:
-        logger.error("❌ No records found. Exiting.")
+        logger.error("  No records found. Exiting.")
         return
 
     report = analyzer.save_report()
@@ -268,16 +268,16 @@ def main():
     print("TRAJECTORY SUMMARY")
     print("=" * 70)
 
-    print(f"\n📈 Path Entropy: avg={report['path_entropy'].get('average', 0):.3f}, unique_paths={report['path_entropy'].get('unique_paths', 0)}")
-    print(f"📚 Subject Variance: {report['subject_variance'].get('unique_subjects', 0)} unique subjects, top='{report['subject_variance'].get('top_subject')}' ({report['subject_variance'].get('top_subject_percentage', 0):.1f}%)")
-    print(f"💭 Intent Distribution: {report['intent_distribution'].get('dominant_intent')} ({report['intent_distribution'].get('dominant_percentage', 0):.1f}%)")
+    print(f"\n  Path Entropy: avg={report['path_entropy'].get('average', 0):.3f}, unique_paths={report['path_entropy'].get('unique_paths', 0)}")
+    print(f"  Subject Variance: {report['subject_variance'].get('unique_subjects', 0)} unique subjects, top='{report['subject_variance'].get('top_subject')}' ({report['subject_variance'].get('top_subject_percentage', 0):.1f}%)")
+    print(f"  Intent Distribution: {report['intent_distribution'].get('dominant_intent')} ({report['intent_distribution'].get('dominant_percentage', 0):.1f}%)")
 
-    print(f"\n🎯 Convergence Analysis:")
+    print(f"\n  Convergence Analysis:")
     print(f"   Variance (first half): {report['convergence_drift'].get('first_half_variance', 0):.2f}")
     print(f"   Variance (second half): {report['convergence_drift'].get('second_half_variance', 0):.2f}")
-    print(f"   Drift Score: {report['convergence_drift'].get('drift_score', 0):.3f} {'(⚠️  CONVERGING)' if report['convergence_drift'].get('is_converging') else '(✅ OK)'}")
+    print(f"   Drift Score: {report['convergence_drift'].get('drift_score', 0):.3f} {'(    CONVERGING)' if report['convergence_drift'].get('is_converging') else '(  OK)'}")
 
-    print(f"\n⚡ ALERTS:")
+    print(f"\n  ALERTS:")
     for alert in report.get("alerts", []):
         print(f"   {alert}")
 

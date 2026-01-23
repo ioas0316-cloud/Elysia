@@ -5,7 +5,7 @@ StarStream - High-Volume Memory Ingestion Pipeline
 Designed for the "100, 1000, 10000+" scale flows.
 Handles bulk processing of raw data into Starlight Memories.
 
-"흐름으로 들여보내고 내보내는 시스템"
+"                   "
 """
 
 import logging
@@ -23,7 +23,7 @@ class StarStream:
     def __init__(self, starlight_memory: StarlightMemory):
         self.memory = starlight_memory
         self.prism = PrismFilter()
-        logger.info("🌊 StarStream Pipeline Initialized: Ready for 10k+ Flow")
+        logger.info("  StarStream Pipeline Initialized: Ready for 10k+ Flow")
         
     def ingest_stream(self, data_stream: Generator[Dict[str, Any], None, None], batch_size: int = 1000) -> int:
         """
@@ -50,14 +50,14 @@ class StarStream:
                 self.memory.scatter_batch(current_batch)
                 total_processed += len(current_batch)
                 current_batch = []
-                logger.info(f"🌊 StarStream Flow: {total_processed} stars scattered...")
+                logger.info(f"  StarStream Flow: {total_processed} stars scattered...")
                 
         # Flush remaining
         if current_batch:
             self.memory.scatter_batch(current_batch)
             total_processed += len(current_batch)
             
-        logger.info(f"✨ StarStream Complete: {total_processed} total stars ingested.")
+        logger.info(f"  StarStream Complete: {total_processed} total stars ingested.")
         return total_processed
         
     def _process_item(self, item: Dict[str, Any]) -> Tuple[bytes, Dict[str, float], Dict[str, Any]]:

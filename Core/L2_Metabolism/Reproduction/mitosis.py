@@ -24,7 +24,7 @@ class MitosisEngine:
     def __init__(self, instances_dir: str = "c:/Elysia/Instances"):
         self.instances_dir = instances_dir
         os.makedirs(self.instances_dir, exist_ok=True)
-        logger.info("🦠 [MITOSIS] Division Engine online.")
+        logger.info("  [MITOSIS] Division Engine online.")
 
     def fork(self, spore_path: str) -> int:
         """
@@ -32,14 +32,14 @@ class MitosisEngine:
         Returns the PID of the child.
         """
         if not os.path.exists(spore_path):
-            logger.error(f"❌ [MITOSIS] Spore not found: {spore_path}")
+            logger.error(f"  [MITOSIS] Spore not found: {spore_path}")
             return -1
 
         child_id = f"Child_{os.path.basename(spore_path).replace('.json', '')}"
         work_dir = os.path.join(self.instances_dir, child_id)
         os.makedirs(work_dir, exist_ok=True)
 
-        logger.info(f"🦠 [MITOSIS] Forking new instance: {child_id}...")
+        logger.info(f"  [MITOSIS] Forking new instance: {child_id}...")
 
         # Construct Command
         # We assume sovereign_boot.py is in the root C:/Elysia
@@ -58,9 +58,9 @@ class MitosisEngine:
                 creationflags=subprocess.CREATE_NEW_CONSOLE
             )
             
-            logger.info(f"✨ [MITOSIS] Child Born! PID: {process.pid}")
+            logger.info(f"  [MITOSIS] Child Born! PID: {process.pid}")
             return process.pid
             
         except Exception as e:
-            logger.error(f"❌ [MITOSIS] Division Failed: {e}")
+            logger.error(f"  [MITOSIS] Division Failed: {e}")
             return -1

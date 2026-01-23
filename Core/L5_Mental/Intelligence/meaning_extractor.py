@@ -76,7 +76,7 @@ class MeaningExtractor:
             
         # C. Store & Broadcase
         if insight != f"[{era}] ":
-            print(f"📜 [PHILOSOPHY] Insight derived: {insight}")
+            print(f"  [PHILOSOPHY] Insight derived: {insight}")
             self.insights.append(insight)
             
     def get_wisdom(self) -> str:

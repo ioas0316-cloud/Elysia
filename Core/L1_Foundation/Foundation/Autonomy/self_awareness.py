@@ -43,7 +43,7 @@ class SelfAwareness:
         """
         Scans the physical body (File System) and updates the mental model.
         """
-        logger.info("👁️ Introspecting System Structure...")
+        logger.info("   Introspecting System Structure...")
         
         pillars = []
         if os.path.exists(self.core_dir):
@@ -63,7 +63,7 @@ class SelfAwareness:
         """
         Verifies system integrity. Returns True if healthy.
         """
-        logger.info("🩺 Checking System Health...")
+        logger.info("  Checking System Health...")
         issues = []
         
         # 1. Check for broken imports in critical files
@@ -88,11 +88,11 @@ class SelfAwareness:
 
         if issues:
             self.system_state["health"] = "Critical"
-            logger.error(f"  ⚠️ Health Issues Detected: {issues}")
+            logger.error(f"     Health Issues Detected: {issues}")
             return False
         else:
             self.system_state["health"] = "Healthy"
-            logger.info("  ✅ System is Healthy.")
+            logger.info("    System is Healthy.")
             return True
 
     def autonomous_repair(self):
@@ -100,19 +100,19 @@ class SelfAwareness:
         Triggers the Self-Repair Protocol if needed.
         """
         if self.system_state["health"] != "Healthy":
-            logger.info("🔧 Initiating Autonomous Repair...")
+            logger.info("  Initiating Autonomous Repair...")
             try:
                 # Execute the repair script
                 repair_script = os.path.join(self.root_dir, "execute_self_repair.py")
                 if os.path.exists(repair_script):
                     os.system(f"python {repair_script}")
-                    logger.info("  ✨ Repair Protocol Completed.")
+                    logger.info("    Repair Protocol Completed.")
                     # Re-check
                     self.check_health()
                 else:
-                    logger.error("  ❌ Repair Script Missing!")
+                    logger.error("    Repair Script Missing!")
             except Exception as e:
-                logger.error(f"  ❌ Repair Failed: {e}")
+                logger.error(f"    Repair Failed: {e}")
 
     def run_lifecycle(self):
         """
@@ -124,7 +124,7 @@ class SelfAwareness:
         if not healthy:
             self.autonomous_repair()
             
-        logger.info("🧠 Self-Awareness Cycle Complete. I am ready.")
+        logger.info("  Self-Awareness Cycle Complete. I am ready.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

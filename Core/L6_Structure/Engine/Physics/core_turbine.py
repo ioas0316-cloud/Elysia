@@ -4,7 +4,7 @@
 Core.L6_Structure.Engine.Physics.core_turbine
 
 "Prisms are not static. Rotate faster than light to pierce the Void."
-— The Architect
+  The Architect
 
 This module implements the active physical scanning engine using
 diffraction grating physics and phase inversion logic.
@@ -53,7 +53,7 @@ class ActivePrismRotor:
         self.rpm = rpm
         self.d = grating_spacing_d
         self.omega = (rpm * 2 * math.pi) / 60.0  # Angular velocity (rad/s)
-        logger.info(f"🌀 Active Prism-Rotor initialized: {rpm} RPM, Backend: {BACKEND}")
+        logger.info(f"  Active Prism-Rotor initialized: {rpm} RPM, Backend: {BACKEND}")
 
     @staticmethod
     @jit
@@ -118,7 +118,7 @@ class ActivePrismRotor:
              optimal_theta = math.asin(feedback_monad.wavelength / self.d)
 
         # The 'Reverse Phase Ejection' sets the rotor's momentum towards this angle.
-        logger.debug(f"🔮 Reverse Propagated: Future optimal angle {optimal_theta:.4f} rad for λ={feedback_monad.wavelength}")
+        logger.debug(f"  Reverse Propagated: Future optimal angle {optimal_theta:.4f} rad for  ={feedback_monad.wavelength}")
 
         return optimal_theta
 
@@ -131,7 +131,7 @@ class VoidSingularity:
 
     def __init__(self, extinction_threshold: float = 0.95):
         self.threshold = extinction_threshold
-        logger.info("⚫ Void Singularity opened.")
+        logger.info("  Void Singularity opened.")
 
     def transit(self, focused_energy: jnp.ndarray, original_phase: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
         """

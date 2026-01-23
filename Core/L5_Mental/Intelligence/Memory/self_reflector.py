@@ -14,7 +14,7 @@ import numpy as np
 
 class SelfReflector:
     """
-    자신의 행동과 성능을 반성하는 시스템 (Self-Reflection System)
+                         (Self-Reflection System)
     
     Features:
     - Daily performance reflection
@@ -47,7 +47,7 @@ class SelfReflector:
     
     async def daily_reflection(self, experiences: List[Any] = None) -> Dict[str, Any]:
         """
-        일일 반성 - 하루 동안의 경험 분석 (Daily Reflection)
+              -              (Daily Reflection)
         
         Args:
             experiences: List of Experience objects from today
@@ -93,7 +93,7 @@ class SelfReflector:
     async def performance_analysis(self, experiences: List[Any] = None, 
                                    period_days: int = 7) -> Dict[str, Any]:
         """
-        성능 분석 - 어떤 영역이 강하고 약한지 (Performance Analysis)
+              -                (Performance Analysis)
         
         Args:
             experiences: List of experiences to analyze
@@ -136,7 +136,7 @@ class SelfReflector:
     
     async def create_improvement_plan(self, reflection: Dict) -> Dict[str, Any]:
         """
-        자기 개선 계획 생성 (Create Improvement Plan)
+                    (Create Improvement Plan)
         
         Args:
             reflection: Daily reflection data
@@ -187,7 +187,7 @@ class SelfReflector:
     
     def track_progress(self, plan_id: Optional[int] = None) -> Dict[str, Any]:
         """
-        개선 계획 진행 상황 추적 (Track Improvement Progress)
+                       (Track Improvement Progress)
         
         Args:
             plan_id: ID of specific plan to track (default: latest)
@@ -238,7 +238,7 @@ class SelfReflector:
     
     def get_insights(self, period_days: int = 30) -> Dict[str, Any]:
         """
-        장기적 인사이트 생성 (Generate Long-term Insights)
+                    (Generate Long-term Insights)
         
         Args:
             period_days: Number of days to analyze

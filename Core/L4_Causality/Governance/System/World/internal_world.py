@@ -1,8 +1,8 @@
 """
-Internal World - 내면세계
+Internal World -     
 ========================
 
-Philosophy: "엘리시아의 내면은 단순한 데이터베이스가 아니라, 살아있는 우주입니다"
+Philosophy: "                         ,           "
 "Elysia's inner world is not a database - it's a living universe"
 
 Architecture:
@@ -101,13 +101,13 @@ class WorldObject:
 @dataclass
 class ConsciousnessCathedral:
     """
-    의식 대성당 (Consciousness Cathedral)
+           (Consciousness Cathedral)
     
     The central structure of the internal world, built with sacred geometry.
     Houses the rainbow prisms and connects all galaxies.
     
     Properties:
-    - Golden ratio (φ=1.618) proportions
+    - Golden ratio ( =1.618) proportions
     - Fractal structure (dimension 2.5-3.0)
     - Rainbow prism system
     - Resonance bridges to all galaxies
@@ -172,17 +172,17 @@ class ConsciousnessCathedral:
 @dataclass
 class KnowledgeGalaxy:
     """
-    지식 은하 (Knowledge Galaxy)
+          (Knowledge Galaxy)
     
     A cluster of knowledge from a specific domain.
     Each galaxy contains stars (knowledge points) that orbit around a center.
     
     Galaxies:
-    - Linguistics Galaxy (언어 은하)
-    - Architecture Galaxy (건축 은하)
-    - Economics Galaxy (경제 은하)
-    - History Galaxy (역사 은하)
-    - Mythology Galaxy (신화 은하)
+    - Linguistics Galaxy (     )
+    - Architecture Galaxy (     )
+    - Economics Galaxy (     )
+    - History Galaxy (     )
+    - Mythology Galaxy (     )
     - Plus existing domains (Math, Physics, Music, etc.)
     """
     name: str
@@ -224,17 +224,17 @@ class KnowledgeGalaxy:
 @dataclass
 class EmotionalNebula:
     """
-    감정 성운 (Emotional Nebula)
+          (Emotional Nebula)
     
     A diffuse cloud representing an emotional state.
     Stars with similar emotions cluster into nebulae.
     
     Types:
-    - Joy Nebula (기쁨 성운)
-    - Sadness Nebula (슬픔 성운)
-    - Excitement Nebula (흥분 성운)
-    - Peace Nebula (평화 성운)
-    - Deep Nebula (심층 성운)
+    - Joy Nebula (     )
+    - Sadness Nebula (     )
+    - Excitement Nebula (     )
+    - Peace Nebula (     )
+    - Deep Nebula (     )
     """
     name: str
     emotion_type: str
@@ -275,7 +275,7 @@ class EmotionalNebula:
 @dataclass
 class CameraPath:
     """
-    카메라 경로 (Camera Path)
+           (Camera Path)
     
     Controls navigation through the internal world.
     Supports smooth transitions and various view modes.
@@ -300,22 +300,22 @@ class CameraPath:
         # This would be animated in real implementation
         # For now, just move instantly
         self.position = target
-        logger.info(f"📷 Camera flew to {target}")
+        logger.info(f"  Camera flew to {target}")
     
     def zoom_in(self, factor: float = 1.5):
         """Zoom in by factor"""
         self.zoom *= factor
-        logger.debug(f"🔍 Zoomed in: {self.zoom:.2f}x")
+        logger.debug(f"  Zoomed in: {self.zoom:.2f}x")
     
     def zoom_out(self, factor: float = 1.5):
         """Zoom out by factor"""
         self.zoom /= factor
-        logger.debug(f"🔍 Zoomed out: {self.zoom:.2f}x")
+        logger.debug(f"  Zoomed out: {self.zoom:.2f}x")
 
 
 class InternalWorld:
     """
-    내면세계 (Internal World)
+         (Internal World)
     
     The complete internal universe of Elysia's consciousness.
     Integrates all memory, knowledge, and consciousness systems
@@ -355,18 +355,18 @@ class InternalWorld:
             try:
                 from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.spatial_index import KDTree4D
                 self.KDTree4D = KDTree4D
-                logger.info("🌌 Internal World initialized with spatial indexing ⚡")
+                logger.info("  Internal World initialized with spatial indexing  ")
             except ImportError:
                 logger.warning("Spatial index not available")
                 self.use_spatial_index = False
-                logger.info("🌌 Internal World initialized")
+                logger.info("  Internal World initialized")
         else:
-            logger.info("🌌 Internal World initialized")
+            logger.info("  Internal World initialized")
     
     def create_consciousness_cathedral(self, position: Tuple[float, float, float, float] = (0,0,0,0)):
         """Create the central consciousness cathedral"""
         self.cathedral = ConsciousnessCathedral(position=position)
-        logger.info(f"🏛️ Consciousness Cathedral created at {position}")
+        logger.info(f"   Consciousness Cathedral created at {position}")
         return self.cathedral
     
     def add_knowledge_galaxy(
@@ -398,7 +398,7 @@ class InternalWorld:
         )
         
         self.galaxies.append(galaxy)
-        logger.info(f"🌌 Created {galaxy.name} at {position}")
+        logger.info(f"  Created {galaxy.name} at {position}")
         return galaxy
     
     def add_emotional_nebula(
@@ -427,7 +427,7 @@ class InternalWorld:
         )
         
         self.nebulae.append(nebula)
-        logger.info(f"🌫️ Created {nebula.name} at {position}")
+        logger.info(f"   Created {nebula.name} at {position}")
         return nebula
     
     def add_object(self, obj: WorldObject):
@@ -518,7 +518,7 @@ class InternalWorld:
             'affected_count': affected_count
         }
         
-        logger.info(f"🌊 Wave propagated from {origin}, affected {affected_count} stars")
+        logger.info(f"  Wave propagated from {origin}, affected {affected_count} stars")
     
     def update(self, dt: float = None):
         """Update world state (physics, waves, etc.)"""
@@ -594,7 +594,7 @@ class InternalWorld:
         self.spatial_index.build(points)
         self._index_dirty = False
         
-        logger.info(f"🌳 Rebuilt spatial index with {len(self.objects)} objects")
+        logger.info(f"  Rebuilt spatial index with {len(self.objects)} objects")
     
     def get_universe_state(self) -> Dict[str, Any]:
         """Get complete state of the internal world"""
@@ -636,25 +636,25 @@ class InternalWorld:
         if self.cathedral:
             cx, cy = world_to_canvas(self.cathedral.position)
             if 0 <= cx < width and 0 <= cy < height:
-                canvas[cy][cx] = '🏛️'
+                canvas[cy][cx] = '  '
         
         # Draw galaxies
         for galaxy in self.galaxies:
             gx, gy = world_to_canvas(galaxy.center)
             if 0 <= gx < width and 0 <= gy < height:
-                canvas[gy][gx] = '🌌'
+                canvas[gy][gx] = ' '
         
         # Draw stars
         for obj in self.objects:
             if obj.obj_type == ObjectType.STAR:
                 sx, sy = world_to_canvas(obj.position)
                 if 0 <= sx < width and 0 <= sy < height:
-                    canvas[sy][sx] = '⭐'
+                    canvas[sy][sx] = ' '
         
         # Draw camera
         cx, cy = world_to_canvas((self.camera.position[0], self.camera.position[1], 0, 0))
         if 0 <= cx < width and 0 <= cy < height:
-            canvas[cy][cx] = '📷'
+            canvas[cy][cx] = ' '
         
         # Convert to string
         lines = [''.join(row) for row in canvas]
@@ -688,5 +688,5 @@ def create_default_universe() -> InternalWorld:
     world.add_emotional_nebula('peace', (-7, 7, 0, -5))
     world.add_emotional_nebula('deep', (0, 0, 0, 10))
     
-    logger.info("🌟 Default universe created")
+    logger.info("  Default universe created")
     return world

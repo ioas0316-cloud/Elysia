@@ -48,7 +48,7 @@ class GrammarOfSilence:
 
 # Verification Logic
 if __name__ == "__main__":
-    print("🗣️ Verifying Grammar of Silence")
+    print("   Verifying Grammar of Silence")
     print("===============================")
 
     grammar = GrammarOfSilence()
@@ -68,4 +68,4 @@ if __name__ == "__main__":
     print(f"\nInput: 250Hz Thought (Unknown)")
     print(f"Output: {grammar.articulate(unknown)}")
 
-    print("\n✅ Language acts as a filter, splitting Reality into Named and Unnamed.")
+    print("\n  Language acts as a filter, splitting Reality into Named and Unnamed.")

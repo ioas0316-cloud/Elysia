@@ -1,8 +1,8 @@
 """
-Providence Engine (섭리 엔진)
+Providence Engine (     )
 ===========================
 "The Lawmaker determining the fate of matter."
-"물질의 운명을 결정하는 입법자."
+"                ."
 
 This engine simulates the Fundamental Laws of Trinity Physics.
 It handles Phase Transitions, Chemical Reactions, and State Changes.

@@ -138,10 +138,10 @@ class HypothesisHandler:
 
             question = self.question_generator.generate_wisdom_seeking_question(hypothesis_to_ask)
 
-        elif relation in ("ascension", "승천"):
+        elif relation in ("ascension", "  "):
             question = hypothesis_to_ask.get(
                 "text",
-                f"새 개념 '{hypothesis_to_ask['head']}'을(를) 지식망에 올릴까요?",
+                f"     '{hypothesis_to_ask['head']}' ( )          ?",
             )
 
         elif relation == "proposes_correction":
@@ -202,11 +202,11 @@ class HypothesisHandler:
 
 
 
-        if relation in ("ascension", "승천"):
+        if relation in ("ascension", "  "):
             self.logger.info("Processing user response for Ascension hypothesis: %s", hypothesis.get("head"))
             flow_score = self._relation_flow_score("ascension", hypothesis.get("confidence", 0.5))
             self.logger.debug(f"Ascension flow score: {flow_score:.2f}")
-            if any(word in message for word in ["네", "예", "맞아", "그래", "승천", "승천시켜", "허용"]):
+            if any(word in message for word in [" ", " ", "  ", "  ", "  ", "    ", "  "]):
                 metadata = hypothesis.get("metadata", {})
                 properties = {
                     "type": "concept",
@@ -215,9 +215,9 @@ class HypothesisHandler:
                     "ascended_at": datetime.now().isoformat(),
                 }
                 self.kg_manager.add_node(hypothesis.get("head"), properties=properties)
-                response_text = f"알겠어요. 새 개념 '{hypothesis.get('head')}'을(를) 지식망에 승천시켰습니다."
+                response_text = f"    .      '{hypothesis.get('head')}' ( )             ."
             else:
-                response_text = f"알겠어요. 개념 '{hypothesis.get('head')}'의 승천은 보류합니다."
+                response_text = f"    .    '{hypothesis.get('head')}'           ."
 
 
         elif relation == "proposes_correction":
@@ -228,7 +228,7 @@ class HypothesisHandler:
             )
             flow_score = self._relation_flow_score("proposes_correction", hypothesis.get("confidence", 0.5))
             self.logger.debug(f"Correction flow score: {flow_score:.2f}")
-            if any(word in message for word in ["네", "예", "맞아", "그래", "수정", "허락"]):
+            if any(word in message for word in [" ", " ", "  ", "  ", "  ", "  "]):
                 insight = hypothesis.get("metadata", {}).get("contradictory_insight")
                 if insight:
                     new_head = insight.get("head")
@@ -260,11 +260,11 @@ class HypothesisHandler:
 
 
                     self.kg_manager.add_edge(new_head, new_tail, new_relation)
-                    response_text = "모순을 바로잡았습니다. 고마워요."
+                    response_text = "           .     ."
                 else:
-                    response_text = "수정을 진행하기엔 기존 관찰 정보가 부족합니다."
+                    response_text = "                         ."
             else:
-                response_text = "알겠어요. 기존 지식을 그대로 유지합니다."
+                response_text = "    .                 ."
 
         else:
             self.logger.info(
@@ -273,20 +273,20 @@ class HypothesisHandler:
                 hypothesis.get("tail"),
             )
             confirmed_relation = extract_relationship_type(message) or (
-                "related_to" if any(word in message for word in ["네", "예", "맞아", "그래"]) else None
+                "related_to" if any(word in message for word in [" ", " ", "  ", "  "]) else None
             )
             if confirmed_relation:
                 head = hypothesis.get("head")
                 tail = hypothesis.get("tail")
                 self.kg_manager.add_edge(head, tail, confirmed_relation)
                 response_text = (
-                    f"알겠어요. '{head}'와(과) '{tail}'의 관계를 "
-                    f"'{confirmed_relation}'으로 기록했습니다."
+                    f"    . '{head}' ( ) '{tail}'      "
+                    f"'{confirmed_relation}'         ."
                 )
             else:
                 head = hypothesis.get("head")
                 tail = hypothesis.get("tail")
-                response_text = f"알겠어요. {head} -> {tail} 관계는 기록하지 않습니다."
+                response_text = f"    . {head} -> {tail}              ."
 
 
         self.core_memory.remove_hypothesis(hypothesis.get("head"), hypothesis.get("tail"), relation=relation)
@@ -311,7 +311,7 @@ class CommandWordHandler:
 
         self.command_map = {
 
-            r"^(calculate|계산)\s*:": "arithmetic",
+            r"^(calculate|  )\s*:": "arithmetic",
         }
 
 
@@ -411,7 +411,7 @@ class DefaultReasoningHandler:
 
 
         if not potential_thoughts:
-            insightful_text = "흥미로운 관점이네요. 조금 더 생각해볼게요."
+            insightful_text = "          .            ."
             final_response = self.styler.style_response(insightful_text, emotional_state)
             return {"type": "text", "text": final_response}
 
@@ -477,7 +477,7 @@ class PlanningHandler:
         self.planning_cortex = planning_cortex
         self.logger = logger
         self.trigger_patterns = [
-            r"^(plan|계획|goal|목표)\s*[:\s]",
+            r"^(plan|  |goal|  )\s*[:\s]",
         ]
 
     def can_handle(self, message: str) -> bool:
@@ -496,15 +496,15 @@ class PlanningHandler:
                 break
         
         if not goal:
-            return {"type": "text", "text": "계획할 목표를 말씀해 주세요."}
+            return {"type": "text", "text": "               ."}
 
         plan = self.planning_cortex.develop_plan(goal)
         
         if not plan:
-            return {"type": "text", "text": "죄송해요, 계획을 세우는 데 실패했어요."}
+            return {"type": "text", "text": "    ,                ."}
             
         # Format plan for display
-        plan_text = f"목표 '{goal}'에 대한 계획입니다:\n"
+        plan_text = f"   '{goal}'          :\n"
         for i, step in enumerate(plan):
             tool_name = step.get('tool_name')
             params = step.get('parameters')

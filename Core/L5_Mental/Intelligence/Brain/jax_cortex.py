@@ -70,7 +70,7 @@ class OllamaCortex:
         self._is_available = False
         self._api_base = OLLAMA_API_BASE
         
-        logger.info(f"🧠 OllamaCortex initialized with model: {self.model_name}")
+        logger.info(f"  OllamaCortex initialized with model: {self.model_name}")
         
         if auto_check:
             self._is_available = self._check_ollama()
@@ -80,12 +80,12 @@ class OllamaCortex:
         try:
             response = requests.get(f"{self._api_base}/api/tags", timeout=5)
             if response.status_code == 200:
-                logger.info("✅ Ollama server is available")
+                logger.info("  Ollama server is available")
                 return True
         except requests.exceptions.ConnectionError:
-            logger.warning("⚠️ Ollama server not running. Start with: ollama serve")
+            logger.warning("   Ollama server not running. Start with: ollama serve")
         except Exception as e:
-            logger.warning(f"⚠️ Ollama check failed: {e}")
+            logger.warning(f"   Ollama check failed: {e}")
         return False
     
     @property
@@ -106,7 +106,7 @@ class OllamaCortex:
     def pull_model(self, model_name: str = None) -> bool:
         """Pull (download) a model from Ollama registry."""
         model = model_name or self.model_name
-        logger.info(f"⏳ Pulling model: {model}...")
+        logger.info(f"  Pulling model: {model}...")
         try:
             response = requests.post(
                 f"{self._api_base}/api/pull",
@@ -167,7 +167,7 @@ class OllamaCortex:
         [BREATHING]
         Forcefully unloads the model from VRAM by setting keep_alive to 0.
         """
-        logger.info(f"🌬️ Unloading model {self.model_name} (Breathing: Exhale)")
+        logger.info(f"   Unloading model {self.model_name} (Breathing: Exhale)")
         try:
             requests.post(
                 f"{self._api_base}/api/generate",
@@ -250,7 +250,7 @@ class JAXCortex:
         self._model = None
         self._is_loaded = False
         
-        logger.info(f"🧠 JAXCortex initialized with preset: {self.preset}")
+        logger.info(f"  JAXCortex initialized with preset: {self.preset}")
         
         if auto_load:
             self.load()
@@ -269,17 +269,17 @@ class JAXCortex:
         try:
             keras, keras_hub = _ensure_keras()
             
-            logger.info(f"⏳ Loading model: {self.preset}...")
+            logger.info(f"  Loading model: {self.preset}...")
             logger.info("   (First load may take a few minutes to download)")
             
             self._model = keras_hub.models.GPT2CausalLM.from_preset(self.preset)
             self._is_loaded = True
             
-            logger.info(f"✅ Model loaded successfully: {self.preset}")
+            logger.info(f"  Model loaded successfully: {self.preset}")
             return True
             
         except Exception as e:
-            logger.error(f"❌ Failed to load model: {e}")
+            logger.error(f"  Failed to load model: {e}")
             return False
     
     @property
@@ -333,7 +333,7 @@ class JAXCortex:
 # Convenience function for quick testing
 def quick_test():
     """Quick test of the JAX Cortex."""
-    print("🧪 Testing JAXCortex...")
+    print("  Testing JAXCortex...")
     
     cortex = JAXCortex(model_name="gpt2_base", auto_load=False)
     print(f"   Created: {cortex}")

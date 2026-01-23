@@ -1,5 +1,5 @@
 """
-Perception Lobe (지각 엽)
+Perception Lobe (    )
 =========================
 Handles sensory input, media consumption, and self-perception.
 """
@@ -91,7 +91,7 @@ class PerceptionLobe:
             memory_field.append(f"Dissonance: Entropy ({total_complexity}) violates Axiom 'Simplicity'.")
 
     def read_quantum(self, source_path: str, memory) -> Insight:
-        logger.info(f"   📖 Quantum Reading Initiated for: {source_path}")
+        logger.info(f"     Quantum Reading Initiated for: {source_path}")
         try:
             import os
             if os.path.isdir(source_path):
@@ -121,7 +121,7 @@ class PerceptionLobe:
             return Insight(f"Absorbed energy but failed to memorize: {e}", 0.5, 0, 0.5)
 
     def learn_from_media(self, source_type: str, identifier: str, memory) -> Insight:
-        logger.info(f"📚 Learning from {source_type}: {identifier}")
+        logger.info(f"  Learning from {source_type}: {identifier}")
         result = None
         if source_type == "youtube":
             result = self.media.consume_youtube(identifier)

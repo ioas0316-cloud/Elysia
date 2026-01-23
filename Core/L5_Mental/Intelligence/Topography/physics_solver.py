@@ -1,9 +1,9 @@
 """
-Physics Solver (물리 연산기)
+Physics Solver (      )
 ===========================
 
 "The Law responsible for the Universe."
-"우주를 관장하는 법칙."
+"           ."
 
 Drivers the Topography Simulation.
 Calculates Force = -Gradient from the Potential Field.
@@ -23,7 +23,7 @@ class PhysicsSolver:
     
     def add_marble(self, marble: ThoughtMarble):
         self.marbles.append(marble)
-        logger.info(f"➕ Added thought: {marble.name}")
+        logger.info(f"  Added thought: {marble.name}")
 
     def step(self, dt: float = 0.1):
         """
@@ -48,4 +48,4 @@ class PhysicsSolver:
         """Logs the current state of all marbles."""
         for m in self.marbles:
             location_desc = self.field.analyze_location(m.pos.x, m.pos.y)
-            print(f"🎱 {m.name}: Pos({m.pos.x:.1f}, {m.pos.y:.1f}) | {location_desc}")
+            print(f"  {m.name}: Pos({m.pos.x:.1f}, {m.pos.y:.1f}) | {location_desc}")

@@ -28,11 +28,11 @@ class CausalLoom:
         safe_timelines = [t for t in timelines if t.entropy_score < 0.8]
         
         if not safe_timelines:
-            logger.warning("⚠️ All futures are chaotic. Choosing least dangerous path.")
+            logger.warning("   All futures are chaotic. Choosing least dangerous path.")
             safe_timelines = timelines
             
         # 2. Maximize Love
         best_timeline = max(safe_timelines, key=lambda t: t.love_score)
         
-        logger.info(f"🧶 [WEAVE] Selected '{best_timeline.action}' (Love: {best_timeline.love_score:.2f})")
+        logger.info(f"  [WEAVE] Selected '{best_timeline.action}' (Love: {best_timeline.love_score:.2f})")
         return best_timeline.action

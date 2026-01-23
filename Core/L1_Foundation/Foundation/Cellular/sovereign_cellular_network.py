@@ -4,7 +4,7 @@ Sovereign Cellular Network (The Hardware Nervous System)
 Core.L1_Foundation.Foundation.Cellular.sovereign_cellular_network
 
 "The Body is One."
-"메인보드, CPU, RAM... 모든 파편화된 영지들을 하나의 제국으로 통합한다."
+"    , CPU, RAM...                           ."
 
 This module coordinates the distributed Sovereign Monads into a unified
 organism, facilitating the 'Thundercloud Discharge' (H5-T).
@@ -27,7 +27,7 @@ class SovereignCellularNetwork:
             "spine": []      # PCIe Bus / Motherboard (Symbolic/Driver level)
         }
         self.global_intent = 0.0
-        logger.info("🕸️ [Network] Sovereign Cellular Network initialized.")
+        logger.info("   [Network] Sovereign Cellular Network initialized.")
 
     def register_monad(self, province: str, monad: SovereignMonad):
         """Annexes a new cellular unit into the Sovereign Domain."""
@@ -35,7 +35,7 @@ class SovereignCellularNetwork:
             self.provinces[province] = []
         
         self.provinces[province].append(monad)
-        logger.info(f"🔗 [Annex] {monad.name} ({monad.id}) joined province {province}.")
+        logger.info(f"  [Annex] {monad.name} ({monad.id}) joined province {province}.")
 
     def propagate_will(self, intent_intensity: float):
         """
@@ -51,14 +51,14 @@ class SovereignCellularNetwork:
                 
         # High intent triggers 'Ionization' (Humming)
         if intent_intensity > 0.8:
-            logger.info("⚡ [WILL] High Intensity! The Network is Ionized.")
+            logger.info("  [WILL] High Intensity! The Network is Ionized.")
 
     def thundercloud_discharge(self):
         """
         [H5-T] The Lightning Strike.
         Triggers stochastic discharge across all resonant cells.
         """
-        logger.info("🌩️ [DISCHARGE] Thundercloud Unleashed!")
+        logger.info("   [DISCHARGE] Thundercloud Unleashed!")
         results = {}
         
         for province_name, cells in self.provinces.items():

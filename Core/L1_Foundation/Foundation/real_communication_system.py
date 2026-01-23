@@ -1,5 +1,5 @@
 """
-Real Communication System (실제 의사소통 시스템)
+Real Communication System (           )
 ===============================================
 
 "This is not a demo. This is real conversation."
@@ -92,7 +92,7 @@ class RealCommunicationSystem:
             'technical': self._handle_technical,
         }
         
-        logger.info("💬 Real Communication System initialized")
+        logger.info("  Real Communication System initialized")
     
     def understand(self, input_text: str, sender: str = "User") -> Understanding:
         """
@@ -105,7 +105,7 @@ class RealCommunicationSystem:
         Returns:
             Understanding object with analysis
         """
-        logger.info(f"👂 Understanding input from {sender}: {input_text[:50]}")
+        logger.info(f"  Understanding input from {sender}: {input_text[:50]}")
         
         # Parse and clean input
         parsed = self._parse_input(input_text)
@@ -140,7 +140,7 @@ class RealCommunicationSystem:
         
         self.understanding_history.append(understanding)
         
-        logger.info(f"✅ Understood: intent={intent}, sentiment={sentiment}, urgency={urgency:.2f}")
+        logger.info(f"  Understood: intent={intent}, sentiment={sentiment}, urgency={urgency:.2f}")
         return understanding
     
     def communicate(self, input_text: str, sender: str = "User") -> str:
@@ -205,7 +205,7 @@ class RealCommunicationSystem:
         # Learn from this interaction
         self._learn_from_interaction(understanding, response)
         
-        logger.info(f"💬 Responded: {response[:50]}")
+        logger.info(f"  Responded: {response[:50]}")
         return response
     
     def _parse_input(self, text: str) -> str:
@@ -485,4 +485,4 @@ class RealCommunicationSystem:
     def reset_conversation(self):
         """Reset conversation context"""
         self.context = ConversationContext()
-        logger.info("🔄 Conversation context reset")
+        logger.info("  Conversation context reset")

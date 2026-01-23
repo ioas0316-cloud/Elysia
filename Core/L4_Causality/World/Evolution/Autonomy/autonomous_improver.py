@@ -4,7 +4,7 @@ Restoration Cortex (formerly Autonomous Self-Improvement Engine)
 
 **"The Law of Restoration: Healing the Gap between Ideal and Reality."**
 
-**"As above, so below." (위에서와 같이, 아래에서도)**
+**"As above, so below." (       ,      )**
 
 This module implements the **Fractal Healing Principle**:
 The system restores integrity across three recursive layers of existence.
@@ -110,8 +110,8 @@ class SystemMapParser:
         # Handles:
         # 1. Plain: Core/file.py - Description
         # 2. Link: - [Core/file.py](...) - Description
-        # 3. Tree: ├── Core/file.py - Description
-        file_pattern = re.compile(r'([\w/]+\.py).*?[-–:]\s*(.*)')
+        # 3. Tree:     Core/file.py - Description
+        file_pattern = re.compile(r'([\w/]+\.py).*?[- :]\s*(.*)')
         
         for line in content.split('\n'):
             line = line.strip()
@@ -240,7 +240,7 @@ class {class_name}:
             improvement_type=ImprovementType.RESTORATION,
             target_file=target_path,
             description=f"Restore missing file {filename}",
-            description_kr=f"누락된 파일 {filename} 복원 (목적: {tension.expected_state})",
+            description_kr=f"       {filename}    (  : {tension.expected_state})",
             proposed_code=code_template,
             reasoning="System Map consistency required.",
             confidence=0.9,

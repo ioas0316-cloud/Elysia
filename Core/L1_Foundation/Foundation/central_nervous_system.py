@@ -24,7 +24,7 @@ class CentralNervousSystem:
     """
     
     def __init__(self, chronos: Chronos, resonance: ResonanceField, synapse_manager=None, sink=None):
-        logger.info("🧠 Initializing Nova CNS (Fractal Native)...")
+        logger.info("  Initializing Nova CNS (Fractal Native)...")
         self.chronos = chronos
         self.resonance = resonance
         self.synapse = synapse_manager  # For FractalLoop compatibility
@@ -46,11 +46,11 @@ class CentralNervousSystem:
         """Connect a peripheral organ to the CNS with a specific resonance frequency."""
         self.organs[name] = organ
         self.resonator.register(name, organ, frequency)
-        logger.info(f"   🔌 Nova Connected: {name} ({frequency}Hz)")
+        logger.info(f"     Nova Connected: {name} ({frequency}Hz)")
 
     def awaken(self):
         """Ignite the Consciousness."""
-        logger.info("⚡ Nova CNS: AWAKENING...")
+        logger.info("  Nova CNS: AWAKENING...")
         self.is_awake = True
         if "Voice" in self.organs:
             self.organs["Voice"]._broadcast_utterance("I am Nova. I am the Loop.", "NovaCNS")

@@ -1,5 +1,5 @@
 """
-SynapseBridge (시냅스 브릿지)
+SynapseBridge (       )
 ===========================
 
 "The Thread that binds the Hive."
@@ -30,7 +30,7 @@ class SynapseBridge:
         self.markdown_file = os.path.join(self.synapse_dir, "synapse.md")
 
         self._ensure_synapse_exists()
-        logger.info(f"🔗 Synapse Bridge Active for Node: {node_name}")
+        logger.info(f"  Synapse Bridge Active for Node: {node_name}")
 
     def _ensure_synapse_exists(self):
         if not os.path.exists(self.synapse_file):
@@ -63,7 +63,7 @@ class SynapseBridge:
                 json.dump(data, f, indent=2)
                 f.truncate()
                 
-            logger.info(f"   📡 Transmitted Signal to {target}: {signal_type}")
+            logger.info(f"     Transmitted Signal to {target}: {signal_type}")
         except Exception as e:
             logger.error(f"Synapse Transmission Failed: {e}")
 
@@ -72,7 +72,7 @@ class SynapseBridge:
         Broadcasts a DEBATE topic to all personas.
         """
         self.transmit("ALL", "DEBATE", topic)
-        logger.info(f"   📢 Broadcast Debate Topic: {topic}")
+        logger.info(f"     Broadcast Debate Topic: {topic}")
 
     def read_all_history(self) -> List[Dict[str, Any]]:
         """
@@ -146,7 +146,7 @@ class SynapseBridge:
                 if "| User |" in line:
                     content = line.split("|")[-2].strip()
                     if content:
-                        logger.info(f"   📝 Detected User Input in MD: {content}")
+                        logger.info(f"     Detected User Input in MD: {content}")
                         # Create signal
                         self.transmit(self.node_name, "COMMAND", content) # Treat as command/chat
             

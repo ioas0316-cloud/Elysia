@@ -50,9 +50,9 @@ class PhilosophyReader:
             candidates = quotes + headings
             if candidates:
                 insight = random.choice(candidates)
-                return f"📖 [학습: {filename}] \"{insight}\""
+                return f"  [  : {filename}] \"{insight}\""
             else:
-                return f"📖 [완독: {filename}] (구체적 문장 없음)"
+                return f"  [  : {filename}] (         )"
                 
         except Exception as e:
             return f"Error reading {filename}: {e}"

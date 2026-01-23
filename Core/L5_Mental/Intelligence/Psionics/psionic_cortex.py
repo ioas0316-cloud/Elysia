@@ -65,7 +65,7 @@ class PsionicCortex:
         wave_dim = wave.shape[0]
         
         if wave_dim != soul_dim:
-            logger.warning(f"⚠️ [PSIONIC] Dimension Mismatch: Wave({wave_dim}) vs Soul({soul_dim}). Adjusting...")
+            logger.warning(f"   [PSIONIC] Dimension Mismatch: Wave({wave_dim}) vs Soul({soul_dim}). Adjusting...")
             if wave_dim > soul_dim:
                 wave = wave[:soul_dim]
             else:
@@ -89,7 +89,7 @@ class PsionicCortex:
         # to triangulate the missing truth.
         
         if best_score < 0.65:
-            logger.info(f"⚠️ [MULTI-ROTOR] Low Resonance ({best_score:.2f}). Engaging Holographic Reconstruction...")
+            logger.info(f"   [MULTI-ROTOR] Low Resonance ({best_score:.2f}). Engaging Holographic Reconstruction...")
             
             # 1. Identify Spatial Context (Top-K Neighbors)
             # These are the "Multiple Rotors" spinning around the void.
@@ -121,7 +121,7 @@ class PsionicCortex:
             self._update_ui(intention, best_score, msg)
             return msg
 
-        logger.info(f"🔮 [PSIONIC] Intention '{intention}' collapsed to '{node_id}' (Resonance: {best_score:.4f})")
+        logger.info(f"  [PSIONIC] Intention '{intention}' collapsed to '{node_id}' (Resonance: {best_score:.4f})")
         
         msg = f"Reality Collapsed: {node_id}"
         self._update_ui(intention, best_score, msg)

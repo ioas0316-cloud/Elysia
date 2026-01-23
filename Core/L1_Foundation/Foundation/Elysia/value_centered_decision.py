@@ -441,4 +441,3 @@ class ValueCenteredDecision:
 
 
         return best_thought
-

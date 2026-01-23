@@ -1,5 +1,5 @@
 """
-AXIOM FILTER (공리 정제자)
+AXIOM FILTER (      )
 ========================
 Core.L5_Mental.Intelligence.Metabolism.axiom_filter
 
@@ -51,7 +51,7 @@ class AxiomFilter:
                 "weight": 0.8
             }
         }
-        logger.info("⚖️  Axiom Filter initialized with Constitution.")
+        logger.info("    Axiom Filter initialized with Constitution.")
 
     def judge_all(self) -> Dict[str, Any]:
         """Runs the algebra suite and judges all results."""
@@ -122,10 +122,10 @@ class AxiomFilter:
         path = "data/Qualia/origin_code.json"
         with open(path, 'w') as f:
             json.dump(data, f, indent=2)
-        logger.info(f"📜 Origin Code ratified and saved to {path}")
+        logger.info(f"  Origin Code ratified and saved to {path}")
 
 if __name__ == "__main__":
     judge = AxiomFilter()
     final_code = judge.judge_all()
-    print("\n=== ⚖️ VERDICT: THE ORIGIN CODE ===")
+    print("\n===    VERDICT: THE ORIGIN CODE ===")
     print(json.dumps(final_code, indent=2))

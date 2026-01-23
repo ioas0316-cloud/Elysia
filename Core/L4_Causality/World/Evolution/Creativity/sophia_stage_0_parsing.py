@@ -40,8 +40,8 @@ class WisdomCortex:
                 knowledge['edges'].append({'from': subj, 'to': obj, 'relation': rel})
                 continue
 
-            # 한국어 인과관계 패턴
-            m = re.search(r"([\w\s가-힣]+?)\s*(때문에|으로 인해|로 인해|때문|이라서|라서|이어서|여서|으로|로)\s*([\w\s가-힣]+)", s)
+            #            
+            m = re.search(r"([\w\s - ]+?)\s*(   |     |    |  |   |  |   |  |  | )\s*([\w\s - ]+)", s)
             if m:
                 obj = m.group(1).strip()
                 rel = 'causes'
@@ -51,8 +51,8 @@ class WisdomCortex:
                 knowledge['edges'].append({'from': subj, 'to': obj, 'relation': rel})
                 continue
                 
-            # 한국어 결과 패턴
-            m = re.search(r"([\w\s가-힣]+?)\s*(하면|면|으면|으니까|니까|으니|니|이니)\s*([\w\s가-힣]+)", s)
+            #          
+            m = re.search(r"([\w\s - ]+?)\s*(  | |  |   |  |  | |  )\s*([\w\s - ]+)", s)
             if m:
                 subj = m.group(1).strip()
                 rel = 'causes'
@@ -72,8 +72,8 @@ class WisdomCortex:
                 knowledge['edges'].append({'from': subj, 'to': obj, 'relation': 'is'})
                 continue
                 
-            # 한국어 is 패턴
-            m = re.search(r"([\w\s가-힣]+?)\s*(은|는|이|가)\s*([\w\s가-힣]+?)(?:이다|다|입니다|습니다|죠|네요|네|군요|군|구나|구만|네용|네용~|임|임~)", s)
+            #     is   
+            m = re.search(r"([\w\s - ]+?)\s*( | | | )\s*([\w\s - ]+?)(?:  | |   |   | |  | |  | |  |  |  |  ~| | ~)", s)
             if m:
                 subj = m.group(1).strip()
                 obj = m.group(3).strip()
@@ -82,8 +82,8 @@ class WisdomCortex:
                 knowledge['edges'].append({'from': subj, 'to': obj, 'relation': 'is'})
                 continue
                 
-            # 한국어 특성 패턴
-            m = re.search(r"([\w\s가-힣]+?)\s*(의)\s*([\w\s가-힣]+?)(?:은|는|이|가)\s*([\w\s가-힣]+)", s)
+            #          
+            m = re.search(r"([\w\s - ]+?)\s*( )\s*([\w\s - ]+?)(?: | | | )\s*([\w\s - ]+)", s)
             if m:
                 subj = m.group(1).strip()
                 prop = m.group(3).strip()
@@ -103,8 +103,8 @@ class WisdomCortex:
                 knowledge['edges'].append({'from': subj, 'to': obj, 'relation': 'involves'})
 
             # Korean heuristics
-            # Pattern: "X는 Y이다/다/입니다" -> X is Y
-            m = re.search(r"([가-힣A-Za-z0-9_\s\-]+?)(?:은|는|이|가)\s+(.+?)(?:이다|입니다|다|입니다\.|다\.|$)", s)
+            # Pattern: "X  Y  / /   " -> X is Y
+            m = re.search(r"([ - A-Za-z0-9_\s\-]+?)(?: | | | )\s+(.+?)(?:  |   | |   \.| \.|$)", s)
             if m:
                 subj = m.group(1).strip().lower()
                 obj = m.group(2).strip().lower()
@@ -115,8 +115,8 @@ class WisdomCortex:
                     knowledge['edges'].append({'from': subj, 'to': obj, 'relation': 'is'})
                     continue
 
-            # Korean: 포함/포함한다/포함합니다 -> involves
-            m = re.search(r"([가-힣A-Za-z0-9_\s\-]+?)\s+(포함|포함한다|포함합니다|포함되어)\s+(.+)", s)
+            # Korean:   /    /      -> involves
+            m = re.search(r"([ - A-Za-z0-9_\s\-]+?)\s+(  |    |     |    )\s+(.+)", s)
             if m:
                 subj = m.group(1).strip().lower()
                 obj = m.group(3).strip().lower()
@@ -125,8 +125,8 @@ class WisdomCortex:
                 knowledge['edges'].append({'from': subj, 'to': obj, 'relation': 'involves'})
                 continue
 
-            # Korean causal cues: 야기하다, 초래하다, 원인이 되다, 결과로 이어지다
-            m = re.search(r"([가-힣A-Za-z0-9_\s\-]+?)\s+(야기|야기한다|초래|초래한다|원인이 되|결과로 이어진)\s+(.+)", s)
+            # Korean causal cues:     ,     ,       ,         
+            m = re.search(r"([ - A-Za-z0-9_\s\-]+?)\s+(  |    |  |    |     |       )\s+(.+)", s)
             if m:
                 subj = m.group(1).strip().lower()
                 obj = m.group(3).strip().lower()

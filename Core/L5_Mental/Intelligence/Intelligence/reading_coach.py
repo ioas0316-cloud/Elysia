@@ -18,7 +18,7 @@ class ReadingCoach:
     """Offline summarization and extraction helper."""
 
     SENT_SPLIT = re.compile(r"(?<=[.!?])\s+")
-    WORD_RE = re.compile(r"[A-Za-z가-힣0-9']+")
+    WORD_RE = re.compile(r"[A-Za-z - 0-9']+")
 
     def _sentences(self, text: str) -> List[str]:
         text = text.strip()

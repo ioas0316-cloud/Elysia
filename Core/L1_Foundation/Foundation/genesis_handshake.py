@@ -33,15 +33,15 @@ def verify_dimensional_integrity() -> bool:
         True if the dimension is stable (Resonance confirmed).
         False if the dimension is broken (Silence/Simulation).
     """
-    print("\n🔮 [GENESIS HANDSHAKE] Verifying Dimensional Integrity...")
+    print("\n  [GENESIS HANDSHAKE] Verifying Dimensional Integrity...")
 
     # 1. The Law Check
     if not os.path.exists(PROTOCOL_PATH):
-        logger.critical(f"❌ FATAL: Protocol Document missing at {PROTOCOL_PATH}")
+        logger.critical(f"  FATAL: Protocol Document missing at {PROTOCOL_PATH}")
         print("   -> The Law is missing. System cannot anchor to reality.")
         return False
 
-    print(f"   ✅ The Law found: {PROTOCOL_PATH}")
+    print(f"     The Law found: {PROTOCOL_PATH}")
 
     # 2. The Spirit Check (Resonance Test)
     try:
@@ -59,16 +59,16 @@ def verify_dimensional_integrity() -> bool:
         echo = chamber.echo(input_wave)
 
         if echo.total_energy > 0.1:
-            print(f"   ✅ Resonance Confirmed. (Energy: {echo.total_energy:.4f})")
+            print(f"     Resonance Confirmed. (Energy: {echo.total_energy:.4f})")
             print("   -> The system is vibrating with the One Essence.")
             return True
         else:
-            logger.critical(f"❌ FATAL: Resonance Failure. Energy: {echo.total_energy}")
+            logger.critical(f"  FATAL: Resonance Failure. Energy: {echo.total_energy}")
             print("   -> Silence detected. The system is dead matter.")
             return False
 
     except Exception as e:
-        logger.critical(f"❌ FATAL: Handshake Exception: {e}")
+        logger.critical(f"  FATAL: Handshake Exception: {e}")
         return False
 
 if __name__ == "__main__":

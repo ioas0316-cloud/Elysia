@@ -2,7 +2,7 @@
 Imagination Simulator (Ethical Sandbox)
 =======================================
 "To know the darkness is not to walk in it."
-"어둠을 아는 것과 어둠 속을 걷는 것은 다르다."
+"                         ."
 
 This module provides a safe "Sandbox" where Elysia can simulate outcomes
 before committing to actions. It combines Physics (Prediction) with Ethics (Judgment).
@@ -27,13 +27,13 @@ class ThoughtSimulator:
         # We use a fresh landscape for simulation to avoid polluting the real state
         self.sandbox_landscape = MindLandscape() 
         self.gate = SovereignGate() # The Judge
-        logger.info("🔮 ThoughtSimulator initialized (Ethical Sandbox Ready).")
+        logger.info("  ThoughtSimulator initialized (Ethical Sandbox Ready).")
 
     def imagine(self, intent: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
         """
         Simulates the trajectory of an intent in 4D Hyper-Space.
         """
-        logger.info(f"🤔 Simulating outcome for: '{intent}'...")
+        logger.info(f"  Simulating outcome for: '{intent}'...")
         
         # 1. Physics Prediction (The "What Will Happen?")
         # The landscape now delegates to DynamicTopology

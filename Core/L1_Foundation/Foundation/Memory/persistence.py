@@ -417,4 +417,3 @@ def load_world_state(
     _apply_state(world, data)
 
     return world
-

@@ -1,9 +1,9 @@
 """
-Dynamic Entropy Engine (동적 엔트로피 엔진)
+Dynamic Entropy Engine (          )
 =========================================
 
 "True intelligence requires friction."
-"진정한 지능은 마찰을 필요로 한다."
+"                  ."
 
 This module provides 'Cognitive Friction' to Elysia's thought loops by:
 1. Extracting random logic/docs from her own codebase.

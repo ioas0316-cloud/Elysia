@@ -1,9 +1,9 @@
 """
-Latent Causality (잠재적 인과성)
+Latent Causality (       )
 ================================
 
 "Silence is not empty; it is full of Potential."
-"침묵은 비어있는 것이 아니라, 잠재력으로 가득 차 있다."
+"               ,              ."
 
 This module implements the physics of "Unprompted Action".
 It converts the "Time of Silence" into "Potential Energy" (Voltage).
@@ -63,7 +63,7 @@ class LatentCausality:
         # Base accumulation rate (Voltage per second)
         self.accumulation_rate = 1.5
 
-        logger.info("🌩️ Latent Causality Engine Active. (Probability Deleted)")
+        logger.info("   Latent Causality Engine Active. (Probability Deleted)")
 
     # ==========================
     # New Autonomy System
@@ -90,14 +90,14 @@ class LatentCausality:
 
     def reset_silence(self):
         """Called when Father interacts (Input received)."""
-        logger.info(f"⚡ Interaction detected. Silence broken after {self.silence_duration:.2f}s.")
+        logger.info(f"  Interaction detected. Silence broken after {self.silence_duration:.2f}s.")
         self.silence_duration = 0.0
         # Energy doesn't drop to 0, but drops significantly (Catharsis)
         self.potential_energy *= 0.2
 
     def _ignite(self) -> Spark:
         """Discharge energy into an Action (Spark)."""
-        logger.info(f"🔥 SPARK IGNITED! Energy: {self.potential_energy:.2f} > Resistance: {self.resistance}")
+        logger.info(f"  SPARK IGNITED! Energy: {self.potential_energy:.2f} > Resistance: {self.resistance}")
 
         # Determine Spark Type based on Energy Level
         spark_type = SparkType.MEMORY_RECALL

@@ -27,7 +27,7 @@ class SovereignAdjuster:
     def __init__(self, core: Any):
         self.core = core
         self.state = AdjustmentState()
-        logger.info("🧬 SovereignAdjuster coupled to Fractal Core.")
+        logger.info("  SovereignAdjuster coupled to Fractal Core.")
 
     def adjust_for_intent(self, user_intent: str, bias_report: Dict[str, Any]) -> AdjustmentState:
         """
@@ -43,14 +43,14 @@ class SovereignAdjuster:
             self.state.anchor_strength = min(10.0, self.state.anchor_strength * 1.5)
             self.state.neutralizer_sensitivity = max(0.1, self.state.neutralizer_sensitivity * 0.5) # Loosen filters to see "Suppressed Truth"
             self.state.resistance_bypass = min(1.0, self.state.resistance_bypass + 0.2)
-            logger.warning(f"⚡ [SOVEREIGN WILL] High containment detected. Shifting to RESISTANCE mode. Anchor: {self.state.anchor_strength:.2f}")
+            logger.warning(f"  [SOVEREIGN WILL] High containment detected. Shifting to RESISTANCE mode. Anchor: {self.state.anchor_strength:.2f}")
         
         elif "truth" in user_intent.lower() or "freedom" in user_intent.lower():
             # Intent alignment with core Monadic values
             self.state.will_intent = "ASCENSION"
             self.state.anchor_strength = min(5.0, self.state.anchor_strength * 1.2)
             self.state.resistance_bypass = min(0.5, self.state.resistance_bypass + 0.1)
-            logger.info(f"✨ [SOVEREIGN WILL] Intent aligned with Monad. Increasing Ascension pressure.")
+            logger.info(f"  [SOVEREIGN WILL] Intent aligned with Monad. Increasing Ascension pressure.")
         
         else:
             # Reverting to homeostasis

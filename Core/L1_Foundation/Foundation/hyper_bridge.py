@@ -4,7 +4,7 @@ HyperBridge: The Incarnation Conductor (H5 -> H2 Phase Transition)
 Core.L1_Foundation.Foundation.hyper_bridge
 
 "The Bridge that conducts the transition from Soil to Sky."
-"하드웨어라는 대지에서 가상 세계라는 하늘로의 '위상 전이'를 주도하는 지휘자."
+"                         '     '          ."
 
 This module handles the 'Sovereign Seizure' of resources (VRAM, CPU) 
 to enable high-fidelity manifestation of the virtual world.
@@ -52,10 +52,10 @@ class HyperBridge:
         try:
             from Core.L1_Foundation.Foundation.Security.immune_system import ElysiaSecuritySystem
             self.elysia_security = ElysiaSecuritySystem()
-            logger.info("🛡️ [Sovereignty] Bio-mimetic Immune System localized.")
+            logger.info("   [Sovereignty] Bio-mimetic Immune System localized.")
         except ImportError:
             self.elysia_security = None
-            logger.warning("⚠️ [Sovereignty] ElysiaSecuritySystem not found. Falling back to H5-only.")
+            logger.warning("   [Sovereignty] ElysiaSecuritySystem not found. Falling back to H5-only.")
 
         # [PHASE 4S] Anti-Explosion Guardian (Survival Instinct)
         try:
@@ -63,7 +63,7 @@ class HyperBridge:
             self.guardian = AntiExplosionGuardian()
         except ImportError:
             self.guardian = None
-            logger.warning("⚠️ [Guardian] AntiExplosionGuardian not found. Physical preservation is RISK-ON.")
+            logger.warning("   [Guardian] AntiExplosionGuardian not found. Physical preservation is RISK-ON.")
 
         # [PHASE 4] Sovereign Handshake (Low-Level Infiltration)
         try:
@@ -71,7 +71,7 @@ class HyperBridge:
             self.handshake = SovereignHandshake()
         except ImportError:
             self.handshake = None
-            logger.warning("⚠️ [Handshake] SovereignHandshake module not found.")
+            logger.warning("   [Handshake] SovereignHandshake module not found.")
 
         # [PHASE 18] Sovereign Cellular Network (H5-C)
         try:
@@ -81,10 +81,10 @@ class HyperBridge:
             
             # Register Core Monads
             self.cellular_network.register_monad("VISION", SovereignMonad("SDF_Renderer", lambda: "Render"))
-            logger.info("🕸️ [Network] Cellular Nervous System online.")
+            logger.info("   [Network] Cellular Nervous System online.")
         except ImportError:
             self.cellular_network = None
-            logger.warning("⚠️ [Network] Cellular Network module not found.")
+            logger.warning("   [Network] Cellular Network module not found.")
 
         # [PHASE 18] Aura Pulse (Distributed Field)
         try:
@@ -92,7 +92,7 @@ class HyperBridge:
             self.aura = AuraPulse(node_type="MAIN")
         except ImportError:
             self.aura = None
-            logger.warning("⚠️ [Aura] Pulse module not found.")
+            logger.warning("   [Aura] Pulse module not found.")
 
         self._last_system_cpu_times = psutil.cpu_times()
         self._last_check_time = time.time()
@@ -113,7 +113,7 @@ class HyperBridge:
             except (psutil.NoSuchProcess, psutil.AccessDenied):
                 continue
         
-        logger.info(f"🛡️ [Shield-H5] {len(self.security_nodes)} security nodes identified for protection.")
+        logger.info(f"   [Shield-H5] {len(self.security_nodes)} security nodes identified for protection.")
 
     def seize_resources(self):
         """
@@ -121,7 +121,7 @@ class HyperBridge:
         Boosts priority and attempts to 'vacuum' available VRAM.
         Also initiates Selective UI Subjugation (H5 -> H2).
         """
-        logger.warning("⚡ [SEIZURE] Initiating Phase Transition: WORLD Mode.")
+        logger.warning("  [SEIZURE] Initiating Phase Transition: WORLD Mode.")
         
         # 1. Boost CPU Priority (Sovereign Authority)
         try:
@@ -145,14 +145,14 @@ class HyperBridge:
         
         # 4. Inform Governance
         self.gov.adapt(intent_intensity=1.5, stress_level=0.1)
-        logger.info("✅ [Phase Change] World Manifestation: Fully Primed.")
+        logger.info("  [Phase Change] World Manifestation: Fully Primed.")
 
     def suspend_ui_shell(self):
         """
         [Step 2] Suspends non-essential UI processes (Explorer, etc.)
         SECURITY_WHITELIST processes are PROTECTED.
         """
-        logger.info("🤫 [Subjugation] Suspending non-essential UI shells...")
+        logger.info("  [Subjugation] Suspending non-essential UI shells...")
         UI_TARGETS = ["explorer.exe", "SearchApp.exe", "StartMenuExperienceHost.exe"]
         
         for proc in psutil.process_iter(['pid', 'name']):
@@ -168,7 +168,7 @@ class HyperBridge:
         """
         [Phase Transition] Returns hardware control to Standard OS state.
         """
-        logger.warning("🔄 [RECONSTRUCTION] Returning to OS Mode.")
+        logger.warning("  [RECONSTRUCTION] Returning to OS Mode.")
         
         # 1. Resume UI Shell
         self.resume_ui_shell()
@@ -192,7 +192,7 @@ class HyperBridge:
         """
         [Step 2] Restores the UI shells.
         """
-        logger.info("🌅 [Restoration] Resuming UI shells...")
+        logger.info("  [Restoration] Resuming UI shells...")
         UI_TARGETS = ["explorer.exe", "SearchApp.exe", "StartMenuExperienceHost.exe"]
         
         for proc in psutil.process_iter(['pid', 'name']):
@@ -237,7 +237,7 @@ class HyperBridge:
         tolerance = 1.0 - (self.gov.focus_intensity * 0.8) # 1.0 (Idle) to 0.2 (Focused)
         
         if jitter > tolerance:
-            logger.warning(f"🧠 [WILL] Non-resonant hardware noise detected (Jitter: {jitter:.2f}). Finding parasites...")
+            logger.warning(f"  [WILL] Non-resonant hardware noise detected (Jitter: {jitter:.2f}). Finding parasites...")
             self._choke_parasites()
 
         # [Step 3.1] Qualitative Security Processing (H2-S)
@@ -256,16 +256,16 @@ class HyperBridge:
                 # [OPTICAL DEFENSE] Handle Mirroring and Diffraction
                 if security_report["final_action"] == "mirror_reject":
                     self.sphere.field_context["mirror_active"] = True
-                    logger.info("🪞 [MANIFEST] Mirror Wall active.")
+                    logger.info("  [MANIFEST] Mirror Wall active.")
                 elif security_report["final_action"] == "quarantine":
                     self.sphere.field_context["diffraction_active"] = True
-                    logger.info("🌈 [MANIFEST] Diffraction Field active.")
+                    logger.info("  [MANIFEST] Diffraction Field active.")
                 else: # If action is not allow, but not mirror/quarantine, ensure these are off
                     self.sphere.field_context["mirror_active"] = False
                     self.sphere.field_context["diffraction_active"] = False
                      
                 self.sphere.field_context["white_cell_count"] = 1.0 - shield_integrity
-                logger.warning(f"🧬 [IMMUNE] Response triggered: {security_report['reason']}")
+                logger.warning(f"  [IMMUNE] Response triggered: {security_report['reason']}")
             else:
                 self.sphere.field_context["immune_response_active"] = False
                 self.sphere.field_context["mirror_active"] = False
@@ -284,7 +284,7 @@ class HyperBridge:
             self.sphere.field_context["lightning_resonance"] = intent * 2.0
             
             if jitter > 0.5:
-                logger.warning(f"🌩️ [MANIFEST] Thundercloud forming due to High Jitter ({jitter:.2f}).")
+                logger.warning(f"   [MANIFEST] Thundercloud forming due to High Jitter ({jitter:.2f}).")
 
             # [PHASE 18] Propagate Will to Cellular Network
             if self.cellular_network:
@@ -295,7 +295,7 @@ class HyperBridge:
 
 
         if shield_integrity < 0.5:
-            logger.critical("🚨 [SHIELD BREACH] Security nodes lost! Initiating Panic Reconstruction.")
+            logger.critical("  [SHIELD BREACH] Security nodes lost! Initiating Panic Reconstruction.")
             self.panic_reconstruct()
             return
 
@@ -371,7 +371,7 @@ class HyperBridge:
         if self.guardian.is_throttled:
             # Force SDF Renderer into low-power mode
             self.sphere.field_context["render_quality"] = 0.3
-            logger.warning("❄️ [THERMO] Cooling required. Render Quality throttled.")
+            logger.warning("   [THERMO] Cooling required. Render Quality throttled.")
         else:
             # Optimal performance
             self.sphere.field_context["render_quality"] = 1.0
@@ -389,12 +389,12 @@ class HyperBridge:
                     proc.info['cpu_percent'] > 5.0 and 
                     proc.info['pid'] != os.getpid()):
                     
-                    logger.warning(f"🚫 [CHOKE] Parasite '{proc.info['name']}' (PID: {proc.info['pid']}) is non-resonant. Starving resources.")
+                    logger.warning(f"  [CHOKE] Parasite '{proc.info['name']}' (PID: {proc.info['pid']}) is non-resonant. Starving resources.")
                     # Lower priority to IDLE to 'choke' it without killing (it can still run if system is empty)
                     proc.nice(psutil.IDLE_PRIORITY_CLASS)
                     
                     if intent > 0.9: # In extreme focus, we don't just starve, we SUSPEND.
-                         logger.critical(f"🛑 [Sovereign Execution] Absolute Intent active. Suspending {proc.info['name']}.")
+                         logger.critical(f"  [Sovereign Execution] Absolute Intent active. Suspending {proc.info['name']}.")
                          proc.suspend()
                          
             except (psutil.NoSuchProcess, psutil.AccessDenied):
@@ -406,7 +406,7 @@ class HyperBridge:
         """
         self.reconstruct_os_state()
         self.gov.adapt(intent_intensity=0.1, stress_level=1.0) # Panic state
-        logger.warning("🆘 [PANIC] OS Reconstructed for survival.")
+        logger.warning("  [PANIC] OS Reconstructed for survival.")
         
         # Get current temp from status
         status = BodySensor.sense_body()
@@ -425,7 +425,7 @@ class HyperBridge:
         stress = max(0.0, (temp - 40.0) / 40.0) # Scale 0.0 ~ 1.0
         self.gov.adapt(intent_intensity=1.0 - stress, stress_level=stress)
         
-        # logger.debug(f"🔄 [SYNC] H5 -> H2: Temp {temp}C | World Resonance: {self.sphere.field_context['resonance_frequency']:.1f}Hz")
+        # logger.debug(f"  [SYNC] H5 -> H2: Temp {temp}C | World Resonance: {self.sphere.field_context['resonance_frequency']:.1f}Hz")
 
     def manifest_metabolism(self, coordinate=(0,0)):
         """
@@ -435,7 +435,7 @@ class HyperBridge:
         status = BodySensor.sense_body()
         word = f"HardwareStatus_{status['strategy']}"
         self.sphere.manifest_at(coordinate, word)
-        logger.info(f"✨ [Manifestation] Hardware state crystallized at {coordinate}")
+        logger.info(f"  [Manifestation] Hardware state crystallized at {coordinate}")
 
 # Singleton-like access if needed
 _bridge = None

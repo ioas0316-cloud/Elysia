@@ -1,5 +1,5 @@
 """
-ResonancePhysics (공명 물리학)
+ResonancePhysics (      )
 ============================
 
 "Meaning is Mass. Emotion is Direction."
@@ -164,7 +164,7 @@ class ResonancePhysics:
         
         delta = end_emotion - start_emotion
         
-        logger.info(f"   📉 Narrative Analysis: Start={start_emotion:.2f}, Mid={mid_emotion:.2f}, End={end_emotion:.2f}, Delta={delta:.2f}")
+        logger.info(f"     Narrative Analysis: Start={start_emotion:.2f}, Mid={mid_emotion:.2f}, End={end_emotion:.2f}, Delta={delta:.2f}")
         
         if delta > 0.3:
             return "Redemption (Rising Hope)"

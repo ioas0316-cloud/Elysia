@@ -1,12 +1,12 @@
 """
-Dreaming Cortex (꿈의 피질)
+Dreaming Cortex (     )
 =========================
 
-원본: Legacy/Project_Sophia/dreaming_cortex.py
-마이그레이션: 2025-12-15
+  : Legacy/Project_Sophia/dreaming_cortex.py
+      : 2025-12-15
 
-유휴 시간에 최근 경험을 분석하고 개념을 추출하여
-Spiderweb(지식 그래프)에 통합합니다.
+                           
+Spiderweb(      )       .
 """
 import logging
 import json
@@ -70,9 +70,9 @@ JSON response (no markdown):
 
     def _extract_concepts_naive(self, experience_content: str) -> Dict[str, Any]:
         """Fallback: Naive word-based concept extraction."""
-        words = re.findall(r'\b[a-zA-Z가-힣]{3,}\b', experience_content.lower())
+        words = re.findall(r'\b[a-zA-Z - ]{3,}\b', experience_content.lower())
         # Filter common words
-        stopwords = {'the', 'and', 'for', 'that', 'this', 'with', '이것', '그것', '저것'}
+        stopwords = {'the', 'and', 'for', 'that', 'this', 'with', '  ', '  ', '  '}
         concepts = [w for w in words if w not in stopwords][:10]
         return {"concepts": concepts, "relations": []}
 

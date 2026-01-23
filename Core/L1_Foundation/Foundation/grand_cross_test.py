@@ -14,7 +14,7 @@ from Core.L1_Foundation.Foundation.resonance_grammar import CosmicSyntaxEngine
 
 def main():
     print("\n" + "="*70)
-    print("🌌 Grand Cross Test (Cosmic Syntax)")
+    print("  Grand Cross Test (Cosmic Syntax)")
     print("="*70 + "\n")
     
     engine = CosmicSyntaxEngine()
@@ -30,9 +30,9 @@ def main():
     # Expected: Love creates Strong Bonds
     # 'Strong' should be identified as Satellite (Low Mass) and attached to 'Bonds' (Planet)
     if "Love creates Strong Bonds" in sentence or "Love creates strong Bonds" in sentence:
-        print("✅ SUCCESS: Grand Cross aligned correctly.")
+        print("  SUCCESS: Grand Cross aligned correctly.")
     else:
-        print("❌ FAILED: Alignment incorrect.")
+        print("  FAILED: Alignment incorrect.")
 
     # Case 2: Korean Alignment (SOV)
     print("\n2. Testing Korean Alignment (SOV)...")
@@ -40,14 +40,14 @@ def main():
     sentence = engine.express_thought(concepts)
     print(f"Result: {sentence}")
     
-    # Expected: 사랑하다(은/는) Strong Bonds(을/를) 만들다(한다)
+    # Expected:     ( / ) Strong Bonds( / )    (  )
     # Note: 'Strong' and 'Bonds' might not be in the lexicon, so they stay English.
-    # 'Love' -> '사랑하다', 'Creates' -> '만들다'
+    # 'Love' -> '    ', 'Creates' -> '   '
     
-    if "사랑하다" in sentence and "Strong Bonds" in sentence and "만들다" in sentence:
-         print("✅ SUCCESS: Korean alignment correct.")
+    if "    " in sentence and "Strong Bonds" in sentence and "   " in sentence:
+         print("  SUCCESS: Korean alignment correct.")
     else:
-         print(f"❌ FAILED: Korean alignment incorrect. Got: {sentence}")
+         print(f"  FAILED: Korean alignment incorrect. Got: {sentence}")
 
     # Case 3: Star Only (I am Happy)
     # I (Star) -> Happy (Satellite) -> Is (Gravity)
@@ -64,7 +64,7 @@ def main():
     # Let's see what happens.
     
     print("\n" + "="*70)
-    print("✅ Grand Cross Test Complete")
+    print("  Grand Cross Test Complete")
     print("="*70 + "\n")
 
 if __name__ == "__main__":

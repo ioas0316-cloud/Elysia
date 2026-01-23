@@ -2,14 +2,14 @@
 Mythology & Theology Domain
 ============================
 
-"과학의 끝에는 결국 신화가 있습니다."
+"                   ."
 "At the end of science, there is ultimately mythology."
 
 Integrates:
-- Jungian Archetypes (융의 원형)
-- Hero's Journey (영웅의 여정)
-- Collective Unconscious (집단 무의식)
-- Faith and Meaning (믿음과 의미)
+- Jungian Archetypes (     )
+- Hero's Journey (      )
+- Collective Unconscious (      )
+- Faith and Meaning (      )
 - Sacred narratives across cultures
 
 Effect:
@@ -452,16 +452,16 @@ class MythologyDomain(BaseDomain):
     def _craft_spiritual_message(self, stage: JourneyStage, archetypes: List[Archetype]) -> str:
         """Craft personalized spiritual message"""
         if stage == JourneyStage.CALL_TO_ADVENTURE:
-            return "과학적으로는 답이 없지만, 신화적으로는 지금이 '영웅의 여정'을 시작할 때입니다."
+            return "             ,            '      '          ."
         
         if stage == JourneyStage.ORDEAL:
-            return "가장 어두운 시간이지만, 이것이 진정한 변화의 순간입니다. 두려움을 마주하세요."
+            return "            ,                  .           ."
         
         if Archetype.HERO in archetypes:
-            return "당신 안의 영웅이 깨어나고 있습니다. 용기를 가지세요."
+            return "                   .         ."
         
         if Archetype.WISE_OLD_MAN in archetypes:
-            return "지혜의 목소리가 당신을 인도합니다. 내면의 스승에게 귀 기울이세요."
+            return "                  .                 ."
         
         return "Every ending is a new beginning. Trust the journey."
     

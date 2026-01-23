@@ -1,6 +1,6 @@
 
 """
-Academic Curriculum (학문적 교과 과정)
+Academic Curriculum (         )
 ======================================
 
 "Learning is not just storage. It is the ability to recreate the universe."
@@ -21,7 +21,7 @@ logger = logging.getLogger("AcademicCurriculum")
 
 @dataclass
 class AcademicQuest:
-    """학문적 탐구 퀘스트"""
+    """          """
     id: str
     domain: str  # Math, Physics, Art, Philosophy
     topic: str   # e.g., "Calculus", "Quantum Mechanics"
@@ -90,7 +90,7 @@ class CurriculumSystem:
         )
         
         self.active_quest = quest
-        logger.info(f"📜 New Academic Quest: [{quest.domain}] {quest.topic}")
+        logger.info(f"  New Academic Quest: [{quest.domain}] {quest.topic}")
         logger.info(f"   Goal: {quest.goal}")
         return quest
 
@@ -116,4 +116,3 @@ class CurriculumSystem:
         
         # Cap at 1.0
         return min(1.0, score)
-

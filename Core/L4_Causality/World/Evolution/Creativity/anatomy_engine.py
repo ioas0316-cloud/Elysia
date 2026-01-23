@@ -120,7 +120,7 @@ class Skeleton:
         output_path = self.output_dir / filename
         plt.savefig(output_path, facecolor='#1a1a1a')
         plt.close(fig)
-        logger.info(f"🦴 Skeletal Rig Rendered: {output_path}")
+        logger.info(f"  Skeletal Rig Rendered: {output_path}")
         return str(output_path)
 
 if __name__ == "__main__":

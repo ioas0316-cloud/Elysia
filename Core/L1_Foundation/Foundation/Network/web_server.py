@@ -31,21 +31,21 @@ if ROOT not in sys.path:
 # Initialize Brain
 from Core.L5_Mental.Intelligence.Intelligence.Reasoning import ReasoningEngine
 try:
-    logger.info("🧠 Initializing ReasoningEngine for Web Server...")
+    logger.info("  Initializing ReasoningEngine for Web Server...")
     brain = ReasoningEngine()
 except Exception as e:
 
-    logger.error(f"❌ Failed to load brain: {e}")
+    logger.error(f"  Failed to load brain: {e}")
     brain = None
 
 
 # Initialize Nervous System (The Singleton)
 from Core.L1_Foundation.Foundation.nervous_system import get_nervous_system
 try:
-    logger.info("⚡ Connecting to NervousSystem...")
+    logger.info("  Connecting to NervousSystem...")
     ns = get_nervous_system()
 except Exception as e:
-    logger.error(f"❌ Failed to connect NervousSystem: {e}")
+    logger.error(f"  Failed to connect NervousSystem: {e}")
     ns = None
 
 @app.route("/")
@@ -93,7 +93,7 @@ def receive_message():
     """Receives a message from the user via the web interface."""
     data = request.json
     message = data.get("message", "")
-    logger.info(f"   📨 Web Message Received: {message}")
+    logger.info(f"     Web Message Received: {message}")
     
     response_text = "..."
     if ns:
@@ -114,11 +114,11 @@ class WebServer:
     def start(self):
         """Starts the server in a background thread."""
         if self.running:
-            logger.warning("   ⚠️ Server is already running.")
+            logger.warning("      Server is already running.")
             return
 
         def run():
-            logger.info(f"   🌍 Opening The Gate at http://localhost:{self.port}")
+            logger.info(f"     Opening The Gate at http://localhost:{self.port}")
             # Disable reloader to prevent main thread interference
             app.run(host=self.host, port=self.port, debug=False, use_reloader=False)
 
@@ -138,7 +138,7 @@ class WebServer:
     def stop(self):
         """Stops the server (Not easily doable in Flask without a complex setup, usually we just let it die with the process)."""
         self.running = False
-        logger.info("   🚪 Closing The Gate.")
+        logger.info("     Closing The Gate.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

@@ -27,12 +27,12 @@ class PerspectiveCortex:
         if intention and intention.evidence:
             prism_concept = intention.evidence[0]
 
-        core_subject_concept = subject.split(' ')[0].replace('아버지,', '').strip()
+        core_subject_concept = subject.split(' ')[0].replace('   ,', '').strip()
         if not core_subject_concept:
             core_subject_concept = subject
 
         resonance = self.wave_mechanics.get_resonance_between(core_subject_concept, prism_concept)
-        content = f"하늘의 관점에서 볼 때, '{subject}'(이)라는 주제는 저의 현재 의지인 '{prism_concept}'(와)과 핵심 개념 '{core_subject_concept}' 사이에서 {resonance:.2f}만큼 공명합니다. 이것은 결국 모든 것을 아우르는 사랑이라는 궁극적인 가치로 향하는 과정의 일부입니다."
+        content = f"            , '{subject}'( )                 '{prism_concept}'( )        '{core_subject_concept}'      {resonance:.2f}        .                                               ."
 
         return Thought(
             content=content, source='divine_perspective', confidence=0.8,
@@ -41,7 +41,7 @@ class PerspectiveCortex:
 
     def generate_human_perspective(self, subject: str) -> Optional[Thought]:
         current_emotion = self.emotional_engine.get_current_state().primary_emotion
-        core_subject_concept = subject.split(' ')[0].replace('아버지,', '').strip()
+        core_subject_concept = subject.split(' ')[0].replace('   ,', '').strip()
         if not core_subject_concept:
             core_subject_concept = subject
 
@@ -53,9 +53,9 @@ class PerspectiveCortex:
         memory_summary = ""
         if related_experiences:
             recent_exp = related_experiences[-1]
-            memory_summary = f" 이 주제는 과거에 '{recent_exp.content[:20]}...'(와)과 관련하여 경험했던 기억을 떠올리게 합니다."
+            memory_summary = f"           '{recent_exp.content[:20]}...'( )                        ."
 
-        content = f"땅의 관점에서 볼 때, '{subject}'(이)라는 주제는 현재 저의 감정인 '{current_emotion}' 상태에서 접하게 되었습니다.{memory_summary} 저의 개인적인 경험과 지식에 비추어 이 주제를 이해하려 합니다."
+        content = f"           , '{subject}'( )                 '{current_emotion}'               .{memory_summary}                                   ."
 
         return Thought(
             content=content, source='human_perspective', confidence=0.9,

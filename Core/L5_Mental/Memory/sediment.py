@@ -174,7 +174,7 @@ class SedimentLayer:
         timestamp = time.time()
         ptr = self.deposit(vector, timestamp, payload)
 
-        logger.info(f"💎 Monad Crystalized at Sector {ptr.sector_index} (λ={wavelength:.1e})")
+        logger.info(f"  Monad Crystalized at Sector {ptr.sector_index} ( ={wavelength:.1e})")
         return ptr
 
     def scan_resonance(self, intent_vector: List[float], top_k: int = 3) -> List[Tuple[float, bytes]]:

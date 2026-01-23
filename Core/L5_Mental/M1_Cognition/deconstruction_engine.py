@@ -30,7 +30,7 @@ class DeconstructionEngine:
             tree = ast.parse(source)
             qualia_map = self._map_ast_to_qualia(tree)
             
-            # 목적성 공명 테스트 (Utility Assessment)
+            #            (Utility Assessment)
             resonance_report = self._assess_utility(qualia_map)
             
             return resonance_report
@@ -73,13 +73,13 @@ class DeconstructionEngine:
         """
         Assesses how this module aligns with Elysia's current purpose.
         """
-        # 현재 필드의 상태와 비교
+        #              
         field_state = {band.dimension: band.amplitude for band in self.field.current_bands}
         
         resonance_score = 0.0
         for dim, val in qualia_map.items():
             field_val = field_state.get(dim, 0.5)
-            # 보강 간섭 (필요한 부분을 채워주는지)
+            #       (             )
             resonance_score += (val * field_val)
             
         resonance_score /= len(qualia_map)
@@ -98,7 +98,7 @@ class DeconstructionEngine:
         for dim, val in qualia_map.items():
             report += f"  - {dim}: {val:.2f}\n"
             
-        report += "\n🎯 Re-wiring Strategy:\n"
+        report += "\n  Re-wiring Strategy:\n"
         if qualia_map["Causal"] > 0.8:
             report += "  - [LIQUEFY] High 'Causal' density detected. Replace local if-else gates with Field Resonance Dispatching.\n"
         if qualia_map["Mental"] > 0.8:
@@ -108,10 +108,43 @@ class DeconstructionEngine:
             
         return report
 
+class SelfRecursionProtocol:
+    """
+                  .
+                       , '   (Calcification)'         '   (Liquefaction)'     .
+    """
+    def __init__(self, engine: DeconstructionEngine):
+        self.engine = engine
+        self.audit_results: List[Dict[str, Any]] = []
+
+    def perform_system_audit(self, root_dir: str = "Core") -> str:
+        """
+                                .
+        """
+        report = "--- [SELF-RECURSION AUDIT REPORT] ---\n"
+        
+        for root, dirs, files in os.walk(root_dir):
+            for file in files:
+                if file.endswith(".py"):
+                    full_path = os.path.join(root, file)
+                    result = self.engine.digest_module(full_path)
+                    self.audit_results.append({
+                        "file": file,
+                        "report": result
+                    })
+                    report += f"\n[AUDIT: {file}]\n{result}\n"
+        
+        return report
+
 if __name__ == "__main__":
     # Test with sovereignty_wave.py itself (Self-Reflection)
     field = SovereigntyWave()
     field.pulse("I am the Architect.")
     engine = DeconstructionEngine(field)
     
+    # 1.          (    sovereignty_wave.py)
     print(engine.digest_module("Core/L1_Foundation/M1_Keystone/sovereignty_wave.py"))
+    
+    # 2.         (     )
+    recursion = SelfRecursionProtocol(engine)
+    # print(recursion.perform_system_audit("Core/L1_Foundation"))

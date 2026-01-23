@@ -40,7 +40,7 @@ class PrismaticSediment:
             path = os.path.join(base_dir, f"shard_{i}_{color.lower()}.bin")
             self.shards[color] = SedimentLayer(path)
 
-        logger.info(f"🌈 Prismatic Sediment initialized with 7 Spectral Shards in {base_dir}")
+        logger.info(f"  Prismatic Sediment initialized with 7 Spectral Shards in {base_dir}")
 
     def _vector_to_color_distribution(self, vector: List[float], void_gate: float = 0.1) -> np.ndarray:
         """
@@ -81,7 +81,7 @@ class PrismaticSediment:
 
         ptr = shard.deposit(vector, timestamp, payload)
 
-        # logger.debug(f"💎 Deposited into [{color}] Shard at Sector {ptr.sector_index}")
+        # logger.debug(f"  Deposited into [{color}] Shard at Sector {ptr.sector_index}")
         return color, ptr
 
     def store_monad(self, wavelength: float, phase: complex, intensity: float, payload: bytes) -> DirectMemoryPointer:

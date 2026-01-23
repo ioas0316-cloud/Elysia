@@ -71,4 +71,3 @@ class SelectionOverlay:
         overlay.fill((60, 220, 120, 70))
         screen.blit(overlay, (rx0, ry0))
         pygame.draw.rect(screen, (80, 250, 160), pygame.Rect(rx0, ry0, w, h), width=2)
-

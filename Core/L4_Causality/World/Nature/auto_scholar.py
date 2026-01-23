@@ -48,7 +48,7 @@ class AutoScholar:
         # Load existing knowledge to avoid re-learning
         if self.mind.graph:
             self.known_concepts = set(self.mind.graph.id_to_idx.keys())
-            logger.info(f"📚 Loaded {len(self.known_concepts)} existing concepts from Graph.")
+            logger.info(f"  Loaded {len(self.known_concepts)} existing concepts from Graph.")
             
     def seed_curiosity(self, seeds: List[str]):
         """Injects starting topics."""
@@ -58,7 +58,7 @@ class AutoScholar:
                 
     def run(self):
         """Main Learning Loop."""
-        logger.info(f"🚀 AutoScholar Started. Target: {self.limit} new concepts.")
+        logger.info(f"  AutoScholar Started. Target: {self.limit} new concepts.")
         
         learned_count = 0
         
@@ -69,7 +69,7 @@ class AutoScholar:
             if topic.lower() in self.known_concepts:
                 continue
                 
-            logger.info(f"\n📖 [Scholar] Investigating: '{topic}' ({learned_count}/{self.limit})")
+            logger.info(f"\n  [Scholar] Investigating: '{topic}' ({learned_count}/{self.limit})")
             
             try:
                 # 1. Peek at Definition (Curiosity)
@@ -81,7 +81,7 @@ class AutoScholar:
                     new_unknowns = [u for u in unknowns if u.lower() not in self.known_concepts and u not in self.learning_queue]
                     
                     if new_unknowns:
-                        logger.info(f"   🔍 Discovered {len(new_unknowns)} new paths: {new_unknowns[:5]}...")
+                        logger.info(f"     Discovered {len(new_unknowns)} new paths: {new_unknowns[:5]}...")
                         self.learning_queue.extend(new_unknowns)
                 
                 # 3. Experience (Integration)
@@ -95,15 +95,15 @@ class AutoScholar:
                 # 5. Save Periodically
                 if learned_count % 10 == 0:
                     self.mind.save_memory()
-                    logger.info("💾 Memory Checkpoint Saved.")
+                    logger.info("  Memory Checkpoint Saved.")
                     
             except Exception as e:
-                logger.error(f"❌ Failed to learn '{topic}': {e}")
+                logger.error(f"  Failed to learn '{topic}': {e}")
                 
             # Respect Rate Limits (Simulated Processing Time)
             time.sleep(0.5)
             
-        logger.info(f"\n🎓 Session Complete. Learned {learned_count} new concepts.")
+        logger.info(f"\n  Session Complete. Learned {learned_count} new concepts.")
         logger.info(f"   Total Knowledge Size: {len(self.known_concepts)}")
         self.mind.save_memory()
 

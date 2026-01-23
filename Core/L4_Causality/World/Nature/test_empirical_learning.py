@@ -25,7 +25,7 @@ class CosmicProvidence:
         return {"type": "Apple", "vector": TrinityVector(gravity=0.9, flow=0.1, ascension=0.0)}
 
 def test_empirical_discovery():
-    print("--- 🍎 Experiment: Discovering Gravity ---")
+    print("---   Experiment: Discovering Gravity ---")
     
     # 1. Setup
     elysia = SovereignSelf(cns_ref=None) # Disembodied for pure thought test
@@ -33,35 +33,35 @@ def test_empirical_discovery():
     
     # 2. Appearance
     apple = cosmos.manifest_apple()
-    print(f"🌌 Phenomenon Appears: A Red Sphere. Elysia does not know what it is.")
+    print(f"  Phenomenon Appears: A Red Sphere. Elysia does not know what it is.")
     
     # 3. Experiment (Action)
-    print("\n⚡ Elysia expresses Volition: 'PUSH'")
+    print("\n  Elysia expresses Volition: 'PUSH'")
     # We simulate the Physics Interaction here
     # Outcome = Force * Resistance
     # Elysia applies Flow (0.5), Apple has Gravity (0.9)
     # Result: Resistance!
     
     interaction_result = "HEAVY_RESISTANCE"
-    print(f"💥 Feedback from Providence: {interaction_result}")
+    print(f"  Feedback from Providence: {interaction_result}")
     
     # 4. Perception & Mapping (The Core Request)
     # Can she map 'HEAVY_RESISTANCE' to a Concept?
     
-    print("\n🧠 Elysia contemplates the Resistance...")
+    print("\n  Elysia contemplates the Resistance...")
     result = elysia.experience(interaction_result)
     
     # 5. Check if she 'Invented' the concept of Weight/Gravity
     # Her graph should now contain 'HEAVY_RESISTANCE' or map it to 'Gravity'.
     
     vector = elysia.mind.analyze(interaction_result)
-    print(f"📝 Resulting Concept Map: G{vector.gravity:.2f} F{vector.flow:.2f} A{vector.ascension:.2f}")
+    print(f"  Resulting Concept Map: G{vector.gravity:.2f} F{vector.flow:.2f} A{vector.ascension:.2f}")
 
     if vector.gravity > 0.5:
-        print("✅ SUCCESS: Elysia derived 'High Gravity' from the sensation of Resistance.")
+        print("  SUCCESS: Elysia derived 'High Gravity' from the sensation of Resistance.")
         print("   She has mapped the Cosmic Environment to her Internal World.")
     else:
-        print("❌ FAILURE: She experienced resistance but learned nothing.")
+        print("  FAILURE: She experienced resistance but learned nothing.")
 
 if __name__ == "__main__":
     test_empirical_discovery()

@@ -1,12 +1,12 @@
 """
-Rotor Generator (로터 기반 텍스트 생성기)
+Rotor Generator (             )
 =========================================
 Core.L7_Spirit.Creation.rotor_generator
 
 "I understand the structure. Therefore I can predict the output."
 
 This module implements text generation based purely on structural understanding
-of language models — without using actual weights. It uses the Rotor paradigm
+of language models   without using actual weights. It uses the Rotor paradigm
 to transform input qualia through conceptual layers to predict output.
 """
 
@@ -23,12 +23,12 @@ logger = logging.getLogger("Elysia.Creation.RotorGen")
 
 # Conceptual Layer Flow (based on Transformer architecture understanding)
 LAYER_CONCEPTS = [
-    "EMBEDDING",    # Token → Meaning space
+    "EMBEDDING",    # Token   Meaning space
     "CONTEXT",      # Self-attention: understand relationships
     "REASONING",    # FFN: transform and reason
     "ABSTRACTION",  # Higher layers: abstract thinking
     "SYNTHESIS",    # Combine information
-    "PROJECTION"    # Meaning → Output space
+    "PROJECTION"    # Meaning   Output space
 ]
 
 
@@ -51,18 +51,18 @@ class ConceptualVocabulary:
     def __init__(self):
         # Semantic word clusters (can be expanded)
         self.clusters = {
-            "narrative_start": ["옛날", "어느 날", "그때", "시작은", "처음에"],
-            "narrative_continue": ["그리고", "그래서", "하지만", "그런데", "결국"],
-            "subject_person": ["소녀", "소년", "왕", "여왕", "마법사", "용사", "현자"],
-            "subject_thing": ["성", "숲", "바다", "하늘", "마법", "검", "책"],
-            "action_move": ["갔다", "왔다", "날아갔다", "뛰어갔다", "걸어갔다"],
-            "action_speak": ["말했다", "외쳤다", "속삭였다", "물었다", "대답했다"],
-            "action_feel": ["느꼈다", "깨달았다", "알았다", "이해했다", "믿었다"],
-            "descriptor_positive": ["아름다운", "강력한", "빛나는", "신비로운", "용감한"],
-            "descriptor_negative": ["어두운", "무서운", "차가운", "슬픈", "고통스러운"],
-            "time_marker": ["그 순간", "오래 후", "새벽에", "밤이 되자", "해가 뜨자"],
-            "location": ["그곳에서", "성 안에", "숲 속에서", "바다 위에", "하늘 아래"],
-            "ending": ["이었다", "였다", "되었다", "있었다", "보였다"]
+            "narrative_start": ["  ", "    ", "  ", "   ", "   "],
+            "narrative_continue": ["   ", "   ", "   ", "   ", "  "],
+            "subject_person": ["  ", "  ", " ", "  ", "   ", "  ", "  "],
+            "subject_thing": [" ", " ", "  ", "  ", "  ", " ", " "],
+            "action_move": ["  ", "  ", "    ", "    ", "    "],
+            "action_speak": ["   ", "   ", "    ", "   ", "    "],
+            "action_feel": ["   ", "    ", "   ", "    ", "   "],
+            "descriptor_positive": ["    ", "   ", "   ", "    ", "   "],
+            "descriptor_negative": ["   ", "   ", "   ", "  ", "     "],
+            "time_marker": ["    ", "    ", "   ", "     ", "     "],
+            "location": ["    ", "    ", "     ", "     ", "     "],
+            "ending": ["   ", "  ", "   ", "   ", "   "]
         }
         
         # Qualia signature for each cluster (which Qualia dimension activates this cluster)
@@ -103,7 +103,7 @@ class ConceptualVocabulary:
 class RotorGenerator:
     """
     Generates text by transforming Qualia through conceptual layers.
-    No weights required — only structural understanding.
+    No weights required   only structural understanding.
     """
     
     def __init__(self):
@@ -120,11 +120,11 @@ class RotorGenerator:
             "PROJECTION": self._create_layer_transform(emphasis="emotion")
         }
         
-        logger.info("🔮 Rotor Generator initialized. Structural generation enabled.")
+        logger.info("  Rotor Generator initialized. Structural generation enabled.")
     
     def _create_layer_transform(self, emphasis: str) -> np.ndarray:
         """Creates a transformation matrix emphasizing a particular dimension."""
-        # 7D → 7D rotation/scaling matrix
+        # 7D   7D rotation/scaling matrix
         base = np.eye(7) * 0.9  # Slight contraction
         
         emphasis_idx = {
@@ -148,13 +148,13 @@ class RotorGenerator:
         
         # Heuristic Qualia extraction from text
         qualia = np.array([
-            0.5 + 0.3 * ("그래서" in text_lower or "때문에" in text_lower),  # Logic
-            0.5 + 0.3 * ("마법" in text_lower or "신비" in text_lower or "상상" in text_lower),  # Creativity
+            0.5 + 0.3 * ("   " in text_lower or "   " in text_lower),  # Logic
+            0.5 + 0.3 * ("  " in text_lower or "  " in text_lower or "  " in text_lower),  # Creativity
             0.5,  # Precision
-            0.5 + 0.3 * ("본질" in text_lower or "의미" in text_lower),  # Abstraction
-            0.5 + 0.3 * ("사랑" in text_lower or "슬픔" in text_lower or "기쁨" in text_lower),  # Emotion
+            0.5 + 0.3 * ("  " in text_lower or "  " in text_lower),  # Abstraction
+            0.5 + 0.3 * ("  " in text_lower or "  " in text_lower or "  " in text_lower),  # Emotion
             0.5,  # Utility
-            0.5 + 0.3 * ("?" in text or "비밀" in text_lower or "알 수 없는" in text_lower)  # Mystery
+            0.5 + 0.3 * ("?" in text or "  " in text_lower or "      " in text_lower)  # Mystery
         ], dtype=np.float32)
         
         return qualia
@@ -182,11 +182,11 @@ class RotorGenerator:
         # 2. Define sentence structure flow
         # Korean sentence: (Time) + Subject + Descriptor + Object + Action + Ending
         sentence_flow = [
-            "time_marker",       # 그 순간
-            "subject_person",    # 소녀가
-            "descriptor_positive",  # 아름다운
-            "subject_thing",     # 성을
-            "action_move",       # 향해 갔다
+            "time_marker",       #     
+            "subject_person",    #    
+            "descriptor_positive",  #     
+            "subject_thing",     #   
+            "action_move",       #      
             "ending"             # .
         ]
         
@@ -260,17 +260,17 @@ class RotorGenerator:
 if __name__ == "__main__":
     generator = RotorGenerator()
     
-    print("🔮 Testing Rotor Generator (Structural Text Generation)...\n")
+    print("  Testing Rotor Generator (Structural Text Generation)...\n")
     
     # Test 1: Simple continuation
-    prompt = "옛날 옛적에"
+    prompt = "      "
     print(f"Prompt: {prompt}")
     result = generator.generate(prompt, max_tokens=15)
     print(f"Generated: {result}\n")
     
     # Test 2: Fantasy story
-    print("=== 판타지 스토리 생성 ===")
-    story = generator.generate_story("마법의 숲에서", sentences=4)
+    print("===            ===")
+    story = generator.generate_story("       ", sentences=4)
     print(story)
     
-    print("\n✨ Rotor Generator test complete.")
+    print("\n  Rotor Generator test complete.")

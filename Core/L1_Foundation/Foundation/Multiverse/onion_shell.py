@@ -1,5 +1,5 @@
 """
-Onion Shells & Multiverse Rotors (양파 껍질 다중 로터)
+Onion Shells & Multiverse Rotors (           )
 ====================================================
 Core.L1_Foundation.Foundation.Multiverse.onion_shell
 
@@ -93,7 +93,7 @@ class OnionEnsemble:
         """
         if 0 <= shell_idx < len(self.shells):
             shell = self.shells[shell_idx]
-            print(f"⌛ [TIME] Reversing rotation in Shell '{shell.name}'...")
+            print(f"  [TIME] Reversing rotation in Shell '{shell.name}'...")
             for r in shell.rotors.values():
                  r.target_rpm = -abs(r.config.rpm) * speed_factor
 

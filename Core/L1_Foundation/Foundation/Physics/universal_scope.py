@@ -1,7 +1,7 @@
 """
 Universal Scope (The Telescope of Context)
 ==========================================
-"현미경이 입자를 본다면, 망원경은 별자리를 본다."
+"            ,             ."
 
 This module implements the 'Telescope' perspective for valuation.
 It expands a single WavePacket into its cosmic and historical context.
@@ -63,7 +63,7 @@ class UniversalScope:
         """
         contexts = []
         total_weight = 0.0
-        narrative_lines = [f"🔭 Expanding view for '{packet.name}'..."]
+        narrative_lines = [f"  Expanding view for '{packet.name}'..."]
 
         for particle in packet.particles:
             # 1. Constellation Check (Where does it belong?)
@@ -97,14 +97,14 @@ class UniversalScope:
             )
             contexts.append(ctx)
 
-            narrative_lines.append(f"   ✨ {micro_narr}")
+            narrative_lines.append(f"     {micro_narr}")
             total_weight += hist_weight * particle.mass
 
         # Synthesize Macro Narrative
         dominant_constellation = max([c.constellation for c in contexts], key=[c.constellation for c in contexts].count)
 
         macro_narrative = "\n".join(narrative_lines)
-        macro_narrative += f"\n   🌌 Conclusion: This desire originates from the '{dominant_constellation}' sector of your universe."
+        macro_narrative += f"\n     Conclusion: This desire originates from the '{dominant_constellation}' sector of your universe."
 
         return CosmicPerspective(
             packet_name=packet.name,

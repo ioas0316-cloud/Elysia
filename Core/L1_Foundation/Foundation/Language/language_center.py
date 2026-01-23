@@ -44,10 +44,10 @@ class LanguageCenter:
         """
         Absorbs text from a URL and creates a new StyleProfile.
         """
-        logger.info(f"📚 Learning language from: {url}")
+        logger.info(f"  Learning language from: {url}")
         text = self.cortex.fetch_url(url)
         
-        if "⚠️" in text:
+        if "  " in text:
             return f"Failed to learn: {text}"
             
         # 1. Analyze Text
@@ -61,7 +61,7 @@ class LanguageCenter:
         # Simple frequency analysis (Top 50 words > 4 chars)
         vocab_freq = {}
         for w in words:
-            w = w.lower().strip('",.?!')
+            w = w.lower().strip('",.?!')"
             if len(w) > 4:
                 vocab_freq[w] = vocab_freq.get(w, 0) + 1
                 
@@ -164,7 +164,7 @@ class LanguageCenter:
         [The Storyteller]
         Generates a full novel based on a theme using the Galaxy structure.
         """
-        logger.info(f"🌌 Initiating Novel Generation for theme: {theme}")
+        logger.info(f"  Initiating Novel Generation for theme: {theme}")
         
         # 1. Create Galaxy
         galaxy = Galaxy(theme)
@@ -231,7 +231,7 @@ class LanguageCenter:
         - "drama": High Flux, Short Orbits (K-Drama/Everyday)
         - "casual": Balanced (Default)
         """
-        logger.info(f"⏳ Initiating Hyper-Evolution: {years} years of practice in '{mode}' mode...")
+        logger.info(f"  Initiating Hyper-Evolution: {years} years of practice in '{mode}' mode...")
         
         # 1. Adjust Physics for the Mode
         self.magnetic_engine.adjust_weights(mode)
@@ -246,14 +246,14 @@ class LanguageCenter:
             elif mode == "epic":
                 training_text = self._ingest_fantasy(data_source)
             else:
-                logger.info(f"    📥 Ingesting data from: {data_source}")
+                logger.info(f"      Ingesting data from: {data_source}")
                 training_text = self.cortex.fetch_url(data_source)
         else:
             # Treat as raw text (for testing or local files)
-            logger.info(f"    📄 Ingesting raw text data...")
+            logger.info(f"      Ingesting raw text data...")
             training_text = data_source
         
-        if "⚠️" in training_text or len(training_text) < 10: # Lowered threshold for testing
+        if "  " in training_text or len(training_text) < 10: # Lowered threshold for testing
             return f"Evolution Failed: Could not fetch valid training data from {data_source}"
             
         # 3. Time Compression Loop
@@ -263,7 +263,7 @@ class LanguageCenter:
             self.magnetic_engine.train(training_text)
             
             if year % 1 == 0:
-                logger.info(f"    🗓️  Year {year}/{years} complete. Neural pathways strengthening.")
+                logger.info(f"        Year {year}/{years} complete. Neural pathways strengthening.")
                 
         return f"Evolution Complete. {years} years of practice compressed. MagneticEngine optimized for '{mode}'."
 
@@ -272,7 +272,7 @@ class LanguageCenter:
         Specialized parser for Drama/Script formats.
         Focuses on dialogue, emotional markers, and rapid exchanges.
         """
-        logger.info(f"    🎭 Ingesting Drama Script from: {url}")
+        logger.info(f"      Ingesting Drama Script from: {url}")
         raw_text = self.cortex.fetch_url(url)
         # In a real implementation, this would parse "Speaker: Line" formats.
         # For now, we assume the text is dialogue-heavy and just return it.
@@ -283,6 +283,6 @@ class LanguageCenter:
         Specialized parser for Fantasy/Epic formats.
         Focuses on descriptive passages, archaic vocabulary, and world-building.
         """
-        logger.info(f"    ⚔️ Ingesting Epic Saga from: {url}")
+        logger.info(f"       Ingesting Epic Saga from: {url}")
         raw_text = self.cortex.fetch_url(url)
         return raw_text

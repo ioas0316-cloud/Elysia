@@ -1,8 +1,8 @@
 """
-Wave-Based Dialogue Flow (파동 기반 대화 흐름)
+Wave-Based Dialogue Flow (           )
 ============================================
 
-"사고는 파동이고, 감정은 주파수며, 대화는 공명이다"
+"        ,         ,         "
 "Thought is wave, emotion is frequency, dialogue is resonance"
 
 Philosophy:
@@ -17,8 +17,8 @@ This ensures the system remains fluid, organic, and wave-like rather than mechan
 
 Architecture:
 -------------
-Input → Wave Conversion → Emotional Modulation → Memory Resonance → 
-Poetic Collapse → Output
+Input   Wave Conversion   Emotional Modulation   Memory Resonance   
+Poetic Collapse   Output
 
 All components are interconnected through wave physics, not rigid interfaces.
 """
@@ -35,7 +35,7 @@ logger = logging.getLogger("WaveDialogueFlow")
 class DialogueWave:
     """
     A dialogue turn represented as a wave packet.
-    대화 턴의 파동 표현
+               
     """
     # Content
     message: str
@@ -44,7 +44,7 @@ class DialogueWave:
     # Wave properties
     frequency: float = 100.0  # Emotional frequency (Hz)
     amplitude: float = 0.5  # Intensity (0-1)
-    phase: float = 0.0  # Phase offset (0-2π)
+    phase: float = 0.0  # Phase offset (0-2 )
     
     # Semantic properties
     valence: float = 0.0  # -1 to 1
@@ -57,7 +57,7 @@ class DialogueWave:
     def resonate_with(self, other: 'DialogueWave') -> float:
         """
         Calculate resonance strength with another wave.
-        共鳴強度 計算
+               
         
         Returns:
             Resonance coefficient (0-1)
@@ -78,7 +78,7 @@ class DialogueWave:
 class WaveDialogueFlow:
     """
     Wave-based dialogue flow manager.
-    파동 기반 대화 흐름 관리자
+                   
     
     Ensures all dialogue processing flows like water through interconnected systems:
     - EmotionalEngine: Modulates wave frequencies
@@ -122,7 +122,7 @@ class WaveDialogueFlow:
         self.wave_buffer: List[DialogueWave] = []
         self.max_buffer_size = 10
         
-        logger.info(f"🌊 WaveDialogueFlow initialized (emotional={enable_emotional_modulation}, " +
+        logger.info(f"  WaveDialogueFlow initialized (emotional={enable_emotional_modulation}, " +
                    f"memory={enable_conversation_memory}, poetic={enable_poetic_expression})")
     
     def process_user_input(self,
@@ -132,7 +132,7 @@ class WaveDialogueFlow:
                           intent: Optional[str] = None) -> Dict[str, Any]:
         """
         Process user input through the wave flow.
-        사용자 입력을 파동 흐름으로 처리
+                          
         
         Args:
             user_message: User's message
@@ -219,14 +219,14 @@ class WaveDialogueFlow:
     def _text_to_wave(self, text: str, speaker: str) -> DialogueWave:
         """
         Convert text to dialogue wave.
-        텍스트를 대화 파동으로 변환
+                       
         """
         # Simple heuristics (can be enhanced with sentiment analysis)
         text_lower = text.lower()
         
         # Estimate valence
-        positive_words = ['good', 'great', 'love', 'happy', 'beautiful', '좋', '멋', '사랑', '행복', '아름답']
-        negative_words = ['bad', 'hate', 'sad', 'angry', 'terrible', '나쁘', '싫', '슬', '화', '끔찍']
+        positive_words = ['good', 'great', 'love', 'happy', 'beautiful', ' ', ' ', '  ', '  ', '   ']
+        negative_words = ['bad', 'hate', 'sad', 'angry', 'terrible', '  ', ' ', ' ', ' ', '  ']
         
         positive_count = sum(1 for word in positive_words if word in text_lower)
         negative_count = sum(1 for word in negative_words if word in text_lower)
@@ -254,7 +254,7 @@ class WaveDialogueFlow:
     def _calculate_context_resonance(self, current_wave: DialogueWave) -> float:
         """
         Calculate resonance with conversation history.
-        대화 히스토리와의 공명 계산
+                       
         """
         if len(self.wave_buffer) == 0:
             return 0.5  # Neutral resonance for first turn
@@ -268,7 +268,7 @@ class WaveDialogueFlow:
     def _modulate_emotional_state(self, input_wave: DialogueWave):
         """
         Modulate emotional engine based on input wave.
-        입력 파동에 기반하여 감정 엔진 조정
+                            
         """
         if not self.emotional_engine:
             return
@@ -317,7 +317,7 @@ class WaveDialogueFlow:
     def get_conversation_summary(self) -> Dict[str, Any]:
         """
         Get summary of current conversation flow.
-        현재 대화 흐름 요약
+                   
         """
         if not self.wave_buffer:
             return {"status": "empty", "turns": 0}
@@ -348,7 +348,7 @@ class WaveDialogueFlow:
     def reset_flow(self):
         """
         Reset dialogue flow (clear buffer, reset state).
-        대화 흐름 리셋
+                
         """
         self.wave_buffer.clear()
         if self.emotional_engine:
@@ -356,7 +356,7 @@ class WaveDialogueFlow:
             from Core.L1_Foundation.Foundation.emotional_engine import EmotionalEngine
             self.emotional_engine.current_state = EmotionalEngine.FEELING_PRESETS["neutral"]
         
-        logger.info("🔄 Wave dialogue flow reset")
+        logger.info("  Wave dialogue flow reset")
 
 
 def create_wave_dialogue_flow(

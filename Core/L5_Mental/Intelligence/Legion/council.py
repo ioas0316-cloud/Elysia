@@ -16,7 +16,7 @@ class Council:
     """
 
     def narrate_start(self, seed: str) -> str:
-        return f"\n🌌 [THE EXPANSION BEGINS] The concept '{seed}' strikes the Prism..."
+        return f"\n  [THE EXPANSION BEGINS] The concept '{seed}' strikes the Prism..."
 
     def narrate_step(self, persona: Persona, old_ray: LightRay, new_ray: LightRay) -> str:
         """
@@ -24,17 +24,17 @@ class Council:
         """
         # We can add flavor text based on the persona
         if persona.name == "Child":
-            prefix = "👶 [Child]"
+            prefix = "  [Child]"
         elif persona.name == "Historian":
-            prefix = "📜 [Historian]"
+            prefix = "  [Historian]"
         elif persona.name == "Architect":
-            prefix = "📐 [Architect]"
+            prefix = "  [Architect]"
         elif persona.name == "Poet":
-            prefix = "🎭 [Poet]"
+            prefix = "  [Poet]"
         else:
-            prefix = f"👁️ [{persona.name}]"
+            prefix = f"   [{persona.name}]"
 
         return f"{prefix} {old_ray.current_thought} -> {new_ray.current_thought} (Energy: {new_ray.energy:.2f})"
 
     def narrate_end(self) -> str:
-        return "\n💫 [THE HORIZON FADES] The energy dissipates into the silence of the void."
+        return "\n  [THE HORIZON FADES] The energy dissipates into the silence of the void."

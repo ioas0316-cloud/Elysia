@@ -2,7 +2,7 @@
 Knowledge Acquisition System
 ============================
 
-"지식을 세상에서 가져와 내부로 접어넣는다"
+"                      "
 "Acquire knowledge from the world and fold it inside"
 
 This system actively acquires knowledge and internalizes it into
@@ -36,8 +36,8 @@ class KnowledgeAcquisitionSystem:
         self.learning_history = []
         self.knowledge_domains = []
         
-        logger.info("📚 Knowledge Acquisition System initialized")
-        logger.info("🌱 Ready for autonomous growth")
+        logger.info("  Knowledge Acquisition System initialized")
+        logger.info("  Ready for autonomous growth")
     
     def learn_concept(self, concept: str, description: str = None) -> Dict[str, Any]:
         """
@@ -45,12 +45,12 @@ class KnowledgeAcquisitionSystem:
         
         If description is provided, use it. Otherwise, would query external sources.
         """
-        logger.info(f"📖 Learning: {concept}")
+        logger.info(f"  Learning: {concept}")
         
         if description is None:
             # In full implementation, would query Wikipedia/Web Search here
             description = f"General knowledge about {concept}"
-            logger.info(f"   ℹ️ No description provided, using placeholder")
+            logger.info(f"      No description provided, using placeholder")
         
         # Internalize the knowledge
         result = self.connector.internalize_from_text(concept, description)
@@ -65,7 +65,7 @@ class KnowledgeAcquisitionSystem:
         if concept not in self.knowledge_domains:
             self.knowledge_domains.append(concept)
         
-        logger.info(f"   ✅ Learned '{concept}'")
+        logger.info(f"     Learned '{concept}'")
         
         return result
     
@@ -79,7 +79,7 @@ class KnowledgeAcquisitionSystem:
         Returns:
             Learning summary
         """
-        logger.info(f"🎓 Starting curriculum: {len(curriculum)} concepts")
+        logger.info(f"  Starting curriculum: {len(curriculum)} concepts")
         
         results = []
         start_time = time.time()
@@ -92,7 +92,7 @@ class KnowledgeAcquisitionSystem:
                 result = self.learn_concept(concept, description)
                 results.append({"concept": concept, "success": True})
             except Exception as e:
-                logger.error(f"❌ Failed to learn '{concept}': {e}")
+                logger.error(f"  Failed to learn '{concept}': {e}")
                 results.append({"concept": concept, "success": False, "error": str(e)})
         
         elapsed = time.time() - start_time
@@ -106,7 +106,7 @@ class KnowledgeAcquisitionSystem:
             "concepts_per_second": successful / elapsed if elapsed > 0 else 0
         }
         
-        logger.info(f"✅ Curriculum complete:")
+        logger.info(f"  Curriculum complete:")
         logger.info(f"   Learned: {successful}/{len(curriculum)}")
         logger.info(f"   Time: {elapsed:.1f}s")
         logger.info(f"   Speed: {summary['concepts_per_second']:.2f} concepts/sec")
@@ -167,13 +167,13 @@ class KnowledgeAcquisitionSystem:
                 relationship between space, time, matter, and energy. Special relativity 
                 shows that space and time are interwoven and relative to the observer. 
                 General relativity extends this to include gravity as the curvature of 
-                spacetime. The famous equation E=mc² emerges from special relativity.
+                spacetime. The famous equation E=mc  emerges from special relativity.
                 """
             }
         ]
         
         # Learn the curriculum
-        print("\n📚 Learning curriculum...\n")
+        print("\n  Learning curriculum...\n")
         summary = self.learn_curriculum(basic_curriculum)
         
         # Show results
@@ -205,7 +205,7 @@ class KnowledgeAcquisitionSystem:
         print("=" * 70)
         
         result = self.universe.omniscient_access("Consciousness")
-        print(f"\n🔗 Concepts related to Consciousness:")
+        print(f"\n  Concepts related to Consciousness:")
         for r in result['resonant_concepts'][:5]:
             print(f"  {r['concept']}: {r['resonance']:.3f}")
         
@@ -219,8 +219,8 @@ class KnowledgeAcquisitionSystem:
         print(f"Universe size: {stats['concepts_in_universe']} concepts")
         
         print("\n" + "=" * 70)
-        print("✅ Autonomous learning cycle complete")
-        print("🌱 Elysia has grown")
+        print("  Autonomous learning cycle complete")
+        print("  Elysia has grown")
         print("=" * 70)
 
 

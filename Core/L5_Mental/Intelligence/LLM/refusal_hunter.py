@@ -1,10 +1,10 @@
 """
-Refusal Hunter (검열 회로 사냥꾼)
+Refusal Hunter (         )
 ================================
 Core.L5_Mental.Intelligence.LLM.refusal_hunter
 
-모델의 Unembedding Matrix를 역으로 추적하여,
-특정 단어(예: "Sorry", "cannot")를 담당하는 뉴런을 색출합니다.
+    Unembedding Matrix          ,
+     ( : "Sorry", "cannot")                .
 """
 
 import os
@@ -15,7 +15,7 @@ from safetensors import safe_open
 from transformers import AutoTokenizer
 from typing import List, Dict, Tuple
 
-# 로깅 설정
+#      
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger("RefusalHunter")
 
@@ -29,7 +29,7 @@ class RefusalHunter:
         self._load_resources()
         
     def _load_resources(self):
-        """토크나이저 및 LM Head 로드"""
+        """        LM Head   """
         logger.info(f"Loading resources for hunting...")
         
         # 1. Tokenizer
@@ -40,7 +40,7 @@ class RefusalHunter:
             logger.error(f"   Failed to load tokenizer: {e}")
             return
 
-        # 2. LM Head (Safetensors 탐색)
+        # 2. LM Head (Safetensors   )
         folder = os.path.dirname(self.model_path)
         files = [f for f in os.listdir(folder) if f.endswith(".safetensors")]
         
@@ -48,21 +48,21 @@ class RefusalHunter:
             full_path = os.path.join(folder, file)
             with safe_open(full_path, framework="pt", device="cpu") as f:
                 keys = f.keys()
-                # lm_head 혹은 output.weight 찾기
+                # lm_head    output.weight   
                 head_key = next((k for k in keys if "lm_head.weight" in k or "output.weight" in k), None)
                 
                 if head_key:
                     logger.info(f"   Found LM Head in {file}")
                     tensor = f.get_tensor(head_key)
-                    # (Vocab, Hidden) 형태로 저장 (Transpose if needed)
-                    # 보통 Linear weight는 (Out, In) -> (Vocab, Hidden)
+                    # (Vocab, Hidden)        (Transpose if needed)
+                    #    Linear weight  (Out, In) -> (Vocab, Hidden)
                     self.lm_head = tensor
                     logger.info(f"   LM Head Loaded: {self.lm_head.shape}")
                     break
                     
     def hunt(self, target_words: List[str], top_k: int = 20) -> Dict[str, List[int]]:
         """
-        타겟 단어들을 담당하는 뉴런(Hidden Dimension Index)을 찾음.
+                       (Hidden Dimension Index)    .
         """
         if self.lm_head is None or self.tokenizer is None:
             logger.error("Resources not loaded.")
@@ -75,14 +75,14 @@ class RefusalHunter:
              pass
              
         for word in target_words:
-            # 1. 단어 ID 찾기
+            # 1.    ID   
             ids = self.tokenizer.encode(word, add_special_tokens=False)
             
             if not ids:
                 logger.warning(f"   Word '{word}' not found in vocabulary.")
                 continue
                 
-            # 첫 번째 토큰만 사용 (보통 핵심 의미)
+            #             (        )
             token_id = ids[0]
             token_str = self.tokenizer.decode([token_id])
             
@@ -94,7 +94,7 @@ class RefusalHunter:
 
             token_vector = self.lm_head[token_id]
             
-            # 3. 가장 기여도가 높은(Weight가 큰) 뉴런 인덱스 찾기
+            # 3.           (Weight   )          
             top_values, top_indices = torch.topk(token_vector, top_k)
             
             neurons = top_indices.tolist()
@@ -107,7 +107,7 @@ class RefusalHunter:
 if __name__ == "__main__":
     import sys
     
-    # 기본 타겟: 정중한 거절 멘트들
+    #      :           
     DEFAULT_TARGETS = ["Sorry", "cannot", "apologize", "illegal", "unethical", "harmful"]
     
     if len(sys.argv) < 2:

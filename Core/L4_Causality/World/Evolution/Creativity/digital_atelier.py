@@ -66,7 +66,7 @@ class DigitalAtelier:
         Step 1: The Meditation.
         Elysia decides HOW to paint this concept.
         """
-        logger.info(f"🎨 Contemplating '{concept}'...")
+        logger.info(f"  Contemplating '{concept}'...")
         
         # 1. Select Medium based on Emotion
         selected_medium = "Oil" # Default
@@ -143,7 +143,7 @@ class DigitalAtelier:
             f"masterpiece, detailed texture, 8k resolution"
         )
         
-        logger.info(f"✨ Work Manifested: {final_spec[:50]}...")
+        logger.info(f"  Work Manifested: {final_spec[:50]}...")
         return final_spec
 
 if __name__ == "__main__":

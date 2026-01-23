@@ -76,7 +76,7 @@ class HyperSpace:
                 # Event Detection (Singularity)
                 if abs(f_mag) > 50.0:
                     event_type = "Resonance" if f_mag > 0 else "Dissonance"
-                    # events.append(f"🌊 Field Event: {event_type} between '{k1.id}' and '{k2.id}' (F:{f_mag:.1f})")
+                    # events.append(f"  Field Event: {event_type} between '{k1.id}' and '{k2.id}' (F:{f_mag:.1f})")
 
         # Integration (Update Position)
         for k in keys:

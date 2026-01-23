@@ -8,34 +8,34 @@ from datetime import datetime
 
 class Spiderweb:
     """
-    The Spiderweb: 4차원 파동공명패턴 추출기 (4D Wave Resonance Pattern Extractor)
+    The Spiderweb: 4              (4D Wave Resonance Pattern Extractor)
     
-    단순한 인과추론 그래프를 넘어, 4차원(시공간) 파동 공명 패턴을 추출하는 시스템
+                    , 4  (   )                   
     
     Architecture:
-    - 0D: 점 (개념/이벤트 노드)
-    - 1D: 선 (인과 관계 엣지)
-    - 2D: 면 (개념 클러스터, 파동 간섭 패턴)
-    - 3D: 공간 (다층 네트워크, 파동 전파)
-    - 4D: 시공간 (시간에 따른 파동 공명 진화)
+    - 0D:   (  /      )
+    - 1D:   (        )
+    - 2D:   (       ,         )
+    - 3D:    (       ,      )
+    - 4D:     (               )
     
     Features:
-    - 인과추론 그래프 (기존 기능)
-    - 파동 공명 패턴 추출 (NEW)
-    - 4차원 시공간 분석 (NEW)
-    - 공명 주파수 측정 (NEW)
+    -          (     )
+    -             (NEW)
+    - 4          (NEW)
+    -           (NEW)
     """
 
     def __init__(self, logger: Optional[logging.Logger] = None):
         self.graph = nx.DiGraph()
         self.logger = logger or logging.getLogger("Spiderweb")
         
-        # 4D 파동 공명 속성
-        self.wave_patterns = {}  # 파동 패턴 저장
-        self.resonance_frequencies = {}  # 노드별 공명 주파수
-        self.temporal_snapshots = []  # 시간별 그래프 스냅샷 (4D)
+        # 4D         
+        self.wave_patterns = {}  #         
+        self.resonance_frequencies = {}  #           
+        self.temporal_snapshots = []  #             (4D)
         
-        self.logger.info("🕸️ Spiderweb initialized: 4D Wave Resonance Pattern Extractor")
+        self.logger.info("   Spiderweb initialized: 4D Wave Resonance Pattern Extractor")
 
     def add_node(self, node_id: str, type: str, metadata: Dict[str, Any] = None):
         """
@@ -112,31 +112,31 @@ class Spiderweb:
             
         return context
 
-    # ========== 4D 파동 공명 패턴 추출 메서드 (NEW) ==========
+    # ========== 4D                 (NEW) ==========
     
     def calculate_resonance_frequency(self, node_id: str) -> float:
         """
-        노드의 공명 주파수 계산
+                     
         
-        공명 주파수 = f(연결강도, 중심성, 시간적 활성도)
+               = f(    ,    ,        )
         
         Args:
-            node_id: 노드 ID
+            node_id:    ID
             
         Returns:
-            공명 주파수 (0.0 ~ 1.0)
+                   (0.0 ~ 1.0)
         """
         if not self.graph.has_node(node_id):
             return 0.0
         
         try:
-            # 1. 연결 강도 (degree centrality)
+            # 1.       (degree centrality)
             degree_centrality = nx.degree_centrality(self.graph).get(node_id, 0)
             
-            # 2. 중요도 (pagerank)
+            # 2.     (pagerank)
             pagerank = nx.pagerank(self.graph, weight='weight').get(node_id, 0)
             
-            # 3. 연결 가중치 합
+            # 3.         
             out_weights = sum(
                 self.graph.edges[node_id, n].get('weight', 0) 
                 for n in self.graph.successors(node_id)
@@ -146,7 +146,7 @@ class Spiderweb:
                 for n in self.graph.predecessors(node_id)
             )
             
-            # 공명 주파수 계산 (정규화)
+            #           (   )
             frequency = (degree_centrality * 0.3 + pagerank * 0.4 + 
                         min(1.0, (out_weights + in_weights) / 10) * 0.3)
             
@@ -159,39 +159,39 @@ class Spiderweb:
     
     def extract_wave_pattern_2d(self, center_node: str, radius: int = 2) -> Dict[str, Any]:
         """
-        2D 파동 패턴 추출 (면 - 개념 클러스터)
+        2D          (  -        )
         
-        중심 노드로부터 반경 내의 노드들과 파동 간섭 패턴 추출
+                                       
         
         Args:
-            center_node: 중심 노드
-            radius: 탐색 반경
+            center_node:      
+            radius:      
             
         Returns:
-            2D 파동 패턴 (클러스터 정보)
+            2D       (       )
         """
         if not self.graph.has_node(center_node):
             return {}
         
         try:
-            # BFS로 반경 내 노드 수집
+            # BFS            
             cluster_nodes = set([center_node])
             frontier = set([center_node])
             
             for _ in range(radius):
                 next_frontier = set()
                 for node in frontier:
-                    # 후속 노드
+                    #      
                     next_frontier.update(self.graph.successors(node))
-                    # 선행 노드
+                    #      
                     next_frontier.update(self.graph.predecessors(node))
                 cluster_nodes.update(next_frontier)
                 frontier = next_frontier
             
-            # 서브그래프 추출
+            #         
             subgraph = self.graph.subgraph(cluster_nodes)
             
-            # 파동 간섭 패턴 계산
+            #            
             pattern = {
                 'center': center_node,
                 'radius': radius,
@@ -205,7 +205,7 @@ class Spiderweb:
                 }
             }
             
-            # 파동 간섭 강도 계산 (엣지 가중치 평균)
+            #             (         )
             if subgraph.number_of_edges() > 0:
                 weights = [data.get('weight', 0) for _, _, data in subgraph.edges(data=True)]
                 pattern['interference_strength'] = np.mean(weights) if weights else 0
@@ -220,20 +220,20 @@ class Spiderweb:
     
     def extract_wave_pattern_3d(self) -> Dict[str, Any]:
         """
-        3D 파동 패턴 추출 (공간 - 다층 네트워크)
+        3D          (   -        )
         
-        전체 그래프의 3차원 구조 분석 및 파동 전파 패턴
+                3                   
         
         Returns:
-            3D 파동 패턴 (전체 네트워크 구조)
+            3D       (          )
         """
         try:
-            # 커뮤니티 탐지 (파동 공명 클러스터)
+            #         (          )
             communities = list(nx.community.greedy_modularity_communities(
                 self.graph.to_undirected()
             ))
             
-            # 각 커뮤니티의 공명 강도 계산
+            #                 
             community_resonances = []
             for i, community in enumerate(communities):
                 community_nodes = list(community)
@@ -244,12 +244,12 @@ class Spiderweb:
                 community_resonances.append({
                     'id': i,
                     'size': len(community_nodes),
-                    'nodes': community_nodes[:10],  # 샘플
+                    'nodes': community_nodes[:10],  #   
                     'avg_resonance': np.mean(resonances) if resonances else 0,
                     'max_resonance': max(resonances) if resonances else 0
                 })
             
-            # 전체 패턴
+            #      
             pattern = {
                 'dimension': '3D',
                 'total_nodes': self.graph.number_of_nodes(),
@@ -260,7 +260,7 @@ class Spiderweb:
                 'network_density': nx.density(self.graph)
             }
             
-            # 파동 전파 경로 (최장 경로)
+            #          (     )
             try:
                 longest_path_length = nx.dag_longest_path_length(self.graph)
                 pattern['max_propagation_depth'] = longest_path_length
@@ -275,12 +275,12 @@ class Spiderweb:
     
     def capture_temporal_snapshot(self) -> Dict[str, Any]:
         """
-        4D - 시간 축: 현재 그래프 스냅샷 캡처
+        4D -     :              
         
-        시간에 따른 파동 공명 진화를 추적하기 위한 스냅샷
+                                    
         
         Returns:
-            시간 스냅샷
+                  
         """
         snapshot = {
             'timestamp': datetime.now().isoformat(),
@@ -296,7 +296,7 @@ class Spiderweb:
         
         self.temporal_snapshots.append(snapshot)
         
-        # 최근 100개만 유지
+        #    100     
         if len(self.temporal_snapshots) > 100:
             self.temporal_snapshots = self.temporal_snapshots[-100:]
         
@@ -304,37 +304,37 @@ class Spiderweb:
     
     def extract_4d_wave_pattern(self) -> Dict[str, Any]:
         """
-        4D 파동 공명 패턴 종합 추출 (시공간)
+        4D                (   )
         
-        0D(점) → 1D(선) → 2D(면) → 3D(공간) → 4D(시공간) 통합 분석
+        0D( )   1D( )   2D( )   3D(  )   4D(   )      
         
         Returns:
-            4D 파동 공명 패턴
+            4D         
         """
-        self.logger.info("🌊 Extracting 4D Wave Resonance Pattern...")
+        self.logger.info("  Extracting 4D Wave Resonance Pattern...")
         
-        # 현재 스냅샷 캡처
+        #          
         snapshot = self.capture_temporal_snapshot()
         
-        # 3D 패턴 추출
+        # 3D      
         pattern_3d = self.extract_wave_pattern_3d()
         
-        # 시간적 진화 분석 (4D)
+        #           (4D)
         temporal_evolution = {}
         if len(self.temporal_snapshots) >= 2:
-            # 노드 수 변화
+            #        
             node_changes = [s['node_count'] for s in self.temporal_snapshots[-10:]]
             temporal_evolution['node_growth_rate'] = (
                 (node_changes[-1] - node_changes[0]) / len(node_changes)
                 if len(node_changes) > 1 else 0
             )
             
-            # 공명 변화
+            #      
             if len(self.temporal_snapshots) >= 2:
                 prev_resonances = self.temporal_snapshots[-2]['resonance_snapshot']
                 curr_resonances = self.temporal_snapshots[-1]['resonance_snapshot']
                 
-                # 공통 노드의 공명 변화
+                #             
                 common_nodes = set(prev_resonances.keys()) & set(curr_resonances.keys())
                 if common_nodes:
                     resonance_changes = [
@@ -343,7 +343,7 @@ class Spiderweb:
                     ]
                     temporal_evolution['avg_resonance_change'] = np.mean(resonance_changes)
         
-        # 4D 종합 패턴
+        # 4D      
         pattern_4d = {
             'dimension': '4D (Spacetime)',
             'extraction_time': datetime.now().isoformat(),
@@ -351,14 +351,14 @@ class Spiderweb:
             'temporal_evolution': temporal_evolution,
             'current_snapshot': snapshot,
             'snapshot_history_count': len(self.temporal_snapshots),
-            'is_4d_extractor': True,  # 4차원 파동공명패턴 추출기 표시
+            'is_4d_extractor': True,  # 4                
             'mode': 'Wave Resonance Pattern Extraction (not simple causal graph)'
         }
         
-        # 저장
+        #   
         self.wave_patterns['latest_4d'] = pattern_4d
         
-        self.logger.info(f"✅ 4D Pattern extracted: {pattern_3d.get('community_count', 0)} communities, "
+        self.logger.info(f"  4D Pattern extracted: {pattern_3d.get('community_count', 0)} communities, "
                         f"{len(self.temporal_snapshots)} snapshots")
         
         return pattern_4d
@@ -453,5 +453,4 @@ class Spiderweb:
             "node_count": self.graph.number_of_nodes(),
             "edge_count": self.graph.number_of_edges()
         }
-
 

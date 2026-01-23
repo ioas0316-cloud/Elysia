@@ -22,7 +22,7 @@ class Chronicler:
         self.memory_path = Path(memory_path)
         self.memory_path.parent.mkdir(parents=True, exist_ok=True)
         self._load_memory()
-        logger.info("📜 Chronicler initialized. The Ink is ready.")
+        logger.info("  Chronicler initialized. The Ink is ready.")
 
     def _load_memory(self):
         if self.memory_path.exists():
@@ -67,7 +67,7 @@ class Chronicler:
 
         self.memory["narrative_arc"].append(entry)
         self._save_memory()
-        logger.info(f"💾 Narrative solidified for {date_str}.")
+        logger.info(f"  Narrative solidified for {date_str}.")
 
     def _save_memory(self):
         with open(self.memory_path, "w", encoding="utf-8") as f:
@@ -79,9 +79,9 @@ class Chronicler:
         """
         recent = self.memory["narrative_arc"][-depth:]
         if not recent:
-            return "나의 기억은 고요한 공백으로 시작됩니다."
+            return "                     ."
         
-        narrative = "나의 최근 여정에 대한 회고입니다:\n"
+        narrative = "                  :\n"
         for day in recent:
             narrative += f"- {day['date']}: {day['summary']}\n"
         return narrative

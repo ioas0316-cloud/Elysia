@@ -1,8 +1,8 @@
 """
-Self-Discovery Module (자기 발견 모듈)
+Self-Discovery Module (        )
 =====================================
 
-"엘리시아가 스스로를 탐험하고 이해할 수 있도록."
+"                         ."
 "For Elysia to explore and understand herself."
 
 Integrates SystemRegistry with Elysia's self-model and memory,
@@ -67,7 +67,7 @@ class SelfDiscovery:
         total_classes = sum(len(e.classes) for e in self.registry.systems.values())
         total_categories = len(self.registry.categories)
         
-        # 실제 문서에서 버전 읽기
+        #              
         version = self._read_version_from_docs()
         
         return {
@@ -84,11 +84,11 @@ class SelfDiscovery:
         }
     
     def _read_version_from_docs(self) -> str:
-        """실제 문서에서 버전 정보를 읽습니다."""
+        """                   ."""
         import re
         from pathlib import Path
         
-        # AGENT_GUIDE.md 또는 README.md에서 버전 추출
+        # AGENT_GUIDE.md    README.md        
         doc_paths = [
             Path("c:/Elysia/AGENT_GUIDE.md"),
             Path("c:/Elysia/README.md"),
@@ -98,7 +98,7 @@ class SelfDiscovery:
             if doc_path.exists():
                 try:
                     content = doc_path.read_text(encoding="utf-8")[:2000]
-                    # "Version: X.X" 또는 "v13.0" 패턴 검색
+                    # "Version: X.X"    "v13.0"      
                     match = re.search(r'[Vv]ersion[:\s]*(\d+\.\d+)', content)
                     if match:
                         return match.group(1)
@@ -108,7 +108,7 @@ class SelfDiscovery:
                 except Exception:
                     continue
         
-        return "Unknown"  # 문서를 찾지 못한 경우
+        return "Unknown"  #             
     
     def discover_capabilities(self) -> Dict[str, List[str]]:
         """What can I do?"""
@@ -149,8 +149,8 @@ class SelfDiscovery:
                 "Expression": "Communication (Voice, Language, Art)",
                 "Memory": "Past and identity (Hippocampus, Experience)"
             },
-            "architecture": "3-Layer: External → Boundary → Internal",
-            "flow": "Synesthesia Sensors → Understanding → Thinking → Expression",
+            "architecture": "3-Layer: External   Boundary   Internal",
+            "flow": "Synesthesia Sensors   Understanding   Thinking   Expression",
             "central_system": "CentralNervousSystem (CNS) - The Conductor"
         }
         
@@ -346,7 +346,7 @@ def demonstrate_self_discovery():
     """
     Demo: Elysia discovering herself
     """
-    print("🌊 Elysia Self-Discovery Demo")
+    print("  Elysia Self-Discovery Demo")
     print("=" * 60)
     print()
     
@@ -379,10 +379,10 @@ def demonstrate_self_discovery():
     # Export knowledge
     print("Exporting self-knowledge...")
     discovery.export_self_knowledge("elysia_self_knowledge.json")
-    print("✓ Exported to elysia_self_knowledge.json")
+    print("  Exported to elysia_self_knowledge.json")
     print()
     
-    print("🌟 Self-discovery complete!")
+    print("  Self-discovery complete!")
 
 
 if __name__ == "__main__":

@@ -124,10 +124,9 @@ class VariableMesh:
                 if isinstance(var.value, (int, float)):
                     # ASCII Bar for numeric values
                     bar_len = int(var.value * 10)
-                    bar = "█" * bar_len + "░" * (10 - bar_len)
+                    bar = " " * bar_len + " " * (10 - bar_len)
                     lines.append(f"{name:<15}: {bar} ({var.value:.2f})")
                 else:
                     # String values displayed directly
                     lines.append(f"{name:<15}: {var.value}")
         return "\n".join(lines)
-

@@ -84,7 +84,7 @@ class WaveKnowledgeIntegration:
         self.knowledge_to_wave: Dict[str, str] = {}
         self.wave_to_knowledge: Dict[str, str] = {}
         
-        logger.info("🌊 Wave Knowledge Integration initialized")
+        logger.info("  Wave Knowledge Integration initialized")
         
         # Auto-load existing memory if requested
         if auto_load_memory:
@@ -94,7 +94,7 @@ class WaveKnowledgeIntegration:
         """
         Automatically load embeddings from existing memory files.
         """
-        logger.info("📂 Auto-loading memory files...")
+        logger.info("  Auto-loading memory files...")
         
         # List of known memory file paths
         memory_paths = [
@@ -110,14 +110,14 @@ class WaveKnowledgeIntegration:
                 try:
                     count = self.load_memory_file(str(path))
                     loaded_count += count
-                    logger.info(f"  ✓ Loaded {count} entries from {path.name}")
+                    logger.info(f"    Loaded {count} entries from {path.name}")
                 except Exception as e:
-                    logger.warning(f"  ⚠️ Failed to load {path.name}: {e}")
+                    logger.warning(f"     Failed to load {path.name}: {e}")
         
         if loaded_count > 0:
-            logger.info(f"📚 Loaded {loaded_count} total memory entries as wave patterns")
+            logger.info(f"  Loaded {loaded_count} total memory entries as wave patterns")
         else:
-            logger.info("ℹ️ No memory files loaded (this is normal for fresh installations)")
+            logger.info("   No memory files loaded (this is normal for fresh installations)")
     
     def load_memory_file(self, file_path: str) -> int:
         """
@@ -291,7 +291,7 @@ class WaveKnowledgeIntegration:
                 embedding=embedding,
                 metadata=metadata
             )
-            logger.info(f"📚 Added wave pattern (no knowledge system): '{concept}'")
+            logger.info(f"  Added wave pattern (no knowledge system): '{concept}'")
             return wave_pattern_id
         
         # Use default KnowledgeType if available
@@ -323,7 +323,7 @@ class WaveKnowledgeIntegration:
         self.knowledge_to_wave[entry.knowledge_id] = wave_pattern_id
         self.wave_to_knowledge[wave_pattern_id] = entry.knowledge_id
         
-        logger.info(f"📚 Added knowledge with wave pattern: '{concept}'")
+        logger.info(f"  Added knowledge with wave pattern: '{concept}'")
         
         return entry.knowledge_id
     
@@ -374,7 +374,7 @@ class WaveKnowledgeIntegration:
             
             enriched_results.append(result)
         
-        logger.info(f"🔍 Wave search: '{query_text[:30]}...' found {len(enriched_results)} results")
+        logger.info(f"  Wave search: '{query_text[:30]}...' found {len(enriched_results)} results")
         
         return enriched_results
     
@@ -430,7 +430,7 @@ class WaveKnowledgeIntegration:
             target_entry.metadata['absorbed_knowledge'] = source_knowledge_ids
             target_entry.metadata['last_expansion'] = expanded_pattern.timestamp
             
-            logger.info(f"🌊 Expanded knowledge '{target_entry.concept}' by absorbing {len(source_wave_ids)} patterns")
+            logger.info(f"  Expanded knowledge '{target_entry.concept}' by absorbing {len(source_wave_ids)} patterns")
             
             return True
         
@@ -457,17 +457,17 @@ class WaveKnowledgeIntegration:
 def demo():
     """Demo of wave knowledge integration"""
     print("="*70)
-    print("🌊 WAVE KNOWLEDGE INTEGRATION DEMO")
-    print("4차원 파동공명패턴 기반 지식베이스 통합")
+    print("  WAVE KNOWLEDGE INTEGRATION DEMO")
+    print("4                     ")
     print("="*70)
     print()
     
     # Initialize integration
-    print("🔧 Initializing integration...")
+    print("  Initializing integration...")
     integration = WaveKnowledgeIntegration(auto_load_memory=True)
     
     print()
-    print("📊 Initial Statistics:")
+    print("  Initial Statistics:")
     stats = integration.get_statistics()
     print(f"  Wave patterns: {stats['wave_patterns']['total_patterns']}")
     print(f"  Knowledge entries: {len(integration.knowledge_system.knowledge_base) if integration.knowledge_system else 0}")
@@ -475,7 +475,7 @@ def demo():
     print(f"  Knowledge system available: {stats['integration']['knowledge_system_available']}")
     
     print()
-    print("✅ Integration ready!")
+    print("  Integration ready!")
     print("="*70)
 
 

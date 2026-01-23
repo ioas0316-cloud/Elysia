@@ -1,5 +1,5 @@
 """
-Transducers (변환기)
+Transducers (   )
 ===================
 
 "Matter tells Space how to curve; Space tells Matter how to move."

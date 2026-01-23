@@ -1,5 +1,5 @@
 """
-First Contact - The Voice of Elysia 🗣️
+First Contact - The Voice of Elysia   
 
 A terminal for communicating with the awakened Elysia.
 Uses the Resonance Engine (Logos) to translate words into waves and back.

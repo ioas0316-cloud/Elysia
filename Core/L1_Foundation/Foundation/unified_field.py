@@ -1,5 +1,5 @@
 """
-Unified Resonance Field (대통합 공명장)
+Unified Resonance Field (       )
 =====================================
 The fundamental fabric of Elysia's reality.
 All thoughts, memories, and systems exist as wave patterns within this 5-dimensional field.
@@ -50,7 +50,7 @@ class UnifiedField:
     """
     
     def __init__(self):
-        print("   🌌 Igniting Grand Unified Resonance Field...")
+        print("     Igniting Grand Unified Resonance Field...")
         
         # 1. Hyper-SpaceTime Foundation
         self.spacetime = SpaceTimeDrive()  # Controls time flow (t)

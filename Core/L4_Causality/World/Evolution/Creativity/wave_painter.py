@@ -41,7 +41,7 @@ class WavePainter:
         """
         Converts a Concept -> Wave Sources -> Interference Image.
         """
-        logger.info(f"🌊 Weaving Light for: '{concept}' ({emotion})")
+        logger.info(f"  Weaving Light for: '{concept}' ({emotion})")
         
         # 1. Translate Emotion to Wave Parameters
         sources = self._design_wave_topology(concept, emotion)
@@ -95,7 +95,7 @@ class WavePainter:
         save_path = self.output_dir / filename
         final_img.save(save_path)
         
-        logger.info(f"✨ Light Manifested: {save_path}")
+        logger.info(f"  Light Manifested: {save_path}")
         return str(save_path)
 
     def _design_wave_topology(self, concept: str, emotion: str) -> List[WaveSource]:

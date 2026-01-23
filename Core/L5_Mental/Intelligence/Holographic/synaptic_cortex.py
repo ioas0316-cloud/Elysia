@@ -58,7 +58,7 @@ class SynapticCortex:
     def register_organ(self, name: str, type: str, initial_traits: Dict[str, float] = None):
         """Registers a new external model as an organ."""
         if name not in self.organs:
-            logger.info(f"🔗 Synaptic Link Established: {name} ({type})")
+            logger.info(f"  Synaptic Link Established: {name} ({type})")
             self.organs[name] = NeuralOrgan(name, type, initial_traits or {})
             self.save_memory()
 
@@ -72,7 +72,7 @@ class SynapticCortex:
             
         # Select based on personality/experience
         best = max(candidates, key=lambda x: x.personality.get(task_type, 0.5))
-        logger.info(f"🧠 Synaptic Choice: {best.name} is best for {task_type} (Score: {best.personality.get(task_type, 0.5):.2f})")
+        logger.info(f"  Synaptic Choice: {best.name} is best for {task_type} (Score: {best.personality.get(task_type, 0.5):.2f})")
         return best.name
 
     def adapt_parameter(self, organ_name: str, param: str, intent_energy: float) -> Any:

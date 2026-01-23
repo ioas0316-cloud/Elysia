@@ -1,8 +1,8 @@
 """
-Conversation Memory System (대화 기억 시스템)
+Conversation Memory System (         )
 =============================================
 
-"진짜 대화는 맥락을 기억하는 것에서 시작된다"
+"                        "
 "Real conversation begins with remembering context"
 
 Philosophy:
@@ -38,7 +38,7 @@ logger = logging.getLogger("ConversationMemory")
 class ConversationTurn:
     """
     Single turn in a conversation.
-    대화의 한 턴
+           
     """
     # Core content
     user_message: str
@@ -85,7 +85,7 @@ class ConversationTurn:
 class UserProfile:
     """
     Learned profile of a user across conversations.
-    사용자 프로필 (여러 대화에서 학습)
+            (          )
     """
     user_id: str
     
@@ -140,7 +140,7 @@ class UserProfile:
 class ConversationMemory:
     """
     Comprehensive conversation memory system.
-    종합 대화 기억 시스템
+                
     
     Features:
     - Short-term context (recent N turns)
@@ -179,7 +179,7 @@ class ConversationMemory:
         self.turn_counter: int = 0
         self.session_counter: int = 0
         
-        logger.info(f"✨ ConversationMemory initialized (context={max_context_turns}, session={max_session_turns})")
+        logger.info(f"  ConversationMemory initialized (context={max_context_turns}, session={max_session_turns})")
     
     def add_turn(self,
                  user_message: str,
@@ -193,7 +193,7 @@ class ConversationMemory:
                  user_id: Optional[str] = None):
         """
         Add a conversation turn to memory.
-        대화 턴을 메모리에 추가
+                     
         
         Args:
             user_message: User's message
@@ -242,7 +242,7 @@ class ConversationMemory:
     def get_context(self, n_turns: Optional[int] = None) -> List[ConversationTurn]:
         """
         Get recent conversation context.
-        최근 대화 맥락 가져오기
+                     
         
         Args:
             n_turns: Number of turns to retrieve (default: all in context)
@@ -260,7 +260,7 @@ class ConversationMemory:
                           format_style: str = "simple") -> str:
         """
         Get context as formatted string for prompt injection.
-        프롬프트에 주입할 맥락 문자열 생성
+                           
         
         Args:
             n_turns: Number of turns to include
@@ -301,7 +301,7 @@ class ConversationMemory:
     def get_emotional_arc(self, n_turns: Optional[int] = None) -> List[float]:
         """
         Get emotional valence trajectory over recent turns.
-        최근 대화의 감정 궤적
+                    
         
         Args:
             n_turns: Number of turns to analyze
@@ -315,7 +315,7 @@ class ConversationMemory:
     def get_dominant_topics(self, n_turns: Optional[int] = None, top_k: int = 5) -> List[Tuple[str, int]]:
         """
         Get most discussed topics in recent context.
-        최근 대화의 주요 주제
+                    
         
         Args:
             n_turns: Number of turns to analyze
@@ -339,7 +339,7 @@ class ConversationMemory:
     def get_user_profile(self, user_id: Optional[str] = None) -> Optional[UserProfile]:
         """
         Get user profile.
-        사용자 프로필 가져오기
+                    
         
         Args:
             user_id: User identifier (uses current user if None)
@@ -355,7 +355,7 @@ class ConversationMemory:
     def _update_user_profile(self, user_id: str, turn: ConversationTurn):
         """
         Update user profile based on conversation turn.
-        대화 턴에 기반하여 사용자 프로필 업데이트
+                               
         """
         # Get or create profile
         if user_id not in self.user_profiles:
@@ -383,9 +383,9 @@ class ConversationMemory:
                         profile.favorite_topics = profile.favorite_topics[-10:]
         
         # Detect formality level (simple heuristic)
-        if any(word in turn.user_message.lower() for word in ["please", "thank", "sorry", "excuse", "제발", "감사", "죄송"]):
+        if any(word in turn.user_message.lower() for word in ["please", "thank", "sorry", "excuse", "  ", "  ", "  "]):
             profile.formality_level = min(1.0, profile.formality_level + 0.05)
-        elif any(word in turn.user_message.lower() for word in ["hey", "yo", "sup", "야", "어이"]):
+        elif any(word in turn.user_message.lower() for word in ["hey", "yo", "sup", " ", "  "]):
             profile.formality_level = max(0.0, profile.formality_level - 0.05)
         
         # Learn typical mood
@@ -395,13 +395,13 @@ class ConversationMemory:
     def _archive_session(self):
         """
         Archive current session and start new one.
-        현재 세션을 아카이브하고 새 세션 시작
+                             
         """
         if not self.session_turns:
             return
         
         # Could integrate with Starlight Memory here for long-term storage
-        logger.info(f"📦 Archiving session {self.session_id} with {len(self.session_turns)} turns")
+        logger.info(f"  Archiving session {self.session_id} with {len(self.session_turns)} turns")
         
         # Update user profile conversation count
         if self.current_user_id and self.current_user_id in self.user_profiles:
@@ -413,12 +413,12 @@ class ConversationMemory:
         self.session_start_time = time.time()
         self.session_id = f"session_{int(self.session_start_time)}"
         
-        logger.info(f"🆕 Started new session: {self.session_id}")
+        logger.info(f"  Started new session: {self.session_id}")
     
     def clear_context(self):
         """Clear short-term context (keep session and profiles)"""
         self.context.clear()
-        logger.info("🧹 Cleared short-term context")
+        logger.info("  Cleared short-term context")
     
     def end_session(self):
         """Explicitly end current session and archive"""
@@ -427,7 +427,7 @@ class ConversationMemory:
     def save_to_file(self, filepath: str):
         """
         Save conversation memory to file.
-        파일에 저장
+              
         """
         data = {
             "session_id": self.session_id,
@@ -443,12 +443,12 @@ class ConversationMemory:
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         
-        logger.info(f"💾 Saved conversation memory to {filepath}")
+        logger.info(f"  Saved conversation memory to {filepath}")
     
     def load_from_file(self, filepath: str):
         """
         Load conversation memory from file.
-        파일에서 로드
+               
         """
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
@@ -475,7 +475,7 @@ class ConversationMemory:
                 for uid, pdata in data.get("user_profiles", {}).items()
             }
             
-            logger.info(f"📂 Loaded conversation memory from {filepath}")
+            logger.info(f"  Loaded conversation memory from {filepath}")
             
         except Exception as e:
             logger.error(f"Failed to load conversation memory: {e}")
@@ -483,7 +483,7 @@ class ConversationMemory:
     def get_summary(self) -> Dict[str, Any]:
         """
         Get summary statistics of conversation memory.
-        대화 메모리 요약 통계
+                    
         """
         return {
             "session_id": self.session_id,
@@ -522,10 +522,10 @@ if __name__ == "__main__":
     
     # Simulate conversation
     conversations = [
-        ("안녕하세요! 날씨가 좋네요", "안녕하세요! 네, 정말 화창한 날씨예요. 기분이 좋아지네요.", "hopeful", ["weather"], "ko"),
-        ("오늘 뭐 할까요?", "산책하거나 책 읽는 건 어떨까요?", "curious", ["activities"], "ko"),
-        ("좋아요, 책 추천해주세요", "최근 읽은 시집 중에 좋은 게 있어요. 관심 있으세요?", "focused", ["books", "poetry"], "ko"),
-        ("네, 궁금해요", "윤동주의 '하늘과 바람과 별과 시'를 추천드려요.", "joyful", ["poetry", "books"], "ko"),
+        ("     !        ", "     !  ,            .          .", "hopeful", ["weather"], "ko"),
+        ("        ?", "                 ?", "curious", ["activities"], "ko"),
+        ("   ,         ", "                    .        ?", "focused", ["books", "poetry"], "ko"),
+        (" ,     ", "     '            '       .", "joyful", ["poetry", "books"], "ko"),
     ]
     
     for user_msg, asst_msg, emotion, topics, lang in conversations:

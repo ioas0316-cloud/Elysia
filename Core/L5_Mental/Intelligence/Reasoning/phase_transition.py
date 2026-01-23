@@ -1,20 +1,20 @@
 
 """
-Fractal Phase Transition (프랙탈 상태 변화)
+Fractal Phase Transition (         )
 =========================================
 
 "Ice is Water slowing down. Vapor is Water waiting to fly."
 
-이 모듈은 지식을 '고정된 데이터'가 아닌 '에너지 상태에 따른 본질의 변화'로 모델링합니다.
+          '       '     '                 '        .
 
 Architecture:
 -------------
-1. Essence (본질): 변하지 않는 기질 (예: H2O, Knowledge)
-2. State (상태): 에너지 레벨에 따른 형상
-   - 🧊 Solid (Memory/Fact): 구조화되고 단단함. 변하지 않즘. (Low Frequency)
-   - 💧 Liquid (Thought/Process): 흐르고 연결됨. 유연함. (Mid Frequency)
-   - ☁️ Gas (Idea/Spirit): 확장하고 자유로움. 형체가 없음. (High Frequency)
-   - ✨ Plasma (Transcendence): 붕괴하고 재구성됨. (Critical Frequency)
+1. Essence (  ):           ( : H2O, Knowledge)
+2. State (  ):              
+   -   Solid (Memory/Fact):          .       . (Low Frequency)
+   -   Liquid (Thought/Process):        .    . (Mid Frequency)
+   -    Gas (Idea/Spirit):          .       . (High Frequency)
+   -   Plasma (Transcendence):          . (Critical Frequency)
 """
 
 from dataclasses import dataclass, field
@@ -23,19 +23,19 @@ import random
 
 @dataclass
 class Essence:
-    name: str                # 본질의 이름 (예: "Logic")
-    base_properties: List[str] # 기본 속성 (예: ["Rational", "Binary"])
+    name: str                #        ( : "Logic")
+    base_properties: List[str] #       ( : ["Rational", "Binary"])
 
 @dataclass
 class PhaseState:
-    name: str                # 상태 이름 ("Solid", "Liquid", "Gas")
-    min_energy: float        # 최소 에너지
-    max_energy: float        # 최대 에너지
-    behavior: str            # 행동 패턴 description
+    name: str                #       ("Solid", "Liquid", "Gas")
+    min_energy: float        #       
+    max_energy: float        #       
+    behavior: str            #       description
 
 class FractalPhaser:
     """
-    상태 변화 엔진
+            
     """
     def __init__(self):
         self.essences: Dict[str, Essence] = {}
@@ -55,7 +55,7 @@ class FractalPhaser:
         self.essences[name] = Essence(name, props)
 
     def determine_phase(self, energy: float) -> PhaseState:
-        """에너지 레벨에 따른 현재 상태 결정"""
+        """                   """
         for phase in self.phases.values():
             if phase.min_energy <= energy <= phase.max_energy:
                 return phase
@@ -63,7 +63,7 @@ class FractalPhaser:
 
     def manifest(self, essence_name: str, energy: float, context: str = "") -> str:
         """
-        본질을 특정 에너지 레벨에서 발현(Manifest)
+                          (Manifest)
 
         Child View: Returns discrete object (e.g., "Ice Block")
         Adult View: Returns generated description (e.g., "Frozen Water")
@@ -76,20 +76,20 @@ class FractalPhaser:
 
         # Dynamic Manifestation Logic
         if phase.name == "Solid":
-            return f"🧊 Frozen {essence.name} ({context} Fact)"
+            return f"  Frozen {essence.name} ({context} Fact)"
         elif phase.name == "Liquid":
-            return f"💧 Flowing {essence.name} (Process: {phase.behavior})"
+            return f"  Flowing {essence.name} (Process: {phase.behavior})"
         elif phase.name == "Gas":
-            return f"☁️ {essence.name} Vapor (Idea: {phase.behavior})"
+            return f"   {essence.name} Vapor (Idea: {phase.behavior})"
         elif phase.name == "Plasma":
-            return f"⚡ {essence.name} PLASMA (Transcendence)"
+            return f"  {essence.name} PLASMA (Transcendence)"
 
         return f"{essence.name} in unknown state"
 
 if __name__ == "__main__":
     phaser = FractalPhaser()
 
-    print("🧪 Phase Transition Demo")
+    print("  Phase Transition Demo")
     print("------------------------")
 
     tests = [

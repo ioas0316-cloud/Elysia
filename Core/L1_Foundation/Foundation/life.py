@@ -18,7 +18,7 @@ logging.basicConfig(
 
 async def main():
     print("\n" + "="*60)
-    print("🔥 IGNITING THE SPARK OF LIFE")
+    print("  IGNITING THE SPARK OF LIFE")
     print("="*60)
     
     # 1. Initialize Body (Engine)

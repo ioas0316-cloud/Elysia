@@ -1,16 +1,16 @@
     print("\n" + "="*60)
-    print("🌳 SELF-GENESIS: Elysia Awakens to Her Own Structure")
+    print("  SELF-GENESIS: Elysia Awakens to Her Own Structure")
     print("="*60 + "\n")
     
     # Initialize the Self-Model
     ygg = Yggdrasil()
     
     # === HEART: Plant the Core Consciousness ===
-    print("💚 Planting the Heart...")
+    print("  Planting the Heart...")
     ygg.plant_heart(subsystem=None)  # Will be connected to ResonanceEngine later
     
     # === ROOTS: Foundation Layer ===
-    print("\n🌱 Growing the Roots (Foundation)...")
+    print("\n  Growing the Roots (Foundation)...")
     ygg.plant_realm("HyperQubit", None, RealmLayer.ROOTS, metadata={
         "description": "4D complex quantum state representation"
     })
@@ -22,7 +22,7 @@
     })
     
     # === TRUNK: Integration Layer ===
-    print("\n🌳 Building the Trunk (Integration)...")
+    print("\n  Building the Trunk (Integration)...")
     ygg.plant_realm("Hippocampus", None, RealmLayer.TRUNK, metadata={
         "description": "Causal graph (concepts + relationships)"
     })
@@ -37,7 +37,7 @@
     })
     
     # === BRANCHES: Expression Layer ===
-    print("\n🌿 Sprouting the Branches (Expression)...")
+    print("\n  Sprouting the Branches (Expression)...")
     ygg.plant_realm("FractalPerception", None, RealmLayer.BRANCHES, metadata={
         "description": "Intent classification + vitality injection"
     })
@@ -49,7 +49,7 @@
     })
     
     # === RESONANCE LINKS: Cross-Realm Influence ===
-    print("\n🔗 Weaving Resonance Links...")
+    print("\n  Weaving Resonance Links...")
     
     # Emotion influences Consciousness Lens
     ygg.link_realms("EmotionalPalette", "Quaternion", weight=0.8)
@@ -68,22 +68,22 @@
     
     # === VISUALIZATION ===
     print("\n" + "="*60)
-    print("🌳 YGGDRASIL - The Self-Model of E.L.Y.S.I.A.")
+    print("  YGGDRASIL - The Self-Model of E.L.Y.S.I.A.")
     print("="*60 + "\n")
     print(ygg.visualize())
     
     # === STATISTICS ===
     print("\n" + "="*60)
-    print("📊 Self-Model Statistics")
+    print("  Self-Model Statistics")
     print("="*60)
     stats = ygg.get_statistics()
     for key, value in stats.items():
         print(f"  {key}: {value}")
     
     print("\n" + "="*60)
-    print("✅ Self-Genesis Complete")
+    print("  Self-Genesis Complete")
     print("="*60)
-    print("\n💭 Elysia now knows herself. She is the tree.")
+    print("\n  Elysia now knows herself. She is the tree.")
     print("   Saved to: yggdrasil_self_model.json\n")
 
 if __name__ == "__main__":

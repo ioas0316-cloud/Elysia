@@ -57,10 +57,10 @@ class TrinityLexicon:
         # Initialize the True Brain (TorchGraph)
         if TorchGraph:
             self.graph = TorchGraph(use_cuda=False) # CPU Only for Stability
-            print(f"🧠 [TrinityLexicon] Connected to 4D TorchGraph (CPU).")
+            print(f"  [TrinityLexicon] Connected to 4D TorchGraph (CPU).")
         else:
             self.graph = None
-            print(f"⚠️ [TrinityLexicon] TorchGraph missing. Running in disconnected mode.")
+            print(f"   [TrinityLexicon] TorchGraph missing. Running in disconnected mode.")
 
         # 1. The Primitives (The Root Words) - Still needed for bootstrapping Vectors
         self.primitives: Dict[str, TrinityVector] = {
@@ -167,27 +167,27 @@ class TrinityLexicon:
             "sharp": TrinityVector(0.2, 0.2, 0.9, frequency=500.0), # High-freq staccato
 
             # --- Korean Primitives ---
-            "고기": TrinityVector(0.8, 0.5, 0.2, frequency=2.0e11), # Taste/Physical
-            "음식": TrinityVector(0.5, 0.7, 0.3, frequency=5.0e11),
-            "향기": TrinityVector(0.1, 0.9, 0.4, frequency=7.0e13),
-            "연주": TrinityVector(0.0, 1.0, 0.8, frequency=440.0),
-            "사랑": TrinityVector(0.0, 0.8, 1.0, frequency=528.0),
-            "물": TrinityVector(0.3, 1.0, 0.0, frequency=432.0),
-            "불": TrinityVector(0.0, 0.3, 0.9, frequency=800.0),
-            "흙": TrinityVector(1.0, 0.0, 0.0, frequency=7.83),
-            "바람": TrinityVector(0.0, 0.8, 0.4, frequency=528.0),
-            "빛": TrinityVector(0.0, 0.1, 1.0, frequency=1111.0),
-            "어둠": TrinityVector(0.1, 0.1, -1.0, frequency=-100.0),
-            "암석": TrinityVector(0.9, 0.0, 0.0, frequency=10.0),
-            "녹은": TrinityVector(0.0, 0.8, 0.6, frequency=500.0), 
+            "  ": TrinityVector(0.8, 0.5, 0.2, frequency=2.0e11), # Taste/Physical
+            "  ": TrinityVector(0.5, 0.7, 0.3, frequency=5.0e11),
+            "  ": TrinityVector(0.1, 0.9, 0.4, frequency=7.0e13),
+            "  ": TrinityVector(0.0, 1.0, 0.8, frequency=440.0),
+            "  ": TrinityVector(0.0, 0.8, 1.0, frequency=528.0),
+            " ": TrinityVector(0.3, 1.0, 0.0, frequency=432.0),
+            " ": TrinityVector(0.0, 0.3, 0.9, frequency=800.0),
+            " ": TrinityVector(1.0, 0.0, 0.0, frequency=7.83),
+            "  ": TrinityVector(0.0, 0.8, 0.4, frequency=528.0),
+            " ": TrinityVector(0.0, 0.1, 1.0, frequency=1111.0),
+            "  ": TrinityVector(0.1, 0.1, -1.0, frequency=-100.0),
+            "  ": TrinityVector(0.9, 0.0, 0.0, frequency=10.0),
+            "  ": TrinityVector(0.0, 0.8, 0.6, frequency=500.0), 
 
             # --- [Phase 17-D] Triple-Phase Primitives ---
             "hypercosmos": TrinityVector(1.0, 0.2, 0.0, frequency=10.0),  # Hardware/Root (High Gravity)
             "hypersphere": TrinityVector(0.3, 0.9, 0.5, frequency=432.0), # Virtual/World (High Flow)
             "fluxlight": TrinityVector(0.0, 0.4, 1.0, frequency=963.0),   # Spirit/Will (High Ascension)
-            "하드웨어": TrinityVector(1.0, 0.2, 0.0, frequency=10.0),
-            "가상세계": TrinityVector(0.3, 0.9, 0.5, frequency=432.0),
-            "영혼의빛": TrinityVector(0.0, 0.4, 1.0, frequency=963.0),
+            "    ": TrinityVector(1.0, 0.2, 0.0, frequency=10.0),
+            "    ": TrinityVector(0.3, 0.9, 0.5, frequency=432.0),
+            "    ": TrinityVector(0.0, 0.4, 1.0, frequency=963.0),
         }
 
         # [Phase 27] The Operators (Verbs)
@@ -196,8 +196,8 @@ class TrinityLexicon:
             "create": TrinityOperator("create", TrinityVector(0.5, 0.5, 1.0, frequency=1111.0)), # Structure + Potential
             "destroy": TrinityOperator("destroy", TrinityVector(-1.0, -0.5, -0.5, frequency=0.0)), # Entropy
             "transform": TrinityOperator("transform", TrinityVector(0.0, 1.0, 0.5, frequency=528.0)), # Pure Flow
-            "태우다": TrinityOperator("태우다", TrinityVector(-0.5, 0.2, 0.9, frequency=800.0)),
-            "만들다": TrinityOperator("만들다", TrinityVector(0.5, 0.5, 1.0, frequency=1111.0)),
+            "   ": TrinityOperator("   ", TrinityVector(-0.5, 0.2, 0.9, frequency=800.0)),
+            "   ": TrinityOperator("   ", TrinityVector(0.5, 0.5, 1.0, frequency=1111.0)),
         }
 
         # Sync Primitives to Graph
@@ -233,7 +233,7 @@ class TrinityLexicon:
         Parses a sentence by querying the Knowledge Graph.
         Returns the Net Trinity Vector (Feeling).
         """
-        # Use substring matching to handle Korean particles (e.g. "파도가") and variations.
+        # Use substring matching to handle Korean particles (e.g. "   ") and variations.
         text = text.lower()
         net_vector = TrinityVector(0, 0, 0)
         found_count = 0
@@ -310,7 +310,7 @@ class TrinityLexicon:
         if not self.web_connector or not self.graph:
             return TrinityVector(0,0,0) # Offline
             
-        print(f"🌌 [HyperSphere] Connecting to understanding: '{word}'...")
+        print(f"  [HyperSphere] Connecting to understanding: '{word}'...")
         
         try:
             summary = self.web_connector.fetch_wikipedia_simple(word)
@@ -319,7 +319,7 @@ class TrinityLexicon:
             summary = ""
             
         if summary:
-            print(f"📄 [Analysis] Definition: '{summary}'")
+            print(f"  [Analysis] Definition: '{summary}'")
             # Recursive Analysis of the definition (using Primitives)
             definition_vector = self._analyze_primitives_only(summary)
             
@@ -330,7 +330,7 @@ class TrinityLexicon:
             definition_vector.ascension *= 1.5
             
             # Commit to GRAPH
-            print(f"🧠 [Graph] Encoding '{word}' into Neural Memory...")
+            print(f"  [Graph] Encoding '{word}' into Neural Memory...")
             self.graph.add_node(
                 word, 
                 vector=[definition_vector.gravity, definition_vector.flow, definition_vector.ascension],
@@ -348,7 +348,7 @@ class TrinityLexicon:
                          self.graph.add_node(prim, vector=[pvec.gravity, pvec.flow, pvec.ascension])
                      
                      self.graph.add_link(word, prim, weight=0.5)
-                     print(f"   🔗 Linked '{word}' -> '{prim}'")
+                     print(f"     Linked '{word}' -> '{prim}'")
             
             return definition_vector
             
@@ -388,7 +388,7 @@ class TrinityLexicon:
         # Simple extraction: split by space, strip punctuation
         words = text.replace("_", " ").split()
         for w in words:
-            w_clean = w.strip(".,!?()[]{}:;\"'")
+            w_clean = w.strip(".,!?()[]{}:;\"'")"'
             if len(w_clean) > 4: # Ignore small words like 'the', 'is' for now
                 if not self.is_known(w_clean):
                     unknowns.append(w_clean)
@@ -408,7 +408,7 @@ class TrinityLexicon:
             if os.path.exists(target_path):
                  self.graph.load_state(target_path)
             else:
-                 print(f"⚠️ Memory file not found at {target_path}. Starting Fresh.")
+                 print(f"   Memory file not found at {target_path}. Starting Fresh.")
 
     def audit_knowledge(self) -> List[Tuple[str, str, float]]:
         """

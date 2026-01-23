@@ -51,7 +51,7 @@ class ArtStudio:
         Drafts a masterpiece using the Deep Cognitive Process.
         Returns: Prompt, Style, NarrativeLog
         """
-        logger.info(f"🎨 Drafting masterpiece for: '{concept}' ({emotion})")
+        logger.info(f"  Drafting masterpiece for: '{concept}' ({emotion})")
         
         # 1. Deep Contemplation (Simulation of Art)
         # Elysia decides Medium, Composition, and Layers
@@ -88,7 +88,7 @@ class ArtStudio:
         with open(req_path, 'w', encoding='utf-8') as f:
             json.dump(req.__dict__, f, indent=2)
             
-        logger.info(f"✨ Art Commissioned (Deep Process): {req.title}")
+        logger.info(f"  Art Commissioned (Deep Process): {req.title}")
         logger.info(f"   Style: {style}")
         logger.info(f"   Process:\n{process_log}")
         return req_path

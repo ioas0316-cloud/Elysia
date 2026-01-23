@@ -27,7 +27,7 @@ class SVGCanvas:
         
     def save(self, filename: str) -> str:
         body = "\n".join(self.elements)
-        svg_content = f"""<?xml version="1.0" encoding="UTF-8" ?>
+        svg_content = f"""<?xml version="1.0" encoding="UTF-8" ?>"
 <svg width="{self.width}" height="{self.height}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {self.width} {self.height}">
   <rect width="100%" height="100%" fill="#FFFFFF"/>
 {body}
@@ -40,7 +40,7 @@ class SVGCanvas:
         with open(path, "w", encoding="utf-8") as f:
             f.write(svg_content)
             
-        logger.info(f"✨ Vector Manifested: {path}")
+        logger.info(f"  Vector Manifested: {path}")
         return str(path)
 
     # --- Primitives ---
@@ -84,7 +84,7 @@ class VectorPen:
 
     def manifest_character(self, name: str):
         """Draws the 'Concept Character' (Elysia's Avatar)."""
-        logger.info(f"✒️ Drawing Vector Character: {name}")
+        logger.info(f"   Drawing Vector Character: {name}")
         
         cx, cy = 400, 400
         

@@ -17,7 +17,7 @@ class StyleAnalyzer:
     def __init__(self):
         self.slang_lexicon = {
             "lol", "lmao", "haha", "omg", "idk", "tbh", "brb", "thx", "plz",
-            "ㅋㅋ", "ㅎㅎ", "ㅠㅠ", "ㅇㅇ", "ㅊㅊ", "ㅈㅅ"
+            "  ", "  ", "  ", "  ", "  ", "  "
         }
         
     def analyze(self, text: str) -> Dict[str, Any]:
@@ -112,7 +112,7 @@ class StyleAnalyzer:
         return max(0.0, min(1.0, score))
 
     def _calculate_warmth(self, text: str) -> float:
-        warm_words = {"love", "happy", "thanks", "great", "good", "hope", "feel", "사랑", "감사", "좋아", "행복"}
+        warm_words = {"love", "happy", "thanks", "great", "good", "hope", "feel", "  ", "  ", "  ", "  "}
         words = set(text.lower().split())
         intersection = words.intersection(warm_words)
         

@@ -25,7 +25,7 @@ class Spore:
     def __init__(self, output_dir: str = "c:/Elysia/data/L2_Metabolism/Spores"):
         self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
-        logger.info("🍄 [SPORE] Spore Generator ready.")
+        logger.info("  [SPORE] Spore Generator ready.")
 
     def encapsulate(self, mission: Dict[str, Any] = None) -> str:
         """
@@ -53,8 +53,8 @@ class Spore:
         try:
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(dna, f, indent=4)
-            logger.info(f"🍄 [SPORE] DNA Packet Created: {file_path}")
+            logger.info(f"  [SPORE] DNA Packet Created: {file_path}")
             return file_path
         except Exception as e:
-            logger.error(f"❌ [SPORE] Failed to encapsulate: {e}")
+            logger.error(f"  [SPORE] Failed to encapsulate: {e}")
             return ""

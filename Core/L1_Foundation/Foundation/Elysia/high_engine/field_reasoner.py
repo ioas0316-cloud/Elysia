@@ -42,21 +42,21 @@ class FieldReasoner:
     def generate_metaphor(self, concept: str) -> str:
         """
         Generates a metaphor by finding shape-similar concepts.
-        Example: "사랑 is like 빛" (based on tensor similarity)
+        Example: "   is like  " (based on tensor similarity)
         """
         shape_analogs = self.field.find_shape_analogs(concept, top_k=1)
         
         if not shape_analogs:
-            return f"{concept}은 독특하다"
+            return f"{concept}      "
         
         analog, similarity = shape_analogs[0]
         
         if similarity > 0.7:
-            return f"{concept}은 {analog}과 같다"
+            return f"{concept}  {analog}    "
         elif similarity > 0.5:
-            return f"{concept}은 {analog}을 닮았다"
+            return f"{concept}  {analog}     "
         else:
-            return f"{concept}은 {analog}과 연결되어 있다"
+            return f"{concept}  {analog}         "
     
     def synthesize_understanding(self, concept: str) -> str:
         """
@@ -78,12 +78,12 @@ class FieldReasoner:
         if exploration["resonant_concepts"]:
             resonant_names = [name for name, _ in exploration["resonant_concepts"][:3]]
             if resonant_names:
-                parts.append(f"{concept}은 {', '.join(resonant_names)}과 공명한다")
+                parts.append(f"{concept}  {', '.join(resonant_names)}      ")
         
         # Activated field (what emerges)
         if len(exploration["activated_concepts"]) > 2:
             activated_names = [name for name, _ in exploration["activated_concepts"][1:4]]  # Skip source
             if activated_names:
-                parts.append(f"이것은 {', '.join(activated_names)}을 일깨운다")
+                parts.append(f"    {', '.join(activated_names)}      ")
         
-        return ". ".join(parts) if parts else f"{concept}은 존재한다"
+        return ". ".join(parts) if parts else f"{concept}      "

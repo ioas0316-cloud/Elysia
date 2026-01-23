@@ -306,7 +306,7 @@ class AgencyOrchestrator:
 
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        draft = f"[일기 {today}] 자율 반추: 오늘의 생각을 요약합니다."
+        draft = f"[   {today}]      :              ."
 
         p_txt = out_dir / f"{today}_auto.txt"
 
@@ -390,7 +390,7 @@ class AgencyOrchestrator:
 
         path = out_dir / f"auto_{ts}_{genre}_{theme}.md"
 
-        lines = [f"# {genre.title()} — Theme: {theme}", "", "## Scenes"]
+        lines = [f"# {genre.title()}   Theme: {theme}", "", "## Scenes"]
 
         for s in scenes:
 
@@ -481,4 +481,3 @@ class AgencyOrchestrator:
         self._stamp_action('math_verify')
 
         return "math_verify", {"valid": proof.valid, "image": img, "confidence": 0.7}
-

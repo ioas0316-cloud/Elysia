@@ -29,7 +29,7 @@ class GenesisLab:
         """Manifest a Monad."""
         m = ConceptMonad(name, domain, val, props=props)
         self.monads.append(m)
-        logger.info(f"✨ Created: {m}")
+        logger.info(f"  Created: {m}")
         return m
         
     def decree_law(self, name: str, law_func: Callable, rpm: float = 60.0):
@@ -49,7 +49,7 @@ class GenesisLab:
         r.target_rpm = rpm
         r.energy = 1.0 # Laws are fully active
         
-        logger.info(f"📜 Decreed Law: {name} ({rpm} RPM)")
+        logger.info(f"  Decreed Law: {name} ({rpm} RPM)")
         return r
         
     def tick(self, dt: float = 0.1):
@@ -60,11 +60,11 @@ class GenesisLab:
 
     def run_simulation(self, ticks: int = 10):
         """Run the Universe."""
-        print(f"\n🧪 [Experiment Start] {self.name}")
+        print(f"\n  [Experiment Start] {self.name}")
         print(f"   Structure: {len(self.monads)} Monads, {len(self.rotors)} Laws\n")
         
         for t in range(ticks):
-            print(f"   ⏱️ Tick {t}:")
+            print(f"      Tick {t}:")
             self.tick() # Use the new method
                 
             # Log Snapshot (every 5 ticks)
@@ -74,7 +74,7 @@ class GenesisLab:
                 self._snapshot(t)
                 
     def _snapshot(self, tick):
-        print(f"   ⏱️ Tick {tick}:")
+        print(f"      Tick {tick}:")
         for m in self.monads[:3]: # Show top 3
             print(f"      - {m}")
         if len(self.monads) > 3: print("      ... and more.")

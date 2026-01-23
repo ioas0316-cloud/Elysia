@@ -33,9 +33,9 @@ class Scholar:
         self.web = WebCortex() if WebCortex else None
         
         if self.web:
-            logger.info("📚 Scholar Module Initialized (REAL WEB LEARNING ENABLED)")
+            logger.info("  Scholar Module Initialized (REAL WEB LEARNING ENABLED)")
         else:
-            logger.info("📚 Scholar Module Initialized (Simulated Mode)")
+            logger.info("  Scholar Module Initialized (Simulated Mode)")
     
     def identify_gap(self, topic: str) -> bool:
         """Checks if a topic is unknown."""
@@ -49,7 +49,7 @@ class Scholar:
                 is_gap = False
         
         if is_gap:
-            logger.info(f"   🤔 Identified Knowledge Gap: '{topic}'")
+            logger.info(f"     Identified Knowledge Gap: '{topic}'")
         return is_gap
     
     def find_unknown(self) -> str:
@@ -65,7 +65,7 @@ class Scholar:
         Actually searches the web and fetches content.
         Extracts principles via ReasoningEngine.
         """
-        logger.info(f"   🔎 Researching '{topic}'...")
+        logger.info(f"     Researching '{topic}'...")
         
         # Real web search
         if self.web:
@@ -93,14 +93,14 @@ class Scholar:
                         "real": True
                     }
                     
-                    logger.info(f"   📖 Learned from: {urls[0][:50]}...")
-                    logger.info(f"   📝 Summary: {content[:100]}...")
+                    logger.info(f"     Learned from: {urls[0][:50]}...")
+                    logger.info(f"     Summary: {content[:100]}...")
                     
                     self.assimilate(topic, knowledge)
                     return knowledge
         
         # Fallback to simulated
-        logger.info(f"   📖 Learning (simulated): {topic}")
+        logger.info(f"     Learning (simulated): {topic}")
         knowledge = {
             "topic": topic,
             "summary": f"Derived understanding of {topic} through algorithmic synthesis.",
@@ -131,19 +131,19 @@ class Scholar:
                         tags=["Scholar", "Web", "Learning"],
                         realm="Mind"
                     )
-                    logger.info(f"   💾 Stored to Hippocampus: {topic}")
+                    logger.info(f"     Stored to Hippocampus: {topic}")
                 
                 # 2. Legacy/Graph support
                 elif hasattr(self.memory, 'store'):
                     self.memory.store(topic, knowledge)
-                    logger.info(f"   💾 Stored to memory: {topic}")
+                    logger.info(f"     Stored to memory: {topic}")
                 elif hasattr(self.memory, 'add_node'):
                     self.memory.add_node(topic, knowledge.get('summary', ''))
-                    logger.info(f"   💾 Added to graph: {topic}")
+                    logger.info(f"     Added to graph: {topic}")
             except Exception as e:
-                logger.warning(f"   ⚠️ Memory storage failed: {e}")
+                logger.warning(f"      Memory storage failed: {e}")
         
-        logger.info(f"   🧠 Assimilated '{topic}' into Core Memory.")
+        logger.info(f"     Assimilated '{topic}' into Core Memory.")
 
     def suggest_topics(self, context_keywords: List[str]) -> List[str]:
         """Suggests related topics to study based on context."""
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(message)s')
     
     print("="*60)
-    print("📚 Scholar Real Learning Demo")
+    print("  Scholar Real Learning Demo")
     print("="*60)
     
     scholar = Scholar()
@@ -189,8 +189,8 @@ if __name__ == "__main__":
     knowledge = scholar.research_topic("Emergence")
     
     if knowledge.get('real'):
-        print(f"\n✅ Real knowledge acquired!")
+        print(f"\n  Real knowledge acquired!")
         print(f"   Source: {knowledge['source']}")
         print(f"   Summary: {knowledge['summary'][:200]}...")
     else:
-        print("\n⚠️ Simulated learning (WebCortex unavailable)")
+        print("\n   Simulated learning (WebCortex unavailable)")

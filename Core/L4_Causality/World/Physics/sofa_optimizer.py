@@ -1,5 +1,5 @@
 """
-Sofa Path Optimizer (소파 평면 이동 최적화 도구)
+Sofa Path Optimizer (               )
 ==============================================
 "Moving through the eye of the needle with Grace."
 
@@ -38,7 +38,7 @@ class SofaPathOptimizer:
         
         angle = progress * (math.pi / 2)
         
-        # Optimal offset to stay within 'ㄱ' hallway
+        # Optimal offset to stay within ' ' hallway
         # x^2/3 + y^2/3 = constant (Astroid curve - close approximation)
         x = math.cos(angle) ** 3 * constraint_width
         y = math.sin(angle) ** 3 * constraint_width
@@ -54,13 +54,13 @@ class SofaPathOptimizer:
         Applies Dr. Baek's principle to a specific 3D entity.
         Makes the object move 'like a ghost' through corners.
         """
-        logger.info(f"💫 Entity '{entity_id}' is now using 'Divine Moving' (Sofa Principle).")
+        logger.info(f"  Entity '{entity_id}' is now using 'Divine Moving' (Sofa Principle).")
         # Logic to update entity transform over time based on get_optimal_pose
         pass
 
 if __name__ == "__main__":
     optimizer = SofaPathOptimizer()
-    print("🛤️ [SOFA OPTIMIZER] Calculating Optimal Path for 90-degree turn:")
+    print("   [SOFA OPTIMIZER] Calculating Optimal Path for 90-degree turn:")
     for p in [0.0, 0.25, 0.5, 0.75, 1.0]:
         pose = optimizer.get_optimal_pose(p)
         print(f"  Progress {p*100:>3.0f}% -> Pos: {pose['pos']} Rot: {pose['rot'][1]:.2f}rad")

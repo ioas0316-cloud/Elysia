@@ -1,5 +1,5 @@
 """
-QuantumResonator (양자 공명기)
+QuantumResonator (      )
 ==============================
 
 "The Observer creates the Reality."
@@ -23,7 +23,7 @@ class QuantumState:
 
 class QuantumResonator:
     def __init__(self):
-        print("⚛️ QuantumResonator Initialized. Observing the Probability Cloud.")
+        print("   QuantumResonator Initialized. Observing the Probability Cloud.")
 
     def create_superposition(self, states: List[Tuple[str, float, float]]) -> List[QuantumState]:
         """
@@ -84,9 +84,9 @@ if __name__ == "__main__":
     ]
     
     superposition = qr.create_superposition(cat_states)
-    print(f"📦 Box contains: {[s.name for s in superposition]}")
+    print(f"  Box contains: {[s.name for s in superposition]}")
     
     # Observe 5 times
     for i in range(5):
         result = qr.observe(superposition)
-        print(f"   👁️ Observation {i+1}: The Cat is {result.name} ({result.frequency}Hz)")
+        print(f"      Observation {i+1}: The Cat is {result.name} ({result.frequency}Hz)")

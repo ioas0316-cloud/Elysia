@@ -41,7 +41,7 @@ class DomainIntegration:
             'mythology': MythologyDomain(),
         }
         
-        logger.info("🌈 Domain Integration Layer initialized with 5 domains")
+        logger.info("  Domain Integration Layer initialized with 5 domains")
     
     def process_content(
         self,

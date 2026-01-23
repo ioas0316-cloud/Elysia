@@ -25,7 +25,7 @@ class CognitiveCycle:
         """
         Runs the simulation and reflects on it.
         """
-        print(f"\n🌀 [Cognitive Cycle] Operating under Paradigm: {self.current_paradigm}")
+        print(f"\n  [Cognitive Cycle] Operating under Paradigm: {self.current_paradigm}")
         
         # 1. Experience (Run Sim)
         self.lab.run_simulation(ticks)
@@ -36,29 +36,29 @@ class CognitiveCycle:
         # 3. Realize & Evolve
         if goal_metric == "Fairness":
             if analysis["max_wait_time"] > 5.0: # Threshold for suffering
-                print(f"   ⚠️ [Suffering] Max Wait Time is {analysis['max_wait_time']} ticks! Someone is starving.")
+                print(f"      [Suffering] Max Wait Time is {analysis['max_wait_time']} ticks! Someone is starving.")
                 
                 if self.current_paradigm == "Naive":
                     self._shift_paradigm("RoundRobin")
                 else:
-                    print("   🤔 I am already trying my best, but suffering persists.")
+                    print("     I am already trying my best, but suffering persists.")
             else:
-                print("   ✅ [Status] Fairness is acceptable.")
+                print("     [Status] Fairness is acceptable.")
                 
         elif goal_metric == "Throughput":
             # Deadlock Check: Throughput should increase. If 0 after many ticks, it's a deadlock.
             throughput = analysis["total_throughput"]
-            print(f"   📊 [Metric] Global Throughput: {throughput} meals.")
+            print(f"     [Metric] Global Throughput: {throughput} meals.")
             
             if throughput == 0:
-                print("   ⚠️ [Suffering] ZERO Throughput! The System is Frozen (Deadlock).")
+                print("      [Suffering] ZERO Throughput! The System is Frozen (Deadlock).")
                 if self.current_paradigm == "Naive":
                     self._shift_paradigm("Hierarchy")
             else:
         elif goal_metric == "Reliability":
             # OOM Check: Did we crash?
             if "system_status" in self.lab.rotors[0].context and self.lab.rotors[0].context["system_status"] == "CRASHED_OOM":
-                print("   ⚠️ [Suffering] SYSTEM CRASHED (OOM)! Memory full.")
+                print("      [Suffering] SYSTEM CRASHED (OOM)! Memory full.")
                 if self.current_paradigm == "Naive":
                     self._shift_paradigm("Paging")
                     # Recover from crash?
@@ -66,7 +66,7 @@ class CognitiveCycle:
             else:
                  # Check usage percentage just for logs
                  pass
-                 # print("   ✅ [Status] System Stable.")
+                 # print("     [Status] System Stable.")
 
     def _analyze_metrics(self) -> Dict[str, Any]:
         """
@@ -96,7 +96,7 @@ class CognitiveCycle:
         """
         The Evolution Step. Swaps the Law.
         """
-        print(f"\n💡 [Realization] 'My current way ({self.current_paradigm}) causes suffering. I must evolve to {new_paradigm}.'")
+        print(f"\n  [Realization] 'My current way ({self.current_paradigm}) causes suffering. I must evolve to {new_paradigm}.'")
         self.insights.append(f"Shifted from {self.current_paradigm} to {new_paradigm} due to suffering.")
         
         # Hot-swap Logic

@@ -15,7 +15,7 @@ from Core.L4_Causality.World.Physics.providence_engine import ProvidenceEngine
 from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_hexagon():
-    print("--- 🔯 Experiment: The Sacred Hexagon ---")
+    print("---   Experiment: The Sacred Hexagon ---")
     
     engine = ProvidenceEngine()
     
@@ -31,14 +31,14 @@ def test_hexagon():
     score = 0
     for a, b, expected in interactions:
         result = engine.resolve_interaction(a, b)
-        symbol = "✅" if result == expected else "❌"
+        symbol = " " if result == expected else " "
         if result == expected: score += 1
-        print(f"⚗️ {a} + {b} = {result} (Expected: {expected}) {symbol}")
+        print(f"   {a} + {b} = {result} (Expected: {expected}) {symbol}")
         
     if score == len(interactions):
-        print("\n🏆 SUCCESS: Elemental Alchemy is functional.")
+        print("\n  SUCCESS: Elemental Alchemy is functional.")
     else:
-        print(f"\n⚠️ PARTIAL: {score}/{len(interactions)} reactions verified.")
+        print(f"\n   PARTIAL: {score}/{len(interactions)} reactions verified.")
 
 if __name__ == "__main__":
     test_hexagon()

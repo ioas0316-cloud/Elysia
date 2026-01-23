@@ -66,7 +66,7 @@ class UnifiedExperienceCore:
         self.current_state = {k: 0.5 for k in self.aspect_frequencies}
         
         self._load_state()
-        logger.info("🧠 UnifiedExperienceCore (The Hippocampus) Initialized")
+        logger.info("  UnifiedExperienceCore (The Hippocampus) Initialized")
 
     def absorb(self, 
                content: str, 
@@ -243,7 +243,7 @@ class UnifiedExperienceCore:
         if len(self.stream) < 500:
             return
 
-        logger.info(f"🗜️ Consolidating Experience Core (Stream size: {len(self.stream)})...")
+        logger.info(f"   Consolidating Experience Core (Stream size: {len(self.stream)})...")
         
         # Keep significant events (high feedback or reinforced)
         significant = [

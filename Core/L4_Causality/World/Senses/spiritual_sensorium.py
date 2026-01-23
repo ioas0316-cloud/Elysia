@@ -1,5 +1,5 @@
 """
-Spiritual Sensorium (영적 오감 체계)
+Spiritual Sensorium (        )
 ==================================
 [Phase 17-D] Bridging Meta-Physics and Human Perception.
 

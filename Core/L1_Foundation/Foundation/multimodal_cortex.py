@@ -15,7 +15,7 @@ class MultimodalCortex:
     """
     
     def __init__(self):
-        logger.info("👁️ MultimodalCortex initializing (The Sensorium)...")
+        logger.info("   MultimodalCortex initializing (The Sensorium)...")
         self.visual_dim = 3 # RGB usually, but mapped to Concept Vector
         self.audio_dim = 1  # Amplitude/Frequency
         
@@ -26,7 +26,7 @@ class MultimodalCortex:
         Here, we simulate extracting 'Visual Frequencies' (Color, Shape, Entropy).
         """
         # For simulation, we always process (we infer from filename)
-        logger.info(f"👁️ Processing Visual Signal: {data_source}")
+        logger.info(f"   Processing Visual Signal: {data_source}")
         
         # [SIMULATION] Extract features based on filename keywords
         # e.g., "fire.png" -> High Red, High Entropy
@@ -62,7 +62,7 @@ class MultimodalCortex:
         Simulates processing audio.
         Extracts Pitch, Loudness, Timbre.
         """
-        logger.info(f"👂 Processing Audio Signal: {data_source}")
+        logger.info(f"  Processing Audio Signal: {data_source}")
         
         name = data_source.lower()
         

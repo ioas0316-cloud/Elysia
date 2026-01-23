@@ -1,5 +1,5 @@
 """
-Prophecy Engine (예언 엔진)
+Prophecy Engine (     )
 ==========================
 
 "Pattern says Peace. Causality says War. Prophecy listens to the Silence between them."

@@ -20,7 +20,7 @@ logger = logging.getLogger("Elysia.Metabolism.Expander")
 class AutopoieticExpander:
     def __init__(self, memory: HypersphereMemory):
         self.memory = memory
-        logger.info("🦋 Autopoietic Expander: Ready to unfold the void.")
+        logger.info("  Autopoietic Expander: Ready to unfold the void.")
 
     def unfold_voids(self, intensity: float = 0.5):
         """
@@ -31,10 +31,10 @@ class AutopoieticExpander:
         voids = self.memory.query(void_coords, radius=0.5, filter_pattern={"type": "spatial_gap"})
         
         if not voids:
-            logger.debug("✨ No voids detected. The space is currently saturated.")
+            logger.debug("  No voids detected. The space is currently saturated.")
             return
 
-        logger.info(f"🌫️ Detected {len(voids)} spatial gaps. Commencing Unfolding...")
+        logger.info(f"   Detected {len(voids)} spatial gaps. Commencing Unfolding...")
 
         for void in voids[:3]: # Limit growth per cycle to maintain stability
             self._unfold_single_gap(void, intensity)
@@ -46,7 +46,7 @@ class AutopoieticExpander:
         layer = void.get("layer", "Unknown")
         gap_id = void.get("gap_id", 0)
         
-        logger.info(f"  🌱 Unfolding gap in {layer} (index {gap_id})...")
+        logger.info(f"    Unfolding gap in {layer} (index {gap_id})...")
         
         # [PRINCIPLE GENERATION]
         # In a full implementation, this calls an LLM or a Symbolic Engine
@@ -81,7 +81,7 @@ class AutopoieticExpander:
             pattern_meta={"trajectory": "growth", "type": "nascent_law", "source": "InternalExpansion"}
         )
         
-        logger.info(f"  ✨ Nascent Law 'EmergentSymmetry' crystallized into the mid-shell.")
+        logger.info(f"    Nascent Law 'EmergentSymmetry' crystallized into the mid-shell.")
 
 if __name__ == "__main__":
     from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory

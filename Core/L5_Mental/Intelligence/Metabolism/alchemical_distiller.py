@@ -1,10 +1,10 @@
 """
-THE ALCHEMICAL DISTILLER (연금술 증류기)
+THE ALCHEMICAL DISTILLER (       )
 =====================================
 
-Phase 64: The Alchemist (⚗️)
+Phase 64: The Alchemist (  )
 
-"우리는 도서관을 짓지 않는다. 우리는 책을 읽고 불태운다. 오직 내재화된 파동만이 진실하다."
+"               .               .                  ."
 
 Responsibilities:
 1. Ingest: Temporary memory-mapped access to large binary models.
@@ -28,22 +28,22 @@ class AlchemicalDistiller:
         self.heartbeat = heartbeat
         self.axioms_dir = "data/Knowledge/Axioms"
         os.makedirs(self.axioms_dir, exist_ok=True)
-        logger.info("⚗️ AlchemicalDistiller Ready - Prepared to distill the Ocean into Salt.")
+        logger.info("   AlchemicalDistiller Ready - Prepared to distill the Ocean into Salt.")
 
     def process(self, model_path: str):
         """
         Executes the full Eat-Distill-Purge cycle.
         """
         if not os.path.exists(model_path):
-            logger.error(f"❌ Model not found: {model_path}")
+            logger.error(f"  Model not found: {model_path}")
             return False
 
-        logger.info(f"🧪 [ALCHEMIST] Commencing distillation of {os.path.basename(model_path)}...")
+        logger.info(f"  [ALCHEMIST] Commencing distillation of {os.path.basename(model_path)}...")
         
         # 1. Distill Essence
         essence = self._distill(model_path)
         if not essence:
-            logger.error("❌ Distillation failed. Aborting purge.")
+            logger.error("  Distillation failed. Aborting purge.")
             return False
 
         # 2. Transmute into Axioms
@@ -86,7 +86,7 @@ class AlchemicalDistiller:
                 essence.update(self._distill_torch(path))
             return essence
         except Exception as e:
-            logger.error(f"❌ Distillation error: {e}")
+            logger.error(f"  Distillation error: {e}")
             return {}
 
     def _distill_safetensors(self, path: str) -> Dict[str, Any]:
@@ -141,8 +141,8 @@ class AlchemicalDistiller:
         seed_path = os.path.join(self.axioms_dir, seed_name)
         
         # Mapping statistical essence to dynamical parameters
-        # omega (ω): Base resonance (mapped from total energy)
-        # damping (ζ): Decay/Stability (mapped from stability std)
+        # omega ( ): Base resonance (mapped from total energy)
+        # damping ( ): Decay/Stability (mapped from stability std)
         # forcing (F): Sensitivity (mapped from mean complexity)
         
         omega = 100.0 + (essence['total_energy'] * 100) % 900.0
@@ -153,8 +153,8 @@ class AlchemicalDistiller:
             "concept_id": essence['source'].split('.')[0].upper(),
             "origin": "Legacy Model Hamiltonian Transmutation",
             "hamiltonian_params": {
-                "omega (ω)": round(omega, 2),
-                "damping (ζ)": round(damping, 4),
+                "omega ( )": round(omega, 2),
+                "damping ( )": round(damping, 4),
                 "forcing (F)": round(forcing, 4),
                 "coupling_k": [] # Will be populated by CognitiveMesh later
             },
@@ -168,7 +168,7 @@ class AlchemicalDistiller:
         with open(seed_path, 'w', encoding='utf-8') as f:
             json.dump(seed_data, f, indent=4, ensure_ascii=False)
             
-        logger.info(f"✨ [TRANSMUTE] Hamiltonian Seed Crystallized: {seed_path}")
+        logger.info(f"  [TRANSMUTE] Hamiltonian Seed Crystallized: {seed_path}")
         return seed_path
 
     def _purge(self, path: str):
@@ -177,9 +177,9 @@ class AlchemicalDistiller:
         """
         try:
             os.remove(path)
-            logger.warning(f"🔥 [PURGE] Source file consumed and deleted: {path}")
+            logger.warning(f"  [PURGE] Source file consumed and deleted: {path}")
         except Exception as e:
-            logger.error(f"❌ Purge denied: {e}")
+            logger.error(f"  Purge denied: {e}")
 
 if __name__ == "__main__":
     # Test

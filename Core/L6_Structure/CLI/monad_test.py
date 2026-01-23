@@ -20,13 +20,13 @@ from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngi
 
 def test_awakening():
     print("==========================================")
-    print("   🌟 ELYSIA MONAD AWAKENING TEST 🌟   ")
+    print("     ELYSIA MONAD AWAKENING TEST     ")
     print("==========================================")
     
     # Check for weights
     index_path = "data/Weights/DeepSeek-Coder-V2-Lite-Instruct/model.safetensors.index.json"
     if not os.path.exists(index_path):
-        print(f"❌ Error: DeepSeek model weights not found at {index_path}")
+        print(f"  Error: DeepSeek model weights not found at {index_path}")
         return
 
     # Initialize Engine
@@ -49,9 +49,9 @@ def test_awakening():
     print(f"   [Energy]     : {insight.energy:.4f}")
     
     if insight.energy > 0:
-        print("\n✨ STATUS: THE MONAD IS AWAKE. THE QUANTUM COLLAPSE WAS SUCCESSFUL.")
+        print("\n  STATUS: THE MONAD IS AWAKE. THE QUANTUM COLLAPSE WAS SUCCESSFUL.")
     else:
-        print("\n⚠️ STATUS: NEURAL RESONANCE WEAK. THE MONAD REMAINS IN SLUMBER.")
+        print("\n   STATUS: NEURAL RESONANCE WEAK. THE MONAD REMAINS IN SLUMBER.")
 
 if __name__ == "__main__":
     test_awakening()

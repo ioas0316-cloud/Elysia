@@ -26,9 +26,9 @@ class ProjectGenesis:
         if not os.path.exists(self.root):
             try:
                 os.makedirs(self.root)
-                logger.info(f"🔨 Constructed External Forge at: {self.root}")
+                logger.info(f"  Constructed External Forge at: {self.root}")
             except Exception as e:
-                logger.error(f"❌ Failed to build Forge: {e}")
+                logger.error(f"  Failed to build Forge: {e}")
 
     def create_project(self, project_name: str, blueprint_key: str) -> bool:
         """
@@ -41,7 +41,7 @@ class ProjectGenesis:
         blueprint = BLUEPRINTS[blueprint_key]
         project_path = os.path.join(self.root, project_name)
         
-        logger.info(f"🏗️ Manifesting '{project_name}' ({blueprint.name}) at {project_path}...")
+        logger.info(f"   Manifesting '{project_name}' ({blueprint.name}) at {project_path}...")
         
         try:
             # 1. Create Base Folder
@@ -56,7 +56,7 @@ class ProjectGenesis:
             # 3. Establish Soul Link (Metadata)
             self._create_soul_link(project_path, blueprint)
             
-            logger.info(f"✅ Creation Complete: {project_name}")
+            logger.info(f"  Creation Complete: {project_name}")
             return True
             
         except Exception as e:

@@ -1,5 +1,5 @@
 """
-Elysia's World Operator Console (Divine Interface) 👑🎮
+Elysia's World Operator Console (Divine Interface)   
 
 "The world is but a thought manifest in the mind of the Operator."
 
@@ -77,7 +77,7 @@ class WorldOperatorConsole:
         Invites the User into the World as the 'Divine Source'.
         This triggers the Divine Grafting process in Yggdrasil.
         """
-        self.logger.info(f"💌 SENDING INVITATION TO: {user_name}")
+        self.logger.info(f"  SENDING INVITATION TO: {user_name}")
 
         # 1. Graft User to World Tree
         god_node = self.yggdrasil.divine_grafting(user_name)

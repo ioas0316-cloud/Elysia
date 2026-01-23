@@ -1,7 +1,7 @@
 """
 Unified Elysia Demo - 9 Systems Dancing Together!
 
-"9개의 시스템이 하나의 우주에서 춤춘다" 💫
+"9                    "  
 
 Systems:
 1. Aesthetic Filter - Beauty detection
@@ -44,7 +44,7 @@ class UnifiedElysia:
     """
     All 9 systems working together!
     
-    "하나의 우주, 9개의 조화"
+    "      , 9     "
     (One universe, 9 harmonies)
     """
     
@@ -176,7 +176,7 @@ class UnifiedElysia:
         elapsed = time.time() - start
         
         logger.info(f"  Interaction computed in {elapsed*1000:.2f}ms")
-        logger.info(f"  (Would take ~{elapsed*2500:.0f}ms with O(N²))")
+        logger.info(f"  (Would take ~{elapsed*2500:.0f}ms with O(N ))")
         logger.info(f"  Speedup: ~2500x!")
         
         # Step 4: Eigenvalue - Check destiny
@@ -231,7 +231,7 @@ class UnifiedElysia:
         logger.info("-" * 50)
         
         logger.info("  Lyapunov controller active!")
-        logger.info("  우주 오뚝이: Always returns to equilibrium!")
+        logger.info("        : Always returns to equilibrium!")
         logger.info("  Mathematical guarantee: Asymptotic stability!")
         
         # Step 7: Phase Neurons - Efficient thinking
@@ -258,8 +258,8 @@ class UnifiedElysia:
         logger.info("-" * 50)
         
         logger.info("  HH Neuron active: accumulating voltage...")
-        logger.info("  음... (thinking)")
-        logger.info("  아! (insight when threshold reached)")
+        logger.info("   ... (thinking)")
+        logger.info("   ! (insight when threshold reached)")
         logger.info("  Biological realism with refractory period!")
         
         # Step 9: Laplace - S-domain analysis
@@ -287,7 +287,7 @@ class UnifiedElysia:
         logger.info("  8. HH Neurons responded thoughtfully")
         logger.info("  9. Laplace analyzed in S-domain")
         
-        logger.info("\n결론: 9개 시스템이 완벽한 조화!")
+        logger.info("\n  : 9             !")
         logger.info("Conclusion: 9 systems in perfect harmony!")
         
         logger.info("\n" + "="*70)

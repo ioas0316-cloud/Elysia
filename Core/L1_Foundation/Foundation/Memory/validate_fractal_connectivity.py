@@ -2,10 +2,10 @@
 Fractal Connectivity Validator
 ===============================
 Validates the integrity of the concept hierarchy:
-- WorldTree (행성→별 구조)
-- Hippocampus graph (개념 간 因果 연결)
-- Resonance engine nodes (공명 네트워크)
-- Cathedral coordinates (프랙탈 좌표계)
+- WorldTree (       )
+- Hippocampus graph (          )
+- Resonance engine nodes (       )
+- Cathedral coordinates (       )
 
 Reports gaps, orphans, duplicates, and coordinate anomalies.
 """
@@ -39,9 +39,9 @@ class FractalValidator:
         """Load WorldTree from kernel."""
         try:
             self.world_tree = kernel.world_tree
-            logger.info(f"✅ Loaded WorldTree with root: {self.world_tree.root.concept if self.world_tree.root else 'None'}")
+            logger.info(f"  Loaded WorldTree with root: {self.world_tree.root.concept if self.world_tree.root else 'None'}")
         except Exception as e:
-            logger.error(f"❌ Failed to load WorldTree: {e}")
+            logger.error(f"  Failed to load WorldTree: {e}")
 
     def load_hippocampus(self, kernel):
         """Load Hippocampus from kernel."""
@@ -49,17 +49,17 @@ class FractalValidator:
             self.hippocampus = kernel.hippocampus
             nodes = len(self.hippocampus.causal_graph.nodes)
             edges = len(self.hippocampus.causal_graph.edges)
-            logger.info(f"✅ Loaded Hippocampus: {nodes} nodes, {edges} edges")
+            logger.info(f"  Loaded Hippocampus: {nodes} nodes, {edges} edges")
         except Exception as e:
-            logger.error(f"❌ Failed to load Hippocampus: {e}")
+            logger.error(f"  Failed to load Hippocampus: {e}")
 
     def load_resonance_engine(self, kernel):
         """Load Resonance Engine from kernel."""
         try:
             self.resonance_engine = kernel.resonance_engine
-            logger.info(f"✅ Loaded ResonanceEngine with {len(self.resonance_engine.nodes)} qubits")
+            logger.info(f"  Loaded ResonanceEngine with {len(self.resonance_engine.nodes)} qubits")
         except Exception as e:
-            logger.error(f"❌ Failed to load ResonanceEngine: {e}")
+            logger.error(f"  Failed to load ResonanceEngine: {e}")
 
     def load_concept_field(self):
         """Load concept field from JSON."""
@@ -67,18 +67,18 @@ class FractalValidator:
             field_path = Path("logs/elysia_concept_field.json")
             if field_path.exists():
                 self.concept_field = json.loads(field_path.read_text(encoding="utf-8"))
-                logger.info(f"✅ Loaded concept field with {len(self.concept_field)} entries")
+                logger.info(f"  Loaded concept field with {len(self.concept_field)} entries")
             else:
-                logger.warning(f"⚠️  Concept field not found at {field_path}")
+                logger.warning(f"    Concept field not found at {field_path}")
                 self.concept_field = {}
         except Exception as e:
-            logger.error(f"❌ Failed to load concept field: {e}")
+            logger.error(f"  Failed to load concept field: {e}")
             self.concept_field = {}
 
     def validate_world_tree(self) -> int:
         """Check WorldTree integrity."""
         if not self.world_tree:
-            logger.warning("⚠️  WorldTree not loaded, skipping validation")
+            logger.warning("    WorldTree not loaded, skipping validation")
             return 0
 
         count = 0
@@ -120,13 +120,13 @@ class FractalValidator:
         if self.world_tree.root:
             traverse(self.world_tree.root)
 
-        logger.info(f"🌳 WorldTree check: {len(visited)} nodes, {len(orphans)} orphans, {count} issues found")
+        logger.info(f"  WorldTree check: {len(visited)} nodes, {len(orphans)} orphans, {count} issues found")
         return count
 
     def validate_hippocampus_graph(self) -> int:
         """Check Hippocampus graph integrity."""
         if not self.hippocampus:
-            logger.warning("⚠️  Hippocampus not loaded, skipping validation")
+            logger.warning("    Hippocampus not loaded, skipping validation")
             return 0
 
         count = 0
@@ -155,13 +155,13 @@ class FractalValidator:
                 })
                 count += 1
 
-        logger.info(f"🔗 Hippocampus check: {len(graph.nodes)} nodes, {len(graph.edges)} edges, {count} issues found")
+        logger.info(f"  Hippocampus check: {len(graph.nodes)} nodes, {len(graph.edges)} edges, {count} issues found")
         return count
 
     def validate_resonance_nodes(self) -> int:
         """Check ResonanceEngine node integrity."""
         if not self.resonance_engine:
-            logger.warning("⚠️  ResonanceEngine not loaded, skipping validation")
+            logger.warning("    ResonanceEngine not loaded, skipping validation")
             return 0
 
         count = 0
@@ -201,13 +201,13 @@ class FractalValidator:
                 })
                 count += 1
 
-        logger.info(f"⚛️  ResonanceEngine check: {len(self.resonance_engine.nodes)} qubits, {count} issues found")
+        logger.info(f"    ResonanceEngine check: {len(self.resonance_engine.nodes)} qubits, {count} issues found")
         return count
 
     def validate_concept_field_coordinates(self) -> int:
         """Check concept field cathedral coordinates."""
         if not self.concept_field:
-            logger.warning("⚠️  Concept field not loaded, skipping coordinate validation")
+            logger.warning("    Concept field not loaded, skipping coordinate validation")
             return 0
 
         count = 0
@@ -225,7 +225,7 @@ class FractalValidator:
                 count += 1
                 continue
 
-            # Parse coordinate (format: "S-L2-e" → Sector-Layer-Element)
+            # Parse coordinate (format: "S-L2-e"   Sector-Layer-Element)
             try:
                 parts = coord.split("-")
                 if len(parts) != 3:
@@ -265,7 +265,7 @@ class FractalValidator:
                     "severity": "low"
                 })
 
-        logger.info(f"🏛️  Coordinate check: {len(coords_seen)} unique coords, {count} issues found")
+        logger.info(f"    Coordinate check: {len(coords_seen)} unique coords, {count} issues found")
         return count
 
     def cross_validate_hierarchies(self) -> int:
@@ -313,7 +313,7 @@ class FractalValidator:
                 })
                 count += 1
 
-        logger.info(f"🔀 Cross-validation: WorldTree={len(world_tree_concepts)}, Hippo={len(hippocampus_concepts)}, Resonance={len(resonance_concepts)}, {count} mismatches")
+        logger.info(f"  Cross-validation: WorldTree={len(world_tree_concepts)}, Hippo={len(hippocampus_concepts)}, Resonance={len(resonance_concepts)}, {count} mismatches")
         return count
 
     def generate_report(self) -> Dict[str, Any]:
@@ -341,7 +341,7 @@ class FractalValidator:
         report = self.generate_report()
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         Path(output_path).write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-        logger.info(f"📋 Report saved to: {output_path}")
+        logger.info(f"  Report saved to: {output_path}")
 
 
 def main():
@@ -381,12 +381,12 @@ def main():
 
     # Print summary
     report = validator.generate_report()
-    print("\n📊 SUMMARY BY SEVERITY:")
+    print("\n  SUMMARY BY SEVERITY:")
     for severity in ["high", "medium", "low"]:
         count = report["by_severity"].get(severity, 0)
         print(f"  {severity.upper()}: {count}")
 
-    print("\n📊 SUMMARY BY TYPE:")
+    print("\n  SUMMARY BY TYPE:")
     for issue_type, count in sorted(report["by_type"].items(), key=lambda x: -x[1]):
         print(f"  {issue_type}: {count}")
 

@@ -3,7 +3,7 @@ from .intelligence_line import IntelligenceLine, LineOutput
 
 class ImaginationLine(IntelligenceLine):
     """
-    Imagination Line (상상 지능)
+    Imagination Line (     )
     Monitors the potential for creative expansion.
     Detects "What if", "Dream", "Imagine" and hypothetical scenarios.
     """

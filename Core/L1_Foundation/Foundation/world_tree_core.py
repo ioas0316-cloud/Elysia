@@ -46,7 +46,7 @@ class WorldTreeCore:
     with graph connectivity.
     
     Philosophy:
-        The World Tree (세계수) represents the fundamental structure of knowledge:
+        The World Tree (   ) represents the fundamental structure of knowledge:
         - Roots: Core principles and essence (deep, ancient truths)
         - Trunk: Stable identity and values
         - Branches: Domain knowledge and skills
@@ -88,7 +88,7 @@ class WorldTreeCore:
         )
         self.nodes[self.root.id] = self.root
         
-        self.logger.info("🌳 World Tree Core initialized - 세계수 awakened")
+        self.logger.info("  World Tree Core initialized -     awakened")
     
     def add_node(
         self,

@@ -140,11 +140,11 @@ class SelfIntentionEngine:
 
         desc = (
 
-            f"최근 대화에서 나는 주로 '{dom_emotion}' 느낌으로 말했고, "
+            f"              '{dom_emotion}'         , "
 
-            f"법칙 축 중에는 '{focus_axis}' 쪽 기여가 상대적으로 약했다. "
+            f"         '{focus_axis}'                . "
 
-            f"앞으로 한동안은 '{focus_axis}' 축을 조금 더 의식해서 지켜보고 싶다."
+            f"         '{focus_axis}'                     ."
 
         )
 
@@ -165,6 +165,5 @@ class SelfIntentionEngine:
             focus_laws=[focus_axis],
 
         )
-
 
 

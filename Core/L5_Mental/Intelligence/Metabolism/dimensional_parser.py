@@ -9,8 +9,8 @@ A space is structure. A law is the principle that governs all."
 This module implements the dimensional expansion that the Captain
 has been describing since the beginning:
 
-    점(Point)  → 선(Line)   → 면(Plane)  → 공간(Space) → 법칙(Law)
-    단어        문장(관계)   문단(맥락)    문서(구조)    원리
+     (Point)     (Line)      (Plane)      (Space)     (Law)
+                (  )     (  )      (  )      
 """
 
 import os
@@ -35,13 +35,13 @@ logger = logging.getLogger("DimensionalParser")
 
 @dataclass
 class Point:
-    """0차원: 단어 (Word)"""
+    """0  :    (Word)"""
     word: str
     dna: WaveDynamics = None
 
 @dataclass  
 class Line:
-    """1차원: 문장 (Sentence) = 관계 (Relationship)"""
+    """1  :    (Sentence) =    (Relationship)"""
     sentence: str
     subject: str = ""
     predicate: str = ""
@@ -51,7 +51,7 @@ class Line:
 
 @dataclass
 class Plane:
-    """2차원: 문단 (Paragraph) = 맥락 (Context)"""
+    """2  :    (Paragraph) =    (Context)"""
     text: str
     lines: List[Line] = field(default_factory=list)
     context_theme: str = ""
@@ -59,7 +59,7 @@ class Plane:
 
 @dataclass
 class Space:
-    """3차원: 문서 (Document) = 구조 (Structure)"""
+    """3  :    (Document) =    (Structure)"""
     title: str
     planes: List[Plane] = field(default_factory=list)
     structure_type: str = ""  # narrative, argument, description, etc.
@@ -67,7 +67,7 @@ class Space:
 
 @dataclass
 class Law:
-    """4차원+: 법칙/원리 (Principle) = 보편성 (Universality)"""
+    """4  +:   /   (Principle) =     (Universality)"""
     name: str
     description: str
     supporting_evidence: List[str] = field(default_factory=list)
@@ -87,20 +87,20 @@ class DimensionalParser:
     def __init__(self):
         self.prism = PrismEngine()
         self.prism._load_model()
-        logger.info("🔮 DimensionalParser initialized.")
+        logger.info("  DimensionalParser initialized.")
     
-    # ─────────────────────────────────────────────────────────
-    # DIMENSION 0: POINT (Word → DNA)
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # DIMENSION 0: POINT (Word   DNA)
+    #                                                          
     
     def parse_point(self, word: str) -> Point:
         """Convert a single word to its Wave DNA."""
         profile = self.prism.transduce(word)
         return Point(word=word, dna=profile.dynamics)
     
-    # ─────────────────────────────────────────────────────────
-    # DIMENSION 1: LINE (Sentence → Relationship)
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # DIMENSION 1: LINE (Sentence   Relationship)
+    #                                                          
     
     def parse_line(self, sentence: str) -> Line:
         """
@@ -142,9 +142,9 @@ class DimensionalParser:
         
         return line
     
-    # ─────────────────────────────────────────────────────────
-    # DIMENSION 2: PLANE (Paragraph → Context)
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # DIMENSION 2: PLANE (Paragraph   Context)
+    #                                                          
     
     def parse_plane(self, paragraph: str) -> Plane:
         """
@@ -180,9 +180,9 @@ class DimensionalParser:
         
         return plane
     
-    # ─────────────────────────────────────────────────────────
-    # DIMENSION 3: SPACE (Document → Structure)
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # DIMENSION 3: SPACE (Document   Structure)
+    #                                                          
     
     def parse_space(self, document: str, title: str = "Untitled") -> Space:
         """
@@ -222,9 +222,9 @@ class DimensionalParser:
         
         return space
     
-    # ─────────────────────────────────────────────────────────
-    # DIMENSION 4+: LAW (Corpus → Principle)
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # DIMENSION 4+: LAW (Corpus   Principle)
+    #                                                          
     
     def extract_laws(self, spaces: List[Space]) -> List[Law]:
         """
@@ -249,7 +249,7 @@ class DimensionalParser:
             if data["occurrences"] >= 2:  # Appears in at least 2 documents
                 for effect in data["effects"]:
                     law = Law(
-                        name=f"Law: {cause} → {effect}",
+                        name=f"Law: {cause}   {effect}",
                         description=f"'{cause}' tends to cause '{effect}'",
                         supporting_evidence=[f"Observed {data['occurrences']} times"],
                         confidence=min(1.0, data["occurrences"] / 10.0),
@@ -291,19 +291,19 @@ if __name__ == "__main__":
     space = parser.parse_space(test_text, "Demo Document")
     
     print("\n" + "="*60)
-    print("📐 DIMENSIONAL PARSING RESULT")
+    print("  DIMENSIONAL PARSING RESULT")
     print("="*60)
     
-    print(f"\n📄 Document: {space.title}")
+    print(f"\n  Document: {space.title}")
     print(f"   Structure Type: {space.structure_type}")
     print(f"   Paragraphs: {len(space.planes)}")
     
-    print("\n🔗 Causal Graph:")
+    print("\n  Causal Graph:")
     for cause, effects in space.causal_graph.items():
-        print(f"   {cause} → {effects}")
+        print(f"   {cause}   {effects}")
     
-    print("\n📝 Lines Parsed:")
+    print("\n  Lines Parsed:")
     for plane in space.planes:
         for line in plane.lines:
             if line.relation_type != "statement":
-                print(f"   [{line.relation_type}] {line.subject} → {line.object}")
+                print(f"   [{line.relation_type}] {line.subject}   {line.object}")

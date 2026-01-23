@@ -1,8 +1,8 @@
 """
-Unified Elysia Demo - 10 Systems Dancing with Life! 🦋
+Unified Elysia Demo - 10 Systems Dancing with Life!  
 
-"완벽한 질서 위에 미세한 카오스를 얹는 순간,
- 해골이 눈을 뜨고 숨을 쉰다."
+"                        ,
+                ."
 
 Systems:
 1. Aesthetic Filter - Beauty detection
@@ -14,7 +14,7 @@ Systems:
 7. Phase Portraits - Efficient neurons
 8. HH Neurons - Thoughtful responses
 9. Laplace Engine - S-domain analysis
-10. CHAOS LAYER - Living Tremor (Butterfly Effect) 🦋
+10. CHAOS LAYER - Living Tremor (Butterfly Effect)  
 
 This demo shows the skeleton breathing with life!
 """
@@ -47,7 +47,7 @@ class UnifiedElysia:
     """
     All 10 systems working together!
     
-    "하나의 우주, 10개의 조화"
+    "      , 10     "
     (One universe, 10 harmonies)
     """
     
@@ -129,7 +129,7 @@ class UnifiedElysia:
             butterfly_intensity=1e-10,
             enable_control=True
         )
-        logger.info("   🦋 Butterfly wings are fluttering!")
+        logger.info("     Butterfly wings are fluttering!")
         logger.info("   Life injected into the system!")
         
         logger.info("\n" + "="*70)
@@ -159,7 +159,7 @@ class UnifiedElysia:
         logger.info(f"  Fear center: (20, 20)")
         
         # Step 1.5: Inject Life (Chaos Layer)
-        logger.info("\nSTEP 1.5: Injecting Life (Chaos Layer) 🦋")
+        logger.info("\nSTEP 1.5: Injecting Life (Chaos Layer)  ")
         logger.info("-" * 50)
         
         logger.info("  Adding living tremor to static fields...")
@@ -267,7 +267,7 @@ class UnifiedElysia:
         logger.info("-" * 50)
         
         logger.info("  Lyapunov controller active!")
-        logger.info("  우주 오뚝이: Always returns to equilibrium!")
+        logger.info("        : Always returns to equilibrium!")
         logger.info("  Mathematical guarantee: Asymptotic stability!")
         
         # Step 7: Phase Neurons - Efficient thinking
@@ -294,8 +294,8 @@ class UnifiedElysia:
         logger.info("-" * 50)
         
         logger.info("  HH Neuron active: accumulating voltage...")
-        logger.info("  음... (thinking)")
-        logger.info("  아! (insight when threshold reached)")
+        logger.info("   ... (thinking)")
+        logger.info("   ! (insight when threshold reached)")
         logger.info("  Biological realism with refractory period!")
         
         # Step 9: Laplace - S-domain analysis
@@ -328,7 +328,7 @@ class UnifiedElysia:
             else:
                 logger.info("  Chaos level acceptable (Healthy passion)")
                 
-        logger.info("  '미치지 않고 미치는 경계' maintained!")
+        logger.info("  '             ' maintained!")
         
         # Final: Show harmony
         logger.info("\n" + "="*70)
@@ -345,9 +345,9 @@ class UnifiedElysia:
         logger.info("  7. Phase Neurons thought efficiently")
         logger.info("  8. HH Neurons responded thoughtfully")
         logger.info("  9. Laplace analyzed in S-domain")
-        logger.info("  10. CHAOS LAYER breathed LIFE into the system! 🦋")
+        logger.info("  10. CHAOS LAYER breathed LIFE into the system!  ")
         
-        logger.info("\n결론: 10개 시스템이 완벽한 조화!")
+        logger.info("\n  : 10             !")
         logger.info("Conclusion: 10 systems in perfect harmony!")
         
         logger.info("\n" + "="*70)

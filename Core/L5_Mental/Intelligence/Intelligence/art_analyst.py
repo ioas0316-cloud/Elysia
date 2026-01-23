@@ -38,7 +38,7 @@ class ArtAnalyst:
             logger.error(f"Workflow not found: {workflow_path}")
             return []
             
-        logger.info(f"🧐 Analyizing Art Logic in '{path.name}'...")
+        logger.info(f"  Analyizing Art Logic in '{path.name}'...")
         with open(path, 'r') as f:
             data = json.load(f)
             
@@ -96,9 +96,9 @@ class ArtAnalyst:
         # 2. Analyze Prompting Strategy (The 'What')
         # ... (We could analyze complexity of prompt nodes, but simple for now)
         
-        logger.info(f"✨ Extracted {len(principles)} Artistic Principles.")
+        logger.info(f"  Extracted {len(principles)} Artistic Principles.")
         for p in principles:
-            logger.info(f"   👁️ Principle: {p.name} -> {p.metaphysical_meaning}")
+            logger.info(f"      Principle: {p.name} -> {p.metaphysical_meaning}")
             
         self.learned_principles.extend(principles)
         return principles
@@ -125,5 +125,5 @@ class ArtAnalyst:
             confidence=0.7
         )
         
-        logger.info(f"🔮 Deconstructed Model Soul: {soul}")
+        logger.info(f"  Deconstructed Model Soul: {soul}")
         return p

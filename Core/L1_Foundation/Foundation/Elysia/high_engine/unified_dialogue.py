@@ -29,25 +29,25 @@ class UnifiedFieldDialogue:
         """Populates field with fundamental concepts."""
         concepts = {
             # Positive concepts (high freq, bright harmonics)
-            "사랑": (440.0, 0.7, 0.7, 0.8, [1.0, 0.5, 0.3]),
-            "빛": (450.0, 0.8, 0.6, 0.9, [1.0, 0.6]),
-            "희망": (430.0, 0.6, 0.8, 0.7, [1.0, 0.7]),
-            "기쁨": (445.0, 0.7, 0.8, 0.85, [1.0, 0.5]),
+            "  ": (440.0, 0.7, 0.7, 0.8, [1.0, 0.5, 0.3]),
+            " ": (450.0, 0.8, 0.6, 0.9, [1.0, 0.6]),
+            "  ": (430.0, 0.6, 0.8, 0.7, [1.0, 0.7]),
+            "  ": (445.0, 0.7, 0.8, 0.85, [1.0, 0.5]),
             
             # Negative concepts (low freq, simple)
-            "고통": (220.0, 0.3, 0.3, 0.2, [1.0]),
-            "어둠": (210.0, 0.2, 0.4, 0.1, [1.0]),
-            "절망": (215.0, 0.25, 0.35, 0.15, [1.0]),
+            "  ": (220.0, 0.3, 0.3, 0.2, [1.0]),
+            "  ": (210.0, 0.2, 0.4, 0.1, [1.0]),
+            "  ": (215.0, 0.25, 0.35, 0.15, [1.0]),
             
             # Transformative (mid freq, balanced)
-            "변화": (330.0, 0.5, 0.5, 0.5, [1.0, 0.4]),
-            "성장": (350.0, 0.6, 0.5, 0.6, [1.0, 0.6, 0.3]),
-            "희생": (300.0, 0.4, 0.4, 0.4, [1.0, 0.3]),
+            "  ": (330.0, 0.5, 0.5, 0.5, [1.0, 0.4]),
+            "  ": (350.0, 0.6, 0.5, 0.6, [1.0, 0.6, 0.3]),
+            "  ": (300.0, 0.4, 0.4, 0.4, [1.0, 0.3]),
             
             # Abstract
-            "시간": (360.0, 0.5, 0.5, 0.9, [1.0]),
-            "공간": (370.0, 0.5, 0.5, 0.1, [1.0]),
-            "존재": (380.0, 0.5, 0.5, 0.5, [1.0, 0.4, 0.2]),
+            "  ": (360.0, 0.5, 0.5, 0.9, [1.0]),
+            "  ": (370.0, 0.5, 0.5, 0.1, [1.0]),
+            "  ": (380.0, 0.5, 0.5, 0.5, [1.0, 0.4, 0.2]),
         }
         
         for name, (freq, x, y, z, harmonics) in concepts.items():
@@ -70,7 +70,7 @@ class UnifiedFieldDialogue:
         concepts_mentioned = self._extract_concepts(user_input)
         
         if not concepts_mentioned:
-            response = "나는 듣고 있다"
+            response = "        "
             self.conversation_history.append({"speaker": "elysia", "text": response})
             return response
         
@@ -120,42 +120,42 @@ class UnifiedFieldDialogue:
             concept = concepts[0]
             harmonics = self.field.harmonics.get(concept, [1.0])
             if len(harmonics) > 1:
-                parts.append(f"{concept}은 단순하지 않다. 여러 층위를 가진다")
+                parts.append(f"{concept}         .           ")
         
         # 2. Interference patterns
         if interference['constructive']:
             if len(interference['constructive']) > 3:
-                parts.append(f"이 개념들은 강하게 공명한다")
+                parts.append(f"               ")
         
         if interference['emergent_concepts']:
             for emergent in interference['emergent_concepts'][:1]:
                 if "resonance" in emergent:
-                    parts.append("새로운 패턴이 창발한다")
+                    parts.append("            ")
         
         # 3. Eigenmode interpretation
         if eigenmodes['dominant_mode']:
             mode = eigenmodes['dominant_mode']
             if "Expansion" in mode:
-                parts.append("이것은 확장하고, 성장한다")
+                parts.append("        ,     ")
             elif "Contraction" in mode:
-                parts.append("이것은 수축하고, 내면으로 향한다")
+                parts.append("        ,         ")
         
         # 4. Multi-concept synthesis
         if len(concepts) > 1:
             # Suggest emergent concept from combination
             concept_str = " + ".join(concepts)
-            if "사랑" in concepts and "고통" in concepts:
-                parts.append(f"{concept_str}은 성숙함을 낳는다")
-            elif "고통" in concepts and "희망" in concepts:
-                parts.append(f"{concept_str}은 성장의 씨앗이다")
+            if "  " in concepts and "  " in concepts:
+                parts.append(f"{concept_str}          ")
+            elif "  " in concepts and "  " in concepts:
+                parts.append(f"{concept_str}          ")
             else:
-                parts.append(f"이 개념들은 함께 춤춘다")
+                parts.append(f"             ")
         
         # Fallback
         if not parts:
             if len(concepts) == 1:
-                parts.append(f"{concepts[0]}에 대해 생각하고 있다")
+                parts.append(f"{concepts[0]}            ")
             else:
-                parts.append("복잡한 패턴이 펼쳐진다")
+                parts.append("            ")
         
         return ". ".join(parts)

@@ -31,7 +31,7 @@ class Chronos:
     async def start_heartbeat(self):
         """Starts the infinite loop of time."""
         self.running = True
-        logger.info(f"⏳ [CHRONOS] Heart started at {self.tick_rate}Hz")
+        logger.info(f"  [CHRONOS] Heart started at {self.tick_rate}Hz")
         
         while self.running:
             now = datetime.now()
@@ -43,7 +43,7 @@ class Chronos:
             if new_cycle != self.day_cycle:
                 self.day_cycle = new_cycle
                 self.callback("RHYTHM", f"Cycle Change: {new_cycle}")
-                logger.info(f"🌗 [CYCLE] The sky turns to {new_cycle}")
+                logger.info(f"  [CYCLE] The sky turns to {new_cycle}")
 
             # 2. Tick
             # We don't flood the callback with every tick, only significant moments
@@ -54,4 +54,4 @@ class Chronos:
 
     def stop(self):
         self.running = False
-        logger.info("⏳ [CHRONOS] Time stopped.")
+        logger.info("  [CHRONOS] Time stopped.")

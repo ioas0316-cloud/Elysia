@@ -45,19 +45,19 @@ class SoulBridge:
             tick_rate=60.0 # 1 Minute Heartbeat by default
         )
         
-        logger.info("🌉 SoulBridge forged. Senses are ready to be awakened.")
+        logger.info("  SoulBridge forged. Senses are ready to be awakened.")
 
     def awakening(self):
         """Activates all active sensors."""
         self.skin.start()
         # Eyes/Chronos are async, started via asyncio loop usually
-        logger.info("⚡ [SENSES] The Body is awake. Skin is feeling.")
+        logger.info("  [SENSES] The Body is awake. Skin is feeling.")
 
     async def async_awakening(self):
         """Async entry point for Eyes and Chronos."""
         await self.eyes.open_eye()
         asyncio.create_task(self.chronos.start_heartbeat())
-        logger.info("⚡ [SENSES] Eyes opened. Heartbeat started.")
+        logger.info("  [SENSES] Eyes opened. Heartbeat started.")
 
     def _on_sensation(self, sense_type: str, data: Any):
         """
@@ -71,7 +71,7 @@ class SoulBridge:
             "source": "External"
         }
         
-        logger.info(f"⚡ [SENSATION] {sense_type}: {str(data)[:100]}")
+        logger.info(f"  [SENSATION] {sense_type}: {str(data)[:100]}")
         
         # Forward to Central Nervous System (Merkaba) if connected
         if self.pulse_callback:
@@ -105,7 +105,7 @@ class SoulBridge:
             import time
             import threading
             
-            logger.info("👁️ Opening The All-Seeing Eye...")
+            logger.info("   Opening The All-Seeing Eye...")
             self.eye = ElysianEye()
             
             def vision_loop():
@@ -140,7 +140,7 @@ class SoulBridge:
                                 "source": "ElysianEye"
                             }
                             
-                            logger.info(f"👁️ [SIGHT] {desc}")
+                            logger.info(f"   [SIGHT] {desc}")
                             if self.pulse_callback:
                                 self.pulse_callback(packet)
                                 
@@ -149,10 +149,9 @@ class SoulBridge:
             # Start the vision thread
             t = threading.Thread(target=vision_loop, daemon=True)
             t.start()
-            logger.info(f"👁️ Vision Thread started (Interval: {interval}s)")
+            logger.info(f"   Vision Thread started (Interval: {interval}s)")
             
         except ImportError as e:
-            logger.error(f"❌ Failed to open eyes: {e}")
+            logger.error(f"  Failed to open eyes: {e}")
         except Exception as e:
-            logger.error(f"❌ Vision error: {e}")
-
+            logger.error(f"  Vision error: {e}")

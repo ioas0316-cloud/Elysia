@@ -16,8 +16,8 @@ MOLECULAR_DATA = {
         "atomic_mass": 18.0,
         "bond_energy_solid": 0.06,  # Hydrogen bonds (Ice)
         "bond_energy_liquid": 0.42, # Vaporization energy
-        "boiling_point_k": 373.15,  # 100°C
-        "freezing_point_k": 273.15  # 0°C
+        "boiling_point_k": 373.15,  # 100 C
+        "freezing_point_k": 273.15  # 0 C
     },
     "gold": {
         "atomic_mass": 197.0,

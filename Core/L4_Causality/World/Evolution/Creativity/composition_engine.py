@@ -66,7 +66,7 @@ class CompositionEngine:
             try:
                 # Calculate Resonance (0.0 to 1.0)
                 resonance_score = mind_wave @ ref_wave
-                logger.info(f"   📐 Wave Resonance (Dynamism): {resonance_score:.4f}")
+                logger.info(f"     Wave Resonance (Dynamism): {resonance_score:.4f}")
             except Exception as e:
                 logger.error(f"   Wave Math Error: {e}")
         
@@ -123,7 +123,7 @@ class CompositionEngine:
 
     # ... (Keep _layout_grid_system, _layout_golden_spiral, _layout_central_portrait as is) ...
     # Wait, replace_file_content is mostly for ranges. I need to be careful not to delete them if I use large range.
-    # I'll target the end of file for get_color_mood and imports at top separately? 
+    # I'll target the end of file for get_color_mood and imports at top separately? '
     # Or just replace the whole relevant blocks. 
     # Let's replace get_color_mood at the bottom first.
 

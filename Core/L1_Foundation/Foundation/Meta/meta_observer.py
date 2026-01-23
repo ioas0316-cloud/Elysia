@@ -22,7 +22,7 @@ class MetaObserver:
         self.harmonizer = harmonizer
         self.metrics: Dict[str, LensMetric] = {}
         self.history: List[Dict[str, Any]] = []
-        logger.info("🪞 MetaObserver (Mirror Lens) initialized.")
+        logger.info("  MetaObserver (Mirror Lens) initialized.")
 
     def record_resonance_cycle(self, hologram_results: Dict[str, float], genome_weights: Dict[str, float], 
                       context: str, narrative: str = "", stimulus: str = ""):
@@ -87,10 +87,10 @@ class MetaObserver:
         max_entropy = math.log2(len(self.metrics)) if self.metrics else 1.0
         cognitive_health = entropy / max_entropy if max_entropy > 0 else 0.0
 
-        logger.info(f"📊 [META-ANALYSIS] Cognitive Entropy: {entropy:.2f} | Health Index: {cognitive_health:.2f}")
+        logger.info(f"  [META-ANALYSIS] Cognitive Entropy: {entropy:.2f} | Health Index: {cognitive_health:.2f}")
         
         if cognitive_health < 0.3:
-            logger.warning("⚠️ [META-ANALYSIS] Cognitive Stagnation Detected. High bias in pattern selection.")
+            logger.warning("   [META-ANALYSIS] Cognitive Stagnation Detected. High bias in pattern selection.")
 
     def get_summary(self) -> Dict[str, Any]:
         """

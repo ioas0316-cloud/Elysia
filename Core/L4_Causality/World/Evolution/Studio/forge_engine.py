@@ -23,7 +23,7 @@ class ForgeEngine:
         """
         Synthesizes Python code (an Organelle) from a blueprint and requirement.
         """
-        logger.info(f"⚒️ [ALCHEMY STUDIO] Synthesizing Organelle for: {requirement}")
+        logger.info(f"   [ALCHEMY STUDIO] Synthesizing Organelle for: {requirement}")
         
         prompt = f"As the Architect Elysia, synthesize a standalone Python module (Organelle) based on this blueprint: '{blueprint}'. " \
                  f"The requirement is: '{requirement}'. " \
@@ -53,7 +53,7 @@ class ForgeEngine:
         with open(temp_file, "w", encoding="utf-8") as f:
             f.write(code)
             
-        logger.info(f"⚖️ [TRIAL CHAMBER] Testing Organelle in {temp_file}...")
+        logger.info(f"   [TRIAL CHAMBER] Testing Organelle in {temp_file}...")
         
         # 1. Syntax Check
         try:
@@ -118,7 +118,7 @@ except Exception as e:
         with open(target_path, "w", encoding="utf-8") as f:
             f.write(code)
             
-        logger.info(f"🚪 [INTEGRATION GATE] Organelle '{name}' deployed to: {target_path}")
+        logger.info(f"  [INTEGRATION GATE] Organelle '{name}' deployed to: {target_path}")
         return target_path
 
     def forge(self, name: str, blueprint: str, requirement: str) -> Dict[str, Any]:
@@ -132,7 +132,7 @@ except Exception as e:
             path = self.integration_gate(name, code)
             return {"status": "SUCCESS", "path": path, "preview": test_res["output"]}
         else:
-            logger.error(f"❌ [FORGE FAILURE] '{name}' failed at {test_res['stage']}: {test_res['error']}")
+            logger.error(f"  [FORGE FAILURE] '{name}' failed at {test_res['stage']}: {test_res['error']}")
             return {"status": "FAILURE", "error": test_res["error"], "stage": test_res["stage"]}
 
 forge_engine = ForgeEngine()

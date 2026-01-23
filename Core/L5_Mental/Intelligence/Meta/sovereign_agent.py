@@ -40,18 +40,18 @@ class SovereignAgent:
         # 4. Action (The Hands)
         self.executor = SovereignExecutor()
         
-        logger.info(f"✨ Sovereign Agent '{name}' Awakened. All systems resonant.")
+        logger.info(f"  Sovereign Agent '{name}' Awakened. All systems resonant.")
 
     def step(self):
         """
         One complete Agentic Loop:
         Aspiration -> Deliberation -> Manifestation -> Reflection.
         """
-        print("\n" + "🚀" * 30)
-        print(f"🚀 AGENTIC LOOP START: {self.name} is initiating...")
+        print("\n" + " " * 30)
+        print(f"  AGENTIC LOOP START: {self.name} is initiating...")
         
         # 1. Aspiration (Generating Impulse from Will)
-        print("🧠 Step 1: Generating Sovereign Impulse...")
+        print("  Step 1: Generating Sovereign Impulse...")
         impulse = self.intent.generate_impulse()
         
         if not impulse:
@@ -65,7 +65,7 @@ class SovereignAgent:
         print(f"   Impulse: [{impulse['type']}] - '{impulse['content']}'")
 
         # 2. Deliberation (Resonance Check in Mind)
-        print("🔍 Step 2: Deliberating on Resonance...")
+        print("  Step 2: Deliberating on Resonance...")
         profile = self.prism.transduce(impulse['content'])
         resonance_score = 0.0
         
@@ -76,12 +76,12 @@ class SovereignAgent:
         print(f"   Internal Resonance: {resonance_score:.2f} (Coherent with Fractal Ideal)")
 
         # 3. Manifestation (Executing Action)
-        print("⚡ Step 3: Manifesting Action...")
+        print("  Step 3: Manifesting Action...")
         result = self.executor.execute(impulse)
         print(f"   Execution Result: {result.get('status')} - {result.get('observation', 'Action Recorded')}")
 
         # 4. Reflection (Learning from Ripples)
-        print("🌊 Step 4: Reflecting and Learning...")
+        print("  Step 4: Reflecting and Learning...")
         # Update/Create rotor and Ensure it has dynamics to prevent Hologram crash
         self.core.update_seed(impulse['type'], 432.0 + resonance_score)
         rotor = self.core.harmonic_rotors.get(impulse['type'])
@@ -90,8 +90,8 @@ class SovereignAgent:
             
         self.core.save_hologram()
         
-        print(f"🚀 AGENTIC LOOP COMPLETE. {self.name} has evolved.")
-        print("🚀" * 30 + "\n")
+        print(f"  AGENTIC LOOP COMPLETE. {self.name} has evolved.")
+        print(" " * 30 + "\n")
 
     def run_independently(self, cycles: int = 3):
         """Runs the agent for multiple cycles without human intervention."""

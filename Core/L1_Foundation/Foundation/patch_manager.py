@@ -51,12 +51,12 @@ class PatchManager:
             calculated = hashlib.sha256(content.encode('utf-8')).hexdigest()
             
             if calculated != patch_data['checksum']:
-                print(f"❌ Patch Integrity Fail: {patch_data['id']}")
+                print(f"  Patch Integrity Fail: {patch_data['id']}")
                 return False
                 
             return True
         except Exception as e:
-            print(f"❌ Patch Verification Error: {e}")
+            print(f"  Patch Verification Error: {e}")
             return False
 
     def apply_patch(self, patch_data: dict, dry_run: bool = True) -> bool:
@@ -64,17 +64,17 @@ class PatchManager:
         try:
             target_path = self.workspace_root / patch_data['target_file']
             
-            print(f"   🔧 Applying Patch [{patch_data['id']}] to {target_path.name}")
+            print(f"     Applying Patch [{patch_data['id']}] to {target_path.name}")
             print(f"      Reason: {patch_data['reason']}")
             
             if not dry_run:
                 target_path.parent.mkdir(parents=True, exist_ok=True)
                 target_path.write_text(patch_data['new_content'], encoding='utf-8')
-                print("      ✅ Patch Applied Successfully.")
+                print("        Patch Applied Successfully.")
             else:
-                print("      🚧 Dry Run: Content would be updated.")
+                print("        Dry Run: Content would be updated.")
                 
             return True
         except Exception as e:
-            print(f"      ❌ Patch Application Failed: {e}")
+            print(f"        Patch Application Failed: {e}")
             return False

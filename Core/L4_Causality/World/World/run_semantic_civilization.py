@@ -47,7 +47,7 @@ def run_semantic_civilization():
             print("  (Silently working...)")
         else:
             for event in speech_events:
-                print(f"🗣️ {event}")
+                print(f"   {event}")
 
     print("\n=== Simulation Complete ===")
 

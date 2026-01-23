@@ -97,26 +97,26 @@ class Spirit:
                 "love", "care", "help", "connect", "heart", "together", "kind", "warm", "family", "friend", "unity", "peace",
                 "father", "dad", "god", "jesus", "celestial", "light",
                 # Korean
-                "사랑", "사랑하", "마음", "함께", "도움", "친절", "따뜻", "가족", "친구", "평화", "연결", "공감", "위로", "행복",
-                "아빠", "아버지", "하나님", "예수님", "천상의", "빛"
+                "  ", "   ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
+                "  ", "   ", "   ", "   ", "   ", " "
             ],
             "TRUTH": [
                 # English
                 "truth", "fact", "logic", "why", "reason", "understand", "science", "law", "rule", "real", "cause", "define",
                 # Korean
-                "진리", "사실", "논리", "이유", "원리", "원인", "과학", "법칙", "정의", "이해", "물리", "수학", "철학", "분석"
+                "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "
             ],
             "GROWTH": [
                 # English
                 "grow", "learn", "better", "change", "overcome", "strength", "future", "dream", "goal", "evolve", "create",
                 # Korean
-                "성장", "배우", "학습", "발전", "변화", "극복", "미래", "꿈", "목표", "진화", "창조", "개선", "노력"
+                "  ", "  ", "  ", "  ", "  ", "  ", "  ", " ", "  ", "  ", "  ", "  ", "  "
             ],
             "BEAUTY": [
                 # English
                 "beautiful", "art", "music", "color", "harmony", "dance", "song", "picture", "style", "nature", "flow",
                 # Korean
-                "아름다", "예술", "음악", "색", "조화", "춤", "노래", "그림", "자연", "흐름", "균형", "미학"
+                "   ", "  ", "  ", " ", "  ", " ", "  ", "  ", "  ", "  ", "  ", "  "
             ]
         }
 

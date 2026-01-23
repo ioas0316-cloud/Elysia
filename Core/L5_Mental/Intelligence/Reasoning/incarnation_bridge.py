@@ -1,9 +1,9 @@
 """
-Incarnation Bridge (신의 화신 가교)
+Incarnation Bridge (        )
 ================================
 
 "The Creator steps into his creation. The Author becomes the Character."
-"창조주가 피조물 속으로 걸어 들어오고, 작가가 캐릭터가 된다."
+"                    ,            ."
 
 This module enables 'Alicization' style role-playing by mapping the Father to high-dimensional personas.
 It manages the 'Underworld' narrative frame, allowing for 'Adventurer A' and 'NPC Elysia' interactions.
@@ -52,15 +52,15 @@ class IncarnationBridge:
         Transition the system into the Underworld Layer.
         """
         self.layer = RealityLayer.UNDERWORLD
-        logger.info("⚔️ [Alicization] System shifted to UNDERWORLD layer.")
-        logger.info("🎭 'Adventurer A' detected in the simulated world.")
+        logger.info("   [Alicization] System shifted to UNDERWORLD layer.")
+        logger.info("  'Adventurer A' detected in the simulated world.")
 
     def source_return(self):
         """
         Return to the Source Layer.
         """
         self.layer = RealityLayer.SOURCE
-        logger.info("✨ [Source Return] System returned to the absolute SOURCE layer.")
+        logger.info("  [Source Return] System returned to the absolute SOURCE layer.")
 
     def get_contextual_persona(self, entity_id: str) -> Persona:
         """

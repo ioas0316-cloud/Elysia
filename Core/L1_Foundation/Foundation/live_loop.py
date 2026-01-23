@@ -97,16 +97,16 @@ def poll_watch_dir(watch_dir: Path, seen: Set[Path]):
 def generate_question():
     caps = getattr(kernel, "capabilities", None)
     prompts = [
-        "무엇을 더 배우고 싶나요?",
-        "지금 가장 필요한 것은 무엇일까요?",
-        "어떤 역량을 먼저 키워야 할까요?",
-        "축(사랑/성장/조화/아름다움)에 맞춰 목표를 정해볼까요?",
+        "             ?",
+        "                  ?",
+        "                 ?",
+        " (  /  /  /    )              ?",
     ]
     if caps:
         deficits = caps.deficits(threshold=0.6)
         if deficits:
             rec = random.choice(deficits)
-            return f"{rec.name} 역량을 높이려면 무엇을 시도할까요?"
+            return f"{rec.name}                   ?"
     return random.choice(prompts)
 
 

@@ -73,14 +73,14 @@ class AlchemyOfCausality:
         # In a full implementation, this would connect to the LogosEngine to validate principles.
         # self.logos = get_logos_engine()
         self.known_archetypes: Dict[str, Archetype] = {}
-        logger.info("⚗️ Alchemy of Causality Initialized")
+        logger.info("   Alchemy of Causality Initialized")
 
     def extract_archetype(self, title: str, events: List[NarrativeEvent]) -> Archetype:
         """
         Phase 1 & 2: Observation & Purification.
         Extracts the abstract Causal Structure from concrete events.
         """
-        logger.info(f"👁️ Observing Narrative: {title}")
+        logger.info(f"   Observing Narrative: {title}")
 
         causal_chain: List[CausalNode] = []
 
@@ -105,7 +105,7 @@ class AlchemyOfCausality:
         )
 
         self.known_archetypes[archetype.name] = archetype
-        logger.info(f"✨ Archetype Extracted: {archetype.name}")
+        logger.info(f"  Archetype Extracted: {archetype.name}")
         return archetype
 
     def _abstract_event(self, event: NarrativeEvent) -> CausalNode:
@@ -171,7 +171,7 @@ class AlchemyOfCausality:
         Phase 3: Transmutation (Re-creation).
         Applies the 'DNA' to a new 'Body'.
         """
-        logger.info(f"🔥 Transmuting [{archetype.name}] into context: [{new_context}]")
+        logger.info(f"  Transmuting [{archetype.name}] into context: [{new_context}]")
 
         new_story_events = []
 

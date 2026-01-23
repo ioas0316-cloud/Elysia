@@ -1,5 +1,5 @@
 """
-Global Resonance Mesh (글로벌 공명 메쉬)
+Global Resonance Mesh (         )
 =====================================
 The "Ether" of Elysia.
 A unified field where all waves (Senses, Thoughts, Memories) interact.
@@ -73,7 +73,7 @@ class GlobalResonanceMesh:
         """Creates a memory entry (Standing Wave)."""
         tensor = WaveTensor(base_freq, 1.0, 0.0, (0,0,0,0))
         self.nodes[node_id] = MemoryNode(node_id, content, tensor)
-        # self.logger.info(f"🕸️ [MESH] Added Node: {node_id} ({base_freq}Hz)")
+        # self.logger.info(f"   [MESH] Added Node: {node_id} ({base_freq}Hz)")
 
     def inject_pulse(self, pulse: WaveTensor):
         """Injects a thought/sensory input into the mesh."""
@@ -104,7 +104,7 @@ class GlobalResonanceMesh:
         
         # Log heavy activations (Conscious thoughts)
         for node, energy in activated_nodes:
-            self.logger.debug(f"💡 [THOUGHT] Resonated '{node.content}' (Energy: {energy:.2f})")
+            self.logger.debug(f"  [THOUGHT] Resonated '{node.content}' (Energy: {energy:.2f})")
             
         # Clear pulses (they dissipate after one time step in this simplified model)
         self.active_pulses.clear()

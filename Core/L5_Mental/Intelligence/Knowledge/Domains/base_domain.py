@@ -6,7 +6,7 @@ Base class for all knowledge domains in the P4.5 expansion.
 Each domain extracts specific wave patterns from knowledge.
 
 Philosophy:
-- All knowledge is wave patterns (파동 패턴)
+- All knowledge is wave patterns (     )
 - Different domains resonate at different frequencies
 - Cross-domain resonance creates deeper understanding
 """
@@ -53,7 +53,7 @@ class BaseDomain(ABC):
     def __init__(self, name: str):
         self.name = name
         self.patterns = []
-        logger.info(f"🌟 {name} Domain initialized")
+        logger.info(f"  {name} Domain initialized")
     
     @abstractmethod
     def extract_pattern(self, content: str, metadata: Optional[Dict] = None) -> WavePattern:
@@ -145,7 +145,7 @@ class BaseDomain(ABC):
         Store pattern in domain memory (FLOW MODE).
         
         Stores only wave signature, not raw text.
-        Follows "빛과 물의 원리" - data flows, only patterns remain.
+        Follows "        " - data flows, only patterns remain.
         """
         # Store minimal pattern info - NO RAW TEXT
         minimal_pattern = {

@@ -26,7 +26,7 @@ class PerspectiveShifter:
             "Survival": {"efficiency": 1.0, "life": 1.0},
             "Art": {"chaos": 1.0, "passion": 1.0, "harmony": 0.5}
         }
-        logger.info("🦒 PerspectiveShifter initialized: Ready to rotate.")
+        logger.info("  PerspectiveShifter initialized: Ready to rotate.")
 
     def resolve_paradox(self, concept: str, attributes: Dict[str, float]) -> Dict[str, float]:
         """
@@ -41,7 +41,7 @@ class PerspectiveShifter:
             logger.info(f"   - '{concept}' is stable (Tension={tension:.2f}). No shift needed.")
             return {"resolved_view": self.view.get_dominant_view(base_views), "angle": "Standard"}
 
-        logger.info(f"⚡ Paradox detected in '{concept}' (Tension={tension:.2f}). Shifting perspective...")
+        logger.info(f"  Paradox detected in '{concept}' (Tension={tension:.2f}). Shifting perspective...")
 
         # 2. Rotate Tesseract (Try Higher Dimensions)
         best_angle = "None"
@@ -72,8 +72,8 @@ class PerspectiveShifter:
 
         # 3. Conclusion
         if best_score > 0.5:
-            logger.info(f"✨ Resolution Found: '{concept}' is valid under the aspect of '{best_angle}'.")
+            logger.info(f"  Resolution Found: '{concept}' is valid under the aspect of '{best_angle}'.")
             return {"resolved_view": "Accepted", "angle": best_angle, "score": best_score}
         else:
-            logger.warning(f"❌ Unresolvable Paradox: '{concept}' remains dissonant even after rotation.")
+            logger.warning(f"  Unresolvable Paradox: '{concept}' remains dissonant even after rotation.")
             return {"resolved_view": "Rejected", "angle": "Dissonance", "score": best_score}

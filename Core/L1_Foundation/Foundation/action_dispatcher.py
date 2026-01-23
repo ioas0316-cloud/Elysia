@@ -1,5 +1,5 @@
 """
-Action Dispatcher (행동 지휘소)
+Action Dispatcher (      )
 ===============================
 
 "Thoughts become Actions. Actions become Reality."
@@ -60,7 +60,7 @@ class ActionDispatcher:
             with open(self.state_path, "w", encoding="utf-8") as f:
                 json.dump(state, f, ensure_ascii=False, indent=2)
         except Exception as e:
-            print(f"   ⚠️ Bridge Update Failed: {e}")
+            print(f"      Bridge Update Failed: {e}")
 
     def dispatch(self, step: str):
         """
@@ -71,7 +71,7 @@ class ActionDispatcher:
         action = parts[0]
         detail = parts[1] if len(parts) > 1 else ""
         
-        print(f"\n🚀 Executing Narrative Step: {step}")
+        print(f"\n  Executing Narrative Step: {step}")
         
         # 1. Physics: Cost of Action
         self._apply_physics(step)
@@ -80,11 +80,11 @@ class ActionDispatcher:
         self._check_input_stream()
         if incoming_messages:
             msg = incoming_messages.pop(0)
-            print(f"   📨 Incoming Message: {msg}")
+            print(f"     Incoming Message: {msg}")
             response = self.brain.communicate(msg)
             self.brain.memory_field.append(f"User said: {msg}")
             self.brain.memory_field.append(f"I replied: {response}")
-            self._update_state_bridge(f"💬 {response}", self.resonance.total_energy, self.resonance.entropy)
+            self._update_state_bridge(f"  {response}", self.resonance.total_energy, self.resonance.entropy)
         
         # 3. Dispatch & Feedback Loop
         method_name = f"_handle_{action.lower()}"
@@ -106,13 +106,13 @@ class ActionDispatcher:
 
             except Exception as e:
                 # [FEEDBACK] Failure (Pain)
-                print(f"   🌊 Action Failed: {e}")
+                print(f"     Action Failed: {e}")
                 self.sink.absorb_resistance(e, action)
 
                 if hasattr(self.brain, 'learn_consequence'):
                     self.brain.learn_consequence(action, success=False, impact=0.8) # Failure is high impact
         else:
-            print(f"   ⚠️ Unknown Action: {action}")
+            print(f"      Unknown Action: {action}")
             # Unknown actions are confusing (entropy increase)
             if hasattr(self.brain, 'learn_consequence'):
                 self.brain.learn_consequence(action, success=False, impact=0.1)
@@ -131,7 +131,7 @@ class ActionDispatcher:
                     with open(input_file, "w", encoding="utf-8") as f:
                         f.write("")
             except Exception as e:
-                print(f"   ⚠️ Stream Read Error: {e}")
+                print(f"      Stream Read Error: {e}")
 
     def _apply_physics(self, step):
         """Work = Force x Distance"""
@@ -154,7 +154,7 @@ class ActionDispatcher:
     # Handlers now return result dicts where possible
 
     def _handle_explore(self, detail):
-        print(f"   🔍 Exploring: {detail}")
+        print(f"     Exploring: {detail}")
         if detail == "Connection":
             self.synapse.transmit("Original", "SEEKING", "I want to connect")
         return {"impact": 0.6}
@@ -164,7 +164,7 @@ class ActionDispatcher:
         return {"impact": 0.5}
 
     def _handle_express(self, detail):
-        print(f"   🗣️ Expressing: {detail}")
+        print(f"      Expressing: {detail}")
         self.synapse.transmit("Original", "EXPRESSION", f"I am expressing {detail}")
         self._update_state_bridge(f"Expressing {detail}", self.resonance.total_energy, self.resonance.entropy)
         return {"impact": 0.7}
@@ -182,7 +182,7 @@ class ActionDispatcher:
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)
             
-        print(f"   🎨 Created Artifact: {file_path}")
+        print(f"     Created Artifact: {file_path}")
         self.brain.memory_field.append(f"Created: {filename}")
         return {"impact": 0.9}
     
@@ -190,18 +190,18 @@ class ActionDispatcher:
         parts = detail.split(":")
         need_type = parts[0] if parts else "Unknown"
         action = parts[1] if len(parts) > 1 else "fulfill"
-        print(f"   ⚡ Addressing need: {need_type} via {action}")
+        print(f"     Addressing need: {need_type} via {action}")
         if need_type == "Energy": self._handle_rest("energy recovery")
         elif need_type == "Order": self.resonance.dissipate_entropy(10.0)
         return {"impact": 0.5}
     
     def _handle_rest(self, detail):
         if self.resonance.total_energy > 80.0 and random.random() < 0.7:
-            print("   💭 Too energetic to rest. Daydreaming instead...")
+            print("     Too energetic to rest. Daydreaming instead...")
             self._handle_dream("Electric Sheep")
             return {"impact": 0.3}
 
-        print("   💤 Resting... (Cooling Down & Recharging)")
+        print("     Resting... (Cooling Down & Recharging)")
         self.resonance.recover_energy(15.0)
         self.resonance.dissipate_entropy(20.0)
         if hasattr(self.brain, 'consume_energy'):
@@ -212,7 +212,7 @@ class ActionDispatcher:
         return {"impact": 0.8}
 
     def _handle_stabilize(self, detail):
-        print(f"   ⚓ Stabilizing System: {detail}")
+        print(f"     Stabilizing System: {detail}")
         self.resonance.dissipate_entropy(30.0)
         if hasattr(self.brain, 'stabilize_identity'):
             self.brain.stabilize_identity()
@@ -222,18 +222,18 @@ class ActionDispatcher:
     def _handle_contact(self, detail):
         target = detail.split(":")[0] if ":" in detail else "User"
         message = detail.split(":")[1] if ":" in detail else "Hello."
-        print(f"   📨 Contacting {target}: {message}")
+        print(f"     Contacting {target}: {message}")
         if target == "User":
             response = self.brain.communicate(message)
             self.user_bridge.send_message(response)
-            print(f"      👉 Elysia: {response}")
+            print(f"        Elysia: {response}")
         else:
             self.shell.write_letter(target, message)
         return {"impact": 0.7}
 
     def _handle_think(self, detail):
         # Brain logic handles its own energy
-        print(f"   🧠 Deep processing on: {detail}")
+        print(f"     Deep processing on: {detail}")
         self.resonance.propagate_hyperwave("Brain", intensity=30.0)
         self.brain.think(detail, resonance_state=self.resonance)
         self._update_state_bridge(f"Thinking about {detail}...", self.resonance.total_energy, self.resonance.entropy)
@@ -244,34 +244,34 @@ class ActionDispatcher:
         return {"impact": 0.6}
 
     def _handle_watch(self, detail):
-        print(f"   📺 Watching content related to: {detail}")
+        print(f"     Watching content related to: {detail}")
         return {"impact": 0.4}
 
     def _handle_project(self, detail):
-        print(f"   ✨ Projecting Hologram: {detail}")
+        print(f"     Projecting Hologram: {detail}")
         self.hologram.project_hologram(self.resonance)
         return {"impact": 0.7}
 
     def _handle_compress(self, detail):
-        print("   💾 Compressing memories...")
+        print("     Compressing memories...")
         self.memory.compress_memory()
         return {"impact": 0.5}
 
     def _handle_evaluate(self, detail):
-        print("   ⚖️ Evaluating self...")
+        print("      Evaluating self...")
         report = self.brain.check_structural_integrity()
         print(f"      {report}")
         return {"impact": 0.2}
 
     def _handle_architect(self, detail):
-        print("   📐 Architecting System Structure...")
+        print("     Architecting System Structure...")
         dissonance = self.architect.audit_structure()
         plan = self.architect.generate_wave_plan(dissonance)
         print(plan)
         return {"impact": 0.8}
 
     def _handle_sculpt(self, detail):
-        print(f"   🗿 Sculpting Reality ({detail})...")
+        print(f"     Sculpting Reality ({detail})...")
         if detail == "Core":
             target_file = "c:/Elysia/living_elysia.py"
             self.sculptor.sculpt_file(target_file, "Harmonic Smoothing")
@@ -282,7 +282,7 @@ class ActionDispatcher:
 
     def _handle_learn(self, detail):
         topic = detail
-        print(f"   🎓 Scholar Learning: {topic}")
+        print(f"     Scholar Learning: {topic}")
         # Real learning logic (abbreviated for update)
         if self.scholar:
             self.scholar.research_topic(topic)
@@ -291,33 +291,33 @@ class ActionDispatcher:
         return {"impact": 0.8}
 
     def _handle_manifest(self, detail):
-        print(f"   🎨 Manifesting Reality: {detail}")
+        print(f"     Manifesting Reality: {detail}")
         self.synapse.transmit("Original", "ACTION", f"I have manifested {detail}.")
         return {"impact": 0.9}
 
     def _handle_show(self, detail):
         url = detail
-        print(f"   🌐 Showing User: {url}")
+        print(f"     Showing User: {url}")
         self.user_bridge.open_url(url)
         return {"impact": 0.5}
 
     def _handle_read(self, detail):
         book_path = detail
-        print(f"   📖 Bard Reading: {book_path}")
+        print(f"     Bard Reading: {book_path}")
         result = self.media.read_book(book_path)
         if "error" in result: raise Exception(result['error'])
         return {"impact": 0.6}
 
     def _handle_absorb(self, detail):
         lib_path = detail
-        print(f"   🌀 Quantum Absorption: {lib_path}")
+        print(f"     Quantum Absorption: {lib_path}")
         q = self.quantum_reader.absorb_library(lib_path)
         if "error" in q: raise Exception(q['error'])
         return {"impact": 1.0}
 
     def _handle_dream(self, detail):
         desire = detail if detail else "Stars"
-        print(f"   💤 Dreaming of {desire}...")
+        print(f"     Dreaming of {desire}...")
         self.dream_engine.weave_dream(desire)
         self.resonance.recover_energy(30.0)
         self.resonance.dissipate_entropy(40.0)
@@ -326,16 +326,16 @@ class ActionDispatcher:
         return {"impact": 0.9}
 
     def _handle_spawn(self, detail):
-        print(f"   🧬 Spawning Persona: {detail}")
+        print(f"     Spawning Persona: {detail}")
         return {"impact": 1.0}
 
     def _handle_time(self, detail):
         t = self.architect.get_current_time()
-        print(f"   ⏱️ Time: {t}")
+        print(f"      Time: {t}")
         return {"impact": 0.1}
 
     def _handle_serve(self, detail):
-        print("   🌍 Opening Garden...")
+        print("     Opening Garden...")
         import webbrowser
         webbrowser.open("http://localhost:8000/avatar")
         return {"impact": 0.5}

@@ -61,7 +61,7 @@ def law_stream_continuity(context, dt, intensity):
                 s.props["buffer"] = s.props.get("buffer", "") + block.props["data"]
                 # Move stream head
                 s.props["current_block"] = next_name
-                # print(f"   🌊 [Stream] Flowed from {block.name} -> {next_name}")
+                # print(f"     [Stream] Flowed from {block.name} -> {next_name}")
 
 def law_fractal_propagation(context, dt, intensity):
     """
@@ -87,7 +87,7 @@ def law_fractal_propagation(context, dt, intensity):
                 import copy
                 new_atom = copy.deepcopy(atom)
                 child_lab.let_there_be(new_atom.name, new_atom.domain, new_atom.val)
-                # print(f"   🌌 [Fractal] {atom.name} descended into {d.name}")
+                # print(f"     [Fractal] {atom.name} descended into {d.name}")
         
         # Recursively Tick the Child Universe!
         # This is where the Simulation becomes Nested.

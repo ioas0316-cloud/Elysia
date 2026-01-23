@@ -16,7 +16,7 @@ class EvolutionEngine:
     def __init__(self, harmonizer: PrismHarmonizer, checkpoint_manager: CheckpointManager):
         self.harmonizer = harmonizer
         self.cp_manager = checkpoint_manager
-        logger.info("🧬 EvolutionEngine (Recursive DNA) initialized.")
+        logger.info("  EvolutionEngine (Recursive DNA) initialized.")
 
     def request_evolution(self, update_payload: Dict[str, Any]) -> bool:
         """
@@ -32,19 +32,19 @@ class EvolutionEngine:
         reason = update_payload.get("reason", "No reason provided.")
 
         if not context or not new_weights:
-            logger.warning("⚠️ Invalid evolution payload. Missing context or weights.")
+            logger.warning("   Invalid evolution payload. Missing context or weights.")
             return False
 
-        logger.info(f"✨ [EVOLUTION REQUEST] Context: {context} | Reason: {reason}")
+        logger.info(f"  [EVOLUTION REQUEST] Context: {context} | Reason: {reason}")
 
         # 1. Create a safety checkpoint before modification (only if file exists)
         if os.path.exists(self.harmonizer.state_path):
             checkpoint_path = self.cp_manager.create_checkpoint(self.harmonizer.state_path, tag=f"pre_evolve_{context}")
             if not checkpoint_path:
-                logger.error("❌ Failed to create safety checkpoint. Aborting evolution.")
+                logger.error("  Failed to create safety checkpoint. Aborting evolution.")
                 return False
         else:
-            logger.info(f"🌱 Initializing DNA state at {self.harmonizer.state_path} (No checkpoint needed).")
+            logger.info(f"  Initializing DNA state at {self.harmonizer.state_path} (No checkpoint needed).")
 
         # 2. Apply the change to the Harmonizer
         try:
@@ -60,10 +60,10 @@ class EvolutionEngine:
             # 3. Archive the new state (Save to JSON)
             self.harmonizer.save_state()
             
-            logger.info(f"✅ [EVOLUTION COMMIT] DNA successfully updated for context: {context}.")
+            logger.info(f"  [EVOLUTION COMMIT] DNA successfully updated for context: {context}.")
             return True
         except Exception as e:
-            logger.error(f"❌ Failed to commit evolution: {e}")
+            logger.error(f"  Failed to commit evolution: {e}")
             # Optional: Automatic rollback here if critical
             return False
 
@@ -73,7 +73,7 @@ class EvolutionEngine:
         """
         checkpoints = self.cp_manager.list_checkpoints()
         if not checkpoints:
-            logger.error("❌ No checkpoints available for rollback.")
+            logger.error("  No checkpoints available for rollback.")
             return False
 
         checkpoint_to_use = target_checkpoint if target_checkpoint else checkpoints[0]
@@ -82,6 +82,6 @@ class EvolutionEngine:
         if success:
             # Reload harmonizer state from the reverted file
             self.harmonizer.load_state()
-            logger.info(f"♻️  System recovered to state: {checkpoint_to_use}")
+            logger.info(f"    System recovered to state: {checkpoint_to_use}")
             return True
         return False

@@ -38,7 +38,7 @@ class CorpusScanner:
         Recursively scans all root paths and returns a topological map.
         Implements [Topological Layering] for organized perception.
         """
-        logger.info(f"🧘 Starting Multi-Root Shell Scan of {self.root_paths}...")
+        logger.info(f"  Starting Multi-Root Shell Scan of {self.root_paths}...")
         
         body_map = {
             "total_files": 0,
@@ -84,7 +84,7 @@ class CorpusScanner:
                         "qualia": signature
                     })
                 
-        logger.info(f"🧘 Omni-Scan Complete. Shells Organized.")
+        logger.info(f"  Omni-Scan Complete. Shells Organized.")
         return body_map
 
     def _sense_file_qualia(self, path: str, filename: str, shell_offset: float, depth: int) -> np.ndarray:

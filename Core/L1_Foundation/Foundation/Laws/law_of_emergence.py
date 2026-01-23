@@ -63,7 +63,7 @@ class EmergenceEngine:
     def __init__(self):
         # Rules: (ElementA_Prop, ElementB_Prop, BondType) -> New_Property
         self.emergence_rules: List[Callable[[List[UniversalElement]], Optional[Dict[str, Any]]]] = []
-        logger.info("🌌 Emergence Engine Initialized")
+        logger.info("  Emergence Engine Initialized")
 
     def register_law(self, rule_function: Callable[[List[UniversalElement]], Optional[Dict[str, Any]]]):
         """
@@ -75,7 +75,7 @@ class EmergenceEngine:
         """
         Throw elements into the pot and see what emerges based on registered laws.
         """
-        logger.info(f"🧪 Simulating interaction of: {[e.name for e in elements]}")
+        logger.info(f"  Simulating interaction of: {[e.name for e in elements]}")
 
         total_qualities = {}
 
@@ -89,7 +89,7 @@ class EmergenceEngine:
             total_qualities = {"status": "Chaos", "desc": "No resonance found"}
 
         form = EmergentForm(name, elements, total_qualities)
-        logger.info(f"✨ Emergence Result: {form.describe()}")
+        logger.info(f"  Emergence Result: {form.describe()}")
         return form
 
 # --- Domain Specific Laws (Plugins) ---

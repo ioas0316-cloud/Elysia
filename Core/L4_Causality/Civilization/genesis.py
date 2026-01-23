@@ -56,7 +56,7 @@ class WorldGen:
         self._generate_world()
         
     def _generate_world(self):
-        print(f"🌍 Genesis: Forging a {self.width}x{self.height} World...")
+        print(f"  Genesis: Forging a {self.width}x{self.height} World...")
         
         types = ["Valley", "Mountain", "Forest", "Desert"]
         

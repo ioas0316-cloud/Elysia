@@ -149,4 +149,3 @@ class Rotor:
             if plane == 'zw': return (x, y, z*cos_t - w*sin_t, z*sin_t + w*cos_t)
 
         return vector # Fallback
-

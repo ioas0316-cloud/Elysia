@@ -1,5 +1,5 @@
 """
-Axiomatic Architect (원리 건축사)
+Axiomatic Architect (      )
 ==============================
 Core.L7_Spirit.Monad.axiomatic_architect
 
@@ -40,14 +40,14 @@ class AxiomaticArchitect:
         if "cannot" in scenario.lower() or "trapped" in scenario.lower():
             detected.append("FIXED_BOUNDARY")
             
-        logger.info(f"🔍 Deconstructed Scenario. Detected Hidden Principles: {detected}")
+        logger.info(f"  Deconstructed Scenario. Detected Hidden Principles: {detected}")
         return detected
 
     def install_principle(self, name: str, effect: str):
         """
         Installs a new law into the environment.
         """
-        logger.info(f"🏛️ Installing New Principle: '{name}' ({effect})")
+        logger.info(f"   Installing New Principle: '{name}' ({effect})")
         self.installed_principles[name] = Principle(name, effect, 2.0)
 
     def optimize_environment(self, detected_principles: List[str]):

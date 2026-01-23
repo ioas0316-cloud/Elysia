@@ -1,22 +1,22 @@
-"""Warp Layer – 좌표계 회전(워프) 기능
+"""Warp Layer         (  )   
 
-이 모듈은 기존 `World` 객체의 입자 위치와 (선택적으로) 필드 데이터를
-Quaternion 회전을 통해 전체 좌표계를 회전시킵니다.
+         `World`            (     )        
+Quaternion                      .
 
-핵심 아이디어:
-- 입자 위치는 `world.positions` (N×3) numpy 배열에 저장됩니다.
-- `Quaternion` 객체를 이용해 3‑D 벡터를 회전합니다.
-- 2‑D 필드(`value_mass_field`, `will_field` 등)는 회전이 필요하면
-  `scipy.ndimage.rotate` 로 회전할 수 있지만, 기본 구현에서는
-  **입자 위치만** 회전합니다. 필요 시 확장 가능합니다.
+       :
+-        `world.positions` (N 3) numpy          .
+- `Quaternion`         3 D          .
+- 2 D   (`value_mass_field`, `will_field`  )          
+  `scipy.ndimage.rotate`            ,         
+  **      **      .              .
 
-사용 예시:
+     :
 ```python
 from warp_layer import WarpLayer
 from pyquaternion import Quaternion
 
 warp = WarpLayer()
-q = Quaternion(axis=[0, 0, 1], angle=1.57)  # 90° Z‑축 회전
+q = Quaternion(axis=[0, 0, 1], angle=1.57)  # 90  Z     
 warp.apply(world, q)
 ```
 """
@@ -28,18 +28,18 @@ from scipy.ndimage import rotate as nd_rotate
 
 
 class WarpLayer:
-    """전체 세계를 회전(워프)시키는 레이어.
+    """         (  )       .
 
-    현재 구현은 **입자 위치**만 회전합니다. 필요 시 2‑D 필드 회전도
-    `apply_to_fields=True` 로 활성화할 수 있습니다.
+           **     **       .      2 D       
+    `apply_to_fields=True`              .
     """
 
     def __init__(self, logger: logging.Logger = None):
         self.logger = logger or logging.getLogger("WarpLayer")
 
     def _rotate_vectors(self, vectors: np.ndarray, quat: Quaternion) -> np.ndarray:
-        """Nx3 배열을 Quaternion 로 회전.
-        `vectors` 는 (x, y, z) 형태이며, 반환값도 같은 형태.
+        """Nx3     Quaternion     .
+        `vectors`   (x, y, z)     ,           .
         """
         # Quaternion expects (w, x, y, z) internally; we use * operator.
         # Convert each vector to quaternion with zero scalar part.
@@ -71,20 +71,20 @@ class WarpLayer:
         return rotated[:, 1:]
 
     def apply(self, world, quat: Quaternion, apply_to_fields: bool = False):
-        """World 전체에 회전을 적용.
+        """World           .
 
         Parameters
         ----------
         world: Project_Sophia.core.world.World
-            회전 대상 세계 객체.
+                       .
         quat: Quaternion
-            회전 quaternion.
+               quaternion.
         apply_to_fields: bool, optional
-            True 로 설정하면 2‑D 필드(`value_mass_field`, `will_field`,
-            `intentional_field` 등)도 회전합니다. 기본은 False.
+            True        2 D   (`value_mass_field`, `will_field`,
+            `intentional_field`  )       .     False.
         """
         self.logger.info("Applying warp rotation to world (Quaternion: %s)", quat)
-        # 1️⃣ 입자 위치 회전
+        # 1           
         if hasattr(world, "positions") and world.positions.size > 0:
             original = world.positions.copy()
             world.positions = self._rotate_vectors(world.positions, quat)
@@ -97,9 +97,9 @@ class WarpLayer:
         else:
             self.logger.warning("World has no particle positions to rotate.")
 
-        # 2️⃣ 선택적 필드 회전 (2‑D 이미지 회전)
+        # 2             (2 D       )
         if apply_to_fields:
-            # Simple nearest‑neighbor rotation using scipy.ndimage.rotate
+            # Simple nearest neighbor rotation using scipy.ndimage.rotate
             fields = [
                 "value_mass_field",
                 "will_field",
@@ -117,7 +117,7 @@ class WarpLayer:
                         self.logger.debug("Rotated field %s", fname)
         self.logger.info("Warp rotation completed.")
 
-# Helper to create a quaternion from axis‑angle (degrees)
+# Helper to create a quaternion from axis angle (degrees)
 def quaternion_from_axis_angle(axis, angle_deg):
     """axis: iterable of 3 floats, angle in degrees"""
     angle_rad = np.deg2rad(angle_deg)
@@ -125,6 +125,6 @@ def quaternion_from_axis_angle(axis, angle_deg):
 """Example usage (not executed automatically):
 from warp_layer import WarpLayer, quaternion_from_axis_angle
 warp = WarpLayer()
-q = quaternion_from_axis_angle([0, 0, 1], 90)  # Z‑축 90° 회전
+q = quaternion_from_axis_angle([0, 0, 1], 90)  # Z   90    
 warp.apply(world, q)
 """

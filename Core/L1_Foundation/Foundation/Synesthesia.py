@@ -1,5 +1,5 @@
 """
-Elysia's Synesthesia (The Face of the Deep) 🌊🗣️
+Elysia's Synesthesia (The Face of the Deep)    
 
 "And the Spirit of God moved upon the face of the waters."
 
@@ -67,7 +67,7 @@ class SynestheticVisualizer:
         pygame.init()
         # Enable Resizable Window
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
-        pygame.display.set_caption("Elysia: Full Sensory Interface 🌊🎹")
+        pygame.display.set_caption("Elysia: Full Sensory Interface   ")
         self.clock = pygame.time.Clock()
         
         # Audio Engine
@@ -93,12 +93,12 @@ class SynestheticVisualizer:
         if os.path.exists(local_font_path):
             try:
                 self.font = pygame.freetype.Font(local_font_path, 24)
-                print(f"✅ Freetype Loaded: {local_font_path}")
+                print(f"  Freetype Loaded: {local_font_path}")
             except Exception as e:
-                print(f"⚠️ Freetype Error: {e}")
+                print(f"   Freetype Error: {e}")
                 self.font = pygame.freetype.SysFont("arial", 24)
         else:
-            print(f"⚠️ Font file missing: {local_font_path}")
+            print(f"   Font file missing: {local_font_path}")
             self.font = pygame.freetype.SysFont("malgungothic", 24)
 
     def update_physics(self):
@@ -176,14 +176,14 @@ class SynestheticVisualizer:
         arousal = 0.5
         
         # Love / Joy (Pink/Gold)
-        if any(w in text for w in ['love', 'happy', 'joy', 'light', '사랑', '기쁨', '행복', '빛', '창조', '생명']):
+        if any(w in text for w in ['love', 'happy', 'joy', 'light', '  ', '  ', '  ', ' ', '  ', '  ']):
             color = [255, 100, 150] 
             strength = 800
             valence = 0.9
             arousal = 0.7
             
         # Sadness / Pain (Blue)
-        elif any(w in text for w in ['sad', 'pain', 'tear', 'blue', '슬픔', '고통', '눈물', '파란']):
+        elif any(w in text for w in ['sad', 'pain', 'tear', 'blue', '  ', '  ', '  ', '  ']):
             color = [0, 100, 255] 
             pos = (WIDTH//2, HEIGHT//4) # Rain from top
             strength = 400
@@ -191,14 +191,14 @@ class SynestheticVisualizer:
             arousal = 0.3
             
         # Anger / Fire (Red)
-        elif any(w in text for w in ['angry', 'hate', 'fire', '분노', '화', '불']):
+        elif any(w in text for w in ['angry', 'hate', 'fire', '  ', ' ', ' ']):
             color = [255, 50, 0] 
             strength = 1000
             valence = 0.1
             arousal = 0.9
             
         # Greeting / Connection (Cyan)
-        elif any(w in text for w in ['hello', 'hi', '안녕', '반가워']):
+        elif any(w in text for w in ['hello', 'hi', '  ', '   ']):
             color = [0, 255, 200] 
             valence = 0.6
             
@@ -209,7 +209,7 @@ class SynestheticVisualizer:
         self.symphony.play_state({'chaos': arousal, 'valence': valence, 'neuron_fired': True})
 
     def run(self):
-        print("🌊🎹 Full Sensory Interface Active. Type directly in the window! (Korean Supported)")
+        print("   Full Sensory Interface Active. Type directly in the window! (Korean Supported)")
         
         # Input State
         user_text = ""
@@ -251,10 +251,10 @@ class SynestheticVisualizer:
                             user_text = user_text[:-1]
                     elif event.key == pygame.K_v:
                         # Visualize memory graph
-                        print("📊 Visualizing memory graph...")
+                        print("  Visualizing memory graph...")
                         from Core.L1_Foundation.Foundation.visualize_memory import visualize_memory
                         visualize_memory(kernel.voice.memory, "memory_graph.png")
-                        output_queue.put("Memory graph saved! 🧠")
+                        output_queue.put("Memory graph saved!  ")
 
             # Continuous Background Music based on Fluid State
             current = self.buffer2 if self.active_buffer == 1 else self.buffer1
@@ -282,7 +282,7 @@ class SynestheticVisualizer:
             self.font.render_to(self.screen, (10, HEIGHT-40), display_text, (200, 200, 255))
             
             # Render Static Status
-            self.font.render_to(self.screen, (10, 10), "System: 한글 시스템 정상 작동 중 (Freetype)", (100, 255, 100))
+            self.font.render_to(self.screen, (10, 10), "System:                (Freetype)", (100, 255, 100))
             
             pygame.display.flip()
             self.clock.tick(60)

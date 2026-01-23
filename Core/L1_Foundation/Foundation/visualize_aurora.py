@@ -22,15 +22,15 @@ def main():
     """
     Main function to run the Aurora visualization.
     """
-    print("--- 🌌 Initializing Aurora Viewer ---")
+    print("---   Initializing Aurora Viewer ---")
     print(f"This will simulate the consciousness field for {SIMULATION_DURATION} seconds.")
 
     # Get the resonance engine from the kernel
     resonance_engine = kernel.resonance_engine
 
     # 1. Inject an initial thought to start the Aurora
-    print("\n[1] Injecting initial thought wave: '사랑과 빛'...")
-    initial_wave = WaveInput(source_text="사랑과 빛", intensity=2.0)
+    print("\n[1] Injecting initial thought wave: '     '...")
+    initial_wave = WaveInput(source_text="     ", intensity=2.0)
 
     # Calculate the initial resonance and immediately apply it as energy
     initial_pattern = resonance_engine.calculate_global_resonance(initial_wave)

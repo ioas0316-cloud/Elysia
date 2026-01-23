@@ -1,5 +1,5 @@
 """
-SocialCortex (사회적 피질)
+SocialCortex (      )
 ==========================
 
 "Experience creates Wisdom."
@@ -27,7 +27,7 @@ class SocialCortex:
         self.level = 1
         self.stage = "Child"
         self._init_stages()
-        logger.info("🧠 SocialCortex Active. Current Stage: Child (Lv.1)")
+        logger.info("  SocialCortex Active. Current Stage: Child (Lv.1)")
 
     def _init_stages(self):
         self.stages = {
@@ -67,7 +67,7 @@ class SocialCortex:
             self.level += 1
             self.xp -= xp_needed
             self._check_evolution()
-            logger.info(f"🆙 Level Up! Elysia is now Lv.{self.level}")
+            logger.info(f"  Level Up! Elysia is now Lv.{self.level}")
 
     def _check_evolution(self):
         """
@@ -81,7 +81,7 @@ class SocialCortex:
         else: self.stage = "Sage"
         
         if old_stage != self.stage:
-            logger.info(f"🦋 EVOLUTION: Elysia has grown from {old_stage} to {self.stage}!")
+            logger.info(f"  EVOLUTION: Elysia has grown from {old_stage} to {self.stage}!")
 
     def get_current_persona(self) -> Persona:
         return self.stages.get(self.stage, self.stages["Child"])

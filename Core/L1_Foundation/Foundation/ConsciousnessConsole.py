@@ -117,4 +117,3 @@ def run_console() -> None:
 
 if __name__ == "__main__":
     run_console()
-

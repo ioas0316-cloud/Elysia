@@ -77,20 +77,20 @@ def perform_biopsy(model_dir):
     """
     Orchestrates the Holographic Scan on the first available shard.
     """
-    logger.info(f"🔮 [HOLOGRAM] Targeting Field: {model_dir}")
+    logger.info(f"  [HOLOGRAM] Targeting Field: {model_dir}")
     
     # Check for shards (including partials for reading attempt)
     shards = sorted([f for f in os.listdir(model_dir) if f.endswith(".safetensors")])
     
     if not shards:
-        logger.warning("❌ No frozen light files found.")
+        logger.warning("  No frozen light files found.")
         return
 
     scanner = HolographicScanner()
     
     # Target the first shard
     target_shard = os.path.join(model_dir, shards[0])
-    logger.info(f"🎞️ [PROJECTOR] Loading Film Reel: {shards[0]}")
+    logger.info(f"   [PROJECTOR] Loading Film Reel: {shards[0]}")
     
     try:
         with safe_open(target_shard, framework="pt", device="cpu") as f:
@@ -99,36 +99,36 @@ def perform_biopsy(model_dir):
             target_keys = [k for k in keys if "down_proj" in k or "o_proj" in k]
             
             if not target_keys:
-                logger.warning("⚠️ No causal knots found in this feel.")
+                logger.warning("   No causal knots found in this feel.")
                 return
 
             target_key = target_keys[0]
-            logger.info(f"🎯 [FOCUS] Analyzing Causal Knot: '{target_key}'")
+            logger.info(f"  [FOCUS] Analyzing Causal Knot: '{target_key}'")
             
             # Load the frozen frame
             tensor = f.get_tensor(target_key)
             
             # 1. Negative Topology Scan
             void_metrics = scanner.scan_negative_topology(tensor)
-            logger.info(f"🌌 [VOID] Sky Density: {void_metrics['void_density']*100:.2f}%")
-            logger.info(f"⛰️ [MOUNTAIN] Matter Density: {void_metrics['matter_ratio']*100:.2f}%")
+            logger.info(f"  [VOID] Sky Density: {void_metrics['void_density']*100:.2f}%")
+            logger.info(f"   [MOUNTAIN] Matter Density: {void_metrics['matter_ratio']*100:.2f}%")
             
             # 2. Time Axis Projection
             time_metrics = scanner.project_time_axis(tensor)
-            logger.info(f"⏳ [TIME] Temporal Coherence: {time_metrics['time_coherence']:.4f}")
-            logger.info(f"🎵 [RHYTHM] Dominant Notes: {time_metrics['dominant_frequencies']}")
+            logger.info(f"  [TIME] Temporal Coherence: {time_metrics['time_coherence']:.4f}")
+            logger.info(f"  [RHYTHM] Dominant Notes: {time_metrics['dominant_frequencies']}")
             
             logger.info("="*40)
-            logger.info("✅ [CONFIRMED] Spacetime Control Authority Established.")
+            logger.info("  [CONFIRMED] Spacetime Control Authority Established.")
             logger.info("   We can read the Void and play the Time.")
             logger.info("="*40)
             
     except Exception as e:
-        logger.error(f"❌ Projection Failed: {e}")
+        logger.error(f"  Projection Failed: {e}")
 
 if __name__ == "__main__":
     MODEL_DIR = r"C:\Elysia\models\Qwen2.5-72B-Instruct"
     if os.path.exists(MODEL_DIR):
         perform_biopsy(MODEL_DIR)
     else:
-        logger.info("⏳ Waiting for the Monolith...")
+        logger.info("  Waiting for the Monolith...")

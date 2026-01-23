@@ -258,26 +258,26 @@ class AutonomousGoalGenerator:
         Returns:
             List of prioritized goals
         """
-        print(f"🎯 Generating {count} personal goals...")
+        print(f"  Generating {count} personal goals...")
         
         # 1. Assess current state
         current_state = await self.assess_current_state()
-        print(f"📊 Current state assessed: {len(current_state.capabilities)} capabilities")
+        print(f"  Current state assessed: {len(current_state.capabilities)} capabilities")
         
         # 2. Identify improvement areas
         improvement_areas = self.identify_improvement_areas(current_state)
-        print(f"📈 Found {len(improvement_areas)} improvement areas")
+        print(f"  Found {len(improvement_areas)} improvement areas")
         
         # 3. Generate goals aligned with values
         goals = []
         for area in improvement_areas[:count]:
             goal = await self.create_goal(area, self.core_values)
             goals.append(goal)
-            print(f"✨ Created goal: {goal.description}")
+            print(f"  Created goal: {goal.description}")
         
         # 4. Prioritize goals
         prioritized_goals = self.prioritize_goals(goals)
-        print(f"🔝 Goals prioritized")
+        print(f"  Goals prioritized")
         
         # Store generated goals
         self.generated_goals.extend(prioritized_goals)
@@ -484,23 +484,23 @@ class AutonomousGoalGenerator:
         Returns:
             Complete goal plan with subgoals, resources, and actions
         """
-        print(f"\n📋 Creating plan for goal: {goal.description}")
+        print(f"\n  Creating plan for goal: {goal.description}")
         
         # 1. Decompose into subgoals
         subgoals = self.decompose_goal(goal)
-        print(f"   ✓ Decomposed into {len(subgoals)} subgoals")
+        print(f"     Decomposed into {len(subgoals)} subgoals")
         
         # 2. Identify required resources
         resources = self.identify_required_resources(subgoals)
-        print(f"   ✓ Identified {len(resources)} required resources")
+        print(f"     Identified {len(resources)} required resources")
         
         # 3. Create action plan
         action_plan = await self.create_action_plan(subgoals, resources)
-        print(f"   ✓ Created action plan with {len(action_plan)} steps")
+        print(f"     Created action plan with {len(action_plan)} steps")
         
         # 4. Design monitoring strategy
         monitoring = self.design_monitoring_strategy(goal)
-        print(f"   ✓ Designed monitoring strategy")
+        print(f"     Designed monitoring strategy")
         
         # 5. Estimate duration
         total_duration = sum(step.estimated_duration for step in action_plan)

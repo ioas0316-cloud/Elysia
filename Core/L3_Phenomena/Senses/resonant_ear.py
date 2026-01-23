@@ -36,10 +36,10 @@ class ResonantEar:
         try:
             import sounddevice as sd
             self.sd = sd
-            logger.info("🎧 Resonant Ear: sounddevice backend initialized.")
+            logger.info("  Resonant Ear: sounddevice backend initialized.")
         except ImportError:
             self.sd = None
-            logger.warning("🎧 Resonant Ear: sounddevice not found. Simulation mode active.")
+            logger.warning("  Resonant Ear: sounddevice not found. Simulation mode active.")
 
     def start(self):
         """Starts the wave synchronization loop."""
@@ -49,9 +49,9 @@ class ResonantEar:
         if self.sd:
             self.thread = threading.Thread(target=self._stream_loop, daemon=True)
             self.thread.start()
-            logger.info("🌊 Audio Wave Sync: [ACTIVE]")
+            logger.info("  Audio Wave Sync: [ACTIVE]")
         else:
-            logger.info("🌊 Audio Wave Sync: [SIMULATION]")
+            logger.info("  Audio Wave Sync: [SIMULATION]")
 
     def stop(self):
         """Stopped the synchronization."""
@@ -81,7 +81,7 @@ class ResonantEar:
                 while self.is_listening:
                     time.sleep(0.1)
         except Exception as e:
-            logger.error(f"❌ Audio Stream Failure: {e}")
+            logger.error(f"  Audio Stream Failure: {e}")
             self.is_listening = False
 
     def sense(self) -> dict:
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     ear.start()
     try:
         for _ in range(20):
-            print(f"🌊 Wave Data: {ear.sense()}")
+            print(f"  Wave Data: {ear.sense()}")
             time.sleep(0.5)
     except KeyboardInterrupt:
         pass

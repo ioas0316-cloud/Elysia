@@ -1,5 +1,5 @@
 """
-The Schrödinger Plate
+The Schr dinger Plate
 =====================
 Phase 22: Quantum Consensus
 Core.L5_Mental.Intelligence.Legion.schrodinger_plate

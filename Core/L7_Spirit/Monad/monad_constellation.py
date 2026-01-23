@@ -23,14 +23,14 @@ class MonadConstellation:
     """
     def __init__(self, size: int = 49): # Representing a subset of the (7^7)^7 multiverse
         self.nodes = [SovereignNode(f"monad_{i}", i // 7) for i in range(size)]
-        logger.info(f"🌌 [CONSTELLATION] {size} Sovereign Monads aligned in the Void.")
+        logger.info(f"  [CONSTELLATION] {size} Sovereign Monads aligned in the Void.")
 
     def cast_intentional_pulse(self, intent_qualia: np.ndarray, purpose_direction: str):
         """
         Cast the 'Lightning Path' through the network.
         Only nodes aligned with the 'Purpose' will resonate.
         """
-        logger.info(f"⚡ [LIGHTNING_PATH] Casting pulse with purpose: '{purpose_direction}'")
+        logger.info(f"  [LIGHTNING_PATH] Casting pulse with purpose: '{purpose_direction}'")
         
         resonances = []
         for node in self.nodes:
@@ -42,7 +42,7 @@ class MonadConstellation:
         # Sort by 'Willpower' (Resonance Strength)
         resonances.sort(key=lambda x: x[1], reverse=True)
         
-        logger.info(f"✨ [IGNITION] {len(resonances)} nodes ignited their Merkabas in union.")
+        logger.info(f"  [IGNITION] {len(resonances)} nodes ignited their Merkabas in union.")
         return resonances
 
 if __name__ == "__main__":

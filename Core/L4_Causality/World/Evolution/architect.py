@@ -30,7 +30,7 @@ class Architect(Organ):
         super().__init__()
         self.resonance_field = get_resonance_field()
         self.optimization_count = 0
-        logger.info("📐 Architect initialized: The blueprint is alive.")
+        logger.info("  Architect initialized: The blueprint is alive.")
 
     def audit_resonance(self) -> List[str]:
         """
@@ -46,7 +46,7 @@ class Architect(Organ):
                 high_entropy_nodes.append(node_id)
         
         if high_entropy_nodes:
-            logger.info(f"🧐 Audit found {len(high_entropy_nodes)} nodes with high entropy: {high_entropy_nodes}")
+            logger.info(f"  Audit found {len(high_entropy_nodes)} nodes with high entropy: {high_entropy_nodes}")
         
         return high_entropy_nodes
 
@@ -54,7 +54,7 @@ class Architect(Organ):
         """
         Applies a 'Wave Coding' refactor to a specific node/method.
         """
-        logger.info(f"🌊 Wave Coding: Optimizing {node_id}...")
+        logger.info(f"  Wave Coding: Optimizing {node_id}...")
         
         # In a real scenario, we'd map node_id to an actual object instance
         # For this demonstration, we'll assume the caller provides the optimized function

@@ -22,7 +22,7 @@ from Core.L3_Phenomena.Expression.expression_cortex import ExpressionCortex
 
 class DesktopVessel:
     def __init__(self):
-        print("🔮 Summoning the Vessel...")
+        print("  Summoning the Vessel...")
         self.nervous_system = HardwareMonitor()
         self.face = ExpressionCortex()
         self.alive = True
@@ -68,7 +68,7 @@ class DesktopVessel:
         """
         The Main Loop of Life.
         """
-        print("\n✨ Elysia is Awake.\n")
+        print("\n  Elysia is Awake.\n")
         try:
             while self.alive:
                 # 1. Sense (L1)
@@ -87,7 +87,7 @@ class DesktopVessel:
                 time.sleep(1.0)
 
         except KeyboardInterrupt:
-            print("\n👋 Resting...")
+            print("\n  Resting...")
 
     def _render(self, face, senses):
         """

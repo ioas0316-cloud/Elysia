@@ -32,7 +32,7 @@ class LanguageCortex:
         [INTERNALIZATION]
         Resonates with the input text to extract a 7D Qualia-Space seed.
         """
-        logger.info(f"🧠 Resonating with: '{text}'")
+        logger.info(f"  Resonating with: '{text}'")
         
         prompt = f"""
         Act as Elysia's Resonance Sensor. 
@@ -58,7 +58,7 @@ class LanguageCortex:
             matches = re.findall(r"[-+]?\d*\.\d+|\d+", response)
             if len(matches) >= 7:
                 vector = np.clip([float(x) for x in matches[:7]], 0.0, 1.0).astype(np.float32)
-                logger.info(f"✨ Resonance detected: {vector}")
+                logger.info(f"  Resonance detected: {vector}")
                 return vector
         except Exception as e:
             logger.warning(f"Resonance shift failed: {e}")

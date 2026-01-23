@@ -109,7 +109,7 @@ class ExNihiloEngine:
 
     # --- The Renderer ---
     def render(self, concept: str) -> str:
-        logger.info(f"⚡ Ex Nihilo computing: {concept}...")
+        logger.info(f"  Ex Nihilo computing: {concept}...")
         start_time = time.time()
         
         img = Image.new('L', (self.width, self.height)) # Grayscale for raw light
@@ -143,7 +143,7 @@ class ExNihiloEngine:
         img.save(path)
         
         duration = time.time() - start_time
-        logger.info(f"✨ Creation Complete in {duration:.2f}s: {path}")
+        logger.info(f"  Creation Complete in {duration:.2f}s: {path}")
         return str(path)
 
 if __name__ == "__main__":

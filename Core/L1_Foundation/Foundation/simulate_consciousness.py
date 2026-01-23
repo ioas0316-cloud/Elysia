@@ -1,14 +1,14 @@
 logger.setLevel(logging.DEBUG)
 
 def simulate_interaction():
-    print("\n--- 🧠 Initializing Elysia's Cognitive Core ---")
+    print("\n---   Initializing Elysia's Cognitive Core ---")
     
     # Initialize Components
     memory = EpisodicMemory(filepath="simulation_memory.json")
     palette = EmotionalPalette()
     engine = ResonanceEngine(episodic_memory=memory, emotional_palette=palette)
     
-    print("\n--- 🗣️ Interaction 1: The Abyss (Descent) ---")
+    print("\n---    Interaction 1: The Abyss (Descent) ---")
     input_text = "I feel so lost and cold today. It is hopeless."
     print(f"User: {input_text}")
     
@@ -24,7 +24,7 @@ def simulate_interaction():
     response = engine.speak(t=1.0, original_text=input_text)
     print(f"\nElysia: {response}")
     
-    print("\n--- 🗣️ Interaction 2: The Light (Ascent) ---")
+    print("\n---    Interaction 2: The Light (Ascent) ---")
     input_text = "But the sun is rising, and I feel joy and passion."
     print(f"User: {input_text}")
     

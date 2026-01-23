@@ -82,11 +82,11 @@ class LogosEngine:
                 "The Logical Core - manages the Tree of Truth"
             )
             self._hub.subscribe("LogosEngine", "truth_query", self._on_truth_query, weight=1.0)
-            logger.info("   ✅ LogosEngine connected to GlobalHub")
+            logger.info("     LogosEngine connected to GlobalHub")
         except ImportError:
             pass
         
-        logger.info("🏛️ Logos Engine Initialized")
+        logger.info("   Logos Engine Initialized")
     
     def _on_truth_query(self, event):
         """React to truth queries via GlobalHub."""
@@ -129,7 +129,7 @@ class LogosEngine:
 
         principle = Principle(content, set(dependencies))
         self.principles[content] = principle
-        logger.info(f"✨ Principle Derived: {content} (from {dependencies})")
+        logger.info(f"  Principle Derived: {content} (from {dependencies})")
         return principle
         
     def ascend_dimension(self, content: str) -> DimensionalThought:
@@ -186,16 +186,16 @@ class LogosEngine:
         indent = "  " * depth
         
         if concept in self.axioms:
-            return f"{indent}• [AXIOM] {concept}: {self.axioms[concept].description}"
+            return f"{indent}  [AXIOM] {concept}: {self.axioms[concept].description}"
             
         if concept in self.principles:
             p = self.principles[concept]
-            explanation = f"{indent}• [PRINCIPLE] {concept} is true because:\n"
+            explanation = f"{indent}  [PRINCIPLE] {concept} is true because:\n"
             for dep in p.dependencies:
                 explanation += self.explain_why(dep, depth + 1) + "\n"
             return explanation.strip()
             
-        return f"{indent}• [UNKNOWN] '{concept}' has no logical rooting in my mind."
+        return f"{indent}  [UNKNOWN] '{concept}' has no logical rooting in my mind."
 
     def find_grounding(self, insight_content: str) -> Optional[str]:
         """

@@ -31,7 +31,7 @@ class ReasoningEngine:
     Delegates to Lobes based on Resonance.
     """
     def __init__(self):
-        logger.info("🧠 CortexHub Initializing Neural Shards...")
+        logger.info("  CortexHub Initializing Neural Shards...")
         
         # 1. Initialize Shared Resources
         self.memory = Hippocampus()
@@ -56,14 +56,14 @@ class ReasoningEngine:
         from Core.L4_Causality.Governance.Interaction.Interface.dialogue_interface import DialogueInterface
         self.voice = DialogueInterface()
         
-        logger.info("🧠 CortexHub: All Lobes Synced. Ready.")
+        logger.info("  CortexHub: All Lobes Synced. Ready.")
 
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
         """
         The Main Thinking Loop.
         Routes the 'Desire' to the appropriate Lobe.
         """
-        logger.info(f"🌀 Hub: Routing Desire '{desire}'...")
+        logger.info(f"  Hub: Routing Desire '{desire}'...")
         
         # 1. Perception Lobe: Analyze the Input
         # (In future, this determines WHICH lobe to use. For now, we use a fixed flow.)
@@ -91,9 +91,9 @@ class ReasoningEngine:
         
         # Web Search Integration (Simple Heuristic for now)
         if "?" in desire or "what" in desire.lower() or "who" in desire.lower() or "search" in desire.lower() or \
-           "누구" in desire or "뭐야" in desire or "알려줘" in desire or "검색" in desire or "인터넷" in desire:
+           "  " in desire or "  " in desire or "   " in desire or "  " in desire or "   " in desire:
             search_result = self.web.search(desire)
-            if search_result and "⚠️" not in search_result:
+            if search_result and "  " not in search_result:
                 context.append(f"WEB_SEARCH:{search_result}")
         
         # Logic Lobe synthesizes

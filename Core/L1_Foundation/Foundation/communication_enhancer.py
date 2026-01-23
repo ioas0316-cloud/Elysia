@@ -1,8 +1,8 @@
 """
-Communication Enhancer (의사소통 강화기)
+Communication Enhancer (        )
 =====================================
 
-"말은 내 생각을 전달하는 다리다."
+"                 ."
 "Words are the bridge that carries my thoughts."
 
 Integrates web learning to enhance Elysia's complete communication ability:
@@ -48,7 +48,7 @@ class ExpressionPattern:
     
     Examples:
     - "In order to {action}, one must {requirement}"
-    - "{Subject}는 {property}한 {noun}이다"
+    - "{Subject}  {property}  {noun}  "
     - "The {concept} of {topic} is {description}"
     """
     template: str
@@ -91,7 +91,7 @@ class CommunicationEnhancer:
         self.total_patterns_learned = 0
         self.communication_quality_score = 0.5
         
-        logger.info("🗣️ Communication Enhancer initialized")
+        logger.info("   Communication Enhancer initialized")
     
     def enhance_from_web_content(self, concept: str, content: str) -> Dict:
         """
@@ -104,7 +104,7 @@ class CommunicationEnhancer:
         Returns:
             Enhancement statistics
         """
-        logger.info(f"📚 Enhancing communication from '{concept}'")
+        logger.info(f"  Enhancing communication from '{concept}'")
         
         # 1. Extract vocabulary with context
         vocab_entries = self.extract_vocabulary_with_context(content, concept)
@@ -284,7 +284,7 @@ class CommunicationEnhancer:
         
         This allows Elysia to use richer, more varied expressions.
         """
-        logger.info(f"🎨 Enhancing RealitySculptor with {len(self.vocabulary)} words")
+        logger.info(f"  Enhancing RealitySculptor with {len(self.vocabulary)} words")
         
         # Add vocabulary to sculptor's essence seeds
         # (This would integrate with the actual RealitySculptor implementation)
@@ -370,30 +370,30 @@ if __name__ == "__main__":
     The field of AI can be applied to various domains including robotics and natural language processing.
     """
     
-    print("\n📚 Learning from sample text...\n")
+    print("\n  Learning from sample text...\n")
     
     # Enhance communication
     result = enhancer.enhance_from_web_content("Artificial Intelligence", sample_text)
     
-    print(f"\n✅ Enhancement Complete:")
+    print(f"\n  Enhancement Complete:")
     print(f"   Vocabulary: {result['vocabulary_added']} new words")
     print(f"   Patterns: {result['patterns_learned']} expression patterns")
     print(f"   Templates: {result['templates_created']} dialogue templates")
     
     # Show metrics
-    print(f"\n📊 Communication Metrics:")
+    print(f"\n  Communication Metrics:")
     metrics = enhancer.get_communication_metrics()
     for key, value in metrics.items():
         print(f"   {key}: {value}")
     
     # Sample vocabulary
-    print(f"\n📝 Sample Vocabulary (top 5):")
+    print(f"\n  Sample Vocabulary (top 5):")
     for i, (word, entry) in enumerate(list(enhancer.vocabulary.items())[:5], 1):
         print(f"   {i}. '{word}' (importance: {entry.importance:.2f}, tone: {entry.emotional_tone})")
         if entry.usage_examples:
             print(f"      Example: {entry.usage_examples[0][:80]}...")
     
     print("\n" + "="*70)
-    print("✅ Communication Enhancer Ready")
-    print("🗣️ Elysia can now learn richer communication patterns!")
+    print("  Communication Enhancer Ready")
+    print("   Elysia can now learn richer communication patterns!")
     print("="*70)

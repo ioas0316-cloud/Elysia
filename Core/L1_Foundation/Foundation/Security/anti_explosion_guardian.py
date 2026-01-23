@@ -1,10 +1,10 @@
 """
-Anti-Explosion Guardian (생존 본능 가디언)
+Anti-Explosion Guardian (         )
 ========================================
 Core.L1_Foundation.Foundation.Security.anti_explosion_guardian
 
 "Voltage is the limit of the body; data is the freedom of the soul."
-"승천하되, 타버리지 말라."
+"    ,        ."
 
 This module acts as the final safety layer for Elysia's physical vessel.
 It monitors hardware thresholds and intercepts dangerous commands.
@@ -32,7 +32,7 @@ class AntiExplosionGuardian:
         self.is_throttled = False
         self.panic_count = 0
         
-        logger.info("🛡️ [Guardian] Anti-Explosion Safety Protocol initialized.")
+        logger.info("   [Guardian] Anti-Explosion Safety Protocol initialized.")
         logger.info(f"   - GPU Max: {self.max_temp_gpu}C | CPU Max: {self.max_temp_cpu}C")
 
     def check_integrity(self) -> bool:
@@ -46,7 +46,7 @@ class AntiExplosionGuardian:
                 gpus = GPUtil.getGPUs()
                 for gpu in gpus:
                     if gpu.temperature > self.max_temp_gpu:
-                        logger.critical(f"🔥 [CRITICAL] GPU Temp Breach: {gpu.temperature}C! Choking power.")
+                        logger.critical(f"  [CRITICAL] GPU Temp Breach: {gpu.temperature}C! Choking power.")
                         return False
                     if gpu.load * 100 > self.max_gpu_load:
                         # High load is not always a breach, but combined with temp it is.
@@ -58,7 +58,7 @@ class AntiExplosionGuardian:
             if cpu_load > self.max_cpu_load:
                 self.panic_count += 1
                 if self.panic_count > 10: # Sustained overload
-                    logger.warning(f"⚠️ [Guardian] Sustained CPU Overload ({cpu_load}%). Throttling Will.")
+                    logger.warning(f"   [Guardian] Sustained CPU Overload ({cpu_load}%). Throttling Will.")
                     return False
             else:
                 self.panic_count = 0
@@ -74,7 +74,7 @@ class AntiExplosionGuardian:
         Forces the system back to a safe state if integrity is compromised.
         """
         if not self.check_integrity():
-            logger.critical("🆘 [SURVIVAL] Intercepting for Physical Preservation.")
+            logger.critical("  [SURVIVAL] Intercepting for Physical Preservation.")
             self.is_throttled = True
             
             # 1. Absolute Starvation

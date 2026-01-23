@@ -1,5 +1,5 @@
 """
-BioChoir (생명의 합창단)
+BioChoir (       )
 ======================
 
 "Sing the song of life."
@@ -18,7 +18,7 @@ from Core.L5_Mental.Intelligence.Science_Research.Science.bio_resonator import G
 class BioChoir:
     def __init__(self, sample_rate: int = 44100):
         self.sample_rate = sample_rate
-        print("🎻 BioChoir Initialized. Tuning instruments...")
+        print("  BioChoir Initialized. Tuning instruments...")
 
     def _generate_sine_wave(self, frequency: float, duration: float, amplitude: float = 0.5) -> List[float]:
         """Generates a sine wave buffer."""
@@ -39,7 +39,7 @@ class BioChoir:
         """
         Synthesizes the genetic waves into a .wav file.
         """
-        print(f"🎼 Composing Symphony: {output_file} ({len(waves)} notes)")
+        print(f"  Composing Symphony: {output_file} ({len(waves)} notes)")
         
         try:
             with wave.open(output_file, 'w') as wav_file:
@@ -62,10 +62,10 @@ class BioChoir:
                     data = struct.pack('<h', int(sample * 32767.0))
                     wav_file.writeframesraw(data)
                     
-            print(f"✅ Symphony Saved: {output_file}")
+            print(f"  Symphony Saved: {output_file}")
             
         except Exception as e:
-            print(f"⚠️ Composition Failed: {e}")
+            print(f"   Composition Failed: {e}")
 
 if __name__ == "__main__":
     # Test

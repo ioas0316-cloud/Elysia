@@ -1,7 +1,7 @@
 try:
     from self_integration import ElysiaIntegrator
-    print("✅ Import successful")
+    print("  Import successful")
     integrator = ElysiaIntegrator()
-    print("✅ Instantiation successful")
+    print("  Instantiation successful")
 except Exception as e:
-    print(f"❌ Error: {e}")
+    print(f"  Error: {e}")

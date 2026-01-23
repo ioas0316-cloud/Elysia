@@ -111,7 +111,7 @@ class MimicryEngine:
         return Vec3(d-dx, d-dy, d-dz).normalize()
 
     def render(self, output_name: str):
-        logger.info(f"🎨 Sculpting Character: {output_name}...")
+        logger.info(f"  Sculpting Character: {output_name}...")
         img = Image.new('RGB', (self.width, self.height), "black") # Color!
         pixels = img.load()
         
@@ -165,7 +165,7 @@ class MimicryEngine:
         img.save(path)
         
         hit_pct = (hit_count / (self.width * self.height)) * 100
-        logger.info(f"✨ Character Sculpted: {path} (Coverage: {hit_pct:.1f}%)")
+        logger.info(f"  Character Sculpted: {path} (Coverage: {hit_pct:.1f}%)")
         return str(path)
 
 if __name__ == "__main__":

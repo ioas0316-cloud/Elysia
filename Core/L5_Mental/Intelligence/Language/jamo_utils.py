@@ -10,31 +10,31 @@ Standard Unicode algorithm:
 """
 
 # Unicode Constants
-BASE_CODE = 0xAC00  # '가'
-LIMIT_CODE = 0xD7A3  # '힣' (Last Hangul Syllable)
+BASE_CODE = 0xAC00  # ' '
+LIMIT_CODE = 0xD7A3  # ' ' (Last Hangul Syllable)
 
 # Lists of Jamos
 CHOSUNG_LIST = [
-    'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
-    'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
 ]
 
 JUNGSUNG_LIST = [
-    'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ',
-    'ㅙ', 'ㅚ', '(표현불가)', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+    ' ', ' ', '(    )', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
 ]
-# Note: In standard sequence, index 12 is 'ㅛ' but I put marker. Let's fix.
+# Note: In standard sequence, index 12 is ' ' but I put marker. Let's fix.
 # Correct Order:
-# ㅏ ㅐ ㅑ ㅒ ㅓ ㅔ ㅕ ㅖ ㅗ ㅘ ㅙ ㅚ ㅛ ㅜ ㅝ ㅞ ㅟ ㅠ ㅡ ㅢ ㅣ
+#                                          
 JUNGSUNG_LIST = [
-    'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ',
-    'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
 ]
 
 JONGSUNG_LIST = [
-    ' ', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ',
-    'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ',
-    'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
 ]
 # ' ' is empty final consonant
 
@@ -62,7 +62,7 @@ def decompose_hangul(char: str) -> tuple:
     return CHOSUNG_LIST[cho], JUNGSUNG_LIST[jung], JONGSUNG_LIST[jong]
 
 def get_jamo_string(char: str) -> str:
-    """Returns Jamos joined as a string (e.g., '가' -> 'ㄱㅏ ')."""
+    """Returns Jamos joined as a string (e.g., ' ' -> '   ')."""
     c, j, k = decompose_hangul(char)
     if not c:
         return char

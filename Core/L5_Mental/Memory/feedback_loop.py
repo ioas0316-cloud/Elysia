@@ -109,7 +109,7 @@ class Ouroboros:
         # 5. Recalculate Potential at new position
         current_thought.potential = self.calculate_potential(current_thought.vector, intent_vector)
 
-        logger.info(f"🐍 [OUROBOROS] Depth: {self.recursion_depth} | Potential: {new_potential:.3f} | Momentum: {current_thought.momentum:.3f}")
+        logger.info(f"  [OUROBOROS] Depth: {self.recursion_depth} | Potential: {new_potential:.3f} | Momentum: {current_thought.momentum:.3f}")
 
         # 5. Topological Checks
 
@@ -118,7 +118,7 @@ class Ouroboros:
         # "I found the answer and I'm resting."
         if new_potential < 0.1 and abs(current_thought.momentum) < 0.05:
             self.recursion_depth = 0
-            logger.info("✨ [CATHARSIS] Thought has settled in the gravity well. (Satisfaction)")
+            logger.info("  [CATHARSIS] Thought has settled in the gravity well. (Satisfaction)")
             return "STABILIZED", True
 
         # Case B: Dissipation (Ran out of energy)
@@ -126,13 +126,13 @@ class Ouroboros:
         # "I'm tired and stuck."
         if abs(current_thought.momentum) < 0.01 and self.recursion_depth > 1:
             self.recursion_depth = 0
-            logger.info("💨 [EXHAUSTION] Thought lost momentum. Entropy prevails.")
+            logger.info("  [EXHAUSTION] Thought lost momentum. Entropy prevails.")
             return "DISSIPATED", True
 
         # Case C: Hard Limit (Safety Valve)
         if self.recursion_depth >= self.max_recursion:
             self.recursion_depth = 0
-            logger.warning("🛑 [FORCE STOP] Max recursion depth reached. Preventing seizures.")
+            logger.warning("  [FORCE STOP] Max recursion depth reached. Preventing seizures.")
             return "DISSIPATED", True
 
         # Case D: Continue Rolling

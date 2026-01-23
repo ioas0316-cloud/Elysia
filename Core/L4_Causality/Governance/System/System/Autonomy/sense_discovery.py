@@ -71,5 +71,5 @@ class SenseDiscoveryProtocol:
             # Fallback: Return module itself
             return module
         except Exception as e:
-            print(f"❌ Failed to awaken {sense_id}: {e}")
+            print(f"  Failed to awaken {sense_id}: {e}")
             return None

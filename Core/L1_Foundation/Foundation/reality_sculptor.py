@@ -21,7 +21,7 @@ class RealitySculptor:
     - Process Execution
     """
     def __init__(self):
-        logger.info("🗿 Reality Sculptor (Ouroboros Class) Initialized.")
+        logger.info("  Reality Sculptor (Ouroboros Class) Initialized.")
         self.cortex = CodeCortex()
         self.matrix = ManifestationMatrix()
         self.workspace_root = Path(os.getcwd())
@@ -59,12 +59,12 @@ class RealitySculptor:
         # [SANDBOX EXCEPTION]
         # Allow total freedom within the 'seeds' directory.
         if "seeds/" in rel_path or rel_path.startswith("seeds/"):
-            logger.info(f"   🌱 SEED MUTATION: Allowed modification of '{rel_path}' (Sandbox)")
+            logger.info(f"     SEED MUTATION: Allowed modification of '{rel_path}' (Sandbox)")
             return True
 
         for core_file in self.immutable_core:
             if core_file in rel_path:
-                logger.warning(f"   🛡️ ANCHOR DEPLOYED: Blocked modification of Immutable Core '{rel_path}'")
+                logger.warning(f"      ANCHOR DEPLOYED: Blocked modification of Immutable Core '{rel_path}'")
                 return False
         return True
 
@@ -73,7 +73,7 @@ class RealitySculptor:
         [THE GREAT TRANSFER]
         Transmutes an abstract 5D Wave into a Concrete OS Action.
         """
-        logger.info(f"   🌪️ Transmuting Wave: {wave.source_id} ({wave.frequency}Hz)")
+        logger.info(f"      Transmuting Wave: {wave.source_id} ({wave.frequency}Hz)")
         
         # 1. Decode Intent via Matrix
         action = self.matrix.decode_impulse(wave.frequency, wave.amplitude)
@@ -100,7 +100,7 @@ class RealitySculptor:
                 pass
                 
         except Exception as e:
-            logger.error(f"      ❌ Transmutation Failed: {e}")
+            logger.error(f"        Transmutation Failed: {e}")
             return f"Error: {e}"
             
         return result
@@ -115,9 +115,9 @@ class RealitySculptor:
 
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(content, encoding="utf-8")
-            logger.info(f"      ✨ Materialized File: {p.name}")
+            logger.info(f"        Materialized File: {p.name}")
         except Exception as e:
-            logger.error(f"      ❌ Creation Error: {e}")
+            logger.error(f"        Creation Error: {e}")
             raise
 
     # --- Legacy Capability Wrappers ---
@@ -132,7 +132,7 @@ class RealitySculptor:
         if not self.is_safe_to_modify(file_path):
             return False
 
-        logger.info(f"   🗿 Sculpting '{path.name}' with intent: {intent}")
+        logger.info(f"     Sculpting '{path.name}' with intent: {intent}")
         try:
             content = path.read_text(encoding='utf-8')
             prompt = f"Modify python code. Intent: {intent}\nCode:\n{content}"

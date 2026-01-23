@@ -38,7 +38,7 @@ class ProjectWatcher:
         self.ingestor = KnowledgeIngestor() 
         
         self._setup_vision()
-        logger.info("👁️ ProjectWatcher (The All-Seeing Eye) initialized.")
+        logger.info("   ProjectWatcher (The All-Seeing Eye) initialized.")
 
     def _setup_vision(self):
         """Configure the retina (Filesystem Observer)."""
@@ -51,7 +51,7 @@ class ProjectWatcher:
         Flow: Wave -> Cognitive Reflex
         """
         filename = os.path.basename(event.path)
-        logger.info(f"   👓 Visual Cortex stimulated by: {filename} ({event.event_type.name})")
+        logger.info(f"     Visual Cortex stimulated by: {filename} ({event.event_type.name})")
 
         # Ignore boring events
         if event.event_type == FileEventType.DELETED:
@@ -69,23 +69,23 @@ class ProjectWatcher:
         """
         try:
             if path.endswith(".md"):
-                logger.info(f"   📖 Reading Scripture: {os.path.basename(path)}")
+                logger.info(f"     Reading Scripture: {os.path.basename(path)}")
                 self.ingestor._digest_markdown(path)
             elif path.endswith(".py"):
-                logger.info(f"   🐍 Analyzing Self-Code: {os.path.basename(path)}")
+                logger.info(f"     Analyzing Self-Code: {os.path.basename(path)}")
                 self.ingestor._digest_code(path)
         except Exception as e:
-            logger.error(f"   ❌ Failed to comprehend {path}: {e}")
+            logger.error(f"     Failed to comprehend {path}: {e}")
 
     def wake_up(self):
         """Open the Eye."""
-        logger.info("🌅 Opening the All-Seeing Eye...")
+        logger.info("  Opening the All-Seeing Eye...")
         self.observer.start()
 
     def sleep(self):
         """Close the Eye."""
         self.observer.stop()
-        logger.info("😌 The Eye closes.")
+        logger.info("  The Eye closes.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')

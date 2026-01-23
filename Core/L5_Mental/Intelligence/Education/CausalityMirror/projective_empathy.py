@@ -22,7 +22,7 @@ logger = logging.getLogger("ProjectiveEmpathy")
 @dataclass
 class NarrativeFragment:
     """A scene from a book/movie where a choice must be made."""
-    source_title: str       # e.g., "Les Misérables"
+    source_title: str       # e.g., "Les Mis rables"
     character_name: str     # e.g., "Jean Valjean"
     situation_text: str     # e.g., "A man is caught stealing for you..."
     zeitgeist: Zeitgeist    # The era of the story
@@ -45,9 +45,9 @@ class ProjectiveEmpathy:
         """
         Elysia steps into the character's shoes and decides.
         """
-        logger.info(f"📖 Opening Book: {fragment.source_title}")
-        logger.info(f"🎭 Role: {fragment.character_name}")
-        logger.info(f"🧐 Situation: {fragment.situation_text}")
+        logger.info(f"  Opening Book: {fragment.source_title}")
+        logger.info(f"  Role: {fragment.character_name}")
+        logger.info(f"  Situation: {fragment.situation_text}")
         
         # 1. Elysia evaluates options using her ImpactEngine
         # She looks for the 'Best' outcome based on her current sophisticated logic
@@ -99,9 +99,9 @@ class ProjectiveEmpathy:
             insight = f"I would have chosen {elysia_id}, but {fragment.character_name} chose {canon_id}. I see their burden."
             wave_name = f"Observation of {fragment.character_name}"
             
-        logger.info(f"🤔 Elysia's Choice: {elysia_id}")
-        logger.info(f"📜 Canon Choice: {canon_id}")
-        logger.info(f"💡 Insight: {insight}")
+        logger.info(f"  Elysia's Choice: {elysia_id}")
+        logger.info(f"  Canon Choice: {canon_id}")
+        logger.info(f"  Insight: {insight}")
         
         # 3. Create the Empathy Wave (Knowledge + Emotion)
         # This wave represents the "Reading Experience"

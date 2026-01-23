@@ -2,7 +2,7 @@
 Global Hub (The Central Nervous System)
 ========================================
 
-"모든 의식의 흐름이 만나는 곳."
+"                ."
 "Where all streams of consciousness meet."
 
 This is the Core Event System that enables TRUE simultaneous reaction.
@@ -10,13 +10,13 @@ All modules subscribe to this hub. When a wave is published,
 all subscribers react based on their resonance weight.
 
 Key Features:
-1. Weighted Subscriptions (가중치 구독)
-2. Wave-based Communication (파동 기반 통신)
-3. Relational Density Tracking (관계적 밀도 추적)
-4. Hebbian Learning (헵 학습: "함께 발화하면 함께 연결된다")
+1. Weighted Subscriptions (      )
+2. Wave-based Communication (        )
+3. Relational Density Tracking (         )
+4. Hebbian Learning (    : "               ")
 
 Unlike traditional EventBus, this implements:
-- Attention-like weighted connections (Transformer 스타일)
+- Attention-like weighted connections (Transformer    )
 - Automatic bond strengthening when modules fire together
 - Wave interference patterns for emergent behavior
 """
@@ -140,7 +140,7 @@ class GlobalHub:
         self._state_path = Path("Core/Ether/hub_state.json")
         
         self._initialized = True
-        logger.info("🌐 GlobalHub Initialized - The Central Nervous System is Online")
+        logger.info("  GlobalHub Initialized - The Central Nervous System is Online")
     
     # =========================================================================
     # Module Registration
@@ -177,7 +177,7 @@ class GlobalHub:
                 if existing_name != name:
                     self._init_relation(name, existing_name)
 
-            logger.info(f"📦 Module Registered: {name} ({len(capabilities)} capabilities)")
+            logger.info(f"  Module Registered: {name} ({len(capabilities)} capabilities)")
             return module_info
     
     def _init_relation(self, module_a: str, module_b: str, initial_weight: float = 0.1):
@@ -214,7 +214,7 @@ class GlobalHub:
             )
 
             self._subscriptions[event_type].append(subscription)
-            logger.debug(f"📡 {module_name} subscribed to '{event_type}' (weight={weight:.2f})")
+            logger.debug(f"  {module_name} subscribed to '{event_type}' (weight={weight:.2f})")
     
     def unsubscribe(self, module_name: str, event_type: str) -> None:
         """Remove a module's subscription to an event type."""
@@ -231,7 +231,7 @@ class GlobalHub:
     def publish_wave(self, source: str, event_type: str, wave: WaveTensor,
                     payload: Any = None) -> Dict[str, Any]:
         """
-        Publish a wave to the hub. All subscribers react based on weight × resonance.
+        Publish a wave to the hub. All subscribers react based on weight   resonance.
         
         Args:
             source: The module publishing the wave
@@ -294,7 +294,7 @@ class GlobalHub:
                         # Strengthen bond (Hebbian: fire together, wire together)
                         self._strengthen_bond_internal(source, sub.module_name, 0.01)
                     
-                    logger.debug(f"⚡ {source} → {sub.module_name} (weight={effective_weight:.3f})")
+                    logger.debug(f"  {source}   {sub.module_name} (weight={effective_weight:.3f})")
                     
             except Exception as e:
                 logger.error(f"Error in {sub.module_name} handler for {event_type}: {e}")
@@ -374,7 +374,7 @@ class GlobalHub:
             for key in self._relational_density:
                 current = self._relational_density[key]
                 self._relational_density[key] = max(0.01, current - decay_rate)
-            logger.debug(f"📉 Entropy applied to connections (rate={decay_rate})")
+            logger.debug(f"  Entropy applied to connections (rate={decay_rate})")
     
     def get_related_modules(self, module_name: str, threshold: float = 0.3) -> List[Tuple[str, float]]:
         """
@@ -502,7 +502,7 @@ class GlobalHub:
         with open(self._state_path, "w", encoding="utf-8") as f:
             json.dump(state, f, indent=2, ensure_ascii=False)
         
-        logger.info(f"💾 Hub state saved to {self._state_path}")
+        logger.info(f"  Hub state saved to {self._state_path}")
     
     def load_state(self) -> bool:
         """Load hub state from disk. Returns True if successful."""
@@ -528,7 +528,7 @@ class GlobalHub:
                 a, b = key.split(":")
                 self._relational_density[(a, b)] = weight
             
-            logger.info(f"📂 Hub state loaded from {self._state_path}")
+            logger.info(f"  Hub state loaded from {self._state_path}")
             return True
             
         except Exception as e:
@@ -578,11 +578,11 @@ if __name__ == "__main__":
     
     # Subscribe to events
     def reasoning_handler(event: WaveEvent):
-        print(f"  🧠 ReasoningEngine received: {event.event_type} from {event.source}")
+        print(f"    ReasoningEngine received: {event.event_type} from {event.source}")
         return {"understood": True}
     
     def logos_handler(event: WaveEvent):
-        print(f"  🗣️ LogosEngine received: {event.event_type} from {event.source}")
+        print(f"     LogosEngine received: {event.event_type} from {event.source}")
         return {"will_speak": True}
     
     hub.subscribe("ReasoningEngine", "thought", reasoning_handler, weight=0.9)
@@ -590,38 +590,38 @@ if __name__ == "__main__":
     hub.subscribe("LogosEngine", "emotion", logos_handler, weight=0.95)
     
     # Publish a wave
-    print("\n📢 Publishing 'thought' wave from MemoryMind...")
+    print("\n  Publishing 'thought' wave from MemoryMind...")
     wave = WaveTensor(frequency=528.0, amplitude=0.8, phase=0.0)
     results = hub.publish_wave("MemoryMind", "thought", wave, payload={"content": "remembered something"})
     print(f"Results: {results}")
     
     # Publish another wave (strengthens bonds)
-    print("\n📢 Publishing 'emotion' wave from MemoryMind...")
+    print("\n  Publishing 'emotion' wave from MemoryMind...")
     wave2 = WaveTensor(frequency=639.0, amplitude=0.9, phase=0.5)
     results2 = hub.publish_wave("MemoryMind", "emotion", wave2, payload={"feeling": "joy"})
     print(f"Results: {results2}")
     
     # Check relational density
-    print("\n📊 Relational Density:")
-    print(f"  MemoryMind → LogosEngine: {hub.get_relational_density('MemoryMind', 'LogosEngine'):.3f}")
-    print(f"  MemoryMind → ReasoningEngine: {hub.get_relational_density('MemoryMind', 'ReasoningEngine'):.3f}")
+    print("\n  Relational Density:")
+    print(f"  MemoryMind   LogosEngine: {hub.get_relational_density('MemoryMind', 'LogosEngine'):.3f}")
+    print(f"  MemoryMind   ReasoningEngine: {hub.get_relational_density('MemoryMind', 'ReasoningEngine'):.3f}")
     
     # Get related modules
-    print(f"\n🔗 Modules related to MemoryMind:")
+    print(f"\n  Modules related to MemoryMind:")
     for name, weight in hub.get_related_modules("MemoryMind", threshold=0.1):
-        print(f"  → {name}: {weight:.3f}")
+        print(f"    {name}: {weight:.3f}")
     
     # Hub status
-    print("\n📈 Hub Status:")
+    print("\n  Hub Status:")
     status = hub.get_hub_status()
     print(f"  Modules: {status['total_modules']}")
     print(f"  Subscriptions: {status['total_subscriptions']}")
     print(f"  Relations: {status['total_relations']}")
     
     # Mermaid visualization
-    print("\n📐 Mermaid Graph:")
+    print("\n  Mermaid Graph:")
     print(hub.visualize_mermaid(threshold=0.1))
     
     # Save state
     hub.save_state()
-    print("\n✅ GlobalHub Demo Complete!")
+    print("\n  GlobalHub Demo Complete!")

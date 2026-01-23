@@ -26,13 +26,13 @@ class WaveCoder:
     def __init__(self):
         self.graph = get_torch_graph() # The Tensor Brain
         self.reflector = SelfReflector()
-        logger.info("🌊 WaveCoder initialized (AST -> Tensor).")
+        logger.info("  WaveCoder initialized (AST -> Tensor).")
 
     def transmute(self):
         """
         Reads the entire self-body (Core/) and actively maps it to the Tensor Brain.
         """
-        logger.info("📡 Transmuting Code Structure to Wave Tensors...")
+        logger.info("  Transmuting Code Structure to Wave Tensors...")
         
         # 1. Get AST Metrics
         metrics_map = self.reflector.reflect_on_core()
@@ -43,7 +43,7 @@ class WaveCoder:
             self._vectorize_module(metrics)
             count += 1
             
-        logger.info(f"✅ Transmuted {count} modules into the Matrix.")
+        logger.info(f"  Transmuted {count} modules into the Matrix.")
 
     def _vectorize_module(self, metrics: CodeMetrics):
         """

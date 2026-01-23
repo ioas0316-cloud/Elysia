@@ -54,7 +54,7 @@ class PrincipleVerifier:
         # We simulate checking if 'Piston' chain has 'Heat' -> 'Motion'.
         workable_count = 0
         for chain in test_phenomena_chains:
-            # Simple check: Does the chain contain elements that match the law's logic?
+            # Simple check: Does the chain contain elements that match the law's logic?'
             # e.g., if law is THERMAL_EXPANSION, does chain have 'Heat' and 'Expansion' or 'Motion'?
             chain_desc = " ".join([self.kb.nodes[nid].description for nid in chain.node_sequence if nid in self.kb.nodes])
             
@@ -174,7 +174,7 @@ class ConceptSynthesizer:
             description="Parent of Synthesis"
         )
         
-        logger.info(f"✨ Synthesized new concept: {child_id} ({child_description}) from {id_a} and {id_b}")
+        logger.info(f"  Synthesized new concept: {child_id} ({child_description}) from {id_a} and {id_b}")
         return child_node
 
     def run_synthesis_cycle(self, limit: int = 5, threshold: float = 0.7) -> List[str]:

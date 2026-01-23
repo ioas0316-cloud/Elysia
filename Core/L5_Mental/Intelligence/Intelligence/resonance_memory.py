@@ -71,7 +71,7 @@ class ResonanceField:
         for name in to_remove:
             del self.entries[name]
             
-        logger.info(f"🍂 Pruned {len(to_remove)} concepts (from {initial_count}).")
+        logger.info(f"  Pruned {len(to_remove)} concepts (from {initial_count}).")
         
     def to_json(self) -> str:
         return json.dumps({k: asdict(v) for k, v in self.entries.items()}, indent=2)

@@ -1,5 +1,5 @@
 """
-PersonaTemplates (페르소나 템플릿)
+PersonaTemplates (        )
 ===============================
 
 "We are the Council."

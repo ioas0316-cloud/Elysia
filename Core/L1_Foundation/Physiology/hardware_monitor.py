@@ -28,7 +28,7 @@ class BioSignal:
 class HardwareMonitor:
     def __init__(self):
         self.last_pulse = time.time()
-        logger.info("🔌 Nervous System Online. Connecting to Hardware...")
+        logger.info("  Nervous System Online. Connecting to Hardware...")
 
     def _normalize(self, value: float, min_v: float, max_v: float) -> float:
         """Clamps and normalizes a value to 0.0 - 1.0 range."""

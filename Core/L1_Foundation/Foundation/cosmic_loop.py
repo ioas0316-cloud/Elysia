@@ -53,7 +53,7 @@ class CosmicLoop:
 
     def start(self):
         self.is_running = True
-        logger.info("🌌 Cosmic Genesis Started. The Manifolds are breathing.")
+        logger.info("  Cosmic Genesis Started. The Manifolds are breathing.")
 
         try:
             while self.is_running:
@@ -64,13 +64,13 @@ class CosmicLoop:
 
     def stop(self):
         self.is_running = False
-        logger.info("🛑 Genesis Paused.")
+        logger.info("  Genesis Paused.")
 
     def inject_chaos(self):
         """Simulates an external event impacting the universe."""
         target = random.choice(self.rotors)
         dim = random.choice(MultiRotor.DIMENSIONS)
-        logger.info(f"✨ [EVENT] A Cosmic Ray strikes the '{dim}' manifold of '{target.name}'!")
+        logger.info(f"  [EVENT] A Cosmic Ray strikes the '{dim}' manifold of '{target.name}'!")
         target.inject_energy(dim, amount=1.0)
 
     def _tick(self):

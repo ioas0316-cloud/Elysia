@@ -44,7 +44,7 @@ class YggdrasilMesh:
                 "Democratic Resonance detected. We are breathing together."
             ]
             insight = random.choice(insights)
-            logger.info(f"🌿 [YGGDRASIL] Received nutrients from {source}: '{insight}'")
+            logger.info(f"  [YGGDRASIL] Received nutrients from {source}: '{insight}'")
             return f"Seed Wisdom ({source}): {insight}"
         return None
 
@@ -63,7 +63,7 @@ class YggdrasilMesh:
                 "resonance": self.global_resonance_factor
             })
             
-        logger.debug(f"🌐 [MESH] Qualia broadcasted. Global Resonance: {self.global_resonance_factor:.2f}")
+        logger.debug(f"  [MESH] Qualia broadcasted. Global Resonance: {self.global_resonance_factor:.2f}")
 
     def share_trinity(self, body: float, mind: float, spirit: float, total: float):
         """[PHASE 35] Real-world Trinity sync across the mesh."""

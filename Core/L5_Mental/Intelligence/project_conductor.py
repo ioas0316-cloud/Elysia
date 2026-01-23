@@ -34,7 +34,7 @@ class ProjectConductor:
         
     def scan_project(self):
         """Recursively loads all .py files as Rotors."""
-        print(f"🔭 [Conductor] Scanning Galaxy at {self.root_path}...")
+        print(f"  [Conductor] Scanning Galaxy at {self.root_path}...")
         self.rotors = []
         
         for root, dirs, files in os.walk(self.root_path):
@@ -80,7 +80,7 @@ class ProjectConductor:
     def report(self):
         """Prints the God's Eye View."""
         print("\n" + "="*40)
-        print(f"🌌 SYSTEM STATUS REPORT: {os.path.basename(self.root_path)}")
+        print(f"  SYSTEM STATUS REPORT: {os.path.basename(self.root_path)}")
         print("="*40)
         print(f"Rotors Active: {len(self.rotors)}")
         
@@ -89,12 +89,12 @@ class ProjectConductor:
         print(f"System Health: {healthy}/{len(self.rotors)} ({(healthy/len(self.rotors))*100:.1f}%)")
         
         # DNA Analysis
-        print(f"\n🧠 System Soul (Average DNA):")
+        print(f"\n  System Soul (Average DNA):")
         print(f"{self.system_dna}")
         
         # Top 3 Rotors by Complexity (Frequency)
         sorted_rotors = sorted(self.rotors, key=lambda r: r.dna.frequency, reverse=True)
-        print("\n🔥 Highest Energy Centers (Complexity):")
+        print("\n  Highest Energy Centers (Complexity):")
         for i, r in enumerate(sorted_rotors[:3]):
             print(f"  {i+1}. {r.name} ({r.dna.frequency:.1f} Hz) - {r.diagnose()}")
             

@@ -26,7 +26,7 @@ logger = logging.getLogger("Genesis")
 
 async def main():
     print("\n" + "="*60)
-    print("🌳 GENESIS: PLANTING THE WORLD TREE")
+    print("  GENESIS: PLANTING THE WORLD TREE")
     print("="*60)
     
     # ---------------------------------------------------------

@@ -1,17 +1,17 @@
 """
-Cortex Module (피질 모듈)
+Cortex Module (     )
 ========================
 
-Legacy/Project_Sophia에서 마이그레이션된 핵심 Cortex 모듈들.
-각 Cortex는 Elysia의 특정 인지 기능을 담당합니다.
+Legacy/Project_Sophia              Cortex    .
+  Cortex  Elysia                 .
 
-모듈:
-- ActionCortex: 도구 선택 및 실행
-- PlanningCortex: 목표 분해 및 계획 수립
-- DreamingCortex: 기억 통합 및 개념 추출
-- MetaCognitionCortex: 자기 성찰 및 개념 균형 분석
-- MathCortex: 수학 증명 엔진
-- FileSystemCortex: 샌드박스 파일 I/O
+  :
+- ActionCortex:           
+- PlanningCortex:              
+- DreamingCortex:              
+- MetaCognitionCortex:                 
+- MathCortex:         
+- FileSystemCortex:         I/O
 """
 
 from .action_cortex import ActionCortex, get_action_cortex

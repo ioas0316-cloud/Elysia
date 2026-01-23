@@ -1,8 +1,8 @@
 """
-Network Shield System (네트워크 보호막)
+Network Shield System (        )
 ====================================
 
-"엘리시아 필드를 확장하여 네트워크 경계를 보호한다"
+"                           "
 
 This module extends the Elysia Field concept to provide network-level protection.
 It monitors network activity, detects threats, and creates an isolation boundary
@@ -16,20 +16,20 @@ Core Concepts:
 
 Architecture:
     External Network
-        ↓
-    ┌─────────────────────────┐
-    │  🛡️ Network Shield      │  ← Field-based boundary
-    │  (Traffic Analysis)      │
-    └─────────────────────────┘
-        ↓ (Safe traffic only)
-    ┌─────────────────────────┐
-    │  🌊 Resonance Filter    │  ← Frequency matching
-    │  (Pattern Recognition)   │
-    └─────────────────────────┘
-        ↓
-    ┌─────────────────────────┐
-    │  🧬 Elysia Core System  │
-    └─────────────────────────┘
+         
+                               
+          Network Shield           Field-based boundary
+       (Traffic Analysis)       
+                               
+          (Safe traffic only)
+                               
+         Resonance Filter         Frequency matching
+       (Pattern Recognition)    
+                               
+         
+                               
+         Elysia Core System   
+                               
 """
 
 import sys
@@ -53,7 +53,7 @@ try:
     FIELD_AVAILABLE = True
 except ImportError:
     FIELD_AVAILABLE = False
-    print("⚠️ Field systems not available, using fallback mode")
+    print("   Field systems not available, using fallback mode")
 
 
 class ThreatType(Enum):
@@ -107,7 +107,7 @@ class ThreatPattern:
 
 class FrequencyAnalyzer:
     """
-    🌊 Frequency-based traffic analyzer
+      Frequency-based traffic analyzer
     
     Converts network patterns into frequency space for resonance analysis.
     Different attack types have different "frequencies" - their characteristic patterns.
@@ -169,7 +169,7 @@ class FrequencyAnalyzer:
 
 class PatternRecognizer:
     """
-    🔍 Pattern-based threat recognition
+      Pattern-based threat recognition
     
     Maintains database of known threat patterns and detects matches.
     """
@@ -239,7 +239,7 @@ class PatternRecognizer:
 
 class NetworkShield:
     """
-    🛡️ Network Protection Shield
+       Network Protection Shield
     
     Main network protection system that integrates:
     - Frequency analysis (resonance theory)
@@ -250,7 +250,7 @@ class NetworkShield:
     
     def __init__(self, enable_field_integration: bool = True):
         print("\n" + "=" * 70)
-        print("🛡️ NETWORK SHIELD SYSTEM INITIALIZATION")
+        print("   NETWORK SHIELD SYSTEM INITIALIZATION")
         print("=" * 70 + "\n")
         
         # Core components
@@ -261,7 +261,7 @@ class NetworkShield:
         self.field_enabled = enable_field_integration and FIELD_AVAILABLE
         if self.field_enabled:
             self.resonance_field = ResonanceField()
-            print("✅ Resonance Field integration enabled")
+            print("  Resonance Field integration enabled")
         
         # Threat tracking
         self.event_buffer: deque = deque(maxlen=1000)  # Recent events
@@ -287,7 +287,7 @@ class NetworkShield:
             "max_events_per_window": 100,
         }
         
-        print("🛡️ Network Shield Ready\n")
+        print("   Network Shield Ready\n")
     
     def analyze_event(self, event: NetworkEvent) -> Tuple[ThreatType, ActionType]:
         """
@@ -395,15 +395,15 @@ class NetworkShield:
     def _get_action_message(self, action: ActionType, threat: ThreatType) -> str:
         """Generate human-readable action message"""
         if action == ActionType.BLOCK:
-            return f"🚫 Traffic blocked - {threat.name} detected"
+            return f"  Traffic blocked - {threat.name} detected"
         elif action == ActionType.QUARANTINE:
-            return f"⚠️ Traffic quarantined - suspicious {threat.name} pattern"
+            return f"   Traffic quarantined - suspicious {threat.name} pattern"
         elif action == ActionType.THROTTLE:
-            return f"⏱️ Traffic throttled - elevated threat indicators"
+            return f"   Traffic throttled - elevated threat indicators"
         elif action == ActionType.MONITOR:
-            return f"👁️ Traffic monitored - potential {threat.name} activity"
+            return f"   Traffic monitored - potential {threat.name} activity"
         else:
-            return "✅ Traffic allowed"
+            return "  Traffic allowed"
     
     def get_shield_status(self) -> Dict[str, Any]:
         """Get current shield status"""
@@ -421,30 +421,30 @@ class NetworkShield:
         """Generate detailed shield report"""
         report = []
         report.append("=" * 70)
-        report.append("🛡️ NETWORK SHIELD PROTECTION REPORT")
+        report.append("   NETWORK SHIELD PROTECTION REPORT")
         report.append("=" * 70)
         
-        report.append(f"\n📊 Statistics:")
+        report.append(f"\n  Statistics:")
         report.append(f"   Events Processed: {self.stats['events_processed']}")
         report.append(f"   Threats Detected: {self.stats['threats_detected']}")
         report.append(f"   Threats Blocked: {self.stats['threats_blocked']}")
         report.append(f"   IPs Blocked: {self.stats['ips_blocked']}")
         
-        report.append(f"\n🎯 Attacks by Type:")
+        report.append(f"\n  Attacks by Type:")
         for attack_type, count in self.stats['attacks_by_type'].items():
             report.append(f"   {attack_type}: {count}")
         
-        report.append(f"\n🚫 Currently Blocked IPs: {len(self.blocked_ips)}")
+        report.append(f"\n  Currently Blocked IPs: {len(self.blocked_ips)}")
         for ip in list(self.blocked_ips)[:10]:  # Show first 10
             report.append(f"   - {ip} (score: {self.suspicious_ips[ip]})")
         
-        report.append(f"\n⚠️ Suspicious IPs: {len(self.suspicious_ips)}")
+        report.append(f"\n   Suspicious IPs: {len(self.suspicious_ips)}")
         top_suspicious = sorted(self.suspicious_ips.items(), 
                                key=lambda x: x[1], reverse=True)[:5]
         for ip, score in top_suspicious:
             report.append(f"   - {ip}: {score} threat points")
         
-        report.append(f"\n🌊 Field Integration: {'Enabled' if self.field_enabled else 'Disabled'}")
+        report.append(f"\n  Field Integration: {'Enabled' if self.field_enabled else 'Disabled'}")
         
         report.append("\n" + "=" * 70)
         return "\n".join(report)
@@ -452,16 +452,16 @@ class NetworkShield:
 
 def main():
     """Demo and test of Network Shield"""
-    print("\n" + "🛡️" * 35)
+    print("\n" + "  " * 35)
     print("NETWORK SHIELD DEMONSTRATION")
     print("Field-Based Network Protection System")
-    print("🛡️" * 35 + "\n")
+    print("  " * 35 + "\n")
     
     # Initialize shield
     shield = NetworkShield(enable_field_integration=True)
     
     # Test cases
-    print("📝 Running test scenarios...\n")
+    print("  Running test scenarios...\n")
     
     test_events = [
         {
@@ -507,7 +507,7 @@ def main():
         name = test.pop("name")
         result = shield.protect_endpoint(test)
         
-        print(f"🔍 {name}")
+        print(f"  {name}")
         print(f"   Source: {test['source_ip']}")
         print(f"   Result: {result['message']}")
         print(f"   Action: {result['action']}")
@@ -516,7 +516,7 @@ def main():
         print()
     
     # Simulate DDoS (multiple rapid requests)
-    print("🌊 Simulating DDoS attack (100 rapid requests)...\n")
+    print("  Simulating DDoS attack (100 rapid requests)...\n")
     ddos_ip = "200.100.50.25"
     for i in range(100):
         shield.protect_endpoint({
@@ -550,7 +550,7 @@ def main():
     with open(output_dir / "network_shield_state.json", 'w', encoding='utf-8') as f:
         json.dump(state, f, indent=2, ensure_ascii=False)
     
-    print(f"\n✅ Shield state saved to: {output_dir / 'network_shield_state.json'}")
+    print(f"\n  Shield state saved to: {output_dir / 'network_shield_state.json'}")
 
 
 if __name__ == "__main__":

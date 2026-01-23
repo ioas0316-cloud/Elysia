@@ -4,7 +4,7 @@ Adaptive Governance Engine (Breathing Time)
 Core.L6_Structure.Engine.governance_engine
 
 "The machine does not just spin; it breathes."
-"기계는 그저 도는 것이 아니라, 숨을 쉰다."
+"                ,      ."
 
 Features:
 - Adaptive Rotors: RPM adjusts based on Intent and Stress.
@@ -99,7 +99,7 @@ class GovernanceEngine:
             "shield": self.shield
         }
         
-        print(f"⚙️ [GovernanceEngine] Onion-Skin Multiverse active. Root Spirit protected.")
+        print(f"   [GovernanceEngine] Onion-Skin Multiverse active. Root Spirit protected.")
         self.aesthetic = self.mind.add_sub_rotor("Art", RotorConfig(rpm=60.0), WaveDNA(structural=0.8, phenomenal=0.8))
         self.social = self.mind.add_sub_rotor("Empathy", RotorConfig(rpm=60.0), WaveDNA(causal=0.8))
 
@@ -124,7 +124,7 @@ class GovernanceEngine:
         gear_name = gear_name.upper()
         if gear_name in self.gears:
             self.current_gear = self.gears[gear_name]
-            print(f"⚙️ [GEAR SHIFT] Engaged {gear_name}: {self.current_gear.description}")
+            print(f"   [GEAR SHIFT] Engaged {gear_name}: {self.current_gear.description}")
             self._apply_gear()
 
     def adapt(self, intent_intensity: float, stress_level: float):
@@ -181,7 +181,7 @@ class GovernanceEngine:
         """Manual override for God Mode."""
         if name in self.dials:
             self.dials[name].target_rpm = rpm
-            print(f"🌀 [CONTROL DECK] {name} manually distorted to {rpm} RPM.")
+            print(f"  [CONTROL DECK] {name} manually distorted to {rpm} RPM.")
 
     def get_status(self) -> str:
         return f"Focus: {self.focus_intensity:.2f} | {self.ensemble.get_status()}"

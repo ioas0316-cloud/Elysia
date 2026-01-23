@@ -48,9 +48,9 @@ def test_semantic_language():
     # Case 2 should succeed (Resonance)
     
     if result2.success and not result1.success:
-        print("\n✅ TEST PASSED: Language determined Reality.")
+        print("\n  TEST PASSED: Language determined Reality.")
     else:
-        print("\n❌ TEST FAILED: Physics did not respect the Words.")
+        print("\n  TEST FAILED: Physics did not respect the Words.")
 
 if __name__ == "__main__":
     test_semantic_language()

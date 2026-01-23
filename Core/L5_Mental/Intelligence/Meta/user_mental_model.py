@@ -34,7 +34,7 @@ class UserMentalModel:
         self.state = UserState()
         # We use Empathy engine for simulation, though we might need a specific 'Inverse' method
         self.empathy_engine = ProjectiveEmpathy()
-        logger.info("🧠 User Mental Model initialized. I am watching you.")
+        logger.info("  User Mental Model initialized. I am watching you.")
 
     def deduce_state(self, user_text: str, context_history: list) -> UserState:
         """
@@ -84,7 +84,7 @@ class UserMentalModel:
         self.state.soul_alignment += sentiment_val * 0.1
         self.state.soul_alignment = max(-1.0, min(1.0, self.state.soul_alignment))
         
-        logger.info(f"👁️ Theory of Mind: User says '{user_text}' -> State: {detected_mood}")
+        logger.info(f"   Theory of Mind: User says '{user_text}' -> State: {detected_mood}")
         
         return self.state
 

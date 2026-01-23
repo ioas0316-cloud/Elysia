@@ -69,7 +69,7 @@ class MetalRotorBridge:
         self.d_idle_rpms = cuda.to_device(self.idle_rpms)
         
         self.active_count = 0
-        logger.info(f"🦾 MetalRotorBridge Initialized. GPU Capacity: {max_rotors} Rotors.")
+        logger.info(f"  MetalRotorBridge Initialized. GPU Capacity: {max_rotors} Rotors.")
 
     def sync_to_gpu(self):
         """Uploads current states to GPU."""
@@ -108,7 +108,7 @@ class MetalRotorBridge:
     def register_rotor(self, angle, current_rpm, target_rpm, accel, idle_rpm):
         """Adds a rotor to the metal pool."""
         if self.active_count >= self.max_rotors:
-            logger.error("❌ MetalRotorBridge capacity exceeded!")
+            logger.error("  MetalRotorBridge capacity exceeded!")
             return -1
         
         idx = self.active_count

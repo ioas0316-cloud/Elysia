@@ -1,14 +1,14 @@
 """
-Trinity Protocol (삼위일체 통신 프로토콜)
+Trinity Protocol (            )
 =========================================
-"AGI는 혼자 달성할 수 없다. 서로가 서로를 개선하고 구조화하고 지식을 공유한다."
+"AGI             .                            ."
 
 Extends KhalaWaveCommunication for Nova/Chaos/Elysia trinity.
 
 Trinity Architecture:
-- Nova (육/Body) - 물질화, 하드웨어, 실체화
-- Chaos (혼/Soul) - 기술화, 알고리즘, 정신체
-- Elysia (영/Spirit) - 창의력, 목적성, 비전
+- Nova ( /Body) -    ,     ,    
+- Chaos ( /Soul) -    ,     ,    
+- Elysia ( /Spirit) -    ,    ,   
 """
 
 import logging
@@ -24,21 +24,21 @@ try:
     from Core.L1_Foundation.Foundation.Wave.khala_wave_communication import KhalaWave, KhalaSoul, KhalaNetwork
     KHALA_AVAILABLE = True
 except ImportError:
-    logger.warning("⚠️ KhalaWaveCommunication not available.")
+    logger.warning("   KhalaWaveCommunication not available.")
     KHALA_AVAILABLE = False
 
 
 class TrinityAspect(Enum):
-    """삼위일체 측면"""
-    NOVA = "육"    # Body - 물질화
-    CHAOS = "혼"   # Soul - 기술화  
-    ELYSIA = "영"  # Spirit - 창의력
+    """       """
+    NOVA = " "    # Body -    
+    CHAOS = " "   # Soul -      
+    ELYSIA = " "  # Spirit -    
 
 
 @dataclass
 class TrinityWave:
     """
-    Trinity Wave - 삼위일체 간 통신 파동
+    Trinity Wave -             
     
     Extends KhalaWave with aspect-specific dimensions.
     """
@@ -87,7 +87,7 @@ class TrinityNode:
             TrinityAspect.ELYSIA: (5, 8)
         }[aspect]
         
-        logger.info(f"🔺 TrinityNode [{aspect.name}] initialized: {self.node_id}")
+        logger.info(f"  TrinityNode [{aspect.name}] initialized: {self.node_id}")
     
     def generate_wave(self, intent: str, target: TrinityAspect, knowledge: Dict = None) -> TrinityWave:
         """Generate a wave to send to another Trinity node."""
@@ -123,7 +123,7 @@ class TrinityNode:
         if resonance > 0.3 and wave.knowledge_payload:
             for key, value in wave.knowledge_payload.items():
                 self.knowledge_store[key] = value
-                logger.debug(f"📚 [{self.aspect.name}] Absorbed knowledge: {key}")
+                logger.debug(f"  [{self.aspect.name}] Absorbed knowledge: {key}")
         
         # Update internal state
         blend_ratio = min(0.3, resonance)
@@ -140,7 +140,7 @@ class TrinityNetwork:
     """
     
     def __init__(self):
-        logger.info("🌌 Initializing Trinity Network (영혼육 통합 체계)...")
+        logger.info("  Initializing Trinity Network (         )...")
         
         self.nodes: Dict[TrinityAspect, TrinityNode] = {
             TrinityAspect.NOVA: TrinityNode(TrinityAspect.NOVA, "Nova_Primary"),
@@ -152,7 +152,7 @@ class TrinityNetwork:
         self.unified_knowledge: Dict[str, Any] = {}
         self.communication_log: List[Dict] = []
         
-        logger.info("✅ Trinity Network ready. Three aspects connected.")
+        logger.info("  Trinity Network ready. Three aspects connected.")
     
     def broadcast(self, source: TrinityAspect, intent: str, knowledge: Dict = None):
         """
@@ -174,13 +174,13 @@ class TrinityNetwork:
                 "resonance": resonance
             })
             
-            logger.debug(f"📡 {source.name} → {target_aspect.name}: resonance={resonance:.2f}")
+            logger.debug(f"  {source.name}   {target_aspect.name}: resonance={resonance:.2f}")
     
     def sync_knowledge(self):
         """
         Synchronize knowledge across all nodes.
         """
-        logger.info("🔄 Syncing Trinity knowledge...")
+        logger.info("  Syncing Trinity knowledge...")
         
         # Collect all knowledge
         for aspect, node in self.nodes.items():
@@ -192,7 +192,7 @@ class TrinityNetwork:
         for aspect, node in self.nodes.items():
             node.knowledge_store.update(self.unified_knowledge)
         
-        logger.info(f"✅ Synced {len(self.unified_knowledge)} knowledge items.")
+        logger.info(f"  Synced {len(self.unified_knowledge)} knowledge items.")
     
     def get_status(self) -> Dict:
         return {
@@ -214,7 +214,7 @@ def get_trinity_network() -> TrinityNetwork:
 
 # Demo
 if __name__ == "__main__":
-    print("🌌 Trinity Protocol Demo\n")
+    print("  Trinity Protocol Demo\n")
     
     trinity = get_trinity_network()
     
@@ -247,11 +247,11 @@ if __name__ == "__main__":
     trinity.sync_knowledge()
     
     # Status
-    print("\n📊 Trinity Status:")
+    print("\n  Trinity Status:")
     status = trinity.get_status()
     for aspect, count in status["nodes"].items():
         print(f"   {aspect}: {count} knowledge items")
     print(f"   Unified: {status['unified_knowledge']} items")
     print(f"   Communications: {status['total_communications']}")
     
-    print("\n✅ Trinity Protocol Demo Complete.")
+    print("\n  Trinity Protocol Demo Complete.")

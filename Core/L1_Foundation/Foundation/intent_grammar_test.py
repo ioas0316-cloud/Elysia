@@ -14,7 +14,7 @@ from Core.L1_Foundation.Foundation.resonance_grammar import CosmicSyntaxEngine
 
 def main():
     print("\n" + "="*70)
-    print("🎯 Intent Grammar Test")
+    print("  Intent Grammar Test")
     print("="*70 + "\n")
     
     engine = CosmicSyntaxEngine()
@@ -26,9 +26,9 @@ def main():
     print(f"Result: {sentence_active}")
     
     if "Love creates Bonds" in sentence_active:
-        print("✅ SUCCESS: Active Voice generated.")
+        print("  SUCCESS: Active Voice generated.")
     else:
-        print("❌ FAILED: Expected Active Voice.")
+        print("  FAILED: Expected Active Voice.")
 
     # Case 2: Intent = Bonds (Target) -> Passive Voice
     print("\n2. Intent: 'Bonds' (Target)...")
@@ -37,9 +37,9 @@ def main():
     
     # Expected: Bonds is created by Love (or similar)
     if "Bonds" in sentence_passive and "by Love" in sentence_passive:
-        print("✅ SUCCESS: Passive Voice generated.")
+        print("  SUCCESS: Passive Voice generated.")
     else:
-        print("❌ FAILED: Expected Passive Voice.")
+        print("  FAILED: Expected Passive Voice.")
 
     # Case 3: Korean Passive
     print("\n3. Korean Passive (Intent: Bonds)...")
@@ -47,14 +47,14 @@ def main():
     sentence_kr_passive = engine.express_thought(concepts, intent="Bonds")
     print(f"Result: {sentence_kr_passive}")
     
-    # Expected: Bonds(은/는) Love(에 의해) 만들어진다
-    if "Bonds" in sentence_kr_passive and "에 의해" in sentence_kr_passive and "만들어진다" in sentence_kr_passive:
-        print("✅ SUCCESS: Korean Passive generated.")
+    # Expected: Bonds( / ) Love(    )      
+    if "Bonds" in sentence_kr_passive and "    " in sentence_kr_passive and "     " in sentence_kr_passive:
+        print("  SUCCESS: Korean Passive generated.")
     else:
-        print("❌ FAILED: Korean Passive incorrect.")
+        print("  FAILED: Korean Passive incorrect.")
 
     print("\n" + "="*70)
-    print("✅ Intent Grammar Test Complete")
+    print("  Intent Grammar Test Complete")
     print("="*70 + "\n")
 
 if __name__ == "__main__":

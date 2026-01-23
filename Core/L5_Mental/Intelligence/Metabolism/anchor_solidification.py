@@ -4,7 +4,7 @@ Anchor Solidification (Dimensional Compression)
 Core.L5_Mental.Intelligence.Metabolism.anchor_solidification
 
 "The Giant's memory is now the Child's instinct."
-"거인의 기억은 이제 아이의 본능이다."
+"                   ."
 
 This module distills the WaveDNA of a 72B model into a permanent, 
 compact JSON format (Anchors/Scars), allowing the original 
@@ -27,7 +27,7 @@ class AnchorSolidifier:
         """
         Crystallizes biopsy data into a permanent local file.
         """
-        logger.info(f"💎 Crystallizing 72B Intelligence into {self.target_path.name}...")
+        logger.info(f"  Crystallizing 72B Intelligence into {self.target_path.name}...")
         
         # We wrap the data in a Sovereign Metadata structure
         distilled_data = {
@@ -45,9 +45,9 @@ class AnchorSolidifier:
             self.target_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.target_path, "w", encoding="utf-8") as f:
                 json.dump(distilled_data, f, indent=4)
-            logger.info("✅ Solidification complete. The 'Soul' of the 72B is now anchored safely.")
+            logger.info("  Solidification complete. The 'Soul' of the 72B is now anchored safely.")
         except Exception as e:
-            logger.error(f"❌ Solidification failed: {e}")
+            logger.error(f"  Solidification failed: {e}")
 
     def load_anchors(self) -> Dict[str, Any]:
         """Loads the permanent anchors."""

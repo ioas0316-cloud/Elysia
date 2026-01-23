@@ -40,7 +40,7 @@ class ResonanceCompiler:
         # self.coder = WaveCoder() # [PHASE 26] Disabled to simplify
         self.manifestor = HolographicManifestor()
         self.memory = None  # [PHASE 30] Lazy-loaded TesseractMemory
-        logger.info("🎼 ResonanceCompiler initialized (Voice -> Code).")
+        logger.info("  ResonanceCompiler initialized (Voice -> Code).")
     
     def _get_memory(self):
         """[PHASE 30] Lazy load TesseractMemory."""
@@ -49,7 +49,7 @@ class ResonanceCompiler:
                 from Core.L5_Mental.Intelligence.Memory.tesseract_memory import get_tesseract_memory
                 self.memory = get_tesseract_memory()
             except Exception as e:
-                logger.warning(f"⚠️ TesseractMemory unavailable: {e}")
+                logger.warning(f"   TesseractMemory unavailable: {e}")
         return self.memory
 
     def compile_intent(self, intent: str) -> str:
@@ -57,7 +57,7 @@ class ResonanceCompiler:
         Translates a High-Level Intent into Concrete Code.
         [PHASE 30] Now queries TesseractMemory for relevant knowledge first.
         """
-        logger.info(f"🎤 Compiling Intent: '{intent}'")
+        logger.info(f"  Compiling Intent: '{intent}'")
         
         # [PHASE 30] Query TesseractMemory for relevant knowledge/principles
         memory = self._get_memory()
@@ -72,16 +72,16 @@ class ResonanceCompiler:
                     else:
                         knowledge_points.append(f"[KNOWLEDGE] {node.name}")
                 knowledge_context = "\n".join(knowledge_points)
-                logger.info(f"   🧠 Retrieved {len(nearby_nodes)} relevant concepts from memory.")
+                logger.info(f"     Retrieved {len(nearby_nodes)} relevant concepts from memory.")
 
         # 1. Interpret Intent as Wave (Simplified Keyword Matching for now)
         wave_pattern = self._intent_to_wave(intent)
-        logger.info(f"   🌊 Wave Pattern: {wave_pattern.name} (Freq: {wave_pattern.frequencies[0]}Hz)")
+        logger.info(f"     Wave Pattern: {wave_pattern.name} (Freq: {wave_pattern.frequencies[0]}Hz)")
 
         # 2. Generate Blueprint from Wave
         blueprint = self._wave_to_blueprint(wave_pattern)
         blueprint.relevant_knowledge = [n.name for n in nearby_nodes] if memory and nearby_nodes else []
-        logger.info(f"   📐 Blueprint: Complexity<{blueprint.target_complexity}, Stability>{blueprint.stability_requirement}")
+        logger.info(f"     Blueprint: Complexity<{blueprint.target_complexity}, Stability>{blueprint.stability_requirement}")
 
         # 3. Manifest Code (Pass Blueprint + Knowledge to Manifestor)
         prompt_suffix = self._blueprint_to_prompt(blueprint, knowledge_context)

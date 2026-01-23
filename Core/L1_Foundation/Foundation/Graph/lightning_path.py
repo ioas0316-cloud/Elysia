@@ -83,7 +83,7 @@ class LightningPath:
 
 # Test Stub
 if __name__ == "__main__":
-    print("⚡ Lightning Path Initializing...")
+    print("  Lightning Path Initializing...")
     path = LightningPath(input_dim=4, num_planes=3)
     
     v1 = np.array([1, 0, 1, 0], dtype=np.float32) # 'Love'

@@ -1,5 +1,5 @@
 """
-Mental Terrain (정신의 지형)
+Mental Terrain (      )
 ============================
 
 "The mind is not a box; it is a landscape.
@@ -48,7 +48,7 @@ class MentalTerrain:
             # The Valley of Curiosity
             TerrainFeature("Curiosity", Vector2D(5, 5), 8.0, "Attractor", 1.0)
         ]
-        logger.info("🏔️ Mental Terrain mapped.")
+        logger.info("   Mental Terrain mapped.")
 
     def inject_thought(self, content: str, bias: Vector2D) -> str:
         """

@@ -17,7 +17,7 @@ class ConceptSanitizer:
     """
     
     def __init__(self):
-        logger.info("🛡️ Kidney (Sanitizer) active - Filtering noise.")
+        logger.info("   Kidney (Sanitizer) active - Filtering noise.")
         # Regex for 'Noise' (e.g., just numbers and symbols)
         self.noise_pattern = re.compile(r'^[\d\W_]+$')
         

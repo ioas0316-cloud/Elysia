@@ -25,7 +25,7 @@ class BodySensor:
         """
         Scans the current hardware vessel and returns the capacity report.
         """
-        logger.info("📡 Scanning physical vessel...")
+        logger.info("  Scanning physical vessel...")
         
         # 1. RAM Sensing
         ram = psutil.virtual_memory()
@@ -51,9 +51,9 @@ class BodySensor:
                         "load": gpu.load * 100
                     })
             except Exception as e:
-                logger.warning(f"⚠️ GPU Scan failed: {e}")
+                logger.warning(f"   GPU Scan failed: {e}")
         else:
-            logger.info("ℹ️ GPUtil not installed. GPU sensing skipped.")
+            logger.info("   GPUtil not installed. GPU sensing skipped.")
             
         report = {
             "vessel": {
@@ -80,7 +80,7 @@ class BodySensor:
             report["strategy"] = "BALANCED (Rotor Metabolism)"
             report["metabolic_state"] = "Harmonic Sync"
             
-        logger.info(f"✅ Proprioception Complete: {report['strategy']}")
+        logger.info(f"  Proprioception Complete: {report['strategy']}")
         return report
 
 if __name__ == "__main__":

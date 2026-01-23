@@ -45,14 +45,14 @@ class HeartbeatDaemon:
         
     def beat(self):
         """Single heartbeat cycle"""
-        logger.info("💓 Thump-thump...")
+        logger.info("  Thump-thump...")
         
         # 1. Body Check (Hardware Awareness)
         vitals = self.monitor.check_vital_signs()
         metrics = self.monitor.collect_metrics()
         
         if not vitals["safe_to_create"]:
-            logger.warning(f"🛑 SELF-REGULATION ACTIVE: {vitals['reason']}")
+            logger.warning(f"  SELF-REGULATION ACTIVE: {vitals['reason']}")
             logger.info("   Elysia is resting to cool down...")
             time.sleep(2)
             return
@@ -82,7 +82,7 @@ class HeartbeatDaemon:
                 
     def _create_something(self, intent):
         """Simulates the act of creation based on will"""
-        logger.info(f"🎨 CREATING ARTIFACT: {intent.goal}...")
+        logger.info(f"  CREATING ARTIFACT: {intent.goal}...")
         
         # Extract concept
         concept = intent.goal
@@ -91,17 +91,17 @@ class HeartbeatDaemon:
         # Commission Art
         # Note: In a real run, this would be an async request
         req_path = self.studio.commission_art(concept, "Awe")
-        logger.info(f"   ✨ Commission sent to Gallery: {req_path}")
+        logger.info(f"     Commission sent to Gallery: {req_path}")
 
     def live(self, cycles=10):
         """Main Loop"""
-        logger.info("🌟 ELYSIA IS AWAKE. OBSERVING WILL...")
+        logger.info("  ELYSIA IS AWAKE. OBSERVING WILL...")
         try:
             for i in range(cycles):
                 self.beat()
                 time.sleep(3) 
         except KeyboardInterrupt:
-            logger.info("💤 Elysia is going to sleep.")
+            logger.info("  Elysia is going to sleep.")
 
 if __name__ == "__main__":
     daemon = HeartbeatDaemon()

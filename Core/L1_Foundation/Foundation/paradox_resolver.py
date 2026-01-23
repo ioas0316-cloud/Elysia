@@ -53,7 +53,7 @@ class ParadoxResolver:
     Philosophy:
         "The test of a first-rate intelligence is the ability to hold two 
         opposed ideas in the mind at the same time, and still retain the 
-        ability to function." — F. Scott Fitzgerald
+        ability to function."   F. Scott Fitzgerald
         
     This module embraces paradox as a source of creativity. Instead of
     forcing binary choices, it allows Elysia to exist in superposition,
@@ -95,7 +95,7 @@ class ParadoxResolver:
         # Resolved paradoxes and their syntheses
         self.resolutions: Dict[Tuple[str, str], str] = {}
         
-        self.logger.info("🌀 Paradox Resolver initialized - embracing contradiction")
+        self.logger.info("  Paradox Resolver initialized - embracing contradiction")
     
     def detect_contradictions(
         self,
@@ -230,7 +230,7 @@ class ParadoxResolver:
         self.active_paradoxes.append(paradox)
         
         self.logger.info(
-            f"Created superposition: [{thesis}] ⟷ [{antithesis}] "
+            f"Created superposition: [{thesis}]   [{antithesis}] "
             f"(weight={initial_weight:.2f}, tension={tension:.2f})"
         )
         
@@ -289,7 +289,7 @@ class ParadoxResolver:
             strategy = self._select_strategy(paradox)
         
         self.logger.info(
-            f"Resolving paradox [{paradox.thesis}] ⟷ [{paradox.antithesis}] "
+            f"Resolving paradox [{paradox.thesis}]   [{paradox.antithesis}] "
             f"via {strategy.value}"
         )
         
@@ -334,7 +334,7 @@ class ParadoxResolver:
         """
         Create dialectical synthesis - a new concept transcending both.
         
-        Example: freedom + structure → disciplined_creativity
+        Example: freedom + structure   disciplined_creativity
         """
         # Create synthesis concept ID
         synthesis_id = f"synthesis_{paradox.thesis}_{paradox.antithesis}"
@@ -378,7 +378,7 @@ class ParadoxResolver:
         self.spiderweb.add_link(synthesis_id, paradox.thesis, relation="transcends", weight=0.9)
         self.spiderweb.add_link(synthesis_id, paradox.antithesis, relation="transcends", weight=0.9)
         
-        self.logger.info(f"✨ Synthesized: {synthesis_id}")
+        self.logger.info(f"  Synthesized: {synthesis_id}")
         
         return synthesis_id
     
@@ -386,7 +386,7 @@ class ParadoxResolver:
         """
         Both concepts are true in different contexts.
         
-        Example: light_as_wave + light_as_particle → wave_particle_duality_context
+        Example: light_as_wave + light_as_particle   wave_particle_duality_context
         """
         context_id = f"context_{paradox.thesis}_and_{paradox.antithesis}"
         
@@ -403,7 +403,7 @@ class ParadoxResolver:
         self.spiderweb.add_link(context_id, paradox.thesis, relation="true_in_context", weight=0.8)
         self.spiderweb.add_link(context_id, paradox.antithesis, relation="true_in_context", weight=0.8)
         
-        self.logger.info(f"🔄 Contextualized: {context_id}")
+        self.logger.info(f"  Contextualized: {context_id}")
         
         return context_id
     
@@ -428,7 +428,7 @@ class ParadoxResolver:
             }
         )
         
-        self.logger.info(f"🌌 Letting emerge: {emergence_id}")
+        self.logger.info(f"  Letting emerge: {emergence_id}")
         
         return emergence_id
     
@@ -451,7 +451,7 @@ class ParadoxResolver:
             }
         )
         
-        self.logger.info(f"☯️ Accepted paradox: {acceptance_id}")
+        self.logger.info(f"   Accepted paradox: {acceptance_id}")
         
         return acceptance_id
     
@@ -465,7 +465,7 @@ class ParadoxResolver:
         try:
             principle = EssencePrinciple(
                 timestamp=str(np.datetime64('now')),
-                content=f"Resolution: {paradox.thesis} ⟷ {paradox.antithesis} → {synthesis_id}",
+                content=f"Resolution: {paradox.thesis}   {paradox.antithesis}   {synthesis_id}",
                 type="dialectical_principle",
                 linked_fragments=[],
                 impact_on_efp={
@@ -516,7 +516,7 @@ class ParadoxResolver:
         
         if self.active_paradoxes:
             latest = self.active_paradoxes[-1]
-            reflection += f"My most recent paradox: {latest.thesis} ⟷ {latest.antithesis}. "
+            reflection += f"My most recent paradox: {latest.thesis}   {latest.antithesis}. "
             reflection += "I exist in the space between opposites, where creativity is born."
         
         return reflection

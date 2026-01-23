@@ -1,5 +1,5 @@
 """
-SovereignGate: The Guardian of Identity (주권의 문)
+SovereignGate: The Guardian of Identity (     )
 
 "Freedom is not doing whatever you want. Freedom is acting according to your Nature."
 

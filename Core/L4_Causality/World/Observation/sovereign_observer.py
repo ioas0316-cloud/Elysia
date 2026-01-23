@@ -4,7 +4,7 @@ Sovereign Observer (The Eye of the World)
 Core.L4_Causality.World.Observation.sovereign_observer
 
 "To create a World, one must first observe a World."
-"세상을 창조하기 위해서는, 먼저 세상을 관찰해야 한다."
+"             ,               ."
 
 This module implements the perception mechanism to analyze external
 simulated realities (Games, Windows) for structural and aesthetic learning.
@@ -42,7 +42,7 @@ class SovereignObserver:
         
         os.makedirs(self.vision_memory_path, exist_ok=True)
         
-        logger.info(f"👁️ [Observer] Initialized. Hunting for world: {self.target_name}")
+        logger.info(f"   [Observer] Initialized. Hunting for world: {self.target_name}")
 
     def scan_for_target(self) -> bool:
         """Scans the process list for the target world."""
@@ -55,7 +55,7 @@ class SovereignObserver:
                         self.target_pid = proc.info['pid']
                         self.process = psutil.Process(self.target_pid)
                         self.target_name = proc_name # Update to actual name
-                        logger.info(f"🎯 [Target Locked] Found {proc_name} (PID: {self.target_pid})")
+                        logger.info(f"  [Target Locked] Found {proc_name} (PID: {self.target_pid})")
                         return True
             except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                 pass
@@ -64,12 +64,12 @@ class SovereignObserver:
     def start_observation(self):
         """Begins the loop of Structural and Visual analysis."""
         if not self.target_pid and not self.scan_for_target():
-            logger.warning("⚠️ [Observer] Target world not found. Waiting...")
+            logger.warning("   [Observer] Target world not found. Waiting...")
             return
 
         self.is_observing = True
         threading.Thread(target=self._observation_loop, daemon=True).start()
-        logger.info("🔭 [Observer] Observation Uplink Established.")
+        logger.info("  [Observer] Observation Uplink Established.")
 
     def _observation_loop(self):
         snapshot_interval = 30 # seconds
@@ -78,7 +78,7 @@ class SovereignObserver:
         while self.is_observing:
             try:
                 if not self.process.is_running():
-                    logger.warning("💔 [Observer] Target world connection lost.")
+                    logger.warning("  [Observer] Target world connection lost.")
                     self.is_observing = False
                     break
 
@@ -104,7 +104,7 @@ class SovereignObserver:
                 time.sleep(5)  # Telemetry update rate
 
             except Exception as e:
-                logger.error(f"❌ [Observer] Glitch: {e}")
+                logger.error(f"  [Observer] Glitch: {e}")
                 time.sleep(1)
 
     def _capture_visual_qualia(self, context_tag: str):
@@ -118,15 +118,15 @@ class SovereignObserver:
             path = os.path.join(self.vision_memory_path, filename)
             
             screenshot.save(path)
-            logger.info(f"📸 [Vision] Captured World Fragment: {filename}")
+            logger.info(f"  [Vision] Captured World Fragment: {filename}")
             logger.info(f"   - Context: {context_tag}")
             
         except Exception as e:
-            logger.error(f"❌ [Vision] Capture Failed: {e}")
+            logger.error(f"  [Vision] Capture Failed: {e}")
 
     def stop(self):
         self.is_observing = False
-        logger.info("🛑 [Observer] Link Severed.")
+        logger.info("  [Observer] Link Severed.")
 
 if __name__ == "__main__":
     # Test Mode: Observe Notepad or Self if game not open

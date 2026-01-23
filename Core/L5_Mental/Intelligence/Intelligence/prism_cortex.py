@@ -108,4 +108,3 @@ class PrismCortex:
                 return f"{parts[1]} and {parts[3]} are resonating"
         
         return first.split("(")[0].strip() # Fallback cleanup
-

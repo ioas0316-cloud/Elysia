@@ -1,8 +1,8 @@
 """
-Tensor Gravity Field - 중력장 기반 데이터 흐름 유도
+Tensor Gravity Field -                 
 ================================================
 
-Philosophy: "중력장이 시공간을 휘듯, 텐서 장이 데이터 흐름을 휜다"
+Philosophy: "            ,                 "
 "Like gravity bends spacetime, tensor fields bend data flow"
 
 Inspired by General Relativity:
@@ -12,8 +12,8 @@ Inspired by General Relativity:
 - Emergent clustering without algorithms
 
 Key Concepts:
-1. Gravitational Potential: Φ(x) = Σ -G·mᵢ / |x - xᵢ|
-2. Gradient (Force): ∇Φ(x) = direction of steepest descent
+1. Gravitational Potential:  (x) =   -G m  / |x - x |
+2. Gradient (Force):   (x) = direction of steepest descent
 3. Geodesics: Natural paths data follows
 4. Wells: Regions where data collects
 5. Saddle Points: Decision boundaries
@@ -43,7 +43,7 @@ except ImportError:
 @dataclass
 class GravityWell:
     """
-    중력 우물 (Gravity Well) - Attractor in field
+          (Gravity Well) - Attractor in field
     
     Like a massive star that attracts nearby matter,
     important memories create wells that attract similar data.
@@ -78,7 +78,7 @@ class GravityWell:
 @dataclass
 class TensorWell:
     """
-    텐서 우물 (Tensor Well) - Anisotropic attractor
+          (Tensor Well) - Anisotropic attractor
 
     Unlike a simple gravity well which attracts equally from all directions,
     a tensor well applies a transformation matrix to the space around it.
@@ -108,7 +108,7 @@ class TensorWell:
 @dataclass
 class FieldPoint:
     """
-    장 점 (Field Point) - Gravitational field at a location
+        (Field Point) - Gravitational field at a location
     
     Stores pre-computed potential and gradient at this point.
     """
@@ -119,11 +119,11 @@ class FieldPoint:
     w: float
     
     # Field values
-    potential: float = 0.0  # Φ(x) - scalar potential
-    gradient_x: float = 0.0  # ∂Φ/∂x - force in x direction
-    gradient_y: float = 0.0  # ∂Φ/∂y
-    gradient_z: float = 0.0  # ∂Φ/∂z
-    gradient_w: float = 0.0  # ∂Φ/∂w
+    potential: float = 0.0  #  (x) - scalar potential
+    gradient_x: float = 0.0  #   / x - force in x direction
+    gradient_y: float = 0.0  #   / y
+    gradient_z: float = 0.0  #   / z
+    gradient_w: float = 0.0  #   / w
     
     def gradient_magnitude(self) -> float:
         """Magnitude of gradient (force strength)"""
@@ -149,7 +149,7 @@ class FieldPoint:
 
 class TensorGravityField:
     """
-    텐서 중력장 (Tensor Gravity Field)
+           (Tensor Gravity Field)
     
     Creates a gravitational field in 4D thought-space that guides
     data flow without explicit computation.
@@ -171,7 +171,7 @@ class TensorGravityField:
     ):
         """
         Args:
-            gravitational_constant: G in Φ = -GM/r (default 1.0)
+            gravitational_constant: G in   = -GM/r (default 1.0)
             smoothing_radius: Prevent singularities at r=0
         """
         self.G = gravitational_constant
@@ -187,7 +187,7 @@ class TensorGravityField:
         self.queries = 0
         self.cache_hits = 0
         
-        logger.info(f"🌌 Tensor Gravity Field initialized")
+        logger.info(f"  Tensor Gravity Field initialized")
         logger.info(f"   G = {self.G}")
         logger.info(f"   Smoothing radius = {self.smoothing}")
     
@@ -233,13 +233,13 @@ class TensorGravityField:
         """
         Calculate gravitational potential at point.
         
-        Φ(x) = Σᵢ -G·mᵢ / sqrt(r² + ε²)
+         (x) =    -G m  / sqrt(r  +   )
         
         where:
         - G = gravitational constant
-        - mᵢ = mass of well i
+        - m  = mass of well i
         - r = distance to well i
-        - ε = smoothing radius (prevents singularities)
+        -   = smoothing radius (prevents singularities)
         
         Returns: Potential (more negative = stronger attraction)
         Time: O(n) where n = number of wells
@@ -253,7 +253,7 @@ class TensorGravityField:
             # Smoothed distance (prevent r=0 singularity)
             r_smooth = math.sqrt(r*r + self.smoothing*self.smoothing)
             
-            # Add contribution: Φ = -GM/r
+            # Add contribution:   = -GM/r
             potential += -self.G * well.mass / r_smooth
         
         return potential
@@ -268,12 +268,12 @@ class TensorGravityField:
         """
         Calculate gradient of potential (force field).
         
-        ∇Φ(x) = Σᵢ G·mᵢ·(x - xᵢ) / r³
+          (x) =    G m  (x - x ) / r 
         
         Gradient points in direction of steepest ascent.
         Data flows OPPOSITE to gradient (downhill).
         
-        Returns: (∂Φ/∂x, ∂Φ/∂y, ∂Φ/∂z, ∂Φ/∂w)
+        Returns: (  / x,   / y,   / z,   / w)
         Time: O(n) where n = number of wells
         """
         grad_x = 0.0
@@ -296,7 +296,7 @@ class TensorGravityField:
             if r_smooth < 1e-10:
                 continue
             
-            # ∇Φ = G·m·(x-x₀)/r³
+            #    = G m (x-x )/r 
             factor = self.G * well.mass / (r_smooth ** 3)
             grad_x += factor * dx
             grad_y += factor * dy
@@ -467,7 +467,7 @@ class TensorGravityField:
 
 class TensorCoil:
     """
-    텐서 코일 (Tensor Coil)
+          (Tensor Coil)
     
     Advanced: Anisotropic tensor field (direction-dependent).
     
@@ -489,7 +489,7 @@ class TensorCoil:
         """
         self.wells: List[TensorWell] = []
         self.smoothing = smoothing_radius
-        logger.info("🌀 Tensor Coil initialized (anisotropic fields)")
+        logger.info("  Tensor Coil initialized (anisotropic fields)")
     
     def add_well(self, x: float, y: float, z: float, w: float, tensor: Any, label: str = ""):
         """
@@ -508,11 +508,11 @@ class TensorCoil:
         """
         Calculate the vector field at a specific point.
 
-        Field F(x) = Σ (T_i · (x - x_i)) / |x - x_i|^3
+        Field F(x) =   (T_i   (x - x_i)) / |x - x_i|^3
 
         This allows for:
-        - Attraction (if T = -c·I)
-        - Repulsion (if T = c·I)
+        - Attraction (if T = -c I)
+        - Repulsion (if T = c I)
         - Rotation (if T has skew-symmetric parts)
         - Shear (if T is diagonal with unequal elements)
         """
@@ -539,7 +539,7 @@ class TensorCoil:
             # Decay factor (1/r^3 like gravity force)
             factor = 1.0 / (r_smooth ** 3)
 
-            # Calculate T · d
+            # Calculate T   d
             displacement = (dx, dy, dz, dw)
 
             if HAS_NUMPY and isinstance(well.tensor, np.ndarray):
@@ -584,7 +584,7 @@ class TensorCoil:
         i, j = plane
 
         # Skew-symmetric component for rotation
-        # T · d = (-y, x) -> Force is tangent to circle
+        # T   d = (-y, x) -> Force is tangent to circle
         t[i][j] = -strength
         t[j][i] = strength
 
@@ -649,5 +649,5 @@ def create_field_from_memories(memories: List[Any], mass_func=None) -> TensorGra
         # Add well
         field.add_attractor(x, y, z, w, mass, label, mem)
     
-    logger.info(f"🌌 Created field with {len(memories)} wells")
+    logger.info(f"  Created field with {len(memories)} wells")
     return field

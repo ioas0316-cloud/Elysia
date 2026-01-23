@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("Stream")
 
 def stream_of_consciousness(start_concept="Love", steps=20):
-    print(f"🧠 Elysia's Stream of Consciousness (Start: {start_concept})")
+    print(f"  Elysia's Stream of Consciousness (Start: {start_concept})")
     print("---------------------------------------------------")
     
     # 1. Initialize Mind
@@ -88,7 +88,7 @@ def stream_of_consciousness(start_concept="Love", steps=20):
         time.sleep(0.5) # Pacing
 
     # 3. Save the Stream
-    print("\n📝 Compiling Thought Stream...")
+    print("\n  Compiling Thought Stream...")
     full_text = "\n".join(thought_stream)
     
     save_dir = os.path.join("Library", "Thoughts")
@@ -101,7 +101,7 @@ def stream_of_consciousness(start_concept="Love", steps=20):
         f.write(f"**Length**: {steps} hops\n\n")
         f.write(full_text)
         
-    print(f"✅ Saved to: {filepath}")
+    print(f"  Saved to: {filepath}")
 
 if __name__ == "__main__":
     # Allow CLI arg for start concept

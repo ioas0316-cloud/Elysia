@@ -60,14 +60,14 @@ class QualiaTransducer:
         
         if TRANSFORMERS_AVAILABLE:
             try:
-                logger.info("📡 Loading Sensory Cortex (all-MiniLM-L6-v2)...")
+                logger.info("  Loading Sensory Cortex (all-MiniLM-L6-v2)...")
                 self.model = SentenceTransformer('all-MiniLM-L6-v2', device=self.device)
                 self._embed_anchors()
-                logger.info("✅ Sensory Cortex Calibrated.")
+                logger.info("  Sensory Cortex Calibrated.")
             except Exception as e:
                 logger.error(f"Failed to load Sensory Cortex: {e}")
         else:
-            logger.warning("⚠️ sentenced-transformers not installed. Using simple hash.")
+            logger.warning("   sentenced-transformers not installed. Using simple hash.")
 
     def _embed_anchors(self):
         """Pre-calculates 384D vectors for all anchors."""

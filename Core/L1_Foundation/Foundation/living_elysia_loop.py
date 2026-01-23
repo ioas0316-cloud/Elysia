@@ -35,7 +35,7 @@ class LivingElysiaLoop:
 
     def start(self):
         self.is_running = True
-        logger.info("🌊 Living Loop Started. Press Ctrl+C to stop.")
+        logger.info("  Living Loop Started. Press Ctrl+C to stop.")
 
         try:
             while self.is_running:
@@ -46,7 +46,7 @@ class LivingElysiaLoop:
 
     def stop(self):
         self.is_running = False
-        logger.info("🛑 Living Loop Stopped.")
+        logger.info("  Living Loop Stopped.")
 
     def inject_thought(self, text: str):
         """Simulate user input as a Wave Injection."""
@@ -62,7 +62,7 @@ class LivingElysiaLoop:
             dna.mutate(0.5) # Random noise
 
         self.input_queue.append(dna)
-        logger.info(f"📥 Input Injected: '{text}' -> {dna}")
+        logger.info(f"  Input Injected: '{text}' -> {dna}")
 
     def _tick(self):
         now = time.time()
@@ -76,7 +76,7 @@ class LivingElysiaLoop:
         if self.input_queue:
             input_dna = self.input_queue.pop(0)
             result = self.core.focus_attention(input_dna)
-            logger.info(f"👁️ Perception: {result}")
+            logger.info(f"   Perception: {result}")
 
         # 3. Autonomy (The Wandering Mind)
         # If nothing is happening, create a random thought (Boredom -> Creativity)
@@ -87,7 +87,7 @@ class LivingElysiaLoop:
             if active_rotors:
                 seed = random.choice(active_rotors)
                 # "I wonder about..."
-                logger.info(f"💭 Wandering Mind: Contemplating '{seed.name}'...")
+                logger.info(f"  Wandering Mind: Contemplating '{seed.name}'...")
                 result = self.core.focus_attention(seed.dna)
                 # logger.info(f"   -> {result}")
 

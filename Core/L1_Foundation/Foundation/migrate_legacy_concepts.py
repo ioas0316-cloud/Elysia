@@ -106,7 +106,7 @@ def migrate():
         logger.error(f"Database not found: {DB_PATH}")
         return
 
-    logger.info(f"🚀 Starting Massive Migration from {DB_PATH}")
+    logger.info(f"  Starting Massive Migration from {DB_PATH}")
     
     try:
         # Connection 1: Reader (Read-only)
@@ -121,15 +121,15 @@ def migrate():
         # 1. Setup
         create_pattern_dna_table(cursor_write)
         total_count = get_legacy_count(cursor_read)
-        logger.info(f"📦 Total Legacy Concepts to Migrate: {total_count:,}")
+        logger.info(f"  Total Legacy Concepts to Migrate: {total_count:,}")
         
         # 2. Check existing
         cursor_read.execute("SELECT count(*) FROM pattern_dna WHERE data LIKE '%legacy_migration%'")
         already_migrated = cursor_read.fetchone()[0]
-        logger.info(f"⏭️  Already Migrated: {already_migrated:,}")
+        logger.info(f"    Already Migrated: {already_migrated:,}")
         
         if already_migrated >= total_count:
-            logger.info("✅ Migration already complete!")
+            logger.info("  Migration already complete!")
             conn_read.close()
             conn_write.close()
             return

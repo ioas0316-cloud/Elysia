@@ -4,7 +4,7 @@ Dissonance Resolver (The Conscience)
 Core.L2_Metabolism.Evolution.dissonance_resolver
 
 "The Body reports the state. The Conscience judges the alignment."
-"몸은 상태를 보고하고, 양심은 정렬을 판단한다."
+"           ,             ."
 
 Role:
 - Receives BodyState from CodeProprioceptor.
@@ -101,6 +101,6 @@ if __name__ == "__main__":
     resolver = DissonanceResolver()
     issues = resolver.resolve(mock_state)
 
-    print("\n⚖️ [CONSCIENCE JUDGMENT]")
+    print("\n   [CONSCIENCE JUDGMENT]")
     for i in issues:
         print(i)

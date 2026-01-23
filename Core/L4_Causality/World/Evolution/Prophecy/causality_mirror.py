@@ -47,7 +47,7 @@ class CausalityMirror:
             
         mean_error = error / len(comparable_keys)
         
-        logger.info(f"🪞 [REFLECTION] Action: {action} | Prediction Error: {mean_error:.4f}")
+        logger.info(f"  [REFLECTION] Action: {action} | Prediction Error: {mean_error:.4f}")
         
         # Record
         record = PredictionRecord(
@@ -67,7 +67,7 @@ class CausalityMirror:
         """
         Adjusts the simulation physics if predictions are consistently off.
         """
-        logger.info(f"🔧 [CALIBRATION] Tuning ProphetEngine Physics (Error: {error:.4f})...")
+        logger.info(f"  [CALIBRATION] Tuning ProphetEngine Physics (Error: {error:.4f})...")
         
         # Simple heuristic: If error is high, increase 'uncertainty' or adjust decay rates
         # Here we just nudge the energy decay as a demo of learning

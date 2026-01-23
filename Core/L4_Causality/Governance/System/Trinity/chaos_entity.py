@@ -20,7 +20,7 @@ class ChaosEntity:
     def __init__(self):
         self.logger = logging.getLogger("ChaosEntity")
         self.entropy_level = 0.9
-        self.logger.info("🔴 Chaos Entity (Body/Instinct) Initialized.")
+        self.logger.info("  Chaos Entity (Body/Instinct) Initialized.")
         
         # Internal State: Mini Slime Grid (Abstracted)
         self.grid_state = [[random.uniform(0,1) for _ in range(5)] for _ in range(5)]
@@ -30,7 +30,7 @@ class ChaosEntity:
         React to input with raw instinct/emotion.
         Uses non-linear 'feeling' logic.
         """
-        self.logger.info(f"🔴 Chaos Feeling on: '{input_signal}'")
+        self.logger.info(f"  Chaos Feeling on: '{input_signal}'")
         
         # 1. Perturb the grid (Reaction)
         intensity = len(input_signal) / 100.0

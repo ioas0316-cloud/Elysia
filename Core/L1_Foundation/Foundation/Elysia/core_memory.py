@@ -170,7 +170,7 @@ Memory = Experience
 
 class IdentityFragment:
 
-    """[혼]의 링: 패턴, 관계, 서사 (Soul Loop)"""
+    """[ ]   :   ,   ,    (Soul Loop)"""
 
 
 
@@ -212,7 +212,7 @@ class IdentityFragment:
 
 class EssencePrinciple:
 
-    """[영]의 링: 존재론적 의미, 핵심 원칙 (Spirit Loop)"""
+    """[ ]   :        ,       (Spirit Loop)"""
 
 
 
@@ -614,7 +614,7 @@ class CoreMemory:
     def mark_hypothesis_as_asked(self, head: str, tail: Optional[str] = None):
         for hypothesis in self.data.get("notable_hypotheses", []):
             matches_tail = tail is not None and hypothesis.get("tail") == tail
-            matches_ascension = tail is None and hypothesis.get("relation") == "승천"
+            matches_ascension = tail is None and hypothesis.get("relation") == "  "
             if hypothesis.get("head") == head and (matches_tail or matches_ascension):
                 hypothesis["asked"] = True
                 self._save_memory()
@@ -640,7 +640,7 @@ class CoreMemory:
             log_msg = f"Removed hypothesis: {head} -> {tail}"
         else:
             self.data["notable_hypotheses"] = [
-                h for h in hypotheses if not (h.get("head") == head and h.get("relation") == "승천")
+                h for h in hypotheses if not (h.get("head") == head and h.get("relation") == "  ")
             ]
             log_msg = f"Removed ascension hypothesis: {head}"
         if len(self.data["notable_hypotheses"]) < original_count:
@@ -678,7 +678,7 @@ class CoreMemory:
             return
 
         content = " ".join(exp.get("content", "") for exp in experiences_data)
-        summary = f"경험 요약: {content[:50]}..."
+        summary = f"     : {content[:50]}..."
 
         total_valence = 0.0
         emotions: List[str] = []
@@ -757,7 +757,7 @@ class CoreMemory:
             return
 
         content = " ".join(fragment.get("content", "") for fragment in fragments_data)
-        principle_summary = f"정체성으로부터의 깨달음: {content[:70]}..."
+        principle_summary = f"            : {content[:70]}..."
 
         impact = {"E": 0.05, "F": 0.01, "P": 0.0}
 
@@ -1027,4 +1027,3 @@ class CoreMemory:
         except Exception as e:
 
             log_memory_action(f"Error saving MRE state to {self.file_path}: {e}")
-

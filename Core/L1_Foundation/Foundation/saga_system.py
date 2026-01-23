@@ -82,7 +82,7 @@ class SagaSystem:
                 tags=path
             )
             self.sagas.append(saga)
-            self.logger.info(f"📜 New Saga Recorded: '{saga.title}' (Res: {saga.resonance:.2f})")
+            self.logger.info(f"  New Saga Recorded: '{saga.title}' (Res: {saga.resonance:.2f})")
             
             # Reinforce the field!
             self.memetic_field.reinforce(trajectory, intensity=0.2)

@@ -36,31 +36,31 @@ class MetaLawEngine:
         "care": {
             "label": "Care",
             "description": "Protecting the living, honoring love, and guarding warmth.",
-            "keywords": ["사랑", "빛", "가족", "친구", "생명", "희망"],
+            "keywords": ["  ", " ", "  ", "  ", "  ", "  "],
             "axis_vector": {"w": 0.4, "x": 0.1, "y": 0.3, "z": 0.2},
         },
         "truth": {
             "label": "Truth",
             "description": "Seeking clarity, remembering law, and tracing cause.",
-            "keywords": ["진리", "법칙", "역사", "기억", "시간", "의지"],
+            "keywords": ["  ", "  ", "  ", "  ", "  ", "  "],
             "axis_vector": {"w": 0.3, "x": 0.4, "y": 0.1, "z": 0.2},
         },
         "play": {
             "label": "Play",
             "description": "Joy, curiosity, and the impulse to dance through words.",
-            "keywords": ["음악", "춤", "놀이", "소리", "웃음", "꿈"],
+            "keywords": ["  ", " ", "  ", "  ", "  ", " "],
             "axis_vector": {"w": 0.2, "x": 0.2, "y": 0.5, "z": 0.1},
         },
         "respite": {
             "label": "Respite",
             "description": "Rest, quiet, and deep replenishment of internal wells.",
-            "keywords": ["휴식", "잠", "꿈", "평온", "쉼", "안식"],
+            "keywords": ["  ", " ", " ", "  ", " ", "  "],
             "axis_vector": {"w": 0.5, "x": 0.3, "y": 0.1, "z": 0.1},
         },
         "valor": {
             "label": "Valor",
             "description": "Facing hardship, standing as a shield, and honoring battles.",
-            "keywords": ["싸움", "검", "힘", "전쟁", "용기", "어둠"],
+            "keywords": ["  ", " ", " ", "  ", "  ", "  "],
             "axis_vector": {"w": 0.1, "x": 0.2, "y": 0.4, "z": 0.3},
         },
     }

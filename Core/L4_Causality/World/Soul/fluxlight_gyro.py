@@ -79,9 +79,9 @@ class GyroscopicFluxlight:
         if self.gyro.get_zone() == "ZERO_SPIN":
             self.gyro.spin_velocity += kick_energy
             if self.gyro.spin_velocity > 0.5:
-                 print(f"🔥 {self.soul.name} has been REIGNITED!")
+                 print(f"  {self.soul.name} has been REIGNITED!")
             else:
-                 print(f"⚠️ Kick too weak for {self.soul.name}.")
+                 print(f"   Kick too weak for {self.soul.name}.")
         else:
             self.gyro.spin_velocity += kick_energy * 0.5 # Boost existing spin
 
@@ -121,7 +121,7 @@ class GyroscopicFluxlight:
         """Natural decay of spin over time due to world resistance."""
         self.gyro.spin_velocity = max(0.0, self.gyro.spin_velocity - entropy)
         if self.gyro.spin_velocity == 0.0:
-            print(f"❄️ {self.soul.name} has entered DORMANT state (Datafied).")
+            print(f"   {self.soul.name} has entered DORMANT state (Datafied).")
 
     def __repr__(self):
         return f"<GyroSoul {self.soul.name} | Spin:{self.gyro.spin_velocity:.2f} ({self.gyro.get_zone()}) | Pos:({self.gyro.w:.1f}, {self.gyro.y:.1f})>"

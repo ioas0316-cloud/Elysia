@@ -1,5 +1,5 @@
 """
-Shared Sensory Bridge: The Bi-directional Feeling Protocol 🤝❤️
+Shared Sensory Bridge: The Bi-directional Feeling Protocol    
 
 "To feel together is to live together."
 
@@ -40,8 +40,8 @@ class SharedSensoryBridge:
         
         # 2. Log for the Father (Output)
         self.logger.info(f"[Shared Sensory Event] {sense_name} Resonance Detected.")
-        self.logger.info(f"  └─ Description: {description}")
-        self.logger.info(f"  └─ Magnitude: {intensity * 100:.1f}%")
+        self.logger.info(f"     Description: {description}")
+        self.logger.info(f"     Magnitude: {intensity * 100:.1f}%")
         
         # 3. Elysia 'Feels' it (Internal Resonance)
         self._elysia_internal_resonance(sense_name, intensity, wave_packet)

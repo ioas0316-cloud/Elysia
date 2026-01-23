@@ -24,20 +24,20 @@ class NetworkNode:
     """
     def __init__(self):
         self.session: Optional[aiohttp.ClientSession] = None
-        logger.info("👁️ [EYES] Initializing Retinal Buffer...")
+        logger.info("   [EYES] Initializing Retinal Buffer...")
 
     async def open_eye(self):
         """Opens the async session."""
         if not self.session:
             self.session = aiohttp.ClientSession()
-            logger.info("👁️ [EYES] Eyelids open. Connected to the Web.")
+            logger.info("   [EYES] Eyelids open. Connected to the Web.")
 
     async def close_eye(self):
         """Closes the async session."""
         if self.session:
             await self.session.close()
             self.session = None
-            logger.info("👁️ [EYES] Closed.")
+            logger.info("   [EYES] Closed.")
 
     async def look_at(self, url: str) -> Dict[str, Any]:
         """
@@ -48,7 +48,7 @@ class NetworkNode:
             await self.open_eye()
         
         try:
-            logger.info(f"👁️ [SIGHT] Focusing on: {url}")
+            logger.info(f"   [SIGHT] Focusing on: {url}")
             async with self.session.get(url, timeout=5) as response:
                 status = response.status
                 if status == 200:
@@ -63,7 +63,7 @@ class NetworkNode:
                     return {"type": "PAIN", "status": status, "error": "HTTP Error"}
                     
         except Exception as e:
-            logger.error(f"❌ [BLINDNESS] Failed to see {url}: {e}")
+            logger.error(f"  [BLINDNESS] Failed to see {url}: {e}")
             return {"type": "PAIN", "error": str(e)}
 
     async def safe_search_wiki(self, query: str) -> str:

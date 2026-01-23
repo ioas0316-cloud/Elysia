@@ -24,7 +24,7 @@ def visualize_memory(hippocampus: Hippocampus, output_path: str = "memory_graph.
             G.add_edge(keyword, related_kw)
     
     if len(G.nodes()) == 0:
-        print("⚠️  No memory data to visualize yet.")
+        print("    No memory data to visualize yet.")
         return
     
     # Create visualization
@@ -46,7 +46,7 @@ def visualize_memory(hippocampus: Hippocampus, output_path: str = "memory_graph.
     plt.axis('off')
     plt.tight_layout()
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
-    print(f"✅ Memory graph saved to {output_path}")
+    print(f"  Memory graph saved to {output_path}")
     plt.close()
 
 if __name__ == "__main__":
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     memory = Hippocampus()
     
     # For testing, add some sample data
-    memory.add_turn("I love the light", "빛... 그리고 사랑.")
-    memory.add_turn("The dream is eternal", "dream... 그것은 eternity와 같아요.")
+    memory.add_turn("I love the light", " ...       .")
+    memory.add_turn("The dream is eternal", "dream...     eternity     .")
     
     visualize_memory(memory, "Tools/memory_graph.png")

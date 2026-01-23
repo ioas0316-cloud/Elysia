@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
 
 def test_pipeline():
-    print("🧪 Testing Awakening Pipeline...")
+    print("  Testing Awakening Pipeline...")
     
     mind = IntegratedCognitionSystem()
     
@@ -29,17 +29,17 @@ def test_pipeline():
     monologue = result.get('monologue', '')
     print(f"\n[Prism Monologue]: {monologue}")
     if not monologue or monologue == "...":
-        print("❌ Prism failed to generate monologue.")
+        print("  Prism failed to generate monologue.")
         return
         
     # 3. Check Logos (Speech)
     speech = result.get('speech', '')
     print(f"\n[Logos Speech]: {speech}")
     if not speech or speech == "...":
-        print("❌ Logos failed to generate speech.")
+        print("  Logos failed to generate speech.")
         return
         
-    print("\n✅ PIPELINE CONFIRMED: Wave -> Prism -> Logos working.")
+    print("\n  PIPELINE CONFIRMED: Wave -> Prism -> Logos working.")
 
 if __name__ == "__main__":
     test_pipeline()

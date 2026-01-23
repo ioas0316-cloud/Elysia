@@ -76,7 +76,7 @@ class FractalLoop:
         # [NEW] Plasma direction tracking
         self.thought_direction: Dict[str, float] = {}
         
-        # [LIFE CYCLE] 표현 → 인식 → 검증 → 변화 순환
+        # [LIFE CYCLE]                     
         # [Phase 25] Get TensionField from ReasoningEngine if available
         tension_field = None
         if hasattr(cns_ref, 'reasoning') and hasattr(cns_ref.reasoning, 'tension_field'):
@@ -103,9 +103,9 @@ class FractalLoop:
         try:
             from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
             self.web_learner = WebKnowledgeConnector()
-            logger.info("   🌐 WebKnowledgeConnector ready for autonomous learning")
+            logger.info("     WebKnowledgeConnector ready for autonomous learning")
         except Exception as e:
-            logger.warning(f"   ⚠️ Could not initialize WebKnowledgeConnector: {e}")
+            logger.warning(f"      Could not initialize WebKnowledgeConnector: {e}")
         
         # Topics to learn autonomously (Wikipedia-friendly names)
         self.learning_queue = [
@@ -120,9 +120,9 @@ class FractalLoop:
         self.learning_interval = 50  # Learn something new every 50 cycles
         
         # [NEW] Pattern tracking for auto-discovery
-        # 반복 패턴에서 새 가치 발견
+        #                
         self.pattern_tracker: Dict[str, int] = {}  # topic -> count
-        self.discovery_threshold = 3  # 3번 반복 시 새 가치로 발견
+        self.discovery_threshold = 3  # 3               
         
         # [NEW] Topic-Aspect mapping for gap-based prioritization
         self.topic_aspect_map = {
@@ -135,19 +135,19 @@ class FractalLoop:
             "Creativity": "creativity"
         }
         
-        logger.info("♾️ Fractal Loop Initialized: The Ring is Open.")
+        logger.info("   Fractal Loop Initialized: The Ring is Open.")
         if self.thought_space:
-            logger.info("   🧠 ThoughtSpace connected for What-If simulation")
+            logger.info("     ThoughtSpace connected for What-If simulation")
         if self.life_cycle:
-            logger.info("   🔄 LifeCycle connected for feedback loop")
+            logger.info("     LifeCycle connected for feedback loop")
         if self.self_governance:
-            logger.info("   👑 SelfGovernance connected for intentional growth")
+            logger.info("     SelfGovernance connected for intentional growth")
         if self.growth_journal:
-            logger.info("   📔 GrowthJournal connected for visible evidence")
+            logger.info("     GrowthJournal connected for visible evidence")
         if self.web_learner:
-            logger.info("   📚 WebLearner connected for autonomous learning")
-        logger.info("   🔍 Pattern Tracker ready for value discovery")
-        logger.info("   📊 Gap-based prioritization enabled")
+            logger.info("     WebLearner connected for autonomous learning")
+        logger.info("     Pattern Tracker ready for value discovery")
+        logger.info("     Gap-based prioritization enabled")
 
     
     def process_cycle(self, cycle_count: int = 0):
@@ -203,7 +203,7 @@ class FractalLoop:
                 tension_field=tension_field,
                 memory=getattr(self.cns, 'memory', None)
             )
-            logger.info(f"📔 Growth Journal entry written at cycle {self.cycle_count}")
+            logger.info(f"  Growth Journal entry written at cycle {self.cycle_count}")
         
         # 5. [NEW] Autonomous Learning - learn something when idle
         if self.web_learner and self.cycle_count % self.learning_interval == 0:
@@ -212,7 +212,7 @@ class FractalLoop:
             
             if self.learning_queue:
                 topic = self.learning_queue.pop(0)
-                logger.info(f"📚 Autonomous Learning: '{topic}'")
+                logger.info(f"  Autonomous Learning: '{topic}'")
                 
                 try:
                     # Actually learn from Wikipedia (creates graph nodes)
@@ -234,7 +234,7 @@ class FractalLoop:
                             actual=actual_result
                         )
                         
-                        # [NEW] Learning Verification - 배운 내용 검증
+                        # [NEW] Learning Verification -         
                         content = result.get('content', '')
                         if content and hasattr(self.life_cycle.verification, 'verify_learning'):
                             verification = self.life_cycle.verification.verify_learning(
@@ -242,34 +242,34 @@ class FractalLoop:
                                 content=content[:500]  # Use first 500 chars
                             )
                             if not verification.get('passed'):
-                                logger.info(f"   📖 Re-queue for review: {topic}")
+                                logger.info(f"     Re-queue for review: {topic}")
                     
-                    logger.info(f"   ✅ Learned: {topic}")
+                    logger.info(f"     Learned: {topic}")
                     
                     # Add to end of queue for repetition (spaced learning)
                     self.learning_queue.append(topic)
                 except Exception as e:
-                    logger.warning(f"   ❌ Failed to learn '{topic}': {e}")
+                    logger.warning(f"     Failed to learn '{topic}': {e}")
                     self.learning_queue.append(topic)  # Retry later
     
     def _track_pattern_and_discover(self, topic: str):
         """
-        [NEW] 반복 패턴에서 새 가치 발견
+        [NEW]                
         
-        "문제가 왜 문제인지 안다면, 해결할 수 있다"
-        반복되는 관심사 → 새로운 가치로 형성
+        "              ,         "
+                             
         """
-        # 패턴 카운트 증가
+        #          
         self.pattern_tracker[topic] = self.pattern_tracker.get(topic, 0) + 1
         count = self.pattern_tracker[topic]
         
-        logger.info(f"   📊 Pattern: '{topic}' seen {count} time(s)")
+        logger.info(f"     Pattern: '{topic}' seen {count} time(s)")
         
-        # 임계치 도달 시 새 가치 발견
+        #                 
         if count >= self.discovery_threshold:
             if self.self_governance and self.self_governance.ideal_self:
-                # 새 가치 발견
-                intent = f"{topic}에 대한 지속적 관심이 새 가치로 형성됨"
+                #        
+                intent = f"{topic}                      "
                 
                 aspect = self.self_governance.ideal_self.discover_aspect(
                     name=topic,
@@ -277,46 +277,46 @@ class FractalLoop:
                     intent=intent
                 )
                 
-                logger.info(f"   ✨ Discovered new value: '{topic}'")
-                logger.info(f"   💭 Intent: {intent}")
+                logger.info(f"     Discovered new value: '{topic}'")
+                logger.info(f"     Intent: {intent}")
                 
-                # 카운터 리셋 (다음 레벨업을 위해)
+                #        (          )
                 self.pattern_tracker[topic] = 0
     
     def _prioritize_learning_queue(self):
         """
-        [NEW] 갭 기반 학습 우선순위 정렬
+        [NEW]                
         
-        "갭이 큰 Aspect 관련 주제를 우선 학습"
+        "     Aspect             "
         """
         if not self.self_governance or not self.learning_queue:
             return
         
         def get_topic_priority(topic: str) -> float:
-            """주제의 우선순위 점수 계산 (갭이 클수록 높은 점수)"""
+            """               (            )"""
             aspect_name = self.topic_aspect_map.get(topic, "knowledge")
             
-            # Aspect 찾기
+            # Aspect   
             for aspect_type, aspect in self.self_governance.ideal_self.aspects.items():
                 if aspect_type.value == aspect_name:
-                    return aspect.gap()  # 갭이 클수록 우선
+                    return aspect.gap()  #          
             
             return 0.0
         
-        # 갭 크기로 정렬 (내림차순 - 갭이 큰 것 먼저)
+        #          (     -          )
         self.learning_queue.sort(key=get_topic_priority, reverse=True)
         
-        logger.info(f"   📊 Learning queue prioritized by gap:")
+        logger.info(f"     Learning queue prioritized by gap:")
         for i, topic in enumerate(self.learning_queue[:3]):
             aspect = self.topic_aspect_map.get(topic, "?")
-            logger.info(f"      {i+1}. {topic} → {aspect}")
+            logger.info(f"      {i+1}. {topic}   {aspect}")
 
     def _absorb_senses(self) -> List[FractalWave]:
         """Converts sensory inputs into Fractal Waves."""
         waves = []
         
         # Check Will (Intention is a wave)
-        # [FIX] 기존 FreeWillEngine.pulse() 호출하여 욕망→의도 결정화
+        # [FIX]    FreeWillEngine.pulse()               
         if "Will" in self.cns.organs:
             will_engine = self.cns.organs["Will"]
             
@@ -324,7 +324,7 @@ class FractalLoop:
             # CNS already has resonance connected!
             if hasattr(will_engine, 'pulse') and self.cns.resonance:
                 will_engine.pulse(self.cns.resonance)
-                logger.info(f"   🦋 Will Pulse: Desire={will_engine.current_desire}")
+                logger.info(f"     Will Pulse: Desire={will_engine.current_desire}")
             
             intent = will_engine.current_intent
             if intent:
@@ -334,7 +334,7 @@ class FractalLoop:
                     source="FreeWillEngine",
                     energy=0.8 + intent.complexity * 0.2
                 ))
-                logger.info(f"   🎯 Intent Wave: {intent.goal}")
+                logger.info(f"     Intent Wave: {intent.goal}")
         
         # Check Synapse (External signals)
         if self.cns.synapse:
@@ -355,7 +355,7 @@ class FractalLoop:
         Circulates a wave through the Fractal Engine.
         Returns the wave for the next cycle, or None if it resolves.
         """
-        logger.info(f"🌊 Circulating Wave: {wave.content} (Depth: {wave.depth})")
+        logger.info(f"  Circulating Wave: {wave.content} (Depth: {wave.depth})")
         
         # A. Zoom In (Micro-Causality)
         # Understand 'HOW' this wave exists
@@ -379,9 +379,9 @@ class FractalLoop:
         
         # C. Manifestation (Output)
         # If the wave is dense enough, it triggers reality
-        # [FIX] 임계치를 0.6으로 낮춤 (원래 0.9은 너무 높음)
+        # [FIX]      0.6      (   0.9       )
         if wave.energy > 0.6:
-            logger.info(f"💥 Manifesting wave: {wave.content} (energy: {wave.energy:.2f})")
+            logger.info(f"  Manifesting wave: {wave.content} (energy: {wave.energy:.2f})")
             self._manifest_reality(wave)
             wave.energy -= 0.3 # Expenditure
             
@@ -399,7 +399,7 @@ class FractalLoop:
         
         [PLASMA INTEGRATION]
         Now uses ThoughtSpace for What-If simulation before acting.
-        "만약 이렇게 하면?" - 행동 전에 생각한다
+        "         ?" -           
         """
         # [NEW] What-If Deliberation BEFORE Acting
         if self.thought_space:
@@ -432,28 +432,28 @@ class FractalLoop:
             do_confidence = scenario_do["predicted_confidence"]
             dont_confidence = scenario_dont["predicted_confidence"]
             
-            logger.info(f"🔮 What-If Deliberation:")
+            logger.info(f"  What-If Deliberation:")
             logger.info(f"   DO: confidence {do_confidence:.2f}")
             logger.info(f"   SKIP: confidence {dont_confidence:.2f}")
             
             # Update plasma direction
             self.thought_direction = self.thought_space.get_thought_direction()
-            logger.info(f"   🌀 Thought Direction: {self.thought_direction}")
+            logger.info(f"     Thought Direction: {self.thought_direction}")
             
             # Decision: if "do" has lower confidence, reduce likelihood
             if do_confidence < dont_confidence - 0.1:
-                logger.info(f"   ⏸️ Deliberation suggests caution - reducing energy")
+                logger.info(f"      Deliberation suggests caution - reducing energy")
                 wave.energy *= 0.5
                 return  # Don't manifest yet, think more
             
             # Exit gap
             result = self.thought_space.exit_gap()
-            logger.info(f"   💭 Synthesis: {result.synthesis[:50]}...")
+            logger.info(f"     Synthesis: {result.synthesis[:50]}...")
         
         # Proceed with manifestation
-        logger.info(f"💥 Wave Collapsing into Reality: {wave.content}")
+        logger.info(f"  Wave Collapsing into Reality: {wave.content}")
         
-        # [LIFE CYCLE] 1. 사이클 시작 - 현재 상태 스냅샷
+        # [LIFE CYCLE] 1.        -          
         if self.life_cycle:
             self.life_cycle.begin_cycle()
         
@@ -473,7 +473,7 @@ class FractalLoop:
             except Exception as e:
                 actual_result = f"Error: {e}"
         
-        # [LIFE CYCLE] 2. 사이클 완료 - 인식 → 검증 → 변화
+        # [LIFE CYCLE] 2.        -             
         if self.life_cycle:
             expected = f"Successful manifestation of {wave.content}"
             growth = self.life_cycle.complete_cycle(
@@ -481,7 +481,7 @@ class FractalLoop:
                 expected=expected,
                 actual=actual_result
             )
-            logger.info(f"   🌱 Cycle growth: {growth.growth_amount:.2f}")
+            logger.info(f"     Cycle growth: {growth.growth_amount:.2f}")
 
     def _introspect_loop(self):
         """
@@ -490,7 +490,7 @@ class FractalLoop:
         [PLASMA INTEGRATION]
         Now reflects on thought direction and adjusts plasma flow.
         """
-        logger.info("👁️ The Infinite Ring perceives itself.")
+        logger.info("   The Infinite Ring perceives itself.")
         
         if self.thought_space:
             # Reflect on the gap
@@ -501,7 +501,7 @@ class FractalLoop:
             
             if direction:
                 main_dir = max(direction.items(), key=lambda x: x[1])
-                logger.info(f"   🌀 Current thought direction: {main_dir[0]} ({main_dir[1]:.2f})")
+                logger.info(f"     Current thought direction: {main_dir[0]} ({main_dir[1]:.2f})")
                 
                 # Store for future decisions
                 self.thought_direction = direction

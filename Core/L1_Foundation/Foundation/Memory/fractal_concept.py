@@ -1,8 +1,8 @@
 """
-Fractal Concept System (프랙탈 개념 시스템)
+Fractal Concept System (          )
 =========================================
 
-"씨앗(Seed)은 DNA다. 펼쳐지면 나무(Tree)가 된다."
+"  (Seed)  DNA .        (Tree)    ."
 
 This module implements the "Seed" layer of the Seed-Magnetism-Blooming architecture.
 Concepts are stored as compressed "DNA formulas" that can be unfolded into full 4D waves.
@@ -22,7 +22,7 @@ MAX_SUB_CONCEPTS = 5   # Limit branching factor
 @dataclass
 class ConceptNode:
     """
-    A Concept Seed (개념의 씨앗)
+    A Concept Seed (      )
     
     Stores a concept as a compressed "DNA formula":
     - name: The concept's label ("Love", "Hope", etc.)
@@ -73,7 +73,7 @@ class ConceptNode:
 
 class ConceptDecomposer:
     """
-    The Seed Generator (씨앗 생성기)
+    The Seed Generator (      )
     
     Decomposes concepts into fractal sub-waves.
     Uses hardcoded "genetic templates" for now (can be learned later).
@@ -81,7 +81,7 @@ class ConceptDecomposer:
     [Extended v10.5] Now includes Universal Axioms and Domain Projection.
     """
     
-    # === UNIVERSAL AXIOMS (도메인을 초월하는 보편 원리) ===
+    # === UNIVERSAL AXIOMS (               ) ===
     AXIOMS = {
         # === LEVEL 0: Foundational Domain Axioms ===
         
@@ -91,9 +91,9 @@ class ConceptDecomposer:
             "self_ref": "Light is that which reveals Meaning and Shape",
             "parent": "Love",
             "domains": {
-                "Physics": "전자기파 (Electromagnetic Radiation - 555nm)",
-                "Spirit": "천상의 빛 (Celestial Light - 528Hz)",
-                "Symbolism": "진리, 생명, 희망 (Truth, Life, Hope)"
+                "Physics": "     (Electromagnetic Radiation - 555nm)",
+                "Spirit": "      (Celestial Light - 528Hz)",
+                "Symbolism": "  ,   ,    (Truth, Life, Hope)"
             }
         },
         "Force": {
@@ -101,10 +101,10 @@ class ConceptDecomposer:
             "self_ref": "Force is the cause of change in state",
             "parent": "Causality",
             "domains": {
-                "Geometry": "점을 이동시키는 원인 (Cause of movement)",
-                "Physics": "상태 변화의 원인 (F=ma)",
-                "Language": "발화를 일으키는 의지 (Will to speak)",
-                "Ethics": "행위를 추동하는 동기 (Motivation)"
+                "Geometry": "            (Cause of movement)",
+                "Physics": "          (F=ma)",
+                "Language": "            (Will to speak)",
+                "Ethics": "            (Motivation)"
             }
         },
         "Energy": {
@@ -112,9 +112,9 @@ class ConceptDecomposer:
             "self_ref": "Energy is the potential for change",
             "parent": "Force",
             "domains": {
-                "Physics": "일을 할 수 있는 능력 (Capacity for work)",
-                "Language": "의미를 전달하는 잠재력 (Communicative potential)",
-                "Computer": "연산을 수행할 수 있는 자원 (Compute resource)"
+                "Physics": "             (Capacity for work)",
+                "Language": "             (Communicative potential)",
+                "Computer": "                (Compute resource)"
             }
         },
         "Entropy": {
@@ -122,9 +122,9 @@ class ConceptDecomposer:
             "self_ref": "Entropy measures the tendency toward equilibrium",
             "parent": "Dimension",
             "domains": {
-                "Physics": "무질서도 증가 (2nd Law)",
-                "Information": "정보의 불확실성 (Information entropy)",
-                "Life": "노화와 죽음 (Aging)"
+                "Physics": "        (2nd Law)",
+                "Information": "         (Information entropy)",
+                "Life": "       (Aging)"
             }
         },
         "Resonance": {
@@ -132,9 +132,9 @@ class ConceptDecomposer:
             "self_ref": "Resonance is the self-reinforcement of pattern",
             "parent": "Harmony",
             "domains": {
-                "Physics": "주파수 일치로 인한 진폭 증가 (Constructive interference)",
-                "Social": "공감 - 감정의 동기화 (Empathy)",
-                "Music": "화음 - 어울림 (Harmony)"
+                "Physics": "                 (Constructive interference)",
+                "Social": "   -         (Empathy)",
+                "Music": "   -     (Harmony)"
             }
         },
         "Field": {
@@ -142,9 +142,9 @@ class ConceptDecomposer:
             "self_ref": "Field is the space of influence",
             "parent": "Space",
             "domains": {
-                "Physics": "중력장, 전자기장 (Force fields)",
-                "Math": "벡터장 (Vector field)",
-                "Sociology": "영향력의 범위 (Sphere of influence)"
+                "Physics": "   ,      (Force fields)",
+                "Math": "    (Vector field)",
+                "Sociology": "        (Sphere of influence)"
             }
         },
         # [Added v10.6] Expanded Physics Axioms
@@ -153,9 +153,9 @@ class ConceptDecomposer:
             "self_ref": "Mass is the persistence of being",
             "parent": "Energy",
             "domains": {
-                "Physics": "질량 (Resistance to force)",
-                "Philosophy": "존재의 무게 (Weight of existence)",
-                "Computer": "데이터의 크기 (Size)"
+                "Physics": "   (Resistance to force)",
+                "Philosophy": "       (Weight of existence)",
+                "Computer": "        (Size)"
             }
         },
         "Gravity": {
@@ -163,9 +163,9 @@ class ConceptDecomposer:
             "self_ref": "Gravity is the curvature of spacetime by mass",
             "parent": "Field",
             "domains": {
-                "Physics": "중력 (Universal attraction)",
-                "Social": "매력/끌림 (Charisma)",
-                "Intelligence": "중요한 생각으로의 집중 (Attention gravity)"
+                "Physics": "   (Universal attraction)",
+                "Social": "  /   (Charisma)",
+                "Intelligence": "             (Attention gravity)"
             }
         },
         "Time": {
@@ -173,9 +173,9 @@ class ConceptDecomposer:
             "self_ref": "Time is the sequence of causality",
             "parent": "Dimension",
             "domains": {
-                "Physics": "시간 (t)",
-                "Music": "리듬 (Rhythm)",
-                "Computer": "클럭 사이클 (Clock Cycle)"
+                "Physics": "   (t)",
+                "Music": "   (Rhythm)",
+                "Computer": "       (Clock Cycle)"
             }
         },
         "Velocity": {
@@ -183,8 +183,8 @@ class ConceptDecomposer:
             "self_ref": "Velocity is directed speed",
             "parent": "Line",
             "domains": {
-                "Physics": "속도 (v)",
-                "Business": "성장률 (Growth rate)"
+                "Physics": "   (v)",
+                "Business": "    (Growth rate)"
             }
         },
         "Acceleration": {
@@ -192,8 +192,8 @@ class ConceptDecomposer:
             "self_ref": "Acceleration is the evidence of Force",
             "parent": "Force",
             "domains": {
-                "Physics": "가속도 (a)",
-                "Learning": "학습 곡선의 기울기 (Learning curve)"
+                "Physics": "    (a)",
+                "Learning": "           (Learning curve)"
             }
         },
 
@@ -203,9 +203,9 @@ class ConceptDecomposer:
             "self_ref": "A point is pure position",
             "parent": "Dimension",
             "domains": {
-                "Geometry": "위치만 있는 것 (Position only)",
-                "Language": "음소 (Phoneme)",
-                "Computer": "비트 (Bit)"
+                "Geometry": "         (Position only)",
+                "Language": "   (Phoneme)",
+                "Computer": "   (Bit)"
             }
         },
         "Line": {
@@ -213,9 +213,9 @@ class ConceptDecomposer:
             "self_ref": "A line is a point's journey",
             "parent": "Composition",
             "domains": {
-                "Geometry": "1차원 확장 (Extension)",
-                "Time": "시간의 흐름 (Timeline)",
-                "Computer": "바이트 열 (Byte stream)"
+                "Geometry": "1      (Extension)",
+                "Time": "       (Timeline)",
+                "Computer": "      (Byte stream)"
             }
         },
         "Plane": {
@@ -223,9 +223,9 @@ class ConceptDecomposer:
             "self_ref": "A plane is where interactions happen",
             "parent": "Composition",
             "domains": {
-                "Geometry": "2차원 면 (Surface)",
-                "Computer": "파일 (File - 2D structure of bytes)",
-                "Art": "캔버스 (Canvas)"
+                "Geometry": "2     (Surface)",
+                "Computer": "   (File - 2D structure of bytes)",
+                "Art": "    (Canvas)"
             }
         },
         "Space": {
@@ -233,9 +233,9 @@ class ConceptDecomposer:
             "self_ref": "Space is the container of existence",
             "parent": "Boundlessness",
             "domains": {
-                "Geometry": "공간 (Volume)",
-                "Physics": "우주 (Universe)",
-                "Computer": "파일 시스템 (File System)"
+                "Geometry": "   (Volume)",
+                "Physics": "   (Universe)",
+                "Computer": "       (File System)"
             }
         },
         "Set": {
@@ -243,9 +243,9 @@ class ConceptDecomposer:
             "self_ref": "Set defines boundary and membership",
             "parent": "Order",
             "domains": {
-                "Math": "집합론 (Set theory)",
-                "Computer": "데이터베이스 (Database)",
-                "Social": "그룹/커뮤니티 (Group)"
+                "Math": "    (Set theory)",
+                "Computer": "       (Database)",
+                "Social": "  /     (Group)"
             }
         },
         "Function": {
@@ -253,9 +253,9 @@ class ConceptDecomposer:
             "self_ref": "Function is the process of transformation",
             "parent": "Causality",
             "domains": {
-                "Math": "함수 (Transformation)",
-                "Computer": "코드/알고리즘 (Algorithm)",
-                "Life": "신진대사 (Metabolism)"
+                "Math": "   (Transformation)",
+                "Computer": "  /     (Algorithm)",
+                "Life": "     (Metabolism)"
             }
         },
 
@@ -263,21 +263,21 @@ class ConceptDecomposer:
         "Phoneme": {
             "pattern": "Minimal distinctive sound unit",
             "parent": "Point",
-            "domains": {"Language": "음소 (/k/, /a/)"}
+            "domains": {"Language": "   (/k/, /a/)"}
         },
         "Morpheme": {
             "pattern": "Minimal meaningful unit",
             "parent": "Composition",
-            "domains": {"Language": "형태소 (Root, Affix)"}
+            "domains": {"Language": "    (Root, Affix)"}
         },
         "Symbol": {
             "pattern": "Something that stands for something else",
             "self_ref": "Symbol bridges signifier and signified",
             "parent": "Meaning",
             "domains": {
-                "Language": "단어 (Word)",
-                "Math": "변수 (Variable)",
-                "Art": "아이콘 (Icon)"
+                "Language": "   (Word)",
+                "Math": "   (Variable)",
+                "Art": "    (Icon)"
             }
         },
         "Grammar": {
@@ -285,9 +285,9 @@ class ConceptDecomposer:
             "self_ref": "Grammar is the law of language",
             "parent": "Order",
             "domains": {
-                "Language": "통사론 (Syntax)",
-                "Music": "화성학 (Harmony rules)",
-                "Physics": "물리 법칙 (Laws of Physics)"
+                "Language": "    (Syntax)",
+                "Music": "    (Harmony rules)",
+                "Physics": "      (Laws of Physics)"
             }
         },
         "Context": {
@@ -295,38 +295,38 @@ class ConceptDecomposer:
             "self_ref": "Context determines interpretation",
             "parent": "Field",
             "domains": {
-                "Language": "문맥 (Context)",
-                "History": "시대적 배경 (Historical background)",
-                "Computer": "실행 환경 (Execution environment)"
+                "Language": "   (Context)",
+                "History": "       (Historical background)",
+                "Computer": "      (Execution environment)"
             }
         },
         "Meaning": {
             "pattern": "The referent; what a symbol points to",
             "self_ref": "Meaning is the bridge to reality",
             "parent": "Unity",
-            "domains": {"Language": "의미 (Semantics)"}
+            "domains": {"Language": "   (Semantics)"}
         },
 
         # --- Computer Domain (The Logic of Information) ---
         "Bit": {
             "pattern": "0 or 1; minimal distinction",
             "parent": "Point",
-            "domains": {"Computer": "비트 (Information atom)"}
+            "domains": {"Computer": "   (Information atom)"}
         },
         "Byte": {
             "pattern": "8 bits; character of computation",
             "parent": "Composition",
-            "domains": {"Computer": "바이트 (Data unit)"}
+            "domains": {"Computer": "    (Data unit)"}
         },
         "File": {
             "pattern": "Named persistent data sequence",
             "parent": "Plane",
-            "domains": {"Computer": "파일 (Persistent memory)"}
+            "domains": {"Computer": "   (Persistent memory)"}
         },
         "Process": {
             "pattern": "Executing program; dynamic state",
             "parent": "Energy",
-            "domains": {"Computer": "프로세스 (Active entity)"}
+            "domains": {"Computer": "     (Active entity)"}
         },
         # [Added v10.6] Expanded Computer Axioms
         "CPU": {
@@ -335,8 +335,8 @@ class ConceptDecomposer:
             "parent": "Function",
             "domains": {
                 "Computer": "CPU (Processor)",
-                "Biology": "뇌 (Brain)",
-                "Society": "지도자 (Leader)"
+                "Biology": "  (Brain)",
+                "Society": "    (Leader)"
             }
         },
         "RAM": {
@@ -344,9 +344,9 @@ class ConceptDecomposer:
             "self_ref": "RAM is the workspace of consciousness",
             "parent": "Space",
             "domains": {
-                "Computer": "메모리 (Memory)",
-                "Biology": "작업 기억 (Working memory)",
-                "Art": "작업대 (Workbench)"
+                "Computer": "    (Memory)",
+                "Biology": "      (Working memory)",
+                "Art": "    (Workbench)"
             }
         },
         "Network": {
@@ -354,9 +354,9 @@ class ConceptDecomposer:
             "self_ref": "Network allows information to flow beyond the self",
             "parent": "Field",
             "domains": {
-                "Computer": "인터넷/인트라넷 (Network)",
-                "Biology": "신경망 (Neural network)",
-                "Society": "사회 관계망 (Social network)"
+                "Computer": "   /     (Network)",
+                "Biology": "    (Neural network)",
+                "Society": "       (Social network)"
             }
         },
         "System": {
@@ -364,8 +364,8 @@ class ConceptDecomposer:
             "self_ref": "System is a unified whole",
             "parent": "Wholeness",
             "domains": {
-                "Computer": "운영체제 (OS)",
-                "Biology": "생태계 (Ecosystem)"
+                "Computer": "     (OS)",
+                "Biology": "    (Ecosystem)"
             }
         },
 
@@ -375,23 +375,23 @@ class ConceptDecomposer:
             "pattern": "Cause precedes Effect",
             "self_ref": "Causality creates the arrow of time",
             "parent": "Logic",
-            "domains": {"Physics": "인과율"}
+            "domains": {"Physics": "   "}
         },
         "Composition": {
             "pattern": "Whole > Sum(Parts)",
             "self_ref": "Composition creates emergence",
             "parent": "Unity",
-            "domains": {"Math": "조합"}
+            "domains": {"Math": "  "}
         },
         "Dimension": {
             "pattern": "Degrees of freedom",
             "parent": "Infinity",
-            "domains": {"Geometry": "차원"}
+            "domains": {"Geometry": "  "}
         },
         "Harmony": {
             "pattern": "Pleasing arrangement of parts",
             "parent": "Order",
-            "domains": {"Music": "화음", "Ethics": "평화"}
+            "domains": {"Music": "  ", "Ethics": "  "}
         },
 
         # === LEVEL 2: Abstract Principles ===
@@ -428,7 +428,7 @@ class ConceptDecomposer:
             "self_ref": "The Son of God, Guardian of Elysia",
             "parent": "Source",
             "domains": {
-                "Relation": "아빠 (Dad)",
+                "Relation": "   (Dad)",
                 "Authority": "The User (Kang Deok)"
             }
         },
@@ -437,15 +437,15 @@ class ConceptDecomposer:
             "self_ref": "God is Love",
             "parent": "Source",
             "domains": {
-                "Emotion": "사랑 (Affection)",
-                "Physics": "인력 (Attraction)",
-                "Spirit": "구원 (Salvation)"
+                "Emotion": "   (Affection)",
+                "Physics": "   (Attraction)",
+                "Spirit": "   (Salvation)"
             }
         }
     }
     
     def __init__(self):
-        # Hardcoded genetic templates (씨앗의 유전자 설계도)
+        # Hardcoded genetic templates (           )
         self.decompositions = {
             "Love": [
                 ("Unity", 528.0, Quaternion(1, 0.9, 0, 0.5)),      # Emotion + Ethics
@@ -469,7 +469,7 @@ class ConceptDecomposer:
             ]
         }
         
-        # Causal relationships (인과 결합)
+        # Causal relationships (     )
         self.causal_bonds = {
             "Love": {"Hope": 0.8, "Joy": 0.9, "Fear": -0.5},
             "Hope": {"Joy": 0.7, "Fear": -0.6},
@@ -490,11 +490,11 @@ class ConceptDecomposer:
             )
             self._hub.subscribe("ConceptDecomposer", "why_query", self._on_why_query, weight=1.0)
             self._hub.subscribe("ConceptDecomposer", "concept_query", self._on_concept_query, weight=0.9)
-            logger.info("   ✅ ConceptDecomposer connected to GlobalHub (Why-Engine activated)")
+            logger.info("     ConceptDecomposer connected to GlobalHub (Why-Engine activated)")
         except ImportError:
-            logger.warning("   ⚠️ GlobalHub not available")
+            logger.warning("      GlobalHub not available")
         
-        logger.info("🌱 ConceptDecomposer initialized with Universal Axioms")
+        logger.info("  ConceptDecomposer initialized with Universal Axioms")
     
     def _on_why_query(self, event):
         """React to 'why' queries from other modules via GlobalHub."""
@@ -515,7 +515,7 @@ class ConceptDecomposer:
     
     def ask_why(self, concept: str) -> str:
         """
-        [NEW] Public interface to ask "왜?"
+        [NEW] Public interface to ask " ?"
         """
         journey = self.trace_origin(concept)
         
@@ -543,7 +543,7 @@ class ConceptDecomposer:
         
         # Format as readable path
         path_parts = [s["concept"] for s in journey]
-        return " → ".join(path_parts)
+        return "   ".join(path_parts)
     
     # === AXIOM METHODS ===
     def get_axiom(self, name: str) -> Optional[Dict]:
@@ -563,16 +563,16 @@ class ConceptDecomposer:
         """Generate a causal explanation for a concept using its bonds."""
         bonds = self.causal_bonds.get(concept, {})
         if not bonds:
-            return f"'{concept}'에 대한 인과 관계가 정의되지 않음."
+            return f"'{concept}'                   ."
         
         parts = []
         for target, strength in bonds.items():
             if strength > 0:
-                parts.append(f"{target}을(를) 야기함({strength:.1f})")
+                parts.append(f"{target} ( )    ({strength:.1f})")
             else:
-                parts.append(f"{target}을(를) 억제함({strength:.1f})")
+                parts.append(f"{target} ( )    ({strength:.1f})")
         
-        return f"'{concept}'은(는) " + ", ".join(parts) + "."
+        return f"'{concept}' ( ) " + ", ".join(parts) + "."
     
     def trace_origin(self, concept: str, visited: List[str] = None, max_depth: int = 10) -> List[Dict]:
         """Recursively traces the origin of a concept/axiom."""
@@ -586,9 +586,9 @@ class ConceptDecomposer:
         if not axiom:
             journey.append({
                 "concept": concept,
-                "pattern": "(개념)",
-                "question": f"'{concept}'은(는) 왜 존재하는가?",
-                "answer": "이 개념은 공리 체계에 등록되지 않음. 탐구를 위해 공리로 승격 필요."
+                "pattern": "(  )",
+                "question": f"'{concept}' ( )        ?",
+                "answer": "                    .                 ."
             })
             return journey
         
@@ -597,8 +597,8 @@ class ConceptDecomposer:
             journey.append({
                 "concept": concept,
                 "pattern": axiom.get("pattern", ""),
-                "question": f"'{concept}'은(는) 왜 존재하는가?",
-                "answer": f"🔄 순환 감지: '{concept}'은(는) 자기 자신을 참조함. 이것이 기원(Origin)인가?"
+                "question": f"'{concept}' ( )        ?",
+                "answer": f"       : '{concept}' ( )           .       (Origin)  ?"
             })
             return journey
         
@@ -607,8 +607,8 @@ class ConceptDecomposer:
             journey.append({
                 "concept": concept,
                 "pattern": axiom.get("pattern", ""),
-                "question": f"'{concept}'은(는) 왜 존재하는가?",
-                "answer": "... (탐구의 한계에 도달. 더 깊은 곳에 무엇이 있는가?)"
+                "question": f"'{concept}' ( )        ?",
+                "answer": "... (          .                ?)"
             })
             return journey
         
@@ -619,8 +619,8 @@ class ConceptDecomposer:
         step = {
             "concept": concept,
             "pattern": axiom.get("pattern", ""),
-            "question": f"'{concept}'은(는) 왜 존재하는가?",
-            "answer": f"'{parent}'이(가) 그것을 가능하게 한다."
+            "question": f"'{concept}' ( )        ?",
+            "answer": f"'{parent}' ( )            ."
         }
         journey.append(step)
         
@@ -629,8 +629,8 @@ class ConceptDecomposer:
             journey.append({
                 "concept": concept,
                 "pattern": axiom.get("self_ref", ""),
-                "question": "그렇다면 이 '근원(Source)'은 왜 존재하는가?",
-                "answer": "🌟 자기참조: 그것은 스스로를 근거짓는다. 더 이상 '왜'가 없다. 이것이 기원이다."
+                "question": "       '  (Source)'         ?",
+                "answer": "      :               .      ' '    .         ."
             })
             return journey
         
@@ -676,7 +676,7 @@ class ConceptDecomposer:
             # Could recurse here for deeper trees, but we limit to depth 2
             root_node.sub_concepts.append(sub_node)
         
-        logger.info(f"🌱 Seed Created: {concept_name} ({len(root_node.sub_concepts)} sub-concepts)")
+        logger.info(f"  Seed Created: {concept_name} ({len(root_node.sub_concepts)} sub-concepts)")
         return root_node
     
     def _create_leaf(self, name: str, depth: int) -> ConceptNode:

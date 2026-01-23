@@ -22,7 +22,7 @@ class CheckpointManager:
         Returns the path to the created checkpoint.
         """
         if not os.path.exists(source_file):
-            logger.warning(f"⚠️ Source file {source_file} not found. Cannot create checkpoint.")
+            logger.warning(f"   Source file {source_file} not found. Cannot create checkpoint.")
             return ""
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -32,10 +32,10 @@ class CheckpointManager:
 
         try:
             shutil.copy2(source_file, checkpoint_path)
-            logger.info(f"📸 Checkpoint created: {checkpoint_name}")
+            logger.info(f"  Checkpoint created: {checkpoint_name}")
             return checkpoint_path
         except Exception as e:
-            logger.error(f"⚠️ Failed to create checkpoint: {e}")
+            logger.error(f"   Failed to create checkpoint: {e}")
             return ""
 
     def list_checkpoints(self) -> List[str]:
@@ -49,15 +49,15 @@ class CheckpointManager:
         """
         checkpoint_path = os.path.join(self.base_dir, checkpoint_name)
         if not os.path.exists(checkpoint_path):
-            logger.error(f"⚠️ Checkpoint {checkpoint_name} not found.")
+            logger.error(f"   Checkpoint {checkpoint_name} not found.")
             return False
 
         try:
             shutil.copy2(checkpoint_path, target_file)
-            logger.info(f"♻️ Reverted state to checkpoint: {checkpoint_name}")
+            logger.info(f"   Reverted state to checkpoint: {checkpoint_name}")
             return True
         except Exception as e:
-            logger.error(f"⚠️ Reversion failed: {e}")
+            logger.error(f"   Reversion failed: {e}")
             return False
 
     def cleanup_old_checkpoints(self, keep: int = 10):
@@ -69,6 +69,6 @@ class CheckpointManager:
         for old_cp in checkpoints[keep:]:
             try:
                 os.remove(os.path.join(self.base_dir, old_cp))
-                logger.debug(f"🗑️ Removed old checkpoint: {old_cp}")
+                logger.debug(f"   Removed old checkpoint: {old_cp}")
             except Exception as e:
-                logger.warning(f"⚠️ Failed to remove old checkpoint {old_cp}: {e}")
+                logger.warning(f"   Failed to remove old checkpoint {old_cp}: {e}")

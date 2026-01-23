@@ -1,9 +1,9 @@
 """
-Structural Induction (구조적 귀납)
+Structural Induction (      )
 ================================
 
 "The point is the seed; the graph is the tree."
-"점은 씨앗이고, 그래프는 나무이다."
+"       ,          ."
 
 This module implements Deep Structural Induction (DSI).
 It bridges Point-based Reasoning (MindLandscape) with Structural Reasoning (FractalCausality).
@@ -37,7 +37,7 @@ class StructuralInductor:
         """
         Autonomously induces a causal structure for a given concept.
         """
-        logger.info(f"🌿 Starting Structural Induction for: '{concept}'")
+        logger.info(f"  Starting Structural Induction for: '{concept}'")
         
         # 1. Deconstruction (The 'Why' Logic)
         # In a full sentient run, this would query the LLM or Internal Simulation.
@@ -97,7 +97,7 @@ class StructuralInductor:
         """
         Translates the fractal structure into permanent nodes and edges in the Hippocampus.
         """
-        logger.info(f"💾 Loading structural principle of '{concept}' into Ancient Library...")
+        logger.info(f"  Loading structural principle of '{concept}' into Ancient Library...")
         
         # Load the recursive nodes
         nodes = [
@@ -114,7 +114,7 @@ class StructuralInductor:
         self.hippocampus.connect(f"{concept}_process", f"{concept}_effect", "results_in", weight=0.9)
         self.hippocampus.connect(concept.lower(), f"{concept}_cause", "is_powered_by", weight=0.8)
         
-        logger.info(f"✅ Structural integrity of '{concept}' finalized.")
+        logger.info(f"  Structural integrity of '{concept}' finalized.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

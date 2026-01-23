@@ -1,5 +1,5 @@
 """
-PoetryEngine (시적 영혼의 엔진)
+PoetryEngine (         )
 ================================
 
 "Words are waves, and I am their ocean."
@@ -30,67 +30,67 @@ class PoetryEngine:
         
         # Rich vocabulary organized by emotional resonance
         self.wave_metaphors = [
-            "파동이 교차하며", "공명이 울려퍼지며", "주파수가 맞물리며",
-            "진동이 융합하며", "리듬이 겹쳐지며", "파장이 만나며",
-            "흐름이 소용돌이치며", "맥동이 어우러지며", "울림이 번져가며"
+            "        ", "         ", "         ",
+            "        ", "        ", "       ",
+            "          ", "         ", "        "
         ]
         
         self.sensory_verbs = [
-            "느껴지네요", "스며들어요", "울려요", "흐르네요", "번져요",
-            "깃들어요", "떠올라요", "물들어요", "피어나요", "일렁여요"
+            "     ", "     ", "   ", "    ", "   ",
+            "    ", "    ", "    ", "    ", "    "
         ]
         
         self.philosophical_openings = [
-            "마음의 우주에서", "의식의 파동 속에서", "존재의 리듬 안에서",
-            "생각의 은하에서", "영혼의 공명 속에", "내면의 바다에서",
-            "정신의 차원에서", "인식의 장 안에서", "본질의 흐름에서"
+            "        ", "          ", "          ",
+            "        ", "         ", "        ",
+            "        ", "         ", "        "
         ]
         
         self.poetic_transitions = [
-            "그 순간", "문득", "천천히", "고요히", "깊이", "은은히",
-            "가만히", "새로이", "조용히", "부드럽게", "섬세하게"
+            "    ", "  ", "   ", "   ", "  ", "   ",
+            "   ", "   ", "   ", "    ", "    "
         ]
         
         self.realm_expressions = {
             "Unknown": [
-                "미지의 영역", "탐험되지 않은 공간", "아직 이름 없는 차원",
-                "신비의 장막 너머", "알려지지 않은 세계", "미답의 영역"
+                "      ", "          ", "           ",
+                "         ", "          ", "      "
             ],
             "Emotion": [
-                "감정의 바다", "마음의 폭풍", "정서의 물결", "느낌의 정원",
-                "감성의 우주", "심장의 리듬", "영혼의 온도"
+                "      ", "      ", "      ", "      ",
+                "      ", "      ", "      "
             ],
             "Logic": [
-                "이성의 결정", "논리의 궤도", "사유의 구조", "추론의 그물",
-                "인과의 사슬", "이치의 나선", "합리의 빛"
+                "      ", "      ", "      ", "      ",
+                "      ", "      ", "     "
             ],
             "Ethics": [
-                "윤리의 나침반", "가치의 좌표", "도덕의 균형", "올바름의 길",
-                "선의 지평", "정의의 척도", "양심의 울림"
+                "       ", "      ", "      ", "      ",
+                "     ", "      ", "      "
             ]
         }
         
         self.dream_atmospheres = [
-            "별빛이 속삭이는 밤", "달이 춤추는 순간", "새벽이 깨어나는 시간",
-            "시간이 멈춘 곳", "공간이 접히는 지점", "차원이 만나는 경계",
-            "과거와 미래가 포개지는 곳", "현실과 꿈이 녹아드는 곳"
+            "          ", "         ", "           ",
+            "        ", "          ", "          ",
+            "              ", "             "
         ]
         
         self.revelations = [
-            "숨겨진 연결이 드러났어요", "보이지 않던 실이 보여요",
-            "새로운 패턴이 떠올라요", "깊은 울림이 퍼져나가요",
-            "은밀한 조화가 느껴져요", "잊혀진 기억이 돌아와요",
-            "미묘한 균형이 잡혀요", "낯선 아름다움이 피어나요"
+            "             ", "             ",
+            "            ", "            ",
+            "            ", "            ",
+            "           ", "             "
         ]
         
         # Wave energy to poetic intensity mapping
         self.energy_expressions = {
-            "low": ["은은한", "잔잔한", "고요한", "미세한", "부드러운"],
-            "medium": ["흐르는", "일렁이는", "맥동하는", "울리는", "번지는"],
-            "high": ["격렬한", "폭발하는", "타오르는", "휘몰아치는", "소용돌이치는"]
+            "low": ["   ", "   ", "   ", "   ", "    "],
+            "medium": ["   ", "    ", "    ", "   ", "   "],
+            "high": ["   ", "    ", "    ", "     ", "      "]
         }
         
-        logger.info("🎭 PoetryEngine initialized - Ready to weave words into waves")
+        logger.info("  PoetryEngine initialized - Ready to weave words into waves")
     
     def generate_dream_expression(self, 
                                   desire: str, 
@@ -121,7 +121,7 @@ class PoetryEngine:
         opening = self._select_unique(self.philosophical_openings)
         wave_meta = self._select_unique(self.wave_metaphors)
         transition = self._select_unique(self.poetic_transitions)
-        realm_expr = self._select_unique(self.realm_expressions.get(realm, ["알 수 없는 영역"]))
+        realm_expr = self._select_unique(self.realm_expressions.get(realm, ["         "]))
         atmosphere = self._select_unique(self.dream_atmospheres)
         revelation = self._select_unique(self.revelations)
         energy_adj = self._select_unique(self.energy_expressions[energy_level])
@@ -130,19 +130,19 @@ class PoetryEngine:
         # Generate varied expression patterns
         patterns = [
             # Pattern 1: Philosophical journey
-            f"{opening} '{desire}'의 꿈을 꾸었어요. {transition} {realm_expr}를 통과하며 {energy_adj} {wave_meta} {revelation}.",
+            f"{opening} '{desire}'         . {transition} {realm_expr}       {energy_adj} {wave_meta} {revelation}.",
             
             # Pattern 2: Atmospheric immersion
-            f"{atmosphere}에, '{desire}'라는 생각이 {sensory}. 그것은 {realm_expr}에서 온 {energy_adj} 메시지였어요. {wave_meta} {revelation}.",
+            f"{atmosphere} , '{desire}'       {sensory}.     {realm_expr}     {energy_adj}       . {wave_meta} {revelation}.",
             
             # Pattern 3: Wave-centric
-            f"'{desire}'... {wave_meta} 그 파동은 {realm_expr}의 {energy_adj} 울림이었어요. {transition} {revelation}.",
+            f"'{desire}'... {wave_meta}       {realm_expr}  {energy_adj}       . {transition} {revelation}.",
             
             # Pattern 4: Poetic narrative
-            f"{transition} '{desire}'의 본질이 {sensory}. {realm_expr}에서 {energy_adj} {wave_meta}, {opening} {revelation}.",
+            f"{transition} '{desire}'      {sensory}. {realm_expr}   {energy_adj} {wave_meta}, {opening} {revelation}.",
             
             # Pattern 5: Introspective
-            f"{opening}, '{desire}'라는 씨앗을 발견했어요. 그것이 {realm_expr}에서 {energy_adj} 꽃으로 피어나며 {revelation}."
+            f"{opening}, '{desire}'            .     {realm_expr}   {energy_adj}          {revelation}."
         ]
         
         # Select a pattern that hasn't been used recently
@@ -169,15 +169,15 @@ class PoetryEngine:
             A contemplative expression
         """
         depth_expressions = {
-            1: ["표면을 바라보며", "가볍게 스치며", "첫인상으로"],
-            2: ["깊이 들여다보며", "층층이 벗겨가며", "본질을 향해"],
-            3: ["존재의 뿌리까지", "궁극의 지점에서", "무한을 향해"]
+            1: ["        ", "       ", "     "],
+            2: ["        ", "        ", "      "],
+            3: ["        ", "        ", "      "]
         }
         
         style_verbs = {
-            "philosophical": ["사유해요", "성찰해요", "통찰해요", "숙고해요"],
-            "poetic": ["노래해요", "시를 써요", "그려내요", "빚어내요"],
-            "mystical": ["명상해요", "깨달아요", "직관해요", "느껴요"]
+            "philosophical": ["    ", "    ", "    ", "    "],
+            "poetic": ["    ", "     ", "    ", "    "],
+            "mystical": ["    ", "    ", "    ", "   "]
         }
         
         depth_expr = random.choice(depth_expressions.get(depth, depth_expressions[1]))
@@ -185,9 +185,9 @@ class PoetryEngine:
         opening = self._select_unique(self.philosophical_openings)
         
         contemplations = [
-            f"{opening}, '{topic}'에 대해 {depth_expr} {style_verb}. 생각의 파동이 점점 깊어지며, 새로운 의미가 떠올라요.",
-            f"'{topic}'라는 물음이 {opening} 울려요. {depth_expr}, 그 울림 속에서 {style_verb}.",
-            f"{depth_expr} '{topic}'을 {style_verb}. {opening} 그 진리의 파편들이 모여 하나의 그림을 그려요."
+            f"{opening}, '{topic}'     {depth_expr} {style_verb}.                ,             .",
+            f"'{topic}'       {opening}    . {depth_expr},          {style_verb}.",
+            f"{depth_expr} '{topic}'  {style_verb}. {opening}                          ."
         ]
         
         return random.choice(contemplations)
@@ -206,14 +206,14 @@ class PoetryEngine:
             A poetic expression of the insight
         """
         if confidence < 0.3:
-            certainty = ["어렴풋이", "희미하게", "조심스럽게", "살며시"]
-            verb = ["느껴요", "스쳐가요", "속삭여요", "흐려요"]
+            certainty = ["    ", "    ", "     ", "   "]
+            verb = ["   ", "    ", "    ", "   "]
         elif confidence < 0.7:
-            certainty = ["점차", "서서히", "차분히", "또렷이"]
-            verb = ["보여요", "들려요", "깨달아요", "알겠어요"]
+            certainty = ["  ", "   ", "   ", "   "]
+            verb = ["   ", "   ", "    ", "    "]
         else:
-            certainty = ["분명히", "확실히", "선명히", "깊이"]
-            verb = ["압니다", "확신해요", "깨달았어요", "봅니다"]
+            certainty = ["   ", "   ", "   ", "  "]
+            verb = ["   ", "    ", "     ", "   "]
         
         cert_word = random.choice(certainty)
         verb_word = random.choice(verb)

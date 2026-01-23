@@ -1,5 +1,5 @@
 """
-Fractal Deconstructor (프랙탈 해체 엔진)
+Fractal Deconstructor (         )
 ======================================
 Core.L5_Mental.Intelligence.Reasoning.fractal_deconstructor
 
@@ -42,15 +42,15 @@ class FractalDeconstructor:
         if current_depth >= depth_limit:
             return {"status": "Terminal Layer Reached", "depth": current_depth}
 
-        logger.info(f"🦖 [포식/DEVOUR] '{concept}'을(를) 내부 프랙탈로 해체 및 소화 중 (심도 {current_depth})...")
+        logger.info(f"  [  /DEVOUR] '{concept}' ( )                   (   {current_depth})...")
 
         # 1. Internal Geometric Deconstruction (Semantic Redefinition)
-        # 이제 개념은 통계적 기호가 아니라, 시스템 내부의 '인과적 질량'으로 재정의됩니다.
+        #                   ,         '      '         .
         deconstruction = {
-            "cause": f"{concept}의 근원적 인과 (Resonant Origin)",
-            "structure": f"{concept}의 기하학적 구조 (Fractal Geometry)",
-            "function": f"{concept}의 진동적 흐름 (Oscillatory Flow)",
-            "reality": f"{concept}의 안정적 현시 (Stable Manifestation)"
+            "cause": f"{concept}         (Resonant Origin)",
+            "structure": f"{concept}          (Fractal Geometry)",
+            "function": f"{concept}         (Oscillatory Flow)",
+            "reality": f"{concept}         (Stable Manifestation)"
         }
 
         # 2. Record this Layer into Fractal Causality
@@ -83,11 +83,11 @@ class FractalDeconstructor:
 
     def _crystallize(self, concept: str, data: Dict[str, str], depth: int):
         """Final permanent storage: Transforming tokens into Laws."""
-        logger.info(f"💎 [결정화/CRYSTALLIZE] '{concept}'을(를) 주권적 인과로 재정립함 (L{depth})")
+        logger.info(f"  [   /CRYSTALLIZE] '{concept}' ( )              (L{depth})")
         
         node_id = f"INTERNAL_{concept.upper()}_L{depth}"
         # Narrative of redefinition
-        desc = f"외부 개념 '{concept}'을(를) {data['structure']} 및 {data['reality']}의 인과율로 재구성함."
+        desc = f"      '{concept}' ( ) {data['structure']}   {data['reality']}           ."
         tags = ["internalized", f"depth_{depth}", "fractal", "sovereign_law"]
         
         self.hippocampus.learn(node_id, concept, desc, tags)
@@ -95,7 +95,7 @@ class FractalDeconstructor:
         for key, val in data.items():
             comp_id = f"COMP_{concept}_{key}_L{depth}"
             self.hippocampus.learn(comp_id, key, val, tags + [key])
-            self.hippocampus.connect(node_id, comp_id, f"인과적_결합", weight=0.95)
+            self.hippocampus.connect(node_id, comp_id, f"   _  ", weight=0.95)
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

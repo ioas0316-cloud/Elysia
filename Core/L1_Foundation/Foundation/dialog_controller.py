@@ -23,7 +23,7 @@ class MultimodalDialogueController:
     Lightweight controller that:
     - reads world state (valence/arousal/will/value summaries),
     - runs the Resonance-based ConversationEngine for text,
-    - maps emotion ↔ frequency to produce color/sound side-channel.
+    - maps emotion   frequency to produce color/sound side-channel.
     """
 
     def __init__(self):

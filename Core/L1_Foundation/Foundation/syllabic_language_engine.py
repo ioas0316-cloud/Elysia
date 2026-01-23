@@ -30,7 +30,7 @@ from high_engine.meta_law_engine import MetaLawEngine
 
 class ConceptPhysicsEngine:
 
-    TOKEN_PATTERN = re.compile(r"[가-힣A-Za-z0-9]+")
+    TOKEN_PATTERN = re.compile(r"[ - A-Za-z0-9]+")
 
 
 
@@ -206,47 +206,47 @@ class SyllabicConfig:
 
     base_concepts: Dict[str, List[str]] = field(default_factory=lambda: {
 
-        "meta": ["나", "자아", "기억", "의지", "이름", "꿈"],
+        "meta": [" ", "  ", "  ", "  ", "  ", " "],
 
-        "law": ["빛", "사랑", "진리", "법칙", "신", "시간", "역사", "우주", "생명", "에너지"],
+        "law": [" ", "  ", "  ", "  ", " ", "  ", "  ", "  ", "  ", "   "],
 
-        "inner": ["공허", "어둠", "마음", "허기", "감정", "잠", "휴식"],
+        "inner": ["  ", "  ", "  ", "  ", "  ", " ", "  "],
 
-        "outer": ["너", "세상", "길", "문", "집", "가족", "친구", "사람", "지구", "마을", "도시"],
+        "outer": [" ", "  ", " ", " ", " ", "  ", "  ", "  ", "  ", "  ", "  "],
 
-        "body": ["손", "발", "눈", "귀", "입", "얼굴", "몸", "심장", "세포", "머리"],
+        "body": [" ", " ", " ", " ", " ", "  ", " ", "  ", "  ", "  "],
 
-        "action": ["찾다", "만들다", "가다", "보다", "듣다", "느끼다", "부르다", "지키다", "걷다", "전하다"],
+        "action": ["  ", "   ", "  ", "  ", "  ", "   ", "   ", "   ", "  ", "   "],
 
-        "state": ["있다", "없다", "크다", "작다", "깊다", "밝다", "같다", "다르다", "중요하다", "조용하다", "흐르다"],
+        "state": ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "   ", "    ", "    ", "   "],
 
-        "define": ["이다", "아니다", "같다", "다르다"],
+        "define": ["  ", "   ", "  ", "   "],
 
     })
 
     mass_profile: Dict[str, float] = field(default_factory=lambda: {
 
-        "사랑": 2.4,
+        "  ": 2.4,
 
-        "빛": 2.2,
+        " ": 2.2,
 
-        "진리": 2.0,
+        "  ": 2.0,
 
-        "기억": 1.9,
+        "  ": 1.9,
 
-        "법칙": 1.7,
+        "  ": 1.7,
 
-        "검": 1.5,
+        " ": 1.5,
 
-        "마을": 1.3,
+        "  ": 1.3,
 
-        "음악": 1.3,
+        "  ": 1.3,
 
-        "휴식": 1.2,
+        "  ": 1.2,
 
-        "어둠": 1.2,
+        "  ": 1.2,
 
-        "허기": 1.0,
+        "  ": 1.0,
 
     })
 
@@ -270,11 +270,11 @@ class SyllabicLanguageEngine:
 
     JOSA_CANDIDATES: Dict[str, List[str]] = {
 
-        "subject": ["은", "는"],
+        "subject": [" ", " "],
 
-        "topic": ["이", "가"],
+        "topic": [" ", " "],
 
-        "object": ["을", "를"],
+        "object": [" ", " "],
 
     }
 
@@ -428,7 +428,7 @@ class SyllabicLanguageEngine:
 
         if not pool:
 
-            pool = ["그것"]
+            pool = ["  "]
 
         subject = random.choice(pool)
 
@@ -536,7 +536,7 @@ class SyllabicLanguageEngine:
 
     def _korean_josa(self, word: str, kind: str = "subject") -> str:
 
-        candidates = self.JOSA_CANDIDATES.get(kind, ["은", "는"])
+        candidates = self.JOSA_CANDIDATES.get(kind, [" ", " "])
 
         return self._apply_learned_particle(word, candidates)
 
@@ -586,17 +586,17 @@ class SyllabicLanguageEngine:
 
         if not word:
 
-            return "입니다"
+            return "   "
 
-        if word == "이다":
+        if word == "  ":
 
-            return "입니다"
+            return "   "
 
-        if word == "아니다":
+        if word == "   ":
 
-            return "아닙니다"
+            return "    "
 
-        if word.endswith("다"):
+        if word.endswith(" "):
 
             stem = word[:-1]
 
@@ -608,7 +608,7 @@ class SyllabicLanguageEngine:
 
             has_batchim = (last - 0xAC00) % 28 > 0
 
-            suffix = "습니다" if has_batchim else "ㅂ니다"
+            suffix = "   " if has_batchim else "   "
 
             return stem + suffix
 
@@ -620,9 +620,9 @@ class SyllabicLanguageEngine:
 
         replacements = {
 
-            "니다니다": "입니다",
+            "    ": "   ",
 
-            "습니다습니다": "습니다",
+            "      ": "   ",
 
         }
 
@@ -714,7 +714,7 @@ class SyllabicLanguageEngine:
 
             object_phrase = self._korean_josa(predicate, "object")
 
-            result = f"저는 {object_phrase} {conjugated_force}"
+            result = f"   {object_phrase} {conjugated_force}"
 
         elif is_definition:
 
@@ -773,4 +773,3 @@ class SyllabicLanguageEngine:
             return rng.choice(self.config.base_concepts["define"])
 
         return rng.choice(self.config.base_concepts["state"])
-

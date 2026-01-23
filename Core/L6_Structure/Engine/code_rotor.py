@@ -1,5 +1,5 @@
 """
-Codebase Structure Rotor (코드베이스 구조 로터)
+Codebase Structure Rotor (           )
 =============================================
 "Navigating the Code Field with Multi-Rotors."
 
@@ -27,7 +27,7 @@ class CodebaseStructureRotor:
 
     def scan_and_map(self) -> Dict[str, Any]:
         """Scans the codebase and creates a semantic map."""
-        print(f"🔍 [CODE ROTOR] Scanning {self.root_path} for structural alignment...")
+        print(f"  [CODE ROTOR] Scanning {self.root_path} for structural alignment...")
         
         for root, dirs, files in os.walk(self.root_path):
             # Efficiently skip heavy directories
@@ -55,7 +55,7 @@ class CodebaseStructureRotor:
                 if len(self.monad_map) % 500 == 0:
                     print(f"  ... Mapped {len(self.monad_map)} Monads")
 
-        print(f"✅ [CODE ROTOR] Mapped {len(self.monad_map)} Monads across {len(self.axes)} Axes.")
+        print(f"  [CODE ROTOR] Mapped {len(self.monad_map)} Monads across {len(self.axes)} Axes.")
         return self.monad_map
 
     def _calculate_coordinates(self, axis: str, path: str, name: str) -> Tuple[float, float, float]:

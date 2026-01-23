@@ -21,7 +21,7 @@ try:
     HAS_LLAMA = True
 except ImportError:
     HAS_LLAMA = False
-    logger.warning("⚠️ llama_cpp not found. Local Cortex disabled.")
+    logger.warning("   llama_cpp not found. Local Cortex disabled.")
 
 class LocalCortex:
     def __init__(self, models_dir: str = "c:/Elysia/models"):
@@ -29,7 +29,7 @@ class LocalCortex:
         self.active_model = None
         self.model_name = None
         
-        logger.info("🧠 Local Cortex Initialized")
+        logger.info("  Local Cortex Initialized")
         self.available_models = self.list_models()
         logger.info(f"   Found {len(self.available_models)} models: {self.available_models}")
 
@@ -55,7 +55,7 @@ class LocalCortex:
             return False
             
         try:
-            logger.info(f"   📥 Loading Model: {model_name}...")
+            logger.info(f"     Loading Model: {model_name}...")
             # Adjust n_ctx (context window) and n_gpu_layers as needed
             self.active_model = Llama(
                 model_path=path,
@@ -64,10 +64,10 @@ class LocalCortex:
                 verbose=False
             )
             self.model_name = model_name
-            logger.info(f"   ✅ Model Loaded Successfully.")
+            logger.info(f"     Model Loaded Successfully.")
             return True
         except Exception as e:
-            logger.error(f"   ❌ Failed to load model: {e}")
+            logger.error(f"     Failed to load model: {e}")
             return False
 
     def infer(self, prompt: str, model_name: str = None, max_tokens: int = 512) -> str:
@@ -94,7 +94,7 @@ class LocalCortex:
                 return f"Failed to load {model_name}"
                 
         try:
-            logger.info(f"   🧠 Deep Thinking with {model_name}...")
+            logger.info(f"     Deep Thinking with {model_name}...")
             output = self.active_model(
                 prompt,
                 max_tokens=max_tokens,
@@ -111,4 +111,4 @@ class LocalCortex:
         """Unloads the model to free up RAM/VRAM."""
         self.active_model = None
         self.model_name = None
-        logger.info("   📤 Model Unloaded.")
+        logger.info("     Model Unloaded.")

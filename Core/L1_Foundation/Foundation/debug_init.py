@@ -15,9 +15,9 @@ try:
     print("1. Initializing Alchemy...")
     from Core.L1_Foundation.Foundation.Mind.alchemy import Alchemy
     alchemy = Alchemy()
-    print("✅ Alchemy initialized.")
+    print("  Alchemy initialized.")
 except Exception as e:
-    print(f"❌ Alchemy failed: {e}")
+    print(f"  Alchemy failed: {e}")
     import traceback
     traceback.print_exc()
 
@@ -25,9 +25,9 @@ try:
     print("\n2. Initializing Hippocampus...")
     from Core.L1_Foundation.Foundation.Mind.hippocampus import Hippocampus
     hippocampus = Hippocampus()
-    print("✅ Hippocampus initialized.")
+    print("  Hippocampus initialized.")
 except Exception as e:
-    print(f"❌ Hippocampus failed: {e}")
+    print(f"  Hippocampus failed: {e}")
     import traceback
     traceback.print_exc()
 
@@ -35,9 +35,9 @@ try:
     print("\n3. Initializing FluctlightEngine...")
     from Core.L1_Foundation.Foundation.Physics.fluctlight import FluctlightEngine
     engine = FluctlightEngine(world_size=256)
-    print("✅ FluctlightEngine initialized.")
+    print("  FluctlightEngine initialized.")
 except Exception as e:
-    print(f"❌ FluctlightEngine failed: {e}")
+    print(f"  FluctlightEngine failed: {e}")
     import traceback
     traceback.print_exc()
 
@@ -45,8 +45,8 @@ try:
     print("\n4. Initializing World...")
     from Core.world import World
     world = World(primordial_dna={}, wave_mechanics=None)
-    print("✅ World initialized.")
+    print("  World initialized.")
 except Exception as e:
-    print(f"❌ World failed: {e}")
+    print(f"  World failed: {e}")
     import traceback
     traceback.print_exc()

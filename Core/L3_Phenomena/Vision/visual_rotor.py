@@ -27,7 +27,7 @@ class VisualRotor:
         self.last_signature = None
         self.perception_count = 0
         
-        logger.info("🔮 Visual Rotor initialized. O(1) perception enabled.")
+        logger.info("  Visual Rotor initialized. O(1) perception enabled.")
     
     def perceive_meaning(self, frame: np.ndarray) -> Dict:
         """
@@ -125,32 +125,32 @@ class VisualRotor:
         # Energy interpretation
         energy = signature.get("energy", 0)
         if energy > 200:
-            interpretations.append("밝은 장면")
+            interpretations.append("     ")
         elif energy < 50:
-            interpretations.append("어두운 장면")
+            interpretations.append("      ")
         else:
-            interpretations.append("중간 밝기")
+            interpretations.append("     ")
         
         # Tension interpretation
         tension = signature.get("tension", 0)
         if tension > 80:
-            interpretations.append("높은 대비 (긴장감)")
+            interpretations.append("      (   )")
         elif tension < 20:
-            interpretations.append("낮은 대비 (평온함)")
+            interpretations.append("      (   )")
         
         # Color interpretation
         color = signature.get("color_qualia", {})
         if color.get("dominant") == "warm":
-            interpretations.append("따뜻한 색조")
+            interpretations.append("      ")
         elif color.get("dominant") == "cold":
-            interpretations.append("차가운 색조")
+            interpretations.append("      ")
         
         # Motion interpretation
         motion = signature.get("motion", {})
         if motion.get("is_moving"):
-            interpretations.append(f"움직임 감지 (delta={motion.get('delta', 0):.1f})")
+            interpretations.append(f"       (delta={motion.get('delta', 0):.1f})")
         else:
-            interpretations.append("정적인 장면")
+            interpretations.append("      ")
         
         return " | ".join(interpretations)
 
@@ -207,7 +207,7 @@ class VisualRotor:
             "attention_mode": "focused"
         }
         
-        logger.info(f"👁️ Attending to ({focus_x}, {focus_y}) | Focus: {focus_signature['energy']:.1f} | BG: {bg_energy:.1f}")
+        logger.info(f"   Attending to ({focus_x}, {focus_y}) | Focus: {focus_signature['energy']:.1f} | BG: {bg_energy:.1f}")
         
         return combined
     
@@ -287,7 +287,7 @@ class VisualRotor:
         result["chosen_because"] = f"Highest score for '{intent or 'interest'}': {best_cell[1]['score']:.2f}"
         result["attention_mode"] = "intent_driven"
         
-        logger.info(f"🎯 Intent-Driven Attention: '{intent}' | Curiosity: {curiosity_level:.1f} | Focus: ({focus_x}, {focus_y})")
+        logger.info(f"  Intent-Driven Attention: '{intent}' | Curiosity: {curiosity_level:.1f} | Focus: ({focus_x}, {focus_y})")
         
         return result
     
@@ -315,7 +315,7 @@ class VisualRotor:
         deeper_result["depth_level"] = current_focus.get("depth_level", 0) + 1
         deeper_result["curiosity"] = deeper_curiosity
         
-        logger.info(f"🔍 Deepening Focus: Level {deeper_result['depth_level']} | Radius: {new_radius}")
+        logger.info(f"  Deepening Focus: Level {deeper_result['depth_level']} | Radius: {new_radius}")
         
         return deeper_result
 
@@ -325,7 +325,7 @@ if __name__ == "__main__":
     from Core.L3_Phenomena.Vision.elysian_eye import ElysianEye
     import time
     
-    print("🔮 Testing Visual Rotor (O(1) Perception)...")
+    print("  Testing Visual Rotor (O(1) Perception)...")
     
     eye = ElysianEye()
     rotor = VisualRotor()
@@ -342,7 +342,7 @@ if __name__ == "__main__":
         time.sleep(0.5)
     
     # Test focused attention (Rotor-in-Rotor)
-    print("\n👁️ Testing Focused Attention (Rotor-in-Rotor)...")
+    print("\n   Testing Focused Attention (Rotor-in-Rotor)...")
     frame = eye.perceive()
     if frame is not None:
         # Focus on center of screen
@@ -354,7 +354,7 @@ if __name__ == "__main__":
         print(f"  Peripheral Moving: {focused['peripheral']['is_moving']}")
     
     # Test Intent-Driven Attention
-    print("\n🎯 Testing Intent-Driven Attention...")
+    print("\n  Testing Intent-Driven Attention...")
     frame = eye.perceive()
     if frame is not None:
         # "I want to see where it's brightest"
@@ -365,11 +365,10 @@ if __name__ == "__main__":
         print(f"  Focus Meaning: {result['focus']['interpretation']}")
         
         # Now go deeper
-        print("\n🔍 Going Deeper...")
+        print("\n  Going Deeper...")
         deeper = rotor.deepen_focus(frame, result, deeper_curiosity=0.9)
         print(f"  Depth Level: {deeper.get('depth_level', 0)}")
         print(f"  New Focus Region: {deeper['focus']['region']}")
     
     eye.close()
-    print("\n✨ Visual Rotor test complete.")
-
+    print("\n  Visual Rotor test complete.")

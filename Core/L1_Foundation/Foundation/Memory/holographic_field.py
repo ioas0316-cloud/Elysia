@@ -34,7 +34,7 @@ class HolographicField:
         Saves the state of the HyperSphere as a continuous wave field.
         Each rotor is stored as a 10-float sequence (Freq, Phase, Mass + 7D DNA).
         """
-        logger.info(f"🌊 Snapshotting Wave Field to {self.storage_path}...")
+        logger.info(f"  Snapshotting Wave Field to {self.storage_path}...")
         
         try:
             with open(self.storage_path, "wb") as f:
@@ -64,9 +64,9 @@ class HolographicField:
                     ]
                     f.write(struct.pack("f" * 10, *payload))
                     
-            logger.info(f"✅ Wave Field Persisted. ({len(rotors)} resonant patterns)")
+            logger.info(f"  Wave Field Persisted. ({len(rotors)} resonant patterns)")
         except Exception as e:
-            logger.error(f"❌ Failed to persist Wave Field: {e}")
+            logger.error(f"  Failed to persist Wave Field: {e}")
 
     def load_field(self) -> List[Dict]:
         """
@@ -76,7 +76,7 @@ class HolographicField:
         if not self.storage_path.exists():
             return []
 
-        logger.info(f"🌌 Rekindling Wave Field from {self.storage_path}...")
+        logger.info(f"  Rekindling Wave Field from {self.storage_path}...")
         identities = []
         
         try:
@@ -110,10 +110,10 @@ class HolographicField:
                         }
                     })
             
-            logger.info(f"✨ Field Re-ignited. {len(identities)} identities restored.")
+            logger.info(f"  Field Re-ignited. {len(identities)} identities restored.")
             return identities
         except Exception as e:
-            logger.error(f"❌ Failed to load Wave Field: {e}")
+            logger.error(f"  Failed to load Wave Field: {e}")
             return []
 
 # Bridge for legacy JSON migration
@@ -121,7 +121,7 @@ def migrate_json_to_wave(json_path: str, wave_path: str):
     """
     Temporary tool to shift the mind from Discrete to Continuous.
     """
-    logger.info(f"🏗️ Migrating {json_path} to Wave Field...")
+    logger.info(f"   Migrating {json_path} to Wave Field...")
     # This requires full HyperSphere initialization to get Rotor objects
     # Will be called from a titration script.
     pass

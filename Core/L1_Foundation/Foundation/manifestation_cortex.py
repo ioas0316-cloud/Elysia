@@ -167,4 +167,3 @@ class ManifestationCortex:
         })
 
         self.logger.info(f"ManifestationCortex: Successfully manifested '{filename}' to the world.")
-

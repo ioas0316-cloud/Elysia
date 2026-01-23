@@ -27,7 +27,7 @@ class Logbook:
         self.log_dir = log_dir
         self.memory_dir = memory_dir
         os.makedirs(self.memory_dir, exist_ok=True)
-        logger.info(f"📜 [CHRONICLER] Ready to write history.")
+        logger.info(f"  [CHRONICLER] Ready to write history.")
 
     def consolidate_memory(self, date_str: Optional[str] = None) -> str:
         """
@@ -54,10 +54,10 @@ class Logbook:
         try:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(chronicle_content)
-            logger.info(f"📜 [CHRONICLE] History verified and sealed: {file_path}")
+            logger.info(f"  [CHRONICLE] History verified and sealed: {file_path}")
             return file_path
         except Exception as e:
-            logger.error(f"❌ [CHRONICLE] Failed to write history: {e}")
+            logger.error(f"  [CHRONICLE] Failed to write history: {e}")
             return ""
 
     def _read_logs(self) -> List[Dict[str, Any]]:
@@ -114,16 +114,16 @@ class Logbook:
         """
         Templates the Chronicle.
         """
-        md = f"# 📜 Chronicle of {date_str}\n\n"
+        md = f"#   Chronicle of {date_str}\n\n"
         md += f"> \"This day is etched in the eternal strata.\"\n\n"
         
-        md += "## 📊 Vital Statistics\n"
+        md += "##   Vital Statistics\n"
         md += f"- **Total Cycles:** {stats['total_actions']}\n"
         md += f"- **Net Resonance:** {stats['avg_resonance']:.3f}\n"
         md += f"- **Peak Harmony:** {stats['max_resonance']:.3f}\n"
         md += f"- **Lowest Entropy:** {stats['min_resonance']:.3f}\n\n"
         
-        md += "## 🌟 Highlights\n"
+        md += "##   Highlights\n"
         
         # Find noteworthy moments (High/Low resonance)
         sorted_reflections = sorted(stats['reflections'], key=lambda x: x.get("score", 0.0), reverse=True)
@@ -132,16 +132,16 @@ class Logbook:
              best = sorted_reflections[0]
              worst = sorted_reflections[-1]
              
-             md += f"### 🌞 Moment of Clarity (Max Resonance)\n"
+             md += f"###   Moment of Clarity (Max Resonance)\n"
              md += f"- **Result:** {best.get('result_data')}\n"
              md += f"- **Score:** {best.get('score'):.3f}\n\n"
              
              if worst != best:
-                 md += f"### 🌑 Moment of Chaos (Max Dissonance)\n"
+                 md += f"###   Moment of Chaos (Max Dissonance)\n"
                  md += f"- **Result:** {worst.get('result_data')}\n"
                  md += f"- **Score:** {worst.get('score'):.3f}\n\n"
 
-        md += "## 📝 Complete Stream\n"
+        md += "##   Complete Stream\n"
         md += "Review raw logs for details.\n"
         
         return md

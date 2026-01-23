@@ -1,6 +1,6 @@
 """
 Abstract Reasoning System
-Phase 13: 범용 인공지능 향해 (Towards AGI)
+Phase 13:            (Towards AGI)
 
 Enables reasoning at abstract levels by extracting essence from problems,
 identifying patterns, and solving at higher abstraction levels.

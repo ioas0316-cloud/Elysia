@@ -3,7 +3,7 @@ KnowledgeTesseract: The Holographic Projection
 ==============================================
 
 "The Tesseract is a Phenomenon, not a Database."
-"테서랙트는 저장소가 아니라 현상이다."
+"                   ."
 
 This module implements the "View" layer of the Sphere-First Architecture.
 It does NOT store data. It renders the Interference Pattern from the Engine.

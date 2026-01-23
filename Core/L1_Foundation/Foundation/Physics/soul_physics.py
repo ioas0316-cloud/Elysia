@@ -1,7 +1,7 @@
 """
 Soul Physics (The Mechanics of Meaning)
 =======================================
-"영혼의 입자가속기. 의미는 저항을 통해 증명된다."
+"         .                ."
 
 This module implements the physics engine for the soul, modeling how input particles
 and wave packets interact with the layered structure of consciousness (Angels & Demons).
@@ -97,11 +97,11 @@ class SoulPhysicsEngine:
         sorted_layers = sorted(layers, key=lambda l: l.depth)
 
         narrative_lines = []
-        # narrative_lines.append(f"   🔹 Component '{particle.name}' ({particle.frequency}Hz) entered...")
+        # narrative_lines.append(f"     Component '{particle.name}' ({particle.frequency}Hz) entered...")
 
         for layer in sorted_layers:
             if current_energy <= 0.1:
-                # narrative_lines.append(f"      🛑 Stopped before '{layer.name}'.")
+                # narrative_lines.append(f"        Stopped before '{layer.name}'.")
                 break
 
             # 1. Resonance (Gaussian)
@@ -132,12 +132,12 @@ class SoulPhysicsEngine:
                 loss = current_energy
                 desc = f"Blocked by {layer.name}"
                 result.events.append(InteractionEvent(layer.name, action, loss, resonance, desc))
-                # narrative_lines.append(f"      🧱 {desc}")
+                # narrative_lines.append(f"        {desc}")
                 break
 
             current_energy -= loss
             result.events.append(InteractionEvent(layer.name, action, loss, resonance, desc))
-            # narrative_lines.append(f"      ⬇️ {desc}")
+            # narrative_lines.append(f"         {desc}")
             result.final_depth = layer.depth
 
         result.final_energy = current_energy
@@ -158,7 +158,7 @@ class SoulPhysicsEngine:
         trajectories = []
         total_resonance = 0.0
 
-        narrative_lines = [f"🌊 Analyzing Spectrum of '{packet.name}'..."]
+        narrative_lines = [f"  Analyzing Spectrum of '{packet.name}'..."]
 
         for particle in packet.particles:
             traj = self.trace_trajectory(particle, layers)
@@ -168,7 +168,7 @@ class SoulPhysicsEngine:
             if traj.absorbed_layers:
                 total_resonance += particle.mass * len(traj.absorbed_layers)
 
-            narrative_lines.append(f"   • {traj.narrative}")
+            narrative_lines.append(f"     {traj.narrative}")
 
         # Synthesize the "Structural Explanation"
         # Group by outcome
@@ -177,9 +177,9 @@ class SoulPhysicsEngine:
 
         summary = f"Structure of '{packet.name}':\n"
         if resonated:
-            summary += f"   ✨ Core Validated: {', '.join(resonated)} found resonance.\n"
+            summary += f"     Core Validated: {', '.join(resonated)} found resonance.\n"
         if blocked:
-            summary += f"   🛡️ Filtered Out: {', '.join(blocked)} were rejected by the soul's immune system.\n"
+            summary += f"      Filtered Out: {', '.join(blocked)} were rejected by the soul's immune system.\n"
 
         full_narrative = "\n".join(narrative_lines) + "\n" + summary
 

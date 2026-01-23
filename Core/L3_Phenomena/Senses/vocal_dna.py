@@ -12,7 +12,7 @@ class VocalDNA:
     """
 
     def __init__(self):
-        logger.info("🎙️ VocalDNA System initialized. Sound is now an expression of Genome.")
+        logger.info("   VocalDNA System initialized. Sound is now an expression of Genome.")
 
     def map_genome_to_voice(self, genome: Dict[str, float]) -> Dict[str, Any]:
         """
@@ -43,7 +43,7 @@ class VocalDNA:
             "style": self._determine_style(genome)
         }
 
-        logger.info(f"🎙️ [VOCAL MANIFEST] New Profile: {vocal_profile['style']} (P:{pitch:.2f}, R:{rate:.2f})")
+        logger.info(f"   [VOCAL MANIFEST] New Profile: {vocal_profile['style']} (P:{pitch:.2f}, R:{rate:.2f})")
         return vocal_profile
 
     def _determine_style(self, genome: Dict[str, float]) -> str:

@@ -33,20 +33,20 @@ class SubTask:
 class GovernanceTaskMaster:
     def __init__(self):
         self.active_tasks: List[SubTask] = []
-        logger.info("🏛️ GovernanceTaskMaster initialized. Ready to orchestrate.")
+        logger.info("   GovernanceTaskMaster initialized. Ready to orchestrate.")
 
     def orchestrate_goal(self, goal: str) -> List[SubTask]:
         """
         [Phase 18] Decomposes a goal into a sequence of sub-tasks.
         """
-        logger.info(f"🎯 Orchestrating Goal: {goal}")
+        logger.info(f"  Orchestrating Goal: {goal}")
         self.active_tasks = self._decompose_goal(goal)
         
         # In a real scenario, this would trigger actual module calls
         # Here we simulate the execution flow
         for task in self.active_tasks:
             task.status = "EXECUTING"
-            logger.info(f"🚀 Executing [{task.layer.name}]: {task.action}")
+            logger.info(f"  Executing [{task.layer.name}]: {task.action}")
             task.status = "COMPLETED"
             task.result = f"Synthesized resonance for {task.action}"
             

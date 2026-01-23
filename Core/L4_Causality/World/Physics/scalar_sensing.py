@@ -1,5 +1,5 @@
 """
-Scalar Field Sensing (스칼라 장 감지기)
+Scalar Field Sensing (         )
 =====================================
 "Feeling the world before touching it."
 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     sensor = PPSSensor()
     
     # Simulating a person walking towards Elysia
-    print("🚶 [PPS SCAN] Simulation: Entity approaching...")
+    print("  [PPS SCAN] Simulation: Entity approaching...")
     for dist in [6.0, 4.0, 2.0, 1.0, 0.5]:
         res = sensor.sense_environment(my_field, [0,0,0], [{"id": "Stranger", "pos": [dist, 0, 0]}])
         print(f"  Dist: {dist}m -> Intensity: {res['level']:.2f} | Status: {res['status']}")

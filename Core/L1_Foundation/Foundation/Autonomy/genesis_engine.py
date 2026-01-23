@@ -25,7 +25,7 @@ class GenesisEngine:
         The Full Creation Pipeline.
         Returns the manifested code (Physics Setup) or an error message.
         """
-        logger.info(f"✨ Genesis Initiated: {intent}")
+        logger.info(f"  Genesis Initiated: {intent}")
         
         # 1. Dream (Intent -> Wave)
         # We assume the intent is complex, so we break it down into a sequence of waves.
@@ -58,20 +58,20 @@ class GenesisEngine:
         
         # 3. Simulate (DNA -> Survival)
         # Test the thought in the internal world
-        logger.info("🧪 Simulating in CodeWorld...")
+        logger.info("  Simulating in CodeWorld...")
         self.world.add_organism(candidate_dna)
         self.world.run_simulation(steps=10)
         
         if candidate_dna.id not in self.world.population:
-            logger.warning(f"❌ Creation Failed: Pattern '{intent}' died in simulation (Dissonance).")
+            logger.warning(f"  Creation Failed: Pattern '{intent}' died in simulation (Dissonance).")
             return f"# Creation Failed: The thought '{intent}' was too dissonant to survive."
             
         survivor = self.world.population[candidate_dna.id]
-        logger.info(f"✅ Simulation Passed: Score {survivor.resonance_score:.2f}")
+        logger.info(f"  Simulation Passed: Score {survivor.resonance_score:.2f}")
         
         # 4. Manifest (DNA -> Reality)
         # Convert the surviving DNA back into waves, then into code
-        logger.info("🌊 Manifesting into Reality...")
+        logger.info("  Manifesting into Reality...")
         manifested_code = ""
         for packet in survivor.to_wave_packets():
             # Force code generation by prepending "CODE:"

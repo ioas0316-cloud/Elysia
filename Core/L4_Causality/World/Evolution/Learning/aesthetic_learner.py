@@ -27,7 +27,7 @@ class AestheticLearner:
     def __init__(self):
         self.genome_path = Path("data/Memory/style_genome.json")
         self.genome = self._load_genome()
-        logger.info(f"🎓 Aesthetic Learner Initialized. Wave Memory Loaded.")
+        logger.info(f"  Aesthetic Learner Initialized. Wave Memory Loaded.")
 
     def _load_genome(self):
         if not self.genome_path.exists():
@@ -49,7 +49,7 @@ class AestheticLearner:
         
         with open(self.genome_path, 'w', encoding='utf-8') as f:
             json.dump(self.genome, f, indent=4, ensure_ascii=False)
-        logger.info(f"🧬 Genome Updated. Evolution Stage: {stage}")
+        logger.info(f"  Genome Updated. Evolution Stage: {stage}")
 
     def _get_word_frequency(self, word: str) -> float:
         """Hashes audio/semantic concept to a unique frequency (Hz)."""
@@ -61,16 +61,16 @@ class AestheticLearner:
         """
         Reads text, converts to Wave, and Resonates with Memory.
         """
-        logger.info(f"📖 Studying text from: {source_name}...")
+        logger.info(f"  Studying text from: {source_name}...")
         
         # 1. Create Input Wave
         input_wave = WaveTensor(f"Input({source_name})")
         
-        words = re.findall(r'[a-zA-Z가-힣]+', text.lower())
+        words = re.findall(r'[a-zA-Z - ]+', text.lower())
         sharp_keywords = ["strike", "cut", "kill", "destroy", "pierce", "fire", "blood",
-                          "파괴", "베어", "일격", "단숨에", "비명", "화염", "살기"]
+                          "  ", "  ", "  ", "   ", "  ", "  ", "  "]
         round_keywords = ["flow", "cycle", "magic", "peace", "calm", "nature", "silent",
-                          "마력", "운명", "흐름", "순환", "평화", "고요", "자연", "침묵"]
+                          "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "]
         
         for w in words:
             # We only amplify "Significant Words" to prevent noise, 
@@ -129,7 +129,7 @@ class AestheticLearner:
         """
         Visual -> WaveTensor ('CompositionMemory')
         """
-        logger.info(f"🎨 Studying art description from: {source_name}...")
+        logger.info(f"  Studying art description from: {source_name}...")
         text = text.lower()
         
         # 1. Create Input Wave

@@ -110,7 +110,7 @@ class Party:
                     if random.random() < 0.1: # 10% chance to share wisdom per tick
                          pos = (0.8, -0.5, 0.8, 0.9) # Simplified axiom pos for shared wisdom
                          neighbor.ego.adopt_principle(axiom, pos)
-                         print(f"📖 {m.name} shared the principle of '{axiom}' with {neighbor.name}.")
+                         print(f"  {m.name} shared the principle of '{axiom}' with {neighbor.name}.")
 
     def get_status_report(self) -> str:
         report = "--- [Party Status] ---\n"

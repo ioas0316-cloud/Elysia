@@ -1,4 +1,4 @@
-﻿"""Access helpers for the will_field scalar map."""
+ """Access helpers for the will_field scalar map."""
 
 from __future__ import annotations
 from typing import Any

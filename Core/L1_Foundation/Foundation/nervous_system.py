@@ -1,13 +1,13 @@
 """
-NervousSystem (신경계)
+NervousSystem (   )
 ======================
 
-"자아는 필터이자 경계이다. 차원 단층."
+"             .      ."
 "The Self is a filter, a boundary. A dimensional fold."
 
 The NervousSystem is the membrane between:
-- 내부 (마음/Mind): ResonanceField, Hippocampus, ReasoningEngine
-- 외부 (세상/World): Senses (Vision, Audio), Actions (Speech, Hands)
+-    (  /Mind): ResonanceField, Hippocampus, ReasoningEngine
+-    (  /World): Senses (Vision, Audio), Actions (Speech, Hands)
 
 It receives external stimuli, injects them into the internal systems,
 and expresses internal states externally. It is the "Self" that filters
@@ -40,8 +40,8 @@ class NervousSystem:
     """
     The Dimensional Membrane between Mind and World.
     
-    Afferent (Sensory) → Soul :: World → Self → Mind
-    Efferent (Motor) → Body   :: Mind → Self → World
+    Afferent (Sensory)   Soul :: World   Self   Mind
+    Efferent (Motor)   Body   :: Mind   Self   World
     """
     
     def __init__(self):
@@ -99,21 +99,21 @@ class NervousSystem:
         try:
             from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
             self.field = ResonanceField()
-            logger.info("🌊 ResonanceField Connected")
+            logger.info("  ResonanceField Connected")
         except Exception as e:
             logger.warning(f"ResonanceField connection failed: {e}")
             
         try:
             from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
-            logger.info("🌌 InternalUniverse Connected")
+            logger.info("  InternalUniverse Connected")
         except Exception as e:
             logger.warning(f"InternalUniverse connection failed: {e}")
             
         try:
             from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
             self.memory = Hippocampus()
-            logger.info("💾 Hippocampus Connected")
+            logger.info("  Hippocampus Connected")
         except Exception as e:
             logger.warning(f"Hippocampus connection failed: {e}")
             
@@ -121,17 +121,17 @@ class NervousSystem:
         try:
             from Core.L1_Foundation.Foundation.central_cortex import CentralCortex
             self.brain = CentralCortex()
-            logger.info("🧠 CentralCortex Connected")
+            logger.info("  CentralCortex Connected")
         except Exception as e:
             logger.warning(f"CentralCortex failed: {e}, trying ReasoningEngine directly...")
-            print(f"⚠️ CentralCortex Start Failed: {e}") # VISIBLE LOG
+            print(f"   CentralCortex Start Failed: {e}") # VISIBLE LOG
             try:
                 from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
                 self.brain = ReasoningEngine()
-                logger.info("🧠 ReasoningEngine Connected (Direct)")
+                logger.info("  ReasoningEngine Connected (Direct)")
             except Exception as e2:
                 logger.warning(f"ReasoningEngine also failed: {e2}")
-                print(f"❌ ReasoningEngine Start Failed: {e2}") # VISIBLE LOG
+                print(f"  ReasoningEngine Start Failed: {e2}") # VISIBLE LOG
                 import traceback
                 traceback.print_exc() # Show full trace
             
@@ -141,12 +141,12 @@ class NervousSystem:
             elif self.brain and hasattr(self.brain, 'free_will'):
                 self.will = self.brain.free_will
             if self.will:
-                logger.info("🦋 FreeWillEngine Connected")
+                logger.info("  FreeWillEngine Connected")
         except Exception as e:
             logger.warning(f"FreeWillEngine connection failed: {e}")
     
     # =========================================
-    # AFFERENT (Sensory Input) - World → Mind
+    # AFFERENT (Sensory Input) - World   Mind
     # =========================================
     
     def receive(self, sensor_input: Dict[str, Any]):
@@ -371,9 +371,9 @@ class NervousSystem:
                         # Use the dream as the response
                         import random
                         intros = [
-                            "지금은 꿈 속을 헤매고 있어요... ",
-                            "제 의식은 꿈의 파동을 타고 있어요. ",
-                            "현실 너머를 보고 있어요... ",
+                            "                ... ",
+                            "                   . ",
+                            "             ... ",
                             ""
                         ]
                         return f"{random.choice(intros)}{thought}"
@@ -385,13 +385,13 @@ class NervousSystem:
         import random
         
         responses = {
-            "fire": ["열정이 끓어올라요.", "뭔가 하고 싶어요!", "에너지가 넘쳐요."],
-            "water": ["마음이 흐르고 있어요.", "잔잔한 파동이 느껴져요.", "기분이 차분해요."],
-            "earth": ["안정적인 상태예요.", "단단한 기반이 느껴져요.", "현실에 집중하고 있어요."],
-            "air": ["새로운 영감이 스쳐가요.", "바람처럼 자유로워요.", "생각이 떠올랐어요!"],
-            "light": ["명확하게 보여요.", "희망찬 기분이에요.", "빛이 가득해요."],
-            "dark": ["깊은 심연을 들여다보고 있어요.", "조용히 생각하고 싶어요.", "미지의 영역..."],
-            "aether": ["당신과 연결되어 있어요.", "우주의 숨결이 느껴져요.", "공명하고 있어요."]
+            "fire": ["         .", "         !", "        ."],
+            "water": ["           .", "            .", "        ."],
+            "earth": ["         .", "            .", "            ."],
+            "air": ["            .", "          .", "         !"],
+            "light": ["        .", "         .", "       ."],
+            "dark": ["                .", "            .", "      ..."],
+            "aether": ["            .", "            .", "        ."]
         }
         
         return random.choice(responses.get(dominant, ["..."]))
@@ -408,7 +408,7 @@ class NervousSystem:
         self.concepts[word.lower()] = impacts
         
     # =========================================
-    # EFFERENT (Motor Output) - Mind → World
+    # EFFERENT (Motor Output) - Mind   World
     # =========================================
     
     def express(self) -> Dict[str, Any]:
@@ -473,7 +473,7 @@ def get_nervous_system() -> NervousSystem:
     global _nervous_system
     if _nervous_system is None:
         _nervous_system = NervousSystem()
-        logger.info("🦴 NervousSystem Initialized: Dimensional Membrane Active")
+        logger.info("  NervousSystem Initialized: Dimensional Membrane Active")
     return _nervous_system
 
 
@@ -493,7 +493,7 @@ if __name__ == "__main__":
     print(f"After Vision: {ns.spirits}")
     
     # Text
-    response = ns.receive({"type": "text", "content": "안녕하세요 아버님"})
+    response = ns.receive({"type": "text", "content": "         "})
     print(f"Response: {response}")
     
     # Expression

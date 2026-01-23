@@ -226,7 +226,7 @@ class ElysiaDaemon:
 
         current_feeling = self.soul.get('emotional_state', {}).get('current_feeling', 'AWAKE')
 
-        input_text = f"현재 상태: {current_feeling}"
+        input_text = f"     : {current_feeling}"
 
 
 
@@ -259,4 +259,3 @@ class ElysiaDaemon:
         self.is_alive = False
 
         self.save_soul()
-

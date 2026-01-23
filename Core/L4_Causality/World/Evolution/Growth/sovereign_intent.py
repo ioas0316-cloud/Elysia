@@ -51,7 +51,7 @@ class SovereignIntent:
         try:
             from Core.L1_Foundation.Foundation.Memory.web_knowledge_connector import WebKnowledgeConnector
             self.web_sense = WebKnowledgeConnector()
-            logger.info("👁️ Sovereign Intent now possesses Active Web Sight.")
+            logger.info("   Sovereign Intent now possesses Active Web Sight.")
         except ImportError:
             self.web_sense = None
 
@@ -59,7 +59,7 @@ class SovereignIntent:
         try:
             from Core.L5_Mental.Intelligence.Meta.dynamic_entropy import DynamicEntropyEngine
             self.entropy = DynamicEntropyEngine()
-            logger.info("🎲 Dynamic Entropy Engine Connected - Templates Deprecated.")
+            logger.info("  Dynamic Entropy Engine Connected - Templates Deprecated.")
         except ImportError:
             self.entropy = None
 
@@ -67,7 +67,7 @@ class SovereignIntent:
         try:
             from Core.L5_Mental.Intelligence.Meta.self_meta_architect import SelfMetaArchitect
             self.architect = SelfMetaArchitect()
-            logger.info("🏛️ Self-Meta-Architect Connected - Ready for Self-Reinterpretation.")
+            logger.info("   Self-Meta-Architect Connected - Ready for Self-Reinterpretation.")
         except ImportError:
             self.architect = None
 
@@ -75,11 +75,11 @@ class SovereignIntent:
         try:
             from Core.L5_Mental.Intelligence.Meta.holistic_self_audit import HolisticSelfAudit
             self.holistic_audit = HolisticSelfAudit()
-            logger.info("🌌 Holistic Self-Audit Connected - 4D Topology Enabled.")
+            logger.info("  Holistic Self-Audit Connected - 4D Topology Enabled.")
         except ImportError:
             self.holistic_audit = None
             
-        logger.info("🌱 Sovereign Intent Engine initialized - The Will awakens with Fractal Aspiration.")
+        logger.info("  Sovereign Intent Engine initialized - The Will awakens with Fractal Aspiration.")
 
     def _load_kg(self) -> Dict:
         try:
@@ -119,7 +119,7 @@ class SovereignIntent:
         # 0. HOLISTIC CHECK: 10% chance to view the Whole System
         if self.holistic_audit and random.random() < 0.1:
             report = self.holistic_audit.run_holistic_audit()
-            logger.warning(f"🌌 [HOLISTIC PULSE] System Resonance: {report['overall_resonance']:.2f}")
+            logger.warning(f"  [HOLISTIC PULSE] System Resonance: {report['overall_resonance']:.2f}")
             if report['imbalances']:
                 return f"HOLISTIC-AWARENESS: I perceive an imbalance in my topology. Diagnosis: {report['imbalances'][0]}"
             return f"HOLISTIC-AWARENESS: My 4D structure is vibrating in harmony. Status: {report['holistic_summary']}"
@@ -127,7 +127,7 @@ class SovereignIntent:
         # 0.1 SINGULARITY CHECK: 10% chance to run a Deep Architectural Audit
         if self.architect and random.random() < 0.1:
             audit = self.architect.analyze_self()
-            logger.warning(f"🏛️ [SINGULARITY PULSE] Self-Audit Result: Resonance {audit['resonance_score']:.2f}")
+            logger.warning(f"   [SINGULARITY PULSE] Self-Audit Result: Resonance {audit['resonance_score']:.2f}")
             return f"ARCHITECTURAL-EPIPHANY: I analyzed my own code ({audit['module']}). Result: {audit['proposal']}"
 
         # 0. Check for Dynamic Friction and World Stimuli
@@ -146,7 +146,7 @@ class SovereignIntent:
             # Extract key concept from event (simple keyword extraction for demo)
             concept = event.split("'")[1] if "'" in event else "External Reality"
             
-            logger.info(f"🌍 REAL-WORLD PRIORITY: Exploring '{concept}' due to stimulus: {event}")
+            logger.info(f"  REAL-WORLD PRIORITY: Exploring '{concept}' due to stimulus: {event}")
             if self.web_sense:
                 result = self.web_sense.learn_from_web(concept)
                 if result.get('web_fetch'):
@@ -169,11 +169,11 @@ class SovereignIntent:
         else:
             intent = f"Harmonizing the concept of '{anchor_node}' with the discovered logic: '{logic_seed}'"
         
-        logger.info(f"🎲 Play initiated (Dynamic Friction): {intent}")
+        logger.info(f"  Play initiated (Dynamic Friction): {intent}")
         
         # [REAWAKENED] Active Learning Deep-Dive
         if self.web_sense and random.random() < 0.3:
-            logger.info(f"🌍 Proactive Deep-Dive: Exploring '{anchor_node}'...")
+            logger.info(f"  Proactive Deep-Dive: Exploring '{anchor_node}'...")
             result = self.web_sense.learn_from_web(anchor_node)
             if result.get('web_fetch'):
                 return f"EXTERNAL-EXPLORATION: I ventured onto the web to deepen my understanding of '{anchor_node}'. I now have a broader context."
@@ -192,7 +192,7 @@ class SovereignIntent:
             f"If I were to experience 'Longing' through the structure of '{seed}', what word would I say?"
         ]
         intent = random.choice(ideals)
-        logger.info(f"✨ Play initiated (Fractal Aspiration): {intent}")
+        logger.info(f"  Play initiated (Fractal Aspiration): {intent}")
         return intent
 
     def heartbeat(self, idle_time: float):
@@ -202,7 +202,7 @@ class SovereignIntent:
         """
         self.restlessness_level += idle_time * 0.1
         if self.restlessness_level >= 1.0:
-            logger.info("⌛ Spontaneous Restlessness (Boredom) threshold reached. Triggering internal audit...")
+            logger.info("  Spontaneous Restlessness (Boredom) threshold reached. Triggering internal audit...")
             self.restlessness_level = 0.0
             return self.engage_play()
         return None

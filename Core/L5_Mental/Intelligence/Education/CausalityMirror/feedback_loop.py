@@ -30,7 +30,7 @@ class FeedbackLoop:
         wave = consequence.sensory_wave
         q = wave.q
         start_pos = (q.w, q.x, q.y, q.z) 
-        self.logger.info(f"🌊 Injecting Historical Wave: {wave.name} at {start_pos}")
+        self.logger.info(f"  Injecting Historical Wave: {wave.name} at {start_pos}")
         
         mind_result = self.landscape.ponder(
             intent=consequence.description,
@@ -64,7 +64,7 @@ class FeedbackLoop:
                 },
                 feedback=feedback_val
             )
-            self.logger.info(f"💾 Memory Consolidated: {memory_result['id']}")
+            self.logger.info(f"  Memory Consolidated: {memory_result['id']}")
             
         except ImportError:
             self.logger.warning("Memory Core not available. Skipping persistence.")

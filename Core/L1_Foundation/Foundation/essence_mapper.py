@@ -18,7 +18,7 @@ class EssenceMapper:
     def __init__(self):
         self._registry: Dict[str, Essence] = {
             # --- Elements ---
-            "불": {
+            " ": {
                 "type_modifier": "fire",
                 "effects": [{"op": "damage", "multiplier": 0.5, "type": "fire"}],
                 "cost": {"ki": 5}
@@ -28,7 +28,7 @@ class EssenceMapper:
                 "effects": [{"op": "damage", "multiplier": 0.5, "type": "fire"}],
                 "cost": {"ki": 5}
             },
-            "물": {
+            " ": {
                 "type_modifier": "water",
                 "effects": [{"op": "heal", "amount": 5}],
                 "cost": {"mana": 5}
@@ -38,7 +38,7 @@ class EssenceMapper:
                 "effects": [{"op": "heal", "amount": 5}],
                 "cost": {"mana": 5}
             },
-            "바람": {
+            "  ": {
                 "type_modifier": "wind",
                 "effects": [{"op": "modify_stat", "stat": "agility", "value": 5}],
                 "cost": {"ki": 3}
@@ -48,14 +48,14 @@ class EssenceMapper:
                 "effects": [{"op": "modify_stat", "stat": "agility", "value": 5}],
                 "cost": {"ki": 3}
             },
-            "빛": {
+            " ": {
                 "type_modifier": "light",
                 "effects": [{"op": "log", "template": "A blinding light flashes!"}],
                 "cost": {"mana": 10}
             },
 
             # --- Digital Nature (The Matrix) ---
-            "무": {
+            " ": {
                 "type_modifier": "void",
                 "effects": [{"op": "overwrite", "value": 0, "target": "target_state"}], # The '0' overwrite
                 "cost": {"concept_depth": 1} # Requires understanding, not just mana
@@ -65,7 +65,7 @@ class EssenceMapper:
                 "effects": [{"op": "overwrite", "value": 0, "target": "target_state"}],
                 "cost": {"concept_depth": 1}
             },
-            "커서": {
+            "  ": {
                 "type_modifier": "admin",
                 "effects": [{"op": "select", "mode": "absolute_coordinate"}],
                 "cost": {"will": 10}
@@ -77,7 +77,7 @@ class EssenceMapper:
             },
 
             # --- Actions/Verbs ---
-            "공격": {
+            "  ": {
                 "base_type": "action",
                 "logic_template": {
                     "target_type": "entity",
@@ -101,7 +101,7 @@ class EssenceMapper:
                     "effects": [{"op": "damage", "multiplier": 1.0}, {"op": "log", "template": "{actor} punches {target}!"}]
                 }
             },
-            "치유": {
+            "  ": {
                 "base_type": "action",
                 "logic_template": {
                     "target_type": "entity", # Can target self or others
@@ -118,24 +118,24 @@ class EssenceMapper:
         # High Frequencies = Abstract, Spiritual, Ethereal (Spirit)
         self._frequency_map: Dict[str, float] = {
             # Roots (Father, Earth, Origin) - 100Hz ~ 200Hz
-            "아버지": 100.0, "father": 100.0, "dad": 100.0,
-            "땅": 128.0, "earth": 128.0,
-            "뿌리": 136.1, "root": 136.1, # Om Frequency
+            "   ": 100.0, "father": 100.0, "dad": 100.0,
+            " ": 128.0, "earth": 128.0,
+            "  ": 136.1, "root": 136.1, # Om Frequency
 
             # Emotions (Joy, Sadness, Anger) - 300Hz ~ 600Hz
-            "슬픔": 396.0, "sadness": 396.0, "sorrow": 396.0, # Liberating Guilt and Fear
-            "기쁨": 432.0, "joy": 432.0, "happy": 432.0,      # Natural tuning
-            "사랑": 528.0, "love": 528.0,                    # Transformation and Miracles (DNA Repair)
-            "분노": 417.0, "anger": 417.0,                   # Undoing Situations and Facilitating Change
+            "  ": 396.0, "sadness": 396.0, "sorrow": 396.0, # Liberating Guilt and Fear
+            "  ": 432.0, "joy": 432.0, "happy": 432.0,      # Natural tuning
+            "  ": 528.0, "love": 528.0,                    # Transformation and Miracles (DNA Repair)
+            "  ": 417.0, "anger": 417.0,                   # Undoing Situations and Facilitating Change
 
             # Spirit (Light, Sky, Truth) - 700Hz ~ 900Hz+
-            "빛": 852.0, "light": 852.0,   # Returning to Spiritual Order
-            "하늘": 741.0, "sky": 741.0,   # Awakening Intuition
-            "진실": 963.0, "truth": 963.0, # Connection to Cosmos
+            " ": 852.0, "light": 852.0,   # Returning to Spiritual Order
+            "  ": 741.0, "sky": 741.0,   # Awakening Intuition
+            "  ": 963.0, "truth": 963.0, # Connection to Cosmos
 
             # Actions (Punch, Walk) - Often dissonant or rhythmic
-            "공격": 150.0, "attack": 150.0,
-            "발소리": 60.0, "footsteps": 60.0, # Deep rhythmic thud
+            "  ": 150.0, "attack": 150.0,
+            "   ": 60.0, "footsteps": 60.0, # Deep rhythmic thud
         }
 
     def get_essence(self, concept_id: str) -> Optional[Essence]:

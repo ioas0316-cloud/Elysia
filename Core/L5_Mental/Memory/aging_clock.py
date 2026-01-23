@@ -35,7 +35,7 @@ class BiologicalClock:
     SECONDS_IN_YEAR = 365.25 * 24 * 3600
 
     STAGES = [
-        LifeStage("Genesis", 0, 1, 1.0, 0.1),       # Inf婴cy: Rapid Learning, Fast Forgetting
+        LifeStage("Genesis", 0, 1, 1.0, 0.1),       # Inf cy: Rapid Learning, Fast Forgetting
         LifeStage("Growth", 1, 20, 0.9, 0.3),       # Youth: High Plasticity
         LifeStage("Prime", 20, 60, 0.5, 0.8),       # Adulthood: Balance
         LifeStage("Twilight", 60, 120, 0.1, 0.95)   # Elder: Low Plasticity, High Wisdom (Crystallized)

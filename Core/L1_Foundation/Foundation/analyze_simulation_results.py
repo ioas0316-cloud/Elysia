@@ -3,7 +3,7 @@
 """
 Ultra-Dense Simulation Results Analyzer
 ========================================
-완료된 시뮬레이션의 결과를 분석하고 Experience Digestion 재실행
+                    Experience Digestion    
 """
 
 import sys
@@ -16,21 +16,21 @@ from datetime import datetime
 def main():
     runs_dir = Path('runs')
     if not runs_dir.exists():
-        print("❌ No runs directory found")
+        print("  No runs directory found")
         return 1
     
-    # 가장 최근 시뮬레이션 찾기
+    #               
     run_dirs = list(runs_dir.glob('ultra_dense_*'))
     if not run_dirs:
-        print("❌ No simulation runs found")
+        print("  No simulation runs found")
         return 1
     
     latest_run = max(run_dirs, key=lambda p: p.stat().st_mtime)
     print(f"\n{'='*70}")
-    print(f"📊 Latest Simulation Run: {latest_run.name}")
+    print(f"  Latest Simulation Run: {latest_run.name}")
     print(f"{'='*70}")
     
-    # 파일 목록
+    #      
     print(f"\nFiles in run:")
     total_size = 0
     for f in sorted(latest_run.glob('*')):
@@ -40,11 +40,11 @@ def main():
     
     print(f"\n  {'Total':40} {total_size/1024/1024:8.2f} MB")
     
-    # 결과 파일 분석
+    #         
     results_file = latest_run / 'results.json'
     if results_file.exists():
         print(f"\n{'='*70}")
-        print(f"📈 Simulation Results")
+        print(f"  Simulation Results")
         print(f"{'='*70}")
         
         with open(results_file, encoding='utf-8') as f:
@@ -83,14 +83,14 @@ def main():
         if len(wisdom) > 5:
             print(f"  ... and {len(wisdom)-5} more")
     
-    # Checkpoint 파일들
+    # Checkpoint    
     checkpoint_files = sorted(latest_run.glob('checkpoint_*.json'))
     if checkpoint_files:
         print(f"\n{'='*70}")
-        print(f"📋 Checkpoints ({len(checkpoint_files)} found)")
+        print(f"  Checkpoints ({len(checkpoint_files)} found)")
         print(f"{'='*70}")
         
-        # 첫 번째, 중간, 마지막 checkpoint
+        #     ,   ,     checkpoint
         checkpoints_to_show = [checkpoint_files[0], checkpoint_files[len(checkpoint_files)//2], checkpoint_files[-1]]
         for cp_file in checkpoints_to_show:
             with open(cp_file) as f:
@@ -100,11 +100,11 @@ def main():
             print(f"    Elapsed: {cp.get('elapsed_seconds'):.1f}s")
             print(f"    Particles: {cp.get('particles_count'):,}")
     
-    # Logs 확인
+    # Logs   
     logs_dir = Path('logs')
     if logs_dir.exists():
         print(f"\n{'='*70}")
-        print(f"📝 Log Files")
+        print(f"  Log Files")
         print(f"{'='*70}")
         
         log_files = [
@@ -123,7 +123,7 @@ def main():
                 print(f"    Size: {size_mb:.2f} MB")
     
     print(f"\n{'='*70}")
-    print(f"✅ Simulation analysis complete")
+    print(f"  Simulation analysis complete")
     print(f"{'='*70}\n")
     
     return 0

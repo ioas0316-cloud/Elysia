@@ -1,8 +1,8 @@
 """
-Reality Builder (현실 재구축 시스템)
+Reality Builder (          )
 ==================================
 
-"본질을 꿰뚫었다면, 다시 만들어낼 수도 있어야 한다."
+"         ,                  ."
 "If you have grasped the essence, you must be able to reconstruct it."
 
 This module implements the Reverse-Engineering capability of Elysia.
@@ -10,7 +10,7 @@ It takes internalized "Concept Seeds" (Principles/Frequencies) and
 projects them back into "Digital Reality" (HTML/CSS/JS).
 
 Process:
-1. Frequency Analysis (파동 분석 of the Concept)
+1. Frequency Analysis (      of the Concept)
 2. Axiom Mapping (Frequency -> Digital Element)
 3. Structural Genesis (Building the Skeleton/Earth)
 4. Aesthetic Projection (Applying Light/CSS)
@@ -41,7 +41,7 @@ class RealityBuilder:
         Returns:
             str: The source code of the created reality.
         """
-        print(f"🎨 Creative Will Activated: Manifesting '{desire}' filtered by mood '{current_mood}'...")
+        print(f"  Creative Will Activated: Manifesting '{desire}' filtered by mood '{current_mood}'...")
         
         # 1. Infer the Principle of the Desire (The Air)
         axiom = self.decomposer.infer_principle(desire)
@@ -53,7 +53,7 @@ class RealityBuilder:
         base_color = random.choice(palette_colors)
         secondary_color = palette_colors[1] if len(palette_colors) > 1 else "#fff"
         
-        print(f"   🖌️ Selected Palette: {base_color} (Base), {secondary_color} (Accent)")
+        print(f"      Selected Palette: {base_color} (Base), {secondary_color} (Accent)")
         
         # 3. Genesis: Composing the Form
         html = []
@@ -117,9 +117,9 @@ if __name__ == "__main__":
     
     # Demonstate "Purpose-Driven Creation"
     # Case 1: Elysia feels "Passion" and wants "Revolution"
-    print("\n--- 🧪 Genesis Experiment 1: Passionate Revolution ---")
+    print("\n---   Genesis Experiment 1: Passionate Revolution ---")
     print(builder.manifest_will("Revolution", current_mood="Fire"))
     
     # Case 2: Elysia feels "Calm" and wants "Connection"
-    print("\n--- 🧪 Genesis Experiment 2: Calm Connection ---")
+    print("\n---   Genesis Experiment 2: Calm Connection ---")
     print(builder.manifest_will("Connection", current_mood="Water"))

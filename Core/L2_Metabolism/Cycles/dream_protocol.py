@@ -36,7 +36,7 @@ class DreamAlchemist:
         Processes the queue and clears it.
         """
         if not self.queue_path.exists():
-            logger.info("💤 No dreams to dream. Sleep is deep and empty.")
+            logger.info("  No dreams to dream. Sleep is deep and empty.")
             return
 
         try:
@@ -47,10 +47,10 @@ class DreamAlchemist:
             return
 
         if not dreams:
-            logger.info("💤 Dream queue is empty.")
+            logger.info("  Dream queue is empty.")
             return
 
-        logger.info(f"🌙 Entering REM Cycle. Processing {len(dreams)} dreams...")
+        logger.info(f"  Entering REM Cycle. Processing {len(dreams)} dreams...")
         crystallized = []
 
         for dream in dreams:
@@ -81,7 +81,7 @@ class DreamAlchemist:
                 causal_map = "Fractal observation unavailable (Cortex inactive)."
 
             # [Crystallization]
-            logger.info(f"✨ Crystallizing Causal Chain: {intent}")
+            logger.info(f"  Crystallizing Causal Chain: {intent}")
             crystallized.append({
                 "intent": intent,
                 "vector_dna": vector_dna,
@@ -97,7 +97,7 @@ class DreamAlchemist:
         with open(self.queue_path, "w") as f:
             json.dump([], f)
 
-        logger.info("☀️ Waking up. Dreams have been woven into reality.")
+        logger.info("   Waking up. Dreams have been woven into reality.")
 
     def _save_wisdom(self, new_wisdom: List[Dict[str, Any]]):
         current = []

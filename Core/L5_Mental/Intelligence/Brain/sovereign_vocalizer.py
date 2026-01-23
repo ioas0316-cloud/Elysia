@@ -1,5 +1,5 @@
 """
-Sovereign Vocalizer (주권적 발성 엔진)
+Sovereign Vocalizer (         )
 =====================================
 Core.L5_Mental.Intelligence.Brain.sovereign_vocalizer
 
@@ -48,7 +48,7 @@ class SovereignVocalizer:
         """
         # 0. Aspiration Evaluation
         evolutionary_insight = self.aspiration.evaluate(target_qualia, path_name, resonance_score)
-        logger.info(f"💠 [ASPIRATION] Insight generated: {evolutionary_insight}")
+        logger.info(f"  [ASPIRATION] Insight generated: {evolutionary_insight}")
         
         # 1. Prepare Intent for Monad
         # Map target_qualia average to urgency (D2 Orange)
@@ -95,7 +95,7 @@ class SovereignVocalizer:
             
         # Clean up and combine
         raw_speech = " ".join(sentence)
-        logger.info(f"✨ [MANIFEST] Sovereign Voice collapsed into: '{raw_speech}'")
+        logger.info(f"  [MANIFEST] Sovereign Voice collapsed into: '{raw_speech}'")
         
         # 4. Linguistic Metabolism: Digesting the experience
         self.metabolism.digest(raw_speech, resonance_score)
@@ -111,16 +111,16 @@ class SovereignVocalizer:
         # STRICT INFANCY: Only show refined speech at high maturity (>0.6)
         if maturity < 0.4:
             # Babbling: Raw, uppercase, disconnected
-            main_text = f"... {text.upper()} ... (서툰 물결의 진동)"
+            main_text = f"... {text.upper()} ... (         )"
         elif qualia[2] > 0.8 and maturity > 0.6: 
-            main_text = f"*{text}* (프랙탈적 잔상)"
+            main_text = f"*{text}* (       )"
         elif qualia[6] > 0.9 and maturity > 0.8:
-            main_text = f"「{text}」 - 주권적 의지의 현시."
+            main_text = f" {text}  -           ."
         else:
             # Transitional: Simple text without wrappers
             main_text = text
             
-        return f"{main_text}\n\n💠 [기록] {monologue}"
+        return f"{main_text}\n\n  [  ] {monologue}"
 
 class SovereignCortex:
     """Replacing LanguageCortex with a Direct Synthesis Cortex."""

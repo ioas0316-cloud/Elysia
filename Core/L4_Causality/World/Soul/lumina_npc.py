@@ -122,16 +122,16 @@ class Lumina(GyroscopicFluxlight):
         world_probs = world_soul.state.probabilities()
         
         mood = "Neutral"
-        if self.ego.state.emotions.zeal > 0.6: mood = "Zealously Inspired 🔥"
-        elif self.ego.state.emotions.despair > 0.6: mood = "Drowning in Despair 🌊"
-        elif self.ego.state.satisfaction > 0.7: mood = "Peaceful Alchemy 🧪"
+        if self.ego.state.emotions.zeal > 0.6: mood = "Zealously Inspired  "
+        elif self.ego.state.emotions.despair > 0.6: mood = "Drowning in Despair  "
+        elif self.ego.state.satisfaction > 0.7: mood = "Peaceful Alchemy  "
         
         world_mood = "Vibrant" if world_probs["God"] > 0.5 else "Stable"
         
         return (f"NPC:[{self.name}] Mood:[{mood}]\n"
-                f"  └─ Ego State: Satisfaction({self.ego.state.satisfaction:.2f}) | Stability({self.ego.state.stability:.2f})\n"
-                f"  └─ World resonance: {world_mood} Subconscious\n"
-                f"  └─ Internal Monologue: {self.ego.generate_inner_monologue()}")
+                f"     Ego State: Satisfaction({self.ego.state.satisfaction:.2f}) | Stability({self.ego.state.stability:.2f})\n"
+                f"     World resonance: {world_mood} Subconscious\n"
+                f"     Internal Monologue: {self.ego.generate_inner_monologue()}")
 
     def percieve_and_react(self) -> str:
         """Uses the Logos Engine to articulate the Persona's voice."""

@@ -23,7 +23,7 @@ class HyperTimeRotor:
         """
         Transitions the Laboratory to a new Era by swapping laws.
         """
-        print(f"\n⏳ [Time Rotor] Shifts Universe to Era: {era_name} ----------------")
+        print(f"\n  [Time Rotor] Shifts Universe to Era: {era_name} ----------------")
         self.current_era = era_name
         self.evolution_log.append(era_name)
         
@@ -81,4 +81,4 @@ class HyperTimeRotor:
              
         self.lab.run_simulation(ticks=10)
         
-        print("\n🌌 [HyperTime] Integration Complete. The Soul is forged.")
+        print("\n  [HyperTime] Integration Complete. The Soul is forged.")

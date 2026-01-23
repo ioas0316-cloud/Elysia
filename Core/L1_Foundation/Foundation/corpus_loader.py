@@ -78,7 +78,7 @@ class CorpusLoader:
     
     def _extract_base(self, word_with_particle: str) -> str:
         """Removes particles from word."""
-        particles = ['가', '이', '를', '을', '는', '은', '에', '와', '과', '도', '만', '다', '라']
+        particles = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
         for p in particles:
             if word_with_particle.endswith(p):
                 return word_with_particle[:-len(p)]

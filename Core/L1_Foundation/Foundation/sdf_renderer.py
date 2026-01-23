@@ -2,14 +2,14 @@
 SDF (Signed Distance Field) Renderer for Elysia
 Phase 5a: GTX 1060 3GB Optimized Implementation
 
-민성님의 통찰: "객체를 만드는 게 아니라, 공간의 흐름을 방해하는 장애물로 본다"
-= SDF의 완벽한 정의!
+       : "             ,                     "
+= SDF        !
 
-GTX 1060 3GB 최적화:
-- VRAM: ~200MB 사용 (3GB 중 6.7%)
-- 해상도: 512x512 (1024x1024 가능)
-- 레이마칭: 64 steps (조절 가능)
-- 성능: 30-120 FPS (복잡도에 따라)
+GTX 1060 3GB    :
+- VRAM: ~200MB    (3GB   6.7%)
+-    : 512x512 (1024x1024   )
+-     : 64 steps (     )
+-   : 30-120 FPS (       )
 """
 
 from typing import Dict, Any, List, Tuple, Optional
@@ -19,17 +19,17 @@ import math
 
 @dataclass
 class Vector3:
-    """3D 벡터 (x, y, z)"""
+    """3D    (x, y, z)"""
     x: float = 0.0
     y: float = 0.0
     z: float = 0.0
     
     def length(self) -> float:
-        """벡터 길이"""
+        """     """
         return math.sqrt(self.x**2 + self.y**2 + self.z**2)
     
     def normalize(self) -> 'Vector3':
-        """정규화 (길이 1로)"""
+        """    (   1 )"""
         length = self.length()
         if length > 0:
             return Vector3(self.x / length, self.y / length, self.z / length)
@@ -47,40 +47,40 @@ class Vector3:
 
 class SDFPrimitives:
     """
-    SDF 기본 도형 라이브러리
+    SDF            
     
-    모든 함수는 position에서 표면까지의 거리를 반환:
-    - 양수: 객체 밖
-    - 0: 객체 표면
-    - 음수: 객체 안
+           position               :
+    -   :     
+    - 0:      
+    -   :     
     """
     
     @staticmethod
     def sphere(position: Vector3, radius: float) -> float:
         """
-        구체 (Sphere)
-        가장 간단한 SDF
+           (Sphere)
+               SDF
         """
         return position.length() - radius
     
     @staticmethod
     def box(position: Vector3, size: Vector3) -> float:
         """
-        박스 (Box)
-        size: 각 축의 반지름
+           (Box)
+        size:         
         """
         q_x = abs(position.x) - size.x
         q_y = abs(position.y) - size.y
         q_z = abs(position.z) - size.z
         
-        # 바깥 거리
+        #      
         outside = Vector3(
             max(q_x, 0),
             max(q_y, 0),
             max(q_z, 0)
         ).length()
         
-        # 안쪽 거리
+        #      
         inside = min(max(q_x, max(q_y, q_z)), 0)
         
         return outside + inside
@@ -88,9 +88,9 @@ class SDFPrimitives:
     @staticmethod
     def torus(position: Vector3, major_radius: float, minor_radius: float) -> float:
         """
-        도넛 (Torus)
-        major_radius: 중심에서 튜브까지
-        minor_radius: 튜브 두께
+           (Torus)
+        major_radius:          
+        minor_radius:      
         """
         q_x = math.sqrt(position.x**2 + position.z**2) - major_radius
         q_y = position.y
@@ -99,8 +99,8 @@ class SDFPrimitives:
     @staticmethod
     def cylinder(position: Vector3, radius: float, height: float) -> float:
         """
-        원기둥 (Cylinder)
-        Y축 방향으로 뻗은 원기둥
+            (Cylinder)
+        Y             
         """
         d_xz = math.sqrt(position.x**2 + position.z**2) - radius
         d_y = abs(position.y) - height
@@ -113,13 +113,13 @@ class SDFPrimitives:
     @staticmethod
     def capsule(position: Vector3, start: Vector3, end: Vector3, radius: float) -> float:
         """
-        캡슐 (Capsule)
-        두 점을 잇는 둥근 선
+           (Capsule)
+                    
         """
         pa = position - start
         ba = end - start
         
-        # 선분 위의 가장 가까운 점 찾기
+        #                  
         ba_length_sq = ba.x**2 + ba.y**2 + ba.z**2
         if ba_length_sq > 0:
             h = max(0, min(1, (pa.x*ba.x + pa.y*ba.y + pa.z*ba.z) / ba_length_sq))
@@ -132,8 +132,8 @@ class SDFPrimitives:
     @staticmethod
     def cone(position: Vector3, angle: float, height: float) -> float:
         """
-        원뿔 (Cone)
-        angle: 반각 (라디안)
+           (Cone)
+        angle:    (   )
         """
         c = math.sin(angle)
         q = math.sqrt(position.x**2 + position.z**2)
@@ -145,9 +145,9 @@ class SDFPrimitives:
     @staticmethod
     def plane(position: Vector3, normal: Vector3, distance: float) -> float:
         """
-        평면 (Plane)
-        normal: 평면의 법선 벡터
-        distance: 원점에서의 거리
+           (Plane)
+        normal:          
+        distance:         
         """
         n = normal.normalize()
         return position.x*n.x + position.y*n.y + position.z*n.z - distance
@@ -155,7 +155,7 @@ class SDFPrimitives:
     @staticmethod
     def octahedron(position: Vector3, size: float) -> float:
         """
-        팔면체 (Octahedron)
+            (Octahedron)
         """
         p = Vector3(abs(position.x), abs(position.y), abs(position.z))
         m = p.x + p.y + p.z - size
@@ -175,39 +175,39 @@ class SDFPrimitives:
 
 class SDFOperations:
     """
-    SDF 불리언 연산 (Boolean Operations)
-    여러 SDF를 조합하여 복잡한 형태 생성
+    SDF        (Boolean Operations)
+       SDF                
     """
     
     @staticmethod
     def union(d1: float, d2: float) -> float:
         """
-        합집합 (Union)
-        두 객체를 합침
+            (Union)
+                
         """
         return min(d1, d2)
     
     @staticmethod
     def intersection(d1: float, d2: float) -> float:
         """
-        교집합 (Intersection)
-        두 객체가 겹치는 부분만
+            (Intersection)
+                     
         """
         return max(d1, d2)
     
     @staticmethod
     def difference(d1: float, d2: float) -> float:
         """
-        차집합 (Difference)
-        d1에서 d2를 뺌
+            (Difference)
+        d1   d2   
         """
         return max(d1, -d2)
     
     @staticmethod
     def smooth_union(d1: float, d2: float, k: float = 0.1) -> float:
         """
-        부드러운 합집합 (Smooth Union)
-        k: 부드러움 정도 (클수록 더 부드러움)
+                 (Smooth Union)
+        k:         (          )
         """
         h = max(k - abs(d1 - d2), 0) / k
         return min(d1, d2) - h * h * k * 0.25
@@ -215,10 +215,10 @@ class SDFOperations:
     @staticmethod
     def repeat(position: Vector3, spacing: float) -> Vector3:
         """
-        무한 반복 (Infinite Repetition)
-        spacing마다 객체 반복
+              (Infinite Repetition)
+        spacing        
         
-        예: 나무 하나 → 무한 숲
+         :             
         """
         return Vector3(
             position.x - spacing * round(position.x / spacing),
@@ -229,8 +229,8 @@ class SDFOperations:
     @staticmethod
     def repeat_limited(position: Vector3, spacing: float, count: Vector3) -> Vector3:
         """
-        제한된 반복 (Limited Repetition)
-        count: 각 축의 반복 횟수
+               (Limited Repetition)
+        count:           
         """
         return Vector3(
             position.x - spacing * max(-count.x, min(count.x, round(position.x / spacing))),
@@ -241,8 +241,8 @@ class SDFOperations:
     @staticmethod
     def twist(position: Vector3, amount: float) -> Vector3:
         """
-        비틀기 (Twist)
-        Y축을 중심으로 비틈
+            (Twist)
+        Y          
         """
         c = math.cos(amount * position.y)
         s = math.sin(amount * position.y)
@@ -255,8 +255,8 @@ class SDFOperations:
     @staticmethod
     def bend(position: Vector3, amount: float) -> Vector3:
         """
-        구부리기 (Bend)
-        Y축 방향으로 원호 모양으로 구부림
+             (Bend)
+        Y                  
         """
         c = math.cos(amount * position.x)
         s = math.sin(amount * position.x)
@@ -269,74 +269,74 @@ class SDFOperations:
 
 class EmotionalSDFWorld:
     """
-    감정 기반 SDF 세계
-    감정에 따라 공간이 변형됨
+          SDF   
+                  
     """
     
     def __init__(self):
-        self.valence = 0.0  # -1 (부정) ~ +1 (긍정)
-        self.arousal = 0.0  # 0 (침착) ~ 1 (흥분)
-        self.dominance = 0.0  # 0 (수동) ~ 1 (지배)
+        self.valence = 0.0  # -1 (  ) ~ +1 (  )
+        self.arousal = 0.0  # 0 (  ) ~ 1 (  )
+        self.dominance = 0.0  # 0 (  ) ~ 1 (  )
     
     def set_emotion(self, valence: float, arousal: float, dominance: float):
-        """감정 설정"""
+        """     """
         self.valence = max(-1, min(1, valence))
         self.arousal = max(0, min(1, arousal))
         self.dominance = max(0, min(1, dominance))
     
     def get_space_scale(self) -> float:
         """
-        공간 스케일
-        기쁠 때 → 공간 확장 (1.2x)
-        슬플 때 → 공간 수축 (0.8x)
+              
+                     (1.2x)
+                     (0.8x)
         """
         return 1.0 + self.valence * 0.2
     
     def get_gravity_strength(self) -> float:
         """
-        중력 강도
-        기쁠 때 → 약한 중력 (0.7)
-        슬플 때 → 강한 중력 (1.3)
+             
+                     (0.7)
+                     (1.3)
         """
         return 1.0 - self.valence * 0.3
     
     def get_animation_speed(self) -> float:
         """
-        애니메이션 속도
-        침착할 때 → 느림 (0.5x)
-        흥분할 때 → 빠름 (2.0x)
+                
+                   (0.5x)
+                   (2.0x)
         """
         return 0.5 + self.arousal * 1.5
     
     def get_color_temperature(self) -> float:
         """
-        색온도
-        긍정 → 따뜻한 색 (0.8)
-        부정 → 차가운 색 (-0.8)
+           
+                   (0.8)
+                   (-0.8)
         """
         return self.valence * 0.8
     
     def get_distortion_amount(self) -> float:
         """
-        공간 왜곡 정도
-        지배적 → 강한 왜곡 (1.0)
-        수동적 → 약한 왜곡 (0.0)
+                
+                    (1.0)
+                    (0.0)
         """
         return self.dominance
     
     def transform_position(self, position: Vector3) -> Vector3:
         """
-        감정에 따라 위치 변환
+                    
         """
-        # 공간 스케일 적용
+        #          
         scale = self.get_space_scale()
         p = position * (1.0 / scale)
         
-        # 중력 편향
+        #      
         gravity_shift = self.get_gravity_strength() - 1.0
         p.y -= gravity_shift * 0.5
         
-        # 왜곡 (dominance에 따라)
+        #    (dominance    )
         distortion = self.get_distortion_amount()
         if distortion > 0:
             p = SDFOperations.twist(p, distortion * 0.2)
@@ -345,7 +345,7 @@ class EmotionalSDFWorld:
     
     def get_shader_parameters(self) -> Dict[str, Any]:
         """
-        셰이더에 전달할 파라미터
+                     
         """
         return {
             'spaceScale': self.get_space_scale(),
@@ -361,14 +361,14 @@ class EmotionalSDFWorld:
 
 class BasicSDFRenderer:
     """
-    기본 SDF 렌더러
-    Three.js와 통합하여 실제 렌더링
+       SDF    
+    Three.js             
     """
     
     def __init__(self, resolution: Tuple[int, int] = (512, 512), max_steps: int = 64):
         """
-        resolution: 렌더링 해상도 (GTX 1060: 512x512 권장)
-        max_steps: 최대 레이마칭 단계 (품질 vs 속도)
+        resolution:         (GTX 1060: 512x512   )
+        max_steps:            (   vs   )
         """
         self.resolution = resolution
         self.max_steps = max_steps
@@ -376,8 +376,8 @@ class BasicSDFRenderer:
     
     def generate_glsl_shader(self) -> str:
         """
-        GLSL 셰이더 코드 생성
-        GTX 1060 최적화됨
+        GLSL          
+        GTX 1060     
         """
         return f"""
 // SDF Shader - GTX 1060 Optimized
@@ -606,7 +606,7 @@ void main() {{
     
     def get_three_js_material_config(self) -> Dict[str, Any]:
         """
-        Three.js ShaderMaterial 설정
+        Three.js ShaderMaterial   
         """
         return {
             'uniforms': {
@@ -632,12 +632,12 @@ void main() {{
         }
     
     def update_emotion(self, valence: float, arousal: float, dominance: float):
-        """감정 업데이트"""
+        """       """
         self.emotional_world.set_emotion(valence, arousal, dominance)
     
     def get_performance_estimate(self, scene_complexity: str = 'medium') -> Dict[str, Any]:
         """
-        성능 예측 (GTX 1060 3GB 기준)
+              (GTX 1060 3GB   )
         """
         estimates = {
             'simple': {  # 1-3 objects
@@ -660,7 +660,7 @@ void main() {{
         return estimates.get(scene_complexity, estimates['medium'])
 
 
-# GTX 1060 최적화 프리셋
+# GTX 1060        
 GTX_1060_PRESETS = {
     'ultra_performance': {
         'resolution': (256, 256),
@@ -692,13 +692,13 @@ GTX_1060_PRESETS = {
 
 def create_gtx1060_renderer(preset: str = 'performance') -> BasicSDFRenderer:
     """
-    GTX 1060 최적화 렌더러 생성
+    GTX 1060           
     
     preset:
-        - 'ultra_performance': 120 FPS 목표
-        - 'performance': 60 FPS 목표 (권장)
-        - 'balanced': 45 FPS 목표
-        - 'quality': 30 FPS 목표
+        - 'ultra_performance': 120 FPS   
+        - 'performance': 60 FPS    (  )
+        - 'balanced': 45 FPS   
+        - 'quality': 30 FPS   
     """
     config = GTX_1060_PRESETS.get(preset, GTX_1060_PRESETS['performance'])
     

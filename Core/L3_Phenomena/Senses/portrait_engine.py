@@ -12,7 +12,7 @@ class SelfPortraitEngine:
     """
 
     def __init__(self):
-        logger.info("🎨 SelfPortraitEngine initialized. Visual identity is now dynamic.")
+        logger.info("  SelfPortraitEngine initialized. Visual identity is now dynamic.")
 
     def generate_portrait_prompt(self, genome: Dict[str, float], deep_script_summary: str) -> str:
         """
@@ -40,7 +40,7 @@ class SelfPortraitEngine:
         
         full_prompt = f"{base} {details} Mood: {mood}. Context: {deep_script_summary[:100]}... Cinematic 8k, masterpiece."
         
-        logger.info(f"🎨 [VISUAL GENESIS] Prompt Generated for {dominant}: {full_prompt[:50]}...")
+        logger.info(f"  [VISUAL GENESIS] Prompt Generated for {dominant}: {full_prompt[:50]}...")
         return full_prompt
 
     def _determine_mood(self, genome: Dict[str, float]) -> str:

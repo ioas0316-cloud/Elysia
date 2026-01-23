@@ -6,7 +6,7 @@ from .intelligence_line import IntelligenceLine, LineOutput
 
 class IntrapersonalLine(IntelligenceLine):
     """
-    Intrapersonal Line (내면 목적성 지능)
+    Intrapersonal Line (         )
     Monitors the alignment with internal values and purpose.
     Focuses on "Why am I doing this?" and "Does this align with Love/Truth?".
     """

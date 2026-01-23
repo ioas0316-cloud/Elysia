@@ -274,7 +274,7 @@ class EmotionalEngine:
             )
         except Exception:
             # Final fallback
-            return f"{self.current_state.primary_emotion}의 상태입니다"
+            return f"{self.current_state.primary_emotion}       "
     
     # === Conversation Memory Integration ===
     

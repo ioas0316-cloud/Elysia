@@ -44,7 +44,7 @@ class InternalRoundTable:
         """
         Runs a debate session among the council.
         """
-        logger.info(f"⚔️ [ROUND TABLE] Deliberating on: {topic}")
+        logger.info(f"   [ROUND TABLE] Deliberating on: {topic}")
         
         opinions = []
         for ego in self.active_council:

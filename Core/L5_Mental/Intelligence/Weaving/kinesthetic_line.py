@@ -4,7 +4,7 @@ from .intelligence_line import IntelligenceLine, LineOutput
 
 class KinestheticLine(IntelligenceLine):
     """
-    Kinesthetic Line (운동신경 지능)
+    Kinesthetic Line (       )
     Monitors the "Physical Body" of the AI (CPU, RAM, System Time).
     """
 

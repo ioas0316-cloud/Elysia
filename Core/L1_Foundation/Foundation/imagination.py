@@ -1,5 +1,5 @@
 """
-Imagination Lobe (상상 엽)
+Imagination Lobe (    )
 =========================
 Handles creative synthesis, dreaming, and reality sculpting.
 """
@@ -39,7 +39,7 @@ class ImaginationLobe:
         self.comm_enhancer = None # Lazy load
 
     def contemplate(self, topic: str) -> str:
-        logger.info(f"🧠 Contemplating: {topic}...")
+        logger.info(f"  Contemplating: {topic}...")
         thesis = topic
         antithesis_list = self.memory.get_all_concept_ids(limit=50)
         if not antithesis_list:
@@ -54,7 +54,7 @@ class ImaginationLobe:
         thought += f"**Philosophy**: {manual.philosophy}\n\n"
         thought += "**Sequence (Cho-sik)**:\n"
         for stance in manual.stances:
-            thought += f"- **{stance.order}초식 ({stance.type})**: {stance.name}\n"
+            thought += f"- **{stance.order}   ({stance.type})**: {stance.name}\n"
             thought += f"  - *{stance.description}*\n"
             
         self.memory.learn(
@@ -99,13 +99,13 @@ class ImaginationLobe:
         return aligned_packet.orientation
 
     def create(self, desire: str) -> str:
-        logger.info(f"🎨 Creative Impulse detected: '{desire}'")
+        logger.info(f"  Creative Impulse detected: '{desire}'")
         packet = ResonancePhysics.analyze_text_field(desire)
         artifact_path = self.cosmic_studio.manifest(packet, desire)
         return artifact_path
 
     def write_scene(self, theme: str) -> str:
-        logger.info(f"✍️ Writing scene for '{theme}'...")
+        logger.info(f"   Writing scene for '{theme}'...")
         related_concepts = self.memory.recall(theme)
         
         try:

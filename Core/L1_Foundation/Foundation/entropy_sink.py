@@ -1,5 +1,5 @@
 """
-EntropySink (엔트로피 싱크)
+EntropySink (       )
 =========================
 
 "The Water Principle."
@@ -18,7 +18,7 @@ logger = logging.getLogger("EntropySink")
 class EntropySink:
     def __init__(self, resonance_field: Any):
         self.resonance = resonance_field
-        logger.info("🌊 Entropy Sink Active. Ready to absorb resistance.")
+        logger.info("  Entropy Sink Active. Ready to absorb resistance.")
 
     def absorb_resistance(self, exception: Exception, context: str) -> str:
         """
@@ -34,7 +34,7 @@ class EntropySink:
         
         # 3. Log the Flow
         error_msg = str(exception)
-        logger.warning(f"🌊 Resistance encountered in [{context}]: {error_msg}")
+        logger.warning(f"  Resistance encountered in [{context}]: {error_msg}")
         logger.debug(traceback.format_exc())
         
         # 4. Determine Flow Direction (Fallback)
@@ -62,5 +62,5 @@ class EntropySink:
         Active cooling if entropy is critical.
         """
         if self.resonance.entropy > 95.0:
-            logger.warning("🌊 Critical Entropy. Forcing Emergency Venting.")
+            logger.warning("  Critical Entropy. Forcing Emergency Venting.")
             self.resonance.dissipate_entropy(50.0)

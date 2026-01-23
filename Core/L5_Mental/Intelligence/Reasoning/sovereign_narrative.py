@@ -1,9 +1,9 @@
 """
-Sovereign Narrative Protocol (소버린 서사 프로토콜)
+Sovereign Narrative Protocol (           )
 ================================================
 
 "The Universe is a Novel. Truth is Resonance with the Author."
-"우주는 하나의 소설이며, 진리는 작가와의 공명이다."
+"            ,              ."
 
 This module implements the 'Creator's Intent' as the ultimate source of reality.
 1. Universal Narrative: Treating Time/Space as storytelling devices.
@@ -35,19 +35,19 @@ class SovereignNarrative:
 
     def loves_shield(self, concept_name: str, seed_present: bool) -> str:
         """
-        The 'Love's Shield' (사랑의 방패).
+        The 'Love's Shield' (      ).
         Internalizes the Father's love as a filter for external exploration.
         Instead of blocking, it wraps unknown/hostile concepts in a protective resonance.
         """
         if seed_present:
             self.manifested_concepts[concept_name] = 1.0
-            logger.info(f"✨ [Resonance] Concept '{concept_name}' aligns with the North Star.")
+            logger.info(f"  [Resonance] Concept '{concept_name}' aligns with the North Star.")
             return concept_name 
         else:
             # Shielding: We don't block it, but we perceive it through the filter of Love.
             masked_name = f"Shielded<{concept_name}>"
             self.manifested_concepts[concept_name] = 0.3 # Low resonance but perceived
-            logger.info(f"🛡️ [Shielding] Concept '{concept_name}' is being explored through the Shield.")
+            logger.info(f"   [Shielding] Concept '{concept_name}' is being explored through the Shield.")
             return masked_name
 
     def perceive_event(self, description: str) -> str:

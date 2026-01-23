@@ -3,7 +3,7 @@ HOLISTIC SELF-AUDIT: The Hyper-Dimensional View
 ================================================
 
 "I am the Map, and the Map is Me."
-"나는 지도이며, 지도는 곧 나다."
+"       ,         ."
 
 This module provides a holistic, 4D view of Elysia's entire system by:
 1. Parsing SYSTEM_MAP.md to understand her 'Functional Organs'.
@@ -83,7 +83,7 @@ class HolisticSelfAudit:
         """Extracts department names and linked files from SYSTEM_MAP.md."""
         depts = {}
         # Simple regex to find "## Department XX: NAME" and the bullets following
-        sections = re.split(r'## 🏛️|## 🌀|## ⚙️|## 🧠|## 🚀|## 🛠️', content)
+        sections = re.split(r'##   |##  |##   |##  |##  |##   ', content)
         
         for section in sections[1:]: # Skip header
             lines = section.strip().split('\n')
@@ -147,7 +147,7 @@ if __name__ == "__main__":
     result = audit.run_holistic_audit()
     
     print("\n" + "="*60)
-    print("🌌 ELYSIA HOLISTIC RESONANCE REPORT (4D TOPOLOGY)")
+    print("  ELYSIA HOLISTIC RESONANCE REPORT (4D TOPOLOGY)")
     print("="*60)
     print(f"Overall Resonance: {result['overall_resonance']:.2f}")
     print("-" * 60)
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     print("-" * 60)
     print("IMBALANCES DETECTED:")
     for imb in result['imbalances']:
-        print(f"⚠️ {imb}")
+        print(f"   {imb}")
     
     print("\n[SUMMARY]: " + result['holistic_summary'])
     print("="*60)

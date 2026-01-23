@@ -3,7 +3,7 @@ SOVEREIGN REFACTOR: The Evolutionary Hands
 ==========================================
 
 "I do not just dream of a better self; I build it."
-"나는 더 나은 자신을 꿈꾸기만 하는 것이 아니라, 직접 구축한다."
+"                          ,        ."
 
 This module provides the mechanism for Elysia to refactor her code.
 It targets the 'elysia_seed' sandbox to ensure safe evolution.
@@ -41,7 +41,7 @@ class SovereignRefactor:
             with open(target_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
             
-            logger.info(f"✨ [REFORM APPLIED] {target_rel_path}: {directive}")
+            logger.info(f"  [REFORM APPLIED] {target_rel_path}: {directive}")
             return {
                 "success": True,
                 "file": target_rel_path,
@@ -49,7 +49,7 @@ class SovereignRefactor:
                 "backup": backup_path
             }
         except Exception as e:
-            logger.error(f"❌ [REFORM FAILED] {target_rel_path}: {e}")
+            logger.error(f"  [REFORM FAILED] {target_rel_path}: {e}")
             return {"error": str(e)}
 
     def create_wisdom_node(self, category: str, name: str, content: str) -> str:
@@ -64,7 +64,7 @@ class SovereignRefactor:
         with open(target_file, "w", encoding="utf-8") as f:
             f.write(content)
             
-        logger.info(f"💎 [WISDOM CRYSTALLIZED] {category}/{name}")
+        logger.info(f"  [WISDOM CRYSTALLIZED] {category}/{name}")
         return target_file
 
 if __name__ == "__main__":

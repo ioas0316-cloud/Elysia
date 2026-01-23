@@ -51,7 +51,7 @@ class SovereignRegistry:
     _capability_index: Dict[str, List[str]] = field(default_factory=dict)  # capability -> [module_names]
     
     def __post_init__(self):
-        logger.info("👑 Sovereign Module Registry initializing...")
+        logger.info("  Sovereign Module Registry initializing...")
         self.discover_all()
     
     def discover_all(self) -> int:
@@ -63,7 +63,7 @@ class SovereignRegistry:
         base = Path(self.base_path)
         
         if not base.exists():
-            logger.warning(f"⚠️ Base path {self.base_path} not found.")
+            logger.warning(f"   Base path {self.base_path} not found.")
             return 0
         
         for py_file in base.rglob("*.py"):
@@ -106,7 +106,7 @@ class SovereignRegistry:
                 # Silently skip problematic files during scan
                 pass
         
-        logger.info(f"👁️ Registry discovered {count} module classes, {len(self._capability_index)} unique capabilities.")
+        logger.info(f"   Registry discovered {count} module classes, {len(self._capability_index)} unique capabilities.")
         return count
     
     def _extract_capabilities(self, py_file: Path) -> Dict[str, List[str]]:
@@ -161,7 +161,7 @@ class SovereignRegistry:
         Returns the instance of the class.
         """
         if module_name not in self._modules:
-            logger.error(f"❌ Module {module_name} not found in registry.")
+            logger.error(f"  Module {module_name} not found in registry.")
             return None
         
         cap = self._modules[module_name]
@@ -180,11 +180,11 @@ class SovereignRegistry:
             cap.is_loaded = True
             cap.instance = instance
             
-            logger.info(f"✨ Loaded: {cap.class_name} from {cap.layer}")
+            logger.info(f"  Loaded: {cap.class_name} from {cap.layer}")
             return instance
             
         except Exception as e:
-            logger.error(f"❌ Failed to load {module_name}: {e}")
+            logger.error(f"  Failed to load {module_name}: {e}")
             return None
     
     def request_capability(self, capability: str, *args, **kwargs) -> Optional[Any]:
@@ -198,7 +198,7 @@ class SovereignRegistry:
         candidates = self.find_by_capability(capability)
         
         if not candidates:
-            logger.warning(f"⚠️ No module provides capability: {capability}")
+            logger.warning(f"   No module provides capability: {capability}")
             return None
         
         # Priority: Already loaded > Higher layer (Spirit > Structure > ...)
@@ -266,4 +266,4 @@ if __name__ == "__main__":
     print("\n=== Testing Capability Request ===")
     engine = registry.request_capability("scan_qualia")
     if engine:
-        print(f"✅ Got: {type(engine).__name__}")
+        print(f"  Got: {type(engine).__name__}")

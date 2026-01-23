@@ -95,7 +95,7 @@ class ProvidenceEngine:
         from Core.L1_Foundation.Foundation.operational_axioms import AXIOM_REGISTRY
         kernel = AXIOM_REGISTRY.get(principle_label)
         
-        logger.info(f"👁️ [PROVIDENCE] Beholding the operational kernel of '{principle_label}'.")
+        logger.info(f"   [PROVIDENCE] Beholding the operational kernel of '{principle_label}'.")
         
         return DoubleHelixDNA(
             pattern_strand=pattern,
@@ -107,4 +107,3 @@ class ProvidenceEngine:
 
 # Global Access
 PROVIDENCE = ProvidenceEngine()
-

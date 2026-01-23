@@ -1,5 +1,5 @@
 """
-Immune System (디지털 면역 체계)
+Immune System (         )
 ============================
 "The Body rejects what is not Self."
 
@@ -50,12 +50,12 @@ class ImmuneSystem:
         Returns a list of 'Infections' (Path violations).
         """
         infections = []
-        logger.info("🛡️ Immune System Scanning...")
+        logger.info("   Immune System Scanning...")
         
         for organ_path in self.CRITICAL_PATHS:
             full_path = self.root / organ_path
             if not full_path.exists():
-                logger.critical(f"❌ CRITICAL ORGAN MISSING: {organ_path}")
+                logger.critical(f"  CRITICAL ORGAN MISSING: {organ_path}")
                 infections.append(f"MISSING: {organ_path}")
                 continue
                 

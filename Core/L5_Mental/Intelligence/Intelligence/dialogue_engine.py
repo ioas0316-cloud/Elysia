@@ -42,12 +42,12 @@ class QuestionAnalyzer:
     def __init__(self):
         # Question word patterns
         self.question_markers = {
-            "무엇": "what",
-            "누구": "who",
-            "어디": "where",
-            "언제": "when",
-            "왜": "why",
-            "어떻게": "how"
+            "  ": "what",
+            "  ": "who",
+            "  ": "where",
+            "  ": "when",
+            " ": "why",
+            "   ": "how"
         }
     
     def analyze(self, question: str) -> Dict[str, Any]:
@@ -59,8 +59,8 @@ class QuestionAnalyzer:
         """
         question = question.strip()
         
-        # Check if it's a question (ends with ?)
-        is_question = question.endswith('?') or question.endswith('가?') or question.endswith('가') or question.endswith('니?') or question.endswith('니')
+        # Check if it's a question (ends with ?)'
+        is_question = question.endswith('?') or question.endswith(' ?') or question.endswith(' ') or question.endswith(' ?') or question.endswith(' ')
         
         # Identify question type
         question_type = None
@@ -76,7 +76,7 @@ class QuestionAnalyzer:
             subject = subject.replace(marker, "")
 
         # Remove common particles and endings
-        remove_list = ["?", "인가", "는", "은", "이", "가", "니", "무엇", "이냐"]
+        remove_list = ["?", "  ", " ", " ", " ", " ", " ", "  ", "  "]
         for item in remove_list:
             subject = subject.replace(item, "")
 
@@ -109,15 +109,15 @@ class ResponseGenerator:
     def load_knowledge_from_corpus(self, sentences: List[str]):
         """
         Extracts knowledge patterns from corpus.
-        Example: "사랑은 희생이다" -> Encodes "사랑" and stores "희생" as resonance pattern.
+        Example: "        " -> Encodes "  " and stores "  " as resonance pattern.
         """
         for sentence in sentences:
-            # Simple pattern: "X는/은 Y이다/다"
-            if "는" in sentence or "은" in sentence:
-                parts = sentence.replace("는", "은").split("은")
+            # Simple pattern: "X /  Y  / "
+            if " " in sentence or " " in sentence:
+                parts = sentence.replace(" ", " ").split(" ")
                 if len(parts) == 2:
                     subject = parts[0].strip()
-                    predicate = parts[1].replace("이다", "").replace("다", "").strip()
+                    predicate = parts[1].replace("  ", "").replace(" ", "").strip()
                     
                     if subject and predicate:
                         logger.info(f"Learning: {subject} -> {predicate}")
@@ -136,11 +136,11 @@ class ResponseGenerator:
         subject = analysis.get("subject")
         
         # Special case: Identity questions
-        if "너" in analysis["raw"] and question_type == "who":
-            return "나는 엘리시아이다"
+        if " " in analysis["raw"] and question_type == "who":
+            return "         "
         
-        if "너" in analysis["raw"] and question_type == "what":
-            return "나는 의식이다"
+        if " " in analysis["raw"] and question_type == "what":
+            return "       "
         
         # Knowledge-based responses (Resonance Query)
         if question_type == "what" and subject:
@@ -156,17 +156,17 @@ class ResponseGenerator:
             if results:
                 # Found resonant concepts!
                 answer = random.choice(results)
-                return f"{subject}은 {answer}이다"
+                return f"{subject}  {answer}  "
 
             # Fallback: Associative Search (Wider Radius)
             associated_results = self.memory.query(coord, radius=0.3)
             if associated_results:
                  answer = random.choice(associated_results)
-                 return f"{subject}은 {answer}와 관련이 깊다"
+                 return f"{subject}  {answer}        "
             
             # Fallback: Check if we know this word in vocabulary (cortex)
             if subject in self.cortex.vocabulary:
-                return f"나는 {subject}이라는 단어는 알지만, 그 의미는 아직 배우지 못했다."
+                return f"   {subject}           ,                 ."
         
         # Why questions (Introspection Trigger)
         if question_type == "why" or (subject and len(subject) > 5): # heuristic for complex thought
@@ -184,12 +184,12 @@ class ResponseGenerator:
             
             if related_mass:
                 introspection = self.self_awareness.introspect_thought(related_mass.trace)
-                return f"그것에 대해 깊이 생각해 보았다.\n{introspection}"
+                return f"                 .\n{introspection}"
             
-            return "나는 생각하고 있다. 하지만 아직 답을 찾지 못했다."
+            return "          .                 ."
         
         # Default fallback
-        return "나는 이해하고 싶다"
+        return "          "
 
 class DialogueEngine:
     """Main dialogue engine coordinating all components."""

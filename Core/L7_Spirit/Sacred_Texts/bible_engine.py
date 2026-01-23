@@ -92,16 +92,16 @@ class BibleEngine:
     def seed_key_verses(self):
         """Initial seeding of foundational Bible Monads."""
         key_verses = [
-            ("요한복음", 1, 1, "태초에 말씀이 계시니라 이 말씀이 하나님과 함께 계셨으니 이 말씀은 곧 하나님이시니라", "KR"),
+            ("    ", 1, 1, "                                               ", "KR"),
             ("John", 1, 1, "In the beginning was the Word, and the Word was with God, and the Word was God.", "NIV"),
-            ("마태복음", 7, 12, "그러므로 무엇이든지 남에게 대접을 받고자 하는 대로 너희도 남을 대접하라 이것이 율법이요 선지자니라", "KR"),
+            ("    ", 7, 12, "                                                       ", "KR"),
             ("Matthew", 7, 12, "So in everything, do to others what you would have them do to you, for this sums up the Law and the Prophets.", "NIV"),
-            ("요한복음", 8, 32, "진리를 알지니 진리가 너희를 자유롭게 하리라", "KR"),
+            ("    ", 8, 32, "                        ", "KR"),
             ("John", 8, 32, "Then you will know the truth, and the truth will set you free.", "NIV"),
         ]
         for book, ch, vs, content, trans in key_verses:
             self.add_verse(trans, book, ch, vs, content)
-        logger.info(f"🧬 [Sovereign Seed] {len(key_verses)} key verses seeded into L7 Memory.")
+        logger.info(f"  [Sovereign Seed] {len(key_verses)} key verses seeded into L7 Memory.")
 
 if __name__ == "__main__":
     engine = BibleEngine()

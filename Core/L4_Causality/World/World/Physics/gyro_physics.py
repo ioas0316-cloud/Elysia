@@ -129,7 +129,7 @@ class GyroPhysicsEngine:
 
         # If signs are opposite and magnitude is high -> Conflict
         if (z_a * z_b < -0.2) and (abs(z_a) > 0.5 and abs(z_b) > 0.5):
-            print("⚠️ Breeding Error: Conflicting Intents (Z-Axis Clash).")
+            print("   Breeding Error: Conflicting Intents (Z-Axis Clash).")
             return self._create_mutation(parent_a, parent_b)
 
         # 2. Check Resonance
@@ -139,7 +139,7 @@ class GyroPhysicsEngine:
             return None
 
         # 3. Create Child
-        print("❤️ Breeding Success: A new soul is born.")
+        print("   Breeding Success: A new soul is born.")
         child_name = f"{parent_a.soul.name[:3]}{parent_b.soul.name[-3:]}"
         child_soul = create_infinite_qubit(
             name=child_name,

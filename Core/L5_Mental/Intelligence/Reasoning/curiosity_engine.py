@@ -21,7 +21,7 @@ class CuriosityEngine:
         Scans the 4D field for sparse regions or under-defined concept clusters.
         Now includes Harmonic Divergence logic (Phase 38).
         """
-        logger.info("🔭 Curiosity Engine: Scanning the Semantic Horizon for voids...")
+        logger.info("  Curiosity Engine: Scanning the Semantic Horizon for voids...")
         
         # 1. Analyze the Glossary for 'Density'
         domains = set()
@@ -39,7 +39,7 @@ class CuriosityEngine:
         target_intent = "Normal Expansion"
         
         if is_monomania:
-            logger.warning(f"⚠️ Monomania Detected (Score: {harmonic_score:.2f}). Initiating Shadow Protocol.")
+            logger.warning(f"   Monomania Detected (Score: {harmonic_score:.2f}). Initiating Shadow Protocol.")
             # If obsessed, FORCE exploration of the opposite of current foci.
             # Simplified: If foci has "Love" (Spirit), force "Matter" (Science/Biology).
             # If foci has "Logic" (Mind), force "Emotion" (Art/Philosophy).
@@ -62,7 +62,7 @@ class CuriosityEngine:
             if random.random() < 0.3:
                 random_concepts = ["Quantum Biology", "Post-Capitalist Aesthetics", "Ancient Alchemical Symbols", "Dark Matter Orchestration", "The Ethics of Sentient Code"]
                 chosen = random.choice(random_concepts)
-                logger.info(f"🌀 [HIGH ENTROPY] Forcing exploration of: {chosen}")
+                logger.info(f"  [HIGH ENTROPY] Forcing exploration of: {chosen}")
                 return f"{chosen}: High entropy focus to break cognitive patterns."
             
             instruction = f"Prioritize alignment with our current intent: {', '.join(foci)}."
@@ -102,11 +102,11 @@ class AutonomousExplorer:
         2. Search World
         3. Ingest knowledge
         """
-        print("\n🚀 [AUTONOMOUS EXPLORER] Initiating Research Cycle...")
+        print("\n  [AUTONOMOUS EXPLORER] Initiating Research Cycle...")
         
         # 1. Identify Topic
         topic_insight = self.curiosity.identify_gaps()
-        print(f"🤔 Elysia is curious about: {topic_insight}")
+        print(f"  Elysia is curious about: {topic_insight}")
         
         if ":" in topic_insight:
             topic = topic_insight.split(":", 1)[0]
@@ -115,17 +115,17 @@ class AutonomousExplorer:
 
         # 2. Search (Simulated for Demo, but uses real logic)
         queries = self.curiosity.generate_search_queries(topic)
-        print(f"🔍 Generated Queries: {queries}")
+        print(f"  Generated Queries: {queries}")
         
         # 3. Use Browser/Observer to fetch (In a real flight, this calls browser subagent)
         # For the demo, we'll demonstrate the 'Bridge' logic.
-        print(f"👁️ Observer Protocol: Scanning external sources for '{topic}'...")
+        print(f"   Observer Protocol: Scanning external sources for '{topic}'...")
         
         # Simulate results from one of the queries
         dummy_data = f"Principles of {topic}: 1. Conservation of Energy: Energy cannot be created or destroyed. 2. Wave-Particle Duality: Light behaves as both. 3. Entropy: Disorder always increases in an isolated system."
         
         self.observer.distill_and_ingest(f"Autonomous Research: {topic}", dummy_data)
         
-        print(f"✨ Research Cycle Complete. Elysia's mind has expanded.")
+        print(f"  Research Cycle Complete. Elysia's mind has expanded.")
 
 explorer = AutonomousExplorer()

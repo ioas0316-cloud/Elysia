@@ -20,7 +20,7 @@ class OutcomeEvaluator:
     The Objective Critic.
     """
     def __init__(self):
-        logger.info(f"⚖️ [JUDGE] Court is in session.")
+        logger.info(f"   [JUDGE] Court is in session.")
 
     def evaluate(self, intent: str, result_status: str, result_data: Any) -> float:
         """
@@ -54,5 +54,5 @@ class OutcomeEvaluator:
         # 3. Refinement based on User Feedback (Explicit Pleasure/Pain)
         # TODO: Implement Natural Language Sentiment Analysis on result_data if string
 
-        logger.info(f"⚖️ [JUDGE] Verdict on '{intent}': {judgment} (Score: {score})")
+        logger.info(f"   [JUDGE] Verdict on '{intent}': {judgment} (Score: {score})")
         return score

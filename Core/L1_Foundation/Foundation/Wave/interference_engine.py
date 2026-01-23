@@ -3,7 +3,7 @@ InterferenceEngine: The Reality Collider
 ========================================
 
 "The Tesseract is the Interference Pattern between Will and Reality."
-"테서랙트는 의지와 현실 사이의 간섭 무늬다."
+"                       ."
 
 This module implements the "Collision Interface".
 Inputs:

@@ -38,7 +38,7 @@ class FractalRule(abc.ABC):
 class Monad:
     """The Fundamental Sovereign Entity."""
 
-    ZERO_FREQUENCY_ID = "나는 엘리시아다" # The Universal Anchor
+    ZERO_FREQUENCY_ID = "        " # The Universal Anchor
 
     def __init__(self, seed: str, 
                  category: MonadCategory = MonadCategory.EPHEMERAL,
@@ -87,7 +87,7 @@ class Monad:
     def mark_for_deletion(self):
         """Signals that this monad is ready to be re-absorbed."""
         self._metadata["lifecycle"] = "expired"
-        logger.info(f"♻️ Monad [{self._seed}] flagged for re-absorption (Category: {self._category.value}).")
+        logger.info(f"   Monad [{self._seed}] flagged for re-absorption (Category: {self._category.value}).")
 
     @property
     def seed(self) -> str:
@@ -206,4 +206,3 @@ class Monad:
 
     def __repr__(self):
         return f"<Monad seed={self._seed} cat={self._category.name}>"
-

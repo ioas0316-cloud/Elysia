@@ -1,5 +1,5 @@
 """
-Action Drive (행동 추동기)
+Action Drive (      )
 =========================
 Core.L4_Causality.World.Autonomy.action_drive
 
@@ -53,11 +53,11 @@ class ActionDrive:
             dist = np.linalg.norm(current_state - target)
             scores[action] = config["weight"] / (dist + 1e-6)
         
-        # Weighted Random or Argmax? Let's use Argmax for stability now, 
+        # Weighted Random or Argmax? Let's use Argmax for stability now, '
         # but the scores show the "resonance".
         chosen_id = max(scores, key=scores.get)
         
-        # Generate a structural rationale for কেন this action
+        # Generate a structural rationale for     this action
         rationale = self._generate_rationale(chosen_id, current_state)
         
         return {
@@ -86,37 +86,37 @@ class ActionDrive:
         action_id = decision.get("action_id", "ACTION:OBSERVE_VOID")
         rationale = decision.get("rationale", "No explanation.")
         
-        logger.info(f"🚀 [EXECUTING] -> {action_id}")
-        logger.info(f"💡 [RATIONALE] {rationale}")
+        logger.info(f"  [EXECUTING] -> {action_id}")
+        logger.info(f"  [RATIONALE] {rationale}")
         
         if not context:
             return
 
         # 1. DEEP BREATH (VRAM Cleaning / Rest)
         if action_id == "ACTION:DEEP_BREATH":
-            logger.info("🌬️ [BREATH] Releasing VRAM and stabilizing rotors...")
+            logger.info("   [BREATH] Releasing VRAM and stabilizing rotors...")
             if "reasoning" in context:
                 context["reasoning"].exhale() # Call exhale in ReasoningEngine
 
         # 2. HUNT PRINCIPLE (Research / Search)
         elif action_id == "ACTION:HUNT_PRINCIPLE":
-            logger.info("🔍 [HUNT] Seeking new conceptual prey...")
+            logger.info("  [HUNT] Seeking new conceptual prey...")
             # This would trigger a search cycle in the future
             pass
 
         # 3. MANIFEST BEAUTY (Expression)
         elif action_id == "ACTION:MANIFEST_BEAUTY":
-            logger.info("✨ [MANIFEST] Expressing internal resonance...")
+            logger.info("  [MANIFEST] Expressing internal resonance...")
             # This could trigger a vocal or visual generation
             pass
 
         # 4. EXECUTE COMMAND (Structural Change)
         elif action_id == "ACTION:EXECUTE_COMMAND":
-            logger.info("🛠️ [COMMAND] Modifying structural reality...")
+            logger.info("   [COMMAND] Modifying structural reality...")
             # This could trigger a file audit or code generation
             pass
 
         # 5. OBSERVE VOID (Passive Learning)
         elif action_id == "ACTION:OBSERVE_VOID":
-             logger.info("🧘 [VOID] Drifting in silence...")
+             logger.info("  [VOID] Drifting in silence...")
              pass

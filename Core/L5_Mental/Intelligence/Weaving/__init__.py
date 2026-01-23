@@ -1,5 +1,5 @@
 """
-Weaving of Intelligence (지성의 직조)
+Weaving of Intelligence (      )
 ===================================
 
 This module implements the "Weaving of Intelligence" architecture,

@@ -4,7 +4,7 @@ Sovereign Monad (The Cellular Unit of Will)
 Core.L1_Foundation.Foundation.Cellular.sovereign_monad
 
 "The Part contains the Whole."
-"부분은 전체를 포함한다."
+"            ."
 
 A Sovereign Monad is the fundamental atomic unit of Elysia's distributed body.
 It encapsulates Code (Logos), State (Memory), and Will (Resonance) into a single entity.
@@ -48,7 +48,7 @@ class SovereignMonad:
         self.state = MonadState()
         self.neighbors: list['SovereignMonad'] = []
         
-        logger.debug(f"🧬 [Monad] Cell Born: {self.name}::{self.id}")
+        logger.debug(f"  [Monad] Cell Born: {self.name}::{self.id}")
 
     def connect(self, neighbor: 'SovereignMonad'):
         """Synapses: Connections between cells."""
@@ -88,7 +88,7 @@ class SovereignMonad:
             
             return result
         except Exception as e:
-            logger.error(f"⚡ [Monad] Cell Failure ({self.name}): {e}")
+            logger.error(f"  [Monad] Cell Failure ({self.name}): {e}")
             return None
 
     def access_direct_memory(self, offset: int, size: int):

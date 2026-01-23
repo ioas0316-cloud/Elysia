@@ -389,4 +389,3 @@ class DreamObserver:
             "wetness": wetness,
 
         }
-

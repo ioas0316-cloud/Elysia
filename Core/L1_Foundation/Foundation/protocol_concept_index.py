@@ -1,4 +1,4 @@
-﻿from dataclasses import dataclass
+ from dataclasses import dataclass
 from typing import Dict, List
 
 from tools.kg_manager import KGManager
@@ -109,7 +109,7 @@ DEFAULT_PROTOCOLS: List[ProtocolConcept] = [
         layer="WORLD",
         ptype="WORLD_KIT",
         status="SUPPORTING",
-        title="Death 쨌 Corpse 쨌 Memory Flow (World Kit)",
+        title="Death   Corpse   Memory Flow (World Kit)",
     ),
     ProtocolConcept(
         id="protocol:ELYSIA_OS_OVERVIEW",
@@ -156,5 +156,4 @@ def build_protocol_kg(kg_path: str = "data/protocol_kg.json") -> None:
         kg.add_edge(proto.id, f"ptype:{proto.ptype}", relation="has_type")
 
     kg.save()
-
 

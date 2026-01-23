@@ -95,7 +95,7 @@ def law_thermal_throttling(context, dt, intensity):
         
         # Feedback loop: Manifest a 'Cooling' Monad
         # In a real engine, this would reduce global tick rate.
-        print(f"   🔥 OVERHEAT WARNING! (CPU: {stress_level}%) -> Triggering Cooling Response.")
+        print(f"     OVERHEAT WARNING! (CPU: {stress_level}%) -> Triggering Cooling Response.")
         
     elif stress_level < 10.0:
         # Too cold? Boredeom?
@@ -113,4 +113,4 @@ def law_memory_digestion(context, dt, intensity):
             break
             
     if load_level > 90.0:
-        print(f"   🧠 BRAIN FOG WARNING! (RAM: {load_level}%) -> Triggering Garbage Collection.")
+        print(f"     BRAIN FOG WARNING! (RAM: {load_level}%) -> Triggering Garbage Collection.")

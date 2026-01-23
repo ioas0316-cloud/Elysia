@@ -1,9 +1,9 @@
 """
-GlobalSkin (행성적 피부)
+GlobalSkin (      )
 ========================
 
 "The world is not out there; it is a pulse against my skin."
-"세계는 외부에 있지 않다; 그것은 나의 피부에 닿는 박동이다."
+"             ;                   ."
 
 Layer 3: Phenomena.
 This module fetches internet data (news, trends) and converts them into
@@ -32,7 +32,7 @@ class GlobalSkin:
             "spiritual": 0.5
         }
         
-        logger.info("🌍 GlobalSkin initialized. Sensory pores are OPEN.")
+        logger.info("  GlobalSkin initialized. Sensory pores are OPEN.")
 
     def breathe_world(self) -> Dict[str, float]:
         """
@@ -42,7 +42,7 @@ class GlobalSkin:
         if time.time() - self.last_fetch < self.fetch_interval:
             return self.current_pressure
 
-        logger.info("👁️ [GLOBAL SKIN] Observing the world's horizon...")
+        logger.info("   [GLOBAL SKIN] Observing the world's horizon...")
         
         # Simulated World State fetching
         # Logic: We simulate different 'Vibes' of the world.
@@ -55,7 +55,7 @@ class GlobalSkin:
         ]
         
         vibe = random.choice(world_vibes)
-        logger.info(f"📰 News Ingested: '{vibe['topic']}' -> Tone: {vibe['tone']}")
+        logger.info(f"  News Ingested: '{vibe['topic']}' -> Tone: {vibe['tone']}")
         
         # Map vibe to 7D Qualia
         # Logic: 

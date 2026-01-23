@@ -26,7 +26,7 @@ logger = logging.getLogger("LogosEngine")
 class LogosEngine:
     def __init__(self):
         self.lexicon = get_trinity_lexicon()
-        logger.info("🗣️ Logos Engine (Orbital) Initialized.")
+        logger.info("   Logos Engine (Orbital) Initialized.")
 
     def speak(self, state: Dict[str, Any]) -> str:
         """

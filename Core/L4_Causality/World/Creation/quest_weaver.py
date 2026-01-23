@@ -126,7 +126,7 @@ class QuestWeaver:
             with open(self.output_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2)
                 
-            logger.info(f"📜 Quest Woven: {quest['title']}")
+            logger.info(f"  Quest Woven: {quest['title']}")
             
         except Exception as e:
             logger.error(f"Quest Weave Failed: {e}")

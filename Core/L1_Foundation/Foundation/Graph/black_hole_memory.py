@@ -42,9 +42,9 @@ class BlackHoleMemory:
             ''')
             conn.commit()
             conn.close()
-            logger.info(f"⚫ Black Hole Stabilized at {self.db_path}")
+            logger.info(f"  Black Hole Stabilized at {self.db_path}")
         except Exception as e:
-            logger.error(f"❌ Failed to stabilize Black Hole: {e}")
+            logger.error(f"  Failed to stabilize Black Hole: {e}")
 
     def absorb(self, nodes_data: list):
         """
@@ -80,9 +80,9 @@ class BlackHoleMemory:
                 
                 conn.commit()
                 conn.close()
-                logger.info(f"⚫ Black Hole Absorbed {len(rows)} nodes.")
+                logger.info(f"  Black Hole Absorbed {len(rows)} nodes.")
             except Exception as e:
-                logger.error(f"❌ Accretion Disk Failure: {e}")
+                logger.error(f"  Accretion Disk Failure: {e}")
 
     def radiate(self, node_ids: list):
         """
@@ -112,7 +112,7 @@ class BlackHoleMemory:
                     })
                 return result
             except Exception as e:
-                logger.error(f"❌ Hawking Radiation Failure: {e}")
+                logger.error(f"  Hawking Radiation Failure: {e}")
                 return []
 
 # Singleton

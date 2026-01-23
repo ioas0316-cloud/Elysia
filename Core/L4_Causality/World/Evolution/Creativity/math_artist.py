@@ -75,7 +75,7 @@ class MathArtist:
         """
         Uses Matplotlib to draw a character with ATMOSPHERE and LIGHT.
         """
-        logger.info(f"🎨 Plotting Luminous Character: {name}...")
+        logger.info(f"  Plotting Luminous Character: {name}...")
         
         # 1. Setup Canvas (High DPI for quality)
         fig, ax = plt.subplots(figsize=(10, 10), dpi=300)
@@ -135,7 +135,7 @@ class MathArtist:
         plt.savefig(path, facecolor='#050510', bbox_inches='tight')
         plt.close(fig)
         
-        logger.info(f"✨ Masterpiece Plot Complete: {path}")
+        logger.info(f"  Masterpiece Plot Complete: {path}")
         return str(path)
 
     def _add_eye(self, ax, x, y):

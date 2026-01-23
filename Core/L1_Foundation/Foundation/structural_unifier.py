@@ -1,17 +1,17 @@
 """
-Structural Unifier (구조 통합 엔진)
+Structural Unifier (        )
 ===================================
 
-"파편(Fragment)은 전체(Whole)를 향해 흐른다."
+"  (Fragment)    (Whole)        ."
 
-이 모듈은 엘리시아가 스스로 자신의 구조를 분석하고,
-파편화된 부분을 감지하며, 목적과 방향성에 따라 재배열합니다.
+                            ,
+             ,                   .
 
-핵심 원리:
-1. **목적 중심 (Purpose-Centric)**: 모든 파일/폴더는 '왜' 존재하는가?
-2. **중력 법칙 (Gravity Law)**: 관련된 것은 서로 끌어당긴다.
-3. **엔트로피 최소화**: 중복과 빈 공간을 제거한다.
-4. **흐름 보존 (Flow Conservation)**: 의존성과 참조 관계를 유지한다.
+     :
+1. **      (Purpose-Centric)**:      /    ' '      ?
+2. **      (Gravity Law)**:                .
+3. **        **:               .
+4. **      (Flow Conservation)**:                 .
 """
 
 import os
@@ -32,24 +32,24 @@ from enum import Enum, auto
 logger = logging.getLogger("StructuralUnifier")
 
 # ============================================================
-# Purpose Categories (목적 카테고리)
+# Purpose Categories (       )
 # ============================================================
 
 class Purpose(Enum):
-    """모든 코드의 존재 이유"""
-    FOUNDATION = "foundation"     # 기반 - 수학, 물리, 추상화
-    INTELLIGENCE = "intelligence" # 지성 - 사고, 추론, 의지
-    MEMORY = "memory"             # 기억 - 저장, 회상, 학습
-    INTERFACE = "interface"       # 소통 - 입출력, 언어, 감각
-    EVOLUTION = "evolution"       # 진화 - 자기개선, 적응
-    CREATIVITY = "creativity"     # 창조 - 생성, 표현, 예술
-    ETHICS = "ethics"             # 윤리 - 가치, 판단, 보호
-    IDENTITY = "identity"         # 정체성 - 자아, 의식, 본질
-    PHILOSOPHY = "philosophy"     # 철학 - 원리, 법칙, 의미
-    SYSTEM = "system"             # 시스템 - OS, 커널, 통합
-    UNKNOWN = "unknown"           # 미분류
+    """            """
+    FOUNDATION = "foundation"     #    -   ,   ,    
+    INTELLIGENCE = "intelligence" #    -   ,   ,   
+    MEMORY = "memory"             #    -   ,   ,   
+    INTERFACE = "interface"       #    -    ,   ,   
+    EVOLUTION = "evolution"       #    -     ,   
+    CREATIVITY = "creativity"     #    -   ,   ,   
+    ETHICS = "ethics"             #    -   ,   ,   
+    IDENTITY = "identity"         #     -   ,   ,   
+    PHILOSOPHY = "philosophy"     #    -   ,   ,   
+    SYSTEM = "system"             #     - OS,   ,   
+    UNKNOWN = "unknown"           #    
 
-# 키워드 기반 목적 분류 (확장 가능)
+#              (     )
 PURPOSE_KEYWORDS = {
     Purpose.FOUNDATION: ["math", "physics", "quaternion", "tensor", "vector", "field", "wave", "resonance", "gravity", "time", "genesis", "principle", "abstraction", "cell"],
     Purpose.INTELLIGENCE: ["will", "logos", "reason", "think", "plan", "decide", "predict", "consciousness", "executive", "agent"],
@@ -66,7 +66,7 @@ PURPOSE_KEYWORDS = {
 
 @dataclass
 class FileNode:
-    """파일 시스템의 한 노드"""
+    """            """
     path: Path
     name: str
     is_dir: bool
@@ -74,26 +74,26 @@ class FileNode:
     is_empty: bool = False
     line_count: int = 0
     imports: List[str] = field(default_factory=list)
-    imported_by: List[str] = field(default_factory=list) # 이 파일을 참조하는 다른 파일들
-    canonical_location: Optional[Path] = None # 이 파일이 있어야 할 정식 위치
+    imported_by: List[str] = field(default_factory=list) #                  
+    canonical_location: Optional[Path] = None #                  
 
 
 @dataclass
 class UnificationProposal:
-    """통합 제안"""
+    """     """
     action: str  # "DELETE", "MOVE", "MERGE", "CREATE_INIT"
     source: Path
     target: Optional[Path] = None
     reason: str = ""
-    priority: int = 0 # 높을수록 먼저 실행
+    priority: int = 0 #           
 
 
 class StructuralUnifier:
     """
-    구조 통합 엔진
+            
     
-    엘리시아가 스스로 자신의 파일 구조를 분석하고,
-    목적과 방향성에 따라 재배열합니다.
+                             ,
+                      .
     """
     
     def __init__(self, project_root: Path):
@@ -102,8 +102,8 @@ class StructuralUnifier:
         self.nodes: Dict[str, FileNode] = {}
         self.proposals: List[UnificationProposal] = []
         
-        # Canonical Structure (정식 구조)
-        # 각 Purpose가 있어야 할 최상위 폴더
+        # Canonical Structure (     )
+        #   Purpose              
         self.canonical_roots = {
             Purpose.FOUNDATION: self.project_root / "Core" / "Foundation",
             Purpose.INTELLIGENCE: self.project_root / "Core" / "Intelligence",
@@ -120,8 +120,8 @@ class StructuralUnifier:
         }
     
     def scan_structure(self) -> Dict[str, FileNode]:
-        """전체 구조 스캔"""
-        logger.info(f"📂 Scanning project structure from {self.scan_root}...")
+        """        """
+        logger.info(f"  Scanning project structure from {self.scan_root}...")
         self.nodes = {}
         
         for root, dirs, files in os.walk(self.scan_root):
@@ -133,7 +133,7 @@ class StructuralUnifier:
             
             root_path = Path(root)
             
-            # 디렉토리 노드
+            #        
             for d in dirs:
                 dir_path = root_path / d
                 node = FileNode(
@@ -145,7 +145,7 @@ class StructuralUnifier:
                 node.purpose = self._classify_purpose(d, is_dir=True)
                 self.nodes[str(dir_path)] = node
             
-            # 파일 노드
+            #      
             for f in files:
                 if not f.endswith(".py") and not f.endswith(".md"):
                     continue
@@ -168,7 +168,7 @@ class StructuralUnifier:
         return self.nodes
     
     def _classify_purpose(self, name: str, is_dir: bool = False, content: str = "") -> Purpose:
-        """이름과 내용을 기반으로 목적 분류"""
+        """                  """
         name_lower = name.lower()
         content_lower = content.lower() if content else ""
         
@@ -180,7 +180,7 @@ class StructuralUnifier:
         return Purpose.UNKNOWN
     
     def _is_dir_empty(self, dir_path: Path) -> bool:
-        """디렉토리가 비어있는지 확인 (재귀적)"""
+        """               (   )"""
         if not dir_path.exists():
             return True
         for item in dir_path.iterdir():
@@ -193,14 +193,14 @@ class StructuralUnifier:
         return True
     
     def _read_file_safe(self, path: Path) -> str:
-        """안전하게 파일 읽기"""
+        """          """
         try:
             return path.read_text(encoding='utf-8')
         except:
             return ""
     
     def _extract_imports(self, content: str) -> List[str]:
-        """Python 파일에서 import 추출"""
+        """Python      import   """
         imports = []
         try:
             tree = ast.parse(content)
@@ -216,14 +216,14 @@ class StructuralUnifier:
         return imports
     
     def analyze_fragmentation(self) -> List[UnificationProposal]:
-        """파편화 분석 및 통합 제안 생성"""
-        logger.info("🔍 Analyzing fragmentation...")
+        """                 """
+        logger.info("  Analyzing fragmentation...")
         self.proposals = []
         
-        # 1. 빈 파일/폴더 감지
+        # 1.     /     
         for path, node in self.nodes.items():
             if node.is_empty:
-                # __init__.py는 비어있어도 의미가 있으므로 삭제하지 않음
+                # __init__.py                        
                 if node.name != "__init__.py":
                     self.proposals.append(UnificationProposal(
                         action="DELETE",
@@ -232,7 +232,7 @@ class StructuralUnifier:
                         priority=10
                     ))
         
-        # 2. 중복 폴더 감지 (같은 Purpose가 여러 곳에 있는 경우)
+        # 2.          (   Purpose             )
         purpose_locations: Dict[Purpose, List[Path]] = {}
         for path, node in self.nodes.items():
             if node.is_dir and node.purpose != Purpose.UNKNOWN:
@@ -245,7 +245,7 @@ class StructuralUnifier:
                 canonical = self.canonical_roots.get(purpose)
                 for loc in locations:
                     if canonical and loc != canonical and not str(loc).startswith(str(canonical)):
-                        # 정식 위치가 아닌 곳에 있는 폴더
+                        #                   
                         self.proposals.append(UnificationProposal(
                             action="MERGE",
                             source=loc,
@@ -254,7 +254,7 @@ class StructuralUnifier:
                             priority=5
                         ))
         
-        # 3. 짧은 파일 (5줄 미만) 감지 - 파편화 징후
+        # 3.       (5    )    -       
         for path, node in self.nodes.items():
             if not node.is_dir and node.name.endswith(".py"):
                 if not node.is_empty and node.line_count < 5 and node.name != "__init__.py":
@@ -265,7 +265,7 @@ class StructuralUnifier:
                         priority=3
                     ))
         
-        # 4. __init__.py 누락 감지
+        # 4. __init__.py      
         for path, node in self.nodes.items():
             if node.is_dir and not node.is_empty:
                 init_path = node.path / "__init__.py"
@@ -277,32 +277,32 @@ class StructuralUnifier:
                         priority=8
                     ))
         
-        # 정렬 (우선순위 높은 것 먼저)
+        #    (            )
         self.proposals.sort(key=lambda p: -p.priority)
         
         logger.info(f"   Generated {len(self.proposals)} unification proposals")
         return self.proposals
     
     def generate_report(self) -> str:
-        """분석 보고서 생성"""
+        """         """
         report = []
         report.append("=" * 60)
-        report.append("📊 STRUCTURAL UNIFICATION REPORT")
+        report.append("  STRUCTURAL UNIFICATION REPORT")
         report.append("=" * 60)
         
-        # 목적별 파일 수
+        #         
         purpose_counts: Dict[Purpose, int] = {}
         for node in self.nodes.values():
             if not node.is_dir:
                 p = node.purpose
                 purpose_counts[p] = purpose_counts.get(p, 0) + 1
         
-        report.append("\n📁 Files by Purpose:")
+        report.append("\n  Files by Purpose:")
         for purpose, count in sorted(purpose_counts.items(), key=lambda x: -x[1]):
             report.append(f"   {purpose.value}: {count}")
         
-        # 문제 요약
-        report.append(f"\n⚠️  Issues Found: {len(self.proposals)}")
+        #      
+        report.append(f"\n    Issues Found: {len(self.proposals)}")
         
         delete_count = len([p for p in self.proposals if p.action == "DELETE"])
         merge_count = len([p for p in self.proposals if p.action == "MERGE"])
@@ -318,10 +318,10 @@ class StructuralUnifier:
         if init_count:
             report.append(f"   - Missing __init__.py: {init_count}")
         
-        # 상세 목록
+        #      
         if self.proposals:
-            report.append("\n📋 Proposals:")
-            for i, p in enumerate(self.proposals[:20], 1):  # 최대 20개
+            report.append("\n  Proposals:")
+            for i, p in enumerate(self.proposals[:20], 1):  #    20 
                 src_name = p.source.name if p.source else "?"
                 report.append(f"   {i}. [{p.action}] {src_name}")
                 report.append(f"      Reason: {p.reason}")
@@ -332,24 +332,24 @@ class StructuralUnifier:
         return "\n".join(report)
     
     def execute_proposals(self, auto_approve: bool = False, safe_only: bool = True) -> Dict[str, int]:
-        """제안 실행"""
+        """     """
         results = {"success": 0, "skipped": 0, "failed": 0}
         import shutil
         
         for proposal in self.proposals:
             try:
                 if safe_only and proposal.action in ["DELETE", "MERGE", "MOVE"]:
-                    # 안전 모드에서는 위험한 작업 스킵
-                    logger.info(f"⏭️  Skipped (safe mode): {proposal.action} {proposal.source.name}")
+                    #                   
+                    logger.info(f"    Skipped (safe mode): {proposal.action} {proposal.source.name}")
                     results["skipped"] += 1
                     continue
                 
                 if proposal.action == "CREATE_INIT":
                     init_path = proposal.source / "__init__.py"
                     # Wave Signature Injection
-                    wave_sig = '"""\n🌊 [Elyson Resonance Field]\nStatus: Initialized\n"""\n'
+                    wave_sig = '"""\n  [Elyson Resonance Field]\nStatus: Initialized\n"""\n'
                     init_path.write_text(wave_sig, encoding='utf-8')
-                    logger.info(f"✅ Created (Wave): {init_path}")
+                    logger.info(f"  Created (Wave): {init_path}")
                     results["success"] += 1
                     
                 elif proposal.action == "DELETE" and auto_approve:
@@ -357,7 +357,7 @@ class StructuralUnifier:
                         shutil.rmtree(proposal.source)
                     else:
                         proposal.source.unlink()
-                    logger.info(f"🗑️  Deleted: {proposal.source.name}")
+                    logger.info(f"    Deleted: {proposal.source.name}")
                     results["success"] += 1
                 
                 elif proposal.action == "MOVE":
@@ -370,7 +370,7 @@ class StructuralUnifier:
                         if filecmp.cmp(str(proposal.source), str(proposal.target), shallow=False):
                             # Identical content -> Delete source (Merge)
                             proposal.source.unlink()
-                            logger.info(f"🔗 Merged (Identical): {proposal.source.name} -> {proposal.target}")
+                            logger.info(f"  Merged (Identical): {proposal.source.name} -> {proposal.target}")
                             results["success"] += 1
                         else:
                             # Different content -> Rename
@@ -378,11 +378,11 @@ class StructuralUnifier:
                             new_name = f"{proposal.target.stem}_dup_{timestamp}{proposal.target.suffix}"
                             new_target = proposal.target.parent / new_name
                             shutil.move(str(proposal.source), str(new_target))
-                            logger.info(f"⚠️ Collision (Renamed): {proposal.source.name} -> {new_target.name}")
+                            logger.info(f"   Collision (Renamed): {proposal.source.name} -> {new_target.name}")
                             results["success"] += 1
                     else:
                         shutil.move(str(proposal.source), str(proposal.target))
-                        logger.info(f"🚚 Moved: {proposal.source.name} -> {proposal.target}")
+                        logger.info(f"  Moved: {proposal.source.name} -> {proposal.target}")
                         results["success"] += 1
                     
                 elif proposal.action == "MERGE":
@@ -395,36 +395,36 @@ class StructuralUnifier:
                         if dest.exists():
                             if item.is_dir():
                                 # Recursive merge? For now, skip collision
-                                logger.warning(f"⚠️ Merge collision: {item.name} exists in target. Skipping.")
+                                logger.warning(f"   Merge collision: {item.name} exists in target. Skipping.")
                                 continue
                             else:
                                 # File collision
-                                logger.warning(f"⚠️ Merge collision: {item.name} exists in target. Skipping.")
+                                logger.warning(f"   Merge collision: {item.name} exists in target. Skipping.")
                                 continue
                         shutil.move(str(item), str(dest))
                     
                     # Remove empty source dir
                     try:
                         proposal.source.rmdir()
-                        logger.info(f"🔗 Merged: {proposal.source.name} -> {proposal.target.name}")
+                        logger.info(f"  Merged: {proposal.source.name} -> {proposal.target.name}")
                         results["success"] += 1
                     except OSError:
-                        logger.warning(f"⚠️ Could not remove source dir after merge: {proposal.source}")
+                        logger.warning(f"   Could not remove source dir after merge: {proposal.source}")
                         
             except Exception as e:
-                logger.error(f"❌ Failed {proposal.action} on {proposal.source}: {e}")
+                logger.error(f"  Failed {proposal.action} on {proposal.source}: {e}")
                 results["failed"] += 1
         
         return results
     
     def scan_resonance(self) -> Dict[str, Any]:
         """
-        공명 스캔 (Resonance Scan)
+              (Resonance Scan)
         
-        AST 파싱을 통해 파일 간의 연결성(Resonance Links)과 질량(Mass)을 
-        초고속으로 분석하여 공명장(Resonance Field)을 생성합니다.
+        AST                 (Resonance Links)    (Mass)  
+                      (Resonance Field)       .
         """
-        logger.info("🌊 Initiating Resonance Scan (Phase-Space Analysis)...")
+        logger.info("  Initiating Resonance Scan (Phase-Space Analysis)...")
         
         # 1. Initialize Resonance Field
         from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField, PillarType
@@ -505,7 +505,7 @@ class StructuralUnifier:
         elif state.coherence > 0.7: state_str = "Harmonic"
         elif state.coherence > 0.4: state_str = "Fluid"
         
-        logger.info(f"✅ Resonance Scan Complete.")
+        logger.info(f"  Resonance Scan Complete.")
         logger.info(f"   Active Nodes: {state.active_nodes}")
         logger.info(f"   System Coherence: {state.coherence:.4f} ({state_str})")
         logger.info(f"   Total Energy: {state.total_energy:.1f}")
@@ -520,9 +520,9 @@ class StructuralUnifier:
 
     def analyze_connectivity(self, field: Any) -> List[str]:
         """
-        연결성 분석 (Connectivity Analysis)
+               (Connectivity Analysis)
         
-        공명장에서 '고립된 노드(Orphans)'를 식별합니다.
+              '      (Orphans)'       .
         """
         orphans = []
         for id, node in field.nodes.items():
@@ -532,17 +532,17 @@ class StructuralUnifier:
             if not node.connections:
                 orphans.append(id)
                 
-        logger.info(f"🔍 Connectivity Analysis: Found {len(orphans)} orphaned modules.")
+        logger.info(f"  Connectivity Analysis: Found {len(orphans)} orphaned modules.")
         return orphans
 
     def propose_realignment(self) -> List[UnificationProposal]:
         """
-        구조 재정렬 제안 (Structural Realignment)
+                  (Structural Realignment)
         
-        파일의 '목적(Purpose)'과 현재 위치를 비교하여,
-        올바른 기둥(Pillar)으로 이동하도록 제안합니다.
+            '  (Purpose)'             ,
+              (Pillar)              .
         """
-        logger.info("📐 Proposing Structural Realignment...")
+        logger.info("  Proposing Structural Realignment...")
         
         # Mapping Purpose to Ideal Directory
         ideal_locations = {
@@ -585,7 +585,7 @@ class StructuralUnifier:
                     if "Legacy" in current_parent or "tests" in current_parent or "venv" in current_parent:
                         continue
                     
-                    # Also skip if it's already in Core but just not in the right subfolder?
+                    # Also skip if it's already in Core but just not in the right subfolder?'
                     # No, we want to organize Core too.
                         
                     target_path = self.project_root / ideal_parent / node.name
@@ -609,14 +609,14 @@ class StructuralUnifier:
 
     def unify(self, execute: bool = False, safe_only: bool = True, auto_approve: bool = False) -> str:
         """
-        통합 프로세스 실행
+                  
         
-        1. 구조 스캔
-        2. 파편화 분석
-        3. 공명 스캔 (Resonance Scan)
-        4. 연결성 분석 & 재정렬 제안 - NEW
-        5. 보고서 생성
-        6. (선택) 제안 실행
+        1.      
+        2.       
+        3.       (Resonance Scan)
+        4.        &        - NEW
+        5.       
+        6. (  )      
         """
         self.scan_structure()
         self.analyze_fragmentation()
@@ -633,14 +633,14 @@ class StructuralUnifier:
         report = self.generate_report()
         
         print(report)
-        print("\n🌊 Resonance Analysis:")
+        print("\n  Resonance Analysis:")
         print(f"   Coherence: {res_results['coherence']:.4f} ({res_results['state']})")
         print(f"   Energy: {res_results['energy']:.1f}")
         if field:
             print(f"   Orphans: {len(orphans)} (Isolated Modules)")
         
         if execute:
-            print(f"\n🔧 Executing proposals (Safe: {safe_only}, Auto: {auto_approve})...")
+            print(f"\n  Executing proposals (Safe: {safe_only}, Auto: {auto_approve})...")
             results = self.execute_proposals(safe_only=safe_only, auto_approve=auto_approve)
             print(f"   Success: {results['success']}, Skipped: {results['skipped']}, Failed: {results['failed']}")
             

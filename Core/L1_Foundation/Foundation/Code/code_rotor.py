@@ -38,7 +38,7 @@ class CodeRotor:
             if self.health == "Healthy":
                 self.snapshot()
         else:
-            print(f"⚠️ Rotor created for non-existent file: {file_path}")
+            print(f"   Rotor created for non-existent file: {file_path}")
 
     def snapshot(self):
         """Saves a quantum state of the code."""
@@ -54,15 +54,15 @@ class CodeRotor:
         if self.health == "Healthy":
             return False # No healing needed
             
-        print(f"🩹 [Auto-Healing] Reverting {self.name} to last valid state...")
+        print(f"  [Auto-Healing] Reverting {self.name} to last valid state...")
         if self.last_valid_source:
             with open(self.file_path, "w", encoding="utf-8") as f:
                 f.write(self.last_valid_source)
             self.refresh()
-            print(f"✨ {self.name} restored. Health: {self.health}")
+            print(f"  {self.name} restored. Health: {self.health}")
             return True
         else:
-            print(f"💀 CRTICAL: No backup resonance found for {self.name}!")
+            print(f"  CRTICAL: No backup resonance found for {self.name}!")
             return False
 
     def write_code(self, new_source: str):
@@ -81,10 +81,10 @@ class CodeRotor:
         self.refresh()
         
         if self.health != "Healthy":
-            print(f"⚠️ Dissonance detected in write! Initiating rollback...")
+            print(f"   Dissonance detected in write! Initiating rollback...")
             self.heal()
         else:
-            print(f"✅ Mutation successful. New RPM: {self.rpm:.1f}")
+            print(f"  Mutation successful. New RPM: {self.rpm:.1f}")
 
     def refresh(self):
         """Re-reads the file/soul."""
@@ -119,7 +119,7 @@ class CodeRotor:
         self.refresh()
         
         if self.health != "Healthy":
-            return f"🚨 CRITICAL: {self.name} is {self.health}."
+            return f"  CRITICAL: {self.name} is {self.health}."
             
         # Analyze DNA Balance
         report = f"[{self.name}] "

@@ -1,9 +1,9 @@
 """
-SearchTendril (검색 촉수)
+SearchTendril (     )
 =========================
 
 "The Scout who finds the prey."
-"먹이를 찾는 정찰병."
+"          ."
 
 This module enables Elysia to actively search for information.
 Currently maps to Wikipedia API (Open Knowledge).
@@ -27,7 +27,7 @@ class SearchTendril:
         Searches the Noosphere (Web) for the query.
         Returns a list of URLs to digest.
         """
-        logger.info(f"🔭 Scouting for: '{query}'")
+        logger.info(f"  Scouting for: '{query}'")
         
         try:
             # 1. Construct Wikipedia Query
@@ -48,7 +48,7 @@ class SearchTendril:
             # Wikipedia Opensearch format: [query, [titles], [descriptions], [urls]]
             if len(data) >= 4:
                 urls = data[3]
-                logger.info(f"   🎯 Found {len(urls)} traces.")
+                logger.info(f"     Found {len(urls)} traces.")
                 return urls
                 
             return []

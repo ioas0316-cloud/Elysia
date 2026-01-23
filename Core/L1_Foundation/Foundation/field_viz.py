@@ -38,7 +38,7 @@ class FieldVisualizer:
         plt.ylabel('Y' if axis != 'y' else 'Z')
         plt.tight_layout()
         plt.savefig(f'field_slice_{axis}.png', dpi=150)
-        print(f"   💾 Saved: field_slice_{axis}.png")
+        print(f"     Saved: field_slice_{axis}.png")
         plt.close()
     
     def plot_3d_surface(self, title="Field 3D Surface"):
@@ -68,7 +68,7 @@ class FieldVisualizer:
         fig.colorbar(surf, ax=ax, shrink=0.5, aspect=5)
         plt.tight_layout()
         plt.savefig('field_3d_surface.png', dpi=150)
-        print(f"   💾 Saved: field_3d_surface.png")
+        print(f"     Saved: field_3d_surface.png")
         plt.close()
     
     def plot_interference_pattern(self, concepts: List[str], title="Interference Pattern"):
@@ -109,7 +109,7 @@ class FieldVisualizer:
         plt.tight_layout()
         filename = f'interference_{"_".join(concepts)}.png'
         plt.savefig(filename, dpi=150)
-        print(f"   💾 Saved: {filename}")
+        print(f"     Saved: {filename}")
         plt.close()
     
     def plot_wave_evolution(self, concept: str, steps: int = 5):
@@ -138,7 +138,7 @@ class FieldVisualizer:
         fig.suptitle(f'Wave Evolution: {concept}', fontsize=16, fontweight='bold')
         plt.tight_layout()
         plt.savefig(f'wave_evolution_{concept}.png', dpi=150)
-        print(f"   💾 Saved: wave_evolution_{concept}.png")
+        print(f"     Saved: wave_evolution_{concept}.png")
         plt.close()
     
     def create_summary_visualization(self, concepts: List[str]):
@@ -189,5 +189,5 @@ class FieldVisualizer:
         
         plt.tight_layout()
         plt.savefig('field_summary.png', dpi=150)
-        print(f"   💾 Saved: field_summary.png")
+        print(f"     Saved: field_summary.png")
         plt.close()

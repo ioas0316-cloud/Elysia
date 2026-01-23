@@ -1,7 +1,7 @@
 """
 Kernel Factory: Lightning Path 2.0 (Fused XLA Kernel)
 =====================================================
-Core.L6_Structure.Merkaba.kernel_factory
+Core.L6_Structure.M1_Merkaba.kernel_factory
 
 "Calculators compute; Kernels ignite."
 """

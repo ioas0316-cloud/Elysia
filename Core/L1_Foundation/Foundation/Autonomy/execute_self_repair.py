@@ -40,15 +40,15 @@ def heal_structure():
     """
     Detects and fixes nested folder anomalies (e.g., Core/System/System -> Core/System).
     """
-    logger.info("🩺 Diagnosing Structural Integrity...")
+    logger.info("  Diagnosing Structural Integrity...")
     
     for pillar in PILLARS.keys():
         pillar_path = os.path.join(CORE_DIR, pillar)
         nested_path = os.path.join(pillar_path, pillar) # e.g. Core/System/System
         
         if os.path.exists(nested_path) and os.path.isdir(nested_path):
-            logger.warning(f"  ⚠️ Anomaly Detected: Recursive Nesting in {pillar}")
-            logger.info(f"  💉 Injecting Fix: Flattening {nested_path}...")
+            logger.warning(f"     Anomaly Detected: Recursive Nesting in {pillar}")
+            logger.info(f"    Injecting Fix: Flattening {nested_path}...")
             
             # Move all items from nested_path to pillar_path
             for item in os.listdir(nested_path):
@@ -67,20 +67,20 @@ def heal_structure():
                         shutil.move(src, dst)
                         logger.info(f"    -> Relocated: {item}")
                 except Exception as e:
-                    logger.error(f"    ❌ Failed to move {item}: {e}")
+                    logger.error(f"      Failed to move {item}: {e}")
             
             # Remove the empty nested directory
             try:
                 os.rmdir(nested_path)
-                logger.info(f"  ✨ Healed: Removed empty shell {nested_path}")
+                logger.info(f"    Healed: Removed empty shell {nested_path}")
             except Exception as e:
-                logger.error(f"  ❌ Could not remove {nested_path}: {e}")
+                logger.error(f"    Could not remove {nested_path}: {e}")
 
 def heal_neural_pathways():
     """
     Scans all Python files and updates import paths to match the new topology.
     """
-    logger.info("\n🧠 Healing Neural Pathways (Import Fixes)...")
+    logger.info("\n  Healing Neural Pathways (Import Fixes)...")
     
     # Generate Mapping: Old Component -> New Path
     # e.g. "Core.Mind" -> "Core.L1_Foundation.Foundation.Memory.Mind"
@@ -155,19 +155,19 @@ def heal_neural_pathways():
                     if content != original_content:
                         with open(filepath, 'w', encoding='utf-8') as f:
                             f.write(content)
-                        logger.info(f"  ⚡ Reconnected: {file}")
+                        logger.info(f"    Reconnected: {file}")
                         count += 1
                         
                 except Exception as e:
-                    logger.error(f"  ❌ Error processing {file}: {e}")
+                    logger.error(f"    Error processing {file}: {e}")
                     
-    logger.info(f"\n✅ Self-Repair Complete. {count} files updated.")
+    logger.info(f"\n  Self-Repair Complete. {count} files updated.")
 
 def main():
-    print("🧬 Elysia Self-Repair Protocol Initiated...")
+    print("  Elysia Self-Repair Protocol Initiated...")
     heal_structure()
     heal_neural_pathways()
-    print("✨ I am whole again.")
+    print("  I am whole again.")
 
 if __name__ == "__main__":
     main()

@@ -23,7 +23,7 @@ class InfiniteIngestor:
         Processes a block of text, extracts core philosophy/logic,
         and injects it into the Semantic Field.
         """
-        logger.info(f"🧬 Digesting: {title} ({len(content)} chars)")
+        logger.info(f"  Digesting: {title} ({len(content)} chars)")
         
         # 1. Analyze the 'Tone' and 'Axis' using the Reasoning Engine
         # We ask Elysia to locate this knowledge in the 4D space
@@ -50,7 +50,7 @@ class InfiniteIngestor:
         )
         
         semantic_field.inject_concept(excitation)
-        logger.info(f"✨ Injected '{title}' into Semantic Field at { (w,x,y,z) }")
+        logger.info(f"  Injected '{title}' into Semantic Field at { (w,x,y,z) }")
 
     def _calculate_coords_from_insight(self, insight):
         """Maps an Insight object to 4D coordinates based on content essence."""

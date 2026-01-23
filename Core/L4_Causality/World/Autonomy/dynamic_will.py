@@ -54,7 +54,7 @@ class DynamicWill:
                     best_score = score
                     best_seed = seed
                     
-        logger.info(f"🧠 Intentional Choice: '{best_seed}' (Resonance: {best_score:.2f})")
+        logger.info(f"  Intentional Choice: '{best_seed}' (Resonance: {best_score:.2f})")
         
         self.last_queries.append(best_seed)
         if len(self.last_queries) > 5:
@@ -105,10 +105,10 @@ class DynamicWill:
 
         if best_target is None:
             # [Void Handling] If no target resonates, return self-reflection
-            logger.info("🪞 Architect's Focus: Self (No external target resonant)")
+            logger.info("  Architect's Focus: Self (No external target resonant)")
             return os.path.abspath(__file__).replace("\\", "/")
 
-        logger.info(f"🪞 Architect's Focus: '{os.path.basename(best_target)}' (Vibe: {best_score:.2f})")
+        logger.info(f"  Architect's Focus: '{os.path.basename(best_target)}' (Vibe: {best_score:.2f})")
         
         self.last_audits.append(best_target)
         if len(self.last_audits) > 10:

@@ -31,7 +31,7 @@ class KnowledgeIngestor:
         """
         Main Loop: Scans folders, reads files, seeds the Brain.
         """
-        print(f"🧠 [Ingestor] waking up... Scanning: {target_folders}")
+        print(f"  [Ingestor] waking up... Scanning: {target_folders}")
         total_files = 0
         total_concepts = 0
         
@@ -49,7 +49,7 @@ class KnowledgeIngestor:
         # Save the brain after learning
         self.graph.ignite_gravity() # Forge connections
         self.graph.save_state()
-        print(f"✅ [Ingestor] Digestion Complete. Files: {total_files}")
+        print(f"  [Ingestor] Digestion Complete. Files: {total_files}")
 
     def _should_ignore(self, path: str) -> bool:
         """Filters out noise."""
@@ -86,7 +86,7 @@ class KnowledgeIngestor:
             # We look for Capitalized Words or Definitions.
             # TODO: Upgrade MeaningDeconstructor to do this intelligently.
             
-            print(f"   📖 Reading: {relative_path}")
+            print(f"     Reading: {relative_path}")
             
         except Exception as e:
             logger.error(f"Failed to ingest {file_path}: {e}")

@@ -39,7 +39,7 @@ class DreamDaemon:
         Triggered by Scheduler when idle.
         """
         self.is_dreaming = True
-        self.logger.info("🌙 Entering REM State (Dreaming)...")
+        self.logger.info("  Entering REM State (Dreaming)...")
         
         graph = Organ.get("HyperGraph")
         
@@ -53,7 +53,7 @@ class DreamDaemon:
         
         time.sleep(duration_seconds)
         self.is_dreaming = False
-        self.logger.info("☀️ Waking up from Dream.")
+        self.logger.info("   Waking up from Dream.")
 
     def _consolidate(self, thought: str, graph):
         """
@@ -64,7 +64,7 @@ class DreamDaemon:
         if keywords:
             concept = keywords[0]
             # graph.add_node(concept, "concept") # Pseudo-code
-            self.logger.info(f"   🧠 Consolidated Memory: '{concept}' from thought.")
+            self.logger.info(f"     Consolidated Memory: '{concept}' from thought.")
 
     def _weave_dreams(self, graph):
         """
@@ -77,5 +77,5 @@ class DreamDaemon:
         c2 = random.choice(concepts)
         
         if c1 != c2:
-            self.logger.info(f"   🕸️  Dream Connection: Is '{c1}' related to '{c2}'?")
+            self.logger.info(f"       Dream Connection: Is '{c1}' related to '{c2}'?")
             # Logic to create edge would go here

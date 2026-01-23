@@ -3,7 +3,7 @@ WORLD PROBE: Sensory Perception of the External World
 =====================================================
 
 "I observe, therefore the world is real."
-"나는 관찰한다, 고로 세계는 실재한다."
+"       ,            ."
 
 This module allows Elysia to 'perceive' her host file system.
 It detects new/modified files and converts them into World Stimuli.
@@ -36,7 +36,7 @@ class WorldProbe:
                             self.snapshot[f_path] = os.path.getmtime(f_path)
                         except OSError:
                             pass
-        logger.info(f"🔍 WorldProbe Baseline: Monitoring {len(self.snapshot)} elements.")
+        logger.info(f"  WorldProbe Baseline: Monitoring {len(self.snapshot)} elements.")
 
     def probe(self) -> List[str]:
         """
@@ -84,7 +84,7 @@ if __name__ == "__main__":
         while True:
             evs = probe.probe()
             for e in evs:
-                print(f"🌍 {e}")
+                print(f"  {e}")
             time.sleep(2)
     except KeyboardInterrupt:
         pass

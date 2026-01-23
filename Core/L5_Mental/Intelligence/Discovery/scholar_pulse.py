@@ -35,11 +35,11 @@ class ScholarPulse:
         """
         Triggers an autonomous research pulse.
         """
-        logger.info(f"🌊 [SCHOLAR_PULSE] Initiating search for: '{topic_intent}'")
+        logger.info(f"  [SCHOLAR_PULSE] Initiating search for: '{topic_intent}'")
         
         # 1. Generate Query (Subjective Projection)
         query = f"The underlying causal structure of {topic_intent}"
-        logger.info(f"   🔍 Query Projected: '{query}'")
+        logger.info(f"     Query Projected: '{query}'")
         
         # 2. Simulate Web Search (In a real system, this calls a Search API)
         # We simulate 3 shards of information (Fragments)
@@ -61,7 +61,7 @@ class ScholarPulse:
         final_vision = self.diffractometer.diffract_prediction(traces, intent_vector)
         
         # 5. Internalize into Hippocampus/Memory
-        logger.info(f"✅ [SCHOLAR_PULSE] Knowledge digested and integrated into the $7^7$ field.")
+        logger.info(f"  [SCHOLAR_PULSE] Knowledge digested and integrated into the $7^7$ field.")
         
         return {
             "topic": topic_intent,

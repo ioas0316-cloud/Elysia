@@ -1,5 +1,5 @@
 """
-Celestial Grammar System (천체 문법 시스템)
+Celestial Grammar System (         )
 =========================================
 "Language is not a string, but a constellation."
 

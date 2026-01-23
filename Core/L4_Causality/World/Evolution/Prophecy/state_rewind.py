@@ -66,7 +66,7 @@ class StateRewind:
             oldest = min(self.snapshots.keys(), key=lambda k: self.snapshots[k].timestamp)
             del self.snapshots[oldest]
             
-        logger.info(f"📸 [CHRONOS] Snapshot taken: {snapshot_id} ({description})")
+        logger.info(f"  [CHRONOS] Snapshot taken: {snapshot_id} ({description})")
         return snapshot_id
         
     def rewind(self, sovereign: Any, snapshot_id: str) -> bool:
@@ -74,12 +74,12 @@ class StateRewind:
         Restores the Sovereign's state to a previous snapshot.
         """
         if snapshot_id not in self.snapshots:
-            logger.error(f"❌ [CHRONOS] Snapshot {snapshot_id} not found.")
+            logger.error(f"  [CHRONOS] Snapshot {snapshot_id} not found.")
             return False
             
         snapshot = self.snapshots[snapshot_id]
         
-        logger.warning(f"⏳ [CHRONOS] Rewinding Time... Target: {snapshot.description} (t-{time.time() - snapshot.timestamp:.2f}s)")
+        logger.warning(f"  [CHRONOS] Rewinding Time... Target: {snapshot.description} (t-{time.time() - snapshot.timestamp:.2f}s)")
         
         # Restore Trinity
         sovereign.trinity.body_resonance = snapshot.trinity_state['body']
@@ -94,7 +94,7 @@ class StateRewind:
         if hasattr(sovereign, 'will_engine') and hasattr(sovereign.will_engine, 'state'):
              sovereign.will_engine.state.torque = snapshot.will_torque
              
-        logger.info(f"✅ [CHRONOS] Rewind Complete. We are back in the past.")
+        logger.info(f"  [CHRONOS] Rewind Complete. We are back in the past.")
         return True
 
     def get_timeline(self) -> List[Dict[str, Any]]:

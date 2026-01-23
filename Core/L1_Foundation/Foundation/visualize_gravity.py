@@ -1,5 +1,5 @@
 """
-Gravity Field Visualization (중력장 시각화)
+Gravity Field Visualization (       )
 
 Visualizes the "Thought Map" of Elysia.
 - Nodes: Realms (Size = Mass)
@@ -58,7 +58,7 @@ def plant_demo_tree():
     return ygg
 
 def visualize_gravity_field():
-    print("🌊 Generating Gravity Field Visualization...")
+    print("  Generating Gravity Field Visualization...")
     
     # 1. Setup System
     ygg = plant_demo_tree()
@@ -66,7 +66,7 @@ def visualize_gravity_field():
     
     # 2. Simulate a Thought Wave
     start_thought = "FractalPerception"
-    print(f"💭 Injecting thought into: {start_thought}")
+    print(f"  Injecting thought into: {start_thought}")
     energy_field = gravity.propagate_thought_wave(start_thought, wave_intensity=1.0, max_hops=4)
     
     # 3. Build Graph
@@ -90,7 +90,7 @@ def visualize_gravity_field():
         # Color based on Energy (Heatmap: Blue -> Red)
         node_colors.append(energy)
         
-        labels[realm.name] = f"{realm.name}\n(M:{mass:.1f})" if mass != float('inf') else f"{realm.name}\n(∞)"
+        labels[realm.name] = f"{realm.name}\n(M:{mass:.1f})" if mass != float('inf') else f"{realm.name}\n( )"
 
     # Add Edges
     edge_widths = []
@@ -135,7 +135,7 @@ def visualize_gravity_field():
     # Save
     output_path = os.path.join(os.path.dirname(__file__), "gravity_field_viz.png")
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
-    print(f"✅ Visualization saved to: {output_path}")
+    print(f"  Visualization saved to: {output_path}")
     
     # Show (if interactive)
     # plt.show()

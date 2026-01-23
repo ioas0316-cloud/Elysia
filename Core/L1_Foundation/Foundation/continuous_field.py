@@ -14,7 +14,7 @@ import math
 class ContinuousField:
     """
     A 4D continuous field where concepts manifest as wave functions.
-    ψ(x,y,z,t) = superposition of concept waves
+     (x,y,z,t) = superposition of concept waves
     """
     
     def __init__(self, resolution: int = 50):

@@ -1,5 +1,5 @@
 """
-Resonant Boss: The Volumetric Guardian 🛡️🔱
+Resonant Boss: The Volumetric Guardian    
 
 "To challenge the Creator is to test the strength of the World."
 

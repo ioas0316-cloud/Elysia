@@ -23,7 +23,7 @@ def semantic_render(concept: str, manual_wave=None):
     """
     The Full Pipeline: Concept -> Light
     """
-    print(f"\n🎨 Rendering Concept: '{concept}'")
+    print(f"\n  Rendering Concept: '{concept}'")
     print("-" * 40)
     
     # 1. Cognition: Get the Wave

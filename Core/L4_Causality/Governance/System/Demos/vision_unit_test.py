@@ -18,9 +18,9 @@ def test_vision():
     print(f"Insight: {insight['insight']}")
     
     if "Light detected" in insight['insight']:
-        print("\n✅ Unit Test SUCCESS.")
+        print("\n  Unit Test SUCCESS.")
     else:
-        print("\n❌ Unit Test FAILED.")
+        print("\n  Unit Test FAILED.")
 
 if __name__ == "__main__":
     test_vision()

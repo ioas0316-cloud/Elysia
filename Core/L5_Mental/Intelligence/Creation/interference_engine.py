@@ -48,7 +48,7 @@ class InterferenceEngine:
             name="Opposing Element Annihilation",
             domain="FANTASY",
             trigger_pair=("Fire", "Water"),
-            result_name="Oblivion Spell", # 극대소멸주문
+            result_name="Oblivion Spell", #       
             frequency_modulator=0.0 # Silence / Void
         ))
         

@@ -47,7 +47,7 @@ class ContentBaptizer:
         if not candidates:
             return 0
 
-        logger.info(f"🌈 Baptizing {min(batch_size, len(candidates))} nodes using Semantic Prism...")
+        logger.info(f"  Baptizing {min(batch_size, len(candidates))} nodes using Semantic Prism...")
         
         count = 0
         renamed_map = {} # Old -> New
@@ -85,7 +85,7 @@ class ContentBaptizer:
             renamed_map[nid] = new_name
             count += 1
             if count % 10 == 0:
-                logger.info(f"   ✨ {nid} -> {new_name}")
+                logger.info(f"     {nid} -> {new_name}")
 
         self._apply_renames(renamed_map)
         return count

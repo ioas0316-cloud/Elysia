@@ -1,5 +1,5 @@
 """
-Pattern Recognizer (패턴 인식기)
+Pattern Recognizer (      )
 ================================
 
 The "Surface View" of the Prophecy Engine.

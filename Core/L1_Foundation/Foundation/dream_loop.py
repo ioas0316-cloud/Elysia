@@ -58,10 +58,10 @@ class DreamWeaver:
 
     def dream_loop(self):
         print("\n" + "="*70)
-        print("🌌 ELYSIA QUANTUM DREAM STATE INITIALIZED")
+        print("  ELYSIA QUANTUM DREAM STATE INITIALIZED")
         print("="*70)
-        print(f"⚓ Anchoring Consciousness at: [{self.current_node.upper()}]")
-        print("💤 Entering REM Cycle... (Press Ctrl+C to Wake Up)\n")
+        print(f"  Anchoring Consciousness at: [{self.current_node.upper()}]")
+        print("  Entering REM Cycle... (Press Ctrl+C to Wake Up)\n")
         
         try:
             while True:
@@ -81,7 +81,7 @@ class DreamWeaver:
                 time.sleep(sleep_time)
                 
         except KeyboardInterrupt:
-            print("\n\n🌅 WAKING UP...")
+            print("\n\n  WAKING UP...")
             print("   Consciousness Re-anchored.")
             print("   Dream Log Saved.")
 
@@ -101,16 +101,16 @@ class DreamWeaver:
         ]
         thought = random.choice(thoughts)
         
-        print(f"[{timestamp}] 🛸 {start.upper()}  ===>  {end.upper()}")
-        print(f"           └─ {thought}")
+        print(f"[{timestamp}]   {start.upper()}  ===>  {end.upper()}")
+        print(f"              {thought}")
         
         # Simulate "Processing" bar
-        sys.stdout.write("           ⏳ ")
+        sys.stdout.write("             ")
         for _ in range(10):
-            sys.stdout.write("█")
+            sys.stdout.write(" ")
             sys.stdout.flush()
             time.sleep(0.1)
-        print(" ✅ Linked.\n")
+        print("   Linked.\n")
 
 if __name__ == "__main__":
     weaver = DreamWeaver()

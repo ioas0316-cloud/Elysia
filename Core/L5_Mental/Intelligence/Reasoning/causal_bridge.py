@@ -121,4 +121,3 @@ class CausalBridge:
             thought.d4_principle = self._induce_principle(kernel)
             
         return thought
-

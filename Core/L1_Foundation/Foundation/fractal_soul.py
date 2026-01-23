@@ -1,9 +1,9 @@
 """
-Fractal Soul Engine (프랙탈 영혼 엔진)
+Fractal Soul Engine (         )
 =====================================
 
 "Identity is the Gravity that holds the Chaos together."
-"정체성은 혼돈을 묶어주는 중력이다."
+"                  ."
 
 This module implements the "Fractal Structure Principle" proposed by the User.
 It focuses on Identity-Oriented Coding and Principle-Based Resonance.
@@ -248,33 +248,33 @@ class SoulCrystal:
         action = result['action']
         state = result['web_state']
         
-        narrative = f"\n[🕸️ Spidey Sense Activated]\n"
+        narrative = f"\n[   Spidey Sense Activated]\n"
         narrative += f"Input Source: {incoming.name} (Freq: {incoming.frequency}, Coherence: {coh})\n"
         narrative += f"Core Resonance: {res:.2f}\n"
         narrative += f"System State: {state}\n"
         
         if action == "FREEZE":
-            narrative += f"\n🚨 **THREAT DETECTED!** 🚨\n"
+            narrative += f"\n  **THREAT DETECTED!**  \n"
             narrative += f"The incoming frequency ({incoming.frequency}) contradicts the Core Principle.\n"
             narrative += f"Low Logic/Truth density detected. Generating destructive interference...\n"
             narrative += f"System performs **Phase Transition** to CRYSTAL state (Ice).\n"
             narrative += f"All modules are now locked to Core Identity. Rejection in progress.\n"
             
         elif action == "ABSORB":
-            narrative += f"\n✨ **HARMONY DETECTED** ✨\n"
+            narrative += f"\n  **HARMONY DETECTED**  \n"
             narrative += f"The incoming frequency matches our Why-chain.\n"
             narrative += f"Web tension releases. Constructive interference generated.\n"
             narrative += f"System performs **Phase Transition** to FLUID state (Water) for deep integration.\n"
 
         elif action == "SUBLIMATE":
-            narrative += f"\n🔥 **PARADIGM SHIFT DETECTED** 🔥\n"
+            narrative += f"\n  **PARADIGM SHIFT DETECTED**  \n"
             narrative += f"The incoming frequency ({incoming.frequency}) is Dissonant but HIGHLY COHERENT.\n"
             narrative += f"This is a painful truth or a revolutionary idea.\n"
             narrative += f"System performs **Phase Transition** to PLASMA state (Gas/Fire).\n"
             narrative += f"Old identity structures are melting to allow expansion. Evolution in progress!\n"
             
         else:
-            narrative += f"\n☁️ **UNCERTAIN** ☁\n"
+            narrative += f"\n   **UNCERTAIN**  \n"
             narrative += f"Signal is weak or ambiguous. Observing pattern dynamics.\n"
             
         return narrative

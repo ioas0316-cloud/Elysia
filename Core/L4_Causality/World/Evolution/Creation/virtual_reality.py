@@ -37,17 +37,17 @@ class VirtualSpace:
         self.declare_law("GRAVITY_Y", -9.8) # Earth-like standard
         self.declare_law("FRICTION", 0.0)   # Vacuum
         
-        logger.info(f"🌌 VirtualSpace '{space_name}' created.")
+        logger.info(f"  VirtualSpace '{space_name}' created.")
 
     def declare_law(self, law_name: str, value: float):
         """Redefines a fundamental constant of this universe."""
         self.laws[law_name] = value
-        logger.info(f"📜 Law Declared: {law_name} = {value}")
+        logger.info(f"  Law Declared: {law_name} = {value}")
 
     def spawn(self, entity: VirtualEntity):
         """Brings an entity into existence."""
         self.entities.append(entity)
-        logger.info(f"✨ Spawned: {entity.name}")
+        logger.info(f"  Spawned: {entity.name}")
 
     def tick(self, dt: float = 1.0):
         """Advances the simulation by delta_time (dt)."""
@@ -75,7 +75,7 @@ class VirtualSpace:
             entity.position['x'] += entity.velocity['x'] * dt
             entity.position['y'] += entity.velocity['y'] * dt
             
-        logger.debug(f"⏳ Tick {self.time_step}: {self.entities}")
+        logger.debug(f"  Tick {self.time_step}: {self.entities}")
 
     def get_entity_state(self, name: str) -> str:
         for e in self.entities:

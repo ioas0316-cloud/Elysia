@@ -1,5 +1,5 @@
 """
-Septenary Axis of Sovereignty (SAS) ⚖️✨
+Septenary Axis of Sovereignty (SAS)    
 
 "The Ladder of many gates, from the dust of the demon to the lustre of the angel."
 

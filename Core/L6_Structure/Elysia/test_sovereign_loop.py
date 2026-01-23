@@ -14,7 +14,7 @@ from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
 logging.basicConfig(level=logging.INFO)
 
 def test_loop_breaking():
-    print("--- 🔄 Testing Inertia Breaker ---")
+    print("---   Testing Inertia Breaker ---")
     elysia = SovereignSelf(cns_ref=None)
     
     # Force Will to Curiosity constantly (Simulate stubbornness)
@@ -31,7 +31,7 @@ def test_loop_breaking():
         print(f"   Intent: {elysia.last_action}")
         print(f"   Will State: {elysia.will_engine.get_status()}")
         
-    print("\n--- ✅ Test Complete ---")
+    print("\n---   Test Complete ---")
 
 if __name__ == "__main__":
     test_loop_breaking()

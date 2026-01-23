@@ -1,5 +1,5 @@
 """
-Thought Sculptor (사고 조각가)
+Thought Sculptor (      )
 ==============================
 
 "The Painter of Concepts. We do not just define; we experience and express."
@@ -29,7 +29,7 @@ class ThoughtSculptor:
     def __init__(self):
         self.atelier = ConceptAtelier()
         self.sculpture_gallery: Dict[str, Any] = {}
-        logger.info("🖌️ Thought Sculptor Ready to Create")
+        logger.info("   Thought Sculptor Ready to Create")
 
     def sculpt_concept(self, concept_name: str, depth: int = 3) -> Dict[str, Any]:
         """
@@ -39,7 +39,7 @@ class ThoughtSculptor:
             concept_name: The target concept (e.g., "Freedom", "Love")
             depth: How many iterations of "rotation/reflection" to perform.
         """
-        logger.info(f"🎨 Starting to sculpt: '{concept_name}'")
+        logger.info(f"  Starting to sculpt: '{concept_name}'")
 
         # 1. Observation (Import to Atelier)
         raw_mat = self.atelier.import_concept(concept_name)
@@ -89,7 +89,7 @@ class ThoughtSculptor:
             if resonance > best_resonance:
                 best_resonance = resonance
                 best_version = draft
-                logger.info(f"   ✨ Spark! Found a better perspective. Resonance: {resonance:.2f}")
+                logger.info(f"     Spark! Found a better perspective. Resonance: {resonance:.2f}")
 
         # 3. Crystallization (Final Polish)
         masterpiece = {

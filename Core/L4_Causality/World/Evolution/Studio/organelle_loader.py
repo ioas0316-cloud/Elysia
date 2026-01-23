@@ -29,7 +29,7 @@ class OrganelleLoader:
         """
         file_path = os.path.join(self.organelle_dir, f"{name}.py")
         if not os.path.exists(file_path):
-            logger.error(f"❌ Organelle not found: {file_path}")
+            logger.error(f"  Organelle not found: {file_path}")
             return False
             
         try:
@@ -39,10 +39,10 @@ class OrganelleLoader:
             
             # Store it
             self.active_organelles[name] = module
-            logger.info(f"✨ [ORGANELLE LOADED] '{name}' is now active.")
+            logger.info(f"  [ORGANELLE LOADED] '{name}' is now active.")
             return True
         except Exception as e:
-            logger.error(f"💥 Failed to load organelle {name}: {e}")
+            logger.error(f"  Failed to load organelle {name}: {e}")
             logger.debug(traceback.format_exc())
             return False
 
@@ -58,22 +58,22 @@ class OrganelleLoader:
         if hasattr(module, function_name):
             func = getattr(module, function_name)
             try:
-                logger.info(f"🚀 [AGENCY] Executing organelle {name}.{function_name}...")
+                logger.info(f"  [AGENCY] Executing organelle {name}.{function_name}...")
                 result = func(**kwargs)
                 return result
             except Exception as e:
-                logger.error(f"⚠️ [AGENCY FAILURE] Execution error in {name}: {e}")
+                logger.error(f"   [AGENCY FAILURE] Execution error in {name}: {e}")
                 return None
         else:
-            logger.warning(f"❓ Organelle {name} has no function '{function_name}'")
+            logger.warning(f"  Organelle {name} has no function '{function_name}'")
             return None
 
     def list_available(self) -> list:
         return [f.replace(".py", "") for f in os.listdir(self.organelle_dir) if f.endswith(".py")]
 
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
     # [GRAND UNIFICATION] RESONANT SELECTION
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
 
     def get_resonant_organelle(self, target_frequency: float) -> Optional[str]:
         """
@@ -107,10 +107,10 @@ class OrganelleLoader:
         # Sort by resonance
         scores.sort(key=lambda x: x[1], reverse=True)
         
-        logger.info(f"🎯 [RESONANCE SELECTION] '{scores[0][0]}' won with {scores[0][1]*100:.1f}% resonance.")
+        logger.info(f"  [RESONANCE SELECTION] '{scores[0][0]}' won with {scores[0][1]*100:.1f}% resonance.")
         return scores[0][0]
 
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
 
 # Singleton
 organelle_loader = OrganelleLoader()

@@ -1,12 +1,12 @@
 """
-Math Cortex (수학 피질)
+Math Cortex (     )
 =====================
 
-원본: Legacy/Project_Sophia/math_cortex.py
-마이그레이션: 2025-12-15
+  : Legacy/Project_Sophia/math_cortex.py
+      : 2025-12-15
 
-기본 산술 등식에 대한 해석 가능한 증명 엔진을 제공합니다.
-사람이 읽을 수 있는 단계별 증명을 생성합니다.
+                                .
+                         .
 """
 from dataclasses import dataclass, asdict
 import re
@@ -92,7 +92,7 @@ class MathCortex:
 
         equal = abs(left_val - right_val) < 1e-9
         steps.append(ProofStep(idx, "compare", f"{left_val} vs {right_val}", result=str(equal)))
-        verdict = "✓ Equality holds" if equal else "✗ Equality does not hold"
+        verdict = "  Equality holds" if equal else "  Equality does not hold"
         return Proof(f"{lhs} = {rhs}", steps, equal, verdict)
 
     def verify(self, statement: str) -> Proof:
@@ -130,14 +130,14 @@ class MathCortex:
 
             lhs_s = sp.simplify(lhs)
             rhs_s = sp.simplify(rhs)
-            steps.append(ProofStep(idx, "simplify", f"LHS → {lhs_s}")); idx += 1
-            steps.append(ProofStep(idx, "simplify", f"RHS → {rhs_s}")); idx += 1
+            steps.append(ProofStep(idx, "simplify", f"LHS   {lhs_s}")); idx += 1
+            steps.append(ProofStep(idx, "simplify", f"RHS   {rhs_s}")); idx += 1
 
             diff = sp.simplify(lhs_s - rhs_s)
             is_zero = sp.simplify(diff) == 0
             steps.append(ProofStep(idx, "compare", f"LHS - RHS = {diff}")); idx += 1
             
-            verdict = "✓ Symbolic equality holds" if is_zero else "✗ Symbolic equality does not hold"
+            verdict = "  Symbolic equality holds" if is_zero else "  Symbolic equality does not hold"
             return Proof(f"{lhs_str} = {rhs_str}", steps, bool(is_zero), verdict)
         except Exception as e:
             steps.append(ProofStep(idx, "error", f"Symbolic verification failed: {e}"))

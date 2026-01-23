@@ -18,14 +18,14 @@ class DreamEngine:
     Updated: Now powered by HyperQubit (4D Flowless Computation).
     """
     def __init__(self):
-        logger.info("🌌 DreamEngine Initialized (HyperQubit Powered). Ready to weave.")
+        logger.info("  DreamEngine Initialized (HyperQubit Powered). Ready to weave.")
 
     def weave_dream(self, desire: str) -> ResonanceField:
         """
         Weaves a virtual Resonance Field based on a desire.
         This provides a simplified 3D representation of the dream.
         """
-        logger.info(f"   💤 Weaving a dream about '{desire}'...")
+        logger.info(f"     Weaving a dream about '{desire}'...")
         
         # 1. Create a Virtual Field
         dream_field = ResonanceField()
@@ -108,7 +108,7 @@ class DreamEngine:
         
         # 2. Fractal Expansion (Mitosis)
         # The seed splits into variations of itself (Dream Fragments)
-        logger.info(f"   🌀 Quantum Mitosis initiated on '{seed_concept}'...")
+        logger.info(f"     Quantum Mitosis initiated on '{seed_concept}'...")
         
         for i in range(5):
             # Create a new qubit
@@ -131,7 +131,7 @@ class DreamEngine:
             
             dream_qubits.append(fragment_qubit)
             
-        logger.info(f"🌌 Quantum Dream Weaved: {len(dream_qubits)} HyperQubits entangled.")
+        logger.info(f"  Quantum Dream Weaved: {len(dream_qubits)} HyperQubits entangled.")
         return dream_qubits
 
     def _generate_epistemology(self, concept: str) -> Dict[str, Dict[str, Any]]:

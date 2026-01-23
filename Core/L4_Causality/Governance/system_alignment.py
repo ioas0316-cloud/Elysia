@@ -1,5 +1,5 @@
 """
-SystemAlignment: The Compass Logic (나침반 로직)
+SystemAlignment: The Compass Logic (      )
 
 "The leaf does not decide to turn; it aligns to the wind."
 
@@ -49,4 +49,4 @@ class SystemAlignment(ABC):
         pass
         
     def log_alignment(self, module_name: str, reaction: str):
-        logger.info(f"🧭 [{module_name}] Aligned to Field ({self.broadcaster.state.polarity}): {reaction}")
+        logger.info(f"  [{module_name}] Aligned to Field ({self.broadcaster.state.polarity}): {reaction}")

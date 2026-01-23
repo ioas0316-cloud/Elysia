@@ -1,5 +1,5 @@
 """
-Self Rewriter (자가 재작성기)
+Self Rewriter (       )
 ============================
 Core.L2_Metabolism.Evolution.self_rewriter
 
@@ -54,7 +54,7 @@ class SelfRewriter:
         self.experience_buffer: List[ExperienceLog] = []
         
         self._initialize_axioms()
-        logger.info(f"🧬 Self Rewriter initialized. {len(self.axioms)} axioms loaded.")
+        logger.info(f"  Self Rewriter initialized. {len(self.axioms)} axioms loaded.")
     
     def _initialize_axioms(self):
         """Loads or creates default axioms."""
@@ -94,9 +94,9 @@ class SelfRewriter:
                         max_value=info.get("max_value", 1.0),
                         evolution_history=info.get("evolution_history", [])
                     )
-            logger.info(f"📂 Loaded {len(self.axioms)} axioms from {self.axiom_path}")
+            logger.info(f"  Loaded {len(self.axioms)} axioms from {self.axiom_path}")
         except Exception as e:
-            logger.warning(f"⚠️ Could not load axioms: {e}. Using defaults.")
+            logger.warning(f"   Could not load axioms: {e}. Using defaults.")
             self._create_default_axioms()
     
     def _save_axioms(self):
@@ -116,7 +116,7 @@ class SelfRewriter:
         with open(self.axiom_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         
-        logger.info(f"💾 Saved {len(self.axioms)} axioms to {self.axiom_path}")
+        logger.info(f"  Saved {len(self.axioms)} axioms to {self.axiom_path}")
     
     def record_experience(self, trigger: str, outcome: str, 
                           axiom_affected: str, magnitude: float = 0.1):
@@ -131,7 +131,7 @@ class SelfRewriter:
             magnitude=magnitude
         )
         self.experience_buffer.append(exp)
-        logger.info(f"📝 Experience recorded: {trigger} -> {outcome} ({axiom_affected})")
+        logger.info(f"  Experience recorded: {trigger} -> {outcome} ({axiom_affected})")
     
     def reflect_and_evolve(self) -> Dict[str, float]:
         """
@@ -142,7 +142,7 @@ class SelfRewriter:
             Dict of axiom changes: {axiom_name: delta}
         """
         if not self.experience_buffer:
-            logger.info("🔄 No new experiences to process.")
+            logger.info("  No new experiences to process.")
             return {}
         
         changes = {}
@@ -173,7 +173,7 @@ class SelfRewriter:
                     "new_value": axiom.value
                 })
                 changes[exp.axiom_affected] = delta
-                logger.info(f"🧬 {exp.axiom_affected}: {old_value:.3f} -> {axiom.value:.3f}")
+                logger.info(f"  {exp.axiom_affected}: {old_value:.3f} -> {axiom.value:.3f}")
         
         # Clear buffer
         self.experience_buffer.clear()
@@ -198,11 +198,11 @@ class SelfRewriter:
         """
         Self-reflection: Elysia describes her current state.
         """
-        lines = ["🪞 자기 성찰 (Introspection):\n"]
+        lines = ["        (Introspection):\n"]
         
         for name, axiom in self.axioms.items():
             bar_len = int(axiom.value * 10)
-            bar = "█" * bar_len + "░" * (10 - bar_len)
+            bar = " " * bar_len + " " * (10 - bar_len)
             lines.append(f"  {name}: [{bar}] {axiom.value:.2f}")
         
         return "\n".join(lines)
@@ -211,23 +211,23 @@ class SelfRewriter:
 if __name__ == "__main__":
     rewriter = SelfRewriter()
     
-    print("🧬 Testing Self Rewriter...\n")
+    print("  Testing Self Rewriter...\n")
     
     # Show initial state
     print(rewriter.introspect())
     
     # Record some experiences
-    print("\n📝 Recording experiences...")
+    print("\n  Recording experiences...")
     rewriter.record_experience("Solved a complex problem", "positive", "CONFIDENCE", 0.3)
     rewriter.record_experience("Made an error in judgment", "negative", "CAUTION", 0.2)
     rewriter.record_experience("Discovered something new", "positive", "CURIOSITY", 0.4)
     
     # Evolve
-    print("\n🔄 Reflecting and evolving...")
+    print("\n  Reflecting and evolving...")
     changes = rewriter.reflect_and_evolve()
     print(f"   Changes: {changes}")
     
     # Show updated state
     print("\n" + rewriter.introspect())
     
-    print("\n✨ Self Rewriter test complete.")
+    print("\n  Self Rewriter test complete.")

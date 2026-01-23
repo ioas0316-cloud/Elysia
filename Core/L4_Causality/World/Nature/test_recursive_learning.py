@@ -16,7 +16,7 @@ from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
 from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_recursive_chain():
-    print("--- 🐚 Experiment: Recursive Knowledge Acquisition ---")
+    print("---   Experiment: Recursive Knowledge Acquisition ---")
     
     # 1. Setup
     elysia = SovereignSelf(cns_ref=None)
@@ -42,10 +42,10 @@ def test_recursive_chain():
     # If real web works, great. If not, we might need to patch the connector file again.
     
     # Let's try the experience.
-    print("\n🧪 Elysia encounters: 'Gold'")
+    print("\n  Elysia encounters: 'Gold'")
     result = elysia.experience("Gold")
     
-    print(f"\n🎓 Final Result: {result}")
+    print(f"\n  Final Result: {result}")
     
     # Verify Graph Content
     if "gold" in elysia.mind.graph.id_to_idx:
@@ -53,17 +53,17 @@ def test_recursive_chain():
         print(f"   Knowledge State [Gold]: {gold_vec}")
         
         if "element" in elysia.mind.graph.id_to_idx:
-            print(f"   ✅ Depencency [Element] was also learned!")
+            print(f"     Depencency [Element] was also learned!")
         else:
-            print(f"   ❌ Dependency [Element] was misssed.")
+            print(f"     Dependency [Element] was misssed.")
             
         if gold_vec.gravity > 0:
-            print("   ✅ SUCCESS: Recursive properties inherited (Gold has Gravity).")
+            print("     SUCCESS: Recursive properties inherited (Gold has Gravity).")
         else:
-            print("   ⚠️ PARTIAL: Learned the node, but vector is empty (Chain broken).")
+            print("      PARTIAL: Learned the node, but vector is empty (Chain broken).")
             
     else:
-        print("❌ FAILURE: Gold was not learned.")
+        print("  FAILURE: Gold was not learned.")
 
 if __name__ == "__main__":
     test_recursive_chain()

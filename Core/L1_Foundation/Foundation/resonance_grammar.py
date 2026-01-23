@@ -7,10 +7,10 @@ Implements the "Grand Cross" alignment system.
 Transforms a 3D Concept Star System into a 1D Linear Sentence.
 
 Metaphor:
-- Star (항성): Context/Subject (Center of Gravity)
-- Planet (행성): Object/Concept (Orbiting the Star)
-- Satellite (위성): Modifier (Adjective) orbiting Planets
-- Gravity (중력): Relationship/Verb connecting them
+- Star (  ): Context/Subject (Center of Gravity)
+- Planet (  ): Object/Concept (Orbiting the Star)
+- Satellite (  ): Modifier (Adjective) orbiting Planets
+- Gravity (  ): Relationship/Verb connecting them
 """
 
 import logging
@@ -85,10 +85,10 @@ Implements the "Grand Cross" alignment system.
 Transforms a 3D Concept Star System into a 1D Linear Sentence.
 
 Metaphor:
-- Star (항성): Context/Subject (Center of Gravity)
-- Planet (행성): Object/Concept (Orbiting the Star)
-- Satellite (위성): Modifier (Adjective) orbiting Planets
-- Gravity (중력): Relationship/Verb connecting them
+- Star (  ): Context/Subject (Center of Gravity)
+- Planet (  ): Object/Concept (Orbiting the Star)
+- Satellite (  ): Modifier (Adjective) orbiting Planets
+- Gravity (  ): Relationship/Verb connecting them
 """
 
 import logging
@@ -163,9 +163,9 @@ class Nebula:
         separator = f" {self.medium} "
         if self.systems and self.systems[0].korean_mode:
              # Korean conjunctions could be different, but let's stick to simple mapping or English for medium for now
-             # Or map 'and' to '그리고'
-             if self.medium == "and": separator = " 그리고 "
-             elif self.medium == "but": separator = " 하지만 "
+             # Or map 'and' to '   '
+             if self.medium == "and": separator = "     "
+             elif self.medium == "but": separator = "     "
         
         return separator.join([s.align() for s in self.systems]) + "."
 

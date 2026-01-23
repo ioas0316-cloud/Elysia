@@ -8,7 +8,7 @@ from Core.L4_Causality.World.Evolution.Creativity.Studio.bio_choir import BioCho
 from Core.L4_Causality.World.Evolution.Creativity.Studio.video_composer import VideoComposer
 
 def generate_all():
-    print("\n🚀 Starting Cosmic Studio Production...")
+    print("\n  Starting Cosmic Studio Production...")
     
     # 1. Audio: Telomere Song
     bio = BioResonator()
@@ -36,7 +36,7 @@ def generate_all():
     composer = VideoComposer()
     composer.create_static_video("electron_state.png", "electron_dance.mp4", duration=10.0)
     
-    print("\n✨ Production Complete!")
+    print("\n  Production Complete!")
 
 if __name__ == "__main__":
     generate_all()

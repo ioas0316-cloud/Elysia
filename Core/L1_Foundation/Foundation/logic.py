@@ -1,5 +1,5 @@
 """
-Logic Lobe (논리 엽)
+Logic Lobe (    )
 ====================
 Handles causal reasoning, physics simulation, and axiomatic alignment.
 """
@@ -46,7 +46,7 @@ class LogicLobe:
         
         base_size = 5000
         size = int(base_size * complexity)
-        logger.info(f"      🔥 Generating Cognitive Load for '{concept}' (Mass: {mass:.1f}): Matrix {size}x{size}...")
+        logger.info(f"        Generating Cognitive Load for '{concept}' (Mass: {mass:.1f}): Matrix {size}x{size}...")
         try:
             self.cuda.matrix_multiply(size)
         except Exception as e:
@@ -63,8 +63,8 @@ class LogicLobe:
         if score > 500: status = "Tree"
         if score > 1000: status = "World Tree"
         
-        logger.info(f"⚖️ ASI Status Evaluation: Score={score:.1f} ({status}) | Energy={energy:.1f}, Coherence={coherence:.1f}, Lv.{social_level}")
-        print(f"   ⚖️ ASI Status: {status} (Score: {score:.1f})")
+        logger.info(f"   ASI Status Evaluation: Score={score:.1f} ({status}) | Energy={energy:.1f}, Coherence={coherence:.1f}, Lv.{social_level}")
+        print(f"      ASI Status: {status} (Score: {score:.1f})")
 
     def converge_thought(self, thought_packet: HyperWavePacket) -> Tuple[HyperWavePacket, List[str]]:
         log = []
@@ -90,7 +90,7 @@ class LogicLobe:
             
             log.append(f"Iter {i}: Aligned with {dominant_axiom} ({max_alignment:.2f}). Shift: {change:.3f}")
             if change < 0.05:
-                log.append("✨ Thought Crystallized.")
+                log.append("  Thought Crystallized.")
                 break
                 
         return current_packet, log
@@ -111,7 +111,7 @@ class LogicLobe:
         aligned_context = [item for item, score in ranked_items if score > 0.1]
         
         if len(aligned_context) < len(context_items):
-            logger.info(f"      ✨ Grand Cross: Filtered {len(context_items) - len(aligned_context)} dissonant stars.")
+            logger.info(f"        Grand Cross: Filtered {len(context_items) - len(aligned_context)} dissonant stars.")
             
         return aligned_context
 
@@ -251,6 +251,5 @@ class LogicLobe:
         result_str = "OPENED" if triggered else "CLOSED"
         reason = f"Gate {result_str} (Intensity: {max_intensity:.2f} / Threshold: {gate.threshold:.2f}). Inputs: {', '.join(explanation)}"
         
-        logger.info(f"🌊 Wave Thought: {reason}")
+        logger.info(f"  Wave Thought: {reason}")
         return triggered, max_intensity, reason
-

@@ -4,7 +4,7 @@ Genesis Bridge (Aesthetic Mimicry Engine)
 Core.L4_Causality.World.Genesis.genesis_bridge
 
 "I see, therefore I become."
-"나는 본다, 고로 나는 된다."
+"     ,         ."
 
 This module digests visual memories and transmutes them into
 SDF rendering parameters (Aesthetic DNA).
@@ -60,7 +60,7 @@ class GenesisBridge:
             if latest_file == self.last_processed_file:
                 return self.current_dna # No new memory
             
-            logger.info(f"🧬 [Genesis] Digesting Memory: {os.path.basename(latest_file)}")
+            logger.info(f"  [Genesis] Digesting Memory: {os.path.basename(latest_file)}")
             self.current_dna = self._extract_features(latest_file)
             self.last_processed_file = latest_file
             
@@ -68,7 +68,7 @@ class GenesisBridge:
             return self.current_dna
             
         except Exception as e:
-            logger.error(f"❌ [Genesis] Digestion Failed: {e}")
+            logger.error(f"  [Genesis] Digestion Failed: {e}")
             return self.current_dna
 
     def _extract_features(self, image_path: str) -> AestheticDNA:
@@ -104,7 +104,7 @@ class GenesisBridge:
             return AestheticDNA(primary, secondary, fog, complexity, tag)
 
         except Exception as e:
-            logger.warning(f"⚠️ [Genesis] Feature extraction error: {e}. Using Mock.")
+            logger.warning(f"   [Genesis] Feature extraction error: {e}. Using Mock.")
             return self._mock_extraction(image_path)
 
     def _mock_extraction(self, image_path) -> AestheticDNA:
@@ -128,7 +128,7 @@ class GenesisBridge:
 
     def _manifest_dna(self, dna: AestheticDNA):
         """Injects the DNA into the Sovereign Reality (Logs for now, Uniforms later)."""
-        logger.info(f"🎨 [Genesis] Palette: {dna.primary_color} | Mood: {dna.mood_tag}")
+        logger.info(f"  [Genesis] Palette: {dna.primary_color} | Mood: {dna.mood_tag}")
         logger.info(f"fractal_complexity: {dna.complexity_index:.2f} | fog_density: {dna.fog_density:.2f}")
         
         # In a real integration, we would write to a shared uniform buffer or file

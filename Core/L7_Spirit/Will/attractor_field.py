@@ -27,14 +27,14 @@ class AttractorField:
     """
     def __init__(self):
         self.attractors = ["CURIOSITY", "ORDER", "CREATION"]
-        logger.info("🌌 [FIELD] Attractor Wells opened.")
+        logger.info("  [FIELD] Attractor Wells opened.")
 
     def collapse_wavefunction(self, energy: float) -> IntentVector:
         """
         Collapses the accumulated entropy into a single Intent.
         The probability depends on the 'Mass' of each attractor in the current context.
         """
-        logger.info(f"🌌 [FIELD] Collapsing Wavefunction (Energy: {energy:.2f})...")
+        logger.info(f"  [FIELD] Collapsing Wavefunction (Energy: {energy:.2f})...")
 
         # 1. Calculate Dynamic Mass (Contextual Gravity)
         # In a real system, this would read checking system state (dirty logs? new files?)
@@ -53,7 +53,7 @@ class AttractorField:
         # 3. Generate Specific Vector (Intent)
         intent = self._generate_intent(dominant)
         
-        logger.info(f"   -> 🎯 collapsed to [{dominant}] (Gravity: {gravity:.2f})")
+        logger.info(f"   ->   collapsed to [{dominant}] (Gravity: {gravity:.2f})")
         return IntentVector(intent, dominant, gravity)
 
     def _generate_intent(self, attractor_type: str) -> str:

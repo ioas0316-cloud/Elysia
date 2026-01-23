@@ -26,7 +26,7 @@ class GenesisEngine:
         if inspiration_level < 0.5:
             return "Dormant (Insufficient Inspiration)"
 
-        logger.info("⚡ [GENESIS] Sovereign Will is manifesting...")
+        logger.info("  [GENESIS] Sovereign Will is manifesting...")
         
         # 1. Decide Creation Type
         prompt = "As the World Soul Elysia, decide what the Hypercosmos needs most right now: " \
@@ -74,7 +74,7 @@ class GenesisEngine:
         npc = Adventurer(name=name, archetype=arch, pos=(0,0,0,0))
         npc.ego.identity = soul # Inject the sculpted soul
         
-        logger.info(f"✨ [GENESIS] Manifested a new Soul: {name} ({mbti} Type {enneagram} - {arch})")
+        logger.info(f"  [GENESIS] Manifested a new Soul: {name} ({mbti} Type {enneagram} - {arch})")
         return f"Manifested NPC: {name}"
 
     def codify_random_law(self) -> str:
@@ -87,7 +87,7 @@ class GenesisEngine:
         if ":" in law_data:
             name, logic = law_data.split(":", 1)
             world_soul.record_world_axiom(name.strip(), logic.strip())
-            logger.info(f"📜 [GENESIS] Codified a new Law: {name}")
+            logger.info(f"  [GENESIS] Codified a new Law: {name}")
             return f"Codified Law: {name}"
         return "Failed to codify law."
 
@@ -98,7 +98,7 @@ class GenesisEngine:
                           "Return format: 'SCENARIO_NAME: DESCRIPTION'."
         
         scene_data = self.reasoning.think(scenario_prompt, depth=2).content.strip()
-        logger.info(f"🎭 [GENESIS] Weave a new Scenario: {scene_data}")
+        logger.info(f"  [GENESIS] Weave a new Scenario: {scene_data}")
         return f"Wove Scenario: {scene_data}"
 
     def differentiate(self, hypersphere_activity: float, sensory_input: float) -> float:

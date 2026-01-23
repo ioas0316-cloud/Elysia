@@ -14,7 +14,7 @@ from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Life.digital_a
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 def live_in_matrix():
-    print("🏙️ Project: Matrix - Entering Digital Reality...")
+    print("   Project: Matrix - Entering Digital Reality...")
     
     avatar = DigitalAvatar(home_dir="c:\\Elysia")
     
@@ -43,7 +43,7 @@ def live_in_matrix():
     for _ in range(5):
         loc = avatar.wander()
         obs = avatar.observe()
-        print(f"   📍 At: {loc}")
+        print(f"     At: {loc}")
         print(f"      Atmosphere: {obs.get('atmosphere')}")
         time.sleep(1)
         

@@ -80,7 +80,7 @@ class OmniGraph:
         4D Physics Simulation
         Calculates forces across X, Y, Z, and W dimensions.
         """
-        logger.info(f"🕸️ Hyper-Folding Space... ({len(self.nodes)} nodes, 4D)")
+        logger.info(f"   Hyper-Folding Space... ({len(self.nodes)} nodes, 4D)")
         
         nodes_list = list(self.nodes.values())
         
@@ -120,7 +120,7 @@ class OmniGraph:
         2. Pruning: Remove low energy nodes.
         3. Mitosis: Split high tension nodes.
         """
-        logger.info("🧬 Applying Synaptic Metabolism...")
+        logger.info("  Applying Synaptic Metabolism...")
         nodes_to_remove = []
         nodes_to_add = []
         
@@ -131,7 +131,7 @@ class OmniGraph:
         for node in all_nodes:
             node.usage *= 0.95 # Decay
             if node.usage < 0.1:
-                logger.info(f"   💀 Pruning dead neuron: {node.id}")
+                logger.info(f"     Pruning dead neuron: {node.id}")
                 nodes_to_remove.append(node.id)
                 
         # 2. Fusion & Mitosis
@@ -145,7 +145,7 @@ class OmniGraph:
             
             # A. Mitosis Check
             if n1.tension > 0.9:
-                logger.info(f"   ✨ Mitosis Triggered: {n1.id} (Tension {n1.tension:.2f})")
+                logger.info(f"     Mitosis Triggered: {n1.id} (Tension {n1.tension:.2f})")
                 child_a = OmniNode(id=f"{n1.id}_Alpha", vector=n1.vector, pos=n1.pos)
                 child_b = OmniNode(id=f"{n1.id}_Beta", vector=n1.vector, pos=n1.pos)
                 nodes_to_add.append(child_a)
@@ -168,7 +168,7 @@ class OmniGraph:
                 if sim > 0.98 and dist < 0.1:
                     # FUSION
                     new_id = f"Concept:{n1.id}+{n2.id}"
-                    logger.info(f"   ⚛️ Fusion Event: {n1.id} + {n2.id} -> {new_id}")
+                    logger.info(f"      Fusion Event: {n1.id} + {n2.id} -> {new_id}")
                     
                     # Merge Vector (Average)
                     new_vec = [(a+b)/2 for a, b in zip(n1.vector, n2.vector)] if n1.vector else None
@@ -192,7 +192,7 @@ class OmniGraph:
         for new_node in nodes_to_add:
             self.nodes[new_node.id] = new_node
 
-        logger.info(f"   🧬 Metabolism Complete. +{len(nodes_to_add)} / -{len(nodes_to_remove)}")
+        logger.info(f"     Metabolism Complete. +{len(nodes_to_add)} / -{len(nodes_to_remove)}")
 
     def visualize_cluster(self, center_id: str, radius: float = 0.5):
         if center_id not in self.nodes: return "Node not found."
@@ -221,4 +221,3 @@ def get_omni_graph() -> OmniGraph:
     if _omni is None:
         _omni = OmniGraph()
     return _omni
-

@@ -67,7 +67,7 @@ class ConceptSynthesizer:
     """
     def __init__(self):
         self.knowledge_base: Dict[str, ConceptDefinition] = {}
-        logger.info("🧩 Concept Synthesizer Initialized")
+        logger.info("  Concept Synthesizer Initialized")
 
     def observe(self, sentence: str):
         """
@@ -75,7 +75,7 @@ class ConceptSynthesizer:
         Parses a simple sentence to extract subject and attribute.
         [NOTE] POC uses simple parsing rules.
         """
-        logger.info(f"👁️ Observing: '{sentence}'")
+        logger.info(f"   Observing: '{sentence}'")
 
         # Normalize
         s = sentence.lower().strip().replace(".", "")
@@ -98,7 +98,7 @@ class ConceptSynthesizer:
             else:
                 category = "property"
         else:
-            logger.warning(f"⚠️ Could not parse structure of: '{sentence}'")
+            logger.warning(f"   Could not parse structure of: '{sentence}'")
             return
 
         # Create Attribute Object

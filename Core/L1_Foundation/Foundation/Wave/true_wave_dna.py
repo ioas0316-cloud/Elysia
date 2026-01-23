@@ -2,19 +2,19 @@
 True Wave DNA Compression System
 =================================
 
-"모든 데이터를 파동으로 해체하여 DNA화"
+"                  DNA "
 
-수학적 원리: 푸리에 변환
-- 모든 파동 = 사인파의 합
-- DNA = 사인파 레시피 (주파수, 진폭, 위상)
-- 복원 = 레시피대로 재합성
+      :       
+-       =       
+- DNA =         (   ,   ,   )
+-    =          
 
-압축률: 25~250배
-복원율: 95~100%
+   : 25~250 
+   : 95~100%
 
-적용: 텍스트, 오디오, 이미지, 영상, 모든 바이너리
+  :    ,    ,    ,   ,        
 
-[NEW 2025-12-16] 진정한 파동 DNA 압축 시스템
+[NEW 2025-12-16]        DNA       
 """
 
 import numpy as np
@@ -29,32 +29,32 @@ logger = logging.getLogger("TrueWaveDNA")
 @dataclass
 class TrueWaveDNA:
     """
-    진정한 파동 DNA - 푸리에 기반 무손실 압축
+           DNA -              
     
-    모든 데이터 타입에 적용 가능
+                    
     """
-    # 핵심 DNA 성분
-    frequencies: np.ndarray      # 주파수 인덱스
-    amplitudes: np.ndarray       # 진폭
-    phases: np.ndarray           # 위상
+    #    DNA   
+    frequencies: np.ndarray      #        
+    amplitudes: np.ndarray       #   
+    phases: np.ndarray           #   
     
-    # 메타데이터
-    original_shape: Tuple[int, ...]  # 원본 형태 (복원용)
+    #      
+    original_shape: Tuple[int, ...]  #       (   )
     data_type: str = "text"          # text, audio, image, video
-    top_k: int = 10                  # 추출된 성분 수
+    top_k: int = 10                  #         
     
     def byte_size(self) -> int:
-        """DNA 크기 (bytes)"""
-        # 각 성분: freq(4) + amp(4) + phase(4) = 12 bytes
-        # + shape 정보
+        """DNA    (bytes)"""
+        #     : freq(4) + amp(4) + phase(4) = 12 bytes
+        # + shape   
         return len(self.frequencies) * 12 + len(self.original_shape) * 4
     
     def compression_ratio(self, original_bytes: int) -> float:
-        """압축률 계산"""
+        """      """
         return original_bytes / self.byte_size()
     
     def to_dict(self) -> dict:
-        """직렬화용 딕셔너리"""
+        """         """
         return {
             "frequencies": self.frequencies.tolist(),
             "amplitudes": self.amplitudes.tolist(),
@@ -66,7 +66,7 @@ class TrueWaveDNA:
     
     @classmethod
     def from_dict(cls, d: dict) -> 'TrueWaveDNA':
-        """딕셔너리에서 복원"""
+        """         """
         return cls(
             frequencies=np.array(d["frequencies"]),
             amplitudes=np.array(d["amplitudes"]),
@@ -79,31 +79,31 @@ class TrueWaveDNA:
 
 class WaveDNACompressor:
     """
-    파동 DNA 압축기
+       DNA    
     
-    사용법:
+       :
         compressor = WaveDNACompressor()
-        dna = compressor.compress_text("안녕하세요")
+        dna = compressor.compress_text("     ")
         restored = compressor.decompress_text(dna)
     """
     
     def __init__(self, default_top_k: int = 20):
         self.default_top_k = default_top_k
-        logger.info(f"🧬 WaveDNACompressor initialized (top_k={default_top_k})")
+        logger.info(f"  WaveDNACompressor initialized (top_k={default_top_k})")
     
     # ==================== TEXT ====================
     
     def compress_text(self, text: str, top_k: int = None) -> TrueWaveDNA:
-        """텍스트 → DNA"""
+        """      DNA"""
         top_k = top_k or self.default_top_k
         
-        # 문자 → 숫자
+        #        
         sequence = np.array([ord(c) for c in text], dtype=float)
         
         # FFT
         spectrum = np.fft.fft(sequence)
         
-        # 상위 k개 추출
+        #    k    
         magnitudes = np.abs(spectrum)
         top_indices = np.argsort(magnitudes)[-top_k:]
         
@@ -116,14 +116,14 @@ class WaveDNACompressor:
             top_k=top_k
         )
         
-        logger.info(f"📝 Text compressed: {len(text)} chars → {dna.byte_size()} bytes ({dna.compression_ratio(len(text)*2):.1f}x)")
+        logger.info(f"  Text compressed: {len(text)} chars   {dna.byte_size()} bytes ({dna.compression_ratio(len(text)*2):.1f}x)")
         return dna
     
     def decompress_text(self, dna: TrueWaveDNA) -> str:
-        """DNA → 텍스트"""
+        """DNA      """
         length = dna.original_shape[0]
         
-        # 스펙트럼 재구성
+        #         
         spectrum = np.zeros(length, dtype=complex)
         for f, a, p in zip(dna.frequencies, dna.amplitudes, dna.phases):
             spectrum[int(f)] = a * np.exp(1j * p)
@@ -131,7 +131,7 @@ class WaveDNACompressor:
         # IFFT
         sequence = np.fft.ifft(spectrum).real
         
-        # 숫자 → 문자
+        #        
         chars = []
         for c in sequence:
             code = int(round(abs(c)))
@@ -148,8 +148,8 @@ class WaveDNACompressor:
     # ==================== AUDIO ====================
     
     def compress_audio(self, samples: np.ndarray, top_k: int = None) -> TrueWaveDNA:
-        """오디오 샘플 → DNA"""
-        top_k = top_k or self.default_top_k * 10  # 오디오는 더 많은 성분 필요
+        """         DNA"""
+        top_k = top_k or self.default_top_k * 10  #                
         
         spectrum = np.fft.fft(samples)
         magnitudes = np.abs(spectrum)
@@ -165,7 +165,7 @@ class WaveDNACompressor:
         )
     
     def decompress_audio(self, dna: TrueWaveDNA) -> np.ndarray:
-        """DNA → 오디오 샘플"""
+        """DNA         """
         length = dna.original_shape[0]
         spectrum = np.zeros(length, dtype=complex)
         
@@ -177,18 +177,18 @@ class WaveDNACompressor:
     # ==================== IMAGE ====================
     
     def compress_image(self, image: np.ndarray, top_k: int = None) -> TrueWaveDNA:
-        """2D 이미지 → DNA"""
-        top_k = top_k or self.default_top_k * 100  # 이미지는 훨씬 더 많은 성분 필요
+        """2D       DNA"""
+        top_k = top_k or self.default_top_k * 100  #                   
         
         # 2D FFT
         spectrum = np.fft.fft2(image)
         magnitudes = np.abs(spectrum)
         
-        # 평탄화하여 상위 k개
+        #          k 
         flat = magnitudes.flatten()
         top_flat_indices = np.argsort(flat)[-top_k:]
         
-        # 2D 인덱스로 변환
+        # 2D        
         rows, cols = np.unravel_index(top_flat_indices, magnitudes.shape)
         frequencies = np.column_stack([rows, cols])
         
@@ -202,10 +202,10 @@ class WaveDNACompressor:
         )
     
     def decompress_image(self, dna: TrueWaveDNA) -> np.ndarray:
-        """DNA → 이미지"""
+        """DNA      """
         spectrum = np.zeros(dna.original_shape, dtype=complex)
         
-        # 주파수를 2D로 재구성
+        #      2D     
         freq_pairs = dna.frequencies.reshape(-1, 2)
         
         for (r, c), a, p in zip(freq_pairs, dna.amplitudes, dna.phases):
@@ -217,18 +217,18 @@ class WaveDNACompressor:
     
     def resonate(self, dna1: TrueWaveDNA, dna2: TrueWaveDNA) -> float:
         """
-        두 DNA 간 공명 강도 (0~1)
+          DNA         (0~1)
         
-        다른 데이터 타입 간에도 비교 가능!
+                           !
         """
-        # 진폭 벡터 정규화 비교
+        #             
         amp1 = dna1.amplitudes / (np.linalg.norm(dna1.amplitudes) + 1e-10)
         amp2 = dna2.amplitudes / (np.linalg.norm(dna2.amplitudes) + 1e-10)
         
-        # 길이 맞추기
+        #       
         min_len = min(len(amp1), len(amp2))
         
-        # 코사인 유사도
+        #        
         similarity = np.dot(amp1[:min_len], amp2[:min_len])
         
         return max(0, min(1, similarity))
@@ -259,34 +259,34 @@ if __name__ == "__main__":
     
     if args.demo:
         print("\n" + "="*60)
-        print("🧬 TRUE WAVE DNA COMPRESSION DEMO")
+        print("  TRUE WAVE DNA COMPRESSION DEMO")
         print("="*60)
         
-        # 텍스트 테스트
-        original = "사과는 빨간색이고 달다. 엘리시아는 이것을 파동으로 기억한다."
-        print(f"\n원본: {original}")
-        print(f"길이: {len(original)} 문자 ({len(original)*2} bytes)")
+        #        
+        original = "            .                    ."
+        print(f"\n  : {original}")
+        print(f"  : {len(original)}    ({len(original)*2} bytes)")
         
         dna = compressor.compress_text(original, top_k=args.top_k)
-        print(f"\nDNA 크기: {dna.byte_size()} bytes")
-        print(f"압축률: {dna.compression_ratio(len(original)*2):.1f}배")
+        print(f"\nDNA   : {dna.byte_size()} bytes")
+        print(f"   : {dna.compression_ratio(len(original)*2):.1f} ")
         
         restored = compressor.decompress_text(dna)
-        print(f"\n복원: {restored}")
+        print(f"\n  : {restored}")
         
-        # 복원율 계산
+        #       
         match = sum(1 for a, b in zip(original, restored) if a == b)
         accuracy = match / len(original) * 100
-        print(f"복원율: {accuracy:.1f}%")
+        print(f"   : {accuracy:.1f}%")
         
         print("\n" + "="*60)
-        print("✅ Demo complete!")
+        print("  Demo complete!")
         
     elif args.text:
         dna = compressor.compress_text(args.text, top_k=args.top_k)
-        print(f"원본: {len(args.text)} chars")
+        print(f"  : {len(args.text)} chars")
         print(f"DNA: {dna.byte_size()} bytes")
-        print(f"압축률: {dna.compression_ratio(len(args.text)*2):.1f}x")
+        print(f"   : {dna.compression_ratio(len(args.text)*2):.1f}x")
         
         restored = compressor.decompress_text(dna)
-        print(f"복원: {restored}")
+        print(f"  : {restored}")

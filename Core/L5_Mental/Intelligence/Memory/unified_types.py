@@ -6,7 +6,7 @@ This module provides the canonical, unified implementations of core types
 that were previously duplicated across multiple files.
 
 Created: 2025-12-06
-Purpose: P1.1 - Consolidate Duplicate Classes (54 → 0)
+Purpose: P1.1 - Consolidate Duplicate Classes (54   0)
 """
 
 from dataclasses import dataclass, field, asdict

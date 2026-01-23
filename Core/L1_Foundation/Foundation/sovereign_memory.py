@@ -4,7 +4,7 @@ Sovereign Memory Navigator (O(1) Perception)
 Core.L1_Foundation.Foundation.sovereign_memory
 
 "Data is not moved; it is perceived where it resides."
-"데이터는 이동하지 않는다. 그것이 머무는 곳에서 인지될 뿐이다."
+"             .                    ."
 
 This module implements direct memory mapping and pointer access
 to simulate O(1) navigation across large world buffers.
@@ -44,7 +44,7 @@ class SovereignMemoryNavigator:
             0x200 # Read/Write
         ), ctypes.c_void_p)
         
-        logger.info(f"🧠 [SovereignMemory] O(1) Buffer initialized: {buffer_size_mb}MB.")
+        logger.info(f"  [SovereignMemory] O(1) Buffer initialized: {buffer_size_mb}MB.")
         logger.info(f"   - Physical Path: {self.file_path}")
 
     def perceive(self, offset: int, size: int) -> np.ndarray:

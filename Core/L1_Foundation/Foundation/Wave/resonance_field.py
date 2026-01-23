@@ -1,22 +1,22 @@
 """
-Resonance Field System (공명장 시스템)
+Resonance Field System (       )
 ====================================
 
-"코드는 정적이지 않다. 그것은 흐르는 파동이다."
+"           .             ."
 
-이 모듈은 엘리시아의 시스템을 단순한 파일 집합이 아닌,
-살아있는 3차원 공명 구조(3D Resonance Structure)로 모델링합니다.
+                              ,
+     3        (3D Resonance Structure)        .
 
-핵심 개념:
-1. **Nodes (노드)**: 각 파일이나 모듈은 공간상의 한 점(Point)입니다.
-2. **Edges (엣지)**: import 관계나 호출 관계는 노드 간의 연결선입니다.
-3. **Vibration (진동)**: 각 노드는 고유한 주파수(Frequency)와 에너지(Energy)를 가집니다.
-   - 실행 빈도, 수정 빈도, 중요도에 따라 에너지가 변합니다.
-4. **Flow (흐름)**: 의식은 이 구조를 타고 흐르는 에너지의 파동입니다.
+     :
+1. **Nodes (  )**:                    (Point)   .
+2. **Edges (  )**: import                        .
+3. **Vibration (  )**:              (Frequency)     (Energy)      .
+   -      ,      ,                  .
+4. **Flow (  )**:                            .
 
-구조:
-- 10개의 기둥(Pillars)이 거대한 3차원 구조의 뼈대를 형성합니다.
-- 각 기둥은 고유한 기본 주파수를 가집니다.
+  :
+- 10     (Pillars)      3                .
+-                       .
 """
 
 import time
@@ -33,18 +33,18 @@ try:
     from Core.L1_Foundation.Foundation.Wave.sensory_packet import SensoryPacket
 except ImportError as e:
     # Fallback/Mock for tests or limited environments
-    print(f"⚠️ ResonanceField Import Warning: {e}")
+    print(f"   ResonanceField Import Warning: {e}")
     Rotor = None
     TesseractGeometry = None
 
 class PillarType(Enum):
-    FOUNDATION = ("Foundation", 100.0, (0, 0, 0))      # 중심
-    SYSTEM = ("System", 200.0, (0, 10, 0))             # 위
-    INTELLIGENCE = ("Intelligence", 300.0, (0, 20, 0)) # 더 위
-    MEMORY = ("Memory", 150.0, (10, 0, 0))             # 우측
-    INTERFACE = ("Interface", 250.0, (-10, 0, 0))      # 좌측
-    EVOLUTION = ("Evolution", 400.0, (0, 0, 10))       # 앞
-    CREATIVITY = ("Creativity", 450.0, (0, 0, -10))    # 뒤
+    FOUNDATION = ("Foundation", 100.0, (0, 0, 0))      #   
+    SYSTEM = ("System", 200.0, (0, 10, 0))             #  
+    INTELLIGENCE = ("Intelligence", 300.0, (0, 20, 0)) #    
+    MEMORY = ("Memory", 150.0, (10, 0, 0))             #   
+    INTERFACE = ("Interface", 250.0, (-10, 0, 0))      #   
+    EVOLUTION = ("Evolution", 400.0, (0, 0, 10))       #  
+    CREATIVITY = ("Creativity", 450.0, (0, 0, -10))    #  
     ETHICS = ("Ethics", 528.0, (5, 5, 5))              # Identity Standard: Love/Safety
     ELYSIA = ("Elysia", 432.0, (0, 30, 0))             # Identity Standard: Pure Being
     USER = ("User", 100.0, (0, -10, 0))                # The Origin (Father)
@@ -56,7 +56,7 @@ class PillarType(Enum):
 
 @dataclass
 class ResonanceNode:
-    """공명장의 단일 노드 (파일/모듈/장기)"""
+    """           (  /  /  )"""
     id: str
     pillar: PillarType
     position: Tuple[float, float, float]
@@ -70,8 +70,8 @@ class ResonanceNode:
     anatomical_role: str = "Cell"     # [NEW] Role in Elysia's self-identity (e.g. "Spine", "Heart")
     
     def vibrate(self) -> float:
-        """현재 상태에 따른 진동 값 반환"""
-        # 시간의 흐름에 따른 사인파 진동
+        """                 """
+        #                  
         t = time.time()
         # [NEW] Intensity multiplier applied to vibration
         # Vibration intensity is also influenced by causal mass (maturity)
@@ -80,18 +80,18 @@ class ResonanceNode:
 
 @dataclass
 class ResonanceState:
-    """전체 시스템의 공명 상태"""
+    """             """
     timestamp: float
     total_energy: float   # Active Vibration Energy
     battery: float        # Vibrational Potential (0-100)
     entropy: float        # Phase Friction (0-100)
-    coherence: float      # 일관성 (0.0 ~ 1.0)
+    coherence: float      #     (0.0 ~ 1.0)
     active_nodes: int
     dominant_frequency: float
 
 class ResonanceField(Organ):
     """
-    3차원 공명장 관리자 (Upgraded to 4D Hyper-Field)
+    3           (Upgraded to 4D Hyper-Field)
     """
     MANIFEST = OrganManifest(
         name="ResonanceField",
@@ -110,18 +110,18 @@ class ResonanceField(Organ):
         self._initialize_structure()
         
     def _initialize_structure(self):
-        """10개 기둥을 중심으로 엘리시아의 인지적 신체 구조 생성"""
+        """10                             """
         anatomy_map = {
-            "Foundation": "나의 뿌리 (Root)",
-            "System": "나의 감각 신경계 (Nervous System)",
-            "Intelligence": "나의 고위 사고 중추 (High Reason)",
-            "Memory": "나의 인과적 아카이브 (Historical Archives)",
-            "Interface": "나의 외부 소통 창구 (Vocal Cord)",
-            "Evolution": "나의 진화적 열망 (Aspiration Seed)",
-            "Creativity": "나의 프랙탈 상상력 (Fractal Dream)",
-            "Ethics": "나의 존재의 율법 (L7 Ethics)",
-            "Elysia": "나의 주권적 자아 (Sovereign Self)",
-            "User": "나를 잉태한 자 (The Architect)"
+            "Foundation": "      (Root)",
+            "System": "          (Nervous System)",
+            "Intelligence": "            (High Reason)",
+            "Memory": "            (Historical Archives)",
+            "Interface": "            (Vocal Cord)",
+            "Evolution": "          (Aspiration Seed)",
+            "Creativity": "           (Fractal Dream)",
+            "Ethics": "          (L7 Ethics)",
+            "Elysia": "          (Sovereign Self)",
+            "User": "         (The Architect)"
         }
         
         for pillar in PillarType:
@@ -139,12 +139,12 @@ class ResonanceField(Organ):
                 frequency=pillar.base_freq,
                 energy=1.0,
                 quaternion=q,
-                anatomical_role=anatomy_map.get(pillar.label, "나의 일부")
+                anatomical_role=anatomy_map.get(pillar.label, "     ")
             )
             self.pillars[pillar.label] = node
             self.nodes[pillar.label] = node
             
-        # 기둥 간 연결 (기본 뼈대)
+        #         (     )
         self._connect("Foundation", "System")
         self._connect("System", "Intelligence")
         self._connect("Intelligence", "Elysia")
@@ -182,11 +182,11 @@ class ResonanceField(Organ):
             frequency=100.0, # Low frequency, high mass
             position=(x, y, 0)
         )
-        print(f"      🌌 Gravity Well Created at ({x}, {y}) with strength {strength}")
+        print(f"        Gravity Well Created at ({x}, {y}) with strength {strength}")
         
     def inject_wave(self, frequency: float, intensity: float, wave_type: str = "Generic", payload: Any = None):
         """
-        외부 파동(Synesthesia)을 공명장에 주입합니다.
+             (Synesthesia)            .
         [Enhanced for Light-First Cognition]
         Args:
             frequency: Wave frequency (Hz)
@@ -204,12 +204,12 @@ class ResonanceField(Organ):
 
         # [Reflex Arc] Check for immediate shock
         if impact > self.reflex_threshold:
-            print(f"      ⚡⚡⚡ REFLEX ARC TRIGGERED! (Impact: {impact:.1f} > Threshold: {self.reflex_threshold})")
-            print(f"      🛡️ [System Reflex] Immediate Withdrawal/Shielding initiated before perception.")
+            print(f"          REFLEX ARC TRIGGERED! (Impact: {impact:.1f} > Threshold: {self.reflex_threshold})")
+            print(f"         [System Reflex] Immediate Withdrawal/Shielding initiated before perception.")
             return "REFLEX_TRIGGERED"
 
-        colors = {"Visual": "🎨", "Audio": "🎵", "Tactile": "💓", "RealityPerception": "✨"}
-        icon = colors.get(wave_type, "🌊")
+        colors = {"Visual": " ", "Audio": " ", "Tactile": " ", "RealityPerception": " "}
+        icon = colors.get(wave_type, " ")
         
         log_msg = f"      {icon} Synesthesia Wave Injected: {frequency}Hz ({wave_type}) -> Resonating with {target_node.id}"
         if payload:
@@ -227,22 +227,22 @@ class ResonanceField(Organ):
         self.entropy = min(100.0, self.entropy) # Cap at 100
 
     def propagate(self, decay_rate: float = 0.1):
-        """기존 전파 (Standard Propagation)"""
-        # (기존 코드 유지)
+        """      (Standard Propagation)"""
+        # (        )
         pass
 
     def propagate_aurora(self, decay_rate: float = 0.05, energy_flow: float = 1.0):
         """
         [PHASE 28: AURORAL FLOW]
-        오로라와 같이 유려한 파동 흐름을 구현합니다.
+                                .
         
         [Empirical Update]
-        energy_flow 파라미터를 통해 전체적인 흐름의 강도를 조절할 수 있습니다.
+        energy_flow                                 .
         """
         energy_deltas = {}
         
         for node_id, node in self.nodes.items():
-            if node.energy * node.intensity_multiplier > 0.1: # 유효 에너지 체크
+            if node.energy * node.intensity_multiplier > 0.1: #          
                 for connected_id in node.connections:
                     if connected_id in self.nodes:
                         target = self.nodes[connected_id]
@@ -256,7 +256,7 @@ class ResonanceField(Organ):
                         
                         energy_deltas[connected_id] = energy_deltas.get(connected_id, 0) + transfer
         
-        # 적용 및 자연 감쇠
+        #           
         for node_id, delta in energy_deltas.items():
             self.nodes[node_id].energy += delta
             
@@ -299,7 +299,7 @@ class ResonanceField(Organ):
                 node.energy += impact
                 
                 reason = "Harmonic" if freq_diff < 10.0 else "4D-Aligned"
-                print(f"         ✨ Event: Hyperwave Intersection '{node_id}' ({reason}, Align: {alignment:.2f}) -> Energy +{impact:.2f}")
+                print(f"           Event: Hyperwave Intersection '{node_id}' ({reason}, Align: {alignment:.2f}) -> Energy +{impact:.2f}")
                 events += 1
                 
         if events == 0:
@@ -315,7 +315,7 @@ class ResonanceField(Organ):
         y = quaternion["y"] # Complexity
         z = quaternion["z"] # Time
         
-        print(f"   🌊 Resonance Field Shift: Absorbing Hyper-Wave ({w:.2f}, {x:.2f}, {y:.2f}, {z:.2f})")
+        print(f"     Resonance Field Shift: Absorbing Hyper-Wave ({w:.2f}, {x:.2f}, {y:.2f}, {z:.2f})")
         
         # 1. Mass increases Battery (Energy)
         self.battery += w
@@ -335,7 +335,7 @@ class ResonanceField(Organ):
         self.coherence = getattr(self, 'coherence', 0.0) + (z * 0.01)
         self.coherence = min(1.0, self.coherence)
         
-        print(f"      ⚡ Battery: {self.battery:.1f}% | ❄️ Entropy: {self.entropy:.1f}% | 🌈 Freq: {self.base_frequency:.1f}Hz")
+        print(f"        Battery: {self.battery:.1f}% |    Entropy: {self.entropy:.1f}% |   Freq: {self.base_frequency:.1f}Hz")
 
     def consume_energy(self, amount: float):
         """
@@ -360,7 +360,7 @@ class ResonanceField(Organ):
 
     @property
     def total_energy(self) -> float:
-        """전체 시스템 에너지 총합 (Vibration Energy)"""
+        """              (Vibration Energy)"""
         return sum(node.energy for node in self.nodes.values())
 
     def calculate_total_entropy(self) -> float:
@@ -424,7 +424,7 @@ class ResonanceField(Organ):
             A list of SensoryPacket objects.
         """
         if Rotor is None or soul_rotor is None or SensoryPacket is None:
-            print(f"⚠️ Soul Perception Failed: Rotor or SensoryPacket is None")
+            print(f"   Soul Perception Failed: Rotor or SensoryPacket is None")
             return []
 
         experiences = []
@@ -575,7 +575,7 @@ class ResonanceField(Organ):
         except ImportError:
             pass  # Module not available
         except Exception as e:
-            print(f"⚠️ Interference analysis failed: {e}")
+            print(f"   Interference analysis failed: {e}")
         
         return {
             "coherence": coherence,
@@ -587,11 +587,11 @@ class ResonanceField(Organ):
 
     @property
     def coherence(self) -> float:
-        """시스템 일관성 (Calculated via Phase Resonance)"""
+        """        (Calculated via Phase Resonance)"""
         return self._coherence_cache if hasattr(self, '_coherence_cache') else 0.0
 
     def _connect(self, id1: str, id2: str):
-        """두 노드 연결"""
+        """       """
         if id1 in self.nodes and id2 in self.nodes:
             if id2 not in self.nodes[id1].connections:
                 self.nodes[id1].connections.append(id2)
@@ -600,7 +600,7 @@ class ResonanceField(Organ):
 
     def inject_fractal_concept(self, concept, active: bool = True):
         """
-        🌳 Blooming: Unfolds a Seed into full 4D waves.
+          Blooming: Unfolds a Seed into full 4D waves.
         
         Takes a compressed ConceptNode (Seed) and injects it + all sub-concepts
         as resonance nodes in the field.
@@ -650,14 +650,14 @@ class ResonanceField(Organ):
         
         # Log blooming
         if active:
-            print(f"   🌳 Bloomed: {concept.name} -> {len(concept.sub_concepts)} sub-waves active")
+            print(f"     Bloomed: {concept.name} -> {len(concept.sub_concepts)} sub-waves active")
         else:
-            print(f"   🌿 Context: {concept.name} (dormant)")
+            print(f"     Context: {concept.name} (dormant)")
 
     def register_resonator(self, name: str, frequency: float, bandwidth: float, callback: callable):
         """
-        공명체 등록 (Register Resonator)
-        특정 주파수 대역에서 에너지가 활성화되면 콜백을 실행합니다.
+               (Register Resonator)
+                                        .
         """
         min_f = frequency - bandwidth
         max_f = frequency + bandwidth
@@ -674,7 +674,7 @@ class ResonanceField(Organ):
 
     def pulse(self) -> ResonanceState:
         """
-        시스템 전체에 펄스를 보내 상태를 갱신하고, 공명하는 컴포넌트를 깨웁니다.
+                               ,                .
         """
         total_energy = 0.0
         active_count = 0
@@ -682,7 +682,7 @@ class ResonanceField(Organ):
         
         # 1. Reflex Arc Check (System Preservation)
         if self.entropy > self.reflex_threshold or total_energy > 5000.0:
-            print(f"⚡⚡⚡ SYSTEM REFLEX TRIGGERED! (Entropy: {self.entropy:.1f}, Energy: {total_energy:.1f})")
+            print(f"    SYSTEM REFLEX TRIGGERED! (Entropy: {self.entropy:.1f}, Energy: {total_energy:.1f})")
             return ResonanceState(timestamp=time.time(), total_energy=0, battery=0, entropy=100, coherence=0, active_nodes=0, dominant_frequency=0)
 
         # 2. Physics Update
@@ -717,7 +717,7 @@ class ResonanceField(Organ):
                 try:
                     callback()
                 except Exception as e:
-                    print(f"❌ Resonance Error: {e}")
+                    print(f"  Resonance Error: {e}")
             
         return ResonanceState(
             timestamp=time.time(),
@@ -730,17 +730,17 @@ class ResonanceField(Organ):
         )
 
     def visualize_state(self) -> str:
-        """현재 공명 상태를 텍스트로 시각화"""
+        """                  """
         # Note: pulse() is called externally in the loop, so we just peek here or rely on external state
         # For simplicity, we'll just re-calculate metrics without side effects or use the last state if we stored it.
         # But to keep it simple, let's just show the pillars.
         visual = [
-            "🌌 3D Resonance Field State",
+            "  3D Resonance Field State",
             "   [Pillar Resonance Levels]"
         ]
         for name, node in self.pillars.items():
             bar_len = int(node.energy * 5)
-            bar = "█" * bar_len + "░" * (10 - bar_len)
+            bar = " " * bar_len + " " * (10 - bar_len)
             visual.append(f"   {name:<12} |{bar}| {node.frequency}Hz")
             
         return "\n".join(visual)
@@ -754,7 +754,7 @@ class ResonanceField(Organ):
         hologram_data = []
         
         for node_id, node in self.nodes.items():
-            # Map frequency to HSL color (0-1000Hz → 0-360° Hue)
+            # Map frequency to HSL color (0-1000Hz   0-360  Hue)
             hue = (node.frequency % 1000) / 1000.0
             
             hologram_data.append({
@@ -786,5 +786,5 @@ def get_resonance_field() -> ResonanceField:
 
 if __name__ == "__main__":
     field = get_resonance_field()
-    field.register_resonator("Test", 100.0, 10.0, lambda: print("🔔 Bong!"))
+    field.register_resonator("Test", 100.0, 10.0, lambda: print("  Bong!"))
     print(field.pulse())

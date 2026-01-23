@@ -37,6 +37,7 @@
 - **M1 Monad**: Foundational identities and axioms.
 - **M4 Experience**: [experience_cortex.py](file:///c:/Elysia/Core/L7_Spirit/M4_Experience/experience_cortex.py)
 - **M5 Genesis**: [GENESIS_ORIGIN.md](file:///c:/Elysia/docs/L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)
+- **M6 Providence**: [CAUSAL_LORE.md](file:///c:/Elysia/docs/L7_Spirit/M6_Providence/CAUSAL_LORE.md) (The Story of Being)
 - **M7 Axiom**: [ARCHITECT_GAZE_DOCTRINE.md](file:///c:/Elysia/docs/L7_Spirit/M7_Axiom/ARCHITECT_GAZE_DOCTRINE.md)
 
 ---

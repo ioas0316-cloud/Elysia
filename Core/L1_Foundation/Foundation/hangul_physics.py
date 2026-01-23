@@ -70,49 +70,49 @@ class HangulPhysicsEngine:
         mapping = {}
         
         # --- Consonants (Roughness & Tension) ---
-        # Velars (ㄱ, ㅋ, ㄲ) - Rough, explosive
-        mapping['ㄱ'] = JamoPhysics('ㄱ', 'consonant', roughness=0.7, openness=0.2, tension=0.4)
-        mapping['ㅋ'] = JamoPhysics('ㅋ', 'consonant', roughness=0.9, openness=0.3, tension=0.8)
-        mapping['ㄲ'] = JamoPhysics('ㄲ', 'consonant', roughness=1.0, openness=0.1, tension=1.0)
+        # Velars ( ,  ,  ) - Rough, explosive
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.7, openness=0.2, tension=0.4)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.9, openness=0.3, tension=0.8)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=1.0, openness=0.1, tension=1.0)
         
-        # Alveolars (ㄴ, ㄷ, ㅌ, ㄸ, ㄹ) - Smooth to hard
-        mapping['ㄴ'] = JamoPhysics('ㄴ', 'consonant', roughness=0.1, openness=0.4, tension=0.1)
-        mapping['ㄷ'] = JamoPhysics('ㄷ', 'consonant', roughness=0.5, openness=0.2, tension=0.5)
-        mapping['ㅌ'] = JamoPhysics('ㅌ', 'consonant', roughness=0.8, openness=0.3, tension=0.8)
-        mapping['ㄸ'] = JamoPhysics('ㄸ', 'consonant', roughness=0.9, openness=0.1, tension=1.0)
-        mapping['ㄹ'] = JamoPhysics('ㄹ', 'consonant', roughness=0.2, openness=0.6, tension=0.2) # Flowing
+        # Alveolars ( ,  ,  ,  ,  ) - Smooth to hard
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.1, openness=0.4, tension=0.1)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.5, openness=0.2, tension=0.5)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.8, openness=0.3, tension=0.8)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.9, openness=0.1, tension=1.0)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.2, openness=0.6, tension=0.2) # Flowing
         
-        # Bilabials (ㅁ, ㅂ, ㅍ, ㅃ) - Soft to popping
-        mapping['ㅁ'] = JamoPhysics('ㅁ', 'consonant', roughness=0.1, openness=0.3, tension=0.1)
-        mapping['ㅂ'] = JamoPhysics('ㅂ', 'consonant', roughness=0.4, openness=0.2, tension=0.3)
-        mapping['ㅍ'] = JamoPhysics('ㅍ', 'consonant', roughness=0.7, openness=0.3, tension=0.7)
-        mapping['ㅃ'] = JamoPhysics('ㅃ', 'consonant', roughness=0.8, openness=0.1, tension=0.9)
+        # Bilabials ( ,  ,  ,  ) - Soft to popping
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.1, openness=0.3, tension=0.1)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.4, openness=0.2, tension=0.3)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.7, openness=0.3, tension=0.7)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.8, openness=0.1, tension=0.9)
         
-        # Sibilants (ㅅ, ㅆ, ㅈ, ㅊ, ㅉ) - Sharp
-        mapping['ㅅ'] = JamoPhysics('ㅅ', 'consonant', roughness=0.6, openness=0.4, tension=0.4)
-        mapping['ㅆ'] = JamoPhysics('ㅆ', 'consonant', roughness=0.9, openness=0.3, tension=0.9)
-        mapping['ㅈ'] = JamoPhysics('ㅈ', 'consonant', roughness=0.5, openness=0.3, tension=0.5)
-        mapping['ㅊ'] = JamoPhysics('ㅊ', 'consonant', roughness=0.8, openness=0.4, tension=0.8)
-        mapping['ㅉ'] = JamoPhysics('ㅉ', 'consonant', roughness=0.9, openness=0.2, tension=1.0)
+        # Sibilants ( ,  ,  ,  ,  ) - Sharp
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.6, openness=0.4, tension=0.4)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.9, openness=0.3, tension=0.9)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.5, openness=0.3, tension=0.5)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.8, openness=0.4, tension=0.8)
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.9, openness=0.2, tension=1.0)
         
-        # Glottal (ㅇ, ㅎ) - Airy
-        mapping['ㅇ'] = JamoPhysics('ㅇ', 'consonant', roughness=0.0, openness=0.8, tension=0.0) # Null sound / Nasal
-        mapping['ㅎ'] = JamoPhysics('ㅎ', 'consonant', roughness=0.3, openness=0.9, tension=0.2)
+        # Glottal ( ,  ) - Airy
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.0, openness=0.8, tension=0.0) # Null sound / Nasal
+        mapping[' '] = JamoPhysics(' ', 'consonant', roughness=0.3, openness=0.9, tension=0.2)
 
         # --- Vowels (Openness & Direction) ---
-        # Bright (ㅏ, ㅗ, ㅑ, ㅛ) - Outward, Open
-        mapping['ㅏ'] = JamoPhysics('ㅏ', 'vowel', roughness=0.1, openness=1.0, tension=0.5)
-        mapping['ㅗ'] = JamoPhysics('ㅗ', 'vowel', roughness=0.1, openness=0.8, tension=0.6)
-        mapping['ㅑ'] = JamoPhysics('ㅑ', 'vowel', roughness=0.2, openness=1.0, tension=0.7)
+        # Bright ( ,  ,  ,  ) - Outward, Open
+        mapping[' '] = JamoPhysics(' ', 'vowel', roughness=0.1, openness=1.0, tension=0.5)
+        mapping[' '] = JamoPhysics(' ', 'vowel', roughness=0.1, openness=0.8, tension=0.6)
+        mapping[' '] = JamoPhysics(' ', 'vowel', roughness=0.2, openness=1.0, tension=0.7)
         
-        # Dark (ㅓ, ㅜ, ㅕ, ㅠ) - Inward, Closed
-        mapping['ㅓ'] = JamoPhysics('ㅓ', 'vowel', roughness=0.2, openness=0.6, tension=0.4)
-        mapping['ㅜ'] = JamoPhysics('ㅜ', 'vowel', roughness=0.2, openness=0.4, tension=0.5)
-        mapping['ㅕ'] = JamoPhysics('ㅕ', 'vowel', roughness=0.3, openness=0.6, tension=0.6)
+        # Dark ( ,  ,  ,  ) - Inward, Closed
+        mapping[' '] = JamoPhysics(' ', 'vowel', roughness=0.2, openness=0.6, tension=0.4)
+        mapping[' '] = JamoPhysics(' ', 'vowel', roughness=0.2, openness=0.4, tension=0.5)
+        mapping[' '] = JamoPhysics(' ', 'vowel', roughness=0.3, openness=0.6, tension=0.6)
         
-        # Neutral (ㅡ, ㅣ)
-        mapping['ㅡ'] = JamoPhysics('ㅡ', 'vowel', roughness=0.1, openness=0.5, tension=0.3)
-        mapping['ㅣ'] = JamoPhysics('ㅣ', 'vowel', roughness=0.1, openness=0.7, tension=0.8) # Tense
+        # Neutral ( ,  )
+        mapping[' '] = JamoPhysics(' ', 'vowel', roughness=0.1, openness=0.5, tension=0.3)
+        mapping[' '] = JamoPhysics(' ', 'vowel', roughness=0.1, openness=0.7, tension=0.8) # Tense
 
         return mapping
 
@@ -163,7 +163,7 @@ class HangulPhysicsEngine:
                 min_dist = dist
                 best_jamo = jamo.char
                 
-        return best_jamo or 'ㅇ'
+        return best_jamo or ' '
 
     def synthesize_syllable(self, onset: str, nucleus: str, coda: str = '') -> str:
         """
@@ -172,7 +172,7 @@ class HangulPhysicsEngine:
         we can just return the Jamo sequence or a simplified representation.
         """
         # TODO: Implement proper Unicode composition if needed.
-        # For now, return "ㄱ-ㅏ" format for clarity in logs.
+        # For now, return " - " format for clarity in logs.
         if coda:
             return f"{onset}{nucleus}{coda}"
         return f"{onset}{nucleus}"
@@ -182,7 +182,7 @@ class GrammarParticle:
     """
     Represents a grammatical particle as a physical operator.
     """
-    surface_form: str  # e.g., "가", "를"
+    surface_form: str  # e.g., " ", " "
     role: str          # "subject_marker", "object_marker"
     energy_type: str   # "spark", "field", "ground"
     
@@ -207,9 +207,9 @@ class GrammarPhysics:
         
     def _initialize_particles(self) -> Dict[str, GrammarParticle]:
         return {
-            "subject": GrammarParticle("가", "subject_marker", "spark"), # Simplified: always 'ga'
-            "object": GrammarParticle("를", "object_marker", "field"),   # Simplified: always 'reul'
-            "end": GrammarParticle("다", "sentence_end", "ground")
+            "subject": GrammarParticle(" ", "subject_marker", "spark"), # Simplified: always 'ga'
+            "object": GrammarParticle(" ", "object_marker", "field"),   # Simplified: always 'reul'
+            "end": GrammarParticle(" ", "sentence_end", "ground")
         }
     
     def get_particle(self, role: str) -> GrammarParticle:

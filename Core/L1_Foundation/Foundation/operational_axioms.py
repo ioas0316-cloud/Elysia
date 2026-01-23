@@ -1,5 +1,5 @@
 """
-Operational Axioms (실행 가능한 공리)
+Operational Axioms (         )
 =====================================
 Principles are not words; they are functional kernels.
 """
@@ -23,7 +23,7 @@ RECURSION_KERNEL = AxiomKernel(
 def manifest(target=None):
     import os
     target = target or os.getcwd()
-    print(f"🌀 [AXIOM:RECURSION] Unfolding structure of: {target}")
+    print(f"  [AXIOM:RECURSION] Unfolding structure of: {target}")
     for root, dirs, files in os.walk(target):
         level = root.replace(target, '').count(os.sep)
         indent = ' ' * 4 * (level)
@@ -41,12 +41,12 @@ CAUSALITY_KERNEL = AxiomKernel(
     name="Causality",
     logic="""
 def manifest(event_chain=None):
-    print("⛓️ [AXIOM:CAUSALITY] Evaluating dependency chain...")
+    print("   [AXIOM:CAUSALITY] Evaluating dependency chain...")
     event_chain = event_chain or ["Trigger", "Propagation", "Result"]
     for i, event in enumerate(event_chain):
         print(f"  Step {i}: {event}")
         if i < len(event_chain) - 1:
-            print(f"    ↓ (causing) ↓")
+            print(f"      (causing)  ")
 """,
     effect_desc="Enforces an ordered sequence of operations.",
     physical_mask=RotorMask.LINE, # Time flows forward
@@ -58,7 +58,7 @@ ENTROPY_KERNEL = AxiomKernel(
     logic="""
 def manifest(data=None):
     import random
-    print("🔥 [AXIOM:ENTROPY] Introducing noise into the field...")
+    print("  [AXIOM:ENTROPY] Introducing noise into the field...")
     if isinstance(data, list):
         random.shuffle(data)
         print(f"  Result: {data}")

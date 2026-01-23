@@ -24,10 +24,10 @@ class LanguageLearner:
         
         # Regex patterns for structure mining
         self.structure_patterns = {
-            "Causal": r"(.+) 때문에, (.+)", # A implies B
-            "Contrast": r"(.+)지만, (.+)", # A but B
-            "Conditional": r"만약 (.+)라면, (.+)", # If A then B
-            "Definition": r"(.+)[은는]\s+(.+)이다" # A is B (Robust)
+            "Causal": r"(.+)    , (.+)", # A implies B
+            "Contrast": r"(.+)  , (.+)", # A but B
+            "Conditional": r"   (.+)  , (.+)", # If A then B
+            "Definition": r"(.+)[  ]\s+(.+)  " # A is B (Robust)
         }
         
     def _load_genome(self):
@@ -92,7 +92,7 @@ class LanguageLearner:
                         self._add_vocab(category, w)
         
         if learned_count > 0:
-            logger.info(f"📚 Distilled {learned_count} linguistic patterns from text.")
+            logger.info(f"  Distilled {learned_count} linguistic patterns from text.")
             self.save_genome()
 
     def _add_template(self, type_name: str, example: str):
@@ -136,6 +136,6 @@ class LanguageLearner:
 if __name__ == "__main__":
     # Test
     learner = LanguageLearner()
-    learner.learn_from_text("그는 마치 폭풍처럼 몰아쳤다.", "War")
-    learner.learn_from_text("사랑은 벚꽃처럼 지는 것이다.", "Nature")
+    learner.learn_from_text("               .", "War")
+    learner.learn_from_text("               .", "Nature")
     print("Learned!")

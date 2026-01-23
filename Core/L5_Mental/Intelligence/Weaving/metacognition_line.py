@@ -3,7 +3,7 @@ from .intelligence_line import IntelligenceLine, LineOutput
 
 class MetacognitionLine(IntelligenceLine):
     """
-    Metacognition Line (메타인지/자기성찰 지능)
+    Metacognition Line (    /       )
     Monitors self-referential thought and awareness depth.
     Detects "I think", "I feel", "Why did I", "Self".
     """

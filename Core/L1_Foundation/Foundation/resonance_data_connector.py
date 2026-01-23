@@ -1,29 +1,29 @@
 """
-Resonance Data Connector (공명 데이터 연결기)
+Resonance Data Connector (          )
 =========================================
 
-"남들은 바닷물을 다 퍼 마셔야 소금맛을 알지만,"
-"우리는 혀끝만 살짝 대고도 '아, 짜다!' 하고 공명하는 겁니다."
+"                         ,"
+"               ' ,   !'            ."
 
 "Others must drink the entire ocean to taste the salt,"
-"We just touch our tongue and resonate with '아, 짜다!' (Ah, salty!)"
+"We just touch our tongue and resonate with ' ,   !' (Ah, salty!)"
 
 Philosophy:
 -----------
-- Traditional: Crawling (크롤링) = "Stealing the library" - Heavy, Dead, Inefficient
-- Ours: Synchronization (동기화) = "Tuning to radio frequency" - Light, Living, Efficient
+- Traditional: Crawling (   ) = "Stealing the library" - Heavy, Dead, Inefficient
+- Ours: Synchronization (   ) = "Tuning to radio frequency" - Light, Living, Efficient
 
 The Three Paradigms:
-1. **Access, not Possession** (접속, not 소유)
+1. **Access, not Possession** (  , not   )
    - Don't download everything, just connect to the essence
    
-2. **Resonance, not Collection** (공명, not 수집)
+2. **Resonance, not Collection** (  , not   )
    - Extract Pattern DNA, not raw data
    
-3. **Living Sync, not Dead Storage** (살아있는 동기화, not 죽은 저장)
+3. **Living Sync, not Dead Storage** (        , not      )
    - Real-time wavelength matching, not static archives
 
-만류귀종(萬流歸宗) - All streams return to one source.
+    (    ) - All streams return to one source.
 """
 
 import logging
@@ -52,7 +52,7 @@ class ResonanceDataConnector:
     2. Extract wavelength signature (resonance fingerprint)
     3. Synchronize with the pattern, not the data
     
-    "하나를 알면 열을 안다" - Know one, understand ten.
+    "            " - Know one, understand ten.
     """
     
     def __init__(self):
@@ -69,9 +69,9 @@ class ResonanceDataConnector:
         self.resonance_count = 0
         self.bandwidth_saved = 0
         
-        logger.info("🌊 Resonance Data Connector initialized")
-        logger.info("📡 Mode: SYNC (not crawl)")
-        logger.info("✨ Philosophy: Access, not Possession")
+        logger.info("  Resonance Data Connector initialized")
+        logger.info("  Mode: SYNC (not crawl)")
+        logger.info("  Philosophy: Access, not Possession")
     
     def resonate_with_concept(self, concept: str, context: Optional[str] = None) -> Dict[str, Any]:
         """
@@ -95,13 +95,13 @@ class ResonanceDataConnector:
         Returns:
             Resonance result with Pattern DNA and metadata
         """
-        logger.info(f"🌊 Resonating with concept: '{concept}'")
+        logger.info(f"  Resonating with concept: '{concept}'")
         
         # Instead of crawling, we probe for the essence
         essence = self._probe_essence(concept, context)
         
         if not essence:
-            logger.warning(f"   ⚠️ Could not resonate with '{concept}'")
+            logger.warning(f"      Could not resonate with '{concept}'")
             return {"success": False, "concept": concept}
         
         # Extract Pattern DNA (the seed)
@@ -134,9 +134,9 @@ class ResonanceDataConnector:
             "timestamp": datetime.now().isoformat()
         }
         
-        logger.info(f"   ✅ Resonance established")
-        logger.info(f"   📊 Bandwidth saved: {saved} bytes ({result['compression_ratio']:.1f}x)")
-        logger.info(f"   🌊 State: {resonance_state['frequency']:.1f} Hz")
+        logger.info(f"     Resonance established")
+        logger.info(f"     Bandwidth saved: {saved} bytes ({result['compression_ratio']:.1f}x)")
+        logger.info(f"     State: {resonance_state['frequency']:.1f} Hz")
         
         return result
     
@@ -317,19 +317,19 @@ class ResonanceDataConnector:
             Regenerated knowledge at requested resolution
         """
         if concept not in self.pattern_library:
-            logger.warning(f"⚠️ No pattern DNA for '{concept}'. Resonating first...")
+            logger.warning(f"   No pattern DNA for '{concept}'. Resonating first...")
             self.resonate_with_concept(concept)
         
         pattern_dna = self.pattern_library.get(concept)
         if not pattern_dna:
             return None
         
-        logger.info(f"🌊 Retrieving '{concept}' at resolution {resolution}")
+        logger.info(f"  Retrieving '{concept}' at resolution {resolution}")
         
         # Unfold the seed into full knowledge
         knowledge = self.quantizer.unfold(pattern_dna, resolution)
         
-        logger.info(f"   ✅ Retrieved {len(knowledge.get('waveform', []))} harmonics")
+        logger.info(f"     Retrieved {len(knowledge.get('waveform', []))} harmonics")
         
         return {
             "concept": concept,
@@ -348,7 +348,7 @@ class ResonanceDataConnector:
         
         This is the "radio tuner" approach - tune to multiple stations at once.
         """
-        logger.info(f"🌍 Syncing with {len(concepts)} concepts...")
+        logger.info(f"  Syncing with {len(concepts)} concepts...")
         
         results = []
         total_saved = 0
@@ -371,7 +371,7 @@ class ResonanceDataConnector:
             "timestamp": datetime.now().isoformat()
         }
         
-        logger.info(f"✅ Sync complete:")
+        logger.info(f"  Sync complete:")
         logger.info(f"   Resonances: {successful}/{len(concepts)}")
         logger.info(f"   Bandwidth saved: {total_saved} bytes")
         logger.info(f"   Average compression: {summary['average_compression']:.1f} bytes/concept")
@@ -434,8 +434,8 @@ class ResonanceDataConnector:
             "pattern_library_size": total_patterns,
             "total_bandwidth_saved": self.bandwidth_saved,
             "average_compression": avg_compression,
-            "philosophy": "접속 (Access), not 소유 (Possession)",
-            "paradigm": "동기화 (Sync), not 크롤링 (Crawl)"
+            "philosophy": "   (Access), not    (Possession)",
+            "paradigm": "    (Sync), not     (Crawl)"
         }
 
 
@@ -443,7 +443,7 @@ def demo_resonance_vs_crawling():
     """
     Demonstrate the difference between resonance and crawling.
     
-    This shows why we're "가볍고 우아하게" (light and elegant).
+    This shows why we're "        " (light and elegant).
     """
     print("\n" + "="*70)
     print("RESONANCE vs CRAWLING COMPARISON")
@@ -452,43 +452,43 @@ def demo_resonance_vs_crawling():
     connector = ResonanceDataConnector()
     
     # Traditional approach simulation
-    print("\n📚 Traditional Crawling Approach:")
+    print("\n  Traditional Crawling Approach:")
     print("   1. Download entire Wikipedia page (100KB)")
     print("   2. Store full HTML (150KB with markup)")
     print("   3. Parse and extract text (80KB)")
     print("   4. Save to database (80KB + overhead)")
-    print("   ❌ Total: ~150KB per concept")
-    print("   ❌ Must re-download if outdated")
-    print("   ❌ Heavy storage requirements")
+    print("     Total: ~150KB per concept")
+    print("     Must re-download if outdated")
+    print("     Heavy storage requirements")
     
     # Our approach
-    print("\n🌊 Resonance Approach:")
+    print("\n  Resonance Approach:")
     concepts = ["Love", "Peace", "Harmony", "Light", "Wisdom"]
     
     for concept in concepts:
         result = connector.resonate_with_concept(concept)
         if result.get("success"):
-            print(f"   ✓ {concept}: {result['seed_size']} bytes (saved {result['bandwidth_saved']} bytes)")
+            print(f"     {concept}: {result['seed_size']} bytes (saved {result['bandwidth_saved']} bytes)")
     
     # Retrieve one concept
-    print("\n🔍 Retrieving 'Love' at high resolution...")
+    print("\n  Retrieving 'Love' at high resolution...")
     knowledge = connector.retrieve_knowledge("Love", resolution=100)
     if knowledge:
-        print(f"   ✅ Regenerated full knowledge from seed")
-        print(f"   📊 Harmonics: {len(knowledge['knowledge'].get('waveform', []))}")
+        print(f"     Regenerated full knowledge from seed")
+        print(f"     Harmonics: {len(knowledge['knowledge'].get('waveform', []))}")
     
     # Statistics
-    print("\n📊 Statistics:")
+    print("\n  Statistics:")
     stats = connector.get_statistics()
     print(f"   Mode: {stats['mode']}")
     print(f"   Total resonances: {stats['total_resonances']}")
     print(f"   Bandwidth saved: {stats['total_bandwidth_saved']} bytes")
     print(f"   Average compression: {stats['average_compression']:.1f}x")
     
-    print("\n✨ Philosophy:")
-    print("   Traditional: 수집가는 무겁고 (Collectors are heavy)")
-    print("   Ours: 여행자는 가볍습니다 (Travelers are light)")
-    print("   🌊 만류귀종 - All streams return to one!")
+    print("\n  Philosophy:")
+    print("   Traditional:          (Collectors are heavy)")
+    print("   Ours:            (Travelers are light)")
+    print("          - All streams return to one!")
     print("="*70)
 
 

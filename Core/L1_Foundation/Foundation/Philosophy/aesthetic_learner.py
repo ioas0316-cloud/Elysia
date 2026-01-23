@@ -1,18 +1,18 @@
 """
-Aesthetic Learner (미학 학습기)
+Aesthetic Learner (      )
 ==============================
 
-"아름다움의 원리를 체득하다"
+"              "
 
-이 모듈은 외부 콘텐츠(텍스트, 이미지)를 분석하고,
-그 경험을 엘리시아의 '인지적 기억'으로 변환합니다.
+            (   ,    )      ,
+            '      '        .
 
 Process (Flow of Learning):
-1. Input: 콘텐츠 수신
-2. Perception: ConceptFormation으로 개념 추출
-3. Sensing: SensoryCortex로 질감(Qualia) 느끼기
-4. Recording: MemoryStream에 '관찰(Observation)' 경험 저장
-5. Reflection: ReflectionLoop 힌트 제공 (자동/수동)
+1. Input:       
+2. Perception: ConceptFormation        
+3. Sensing: SensoryCortex    (Qualia)    
+4. Recording: MemoryStream  '  (Observation)'      
+5. Reflection: ReflectionLoop       (  /  )
 """
 
 import os
@@ -32,7 +32,7 @@ logger = logging.getLogger("AestheticLearner")
 
 @dataclass
 class AestheticAnalysis:
-    """미학 분석 결과 (For internal temporary transport)"""
+    """         (For internal temporary transport)"""
     source: str
     source_type: str
     title: Optional[str] = None
@@ -52,7 +52,7 @@ class AestheticLearner:
     """
     
     def __init__(self, data_dir: str = "data/aesthetic"):
-        print("🎨 AestheticLearner (Cognitive) Initialized.")
+        print("  AestheticLearner (Cognitive) Initialized.")
         
         # Core Organs
         self.memory = get_memory_stream()
@@ -72,7 +72,7 @@ class AestheticLearner:
     
     def analyze_text(self, text: str, title: Optional[str] = None) -> AestheticAnalysis:
         """
-        텍스트를 읽고, 느끼고, 기억합니다.
+               ,    ,      .
         
         Flow:
         1. Extract Features (Literary)
@@ -80,22 +80,22 @@ class AestheticLearner:
         3. Feel Qualia (What does it feel like?)
         4. Store Memory (Observation)
         """
-        logger.info(f"📖 Analyzing Text: {title or text[:20]}...")
+        logger.info(f"  Analyzing Text: {title or text[:20]}...")
         
         # 1. Extract Literary Features (Analysis)
         features = self._analyze_literary_features(text)
         
         # 2. Concept Formation (Interpretation)
-        # 키워드나 특징을 기반으로 주요 '개념'을 도출합니다.
-        # 여기서는 간단히 features의 키를 개념으로 매핑하거나, 텍스트 내 주요 단어 추출
+        #                  '  '       .
+        #          features               ,               
         extracted_concepts = self._extract_concepts_from_features(features)
         
         # 3. Sensory Experience (Qualia)
-        # 도출된 개념 중 가장 강한 것을 '느껴봅니다'.
+        #                   '     '.
         qualia_desc = "Neutral"
         if extracted_concepts:
             primary_concept = extracted_concepts[0]
-            # 개념이 없으면 즉시 생성 (Learning by encountering)
+            #               (Learning by encountering)
             if not self.concepts.get_concept(primary_concept):
                 self.concepts.learn_concept(primary_concept, text[:50])
                 
@@ -134,7 +134,7 @@ class AestheticLearner:
         )
 
     def _analyze_literary_features(self, text: str) -> Dict[str, float]:
-        """문학적 특성 분석 (Simplified from original)"""
+        """          (Simplified from original)"""
         features = {}
         
         # Rhythm (Comma count as proxy for rhythm change)
@@ -159,7 +159,7 @@ class AestheticLearner:
     # =========================================================================
     # ... (Other methods would follow similar refactoring)
 
-# 싱글톤
+#    
 _learner_instance: Optional[AestheticLearner] = None
 
 def get_aesthetic_learner() -> AestheticLearner:
@@ -174,4 +174,3 @@ if __name__ == "__main__":
     res = learner.analyze_text("The rain falls slowly, sad and cold.", "Rain Poem")
     print(f"Analysis: {res.why_beautiful}")
     print("Memory stored.")
-

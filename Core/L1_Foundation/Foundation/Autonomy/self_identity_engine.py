@@ -151,4 +151,3 @@ class SelfIdentityEngine:
         core_memory.update_identity("self", snapshot.to_dict())
 
 
-

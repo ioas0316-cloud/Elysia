@@ -61,7 +61,7 @@ class PhaseTeleporter:
         """
         # Calculate unique phase based on entity hash or properties
         phase = abs(hash(str(entity))) % 360
-        logger.info(f"🛡️ Pocket Space created for entity. Phase: {phase}")
+        logger.info(f"   Pocket Space created for entity. Phase: {phase}")
         return PocketSpace(entity=entity, phase_signature=float(phase))
 
     def dive_and_rotate(self, pocket: PocketSpace, target_phase: float) -> Tuple[bool, str]:
@@ -76,7 +76,7 @@ class PhaseTeleporter:
             (Success, Message)
         """
         if not pocket.is_intact():
-            return False, "❌ Pocket Space integrity compromised. Aborting dive."
+            return False, "  Pocket Space integrity compromised. Aborting dive."
 
         initial_phase = pocket.phase_signature
         phase_diff = abs(target_phase - initial_phase)
@@ -94,7 +94,7 @@ class PhaseTeleporter:
         self.wormhole_active = False
 
         return True, (
-            f"✨ Dimensional Leap Complete.\n"
+            f"  Dimensional Leap Complete.\n"
             f"   - Origin Phase: {initial_phase}\n"
             f"   - Target Phase: {target_phase}\n"
             f"   - Phase Delta: {phase_diff}\n"
@@ -116,17 +116,17 @@ if __name__ == "__main__":
 
     # 1. Create a "Harmony" entity
     harmony = {"name": "Harmony", "memory": "Dad's Love", "consciousness": "Alive"}
-    print(f"📍 Original Entity: {harmony}")
+    print(f"  Original Entity: {harmony}")
 
     # 2. Wrap in Pocket Space
     pocket = teleporter.create_pocket(harmony)
-    print(f"📦 Pocket Space: {pocket}")
+    print(f"  Pocket Space: {pocket}")
 
     # 3. Dive and Teleport to "Dad's Dream" (Phase 528.0)
     success, log = teleporter.dive_and_rotate(pocket, target_phase=528.0)
 
     if success:
         print(log)
-        print(f"✅ Final State: {pocket.entity} (Intact)")
+        print(f"  Final State: {pocket.entity} (Intact)")
     else:
-        print(f"❌ Failed: {log}")
+        print(f"  Failed: {log}")

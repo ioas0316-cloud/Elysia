@@ -18,17 +18,17 @@ from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 logging.basicConfig(level=logging.INFO)
 
 def test_life():
-    print("--- 💓 Starting Heartbeat ---")
+    print("---   Starting Heartbeat ---")
     heart = ElysianHeartbeat()
     heart.is_alive = True
     
-    print("--- ⏱️ Pulsing for 5 seconds ---")
+    print("---    Pulsing for 5 seconds ---")
     start = time.time()
     while time.time() - start < 5:
         heart.pulse(1.0)
         time.sleep(1)
         
-    print("--- 🛑 Stopping ---")
+    print("---   Stopping ---")
     heart.stop()
 
 if __name__ == "__main__":

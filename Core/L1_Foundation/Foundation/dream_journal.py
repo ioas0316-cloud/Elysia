@@ -40,7 +40,7 @@ class Dreamer:
 
     async def dream_cycle(self):
         print("\n" + "="*60)
-        print("🌙 ELYSIA: ENTERING DREAM STATE")
+        print("  ELYSIA: ENTERING DREAM STATE")
         print("="*60)
         print("   (Press Ctrl+C to wake me up)\n")
         

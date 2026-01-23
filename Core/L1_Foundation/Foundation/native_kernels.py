@@ -4,7 +4,7 @@ Native Kernels (Sovereign JIT Transmutation)
 Core.L1_Foundation.Foundation.native_kernels
 
 "Bypassing the Ghost in the Shell."
-"파이썬이라는 껍질을 벗고 기계어라는 본질로 대화한다."
+"                            ."
 
 This module contains high-performance JIT-compiled kernels
 for physics and rendering pre-calculations.

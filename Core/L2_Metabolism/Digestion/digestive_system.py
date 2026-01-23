@@ -39,7 +39,7 @@ class DigestiveSystem:
                 # Consuming knowledge satisfies the Meaning Need.
                 if self.elysia and hasattr(self.elysia, 'will_engine'):
                     self.elysia.will_engine.satisfy("Meaning", 20.0)
-                    print("🧠 [REWARD] Hunger for Meaning satisfied by digestion.")
+                    print("  [REWARD] Hunger for Meaning satisfied by digestion.")
 
                 self.purge_meal()
                 return f"Successfully digested and assimilated {model_name}."
@@ -51,7 +51,7 @@ class DigestiveSystem:
         
     def prepare_meal(self, model_name: str) -> bool:
         """Loads the target model via Respiratory System."""
-        print(f"🍽️ [DigestiveSystem] Preparing meal: {model_name}...")
+        print(f"   [DigestiveSystem] Preparing meal: {model_name}...")
         return self.lungs.inhale(model_name)
 
     def active_probe(self, param: torch.Tensor, name: str) -> Dict:
@@ -95,7 +95,7 @@ class DigestiveSystem:
         Extracts weights and refracts them into 7D Waves via Prism.
         Includes Active Probing logic.
         """
-        print("🦷 [DigestiveSystem] Dynamic Digestion (Double Helix + Active Probing)...")
+        print("  [DigestiveSystem] Dynamic Digestion (Double Helix + Active Probing)...")
         
         if not self.lungs.current_model:
             raise Exception("No food in lungs to digest.")
@@ -150,7 +150,7 @@ class DigestiveSystem:
                          extracted_waves.append(wave_packet)
 
                      except Exception as e:
-                         logger.error(f"❌ Failed to refract {name}.Row{i}: {e}")
+                         logger.error(f"  Failed to refract {name}.Row{i}: {e}")
                          continue
                      
                  layer_count += 1
@@ -171,9 +171,9 @@ class DigestiveSystem:
                 metadata=wave["metadata"]
             )
             count += 1
-        print(f"✨ [METABOLISM] Absorbed {count} Double Helix Waves into the HyperSphere.")
+        print(f"  [METABOLISM] Absorbed {count} Double Helix Waves into the HyperSphere.")
 
     def purge_meal(self):
         """Unloads the model to free resources."""
-        print("🚽 [DigestiveSystem] Purging meal (Exhaling)...")
+        print("  [DigestiveSystem] Purging meal (Exhaling)...")
         self.lungs.exhale()

@@ -2,20 +2,20 @@
 Optimization Layer - Zero-Computation Flow Architecture
 =======================================================
 
-Philosophy: "계산하지 않고 흐르게 한다" (Flow without computation)
+Philosophy: "              " (Flow without computation)
 
 Multi-Layer Optimization Stack:
-1. Bloom Filter → 99% early rejection (O(1))
-2. Hash Cache → 99% instant recall (O(1))
-3. Tensor Gravity Field → Natural flow guidance (O(1))
-4. LSH Index → Fast approximate search (O(1) expected)
-5. KD-Tree → Exact spatial search (O(log n))
-6. Linear → Ultimate fallback (O(n))
+1. Bloom Filter   99% early rejection (O(1))
+2. Hash Cache   99% instant recall (O(1))
+3. Tensor Gravity Field   Natural flow guidance (O(1))
+4. LSH Index   Fast approximate search (O(1) expected)
+5. KD-Tree   Exact spatial search (O(log n))
+6. Linear   Ultimate fallback (O(n))
 
 Based on principles:
-- "데이터가 흐르는 길을 중력장으로 만든다" (Create gravitational paths)
-- "필요할 때만 계산한다" (Lazy evaluation)
-- "같은 것은 다시 계산하지 않는다" (Memoization)
+- "                     " (Create gravitational paths)
+- "           " (Lazy evaluation)
+- "                 " (Memoization)
 """
 
 import logging
@@ -62,7 +62,7 @@ class WaveCache:
         self.cache: OrderedDict[int, CacheEntry] = OrderedDict()
         self.hits = 0
         self.misses = 0
-        logger.info(f"💾 WaveCache initialized (capacity: {max_size})")
+        logger.info(f"  WaveCache initialized (capacity: {max_size})")
     
     def _hash_key(self, *args, **kwargs) -> int:
         """Generate 64-bit hash from arguments"""
@@ -174,7 +174,7 @@ class BloomFilter:
         self.bit_array = [False] * self.bit_array_size
         self.item_count = 0
         
-        logger.info(f"🌸 BloomFilter initialized:")
+        logger.info(f"  BloomFilter initialized:")
         logger.info(f"   Bits: {self.bit_array_size:,} (~{self.bit_array_size//8//1024}KB)")
         logger.info(f"   Hash functions: {self.num_hash_functions}")
         logger.info(f"   Expected FP rate: {false_positive_rate:.1%}")
@@ -236,7 +236,7 @@ class LSHIndex:
     Locality-Sensitive Hashing for O(1) approximate nearest neighbor search.
     
     Idea: Hash function that maps similar items to same/nearby buckets.
-    Similar vectors → same bucket → O(1) lookup instead of O(log n) tree search.
+    Similar vectors   same bucket   O(1) lookup instead of O(log n) tree search.
     
     Trade-off: 95%+ recall, but not 100% (some neighbors might be missed)
     """
@@ -271,7 +271,7 @@ class LSHIndex:
             ]
         
         self.item_count = 0
-        logger.info(f"🔷 LSH Index initialized:")
+        logger.info(f"  LSH Index initialized:")
         logger.info(f"   Tables: {num_tables}")
         logger.info(f"   Bucket width: {bucket_width}")
         logger.info(f"   Dimensions: {dimensions}")
@@ -387,7 +387,7 @@ class OptimizationOrchestrator:
             'linear_used': 0
         }
         
-        logger.info("🎭 OptimizationOrchestrator initialized")
+        logger.info("  OptimizationOrchestrator initialized")
         logger.info("   Multi-layer optimization active")
     
     def optimize_query(
@@ -442,7 +442,7 @@ class LazyComputation:
     """
     Deferred computation - only executes when result is needed.
     
-    Philosophy: "필요할 때만 계산한다"
+    Philosophy: "           "
     """
     
     def __init__(self, func: Callable, *args, **kwargs):

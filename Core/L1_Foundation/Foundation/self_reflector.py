@@ -33,7 +33,7 @@ class CodebaseReflector:
         Args:
             root_path: Absolute path to the project root (e.g., c:\\Elysia)
         """
-        logger.info(f"🪞 Starting Self-Reflection on: {root_path}")
+        logger.info(f"  Starting Self-Reflection on: {root_path}")
         
         stats = {
             "dirs_mapped": 0,

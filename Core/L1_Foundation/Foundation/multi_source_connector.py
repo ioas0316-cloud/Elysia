@@ -2,13 +2,13 @@
 Multi-Source Knowledge Connector
 ================================
 
-Wikipedia (X) → 다양한 소스 (O)
+Wikipedia (X)          (O)
 
-- 나무위키
-- 네이버 지식백과
-- 구글 검색
-- 유튜브
-- 일반 웹사이트
+-     
+-         
+-      
+-    
+-        
 """
 
 import sys
@@ -21,7 +21,7 @@ from typing import Dict, Optional
 import time
 
 class MultiSourceConnector:
-    """다중 소스 지식 수집"""
+    """           """
     
     def __init__(self):
         self.headers = {
@@ -29,41 +29,41 @@ class MultiSourceConnector:
         }
     
     def fetch_from_namuwiki(self, concept: str) -> Optional[str]:
-        """나무위키에서 가져오기"""
+        """           """
         try:
             url = f"https://namu.wiki/w/{concept}"
             response = requests.get(url, headers=self.headers, timeout=5)
             
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')
-                # 나무위키 본문 추출
+                #           
                 content = soup.find('div', {'class': 'wiki-content'})
                 if content:
-                    text = content.get_text()[:1000]  # 첫 1000자
-                    return f"[나무위키] {text}"
+                    text = content.get_text()[:1000]  #   1000 
+                    return f"[    ] {text}"
         except:
             pass
         return None
     
     def fetch_from_naver(self, concept: str) -> Optional[str]:
-        """네이버 검색에서 가져오기"""
+        """             """
         try:
             url = f"https://search.naver.com/search.naver?query={concept}"
             response = requests.get(url, headers=self.headers, timeout=5)
             
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')
-                # 지식백과나 요약 정보
+                #            
                 summary = soup.find('div', {'class': 'api_subject_bx'})
                 if summary:
                     text = summary.get_text()[:800]
-                    return f"[네이버] {text}"
+                    return f"[   ] {text}"
         except:
             pass
         return None
     
     def fetch_from_google(self, concept: str) -> Optional[str]:
-        """구글 검색 스니펫"""
+        """         """
         try:
             url = f"https://www.google.com/search?q={concept}"
             response = requests.get(url, headers=self.headers, timeout=5)
@@ -80,7 +80,7 @@ class MultiSourceConnector:
         return None
     
     def fetch_from_wikipedia(self, concept: str) -> Optional[str]:
-        """Wikipedia (기존)"""
+        """Wikipedia (  )"""
         try:
             url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{concept}"
             response = requests.get(url, timeout=5)
@@ -95,52 +95,52 @@ class MultiSourceConnector:
     
     def fetch_multi_source(self, concept: str) -> Dict[str, str]:
         """
-        모든 소스에서 시도
+                  
         
         Returns:
             {'source': content, ...}
         """
         results = {}
         
-        print(f"🌐 Multi-source fetching: {concept}")
+        print(f"  Multi-source fetching: {concept}")
         
-        # 1. 나무위키 (한국어!)
-        print("   📚 Trying 나무위키...")
+        # 1.      (   !)
+        print("     Trying     ...")
         namuwiki = self.fetch_from_namuwiki(concept)
         if namuwiki:
             results['namuwiki'] = namuwiki
-            print("      ✓ Success")
+            print("        Success")
         
-        # 2. 네이버
-        print("   🔍 Trying 네이버...")
+        # 2.    
+        print("     Trying    ...")
         naver = self.fetch_from_naver(concept)
         if naver:
             results['naver'] = naver
-            print("      ✓ Success")
+            print("        Success")
         
         # 3. Wikipedia (English)
-        print("   📖 Trying Wikipedia...")
+        print("     Trying Wikipedia...")
         wiki = self.fetch_from_wikipedia(concept)
         if wiki:
             results['wikipedia'] = wiki
-            print("      ✓ Success")
+            print("        Success")
         
         # 4. Google snippet
-        print("   🔎 Trying Google...")
+        print("     Trying Google...")
         google = self.fetch_from_google(concept)
         if google:
             results['google'] = google
-            print("      ✓ Success")
+            print("        Success")
         
         if results:
-            print(f"   ✅ Found {len(results)} sources")
+            print(f"     Found {len(results)} sources")
         else:
-            print(f"   ❌ No sources found")
+            print(f"     No sources found")
         
         return results
     
     def combine_sources(self, sources: Dict[str, str]) -> str:
-        """여러 소스 통합"""
+        """        """
         if not sources:
             return f"General concept knowledge"
         
@@ -151,16 +151,16 @@ class MultiSourceConnector:
         return "\n\n".join(combined)
 
 
-# 데모
+#   
 if __name__ == "__main__":
     print("="*70)
-    print("🌐 MULTI-SOURCE KNOWLEDGE CONNECTOR")
+    print("  MULTI-SOURCE KNOWLEDGE CONNECTOR")
     print("="*70)
     print()
     
     connector = MultiSourceConnector()
     
-    test_concepts = ["사랑", "Love", "인공지능", "Python"]
+    test_concepts = ["  ", "Love", "    ", "Python"]
     
     for concept in test_concepts:
         print()
@@ -169,12 +169,12 @@ if __name__ == "__main__":
         combined = connector.combine_sources(sources)
         
         print()
-        print(f"📝 Combined content ({len(combined)} chars):")
+        print(f"  Combined content ({len(combined)} chars):")
         print(combined[:300] + "...")
         print()
         time.sleep(1)  # Rate limiting
     
     print("="*70)
-    print("✅ MULTI-SOURCE CONNECTOR WORKING")
-    print("   나무위키 + 네이버 + Wikipedia + Google!")
+    print("  MULTI-SOURCE CONNECTOR WORKING")
+    print("        +     + Wikipedia + Google!")
     print("="*70)

@@ -111,7 +111,7 @@ class LogicalReasoner:
             # Consider a cell "activated" if its hp significantly increased
             # and it's not the cause_entity itself.
             if final_hp > initial_hp + 10.0 and cell_id != cause_entity:
-                content = f"'{cause_entity}'의 영향으로 '{cell_id}' 개념이 활성화될 수 있습니다."
+                content = f"'{cause_entity}'       '{cell_id}'                ."
 
                 # [Fractal Upgrade] Construct a Tensor3D representing this outcome using non-linear mapping
                 # We map raw stats to the spectral axes using `distribute_frequency`.
@@ -162,7 +162,7 @@ class LogicalReasoner:
         if not mentioned_entities:
             return []
 
-        query_is_for_effect = "결과" in message or "영향" in message or "만약" in message
+        query_is_for_effect = "  " in message or "  " in message or "  " in message
 
         for entity in mentioned_entities:
             # 1. Get static facts from KG
@@ -196,11 +196,11 @@ class LogicalReasoner:
                 relation, target = edge.get('relation', 'related_to'), edge.get('target')
                 content = ""
                 if relation == 'is_a':
-                    content = f"'{entity}'은(는) '{target}'의 한 종류입니다."
+                    content = f"'{entity}' ( ) '{target}'         ."
                 elif relation == 'causes':
-                     content = f"'{entity}'은(는) '{target}'을(를) 유발할 수 있습니다."
+                     content = f"'{entity}' ( ) '{target}' ( )           ."
                 else:
-                    content = f"'{entity}'은(는) '{target}'와(과) '{relation}' 관계입니다."
+                    content = f"'{entity}' ( ) '{target}' ( ) '{relation}'      ."
 
                 if content:
                     # [Fractal Upgrade] Static thoughts carry the 'Bone' tensor
@@ -209,7 +209,7 @@ class LogicalReasoner:
 
                     thought = Thought(
                         content=content,
-                        source='bone',  # '뼈'에서 비롯된 생각
+                        source='bone',  # ' '         
                         confidence=0.95, # Static facts are highly confident
                         evidence=[edge],
                         tensor=bone_tensor
@@ -219,9 +219,9 @@ class LogicalReasoner:
                 relation, source = edge.get('relation', 'related_to'), edge.get('source')
                 content = ""
                 if relation == 'is_a':
-                    content = f"'{source}'은(는) '{entity}'의 한 예시입니다."
+                    content = f"'{source}' ( ) '{entity}'         ."
                 elif relation == 'causes':
-                    content = f"'{source}'은(는) '{entity}'의 원인이 될 수 있습니다."
+                    content = f"'{source}' ( ) '{entity}'              ."
 
                 if content:
                     node_data = self.kg_manager.get_node(source)
@@ -229,7 +229,7 @@ class LogicalReasoner:
 
                     thought = Thought(
                         content=content,
-                        source='bone',  # '뼈'에서 비롯된 생각
+                        source='bone',  # ' '         
                         confidence=0.9, # Inferred relationships are slightly less confident
                         evidence=[edge],
                         tensor=bone_tensor

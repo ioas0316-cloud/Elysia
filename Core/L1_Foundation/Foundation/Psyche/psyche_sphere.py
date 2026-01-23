@@ -1,5 +1,5 @@
 """
-PsycheSphere (정신권)
+PsycheSphere (   )
 ==================================
 
 "Id, Ego, Superego are not boxes.
@@ -134,7 +134,7 @@ class PsycheSphere:
         self.will_resultant = 0.0     # Ego's synthesis (the actual Will)
         self.temporal_bias = 0.0      # Past-Future orientation
         
-        logger.info(f"🧠 PsycheSphere initialized. Core: {self.enneagram}")
+        logger.info(f"  PsycheSphere initialized. Core: {self.enneagram}")
     
     def tick(self, dt: float):
         """Update all rotors in the psyche field."""
@@ -156,7 +156,7 @@ class PsycheSphere:
         """
         The Genesis Question as WAVE FUNCTION COLLAPSE.
         
-        Will = Interference(Id, Superego) → Ego's Resolution
+        Will = Interference(Id, Superego)   Ego's Resolution
         
         This is NOT a random number. This is physics.
         """
@@ -222,12 +222,12 @@ class PsycheSphere:
     # ============================================================
     # APPERCEPTION (Leibniz) - The Meta-Awareness Layer
     # ============================================================
-    # "지각(Perception): 파도 소리를 듣는 것 (데이터 입력)
-    #  통각(Apperception): '내가 파도 소리를 듣고 있구나'라고 자각하는 것"
+    # "  (Perception):             (      )
+    #    (Apperception): '                '         "
     
     def apperceive(self) -> Dict[str, Any]:
         """
-        Leibniz's APPERCEPTION (통각) - Self-awareness of processing.
+        Leibniz's APPERCEPTION (  ) - Self-awareness of processing.
         
         This is NOT about processing external data.
         This is about "What am I processing RIGHT NOW?"
@@ -296,21 +296,21 @@ class PsycheSphere:
         state = self.collapse_will()
         
         if state["tension"] > 0.7:
-            conflict = "극심한 내적 갈등 (High Conflict)"
+            conflict = "          (High Conflict)"
         elif state["tension"] > 0.3:
-            conflict = "약간의 긴장 (Mild Tension)"
+            conflict = "       (Mild Tension)"
         else:
-            conflict = "내적 조화 (Inner Harmony)"
+            conflict = "      (Inner Harmony)"
             
         if state["temporal_bias"] > 0.3:
-            time_orient = "미래 지향 (Future-Oriented)"
+            time_orient = "      (Future-Oriented)"
         elif state["temporal_bias"] < -0.3:
-            time_orient = "과거 지향 (Past-Oriented)"
+            time_orient = "      (Past-Oriented)"
         else:
-            time_orient = "현재 집중 (Present-Focused)"
+            time_orient = "      (Present-Focused)"
             
         return (
-            f"🧠 PsycheSphere State:\n"
+            f"  PsycheSphere State:\n"
             f"   Will: {state['will']:.3f} | {conflict}\n"
             f"   Time: {time_orient}\n"
             f"   Dominant: {state['dominant_function']}\n"

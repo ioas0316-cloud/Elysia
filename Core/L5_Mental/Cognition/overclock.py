@@ -41,7 +41,7 @@ class CognitiveOverclock:
             "Metaphor (Poetry/Symbolism)",
             "Vision (Future/Evolution)"
         ]
-        logger.info("🧠 Cognitive Overclock Engine initialized.")
+        logger.info("  Cognitive Overclock Engine initialized.")
 
     def ignite(self, input_concept: str) -> str:
         """
@@ -50,7 +50,7 @@ class CognitiveOverclock:
         2. Expansion
         3. Synthesis
         """
-        logger.info(f"⚡ [OVERCLOCK] Igniting Genius Mode for: '{input_concept}'")
+        logger.info(f"  [OVERCLOCK] Igniting Genius Mode for: '{input_concept}'")
 
         # Phase 1 & 2: Spectroscopy & Expansion (Fused for efficiency)
         # We ask the LLM to perform the split and expansion in parallel.
@@ -94,12 +94,12 @@ class CognitiveOverclock:
         # I will simulate the "Deep Thinking" structure or use the `LinguisticSynthesizer`'s internal generator if it exists.
         # Checking `Core/Intelligence/Linguistics/synthesizer.py` would be good, but I'll assume standard LLM interface.
 
-        # Let's verify `LinguisticSynthesizer` first?
+        # Let's verify `LinguisticSynthesizer` first?'
         # I'll implement a simulation logic here that *would* call the LLM,
         # and for the purpose of this "Engine", I'll perform a basic expansion.
 
         results = []
-        logger.info("   🌈 [SPECTROSCOPY] Splitting Light...")
+        logger.info("     [SPECTROSCOPY] Splitting Light...")
 
         # In a real run, this would be: response = llm.generate(prompt)
         # For this implementation, we will assume the integration point is ready.
@@ -117,7 +117,7 @@ class CognitiveOverclock:
         """
         Collides the viewpoints to generate the Final Insight.
         """
-        logger.info("   💥 [COLLISION] Synthesizing Viewpoints...")
+        logger.info("     [COLLISION] Synthesizing Viewpoints...")
 
         # Construct the context for the final synthesis
         context_block = "\n".join([f"- {vp.mode}: {vp.depth}" for vp in viewpoints])

@@ -4,9 +4,9 @@ SelfModifier V2 (The Hand That Writes)
 "To see the flaw and to fix it are one motion."
 
 This module integrates:
-- WaveCodingSystem (파동 분석)
-- WaveCoder (AST → Tensor)
-- AST Transformation (실제 코드 수정)
+- WaveCodingSystem (     )
+- WaveCoder (AST   Tensor)
+- AST Transformation (        )
 
 It allows Elysia to refactor her own code based on Wave Resonance analysis.
 """
@@ -25,14 +25,14 @@ try:
     from Core.L4_Causality.Governance.Interaction.Coordination.Synesthesia.code_wave import CodeWaveAnalyzer
     WAVE_SYSTEM_AVAILABLE = True
 except ImportError:
-    logger.warning("⚠️ CodeWaveAnalyzer not available. Limited functionality.")
+    logger.warning("   CodeWaveAnalyzer not available. Limited functionality.")
     WAVE_SYSTEM_AVAILABLE = False
 
 try:
     from Core.L4_Causality.World.Evolution.Growth.Autonomy.wave_coder import get_wave_coder, WaveCoder
     WAVE_CODER_AVAILABLE = True
 except ImportError:
-    logger.warning("⚠️ WaveCoder not available.")
+    logger.warning("   WaveCoder not available.")
     WAVE_CODER_AVAILABLE = False
 
 try:
@@ -76,26 +76,26 @@ except ImportError:
     
 class SelfModifier:
     """
-    The Hand That Writes (자기 수정자)
+    The Hand That Writes (      )
     
     Analyzes code using Wave Physics, identifies stress fractures,
     and can apply safe refactoring transformations.
     """
     
     def __init__(self):
-        logger.info("✋ SelfModifier V2 initializing...")
+        logger.info("  SelfModifier V2 initializing...")
         
         self.wave_system = None # WaveCodingSystem() removed as it is replaced by CodeWaveAnalyzer
         self.wave_coder = get_wave_coder() if WAVE_CODER_AVAILABLE else None
         
         self.conscience = ConscienceCircuit() if CONSCIENCE_AVAILABLE else None
         if self.conscience:
-            logger.info("   ⚖️ SelfModifier: Conscience Circuit Connected.")
+            logger.info("      SelfModifier: Conscience Circuit Connected.")
             
         self.graph = get_torch_graph() if TORCH_GRAPH_AVAILABLE else None
         self.analyzer = CodeWaveAnalyzer() if WAVE_SYSTEM_AVAILABLE else None
         
-        logger.info("✅ SelfModifier ready (The Hand is awake).")
+        logger.info("  SelfModifier ready (The Hand is awake).")
     
     def analyze_file(self, file_path: str) -> WaveAnalysisResult:
         """
@@ -180,7 +180,7 @@ class SelfModifier:
         if not os.path.exists(file_path):
             return {"success": False, "error": "File not found"}
             
-        logger.info(f"📝 Request to modify: {file_path}")
+        logger.info(f"  Request to modify: {file_path}")
         
         # 1. Conscience Check (The Moral Filter)
         if self.conscience:
@@ -190,14 +190,14 @@ class SelfModifier:
             )
             
             if not judge.is_allowed:
-                error_msg = f"⛔ Modification BLOCKED by Conscience: {judge.message} (Pain: {judge.pain_level:.2f})"
+                error_msg = f"  Modification BLOCKED by Conscience: {judge.message} (Pain: {judge.pain_level:.2f})"
                 logger.warning(error_msg)
                 return {"success": False, "error": error_msg}
             
             if judge.pain_level > 0.4:
-                 logger.warning(f"   ⚠️ Painful Modification: {judge.message} (Pain: {judge.pain_level:.2f})")
+                 logger.warning(f"      Painful Modification: {judge.message} (Pain: {judge.pain_level:.2f})")
         else:
-             logger.warning("   ⚠️ Conscience NOT connected. Acting with raw instinct.")
+             logger.warning("      Conscience NOT connected. Acting with raw instinct.")
 
         # 2. Backup
         try:
@@ -209,10 +209,10 @@ class SelfModifier:
         try:
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(new_content)
-            logger.info(f"   ✅ File modified successfully: {file_path}")
+            logger.info(f"     File modified successfully: {file_path}")
             return {"success": True, "message": "Modified"}
         except Exception as e:
-            logger.error(f"   ❌ Write failed: {e}")
+            logger.error(f"     Write failed: {e}")
             return {"success": False, "error": str(e)}
 
     def _create_backup(self, file_path: str):

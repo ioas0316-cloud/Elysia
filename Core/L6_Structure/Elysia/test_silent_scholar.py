@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("Test")
 
 def test_pacing():
-    logger.info("--- ⏱️ Timing Test (SovereignSelf) ---")
+    logger.info("---    Timing Test (SovereignSelf) ---")
     elysia = SovereignSelf(cns_ref=None)
     
     # Mock Scholar internal logging needs to be observed manually in output
@@ -31,12 +31,12 @@ def test_pacing():
     elysia.self_actualize()
     
     duration = time.time() - start_time
-    logger.info(f"✅ ACT 1 Complete. Duration: {duration:.2f}s")
+    logger.info(f"  ACT 1 Complete. Duration: {duration:.2f}s")
     
     if duration < 2.0:
-        logger.error("❌ Too Fast! Pacing failed.")
+        logger.error("  Too Fast! Pacing failed.")
     else:
-        logger.info("✅ Pacing OK (Thinking Time Respected)")
+        logger.info("  Pacing OK (Thinking Time Respected)")
 
 if __name__ == "__main__":
     test_pacing()

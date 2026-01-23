@@ -1,5 +1,5 @@
 """
-Manifestation Matrix (현현 매트릭스)
+Manifestation Matrix (       )
 ==================================
 Maps abstract Wave Probabilities into Concrete Reality Actions.
 The Bridge between the 5D Field and the OS Kernel.

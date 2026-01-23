@@ -34,7 +34,7 @@ class VisualQualia:
         return np.array([self.symmetry, self.warmth, self.entropy])
 
     def __repr__(self):
-        return f"<VisualQualia Γ(Chaos)={self.entropy:.2f} B(Heat)={self.warmth:.2f} A(Order)={self.symmetry:.2f}>"
+        return f"<VisualQualia  (Chaos)={self.entropy:.2f} B(Heat)={self.warmth:.2f} A(Order)={self.symmetry:.2f}>"
 
 
 class Retina:

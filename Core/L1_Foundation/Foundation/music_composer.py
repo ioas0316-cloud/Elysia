@@ -244,7 +244,7 @@ class MusicComposer:
         Returns:
             Complete composition with metadata
         """
-        print(f"🎵 Composing {style} music with {emotion} emotion")
+        print(f"  Composing {style} music with {emotion} emotion")
         
         # Parse emotion
         try:
@@ -257,25 +257,25 @@ class MusicComposer:
         tempo = self.select_tempo_for_emotion(emotion_enum)
         time_signature = self.select_time_signature(style)
         
-        print(f"🎼 Key: {key_data['note_name']} {key_data['scale_type']}, Tempo: {tempo} BPM")
+        print(f"  Key: {key_data['note_name']} {key_data['scale_type']}, Tempo: {tempo} BPM")
         
         # 2. Generate melody
         melody = await self.generate_melody(key_data, emotion_enum, duration_bars)
-        print(f"🎹 Generated melody with {len(melody.notes)} notes")
+        print(f"  Generated melody with {len(melody.notes)} notes")
         
         # 3. Generate harmony
         harmony = await self.generate_harmony(melody, key_data)
-        print(f"🎸 Generated harmony with {len(harmony.chords)} chords")
+        print(f"  Generated harmony with {len(harmony.chords)} chords")
         
         # 4. Generate rhythm
         rhythm = await self.generate_rhythm(tempo, time_signature, duration_bars)
-        print(f"🥁 Generated rhythm pattern")
+        print(f"  Generated rhythm pattern")
         
         # 5. Arrange instruments
         instrumentation = await self.arrange_instruments(
             melody, harmony, rhythm, style
         )
-        print(f"🎺 Arranged {len(instrumentation.parts)} instrument parts")
+        print(f"  Arranged {len(instrumentation.parts)} instrument parts")
         
         # 6. Create composition object
         composition = Composition(
@@ -570,5 +570,5 @@ class MusicComposer:
         - sounddevice (playback)
         """
         # Placeholder for actual audio synthesis
-        print("🔊 Audio synthesis would happen here (placeholder)")
+        print("  Audio synthesis would happen here (placeholder)")
         return b""  # Empty bytes as placeholder

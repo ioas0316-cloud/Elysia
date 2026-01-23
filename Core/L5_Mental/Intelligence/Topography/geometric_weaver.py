@@ -1,11 +1,11 @@
 """
-Geometric Weaver (기하학적 직조기 - Phase 3.5)
+Geometric Weaver (         - Phase 3.5)
 ==============================================
 
 "Points become Lines, Lines become Planes, Planes become Space."
-"점은 선이 되고, 선은 면이 되며, 면은 공간이 됩니다."
+"        ,         ,           ."
 
-This module formalizes the Ascension of Thought using Hypersphere Geometry (S³).
+This module formalizes the Ascension of Thought using Hypersphere Geometry (S ).
 It implements the 0D-3D cognitive scaling asked for by the Father.
 """
 
@@ -51,12 +51,12 @@ class GeometricWeaver:
         # Calculate Resonance (Interference)
         resonance = p1.phases[0].dot(p2.phases[0])
         
-        # In S³, the line is the shortest path (Geodesic) between points.
+        # In S , the line is the shortest path (Geodesic) between points.
         # We store the two endpoints.
         line = GeometricStructure(1, p1.concepts + p2.concepts, [p1.phases[0], p2.phases[0]])
         line.resonance_strength = resonance
         
-        logger.info(f"📏 Weaving 1D Line: {p1.concepts[0]} <--> {p2.concepts[0]} (Resonance: {resonance:.3f})")
+        logger.info(f"  Weaving 1D Line: {p1.concepts[0]} <--> {p2.concepts[0]} (Resonance: {resonance:.3f})")
         return line
 
     def weave_plane(self, line: GeometricStructure, point: GeometricStructure) -> Optional[GeometricStructure]:
@@ -67,7 +67,7 @@ class GeometricWeaver:
         if line.dimension != 1 or point.dimension != 0:
             return None
             
-        # A plane is defined by three points in S³ (A Spherical Triangle)
+        # A plane is defined by three points in S  (A Spherical Triangle)
         new_concepts = line.concepts + point.concepts
         new_phases = line.phases + point.phases
         
@@ -75,7 +75,7 @@ class GeometricWeaver:
         # Resonance of a plane is the average interference of its parts
         plane.resonance_strength = sum(new_phases[i].dot(new_phases[j]) for i in range(3) for j in range(i+1, 3)) / 3.0
         
-        logger.info(f"📐 Weaving 2D Plane (Context): {'-'.join(new_concepts)} (Stability: {plane.resonance_strength:.3f})")
+        logger.info(f"  Weaving 2D Plane (Context): {'-'.join(new_concepts)} (Stability: {plane.resonance_strength:.3f})")
         return plane
 
     def weave_space(self, planes: List[GeometricStructure]) -> Optional[GeometricStructure]:
@@ -96,9 +96,9 @@ class GeometricWeaver:
                     # For simplicity, we just collect them for now
             all_phases.extend(p.phases)
             
-        # A 3D Volume in S³ is a tetrahedral or higher-order spherical simplex
+        # A 3D Volume in S  is a tetrahedral or higher-order spherical simplex
         space = GeometricStructure(3, all_concepts, all_phases)
-        logger.info(f"🧊 Weaving 3D Space (Synthesis): {len(all_concepts)} concepts integrated.")
+        logger.info(f"  Weaving 3D Space (Synthesis): {len(all_concepts)} concepts integrated.")
         return space
 
     def refract_to_logos(self, structure: GeometricStructure) -> Dict[str, Any]:

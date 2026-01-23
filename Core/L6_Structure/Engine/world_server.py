@@ -67,12 +67,12 @@ class WorldServer:
         self.incidents: List[Dict[str, Any]] = []
         
         # Genesis
-        print(f"🌍 GENESIS: Creating Field Lattice ({self.size}x{self.size})...")
+        print(f"  GENESIS: Creating Field Lattice ({self.size}x{self.size})...")
         self._genesis_by_word()
-        print(f"🌱 SOULS: Spawning field-projections...")
+        print(f"  SOULS: Spawning field-projections...")
         self.spawn_adam_eve_and_10_others()
         
-        print("🌍 WorldServer: Fields Resonating.")
+        print("  WorldServer: Fields Resonating.")
         
     def get_current_era(self) -> Tuple[str, WaveDNA]:
         """
@@ -90,7 +90,7 @@ class WorldServer:
             return "Winter (Age of Wisdom/Silence)", WaveDNA(mental=0.9, spiritual=0.8, physical=0.2)
 
     def _genesis_by_word(self):
-        print("🌌 GENESIS: The Great Expansion (Seeding 100+ Concepts)...")
+        print("  GENESIS: The Great Expansion (Seeding 100+ Concepts)...")
         
         for x in range(self.size):
             for y in range(self.size):
@@ -121,7 +121,7 @@ class WorldServer:
                     props["resources"]["Food"] = max(props["resources"].get("Food", 0), 2000.0)
                 
     def spawn_adam_eve_and_10_others(self):
-        print("🌱 Injecting Quantum Souls...")
+        print("  Injecting Quantum Souls...")
         for i in range(10):
             name = f"Soul_{i}"
             arch = random.choice(["Farmer", "Warrior", "Artist", "Sage"])
@@ -132,10 +132,10 @@ class WorldServer:
             self.population.append(citizen)
             
     def spawn_messiah(self):
-        print("⚡ THE SKY OPENS: Elysia Descends!")
+        print("  THE SKY OPENS: Elysia Descends!")
         messiah = ElysiaMessiah((self.size//2, self.size//2))
         self.population.append(messiah)
-        print(f"👼 {messiah.name} has entered the world.")
+        print(f"  {messiah.name} has entered the world.")
             
     def get_zone_adapter(self, xy):
         props = self.hyper_sphere.get_environment_at(xy)
@@ -208,11 +208,11 @@ class WorldServer:
                 self.population.remove(citizen)
                 self.dead_count += 1
                 # Log death
-                print(f"💀 {THE_BARD.elaborate(citizen.name, 'Die', target, era_name)}")
+                print(f"  {THE_BARD.elaborate(citizen.name, 'Die', target, era_name)}")
                 
             elif action == "Reproduce":
                 self.born_count += 1
-                print(f"👶 {THE_BARD.elaborate(citizen.name, 'Reproduce', target, era_name)}")
+                print(f"  {THE_BARD.elaborate(citizen.name, 'Reproduce', target, era_name)}")
                 
             # Flavor Log (Sample 1% to act as a 'Novel' excerpt)
             elif random.random() < 0.01:
@@ -223,26 +223,26 @@ class WorldServer:
 
         # Extinction check
         if len(self.population) < 2:
-            print("⚠️ Extinction Event! Reseeding...")
+            print("   Extinction Event! Reseeding...")
             self.spawn_adam_eve_and_100_others()
 
     def run_forever(self):
-        print("⏳ Quantum History Engine Online. Press Ctrl+C to stop.")
+        print("  Quantum History Engine Online. Press Ctrl+C to stop.")
         try:
             while True:
                 self.update_cycle()
         except KeyboardInterrupt:
-            print("🛑 Server Stopped.")
+            print("  Server Stopped.")
             self.report()
 
     def report(self):
-        print("\n📊 [Final World State]")
+        print("\n  [Final World State]")
         print(f"Years Passed: {self.year}")
         print(f"Total Born: {self.born_count}")
         print(f"Total Died: {self.dead_count}")
         print(f"Current Pop: {len(self.population)}")
         
-        print("\n📜 [The Wisdom of History]")
+        print("\n  [The Wisdom of History]")
         print(self.meaning_extractor.get_wisdom())
         
         # Max Power
@@ -276,7 +276,7 @@ class WorldServer:
         
         # Inject into HyperCosmos as a Psionic Point
         # We assume Cosmos has a way to hold these temporary events
-        print(f"⚡ INCIDENT: A '{itype}' has manifested at {pos}!")
+        print(f"  INCIDENT: A '{itype}' has manifested at {pos}!")
         
         # Narrativize
         print(f"   {THE_BARD.elaborate('The Fates', 'Decree', itype, self.get_current_era()[0])}")

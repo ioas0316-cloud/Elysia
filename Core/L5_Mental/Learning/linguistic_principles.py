@@ -1,5 +1,5 @@
 """
-Linguistic Principles (언어 생성 원리)
+Linguistic Principles (        )
 =====================================
 Core.L5_Mental.Learning.linguistic_principles
 
@@ -21,61 +21,61 @@ PRINCIPLES_PATH = "data/Learning/linguistic_principles.json"
 
 
 # =============================================================================
-# KOREAN GRAMMAR PRINCIPLES (한국어 문법 원리)
+# KOREAN GRAMMAR PRINCIPLES (         )
 # =============================================================================
 
 KOREAN_PRINCIPLES = {
     "language": "korean",
     "word_order": "SOV",  # Subject-Object-Verb
-    "description": "한국어는 주어-목적어-동사 순서. 조사가 문법 역할을 결정.",
+    "description": "       -   -     .              .",
     
     "sentence_structures": [
         # Basic patterns
-        {"pattern": "S-V", "example": "새가 난다", "meaning": "subject + verb"},
-        {"pattern": "S-O-V", "example": "고양이가 쥐를 잡는다", "meaning": "subject + object + verb"},
-        {"pattern": "S-A-V", "example": "꽃이 예쁘게 핀다", "meaning": "subject + adverb + verb"},
-        {"pattern": "S-L-V", "example": "아이가 학교에 간다", "meaning": "subject + location + verb"},
-        {"pattern": "T-S-O-V", "example": "오늘 나는 책을 읽었다", "meaning": "time + subject + object + verb"},
+        {"pattern": "S-V", "example": "     ", "meaning": "subject + verb"},
+        {"pattern": "S-O-V", "example": "           ", "meaning": "subject + object + verb"},
+        {"pattern": "S-A-V", "example": "         ", "meaning": "subject + adverb + verb"},
+        {"pattern": "S-L-V", "example": "          ", "meaning": "subject + location + verb"},
+        {"pattern": "T-S-O-V", "example": "            ", "meaning": "time + subject + object + verb"},
     ],
     
     "particles": {
         # Subject markers
-        "이/가": {"role": "subject_marker", "example": "사과가 빨갛다"},
-        "은/는": {"role": "topic_marker", "example": "나는 학생이다"},
+        " / ": {"role": "subject_marker", "example": "       "},
+        " / ": {"role": "topic_marker", "example": "       "},
         # Object markers
-        "을/를": {"role": "object_marker", "example": "밥을 먹는다"},
+        " / ": {"role": "object_marker", "example": "      "},
         # Location markers
-        "에": {"role": "location/time", "example": "학교에 간다"},
-        "에서": {"role": "location_action", "example": "도서관에서 공부한다"},
+        " ": {"role": "location/time", "example": "      "},
+        "  ": {"role": "location_action", "example": "          "},
         # Direction
-        "으로/로": {"role": "direction/means", "example": "서울로 간다"},
+        "  / ": {"role": "direction/means", "example": "      "},
         # Possessive
-        "의": {"role": "possessive", "example": "나의 책"},
+        " ": {"role": "possessive", "example": "    "},
     },
     
     "verb_endings": {
         # Tense
-        "-았/었-": {"role": "past_tense", "example": "먹었다"},
-        "-ㄴ/는-": {"role": "present_tense", "example": "먹는다"},
-        "-ㄹ/을-": {"role": "future_tense", "example": "먹을 것이다"},
+        "- / -": {"role": "past_tense", "example": "   "},
+        "- / -": {"role": "present_tense", "example": "   "},
+        "- / -": {"role": "future_tense", "example": "      "},
         # Politeness
-        "-ㅂ니다/습니다": {"role": "formal_polite", "example": "갑니다"},
-        "-아요/어요": {"role": "informal_polite", "example": "가요"},
-        "-다": {"role": "plain", "example": "간다"},
+        "-   /   ": {"role": "formal_polite", "example": "   "},
+        "-  /  ": {"role": "informal_polite", "example": "  "},
+        "- ": {"role": "plain", "example": "  "},
     },
     
     "generation_rules": [
-        "1. 동사/형용사는 항상 문장 끝에 위치",
-        "2. 조사가 명사의 문법적 역할을 결정",
-        "3. 어순이 비교적 자유 (조사 덕분에)",
-        "4. 경어법에 따라 문장 끝 변화",
-        "5. 시제는 어미로 표현",
+        "1.   /                ",
+        "2.                   ",
+        "3.            (      )",
+        "4.                ",
+        "5.           ",
     ]
 }
 
 
 # =============================================================================
-# ENGLISH GRAMMAR PRINCIPLES (영어 문법 원리)
+# ENGLISH GRAMMAR PRINCIPLES (        )
 # =============================================================================
 
 ENGLISH_PRINCIPLES = {
@@ -117,7 +117,7 @@ ENGLISH_PRINCIPLES = {
 
 
 # =============================================================================
-# HYPERSPHERE REPRESENTATION (하이퍼스피어 표현)
+# HYPERSPHERE REPRESENTATION (         )
 # =============================================================================
 
 @dataclass
@@ -185,7 +185,7 @@ class LinguisticPrincipleStore:
         }
         
         self._save()
-        logger.info("📖 Linguistic Principle Store initialized (Korean + English)")
+        logger.info("  Linguistic Principle Store initialized (Korean + English)")
     
     def _save(self):
         """Saves principles to disk."""
@@ -248,11 +248,11 @@ class LinguisticPrincipleStore:
 if __name__ == "__main__":
     store = LinguisticPrincipleStore()
     
-    print("📖 Linguistic Principles in HyperSphere\n")
+    print("  Linguistic Principles in HyperSphere\n")
     
     # Show Korean principles
-    print("=== 한국어 (Korean) ===")
-    print(f"어순: {KOREAN_PRINCIPLES['word_order']}")
+    print("===     (Korean) ===")
+    print(f"  : {KOREAN_PRINCIPLES['word_order']}")
     for rule in store.get_generation_rules("korean")[:3]:
         print(f"  {rule}")
     
@@ -268,4 +268,4 @@ if __name__ == "__main__":
     print(f"Korean Qualia: {[f'{v:.2f}' for v in comparison['korean_qualia']]}")
     print(f"English Qualia: {[f'{v:.2f}' for v in comparison['english_qualia']]}")
     
-    print("\n✨ Linguistic principles stored in HyperSphere.")
+    print("\n  Linguistic principles stored in HyperSphere.")

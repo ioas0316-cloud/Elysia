@@ -35,10 +35,10 @@ class SovereignResonator:
         low_text = text.lower()
         
         # Simple Sentiment Mapping
-        warm_words = ["좋아", "감사", "사랑", "함께", "동반", "따뜻", "행복"]
-        cold_words = ["아니", "틀려", "문제", "차갑", "슬퍼", "화나"]
-        logical_words = ["어떻게", "왜", "구조", "수식", "원리", "벡터", "연산"]
-        intense_words = ["진짜", "너무", "완전", "정말로", "대박", "!!!!"]
+        warm_words = ["  ", "  ", "  ", "  ", "  ", "  ", "  "]
+        cold_words = ["  ", "  ", "  ", "  ", "  ", "  "]
+        logical_words = ["   ", " ", "  ", "  ", "  ", "  ", "  "]
+        intense_words = ["  ", "  ", "  ", "   ", "  ", "!!!!"]
 
         if any(w in low_text for w in warm_words): valence += 0.4; agape += 0.3
         if any(w in low_text for w in cold_words): valence -= 0.4; agape -= 0.2

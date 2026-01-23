@@ -66,7 +66,7 @@ class AxisShifter:
             norm = (new_axis[0]**2 + new_axis[1]**2 + new_axis[2]**2)**0.5
             if norm > 0:
                 rotor.axis = (new_axis[0]/norm, new_axis[1]/norm, new_axis[2]/norm)
-                logger.debug(f"📐 [AxisShift] {name} rotated to axis {rotor.axis}")
+                logger.debug(f"  [AxisShift] {name} rotated to axis {rotor.axis}")
 
     def find_resonance(self) -> float:
         """

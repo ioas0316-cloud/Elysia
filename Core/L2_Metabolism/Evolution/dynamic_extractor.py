@@ -4,7 +4,7 @@ Dynamic Knowledge Extractor (Phase 16.5)
 Core.L2_Metabolism.Evolution.dynamic_extractor
 
 "The truth is not in the text, but in the resonance between weights."
-"진실은 텍스트가 아니라 가중치 사이의 공명에 있다."
+"                           ."
 
 This module performs a 'Dynamic Semantic Scan' on the 72B model's WaveDNA
 to extract diverse knowledge pods on-demand, verifying that the 
@@ -35,7 +35,7 @@ class DynamicKnowledgeExtractor:
         Simulates a semantic scan of the 72B model weights using 
         Resonance Frequencies (WaveDNA).
         """
-        logger.info(f"🔍 [DYNAMIC_SCAN] Scanning 72B Topological Space for '{topic}'...")
+        logger.info(f"  [DYNAMIC_SCAN] Scanning 72B Topological Space for '{topic}'...")
         
         # Use the biopsy frequencies to 'tune' the extraction
         freqs = self.scars.get("metrics", {}).get("dominant_frequencies", [8, 12, 16])
@@ -69,17 +69,17 @@ class DynamicKnowledgeExtractor:
         """
         Generates a diverse set of pods to prove non-hardcoding.
         """
-        print(f"\n🚀 Starting Diverse Knowledge Verification...")
+        print(f"\n  Starting Diverse Knowledge Verification...")
         print("="*60)
         
         for topic in test_topics:
             result = self.extract_topic(topic)
-            print(f"\n📍 Topic: {topic}")
+            print(f"\n  Topic: {topic}")
             for k, v in result.items():
                 print(f"   [{k.upper()}]: {v}")
         
         print("\n" + "="*60)
-        print("✅ Diverse Verification Complete.")
+        print("  Diverse Verification Complete.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

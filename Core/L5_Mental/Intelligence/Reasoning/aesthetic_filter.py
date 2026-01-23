@@ -93,7 +93,7 @@ class AestheticFilter:
             "verdict": "Resonant" if overall_beauty > 0.15 else "Dissonant"
         }
         
-        logger.info(f"✨ Aesthetic Evaluation: '{thought_text[:30]}...' -> Beauty: {overall_beauty:.2f} [{result['verdict']}]")
+        logger.info(f"  Aesthetic Evaluation: '{thought_text[:30]}...' -> Beauty: {overall_beauty:.2f} [{result['verdict']}]")
         return result
 
     def _fuzzy_resonance(self, wave_a: WaveTensor, wave_b: WaveTensor, bandwidth: float = 5.0) -> float:

@@ -41,7 +41,7 @@ def law_resource_hierarchy(context, dt, intensity):
             if first_fork.val == 0:
                 first_fork.val = 1
                 p.props["state"] = "HOLDING_FIRST"
-                # print(f"   🛡️ {p.name} obeyed Hierarchy: Picked up {first_fork.name} first.")
+                # print(f"      {p.name} obeyed Hierarchy: Picked up {first_fork.name} first.")
             else:
                 # Blocked
                 pass
@@ -52,7 +52,7 @@ def law_resource_hierarchy(context, dt, intensity):
                 second_fork.val = 1
                 p.props["state"] = "EATING"
                 p.props["eat_time"] = 2.0
-                # print(f"   🍝 {p.name} picked up {second_fork.name} and is EATING.")
+                # print(f"     {p.name} picked up {second_fork.name} and is EATING.")
                 
                 # METRIC FOR COGNITIVE CYCLE
                 p.props["meals_eaten"] = p.props.get("meals_eaten", 0) + 1
@@ -69,7 +69,7 @@ def law_resource_hierarchy(context, dt, intensity):
                 first_fork.val = 0
                 second_fork.val = 0
                 p.props["state"] = "THINKING"
-                # print(f"   😌 {p.name} finished.")
+                # print(f"     {p.name} finished.")
 
 # ==============================================================================
 # PHASE 20: THE CONTINUUM (Space & Persistence)
@@ -88,10 +88,10 @@ def law_naive_oom(context, dt, intensity):
     active_monads = [m for m in world if m.props.get("in_ram", True)]
     usage = len(active_monads)
     
-    # print(f"   💾 [Mem Check] Usage: {usage}/{MAX_MEMORY_CAPACITY}")
+    # print(f"     [Mem Check] Usage: {usage}/{MAX_MEMORY_CAPACITY}")
     
     if usage > MAX_MEMORY_CAPACITY:
-        print(f"   💥 [CRASH] OUT OF MEMORY! (Usage {usage} > {MAX_MEMORY_CAPACITY})")
+        print(f"     [CRASH] OUT OF MEMORY! (Usage {usage} > {MAX_MEMORY_CAPACITY})")
         # Simulate Crash: Wipe everything or Raise Error?
         # Let's Raise Error to simulate System Failure
         # But we catch it in CognitiveCycle to measure 'Suffering'
@@ -130,7 +130,7 @@ def law_lru_paging(context, dt, intensity):
         
         # 2. Swap Out
         victim.props["in_ram"] = False
-        print(f"   🔄 [Swap] RAM Full ({usage}). Moving {victim.name} to Disk.")
+        print(f"     [Swap] RAM Full ({usage}). Moving {victim.name} to Disk.")
         
     else:
         # Check if anyone needs to be Swapped In? (If accessed)

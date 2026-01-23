@@ -1,9 +1,9 @@
 """
-Interference Solver (간섭 연산기 - Phase 3)
+Interference Solver (       - Phase 3)
 ===========================================
 
 "Thinking is not moving; it is vibrating into alignment."
-"사고는 이동이 아니라, 정렬을 위한 진동입니다."
+"           ,             ."
 
 This module replaces the Newtonian PhysicsSolver.
 It uses Phase Interference as the primary driver for cognitive evolution.
@@ -18,7 +18,7 @@ logger = logging.getLogger("InterferenceSolver")
 
 class InterferenceSolver:
     """
-    The engine of the Silent Sphere (S³).
+    The engine of the Silent Sphere (S ).
     Instead of Gravity (Force), it uses Resonance (Alignment Depth).
     """
     

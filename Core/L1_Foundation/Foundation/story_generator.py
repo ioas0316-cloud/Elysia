@@ -194,26 +194,26 @@ class StoryGenerator:
         Returns:
             Complete story structure with metadata
         """
-        print(f"🎨 Generating {style} story from prompt: '{prompt}'")
+        print(f"  Generating {style} story from prompt: '{prompt}'")
         
         # 1. Build world
         world = await self.build_world(prompt, style)
-        print(f"🌍 Built world: {world.name}")
+        print(f"  Built world: {world.name}")
         
         # 2. Create characters
         characters = await self.create_characters(world, prompt)
-        print(f"👥 Created {len(characters)} characters")
+        print(f"  Created {len(characters)} characters")
         
         # 3. Construct plot
         plot = await self.construct_plot(world, characters, prompt, length)
-        print(f"📖 Constructed plot with {len(plot)} plot points")
+        print(f"  Constructed plot with {len(plot)} plot points")
         
         # 4. Write scenes
         scenes = []
         for i, plot_point in enumerate(plot):
             scene = await self.write_scene(plot_point, characters, world)
             scenes.append(scene)
-            print(f"✍️  Scene {i+1}/{len(plot)} written")
+            print(f"    Scene {i+1}/{len(plot)} written")
         
         # 5. Ensure consistency
         story = Story(
@@ -223,11 +223,11 @@ class StoryGenerator:
             scenes=scenes
         )
         story = await self.ensure_consistency(story)
-        print("✅ Consistency verified")
+        print("  Consistency verified")
         
         # 6. Optimize emotional arc
         story = await self.optimize_emotional_arc(story)
-        print("🎭 Emotional arc optimized")
+        print("  Emotional arc optimized")
         
         # 7. Extract metadata
         story.title = await self.generate_title(story, prompt)
@@ -457,7 +457,7 @@ class StoryGenerator:
         character_names = {c.name for c in story.characters}
         for name in all_mentioned:
             if name not in character_names:
-                print(f"⚠️  Warning: Character '{name}' mentioned but not defined")
+                print(f"    Warning: Character '{name}' mentioned but not defined")
         
         # Check location continuity
         defined_locations = {loc["name"] for loc in story.world.locations}
@@ -478,7 +478,7 @@ class StoryGenerator:
         
         # Check for emotional monotony
         if len(set(emotions_used)) < 3:
-            print("💡 Diversifying emotional tones")
+            print("  Diversifying emotional tones")
             # Add more emotional variety in middle scenes
             for i, scene in enumerate(story.scenes[1:-1], 1):
                 if i % 2 == 0:

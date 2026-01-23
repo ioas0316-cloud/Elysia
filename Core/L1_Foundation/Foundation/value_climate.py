@@ -31,10 +31,10 @@ def compute_value_climate(feelings: Dict[str, float]) -> ValueClimate:
     Derive a soft "climate" from the current feeling state.
 
     Intuition:
-    - Joy/Creation 높음: value_mass 강화, exploration 증가.
-    - Care 높음: threat_sensitivity는 조금 줄이고, will_tension도 부드럽게.
-    - Mortality 높음: threat_sensitivity와 will_tension이 올라가고,
-      exploration은 약간 줄어든다.
+    - Joy/Creation   : value_mass   , exploration   .
+    - Care   : threat_sensitivity        , will_tension      .
+    - Mortality   : threat_sensitivity  will_tension      ,
+      exploration         .
     """
 
     joy = max(0.0, float(feelings.get("joy", 0.0)))
@@ -75,4 +75,3 @@ def compute_value_climate(feelings: Dict[str, float]) -> ValueClimate:
         threat_sensitivity=threat_sensitivity,
         exploration_bias=exploration_bias,
     )
-

@@ -76,7 +76,7 @@ class FractalKernel:
         if depth == 1 and mode == "planning":
             print(f"DEBUG: Attempting to save plan. Signal length: {len(expanded_signal)}")
             try:
-                # 플랫폼 독립적 경로 처리
+                #              
                 elysia_root = os.environ.get("ELYSIA_ROOT")
                 if elysia_root:
                     file_path = Path(elysia_root) / "fractal_plan.md"
@@ -200,4 +200,3 @@ class FractalKernel:
         for rail in changes.get("add_rails", []):
             self.field.add_railgun(rail['sx'], rail['sy'], rail['ex'], rail['ey'], rail['force'])
             self.logger.info(f"Genesis: Added Railgun from ({rail['sx']}, {rail['sy']}) to ({rail['ex']}, {rail['ey']})")
-

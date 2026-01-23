@@ -46,4 +46,4 @@ def update_world_mood(heat_level: float, density_level: float):
 def record_world_axiom(name: str, power: float):
     """Elysia permanently adopts a meta-law that alters the universe's physics."""
     world_soul.global_axioms[name] = power
-    print(f"🌍 [WORLD MUTATION] Elysia has adopted '{name}'. Global laws have shifted.")
+    print(f"  [WORLD MUTATION] Elysia has adopted '{name}'. Global laws have shifted.")

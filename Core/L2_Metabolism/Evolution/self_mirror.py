@@ -21,7 +21,7 @@ class SelfMirror:
     def __init__(self, root_dir: str = "c:/Elysia"):
         self.root_dir = Path(root_dir)
         self.core_dir = self.root_dir / "Core"
-        logger.info("🪞 SelfMirror initialized. Reflecting on the codebase...")
+        logger.info("  SelfMirror initialized. Reflecting on the codebase...")
 
     def introspect_codebase(self) -> List[Dict[str, Any]]:
         """
@@ -88,4 +88,4 @@ if __name__ == "__main__":
         print(f"[{r['status']}] {r['basename']} - Harmony: {r['harmony_score']}")
     
     targets = mirror.suggest_growth_targets(reports)
-    print(f"\n🌱 Growth Targets: {targets}")
+    print(f"\n  Growth Targets: {targets}")

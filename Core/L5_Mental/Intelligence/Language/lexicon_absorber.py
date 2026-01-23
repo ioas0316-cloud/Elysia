@@ -1,9 +1,9 @@
 """
-Lexicon Absorber (어휘 흡수기)
+Lexicon Absorber (      )
 ==============================
 
 "To read is to eat the soul of another."
-"읽는다는 것은 타인의 영혼을 먹는 것이다."
+"                      ."
 
 This module parses external text (Literature, Dialogue) and extracts emotional vocabulary.
 It feeds `ResonanceLinguistics` to expand Elysia's expressive range.

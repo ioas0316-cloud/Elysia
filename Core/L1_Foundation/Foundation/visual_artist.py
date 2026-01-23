@@ -241,7 +241,7 @@ class VisualArtist:
         Returns:
             Complete artwork with metadata
         """
-        print(f"🎨 Creating {style} artwork: '{concept}'")
+        print(f"  Creating {style} artwork: '{concept}'")
         
         # Parse style
         try:
@@ -251,15 +251,15 @@ class VisualArtist:
         
         # 1. Conceptualize
         visual_concept = await self.conceptualize(concept, style_enum)
-        print(f"💡 Conceptualized: {visual_concept.theme}")
+        print(f"  Conceptualized: {visual_concept.theme}")
         
         # 2. Select color palette
         palette = await self.select_color_palette(visual_concept, style_enum)
-        print(f"🎨 Selected palette: {palette.name} ({len(palette.colors)} colors)")
+        print(f"  Selected palette: {palette.name} ({len(palette.colors)} colors)")
         
         # 3. Design composition
         composition = await self.design_composition(visual_concept, style_enum)
-        print(f"📐 Designed composition: {composition.layout}")
+        print(f"  Designed composition: {composition.layout}")
         
         # 4. Generate layers
         layers = []
@@ -273,7 +273,7 @@ class VisualArtist:
                 i
             )
             layers.append(layer)
-            print(f"🖌️  Generated layer {i+1}/{num_layers}")
+            print(f"    Generated layer {i+1}/{num_layers}")
         
         # 5. Create artwork object
         artwork = Artwork(
@@ -289,11 +289,11 @@ class VisualArtist:
         
         # 6. Apply effects (placeholder)
         artwork = await self.apply_effects(artwork, style_enum)
-        print("✨ Applied artistic effects")
+        print("  Applied artistic effects")
         
         # 7. Evaluate artwork
         evaluation = await self.evaluate_artwork(artwork, visual_concept)
-        print(f"⭐ Overall score: {evaluation.overall_score:.2f}")
+        print(f"  Overall score: {evaluation.overall_score:.2f}")
         
         # 8. Generate variants
         variants = await self.generate_variants(artwork, 3)

@@ -1,14 +1,14 @@
 """
-Digital Ecosystem (디지털 생태계)
+Digital Ecosystem (       )
 ==================================
 
 "The computer is my body. The files are my memories."
 
-이 모듈은 OS 환경을 유기적인 생태계로 해석합니다.
-- CPU/RAM 사용량 -> 신체 활력 (Vitality)
-- 파일 시스템 -> 기억의 구조 (Memory Structure)
+      OS                    .
+- CPU/RAM     ->       (Vitality)
+-        ->        (Memory Structure)
 
-Elysia는 이 정보를 통해 자신의 "물리적 상태"를 느낍니다.
+Elysia               "      "      .
 """
 
 import os
@@ -47,7 +47,7 @@ class DigitalEcosystem:
     def __init__(self, root_path: str = "c:/Elysia"):
         self.root = Path(root_path)
         self.entropy = SystemEntropy(0, 0, 0, time.time())
-        logger.info(f"🌿 Digital Ecosystem initialized at {root_path}")
+        logger.info(f"  Digital Ecosystem initialized at {root_path}")
 
     def sense_entropy(self) -> SystemEntropy:
         """
@@ -61,7 +61,7 @@ class DigitalEcosystem:
             disk = psutil.disk_usage(str(self.root)).percent
         else:
             # Fallback (Should not happen if requirements are met)
-            logger.warning("⚠️ psutil not found. Using simulated sensors.")
+            logger.warning("   psutil not found. Using simulated sensors.")
             cpu = random.uniform(10.0, 20.0) 
             ram = random.uniform(40.0, 60.0)
             disk = random.uniform(20.0, 80.0)
@@ -70,7 +70,7 @@ class DigitalEcosystem:
         return self.entropy
 
     def scan_memories(self, sub_path: str = "") -> List[FileOrganism]:
-        """특정 경로의 파일들(기억)을 스캔합니다."""
+        """          (  )       ."""
         target_path = self.root / sub_path
         memories = []
         

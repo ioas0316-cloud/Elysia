@@ -27,16 +27,16 @@ class RealityProjector:
         """
         Digests the 'Shap-E' model to enable 3D creation.
         """
-        logger.info("🏗️ [ARCHITECT] Summoning the Demiurge (Loading Shap-E)...")
+        logger.info("   [ARCHITECT] Summoning the Demiurge (Loading Shap-E)...")
         try:
             # Pseudo-code for loading
             # from diffusers import ShapEPipeline
             # self.shap_e_pipeline = ShapEPipeline.from_pretrained("openai/shap-e", torch_dtype=torch.float16).to("cuda")
             self.architect_loaded = True
-            logger.info("🏗️ [ARCHITECT] Online. Form Creation enabled.")
+            logger.info("   [ARCHITECT] Online. Form Creation enabled.")
             return True
         except Exception as e:
-            logger.error(f"🏗️ [ARCHITECT] Failed to load: {e}")
+            logger.error(f"   [ARCHITECT] Failed to load: {e}")
             return False
 
     def unload_architect(self):
@@ -45,7 +45,7 @@ class RealityProjector:
         Releases the Architect (Shap-E) to free VRAM for Cognition.
         """
         if self.architect_loaded:
-            logger.info("🏗️ [ARCHITECT] Dismissing the Demiurge (Unloading)...")
+            logger.info("   [ARCHITECT] Dismissing the Demiurge (Unloading)...")
             self.shap_e_pipeline = None
             # import gc; gc.collect(); torch.cuda.empty_cache()
             self.architect_loaded = False
@@ -58,7 +58,7 @@ class RealityProjector:
         Input: a Concept Node ID (e.g., "Spell_Fireball")
         Output: a Path to the generated asset (e.g., "fireball.obj")
         """
-        logger.info(f"📽️ [PROJECTOR] Materializing '{reality_id}' with intensity {intensity}")
+        logger.info(f"   [PROJECTOR] Materializing '{reality_id}' with intensity {intensity}")
         
         # 0. Check for Architect
         if not self.architect_loaded:
@@ -79,7 +79,7 @@ class RealityProjector:
              with open(filepath, "w") as f:
                  f.write(f"# Hologram of {reality_id}\nv 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3")
         
-        self.elysia._write_journal(f"물질화 (Manifestation)", f"생성됨: {filename} (Intensity: {intensity})")
+        self.elysia._write_journal(f"    (Manifestation)", f"   : {filename} (Intensity: {intensity})")
         
         return f"[Holo] {filename} materialized at {self.output_dir}"
 

@@ -41,7 +41,7 @@ class ElysianHeartbeat:
         self.state = "ORDER"
         self.cycle_count = 0
         
-        logger.info("💓 ElysianHeartbeat initialized. Ready to ignite.")
+        logger.info("  ElysianHeartbeat initialized. Ready to ignite.")
 
     def _calculate_dynamics(self, vitals: Dict[str, BioSignal]):
         """
@@ -64,10 +64,10 @@ class ElysianHeartbeat:
         # Adjust state based on entropy
         if self.entropy_fuel > 0.85:
             if self.state != "CHAOS":
-                logger.warning("🌀 [DYNAMIC] Convergence to CHAOS. Fractal breaking initiated.")
+                logger.warning("  [DYNAMIC] Convergence to CHAOS. Fractal breaking initiated.")
                 self.state = "CHAOS"
         elif self.state == "CHAOS" and self.entropy_fuel < 0.6:
-            logger.info("✨ [DYNAMIC] Crystallizing NEW_ORDER. Dissonance resolved.")
+            logger.info("  [DYNAMIC] Crystallizing NEW_ORDER. Dissonance resolved.")
             self.state = "NEW_ORDER"
         elif self.state == "NEW_ORDER" and self.entropy_fuel < 0.3:
             self.state = "ORDER"
@@ -82,12 +82,12 @@ class ElysianHeartbeat:
         wait_time = 1.0 / self.current_frequency
         
         # Log the state rhythmically
-        prefix = "💓" if self.state == "ORDER" else "🌀" if self.state == "CHAOS" else "✨"
+        prefix = " " if self.state == "ORDER" else " " if self.state == "CHAOS" else " "
         logger.info(f"{prefix} [{self.state}] Freq: {self.current_frequency:.2f}Hz | Tension: {self.tension:.2f} | Fuel: {self.entropy_fuel:.2f}")
         
         # [INTERNALIZATION] CHAOS triggers deconstruction
         if self.state == "CHAOS":
-            logger.info("📐 [AxisShift] Rotating Rotor to resolve entropy via deconstruction.")
+            logger.info("  [AxisShift] Rotating Rotor to resolve entropy via deconstruction.")
             # For the demo, we simulate devouring the stimulus causing chaos
             # In a full run, this would be tied to the current 'Problem' in the field.
             
@@ -100,7 +100,7 @@ class ElysianHeartbeat:
                 self._pulse()
                 self.cycle_count += 1
             except Exception as e:
-                logger.error(f"💔 Pulse Failure: {e}")
+                logger.error(f"  Pulse Failure: {e}")
                 time.sleep(1.0)
 
     def ignite(self):
@@ -111,14 +111,14 @@ class ElysianHeartbeat:
         self.is_alive = True
         self.thread = threading.Thread(target=self._loop, daemon=True)
         self.thread.start()
-        logger.info("🔥 Elysian Pulse Ignited.")
+        logger.info("  Elysian Pulse Ignited.")
 
     def extinguish(self):
         """Stops the pulse."""
         self.is_alive = False
         if self.thread:
             self.thread.join(timeout=2.0)
-        logger.info("💤 Elysian Pulse Extinguished.")
+        logger.info("  Elysian Pulse Extinguished.")
 
 if __name__ == "__main__":
     # Test Run

@@ -1,5 +1,5 @@
 """
-Domain Absorber (도메인 흡수기)
+Domain Absorber (       )
 ==============================
 Core.L5_Mental.Induction.domain_absorber
 
@@ -36,13 +36,13 @@ class DomainQualia:
 
 # The 7 Qualia Dimensions
 QUALIA_DIMENSIONS = [
-    "LOGIC",      # 논리적 구조성
-    "CREATIVITY", # 창의적 가능성
-    "PRECISION",  # 정밀함의 정도
-    "ABSTRACTION", # 추상화 수준
-    "EMOTION",    # 감정적 울림
-    "UTILITY",    # 실용적 가치
-    "MYSTERY"     # 신비로움/미지의 정도
+    "LOGIC",      #        
+    "CREATIVITY", #        
+    "PRECISION",  #        
+    "ABSTRACTION", #       
+    "EMOTION",    #       
+    "UTILITY",    #       
+    "MYSTERY"     #     /      
 ]
 
 
@@ -57,7 +57,7 @@ class DomainAbsorber:
         self.domains: Dict[str, DomainQualia] = {}
         self._load()
         
-        logger.info(f"🧲 Domain Absorber initialized. {len(self.domains)} domains loaded.")
+        logger.info(f"  Domain Absorber initialized. {len(self.domains)} domains loaded.")
     
     def _load(self):
         """Loads absorbed domains from disk."""
@@ -75,7 +75,7 @@ class DomainAbsorber:
                             metadata=info.get("metadata", {})
                         )
             except Exception as e:
-                logger.warning(f"⚠️ Could not load domains: {e}")
+                logger.warning(f"   Could not load domains: {e}")
     
     def _save(self):
         """Saves absorbed domains to disk."""
@@ -88,7 +88,7 @@ class DomainAbsorber:
         with open(self.storage_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         
-        logger.info(f"💾 Saved {len(self.domains)} domains.")
+        logger.info(f"  Saved {len(self.domains)} domains.")
     
     def absorb_text(self, name: str, text: str, description: str = "") -> DomainQualia:
         """
@@ -109,7 +109,7 @@ class DomainAbsorber:
         self.domains[name] = domain
         self._save()
         
-        logger.info(f"📚 Absorbed text domain: {name}")
+        logger.info(f"  Absorbed text domain: {name}")
         return domain
     
     def absorb_code(self, name: str, code: str, language: str = "python") -> DomainQualia:
@@ -130,7 +130,7 @@ class DomainAbsorber:
         self.domains[name] = domain
         self._save()
         
-        logger.info(f"💻 Absorbed code domain: {name}")
+        logger.info(f"  Absorbed code domain: {name}")
         return domain
     
     def absorb_principle(self, name: str, principle: Dict[str, float]) -> DomainQualia:
@@ -155,7 +155,7 @@ class DomainAbsorber:
         self.domains[name] = domain
         self._save()
         
-        logger.info(f"🎯 Absorbed principle domain: {name}")
+        logger.info(f"  Absorbed principle domain: {name}")
         return domain
     
     def _text_to_qualia(self, text: str) -> List[float]:
@@ -220,7 +220,7 @@ class DomainAbsorber:
 if __name__ == "__main__":
     absorber = DomainAbsorber()
     
-    print("🧲 Testing Domain Absorber...\n")
+    print("  Testing Domain Absorber...\n")
     
     # Absorb some test domains
     absorber.absorb_principle("MATHEMATICS", {
@@ -260,4 +260,4 @@ if __name__ == "__main__":
     similar = absorber.find_similar(query)
     print(f"\nMost similar to query: {similar}")
     
-    print("\n✨ Domain Absorber test complete.")
+    print("\n  Domain Absorber test complete.")

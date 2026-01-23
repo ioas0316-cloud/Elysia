@@ -1,5 +1,5 @@
 """
-HyperResonator: The Omni-Voxel (만능 세포)
+HyperResonator: The Omni-Voxel (     )
 ------------------------------------------
 This class implements the "Memory Orb" philosophy:
 "A single unit that is simultaneously Memory (Storage), Meaning (Knowledge), and Logic (Graph)."

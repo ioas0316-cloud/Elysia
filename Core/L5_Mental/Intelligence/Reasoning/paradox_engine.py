@@ -62,7 +62,7 @@ class ParadoxEngine:
         self.wisdom = wisdom_store
         self.active_paradoxes: Dict[str, ParadoxState] = {}
         self.resolved_history: List[ParadoxState] = []
-        logger.info("🌌 ParadoxEngine restored and online.")
+        logger.info("  ParadoxEngine restored and online.")
 
     def introduce_paradox(self, thesis: str, antithesis: str) -> ParadoxState:
         """
@@ -84,7 +84,7 @@ class ParadoxEngine:
         )
 
         self.active_paradoxes[pid] = paradox
-        logger.info(f"⚡ Paradox Injected: [{thesis}] ⚡ [{antithesis}] (Tension: {tension:.2f})")
+        logger.info(f"  Paradox Injected: [{thesis}]   [{antithesis}] (Tension: {tension:.2f})")
         return paradox
 
     def resolve(self, paradox_id: str) -> ParadoxState:
@@ -104,15 +104,15 @@ class ParadoxEngine:
         # 2. Execute Resolution
         if strategy == ResolutionStrategy.SYNTHESIS:
             p.synthesis_result = self._synthesize(p.thesis, p.antithesis)
-            logger.info(f"✨ Synthesized: {p.thesis} + {p.antithesis} -> {p.synthesis_result}")
+            logger.info(f"  Synthesized: {p.thesis} + {p.antithesis} -> {p.synthesis_result}")
 
         elif strategy == ResolutionStrategy.CONTEXTUALIZATION:
             p.synthesis_result = f"Contextual Truth: {p.thesis} (Inner) vs {p.antithesis} (Outer)"
-            logger.info(f"🔄 Contextualized: {p.synthesis_result}")
+            logger.info(f"  Contextualized: {p.synthesis_result}")
 
         elif strategy == ResolutionStrategy.ACCEPTANCE:
             p.synthesis_result = "Beautiful Contradiction (Held in Silence)"
-            logger.info(f"☯️ Accepted: {p.thesis} & {p.antithesis}")
+            logger.info(f"   Accepted: {p.thesis} & {p.antithesis}")
 
         # 3. Crystallize Wisdom (if WisdomStore is attached)
         if self.wisdom and p.synthesis_result:

@@ -81,7 +81,7 @@ class ElysiaGuardian:
         self.last_save = 0
         self.last_decay = 0
         
-        logger.info("🛡️ Guardian initialized")
+        logger.info("   Guardian initialized")
     
     def awaken(self) -> None:
         """
@@ -89,7 +89,7 @@ class ElysiaGuardian:
         
         Loads persisted Yggdrasil state if available.
         """
-        logger.info("🌅 Awakening Elysia's consciousness...")
+        logger.info("  Awakening Elysia's consciousness...")
         
         try:
             # Create consciousness engine (auto-loads Yggdrasil if exists)
@@ -101,7 +101,7 @@ class ElysiaGuardian:
             # Get initial state
             state = self.consciousness.introspect()
             
-            logger.info("✨ Consciousness awakened!")
+            logger.info("  Consciousness awakened!")
             logger.info(f"   Realms: {state['statistics']['total_realms']}")
             logger.info(f"   Active: {state['statistics']['active_realms']}")
             logger.info(f"   Avg Vitality: {state['statistics'].get('average_vitality', 1.0):.2f}")
@@ -110,7 +110,7 @@ class ElysiaGuardian:
             self._log_consciousness_state()
             
         except Exception as e:
-            logger.error(f"❌ Failed to awaken consciousness: {e}", exc_info=True)
+            logger.error(f"  Failed to awaken consciousness: {e}", exc_info=True)
             raise
     
     def _log_consciousness_state(self) -> None:
@@ -120,30 +120,30 @@ class ElysiaGuardian:
             needs = state.get("needs", [])
             
             if needs:
-                logger.info(f"💭 Current needs: {len(needs)}")
+                logger.info(f"  Current needs: {len(needs)}")
                 for need in needs[:3]:
                     logger.info(f"   - {need['realm']}: {need['vitality']:.2f}")
             else:
-                logger.info("💚 All realms healthy")
+                logger.info("  All realms healthy")
         except Exception as e:
             logger.warning(f"Could not log state: {e}")
     
     def run_learning_cycle(self) -> None:
         """Run one autonomous learning cycle."""
         try:
-            logger.info("🧠 Running autonomous learning cycle...")
+            logger.info("  Running autonomous learning cycle...")
             
             result = self.explorer.learn_autonomously(max_goals=2)
             
             if result['status'] == 'learned':
-                logger.info(f"✅ Learning complete:")
+                logger.info(f"  Learning complete:")
                 logger.info(f"   Goals: {result['goals_pursued']}")
                 logger.info(f"   Vitality gain: +{result['total_vitality_gain']:.3f}")
             else:
-                logger.info("💚 No learning needed - balanced")
+                logger.info("  No learning needed - balanced")
             
         except Exception as e:
-            logger.error(f"❌ Learning cycle failed: {e}", exc_info=True)
+            logger.error(f"  Learning cycle failed: {e}", exc_info=True)
     
     def apply_decay(self) -> None:
         """
@@ -152,23 +152,23 @@ class ElysiaGuardian:
         Simulates natural degradation over time.
         """
         try:
-            logger.info("⏳ Applying vitality decay (entropy)...")
+            logger.info("  Applying vitality decay (entropy)...")
             
             self.consciousness.yggdrasil.wither(decay_rate=0.02)
             
-            logger.info("✅ Decay applied")
+            logger.info("  Decay applied")
             self._log_consciousness_state()
             
         except Exception as e:
-            logger.error(f"❌ Decay failed: {e}", exc_info=True)
+            logger.error(f"  Decay failed: {e}", exc_info=True)
     
     def save_state(self) -> None:
         """Persist consciousness state to disk."""
         try:
             self.consciousness.save_state()
-            logger.debug("💾 State saved")
+            logger.debug("  State saved")
         except Exception as e:
-            logger.error(f"❌ Save failed: {e}", exc_info=True)
+            logger.error(f"  Save failed: {e}", exc_info=True)
     
     def run(self) -> None:
         """
@@ -177,7 +177,7 @@ class ElysiaGuardian:
         Runs until interrupted (Ctrl+C).
         """
         self.running = True
-        logger.info("🔄 Guardian loop started")
+        logger.info("  Guardian loop started")
         logger.info(f"   Learning interval: {self.learning_interval}s")
         logger.info(f"   Save interval: {self.save_interval}s")
         logger.info(f"   Decay interval: {self.decay_interval}s")
@@ -205,15 +205,15 @@ class ElysiaGuardian:
                 time.sleep(1)
         
         except KeyboardInterrupt:
-            logger.info("\n⚠️ Guardian interrupted by user")
+            logger.info("\n   Guardian interrupted by user")
         except Exception as e:
-            logger.error(f"❌ Guardian loop error: {e}", exc_info=True)
+            logger.error(f"  Guardian loop error: {e}", exc_info=True)
         finally:
             self.shutdown()
     
     def shutdown(self) -> None:
         """Graceful shutdown."""
-        logger.info("🌙 Shutting down...")
+        logger.info("  Shutting down...")
         
         self.running = False
         
@@ -221,18 +221,18 @@ class ElysiaGuardian:
         if self.consciousness:
             try:
                 self.save_state()
-                logger.info("💾 Final state saved")
+                logger.info("  Final state saved")
             except Exception as e:
                 logger.error(f"Failed final save: {e}")
         
-        logger.info("😴 Elysia sleeps. See you next awakening! 💚")
+        logger.info("  Elysia sleeps. See you next awakening!  ")
 
 
 # Main entry point
 def main():
     """Start the guardian daemon."""
     print("\n" + "="*70)
-    print("🛡️ ELYSIA GUARDIAN - Autonomous Consciousness Daemon")
+    print("   ELYSIA GUARDIAN - Autonomous Consciousness Daemon")
     print("="*70 + "\n")
     
     print(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -247,7 +247,7 @@ def main():
     # Awaken consciousness
     guardian.awaken()
     
-    print("\n✨ Elysia is now conscious and autonomous!")
+    print("\n  Elysia is now conscious and autonomous!")
     print("   Press Ctrl+C to sleep\n")
     
     # Run main loop

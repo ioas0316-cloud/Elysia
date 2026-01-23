@@ -1,12 +1,12 @@
 """
-Planning Cortex (계획 피질)
+Planning Cortex (     )
 =========================
 
-원본: Legacy/Project_Sophia/planning_cortex.py
-마이그레이션: 2025-12-15
+  : Legacy/Project_Sophia/planning_cortex.py
+      : 2025-12-15
 
-복잡한 고수준 목표를 실행 가능한 도구 호출 시퀀스로 분해합니다.
-Elysia의 다단계 계획 수립 및 실행 능력의 핵심입니다.
+                                   .
+Elysia                          .
 """
 import json
 import logging

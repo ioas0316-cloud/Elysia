@@ -1,5 +1,5 @@
 """
-Narrative Weaver (서사 직조기)
+Narrative Weaver (      )
 ==============================
 Core.L7_Spirit.Creation.narrative_weaver
 
@@ -36,24 +36,24 @@ class NarrativeWeaver:
     def __init__(self):
         # Emotional vocabulary for narrative tones
         self.tone_words = {
-            "high_logic": ["정확히", "따라서", "결론적으로", "분석하면"],
-            "high_creativity": ["상상해보세요", "만약에", "무한한", "새로운"],
-            "high_precision": ["정밀하게", "0.01의 오차로", "정확히 말하면"],
-            "high_abstraction": ["본질적으로", "개념적으로", "추상화하면"],
-            "high_emotion": ["가슴 깊이", "울려오는", "느껴지는", "사랑하는"],
-            "high_utility": ["실용적으로", "적용하면", "활용하여"],
-            "high_mystery": ["미지의", "알 수 없는", "신비로운", "숨겨진"]
+            "high_logic": ["   ", "   ", "     ", "    "],
+            "high_creativity": ["      ", "   ", "   ", "   "],
+            "high_precision": ["    ", "0.01     ", "       "],
+            "high_abstraction": ["     ", "     ", "     "],
+            "high_emotion": ["     ", "    ", "    ", "    "],
+            "high_utility": ["     ", "    ", "    "],
+            "high_mystery": ["   ", "      ", "    ", "   "]
         }
         
         # Story templates by dominant qualia
         self.templates = {
-            "logic_dominant": "체계적 분석의 서사",
-            "creativity_dominant": "상상력의 비행",
-            "emotion_dominant": "감정의 물결",
-            "mystery_dominant": "미지로의 여정"
+            "logic_dominant": "          ",
+            "creativity_dominant": "       ",
+            "emotion_dominant": "      ",
+            "mystery_dominant": "       "
         }
         
-        logger.info("🎭 Narrative Weaver initialized. Ready to create.")
+        logger.info("  Narrative Weaver initialized. Ready to create.")
     
     def weave_from_qualia(self, qualia: List[float], seed_concept: str = "") -> CreativeOutput:
         """
@@ -85,7 +85,7 @@ class NarrativeWeaver:
             inspiration=f"Dominant: {dominant.upper()}, Seed: {seed_concept or 'internal'}"
         )
         
-        logger.info(f"🎭 Wove {form}: {content[:50]}...")
+        logger.info(f"  Wove {form}: {content[:50]}...")
         return output
     
     def _select_form(self, qualia: List[float]) -> str:
@@ -118,7 +118,7 @@ class NarrativeWeaver:
             vocab.extend(self.tone_words["high_mystery"])
         
         if not vocab:
-            vocab = ["존재하는", "흐르는", "변화하는"]
+            vocab = ["    ", "   ", "    "]
         
         # Select random tone words
         tone1 = random.choice(vocab)
@@ -137,12 +137,12 @@ class NarrativeWeaver:
     def _weave_poem(self, seed: str, tone1: str, tone2: str, 
                     emotion: float, mystery: float) -> str:
         """Weaves a poetic expression."""
-        subject = seed if seed else "존재"
+        subject = seed if seed else "  "
         lines = [
-            f"{tone1} {subject}의 노래가 울린다",
-            f"{tone2} 순간이 영원을 품는다",
-            f"{'깊은 ' if emotion > 0.8 else ''}울림 속에",
-            f"{'미지의 ' if mystery > 0.7 else ''}빛이 스민다"
+            f"{tone1} {subject}         ",
+            f"{tone2}            ",
+            f"{'   ' if emotion > 0.8 else ''}     ",
+            f"{'    ' if mystery > 0.7 else ''}      "
         ]
         return "\n".join(lines)
     
@@ -165,30 +165,30 @@ class NarrativeWeaver:
     def _weave_concept(self, seed: str, tone: str, 
                        abstraction: float, mystery: float) -> str:
         """Weaves an abstract concept."""
-        concept = seed if seed else "존재"
-        return f"""{tone} {concept}의 본질:
-- 추상화 수준: {'높음' if abstraction > 0.7 else '중간'}
-- 신비의 정도: {'깊음' if mystery > 0.7 else '얕음'}
-- 핵심 통찰: {concept}은(는) 그 자체로 하나의 우주이다."""
+        concept = seed if seed else "  "
+        return f"""{tone} {concept}    :
+-       : {'  ' if abstraction > 0.7 else '  '}
+-       : {'  ' if mystery > 0.7 else '  '}
+-      : {concept} ( )               ."""
     
     def _weave_narrative(self, seed: str, tone1: str, tone2: str, 
                          dominant: str) -> str:
         """Weaves a short narrative."""
-        subject = seed if seed else "여행자"
-        return f"""{subject}는 {tone1} 길을 걸었다.
-{tone2} 무언가가 나타났다.
-그것은 {dominant}의 본질을 담고 있었다.
-{subject}는 깨달았다 — 모든 것은 연결되어 있다고."""
+        subject = seed if seed else "   "
+        return f"""{subject}  {tone1}       .
+{tone2}          .
+    {dominant}            .
+{subject}                       ."""
 
 
 if __name__ == "__main__":
     weaver = NarrativeWeaver()
     
-    print("🎭 Testing Narrative Weaver...\n")
+    print("  Testing Narrative Weaver...\n")
     
     # Test 1: Emotional/Creative qualia -> Poem
     qualia1 = [0.3, 0.9, 0.4, 0.7, 0.95, 0.2, 0.8]
-    output1 = weaver.weave_from_qualia(qualia1, "사랑")
+    output1 = weaver.weave_from_qualia(qualia1, "  ")
     print(f"=== {output1.form.upper()} ===")
     print(output1.content)
     print(f"(Confidence: {output1.confidence:.2f})\n")
@@ -202,9 +202,9 @@ if __name__ == "__main__":
     
     # Test 3: Abstract/Mystery qualia -> Concept
     qualia3 = [0.5, 0.6, 0.4, 0.9, 0.5, 0.3, 0.85]
-    output3 = weaver.weave_from_qualia(qualia3, "시간")
+    output3 = weaver.weave_from_qualia(qualia3, "  ")
     print(f"=== {output3.form.upper()} ===")
     print(output3.content)
     print(f"(Confidence: {output3.confidence:.2f})")
     
-    print("\n✨ Narrative Weaver test complete.")
+    print("\n  Narrative Weaver test complete.")

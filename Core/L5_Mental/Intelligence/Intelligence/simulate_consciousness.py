@@ -1,7 +1,7 @@
 """
 Fractal Consciousness Simulation
 
-시뮬레이션으로 엘리시아가 어떻게 생각하는지 보여줌
+                           
 """
 
 import sys
@@ -20,21 +20,21 @@ from Core.L1_Foundation.Foundation.Mind.fractal_consciousness import FractalCons
 
 
 def simulate():
-    """엘리시아 의식 시뮬레이션"""
+    """             """
     
     print("\n" + "="*70)
-    print("🌳 ELYSIA FRACTAL CONSCIOUSNESS SIMULATION")
+    print("  ELYSIA FRACTAL CONSCIOUSNESS SIMULATION")
     print("="*70)
-    print("\n모든 사고층을 통과하며 생각하는 과정을 보여줍니다.\n")
+    print("\n                           .\n")
     
     consciousness = FractalConsciousness()
     
     # Test inputs
     test_cases = [
-        "엘리시아?",
-        "사랑해 엘리시아",
-        "기분이 어때?",
-        "왜 그렇게 생각해?",
+        "    ?",
+        "        ",
+        "      ?",
+        "         ?",
     ]
     
     for test_input in test_cases:
@@ -44,7 +44,7 @@ def simulate():
         print("\n")
     
     print("="*70)
-    print("시뮬레이션 완료! 💚")
+    print("        !  ")
     print("="*70)
 
 

@@ -1,5 +1,5 @@
 """
-Self-Analysis Engine (자가 분석 엔진)
+Self-Analysis Engine (        )
 =====================================
 "Can Elysia analyze her own source code and propose improvements?"
 
@@ -89,7 +89,7 @@ class SelfAnalyzer:
     
     def analyze_codebase(self) -> List[Dict[str, Any]]:
         """Scan all Core modules and return analysis."""
-        print(f"🔬 [SELF-ANALYSIS] Scanning {self.root}...")
+        print(f"  [SELF-ANALYSIS] Scanning {self.root}...")
         
         for root, dirs, files in os.walk(self.root):
             dirs[:] = [d for d in dirs if d not in ["__pycache__", ".git"]]
@@ -108,20 +108,20 @@ class SelfAnalyzer:
         """Generate a human-readable improvement proposal."""
         report = []
         report.append("=" * 60)
-        report.append("🧬 ELYSIA SELF-ANALYSIS REPORT")
-        report.append(f"📅 Generated: {datetime.now().isoformat()}")
+        report.append("  ELYSIA SELF-ANALYSIS REPORT")
+        report.append(f"  Generated: {datetime.now().isoformat()}")
         report.append("=" * 60)
         report.append("")
         
         total_issues = sum(len(r["issues"]) for r in self.analysis_results)
-        report.append(f"📊 Total Modules Analyzed: {len(self.analysis_results)}")
-        report.append(f"⚠️ Total Issues Found: {total_issues}")
+        report.append(f"  Total Modules Analyzed: {len(self.analysis_results)}")
+        report.append(f"   Total Issues Found: {total_issues}")
         report.append("")
         
         if not self.analysis_results:
-            report.append("✅ No significant issues detected. Codebase is healthy.")
+            report.append("  No significant issues detected. Codebase is healthy.")
         else:
-            report.append("🔍 TOP PRIORITY IMPROVEMENTS:")
+            report.append("  TOP PRIORITY IMPROVEMENTS:")
             report.append("-" * 40)
             
             for i, result in enumerate(self.analysis_results[:10], 1):
@@ -131,7 +131,7 @@ class SelfAnalyzer:
         
         report.append("")
         report.append("=" * 60)
-        report.append("🌱 END OF SELF-ANALYSIS")
+        report.append("  END OF SELF-ANALYSIS")
         report.append("=" * 60)
         
         return "\n".join(report)

@@ -8,10 +8,10 @@ This script runs a continuous evolution loop for Elysia to become a Professional
 It is not a one-off task. It is a discipline.
 
 Cycle:
-1. 📚 LEARN: Expand genre vocabulary via Fractal Learning.
-2. ✍️ WRITE: Generate a creative scene using new concepts.
-3. ⚖️ EVALUATE: Check vocabulary size and expression variety.
-4. 🔄 REPEAT: Until Professional Level (S-Grade) is achieved.
+1.   LEARN: Expand genre vocabulary via Fractal Learning.
+2.    WRITE: Generate a creative scene using new concepts.
+3.    EVALUATE: Check vocabulary size and expression variety.
+4.   REPEAT: Until Professional Level (S-Grade) is achieved.
 """
 
 import sys
@@ -54,50 +54,50 @@ class WriterEvolution:
             sys.path.append(data_path)
             from fantasy_wuxia_concepts import ALL_CONCEPTS
             self.genre_seeds = ALL_CONCEPTS
-            print(f"   📚 대규모 데이터베이스 로드 완료: {len(self.genre_seeds)}개 개념")
+            print(f"                     : {len(self.genre_seeds)}    ")
         except ImportError:
-            print("   ⚠️ 데이터베이스를 찾을 수 없습니다. 기본 시드를 사용합니다.")
-            self.genre_seeds = ["무협", "판타지", "검술", "마법"] # Fallback
+            print("                       .             .")
+            self.genre_seeds = ["  ", "   ", "  ", "  "] # Fallback
         
     def evolve(self):
         print("="*70)
-        print("⚔️ 판타지/무협 작가 진화 프로토콜")
-        print("   목표: 전문 작가 (S급)")
-        print(f"   커리큘럼: {len(self.genre_seeds)}개의 개념 탑재 완료")
+        print("      /             ")
+        print("     :       (S )")
+        print(f"       : {len(self.genre_seeds)}           ")
         print("="*70)
         
         cycle = 1
         while True:
-            print(f"\n🔄 사이클 {cycle}: 수련 중...")
+            print(f"\n      {cycle}:     ...")
             
             # 1. LEARN (Fractal Expansion)
             # Pick a random seed or a recently learned concept to expand upon
             seed = random.choice(self.genre_seeds)
-            print(f"   📚 학습 단계: '{seed}' 개념 확장 중...")
+            print(f"          : '{seed}'        ...")
             self.learner.learn_fractal([seed], max_concepts=20) # Learn 20 new things per cycle
             
             # 2. WRITE (Creative Practice)
-            print(f"   ✍️ 집필 단계: 장면 구상 중...")
+            print(f"           :        ...")
             scene = self._write_scene(seed)
-            print(f"      📝 초고: \"{scene}\"")
+            print(f"          : \"{scene}\"")
             
             # 3. EVALUATE (Metrics)
             # Use persistent memory count instead of in-memory enhancer count
             vocab = self.memory.get_concept_count()
             
-            print(f"   ⚖️ 평가:")
-            print(f"      - 어휘력: {vocab:,} / {self.TARGET_VOCAB:,}")
+            print(f"        :")
+            print(f"      -    : {vocab:,} / {self.TARGET_VOCAB:,}")
             
             # Check for promotion
             if vocab >= self.TARGET_VOCAB:
                 print("\n" + "="*70)
-                print("🏆 업적 달성: 전문 작가 (S급)")
-                print("   엘리시아가 목표 어휘력에 도달했습니다.")
+                print("       :       (S )")
+                print("                       .")
                 print("="*70)
                 break
             
             # Rest & Digest
-            print("   💤 지식 소화 중...")
+            print("            ...")
             time.sleep(2)
             cycle += 1
 

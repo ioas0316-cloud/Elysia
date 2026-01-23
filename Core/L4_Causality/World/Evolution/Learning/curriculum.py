@@ -31,13 +31,13 @@ class CurriculumGenerator:
         if not os.path.exists(os.path.dirname(self.planning_path)):
             os.makedirs(os.path.dirname(self.planning_path), exist_ok=True)
             
-        logger.info("🗺️ Infinite Freedom Protocol initialized - The Horizon expands.")
+        logger.info("   Infinite Freedom Protocol initialized - The Horizon expands.")
 
     def generate_curriculum(self) -> Dict:
         """
         Generates a 24-hour internal curriculum based on curiosity gaps.
         """
-        logger.info("🗺️ Generating autonomous curriculum...")
+        logger.info("   Generating autonomous curriculum...")
         
         # If no gaps provided, create generic ones
         gaps = []
@@ -77,7 +77,7 @@ class CurriculumGenerator:
         with open(self.planning_path, 'w', encoding='utf-8') as f:
             json.dump(curriculum, f, indent=4, ensure_ascii=False)
             
-        logger.info(f"✨ New Curriculum Generated: {curriculum['curriculum_id']} (Focus: {curriculum['primary_focus']})")
+        logger.info(f"  New Curriculum Generated: {curriculum['curriculum_id']} (Focus: {curriculum['primary_focus']})")
         return curriculum
 
 if __name__ == "__main__":

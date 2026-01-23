@@ -1,10 +1,10 @@
 """
-Wave Language Interpreter (파동언어 해석기)
+Wave Language Interpreter (        )
 ==========================================
 
-"파동 패턴 자체가 코드다. 번역이 필요 없다."
+"             .          ."
 
-파동 간섭 패턴 = 프로그램 실행
+         =        
 """
 
 import logging
@@ -20,15 +20,15 @@ logger = logging.getLogger("WaveInterpreter")
 @dataclass
 class WavePattern:
     """
-    파동 패턴 (실행 가능한 구조)
+          (         )
     
-    파동 패턴 = 코드 = 의미 = 프로그램
+          =    =    =     
     """
     name: str
-    frequencies: List[float]  # 구성 주파수들
-    amplitudes: List[float]   # 각 주파수의 진폭
-    phases: List[float]       # 각 주파수의 위상
-    position: Tuple[float, float, float] = (0, 0, 0)  # 3D 공간 위치
+    frequencies: List[float]  #        
+    amplitudes: List[float]   #          
+    phases: List[float]       #          
+    position: Tuple[float, float, float] = (0, 0, 0)  # 3D      
     
     def __post_init__(self):
         # Ensure same length
@@ -36,7 +36,7 @@ class WavePattern:
     
     def sample(self, t: float) -> complex:
         """
-        시간 t에서 파동 샘플링
+           t         
         
         Returns:
             complex number (amplitude * e^(i*phase))
@@ -49,19 +49,19 @@ class WavePattern:
     
     def interfere_with(self, other: 'WavePattern', t: float = 0.0) -> complex:
         """
-        다른 파동과 간섭
+                 
         
-        간섭 = 계산 = 실행
+           =    =   
         """
         my_wave = self.sample(t)
         other_wave = other.sample(t)
-        return my_wave + other_wave  # 중첩
+        return my_wave + other_wave  #   
     
     def resonance_with(self, other: 'WavePattern') -> float:
         """
-        다른 파동과의 공명도 계산
+                      
         
-        공명도 = 유사도 = 패턴 매칭
+            =     =      
         """
         # Check frequency overlap
         common_freqs = set(self.frequencies) & set(other.frequencies)
@@ -87,13 +87,13 @@ class WavePattern:
 
 class WaveInterpreter:
     """
-    파동언어 해석기
+            
     
-    파동 패턴을 "실행"한다.
+           "  "  .
     """
     
     def __init__(self):
-        # Predefined wave "words" (기본 파동 어휘)
+        # Predefined wave "words" (        )
         self.vocabulary: Dict[str, WavePattern] = {
             "Love": WavePattern(
                 name="Love",
@@ -111,7 +111,7 @@ class WaveInterpreter:
                 name="Fear",
                 frequencies=[100.0],
                 amplitudes=[1.0],
-                phases=[np.pi]  # 역위상
+                phases=[np.pi]  #    
             ),
             "Unity": WavePattern(
                 name="Unity",
@@ -123,9 +123,9 @@ class WaveInterpreter:
     
     def compose(self, pattern_names: List[str]) -> Optional[WavePattern]:
         """
-        여러 파동 패턴을 조합하여 새로운 패턴 생성
+                                
         
-        "Love + Hope" → 복합 파동 패턴
+        "Love + Hope"           
         """
         if not pattern_names:
             return None
@@ -160,9 +160,9 @@ class WaveInterpreter:
     
     def execute(self, pattern: WavePattern, context_field: 'ResonanceField' = None) -> Dict:
         """
-        파동 패턴을 "실행"
+               "  "
         
-        실행 = 간섭 패턴 생성 = 의미 도출
+           =          =      
         
         Returns:
             {
@@ -171,7 +171,7 @@ class WaveInterpreter:
                 "emergent_meaning": interpreted meaning
             }
         """
-        logger.info(f"🌊 Executing wave pattern: {pattern.name}")
+        logger.info(f"  Executing wave pattern: {pattern.name}")
         
         # Find resonances with vocabulary
         resonances = []
@@ -202,9 +202,9 @@ class WaveInterpreter:
     
     def interpret_sequence(self, pattern_names: List[str]) -> str:
         """
-        파동 패턴 시퀀스를 해석
+                     
         
-        ["Love", "Hope"] → "I wish for connection with optimism"
+        ["Love", "Hope"]   "I wish for connection with optimism"
         """
         # Compose into single pattern
         composite = self.compose(pattern_names)
@@ -215,7 +215,7 @@ class WaveInterpreter:
         result = self.execute(composite)
         
         # Interpret meaning
-        interpretation = f"Wave sequence '{' → '.join(pattern_names)}' creates:\n"
+        interpretation = f"Wave sequence '{'   '.join(pattern_names)}' creates:\n"
         interpretation += f"  Frequencies: {result['frequencies']}\n"
         interpretation += f"  Meaning: {result['emergent_meaning']}"
         
@@ -232,13 +232,13 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
     
     print("\n" + "="*70)
-    print("🌊 Wave Language Interpreter Test")
+    print("  Wave Language Interpreter Test")
     print("="*70)
     
     interpreter = WaveInterpreter()
     
     # Test 1: Single pattern execution
-    print("\n📝 Test 1: Execute single pattern")
+    print("\n  Test 1: Execute single pattern")
     print("-" * 70)
     love = interpreter.vocabulary["Love"]
     result = interpreter.execute(love)
@@ -248,7 +248,7 @@ if __name__ == "__main__":
     print(f"Meaning: {result['emergent_meaning']}")
     
     # Test 2: Composite pattern
-    print("\n📝 Test 2: Compose and execute")
+    print("\n  Test 2: Compose and execute")
     print("-" * 70)
     composite = interpreter.compose(["Love", "Hope"])
     if composite:
@@ -260,13 +260,13 @@ if __name__ == "__main__":
         print(f"Emergent meaning: {result['emergent_meaning']}")
     
     # Test 3: Sequence interpretation
-    print("\n📝 Test 3: Interpret sequence")
+    print("\n  Test 3: Interpret sequence")
     print("-" * 70)
     interpretation = interpreter.interpret_sequence(["Love", "Hope"])
     print(interpretation)
     
     # Test 4: Wave interference visualization
-    print("\n📝 Test 4: Wave interference")
+    print("\n  Test 4: Wave interference")
     print("-" * 70)
     love = interpreter.vocabulary["Love"]
     hope = interpreter.vocabulary["Hope"]
@@ -276,5 +276,5 @@ if __name__ == "__main__":
     print(f"Interference: {love.interfere_with(hope, 0.0):.2f}")
     
     print("\n" + "="*70)
-    print("✅ Wave Language Interpreter Test Complete")
+    print("  Wave Language Interpreter Test Complete")
     print("="*70 + "\n")

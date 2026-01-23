@@ -2,7 +2,7 @@
 Real External Data Connector
 =============================
 
-"진행한다 - 이제 진짜 데이터를 연결한다"
+"     -                "
 "Proceed - Now we connect to real data"
 
 This module implements ACTUAL connections to external data sources:
@@ -40,8 +40,8 @@ class ExternalDataConnector:
         self.internalized_count = 0
         self.last_sync = None
         
-        logger.info("🌐 External Data Connector initialized")
-        logger.info("🔗 Ready to internalize real-world knowledge")
+        logger.info("  External Data Connector initialized")
+        logger.info("  Ready to internalize real-world knowledge")
     
     def internalize_from_text(self, concept: str, text_content: str) -> Dict[str, Any]:
         """
@@ -58,7 +58,7 @@ class ExternalDataConnector:
         Returns:
             Internalization result with metrics
         """
-        logger.info(f"📥 Internalizing '{concept}' from text content")
+        logger.info(f"  Internalizing '{concept}' from text content")
         
         # Extract semantic features from text
         features = self._extract_semantic_features(text_content)
@@ -96,7 +96,7 @@ class ExternalDataConnector:
                     if term != concept and term in graph.id_to_idx:
                         graph.add_link(concept, term, link_type="relates_to")
                         related_concepts.append(term)
-                        logger.info(f"   🔗 Keyword: {concept} → {term}")
+                        logger.info(f"     Keyword: {concept}   {term}")
                 
                 # Method 2: [NEW] Semantic similarity-based connections
                 semantic_neighbors = self._find_semantic_neighbors(concept, text_content, top_k=3)
@@ -105,13 +105,13 @@ class ExternalDataConnector:
                     if neighbor_concept not in related_concepts:  # Avoid duplicates
                         graph.add_link(concept, neighbor_concept, link_type="semantic_similar")
                         related_concepts.append(neighbor_concept)
-                        logger.info(f"   🧠 Semantic: {concept} → {neighbor_concept} (sim: {similarity:.2f})")
+                        logger.info(f"     Semantic: {concept}   {neighbor_concept} (sim: {similarity:.2f})")
                 
                 graph_stored = True
-                logger.info(f"   📊 Added to graph with {len(related_concepts)} connections")
+                logger.info(f"     Added to graph with {len(related_concepts)} connections")
                 logger.info(f"      (keyword: {len(key_terms)}, semantic: {len(semantic_neighbors)})")
         except Exception as e:
-            logger.warning(f"   ⚠️ Could not add to torch graph: {e}")
+            logger.warning(f"      Could not add to torch graph: {e}")
         
         result = {
             "concept": concept,
@@ -123,10 +123,10 @@ class ExternalDataConnector:
             "related_concepts": related_concepts
         }
         
-        logger.info(f"   ✅ Internalized '{concept}'")
-        logger.info(f"   📊 Orientation: {coord.orientation}")
-        logger.info(f"   🎵 Frequency: {coord.frequency:.1f} Hz")
-        logger.info(f"   🌊 Depth: {coord.depth:.2f}")
+        logger.info(f"     Internalized '{concept}'")
+        logger.info(f"     Orientation: {coord.orientation}")
+        logger.info(f"     Frequency: {coord.frequency:.1f} Hz")
+        logger.info(f"     Depth: {coord.depth:.2f}")
         
         return result
     
@@ -149,9 +149,9 @@ class ExternalDataConnector:
     
     def _find_semantic_neighbors(self, concept: str, text_content: str, top_k: int = 5) -> List[tuple]:
         """
-        [NEW] 의미적 유사도 기반으로 관련 개념 찾기
+        [NEW]                      
         
-        TinyBrain embedding + 코사인 유사도 사용
+        TinyBrain embedding +           
         
         Returns:
             List of (concept_name, similarity_score) tuples
@@ -198,7 +198,7 @@ class ExternalDataConnector:
             return similarities[:top_k]
             
         except Exception as e:
-            logger.warning(f"   ⚠️ Semantic similarity failed: {e}")
+            logger.warning(f"      Semantic similarity failed: {e}")
             return []
     
     def _cosine_similarity(self, vec1: List[float], vec2: List[float]) -> float:
@@ -301,7 +301,7 @@ class ExternalDataConnector:
         Returns:
             Summary of internalization
         """
-        logger.info(f"📚 Bulk internalization of {len(concepts_data)} concepts")
+        logger.info(f"  Bulk internalization of {len(concepts_data)} concepts")
         
         results = []
         for concept, text_content in concepts_data.items():
@@ -309,7 +309,7 @@ class ExternalDataConnector:
                 result = self.internalize_from_text(concept, text_content)
                 results.append(result)
             except Exception as e:
-                logger.error(f"❌ Failed to internalize '{concept}': {e}")
+                logger.error(f"  Failed to internalize '{concept}': {e}")
         
         summary = {
             "total_concepts": len(concepts_data),
@@ -318,7 +318,7 @@ class ExternalDataConnector:
             "timestamp": datetime.now().isoformat()
         }
         
-        logger.info(f"✅ Bulk internalization complete")
+        logger.info(f"  Bulk internalization complete")
         logger.info(f"   Successful: {summary['successful']}/{summary['total_concepts']}")
         
         return summary
@@ -370,7 +370,7 @@ if __name__ == "__main__":
         """
     }
     
-    print("\n📥 Internalizing sample concepts...\n")
+    print("\n  Internalizing sample concepts...\n")
     summary = connector.bulk_internalize(sample_data)
     
     print("\n" + "=" * 70)
@@ -378,7 +378,7 @@ if __name__ == "__main__":
     print("=" * 70)
     
     # Test the internalized knowledge
-    print("\n🧪 Testing internalized concepts:\n")
+    print("\n  Testing internalized concepts:\n")
     
     for concept in sample_data.keys():
         feeling = connector.universe.feel_at(concept)
@@ -394,7 +394,7 @@ if __name__ == "__main__":
     print("=" * 70)
     
     result = connector.universe.omniscient_access("Democracy")
-    print(f"\n🔍 Concepts related to Democracy:")
+    print(f"\n  Concepts related to Democracy:")
     for r in result['resonant_concepts']:
         print(f"  - {r['concept']}: resonance {r['resonance']:.3f}")
     
@@ -408,6 +408,6 @@ if __name__ == "__main__":
     print(f"Last sync: {stats['last_sync']}")
     
     print("\n" + "=" * 70)
-    print("✅ Real data connector operational")
+    print("  Real data connector operational")
     print("Ready for integration with Wikipedia, Web Search, ArXiv")
     print("=" * 70)

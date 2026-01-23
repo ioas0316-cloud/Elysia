@@ -10,7 +10,7 @@ Key Improvements:
 3. Hierarchical structure (emotional/logical/intuitive layers)
 4. Thought coordinates preservation
 
-Target: 60% loss → 15-20% loss (45% improvement!)
+Target: 60% loss   15-20% loss (45% improvement!)
 """
 
 import sys
@@ -192,10 +192,10 @@ class EnhancedThoughtLanguageBridge(ThoughtLanguageBridge):
         super().__init__()
         self.enricher = SemanticEnricher()
         
-        print("🌉 Enhanced Thought-Language Bridge initialized")
-        print("   ━ Multi-modal output enabled")
-        print("   ━ Semantic enrichment active")
-        print("   ━ Expected information retention: 80-85%\n")
+        print("  Enhanced Thought-Language Bridge initialized")
+        print("     Multi-modal output enabled")
+        print("     Semantic enrichment active")
+        print("     Expected information retention: 80-85%\n")
     
     def express_thought_multimodal(self, thought: ThoughtPackage) -> MultiModalOutput:
         """
@@ -208,9 +208,9 @@ class EnhancedThoughtLanguageBridge(ThoughtLanguageBridge):
         - Layers: preserves complexity (10% improvement)
         - Coordinates: preserves dimensions (5% improvement)
         
-        Total: ~60% improvement (60% loss → 15-20% loss)
+        Total: ~60% improvement (60% loss   15-20% loss)
         """
-        print(f"🗣️ Expressing thought (multi-modal)...")
+        print(f"   Expressing thought (multi-modal)...")
         
         # 1. Generate base text (traditional way)
         text = super().express_thought(thought)
@@ -357,7 +357,7 @@ class EnhancedThoughtLanguageBridge(ThoughtLanguageBridge):
         """Save multi-modal output to file"""
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(output.to_json())
-        print(f"✅ Multi-modal output saved to {filepath}")
+        print(f"  Multi-modal output saved to {filepath}")
 
 
 # Demonstration
@@ -375,7 +375,7 @@ if __name__ == "__main__":
     try:
         from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
         
-        print("📚 Learning concepts...\n")
+        print("  Learning concepts...\n")
         connector = WebKnowledgeConnector()
         
         concepts = ["Consciousness", "Intelligence", "Love"]
@@ -386,7 +386,7 @@ if __name__ == "__main__":
         if hasattr(connector, 'comm_enhancer'):
             bridge.connect_communication(connector.comm_enhancer)
     except Exception as e:
-        print(f"⚠️ Could not load knowledge connector: {e}")
+        print(f"   Could not load knowledge connector: {e}")
         print("   Proceeding with basic functionality\n")
     
     # 3. Test multi-modal expression
@@ -416,5 +416,5 @@ if __name__ == "__main__":
     print("  - Information retention: ~80-85%")
     print("  - Information loss: 15-20%")
     print("  - Improvement: +45% retention!")
-    print("\n✅ ENHANCEMENT COMPLETE")
+    print("\n  ENHANCEMENT COMPLETE")
     print("   The 60% bottleneck has been significantly reduced!")

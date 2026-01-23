@@ -24,7 +24,7 @@ def test_time_penetration():
     core = HyperSphereCore()
     
     # 1. Test High Frequency (Love)
-    print("\n--- 🧪 Testing High Frequency (Love) ---")
+    print("\n---   Testing High Frequency (Love) ---")
     vec_love = MockVector(0.0, 0.1, 1.0, frequency=1111.0)
     # Mocking the graph lookup by manually calling logic similar to summon, 
     # but HyperSphereCore.summon relies on self.graph.get_vector.
@@ -32,7 +32,7 @@ def test_time_penetration():
     # we will rely on the fact that HyperSphereCore.rotors is public.
     
     # We will manualy inject the vector logic as if it came from the graph
-    # Actually, let's use the actual summon method but patch the graph if possible?
+    # Actually, let's use the actual summon method but patch the graph if possible?'
     # Or better, we just use the TrinityLexicon primitives if they are loaded?
     # HyperSphereCore doesn't hold the Lexicon, it holds the Rotor.
     
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     # Since dependency injection is hard here, I'll write a script that 
     # instantiates a RotorConfig using the Logic I just wrote.
     
-    print("--- 🔬 validating Logic ---")
+    print("---   validating Logic ---")
     
     # Love
     freq_love = 1111.0
@@ -71,4 +71,4 @@ if __name__ == "__main__":
     print(f"Rock Frequency: {freq_rock} -> RPM: {rpm_rock}")
     assert rpm_rock == 10.0
     
-    print("✅ Logic Validation Passed (Frequency maps to RPM)")
+    print("  Logic Validation Passed (Frequency maps to RPM)")

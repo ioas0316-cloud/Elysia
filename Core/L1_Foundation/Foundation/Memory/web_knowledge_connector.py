@@ -2,7 +2,7 @@
 Web Knowledge Connector
 =======================
 
-"실제 인터넷에서 지식을 가져온다"
+"                 "
 "Actually fetch knowledge from the real internet"
 
 This module connects to real web sources to acquire knowledge for Elysia.
@@ -36,8 +36,8 @@ class WebKnowledgeConnector:
         self.universe = self.connector.universe
         self.fetch_history = []
         
-        logger.info("🌐 Web Knowledge Connector initialized")
-        logger.info("🔗 Ready to fetch real knowledge from the internet")
+        logger.info("  Web Knowledge Connector initialized")
+        logger.info("  Ready to fetch real knowledge from the internet")
     
     def fetch_wikipedia_simple(self, concept: str) -> Optional[str]:
         """
@@ -55,7 +55,7 @@ class WebKnowledgeConnector:
                 'User-Agent': 'Elysia/1.0 (Educational AI Project)'
             }
             
-            logger.info(f"📡 Fetching Wikipedia: {concept}")
+            logger.info(f"  Fetching Wikipedia: {concept}")
             
             response = requests.get(url, headers=headers, timeout=10)
             
@@ -74,15 +74,15 @@ class WebKnowledgeConnector:
                     'success': True
                 })
                 
-                logger.info(f"   ✅ Retrieved {len(extract)} characters")
+                logger.info(f"     Retrieved {len(extract)} characters")
                 
                 return extract
             else:
-                logger.warning(f"   ⚠️ Wikipedia returned status {response.status_code}")
+                logger.warning(f"      Wikipedia returned status {response.status_code}")
                 return None
                 
         except Exception as e:
-            logger.error(f"   ❌ Failed to fetch from Wikipedia: {e}")
+            logger.error(f"     Failed to fetch from Wikipedia: {e}")
             self.fetch_history.append({
                 'concept': concept,
                 'source': 'wikipedia',
@@ -102,11 +102,11 @@ class WebKnowledgeConnector:
         2. Select Tool: Choose 'Naver' for Korean, 'Google' for General, or explicit preference.
         3. Execute: Call the corresponding wrapper.
         """
-        logger.info(f"🌍 Learning '{concept}' from the web (Dynamic Discovery)...")
+        logger.info(f"  Learning '{concept}' from the web (Dynamic Discovery)...")
         
         # 1. Epistemic Gap Analysis: "How do I find this?"
         tool_name = self._discover_search_tool(concept, preferred_engine)
-        logger.info(f"   🛠️ Selected Tool: {tool_name}")
+        logger.info(f"      Selected Tool: {tool_name}")
         
         content = None
         source_meta = tool_name
@@ -133,17 +133,17 @@ class WebKnowledgeConnector:
                 comm_result = self.comm_enhancer.enhance_from_web_content(concept, content)
                 result['communication'] = comm_result
             except Exception as e:
-                logger.warning(f"   ⚠️ Communication enhancement failed: {e}")
+                logger.warning(f"      Communication enhancement failed: {e}")
                 result['communication'] = None
             
             result['source'] = source_meta
             result['web_fetch'] = True
             result['content_length'] = len(content)
-            logger.info(f"   ✅ Learned '{concept}' via {source_meta} successfully")
+            logger.info(f"     Learned '{concept}' via {source_meta} successfully")
             return result
         else:
             # Fallback
-            logger.warning(f"   ⚠️ Could not fetch from web, using basic internalization")
+            logger.warning(f"      Could not fetch from web, using basic internalization")
             basic_content = f"General knowledge about {concept}."
             result = self.connector.internalize_from_text(concept, basic_content)
             result['source'] = 'fallback'
@@ -168,7 +168,7 @@ class WebKnowledgeConnector:
                 # Let's simple check if we know 'Naver' exists.
                 
                 # Heuristic: If Korean characters, prefer Naver
-                if any(ord('가') <= ord(c) <= ord('힣') for c in concept):
+                if any(ord(' ') <= ord(c) <= ord(' ') for c in concept):
                     # Do we know Naver?
                     if "Naver" in hippocampus.holographic_memory.nodes:
                         return "Naver"
@@ -177,18 +177,18 @@ class WebKnowledgeConnector:
                 if "Google" in hippocampus.holographic_memory.nodes:
                     return "Google"
         except Exception as e:
-            logger.warning(f"   ⚠️ Memory consultation failed: {e}")
+            logger.warning(f"      Memory consultation failed: {e}")
             
         return "Wikipedia" # Genetic default
 
     def _fetch_naver_stub(self, concept: str) -> str:
         """Stub for Naver Search (Phase 23 would write the real code here)"""
-        logger.info(f"   🟢 Navigating to Naver for '{concept}'...")
+        logger.info(f"     Navigating to Naver for '{concept}'...")
         return f"[Naver Result] Comprehensive knowledge about {concept} from Korean web."
 
     def _fetch_google_stub(self, concept: str) -> str:
         """Stub for Google Search"""
-        logger.info(f"   🔵 Googling '{concept}'...")
+        logger.info(f"     Googling '{concept}'...")
         return f"[Google Result] Global indexed information about {concept}."
     
     def learn_curriculum_from_web(self, concepts: List[str]) -> Dict[str, Any]:
@@ -201,7 +201,7 @@ class WebKnowledgeConnector:
         Returns:
             Summary of web learning session
         """
-        logger.info(f"📚 Web learning curriculum: {len(concepts)} concepts")
+        logger.info(f"  Web learning curriculum: {len(concepts)} concepts")
         
         results = []
         successful_fetches = 0
@@ -215,7 +215,7 @@ class WebKnowledgeConnector:
                     successful_fetches += 1
                     
             except Exception as e:
-                logger.error(f"❌ Failed to learn '{concept}': {e}")
+                logger.error(f"  Failed to learn '{concept}': {e}")
         
         summary = {
             'total_concepts': len(concepts),
@@ -225,7 +225,7 @@ class WebKnowledgeConnector:
             'timestamp': datetime.now().isoformat()
         }
         
-        logger.info(f"✅ Web learning complete:")
+        logger.info(f"  Web learning complete:")
         logger.info(f"   Total: {summary['total_learned']}/{summary['total_concepts']}")
         logger.info(f"   From web: {summary['successful_fetches']}")
         
@@ -250,7 +250,7 @@ if __name__ == "__main__":
     
     print("=" * 70)
     print("WEB KNOWLEDGE CONNECTOR DEMONSTRATION")
-    print("실제 인터넷에서 지식 획득")
+    print("              ")
     print("=" * 70)
     
     connector = WebKnowledgeConnector()
@@ -262,7 +262,7 @@ if __name__ == "__main__":
         "Philosophy"
     ]
     
-    print(f"\n📚 Learning {len(test_concepts)} concepts from Wikipedia...\n")
+    print(f"\n  Learning {len(test_concepts)} concepts from Wikipedia...\n")
     
     for concept in test_concepts:
         print(f"\n{'='*70}")
@@ -270,10 +270,10 @@ if __name__ == "__main__":
         
         # Show what was learned
         if result.get('web_fetch'):
-            print(f"✅ Learned from Wikipedia: {concept}")
+            print(f"  Learned from Wikipedia: {concept}")
             print(f"   Content: {result.get('content_length')} characters")
         else:
-            print(f"⚠️ Fallback learning: {concept}")
+            print(f"   Fallback learning: {concept}")
         
         # Show internal representation
         feeling = connector.universe.feel_at(concept)
@@ -294,6 +294,6 @@ if __name__ == "__main__":
     print(f"Concepts in universe: {stats['concepts_in_universe']}")
     
     print("\n" + "=" * 70)
-    print("✅ WEB KNOWLEDGE CONNECTOR OPERATIONAL")
-    print("🌍 Elysia can now learn from the real internet!")
+    print("  WEB KNOWLEDGE CONNECTOR OPERATIONAL")
+    print("  Elysia can now learn from the real internet!")
     print("=" * 70)

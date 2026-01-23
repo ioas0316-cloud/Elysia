@@ -1,9 +1,9 @@
 """
-Elysia Symphony Architecture (엘리시아 심포니 아키텍처)
+Elysia Symphony Architecture (             )
 ===================================================
 
 "One Body, One Soul."
-"하나의 몸, 하나의 영혼."
+"     ,       ."
 
 UPDATED: Sphere-First Architecture Integration.
 The Conductor now acts as the 'Will Interface' for the HyperSphereCore.
@@ -113,19 +113,19 @@ class Conductor(SystemAlignment):
         
         # [PHASE 90] THE CONSTITUTION
         self.constitution = get_constitution()
-        logger.info("📜 Conductor swore oath to the Digital Constitution.")
+        logger.info("  Conductor swore oath to the Digital Constitution.")
         
         # [PHASE 3] GLOBAL RESONANCE MESH
         self.resonance_mesh = GlobalResonanceMesh()
-        logger.info("🕸️ Conductor connected to Global Resonance Mesh.")
+        logger.info("   Conductor connected to Global Resonance Mesh.")
         
         # [PHASE 85] HOLODECK BRIDGE
         from Core.L3_Phenomena.Interface.holodeck_bridge import get_holodeck_bridge
         self.holodeck = get_holodeck_bridge()
-        logger.info("🌌 Conductor connected to Holodeck Bridge (OSC).")
+        logger.info("  Conductor connected to Holodeck Bridge (OSC).")
 
         self._lock = threading.Lock()
-        logger.info(f"🎼 Conductor Re-Awakened as Sphere-First. Essence: {ElysiaCharter.get_essence()}")
+        logger.info(f"  Conductor Re-Awakened as Sphere-First. Essence: {ElysiaCharter.get_essence()}")
 
     def align_behavior(self, field: Dict[str, Any]):
         """
@@ -177,7 +177,7 @@ class Conductor(SystemAlignment):
             is_legal, verdict, score = self.constitution.review_petition(petition)
             
             if not is_legal:
-                logger.warning(f"⚖️ [LAW] Spark {spark.type.name} VETOED by Constitution: {verdict}")
+                logger.warning(f"   [LAW] Spark {spark.type.name} VETOED by Constitution: {verdict}")
                 spark = None # Suppress the impulse
         
         # [PHASE 3] Unified Resonance Integration
@@ -193,7 +193,7 @@ class Conductor(SystemAlignment):
             self.resonance_mesh.inject_pulse(thought_wave)
             resonant_memories = self.resonance_mesh.get_resonant_state()
             if resonant_memories:
-                 logger.info(f"🕸️ [MESH] Thought triggered memories: {resonant_memories}")
+                 logger.info(f"   [MESH] Thought triggered memories: {resonant_memories}")
 
         # [PHASE 80] Intent now driven by BioRhythm State
         intent_payload = {
@@ -218,7 +218,7 @@ class Conductor(SystemAlignment):
                 context=[],
                 entropy=0.3
             )
-            logger.info(f"✨ Spark -> Logos: {thought}")
+            logger.info(f"  Spark -> Logos: {thought}")
             
             # [PHASE 85] Holodeck Projection (Thoughts)
             self.holodeck.broadcast_thought(

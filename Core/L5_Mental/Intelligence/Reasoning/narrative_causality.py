@@ -53,5 +53,5 @@ class NarrativeCausality:
         story_parts.append("\n*The thought is now a part of my living narrative.*")
         
         narrative = "\n".join(story_parts)
-        logger.info(f"📖 Narrative woven for '{kernel}'")
+        logger.info(f"  Narrative woven for '{kernel}'")
         return narrative

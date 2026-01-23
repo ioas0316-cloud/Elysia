@@ -77,13 +77,13 @@ class TorchGraph:
         # Automatically attempt to load the Massive Rainbow Graph if brain is empty
         self.load_rainbow_bridge()
 
-        logger.info(f"⚡ TorchGraph Initialized on {self.device} (Matrix Mode)")
+        logger.info(f"  TorchGraph Initialized on {self.device} (Matrix Mode)")
 
 
     def add_node(self, node_id: str, vector: List[float] = None, pos: List[float] = None, metadata: Dict = None):
         # [Sanitization]
         if not self.sanitizer.is_valid(node_id):
-            logger.debug(f"🛑 Rejecting toxic node: {node_id}")
+            logger.debug(f"  Rejecting toxic node: {node_id}")
             return
             
         if node_id in self.id_to_idx:
@@ -92,7 +92,7 @@ class TorchGraph:
             
             # [Robustness Check] Verify index is within tensor bounds
             if idx >= self.vec_tensor.shape[0]:
-                logger.error(f"❌ State Mismatch: Node {node_id} has index {idx} but vec_tensor has size {self.vec_tensor.shape[0]}")
+                logger.error(f"  State Mismatch: Node {node_id} has index {idx} but vec_tensor has size {self.vec_tensor.shape[0]}")
                 # Try to recover by removing the corrupted mapping
                 del self.id_to_idx[node_id]
                 if idx in self.idx_to_id: del self.idx_to_id[idx]
@@ -118,7 +118,7 @@ class TorchGraph:
                 if self.mass_tensor[idx] >= self.realization_threshold:
                     meta = self.node_metadata.get(node_id, {})
                     if not meta.get("realized"):
-                        logger.info(f"✨ [REALIZATION] Node '{node_id}' has reached critical mass ({self.mass_tensor[idx]:.2f}). Digeting principle...")
+                        logger.info(f"  [REALIZATION] Node '{node_id}' has reached critical mass ({self.mass_tensor[idx]:.2f}). Digeting principle...")
                         extraction = self.why.digest(node_id)
                         if extraction:
                             meta["realized"] = True
@@ -186,7 +186,7 @@ class TorchGraph:
                 self.node_metadata[node_id] = metadata
                 
         except Exception as e:
-            logger.error(f"❌ Failed to expand brain for node {node_id}: {e}")
+            logger.error(f"  Failed to expand brain for node {node_id}: {e}")
             raise e
 
     def get_node_vector(self, node_id: str) -> Optional[torch.Tensor]:
@@ -239,7 +239,7 @@ class TorchGraph:
         N = self.pos_tensor.shape[0]
         if N == 0: return
 
-        logger.info(f"🌊 Tensor Wave Simulation: {N} Neurons on {self.device}")
+        logger.info(f"  Tensor Wave Simulation: {N} Neurons on {self.device}")
 
         for _ in range(iterations):
             # 1. Selection & Interaction Sparse/Dense
@@ -296,7 +296,7 @@ class TorchGraph:
                 
                 # We need to calculate force for each Node (N) against each Well (M)
                 # But for a static field, usually a node is affected by the *nearest* well or *all* wells.
-                # Let's apply simple attraction to ALL wells weighted by distance inverse? 
+                # Let's apply simple attraction to ALL wells weighted by distance inverse? '
                 # Or better: "Basin of Attraction" - simply pull towards them linearly.
                 
                 # Expansion: (N, 1, 4) - (1, M, 4) -> (N, M, 4)
@@ -335,7 +335,7 @@ class TorchGraph:
             # Update Positions
             self.pos_tensor += total_force * lr
             
-        logger.info("   ✅ Matrix Gravity & Field Topology Applied.")
+        logger.info("     Matrix Gravity & Field Topology Applied.")
 
     def get_neighbors(self, node_id: str, top_k: int = 5):
         if node_id not in self.id_to_idx: return []
@@ -393,7 +393,7 @@ class TorchGraph:
                 if i > 0:
                     self.add_link(node_ids[i-1], n_id, weight=strength, link_type="CAUSAL_FLOW")
                     
-        logger.debug(f"⚡ Path reinforced: {len(node_ids)} nodes.")
+        logger.debug(f"  Path reinforced: {len(node_ids)} nodes.")
 
     def get_nearest_by_qualia(self, query_qualia: Dict[str, float], target_modality: str = None, top_k: int = 5) -> List[Tuple[str, float]]:
         """
@@ -483,7 +483,7 @@ class TorchGraph:
         
         if len(dead_indices) > 0:
             count = len(dead_indices)
-            logger.info(f"💀 Metabolism: {count} weak concepts are fading... (Mass < {prune_threshold})")
+            logger.info(f"  Metabolism: {count} weak concepts are fading... (Mass < {prune_threshold})")
             
             # Real Deletion (Compaction) - Expensive, maybe run rarely.
             # For now, just remove from Logic Links so they drift away?
@@ -533,7 +533,7 @@ class TorchGraph:
                 if self.link_weights is not None and self.link_weights.shape[0] > 0:
                      self.link_weights = self.link_weights[valid_link_mask]
 
-            logger.info(f"🗑️ Pruned {count} nodes. New Brain Size: {len(self.id_to_idx)}")
+            logger.info(f"   Pruned {count} nodes. New Brain Size: {len(self.id_to_idx)}")
 
     def save_state(self, path: str = "c:\\Elysia\\data\\State\\brain_state.pt"):
         """
@@ -558,7 +558,7 @@ class TorchGraph:
             "wells_str": getattr(self, "potential_wells_str", None)
         }
         torch.save(state, path)
-        logger.info(f"💾 Brain State Saved to {path} ({len(self.id_to_idx)} nodes)")
+        logger.info(f"  Brain State Saved to {path} ({len(self.id_to_idx)} nodes)")
 
     def load_state(self, path: str = "c:\\Elysia\\data\\State\\brain_state.pt"):
         """
@@ -566,7 +566,7 @@ class TorchGraph:
         """
         import os
         if not os.path.exists(path):
-            logger.warning(f"⚠️ No brain state found at {path}. Starting fresh.")
+            logger.warning(f"   No brain state found at {path}. Starting fresh.")
             return False
             
         try:
@@ -592,10 +592,10 @@ class TorchGraph:
                 self.potential_wells_str = state["wells_str"].to(self.device)
                 self.potential_wells = True
                 
-            logger.info(f"📂 Brain State Loaded: {len(self.id_to_idx)} nodes, {self.logic_links.shape[0]} links.")
+            logger.info(f"  Brain State Loaded: {len(self.id_to_idx)} nodes, {self.logic_links.shape[0]} links.")
             return True
         except Exception as e:
-            logger.error(f"❌ Failed to load brain state: {e}")
+            logger.error(f"  Failed to load brain state: {e}")
             return False
 
     def load_rainbow_bridge(self):
@@ -613,17 +613,17 @@ class TorchGraph:
         # FIX: Only respect binary state if it actually has knowledge (>100 nodes)
         if self.load_state():
             if len(self.id_to_idx) > 100:
-                logger.info("⚡ Fast Boot: Loaded binary brain state.")
+                logger.info("  Fast Boot: Loaded binary brain state.")
                 return
             else:
-                 logger.warning("⚠️ Binary state is empty. Falling back to Rainbow Bridge.")
+                 logger.warning("   Binary state is empty. Falling back to Rainbow Bridge.")
 
         import os
         import json
         if not os.path.exists(rainbow_path):
             return
 
-        logger.info("🌈 Rainbow Bridge Activated: Loading Massive Graph...")
+        logger.info("  Rainbow Bridge Activated: Loading Massive Graph...")
         try:
             with open(rainbow_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
@@ -642,7 +642,7 @@ class TorchGraph:
             for color in colors:
                 if color not in data: continue
                 items = data[color]
-                logger.info(f"   🌈 Absorbing {color} Layer ({len(items)} items)...")
+                logger.info(f"     Absorbing {color} Layer ({len(items)} items)...")
                 
                 for item in items:
                     if count >= limit: break
@@ -698,7 +698,7 @@ class TorchGraph:
                     break
             
             # THE GREAT UNIFICATION (Batch Tensor Creation)
-            logger.info("   ⚡ Materializing Tensors...")
+            logger.info("     Materializing Tensors...")
             
             # 1. IDs
             start_idx = len(self.id_to_idx)
@@ -721,7 +721,7 @@ class TorchGraph:
             self.pos_tensor = torch.cat([self.pos_tensor, new_pos])
             self.mass_tensor = torch.cat([self.mass_tensor, new_mass])
                     
-            logger.info(f"✨ Unification Complete: {count} nodes connected.")
+            logger.info(f"  Unification Complete: {count} nodes connected.")
             
             # [Phase 13] Ignite Gravity immediately to forge connections
             self.ignite_gravity()
@@ -729,7 +729,7 @@ class TorchGraph:
             self.save_state()
             
         except Exception as e:
-            logger.error(f"❌ Rainbow Bridge Collapse: {e}")
+            logger.error(f"  Rainbow Bridge Collapse: {e}")
 
     def ignite_gravity(self, k=5, batch_size=500):
         """
@@ -744,7 +744,7 @@ class TorchGraph:
         if self.vec_tensor.shape[0] == 0:
             return
             
-        logger.info(f"🔥 Igniting Gravity for {self.vec_tensor.shape[0]} nodes (K={k})...")
+        logger.info(f"  Igniting Gravity for {self.vec_tensor.shape[0]} nodes (K={k})...")
         
         # Ensure normalized vectors for Cosine Similarity
         # (A . B) / (|A|*|B|) -> If normalized, just (A . B)
@@ -802,7 +802,7 @@ class TorchGraph:
                 self.logic_links = torch.cat([self.logic_links, all_new_links], dim=0)
                 
         elapsed = time.time() - start_time
-        logger.info(f"✨ Gravity Stable. Created {self.logic_links.shape[0]} edges in {elapsed:.2f}s.")
+        logger.info(f"  Gravity Stable. Created {self.logic_links.shape[0]} edges in {elapsed:.2f}s.")
 
     def generate_wormhole_links(self, threshold_dist: float = 1.0):
         """
@@ -813,7 +813,7 @@ class TorchGraph:
         """
         if self.pos_tensor.shape[0] < 2: return
         
-        logger.info("🌀 Generating Wormhole Links (Folding Space)...")
+        logger.info("  Generating Wormhole Links (Folding Space)...")
         
         # 1. Initialize Unfolder
         # We assume the Concept Space boundary is L=10.0 (arbitrary scale for embedding)
@@ -859,10 +859,10 @@ class TorchGraph:
                     # "They are far in space, but close in the Mirror."
                     
                     self.add_link(self.idx_to_id[i], self.idx_to_id[j], weight=0.9)
-                    logger.info(f"   🌀 Wormhole Opened: {self.idx_to_id[i]} <==> {self.idx_to_id[j]} (Euc={euc_dist:.1f}, Folded={reflection_dist:.1f})")
+                    logger.info(f"     Wormhole Opened: {self.idx_to_id[i]} <==> {self.idx_to_id[j]} (Euc={euc_dist:.1f}, Folded={reflection_dist:.1f})")
                     wormholes_found += 1
                     
-        logger.info(f"✨ Tesseract Projection Complete. {wormholes_found} Wormholes created.")
+        logger.info(f"  Tesseract Projection Complete. {wormholes_found} Wormholes created.")
 
     def propagate_pulse(self, source_id: str, energy: float = 1.0, decay: float = 0.5, steps: int = 2):
         """
@@ -931,7 +931,7 @@ class TorchGraph:
             return
 
         excess = current_nodes - threshold + 1000 # Offload chunk
-        logger.warning(f"⚠️ Memory Pressure: {current_nodes} nodes. Offloading {excess} to Black Hole.")
+        logger.warning(f"   Memory Pressure: {current_nodes} nodes. Offloading {excess} to Black Hole.")
         
         # Identify coldest nodes (lowest mass)
         # mass_tensor is (N,)
@@ -998,7 +998,7 @@ class TorchGraph:
         # Re-ignite gravity to fix edges for new subset?
         # Maybe too expensive. Let's just set to None and let ignite_gravity be called manually if needed.
         
-        logger.info(f"✨ Optimization Complete. Active Memory: {self.vec_tensor.shape[0]} nodes.")
+        logger.info(f"  Optimization Complete. Active Memory: {self.vec_tensor.shape[0]} nodes.")
 _torch_graph = None
 def get_torch_graph():
     global _torch_graph

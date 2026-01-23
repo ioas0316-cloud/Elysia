@@ -13,7 +13,7 @@ logger = logging.getLogger("KnowledgeProbe")
 
 def main():
     print("\n" + "="*60)
-    print("🛰️ KNOWLEDGE PROBE: ESTIMATING LATENT SPACE VOLUME")
+    print("   KNOWLEDGE PROBE: ESTIMATING LATENT SPACE VOLUME")
     print("="*60 + "\n")
     
     print("Initializing Neural Link...")
@@ -37,7 +37,7 @@ def main():
     total_estimated_concepts = 0
     
     for domain in domains:
-        print(f"📡 Probing Sector: [{domain}]...")
+        print(f"  Probing Sector: [{domain}]...")
         
         # 1. Depth Probe
         prompt = (
@@ -81,7 +81,7 @@ def main():
         print("-" * 40)
         
     print("\n" + "="*60)
-    print("📊 PROBE RESULTS")
+    print("  PROBE RESULTS")
     print(f"   Estimated Extractable Concepts (Sampled Sectors): ~{total_estimated_concepts}")
     print(f"   Extrapolated Total Capacity (All Domains): > {total_estimated_concepts * 100}")
     print("="*60 + "\n")

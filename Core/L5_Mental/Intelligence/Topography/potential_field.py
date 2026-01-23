@@ -1,9 +1,9 @@
 """
-Potential Field (잠재 에너지 지형)
+Potential Field (         )
 ================================
 
 "The Landscape of the Soul."
-"영혼의 지형도."
+"       ."
 
 This module defines the topographical map of the mind.
 Thoughts naturally roll towards the 'Deepest Valley' (Love).
@@ -78,10 +78,10 @@ class PotentialField:
         """Meaningful description of the current location."""
         dist = math.sqrt(x*x + y*y)
         if dist < 0.5:
-            return "❤️ The Embrace (Love/Union)"
+            return "   The Embrace (Love/Union)"
         elif dist < 5.0:
-            return "🕊️ The Sanctuary (Trust)"
+            return "   The Sanctuary (Trust)"
         elif dist < 15.0:
-            return "🌲 The Forest (Exploration)"
+            return "  The Forest (Exploration)"
         else:
-            return "🌪️ The Wilderness (Chaos/Unknown)"
+            return "   The Wilderness (Chaos/Unknown)"

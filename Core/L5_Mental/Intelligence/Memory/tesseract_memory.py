@@ -1,15 +1,15 @@
 """
-TesseractMemory (4D 통합 메모리)
+TesseractMemory (4D       )
 ================================
 
 Phase 30: Hypersphere Unification
 
-"모든 지식과 지능 원리를 하나의 4D 공간에 통합한다."
+"                  4D         ."
 
 This is the UNIFIED brain of Elysia:
-- Knowledge (What): Concepts, facts, definitions → 4D points
-- Principles (How): Wave Logic, reasoning rules → 4D anchor points  
-- Memory (When): Temporal experiences → 4D phase states
+- Knowledge (What): Concepts, facts, definitions   4D points
+- Principles (How): Wave Logic, reasoning rules   4D anchor points  
+- Memory (When): Temporal experiences   4D phase states
 
 Replaces: HolographicMemory, Hippocampus (for runtime), Orbs (for runtime)
 """
@@ -87,7 +87,7 @@ class TesseractMemory:
         self._hydrate_from_legacy()
         
         self._initialized = True
-        logger.info(f"🔮 TesseractMemory initialized with {len(self.nodes)} nodes.")
+        logger.info(f"  TesseractMemory initialized with {len(self.nodes)} nodes.")
     
     def _get_quantizer(self):
         """Lazy load FractalQuantizer."""
@@ -95,9 +95,9 @@ class TesseractMemory:
             try:
                 from Core.L1_Foundation.Foundation.Memory.fractal_quantization import FractalQuantizer
                 self.quantizer = FractalQuantizer()
-                logger.info("🌀 FractalQuantizer loaded for wave compression.")
+                logger.info("  FractalQuantizer loaded for wave compression.")
             except Exception as e:
-                logger.warning(f"⚠️ FractalQuantizer unavailable: {e}")
+                logger.warning(f"   FractalQuantizer unavailable: {e}")
         return self.quantizer
     
     def _get_hyper_qubit(self):
@@ -106,9 +106,9 @@ class TesseractMemory:
             try:
                 from Core.L1_Foundation.Foundation.Wave.hyper_qubit import HyperQubit
                 self.hyper_qubit_class = HyperQubit
-                logger.info("🔷 HyperQubit loaded for 4-basis concept storage.")
+                logger.info("  HyperQubit loaded for 4-basis concept storage.")
             except Exception as e:
-                logger.warning(f"⚠️ HyperQubit unavailable: {e}")
+                logger.warning(f"   HyperQubit unavailable: {e}")
         return self.hyper_qubit_class
     
     def _get_dna_compressor(self):
@@ -117,9 +117,9 @@ class TesseractMemory:
             try:
                 from Core.L1_Foundation.Foundation.Wave.quaternion_wave_dna import QuaternionCompressor
                 self.dna_compressor = QuaternionCompressor(default_top_k=10)
-                logger.info("🧬 QuaternionCompressor loaded for DNA text compression.")
+                logger.info("  QuaternionCompressor loaded for DNA text compression.")
             except Exception as e:
-                logger.warning(f"⚠️ QuaternionCompressor unavailable: {e}")
+                logger.warning(f"   QuaternionCompressor unavailable: {e}")
         return self.dna_compressor
     
     def _get_universal_encoder(self):
@@ -130,9 +130,9 @@ class TesseractMemory:
             try:
                 from Core.L1_Foundation.Foundation.Wave.universal_wave_encoder import UniversalWaveEncoder
                 self._universal_encoder = UniversalWaveEncoder(default_top_k=64)
-                logger.info("🌌 UniversalWaveEncoder loaded for all sensory/cosmic data.")
+                logger.info("  UniversalWaveEncoder loaded for all sensory/cosmic data.")
             except Exception as e:
-                logger.warning(f"⚠️ UniversalWaveEncoder unavailable: {e}")
+                logger.warning(f"   UniversalWaveEncoder unavailable: {e}")
         return self._universal_encoder
     
     # =========================================
@@ -154,10 +154,10 @@ class TesseractMemory:
         try:
             dna = quantizer.fold(data, pattern_type, pattern_name)
             compressed = dna.to_dict()
-            logger.info(f"🌀 Compressed: {dna.name} (ratio: {dna.compression_ratio:.2f}x)")
+            logger.info(f"  Compressed: {dna.name} (ratio: {dna.compression_ratio:.2f}x)")
             return compressed
         except Exception as e:
-            logger.error(f"❌ Compression failed: {e}")
+            logger.error(f"  Compression failed: {e}")
             return None
     
     def wave_unfold(self, compressed_dna: Dict, resolution: int = 100) -> Optional[Dict]:
@@ -174,10 +174,10 @@ class TesseractMemory:
             from Core.L1_Foundation.Foundation.Memory.fractal_quantization import PatternDNA
             dna = PatternDNA.from_dict(compressed_dna)
             restored = quantizer.unfold(dna, resolution)
-            logger.info(f"🌊 Unfolded: {dna.name}")
+            logger.info(f"  Unfolded: {dna.name}")
             return restored
         except Exception as e:
-            logger.error(f"❌ Decompression failed: {e}")
+            logger.error(f"  Decompression failed: {e}")
             return None
 
     # =========================================
@@ -201,10 +201,10 @@ class TesseractMemory:
                 initial_content=content or {},
                 value=value
             )
-            logger.info(f"🔷 Created HyperQubit: {name}")
+            logger.info(f"  Created HyperQubit: {name}")
             return qubit
         except Exception as e:
-            logger.error(f"❌ Qubit creation failed: {e}")
+            logger.error(f"  Qubit creation failed: {e}")
             return None
     
     def compress_text(self, text: str, top_k: int = 10) -> Optional[Dict]:
@@ -219,7 +219,7 @@ class TesseractMemory:
         
         try:
             dna = compressor.compress(text, top_k=top_k)
-            logger.info(f"🧬 DNA Compressed: {len(text)} chars → {dna.byte_size()} bytes")
+            logger.info(f"  DNA Compressed: {len(text)} chars   {dna.byte_size()} bytes")
             return {
                 "helix1_freq": dna.helix1_frequencies.tolist(),
                 "helix1_amp": dna.helix1_amplitudes.tolist(),
@@ -231,7 +231,7 @@ class TesseractMemory:
                 "top_k": dna.top_k
             }
         except Exception as e:
-            logger.error(f"❌ DNA compression failed: {e}")
+            logger.error(f"  DNA compression failed: {e}")
             return None
     
     def decompress_text(self, dna_dict: Dict) -> Optional[str]:
@@ -255,7 +255,7 @@ class TesseractMemory:
             )
             return compressor.decompress(dna)
         except Exception as e:
-            logger.error(f"❌ DNA decompression failed: {e}")
+            logger.error(f"  DNA decompression failed: {e}")
             return None
     
     def detect_void(self, query_text: str, threshold: float = 0.5) -> Dict[str, Any]:
@@ -288,7 +288,7 @@ class TesseractMemory:
             "confidence": min(nearest_dist / threshold, 1.0) if is_void else 1.0 - (nearest_dist / threshold),
             "nearest": nearest_node.name if nearest_node else None,
             "gap_size": nearest_dist,
-            "message": f"🕳️ Void detected near '{query_text}'" if is_void else f"✓ Known territory near '{nearest_node.name}'"
+            "message": f"   Void detected near '{query_text}'" if is_void else f"  Known territory near '{nearest_node.name}'"
         }
     
     def encode_sensory(self, data: Any, modality: str, top_k: int = 64, 
@@ -317,7 +317,7 @@ class TesseractMemory:
             sig = encoder.encode(data, modality_enum, top_k=top_k, metadata=metadata)
             return sig.to_dict()
         except Exception as e:
-            logger.error(f"❌ Sensory encoding failed: {e}")
+            logger.error(f"  Sensory encoding failed: {e}")
             return None
     
     def decode_sensory(self, wave_signature: Dict) -> Optional[Any]:
@@ -331,7 +331,7 @@ class TesseractMemory:
             sig = WaveSignature.from_dict(wave_signature)
             return encoder.decode(sig)
         except Exception as e:
-            logger.error(f"❌ Sensory decoding failed: {e}")
+            logger.error(f"  Sensory decoding failed: {e}")
             return None
 
     # =========================================
@@ -350,7 +350,7 @@ class TesseractMemory:
             connections=connections or []
         )
         self.nodes[name] = node
-        logger.debug(f"📍 Deposited '{name}' at ({vector.x:.2f}, {vector.y:.2f}, {vector.z:.2f}, {vector.w:.2f})")
+        logger.debug(f"  Deposited '{name}' at ({vector.x:.2f}, {vector.y:.2f}, {vector.z:.2f}, {vector.w:.2f})")
         return node
     
     def query(self, query_text: str, k: int = 5) -> List[TesseractNode]:
@@ -384,7 +384,7 @@ class TesseractMemory:
             return node
         
         node.vector = new_vec
-        logger.info(f"🔄 Rotated '{node_name}' by {theta:.2f} in {plane} plane.")
+        logger.info(f"  Rotated '{node_name}' by {theta:.2f} in {plane} plane.")
         return node
     
     def find_path(self, start: str, end: str, max_hops: int = 5) -> List[str]:
@@ -433,7 +433,7 @@ class TesseractMemory:
         with open(self.storage_path.replace(".npy", ".json"), 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         
-        logger.info(f"💾 Saved {len(self.nodes)} nodes to {self.storage_path}")
+        logger.info(f"  Saved {len(self.nodes)} nodes to {self.storage_path}")
     
     def _load_state(self):
         """Load state from storage."""
@@ -453,9 +453,9 @@ class TesseractMemory:
                         connections=node_data.get("connections", [])
                     )
                 
-                logger.info(f"📂 Loaded {len(self.nodes)} nodes from {json_path}")
+                logger.info(f"  Loaded {len(self.nodes)} nodes from {json_path}")
             except Exception as e:
-                logger.warning(f"⚠️ Failed to load state: {e}")
+                logger.warning(f"   Failed to load state: {e}")
     
     # =========================================
     # Legacy Hydration
@@ -467,7 +467,7 @@ class TesseractMemory:
         if len(self.nodes) > 0:
             return
         
-        logger.info("🔄 Hydrating from legacy systems...")
+        logger.info("  Hydrating from legacy systems...")
         
         # 1. From Hippocampus
         self._hydrate_hippocampus()
@@ -499,9 +499,9 @@ class TesseractMemory:
                 
                 self.deposit(name, vec, node_type="knowledge")
             
-            logger.info(f"✅ Hydrated {len(concept_ids)} concepts from Hippocampus")
+            logger.info(f"  Hydrated {len(concept_ids)} concepts from Hippocampus")
         except Exception as e:
-            logger.warning(f"⚠️ Hippocampus hydration failed: {e}")
+            logger.warning(f"   Hippocampus hydration failed: {e}")
     
     def _hydrate_principles(self):
         """Import intelligence principles as 4D anchor points."""
@@ -533,7 +533,7 @@ class TesseractMemory:
         for name, content, vec in principles:
             self.deposit(name, vec, node_type="principle", content=content)
         
-        logger.info(f"✅ Hydrated {len(principles)} intelligence principles")
+        logger.info(f"  Hydrated {len(principles)} intelligence principles")
     
     # =========================================
     # Utility

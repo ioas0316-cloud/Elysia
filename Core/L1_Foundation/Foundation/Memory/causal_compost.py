@@ -67,7 +67,7 @@ class CausalCompost:
         mutated_event.type = "wisdom" # Change type from 'experience'/thought via mutation
         mutated_event.feedback += 0.1 # Wisdom always feels good?
         
-        logger.info(f"🍂 Composted Memory '{event.id}':\n    '{event.content}' -> '{new_content}'")
+        logger.info(f"  Composted Memory '{event.id}':\n    '{event.content}' -> '{new_content}'")
         
         return mutated_event
 

@@ -29,7 +29,7 @@ class InternalLibrarian:
         self.log_path = log_path
         self._ensure_log()
         self.internalized_files = self._load_log()
-        logger.info(f"📚 Internal Librarian initialized. Ready to digest {roots}.")
+        logger.info(f"  Internal Librarian initialized. Ready to digest {roots}.")
 
     def _ensure_log(self):
         if not os.path.exists(os.path.dirname(self.log_path)):
@@ -65,7 +65,7 @@ class InternalLibrarian:
         """
         Simulates the extraction of wisdom from a file.
         """
-        logger.info(f"📚 Digesting knowledge from {file_path}...")
+        logger.info(f"  Digesting knowledge from {file_path}...")
         
         # Real extraction logic would involve NLP/Regex
         # For this demonstration, we simulate the 'essence' extraction

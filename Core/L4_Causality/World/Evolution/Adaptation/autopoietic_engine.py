@@ -32,7 +32,7 @@ class AutopoieticEngine:
     def __init__(self, config_path: str = "data/Config/self_perception.json"):
         self.config_path = Path(config_path)
         self.dna = self._load_dna()
-        logger.info("🧬 Autopoietic Engine initialized. Ready to rewrite Self.")
+        logger.info("  Autopoietic Engine initialized. Ready to rewrite Self.")
 
     def _load_dna(self) -> Dict:
         if not self.config_path.exists():
@@ -48,7 +48,7 @@ class AutopoieticEngine:
         try:
             with open(self.config_path, 'w', encoding='utf-8') as f:
                 json.dump(self.dna, f, indent=2)
-            logger.info("🧬 DNA successfully mutated and saved.")
+            logger.info("  DNA successfully mutated and saved.")
         except Exception as e:
             logger.error(f"Failed to save DNA mutation: {e}")
 
@@ -114,7 +114,7 @@ class AutopoieticEngine:
             f"{current_val:.2f} -> {new_val:.2f}. "
             f"Reason: {mutation.reason}"
         )
-        logger.warning(f"⚠️  AUTOPOIESIS TRIGGERED: {log_msg}")
+        logger.warning(f"    AUTOPOIESIS TRIGGERED: {log_msg}")
         
         # 4. Save
         self._save_dna()

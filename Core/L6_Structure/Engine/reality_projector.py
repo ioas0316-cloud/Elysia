@@ -1,5 +1,5 @@
 """
-Reality Projector (현행화 투영기)
+Reality Projector (       )
 ================================
 "From Wave to Form, from Meaning to Matter."
 
@@ -61,7 +61,7 @@ class RealityProjector:
     def set_style(self, style: RealityStyle):
         """Sets the target 'Coagulation' style (e.g. OpenWorld vs Isometric)."""
         self.current_style = style
-        logger.info(f"✨ Reality Style set to: {style.value}")
+        logger.info(f"  Reality Style set to: {style.value}")
 
     def project(self, governance: GovernanceEngine) -> Dict[str, Any]:
         """
@@ -134,11 +134,11 @@ if __name__ == "__main__":
     engine = GovernanceEngine()
     projector = RealityProjector(CoagulationMode.MESH)
     
-    print("🔮 [REALITY PROJECTOR] Dreaming in Open World...")
+    print("  [REALITY PROJECTOR] Dreaming in Open World...")
     world_data = projector.project(engine)
     print(f"Data: {world_data}")
     
-    print("\n⚔️ [REALITY PROJECTOR] Switching to Isometric (Lost Ark Style)...")
+    print("\n   [REALITY PROJECTOR] Switching to Isometric (Lost Ark Style)...")
     projector.set_style(RealityStyle.ISOMETRIC)
     world_data = projector.project(engine)
     print(f"Data: {world_data}")

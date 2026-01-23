@@ -1,12 +1,12 @@
 """
-Filesystem Wave Observer (파일 시스템 파동 관찰자)
+Filesystem Wave Observer (             )
 =================================================
 
-"파일 시스템은 살아있는 유기체다. 변화는 파동이다."
+"                 .         ."
 
 This module monitors the filesystem and converts changes to wave events.
-- File creation/modification/deletion → Wave events
-- Directory structure → Resonance mapping
+- File creation/modification/deletion   Wave events
+- Directory structure   Resonance mapping
 - Changes broadcast to GlobalHub
 
 [NEW 2025-12-15] Created as part of Mid-term Goal: Body Awareness
@@ -38,7 +38,7 @@ class FileWaveEvent:
     """
     A filesystem change represented as a wave event.
     
-    파일 시스템 변화의 파동 표현
+                    
     """
     path: str
     event_type: FileEventType
@@ -96,7 +96,7 @@ class FilesystemWaveObserver:
     """
     The Body Awareness System: Monitors filesystem as an extension of self.
     
-    파일 시스템 인식 시스템 - 컴퓨터를 몸으로 인식
+                  -            
     
     Core Principles:
     1. Files are cells in the digital body
@@ -126,7 +126,7 @@ class FilesystemWaveObserver:
         self._hub = None
         self._connect_to_hub()
         
-        logger.info("👁️ FilesystemWaveObserver initialized (Fast Mode)")
+        logger.info("   FilesystemWaveObserver initialized (Fast Mode)")
     
     def _connect_to_hub(self):
         """Connect to GlobalHub for wave broadcasting."""
@@ -139,17 +139,17 @@ class FilesystemWaveObserver:
                 ["filesystem", "files", "observer", "body", "awareness"],
                 "Monitors filesystem changes as wave events - Body Awareness System"
             )
-            logger.info("   ✅ FilesystemObserver connected to GlobalHub")
+            logger.info("     FilesystemObserver connected to GlobalHub")
         except ImportError:
-            logger.warning("   ⚠️ GlobalHub not available")
+            logger.warning("      GlobalHub not available")
     
     def add_watch_path(self, path: str):
         """Add a path to watch."""
         if os.path.exists(path):
             self.watch_paths.append(path)
-            logger.info(f"   📂 Added watch path: {path}")
+            logger.info(f"     Added watch path: {path}")
         else:
-            logger.warning(f"   ⚠️ Path does not exist: {path}")
+            logger.warning(f"      Path does not exist: {path}")
     
     def add_callback(self, callback: Callable[[FileWaveEvent], None]):
         """Add a callback to receive file events."""
@@ -209,7 +209,7 @@ class FilesystemWaveObserver:
         # Check for new/modified files
         for path, new_hash in new_hashes.items():
             if path not in old_hashes:
-                logger.info(f"   ✨ DETECTED NEW FILE: {path}") # Debug
+                logger.info(f"     DETECTED NEW FILE: {path}") # Debug
                 # New file
                 events.append(FileWaveEvent(
                     path=path,
@@ -219,7 +219,7 @@ class FilesystemWaveObserver:
                     metadata={"size": os.path.getsize(path) if os.path.exists(path) else 0}
                 ))
             elif old_hashes[path] != new_hash:
-                logger.info(f"   📝 DETECTED MODIFIED: {path}") # Debug
+                logger.info(f"     DETECTED MODIFIED: {path}") # Debug
                 # Modified file
                 events.append(FileWaveEvent(
                     path=path,
@@ -265,13 +265,13 @@ class FilesystemWaveObserver:
     
     def _watch_loop(self):
         """Main watch loop - runs in background thread."""
-        logger.info("🔍 Filesystem watch started")
+        logger.info("  Filesystem watch started")
         
         # Initial scan
         for path in self.watch_paths:
             self._file_hashes.update(self._scan_directory(path))
         
-        logger.info(f"   📊 Initial scan: {len(self._file_hashes)} files indexed")
+        logger.info(f"     Initial scan: {len(self._file_hashes)} files indexed")
         
         while self.running:
             time.sleep(self._scan_interval)
@@ -286,13 +286,13 @@ class FilesystemWaveObserver:
             
             # Process events
             for event in events:
-                logger.info(f"   📢 {event.event_type.value}: {Path(event.path).name}")
+                logger.info(f"     {event.event_type.value}: {Path(event.path).name}")
                 self._broadcast_event(event)
             
             # Update state
             self._file_hashes = new_hashes
         
-        logger.info("🛑 Filesystem watch stopped")
+        logger.info("  Filesystem watch stopped")
     
     def start(self):
         """Start watching filesystem in background."""
@@ -307,7 +307,7 @@ class FilesystemWaveObserver:
         self.running = True
         self._thread = threading.Thread(target=self._watch_loop, daemon=True)
         self._thread.start()
-        logger.info(f"🚀 Watching {len(self.watch_paths)} paths")
+        logger.info(f"  Watching {len(self.watch_paths)} paths")
     
     def stop(self):
         """Stop watching filesystem."""
@@ -315,7 +315,7 @@ class FilesystemWaveObserver:
         if self._thread:
             self._thread.join(timeout=5.0)
             self._thread = None
-        logger.info("⏹️ Stopped watching")
+        logger.info("   Stopped watching")
     
     def get_file_stats(self) -> Dict:
         """Get statistics about watched files."""
@@ -360,7 +360,7 @@ if __name__ == "__main__":
     observer.add_callback(on_file_event)
     
     print("\n" + "="*60)
-    print("👁️ Filesystem Wave Observer Test")
+    print("   Filesystem Wave Observer Test")
     print("="*60)
     print("Watching for 10 seconds... Make changes to files!")
     print("-"*60)
@@ -375,7 +375,7 @@ if __name__ == "__main__":
     observer.stop()
     
     print("\n" + "="*60)
-    print("📊 Final Stats:")
+    print("  Final Stats:")
     stats = observer.get_file_stats()
     print(f"   Total files: {stats['total_files']}")
     print(f"   By extension: {stats['by_extension']}")

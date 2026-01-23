@@ -20,7 +20,7 @@ class GrowthViewer:
         self.data_path = Path(data_path)
         self.data_path.parent.mkdir(parents=True, exist_ok=True)
         self._load_metrics()
-        logger.info("📈 GrowthViewer calibrated. Observing the curve.")
+        logger.info("  GrowthViewer calibrated. Observing the curve.")
 
     def _load_metrics(self):
         if self.data_path.exists():
@@ -56,17 +56,17 @@ class GrowthViewer:
         Produces a text-based ASCII growth report.
         """
         if not self.metrics["history"]:
-            return "데이터가 부족하여 성장 그래프를 생성할 수 없습니다."
+            return "                            ."
         
         history = self.metrics["history"]
         avg_energy = sum(h["ignition_energy_avg"] for h in history) / len(history)
         max_d = max(h["max_depth_reached"] for h in history)
         
-        report = "--- 📊 ELYSIA GROWTH REPORT ---\n"
-        report += f"누적 관측 횟수: {len(history)}\n"
-        report += f"평균 점화 에너지: {avg_energy:.4f}\n"
-        report += f"최대 도달 심도: {max_d}\n"
-        report += "성장 곡선: " + "↗️" * min(5, len(history))
+        report = "---   ELYSIA GROWTH REPORT ---\n"
+        report += f"        : {len(history)}\n"
+        report += f"         : {avg_energy:.4f}\n"
+        report += f"        : {max_d}\n"
+        report += "     : " + "  " * min(5, len(history))
         return report
 
 if __name__ == "__main__":

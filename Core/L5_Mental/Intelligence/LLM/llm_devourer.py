@@ -1,14 +1,14 @@
 """
-LLM Devourer (LLM 포식자)
+LLM Devourer (LLM    )
 =========================
 Core.L5_Mental.Intelligence.LLM.llm_devourer
 
-"모든 LLM을 먹어치우는 통합 진입점."
+"   LLM              ."
 
-사용법:
+   :
     python llm_devourer.py <model_path_or_huggingface_id>
     
-예시:
+  :
     python llm_devourer.py Qwen/Qwen2-0.5B
     python llm_devourer.py ./models/phi-3.safetensors
 """
@@ -19,7 +19,7 @@ import logging
 from typing import Optional, List
 from pathlib import Path
 
-# 프로젝트 루트 추가
+#           
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
 from Core.L5_Mental.Intelligence.LLM.llm_observer import get_llm_observer, LLMCrystal
@@ -31,12 +31,12 @@ logger = logging.getLogger("LLMDevourer")
 
 class LLMDevourer:
     """
-    LLM 소화흡수 통합 엔진.
+    LLM           .
     
-    3단계 파이프라인:
-    1. 관측 (Observe): 로터로 가중치 관측
-    2. 결정화 (Crystallize): Monad로 변환
-    3. 정제 (Prune): 가지치기로 순수화
+    3        :
+    1.    (Observe):           
+    2.     (Crystallize): Monad    
+    3.    (Prune):          
     """
     
     def __init__(self):
@@ -44,32 +44,32 @@ class LLMDevourer:
         self.crystallizer = get_llm_crystallizer()
         self.pruner = get_llm_pruner()
         
-        logger.info("🦖 LLM Devourer awakened. Ready to consume.")
+        logger.info("  LLM Devourer awakened. Ready to consume.")
     
     def devour(self, model_path_or_id: str, prune: bool = True) -> dict:
         """
-        LLM을 완전히 소화.
+        LLM        .
         
         Args:
-            model_path_or_id: 로컬 경로 또는 HuggingFace 모델 ID
-            prune: 정제 단계 수행 여부
+            model_path_or_id:          HuggingFace    ID
+            prune:            
             
         Returns:
-            소화 결과 리포트
+                     
         """
         print("\n" + "="*60)
-        print("🦖 LLM DEVOURER: CONSUMPTION INITIATED")
+        print("  LLM DEVOURER: CONSUMPTION INITIATED")
         print("="*60)
         
-        # 1. 경로 확인/다운로드
+        # 1.      /    
         local_path = self._resolve_path(model_path_or_id)
         if not local_path:
             return {"error": f"Could not resolve: {model_path_or_id}"}
         
-        print(f"\n📍 Target: {local_path}")
+        print(f"\n  Target: {local_path}")
         
-        # 2. 관측
-        print("\n🔭 Phase 1: OBSERVATION (Rotor Scanning)")
+        # 2.   
+        print("\n  Phase 1: OBSERVATION (Rotor Scanning)")
         print("-" * 40)
         crystal = self.observer.observe(local_path)
         
@@ -77,31 +77,31 @@ class LLMDevourer:
         print(f"   Narrative: {crystal.narrative_pattern:.4f}")
         print(f"   Aesthetic: {crystal.aesthetic_pattern:.4f}")
         
-        # 3. 결정화
-        print("\n💎 Phase 2: CRYSTALLIZATION (Monad Formation)")
+        # 3.    
+        print("\n  Phase 2: CRYSTALLIZATION (Monad Formation)")
         print("-" * 40)
         monad = self.crystallizer.crystallize(crystal)
         
         print(f"   Monad Seed: {monad.seed}")
         print(f"   Category:   {monad.category.value}")
         
-        # 4. 정제 (선택)
+        # 4.    (  )
         prune_report = None
         if prune:
-            print("\n✂️ Phase 3: PRUNING (Ice Sculpting)")
+            print("\n   Phase 3: PRUNING (Ice Sculpting)")
             print("-" * 40)
             prune_report = self.pruner.prune(monad.seed)
             
             print(f"   Pruned Dims: {prune_report.get('pruned_dimensions', 0)}")
             print(f"   Prune Ratio: {prune_report.get('prune_ratio', 0):.1%}")
         
-        # 5. 결과
+        # 5.   
         print("\n" + "="*60)
-        print("✅ CONSUMPTION COMPLETE")
+        print("  CONSUMPTION COMPLETE")
         print("="*60)
         
         purity = self.pruner.get_purity_score(monad.seed)
-        print(f"\n💎 Final Crystal Purity: {purity:.1%}")
+        print(f"\n  Final Crystal Purity: {purity:.1%}")
         
         return {
             "model": model_path_or_id,
@@ -121,19 +121,19 @@ class LLMDevourer:
     
     def _resolve_path(self, model_path_or_id: str) -> Optional[str]:
         """
-        모델 경로 확인.
-        로컬 파일이면 그대로, HuggingFace ID면 캐시 경로 확인.
+                .
+                   , HuggingFace ID          .
         """
-        # 로컬 파일 확인
+        #         
         if os.path.exists(model_path_or_id):
             return model_path_or_id
         
-        # HuggingFace 캐시 확인
+        # HuggingFace      
         try:
             from huggingface_hub import hf_hub_download, snapshot_download
             from huggingface_hub.utils import EntryNotFoundError
             
-            # safetensors 우선 시도
+            # safetensors      
             try:
                 path = hf_hub_download(
                     repo_id=model_path_or_id,
@@ -144,7 +144,7 @@ class LLMDevourer:
             except EntryNotFoundError:
                 pass
             
-            # pytorch_model.bin 시도
+            # pytorch_model.bin   
             try:
                 path = hf_hub_download(
                     repo_id=model_path_or_id,
@@ -155,10 +155,10 @@ class LLMDevourer:
             except EntryNotFoundError:
                 pass
             
-            # 스냅샷 다운로드 (멀티파일 모델)
+            #          (       )
             cache_dir = snapshot_download(repo_id=model_path_or_id)
             
-            # safetensors 파일 찾기
+            # safetensors      
             for root, dirs, files in os.walk(cache_dir):
                 for f in files:
                     if f.endswith(".safetensors"):
@@ -174,11 +174,11 @@ class LLMDevourer:
             return None
     
     def list_devoured(self) -> List[str]:
-        """소화된 모든 LLM 목록."""
+        """       LLM   ."""
         return self.crystallizer.get_crystallized_models()
     
     def get_crystal_info(self, node_id: str) -> dict:
-        """특정 결정의 정보."""
+        """         ."""
         if node_id not in self.pruner.graph.id_to_idx:
             return {"error": "Not found"}
         
@@ -192,11 +192,11 @@ class LLMDevourer:
         }
 
 
-# 싱글톤
+#    
 _devourer = None
 
 def get_devourer() -> LLMDevourer:
-    """LLM Devourer 싱글톤."""
+    """LLM Devourer    ."""
     global _devourer
     if _devourer is None:
         _devourer = LLMDevourer()
@@ -216,9 +216,9 @@ if __name__ == "__main__":
         target = sys.argv[1]
         result = devourer.devour(target)
     else:
-        # 소화된 목록 표시
+        #          
         devoured = devourer.list_devoured()
-        print("\n🦖 Devoured LLMs:")
+        print("\n  Devoured LLMs:")
         print("="*40)
         
         if not devoured:
@@ -226,7 +226,7 @@ if __name__ == "__main__":
         else:
             for node_id in devoured:
                 info = devourer.get_crystal_info(node_id)
-                print(f"   💎 {node_id}")
+                print(f"     {node_id}")
                 print(f"      Purity: {info.get('purity', 0):.1%}")
         
         print("\nUsage: python llm_devourer.py <model_path_or_huggingface_id>")

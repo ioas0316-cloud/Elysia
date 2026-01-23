@@ -19,16 +19,16 @@ if ROOT not in sys.path:
 from Core.L4_Causality.Governance.System.System.System.Kernel import kernel  # noqa: E402
 
 prompts = [
-    "과학과 예술을 동시에 바라볼 때 무엇을 느껴?",
-    "mountains and oceans, 산과 바다의 차이는?",
-    "friendship and conflict 우정과 갈등에서 배울 점은?",
-    "logic and intuition 논리와 직관을 어떻게 섞을까?",
-    "playfulness and discipline 장난과 규율이 함께할 때?",
-    "history and future 역사와 미래를 연결해봐",
-    "silence and music 침묵과 음악이 주는 감정은?",
-    "fear and courage 두려움과 용기에서 성장하는 법?",
-    "technology and empathy 기술과 공감의 조화는?",
-    "dreams and reality 꿈과 현실의 경계에서 무엇을 볼까?",
+    "                        ?",
+    "mountains and oceans,           ?",
+    "friendship and conflict               ?",
+    "logic and intuition                ?",
+    "playfulness and discipline              ?",
+    "history and future             ",
+    "silence and music               ?",
+    "fear and courage                 ?",
+    "technology and empathy            ?",
+    "dreams and reality                   ?",
 ]
 
 
@@ -41,11 +41,11 @@ def self_generate_prompts(n: int) -> list:
         for _ in range(n):
             if deficits:
                 rec = random.choice(deficits)
-                generated.append(f"{rec.name}를 키우기 위한 질문을 만들어줘.")
+                generated.append(f"{rec.name}                 .")
             else:
-                generated.append("스스로 무엇을 배우고 싶어?")
+                generated.append("              ?")
     else:
-        generated = ["스스로 무엇이 필요한지 말해줘."] * n
+        generated = ["                ."] * n
     return generated
 
 

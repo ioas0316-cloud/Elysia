@@ -11,7 +11,7 @@ repeated patterns into unconscious reflexes (Rotor Tracks).
 
 from typing import Dict, List, Tuple
 from collections import defaultdict
-from Core.L6_Structure.Merkaba.thundercloud import ThoughtCluster
+from Core.L6_Structure.M1_Merkaba.thundercloud import ThoughtCluster
 from Core.L7_Spirit.Monad.muscle_memory import MuscleMemory
 
 class HabitEngine:
@@ -69,7 +69,7 @@ class HabitEngine:
         rotor_name = "Cognitive.Rotor" # A generic rotor for thought-replay
         track_name = f"Reflex_{intent}"
 
-        print(f"⚡ [HabitEngine] Consolidating '{intent}' into Reflex (Track Length: {len(track_data)})")
+        print(f"??[HabitEngine] Consolidating '{intent}' into Reflex (Track Length: {len(track_data)})")
 
         # We assume a generic cognitive rotor exists.
         # In a real integration, we might spawn a specific rotor or use an existing one.

@@ -14,7 +14,7 @@ from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Life.digital_a
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 def explore_downloads():
-    print("🎒 Project: Matrix - Expedition to 'Downloads'...")
+    print("  Project: Matrix - Expedition to 'Downloads'...")
     
     avatar = DigitalAvatar(home_dir="c:\\Elysia")
     
@@ -23,7 +23,7 @@ def explore_downloads():
     target_dir = os.path.join(user_home, "Downloads")
     
     if not os.path.exists(target_dir):
-        print(f"❌ Could not find Downloads at {target_dir}")
+        print(f"  Could not find Downloads at {target_dir}")
         return
 
     print(f"   Target Acquired: {target_dir}")
@@ -92,7 +92,7 @@ def explore_downloads():
     with open(journal_path, "w", encoding="utf-8") as f:
         f.write(journal_entry)
         
-    print(f"✅ Journal saved to: {journal_path}")
+    print(f"  Journal saved to: {journal_path}")
     print("\n[Journal Content Preview]")
     print(journal_entry)
 

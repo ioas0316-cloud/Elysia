@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 from Core.L1_Foundation.Foundation.cortex_optimizer import CortexOptimizer
 
 def trigger_evolution():
-    print("🧬 Initiating Manual Evolution Protocol (Quantum Port)...")
+    print("  Initiating Manual Evolution Protocol (Quantum Port)...")
     optimizer = CortexOptimizer()
     
     # Find the draft
@@ -21,8 +21,8 @@ def trigger_evolution():
     target_path = os.path.join(optimizer.root_path, "Core", "Interface", "quantum_protocol.py")
     
     if os.path.exists(draft_path):
-        print(f"   📄 Found Draft: {draft_path}")
-        print("   ⚙️ Merging into Core System...")
+        print(f"     Found Draft: {draft_path}")
+        print("      Merging into Core System...")
         
         with open(draft_path, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -30,9 +30,9 @@ def trigger_evolution():
         with open(target_path, 'w', encoding='utf-8') as f:
             f.write(content)
             
-        print(f"✅ Evolution Applied! {target_path} has been created.")
+        print(f"  Evolution Applied! {target_path} has been created.")
     else:
-        print("❌ No draft found.")
+        print("  No draft found.")
 
 if __name__ == "__main__":
     trigger_evolution()

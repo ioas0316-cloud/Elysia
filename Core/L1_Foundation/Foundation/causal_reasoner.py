@@ -1,6 +1,6 @@
 """
 Causal Reasoning System
-Phase 13: 범용 인공지능 향해 (Towards AGI)
+Phase 13:            (Towards AGI)
 
 Enables understanding of cause-and-effect relationships, predicting
 intervention effects, and counterfactual reasoning.
@@ -644,11 +644,11 @@ class CausalReasoner:
             )
             
             if relation:
-                steps.append(f"{cause} → {effect} (strength: {relation.strength:.2f})")
+                steps.append(f"{cause}   {effect} (strength: {relation.strength:.2f})")
                 path_confidence *= relation.confidence * relation.strength
         
         return {
-            "path": " → ".join(path),
+            "path": "   ".join(path),
             "steps": steps,
             "confidence": path_confidence,
             "length": len(path) - 1

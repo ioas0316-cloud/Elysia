@@ -123,6 +123,6 @@ class Legion:
         decision = plate.collapse_wave(topic)
         
         if decision:
-            return f"🏛️ [LEGION] Consensus Reached by {decision.agent_name}: '{decision.content}' (Conf: {decision.confidence})"
+            return f"   [LEGION] Consensus Reached by {decision.agent_name}: '{decision.content}' (Conf: {decision.confidence})"
         else:
-            return "🌑 [LEGION] The Council is gridlocked. No consensus."
+            return "  [LEGION] The Council is gridlocked. No consensus."

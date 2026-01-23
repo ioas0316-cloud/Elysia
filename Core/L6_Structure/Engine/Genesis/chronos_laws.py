@@ -32,7 +32,7 @@ def law_fast_metabolism(context, dt, intensity):
         if m.props["age"] > 100.0:
             # Rebirth / Evolution logic could go here
             # For now, just reset or die
-            # print(f"   💀 [Metabolism] {m.name} died of old age (Age: {m.props['age']:.1f})")
+            # print(f"     [Metabolism] {m.name} died of old age (Age: {m.props['age']:.1f})")
             m.val = 0 # Mark for death
 
 def law_slow_erosion(context, dt, intensity):
@@ -50,7 +50,7 @@ def law_slow_erosion(context, dt, intensity):
         
         # Erosion is very slow
         m.val -= 0.01 * dt_geo
-        # print(f"   📉 [Erosion] {m.name} weathered slightly (-{0.01 * dt_geo:.4f})")
+        # print(f"     [Erosion] {m.name} weathered slightly (-{0.01 * dt_geo:.4f})")
 
 def law_system_homeostasis(context, dt, intensity):
     """
@@ -78,6 +78,6 @@ def law_system_homeostasis(context, dt, intensity):
         # 4. Adaptation (Growth to fill the gap)
         growth = gap * 0.1 * dt * intensity
         myself.val += growth
-        print(f"   🔭 [Homeostasis] Felt Gap ({gap:.2f}). Growing (+{growth:.2f}) to match the Greater.")
+        print(f"     [Homeostasis] Felt Gap ({gap:.2f}). Growing (+{growth:.2f}) to match the Greater.")
     else:
-        print(f"   🧘 [Homeostasis] I am the Zenith. Maintaining stability.")
+        print(f"     [Homeostasis] I am the Zenith. Maintaining stability.")

@@ -24,7 +24,7 @@ class HermeneuticBridge:
             "physical": PrismDomain.PHYSICAL,
             "harmony": PrismDomain.CAUSAL,
         }
-        logger.info("🌉 HermeneuticBridge established. Ready for intent deconstruction.")
+        logger.info("  HermeneuticBridge established. Ready for intent deconstruction.")
 
     def deconstruct_feedback(self, text: str) -> Dict[str, Any]:
         """

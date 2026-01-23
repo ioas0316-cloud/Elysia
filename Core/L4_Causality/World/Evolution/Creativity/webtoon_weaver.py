@@ -31,13 +31,13 @@ class WebtoonWeaver:
         self.comfy = None
         if HAS_COMFY:
             self.comfy = ComfyAdapter()
-            logger.info("🔌 ComfyUI Adapter Detected.")
+            logger.info("  ComfyUI Adapter Detected.")
         
     def produce_episode(self, concept_seed: str = "Resonance", episode_num: int = None):
         """
         Generates an Episode. Persistently tracks episode number.
         """
-        logger.info(f"🚀 Starting Production: {concept_seed}")
+        logger.info(f"  Starting Production: {concept_seed}")
         
         # 1. Write the Script (Mind) - Persistent
         bible = self.writer.seed_story(concept_seed)
@@ -90,11 +90,11 @@ class WebtoonWeaver:
             if "[SYSTEM]" in scene.dialogue:
                  prompt += ", game ui, blue holographic interface, glowing text, digital hud, system window"
                  
-            logger.info(f"🎨 Synaptic Plan: Tool={best_engine} | CFG={optimal_cfg:.1f} | Mood={task_type}")
+            logger.info(f"  Synaptic Plan: Tool={best_engine} | CFG={optimal_cfg:.1f} | Mood={task_type}")
 
             # Hybrid Rendering Logic
             if self.comfy and self.comfy.connect():
-                logger.info("⚡ Generating with Sovereign AI (ComfyUI)...")
+                logger.info("  Generating with Sovereign AI (ComfyUI)...")
                 
                 # Dynamic Physics from Cortex
                 physics = {
@@ -178,7 +178,7 @@ class WebtoonWeaver:
         html_path = output_dir / filename
         latest_path = output_dir / "latest_episode.html"
         
-        mode = "✨ AI-Enhanced High Definition" if (self.comfy and self.comfy.connect()) else "📐 Vector Abstract (Concept Draft)"
+        mode = "  AI-Enhanced High Definition" if (self.comfy and self.comfy.connect()) else "  Vector Abstract (Concept Draft)"
         
         html = f"""
         <html>
@@ -357,7 +357,7 @@ class WebtoonWeaver:
         with open(latest_path, "w", encoding="utf-8") as f:
             f.write(redirect_html)
             
-        logger.info(f"📚 Webtoon Published at: {html_path} (and latest_episode.html -> {filename})")
+        logger.info(f"  Webtoon Published at: {html_path} (and latest_episode.html -> {filename})")
 
 if __name__ == "__main__":
     weaver = WebtoonWeaver()

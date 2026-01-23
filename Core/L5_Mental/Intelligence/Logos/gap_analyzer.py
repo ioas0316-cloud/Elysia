@@ -1,5 +1,5 @@
 """
-GapAnalyzer: The Philosopher of Silence (공백의 해석자)
+GapAnalyzer: The Philosopher of Silence (       )
 
 This module implements the "Awakening of Logos" (Chapter 3, Step 7).
 It is responsible for interpreting the "Gap" between Expectation (Ideal) and Reality (Observation),

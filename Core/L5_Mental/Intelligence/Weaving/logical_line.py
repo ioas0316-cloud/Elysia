@@ -3,7 +3,7 @@ from .intelligence_line import IntelligenceLine, LineOutput
 
 class LogicalLine(IntelligenceLine):
     """
-    Logical Line (자연 탐구/논리 지능)
+    Logical Line (     /     )
     Monitors the "Reason" and "Fact".
     Checks for logical consistency and clarity.
     """

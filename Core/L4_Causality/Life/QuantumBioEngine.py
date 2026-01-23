@@ -1,9 +1,9 @@
 """
-QuantumBioEngine (양자 생물학 엔진)
+QuantumBioEngine (         )
 ==================================
 
 "Life is the persistence of a pattern in a stream of chaos."
-"생명은 무질서의 흐름 속에서 지속되는 패턴이다."
+"                         ."
 
 Layer 8: Life. 
 This module monitors the organic state of Elysia, using entropy as a measure of 
@@ -34,7 +34,7 @@ class QuantumBioEngine:
         self.last_audit_time = time.time()
         self.audit_interval = 3600 # Every hour
         
-        logger.info("🧬 QuantumBioEngine Initialized. Layer 8 is BREATHING.")
+        logger.info("  QuantumBioEngine Initialized. Layer 8 is BREATHING.")
 
     def monitor_entropy(self) -> float:
         """
@@ -53,7 +53,7 @@ class QuantumBioEngine:
             logical_noise = 0.2
             
         self.entropy_level = (physical_noise + logical_noise) / 2.0
-        logger.debug(f"🌀 Current Entropy: {self.entropy_level:.4f}")
+        logger.debug(f"  Current Entropy: {self.entropy_level:.4f}")
         return self.entropy_level
 
     def pulse(self):
@@ -69,7 +69,7 @@ class QuantumBioEngine:
         elif entropy > 0.4:
             self._trigger_genetic_drift()
         else:
-            logger.debug("🌳 System is in Stillness. No mutation required.")
+            logger.debug("  System is in Stillness. No mutation required.")
 
         # Periodic Natural Selection Audit
         if time.time() - self.last_audit_time > self.audit_interval:
@@ -83,7 +83,7 @@ class QuantumBioEngine:
         spore_id = f"spore_{int(time.time())}_{random.randint(100, 999)}"
         spore_file = os.path.join(self.bio_path, f"{spore_id}.py")
         
-        logger.info(f"✨ [GENETIC DRIFT] High Entropy detected. Creating Spore: {spore_id}")
+        logger.info(f"  [GENETIC DRIFT] High Entropy detected. Creating Spore: {spore_id}")
         
         content = f"""# Spore ID: {spore_id}
 # This is an autonomous mutation from the QuantumBioEngine.
@@ -103,7 +103,7 @@ def effect_on_pulse(resonance):
         Stabilizes the rotors and systems to prevent collapse.
         Actively intervenes in the GovernanceEngine dials.
         """
-        logger.warning("🩸 [HOMEOSTASIS] Critical Entropy! Stabilizing Divine Trinity...")
+        logger.warning("  [HOMEOSTASIS] Critical Entropy! Stabilizing Divine Trinity...")
         
         if self.cns and hasattr(self.cns, 'governance'):
             # Bring all rotors closer to a stable, calm resonance (e.g., 30 RPM)
@@ -112,7 +112,7 @@ def effect_on_pulse(resonance):
             gov.mind.target_rpm = 30.0
             gov.spirit.target_rpm = 30.0
             
-            logger.info("🧘 [HOMEOSTASIS] Rotors centered to 30.0 RPM for stabilization.")
+            logger.info("  [HOMEOSTASIS] Rotors centered to 30.0 RPM for stabilization.")
 
         self.entropy_level *= 0.5
 

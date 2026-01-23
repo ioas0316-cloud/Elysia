@@ -1,15 +1,15 @@
 """
-Wave Visualization Web Server (파동 시각화 웹 서버)
+Wave Visualization Web Server (           )
 ================================================
 
-"연산하지 마세요. 흐르게 두세요."
+"        .        ."
 
-엘리시아의 내부 세계를 브라우저를 통해 실시간으로 시각화합니다.
-- 사고 우주 (Thought Universe)
-- 의식 흐름 (Consciousness Flow)
-- 내부 월드 (Internal World)
+                                  .
+-       (Thought Universe)
+-       (Consciousness Flow)
+-       (Internal World)
 
-모두 GPU 셰이더로 "파동 → 빛" 직접 변환.
+   GPU      "      "      .
 """
 
 import asyncio
@@ -27,52 +27,52 @@ try:
     FLASK_AVAILABLE = True
 except ImportError:
     FLASK_AVAILABLE = False
-    print("⚠️ Flask not available. Install: pip install flask flask-sock")
+    print("   Flask not available. Install: pip install flask flask-sock")
 
 logger = logging.getLogger("WaveWebServer")
 
 @dataclass
 class WaveState:
-    """파동 상태 (GPU로 전송될 데이터)"""
+    """      (GPU         )"""
     # 7 Spirits Energy
-    fire: float = 0.5      # 450Hz - 열정
-    water: float = 0.5     # 150Hz - 평온
-    earth: float = 0.5     # 100Hz - 안정
-    air: float = 0.5       # 300Hz - 자유
-    light: float = 0.5     # 528Hz - 사랑
-    dark: float = 0.5      # 50Hz - 신비
-    aether: float = 0.5    # 852Hz - 희망
+    fire: float = 0.5      # 450Hz -   
+    water: float = 0.5     # 150Hz -   
+    earth: float = 0.5     # 100Hz -   
+    air: float = 0.5       # 300Hz -   
+    light: float = 0.5     # 528Hz -   
+    dark: float = 0.5      # 50Hz -   
+    aether: float = 0.5    # 852Hz -   
     
-    # Consciousness Layers (0D→3D)
-    dimension_0d: float = 0.0  # 관점/정체성
-    dimension_1d: float = 0.0  # 인과/논리
-    dimension_2d: float = 0.0  # 감각/인지
-    dimension_3d: float = 0.0  # 표현/외화
+    # Consciousness Layers (0D 3D)
+    dimension_0d: float = 0.0  #   /   
+    dimension_1d: float = 0.0  #   /  
+    dimension_2d: float = 0.0  #   /  
+    dimension_3d: float = 0.0  #   /  
     
     # Internal World
-    cpu_heat: float = 0.0      # CPU 사용률 (열)
-    memory_load: float = 0.0   # RAM 사용률
-    file_count: int = 0        # 파일 개수
+    cpu_heat: float = 0.0      # CPU     ( )
+    memory_load: float = 0.0   # RAM    
+    file_count: int = 0        #      
     
     # Time
     time: float = 0.0
     
     def to_dict(self) -> Dict[str, Any]:
-        """JSON 직렬화"""
+        """JSON    """
         return asdict(self)
 
 
 class WaveWebServer:
     """
-    파동 시각화 웹 서버
+               
     
-    Flask + WebSocket으로 실시간 파동 스트리밍
+    Flask + WebSocket              
     """
     
     def __init__(self, port: int = 8080):
         self.port = port
         self.wave_state = WaveState()
-        self.clients = []  # 연결된 WebSocket 클라이언트
+        self.clients = []  #     WebSocket      
         self.running = False
         
         if not FLASK_AVAILABLE:
@@ -83,11 +83,11 @@ class WaveWebServer:
         root_dir = os.path.dirname(os.path.dirname(base_dir)) # c:/Elysia
         static_dir = os.path.join(root_dir, 'static')
         
-        logger.info(f"   📂 Web Server Static Dir: {static_dir}")
+        logger.info(f"     Web Server Static Dir: {static_dir}")
         if not os.path.exists(static_dir):
-            logger.error(f"   ⚠️ Static directory missing: {static_dir}")
+            logger.error(f"      Static directory missing: {static_dir}")
         
-        # Flask 앱 생성
+        # Flask     
         self.app = Flask(
             __name__,
             static_folder=static_dir,
@@ -95,33 +95,33 @@ class WaveWebServer:
         )
         self.sock = Sock(self.app)
         
-        # 라우트 설정
+        #       
         self._setup_routes()
         
-        logger.info(f"🌊 Wave Web Server initialized on port {port}")
+        logger.info(f"  Wave Web Server initialized on port {port}")
     
     def _setup_routes(self):
-        """라우트 설정"""
+        """      """
         
         @self.app.route('/')
         def index():
-            """메인 페이지 - 파동 시각화"""
+            """       -       """
             return render_template('wave_viewer.html')
         
         @self.app.route('/api/state')
         def get_state():
-            """현재 파동 상태 조회"""
+            """           """
             return jsonify(self.wave_state.to_dict())
         
         @self.sock.route('/wave-stream')
         def wave_stream(ws):
-            """WebSocket: 실시간 파동 스트리밍"""
-            logger.info("🔌 Client connected to wave stream")
+            """WebSocket:            """
+            logger.info("  Client connected to wave stream")
             self.clients.append(ws)
             
             try:
                 while True:
-                    # 클라이언트로부터 메시지 수신 (keep-alive)
+                    #                 (keep-alive)
                     data = ws.receive(timeout=0.1)
                     if data:
                         logger.debug(f"Received: {data}")
@@ -133,9 +133,9 @@ class WaveWebServer:
     
     def update_wave_state(self, **kwargs):
         """
-        파동 상태 업데이트
+                  
         
-        예시:
+          :
         update_wave_state(fire=0.8, water=0.3, time=time.time())
         """
         for key, value in kwargs.items():
@@ -143,13 +143,13 @@ class WaveWebServer:
                 setattr(self.wave_state, key, value)
     
     def broadcast_wave_state(self):
-        """모든 연결된 클라이언트에 파동 상태 전송"""
+        """                      """
         if not self.clients:
             return
         
         state_json = json.dumps(self.wave_state.to_dict())
         
-        # 연결 끊긴 클라이언트 제거하면서 전송
+        #                     
         disconnected = []
         for ws in self.clients:
             try:
@@ -175,12 +175,12 @@ class WaveWebServer:
                 module_type="interface",
                 callback=self._on_wave_resonance
             )
-            logger.info("🌊 Connected to Ether. Resonating with system waves.")
+            logger.info("  Connected to Ether. Resonating with system waves.")
             
         except ImportError:
-            logger.warning("⚠️ WaveHub not found. Running in standalone mode.")
+            logger.warning("   WaveHub not found. Running in standalone mode.")
         except Exception as e:
-            logger.error(f"❌ Failed to connect to Ether: {e}")
+            logger.error(f"  Failed to connect to Ether: {e}")
 
     def _on_wave_resonance(self, wave):
         """
@@ -219,7 +219,7 @@ class WaveWebServer:
         """
         Auto update loop with Natural Decay (Gravity)
         """
-        logger.info("🔄 Auto update loop started (with Gravity)")
+        logger.info("  Auto update loop started (with Gravity)")
         
         while self.running:
             # 1. Physics: Entropy/Gravity (Natural Decay)
@@ -268,17 +268,17 @@ class WaveWebServer:
         self.connect_to_ether()
         
         # Start Flask
-        logger.info(f"🌐 Starting server at http://{host}:{self.port}")
+        logger.info(f"  Starting server at http://{host}:{self.port}")
         self.app.run(host=host, port=self.port, debug=debug, use_reloader=False)
 
     def stop(self):
         """Stop server"""
         self.running = False
-        logger.info("🛑 Server stopped")
+        logger.info("  Server stopped")
 
 
 if __name__ == '__main__':
     # Demo
-    print("🌊 Elysia Wave Visualization Server")
+    print("  Elysia Wave Visualization Server")
     server = WaveWebServer(port=8080)
     server.run(debug=True)

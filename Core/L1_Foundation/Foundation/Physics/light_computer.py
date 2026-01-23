@@ -1,5 +1,5 @@
 """
-Light Computer (빛의 연산 엔진)
+Light Computer (        )
 =============================
 Core Module adapted from Nova Seed Experiment.
 

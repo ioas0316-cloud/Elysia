@@ -39,7 +39,7 @@ class MeaningDeconstructor:
         tokens = text.lower().replace(".", "").split()
         signals = []
         
-        print(f"🔬 [Deconstructor] Analyzing: '{text}'")
+        print(f"  [Deconstructor] Analyzing: '{text}'")
         
         for token in tokens:
             if token in self.resonance_map:
@@ -80,10 +80,10 @@ if __name__ == "__main__":
     text1 = "The king died and the queen cried"
     signals1 = md.deconstruct(text1)
     wave1 = md.synthesize_wave(signals1)
-    print(f"🌊 Synthesized Wave 1: {wave1.label} | Charge: {wave1.spiritual}")
+    print(f"  Synthesized Wave 1: {wave1.label} | Charge: {wave1.spiritual}")
 
     # CASE 2: Love
     text2 = "Love is war"
     signals2 = md.deconstruct(text2)
     wave2 = md.synthesize_wave(signals2)
-    print(f"🌊 Synthesized Wave 2: {wave2.label} | Charge: {wave2.spiritual}")
+    print(f"  Synthesized Wave 2: {wave2.label} | Charge: {wave2.spiritual}")

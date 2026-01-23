@@ -63,7 +63,7 @@ class Principle:
         Called when more data reveals what this cluster truly represents.
         """
         if self.name != new_name:
-            self.evolution_history.append(f"{self.name} → {new_name}")
+            self.evolution_history.append(f"{self.name}   {new_name}")
         self.name = new_name
         self.essence = new_essence
         self.confidence = min(1.0, self.confidence + confidence_boost)
@@ -102,7 +102,7 @@ class CrystallizationEngine:
                 data = json.load(f)
                 for name, p_dict in data.items():
                     self.principles[name] = Principle(**p_dict)
-            logger.info(f"💎 Loaded {len(self.principles)} existing principles.")
+            logger.info(f"  Loaded {len(self.principles)} existing principles.")
     
     def save(self):
         """Persist crystallized principles to disk."""
@@ -110,7 +110,7 @@ class CrystallizationEngine:
         data = {name: p.to_dict() for name, p in self.principles.items()}
         with open(self.principles_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
-        logger.info(f"💾 Saved {len(self.principles)} principles.")
+        logger.info(f"  Saved {len(self.principles)} principles.")
     
     def crystallize(self, rotors: Dict, cluster_threshold: float = 10.0) -> List[Principle]:
         """
@@ -126,7 +126,7 @@ class CrystallizationEngine:
         if len(rotors) < 2:
             return []
         
-        logger.info("\n💎 [CRYSTALLIZE] Beginning Principle Crystallization...")
+        logger.info("\n  [CRYSTALLIZE] Beginning Principle Crystallization...")
         
         # 1. Sort rotors by frequency
         sorted_rotors = sorted(rotors.items(), key=lambda x: x[1].frequency_hz)
@@ -159,7 +159,7 @@ class CrystallizationEngine:
             if principle and principle.name not in self.principles:
                 self.principles[principle.name] = principle
                 new_principles.append(principle)
-                logger.info(f"   ✨ NEW PRINCIPLE: '{principle.name}' ({len(principle.members)} members)")
+                logger.info(f"     NEW PRINCIPLE: '{principle.name}' ({len(principle.members)} members)")
         
         # 4. Detect causal relationships
         self._detect_causality()
@@ -168,7 +168,7 @@ class CrystallizationEngine:
         if new_principles:
             self.save()
         
-        logger.info(f"💎 [CRYSTALLIZE] Complete. {len(new_principles)} new principles born.\n")
+        logger.info(f"  [CRYSTALLIZE] Complete. {len(new_principles)} new principles born.\n")
         return new_principles
     
     def _crystallize_cluster(self, cluster: List) -> Optional[Principle]:
@@ -230,7 +230,7 @@ class CrystallizationEngine:
         
         Heuristic: If Principle A's causal dimension is high
         and Principle B's phenomenal dimension is high,
-        A might cause B (cause → effect).
+        A might cause B (cause   effect).
         """
         principle_list = list(self.principles.values())
         

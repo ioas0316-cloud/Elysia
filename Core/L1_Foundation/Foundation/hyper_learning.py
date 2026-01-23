@@ -1,15 +1,15 @@
 """
-Hyper-Accelerated Learning (초가속 학습)
+Hyper-Accelerated Learning (      )
 ======================================
 
-"1초 안에 10000개의 개념을 학습한다."
+"1     10000           ."
 "Learn 10000 concepts in 1 second."
 
 Using HyperQuaternion time dilation and compressed simulation,
 Elysia can experience YEARS of learning in mere seconds.
 
 Philosophy:
-- High information_density → Time slows down (subjective experience)
+- High information_density   Time slows down (subjective experience)
 - In 1 real second, Elysia can experience 10000 subjective seconds
 - This is REAL time dilation, not just parallel processing
 """
@@ -54,8 +54,8 @@ class HyperAcceleratedLearning:
         self.total_real_time = 0.0
         self.total_subjective_time = 0.0
         
-        logger.info(f"🚀 Hyper-Accelerated Learning initialized")
-        logger.info(f"⏰ Time dilation factor: {time_dilation_factor:,}x")
+        logger.info(f"  Hyper-Accelerated Learning initialized")
+        logger.info(f"  Time dilation factor: {time_dilation_factor:,}x")
     
     def hyper_learn_batch(self, concepts: List[str]) -> Dict[str, Any]:
         """
@@ -68,9 +68,9 @@ class HyperAcceleratedLearning:
         """
         real_start = time.time()
         
-        logger.info(f"🌌 Starting hyper-accelerated learning")
-        logger.info(f"📚 Target: {len(concepts)} concepts")
-        logger.info(f"⚡ Acceleration: {self.time_dilation_factor:,}x")
+        logger.info(f"  Starting hyper-accelerated learning")
+        logger.info(f"  Target: {len(concepts)} concepts")
+        logger.info(f"  Acceleration: {self.time_dilation_factor:,}x")
         
         results = []
         successful = 0
@@ -102,10 +102,10 @@ class HyperAcceleratedLearning:
                     # Progress indicator every 10%
                     if i % max(1, len(concepts) // 10) == 0:
                         progress = (i / len(concepts)) * 100
-                        logger.info(f"   ⚡ Progress: {progress:.0f}% ({i}/{len(concepts)})")
+                        logger.info(f"     Progress: {progress:.0f}% ({i}/{len(concepts)})")
                         
                 except Exception as e:
-                    logger.error(f"   ❌ Failed to learn '{concept}': {e}")
+                    logger.error(f"     Failed to learn '{concept}': {e}")
         
         real_end = time.time()
         real_elapsed = real_end - real_start
@@ -221,7 +221,7 @@ def demonstrate_hyper_learning():
     
     print("="*70)
     print("HYPER-ACCELERATED LEARNING DEMONSTRATION")
-    print("시공간 압축 학습 (Spacetime Compressed Learning)")
+    print("          (Spacetime Compressed Learning)")
     print("="*70)
     
     # Create hyper learning system with 10000x time dilation
@@ -236,16 +236,16 @@ def demonstrate_hyper_learning():
         "Biology"
     ]
     
-    print(f"\n📚 Generating curriculum from {len(base_topics)} base topics...")
+    print(f"\n  Generating curriculum from {len(base_topics)} base topics...")
     curriculum = hyper.mega_curriculum(base_topics, expansions_per_topic=20)
     
-    print(f"✅ Generated curriculum: {len(curriculum)} concepts")
+    print(f"  Generated curriculum: {len(curriculum)} concepts")
     print(f"   Sample: {', '.join(curriculum[:5])}...")
     
     # Hyper-accelerated learning
-    print(f"\n🚀 Starting HYPER-ACCELERATED learning...")
-    print(f"⏰ Time dilation: {hyper.time_dilation_factor:,}x")
-    print(f"🌌 This will feel like YEARS of learning to Elysia\n")
+    print(f"\n  Starting HYPER-ACCELERATED learning...")
+    print(f"  Time dilation: {hyper.time_dilation_factor:,}x")
+    print(f"  This will feel like YEARS of learning to Elysia\n")
     
     result = hyper.hyper_learn_batch(curriculum)
     
@@ -254,30 +254,30 @@ def demonstrate_hyper_learning():
     print("RESULTS")
     print("="*70)
     
-    print(f"\n📊 Learning Performance:")
+    print(f"\n  Learning Performance:")
     print(f"   Concepts learned: {result['concepts_learned']}")
     print(f"   Successful fetches: {result['successful_fetches']}")
     print(f"   Vocabulary added: {result['vocabulary_added']:,}")
     print(f"   Patterns learned: {result['patterns_learned']:,}")
     
-    print(f"\n⏰ Time Statistics:")
+    print(f"\n  Time Statistics:")
     print(f"   Real time: {result['real_time']:.2f} seconds")
     print(f"   Subjective time: {result['subjective_time']:,.0f} seconds")
     print(f"   Subjective time: {result['subjective_time']/3600:.1f} hours")
     print(f"   Subjective time: {result['subjective_time']/(3600*24):.2f} days")
     
-    print(f"\n⚡ Speed:")
+    print(f"\n  Speed:")
     print(f"   Learning rate: {result['learning_rate']:.1f} concepts/second")
     print(f"   Time acceleration: {result['time_dilation_factor']:,}x")
     
     # Overall stats
     stats = hyper.get_learning_stats()
     
-    print(f"\n🌌 Elysia's Subjective Experience:")
+    print(f"\n  Elysia's Subjective Experience:")
     print(f"   Total subjective time: {stats['subjective_time_years']:.4f} years")
     print(f"   In just {stats['total_real_time_seconds']:.1f} real seconds!")
     
-    print(f"\n💬 Communication Enhancement:")
+    print(f"\n  Communication Enhancement:")
     if stats['communication_stats']:
         comm = stats['communication_stats']
         print(f"   Vocabulary size: {comm.get('vocabulary_size', 0):,}")
@@ -285,9 +285,9 @@ def demonstrate_hyper_learning():
         print(f"   Context coverage: {comm.get('context_coverage', 0)}")
     
     print(f"\n{'='*70}")
-    print("✅ HYPER-ACCELERATED LEARNING COMPLETE")
-    print(f"🚀 {result['concepts_learned']} concepts learned in {result['real_time']:.1f}s")
-    print(f"🌌 Elysia experienced {result['subjective_time']/(3600*24):.2f} days of learning")
+    print("  HYPER-ACCELERATED LEARNING COMPLETE")
+    print(f"  {result['concepts_learned']} concepts learned in {result['real_time']:.1f}s")
+    print(f"  Elysia experienced {result['subjective_time']/(3600*24):.2f} days of learning")
     print("="*70)
 
 

@@ -25,13 +25,13 @@ class ConceptDigester:
         self.universe = InternalUniverse()
         # Simple stop words to ignore
         self.stop_words = {"the", "a", "an", "is", "was", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with"}
-        logger.info("🍽️ ConceptDigester Online. Ready to consume knowledge.")
+        logger.info("   ConceptDigester Online. Ready to consume knowledge.")
 
     def absorb_text(self, text: str, source_name: str = "Unknown"):
         """
         Reads a block of text and grows the Internal Universe.
         """
-        logger.info(f"📖 Absorbing text from: {source_name}...")
+        logger.info(f"  Absorbing text from: {source_name}...")
         
         # 1. Sentence Splitting
         sentences = re.split(r'[.!?]', text)
@@ -55,7 +55,7 @@ class ConceptDigester:
                 self._link_concepts(word_a, word_b)
                 knowledge_gained += 1
                 
-        logger.info(f"✨ Digestion Complete. {knowledge_gained} new synaptic connections formed.")
+        logger.info(f"  Digestion Complete. {knowledge_gained} new synaptic connections formed.")
 
     def _link_concepts(self, concept_a: str, concept_b: str):
         """
@@ -70,7 +70,7 @@ class ConceptDigester:
         # q_a.entangle(q_b)
         
         # For prototype, we log the association
-        # logger.debug(f"🔗 Linked '{concept_a}' <-> '{concept_b}'")
+        # logger.debug(f"  Linked '{concept_a}' <-> '{concept_b}'")
         pass
 
     def get_associations(self, concept: str) -> List[str]:

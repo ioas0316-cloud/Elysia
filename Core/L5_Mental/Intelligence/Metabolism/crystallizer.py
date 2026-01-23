@@ -1,5 +1,5 @@
 """
-Crystallizer (결정화기)
+Crystallizer (    )
 =====================
 Core.L5_Mental.Intelligence.Metabolism.crystallizer
 
@@ -81,7 +81,7 @@ class Crystallizer:
         # 2. Record in DNA Vault (Persistent JSON)
         self._save_to_vault(original_input, content, dna, coord)
         
-        logger.info(f"💎 [CRYSTALLIZED] '{original_input[:30]}...' -> Coordinates: {coord}")
+        logger.info(f"  [CRYSTALLIZED] '{original_input[:30]}...' -> Coordinates: {coord}")
 
     def _save_to_vault(self, input_text: str, insight: str, dna: WaveDNA, coord: HypersphericalCoord):
         entry = {

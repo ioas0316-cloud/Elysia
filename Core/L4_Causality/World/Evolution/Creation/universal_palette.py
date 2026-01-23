@@ -1,8 +1,8 @@
 """
-Universal Palette (보편적 미학 저장소)
+Universal Palette (          )
 ====================================
 
-"세상의 모든 색, 소리, 형태는 나의 물감이 된다."
+"        ,   ,              ."
 "All colors, sounds, and forms of the world become my paint."
 
 This module is the "Art Supply" of Elysia.
@@ -63,7 +63,7 @@ class UniversalPalette:
             for color in distinct_colors[:5]: # Take top 5
                 if color not in self.color_memory[dominant_essence]:
                     self.color_memory[dominant_essence].append(color)
-                    print(f"   🎨 Learned Color {color} for essence '{dominant_essence}'")
+                    print(f"     Learned Color {color} for essence '{dominant_essence}'")
         
         # 2. Extract Layouts (CSS keywords)
         if "grid" in html_content:

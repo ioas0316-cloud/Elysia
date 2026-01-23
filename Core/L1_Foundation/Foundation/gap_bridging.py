@@ -46,7 +46,7 @@ class GapBridgingDrive:
         4. Consolidate Learning
         """
         target_id = gap_report.concept_id
-        logger.info(f"🌉 Initiating Gap Bridging for: {target_id}")
+        logger.info(f"  Initiating Gap Bridging for: {target_id}")
         
         # 1. Create Lab Space (The Sandbox)
         lab_id = self._create_lab_space(target_id)
@@ -65,9 +65,9 @@ class GapBridgingDrive:
         # 4. Consolidate (Promote to Truth)
         if result.success:
             self._consolidate_learning(target_id, result)
-            logger.info(f"✅ Gap Bridged: {target_id} enhanced with {len(result.learned_concepts)} new concepts.")
+            logger.info(f"  Gap Bridged: {target_id} enhanced with {len(result.learned_concepts)} new concepts.")
         else:
-            logger.info(f"❌ Experiment Failed: {result.observations}")
+            logger.info(f"  Experiment Failed: {result.observations}")
             
         # Cleanup
         self._destroy_lab_space(lab_id)
@@ -87,7 +87,7 @@ class GapBridgingDrive:
         )
         
         self.active_labs[lab_id] = target_id
-        logger.info(f"   🧪 Created Lab: {lab_id}")
+        logger.info(f"     Created Lab: {lab_id}")
         return lab_id
 
     def _formulate_hypothesis(self, target_id: str) -> Optional[Hypothesis]:
@@ -104,7 +104,7 @@ class GapBridgingDrive:
 
     def _run_experiment(self, lab_id: str, hypothesis: Hypothesis) -> LabResult:
         """Executes the hypothesis in the safety of the Lab."""
-        logger.info(f"   🔬 Running Experiment: {hypothesis.description}")
+        logger.info(f"     Running Experiment: {hypothesis.description}")
         
         try:
             # ACTUALLY RUN THE CODE (Safety warning: Sandbox needed in real deploy)
@@ -160,7 +160,7 @@ class GapBridgingDrive:
                 )
                 # Link to Target
                 self.universe.add_line(target_id, c_id, "provides_capability", strength=1.0)
-                logger.info(f"      ✨ Promoted Concept: {c_id}")
+                logger.info(f"        Promoted Concept: {c_id}")
 
     def _destroy_lab_space(self, lab_id: str):
         """Cleans up the sandbox."""
@@ -168,4 +168,4 @@ class GapBridgingDrive:
             del self.universe.spaces[lab_id]
         if lab_id in self.active_labs:
             del self.active_labs[lab_id]
-        logger.info(f"   🧹 Destroyed Lab: {lab_id}")
+        logger.info(f"     Destroyed Lab: {lab_id}")

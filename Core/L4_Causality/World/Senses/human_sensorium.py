@@ -1,5 +1,5 @@
 """
-Human Sensorium (인간적 오감 계층)
+Human Sensorium (         )
 ================================
 [Phase 17-C] Translating Machine States to Human-like Senses.
 

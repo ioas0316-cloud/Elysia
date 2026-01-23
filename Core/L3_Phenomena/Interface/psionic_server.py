@@ -33,8 +33,8 @@ class PsionicHandler(http.server.SimpleHTTPRequestHandler):
 def start_server():
     os.chdir("c:/Elysia/Core/Interface")
     with socketserver.TCPServer(("", PORT), PsionicHandler) as httpd:
-        print(f"🔮 [PSIONIC UI] Server running at http://localhost:{PORT}")
-        print(f"🔮 [PSIONIC UI] Visualizing state from {STATE_FILE}")
+        print(f"  [PSIONIC UI] Server running at http://localhost:{PORT}")
+        print(f"  [PSIONIC UI] Visualizing state from {STATE_FILE}")
         httpd.serve_forever()
 
 if __name__ == "__main__":

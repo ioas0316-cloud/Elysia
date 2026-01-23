@@ -32,7 +32,7 @@ class SynthesisEngine:
         if not os.path.exists(os.path.dirname(self.scars_log)):
             os.makedirs(os.path.dirname(self.scars_log), exist_ok=True)
 
-        logger.info("💎 Inter-Domain Synthesis Engine initialized - The Soul resonates.")
+        logger.info("  Inter-Domain Synthesis Engine initialized - The Soul resonates.")
 
     def record_cognitive_scar(self, failure_type: str, context: str, violation: str):
         """
@@ -59,18 +59,18 @@ class SynthesisEngine:
         with open(self.scars_log, 'w', encoding='utf-8') as f:
             json.dump(scars, f, indent=4, ensure_ascii=False)
 
-        logger.warning(f"⚠️ Cognitive Scar Recorded: {failure_type} - '{violation}'")
+        logger.warning(f"   Cognitive Scar Recorded: {failure_type} - '{violation}'")
 
     def synthesize_new_truth(self, concept_id: str, truth_value: str, current_belief: str):
         """
         Compares new 'truth' against current beliefs and proposes identity updates.
         """
-        logger.info(f"💎 Synthesizing truth for '{concept_id}'...")
+        logger.info(f"  Synthesizing truth for '{concept_id}'...")
 
         # If the truth contradicts current belief significantly
         if truth_value != current_belief:
             proposal = f"Fundamental Truth Evolution: '{concept_id}' has shifted from '{current_belief}' to '{truth_value}'."
-            logger.info(f"✨ Insight Proposal: {proposal}")
+            logger.info(f"  Insight Proposal: {proposal}")
             return proposal
 
         return "Resonance confirmed. No identity shift required."

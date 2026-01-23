@@ -26,7 +26,7 @@ class OrbFactory:
     def __init__(self):
         # Tools
         self.hologram = HolographicEmbedding(compressed_dim=64)
-        logger.info("🔮 OrbFactory initialized: Ready to crystallize moments.")
+        logger.info("  OrbFactory initialized: Ready to crystallize moments.")
 
     def analyze_wave(self, wave: List[float]) -> float:
         """
@@ -101,7 +101,7 @@ class OrbFactory:
         orb.memory_content["hologram"] = bound_essence.tolist()
         orb.memory_content["raw_data"] = clean_data.tolist()
 
-        logger.debug(f"❄️ Frozen '{name}': Freq={frequency:.1f}Hz, Mass={mass:.2f}")
+        logger.debug(f"   Frozen '{name}': Freq={frequency:.1f}Hz, Mass={mass:.2f}")
         return orb
 
     def melt(self, orb: HyperResonator, trigger_key: List[float]) -> Dict[str, Any]:

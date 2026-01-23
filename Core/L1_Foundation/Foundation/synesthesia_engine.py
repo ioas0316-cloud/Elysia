@@ -121,7 +121,7 @@ class SynesthesiaEngine:
         note = base_notes[idx]
         return [note, base_notes[(idx + 2) % len(base_notes)], base_notes[(idx + 4) % len(base_notes)]]
 
-    # [Phase 25] TensionField → Language Nuance
+    # [Phase 25] TensionField   Language Nuance
     def from_tension_field(self, tension_field) -> UniversalSignal:
         """
         Convert TensionField state into a UniversalSignal.

@@ -71,14 +71,14 @@ class LiteraryCortex:
         # Connected Series (The Bible)
         self.active_series: Dict[str, SeriesBible] = {}
         
-        logger.info("📜 LiteraryCortex upgraded to Hyper-Dimensional Narrative Mode (Persistent).")
+        logger.info("  LiteraryCortex upgraded to Hyper-Dimensional Narrative Mode (Persistent).")
 
     def save_bible(self, bible: SeriesBible):
         """Persists the story state."""
         path = self.brain_dir / f"{bible.title.replace(' ', '_')}.json"
         with open(path, "w", encoding="utf-8") as f:
             json.dump(bible.to_dict(), f, indent=2)
-        logger.info(f"💾 Story Saved: {path}")
+        logger.info(f"  Story Saved: {path}")
 
     def load_bible(self, title: str) -> Optional[SeriesBible]:
         """Loads a story state."""
@@ -105,7 +105,7 @@ class LiteraryCortex:
             current_episode=data["current_episode"]
         )
         self.active_series[title] = bible
-        logger.info(f"📂 Story Loaded: {title} (Episode {bible.current_episode})")
+        logger.info(f"  Story Loaded: {title} (Episode {bible.current_episode})")
         return bible
 
     def seed_story(self, seed_word: str = "Origin") -> SeriesBible:
@@ -119,7 +119,7 @@ class LiteraryCortex:
         if existing:
             return existing
             
-        logger.info(f"🌱 Seeding New Story from: '{seed_word}'")
+        logger.info(f"  Seeding New Story from: '{seed_word}'")
         
         # 1. Create the Seed Qubit
         seed = InfiniteHyperQubit(
@@ -175,7 +175,7 @@ class LiteraryCortex:
         if episode_num is None:
             episode_num = bible.current_episode
             
-        logger.info(f"✍️ Writing Episode {episode_num} for '{bible.title}'...")
+        logger.info(f"   Writing Episode {episode_num} for '{bible.title}'...")
         
         scenes = []
         
@@ -190,7 +190,7 @@ class LiteraryCortex:
              bible.saga_data = architect.generate_grand_plan(bible.title, "Fantasy", entropy=0.7)
         
         ctx = architect.get_episode_context(bible.saga_data, episode_num)
-        logger.info(f"📜 Episode {episode_num} Context: [{ctx['Arc']}] - {ctx['Phase']}")
+        logger.info(f"  Episode {episode_num} Context: [{ctx['Arc']}] - {ctx['Phase']}")
         
         # Map Phase to Scene Types
         if ctx['Phase'] == "Setup":

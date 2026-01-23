@@ -25,7 +25,7 @@ class KarmaGeometry:
     """
     def __init__(self, learning_rate: float = 0.1):
         self.learning_rate = learning_rate # How fast we correct
-        logger.info("📐 [KARMA] Geometry Engine Online.")
+        logger.info("  [KARMA] Geometry Engine Online.")
 
     def calculate_torque(self, current_rpm: float, dissonance: float, phase_shift: float) -> float:
         """
@@ -48,7 +48,7 @@ class KarmaGeometry:
             # Chaos State: Braking Torque
             # "Stop spinning, you are hurting yourself."
             torque = -0.5 * current_rpm 
-            logger.info("   -> 🛑 [KARMA] High Dissonance! Emergency Braking.")
+            logger.info("   ->   [KARMA] High Dissonance! Emergency Braking.")
             return torque
 
         # 2. The Direction of Correction
@@ -62,7 +62,7 @@ class KarmaGeometry:
         max_torque = current_rpm * 0.2
         torque = max(-max_torque, min(max_torque, torque))
         
-        logger.info(f"   -> 📐 [KARMA] Correction Torque: {torque:.4f} rad/s")
+        logger.info(f"   ->   [KARMA] Correction Torque: {torque:.4f} rad/s")
         return torque
 
     def apply_karma(self, rotor_obj: Any, torque: float):

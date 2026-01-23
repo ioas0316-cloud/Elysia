@@ -1,9 +1,9 @@
 """
-Mind Landscape (마음의 지형)
+Mind Landscape (      )
 ===========================
 
 "Where thoughts find their own path."
-"생각이 스스로 길을 찾는 곳."
+"               ."
 
 This module bridges the raw Physics Engine with the Reasoning System.
 It allows Elysia to 'ponder' a question by simulating a marble rolling in the potential field.
@@ -43,7 +43,7 @@ class MindLandscape:
         Sets up the fundamental emotional geography in 4D.
         Populates Angels and Demons as Attractors with specific Phase Polarities.
         """
-        logger.info("🏔️ Mind Landscape initializing (Hyper-Phase Mode)...")
+        logger.info("   Mind Landscape initializing (Hyper-Phase Mode)...")
         self.attractors: List[Tuple[Quaternion, float]] = []
         
         # Iterate through all Voxels in the Topology
@@ -62,7 +62,7 @@ class MindLandscape:
                 # Demons pull towards 'Chaos' (Negative W or high X/Y/Z)
                 # For now, we treat them as normal concept attractors that the thought can 'fall' into.
                 mass = 1.5 
-                logger.info(f"  👹 Demon '{name}' manifesting as attractor in phase {q}")
+                logger.info(f"    Demon '{name}' manifesting as attractor in phase {q}")
             
             self.attractors.append((q, mass))
 

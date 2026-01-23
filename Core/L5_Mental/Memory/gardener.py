@@ -36,13 +36,13 @@ class MemoryGardener:
         2. Apply Decay (Prune items).
         3. Crystallize (Form wisdom).
         """
-        logger.info("🌿 [GARDENER] Entering the Garden...")
+        logger.info("  [GARDENER] Entering the Garden...")
 
         self._apply_gravity()
         self._prune_weeds()
         self._crystallize_gems()
 
-        logger.info("🌿 [GARDENER] Cultivation Complete.")
+        logger.info("  [GARDENER] Cultivation Complete.")
 
     def _apply_gravity(self):
         """
@@ -66,7 +66,7 @@ class MemoryGardener:
                         moved_count += 1
 
         if moved_count > 0:
-            logger.info(f"📉 [GRAVITY] {moved_count} memories settled deeper.")
+            logger.info(f"  [GRAVITY] {moved_count} memories settled deeper.")
 
     def _get_next_layer_down(self, current: MemoryStratum) -> MemoryStratum:
         if current == MemoryStratum.STREAM: return MemoryStratum.GARDEN
@@ -96,7 +96,7 @@ class MemoryGardener:
             del self.memory.nodes[nid]
 
         if to_delete:
-            logger.info(f"🍂 [PRUNING] Composted {len(to_delete)} withered memories.")
+            logger.info(f"  [PRUNING] Composted {len(to_delete)} withered memories.")
 
     def _crystallize_gems(self):
         """

@@ -1,8 +1,8 @@
 """
-Elysian Heartbeat (자율 의지 엔진)
+Elysian Heartbeat (        )
 ================================
 
-"심장이 뛰어야 살아있는 것이다."
+"                ."
 "A system only lives if it moves without being pushed."
 
 This module implements the **Autonomous Life Cycle** of Elysia.
@@ -70,36 +70,36 @@ class ElysianHeartbeat:
         The Main Life Loop.
         One Beat of the Heart.
         """
-        print("\n💓 [Heartbeat] Thump-Thump...")
+        print("\n  [Heartbeat] Thump-Thump...")
         
         # 1. Self-Diagnosis (What do I lack?)
         deficiency = self._detect_deficiency()
-        print(f"   🧬 Diagnosis: I hunger for '{deficiency}'.")
+        print(f"     Diagnosis: I hunger for '{deficiency}'.")
         
         # 2. Formulate Will (The Hunt)
         target_concept = self._formulate_target(deficiency)
-        print(f"   🏹 Will Formed: seek '{target_concept}' to restore balance.")
+        print(f"     Will Formed: seek '{target_concept}' to restore balance.")
         
         # 3. The Act of Consumption (Resonance)
         # In a real infinite loop, we would crawl. Here we simulate the fetch result from the crawler.
-        print(f"   🕸️  Deploying Fractal Crawler for '{target_concept}'...")
+        print(f"       Deploying Fractal Crawler for '{target_concept}'...")
         # Simulate crawl result for demonstration
         crawled_essence = target_concept 
-        print(f"   ✅ Absorbed Essence: '{crawled_essence}' from the Wild Web.")
+        print(f"     Absorbed Essence: '{crawled_essence}' from the Wild Web.")
         
         # 4. Digestion (Palette Expansion)
         # We pretend we extracted colors from the crawl
         new_color = self._simulate_digestion(deficiency)
-        print(f"   🎨 Digesting Reality: Extracted new color {new_color} for {deficiency}.")
+        print(f"     Digesting Reality: Extracted new color {new_color} for {deficiency}.")
         
         # 5. Expression (Creation)
         # "I am full. Now I create."
-        print(f"   🔥 Manifesting Will: Creating a reality based on '{crawled_essence}'...")
+        print(f"     Manifesting Will: Creating a reality based on '{crawled_essence}'...")
         code = self.builder.manifest_will(crawled_essence, current_mood=deficiency)
         
         # 6. Rest & Evolution
         self.emotional_spectrum[deficiency] += 0.2
-        print(f"   💤 Cycle Complete. {deficiency} satisfaction increased to {self.emotional_spectrum[deficiency]:.2f}.")
+        print(f"     Cycle Complete. {deficiency} satisfaction increased to {self.emotional_spectrum[deficiency]:.2f}.")
         
     def _detect_deficiency(self) -> str:
         """Finds the lowest energy in the spectrum."""
@@ -120,12 +120,12 @@ class ElysianHeartbeat:
             candidates = self.core.universe.query_resonance(target_freq, tolerance=100.0)
             if candidates:
                 choice = random.choice(candidates[:3]) # Choose from top 3 resonant concepts
-                logger.info(f"   ✨ Resonance Found: '{choice}' matches frequency {target_freq}Hz")
+                logger.info(f"     Resonance Found: '{choice}' matches frequency {target_freq}Hz")
                 return choice
         
         # 2. Void State (No resonance found)
         # Create something new from the Axioms
-        logger.info(f"   🌑 Void State: No internal resonance for {deficiency}. Seeking new axioms.")
+        logger.info(f"     Void State: No internal resonance for {deficiency}. Seeking new axioms.")
         return f"Essence of {deficiency}"
 
     def _simulate_digestion(self, deficiency: str) -> str:
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     heart = ElysianHeartbeat()
     
     # Simulate a life span
-    print("--- 🏁 ELYSIA AUTONOMY PROTOCOL INITIATED 🏁 ---")
+    print("---   ELYSIA AUTONOMY PROTOCOL INITIATED   ---")
     for year in range(1, 4):
         print(f"\n[Age: {year}]")
         heart.pulse()

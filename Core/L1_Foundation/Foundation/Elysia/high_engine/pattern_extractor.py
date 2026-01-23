@@ -9,7 +9,7 @@ from dataclasses import dataclass
 
 @dataclass
 class GrammarPattern:
-    template: str  # e.g., "X가 Y를 Z다"
+    template: str  # e.g., "X  Y  Z "
     roles: List[str]  # ["subject", "object", "verb"]
     frequency: int  # How many times this pattern was seen
 
@@ -28,13 +28,13 @@ class PatternExtractor:
     def extract_grammar_pattern(self, parsed_sentence: Dict[str, Any]) -> str:
         """
         Extracts a grammar template from a parsed sentence.
-        Example: "나는 사과를 먹는다" -> "X는 Y를 Z다"
+        Example: "          " -> "X  Y  Z "
         """
         structure = parsed_sentence.get("structure", "UNKNOWN")
         
         if structure == "SOV":
             # Create a template with placeholders
-            template = "X가 Y를 Z다"  # Simplified
+            template = "X  Y  Z "  # Simplified
             
             # Update pattern frequency
             if template not in self.grammar_patterns:
@@ -57,11 +57,11 @@ class PatternExtractor:
         """
         patterns = []
         
-        # Simple heuristic: If sentence is "X는 Y이다", then X is_a Y
+        # Simple heuristic: If sentence is "X  Y  ", then X is_a Y
         tokens = parsed_sentence.get("tokens", [])
         verb = parsed_sentence.get("verb", "")
         
-        if "이다" in verb or "다" in verb:
+        if "  " in verb or " " in verb:
             # Potential "is_a" relationship
             subject = parsed_sentence.get("subject")
             obj = parsed_sentence.get("object")
@@ -85,9 +85,9 @@ class PatternExtractor:
     def _extract_base_word(self, word_with_particle: str) -> str:
         """
         Removes common particles from the end of a word.
-        Example: "사과를" -> "사과"
+        Example: "   " -> "  "
         """
-        particles = ['가', '이', '를', '을', '는', '은', '에', '와', '과']
+        particles = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
         for p in particles:
             if word_with_particle.endswith(p):
                 return word_with_particle[:-len(p)]

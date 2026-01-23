@@ -1,5 +1,5 @@
 """
-NEURO CARTOGRAPHER (신경망 지도 제작자)
+NEURO CARTOGRAPHER (          )
 =====================================
 Core.L5_Mental.Intelligence.Metabolism.neuro_cartographer
 
@@ -51,11 +51,11 @@ class NeuroCartographer:
         self.manifest = self._load_manifest()
         self.blob_path = self._find_blob()
         
-        logger.info(f"🗺️ NeuroCartographer initialized for {model_name}.")
+        logger.info(f"   NeuroCartographer initialized for {model_name}.")
         if self.blob_path:
-            logger.info(f"🏛️  Found Ancient Ruins (Blob): {self.blob_path}")
+            logger.info(f"    Found Ancient Ruins (Blob): {self.blob_path}")
         else:
-            logger.warning("⚠️  Blob not found. Topology analysis will be limited to Semantic Space only.")
+            logger.warning("    Blob not found. Topology analysis will be limited to Semantic Space only.")
 
     def _load_manifest(self) -> Optional[Dict]:
         """Loads the manifest file for the model."""
@@ -98,17 +98,17 @@ class NeuroCartographer:
                 # GGUF Header Magic: 'GGUF'
                 magic = f.read(4)
                 if magic != b'GGUF':
-                    logger.warning("⚠️  Blob is not GGUF format.")
+                    logger.warning("    Blob is not GGUF format.")
                     return []
                 
-                logger.info("🔍 Scanning GGUF structure...")
+                logger.info("  Scanning GGUF structure...")
                 # Parsing GGUF is complex; for this MVP, we acknowledge the file exists
                 # and maybe read some metadata if we had a full parser.
                 # For now, we return a placeholder Artifact to prove we touched the file.
                 artifacts.append(TensorArtifact("GGUF_HEADER", [1], "magic", 0, 4))
                 
         except Exception as e:
-            logger.error(f"❌ Failed to scan ruins: {e}")
+            logger.error(f"  Failed to scan ruins: {e}")
             
         return artifacts
 
@@ -117,11 +117,11 @@ class NeuroCartographer:
         Uses Ollama to map concepts into vector space.
         """
         if not ollama:
-            logger.error("❌ Ollama library not installed.")
+            logger.error("  Ollama library not installed.")
             return []
 
         nodes = []
-        logger.info(f"🌌 Mapping Semantic Space for {len(lexicon)} concepts...")
+        logger.info(f"  Mapping Semantic Space for {len(lexicon)} concepts...")
         
         for concept in lexicon:
             try:
@@ -137,7 +137,7 @@ class NeuroCartographer:
                 nodes.append(SemanticNode(concept, vec, proj))
                 
             except Exception as e:
-                logger.warning(f"⚠️  Could not map '{concept}': {e}")
+                logger.warning(f"    Could not map '{concept}': {e}")
                 
         return nodes
 
@@ -190,7 +190,7 @@ class NeuroCartographer:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, 'w') as f:
             json.dump(report, f, indent=2)
-        logger.info(f"💾 Topology map saved to {output_path}")
+        logger.info(f"  Topology map saved to {output_path}")
 
         return report
 

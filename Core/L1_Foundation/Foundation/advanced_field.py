@@ -45,7 +45,7 @@ class AdvancedField(ContinuousField):
     def activate_with_harmonics(self, concept: str, intensity: float = 1.0, depth: float = 1.0):
         """
         Activates concept with its full harmonic structure.
-        wave = Σ aₙ · cos(n·ω·t + φₙ)
+        wave =   a    cos(n   t +   )
         """
         if concept not in self.concept_registry:
             return
@@ -134,7 +134,7 @@ class AdvancedField(ContinuousField):
         
         Returns:
             {
-                "eigenvalues": [λ1, λ2, ...],
+                "eigenvalues": [ 1,  2, ...],
                 "dominant_mode": description,
                 "mode_energies": [E1, E2, ...]
             }

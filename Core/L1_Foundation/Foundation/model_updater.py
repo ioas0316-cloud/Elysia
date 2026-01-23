@@ -15,7 +15,7 @@ from collections import defaultdict
 
 @dataclass
 class ModelVersion:
-    """모델 버전 정보 (Model Version Information)"""
+    """         (Model Version Information)"""
     
     version_id: str
     timestamp: float
@@ -36,7 +36,7 @@ class ModelVersion:
 
 class ContinuousUpdater:
     """
-    지속적으로 모델을 업데이트하는 시스템 (Continuous Model Update System)
+                         (Continuous Model Update System)
     
     Features:
     - Incremental model updates based on new experiences
@@ -50,7 +50,7 @@ class ContinuousUpdater:
         self.save_dir = Path(save_dir)
         self.save_dir.mkdir(parents=True, exist_ok=True)
         
-        self.update_threshold = update_threshold  # 경험 개수 임계값
+        self.update_threshold = update_threshold  #          
         self.model_versions: List[ModelVersion] = []
         self.current_version: Optional[ModelVersion] = None
         
@@ -71,7 +71,7 @@ class ContinuousUpdater:
     
     async def incremental_update(self, new_experiences: List[Any]) -> Dict[str, Any]:
         """
-        점진적 모델 업데이트 (Incremental Model Update)
+                    (Incremental Model Update)
         
         Args:
             new_experiences: List of new Experience objects
@@ -100,7 +100,7 @@ class ContinuousUpdater:
         return update_result
     
     async def _perform_incremental_update(self) -> Dict[str, Any]:
-        """실제 업데이트 수행 (Perform Actual Update)"""
+        """           (Perform Actual Update)"""
         
         # 1. Extract patterns from new experiences
         patterns = self._extract_patterns_from_experiences(self.pending_experiences)
@@ -142,7 +142,7 @@ class ContinuousUpdater:
     
     async def evolutionary_update(self, generations: int = 5, population_size: int = 10) -> Dict[str, Any]:
         """
-        진화적 모델 업데이트 (Evolutionary Model Update)
+                    (Evolutionary Model Update)
         
         Uses evolutionary algorithms to find better model configurations.
         
@@ -213,7 +213,7 @@ class ContinuousUpdater:
     
     async def start_ab_test(self, test_duration_seconds: int = 3600) -> Dict[str, Any]:
         """
-        A/B 테스트 시작 (Start A/B Testing)
+        A/B        (Start A/B Testing)
         
         Compares current model with a variant to validate improvements.
         
@@ -256,7 +256,7 @@ class ContinuousUpdater:
     
     async def finalize_ab_test(self) -> Dict[str, Any]:
         """
-        A/B 테스트 종료 및 결과 분석 (Finalize A/B Test)
+        A/B                (Finalize A/B Test)
         
         Returns:
             Test results and decision

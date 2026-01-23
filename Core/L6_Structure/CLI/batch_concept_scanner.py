@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger("Elysia.Gardener")
 
 def start_scanning(index_path: str, map_path: str, atlas_path: str, limit: int = 50):
-    logger.info(f"🌿 Starting Batch Concept Sweep (Limit: {limit} hubs)...")
+    logger.info(f"  Starting Batch Concept Sweep (Limit: {limit} hubs)...")
     
     with open(map_path, 'r') as f:
         topology = json.load(f)
@@ -47,7 +47,7 @@ def start_scanning(index_path: str, map_path: str, atlas_path: str, limit: int =
             except Exception as e:
                 logger.error(f"   [!] Failed to probe {tensor_name} with {concept}: {e}")
 
-    logger.info("🌳 Batch Concept Sweep Complete. World Tree roots are grounded.")
+    logger.info("  Batch Concept Sweep Complete. World Tree roots are grounded.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Batch Concept Scanner")

@@ -1,5 +1,5 @@
 """
-Concept Atelier (개념 공방)
+Concept Atelier (     )
 ===========================
 
 "Raw thoughts are just ore. Here, we smelt them into living waves."
@@ -44,14 +44,14 @@ class ConceptAtelier:
     def __init__(self):
         self.cognition_system = get_integrated_cognition()
         self.materials: Dict[str, RawMaterial] = {}
-        logger.info("🎨 Concept Atelier Open for Business")
+        logger.info("  Concept Atelier Open for Business")
 
     def import_concept(self, text: str) -> RawMaterial:
         """
         Imports a raw text concept and converts it into RawMaterial
         by passing it through the Integrated Cognition System's wave engine.
         """
-        logger.info(f"📥 Importing concept: '{text}'")
+        logger.info(f"  Importing concept: '{text}'")
 
         # 1. Convert to Wave using the Cognition System
         # We assume process_thought returns a dict with 'wave'
@@ -96,14 +96,14 @@ class ConceptAtelier:
         # w: Energy/Spirit, x: Emotion, y: Logic, z: Ethics
 
         analysis = [
-            f"🧐 Analysis of '{mat.origin_text}':",
+            f"  Analysis of '{mat.origin_text}':",
             f"   - Fundamental Frequency: {mat.base_frequency:.2f} Hz (Complexity)",
             f"   - Energy Potential: {mat.energy_level:.2f} (Importance)",
             f"   - Spectral Composition (Quaternion):",
-            f"     • Spirit/Will (W): {w:.2f}",
-            f"     • Emotion (X): {x:.2f}",
-            f"     • Logic (Y): {y:.2f}",
-            f"     • Ethics (Z): {z:.2f}"
+            f"       Spirit/Will (W): {w:.2f}",
+            f"       Emotion (X): {x:.2f}",
+            f"       Logic (Y): {y:.2f}",
+            f"       Ethics (Z): {z:.2f}"
         ]
 
         return "\n".join(analysis)
@@ -139,5 +139,5 @@ class ConceptAtelier:
             structural_orientation=new_orientation
         )
 
-        logger.info(f"⚗️ Transmuted '{text}' -> Energy: {new_energy:.2f}, Freq: {new_freq:.2f}")
+        logger.info(f"   Transmuted '{text}' -> Energy: {new_energy:.2f}, Freq: {new_freq:.2f}")
         return mutated

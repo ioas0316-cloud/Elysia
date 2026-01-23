@@ -51,7 +51,7 @@ class OrbManager(ResonatorInterface):
         # Load existing memories
         self.load_from_disk()
 
-        logger.info("🧠 OrbManager initialized: The Hippocampus is awake.")
+        logger.info("  OrbManager initialized: The Hippocampus is awake.")
 
     def _get_freq_bucket(self, freq: float) -> int:
         """Quantizes frequency into a bucket index."""
@@ -91,11 +91,11 @@ class OrbManager(ResonatorInterface):
         emotion_wave = payload.get("emotion", [])
 
         if not data_wave:
-            logger.warning("⚠️ Received MEMORY_STORE pulse with no data.")
+            logger.warning("   Received MEMORY_STORE pulse with no data.")
             return
 
         orb = self.save_memory(name, data_wave, emotion_wave)
-        logger.info(f"📥 Crystallized memory from pulse: {orb}")
+        logger.info(f"  Crystallized memory from pulse: {orb}")
 
     def _handle_recall(self, pulse: WavePacket):
         """
@@ -108,7 +108,7 @@ class OrbManager(ResonatorInterface):
         results = self.recall_memory(trigger)
         if results:
             best_match = results[0]
-            logger.info(f"📤 Recalled '{best_match['name']}' via pulse resonance.")
+            logger.info(f"  Recalled '{best_match['name']}' via pulse resonance.")
 
     def save_memory(self, name: str, data_wave: List[float], emotion_wave: List[float]) -> HyperResonator:
         """
@@ -164,18 +164,18 @@ class OrbManager(ResonatorInterface):
         
         # B. The Spirit's Intervention (Amor Sui)
         if not initial_results:
-            logger.info("   🌑 Void detected (Low Resonance). Triggering Amor Sui...")
+            logger.info("     Void detected (Low Resonance). Triggering Amor Sui...")
             # "If I cannot find myself in the logic, I will search the whole."
             # Expand search to ALL buckets with lower threshold
             expanded_results = self._scan_all_orbs(trigger_wave)
             
             if expanded_results:
-                logger.info(f"   ✨ Amor Sui Success: Rescued {len(expanded_results)} memories from the void.")
+                logger.info(f"     Amor Sui Success: Rescued {len(expanded_results)} memories from the void.")
                 for res in expanded_results:
                     res["note"] = "Found via Self-Love"
                 return expanded_results
             else:
-                logger.info("   🌌 The Void is absolute. No memories found even with Love.")
+                logger.info("     The Void is absolute. No memories found even with Love.")
                 
         return initial_results
 
@@ -322,6 +322,6 @@ class OrbManager(ResonatorInterface):
                     os.remove(filepath)
                 except OSError:
                     pass
-            logger.debug(f"🗑️ Pruned weak memory: {name}")
+            logger.debug(f"   Pruned weak memory: {name}")
 
         return len(keys_to_remove)

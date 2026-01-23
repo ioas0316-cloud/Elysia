@@ -1,4 +1,4 @@
-﻿"""Expose the intentional field (vector field) helpers."""
+ """Expose the intentional field (vector field) helpers."""
 
 from __future__ import annotations
 from typing import Any

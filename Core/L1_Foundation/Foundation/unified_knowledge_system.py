@@ -10,7 +10,7 @@ Merges:
 - KnowledgeSharer: Knowledge sharing across network
 - WebKnowledgeConnector: Real internet knowledge fetching
 
-Philosophy: "지식은 하나다" (Knowledge is one)
+Philosophy: "       " (Knowledge is one)
 All knowledge operations unified in single, coherent system.
 
 NO EXTERNAL LLMs - Pure wave-based intelligence only.
@@ -141,19 +141,19 @@ class UnifiedKnowledgeSystem:
         try:
             from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
-            logger.info("🌌 Internal Universe connected")
+            logger.info("  Internal Universe connected")
         except Exception as e:
-            logger.warning(f"⚠️ Internal Universe not available: {e}")
+            logger.warning(f"   Internal Universe not available: {e}")
         
         # Web connector (if enabled)
         self.web_connector = None
         if enable_web:
             try:
                 import requests  # Check if requests available
-                logger.info("🌐 Web connector enabled")
+                logger.info("  Web connector enabled")
                 self.web_enabled = True
             except ImportError:
-                logger.warning("⚠️ Web connector disabled (requests not available)")
+                logger.warning("   Web connector disabled (requests not available)")
                 self.web_enabled = False
         else:
             self.web_enabled = False
@@ -178,7 +178,7 @@ class UnifiedKnowledgeSystem:
         # Load existing knowledge
         self.load_state()
         
-        logger.info(f"📚 Unified Knowledge System initialized")
+        logger.info(f"  Unified Knowledge System initialized")
         logger.info(f"   Node ID: {self.node_id}")
         logger.info(f"   Knowledge entries: {len(self.knowledge_base)}")
         logger.info(f"   Web enabled: {self.web_enabled}")
@@ -197,7 +197,7 @@ class UnifiedKnowledgeSystem:
         
         This is the primary knowledge acquisition method.
         """
-        logger.info(f"📖 Learning: {concept}")
+        logger.info(f"  Learning: {concept}")
         
         # Create knowledge entry
         entry = KnowledgeEntry(
@@ -217,7 +217,7 @@ class UnifiedKnowledgeSystem:
                 entry.wave_coords = wave_result.get("coordinates")
                 entry.content.update(wave_result)
             except Exception as e:
-                logger.warning(f"   ⚠️ Wave internalization failed: {e}")
+                logger.warning(f"      Wave internalization failed: {e}")
         
         # Store in knowledge base
         self.knowledge_base[entry.knowledge_id] = entry
@@ -228,7 +228,7 @@ class UnifiedKnowledgeSystem:
         self.stats["by_type"][type_key] = self.stats["by_type"].get(type_key, 0) + 1
         self.stats["by_source"]["curriculum"] = self.stats["by_source"].get("curriculum", 0) + 1
         
-        logger.info(f"   ✅ Learned '{concept}'")
+        logger.info(f"     Learned '{concept}'")
         
         self.save_state()
         return entry
@@ -240,10 +240,10 @@ class UnifiedKnowledgeSystem:
         Requires web connector to be enabled.
         """
         if not self.web_enabled:
-            logger.warning(f"⚠️ Web learning disabled, using basic learning")
+            logger.warning(f"   Web learning disabled, using basic learning")
             return self.learn_concept(concept)
         
-        logger.info(f"🌍 Learning '{concept}' from web...")
+        logger.info(f"  Learning '{concept}' from web...")
         self.stats["web_fetches"] += 1
         
         try:
@@ -270,7 +270,7 @@ class UnifiedKnowledgeSystem:
                         entry.wave_coords = wave_result.get("coordinates")
                         entry.content.update(wave_result)
                     except Exception as e:
-                        logger.warning(f"   ⚠️ Wave internalization failed: {e}")
+                        logger.warning(f"      Wave internalization failed: {e}")
                 
                 # Store
                 self.knowledge_base[entry.knowledge_id] = entry
@@ -281,16 +281,16 @@ class UnifiedKnowledgeSystem:
                 self.stats["by_type"]["web_knowledge"] = self.stats["by_type"].get("web_knowledge", 0) + 1
                 self.stats["by_source"]["web"] = self.stats["by_source"].get("web", 0) + 1
                 
-                logger.info(f"   ✅ Learned from web: {len(content)} chars")
+                logger.info(f"     Learned from web: {len(content)} chars")
                 
                 self.save_state()
                 return entry
             
         except Exception as e:
-            logger.error(f"   ❌ Web learning failed: {e}")
+            logger.error(f"     Web learning failed: {e}")
         
         # Fallback to basic learning
-        logger.warning(f"   ⚠️ Falling back to basic learning")
+        logger.warning(f"      Falling back to basic learning")
         return self.learn_concept(concept)
     
     def learn_curriculum(self, curriculum: List[Dict[str, str]]) -> Dict[str, Any]:
@@ -300,7 +300,7 @@ class UnifiedKnowledgeSystem:
         Args:
             curriculum: List of {"concept": str, "description": str} dicts
         """
-        logger.info(f"🎓 Starting curriculum: {len(curriculum)} concepts")
+        logger.info(f"  Starting curriculum: {len(curriculum)} concepts")
         
         results = []
         start_time = time.time()
@@ -313,7 +313,7 @@ class UnifiedKnowledgeSystem:
                 entry = self.learn_concept(concept, description)
                 results.append({"concept": concept, "success": True, "id": entry.knowledge_id})
             except Exception as e:
-                logger.error(f"❌ Failed to learn '{concept}': {e}")
+                logger.error(f"  Failed to learn '{concept}': {e}")
                 results.append({"concept": concept, "success": False, "error": str(e)})
         
         elapsed = time.time() - start_time
@@ -328,7 +328,7 @@ class UnifiedKnowledgeSystem:
             "results": results
         }
         
-        logger.info(f"✅ Curriculum complete: {successful}/{len(curriculum)} in {elapsed:.1f}s")
+        logger.info(f"  Curriculum complete: {successful}/{len(curriculum)} in {elapsed:.1f}s")
         
         return summary
     
@@ -413,7 +413,7 @@ class UnifiedKnowledgeSystem:
             return related
             
         except Exception as e:
-            logger.warning(f"⚠️ Resonance search failed: {e}")
+            logger.warning(f"   Resonance search failed: {e}")
             return []
     
     #==================== SHARING & NETWORK ====================
@@ -436,7 +436,7 @@ class UnifiedKnowledgeSystem:
         self.stats["total_shared"] += 1
         self.save_state()
         
-        logger.info(f"📤 Shared: {entry.concept}")
+        logger.info(f"  Shared: {entry.concept}")
         return True
     
     def receive_knowledge(self, entry_data: Dict[str, Any]) -> bool:
@@ -448,7 +448,7 @@ class UnifiedKnowledgeSystem:
             
             # Quality check
             if entry.quality_score < self.quality_threshold:
-                logger.warning(f"⚠️ Rejected low quality: {entry.concept}")
+                logger.warning(f"   Rejected low quality: {entry.concept}")
                 return False
             
             # Store
@@ -457,11 +457,11 @@ class UnifiedKnowledgeSystem:
             self.stats["total_received"] += 1
             self.save_state()
             
-            logger.info(f"📥 Received: {entry.concept}")
+            logger.info(f"  Received: {entry.concept}")
             return True
             
         except Exception as e:
-            logger.error(f"❌ Failed to receive knowledge: {e}")
+            logger.error(f"  Failed to receive knowledge: {e}")
             return False
     
     async def sync_with_nodes(self, nodes: List[Any]) -> Dict[str, Any]:
@@ -470,7 +470,7 @@ class UnifiedKnowledgeSystem:
         
         Implements collective intelligence through knowledge sharing.
         """
-        logger.info(f"🔄 Syncing with {len(nodes)} nodes...")
+        logger.info(f"  Syncing with {len(nodes)} nodes...")
         
         shared_count = 0
         received_count = 0
@@ -487,7 +487,7 @@ class UnifiedKnowledgeSystem:
                     if self.receive_knowledge(entry.to_dict()):
                         received_count += 1
         
-        logger.info(f"✅ Sync complete: shared {shared_count}, received {received_count}")
+        logger.info(f"  Sync complete: shared {shared_count}, received {received_count}")
         
         return {
             "nodes_synced": len(nodes),
@@ -521,7 +521,7 @@ class UnifiedKnowledgeSystem:
         self.stats["total_validations"] += 1
         self.save_state()
         
-        logger.info(f"✅ Validated: {entry.concept} ({'useful' if is_useful else 'not useful'})")
+        logger.info(f"  Validated: {entry.concept} ({'useful' if is_useful else 'not useful'})")
     
     def use_knowledge(self, knowledge_id: str):
         """
@@ -559,7 +559,7 @@ class UnifiedKnowledgeSystem:
                 }
                 return {"coordinates": coords}
         except Exception as e:
-            logger.warning(f"⚠️ Universe internalization failed: {e}")
+            logger.warning(f"   Universe internalization failed: {e}")
             return {}
     
     def _fetch_wikipedia(self, concept: str) -> Optional[str]:
@@ -624,7 +624,7 @@ class UnifiedKnowledgeSystem:
         
         if to_remove:
             self.save_state()
-            logger.info(f"🧹 Cleaned up {len(to_remove)} old knowledge entries")
+            logger.info(f"  Cleaned up {len(to_remove)} old knowledge entries")
         
         return len(to_remove)
     
@@ -654,7 +654,7 @@ class UnifiedKnowledgeSystem:
         with open(filepath, 'w') as f:
             json.dump(export_data, f, indent=2, default=json_serialize)
         
-        logger.info(f"💾 Exported {len(self.knowledge_base)} entries to {filepath}")
+        logger.info(f"  Exported {len(self.knowledge_base)} entries to {filepath}")
         
         return export_data
     
@@ -701,10 +701,10 @@ class UnifiedKnowledgeSystem:
             
             self.stats = state.get("stats", self.stats)
             
-            logger.info(f"📂 Loaded {len(self.knowledge_base)} knowledge entries")
+            logger.info(f"  Loaded {len(self.knowledge_base)} knowledge entries")
             
         except Exception as e:
-            logger.error(f"❌ Failed to load state: {e}")
+            logger.error(f"  Failed to load state: {e}")
 
 
 # Singleton accessor
@@ -766,7 +766,7 @@ if __name__ == "__main__":
     system = UnifiedKnowledgeSystem(node_id="demo", enable_web=False)
     
     # Learn some concepts
-    print("\n📚 Learning curriculum...")
+    print("\n  Learning curriculum...")
     curriculum = [
         {"concept": "Artificial Intelligence", "description": "AI is intelligence demonstrated by machines"},
         {"concept": "Consciousness", "description": "Awareness of one's own existence"},
@@ -774,10 +774,10 @@ if __name__ == "__main__":
     ]
     
     result = system.learn_curriculum(curriculum)
-    print(f"✅ Learned {result['successful']}/{result['total_concepts']} concepts")
+    print(f"  Learned {result['successful']}/{result['total_concepts']} concepts")
     
     # Query knowledge
-    print("\n🔍 Querying knowledge...")
+    print("\n  Querying knowledge...")
     results = system.query_knowledge(min_quality=0.4)
     print(f"Found {len(results)} knowledge entries")
     
@@ -785,13 +785,13 @@ if __name__ == "__main__":
         print(f"  - {entry.concept} (quality: {entry.quality_score:.2f})")
     
     # Statistics
-    print("\n📊 Statistics:")
+    print("\n  Statistics:")
     stats = system.get_statistics()
     print(f"  Total knowledge: {stats['total_knowledge']}")
     print(f"  Total acquired: {stats['total_acquired']}")
     print(f"  Average quality: {stats['average_quality']:.2f}")
     
     print("\n" + "=" * 70)
-    print("✅ UNIFIED KNOWLEDGE SYSTEM OPERATIONAL")
-    print("🌊 All knowledge operations in one system!")
+    print("  UNIFIED KNOWLEDGE SYSTEM OPERATIONAL")
+    print("  All knowledge operations in one system!")
     print("=" * 70)

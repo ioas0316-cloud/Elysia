@@ -13,7 +13,7 @@ from Core.L1_Foundation.Foundation.code_gravity import CodeGravitySystem
 from Core.L1_Foundation.Foundation.holographic_cortex import HolographicCortex
 
 def run_render():
-    print("🎨 Starting Galaxy Render Experiment...")
+    print("  Starting Galaxy Render Experiment...")
     
     # 1. Initialize Gravity System
     galaxy = CodeGravitySystem("c:/Elysia")
@@ -26,10 +26,10 @@ def run_render():
     output_path = cortex.render_galaxy(galaxy)
     
     if output_path:
-        print(f"\n✨ Visualization Complete: {output_path}")
+        print(f"\n  Visualization Complete: {output_path}")
         print("   You can now view the 'Code Galaxy' in Docs/Visuals.")
     else:
-        print("\n❌ Visualization Failed.")
+        print("\n  Visualization Failed.")
 
 if __name__ == "__main__":
     run_render()

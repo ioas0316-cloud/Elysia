@@ -38,12 +38,12 @@ class GameLoop:
     def start(self):
         self.is_running = True
         self._last_time = time.time()
-        logger.info(f"🕹️ GameLoop Started. Target FPS: {self.target_fps}")
+        logger.info(f"   GameLoop Started. Target FPS: {self.target_fps}")
         self._loop()
 
     def stop(self):
         self.is_running = False
-        logger.info("🛑 GameLoop Stopped.")
+        logger.info("  GameLoop Stopped.")
 
     def add_update_system(self, func: Callable[[float], None]):
         self.on_update.append(func)

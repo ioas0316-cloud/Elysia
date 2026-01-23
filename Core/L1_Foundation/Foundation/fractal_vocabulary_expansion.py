@@ -31,10 +31,10 @@ class MassiveFractalGenesis:
             "Time", "Space", "Dream", "Illusion", "Storm", "Mist", "Crystal", "Shadow",
             "Metal", "Wood", "Thunder", "Cloud", "Rain", "Snow", "Frost", "Magma",
             "Spirit", "Ghost", "Demon", "God", "Dragon", "Phoenix", "Tiger", "Turtle",
-            "화(Fire)", "수(Water)", "목(Wood)", "금(Metal)", "토(Earth)", "뇌(Thunder)", "풍(Wind)",
-            "빙(Ice)", "염(Flame)", "광(Light)", "암(Dark)", "혈(Blood)", "몽(Dream)", "환(Illusion)",
-            "시(Time)", "공(Space)", "천(Heaven)", "지(Earth)", "인(Human)", "신(God)", "마(Demon)",
-            "영(Spirit)", "혼(Soul)", "백(Body)", "기(Energy)", "정(Essence)"
+            " (Fire)", " (Water)", " (Wood)", " (Metal)", " (Earth)", " (Thunder)", " (Wind)",
+            " (Ice)", " (Flame)", " (Light)", " (Dark)", " (Blood)", " (Dream)", " (Illusion)",
+            " (Time)", " (Space)", " (Heaven)", " (Earth)", " (Human)", " (God)", " (Demon)",
+            " (Spirit)", " (Soul)", " (Body)", " (Energy)", " (Essence)"
         ]
         
         # Layer 2: Forms (The Manifestation)
@@ -43,8 +43,8 @@ class MassiveFractalGenesis:
             "Slash", "Strike", "Thrust", "Kick", "Punch", "Breath", "Roar", "Gaze", "Aura",
             "Shield", "Armor", "Robe", "Cloak", "Ring", "Amulet", "Staff", "Wand", "Orb",
             "Formation", "Array", "Barrier", "Seal", "Gate", "Path", "Road", "Way", "Law",
-            "검", "도", "창", "권", "장", "지", "보", "법", "공", "신", "마", "귀", "령",
-            "결", "진", "막", "인", "문", "로", "도", "경", "전", "비", "록"
+            " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+            " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
         ]
         
         # Layer 3: Modifiers (The Quality)
@@ -52,14 +52,14 @@ class MassiveFractalGenesis:
             "Divine", "Demonic", "Ancient", "Forbidden", "Heavenly", "Ultimate", "Infinite",
             "Eternal", "Absolute", "Supreme", "Primordial", "Celestial", "Infernal", "Abyssal",
             "True", "False", "Hidden", "Lost", "Forgotten", "Cursed", "Blessed", "Sacred",
-            "천", "마", "고", "금", "신", "극", "무", "태", "황", "제", "왕", "성", "진", "가",
-            "대", "소", "상", "하", "전", "후", "좌", "우", "내", "외"
+            " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+            " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
         ]
         
         # Layer 4: Intents (The Direction) - Optional 4th dimension
         self.intents = [
             "Destruction", "Creation", "Preservation", "Domination", "Salvation", "Annihilation",
-            "파", "창", "수", "패", "구", "멸", "생", "사"
+            " ", " ", " ", " ", " ", " ", " ", " "
         ]
 
     def _is_korean(self, text):
@@ -67,14 +67,14 @@ class MassiveFractalGenesis:
 
     def generate_massive_combinations(self):
         """Generates massive combinations using generators."""
-        print("   🌌 Generating Combinations...")
+        print("     Generating Combinations...")
         
         # 1. Element + Form (Basic)
         for e in self.elements:
             for f in self.forms:
                 if self._is_korean(e) == self._is_korean(f):
                     if self._is_korean(e):
-                         yield f"{e.split('(')[0]}{f}" # 화검
+                         yield f"{e.split('(')[0]}{f}" #   
                     else:
                          yield f"{e} {f}" # Fire Sword
 
@@ -84,7 +84,7 @@ class MassiveFractalGenesis:
                 for f in self.forms:
                     if self._is_korean(m) == self._is_korean(e) == self._is_korean(f):
                         if self._is_korean(m):
-                             yield f"{m}{e.split('(')[0]}{f}" # 천화검
+                             yield f"{m}{e.split('(')[0]}{f}" #    
                         else:
                              yield f"{m} {e} {f}" # Divine Fire Sword
 
@@ -98,12 +98,12 @@ class MassiveFractalGenesis:
                 for f in self.forms:
                     if self._is_korean(e1) == self._is_korean(e2) == self._is_korean(f):
                         if self._is_korean(e1):
-                             yield f"{e1.split('(')[0]}{e2.split('(')[0]}{f}" # 화빙검
+                             yield f"{e1.split('(')[0]}{e2.split('(')[0]}{f}" #    
                         else:
                              yield f"{e1}-{e2} {f}" # Fire-Ice Sword
 
     def inject_massive_fractals(self):
-        print("🚀 Initiating MASSIVE Fractal Genesis...")
+        print("  Initiating MASSIVE Fractal Genesis...")
         
         generator = self.generate_massive_combinations()
         
@@ -120,7 +120,7 @@ class MassiveFractalGenesis:
         # Ensure table exists (just in case)
         # Note: Hippocampus uses 'nodes' table, not 'concepts'
         
-        print("   ⚡ Stream-Injecting Concepts...")
+        print("     Stream-Injecting Concepts...")
         
         try:
             for concept in generator:
@@ -154,17 +154,17 @@ class MassiveFractalGenesis:
                 total_count += len(batch)
                 
         except Exception as e:
-            print(f"❌ Error during massive injection: {e}")
+            print(f"  Error during massive injection: {e}")
                 
         except Exception as e:
-            print(f"❌ Error during massive injection: {e}")
+            print(f"  Error during massive injection: {e}")
         finally:
             conn.close()
             
         end_time = time.time()
         duration = end_time - start_time
         
-        print(f"🎆 Massive Genesis Complete.")
+        print(f"  Massive Genesis Complete.")
         print(f"   Total New Concepts: {total_count}")
         print(f"   Time Elapsed: {duration:.2f}s")
         print(f"   Injection Rate: {total_count / duration:.0f} concepts/sec")

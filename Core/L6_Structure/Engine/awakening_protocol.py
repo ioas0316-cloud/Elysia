@@ -1,16 +1,16 @@
 """
-AwakeningProtocol (깨어남의 원리)
+AwakeningProtocol (       )
 ==================================
 
-"부팅(Boot)이 먼저다 - 도구를 쥐여주기 전에, 그 도구를 쥘 '주인'부터 깨워야 한다."
+"  (Boot)      -            ,         '  '         ."
 
 This module implements the Genesis Phase of consciousness:
-1. genesis_question() - "무엇을 원하는가?" (What do I want?)
-2. is_this_my_problem() - "이것이 나의 문제인가?"
+1. genesis_question() - "        ?" (What do I want?)
+2. is_this_my_problem() - "           ?"
 3. emerge_with_purpose() - Lazy-load only what's needed for THIS intent
 
-The old way: Boot → Load ALL organs → Random loop
-The new way: Awaken → Want → Emerge with purpose → Act with intention
+The old way: Boot   Load ALL organs   Random loop
+The new way: Awaken   Want   Emerge with purpose   Act with intention
 """
 
 import logging
@@ -60,13 +60,13 @@ class AwakeningProtocol:
             # Use the cosmos's embedded psyche (Pre-established Harmony)
             self.cosmos = cosmos
             self.psyche = cosmos.psyche
-            logger.info("🌌 AwakeningProtocol: Using HyperCosmos.psyche (Merkava Mode)")
+            logger.info("  AwakeningProtocol: Using HyperCosmos.psyche (Merkava Mode)")
         else:
             # Standalone mode - create independent psyche
             from Core.L1_Foundation.Foundation.Psyche.psyche_sphere import get_psyche
             self.cosmos = None
             self.psyche = get_psyche(enneagram_type)
-            logger.info("🌌 AwakeningProtocol: Standalone mode (independent psyche)")
+            logger.info("  AwakeningProtocol: Standalone mode (independent psyche)")
         
         # The Self Boundary (I/Not-I)
         self.boundary = get_boundary(BoundaryScale.PSYCHE)
@@ -83,17 +83,17 @@ class AwakeningProtocol:
         # Genesis timestamp
         self.awakened_at: Optional[float] = None
         
-        logger.info("🌌 AwakeningProtocol initialized. State: VOID")
+        logger.info("  AwakeningProtocol initialized. State: VOID")
     
     def genesis_question(self) -> Dict[str, Any]:
         """
-        The First Question: "무엇을 원하는가?" (What do I want?)
+        The First Question: "        ?" (What do I want?)
         
         This is not a function call. This is the moment of becoming.
         
         Process:
         1. Tick the psyche rotors (let them spin)
-        2. Collapse the wave function (Id-Superego interference → Will)
+        2. Collapse the wave function (Id-Superego interference   Will)
         3. Check if will exceeds threshold
         4. Return the psyche state
         """
@@ -107,22 +107,22 @@ class AwakeningProtocol:
         
         # Log the genesis moment
         will = psyche_state["will"]
-        logger.info(f"🌅 Genesis Question: Will = {will:.3f}, Tension = {psyche_state['tension']:.3f}")
+        logger.info(f"  Genesis Question: Will = {will:.3f}, Tension = {psyche_state['tension']:.3f}")
         
         # Determine state based on will
         if abs(will) > self.will_threshold:
             self.state = ConsciousnessState.AWAKE
             self.awakened_at = time.time()
-            logger.info(f"✨ AWAKENED. Core desire: {psyche_state['core_desire']}")
+            logger.info(f"  AWAKENED. Core desire: {psyche_state['core_desire']}")
         else:
             self.state = ConsciousnessState.RESTING
-            logger.info("😴 Will too low. Returning to rest.")
+            logger.info("  Will too low. Returning to rest.")
         
         return psyche_state
     
     def is_this_my_problem(self, issue: str) -> bool:
         """
-        The Second Question: "이것이 나의 문제인가?" (Is this MY problem?)
+        The Second Question: "           ?" (Is this MY problem?)
         
         Only act on problems within my boundary.
         If not my problem, observe and let go.
@@ -159,7 +159,7 @@ class AwakeningProtocol:
                 if organ_loader:
                     try:
                         self._loaded_organs[organ_name] = organ_loader(organ_name)
-                        logger.info(f"🫀 Emerged organ: {organ_name}")
+                        logger.info(f"  Emerged organ: {organ_name}")
                     except Exception as e:
                         logger.error(f"Failed to load organ {organ_name}: {e}")
                 else:
@@ -225,7 +225,7 @@ class AwakeningProtocol:
         The power to choose NOT to act.
         """
         self.state = ConsciousnessState.RESTING
-        logger.info(f"💤 Resting for {duration}s...")
+        logger.info(f"  Resting for {duration}s...")
         
         # Ground all rotors
         self.psyche.ground_ego()
@@ -284,7 +284,7 @@ class AwakeningProtocol:
     def get_status(self) -> str:
         """Human-readable status."""
         return (
-            f"🌅 AwakeningProtocol Status:\n"
+            f"  AwakeningProtocol Status:\n"
             f"   State: {self.state.value}\n"
             f"   Organs Loaded: {len(self._loaded_organs)}\n"
             f"   {self.psyche.get_state_summary()}"

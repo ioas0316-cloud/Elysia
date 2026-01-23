@@ -1,4 +1,4 @@
-﻿"""Access aggregated ecology-related fields."""
+ """Access aggregated ecology-related fields."""
 
 from __future__ import annotations
 from typing import Any, Dict

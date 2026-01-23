@@ -42,7 +42,7 @@ class UnifiedMonitor:
         
         # Thresholds
         self.thresholds: Dict[str, float] = {}
-        logger.info("🛡️ UnifiedMonitor Initialized (Body & Mind Tracking)")
+        logger.info("   UnifiedMonitor Initialized (Body & Mind Tracking)")
 
     # --- PART 1: Hardware Monitoring (The Body) ---
     
@@ -114,6 +114,6 @@ class UnifiedMonitor:
         # Log slow operations (Simulating Pain)
         threshold = self.thresholds.get(op, 1000.0)
         if duration > threshold:
-            logger.warning(f"⚠️ Slow Thought: '{op}' took {duration:.2f}ms")
+            logger.warning(f"   Slow Thought: '{op}' took {duration:.2f}ms")
 
 # Global Access via Organ (Implicitly handled by @Cell)

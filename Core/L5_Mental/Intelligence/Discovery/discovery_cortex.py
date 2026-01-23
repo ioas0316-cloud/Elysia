@@ -47,10 +47,10 @@ class DiscoveryCortex:
         """
         gaps = self.scan_for_gaps()
         if gaps:
-            logger.info(f"🧘 [MEDITATION] I feel a void in these frequencies: {gaps}")
+            logger.info(f"  [MEDITATION] I feel a void in these frequencies: {gaps}")
             return gaps
         else:
-            logger.info("🌟 [MEDITATION] My resonance is full. No immediate voids detected.")
+            logger.info("  [MEDITATION] My resonance is full. No immediate voids detected.")
             return []
 
 if __name__ == "__main__":

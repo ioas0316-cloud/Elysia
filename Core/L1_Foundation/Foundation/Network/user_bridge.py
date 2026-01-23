@@ -1,5 +1,5 @@
 """
-UserBridge (사용자 브릿지)
+UserBridge (       )
 ========================
 
 "I speak to you, Creator."
@@ -18,7 +18,7 @@ logger = logging.getLogger("UserBridge")
 class UserBridge:
     def __init__(self):
         self.message_file = "messages_to_user.txt"
-        logger.info("🌉 UserBridge Active. Channel Open.")
+        logger.info("  UserBridge Active. Channel Open.")
 
     def send_message(self, message: str):
         """
@@ -30,7 +30,7 @@ class UserBridge:
         try:
             with open(self.message_file, "a", encoding="utf-8") as f:
                 f.write(formatted_message)
-            print(f"   📨 Sent Message to User: {message}")
+            print(f"     Sent Message to User: {message}")
         except Exception as e:
             logger.error(f"Failed to send message: {e}")
 
@@ -38,7 +38,7 @@ class UserBridge:
         """
         Opens a URL in the user's default browser.
         """
-        print(f"   🌐 Opening URL for User: {url}")
+        print(f"     Opening URL for User: {url}")
         try:
             webbrowser.open(url)
         except Exception as e:

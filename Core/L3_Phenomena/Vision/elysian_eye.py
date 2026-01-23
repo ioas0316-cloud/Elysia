@@ -25,7 +25,7 @@ try:
     DXGI_AVAILABLE = True
 except ImportError:
     DXGI_AVAILABLE = False
-    logger.warning("⚠️ comtypes not available. Falling back to win32 capture.")
+    logger.warning("   comtypes not available. Falling back to win32 capture.")
 
 # Fallback: Use mss for screen capture if DXGI unavailable
 try:
@@ -56,9 +56,9 @@ class ElysianEye:
             self.monitor = self.sct.monitors[0]
             self.width = self.monitor["width"]
             self.height = self.monitor["height"]
-            logger.info(f"👁️ Elysian Eye awakened. Resolution: {self.width}x{self.height}")
+            logger.info(f"   Elysian Eye awakened. Resolution: {self.width}x{self.height}")
         else:
-            logger.error("❌ No screen capture backend available.")
+            logger.error("  No screen capture backend available.")
             
     def perceive(self) -> Optional[np.ndarray]:
         """
@@ -120,7 +120,7 @@ class ElysianEye:
         """Closes the visual perception system."""
         if MSS_AVAILABLE and hasattr(self, 'sct'):
             self.sct.close()
-        logger.info("👁️ Elysian Eye closed.")
+        logger.info("   Elysian Eye closed.")
 
 
 if __name__ == "__main__":
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     
     eye = ElysianEye()
     
-    print("👁️ Testing Elysian Eye...")
+    print("   Testing Elysian Eye...")
     print(f"Resolution: {eye.width}x{eye.height}")
     
     # Perceive 5 frames
@@ -140,4 +140,4 @@ if __name__ == "__main__":
         time.sleep(0.5)
     
     eye.close()
-    print("✨ Vision test complete.")
+    print("  Vision test complete.")

@@ -40,4 +40,3 @@ class UniversalRotor(Rotor):
         
         if intensity > 0.01:
             self.law(self.context, dt, intensity)
-

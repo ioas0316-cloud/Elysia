@@ -35,7 +35,7 @@ class FutureState:
 
 class TemporalBridge:
     def __init__(self):
-        logger.info("⏳ Temporal Bridge Online. Scanning Horizons.")
+        logger.info("  Temporal Bridge Online. Scanning Horizons.")
 
     def scan_futures(self, simulated_futures: List[FutureState]) -> Optional[FutureState]:
         """
@@ -44,7 +44,7 @@ class TemporalBridge:
         best_future = None
         max_force = -1.0
 
-        logger.info("🔮 Scanning Future Timelines...")
+        logger.info("  Scanning Future Timelines...")
 
         for future in simulated_futures:
             force = future.calculate_teleological_force()
@@ -55,7 +55,7 @@ class TemporalBridge:
                 best_future = future
 
         if best_future:
-            logger.info(f"✨ Prophecy Selected: '{best_future.name}' (Force: {max_force:.2f})")
+            logger.info(f"  Prophecy Selected: '{best_future.name}' (Force: {max_force:.2f})")
             return best_future
         return None
 

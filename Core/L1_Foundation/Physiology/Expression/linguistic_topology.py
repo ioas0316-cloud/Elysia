@@ -42,7 +42,7 @@ class LinguisticTopology:
         # 2. Derive Style Vector
         style = self._derive_style(coherence, energy, entropy)
         
-        logger.info(f"💎 Prism Activated. Style: Formality={style.formality:.2f}, Warmth={style.warmth:.2f}")
+        logger.info(f"  Prism Activated. Style: Formality={style.formality:.2f}, Warmth={style.warmth:.2f}")
         
         # 3. Surface Rendering (The Transformation)
         surface_text = self._render_surface(content_kernel, style)

@@ -30,13 +30,13 @@ def law_entropy_decay(context, dt, intensity):
             continue
             
         m.val -= decay_rate
-        # print(f"   📉 [Entropy] {m.name} decayed to {m.val:.2f}")
+        # print(f"     [Entropy] {m.name} decayed to {m.val:.2f}")
         
         if m.val <= 0:
             dead_monads.append(m)
             
     for m in dead_monads:
-        print(f"   💀 [Death] {m.name} has returned to the Void.")
+        print(f"     [Death] {m.name} has returned to the Void.")
         world.remove(m)
 
 def law_semantic_gravity(context, dt, intensity):
@@ -77,7 +77,7 @@ def law_semantic_gravity(context, dt, intensity):
                     match = True
                     break
             
-            print(f"   🔍 [Gravity Scan] {m.name} vs {d.name} -> {match}") # DEBUG
+            print(f"     [Gravity Scan] {m.name} vs {d.name} -> {match}") # DEBUG
             
             if match or m.domain.lower() in d.name.lower():
                 best_dir = d
@@ -88,7 +88,7 @@ def law_semantic_gravity(context, dt, intensity):
             
     # 3. Migration (Crossing the Event Horizon)
     for m, d in migrants:
-        print(f"   🧲 [Gravity] {m.name} is pulled into {d.name}.")
+        print(f"     [Gravity] {m.name} is pulled into {d.name}.")
         # Remove from Here
         world.remove(m)
         # Add to There
@@ -111,11 +111,11 @@ def law_autopoiesis(context, dt, intensity):
                 meal = food[0] # Eat the first one
                 nutrition = meal.val
                 
-                print(f"   🍽️ [Life] {life.name} consumes {meal.name} (+{nutrition})")
+                print(f"      [Life] {life.name} consumes {meal.name} (+{nutrition})")
                 
                 life.val += nutrition
                 world.remove(meal)
                 food.remove(meal)
             else:
-                # print(f"   ⚠️ [Life] {life.name} is starving...")
+                # print(f"      [Life] {life.name} is starving...")
                 pass

@@ -1,9 +1,9 @@
 """
-Nervous System (신경계)
+Nervous System (   )
 ======================
 
 "The bridge between Will and Life."
-"의지와 생명을 잇는 다리."
+"             ."
 
 This module implements the Autonomic Nervous System for Elysia.
 It provides a bi-directional feedback loop between:
@@ -51,7 +51,7 @@ class NervousSystem:
         Receives a sensory signal from the Body (Heartbeat/Sensors).
         """
         self.active_signals.append(signal)
-        logger.info(f"⚡ [NERVE] Signal Received: {signal.type} ({signal.intensity:.2f}) from {signal.origin}")
+        logger.info(f"  [NERVE] Signal Received: {signal.type} ({signal.intensity:.2f}) from {signal.origin}")
         self._process_signal(signal)
 
     def _process_signal(self, signal: NerveSignal):

@@ -1,10 +1,10 @@
 """
-Character Field Engine (인격 장 엔진)
+Character Field Engine (       )
 =====================================
 Core.L6_Structure.Engine.character_field_engine
 
 "Personality is not a tag; it is an interference pattern."
-"인격은 딱지가 아니라, 간섭 무늬다."
+"           ,       ."
 
 Features:
 - MBTI to 4D Rotor Mapping.

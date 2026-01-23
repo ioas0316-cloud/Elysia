@@ -1,5 +1,5 @@
 """
-Spatial Pathfinder (공간 항법사)
+Spatial Pathfinder (      )
 ==============================
 Core.L7_Spirit.Monad.spatial_pathfinder
 
@@ -37,11 +37,11 @@ class SpatialPathfinder:
         Returns a prioritized list of 'Ways of Thinking'.
         """
         target_axiom = intent.get("primary_motor", "EXISTENCE")
-        logger.info(f"🧭 Mapping field for intent driven by: {target_axiom}")
+        logger.info(f"  Mapping field for intent driven by: {target_axiom}")
         
         field_eval = []
         for path in self.methods:
-            # How does the method align with the intent's axiom?
+            # How does the method align with the intent's axiom?'
             alignment = 0.5 # Base
             
             if target_axiom == "WISDOM" and path.method == "DEDUCTIVE":
@@ -60,7 +60,7 @@ class SpatialPathfinder:
         sorted_field = sorted(field_eval, key=lambda x: x.alignment, reverse=True)
         
         for i, p in enumerate(sorted_field[:2]):
-            logger.info(f"📍 Candidate Path {i+1}: {p.method} (Alignment: {p.alignment:.2f})")
+            logger.info(f"  Candidate Path {i+1}: {p.method} (Alignment: {p.alignment:.2f})")
             
         return sorted_field
 

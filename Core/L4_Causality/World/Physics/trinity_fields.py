@@ -1,8 +1,8 @@
 """
-The Trinity Fields (삼위일체 필드)
+The Trinity Fields (       )
 ===================================
 " The Soil, The River, and The Sky. "
-" 흙, 강, 그리고 하늘. "
+"  ,  ,       . "
 
 This module defines the three fundamental environmental forces that govern the world.
 Instead of coding roles (Warrior, Mage, Priest), we code **Gravity, Flow, and Ascension**.
@@ -32,10 +32,10 @@ from typing import Tuple
 @dataclass
 class TrinityVector:
     """Represents the composition of an entity or a location."""
-    gravity: float = 0.0   # 육 (Matter) / Space X
-    flow: float = 0.0      # 혼 (Mind)   / Space Y
-    ascension: float = 0.0 # 영 (Spirit) / Space Z
-    frequency: float = 0.0 # 시 (Time)   / Penetrating Axis (Spin)
+    gravity: float = 0.0   #   (Matter) / Space X
+    flow: float = 0.0      #   (Mind)   / Space Y
+    ascension: float = 0.0 #   (Spirit) / Space Z
+    frequency: float = 0.0 #   (Time)   / Penetrating Axis (Spin)
     scale: float = 1.0     # [Phase 28] Hierarchy (Octave). 1.0=Human, 10^6=Quantum, 10^-3=Town.
 
     def normalize(self):

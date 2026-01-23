@@ -1,5 +1,5 @@
 """
-Intent Torque Bridge (의도 토크 브리지)
+Intent Torque Bridge (         )
 =====================================
 Core.L7_Spirit.Monad.intent_torque
 
@@ -64,7 +64,7 @@ class IntentTorque:
         if HAS_METAL and isinstance(rotor, MetalRotorBridge):
             metal_status = " [METAL ACCELERATED]"
         
-        logger.info(f"⚙️ [TORQUE] Applied to {rotor.name}{metal_status}: W={w:.2f} -> RPM_Target {rotor.target_rpm:.1f}")
+        logger.info(f"   [TORQUE] Applied to {rotor.name}{metal_status}: W={w:.2f} -> RPM_Target {rotor.target_rpm:.1f}")
 
     def map_to_atmosphere(self, intent_vector: np.ndarray) -> Dict[str, float]:
         """

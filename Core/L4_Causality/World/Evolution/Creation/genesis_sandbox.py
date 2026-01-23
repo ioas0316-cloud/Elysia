@@ -1,5 +1,5 @@
 """
-Genesis Sandbox (창세기 샌드박스)
+Genesis Sandbox (        )
 ===============================
 
 "Before the Word becomes Flesh, it must be tested in the Fire."
@@ -30,7 +30,7 @@ class GenesisResult:
         self.execution_time = execution_time
 
     def __repr__(self):
-        status = "✅ SUCCESS" if self.success else "❌ FAILURE"
+        status = "  SUCCESS" if self.success else "  FAILURE"
         return f"[{status}] Time: {self.execution_time:.4f}s | Output: {self.output[:50]}..."
 
 def _safe_execute(code: str, return_dict):
@@ -81,7 +81,7 @@ class GenesisSandbox:
         if process.is_alive():
             process.terminate()
             process.join()
-            return GenesisResult(False, "", "⚠️ TIMEOUT: Code execution exceeded safety limit.", self.timeout)
+            return GenesisResult(False, "", "   TIMEOUT: Code execution exceeded safety limit.", self.timeout)
             
         success = return_dict.get("success", False)
         output = return_dict.get("output", "")
@@ -91,7 +91,7 @@ class GenesisSandbox:
         return GenesisResult(success, output, error, exec_time)
 
 if __name__ == "__main__":
-    print("🧪 Genesis Sandbox Test")
+    print("  Genesis Sandbox Test")
     
     sandbox = GenesisSandbox()
     

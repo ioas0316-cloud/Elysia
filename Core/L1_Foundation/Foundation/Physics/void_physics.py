@@ -77,7 +77,7 @@ class VoidPhysics:
                 if voltage > self.breakdown_voltage:
                     # ARC!
                     self._discharge_arc(r_a, r_b, voltage)
-                    events.append(f"⚡ Arc: {r_a.name} <==> {r_b.name} (V:{voltage:.2f})")
+                    events.append(f"  Arc: {r_a.name} <==> {r_b.name} (V:{voltage:.2f})")
 
                     # Form/Strengthen Bond
                     if bond_id not in self.bonds:
@@ -86,7 +86,7 @@ class VoidPhysics:
                         dna_a = r_a.get_dna_snapshot()
                         dna_b = r_b.get_dna_snapshot()
                         self.bonds[bond_id] = HelixDNA(strand_a=dna_a, strand_b=dna_b)
-                        events.append(f"🔗 Bond Created: {bond_id}")
+                        events.append(f"  Bond Created: {bond_id}")
                     else:
                         # Strengthen existing bond (Weave)
                         self.bonds[bond_id].weave(dt=0.1)

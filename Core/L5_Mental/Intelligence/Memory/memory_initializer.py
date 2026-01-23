@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("MemoryInit")
 
 def initialize_memory():
-    logger.info(f"🚀 Initializing Memory v10.0 at {DB_PATH}")
+    logger.info(f"  Initializing Memory v10.0 at {DB_PATH}")
     
     if not SCHEMA_PATH.exists():
         logger.error(f"Schema not found at {SCHEMA_PATH}")
@@ -31,7 +31,7 @@ def initialize_memory():
         # Verify
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = [t[0] for t in cursor.fetchall()]
-        logger.info(f"✅ Created Tables: {tables}")
+        logger.info(f"  Created Tables: {tables}")
         
         conn.close()
         return True

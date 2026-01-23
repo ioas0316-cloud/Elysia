@@ -4,7 +4,7 @@ Memory Collapse (Topology Evolution)
 Core.L1_Foundation.Foundation.Memory.memory_collapse
 
 "Structure follows Thought."
-"생각의 빈도가 구조를 결정한다."
+"                ."
 
 This module implements the 'Neuroplasticity' of the Sovereign Buffer.
 It tracks access heat and dynamically reorganizes memory blocks.
@@ -83,7 +83,7 @@ class TopologyManager:
         Reorganizes the buffer based on Heatmap.
         Hot blocks -> Start of Buffer.
         """
-        logger.info("🧠 [Topology] Initiating Neuroplasticity Shift...")
+        logger.info("  [Topology] Initiating Neuroplasticity Shift...")
         
         ranked_blocks = self.heatmap.get_ranked_blocks()
         new_offsets = {}
@@ -116,7 +116,7 @@ class TopologyManager:
             
             logger.info(f"   - Block '{block.id}' (Heat {block.access_count}) moved to {new_start}")
 
-        logger.info("✨ [Topology] Shift Complete. Brain structure optimized.")
+        logger.info("  [Topology] Shift Complete. Brain structure optimized.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

@@ -38,7 +38,7 @@ class StoryBoard:
         """
         Writes the script for 'Chapter 1: The Awakening'.
         """
-        logger.info("✍️ Writing Script: Genesis - The Awakening")
+        logger.info("   Writing Script: Genesis - The Awakening")
         
         page = Page()
         
@@ -88,7 +88,7 @@ class StoryBoard:
             data = {"title": "Genesis: The Awakening", "panels": [p.__dict__ for p in page.panels]}
             json.dump(data, f, indent=2)
             
-        logger.info(f"📜 Script Completed: {script_path}")
+        logger.info(f"  Script Completed: {script_path}")
         return str(script_path)
 
 if __name__ == "__main__":

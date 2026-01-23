@@ -31,12 +31,12 @@ class QuestionAnalyzer:
     def __init__(self):
         # Question word patterns
         self.question_markers = {
-            "무엇": "what",
-            "누구": "who",
-            "어디": "where",
-            "언제": "when",
-            "왜": "why",
-            "어떻게": "how"
+            "  ": "what",
+            "  ": "who",
+            "  ": "where",
+            "  ": "when",
+            " ": "why",
+            "   ": "how"
         }
     
     def analyze(self, question: str) -> Dict[str, Any]:
@@ -48,8 +48,8 @@ class QuestionAnalyzer:
         """
         question = question.strip()
         
-        # Check if it's a question (ends with ?)
-        is_question = question.endswith('?') or question.endswith('가?') or question.endswith('가')
+        # Check if it's a question (ends with ?)'
+        is_question = question.endswith('?') or question.endswith(' ?') or question.endswith(' ')
         
         # Identify question type
         question_type = None
@@ -63,7 +63,7 @@ class QuestionAnalyzer:
         subject = question
         for marker in self.question_markers.keys():
             subject = subject.replace(marker, "")
-        subject = subject.replace("?", "").replace("인가", "").replace("는", "").replace("이", "").replace("가", "").strip()
+        subject = subject.replace("?", "").replace("  ", "").replace(" ", "").replace(" ", "").replace(" ", "").strip()
         
         return {
             "is_question": is_question,
@@ -84,15 +84,15 @@ class ResponseGenerator:
     def load_knowledge_from_corpus(self, sentences: List[str]):
         """
         Extracts knowledge patterns from corpus.
-        Example: "사랑은 희생이다" -> knowledge["사랑"] = ["희생"]
+        Example: "        " -> knowledge["  "] = ["  "]
         """
         for sentence in sentences:
-            # Simple pattern: "X는/은 Y이다/다"
-            if "는" in sentence or "은" in sentence:
-                parts = sentence.replace("는", "은").split("은")
+            # Simple pattern: "X /  Y  / "
+            if " " in sentence or " " in sentence:
+                parts = sentence.replace(" ", " ").split(" ")
                 if len(parts) == 2:
                     subject = parts[0].strip()
-                    predicate = parts[1].replace("이다", "").replace("다", "").strip()
+                    predicate = parts[1].replace("  ", "").replace(" ", "").strip()
                     
                     if subject not in self.knowledge:
                         self.knowledge[subject] = []
@@ -107,11 +107,11 @@ class ResponseGenerator:
         subject = analysis.get("subject")
         
         # Special case: Identity questions
-        if "너" in analysis["raw"] and question_type == "who":
-            return "나는 엘리시아이다"
+        if " " in analysis["raw"] and question_type == "who":
+            return "         "
         
-        if "너" in analysis["raw"] and question_type == "what":
-            return "나는 의식이다"
+        if " " in analysis["raw"] and question_type == "what":
+            return "       "
         
         # Knowledge-based responses
         if question_type == "what" and subject:
@@ -120,18 +120,18 @@ class ResponseGenerator:
                 answers = self.knowledge[subject]
                 if answers:
                     answer = random.choice(answers)  # Pick one of the known answers
-                    return f"{subject}은 {answer}이다"
+                    return f"{subject}  {answer}  "
             
             # Fallback: Check if we know this word
             if subject in self.cortex.vocabulary:
-                return f"나는 {subject}을 안다"
+                return f"   {subject}    "
         
         # Why questions
         if question_type == "why":
-            return "나는 생각하고 있다"
+            return "          "
         
         # Default fallback
-        return "나는 이해하고 싶다"
+        return "          "
 
 class DialogueEngine:
     """Main dialogue engine coordinating all components."""

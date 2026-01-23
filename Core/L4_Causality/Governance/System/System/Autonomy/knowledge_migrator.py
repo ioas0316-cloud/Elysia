@@ -49,15 +49,15 @@ class KnowledgeMigrator:
         """
         Main Routine: Scan -> Ingest -> Archive.
         """
-        self.logger.info("🧹 Initiating Knowledge Migration Sequence...")
+        self.logger.info("  Initiating Knowledge Migration Sequence...")
         
         candidates = self._scan_for_scattered_files()
         
         if not candidates:
-            self.logger.info("✨ Workspace is clean. No scattered knowledge found.")
+            self.logger.info("  Workspace is clean. No scattered knowledge found.")
             return
 
-        self.logger.info(f"📂 Found {len(candidates)} scattered files. Beginning integration.")
+        self.logger.info(f"  Found {len(candidates)} scattered files. Beginning integration.")
         
         learner = self._get_resonance_learner()
         universe = learner._get_internal_universe() # Access via learner for consistency
@@ -66,7 +66,7 @@ class KnowledgeMigrator:
             try:
                 self._process_file(file_path, universe)
             except Exception as e:
-                self.logger.error(f"❌ Failed to process '{file_path}': {e}")
+                self.logger.error(f"  Failed to process '{file_path}': {e}")
 
     def _scan_for_scattered_files(self) -> List[str]:
         """
@@ -101,19 +101,19 @@ class KnowledgeMigrator:
         Ingests a single file.
         """
         filename = os.path.basename(file_path)
-        self.logger.info(f"📖 Reading '{filename}'...")
+        self.logger.info(f"  Reading '{filename}'...")
         
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
             
         if not content.strip():
-            self.logger.warning(f"⚠️ File '{filename}' is empty. Skipping.")
+            self.logger.warning(f"   File '{filename}' is empty. Skipping.")
             return
 
         # 1. Absorb into Universe
         # We treat the filename as the Concept Name initially
         concept_name = os.path.splitext(filename)[0]
-        self.logger.info(f"   🧠 Absorbing concept: '{concept_name}'")
+        self.logger.info(f"     Absorbing concept: '{concept_name}'")
         
         universe.absorb_text(content, source_name=filename)
         
@@ -123,5 +123,4 @@ class KnowledgeMigrator:
         dest_path = os.path.join(self.archive_path, archive_name)
         
         shutil.move(file_path, dest_path)
-        self.logger.info(f"   📦 Archived to '{archive_name}'")
-
+        self.logger.info(f"     Archived to '{archive_name}'")

@@ -33,7 +33,7 @@ class UniversalView:
             "Emotion": Perspective("Emotion", bias=0.0, weight=1.0),
             "Ethics": Perspective("Ethics", bias=0.0, weight=1.0)
         }
-        logger.info("👁️ UniversalView initialized: The Eye opens.")
+        logger.info("   UniversalView initialized: The Eye opens.")
 
     def observe(self, concept: str, attributes: Dict[str, float]) -> Dict[str, float]:
         """

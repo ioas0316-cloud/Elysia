@@ -28,7 +28,7 @@ class DimensionalProcessor:
     def zoom(self, value: float):
         """Sets the analog dial of perception."""
         self.zoom_scalar = max(0.0, min(1.0, value))
-        logger.info(f"🎚️ Perception Dial set to: {self.zoom_scalar:.2f}")
+        logger.info(f"   Perception Dial set to: {self.zoom_scalar:.2f}")
 
     def react_to_context(self, plane: 'ContextPlane'):
         """
@@ -41,7 +41,7 @@ class DimensionalProcessor:
             boost = plane.void_intensity * 0.5
             old_zoom = self.zoom_scalar
             self.zoom(self.zoom_scalar + boost)
-            logger.info(f"🌌 Void Kernel Received ({plane.void_kernel.void_type}). Auto-Zoom: {old_zoom:.2f} -> {self.zoom_scalar:.2f}")
+            logger.info(f"  Void Kernel Received ({plane.void_kernel.void_type}). Auto-Zoom: {old_zoom:.2f} -> {self.zoom_scalar:.2f}")
 
     def process_thought(self, kernel: Any, target_dimension: Optional[int] = None) -> CognitiveResult:
         """
@@ -63,7 +63,7 @@ class DimensionalProcessor:
             # 0.0 -> 0D, 0.25 -> 1D, 0.5 -> 2D, 0.75 -> 3D, 1.0 -> 4D
             dim = round(self.zoom_scalar * 4)
 
-        logger.info(f"🧠 Activating {dim}D Processing Core for: '{kernel}' (Zoom: {self.zoom_scalar:.2f})")
+        logger.info(f"  Activating {dim}D Processing Core for: '{kernel}' (Zoom: {self.zoom_scalar:.2f})")
         
         if dim == 0:
             result = self._process_0d_identification(kernel)
@@ -87,7 +87,7 @@ class DimensionalProcessor:
         ae_res = self.aesthetic.evaluate(semantic_target)
         result.metadata["aesthetic"] = ae_res
         if ae_res["verdict"] == "Dissonant":
-            logger.warning(f"⚠️ Thought Dissonance detected: {ae_res['overall_beauty']:.2f}")
+            logger.warning(f"   Thought Dissonance detected: {ae_res['overall_beauty']:.2f}")
 
         return result
 

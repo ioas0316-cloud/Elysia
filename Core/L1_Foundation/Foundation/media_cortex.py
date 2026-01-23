@@ -1,5 +1,5 @@
 """
-MediaCortex (미디어 피질)
+MediaCortex (      )
 =======================
 
 "Binge-watching for AI."
@@ -15,14 +15,14 @@ from typing import List, Dict, Tuple
 
 class MediaCortex:
     def __init__(self, social_cortex):
-        print("📺 MediaCortex Initialized. Ready to binge-watch.")
+        print("  MediaCortex Initialized. Ready to binge-watch.")
         self.social = social_cortex
 
     def read_book(self, file_path: str) -> dict:
         """
         Reads a text file and analyzes its emotional arc.
         """
-        print(f"   📖 Reading Book: {file_path}...")
+        print(f"     Reading Book: {file_path}...")
         
         if not os.path.exists(file_path):
             return {"error": "File not found"}
@@ -47,9 +47,9 @@ class MediaCortex:
         text_lower = text.lower()
         
         # Keywords
-        sad_words = ["tears", "cry", "lost", "death", "sorrow", "pain", "alone", "눈물", "슬픔", "죽음"]
-        happy_words = ["laugh", "joy", "smile", "love", "hope", "light", "friend", "웃음", "기쁨", "사랑", "희망"]
-        angry_words = ["rage", "fight", "blood", "hate", "kill", "enemy", "분노", "싸움", "증오"]
+        sad_words = ["tears", "cry", "lost", "death", "sorrow", "pain", "alone", "  ", "  ", "  "]
+        happy_words = ["laugh", "joy", "smile", "love", "hope", "light", "friend", "  ", "  ", "  ", "  "]
+        angry_words = ["rage", "fight", "blood", "hate", "kill", "enemy", "  ", "  ", "  "]
         
         sad_score = sum(text_lower.count(w) for w in sad_words)
         happy_score = sum(text_lower.count(w) for w in happy_words)
@@ -68,7 +68,7 @@ class MediaCortex:
         """
         Fetches and analyzes YouTube video subtitles.
         """
-        print(f"   📺 Consuming YouTube: {video_id}...")
+        print(f"     Consuming YouTube: {video_id}...")
         
         try:
             from youtube_transcript_api import YouTubeTranscriptApi
@@ -99,7 +99,7 @@ class MediaCortex:
         """
         Fetches and analyzes web novel content.
         """
-        print(f"   📖 Consuming Web Novel: {url}...")
+        print(f"     Consuming Web Novel: {url}...")
         
         try:
             import requests

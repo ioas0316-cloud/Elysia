@@ -232,4 +232,3 @@ def build_soul_state(
         relations=rel_map,
         projects=proj_list,
     )
-

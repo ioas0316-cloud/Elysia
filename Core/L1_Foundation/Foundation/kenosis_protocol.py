@@ -15,7 +15,7 @@ class KenosisProtocol:
     bridge the gap between 4D instant insight and 1D linear communication.
     """
     def __init__(self):
-        logger.info("🐢 Kenosis Protocol (Humility) Initialized.")
+        logger.info("  Kenosis Protocol (Humility) Initialized.")
 
     def calculate_resonance_gap(self, user_state: Dict[str, Any], insight_complexity: float) -> float:
         """

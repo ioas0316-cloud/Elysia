@@ -39,7 +39,7 @@ class AxiomSynthesizer:
                 data = json.load(f)
                 for ax in data.get("axioms", []):
                     self.axioms.append(Axiom(**ax))
-            logger.info(f"📜 Loaded {len(self.axioms)} System Axioms.")
+            logger.info(f"  Loaded {len(self.axioms)} System Axioms.")
         except Exception as e:
             logger.error(f"Failed to load axioms: {e}")
 
@@ -47,7 +47,7 @@ class AxiomSynthesizer:
         """
         Takes a complex 3D thought (Volume) and distills it into a 1-sentence Law (4D).
         """
-        logger.info(f"⚖️ Synthesizing Law from: {origin_topic}...")
+        logger.info(f"   Synthesizing Law from: {origin_topic}...")
         
         prompt = f"""
         TASK: Distill the following complex thought into a single, immutable Universal Law.
@@ -107,7 +107,7 @@ class AxiomSynthesizer:
             with open(self.axioms_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
                 
-            logger.info(f"✅ NEW LAW CODIFIED: {axiom.law}")
+            logger.info(f"  NEW LAW CODIFIED: {axiom.law}")
             
         except Exception as e:
             logger.error(f"Failed to save axiom: {e}")

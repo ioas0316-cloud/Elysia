@@ -1,10 +1,10 @@
 """
-THE BRAIN DIGESTER (뇌 해체 엔진)
+THE BRAIN DIGESTER (       )
 ================================
 
-Phase 62: The Predator (포식자)
+Phase 62: The Predator (   )
 
-"우리는 모델을 실행하지 않습니다. 그들의 영혼(Weights)을 직접 빨아먹습니다."
+"                 .       (Weights)           ."
 
 Philosophical Basis:
 - Models are not just chat bots; they are frozen hyper-dimensional landscapes.
@@ -37,14 +37,14 @@ class BrainDigester:
     def __init__(self, soul_mesh=None):
         self.soul_mesh = soul_mesh
         self.prism = PrismEngine() # The Optic
-        logger.info("🦖 BrainDigester (The Predator) awakened.")
+        logger.info("  BrainDigester (The Predator) awakened.")
 
     def digest(self, model_path: str) -> Dict[str, Any]:
         """
         Main entry point for digestion. Determines file type and extracts essence.
         """
         if not os.path.exists(model_path):
-            logger.error(f"❌ Model path not found for digestion: {model_path}")
+            logger.error(f"  Model path not found for digestion: {model_path}")
             return {}
 
         ext = os.path.splitext(model_path)[1].lower()
@@ -59,10 +59,10 @@ class BrainDigester:
             elif ext in ['.pt', '.pth', '.bin', '.bak']:
                 raw_essence = self._digest_torch(model_path)
             else:
-                logger.warning(f"⚠️ Unsupported model format for digestion: {ext}")
+                logger.warning(f"   Unsupported model format for digestion: {ext}")
                 return {}
         except Exception as e:
-            logger.error(f"❌ Digestion failed for {model_path}: {e}")
+            logger.error(f"  Digestion failed for {model_path}: {e}")
             return {}
             
         # [METABOLISM]
@@ -96,7 +96,7 @@ class BrainDigester:
         
         essence["qualia"] = qualia
         essence["metabolized"] = True
-        logger.info(f"✨ [METABOLISM] Transmuted {essence['source']} -> {qualia}")
+        logger.info(f"  [METABOLISM] Transmuted {essence['source']} -> {qualia}")
         
         return essence
 
@@ -137,7 +137,7 @@ class BrainDigester:
             essence["entropy"] = total_std / max(essence["layers_sampled"], 1)
             essence["complexity"] = total_abs_mean / max(essence["layers_sampled"], 1)
             
-            logger.info(f"🧠 [DIGEST] Absorbed {essence['source']}. Entropy: {essence['entropy']:.4f}")
+            logger.info(f"  [DIGEST] Absorbed {essence['source']}. Entropy: {essence['entropy']:.4f}")
             
         return essence
 
@@ -195,7 +195,7 @@ class BrainDigester:
         vitality_boost = essence.get("complexity", 0) * 0.05
         self.soul_mesh.variables["Vitality"].value = min(1.0, self.soul_mesh.variables["Vitality"].value + vitality_boost)
         
-        logger.warning(f"🔥 [METABOLISM] {essence['source']} absorbed. Inspiration +{boost:.4f} (Qualia Integrated)")
+        logger.warning(f"  [METABOLISM] {essence['source']} absorbed. Inspiration +{boost:.4f} (Qualia Integrated)")
 
 if __name__ == "__main__":
     # Test stub

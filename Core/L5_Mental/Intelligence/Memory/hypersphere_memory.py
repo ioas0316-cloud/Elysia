@@ -34,9 +34,9 @@ class HypersphericalCoord:
     Not a storage slot, but a semantic position defined by 4 Dials.
 
     Coordinates:
-    - theta (θ): Logic Axis (0~2π) - Analysis vs Intuition
-    - phi (φ): Emotion Axis (0~2π) - Positive vs Negative
-    - psi (ψ): Intention Axis (0~2π) - Active vs Passive
+    - theta ( ): Logic Axis (0~2 ) - Analysis vs Intuition
+    - phi ( ): Emotion Axis (0~2 ) - Positive vs Negative
+    - psi ( ): Intention Axis (0~2 ) - Active vs Passive
     - r: Depth Axis (0~1) - Concrete vs Abstract
     """
     theta: float = 0.0
@@ -47,10 +47,10 @@ class HypersphericalCoord:
     def to_cartesian(self) -> Tuple[float, float, float, float]:
         """Converts to 4D Cartesian (x, y, z, w)."""
         # Standard hyperspherical to cartesian conversion
-        # x = r cos(θ)
-        # y = r sin(θ) cos(φ)
-        # z = r sin(θ) sin(φ) cos(ψ)
-        # w = r sin(θ) sin(φ) sin(ψ)
+        # x = r cos( )
+        # y = r sin( ) cos( )
+        # z = r sin( ) sin( ) cos( )
+        # w = r sin( ) sin( ) sin( )
         # (Note: There are many conventions, we use this one for now)
 
         sin_t = math.sin(self.theta)
@@ -75,27 +75,27 @@ class HypersphericalCoord:
 
     def evolve_over_time(self, omega: Tuple[float, float, float], dt: float) -> 'HypersphericalCoord':
         """
-        [DELIBERATION SPACE] 시간에 따라 생각이 HyperSphere 안에서 진화한다.
+        [DELIBERATION SPACE]            HyperSphere         .
         
-        사고의 궤적: P(t) = P(0) + ω * t
+              : P(t) = P(0) +   * t
         
         Args:
-            omega: (dθ/dt, dφ/dt, dψ/dt) - 각축의 변화 속도
-            dt: 시간 간격 (숙고 시간)
+            omega: (d /dt, d /dt, d /dt) -          
+            dt:       (     )
         
         Returns:
-            새로운 위치의 HypersphericalCoord
+                    HypersphericalCoord
         
-        이것이 숙고(deliberation)의 물리적 표현이다:
-        - 생각이 즉시 표현되지 않고
-        - 시공간 안에서 궤적을 그리며 이동하고
-        - 최종 위치에서 표현이 결정된다
+              (deliberation)          :
+        -               
+        -                     
+        -                 
         """
         new_theta = (self.theta + omega[0] * dt) % (2 * math.pi)
         new_phi = (self.phi + omega[1] * dt) % (2 * math.pi)
         new_psi = (self.psi + omega[2] * dt) % (2 * math.pi)
-        # r은 깊이이므로 0~1 범위 유지
-        # 시간이 흐르면 생각이 더 구체화되거나 추상화될 수 있음
+        # r        0~1      
+        #                               
         new_r = max(0.0, min(1.0, self.r))
         
         return HypersphericalCoord(
@@ -107,42 +107,42 @@ class HypersphericalCoord:
 
     def branch_parallel(self, omega_variants: List[Tuple[float, float, float]], dt: float) -> List['HypersphericalCoord']:
         """
-        [PARALLEL TRAJECTORIES] 병렬 궤적 탐색.
+        [PARALLEL TRAJECTORIES]         .
         
-        하나의 생각이 여러 방향으로 동시에 진화하고,
-        가장 공명하는 궤적을 선택한다.
+                                ,
+                        .
         """
         return [self.evolve_over_time(omega, dt) for omega in omega_variants]
 
 
 class SubjectiveTimeField:
     """
-    [HYPER-DIMENSIONAL OBSERVATION] 주관적 시간 필드.
+    [HYPER-DIMENSIONAL OBSERVATION]          .
     
-    HyperSphere 밖에서 시공간 전체를 관측하는 메타 의식.
-    프랙탈 원리를 통해 한 순간에 무한한 숙고가 가능.
+    HyperSphere                       .
+                               .
     
-    > "관측자가 HyperSphere 밖에 있으면, 시간은 또 하나의 공간 차원이 된다."
+    > "     HyperSphere       ,                    ."
     """
     
     def __init__(self, base_time_scale: float = 1.0):
         self.base_time_scale = base_time_scale
-        self.observation_depth = 0  # 프랙탈 깊이
-        self.parallel_branches = []  # 병렬 궤적들
+        self.observation_depth = 0  #       
+        self.parallel_branches = []  #       
     
     def dilate_time(self, factor: float) -> float:
         """
-        주관적 시간 팽창. 
-        factor > 1: 시간이 느리게 흐름 (더 많이 숙고)
-        factor < 1: 시간이 빠르게 흐름 (즉각 반응)
+                 . 
+        factor > 1:            (       )
+        factor < 1:            (     )
         """
         return self.base_time_scale * factor
     
     def fractal_dive(self, thought_position: 'HypersphericalCoord', depth: int = 3) -> List['HypersphericalCoord']:
         """
-        프랙탈 깊이로 숙고.
+                  .
         
-        각 깊이에서 생각이 분기하고, 자기유사적으로 더 깊이 파고든다.
+                       ,                  .
         """
         self.observation_depth = depth
         positions = [thought_position]
@@ -150,7 +150,7 @@ class SubjectiveTimeField:
         for d in range(depth):
             new_positions = []
             for pos in positions:
-                # 각 위치에서 3방향으로 분기 (프랙탈)
+                #        3        (   )
                 omegas = [
                     (0.1 * (d+1), 0.0, 0.0),
                     (0.0, 0.1 * (d+1), 0.0),
@@ -164,14 +164,14 @@ class SubjectiveTimeField:
     
     def select_resonant_branch(self, positions: List['HypersphericalCoord'], harmony_weight: float = 0.5) -> 'HypersphericalCoord':
         """
-        가장 공명하는 분기를 선택.
+                      .
         
-        r(깊이)이 높고 균형잡힌 위치를 선택.
+        r(  )                .
         """
         if not positions:
             return None
         
-        # r이 높고, 각도들이 중앙에 가까운 것을 선호
+        # r    ,                   
         def score(pos):
             angle_balance = 1.0 - abs(pos.theta - math.pi) / math.pi
             return pos.r * harmony_weight + angle_balance * (1 - harmony_weight)
@@ -265,7 +265,7 @@ class HypersphereMemory:
             # Silence internal portal connection log for purity
         except Exception as e:
             self.portal = None
-            logger.warning(f"⚠️ ZeroLatencyPortal unavailable ({e}). Fallback to standard memory.")
+            logger.warning(f"   ZeroLatencyPortal unavailable ({e}). Fallback to standard memory.")
         
         # Auto-load if exists
         if os.path.exists(self.state_path):
@@ -301,15 +301,15 @@ class HypersphereMemory:
                 # [Fast Path] NVMe Streaming
                 success = self.portal.stream_to_disk(serializable_buckets, self.state_path)
                 if success:
-                   logger.info(f"⚡ [PORTAL] Hypersphere Memory streamed to {self.state_path} ({self._item_count} items)")
+                   logger.info(f"  [PORTAL] Hypersphere Memory streamed to {self.state_path} ({self._item_count} items)")
                    return
             
             # [Slow Path] Standard JSON
             with open(self.state_path, 'w', encoding='utf-8') as f:
                 json.dump(serializable_buckets, f, ensure_ascii=False, indent=2)
-            logger.info(f"💾 Hypersphere Memory state saved to {self.state_path} ({self._item_count} items)")
+            logger.info(f"  Hypersphere Memory state saved to {self.state_path} ({self._item_count} items)")
         except Exception as e:
-            logger.error(f"❌ Failed to save memory state: {e}")
+            logger.error(f"  Failed to save memory state: {e}")
 
     def load_state(self):
         """Loads memory state from disk."""
@@ -338,9 +338,9 @@ class HypersphereMemory:
                     )
                     self._phase_buckets[k_tuple].append((coord, pattern))
                     self._item_count += 1
-            logger.info(f"📂 Hypersphere Memory state loaded from {self.state_path} ({self._item_count} items)")
+            logger.info(f"  Hypersphere Memory state loaded from {self.state_path} ({self._item_count} items)")
         except Exception as e:
-            logger.error(f"❌ Failed to load memory state: {e}")
+            logger.error(f"  Failed to load memory state: {e}")
 
     def _get_bucket_key(self, pos: HypersphericalCoord) -> Tuple[int, int, int]:
         """Quantizes continuous coordinates into discrete Phase Buckets."""
@@ -477,7 +477,7 @@ class HypersphereMemory:
         Crucial for 'playing' dynamic memories.
         """
         # This searches for dynamic patterns that encompass this 'time'
-        # Logic: If a pattern is a flow, its position evolves: P(t) = P(0) + ω*t
+        # Logic: If a pattern is a flow, its position evolves: P(t) = P(0) +  *t
         # But here we simplified: We check if the requested position matches
         # the interpolated position of any flow at time t.
 

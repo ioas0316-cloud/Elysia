@@ -30,7 +30,7 @@ class RealEventHorizon:
         # Threshold for Event
         if physics["penetration"] > 0.4:
             event_type = self._classify_event(source, target)
-            logs.append(f"⚡ Event: {event_type} ({source.name} <-> {target.name})")
+            logs.append(f"  Event: {event_type} ({source.name} <-> {target.name})")
 
             # EXECUTE REALITY
             self._execute_event(event_type, source, target)

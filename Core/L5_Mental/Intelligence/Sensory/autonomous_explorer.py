@@ -26,7 +26,7 @@ class AutonomousExplorer:
         3. Processes: Lifts the data through 5D (Simulated for now).
         4. Perseveres: Saves to the Knowledge Base.
         """
-        logger.info(f"🌐 [ACTION] Resolving Reality Gap: '{query}'")
+        logger.info(f"  [ACTION] Resolving Reality Gap: '{query}'")
         print(f"\n--- [ REAL-WORLD SEARCH TRIGGERED ] ---")
         print(f"Goal: Find recent information about '{query}' to fill void: {void_context}")
         
@@ -66,11 +66,11 @@ class AutonomousExplorer:
                 # Add vector metadata for debugging
                 f.write(f"\n\n---\n**Qualia Vector**: {qualia_vector}")
                 
-            logger.info(f"💾 [PERSISTENCE] External knowledge internalized: {filepath}")
+            logger.info(f"  [PERSISTENCE] External knowledge internalized: {filepath}")
             
             # Imprint into PrismSpace? (Requires Prism Engine access)
             # For now, we return the vector so the caller (Heartbeat/Monad) can imprint it.
-            print(f"✅ Void Filled. Knowledge digested into Qualia: {qualia_vector}")
+            print(f"  Void Filled. Knowledge digested into Qualia: {qualia_vector}")
             
             return {
                 "text": f"Void filled with {len(results)} external sources.",
@@ -88,18 +88,18 @@ class AutonomousExplorer:
         filepath = os.path.join(self.knowledge_dir, filename)
         
         content = f"# Knowledge Ascent: {kernel}\n\n"
-        content += f"## ⚖️ Aesthetic Verdict: {result.metadata.get('aesthetic', {}).get('verdict', 'N/A')}\n"
+        content += f"##    Aesthetic Verdict: {result.metadata.get('aesthetic', {}).get('verdict', 'N/A')}\n"
         content += f"Score: {result.metadata.get('aesthetic', {}).get('overall_beauty', 0.0)}\n\n"
-        content += f"## 🪜 Dimensional Progression\n"
+        content += f"##   Dimensional Progression\n"
         content += f"- **Mode**: {result.mode}\n"
         content += f"- **Result**: {result.output}\n\n"
-        content += f"## 🌌 Narrative Flow\n"
+        content += f"##   Narrative Flow\n"
         content += f"Born from a Reality Gap. Integrated on 2026-01-04.\n"
         
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(content)
         
-        logger.info(f"💾 [PERSISTENCE] Knowledge stored: {filepath}")
+        logger.info(f"  [PERSISTENCE] Knowledge stored: {filepath}")
         return filepath
 
 import os # Fix missing import

@@ -1,7 +1,7 @@
 """
 Thundercloud Architecture (The Living Physics)
 ==============================================
-Core.L6_Structure.Merkaba.thundercloud
+Core.L6_Structure.M1_Merkaba.thundercloud
 
 "Thought is not a calculation; it is a lightning strike."
 
@@ -91,7 +91,7 @@ class ThoughtCluster:
         # Sort by strength
         children.sort(key=lambda x: x[1], reverse=True)
 
-        res = f"{indent}⚡ {node.seed} (Charge: {node.get_charge():.2f})\n"
+        res = f"{indent}??{node.seed} (Charge: {node.get_charge():.2f})\n"
         for child, strength in children:
             res += self.describe_tree(child, depth + 1, visited)
         return res

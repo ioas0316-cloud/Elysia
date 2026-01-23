@@ -21,7 +21,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 def start_server():
     """Starts the Pulse Server in a thread."""
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print(f"\n🌐 [Pulse Server] Hosting at http://localhost:{PORT}")
+        print(f"\n  [Pulse Server] Hosting at http://localhost:{PORT}")
         print(f"   Root: {DIRECTORY}")
         httpd.serve_forever()
 

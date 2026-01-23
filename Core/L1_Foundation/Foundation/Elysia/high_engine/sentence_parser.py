@@ -15,16 +15,16 @@ class SentenceParser:
         self.JONGSEONG_BASE = 0x11A7
         
         # Jamo components
-        self.CHOSUNG_LIST = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
-        self.JUNGSEONG_LIST = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ']
-        self.JONGSEONG_LIST = [' ', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
+        self.CHOSUNG_LIST = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+        self.JUNGSEONG_LIST = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+        self.JONGSEONG_LIST = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
         
         # Common particles
-        self.PARTICLES = ['가', '이', '를', '을', '는', '은', '에', '와', '과', '도', '만', '부터', '까지', '라', '다', '냐']
+        self.PARTICLES = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '  ', '  ', ' ', ' ', ' ']
     
     def decompose_hangul(self, char: str) -> Tuple[str, str, str]:
         """
-        Decomposes a single Hangul syllable into (초성, 중성, 종성).
+        Decomposes a single Hangul syllable into (  ,   ,   ).
         Returns ('', '', '') for non-Hangul characters.
         """
         if len(char) != 1:
@@ -75,10 +75,10 @@ class SentenceParser:
         verb = None
         
         for i, token in enumerate(tokens):
-            if '가' in token or '이' in token or '는' in token or '은' in token:
+            if ' ' in token or ' ' in token or ' ' in token or ' ' in token:
                 # Likely subject marker
                 subject = token
-            elif '를' in token or '을' in token:
+            elif ' ' in token or ' ' in token:
                 # Likely object marker
                 obj = token
             elif i == len(tokens) - 1:

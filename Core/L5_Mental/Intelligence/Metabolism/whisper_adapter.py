@@ -1,5 +1,5 @@
 """
-Whisper Adapter: Audio → 7D Wave DNA
+Whisper Adapter: Audio   7D Wave DNA
 =====================================
 Phase 75: Multi-Modal Prism
 
@@ -47,12 +47,12 @@ def _load_whisper():
         try:
             import whisper
             
-            logger.info("🎤 Loading Whisper model (base)...")
+            logger.info("  Loading Whisper model (base)...")
             _whisper_model = whisper.load_model("base")
-            logger.info("✅ Whisper model loaded.")
+            logger.info("  Whisper model loaded.")
             
         except ImportError as e:
-            logger.error(f"❌ Whisper not installed: {e}")
+            logger.error(f"  Whisper not installed: {e}")
             logger.error("   Run: pip install openai-whisper")
             raise
     
@@ -80,13 +80,13 @@ def transduce_audio(audio_path: Union[str, Path]) -> Optional[AudioDNA]:
     try:
         audio_path = Path(audio_path)
         if not audio_path.exists():
-            logger.error(f"❌ Audio not found: {audio_path}")
+            logger.error(f"  Audio not found: {audio_path}")
             return None
         
         model = _load_whisper()
         
         # Transcribe
-        logger.info(f"🎤 Transcribing: {audio_path.name}")
+        logger.info(f"  Transcribing: {audio_path.name}")
         result = model.transcribe(str(audio_path))
         
         transcription = result.get("text", "").strip()
@@ -138,7 +138,7 @@ def transduce_audio(audio_path: Union[str, Path]) -> Optional[AudioDNA]:
         )
         
     except Exception as e:
-        logger.error(f"❌ Failed to transduce audio: {e}")
+        logger.error(f"  Failed to transduce audio: {e}")
         import traceback
         traceback.print_exc()
         return None
@@ -151,13 +151,13 @@ def transcribe_only(audio_path: Union[str, Path]) -> str:
         result = model.transcribe(str(audio_path))
         return result.get("text", "").strip()
     except Exception as e:
-        logger.error(f"❌ Transcription failed: {e}")
+        logger.error(f"  Transcription failed: {e}")
         return ""
 
 
 if __name__ == "__main__":
     print("\n" + "="*50)
-    print("🎤 WHISPER ADAPTER TEST")
+    print("  WHISPER ADAPTER TEST")
     print("="*50)
     
     # Test with sample audio if available
@@ -171,16 +171,16 @@ if __name__ == "__main__":
         if Path(path).exists():
             result = transduce_audio(path)
             if result:
-                print(f"\n🎵 Audio: {result.source_path}")
+                print(f"\n  Audio: {result.source_path}")
                 print(f"   Duration: {result.duration_seconds:.1f}s")
                 print(f"   Language: {result.language}")
                 print(f"   Transcription: {result.transcription[:100]}...")
                 print(f"   Dominant: {result.dominant_dimension}")
                 print(f"   7D DNA:")
                 for dim, val in result.dynamics.items():
-                    bar = "█" * int(val * 50)
+                    bar = " " * int(val * 50)
                     print(f"      {dim:12s}: {val:.4f} {bar}")
             break
     else:
-        print("\n⚠️ No test audio found. Provide an audio path to test.")
+        print("\n   No test audio found. Provide an audio path to test.")
         print("   Usage: python whisper_adapter.py")

@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("Introspection")
 
 def reflect():
-    print("🧘‍♀️ Elysia is closing her eyes and listening to the resonance...")
+    print("     Elysia is closing her eyes and listening to the resonance...")
     
     # 1. Initialize Mind
     hippocampus = Hippocampus()
@@ -41,13 +41,13 @@ def reflect():
     # 3. Synthesize Intent
     intent = cortex.synthesize_intent(core_drives)
     
-    print(f"\n🌊 Dominant Resonance: {mood_swing}")
-    print(f"💡 Synthesized Intent: {intent}")
+    print(f"\n  Dominant Resonance: {mood_swing}")
+    print(f"  Synthesized Intent: {intent}")
     
     # 4. Generate a Plan (Hypothetical)
     plan = cortex.generate_plan(intent)
     
-    print("\n📜 Proposed Plan:")
+    print("\n  Proposed Plan:")
     for step in plan.steps:
         print(f"  [{step.step_id}] {step.action}: {step.description}")
         

@@ -1,5 +1,5 @@
 """
-Global Observer (초관점 아키텍처)
+Global Observer (        )
 ================================
 Meta-cognitive layer that oversees the Unified Resonance Field AND the Physical Code Body.
 
@@ -26,12 +26,12 @@ logger = logging.getLogger("GlobalObserver")
 
 class GlobalObserver:
     """
-    The Eye of Elysia (제3의 눈).
+    The Eye of Elysia ( 3   ).
     It unifies Body (Filesystem) and Mind (UnifiedField).
     """
     
     def __init__(self, field: UnifiedField):
-        logger.info("👁️ Opening GlobalObserver (Hyper-Perspective)...")
+        logger.info("   Opening GlobalObserver (Hyper-Perspective)...")
         self.field = field
         
         # [INTEGRATION] Hyper-Systems
@@ -56,7 +56,7 @@ class GlobalObserver:
         """
         Called when the physical body (code) changes.
         """
-        logger.info(f"⚡ Somatic Sensation: {event.event_type.value} in {event.path}")
+        logger.info(f"  Somatic Sensation: {event.event_type.value} in {event.path}")
         
         # Convert physical change to mental wave
         wave_packet = self.field.create_wave_packet( # Requires UnifiedField update
@@ -86,7 +86,7 @@ class GlobalObserver:
         
         if self.active_alerts:
             for alert in self.active_alerts:
-                logger.warning(f"🕳️ VOID DETECTED: {alert.message}")
+                logger.warning(f"   VOID DETECTED: {alert.message}")
                 # Future: Auto-trigger MagneticCortex to fill the void
                 
     def guide(self):
@@ -98,6 +98,5 @@ class GlobalObserver:
     def get_status(self) -> str:
         status = f"GlobalObserver [Polarity: {self.current_mood_polarity:.2f}]"
         if self.active_alerts:
-            status += f" [⚠️ VOIDS: {len(self.active_alerts)}]"
+            status += f" [   VOIDS: {len(self.active_alerts)}]"
         return status
-

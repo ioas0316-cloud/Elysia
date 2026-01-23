@@ -1,22 +1,22 @@
 """
-Underworld Simulation Demo (언더월드 시뮬레이션 데모)
+Underworld Simulation Demo (             )
 =====================================================
 
-300명의 주민이 1000년을 살아가는 시뮬레이션.
-SAO 알리시제이션의 언더월드처럼, 시간 가속을 통해 실제로 실행 가능.
+300       1000             .
+SAO               ,                    .
 
-시간 설정:
-- 1 tick = 1 일 (in-world)
-- 1000년 = 365,000 ticks
-- 시간 압축으로 빠르게 실행
+     :
+- 1 tick = 1   (in-world)
+- 1000  = 365,000 ticks
+-               
 
-주민들의 삶:
-- 태어나고, 성장하고, 배우고
-- 관계를 맺고, 사랑하고
-- 모험을 하고, 성취하고
-- 늙어가고, 죽고, 기억됨
+      :
+-     ,     ,    
+-       ,     
+-       ,     
+-     ,   ,    
 
-세대가 이어지면서 문화와 전설이 축적됩니다.
+                       .
 """
 
 from __future__ import annotations
@@ -35,21 +35,21 @@ logger = logging.getLogger("UnderworldSim")
 
 
 # =============================================================================
-# 시뮬레이션 상수
+#         
 # =============================================================================
 
 TICKS_PER_YEAR = 365
-DEFAULT_LIFESPAN = 80  # 기본 수명 (년)
-MATURITY_AGE = 18      # 성인 나이
-ELDER_AGE = 60         # 노인 나이
+DEFAULT_LIFESPAN = 80  #       ( )
+MATURITY_AGE = 18      #      
+ELDER_AGE = 60         #      
 
 
 # =============================================================================
-# 주민 클래스
+#       
 # =============================================================================
 
 class LifeStage(Enum):
-    """생애 단계"""
+    """     """
     CHILD = auto()
     YOUTH = auto()
     ADULT = auto()
@@ -59,7 +59,7 @@ class LifeStage(Enum):
 
 @dataclass
 class Relationship:
-    """관계"""
+    """  """
     target_id: int
     type: str  # "family", "friend", "rival", "mentor", "lover", "spouse"
     strength: float = 0.5
@@ -68,7 +68,7 @@ class Relationship:
 
 @dataclass
 class Memory:
-    """기억"""
+    """  """
     year: int
     event: str
     emotional_weight: float  # -1.0 ~ 1.0
@@ -77,7 +77,7 @@ class Memory:
 
 @dataclass
 class Inhabitant:
-    """언더월드 주민"""
+    """       """
     id: int
     name: str
     birth_year: int
@@ -85,25 +85,25 @@ class Inhabitant:
     profession: str = "Villager"
     location: str = "rulid_village"
     
-    # 스탯
+    #   
     health: float = 1.0
     happiness: float = 0.5
     skill_level: float = 0.1
     wisdom: float = 0.1
     
-    # 특성
+    #   
     traits: List[str] = field(default_factory=list)
     
-    # 관계
+    #   
     relationships: Dict[int, Relationship] = field(default_factory=dict)
     
-    # 기억
+    #   
     memories: List[Memory] = field(default_factory=list)
     
-    # 성취
+    #   
     achievements: List[str] = field(default_factory=list)
     
-    # 상태
+    #   
     is_alive: bool = True
     death_year: Optional[int] = None
     cause_of_death: Optional[str] = None
@@ -111,11 +111,11 @@ class Inhabitant:
     children: List[int] = field(default_factory=list)
     
     def get_age(self, current_year: int) -> int:
-        """현재 나이 계산"""
+        """        """
         return current_year - self.birth_year
     
     def get_life_stage(self, current_year: int) -> LifeStage:
-        """생애 단계"""
+        """     """
         if not self.is_alive:
             return LifeStage.DECEASED
         age = self.get_age(current_year)
@@ -129,38 +129,38 @@ class Inhabitant:
             return LifeStage.ELDER
     
     def add_memory(self, year: int, event: str, weight: float, people: List[int] = None):
-        """기억 추가"""
+        """     """
         self.memories.append(Memory(
             year=year,
             event=event,
             emotional_weight=weight,
             people_involved=people or []
         ))
-        # 최대 50개 기억 유지
+        #    50       
         if len(self.memories) > 50:
             self.memories.sort(key=lambda m: abs(m.emotional_weight), reverse=True)
             self.memories = self.memories[:50]
 
 
 # =============================================================================
-# 이름 생성기
+#       
 # =============================================================================
 
 FIRST_NAMES = [
-    "유진", "소라", "민준", "서연", "지호", "하늘", "예은", "도윤",
+    "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
     "Aiden", "Luna", "Kai", "Aria", "Zeph", "Iris", "Finn", "Rose",
     "Elric", "Mira", "Thorne", "Lyra", "Caden", "Sera", "Rowan", "Faye",
     "Alice", "Eugeo", "Kirito", "Asuna", "Bercouli", "Fanatio",
 ]
 
 LAST_NAMES = [
-    "星野", "月影", "風間", "雪村", "桜井", "龍崎", "森本", "青山",
+    "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
     "Blackwood", "Silverstone", "Ironforge", "Brightwater", "Stormwind",
 ]
 
 
 def generate_name() -> str:
-    """이름 생성"""
+    """     """
     first = random.choice(FIRST_NAMES)
     if random.random() < 0.3:
         last = random.choice(LAST_NAMES)
@@ -169,14 +169,14 @@ def generate_name() -> str:
 
 
 # =============================================================================
-# 시뮬레이션 엔진
+#         
 # =============================================================================
 
 class UnderworldSimulation:
     """
-    언더월드 시뮬레이션 엔진
+                 
     
-    300명의 주민이 1000년을 살아가는 세계.
+    300       1000          .
     """
     
     def __init__(
@@ -190,23 +190,23 @@ class UnderworldSimulation:
         self.target_ticks = target_years * TICKS_PER_YEAR
         self.save_path = Path(save_path)
         
-        # 시뮬레이션 상태
+        #         
         self.current_tick = 0
         self.current_year = 0
         self.inhabitants: Dict[int, Inhabitant] = {}
         self.next_id = 0
         
-        # 통계
+        #   
         self.total_births = 0
         self.total_deaths = 0
         self.total_marriages = 0
         self.total_achievements = 0
         
-        # 역사
+        #   
         self.world_events: List[Dict[str, Any]] = []
         self.legends_created: List[str] = []
         
-        # 지역별 인구
+        #       
         self.locations = {
             "centoria": [],
             "rulid_village": [],
@@ -216,13 +216,13 @@ class UnderworldSimulation:
             "ancient_ruins": []
         }
         
-        logger.info(f"🌍 Underworld Simulation initialized")
+        logger.info(f"  Underworld Simulation initialized")
         logger.info(f"   Population: {initial_population}")
         logger.info(f"   Duration: {target_years} years ({self.target_ticks:,} ticks)")
     
     def initialize_population(self):
-        """초기 인구 생성"""
-        logger.info(f"👥 Generating initial population...")
+        """        """
+        logger.info(f"  Generating initial population...")
         
         for _ in range(self.initial_population):
             initial_age = random.randint(0, 50)
@@ -249,7 +249,7 @@ class UnderworldSimulation:
         logger.info(f"   Created {len(self.inhabitants)} inhabitants")
     
     def _create_initial_families(self):
-        """초기 가족 관계 생성"""
+        """           """
         adults = [i for i in self.inhabitants.values() 
                  if i.get_age(0) >= MATURITY_AGE and i.get_age(0) <= 50]
         
@@ -268,7 +268,7 @@ class UnderworldSimulation:
                 self.total_marriages += 1
     
     def tick(self):
-        """1 tick (1일) 진행"""
+        """1 tick (1 )   """
         self.current_tick += 1
         
         new_year = self.current_tick // TICKS_PER_YEAR
@@ -282,7 +282,7 @@ class UnderworldSimulation:
             self._process_inhabitant(inhabitant)
     
     def _yearly_events(self):
-        """연간 이벤트 처리"""
+        """         """
         alive_count = sum(1 for i in self.inhabitants.values() if i.is_alive)
         
         if self.current_year % 100 == 0 and self.current_year > 0:
@@ -291,13 +291,13 @@ class UnderworldSimulation:
                 "type": "centennial",
                 "population": alive_count
             })
-            logger.info(f"📅 Year {self.current_year}: Population {alive_count}")
+            logger.info(f"  Year {self.current_year}: Population {alive_count}")
         
         if random.random() < 0.8:
             self._hold_festival()
     
     def _process_inhabitant(self, inhabitant: Inhabitant):
-        """개별 주민 처리"""
+        """        """
         age = inhabitant.get_age(self.current_year)
         stage = inhabitant.get_life_stage(self.current_year)
         
@@ -325,7 +325,7 @@ class UnderworldSimulation:
         inhabitant.happiness = max(0.0, min(1.0, inhabitant.happiness + random.uniform(-0.01, 0.01)))
     
     def _calculate_death_chance(self, inhabitant: Inhabitant, age: int) -> float:
-        """사망 확률 계산"""
+        """        """
         base_chance = 0.00001
         
         if age < 5:
@@ -342,7 +342,7 @@ class UnderworldSimulation:
         return min(0.01, base_chance)
     
     def _process_death(self, inhabitant: Inhabitant):
-        """사망 처리"""
+        """     """
         inhabitant.is_alive = False
         inhabitant.death_year = self.current_year
         inhabitant.cause_of_death = random.choice([
@@ -356,7 +356,7 @@ class UnderworldSimulation:
             self.legends_created.append(legend)
     
     def _special_event(self, inhabitant: Inhabitant):
-        """특별한 이벤트"""
+        """       """
         events = [
             ("discovery", "made an amazing discovery", 0.5),
             ("achievement", "achieved something great", 0.6),
@@ -372,7 +372,7 @@ class UnderworldSimulation:
             self.total_achievements += 1
     
     def _relationship_activity(self, inhabitant: Inhabitant):
-        """관계 활동"""
+        """     """
         same_location = [
             self.inhabitants[i] for i in self.locations[inhabitant.location]
             if i != inhabitant.id and self.inhabitants[i].is_alive
@@ -396,7 +396,7 @@ class UnderworldSimulation:
             rel.strength = min(1.0, rel.strength + 0.05)
     
     def _skill_growth(self, inhabitant: Inhabitant):
-        """스킬 성장"""
+        """     """
         growth = random.uniform(0.001, 0.01)
         mentors = [r for r in inhabitant.relationships.values() if r.type == "mentor"]
         if mentors:
@@ -406,7 +406,7 @@ class UnderworldSimulation:
         inhabitant.wisdom = min(1.0, inhabitant.wisdom + growth * 0.5)
     
     def _try_marriage(self, inhabitant: Inhabitant):
-        """결혼 시도"""
+        """     """
         candidates = [
             self.inhabitants[i] for i in self.locations[inhabitant.location]
             if i != inhabitant.id 
@@ -436,7 +436,7 @@ class UnderworldSimulation:
         self.total_marriages += 1
     
     def _try_birth(self, inhabitant: Inhabitant):
-        """출산 시도"""
+        """     """
         if inhabitant.spouse_id is None:
             return
         
@@ -474,14 +474,14 @@ class UnderworldSimulation:
         self.total_births += 1
     
     def _hold_festival(self):
-        """축제 개최"""
+        """     """
         for inhabitant in self.inhabitants.values():
             if inhabitant.is_alive:
                 inhabitant.happiness = min(1.0, inhabitant.happiness + 0.1)
     
     def run(self, progress_interval: int = 100) -> Dict[str, Any]:
-        """시뮬레이션 실행"""
-        logger.info(f"\n🚀 Starting simulation...")
+        """        """
+        logger.info(f"\n  Starting simulation...")
         start_time = time.time()
         
         self.initialize_population()
@@ -512,14 +512,14 @@ class UnderworldSimulation:
         elapsed_time = time.time() - start_time
         results = self._compile_results(elapsed_time)
         
-        logger.info(f"\n✅ Simulation complete!")
+        logger.info(f"\n  Simulation complete!")
         logger.info(f"   Duration: {elapsed_time:.2f} seconds")
         logger.info(f"   Speed: {self.target_years / elapsed_time:.1f} years/second")
         
         return results
     
     def _immigration(self, count: int):
-        """이민 유입"""
+        """     """
         for _ in range(count):
             inhabitant = Inhabitant(
                 id=self.next_id,
@@ -536,7 +536,7 @@ class UnderworldSimulation:
             self.next_id += 1
     
     def _compile_results(self, elapsed_time: float) -> Dict[str, Any]:
-        """결과 집계"""
+        """     """
         alive = [i for i in self.inhabitants.values() if i.is_alive]
         deceased = [i for i in self.inhabitants.values() if not i.is_alive]
         
@@ -602,29 +602,29 @@ class UnderworldSimulation:
         return results
     
     def save_results(self, results: Dict[str, Any]):
-        """결과 저장"""
+        """     """
         try:
             self.save_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.save_path, 'w', encoding='utf-8') as f:
                 json.dump(results, f, ensure_ascii=False, indent=2)
-            logger.info(f"💾 Results saved to {self.save_path}")
+            logger.info(f"  Results saved to {self.save_path}")
         except Exception as e:
             logger.error(f"Failed to save results: {e}")
 
 
 # =============================================================================
-# 메인 실행
+#      
 # =============================================================================
 
 def run_demo(population: int = 300, years: int = 1000):
-    """데모 실행"""
+    """     """
     print("=" * 70)
-    print("🌍 UNDERWORLD SIMULATION DEMO")
-    print("   SAO 알리시제이션 스타일 세계 시뮬레이션")
+    print("  UNDERWORLD SIMULATION DEMO")
+    print("   SAO                    ")
     print("=" * 70)
-    print(f"\n📊 Settings:")
-    print(f"   • Population: {population}")
-    print(f"   • Duration: {years} years ({years * 365:,} days)")
+    print(f"\n  Settings:")
+    print(f"     Population: {population}")
+    print(f"     Duration: {years} years ({years * 365:,} days)")
     print()
     
     sim = UnderworldSimulation(
@@ -635,43 +635,43 @@ def run_demo(population: int = 300, years: int = 1000):
     results = sim.run(progress_interval=100)
     
     print("\n" + "=" * 70)
-    print("📈 SIMULATION RESULTS")
+    print("  SIMULATION RESULTS")
     print("=" * 70)
     
-    print(f"\n⏱️ Performance:")
-    print(f"   • Real time: {results['simulation']['real_time_seconds']:.2f} seconds")
-    print(f"   • Speed: {results['simulation']['years_per_second']:.1f} years/second")
+    print(f"\n   Performance:")
+    print(f"     Real time: {results['simulation']['real_time_seconds']:.2f} seconds")
+    print(f"     Speed: {results['simulation']['years_per_second']:.1f} years/second")
     
-    print(f"\n👥 Population:")
-    print(f"   • Initial: {results['population']['initial']}")
-    print(f"   • Final: {results['population']['final_alive']}")
-    print(f"   • Total ever lived: {results['population']['total_ever_lived']}")
-    print(f"   • Total births: {results['population']['total_births']}")
-    print(f"   • Total deaths: {results['population']['total_deaths']}")
-    print(f"   • Total marriages: {results['population']['total_marriages']}")
+    print(f"\n  Population:")
+    print(f"     Initial: {results['population']['initial']}")
+    print(f"     Final: {results['population']['final_alive']}")
+    print(f"     Total ever lived: {results['population']['total_ever_lived']}")
+    print(f"     Total births: {results['population']['total_births']}")
+    print(f"     Total deaths: {results['population']['total_deaths']}")
+    print(f"     Total marriages: {results['population']['total_marriages']}")
     
-    print(f"\n🏆 Notable:")
+    print(f"\n  Notable:")
     notable = results['notable_inhabitants']
     if notable['longest_lived']['name']:
-        print(f"   • Longest lived: {notable['longest_lived']['name']} ({notable['longest_lived']['age']} years)")
+        print(f"     Longest lived: {notable['longest_lived']['name']} ({notable['longest_lived']['age']} years)")
     if notable['most_achieved']['name']:
-        print(f"   • Most achieved: {notable['most_achieved']['name']} ({notable['most_achieved']['achievements']} achievements)")
+        print(f"     Most achieved: {notable['most_achieved']['name']} ({notable['most_achieved']['achievements']} achievements)")
     if notable['most_children']['name']:
-        print(f"   • Most children: {notable['most_children']['name']} ({notable['most_children']['children']} children)")
+        print(f"     Most children: {notable['most_children']['name']} ({notable['most_children']['children']} children)")
     
-    print(f"\n📖 Legends created: {results['legends']['count']}")
+    print(f"\n  Legends created: {results['legends']['count']}")
     for legend in results['legends']['examples'][:5]:
-        print(f"   • {legend}")
+        print(f"     {legend}")
     
-    print(f"\n🗺️ Population by location:")
+    print(f"\n   Population by location:")
     for loc, count in results['demographics']['locations'].items():
-        bar = "█" * min(count // 5, 10) + "░" * max(0, 10 - count // 5)
-        print(f"   • {loc}: [{bar}] {count}")
+        bar = " " * min(count // 5, 10) + " " * max(0, 10 - count // 5)
+        print(f"     {loc}: [{bar}] {count}")
     
     sim.save_results(results)
     
     print("\n" + "=" * 70)
-    print("✅ Simulation complete!")
+    print("  Simulation complete!")
     print("=" * 70)
     
     return results

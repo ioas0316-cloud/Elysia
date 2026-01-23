@@ -37,7 +37,7 @@ class ArchitectureScanner:
         # Check for AMD (future: rocm-smi or similar)
         # elif shutil.which("rocm-smi"): info["gpu_vendor"] = "AMD"
         
-        logger.info(f"🔎 [Scanner] Vessel Detected: {info}")
+        logger.info(f"  [Scanner] Vessel Detected: {info}")
         return info
 
 # --- 2. Strategies ---
@@ -67,7 +67,7 @@ class GenericGovernance(GovernanceStrategy):
                 # High Performance Power Plan GUID
                 cmd = "powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
                 subprocess.run(cmd, shell=True, stdout=subprocess.DEVNULL)
-                logger.info("⚡ [Generic] Set High Performance Power Plan.")
+                logger.info("  [Generic] Set High Performance Power Plan.")
             except: pass
             
 class NvidiaGovernance(GenericGovernance):
@@ -77,11 +77,11 @@ class NvidiaGovernance(GenericGovernance):
             # Check P-State
             res = subprocess.run("nvidia-smi -q -d PERFORMANCE", shell=True, capture_output=True, text=True)
             if "Performance State" in res.stdout:
-                 logger.info("🎮 [NVIDIA] GPU State monitored. (P0 Target)")
+                 logger.info("  [NVIDIA] GPU State monitored. (P0 Target)")
             else:
-                 logger.info("🎮 [NVIDIA] Driver active, but P-state hidden.")
+                 logger.info("  [NVIDIA] Driver active, but P-state hidden.")
         except:
-            logger.error("❌ [NVIDIA] Harvest failed.")
+            logger.error("  [NVIDIA] Harvest failed.")
 
 # --- 3. The Sovereign Governor (Context) ---
 class SovereignGovernor:
@@ -108,10 +108,10 @@ class SovereignGovernor:
         
     def _select_strategy(self, info):
         if info["gpu_vendor"] == "NVIDIA":
-            logger.info("🏛️ [Governor] Strategy Selected: NVIDIA_DYNASTY")
+            logger.info("   [Governor] Strategy Selected: NVIDIA_DYNASTY")
             return NvidiaGovernance(info)
         else:
-            logger.info("🏛️ [Governor] Strategy Selected: GENERIC_REPUBLIC")
+            logger.info("   [Governor] Strategy Selected: GENERIC_REPUBLIC")
             return GenericGovernance(info)
 
     def scan_for_target(self) -> bool:
@@ -120,7 +120,7 @@ class SovereignGovernor:
             try:
                 if any(cand.lower() in proc.info['name'].lower() for cand in self.target_candidates):
                     self.target_pid = proc.info['pid']
-                    logger.info(f"🎯 [Governor] Target Identified: {proc.info['name']} (PID: {self.target_pid})")
+                    logger.info(f"  [Governor] Target Identified: {proc.info['name']} (PID: {self.target_pid})")
                     return True
             except (psutil.NoSuchProcess, psutil.AccessDenied):
                 pass
@@ -132,20 +132,20 @@ class SovereignGovernor:
             try:
                 p = psutil.Process(self.target_pid)
                 p.nice(psutil.HIGH_PRIORITY_CLASS)
-                logger.info(f"👑 [Process] Elevated Target ({self.target_pid}) to High Priority.")
+                logger.info(f"  [Process] Elevated Target ({self.target_pid}) to High Priority.")
             except Exception as e:
-                logger.error(f"⚠️ [Process] Could not elevate target: {e}")
+                logger.error(f"   [Process] Could not elevate target: {e}")
 
         for proc in psutil.process_iter(['pid', 'name']):
             try:
                 if proc.info['name'] in self.parasitic_processes:
                     proc.nice(psutil.IDLE_PRIORITY_CLASS)
             except: pass
-        logger.info("🧹 [Process] Parasites Suppressed.")
+        logger.info("  [Process] Parasites Suppressed.")
 
     def govern(self):
         """The Main Loop of Sovereignty."""
-        logger.info("🏛️ [Governor] Assessing Territory...")
+        logger.info("   [Governor] Assessing Territory...")
         
         # Execute Strategic Enforcements
         self.strategy.enforce()

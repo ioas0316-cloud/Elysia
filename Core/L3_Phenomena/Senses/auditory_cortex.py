@@ -1,9 +1,9 @@
 """
-Auditory Cortex (청각 피질)
+Auditory Cortex (     )
 ==========================
 Core.L3_Phenomena.Senses.auditory_cortex
 
-"소리는 귀로 들어와, 프리즘을 거쳐 혼(Soul)에 닿는다."
+"          ,          (Soul)     ."
 
 Role:
     1. Receive raw audio from EarDrum.
@@ -22,18 +22,18 @@ class AuditoryCortex:
     def __init__(self):
         self.ear = EarDrum()  # The Physical Organ
         self.prism = PrismProjector() # The Metaphysical Lens
-        logger.info("   🧠 Auditory Cortex initialized.")
+        logger.info("     Auditory Cortex initialized.")
 
     def process_sound(self, audio_path: str) -> PrismProjection:
         """
-        소리를 듣고, 프리즘을 통해 7가지 진실로 회절시킵니다.
+              ,         7             .
         """
         # 1. Perception & Digestion (EarDrum)
         # EarDrum now performs both Transcription and Topology Tracing internally.
         raw_text = self.ear.listen(audio_path)
         
         if not raw_text or raw_text.startswith("["):
-            logger.warning(f"   🙉 Hearing failed: {raw_text}")
+            logger.warning(f"     Hearing failed: {raw_text}")
             return None
 
         # 2. Causality Retrieval (From Tracer)
@@ -46,7 +46,7 @@ class AuditoryCortex:
         # Ideally, we would inject 'Tone Data' into the Phenomenal Lens here.
         projection = self.prism.project(raw_text)
         
-        logger.info(f"   🌈 Sound Diffracted into 7 Truths.")
+        logger.info(f"     Sound Diffracted into 7 Truths.")
         return projection
 
 if __name__ == "__main__":

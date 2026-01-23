@@ -21,7 +21,7 @@ class LexiconExpander:
         Generates 'count' new seeds based on combinations.
         Returns total vocabulary size.
         """
-        print(f"🚜 Harvesting {count} new semantic seeds...")
+        print(f"  Harvesting {count} new semantic seeds...")
         
         for _ in range(count):
             word = random.choice(self.roots) + random.choice(self.suffixes)

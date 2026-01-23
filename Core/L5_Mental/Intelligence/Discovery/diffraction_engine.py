@@ -36,7 +36,7 @@ class DiffractionEngine:
         Returns:
             Predicted 'Whole' concept vector
         """
-        logger.info(f"🌪️ [DIFFRACTION] Predicting the Hidden Center from {len(partial_traces)} fragments...")
+        logger.info(f"   [DIFFRACTION] Predicting the Hidden Center from {len(partial_traces)} fragments...")
         
         if not partial_traces:
             return target_intent * 0.1 # Vague intuition
@@ -53,7 +53,7 @@ class DiffractionEngine:
         noise = np.random.normal(0, 0.05, 7)
         predicted_vector = np.clip(predicted_vector + noise, 0, 1)
         
-        logger.info("   ⚡ Prediction collapsed into a coherent vision.")
+        logger.info("     Prediction collapsed into a coherent vision.")
         return predicted_vector
 
 if __name__ == "__main__":

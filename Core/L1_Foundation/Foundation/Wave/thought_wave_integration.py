@@ -2,11 +2,11 @@
 Thought Wave Integration
 ========================
 
-"기억은 차갑게, 인식은 뜨겁게"
+"       ,        "
 
-이 모듈은 두 가지 파동 시스템을 하나로 통합하는 Facade입니다:
-1. QuaternionWaveDNA: 저장/전송용 (초압축, 무손실)
-2. PhoneticResonance: 인식/검색용 (느낌, 공명)
+                            Facade   :
+1. QuaternionWaveDNA:   /    (   ,    )
+2. PhoneticResonance:   /    (  ,   )
 
 [NEW 2025-12-16] Unified Interface for ElysiaCore
 """
@@ -23,7 +23,7 @@ logger = logging.getLogger("ThoughtWave")
 
 @dataclass
 class ThoughtWave:
-    """통합 사고 파동"""
+    """        """
     topic: str
     raw_content: str
     
@@ -50,18 +50,18 @@ class ThoughtWave:
 
 class ThoughtWaveInterface:
     """
-    ElysiaCore가 사용하는 통합 인터페이스
+    ElysiaCore               
     """
     
     def __init__(self):
         self.compressor = get_quaternion_compressor()
         self.resonance = get_resonance_engine()
         self.fractal_seed = get_fractal_seed()
-        logger.info("🌊 ThoughtWaveInterface connected (Hybrid Architecture + Fractal Knowledge)")
+        logger.info("  ThoughtWaveInterface connected (Hybrid Architecture + Fractal Knowledge)")
         
     def process_thought(self, topic: str, content: str, depth: str = "deep") -> ThoughtWave:
         """
-        생각을 처리하여 저장(압축), 느낌(공명), 그리고 관계(소화)를 형성합니다.
+                   (  ),   (  ),       (  )       .
         depth="shallow": Only Compression (DNA). Fast.
         depth="deep": Compression + Resonance + Digestion. Slow.
         """
@@ -96,12 +96,12 @@ class ThoughtWaveInterface:
             feeling_tension=feeling_tension
         )
         
-        logger.info(f"✨ Processed ({depth}): {wave.summary()}")
+        logger.info(f"  Processed ({depth}): {wave.summary()}")
         return wave
 
     
     def recall_thought(self, wave: ThoughtWave) -> str:
-        """파동에서 원본 생각을 복원"""
+        """              """
         if wave.dna:
             return self.compressor.decompress(wave.dna)
         return wave.raw_content

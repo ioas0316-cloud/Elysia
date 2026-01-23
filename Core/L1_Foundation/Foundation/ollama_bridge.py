@@ -18,4 +18,3 @@ from Core.L1_Foundation.Foundation.Network.ollama_bridge import (
     ollama,
     get_ollama_bridge,
 )
-

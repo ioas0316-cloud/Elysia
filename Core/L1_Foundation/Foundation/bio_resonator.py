@@ -1,5 +1,5 @@
 """
-BioResonator (생체 공명기)
+BioResonator (      )
 ==========================
 
 "Life is a song. DNA is the score."
@@ -34,7 +34,7 @@ class BioResonator:
             'C': (639.0, "Connection"),
             'U': (528.0, "Repair") # RNA Uracil maps to Thymine freq
         }
-        print("🧬 BioResonator Initialized. Ready to sing the song of life.")
+        print("  BioResonator Initialized. Ready to sing the song of life.")
 
     def transcribe_dna(self, sequence: str) -> List[GeneticWave]:
         """

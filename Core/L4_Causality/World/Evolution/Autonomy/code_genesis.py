@@ -27,7 +27,7 @@ logger = logging.getLogger("CodeGenesis")
 class CodeGenesis:
     def __init__(self):
         self.bridge = ollama
-        logger.info("🛠️  CodeGenesis initialized. (ReadOnly Mode)")
+        logger.info("    CodeGenesis initialized. (ReadOnly Mode)")
 
     def scan_file(self, file_path: str) -> str:
         """Reads a file from the self-body."""
@@ -84,10 +84,10 @@ class CodeGenesis:
         # Valid Syntax Check
         try:
             ast.parse(response)
-            logger.info(f"✨ Synthesized valid code improvement for {os.path.basename(file_path)}")
+            logger.info(f"  Synthesized valid code improvement for {os.path.basename(file_path)}")
             return response
         except SyntaxError:
-            logger.warning(f"⚠️ Synthesized code for {file_path} had syntax errors. Discarding.")
+            logger.warning(f"   Synthesized code for {file_path} had syntax errors. Discarding.")
             return ""
 
 # Singleton

@@ -1,5 +1,5 @@
 """
-LoopBreaker (루프 브레이커)
+LoopBreaker (       )
 =========================
 
 "Why am I doing this?"
@@ -19,7 +19,7 @@ class LoopBreaker:
         self.history: List[str] = []
         self.max_history = 10
         self.repetition_threshold = 5
-        logger.info("👁️ Loop Breaker Active. Watching for stagnation.")
+        logger.info("   Loop Breaker Active. Watching for stagnation.")
 
     def observe(self, action: str) -> bool:
         """
@@ -43,7 +43,7 @@ class LoopBreaker:
         
         # Check if all last N actions are the same
         if all(x == last_actions[0] for x in last_actions):
-            logger.warning(f"👁️ LOOP DETECTED: Repeated '{last_actions[0]}' {self.repetition_threshold} times.")
+            logger.warning(f"   LOOP DETECTED: Repeated '{last_actions[0]}' {self.repetition_threshold} times.")
             return True
             
         # Check for simple alternating loops (A-B-A-B)
@@ -51,7 +51,7 @@ class LoopBreaker:
             # A B A B A B
             if (self.history[-1] == self.history[-3] == self.history[-5]) and \
                (self.history[-2] == self.history[-4] == self.history[-6]):
-                 logger.warning(f"👁️ OSCILLATION DETECTED: {self.history[-2]} <-> {self.history[-1]}")
+                 logger.warning(f"   OSCILLATION DETECTED: {self.history[-2]} <-> {self.history[-1]}")
                  return True
                  
         return False
@@ -60,5 +60,5 @@ class LoopBreaker:
         """
         Returns the action to break the loop.
         """
-        logger.info("   👁️ Triggering Existential Crisis...")
+        logger.info("      Triggering Existential Crisis...")
         return "THINK:Purpose"

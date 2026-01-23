@@ -3,7 +3,7 @@ Perspective Simulator (Reverse Empathy / Yeok-Ji-Sa-Ji)
 =======================================================
 "To understand the other, one must become the other."
 
-This module implements the mechanism of 'Reverse Empathy' (易地思之).
+This module implements the mechanism of 'Reverse Empathy' (    ).
 It constructs a temporary topological field representing the User's Perspective,
 allowing Elysia to simulate *why* the user believes what they believe.
 """
@@ -86,7 +86,7 @@ class PerspectiveSimulator:
             resonance_voltage=vol
         )
 
-        logger.info(f"🎭 Perspective Simulated: {perspective.emotional_state} (Intent: {perspective.intent_vector})")
+        logger.info(f"  Perspective Simulated: {perspective.emotional_state} (Intent: {perspective.intent_vector})")
         logger.info(f"   Axioms: {perspective.axioms}")
 
         return perspective

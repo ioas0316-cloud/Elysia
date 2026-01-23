@@ -1,5 +1,5 @@
 """
-Prism Engine (광학적 추론 엔진)
+Prism Engine (         )
 ===============================
 Core.L1_Foundation.Prism.prism_engine
 
@@ -46,7 +46,7 @@ class PrismSpace:
         # Stored patterns (the "memory" imprinted in the structure)
         self.imprinted_patterns: Dict[str, np.ndarray] = {}
         
-        logger.info(f"🔷 Prism Space initialized: {size}x{size}, {depth_layers} depth layers")
+        logger.info(f"  Prism Space initialized: {size}x{size}, {depth_layers} depth layers")
     
     def _create_fractal_prism(self) -> np.ndarray:
         """Creates a fractal refractive index field."""
@@ -125,7 +125,7 @@ class PrismSpace:
         # Normalize to prevent explosion
         self.refractive_field = np.clip(self.refractive_field, 1.0, 3.0)
         
-        logger.info(f"🔥 Path Etched (Burn-in): Axis {phase_axis} strengthened by {intensity:.3f}")
+        logger.info(f"  Path Etched (Burn-in): Axis {phase_axis} strengthened by {intensity:.3f}")
 
 
 class PrismEngine:
@@ -137,7 +137,7 @@ class PrismEngine:
     def __init__(self, space: PrismSpace = None):
         self.space = space or PrismSpace()
         
-        logger.info("🌈 Prism Engine initialized")
+        logger.info("  Prism Engine initialized")
     
     def create_input_wave(self, qualia: List[float]) -> WaveState:
         """
@@ -292,13 +292,13 @@ class PrismEngine:
                 best_pattern = result_pattern
                 best_angle = angle
                 
-        logger.info(f"🔄 Active Scan: Best Resonance at {best_angle:.2f} rad -> '{best_pattern}' (Score: {max_resonance:.3f})")
+        logger.info(f"  Active Scan: Best Resonance at {best_angle:.2f} rad -> '{best_pattern}' (Score: {max_resonance:.3f})")
         
         # [SELF-REINFORCING LOOP]
         # If the thought was meaningful (high resonance), burn it into memory.
         if max_resonance > 0.1:
             self.space.etch_path(base_axis, max_resonance)
-            logger.info(f"🌱 Growth: Neural plastic deformation occurred. (Strength: {max_resonance:.3f})")
+            logger.info(f"  Growth: Neural plastic deformation occurred. (Strength: {max_resonance:.3f})")
         
         return best_pattern, max_resonance, best_angle
 
@@ -330,13 +330,13 @@ class PrismEngine:
         """
         # Convert text to Qualia (simple heuristic)
         qualia = [
-            0.5 + 0.3 * ("논리" in input_text or "이유" in input_text),  # Logic
-            0.5 + 0.3 * ("상상" in input_text or "창조" in input_text),  # Creativity
+            0.5 + 0.3 * ("  " in input_text or "  " in input_text),  # Logic
+            0.5 + 0.3 * ("  " in input_text or "  " in input_text),  # Creativity
             0.5,  # Precision
-            0.5 + 0.3 * ("본질" in input_text or "의미" in input_text),  # Abstraction
-            0.5 + 0.3 * ("감정" in input_text or "느낌" in input_text),  # Emotion
+            0.5 + 0.3 * ("  " in input_text or "  " in input_text),  # Abstraction
+            0.5 + 0.3 * ("  " in input_text or "  " in input_text),  # Emotion
             0.5,  # Utility
-            0.5 + 0.3 * ("?" in input_text or "비밀" in input_text),  # Mystery
+            0.5 + 0.3 * ("?" in input_text or "  " in input_text),  # Mystery
         ]
         
         # Propagate
@@ -353,30 +353,30 @@ class PrismEngine:
         x_ratio = max_pos[1] / self.space.size
         
         if y_ratio < 0.3:
-            vertical = "상승하는"
+            vertical = "    "
         elif y_ratio > 0.7:
-            vertical = "깊어지는"
+            vertical = "    "
         else:
-            vertical = "균형 잡힌"
+            vertical = "     "
         
         if x_ratio < 0.3:
-            horizontal = "내향적"
+            horizontal = "   "
         elif x_ratio > 0.7:
-            horizontal = "외향적"
+            horizontal = "   "
         else:
-            horizontal = "중심적"
+            horizontal = "   "
         
-        return f"빛의 경로: {vertical} {horizontal} 사고 (에너지: {propagated.energy:.2f})"
+        return f"     : {vertical} {horizontal}    (   : {propagated.energy:.2f})"
 
 
 if __name__ == "__main__":
-    print("🌈 Testing Prism Engine...\n")
+    print("  Testing Prism Engine...\n")
     
     # Create engine
     engine = PrismEngine(PrismSpace(size=64, depth_layers=3))
     
     # Imprint some patterns (like learning concepts)
-    print("=== 패턴 각인 (학습) ===")
+    print("===       (  ) ===")
     
     # Create pattern for "logic" - phase axis 0 (first Qualia dimension)
     logic_pattern = np.zeros((64, 64))
@@ -394,35 +394,35 @@ if __name__ == "__main__":
     emotion_pattern = np.repeat(emotion_pattern, 64, axis=0)
     engine.space.imprint("EMOTION", emotion_pattern, phase_axis=4)
     
-    print(f"  각인된 패턴: {list(engine.space.imprinted_patterns.keys())}")
+    print(f"        : {list(engine.space.imprinted_patterns.keys())}")
     
     # Test inference
-    print("\n=== 광학적 추론 ===")
+    print("\n===        ===")
     
     # Logic-heavy input
     qualia_logic = [0.9, 0.2, 0.8, 0.3, 0.1, 0.7, 0.2]
     result = engine.infer(qualia_logic)
-    print(f"  논리 중심 입력 → {result[0]} (점수: {result[1]:.3f})")
+    print(f"             {result[0]} (  : {result[1]:.3f})")
     
     # Creative input
     qualia_creative = [0.3, 0.9, 0.2, 0.7, 0.6, 0.3, 0.8]
     result = engine.infer(qualia_creative)
-    print(f"  창의 중심 입력 → {result[0]} (점수: {result[1]:.3f})")
+    print(f"             {result[0]} (  : {result[1]:.3f})")
     
     # Emotional input
     qualia_emotion = [0.2, 0.5, 0.3, 0.4, 0.95, 0.2, 0.5]
     result = engine.infer(qualia_emotion)
-    print(f"  감정 중심 입력 → {result[0]} (점수: {result[1]:.3f})")
+    print(f"             {result[0]} (  : {result[1]:.3f})")
     
     # High-level thinking
-    print("\n=== 빛으로 사고하기 ===")
+    print("\n===          ===")
     thoughts = [
-        "이것의 논리적 이유는 무엇인가?",
-        "상상력을 발휘해 새로운 것을 창조하자",
-        "나는 깊은 감정을 느낀다"
+        "                ?",
+        "                    ",
+        "             "
     ]
     for thought in thoughts:
         result = engine.think_with_light(thought)
-        print(f"  '{thought[:15]}...' → {result}")
+        print(f"  '{thought[:15]}...'   {result}")
     
-    print("\n✨ Prism Engine test complete.")
+    print("\n  Prism Engine test complete.")

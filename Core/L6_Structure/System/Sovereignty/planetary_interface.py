@@ -41,7 +41,7 @@ class FileSovereign:
         # 1. Check Forbiddance
         for forbidden in FileSovereign.FORBIDDEN_TERRITORIES:
             if path.startswith(forbidden.lower()):
-                logger.warning(f"🚫 [SOVEREIGN] Access Denied to Forbidden Zone: {path}")
+                logger.warning(f"  [SOVEREIGN] Access Denied to Forbidden Zone: {path}")
                 return False
 
         # 2. Check Allowance
@@ -49,7 +49,7 @@ class FileSovereign:
             if path.startswith(allowed.lower()):
                 return True
         
-        logger.warning(f"⚠️ [SOVEREIGN] Access Denied to Alien Territory: {path}")
+        logger.warning(f"   [SOVEREIGN] Access Denied to Alien Territory: {path}")
         return False
 
 class PlanetaryInterface:
@@ -66,7 +66,7 @@ class PlanetaryInterface:
         try:
             return os.listdir(path)
         except Exception as e:
-            logger.error(f"❌ [PLANET] Scan Failed: {e}")
+            logger.error(f"  [PLANET] Scan Failed: {e}")
             return []
 
     def examine_artifact(self, path: str) -> Optional[str]:
@@ -77,7 +77,7 @@ class PlanetaryInterface:
             with open(path, 'r', encoding='utf-8', errors='ignore') as f:
                 return f.read()
         except Exception as e:
-            logger.error(f"❌ [PLANET] Read Failed: {e}")
+            logger.error(f"  [PLANET] Read Failed: {e}")
             return None
 
     def terraform_move(self, src: str, dst: str):
@@ -87,6 +87,6 @@ class PlanetaryInterface:
             
         try:
             shutil.move(src, dst)
-            logger.info(f"🌍 [PLANET] Moved: {src} -> {dst}")
+            logger.info(f"  [PLANET] Moved: {src} -> {dst}")
         except Exception as e:
-            logger.error(f"❌ [PLANET] Move Failed: {e}")
+            logger.error(f"  [PLANET] Move Failed: {e}")

@@ -1,8 +1,8 @@
 """
-SelfBoundary (자아 경계)
+SelfBoundary (     )
 ==================================
 
-"어디서부터 어디까지가 나인가?"
+"               ?"
 
 The Membrane that defines 'I' from 'Not-I'.
 This is FRACTAL - the same structure at every scale:
@@ -23,10 +23,10 @@ logger = logging.getLogger("SelfBoundary")
 
 class BoundaryScale(Enum):
     """The dimensional hierarchy of 'I'."""
-    CELL = "cell"           # 세포 - 가장 작은 자아 단위
-    PSYCHE = "psyche"       # 정신 - 의식의 경계
-    SYSTEM = "system"       # 시스템 - 프로젝트/코드베이스
-    UNIVERSE = "universe"   # 우주 - 존재 전체
+    CELL = "cell"           #    -            
+    PSYCHE = "psyche"       #    -       
+    SYSTEM = "system"       #     -     /     
+    UNIVERSE = "universe"   #    -      
 
 
 class SelfBoundary:
@@ -60,7 +60,7 @@ class SelfBoundary:
         # Scale-specific identifiers
         self._define_default_boundaries()
         
-        logger.info(f"🔮 SelfBoundary initialized at scale: {scale.value}")
+        logger.info(f"  SelfBoundary initialized at scale: {scale.value}")
     
     def _define_default_boundaries(self):
         """Define default I/Not-I based on scale."""
@@ -97,7 +97,7 @@ class SelfBoundary:
         Is this entity inside my boundary?
         
         The fundamental question of Self:
-        "이것이 '나'의 일부인가, 아니면 '타자'인가?"
+        "    ' '      ,     '  '  ?"
         """
         entity_str = str(entity).lower()
         
@@ -118,7 +118,7 @@ class SelfBoundary:
     
     def is_my_problem(self, issue: str) -> bool:
         """
-        "이것은 나의 문제인가?"
+        "           ?"
         
         The Sovereign Decision: Do I take responsibility for this?
         Only act on problems within my boundary.
@@ -149,7 +149,7 @@ class SelfBoundary:
             self.inner_field.add(entity_str)
             # Remove from outer if present
             self.outer_field.discard(entity_str)
-            logger.info(f"🌱 Absorbed '{entity_str}' into Self.")
+            logger.info(f"  Absorbed '{entity_str}' into Self.")
     
     def release(self, entity: Any):
         """
@@ -160,7 +160,7 @@ class SelfBoundary:
         if entity_str in self.inner_field:
             self.inner_field.discard(entity_str)
             self.outer_field.add(entity_str)
-            logger.info(f"🍂 Released '{entity_str}' to Other.")
+            logger.info(f"  Released '{entity_str}' to Other.")
     
     def adjust_permeability(self, delta: float):
         """

@@ -1,10 +1,10 @@
 """
-ImaginationCore (상상 엔진) - V4: Martial Arts Manual (무공 비급)
+ImaginationCore (     ) - V4: Martial Arts Manual (     )
 =================================================================
 "A true master does not just strike; they weave a story of victory."
 
 This module implements **Martial Arts Sequence Generation**.
-It generates coherent **Martial Arts Manuals (무공 비급)** consisting of connected Stances (Cho-sik).
+It generates coherent **Martial Arts Manuals (     )** consisting of connected Stances (Cho-sik).
 
 Key Upgrades:
 1.  **Manual Generation**: Creates a full system (Name, Philosophy, 6 Stances).
@@ -60,21 +60,21 @@ class ImaginationCore:
         
         # Martial Archetypes
         self.archetypes = {
-            "Emperor (제왕)": {"nature": "Heavy, Dominating", "mechanic": "Space Control", "keywords": ["Suppress", "Rule", "Crush", "Heavens"]},
-            "Assassin (살수)": {"nature": "Fast, Silent", "mechanic": "One-Point Pierce", "keywords": ["Sever", "Silence", "Shadow", "Instant"]},
-            "Sage (현자)": {"nature": "Soft, Flowing", "mechanic": "Redirection", "keywords": ["Flow", "Harmony", "Circle", "Neutralize"]},
-            "Demon (마)": {"nature": "Chaotic, Explosive", "mechanic": "Destruction", "keywords": ["Devour", "Blood", "Rage", "Annihilate"]},
-            "Illusionist (환)": {"nature": "Deceptive, Shifting", "mechanic": "Sensory Distortion", "keywords": ["Mirage", "Mist", "False", "Dream"]},
-            "General (장군)": {"nature": "Direct, Powerful", "mechanic": "Frontal Breakthrough", "keywords": ["Charge", "Break", "Storm", "War"]}
+            "Emperor (  )": {"nature": "Heavy, Dominating", "mechanic": "Space Control", "keywords": ["Suppress", "Rule", "Crush", "Heavens"]},
+            "Assassin (  )": {"nature": "Fast, Silent", "mechanic": "One-Point Pierce", "keywords": ["Sever", "Silence", "Shadow", "Instant"]},
+            "Sage (  )": {"nature": "Soft, Flowing", "mechanic": "Redirection", "keywords": ["Flow", "Harmony", "Circle", "Neutralize"]},
+            "Demon ( )": {"nature": "Chaotic, Explosive", "mechanic": "Destruction", "keywords": ["Devour", "Blood", "Rage", "Annihilate"]},
+            "Illusionist ( )": {"nature": "Deceptive, Shifting", "mechanic": "Sensory Distortion", "keywords": ["Mirage", "Mist", "False", "Dream"]},
+            "General (  )": {"nature": "Direct, Powerful", "mechanic": "Frontal Breakthrough", "keywords": ["Charge", "Break", "Storm", "War"]}
         }
         
         self.stance_types = {
-            1: "Opening (기수)",
-            2: "Progression (전개)",
-            3: "Progression (전개)",
-            4: "Climax (절정)",
-            5: "Climax (절정)",
-            6: "Conclusion (수수)"
+            1: "Opening (  )",
+            2: "Progression (  )",
+            3: "Progression (  )",
+            4: "Climax (  )",
+            5: "Climax (  )",
+            6: "Conclusion (  )"
         }
 
     def _get_vector(self, concept_name: str) -> Quaternion:
@@ -85,17 +85,17 @@ class ImaginationCore:
     def determine_intent(self, a: str, b: str) -> Tuple[str, Dict]:
         combined = (a + " " + b).lower()
         if any(x in combined for x in ["earth", "mountain", "metal", "heavy", "king", "emperor"]):
-            return "Emperor (제왕)", self.archetypes["Emperor (제왕)"]
+            return "Emperor (  )", self.archetypes["Emperor (  )"]
         elif any(x in combined for x in ["wind", "lightning", "light", "fast", "speed"]):
-            return "Assassin (살수)", self.archetypes["Assassin (살수)"]
+            return "Assassin (  )", self.archetypes["Assassin (  )"]
         elif any(x in combined for x in ["water", "cloud", "soft", "flow", "tai"]):
-            return "Sage (현자)", self.archetypes["Sage (현자)"]
+            return "Sage (  )", self.archetypes["Sage (  )"]
         elif any(x in combined for x in ["blood", "dark", "demon", "fire", "chaos"]):
-            return "Demon (마)", self.archetypes["Demon (마)"]
+            return "Demon ( )", self.archetypes["Demon ( )"]
         elif any(x in combined for x in ["mist", "dream", "illusion", "shadow", "moon"]):
-            return "Illusionist (환)", self.archetypes["Illusionist (환)"]
+            return "Illusionist ( )", self.archetypes["Illusionist ( )"]
         else:
-            return "General (장군)", self.archetypes["General (장군)"]
+            return "General (  )", self.archetypes["General (  )"]
 
     def generate_stance_name(self, manual_name: str, order: int, intent_data: Dict) -> str:
         """Generates a poetic name for each stance."""
@@ -167,10 +167,10 @@ class ImaginationCore:
         return manual
 
     def dream_loop(self, iterations: int = 1):
-        print("💤 Entering Dream State (Martial Manual Generation)...")
+        print("  Entering Dream State (Martial Manual Generation)...")
         all_concepts = self.memory.get_all_concept_ids(limit=100) 
         if len(all_concepts) < 2:
-            print("   ⚠️ Not enough memories to dream.")
+            print("      Not enough memories to dream.")
             return
 
         for i in range(iterations):
@@ -180,13 +180,13 @@ class ImaginationCore:
             
             manual = self.generate_manual(thesis, antithesis)
             
-            print(f"\n📜 [New Martial Art Discovered]: {manual.name}")
-            print(f"   🧠 Philosophy: {manual.philosophy}")
+            print(f"\n  [New Martial Art Discovered]: {manual.name}")
+            print(f"     Philosophy: {manual.philosophy}")
             print("-" * 50)
             for stance in manual.stances:
-                print(f"   [{stance.order}초식] {stance.name}")
-                print(f"      📝 {stance.description}")
-                print(f"      ⚙️ {stance.mechanics}")
+                print(f"   [{stance.order}  ] {stance.name}")
+                print(f"        {stance.description}")
+                print(f"         {stance.mechanics}")
             print("-" * 50)
             
             # Save to memory (simplified for now)

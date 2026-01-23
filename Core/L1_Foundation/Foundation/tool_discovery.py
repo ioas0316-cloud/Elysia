@@ -1,5 +1,5 @@
 """
-ToolDiscoveryProtocol (도구 발견 프로토콜)
+ToolDiscoveryProtocol (          )
 ========================================
 
 "I do not need to know everything. I just need to know how to find it."
@@ -22,7 +22,7 @@ class ToolDiscoveryProtocol:
     def __init__(self):
         self.known_tools = {} # Cache of discovered tools
         self.banned_modules = ["os", "shutil", "sys"] # Safety: Don't let her delete herself yet
-        logger.info("🛠️ Tool Discovery Protocol Active.")
+        logger.info("   Tool Discovery Protocol Active.")
 
     def scan_environment(self) -> List[str]:
         """

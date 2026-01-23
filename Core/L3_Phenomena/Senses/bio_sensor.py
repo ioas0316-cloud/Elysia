@@ -44,7 +44,7 @@ class BioSensor:
         self._poll_thread = threading.Thread(target=self._poll_loop, daemon=True)
         self._poll_thread.start()
 
-        logger.info(f"🔌 BioSensor Connected (Async Mode). Battery Sensing: {self.has_battery}")
+        logger.info(f"  BioSensor Connected (Async Mode). Battery Sensing: {self.has_battery}")
 
     def _poll_loop(self):
         """Background thread to poll hardware metrics."""

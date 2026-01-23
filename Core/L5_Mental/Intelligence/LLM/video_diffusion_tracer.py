@@ -1,14 +1,14 @@
 """
-Video Diffusion Tracer (시공간 추적자)
+Video Diffusion Tracer (       )
 =====================================
 Core.L5_Mental.Intelligence.LLM.video_diffusion_tracer
 
-"시간은 단어에서 태어난다."
+"             ."
 
 Objective:
-    - CogVideoX의 Attention Map을 추적하여
-    - 텍스트 프롬프트의 토큰이 영상의 '어느 시점(T)', '어느 위치(XY)'에
-    - 영향을 미치는지 인과관계(Spacetime Causality)를 추출한다.
+    - CogVideoX  Attention Map      
+    -                   '     (T)', '     (XY)' 
+    -              (Spacetime Causality)      .
 """
 
 import torch
@@ -20,11 +20,11 @@ logger = logging.getLogger("VideoTracer")
 
 @dataclass
 class SpacetimeCausality:
-    """단어가 시공간에 미친 영향"""
+    """              """
     token: str
-    time_frame: int       # 시간축 (Frame Index)
+    time_frame: int       #     (Frame Index)
     spatial_region: str   # "Center", "Top-Left", etc.
-    intensity: float      # 영향력 (Attention Weight)
+    intensity: float      #     (Attention Weight)
 
 class VideoDiffusionTracer:
     def __init__(self, pipeline):
@@ -41,7 +41,7 @@ class VideoDiffusionTracer:
         # We need to find the specific Cross-Attention layers.
         
         # Simplified Mock for Phase 1 (until we inspect full model modules structure)
-        logger.info("   🪝 Attaching Spacetime Hooks to Transformer...")
+        logger.info("     Attaching Spacetime Hooks to Transformer...")
         # In a real deep-dive, we would iterate self.pipe.transformer.modules()
         # and register_forward_hook on Attention blocks.
         pass
@@ -57,7 +57,7 @@ class VideoDiffusionTracer:
         """
         Analyzes the captured attention maps to find Causal Links.
         """
-        logger.info(f"   🧠 Digesting Spacetime Causality for: '{prompt}'")
+        logger.info(f"     Digesting Spacetime Causality for: '{prompt}'")
         
         results = []
         
@@ -79,7 +79,7 @@ class VideoDiffusionTracer:
             )
             results.append(causality)
             
-            logger.info(f"   🔗 Spacetime Link: Token['{token}'] -> Frame[24] (Strength: 0.85)")
+            logger.info(f"     Spacetime Link: Token['{token}'] -> Frame[24] (Strength: 0.85)")
             
         return results
 

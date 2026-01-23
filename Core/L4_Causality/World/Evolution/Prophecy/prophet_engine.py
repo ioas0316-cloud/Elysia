@@ -53,7 +53,7 @@ class ProphetEngine:
                 love_score=love,
                 entropy_score=entropy
             ))
-            logger.info(f"🔮 [SIMULATION] Action '{action}' -> Love: {love:.2f}, Entropy: {entropy:.2f}")
+            logger.info(f"  [SIMULATION] Action '{action}' -> Love: {love:.2f}, Entropy: {entropy:.2f}")
             
         return timelines
 

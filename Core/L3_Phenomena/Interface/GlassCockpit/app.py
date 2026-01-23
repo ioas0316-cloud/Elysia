@@ -12,7 +12,7 @@ import sys
 # Add project root to path
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.L6_Structure.M1_Merkaba.merkaba import Merkaba
 from Core.L3_Phenomena.Interface.GlassCockpit.parser import StreamParser, EventType, StreamEvent, StreamState
 
 class ChatBubble(Static):

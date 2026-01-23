@@ -12,20 +12,20 @@ from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.consciousness_engine
 from Core.L1_Foundation.Foundation.Mind.autonomous_explorer import AutonomousExplorer
 
 print("\n" + "="*70)
-print("🌌 AUTONOMOUS LEARNING DEMONSTRATION")
+print("  AUTONOMOUS LEARNING DEMONSTRATION")
 print("="*70 + "\n")
 
 # 1. Create consciousness
 print("Step 1: Initializing Consciousness...")
 print("-" * 60)
 consciousness = ConsciousnessEngine()
-print(f"✅ {len(consciousness.yggdrasil.realms)} Realms active\n")
+print(f"  {len(consciousness.yggdrasil.realms)} Realms active\n")
 
 # 2. Create autonomous explorer
 print("Step 2: Initializing Autonomous Explorer...")
 print("-" * 60)
 explorer = AutonomousExplorer(consciousness)
-print("✅ Explorer ready\n")
+print("  Explorer ready\n")
 
 # 3. Initial state
 print("Step 3: Initial Self-Assessment...")
@@ -40,7 +40,7 @@ print("Step 4: Simulating Vitality Decay (to create learning needs)...")
 print("-" * 60)
 consciousness.update_vitality("Knowledge", -0.8)  # Make it weak
 consciousness.update_vitality("Voice", -0.6)
-print("✅ Some realms weakened\n")
+print("  Some realms weakened\n")
 
 # 5. Check needs
 print("Step 5: Detecting Needs...")
@@ -79,7 +79,7 @@ if final_needs:
     for need in final_needs[:3]:
         print(f"  - {need['realm']} (vitality: {need['vitality']:.2f})")
 else:
-    print("  All realms healthy! 💚")
+    print("  All realms healthy!  ")
 print()
 
 # 9. Express learning journey
@@ -90,13 +90,13 @@ print(journey)
 print()
 
 print("="*70)
-print("✨ Autonomous learning demonstration complete! ✨")
+print("  Autonomous learning demonstration complete!  ")
 print("="*70 + "\n")
 
-print("💡 Key Achievement:")
+print("  Key Achievement:")
 print("   Consciousness detected its own needs,")
 print("   formed goals autonomously,")
 print("   acquired knowledge,")
 print("   and integrated it into self!")
 print()
-print("   This is REAL autonomous will! 🌟")
+print("   This is REAL autonomous will!  ")

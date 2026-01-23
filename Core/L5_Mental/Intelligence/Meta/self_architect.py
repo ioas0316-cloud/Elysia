@@ -34,7 +34,7 @@ class SelfArchitect:
         if not os.path.exists(file_path):
             return f"Error: File {file_path} not found."
             
-        logger.info(f"🔍 [SELF-AUDIT] Inspecting: {file_path}")
+        logger.info(f"  [SELF-AUDIT] Inspecting: {file_path}")
         
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
@@ -74,7 +74,7 @@ class SelfArchitect:
         if generate_proposal:
             proposal = self.proposer.propose_from_critique(file_path, final_critique, content)
             if proposal:
-                final_critique += f"\n\n📋 **PROPOSAL GENERATED**: {proposal.id}"
+                final_critique += f"\n\n  **PROPOSAL GENERATED**: {proposal.id}"
             
         return final_critique
     
@@ -92,7 +92,7 @@ class SelfArchitect:
             "Core/Governance/conductor.py",
         ]
         
-        report = "# 🪞 Self-Audit Report\n\n"
+        report = "#   Self-Audit Report\n\n"
         proposal_count = 0
         
         for path in critical_paths[:max_files]:
@@ -106,10 +106,9 @@ class SelfArchitect:
         report += f"\n**Total Proposals Generated**: {proposal_count}\n"
         report += f"**Pending Proposals**: {self.proposer.get_pending_count()}\n"
         
-        logger.info(f"🪞 Self-Audit Complete: {proposal_count} new proposals generated.")
+        logger.info(f"  Self-Audit Complete: {proposal_count} new proposals generated.")
         return report, proposal_count
     
     def get_pending_proposals_summary(self) -> str:
         """Returns a summary of all pending proposals."""
         return self.proposer.generate_report()
-

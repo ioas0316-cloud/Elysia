@@ -42,13 +42,13 @@ class ArcheEngine:
     The Deconstructor.
     """
     def __init__(self):
-        logger.info("🏺 Arche Engine Initialized")
+        logger.info("  Arche Engine Initialized")
 
     def deconstruct(self, phenomenon: Phenomenon) -> Phenomenon:
         """
         Recursively analyzes the phenomenon to find its Origin.
         """
-        logger.info(f"🔍 Deconstructing Phenomenon: {phenomenon.name}")
+        logger.info(f"  Deconstructing Phenomenon: {phenomenon.name}")
         
         # 1. Surface Analysis (Manifestation)
         surface = self._analyze_surface(phenomenon.raw_data)

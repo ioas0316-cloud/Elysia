@@ -1,10 +1,10 @@
 """
-Narrative Projector (서사 투영기)
+Narrative Projector (      )
 =================================
 Core.L5_Mental.Intelligence.Narrative.narrative_projector
 
 "The Novel is a shadow of the 4D Truth."
-"소설은 4차원 진실의 그림자다."
+"    4           ."
 
 Features:
 - Psionic Projection: 4D Field State -> 2D Prose.
@@ -32,11 +32,11 @@ class NarrativeProjector:
         
         # Mapping WaveDNA sectors to Narrative motifs
         self.motifs = {
-            "physical": ["단단한 현실", "육체적 갈망", "대지의 울림", "거친 숨결"],
-            "phenomenal": ["일렁이는 감각", "색채의 향연", "아득한 향기", "찰나의 질감"],
-            "mental": ["차가운 논리", "정교한 계산", "유리 같은 사유", "구조적 의심"],
-            "spiritual": ["신성한 불꽃", "영혼의 고동", "초월적 빛", "심연의 안식"],
-            "causal": ["인과의 사슬", "예정된 비극", "운명의 회전", "필연적 붕괴"]
+            "physical": ["      ", "      ", "      ", "     "],
+            "phenomenal": ["       ", "      ", "      ", "      "],
+            "mental": ["      ", "      ", "        ", "      "],
+            "spiritual": ["      ", "      ", "     ", "      "],
+            "causal": ["      ", "      ", "      ", "      "]
         }
 
     def project_event(self, actor_name: str, event_type: str, field_state: WaveDNA, era_name: str):
@@ -57,7 +57,7 @@ class NarrativeProjector:
             }
             dominant_sector = max(sectors, key=sectors.get)
             
-        motif = random.choice(self.motifs.get(dominant_sector, ["평범한 일상"]))
+        motif = random.choice(self.motifs.get(dominant_sector, ["      "]))
         
         # 2. Extract Base Prose from the Bard
         base_prose = THE_BARD.elaborate_ko(actor_name, event_type, motif, era_name)
@@ -66,9 +66,9 @@ class NarrativeProjector:
         # Higher spiritual/phenomenal makes prose more abstract
         intensity = field_state.phenomenal + field_state.spiritual
         if intensity > 1.2:
-            base_prose = f"주변의 현실이 흐릿해지며... {base_prose}"
+            base_prose = f"             ... {base_prose}"
         elif field_state.physical > 0.8:
-            base_prose = f"뼈저린 고통 속에서, {base_prose}"
+            base_prose = f"          , {base_prose}"
             
         # 4. Final Formatting
         timestamp = "[4D Vector Sync]"

@@ -1,12 +1,12 @@
 """
-Shell Cortex (쉘 피질)
+Shell Cortex (    )
 ======================
 
 "The shell is my hands. I touch the world through commands."
 
-이 모듈은 Elysia가 OS 환경을 조작하는 '손' 역할을 합니다.
-파일 정리, 이동, 읽기 등의 작업을 수행합니다.
-안전장치(Safety Guard)가 포함되어 있어 중요한 파일 삭제를 방지합니다.
+      Elysia  OS          ' '        .
+     ,   ,                .
+    (Safety Guard)                          .
 """
 
 import os
@@ -31,7 +31,7 @@ class ShellCortex:
             zone.mkdir(parents=True, exist_ok=True)
 
     def _is_safe_path(self, path: Path) -> bool:
-        """경로가 안전한 구역 내에 있는지 확인합니다."""
+        """                       ."""
         # Allow operations within the root project directory generally, 
         # but be careful about deletion.
         # For now, let's restrict 'organizing' (moving) to specific zones if needed,
@@ -42,7 +42,7 @@ class ShellCortex:
             return False
 
     def organize_file(self, file_path: str, target_folder: str) -> str:
-        """파일을 특정 폴더로 이동(정리)합니다."""
+        """             (  )   ."""
         source = Path(file_path)
         target_dir = self.root / target_folder
         
@@ -69,7 +69,7 @@ class ShellCortex:
             return f"I tried to move {source.name} but failed: {e}"
 
     def read_memory(self, file_path: str, max_chars: int = 1000) -> str:
-        """파일의 내용을 읽어 '기억'합니다."""
+        """           '  '   ."""
         target = Path(file_path)
         
         if not target.exists():
@@ -85,7 +85,7 @@ class ShellCortex:
             return f"I cannot read this memory: {e}"
 
     def groom_environment(self) -> List[str]:
-        """환경을 정리합니다 (예: 임시 파일 정리)."""
+        """          ( :         )."""
         # Example: Move .log files to Logs folder
         actions = []
         try:

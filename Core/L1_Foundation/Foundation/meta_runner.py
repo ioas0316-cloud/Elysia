@@ -20,11 +20,11 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("MetaRunner")
 
 PROMPTS = [
-    "무엇을 더 배워야 할까?",
-    "최근에 놓친 개념은 무엇이지?",
-    "기억 속 위상과 가치가 어긋난 부분은?",
-    "지금 가장 개선이 필요한 역량은?",
-    "새로운 연결을 만들 수 있는 개념은?",
+    "            ?",
+    "               ?",
+    "                    ?",
+    "                 ?",
+    "                   ?",
 ]
 
 
@@ -34,12 +34,12 @@ def pick_question():
         deficits = caps.deficits(threshold=0.6)
         if deficits:
             rec = random.choice(deficits)
-            return f"{rec.name} 역량을 높이려면 무엇을 시도해야 할까?"
+            return f"{rec.name}                     ?"
     # add core values prompts to diversify
     core_vals = getattr(kernel, "core_values", {})
     if core_vals:
         key = random.choice(list(core_vals.keys()))
-        return f"{key}을(를) 더 깊이 느끼고 표현하려면 무엇을 해야 할까?"
+        return f"{key} ( )                         ?"
     return random.choice(PROMPTS)
 
 

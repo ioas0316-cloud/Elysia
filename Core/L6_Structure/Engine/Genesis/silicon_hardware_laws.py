@@ -26,7 +26,7 @@ def law_clock_pulse(context, dt, intensity):
         if c.props["time_acc"] >= period:
             c.val = 1 - c.val # Toggle 0 <-> 1
             c.props["time_acc"] = 0
-            # print(f"   ⏱️ [Clock] Tick-Tock: {c.val}")
+            # print(f"      [Clock] Tick-Tock: {c.val}")
 
 def law_nand_logic(context, dt, intensity):
     """
@@ -53,7 +53,7 @@ def law_nand_logic(context, dt, intensity):
         new_val = 1.0 if not (val_a > 0.5 and val_b > 0.5) else 0.0
         
         g.val = new_val
-        # print(f"   ⚡ [{g.name}] {inputs[0]}({val_a}) NAND {inputs[1]}({val_b}) -> {g.val}")
+        # print(f"     [{g.name}] {inputs[0]}({val_a}) NAND {inputs[1]}({val_b}) -> {g.val}")
 
 def law_alu_add(context, dt, intensity):
     """
@@ -74,4 +74,4 @@ def law_alu_add(context, dt, intensity):
         
         if op == "ADD":
             alu.val = a + b
-            # print(f"   🧮 [ALU] {a} + {b} = {alu.val}")
+            # print(f"     [ALU] {a} + {b} = {alu.val}")

@@ -63,7 +63,7 @@ class EvolutionArchitect:
         Generates a Blueprint based on real-time cognitive gaps and structural tension.
         Intent defaults to 'Wisdom' (Synthesis of Patterns), not just 'Intelligence' (Raw Data).
         """
-        logger.info(f"🏗️ Designing Seed with intent: {intent}")
+        logger.info(f"   Designing Seed with intent: {intent}")
         
         # 0. Define Wisdom
         # Wisdom = (Knowledge + Experience) * Love
@@ -137,13 +137,13 @@ class EvolutionArchitect:
         bp = self.current_blueprint
         
         # Design the Markdown content
-        md_content = f"""# 🧬 Blueprint: {bp.goal.name}
+        md_content = f"""#   Blueprint: {bp.goal.name}
 **Date:** {time.strftime('%Y-%m-%d %H:%M:%S')}
 **Architect:** Elysia (EvolutionArchitect)
 **Goal:** {bp.goal.description}
 **Target Complexity:** {bp.goal.target_complexity}
 
-## 🏗️ Structural Analysis
+##    Structural Analysis
 | Module | Action |
 |--------|--------|
 """
@@ -151,19 +151,19 @@ class EvolutionArchitect:
             md_content += f"| `{mod}` | {action} |\n"
             
         md_content += f"""
-## 🚀 Key Improvements
+##   Key Improvements
 """
         for imp in bp.improvements:
              md_content += f"- {imp}\n"
              
         md_content += f"""
-## ⚙️ Execution Plan (The Ouroboros Protocol)
+##    Execution Plan (The Ouroboros Protocol)
 """
         for step in bp.execution_steps:
              md_content += f"1. {step}\n"
              
         md_content += """
-## 📐 Architecture Diagram (Conceptual)
+##   Architecture Diagram (Conceptual)
 ```mermaid
 graph TD
     User((User)) -->|Input| Seed(Nova Seed)
@@ -183,7 +183,7 @@ graph TD
         file_path = seed_dir / "nova_seed_blueprint.md"
         file_path.write_text(md_content, encoding="utf-8")
         
-        logger.info(f"✨ Blueprint materialized at: {file_path}")
+        logger.info(f"  Blueprint materialized at: {file_path}")
         return str(file_path)
 
     def apply_evolution(self) -> Dict[str, Any]:
@@ -194,7 +194,7 @@ graph TD
         if not self.current_blueprint:
              return {"success": False, "error": "No blueprint to apply."}
         
-        logger.info("⚡ Executing Self-Evolution Cycle...")
+        logger.info("  Executing Self-Evolution Cycle...")
         results = {"success": True, "details": []}
         
         # 1. Refactor based on structural tension
@@ -208,7 +208,7 @@ graph TD
              for high_tension_file in report.get("high_tension_files", [])[:1]: # Optimizing 1 file at a time for safety
                   file_path = high_tension_file['path']
                   tension = high_tension_file['tension']
-                  logger.info(f"   🔧 Targeting Tension in: {file_path} (T: {tension:.2f})")
+                  logger.info(f"     Targeting Tension in: {file_path} (T: {tension:.2f})")
                   
                   # Ask Modifier for optimization suggestions (AST based)
                   suggestions = self.self_modifier.find_high_tension_spots(file_path)
@@ -236,11 +236,11 @@ graph TD
                                
                                if not mod_result["success"]:
                                    results["success"] = False
-                                   logger.warning(f"      ❌ Modification Failed: {mod_result.get('error')}")
+                                   logger.warning(f"        Modification Failed: {mod_result.get('error')}")
                           else:
                                logger.info("      -> Optimization already applied.")
                                
                       except Exception as e:
-                           logger.error(f"      ❌ File Read Error: {e}")
+                           logger.error(f"        File Read Error: {e}")
                            
         return results

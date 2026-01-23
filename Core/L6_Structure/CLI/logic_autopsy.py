@@ -15,10 +15,10 @@ import json
 import logging
 import numpy as np
 import struct
-from Core.L6_Structure.Merkaba.simulator import RotorSimulator
-from Core.L6_Structure.Merkaba.semantic_atlas import SemanticAtlas
-from Core.L6_Structure.Merkaba.portal import MerkabaPortal
-from Core.L6_Structure.Merkaba.safetensors_decoder import SafetensorsDecoder
+from Core.L6_Structure.M1_Merkaba.simulator import RotorSimulator
+from Core.L6_Structure.M1_Merkaba.semantic_atlas import SemanticAtlas
+from Core.L6_Structure.M1_Merkaba.portal import MerkabaPortal
+from Core.L6_Structure.M1_Merkaba.safetensors_decoder import SafetensorsDecoder
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("Elysia.Autopsy")

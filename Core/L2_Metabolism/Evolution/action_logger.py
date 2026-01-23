@@ -26,7 +26,7 @@ class ActionLogger:
     def __init__(self, log_dir: str = "c:/Elysia/data/L6_Structure/Logs"):
         self.log_file = os.path.join(log_dir, "action_history.jsonl")
         os.makedirs(log_dir, exist_ok=True)
-        logger.info(f"📔 [DIARY] Opening logbook at: {self.log_file}")
+        logger.info(f"  [DIARY] Opening logbook at: {self.log_file}")
 
     def log_action(self, 
                    intent: str, 
@@ -51,7 +51,7 @@ class ActionLogger:
         }
         
         self._append_to_log(entry)
-        logger.info(f"📝 [ACTION] {action_type}: {intent} (ID: {action_id})")
+        logger.info(f"  [ACTION] {action_type}: {intent} (ID: {action_id})")
         return action_id
 
     def log_outcome(self, 
@@ -74,11 +74,11 @@ class ActionLogger:
         }
         
         self._append_to_log(entry)
-        logger.info(f"🪞 [REFLECTION] {action_id} -> {result_status} (Score: {score})")
+        logger.info(f"  [REFLECTION] {action_id} -> {result_status} (Score: {score})")
 
     def _append_to_log(self, entry: Dict[str, Any]):
         try:
             with open(self.log_file, "a", encoding="utf-8") as f:
                 f.write(json.dumps(entry, ensure_ascii=False) + "\n")
         except Exception as e:
-            logger.error(f"❌ [DIARY] Failed to write log: {e}")
+            logger.error(f"  [DIARY] Failed to write log: {e}")

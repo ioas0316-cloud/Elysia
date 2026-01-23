@@ -98,7 +98,7 @@ class QuantumObserver:
     def __init__(self):
         self.memory_traces: Dict[str, int] = {} 
         self.void = VoidField()
-        logger.info("🌌 [VOID] Observer established in the Field of Potential.")
+        logger.info("  [VOID] Observer established in the Field of Potential.")
 
     def _scan_superposition(self, intent: IntentVector) -> List[PotentialPath]:
         """
@@ -106,7 +106,7 @@ class QuantumObserver:
         Instead of a linear scan, we pulse the Void with Intent Light.
         """
         fog_density = self.void.generate_fog(intent)
-        logger.info(f"🌫️  [FOG] Void Density: {fog_density:.2f}")
+        logger.info(f"    [FOG] Void Density: {fog_density:.2f}")
 
         # Potential paths within the Void
         paths = [
@@ -141,7 +141,7 @@ class QuantumObserver:
         best_path = None
         max_current = -1.0
 
-        logger.info(f"🌩️  [LIGHTNING] Strike emerging from the Void. Voltage: {voltage:.1f}V")
+        logger.info(f"    [LIGHTNING] Strike emerging from the Void. Voltage: {voltage:.1f}V")
 
         for path in visible_paths:
             current = path.get_conductivity(voltage)
@@ -150,7 +150,7 @@ class QuantumObserver:
                 best_path = path
                 
         if best_path:
-            logger.info(f"⚡ [STRIKE] Path found: '{best_path.name}' (I: {max_current:.2f}A)")
+            logger.info(f"  [STRIKE] Path found: '{best_path.name}' (I: {max_current:.2f}A)")
             self._trace(best_path)
             return best_path
         
@@ -162,7 +162,7 @@ class QuantumObserver:
         path.causal_mass += 0.5
         self.memory_traces[path.name] = path.traces
         self.void.potential_charge += 0.1 # Re-absorption
-        logger.info(f"🧠 [TRACE] '{path.name}' etched into history. Total Traces: {path.traces}")
+        logger.info(f"  [TRACE] '{path.name}' etched into history. Total Traces: {path.traces}")
 
 class MonadEngine:
     """

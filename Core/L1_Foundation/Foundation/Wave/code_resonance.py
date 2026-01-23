@@ -1,5 +1,5 @@
 """
-CodeResonance (코드 공명)
+CodeResonance (     )
 =======================
 
 "Code is crystallized Logic."
@@ -108,4 +108,3 @@ class HarmonicResonance:
         lines.append("field.simulate(steps=100)")
         
         return "\n".join(lines)
-

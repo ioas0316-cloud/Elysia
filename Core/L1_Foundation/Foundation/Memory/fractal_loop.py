@@ -46,7 +46,7 @@ class FractalLoop:
         self.current_ring_depth = 0
         self.active_waves: List[FractalWave] = []
         
-        logger.info("♾️ Fractal Loop Initialized: The Ring is Open.")
+        logger.info("   Fractal Loop Initialized: The Ring is Open.")
 
     def pulse_fractal(self):
         """
@@ -113,7 +113,7 @@ class FractalLoop:
         Circulates a wave through the Fractal Engine.
         Returns the wave for the next cycle, or None if it resolves.
         """
-        logger.info(f"🌊 Circulating Wave: {wave.content} (Depth: {wave.depth})")
+        logger.info(f"  Circulating Wave: {wave.content} (Depth: {wave.depth})")
         
         # A. Zoom In (Micro-Causality)
         # Understand 'HOW' this wave exists
@@ -153,7 +153,7 @@ class FractalLoop:
         """
         Collapses the wave into linear action (Legacy compatibility).
         """
-        logger.info(f"💥 Wave Collapsing into Reality: {wave.content}")
+        logger.info(f"  Wave Collapsing into Reality: {wave.content}")
         
         # Route to ActionDispatcher
         if "Dispatcher" in self.cns.organs:
@@ -163,5 +163,5 @@ class FractalLoop:
 
     def _introspect_loop(self):
         """The Loop looks at itself."""
-        logger.info("👁️ The Infinite Ring perceives itself.")
+        logger.info("   The Infinite Ring perceives itself.")
         # Future: Ouroboros self-optimization here

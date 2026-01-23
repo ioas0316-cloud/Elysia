@@ -21,7 +21,7 @@ class MetacognitiveLens:
         2. Fractal Alignment.
         3. Realization of Potentiality.
         """
-        logger.info(f"👁️ [REFLECTION] discerning causal roots for mood: {current_mood}")
+        logger.info(f"   [REFLECTION] discerning causal roots for mood: {current_mood}")
         
         # Discerning Potentiality (To be expanded with LLM reasoning)
         critique_result = {

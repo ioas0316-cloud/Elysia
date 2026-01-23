@@ -1,5 +1,5 @@
 """
-Purpose Field (목적론적 장)
+Purpose Field (      )
 ===========================
 
 "I am not just moving; I am becoming."
@@ -61,7 +61,7 @@ class PurposeField:
         # Serotonin Level (Satisfaction)
         self.satisfaction = 0.5
 
-        logger.info("🧭 PurposeField Active. (Existential Navigation & Grounding Enabled)")
+        logger.info("  PurposeField Active. (Existential Navigation & Grounding Enabled)")
 
     def calculate_direction(self) -> Tuple[Quaternion, str]:
         """
@@ -114,12 +114,12 @@ class PurposeField:
         if experience_type == "Pain":
             self.ideal_self.q.w -= shift
             self.ideal_self.q.z -= shift
-            logger.info(f"   🛡️ Standards Shifted: Recoiling from Pain")
+            logger.info(f"      Standards Shifted: Recoiling from Pain")
 
         elif experience_type == "Love":
             self.ideal_self.q.x += shift
             self.ideal_self.q.y += shift
-            logger.info(f"   ❤️ Standards Shifted: Expanded by Love")
+            logger.info(f"      Standards Shifted: Expanded by Love")
 
             # Love also deepens the Ground
             self.ground.deepen_root("Connection")
@@ -127,7 +127,7 @@ class PurposeField:
         elif experience_type == "Mystery":
             self.horizon_radius += shift
             self.ideal_self.q.w += shift
-            logger.info(f"   🔭 Standards Shifted: Curiosity widened the Horizon")
+            logger.info(f"     Standards Shifted: Curiosity widened the Horizon")
 
         # Normalize
         self.ideal_self.q = self.ideal_self.q.normalize()

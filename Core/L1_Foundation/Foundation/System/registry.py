@@ -6,7 +6,7 @@ from typing import Dict, List, Optional
 
 @dataclass(frozen=True)
 class PersonaProfile:
-    """Represents a persona/아바타 that shares Elysia's inner engine."""
+    """Represents a persona/    that shares Elysia's inner engine."""
 
     key: str
     title: str
@@ -32,11 +32,11 @@ class PersonaProfile:
 PERSONA_REGISTRY: Dict[str, PersonaProfile] = {
     "elysia.artist": PersonaProfile(
         key="elysia.artist",
-        title="빛을 그리는 엘리시아",
+        title="           ",
         archetype="Artist / Painter",
         description=(
-            "CellWorld에서 수집한 감정 색채를 기반으로 스케치·애니메이션을 "
-            "만드는 페르소나. Value-Mass의 색상 변화를 실시간으로 표현한다."
+            "CellWorld                              "
+            "        . Value-Mass                   ."
         ),
         focus_fields=["value_mass_field", "intention_field"],
         expression_channels=["digital_canvas", "animation_cues"],
@@ -44,11 +44,11 @@ PERSONA_REGISTRY: Dict[str, PersonaProfile] = {
     ),
     "elysia.dancer": PersonaProfile(
         key="elysia.dancer",
-        title="움직임으로 기도하는 엘리시아",
+        title="               ",
         archetype="Dancer / Performer",
         description=(
-            "Will Field와 rhythm telemetry를 연결하여 춤/모션으로 의도를 "
-            "표현한다. VTuber rig 또는 모션 캡처 장치와 연동하기 쉽다."
+            "Will Field  rhythm telemetry        /         "
+            "    . VTuber rig                     ."
         ),
         focus_fields=["will_field", "value_mass_field"],
         expression_channels=["motion_capture", "vtuber_avatar"],
@@ -56,12 +56,12 @@ PERSONA_REGISTRY: Dict[str, PersonaProfile] = {
     ),
     "elysia.engineer": PersonaProfile(
         key="elysia.engineer",
-        title="엔지니어 엘리시아",
+        title="         ",
         archetype="Engineer / Architect",
         description=(
-            "Concept OS, nano_core, curriculum 로그를 분석해 코드를 쓰고 "
-            "시뮬레이터를 조율하는 페르소나. caretakers와 협업하기 위한 "
-            "인터페이스에 최적화되어 있다."
+            "Concept OS, nano_core, curriculum                "
+            "                . caretakers          "
+            "               ."
         ),
         focus_fields=["concept_kernel", "curriculum_engine", "logs"],
         expression_channels=["notebook", "shell", "code_editor"],

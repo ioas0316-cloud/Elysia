@@ -37,7 +37,7 @@ class PrismHarmonizer:
         self.genome = {} # Formerly 'profiles' - part of the Unified Taxonomy
         self._initialize_default_genome()
         self.load_state()
-        logger.info(f"🧬 [GENOME] Harmonizer initialized with state: {self.state_path}")
+        logger.info(f"  [GENOME] Harmonizer initialized with state: {self.state_path}")
 
     def _initialize_default_genome(self):
         """Standardizes the starting cognitive genome."""
@@ -83,7 +83,7 @@ class PrismHarmonizer:
     def load_state(self):
         """Loads weights from JSON if it exists."""
         if not os.path.exists(self.state_path):
-            logger.info(f"🌱 No DNA state found at {self.state_path}. Using default genome.")
+            logger.info(f"  No DNA state found at {self.state_path}. Using default genome.")
             return
 
         try:
@@ -93,9 +93,9 @@ class PrismHarmonizer:
                     # Map strings back to PrismDomain enums
                     enum_map = {PrismDomain[k]: v for k, v in weight_map.items() if k in PrismDomain.__members__}
                     self.genome[ctx_name] = enum_map
-            logger.info(f"🧬 [GENOME] State successfully inducted from {self.state_path}.")
+            logger.info(f"  [GENOME] State successfully inducted from {self.state_path}.")
         except Exception as e:
-            logger.error(f"⚠️ Failed to load DNA state: {e}")
+            logger.error(f"   Failed to load DNA state: {e}")
 
     def save_state(self):
         """Saves current weights to JSON."""
@@ -108,9 +108,9 @@ class PrismHarmonizer:
             
             with open(self.state_path, "w", encoding="utf-8") as f:
                 json.dump(json_data, f, indent=4)
-            logger.info(f"💾 [GENOME] State archived to {self.state_path}.")
+            logger.info(f"  [GENOME] State archived to {self.state_path}.")
         except Exception as e:
-            logger.error(f"⚠️ Failed to archive DNA state: {e}")
+            logger.error(f"   Failed to archive DNA state: {e}")
 
     def harmonize(self, projection: Dict[PrismDomain, float], context: str = "Default") -> Dict[PrismDomain, float]:
         """Applies genome weights based on context."""

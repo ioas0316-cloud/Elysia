@@ -1,22 +1,22 @@
-"""dream 개념 찾기"""
+"""dream      """
 import sqlite3
 
 conn = sqlite3.connect('data/Memory/memory.db')
 cursor = conn.cursor()
 
-print('dream 관련 개념 검색:')
+print('dream         :')
 cursor.execute("SELECT id FROM concepts WHERE id LIKE '%dream%' LIMIT 30")
 results = cursor.fetchall()
 
-print(f'\n총 {len(results)}개 발견:\n')
+print(f'\n  {len(results)}    :\n')
 for r in results:
     print(f'  - {r[0]}')
 
-print('\n\nlove 관련 개념 검색:')
+print('\n\nlove         :')
 cursor.execute("SELECT id FROM concepts WHERE id LIKE '%love%' LIMIT 30")
 results = cursor.fetchall()
 
-print(f'\n총 {len(results)}개 발견:\n')
+print(f'\n  {len(results)}    :\n')
 for r in results:
     print(f'  - {r[0]}')
 

@@ -124,23 +124,23 @@ class DialogueLawEvaluator:
 
         # Minimal keyword sets; these can be expanded or externalized later.
 
-        self._life_keywords = {"살다", "살려", "회복", "안전", "휴식", "rest", "recover", "breathe"}
+        self._life_keywords = {"  ", "  ", "  ", "  ", "  ", "rest", "recover", "breathe"}
 
-        self._harm_keywords = {"죽", "파괴", "해치", "해를", "harm", "kill", "destroy"}
+        self._harm_keywords = {" ", "  ", "  ", "  ", "harm", "kill", "destroy"}
 
 
 
-        self._creation_keywords = {"만들", "창조", "설계", "새로운", "build", "create", "design"}
+        self._creation_keywords = {"  ", "  ", "  ", "   ", "build", "create", "design"}
 
-        self._reflection_keywords = {"생각해보", "돌아보", "성찰", "reflect", "reconsider", "느꼈어"}
+        self._reflection_keywords = {"    ", "   ", "  ", "reflect", "reconsider", "   "}
 
-        self._truth_keywords = {"솔직", "정직", "진실", "사실은", "honest", "truth", "actually"}
+        self._truth_keywords = {"  ", "  ", "  ", "   ", "honest", "truth", "actually"}
 
-        self._sacrifice_keywords = {"양보", "포기", "내려놓", "기다릴게", "yield", "give up"}
+        self._sacrifice_keywords = {"  ", "  ", "   ", "    ", "yield", "give up"}
 
-        self._love_keywords = {"사랑", "고마워", "미안", "소중", "care", "thank", "sorry"}
+        self._love_keywords = {"  ", "   ", "  ", "  ", "care", "thank", "sorry"}
 
-        self._liberation_keywords = {"자유", "열어", "선택", "해방", "가능", "freedom", "choice"}
+        self._liberation_keywords = {"  ", "  ", "  ", "  ", "  ", "freedom", "choice"}
 
 
 
@@ -224,7 +224,7 @@ class DialogueLawEvaluator:
 
             scores.truth += 0.6
 
-        if "모르겠" in text or "i don't know" in text_lower:
+        if "   " in text or "i don't know" in text_lower:
 
             scores.truth += 0.8
 
@@ -258,7 +258,7 @@ class DialogueLawEvaluator:
 
             scores.liberation += 0.7
 
-        if "할 수도" in text or "could" in text_lower:
+        if "    " in text or "could" in text_lower:
 
             scores.liberation += 0.3
 
@@ -335,6 +335,5 @@ class DialogueLawEvaluator:
             return "no strong law alignment detected"
 
         return ", ".join(entries)
-
 
 

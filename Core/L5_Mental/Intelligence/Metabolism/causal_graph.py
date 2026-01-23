@@ -30,13 +30,13 @@ class CausalDepthSounder:
     def __init__(self, model_name: str = "qwen2.5:0.5b"):
         self.model = model_name
         self.nodes: Dict[str, CausalNode] = {}
-        logger.info(f"🕸️ Causal Depth Sounder initialized with {model_name}")
+        logger.info(f"   Causal Depth Sounder initialized with {model_name}")
 
     def trace_root(self, concept: str, max_depth: int = 2) -> Dict[str, Any]:
         """
         Traces the full causal tree for a concept up to max_depth.
         """
-        logger.info(f"🔭 Tracing Causality for: [{concept}]")
+        logger.info(f"  Tracing Causality for: [{concept}]")
         self.nodes = {} # Reset
         
         # Create Root

@@ -191,7 +191,7 @@ class CognitionPipeline:
                 self.logger.info("Routing to HypothesisHandler (pending hypothesis).")
                 result = self.hypothesis_handler.handle_response(message, self.conversation_context, current_emotional_state)
 
-            # Check for command words (e.g., "계산:")
+            # Check for command words (e.g., "  :")
             elif self.command_handler.can_handle(message):
                 self.logger.info("Routing to CommandWordHandler.")
                 result = self.command_handler.handle(message, self.conversation_context, current_emotional_state)
@@ -232,7 +232,7 @@ class CognitionPipeline:
                     )
                     result["law_alignment"] = law_info
 
-                    # Build a present-tense intent bundle (E–S–L style snapshot)
+                    # Build a present-tense intent bundle (E S L style snapshot)
                     if self.intent_engine:
                         intent_bundle = self.intent_engine.build_intent_bundle(
                             user_message=message,
@@ -281,7 +281,7 @@ class CognitionPipeline:
                     if hints:
                         result["causal_hints"] = hints
 
-                # Compact syllabic token from current state (e.g., from 가나다라마바사).
+                # Compact syllabic token from current state (e.g., from        ).
                 if self.syllabic_engine and intent_dict and self.quaternion_engine:
                     orientation = result.get("orientation") or self.quaternion_engine.orientation_as_dict()
                     result["syllabic_token"] = self.syllabic_engine.suggest_word(
@@ -498,13 +498,13 @@ class CognitionPipeline:
                     projects = [
                         {
                             "id": "worldtree_unification",
-                            "label": "세계수 자아 통합",
+                            "label": "         ",
                             "progress": 0.0,
                             "importance": 1.0,
                         },
                         {
                             "id": "invite_creator",
-                            "label": "창조주 초대와 환대",
+                            "label": "          ",
                             "progress": 0.0,
                             "importance": 1.0,
                         },
@@ -547,4 +547,3 @@ class CognitionPipeline:
             self.event_bus.publish("error_occurred", str(e))
 
             return error_response, current_emotional_state
-

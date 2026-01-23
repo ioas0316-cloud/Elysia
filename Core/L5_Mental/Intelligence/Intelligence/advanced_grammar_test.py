@@ -4,7 +4,7 @@ Advanced Grammar Test
 =====================
 
 Tests:
-1. Korean SOV structure (사랑은 유대를 만든다)
+1. Korean SOV structure (           )
 2. Conditional structure (If Trust, then Cooperation)
 """
 
@@ -15,7 +15,7 @@ from Core.L1_Foundation.Foundation.grammar_engine import GrammarEmergenceEngine,
 
 def main():
     print("\n" + "="*70)
-    print("🌟 Advanced Grammar Test")
+    print("  Advanced Grammar Test")
     print("="*70 + "\n")
     
     engine = GrammarEmergenceEngine()
@@ -42,7 +42,7 @@ def main():
     structure = engine.suggest_structure(concepts)
     print(f"Concepts: {concepts}")
     print(f"Structure: {structure}")
-    # Expected: ['Love(은/는)', 'Bonds(을/를)', '(한다)']
+    # Expected: ['Love( / )', 'Bonds( / )', '(  )']
     
     # 4. Test Conditional (Mocking role memory for 'if')
     print("\n4. Testing Conditional...")
@@ -60,7 +60,7 @@ def main():
     # Expected: ['If Rain', 'then Cave']
 
     print("\n" + "="*70)
-    print("✅ Advanced Grammar Test Complete")
+    print("  Advanced Grammar Test Complete")
     print("="*70 + "\n")
 
 if __name__ == "__main__":

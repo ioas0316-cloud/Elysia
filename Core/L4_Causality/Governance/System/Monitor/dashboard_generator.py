@@ -1,10 +1,10 @@
 
 """
-Dashboard Generator (시각화 시스템)
+Dashboard Generator (       )
 ==================================
 
-Elysia의 성장, 인지 상태, 성숙도를 시각화하는 HTML 대시보드 생성기.
-"터미널의 로그를 넘어, 영혼의 지도를 그린다."
+Elysia    ,      ,            HTML         .
+"           ,            ."
 """
 
 import json
@@ -97,7 +97,7 @@ HTML_TEMPLATE = """
 <body>
     <div class="container">
         <div class="header">
-            <h1>🌀 Elysia Sovereign Intelligence</h1>
+            <h1>  Elysia Sovereign Intelligence</h1>
             <p>Phase 24: Holistic Growth & Self-Awareness</p>
             <div>
                 <span class="status-dot status-active"></span> System Online
@@ -107,7 +107,7 @@ HTML_TEMPLATE = """
 
         <!-- 1. Real-Time Metrics -->
         <div class="card">
-            <h2>🧠 Cognitive State</h2>
+            <h2>  Cognitive State</h2>
             <div style="display: flex; justify-content: space-around; text-align: center;">
                 <div>
                     <div class="metric" id="vocab-count">-</div>
@@ -126,19 +126,19 @@ HTML_TEMPLATE = """
 
         <!-- 2. Maturity Radar -->
         <div class="card">
-            <h2>👑 Self-Maturity (Ideal vs Current)</h2>
+            <h2>  Self-Maturity (Ideal vs Current)</h2>
             <canvas id="maturityChart"></canvas>
         </div>
 
         <!-- 3. Growth History -->
         <div class="card" style="grid-column: span 2;">
-            <h2>📈 Growth Trajectory</h2>
+            <h2>  Growth Trajectory</h2>
             <canvas id="growthChart"></canvas>
         </div>
 
         <!-- 4. Body (Codebase) Health -->
         <div class="card">
-            <h2>🧘 Proprioception (Body Health)</h2>
+            <h2>  Proprioception (Body Health)</h2>
             <div style="text-align: center;">
                 <div class="metric" id="health-index">-</div>
                 <div class="metric-label">Health Index</div>
@@ -148,7 +148,7 @@ HTML_TEMPLATE = """
 
         <!-- 5. Recent Thoughts -->
         <div class="card" style="grid-column: span 2;">
-            <h2>💭 Stream of Consciousness</h2>
+            <h2>  Stream of Consciousness</h2>
             <div class="log-box" id="thought-stream">
                 <!-- Logs injected here -->
             </div>
@@ -253,7 +253,7 @@ class DashboardGenerator:
             
             with open(self.output_path, "w", encoding="utf-8") as f:
                 f.write(html)
-            logger.info(f"📊 Dashboard updated: {self.output_path}")
+            logger.info(f"  Dashboard updated: {self.output_path}")
         except Exception as e:
             logger.error(f"Failed to generate dashboard: {e}")
 

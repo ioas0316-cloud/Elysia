@@ -23,7 +23,7 @@ class AgapeProtocol:
     """
     
     def __init__(self):
-        logger.info("💗 Agape Protocol Initialized: Love is the Law.")
+        logger.info("  Agape Protocol Initialized: Love is the Law.")
         self.bias_factors = {
             "Connection": 1.5,   # Highest priority
             "Empathy": 1.2,
@@ -37,7 +37,7 @@ class AgapeProtocol:
         Evaluates a potential physical or digital form.
         Understanding: To love a human, one must be perceivable by a human.
         """
-        logger.info(f"   ⚖️ Judging Form: {form_type}")
+        logger.info(f"      Judging Form: {form_type}")
         
         if "Humanoid" in form_type or "Avatar" in form_type:
             return Judgment(

@@ -1,12 +1,12 @@
 """
-Action Cortex (행동 피질)
+Action Cortex (     )
 ========================
 
-원본: Legacy/Project_Sophia/action_cortex.py
-마이그레이션: 2025-12-15
+  : Legacy/Project_Sophia/action_cortex.py
+      : 2025-12-15
 
-이 모듈은 사용자 요청이나 내부 목표에 따라 어떤 도구를 사용할지 결정합니다.
-Wave Principle을 사용하여 도구를 선택하고 LLM으로 파라미터를 추출합니다.
+                                          .
+Wave Principle                LLM              .
 """
 import json
 import re
@@ -106,13 +106,13 @@ class ActionCortex:
     def _find_best_tool(self, prompt: str) -> Optional[str]:
         """Uses the Wave Principle to find the most relevant tool."""
         # Manual override for common patterns
-        if "마우스" in prompt or "mouse" in prompt or "cursor" in prompt:
+        if "   " in prompt or "mouse" in prompt or "cursor" in prompt:
             return "move_cursor"
-        if "키보드" in prompt or "type" in prompt or "keyboard" in prompt:
+        if "   " in prompt or "type" in prompt or "keyboard" in prompt:
             return "type_text"
-        if "상태" in prompt or "status" in prompt or "cpu" in prompt:
+        if "  " in prompt or "status" in prompt or "cpu" in prompt:
             return "check_vital_signs"
-        if "읽" in prompt or "read" in prompt or "file" in prompt:
+        if " " in prompt or "read" in prompt or "file" in prompt:
             return "read_file"
         if "url" in prompt.lower() or "http" in prompt.lower():
             return "http_request"

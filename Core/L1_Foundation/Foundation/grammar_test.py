@@ -17,7 +17,7 @@ import time
 
 def main():
     print("\n" + "="*70)
-    print("🌟 Grammar Emergence Test")
+    print("  Grammar Emergence Test")
     print("="*70 + "\n")
     
     learning = RapidLearningEngine()
@@ -66,7 +66,7 @@ def main():
             print(f"  -> {first} ... {second}")
 
     print("\n" + "="*70)
-    print("✅ Grammar Test Complete")
+    print("  Grammar Test Complete")
     print("="*70 + "\n")
 
 if __name__ == "__main__":

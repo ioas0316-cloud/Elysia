@@ -8,10 +8,10 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 def analyze_patterns():
     db_path = "data/Memory/memory.db"
     if not os.path.exists(db_path):
-        print(f"❌ Error: {db_path} not found!")
+        print(f"  Error: {db_path} not found!")
         return
 
-    print(f"🔍 Analyzing {db_path}...")
+    print(f"  Analyzing {db_path}...")
     
     try:
         with sqlite3.connect(db_path) as conn:
@@ -21,7 +21,7 @@ def analyze_patterns():
             cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
             tables = cursor.fetchall()
             
-            print(f"\n📊 Found {len(tables)} tables:")
+            print(f"\n  Found {len(tables)} tables:")
             
             total_rows = 0
             for table_name in tables:
@@ -38,10 +38,10 @@ def analyze_patterns():
             
             # Check file size
             size_mb = os.path.getsize(db_path) / (1024 * 1024)
-            print(f"\n💾 Physical File Size: {size_mb:.2f} MB")
+            print(f"\n  Physical File Size: {size_mb:.2f} MB")
             
     except Exception as e:
-        print(f"❌ Database Error: {e}")
+        print(f"  Database Error: {e}")
 
 if __name__ == "__main__":
     analyze_patterns()

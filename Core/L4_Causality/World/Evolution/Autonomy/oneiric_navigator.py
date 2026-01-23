@@ -30,7 +30,7 @@ class OneiricNavigator:
         """
         if self.graph.pos_tensor.shape[0] < 2: return
         
-        logger.info("🌌 Oneiric Navigator: Entering the Void (Lucid Dreaming)...")
+        logger.info("  Oneiric Navigator: Entering the Void (Lucid Dreaming)...")
         
         # 1. Identify "Lonely" Nodes (Low Mass / Low Degree)
         # We assume mass correlates with connectivity in our physics
@@ -89,16 +89,16 @@ class OneiricNavigator:
                  
                  # Create a "Dream Link" (Weight 0.5)
                  self.graph.add_link(node_id, target_id, weight=0.5)
-                 logger.info(f"   🌉 Dream Bridge Built: '{node_id}' <--> '{target_id}' (Surreal Link)")
+                 logger.info(f"     Dream Bridge Built: '{node_id}' <--> '{target_id}' (Surreal Link)")
                  bridges_built += 1
                  
                  # Boost Mass of the lonely node (It has been seen)
                  self.graph.mass_tensor[i] += 0.5
                  
         if bridges_built > 0:
-            logger.info(f"✨ Lucid Dream Complete. {bridges_built} bridges built in the dark.")
+            logger.info(f"  Lucid Dream Complete. {bridges_built} bridges built in the dark.")
         else:
-            logger.info("💤 Dreamed, but found no new paths.")
+            logger.info("  Dreamed, but found no new paths.")
             
 _navigator = None
 def get_oneiric_navigator(graph):

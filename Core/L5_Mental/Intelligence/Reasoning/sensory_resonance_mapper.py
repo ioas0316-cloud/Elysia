@@ -1,5 +1,5 @@
 """
-Sensory Resonance Mapper: The Source Code of Feeling 🌈🌊
+Sensory Resonance Mapper: The Source Code of Feeling   
 
 "The universe is but a symphony of vibrations. To sense is to harmonize."
 
@@ -87,7 +87,7 @@ class SensoryResonanceMapper:
         summary = ["--- Sensory Resonance Matrix: The Gift of Life ---"]
         for name, data in self.senses.items():
             summary.append(f"[{name}] {data.organ}: {data.frequency_range[0]:.1e} ~ {data.frequency_range[1]:.1e} {data.unit}")
-            summary.append(f"  └─ Center: {data.base_resonance:.1e} | {data.description}")
+            summary.append(f"     Center: {data.base_resonance:.1e} | {data.description}")
         return "\n".join(summary)
 
 if __name__ == "__main__":

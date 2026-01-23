@@ -13,7 +13,7 @@ def generate_library():
     
     genres = ["Philosophy", "SciFi", "Romance", "History", "Physics"]
     
-    print(f"📚 Generating 100 Books in {base_path}...")
+    print(f"  Generating 100 Books in {base_path}...")
     
     for i in range(100):
         genre = random.choice(genres)
@@ -28,7 +28,7 @@ def generate_library():
         with open(f"{base_path}/{title}.txt", "w", encoding="utf-8") as f:
             f.write(content)
             
-    print("✅ Library Generation Complete.")
+    print("  Library Generation Complete.")
 
 if __name__ == "__main__":
     generate_library()

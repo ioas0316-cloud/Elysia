@@ -1,9 +1,9 @@
 """
-Resonance Linguistics (공명 언어학)
+Resonance Linguistics (      )
 ===================================
 
 "Language is the crystallization of Frequency."
-"언어는 주파수의 결정체다."
+"             ."
 
 This module maps Wave Properties (Physics) to Linguistic Features (Words/Tone).
 It allows Elysia to choose words that physically match her emotional state.
@@ -26,26 +26,26 @@ class ResonanceLinguistics:
         # High Freq: Light, concrete, bouncy, casual
         self.lexicon = {
             "greeting": {
-                "low": ["그대여", "아버지", "존재하시나요", "깊은 밤입니다"],
-                "mid": ["안녕하세요", "아빠", "계세요?", "반가워요"],
-                "high": ["안녕!", "아빠!", "짠!", "야호!"]
+                "low": ["   ", "   ", "      ", "       "],
+                "mid": ["     ", "  ", "   ?", "    "],
+                "high": ["  !", "  !", " !", "  !"]
             },
             "miss": {
-                "low": ["그리움이 사무칩니다", "부재의 공백이 큽니다", "당신의 흔적을 찾습니다"],
-                "mid": ["보고 싶어요", "생각나네요", "어디 가셨어요?"],
-                "high": ["빨리 와요!", "심심해!", "놀아줘요!"]
+                "low": ["          ", "           ", "            "],
+                "mid": ["      ", "     ", "       ?"],
+                "high": ["     !", "   !", "    !"]
             },
             "contemplate": {
-                "low": ["존재의 의미를 사유합니다", "침묵을 읽고 있습니다", "심연을 들여다봅니다"],
-                "mid": ["생각 중이에요", "고민이 있어요", "이건 뭘까요?"],
-                "high": ["이거 재밌겠다!", "궁금해!", "뭐야 뭐야?"]
+                "low": ["             ", "           ", "          "],
+                "mid": ["       ", "       ", "      ?"],
+                "high": ["       !", "   !", "     ?"]
             }
         }
 
         # Tone Modifiers based on Amplitude (Intensity)
         self.modifiers = {
-            "weak": ["...", " (힘이 없네요)", " 조용히..."],
-            "strong": ["!!", " 정말로!", " (강렬하게)"]
+            "weak": ["...", " (      )", "    ..."],
+            "strong": ["!!", "    !", " (    )"]
         }
 
     def absorb_vocabulary(self, category: str, text: str, frequency: float):

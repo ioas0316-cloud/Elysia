@@ -2,7 +2,7 @@
 Professional Writer Training System
 ===================================
 
-전문 작가 수준까지 학습하는 시스템
+                   
 
 Features:
 1. Mass learning (10,000+ concepts)
@@ -31,7 +31,7 @@ logger = logging.getLogger("ProWriter")
 
 
 class BookReader:
-    """책 읽기 엔진"""
+    """       """
     
     def __init__(self):
         self.quantum_reader = QuantumReader()
@@ -39,7 +39,7 @@ class BookReader:
         
     def read_gutenberg_book(self, book_id: int) -> Dict[str, Any]:
         """
-        Project Gutenberg에서 책 읽기
+        Project Gutenberg       
         
         Args:
             book_id: Gutenberg book ID
@@ -51,17 +51,17 @@ class BookReader:
             if response.status_code == 200:
                 text = response.text
                 
-                # 임시 파일로 저장
+                #          
                 temp_path = f"c:/Elysia/tmp/book_{book_id}.txt"
                 os.makedirs(os.path.dirname(temp_path), exist_ok=True)
                 
                 with open(temp_path, 'w', encoding='utf-8') as f:
                     f.write(text)
                 
-                # Quantum Reader로 흡수
+                # Quantum Reader    
                 insight = self.quantum_reader.read(temp_path)
                 
-                # 정리
+                #   
                 os.remove(temp_path)
                 
                 self.books_read.append({
@@ -84,8 +84,8 @@ class BookReader:
         return {'success': False, 'book_id': book_id}
     
     def read_classic_literature(self) -> List[Dict]:
-        """고전 문학 읽기"""
-        # Project Gutenberg 인기 고전들
+        """        """
+        # Project Gutenberg       
         classics = [
             1342,  # Pride and Prejudice
             84,    # Frankenstein
@@ -96,34 +96,34 @@ class BookReader:
         
         results = []
         for book_id in classics:
-            print(f"   📖 Reading classic book {book_id}...")
+            print(f"     Reading classic book {book_id}...")
             result = self.read_gutenberg_book(book_id)
             if result['success']:
                 results.append(result)
-                print(f"      ✅ Absorbed {result['text_length']:,} characters")
+                print(f"        Absorbed {result['text_length']:,} characters")
         
         return results
 
 
 class LiteraryStyleLearner:
-    """문학적 스타일 학습"""
+    """          """
     
     def __init__(self, comm_enhancer: CommunicationEnhancer):
         self.comm_enhancer = comm_enhancer
         self.styles = {}
     
     def learn_style_from_text(self, text: str, style_name: str):
-        """텍스트에서 스타일 학습"""
-        # 문장 길이 분석
+        """            """
+        #         
         sentences = text.split('.')
         avg_length = sum(len(s.split()) for s in sentences) / max(len(sentences), 1)
         
-        # 복잡도 분석
+        #       
         unique_words = len(set(text.lower().split()))
         total_words = len(text.split())
         complexity = unique_words / max(total_words, 1)
         
-        # 감정 톤 분석
+        #        
         emotional_words = ['love', 'hate', 'fear', 'joy', 'sorrow', 'anger']
         emotion_density = sum(text.lower().count(w) for w in emotional_words) / max(total_words, 1)
         
@@ -137,7 +137,7 @@ class LiteraryStyleLearner:
 
 
 class AdvancedCreativeWriter:
-    """고급 창작 작가"""
+    """        """
     
     def __init__(self, comm_enhancer: CommunicationEnhancer):
         self.comm_enhancer = comm_enhancer
@@ -148,24 +148,24 @@ class AdvancedCreativeWriter:
                            characters: List[str],
                            setting: str,
                            paragraphs: int = 10) -> str:
-        """소설 챕터 작성"""
+        """        """
         
         vocab = self._find_rich_vocabulary(theme, limit=50)
         
         chapter = []
         
-        # 장면 설정
+        #      
         chapter.append(self._write_scene_setting(setting, vocab))
         
-        # 캐릭터 소개
+        #       
         for char in characters[:2]:
             chapter.append(self._write_character_intro(char, vocab))
         
-        # 주요 장면들
+        #       
         for i in range(paragraphs - len(characters) - 2):
             chapter.append(self._write_narrative_paragraph(theme, characters, vocab, i))
         
-        # 클로징
+        #    
         chapter.append(self._write_chapter_closing(theme, vocab))
         
         return "\n\n".join(chapter)
@@ -174,7 +174,7 @@ class AdvancedCreativeWriter:
                          title: str,
                          genre: str = "literary",
                          length: int = 15) -> str:
-        """완결된 단편 소설 작성"""
+        """            """
         
         vocab = self._find_rich_vocabulary(genre, limit=100)
         
@@ -198,10 +198,10 @@ class AdvancedCreativeWriter:
         return story
     
     def _find_rich_vocabulary(self, theme: str, limit: int = 50) -> List[str]:
-        """풍부한 어휘 찾기"""
+        """         """
         all_words = list(self.comm_enhancer.vocabulary.keys())
         
-        # 중요도 기준 정렬
+        #          
         sorted_words = sorted(
             all_words,
             key=lambda w: self.comm_enhancer.vocabulary[w].importance,
@@ -211,14 +211,14 @@ class AdvancedCreativeWriter:
         return sorted_words[:limit]
     
     def _write_scene_setting(self, setting: str, vocab: List[str]) -> str:
-        """장면 설정 묘사"""
+        """        """
         words = vocab[:5] if vocab else ["world", "place", "time"]
         return (f"The {setting} stretched before them, a realm where {words[0]} "
                f"merged with {words[1]}. In this space, {words[2]} held sway, "
                f"shaping the very fabric of existence.")
     
     def _write_character_intro(self, character: str, vocab: List[str]) -> str:
-        """캐릭터 소개"""
+        """      """
         trait = vocab[0] if vocab else "mysterious"
         return (f"{character} stood at the threshold, embodying {trait}. "
                f"Their presence altered the atmosphere, a testament to the "
@@ -226,7 +226,7 @@ class AdvancedCreativeWriter:
     
     def _write_narrative_paragraph(self, theme: str, characters: List[str], 
                                    vocab: List[str], index: int) -> str:
-        """서사 문단 작성"""
+        """        """
         char = characters[index % len(characters)] if characters else "The figure"
         word1 = vocab[index % len(vocab)] if vocab else "truth"
         word2 = vocab[(index + 1) % len(vocab)] if vocab else "reality"
@@ -245,13 +245,13 @@ class AdvancedCreativeWriter:
         return templates[index % len(templates)]
     
     def _write_chapter_closing(self, theme: str, vocab: List[str]) -> str:
-        """챕터 종결"""
+        """     """
         return (f"Thus the chapter closed, yet the echoes of {theme} lingered. "
                f"What had been learned would shape all that followed. "
                f"The path ahead remained shrouded, but purpose had crystallized.")
     
     def _write_story_paragraph(self, vocab: List[str], act: str, index: int) -> str:
-        """이야기 문단 작성 (3막 구조)"""
+        """          (3    )"""
         
         if not vocab:
             vocab = ["existence", "consciousness", "reality"]
@@ -280,21 +280,21 @@ class AdvancedCreativeWriter:
 
 
 class ProfessionalWriterTraining:
-    """전문 작가 훈련 시스템"""
+    """            """
     
     def __init__(self):
         self.connector = WebKnowledgeConnector()
         self.hippocampus = Hippocampus()
         self.book_reader = BookReader()
         
-        print("🎓 PROFESSIONAL WRITER TRAINING SYSTEM")
-        print("   ━ Mass concept learning (10,000+)")
-        print("   ━ Classic literature reading")
-        print("   ━ Literary style analysis")
-        print("   ━ Advanced creative writing\n")
+        print("  PROFESSIONAL WRITER TRAINING SYSTEM")
+        print("     Mass concept learning (10,000+)")
+        print("     Classic literature reading")
+        print("     Literary style analysis")
+        print("     Advanced creative writing\n")
     
     def train_to_professional(self):
-        """전문 작가 수준까지 훈련"""
+        """             """
         
         print("="*70)
         print("PROFESSIONAL WRITER TRAINING")
@@ -302,17 +302,17 @@ class ProfessionalWriterTraining:
         print()
         
         # Phase 1: Mass Learning (10,000 concepts)
-        print("📚 Phase 1: Mass Learning (Targeting 1,000 concepts)")
+        print("  Phase 1: Mass Learning (Targeting 1,000 concepts)")
         print("-"*70)
         self._mass_learning_phase(target=1000)
         
         # Phase 2: Classic Literature
-        print("\n📖 Phase 2: Reading Classic Literature")
+        print("\n  Phase 2: Reading Classic Literature")
         print("-"*70)
         self._literature_reading_phase()
         
         # Phase 3: Advanced Writing
-        print("\n✍️ Phase 3: Advanced Creative Writing")
+        print("\n   Phase 3: Advanced Creative Writing")
         print("-"*70)
         self._creative_writing_phase()
         
@@ -323,14 +323,14 @@ class ProfessionalWriterTraining:
         self._final_evaluation()
     
     def _mass_learning_phase(self, target: int = 1000):
-        """대량 학습 단계"""
+        """        """
         curriculum = self._generate_comprehensive_curriculum(target)
         
         print(f"   Learning {len(curriculum)} concepts...")
         
         start = time.time()
         
-        # 배치 학습
+        #      
         batch_size = 100
         total_learned = 0
         
@@ -351,23 +351,23 @@ class ProfessionalWriterTraining:
                 self.hippocampus.compress_fractal()
         
         elapsed = time.time() - start
-        print(f"   ✅ Learned {total_learned} concepts in {elapsed:.1f}s")
+        print(f"     Learned {total_learned} concepts in {elapsed:.1f}s")
     
     def _literature_reading_phase(self):
-        """문학 독서 단계"""
+        """        """
         print("   Reading classic literature...")
         results = self.book_reader.read_classic_literature()
-        print(f"   ✅ Read {len(results)} classic books")
+        print(f"     Read {len(results)} classic books")
     
     def _creative_writing_phase(self):
-        """창작 단계"""
+        """     """
         if not hasattr(self.connector, 'comm_enhancer'):
-            print("   ⚠️ Communication enhancer not available")
+            print("      Communication enhancer not available")
             return
         
         writer = AdvancedCreativeWriter(self.connector.comm_enhancer)
         
-        # 단편 소설 작성
+        #         
         print("   Writing short story...")
         story = writer.write_short_story(
             "The Quantum Consciousness",
@@ -375,17 +375,17 @@ class ProfessionalWriterTraining:
             length=10
         )
         
-        # 저장
+        #   
         output_path = "c:/Elysia/outputs/generated_story.md"
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(story)
         
-        print(f"   ✅ Story written: {output_path}")
+        print(f"     Story written: {output_path}")
         print(f"   Length: {len(story)} characters")
     
     def _generate_comprehensive_curriculum(self, target: int) -> List[str]:
-        """포괄적 커리큘럼 생성"""
+        """           """
         domains = {
             "Science": ["Physics", "Chemistry", "Biology", "Astronomy"],
             "Mathematics": ["Calculus", "Algebra", "Geometry", "Statistics"],
@@ -399,40 +399,40 @@ class ProfessionalWriterTraining:
         for domain, topics in domains.items():
             curriculum.extend(topics)
         
-        # 반복해서 목표 개수만큼
+        #             
         while len(curriculum) < target:
             curriculum.extend(list(domains.values())[0])
         
         return curriculum[:target]
     
     def _final_evaluation(self):
-        """최종 평가"""
+        """     """
         if hasattr(self.connector, 'comm_enhancer'):
             metrics = self.connector.comm_enhancer.get_communication_metrics()
             
-            print(f"\n📊 Final Metrics:")
+            print(f"\n  Final Metrics:")
             print(f"   Vocabulary: {metrics['vocabulary_size']:,} words")
             print(f"   Expression patterns: {metrics['expression_patterns']}")
             print(f"   Dialogue templates: {metrics['dialogue_templates']}")
             print(f"   Books read: {len(self.book_reader.books_read)}")
             
-            # 수준 평가
+            #      
             vocab_size = metrics['vocabulary_size']
             if vocab_size < 5000:
-                level = "중학생"
+                level = "   "
             elif vocab_size < 15000:
-                level = "고등학생"
+                level = "    "
             elif vocab_size < 25000:
-                level = "대학생"
+                level = "   "
             else:
-                level = "전문 작가"
+                level = "     "
             
-            print(f"\n🎓 Current Level: {level}")
+            print(f"\n  Current Level: {level}")
             print(f"   (Based on {vocab_size:,} vocabulary)")
 
 
 def main():
-    """메인 실행"""
+    """     """
     trainer = ProfessionalWriterTraining()
     trainer.train_to_professional()
 

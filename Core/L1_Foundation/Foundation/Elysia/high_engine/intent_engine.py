@@ -62,7 +62,7 @@ class IntentEngine:
 
     """
 
-    Lightweight E–S–L style engine that summarizes the present
+    Lightweight E S L style engine that summarizes the present
 
     conversational state into an IntentBundle.
 
@@ -189,6 +189,5 @@ class IntentEngine:
             law_focus=law_focus,
 
         )
-
 
 

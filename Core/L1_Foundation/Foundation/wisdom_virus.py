@@ -112,4 +112,3 @@ class VirusEngine:
             )
         except Exception:
             pass
-

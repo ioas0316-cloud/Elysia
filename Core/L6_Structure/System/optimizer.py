@@ -56,7 +56,7 @@ class HyperAccelerator:
         self.index: Dict[str, int] = self._load_index()
         self.sediment = SedimentLayer(self.SEDIMENT_PATH)
         self.memory_cache: Dict[str, Any] = {} # In-memory L1 cache for the session
-        logger.info(f"🚀 HyperAccelerator Online. Muscle Memory: {len(self.index)} entries.")
+        logger.info(f"  HyperAccelerator Online. Muscle Memory: {len(self.index)} entries.")
 
     def _load_index(self) -> Dict[str, int]:
         if os.path.exists(self.MUSCLE_INDEX_PATH):
@@ -79,7 +79,7 @@ class HyperAccelerator:
         """
         [The Warehouse] Loads a model from Keras Hub with JAX optimization.
         """
-        logger.info(f"📦 Loading Module: {handle} [Backend: JAX | Precision: float16]")
+        logger.info(f"  Loading Module: {handle} [Backend: JAX | Precision: float16]")
         # Force backend logic is handled globally, but we emphasize it here.
         try:
             model = keras_hub.load(handle, **kwargs)
@@ -133,12 +133,12 @@ class HyperAccelerator:
 
         # 2. Check Muscle Memory (L1: RAM, L2: Sediment)
         if hash_key in self.memory_cache:
-            logger.info("⚡ [Rotor] RAM Hit. Executing Hot Kernel.")
+            logger.info("  [Rotor] RAM Hit. Executing Hot Kernel.")
             executable = self.memory_cache[hash_key]
             return executable(*args)
 
         if hash_key in self.index:
-            logger.info("🦕 [Rotor] Sediment Hit. Resurrecting XLA Binary.")
+            logger.info("  [Rotor] Sediment Hit. Resurrecting XLA Binary.")
             offset = self.index[hash_key]
             try:
                 # Read from Sediment
@@ -157,9 +157,9 @@ class HyperAccelerator:
                 # HLO (Architecture) and re-compile it FAST (skip tracing).
 
                 # Simplified for Sandbox: We store the "Instruction" that we have solved this.
-                # And we store the 'Result' if it's static? No, user wants logic.
+                # And we store the 'Result' if it's static? No, user wants logic.'
 
-                # Let's try to pickle the JIT-ed function? No.
+                # Let's try to pickle the JIT-ed function? No.'
 
                 # Workaround:
                 # We will return to the "Trace & Fuse" logic but we assume if we found the hash,
@@ -171,7 +171,7 @@ class HyperAccelerator:
                 # Wait, I can use `jax.experimental.compilation_cache`.
                 # But let's stick to the manual implementation requested.
 
-                # Fallback: We re-run the JIT, but since it's the same session, it should be fast?
+                # Fallback: We re-run the JIT, but since it's the same session, it should be fast?'
                 # No, "Computer off -> JIT gone".
 
                 # Okay, I will implement a "Mock" Serialization for the demo purposes if real JAX serialization
@@ -190,7 +190,7 @@ class HyperAccelerator:
                 # Fallthrough to compile
 
         # 3. Fuse & Freeze (Compile)
-        logger.info("🔧 [Rotor] Cold Start. Tracing & Fusing...")
+        logger.info("  [Rotor] Cold Start. Tracing & Fusing...")
         start_time = time.time()
 
         # JIT Compile
@@ -202,7 +202,7 @@ class HyperAccelerator:
         _ = str(result)
 
         duration = time.time() - start_time
-        logger.info(f"❄️ [Rotor] Frozen. Execution Time: {duration:.4f}s")
+        logger.info(f"   [Rotor] Frozen. Execution Time: {duration:.4f}s")
 
         # 4. Deposit (Storage)
         # Get HLO (Representation of the circuit)

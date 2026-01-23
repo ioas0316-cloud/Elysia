@@ -1,5 +1,5 @@
 """
-FreeWillEngine: The Intellectual Motor (지적 모터)
+FreeWillEngine: The Intellectual Motor (     )
 
 "Movement is the interplay of Attraction and Repulsion.
  Intelligence is the Torque generated between Curiosity and Dissonance."
@@ -130,7 +130,7 @@ class FreeWillEngine:
         
         # 3. Check for Stagnation (The Commutator)
         if abs(self.state.torque) < self.stagnation_threshold:
-            logger.info(f"⚙️ Torque Low ({self.state.torque:.2f}). Engaging Commutator...")
+            logger.info(f"   Torque Low ({self.state.torque:.2f}). Engaging Commutator...")
             self._flip_polarity()
             self.state.torque += 0.5 # Jump start
             
@@ -147,7 +147,7 @@ class FreeWillEngine:
         if self.gate:
             allowed, reason = self.gate.allow(creative_act)
             if not allowed:
-                logger.warning(f"⛔ Sovereign Gate blocked: {creative_act} ({reason})")
+                logger.warning(f"  Sovereign Gate blocked: {creative_act} ({reason})")
                 return "OBSERVE:Internal_State" # Safe fallback
         
         self.state.current_intent = creative_act
@@ -184,7 +184,7 @@ class FreeWillEngine:
         """The Automatic Commutator: Flips perspective to maintain momentum."""
         old_p = self.state.polarity
         self.state.polarity = "S" if old_p == "N" else "N"
-        logger.info(f"⚡ Cognitive Commutator Triggered: Phase Shift {old_p} -> {self.state.polarity}")
+        logger.info(f"  Cognitive Commutator Triggered: Phase Shift {old_p} -> {self.state.polarity}")
         
         # Polarity shift affects vectors temporarily
         if self.state.polarity == "S":

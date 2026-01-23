@@ -9,8 +9,8 @@ engine = DialogueEngine()
 print("=== Fractal Dialogue Test ===\n")
 
 # Test emotional response
-print("Q: 사랑이 뭐야?")
-response = engine.respond("사랑이 뭐야?")
+print("Q:       ?")
+response = engine.respond("      ?")
 print(f"A: {response}\n")
 
 # Test thought response  
@@ -18,4 +18,4 @@ print("Q: What is hope?")
 response = engine.respond("What is hope?")
 print(f"A: {response}\n")
 
-print("✅ Fractal consciousness is working!")
+print("  Fractal consciousness is working!")

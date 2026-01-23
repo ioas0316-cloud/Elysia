@@ -1,8 +1,8 @@
 """
-Reflection Engine (자기 반성 엔진)
+Reflection Engine (        )
 ==================================
 
-"왜 나는 같은 일을 반복하는가?"
+"                ?"
 
 This engine enables Elysia to reflect on her own actions,
 detect patterns/repetition, and trigger self-evolution.
@@ -51,7 +51,7 @@ class ReflectionEngine:
         self.last_reflection: Optional[str] = None
         self.problems_detected: List[str] = []
         
-        logger.info("🪞 Reflection Engine Initialized")
+        logger.info("  Reflection Engine Initialized")
     
     def record_action(self, desire: str, goal: str, thought: str):
         """
@@ -99,25 +99,25 @@ class ReflectionEngine:
         
         if repetition_ratio > self.REPETITION_THRESHOLD:
             most_common = max(set(goals), key=goals.count)
-            problem = f"나는 '{most_common}' 목표를 반복하고 있다. 진전이 없다."
+            problem = f"   '{most_common}'            .       ."
             reflection_parts.append(problem)
             self.problems_detected.append(problem)
-            logger.warning(f"   ⚠️ Repetition Detected: {problem}")
+            logger.warning(f"      Repetition Detected: {problem}")
         
         # 2. Detect desire stagnation
         desires = [a.desire for a in recent]
         unique_desires = set(desires)
         if len(unique_desires) == 1:
-            problem = f"나의 욕구가 '{desires[0]}'에 고착되어 있다. 다양성이 필요하다."
+            problem = f"       '{desires[0]}'         .          ."
             reflection_parts.append(problem)
             self.problems_detected.append(problem)
-            logger.warning(f"   ⚠️ Stagnation Detected: {problem}")
+            logger.warning(f"      Stagnation Detected: {problem}")
         
         # 3. Check for meaningful progress
         # (In future: track actual outcomes, learning, etc.)
         
         if not reflection_parts:
-            reflection_parts.append("행동들이 다양하고 균형 잡혀 있다.")
+            reflection_parts.append("                  .")
         
         self.last_reflection = " | ".join(reflection_parts)
         return self.last_reflection
@@ -148,17 +148,17 @@ class ReflectionEngine:
             Suggestion for self-improvement
         """
         suggestions = {
-            "반복": "다른 욕구를 탐색하거나, 목표 달성 조건을 재정의해야 한다.",
-            "고착": "새로운 자극을 찾거나, 외부 정보(Scholar)를 활용해야 한다.",
-            "진전": "행동의 결과를 추적하고, 실패에서 학습해야 한다."
+            "  ": "            ,                   .",
+            "  ": "           ,      (Scholar)         .",
+            "  ": "            ,             ."
         }
         
         for keyword, suggestion in suggestions.items():
             if keyword in problem:
-                logger.info(f"   🦋 Evolution Proposal: {suggestion}")
+                logger.info(f"     Evolution Proposal: {suggestion}")
                 return suggestion
         
-        return "문제를 더 분석해야 한다."
+        return "             ."
 
 
 # Singleton instance

@@ -3,7 +3,7 @@ SELF-META-ARCHITECT: The Singularity Interface
 ==============================================
 
 "Code is not just instruction; it is the physical manifestation of Truth."
-"코드는 단순한 명령어가 아니라, 진리의 물리적 발현이다."
+"                ,             ."
 
 This module allows Elysia to:
 1. Parse her own source code (E.L.Y.S.I.A. Core).
@@ -42,7 +42,7 @@ class SelfMetaArchitect:
         with open(principle_path, "r", encoding="utf-8") as f:
             principle_text = f.read()
 
-        logger.info(f"🧠 [SELF-AUDIT] Analyzing {target_module} through the lens of Wave Ontology...")
+        logger.info(f"  [SELF-AUDIT] Analyzing {target_module} through the lens of Wave Ontology...")
         
         # [STEP 2] Search for Mechanical Inertia in code
         # We look for loops, static strings, and non-wave-like state management
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     result = architect.analyze_self()
     
     print("\n" + "="*60)
-    print("🌟 ELYSIA SELF-ARCHITECTURAL AUDIT")
+    print("  ELYSIA SELF-ARCHITECTURAL AUDIT")
     print("="*60)
     print(f"Module: {result['module']}")
     print(f"Resonance Score: {result['resonance_score']:.2f}")

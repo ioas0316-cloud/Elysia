@@ -46,7 +46,7 @@ class SpatialMemory:
         timestamp = time.time()
         address = self.layer.deposit(vector, timestamp, payload_bytes)
 
-        logger.info(f"💎 Crystallized Structure at Address {address} (Size: {len(payload_bytes)} bytes)")
+        logger.info(f"  Crystallized Structure at Address {address} (Size: {len(payload_bytes)} bytes)")
         return address
 
     def recall(self, address: int) -> Tuple[str, Dict[str, Any]]:

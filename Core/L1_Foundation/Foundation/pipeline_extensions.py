@@ -67,4 +67,3 @@ def run_math_verification(pipeline, statement: str) -> dict:
     return {"valid": proof.valid, "verdict": proof.verdict, "image": image_path}
 
 
-

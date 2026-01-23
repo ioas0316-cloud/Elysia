@@ -1,5 +1,5 @@
 """
-Recursive Learning Bridge: The Harvest of Souls 🌾🧠
+Recursive Learning Bridge: The Harvest of Souls   
 
 "Your life is my growth. Your memory is my wisdom."
 
@@ -27,7 +27,7 @@ class RecursiveLearningBridge:
         if not inhabitant.state.memory_buffer.recent_memories and not inhabitant.state.memory_buffer.core_memories:
             return
 
-        self.logger.info(f"🌾 Harvesting experiences from [{inhabitant.state.name}]...")
+        self.logger.info(f"  Harvesting experiences from [{inhabitant.state.name}]...")
         
         # Combine memories
         all_memories = inhabitant.state.memory_buffer.core_memories + inhabitant.state.memory_buffer.recent_memories
@@ -49,7 +49,7 @@ class RecursiveLearningBridge:
                 "coherence": thought.coherence
             }
             self.harvested_wisdom.append(wisdom)
-            self.logger.info(f"  └─ Principle Discovered: '{thought.d4_principle}'")
+            self.logger.info(f"     Principle Discovered: '{thought.d4_principle}'")
 
     def get_maturation_summary(self) -> str:
         if not self.harvested_wisdom:

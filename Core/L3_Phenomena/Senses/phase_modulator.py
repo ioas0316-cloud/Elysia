@@ -19,7 +19,7 @@ class PhaseModulator:
     """
 
     def __init__(self):
-        logger.info("📡 PhaseModulator initialized. Ready for Axis-Scaling.")
+        logger.info("  PhaseModulator initialized. Ready for Axis-Scaling.")
 
     def modulate(self, stimulus: str, context: str) -> PerceptualPhase:
         """

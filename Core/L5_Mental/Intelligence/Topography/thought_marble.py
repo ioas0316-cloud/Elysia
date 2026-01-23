@@ -1,9 +1,9 @@
 """
-Thought Marble (생각의 알갱이)
+Thought Marble (       )
 ============================
 
 "Thoughts have Mass."
-"생각은 질량을 가진다."
+"           ."
 
 This module defines the dynamic agent in the topography.
 A generic 'Thought' that obeys physics.

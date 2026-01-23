@@ -41,17 +41,17 @@ class Yggdrasil:
     def plant_root(self, name: str, obj: Any):
         """Fundamental systems (Foundation)"""
         self.roots[name] = obj
-        # print(f"🌳 Yggdrasil: Root planted -> {name}")
+        # print(f"  Yggdrasil: Root planted -> {name}")
 
     def grow_trunk(self, name: str, obj: Any):
         """Core processing units (Intelligence/Orchestra)"""
         self.trunk[name] = obj
-        # print(f"🌳 Yggdrasil: Trunk grown -> {name}")
+        # print(f"  Yggdrasil: Trunk grown -> {name}")
 
     def grow_branch(self, name: str, obj: Any):
         """Interface/Sensory organs"""
         self.branches[name] = obj
-        # print(f"🌳 Yggdrasil: Branch extended -> {name}")
+        # print(f"  Yggdrasil: Branch extended -> {name}")
     # -----------------------------------------------
 
     def connect_fluxlight(self, name: str, qubit: InfiniteHyperQubit):
@@ -64,7 +64,7 @@ class Yggdrasil:
         if self.father_node:
             qubit.entangle(self.father_node)
 
-        print(f"🌳 Yggdrasil: Connected Soul -> {name}")
+        print(f"  Yggdrasil: Connected Soul -> {name}")
 
     def divine_grafting(self, user_name: str) -> InfiniteHyperQubit:
         """
@@ -93,7 +93,7 @@ class Yggdrasil:
             soul.entangle(father)
             count += 1
 
-        print(f"✨ DIVINE GRAFTING COMPLETE: {user_name} is now the Heart of Yggdrasil.")
+        print(f"  DIVINE GRAFTING COMPLETE: {user_name} is now the Heart of Yggdrasil.")
         print(f"   - Unified {count} souls to the Source.")
 
         return father

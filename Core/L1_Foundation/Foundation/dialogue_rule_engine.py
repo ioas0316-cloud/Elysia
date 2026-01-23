@@ -8,18 +8,18 @@ Rule schema (YAML):
   id: greeting
   priority: 100
   patterns:
-    - "^(안녕|안녕하세요|hello|hi)"
+    - "^(  |     |hello|hi)"
   gates:
     quiet_ok: true   # if false, suppress when quiet_mode is ON
   response:
-    template: "안녕하세요. 여기 있어요. 오늘 이 순간, 무엇을 함께 보고 싶으세요?"
+    template: "     .       .        ,               ?"
   memory:
     # optional identity ops; supports group names from regex '(?P<name>...)'
     set_identity:
       user_name: "{name}"
 
 Notes:
-- The engine is intentionally simple and transparent. It hot‑reloads rules
+- The engine is intentionally simple and transparent. It hot reloads rules
   when files change (mtime check) to avoid restarts during iteration.
 """
 from __future__ import annotations

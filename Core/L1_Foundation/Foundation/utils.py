@@ -1,4 +1,4 @@
-﻿"""Utility helpers shared by Elysia field modules."""
+ """Utility helpers shared by Elysia field modules."""
 
 from __future__ import annotations
 from typing import Any

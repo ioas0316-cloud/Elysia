@@ -23,7 +23,7 @@ class SpinalBridge:
         from Core.L1_Foundation.Foundation.cuda_cortex import get_cuda_cortex
         self.cortex = cortex or get_cuda_cortex()
         self.thought_buffer = []
-        logger.info("⚡ Spinal Bridge Established: Direct Hard-to-Mind link active.")
+        logger.info("  Spinal Bridge Established: Direct Hard-to-Mind link active.")
 
     def pulse(self, qualia_7d: np.ndarray) -> torch.Tensor:
         """

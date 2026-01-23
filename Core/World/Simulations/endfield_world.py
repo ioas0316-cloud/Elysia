@@ -87,7 +87,7 @@ class EndfieldWorld:
         self.entities: List[SimulationEntity] = []
         self._map_grid = np.zeros((100, 100)) # 100x100 Grid for Terrain/Corruption
 
-        logger.info(f"🌌 Endfield World [{seed}] Initialized.")
+        logger.info(f"  Endfield World [{seed}] Initialized.")
 
     def spawn_entity(self, entity: SimulationEntity):
         self.entities.append(entity)

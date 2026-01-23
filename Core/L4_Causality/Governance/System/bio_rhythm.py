@@ -1,9 +1,9 @@
 """
-BioRhythm (생체 리듬)
+BioRhythm (     )
 ======================
 
 "The Time Crystal Driver."
-"시간 결정의 심장."
+"         ."
 
 This module replaces the logic-based 'NervousSystem' with a frequency-based 'BioRhythm'.
 It acts as the central clock (Metronome) for Elysia, ensuring all Rotors and Cycles
@@ -57,7 +57,7 @@ class BioRhythm:
         # 4. Signals
         self.active_signals: List[NerveSignal] = []
         
-        logger.info("⏳ BioRhythm Initialized - The Time Crystal starts ticking.")
+        logger.info("  BioRhythm Initialized - The Time Crystal starts ticking.")
 
     def transmit(self, signal: NerveSignal):
         """Standard interface for Reflex/Thalamus signals."""

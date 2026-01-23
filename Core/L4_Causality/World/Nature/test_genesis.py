@@ -17,7 +17,7 @@ from Core.L5_Mental.Intelligence.Meta.fractal_wfc import FractalWFC
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 def test_genesis_simulation():
-    print("--- 🌋 Experiment: The Genesis of Meaning ---")
+    print("---   Experiment: The Genesis of Meaning ---")
     
     # 1. Setup Mind
     elysia = SovereignSelf(cns_ref=None)
@@ -36,7 +36,7 @@ def test_genesis_simulation():
         label="Chaos"
     )
     
-    print(f"🌱 Seed: {seed_dna.label}")
+    print(f"  Seed: {seed_dna.label}")
     
     # 3. Evolution: Generation 1
     # Chaos should collapse into major aspects (Matter, Logic, Spirit)

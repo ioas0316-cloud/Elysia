@@ -124,7 +124,7 @@ def demonstrate_folding():
     L = 10.0
     unfolder = SpaceUnfolder(L)
     
-    print(f"--- 🌊 Unfolding Space (L={L}) ---")
+    print(f"---   Unfolding Space (L={L}) ---")
     
     # Simulate a "Straight Line" in truth that looks like bouncing in perception
     # True intent: Go from 2.0 to 25.0 (Velocity +1)
@@ -140,7 +140,7 @@ def demonstrate_folding():
         # Folded:   |........*.| (bouncing)
         
         mirror_type = "Normal" if fold_idx % 2 == 0 else "Mirrored"
-        wall_hit = "💥 WALL" if x_perceived == 0 or x_perceived == L else ""
+        wall_hit = "  WALL" if x_perceived == 0 or x_perceived == L else ""
         
         print(f"T={t}: True={x_true:5.1f} | Fold#{fold_idx} ({mirror_type}) | Perceived={x_perceived:5.1f} {wall_hit}")
 

@@ -38,9 +38,9 @@ def verify_integration():
         recent_logs = village.logs[-5:] # Just peek at recent
         for log in recent_logs:
             if "-> Nature" in log:
-                print(f"  ✨ SUCCESS: Interaction Detected: {log}")
+                print(f"    SUCCESS: Interaction Detected: {log}")
             if "Obtained" in log:
-                print(f"  🎁 SUCCESS: Production Detected: {log}")
+                print(f"    SUCCESS: Production Detected: {log}")
 
     print("\n--- 3. Final Report ---")
     print(village.get_simulation_report())

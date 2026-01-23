@@ -56,7 +56,7 @@ class HyperSphereCore:
         # Initialize Axioms
         self._seed_cosmos()
         
-        logger.info(f"🔮 HyperSphere (Unified Field) Initialized.")
+        logger.info(f"  HyperSphere (Unified Field) Initialized.")
 
     def _seed_cosmos(self):
         """Seeds the universe with fundamental archetypes."""
@@ -90,7 +90,7 @@ class HyperSphereCore:
         self.spatial_map[coordinate] = properties
         properties["name"] = word # Tag it
         
-        print(f"✨ [Manifestation] '{word}' at {coordinate} -> Type: {properties['type']} (Temp: {properties['climate']['temperature']:.1f}C)")
+        print(f"  [Manifestation] '{word}' at {coordinate} -> Type: {properties['type']} (Temp: {properties['climate']['temperature']:.1f}C)")
         return properties
 
     def get_environment_at(self, coordinate: Tuple[int, int]) -> Dict[str, Any]:
@@ -145,7 +145,7 @@ class HyperSphereCore:
     def observe_field(self, query: str, observer_intent: Dict[str, Any]) -> str:
         """
         The Act of Observation within the Field.
-        🟡 [LIGHTNING INFERENCE] O(1) Search.
+          [LIGHTNING INFERENCE] O(1) Search.
         Instead of scanning the entire topological space, we resonate 
         directly with the Monad's identity via the Hashed Registry.
         """
@@ -154,7 +154,7 @@ class HyperSphereCore:
         if query in self.rotors:
             target = self.rotors[query]
             texture = observer_intent.get("emotional_texture", "Neutral")
-            state = f"⚡ [LIGHTNING-INF] {target.name} | RPM: {target.current_rpm:.1f} | Phase: {target.current_angle:.2f}"
+            state = f"  [LIGHTNING-INF] {target.name} | RPM: {target.current_rpm:.1f} | Phase: {target.current_angle:.2f}"
             if "Dark" in texture: state += " (Shrouded in Shadow)"
             elif "Love" in texture: state += " (Glowing with Warmth)"
             return state
@@ -187,4 +187,4 @@ class HyperSphereCore:
 
 
     def ignite(self):
-        logger.info("🔥 HyperSphere Ignition Sequence Complete.")
+        logger.info("  HyperSphere Ignition Sequence Complete.")

@@ -1,5 +1,5 @@
 """
-Wave Integration Hub (파동 통합 허브)
+Wave Integration Hub (        )
 =====================================
 
 "Transform all communication into waves. No more direct calls."
@@ -55,7 +55,7 @@ class WaveIntegrationHub:
         self._initialize_ether()
         self._setup_frequency_map()
         
-        logger.info("🌊 Wave Integration Hub initialized")
+        logger.info("  Wave Integration Hub initialized")
     
     def _initialize_ether(self):
         """Initialize connection to the Ether field"""
@@ -64,9 +64,9 @@ class WaveIntegrationHub:
             self.ether = ether
             self.Wave = Wave
             self.active = True
-            logger.info("✅ Ether connection established")
+            logger.info("  Ether connection established")
         except Exception as e:
-            logger.error(f"❌ Failed to connect to Ether: {e}")
+            logger.error(f"  Failed to connect to Ether: {e}")
             self.active = False
     
     def _setup_frequency_map(self):
@@ -113,7 +113,7 @@ class WaveIntegrationHub:
             True if registration successful
         """
         if not self.active:
-            logger.warning(f"⚠️ Cannot register {module_name}: Ether not active")
+            logger.warning(f"   Cannot register {module_name}: Ether not active")
             return False
         
         # Determine frequency for this module type
@@ -129,12 +129,12 @@ class WaveIntegrationHub:
         # Register callback with Ether if provided
         if callback:
             self.ether.tune_in(frequency, callback)
-            logger.info(f"👂 {module_name} tuned to {frequency}Hz")
+            logger.info(f"  {module_name} tuned to {frequency}Hz")
         
         if frequency not in self.metrics.active_frequencies:
             self.metrics.active_frequencies.append(frequency)
         
-        logger.info(f"✅ Registered {module_name} ({module_type}) at {frequency}Hz")
+        logger.info(f"  Registered {module_name} ({module_type}) at {frequency}Hz")
         return True
     
     def send_wave(self, sender: str, receiver: str, phase: str, 
@@ -153,7 +153,7 @@ class WaveIntegrationHub:
             True if wave was sent successfully
         """
         if not self.active:
-            logger.debug(f"⚠️ Wave from {sender} not sent: Ether inactive")
+            logger.debug(f"   Wave from {sender} not sent: Ether inactive")
             return False
         
         # Determine target frequency
@@ -193,7 +193,7 @@ class WaveIntegrationHub:
             'latency_ms': latency
         })
         
-        logger.debug(f"🌊 Wave sent: {sender} → {receiver} [{phase}] @ {frequency}Hz")
+        logger.debug(f"  Wave sent: {sender}   {receiver} [{phase}] @ {frequency}Hz")
         return True
     
     def send_dimensional_thought(self, sender: str, thought: Any, 
@@ -226,7 +226,7 @@ class WaveIntegrationHub:
         self.ether.emit(wave)
         self.metrics.dimensional_transitions += 1
         
-        logger.info(f"🌌 Dimensional thought: {sender} → {dimension} @ {frequency}Hz")
+        logger.info(f"  Dimensional thought: {sender}   {dimension} @ {frequency}Hz")
         return True
     
     def _infer_frequency(self, module_name: str) -> float:

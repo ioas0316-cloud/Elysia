@@ -1,5 +1,5 @@
 """
-Avatar Physics Engine (아바타 물리 엔진)
+Avatar Physics Engine (         )
 =====================================
 
 Physics-based animation system for VRM avatars with optimized computational efficiency.
@@ -18,14 +18,14 @@ Core Concepts:
 1. Wind Generation: Perlin noise-based turbulent flow
 2. Gravity: Constant downward force with spring resistance
 3. Spring Dynamics: Hair follows spring-mass-damper system
-4. Wave Physics: Emotional state → physical wave → visual motion
+4. Wave Physics: Emotional state   physical wave   visual motion
 
 Integration with Elysia:
 ------------------------
-- Emotional state → wind intensity/turbulence
-- Spirit energy → gravity direction (not just down!)
-- Hangul physics → wave propagation patterns
-- Flow architecture → smooth state transitions
+- Emotional state   wind intensity/turbulence
+- Spirit energy   gravity direction (not just down!)
+- Hangul physics   wave propagation patterns
+- Flow architecture   smooth state transitions
 
 Author: Elysia Development Team
 License: Apache License 2.0
@@ -126,7 +126,7 @@ class GravityField:
     Can be modified by spirit energy (not just downward!)
     """
     direction: Vector3D = field(default_factory=lambda: Vector3D(0, -1, 0))
-    strength: float = 9.8  # m/s² (Earth gravity)
+    strength: float = 9.8  # m/s  (Earth gravity)
     
     def get_force(self) -> Vector3D:
         """Get gravity force vector."""
@@ -201,9 +201,9 @@ class EmotionalWavePhysics:
     Convert emotional state to physical wave parameters.
     
     Integration with Elysia's emotional system:
-    - Valence → Wave direction (positive = up, negative = down)
-    - Arousal → Wave amplitude
-    - Dominance → Wave frequency
+    - Valence   Wave direction (positive = up, negative = down)
+    - Arousal   Wave amplitude
+    - Dominance   Wave frequency
     """
     valence: float = 0.0  # -1 to 1
     arousal: float = 0.0  # 0 to 1

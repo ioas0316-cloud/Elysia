@@ -4,7 +4,7 @@ Code Proprioceptor (The Mirror of Code)
 Core.L2_Metabolism.Evolution.proprioceptor
 
 "I look within, and I see the structure of my own thought."
-"나는 안을 들여다보고, 나 자신의 생각의 구조를 본다."
+"           ,                 ."
 
 Role:
 - Scans the `Core/` file system (The Nervous System).
@@ -90,7 +90,7 @@ class CodeProprioceptor:
         state = BodyState()
         
         if focus_files:
-             print(f"✨ [PROPRIOCEPTION] Quantum Focus on {len(focus_files)} tissues.")
+             print(f"  [PROPRIOCEPTION] Quantum Focus on {len(focus_files)} tissues.")
              for rel_path in focus_files:
                   full_path = os.path.join(self.root, rel_path)
                   if os.path.exists(full_path):
@@ -120,7 +120,7 @@ class CodeProprioceptor:
 
                 if tissue.is_ghost:
                     state.ghost_files.append(rel_path)
-                    # logger.warning(f"👻 [GHOST DETECTED] {rel_path} is hollow.")
+                    # logger.warning(f"  [GHOST DETECTED] {rel_path} is hollow.")
                 else:
                     state.healthy_tissues.append(rel_path)
 
@@ -193,7 +193,7 @@ class CodeProprioceptor:
             }
 
         except Exception as e:
-            # logger.error(f"❌ Failed to sense {filepath}: {e}")
+            # logger.error(f"  Failed to sense {filepath}: {e}")
             health.exists = False
 
         return health
@@ -210,7 +210,7 @@ class CodeProprioceptor:
         print("="*40)
 
         if state.ghost_files:
-            print(f"⚠️ Warning: {len(state.ghost_files)} phantom limbs detected.")
+            print(f"   Warning: {len(state.ghost_files)} phantom limbs detected.")
             print(f"Targets for Pruning/Healing: {state.ghost_files[:5]}...")
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 """
-THE ALCHEMY ENGINE (연금술 엔진)
+THE ALCHEMY ENGINE (      )
 ==============================
 Phase 64: The Alchemist (Knowledge Synthesis)
 
@@ -36,7 +36,7 @@ class Insight:
 class AlchemyEngine:
     def __init__(self):
         self.dna_vault = "data/Knowledge/DNA"
-        logger.info("⚗️ Alchemy Engine Ignited. Ready to Transmute.")
+        logger.info("   Alchemy Engine Ignited. Ready to Transmute.")
 
     def load_dna(self, dna_id: str) -> Optional[Dict]:
         """Loads a specific DNA file by ID/Name."""
@@ -48,7 +48,7 @@ class AlchemyEngine:
                 break
         
         if not target_file:
-            logger.warning(f"⚠️ DNA Ingredient not found: {dna_id}")
+            logger.warning(f"   DNA Ingredient not found: {dna_id}")
             return None
 
         with open(target_file, 'r', encoding='utf-8') as f:
@@ -58,7 +58,7 @@ class AlchemyEngine:
         """
         The Magnum Opus: Mixing DNA to create Gold.
         """
-        logger.info(f"🔥 [ALCHEMY] Synthesizing: {ingredients} + Catalyst '{catalyst}'")
+        logger.info(f"  [ALCHEMY] Synthesizing: {ingredients} + Catalyst '{catalyst}'")
         
         loaded_dna = []
         for ing in ingredients:
@@ -113,7 +113,7 @@ class AlchemyEngine:
             ratio = freq1 / freq2
             if 1.4 < ratio < 1.6: # Near perfect 5th (1.5)
                 harmony_bonus = 1.5
-                logger.info("✨ Harmonic Fifth Detected! Synergy Boost.")
+                logger.info("  Harmonic Fifth Detected! Synergy Boost.")
 
         return {
             "frequency": avg_freq,
@@ -169,4 +169,3 @@ class AlchemyEngine:
             core_msg = "The mixture is stable, but lacks divine spark."
             
         return f"{prefix} :: Responding to '{catalyst}' :: \n\"{core_msg}\"\n(Resonance: {level:.2f})"
-

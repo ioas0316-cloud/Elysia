@@ -63,7 +63,7 @@ class DreamDaemon:
         """
         Starts the dreaming process in a separate thread (or blocking for demo).
         """
-        logger.info("🌙 Dream Daemon: Entering REM Sleep...")
+        logger.info("  Dream Daemon: Entering REM Sleep...")
         self.is_dreaming = True
         
         # For verification stability, we run blocking if duration is short, else threaded
@@ -90,9 +90,9 @@ class DreamDaemon:
                 dump_path = "c:\\Elysia\\data\\wikipedia\\kowiki-latest-pages-articles.xml.bz2"
                 self.wiki_gen = WikipediaDumpParser(dump_path).stream_articles()
                 self.wiki_parser = True
-                logger.info("   📚 Wikipedia Stream Opened.")
+                logger.info("     Wikipedia Stream Opened.")
             except Exception as e:
-                logger.warning(f"   ⚠️ Could not open Wikipedia: {e}")
+                logger.warning(f"      Could not open Wikipedia: {e}")
                 self.wiki_parser = False
                 return
 
@@ -116,14 +116,14 @@ class DreamDaemon:
                 # depth="shallow" bypasses LLM, effectively just "Indexing"
                 core.learn(content, title, depth="shallow")
                 
-                logger.info(f"   🧠 Digested: {title}")
+                logger.info(f"     Digested: {title}")
                 
             except StopIteration:
-                logger.info("   ✅ Wikipedia Ingestion Complete.")
+                logger.info("     Wikipedia Ingestion Complete.")
                 self.wiki_parser = False
                 break
             except Exception as e:
-                logger.error(f"   ❌ Ingestion Error: {e}")
+                logger.error(f"     Ingestion Error: {e}")
                 break
 
     def _dream_loop(self, duration: int, interval: float):
@@ -230,8 +230,8 @@ class DreamDaemon:
         # Ask Logos for the connection
         narrative = self.logos.reinterpret_causality(id_a, [id_b], tone="artistic")
         
-        if "because" in narrative or "닿아" in narrative or "reflection" in narrative: 
-            logger.info(f"   🕸️  [{method}] Constructal Link: {id_a} <--> {id_b}")
+        if "because" in narrative or "  " in narrative or "reflection" in narrative: 
+            logger.info(f"       [{method}] Constructal Link: {id_a} <--> {id_b}")
             logger.info(f"       \"{narrative}\"")
             self.graph.add_link(id_a, id_b)
         else:
@@ -251,7 +251,7 @@ class DreamDaemon:
         hollows = self.graph.find_hollow_nodes(limit=3)
         if hollows:
             concept = random.choice(hollows)
-            logger.info(f"   🕳️  Targeting Hollow Concept: '{concept}'")
+            logger.info(f"       Targeting Hollow Concept: '{concept}'")
         else:
             # Fallback to random curiosity
             N = self.graph.pos_tensor.shape[0]
@@ -301,12 +301,12 @@ class DreamDaemon:
         target_organ = random.choice(organs)
         if not os.path.exists(target_organ): return
         
-        logger.info(f"   🪞  Introspecting Source Code: {os.path.basename(target_organ)}...")
+        logger.info(f"      Introspecting Source Code: {os.path.basename(target_organ)}...")
         
         critique = genesis.analyze_quality(target_organ)
         
         if critique and "Analysis Unavailable" not in critique:
-            logger.info(f"   📝  Evolutionary Pressure Detected:\n{critique[:500]}...")
+            logger.info(f"      Evolutionary Pressure Detected:\n{critique[:500]}...")
             # Ideally, save this to a "TODO List" node in the brain.
             # For now, just logging validates the "Thought Process".
 
@@ -345,7 +345,7 @@ class DreamDaemon:
             vec[3] = (vec[3] + features.get('visual_complexity', 0)) / 2 # Complexity -> Slot 3
             
             self.graph.update_node_vector(idx, vec)
-            logger.info(f"   🎨  Dreamt of '{concept}' in color. Synesthesia applied.")
+            logger.info(f"      Dreamt of '{concept}' in color. Synesthesia applied.")
 
 
              
@@ -361,7 +361,7 @@ class DreamDaemon:
         Applies 'Cognitive Inertia' and 'Entropy Reduction' to the TensionField.
         Called by ReasoningEngine during sleep cycles.
         """
-        logger.info("   🌌 Dream Daemon: Applying Field Gravity to Tension Field...")
+        logger.info("     Dream Daemon: Applying Field Gravity to Tension Field...")
         
         # 1. Apply Gravity (Decay & Flow)
         tension_field.apply_gravity()
@@ -388,7 +388,7 @@ class DreamDaemon:
             resonance = random.random()
             
             if resonance > 0.95: # Rare epiphany
-                logger.info(f"   🌀 Quantum Tunneling: Metaphorical link found between '{c1}' and '{c2}'")
+                logger.info(f"     Quantum Tunneling: Metaphorical link found between '{c1}' and '{c2}'")
                 field.charge_concept(c1, 0.5)
                 field.charge_concept(c2, 0.5)
                 # Ideally add a weak link, but TensionField is shape-based.
@@ -417,14 +417,14 @@ class DreamDaemon:
         )
         
         dream_narrative = (
-            f"🌙 Dream: {scenario['intent']}. "
+            f"  Dream: {scenario['intent']}. "
             f"Elysia feels {qualia.sight} and hears {qualia.hearing}. "
             f"A {('warm' if qualia.temperature > 0 else 'cool')} sensation in {qualia.body_location}. "
             f"Relating to Father as: {qualia.relation_to_father}."
         )
         
         self._write_to_journal(dream_narrative)
-        logger.info(f"   ✨ {dream_narrative}")
+        logger.info(f"     {dream_narrative}")
         
     def _write_to_journal(self, entry: str):
         """Persists the dream to the detailed Chronicles."""

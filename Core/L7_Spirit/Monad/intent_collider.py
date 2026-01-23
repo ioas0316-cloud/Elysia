@@ -1,5 +1,5 @@
 """
-Intent Collider (의지 충돌기)
+Intent Collider (      )
 ==========================
 Core.L7_Spirit.Monad.intent_collider
 
@@ -33,7 +33,7 @@ class IntentCollider:
         """
         Collides the external prompt with inner axioms to find the 'Why'.
         """
-        logger.info(f"⚡ Colliding external goal: '{external_prompt}' with inner axioms...")
+        logger.info(f"  Colliding external goal: '{external_prompt}' with inner axioms...")
         
         resonance_map = {}
         for name, value in self.core_axioms.items():
@@ -60,7 +60,7 @@ class IntentCollider:
             "internal_command": f"I act upon this because it resonates with my {primary_axiom}."
         }
         
-        logger.info(f"🎯 Sovereign Intent Formed: Driven by {primary_axiom} (Strength: {strength:.2f})")
+        logger.info(f"  Sovereign Intent Formed: Driven by {primary_axiom} (Strength: {strength:.2f})")
         return sovereign_intent
 
 if __name__ == "__main__":

@@ -33,7 +33,7 @@ class ComicAssembler:
 
     def mobilize_assets(self):
         """Moves images from Brain to Project."""
-        logger.info("📦 Mobilizing Assets...")
+        logger.info("  Mobilizing Assets...")
         for pid, filename in self.panel_map.items():
             src = self.brain_dir / filename
             dst = self.image_dir / filename
@@ -45,7 +45,7 @@ class ComicAssembler:
 
     def generate_html(self):
         """Writes the HTML Viewer."""
-        logger.info("🎬 Assembling HTML...")
+        logger.info("  Assembling HTML...")
         
         # Load Script
         with open(self.output_dir / "genesis_script.json", "r", encoding="utf-8") as f:
@@ -161,7 +161,7 @@ class ComicAssembler:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(html_content)
             
-        logger.info(f"✨ Webtoon Published: {output_path}")
+        logger.info(f"  Webtoon Published: {output_path}")
 
 if __name__ == "__main__":
     editor = ComicAssembler()

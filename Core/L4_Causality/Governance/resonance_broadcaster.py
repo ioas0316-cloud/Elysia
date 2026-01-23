@@ -1,5 +1,5 @@
 """
-ResonanceBroadcaster: The Field Generator (공명 방송기)
+ResonanceBroadcaster: The Field Generator (      )
 
 "The Will is not a command sent to a subordinate.
  It is a Field Change that realigns the compass of every module."
@@ -50,7 +50,7 @@ class ResonanceBroadcaster:
         else:
             self.state.frequency = "Alpha" # Idle/Meditative
             
-        logger.info(f"📡 Field Update [{source}]: {self.state}")
+        logger.info(f"  Field Update [{source}]: {self.state}")
         
         # Notify listeners (Compass Logic)
         self._notify_listeners()

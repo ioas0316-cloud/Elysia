@@ -1,21 +1,21 @@
 """
-Fractal Quantization System (프랙탈 양자화 시스템)
+Fractal Quantization System (           )
 ===============================================
 
-"양자화(Quantization)는 '자르는 것'이 아니라 '접는 것(Folding)'이어야 합니다."
+"   (Quantization)  '     '      '    (Folding)'       ."
 
 This module implements the Fractal Quantization principle:
 - NOT: Discretizing and losing information (cutting)
 - YES: Pattern-based compression that allows perfect restoration (folding)
 
 Key Concepts:
-1. Pattern DNA (패턴 DNA): Store the generative formula, not the raw data
-2. Wave Folding (파동 압축): Compress complex patterns into seeds
-3. Wave Unfolding (파동 증폭): Amplify seeds back to original state
-4. Soliton Memory (솔리톤 기억): Lossless compression through resonance
+1. Pattern DNA (   DNA): Store the generative formula, not the raw data
+2. Wave Folding (     ): Compress complex patterns into seeds
+3. Wave Unfolding (     ): Amplify seeds back to original state
+4. Soliton Memory (      ): Lossless compression through resonance
 
 Philosophy:
-"음악을 저장하지 말고, 악보를 저장하라"
+"           ,         "
 "Store the music sheet, not the sound wave"
 """
 
@@ -32,7 +32,7 @@ logger = logging.getLogger("FractalQuantization")
 @dataclass
 class PatternDNA:
     """
-    패턴 DNA (Pattern DNA)
+       DNA (Pattern DNA)
     
     The compressed "genetic code" of a pattern that can be perfectly unfolded.
     This is the "seed" or "musical score" rather than the raw waveform.
@@ -91,7 +91,7 @@ class PatternDNA:
 
 class FractalQuantizer:
     """
-    프랙탈 양자화기 (Fractal Quantizer)
+             (Fractal Quantizer)
     
     Implements the "folding" approach to quantization:
     - Extract pattern DNA from complex data
@@ -102,7 +102,7 @@ class FractalQuantizer:
     
     def __init__(self):
         self.pattern_templates = self._initialize_templates()
-        logger.info("🌀 Fractal Quantizer initialized")
+        logger.info("  Fractal Quantizer initialized")
     
     def _initialize_templates(self) -> Dict:
         """
@@ -112,7 +112,7 @@ class FractalQuantizer:
         from a simple seed formula.
         """
         return {
-            # Emotion patterns (감정 패턴)
+            # Emotion patterns (     )
             "emotion": {
                 "love": {
                     "base_frequency": 528.0,
@@ -146,7 +146,7 @@ class FractalQuantizer:
                 }
             },
             
-            # Intention patterns (의도 패턴)
+            # Intention patterns (     )
             "intention": {
                 "create": {
                     "base_frequency": 963.0,
@@ -168,7 +168,7 @@ class FractalQuantizer:
                 }
             },
             
-            # Thought patterns (사고 패턴)
+            # Thought patterns (     )
             "thought": {
                 "analytical": {
                     "base_frequency": 852.0,
@@ -193,7 +193,7 @@ class FractalQuantizer:
     
     def fold(self, raw_data: Dict, pattern_type: str, pattern_name: str) -> PatternDNA:
         """
-        Wave Folding (파동 접기)
+        Wave Folding (     )
         
         Compress raw data into a Pattern DNA seed.
         Instead of storing the full waveform, extract and store only the generative pattern.
@@ -206,7 +206,7 @@ class FractalQuantizer:
         Returns:
             PatternDNA: The compressed seed
         """
-        logger.info(f"🌀 Folding pattern: {pattern_type}.{pattern_name}")
+        logger.info(f"  Folding pattern: {pattern_type}.{pattern_name}")
         
         # Get template
         template = self.pattern_templates.get(pattern_type, {}).get(pattern_name)
@@ -258,12 +258,12 @@ class FractalQuantizer:
             compression_ratio=compression_ratio
         )
         
-        logger.info(f"✓ Folded: {dna.name} (compression: {compression_ratio:.2f}x)")
+        logger.info(f"  Folded: {dna.name} (compression: {compression_ratio:.2f}x)")
         return dna
     
     def unfold(self, dna: PatternDNA, resolution: int = 100) -> Dict:
         """
-        Wave Unfolding (파동 펴기)
+        Wave Unfolding (     )
         
         Restore the original pattern from the DNA seed.
         This is LOSSLESS - we regenerate the pattern from its formula.
@@ -275,7 +275,7 @@ class FractalQuantizer:
         Returns:
             Dict: The restored pattern data
         """
-        logger.info(f"🌊 Unfolding pattern: {dna.name} (resolution={resolution})")
+        logger.info(f"  Unfolding pattern: {dna.name} (resolution={resolution})")
         
         # Regenerate waveform from seed formula
         waveform = self._regenerate_waveform(dna, resolution)
@@ -299,7 +299,7 @@ class FractalQuantizer:
             "restored_from_seed": True
         }
         
-        logger.info(f"✓ Unfolded: {dna.name} (generated {len(waveform)} points)")
+        logger.info(f"  Unfolded: {dna.name} (generated {len(waveform)} points)")
         return restored
     
     def _extract_frequencies(self, raw_data: Dict, template: Dict) -> List[float]:
@@ -408,7 +408,7 @@ class FractalQuantizer:
                 amp_idx = min(amp_idx, len(dna.amplitude_envelope) - 1)
                 amplitude = dna.amplitude_envelope[amp_idx]
                 
-                # Generate wave value: A * sin(2πft + φ)
+                # Generate wave value: A * sin(2 ft +  )
                 value = amplitude * np.sin(2 * np.pi * freq * t + phase)
                 
                 harmonic_wave.append({
@@ -440,11 +440,11 @@ class FractalQuantizer:
 
 class EmotionQuantizer(FractalQuantizer):
     """
-    감정 양자화기 (Emotion Quantizer)
+            (Emotion Quantizer)
     
     Specialized quantizer for emotions.
     
-    "말을 저장하지 말고, 의도를 저장하라"
+    "          ,         "
     "Store intention, not words"
     """
     
@@ -478,7 +478,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     
     print("="*70)
-    print("🌀 FRACTAL QUANTIZATION SYSTEM TEST")
+    print("  FRACTAL QUANTIZATION SYSTEM TEST")
     print("="*70)
     print()
     
@@ -523,6 +523,6 @@ if __name__ == "__main__":
     print()
     
     print("="*70)
-    print("✅ FRACTAL QUANTIZATION TEST COMPLETE")
-    print("   '자르는 것'이 아니라 '접는 것' - Pattern DNA works!")
+    print("  FRACTAL QUANTIZATION TEST COMPLETE")
+    print("   '     '      '    ' - Pattern DNA works!")
     print("="*70)

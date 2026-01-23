@@ -15,24 +15,24 @@ from Core.L1_Foundation.Foundation.code_gravity import CodeGravitySystem
 from Core.L1_Foundation.Foundation.code_cortex import CodeCortex
 
 def run_experiment():
-    print("🧪 Starting Gravity Refactor Experiment...")
+    print("  Starting Gravity Refactor Experiment...")
     
     # 1. Initialize Gravity System
     galaxy = CodeGravitySystem("c:/Elysia")
     galaxy.scan_galaxy()
     
     # 2. Find Heaviest 'Core' Star
-    print("\n🔭 Searching for Supermassive Stars in 'Core' Sector...")
+    print("\n  Searching for Supermassive Stars in 'Core' Sector...")
     core_stars = {k: v for k, v in galaxy.nodes.items() if k.startswith("Core")}
     
     if not core_stars:
-        print("❌ No Core stars found.")
+        print("  No Core stars found.")
         return
 
     heaviest_path = max(core_stars, key=lambda k: core_stars[k]["mass"])
     heaviest_data = core_stars[heaviest_path]
     
-    print(f"   🌌 Supermassive Object Detected: {heaviest_path}")
+    print(f"     Supermassive Object Detected: {heaviest_path}")
     print(f"      Mass: {heaviest_data['mass']:.2f}")
     print(f"      Gravity Lines: {len(heaviest_data['imports'])}")
     
@@ -41,7 +41,7 @@ def run_experiment():
     print(f"      Tidal Stress: {tidal_stress:.2f} G-Force")
     
     if tidal_stress > 5.0: # Threshold
-        print("\n⚠️ CRITICAL GRAVITY ALERT: Singularity Imminent.")
+        print("\n   CRITICAL GRAVITY ALERT: Singularity Imminent.")
         print("   Initiating Fission Protocol (Refactoring)...")
         
         # 4. Engage CodeCortex
@@ -57,14 +57,14 @@ def run_experiment():
         Example: {{ "new_module_a.py": "Handles X", "new_module_b.py": "Handles Y" }}
         """
         
-        print("\n🧠 CodeCortex is thinking...")
+        print("\n  CodeCortex is thinking...")
         response = cortex.generate_code(prompt)
         
         print("\n[CodeCortex Fission Plan]")
         print(response)
         
     else:
-        print("\n✅ Gravity is stable. No refactoring needed.")
+        print("\n  Gravity is stable. No refactoring needed.")
 
 if __name__ == "__main__":
     run_experiment()

@@ -10,11 +10,11 @@ try:
         print(f"Sample Keys: {list(g.id_to_idx.keys())[:20]}")
         
         if 'tsunami' in g.id_to_idx:
-            print(f"✅ Node Found: 'tsunami'")
+            print(f"  Node Found: 'tsunami'")
             print(f"Metadata: {g.node_metadata.get('tsunami')}")
         else:
-            print("❌ Node 'tsunami' NOT FOUND.")
+            print("  Node 'tsunami' NOT FOUND.")
     else:
-        print("❌ Could not load state.")
+        print("  Could not load state.")
 except Exception as e:
     print(f"Error: {e}")

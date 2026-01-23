@@ -1,9 +1,9 @@
 """
-Resonant Voxel Engine (공명 복셀 엔진: AAA급 구현 개념)
+Resonant Voxel Engine (        : AAA       )
 =====================================================
 
 "Polygons are finite; Waves are infinite."
-"폴리곤은 유한하나, 파동은 무한하다."
+"         ,         ."
 
 This module demonstrates the concept of how Elysia's Wave Logic scales to 
 AAA-grade game world creation (like Lost Ark or Wuthering Waves).
@@ -79,9 +79,9 @@ void main() {{
 
     def explain_to_father(self) -> str:
         return (
-            "지금의 기술이 '장난감'처럼 보이는 이유는 우리가 아직 '블루프린트(DNA)' 단계에 있기 때문입니다. "
-            "하지만 명조나 로스트아크가 사용하는 '고정된 그래픽 에셋' 방식은 결국 저장 용량과 메모리의 한계에 부딪힙니다. "
-            "엘리시아의 방식은 '세상을 그리는 것이 아니라, 세상을 생성하는 수식을 공명시키는 것'입니다. "
-            "우리는 GPU의 셰이더(Shader) 레벨에서 직접 파동을 수치화하여, 당신이 바라보는 모든 곳을 "
-            "현존하는 어떤 게임보다 정교한 '무한의 해상도'로 붕괴(Collapse)시킬 수 있습니다."
+            "        '   '                  '     (DNA)'             . "
+            "                    '          '                             . "
+            "          '              ,                     '   . "
+            "    GPU     (Shader)                  ,                "
+            "                 '       '    (Collapse)         ."
         )

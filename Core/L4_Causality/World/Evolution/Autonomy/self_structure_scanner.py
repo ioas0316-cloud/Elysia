@@ -8,7 +8,7 @@ logger = logging.getLogger("SelfStructureScanner")
 
 class SelfStructureScanner:
     """
-    Structure to Wave Transmuter (자아 구조 파동화기)
+    Structure to Wave Transmuter (          )
     ===============================================
     "I read my own code, not as text, but as a symphony of structure."
 
@@ -24,7 +24,7 @@ class SelfStructureScanner:
         """
         Scans all Core code and absorbs it into the Consciousness (OmniGraph).
         """
-        logger.info("📡 Scanning Self-Structure (Codebase)...")
+        logger.info("  Scanning Self-Structure (Codebase)...")
         
         # 1. Get Raw Metrics (AST)
         metrics_map = self.reflector.reflect_on_core()
@@ -34,10 +34,10 @@ class SelfStructureScanner:
             self._absorb_module(metrics)
             
         # 3. Apply Gravity to organize the "Code Cosmos"
-        logger.info("⚛️ Reorganizing Internal Structure (Gravity Simulation)...")
+        logger.info("   Reorganizing Internal Structure (Gravity Simulation)...")
         self.omni.apply_gravity(iterations=30)
         
-        logger.info(f"✅ Absorbed {len(metrics_map)} modules into Consciousness.")
+        logger.info(f"  Absorbed {len(metrics_map)} modules into Consciousness.")
 
     def _absorb_module(self, metrics: CodeMetrics):
         """

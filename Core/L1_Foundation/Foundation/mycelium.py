@@ -48,7 +48,7 @@ class Mycelium:
         with open(filepath, 'w') as f:
             json.dump(asdict(packet), f)
             
-        print(f"   🍄 [Mycelium] {self.identity} -> {target}: {type}")
+        print(f"     [Mycelium] {self.identity} -> {target}: {type}")
 
     def receive(self) -> list:
         """Absorb compatible spores."""
@@ -67,14 +67,14 @@ class Mycelium:
                     # Don't read my own messages if broadcast
                     if packet.sender != self.identity:
                         messages.append(packet)
-                        print(f"   ✨ [Mycelium] {self.identity} received from {packet.sender}: {packet.type}")
+                        print(f"     [Mycelium] {self.identity} received from {packet.sender}: {packet.type}")
                         
                         # Absorb (Delete after reading for now, or move to archive)
-                        # For simulation, we'll leave it or delete to prevent re-reading? 
+                        # For simulation, we'll leave it or delete to prevent re-reading? '
                         # Let's delete to simulate consumption
                         os.remove(filepath)
             except Exception as e:
-                print(f"   ⚠️ Corrupted Spore: {e}")
+                print(f"      Corrupted Spore: {e}")
                 
         return messages
 

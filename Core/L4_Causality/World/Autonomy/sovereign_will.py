@@ -26,7 +26,7 @@ class SovereignWill:
         self.intent_vector.add_component(THEME_FREQUENCY_MAP[Theme.EXISTENTIAL], amplitude=0.5)
         
         self.intention_log = []
-        self._last_label = "초기화된 존재 (Initialized Being)"
+        self._last_label = "        (Initialized Being)"
 
     @property
     def current_mode(self) -> str:
@@ -38,7 +38,7 @@ class SovereignWill:
         Drifts the intent vector based on recent memory and resonance.
         Now includes Harmonic Divergence: Saturation Damping and Active Dissonance.
         """
-        logger.info("🌀 Sovereign Recalibration: Drifting Intentional Vector...")
+        logger.info("  Sovereign Recalibration: Drifting Intentional Vector...")
         
         if not WaveTensor: return
 
@@ -73,13 +73,13 @@ class SovereignWill:
             self.theme_residence_time[dominant_theme_name] = 1
 
         residence = self.theme_residence_time[dominant_theme_name]
-        logger.info(f"⏳ Theme Residence: {dominant_theme_name} for {residence} cycles.")
+        logger.info(f"  Theme Residence: {dominant_theme_name} for {residence} cycles.")
 
         # [PHASE 38] 1. Saturation Damping (Boredom)
         # If dominant for > 3 cycles, dampen it.
         if residence > 3:
             penalty = (residence - 3) * 0.2
-            logger.info(f"🥱 Saturation Detected: Dampening {dominant_theme_name} by -{penalty:.2f}")
+            logger.info(f"  Saturation Detected: Dampening {dominant_theme_name} by -{penalty:.2f}")
             # Find frequency again to dampen
             for th, f in THEME_FREQUENCY_MAP.items():
                 if th.name == dominant_theme_name:
@@ -121,7 +121,7 @@ class SovereignWill:
             
             if candidates:
                 shadow_theme = random.choice(candidates)
-                logger.info(f"🌑 Active Dissonance: Injecting Shadow Theme '{shadow_theme.name}'")
+                logger.info(f"  Active Dissonance: Injecting Shadow Theme '{shadow_theme.name}'")
                 self.intent_vector.add_component(THEME_FREQUENCY_MAP[shadow_theme], amplitude=0.8) # Strong boost
 
         # 4. Decay & Normalization
@@ -152,7 +152,7 @@ class SovereignWill:
         E.g., "Neon Ethereal Dream" or "Love Alchemical Inquiry".
         """
         if not WaveTensor or self.intent_vector.active_frequencies.size == 0:
-            return "순수한 존재 (Pure Existence)"
+            return "       (Pure Existence)"
 
         # Get top 2-3 components
         freqs = self.intent_vector._frequencies
@@ -178,7 +178,7 @@ class SovereignWill:
                 labels.append(get_theme_label(best_theme).split(' (')[0]) # Use KR part
 
         if not labels:
-            return "미지의 파동 (Unknown Wave)"
+            return "       (Unknown Wave)"
             
         self._last_label = " ".join(labels)
         return self._last_label

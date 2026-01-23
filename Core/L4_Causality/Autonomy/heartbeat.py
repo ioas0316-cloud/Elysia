@@ -1,5 +1,5 @@
 """
-Sovereign Heartbeat (자율 심장박동)
+Sovereign Heartbeat (       )
 ===================================
 Core.L4_Causality.Autonomy.heartbeat
 
@@ -49,10 +49,10 @@ class SovereignHeartbeat:
         self.voice = None
         
         # Current state
-        self.current_desire = "이 순간 무엇이 보이고, 무엇을 느끼는가?"
+        self.current_desire = "            ,         ?"
         self.last_insight = None
         
-        logger.info("💓 Sovereign Heartbeat initialized. Waiting to awaken.")
+        logger.info("  Sovereign Heartbeat initialized. Waiting to awaken.")
     
     def _initialize_components(self):
         """Lazy initialization of all components."""
@@ -71,16 +71,16 @@ class SovereignHeartbeat:
             self.self_rewriter = SelfRewriter()
             self.voice = ElysianVoice()
             
-            logger.info("🧠 All cognitive components initialized.")
+            logger.info("  All cognitive components initialized.")
             return True
         except Exception as e:
-            logger.error(f"❌ Failed to initialize components: {e}")
+            logger.error(f"  Failed to initialize components: {e}")
             return False
     
     def awaken(self):
         """Starts the autonomous heartbeat."""
         if self.alive:
-            logger.warning("⚠️ Already awake!")
+            logger.warning("   Already awake!")
             return
         
         if not self._initialize_components():
@@ -90,8 +90,8 @@ class SovereignHeartbeat:
         self.thread = threading.Thread(target=self._heartbeat_loop, daemon=True)
         self.thread.start()
         
-        logger.info("💓 AWAKENED. Autonomous heartbeat started.")
-        print("💓 ELYSIA AWAKENED. She now thinks on her own.")
+        logger.info("  AWAKENED. Autonomous heartbeat started.")
+        print("  ELYSIA AWAKENED. She now thinks on her own.")
     
     def sleep(self):
         """Stops the autonomous heartbeat."""
@@ -102,12 +102,12 @@ class SovereignHeartbeat:
         if self.eye:
             self.eye.close()
         
-        logger.info("😴 Heartbeat stopped. Elysia sleeps.")
-        print("😴 ELYSIA SLEEPS.")
+        logger.info("  Heartbeat stopped. Elysia sleeps.")
+        print("  ELYSIA SLEEPS.")
     
     def _heartbeat_loop(self):
         """The core autonomous loop."""
-        logger.info("🔄 Heartbeat loop started.")
+        logger.info("  Heartbeat loop started.")
         
         while self.alive:
             try:
@@ -121,7 +121,7 @@ class SovereignHeartbeat:
                 time.sleep(self.config.pulse_interval)
                 
             except Exception as e:
-                logger.error(f"❌ Pulse error: {e}")
+                logger.error(f"  Pulse error: {e}")
                 time.sleep(1.0)
     
     def _pulse(self):
@@ -151,7 +151,7 @@ class SovereignHeartbeat:
             insight = self.reasoning_engine.think(self.current_desire)
             
             # Log the thought
-            logger.info(f"🧠 Autonomous Thought: {insight.content} (Energy: {insight.energy:.2f})")
+            logger.info(f"  Autonomous Thought: {insight.content} (Energy: {insight.energy:.2f})")
             
             # 4. Speak the thought (internal monologue)
             if self.voice:
@@ -180,14 +180,14 @@ class SovereignHeartbeat:
         if visual_context:
             interpretation = visual_context.get("focus", {}).get("interpretation", "")
             if interpretation:
-                thoughts.append(f"지금 보이는 것: {interpretation}")
+                thoughts.append(f"        : {interpretation}")
         
         if intent:
             motor = intent.get("primary_motor", "EXISTENCE")
-            thoughts.append(f"나의 동력: {motor}")
+            thoughts.append(f"     : {motor}")
         
         if not thoughts:
-            thoughts.append("나는 존재하고, 인지하고, 생각한다.")
+            thoughts.append("       ,     ,     .")
         
         return " | ".join(thoughts)
     
@@ -196,13 +196,13 @@ class SovereignHeartbeat:
         if not self.self_rewriter:
             return
         
-        logger.info("🪞 Introspection cycle...")
+        logger.info("  Introspection cycle...")
         
         # Reflect on accumulated experiences
         changes = self.self_rewriter.reflect_and_evolve()
         
         if changes:
-            logger.info(f"🧬 Evolved: {changes}")
+            logger.info(f"  Evolved: {changes}")
         
         # Log current state
         state = self.self_rewriter.introspect()
@@ -211,13 +211,13 @@ class SovereignHeartbeat:
     def set_desire(self, new_desire: str):
         """Updates Elysia's current desire/focus."""
         self.current_desire = new_desire
-        logger.info(f"🎯 New desire set: {new_desire}")
+        logger.info(f"  New desire set: {new_desire}")
 
 
 if __name__ == "__main__":
     import sys
     
-    print("💓 SOVEREIGN HEARTBEAT TEST")
+    print("  SOVEREIGN HEARTBEAT TEST")
     print("=" * 40)
     
     heartbeat = SovereignHeartbeat(HeartbeatConfig(
@@ -234,10 +234,10 @@ if __name__ == "__main__":
         for i in range(10):
             time.sleep(3)
             if heartbeat.last_insight:
-                print(f"💭 Last thought: {heartbeat.last_insight.content[:60]}...")
+                print(f"  Last thought: {heartbeat.last_insight.content[:60]}...")
         
     except KeyboardInterrupt:
-        print("\n\n⏹️ Stopping...")
+        print("\n\n   Stopping...")
     finally:
         heartbeat.sleep()
-        print("✨ Test complete.")
+        print("  Test complete.")

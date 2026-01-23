@@ -26,7 +26,7 @@ try:
     from sentence_transformers import SentenceTransformer
 except ImportError:
     SentenceTransformer = None
-    logger.warning("❌ sentence-transformers not installed. Neural Link will be generic.")
+    logger.warning("  sentence-transformers not installed. Neural Link will be generic.")
 
 class TinyBrain:
     def __init__(self, model_path: str = None):
@@ -38,7 +38,7 @@ class TinyBrain:
         # [LAZY LOADING] Do not load on init
         # "She sleeps until spoken to."
         if not os.path.exists(self.model_path):
-            logger.warning(f"⚠️ Model not found at {self.model_path}")
+            logger.warning(f"   Model not found at {self.model_path}")
             
     def _ensure_loaded(self):
         if self.model is not None or (self.embedder is not None and self.model_path == "embed-only"): 
@@ -49,14 +49,14 @@ class TinyBrain:
             try:
                 # Use a small, fast model. It will download if needed.
                 self.embedder = SentenceTransformer('all-MiniLM-L6-v2')
-                logger.info("🔗 Neural Link Established (SentenceTransformer: all-MiniLM-L6-v2)")
+                logger.info("  Neural Link Established (SentenceTransformer: all-MiniLM-L6-v2)")
             except Exception as e:
-                logger.error(f"❌ Failed to load Neural Link: {e}")
+                logger.error(f"  Failed to load Neural Link: {e}")
                 
         # 2. Try Loading Llama (The Broca)
         if Llama and os.path.exists(self.model_path):
             try:
-                logger.info(f"🧠 Waking TinyBrain from {os.path.basename(self.model_path)}...")
+                logger.info(f"  Waking TinyBrain from {os.path.basename(self.model_path)}...")
                 self.model = Llama(
                     model_path=self.model_path,
                     n_gpu_layers=20, 
@@ -65,9 +65,9 @@ class TinyBrain:
                     logits_all=True,
                     verbose=False
                 )
-                logger.info("✅ TinyBrain Awake (Quantized + LlamaEmbeddings).")
+                logger.info("  TinyBrain Awake (Quantized + LlamaEmbeddings).")
             except Exception as e:
-                logger.error(f"❌ Failed to wake TinyBrain: {e}")
+                logger.error(f"  Failed to wake TinyBrain: {e}")
                 self.model = None
 
     def is_available(self) -> bool:

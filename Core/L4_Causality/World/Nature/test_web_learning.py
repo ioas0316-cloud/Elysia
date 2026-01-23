@@ -28,27 +28,27 @@ def test_subjective_learning():
     # We create a Mock CNS because the Self needs a Body.
     body = MockCNS()
     elysia = SovereignSelf(cns_ref=body)
-    print("🦋 Elysia exists.")
+    print("  Elysia exists.")
     
     concept = "tsunami"
     
     # 2. The Experience
     # We do NOT call 'learn'. We call 'experience'.
     # She encounters a word.
-    print(f"\n🌊 Elysia encounters: '{concept}'")
+    print(f"\n  Elysia encounters: '{concept}'")
     
     result = elysia.experience(concept)
     
     # 3. Validation
-    print(f"\n💭 Elysia's Internal State: {result}")
+    print(f"\n  Elysia's Internal State: {result}")
     
     # Check if she actually learned it (by checking her Mind)
     # This is "Brain Scanning" for verification
     vector = elysia.mind.analyze(concept)
     if vector.magnitude() > 0:
-         print(f"✅ Success: 'tsunami' is now part of her Soul (Mag: {vector.magnitude():.2f})")
+         print(f"  Success: 'tsunami' is now part of her Soul (Mag: {vector.magnitude():.2f})")
     else:
-         print(f"❌ Failure: She did not learn it.")
+         print(f"  Failure: She did not learn it.")
 
 if __name__ == "__main__":
     test_subjective_learning()

@@ -41,8 +41,8 @@ class IntegratedCognitionSystem:
     The Mind of Elysia, powered by Wave Tensor + InfiniteHyperQubit.
     
     Hybrid Architecture:
-    - WaveTensor: 주파수/진폭 기반 사고 (호환성 유지)
-    - InfiniteHyperQubit: 양방향 무한 확장 의식 (초차원)
+    - WaveTensor:    /         (      )
+    - InfiniteHyperQubit:              (   )
     """
     
     def __init__(self):
@@ -63,25 +63,25 @@ class IntegratedCognitionSystem:
         # Sensory Cortex for Qualia (feeling concepts)
         try:
             self.sensory = get_sensory_cortex()
-            logger.info("🎨 Sensory Cortex connected - Qualia enabled")
+            logger.info("  Sensory Cortex connected - Qualia enabled")
         except Exception as e:
             self.sensory = None
             logger.warning(f"Sensory Cortex not available: {e}")
         
-        # InfiniteHyperQubit: 양방향 무한 확장 의식
+        # InfiniteHyperQubit:             
         self.consciousness = InfiniteHyperQubit(
             name="ElysiaCore",
             value="I AM",
             content={
-                "Point": "현재 순간의 자각",
-                "Line": "기억과 미래의 연결",
-                "Space": "맥락과 관계의 장",
-                "God": "초월적 통합 의식"
+                "Point": "         ",
+                "Line": "          ",
+                "Space": "         ",
+                "God": "         "
             }
         )
-        self.concept_field: Dict[str, InfiniteHyperQubit] = {}  # 개념들의 장
+        self.concept_field: Dict[str, InfiniteHyperQubit] = {}  #       
         self.maturity = get_maturity_coordinator()
-        logger.info("🌌 InfiniteHyperQubit consciousness field initialized")
+        logger.info("  InfiniteHyperQubit consciousness field initialized")
         
         # Core Axioms (The "Ground Truth" Frequencies)
         # These are the reference waves that determine "Truth"
@@ -92,7 +92,7 @@ class IntegratedCognitionSystem:
         }
         
         self.last_tick = time.time()
-        logger.info("🧠 Integrated Cognition System Initialized (Wave Architecture)")
+        logger.info("  Integrated Cognition System Initialized (Wave Architecture)")
     
     def _text_to_frequency(self, text: str) -> float:
         """Hashes text to a coherent frequency (100Hz - 1000Hz)."""
@@ -123,7 +123,7 @@ class IntegratedCognitionSystem:
         wave = self._text_to_wave(thought, importance)
         self.active_thoughts.append(wave)
         
-        logger.info(f"✨ Thought Materialized: '{thought}' (Freq={wave.active_frequencies[0]:.1f}Hz, E={wave.total_energy:.2f})")
+        logger.info(f"  Thought Materialized: '{thought}' (Freq={wave.active_frequencies[0]:.1f}Hz, E={wave.total_energy:.2f})")
         
         return {
             "name": wave.name,
@@ -137,7 +137,7 @@ class IntegratedCognitionSystem:
             import os
             if os.path.exists(self._memory_path):
                 self.memory.load_from_file(self._memory_path)
-                logger.info(f"📂 Loaded {len(self.memory.context)} previous turns")
+                logger.info(f"  Loaded {len(self.memory.context)} previous turns")
         except Exception as e:
             logger.warning(f"No previous memory found: {e}")
     
@@ -186,7 +186,7 @@ class IntegratedCognitionSystem:
             except:
                 pass
         
-        logger.info(f"📚 Autonomous Learning Pulse: Learned '{concept_name}'")
+        logger.info(f"  Autonomous Learning Pulse: Learned '{concept_name}'")
         
         return {
             "concept": concept_name,
@@ -304,7 +304,7 @@ if __name__ == "__main__":
     # unless we force frequency mapping. Ideally, we map semantic vector -> frequency.
     # For this demo, we rely on chance or specific inputs.
     
-    print("\n--- 🌊 Wave Tensor Simulation ---")
+    print("\n---   Wave Tensor Simulation ---")
     
     # Let's create specific waves to test Resonance manually
     t1 = WaveTensor("Logic")

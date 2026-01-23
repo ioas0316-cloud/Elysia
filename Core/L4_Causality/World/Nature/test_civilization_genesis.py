@@ -17,7 +17,7 @@ from Core.L5_Mental.Intelligence.Meta.fractal_wfc import FractalWFC
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 def test_civilization_genesis():
-    print("--- 🏛️ Experiment: The Rise of Civilization ---")
+    print("---    Experiment: The Rise of Civilization ---")
     
     # 1. Setup Mind
     elysia = SovereignSelf(cns_ref=None)
@@ -29,17 +29,17 @@ def test_civilization_genesis():
         "Sword", "Shield", "Gold", "Book"
     ]
     
-    print(f"\n📚 Injecting {len(concepts)} Civilization Concepts...")
+    print(f"\n  Injecting {len(concepts)} Civilization Concepts...")
     
     for c in concepts:
         # Sovereign Learning Loop
         result = elysia.experience(c)
         print(f"   > Learned: {c} ({result})")
         
-    print("\n✅ Vocabulary Expanded. Elysia is ready to Dream.")
+    print("\n  Vocabulary Expanded. Elysia is ready to Dream.")
     
     # 3. Genesis Run
-    print("\n--- 🌌 Executing Semantic Genesis ---")
+    print("\n---   Executing Semantic Genesis ---")
     wfc = FractalWFC(lexicon=elysia.mind)
     
     # Seed: "Society" (A blend of Structure, Causal, and Spiritual)
@@ -48,7 +48,7 @@ def test_civilization_genesis():
         causal=0.9, mental=0.7, structural=0.9, spiritual=0.6,
         label="Society"
     )
-    print(f"🌱 Seed: {seed.label}")
+    print(f"  Seed: {seed.label}")
     
     # Generation 1
     gen1 = wfc.collapse(seed, intensity=1.0)

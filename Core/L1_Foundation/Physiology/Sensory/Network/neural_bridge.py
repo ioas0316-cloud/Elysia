@@ -39,7 +39,7 @@ class SignalTransmitter:
         
         # In a real system, this would push to a Message Queue (RabbitMQ/Kafka)
         # Here we just print to console as a specialized log
-        print(f"📡 [TRANSMIT] -> {target} [{intent}]: {message}")
+        print(f"  [TRANSMIT] -> {target} [{intent}]: {message}")
         return transmission
 
     def consult_oracle(self, query: str, oracle_type: str = "GPT-4-Sim") -> str:
@@ -47,14 +47,14 @@ class SignalTransmitter:
         Asks an external intelligence for advice.
         "Consultant Mode": We ask, they answer. We decide.
         """
-        print(f"🔮 [CONSULT] Asking {oracle_type}: '{query}'...")
+        print(f"  [CONSULT] Asking {oracle_type}: '{query}'...")
         
         # SIMULATION OF API CALL
         # In production, this would use `requests` to hit OpenAI/Anthropic APIs.
         time.sleep(0.5) # Simulate network latency
         
         response = self._mock_oracle_response(query, oracle_type)
-        print(f"📥 [RECEIVE] From {oracle_type}: '{response}'")
+        print(f"  [RECEIVE] From {oracle_type}: '{response}'")
         return response
 
     def _mock_oracle_response(self, query: str, oracle_type: str) -> str:

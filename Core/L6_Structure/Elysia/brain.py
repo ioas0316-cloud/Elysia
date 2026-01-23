@@ -11,7 +11,7 @@ and HabitEngine (Learning).
 
 from typing import Tuple, List, Optional
 import time
-from Core.L6_Structure.Merkaba.thundercloud import Thundercloud, ThoughtCluster
+from Core.L6_Structure.M1_Merkaba.thundercloud import Thundercloud, ThoughtCluster
 from Core.L7_Spirit.Monad.muscle_memory import MuscleMemory
 from Core.L5_Mental.Learning.habit_engine import HabitEngine
 from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig

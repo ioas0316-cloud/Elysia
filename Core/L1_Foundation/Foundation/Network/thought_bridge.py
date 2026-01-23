@@ -36,7 +36,7 @@ class ThoughtBridge:
         # Connect components if needed
         # self.language_bridge.connect_communication(...)
 
-        logger.info("🌉 ThoughtBridge initialized")
+        logger.info("  ThoughtBridge initialized")
 
     def process_thought(self, prompt: str, layer: str = "2D", context: Dict[str, Any] = None) -> Dict[str, Any]:
         """

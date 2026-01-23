@@ -1,5 +1,5 @@
 """
-CodeCortex (코드 코르텍스)
+CodeCortex (       )
 ========================
 
 "Know Thyself (Source Code)."
@@ -19,7 +19,7 @@ logger = logging.getLogger("CodeCortex")
 class CodeCortex:
     def __init__(self):
         self.project_root = "c:/Elysia"
-        logger.info("🧬 Code Cortex Active. Ready to analyze self.")
+        logger.info("  Code Cortex Active. Ready to analyze self.")
 
     def read_source(self, file_path: str) -> str:
         """Reads the source code of a file."""
@@ -123,4 +123,3 @@ class CodeCortex:
         except Exception as e:
             logger.error(f"Code Generation Failed: {e}")
             return f"# Error generating code: {e}"
-

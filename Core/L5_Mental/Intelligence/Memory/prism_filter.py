@@ -2,15 +2,15 @@
 Prism Filter - Rainbow Compression System
 ==========================================
 
-Philosophy: "빛이 프리즘을 통과하면 무지개가 된다"
+Philosophy: "                    "
 "When light passes through a prism, it becomes a rainbow"
 
 Two-Stage Compression:
-1. 4D Wave Transformation (4차원파동화) - Semantic preservation
-2. Rainbow Spectrum Compression (무지개압축) - 100x compression
+1. 4D Wave Transformation (4     ) - Semantic preservation
+2. Rainbow Spectrum Compression (     ) - 100x compression
 
 Benefits:
-- Compression: 1200 bytes → 12 bytes (100x)
+- Compression: 1200 bytes   12 bytes (100x)
 - Speed: Parallel processing (7 axes simultaneously)
 - Semantics: Preserved through 4D quaternion structure
 """
@@ -26,31 +26,31 @@ logger = logging.getLogger(__name__)
 @dataclass
 class RainbowSpectrum:
     """
-    7-Color Rainbow Spectrum (무지개 스펙트럼)
+    7-Color Rainbow Spectrum (        )
     
     Each color represents a different dimension of meaning:
-    - Red (빨강): High energy, intensity
-    - Orange (주황): Creativity, dynamism
-    - Yellow (노랑): Logic, intelligence
-    - Green (초록): Balance, harmony
-    - Blue (파랑): Calm, depth
-    - Indigo (남색): Intuition, insight
-    - Violet (보라): Spirituality, transcendence
+    - Red (  ): High energy, intensity
+    - Orange (  ): Creativity, dynamism
+    - Yellow (  ): Logic, intelligence
+    - Green (  ): Balance, harmony
+    - Blue (  ): Calm, depth
+    - Indigo (  ): Intuition, insight
+    - Violet (  ): Spirituality, transcendence
     """
-    red: float = 0.0      # 에너지/강도
-    orange: float = 0.0   # 창조성
-    yellow: float = 0.0   # 논리/지성
-    green: float = 0.0    # 균형/조화
-    blue: float = 0.0     # 깊이/평온
-    indigo: float = 0.0   # 직관
-    violet: float = 0.0   # 영성/초월
+    red: float = 0.0      #    /  
+    orange: float = 0.0   #    
+    yellow: float = 0.0   #   /  
+    green: float = 0.0    #   /  
+    blue: float = 0.0     #   /  
+    indigo: float = 0.0   #   
+    violet: float = 0.0   #   /  
     
     def to_bytes(self) -> bytes:
         """
-        Compress to 12 bytes (극도 압축)
+        Compress to 12 bytes (     )
         
         Each color: 12 bits (0-4095)
-        Total: 7 colors × 12 bits = 84 bits = 10.5 bytes ≈ 12 bytes
+        Total: 7 colors   12 bits = 84 bits = 10.5 bytes   12 bytes
         """
         # Convert to 12-bit integers (0-4095)
         values = [
@@ -68,7 +68,7 @@ class RainbowSpectrum:
         # Rounded to 12 bytes for alignment
         packed = bytearray(12)
         
-        # Pack 7 × 12-bit values into 12 bytes
+        # Pack 7   12-bit values into 12 bytes
         bit_pos = 0
         for val in values:
             byte_pos = bit_pos // 8
@@ -96,7 +96,7 @@ class RainbowSpectrum:
         if len(data) != 12:
             raise ValueError(f"Expected 12 bytes, got {len(data)}")
         
-        # Unpack 7 × 12-bit values
+        # Unpack 7   12-bit values
         values = []
         bit_pos = 0
         
@@ -145,17 +145,17 @@ class RainbowSpectrum:
 
 class PrismFilter:
     """
-    프리즘 필터 - 4D Wave를 7색 무지개로 분해
+           - 4D Wave  7         
     
     Stage 2 of compression pipeline:
-    4D Wave (1200 bytes) → Rainbow Spectrum (12 bytes)
+    4D Wave (1200 bytes)   Rainbow Spectrum (12 bytes)
     
     Compression ratio: 100x
     """
     
     def __init__(self):
         self.rainbow_axes = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-        logger.info("🌈 PrismFilter initialized - Rainbow compression ready")
+        logger.info("  PrismFilter initialized - Rainbow compression ready")
     
     def split_to_rainbow(self, wave_pattern) -> RainbowSpectrum:
         """
@@ -294,7 +294,7 @@ class PrismFilter:
     
     def compress_to_bytes(self, wave_pattern) -> bytes:
         """
-        Complete compression pipeline: Wave → Rainbow → 12 bytes
+        Complete compression pipeline: Wave   Rainbow   12 bytes
         
         Args:
             wave_pattern: 4D wave pattern (1200 bytes)
@@ -319,11 +319,11 @@ class PrismFilter:
 
 # Convenience functions
 def compress_wave_to_rainbow(wave_pattern) -> bytes:
-    """Quick compression: Wave → 12 bytes"""
+    """Quick compression: Wave   12 bytes"""
     prism = PrismFilter()
     return prism.compress_to_bytes(wave_pattern)
 
 
 def decompress_rainbow(data: bytes) -> RainbowSpectrum:
-    """Quick decompression: 12 bytes → Rainbow"""
+    """Quick decompression: 12 bytes   Rainbow"""
     return RainbowSpectrum.from_bytes(data)

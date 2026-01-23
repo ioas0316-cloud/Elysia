@@ -151,4 +151,3 @@ class ElysiaFeelingBuffer:
             "care": squash(s.care),
             "mortality": squash(s.mortality),
         }
-

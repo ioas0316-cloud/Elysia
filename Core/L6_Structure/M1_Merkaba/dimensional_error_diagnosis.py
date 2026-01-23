@@ -2,7 +2,7 @@ from enum import Enum
 from dataclasses import dataclass
 from typing import Dict, Any, Optional
 import math
-from Core.L0_Keystone.sovereignty_wave import SovereignDecision, InterferenceType
+from Core.L1_Foundation.M1_Keystone.sovereignty_wave import SovereignDecision, InterferenceType
 
 class ErrorDimension(Enum):
     DIM_0D_POINT = 0        # Value/Syntax/Missing

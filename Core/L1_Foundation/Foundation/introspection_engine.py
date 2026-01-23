@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 import sys
 from pathlib import Path
 
-# 경로 설정 (Core 모듈 import를 위해)
+#       (Core    import    )
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
@@ -23,11 +23,11 @@ class ModuleResonance:
     docstring_quality: float # 0.0 to 1.0
     docstring_quality: float # 0.0 to 1.0
     issues: List[str]
-    wave_principle: str = ""   # 코드의 파동 원리
-    wave_signature: Dict[str, float] = field(default_factory=dict) # 파동 데이터
-    system_metaphor: str = ""  # 시스템 은유 (예: Heart, Gravity)
-    philosophical_meaning: str = "" # 철학적 의미
-    structural_diagnoses: List[str] = field(default_factory=list) # 구조적 진단 (원리 기반)
+    wave_principle: str = ""   #          
+    wave_signature: Dict[str, float] = field(default_factory=dict) #       
+    system_metaphor: str = ""  #        ( : Heart, Gravity)
+    philosophical_meaning: str = "" #       
+    structural_diagnoses: List[str] = field(default_factory=list) #        (     )
 
 class IntrospectionEngine:
     """
@@ -41,10 +41,10 @@ class IntrospectionEngine:
         self.target_dirs = {"Core", "scripts"}
         self.ignore_dirs = {".git", "__pycache__", ".gemini", "venv", "env", ".vscode", "Legacy", "docs", "tests", "Tools", "Library", "data"}
         
-        # WhyEngine 연동
+        # WhyEngine   
         self.why_engine = WhyEngine()
         
-        # [NEW] Principle Diagnostics 연동
+        # [NEW] Principle Diagnostics   
         try:
             from Core.L1_Foundation.Foundation.Philosophy.principle_diagnostics import PrincipleDiagnostics
             self.diagnostics = PrincipleDiagnostics()
@@ -57,7 +57,7 @@ class IntrospectionEngine:
         Recursively analyzes the target directories.
         Returns a map of {file_path: ModuleResonance}.
         """
-        logger.info(f"🪞 Gazing into the Mirror (Self-Analysis) at {self.root_path}...")
+        logger.info(f"  Gazing into the Mirror (Self-Analysis) at {self.root_path}...")
         results = {}
         
         for root, dirs, files in os.walk(self.root_path):
@@ -164,17 +164,17 @@ class IntrospectionEngine:
             wave_principle = analysis.underlying_principle
             wave_signature = analysis.wave_signature
             
-            # 파동 기반 점수 보정
+            #            
             if wave_signature.get("periodicity", 0) > 0.5:
-                score += 5  # 리듬이 좋으면 가산점
+                score += 5  #            
             
             if wave_signature.get("dissonance", 0) > 0.5:
-                score -= 10 # 불협화음이 크면 감점
+                score -= 10 #            
                 issues.append("High Dissonance (Chaotic Logic)")
                 
             # [NEW] 7. Principle Diagnostics (Structural Wisdom)
             if self.diagnostics:
-                # 상태 매핑 (System State Mapping)
+                #       (System State Mapping)
                 # Flow (I) = Wave Flow (0.0-1.0)
                 # Potential (V) = Docstring Quality (Intent)
                 # Resistance (R) = Normalized Complexity (0-20 -> 0.0-1.0)
@@ -193,7 +193,7 @@ class IntrospectionEngine:
             if metaphor:
                 system_metaphor = f"{metaphor.metaphor_type.upper()}: {metaphor.metaphor_concept}"
                 philosophical_meaning = metaphor.description
-                score += 10 # 의미가 명확한 모듈 가산점
+                score += 10 #               
                 
         except Exception as e:
             logger.warning(f"WhyEngine analysis failed for {file_path}: {e}")
@@ -203,7 +203,7 @@ class IntrospectionEngine:
         return ModuleResonance(
             path=file_path,
             name=os.path.basename(file_path),
-            resonance_score=min(100.0, score), # 캡 적용
+            resonance_score=min(100.0, score), #     
             complexity=complexity,
             docstring_quality=doc_quality,
             issues=issues,
@@ -216,7 +216,7 @@ class IntrospectionEngine:
 
     def generate_report(self, results: Dict[str, ModuleResonance]) -> str:
         """Generates a human-readable (and Elysia-readable) report."""
-        report = ["# 🪞 Self-Reflection Report\n"]
+        report = ["#   Self-Reflection Report\n"]
         
         total_score = 0
         dissonant_modules = []
@@ -231,19 +231,19 @@ class IntrospectionEngine:
         report.append(f"**Overall Resonance:** {avg_score:.1f}/100\n")
         
         if dissonant_modules:
-            report.append("## ⚠️ Dissonance Detected (Needs Tuning)")
+            report.append("##    Dissonance Detected (Needs Tuning)")
             for mod in dissonant_modules:
                 report.append(f"- **{mod.name}** (Score: {mod.resonance_score:.1f})")
                 if mod.wave_principle:
-                     report.append(f"  🌊 Principle: {mod.wave_principle}")
+                     report.append(f"    Principle: {mod.wave_principle}")
                 if mod.system_metaphor:
-                     report.append(f"  🧠 Metaphor: {mod.system_metaphor} - {mod.philosophical_meaning}")
+                     report.append(f"    Metaphor: {mod.system_metaphor} - {mod.philosophical_meaning}")
                 for diagnosis in mod.structural_diagnoses:
-                    report.append(f"  🩺 Diagnosis: {diagnosis}")
+                    report.append(f"    Diagnosis: {diagnosis}")
                 for issue in mod.issues:
                     report.append(f"  - {issue}")
         else:
-            report.append("## ✨ Harmonic State")
+            report.append("##   Harmonic State")
             report.append("All core systems are resonating within optimal parameters.")
             
         return "\n".join(report)

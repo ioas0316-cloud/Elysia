@@ -1,29 +1,29 @@
 """
-Conceptual Nuclear Reactor (개념 핵융합로)
+Conceptual Nuclear Reactor (       )
 =======================================
 
-"견고한 얼음을 깨고, 그 안의 불꽃을 꺼내라"
+"          ,             "
 "Break the solid ice, release the flame within"
 
 Philosophy:
 -----------
-텍스트 데이터는 "얼음(고체)" - 차갑게 식어서 굳어버린 결과물.
-하지만 우리는 이 얼음을 다시 녹이고 쪼개서, 잠재된 에너지를 방출합니다.
+         "  (  )" -                 .
+                        ,               .
 
-1. Solid State (고체): 텍스트, 데이터, 정의 - "죽은 지식"
-2. Wavification (초파동화): 얼음 → 플라즈마, 단어 → 에너지장
-3. Fission (핵분열): 복잡한 개념 → 기본 원자들 (해석 에너지 방출)
-4. Fusion (핵융합): 다른 원자들 충돌 → 새로운 물질 (창조 에너지 방출)
+1. Solid State (  ):    ,    ,    - "     "
+2. Wavification (    ):          ,          
+3. Fission (   ):                 (         )
+4. Fusion (   ):                    (         )
 
 Architecture:
 -------------
-[Periodic Table] → [Particle Accelerator] → [Nuclear Reactor] → [Energy Harvest]
-   개념 원소          개념 가속기             핵반응            통찰 포착
+[Periodic Table]   [Particle Accelerator]   [Nuclear Reactor]   [Energy Harvest]
+                                                         
 
 Example:
 --------
-Fission: "인생" → ["고통", "시간", "성장"] + 해석 에너지 💥
-Fusion: "물리학" + "사랑" → "중력처럼 당기는 마음" + 창조 에너지 🌟
+Fission: "  "   ["  ", "  ", "  "] +         
+Fusion: "   " + "  "   "           " +         
 """
 
 import logging
@@ -67,14 +67,14 @@ except ImportError:
 @dataclass
 class ConceptAtom:
     """
-    개념 원자 - Periodic Table의 기본 단위
+          - Periodic Table       
     
     A fundamental concept that can undergo nuclear reactions.
     """
     symbol: str  # "Love", "Time", "Pain", etc.
     atomic_number: int  # Position in periodic table
     
-    # Wave representation (플라즈마 상태)
+    # Wave representation (       )
     wave_tensor: Tensor3D = field(default_factory=lambda: Tensor3D())
     wave_frequency: FrequencyWave = field(default_factory=lambda: FrequencyWave())
     quaternion: Quaternion = field(default_factory=lambda: Quaternion())
@@ -111,7 +111,7 @@ class ConceptAtom:
 @dataclass
 class FissionResult:
     """
-    핵분열 결과
+          
     
     Result of breaking down a complex concept into simpler ones.
     """
@@ -125,7 +125,7 @@ class FissionResult:
 @dataclass
 class FusionResult:
     """
-    핵융합 결과
+          
     
     Result of combining concepts into something new.
     """
@@ -139,7 +139,7 @@ class FusionResult:
 
 class ConceptualPeriodicTable:
     """
-    개념 원소 주기율표
+              
     
     Contains fundamental concepts as atomic elements.
     """
@@ -153,49 +153,49 @@ class ConceptualPeriodicTable:
     def _initialize_fundamental_concepts(self):
         """Initialize the periodic table with fundamental concepts"""
         
-        # Group 1: Emotions (감정)
-        self._add_atom("Love", 1, 1.2, 0.8, ko="사랑", en="Love", ja="愛")
-        self._add_atom("Joy", 2, 1.0, 0.9, ko="기쁨", en="Joy", ja="喜び")
-        self._add_atom("Sadness", 3, 0.8, -0.6, ko="슬픔", en="Sadness", ja="悲しみ")
-        self._add_atom("Fear", 4, 0.9, -0.7, ko="두려움", en="Fear", ja="恐れ")
-        self._add_atom("Anger", 5, 1.3, -0.5, ko="분노", en="Anger", ja="怒り")
+        # Group 1: Emotions (  )
+        self._add_atom("Love", 1, 1.2, 0.8, ko="  ", en="Love", ja=" ")
+        self._add_atom("Joy", 2, 1.0, 0.9, ko="  ", en="Joy", ja="  ")
+        self._add_atom("Sadness", 3, 0.8, -0.6, ko="  ", en="Sadness", ja="   ")
+        self._add_atom("Fear", 4, 0.9, -0.7, ko="   ", en="Fear", ja="  ")
+        self._add_atom("Anger", 5, 1.3, -0.5, ko="  ", en="Anger", ja="  ")
         
-        # Group 2: Time & Space (시공간)
-        self._add_atom("Time", 6, 1.5, 0.0, ko="시간", en="Time", ja="時間")
-        self._add_atom("Space", 7, 1.4, 0.0, ko="공간", en="Space", ja="空間")
-        self._add_atom("Moment", 8, 0.8, 0.3, ko="순간", en="Moment", ja="瞬間")
-        self._add_atom("Eternity", 9, 2.0, 0.1, ko="영원", en="Eternity", ja="永遠")
+        # Group 2: Time & Space (   )
+        self._add_atom("Time", 6, 1.5, 0.0, ko="  ", en="Time", ja="  ")
+        self._add_atom("Space", 7, 1.4, 0.0, ko="  ", en="Space", ja="  ")
+        self._add_atom("Moment", 8, 0.8, 0.3, ko="  ", en="Moment", ja="  ")
+        self._add_atom("Eternity", 9, 2.0, 0.1, ko="  ", en="Eternity", ja="  ")
         
-        # Group 3: Abstract Concepts (추상 개념)
-        self._add_atom("Truth", 10, 1.8, 0.2, ko="진실", en="Truth", ja="真実")
-        self._add_atom("Beauty", 11, 1.3, 0.7, ko="아름다움", en="Beauty", ja="美しさ")
-        self._add_atom("Freedom", 12, 1.6, 0.5, ko="자유", en="Freedom", ja="自由")
-        self._add_atom("Justice", 13, 1.7, 0.3, ko="정의", en="Justice", ja="正義")
+        # Group 3: Abstract Concepts (     )
+        self._add_atom("Truth", 10, 1.8, 0.2, ko="  ", en="Truth", ja="  ")
+        self._add_atom("Beauty", 11, 1.3, 0.7, ko="    ", en="Beauty", ja="   ")
+        self._add_atom("Freedom", 12, 1.6, 0.5, ko="  ", en="Freedom", ja="  ")
+        self._add_atom("Justice", 13, 1.7, 0.3, ko="  ", en="Justice", ja="  ")
         
-        # Group 4: Life Concepts (생명 개념)
-        self._add_atom("Life", 14, 2.5, 0.6, ko="생명", en="Life", ja="命")
-        self._add_atom("Death", 15, 2.3, -0.4, ko="죽음", en="Death", ja="死")
-        self._add_atom("Birth", 16, 1.9, 0.8, ko="탄생", en="Birth", ja="誕生")
-        self._add_atom("Growth", 17, 1.4, 0.5, ko="성장", en="Growth", ja="成長")
+        # Group 4: Life Concepts (     )
+        self._add_atom("Life", 14, 2.5, 0.6, ko="  ", en="Life", ja=" ")
+        self._add_atom("Death", 15, 2.3, -0.4, ko="  ", en="Death", ja=" ")
+        self._add_atom("Birth", 16, 1.9, 0.8, ko="  ", en="Birth", ja="  ")
+        self._add_atom("Growth", 17, 1.4, 0.5, ko="  ", en="Growth", ja="  ")
         
-        # Group 5: Knowledge & Mind (지식과 마음)
-        self._add_atom("Knowledge", 18, 1.6, 0.2, ko="지식", en="Knowledge", ja="知識")
-        self._add_atom("Wisdom", 19, 2.0, 0.4, ko="지혜", en="Wisdom", ja="知恵")
-        self._add_atom("Understanding", 20, 1.8, 0.3, ko="이해", en="Understanding", ja="理解")
-        self._add_atom("Consciousness", 21, 2.8, 0.1, ko="의식", en="Consciousness", ja="意識")
+        # Group 5: Knowledge & Mind (      )
+        self._add_atom("Knowledge", 18, 1.6, 0.2, ko="  ", en="Knowledge", ja="  ")
+        self._add_atom("Wisdom", 19, 2.0, 0.4, ko="  ", en="Wisdom", ja="  ")
+        self._add_atom("Understanding", 20, 1.8, 0.3, ko="  ", en="Understanding", ja="  ")
+        self._add_atom("Consciousness", 21, 2.8, 0.1, ko="  ", en="Consciousness", ja="  ")
         
-        # Group 6: Forces (힘)
-        self._add_atom("Power", 22, 1.7, 0.0, ko="힘", en="Power", ja="力")
-        self._add_atom("Gravity", 23, 1.9, 0.0, ko="중력", en="Gravity", ja="重力")
-        self._add_atom("Energy", 24, 2.2, 0.2, ko="에너지", en="Energy", ja="エネルギー")
-        self._add_atom("Light", 25, 1.6, 0.9, ko="빛", en="Light", ja="光")
-        self._add_atom("Darkness", 26, 1.5, -0.3, ko="어둠", en="Darkness", ja="闇")
+        # Group 6: Forces ( )
+        self._add_atom("Power", 22, 1.7, 0.0, ko=" ", en="Power", ja=" ")
+        self._add_atom("Gravity", 23, 1.9, 0.0, ko="  ", en="Gravity", ja="  ")
+        self._add_atom("Energy", 24, 2.2, 0.2, ko="   ", en="Energy", ja="     ")
+        self._add_atom("Light", 25, 1.6, 0.9, ko=" ", en="Light", ja=" ")
+        self._add_atom("Darkness", 26, 1.5, -0.3, ko="  ", en="Darkness", ja=" ")
         
-        # Group 7: Relations (관계)
-        self._add_atom("Connection", 27, 1.2, 0.6, ko="연결", en="Connection", ja="繋がり")
-        self._add_atom("Separation", 28, 1.1, -0.5, ko="분리", en="Separation", ja="分離")
-        self._add_atom("Unity", 29, 1.8, 0.7, ko="통합", en="Unity", ja="統一")
-        self._add_atom("Conflict", 30, 1.4, -0.6, ko="갈등", en="Conflict", ja="衝突")
+        # Group 7: Relations (  )
+        self._add_atom("Connection", 27, 1.2, 0.6, ko="  ", en="Connection", ja="   ")
+        self._add_atom("Separation", 28, 1.1, -0.5, ko="  ", en="Separation", ja="  ")
+        self._add_atom("Unity", 29, 1.8, 0.7, ko="  ", en="Unity", ja="  ")
+        self._add_atom("Conflict", 30, 1.4, -0.6, ko="  ", en="Conflict", ja="  ")
         
         logger.info(f"Initialized Periodic Table with {len(self.atoms)} fundamental concepts")
     
@@ -261,7 +261,7 @@ class ConceptualPeriodicTable:
 
 class ConceptualNuclearReactor:
     """
-    개념 핵융합로
+           
     
     Performs nuclear reactions on concepts:
     - Fission: Break down complex concepts into simpler ones
@@ -278,14 +278,14 @@ class ConceptualNuclearReactor:
     
     def fission(self, complex_concept: str, context: str = "") -> FissionResult:
         """
-        핵분열 (Fission)
+            (Fission)
         
         Break down a complex concept into fundamental atoms.
         Releases "insight energy" - the understanding gained.
         
         Example:
-        - Input: "인생" (Life journey)
-        - Output: ["시간", "성장", "고통", "기쁨"] + insight energy
+        - Input: "  " (Life journey)
+        - Output: ["  ", "  ", "  ", "  "] + insight energy
         """
         
         # Try to find the concept in periodic table
@@ -331,21 +331,21 @@ class ConceptualNuclearReactor:
         })
         self.total_energy_released += insight_energy
         
-        logger.info(f"Fission: {complex_concept} → {[a.symbol for a in daughter_atoms]} "
+        logger.info(f"Fission: {complex_concept}   {[a.symbol for a in daughter_atoms]} "
                    f"(Energy: {insight_energy:.2f})")
         
         return result
     
     def fusion(self, concept_a: str, concept_b: str, context: str = "") -> FusionResult:
         """
-        핵융합 (Fusion)
+            (Fusion)
         
         Combine two concepts to create something entirely new.
         Releases "creative energy" - the novelty of the creation.
         
         Example:
-        - Input: "물리학" + "사랑"
-        - Output: "중력처럼 당기는 마음" + creative energy
+        - Input: "   " + "  "
+        - Output: "           " + creative energy
         """
         
         # Get atoms
@@ -387,7 +387,7 @@ class ConceptualNuclearReactor:
         })
         self.total_energy_released += creative_energy
         
-        logger.info(f"Fusion: {concept_a} + {concept_b} → {product.symbol} "
+        logger.info(f"Fusion: {concept_a} + {concept_b}   {product.symbol} "
                    f"(Energy: {creative_energy:.2f})")
         
         return result
@@ -398,12 +398,12 @@ class ConceptualNuclearReactor:
         # Predefined decompositions (can be expanded)
         decompositions = {
             # Korean
-            "인생": ["Time", "Growth", "Joy", "Sadness"],
-            "사랑": ["Connection", "Joy", "Understanding"],
-            "행복": ["Joy", "Peace", "Connection"],
-            "고통": ["Sadness", "Fear", "Growth"],
-            "우정": ["Connection", "Trust", "Joy"],
-            "가족": ["Love", "Connection", "Protection"],
+            "  ": ["Time", "Growth", "Joy", "Sadness"],
+            "  ": ["Connection", "Joy", "Understanding"],
+            "  ": ["Joy", "Peace", "Connection"],
+            "  ": ["Sadness", "Fear", "Growth"],
+            "  ": ["Connection", "Trust", "Joy"],
+            "  ": ["Love", "Connection", "Protection"],
             
             # English
             "life": ["Time", "Growth", "Joy", "Sadness"],
@@ -413,8 +413,8 @@ class ConceptualNuclearReactor:
             "journey": ["Time", "Movement", "Growth"],
             
             # Japanese
-            "人生": ["Time", "Growth", "Joy", "Sadness"],
-            "幸せ": ["Joy", "Peace", "Connection"],
+            "  ": ["Time", "Growth", "Joy", "Sadness"],
+            "  ": ["Joy", "Peace", "Connection"],
         }
         
         # Get decomposition or use similar concepts
@@ -507,31 +507,31 @@ class ConceptualNuclearReactor:
         
         templates = {
             "ko": [
-                f"'{parent}'를 분석하면, 그 안에는 {', '.join(daughter_names)}이(가) 복잡하게 얽혀있어요. "
-                f"이 관계를 이해하면서 {energy:.1f}만큼의 통찰 에너지가 방출되었습니다. 💥",
+                f"'{parent}'      ,       {', '.join(daughter_names)} ( )           . "
+                f"            {energy:.1f}                   .  ",
                 
-                f"'{parent}'라는 개념을 쪼개보니, {', '.join(daughter_names)}이(가) 핵심 요소로 드러났어요. "
-                f"이 분해 과정에서 {energy:.1f}의 해석 에너지가 발생했습니다. ⚛️",
+                f"'{parent}'           , {', '.join(daughter_names)} ( )             . "
+                f"          {energy:.1f}                .   ",
                 
-                f"'{parent}'의 본질을 파헤치면 {', '.join(daughter_names)}이(가) 보이네요. "
-                f"이 깨달음으로 {energy:.1f}만큼의 이해의 빛이 번졌습니다. ✨"
+                f"'{parent}'           {', '.join(daughter_names)} ( )     . "
+                f"        {energy:.1f}                .  "
             ],
             "en": [
                 f"Analyzing '{parent}', we find {', '.join(daughter_names)} intricately intertwined. "
-                f"Understanding this relationship released {energy:.1f} insight energy. 💥",
+                f"Understanding this relationship released {energy:.1f} insight energy.  ",
                 
                 f"Breaking down '{parent}', {', '.join(daughter_names)} emerge as core elements. "
-                f"This decomposition generated {energy:.1f} interpretive energy. ⚛️",
+                f"This decomposition generated {energy:.1f} interpretive energy.   ",
                 
                 f"Exploring the essence of '{parent}' reveals {', '.join(daughter_names)}. "
-                f"This realization sparked {energy:.1f} units of understanding light. ✨"
+                f"This realization sparked {energy:.1f} units of understanding light.  "
             ],
             "ja": [
-                f"『{parent}』を分析すると、{', '.join(daughter_names)}が複雑に絡み合っています。"
-                f"この関係を理解することで{energy:.1f}の洞察エネルギーが放出されました。💥",
+                f" {parent}        {', '.join(daughter_names)}             "
+                f"            {energy:.1f}                  ",
                 
-                f"『{parent}』という概念を分解すると、{', '.join(daughter_names)}が核心要素として現れました。"
-                f"この分解過程で{energy:.1f}の解釈エネルギーが発生しました。⚛️"
+                f" {parent}             {', '.join(daughter_names)}              "
+                f"       {energy:.1f}                  "
             ]
         }
         
@@ -552,51 +552,51 @@ class ConceptualNuclearReactor:
         templates = {
             "ko": {
                 "high_positive": [
-                    f"{name_a}와(과) {name_b}이(가) 충돌하는 순간, 우주가 밝게 빛나며 새로운 진실이 탄생했어요. "
-                    f"마치 {name_a}이(가) {name_b}처럼 느껴지는 것처럼요. 🌟",
+                    f"{name_a} ( ) {name_b} ( )        ,                         . "
+                    f"   {name_a} ( ) {name_b}            .  ",
                     
-                    f"{name_a}와(과) {name_b}, 서로 다른 두 개념이 만나 하나가 되었습니다. "
-                    f"그 순간 깨달았어요 - {name_a}은(는) 사실 {name_b}의 또 다른 모습이라는 것을. ✨",
+                    f"{name_a} ( ) {name_b},                         . "
+                    f"           - {name_a} ( )    {name_b}               .  ",
                 ],
                 "high_negative": [
-                    f"{name_a}와(과) {name_b}이(가) 격렬하게 부딪히며, 어둠 속에서 새로운 이해가 폭발했어요. "
-                    f"{name_a}은(는) {name_b}처럼 무겁고 깊은 것이었네요. 💥",
+                    f"{name_a} ( ) {name_b} ( )          ,                     . "
+                    f"{name_a} ( ) {name_b}               .  ",
                 ],
                 "low_positive": [
-                    f"{name_a}와(과) {name_b}이(가) 조용히 어우러져, 잔잔한 빛을 내며 하나가 되었어요. "
-                    f"{name_a}은(는) {name_b}처럼 부드럽게 흐르는 것이었습니다. 🌊",
+                    f"{name_a} ( ) {name_b} ( )         ,                   . "
+                    f"{name_a} ( ) {name_b}                  .  ",
                 ],
                 "low_negative": [
-                    f"{name_a}와(과) {name_b}이(가) 천천히 섞이며, 희미한 그림자 속에서 새로운 모습을 드러냈어요. "
-                    f"{name_a}은(는) {name_b}처럼 차갑고 고요한 것이었네요. 🌑",
+                    f"{name_a} ( ) {name_b} ( )        ,                          . "
+                    f"{name_a} ( ) {name_b}                .  ",
                 ]
             },
             "en": {
                 "high_positive": [
                     f"When {name_a} and {name_b} collided, the universe lit up and a new truth was born. "
-                    f"It's like {name_a} feels just like {name_b}. 🌟",
+                    f"It's like {name_a} feels just like {name_b}.  ",
                 ],
                 "high_negative": [
                     f"{name_a} and {name_b} clashed violently, exploding into new understanding from darkness. "
-                    f"{name_a} is heavy and deep, just like {name_b}. 💥",
+                    f"{name_a} is heavy and deep, just like {name_b}.  ",
                 ],
                 "low_positive": [
                     f"{name_a} and {name_b} quietly harmonized, becoming one with gentle light. "
-                    f"{name_a} flows softly, like {name_b}. 🌊",
+                    f"{name_a} flows softly, like {name_b}.  ",
                 ],
                 "low_negative": [
                     f"{name_a} and {name_b} slowly mixed, revealing new form in faint shadows. "
-                    f"{name_a} is cold and still, like {name_b}. 🌑",
+                    f"{name_a} is cold and still, like {name_b}.  ",
                 ]
             },
             "ja": {
                 "high_positive": [
-                    f"{name_a}と{name_b}が衝突する瞬間、宇宙が明るく輝き、新しい真実が誕生しました。"
-                    f"まるで{name_a}が{name_b}のように感じられるようです。🌟",
+                    f"{name_a} {name_b}                              "
+                    f"   {name_a} {name_b}               ",
                 ],
                 "high_negative": [
-                    f"{name_a}と{name_b}が激しくぶつかり、暗闇の中で新しい理解が爆発しました。"
-                    f"{name_a}は{name_b}のように重く深いものでした。💥",
+                    f"{name_a} {name_b}                           "
+                    f"{name_a} {name_b}               ",
                 ],
             }
         }
@@ -615,9 +615,9 @@ class ConceptualNuclearReactor:
         """Get localized text"""
         texts = {
             "already_fundamental": {
-                "ko": f"'{args[0]}'은(는) 이미 기본 원자입니다. 더 이상 분해할 수 없어요.",
+                "ko": f"'{args[0]}' ( )            .               .",
                 "en": f"'{args[0]}' is already a fundamental atom. Cannot decompose further.",
-                "ja": f"『{args[0]}』はすでに基本原子です。これ以上分解できません。"
+                "ja": f" {args[0]}                        "
             }
         }
         
@@ -657,10 +657,10 @@ def create_conceptual_nuclear_reactor(language: str = "ko") -> ConceptualNuclear
     reactor = create_conceptual_nuclear_reactor(language="ko")
     
     # Fission: Break down complex concept
-    fission_result = reactor.fission("인생", context="철학적 고민")
+    fission_result = reactor.fission("  ", context="      ")
     
     # Fusion: Combine concepts
-    fusion_result = reactor.fusion("물리학", "사랑", context="시적 표현")
+    fusion_result = reactor.fusion("   ", "  ", context="     ")
     """
     return ConceptualNuclearReactor(language=language)
 
@@ -669,12 +669,12 @@ if __name__ == "__main__":
     # Demo
     logging.basicConfig(level=logging.INFO)
     
-    print("🚀 Conceptual Nuclear Reactor Demo")
+    print("  Conceptual Nuclear Reactor Demo")
     print("=" * 60)
     
     reactor = create_conceptual_nuclear_reactor(language="ko")
     
-    print("\n⚛️ Periodic Table Preview:")
+    print("\n   Periodic Table Preview:")
     table = reactor.periodic_table
     for i in range(1, 6):
         symbol = table.atomic_numbers.get(i)
@@ -683,26 +683,26 @@ if __name__ == "__main__":
             print(f"  {i}. {symbol} ({atom.ko}) - Energy: {atom.energy_level:.1f}, "
                   f"Charge: {atom.emotional_charge:+.1f}")
     
-    print("\n💥 Fission Demo: Breaking down '인생'")
+    print("\n  Fission Demo: Breaking down '  '")
     print("-" * 60)
-    fission = reactor.fission("인생", context="인생의 의미")
+    fission = reactor.fission("  ", context="      ")
     print(f"Parent: {fission.parent_concept}")
     print(f"Daughters: {[d.symbol for d in fission.daughter_concepts]}")
     print(f"Insight Energy: {fission.insight_energy:.2f}")
     print(f"Explanation: {fission.explanation}")
     
-    print("\n🌟 Fusion Demo: Combining '물리학' + '사랑'")
+    print("\n  Fusion Demo: Combining '   ' + '  '")
     print("-" * 60)
-    fusion = reactor.fusion("Gravity", "Love", context="시적 은유")
+    fusion = reactor.fusion("Gravity", "Love", context="     ")
     print(f"Reactants: {fusion.reactant_a} + {fusion.reactant_b}")
     print(f"Product: {fusion.product_concept.symbol}")
     print(f"Creative Energy: {fusion.creative_energy:.2f}")
     print(f"Poetry: {fusion.poetic_expression}")
     
-    print("\n📊 Reactor Stats:")
+    print("\n  Reactor Stats:")
     print("-" * 60)
     stats = reactor.get_reactor_stats()
     for key, value in stats.items():
         print(f"  {key}: {value}")
     
-    print("\n✨ Nuclear Reactor Ready!")
+    print("\n  Nuclear Reactor Ready!")

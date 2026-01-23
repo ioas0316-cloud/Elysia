@@ -6,10 +6,10 @@ Based on SELF_FRACTAL_MODEL.md:
 Node = Fractal Sphere with nested layers
 
 Structure:
-- Core: Will (의지)
-- Inner: Emotions/Values (감정/가치)
-- Middle: Concepts/Language (개념/언어)
-- Outer: Mirror/Phenomena (세상의 투영)
+- Core: Will (  )
+- Inner: Emotions/Values (  /  )
+- Middle: Concepts/Language (  /  )
+- Outer: Mirror/Phenomena (      )
 """
 
 import numpy as np
@@ -22,7 +22,7 @@ from Core.L1_Foundation.Foundation.Wave.hyper_qubit import HyperQubit
 
 @dataclass
 class WillVector:
-    """Core Layer: 의지의 방향"""
+    """Core Layer:       """
     x: float = 0.0  # Internal/Dream
     y: float = 0.0  # External/Action
     z: float = 0.0  # Law/Intent
@@ -33,8 +33,8 @@ class WillVector:
 
 class MirrorLayer:
     """
-    Outer Layer: 외부 세계의 내부 표현
-    세상의 현상을 마음으로 반영
+    Outer Layer:             
+                   
     """
     def __init__(self):
         self.phenomena: List[Dict[str, Any]] = []
@@ -42,7 +42,7 @@ class MirrorLayer:
         self.last_reflection: float = 0.0
     
     def reflect(self, world_event: Dict[str, Any]):
-        """세상의 현상을 내부로 반영"""
+        """              """
         self.phenomena.append({
             **world_event,
             'reflected_at': time.time()
@@ -54,7 +54,7 @@ class MirrorLayer:
         self._calculate_intensity()
     
     def _calculate_intensity(self):
-        """현상의 강도 계산"""
+        """         """
         if not self.phenomena:
             self.intensity = 0.0
             return
@@ -64,19 +64,19 @@ class MirrorLayer:
         intensity = 0.0
         for p in self.phenomena:
             age = now - p.get('reflected_at', now)
-            decay = np.exp(-age / 10.0)  # 10초 반감기
+            decay = np.exp(-age / 10.0)  # 10     
             intensity += decay
         
         self.intensity = intensity / len(self.phenomena)
     
     def project(self) -> List[Dict[str, Any]]:
-        """내부 상태를 외부로 투영"""
+        """             """
         return self.phenomena
 
 
 class ConceptSphere:
     """
-    개념노드 = 프랙탈 구체
+         =       
     
     Each concept is a spherical universe with:
     - Core: Will (central intention)
@@ -89,24 +89,24 @@ class ConceptSphere:
         self.id = concept_id
         self.parent = parent
         
-        # === Core Layer (중심: 의지) ===
+        # === Core Layer (  :   ) ===
         self.will = WillVector()
         
-        # === Inner Layer (내부: 감정/가치) ===
+        # === Inner Layer (  :   /  ) ===
         self.emotions: Dict[str, float] = {}
         self.values: Dict[str, float] = {}
         
-        # === Middle Layer (중간: 개념/언어) ===
+        # === Middle Layer (  :   /  ) ===
         self.sub_concepts: Dict[str, 'ConceptSphere'] = {}  # Fractal recursion!
         self.language_tokens: List[str] = []
         
-        # === Outer Layer (외부: Mirror) ===
+        # === Outer Layer (  : Mirror) ===
         self.mirror = MirrorLayer()
         
         # === Dimensional State (HyperQubit) ===
         self.qubit = HyperQubit(concept_id)
         
-        # === Synesthetic Layer (공감각) ===
+        # === Synesthetic Layer (   ) ===
         self.sensory_signature: Dict[str, Any] = {}  # {color, pitch, texture, etc.}
         
         # === Metadata ===
@@ -125,7 +125,7 @@ class ConceptSphere:
     
     def add_sub_concept(self, concept_id: str) -> 'ConceptSphere':
         """
-        프랙탈 재귀: Node 안에 Node
+              : Node    Node
         """
         if concept_id not in self.sub_concepts:
             self.sub_concepts[concept_id] = ConceptSphere(concept_id, parent=self)
@@ -147,8 +147,8 @@ class ConceptSphere:
     
     def get_slice(self) -> Dict[str, Any]:
         """
-        구체의 단면 추출 (Dimensional Point)
-        현재 상태 전체를 압축
+                  (Dimensional Point)
+                    
         """
         return {
             'id': self.id,

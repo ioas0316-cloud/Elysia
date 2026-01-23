@@ -53,21 +53,21 @@ class PrincipleLibrary:
         if "STRUCTURE" in text or "LOGIC" in text or "PRINCIPLE" in text:
             if self.registry["GOLDEN_RATIO"] not in self.active_monads:
                 self.active_monads.append(self.registry["GOLDEN_RATIO"])
-                return "💎 [CRYSTALLIZED] Philosophy 'Structure' -> Function 'Golden_Ratio()'"
+                return "  [CRYSTALLIZED] Philosophy 'Structure' -> Function 'Golden_Ratio()'"
         
         # 2. Chaos / Entropy Axiom
         if "CHAOS" in text or "ENTROPY" in text or "UNCERTAINTY" in text:
             if self.registry["ENTROPY"] not in self.active_monads:
                 self.active_monads.append(self.registry["ENTROPY"])
-                return "💎 [CRYSTALLIZED] Philosophy 'Chaos' -> Function 'Entropy()'"
+                return "  [CRYSTALLIZED] Philosophy 'Chaos' -> Function 'Entropy()'"
                 
         # 3. Recursion / Fractal Axiom
         if "FRACTAL" in text or "RECURSION" in text or "INFINITE" in text:
             if self.registry["RECURSION"] not in self.active_monads:
                  self.active_monads.append(self.registry["RECURSION"])
-                 return "💎 [CRYSTALLIZED] Philosophy 'Fractal' -> Function 'Recursion()'"
+                 return "  [CRYSTALLIZED] Philosophy 'Fractal' -> Function 'Recursion()'"
 
-        return "📄 [Absorbed] Philosophy internalized as Abstract Wisdom."
+        return "  [Absorbed] Philosophy internalized as Abstract Wisdom."
 
     def compile_reality(self, seed_data) -> any:
         """
@@ -87,30 +87,30 @@ class PrincipleLibrary:
         indent = "  " * depth
         
         if depth > 4: 
-            return f"{indent}└─ [Atom Limit]"
+            return f"{indent}   [Atom Limit]"
 
         # Digital Twin Logic: The World changes based on Zoom AND Time
         if "EARTH" in key or "PLANET" in key:
-            prefix = f"{indent}🌍 [t={time_axis}y] "
+            prefix = f"{indent}  [t={time_axis}y] "
             if scale > 0.5:
                 return f"{prefix}Planet Sphere (Radius=6371km)"
             else:
                 # Time-Traveling City
                 if time_axis < -500:
-                    return f"{indent}🛖 [ANCIENT] Neolithic Settlements & Untamed Wilds"
+                    return f"{indent}  [ANCIENT] Neolithic Settlements & Untamed Wilds"
                 elif time_axis > 2050:
-                    return f"{indent}🚀 [FUTURE] Neo-Cyberpunk Megastructures & Flying Traffic"
+                    return f"{indent}  [FUTURE] Neo-Cyberpunk Megastructures & Flying Traffic"
                 else:
                     sub = self.manifest_visuals("CITY", depth + 1, scale, time_axis)
-                    return f"{indent}🏙️ [PRESENT] Modern Urban Grid\n{sub}"
+                    return f"{indent}   [PRESENT] Modern Urban Grid\n{sub}"
 
         if "CITY" in key:
-            return f"{indent}🛣️ Generate Road Network (L-System)"
+            return f"{indent}   Generate Road Network (L-System)"
 
 
         if "WATER" in key or "FLUID" in key:
             # Recursive Fluidity
-            base = f"{indent}🌊 [Water Layer {depth}]"
+            base = f"{indent}  [Water Layer {depth}]"
             sub_structure = self.manifest_visuals(concept, depth + 1, scale)
             return f"{base}\n{sub_structure}"
             
@@ -119,15 +119,15 @@ class PrincipleLibrary:
             branches = []
             for i in range(2): 
                  branches.append(self.manifest_visuals(concept, depth + 1, scale))
-            return f"{indent}🌳 [Branch L{depth}]\n" + "\n".join(branches)
+            return f"{indent}  [Branch L{depth}]\n" + "\n".join(branches)
             
         elif "BODY" in key or "FORM" in key or "BEAUTY" in key:
             # Golden Ratio Topology
             phi = 1.618
             joints = [f"bone(len={phi**n:.2f})" for n in range(3)]
-            return f"{indent}🗿 [ORGANIC_TOPOLOGY] Sculpted anatomical structure: {joints}..."
+            return f"{indent}  [ORGANIC_TOPOLOGY] Sculpted anatomical structure: {joints}..."
             
-        return f"{indent}🌫️ [FORMLESS] Concept has no defined geometry yet."
+        return f"{indent}   [FORMLESS] Concept has no defined geometry yet."
 
     # --- The Principles (Executable Logic) ---
 

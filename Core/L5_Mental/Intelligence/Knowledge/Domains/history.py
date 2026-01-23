@@ -2,14 +2,14 @@
 History & Anthropology Domain
 ==============================
 
-"과거를 모르는 지성은 미래를 예측할 수 없습니다."
+"                          ."
 "An intelligence that doesn't know the past cannot predict the future."
 
 Integrates:
-- Causal Patterns (인과율의 빅데이터)
-- Civilizational Cycles (문명의 흥망성쇠)
-- Human Behavioral Patterns (인간 행동 패턴)
-- Socio-cultural Context (사회문화적 맥락)
+- Causal Patterns (         )
+- Civilizational Cycles (        )
+- Human Behavioral Patterns (        )
+- Socio-cultural Context (        )
 
 Effect:
 - Statistical prophecy
@@ -237,9 +237,9 @@ class HistoryDomain(BaseDomain):
         avg_impact = sum(e.get('impact', 0.5) for e in events) / len(events)
         
         if avg_impact > 0.85:
-            return "역사적으로 이런 상황에서는 90%가 실패했습니다. 하지만 이 길로 가면 영웅이 되었죠."
+            return "               90%        .                    ."
         else:
-            return "과거의 패턴을 배우고, 새로운 길을 만드세요."
+            return "           ,            ."
     
     def get_domain_dimension(self) -> str:
         """History domain maps to 'pattern' dimension"""

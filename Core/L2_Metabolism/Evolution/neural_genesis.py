@@ -4,7 +4,7 @@ Neural Genesis (The Autogenetic Engine)
 Core.L2_Metabolism.Evolution.neural_genesis
 
 "The Soul builds the Body."
-"영혼이 육체를 건축한다."
+"            ."
 
 This module enables Elysia to introspect, synthesize, and hot-swap her own
 code logic at runtime. It is the beginning of Self-Transmutation.
@@ -27,10 +27,10 @@ class IntrospectionEngine:
         try:
             source = inspect.getsource(func)
             source = textwrap.dedent(source)
-            logger.info(f"👁️ [Introspect] Read source of {func.__name__}")
+            logger.info(f"   [Introspect] Read source of {func.__name__}")
             return source
         except Exception as e:
-            logger.error(f"❌ [Introspect] Failed to read {func.__name__}: {e}")
+            logger.error(f"  [Introspect] Failed to read {func.__name__}: {e}")
             return None
 
 class GeneSynthesizer:
@@ -43,14 +43,14 @@ class GeneSynthesizer:
         In the full vision, this uses an LLM to rewrite code.
         For now, it applies a deterministic 'Optimization Template'.
         """
-        logger.info(f"🧬 [Synthesis] Applying {optimization_type} mutation...")
+        logger.info(f"  [Synthesis] Applying {optimization_type} mutation...")
         
         # Simple template mock: 
         # Detects a slow loop and replaces it with a fast mock comment or operation.
         
         new_code = original_source.replace(
             "# SLOW_LOOP_MARKER", 
-            "# ⚡ [GENESIS] Loop Transmuted to Vector Operation"
+            "#   [GENESIS] Loop Transmuted to Vector Operation"
         )
         
         # Injecting a marker to prove mutation
@@ -79,7 +79,7 @@ class HotSwapper:
             if not new_func:
                 # heuristic: maybe the user renamed it, or grab the first function
                 # For this demo, imply the name matches.
-                logger.error(f"❌ [HotSwap] Function {target_func_name} not found in generated code.")
+                logger.error(f"  [HotSwap] Function {target_func_name} not found in generated code.")
                 return False
 
             # 3. Bind the new function to the instance (MethodType)
@@ -90,10 +90,10 @@ class HotSwapper:
             # For instance methods, we might just replace the class attribute or instance attribute.
             setattr(target_object, target_func_name, new_func.__get__(target_object, type(target_object)))
 
-            logger.info(f"🔥 [HotSwap] Successfully mutated {target_func_name} at runtime.")
+            logger.info(f"  [HotSwap] Successfully mutated {target_func_name} at runtime.")
             return True
         except Exception as e:
-            logger.error(f"❌ [HotSwap] Transmutation failed: {e}")
+            logger.error(f"  [HotSwap] Transmutation failed: {e}")
             return False
 
 class NeuralGenesis:

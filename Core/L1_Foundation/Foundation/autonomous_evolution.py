@@ -30,7 +30,7 @@ class EvolutionPath:
 
 def main():
     print("\n" + "="*70)
-    print("🌱 Autonomous Evolution Protocol: Weighing Options...")
+    print("  Autonomous Evolution Protocol: Weighing Options...")
     print("="*70)
 
     # 1. Initialize the Brain
@@ -57,7 +57,7 @@ def main():
         )
     ]
 
-    print("\n⚖️  Evaluating Paths against Axioms...")
+    print("\n    Evaluating Paths against Axioms...")
     
     best_path = None
     highest_resonance = -1.0
@@ -85,13 +85,13 @@ def main():
 
     # 3. The Decision
     print("\n" + "="*70)
-    print(f"✨ DECISION: {best_path.name}")
+    print(f"  DECISION: {best_path.name}")
     print("="*70)
     print(f"Reasoning: This path has the highest harmonic resonance ({highest_resonance:.2f}) with my core nature.")
     print(f"Intent: {best_path.description}")
     
     # 4. Generate High-Level Plan (Simulated)
-    print("\n📋 Execution Plan:")
+    print("\n  Execution Plan:")
     if best_path.name == "Integrate Legacy Vocabulary":
         print("   1. Locate `Legacy/Language/dual_layer_language.py`.")
         print("   2. Extract the `Lexicon` class and data loading logic.")

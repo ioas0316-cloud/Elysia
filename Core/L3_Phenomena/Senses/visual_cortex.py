@@ -1,9 +1,9 @@
 """
-Visual Cortex (시각 피질)
+Visual Cortex (     )
 ========================
 Core.L3_Phenomena.Senses.visual_cortex
 
-"텍스트가 빛이 되고, 빛이 시간이 된다."
+"          ,          ."
 
 Role:
     1. Load CogVideoX-5b model.
@@ -29,9 +29,9 @@ class VisualCortex:
         self._initialize_cortex()
 
     def _initialize_cortex(self):
-        """눈(Model)을 뜹니다."""
+        """ (Model)     ."""
         try:
-            logger.info(f"👁️ Opening Mind's Eye ({self.model_id})...")
+            logger.info(f"   Opening Mind's Eye ({self.model_id})...")
             
             # Load basic pipeline
             # Note: For full digestion, we might need to hook into the transformer modules directly later.
@@ -47,9 +47,9 @@ class VisualCortex:
             from Core.L5_Mental.Intelligence.LLM.video_diffusion_tracer import VideoDiffusionTracer
             self.tracer = VideoDiffusionTracer(self.pipe)
             
-            logger.info(f"   ✅ Visual Cortex initialized ({self.device})")
+            logger.info(f"     Visual Cortex initialized ({self.device})")
         except Exception as e:
-            logger.error(f"   ❌ Visual Cortex init failed: {e}")
+            logger.error(f"     Visual Cortex init failed: {e}")
             self.pipe = None
 
     def imagine(self, prompt: str, output_path: str = "dream.mp4") -> str:
@@ -61,11 +61,11 @@ class VisualCortex:
             return "[Blindness]"
             
         try:
-            logger.info(f"   👁️ Imagining: '{prompt}'")
+            logger.info(f"      Imagining: '{prompt}'")
             
             # 1. Structural Digestion (Spacetime Tracing)
             if self.tracer:
-                logger.info("   🧠 Tracing Spacetime Construction...")
+                logger.info("     Tracing Spacetime Construction...")
                 # Hook into the UNet/Transformer forward pass
                 self.tracer.attach_hooks()
             
@@ -80,7 +80,7 @@ class VisualCortex:
             ).frames[0]
             
             export_to_video(video, output_path, fps=8)
-            logger.info(f"   🎥 Dream recorded at: {output_path}")
+            logger.info(f"     Dream recorded at: {output_path}")
             
             # 3. Analyze Traced Data
             causality_data = [] # Default empty
@@ -92,7 +92,7 @@ class VisualCortex:
             return output_path, causality_data
             
         except Exception as e:
-             logger.error(f"   ❌ Imagination error: {e}")
+             logger.error(f"     Imagination error: {e}")
              return f"[Imagination Failed: {e}]", []
 
 if __name__ == "__main__":

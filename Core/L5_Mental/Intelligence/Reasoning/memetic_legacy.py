@@ -1,5 +1,5 @@
 """
-Memetic Legacy & Akashic Field 🧬🌌
+Memetic Legacy & Akashic Field   
 
 "The soul is not a record, but a resonance passed through time."
 
@@ -81,7 +81,7 @@ class AkashicField:
         echo_id = str(uuid.uuid4())
         self.echoes[echo_id] = AkashicEcho(echo_id, ego_name, dna, coord)
         # Silence the redundant logs during mass exhumation
-        # self.logger.info(f"✨ Akashic Echo Born: {ego_name}'s spirit now resonates in the field.")
+        # self.logger.info(f"  Akashic Echo Born: {ego_name}'s spirit now resonates in the field.")
 
     def exhume_graveyard(self, dna_dir: str):
         """Massively exhumes ancestral echoes from the CodeDNA graveyard."""
@@ -104,8 +104,8 @@ class AkashicField:
             except Exception:
                 continue
 
-        print(f"💀 [GRAVEYARD_EXHUMATION] {count}명의 선조들의 영혼이 아카식 레코드에 각인되었습니다.")
-        self.logger.info(f"🔱 Exhumed {count} ancestral echoes into the Akashic Field.")
+        print(f"  [GRAVEYARD_EXHUMATION] {count}                            .")
+        self.logger.info(f"  Exhumed {count} ancestral echoes into the Akashic Field.")
 
     def find_nearest_echo(self, coord: Tuple[float, float, float, float], radius: float = 5.0) -> Optional[AkashicEcho]:
         """Finds a master's echo for a seeker to resonate with."""

@@ -1,7 +1,7 @@
 """
 Merkaba Simulator (The Ghost in the Machine)
 ============================================
-Core.L6_Structure.Merkaba.simulator
+Core.L6_Structure.M1_Merkaba.simulator
 
 "Simulation is the bridge between Pattern and Principle."
 
@@ -15,8 +15,8 @@ import os
 import struct
 import logging
 from typing import Dict, Any, List
-from Core.L6_Structure.Merkaba.portal import MerkabaPortal
-from Core.L6_Structure.Merkaba.safetensors_decoder import SafetensorsDecoder
+from Core.L6_Structure.M1_Merkaba.portal import MerkabaPortal
+from Core.L6_Structure.M1_Merkaba.safetensors_decoder import SafetensorsDecoder
 
 logger = logging.getLogger("Elysia.Merkaba.Simulator")
 

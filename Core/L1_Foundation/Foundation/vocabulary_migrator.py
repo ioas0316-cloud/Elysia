@@ -1,8 +1,8 @@
 """
-Legacy Vocabulary Migrator (레거시 어휘 통합기)
+Legacy Vocabulary Migrator (          )
 =============================================
 
-memory.db의 concept nodes를 WaveInterpreter vocabulary로 통합
+memory.db  concept nodes  WaveInterpreter vocabulary    
 """
 
 import sqlite3
@@ -22,7 +22,7 @@ class LegacyConceptNode:
 
 class VocabularyMigrator:
     """
-    memory.db → WaveInterpreter 어휘 이전
+    memory.db   WaveInterpreter      
     """
     
     def __init__(self, db_path: str = "memory.db"):
@@ -31,10 +31,10 @@ class VocabularyMigrator:
     
     def extract_legacy_concepts(self, limit: int = 10000) -> List[LegacyConceptNode]:
         """
-        memory.db에서 concept 추출
+        memory.db   concept   
         
         Args:
-            limit: 추출할 concept 수 (전체는 너무 많으므로 제한)
+            limit:     concept   (              )
         
         Returns:
             List of LegacyConceptNode
@@ -84,7 +84,7 @@ class VocabularyMigrator:
         concepts: List[LegacyConceptNode]
     ) -> Dict:
         """
-        Legacy concepts를 WavePattern으로 변환
+        Legacy concepts  WavePattern     
         
         Returns:
             {
@@ -119,7 +119,7 @@ class VocabularyMigrator:
             realm = concept.realm
             stats["realms"][realm] = stats["realms"].get(realm, 0) + 1
         
-        logger.info(f"✅ Migrated {self.migrated_count} concepts to WaveInterpreter")
+        logger.info(f"  Migrated {self.migrated_count} concepts to WaveInterpreter")
         
         return {
             "vocabulary": vocabulary,
@@ -128,13 +128,13 @@ class VocabularyMigrator:
     
     def full_migration(self, limit: int = 10000) -> Dict:
         """
-        전체 이전 프로세스 실행
+                     
         
-        1. memory.db에서 추출
-        2. WavePattern으로 변환
-        3. 통계 반환
+        1. memory.db     
+        2. WavePattern     
+        3.      
         """
-        logger.info(f"🚀 Starting vocabulary migration (limit={limit})")
+        logger.info(f"  Starting vocabulary migration (limit={limit})")
         
         # Extract
         concepts = self.extract_legacy_concepts(limit)
@@ -146,7 +146,7 @@ class VocabularyMigrator:
         # Migrate
         result = self.migrate_to_wave_interpreter(concepts)
         
-        logger.info(f"🎉 Migration complete! {result['stats']['total_migrated']} concepts loaded")
+        logger.info(f"  Migration complete! {result['stats']['total_migrated']} concepts loaded")
         
         return result
 
@@ -161,26 +161,26 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
     
     print("\n" + "="*70)
-    print("📚 Legacy Vocabulary Migration Test")
+    print("  Legacy Vocabulary Migration Test")
     print("="*70)
     
     migrator = VocabularyMigrator()
     
     # Full migration (limit to 1000 for test)
-    print("\n🔄 Migrating legacy concepts...")
+    print("\n  Migrating legacy concepts...")
     result = migrator.full_migration(limit=1000)
     
-    print(f"\n✅ Migration Complete:")
+    print(f"\n  Migration Complete:")
     print(f"   Total Migrated: {result['stats']['total_migrated']}")
-    print(f"\n📊 By Realm:")
+    print(f"\n  By Realm:")
     for realm, count in sorted(result['stats']['realms'].items(), key=lambda x: -x[1]):
         print(f"      {realm:20} {count:5} concepts")
     
     # Sample some concepts
-    print(f"\n📝 Sample Vocabulary (first 10):")
+    print(f"\n  Sample Vocabulary (first 10):")
     for i, (name, wave) in enumerate(list(result['vocabulary'].items())[:10]):
-        print(f"      {i+1}. {name:20} → {wave.frequencies[0]:.1f}Hz")
+        print(f"      {i+1}. {name:20}   {wave.frequencies[0]:.1f}Hz")
     
     print("\n" + "="*70)
-    print("✅ Legacy Vocabulary Migration Test Complete")
+    print("  Legacy Vocabulary Migration Test Complete")
     print("="*70 + "\n")

@@ -94,7 +94,7 @@ class SagaArchitect:
             
             start_episode = end_episode + 1
             
-        logger.info(f"🏛️ Constructed Causal Saga: {len(bible.arcs)} Arcs for '{title}'")
+        logger.info(f"   Constructed Causal Saga: {len(bible.arcs)} Arcs for '{title}'")
         return bible
 
     def _generate_arc_name(self, theme: str, index: int) -> str:

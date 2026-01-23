@@ -1,5 +1,5 @@
 """
-Elysia Security Module (엘리시아 보안 모듈)
+Elysia Security Module (          )
 ========================================
 
 This module provides comprehensive security and protection for the Elysia system.

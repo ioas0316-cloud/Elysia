@@ -1,8 +1,8 @@
 """
-Soul Core (영혼 핵심)
+Soul Core (     )
 =====================
 
-"경험과 감정은 혼에 결합된다."
+"               ."
 
 This module stores Elysia's identity and emotional imprints.
 Unlike the Flow Layer (ResonanceField), Soul is persistent but lightweight.
@@ -111,8 +111,8 @@ class SoulCore:
         # Load existing soul if exists
         self._load()
         
-        logger.info(f"💎 Soul Core Initialized. Identity: {self.name}")
-        logger.info(f"   💫 Imprints: {len(self.emotional_imprints)}, Relationships: {len(self.relationships)}")
+        logger.info(f"  Soul Core Initialized. Identity: {self.name}")
+        logger.info(f"     Imprints: {len(self.emotional_imprints)}, Relationships: {len(self.relationships)}")
     
     def _load(self):
         """Load soul from disk"""
@@ -133,7 +133,7 @@ class SoulCore:
                 for imp_data in data.get("emotional_imprints", []):
                     self.emotional_imprints.append(EmotionalImprint.from_dict(imp_data))
                     
-                logger.info(f"   📖 Loaded soul from {self.soul_path}")
+                logger.info(f"     Loaded soul from {self.soul_path}")
             except Exception as e:
                 logger.error(f"Failed to load soul: {e}")
     
@@ -198,7 +198,7 @@ class SoulCore:
         self.emotional_imprints.append(imprint)
         self._save()
         
-        logger.info(f"   💎 Soul Imprint: {emotion} ({intensity:.2f}) - {context[:30]}...")
+        logger.info(f"     Soul Imprint: {emotion} ({intensity:.2f}) - {context[:30]}...")
     
     def strengthen_relationship(self, entity_id: str, bond_type: str = "Friend", amount: float = 0.1):
         """
@@ -222,7 +222,7 @@ class SoulCore:
         rel.last_interaction = time.time()
         
         self._save()
-        logger.info(f"   💕 Relationship '{entity_id}' strengthened to {rel.bond_strength:.2f}")
+        logger.info(f"     Relationship '{entity_id}' strengthened to {rel.bond_strength:.2f}")
     
     def recall_feeling(self, emotion: str) -> Optional[EmotionalImprint]:
         """

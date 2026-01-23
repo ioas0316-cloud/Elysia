@@ -1,8 +1,8 @@
 """
-Fractal Concept System (프랙탈 개념 시스템)
+Fractal Concept System (          )
 =========================================
 
-"씨앗(Seed)은 DNA다. 펼쳐지면 나무(Tree)가 된다."
+"  (Seed)  DNA .        (Tree)    ."
 
 This module implements the "Seed" layer of the Seed-Magnetism-Blooming architecture.
 Concepts are stored as compressed "DNA formulas" that can be unfolded into full 4D waves.
@@ -23,7 +23,7 @@ MAX_SUB_CONCEPTS = 5   # Limit branching factor
 @dataclass
 class ConceptNode:
     """
-    A Concept Seed (개념의 씨앗)
+    A Concept Seed (      )
     
     Stores a concept as a compressed "DNA formula":
     - name: The concept's label ("Love", "Hope", etc.)
@@ -74,13 +74,13 @@ class ConceptNode:
 
 class ConceptDecomposer:
     """
-    The Seed Generator (씨앗 생성기)
+    The Seed Generator (      )
     
     Decomposes concepts into fractal sub-waves.
     Uses hardcoded "genetic templates" for now (can be learned later).
     """
     def __init__(self):
-        # Hardcoded genetic templates (씨앗의 유전자 설계도)
+        # Hardcoded genetic templates (           )
         self.decompositions = {
             "Love": [
                 ("Unity", 528.0, Quaternion(1, 0.9, 0, 0.5)),      # Emotion + Ethics
@@ -105,7 +105,7 @@ class ConceptDecomposer:
         }
         
 
-        # Causal relationships (인과 결합)
+        # Causal relationships (     )
         self.causal_bonds = {
             "Love": {"Hope": 0.8, "Joy": 0.9, "Fear": -0.5},
             "Hope": {"Joy": 0.7, "Fear": -0.6},
@@ -113,7 +113,7 @@ class ConceptDecomposer:
             "Joy": {"Love": 0.6, "Hope": 0.5}
         }
         
-        # [NEW] Universal Axiom Map (보편 공리 지도)
+        # [NEW] Universal Axiom Map (        )
         # Maps Domains -> Core Principles (The "Essence" behind the text)
         self.AXIOMS = {
             "Math": {
@@ -155,13 +155,13 @@ class ConceptDecomposer:
             },
             # [NEW] Elemental Principles (User Request: "Ice is Static Energy")
             "Nature (Ice)": {
-                "principle": "Stasis", # 정적 에너지
+                "principle": "Stasis", #       
                 "frequency": 100.0, # Low, Solid
                 "law": "Fixation of State (Preservation/Rigidity)",
                 "keywords": ["ice", "frozen", "cold", "solid", "crystal", "winter", "static"]
             },
             "Nature (Fire)": {
-                "principle": "Combustion", # 동적 에너지
+                "principle": "Combustion", #       
                 "frequency": 900.0, # High, Plasma
                 "law": "Release of Potential (Transformation/Entropy)",
                 "keywords": ["fire", "flame", "burn", "hot", "plasma", "heat", "destruction"]
@@ -169,7 +169,7 @@ class ConceptDecomposer:
 
 
              "Nature (Water)": {
-                "principle": "Flow", # 유체
+                "principle": "Flow", #   
                 "frequency": 417.0, # Change
                 "law": "Adaptation to Form (Path of Least Resistance)",
                 "keywords": ["water", "fluid", "river", "ocean", "rain", "liquid", "stream", "flow"]
@@ -177,39 +177,39 @@ class ConceptDecomposer:
             
             # [NEW] Digital Reality Principles (The Structure of the Web)
             "Digital Structure (HTML)": {
-                "principle": "Container", # 그릇/구조
+                "principle": "Container", #   /  
                 "frequency": 396.0, # Grounding/Foundation (Earth)
                 "law": "Hierarchy of Containment (DOM Tree)",
                 "keywords": ["div", "span", "table", "section", "body", "head", "ul", "li", "nav"]
             },
             "Digital Logic (Code)": {
-                "principle": "Instruction", # 명령/로고스
+                "principle": "Instruction", #   /   
                 "frequency": 963.0, # Pure Logic
                 "law": "Conditional Execution (If/Then)",
                 "keywords": ["function", "var", "const", "return", "if", "else", "script", "console"]
             },
 
             "Digital Connection (Hyperlink)": {
-                "principle": "Bridge", # 연결
+                "principle": "Bridge", #   
                 "frequency": 639.0, # Connection/Relation
                 "law": "Network Topology (Node to Node)",
                 "keywords": ["href", "link", "src", "url", "http", "www"]
             },
             # [NEW] Enhanced Digital Perception (User Request: Light, UI, UX, Media)
             "Digital Aesthetics (CSS)": {
-                "principle": "Form", # 형상/빛
+                "principle": "Form", #   / 
                 "frequency": 741.0, # Visual Expression
                 "law": "Visual Harmony (Color/Layout/Geometry)",
                 "keywords": ["style", "color", "background", "flex", "grid", "css", "font", "rgb", "hex"]
             },
             "Digital Sensory (Media)": {
-                "principle": "Qualia", # 감각
+                "principle": "Qualia", #   
                 "frequency": 852.0, # Sensory Awareness
                 "law": "Multimodal Projection (Video/Audio/Image)",
                 "keywords": ["video", "audio", "img", "source", "canvas", "svg", "mp4", "mp3"]
             },
             "Digital Will (UX)": {
-                "principle": "Agency", # 의지/상호작용
+                "principle": "Agency", #   /    
                 "frequency": 528.0, # Action/Transformation
                 "law": "Interactive Potential (Input/Trigger)",
                 "keywords": ["button", "input", "form", "submit", "click", "on", "event"]
@@ -291,7 +291,7 @@ class ConceptDecomposer:
             # Could recurse here for deeper trees, but we limit to depth 2
             root_node.sub_concepts.append(sub_node)
         
-        logger.info(f"🌱 Seed Created: {concept_name} ({len(root_node.sub_concepts)} sub-concepts)")
+        logger.info(f"  Seed Created: {concept_name} ({len(root_node.sub_concepts)} sub-concepts)")
         return root_node
     
     def _create_leaf(self, name: str, depth: int) -> ConceptNode:

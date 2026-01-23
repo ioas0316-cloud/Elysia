@@ -1,5 +1,5 @@
 """
-Speak with Gravity Demo (중력 대화 데모)
+Speak with Gravity Demo (        )
 
 "Talk to the Universe."
 
@@ -26,7 +26,7 @@ logger = logging.getLogger("GravityVoice")
 
 def chat_session():
     print("\n" + "="*70)
-    print("🌌 ELYSIA RESONANCE VOICE - GRAVITY ENABLED")
+    print("  ELYSIA RESONANCE VOICE - GRAVITY ENABLED")
     print("="*70)
     print("Type a word or sentence. Type 'exit' to quit.\n")
     
@@ -58,7 +58,7 @@ def chat_session():
         except KeyboardInterrupt:
             break
         except Exception as e:
-            print(f"⚠️ Error: {e}")
+            print(f"   Error: {e}")
 
 if __name__ == "__main__":
     chat_session()

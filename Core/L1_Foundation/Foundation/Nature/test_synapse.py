@@ -16,52 +16,52 @@ from Core.L4_Causality.World.Nature.trinity_lexicon import TrinityLexicon
 from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 
 def test_synapse():
-    print("--- ⚡ Experiment: The Synapse (Unified Mind) ---")
+    print("---   Experiment: The Synapse (Unified Mind) ---")
     
     # 1. Initialize Memory
-    print("🧠 Initializing Memory (Lexicon)...")
+    print("  Initializing Memory (Lexicon)...")
     lexicon = TrinityLexicon()
     # Ensure graph is ready (sync primitives)
     if lexicon.graph:
         lexicon._sync_primitives()
     
     # 2. Initialize Core with Synapse
-    print("🔮 Initializing Core (HyperSphere)...")
+    print("  Initializing Core (HyperSphere)...")
     core = HyperSphereCore(lexicon=lexicon)
     
     # 3. Summon 'Earth' (High Gravity, Low Flow)
     # Expected: High Mass, Low RPM
-    print("\n🪨 Summoning 'earth'...")
+    print("\n  Summoning 'earth'...")
     core.summon_thought("earth")
     
     rotor_earth = core.rotors.get("earth")
     if rotor_earth:
         print(f"   Spec: {rotor_earth.config}")
         if rotor_earth.config.mass > 5.0 and rotor_earth.config.rpm < 200:
-             print("   ✅ CORRECT: Earth is Heavy and Slow.")
+             print("     CORRECT: Earth is Heavy and Slow.")
         else:
-             print("   ❌ FAILURE: Earth physics mismatch.")
+             print("     FAILURE: Earth physics mismatch.")
     else:
-        print("   ❌ FAILURE: Rotor not created.")
+        print("     FAILURE: Rotor not created.")
 
     # 4. Summon 'Wind' (Low Gravity, High Flow)
     # Expected: Low Mass, High RPM
-    print("\n💨 Summoning 'wind'...")
+    print("\n  Summoning 'wind'...")
     core.summon_thought("wind")
     
     rotor_wind = core.rotors.get("wind")
     if rotor_wind:
         print(f"   Spec: {rotor_wind.config}")
         if rotor_wind.config.mass < 2.0 and rotor_wind.config.rpm > 300:
-             print("   ✅ CORRECT: Wind is Light and Fast.")
+             print("     CORRECT: Wind is Light and Fast.")
         else:
-             print("   ❌ FAILURE: Wind physics mismatch.")
+             print("     FAILURE: Wind physics mismatch.")
              
     # 5. Summon 'Unknown'
-    print("\n❓ Summoning 'void_concept'...")
+    print("\n  Summoning 'void_concept'...")
     core.summon_thought("void_concept")
     if "void_concept" not in core.rotors:
-        print("   ✅ CORRECT: Unknown concept cannot be thought (Hollow).")
+        print("     CORRECT: Unknown concept cannot be thought (Hollow).")
 
 if __name__ == "__main__":
     test_synapse()

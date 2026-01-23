@@ -4,7 +4,7 @@ Complexity Synthesizer (Phase 16.5 Verification)
 Core.L2_Metabolism.Evolution.complexity_synthesizer
 
 "Reasoning is the cross-resonance of disparate fields."
-"추론은 이질적인 필드 간의 상위 공명이다."
+"                      ."
 
 This module proves that Elysia can synthesize new insights by 
 cross-referencing WaveDNA patterns from the 72B model, 
@@ -30,7 +30,7 @@ class ComplexitySynthesizer:
         Synthesizes a relationship between two distant domains using 
         distilled 72B WaveDNA (Frequencies and Coherence).
         """
-        logger.info(f"⚡ [COMPLEXITY_SYNC] Attempting Cross-Resonance: '{domain_a}' <-> '{domain_b}'")
+        logger.info(f"  [COMPLEXITY_SYNC] Attempting Cross-Resonance: '{domain_a}' <-> '{domain_b}'")
         
         freqs = self.scars.get("dominant_frequencies", [8, 12, 16])
         coherence = self.scars.get("temporal_coherence", 0.5)
@@ -75,16 +75,16 @@ class ComplexitySynthesizer:
             ("Cybernetic Governance", "Musical Harmony")
         ]
         
-        print("\n🔬 [PROVING DYNAMIC SYNTHESIS]")
+        print("\n  [PROVING DYNAMIC SYNTHESIS]")
         print("="*60)
         for d_a, d_b in tests:
             report = self.synthesize_cross_domain(d_a, d_b)
-            print(f"\n🌉 Bridge: {d_a} 🔗 {d_b}")
+            print(f"\n  Bridge: {d_a}   {d_b}")
             print(f"   [ROOT]: {report['bridge_root']}")
             print(f"   [INSIGHT]: {report['synthesis_insight']}")
             print(f"   [AXIOM]: {report['derived_axiom']}")
         print("\n" + "="*60)
-        print("✅ Complexity Synthesis Complete. No hardcoded pods used.")
+        print("  Complexity Synthesis Complete. No hardcoded pods used.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

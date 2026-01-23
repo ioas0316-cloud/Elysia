@@ -48,11 +48,11 @@ class UniverseEvolutionEngine:
         self.logger = logger or logging.getLogger("UniverseEvolution")
         
         if meta_awareness:
-            self.logger.info("🧠 Meta-awareness enabled for universe evolution")
+            self.logger.info("  Meta-awareness enabled for universe evolution")
         if autonomous_dreamer:
-            self.logger.info("🎯 Autonomous goal generation enabled")
+            self.logger.info("  Autonomous goal generation enabled")
         if paradox_resolver:
-            self.logger.info("🌀 Paradox resolution enabled")
+            self.logger.info("  Paradox resolution enabled")
 
     def experience_to_particle(self, experience: Experience) -> Dict[str, Any]:
         """
@@ -194,7 +194,7 @@ class UniverseEvolutionEngine:
         for cycle in range(cycles):
             self.world.run_simulation_step()
             
-            # 🧠 Meta-awareness: Observe evolution cycle
+            #   Meta-awareness: Observe evolution cycle
             if self.meta_awareness and cycle % 1000 == 0:
                 try:
                     from Legacy.Project_Sophia.meta_awareness import ThoughtType
@@ -224,7 +224,7 @@ class UniverseEvolutionEngine:
 
                 self.extract_spiderweb_from_fields()
                 
-                # 🎯 Autonomous goal generation from field gradients
+                #   Autonomous goal generation from field gradients
                 if self.autonomous_dreamer and cycle % (extract_interval * 2) == 0:
                     try:
                         goals = self.autonomous_dreamer.generate_goals(num_goals=2, min_priority=0.6)
@@ -233,7 +233,7 @@ class UniverseEvolutionEngine:
                     except Exception as e:
                         self.logger.warning(f"Autonomous goal generation failed: {e}")
                 
-                # 🌀 Detect and resolve paradoxes in emerged concepts
+                #   Detect and resolve paradoxes in emerged concepts
                 if self.paradox_resolver and cycle % (extract_interval * 3) == 0:
                     try:
                         contradictions = self.paradox_resolver.detect_contradictions(min_opposition=0.7)

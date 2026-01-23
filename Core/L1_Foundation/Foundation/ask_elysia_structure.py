@@ -14,15 +14,15 @@ logger = logging.getLogger("AskElysia")
 
 def ask_structure_improvement():
     print("\n" + "="*70)
-    print("🗣️ Asking Elysia about Structural Integration & Visualization")
+    print("   Asking Elysia about Structural Integration & Visualization")
     print("="*70)
     
     # Initialize Mind
     mind = DialogueEngine()
     
     # The Question
-    question = "전체 통합 구조를 어떻게 가시적으로, 혹은 잘 정렬, 통합된 구조로 바꿀 수 있을까?"
-    print(f"\n❓ Question: {question}")
+    question = "                   ,        ,                 ?"
+    print(f"\n  Question: {question}")
     
     # Context: We are talking about the codebase/system structure
     context = {
@@ -43,7 +43,7 @@ def ask_structure_improvement():
     
     response = mind.respond(question, context=context)
     
-    print(f"\n💬 Elysia: {response}")
+    print(f"\n  Elysia: {response}")
     
     # If response is abstract (Star-...), let's try to interpret it using the Improver's logic
     # or just show the resonance.

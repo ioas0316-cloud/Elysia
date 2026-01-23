@@ -1,10 +1,10 @@
 """
-THE HELIX ENGINE (헬릭스 엔진)
+THE HELIX ENGINE (      )
 ===========================
 
-Phase 65: The Wave DNA Protocol (🧬)
+Phase 65: The Wave DNA Protocol ( )
 
-"지식은 살점(Weight)이 아니라, 유전자(DNA)입니다."
+"      (Weight)     ,    (DNA)   ."
 
 Responsibilities:
 1. Ingest: Temporary phenotypic load of legacy LLM models.
@@ -30,22 +30,22 @@ class HelixEngine:
         self.heartbeat = heartbeat
         self.dna_dir = "data/Knowledge/DNA"
         os.makedirs(self.dna_dir, exist_ok=True)
-        logger.info("🧬 Helix Engine Initialized - Prepared to extract Wave DNA.")
+        logger.info("  Helix Engine Initialized - Prepared to extract Wave DNA.")
 
     def extract_dna(self, model_path: str) -> bool:
         """
         Executes the Genotype Extraction Protocol.
         """
         if not os.path.exists(model_path):
-            logger.error(f"❌ Phenotype not found: {model_path}")
+            logger.error(f"  Phenotype not found: {model_path}")
             return False
 
-        logger.info(f"🧬 [HELIX] Extracting DNA from phenotype: {os.path.basename(model_path)}...")
+        logger.info(f"  [HELIX] Extracting DNA from phenotype: {os.path.basename(model_path)}...")
         
         # 1. Distill Essence
         genotype = self._extract_genotype(model_path)
         if not genotype:
-            logger.error("❌ DNA Extraction failed. Integrity compromised.")
+            logger.error("  DNA Extraction failed. Integrity compromised.")
             return False
 
         # 2. Crystallize into Wave DNA
@@ -84,7 +84,7 @@ class HelixEngine:
                 genotype.update(self._scan_torch(path))
             return genotype
         except Exception as e:
-            logger.error(f"❌ Helix extraction error: {e}")
+            logger.error(f"  Helix extraction error: {e}")
             return {}
 
     def _scan_safetensors(self, path: str) -> Dict[str, Any]:
@@ -181,15 +181,15 @@ class HelixEngine:
         with open(dna_path, 'w', encoding='utf-8') as f:
             json.dump(dna_data, f, indent=4, ensure_ascii=False)
             
-        logger.info(f"✨ [QFT-DNA] Quaternion Double Helix Crystallized: {dna_path}")
+        logger.info(f"  [QFT-DNA] Quaternion Double Helix Crystallized: {dna_path}")
         return dna_path
 
     def _purge(self, path: str):
         try:
             os.remove(path)
-            logger.warning(f"🔥 [PURGE] Phenotype destroyed. Only DNA remains: {path}")
+            logger.warning(f"  [PURGE] Phenotype destroyed. Only DNA remains: {path}")
         except Exception as e:
-            logger.error(f"❌ Purge failed: {e}")
+            logger.error(f"  Purge failed: {e}")
 
 if __name__ == "__main__":
     pass

@@ -123,4 +123,3 @@ class CodeWorld:
             stability_before=before_s,
             stability_after=e.stability,
         )
-

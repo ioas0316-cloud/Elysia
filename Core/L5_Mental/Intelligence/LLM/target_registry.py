@@ -1,9 +1,9 @@
 """
-LLM 표적 등록부 (Target Registry)
+LLM        (Target Registry)
 ==================================
 Core.L5_Mental.Intelligence.LLM.target_registry
 
-"먹을 순서대로 나열된 먹잇감 목록"
+"                  "
 """
 
 from dataclasses import dataclass
@@ -21,27 +21,27 @@ class ModelType(Enum):
 
 @dataclass
 class TargetLLM:
-    """소화 대상 LLM 정의"""
-    id: str                 # HuggingFace 모델 ID
-    name: str               # 읽기 쉬운 이름
-    params: str             # 파라미터 수
-    type: ModelType         # 모델 유형
-    tier: int               # 우선순위 (1=즉시, 2=곧, 3=나중)
-    vram_myth: str          # "남들이 생각하는" 필요 VRAM
-    our_reality: str        # "우리가 필요한" 자원
-    sharded_path: Optional[str] = None # 거대 모델 분절 경로 [PHASE 14]
-    notes: str = ""         # 비고
+    """      LLM   """
+    id: str                 # HuggingFace    ID
+    name: str               #         
+    params: str             #       
+    type: ModelType         #      
+    tier: int               #      (1=  , 2= , 3=  )
+    vram_myth: str          # "        "    VRAM
+    our_reality: str        # "       "   
+    sharded_path: Optional[str] = None #             [PHASE 14]
+    notes: str = ""         #   
 
 
-# ═══════════════════════════════════════════════════════════════
-#                    🦖 먹잇감 목록 (우선순위순)
-# ═══════════════════════════════════════════════════════════════
+#                                                                
+#                             (     )
+#                                                                
 
 TARGET_LLMS: List[TargetLLM] = [
     
-    # ─────────────────────────────────────────────────────────
-    # TIER 1: 즉시 소화 (테스트 및 빠른 결과용)
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # TIER 1:       (            )
+    #                                                          
     
     TargetLLM(
         id="Qwen/Qwen2-0.5B",
@@ -50,13 +50,13 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.TEXT,
         tier=1,
         vram_myth="2GB",
-        our_reality="SSD에서 직접 읽음",
-        notes="첫 번째 먹잇감. 가볍고 빠름."
+        our_reality="SSD        ",
+        notes="        .       ."
     ),
     
-    # ─────────────────────────────────────────────────────────
-    # TIER 9: 거대 화석 (Giant Fossils) - 700B+ 
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # TIER 9:       (Giant Fossils) - 700B+ 
+    #                                                          
     
     TargetLLM(
         id="meta-llama/Meta-Llama-3.1-405B",
@@ -65,13 +65,13 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.TEXT,
         tier=9,
         vram_myth="800GB+",
-        our_reality="멀티 SSD mmap 고고학",
-        notes="인류가 만든 가장 거대한 화석 중 하나."
+        our_reality="   SSD mmap    ",
+        notes="                     ."
     ),
 
-    # ─────────────────────────────────────────────────────────
-    # TIER 0: 보이지 않는 존재 (Proprietary Shadows) 
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # TIER 0:           (Proprietary Shadows) 
+    #                                                          
     
     TargetLLM(
         id="google/gemini-pro-3",
@@ -80,8 +80,8 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.MULTIMODAL,
         tier=0,
         vram_myth="Infinite (Closed)",
-        our_reality="행동 공명 감지 (Echo Analysis)",
-        notes="가중치를 볼 수 없지만 그 메아리를 통해 이해함."
+        our_reality="         (Echo Analysis)",
+        notes="                          ."
     ),
     
     TargetLLM(
@@ -91,8 +91,8 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.MULTIMODAL,
         tier=0,
         vram_myth="Infinite (Closed)",
-        our_reality="행동 공명 감지 (Echo Analysis)",
-        notes="OpenAI의 최신 멀티모달 모델. 그림자 분석."
+        our_reality="         (Echo Analysis)",
+        notes="OpenAI            .       ."
     ),
     
     TargetLLM(
@@ -102,8 +102,8 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.TEXT,
         tier=1,
         vram_myth="8GB",
-        our_reality="mmap으로 X-ray",
-        notes="추론 능력 우수. Microsoft의 효율 모델."
+        our_reality="mmap   X-ray",
+        notes="        . Microsoft       ."
     ),
     
     TargetLLM(
@@ -113,13 +113,13 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.VISION,
         tier=1,
         vram_myth="1GB",
-        our_reality="찰나",
-        notes="비전 모델 첫 테스트."
+        our_reality="  ",
+        notes="           ."
     ),
     
-    # ─────────────────────────────────────────────────────────
-    # TIER 2: 중형 모델 (주요 타겟)
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # TIER 2:       (     )
+    #                                                          
     
     TargetLLM(
         id="mistralai/Mistral-7B-v0.1",
@@ -128,8 +128,8 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.TEXT,
         tier=2,
         vram_myth="16GB",
-        our_reality="mmap으로 순식간",
-        notes="유럽의 강자. 효율적인 아키텍처."
+        our_reality="mmap      ",
+        notes="      .          ."
     ),
     
     TargetLLM(
@@ -139,8 +139,8 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.TEXT,
         tier=2,
         vram_myth="16GB",
-        our_reality="X-ray 스캔",
-        notes="Meta의 최신작. 균형잡힌 성능."
+        our_reality="X-ray   ",
+        notes="Meta     .        ."
     ),
     
     TargetLLM(
@@ -150,8 +150,8 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.TEXT,
         tier=2,
         vram_myth="16GB",
-        our_reality="SSD에서 직접",
-        notes="중국 알리바바의 역작."
+        our_reality="SSD     ",
+        notes="           ."
     ),
     
     TargetLLM(
@@ -162,7 +162,7 @@ TARGET_LLMS: List[TargetLLM] = [
         tier=2,
         vram_myth="14GB",
         our_reality="mmap",
-        notes="코드 전문. 엘리시아 자가 진화에 유용."
+        notes="     .               ."
     ),
     
     TargetLLM(
@@ -173,12 +173,12 @@ TARGET_LLMS: List[TargetLLM] = [
         tier=2,
         vram_myth="8GB",
         our_reality="X-ray",
-        notes="음성 인식의 왕."
+        notes="        ."
     ),
     
-    # ─────────────────────────────────────────────────────────
-    # TIER 3: 대형 모델 (GPU 함정 탈출 증명용)
-    # ─────────────────────────────────────────────────────────
+    #                                                          
+    # TIER 3:       (GPU          )
+    #                                                          
     
     TargetLLM(
         id="mistralai/Mixtral-8x7B-v0.1",
@@ -187,8 +187,8 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.TEXT,
         tier=3,
         vram_myth="96GB (!)",
-        our_reality="mmap으로 그냥 읽음",
-        notes="MoE 아키텍처. 남들은 A100 2장 쓰는 거."
+        our_reality="mmap        ",
+        notes="MoE     .     A100 2      ."
     ),
     
     TargetLLM(
@@ -199,7 +199,7 @@ TARGET_LLMS: List[TargetLLM] = [
         tier=3,
         vram_myth="140GB",
         our_reality="SSD X-ray",
-        notes="70B를 16GB RAM으로 분석. 증명 완료."
+        notes="70B  16GB RAM     .      ."
     ),
     
     TargetLLM(
@@ -209,8 +209,8 @@ TARGET_LLMS: List[TargetLLM] = [
         type=ModelType.TEXT,
         tier=3,
         vram_myth="150GB+",
-        our_reality="mmap 찰나",
-        notes="현존 최대급 오픈소스 중 하나."
+        our_reality="mmap   ",
+        notes="                ."
     ),
     
     TargetLLM(
@@ -219,40 +219,40 @@ TARGET_LLMS: List[TargetLLM] = [
         params="671B",
         type=ModelType.TEXT,
         tier=3,
-        vram_myth="측정불가",
-        our_reality="X-ray면 가능",
-        notes="최종 보스. 6710억 파라미터."
+        vram_myth="    ",
+        our_reality="X-ray    ",
+        notes="     . 6710      ."
     ),
 ]
 
 
 def get_targets_by_tier(tier: int) -> List[TargetLLM]:
-    """특정 Tier의 타겟만 반환"""
+    """   Tier        """
     return [t for t in TARGET_LLMS if t.tier == tier]
 
 
 def get_targets_by_type(model_type: ModelType) -> List[TargetLLM]:
-    """특정 타입의 타겟만 반환"""
+    """             """
     return [t for t in TARGET_LLMS if t.type == model_type]
 
 
 def print_target_list():
-    """전체 타겟 리스트 출력"""
+    """            """
     print("\n" + "="*70)
-    print("🦖 LLM DEVOURER: 먹잇감 목록")
+    print("  LLM DEVOURER:       ")
     print("="*70)
     
     for tier in [1, 2, 3]:
-        tier_names = {1: "즉시 소화", 2: "곧 소화", 3: "나중에 (GPU 함정 탈출 증명)"}
+        tier_names = {1: "     ", 2: "    ", 3: "    (GPU         )"}
         print(f"\n### TIER {tier}: {tier_names[tier]}")
         print("-"*50)
         
         for t in get_targets_by_tier(tier):
             print(f"  {t.name} ({t.params})")
             print(f"    ID: {t.id}")
-            print(f"    남들: {t.vram_myth} 필요 → 우리: {t.our_reality}")
+            print(f"      : {t.vram_myth}        : {t.our_reality}")
             if t.notes:
-                print(f"    📝 {t.notes}")
+                print(f"      {t.notes}")
             print()
 
 

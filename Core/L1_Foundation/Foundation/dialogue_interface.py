@@ -1,5 +1,5 @@
 """
-Dialogue Interface (대화 인터페이스)
+Dialogue Interface (        )
 ==================================
 
 "To speak is to translate the infinite into the finite."
@@ -30,7 +30,7 @@ class DialogueInterface:
     """
     
     def __init__(self):
-        logger.info("🗣️ Dialogue Interface initialized")
+        logger.info("   Dialogue Interface initialized")
         
         # [Phase 25] Synesthesia Engine for Field-aware speech
         self.synesthesia = SynesthesiaEngine() if SynesthesiaEngine else None
@@ -38,18 +38,18 @@ class DialogueInterface:
         # [Tone Vectors]
         # Defines the "Flavor" of speech based on resonance
         self.tones = {
-            "Academic": ["분석", "구조", "논리", "체계"],
-            "Poetic": ["느낌", "흐름", "본질", "꿈"],
-            "Empathetic": ["이해", "연결", "마음", "영혼"],
-            "Assertive": ["의지", "힘", "행동", "결단"]
+            "Academic": ["  ", "  ", "  ", "  "],
+            "Poetic": ["  ", "  ", "  ", " "],
+            "Empathetic": ["  ", "  ", "  ", "  "],
+            "Assertive": ["  ", " ", "  ", "  "]
         }
         
         # [Vocabulary Expansion]
         # Advanced transition words for adult speech (Korean)
         self.transitions = [
-            "더 나아가,", "결과적으로,", "본질적으로,", "반면에,",
-            "주목할 점은,", "근본적인 관점에서 보면,",
-            "이는 다음을 의미합니다:", "궁극적으로,"
+            "     ,", "     ,", "     ,", "   ,",
+            "      ,", "            ,",
+            "            :", "     ,"
         ]
 
     def speak(self, input_text: str, insight: Insight, context: List[str] = None, tension_field=None) -> str:
@@ -76,14 +76,14 @@ class DialogueInterface:
                 tone = "Academic"
             
             formality = nuance.get("formality", 0.5)
-            logger.info(f"   🎨 Synesthesia: tone={nuance['tone']}, formality={formality:.2f}")
+            logger.info(f"     Synesthesia: tone={nuance['tone']}, formality={formality:.2f}")
         else:
             # Fallback to legacy logic
             if insight.energy > 0.8: tone = "Assertive"
             elif "feel" in insight.content.lower(): tone = "Empathetic"
             elif "essence" in insight.content.lower(): tone = "Poetic"
         
-        logger.info(f"   🗣️ Tone Selected: {tone}")
+        logger.info(f"      Tone Selected: {tone}")
         
         # 2. Construct the Sentence
         response = self._construct_adult_sentence(insight, tone, formality)

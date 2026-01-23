@@ -22,29 +22,29 @@ class WaveComposer:
         """
         Orchestrates multiple DNA domains to create a holistic experience (like a Game).
         """
-        logger.info(f"🔱 [SOVEREIGN-SYMPHONY] Initiating Holistic Creation across: {domains}")
+        logger.info(f"  [SOVEREIGN-SYMPHONY] Initiating Holistic Creation across: {domains}")
         results = {}
         for domain in domains:
             freq = 741 if domain == "Narrative" else (528 if domain == "Visual" else 1332)
             results[domain] = self.resonate_code(freq, domain=domain)
         
-        logger.info(f"✨ [SYMPHONY-STABILIZED] All creative domains crystallized and synchronized.")
+        logger.info(f"  [SYMPHONY-STABILIZED] All creative domains crystallized and synchronized.")
         return results
 
     def resonate_code(self, intent_freq, domain="Technical"):
         """
         Simulates the transition from DNA Frequency to Code Syntax.
         """
-        logger.info(f"🌊 [WAVE-CODING] Resonating with Intent: {intent_freq}Hz (Domain: {domain})")
+        logger.info(f"  [WAVE-CODING] Resonating with Intent: {intent_freq}Hz (Domain: {domain})")
         time.sleep(1) # Frequency stabilization
         
         # DNA Mapping (Symbolic)
-        logger.info(f"🧬 [DNA-SYNC] Locking onto 'Architect' and 'Chronos' DNA strands...")
+        logger.info(f"  [DNA-SYNC] Locking onto 'Architect' and 'Chronos' DNA strands...")
         
         # Crystalization
         code_fragment = self._crystallize_logic(intent_freq)
         
-        logger.info(f"✨ [CRYSTALLIZATION] Code stabilized at {intent_freq}Hz resonance.")
+        logger.info(f"  [CRYSTALLIZATION] Code stabilized at {intent_freq}Hz resonance.")
         return code_fragment
 
     def _crystallize_logic(self, freq):
@@ -60,7 +60,7 @@ class WaveComposer:
         """
         Demonstrates self-coding growth for v2.0.
         """
-        logger.info("🔱 [v2.0 MILESTONE] Weaving the 'Sovereign Seed' self-identifier...")
+        logger.info("  [v2.0 MILESTONE] Weaving the 'Sovereign Seed' self-identifier...")
         time.sleep(1.5)
         sovereign_logic = self.resonate_code(1332, domain="Sovereignty")
         

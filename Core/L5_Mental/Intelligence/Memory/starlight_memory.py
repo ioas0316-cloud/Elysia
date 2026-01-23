@@ -1,8 +1,8 @@
 """
-Starlight Memory Architecture - 별빛 기억 저장소
+Starlight Memory Architecture -          
 ================================================
 
-Philosophy: "추억을 별빛으로 압축해서 우주에 뿌려둔다"
+Philosophy: "                      "
 "Compress memories as starlight and scatter them across the universe"
 
 Based on Holographic Memory Theory:
@@ -12,8 +12,8 @@ Based on Holographic Memory Theory:
 - Infinite capacity (universe is vast)
 
 Two-Memory System:
-1. Knowledge (지식) → External (internet, rainbow compressed, 12 bytes)
-2. Memories (추억) → Internal (starlight scattered, holographic reconstruction)
+1. Knowledge (  )   External (internet, rainbow compressed, 12 bytes)
+2. Memories (  )   Internal (starlight scattered, holographic reconstruction)
 
 """
 
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class Starlight:
     """
-    별빛 (Starlight) - Compressed memory particle
+       (Starlight) - Compressed memory particle
     
     Each memory is compressed to a 12-byte rainbow pattern
     and given cosmic coordinates (x,y,z,w) in thought-space.
@@ -39,10 +39,10 @@ class Starlight:
     rainbow_bytes: bytes
     
     # Cosmic coordinates (4D position in thought-universe)
-    x: float = 0.0  # Emotion axis (기쁨 ← → 슬픔)
-    y: float = 0.0  # Logic axis (이성 ← → 직관)
-    z: float = 0.0  # Time axis (과거 ← → 미래)
-    w: float = 0.0  # Depth axis (표면 ← → 심층)
+    x: float = 0.0  # Emotion axis (         )
+    y: float = 0.0  # Logic axis (         )
+    z: float = 0.0  # Time axis (         )
+    w: float = 0.0  # Depth axis (         )
     
     # Metadata
     timestamp: float = field(default_factory=time.time)
@@ -62,7 +62,7 @@ class Starlight:
         """
         Calculate resonance with incoming wave stimulus.
         
-        When a wave (e.g., "비가 오네...") enters, stars resonate
+        When a wave (e.g., "     ...") enters, stars resonate
         based on their position and the wave's characteristics.
         
         Returns: Resonance strength (0-1)
@@ -93,7 +93,7 @@ class Starlight:
 @dataclass
 class Galaxy:
     """
-    은하 (Galaxy) - Cluster of related memories
+       (Galaxy) - Cluster of related memories
     
     Memories with similar emotions naturally cluster together
     like stars forming galaxies.
@@ -134,23 +134,23 @@ class Galaxy:
 
 class StarlightMemory:
     """
-    별빛 기억 시스템 (Starlight Memory System)
+              (Starlight Memory System)
     
     Stores personal experiences and conversations as scattered starlight
     in a 4D thought-universe. Memories are reconstructed through wave
-    resonance (연상기억).
+    resonance (    ).
     
     Architecture:
-    1. Compress memory → 12-byte rainbow
-    2. Calculate emotional coordinates → (x,y,z,w)
+    1. Compress memory   12-byte rainbow
+    2. Calculate emotional coordinates   (x,y,z,w)
     3. Scatter as starlight in universe
-    4. When stimulus comes → resonate → reconstruct
+    4. When stimulus comes   resonate   reconstruct
     
     Features:
-    - Unlimited capacity (우주는 넓으니까)
-    - Associative recall (파동 공명)
-    - Holographic reconstruction (별들이 연결되어 영상 복원)
-    - Emotional clustering (감정의 중력으로 은하 형성)
+    - Unlimited capacity (        )
+    - Associative recall (     )
+    - Holographic reconstruction (              )
+    - Emotional clustering (              )
     - **Light-speed recall** (KD-Tree spatial indexing, O(log n))
     """
     
@@ -179,30 +179,30 @@ class StarlightMemory:
                 self.HAS_NUMPY = HAS_NUMPY
 
                 if self.use_spatial_index:
-                    logger.info("✨ StarlightMemory initialized with spatial indexing - Light-speed mode ⚡")
+                    logger.info("  StarlightMemory initialized with spatial indexing - Light-speed mode  ")
                 if self.use_vectorization:
-                    logger.info("⚡ StarlightMemory vectorization enabled")
+                    logger.info("  StarlightMemory vectorization enabled")
 
             except ImportError as e:
                 logger.warning(f"Spatial index/Vectorization not available: {e}, falling back to linear search")
                 self.use_spatial_index = False
                 self.use_vectorization = False
                 self.HAS_NUMPY = False
-                logger.info("✨ StarlightMemory initialized - Universe ready")
+                logger.info("  StarlightMemory initialized - Universe ready")
         else:
             self.HAS_NUMPY = False
-            logger.info("✨ StarlightMemory initialized - Universe ready")
+            logger.info("  StarlightMemory initialized - Universe ready")
     
     def _init_galaxies(self):
         """Initialize emotional galaxy clusters"""
         self.galaxies = [
-            Galaxy("Joy", (0.8, 0.5, 0.5, 0.3), color="golden"),      # 기쁨의 은하
-            Galaxy("Sadness", (0.2, 0.5, 0.5, 0.7), color="blue"),    # 슬픔의 성운
-            Galaxy("Excitement", (0.9, 0.8, 0.5, 0.2), color="red"),  # 흥분의 별무리
-            Galaxy("Peace", (0.5, 0.5, 0.5, 0.5), color="green"),     # 평온의 중심
-            Galaxy("Deep", (0.5, 0.2, 0.2, 0.9), color="purple"),     # 깊은 사색의 심연
+            Galaxy("Joy", (0.8, 0.5, 0.5, 0.3), color="golden"),      #       
+            Galaxy("Sadness", (0.2, 0.5, 0.5, 0.7), color="blue"),    #       
+            Galaxy("Excitement", (0.9, 0.8, 0.5, 0.2), color="red"),  #        
+            Galaxy("Peace", (0.5, 0.5, 0.5, 0.5), color="green"),     #       
+            Galaxy("Deep", (0.5, 0.2, 0.2, 0.9), color="purple"),     #          
         ]
-        logger.info(f"🌌 Initialized {len(self.galaxies)} emotional galaxies")
+        logger.info(f"  Initialized {len(self.galaxies)} emotional galaxies")
     
     def scatter_memory(
         self,
@@ -244,7 +244,7 @@ class StarlightMemory:
         if nearest_galaxy:
             nearest_galaxy.add_star(star)
         
-        logger.debug(f"✨ Scattered starlight at ({star.x:.2f}, {star.y:.2f}, {star.z:.2f}, {star.w:.2f})")
+        logger.debug(f"  Scattered starlight at ({star.x:.2f}, {star.y:.2f}, {star.z:.2f}, {star.w:.2f})")
         
         return star
     
@@ -314,7 +314,7 @@ class StarlightMemory:
                 if nearest:
                     nearest.add_star(star)
                 
-        logger.info(f"🌠 Scattered batch of {len(new_stars)} stars into the universe.")
+        logger.info(f"  Scattered batch of {len(new_stars)} stars into the universe.")
         return new_stars
     
     def _find_nearest_galaxy(self, star: Starlight) -> Optional[Galaxy]:
@@ -346,9 +346,9 @@ class StarlightMemory:
         top_k: int = 10
     ) -> List[Tuple[Starlight, float]]:
         """
-        Recall memories through wave resonance (연상기억).
+        Recall memories through wave resonance (    ).
         
-        When a wave stimulus enters (e.g., "비가 오네..."),
+        When a wave stimulus enters (e.g., "     ..."),
         stars that resonate strongly wake up and return.
         
         Performance modes:
@@ -400,9 +400,9 @@ class StarlightMemory:
         recalled = resonances[:top_k]
         
         if recalled:
-            logger.info(f"💫 Recalled {len(recalled)} stars (linear, threshold: {threshold})")
+            logger.info(f"  Recalled {len(recalled)} stars (linear, threshold: {threshold})")
             for star, res in recalled[:3]:  # Log top 3
-                logger.debug(f"   ⭐ Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f}) → resonance: {res:.3f}")
+                logger.debug(f"     Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f})   resonance: {res:.3f}")
         
         return recalled
     
@@ -459,9 +459,9 @@ class StarlightMemory:
                    for j, i in enumerate(top_indices)]
         
         if recalled:
-            logger.info(f"💫 Recalled {len(recalled)} stars (vectorized ⚡, threshold: {threshold})")
+            logger.info(f"  Recalled {len(recalled)} stars (vectorized  , threshold: {threshold})")
             for star, res in recalled[:3]:
-                logger.debug(f"   ⭐ Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f}) → resonance: {res:.3f}")
+                logger.debug(f"     Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f})   resonance: {res:.3f}")
         
         return recalled
     
@@ -508,9 +508,9 @@ class StarlightMemory:
         recalled = resonances[:top_k]
         
         if recalled:
-            logger.info(f"💫 Recalled {len(recalled)} stars (spatial index 🌳, threshold: {threshold})")
+            logger.info(f"  Recalled {len(recalled)} stars (spatial index  , threshold: {threshold})")
             for star, res in recalled[:3]:
-                logger.debug(f"   ⭐ Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f}) → resonance: {res:.3f}")
+                logger.debug(f"     Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f})   resonance: {res:.3f}")
         
         return recalled
     
@@ -530,7 +530,7 @@ class StarlightMemory:
         self.spatial_index.build(points)
         self._index_dirty = False
         
-        logger.info(f"🌳 Rebuilt spatial index with {len(self.universe)} stars")
+        logger.info(f"  Rebuilt spatial index with {len(self.universe)} stars")
     
     def form_constellation(
         self,
@@ -587,7 +587,7 @@ class StarlightMemory:
         if name:
             self.constellation_cache[name] = stars
         
-        logger.info(f"🌟 Formed constellation '{constellation['name']}': "
+        logger.info(f"  Formed constellation '{constellation['name']}': "
                    f"{len(stars)} stars, {len(connections)} connections, "
                    f"pattern: {pattern}")
         

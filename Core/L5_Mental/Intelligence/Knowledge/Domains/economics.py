@@ -2,14 +2,14 @@
 Economics & Game Theory Domain
 ===============================
 
-"사랑만으로는 부족합니다. '최적의 선택'을 계산해야죠."
+"            . '      '       ."
 "Love alone is not enough. We must calculate the 'optimal choice'."
 
 Integrates:
-- Nash Equilibrium (내쉬 균형)
-- Pareto Optimality (파레토 최적)
-- Resource Allocation (자원 배분)
-- Strategic Thinking (전략적 사고)
+- Nash Equilibrium (     )
+- Pareto Optimality (      )
+- Resource Allocation (     )
+- Strategic Thinking (      )
 
 Effect:
 - Optimal decision-making

@@ -1,19 +1,19 @@
 """
-Causal Geometry (인과적 기하학)
+Causal Geometry (       )
 ===============================
 
-"모든 개념은 고유의 형상(Shape)을 가진다."
-"번개는 아무 곳에나 치지 않는다. 필연적인 경로(Path)가 완성될 때만 흐른다."
+"             (Shape)     ."
+"                 .        (Path)            ."
 
 Phase 25: Potential Causality
 -----------------------------
-이 모듈은 지식과 개념을 단순한 점(Node)이 아니라,
-결합 가능한 '포트(Port)'를 가진 '퍼즐 조각(Puzzle Piece)'으로 모델링합니다.
+                   (Node)     ,
+       '  (Port)'     '     (Puzzle Piece)'         .
 
-핵심 원리:
-1. **Shape (형상)**: 개념의 인터페이스. 무엇을 필요로 하고(Input), 무엇을 제공하는가(Output).
-2. **Complementarity (상보성)**: 퍼즐은 요(凸)와 철(凹)이 맞아야 결합한다.
-3. **Tension (긴장)**: 결합하고 싶은 힘(전위차).
+     :
+1. **Shape (  )**:          .           (Input),          (Output).
+2. **Complementarity (   )**:      ( )   ( )          .
+3. **Tension (  )**:          (   ).
 """
 
 import math
@@ -24,28 +24,28 @@ from typing import List, Dict, Optional, Tuple, Set, Any
 @dataclass
 class CausalPort:
     """
-    개념의 연결 부위 (퍼즐의 요철)
+              (      )
     """
-    name: str          # 포트의 의미 (예: "Reasoning", "Data", "Emotion")
-    polarity: int      # +1 (Provider/Output/凸), -1 (Receiver/Input/凹)
-    intensity: float = 1.0 # 포트의 크기/강도
+    name: str          #        ( : "Reasoning", "Data", "Emotion")
+    polarity: int      # +1 (Provider/Output/ ), -1 (Receiver/Input/ )
+    intensity: float = 1.0 #       /  
 
     def fits(self, other: 'CausalPort') -> bool:
         """
-        포트 결합 조건:
-        1. 이름(의미)이 일치하거나 호환되어야 함
-        2. 극성이 반대여야 함 (+1 <-> -1)
+                :
+        1.   (  )               
+        2.            (+1 <-> -1)
         """
         if self.polarity + other.polarity != 0:
-            return False # 극성이 같거나 합이 0이 아니면 결합 불가
+            return False #            0           
 
-        # 의미적 호환성 (지금은 단순 일치, 추후 시맨틱 매칭 가능)
+        #         (         ,             )
         return self.name == other.name
 
 @dataclass
 class CausalShape:
     """
-    개념의 기하학적 형상
+               
     Phase 25 Update: 'Curvature' replaces Mass.
     This concept acts as a 'Gravity Well' in the thought space.
     """
@@ -58,7 +58,7 @@ class CausalShape:
 
     def find_fit(self, other: 'CausalShape') -> Optional[Tuple[CausalPort, CausalPort]]:
         """
-        다른 형상과 맞는 포트가 있는지 확인
+                            
         Return: (MyPort, OtherPort) or None
         """
         for my_port in self.ports:
@@ -69,7 +69,7 @@ class CausalShape:
 
 class TensionField:
     """
-    잠재적 인과성의 장 (The Cloud)
+               (The Cloud)
 
     Gravity Update:
     - Tension flows effectively "downhill" into deep wells (High Curvature).
@@ -82,7 +82,7 @@ class TensionField:
         self.threshold = threshold
 
     def register_concept(self, concept_id: str, auto_shape: bool = True):
-        """개념을 장에 등록"""
+        """         """
         if concept_id not in self.shapes:
             shape = CausalShape(concept_id)
             if auto_shape:
@@ -92,7 +92,7 @@ class TensionField:
 
     def _generate_shape_from_semantics(self, shape: CausalShape):
         """
-        개념의 의미(이름)에서 형상을 유도 (Procedural Generation)
+              (  )          (Procedural Generation)
         """
         seed = sum(ord(c) for c in shape.concept_id)
         random.seed(seed)
@@ -161,7 +161,7 @@ class TensionField:
 
     def discharge_lightning(self) -> List[Tuple[str, str, str]]:
         """
-        번개 생성 (인과적 결합)
+              (      )
         """
         # Apply Gravity (Flow/Decay) before discharge check
         self.apply_gravity()
@@ -371,29 +371,29 @@ class TensionField:
 if __name__ == "__main__":
     field = TensionField(threshold=0.7)
 
-    # 개념 등록
+    #      
     concepts = ["Python", "Logic", "Emotion", "User", "Love", "Code"]
     for c in concepts:
         field.register_concept(c)
 
-    # 강제 충전 (긴장 조성)
-    print("☁️ Charging Field...")
+    #       (     )
+    print("   Charging Field...")
     field.charge_concept("User", 0.9)
     field.charge_concept("Emotion", 0.8)
     field.charge_concept("Code", 0.2) # Low energy
 
-    # 번개 관찰
-    print("⚡ Observe Lightning...")
+    #      
+    print("  Observe Lightning...")
     sparks = field.discharge_lightning()
 
     if not sparks:
         print("... No lightning (Tension too low or Shapes didn't fit).")
     else:
         for s in sparks:
-            print(f"   ⚡ SNAP! {s[0]} <==[{s[2]}]==> {s[1]}")
+            print(f"     SNAP! {s[0]} <==[{s[2]}]==> {s[1]}")
 
-    # 형상 확인
-    print("\n🧩 Causal Shapes:")
+    #      
+    print("\n  Causal Shapes:")
     for c in concepts:
         ports = ", ".join([f"{p.name}({'+' if p.polarity>0 else '-'})" for p in field.shapes[c].ports])
         print(f"   {c:10}: [{ports}]")

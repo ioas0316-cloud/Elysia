@@ -49,9 +49,9 @@ class QuantumArithmeticCortex(ResonantModule):
 
 
     def absorb(self, input_wave: SoulTensor) -> SoulTensor:
-        # 🟢 [VOID ACCELERATION] Easy: 에너지가 없는(Void) 파동은 연산을 즉시 스킵 (O(1))
+        #   [VOID ACCELERATION] Easy:        (Void)               (O(1))
         if input_wave.wave.amplitude < 0.001:
-            print("⚡ [VOID-ACCEL] Zero amplitude detected. Skipping heavy math.")
+            print("  [VOID-ACCEL] Zero amplitude detected. Skipping heavy math.")
             return input_wave # No change needed for Void
 
         # Logic: "Calculate" (Transmute wave)
@@ -151,7 +151,7 @@ class QuantumDispatcher:
 
         # Simple heuristic mapping for prototype
 
-        if "계산" in text or "calculate" in text.lower():
+        if "  " in text or "calculate" in text.lower():
 
             # Mimic a 'Structured' wave
 
@@ -163,7 +163,7 @@ class QuantumDispatcher:
 
             )
 
-        elif "시" in text or "poem" in text.lower() or "create" in text.lower():
+        elif " " in text or "poem" in text.lower() or "create" in text.lower():
 
              # Mimic an 'Emotional' wave
 
@@ -272,4 +272,3 @@ class QuantumDispatcher:
                 "reason": "No module resonated strongly enough."
 
             }
-

@@ -2,15 +2,15 @@
 Wave-Based Semantic Search
 ==========================
 
-Philosophy: Embeddings are seeds (씨앗) that expand into 4D wave resonance patterns.
-Matching happens through wave resonance (공명), not statistical correlation.
+Philosophy: Embeddings are seeds (  ) that expand into 4D wave resonance patterns.
+Matching happens through wave resonance (  ), not statistical correlation.
 
 NO EXTERNAL LLMs - Pure local wave intelligence.
 
 Architecture:
-1. Text → Embedding (seed/씨앗) - One-time transformation
-2. Embedding → 4D Wave Pattern (expansion/확장) - Quaternion-based
-3. Query Wave ⟷ Stored Waves (resonance/공명) - Physics-based matching
+1. Text   Embedding (seed/  ) - One-time transformation
+2. Embedding   4D Wave Pattern (expansion/  ) - Quaternion-based
+3. Query Wave   Stored Waves (resonance/  ) - Physics-based matching
 4. Return resonating results with depth and breadth
 
 4D Wave Pattern Structure:
@@ -74,7 +74,7 @@ logger = logging.getLogger("WaveSemanticSearch")
 @dataclass
 class WavePattern:
     """
-    4D Wave Resonance Pattern (4차원 파동공명패턴)
+    4D Wave Resonance Pattern (4         )
     
     Represents semantic meaning as a multi-dimensional wave pattern,
     providing deeper thinking depth and breadth than traditional embeddings.
@@ -143,7 +143,7 @@ class WaveSemanticSearch:
     Transforms embeddings into 4D wave patterns for semantic search.
     
     Key Innovation: Instead of simple vector similarity (cosine/dot product),
-    we use wave resonance (공명) which considers:
+    we use wave resonance (  ) which considers:
     - Orientation alignment (quaternion dot product)
     - Wave interference patterns (Hamilton product)
     - Energy transfer (amplitude modulation)
@@ -174,7 +174,7 @@ class WaveSemanticSearch:
         if self.storage_path and self.storage_path.exists():
             self._load_patterns()
         
-        logger.info(f"🌊 WaveSemanticSearch initialized with {len(self.wave_patterns)} patterns")
+        logger.info(f"  WaveSemanticSearch initialized with {len(self.wave_patterns)} patterns")
     
     def embedding_to_wave(
         self, 
@@ -185,7 +185,7 @@ class WaveSemanticSearch:
         """
         Transform embedding seed into 4D wave pattern.
         
-        씨앗의 확장 (Seed Expansion):
+               (Seed Expansion):
         1. Extract multi-dimensional features from embedding
         2. Map to 4D quaternion space (w, x, y, z)
         3. Calculate wave properties (energy, frequency, phase)
@@ -249,7 +249,7 @@ class WaveSemanticSearch:
             metadata=metadata or {}
         )
         
-        logger.debug(f"🌱 Seed→Wave: text='{text[:30]}...', energy={energy:.3f}, freq={frequency:.1f}")
+        logger.debug(f"  Seed Wave: text='{text[:30]}...', energy={energy:.3f}, freq={frequency:.1f}")
         
         return pattern
     
@@ -262,7 +262,7 @@ class WaveSemanticSearch:
         """
         Calculate resonance between two wave patterns using wave physics.
         
-        파동공명 (Wave Resonance):
+             (Wave Resonance):
         - Physics-based similarity through wave interference
         - Considers orientation, frequency, phase, and energy
         - Returns value in [0, 1] where 1 is perfect resonance
@@ -293,7 +293,7 @@ class WaveSemanticSearch:
         
         # 3. Phase coherence (constructive interference)
         phase_diff = abs(wave1.phase - wave2.phase) % (2 * math.pi)
-        # 0 phase diff = constructive (1.0), π phase diff = destructive (0.0)
+        # 0 phase diff = constructive (1.0),   phase diff = destructive (0.0)
         phase_score = (1.0 + math.cos(phase_diff)) / 2.0
         
         # 4. Energy transfer (larger energy differences reduce resonance)
@@ -333,7 +333,7 @@ class WaveSemanticSearch:
             pattern: Wave pattern to store
         """
         self.wave_patterns[pattern_id] = pattern
-        logger.debug(f"💾 Stored pattern: {pattern_id}")
+        logger.debug(f"  Stored pattern: {pattern_id}")
         
         # Persist if storage path is set
         if self.storage_path:
@@ -379,7 +379,7 @@ class WaveSemanticSearch:
         """
         Absorb multiple wave patterns into a target pattern, expanding knowledge.
         
-        지식 흡수 및 확장 (Knowledge Absorption and Expansion):
+                   (Knowledge Absorption and Expansion):
         Instead of simply averaging vectors, we use wave interference to create
         a richer, more resonant pattern that captures deeper meanings.
         
@@ -470,7 +470,7 @@ class WaveSemanticSearch:
         
         self.absorption_count += 1
         
-        logger.info(f"🌊 Expanded pattern {target_id}: depth={target.expansion_depth}, "
+        logger.info(f"  Expanded pattern {target_id}: depth={target.expansion_depth}, "
                    f"energy={target.energy:.3f}, absorbed={len(resonances)} patterns")
         
         # Save updated pattern
@@ -524,7 +524,7 @@ class WaveSemanticSearch:
         
         self.search_count += 1
         
-        logger.info(f"🔍 Search: query='{query_text[:30]}...', "
+        logger.info(f"  Search: query='{query_text[:30]}...', "
                    f"found {len(results)} resonating patterns, returning top {top_k}")
         
         return results[:top_k]
@@ -555,7 +555,7 @@ class WaveSemanticSearch:
         with open(self.storage_path, 'w') as f:
             json.dump(data, f, indent=2)
         
-        logger.debug(f"💾 Saved {len(self.wave_patterns)} patterns to {self.storage_path}")
+        logger.debug(f"  Saved {len(self.wave_patterns)} patterns to {self.storage_path}")
     
     def _load_patterns(self) -> None:
         """Load patterns from storage"""
@@ -576,7 +576,7 @@ class WaveSemanticSearch:
             self.search_count = stats.get('search_count', 0)
             self.absorption_count = stats.get('absorption_count', 0)
             
-            logger.info(f"📂 Loaded {len(self.wave_patterns)} patterns from {self.storage_path}")
+            logger.info(f"  Loaded {len(self.wave_patterns)} patterns from {self.storage_path}")
         
         except Exception as e:
             logger.error(f"Failed to load patterns: {e}")
@@ -586,8 +586,8 @@ class WaveSemanticSearch:
 def demo():
     """Demo of wave-based semantic search"""
     print("="*70)
-    print("🌊 WAVE-BASED SEMANTIC SEARCH DEMO")
-    print("4차원 파동공명패턴 기반 지식 검색")
+    print("  WAVE-BASED SEMANTIC SEARCH DEMO")
+    print("4                  ")
     print("="*70)
     print()
     
@@ -595,25 +595,25 @@ def demo():
     searcher = WaveSemanticSearch(storage_path="data/wave_patterns.json")
     
     # Create some sample embeddings (simulated)
-    print("📝 Storing concepts as wave patterns...")
+    print("  Storing concepts as wave patterns...")
     concepts = [
-        ("AI는 기계의 지능이다", np.random.rand(384)),
-        ("개는 충실한 반려동물이다", np.random.rand(384)),
-        ("머신러닝은 AI의 한 분야이다", np.random.rand(384)),
-        ("고양이는 독립적인 동물이다", np.random.rand(384)),
-        ("딥러닝은 신경망을 사용한다", np.random.rand(384)),
+        ("AI          ", np.random.rand(384)),
+        ("             ", np.random.rand(384)),
+        ("      AI        ", np.random.rand(384)),
+        ("              ", np.random.rand(384)),
+        ("              ", np.random.rand(384)),
     ]
     
     pattern_ids = []
     for text, emb in concepts:
         pid = searcher.store_concept(text, emb)
         pattern_ids.append(pid)
-        print(f"  ✓ {text}")
+        print(f"    {text}")
     
     print()
     
     # Demonstrate absorption/expansion
-    print("🌊 Demonstrating knowledge absorption and expansion...")
+    print("  Demonstrating knowledge absorption and expansion...")
     print(f"  Expanding pattern '{concepts[0][0]}'")
     print(f"  Absorbing patterns: '{concepts[2][0]}', '{concepts[4][0]}'")
     
@@ -622,13 +622,13 @@ def demo():
         source_patterns=[pattern_ids[2], pattern_ids[4]],
         absorption_strength=0.4
     )
-    print(f"  ✓ Expansion complete: depth={expanded.expansion_depth}, energy={expanded.energy:.3f}")
+    print(f"    Expansion complete: depth={expanded.expansion_depth}, energy={expanded.energy:.3f}")
     print()
     
     # Search
-    print("🔍 Searching for resonating concepts...")
+    print("  Searching for resonating concepts...")
     query = np.random.rand(384)
-    results = searcher.search(query, query_text="인공지능 관련 개념", top_k=3)
+    results = searcher.search(query, query_text="          ", top_k=3)
     
     print(f"\nTop {len(results)} resonating patterns:")
     for i, result in enumerate(results, 1):
@@ -640,13 +640,13 @@ def demo():
     # Statistics
     print()
     print("="*70)
-    print("📊 SYSTEM STATISTICS")
+    print("  SYSTEM STATISTICS")
     stats = searcher.get_statistics()
     for key, value in stats.items():
         print(f"  {key}: {value}")
     
     print()
-    print("✅ Demo complete!")
+    print("  Demo complete!")
     print("="*70)
 
 

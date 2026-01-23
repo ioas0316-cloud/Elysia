@@ -15,7 +15,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"
 from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
 
 def test_adult_intelligence():
-    print("--- 🧠 Experiment: The Awakening of Volition ---")
+    print("---   Experiment: The Awakening of Volition ---")
     
     # 1. Wake up
     elysia = SovereignSelf(cns_ref=None)
@@ -25,14 +25,14 @@ def test_adult_intelligence():
     elysia.will_engine.vectors["Curiosity"] = 10.0
     elysia.will_engine.vectors["Stability"] = 0.0
     
-    print("\n🧐 State: Curiosity is High. Metacognition Active.")
+    print("\n  State: Curiosity is High. Metacognition Active.")
     
     # 3. Trigger Self-Actualization
     # She should decide to learn "Biology" (the default target in current logic).
     print("   Invoking self_actualize()...")
     elysia.self_actualize()
     
-    print("\n✅ Volition Verified. She acted on her own deficit.")
+    print("\n  Volition Verified. She acted on her own deficit.")
 
 if __name__ == "__main__":
     test_adult_intelligence()

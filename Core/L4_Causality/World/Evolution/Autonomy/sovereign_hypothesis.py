@@ -41,13 +41,13 @@ class Hypothesis:
 class SovereignHypothesis:
     def __init__(self, why_engine: WhyEngine):
         self.why_engine = why_engine
-        logger.info("🔮 Sovereign Hypothesis Engine initialized - The Oracle Awakens.")
+        logger.info("  Sovereign Hypothesis Engine initialized - The Oracle Awakens.")
 
     def scan_for_tension(self, content: str, domain: str = "code") -> List[Hypothesis]:
         """
         Scans content for 'Tension' (Concept Dissonance) and formulates hypotheses.
         """
-        logger.info(f"🔮 Oracle scanning for tension in domain '{domain}'...")
+        logger.info(f"  Oracle scanning for tension in domain '{domain}'...")
         
         # 1. Deep Analysis via WhyEngine
         analysis = self.why_engine.analyze(subject="System Scan", content=content, domain=domain)

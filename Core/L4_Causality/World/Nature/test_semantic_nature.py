@@ -61,7 +61,7 @@ def test_semantic_nature():
     print(f"Objects remaining at location: {len(remaining)}")
     assert len(remaining) == 0
     
-    print("\n✅ TEST PASSED: Semantic Nature is functional.")
+    print("\n  TEST PASSED: Semantic Nature is functional.")
 
 if __name__ == "__main__":
     test_semantic_nature()

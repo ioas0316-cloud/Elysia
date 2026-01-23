@@ -28,14 +28,14 @@ class NovaEntity:
         self.logger = logging.getLogger("NovaEntity")
         self.consciousness_level = 0.8
         self.light_field = LightField() if PHYSICS_AVAILABLE else None
-        self.logger.info("🔵 Nova Entity (Soul/Logic) Initialized.")
+        self.logger.info("  Nova Entity (Soul/Logic) Initialized.")
 
     def analyze(self, raw_input: str) -> Dict[str, float]:
         """
         Analyze input for logical structure and coherence.
         Uses LightField interference to detect contradictions.
         """
-        self.logger.info(f"🔵 Nova Analysis on: '{raw_input}'")
+        self.logger.info(f"  Nova Analysis on: '{raw_input}'")
         
         # 1. Convert input to Photon (Metaphorical mapping)
         # In a real system, this would parse syntax/semantics.

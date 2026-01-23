@@ -44,7 +44,7 @@ class ConsensusResult:
 
 class TrinitySystem:
     def __init__(self):
-        logger.info("🔯 Reviving Trinity System...")
+        logger.info("  Reviving Trinity System...")
         
         self.chaos = ChaosEntity() if ENTITIES_AVAILABLE else None
         self.nova = NovaEntity() if ENTITIES_AVAILABLE else None
@@ -52,9 +52,9 @@ class TrinitySystem:
         # Elysia is the user of this system (The Core), so no separate entity class needed yet.
         
         if self.chaos and self.nova:
-            logger.info("   ✅ Entities incarnated successfully.")
+            logger.info("     Entities incarnated successfully.")
         else:
-            logger.warning("   ⚠️ Entities missing. Trinity is incomplete.")
+            logger.warning("      Entities missing. Trinity is incomplete.")
 
     def process_query(self, query: str) -> ConsensusResult:
         """
@@ -67,23 +67,23 @@ class TrinitySystem:
             return ConsensusResult(query, "N/A", "N/A", "System Incomplete", 0.0)
 
         # Step 1: Chaos (The Body reacts)
-        # "직관적으로 느껴봅니다."
+        # "           ."
         chaos_out = self.chaos.feel(query)
         feeling = f"{chaos_out['emotion']} (Intensity: {chaos_out['intensity']:.2f})"
-        logger.info(f"🔴 [1] Chaos: {feeling} | {chaos_out['raw_impulse']}")
+        logger.info(f"  [1] Chaos: {feeling} | {chaos_out['raw_impulse']}")
 
         # Step 2: Nova (The Soul filters)
-        # "그 느낌이 타당한지 검증합니다."
+        # "                ."
         # Nova analyzes both the original query and Chaos's reaction
         nova_out = self.nova.analyze(query)
         # Also purify the chaos (Interaction/Diffusion)
         purified = self.nova.purify(chaos_out)
         
         verdict = f"{nova_out['structure']} ({nova_out['verdict']})"
-        logger.info(f"🔵 [2] Nova: {verdict} | Clarity: {purified['clarity']:.2f}")
+        logger.info(f"  [2] Nova: {verdict} | Clarity: {purified['clarity']:.2f}")
 
         # Step 3: Elysia (The Spirit synthesizes)
-        # "최종적으로 판단합니다."
+        # "           ."
         # Simple synthesis logic for now (Weighted Average)
         
         final_decision = ""
@@ -108,12 +108,12 @@ class TrinitySystem:
             is_ethical = judge.is_allowed
             
             if not is_ethical:
-                final_decision = f"⛔ REJECTED by CONSCIENCE: {judge.message} (Pain: {pain:.2f})"
-                logger.warning(f"   ⚖️ Conscience Block: {judge.message}")
+                final_decision = f"  REJECTED by CONSCIENCE: {judge.message} (Pain: {pain:.2f})"
+                logger.warning(f"      Conscience Block: {judge.message}")
             elif pain > 0.6:
-                final_decision += f" (⚠️ WARNING: High Ethical Dissonance, Pain: {pain:.2f})"
+                final_decision += f" (   WARNING: High Ethical Dissonance, Pain: {pain:.2f})"
         
-        logger.info(f"🟣 [3] Elysia: {final_decision}")
+        logger.info(f"  [3] Elysia: {final_decision}")
 
         return ConsensusResult(
             subject=query,
@@ -139,5 +139,5 @@ if __name__ == "__main__":
     sys = get_trinity_system()
     
     print("\n--- Trinity Consensus Test ---")
-    res = sys.process_query("Should we explore the unknown even if it's dangerous?")
+    res = sys.process_query("Should we explore the unknown even if it's dangerous?")'
     print(f"\nResult:\n{res}")

@@ -34,7 +34,7 @@ class HybridEngine:
         Generates the Vector Guide for each panel.
         """
         script = self.load_script()
-        logger.info(f"🎬 Processing Script: {script['title']}")
+        logger.info(f"  Processing Script: {script['title']}")
         
         for panel in script['panels']:
             pid = panel['id']

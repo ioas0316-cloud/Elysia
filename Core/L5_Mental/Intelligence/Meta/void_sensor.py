@@ -1,5 +1,5 @@
 """
-Void Sensor (부재 감지기)
+Void Sensor (      )
 =======================
 "Seeing what is NOT there."
 

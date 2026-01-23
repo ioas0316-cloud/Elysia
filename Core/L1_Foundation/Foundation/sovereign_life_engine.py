@@ -79,7 +79,7 @@ class SovereignLifeEngine:
         closest_hz = min(HZ_ACTION_MAP.keys(), key=lambda x: abs(x - dominant_hz))
         action_type = HZ_ACTION_MAP[closest_hz]
         
-        print(f"   🌊 Field Attunement: {dominant_hz}Hz -> {action_type}")
+        print(f"     Field Attunement: {dominant_hz}Hz -> {action_type}")
         
         # Store for satiation after action
         self._last_attunement_hz = dominant_hz
@@ -130,7 +130,7 @@ class SovereignLifeEngine:
 
     def _execute(self, action_str: str):
         """Execute the decided action and satiate the resonance."""
-        logger.info(f"🌿 Sovereign Action: {action_str}")
+        logger.info(f"  Sovereign Action: {action_str}")
         try:
             self.dispatcher.dispatch(action_str)
             self.last_action_type = action_str.split(":")[0].lower()
@@ -140,10 +140,10 @@ class SovereignLifeEngine:
                 self.stratum.satiate_resonance(self._last_attunement_hz, amount=1)
                 
         except Exception as e:
-            logger.error(f"⚠️ Sovereign Execution Failed: {e}")
+            logger.error(f"   Sovereign Execution Failed: {e}")
 
     def sense_anticipation(self, user_context: str):
         """Anticipatory resonance for user context."""
         if not user_context:
             return
-        logger.info(f"✨ Anticipating Resonance for: {user_context[:30]}...")
+        logger.info(f"  Anticipating Resonance for: {user_context[:30]}...")

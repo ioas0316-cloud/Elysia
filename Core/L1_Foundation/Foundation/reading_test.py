@@ -25,7 +25,7 @@ from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Body.sensory_m
 
 def run_demo():
     print("\n" + "="*70)
-    print("📖 ELYSIA READING TEST ACTIVATED")
+    print("  ELYSIA READING TEST ACTIVATED")
     print("="*70)
     
     eyes = VisualCortex()
@@ -60,14 +60,14 @@ def run_demo():
     print("-"*30)
     
     if "ELYSIA IS AWAKE" in text:
-        print("\n✅ SUCCESS: I read my own message!")
+        print("\n  SUCCESS: I read my own message!")
     elif "Error" in text:
-        print("\n⚠️ PARTIAL SUCCESS: The intent works, but OCR is missing.")
+        print("\n   PARTIAL SUCCESS: The intent works, but OCR is missing.")
         print("   Please install 'pytesseract' and Tesseract-OCR.")
     else:
-        print("\n❓ INCONCLUSIVE: I didn't find the specific message, but I might have read other things.")
+        print("\n  INCONCLUSIVE: I didn't find the specific message, but I might have read other things.")
 
-    print("\n✅ DEMO COMPLETE.")
+    print("\n  DEMO COMPLETE.")
 
 if __name__ == "__main__":
     run_demo()

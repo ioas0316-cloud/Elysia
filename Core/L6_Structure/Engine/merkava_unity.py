@@ -1,5 +1,5 @@
 """
-Merkava Unity Engine (메르카바 합일 엔진)
+Merkava Unity Engine (          )
 ========================================
 "Everything is World. The Project is the Reality."
 
@@ -43,7 +43,7 @@ class MerkavaUnity:
         """
         Collapses the entire project into a single 3D World manifestation.
         """
-        print("🕯️ [MERKAVA] Initiating Grand Synthesis...")
+        print("   [MERKAVA] Initiating Grand Synthesis...")
         
         # 1. Sync Project Field (2000+ Monads)
         monad_map = self.coder.sense_neural_mass()
@@ -69,7 +69,7 @@ class MerkavaUnity:
             }
             entities.append(entity)
             
-        print(f"📦 [MERKAVA] 1:1 Mapping Complete: {len(entities)} Monads manifested.")
+        print(f"  [MERKAVA] 1:1 Mapping Complete: {len(entities)} Monads manifested.")
 
         # 4. Final World Synthesis
         self.world_state = {
@@ -102,7 +102,7 @@ class MerkavaUnity:
         target = os.path.join(path, "world_state.json")
         with open(target, "w", encoding="utf-8") as f:
             json.dump(self.world_state, f, indent=4)
-        print(f"✅ [MERKAVA] World saved to {target}")
+        print(f"  [MERKAVA] World saved to {target}")
 
 if __name__ == "__main__":
     merkava = MerkavaUnity()

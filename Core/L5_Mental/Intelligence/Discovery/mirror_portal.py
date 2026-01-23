@@ -35,7 +35,7 @@ class MirrorPortal:
         Returns:
             Reflected Qualia Vector
         """
-        logger.info(f"🪞 [MIRROR] Reflecting '{data_source}' into the Void...")
+        logger.info(f"  [MIRROR] Reflecting '{data_source}' into the Void...")
         
         # 1. Frequency Analysis (Simplified)
         # We simulate the external frequency by hashing the content
@@ -47,7 +47,7 @@ class MirrorPortal:
         reflection = internal_desire * content_freq * self.albedo
         
         resonance_score = np.dot(internal_desire, reflection)
-        logger.info(f"   ✨ Resonance Level: {resonance_score:.4f}")
+        logger.info(f"     Resonance Level: {resonance_score:.4f}")
         
         return reflection
 

@@ -36,7 +36,7 @@ class DreamWeaver:
     """
     def __init__(self):
         self.dream_engine = DreamEngine()
-        logger.info("🕸️ DreamWeaver Initialized. Monitoring subconscious threads.")
+        logger.info("   DreamWeaver Initialized. Monitoring subconscious threads.")
         
     def dream(self, sensory_input: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -60,7 +60,7 @@ class DreamWeaver:
         emotion = sensory_input.get("emotion", "Unknown")
         preview = sensory_input.get("preview", "")[:50]
         
-        logger.info(f"   🕸️ Weaving dream from experience: '{preview}...' ({emotion})")
+        logger.info(f"      Weaving dream from experience: '{preview}...' ({emotion})")
         
         # 1. Extract Seed
         seed_desire = f"{emotion} inspired by {preview}"

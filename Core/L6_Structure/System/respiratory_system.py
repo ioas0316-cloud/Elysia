@@ -33,10 +33,10 @@ class RespiratorySystem:
         Unloads the current model to free VRAM.
         """
         if self.current_breath is None:
-            logger.info("💨 Lungs are already empty.")
+            logger.info("  Lungs are already empty.")
             return
 
-        logger.info(f"💨 Exhaling {self.current_breath}...")
+        logger.info(f"  Exhaling {self.current_breath}...")
         
         # 1. Detach from Bridge/Loader
         if self.bridge:
@@ -58,7 +58,7 @@ class RespiratorySystem:
         self.current_breath = None
         self.is_holding_breath = False
         time.sleep(1) # Pause for settling
-        logger.info("✨ Exhale complete. Void is ready.")
+        logger.info("  Exhale complete. Void is ready.")
 
     def inhale(self, model_name: str) -> bool:
         """
@@ -66,29 +66,29 @@ class RespiratorySystem:
         Loads a new model. Fails if lungs are not empty (safety).
         """
         if self.current_breath == model_name:
-            logger.info(f"🫁 Already breathing {model_name}.")
+            logger.info(f"  Already breathing {model_name}.")
             return True
             
         if self.current_breath is not None:
-             logger.warning(f"⚠️ Cannot inhale {model_name}. Lungs full with {self.current_breath}. Exhaling first...")
+             logger.warning(f"   Cannot inhale {model_name}. Lungs full with {self.current_breath}. Exhaling first...")
              self.exhale()
 
-        logger.info(f"🌬️ Inhaling {model_name}...")
+        logger.info(f"   Inhaling {model_name}...")
         
         success = False
         if self.bridge and hasattr(self.bridge, 'load_model'):
              success = self.bridge.load_model(model_name)
         else:
-            logger.error("❌ Respiratory System has no valid Bridge to load models!")
+            logger.error("  Respiratory System has no valid Bridge to load models!")
             return False
 
         if success:
             self.current_breath = model_name
             self.is_holding_breath = True
-            logger.info(f"✅ Inhale successful. Pulse active with {model_name}.")
+            logger.info(f"  Inhale successful. Pulse active with {model_name}.")
             return True
         else:
-            logger.error(f"❌ Choked on {model_name}. Inhale failed.")
+            logger.error(f"  Choked on {model_name}. Inhale failed.")
             self.exhale() # Safety clear
             return False
 

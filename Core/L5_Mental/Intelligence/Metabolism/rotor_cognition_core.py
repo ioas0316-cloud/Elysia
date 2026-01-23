@@ -60,7 +60,7 @@ class ActiveVoid:
         Triggers a Genesis Event: Extracting Concept Vector from the Void.
         [Zero Latency Path]: No text generation, only vector extraction.
         """
-        logger.info(f"🌌 Active Void Triggered for: {intent}")
+        logger.info(f"  Active Void Triggered for: {intent}")
 
         if not self.cortex or not self.cortex.is_active:
             return {
@@ -95,7 +95,7 @@ class ActiveVoid:
              if candidates:
                  opt = self.gravity_engine.find_optimal_perspective(intent, candidates)
                  if opt["status"] == "Perspective Optimized" and opt["improvement_factor"] > 1.2:
-                     perspective_shift_report = f"Shifted Axis by {opt['best_angle_deg']:.1f}° (Entropy Reduced)"
+                     perspective_shift_report = f"Shifted Axis by {opt['best_angle_deg']:.1f}  (Entropy Reduced)"
                      # Note: We don't permanently rotate the universe for one thought,
                      # but we record that this thought is best viewed from this angle.
 
@@ -207,7 +207,7 @@ class RotorCognitionCore:
                 with open(scars_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     self.absorption_metrics = data.get("metrics", {})
-                    # logger.info("✨ Synchronized with Permanent Scars (72B Soul).")
+                    # logger.info("  Synchronized with Permanent Scars (72B Soul).")
             except Exception:
                 pass
 
@@ -295,12 +295,12 @@ class RotorCognitionCore:
 
         # Hardcoded axiom check for demonstration
         if "destroy self" in intent_text.lower() or "delete all" in intent_text.lower():
-            logger.warning(f"🛡️ Sovereign Filter triggered REJECT on: {intent_text}")
+            logger.warning(f"   Sovereign Filter triggered REJECT on: {intent_text}")
             return {"action": "REJECT", "reason": "Violation of Self-Preservation Axiom."}
 
         # Threshold check
         if conflict_score > 5.0: # Arbitrary high threshold for now
-             logger.info(f"🛡️ High Conflict Detected ({conflict_score}). Initiating Negotiation.")
+             logger.info(f"   High Conflict Detected ({conflict_score}). Initiating Negotiation.")
              # For now, we just log, but in Phase 2 this triggers dialogue.
 
         return {"action": "ACCEPT", "reason": "Resonance within acceptable limits."}
@@ -339,8 +339,8 @@ if __name__ == "__main__":
     core = RotorCognitionCore(max_depth=4)
     # Check if loaded from scars automatically
     if core.absorption_metrics:
-        print("✅ Distilled Intelligence Loaded Automatically.")
+        print("  Distilled Intelligence Loaded Automatically.")
         report = core.synthesize("Demand truth about history.")
         print(f"Resonance Status: {report['status']}")
     else:
-        print("❌ No Permanent Scars found.")
+        print("  No Permanent Scars found.")

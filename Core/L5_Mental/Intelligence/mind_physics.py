@@ -74,7 +74,7 @@ class MindPhysics:
         vec = Vector3(vector[0] * 10, vector[1] * 10, vector[2] * 10) 
         p = ThoughtParticle(name, vec, mass)
         self.particles.append(p)
-        self.events.append(f"✨ New thought spawned: '{name}' at {vec}")
+        self.events.append(f"  New thought spawned: '{name}' at {vec}")
 
     def update_cycle(self):
         """Run one tick of physics."""
@@ -108,7 +108,7 @@ class MindPhysics:
             if p.mass > 0.1 and p.age < 100:
                 survivors.append(p)
             else:
-                self.events.append(f"💀 Thought faded: '{p.name}'")
+                self.events.append(f"  Thought faded: '{p.name}'")
         
         self.particles = survivors
 
@@ -129,7 +129,7 @@ class MindPhysics:
         p1.vel = p2.vel
         p2.vel = temp
         
-        self.events.append(f"💥 Collision! '{p1.name}' hit '{p2.name}'. Ideas are scattering.")
+        self.events.append(f"  Collision! '{p1.name}' hit '{p2.name}'. Ideas are scattering.")
 
     def get_state_report(self) -> str:
         if not self.particles:

@@ -87,7 +87,7 @@ class FractalWFC:
             mutant.label = self._guess_name(mutant)
             children.append(mutant)
 
-        logger.info(f"🌌 R-WFC: Collapsed '{seed.label}' into {len(children)} shards.")
+        logger.info(f"  R-WFC: Collapsed '{seed.label}' into {len(children)} shards.")
         return children
 
     def _spawn_harmonic(self, parent: WaveDNA, dimension: str, strength: float) -> WaveDNA:

@@ -72,10 +72,10 @@ class PLLController:
         self.is_locked = abs(delta / self.current_rpm) < self.lock_threshold
         
         if self.is_locked:
-            # logger.debug(f"🔒 PLL Locked: {self.current_rpm:.1f} RPM")
+            # logger.debug(f"  PLL Locked: {self.current_rpm:.1f} RPM")
             pass
         else:
-            # logger.debug(f"🔄 PLL Adjusting: {self.current_rpm:.1f} RPM (Target: {target_rpm:.1f})")
+            # logger.debug(f"  PLL Adjusting: {self.current_rpm:.1f} RPM (Target: {target_rpm:.1f})")
             pass
             
         return self.current_rpm

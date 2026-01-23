@@ -1,9 +1,9 @@
 """
-Knowledge Ingestor (지식 소화기)
+Knowledge Ingestor (      )
 ================================
 
 "The body grows by what it feeds on."
-"몸은 먹는 것으로 성장한다."
+"              ."
 
 This module is responsible for:
 1. Scanning the file system (docs, code).
@@ -30,15 +30,15 @@ class KnowledgeIngestor:
         self.brain = UnifiedExperienceCore()
         # Ensure memory is active (it should be init by Core, but safe check)
         if not self.brain.holographic_memory:
-             logger.warning("⚠️ Holographic Memory not found in Core. Creating fallback.")
+             logger.warning("   Holographic Memory not found in Core. Creating fallback.")
              from Core.L5_Mental.Intelligence.Memory.holographic_memory import HolographicMemory
              self.brain.holographic_memory = HolographicMemory()
 
-        logger.info("🍽️ KnowledgeIngestor ready to feast (Connected to Holographic Memory).")
+        logger.info("   KnowledgeIngestor ready to feast (Connected to Holographic Memory).")
 
     def digest_directory(self, root_path: str):
         """Recursively digests all supported files in a directory."""
-        logger.info(f"🥗 Starting feast on: {root_path}")
+        logger.info(f"  Starting feast on: {root_path}")
         count = 0
         for root, _, files in os.walk(root_path):
             for file in files:
@@ -49,7 +49,7 @@ class KnowledgeIngestor:
                 elif file.endswith(".py"):
                     self._digest_code(full_path)
                     count += 1
-        logger.info(f"🥨 Digested {count} files.")
+        logger.info(f"  Digested {count} files.")
 
     def _digest_markdown(self, file_path: str):
         """Parses Markdown structure into Concepts (Axioms)."""
@@ -93,7 +93,7 @@ class KnowledgeIngestor:
                      # Link to Document
                      node.connections.append(filename.replace("_", " ").title())
 
-            logger.info(f"   📘 Digested Axioms: {filename}")
+            logger.info(f"     Digested Axioms: {filename}")
 
         except Exception as e:
             logger.error(f"Failed to digest markdown {file_path}: {e}")
@@ -135,7 +135,7 @@ class KnowledgeIngestor:
                         )
                         cls_node.connections.append(module_name)
 
-            logger.info(f"   🐍 Digested Code Structure: {filename}")
+            logger.info(f"     Digested Code Structure: {filename}")
 
         except Exception as e:
             # logger.warning(f"Skipping {file_path}: {e}") # Reduce noise
@@ -146,4 +146,3 @@ if __name__ == "__main__":
     ingestor = KnowledgeIngestor()
     # Test on Docs
     ingestor.digest_directory("c:\\Elysia\\docs\\Philosophy")
-

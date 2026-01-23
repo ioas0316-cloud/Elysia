@@ -1,4 +1,4 @@
-﻿"""Fae-like conceptual agent."""
+ """Fae-like conceptual agent."""
 
 from __future__ import annotations
 from dataclasses import dataclass

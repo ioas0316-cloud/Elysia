@@ -2,14 +2,14 @@
 Mind Visualizer - 3D Projection of Elysia's 4D Thought Universe
 ================================================================
 
-올바른 좌표계 (사용자 정의):
-- X axis: 과거/육/본능 (Past, Body, Instinct) 
-- Y axis: 현재/정신/혼 (Present, Mind, Soul)
-- Z axis: 의도/의미/영/상상 (Intent, Meaning, Spirit, Imagination)
-- W axis: 자기/관점 (Self, Perspective: Point→Line→Plane→Space)
-  - W는 3D 투영 시 크기로 표현
+        (      ):
+- X axis:   / /   (Past, Body, Instinct) 
+- Y axis:   /  /  (Present, Mind, Soul)
+- Z axis:   /  / /   (Intent, Meaning, Spirit, Imagination)
+- W axis:   /   (Self, Perspective: Point Line Plane Space)
+  - W  3D            
 
-7 Angels & 7 Demons는 Moral alignment에 위치.
+7 Angels & 7 Demons  Moral alignment    .
 """
 
 import sys
@@ -67,11 +67,11 @@ def visualize_mind():
         if not tensor:
             continue
         
-        # 올바른 좌표 해석
+        #          
         x = tensor.get('x', 0)  # Past/Body/Instinct
         y = tensor.get('y', 0)  # Present/Mind/Soul
         z = tensor.get('z', 0)  # Intent/Meaning/Spirit
-        w = tensor.get('w', 1)  # Self/Perspective (크기로 사용)
+        w = tensor.get('w', 1)  # Self/Perspective (      )
         
         count = node.get('access_count', 1)
         
@@ -84,7 +84,7 @@ def visualize_mind():
             'count': count
         })
         
-        # === 🌈 Automatic Color from Y-axis (Spectrum Layer) ===
+        # ===   Automatic Color from Y-axis (Spectrum Layer) ===
         layer_info = spectrum.get_layer_info(y)
         color = layer_info['color']
         colors.append(color)
@@ -141,10 +141,10 @@ def visualize_mind():
         ax.text(concept['x'], concept['y'], concept['z'], concept['id'], 
                 fontsize=8, alpha=0.8, color='white')
     
-    # 올바른 축 레이블
-    ax.set_xlabel('X: 과거/육/본능 (Past/Body/Instinct)', fontsize=10, color='white')
-    ax.set_ylabel('Y: 현재/정신/혼 (Present/Mind/Soul)', fontsize=10, color='white')
-    ax.set_zlabel('Z: 의도/영/상상 (Intent/Spirit/Imagination)', fontsize=10, color='white')
+    #          
+    ax.set_xlabel('X:   / /   (Past/Body/Instinct)', fontsize=10, color='white')
+    ax.set_ylabel('Y:   /  /  (Present/Mind/Soul)', fontsize=10, color='white')
+    ax.set_zlabel('Z:   / /   (Intent/Spirit/Imagination)', fontsize=10, color='white')
     
     # Grid styling
     ax.grid(False)
@@ -158,17 +158,17 @@ def visualize_mind():
     ax.tick_params(axis='y', colors='white')
     ax.tick_params(axis='z', colors='white')
     
-    plt.title("Elysia's Mind Universe (14-Layer Spectrum)\n🌈 Heaven(White) ↔ Earth(Black)", 
+    plt.title("Elysia's Mind Universe (14-Layer Spectrum)\n  Heaven(White)   Earth(Black)", 
              fontsize=14, fontweight='bold', color='white')
     
     # Save
     output_file = "mind_universe.png"
     plt.savefig(output_file, dpi=150, bbox_inches='tight', facecolor='black')
-    print(f"💾 Saved: {output_file}")
+    print(f"  Saved: {output_file}")
     
     # ASCII map
     print("\n" + "="*80)
-    print("📍 CONCEPT MAP (올바른 좌표계)")
+    print("  CONCEPT MAP (       )")
     print("="*80)
     print(f"{'Concept':<20} | {'X(Past/Body)':^15} | {'Y(Mind/Soul)':^15} | {'Z(Intent/Spirit)':^15} | W")
     print("-"*80)

@@ -2,8 +2,8 @@
 
 This module provides a lightweight virtual environment where a caretaker
 can practice teaching and praising cycles similar to guiding a child. The
-goal is to model phrases such as "철수는 바나나를 먹어요" and warm
-reinforcement when words like "엄마" or "아빠" appear. A simple
+goal is to model phrases such as "            " and warm
+reinforcement when words like "  " or "  " appear. A simple
 Q-learning caretaker is included so we can iterate on training routines
 without requiring real-time interaction.
 """
@@ -21,7 +21,7 @@ State = Tuple[int, int, int]
 
 @dataclass(frozen=True)
 class StepLog:
-    """Snapshot of a single caretaker→child exchange."""
+    """Snapshot of a single caretaker child exchange."""
 
     step_index: int
     action: ActionName
@@ -138,7 +138,7 @@ class VirtualChildEnvironment:
 
         self._step_count += 1
         reward = -0.02  # gentle pressure to finish in fewer steps
-        child_output = "아이: 조용히 숨을 고르고 있어요."
+        child_output = "  :               ."
         success = False
         concept: Optional[ConceptId] = None
 
@@ -149,7 +149,7 @@ class VirtualChildEnvironment:
             )
             reward += 0.1 + growth
             self._last_success = False
-            child_output = "아이: 조용히 듣고 있어요. 철수와 바나나 이야기를 떠올려요."
+            child_output = "  :           .                  ."
         elif action == "prompt_banana_sentence":
             concept = "banana_sentence"
             success_prob = self._prob_success(concept)
@@ -158,12 +158,12 @@ class VirtualChildEnvironment:
                 boost = 0.12 * (1.0 - self.knowledge[concept])
                 self.knowledge[concept] = self._clip(self.knowledge[concept] + boost)
                 reward += 1.0 + self.knowledge[concept]
-                child_output = "아이: \"철수는 바나나를 먹어요!\" 라고 환하게 말해요."
+                child_output = "  : \"            !\"           ."
                 self._last_success = True
                 self._last_concept = concept
             else:
                 reward -= 0.25
-                child_output = "아이: 아직 문장이 헷갈려요. 눈을 동그랗게 뜨고 있어요."
+                child_output = "  :            .               ."
                 self._last_success = False
         elif action == "prompt_say_mom":
             concept = "say_mom"
@@ -173,12 +173,12 @@ class VirtualChildEnvironment:
                 boost = 0.1 * (1.0 - self.knowledge[concept])
                 self.knowledge[concept] = self._clip(self.knowledge[concept] + boost)
                 reward += 0.8 + self.knowledge[concept]
-                child_output = "아이: 작은 목소리로 \"엄마\"라고 부르며 미소 짓습니다."
+                child_output = "  :         \"  \"              ."
                 self._last_success = True
                 self._last_concept = concept
             else:
                 reward -= 0.2
-                child_output = "아이: 입술을 달싹이지만 아직 말이 나오지 않아요."
+                child_output = "  :                        ."
                 self._last_success = False
         elif action == "prompt_say_dad":
             concept = "say_dad"
@@ -188,12 +188,12 @@ class VirtualChildEnvironment:
                 boost = 0.1 * (1.0 - self.knowledge[concept])
                 self.knowledge[concept] = self._clip(self.knowledge[concept] + boost)
                 reward += 0.8 + self.knowledge[concept]
-                child_output = "아이: 또박또박 \"아빠\"라고 불러요. 눈빛이 반짝입니다."
+                child_output = "  :      \"  \"      .          ."
                 self._last_success = True
                 self._last_concept = concept
             else:
                 reward -= 0.2
-                child_output = "아이: 아직 그 단어가 낯설어 조용히 있어요."
+                child_output = "  :                     ."
                 self._last_success = False
         elif action == "celebrate_success":
             if self._last_success and self._last_concept:
@@ -202,17 +202,17 @@ class VirtualChildEnvironment:
                     self.knowledge[concept] + 0.06 * (1.0 - self.knowledge[concept])
                 )
                 reward += 1.2 + self.knowledge[concept]
-                child_output = "돌봄이: 두 팔로 감싸 안으며 칭찬을 아낌없이 건넵니다."
+                child_output = "   :                          ."
                 success = True
             else:
                 reward -= 0.35
-                child_output = "돌봄이: 아직 성공을 기다리는 중이라 조용히 격려합니다."
+                child_output = "   :                          ."
                 success = False
                 concept = self._last_concept
             self._last_success = False
         elif action == "soothing_encouragement":
             reward += 0.05
-            child_output = "돌봄이: \"괜찮아, 천천히 해도 돼. 나는 네 편이야.\"라고 말해요."
+            child_output = "   : \"   ,         .         .\"      ."
             self._last_success = False
 
         self._log_step(
@@ -398,35 +398,35 @@ class TrainingStats:
     def to_report(self) -> str:
         head_avg, tail_avg = self.reward_trend()
         lines: List[str] = [
-            "# 가상 돌봄 강화학습 리포트",
+            "#               ",
             "",
-            "가상의 아이가 "
-            "\"철수는 바나나를 먹어요\"와 같은 문장을 연습하고, "
-            "엄마·아빠 단어를 말했을 때 칭찬을 받도록 설계된 환경에서의 학습 결과입니다.",
+            "        "
+            "\"            \"             , "
+            "                                          .",
             "",
-            f"- 초기 10회 평균 보상: {head_avg:.3f}",
-            f"- 마지막 10회 평균 보상: {tail_avg:.3f}",
-            f"- 총 에피소드 수: {len(self.episode_rewards)}",
+            f"-    10       : {head_avg:.3f}",
+            f"-     10       : {tail_avg:.3f}",
+            f"-         : {len(self.episode_rewards)}",
             "",
-            "## 샘플 에피소드 대화",
+            "##           ",
         ]
 
         for episode in self.sampled_episodes:
-            lines.append(f"### 에피소드 {episode.episode_index}")
-            lines.append(f"총 보상: {episode.total_reward:.3f}")
+            lines.append(f"###      {episode.episode_index}")
+            lines.append(f"    : {episode.total_reward:.3f}")
             for step in episode.steps:
                 lines.append(
-                    f"- ({step.step_index}) {step.action} → 보상 {step.reward:.3f} | "
-                    f"성공={step.success} | 아이 반응: {step.child_output}"
+                    f"- ({step.step_index}) {step.action}      {step.reward:.3f} | "
+                    f"  ={step.success} |      : {step.child_output}"
                 )
             lines.append("")
 
-        lines.append("## 학습된 정책 데모")
-        lines.append(f"총 보상: {self.greedy_episode.total_reward:.3f}")
+        lines.append("##          ")
+        lines.append(f"    : {self.greedy_episode.total_reward:.3f}")
         for step in self.greedy_episode.steps:
             lines.append(
-                f"- ({step.step_index}) {step.action} → 보상 {step.reward:.3f} | "
-                f"아이 반응: {step.child_output}"
+                f"- ({step.step_index}) {step.action}      {step.reward:.3f} | "
+                f"     : {step.child_output}"
             )
 
         return "\n".join(lines)
@@ -456,4 +456,3 @@ __all__ = [
     "TrainingStats",
     "run_training",
 ]
-

@@ -12,7 +12,7 @@ of standing waves. It replaces boolean logic (True/False) with Harmonic Logic (C
 
 Key Concepts:
 - Superposition (Interference): $A + B$ is not arithmetic sum, but wave interference.
-- Resonance (Dot Product): $A • B$ measures how much two waves "sing together" (Consonance).
+- Resonance (Dot Product): $A   B$ measures how much two waves "sing together" (Consonance).
 - Phase Encoding: High-dimensional information is compressed into phase shifts.
 """
 

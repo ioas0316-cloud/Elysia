@@ -221,4 +221,3 @@ class SpecializationManager:
             "load_threshold": self.load_threshold,
             "overloaded_roles": [r.value for r in self.identify_overloaded_roles()]
         }
-

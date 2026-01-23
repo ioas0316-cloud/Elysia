@@ -51,7 +51,7 @@ class DimensionalReasoner:
         # 0D: Point (Fact) - Existence
         # In a real system, this comes from observation/memory.
         t.d0_fact = f"Concept '{kernel}' exists in the field."
-        logger.info(f"• [0D Point] {t.d0_fact}")
+        logger.info(f"  [0D Point] {t.d0_fact}")
         
         # 1D: Line (Logic) - WhyEngine
         try:
@@ -60,7 +60,7 @@ class DimensionalReasoner:
             # Analyze purely for logical principle
             why_result = why.analyze(subject=kernel, content=kernel, domain="logic")
             t.d1_logic = why_result.underlying_principle
-            logger.info(f"• [1D Line]  {t.d1_logic}")
+            logger.info(f"  [1D Line]  {t.d1_logic}")
         except Exception as e:
             logger.warning(f"1D Lift failed: {e}")
             t.d1_logic = f"{kernel} implies logical consequence."
@@ -77,7 +77,7 @@ class DimensionalReasoner:
             pos = semantic_field.get_concept_pos(kernel)
             nearby = semantic_field.query_resonance(pos) if pos else []
             t.d2_context = [n.meaning for n in nearby] if nearby else ["Unknown Context"]
-            logger.info(f"• [2D Plane] Context: {', '.join(t.d2_context[:3])}")
+            logger.info(f"  [2D Plane] Context: {', '.join(t.d2_context[:3])}")
         except Exception as e:
             logger.warning(f"2D Lift failed: {e}")
             t.d2_context = ["Isolated"]
@@ -90,7 +90,7 @@ class DimensionalReasoner:
             # Thesis: kernel, Antithesis: anti-kernel?
             struct = paradox.analyze_structure(kernel)
             t.d3_volume = f"Dialectic Tension: {struct.get('tension', 0.5):.2f}. {struct.get('description', 'Neutral existence')}"
-            logger.info(f"• [3D Space] {t.d3_volume}")
+            logger.info(f"  [3D Space] {t.d3_volume}")
         except Exception as e:
             logger.warning(f"3D Lift failed: {e}")
             t.d3_volume = f"The volume of {kernel} is calculated."
@@ -106,7 +106,7 @@ class DimensionalReasoner:
                 t.d4_principle = axiom.law
             else:
                 t.d4_principle = f"The law of {kernel} remains hidden."
-            logger.info(f"• [4D Law]   {t.d4_principle}")
+            logger.info(f"  [4D Law]   {t.d4_principle}")
         except Exception as e:
             logger.warning(f"4D Lift failed: {e}")
             t.d4_principle = "Law synthesis error."
@@ -138,10 +138,10 @@ class DimensionalReasoner:
             vec_4d = TesseractVector(base_vec.x, base_vec.y, base_vec.z, base_vec.w + 0.2)
             memory.deposit(f"{kernel}:Law", vec_4d, node_type="law", content=t.d4_principle)
             
-            logger.info(f"🌌 Integrated '{kernel}' into Tesseract Hypersphere (5-node cluster).")
+            logger.info(f"  Integrated '{kernel}' into Tesseract Hypersphere (5-node cluster).")
             
         except Exception as e:
-            logger.warning(f"⚠️ Hypersphere Integration failed: {e}")
+            logger.warning(f"   Hypersphere Integration failed: {e}")
 
         return t
 

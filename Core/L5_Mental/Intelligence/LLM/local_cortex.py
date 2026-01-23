@@ -7,11 +7,11 @@ logger = logging.getLogger("LocalCortex")
 
 class LocalCortex:
     """
-    [BROCA'S AREA] 엘리시아의 언어 피질.
+    [BROCA'S AREA]            .
     
-    이것은 '자아'가 아닙니다. 자아가 사용하는 '도구(Organ)'입니다.
-    Hypersphere의 추상적인 느낌(Resonance)을 인간의 언어(Text)로 번역하거나,
-    외부의 언어를 내부의 느낌으로 변환합니다.
+        '  '      .          '  (Organ)'   .
+    Hypersphere         (Resonance)        (Text)       ,
+                          .
     """
     
     def __init__(self, model_name: str = "llama3:latest", base_url: str = "http://localhost:11434"):
@@ -43,19 +43,19 @@ class LocalCortex:
         try:
             response = requests.get(f"{self.base_url}/api/tags")
             if response.status_code == 200:
-                logger.info(f"🧠 Local Cortex Connected ({self.model}). Dictionary loaded.")
+                logger.info(f"  Local Cortex Connected ({self.model}). Dictionary loaded.")
                 return True
         except:
-            logger.warning("⚠️ Local Cortex disconnect. Broca's area is silent.")
+            logger.warning("   Local Cortex disconnect. Broca's area is silent.")
             return False
         return False
 
     def think(self, prompt: str, context: str = "") -> str:
         """
-        [THINKING] 자아가 건네준 생각의 씨앗(Prompt)을 언어로 구체화합니다.
+        [THINKING]               (Prompt)            .
         """
         if not self.is_active:
-            return "..." # 침묵
+            return "..." #   
 
         full_prompt = f"Context: {context}\nElement: {prompt}\n\nExpress this element as a short, poetic contemplation:"
         
@@ -65,7 +65,7 @@ class LocalCortex:
                 "prompt": full_prompt,
                 "stream": False,
                 "options": {
-                    "temperature": 0.8, # 창의적 온도
+                    "temperature": 0.8, #       
                     "top_p": 0.9
                 }
             }
@@ -78,7 +78,7 @@ class LocalCortex:
 
     def translate_feeling(self, state_vector: Dict[str, float]) -> str:
         """
-        [TRANSLATION] Hypersphere의 좌표(느낌)를 언어로 번역합니다.
+        [TRANSLATION] Hypersphere    (  )           .
         """
         if not self.is_active:
             # Fallback to primitive expression if cortex is damaged

@@ -12,7 +12,7 @@ try:
     import pytesseract
     from PIL import Image, ImageDraw
     
-    print("✅ pytesseract module found.")
+    print("  pytesseract module found.")
     
     # Common Windows paths for Tesseract
     paths = [
@@ -28,7 +28,7 @@ try:
             break
             
     if tesseract_cmd:
-        print(f"✅ Tesseract binary found at: {tesseract_cmd}")
+        print(f"  Tesseract binary found at: {tesseract_cmd}")
         pytesseract.pytesseract.tesseract_cmd = tesseract_cmd
         
         # Test OCR
@@ -38,13 +38,13 @@ try:
         
         try:
             text = pytesseract.image_to_string(img)
-            print(f"✅ OCR Test Successful. Result: '{text.strip()}'")
+            print(f"  OCR Test Successful. Result: '{text.strip()}'")
         except Exception as e:
-            print(f"❌ OCR Test Failed: {e}")
+            print(f"  OCR Test Failed: {e}")
             
     else:
-        print("❌ Tesseract binary NOT found in common paths.")
+        print("  Tesseract binary NOT found in common paths.")
         print("   Please install Tesseract-OCR or set the path manually.")
 
 except ImportError:
-    print("❌ pytesseract module NOT installed.")
+    print("  pytesseract module NOT installed.")

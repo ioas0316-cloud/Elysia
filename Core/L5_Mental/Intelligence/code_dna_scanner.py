@@ -30,7 +30,7 @@ class CodeDNAScanner:
 
     def scan_file(self, file_path: str) -> WaveDNA:
         if not os.path.exists(file_path):
-            print(f"⚠️ File not found: {file_path}")
+            print(f"   File not found: {file_path}")
             return WaveDNA(label="Void")
             
         """
@@ -60,7 +60,7 @@ class CodeDNAScanner:
         try:
             tree = ast.parse(source)
         except SyntaxError:
-            print(f"⚠️ Syntax Error in {label}")
+            print(f"   Syntax Error in {label}")
             return WaveDNA(label="BrokenCode")
 
         counts = {
@@ -127,6 +127,6 @@ if __name__ == "__main__":
     scanner = CodeDNAScanner()
     
     # Self-Scan
-    print("🔍 Scanning Self...")
+    print("  Scanning Self...")
     my_dna = scanner.scan_source(open(__file__, encoding="utf-8").read(), "code_dna_scanner.py")
     print(my_dna)

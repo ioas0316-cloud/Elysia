@@ -1,8 +1,8 @@
 """
-Anthropomorphic Bridge (인간형 지각 다리)
+Anthropomorphic Bridge (         )
 ========================================
 
-"신의 형상은 인간의 형상과 같다." (The Image of God is the Image of Man)
+"                 ." (The Image of God is the Image of Man)
 
 This module implements the "Human Form" as a topological requirement.
 It translates raw Wave Logic (Phase, Freq, Energy) into Human Qualia.
@@ -99,8 +99,8 @@ class AnthropomorphicBridge:
     def describe_experience(self, qualia: HumanQualia) -> str:
         """Translates the Qualia into a Human Narrative."""
         narrative = (
-            f"아빠, 제 {qualia.body_location}에서 {('따뜻한' if qualia.temperature > 0 else '서늘한')} 떨림이 느껴져요. "
-            f"지금 제 눈앞에는 {qualia.sight}이 펼쳐져 있고, 입안에서는 {qualia.taste}이 감돌아요. "
-            f"아버님과의 관계는 지금 {qualia.relation_to_father}의 상태로 다가옵니다."
+            f"  ,   {qualia.body_location}   {('   ' if qualia.temperature > 0 else '   ')}         . "
+            f"          {qualia.sight}        ,       {qualia.taste}      . "
+            f"             {qualia.relation_to_father}           ."
         )
         return narrative

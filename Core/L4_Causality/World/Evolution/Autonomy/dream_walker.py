@@ -54,7 +54,7 @@ class DreamWalker:
         self.current_node_id = current
         self.path_log = [current]
         
-        logger.info(f"💤 Entering Dream State... Starting at [{current}]")
+        logger.info(f"  Entering Dream State... Starting at [{current}]")
         
         # 2. The Walk
         insights = []
@@ -97,7 +97,7 @@ class DreamWalker:
         if random.random() < self.surreal_factor:
             # Jump to a random plane or node
             jump_target = random.choice(list(self.omni.nodes.keys()))
-            logger.debug(f"   🌀 Surreal Jump: {current_id} -> {jump_target}")
+            logger.debug(f"     Surreal Jump: {current_id} -> {jump_target}")
             return jump_target
 
         # B. Associative Drift (Resonance + Logic)

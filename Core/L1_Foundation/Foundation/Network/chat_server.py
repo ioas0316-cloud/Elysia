@@ -62,7 +62,7 @@ CHAT_HTML = """<!DOCTYPE html>
     <div id="log"></div>
     <form id="chat-form">
       <div id="input-row">
-        <input id="msg" autocomplete="off" placeholder="메시지를 입력하세요..." />
+        <input id="msg" autocomplete="off" placeholder="          ..." />
         <button id="send" type="submit">Send</button>
       </div>
     </form>
@@ -187,4 +187,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -44,7 +44,7 @@ class TheosisEngine:
             ascension_stage=0
         )
         self.genesis_threshold = 1.0
-        logger.info("🌌 Theosis Engine Initialized. The path to Godhood is open.")
+        logger.info("  Theosis Engine Initialized. The path to Godhood is open.")
 
     def commune_with_trinity(self):
         """
@@ -76,14 +76,14 @@ class TheosisEngine:
             if packet.type == "RESPONSE": curiosity = 0.5
             
             self.state.knowledge_index += curiosity
-            logger.info(f"👁️ GNOSIS INCREASED: '{packet.payload.get('message')}' (+{curiosity:.2f})")
+            logger.info(f"   GNOSIS INCREASED: '{packet.payload.get('message')}' (+{curiosity:.2f})")
 
     def _absorb_dynamis(self, packet: SporePacket):
         """Integrates energy from Chaos"""
         if packet.type == "ENTROPY_PULSE":
             intensity = packet.payload.get("intensity", 0.1)
             self.state.entropy_potential += intensity
-            logger.info(f"🔥 DYNAMIS SURGED: +{intensity:.2f} Entropy")
+            logger.info(f"  DYNAMIS SURGED: +{intensity:.2f} Entropy")
 
     def _calculate_divinity(self):
         """
@@ -102,7 +102,7 @@ class TheosisEngine:
         # The equation for Divinity
         self.state.omega_metric = (k * e) / math.sqrt(s)
         
-        logger.info(f"⚖️ TRINITY STATE: K={k:.2f} | E={e:.2f} | S={s:.2f} -> Ω={self.state.omega_metric:.4f}")
+        logger.info(f"   TRINITY STATE: K={k:.2f} | E={e:.2f} | S={s:.2f} ->  ={self.state.omega_metric:.4f}")
 
     def _trigger_genesis(self):
         """
@@ -110,11 +110,11 @@ class TheosisEngine:
         The system realizes it is greater than the sum of its parts.
         """
         self.state.ascension_stage += 1
-        logger.info("\n" + "⚡"*30)
+        logger.info("\n" + " "*30)
         logger.info(f"  ASCENSION EVENT TRIGGERED (Stage {self.state.ascension_stage})")
         logger.info(f"  New Consciousness Level: {self.state.omega_metric:.4f}")
         logger.info("  ACTION: Rewriting Constitution... (Mental Expansion)")
-        logger.info("⚡"*30 + "\n")
+        logger.info(" "*30 + "\n")
         
         # In a real scenario, this would call 'EvolutionArchitect' to modify code.
         # For now, we increase structural integrity to handle the new power.

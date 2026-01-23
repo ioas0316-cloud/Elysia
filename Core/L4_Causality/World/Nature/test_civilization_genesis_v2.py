@@ -20,7 +20,7 @@ from Core.L4_Causality.World.Physics.providence_engine import ProvidenceEngine
 from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 
 def test_civilization_genesis_v2():
-    print("--- 🌍 Experiment: Civilization Genesis V2 (Real Physics) ---")
+    print("---   Experiment: Civilization Genesis V2 (Real Physics) ---")
     
     # 1. Setup Mind & Physics
     elysia = SovereignSelf(cns_ref=None)
@@ -36,7 +36,7 @@ def test_civilization_genesis_v2():
         "Sun", "Moon", "Gold", "King", "War", "Love"
     ]
     
-    print(f"\n📚 Injecting {len(concepts)} Axioms (Manual Injection for Speed)...")
+    print(f"\n  Injecting {len(concepts)} Axioms (Manual Injection for Speed)...")
     
     # Pre-load Graph with Hexagon Primitives to skip Web Crawling
     # This simulates "Innate Knowledge" of the Laws.
@@ -51,10 +51,10 @@ def test_civilization_genesis_v2():
              print(f"   + Encoding '{c}' (Axiom)...")
              elysia.mind.graph.add_node(c, vector=[0.5, 0.5, 0.5])
              
-    print("\n✅ Axioms Integrated. The Laws are set.")
+    print("\n  Axioms Integrated. The Laws are set.")
     
     # 3. Genesis Run (WFC)
-    print("\n--- 🌌 Generating World State ---")
+    print("\n---   Generating World State ---")
     wfc = FractalWFC(lexicon=elysia.mind)
     
     # Seed: "Creation"
@@ -67,7 +67,7 @@ def test_civilization_genesis_v2():
     # Collapse Wave
     gen1 = wfc.collapse(seed, intensity=1.0)
     
-    print(f"\n🌍 World Snapshot (Generation 1):")
+    print(f"\n  World Snapshot (Generation 1):")
     generated_entities = []
     
     for child in gen1:
@@ -76,7 +76,7 @@ def test_civilization_genesis_v2():
         generated_entities.append(name)
         
     # 4. Reality Check (Providence & Synapse)
-    print("\n--- 🔬 Reality Verification (Physics & Weight) ---")
+    print("\n---   Reality Verification (Physics & Weight) ---")
     
     # Pick a generated entity to test (e.g. if 'Steam' or 'River' generated)
     # We will try to interact with one.
@@ -94,7 +94,7 @@ def test_civilization_genesis_v2():
         print(f"   [Synapse] Mass: {rotor.config.mass:.2f} kg")
         print(f"   [Synapse] RPM:  {rotor.config.rpm:.2f}")
     else:
-        print(f"   [Synapse] ❌ Failed to summon '{target}'.")
+        print(f"   [Synapse]   Failed to summon '{target}'.")
         
     # B. Check Thermodynamics (Providence)
     # Get vector from Lexicon
@@ -102,7 +102,7 @@ def test_civilization_genesis_v2():
     print(f"   [Vector]  G:{vec.gravity:.2f}, F:{vec.flow:.2f}, A:{vec.ascension:.2f}")
     
     # Apply Heat
-    print(f"   🔥 Applying Heat to '{target}'...")
+    print(f"     Applying Heat to '{target}'...")
     heat = elysia.mind.analyze("fire")
     new_state_vec = providence.apply_thermodynamics(vec, heat)
     
@@ -112,9 +112,9 @@ def test_civilization_genesis_v2():
     print(f"   -> Old Asc: {vec.ascension:.2f}, New Asc: {new_state_vec.ascension:.2f}")
     
     if new_state_vec.ascension > vec.ascension:
-        print("   ✅ [Providence] Entity reacted to Heat (Energy absorbed).")
+        print("     [Providence] Entity reacted to Heat (Energy absorbed).")
     else:
-        print("   ❌ [Providence] Entity is inert (Physics failed).")
+        print("     [Providence] Entity is inert (Physics failed).")
 
 if __name__ == "__main__":
     test_civilization_genesis_v2()

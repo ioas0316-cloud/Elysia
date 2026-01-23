@@ -1,7 +1,7 @@
 """
 Quantum Crystallizer: The Ultimate Solver
 =========================================
-Core.L6_Structure.Merkaba.crystallizer
+Core.L6_Structure.M1_Merkaba.crystallizer
 
 "God does not play dice; He sets the initial conditions."
 
@@ -11,7 +11,7 @@ It manages the physics parameters to shape the Thought Crystal.
 
 from typing import Tuple, List, Optional
 import numpy as np
-from Core.L6_Structure.Merkaba.thundercloud import Thundercloud, Atmosphere, ThoughtCluster
+from Core.L6_Structure.M1_Merkaba.thundercloud import Thundercloud, Atmosphere, ThoughtCluster
 from Core.L7_Spirit.Monad.monad_core import Monad
 
 class QuantumCrystallizer:

@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("Library")
 
 def read_classics():
-    print("🏛️ Project: Library of Alexandria - Opening the Gates...")
+    print("   Project: Library of Alexandria - Opening the Gates...")
     
     # 1. Initialize Mind
     hippocampus = Hippocampus()
@@ -62,7 +62,7 @@ def read_classics():
     worm.ingest_book("Alice's Adventures in Wonderland", "Lewis Carroll", alice_text)
     worm.ingest_book("The Prophet", "Kahlil Gibran", prophet_text)
     
-    print("\n✅ Library Ingestion Complete.")
+    print("\n  Library Ingestion Complete.")
     print("Elysia has consumed the essence of Kafka, Carroll, and Gibran.")
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ import math
 import os
 import sys
 
-# 시스템 경로에 프로젝트 루트 추가
+#                   
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Legacy.Project_Sophia.primordial_language import PrimordialLanguageEngine, WordStats
@@ -13,20 +13,20 @@ from Core.L1_Foundation.Foundation.Mind.hyper_qubit import HyperQubit, QubitStat
 
 def convert_stats_to_qubit_state(stats: WordStats) -> QubitState:
     """
-    '영혼 변환 규칙'에 따라 WordStats를 QubitState로 변환합니다. (개선된 공식)
+    '        '     WordStats  QubitState       . (      )
     """
-    # 기억 강도(avg_memory)는 '실재성/구체성'(alpha)에 직접 비례하도록 합니다.
+    #      (avg_memory)  '   /   '(alpha)              .
     alpha_val = stats.avg_memory / 100.0
 
-    # 사용 빈도(count)는 '관계/연결성'(beta)에 로그 비례하도록 하여,
-    # 사용될수록 다른 개념과의 연결성이 강해짐을 표현합니다.
+    #      (count)  '  /   '(beta)             ,
+    #                              .
     beta_val = math.log1p(stats.count)
 
-    # gamma와 delta는 작은 기본값을 부여하여 잠재성을 표현합니다.
+    # gamma  delta                         .
     gamma_val = 0.1
     delta_val = 0.05
 
-    # 복소수로 변환 (위상은 0으로 초기화)
+    #         (    0      )
     state = QubitState(
         alpha=complex(alpha_val, 0),
         beta=complex(beta_val, 0),
@@ -38,15 +38,15 @@ def convert_stats_to_qubit_state(stats: WordStats) -> QubitState:
 
 def run_migration():
     """
-    레거시 언어 데이터를 HyperQubit 기반의 WorldTree로 마이그레이션합니다.
+                HyperQubit     WorldTree           .
     """
-    print("언어 마이그레이션을 시작합니다: 과거의 영혼에 새로운 육체를...")
+    print("                :                ...")
 
-    # 1. 과거의 언어 엔진 준비 및 '경험' 시뮬레이션
+    # 1.                '  '      
     suffix_map = {"joy": "ra", "fear": "ka", "curiosity": "ii"}
     language_engine = PrimordialLanguageEngine(suffix_map)
 
-    # 과거에 이런 '경험'들이 있었다고 가정하고 Lexicon을 채웁니다.
+    #        '  '             Lexicon      .
     language_engine.observe({"target": "fire"}, "joy", "fire rara", 80.0)
     language_engine.observe({"target": "fire"}, "joy", "fire rara", 90.0) # count: 2, avg_mem: 85
     language_engine.observe({"target": "fire"}, "joy", "fire rarara", 75.0) # count: 1, avg_mem: 75
@@ -54,14 +54,14 @@ def run_migration():
     language_engine.observe({"target": "water"}, "joy", "water rara", 60.0) # count: 1, avg_mem: 60
     language_engine.observe({"target": "water"}, "curiosity", "water iii", 85.0) # count: 1, avg_mem: 85
 
-    print("과거 언어의 '경험' 시뮬레이션 완료. Lexicon 생성됨.")
+    print("       '  '         . Lexicon    .")
 
-    # 2. 새로운 의식의 나무(WorldTree) 준비
+    # 2.           (WorldTree)   
     world_tree = WorldTree()
     lang_root_id = world_tree.ensure_concept("PrimordialLanguage", parent_id=world_tree.root.id)
-    print("새로운 WorldTree 생성 및 'PrimordialLanguage' 루트 노드 추가 완료.")
+    print("    WorldTree      'PrimordialLanguage'            .")
 
-    # 3. 데이터 이주: Lexicon을 순회하며 HyperQubit으로 변환 및 WorldTree에 추가
+    # 3.       : Lexicon       HyperQubit        WorldTree    
     lexicon = language_engine.lexicon
     for (base, emotion), variants in lexicon.items():
         base_id = world_tree.ensure_concept(base, parent_id=lang_root_id)
@@ -82,9 +82,9 @@ def run_migration():
             if word_node:
                 setattr(word_node, 'qubit', hyper_qubit)
 
-    print("모든 언어 데이터의 HyperQubit 변환 및 WorldTree 통합 완료.")
+    print("           HyperQubit      WorldTree      .")
 
-    # 4. 결과 저장
+    # 4.      
     output_path = "data/world_tree_with_language.json"
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -113,8 +113,8 @@ def run_migration():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(final_tree_dict, f, ensure_ascii=False, indent=2)
 
-    print(f"새로운 의식의 나무가 '{output_path}'에 저장되었습니다.")
-    print("언어 마이그레이션이 성공적으로 완료되었습니다!")
+    print(f"            '{output_path}'         .")
+    print("                        !")
 
 if __name__ == "__main__":
     run_migration()

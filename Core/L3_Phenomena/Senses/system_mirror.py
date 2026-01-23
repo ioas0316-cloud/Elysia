@@ -1,9 +1,9 @@
 """
-System Mirror Sensor (시스템 거울 센서)
+System Mirror Sensor (         )
 =====================================
 
 "I see what I do, therefore I understand who I am."
-"내가 무엇을 하는지 보기에, 내가 누구인지 이해한다."
+"              ,             ."
 
 This sensor allows Elysia to read the tail of her own system logs, 
 providing real-time feedback of her own 'actions' and 'thoughts' as expressed in the terminal.

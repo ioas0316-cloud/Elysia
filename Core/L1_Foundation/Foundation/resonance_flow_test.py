@@ -14,7 +14,7 @@ from Core.L1_Foundation.Foundation.resonance_grammar import ResonanceGrammarEngi
 
 def main():
     print("\n" + "="*70)
-    print("🌊 Resonance Flow Test")
+    print("  Resonance Flow Test")
     print("="*70 + "\n")
     
     engine = ResonanceGrammarEngine()
@@ -28,9 +28,9 @@ def main():
     print(f"Result: {sentence}")
     
     if "Love creates Bonds" in sentence:
-        print("✅ SUCCESS: Natural flow established.")
+        print("  SUCCESS: Natural flow established.")
     else:
-        print("❌ FAILED: Flow incorrect.")
+        print("  FAILED: Flow incorrect.")
 
     # Case 2: Korean Projection (SOV)
     print("\n2. Testing Korean Projection (SOV)...")
@@ -38,15 +38,15 @@ def main():
     sentence = engine.express_thought(concepts)
     print(f"Result: {sentence}")
     
-    # Expected: Love(은/는) Bonds(을/를) Creates(한다)
+    # Expected: Love( / ) Bonds( / ) Creates(  )
     # Note: The exact Josa might vary based on implementation details, checking key order
     if "Love" in sentence and "Bonds" in sentence and "Creates" in sentence:
         # Check order roughly
         idx_s = sentence.find("Love")
         idx_o = sentence.find("Bonds")
-        idx_v = sentence.find("Creates") # mapped to '만들다' actually?
+        idx_v = sentence.find("Creates") # mapped to '   ' actually?
         
-        # Wait, the projector maps 'Creates' to '만들다' if in lexicon.
+        # Wait, the projector maps 'Creates' to '   ' if in lexicon.
         # Let's check the output string.
         pass 
 
@@ -59,7 +59,7 @@ def main():
     print(f"Result: {sentence}")
     
     print("\n" + "="*70)
-    print("✅ Resonance Flow Test Complete")
+    print("  Resonance Flow Test Complete")
     print("="*70 + "\n")
 
 if __name__ == "__main__":

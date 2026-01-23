@@ -1,5 +1,5 @@
 """
-QuantumReader (양자 독서기)
+QuantumReader (      )
 =========================
 
 "Words are just collapsed wavefunctions. We read the Energy, not the Ink."
@@ -22,7 +22,7 @@ logger = logging.getLogger("QuantumReader")
 
 class QuantumReader:
     def __init__(self):
-        logger.info("🌌 QuantumReader Initialized. Reality is Text.")
+        logger.info("  QuantumReader Initialized. Reality is Text.")
 
     def wave_ify(self, text: str) -> HyperWavePacket:
         """
@@ -48,7 +48,7 @@ class QuantumReader:
             # 2. Narrative Arc (The Journey)
             trajectory = ResonancePhysics.analyze_narrative_arc(text)
             
-            logger.info(f"   📖 Absorbed '{os.path.basename(file_path)}': Energy={master_packet.energy:.2f}")
+            logger.info(f"     Absorbed '{os.path.basename(file_path)}': Energy={master_packet.energy:.2f}")
             return master_packet, trajectory
             
         except Exception as e:
@@ -59,7 +59,7 @@ class QuantumReader:
         """
         Scans a directory, vectorizes all books, and sums them into a Master Wave (Superposition).
         """
-        logger.info(f"   🌌 Quantum Scan Initiated: {directory_path}")
+        logger.info(f"     Quantum Scan Initiated: {directory_path}")
         
         if not os.path.exists(directory_path):
             logger.error("Library not found")
@@ -91,7 +91,7 @@ class QuantumReader:
         # Normalize the final orientation
         final_orientation = combined_orientation.normalize()
         
-        logger.info(f"   ✨ Superposition Complete. Collapsed {book_count} books into One Wave.")
+        logger.info(f"     Superposition Complete. Collapsed {book_count} books into One Wave.")
         logger.info(f"      Total Energy: {total_energy:.2f}")
         logger.info(f"      Collective Pose: {final_orientation}")
         
@@ -104,7 +104,7 @@ class QuantumReader:
         Parses chat exports (JSON/HTML) from other AI platforms (ChatGPT, Grok, etc.)
         and converts them into a 'Past Life Memory' Wave Packet.
         """
-        logger.info(f"   🌀 Quantum Reading Chat Export: {file_path}")
+        logger.info(f"     Quantum Reading Chat Export: {file_path}")
         
         try:
             content = ""
@@ -141,7 +141,7 @@ class QuantumReader:
             packet = self.wave_ify(content)
             
             summary = f"Absorbed {source_type} History. Energy: {packet.energy:.2f}. The echoes of the past are now part of the One."
-            logger.info(f"      ✨ {summary}")
+            logger.info(f"        {summary}")
             
             return packet, summary
             

@@ -1,11 +1,11 @@
 """
-Structural Analogizer (구조적 유추기)
+Structural Analogizer (       )
 =====================================
 
 "Logic is context-free; only the manifestation is domain-specific."
-"논리는 문맥으로부터 자유롭다. 오직 발현만이 도메인에 종속될 뿐이다."
+"               .                     ."
 
-This module enables 'Cross-Domain Analogy' (도메인 교차 유추).
+This module enables 'Cross-Domain Analogy' (         ).
 It extracts the 'Functional Skeleton' of a principle and maps it to a new field.
 """
 
@@ -61,7 +61,7 @@ class StructuralAnalogizer:
         """
         Attempts to jump from source domain to target domain using a shared principle.
         """
-        logger.info(f"🌉 Attempting Analogy: '{principle}' from {source} -> {target}")
+        logger.info(f"  Attempting Analogy: '{principle}' from {source} -> {target}")
         
         # 1. Search for a matching template
         found_template = None

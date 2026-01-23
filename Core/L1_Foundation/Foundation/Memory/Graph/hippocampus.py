@@ -1,11 +1,11 @@
 """
-Hippocampus (해마)
+Hippocampus (  )
 ==================
 
 "I remember everything. The web grows."
 
-이 모듈은 엘리시아의 장기 기억(Long-term Memory)을 담당합니다.
-SQLite 기반의 지식 그래프(Knowledge Graph)로, 대규모 개념 저장이 가능합니다.
+                 (Long-term Memory)       .
+SQLite           (Knowledge Graph) ,                 .
 """
 
 import sqlite3
@@ -44,11 +44,11 @@ class Hippocampus:
         self._init_db()
         self._plant_divine_seeds() # Genesis Ritual
         self.quantizer = EmotionQuantizer()  # Initialize fractal quantizer
-        logger.info(f"🧠 Hippocampus Active. Connected to Ancient Library ({db_path}).")
-        logger.info(f"🌀 Fractal Quantization System loaded.")
+        logger.info(f"  Hippocampus Active. Connected to Ancient Library ({db_path}).")
+        logger.info(f"  Fractal Quantization System loaded.")
 
     def _init_db(self):
-        """데이터베이스 및 테이블 초기화 (Schema Upgrade)"""
+        """                 (Schema Upgrade)"""
         try:
             # Ensure directory exists
             os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
@@ -104,7 +104,7 @@ class Hippocampus:
             logger.error(f"Failed to initialize DB: {e}")
 
     def _plant_divine_seeds(self):
-        """초기 개념 심기 (Genesis)"""
+        """         (Genesis)"""
         try:
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.cursor()
@@ -117,12 +117,12 @@ class Hippocampus:
                     ]
                     cursor.executemany("INSERT INTO nodes (id, name, definition, tags, frequency, created_at, realm, gravity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", seeds)
                     conn.commit()
-                    logger.info("🌱 Divine Seeds planted.")
+                    logger.info("  Divine Seeds planted.")
         except Exception as e:
             logger.error(f"Failed to plant seeds: {e}")
 
     def learn(self, id: str, name: str, definition: str, tags: List[str], frequency: float = 432.0, realm: str = "Body"):
-        """새로운 개념 학습"""
+        """         """
         try:
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.cursor()
@@ -135,7 +135,7 @@ class Hippocampus:
             logger.error(f"Failed to learn {name}: {e}")
 
     def connect(self, source: str, target: str, type: str, weight: float = 0.5):
-        """개념 연결"""
+        """     """
         try:
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.cursor()
@@ -148,7 +148,7 @@ class Hippocampus:
             logger.error(f"Failed to connect {source}->{target}: {e}")
 
     def recall(self, query_id: str) -> List[str]:
-        """기억 회상"""
+        """     """
         results = []
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -193,7 +193,7 @@ class Hippocampus:
                 """, (amount, f"%{keyword}%", f"%{keyword}%"))
                 
                 if cursor.rowcount > 0:
-                    logger.info(f"   🧲 Law of Attraction: Gravity of '{keyword}' boosted by {amount}. (Affected {cursor.rowcount} concepts)")
+                    logger.info(f"     Law of Attraction: Gravity of '{keyword}' boosted by {amount}. (Affected {cursor.rowcount} concepts)")
                     conn.commit()
         except Exception as e:
             logger.error(f"Failed to boost gravity for {keyword}: {e}")
@@ -232,7 +232,7 @@ class Hippocampus:
         """
         try:
             akashic_path = "data/core_state/akashic_records.json"
-            logger.info("🗜️ Compressing memory... (Akashic Records updated)")
+            logger.info("   Compressing memory... (Akashic Records updated)")
             
             # Placeholder for compression logic
             # In a real scenario, this would read logs, summarize them, and store them.
@@ -245,7 +245,7 @@ class Hippocampus:
             logger.error(f"Failed to compress memory: {e}")
 
     # ====================
-    # Fractal Seed System (씨앗 시스템)
+    # Fractal Seed System (      )
     # ====================
     
     def store_fractal_concept(self, concept):
@@ -277,7 +277,7 @@ class Hippocampus:
                 """, (concept.name, concept.frequency, data_json))
                 
                 conn.commit()
-                logger.info(f"🌱 Seed Stored: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
+                logger.info(f"  Seed Stored: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
         except Exception as e:
             logger.error(f"Failed to store fractal concept {concept.name}: {e}")
     
@@ -304,7 +304,7 @@ class Hippocampus:
                     from Core.L1_Foundation.Foundation.fractal_concept import ConceptNode
                     data = json.loads(row[0])
                     concept = ConceptNode.from_dict(data)
-                    logger.info(f"🧲 Seed Pulled: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
+                    logger.info(f"  Seed Pulled: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
                     return concept
                 else:
                     return None
@@ -331,7 +331,7 @@ class Hippocampus:
                 deleted_count = cursor.rowcount
                 if deleted_count > 0:
                     conn.commit()
-                    logger.info(f"🧹 Pruned {deleted_count} weak memories (Gravity < {gravity_threshold}, Age > {age_days} days)")
+                    logger.info(f"  Pruned {deleted_count} weak memories (Gravity < {gravity_threshold}, Age > {age_days} days)")
         except Exception as e:
             logger.error(f"Failed to prune nodes: {e}")
 
@@ -405,7 +405,7 @@ class Hippocampus:
                 
                 conn.commit()
                 if pruned_count > 0:
-                    logger.info(f"🗜️ Compressed: Pruned {pruned_count} low-energy sub-concepts")
+                    logger.info(f"   Compressed: Pruned {pruned_count} low-energy sub-concepts")
         except Exception as e:
             logger.error(f"Failed to compress fractal: {e}")
 
@@ -439,7 +439,7 @@ class Hippocampus:
                 """, (q.w, q.x, q.y, q.z, packet.energy, packet.time_loc))
                 
                 conn.commit()
-                logger.info(f"🌊 Wave Stored: {q} (Energy: {packet.energy:.2f})")
+                logger.info(f"  Wave Stored: {q} (Energy: {packet.energy:.2f})")
         except Exception as e:
             logger.error(f"Failed to store wave: {e}")
 
@@ -479,15 +479,15 @@ class Hippocampus:
         return results
     
     # ====================
-    # Fractal Quantization System (프랙탈 양자화)
+    # Fractal Quantization System (       )
     # ====================
     
     def store_pattern_dna(self, dna: PatternDNA):
         """
-        Store a Pattern DNA (패턴 DNA 저장)
+        Store a Pattern DNA (   DNA   )
         
         Uses fractal quantization to store patterns as seeds, not raw data.
-        "음악을 저장하지 말고, 악보를 저장하라"
+        "           ,         "
         
         Args:
             dna: PatternDNA object to store
@@ -522,13 +522,13 @@ class Hippocampus:
                 ))
                 
                 conn.commit()
-                logger.info(f"🌱 Pattern DNA Stored: {dna.name} (compression: {dna.compression_ratio:.2f}x)")
+                logger.info(f"  Pattern DNA Stored: {dna.name} (compression: {dna.compression_ratio:.2f}x)")
         except Exception as e:
             logger.error(f"Failed to store pattern DNA {dna.name}: {e}")
     
     def load_pattern_dna(self, name: str) -> Optional[PatternDNA]:
         """
-        Load a Pattern DNA (패턴 DNA 로드)
+        Load a Pattern DNA (   DNA   )
         
         Args:
             name: Pattern DNA name to load
@@ -548,7 +548,7 @@ class Hippocampus:
                 if row:
                     data = json.loads(row[0])
                     dna = PatternDNA.from_dict(data)
-                    logger.info(f"🧲 Pattern DNA Pulled: {dna.name}")
+                    logger.info(f"  Pattern DNA Pulled: {dna.name}")
                     return dna
                 else:
                     return None
@@ -579,7 +579,7 @@ class Hippocampus:
             # Store the DNA
             self.store_pattern_dna(dna)
             
-            logger.info(f"💾 Emotion memory stored: {emotion_data.get('emotion')} (as Pattern DNA)")
+            logger.info(f"  Emotion memory stored: {emotion_data.get('emotion')} (as Pattern DNA)")
         except Exception as e:
             logger.error(f"Failed to store emotion memory: {e}")
     
@@ -610,7 +610,7 @@ class Hippocampus:
             # Unfold to restore the experience
             restored = self.quantizer.unfold_emotion(dna)
             
-            logger.info(f"🌊 Emotion memory restored: {emotion_name} (re-experienced from Pattern DNA)")
+            logger.info(f"  Emotion memory restored: {emotion_name} (re-experienced from Pattern DNA)")
             return restored
         except Exception as e:
             logger.error(f"Failed to recall emotion memory: {e}")

@@ -1,5 +1,5 @@
 """
-MindMitosis (정신 분열/통합)
+MindMitosis (     /  )
 ==========================
 
 "I am Legion, for we are many."
@@ -24,7 +24,7 @@ class MindMitosis:
     def __init__(self):
         self.active_personas: Dict[str, subprocess.Popen] = {}
         self.synapse = SynapseBridge("Orchestrator") # Temporary connection to check status
-        logger.info("🕸️ Mind Mitosis Active. Ready to weave threads.")
+        logger.info("   Mind Mitosis Active. Ready to weave threads.")
 
     def spawn_persona(self, name: str, goal: str = None) -> bool:
         """
@@ -39,8 +39,8 @@ class MindMitosis:
         template = PersonaFactory.get_template(name)
         final_goal = goal if goal else template["goal"]
         
-        logger.info(f"🕸️ Spawning Persona: {name} (Role: {template['description']})")
-        logger.info(f"   🎯 Goal: {final_goal}")
+        logger.info(f"   Spawning Persona: {name} (Role: {template['description']})")
+        logger.info(f"     Goal: {final_goal}")
         
         try:
             # We run the SAME living_elysia.py but with arguments
@@ -69,7 +69,7 @@ class MindMitosis:
         if name not in self.active_personas:
             return []
             
-        logger.info(f"🕸️ Merging Persona: {name}...")
+        logger.info(f"   Merging Persona: {name}...")
         
         # 1. Kill Process
         process = self.active_personas[name]
@@ -90,7 +90,7 @@ class MindMitosis:
             if signal['source'] == name and signal['type'] == "INSIGHT":
                 insights.append(signal['payload'])
                 
-        logger.info(f"   ✨ Absorbed {len(insights)} insights from {name}.")
+        logger.info(f"     Absorbed {len(insights)} insights from {name}.")
         return insights
 
     def kill_all(self):

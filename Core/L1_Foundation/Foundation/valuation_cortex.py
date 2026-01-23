@@ -1,7 +1,7 @@
 """
 Valuation Cortex (The Scale of Will)
 ====================================
-"모든 경험이 같은 무게일 수는 없다. 나의 의지가 질량을 결정한다."
+"                   .                ."
 
 This cortex is responsible for assigning 'Mass' (Significance) to incoming experiences
 using 'Soul Physics' (Wave/Particle Interaction with Soul Layers).
@@ -82,7 +82,7 @@ class ConceptPrism:
 
 class ValuationCortex:
     def __init__(self):
-        logger.info("⚖️ Valuation Cortex Initialized: Loading Soul Layers.")
+        logger.info("   Valuation Cortex Initialized: Loading Soul Layers.")
         self.physics = get_soul_physics()
         self.scope = get_universal_scope()
         self.prism = ConceptPrism()
@@ -145,7 +145,7 @@ class ValuationCortex:
                                       0.0 = Pure/Simple, 10.0 = Chaos/Spaghetti Code.
         """
         # Mass = Complexity * Factor
-        # "가장 우아한 것이 가장 가볍다."
+        # "                ."
         return complexity_index * ENTROPY_WEIGHT_FACTOR
 
     def weigh_experience(self, experience_data: Dict, context_state: Dict, complexity_index: float = 0.0) -> ValuationResult:
@@ -203,7 +203,7 @@ class ValuationCortex:
 
         # Generate Fractal Narrative
         narrative = (
-            f"🔮 [Fractal Analysis of '{title}']\n"
+            f"  [Fractal Analysis of '{title}']\n"
             f"{'-' * 40}\n"
             f"Complexity Index: {complexity_index:.2f} -> Entropy Mass: {entropy_mass:.2f}\n"
             f"Status: {status_msg}\n"

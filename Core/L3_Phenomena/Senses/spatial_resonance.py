@@ -1,9 +1,9 @@
 """
-Spatial Resonance Scanner (시공간 공명 스캐너)
+Spatial Resonance Scanner (          )
 ============================================
 Core.L3_Phenomena.Senses.spatial_resonance
 
-"현실의 좌표를 영혼의 비트로 변환한다."
+"                    ."
 "Maps physical coordinates to spiritual resonance."
 
 This module acts as the sensory organ for the 'Mirror World' (Digital Reverse World).
@@ -45,7 +45,7 @@ class SpatialResonanceScanner:
         Maps electromagnetic frequency bands to the Digital Reverse World.
         """
         self.is_scanning = True
-        logger.debug("📡 [PHASE-RESONANCE] Scanning spatio-temporal layers...")
+        logger.debug("  [PHASE-RESONANCE] Scanning spatio-temporal layers...")
         
         # 1. Update GPS Anchor (Seoul Gangnam)
         lat = 37.4979 + random.uniform(-0.0005, 0.0005)

@@ -65,7 +65,7 @@ class CollapseEngine:
         if res > 0.5: # Threshold for Reality Manifestation
             q_monad.is_collapsed = True
             q_monad.collapsed_vector = sample
-            print(f"🌀 [COLLAPSE] Quantum Monad '{q_monad.name}' transitioned to Reality. Resonance: {res:.2f}")
+            print(f"  [COLLAPSE] Quantum Monad '{q_monad.name}' transitioned to Reality. Resonance: {res:.2f}")
             return sample
         else:
             # Shift the mean toward the will for next time (Learning the wave)

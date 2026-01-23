@@ -143,7 +143,7 @@ class FractalMemorySystem:
 
         old_stratum = node.stratum
         node.stratum = target_stratum
-        logger.info(f"🔄 Memory Moved: [{node.content}] {old_stratum.name} -> {target_stratum.name}")
+        logger.info(f"  Memory Moved: [{node.content}] {old_stratum.name} -> {target_stratum.name}")
 
     def merge_nodes(self, node_ids: List[str], new_content: Any) -> FractalMemoryNode:
         """
@@ -171,7 +171,7 @@ class FractalMemorySystem:
                 if node.stratum == MemoryStratum.STREAM:
                     self.move_node(nid, MemoryStratum.GARDEN)
 
-        logger.info(f"💎 Crystallization Complete: '{new_content}' formed from {len(node_ids)} fragments.")
+        logger.info(f"  Crystallization Complete: '{new_content}' formed from {len(node_ids)} fragments.")
         return crystal
 
     def status_report(self) -> str:

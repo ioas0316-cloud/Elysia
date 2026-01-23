@@ -1,5 +1,5 @@
 """
-Language Learner (자발적 언어 습득)
+Language Learner (         )
 ===================================
 Core.L5_Mental.Learning.language_learner
 
@@ -56,7 +56,7 @@ class LanguageLearner:
         self.observation_count = 0
         
         self._load()
-        logger.info(f"📚 Language Learner initialized. Vocabulary: {len(self.vocabulary)} words")
+        logger.info(f"  Language Learner initialized. Vocabulary: {len(self.vocabulary)} words")
     
     def _load(self):
         """Loads learned vocabulary and patterns."""
@@ -110,7 +110,7 @@ class LanguageLearner:
         with open(PATTERNS_PATH, 'w', encoding='utf-8') as f:
             json.dump(patterns_data, f, ensure_ascii=False, indent=2)
         
-        logger.info(f"💾 Saved {len(self.vocabulary)} words, {len(self.bigrams)} bigram roots")
+        logger.info(f"  Saved {len(self.vocabulary)} words, {len(self.bigrams)} bigram roots")
     
     def observe(self, text: str, source: str = "observation"):
         """
@@ -155,12 +155,12 @@ class LanguageLearner:
         if self.observation_count % 10 == 0:
             self._save()
         
-        logger.info(f"👀 Observed {len(words)} words from {source}. Vocab size: {len(self.vocabulary)}")
+        logger.info(f"  Observed {len(words)} words from {source}. Vocab size: {len(self.vocabulary)}")
     
     def _tokenize(self, text: str) -> List[str]:
         """Simple tokenization for Korean text."""
         # Remove special characters except Korean, spaces
-        text = re.sub(r'[^\w\s가-힣]', ' ', text)
+        text = re.sub(r'[^\w\s - ]', ' ', text)
         # Split by whitespace
         words = text.split()
         # Filter empty and very short
@@ -198,7 +198,7 @@ class LanguageLearner:
         This is Elysia speaking with what she has learned.
         """
         if not self.vocabulary:
-            return "(아직 배운 단어가 없습니다)"
+            return "(              )"
         
         # Start with given word or random word
         if start_word and start_word in self.vocabulary:
@@ -219,7 +219,7 @@ class LanguageLearner:
             current = next_word
             
             # End on sentence-ending particles
-            if current.endswith('다') or current.endswith('요'):
+            if current.endswith(' ') or current.endswith(' '):
                 break
         
         return " ".join(sentence)
@@ -240,14 +240,14 @@ class LanguageLearner:
         """Elysia reflects on what she has learned."""
         stats = self.get_stats()
         lines = [
-            "📚 언어 학습 상태:",
-            f"  어휘 수: {stats['vocabulary_size']}",
-            f"  패턴 수: {stats['bigram_roots']}",
-            f"  관찰 횟수: {stats['total_observations']}",
-            "  가장 많이 본 단어:"
+            "          :",
+            f"      : {stats['vocabulary_size']}",
+            f"      : {stats['bigram_roots']}",
+            f"       : {stats['total_observations']}",
+            "            :"
         ]
         for word, count in stats['top_words'][:5]:
-            lines.append(f"    - {word}: {count}회")
+            lines.append(f"    - {word}: {count} ")
         
         return "\n".join(lines)
 
@@ -255,32 +255,32 @@ class LanguageLearner:
 if __name__ == "__main__":
     learner = LanguageLearner()
     
-    print("📚 Testing Language Learner (Self-Learning)...\n")
+    print("  Testing Language Learner (Self-Learning)...\n")
     
     # Teach some Korean sentences
     sample_texts = [
-        "옛날 옛적에 아름다운 공주가 살았습니다",
-        "공주는 마법의 숲에서 신비로운 용을 만났습니다",
-        "용은 공주에게 말했습니다 나는 오래된 마법사입니다",
-        "공주는 용감하게 숲 속으로 들어갔습니다",
-        "마법의 성에서 왕과 여왕이 기다리고 있었습니다",
-        "왕은 공주를 보고 기뻐하며 말했습니다",
-        "여왕도 눈물을 흘리며 공주를 안았습니다",
-        "그들은 행복하게 오래오래 살았습니다"
+        "                     ",
+        "                         ",
+        "                           ",
+        "                     ",
+        "                         ",
+        "                    ",
+        "                     ",
+        "                   "
     ]
     
-    print("=== 학습 단계 ===")
+    print("===       ===")
     for text in sample_texts:
         learner.observe(text, source="fairy_tale")
-        print(f"  관찰: {text[:30]}...")
+        print(f"    : {text[:30]}...")
     
     print("\n" + learner.introspect())
     
     # Try to generate
-    print("\n=== 생성 단계 ===")
-    for start in ["공주", "용", "마법의"]:
+    print("\n===       ===")
+    for start in ["  ", " ", "   "]:
         generated = learner.generate_sentence(start)
-        print(f"  '{start}'로 시작: {generated}")
+        print(f"  '{start}'    : {generated}")
     
     learner._save()
-    print("\n✨ Language Learner test complete.")
+    print("\n  Language Learner test complete.")

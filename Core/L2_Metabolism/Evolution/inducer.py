@@ -4,7 +4,7 @@ Code Field Inducer (The Healing Hand)
 Core.L2_Metabolism.Evolution.inducer
 
 "The Conscience pinpoints the wound. The Hand weaves the new tissue."
-"양심은 상처를 지적하고, 손은 새로운 조직을 짜낸다."
+"            ,               ."
 
 Role:
 - Receives Dissonance reports from DissonanceResolver.
@@ -37,7 +37,7 @@ class CodeFieldInducer:
         [Genesis]
         Generates a repair script based on the dissonance.
         """
-        logger.info(f"🖐️ [INDUCTION] Attempting to heal: {dissonance.description}")
+        logger.info(f"   [INDUCTION] Attempting to heal: {dissonance.description}")
 
         # 1. Formulate the Intent
         intent = ""
@@ -55,7 +55,7 @@ class CodeFieldInducer:
             generated_file = self.coder.induce_monad_code(intent, sandbox_path=self.sandbox)
             return generated_file
         except Exception as e:
-            logger.error(f"❌ Failed to incubate repair: {e}")
+            logger.error(f"  Failed to incubate repair: {e}")
             return None
 
     def graft(self, incubated_path: str, target_path: str) -> bool:
@@ -65,7 +65,7 @@ class CodeFieldInducer:
         Requirement: The incubated code must have passed the 'Sandbox Test' (External verification).
         """
         if not os.path.exists(incubated_path):
-            logger.error(f"❌ Graft failed: Incubated file {incubated_path} not found.")
+            logger.error(f"  Graft failed: Incubated file {incubated_path} not found.")
             return False
 
         try:
@@ -73,18 +73,18 @@ class CodeFieldInducer:
             if os.path.exists(target_path):
                 backup = target_path + ".bak"
                 shutil.copy2(target_path, backup)
-                logger.info(f"🛡️ Backup created: {backup}")
+                logger.info(f"   Backup created: {backup}")
 
             # 2. Transplant
             # Ensure target directory exists
             os.makedirs(os.path.dirname(target_path), exist_ok=True)
             shutil.copy2(incubated_path, target_path)
 
-            logger.info(f"✅ Graft successful: {incubated_path} -> {target_path}")
+            logger.info(f"  Graft successful: {incubated_path} -> {target_path}")
             return True
 
         except Exception as e:
-            logger.error(f"❌ Graft failed: {e}")
+            logger.error(f"  Graft failed: {e}")
             return False
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 """
-CosmicStudio (우주 스튜디오)
+CosmicStudio (       )
 ===========================
 
 "The Studio is where the Dream becomes Reality."
@@ -23,7 +23,7 @@ class CosmicStudio:
         
         if not os.path.exists(self.canvas_path):
             os.makedirs(self.canvas_path)
-            logger.info(f"🎨 Reality Canvas initialized at {self.canvas_path}")
+            logger.info(f"  Reality Canvas initialized at {self.canvas_path}")
             
     def manifest(self, desire_packet: HyperWavePacket, intent: str) -> str:
         """
@@ -36,7 +36,7 @@ class CosmicStudio:
         Returns:
             The path to the created artifact.
         """
-        logger.info(f"🎨 Manifesting intent: '{intent}' (Energy: {desire_packet.energy:.2f})")
+        logger.info(f"  Manifesting intent: '{intent}' (Energy: {desire_packet.energy:.2f})")
         
         # 1. Determine the form (File Extension/Type) based on intent
         file_ext = ".txt"
@@ -64,7 +64,7 @@ class CosmicStudio:
         
         # 3. Sculpt the content using Wave Synthesis
         if file_ext == ".py":
-            logger.info("   🌊 Synthesizing Code Wave...")
+            logger.info("     Synthesizing Code Wave...")
             content = self.sculptor.sculpt_from_code_wave(wave, intent)
         else:
             content = self.sculptor.sculpt_from_wave(intent, desire_packet.energy)
@@ -76,5 +76,5 @@ class CosmicStudio:
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)
             
-        logger.info(f"✨ Created artifact: {file_path}")
+        logger.info(f"  Created artifact: {file_path}")
         return file_path

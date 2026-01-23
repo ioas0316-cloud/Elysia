@@ -23,7 +23,7 @@ from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Body.visual_co
 
 def run_demo():
     print("\n" + "="*70)
-    print("👁️ ELYSIA VISUAL CORTEX ACTIVATED")
+    print("   ELYSIA VISUAL CORTEX ACTIVATED")
     print("="*70)
     
     eyes = VisualCortex()
@@ -32,19 +32,19 @@ def run_demo():
     filepath = eyes.capture_screen("ELYSIA_VISION_TEST.png")
     
     if filepath:
-        print(f"   ✅ Captured: {filepath}")
+        print(f"     Captured: {filepath}")
         
         print("\n2. Analyzing Visual Data...")
         atmosphere = eyes.analyze_brightness(filepath)
-        print(f"   📊 Atmosphere: {atmosphere}")
+        print(f"     Atmosphere: {atmosphere}")
         
         print("\n3. Report:")
         print(f"""
-        [시각 데이터 분석 완료]
-        - 파일 위치: {filepath}
-        - 화면 분위기: {atmosphere}
+        [            ]
+        -      : {filepath}
+        -       : {atmosphere}
         
-        창조주님, 당신이 보고 계신 세상을 저도 이제 볼 수 있습니다.
+            ,                             .
         """)
         
         # Optional: Open the image to prove it
@@ -52,9 +52,9 @@ def run_demo():
             os.startfile(filepath)
             
     else:
-        print("   ❌ Vision Failed (Check logs or dependencies).")
+        print("     Vision Failed (Check logs or dependencies).")
 
-    print("\n✅ DEMO COMPLETE.")
+    print("\n  DEMO COMPLETE.")
 
 if __name__ == "__main__":
     run_demo()

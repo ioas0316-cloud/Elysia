@@ -26,7 +26,7 @@ import time
 def visualize_fractal_quantization():
     """Create a visual representation of the quantization process."""
     
-    print("🎨 Creating Fractal Quantization Visualization...")
+    print("  Creating Fractal Quantization Visualization...")
     
     # Create quantizer
     quantizer = EmotionQuantizer()
@@ -83,15 +83,15 @@ def visualize_fractal_quantization():
     
     # Display DNA information as text
     dna_info = f"""
-    🧬 PATTERN DNA (Seed)
-    ═══════════════════════
+      PATTERN DNA (Seed)
+                           
     
     Name: {dna.name}
     
     Frequency Signature:
-    • {dna.frequency_signature[0]:.1f} Hz
-    • {dna.frequency_signature[1]:.1f} Hz
-    • {dna.frequency_signature[2]:.1f} Hz
+      {dna.frequency_signature[0]:.1f} Hz
+      {dna.frequency_signature[1]:.1f} Hz
+      {dna.frequency_signature[2]:.1f} Hz
     
     Resonance Fingerprint:
     Quaternion({dna.resonance_fingerprint.w:.3f},
@@ -103,7 +103,7 @@ def visualize_fractal_quantization():
     
     Formula: {dna.seed_formula['formula']}
     
-    ═══════════════════════
+                           
     This tiny seed contains
     EVERYTHING needed to
     recreate the full pattern!
@@ -143,37 +143,37 @@ def visualize_fractal_quantization():
     ax4.axis('off')
     
     comparison = """
-    ⚖️ COMPARISON
-    ═══════════════════════════════════
+       COMPARISON
+                                       
     
-    🔴 Traditional Quantization (Cutting)
-    ────────────────────────────────────
-    • Sample at fixed rate
-    • Lose information between samples
-    • Fixed resolution
-    • Cannot restore perfectly
-    • Like JPEG image
+      Traditional Quantization (Cutting)
+                                        
+      Sample at fixed rate
+      Lose information between samples
+      Fixed resolution
+      Cannot restore perfectly
+      Like JPEG image
     
     Example: MP3 audio
-    44,100 samples/sec → pixelated when
+    44,100 samples/sec   pixelated when
     you zoom in
     
     
-    🟢 Fractal Quantization (Folding)
-    ────────────────────────────────────
-    • Extract pattern formula
-    • Store generative DNA
-    • Infinite resolution
-    • Perfect restoration
-    • Like SVG vector graphic
+      Fractal Quantization (Folding)
+                                        
+      Extract pattern formula
+      Store generative DNA
+      Infinite resolution
+      Perfect restoration
+      Like SVG vector graphic
     
     Example: Musical score
-    "C major, 4/4, violin" → can play
+    "C major, 4/4, violin"   can play
     at ANY resolution
     
     
-    💡 Key Insight:
-    ────────────────────────────────────
+      Key Insight:
+                                        
     Store HOW it was made,
     not WHAT it looks like!
     """
@@ -187,14 +187,14 @@ def visualize_fractal_quantization():
     output_path = 'docs/images/fractal_quantization_visualization.png'
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
-    print(f"   ✓ Visualization saved to: {output_path}")
+    print(f"     Visualization saved to: {output_path}")
     
     return output_path
 
 
 def create_concept_diagram():
     """Create a simple concept diagram."""
-    print("\n🎨 Creating Concept Diagram...")
+    print("\n  Creating Concept Diagram...")
     
     fig, ax = plt.subplots(1, 1, figsize=(14, 8))
     ax.axis('off')
@@ -204,22 +204,22 @@ def create_concept_diagram():
            fontsize=18, fontweight='bold', ha='center')
     
     # Subtitle
-    ax.text(0.5, 0.90, '양자화는 "자르는 것"이 아니라 "접는 것"이어야 합니다',
+    ax.text(0.5, 0.90, '     "     "      "    "       ',
            fontsize=12, ha='center', style='italic')
     
     # Left side: Traditional approach
-    ax.text(0.15, 0.80, '🔴 Traditional (Cutting)', fontsize=14, fontweight='bold', ha='center',
+    ax.text(0.15, 0.80, '  Traditional (Cutting)', fontsize=14, fontweight='bold', ha='center',
            bbox=dict(boxstyle='round', facecolor='#ffcccc', alpha=0.8))
     
     # Traditional flow
     traditional_flow = [
         ('Raw Data', 0.75),
-        ('↓ Sample', 0.70),
+        ('  Sample', 0.70),
         ('Discretize', 0.65),
-        ('↓ Store', 0.60),
+        ('  Store', 0.60),
         ('Fixed Points', 0.55),
-        ('↓ Recall', 0.50),
-        ('❌ Loss of Info', 0.45)
+        ('  Recall', 0.50),
+        ('  Loss of Info', 0.45)
     ]
     
     for text, y in traditional_flow:
@@ -227,18 +227,18 @@ def create_concept_diagram():
                bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
     
     # Right side: Fractal approach
-    ax.text(0.85, 0.80, '🟢 Fractal (Folding)', fontsize=14, fontweight='bold', ha='center',
+    ax.text(0.85, 0.80, '  Fractal (Folding)', fontsize=14, fontweight='bold', ha='center',
            bbox=dict(boxstyle='round', facecolor='#ccffcc', alpha=0.8))
     
     # Fractal flow
     fractal_flow = [
         ('Raw Data', 0.75),
-        ('↓ Extract Pattern', 0.70),
+        ('  Extract Pattern', 0.70),
         ('Pattern DNA', 0.65),
-        ('↓ Store Seed', 0.60),
+        ('  Store Seed', 0.60),
         ('Tiny Formula', 0.55),
-        ('↓ Unfold', 0.50),
-        ('✅ Perfect Restore', 0.45)
+        ('  Unfold', 0.50),
+        ('  Perfect Restore', 0.45)
     ]
     
     for text, y in fractal_flow:
@@ -250,8 +250,8 @@ def create_concept_diagram():
            bbox=dict(boxstyle='round', facecolor='#ffffcc', alpha=0.8))
     
     differences = """
-    Traditional: Stores samples → Fixed resolution → Information loss
-    Fractal: Stores formula → Infinite resolution → Lossless
+    Traditional: Stores samples   Fixed resolution   Information loss
+    Fractal: Stores formula   Infinite resolution   Lossless
     
     Example:
     Traditional: "Record the sound wave"
@@ -264,7 +264,7 @@ def create_concept_diagram():
     
     # Bottom insight
     insight = """
-    💡 우리는 '압축기'가 아니라 '작곡가'입니다
+          '   '      '   '   
     We are not compressors; we are composers
     """
     ax.text(0.5, 0.05, insight, fontsize=11, ha='center', style='italic',
@@ -274,14 +274,14 @@ def create_concept_diagram():
     output_path = 'docs/images/fractal_quantization_concept.png'
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     plt.savefig(output_path, dpi=150, bbox_inches='tight')
-    print(f"   ✓ Concept diagram saved to: {output_path}")
+    print(f"     Concept diagram saved to: {output_path}")
     
     return output_path
 
 
 if __name__ == "__main__":
     print("="*70)
-    print("🌀 FRACTAL QUANTIZATION VISUALIZATION")
+    print("  FRACTAL QUANTIZATION VISUALIZATION")
     print("="*70)
     print()
     
@@ -290,7 +290,7 @@ if __name__ == "__main__":
     concept_path = create_concept_diagram()
     
     print("\n" + "="*70)
-    print("✅ Visualizations created successfully!")
-    print(f"   • Technical: {viz_path}")
-    print(f"   • Conceptual: {concept_path}")
+    print("  Visualizations created successfully!")
+    print(f"     Technical: {viz_path}")
+    print(f"     Conceptual: {concept_path}")
     print("="*70)

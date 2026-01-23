@@ -39,7 +39,7 @@ class ResonanceField:
     """
     def __init__(self, use_quantum: bool = True):
         self.use_quantum = use_quantum
-        logger.info(f"🌌 [RESONANCE] Field generated. Backend: {BACKEND}")
+        logger.info(f"  [RESONANCE] Field generated. Backend: {BACKEND}")
 
     def evaluate_resonance(self, 
                           intent_vec: jnp.ndarray, 
@@ -90,7 +90,7 @@ class ResonanceField:
         resonance = float(dot_product)
         dissonance = float(distance)
 
-        logger.info(f"🌌 [FIELD] Res: {resonance:.3f} | Diss: {dissonance:.3f} | Phase: {phase_shift:.3f} rad")
+        logger.info(f"  [FIELD] Res: {resonance:.3f} | Diss: {dissonance:.3f} | Phase: {phase_shift:.3f} rad")
         
         return KarmaState(resonance, dissonance, float(phase_shift), entropy)
 

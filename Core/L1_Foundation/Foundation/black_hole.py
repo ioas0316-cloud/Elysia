@@ -1,5 +1,5 @@
 """
-BlackHole (블랙홀)
+BlackHole (   )
 ==================
 
 "Gravity is the compression of Time."
@@ -22,7 +22,7 @@ class BlackHole:
         self.memory_file = "c:/Elysia/data/memory/fractal_memory.json"
         self.max_log_size = 1024 * 50 # 50KB
         self._ensure_memory_exists()
-        logger.info("🕳️ Black Hole Active. Ready to compress time into Fractal Memory.")
+        logger.info("   Black Hole Active. Ready to compress time into Fractal Memory.")
 
     def _ensure_memory_exists(self):
         if not os.path.exists(self.memory_file):
@@ -43,7 +43,7 @@ class BlackHole:
         if not self.check_compression_needed():
             return "No compression needed."
             
-        logger.info("🕳️ Event Horizon Reached. Initiating Compression...")
+        logger.info("   Event Horizon Reached. Initiating Compression...")
         
         try:
             with open(self.log_file, 'r', encoding='utf-8') as f:

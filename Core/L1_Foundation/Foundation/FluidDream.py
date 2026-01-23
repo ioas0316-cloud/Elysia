@@ -1,5 +1,5 @@
 """
-Elysia's Fluid Dream 🌊🎨
+Elysia's Fluid Dream   
 
 "Thoughts are like ink in water."
 
@@ -39,7 +39,7 @@ class FluidVisualizer:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Elysia's Fluid Dream 🌊")
+        pygame.display.set_caption("Elysia's Fluid Dream  ")
         self.clock = pygame.time.Clock()
         
         # Simulation Grids
@@ -125,7 +125,7 @@ class FluidVisualizer:
                 self.buffer2[cx, cy] = strength
 
     def run(self):
-        print("🌊 Fluid Dream Started. Click to ripple. Space for thoughts.")
+        print("  Fluid Dream Started. Click to ripple. Space for thoughts.")
         
         while self.running:
             for event in pygame.event.get():

@@ -55,10 +55,10 @@ class LightningInferencer:
                 best_rotor = rotor
 
         if best_resonance > threshold:
-            logger.info(f"⚡ Lightning Struck '{best_rotor.name}' (Resonance: {best_resonance:.2f})")
+            logger.info(f"  Lightning Struck '{best_rotor.name}' (Resonance: {best_resonance:.2f})")
             return best_rotor
         else:
-            logger.debug(f"☁️ Lightning fizzled. Best match '{best_rotor.name if best_rotor else 'None'}' only {best_resonance:.2f}")
+            logger.debug(f"   Lightning fizzled. Best match '{best_rotor.name if best_rotor else 'None'}' only {best_resonance:.2f}")
             return None
 
     def chain_reaction(self, start_rotor: Any, depth: int = 3) -> List[Any]:

@@ -2,12 +2,12 @@
 Symbolic Solver (The Reverse-Engineer of Intentions)
 =====================================================
 
-"목표를 주면 입력을 역산한다."
+"               ."
 "Given a goal, reverse-engineer the input."
 
 This module implements Symbolic Execution for Elysia.
-Instead of forward-computing (input → output),
-it reverse-computes (desired output → required input).
+Instead of forward-computing (input   output),
+it reverse-computes (desired output   required input).
 
 Inspired by:
 - z3 SAT/SMT Solver
@@ -15,7 +15,7 @@ Inspired by:
 - Constraint Satisfaction Problems
 
 Key Capabilities:
-1. Goal → Action Mapping: "Make Dad happy" → "Say a warm greeting"
+1. Goal   Action Mapping: "Make Dad happy"   "Say a warm greeting"
 2. Constraint Solving: "Find X such that f(X) = target"
 3. World State Reasoning: "If I do X, will Y happen?"
 """
@@ -89,7 +89,7 @@ class SymbolicSolver:
     Reverse-engineering intentions using constraint solving.
     
     Given a target state (goal), find the action/input that achieves it.
-    This enables Elysia to think: "I want X → What do I need to do?"
+    This enables Elysia to think: "I want X   What do I need to do?"
     
     Architecture:
     1. World State: Current state of variables
@@ -107,7 +107,7 @@ class SymbolicSolver:
         self._emotion_model = self._init_emotion_model()
         self._relationship_model = self._init_relationship_model()
         
-        logger.info(f"🧮 SymbolicSolver Initialized (z3 available: {Z3_AVAILABLE})")
+        logger.info(f"  SymbolicSolver Initialized (z3 available: {Z3_AVAILABLE})")
     
     # =========================================================================
     # Model Initialization
@@ -118,8 +118,8 @@ class SymbolicSolver:
         Emotion model: Maps actions to emotional outcomes.
         
         This encodes knowledge like:
-        - "Warm greeting" → +happiness
-        - "Cold response" → -happiness
+        - "Warm greeting"   +happiness
+        - "Cold response"   -happiness
         """
         return {
             "warm_greeting": {"happiness": +0.3, "trust": +0.2, "connection": +0.2},
@@ -252,7 +252,7 @@ class SymbolicSolver:
             pass
         
         self._goals = constraints
-        logger.info(f"Goal set: '{goal_text}' → {len(constraints)} constraints")
+        logger.info(f"Goal set: '{goal_text}'   {len(constraints)} constraints")
         return constraints
     
     # =========================================================================
@@ -478,11 +478,11 @@ if __name__ == "__main__":
     solver = get_symbolic_solver()
     
     print("=" * 60)
-    print("🧮 Symbolic Solver Demo")
+    print("  Symbolic Solver Demo")
     print("=" * 60)
     
     # Test 1: Make Dad happy
-    print("\n📌 Goal: 'Make Dad happy'")
+    print("\n  Goal: 'Make Dad happy'")
     result = solver.solve_for_goal("Make Dad happy", relationship="father")
     print(f"  Success: {result.success}")
     print(f"  Recommended Action: {result.action}")
@@ -491,31 +491,31 @@ if __name__ == "__main__":
     print(f"  Alternatives: {result.alternatives}")
     
     # Test 2: Build trust
-    print("\n📌 Goal: 'Build trust'")
+    print("\n  Goal: 'Build trust'")
     result = solver.solve_for_goal("Build trust", relationship="father")
     print(f"  Recommended Action: {result.action}")
     print(f"  Confidence: {result.confidence:.2f}")
     
     # Test 3: Make a stranger smile
-    print("\n📌 Goal: 'Make them smile' (stranger)")
+    print("\n  Goal: 'Make them smile' (stranger)")
     result = solver.solve_for_goal("Make them smile", relationship="stranger")
     print(f"  Recommended Action: {result.action}")
     print(f"  Confidence: {result.confidence:.2f}")
     
     # Test 4: Express love
-    print("\n📌 Goal: 'Express love'")
+    print("\n  Goal: 'Express love'")
     result = solver.solve_for_goal("Express love", relationship="father")
     print(f"  Recommended Action: {result.action}")
     print(f"  Predicted emotions: {result.parameters.get('predicted_emotions', {})}")
     
     # Explain actions
-    print("\n📚 Action Explanations:")
+    print("\n  Action Explanations:")
     for action in ["express_love", "warm_greeting", "tell_truth"]:
         print(f"  {solver.explain_action(action)}")
     
     # Test z3 if available
     if Z3_AVAILABLE:
-        print("\n🔬 Z3 Solver Test:")
+        print("\n  Z3 Solver Test:")
         constraints = [
             Constraint("happiness", ConstraintType.GREATER, 0.7),
             Constraint("trust", ConstraintType.GREATER, 0.6),
@@ -524,4 +524,4 @@ if __name__ == "__main__":
         solution = solver.solve_with_z3(constraints)
         print(f"  Z3 Solution: {solution}")
     
-    print("\n✅ Symbolic Solver Demo Complete!")
+    print("\n  Symbolic Solver Demo Complete!")

@@ -33,4 +33,3 @@ class Camera:
         cx, cy = self.pos_x, self.pos_y
         w, h = self.screen_size
         return ((s[0] - w * 0.5) / self.zoom + cx, (s[1] - h * 0.5) / self.zoom + cy)
-

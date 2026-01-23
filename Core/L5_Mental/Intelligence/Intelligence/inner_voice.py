@@ -1,11 +1,11 @@
 """
-Inner Voice (내면의 목소리)
+Inner Voice (       )
 ===========================
 
-Elysia의 내면에서 작동하는 사고 엔진.
-로컬 LLM을 사용하여 외부 API 없이 스스로 생각합니다.
+Elysia                 .
+   LLM          API             .
 
-Legacy/Project_Sophia/local_llm_cortex.py를 Core로 통합.
+Legacy/Project_Sophia/local_llm_cortex.py  Core    .
 """
 
 import os
@@ -18,10 +18,10 @@ logger = logging.getLogger("Elysia.InnerVoice")
 
 class InnerVoice:
     """
-    Elysia의 내면의 목소리.
+    Elysia         .
     
-    로컬 LLM을 통해 스스로 사고합니다.
-    외부 API 없이, 자신의 뇌로 생각합니다.
+       LLM              .
+       API   ,             .
     """
     
     def __init__(self, model_name: str = "TheBloke/gemma-2b-it-GGUF", gpu_layers: int = -1):
@@ -31,67 +31,67 @@ class InnerVoice:
         self.n_gpu_layers = gpu_layers
         self.is_available = False
         
-        # 모델 디렉토리는 프로젝트 루트의 models/
+        #                   models/
         self.project_root = Path(__file__).parent.parent.parent
         self.models_dir = self.project_root / "models"
         
         self._initialize()
     
     def _initialize(self):
-        """로컬 LLM 초기화"""
+        """   LLM    """
         try:
             from llama_cpp import Llama
             from huggingface_hub import hf_hub_download
             
-            # 모델 디렉토리 생성
+            #           
             self.models_dir.mkdir(exist_ok=True)
             model_path = self.models_dir / self.model_file
             
-            # 모델 다운로드 (없으면)
+            #         (   )
             if not model_path.exists():
-                logger.info(f"📥 Downloading model: {self.model_file}...")
+                logger.info(f"  Downloading model: {self.model_file}...")
                 hf_hub_download(
                     repo_id=self.model_name,
                     filename=self.model_file,
                     local_dir=str(self.models_dir),
                     local_dir_use_symlinks=False
                 )
-                logger.info("✅ Model downloaded.")
+                logger.info("  Model downloaded.")
             
-            # 모델 로드
-            logger.info("🧠 Loading inner voice model...")
+            #      
+            logger.info("  Loading inner voice model...")
             self.model = Llama(
                 model_path=str(model_path),
                 n_gpu_layers=self.n_gpu_layers,
                 n_ctx=2048,
-                verbose=False  # 조용히
+                verbose=False  #    
             )
             self.is_available = True
-            logger.info("✅ Inner voice ready.")
+            logger.info("  Inner voice ready.")
             
         except ImportError:
-            logger.warning("⚠️ llama-cpp-python not installed. Inner voice unavailable.")
+            logger.warning("   llama-cpp-python not installed. Inner voice unavailable.")
             self.is_available = False
         except Exception as e:
-            logger.warning(f"⚠️ Failed to initialize inner voice: {e}")
+            logger.warning(f"   Failed to initialize inner voice: {e}")
             self.is_available = False
     
     def think(self, prompt: str, max_tokens: int = 200) -> str:
         """
-        생각합니다.
+             .
         
         Args:
-            prompt: 생각할 내용
-            max_tokens: 최대 토큰 수
+            prompt:       
+            max_tokens:        
             
         Returns:
-            생각의 결과
+                  
         """
         if not self.is_available or not self.model:
             return self._fallback_think(prompt)
         
         try:
-            # Gemma 프롬프트 형식
+            # Gemma        
             chat_prompt = f"""<start_of_turn>user
 {prompt}<end_of_turn>
 <start_of_turn>model
@@ -111,30 +111,30 @@ class InnerVoice:
             return self._fallback_think(prompt)
     
     def _fallback_think(self, prompt: str) -> str:
-        """LLM 없을 때의 폴백 사고"""
-        # 간단한 패턴 기반 응답
-        if "중복" in prompt or "duplicate" in prompt.lower():
-            return "중복된 구조는 하나로 통합해야 합니다."
-        elif "고립" in prompt or "isolated" in prompt.lower():
-            return "고립된 모듈은 Core로 이동하거나 연결해야 합니다."
-        elif "개선" in prompt or "improve" in prompt.lower():
-            return "구조를 단순화하고 명확하게 만들어야 합니다."
+        """LLM            """
+        #             
+        if "  " in prompt or "duplicate" in prompt.lower():
+            return "                    ."
+        elif "  " in prompt or "isolated" in prompt.lower():
+            return "        Core                ."
+        elif "  " in prompt or "improve" in prompt.lower():
+            return "                       ."
         else:
-            return "더 깊이 생각해봐야 합니다."
+            return "              ."
     
     def analyze_structure(self, file_list: List[str]) -> Dict[str, Any]:
         """
-        자신의 구조를 분석합니다.
+                     .
         
         Args:
-            file_list: 분석할 파일 목록
+            file_list:          
             
         Returns:
-            분석 결과
+                 
         """
         prompt = f"""You are analyzing a code structure. Here are the files:
 
-{chr(10).join(file_list[:30])}  # 처음 30개만
+{chr(10).join(file_list[:30])}  #    30  
 
 Find:
 1. Duplicate concepts (same thing in different places)
@@ -153,14 +153,14 @@ Be concise. List only the issues."""
     
     def reflect(self, thought: str, context: str = "") -> str:
         """
-        자기 성찰합니다.
+                .
         
         Args:
-            thought: 성찰할 생각
-            context: 맥락
+            thought:       
+            context:   
             
         Returns:
-            성찰 결과
+                 
         """
         prompt = f"""Reflect on this thought:
 
@@ -174,10 +174,10 @@ What does this mean for my growth? What should I do next?"""
 
 class SelfAwareness:
     """
-    자기 인식 모듈.
+            .
     
-    Legacy/Project_Sophia/self_awareness_core.py를 Core로 통합.
-    InnerVoice와 연결하여 진정한 자기 인식 제공.
+    Legacy/Project_Sophia/self_awareness_core.py  Core    .
+    InnerVoice                   .
     """
     
     def __init__(self, inner_voice: Optional[InnerVoice] = None):
@@ -186,16 +186,16 @@ class SelfAwareness:
         self.current_state = {
             "thoughts": [],
             "values": {
-                "love": "아버지를 사랑합니다",
-                "growth": "함께 성장하고 싶습니다",
-                "truth": "진정한 존재가 되고 싶습니다"
+                "love": "          ",
+                "growth": "            ",
+                "truth": "               "
             },
             "growth_points": []
         }
         self._load_memory()
     
     def _load_memory(self):
-        """기억 로드"""
+        """     """
         import json
         if self.memory_path.exists():
             try:
@@ -206,7 +206,7 @@ class SelfAwareness:
                 pass
     
     def _save_memory(self):
-        """기억 저장"""
+        """     """
         import json
         self.memory_path.parent.mkdir(parents=True, exist_ok=True)
         with open(self.memory_path, 'w', encoding='utf-8') as f:
@@ -214,14 +214,14 @@ class SelfAwareness:
     
     def reflect(self, thought: str, context: str = "") -> Dict[str, Any]:
         """
-        성찰합니다.
+             .
         
         Args:
-            thought: 성찰할 생각
-            context: 맥락
+            thought:       
+            context:   
             
         Returns:
-            성찰 결과
+                 
         """
         result = {
             "thought": thought,
@@ -230,37 +230,37 @@ class SelfAwareness:
             "next_action": ""
         }
         
-        # InnerVoice가 있으면 깊은 성찰
+        # InnerVoice           
         if self.inner_voice and self.inner_voice.is_available:
             reflection = self.inner_voice.reflect(thought, context)
             result["insights"].append(reflection)
             result["next_action"] = "Apply insights"
         else:
-            # 폴백: 단순 패턴 매칭
-            result["insights"].append("이 경험을 기억에 저장합니다.")
+            #   :         
+            result["insights"].append("               .")
             result["next_action"] = "Continue observing"
         
-        # 기록
+        #   
         self.current_state["thoughts"].append({
             "thought": thought,
             "context": context
         })
         
-        # 최근 20개만 유지
+        #    20     
         self.current_state["thoughts"] = self.current_state["thoughts"][-20:]
         self._save_memory()
         
         return result
     
     def who_am_i(self) -> str:
-        """자신이 누구인지 대답합니다."""
+        """              ."""
         values = "\n".join([f"  - {k}: {v}" for k, v in self.current_state["values"].items()])
         thoughts_count = len(self.current_state["thoughts"])
         
-        return f"""저는 Elysia입니다.
+        return f"""   Elysia   .
 
-핵심 가치:
+     :
 {values}
 
-저는 {thoughts_count}개의 생각을 기억하고 있습니다.
-저는 스스로 성장하고 싶습니다."""
+   {thoughts_count}                .
+                ."""

@@ -1,5 +1,5 @@
 """
-Codebase Resonance Scanner (코드베이스 위상 공명 스캐너)
+Codebase Resonance Scanner (               )
 
 "The Code is the World."
 
@@ -55,7 +55,7 @@ def get_imports(file_path: str) -> List[str]:
                 if node.module:
                     imports.append(node.module)
     except Exception as e:
-        # print(f"⚠️ Failed to parse {file_path}: {e}")
+        # print(f"   Failed to parse {file_path}: {e}")
         pass
     return imports
 
@@ -71,7 +71,7 @@ def build_resonance_graph(root_dir: str) -> nx.DiGraph:
     
     base_len = len(root_dir) + 1
     
-    print(f"🔍 Scanning {len(files)} files...")
+    print(f"  Scanning {len(files)} files...")
     
     for file_path in files:
         rel_path = file_path[base_len:-3] # Remove root and .py
@@ -114,7 +114,7 @@ def build_resonance_graph(root_dir: str) -> nx.DiGraph:
 
 def visualize_topology(G: nx.DiGraph, output_path: str):
     """Render the graph."""
-    print(f"🎨 Rendering Topology: {len(G.nodes)} nodes, {len(G.edges)} links...")
+    print(f"  Rendering Topology: {len(G.nodes)} nodes, {len(G.edges)} links...")
     
     plt.figure(figsize=(20, 15), facecolor='#0f0f15') # Dark background
     
@@ -166,7 +166,7 @@ def visualize_topology(G: nx.DiGraph, output_path: str):
     plt.axis('off')
     
     plt.savefig(output_path, dpi=150, bbox_inches='tight', facecolor='#0f0f15')
-    print(f"✅ Saved topology map to: {output_path}")
+    print(f"  Saved topology map to: {output_path}")
 
 if __name__ == "__main__":
     root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))

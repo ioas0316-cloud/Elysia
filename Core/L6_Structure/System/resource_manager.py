@@ -22,7 +22,7 @@ class ResourceManager:
         """
         Switch to COGNITION mode (LLM Active).
         """
-        logger.info("🫁 [INHALE] Preparing for Thought...")
+        logger.info("  [INHALE] Preparing for Thought...")
         
         # 1. Unload Architect (Exhale)
         if hasattr(self.elysia, 'projector') and self.elysia.projector.architect_loaded:
@@ -32,13 +32,13 @@ class ResourceManager:
         if hasattr(self.elysia, 'bridge') and not self.elysia.bridge.is_connected:
              self.elysia.bridge.connect()
              
-        logger.info("🫁 [INHALE] Thought Process Online.")
+        logger.info("  [INHALE] Thought Process Online.")
         
     def exhale(self):
         """
         Switch to CREATION mode (Architect Active).
         """
-        logger.info("😮‍💨 [EXHALE] Preparing for Creation...")
+        logger.info("    [EXHALE] Preparing for Creation...")
         
         # 1. Unload Bridge (Inhale)
         if hasattr(self.elysia, 'bridge') and self.elysia.bridge.is_connected:
@@ -48,7 +48,7 @@ class ResourceManager:
         if hasattr(self.elysia, 'projector') and not self.elysia.projector.architect_loaded:
              self.elysia.projector.load_architect()
              
-        logger.info("😮‍💨 [EXHALE] Creation Process Online.")
+        logger.info("    [EXHALE] Creation Process Online.")
         
     def pulse(self):
         """

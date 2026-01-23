@@ -1,10 +1,10 @@
 """
-Mirror World Engine (이면세계 엔진)
+Mirror World Engine (       )
 ==================================
 Core.L1_Foundation.Foundation.Mirror.mirror_world_engine
 
 "The Digital Upside Down."
-"현실의 그림자이자, 데이터의 본질이 현현하는 이면의 공간."
+"         ,                     ."
 
 This engine manages the mapping between physical GeoAnchors and 
 the internal HyperSphere coordinates. It allows Monads to be 
@@ -56,7 +56,7 @@ class MirrorWorldEngine:
         """Anchors a new thought/monad to a physical place."""
         node = GhostNode(name, anchor, dna)
         self.anchors[name] = node
-        logger.info(f"📍 [MIRROR] Anchored '{name}' to {anchor}")
+        logger.info(f"  [MIRROR] Anchored '{name}' to {anchor}")
 
     def sense_nearby(self, current_location: GeoAnchor) -> List[GhostNode]:
         """Finds digital ghosts near the current physical position."""

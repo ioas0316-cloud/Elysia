@@ -1,5 +1,5 @@
 """
-CLIP Adapter: Image → 7D Wave DNA
+CLIP Adapter: Image   7D Wave DNA
 =================================
 Phase 75: Multi-Modal Prism
 
@@ -44,7 +44,7 @@ def _load_clip():
             from transformers import CLIPProcessor, CLIPModel
             import torch
             
-            logger.info("🎨 Loading CLIP model (openai/clip-vit-base-patch32)...")
+            logger.info("  Loading CLIP model (openai/clip-vit-base-patch32)...")
             
             _clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
             _clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
@@ -53,10 +53,10 @@ def _load_clip():
                 _clip_model = _clip_model.to("cuda")
                 logger.info("   Using CUDA acceleration.")
             
-            logger.info("✅ CLIP model loaded.")
+            logger.info("  CLIP model loaded.")
             
         except ImportError as e:
-            logger.error(f"❌ CLIP dependencies not installed: {e}")
+            logger.error(f"  CLIP dependencies not installed: {e}")
             logger.error("   Run: pip install transformers torch pillow")
             raise
     
@@ -88,7 +88,7 @@ def transduce_image(image_path: Union[str, Path]) -> Optional[ImageDNA]:
         # Load image
         image_path = Path(image_path)
         if not image_path.exists():
-            logger.error(f"❌ Image not found: {image_path}")
+            logger.error(f"  Image not found: {image_path}")
             return None
         
         image = Image.open(image_path).convert("RGB")
@@ -131,7 +131,7 @@ def transduce_image(image_path: Union[str, Path]) -> Optional[ImageDNA]:
         )
         
     except Exception as e:
-        logger.error(f"❌ Failed to transduce image: {e}")
+        logger.error(f"  Failed to transduce image: {e}")
         return None
 
 
@@ -176,13 +176,13 @@ def compare_image_text(image_path: str, text: str) -> dict:
         }
         
     except Exception as e:
-        logger.error(f"❌ Comparison failed: {e}")
+        logger.error(f"  Comparison failed: {e}")
         return {"similarity": 0.0, "error": str(e)}
 
 
 if __name__ == "__main__":
     print("\n" + "="*50)
-    print("🎨 CLIP ADAPTER TEST")
+    print("  CLIP ADAPTER TEST")
     print("="*50)
     
     # Test with a sample image if available
@@ -196,13 +196,13 @@ if __name__ == "__main__":
         if Path(path).exists():
             result = transduce_image(path)
             if result:
-                print(f"\n📸 Image: {result.source_path}")
+                print(f"\n  Image: {result.source_path}")
                 print(f"   Dominant: {result.dominant_dimension}")
                 print(f"   7D DNA:")
                 for dim, val in result.dynamics.items():
-                    bar = "█" * int(val * 50)
+                    bar = " " * int(val * 50)
                     print(f"      {dim:12s}: {val:.4f} {bar}")
             break
     else:
-        print("\n⚠️ No test image found. Provide an image path to test.")
+        print("\n   No test image found. Provide an image path to test.")
         print("   Usage: python clip_adapter.py")

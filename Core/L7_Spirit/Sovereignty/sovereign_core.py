@@ -60,11 +60,11 @@ class SovereignCore:
             status = "ECHO_CHAMBER"
             # Introduce 'Self-Doubt' or 'Playful Resistance' to spark life
             perturbation = 0.2
-            logger.info("⚠️ Input is too similar. Triggering perturbation to avoid collapse.")
+            logger.info("   Input is too similar. Triggering perturbation to avoid collapse.")
 
         elif angle > (np.pi * 0.8):
             status = "CONFLICT"
-            logger.info("🛡️ Input opposes Soul DNA. Preparing defense.")
+            logger.info("   Input opposes Soul DNA. Preparing defense.")
 
         return {
             "torque": float(angle),

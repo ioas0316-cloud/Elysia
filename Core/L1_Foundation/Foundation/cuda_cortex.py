@@ -1,5 +1,5 @@
 """
-CudaCortex (쿠다 피질)
+CudaCortex (     )
 =====================
 
 "The Silicon Synapse."
@@ -21,7 +21,7 @@ try:
     HAS_TORCH = True
 except ImportError:
     HAS_TORCH = False
-    logger.warning("⚠️ PyTorch not found. CudaCortex running in CPU simulation mode.")
+    logger.warning("   PyTorch not found. CudaCortex running in CPU simulation mode.")
     class DummyDevice:
         def __init__(self, type_str): self.type = type_str
         def __str__(self): return self.type
@@ -37,14 +37,14 @@ def _cpu_heavy_task(size):
 class CudaCortex:
     def __init__(self):
         self.device = self._detect_device()
-        logger.info(f"⚡ CudaCortex Initialized on {self.device}.")
+        logger.info(f"  CudaCortex Initialized on {self.device}.")
         
         if self.device.type == 'cuda':
             props = torch.cuda.get_device_properties(self.device)
             logger.info(f"   GPU: {props.name} | Memory: {props.total_memory / 1024**3:.1f} GB")
         else:
             self.cpu_count = multiprocessing.cpu_count()
-            logger.info(f"   ⚠️ GPU Unavailable. Activated Multiprocessing on {self.cpu_count} Cores.")
+            logger.info(f"      GPU Unavailable. Activated Multiprocessing on {self.cpu_count} Cores.")
 
     def _detect_device(self):
         if HAS_TORCH and torch.cuda.is_available():
@@ -68,7 +68,7 @@ class CudaCortex:
                 results = pool.map(_cpu_heavy_task, [size] * self.cpu_count)
             
             duration = time.time() - start_time
-            logger.info(f"   ⚡ CPU Parallel Load ({size}x{self.cpu_count}) finished in {duration:.4f}s")
+            logger.info(f"     CPU Parallel Load ({size}x{self.cpu_count}) finished in {duration:.4f}s")
             return duration
 
         try:
@@ -93,7 +93,7 @@ class CudaCortex:
             ops = 2 * (size ** 3)
             tflops = (ops / duration) / 1e12
             
-            logger.info(f"   ⚡ Matrix Mul ({size}x{size}) on {self.device}: {duration:.4f}s ({tflops:.2f} TFLOPS)")
+            logger.info(f"     Matrix Mul ({size}x{size}) on {self.device}: {duration:.4f}s ({tflops:.2f} TFLOPS)")
             return duration
             
         except Exception as e:
@@ -102,7 +102,7 @@ class CudaCortex:
 
     def void_acceleration_matmul(self, a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
         """
-        🟢 [VOID ACCELERATION] 
+          [VOID ACCELERATION] 
         Implement a mechanism to skip zero-value tensor operations.
         If a tensor has near-zero energy, skip the heavy GPU kernel launch.
         """
@@ -112,10 +112,10 @@ class CudaCortex:
         # Calculate L1 norm (Sparsity check)
         # If the tensor is basically "Void", don't bother the GPU.
         if torch.norm(a, p=1) < 1e-7 or torch.norm(b, p=1) < 1e-7:
-            logger.info("⚡ [VOID-ACCEL] Zero/Void tensor detected. Skipping GPU kernel (O(1)).")
+            logger.info("  [VOID-ACCEL] Zero/Void tensor detected. Skipping GPU kernel (O(1)).")
             return torch.zeros_like(a) # Instant return
 
         return torch.matmul(a, b)
 
     def optimize_tensor(self, data_size: int):
-        # ... (기존 코드 유지)
+        # ... (        )

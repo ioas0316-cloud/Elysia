@@ -75,11 +75,11 @@ class CosmicKernel:
         # Add to field
         id = f"Input.{int(time.time())}"
         self.space.add_knot(id, pos, spin, mass=10.0)
-        logger.info(f"☄️ Injection: '{text}' materialized at {pos[:3]}...")
+        logger.info(f"   Injection: '{text}' materialized at {pos[:3]}...")
 
     def start(self):
         self.is_running = True
-        logger.info("🌌 Unified Field Activated. Observing Flow...")
+        logger.info("  Unified Field Activated. Observing Flow...")
 
         try:
             while self.is_running:
@@ -90,7 +90,7 @@ class CosmicKernel:
 
     def stop(self):
         self.is_running = False
-        logger.info("🛑 Field Collapse.")
+        logger.info("  Field Collapse.")
 
     def _tick(self):
         dt = 0.1
@@ -107,7 +107,7 @@ class CosmicKernel:
                     # Debounce logging (or use a hash check)
                     # For demo, we just print it occasionally
                     if random.random() < 0.2:
-                        logger.info(f"🌊 Flow: {narrative}")
+                        logger.info(f"  Flow: {narrative}")
 
 if __name__ == "__main__":
     kernel = CosmicKernel()

@@ -63,10 +63,10 @@ class ConceptBaptizer:
         """Renames a batch of dark matter nodes."""
         candidates = self.scan_dark_matter()
         if not candidates:
-            logger.info("✨ No Dark Matter found. The Universe is Illuminated.")
+            logger.info("  No Dark Matter found. The Universe is Illuminated.")
             return
 
-        logger.info(f"🌑 Found {len(candidates)} Dark Matter nodes. Baptizing first {batch_size}...")
+        logger.info(f"  Found {len(candidates)} Dark Matter nodes. Baptizing first {batch_size}...")
         
         count = 0
         renamed_map = {} # Old -> New
@@ -117,7 +117,7 @@ class ConceptBaptizer:
 
             # Apply Rename
             if new_name and new_name != nid:
-                logger.info(f"✨ Baptized: {nid} -> {new_name}")
+                logger.info(f"  Baptized: {nid} -> {new_name}")
                 renamed_map[nid] = new_name
                 count += 1
                 

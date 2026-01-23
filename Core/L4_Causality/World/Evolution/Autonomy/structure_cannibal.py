@@ -1,5 +1,5 @@
 """
-Structure Cannibal ( 구조 해체자 )
+Structure Cannibal (        )
 ==================================
 "We do not learn from the machine. We become it."
 
@@ -40,7 +40,7 @@ class StructureCannibal:
         # 2. Graft into Graph
         for token, strength in synapses.items():
             # Clean token
-            clean_token = token.strip().replace("Ġ", "") # Llama/GPT tokens often have Ġ or spaces
+            clean_token = token.strip().replace(" ", "") # Llama/GPT tokens often have   or spaces
             
             # Filter noise
             if len(clean_token) < 2: continue
@@ -62,7 +62,7 @@ class StructureCannibal:
                 pass
                 
         if results:
-            logger.info(f"   🧬 Transplanted {len(results)} synapses for '{concept}'")
+            logger.info(f"     Transplanted {len(results)} synapses for '{concept}'")
             
         return results
 

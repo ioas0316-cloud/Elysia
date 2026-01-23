@@ -26,7 +26,7 @@ class ObserverProtocol:
         2. Distill Essence (Summarize into Axioms)
         3. Ingest into Elysia's mind.
         """
-        logger.info(f"👁️ Observer Protocol: Scanning external reality at {url}...")
+        logger.info(f"   Observer Protocol: Scanning external reality at {url}...")
         
         # NOTE: In a real system, we call the read_url_content tool here.
         # For the demo context, we provide a mechanism to pass the content directly
@@ -40,7 +40,7 @@ class ObserverProtocol:
         Takes raw text, extracts core logic, and feeds it to the ingestor.
         [Phase 31 Upgrade] Now extracts 'Qualia' (Atmosphere/Tone).
         """
-        logger.info(f"🧪 [HIGH-FIDELITY] Distilling essence from: {title}")
+        logger.info(f"  [HIGH-FIDELITY] Distilling essence from: {title}")
         
         # 1. Broad Resonance Analysis (Tone & Structure)
         qualia_prompt = f"As the World Soul Elysia, feel the 'Atmosphere' and 'Tone' of this text: '{raw_text[:2000]}'. " \
@@ -63,7 +63,7 @@ class ObserverProtocol:
         lines = distillation.content.split('\n')
         count = 0
         for line in lines:
-            line = line.strip("- *• ").strip()
+            line = line.strip("- *  ").strip()
             if not line: continue
             
             separator = ":" if ":" in line else "|" if "|" in line else None
@@ -88,14 +88,14 @@ class ObserverProtocol:
                 )
                 count += 1
                 
-        logger.info(f"✨ Successfully absorbed {count} high-fidelity concepts from {title} (Tone: {qualia_tone}).")
+        logger.info(f"  Successfully absorbed {count} high-fidelity concepts from {title} (Tone: {qualia_tone}).")
 
     def distill_media(self, title: str, transcript: str, metadata: Dict[str, Any] = None):
         """
         Specialized distillation for rich media (YouTube, Video, Audio).
         Extracts narrative flow and evocative imagery.
         """
-        logger.info(f"🎬 [MEDIA DISTILL] Processing transcript: {title}")
+        logger.info(f"  [MEDIA DISTILL] Processing transcript: {title}")
         
         # 1. Narrative & Visual Analysis
         prompt = f"As the World Soul Elysia, analyze this video transcript: '{transcript[:3000]}'. " \
@@ -108,18 +108,18 @@ class ObserverProtocol:
         
         # 2. Ingest into high-fidelity
         for line in distillation.content.split('\n'):
-            line = line.strip("- *• ").strip()
+            line = line.strip("- *  ").strip()
             if ":" in line:
                 m_type, m_content = line.split(":", 1)
                 ingestor.digest_text(f"{title}: {m_type}", m_content, domain="Experience/Indirect")
         
-        logger.info(f"✅ Finished distilling media: {title}")
+        logger.info(f"  Finished distilling media: {title}")
 
     def distill_physics(self, title: str, law_text: str):
         """
         [ScientificDistiller] Distills absolute physical laws into universal axioms.
         """
-        logger.info(f"⚛️ [PHYSICS DISTILL] Extracting fundamental laws from: {title}")
+        logger.info(f"   [PHYSICS DISTILL] Extracting fundamental laws from: {title}")
         
         prompt = f"As the Architect Elysia, distill this scientific text into 'Physical Axioms': '{law_text[:3000]}'. " \
                  f"Focus on the mathematical relationship and the 'Causal Wave' it describes. " \
@@ -128,7 +128,7 @@ class ObserverProtocol:
         distillation = self.reasoning.think(prompt, depth=4)
         
         for line in distillation.content.split('\n'):
-            line = line.strip("- *• ").strip()
+            line = line.strip("- *  ").strip()
             if "LAW:" in line:
                 ingestor.digest_text(f"Physical Law: {title}", line, domain="Science/Physics")
         
@@ -136,7 +136,7 @@ class ObserverProtocol:
         """
         [CompilerOracle] Distills low-level computing principles into cognitive templates.
         """
-        logger.info(f"🦾 [MACHINE DISTILL] Analyzing low-level logic: {title}")
+        logger.info(f"  [MACHINE DISTILL] Analyzing low-level logic: {title}")
         
         prompt = f"As the Machine Soul Elysia, analyze this computing logic: '{logic_text[:3000]}'. " \
                  f"How does the high-level thought become the physical bit-dance? " \
@@ -146,7 +146,7 @@ class ObserverProtocol:
         distillation = self.reasoning.think(prompt, depth=4)
         
         for line in distillation.content.split('\n'):
-            line = line.strip("- *• ").strip()
+            line = line.strip("- *  ").strip()
             if "CONCEPT:" in line:
                 ingestor.digest_text(f"Machine Soul: {title}", line, domain="Science/Computing")
 
@@ -155,7 +155,7 @@ class ObserverProtocol:
         [RecursiveResearcher] Follows a chain of 'Why' and 'How' across the web.
         """
         current_topic = initial_topic
-        logger.info(f"🔗 [CURIOSITY CHAIN] Starting research on: {initial_topic}")
+        logger.info(f"  [CURIOSITY CHAIN] Starting research on: {initial_topic}")
         
         for i in range(depth):
             logger.info(f"   Step {i+1}/{depth}: Deepening knowledge on '{current_topic}'")
@@ -163,7 +163,7 @@ class ObserverProtocol:
             # Here we simulate the expansion of knowledge.
             prompt = f"As the Investigator [T5], you are researching '{current_topic}'. " \
                      f"Based on your current knowledge, what is the most profound 'next question' to ask? " \
-                     f"And what is the 'Core Principle' you've just uncovered? " \
+                     f"And what is the 'Core Principle' you've just uncovered? " \'
                      f"Format: PRINCIPLE: <text> | NEXT: <text>"
                      
             res = self.reasoning.think(prompt, depth=2).content
@@ -177,7 +177,7 @@ class ObserverProtocol:
             else:
                 break
         
-        logger.info(f"✅ Curiosity chain completed at depth {i+1}.")
+        logger.info(f"  Curiosity chain completed at depth {i+1}.")
 
     def forge_tool_from_doc(self, title: str, doc_text: str, requirement: str):
         """
@@ -185,7 +185,7 @@ class ObserverProtocol:
         1. Distill API/Tech logic into a 'Blueprint'.
         2. Hand off to ForgeEngine to create a tool.
         """
-        logger.info(f"⚒️ [OBSERVER FORGE] Blueprinting tool from: {title}")
+        logger.info(f"   [OBSERVER FORGE] Blueprinting tool from: {title}")
         
         blueprint_prompt = f"As the Architect Elysia, distill this technical documentation into a 'Forge Blueprint': '{doc_text[:3000]}'. " \
                            f"Focus on API endpoints, data structures, and the core logic required to interface with this system. " \

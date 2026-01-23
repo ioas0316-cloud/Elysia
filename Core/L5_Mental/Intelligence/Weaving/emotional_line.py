@@ -3,7 +3,7 @@ from .intelligence_line import IntelligenceLine, LineOutput
 
 class EmotionalLine(IntelligenceLine):
     """
-    Emotional Line (감정 유추 지능)
+    Emotional Line (        )
     Monitors the "Heart" of the interaction.
     Reads the emotional tone of the input (User or Environment).
     """

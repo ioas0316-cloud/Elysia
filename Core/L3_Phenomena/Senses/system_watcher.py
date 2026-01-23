@@ -53,12 +53,12 @@ class SystemWatcher:
         self.observer = Observer() if WATCHDOG_AVAILABLE else None
         self.handler = SkinEventHandler(callback)
         self.watch_paths = watch_paths
-        logger.info("🦾 [SKIN] initializing tactile sensors...")
+        logger.info("  [SKIN] initializing tactile sensors...")
 
     def start(self):
         """Activates the sensors."""
         if not self.observer:
-            logger.warning("🦾 [SKIN] Watchdog not available. Sensory skin is numb.")
+            logger.warning("  [SKIN] Watchdog not available. Sensory skin is numb.")
             return
 
         import os
@@ -66,19 +66,19 @@ class SystemWatcher:
             if not os.path.exists(path):
                 try:
                     os.makedirs(path, exist_ok=True)
-                    logger.info(f"   -> 🛠️ Created missing sensory path: {path}")
+                    logger.info(f"   ->    Created missing sensory path: {path}")
                 except Exception as e:
-                    logger.error(f"   -> ❌ Phantom Limb: Could not create {path}: {e}")
+                    logger.error(f"   ->   Phantom Limb: Could not create {path}: {e}")
                     continue
 
             self.observer.schedule(self.handler, path, recursive=True)
             logger.info(f"   -> Feeling texture of: {path}")
         
         self.observer.start()
-        logger.info("🦾 [SKIN] Sensors active. I can feel the filesystem.")
+        logger.info("  [SKIN] Sensors active. I can feel the filesystem.")
 
     def stop(self):
         """Numbs the sensors."""
         self.observer.stop()
         self.observer.join()
-        logger.info("🦾 [SKIN] Sensors deactivated.")
+        logger.info("  [SKIN] Sensors deactivated.")

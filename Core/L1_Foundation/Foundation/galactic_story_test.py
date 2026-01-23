@@ -14,7 +14,7 @@ from Core.L1_Foundation.Foundation.resonance_grammar import CosmicSyntaxEngine
 
 def main():
     print("\n" + "="*70)
-    print("🌌 Galactic Story Test")
+    print("  Galactic Story Test")
     print("="*70 + "\n")
     
     engine = CosmicSyntaxEngine()
@@ -32,9 +32,9 @@ def main():
     
     expected = "Love creates Bonds and Trust enables Cooperation."
     if expected in nebula_text:
-        print("✅ SUCCESS: Nebula woven correctly.")
+        print("  SUCCESS: Nebula woven correctly.")
     else:
-        print(f"❌ FAILED: Expected '{expected}', got '{nebula_text}'")
+        print(f"  FAILED: Expected '{expected}', got '{nebula_text}'")
 
     # 2. Test Nebula Weaving (Korean)
     print("\n2. Testing Nebula Weaving (Korean)...")
@@ -42,17 +42,17 @@ def main():
     nebula_text_kr = engine.weave_nebula([thought1, thought2], medium="and")
     print(f"Nebula (KR): {nebula_text_kr}")
     
-    # Expected: 사랑하다...만들다 그리고 신뢰...가능하게 하다.
+    # Expected:     ...          ...       .
     # Note: 'Trust' -> 'Trust' (if not in lexicon), 'Cooperation' -> 'Cooperation'
-    # 'Enables' -> '가능하게 하다' (mapped in language_projector)
+    # 'Enables' -> '       ' (mapped in language_projector)
     
-    if "사랑하다" in nebula_text_kr and "그리고" in nebula_text_kr and "가능하게 하다" in nebula_text_kr:
-        print("✅ SUCCESS: Korean Nebula woven correctly.")
+    if "    " in nebula_text_kr and "   " in nebula_text_kr and "       " in nebula_text_kr:
+        print("  SUCCESS: Korean Nebula woven correctly.")
     else:
-        print("❌ FAILED: Korean Nebula incorrect.")
+        print("  FAILED: Korean Nebula incorrect.")
 
     print("\n" + "="*70)
-    print("✅ Galactic Story Test Complete")
+    print("  Galactic Story Test Complete")
     print("="*70 + "\n")
 
 if __name__ == "__main__":

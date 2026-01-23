@@ -1,5 +1,5 @@
 """
-SYNESTHESIA CIRCUIT (공감각 회로)
+SYNESTHESIA CIRCUIT (      )
 ================================
 Phase 10: The Crossing
 
@@ -24,7 +24,7 @@ class SynesthesiaCircuit:
         """
         Translates a concept (e.g., 'Red') into a target sensory experience.
         """
-        logger.info(f"🌈 [Synesthesia] Translating '{input_concept}' to {target_modality}...")
+        logger.info(f"  [Synesthesia] Translating '{input_concept}' to {target_modality}...")
         
         # 1. Retrieve Input Vector
         # We assume the concept exists or we generate it via Bridge
@@ -68,7 +68,7 @@ class SynesthesiaCircuit:
                 results.append((param_id, score))
                 
         if results:
-            logger.info(f"✨ Synesthesia Triggered: '{input_concept}' sounds like {results[:3]}")
+            logger.info(f"  Synesthesia Triggered: '{input_concept}' sounds like {results[:3]}")
         else:
             logger.info("   (No cross-modal association found yet)")
             

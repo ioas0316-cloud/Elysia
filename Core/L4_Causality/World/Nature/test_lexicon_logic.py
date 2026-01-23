@@ -1,7 +1,7 @@
 """
 Test: Lexicon Logic (Korean)
 ============================
-Verifies that the Lexicon can find '파도' (Wave) in a Korean sentence.
+Verifies that the Lexicon can find '  ' (Wave) in a Korean sentence.
 """
 import sys
 import os
@@ -14,7 +14,7 @@ def test_logic():
     lexicon = TrinityLexicon("dummy.json")
     
     # 1. The Text (From Wikipedia Log)
-    text = "쓰나미는 일본어로 항구(tsu)와 파도(nami)가 합쳐진 단어."
+    text = "            (tsu)    (nami)        ."
     print(f"Input: {text}")
     
     # 2. Analyze
@@ -31,9 +31,9 @@ def test_logic():
     print(f"Result: G{vector.gravity} F{vector.flow} A{vector.ascension}")
     
     if vector.gravity > 0 or vector.flow > 0:
-        print("✅ Analysis Successful: Found the concept.")
+        print("  Analysis Successful: Found the concept.")
     else:
-        print("❌ Analysis Failed: Zero Vector.")
+        print("  Analysis Failed: Zero Vector.")
         
         # Debug: Check logic manually
         print("Debug: Checking primitives...")

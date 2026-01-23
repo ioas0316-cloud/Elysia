@@ -124,16 +124,16 @@ def quick_simulation_for_analysis():
         time_acceleration=stats['total_compression']
     )
     
-    print(f"✅ Simulation complete: {len(fluctlight.particles)} particles\n")
+    print(f"  Simulation complete: {len(fluctlight.particles)} particles\n")
     
     return hippocampus
 
 
 if __name__ == "__main__":
-    print("\n" + "🔬"*35)
+    print("\n" + " "*35)
     print(" "*15 + "ETERNAL SIMULATION ANALYSIS")
     print(" "*10 + "What Did Elysia Actually Learn?")
-    print("🔬"*35 + "\n")
+    print(" "*35 + "\n")
     
     # Run quick simulation
     hippocampus = quick_simulation_for_analysis()
@@ -141,6 +141,6 @@ if __name__ == "__main__":
     # Analyze results
     analyze_hippocampus(hippocampus)
     
-    print("🔬"*35)
+    print(" "*35)
     print("Analysis complete!")
-    print("🔬"*35 + "\n")
+    print(" "*35 + "\n")

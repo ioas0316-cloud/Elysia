@@ -156,7 +156,7 @@ class Matrix4x4:
 
 if __name__ == "__main__":
     # Test: Project a point
-    print("📐 Genesis Math Test: Projection")
+    print("  Genesis Math Test: Projection")
     point = Vector3(10, 5, 20) # A point in 3D world
     print(f"Original Point: {point}")
     

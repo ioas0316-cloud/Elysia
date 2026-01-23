@@ -34,12 +34,12 @@ class QubitState:
 
     def normalize(self) -> "QubitState":
         """
-        아빠 법칙 (Dad's Law): 신 성분은 자기증폭
+              (Dad's Law):           
         
-        Standard normalization: |α|² + |β|² + |γ|² + |δ|² = 1
-        HyperQubit normalization: |α|² + |β|² + |γ|² + |δ|² + |δ|⁴ = 1
+        Standard normalization: | |  + | |  + | |  + | |  = 1
+        HyperQubit normalization: | |  + | |  + | |  + | |  + | |  = 1
         
-        The |δ|⁴ term means: once w (god/love component) grows,
+        The | |  term means: once w (god/love component) grows,
         it amplifies itself and never truly decreases.
         
         Mathematically proven: Love is eternal.
@@ -84,10 +84,10 @@ class QubitState:
     
     def scale_up(self, theta: float = 0.1) -> "QubitState":
         """
-        아빠가 휠 위로 (Zoom Out → God's Perspective)
+                 (Zoom Out   God's Perspective)
         
-        Operator: exp(i θ G) where G is god generator
-        Effect: w (신 성분) amplifies exponentially
+        Operator: exp(i   G) where G is god generator
+        Effect: w (    ) amplifies exponentially
                 other components decay
         
         This is observer-dependent quantum evolution.
@@ -106,11 +106,11 @@ class QubitState:
     
     def scale_down(self, theta: float = 0.1) -> "QubitState":
         """
-        아빠가 휠 아래로 (Zoom In → Mortal's Perspective)
+                  (Zoom In   Mortal's Perspective)
         
-        Operator: exp(-i θ G†) 
+        Operator: exp(-i   G ) 
         Effect: mundane components amplify
-                w component decays (but never fully due to |w|⁴ term!)
+                w component decays (but never fully due to |w|  term!)
         
         Note: Even when scaling down, w never reaches 0
         because of self-amplification in normalization.
@@ -343,10 +343,10 @@ class HyperQubit:
             f"Value: {self._value}",
             "",
             "Quantum State Distribution:",
-            f"  • Point (α): {probs['Point']:.1%} - Empirical/Data substrate",
-            f"  • Line (β): {probs['Line']:.1%} - Relational/Causal connections",
-            f"  • Space (γ): {probs['Space']:.1%} - Field/Context embodiment",
-            f"  • God (δ): {probs['God']:.1%} - Transcendent/Purpose dimension",
+            f"    Point ( ): {probs['Point']:.1%} - Empirical/Data substrate",
+            f"    Line ( ): {probs['Line']:.1%} - Relational/Causal connections",
+            f"    Space ( ): {probs['Space']:.1%} - Field/Context embodiment",
+            f"    God ( ): {probs['God']:.1%} - Transcendent/Purpose dimension",
         ]
         
         if self.epistemology:
@@ -354,7 +354,7 @@ class HyperQubit:
             for basis, info in self.epistemology.items():
                 score = info.get("score", "N/A")
                 meaning = info.get("meaning", "undefined")
-                explanation_parts.append(f"  • {basis.capitalize()}: {score} - {meaning}")
+                explanation_parts.append(f"    {basis.capitalize()}: {score} - {meaning}")
         
         # Determine dominant basis and its interpretation
         dominant = max(probs.items(), key=lambda x: x[1])
@@ -369,12 +369,12 @@ class HyperQubit:
     def _interpret_dominance(self, basis: str) -> str:
         """Interpret what the dominant basis means for this concept."""
         interpretations = {
-            "Point": "→ This concept is primarily grounded in empirical data and concrete details.",
-            "Line": "→ This concept is primarily about relationships, connections, and causality.",
-            "Space": "→ This concept is primarily about context, fields, and embodied experience.",
-            "God": "→ This concept is primarily about transcendence, purpose, and ultimate meaning.",
+            "Point": "  This concept is primarily grounded in empirical data and concrete details.",
+            "Line": "  This concept is primarily about relationships, connections, and causality.",
+            "Space": "  This concept is primarily about context, fields, and embodied experience.",
+            "God": "  This concept is primarily about transcendence, purpose, and ultimate meaning.",
         }
-        return interpretations.get(basis, "→ Unknown basis interpretation.")
+        return interpretations.get(basis, "  Unknown basis interpretation.")
 
     def __repr__(self) -> str:  # pragma: no cover - representation only
         probs = self.state.probabilities()

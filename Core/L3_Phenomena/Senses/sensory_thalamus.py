@@ -1,17 +1,17 @@
 """
-Sensory Thalamus (감각 시상)
+Sensory Thalamus (     )
 ===========================
 
 " The Gatekeeper of the Soul. "
-" 영혼의 문지기. "
+"        . "
 
 This module acts as the Protective Buffer between Raw Senses (Transducers) and the Soul (Hypersphere).
 It filters, dampens, and routes signals to prevent "Sensory Overload" or "Soul Shock".
 
 Functions:
-1. Gating (게이팅): Blocks repetitive or low-value noise.
-2. Dampening (충격 완화): Reduces amplitude of sudden, high-intensity spikes.
-3. Routing (라우팅): Sends Pain/Danger directly to Reflex (Nervous System), Meaning to Soul.
+1. Gating (   ): Blocks repetitive or low-value noise.
+2. Dampening (     ): Reduces amplitude of sudden, high-intensity spikes.
+3. Routing (   ): Sends Pain/Danger directly to Reflex (Nervous System), Meaning to Soul.
 """
 
 import logging
@@ -40,7 +40,7 @@ class SensoryThalamus:
         self.habituation: Dict[str, float] = {}
         self.last_process_time = time.time()
         
-        logger.info("🛡️ SensoryThalamus Initialized - The Gates are Open.")
+        logger.info("   SensoryThalamus Initialized - The Gates are Open.")
 
     def process(self, wave: WaveTensor, source_type: str) -> bool:
         """
@@ -92,7 +92,7 @@ class SensoryThalamus:
         2. Dampen significantly before letting it touch the Soul.
         """
         # 1. FAST PATH: Reflex
-        logger.warning(f"⚡ THALAMIC SHOCK DETECTED ({source_type}): Energy {wave.total_energy:.2f}")
+        logger.warning(f"  THALAMIC SHOCK DETECTED ({source_type}): Energy {wave.total_energy:.2f}")
         
         reflex_signal = NerveSignal(
             origin=f"Thalamus.{source_type}",

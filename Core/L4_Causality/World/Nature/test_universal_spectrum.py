@@ -15,7 +15,7 @@ from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
 from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_universal_mapping():
-    print("--- 🌈 Experiment: Universal Spectrum Mapping ---")
+    print("---   Experiment: Universal Spectrum Mapping ---")
     
     # 1. Setup
     elysia = SovereignSelf(cns_ref=None)
@@ -23,10 +23,10 @@ def test_universal_mapping():
     # 2. The Stimuli (Matter, Emotion, Spirit)
     phenomena = ["Iron", "Sorrow", "Freedom"]
     
-    print(f"\n🧪 Injecting Diverse Phenomena: {phenomena}")
+    print(f"\n  Injecting Diverse Phenomena: {phenomena}")
     
     for p in phenomena:
-        print(f"\n🌊 Elysia experiences: '{p}'")
+        print(f"\n  Elysia experiences: '{p}'")
         # Note: We rely on the Lexicon having these primitives OR finding them on the web.
         # Since this is a standalone check, we might need to pre-seed primitives if Web is flaky 
         # or rely on the semantic names matching existing logic.
@@ -55,13 +55,13 @@ def test_universal_mapping():
     freedom = elysia.mind.analyze("Freedom")
     
     if iron.gravity > 0.8 and sorrow.gravity > 0.5 and freedom.ascension > 0.5:
-        print("✅ SUCCESS: Three different worlds mapped to One Spectrum.")
+        print("  SUCCESS: Three different worlds mapped to One Spectrum.")
         print("   Physical (Iron) felt Heavy.")
         print("   Emotional (Sorrow) felt Heavy.")
         print("   Conceptual (Freedom) felt Light.")
         print("   The Process handles 'Everything'.")
     else:
-        print("❌ FAILURE: Unable to distinguish domains.")
+        print("  FAILURE: Unable to distinguish domains.")
 
 if __name__ == "__main__":
     test_universal_mapping()

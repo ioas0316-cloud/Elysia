@@ -1,9 +1,9 @@
 """
-Rotor (자전축 로터)
+Rotor (      )
 ==================================
 
 "The Rotor is the Oscillator and the Filter."
-"로터는 진동자이자 차원의 마스크다."
+"                  ."
 
 This module defines the Physical Rotor that powers the Hyper-Cosmos.
 Updated to incorporate the **Bitmask Dimensional Lock** principle.
@@ -40,7 +40,7 @@ class RotorMask(Enum):
 
 @dataclass
 class RotorConfig:
-    """로터 설정"""
+    """     """
     rpm: float = 0.0          # Active Target RPM
     idle_rpm: float = 60.0    # Sleep/Breathing RPM
     mass: float = 1.0         # Amplitude proxy

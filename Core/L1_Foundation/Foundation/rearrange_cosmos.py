@@ -2,7 +2,7 @@ from Core.L1_Foundation.Foundation.Mind.hippocampus import Hippocampus
 from Core.L1_Foundation.Foundation.Mind.topological_resonance import TopologicalResonanceSystem
 
 def main():
-    print("🌀 Elysia Topological Resonance System 🌀")
+    print("  Elysia Topological Resonance System  ")
     print("=========================================")
     
     # Initialize Mind
@@ -12,16 +12,16 @@ def main():
     # Define the Master Plan (The Structural Wave)
     # These keywords will become the "Pillars" of the new universe.
     master_plan = [
-        "Core",         # 핵심
-        "Interface",    # 인터페이스
-        "Intelligence", # 지능
-        "Memory",       # 기억
-        "Creativity",   # 창의성
-        "Ethics",       # 윤리
-        "System",       # 시스템
-        "Evolution",    # 진화
-        "User",         # 사용자
-        "Elysia"        # 엘리시아 (Self)
+        "Core",         #   
+        "Interface",    #      
+        "Intelligence", #   
+        "Memory",       #   
+        "Creativity",   #    
+        "Ethics",       #   
+        "System",       #    
+        "Evolution",    #   
+        "User",         #    
+        "Elysia"        #      (Self)
     ]
     
     # Execute Alignment

@@ -18,7 +18,7 @@ from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import
 from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
 
 def run_thought_experiment(concept: str):
-    print(f"\n💭 Thinking about: '{concept}'")
+    print(f"\n  Thinking about: '{concept}'")
     print("-" * 40)
     
     mind = IntegratedCognitionSystem()
@@ -37,8 +37,8 @@ def run_thought_experiment(concept: str):
     # 3. Think (and Speak)
     result = mind.think_deeply()
     
-    print(f"🌊 Internal State: Energy={result['total_energy']:.2f}, Active={result['active_thought_count']}")
-    print(f"🗣️  Monologue: \"{result['monologue']}\"")
+    print(f"  Internal State: Energy={result['total_energy']:.2f}, Active={result['active_thought_count']}")
+    print(f"    Monologue: \"{result['monologue']}\"")
 
 if __name__ == "__main__":
     run_thought_experiment("The secrets of the universe")

@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class KnowledgeNode:
-    """공간 인덱스의 단일 노드 (파일 또는 개념)"""
+    """              (        )"""
     id: str
     path: str
     type: str  # 'memory', 'logic', 'sensory', 'meta'
@@ -25,7 +25,7 @@ class KnowledgeNode:
 
 class SpatialIndexer:
     """
-    파편화된 파일들을 하나의 '공간(Space)'으로 통합하는 인덱서
+                  '  (Space)'           
     """
     def __init__(self, root_dir: str = "c:/Elysia/data"):
         self.root_dir = root_dir
@@ -38,8 +38,8 @@ class SpatialIndexer:
         }
     
     def scan_universe(self) -> Dict[str, Any]:
-        """전체 데이터 디렉토리를 스캔하여 공간 지도를 생성"""
-        print(f"🔭 Scanning Thought Universe at {self.root_dir}...")
+        """                           """
+        print(f"  Scanning Thought Universe at {self.root_dir}...")
         
         start_time = time.time()
         self.index = {}
@@ -82,11 +82,11 @@ class SpatialIndexer:
         }
 
     def save_index(self, output_path: str = "c:/Elysia/data/unified_spatial_index.json"):
-        """인덱스를 저장 (The Map)"""
+        """        (The Map)"""
         data = self.scan_universe()
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-        print(f"🗺️ Spatial Index saved to {output_path} ({data['total_nodes']} nodes)")
+        print(f"   Spatial Index saved to {output_path} ({data['total_nodes']} nodes)")
 
 # Singleton
 _indexer = None

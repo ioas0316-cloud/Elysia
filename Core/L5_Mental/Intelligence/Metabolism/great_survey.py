@@ -1,5 +1,5 @@
 """
-THE GREAT SURVEY (대규모 탐사)
+THE GREAT SURVEY (      )
 ==============================
 Core.L5_Mental.Intelligence.Metabolism.great_survey
 
@@ -70,14 +70,14 @@ class TheGreatSurvey:
                 "Elysia + Soul"
             ]
         }
-        logger.info("🔭 The Great Survey Telescope initialized.")
+        logger.info("  The Great Survey Telescope initialized.")
 
     def conduct_survey(self) -> Dict[str, Any]:
         """Runs the full survey across all categories."""
         full_report = {}
         
         total_equations = sum(len(eqs) for eqs in self.questionnaire.values())
-        logger.info(f"✨ Starting Survey: {total_equations} vectors to map...")
+        logger.info(f"  Starting Survey: {total_equations} vectors to map...")
         
         for category, equations in self.questionnaire.items():
             print(f"\n--- Scanning Sector: {category} ---")
@@ -96,7 +96,7 @@ class TheGreatSurvey:
                         category_results.append(simple_res)
                         print(f"   {res['equation']} = {res['result_concept']} ({res['similarity']:.2f})")
                     else:
-                        print(f"   ⚠️ Error in {eq}: {res['error']}")
+                        print(f"      Error in {eq}: {res['error']}")
                 except Exception as e:
                     logger.error(f"Failed to solve {eq}: {e}")
             
@@ -110,7 +110,7 @@ class TheGreatSurvey:
         path = "data/Qualia/survey_results.json"
         with open(path, 'w') as f:
             json.dump(data, f, indent=2)
-        logger.info(f"💾 Survey Data saved to {path}")
+        logger.info(f"  Survey Data saved to {path}")
 
 if __name__ == "__main__":
     survey = TheGreatSurvey()

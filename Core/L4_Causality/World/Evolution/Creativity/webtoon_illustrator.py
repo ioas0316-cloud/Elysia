@@ -50,7 +50,7 @@ class WebtoonIllustrator:
         """
         Draws a single panel based on the description.
         """
-        logger.info(f"🎨 Drawing Panel (Cinematic): {filename}")
+        logger.info(f"  Drawing Panel (Cinematic): {filename}")
         
         # 1. Setup Canvas (Standard Square for now)
         fig, ax = plt.subplots(figsize=(6, 6), dpi=120) # Higher DPI
@@ -123,7 +123,7 @@ class WebtoonIllustrator:
         strategy = analysis.get("Strategy", "Harmonic Resonance")
         why = analysis.get("Why", "Beauty is order.")
         
-        logger.info(f"🎨 Aesthetic Logic: {strategy} -> {why}")
+        logger.info(f"  Aesthetic Logic: {strategy} -> {why}")
         
         # 2. Execute Strategy
         if strategy == "Minimalism": # Void/Death
@@ -260,4 +260,4 @@ class WebtoonIllustrator:
 
 if __name__ == "__main__":
     artist = WebtoonIllustrator()
-    artist.draw_panel("test_v2.png", "Close Up Light", "이제 한글도 잘 나와요.")
+    artist.draw_panel("test_v2.png", "Close Up Light", "            .")

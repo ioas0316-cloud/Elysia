@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 
 def main():
     print("\n" + "="*70)
-    print("🧠 Reasoning Grammar Test")
+    print("  Reasoning Grammar Test")
     print("="*70 + "\n")
     
     engine = ReasoningEngine()
@@ -42,9 +42,9 @@ def main():
     print(f"Structured Output: {response}")
     
     if response and "[Love ... Bonds]" in response:
-        print("✅ SUCCESS: Structure applied correctly.")
+        print("  SUCCESS: Structure applied correctly.")
     else:
-        print("❌ FAILED: Structure not applied.")
+        print("  FAILED: Structure not applied.")
 
     # Case B: Unknown Concepts
     thought_content = "The Chaos is unpredictable."
@@ -61,7 +61,7 @@ def main():
     # we rely on the unit test above for logic verification.
     
     print("\n" + "="*70)
-    print("✅ Reasoning Grammar Test Complete")
+    print("  Reasoning Grammar Test Complete")
     print("="*70 + "\n")
 
 if __name__ == "__main__":

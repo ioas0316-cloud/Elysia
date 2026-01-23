@@ -39,7 +39,7 @@ class FractalLearner:
         """
         Recursively learns concepts starting from seeds.
         """
-        print(f"🌱 Planting Seeds: {seeds}")
+        print(f"  Planting Seeds: {seeds}")
         
         queue = seeds.copy()
         count = 0
@@ -65,7 +65,7 @@ class FractalLearner:
                     try:
                         related_concepts = future.result()
                         count += 1
-                        print(f"⚡ Learned: {concept} -> Found {len(related_concepts)} related")
+                        print(f"  Learned: {concept} -> Found {len(related_concepts)} related")
                         
                         # Add related concepts to queue
                         for rc in related_concepts:
@@ -73,9 +73,9 @@ class FractalLearner:
                                 queue.append(rc)
                                 
                     except Exception as e:
-                        print(f"❌ Failed to learn {concept}: {e}")
+                        print(f"  Failed to learn {concept}: {e}")
                         
-        print(f"🌳 Fractal Growth Complete. Learned {count} new concepts.")
+        print(f"  Fractal Growth Complete. Learned {count} new concepts.")
 
     def _learn_single(self, concept: str) -> List[str]:
         """

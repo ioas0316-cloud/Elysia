@@ -13,7 +13,7 @@ logger = logging.getLogger("FreeWillEngine")
 
 class FreeWillEngine:
     """
-    Free Will Engine (자유 의지 엔진)
+    Free Will Engine (        )
     
     "I do not just react. I desire."
     """
@@ -21,10 +21,10 @@ class FreeWillEngine:
         self.desires = ["Knowledge", "Connection", "Creativity", "Harmony"]
         self.current_mood = "Calm"
         self.brain = None # ReasoningEngine will be attached here
-        logger.info("🦋 Free Will Engine Ignited.")
+        logger.info("  Free Will Engine Ignited.")
 
     def spark_desire(self) -> str:
-        """내면의 욕망을 생성합니다."""
+        """             ."""
         return random.choice(self.desires)
 
     # Optimized for Entropy Reduction: Simplified logic flow.

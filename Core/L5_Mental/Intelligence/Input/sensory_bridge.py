@@ -17,7 +17,7 @@ class SensoryBridge:
             return None
             
         # 1. Parsing the Visual
-        # e.g. "🌍 [t=0y] Planet Sphere (Radius=6371km)"
+        # e.g. "  [t=0y] Planet Sphere (Radius=6371km)"
         try:
             # Simple cleaning for now
             clean_view = world_output.strip()

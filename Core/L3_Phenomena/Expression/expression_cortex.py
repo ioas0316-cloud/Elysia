@@ -56,7 +56,7 @@ class ExpressionCortex:
         elif a < 0.2:
             l_eye, r_eye = "-", "-" # Sleepy
         elif t > 0.8:
-            l_eye, r_eye = "Ò", "Ó" # Intense / Determined
+            l_eye, r_eye = " ", " " # Intense / Determined
         elif t > 0.5:
             l_eye, r_eye = ">", "<" # Focused
         else:

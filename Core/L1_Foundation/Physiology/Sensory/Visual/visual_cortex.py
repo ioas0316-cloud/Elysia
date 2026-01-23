@@ -31,7 +31,7 @@ class VisualCortex:
         self.base_url = base_url
         self._available = None
         self._last_check = 0
-        logger.info(f"👁️ Visual Cortex initialized (Target: {base_url})")
+        logger.info(f"   Visual Cortex initialized (Target: {base_url})")
 
     def is_available(self) -> bool:
         """Check if ComfyUI is running."""
@@ -60,7 +60,7 @@ class VisualCortex:
         if not self.is_available():
             return None
             
-        logger.info(f"👁️ Dreaming of '{concept}' to absorb its visual essence...")
+        logger.info(f"   Dreaming of '{concept}' to absorb its visual essence...")
         
         # 1. Generate Image (Synchronous for now, or via Websocket)
         # Simple ComfyUI API workflow (Text to Image)
@@ -84,7 +84,7 @@ class VisualCortex:
             if image_data:
                 # 2. Analyze (Digest)
                 features = self._analyze_image(image_data)
-                logger.info(f"   🎨  Digested Visuals for '{concept}': {features}")
+                logger.info(f"      Digested Visuals for '{concept}': {features}")
                 return features
                 
         except Exception as e:

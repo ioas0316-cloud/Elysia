@@ -1,4 +1,4 @@
-﻿"""ElysiaWorld high-level façade.
+ """ElysiaWorld high-level fa ade.
 
 All existing Project_Sophia world functionality remains intact; this
 wrapper simply re-exports the canonical World class so the new

@@ -1,5 +1,5 @@
 """
-Wave Logic (파동 논리)
+Wave Logic (     )
 ====================
 "Logic is just the constructive interference of truth."
 
@@ -72,11 +72,11 @@ class HorizonFilter:
             if not is_harmonic:
                 # "Disharmonic Noise" -> Atmosphere thickens -> Damping
                 source.amplitude *= 0.95 # Decay 5% per step
-                # print(f"🌫️ Atmospheric Damping applied to {source.id} (Disharmonic)")
+                # print(f"   Atmospheric Damping applied to {source.id} (Disharmonic)")
             else:
                  # "Resonance" -> Atmosphere clears -> Sustain
                  source.amplitude *= 1.0 # No decay (ideal vacuum for truth)
-                 # print(f"✨ Horizon Resonance sustained for {source.id}")
+                 # print(f"  Horizon Resonance sustained for {source.id}")
 
 class WaveSpace:
     def __init__(self):
@@ -119,7 +119,7 @@ class WaveLogicGate:
         
         if triggered != self.state:
             self.state = triggered
-            # print(f"🌊 Gate '{self.name}' {'OPENED' if triggered else 'CLOSED'} (Intensity: {intensity:.2f})")
+            # print(f"  Gate '{self.name}' {'OPENED' if triggered else 'CLOSED'} (Intensity: {intensity:.2f})")
             
         return self.state
 

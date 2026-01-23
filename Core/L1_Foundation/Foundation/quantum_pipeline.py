@@ -152,7 +152,7 @@ class QuantumDispatcher:
 
         # Simple heuristic mapping for prototype
 
-        if "계산" in text or "calculate" in text.lower():
+        if "  " in text or "calculate" in text.lower():
 
             # Mimic a 'Structured' wave
 
@@ -164,7 +164,7 @@ class QuantumDispatcher:
 
             )
 
-        elif "시" in text or "poem" in text.lower() or "create" in text.lower():
+        elif " " in text or "poem" in text.lower() or "create" in text.lower():
 
              # Mimic an 'Emotional' wave
 
@@ -273,4 +273,3 @@ class QuantumDispatcher:
                 "reason": "No module resonated strongly enough."
 
             }
-

@@ -107,31 +107,31 @@ SOUND_FREQUENCY_MAP: Dict[SoundType, SoundFrequency] = {
 
 _EMOTION_ALIAS = {
     "love": EmotionType.LOVE,
-    "사랑": EmotionType.LOVE,
+    "  ": EmotionType.LOVE,
     "peace": EmotionType.PEACE,
-    "평화": EmotionType.PEACE,
+    "  ": EmotionType.PEACE,
     "joy": EmotionType.JOY,
-    "기쁨": EmotionType.JOY,
+    "  ": EmotionType.JOY,
     "courage": EmotionType.COURAGE,
-    "용기": EmotionType.COURAGE,
+    "  ": EmotionType.COURAGE,
     "fear": EmotionType.FEAR,
-    "두려움": EmotionType.FEAR,
+    "   ": EmotionType.FEAR,
     "anger": EmotionType.ANGER,
-    "분노": EmotionType.ANGER,
+    "  ": EmotionType.ANGER,
     "sadness": EmotionType.SADNESS,
-    "슬픔": EmotionType.SADNESS,
+    "  ": EmotionType.SADNESS,
     "wonder": EmotionType.WONDER,
-    "경이": EmotionType.WONDER,
+    "  ": EmotionType.WONDER,
 }
 
 _SOUND_ALIAS = {
     "male_voice": SoundType.MALE_VOICE,
-    "남성": SoundType.MALE_VOICE,
+    "  ": SoundType.MALE_VOICE,
     "female_voice": SoundType.FEMALE_VOICE,
-    "여성": SoundType.FEMALE_VOICE,
+    "  ": SoundType.FEMALE_VOICE,
     "child_voice": SoundType.CHILD_VOICE,
-    "아이": SoundType.CHILD_VOICE,
-    "물소리": SoundType.NATURE_WATER,
+    "  ": SoundType.CHILD_VOICE,
+    "   ": SoundType.NATURE_WATER,
     "water": SoundType.NATURE_WATER,
     "tibetan_bowl": SoundType.TIBETAN_BOWL,
     "crystal_bowl": SoundType.CRYSTAL_BOWL,
@@ -204,7 +204,7 @@ class WaveFrequencyMapper:
         mapping = self.map_to_elysia(freq_hz)
         brainwave_band = self._brainwave_band(freq_hz)
         is_audible = 20.0 <= freq_hz <= 20000.0
-        schumann_relation = "슈만 공명과 근접" if abs(freq_hz - SCHUMANN_RESONANCE_HZ) < 1.0 else "슈만 공명과 거리 있음"
+        schumann_relation = "         " if abs(freq_hz - SCHUMANN_RESONANCE_HZ) < 1.0 else "            "
         return {
             "frequency_hz": freq_hz,
             "associated_emotions": emotions[:3],
@@ -226,10 +226,10 @@ class WaveFrequencyMapper:
 
     def create_frequency_report(self) -> str:
         lines = []
-        lines.append("슈만 공명")
-        lines.append("감정 주파수")
-        lines.append("소리 주파수")
-        lines.append("뇌파 주파수")
+        lines.append("     ")
+        lines.append("      ")
+        lines.append("      ")
+        lines.append("      ")
         return "\n".join(lines)
 
 

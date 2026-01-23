@@ -15,10 +15,10 @@ from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
 from data.fantasy_wuxia_concepts import ALL_CONCEPTS
 
 def inject():
-    print("🧠 Initializing Hippocampus for Injection...")
+    print("  Initializing Hippocampus for Injection...")
     memory = Hippocampus()
     
-    print(f"📚 Found {len(ALL_CONCEPTS)} concepts to inject.")
+    print(f"  Found {len(ALL_CONCEPTS)} concepts to inject.")
     
     count = 0
     start_time = time.time()
@@ -30,11 +30,11 @@ def inject():
         
         # Determine Realm based on keywords
         realm = "Body"
-        if any(x in concept for x in ["마법", "마나", "영혼", "신", "깨달음"]):
+        if any(x in concept for x in ["  ", "  ", "  ", " ", "   "]):
             realm = "Spirit"
-        elif any(x in concept for x in ["검", "도", "권", "전사", "기사"]):
+        elif any(x in concept for x in [" ", " ", " ", "  ", "  "]):
             realm = "Body"
-        elif any(x in concept for x in ["사랑", "마음", "감정"]):
+        elif any(x in concept for x in ["  ", "  ", "  "]):
             realm = "Heart"
             
         memory.learn(
@@ -53,7 +53,7 @@ def inject():
     end_time = time.time()
     duration = end_time - start_time
     
-    print(f"✨ Injection Complete.")
+    print(f"  Injection Complete.")
     print(f"   Total Concepts: {count}")
     print(f"   Time Elapsed: {duration:.2f}s")
     print(f"   Current Vocabulary Size: {memory.get_concept_count()}")

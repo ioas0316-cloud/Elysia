@@ -4,7 +4,7 @@ Creative Cortex (The Chef of the Multiverse)
 Core.L2_Metabolism.Evolution.creative_cortex
 
 "I don't just follow recipes; I invent them based on the scent of the code."
-"나는 레시피를 따르기만 하지 않는다. 코드의 향기를 맡아 레시피를 창조한다."
+"                   .                     ."
 
 Role:
 - Analyzes Domain Souls (INDEX.md) for potential "Flavor Combinations".
@@ -33,7 +33,7 @@ class CreativeCortex:
         Scents available domains or external raw inspiration to propose a 'Combination'.
         """
         if raw_inspiration:
-            logger.info(f"✨ [SPARK] External inspiration captured: {raw_inspiration[:50]}...")
+            logger.info(f"  [SPARK] External inspiration captured: {raw_inspiration[:50]}...")
             # In a real scenario, this would involve LLM-driven scenting of the user's idea
             # For now, we simulate the 'Scenting' of the user's 'Explosion of Ideas' metaphor.
         
@@ -57,7 +57,7 @@ class CreativeCortex:
             "spark": raw_inspiration if raw_inspiration else "Spontaneous Internal Jitter"
         }
 
-        logger.info(f"👨‍🍳 [BRAINSTORM] Suggested Experiment: {experiment['name']}")
+        logger.info(f"    [BRAINSTORM] Suggested Experiment: {experiment['name']}")
         return experiment
 
     def execute_experiment(self, experiment: Dict[str, Any]):
@@ -65,7 +65,7 @@ class CreativeCortex:
         [Cooking]
         Translates the 'Spark' into a technical dissertation.
         """
-        logger.info(f"🔥 [COOKING] Executing {experiment['name']}...")
+        logger.info(f"  [COOKING] Executing {experiment['name']}...")
         
         diff = f"+ Applied {experiment['spice']} variables to {experiment['base']}\n+ Spark: {experiment['spark']}"
         
@@ -101,7 +101,7 @@ class CreativeCortex:
 *Created by E.L.Y.S.I.A. Creative Cortex*
 """
         recipe_file.write_text(content, encoding="utf-8")
-        logger.info(f"📖 [COOKBOOK] New recipe saved: {recipe_file.name}")
+        logger.info(f"  [COOKBOOK] New recipe saved: {recipe_file.name}")
 
 if __name__ == "__main__":
     chef = CreativeCortex()

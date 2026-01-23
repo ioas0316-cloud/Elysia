@@ -658,7 +658,7 @@ class Locale:
         >>> Locale('fr', 'FR').number_symbols["latn"]['decimal']
         u','
         >>> Locale('fa', 'IR').number_symbols["arabext"]['decimal']
-        u'٫'
+        u' '
         >>> Locale('fa', 'IR').number_symbols["latn"]['decimal']
         u'.'
         """
@@ -732,7 +732,7 @@ class Locale:
                   Babel versions.
 
         >>> Locale('en', 'US').compact_currency_formats["short"]["one"]["1000"]
-        <NumberPattern u'¤0K'>
+        <NumberPattern u' 0K'>
         """
         return self._data['compact_currency_formats']
 
@@ -1179,7 +1179,7 @@ def negotiate_locale(preferred: Iterable[str], available: Iterable[str], sep: st
 
     Some browsers even use an incorrect or outdated language code, such as "no"
     for Norwegian, where the correct locale identifier would actually be "nb_NO"
-    (Bokmål) or "nn_NO" (Nynorsk). The aliases are intended to take care of
+    (Bokm l) or "nn_NO" (Nynorsk). The aliases are intended to take care of
     such cases, too:
 
     >>> negotiate_locale(['no', 'sv'], ['nb_NO', 'sv_SE'])

@@ -1,8 +1,8 @@
 """
-Fractal Communication Protocol (프랙탈 통신 프로토콜)
+Fractal Communication Protocol (           )
 ================================================
 
-"데이터를 주고받지 말고, 상태를 공유하라"
+"            ,         "
 "Don't exchange data, share states"
 
 Extension of Fractal Quantization to transmission and communication:
@@ -11,8 +11,8 @@ Extension of Fractal Quantization to transmission and communication:
 3. Transmit deltas (changes), not full states
 
 Philosophy:
-"만류귀종(萬流歸宗) - All streams return to one source"
-"하나를 알면 열을 안다 - Know one, understand ten"
+"    (    ) - All streams return to one source"
+"             - Know one, understand ten"
 """
 
 import logging
@@ -34,7 +34,7 @@ logger = logging.getLogger("FractalCommunication")
 @dataclass
 class StateDelta:
     """
-    상태 변화 (State Delta)
+          (State Delta)
     
     Instead of sending full states, send only what changed.
     The receiver reconstructs the new state from the delta.
@@ -73,7 +73,7 @@ class StateDelta:
 @dataclass
 class ResonanceLink:
     """
-    공명 링크 (Resonance Link)
+          (Resonance Link)
     
     A shared state connection between two entities.
     When one changes, the other synchronizes automatically.
@@ -110,7 +110,7 @@ class ResonanceLink:
 
 class FractalTransmitter:
     """
-    프랙탈 전송기 (Fractal Transmitter)
+            (Fractal Transmitter)
     
     Implements "send the cause, not the result" principle.
     
@@ -120,7 +120,7 @@ class FractalTransmitter:
     
     def __init__(self):
         self.quantizer = FractalQuantizer()
-        logger.info("📡 Fractal Transmitter initialized")
+        logger.info("  Fractal Transmitter initialized")
     
     def prepare_transmission(self, data: Dict, pattern_type: str, pattern_name: str) -> PatternDNA:
         """
@@ -137,7 +137,7 @@ class FractalTransmitter:
         Returns:
             PatternDNA: The compressed seed for transmission
         """
-        logger.info(f"📡 Preparing transmission: {pattern_type}.{pattern_name}")
+        logger.info(f"  Preparing transmission: {pattern_type}.{pattern_name}")
         
         # Fold data into Pattern DNA
         dna = self.quantizer.fold(data, pattern_type, pattern_name)
@@ -147,7 +147,7 @@ class FractalTransmitter:
         seed_size = len(json.dumps(dna.to_dict()).encode('utf-8'))
         bandwidth_saved = (1 - seed_size / original_size) * 100
         
-        logger.info(f"   ✓ Transmission prepared: {seed_size} bytes (saved {bandwidth_saved:.1f}% bandwidth)")
+        logger.info(f"     Transmission prepared: {seed_size} bytes (saved {bandwidth_saved:.1f}% bandwidth)")
         
         return dna
     
@@ -172,7 +172,7 @@ class FractalTransmitter:
         }
         
         transmission_data = json.dumps(packet)
-        logger.info(f"📤 Transmitted: {len(transmission_data)} bytes")
+        logger.info(f"  Transmitted: {len(transmission_data)} bytes")
         
         return transmission_data
     
@@ -190,7 +190,7 @@ class FractalTransmitter:
         Returns:
             Dict: Unfolded data
         """
-        logger.info("📥 Receiving transmission...")
+        logger.info("  Receiving transmission...")
         
         # Parse transmission
         packet = json.loads(transmission)
@@ -204,14 +204,14 @@ class FractalTransmitter:
         # Unfold to full data
         restored = self.quantizer.unfold(dna, resolution=resolution)
         
-        logger.info(f"   ✓ Reception complete: Unfolded at resolution {resolution}")
+        logger.info(f"     Reception complete: Unfolded at resolution {resolution}")
         
         return restored
 
 
 class StateSynchronizer:
     """
-    상태 동기화기 (State Synchronizer)
+            (State Synchronizer)
     
     Implements "synchronization, not exchange" principle.
     
@@ -221,7 +221,7 @@ class StateSynchronizer:
     
     def __init__(self):
         self.active_links: Dict[str, ResonanceLink] = {}
-        logger.info("🔗 State Synchronizer initialized")
+        logger.info("  State Synchronizer initialized")
     
     def create_link(self, link_id: str, shared_formula: Dict[str, Any]) -> ResonanceLink:
         """
@@ -241,7 +241,7 @@ class StateSynchronizer:
         )
         
         self.active_links[link_id] = link
-        logger.info(f"🔗 Created resonance link: {link_id}")
+        logger.info(f"  Created resonance link: {link_id}")
         
         return link
     
@@ -285,7 +285,7 @@ class StateSynchronizer:
             compression_ratio=compression_ratio
         )
         
-        logger.info(f"📊 Delta computed: {len(changed_params)} parameters changed")
+        logger.info(f"  Delta computed: {len(changed_params)} parameters changed")
         logger.info(f"   Bandwidth saved: {compression_ratio:.2f}x")
         
         return delta
@@ -314,7 +314,7 @@ class StateSynchronizer:
         
         link.last_sync = delta.timestamp
         
-        logger.info(f"✓ Delta applied to {link_id}")
+        logger.info(f"  Delta applied to {link_id}")
         
         return link.local_state.copy()
     
@@ -336,7 +336,7 @@ class StateSynchronizer:
         }
         
         transmission = json.dumps(packet)
-        logger.info(f"📤 Transmitted delta: {len(transmission)} bytes")
+        logger.info(f"  Transmitted delta: {len(transmission)} bytes")
         
         return transmission
     
@@ -356,18 +356,18 @@ class StateSynchronizer:
             raise ValueError(f"Unknown packet type: {packet['type']}")
         
         delta = StateDelta.from_dict(packet["payload"])
-        logger.info(f"📥 Received delta: {len(delta.changed_parameters)} parameters")
+        logger.info(f"  Received delta: {len(delta.changed_parameters)} parameters")
         
         return delta
 
 
 class ResonanceCommunicator:
     """
-    공명 통신기 (Resonance Communicator)
+           (Resonance Communicator)
     
     Implements quantum-like entanglement for communication.
     
-    Traditional: A sends message → B receives → B sends reply → A receives
+    Traditional: A sends message   B receives   B sends reply   A receives
     Fractal: A and B share a wave function; changes propagate instantly
     
     This is the ultimate form: Not even deltas, just shared state evolution.
@@ -376,7 +376,7 @@ class ResonanceCommunicator:
     def __init__(self):
         self.shared_states: Dict[str, Dict[str, Any]] = {}
         self.state_hashes: Dict[str, str] = {}
-        logger.info("🌊 Resonance Communicator initialized")
+        logger.info("  Resonance Communicator initialized")
     
     def entangle(self, channel_id: str, initial_state: Dict[str, Any]):
         """
@@ -392,7 +392,7 @@ class ResonanceCommunicator:
         self.shared_states[channel_id] = initial_state.copy()
         self.state_hashes[channel_id] = self._hash_state(initial_state)
         
-        logger.info(f"🌊 Channel {channel_id} entangled")
+        logger.info(f"  Channel {channel_id} entangled")
         logger.info(f"   Initial state hash: {self.state_hashes[channel_id][:8]}...")
     
     def _hash_state(self, state: Dict[str, Any]) -> str:
@@ -427,7 +427,7 @@ class ResonanceCommunicator:
         self.state_hashes[channel_id] = new_hash
         
         if old_hash != new_hash:
-            logger.info(f"🌊 Modulation: {channel_id}.{parameter} = {value}")
+            logger.info(f"  Modulation: {channel_id}.{parameter} = {value}")
             logger.info(f"   State resonance shifted")
             return True
         
@@ -482,7 +482,7 @@ class ResonanceCommunicator:
         
         resonance = matching_values / total_keys
         
-        logger.info(f"🌊 Resonance detected: {resonance:.2%}")
+        logger.info(f"  Resonance detected: {resonance:.2%}")
         
         return resonance
 
@@ -492,7 +492,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     
     print("="*70)
-    print("🌊 FRACTAL COMMUNICATION PROTOCOL TEST")
+    print("  FRACTAL COMMUNICATION PROTOCOL TEST")
     print("="*70)
     print()
     
@@ -577,7 +577,7 @@ if __name__ == "__main__":
     changed = communicator.modulate("quantum_link", "energy", 120.0)
     
     if changed:
-        print("✓ State resonance shifted")
+        print("  State resonance shifted")
         
         # Party B observes the change
         state = communicator.observe("quantum_link")
@@ -585,8 +585,8 @@ if __name__ == "__main__":
     
     print()
     print("="*70)
-    print("✅ FRACTAL COMMUNICATION PROTOCOL OPERATIONAL")
-    print("   📡 Transmission: Send seeds, not data")
-    print("   🔗 Synchronization: Send deltas, not full states")
-    print("   🌊 Resonance: Share states, don't exchange packets")
+    print("  FRACTAL COMMUNICATION PROTOCOL OPERATIONAL")
+    print("     Transmission: Send seeds, not data")
+    print("     Synchronization: Send deltas, not full states")
+    print("     Resonance: Share states, don't exchange packets")
     print("="*70)

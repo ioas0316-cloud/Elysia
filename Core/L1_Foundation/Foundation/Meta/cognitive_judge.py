@@ -12,7 +12,7 @@ class CognitiveJudge:
     pattern/weight set produced a 'better' result.
     """
     def __init__(self):
-        logger.info("⚖️ CognitiveJudge (Discernment) initialized with Qualitative Narrative.")
+        logger.info("   CognitiveJudge (Discernment) initialized with Qualitative Narrative.")
 
     def judge_resonance(self, primary_insight: Any, shadow_insight: Any, 
                         primary_weights: Dict[PrismDomain, float], 
@@ -51,7 +51,7 @@ class CognitiveJudge:
                 "reason": narrative
             }
 
-        logger.info(f"⚖️ [JUDGMENT] Outcome: {winner} | Shift: {result['shift']}")
+        logger.info(f"   [JUDGMENT] Outcome: {winner} | Shift: {result['shift']}")
         return result
 
     def _generate_narrative(self, dom_p: PrismDomain, dom_s: PrismDomain, winner: str) -> str:

@@ -1,6 +1,6 @@
 """
 AGI Foundation Module for Elysia
-Phase 13: 범용 인공지능 향해 (Towards AGI)
+Phase 13:            (Towards AGI)
 
 This module contains systems for AGI-level capabilities including:
 - Advanced Transfer Learning

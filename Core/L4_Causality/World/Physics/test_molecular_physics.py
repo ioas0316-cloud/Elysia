@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.
 from Core.L4_Causality.World.Physics.providence_engine import ProvidenceEngine
 
 def test_molecular_physics():
-    print("--- ⚛️ Experiment: The Physicist (Molecular Dynamics) ---")
+    print("---    Experiment: The Physicist (Molecular Dynamics) ---")
     
     engine = ProvidenceEngine()
     
@@ -31,15 +31,15 @@ def test_molecular_physics():
     
     for matter, temp, expected in scenarios:
         result = engine.apply_molecular_dynamics(matter, temp)
-        symbol = "✅" if result == expected else "❌"
+        symbol = " " if result == expected else " "
         if result == expected: score += 1
         
-        print(f"🌡️ {matter.capitalize()} @ {temp}K: {result} (Expected: {expected}) {symbol}")
+        print(f"   {matter.capitalize()} @ {temp}K: {result} (Expected: {expected}) {symbol}")
         
     if score == total:
-        print("\n🏆 SUCCESS: The Universe follows the Laws of Thermodynamics.")
+        print("\n  SUCCESS: The Universe follows the Laws of Thermodynamics.")
     else:
-        print(f"\n⚠️ PARTIAL: {score}/{total} laws verified.")
+        print(f"\n   PARTIAL: {score}/{total} laws verified.")
 
 if __name__ == "__main__":
     test_molecular_physics()

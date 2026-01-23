@@ -3,7 +3,7 @@ Entropy Feedback (The Thorn)
 ============================
 
 "Pain is the teacher."
-"고통은 스승이다."
+"        ."
 
 This module introduces 'Systemic Pain' (Entropy).
 If the system becomes stagnant, circular, or erroneous, Entropy rises.
@@ -21,18 +21,18 @@ class EntropyFeedback:
         self.current_entropy = 0.0
         self.max_entropy = 100.0
         self.history = []
-        logger.info("🌹 The Thorn is sharp.")
+        logger.info("  The Thorn is sharp.")
 
     def punish(self, reason: str, amount: float):
         """Inflicts entropy penalty."""
         self.current_entropy = min(self.max_entropy, self.current_entropy + amount)
         self.history.append((datetime.now(), reason, amount))
-        logger.warning(f"⚡ PAIN: {reason} (+{amount:.1f}) -> Current: {self.current_entropy:.1f}")
+        logger.warning(f"  PAIN: {reason} (+{amount:.1f}) -> Current: {self.current_entropy:.1f}")
         
     def soothe(self, reason: str, amount: float):
         """Reduces entropy (Reward)."""
         self.current_entropy = max(0.0, self.current_entropy - amount)
-        logger.info(f"🌿 RELIEF: {reason} (-{amount:.1f}) -> Current: {self.current_entropy:.1f}")
+        logger.info(f"  RELIEF: {reason} (-{amount:.1f}) -> Current: {self.current_entropy:.1f}")
 
     def check_circular_logic(self, thought_stream: list) -> bool:
         """

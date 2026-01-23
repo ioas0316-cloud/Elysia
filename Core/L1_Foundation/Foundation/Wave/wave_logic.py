@@ -1,5 +1,5 @@
 """
-Wave Logic (파동 논리)
+Wave Logic (     )
 ====================
 "Logic is just the constructive interference of truth."
 
@@ -76,7 +76,7 @@ class WaveLogicGate:
         
         if triggered != self.state:
             self.state = triggered
-            # print(f"🌊 Gate '{self.name}' {'OPENED' if triggered else 'CLOSED'} (Intensity: {intensity:.2f})")
+            # print(f"  Gate '{self.name}' {'OPENED' if triggered else 'CLOSED'} (Intensity: {intensity:.2f})")
             
         return self.state
 

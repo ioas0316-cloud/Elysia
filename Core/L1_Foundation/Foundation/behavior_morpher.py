@@ -22,7 +22,7 @@ class ActionMorpher:
         old_method = getattr(instance, method_name, None)
         setattr(instance, method_name, types.MethodType(new_function, instance))
         
-        logger.info(f"🔄 Behavior Mutilated: {instance.__class__.__name__}.{method_name} swapped.")
+        logger.info(f"  Behavior Mutilated: {instance.__class__.__name__}.{method_name} swapped.")
         return old_method
 
 class LivingBridge:

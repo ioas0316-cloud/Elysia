@@ -1,5 +1,5 @@
 """
-Wave-to-Mesh Transmuter (파동-메쉬 변성기)
+Wave-to-Mesh Transmuter (  -      )
 ========================================
 "Coagulating the ephemeral into the enduring."
 
@@ -128,6 +128,6 @@ if __name__ == "__main__":
     }
     
     entities = transmuter.transmute(mock_config)
-    print(f"🌲 Transmuted {len(entities)} entities for Open World.")
+    print(f"  Transmuted {len(entities)} entities for Open World.")
     for e in entities[:3]:
         print(f"  - {e['id']} ({e['type']})")

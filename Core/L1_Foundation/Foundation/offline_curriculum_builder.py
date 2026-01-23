@@ -169,13 +169,13 @@ class OfflineCurriculumBuilder:
         obj = None
         verb = None
         for token in tokens:
-            if token.endswith("는") or token.endswith("은") or token.endswith("이가") or token.endswith("이") or token.endswith("가"):
-                candidate = token.rstrip("는은이가")
+            if token.endswith(" ") or token.endswith(" ") or token.endswith("  ") or token.endswith(" ") or token.endswith(" "):
+                candidate = token.rstrip("    ")
                 if candidate:
                     subject = subject or candidate
                     continue
-            if token.endswith("를") or token.endswith("을"):
-                candidate = token.rstrip("를을")
+            if token.endswith(" ") or token.endswith(" "):
+                candidate = token.rstrip("  ")
                 if candidate:
                     obj = obj or candidate
                     continue
@@ -224,7 +224,7 @@ class OfflineCurriculumBuilder:
         if not value:
             return "unknown"
         normalized = re.sub(r"\s+", "_", value.strip())
-        normalized = re.sub(r"[^\w가-힣_]", "", normalized)
+        normalized = re.sub(r"[^\w - _]", "", normalized)
         return normalized.lower() or "unknown"
 
     def _clean_field(self, value: Optional[str]) -> Optional[str]:

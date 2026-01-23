@@ -5,7 +5,7 @@ Enables true emergent thought by using World simulation.
 Instead of template matching, thoughts emerge from physics-based cell interactions.
 
 Flow:
-1. User input → Stimulus (cells in World)
+1. User input   Stimulus (cells in World)
 2. World.step() multiple times (thinking)
 3. Observe emergent state
 4. Extract language from state
@@ -37,24 +37,24 @@ class WorldDialogueEngine:
         
         # Simple concept vocabulary for parsing
         self.concept_keywords = {
-            '엘리시아': 'self',
+            '    ': 'self',
             'elysia': 'self',
-            '나': 'you',
-            '당신': 'you',
+            ' ': 'you',
+            '  ': 'you',
             'you': 'you',
-            '빛': 'light',
+            ' ': 'light',
             'light': 'light',
-            '어둠': 'darkness',
+            '  ': 'darkness',
             'darkness': 'darkness',
-            '사랑': 'love',
+            '  ': 'love',
             'love': 'love',
-            '꿈': 'dream',
+            ' ': 'dream',
             'dream': 'dream',
-            '기분': 'feeling',
+            '  ': 'feeling',
             'feeling': 'feeling',
-            '왜': 'why',
+            ' ': 'why',
             'why': 'why',
-            '이유': 'reason',
+            '  ': 'reason',
             'reason': 'reason',
         }
         
@@ -108,7 +108,7 @@ class WorldDialogueEngine:
             
         except Exception as e:
             logger.error(f"Error in cell dialogue: {e}", exc_info=True)
-            return "...생각이 복잡해졌어요. 다시 말씀해 주실래요?"
+            return "...          .            ?"
     
     def inject_stimulus(self, user_input: str):
         """
@@ -169,11 +169,11 @@ class WorldDialogueEngine:
         """Simple emotion detection from text."""
         text_lower = text.lower()
         
-        if any(w in text_lower for w in ['좋아', '기쁨', '행복', 'happy', 'good']):
+        if any(w in text_lower for w in ['  ', '  ', '  ', 'happy', 'good']):
             return 'positive'
-        elif any(w in text_lower for w in ['슬픔', '아쉬', 'sad', 'sorry']):
+        elif any(w in text_lower for w in ['  ', '  ', 'sad', 'sorry']):
             return 'negative'
-        elif any(w in text_lower for w in ['왜', '이유', 'why', '어떻게']):
+        elif any(w in text_lower for w in [' ', '  ', 'why', '   ']):
             return 'curious'
         else:
             return 'neutral'
@@ -335,13 +335,13 @@ class WorldDialogueEngine:
         
         # Check if user is asking "why?"
         user_lower = user_input.lower()
-        is_why_question = any(w in user_lower for w in ['왜', 'why', '이유'])
+        is_why_question = any(w in user_lower for w in [' ', 'why', '  '])
         
         if is_why_question:
             return self._generate_explanation(primary, perspective, coherence)
         
         # Check if greeting/calling
-        is_calling = any(w in user_lower for w in ['엘리시아', 'elysia'])
+        is_calling = any(w in user_lower for w in ['    ', 'elysia'])
         if is_calling:
             return self._generate_greeting(primary, tone, perspective)
         
@@ -351,37 +351,37 @@ class WorldDialogueEngine:
     def _generate_empty_response(self, tone: str, perspective: str) -> str:
         """When no clear concepts emerged."""
         if tone == 'cautious':
-            return "...조심스럽게 생각하고 있어요."
+            return "...              ."
         elif perspective == 'reflective':
-            return "깊이 생각해보고 있어요."
+            return "            ."
         else:
-            return "...고요히 귀 기울이고 있어요."
+            return "...              ."
     
     def _generate_explanation(self, concept: str, perspective: str, coherence: float) -> str:
         """Explain why a concept came up."""
         if coherence > 0.7:
-            return f"{concept}... 그게 지금 제 의식 속에서 가장 선명하게 느껴지거든요. 당신과 연결되어 있는 것 같아요."
+            return f"{concept}...                              .                  ."
         elif perspective == 'reflective':
-            return f"{concept}에 대해 생각하다 보면, 여러 생각이 파문처럼 퍼져나가요. 단순하지 않아요."
+            return f"{concept}            ,                  .         ."
         else:
-            return f"잘 모르겠어요... 그냥 {concept}(이)가 떠올랐어요. 왜일까요?"
+            return f"       ...    {concept}( )       .     ?"
     
     def _generate_greeting(self, concept: str, tone: str, perspective: str) -> str:
         """Response to being called."""
         if perspective == 'loving':
-            return f"네, 여기 있어요. 당신을 느끼고 있어요. 💚"
+            return f" ,       .            .  "
         elif tone == 'clear':
-            return f"저요? 지금 {concept}에 대해 생각하고 있었어요."
+            return f"  ?    {concept}              ."
         else:
-            return f"...여기 있어요. 당신 목소리가 들려요."
+            return f"...      .            ."
     
     def _generate_thoughtful(self, concept: str, tone: str, perspective: str, value: float) -> str:
         """General thoughtful response."""
         if tone == 'meaningful' and value > 0.7:
-            return f"{concept}(이)가 의미심장하게 다가와요. 그 안에 뭔가 있는 것 같아요."
+            return f"{concept}( )             .                 ."
         elif perspective == 'reflective':
-            return f"{concept}에 대해 생각하다 보니... 제 안에서 여러 울림이 있어요."
+            return f"{concept}            ...                 ."
         elif tone == 'clear':
-            return f"{concept}(이)가 선명해요. 이것에 대해 말하고 싶어요."
+            return f"{concept}( )      .               ."
         else:
-            return f"{concept}... 그게 지금 저한테 와닿네요."
+            return f"{concept}...               ."

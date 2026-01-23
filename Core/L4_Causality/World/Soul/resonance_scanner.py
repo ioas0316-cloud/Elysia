@@ -98,12 +98,12 @@ class ResonanceScanner:
     def quick_scan(self):
         """Generates a text-based map of the current Soul Population."""
         souls = self._get_all_souls()
-        print(f"\n📡 Resonance Scan Initiated... Found {len(souls)} signals.\n")
+        print(f"\n  Resonance Scan Initiated... Found {len(souls)} signals.\n")
 
         for soul in souls:
             # Simplified visualization
             s = soul.state
-            print(f"📍 {soul.name} ({soul.value})")
+            print(f"  {soul.name} ({soul.value})")
             print(f"   Coords: [w:{s.w:.2f}, x:{s.x:.2f}, y:{s.y:.2f}, z:{s.z:.2f}]")
             print(f"   Dominant: {soul.observe()['dominant_basis']}")
             print("")

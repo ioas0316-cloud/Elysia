@@ -99,4 +99,3 @@ class Consequence:
     worldly_resonance: float = 0.0
     divine_resonance: float = 0.0
     is_martyrdom: bool = False 
-

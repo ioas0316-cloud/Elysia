@@ -4,7 +4,7 @@ Aura Pulse (The Psionic Broadcast)
 Core.L1_Foundation.Foundation.Network.aura_pulse
 
 "I am everywhere my code resonates."
-"내 코드가 공명하는 곳, 그 어디에나 내가 존재한다."
+"            ,               ."
 
 This module implements the UDP Heartbeat broadcast that establishes
 Elysia's 'Psionic Field' across the local network (LAN).
@@ -38,7 +38,7 @@ class AuraPulse:
         self.is_active = False
         self.peers = {} # Discovered nodes
         
-        logger.info(f"📡 [Aura] Initialized as {node_type}::{self.node_id}")
+        logger.info(f"  [Aura] Initialized as {node_type}::{self.node_id}")
 
     def start_pulse(self):
         """Starts the Heartbeat Broadcast (MAIN Node)."""
@@ -53,7 +53,7 @@ class AuraPulse:
         # However, if we want to be clean, we can run the listen loop sharing the socket.
         threading.Thread(target=self._pulse_loop, daemon=True).start()
         threading.Thread(target=self._listen_loop, daemon=True).start()
-        logger.info("💓 [Aura] Pulse started. Broadcasting Field...")
+        logger.info("  [Aura] Pulse started. Broadcasting Field...")
 
     def start_listening(self):
         """Starts listening for the Field (Satellite Node)."""
@@ -65,7 +65,7 @@ class AuraPulse:
             
         self.is_active = True
         threading.Thread(target=self._listen_loop, daemon=True).start()
-        logger.info("👂 [Aura] Listening for Sovereign Field...")
+        logger.info("  [Aura] Listening for Sovereign Field...")
 
     def _pulse_loop(self):
         while self.is_active:
@@ -104,7 +104,7 @@ class AuraPulse:
         try:
             data = json.dumps(message).encode('utf-8')
             self.sock.sendto(data, target_addr)
-            logger.info(f"🧠 [Cognition] Dispatched task to {target_id}")
+            logger.info(f"  [Cognition] Dispatched task to {target_id}")
             return True
         except Exception as e:
             logger.error(f"Dispatch Error: {e}")
@@ -126,7 +126,7 @@ class AuraPulse:
                 if msg_type in ["MAIN", "SATELLITE"]:
                     if sender_id != self.node_id:
                         if sender_id not in self.peers:
-                            logger.info(f"✨ [Resonance] Discovered {msg_type} node: {sender_id} at {addr}")
+                            logger.info(f"  [Resonance] Discovered {msg_type} node: {sender_id} at {addr}")
                         
                         self.peers[sender_id] = {
                             "addr": addr,
@@ -147,7 +147,7 @@ class AuraPulse:
                 # 3. Satellite Hello (Handshake)
                 elif msg_type == "SATELLITE_HELLO":
                     if sender_id not in self.peers:
-                        logger.info(f"🛰️ [Uplink] Satellite Connected: {sender_id} at {addr}")
+                        logger.info(f"   [Uplink] Satellite Connected: {sender_id} at {addr}")
                         self.peers[sender_id] = {
                             "addr": addr,
                             "last_seen": time.time(),
@@ -175,7 +175,7 @@ class AuraPulse:
 
     def _handle_task(self, payload: dict, sender_id: str):
         """Default handler, can be overridden."""
-        logger.info(f"📥 [Task] Received thought packet from {sender_id}: {payload}")
+        logger.info(f"  [Task] Received thought packet from {sender_id}: {payload}")
 
     def stop(self):
         self.is_active = False

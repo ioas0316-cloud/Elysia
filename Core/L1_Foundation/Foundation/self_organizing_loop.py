@@ -47,7 +47,7 @@ class SelfOrganizingMind:
 
     def start(self):
         self.is_running = True
-        logger.info("🌌 Genesis Started. The Void is active.")
+        logger.info("  Genesis Started. The Void is active.")
 
         try:
             while self.is_running:
@@ -58,14 +58,14 @@ class SelfOrganizingMind:
 
     def stop(self):
         self.is_running = False
-        logger.info("🛑 Genesis Paused.")
+        logger.info("  Genesis Paused.")
 
     def inject_chaos(self):
         """Randomly excites the system (Sensory Input / Cosmic Ray)."""
         target = random.choice(self.rotors)
         # Exciting a random dimension
         dim = random.choice(MultiRotor.DIMENSIONS)
-        logger.info(f"✨ Cosmic Ray hit '{target.name}' in [{dim}] dimension!")
+        logger.info(f"  Cosmic Ray hit '{target.name}' in [{dim}] dimension!")
         target.inject_energy(dim, amount=0.8)
 
     def _tick(self):
@@ -88,7 +88,7 @@ class SelfOrganizingMind:
         for r in self.rotors:
             if r.integrity > 0.95 and r.layers["Spiritual"].energy > 0.5:
                 # Debounce logic needed in real app, but for log it's fine
-                # logger.info(f"💡 Epiphany: '{r.name}' achieved Harmonic Unity (Int:{r.integrity:.2f})")
+                # logger.info(f"  Epiphany: '{r.name}' achieved Harmonic Unity (Int:{r.integrity:.2f})")
                 pass
 
         # 4. Decay (Entropy)

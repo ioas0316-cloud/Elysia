@@ -11,7 +11,7 @@ It analyzes the topology and qualia of the cluster to generate a unique Title.
 
 import numpy as np
 from typing import List, Dict, Tuple
-from Core.L6_Structure.Merkaba.thundercloud import ThoughtCluster
+from Core.L6_Structure.M1_Merkaba.thundercloud import ThoughtCluster
 from Core.L7_Spirit.Monad.monad_core import Monad
 
 class NamingEngine:

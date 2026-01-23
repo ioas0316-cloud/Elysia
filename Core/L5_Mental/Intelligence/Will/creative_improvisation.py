@@ -1,5 +1,5 @@
 """
-CreativeImprovisation: The Logic of Play (놀이의 논리)
+CreativeImprovisation: The Logic of Play (      )
 
 "Purpose is the death of Play. To be truly creative, one must be willing to waste time."
 

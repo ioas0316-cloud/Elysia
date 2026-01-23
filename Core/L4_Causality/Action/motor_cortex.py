@@ -39,7 +39,7 @@ class Actuator:
         self.config = config
         self.current_val = config.neutral_val
         self.is_active = True
-        logger.info(f"   💪 Actuator [{name}] connected on Pin {config.pin}.")
+        logger.info(f"     Actuator [{name}] connected on Pin {config.pin}.")
 
     def move(self, value: float):
         """
@@ -54,14 +54,14 @@ class Actuator:
         # Hardware Interfacing (Mock)
         if safe_val != self.current_val:
             # In a real scenario, this would be: pwm.set_servo_pulsewidth(pin, val)
-            # logger.debug(f"   ⚙️ [{self.name}] Moving to {safe_val:.1f}")
+            # logger.debug(f"      [{self.name}] Moving to {safe_val:.1f}")
             self.current_val = safe_val
 
     def freeze(self):
         """Emergency Stop / Hold Position."""
         # For servos, maybe return to neutral or stop sending PWM?
         # We'll assume 'freeze' means stop updating or go to neutral.
-        # logger.warning(f"   ❄️ [{self.name}] FROZEN.")
+        # logger.warning(f"      [{self.name}] FROZEN.")
         pass
 
 class MotorCortex:
@@ -73,7 +73,7 @@ class MotorCortex:
         self.actuators: Dict[str, Actuator] = {}
         self.nervous_system = nervous_system
         self.is_paralyzed = False # Global safety lock
-        logger.info("🧠 Motor Cortex initialized.")
+        logger.info("  Motor Cortex initialized.")
 
     def register_actuator(self, rotor_name: str, pin: int):
         """
@@ -101,11 +101,11 @@ class MotorCortex:
 
             if signal.is_painful:
                 if not self.is_paralyzed:
-                    logger.warning(f"🔥 [PAIN REFLEX] High Pain ({signal.pain_level:.2f}). Freezing Motor Cortex.")
+                    logger.warning(f"  [PAIN REFLEX] High Pain ({signal.pain_level:.2f}). Freezing Motor Cortex.")
                     self.is_paralyzed = True
             else:
                 if self.is_paralyzed:
-                    logger.info("🟢 [RECOVERY] Pain subsided. Motor Cortex unlocked.")
+                    logger.info("  [RECOVERY] Pain subsided. Motor Cortex unlocked.")
                     self.is_paralyzed = False
 
         if self.is_paralyzed:

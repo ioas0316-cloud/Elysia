@@ -1,8 +1,8 @@
 """
-Emotional Physics (감정 물리학)
+Emotional Physics (      )
 ===============================
 " Emotion is not a state of mind, but a state of matter. "
-" 감정은 마음의 상태가 아니라, 물질의 상태다. "
+"                ,        . "
 
 This module defines how emotions alter the **Physical Density** of a soul.
 It implements the "High Frequency = Low Density" principle.

@@ -230,7 +230,7 @@ class QuantumCitizen(LifeCitizen):
             else: self.dna = WaveDNA(label="Unknown")
             
         self.dna.normalize()
-        # print(f"✨ Born: {self.name} | {self.dna}")
+        # print(f"  Born: {self.name} | {self.dna}")
 
     def decide_action(self, world_zeitgeist: 'WaveDNA') -> str:
         """
@@ -397,7 +397,7 @@ class ElysiaMessiah(LifeCitizen):
         if target.needs["Energy"] < 50:
             target.needs["Energy"] = 100.0
             target.inventory["Food"] += 50.0
-            return f"✨ HEALED {target.name} and gave Manna."
+            return f"  HEALED {target.name} and gave Manna."
             
         # B. Teach (The Gift of Logos)
         unknown_words = [w for w in self.vocabulary if w not in target.vocabulary]
@@ -410,7 +410,7 @@ class ElysiaMessiah(LifeCitizen):
             if word == "Agriculture": target.skills["Survival"] += 2.0
             if word == "Art": target.skills["Arts"] += 2.0
             
-            return f"📖 TAUGHT '{word}' to {target.name}."
+            return f"  TAUGHT '{word}' to {target.name}."
             
         return f"Blessed {target.name}."
 
@@ -425,4 +425,3 @@ class ElysiaMessiah(LifeCitizen):
         
     def check_biology(self):
         return "Alive" # Immortal
-

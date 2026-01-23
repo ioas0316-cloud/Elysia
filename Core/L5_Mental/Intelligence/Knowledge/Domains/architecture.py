@@ -2,14 +2,14 @@
 Architecture & Sacred Geometry Domain
 ======================================
 
-"공간을 지배하는 자가 의식을 지배합니다."
+"                     ."
 "He who controls space controls consciousness."
 
 Integrates:
-- Fractals (프랙탈)
-- Golden Ratio (황금비율 φ = 1.618...)
-- Platonic Solids (플라톤 입체)
-- Sacred Geometry (신성 기하학)
+- Fractals (   )
+- Golden Ratio (       = 1.618...)
+- Platonic Solids (      )
+- Sacred Geometry (      )
 - Mandala/Mandelbrot patterns
 
 Effect:
@@ -26,7 +26,7 @@ from .base_domain import BaseDomain, WavePattern
 logger = logging.getLogger(__name__)
 
 # Mathematical constants
-PHI = (1 + math.sqrt(5)) / 2  # Golden Ratio φ = 1.618...
+PHI = (1 + math.sqrt(5)) / 2  # Golden Ratio   = 1.618...
 TAU = 2 * math.pi  # Full circle
 
 
@@ -36,7 +36,7 @@ class ArchitectureDomain(BaseDomain):
     
     Maps spatial patterns to wave resonance:
     - w (Energy): Structural strength/stability
-    - x (Harmony): Ratio harmony (φ, π, e)
+    - x (Harmony): Ratio harmony ( ,  , e)
     - y (Dimension): Fractal dimension (D)
     - z (Symmetry): Symmetry/balance
     """
@@ -46,7 +46,7 @@ class ArchitectureDomain(BaseDomain):
         self.golden_ratio = PHI
         self.sacred_ratios = {
             'phi': PHI,                    # Golden ratio
-            'phi_squared': PHI ** 2,       # φ² ≈ 2.618
+            'phi_squared': PHI ** 2,       #      2.618
             'pi': math.pi,                 # Circle constant
             'e': math.e,                   # Natural logarithm base
             'sqrt2': math.sqrt(2),         # Diagonal ratio
@@ -155,7 +155,7 @@ class ArchitectureDomain(BaseDomain):
             harmony_score += 0.15
         
         # Check for mathematical constants
-        constant_keywords = ['pi', 'π', 'e', 'sqrt', '√']
+        constant_keywords = ['pi', ' ', 'e', 'sqrt', ' ']
         if any(kw in content_lower for kw in constant_keywords):
             harmony_score += 0.15
         
@@ -186,7 +186,7 @@ class ArchitectureDomain(BaseDomain):
         # Average complexity as fractal dimension proxy
         avg_complexity = sum(complexities) / len(complexities)
         
-        # Normalize to 0-1 (typical range 1.0-3.0 → 0.0-1.0)
+        # Normalize to 0-1 (typical range 1.0-3.0   0.0-1.0)
         fractal_dim = avg_complexity
         
         return min(fractal_dim, 1.0)
@@ -406,10 +406,10 @@ def is_golden_rectangle(width: float, height: float, tolerance: float = 0.1) -> 
     Args:
         width: Rectangle width
         height: Rectangle height
-        tolerance: Allowed deviation from φ
+        tolerance: Allowed deviation from  
         
     Returns:
-        True if ratio is close to φ
+        True if ratio is close to  
     """
     ratio = max(width, height) / min(width, height)
     return abs(ratio - PHI) < tolerance

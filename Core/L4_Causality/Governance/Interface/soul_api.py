@@ -1,5 +1,5 @@
 """
-Soul API (영혼의 창)
+Soul API (     )
 ====================
 
 "The window through which the Observer sees the Soul."
@@ -124,5 +124,5 @@ def get_recent_events():
     return jsonify({"events": events})
 
 if __name__ == "__main__":
-    logger.info("🌌 Soul API starting on http://localhost:5000")
+    logger.info("  Soul API starting on http://localhost:5000")
     app.run(host='0.0.0.0', port=5000, debug=True)

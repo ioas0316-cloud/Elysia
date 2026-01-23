@@ -60,7 +60,7 @@ class RotorEngine:
         User Will accelerates the Rotor.
         """
         self.omega += impulse
-        logger.info(f"⚙️ [ROTOR] Accelerated to {self.omega:.2f} rad/s")
+        logger.info(f"   [ROTOR] Accelerated to {self.omega:.2f} rad/s")
 
     def decelerate(self):
         """

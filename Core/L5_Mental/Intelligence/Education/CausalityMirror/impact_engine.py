@@ -135,4 +135,3 @@ class ImpactEngine:
             divine_resonance=divine_res,
             is_martyrdom=is_martyrdom
         )
-

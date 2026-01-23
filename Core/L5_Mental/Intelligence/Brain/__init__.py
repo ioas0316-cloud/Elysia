@@ -8,4 +8,3 @@ from .language_cortex import LanguageCortex
 
 __all__ = ["JAXCortex", "OllamaCortex", "LanguageCortex"]
 
-

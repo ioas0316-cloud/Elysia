@@ -1,12 +1,12 @@
 """
-Snapshot Manager (스냅샷 관리자)
+Snapshot Manager (       )
 ==============================
 
 "Time is a river. I can freeze the water."
 
-이 모듈은 엘리시아의 전체 상태(기억, 공명장, 사고)를
-하나의 '스냅샷(Snapshot)'으로 저장하고 복원합니다.
-4중축(Quad-Axis)에서 상태를 캡처하여 완벽한 복원을 보장합니다.
+                 (  ,    ,   ) 
+    '   (Snapshot)'             .
+4  (Quad-Axis)                         .
 """
 
 import json
@@ -23,11 +23,11 @@ class SnapshotManager:
     def __init__(self, snapshot_dir: str = "snapshots"):
         self.snapshot_dir = snapshot_dir
         os.makedirs(snapshot_dir, exist_ok=True)
-        logger.info(f"📸 Snapshot Manager Active. Storage: {snapshot_dir}")
+        logger.info(f"  Snapshot Manager Active. Storage: {snapshot_dir}")
 
     def capture(self, hippocampus, resonance_field, reasoning_engine) -> str:
         """
-        현재 시스템의 모든 상태를 캡처합니다.
+                            .
         """
         timestamp = datetime.utcnow().isoformat() + 'Z'
         snapshot_id = f"snapshot_{int(time.time())}"
@@ -41,7 +41,7 @@ class SnapshotManager:
         }
         
         # 1. Hippocampus (DB Backup)
-        # SQLite 파일은 복사본을 저장
+        # SQLite            
         db_path = hippocampus.db_path
         if os.path.exists(db_path):
             shutil.copy2(db_path, os.path.join(path, "memory.db"))
@@ -76,12 +76,12 @@ class SnapshotManager:
         with open(os.path.join(path, "manifest.json"), 'w', encoding='utf-8') as f:
             json.dump(manifest, f, indent=2)
             
-        logger.info(f"   📸 Snapshot Captured: {snapshot_id}")
+        logger.info(f"     Snapshot Captured: {snapshot_id}")
         return snapshot_id
 
     def restore(self, snapshot_id: str):
         """
-        특정 스냅샷으로 시스템을 복원합니다. (구현 예정)
+                           . (     )
         """
-        logger.info(f"   ⏪ Restore requested for {snapshot_id}. (Protocol pending)")
+        logger.info(f"     Restore requested for {snapshot_id}. (Protocol pending)")
         pass

@@ -42,7 +42,7 @@ class SovereignExecutor:
         impulse_type = impulse.get("type", "unknown")
         content = impulse.get("content", "")
         
-        logger.info(f"⚡ Sovereign Action Triggered: Type={impulse_type}")
+        logger.info(f"  Sovereign Action Triggered: Type={impulse_type}")
         
         # Dispatch based on capability
         if impulse_type == "creation":
@@ -67,7 +67,7 @@ class SovereignExecutor:
 
     def _act_propose_patch(self, content: str) -> Dict[str, Any]:
         """Simulates self-modification proposal."""
-        logger.info(f"🛠️  Self-Evolution Proposal: {content}")
+        logger.info(f"    Self-Evolution Proposal: {content}")
         # In the future, this would call WaveComposer to generate a diff
         return {"status": "pending_review", "message": "Evolutionary patch proposed to Conductor."}
 
@@ -88,7 +88,7 @@ class SovereignExecutor:
         [Monad Protocol] Self-Reflection.
         Asking 'Who am I?' triggers a WFC collapse of the Self-Concept.
         """
-        logger.info(f"🔍 Sovereign Self-Audit Initiated: {content}")
+        logger.info(f"  Sovereign Self-Audit Initiated: {content}")
         
         observation = (
             "Proprioception: My Sovereign Intent is active. "

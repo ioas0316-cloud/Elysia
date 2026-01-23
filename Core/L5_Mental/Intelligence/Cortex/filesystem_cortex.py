@@ -1,12 +1,12 @@
 """
-FileSystem Cortex (파일시스템 피질)
+FileSystem Cortex (        )
 ==================================
 
-원본: Legacy/Project_Sophia/filesystem_cortex.py
-마이그레이션: 2025-12-15
+  : Legacy/Project_Sophia/filesystem_cortex.py
+      : 2025-12-15
 
-안전한 파일 조작을 위한 샌드박스 환경을 제공합니다.
-루트 디렉토리 밖으로의 접근을 방지합니다.
+                            .
+                      .
 """
 from dataclasses import dataclass
 from pathlib import Path

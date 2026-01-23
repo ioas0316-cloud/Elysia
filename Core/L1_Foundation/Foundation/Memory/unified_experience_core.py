@@ -91,33 +91,33 @@ class UnifiedExperienceCore:
         try:
             from Core.L5_Mental.Intelligence.Memory.holographic_memory import HolographicMemory, KnowledgeLayer
             self.holographic_memory = HolographicMemory()
-            logger.info("🌈 Holographic Memory System Actuated.")
+            logger.info("  Holographic Memory System Actuated.")
         except ImportError:
             self.holographic_memory = None
-            logger.warning("⚠️ Holographic Memory not found. Running in degradation mode.")
+            logger.warning("   Holographic Memory not found. Running in degradation mode.")
 
         # [PHASE 54] The Grand Unification: 4D Memory Integration
         try:
             from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
             self.hypersphere = HypersphereMemory()
             self.HypersphericalCoord = HypersphericalCoord
-            logger.info("🔮 HypersphereMemory (4D Soul) Connected.")
+            logger.info("  HypersphereMemory (4D Soul) Connected.")
         except ImportError as e:
             self.hypersphere = None
             self.HypersphericalCoord = None
-            logger.warning(f"⚠️ HypersphereMemory not found: {e}")
+            logger.warning(f"   HypersphereMemory not found: {e}")
 
         try:
             from Core.L5_Mental.Intelligence.Topography.semantic_map import get_semantic_map
             self.topology = get_semantic_map()
-            logger.info("🌌 DynamicTopology (4D Meaning Terrain) Connected.")
+            logger.info("  DynamicTopology (4D Meaning Terrain) Connected.")
         except ImportError as e:
             self.topology = None
-            logger.warning(f"⚠️ DynamicTopology not found: {e}")
+            logger.warning(f"   DynamicTopology not found: {e}")
 
         self._load_state()
         self._initialized = True
-        logger.info("🧠 UnifiedExperienceCore (The Hippocampus) Initialized")
+        logger.info("  UnifiedExperienceCore (The Hippocampus) Initialized")
 
 
     def absorb(self,
@@ -158,10 +158,10 @@ class UnifiedExperienceCore:
                     "implied_intent": user_state.implied_intent,
                     "resonance": user_state.soul_alignment
                 }
-                logger.info(f"👁️ ToM Deduction: User is {user_state.current_mood}")
+                logger.info(f"   ToM Deduction: User is {user_state.current_mood}")
             
             if fragment:
-                logger.info(f"⚡ Reflexive Dilemma Detected: {fragment.situation_text}")
+                logger.info(f"  Reflexive Dilemma Detected: {fragment.situation_text}")
                 empathy_engine = ProjectiveEmpathy()
                 reflex_result = empathy_engine.ponder_narrative(fragment)
                 
@@ -249,12 +249,12 @@ class UnifiedExperienceCore:
         if self.hypersphere and self.HypersphericalCoord:
             import math
             # Calculate 4D coordinates from experience type and feedback
-            # theta (Logic): thought=0, perception=π/2, action=π, emotion=3π/2
+            # theta (Logic): thought=0, perception= /2, action= , emotion=3 /2
             theta_map = {"thought": 0.0, "perception": math.pi/2, "action": math.pi, "emotion": 3*math.pi/2}
             theta = theta_map.get(type, 0.0)
             
-            # phi (Emotion): feedback maps to -π to π
-            phi = (feedback + 1.0) * math.pi  # -1..1 -> 0..2π
+            # phi (Emotion): feedback maps to -  to  
+            phi = (feedback + 1.0) * math.pi  # -1..1 -> 0..2 
             
             # psi (Intent): extract from context if available
             intent_val = context.get("intent", 0.5) if context else 0.5
@@ -269,7 +269,7 @@ class UnifiedExperienceCore:
                 position=coord,
                 pattern_meta={"topology": "point", "trajectory": "static"}
             )
-            logger.debug(f"🔮 Experience stored at 4D: θ={theta:.2f}, φ={phi:.2f}, ψ={psi:.2f}, r={r:.2f}")
+            logger.debug(f"  Experience stored at 4D:  ={theta:.2f},  ={phi:.2f},  ={psi:.2f}, r={r:.2f}")
 
         # 7. [PHASE 54] Topology Evolution: Move concepts based on experience
         if self.topology:
@@ -450,7 +450,7 @@ class UnifiedExperienceCore:
         if len(self.stream) < 500:
             return
 
-        logger.info(f"🗜️ Consolidating Experience Core (Stream size: {len(self.stream)})...")
+        logger.info(f"   Consolidating Experience Core (Stream size: {len(self.stream)})...")
 
         # Keep significant events (high feedback or reinforced)
         significant = [
@@ -489,7 +489,7 @@ class UnifiedExperienceCore:
         for i, ev in enumerate(self.stream):
             if ev.id == event_id:
                 self.stream[i] = new_event
-                logger.info(f"🧬 Memory {event_id} has evolved in the Hippocampus.")
+                logger.info(f"  Memory {event_id} has evolved in the Hippocampus.")
                 self._save_state()
                 return
         logger.warning(f"Could not find memory {event_id} to evolve.")

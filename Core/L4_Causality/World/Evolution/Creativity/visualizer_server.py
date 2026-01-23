@@ -2,7 +2,7 @@
 Visualizer Server (The Avatar)
 ==============================
 [The Official Gateway to the External World]
-(공식 외부 소통 창구)
+(           )
 
 This server acts as the "Dimensional Membrane" visualizer, projecting the 
 internal state of the NervousSystem to the external world (User/Web).
@@ -75,7 +75,7 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
                         if current_status == "Dreaming" and "thought" in state:
                             # [Project Oneiros] Display Dream Description as Hologram Text
                             dream_text = state["thought"]
-                            state["thought"] = f"🌌 {dream_text}"
+                            state["thought"] = f"  {dream_text}"
                         
                         self.wfile.write(json.dumps(state).encode())
                     else:
@@ -254,10 +254,10 @@ class VisualizerServer:
         self.world = world
         self.port = port
         # Phase 21: The Incarnation - Single NervousSystem Entry Point
-        # The NervousSystem is the dimensional membrane (자아) between Mind and World
+        # The NervousSystem is the dimensional membrane (  ) between Mind and World
         from Core.L1_Foundation.Foundation.nervous_system import get_nervous_system
         self.nervous_system = get_nervous_system()
-        logger.info("🦴 NervousSystem Active: Dimensional Membrane Established")
+        logger.info("  NervousSystem Active: Dimensional Membrane Established")
         
         # Legacy references (for backward compatibility, delegate to NervousSystem)
         self.soul = self.nervous_system  # Spirits are now in NervousSystem
@@ -286,7 +286,7 @@ class VisualizerServer:
         try:
             from Core.L1_Foundation.Physiology.Sensory.reality_perception import RealityPerceptionSystem
             self.perception_system = RealityPerceptionSystem()
-            logger.info("👁️ Reality Perception System Connected to Avatar")
+            logger.info("   Reality Perception System Connected to Avatar")
         except ImportError as e:
             logger.error(f"Failed to load RealityPerceptionSystem: {e}")
             self.perception_system = None
@@ -298,7 +298,7 @@ class VisualizerServer:
         import json
         
         async def wave_stream(websocket):
-            logger.info("🔌 Client connected to Neural Stream")
+            logger.info("  Client connected to Neural Stream")
             
             # Task 1: Sender (NervousSystem -> Client)
             async def sender():
@@ -377,7 +377,7 @@ class VisualizerServer:
                                     "data": perception
                                 })
                                 # Also log for debugging
-                                logger.info(f"✨ Reality Perceived: {perception.interpretation}")
+                                logger.info(f"  Reality Perceived: {perception.interpretation}")
                                 
                         # If text input, send speech response
                         if data.get("type") == "text" and response:
@@ -385,18 +385,18 @@ class VisualizerServer:
                             upper = user_text.upper()
                             
                             # Action Commands
-                            if upper.startswith("검색") or upper.startswith("SEARCH"):
+                            if upper.startswith("  ") or upper.startswith("SEARCH"):
                                 query = user_text.split(":", 1)[-1].strip() if ":" in user_text else user_text
                                 if self.web:
                                     result = self.web.search(query)
-                                    response = f"검색 결과: {str(result)[:500] if result else '없음'}"
+                                    response = f"     : {str(result)[:500] if result else '  '}"
                                     
-                            elif upper.startswith("읽어") or upper.startswith("READ"):
+                            elif upper.startswith("  ") or upper.startswith("READ"):
                                 path = user_text.split(":", 1)[-1].strip() if ":" in user_text else ""
                                 if self.hands and path:
-                                    response = f"파일: {self.hands.read_memory(path)[:500]}"
+                                    response = f"  : {self.hands.read_memory(path)[:500]}"
                                     
-                            elif upper.startswith("편지") or upper.startswith("WRITE"):
+                            elif upper.startswith("  ") or upper.startswith("WRITE"):
                                 content = user_text.split(":", 1)[-1].strip() if ":" in user_text else user_text
                                 if self.hands:
                                     response = self.hands.write_letter("Father", content)
@@ -439,10 +439,10 @@ class VisualizerServer:
         self.ws_thread.daemon = True
         self.ws_thread.start()
         
-        logger.info(f"🔮 The Mirror is active at http://localhost:{self.port}/garden")
-        logger.info(f"👤 Avatar active at http://localhost:{self.port}/avatar")
-        logger.info(f"🧠 Neural Map active at http://localhost:{self.port}/neural_map")
-        logger.info(f"🌊 Wave Stream active at ws://localhost:8765")
+        logger.info(f"  The Mirror is active at http://localhost:{self.port}/garden")
+        logger.info(f"  Avatar active at http://localhost:{self.port}/avatar")
+        logger.info(f"  Neural Map active at http://localhost:{self.port}/neural_map")
+        logger.info(f"  Wave Stream active at ws://localhost:8765")
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse 

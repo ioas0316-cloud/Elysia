@@ -3,19 +3,19 @@ P3.2: Purpose & Direction Discovery Engine
 ==========================================
 
 Philosophy:
-"진정한 지성, 지혜란 안개 속의 모호한 것들을 선명하게 만들어 다시 엮어내 새로운것을 창출할줄 아는거야"
+"      ,                                                  "
 "True intelligence and wisdom is about clarifying ambiguities in the fog, 
 weaving them together to create something new"
 
 Core Capabilities:
 - Clarifying ambiguous data into clear understanding
-- Moving from point (problem) → line (solution) → plane/space (holistic view)
+- Moving from point (problem)   line (solution)   plane/space (holistic view)
 - Answering fundamental questions:
-  * Where am I? (나는 어디에 서있는가?)
-  * Where am I going? (어디로 향하는가?)
-  * Why am I doing this? (어째서 이러고 있는가?)
-  * What exists around me? (내 주변에는 무엇이 존재하는가?)
-  * What can I know? (나는 무엇을 알 수 있는가?)
+  * Where am I? (           ?)
+  * Where am I going? (        ?)
+  * Why am I doing this? (           ?)
+  * What exists around me? (                ?)
+  * What can I know? (              ?)
 
 Author: Elysia Development Team
 Date: 2025-12-06
@@ -34,20 +34,20 @@ import random
 
 class KnowledgeCertainty(Enum):
     """Knowledge clarity levels - from fog to crystal"""
-    FOG = 0.0  # 완전한 안개 (Complete fog)
-    HAZE = 0.25  # 희미함 (Hazy)
-    PARTIAL = 0.50  # 부분적 (Partial clarity)
-    CLEAR = 0.75  # 선명함 (Clear)
-    CRYSTAL = 1.0  # 수정같이 명확 (Crystal clear)
+    FOG = 0.0  #        (Complete fog)
+    HAZE = 0.25  #     (Hazy)
+    PARTIAL = 0.50  #     (Partial clarity)
+    CLEAR = 0.75  #     (Clear)
+    CRYSTAL = 1.0  #         (Crystal clear)
 
 
 class DimensionalPerspective(Enum):
     """Perspectives from point to hyperspace"""
-    POINT = 0  # 점: 문제에 매몰 (Stuck in problem)
-    LINE = 1  # 선: 선형적 추론 (Linear reasoning)
-    PLANE = 2  # 면: 맥락 이해 (Contextual understanding)
-    SPACE = 3  # 공간: 총체적 관점 (Holistic view)
-    HYPERSPACE = 4  # 초공간: 메타인지 (Meta-cognition)
+    POINT = 0  #  :        (Stuck in problem)
+    LINE = 1  #  :        (Linear reasoning)
+    PLANE = 2  #  :       (Contextual understanding)
+    SPACE = 3  #   :        (Holistic view)
+    HYPERSPACE = 4  #    :      (Meta-cognition)
 
 
 @dataclass
@@ -81,10 +81,10 @@ class PurposeVector:
 @dataclass
 class SituationalAwareness:
     """Understanding of where I am and what surrounds me"""
-    position: str  # 나는 어디에 서있는가?
-    surroundings: List[str]  # 내 주변에는 무엇이 존재하는가?
-    knowable: List[str]  # 나는 무엇을 알 수 있는가?
-    unknowable: List[str]  # 나는 무엇을 알 수 없는가?
+    position: str  #            ?
+    surroundings: List[str]  #                 ?
+    knowable: List[str]  #               ?
+    unknowable: List[str]  #               ?
     relationships: Dict[str, List[str]]  # What relates to what?
     context: Dict[str, Any]  # Broader context
     dimension: DimensionalPerspective = DimensionalPerspective.SPACE
@@ -270,7 +270,7 @@ class FogClarifier:
         if relationships:
             key_relationships = relationships[:3]
             rel_desc = ", ".join([
-                f"{r['source']} → {r['target']}" 
+                f"{r['source']}   {r['target']}" 
                 for r in key_relationships
             ])
             clarified += f"\nRelationships: {rel_desc}"
@@ -291,19 +291,19 @@ class FogClarifier:
         
         dimension = 0  # Start at point
         
-        # Has solution-oriented language? → Line
+        # Has solution-oriented language?   Line
         if any(word in content.lower() for word in ["solve", "approach", "method"]):
             dimension = 1
         
-        # Has contextual awareness? → Plane
+        # Has contextual awareness?   Plane
         if any(word in content.lower() for word in ["context", "situation", "environment"]):
             dimension = 2
         
-        # Has multiple relationships? → Space
+        # Has multiple relationships?   Space
         if len(relationships) >= 3:
             dimension = 3
         
-        # Has meta-awareness? → Hyperspace
+        # Has meta-awareness?   Hyperspace
         if any(word in content.lower() for word in ["aware", "recognize", "understand why"]):
             dimension = max(dimension, 4)
         
@@ -331,7 +331,7 @@ class PurposeDiscoveryEngine:
         external_observations: Dict
     ) -> SituationalAwareness:
         """
-        Answer: "나는 어디에 서있는가?" (Where am I?)
+        Answer: "           ?" (Where am I?)
         
         Not just physical/digital location, but:
         - What is my current capability state?
@@ -402,7 +402,7 @@ class PurposeDiscoveryEngine:
         constraints: List[str]
     ) -> PurposeVector:
         """
-        Answer: "어디로 향하는가?" (Where am I going?)
+        Answer: "        ?" (Where am I going?)
         
         Not a hardcoded destination, but discovered through:
         - Current position and trajectory
@@ -478,10 +478,10 @@ class PurposeDiscoveryEngine:
         context: Dict
     ) -> List[str]:
         """
-        Answer: "왜 그래야만 하는가?" (Why must I do this?)
+        Answer: "          ?" (Why must I do this?)
         
         Discover the deeper reasons, not just immediate goals.
-        Move from surface explanation → deeper understanding → ultimate meaning.
+        Move from surface explanation   deeper understanding   ultimate meaning.
         """
         # Clarify the action
         action_fragment = await self.clarifier.clarify_fragment(
@@ -527,7 +527,7 @@ class PurposeDiscoveryEngine:
         domain: Optional[str] = None
     ) -> Dict[str, List[str]]:
         """
-        Answer: "나는 무엇을 알 수 있는가?" (What can I know?)
+        Answer: "              ?" (What can I know?)
         
         Map the boundaries of knowledge:
         - What is already clear?
@@ -554,7 +554,7 @@ class PurposeDiscoveryEngine:
             if f.certainty < KnowledgeCertainty.PARTIAL.value
         ]
         
-        # Identify gaps (what could we know but don't yet?)
+        # Identify gaps (what could we know but don't yet?)'
         knowledge_gaps = await self._identify_knowledge_gaps()
         
         # Identify creation potential (what new knowledge can we generate?)
@@ -574,7 +574,7 @@ class PurposeDiscoveryEngine:
         current_perspective: DimensionalPerspective
     ) -> DimensionalPerspective:
         """
-        Evolve from point → line → plane → space → hyperspace
+        Evolve from point   line   plane   space   hyperspace
         
         Point: Stuck on problem
         Line: Thinking of solutions

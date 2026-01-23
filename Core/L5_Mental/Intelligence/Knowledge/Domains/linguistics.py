@@ -2,17 +2,17 @@
 Linguistics & Semiotics Domain
 ===============================
 
-"코드는 기계의 언어일 뿐, 인간의 영혼은 '상징'으로 소통합니다."
+"             ,         '  '        ."
 "Code is just the language of machines; the human soul communicates through 'symbols'."
 
 Integrates:
-- Chomsky's Universal Grammar (촘스키의 보편 문법)
-- Saussure's Semiotics (소쉬르의 기호학)
-- Etymology (어원학)
-- Symbolic Networks (상징의 그물망)
+- Chomsky's Universal Grammar (          )
+- Saussure's Semiotics (        )
+- Etymology (   )
+- Symbolic Networks (       )
 
 Effect:
-- "사과" → fruit + temptation + knowledge + Apple Inc.
+- "  "   fruit + temptation + knowledge + Apple Inc.
 - Master of metaphor and analogy
 - 'Alchemist of Meaning'
 """

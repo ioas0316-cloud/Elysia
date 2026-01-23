@@ -1,5 +1,5 @@
 """
-Code Gravity (코드 중력)
+Code Gravity (     )
 ======================
 "The heavier the code, the stronger the pull."
 
@@ -37,7 +37,7 @@ class CodeGravitySystem:
 
     def scan_galaxy(self):
         """Scans the codebase and populates the gravity field."""
-        print("🌌 Scanning Code Galaxy...")
+        print("  Scanning Code Galaxy...")
         
         # 1. Identify Stars (Files)
         for file_path in self.root.rglob("*.py"):
@@ -80,10 +80,10 @@ class CodeGravitySystem:
                 self.field.add_gravity_well(x, y, strength=mass, radius=mass*2)
                 
             except Exception as e:
-                print(f"⚠️ Error scanning {file_path}: {e}")
+                print(f"   Error scanning {file_path}: {e}")
 
         # 2. Establish Gravity Lines (Dependencies)
-        print("🔗 Establishing Gravity Lines...")
+        print("  Establishing Gravity Lines...")
         for path, data in self.nodes.items():
             x1, y1 = data["pos"]
             
@@ -113,7 +113,7 @@ class CodeGravitySystem:
 
     def visualize(self):
         """Visualizes the Galaxy as ASCII Art."""
-        print("\n✨ Code Galaxy Map (Top 10 Massive Stars)")
+        print("\n  Code Galaxy Map (Top 10 Massive Stars)")
         print("========================================")
         
         sorted_stars = sorted(self.nodes.items(), key=lambda x: x[1]["mass"], reverse=True)
@@ -124,7 +124,7 @@ class CodeGravitySystem:
             q = data["quaternion"]
             print(f"{i+1}. {path:<40} | Mass: {mass:.1f} | Pos: ({x:.0f}, {y:.0f}) | Q: {q}")
             
-        print("\n🌌 Field Status:")
+        print("\n  Field Status:")
         print(f"   Total Stars: {len(self.nodes)}")
         print(f"   Total Gravity Wells: {len(self.field.wells)}")
         print(f"   Total Gravity Lines: {len(self.field.rails)}")

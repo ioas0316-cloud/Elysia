@@ -6,7 +6,7 @@ from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 from Core.L1_Foundation.Foundation.code_resonance import HarmonicResonance
 
 def debug_math():
-    print("🧮 Debugging Math...")
+    print("  Debugging Math...")
     
     # 1. Check Initial Flow Quaternion
     # From GenesisEngine: q = Quaternion(1.0, 1.0, 0.2, 0.2)

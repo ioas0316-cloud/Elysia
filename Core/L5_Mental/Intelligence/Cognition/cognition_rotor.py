@@ -1,8 +1,8 @@
 """
-Cognition Rotor (인지 로터)
+Cognition Rotor (     )
 ==========================
 "Perception is not a snapshot; it is an oscillation."
-"인지란 스냅샷이 아니라 진동이다."
+"                 ."
 
 This module defines the CognitionRotor, which replaces static deconstruction
 with a dynamic frequency-based deconstruction of reality.
@@ -41,7 +41,7 @@ class CognitionRotor(Rotor):
         Higher RPM -> Finer resolution (Mental/Spiritual)
         Lower RPM -> Coarser resolution (Physical/Functional)
         """
-        logger.info(f"🌀 [COGNITION] Scanning at {self.current_rpm:.1f} RPM...")
+        logger.info(f"  [COGNITION] Scanning at {self.current_rpm:.1f} RPM...")
         
         # 1. Normalize signal
         signal = signal / (signal.norm() + 1e-9)

@@ -150,7 +150,7 @@ class ExplainableAI:
         """Generate flowchart representation"""
         chart = "Decision Flow:\n\n"
         for step in steps:
-            arrow = "  ↓\n" if step.step_number < len(steps) else ""
+            arrow = "   \n" if step.step_number < len(steps) else ""
             chart += f"[Step {step.step_number}] {step.description}\n"
             chart += f"  Confidence: {step.confidence:.2f}\n"
             chart += arrow
@@ -170,17 +170,17 @@ class ExplainableAI:
         tree = "Decision Tree:\n\n"
         indent = ""
         for step in steps:
-            tree += f"{indent}├─ {step.description}\n"
+            tree += f"{indent}   {step.description}\n"
             if step.alternatives_considered:
-                tree += f"{indent}│  (alternatives: {', '.join(step.alternatives_considered[:2])})\n"
-            indent += "│  "
+                tree += f"{indent}   (alternatives: {', '.join(step.alternatives_considered[:2])})\n"
+            indent += "   "
         return tree
     
     def _generate_analogy_diagram(self, steps: List[ReasoningStep]) -> str:
         """Generate analogy diagram"""
         diagram = "Analogy: Similar to...\n\n"
         for step in steps:
-            diagram += f"• {step.description}\n"
+            diagram += f"  {step.description}\n"
         return diagram
     
     def _extract_key_factors(self, steps: List[ReasoningStep]) -> List[Dict[str, Any]]:
@@ -261,5 +261,4 @@ class ExplainableAI:
         
         with open(filename, 'w') as f:
             json.dump(data, f, indent=2)
-
 

@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("SeedMigration")
 
 def migrate():
-    print("🚀 Starting Seed Migration to Memory DB...")
+    print("  Starting Seed Migration to Memory DB...")
     
     # 1. Initialize Hippocampus (creates tables in memory.db)
     hippocampus = Hippocampus()
@@ -22,14 +22,14 @@ def migrate():
     # 2. Load Internet Seeds
     json_path = "data/internet_pattern_dna.json"
     if not os.path.exists(json_path):
-        print(f"❌ Error: {json_path} not found!")
+        print(f"  Error: {json_path} not found!")
         return
         
     with open(json_path, 'r') as f:
         data = json.load(f)
         
     seeds = data.get("seeds", {})
-    print(f"📦 Found {len(seeds)} seeds in JSON.")
+    print(f"  Found {len(seeds)} seeds in JSON.")
     
     # 3. Store in Memory DB
     for key, seed_data in seeds.items():
@@ -54,9 +54,9 @@ def migrate():
         
         # Store
         hippocampus.store_pattern_dna(dna)
-        print(f"   ✅ Migrated: {key}")
+        print(f"     Migrated: {key}")
         
-    print("\n🎉 Migration Complete!")
+    print("\n  Migration Complete!")
     print("Memory DB is now the active Pattern DNA Bank.")
 
 if __name__ == "__main__":

@@ -16,17 +16,17 @@ class RefactoringPlan:
     status: str = "PENDING_APPROVAL"
     
     def to_markdown(self) -> str:
-        return f"""# 🏗️ Refactoring Proposal: {self.title}
+        return f"""#    Refactoring Proposal: {self.title}
 > **Target:** `{self.target_node}`
 > **Date:** {datetime.datetime.now().isoformat()}
 
-## 🚨 Diagnosis (The Why)
+##   Diagnosis (The Why)
 {self.problem}
 
-## 💡 Solution (The How)
+##   Solution (The How)
 {self.solution}
 
-## ⚠️ Risk Assessment
+##    Risk Assessment
 {self.risk}
 
 ---
@@ -55,7 +55,7 @@ class CausalArchitect:
         
         for node_id, tension in tension_map.items():
             if tension > TENSION_LIMIT:
-                logger.info(f"🧐 Causal Analysis on High Tension Node: {node_id} ({tension:.2f})")
+                logger.info(f"  Causal Analysis on High Tension Node: {node_id} ({tension:.2f})")
                 
                 # Heuristic Reasoning (Simulating Logos)
                 # 1. Identify Type

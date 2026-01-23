@@ -1,6 +1,6 @@
 """
 Universal Transfer Learning System
-Phase 13: 범용 인공지능 향해 (Towards AGI)
+Phase 13:            (Towards AGI)
 
 Enables rapid learning of new domains through transfer learning,
 meta-learning, and few-shot learning capabilities.

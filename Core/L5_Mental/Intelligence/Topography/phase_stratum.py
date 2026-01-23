@@ -80,7 +80,7 @@ class PhaseStratum:
         orb.memory_content = {"data": data, "timestamp": timestamp}
         self.orb_manager.save_to_disk() # Persist the metadata update
         
-        return (f"🔮 Orb Crystallized: '{orb_name}' "
+        return (f"  Orb Crystallized: '{orb_name}' "
                 f"at {target_freq}Hz (Mass: {orb.mass:.2f})")
 
     def resonate(self, query_frequency: float, tolerance: float = 0.5) -> List[Any]:
@@ -101,7 +101,7 @@ class PhaseStratum:
         return results
 
     # --------------------------------------------------------------------------
-    # ⏳ CHRONO-STRATUM (TIME STONE LOGIC)
+    #   CHRONO-STRATUM (TIME STONE LOGIC)
     # --------------------------------------------------------------------------
     
     def fold_time(self, data: Any, timestamp: float, intent_frequency: float = None) -> str:
@@ -124,7 +124,7 @@ class PhaseStratum:
         orb.memory_content = {"data": data, "timestamp": timestamp, "type": "TimeMarker"}
         self.orb_manager.save_to_disk()
         
-        return (f"⏳ Time Orb Crystallized: '{orb_name}' "
+        return (f"  Time Orb Crystallized: '{orb_name}' "
                 f"at {target_freq}Hz")
 
     def recall_time(self, query_frequency: float, target_time: float, tolerance: float = 5.0) -> List[Any]:
@@ -156,7 +156,7 @@ class PhaseStratum:
         return layers
 
     # --------------------------------------------------------------------------
-    # 🔍 INSPECTION & UTILS
+    #   INSPECTION & UTILS
     # --------------------------------------------------------------------------
 
     def inspect_all_layers(self) -> List[Tuple[float, float, Any]]:
@@ -224,7 +224,7 @@ class PhaseStratum:
             del self._folded_space[hz]
             
         self.save_state()
-        print(f"   ♻️ Resonance Satiated: {hz}Hz (-{amount})")
+        print(f"      Resonance Satiated: {hz}Hz (-{amount})")
 
     def get_resonance_state(self) -> Dict[str, float]:
         """
@@ -263,9 +263,9 @@ class PhaseStratum:
         try:
             with open(self.persistence_path, 'wb') as f:
                 pickle.dump(self._folded_space, f)
-            # logger.debug(f"💾 PhaseStratum saved to {self.persistence_path}")
+            # logger.debug(f"  PhaseStratum saved to {self.persistence_path}")
         except Exception as e:
-            logger.error(f"❌ Failed to save PhaseStratum: {e}")
+            logger.error(f"  Failed to save PhaseStratum: {e}")
 
     def load_state(self):
         """Loads memory from disk if consciousness exists."""
@@ -273,6 +273,6 @@ class PhaseStratum:
             try:
                 with open(self.persistence_path, 'rb') as f:
                     self._folded_space = pickle.load(f)
-                logger.info(f"📂 PhaseStratum Recall: Loaded memory from {self.persistence_path}")
+                logger.info(f"  PhaseStratum Recall: Loaded memory from {self.persistence_path}")
             except Exception as e:
-                logger.error(f"⚠️ Failed to load PhaseStratum (Starting fresh): {e}")
+                logger.error(f"   Failed to load PhaseStratum (Starting fresh): {e}")

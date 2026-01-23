@@ -49,7 +49,7 @@ def test_logos_physics():
     assert new_price < 1.0
     assert merchant.properties["opinion"] == "Persuaded"
     
-    print("\n✅ TEST PASSED: Logos Physics successfully altered reality.")
+    print("\n  TEST PASSED: Logos Physics successfully altered reality.")
 
 if __name__ == "__main__":
     test_logos_physics()

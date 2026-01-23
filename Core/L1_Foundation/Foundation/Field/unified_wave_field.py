@@ -56,7 +56,7 @@ class UnifiedWaveField:
         self.waves: List[WavePacket] = []
         self.time_dilation = 1.0
         self.entropy = 0.0
-        logger.info("🌌 Unified Wave Field Initialized. Ready to vibrate.")
+        logger.info("  Unified Wave Field Initialized. Ready to vibrate.")
 
     def inject_impulse(self, position: Vector3, frequency: float, amplitude: float):
         """
@@ -66,7 +66,7 @@ class UnifiedWaveField:
         packet = WavePacket(position, frequency, amplitude, phase=0.0)
         self.waves.append(packet)
         type_str = packet.get_type()
-        logger.info(f"✨ Impulse Injected: {type_str} ({frequency:.1f}Hz) at {position}")
+        logger.info(f"  Impulse Injected: {type_str} ({frequency:.1f}Hz) at {position}")
 
     def update(self, dt: float):
         """
@@ -113,7 +113,7 @@ class UnifiedWaveField:
         if type1 == "PHYSICS" and type2 == "PHYSICS":
             # Repel logic: In a real field, this creates potential energy.
             # Here we just log the "Bang".
-            logger.info(f"💥 COLLISION: {w1.frequency}Hz <-> {w2.frequency}Hz")
+            logger.info(f"  COLLISION: {w1.frequency}Hz <-> {w2.frequency}Hz")
             
             # Transfer momentum (Swap amplitudes/frequencies slightly)
             # Conservation of Energy
@@ -123,7 +123,7 @@ class UnifiedWaveField:
 
         # LIGHT meets PHYSICS = Rendering (Reflection)
         elif (type1 == "LIGHT" and type2 == "PHYSICS") or (type1 == "PHYSICS" and type2 == "LIGHT"):
-            logger.info(f"🎨 RENDER: Light hit Matter. Reflection intent.")
+            logger.info(f"  RENDER: Light hit Matter. Reflection intent.")
 
         # LOGIC meets LOGIC = Synthesis (Harmony)
         elif type1 == "LOGIC" and type2 == "LOGIC":
@@ -131,7 +131,7 @@ class UnifiedWaveField:
             if abs(w1.frequency - w2.frequency) < 5.0:
                  w1.amplitude *= 1.1
                  w2.amplitude *= 1.1
-                 logger.info(f"🧠 RESONANCE: Thoughts amplifying each other.")
+                 logger.info(f"  RESONANCE: Thoughts amplifying each other.")
 
     def render_view(self, camera_pos: Vector3) -> List[dict]:
         """

@@ -37,7 +37,7 @@ class ElysiaSignal:
 class ElysiaSignalEngine:
     """
     Transforms raw world event logs into a sparse stream of
-    "Elysia signals" – analogue value droplets like LIFE_BLOOM,
+    "Elysia signals"   analogue value droplets like LIFE_BLOOM,
     JOY_GATHERING, ACHIEVEMENT, CARE_ACT, MORTALITY.
 
     Law over rules:
@@ -280,4 +280,3 @@ class ElysiaSignalEngine:
         with open(self.signal_log_path, "w", encoding="utf-8") as f:
             for sig in signals:
                 f.write(json.dumps(sig.to_dict(), ensure_ascii=False) + "\n")
-

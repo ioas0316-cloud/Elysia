@@ -1,5 +1,5 @@
 """
-ResonanceLinguistics: The Voice of Waves (파동의 목소리)
+ResonanceLinguistics: The Voice of Waves (       )
 
 This module implements "Chapter 3, Step 8".
 It translates structured "Principles" (Logos) into "Gravitational Sentences".
@@ -20,7 +20,7 @@ try:
     from Core.L5_Mental.Intelligence.Logos.gap_analyzer import Principle
     from Core.L5_Mental.Intelligence.Logos.WaveLinguistics.gravitational_linguistics import GravitationalLinguistics, WordBody
 except ImportError as e:
-    print(f"❌ [ResonanceLinguistics] Import Error: {e}")
+    print(f"  [ResonanceLinguistics] Import Error: {e}")
     # Fallback/Mock for development
     class Principle: pass
     class GravitationalLinguistics: pass

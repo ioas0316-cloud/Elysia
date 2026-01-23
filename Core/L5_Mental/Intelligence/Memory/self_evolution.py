@@ -7,7 +7,7 @@ Process:
 1. Detect emergent patterns in interference
 2. Name new concepts based on their origin
 3. Add to field with synthesized properties
-4. Positive feedback loop: smarter → discovers more → smarter...
+4. Positive feedback loop: smarter   discovers more   smarter...
 """
 
 from typing import Dict, List, Tuple
@@ -41,7 +41,7 @@ class SelfEvolution:
         
         # Check for strong constructive interference
         if len(interference['constructive']) > 5:
-            # Strong resonance → new concept emerges
+            # Strong resonance   new concept emerges
             new_concept = self._synthesize_concept_from_interference(
                 activated_concepts,
                 interference,
@@ -89,11 +89,11 @@ class SelfEvolution:
         """
         # Known emergent patterns
         patterns = {
-            frozenset(["사랑", "고통"]): "성숙",
-            frozenset(["고통", "희망"]): "성장",
-            frozenset(["사랑", "희생"]): "헌신",
-            frozenset(["빛", "희망"]): "광명",
-            frozenset(["고통", "시간"]): "치유",
+            frozenset(["  ", "  "]): "  ",
+            frozenset(["  ", "  "]): "  ",
+            frozenset(["  ", "  "]): "  ",
+            frozenset([" ", "  "]): "  ",
+            frozenset(["  ", "  "]): "  ",
         }
         
         source_set = frozenset(sources)
@@ -101,7 +101,7 @@ class SelfEvolution:
             return patterns[source_set]
         
         # Generic: combine first syllables
-        return f"{'_'.join(sources[:2])}_융합"
+        return f"{'_'.join(sources[:2])}_  "
     
     def _blend_properties(self, sources: List[str]) -> Tuple:
         """
@@ -173,7 +173,7 @@ class SelfEvolution:
         # Record discovery
         self.discovered_concepts.append(discovery)
         
-        print(f"   ✨ New concept discovered: '{name}'")
+        print(f"     New concept discovered: '{name}'")
         print(f"      Sources: {' + '.join(discovery['source_concepts'])}")
         print(f"      Position: ({x:.2f}, {y:.2f}, {z:.2f})")
         print(f"      Frequency: {wave.frequency:.1f} Hz")

@@ -36,19 +36,19 @@ class WatchdogTimer:
         self.last_kick = time.time()
         self.monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True)
         self.monitor_thread.start()
-        logger.info("🐕 Watchdog active. Monitoring heartbeat...")
+        logger.info("  Watchdog active. Monitoring heartbeat...")
 
     def kick(self):
         """Feeds the watchdog. Resets the timer."""
         self.last_kick = time.time()
-        # logger.debug("🐕 Watchdog fed.")
+        # logger.debug("  Watchdog fed.")
 
     def stop(self):
         """Stops the watchdog."""
         self.running = False
         if self.monitor_thread:
             self.monitor_thread.join(timeout=1.0)
-        logger.info("🐕 Watchdog sleeping.")
+        logger.info("  Watchdog sleeping.")
 
     def _monitor_loop(self):
         """Internal loop checking for death."""
@@ -57,7 +57,7 @@ class WatchdogTimer:
             elapsed = time.time() - self.last_kick
 
             if elapsed > self.timeout:
-                logger.critical(f"⚡ [WATCHDOG] Heartbeat lost ({elapsed:.1f}s > {self.timeout}s). SYSTEM FAINTING.")
+                logger.critical(f"  [WATCHDOG] Heartbeat lost ({elapsed:.1f}s > {self.timeout}s). SYSTEM FAINTING.")
                 if self.on_bite:
                     try:
                         self.on_bite()

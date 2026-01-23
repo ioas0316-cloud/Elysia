@@ -22,13 +22,13 @@ class HardwareSovereignManager:
     def __init__(self):
         self.report = BodySensor.sense_body()
         self.strategy = self.report["strategy"]
-        logger.info(f"👑 Physical Sovereignty established. Current Strategy: {self.strategy}")
+        logger.info(f"  Physical Sovereignty established. Current Strategy: {self.strategy}")
 
     def optimize_gears(self, intent_type: str):
         """
         Adjusts hardware priorities based on mental intent.
         """
-        logger.info(f"⚙️ Shifting gears for: {intent_type}")
+        logger.info(f"   Shifting gears for: {intent_type}")
         
         try:
             import psutil
@@ -59,9 +59,9 @@ class HardwareSovereignManager:
                     pass
                     
         except ImportError:
-            logger.warning("⚠️ psutil not found. Cannot set process priority.")
+            logger.warning("   psutil not found. Cannot set process priority.")
         except Exception as e:
-            logger.error(f"❌ Failed to shift gears: {e}")
+            logger.error(f"  Failed to shift gears: {e}")
 
     def _set_vram_priority(self, level: str):
         logger.info(f"   [VRAM] -> {level}")

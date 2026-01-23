@@ -10,7 +10,7 @@ field values (Elevation, Heat, Moisture, Light).
 
 Architecture:
 1. OmniField Sampler - Read regional field values
-2. Visual Translator - Map field → visual primitives
+2. Visual Translator - Map field   visual primitives
 3. Visual DNA - Structured scene description
 """
 

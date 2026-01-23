@@ -1,8 +1,8 @@
 """
-System Registry (시스템 등록소)
+System Registry (       )
 ================================
 
-"모든 시스템의 중앙 등록소. 다시는 같은 것을 두 번 만들지 않기 위해."
+"              .                        ."
 "Central registry of all systems. To never build the same thing twice."
 
 This is the solution to the recurring problem:
@@ -82,7 +82,7 @@ class SystemRegistry:
         self.categories: Dict[str, List[str]] = {}
         self.class_index: Dict[str, List[str]] = {}  # class_name -> [file paths]
         
-        logger.info(f"📋 SystemRegistry initialized at {self.repo_root}")
+        logger.info(f"  SystemRegistry initialized at {self.repo_root}")
     
     def scan_all_systems(self) -> Dict[str, int]:
         """
@@ -91,7 +91,7 @@ class SystemRegistry:
         Returns:
             Statistics of discovered systems
         """
-        logger.info("🔍 Scanning all systems...")
+        logger.info("  Scanning all systems...")
         
         stats = {
             "files_scanned": 0,
@@ -125,7 +125,7 @@ class SystemRegistry:
         duplicates = self.find_duplicates()
         stats["duplicates_found"] = len(duplicates)
         
-        logger.info(f"✅ Scan complete: {stats}")
+        logger.info(f"  Scan complete: {stats}")
         return stats
     
     def _analyze_file(self, filepath: Path) -> Optional[SystemEntry]:
@@ -373,7 +373,7 @@ class SystemRegistry:
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         
-        logger.info(f"📄 Registry exported to {output_path}")
+        logger.info(f"  Registry exported to {output_path}")
     
     def generate_report(self) -> str:
         """Generate human-readable report"""
@@ -397,7 +397,7 @@ class SystemRegistry:
             systems = self.find_by_category(category)
             lines.append(f"\n### {category.upper()} ({len(systems)} systems)")
             for entry in systems[:10]:  # Top 10
-                lines.append(f"  • {entry.name}: {entry.purpose[:100]}")
+                lines.append(f"    {entry.name}: {entry.purpose[:100]}")
             if len(systems) > 10:
                 lines.append(f"  ... and {len(systems) - 10} more")
         lines.append("")
@@ -408,11 +408,11 @@ class SystemRegistry:
         lines.append("-" * 80)
         if duplicates:
             for cls, paths in list(duplicates.items())[:20]:
-                lines.append(f"\n⚠️ {cls} (found in {len(paths)} files):")
+                lines.append(f"\n   {cls} (found in {len(paths)} files):")
                 for path in paths:
-                    lines.append(f"  • {path}")
+                    lines.append(f"    {path}")
         else:
-            lines.append("✅ No duplicates found!")
+            lines.append("  No duplicates found!")
         lines.append("")
         
         lines.append("=" * 80)

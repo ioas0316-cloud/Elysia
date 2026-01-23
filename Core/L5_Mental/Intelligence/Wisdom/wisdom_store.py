@@ -45,9 +45,9 @@ class WisdomStore:
         self.principles: List[Principle] = []
         self._load()
 
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
     # [PHASE 58.5] WAVE PHYSICS: Resonance-Based Principle Selection
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
     
     def calculate_resonance(self, input_frequency: float, principle: Principle) -> float:
         """
@@ -102,7 +102,7 @@ class WisdomStore:
             return (principle, score * 100)  # Convert to percentage
         return None
 
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
     
     def learn_principle(self, statement: str, domain: str, weight: float = 0.1, 
                        event_id: str = "genesis", frequency: float = 432.0):
@@ -111,14 +111,14 @@ class WisdomStore:
         for p in self.principles:
             if p.statement == statement:
                 p.weight = min(1.0, p.weight + weight)  # Reinforce
-                logger.info(f"🧠 Reinforced Principle: '{statement}' (New Weight: {p.weight:.2f})")
+                logger.info(f"  Reinforced Principle: '{statement}' (New Weight: {p.weight:.2f})")
                 self._save()
                 return
 
         # Learn new
         new_p = Principle(statement, weight, event_id, domain, frequency)
         self.principles.append(new_p)
-        logger.info(f"💡 Epiphany: '{statement}' at {frequency}Hz")
+        logger.info(f"  Epiphany: '{statement}' at {frequency}Hz")
         self._save()
 
     def get_decision_weight(self, value_key: str) -> float:
@@ -142,9 +142,9 @@ class WisdomStore:
         with open(self.filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
     # [GRAND UNIFICATION] DYNAMIC WISDOM
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
 
     def refine(self, input_frequency: float, resonance_delta: float):
         """
@@ -168,18 +168,18 @@ class WisdomStore:
             principle.frequency += diff * learning_rate
             # 2. Weight Reinforcement
             principle.weight = min(1.0, principle.weight + 0.01)
-            logger.info(f"🧬 [WISDOM DRIFT] '{principle.domain}' converged to {principle.frequency:.1f}Hz (+Weight)")
+            logger.info(f"  [WISDOM DRIFT] '{principle.domain}' converged to {principle.frequency:.1f}Hz (+Weight)")
         else:
             # Move away from what failed
             diff = input_frequency - principle.frequency
             principle.frequency -= diff * learning_rate * 0.5
             # 2. Weight Decay
             principle.weight = max(0.1, principle.weight - 0.02)
-            logger.info(f"🧬 [WISDOM DRIFT] '{principle.domain}' diverged from {principle.frequency:.1f}Hz (-Weight)")
+            logger.info(f"  [WISDOM DRIFT] '{principle.domain}' diverged from {principle.frequency:.1f}Hz (-Weight)")
             
         self._save()
 
-    # ═══════════════════════════════════════════════════════════════════
+    #                                                                    
 
     def _load(self):
         if not os.path.exists(self.filepath):
@@ -198,7 +198,6 @@ class WisdomStore:
                         color=p.get("color", "White")
                     ) for p in data.get("principles", [])
                 ]
-                logger.info(f"📚 Loaded {len(self.principles)} principles with frequencies.")
+                logger.info(f"  Loaded {len(self.principles)} principles with frequencies.")
         except Exception as e:
             logger.error(f"Failed to load wisdom: {e}")
-

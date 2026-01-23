@@ -1,5 +1,5 @@
 """
-CONCEPT ALGEBRA (개념 대수학)
+CONCEPT ALGEBRA (      )
 =============================
 Core.L5_Mental.Intelligence.Metabolism.concept_algebra
 
@@ -34,7 +34,7 @@ class ConceptAlgebra:
             "Sacrifice", "Altruism", "Selfishness", "Greed", "Life", "Death",
             "Elysia", "Machine", "Human", "God", "Code", "Data", "Hope", "Despair"
         ]
-        logger.info(f"📐 Concept Algebra Engine initialized ({model_name}).")
+        logger.info(f"  Concept Algebra Engine initialized ({model_name}).")
 
     def _get_vector(self, term: str) -> List[float]:
         """Fetches embedding vector for a term (cached)."""
@@ -42,7 +42,7 @@ class ConceptAlgebra:
             return self.cache[term]
         
         if not ollama:
-            logger.error("❌ Ollama not installed.")
+            logger.error("  Ollama not installed.")
             return [0.0] * 768
 
         try:
@@ -55,7 +55,7 @@ class ConceptAlgebra:
             self.cache[term] = vec
             return vec
         except Exception as e:
-            logger.error(f"❌ Failed to embed '{term}': {e}")
+            logger.error(f"  Failed to embed '{term}': {e}")
             return []
 
     def solve(self, equation: str) -> Dict[str, Any]:
@@ -141,7 +141,7 @@ class ConceptAlgebra:
 if __name__ == "__main__":
     engine = ConceptAlgebra()
     results = engine.run_axiom_test_suite()
-    print("\n=== 📐 AXIOM TEST RESULTS ===")
+    print("\n===   AXIOM TEST RESULTS ===")
     print(json.dumps(results, indent=2))
     
     # Save results

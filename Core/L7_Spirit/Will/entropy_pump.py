@@ -25,7 +25,7 @@ class EntropyPump:
         self.critical_mass = critical_mass         # Threshold for action
         self.current_entropy = 0.0
         
-        logger.info("❤️ [PUMP] Entropy Engine ignited.")
+        logger.info("   [PUMP] Entropy Engine ignited.")
 
     def pump(self) -> float:
         """
@@ -41,7 +41,7 @@ class EntropyPump:
         
         # Log only significant changes to avoid spam
         if self.current_entropy > 1.0 and int(self.current_entropy) % 5 == 0:
-             # logger.debug(f"   -> 🔋 Tension Rising: {self.current_entropy:.1f} / {self.critical_mass}")
+             # logger.debug(f"   ->   Tension Rising: {self.current_entropy:.1f} / {self.critical_mass}")
              pass
 
         return self.current_entropy
@@ -52,7 +52,7 @@ class EntropyPump:
         """
         self.last_action_time = time.time()
         self.current_entropy = 0.0
-        logger.info("   -> 💨 [PUMP] Tension Released.")
+        logger.info("   ->   [PUMP] Tension Released.")
 
     def is_critical(self) -> bool:
         return self.current_entropy >= self.critical_mass

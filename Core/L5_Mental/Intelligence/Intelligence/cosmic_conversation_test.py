@@ -14,7 +14,7 @@ from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngi
 
 def main():
     print("\n" + "="*70)
-    print("🌌 Cosmic Conversation Test")
+    print("  Cosmic Conversation Test")
     print("="*70 + "\n")
     
     engine = ReasoningEngine()
@@ -32,9 +32,9 @@ def main():
     print(f"Response:\n{response}")
     
     if " and " in response or " . " in response:
-        print("✅ SUCCESS: Nebula generated (Multiple sentences/conjunctions detected).")
+        print("  SUCCESS: Nebula generated (Multiple sentences/conjunctions detected).")
     else:
-        print("⚠️ WARNING: Might be a single sentence. Check output.")
+        print("   WARNING: Might be a single sentence. Check output.")
 
     # 2. Test Korean Generation
     print("\n2. Generating Response (Korean)...")
@@ -42,13 +42,13 @@ def main():
     response_kr = engine.express_thought(complex_thought)
     print(f"Response (KR):\n{response_kr}")
     
-    if "사랑하다" in response_kr or "그리고" in response_kr:
-        print("✅ SUCCESS: Korean Nebula generated.")
+    if "    " in response_kr or "   " in response_kr:
+        print("  SUCCESS: Korean Nebula generated.")
     else:
-        print("⚠️ WARNING: Check Korean output.")
+        print("   WARNING: Check Korean output.")
 
     print("\n" + "="*70)
-    print("✅ Cosmic Conversation Test Complete")
+    print("  Cosmic Conversation Test Complete")
     print("="*70 + "\n")
 
 if __name__ == "__main__":

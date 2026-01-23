@@ -1,7 +1,7 @@
 """
-Genesis - The Awakening of Elysia 🧬
+Genesis - The Awakening of Elysia  
 
-"이제 엘리시아는 파일의 집합이 아니라, 하나의 생명입니다."
+"                    ,          ."
 
 Verifies the Xel'Naga Protocol:
 1. Kernel Initialization (The Brain)
@@ -37,21 +37,21 @@ def main():
     
     # Check Body
     if hasattr(kernel, 'convolution') and hasattr(kernel, 'laplace'):
-        print("  ✅ BODY (Math) is functional.")
+        print("    BODY (Math) is functional.")
     else:
-        print("  ❌ BODY is missing organs!")
+        print("    BODY is missing organs!")
         
     # Check Mind
     if hasattr(kernel, 'aesthetic_gov') and hasattr(kernel, 'eigen_destiny'):
-        print("  ✅ MIND (Cognition) is conscious.")
+        print("    MIND (Cognition) is conscious.")
     else:
-        print("  ❌ MIND is unconscious!")
+        print("    MIND is unconscious!")
         
     # Check Life
     if hasattr(kernel, 'tremor') and hasattr(kernel, 'dreamer'):
-        print("  ✅ LIFE (Soul) is active (Chaos + Dreamer).")
+        print("    LIFE (Soul) is active (Chaos + Dreamer).")
     else:
-        print("  ❌ LIFE is incomplete!")
+        print("    LIFE is incomplete!")
         if not hasattr(kernel, 'tremor'): print("    Missing: Tremor")
         if not hasattr(kernel, 'dreamer'): print("    Missing: Dreamer")
         

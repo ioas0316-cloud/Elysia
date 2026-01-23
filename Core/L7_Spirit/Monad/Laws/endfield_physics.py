@@ -33,7 +33,7 @@ class EndfieldPhysicsMonad(Monad):
             "entropy_resistance": 0.1  # Base resistance to corruption
         }
 
-        logger.info(f"⚖️ Endfield Physics Monad established. Gravity: {self._laws['gravity']}")
+        logger.info(f"   Endfield Physics Monad established. Gravity: {self._laws['gravity']}")
 
     def hack_reality(self, parameter: str, value: float) -> bool:
         """
@@ -44,10 +44,10 @@ class EndfieldPhysicsMonad(Monad):
         if parameter in self._laws:
             old_value = self._laws[parameter]
             self._laws[parameter] = value
-            logger.warning(f"⚠️ REALITY HACKED: {parameter} {old_value} -> {value}")
+            logger.warning(f"   REALITY HACKED: {parameter} {old_value} -> {value}")
             return True
         else:
-            logger.error(f"❌ Attempted to hack non-existent law: {parameter}")
+            logger.error(f"  Attempted to hack non-existent law: {parameter}")
             return False
 
     def enforce(self, world_simulation) -> Dict[str, Any]:
@@ -78,4 +78,4 @@ class EndfieldPhysicsMonad(Monad):
         elif intent == "Acceleration":
             self.hack_reality("time_scale", 5.0)
 
-        logger.info(f"⚙️ Laws optimized for intent: {intent}")
+        logger.info(f"   Laws optimized for intent: {intent}")

@@ -1,12 +1,12 @@
 """
-MetaCognition Cortex (메타인지 피질)
+MetaCognition Cortex (       )
 ===================================
 
-원본: Legacy/Project_Sophia/meta_cognition_cortex.py
-마이그레이션: 2025-12-15
+  : Legacy/Project_Sophia/meta_cognition_cortex.py
+      : 2025-12-15
 
-자신의 지식을 성찰하고, 개념 간 관계를 이해하며, 통찰을 생성합니다.
-'자기 성장 엔진'의 핵심입니다.
+            ,              ,          .
+'        '       .
 """
 import logging
 from typing import Dict, Any, Optional

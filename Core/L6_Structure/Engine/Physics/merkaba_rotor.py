@@ -52,7 +52,7 @@ class MultiverseMerkaba:
         # 7 Harmonically related frequencies (Pentatonic-like scaling)
         base_rpm = 432.0
         self.rotors = [MerkabaRotor(i, base_rpm * (1.5**i)) for i in range(7)]
-        logger.info("🔱 [MERKABA] 7-Layer Recursive Chariot Initialized.")
+        logger.info("  [MERKABA] 7-Layer Recursive Chariot Initialized.")
 
     def synthesize(self, intent_qualia: np.ndarray) -> Tuple[float, np.ndarray]:
         """
@@ -60,7 +60,7 @@ class MultiverseMerkaba:
         
         The result is the 'Harmonic Balance' of the entire system.
         """
-        logger.info(f"🎡 [SYNTHESIS] Initiating (7^7)^7 Rotation sequence...")
+        logger.info(f"  [SYNTHESIS] Initiating (7^7)^7 Rotation sequence...")
         
         # 1. Map intent to the initial vibration
         initial_vibe = np.mean(intent_qualia)
@@ -82,7 +82,7 @@ class MultiverseMerkaba:
         # This is the synthesis of all layers
         synthesized_meaning = intent_qualia * coherence
         
-        logger.info(f"✨ [COLLAPSE] Coherence achieved: {coherence:.4f}")
+        logger.info(f"  [COLLAPSE] Coherence achieved: {coherence:.4f}")
         return coherence, synthesized_meaning
 
 if __name__ == "__main__":

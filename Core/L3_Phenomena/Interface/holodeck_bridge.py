@@ -23,7 +23,7 @@ class HolodeckBridge:
         self.port = port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.is_connected = True # UDP is connectionless, so conceptually true
-        logger.info(f"🌌 [HOLODECK] Bridge initialized targeting {ip}:{port}")
+        logger.info(f"  [HOLODECK] Bridge initialized targeting {ip}:{port}")
 
     def send_osc(self, address: str, args: List[Any]):
         """
@@ -34,7 +34,7 @@ class HolodeckBridge:
             msg = self._build_osc_message(address, args)
             self.socket.sendto(msg, (self.ip, self.port))
         except Exception as e:
-            logger.error(f"❌ OSC Send Failed: {e}")
+            logger.error(f"  OSC Send Failed: {e}")
 
     def _build_osc_message(self, address: str, args: List[Any]) -> bytes:
         """

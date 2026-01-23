@@ -30,7 +30,7 @@ class GrowthTracker:
                 writer = csv.writer(f)
                 writer.writerow(["Date", "TotalCycles", "AvgResonance", "PeakHarmony"])
         
-        logger.info(f"📈 [TRACKER] Monitoring evolution at: {self.history_file}")
+        logger.info(f"  [TRACKER] Monitoring evolution at: {self.history_file}")
 
     def update_growth_stats(self, date_str: str, stats: dict):
         """
@@ -45,6 +45,6 @@ class GrowthTracker:
                     f"{stats.get('avg_resonance', 0.0):.4f}",
                     f"{stats.get('max_resonance', 0.0):.4f}"
                 ])
-            logger.info(f"📈 [GROWTH] Date Point recorded for {date_str}.")
+            logger.info(f"  [GROWTH] Date Point recorded for {date_str}.")
         except Exception as e:
-            logger.error(f"❌ [TRACKER] Failed to update graph: {e}")
+            logger.error(f"  [TRACKER] Failed to update graph: {e}")

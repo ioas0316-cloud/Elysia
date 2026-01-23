@@ -1,16 +1,16 @@
 """
-Self Reflector (자아 성찰 모듈)
+Self Reflector (        )
 ===============================
 
 "To improve, I must first know myself."
 
-이 모듈은 Elysia가 자신의 소스 코드를 읽고 분석하는 '메타인지(Metacognition)' 기관입니다.
-Python의 AST(Abstract Syntax Tree)를 사용하여 코드의 구조, 복잡도, 의존성을 분석합니다.
+      Elysia                     '    (Metacognition)'      .
+Python  AST(Abstract Syntax Tree)             ,    ,           .
 
-기능:
-1. File Analysis: 파일의 라인 수, 함수 개수, 클래스 개수 분석
-2. Complexity Analysis: 순환 복잡도(Cyclomatic Complexity) 계산
-3. Structure Mapping: 프로젝트 전체 구조 파악
+  :
+1. File Analysis:         ,      ,          
+2. Complexity Analysis:       (Cyclomatic Complexity)   
+3. Structure Mapping:              
 """
 
 import ast
@@ -47,10 +47,10 @@ class CodeMetrics:
 class SelfReflector:
     def __init__(self, root_path: str = "c:/Elysia"):
         self.root_path = root_path
-        logger.info(f"🪞 SelfReflector initialized. Root: {root_path}")
+        logger.info(f"  SelfReflector initialized. Root: {root_path}")
 
     def analyze_file(self, file_path: str) -> CodeMetrics:
-        """단일 파일의 심층 구조(Anatomy)를 분석합니다."""
+        """            (Anatomy)       ."""
         try:
             with open(file_path, 'r', encoding='utf-8-sig') as f:
                 content = f.read()
@@ -130,7 +130,7 @@ class SelfReflector:
         return complexity
 
     def reflect_on_core(self) -> Dict[str, CodeMetrics]:
-        """Core 디렉토리 내의 주요 파일들을 분석합니다."""
+        """Core                      ."""
         core_path = os.path.join(self.root_path, "Core")
         results = {}
         for root, _, files in os.walk(core_path):
@@ -139,5 +139,4 @@ class SelfReflector:
                     full_path = os.path.join(root, file)
                     results[file] = self.analyze_file(full_path)
         return results
-
 

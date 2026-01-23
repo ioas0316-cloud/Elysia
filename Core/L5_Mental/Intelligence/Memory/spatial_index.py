@@ -11,7 +11,7 @@ Performance:
 - Range query: O(k + log n) where k = results
 
 Benefits:
-- 1000x speedup for 1M stars (15s → 15ms)
+- 1000x speedup for 1M stars (15s   15ms)
 - Scales logarithmically, not linearly
 - Enables real-time queries on millions of stars
 """
@@ -53,7 +53,7 @@ class KDTree4D:
         self.root: Optional[KDNode] = None
         self.size: int = 0
         self._use_numpy = HAS_NUMPY
-        logger.info(f"🌳 KDTree4D initialized (NumPy: {self._use_numpy})")
+        logger.info(f"  KDTree4D initialized (NumPy: {self._use_numpy})")
     
     def build(self, points: List[Tuple[Tuple[float, float, float, float], Any]]):
         """
@@ -69,7 +69,7 @@ class KDTree4D:
         
         self.size = len(points)
         self.root = self._build_recursive(points, depth=0)
-        logger.info(f"🌳 Built KD-Tree with {self.size} points")
+        logger.info(f"  Built KD-Tree with {self.size} points")
     
     def _build_recursive(
         self,
@@ -336,7 +336,7 @@ def benchmark_spatial_index(n_stars: int = 10000):
     import random
     import time
     
-    logger.info(f"🏃 Benchmarking with {n_stars} stars...")
+    logger.info(f"  Benchmarking with {n_stars} stars...")
     
     # Generate random stars
     stars = []
@@ -393,7 +393,7 @@ def benchmark_spatial_index(n_stars: int = 10000):
         logger.info(f"  Vectorized: {vectorized_time*1000:.2f}ms")
         logger.info(f"  Speedup: {linear_time/vectorized_time:.1f}x")
     
-    logger.info("✅ Benchmark complete")
+    logger.info("  Benchmark complete")
 
 
 if __name__ == "__main__":

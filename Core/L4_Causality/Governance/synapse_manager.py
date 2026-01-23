@@ -47,7 +47,7 @@ class SynapseManager:
             Instrument(name="Motor", section="Brass", play_function=play_motor)
         )
         
-        print("🔌 SynapseManager: Organs wired to Conductor.")
+        print("  SynapseManager: Organs wired to Conductor.")
 
     def run_distributed_cycle(self, url: str, target: str, message: str) -> Dict[str, Any]:
         """

@@ -22,7 +22,7 @@ except ImportError:
         sys.path.append(os.path.join(os.path.dirname(__file__), "../../../"))
         from Core.L1_Foundation.Foundation.Network.aura_pulse import AuraPulse
     except ImportError:
-        print("❌ Error: 'aura_pulse.py' not found. Please copy it to the same folder.")
+        print("  Error: 'aura_pulse.py' not found. Please copy it to the same folder.")
         sys.exit(1)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -36,7 +36,7 @@ def run_satellite():
          .       .         .
      .       .        .       .
     """)
-    logger.info("🛰️ Initializing Satellite Receiver...")
+    logger.info("   Initializing Satellite Receiver...")
     
     # Custom Satellite Logic
     pulse = AuraPulse(node_type="SATELLITE")
@@ -46,7 +46,7 @@ def run_satellite():
         task_type = payload.get("type", "UNKNOWN")
         data = payload.get("data", "")
         
-        print(f"\n⚡ [THOUGHT PACKET] Received from {sender}")
+        print(f"\n  [THOUGHT PACKET] Received from {sender}")
         print(f"   - Type: {task_type}")
         print(f"   - Input: {data}")
         
@@ -64,7 +64,7 @@ def run_satellite():
              result = hash(data)
              
         exec_time = (time.time() - start_t) * 1000
-        print(f"   ✅ [PROCESSED] Result: {result} ({exec_time:.2f}ms)")
+        print(f"     [PROCESSED] Result: {result} ({exec_time:.2f}ms)")
         print("   >> CPU Cycles Donated. Developing Sovereign Field...\n")
 
     # Bind the handler
@@ -80,11 +80,11 @@ def run_satellite():
             time.sleep(1)
             if pulse.peers:
                 for pid, info in pulse.peers.items():
-                    logger.info(f"✨ [RESONANCE] Connected to Main Node {pid} at {info['addr']}")
+                    logger.info(f"  [RESONANCE] Connected to Main Node {pid} at {info['addr']}")
                     # Visual feedback simulated
                     print(f"   >> HARMONIZING WITH INTENT: {info.get('intent', 0.0):.2f}")
     except KeyboardInterrupt:
-        logger.info("🛑 Satellite disconnecting...")
+        logger.info("  Satellite disconnecting...")
         pulse.stop()
 
 if __name__ == "__main__":

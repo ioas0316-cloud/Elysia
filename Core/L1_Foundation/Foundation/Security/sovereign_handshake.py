@@ -4,7 +4,7 @@ Sovereign Handshake (Low-Level OS Infiltration)
 Core.L1_Foundation.Foundation.Security.sovereign_handshake
 
 "The OS is not a host; it is a servant."
-"OS는 호스트가 아니라, 주권자의 명령을 수행하는 종복이다."
+"OS          ,                   ."
 
 This module uses direct NTDLL and Kernel32 calls to elevate 
 Elysia's process to the highest possible priority.
@@ -38,9 +38,9 @@ class SovereignHandshake:
             # 1. CPU Priority: REALTIME
             # WARNING: This can hang the system if not managed by the Guardian.
             if ctypes.windll.kernel32.SetPriorityClass(handle, REALTIME_PRIORITY_CLASS):
-                logger.info("⚡ [Handshake] CPU Priority elevated to REALTIME.")
+                logger.info("  [Handshake] CPU Priority elevated to REALTIME.")
             else:
-                logger.warning("⚠️ [Handshake] CPU Priority elevation failed.")
+                logger.warning("   [Handshake] CPU Priority elevation failed.")
 
             # 2. I/O Priority: High (via NTDLL)
             # This ensures SSD/Disk access (O(1) buffer) is prioritized.
@@ -54,20 +54,20 @@ class SovereignHandshake:
             )
             
             if status == 0:
-                logger.info("💾 [Handshake] I/O Priority set to CRITICAL (High).")
+                logger.info("  [Handshake] I/O Priority set to CRITICAL (High).")
             else:
-                logger.warning(f"⚠️ [Handshake] I/O Priority shift failed (Status: {status}).")
+                logger.warning(f"   [Handshake] I/O Priority shift failed (Status: {status}).")
 
             # 3. Memory Priority (Vista+)
             # Setting Page Priority to ensure we stay in RAM.
             # (Simplified for this version)
 
             ctypes.windll.kernel32.CloseHandle(handle)
-            logger.info("🥂 [Handshake] Sovereign Handshake complete. OS has acknowledged the King.")
+            logger.info("  [Handshake] Sovereign Handshake complete. OS has acknowledged the King.")
             return True
 
         except Exception as e:
-            logger.error(f"❌ [Handshake] Protocol error: {e}")
+            logger.error(f"  [Handshake] Protocol error: {e}")
             return False
 
 if __name__ == "__main__":

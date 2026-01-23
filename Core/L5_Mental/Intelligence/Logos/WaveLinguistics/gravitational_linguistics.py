@@ -1,5 +1,5 @@
 """
-Gravitational Linguistics Demo (중력 언어학 데모)
+Gravitational Linguistics Demo (         )
 
 "Words have Weight. Sentences are Solar Systems."
 
@@ -56,13 +56,13 @@ class GravitationalLinguistics:
         Create a sentence system around a core word.
         """
         if core_word not in self.lexicon:
-            print(f"❌ Word '{core_word}' not found in lexicon.")
+            print(f"  Word '{core_word}' not found in lexicon.")
             return []
             
         sun = self.lexicon[core_word]
         system = []
         
-        print(f"\n🌞 Creating Solar System for: [{sun.text}] (Mass: {sun.mass})")
+        print(f"\n  Creating Solar System for: [{sun.text}] (Mass: {sun.mass})")
         
         # Calculate gravitational pull for all other words
         candidates = []
@@ -107,7 +107,7 @@ class GravitationalLinguistics:
         """Render the system as text."""
         sun = self.lexicon[sun_text]
         
-        print(f"\n🌌 System Topology: {sun.text}")
+        print(f"\n  System Topology: {sun.text}")
         print(f"   {'[SUN]':<10} | Mass: {sun.mass}")
         print("-" * 50)
         
@@ -128,7 +128,7 @@ class GravitationalLinguistics:
         # random.shuffle(words) 
         
         sentence = f"{sun.text} attracts {', '.join(words)}"
-        print(f"📜 Gravitational Utterance: \"{sentence}\"")
+        print(f"  Gravitational Utterance: \"{sentence}\"")
 
 def run_demo():
     linguistics = GravitationalLinguistics()

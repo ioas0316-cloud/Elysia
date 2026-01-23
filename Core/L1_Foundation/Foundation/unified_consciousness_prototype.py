@@ -177,7 +177,7 @@ class UnifiedConsciousness:
                 )
             )
 
-        # 2) Seed universe with these Will‑packets
+        # 2) Seed universe with these Will packets
         self.fractal_universe.photons = photons
         self.fractal_universe.set_focus(0)
         focused = self.fractal_universe.get_focused_cell()
@@ -201,7 +201,7 @@ class UnifiedConsciousness:
         present_bias = _bias(present_phase)
         future_bias = _bias(future_phase)
 
-        # 5) Reflect into Yggdrasil vitality (what time‑axis dominates)
+        # 5) Reflect into Yggdrasil vitality (what time axis dominates)
         self.yggdrasil.update_vitality("EpisodicMemory", abs(past_bias) * 0.05)
         self.yggdrasil.update_vitality("FractalPerception", abs(present_bias) * 0.05)
         self.yggdrasil.update_vitality("EmotionalPalette", abs(future_bias) * 0.05)

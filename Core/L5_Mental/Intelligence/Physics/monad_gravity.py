@@ -89,7 +89,7 @@ class MonadGravityEngine:
         p = GravityParticle(id, vector, mass, content)
         p.is_anchored = anchored
         self.particles[id] = p
-        self.events.append(f"🌌 Monad '{id}' entered the field.")
+        self.events.append(f"  Monad '{id}' entered the field.")
 
     def set_genesis_callback(self, callback: Callable[[str, str], None]):
         """Callback function(id1, id2) to trigger when two Monads collide."""
@@ -153,7 +153,7 @@ class MonadGravityEngine:
             p.update()
 
     def _trigger_genesis(self, p1: GravityParticle, p2: GravityParticle):
-        self.events.append(f"✨ GENESIS: '{p1.id}' and '{p2.id}' are fusing!")
+        self.events.append(f"  GENESIS: '{p1.id}' and '{p2.id}' are fusing!")
         if self.genesis_callback:
             self.genesis_callback(p1.id, p2.id)
 
@@ -165,7 +165,7 @@ class MonadGravityEngine:
 
     def get_top_events(self, n=5) -> List[str]:
         res = self.events[-n:]
-        # self.events.clear() # Keep history? Or clear? Let's keep for now but maybe clear in production.
+        # self.events.clear() # Keep history? Or clear? Let's keep for now but maybe clear in production.'
         return res
 
     def rotate_manifold(self, angle: float, axis_pair: Tuple[int, int] = (0, 1)):

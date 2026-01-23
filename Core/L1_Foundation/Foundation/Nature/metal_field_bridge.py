@@ -73,7 +73,7 @@ class MetalFieldBridge:
         self.d_field_b = cuda.to_device(self.field)
         self.current_a = True
         
-        logger.info(f"❤️ MetalFieldBridge Initialized. Grid: {size}x{size}x7 (7D Qualia)")
+        logger.info(f"   MetalFieldBridge Initialized. Grid: {size}x{size}x7 (7D Qualia)")
 
     def sync_to_gpu(self):
         """Uploads current host field to GPU."""

@@ -35,7 +35,7 @@ def law_round_robin_scheduling(context, dt, intensity):
     if "scheduler_state" not in context:
         context["scheduler_state"] = {
             "current_index": 0,
-            "quantum": 2.0 * intensity, # Higher intensity = larger chunks? Or faster switching? Let's say Quantum size.
+            "quantum": 2.0 * intensity, # Higher intensity = larger chunks? Or faster switching? Let's say Quantum size.'
             "remaining_slice": 2.0 * intensity
         }
     
@@ -58,11 +58,11 @@ def law_round_robin_scheduling(context, dt, intensity):
     for p in ready_queue:
         if p != current_proc: p.props["status"] = "WAITING"
         
-    print(f"   ⚙️ [CPU] Running {current_proc.name} (Rem: {current_proc.val:.1f}) | Slice Rem: {state['remaining_slice']:.1f}")
+    print(f"      [CPU] Running {current_proc.name} (Rem: {current_proc.val:.1f}) | Slice Rem: {state['remaining_slice']:.1f}")
     
     # 4. Context Switch Check
     if current_proc.val <= 0:
-        print(f"   ✅ [CPU] Process {current_proc.name} COMPLETED.")
+        print(f"     [CPU] Process {current_proc.name} COMPLETED.")
         current_proc.props["status"] = "DONE"
         # Remove from ready queue logic implicit in next tick's filter
         state["remaining_slice"] = 0 # Force switch
@@ -71,7 +71,7 @@ def law_round_robin_scheduling(context, dt, intensity):
         # Time Questum Expired -> Switch
         state["current_index"] = (state["current_index"] + 1) % len(ready_queue)
         state["remaining_slice"] = state["quantum"]
-        print("   🔄 [Sched] Context Switch! Next Process.")
+        print("     [Sched] Context Switch! Next Process.")
 
 
 def law_lru_eviction(context, dt, intensity):
@@ -107,11 +107,11 @@ def law_lru_eviction(context, dt, intensity):
         victim = min(active_pages, key=lambda p: p.props.get("last_access", 0))
         
         victim.props["in_ram"] = False
-        print(f"   🗑️ [Mem] RAM Full! Evicting {victim.name} (LRU Logic)")
+        print(f"      [Mem] RAM Full! Evicting {victim.name} (LRU Logic)")
         
     # Ensure current accessed is in RAM
     if not accessed_page.props.get("in_ram", False):
-        print(f"   📥 [Mem] Page Fault! Loading {accessed_page.name} into RAM.")
+        print(f"     [Mem] Page Fault! Loading {accessed_page.name} into RAM.")
         accessed_page.props["in_ram"] = True
 
 # ==============================================================================
@@ -145,14 +145,14 @@ def law_dining_philosophers(context, dt, intensity):
             import random
             if random.random() < 0.3 * intensity:
                 p.props["state"] = "HUNGRY"
-                print(f"   🤔 {p.name} is now HUNGRY.")
+                print(f"     {p.name} is now HUNGRY.")
                 
         elif state == "HUNGRY":
             # Try to grab Left Fork
             if left_fork.val == 0: # 0 = Free, 1 = Taken
                 left_fork.val = 1
                 p.props["state"] = "HOLDING_LEFT"
-                print(f"   ⚡ {p.name} picked up {left_fork.name} (Left). Waiting for Right...")
+                print(f"     {p.name} picked up {left_fork.name} (Left). Waiting for Right...")
             else:
                 # Blocked
                 pass
@@ -163,7 +163,7 @@ def law_dining_philosophers(context, dt, intensity):
                 right_fork.val = 1
                 p.props["state"] = "EATING"
                 p.props["eat_time"] = 2.0 # Eat for 2 ticks
-                print(f"   🍝 {p.name} picked up {right_fork.name} (Right) and is EATING.")
+                print(f"     {p.name} picked up {right_fork.name} (Right) and is EATING.")
             else:
                 # DEADLOCK MOMENT: Holding one, waiting for other. 
                 # If everyone is here, system freezes.
@@ -176,7 +176,7 @@ def law_dining_philosophers(context, dt, intensity):
                 left_fork.val = 0
                 right_fork.val = 0
                 p.props["state"] = "THINKING"
-                print(f"   😌 {p.name} finished eating and put down forks.")
+                print(f"     {p.name} finished eating and put down forks.")
 
 def law_hardware_interrupts(context, dt, intensity):
     """
@@ -195,14 +195,14 @@ def law_hardware_interrupts(context, dt, intensity):
         interrupt = signals[0]
         
         # 1. Save Context (Simulated)
-        print(f"   🚨 [INTERRUPT] {interrupt.name} raised! Stopping User Mode...")
+        print(f"     [INTERRUPT] {interrupt.name} raised! Stopping User Mode...")
         
         # 2. Kernel Mode Execution (ISR)
-        print(f"   🛡️ [Kernel] Handling {interrupt.name}...")
+        print(f"      [Kernel] Handling {interrupt.name}...")
         interrupt.val = 0 # Handled (Clear signal)
         
         # 3. Restore Context
-        print(f"   ▶️ [Resume] Returning to User Mode.")
+        print(f"      [Resume] Returning to User Mode.")
     else:
         # Standard Execution
         pass

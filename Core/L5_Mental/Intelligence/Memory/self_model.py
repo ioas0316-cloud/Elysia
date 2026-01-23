@@ -273,4 +273,3 @@ def build_dialogue_self_model(core_memory: CoreMemory, max_events: int = 200) ->
     )
 
 
-

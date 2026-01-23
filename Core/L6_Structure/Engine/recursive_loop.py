@@ -1,5 +1,5 @@
 """
-Recursive Improvement Engine (재귀적 개선 엔진)
+Recursive Improvement Engine (         )
 ==============================================
 "Phenomenon -> Cause -> Higher-Order Seed."
 
@@ -72,13 +72,13 @@ class RecursiveOptimizer:
 
     def evolve(self, world_state: Dict[str, Any]) -> Dict[str, Any]:
         """Runs the full Recursive Loop."""
-        print("🌀 [RECURSIVE] Observing World Phenomena...")
+        print("  [RECURSIVE] Observing World Phenomena...")
         phenomena = self.analyze_phenomena(world_state)
         
-        print(f"🧬 [RECURSIVE] Found {len(phenomena)} emergence points.")
+        print(f"  [RECURSIVE] Found {len(phenomena)} emergence points.")
         causes = self.induce_causes(phenomena)
         
-        print("🌱 [RECURSIVE] Sowing seeds for higher-dimensional expansion.")
+        print("  [RECURSIVE] Sowing seeds for higher-dimensional expansion.")
         seeds = self.generate_seeds(causes)
         
         evolution_report = {

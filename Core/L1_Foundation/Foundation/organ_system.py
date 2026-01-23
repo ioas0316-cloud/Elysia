@@ -43,7 +43,7 @@ class Organ:
     def awaken(self):
         """Called when the body wakes up."""
         self.is_active = True
-        logger.info(f"🫀 Organ '{self.MANIFEST.name}' awakened at {self.MANIFEST.frequency}Hz.")
+        logger.info(f"  Organ '{self.MANIFEST.name}' awakened at {self.MANIFEST.frequency}Hz.")
 
     def sleep(self):
         """Called when the body rests."""
@@ -60,7 +60,7 @@ class OrganSystem:
         Recursively scans the package for classes inheriting from Organ
         or adhering to the Manifest protocol.
         """
-        logger.info(f"🔍 Scanning '{root_package}' for biological tissue...")
+        logger.info(f"  Scanning '{root_package}' for biological tissue...")
 
         # We need to walk the directory to find packages
         # This is a simplified scanner that looks for known paths to avoid
@@ -88,11 +88,11 @@ class OrganSystem:
                         self._inspect_module(full_name)
                         found_count += 1
             except ImportError as e:
-                logger.warning(f"⚠️ Sector '{sector}' damaged or missing: {e}")
+                logger.warning(f"   Sector '{sector}' damaged or missing: {e}")
             except Exception as e:
-                logger.warning(f"⚠️ Error scanning sector '{sector}': {e}")
+                logger.warning(f"   Error scanning sector '{sector}': {e}")
 
-        logger.info(f"🧬 Scan complete. {len(self.organs)} organs connected.")
+        logger.info(f"  Scan complete. {len(self.organs)} organs connected.")
 
     def _inspect_module(self, module_name: str):
         try:
@@ -136,10 +136,10 @@ class OrganSystem:
             if hasattr(instance, "awaken"):
                 instance.awaken()
 
-            logger.info(f"   ✨ Connected: {manifest.name}")
+            logger.info(f"     Connected: {manifest.name}")
 
         except Exception as e:
-            logger.error(f"   ❌ Rejected: {manifest.name} (Incompatible Tissue) - {e}")
+            logger.error(f"     Rejected: {manifest.name} (Incompatible Tissue) - {e}")
 
     def get_organ(self, name: str) -> Any:
         return self.organs.get(name)

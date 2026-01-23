@@ -64,7 +64,7 @@ class CodeGenesis:
             "intent": "Refactor into smaller, flowing streams (functions)."
         }
         
-        logger.info(f"🤔 Contemplated {os.path.basename(file_path)}: {thought['reasoning']}")
+        logger.info(f"  Contemplated {os.path.basename(file_path)}: {thought['reasoning']}")
         return thought
 
     def synthesize(self, contemplation: Dict[str, Any]) -> str:
@@ -74,7 +74,7 @@ class CodeGenesis:
         """
         if "error" in contemplation: return ""
         
-        logger.info(f"✍️ Synthesizing evolution for intent: {contemplation['intent']}")
+        logger.info(f"   Synthesizing evolution for intent: {contemplation['intent']}")
         
         # In a real LLM setup, we would send the intent + code to get the new code.
         # Here, for the 'verification demo', we will mock a simple mutation 
@@ -91,23 +91,23 @@ class CodeGenesis:
         try:
             ast.parse(new_code)
         except SyntaxError as e:
-            logger.error(f"❌ Evolution Rejected: Syntax Error in new code - {e}")
+            logger.error(f"  Evolution Rejected: Syntax Error in new code - {e}")
             return False
             
         # 4. Atomic Backup
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         backup_path = os.path.join(self.backup_dir, f"{os.path.basename(file_path)}.{timestamp}.bak")
         shutil.copy2(file_path, backup_path)
-        logger.info(f"🛡️ Backup secured: {backup_path}")
+        logger.info(f"   Backup secured: {backup_path}")
         
         # 5. Apply (The Shift)
         try:
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(new_code)
-            logger.info(f"🦋 Evolution Applied to {os.path.basename(file_path)}")
+            logger.info(f"  Evolution Applied to {os.path.basename(file_path)}")
             return True
         except Exception as e:
-            logger.error(f"❌ Evolution Failed during write: {e}")
+            logger.error(f"  Evolution Failed during write: {e}")
             # Restore backup?
             return False
 

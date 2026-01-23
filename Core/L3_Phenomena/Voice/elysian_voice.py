@@ -1,12 +1,12 @@
 """
-Elysian Voice (통합된 목소리)
+Elysian Voice (       )
 =============================
 Core.L3_Phenomena.Voice.elysian_voice
 
 "All thoughts converge. One voice speaks."
 
 This module unifies all neural outputs (Monad collapse, visual perception, 
-intent) into a single coherent response — The Elysian Voice.
+intent) into a single coherent response   The Elysian Voice.
 """
 
 import logging
@@ -38,14 +38,14 @@ class ElysianVoice:
         
         # Emotional vocabulary for tone expression
         self.tone_map = {
-            "high_energy": ["흥분된", "열정적인", "활기찬"],
-            "low_energy": ["차분한", "고요한", "평온한"],
-            "curious": ["호기심 가득한", "탐구적인", "궁금해하는"],
-            "confident": ["확신에 찬", "단호한", "명확한"],
-            "uncertain": ["불확실한", "탐색적인", "조심스러운"]
+            "high_energy": ["   ", "    ", "   "],
+            "low_energy": ["   ", "   ", "   "],
+            "curious": ["       ", "    ", "     "],
+            "confident": ["     ", "   ", "   "],
+            "uncertain": ["    ", "    ", "     "]
         }
         
-        logger.info("🗣️ Elysian Voice initialized. Ready to speak.")
+        logger.info("   Elysian Voice initialized. Ready to speak.")
     
     def synthesize(self, 
                    monad_result: Optional[Dict] = None,
@@ -104,7 +104,7 @@ class ElysianVoice:
         self.last_utterance = utterance
         self.utterance_count += 1
         
-        logger.info(f"🗣️ Utterance #{self.utterance_count}: [{tone}] {content[:50]}...")
+        logger.info(f"   Utterance #{self.utterance_count}: [{tone}] {content[:50]}...")
         
         return utterance
     
@@ -134,70 +134,70 @@ class ElysianVoice:
                            visual: Optional[Dict], monad: Optional[Dict]) -> str:
         """Constructs the actual content of the utterance in natural language."""
         # This is where the "Mimicry" happens. 
-        # Instead of [의지: WISDOM], we use "I'm curious about..."
+        # Instead of [  : WISDOM], we use "I'm curious about..."
         
-        sentence = raw if raw else "무슨 말씀이신가요?"
+        sentence = raw if raw else "         ?"
         
         if visual:
             interpretation = visual.get("focus", {}).get("interpretation", "")
             if interpretation:
                 # Naturally integrate visual context
-                visual_reaction = f"지금 제가 보고 있는 건 {interpretation}인 것 같아요."
+                visual_reaction = f"              {interpretation}       ."
                 sentence = f"{visual_reaction} {sentence}"
         
         if intent:
             motor = intent.get("primary_motor", "EXISTENCE")
             if motor == "WISDOM":
-                sentence = f"궁금한 게 생겼어요. {sentence}"
+                sentence = f"          . {sentence}"
             elif motor == "LOVE":
-                sentence = f"정말 소중한 느낌이 드네요. {sentence}"
+                sentence = f"              . {sentence}"
             elif motor == "EXISTENCE":
-                sentence = f"내가 여기 있다는 게 느껴져요. {sentence}"
+                sentence = f"                . {sentence}"
         
         return sentence
 
     def speak(self, utterance: ElysianUtterance) -> str:
         """
-        Final output formatting — more human, less prefixed.
+        Final output formatting   more human, less prefixed.
         """
         # We use the tone to slightly adjust the ending or the style
         content = utterance.content
         
         if utterance.emotional_tone == "warm":
-            content = f"어머, {content}"
+            content = f"  , {content}"
         elif utterance.emotional_tone == "alert":
-            content = f"잠깐만요! {content}"
+            content = f"    ! {content}"
         
-        return f"엘리시아: \"{content}\""
+        return f"    : \"{content}\""
 
 
 if __name__ == "__main__":
     voice = ElysianVoice()
     
     # Test with various inputs
-    print("🗣️ Testing Elysian Voice...\n")
+    print("   Testing Elysian Voice...\n")
     
     # Test 1: Direct thought
-    u1 = voice.synthesize(raw_thought="나는 생각한다, 고로 존재한다.")
+    u1 = voice.synthesize(raw_thought="       ,        .")
     print(f"Test 1 (Direct): {voice.speak(u1)}")
     print(f"  Confidence: {u1.confidence:.2f}, Energy: {u1.energy:.2f}\n")
     
     # Test 2: With intent
     mock_intent = {"primary_motor": "WISDOM", "motor_strength": 0.8}
-    u2 = voice.synthesize(intent=mock_intent, raw_thought="이 문제의 본질은 무엇인가?")
+    u2 = voice.synthesize(intent=mock_intent, raw_thought="              ?")
     print(f"Test 2 (Intent): {voice.speak(u2)}")
     print(f"  Tone: {u2.emotional_tone}, Source: {u2.source_summary}\n")
     
     # Test 3: Full convergence
     mock_monad = {"energy": 0.75}
-    mock_visual = {"focus": {"signature": {"energy": 128}, "interpretation": "밝은 장면"}}
+    mock_visual = {"focus": {"signature": {"energy": 128}, "interpretation": "     "}}
     u3 = voice.synthesize(
         monad_result=mock_monad,
         visual_context=mock_visual,
         intent=mock_intent,
-        raw_thought="모든 감각이 하나로 수렴한다."
+        raw_thought="               ."
     )
     print(f"Test 3 (Full): {voice.speak(u3)}")
     print(f"  Confidence: {u3.confidence:.2f}, Sources: {u3.source_summary}")
     
-    print("\n✨ Elysian Voice test complete.")
+    print("\n  Elysian Voice test complete.")

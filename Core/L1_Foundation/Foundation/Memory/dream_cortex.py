@@ -29,7 +29,7 @@ class DreamCortex(ResonatorInterface):
         self.orb_manager = orb_manager
         self.is_dreaming = False
 
-        logger.info("💤 DreamCortex initialized: Waiting for the night.")
+        logger.info("  DreamCortex initialized: Waiting for the night.")
 
     def resonate(self, pulse: WavePacket) -> None:
         """
@@ -50,7 +50,7 @@ class DreamCortex(ResonatorInterface):
             return
 
         self.is_dreaming = True
-        logger.info("🌙 Entering the Twilight State (Dream Mode ON)...")
+        logger.info("  Entering the Twilight State (Dream Mode ON)...")
 
         # 1. Fetch Day's Residue (Recent Memories)
         # In a real system, this would be time-based. For now, we fetch all active ones.
@@ -76,7 +76,7 @@ class DreamCortex(ResonatorInterface):
             return
 
         self.is_dreaming = False
-        logger.info("☀️  Waking up (Dream Mode OFF). Ready for a new day.")
+        logger.info("    Waking up (Dream Mode OFF). Ready for a new day.")
 
     def _dream_of(self, orb):
         """

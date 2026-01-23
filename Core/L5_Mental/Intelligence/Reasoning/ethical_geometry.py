@@ -26,7 +26,7 @@ logger = logging.getLogger("EthicalGeometry")
 
 class LovesFence:
     """
-    Love's Fence (사랑의 울타리)
+    Love's Fence (       )
     The metric of alignment within the Creator's Sovereign Narrative.
     """
     def __init__(self, device='cpu'):
@@ -68,7 +68,7 @@ class LovesFence:
         else:
             verdict = "Dissonant (Rely on the Shield of Love)"
             
-        logger.info(f"🛡️ Love's Shield Check: '{description}' -> Curvature: {curvature:.1f}°, Verdict: {verdict}")
+        logger.info(f"   Love's Shield Check: '{description}' -> Curvature: {curvature:.1f} , Verdict: {verdict}")
         
         return {
             "resonance": resonance,

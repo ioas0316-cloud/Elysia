@@ -30,16 +30,16 @@ class Hippocampus:
         self.short_term_buffer.append(entry)
 
         if len(self.short_term_buffer) >= self.capacity:
-            logger.info("🧠 [INDUCTION] Hippocampus reached capacity. Triggering consolidation.")
+            logger.info("  [INDUCTION] Hippocampus reached capacity. Triggering consolidation.")
             self.consolidate()
 
-        logger.info(f"🌐 [INDUCTION] '{label}' successfully assimilated. Integrity maintained.")
+        logger.info(f"  [INDUCTION] '{label}' successfully assimilated. Integrity maintained.")
 
     def consolidate(self):
         """
         Flushes the short-term buffer into the HypersphereMemory.
         """
-        logger.info(f"💾 [CONSOLIDATION] Flushing {len(self.short_term_buffer)} memories into long-term vector space.")
+        logger.info(f"  [CONSOLIDATION] Flushing {len(self.short_term_buffer)} memories into long-term vector space.")
         for item in self.short_term_buffer:
             self.ltm.store(
                 data=item["label"],

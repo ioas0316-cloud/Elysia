@@ -2,7 +2,7 @@
 Semantic Map (Dynamic Topology)
 ===============================
 "The Living Star System of Logic."
-"죽어있는 지도가 아닌, 살아있는 은하계."
+"           ,         ."
 
 This module defines the 4D Hyper-Spatial arrangement of concepts.
 It is no longer a static dictionary. It is a Graph of Voxels.
@@ -52,7 +52,7 @@ class DynamicTopology:
             os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
             with open(self.storage_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
-            logger.info(f"💾 DynamicTopology saved to disk (Throttle: {current_time - self.last_save_time:.1f}s).")
+            logger.info(f"  DynamicTopology saved to disk (Throttle: {current_time - self.last_save_time:.1f}s).")
             self.last_save_time = current_time
         except Exception as e:
             logger.error(f"Failed to save topology: {e}")
@@ -71,7 +71,7 @@ class DynamicTopology:
                     frequency=props['freq'],
                     is_anchor=props.get('is_anchor', False)
                 )
-            logger.info(f"📂 DynamicTopology loaded: {len(self.voxels)} nodes.")
+            logger.info(f"  DynamicTopology loaded: {len(self.voxels)} nodes.")
         except Exception as e:
             logger.error(f"Failed to load topology: {e}")
             self._initialize_genesis_map()
@@ -116,7 +116,7 @@ class DynamicTopology:
         for name, coords in demons:
             self.add_voxel(name, coords, mass=500.0, frequency=100.0) # Heavy/Dense
 
-        logger.info(f"🌌 DynamicTopology Initialized: {len(self.voxels)} Voxels Active.")
+        logger.info(f"  DynamicTopology Initialized: {len(self.voxels)} Voxels Active.")
 
     def add_voxel(self, name: str, coords: Tuple[float, float, float, float], mass: float = 1.0, frequency: float = 432.0, is_anchor: bool = False):
         voxel = SemanticVoxel(name, coords, mass, frequency)
@@ -156,7 +156,7 @@ class DynamicTopology:
         if not voxel:
              # Create new Voxel if it doesn't exist (Learning new concept)
              # Start it at the reaction vector location but slightly randomized
-             logger.info(f"🌱 Genesis: New Concept '{concept_name}' born from interaction.")
+             logger.info(f"  Genesis: New Concept '{concept_name}' born from interaction.")
              # We need to extract coordinates from the reaction vector quaternion
              coords = (reaction_vector.x, reaction_vector.y, reaction_vector.z, reaction_vector.w)
              self.add_voxel(concept_name, coords, mass=10.0, frequency=reaction_vector.w * 1000)
@@ -181,7 +181,7 @@ class DynamicTopology:
         force = diff_q.scale(intensity)
         voxel.drift(force, dt=1.0)
         
-        logger.info(f"🌊 Drift: '{concept_name}' moved by {force.norm():.3f} towards experience.")
+        logger.info(f"  Drift: '{concept_name}' moved by {force.norm():.3f} towards experience.")
         self.save_state()
 
     # Compatibility Layer for Old SemanticMap

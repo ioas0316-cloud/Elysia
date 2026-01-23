@@ -46,7 +46,7 @@ class PrincipleManifold:
             if "Tidal" not in d["Gravity"].sub_rotors:
                 # Spawn a sub-rotor for local gravity perturbations
                 d["Gravity"].add_sub_rotor("Tidal", RotorConfig(rpm=120.0), WaveDNA(physical=1.0, causal=0.5))
-                print(f"🧬 [DNA] Gravity expanded: Tidal sub-rotor induced by Complexity({complexity:.2f})")
+                print(f"  [DNA] Gravity expanded: Tidal sub-rotor induced by Complexity({complexity:.2f})")
         
         # Vitality: Emotion modulating the resonance between Density and Cooperation
         vitality = math.sin(d["Emotion"].energy * math.pi) * (d["Cooperation"].energy + d["Density"].energy)
@@ -132,12 +132,12 @@ class FractalCognition:
         if spirit.current_purpose and random.random() < 0.2:
              extraction = self.why.digest(spirit.current_purpose)
              if extraction:
-                 thought = f"🧬 [원리] '{spirit.current_purpose}'의 근본 공리 식별: \"{extraction.why_exists}\""
+                 thought = f"  [  ] '{spirit.current_purpose}'          : \"{extraction.why_exists}\""
                  if thought not in self.thought_stream: self.thought_stream.append(thought)
 
         # Fractal Thought Generation (Korean)
         if m["complexity"] > 0.7:
-            thought = f"🧬 [인지] 복잡도({m['complexity']:.2f}) 임계 도달. 하위 로터 분화 및 원리적 확장 중..."
+            thought = f"  [  ]    ({m['complexity']:.2f})      .                    ..."
             if thought not in self.thought_stream: self.thought_stream.append(thought)
         
         if imagination.blueprints:
@@ -150,7 +150,7 @@ class FractalCognition:
                  extraction = self.why.digest(blueprint_subject)
             
             if extraction:
-                thought = f"💭 [이해] 설계도 '{blueprint_subject}'는 '{extraction.underlying_principle}' 원리에 의해 지탱됨."
+                thought = f"  [  ]     '{blueprint_subject}'  '{extraction.underlying_principle}'           ."
                 # Manifest ONLY if understanding is deep (Recursive Depth > 0)
                 if extraction.recursive_depth > 0:
                     if random.random() < 0.3:
@@ -159,11 +159,11 @@ class FractalCognition:
                             "dna": WaveDNA(label="Refined", structural=m["complexity"], spiritual=spirit.will_intensity)
                         })
                         imagination.blueprints.pop(0)
-                        thought += " ✨ 실체화(Manifestation) 준비 완료."
+                        thought += "      (Manifestation)      ."
                 else:
-                    thought += " ⚠️ 원리적 깊이가 부족하여 실체화를 유보함."
+                    thought += "                         ."
             else:
-                thought = f"💭 [사고] 설계도 '{blueprint_subject}'의 본질을 LLM을 통해 탐구 중..."
+                thought = f"  [  ]     '{blueprint_subject}'      LLM         ..."
                 
             if thought not in self.thought_stream: self.thought_stream.append(thought)
 
@@ -172,7 +172,7 @@ class FractalCognition:
             # Check for realized nodes
             for nid, meta in self.graph.node_metadata.items():
                 if meta.get("realized"):
-                    thought = f"✨ [깨달음] 지식 그래프의 노드 '{nid}'가 본질을 드러냈습니다: \"{meta.get('realized_dna', '')}\""
+                    thought = f"  [   ]            '{nid}'            : \"{meta.get('realized_dna', '')}\""
                     if thought not in self.thought_stream: 
                         self.thought_stream.append(thought)
                         # Remove 'realized' flag from meta to avoid spamming log
@@ -208,7 +208,7 @@ class HyperSpatialRealityProjector:
         self.citizens = []
         
         # [Phase 42] Self-DNA Exegesis Inauguration
-        print("🕯️ [INCEPTION] Elysia is contemplating her own Seed...")
+        print("   [INCEPTION] Elysia is contemplating her own Seed...")
         self.spirit.current_purpose = "Elysia"
         self.mind.why.digest("Elysia")
         

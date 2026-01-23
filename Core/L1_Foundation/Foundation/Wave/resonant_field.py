@@ -28,7 +28,7 @@ class ResonantField:
         # Initialize with a 'Ground State' (Pure existence)
         self.field[:, :, 0] = 0.5 
         
-        logger.info(f"🌊 Resonant Field Initialized: {size}x{size} (4D Tensor)")
+        logger.info(f"  Resonant Field Initialized: {size}x{size} (4D Tensor)")
 
     def apply_elastic_pull(self, target_q: Quaternion, elasticity: float = 0.1):
         """
@@ -43,13 +43,13 @@ class ResonantField:
         # Field += (Target - Field) * elasticity
         self.field += (target_v - self.field) * elasticity
         
-        logger.debug(f"🧲 Elastic Pull Applied: Strength={elasticity}")
+        logger.debug(f"  Elastic Pull Applied: Strength={elasticity}")
 
     def project_intent(self, x: int, y: int, q: Quaternion):
         """Projects a specific quaternionic intent (Cell) into the field."""
         if 0 <= x < self.size and 0 <= y < self.size:
             self.field[x, y] = [q.w, q.x, q.y, q.z]
-            logger.debug(f"🎯 Intent Projected at ({x}, {y}): {q}")
+            logger.debug(f"  Intent Projected at ({x}, {y}): {q}")
 
     def evolve(self, dt: float = 0.1):
         """

@@ -61,7 +61,7 @@ class FluxlightObserver:
         self.observed_log.append(payload)
 
         if conflict:
-            print(f"[Observer] 👁️ Dilemma Witnessed: {conflict.description} (Tension: {conflict.tension:.2f})")
+            print(f"[Observer]    Dilemma Witnessed: {conflict.description} (Tension: {conflict.tension:.2f})")
 
     def _map_to_coordinates(self, text: str, conflict: Conflict = None) -> HypersphericalCoord:
         """

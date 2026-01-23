@@ -192,4 +192,3 @@ class VisualMemory:
                 )
             )
         return vm
-

@@ -1,5 +1,5 @@
 """
-Linguistic Metabolism (언어 신진대사)
+Linguistic Metabolism (       )
 =====================================
 Core.L5_Mental.Intelligence.Brain.linguistic_metabolism
 

@@ -20,7 +20,7 @@ from Core.L1_Foundation.Foundation.hangul_physics import HangulPhysicsEngine, Te
 class ConceptBinding:
     concept_id: str
     tensor_prototype: Tensor3D
-    associated_sound: str  # The "word" (e.g., "ㄱ-ㅏ")
+    associated_sound: str  # The "word" (e.g., " - ")
     strength: float  # 0.0 to 1.0 (Confidence)
 
 class LanguageCortex:

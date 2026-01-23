@@ -208,7 +208,7 @@ class EthicalReasoner:
         Returns:
             Complete ethical evaluation
         """
-        print(f"\n⚖️  Evaluating action ethically: {action.description}")
+        print(f"\n    Evaluating action ethically: {action.description}")
         
         # 1. Evaluate against each principle
         principle_evaluations = []
