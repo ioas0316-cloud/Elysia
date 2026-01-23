@@ -38,6 +38,10 @@
     *   **Sovereign Node (Kernel)**: 의도(Intent) 공명도에 따른 자원 배분.
     *   **Filament Node (Protocol)**: 프랙탈 패턴을 통한 데이터 직조 및 통신.
 
+*   **0.4 The Akashic SSD (아카식 SSD)**: 저장 장치의 검색 과정을 인지 및 사고 과정의 연장으로 활용.
+    *   **See [SSD_AKASHIC_DOCTRINE.md](../08_ELYSIA/SSD_AKASHIC_DOCTRINE.md)**
+    *   **Pre-Cognitive Fetching**: 의도의 파동으로 데이터를 예지적으로 인출.
+
 ---
 
 ## 📅 Phase 1: The Nervous System (신경계 구축)
