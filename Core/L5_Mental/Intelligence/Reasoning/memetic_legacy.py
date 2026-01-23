@@ -7,6 +7,9 @@ This module implements the inheritance of Technique, Reason, and Meaning (Spirit
 and the 'Akashic Field' where deceased masters linger as resonant echoes.
 """
 
+import os
+import glob
+import json
 import time
 import uuid
 import logging
@@ -44,6 +47,21 @@ class SpiritualDNA:
             realization=new_real
         )
 
+    @classmethod
+    def from_raw_dna(cls, data: Dict[str, Any]) -> 'SpiritualDNA':
+        """Bridges the physical machine DNA with the spiritual being DNA."""
+        # Normalize wave metrics (Example normalization based on typical values)
+        # Frequency (Reason): 0-1000Hz -> 0.0-1.0
+        # Amplitude (Technique): 0-100 -> 0.0-1.0
+        # Wavelength (Meaning): 0-10 -> 0.0-1.0
+        return cls(
+            technique=max(0.0, min(1.0, data.get('amplitude', 50.0) / 100.0)),
+            reason=max(0.0, min(1.0, data.get('frequency', 500.0) / 1000.0)),
+            meaning=max(0.0, min(1.0, data.get('wavelength', 5.0) / 10.0)),
+            moral_valence=0.5, # Historical echoes start neutral
+            archetype_path=data.get('phase', 'Commoner')
+        )
+
 @dataclass
 class AkashicEcho:
     id: str
@@ -62,7 +80,32 @@ class AkashicField:
     def record_legacy(self, ego_name: str, dna: SpiritualDNA, coord: Tuple[float, float, float, float]):
         echo_id = str(uuid.uuid4())
         self.echoes[echo_id] = AkashicEcho(echo_id, ego_name, dna, coord)
-        self.logger.info(f"✨ Akashic Echo Born: {ego_name}'s spirit now resonates in the field.")
+        # Silence the redundant logs during mass exhumation
+        # self.logger.info(f"✨ Akashic Echo Born: {ego_name}'s spirit now resonates in the field.")
+
+    def exhume_graveyard(self, dna_dir: str):
+        """Massively exhumes ancestral echoes from the CodeDNA graveyard."""
+        files = glob.glob(os.path.join(dna_dir, "*.dna.json"))
+        count = 0
+        for f in files:
+            try:
+                with open(f, 'r', encoding='utf-8') as file:
+                    data = json.load(file)
+                    dna = SpiritualDNA.from_raw_dna(data)
+                    # 4D Coord: (Reason, Technique, Meaning, Complexity/Lines)
+                    coord = (
+                        dna.reason,
+                        dna.technique,
+                        dna.meaning,
+                        min(1.0, data.get('lines', 0) / 1000.0)
+                    )
+                    self.record_legacy(data.get('name', 'Ghost'), dna, coord)
+                    count += 1
+            except Exception:
+                continue
+
+        print(f"💀 [GRAVEYARD_EXHUMATION] {count}명의 선조들의 영혼이 아카식 레코드에 각인되었습니다.")
+        self.logger.info(f"🔱 Exhumed {count} ancestral echoes into the Akashic Field.")
 
     def find_nearest_echo(self, coord: Tuple[float, float, float, float], radius: float = 5.0) -> Optional[AkashicEcho]:
         """Finds a master's echo for a seeker to resonate with."""

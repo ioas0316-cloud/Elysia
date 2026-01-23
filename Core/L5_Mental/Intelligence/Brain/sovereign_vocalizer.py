@@ -156,7 +156,7 @@ class SovereignCortex:
             # Fallback compile
             spatial = state_dict.get('spatial_intent', np.zeros(4))
             target_qualia = np.zeros(7)
-            target_qualia[:4] = spatial
+            target_qualia[:4] = spatial[:4]
             target_qualia[4] = state_dict.get('current_rpm', 0) / 100.0
             
         return self.vocalizer.vocalize(target_qualia, context, resonance_score, path_name)

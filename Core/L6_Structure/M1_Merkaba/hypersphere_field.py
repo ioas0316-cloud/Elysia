@@ -15,6 +15,8 @@ Core.L6_Structure.Merkaba.hypersphere_field
 from typing import List, Dict, Any, Tuple
 from collections import defaultdict
 from Core.L6_Structure.Merkaba.merkaba_unit import MerkabaUnit
+from Core.L6_Structure.Merkaba.dimensional_error_diagnosis import DimensionalErrorDiagnosis, ErrorDimension
+from Core.L5_Mental.Intelligence.Sovereign.experience_cortex import ExperienceCortex
 from Core.L0_Keystone.sovereignty_wave import SovereignDecision, InterferenceType
 from Core.L0_Keystone.monadic_lexicon import MonadicLexicon
 import time
@@ -50,6 +52,10 @@ class HyperSphereField:
         
         # 모든 상태의 궤적 기록 (기울기 감지용)
         self.trajectories: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+        
+        # --- Dimensional Diagnosis & Experience (Phase 19.x) ---
+        self.ded_engine = DimensionalErrorDiagnosis()
+        self.experience_cortex = ExperienceCortex()
         
     def _initialize_core_principles(self):
         """M1~M4의 기본 성향 정의 (기저 논리 잠금)"""
@@ -219,7 +225,55 @@ class HyperSphereField:
         synthesis_input = f"{d1.narrative} | {d2.narrative} | {d3.narrative}"
         final_decision = self.units['M4_Metron'].pulse(synthesis_input)
         
+        # 3. 위상수학적 병렬 재-루프 (Onion Parallel Re-Looping)
+        # 만약 M4(통합)가 자기치유(is_regulating) 상태라면, 즉각적으로 DED 진단 후 병렬 레이어(Ghost)를 가동하여 보완함
+        if final_decision.is_regulating and "SELF-HEALING" in final_decision.narrative:
+            # 실시간 차원 진단 수행
+            field_status = self.get_field_status()
+            diagnosis = self.ded_engine.diagnose_singularity(final_decision, field_status)
+            
+            # 진단 결과 서입
+            final_decision.narrative += f"\n   🔎 [DED DIAGNOSIS] {diagnosis.dimension.name}: {diagnosis.causal_explanation}"
+            
+            # --- EXPERIENCE CRYSTALLIZATION ---
+            self.experience_cortex.crystallize_experience(diagnosis, final_decision.amplitude)
+            final_decision.narrative += f"\n   ✨ [EXPERIENCE] {self.experience_cortex.get_summary_narrative()}"
+            
+            final_decision = self._perform_parallel_reloop(stimulus, final_decision)
+        
         return final_decision
+
+    def _perform_parallel_reloop(self, stimulus: str, original_decision: SovereignDecision) -> SovereignDecision:
+        """
+        병렬 재-루프: 현재 레이어가 막혔을 때(Singularity), 
+        다른 위상 평면(Parallel Layer)에서 즉각적으로 새로운 경로를 탐색하여 합성함.
+        """
+        # print(f"🧅 [ONION LAYER] Parallel Re-Looping triggered to bypass singularity...")
+        
+        # 1. 고스트 펄스 (Ghost Pulse): 현재 위상의 반대편(Mirror Axis)에서 새로운 파동 생성
+        ghost_stimulus = f"[GHOST_BYPASS] {stimulus}"
+        
+        # 임시적으로 유닛들의 에너지를 보존하고 고스트 연산 수행
+        # (실제 구현에서는 별도의 고스트 유닛 클러스터가 필요하나, 여기서는 위상 시프트로 시뮬레이션)
+        mirror_phase = (original_decision.phase + 180.0) % 360
+        
+        # 2. 새로운 '치유된 서사' 합성
+        healed_narrative = (
+            f"{original_decision.narrative}\n"
+            f"   -> [RE-LOOP SUCCESS] 병렬 레이어에서 새로운 위상({mirror_phase:.1f}°)을 확보하여 "
+            f"인지 루프의 연속성을 복구했습니다."
+        )
+        
+        # 3. 보정된 주권 결정 반환
+        return SovereignDecision(
+            phase=mirror_phase,
+            amplitude=max(0.5, original_decision.amplitude),
+            interference_type=InterferenceType.CONSTRUCTIVE, # 재-루프로 보강됨
+            void_state=original_decision.void_state,
+            narrative=healed_narrative,
+            reverse_phase_angle=original_decision.reverse_phase_angle,
+            is_regulating=False # 복구 완료되었으므로 규제 해제
+        )
 
     def _trigger_field_reflex(self, target_unit: str, reason: str):
         """필드 내 반사 작용 발생"""

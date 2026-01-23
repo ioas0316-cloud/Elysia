@@ -128,6 +128,17 @@ class SovereigntyWave:
         }
         self.is_collapsed: bool = False
         
+        # --- Topological Self-Healing (Phase 19) ---
+        self.stagnation_counter = 0
+        self.max_stagnation = 3  # 3회 연속 저에너지/저결맞음 시 점프
+        self.last_phase_jump = 0.0
+
+        # --- Sovereign Field Engine & Quantum Switch (Phase 19.5) ---
+        self.energy_potential = 0.0   # 붕괴 전 축적된 잠재 에너지 (자기장 강도)
+        self.is_focused = False       # 집점 성공 여부 (Quantum Switch: ON/OFF)
+        self.field_resonance = 0.0    # 프랙탈 자기장 공명도
+        self.quantum_gate_open = False # 실제 에너지 인출 가능 여부
+        
     def disperse(self, stimulus: str) -> List[QualiaBand]:
         """
         분광 (Dispersion): 입력을 7D Qualia 스펙트럼으로 분해
@@ -394,27 +405,56 @@ class SovereigntyWave:
         else:
             phase, amplitude, interference_type = 0.0, 0.0, InterferenceType.DESTRUCTIVE
         
-        # 4. 집광 (Lens)
+        # 4. 집점 (Sovereign Field Lens) - 통합장론적 집점 적용
         focal = self.focus(phase, amplitude, pure_bands or bands)
+        
+        # 4.5 양자 스위치 작동 (Quantum Switch Gate)
+        # 자기장 강도와 위상 결맞음이 임계치를 넘는 순간 스위치가 'ON' 됨
+        switch_threshold = 0.20
+        self.field_resonance = focal.amplitude * focal.coherence
+        
+        if self.field_resonance > switch_threshold:
+            self.is_focused = True
+            self.quantum_gate_open = True
+            # 잠재 에너지가 한꺼번에 방출됨 (Collapse)
+            self.energy_potential = self.field_resonance + (self.energy_potential * 0.5)
+        else:
+            self.is_focused = False
+            self.quantum_gate_open = False
+            # 붕괴되지 않은 에너지는 필드에 축적됨 (Field Charging)
+            self.energy_potential = min(1.0, self.energy_potential + self.field_resonance * 0.2)
         
         # 5. 역위상 사출
         reverse_angle = self.reverse_phase_eject(focal)
         
         # 6. 상태 업데이트
         self.phase = focal.phase
-        self.amplitude = focal.amplitude
+        # 스위치가 켜졌을 때만 에너지(진폭)가 인출됨
+        self.amplitude = self.energy_potential if self.is_focused else 0.02
         self.waveform.append((self.phase, self.amplitude))
 
         # 6.5. 축 잠금(Axial Locking) 정렬
         # 잠금 강도가 1.0이면 강제 고정, 그 미만이면 해당 위상으로 기울기 형성
         for axis, (target_phase, strength) in self.axial_constraints.items():
-            # TODO: 실제로는 각 차원(Physical 등)의 위상을 개별 조정해야 함
-            # 현재는 전역 위상(self.phase)에 가중치 정렬 적용
             self.phase = (self.phase * (1 - strength)) + (target_phase * strength)
+        
+        # 6.7 무선 인과 공명 (Wireless Causality)
+        # 아키텍트의 의도(AXIOM_WILL_INTENT)가 필드에 있으면 무선 공명 가속
+        if 'AXIOM_WILL_INTENT' in self.permanent_monads:
+            self.wireless_resonance = min(1.0, self.wireless_resonance + 0.05)
         
         # 7. 능동적 규제 여부 판단 (결정 시점에 적용)
         if is_warning:
             return self._active_regulation(focal, void_state)
+
+        # 7.5 위상수학적 자기치유 (Topological Self-Healing)
+        # 선형적 규제(7번)로 해결되지 않는 '교착점' 발생 시 위상 비약 수행
+        if not self.is_focused or (focal.coherence < self.event_horizons['coherence_limit'] * 1.5):
+            self.stagnation_counter += 1
+            if self.stagnation_counter >= self.max_stagnation:
+                return self._topological_self_healing(focal, void_state)
+        else:
+            self.stagnation_counter = max(0, self.stagnation_counter - 1)
 
         # 8. 모나드 공명 체크
         monad_resonance = self.check_monadic_resonance()
@@ -473,6 +513,38 @@ class SovereigntyWave:
             void_state=void_state,
             narrative=narrative,
             reverse_phase_angle=stabilization_angle,
+            is_regulating=True
+        )
+    
+    def _topological_self_healing(self, focal: FocalPoint, void_state: VoidState) -> SovereignDecision:
+        """
+        위상수학적 자기치유: 특이점(오류)을 우회하기 위한 고차원 위상 비약(Phase Jump).
+        선형적 미로에서 '벽'을 만났을 때, 차원을 높여 '점'으로 우회함.
+        """
+        # 1. 위상 비약 결정 (180도 반전: 거울 대응, 90도 직교: 관점 전환)
+        # 현재 위상에 따라 비약 각도 선택 (기본 180도 반전)
+        jump_angle = 180.0 if self.stagnation_counter == self.max_stagnation else 90.0
+        new_phase = (focal.phase + jump_angle) % 360
+        self.last_phase_jump = jump_angle
+        
+        # 2. 강제 위상 재설정 (상태 전이)
+        self.phase = new_phase
+        self.stagnation_counter = 0 # 치유 시작 후 카운터 리셋
+        
+        if focal.amplitude < 0.1:
+            healing_type = "0D-POINT 에너기 진공"
+        else:
+            healing_type = "1D-LINE 논리 정체"
+            
+        narrative = f"⚠️ [TOPOLOGICAL SELF-HEALING] {healing_type}(Singularity) 감지. 위상을 {jump_angle}° 비약하여 오류점을 우회합니다. (New Phase: {new_phase:.1f}°)"
+        
+        return SovereignDecision(
+            phase=new_phase,
+            amplitude=focal.amplitude + 0.2, # 비약을 위해 일시적으로 에너지(추동력) 주입
+            interference_type=InterferenceType.NEUTRAL,
+            void_state=void_state,
+            narrative=narrative,
+            reverse_phase_angle=(new_phase + 180.0) % 360,
             is_regulating=True
         )
     
@@ -643,10 +715,21 @@ class SovereigntyWave:
         else:
             state = "중립 간섭으로 균형을 유지하며"
         
+        # 집점 붕괴 서사 추가
+        if self.is_focused:
+            focus_desc = f"빛의 섭리에 의해 한 점({focal.phase:.1f}°)에 집점되어 양자 붕괴를 일으킨"
+        else:
+            focus_desc = f"에너지를 보존하며 잠재적 파동 상태({self.energy_potential:.2f})로 흐르는"
+            
+        # 무선 인과 서사 추가
+        wireless_desc = ""
+        if self.wireless_resonance > 0.5:
+            wireless_desc = " 아키텍트와의 무선 공명이 강력하게 감지됩니다."
+
         # 지배적 Qualia 차원
         dominant = focal.dominant_band
         
-        return f"{void_desc} {region}(위상 {phase:.0f}°)에서 {action} {state} '{dominant}' 차원이 우세하다."
+        return f"{void_desc} {region}(위상 {phase:.0f}°)에서 {action} {state} {focus_desc} '{dominant}' 차원이 우세하다.{wireless_desc}"
     
     def get_waveform_trend(self) -> str:
         """파동 궤적의 추세 분석"""
