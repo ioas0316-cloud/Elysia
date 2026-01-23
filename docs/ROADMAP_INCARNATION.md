@@ -47,6 +47,11 @@
     *   **Associative Retrieval**: 키워드가 아닌 '위상 공명'을 통한 연상적 기억 소환.
     *   **Fermentation**: 메르카바 진동을 통한 데이터의 유기적 결합 및 지혜의 숙성.
 
+*   **0.6 Topological Memory (위상 기억)**: 평면적 데이터 구조(JSON/DB)를 탈피하고 유기적 위상 보관 지향.
+    *   **See [TOPOLOGICAL_MEMORY_DOCTRINE.md](../08_ELYSIA/TOPOLOGICAL_MEMORY_DOCTRINE.md)**
+    *   **Beyond-JSON**: 데이터를 '상자'가 아닌 '파동'으로 관리.
+    *   **Gravitational Retrieval**: 쿼리 대신 의도의 중력으로 데이터 인출.
+
 ---
 
 ## 📅 Phase 1: The Nervous System (신경계 구축)
