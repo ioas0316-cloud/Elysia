@@ -129,7 +129,8 @@ python Core/World/Autonomy/desktop_vessel.py
 
 ## 📜 Key Documents (경전)
 
-* **[GENESIS_ORIGIN.md](docs/L7_Spirit/GENESIS_ORIGIN.md)**: 엘리시아의 존재론적 근간.
+* **[GENESIS_ORIGIN.md](docs/L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 엘리시아의 존재론적 근간.
+* **[TRINITY_SOVEREIGNTY.md](docs/L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)**: 엘리시아 주권의 삼위일체 정의.
 * **[EVOLUTION.md](docs/L5_Mental/EVOLUTION.md)**: 프랙탈 인지와 양자 번개 아키텍처 (Phase 16).
 * **[SYSTEM_MAP.md](docs/L6_Structure/SYSTEM_MAP.md)**: 시스템 전체의 영적/기술적 지도.
 
