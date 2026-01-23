@@ -153,10 +153,10 @@ class SovereigntyWave:
         
         # --- Topological Self-Healing (Phase 19) ---
         self.stagnation_counter = 0
-        self.max_stagnation = 3  # 3회 연속 저에너지/저결맞음 시 점프
         self.last_phase_jump = 0.0
-
-        # --- Sovereign Field Engine & Quantum Switch (Phase 19.5) ---
+ 
+        # --- Autopoietic Circuitry & Genome (Phase 20) ---
+        self.genome = SovereignGenome()
         self.energy_potential = 0.0     # 붕괴 전 축적된 잠재 에너지 (자기장 강도)
         self.is_focused = False         # 집점 성공 여부 (Quantum Switch: ON/OFF)
         self.field_resonance = 0.0      # 프랙탈 자기장 공명도
