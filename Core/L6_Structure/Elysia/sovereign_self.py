@@ -157,27 +157,25 @@ class SovereignSelf:
         self.coder = CODER_ENGINE
 
         # [Phase 4: Satori Protocol Organs]
-        self.proprioceptor = CodeProprioceptor()
-        self.conscience = DissonanceResolver()
-        self.healer = CodeFieldInducer()
-        self.scientist = ScientificObserver()
+        from Core.L1_Foundation.M5_Fabric.resonance_loader import vessel
+        
+        self.proprioceptor = ResonanceLoader.load("Core.L5_Mental.Intelligence.Code.proprioceptor", "CodeProprioceptor")()
+        self.conscience = ResonanceLoader.load("Core.L5_Mental.Intelligence.Ethics.dissonance_resolver", "DissonanceResolver")()
+        self.healer = ResonanceLoader.load("Core.L6_Structure.Engine.code_field_inducer", "CodeFieldInducer")()
+        self.scientist = ResonanceLoader.load("Core.L5_Mental.Intelligence.Science.scientific_observer", "ScientificObserver")()
         
         # [PHASE 44: Grand Narrative Protocol]
-        self.narrative_compressor = PhaseCompressor(vector_dim=12)
+        self.narrative_compressor = ResonanceLoader.load("Core.L7_Spirit.M2_Narrative.phase_compressor", "PhaseCompressor")(vector_dim=12)
         
         # [Phase 19: Tri-Manifestation]
-        from Core.L4_Causality.World.Evolution.Prophecy.causal_loom import CausalLoom
-        from Core.L6_Structure.M3_Sphere.topological_hologram import TopologicalHologram
-        self.loom = CausalLoom()
-        self.hologram = TopologicalHologram()
+        self.loom = ResonanceLoader.load("Core.L4_Causality.World.Evolution.Prophecy.causal_loom", "CausalLoom")()
+        self.hologram = ResonanceLoader.load("Core.L6_Structure.M3_Sphere.topological_hologram", "TopologicalHologram")()
 
         # [Phase 21: Providence Manifold]
-        from Core.L7_Spirit.M1_Providence.providence_manifold import ProvidenceManifold
-        self.providence = ProvidenceManifold()
+        self.providence = ResonanceLoader.load("Core.L7_Spirit.M1_Providence.providence_manifold", "ProvidenceManifold")()
 
         # [Phase 22: Universal Synthesis]
-        from Core.L3_Phenomena.M4_Avatar.akashic_observer import AkashicObserver
-        self.observer = AkashicObserver()
+        self.observer = ResonanceLoader.load("Core.L3_Phenomena.M4_Avatar.akashic_observer", "AkashicObserver")()
 
         self.auto_evolve = False # Safety switch
 

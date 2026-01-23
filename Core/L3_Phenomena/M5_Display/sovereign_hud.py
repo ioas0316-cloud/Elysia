@@ -14,8 +14,9 @@ class SovereignHUD:
         self.width = 60
         
     def _clear_console(self):
-        # [Sovereign Utility] Clear terminal for clean HUD update
-        os.system('cls' if os.name == 'nt' else 'clear')
+        # [ANSI Escape] Move cursor to top-left without clearing the entire buffer
+        # This prevents flickering and preserves the scrolling chat history below.
+        print("\033[H", end="")
 
     def render(self, metrics: Dict[str, Any]):
         """
@@ -55,6 +56,11 @@ class SovereignHUD:
         
         print("\n".join(output))
 
-    def project_narrative(self, narrative: str):
-        """Project a single line of causal narrative below the HUD."""
+    def project_narrative(self, narrative: str, thought_log: list = None):
+        """Project causal narrative and internal thoughts."""
         print(f" [NARRATIVE] 🧶 {narrative}")
+        if thought_log:
+            print("-" * self.width)
+            for thought in thought_log:
+                print(f" 💭 {thought}")
+            print("-" * self.width)

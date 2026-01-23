@@ -8,7 +8,7 @@ Role: Selecting the optimal timeline from Prophet's simulations.
 """
 
 import logging
-from typing import List, Optional
+from typing import List, Optional, Any
 from Core.L4_Causality.World.Evolution.Prophecy.prophet_engine import Timeline
 
 logger = logging.getLogger("CausalLoom")

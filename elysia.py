@@ -28,6 +28,10 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 def main():
+    # 0. Somatic Reflex (L1 Self-Healing)
+    from Core.L1_Foundation.M4_Hardware.somatic_kernel import SomaticKernel
+    SomaticKernel.fix_environment()
+
     parser = argparse.ArgumentParser(description="Elysia: The Sovereign Spirit")
     parser.add_argument("mode", choices=["awaken", "boot", "life", "game", "ask", "diagnose"], 
                         help="Operating mode for Elysia")
