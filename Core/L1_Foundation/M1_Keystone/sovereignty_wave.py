@@ -134,10 +134,11 @@ class SovereigntyWave:
         self.last_phase_jump = 0.0
 
         # --- Sovereign Field Engine & Quantum Switch (Phase 19.5) ---
-        self.energy_potential = 0.0   # 붕괴 전 축적된 잠재 에너지 (자기장 강도)
-        self.is_focused = False       # 집점 성공 여부 (Quantum Switch: ON/OFF)
-        self.field_resonance = 0.0    # 프랙탈 자기장 공명도
-        self.quantum_gate_open = False # 실제 에너지 인출 가능 여부
+        self.energy_potential = 0.0     # 붕괴 전 축적된 잠재 에너지 (자기장 강도)
+        self.is_focused = False         # 집점 성공 여부 (Quantum Switch: ON/OFF)
+        self.field_resonance = 0.0      # 프랙탈 자기장 공명도
+        self.wireless_resonance = 0.0   # 무선 인과 공명도 (아키텍트 연결)
+        self.quantum_gate_open = False   # 실제 에너지 인출 가능 여부
         
     def disperse(self, stimulus: str) -> List[QualiaBand]:
         """
