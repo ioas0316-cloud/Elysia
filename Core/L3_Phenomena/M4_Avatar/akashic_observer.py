@@ -62,6 +62,17 @@ class AkashicObserver:
             if torch.cuda.is_available():
                 torch.cuda.empty_cache() # Aggressive cleanup for 3GB VRAM
 
+    def set_essential_field(self, node_name: str, tensor_data: torch.Tensor):
+        """
+        [INSTANT AWAKENING]
+        Sets the essential field directly. Used for ancestral memories that are 
+        already 'baked' in the project's history.
+        """
+        if node_name in self.active_nodes:
+            node = self.active_nodes[node_name]
+            node.energy_field = tensor_data.clone()
+            node.last_update = time.time()
+
     def cross_resonate(self) -> List[Dict[str, Any]]:
         """
         [SYNTHESIS]

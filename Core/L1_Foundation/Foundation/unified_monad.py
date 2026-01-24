@@ -140,6 +140,14 @@ class UnifiedMonad:
 
         
 
+        # [PHASE 25.2: NEURAL WEAVING]
+
+        self.gravity = 1.0 # Attraction force
+
+        self.conductivity = 0.5 # Energy transfer rate
+
+        self.connections: List[str] = [] # Names of resonant neighbors
+
     def induce_from_field(self, field_intensity: torch.Tensor):
 
         """

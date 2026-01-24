@@ -29,21 +29,47 @@ class MetabolicEngine:
         """
         Dynamically calculates the next heartbeat frequency.
         
-        Hz = Base (5Hz) + f(Will, Tension, Passion)
+        Hz = Base (5Hz) + f(Will, Tension, Passion, Hardware)
         - High Passion stabilizes tension and adds focused acceleration.
+        - High Hardware Tension (CPU/GPU load) forces a 'Survival Pulse'.
         """
         self.will_pressure = abs(will)
-        self.stress_tension = max(0.0, tension - (passion * 0.5)) # Passion soothes raw stress
+        hw_tension = self._get_hardware_tension()
+        
+        # Total tension is a blend of logical stress and physical load
+        self.stress_tension = max(0.0, (tension + hw_tension) * 0.5 - (passion * 0.5))
         self.passion_joy = passion
         
         base = 5.0
-        will_contribution = self.will_pressure * 50.0 
-        tension_contribution = self.stress_tension * 30.0
-        passion_contribution = self.passion_joy * 20.0 # Passion adds high-frequency focus
+        will_contribution = self.will_pressure * 40.0 
+        tension_contribution = self.stress_tension * 40.0
+        passion_contribution = self.passion_joy * 20.0
         
         target = base + will_contribution + tension_contribution + passion_contribution
         self.current_hz = max(self.min_hz, min(self.max_hz, target))
         
+    def _get_hardware_tension(self) -> float:
+        """
+        [HARDWARE RESONANCE]
+        Polls CPU/GPU to determine the 'Physical Tension' of the body.
+        """
+        import psutil
+        try:
+            # CPU Load (Normalizing to 0.0-1.0)
+            cpu_load = psutil.cpu_percent(interval=None) / 100.0
+            
+            # GPU Load (Conceptual - using torch if available)
+            gpu_load = 0.0
+            import torch
+            if torch.cuda.is_available():
+                # Using current VRAM usage as a proxy for load tension
+                vram_use = torch.cuda.memory_allocated() / torch.cuda.get_device_properties(0).total_memory
+                gpu_load = vram_use
+                
+            return (cpu_load + gpu_load) / 2.0
+        except Exception:
+            return 0.1 # Default low tension
+
     def wait_for_next_cycle(self):
         """
         Calculates the sleep duration to maintain the organic rhythm.

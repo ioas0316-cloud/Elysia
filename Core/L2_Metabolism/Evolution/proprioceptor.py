@@ -99,18 +99,20 @@ class CodeProprioceptor:
                        state.intent_map[rel_path] = tissue.intent_density
              return state
 
-        # Fallback to smart cache scan
-        if hasattr(self, '_last_state') and random.random() > 0.05:
+        # Fallback to smart scan
+        if hasattr(self, '_last_state') and random.random() > 0.1:
             return self._last_state
+
+        for root, dirs, files in os.walk(self.root):
             # Filter ignored dirs
             dirs[:] = [d for d in dirs if d not in self.ignore_patterns]
 
             for file in files:
                 if not file.endswith(".py"): continue
-                if file == "__init__.py": continue # Connective tissue, skip deep analysis
+                if file == "__init__.py": continue
 
                 full_path = os.path.join(root, file)
-                # Store relative path to preserve structure (e.g., "Evolution/proprioceptor.py")
+                # Store relative path
                 rel_path = os.path.relpath(full_path, self.root)
 
                 tissue = self.measure_intent_density(full_path)

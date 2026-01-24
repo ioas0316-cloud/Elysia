@@ -43,7 +43,7 @@ that constitutes spatial perception.
 
 
 import numpy as np
-
+import torch
 import logging
 
 import math
@@ -127,20 +127,22 @@ class RotorEngine:
 
 
         if self.use_core:
-
             logger.info(f"?? Initializing [CORE] Active Prism-Rotor at {rpm} RPM...")
-
             self.turbine = ActivePrismRotor(rpm=rpm)
-
             self.void = VoidSingularity()
-
         else:
-
             logger.warning("?   [CORE] Physics not available or disabled. Falling back to Legacy Stride Engine.")
-
             self.turbine = None
 
-
+    def spin(self, vector: torch.Tensor, time_delta: float = 0.05) -> torch.Tensor:
+        """
+        [SPACETIME ROTATION]
+        Simulates a rotation of the perspective vector.
+        """
+        # Simple cyclic shift or matrix rotation for vector
+        import torch
+        shift = int(time_delta * 100) % vector.shape[-1]
+        return torch.roll(vector, shifts=shift)
 
     def optimize_path(self, feedback_monad: PhotonicMonad):
 

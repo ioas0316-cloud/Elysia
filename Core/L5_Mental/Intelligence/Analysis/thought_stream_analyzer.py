@@ -22,10 +22,16 @@ class ThoughtStreamAnalyzer:
         Input: Tensor of shape (Seq_Len, Hidden_Dim)
         Output: List of 'Key Moments' (Indices where the thought turned)
         """
-        if trajectory is None or len(trajectory) < 2:
-            return []
+        if trajectory is None:
+            return {"total_steps": 0, "key_moments": [], "redundancy_ratio": 0}
+            
+        # Ensure 2D for flow analysis
+        if trajectory.dim() < 2:
+            return {"total_steps": 1 if trajectory.dim() == 1 else 0, "key_moments": [], "redundancy_ratio": 1.0}
             
         seq_len = trajectory.size(0)
+        if seq_len < 2:
+             return {"total_steps": seq_len, "key_moments": [], "redundancy_ratio": 1.0}
         moments = []
         velocities = []
         

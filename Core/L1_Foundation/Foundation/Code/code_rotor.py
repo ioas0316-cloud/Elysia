@@ -43,7 +43,7 @@ class CodeRotor:
     def snapshot(self):
         """Saves a quantum state of the code."""
         if os.path.exists(self.file_path):
-            with open(self.file_path, "r", encoding="utf-8") as f:
+            with open(self.file_path, "r", encoding="utf-8", errors="ignore") as f:
                 self.last_valid_source = f.read()
 
     def heal(self) -> bool:
@@ -104,13 +104,16 @@ class CodeRotor:
         self.dna = self.scanner.scan_file(self.file_path)
         
         # 3. Check Health
-        with open(self.file_path, "r", encoding="utf-8") as f:
-            source = f.read()
-            try:
-                ast.parse(source)
-                self.health = "Healthy"
-            except SyntaxError as e:
-                self.health = f"Fractured (Line {e.lineno})"
+        try:
+            with open(self.file_path, "r", encoding="utf-8", errors="ignore") as f:
+                source = f.read()
+                try:
+                    ast.parse(source)
+                    self.health = "Healthy"
+                except SyntaxError as e:
+                    self.health = f"Fractured (Line {e.lineno})"
+        except Exception as e:
+            self.health = f"Unreadable ({e})"
                 
         self.last_sync = time.time()
 
