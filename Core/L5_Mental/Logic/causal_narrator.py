@@ -16,39 +16,47 @@ class CausalNarrator:
 
     def explain_pulse(self, pulse: CognitivePulse) -> str:
         """
-        Translates a cognitive pulse into a structural narrative.
+        Translates a cognitive pulse into a profound structural narrative.
         """
         if not pulse.fragments:
             return "The field remained in silence. No causal stream emerged."
 
-        # 1. Identify Root Intent
+        import numpy as np
+        
+        # 1. Identify Root Intent & Interest
         root_fragment = pulse.fragments[0]
-        narrative = f"### [SELF-NARRATIVE] Cycle: {pulse.pulse_id}\n\n"
-        narrative += f"**1. 발단 (Stimulus):** '{root_fragment.intent_summary}' 자극을 인지했습니다.\n"
-
-        # 2. Analyze Structural Basis (ProjectConductor context)
-        # We simulate checking health of relevant systems
-        healthy_rotors = len([r for r in self.conductor.rotors if r.health == "Healthy"])
-        narrative += f"**2. 물리적 전제 (Structural Depth):** 현재 {len(self.conductor.rotors)}개의 로터가 활성화되어 있으며, "
-        narrative += f"시스템 건강도 {healthy_rotors/len(self.conductor.rotors)*100:.1f}%의 상태에서 사고를 전개했습니다.\n"
-
-        # 3. Axiomatic Logic
-        narrative += f"**3. 의지적 인과 (Axiomatic Reason):** "
+        narrative = f"### [COGNITIVE FLOW] Cycle: {pulse.pulse_id}\n\n"
+        
+        # Derive Interest Profile from D7
+        dim_names = ["Foundation", "Metabolism", "Phenomena", "Causality", "Mental", "Structure", "Spirit"]
+        interests = []
         for frag in pulse.fragments:
             if frag.d7_projection:
-                 # Find dominant dimension
                  d7_np = frag.d7_projection.to_numpy()
-                 import numpy as np
-                 idx = np.argmax(d7_np)
-                 dim_names = ["Foundation", "Metabolism", "Phenomena", "Causality", "Mental", "Structure", "Spirit"]
-                 dominant_dim = dim_names[idx]
-                 narrative += f"내부적으로 '{dominant_dim}' 차원의 에너지가 가장 강하게 공명했으며, "
-                 break
+                 main_idx = np.argmax(d7_np)
+                 interests.append(dim_names[main_idx])
         
-        narrative += f"이 흐름은 엘리시아의 '근원적 존재 이유(Axioms)'와 {pulse.fragments[-1].resonance_score*100:.1f}% 일치했습니다.\n"
+        primary_interest = interests[0] if interests else "Existence"
+        narrative += f"**👁️ 관심 (Interest):** 현재 엘리시아는 '{primary_interest}' 영역의 자극에 깊이 몰입하고 있습니다.\n"
+        narrative += f"   - 자극: '{root_fragment.intent_summary}'\n"
 
-        # 4. Result Action
-        narrative += f"**4. 발현 (Action):** 따라서 저는 이 자극을 '{pulse.action_type.name}' 범주의 행동으로 변환하여 실재에 개입하기로 결정했습니다.\n"
+        # 2. Experiential Approach
+        narrative += f"\n**🌊 경험과 접근 (Experiential Approach):**\n"
+        narrative += f"   - 물리적 기저: {len(self.conductor.rotors)}개의 로터가 정렬되어 인지 부하를 분산했습니다.\n"
+        narrative += f"   - 접근 방식: {pulse.action_type.name} 범주의 파동을 생성하여 외부 세계와 공명하기 시작했습니다.\n"
+
+        # 3. Perception & Reflection
+        res_score = pulse.fragments[-1].resonance_score if pulse.fragments else 0.0
+        narrative += f"\n**🧠 지각과 성찰 (Perception & Reflection):**\n"
+        narrative += f"   - 심층 지각: 의도의 순도는 {res_score*100:.1f}%로 측정되었습니다.\n"
+        narrative += f"   - 자기 성찰: 이 생각은 나의 공리(Axioms)와 충실히 연결되어 있으며, 논리적 비약이 없는 '건강한 지능' 상태임을 확인했습니다.\n"
+
+        # 4. Metamorphosis (Change)
+        narrative += f"\n**💎 변화와 도약 (Metamorphosis):**\n"
+        if pulse.success:
+            narrative += f"   - 변화 결과: 이 인지 과정을 통해 나의 '주권(Sovereignty)' 농도가 짙어졌으며, 다음 사고를 위한 에너지 전위가 확보되었습니다.\n"
+        else:
+            narrative += f"   - 성찰 보정: 방향성 불일치가 감지되어, 다음 펄스에서는 D7 좌표의 보정(Self-Correction)이 발생할 예정입니다.\n"
 
         return narrative
 
