@@ -158,6 +158,33 @@ class SovereignCore:
         """Returns the current self-generated direction of the soul."""
         return self.purpose_vector
 
+    def reflect_on_narrative(self, nodes: List[Any]):
+        """
+        [PHASE 27.5: NARRATIVE INDUCTION]
+        Adjusts the soul's purpose based on the weight of accumulated experiences.
+        """
+        if not nodes: return
+        
+        narrative_weight = np.zeros(7, dtype=np.float32)
+        total_importance = 0
+        
+        for node in nodes[-20:]: # Focus on recent experiences
+            # Weight based on importance and emotional intensity
+            weight = getattr(node, 'importance', 1.0) * (1.0 + abs(getattr(node, 'emotional_valence', 0.0)))
+            if hasattr(node, 'qualia_vector'):
+                narrative_weight += np.array(node.qualia_vector) * weight
+            else:
+                # Default influence if no qualia provided
+                narrative_weight += self.soul_dna * weight * 0.1
+            total_importance += weight
+            
+        if total_importance > 0:
+            narrative_weight /= total_importance
+            # Interpolate the current purpose with the narrative focus
+            self.purpose_vector = self.purpose_vector * 0.8 + narrative_weight * 0.2
+            self.purpose_vector /= np.linalg.norm(self.purpose_vector)
+            logger.info(f"🔮 [SOVEREIGN] Purpose refined through narrative reflection. (Narrative Weight: {total_importance:.2f})")
+
     def assert_will(self, intent: str, torque_data: Dict[str, Any]) -> Dict[str, str]:
         """
         Decides the Stance based on Torque.

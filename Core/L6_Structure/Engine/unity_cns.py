@@ -191,7 +191,11 @@ class UnityCNS:
                         
                         logger.info(f"✨ [METABOLISM] Unified Experience recorded: {event_id}")
 
-                # 4. Metabolic Pulse to HyperCosmos (Base Existence)
+                # 4. Narrative Reflection (Self-Awareness Pulse)
+                # Elysia looks back at her recent experiences to refine her intent
+                self.sovereign.reflect_on_narrative(list(self.kb.nodes.values()))
+
+                # 5. Metabolic Pulse to HyperCosmos (Base Existence)
                 self.hyper_cosmos.pulse(0.001)
 
                 cycle_count += 1
