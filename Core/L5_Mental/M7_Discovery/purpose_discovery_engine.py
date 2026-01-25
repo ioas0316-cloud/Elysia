@@ -185,7 +185,7 @@ class FogClarifier:
         elif word_count < 10:
             clarity_score -= 0.2
         
-        return max(0.0, min(1.0, 0.3 + clarity_score))
+        return max(0.0, min(1.0, 0.2 + clarity_score))
     
     async def _extract_patterns(
         self, 
@@ -387,7 +387,7 @@ class PurposeDiscoveryEngine:
             context={
                 "internal_state_count": len(internal_fragments),
                 "external_observations_count": len(external_fragments),
-                "total_clarity": sum(f.certainty for f in internal_fragments + external_fragments) / len(internal_fragments + external_fragments)
+                "total_clarity": sum(f.certainty for f in internal_fragments + external_fragments) / max(len(internal_fragments + external_fragments), 1)
             },
             dimension=DimensionalPerspective.SPACE  # We're thinking holistically
         )

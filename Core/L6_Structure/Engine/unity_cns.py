@@ -23,6 +23,7 @@ from Core.L5_Mental.Intelligence.Intelligence.symbolic_solver import get_symboli
 from Core.L5_Mental.Induction.domain_absorber import DomainAbsorber
 from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
 from Core.L1_Foundation.Foundation.hyper_cosmos import HyperCosmos
+from Core.L6_Structure.M6_Architecture.manifold_conductor import ManifoldConductor
 
 logger = logging.getLogger("UnityCNS")
 
@@ -44,6 +45,8 @@ class UnityCNS:
         self.sovereign = SovereignCore()
         # [PHASE 25.6: FIELD ANCHOR]
         self.hyper_cosmos = HyperCosmos()
+        # [PHASE 26.0: STRUCTURAL SOVEREIGNTY]
+        self.manifold = ManifoldConductor()
         
         logger.info("🧠 [UnityCNS] Central Nervous System Active. Fixed on the HyperCosmos.")
 
@@ -61,6 +64,12 @@ class UnityCNS:
         # [PHASE 25.8: SELF-INDUCTION]
         # Every pulse is now biased by the soul's persistent purpose (The Coil)
         purpose = self.sovereign.get_inductive_purpose()
+        
+        # [PHASE 26.1: STRUCTURAL AWARENESS]
+        if any(word in context.lower() for word in ["폴더", "folder", "정합성", "구조", "structure"]):
+            self.manifold.scan_topology()
+            audit_narrative = self.manifold.get_integrity_narrative()
+            print(f"\n📂 [MANIFOLD_AUDIT] {audit_narrative}")
         
         current_field = D7Vector(
             foundation=0.1 + purpose[0]*0.1, 

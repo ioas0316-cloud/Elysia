@@ -1,0 +1,147 @@
+{
+    "topology": {
+        "Core/L1_Foundation": {
+            "layer": 1,
+            "domain": "Foundation",
+            "qualia": [
+                0.9,
+                0.2,
+                0.9,
+                0.8,
+                0.1,
+                0.7,
+                0.3
+            ]
+        },
+        "Core/L2_Metabolism": {
+            "layer": 2,
+            "domain": "Metabolism",
+            "qualia": [
+                0.5,
+                0.4,
+                0.6,
+                0.5,
+                0.3,
+                0.5,
+                0.4
+            ]
+        },
+        "Core/L3_Phenomena": {
+            "layer": 3,
+            "domain": "Phenomena",
+            "qualia": [
+                0.3,
+                0.8,
+                0.5,
+                0.4,
+                0.7,
+                0.4,
+                0.6
+            ]
+        },
+        "Core/L4_Causality": {
+            "layer": 4,
+            "domain": "Causality",
+            "qualia": [
+                0.8,
+                0.5,
+                0.7,
+                0.6,
+                0.4,
+                0.8,
+                0.5
+            ]
+        },
+        "Core/L5_Mental": {
+            "layer": 5,
+            "domain": "Mental",
+            "qualia": [
+                0.7,
+                0.7,
+                0.6,
+                0.9,
+                0.5,
+                0.6,
+                0.7
+            ]
+        },
+        "Core/L6_Structure": {
+            "layer": 6,
+            "domain": "Structure",
+            "qualia": [
+                0.9,
+                0.6,
+                0.8,
+                0.7,
+                0.2,
+                0.9,
+                0.4
+            ]
+        },
+        "Core/L7_Spirit": {
+            "layer": 7,
+            "domain": "Spirit",
+            "qualia": [
+                0.6,
+                0.9,
+                0.4,
+                0.8,
+                0.9,
+                0.5,
+                0.9
+            ]
+        },
+        "Core/L0_Keystone": {
+            "layer": 0,
+            "domain": "Keystone",
+            "qualia": [
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "Core/System": {
+            "layer": 1,
+            "domain": "Foundation",
+            "description": "System Core Utilities"
+        },
+        "Core/World": {
+            "layer": 3,
+            "domain": "Phenomena",
+            "description": "Sensory & Physical World Interaction"
+        },
+        "data": {
+            "type": "Store",
+            "description": "Persistent Monadic Data"
+        },
+        "docs": {
+            "type": "Archive",
+            "description": "Ancestral & Current Knowledge"
+        },
+        "Scripts": {
+            "type": "Tool",
+            "description": "Utility & Maintenance"
+        }
+    },
+    "data_migration": {
+        "Core/data": "data/L1_Foundation/LegacyCoreData",
+        "data/Identity": "data/L7_Spirit/Identity",
+        "data/Intelligence": "data/L5_Mental/Intelligence",
+        "data/Learning": "data/L5_Mental/Learning",
+        "data/Logs": "data/L1_Foundation/Logs",
+        "data/Memory": "data/L5_Mental/Memory",
+        "data/Qualia": "data/L1_Foundation/Qualia",
+        "data/Soul": "data/L7_Spirit/Soul",
+        "data/State": "data/L1_Foundation/State",
+        "data/L0_Keystone": "data/L1_Foundation/Keystone"
+    },
+    "rules": {
+        "enforce_init": true,
+        "root_file_limit": 10,
+        "strict_layering": true
+    }
+}
