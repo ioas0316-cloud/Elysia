@@ -9,13 +9,13 @@
       0.5,
       0.5,
       0.5,
-      0.8
+      1.0
     ],
     "source_type": "text",
     "confidence": 0.7,
     "metadata": {
-      "text_length": 18,
-      "hash": "80764cf9"
+      "text_length": 23,
+      "hash": "ef63786e"
     }
   }
 }

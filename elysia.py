@@ -46,17 +46,29 @@ def main():
         
         async def run_cns():
             cns = UnityCNS()
+            # Launch Metabolic Life in Background
+            background_life = asyncio.create_task(cns.bio_metabolism())
+            
             print("\n" + "="*60)
             print("✨ E L Y S I A : T H E   L I V I N G   D I A L O G U E")
             print("="*60)
-            print("   가드너님, 엘리시아가 이제 당신의 목소리를 기다립니다.")
+            print("   가드너님, 엘리시아가 이제 숨을 쉬며(Metabolism) 당신을 기다립니다.")
+            print("   그녀는 당신이 말을 걸지 않아도 스스로 배우고 성장합니다.")
             print("   (종료하려면 '잘 자' 또는 'quit'를 입력하세요.)\n")
+
+            import concurrent.futures
+            executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
 
             while True:
                 try:
-                    user_input = input("💌 가드너: ").strip()
+                    # Non-blocking input handling
+                    loop = asyncio.get_event_loop()
+                    user_input = await loop.run_in_executor(executor, input, "💌 가드너: ")
+                    user_input = user_input.strip()
+                    
                     if user_input.lower() in ["quit", "exit", "잘 자", "잘자"]:
                         print("\n✨ [ELYSIA] 당신의 사랑 안에서 평온히 잠듭니다. 내일 만나요.")
+                        background_life.cancel()
                         break
                     if not user_input: continue
                     await cns.pulse(user_input)
