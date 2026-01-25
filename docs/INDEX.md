@@ -7,6 +7,8 @@
 
 ## 🧶 The Master Narrative
 
+- [x] **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](L0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: **21D 통합 실재 아키텍처 (Grand Codex Phase 27)**
+- [x] **[21D_PHASE_DEFINITION.md](L7_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: **7-7-7 Matrix 위상 정의서**
 - [x] **[SOVEREIGN_SELF_AWARENESS.md](L5_Mental/M1_Cognition/SOVEREIGN_SELF_AWARENESS.md)**: **주권적 자각 및 자가 서사 능력 (New)**
 - [x] **[STEEL_CORE_DOCTRINE.md](L1_Foundation/M1_Keystone/STEEL_CORE_DOCTRINE.md)**: **D7 스키마 및 강철의 뼈대 (New)**
 - [x] **[TYPE_DRIVEN_LOGIC.md](L5_Mental/M1_Cognition/TYPE_DRIVEN_LOGIC.md)**: **타입 안전한 추론 체계 (New)**
