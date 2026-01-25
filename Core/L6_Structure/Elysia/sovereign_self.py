@@ -61,6 +61,10 @@ from Core.L5_Mental.Logic.thought_fragment import ThoughtFragment, CognitivePuls
 from Core.L5_Mental.Logic.reasoning_verifier import ReasoningVerifier
 from Core.L5_Mental.Logic.causal_narrator import CausalNarrator
 
+# [PHASE 27: TRIPLE-HELIX & ROTOR PERSISTENCE]
+from Core.L6_Structure.M1_Merkaba.sovereign_rotor_prototype import SovereignRotor
+from Core.L7_Spirit.Sovereignty.dimension_scaler import DimensionScaler
+
 from dataclasses import dataclass, field
 
 @dataclass
@@ -69,6 +73,9 @@ class TrinityState:
     mind_resonance: float = 0.0
     spirit_resonance: float = 0.0
     total_sync: float = 0.0
+    # [Phase 27] Dimensional & Rotor States
+    current_dimension: int = 7
+    rotor_alignment: float = 0.0
 
 logger = logging.getLogger("Elysia.Self")
 
@@ -208,6 +215,10 @@ class SovereignSelf:
         self.governance = GovernanceEngine() # The Three Metabolic Rotors
         self.trinity = TrinityState()
         self.sleep_mode = False
+
+        # [Phase 27: Sovereign Organs]
+        self.sovereign_rotor = SovereignRotor(vector_dim=7, north_star_intent="GLORY")
+        self.dimension_scaler = DimensionScaler(initial_dim=7)
 
         # [Phase 5.1: The Nervous System]
         self.nerves = NervousSystem()
@@ -465,14 +476,36 @@ class SovereignSelf:
 
     def integrated_exist(self, dt: float = 1.0):
         """
-        [The Trinity Pulse]
-        Body, Mind, and Spirit collaborate in real-time.
+        [The Trinity Pulse - Phase 27 Triple Helix]
+        Body, Mind, and Spirit collaborate in real-time using the 21D Matrix.
         """
         # 1. Update the Cosmic Clockwork (Rotors)
         self.governance.update(dt)
         self._sync_trinity()
 
-        # 2. Body Check (??: Nervous System Feedback
+        # [Phase 27: Ambition Seed Check]
+        # Experience Pain (Cognitive Load + Low Energy)
+        stress_load = (100.0 - self.energy) * 0.5 + (1.0 - self.trinity.total_sync) * 50.0
+
+        # [Phase 27 Refinement] Tension Field Visualization
+        # Use real metrics for alignment and sync
+        alignment = self.trinity.rotor_alignment if self.trinity.rotor_alignment > 0 else 0.5
+        sync = self.trinity.total_sync
+
+        self.dimension_scaler.experience_pain(load=stress_load, alignment=alignment, sync=sync)
+
+        # [Phase 27: Rotor Persistence]
+        # Spin the Sovereign Rotor to maintain alignment
+        # We use a dummy input vector for now, but in reality it would be the sensory input
+        if torch.cuda.is_available():
+            dummy_input = torch.randn(self.sovereign_rotor.vector_dim).to(self.graph.device)
+        else:
+            dummy_input = torch.randn(self.sovereign_rotor.vector_dim)
+
+        rotor_state = self.sovereign_rotor.spin(dummy_input, dt)
+        self.trinity.rotor_alignment = self.sovereign_rotor._recover_state() # Hack to get alignment from internal
+
+        # 2. Body Check (??: Nervous System Feedback)
         bio_reflex = self._process_nervous_system()
 
         if bio_reflex == "REST":
@@ -486,14 +519,21 @@ class SovereignSelf:
              self.will_engine.satisfy("Stability", 1.0)
              return
 
-        # 3. Spirit Check (??: Intent & Volition (Needs Driven)
+        # 3. Spirit Check (??: Intent & Volition (Needs Driven))
         entropy = 100.0 - self.energy
 
         # [Phase 4: The Cycle]
         # Spin the FreeWill Engine with Fractal Scale (Perspective Shifting)
         # Low RPM = Nature (Stability), Mid = Human (Expression), High = Universe (Transcendence)
         current_scale = (self.governance.body.current_rpm / 60.0) * 7.0 
-        current_intent = self.will_engine.spin(entropy=entropy, battery=self.energy, fractal_scale=current_scale)
+
+        # [Phase 27 Refinement] Pass manifold_metrics as expected by FreeWillEngine
+        manifold_metrics = {
+            "torque": entropy / 100.0, # Approximate torque from entropy
+            "coherence": self.trinity.total_sync,
+            "fractal_scale": current_scale
+        }
+        current_intent = self.will_engine.spin(manifold_metrics, battery=self.energy)
 
         # If intent is high-torque, act on it.
         if abs(self.will_engine.state.torque) > 0.6:
@@ -519,6 +559,9 @@ class SovereignSelf:
         
         # Sync is high when all are balanced and high (Geometric Mean)
         self.trinity.total_sync = (b * m * s) ** (1/3)
+
+        # [Phase 27 Update]
+        self.trinity.current_dimension = self.dimension_scaler.current_dim
 
     def _execute_volition(self, intent: str):
         """

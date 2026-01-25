@@ -45,6 +45,8 @@ try:
 except ImportError:
     HAS_JAX = False
     import numpy as jnp # Fallback to numpy
+    # Dummy jit decorator if JAX is missing
+    def jit(f): return f
 
 
 
