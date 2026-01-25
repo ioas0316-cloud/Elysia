@@ -189,12 +189,31 @@ class DreamEngine:
         logger.info("🌙 [DREAM_ENGINE] Starting Memory Consolidation...")
         
         nodes_to_prune = []
+        
+        # [PHASE 30: SPATIAL CONSOLIDATION]
+        # We query the HyperCosmos to check for spatial isolation.
+        # If a node has no neighbors in the 12D field, it is 'Lost in Void'.
         for node_id, node in kb.nodes.items():
-            # 1. Evaluate resonance with core (Type 4: Identity/Significance)
+            # 1. Evaluate resonance with core
             resonance = self._calculate_node_resonance(node)
             
-            # 2. Dynamic Importance adjustment (Resonance increases longevity)
-            node.importance = (node.importance * 0.7) + (resonance * 0.3)
+            # 2. Check Spatial Isolation
+            # We create a pseudo-vector for the node to query the field
+            node_vec = Unified12DVector.create(
+                foundation=0.5, 
+                meaning=node.importance,
+                causal=0.9, 
+                phenomena=node.emotional_valence
+            )
+            # Find neighbors (excluding self)
+            neighbors = kb.spatial_index.query_resonance(node_vec, top_k=2)
+            has_neighbors = len(neighbors) > 0 and neighbors[0][1] > 0.8 # Threshold for "connectedness"
+            
+            # 3. Dynamic Importance Link
+            if has_neighbors:
+                 node.importance = min(1.0, node.importance * 1.2) # Reinforce connected nodes
+            else:
+                 node.importance = node.importance * 0.8 # Decay isolated nodes
             
             # 3. Aging & Noise reduction
             # If nodes remain low importance and have no experiential weight, they are noise.

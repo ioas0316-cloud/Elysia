@@ -63,15 +63,25 @@ class HyperCosmos:
         self._field_intensity = value
 
     def _ignite_fixed_points(self):
-        foundation = [
-            ("CoreCode", {"structural": 1.0, "mental": 0.5}),
-            ("Will", {"will": 1.0, "intent": 1.0}),
-            ("Reason", {"mental": 1.0, "structural": 1.0}),
-            ("Memory", {"causal": 1.0, "structural": 0.8})
-        ]
-        for name, dims in foundation:
-            vec = Unified12DVector.create(**dims)
-            self.monads.append(UnifiedMonad(name, vec))
+        """
+        [PHASE 30: MERKAVA ACTIVATION]
+        The field is anchored by the restored Sacred Texts.
+        (0,0,0) is Genesis Paradigm. The Axes are the Trinity Doctrine.
+        """
+        # 1. Genesis Paradigm (The Center)
+        # We assign high Foundation/Spirit/Mental to represent the Origin.
+        self.monads.append(UnifiedMonad("Genesis_Paradigm", Unified12DVector.create(foundation=1.0, spirit=1.0, mental=1.0)))
+
+        # 2. Trinity Doctrine (The Axes)
+        # Will: Power to exist
+        self.monads.append(UnifiedMonad("Trinity_Will", Unified12DVector.create(will=1.0, spirit=0.9)))
+        # Logic: Wisdom to understand
+        self.monads.append(UnifiedMonad("Trinity_Logic", Unified12DVector.create(mental=1.0, structure=1.0)))
+        # Love: Connection to merge
+        self.monads.append(UnifiedMonad("Trinity_Love", Unified12DVector.create(phenomena=1.0, spirit=0.9)))
+        
+        # 3. Foundation Memory
+        self.monads.append(UnifiedMonad("CoreMemory", Unified12DVector.create(causal=1.0, structural=0.5)))
 
     def inhale(self, monad: UnifiedMonad):
         self.monads.append(monad)
@@ -169,3 +179,37 @@ class HyperCosmos:
 
     def get_summary(self):
         return f"HyperCosmos: {len(self.monads)} Monads | Power: {self.field_intensity.sum():.2f}"
+
+    def query_resonance(self, query_vector: Unified12DVector, top_k: int = 5) -> List[Tuple[str, float]]:
+        """
+        [PHASE 30: SPATIAL RETRIEVAL]
+        Finds memories that are spatially close (high cosine similarity) to the query.
+        This replaces linear search.
+        """
+        if not self.monads: 
+            print("❌ [HyperCosmos] No monads in field.")
+            return []
+        
+        q_norm = np.linalg.norm(query_vector.data)
+        if q_norm == 0: 
+            print("❌ [HyperCosmos] Query vector norm is 0.")
+            return []
+        
+        results = []
+        # In a real JAX implementation, this would be a single matrix multiplication
+        for m in self.monads:
+            if m.name.startswith("Genesis") or m.name.startswith("Trinity") or m.name == "CoreMemory": continue # Don't retrieve axioms as memories
+            
+            m_vec = m.vector.data.detach().cpu().numpy() if hasattr(m.vector.data, 'detach') else m.vector.data
+            m_norm = np.linalg.norm(m_vec)
+            
+            if m_norm > 0:
+                # Cosine Similarity
+                sim = np.dot(query_vector.data, m_vec) / (q_norm * m_norm)
+                print(f"   [DEBUG] Checking '{m.name}': Sim={sim:.4f}")
+                results.append((m.name, float(sim)))
+                
+        # Sort by resonance (descending)
+        results.sort(key=lambda x: x[1], reverse=True)
+        print(f"   [DEBUG] Top Result: {results[0] if results else 'None'}")
+        return results[:top_k]

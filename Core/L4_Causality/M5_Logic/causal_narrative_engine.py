@@ -83,6 +83,8 @@ import random
 import os
 
 from Core.L5_Mental.M1_Cognition.metacognition import MaturityModel, CognitiveMetrics
+from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.Foundation.hyper_cosmos import HyperCosmos, UnifiedMonad, Unified12DVector
 
 logger = logging.getLogger("CausalNarrativeEngine")
 
@@ -636,6 +638,7 @@ class CausalKnowledgeBase:
         self.chains: List[CausalChain] = []
         self.planes: List[ContextPlane] = []
         self.persistence_path = persistence_path
+        self.spatial_index = HyperCosmos() # Merkava Engine
         
         if self.persistence_path:
             self.load_narrative()
@@ -694,6 +697,37 @@ class CausalKnowledgeBase:
             existing.activation = min(1.0, existing.activation + 0.1)
         else:
             self.nodes[node.id] = node
+            
+            # [PHASE 30: SPATIAL INDEXING]
+            # Project the node into the 12D HyperCosmos
+            # Dynamic mapping based on concepts to create distinct spatial locations
+            
+            # Default vector
+            v_args = {
+                "foundation": 0.5,
+                "meaning": node.importance,
+                "causal": 0.9, # Default high causal for all narratives
+                "phenomena": node.emotional_valence
+            }
+            
+            # Enrich based on concepts
+            for c in node.concepts:
+                cl = c.lower()
+                if "connection" in cl or "love" in cl: 
+                    # Amplify Love dimensions significantly
+                    v_args["spirit"] = 1.0 
+                    v_args["phenomena"] = 1.0
+                    v_args["foundation"] = 0.2 # Love is fluid, less grounded
+                if "structure" in cl or "logic" in cl: 
+                    v_args["mental"] = 1.0 
+                    v_args["structure"] = 1.0
+                    v_args["causal"] = 1.0
+                if "will" in cl or "power" in cl: v_args["will"] = 1.0
+                if "self" in cl: v_args["foundation"] = 1.0
+
+            vector_12d = Unified12DVector.create(**v_args)
+            self.spatial_index.inhale(UnifiedMonad(node.id, vector_12d))
+            logger.info(f"✨ [CAUSAL] Node added & Spatialized: {node.id}")
         
         return self.nodes[node.id]
     
@@ -781,6 +815,46 @@ class CausalKnowledgeBase:
                     affected_planes.append(new_plane)
         
         return affected_planes
+
+    # ============================================================================
+    # Phase 30: Spatial Retrieval (Merkava)
+    # ============================================================================
+
+    def query_related_nodes(self, concept_vector: List[float], top_k: int = 5) -> List[CausalNode]:
+        """
+        [PHASE 30: MERKAVA RETRIEVAL]
+        Uses spatial resonance in HyperCosmos instead of linear scanning.
+        """
+        if not self.spatial_index.monads:
+            return []
+            
+        # 1. Create Query Vector
+        q_vec = Unified12DVector.create()
+        # Map 7D input to 12D query roughly
+        if len(concept_vector) >= 4:
+             # Input Vector assumed: [Foundation, Metabolism, Phenomena, Causal, Mental, Structure, Spirit]
+             # 12D Vector map: 
+             # 0: Foundation, 1: Metabolism, 2: Phenomena, 3: Causal
+             # 4: Mental, 5: Structure, 6: Spirit, 7: Will, 8: Intent...
+             
+             q_vec.data[2] = concept_vector[2] # Phenomena (Love)
+             q_vec.data[3] = concept_vector[3] # Causal 
+             
+             # Also map Mental and Structure if available
+             if len(concept_vector) > 5:
+                 q_vec.data[4] = concept_vector[4] # Mental
+                 q_vec.data[5] = concept_vector[5] # Structure
+             
+        # 2. Spatial Query uses JAX-accelerated resonance if available
+        spatial_results = self.spatial_index.query_resonance(q_vec, top_k=top_k)
+        
+        # 3. Retrieve Nodes
+        related_nodes = []
+        for nid, score in spatial_results:
+            if nid in self.nodes:
+                related_nodes.append(self.nodes[nid])
+                
+        return related_nodes
 
     # ============================================================================
     # Phase 10: Resonance & Fuzzy Logic
