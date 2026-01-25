@@ -108,7 +108,7 @@ from Core.L5_Mental.Intelligence.Legion.legion import Legion # Phase 5.4 Legion
 
 try:
 
-    from Core.L7_Spirit.Monad.monad_core import Monad
+    from Core.L1_Foundation.Foundation.unified_monad import UnifiedMonad as Monad
 
 except ImportError:
 
