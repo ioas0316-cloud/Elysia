@@ -1,0 +1,40 @@
+{
+  "Current_Context": {
+    "name": "Current_Context",
+    "description": "Domain absorbed from text: Current_Context",
+    "qualia_vector": [
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      1.0
+    ],
+    "source_type": "text",
+    "confidence": 0.7,
+    "metadata": {
+      "text_length": 34,
+      "hash": "cc8a51af"
+    }
+  },
+  "Initial_Point": {
+    "name": "Initial_Point",
+    "description": "Domain absorbed from text: Initial_Point",
+    "qualia_vector": [
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "source_type": "text",
+    "confidence": 0.7,
+    "metadata": {
+      "text_length": 5,
+      "hash": "05e72e08"
+    }
+  }
+}

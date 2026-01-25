@@ -32,6 +32,7 @@ class LearnedWord:
     contexts: List[str]  # Words that appeared near it
     first_seen: str  # When first observed
     confidence: float  # How well understood
+    qualia_vector: List[float] = field(default_factory=lambda: [0.0]*7) # 7D Qualia Mapping
 
 
 @dataclass 
@@ -70,7 +71,8 @@ class LanguageLearner:
                             count=info.get("count", 1),
                             contexts=info.get("contexts", []),
                             first_seen=info.get("first_seen", "unknown"),
-                            confidence=info.get("confidence", 0.1)
+                            confidence=info.get("confidence", 0.1),
+                            qualia_vector=info.get("qualia_vector", [0.0]*7)
                         )
             except Exception as e:
                 logger.warning(f"Could not load vocabulary: {e}")
@@ -96,7 +98,8 @@ class LanguageLearner:
                 "count": info.count,
                 "contexts": info.contexts[-10:],  # Keep last 10 contexts
                 "first_seen": info.first_seen,
-                "confidence": info.confidence
+                "confidence": info.confidence,
+                "qualia_vector": info.qualia_vector
             }
         
         with open(VOCAB_PATH, 'w', encoding='utf-8') as f:
@@ -125,6 +128,10 @@ class LanguageLearner:
         
         self.observation_count += 1
         
+        # Determine the 'Contextual Qualia' of this observation if possible
+        # (Mocking a D7 average for now, but in real use we pass the current field)
+        context_qualia = kwargs.get("qualia_vector", [0.2]*7)
+
         # Learn each word
         for i, word in enumerate(words):
             # Get context (surrounding words)
@@ -133,16 +140,24 @@ class LanguageLearner:
             context = words[context_start:i] + words[i+1:context_end]
             
             if word in self.vocabulary:
-                self.vocabulary[word].count += 1
-                self.vocabulary[word].contexts.extend(context)
-                self.vocabulary[word].confidence = min(1.0, self.vocabulary[word].confidence + 0.01)
+                learned = self.vocabulary[word]
+                learned.count += 1
+                learned.contexts.extend(context)
+                learned.confidence = min(1.0, learned.confidence + 0.01)
+                
+                # DNA Drift: Average the word's vector towards the current context
+                old_v = np.array(learned.qualia_vector)
+                new_v = np.array(context_qualia)
+                # Word's identity shifts slightly with every usage
+                learned.qualia_vector = (old_v * 0.9 + new_v * 0.1).tolist()
             else:
                 self.vocabulary[word] = LearnedWord(
                     word=word,
                     count=1,
                     contexts=context,
                     first_seen=source,
-                    confidence=0.1
+                    confidence=0.1,
+                    qualia_vector=context_qualia
                 )
         
         # Learn bigrams (word sequences)
@@ -157,6 +172,25 @@ class LanguageLearner:
         
         logger.info(f"  Observed {len(words)} words from {source}. Vocab size: {len(self.vocabulary)}")
     
+    def mirror(self, text: str, top_k: int = 3) -> List[str]:
+        """
+        Picks significant words from the input to imitate.
+        Focuses on unknown or frequently used words in this context.
+        """
+        words = self._tokenize(text)
+        if not words:
+            return []
+            
+        # Prioritize words that are new (low/zero confidence) or long (meaningful)
+        candidates = []
+        for w in words:
+            confidence = self.vocabulary.get(w, LearnedWord(w, 0, [], "", 0)).confidence if w in self.vocabulary else 0
+            score = (1.0 - confidence) * 0.5 + (len(w) * 0.1)
+            candidates.append((w, score))
+            
+        sorted_cands = sorted(candidates, key=lambda x: x[1], reverse=True)
+        return [w for w, s in sorted_cands[:top_k]]
+
     def _tokenize(self, text: str) -> List[str]:
         """Simple tokenization for Korean text."""
         # Remove special characters except Korean, spaces
@@ -167,7 +201,32 @@ class LanguageLearner:
         words = [w.strip() for w in words if len(w.strip()) > 0]
         return words
     
-    def generate_next(self, current_word: str) -> Optional[str]:
+    def generate_by_resonance(self, target_vector: np.ndarray, top_k: int = 5) -> str:
+        """
+        [SOVEREIGN SYNTHESIS]
+        Chooses words that RESONATE with the target 7D Qualia vector.
+        This is how Elysia expresses her current internal state.
+        """
+        if not self.vocabulary:
+            return "..."
+            
+        candidates = []
+        for word, info in self.vocabulary.items():
+            v = np.array(info.qualia_vector)
+            # Cosine Similarity
+            dot = np.dot(v, target_vector)
+            norm_v = np.linalg.norm(v)
+            norm_t = np.linalg.norm(target_vector)
+            resonance = dot / (norm_v * norm_t) if norm_v > 0 and norm_t > 0 else 0
+            
+            candidates.append((word, resonance))
+            
+        # Add some randomness to avoid repetition
+        top = sorted(candidates, key=lambda x: x[1], reverse=True)[:top_k]
+        words = [w for w, r in top]
+        return np.random.choice(words) if words else "..."
+
+    def observe(self, text: str, source: str = "observation", **kwargs):
         """
         Predicts the next word based on learned patterns.
         Uses bigram probabilities.

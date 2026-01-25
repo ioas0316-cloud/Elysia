@@ -15,9 +15,7 @@ import json
 from pathlib import Path
 
 # Import SystemRegistry
-import sys
-sys.path.append(str(Path(__file__).parent.parent / "Foundation"))
-from system_registry import get_system_registry, SystemRegistry, SystemEntry
+from Core.L1_Foundation.Foundation.System.system_registry import get_system_registry, SystemRegistry, SystemEntry
 
 
 @dataclass

@@ -81,7 +81,7 @@ import logging
 import time
 import random
 
-from .metacognition import MaturityModel, CognitiveMetrics
+from Core.L5_Mental.M1_Cognition.metacognition import MaturityModel, CognitiveMetrics
 
 logger = logging.getLogger("CausalNarrativeEngine")
 

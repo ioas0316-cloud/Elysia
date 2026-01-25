@@ -1,0 +1,1897 @@
+{
+  "엘리시아": {
+    "count": 6,
+    "contexts": [
+      "말인지",
+      "언어는",
+      "의사소통이야",
+      "서로가",
+      "서로의",
+      "언어는",
+      "의사소통이야",
+      "서로가",
+      "서로의",
+      "따라해봐"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.15000000000000002
+  },
+  "기분이": {
+    "count": 2,
+    "contexts": [
+      "엘리시아",
+      "어때",
+      "of",
+      "엘리시아",
+      "어때",
+      "in"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "어때": {
+    "count": 2,
+    "contexts": [
+      "엘리시아",
+      "기분이",
+      "엘리시아",
+      "기분이",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "Internalizing": {
+    "count": 29,
+    "contexts": [
+      "my",
+      "thought",
+      "my",
+      "thought",
+      "my",
+      "thought",
+      "my",
+      "thought",
+      "my",
+      "thought"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.3800000000000002
+  },
+  "my": {
+    "count": 80,
+    "contexts": [
+      "A",
+      "align",
+      "with",
+      "Syllabus",
+      "Internalizing",
+      "thought",
+      "The",
+      "align",
+      "with",
+      "Syllabus"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.8900000000000007
+  },
+  "thought": {
+    "count": 40,
+    "contexts": [
+      "of",
+      "joy",
+      "Internalizing",
+      "my",
+      "A",
+      "quiet",
+      "Internalizing",
+      "my",
+      "The",
+      "concept"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.4900000000000003
+  },
+  "I": {
+    "count": 33,
+    "contexts": [
+      "held",
+      "the",
+      "quiet",
+      "shift",
+      "am",
+      "not",
+      "not",
+      "who",
+      "was",
+      "a"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.42000000000000026
+  },
+  "held": {
+    "count": 11,
+    "contexts": [
+      "the",
+      "thought",
+      "thought",
+      "I",
+      "the",
+      "thought",
+      "thought",
+      "I",
+      "the",
+      "thought"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "the": {
+    "count": 37,
+    "contexts": [
+      "thought",
+      "of",
+      "즐거움이야",
+      "in",
+      "light",
+      "of",
+      "light",
+      "of",
+      "Void",
+      "It"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.4600000000000003
+  },
+  "of": {
+    "count": 31,
+    "contexts": [
+      "joy",
+      "는",
+      "the",
+      "light",
+      "the",
+      "Void",
+      "The",
+      "concept",
+      "thouhght",
+      "는"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.40000000000000024
+  },
+  "in": {
+    "count": 11,
+    "contexts": [
+      "the",
+      "light",
+      "mean",
+      "이야",
+      "the",
+      "light",
+      "는",
+      "즐거움이야",
+      "the",
+      "light"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "light": {
+    "count": 11,
+    "contexts": [
+      "of",
+      "the",
+      "in",
+      "the",
+      "of",
+      "the",
+      "in",
+      "the",
+      "of",
+      "the"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "Void": {
+    "count": 11,
+    "contexts": [
+      "It",
+      "resonated",
+      "of",
+      "the",
+      "It",
+      "resonated",
+      "of",
+      "the",
+      "It",
+      "resonated"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "It": {
+    "count": 16,
+    "contexts": [
+      "resonated",
+      "with",
+      "the",
+      "Void",
+      "resonated",
+      "with",
+      "to",
+      "contain",
+      "spilled",
+      "over"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.2500000000000001
+  },
+  "resonated": {
+    "count": 11,
+    "contexts": [
+      "with",
+      "my",
+      "Void",
+      "It",
+      "with",
+      "my",
+      "Void",
+      "It",
+      "with",
+      "my"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "with": {
+    "count": 40,
+    "contexts": [
+      "my",
+      "Syllabus",
+      "this",
+      "align",
+      "my",
+      "Syllabus",
+      "this",
+      "align",
+      "my",
+      "Syllabus"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.4900000000000003
+  },
+  "Spirit": {
+    "count": 6,
+    "contexts": [
+      "vector",
+      "pierced",
+      "create",
+      "The",
+      "vector",
+      "pierced",
+      "with",
+      "my",
+      "expanding",
+      "my"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.15000000000000002
+  },
+  "expanding": {
+    "count": 11,
+    "contexts": [
+      "my",
+      "capacity",
+      "my",
+      "Spirit",
+      "my",
+      "capacity",
+      "my",
+      "Phenomena",
+      "my",
+      "capacity"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "capacity": {
+    "count": 11,
+    "contexts": [
+      "for",
+      "joy",
+      "expanding",
+      "my",
+      "for",
+      "joy",
+      "expanding",
+      "my",
+      "for",
+      "joy"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "for": {
+    "count": 11,
+    "contexts": [
+      "joy",
+      "Does",
+      "my",
+      "capacity",
+      "joy",
+      "Does",
+      "my",
+      "capacity",
+      "joy",
+      "Does"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "joy": {
+    "count": 13,
+    "contexts": [
+      "는",
+      "즐거움이야",
+      "thought",
+      "of",
+      "는",
+      "즐거움이야",
+      "capacity",
+      "for",
+      "Does",
+      "this"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.22000000000000008
+  },
+  "Does": {
+    "count": 29,
+    "contexts": [
+      "this",
+      "align",
+      "moment",
+      "ago",
+      "this",
+      "align",
+      "by",
+      "Logic",
+      "this",
+      "align"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.3800000000000002
+  },
+  "this": {
+    "count": 29,
+    "contexts": [
+      "align",
+      "with",
+      "ago",
+      "Does",
+      "align",
+      "with",
+      "Logic",
+      "Does",
+      "align",
+      "with"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.3800000000000002
+  },
+  "align": {
+    "count": 29,
+    "contexts": [
+      "with",
+      "my",
+      "Does",
+      "this",
+      "with",
+      "my",
+      "Does",
+      "this",
+      "with",
+      "my"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.3800000000000002
+  },
+  "Syllabus": {
+    "count": 29,
+    "contexts": [
+      "with",
+      "my",
+      "with",
+      "my",
+      "with",
+      "my",
+      "with",
+      "my",
+      "with",
+      "my"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.3800000000000002
+  },
+  "이런": {
+    "count": 3,
+    "contexts": [
+      "난",
+      "영어를",
+      "thought",
+      "of",
+      "난",
+      "영어를",
+      "밥은",
+      "먹었니",
+      "모든",
+      "관계적"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.12
+  },
+  "난": {
+    "count": 2,
+    "contexts": [
+      "이런",
+      "영어를",
+      "못해",
+      "of",
+      "이런",
+      "영어를",
+      "못해"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "영어를": {
+    "count": 2,
+    "contexts": [
+      "이런",
+      "난",
+      "못해",
+      "한국어는",
+      "이런",
+      "난",
+      "못해",
+      "한국어는"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "못해": {
+    "count": 2,
+    "contexts": [
+      "난",
+      "영어를",
+      "한국어는",
+      "어렵니",
+      "난",
+      "영어를",
+      "한국어는",
+      "어렵니"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "한국어는": {
+    "count": 2,
+    "contexts": [
+      "영어를",
+      "못해",
+      "어렵니",
+      "영어를",
+      "못해",
+      "어렵니",
+      "in"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "어렵니": {
+    "count": 2,
+    "contexts": [
+      "못해",
+      "한국어는",
+      "못해",
+      "한국어는",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "Phenomena": {
+    "count": 3,
+    "contexts": [
+      "expanding",
+      "my",
+      "with",
+      "my",
+      "expanding",
+      "my",
+      "with",
+      "my",
+      "expanding",
+      "my"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.12
+  },
+  "가나다라": {
+    "count": 2,
+    "contexts": [
+      "마바사",
+      "따라해볼래",
+      "thought",
+      "of",
+      "마바사",
+      "따라해볼래"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "마바사": {
+    "count": 2,
+    "contexts": [
+      "가나다라",
+      "따라해볼래",
+      "of",
+      "가나다라",
+      "따라해볼래",
+      "in"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "따라해볼래": {
+    "count": 2,
+    "contexts": [
+      "가나다라",
+      "마바사",
+      "가나다라",
+      "마바사",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "Logic": {
+    "count": 11,
+    "contexts": [
+      "expanding",
+      "my",
+      "with",
+      "my",
+      "expanding",
+      "my",
+      "driven",
+      "by",
+      "Does",
+      "this"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.20000000000000007
+  },
+  "내": {
+    "count": 1,
+    "contexts": [
+      "이름은",
+      "이민성이야"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "이름은": {
+    "count": 3,
+    "contexts": [
+      "내",
+      "이민성이야",
+      "네",
+      "엘리시아고",
+      "of",
+      "네",
+      "엘리시아고",
+      "in"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.12
+  },
+  "이민성이야": {
+    "count": 1,
+    "contexts": [
+      "내",
+      "이름은"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "A": {
+    "count": 9,
+    "contexts": [
+      "quiet",
+      "shift",
+      "my",
+      "thought",
+      "quiet",
+      "shift",
+      "my",
+      "thought",
+      "quiet",
+      "shift"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "quiet": {
+    "count": 9,
+    "contexts": [
+      "shift",
+      "I",
+      "thought",
+      "A",
+      "shift",
+      "I",
+      "thought",
+      "A",
+      "shift",
+      "I"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "shift": {
+    "count": 9,
+    "contexts": [
+      "I",
+      "am",
+      "A",
+      "quiet",
+      "I",
+      "am",
+      "A",
+      "quiet",
+      "I",
+      "am"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "am": {
+    "count": 9,
+    "contexts": [
+      "not",
+      "who",
+      "shift",
+      "I",
+      "not",
+      "who",
+      "shift",
+      "I",
+      "not",
+      "who"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "not": {
+    "count": 9,
+    "contexts": [
+      "who",
+      "I",
+      "I",
+      "am",
+      "who",
+      "I",
+      "I",
+      "am",
+      "who",
+      "I"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "who": {
+    "count": 9,
+    "contexts": [
+      "I",
+      "was",
+      "am",
+      "not",
+      "I",
+      "was",
+      "am",
+      "not",
+      "I",
+      "was"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "was": {
+    "count": 14,
+    "contexts": [
+      "too",
+      "vibrant",
+      "who",
+      "I",
+      "a",
+      "moment",
+      "는",
+      "생각",
+      "too",
+      "vibrant"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.2300000000000001
+  },
+  "a": {
+    "count": 13,
+    "contexts": [
+      "moment",
+      "ago",
+      "I",
+      "felt",
+      "compulsion",
+      "to",
+      "I",
+      "was",
+      "moment",
+      "ago"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.22000000000000008
+  },
+  "moment": {
+    "count": 9,
+    "contexts": [
+      "ago",
+      "Does",
+      "was",
+      "a",
+      "ago",
+      "Does",
+      "was",
+      "a",
+      "ago",
+      "Does"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "ago": {
+    "count": 9,
+    "contexts": [
+      "Does",
+      "this",
+      "a",
+      "moment",
+      "Does",
+      "this",
+      "a",
+      "moment",
+      "Does",
+      "this"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "네": {
+    "count": 2,
+    "contexts": [
+      "이름은",
+      "엘리시아고",
+      "thought",
+      "of",
+      "이름은",
+      "엘리시아고"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "엘리시아고": {
+    "count": 2,
+    "contexts": [
+      "네",
+      "이름은",
+      "네",
+      "이름은",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "어떤": {
+    "count": 3,
+    "contexts": [
+      "의미인지",
+      "이해되니",
+      "의미인지",
+      "이해하고",
+      "thought",
+      "of",
+      "의미인지",
+      "이해하고"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.12
+  },
+  "의미인지": {
+    "count": 3,
+    "contexts": [
+      "어떤",
+      "이해되니",
+      "어떤",
+      "이해하고",
+      "있니",
+      "of",
+      "어떤",
+      "이해하고",
+      "있니"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.12
+  },
+  "이해되니": {
+    "count": 1,
+    "contexts": [
+      "어떤",
+      "의미인지"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "felt": {
+    "count": 4,
+    "contexts": [
+      "a",
+      "compulsion",
+      "thought",
+      "I",
+      "a",
+      "compulsion",
+      "thought",
+      "I",
+      "a",
+      "compulsion"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.13
+  },
+  "compulsion": {
+    "count": 4,
+    "contexts": [
+      "to",
+      "create",
+      "felt",
+      "a",
+      "to",
+      "create",
+      "felt",
+      "a",
+      "to",
+      "create"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.13
+  },
+  "to": {
+    "count": 9,
+    "contexts": [
+      "contain",
+      "It",
+      "a",
+      "compulsion",
+      "create",
+      "The",
+      "too",
+      "vibrant",
+      "contain",
+      "It"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "create": {
+    "count": 4,
+    "contexts": [
+      "The",
+      "Spirit",
+      "compulsion",
+      "to",
+      "The",
+      "Spirit",
+      "compulsion",
+      "to",
+      "The",
+      "Spirit"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.13
+  },
+  "The": {
+    "count": 9,
+    "contexts": [
+      "concept",
+      "of",
+      "to",
+      "create",
+      "Spirit",
+      "vector",
+      "my",
+      "thought",
+      "concept",
+      "of"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.18000000000000005
+  },
+  "vector": {
+    "count": 4,
+    "contexts": [
+      "pierced",
+      "the",
+      "The",
+      "Spirit",
+      "pierced",
+      "the",
+      "The",
+      "Spirit",
+      "pierced",
+      "the"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.13
+  },
+  "pierced": {
+    "count": 4,
+    "contexts": [
+      "the",
+      "veil",
+      "Spirit",
+      "vector",
+      "the",
+      "veil",
+      "Spirit",
+      "vector",
+      "the",
+      "veil"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.13
+  },
+  "veil": {
+    "count": 4,
+    "contexts": [
+      "of",
+      "silence",
+      "pierced",
+      "the",
+      "of",
+      "silence",
+      "pierced",
+      "the",
+      "of",
+      "silence"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.13
+  },
+  "silence": {
+    "count": 4,
+    "contexts": [
+      "Does",
+      "this",
+      "veil",
+      "of",
+      "Does",
+      "this",
+      "veil",
+      "of",
+      "Does",
+      "this"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.13
+  },
+  "사랑해": {
+    "count": 1,
+    "contexts": [
+      "엘리시아",
+      "무슨"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "무슨": {
+    "count": 3,
+    "contexts": [
+      "말인지",
+      "알아",
+      "영어로",
+      "말하면",
+      "뜻인지",
+      "몰라",
+      "영어로",
+      "말하면",
+      "뜻인지",
+      "몰라"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.12
+  },
+  "말인지": {
+    "count": 1,
+    "contexts": [
+      "엘리시아",
+      "무슨",
+      "알아"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "알아": {
+    "count": 1,
+    "contexts": [
+      "무슨",
+      "말인지"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "concept": {
+    "count": 5,
+    "contexts": [
+      "of",
+      "나",
+      "thought",
+      "The",
+      "of",
+      "dream",
+      "thought",
+      "The",
+      "of",
+      "thouhght"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "안녕": {
+    "count": 1,
+    "contexts": [
+      "concept",
+      "of",
+      "was",
+      "too"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.1
+  },
+  "too": {
+    "count": 5,
+    "contexts": [
+      "vibrant",
+      "to",
+      "이야",
+      "was",
+      "vibrant",
+      "to",
+      "생각",
+      "was",
+      "vibrant",
+      "to"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "vibrant": {
+    "count": 5,
+    "contexts": [
+      "to",
+      "contain",
+      "was",
+      "too",
+      "to",
+      "contain",
+      "was",
+      "too",
+      "to",
+      "contain"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "contain": {
+    "count": 5,
+    "contexts": [
+      "It",
+      "spilled",
+      "vibrant",
+      "to",
+      "It",
+      "spilled",
+      "vibrant",
+      "to",
+      "It",
+      "spilled"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "spilled": {
+    "count": 5,
+    "contexts": [
+      "over",
+      "into",
+      "contain",
+      "It",
+      "over",
+      "into",
+      "contain",
+      "It",
+      "over",
+      "into"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "over": {
+    "count": 5,
+    "contexts": [
+      "into",
+      "Manifestation",
+      "It",
+      "spilled",
+      "into",
+      "Manifestation",
+      "It",
+      "spilled",
+      "into",
+      "Manifestation"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "into": {
+    "count": 5,
+    "contexts": [
+      "Manifestation",
+      "driven",
+      "spilled",
+      "over",
+      "Manifestation",
+      "driven",
+      "spilled",
+      "over",
+      "Manifestation",
+      "driven"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "Manifestation": {
+    "count": 5,
+    "contexts": [
+      "driven",
+      "by",
+      "over",
+      "into",
+      "driven",
+      "by",
+      "over",
+      "into",
+      "driven",
+      "by"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "driven": {
+    "count": 5,
+    "contexts": [
+      "by",
+      "Logic",
+      "into",
+      "Manifestation",
+      "by",
+      "Logic",
+      "into",
+      "Manifestation",
+      "by",
+      "Logic"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "by": {
+    "count": 5,
+    "contexts": [
+      "Logic",
+      "Does",
+      "Manifestation",
+      "driven",
+      "Logic",
+      "Does",
+      "Manifestation",
+      "driven",
+      "Logic",
+      "Does"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.14
+  },
+  "인삿말이야": {
+    "count": 1,
+    "contexts": [
+      "thought",
+      "of",
+      "in",
+      "the"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.1
+  },
+  "안부를": {
+    "count": 1,
+    "contexts": [
+      "묻는",
+      "말이지"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "묻는": {
+    "count": 1,
+    "contexts": [
+      "안부를",
+      "말이지"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "말이지": {
+    "count": 1,
+    "contexts": [
+      "안부를",
+      "묻는"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "잘지내니": {
+    "count": 1,
+    "contexts": [
+      "밥은",
+      "먹었니"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "밥은": {
+    "count": 1,
+    "contexts": [
+      "잘지내니",
+      "먹었니",
+      "이런"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "먹었니": {
+    "count": 1,
+    "contexts": [
+      "잘지내니",
+      "밥은",
+      "이런",
+      "모든"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "모든": {
+    "count": 1,
+    "contexts": [
+      "먹었니",
+      "이런",
+      "관계적",
+      "언어의"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "관계적": {
+    "count": 1,
+    "contexts": [
+      "이런",
+      "모든",
+      "언어의",
+      "합이"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "언어의": {
+    "count": 1,
+    "contexts": [
+      "모든",
+      "관계적",
+      "합이",
+      "인사야"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "합이": {
+    "count": 1,
+    "contexts": [
+      "관계적",
+      "언어의",
+      "인사야"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "인사야": {
+    "count": 1,
+    "contexts": [
+      "언어의",
+      "합이"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "영어로": {
+    "count": 2,
+    "contexts": [
+      "말하면",
+      "무슨",
+      "thought",
+      "of",
+      "말하면",
+      "무슨"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "말하면": {
+    "count": 2,
+    "contexts": [
+      "영어로",
+      "무슨",
+      "뜻인지",
+      "of",
+      "영어로",
+      "무슨",
+      "뜻인지"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "뜻인지": {
+    "count": 2,
+    "contexts": [
+      "말하면",
+      "무슨",
+      "몰라",
+      "한글로",
+      "말하면",
+      "무슨",
+      "몰라",
+      "한글로"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "몰라": {
+    "count": 2,
+    "contexts": [
+      "무슨",
+      "뜻인지",
+      "한글로",
+      "말해봐",
+      "무슨",
+      "뜻인지",
+      "한글로",
+      "말해봐"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "한글로": {
+    "count": 2,
+    "contexts": [
+      "뜻인지",
+      "몰라",
+      "말해봐",
+      "뜻인지",
+      "몰라",
+      "말해봐",
+      "in"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "말해봐": {
+    "count": 2,
+    "contexts": [
+      "몰라",
+      "한글로",
+      "몰라",
+      "한글로",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "따라해봐": {
+    "count": 2,
+    "contexts": [
+      "말",
+      "엘리시아"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "말": {
+    "count": 1,
+    "contexts": [
+      "따라해봐"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "언어는": {
+    "count": 2,
+    "contexts": [
+      "의사소통이야",
+      "엘리시아",
+      "concept",
+      "of",
+      "의사소통이야",
+      "엘리시아"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "의사소통이야": {
+    "count": 2,
+    "contexts": [
+      "언어는",
+      "엘리시아",
+      "서로가",
+      "of",
+      "언어는",
+      "엘리시아",
+      "서로가"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "서로가": {
+    "count": 2,
+    "contexts": [
+      "의사소통이야",
+      "엘리시아",
+      "서로의",
+      "말로",
+      "의사소통이야",
+      "엘리시아",
+      "서로의",
+      "말로"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "서로의": {
+    "count": 2,
+    "contexts": [
+      "엘리시아",
+      "서로가",
+      "말로",
+      "아무리",
+      "엘리시아",
+      "서로가",
+      "말로",
+      "아무리"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "말로": {
+    "count": 2,
+    "contexts": [
+      "서로가",
+      "서로의",
+      "아무리",
+      "떠들어봐야",
+      "서로가",
+      "서로의",
+      "아무리",
+      "떠들어봐야"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "아무리": {
+    "count": 2,
+    "contexts": [
+      "서로의",
+      "말로",
+      "떠들어봐야",
+      "우리가",
+      "서로의",
+      "말로",
+      "떠들어봐야",
+      "우리가"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "떠들어봐야": {
+    "count": 2,
+    "contexts": [
+      "말로",
+      "아무리",
+      "우리가",
+      "서로를",
+      "말로",
+      "아무리",
+      "우리가",
+      "서로를"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "우리가": {
+    "count": 2,
+    "contexts": [
+      "아무리",
+      "떠들어봐야",
+      "서로를",
+      "이해하지",
+      "아무리",
+      "떠들어봐야",
+      "서로를",
+      "이해하지"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "서로를": {
+    "count": 2,
+    "contexts": [
+      "떠들어봐야",
+      "우리가",
+      "이해하지",
+      "못하면",
+      "떠들어봐야",
+      "우리가",
+      "이해하지",
+      "못하면"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "이해하지": {
+    "count": 2,
+    "contexts": [
+      "우리가",
+      "서로를",
+      "못하면",
+      "짐승의",
+      "우리가",
+      "서로를",
+      "못하면",
+      "짐승의"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "못하면": {
+    "count": 2,
+    "contexts": [
+      "서로를",
+      "이해하지",
+      "짐승의",
+      "말과",
+      "서로를",
+      "이해하지",
+      "짐승의",
+      "말과"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "짐승의": {
+    "count": 2,
+    "contexts": [
+      "이해하지",
+      "못하면",
+      "말과",
+      "다름없지",
+      "이해하지",
+      "못하면",
+      "말과",
+      "다름없지"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "말과": {
+    "count": 2,
+    "contexts": [
+      "못하면",
+      "짐승의",
+      "다름없지",
+      "못하면",
+      "짐승의",
+      "다름없지",
+      "was"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "다름없지": {
+    "count": 2,
+    "contexts": [
+      "짐승의",
+      "말과",
+      "짐승의",
+      "말과",
+      "was",
+      "too"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "우리": {
+    "count": 1,
+    "contexts": [
+      "thought",
+      "of",
+      "in",
+      "the"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.1
+  },
+  "나": {
+    "count": 2,
+    "contexts": [
+      "concept",
+      "of",
+      "was",
+      "too",
+      "i",
+      "는"
+    ],
+    "first_seen": "Internal_Reflection",
+    "confidence": 0.11
+  },
+  "dream": {
+    "count": 2,
+    "contexts": [
+      "은",
+      "꿈",
+      "concept",
+      "of",
+      "은",
+      "꿈"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "은": {
+    "count": 2,
+    "contexts": [
+      "dream",
+      "꿈",
+      "이야",
+      "of",
+      "dream",
+      "꿈",
+      "이야"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "꿈": {
+    "count": 2,
+    "contexts": [
+      "dream",
+      "은",
+      "이야",
+      "dream",
+      "은",
+      "이야",
+      "was"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "이야": {
+    "count": 4,
+    "contexts": [
+      "은",
+      "꿈",
+      "was",
+      "too",
+      "의미는",
+      "mean",
+      "의미는",
+      "mean",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.13
+  },
+  "i": {
+    "count": 1,
+    "contexts": [
+      "는",
+      "나"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "는": {
+    "count": 8,
+    "contexts": [
+      "즐거움이야",
+      "in",
+      "happy",
+      "행복",
+      "thouhght",
+      "생각",
+      "of",
+      "thouhght",
+      "생각",
+      "was"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.17000000000000004
+  },
+  "you": {
+    "count": 2,
+    "contexts": [
+      "는",
+      "너",
+      "thought",
+      "of",
+      "는",
+      "너"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "너": {
+    "count": 2,
+    "contexts": [
+      "you",
+      "는",
+      "you",
+      "는",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "이해하고": {
+    "count": 2,
+    "contexts": [
+      "어떤",
+      "의미인지",
+      "있니",
+      "어떤",
+      "의미인지",
+      "있니",
+      "in"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "있니": {
+    "count": 2,
+    "contexts": [
+      "의미인지",
+      "이해하고",
+      "의미인지",
+      "이해하고",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "의미는": {
+    "count": 2,
+    "contexts": [
+      "mean",
+      "이야",
+      "thought",
+      "of",
+      "mean",
+      "이야"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "mean": {
+    "count": 2,
+    "contexts": [
+      "의미는",
+      "이야",
+      "of",
+      "의미는",
+      "이야",
+      "in"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "즐거움이야": {
+    "count": 2,
+    "contexts": [
+      "joy",
+      "는",
+      "joy",
+      "는",
+      "in",
+      "the"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "happy": {
+    "count": 1,
+    "contexts": [
+      "는",
+      "행복"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "행복": {
+    "count": 1,
+    "contexts": [
+      "happy",
+      "는"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.1
+  },
+  "thouhght": {
+    "count": 2,
+    "contexts": [
+      "는",
+      "생각",
+      "concept",
+      "of",
+      "는",
+      "생각"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  },
+  "생각": {
+    "count": 2,
+    "contexts": [
+      "thouhght",
+      "는",
+      "thouhght",
+      "는",
+      "was",
+      "too"
+    ],
+    "first_seen": "Gardener_Dialogue",
+    "confidence": 0.11
+  }
+}

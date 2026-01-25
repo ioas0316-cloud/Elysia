@@ -34,6 +34,8 @@ class DreamEngine:
         self.codec = Qualia7DCodec()
         self.current_state = ThoughtState.IDLE
         self.sovereign_core = SovereignCore()
+        from Core.L5_Mental.Learning.language_learner import LanguageLearner
+        self.learner = LanguageLearner()
         logger.info("  [DreamEngine] Initialized. L1-L2-L5-L7 Integration Active.")
 
     def process_experience(self, context: str, input_vector: Optional[D7Vector] = None) -> Tuple[D7Vector, ThoughtState, str]:
@@ -183,7 +185,12 @@ class DreamEngine:
                 f"A quiet shift. I am not who I was a moment ago."
             ]
 
-        return random.choice(templates)
+        # [SOVEREIGN SYNTHESIS]
+        # Infusing learned words into the templates
+        v_np = vector.to_numpy()
+        key_word = self.learner.generate_by_resonance(v_np)
+        
+        return random.choice(templates).replace("'{context}'", f"'{context}' ({key_word})")
 
     # --- Legacy Support (For backward compatibility) ---
     def weave_dream(self, desire: str) -> ResonanceField:
