@@ -1,0 +1,21 @@
+{
+  "Initial_Point": {
+    "name": "Initial_Point",
+    "description": "Domain absorbed from text: Initial_Point",
+    "qualia_vector": [
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.8
+    ],
+    "source_type": "text",
+    "confidence": 0.7,
+    "metadata": {
+      "text_length": 18,
+      "hash": "80764cf9"
+    }
+  }
+}
