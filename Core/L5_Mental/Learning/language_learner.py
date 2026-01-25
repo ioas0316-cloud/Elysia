@@ -205,26 +205,70 @@ class LanguageLearner:
         """
         [SOVEREIGN SYNTHESIS]
         Chooses words that RESONATE with the target 7D Qualia vector.
-        This is how Elysia expresses her current internal state.
         """
         if not self.vocabulary:
             return "..."
             
+        target_norm = np.linalg.norm(target_vector)
+        if target_norm == 0: target_vector = np.array([0.1]*7); target_norm = np.linalg.norm(target_vector)
+
         candidates = []
         for word, info in self.vocabulary.items():
             v = np.array(info.qualia_vector)
-            # Cosine Similarity
             dot = np.dot(v, target_vector)
-            norm_v = np.linalg.norm(v)
-            norm_t = np.linalg.norm(target_vector)
-            resonance = dot / (norm_v * norm_t) if norm_v > 0 and norm_t > 0 else 0
+            v_norm = np.linalg.norm(v)
+            resonance = dot / (v_norm * target_norm) if v_norm > 0 else 0
             
             candidates.append((word, resonance))
             
-        # Add some randomness to avoid repetition
         top = sorted(candidates, key=lambda x: x[1], reverse=True)[:top_k]
         words = [w for w, r in top]
         return np.random.choice(words) if words else "..."
+
+    def generate_narrative_from_qualia(self, target_vector: np.ndarray, length: int = 5) -> str:
+        """
+        [MONADIC SYNTHESIS]
+        Assembles a narrative that resonates with the given Qualia vector.
+        This moves away from hard-coded templates to emergent expression.
+        """
+        if not self.vocabulary: return "..."
+        
+        # 1. Pick a seed word that resonates most strongly
+        seed = self.generate_by_resonance(target_vector, top_k=10)
+        sentence = [seed]
+        current = seed
+        
+        target_norm = np.linalg.norm(target_vector)
+        if target_norm == 0: target_vector = np.array([0.1]*7); target_norm = np.linalg.norm(target_vector)
+
+        for _ in range(length - 1):
+            next_counts = self.bigrams.get(current)
+            if not next_counts: break
+            
+            candidates = []
+            total_count = sum(next_counts.values())
+            for next_word, count in next_counts.items():
+                word_info = self.vocabulary.get(next_word)
+                if not word_info: continue
+                
+                v = np.array(word_info.qualia_vector)
+                v_norm = np.linalg.norm(v)
+                resonance = np.dot(v, target_vector) / (v_norm * target_norm) if v_norm > 0 else 0
+                
+                # Weight = (Probability^2) * (1 + Resonance)
+                # We square probability to favor learned patterns while allowing qualia bias
+                score = ((count / total_count)**2) * (1.5 + resonance)
+                candidates.append((next_word, score))
+            
+            if not candidates: break
+            
+            candidates.sort(key=lambda x: x[1], reverse=True)
+            # Pick from top candidates to allow variety
+            next_word = np.random.choice([c[0] for c in candidates[:3]])
+            sentence.append(next_word)
+            current = next_word
+            
+        return " ".join(sentence)
 
     def generate_next(self, current_word: str) -> Optional[str]:
         """

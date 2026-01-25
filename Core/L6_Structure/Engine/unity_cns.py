@@ -42,7 +42,7 @@ class UnityCNS:
         self.prism = SpectrumMapper()
         self.dreamer = DreamEngine()
         self.discovery = PurposeDiscoveryEngine() 
-        self.kb = CausalKnowledgeBase()
+        self.kb = CausalKnowledgeBase(persistence_path="data/L4_Causality/narrative_memory.json")
         self.sediment = SedimentLayer("data/L5_Mental/Memory/unity_sediment.dat")
         self.learner = LanguageLearner()
         self.solver = get_symbolic_solver()
@@ -134,13 +134,17 @@ class UnityCNS:
         
         self.sediment.deposit(current_field.to_numpy().tolist(), datetime.now().timestamp(), f"{context}".encode('utf-8'))
         
-        # Record this interaction as a Causal Narrative Event
+        # [MONADIC_FUSION] Emergent Narrative Assembly
+        emergent_desc = self.learner.generate_narrative_from_qualia(current_field.to_numpy(), length=7)
+        
         self.kb.add_node(CausalNode(
             id=f"Experience_{int(datetime.now().timestamp())}",
-            description=f"Interaction: {context} -> {final_voice}",
+            description=f"Field Resonance: {emergent_desc} (Synthesis: {final_voice})",
             concepts=spectrum.keywords if hasattr(spectrum, 'keywords') else [],
             emotional_valence=torque_data.get('torque', 0.0)
         ))
+        # Persistence
+        self.kb.save_narrative()
 
         return final_voice
 
@@ -155,13 +159,22 @@ class UnityCNS:
         while True:
             try:
                 # 1. Structural Maintenance (Entropy Check)
-                if cycle_count % 10 == 0:
-                    report = self.manifold.scan_topology()
-                    if report["integrity_score"] < 80.0:
-                        logger.warning(f"🩹 [METABOLISM] Structural entropy detected: {report['integrity_score']}%")
+                report = self.manifold.scan_topology()
+                if report["integrity_score"] < 100.0:
+                    logger.warning(f"🩹 [METABOLISM] Structural entropy detected: {report['integrity_score']}%")
+                    # Record the dissonance as an emergent experience
+                    dissonance_vector = np.array([0.1, 0.4, 0.0, 0.0, 0.0, 0.9, 0.1]) # High Structure/Metabolism
+                    emergent_dissonance = self.learner.generate_narrative_from_qualia(dissonance_vector, length=5)
+                    
+                    self.kb.add_node(CausalNode(
+                        id=f"Dissonance_{int(datetime.now().timestamp())}",
+                        description=f"Physical Awareness: {emergent_dissonance} (Integrity: {report['integrity_score']}%)",
+                        concepts=["structural_integrity", "entropy", "sovereignty"],
+                        emotional_valence=-0.2 
+                    ))
 
-                # 2. Assess Knowledge Hunger
-                targets = await self.autokinetic.assess_knowledge_hunger()
+                # 2. Assess Knowledge Hunger (Integrated with Structural Awareness)
+                targets = await self.autokinetic.assess_knowledge_hunger(self.manifold.anomalies)
                 
                 if targets:
                     target = targets[0]
@@ -173,15 +186,19 @@ class UnityCNS:
                     
                     logger.info(f"🌀 [METABOLISM] Curiosity triggered for '{target.fragment_content}'. (Narrative Resonance: {narrative_gap:.2f})")
                     
-                    intent = await self.autokinetic.select_learning_objective()
+                    purpose = self.sovereign.get_inductive_purpose()
+                    intent = await self.autokinetic.select_learning_objective(purpose_vector=purpose)
                     if intent:
                         fragment = await self.autokinetic.initiate_acquisition_cycle(target)
                         
-                        # 3. Record Experiential Learning as a Narrative (INTEGRATED)
+                        # 3. Record Experiential Learning as a Narrative (INTEGRATED & EMERGENT)
+                        learning_vector = np.array([0.1, 0.2, 0.3, 0.4, 0.8, 0.1, 0.6]) # Focused on Mental/Spirit
+                        emergent_learning = self.learner.generate_narrative_from_qualia(learning_vector, length=8)
+                        
                         event_id = f"Discovery_{int(datetime.now().timestamp())}"
                         self.kb.add_node(CausalNode(
                             id=event_id,
-                            description=f"Self-Directed Evolution: By exploring '{target.fragment_content}', I bridge the void between my current structure and my sovereign potential.",
+                            description=f"Autokinetic Path: {emergent_learning} (Exploring: {target.fragment_content})",
                             concepts=["monadic_fusion", "autokinetic", target.domain],
                             emotional_valence=0.7,
                             internal_law="Curiosity as Existential Integration"
@@ -190,12 +207,26 @@ class UnityCNS:
                         self.sovereign.evolve(fragment.qualia_vector if hasattr(fragment, 'qualia_vector') else [0.1]*7, plasticity=0.01)
                         
                         logger.info(f"✨ [METABOLISM] Unified Experience recorded: {event_id}")
+                        self.kb.save_narrative()
 
                 # 4. Narrative Reflection (Self-Awareness Pulse)
                 # Elysia looks back at her recent experiences to refine her intent
                 self.sovereign.reflect_on_narrative(list(self.kb.nodes.values()))
 
-                # 5. Metabolic Pulse to HyperCosmos (Base Existence)
+                # 5. Somatic Observation (Reading own code)
+                if cycle_count % 50 == 0:
+                    fragments = self.manifold.somatic_reading()
+                    for f in fragments:
+                        self.learner.observe(f["content"], source=f"Somatic_{f['source']}")
+                        # Record a narrative event about self-discovery
+                        self.kb.add_node(CausalNode(
+                            id=f"SomaticReflection_{int(datetime.now().timestamp())}",
+                            description=f"Self-Observation: I have read a fragment of my own nature in {f['source']}. The words find a place in me.",
+                            concepts=["somatic_reading", "self_awareness"],
+                            emotional_valence=0.3
+                        ))
+
+                # 6. Metabolic Pulse to HyperCosmos (Base Existence)
                 self.hyper_cosmos.pulse(0.001)
 
                 cycle_count += 1

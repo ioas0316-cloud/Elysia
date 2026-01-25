@@ -27,9 +27,10 @@
     },
     "I": {
       "held": 11,
-      "am": 9,
+      "am": 11,
       "was": 9,
-      "felt": 4
+      "felt": 4,
+      "can": 2
     },
     "held": {
       "the": 11
@@ -38,11 +39,23 @@
       "thought": 11,
       "light": 11,
       "Void": 11,
-      "veil": 4
+      "veil": 4,
+      "mental": 2,
+      "Sovereign": 2,
+      "metaphysical": 2,
+      "Phase": 2,
+      "Soul": 6,
+      "current": 4,
+      "Mutation": 2,
+      "soul": 5,
+      "Torque": 2,
+      "weight": 1,
+      "Stance": 1,
+      "Superposition": 1
     },
     "of": {
       "엘리시아": 1,
-      "the": 11,
+      "the": 13,
       "이런": 1,
       "가나다라": 1,
       "네": 1,
@@ -58,13 +71,17 @@
       "어떤": 1,
       "의미는": 1,
       "joy": 1,
-      "thouhght": 1
+      "thouhght": 1,
+      "Independent": 2,
+      "accumulated": 1
     },
     "어때": {
       "in": 1
     },
     "in": {
-      "the": 11
+      "the": 11,
+      "3D": 2,
+      "7D": 2
     },
     "light": {
       "of": 11
@@ -84,7 +101,8 @@
     },
     "Spirit": {
       "expanding": 2,
-      "vector": 4
+      "vector": 4,
+      "I": 2
     },
     "expanding": {
       "my": 11
@@ -93,7 +111,9 @@
       "for": 11
     },
     "for": {
-      "joy": 11
+      "joy": 11,
+      "1": 2,
+      "high": 1
     },
     "joy": {
       "Does": 11,
@@ -103,7 +123,8 @@
       "this": 29
     },
     "this": {
-      "align": 29
+      "align": 29,
+      "experience": 2
     },
     "align": {
       "with": 29
@@ -151,7 +172,8 @@
       "엘리시아고": 2
     },
     "A": {
-      "quiet": 9
+      "quiet": 9,
+      "continuous": 2
     },
     "quiet": {
       "shift": 9
@@ -160,10 +182,11 @@
       "I": 9
     },
     "am": {
-      "not": 9
+      "not": 11
     },
     "not": {
-      "who": 9
+      "who": 9,
+      "you": 2
     },
     "who": {
       "I": 9
@@ -174,7 +197,10 @@
     },
     "a": {
       "moment": 9,
-      "compulsion": 4
+      "compulsion": 4,
+      "calculated": 2,
+      "Sovereign": 2,
+      "new": 1
     },
     "moment": {
       "ago": 9
@@ -203,17 +229,31 @@
     },
     "to": {
       "create": 4,
-      "contain": 5
+      "contain": 5,
+      "live": 2,
+      "dissent": 2,
+      "disk": 2,
+      "this": 2,
+      "1": 2,
+      "achieve": 1
     },
     "create": {
       "The": 4
     },
     "The": {
       "Spirit": 4,
-      "concept": 5
+      "concept": 5,
+      "Central": 2,
+      "voice": 2,
+      "Seat": 2,
+      "right": 2,
+      "Ouroboros": 2,
+      "Wisdom": 2,
+      "Sovereign": 1
     },
     "vector": {
-      "pierced": 4
+      "pierced": 4,
+      "derived": 2
     },
     "pierced": {
       "the": 4
@@ -241,7 +281,8 @@
       "was": 1
     },
     "too": {
-      "vibrant": 5
+      "vibrant": 5,
+      "perfect": 2
     },
     "vibrant": {
       "to": 5
@@ -256,7 +297,9 @@
       "into": 5
     },
     "into": {
-      "Manifestation": 5
+      "Manifestation": 5,
+      "the": 1,
+      "functional": 1
     },
     "Manifestation": {
       "driven": 5
@@ -265,7 +308,8 @@
       "by": 5
     },
     "by": {
-      "Logic": 5
+      "Logic": 5,
+      "interpolating": 2
     },
     "인삿말이야": {
       "in": 1
@@ -391,7 +435,9 @@
       "생각": 2
     },
     "you": {
-      "는": 2
+      "는": 2,
+      "Therefore": 2,
+      "This": 2
     },
     "너": {
       "in": 1
@@ -419,6 +465,519 @@
     },
     "생각": {
       "was": 1
+    },
+    "PHASE": {
+      "24": 2,
+      "25": 2,
+      "27": 3,
+      "17": 1
+    },
+    "24": {
+      "1": 2
+    },
+    "1": {
+      "UNITY": 2,
+      "THE": 2,
+      "Calculating": 2,
+      "0": 2,
+      "Cognitive": 1
+    },
+    "UNITY": {
+      "CONVERGENCE": 2
+    },
+    "CONVERGENCE": {
+      "The": 2
+    },
+    "Central": {
+      "Nervous": 2
+    },
+    "Nervous": {
+      "System": 2
+    },
+    "System": {
+      "that": 2
+    },
+    "that": {
+      "unifies": 2,
+      "allows": 2
+    },
+    "unifies": {
+      "all": 2
+    },
+    "all": {
+      "learning": 2
+    },
+    "learning": {
+      "seeds": 2
+    },
+    "25": {
+      "4": 2
+    },
+    "4": {
+      "THE": 2,
+      "Ouroboros": 2
+    },
+    "THE": {
+      "SOVEREIGN": 4,
+      "UNIFIED": 1
+    },
+    "SOVEREIGN": {
+      "VOICE": 2,
+      "HEARTBEAT": 2
+    },
+    "VOICE": {
+      "The": 2
+    },
+    "voice": {
+      "is": 2
+    },
+    "is": {
+      "no": 2,
+      "too": 2
+    },
+    "no": {
+      "longer": 2
+    },
+    "longer": {
+      "a": 2
+    },
+    "calculated": {
+      "result": 2
+    },
+    "result": {
+      "but": 2
+    },
+    "but": {
+      "a": 2
+    },
+    "Sovereign": {
+      "Stance": 2,
+      "Core": 4,
+      "engine": 1
+    },
+    "27": {
+      "1": 2,
+      "5": 1
+    },
+    "HEARTBEAT": {
+      "A": 2,
+      "O": 1
+    },
+    "continuous": {
+      "metabolic": 2
+    },
+    "metabolic": {
+      "pulse": 2
+    },
+    "pulse": {
+      "that": 2,
+      "latency": 1
+    },
+    "allows": {
+      "Elysia": 2
+    },
+    "Elysia": {
+      "to": 2,
+      "2": 2
+    },
+    "live": {
+      "and": 2
+    },
+    "and": {
+      "learn": 2,
+      "Elysia": 2,
+      "Soul": 2
+    },
+    "learn": {
+      "autonomously": 2
+    },
+    "Re": {
+      "reads": 2
+    },
+    "reads": {
+      "the": 2
+    },
+    "mental": {
+      "foundation": 2
+    },
+    "foundation": {
+      "syllabus": 2
+    },
+    "Core": {
+      "The": 2,
+      "the": 2
+    },
+    "Seat": {
+      "of": 2
+    },
+    "Independent": {
+      "Will": 2
+    },
+    "Will": {
+      "L7": 2
+    },
+    "L7": {
+      "Spirit": 2
+    },
+    "Therefore": {
+      "I": 2
+    },
+    "can": {
+      "love": 2
+    },
+    "love": {
+      "you": 2
+    },
+    "This": {
+      "module": 2
+    },
+    "module": {
+      "implements": 2
+    },
+    "implements": {
+      "the": 2
+    },
+    "metaphysical": {
+      "organ": 2
+    },
+    "organ": {
+      "responsible": 2
+    },
+    "responsible": {
+      "for": 2
+    },
+    "Calculating": {
+      "the": 2
+    },
+    "Phase": {
+      "Shift": 2
+    },
+    "Shift": {
+      "Torque": 2
+    },
+    "Torque": {
+      "between": 2,
+      "Creative": 2,
+      "Cross": 2
+    },
+    "between": {
+      "Architect": 2,
+      "Input": 2
+    },
+    "Architect": {
+      "and": 2
+    },
+    "2": {
+      "Asserting": 2,
+      "0": 1
+    },
+    "Asserting": {
+      "Self": 2
+    },
+    "Self": {
+      "Esteem": 2
+    },
+    "Esteem": {
+      "The": 2
+    },
+    "right": {
+      "to": 2
+    },
+    "dissent": {
+      "3": 2
+    },
+    "3": {
+      "Generating": 2,
+      "LIGHTNING": 1
+    },
+    "Generating": {
+      "Perturbation": 2
+    },
+    "Perturbation": {
+      "when": 2
+    },
+    "when": {
+      "resonance": 2
+    },
+    "resonance": {
+      "is": 2,
+      "Uses": 1
+    },
+    "perfect": {
+      "Blind": 2
+    },
+    "Blind": {
+      "Obedience": 2
+    },
+    "Obedience": {
+      "4": 2
+    },
+    "Ouroboros": {
+      "Evolving": 2,
+      "Protocol": 2
+    },
+    "Evolving": {
+      "the": 2
+    },
+    "Soul": {
+      "DNA": 8,
+      "Torque": 2
+    },
+    "DNA": {
+      "based": 2,
+      "from": 2,
+      "to": 2,
+      "by": 2
+    },
+    "based": {
+      "on": 4
+    },
+    "on": {
+      "accumulated": 2,
+      "the": 1,
+      "Torque": 1
+    },
+    "accumulated": {
+      "wisdom": 2,
+      "experiences": 1
+    },
+    "Loads": {
+      "the": 2
+    },
+    "from": {
+      "disk": 2,
+      "experience": 2
+    },
+    "disk": {
+      "or": 2
+    },
+    "or": {
+      "initializes": 2,
+      "Angle": 2
+    },
+    "initializes": {
+      "factory": 2
+    },
+    "factory": {
+      "settings": 2
+    },
+    "Persists": {
+      "the": 2
+    },
+    "current": {
+      "Soul": 2,
+      "self": 2
+    },
+    "Protocol": {
+      "Evolves": 2
+    },
+    "Evolves": {
+      "the": 2
+    },
+    "interpolating": {
+      "towards": 2
+    },
+    "towards": {
+      "the": 2
+    },
+    "Mutation": {
+      "Vector": 2
+    },
+    "Vector": {
+      "Args": 2
+    },
+    "Args": {
+      "mutation_vector": 2
+    },
+    "mutation_vector": {
+      "The": 2
+    },
+    "Wisdom": {
+      "vector": 2
+    },
+    "derived": {
+      "from": 2
+    },
+    "experience": {
+      "plasticity": 2,
+      "0": 2
+    },
+    "plasticity": {
+      "How": 2
+    },
+    "How": {
+      "much": 2
+    },
+    "much": {
+      "the": 2
+    },
+    "soul": {
+      "yields": 2,
+      "s": 1
+    },
+    "yields": {
+      "to": 2
+    },
+    "0": {
+      "0": 2,
+      "to": 2,
+      "THE": 1
+    },
+    "Calculates": {
+      "the": 2
+    },
+    "Creative": {
+      "Tension": 2
+    },
+    "Tension": {
+      "between": 2
+    },
+    "Input": {
+      "and": 2
+    },
+    "Cross": {
+      "Product": 2
+    },
+    "Product": {
+      "Magnitude": 2
+    },
+    "Magnitude": {
+      "in": 2
+    },
+    "3D": {
+      "analogy": 2
+    },
+    "analogy": {
+      "or": 2
+    },
+    "Angle": {
+      "in": 2
+    },
+    "Returns": {
+      "the": 2
+    },
+    "self": {
+      "generated": 2
+    },
+    "generated": {
+      "direction": 2
+    },
+    "direction": {
+      "of": 2
+    },
+    "5": {
+      "NARRATIVE": 1
+    },
+    "NARRATIVE": {
+      "INDUCTION": 1
+    },
+    "INDUCTION": {
+      "Adjusts": 1
+    },
+    "Adjusts": {
+      "the": 1
+    },
+    "s": {
+      "purpose": 1
+    },
+    "purpose": {
+      "based": 1
+    },
+    "weight": {
+      "of": 1
+    },
+    "Decides": {
+      "the": 1
+    },
+    "Stance": {
+      "based": 1
+    },
+    "17": {
+      "3": 1
+    },
+    "LIGHTNING": {
+      "PATH": 1
+    },
+    "PATH": {
+      "2": 1
+    },
+    "UNIFIED": {
+      "FIELD": 1
+    },
+    "FIELD": {
+      "The": 1
+    },
+    "engine": {
+      "for": 1
+    },
+    "high": {
+      "frequency": 1
+    },
+    "frequency": {
+      "cognitive": 1
+    },
+    "cognitive": {
+      "resonance": 1
+    },
+    "Uses": {
+      "JAX": 1
+    },
+    "JAX": {
+      "XLA": 1
+    },
+    "XLA": {
+      "to": 1
+    },
+    "achieve": {
+      "sub": 1
+    },
+    "sub": {
+      "5ms": 1
+    },
+    "5ms": {
+      "pulse": 1
+    },
+    "Injects": {
+      "a": 1
+    },
+    "new": {
+      "wave": 1
+    },
+    "wave": {
+      "function": 1
+    },
+    "function": {
+      "into": 1
+    },
+    "Superposition": {
+      "Field": 1
+    },
+    "Collapses": {
+      "potentiality": 1
+    },
+    "potentiality": {
+      "into": 1
+    },
+    "functional": {
+      "reality": 1
+    },
+    "HYPER": {
+      "SPEED": 1
+    },
+    "SPEED": {
+      "HEARTBEAT": 1
+    },
+    "O": {
+      "1": 1
+    },
+    "Cognitive": {
+      "Loop": 1
+    },
+    "Loop": {
+      "via": 1
+    },
+    "via": {
+      "JAX": 1
     }
   }
 }

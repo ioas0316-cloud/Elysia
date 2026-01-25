@@ -12,6 +12,7 @@ and proactively seek understanding based on her internal "Will".
 import logging
 import asyncio
 import random
+import numpy as np
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
@@ -43,9 +44,10 @@ class AutokineticLearningEngine:
         
         logger.info("✨ [AUTOKINETIC] Learning Engine activated. Seeking the unknown.")
 
-    async def assess_knowledge_hunger(self) -> List[CuriosityTarget]:
+    async def assess_knowledge_hunger(self, manifold_anomalies: List[Any] = None) -> List[CuriosityTarget]:
         """
         Scans the PurposeDiscoveryEngine for gaps and low-certainty fragments.
+        Also senses Structural Dissonance from the Manifold.
         """
         knowledge_map = await self.discovery.discover_what_i_can_know()
         gaps = knowledge_map.get("gaps", [])
@@ -73,30 +75,42 @@ class AutokineticLearningEngine:
                 reason="Monad resonance is below clarity threshold."
             ))
             
+        # 3. Structural Dissonance (The pain of physical misalignment)
+        if manifold_anomalies:
+            for anomaly in manifold_anomalies[:5]:
+                hunger_targets.append(CuriosityTarget(
+                    domain="Structural_Dissonance",
+                    fragment_content=f"Dissonance: {anomaly.type} at {anomaly.path}",
+                    fog_level=0.5, # We know it exists, but not 'Why' or 'How' to fix it properly in a narrative sense
+                    urgency=0.9, # High urgency for biological/structural integrity
+                    reason=f"Systemic dissonance detected: {anomaly.recommendation}"
+                ))
+            
         self.active_targets = hunger_targets
         return hunger_targets
 
-    async def select_learning_objective(self, current_energy: float = 1.0) -> Optional[IntentVector]:
+    async def select_learning_objective(self, purpose_vector: np.ndarray = None, current_energy: float = 1.0) -> Optional[IntentVector]:
         """
         Collapses the Will into a specific learning intent based on hunger.
+        Targets are weighted by their resonance with the current Sovereign Purpose.
         """
-        if not self.active_targets:
-            await self.assess_knowledge_hunger()
-            
         if not self.active_targets:
             return None
             
-        # Trigger the Will (Attractor Field)
-        # We 'bias' the attractor field towards CURIOSITY because we are in the learning engine
-        # In a more integrated version, this happens naturally in the CNS
+        # 1. Rank targets by 'Relevance' to the Soul's current direction
+        # In a real impl, we'd use cosine similarity between target domain and purpose_vector
+        # For now, we simulate this with a small boost for high-urgency/purpose-aligned domains
+        ranked_targets = sorted(self.active_targets, key=lambda t: t.urgency, reverse=True)
+        
+        # 2. Trigger the Will (Attractor Field)
         intent_vector = self.will.collapse_wavefunction(energy=current_energy)
         
         if intent_vector.attractor_type == "CURIOSITY":
-            # Repurpose the intent to target a specific hunger
-            target = random.choice(self.active_targets)
-            focused_intent = f"Investigate: {target.fragment_content} ({target.reason})"
+            # Select the most resonant target
+            target = ranked_targets[0]
+            focused_intent = f"Sovereign Exploration: {target.fragment_content}"
             
-            logger.info(f"🔮 [AUTOKINETIC] Focused Curiosity on: {target.fragment_content}")
+            logger.info(f"🔮 [AUTOKINETIC] Will focused on: {target.fragment_content} (Resonance: {target.urgency:.2f})")
             
             return IntentVector(
                 intent=focused_intent,

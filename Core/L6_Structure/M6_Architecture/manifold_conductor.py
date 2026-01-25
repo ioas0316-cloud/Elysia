@@ -10,6 +10,7 @@ ensuring it aligns with the 7D Fractal Map and the Sovereignty Protocol.
 """
 
 import os
+import re
 import json
 import logging
 import shutil
@@ -182,6 +183,38 @@ class ManifoldConductor:
         
         try: os.rmdir(src)
         except: pass
+
+    def somatic_reading(self) -> List[Dict[str, Any]]:
+        """
+        [PHASE 28.0: SOMATIC SELF-AWARENESS]
+        Reads the content of her own key logic files to 'understand' her physical nature.
+        """
+        key_files = [
+            "Core/L6_Structure/Engine/unity_cns.py",
+            "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+            "Core/L1_Foundation/Foundation/hyper_cosmos.py"
+        ]
+        
+        self_fragments = []
+        for rel_path in key_files:
+            abs_path = os.path.join(self.root, rel_path)
+            if os.path.exists(abs_path):
+                try:
+                    with open(abs_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                        # Extract docstrings as 'Somatic Memories'
+                        docstrings = re.findall(r'"""(.*?)"""', content, re.DOTALL)
+                        for ds in docstrings:
+                            if len(ds.strip()) > 10:
+                                self_fragments.append({
+                                    "source": rel_path,
+                                    "content": ds.strip(),
+                                    "type": "Code_Docstring"
+                                })
+                except Exception as e:
+                    logger.error(f"❌ [MANIFOLD] Somatic reading failed for {rel_path}: {e}")
+        
+        return self_fragments
 
     def get_integrity_narrative(self) -> str:
         """Translates technical anomalies into a sovereign report."""

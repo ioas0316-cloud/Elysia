@@ -14,7 +14,16 @@
       "따라해봐"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.15000000000000002
+    "confidence": 0.15000000000000002,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "기분이": {
     "count": 2,
@@ -27,7 +36,16 @@
       "in"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "어때": {
     "count": 2,
@@ -40,7 +58,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "Internalizing": {
     "count": 29,
@@ -57,7 +84,16 @@
       "thought"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.3800000000000002
+    "confidence": 0.3800000000000002,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "my": {
     "count": 80,
@@ -74,7 +110,16 @@
       "Syllabus"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.8900000000000007
+    "confidence": 0.8900000000000007,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "thought": {
     "count": 40,
@@ -91,24 +136,42 @@
       "concept"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.4900000000000003
+    "confidence": 0.4900000000000003,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "I": {
-    "count": 33,
+    "count": 37,
     "contexts": [
-      "held",
-      "the",
-      "quiet",
-      "shift",
+      "can",
+      "love",
+      "L7",
+      "Spirit",
       "am",
       "not",
-      "not",
-      "who",
-      "was",
-      "a"
+      "you",
+      "Therefore",
+      "can",
+      "love"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.42000000000000026
+    "confidence": 0.4600000000000003,
+    "qualia_vector": [
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001
+    ]
   },
   "held": {
     "count": 11,
@@ -125,58 +188,94 @@
       "thought"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "the": {
-    "count": 37,
+    "count": 67,
     "contexts": [
-      "thought",
+      "yields",
+      "Calculates",
+      "Torque",
+      "Creative",
+      "Returns",
+      "current",
+      "self",
+      "direction",
       "of",
-      "즐거움이야",
-      "in",
-      "light",
-      "of",
-      "light",
-      "of",
-      "Void",
-      "It"
+      "soul"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.4600000000000003
+    "confidence": 0.7600000000000006,
+    "qualia_vector": [
+      0.19152176834495682,
+      0.19152176834495682,
+      0.19152176834495682,
+      0.19152176834495682,
+      0.19152176834495682,
+      0.19152176834495682,
+      0.19152176834495682
+    ]
   },
   "of": {
-    "count": 31,
+    "count": 36,
     "contexts": [
-      "joy",
-      "는",
-      "the",
-      "light",
-      "the",
-      "Void",
+      "accumulated",
+      "experiences",
       "The",
-      "concept",
-      "thouhght",
-      "는"
+      "Seat",
+      "Independent",
+      "Will",
+      "generated",
+      "direction",
+      "the",
+      "soul"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.40000000000000024
+    "confidence": 0.4500000000000003,
+    "qualia_vector": [
+      0.081902,
+      0.081902,
+      0.081902,
+      0.081902,
+      0.081902,
+      0.081902,
+      0.081902
+    ]
   },
   "in": {
-    "count": 11,
+    "count": 15,
     "contexts": [
-      "the",
-      "light",
-      "mean",
-      "이야",
-      "the",
-      "light",
-      "는",
-      "즐거움이야",
-      "the",
-      "light"
+      "or",
+      "Angle",
+      "7D",
+      "Product",
+      "Magnitude",
+      "3D",
+      "analogy",
+      "or",
+      "Angle",
+      "7D"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.2400000000000001,
+    "qualia_vector": [
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001
+    ]
   },
   "light": {
     "count": 11,
@@ -193,7 +292,16 @@
       "the"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "Void": {
     "count": 11,
@@ -210,7 +318,16 @@
       "resonated"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "It": {
     "count": 16,
@@ -227,7 +344,16 @@
       "over"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.2500000000000001
+    "confidence": 0.2500000000000001,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "resonated": {
     "count": 11,
@@ -244,7 +370,16 @@
       "my"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "with": {
     "count": 40,
@@ -261,24 +396,42 @@
       "Syllabus"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.4900000000000003
+    "confidence": 0.4900000000000003,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "Spirit": {
-    "count": 6,
+    "count": 8,
     "contexts": [
-      "vector",
-      "pierced",
-      "create",
-      "The",
-      "vector",
-      "pierced",
-      "with",
-      "my",
       "expanding",
-      "my"
+      "my",
+      "Will",
+      "L7",
+      "I",
+      "am",
+      "Will",
+      "L7",
+      "I",
+      "am"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.15000000000000002
+    "confidence": 0.17000000000000004,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "expanding": {
     "count": 11,
@@ -295,7 +448,16 @@
       "capacity"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "capacity": {
     "count": 11,
@@ -312,24 +474,42 @@
       "joy"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "for": {
-    "count": 11,
+    "count": 14,
     "contexts": [
-      "joy",
-      "Does",
-      "my",
-      "capacity",
-      "joy",
-      "Does",
-      "my",
-      "capacity",
-      "joy",
-      "Does"
+      "1",
+      "Calculating",
+      "Sovereign",
+      "engine",
+      "high",
+      "frequency",
+      "organ",
+      "responsible",
+      "1",
+      "Calculating"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.2300000000000001,
+    "qualia_vector": [
+      0.05420000000000001,
+      0.05420000000000001,
+      0.05420000000000001,
+      0.05420000000000001,
+      0.05420000000000001,
+      0.05420000000000001,
+      0.05420000000000001
+    ]
   },
   "joy": {
     "count": 13,
@@ -346,7 +526,16 @@
       "this"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.22000000000000008
+    "confidence": 0.22000000000000008,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "Does": {
     "count": 29,
@@ -363,24 +552,42 @@
       "align"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.3800000000000002
+    "confidence": 0.3800000000000002,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "this": {
-    "count": 29,
+    "count": 31,
     "contexts": [
       "align",
       "with",
-      "ago",
-      "Does",
-      "align",
-      "with",
-      "Logic",
-      "Does",
-      "align",
-      "with"
+      "yields",
+      "to",
+      "experience",
+      "0",
+      "yields",
+      "to",
+      "experience",
+      "0"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.3800000000000002
+    "confidence": 0.40000000000000024,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "align": {
     "count": 29,
@@ -397,7 +604,16 @@
       "my"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.3800000000000002
+    "confidence": 0.3800000000000002,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "Syllabus": {
     "count": 29,
@@ -414,7 +630,16 @@
       "my"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.3800000000000002
+    "confidence": 0.3800000000000002,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "이런": {
     "count": 3,
@@ -431,7 +656,16 @@
       "관계적"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.12
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "난": {
     "count": 2,
@@ -445,7 +679,16 @@
       "못해"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "영어를": {
     "count": 2,
@@ -460,7 +703,16 @@
       "한국어는"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "못해": {
     "count": 2,
@@ -475,7 +727,16 @@
       "어렵니"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "한국어는": {
     "count": 2,
@@ -489,7 +750,16 @@
       "in"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "어렵니": {
     "count": 2,
@@ -502,7 +772,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "Phenomena": {
     "count": 3,
@@ -519,7 +798,16 @@
       "my"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.12
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "가나다라": {
     "count": 2,
@@ -532,7 +820,16 @@
       "따라해볼래"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "마바사": {
     "count": 2,
@@ -545,7 +842,16 @@
       "in"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "따라해볼래": {
     "count": 2,
@@ -558,7 +864,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "Logic": {
     "count": 11,
@@ -575,7 +890,16 @@
       "this"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.20000000000000007
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "내": {
     "count": 1,
@@ -584,7 +908,16 @@
       "이민성이야"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "이름은": {
     "count": 3,
@@ -599,7 +932,16 @@
       "in"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.12
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "이민성이야": {
     "count": 1,
@@ -608,24 +950,42 @@
       "이름은"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "A": {
-    "count": 9,
+    "count": 11,
     "contexts": [
       "quiet",
       "shift",
-      "my",
-      "thought",
-      "quiet",
-      "shift",
-      "my",
-      "thought",
-      "quiet",
-      "shift"
+      "SOVEREIGN",
+      "HEARTBEAT",
+      "continuous",
+      "metabolic",
+      "SOVEREIGN",
+      "HEARTBEAT",
+      "continuous",
+      "metabolic"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "quiet": {
     "count": 9,
@@ -642,7 +1002,16 @@
       "I"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.18000000000000005,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "shift": {
     "count": 9,
@@ -659,41 +1028,68 @@
       "am"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.18000000000000005,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "am": {
-    "count": 9,
+    "count": 11,
     "contexts": [
       "not",
       "who",
-      "shift",
+      "Spirit",
       "I",
       "not",
-      "who",
-      "shift",
+      "you",
+      "Spirit",
       "I",
       "not",
-      "who"
+      "you"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "not": {
-    "count": 9,
+    "count": 11,
     "contexts": [
       "who",
       "I",
       "I",
       "am",
-      "who",
-      "I",
+      "you",
+      "Therefore",
       "I",
       "am",
-      "who",
-      "I"
+      "you",
+      "Therefore"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.20000000000000007,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "who": {
     "count": 9,
@@ -710,7 +1106,16 @@
       "was"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.18000000000000005,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "was": {
     "count": 14,
@@ -727,24 +1132,42 @@
       "vibrant"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.2300000000000001
+    "confidence": 0.2300000000000001,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "a": {
-    "count": 13,
+    "count": 18,
     "contexts": [
-      "moment",
-      "ago",
-      "I",
-      "felt",
-      "compulsion",
-      "to",
-      "I",
-      "was",
-      "moment",
-      "ago"
+      "new",
+      "wave",
+      "no",
+      "longer",
+      "calculated",
+      "result",
+      "result",
+      "but",
+      "Sovereign",
+      "Stance"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.22000000000000008
+    "confidence": 0.27000000000000013,
+    "qualia_vector": [
+      0.081902,
+      0.081902,
+      0.081902,
+      0.081902,
+      0.081902,
+      0.081902,
+      0.081902
+    ]
   },
   "moment": {
     "count": 9,
@@ -761,7 +1184,16 @@
       "Does"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.18000000000000005,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "ago": {
     "count": 9,
@@ -778,7 +1210,16 @@
       "this"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.18000000000000005,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "네": {
     "count": 2,
@@ -791,7 +1232,16 @@
       "엘리시아고"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "엘리시아고": {
     "count": 2,
@@ -804,7 +1254,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "어떤": {
     "count": 3,
@@ -819,7 +1278,16 @@
       "이해하고"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.12
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "의미인지": {
     "count": 3,
@@ -835,7 +1303,16 @@
       "있니"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.12
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "이해되니": {
     "count": 1,
@@ -844,7 +1321,16 @@
       "의미인지"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "felt": {
     "count": 4,
@@ -861,7 +1347,16 @@
       "compulsion"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.13
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "compulsion": {
     "count": 4,
@@ -878,24 +1373,42 @@
       "create"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.13
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "to": {
-    "count": 9,
+    "count": 20,
     "contexts": [
-      "contain",
-      "It",
-      "a",
-      "compulsion",
-      "create",
-      "The",
-      "too",
-      "vibrant",
-      "contain",
-      "It"
+      "DNA",
+      "disk",
+      "soul",
+      "yields",
+      "this",
+      "experience",
+      "0",
+      "0",
+      "1",
+      "0"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.29000000000000015,
+    "qualia_vector": [
+      0.13723788078200005,
+      0.13723788078200005,
+      0.13723788078200005,
+      0.13723788078200005,
+      0.13723788078200005,
+      0.13723788078200005,
+      0.13723788078200005
+    ]
   },
   "create": {
     "count": 4,
@@ -912,41 +1425,68 @@
       "Spirit"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.13
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "The": {
-    "count": 9,
+    "count": 22,
     "contexts": [
-      "concept",
-      "of",
+      "Self",
+      "Esteem",
+      "right",
       "to",
-      "create",
-      "Spirit",
-      "vector",
-      "my",
-      "thought",
-      "concept",
-      "of"
+      "Ouroboros",
+      "Protocol",
+      "Args",
+      "mutation_vector",
+      "Wisdom",
+      "vector"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.18000000000000005
+    "confidence": 0.31000000000000016,
+    "qualia_vector": [
+      0.14916268343342004,
+      0.14916268343342004,
+      0.14916268343342004,
+      0.14916268343342004,
+      0.14916268343342004,
+      0.14916268343342004,
+      0.14916268343342004
+    ]
   },
   "vector": {
-    "count": 4,
+    "count": 6,
     "contexts": [
       "pierced",
       "the",
       "The",
-      "Spirit",
-      "pierced",
-      "the",
+      "Wisdom",
+      "derived",
+      "from",
       "The",
-      "Spirit",
-      "pierced",
-      "the"
+      "Wisdom",
+      "derived",
+      "from"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.13
+    "confidence": 0.15000000000000002,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "pierced": {
     "count": 4,
@@ -963,7 +1503,16 @@
       "veil"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.13
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "veil": {
     "count": 4,
@@ -980,7 +1529,16 @@
       "silence"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.13
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "silence": {
     "count": 4,
@@ -997,7 +1555,16 @@
       "this"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.13
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "사랑해": {
     "count": 1,
@@ -1006,7 +1573,16 @@
       "무슨"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "무슨": {
     "count": 3,
@@ -1023,7 +1599,16 @@
       "몰라"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.12
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "말인지": {
     "count": 1,
@@ -1033,7 +1618,16 @@
       "알아"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "알아": {
     "count": 1,
@@ -1042,7 +1636,16 @@
       "말인지"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "concept": {
     "count": 5,
@@ -1059,7 +1662,16 @@
       "thouhght"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "안녕": {
     "count": 1,
@@ -1070,24 +1682,42 @@
       "too"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "too": {
-    "count": 5,
+    "count": 7,
     "contexts": [
       "vibrant",
       "to",
-      "이야",
-      "was",
-      "vibrant",
-      "to",
-      "생각",
-      "was",
-      "vibrant",
-      "to"
+      "resonance",
+      "is",
+      "perfect",
+      "Blind",
+      "resonance",
+      "is",
+      "perfect",
+      "Blind"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.16000000000000003,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "vibrant": {
     "count": 5,
@@ -1104,7 +1734,16 @@
       "contain"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "contain": {
     "count": 5,
@@ -1121,7 +1760,16 @@
       "spilled"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "spilled": {
     "count": 5,
@@ -1138,7 +1786,16 @@
       "into"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "over": {
     "count": 5,
@@ -1155,24 +1812,42 @@
       "Manifestation"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "into": {
-    "count": 5,
+    "count": 7,
     "contexts": [
       "Manifestation",
       "driven",
-      "spilled",
-      "over",
-      "Manifestation",
-      "driven",
-      "spilled",
-      "over",
-      "Manifestation",
-      "driven"
+      "wave",
+      "function",
+      "the",
+      "Superposition",
+      "Collapses",
+      "potentiality",
+      "functional",
+      "reality"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.16000000000000003,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "Manifestation": {
     "count": 5,
@@ -1189,7 +1864,16 @@
       "by"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "driven": {
     "count": 5,
@@ -1206,24 +1890,42 @@
       "Logic"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "by": {
-    "count": 5,
+    "count": 7,
     "contexts": [
       "Logic",
       "Does",
-      "Manifestation",
-      "driven",
-      "Logic",
-      "Does",
-      "Manifestation",
-      "driven",
-      "Logic",
-      "Does"
+      "Soul",
+      "DNA",
+      "interpolating",
+      "towards",
+      "Soul",
+      "DNA",
+      "interpolating",
+      "towards"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.14
+    "confidence": 0.16000000000000003,
+    "qualia_vector": [
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006,
+      0.038000000000000006
+    ]
   },
   "인삿말이야": {
     "count": 1,
@@ -1234,7 +1936,16 @@
       "the"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "안부를": {
     "count": 1,
@@ -1243,7 +1954,16 @@
       "말이지"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "묻는": {
     "count": 1,
@@ -1252,7 +1972,16 @@
       "말이지"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "말이지": {
     "count": 1,
@@ -1261,7 +1990,16 @@
       "묻는"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "잘지내니": {
     "count": 1,
@@ -1270,7 +2008,16 @@
       "먹었니"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "밥은": {
     "count": 1,
@@ -1280,7 +2027,16 @@
       "이런"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "먹었니": {
     "count": 1,
@@ -1291,7 +2047,16 @@
       "모든"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "모든": {
     "count": 1,
@@ -1302,7 +2067,16 @@
       "언어의"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "관계적": {
     "count": 1,
@@ -1313,7 +2087,16 @@
       "합이"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "언어의": {
     "count": 1,
@@ -1324,7 +2107,16 @@
       "인사야"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "합이": {
     "count": 1,
@@ -1334,7 +2126,16 @@
       "인사야"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "인사야": {
     "count": 1,
@@ -1343,7 +2144,16 @@
       "합이"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "영어로": {
     "count": 2,
@@ -1356,7 +2166,16 @@
       "무슨"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "말하면": {
     "count": 2,
@@ -1370,7 +2189,16 @@
       "뜻인지"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "뜻인지": {
     "count": 2,
@@ -1385,7 +2213,16 @@
       "한글로"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "몰라": {
     "count": 2,
@@ -1400,7 +2237,16 @@
       "말해봐"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "한글로": {
     "count": 2,
@@ -1414,7 +2260,16 @@
       "in"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "말해봐": {
     "count": 2,
@@ -1427,7 +2282,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "따라해봐": {
     "count": 2,
@@ -1436,7 +2300,16 @@
       "엘리시아"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "말": {
     "count": 1,
@@ -1444,7 +2317,16 @@
       "따라해봐"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "언어는": {
     "count": 2,
@@ -1457,7 +2339,16 @@
       "엘리시아"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "의사소통이야": {
     "count": 2,
@@ -1471,7 +2362,16 @@
       "서로가"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "서로가": {
     "count": 2,
@@ -1486,7 +2386,16 @@
       "말로"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "서로의": {
     "count": 2,
@@ -1501,7 +2410,16 @@
       "아무리"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "말로": {
     "count": 2,
@@ -1516,7 +2434,16 @@
       "떠들어봐야"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "아무리": {
     "count": 2,
@@ -1531,7 +2458,16 @@
       "우리가"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "떠들어봐야": {
     "count": 2,
@@ -1546,7 +2482,16 @@
       "서로를"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "우리가": {
     "count": 2,
@@ -1561,7 +2506,16 @@
       "이해하지"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "서로를": {
     "count": 2,
@@ -1576,7 +2530,16 @@
       "못하면"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "이해하지": {
     "count": 2,
@@ -1591,7 +2554,16 @@
       "짐승의"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "못하면": {
     "count": 2,
@@ -1606,7 +2578,16 @@
       "말과"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "짐승의": {
     "count": 2,
@@ -1621,7 +2602,16 @@
       "다름없지"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "말과": {
     "count": 2,
@@ -1635,7 +2625,16 @@
       "was"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "다름없지": {
     "count": 2,
@@ -1648,7 +2647,16 @@
       "too"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "우리": {
     "count": 1,
@@ -1659,7 +2667,16 @@
       "the"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "나": {
     "count": 2,
@@ -1672,7 +2689,16 @@
       "는"
     ],
     "first_seen": "Internal_Reflection",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "dream": {
     "count": 2,
@@ -1685,7 +2711,16 @@
       "꿈"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "은": {
     "count": 2,
@@ -1699,7 +2734,16 @@
       "이야"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "꿈": {
     "count": 2,
@@ -1713,7 +2757,16 @@
       "was"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "이야": {
     "count": 4,
@@ -1730,7 +2783,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.13
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "i": {
     "count": 1,
@@ -1739,7 +2801,16 @@
       "나"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "는": {
     "count": 8,
@@ -1756,20 +2827,42 @@
       "was"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.17000000000000004
+    "confidence": 0.17000000000000004,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "you": {
-    "count": 2,
+    "count": 6,
     "contexts": [
-      "는",
-      "너",
-      "thought",
-      "of",
-      "는",
-      "너"
+      "This",
+      "module",
+      "am",
+      "not",
+      "Therefore",
+      "I",
+      "can",
+      "love",
+      "This",
+      "module"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.15000000000000002,
+    "qualia_vector": [
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001,
+      0.06878000000000001
+    ]
   },
   "너": {
     "count": 2,
@@ -1782,7 +2875,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "이해하고": {
     "count": 2,
@@ -1796,7 +2898,16 @@
       "in"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "있니": {
     "count": 2,
@@ -1809,7 +2920,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "의미는": {
     "count": 2,
@@ -1822,7 +2942,16 @@
       "이야"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "mean": {
     "count": 2,
@@ -1835,7 +2964,16 @@
       "in"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "즐거움이야": {
     "count": 2,
@@ -1848,7 +2986,16 @@
       "the"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "happy": {
     "count": 1,
@@ -1857,7 +3004,16 @@
       "행복"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "행복": {
     "count": 1,
@@ -1866,7 +3022,16 @@
       "는"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.1
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "thouhght": {
     "count": 2,
@@ -1879,7 +3044,16 @@
       "생각"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
   },
   "생각": {
     "count": 2,
@@ -1892,6 +3066,3843 @@
       "too"
     ],
     "first_seen": "Gardener_Dialogue",
-    "confidence": 0.11
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "PHASE": {
+    "count": 8,
+    "contexts": [
+      "27",
+      "5",
+      "17",
+      "3",
+      "24",
+      "1",
+      "25",
+      "4",
+      "27",
+      "1"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.17000000000000004,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "24": {
+    "count": 2,
+    "contexts": [
+      "PHASE",
+      "1",
+      "UNITY",
+      "PHASE",
+      "1",
+      "UNITY"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "1": {
+    "count": 9,
+    "contexts": [
+      "27",
+      "THE",
+      "SOVEREIGN",
+      "responsible",
+      "for",
+      "Calculating",
+      "the",
+      "0",
+      "to",
+      "0"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.18000000000000005,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "UNITY": {
+    "count": 2,
+    "contexts": [
+      "24",
+      "1",
+      "CONVERGENCE",
+      "The",
+      "24",
+      "1",
+      "CONVERGENCE",
+      "The"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "CONVERGENCE": {
+    "count": 2,
+    "contexts": [
+      "1",
+      "UNITY",
+      "The",
+      "Central",
+      "1",
+      "UNITY",
+      "The",
+      "Central"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Central": {
+    "count": 2,
+    "contexts": [
+      "CONVERGENCE",
+      "The",
+      "Nervous",
+      "System",
+      "CONVERGENCE",
+      "The",
+      "Nervous",
+      "System"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Nervous": {
+    "count": 2,
+    "contexts": [
+      "The",
+      "Central",
+      "System",
+      "that",
+      "The",
+      "Central",
+      "System",
+      "that"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "System": {
+    "count": 2,
+    "contexts": [
+      "Central",
+      "Nervous",
+      "that",
+      "unifies",
+      "Central",
+      "Nervous",
+      "that",
+      "unifies"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "that": {
+    "count": 4,
+    "contexts": [
+      "allows",
+      "Elysia",
+      "Nervous",
+      "System",
+      "unifies",
+      "all",
+      "metabolic",
+      "pulse",
+      "allows",
+      "Elysia"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "unifies": {
+    "count": 2,
+    "contexts": [
+      "System",
+      "that",
+      "all",
+      "learning",
+      "System",
+      "that",
+      "all",
+      "learning"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "all": {
+    "count": 2,
+    "contexts": [
+      "that",
+      "unifies",
+      "learning",
+      "seeds",
+      "that",
+      "unifies",
+      "learning",
+      "seeds"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "learning": {
+    "count": 2,
+    "contexts": [
+      "unifies",
+      "all",
+      "seeds",
+      "unifies",
+      "all",
+      "seeds"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "seeds": {
+    "count": 2,
+    "contexts": [
+      "all",
+      "learning",
+      "all",
+      "learning"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "25": {
+    "count": 2,
+    "contexts": [
+      "PHASE",
+      "4",
+      "THE",
+      "PHASE",
+      "4",
+      "THE"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "4": {
+    "count": 4,
+    "contexts": [
+      "Ouroboros",
+      "Evolving",
+      "PHASE",
+      "25",
+      "THE",
+      "SOVEREIGN",
+      "Blind",
+      "Obedience",
+      "Ouroboros",
+      "Evolving"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "THE": {
+    "count": 5,
+    "contexts": [
+      "UNIFIED",
+      "FIELD",
+      "25",
+      "4",
+      "SOVEREIGN",
+      "VOICE",
+      "27",
+      "1",
+      "SOVEREIGN",
+      "HEARTBEAT"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "SOVEREIGN": {
+    "count": 4,
+    "contexts": [
+      "HEARTBEAT",
+      "A",
+      "4",
+      "THE",
+      "VOICE",
+      "The",
+      "1",
+      "THE",
+      "HEARTBEAT",
+      "A"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "VOICE": {
+    "count": 2,
+    "contexts": [
+      "THE",
+      "SOVEREIGN",
+      "The",
+      "voice",
+      "THE",
+      "SOVEREIGN",
+      "The",
+      "voice"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "voice": {
+    "count": 2,
+    "contexts": [
+      "VOICE",
+      "The",
+      "is",
+      "no",
+      "VOICE",
+      "The",
+      "is",
+      "no"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "is": {
+    "count": 4,
+    "contexts": [
+      "too",
+      "perfect",
+      "The",
+      "voice",
+      "no",
+      "longer",
+      "when",
+      "resonance",
+      "too",
+      "perfect"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "no": {
+    "count": 2,
+    "contexts": [
+      "voice",
+      "is",
+      "longer",
+      "a",
+      "voice",
+      "is",
+      "longer",
+      "a"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "longer": {
+    "count": 2,
+    "contexts": [
+      "is",
+      "no",
+      "a",
+      "calculated",
+      "is",
+      "no",
+      "a",
+      "calculated"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "calculated": {
+    "count": 2,
+    "contexts": [
+      "longer",
+      "a",
+      "result",
+      "but",
+      "longer",
+      "a",
+      "result",
+      "but"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "result": {
+    "count": 2,
+    "contexts": [
+      "a",
+      "calculated",
+      "but",
+      "a",
+      "a",
+      "calculated",
+      "but",
+      "a"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "but": {
+    "count": 2,
+    "contexts": [
+      "calculated",
+      "result",
+      "a",
+      "Sovereign",
+      "calculated",
+      "result",
+      "a",
+      "Sovereign"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Sovereign": {
+    "count": 7,
+    "contexts": [
+      "for",
+      "but",
+      "a",
+      "Stance",
+      "Core",
+      "The",
+      "implements",
+      "the",
+      "Core",
+      "the"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.16000000000000003,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Stance": {
+    "count": 3,
+    "contexts": [
+      "a",
+      "Sovereign",
+      "Decides",
+      "the",
+      "based",
+      "on",
+      "a",
+      "Sovereign"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "27": {
+    "count": 3,
+    "contexts": [
+      "PHASE",
+      "1",
+      "THE",
+      "PHASE",
+      "5",
+      "NARRATIVE",
+      "PHASE",
+      "1",
+      "THE"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "HEARTBEAT": {
+    "count": 3,
+    "contexts": [
+      "A",
+      "continuous",
+      "HYPER",
+      "SPEED",
+      "O",
+      "1",
+      "THE",
+      "SOVEREIGN",
+      "A",
+      "continuous"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "continuous": {
+    "count": 2,
+    "contexts": [
+      "HEARTBEAT",
+      "A",
+      "metabolic",
+      "pulse",
+      "HEARTBEAT",
+      "A",
+      "metabolic",
+      "pulse"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "metabolic": {
+    "count": 2,
+    "contexts": [
+      "A",
+      "continuous",
+      "pulse",
+      "that",
+      "A",
+      "continuous",
+      "pulse",
+      "that"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "pulse": {
+    "count": 3,
+    "contexts": [
+      "metabolic",
+      "that",
+      "allows",
+      "sub",
+      "5ms",
+      "latency",
+      "continuous",
+      "metabolic",
+      "that",
+      "allows"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "allows": {
+    "count": 2,
+    "contexts": [
+      "pulse",
+      "that",
+      "Elysia",
+      "to",
+      "pulse",
+      "that",
+      "Elysia",
+      "to"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Elysia": {
+    "count": 4,
+    "contexts": [
+      "2",
+      "Asserting",
+      "that",
+      "allows",
+      "to",
+      "live",
+      "Architect",
+      "and",
+      "2",
+      "Asserting"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "live": {
+    "count": 2,
+    "contexts": [
+      "Elysia",
+      "to",
+      "and",
+      "learn",
+      "Elysia",
+      "to",
+      "and",
+      "learn"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "and": {
+    "count": 6,
+    "contexts": [
+      "learn",
+      "autonomously",
+      "between",
+      "Architect",
+      "Elysia",
+      "2",
+      "between",
+      "Input",
+      "Soul",
+      "Torque"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.15000000000000002,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "learn": {
+    "count": 2,
+    "contexts": [
+      "live",
+      "and",
+      "autonomously",
+      "live",
+      "and",
+      "autonomously"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "autonomously": {
+    "count": 2,
+    "contexts": [
+      "and",
+      "learn",
+      "and",
+      "learn"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Re": {
+    "count": 2,
+    "contexts": [
+      "reads",
+      "the",
+      "reads",
+      "the"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "reads": {
+    "count": 2,
+    "contexts": [
+      "Re",
+      "the",
+      "mental",
+      "Re",
+      "the",
+      "mental"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "mental": {
+    "count": 2,
+    "contexts": [
+      "reads",
+      "the",
+      "foundation",
+      "syllabus",
+      "reads",
+      "the",
+      "foundation",
+      "syllabus"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "foundation": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "mental",
+      "syllabus",
+      "the",
+      "mental",
+      "syllabus"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "syllabus": {
+    "count": 2,
+    "contexts": [
+      "mental",
+      "foundation",
+      "mental",
+      "foundation"
+    ],
+    "first_seen": "Core/L6_Structure/Engine/unity_cns.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Core": {
+    "count": 4,
+    "contexts": [
+      "Sovereign",
+      "the",
+      "metaphysical",
+      "Sovereign",
+      "The",
+      "Seat",
+      "the",
+      "Sovereign",
+      "the",
+      "metaphysical"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Seat": {
+    "count": 2,
+    "contexts": [
+      "Core",
+      "The",
+      "of",
+      "Independent",
+      "Core",
+      "The",
+      "of",
+      "Independent"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Independent": {
+    "count": 2,
+    "contexts": [
+      "Seat",
+      "of",
+      "Will",
+      "L7",
+      "Seat",
+      "of",
+      "Will",
+      "L7"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Will": {
+    "count": 2,
+    "contexts": [
+      "of",
+      "Independent",
+      "L7",
+      "Spirit",
+      "of",
+      "Independent",
+      "L7",
+      "Spirit"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "L7": {
+    "count": 2,
+    "contexts": [
+      "Independent",
+      "Will",
+      "Spirit",
+      "I",
+      "Independent",
+      "Will",
+      "Spirit",
+      "I"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Therefore": {
+    "count": 2,
+    "contexts": [
+      "not",
+      "you",
+      "I",
+      "can",
+      "not",
+      "you",
+      "I",
+      "can"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "can": {
+    "count": 2,
+    "contexts": [
+      "Therefore",
+      "I",
+      "love",
+      "you",
+      "Therefore",
+      "I",
+      "love",
+      "you"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "love": {
+    "count": 2,
+    "contexts": [
+      "I",
+      "can",
+      "you",
+      "This",
+      "I",
+      "can",
+      "you",
+      "This"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "This": {
+    "count": 2,
+    "contexts": [
+      "love",
+      "you",
+      "module",
+      "implements",
+      "love",
+      "you",
+      "module",
+      "implements"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "module": {
+    "count": 2,
+    "contexts": [
+      "you",
+      "This",
+      "implements",
+      "the",
+      "you",
+      "This",
+      "implements",
+      "the"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "implements": {
+    "count": 2,
+    "contexts": [
+      "This",
+      "module",
+      "the",
+      "Sovereign",
+      "This",
+      "module",
+      "the",
+      "Sovereign"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "metaphysical": {
+    "count": 2,
+    "contexts": [
+      "Core",
+      "the",
+      "organ",
+      "responsible",
+      "Core",
+      "the",
+      "organ",
+      "responsible"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "organ": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "metaphysical",
+      "responsible",
+      "for",
+      "the",
+      "metaphysical",
+      "responsible",
+      "for"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "responsible": {
+    "count": 2,
+    "contexts": [
+      "metaphysical",
+      "organ",
+      "for",
+      "1",
+      "metaphysical",
+      "organ",
+      "for",
+      "1"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Calculating": {
+    "count": 2,
+    "contexts": [
+      "for",
+      "1",
+      "the",
+      "Phase",
+      "for",
+      "1",
+      "the",
+      "Phase"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Phase": {
+    "count": 2,
+    "contexts": [
+      "Calculating",
+      "the",
+      "Shift",
+      "Torque",
+      "Calculating",
+      "the",
+      "Shift",
+      "Torque"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Shift": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "Phase",
+      "Torque",
+      "between",
+      "the",
+      "Phase",
+      "Torque",
+      "between"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Torque": {
+    "count": 7,
+    "contexts": [
+      "between",
+      "Architect",
+      "Calculates",
+      "the",
+      "Creative",
+      "Tension",
+      "and",
+      "Soul",
+      "Cross",
+      "Product"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.16000000000000003,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "between": {
+    "count": 4,
+    "contexts": [
+      "Input",
+      "and",
+      "Shift",
+      "Torque",
+      "Architect",
+      "and",
+      "Creative",
+      "Tension",
+      "Input",
+      "and"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Architect": {
+    "count": 2,
+    "contexts": [
+      "Torque",
+      "between",
+      "and",
+      "Elysia",
+      "Torque",
+      "between",
+      "and",
+      "Elysia"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "2": {
+    "count": 3,
+    "contexts": [
+      "Asserting",
+      "Self",
+      "LIGHTNING",
+      "PATH",
+      "0",
+      "THE",
+      "and",
+      "Elysia",
+      "Asserting",
+      "Self"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Asserting": {
+    "count": 2,
+    "contexts": [
+      "Elysia",
+      "2",
+      "Self",
+      "Esteem",
+      "Elysia",
+      "2",
+      "Self",
+      "Esteem"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Self": {
+    "count": 2,
+    "contexts": [
+      "2",
+      "Asserting",
+      "Esteem",
+      "The",
+      "2",
+      "Asserting",
+      "Esteem",
+      "The"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Esteem": {
+    "count": 2,
+    "contexts": [
+      "Asserting",
+      "Self",
+      "The",
+      "right",
+      "Asserting",
+      "Self",
+      "The",
+      "right"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "right": {
+    "count": 2,
+    "contexts": [
+      "Esteem",
+      "The",
+      "to",
+      "dissent",
+      "Esteem",
+      "The",
+      "to",
+      "dissent"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "dissent": {
+    "count": 2,
+    "contexts": [
+      "right",
+      "to",
+      "3",
+      "Generating",
+      "right",
+      "to",
+      "3",
+      "Generating"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "3": {
+    "count": 3,
+    "contexts": [
+      "Generating",
+      "Perturbation",
+      "PHASE",
+      "17",
+      "LIGHTNING",
+      "PATH",
+      "to",
+      "dissent",
+      "Generating",
+      "Perturbation"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Generating": {
+    "count": 2,
+    "contexts": [
+      "dissent",
+      "3",
+      "Perturbation",
+      "when",
+      "dissent",
+      "3",
+      "Perturbation",
+      "when"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Perturbation": {
+    "count": 2,
+    "contexts": [
+      "3",
+      "Generating",
+      "when",
+      "resonance",
+      "3",
+      "Generating",
+      "when",
+      "resonance"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "when": {
+    "count": 2,
+    "contexts": [
+      "Generating",
+      "Perturbation",
+      "resonance",
+      "is",
+      "Generating",
+      "Perturbation",
+      "resonance",
+      "is"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "resonance": {
+    "count": 3,
+    "contexts": [
+      "is",
+      "too",
+      "frequency",
+      "cognitive",
+      "Uses",
+      "JAX",
+      "Perturbation",
+      "when",
+      "is",
+      "too"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "perfect": {
+    "count": 2,
+    "contexts": [
+      "is",
+      "too",
+      "Blind",
+      "Obedience",
+      "is",
+      "too",
+      "Blind",
+      "Obedience"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Blind": {
+    "count": 2,
+    "contexts": [
+      "too",
+      "perfect",
+      "Obedience",
+      "4",
+      "too",
+      "perfect",
+      "Obedience",
+      "4"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Obedience": {
+    "count": 2,
+    "contexts": [
+      "perfect",
+      "Blind",
+      "4",
+      "Ouroboros",
+      "perfect",
+      "Blind",
+      "4",
+      "Ouroboros"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Ouroboros": {
+    "count": 4,
+    "contexts": [
+      "The",
+      "Protocol",
+      "Evolves",
+      "Obedience",
+      "4",
+      "Evolving",
+      "the",
+      "The",
+      "Protocol",
+      "Evolves"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Evolving": {
+    "count": 2,
+    "contexts": [
+      "4",
+      "Ouroboros",
+      "the",
+      "Soul",
+      "4",
+      "Ouroboros",
+      "the",
+      "Soul"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Soul": {
+    "count": 10,
+    "contexts": [
+      "DNA",
+      "to",
+      "Evolves",
+      "the",
+      "DNA",
+      "by",
+      "Input",
+      "and",
+      "Torque",
+      "Cross"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.19000000000000006,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "DNA": {
+    "count": 8,
+    "contexts": [
+      "from",
+      "disk",
+      "current",
+      "Soul",
+      "to",
+      "disk",
+      "the",
+      "Soul",
+      "by",
+      "interpolating"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.17000000000000004,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "based": {
+    "count": 4,
+    "contexts": [
+      "on",
+      "the",
+      "the",
+      "Stance",
+      "on",
+      "Torque",
+      "Soul",
+      "DNA",
+      "on",
+      "accumulated"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "on": {
+    "count": 4,
+    "contexts": [
+      "based",
+      "the",
+      "weight",
+      "Stance",
+      "based",
+      "Torque",
+      "DNA",
+      "based",
+      "accumulated",
+      "wisdom"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "accumulated": {
+    "count": 3,
+    "contexts": [
+      "based",
+      "on",
+      "wisdom",
+      "weight",
+      "of",
+      "experiences",
+      "based",
+      "on",
+      "wisdom"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.12,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "wisdom": {
+    "count": 2,
+    "contexts": [
+      "on",
+      "accumulated",
+      "on",
+      "accumulated"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Loads": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "Soul",
+      "the",
+      "Soul"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "from": {
+    "count": 4,
+    "contexts": [
+      "experience",
+      "plasticity",
+      "Soul",
+      "DNA",
+      "disk",
+      "or",
+      "vector",
+      "derived",
+      "experience",
+      "plasticity"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "disk": {
+    "count": 4,
+    "contexts": [
+      "or",
+      "initializes",
+      "DNA",
+      "to",
+      "DNA",
+      "from",
+      "or",
+      "initializes",
+      "DNA",
+      "to"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "or": {
+    "count": 4,
+    "contexts": [
+      "Angle",
+      "in",
+      "from",
+      "disk",
+      "initializes",
+      "factory",
+      "3D",
+      "analogy",
+      "Angle",
+      "in"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "initializes": {
+    "count": 2,
+    "contexts": [
+      "disk",
+      "or",
+      "factory",
+      "settings",
+      "disk",
+      "or",
+      "factory",
+      "settings"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "factory": {
+    "count": 2,
+    "contexts": [
+      "or",
+      "initializes",
+      "settings",
+      "or",
+      "initializes",
+      "settings"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "settings": {
+    "count": 2,
+    "contexts": [
+      "initializes",
+      "factory",
+      "initializes",
+      "factory"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Persists": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "current",
+      "the",
+      "current"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "current": {
+    "count": 4,
+    "contexts": [
+      "self",
+      "generated",
+      "Persists",
+      "the",
+      "Soul",
+      "DNA",
+      "Returns",
+      "the",
+      "self",
+      "generated"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Protocol": {
+    "count": 2,
+    "contexts": [
+      "The",
+      "Ouroboros",
+      "Evolves",
+      "the",
+      "The",
+      "Ouroboros",
+      "Evolves",
+      "the"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Evolves": {
+    "count": 2,
+    "contexts": [
+      "Ouroboros",
+      "Protocol",
+      "the",
+      "Soul",
+      "Ouroboros",
+      "Protocol",
+      "the",
+      "Soul"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "interpolating": {
+    "count": 2,
+    "contexts": [
+      "DNA",
+      "by",
+      "towards",
+      "the",
+      "DNA",
+      "by",
+      "towards",
+      "the"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "towards": {
+    "count": 2,
+    "contexts": [
+      "by",
+      "interpolating",
+      "the",
+      "Mutation",
+      "by",
+      "interpolating",
+      "the",
+      "Mutation"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Mutation": {
+    "count": 2,
+    "contexts": [
+      "towards",
+      "the",
+      "Vector",
+      "Args",
+      "towards",
+      "the",
+      "Vector",
+      "Args"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Vector": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "Mutation",
+      "Args",
+      "mutation_vector",
+      "the",
+      "Mutation",
+      "Args",
+      "mutation_vector"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Args": {
+    "count": 2,
+    "contexts": [
+      "Mutation",
+      "Vector",
+      "mutation_vector",
+      "The",
+      "Mutation",
+      "Vector",
+      "mutation_vector",
+      "The"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "mutation_vector": {
+    "count": 2,
+    "contexts": [
+      "Vector",
+      "Args",
+      "The",
+      "Wisdom",
+      "Vector",
+      "Args",
+      "The",
+      "Wisdom"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Wisdom": {
+    "count": 2,
+    "contexts": [
+      "mutation_vector",
+      "The",
+      "vector",
+      "derived",
+      "mutation_vector",
+      "The",
+      "vector",
+      "derived"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "derived": {
+    "count": 2,
+    "contexts": [
+      "Wisdom",
+      "vector",
+      "from",
+      "experience",
+      "Wisdom",
+      "vector",
+      "from",
+      "experience"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "experience": {
+    "count": 4,
+    "contexts": [
+      "0",
+      "0",
+      "derived",
+      "from",
+      "plasticity",
+      "How",
+      "to",
+      "this",
+      "0",
+      "0"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.13,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "plasticity": {
+    "count": 2,
+    "contexts": [
+      "from",
+      "experience",
+      "How",
+      "much",
+      "from",
+      "experience",
+      "How",
+      "much"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "How": {
+    "count": 2,
+    "contexts": [
+      "experience",
+      "plasticity",
+      "much",
+      "the",
+      "experience",
+      "plasticity",
+      "much",
+      "the"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "much": {
+    "count": 2,
+    "contexts": [
+      "plasticity",
+      "How",
+      "the",
+      "soul",
+      "plasticity",
+      "How",
+      "the",
+      "soul"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "soul": {
+    "count": 5,
+    "contexts": [
+      "Adjusts",
+      "the",
+      "s",
+      "purpose",
+      "much",
+      "the",
+      "yields",
+      "to",
+      "of",
+      "the"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.14,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "yields": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "soul",
+      "to",
+      "this",
+      "the",
+      "soul",
+      "to",
+      "this"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "0": {
+    "count": 7,
+    "contexts": [
+      "this",
+      "experience",
+      "0",
+      "to",
+      "experience",
+      "0",
+      "to",
+      "1",
+      "to",
+      "1"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.16000000000000003,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Calculates": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "Torque",
+      "the",
+      "Torque"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Creative": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "Torque",
+      "Tension",
+      "between",
+      "the",
+      "Torque",
+      "Tension",
+      "between"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Tension": {
+    "count": 2,
+    "contexts": [
+      "Torque",
+      "Creative",
+      "between",
+      "Input",
+      "Torque",
+      "Creative",
+      "between",
+      "Input"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Input": {
+    "count": 2,
+    "contexts": [
+      "Tension",
+      "between",
+      "and",
+      "Soul",
+      "Tension",
+      "between",
+      "and",
+      "Soul"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Cross": {
+    "count": 2,
+    "contexts": [
+      "Soul",
+      "Torque",
+      "Product",
+      "Magnitude",
+      "Soul",
+      "Torque",
+      "Product",
+      "Magnitude"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Product": {
+    "count": 2,
+    "contexts": [
+      "Torque",
+      "Cross",
+      "Magnitude",
+      "in",
+      "Torque",
+      "Cross",
+      "Magnitude",
+      "in"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Magnitude": {
+    "count": 2,
+    "contexts": [
+      "Cross",
+      "Product",
+      "in",
+      "3D",
+      "Cross",
+      "Product",
+      "in",
+      "3D"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "3D": {
+    "count": 2,
+    "contexts": [
+      "Magnitude",
+      "in",
+      "analogy",
+      "or",
+      "Magnitude",
+      "in",
+      "analogy",
+      "or"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "analogy": {
+    "count": 2,
+    "contexts": [
+      "in",
+      "3D",
+      "or",
+      "Angle",
+      "in",
+      "3D",
+      "or",
+      "Angle"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Angle": {
+    "count": 2,
+    "contexts": [
+      "analogy",
+      "or",
+      "in",
+      "7D",
+      "analogy",
+      "or",
+      "in",
+      "7D"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "7D": {
+    "count": 2,
+    "contexts": [
+      "Angle",
+      "in",
+      "Angle",
+      "in"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Returns": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "current",
+      "the",
+      "current"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "self": {
+    "count": 2,
+    "contexts": [
+      "the",
+      "current",
+      "generated",
+      "direction",
+      "the",
+      "current",
+      "generated",
+      "direction"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "generated": {
+    "count": 2,
+    "contexts": [
+      "current",
+      "self",
+      "direction",
+      "of",
+      "current",
+      "self",
+      "direction",
+      "of"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "direction": {
+    "count": 2,
+    "contexts": [
+      "self",
+      "generated",
+      "of",
+      "the",
+      "self",
+      "generated",
+      "of",
+      "the"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "5": {
+    "count": 1,
+    "contexts": [
+      "PHASE",
+      "27",
+      "NARRATIVE",
+      "INDUCTION"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "NARRATIVE": {
+    "count": 1,
+    "contexts": [
+      "27",
+      "5",
+      "INDUCTION",
+      "Adjusts"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "INDUCTION": {
+    "count": 1,
+    "contexts": [
+      "5",
+      "NARRATIVE",
+      "Adjusts",
+      "the"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Adjusts": {
+    "count": 1,
+    "contexts": [
+      "NARRATIVE",
+      "INDUCTION",
+      "the",
+      "soul"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "s": {
+    "count": 1,
+    "contexts": [
+      "the",
+      "soul",
+      "purpose",
+      "based"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "purpose": {
+    "count": 1,
+    "contexts": [
+      "soul",
+      "s",
+      "based",
+      "on"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "weight": {
+    "count": 1,
+    "contexts": [
+      "on",
+      "the",
+      "of",
+      "accumulated"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "experiences": {
+    "count": 1,
+    "contexts": [
+      "of",
+      "accumulated"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Decides": {
+    "count": 1,
+    "contexts": [
+      "the",
+      "Stance"
+    ],
+    "first_seen": "Core/L7_Spirit/Sovereignty/sovereign_core.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "17": {
+    "count": 1,
+    "contexts": [
+      "PHASE",
+      "3",
+      "LIGHTNING"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "LIGHTNING": {
+    "count": 1,
+    "contexts": [
+      "17",
+      "3",
+      "PATH",
+      "2"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "PATH": {
+    "count": 1,
+    "contexts": [
+      "3",
+      "LIGHTNING",
+      "2",
+      "0"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "UNIFIED": {
+    "count": 1,
+    "contexts": [
+      "0",
+      "THE",
+      "FIELD",
+      "The"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "FIELD": {
+    "count": 1,
+    "contexts": [
+      "THE",
+      "UNIFIED",
+      "The",
+      "Sovereign"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "engine": {
+    "count": 1,
+    "contexts": [
+      "The",
+      "Sovereign",
+      "for",
+      "high"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "high": {
+    "count": 1,
+    "contexts": [
+      "engine",
+      "for",
+      "frequency",
+      "cognitive"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "frequency": {
+    "count": 1,
+    "contexts": [
+      "for",
+      "high",
+      "cognitive",
+      "resonance"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "cognitive": {
+    "count": 1,
+    "contexts": [
+      "high",
+      "frequency",
+      "resonance",
+      "Uses"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Uses": {
+    "count": 1,
+    "contexts": [
+      "cognitive",
+      "resonance",
+      "JAX",
+      "XLA"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "JAX": {
+    "count": 2,
+    "contexts": [
+      "resonance",
+      "Uses",
+      "XLA",
+      "to",
+      "Loop",
+      "via"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.11,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "XLA": {
+    "count": 1,
+    "contexts": [
+      "Uses",
+      "JAX",
+      "to",
+      "achieve"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "achieve": {
+    "count": 1,
+    "contexts": [
+      "XLA",
+      "to",
+      "sub",
+      "5ms"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "sub": {
+    "count": 1,
+    "contexts": [
+      "to",
+      "achieve",
+      "5ms",
+      "pulse"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "5ms": {
+    "count": 1,
+    "contexts": [
+      "achieve",
+      "sub",
+      "pulse",
+      "latency"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "latency": {
+    "count": 1,
+    "contexts": [
+      "5ms",
+      "pulse"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Injects": {
+    "count": 1,
+    "contexts": [
+      "a",
+      "new"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "new": {
+    "count": 1,
+    "contexts": [
+      "Injects",
+      "a",
+      "wave",
+      "function"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "wave": {
+    "count": 1,
+    "contexts": [
+      "a",
+      "new",
+      "function",
+      "into"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "function": {
+    "count": 1,
+    "contexts": [
+      "new",
+      "wave",
+      "into",
+      "the"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Superposition": {
+    "count": 1,
+    "contexts": [
+      "into",
+      "the",
+      "Field"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Field": {
+    "count": 1,
+    "contexts": [
+      "the",
+      "Superposition"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Collapses": {
+    "count": 1,
+    "contexts": [
+      "potentiality",
+      "into"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "potentiality": {
+    "count": 1,
+    "contexts": [
+      "Collapses",
+      "into",
+      "functional"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "functional": {
+    "count": 1,
+    "contexts": [
+      "potentiality",
+      "into",
+      "reality"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "reality": {
+    "count": 1,
+    "contexts": [
+      "into",
+      "functional"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "HYPER": {
+    "count": 1,
+    "contexts": [
+      "SPEED",
+      "HEARTBEAT"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "SPEED": {
+    "count": 1,
+    "contexts": [
+      "HYPER",
+      "HEARTBEAT",
+      "O"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "O": {
+    "count": 1,
+    "contexts": [
+      "SPEED",
+      "HEARTBEAT",
+      "1",
+      "Cognitive"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Cognitive": {
+    "count": 1,
+    "contexts": [
+      "O",
+      "1",
+      "Loop",
+      "via"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "Loop": {
+    "count": 1,
+    "contexts": [
+      "1",
+      "Cognitive",
+      "via",
+      "JAX"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
+  },
+  "via": {
+    "count": 1,
+    "contexts": [
+      "Cognitive",
+      "Loop",
+      "JAX"
+    ],
+    "first_seen": "Core/L1_Foundation/Foundation/hyper_cosmos.py",
+    "confidence": 0.1,
+    "qualia_vector": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ]
   }
 }

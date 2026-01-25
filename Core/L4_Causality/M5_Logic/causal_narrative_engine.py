@@ -80,6 +80,7 @@ from enum import Enum
 import logging
 import time
 import random
+import os
 
 from Core.L5_Mental.M1_Cognition.metacognition import MaturityModel, CognitiveMetrics
 
@@ -627,13 +628,61 @@ class CausalKnowledgeBase:
     Causal Knowledge Base
     Stores nodes, links, chains, and context planes.
     """
-    def __init__(self):
+    def __init__(self, persistence_path: Optional[str] = None):
         self.nodes: Dict[str, CausalNode] = {}
         self.links: Dict[str, CausalLink] = {}
         self.outgoing: Dict[str, List[str]] = defaultdict(list)
         self.incoming: Dict[str, List[str]] = defaultdict(list)
         self.chains: List[CausalChain] = []
         self.planes: List[ContextPlane] = []
+        self.persistence_path = persistence_path
+        
+        if self.persistence_path:
+            self.load_narrative()
+
+    def save_narrative(self):
+        """Persists the causal knowledge base to disk."""
+        if not self.persistence_path: return
+        
+        from dataclasses import asdict
+        import json
+        
+        data = {
+            "nodes": {k: asdict(v) for k, v in self.nodes.items()},
+            "links": {k: {**asdict(v), "relation": v.relation.value} for k, v in self.links.items()},
+        }
+        
+        try:
+            os.makedirs(os.path.dirname(self.persistence_path), exist_ok=True)
+            with open(self.persistence_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+            logger.info(f"📚 [CAUSAL_KB] Narrative saved to {self.persistence_path}")
+        except Exception as e:
+            logger.error(f"❌ [CAUSAL_KB] Save failed: {e}")
+
+    def load_narrative(self):
+        """Loads the causal knowledge base from disk."""
+        if not self.persistence_path or not os.path.exists(self.persistence_path): return
+        
+        import json
+        try:
+            with open(self.persistence_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                
+            for nid, n_data in data.get("nodes", {}).items():
+                self.nodes[nid] = CausalNode(**n_data)
+                
+            for lid, l_data in data.get("links", {}).items():
+                rel_str = l_data.pop("relation")
+                l_data["relation"] = CausalRelationType(rel_str)
+                link = CausalLink(**l_data)
+                self.links[lid] = link
+                self.outgoing[link.source_id].append(lid)
+                self.incoming[link.target_id].append(lid)
+                
+            logger.info(f"📚 [CAUSAL_KB] Narrative loaded. Nodes: {len(self.nodes)}")
+        except Exception as e:
+            logger.error(f"❌ [CAUSAL_KB] Load failed: {e}")
 
     
     def add_node(self, node: CausalNode) -> CausalNode:
