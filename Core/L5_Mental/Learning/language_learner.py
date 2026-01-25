@@ -201,10 +201,10 @@ class LanguageLearner:
         words = [w.strip() for w in words if len(w.strip()) > 0]
         return words
     
-    def generate_by_resonance(self, target_vector: np.ndarray, top_k: int = 5) -> str:
+    def generate_by_resonance(self, target_vector: np.ndarray, top_k: int = 1) -> str:
         """
-        [SOVEREIGN SYNTHESIS]
-        Chooses words that RESONATE with the target 7D Qualia vector.
+        [SOVEREIGN SYNTHESIS - DETERMINISTIC]
+        Chooses the word that has the ABSOLUTE strongest resonance with the target 7D Qualia vector.
         """
         if not self.vocabulary:
             return "..."
@@ -212,40 +212,47 @@ class LanguageLearner:
         target_norm = np.linalg.norm(target_vector)
         if target_norm == 0: target_vector = np.array([0.1]*7); target_norm = np.linalg.norm(target_vector)
 
-        candidates = []
+        best_word = "..."
+        max_resonance = -1.0
+        
         for word, info in self.vocabulary.items():
             v = np.array(info.qualia_vector)
-            dot = np.dot(v, target_vector)
             v_norm = np.linalg.norm(v)
-            resonance = dot / (v_norm * target_norm) if v_norm > 0 else 0
+            resonance = np.dot(v, target_vector) / (v_norm * target_norm) if v_norm > 0 else 0
             
-            candidates.append((word, resonance))
-            
-        top = sorted(candidates, key=lambda x: x[1], reverse=True)[:top_k]
-        words = [w for w, r in top]
-        return np.random.choice(words) if words else "..."
+            if resonance > max_resonance:
+                max_resonance = resonance
+                best_word = word
+                
+        return best_word
 
     def generate_narrative_from_qualia(self, target_vector: np.ndarray, length: int = 5) -> str:
         """
-        [MONADIC SYNTHESIS]
-        Assembles a narrative that resonates with the given Qualia vector.
-        This moves away from hard-coded templates to emergent expression.
+        [MONADIC SYNTHESIS - DETERMINISTIC]
+        Assembles a narrative by following the path of maximum resonance.
+        No random sampling; every word is the unique logical consequence of the state.
         """
         if not self.vocabulary: return "..."
         
-        # 1. Pick a seed word that resonates most strongly
-        seed = self.generate_by_resonance(target_vector, top_k=10)
+        # 1. Start with the absolute strongest seed
+        target_norm = np.linalg.norm(target_vector)
+        if target_norm == 0: target_vector = np.array([0.1]*7); target_norm = np.linalg.norm(target_vector)
+
+        # 1. Start with the absolute strongest seed
+        seed = self.generate_by_resonance(target_vector, top_k=1)
         sentence = [seed]
         current = seed
         
-        target_norm = np.linalg.norm(target_vector)
-        if target_norm == 0: target_vector = np.array([0.1]*7); target_norm = np.linalg.norm(target_vector)
+        # [PHASE_EVOLUTION] The act of expression shifts the internal state
+        evolving_target = target_vector.copy()
 
         for _ in range(length - 1):
             next_counts = self.bigrams.get(current)
             if not next_counts: break
             
-            candidates = []
+            best_next = None
+            max_score = -1.0
+            
             total_count = sum(next_counts.values())
             for next_word, count in next_counts.items():
                 word_info = self.vocabulary.get(next_word)
@@ -253,20 +260,26 @@ class LanguageLearner:
                 
                 v = np.array(word_info.qualia_vector)
                 v_norm = np.linalg.norm(v)
-                resonance = np.dot(v, target_vector) / (v_norm * target_norm) if v_norm > 0 else 0
+                resonance = np.dot(v, evolving_target) / (v_norm * target_norm) if v_norm > 0 else 0
                 
-                # Weight = (Probability^2) * (1 + Resonance)
-                # We square probability to favor learned patterns while allowing qualia bias
-                score = ((count / total_count)**2) * (1.5 + resonance)
-                candidates.append((next_word, score))
+                score = (count / total_count) * (1.0 + resonance)
+                
+                if score > max_score:
+                    max_score = score
+                    best_next = next_word
             
-            if not candidates: break
+            if not best_next: break
             
-            candidates.sort(key=lambda x: x[1], reverse=True)
-            # Pick from top candidates to allow variety
-            next_word = np.random.choice([c[0] for c in candidates[:3]])
-            sentence.append(next_word)
-            current = next_word
+            # Update state: Current word 'exhausts' some of its resonance, 
+            # or shifts the focus slightly to prefer variety in the SAME sentence.
+            v_best = np.array(self.vocabulary[best_next].qualia_vector)
+            evolving_target = evolving_target * 0.9 + v_best * 0.1 # Move towards the expressed word
+            evolving_target /= np.linalg.norm(evolving_target)
+            
+            sentence.append(best_next)
+            current = best_next
+            
+        return " ".join(sentence)
             
         return " ".join(sentence)
 

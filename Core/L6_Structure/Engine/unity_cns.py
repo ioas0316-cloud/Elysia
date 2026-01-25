@@ -143,6 +143,9 @@ class UnityCNS:
             concepts=spectrum.keywords if hasattr(spectrum, 'keywords') else [],
             emotional_valence=torque_data.get('torque', 0.0)
         ))
+        # [THE ARROW OF TIME] Expression is evolution. The state shifts simply by being expressed.
+        self.sovereign.evolve(current_field.to_numpy().tolist(), plasticity=0.005)
+        
         # Persistence
         self.kb.save_narrative()
 
