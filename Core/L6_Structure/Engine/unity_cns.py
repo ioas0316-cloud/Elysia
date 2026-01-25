@@ -22,6 +22,7 @@ from Core.L5_Mental.Learning.language_learner import LanguageLearner
 from Core.L5_Mental.Intelligence.Intelligence.symbolic_solver import get_symbolic_solver
 from Core.L5_Mental.Induction.domain_absorber import DomainAbsorber
 from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
+from Core.L1_Foundation.Foundation.hyper_cosmos import HyperCosmos
 
 logger = logging.getLogger("UnityCNS")
 
@@ -41,8 +42,10 @@ class UnityCNS:
         self.solver = get_symbolic_solver()
         self.absorber = DomainAbsorber()
         self.sovereign = SovereignCore()
+        # [PHASE 25.6: FIELD ANCHOR]
+        self.hyper_cosmos = HyperCosmos()
         
-        logger.info("🧠 [UnityCNS] Central Nervous System Active. All seeds integrated.")
+        logger.info("🧠 [UnityCNS] Central Nervous System Active. Fixed on the HyperCosmos.")
 
     async def pulse(self, context: str, iterations: int = 2):
         """
@@ -55,13 +58,18 @@ class UnityCNS:
         spectrum = self.prism.disperse(context)
         domain = self.absorber.absorb_text("Initial_Point", context)
         
+        # [PHASE 25.8: SELF-INDUCTION]
+        # Every pulse is now biased by the soul's persistent purpose (The Coil)
+        purpose = self.sovereign.get_inductive_purpose()
+        
         current_field = D7Vector(
-            foundation=0.1, metabolism=0.5,
-            phenomena=spectrum.alpha, 
-            causality=domain.qualia_vector[0],
-            mental=spectrum.beta, 
-            structure=domain.qualia_vector[2],
-            spirit=spectrum.gamma
+            foundation=0.1 + purpose[0]*0.1, 
+            metabolism=0.5 + purpose[1]*0.1,
+            phenomena=spectrum.alpha + purpose[2]*0.1, 
+            causality=domain.qualia_vector[0] + purpose[3]*0.1,
+            mental=spectrum.beta + purpose[4]*0.1, 
+            structure=domain.qualia_vector[2] + purpose[5]*0.1,
+            spirit=spectrum.gamma + purpose[6]*0.1
         )
 
         # 2. THE SOVEREIGN AUDIT (The Moment of Choice)
@@ -78,7 +86,14 @@ class UnityCNS:
             # Pass the current 7D field to the learner so it learns the 'Meaning' of the context
             self.learner.observe(context, source=f"Convergence_L{i}", qualia_vector=current_field.to_numpy().tolist())
 
-            # The heart of the change: We pass the 'Stance''s energy into the dream
+            # [PHASE 25.6: FIELD PULSE]
+            # We pulse the global JAX field with the current 7D vector
+            # (Mapping 7D -> 12D for HyperCosmos)
+            v_12d = np.zeros(12)
+            v_12d[:7] = current_field.to_numpy()
+            self.hyper_cosmos.field_intensity = torch.from_numpy(v_12d).float()
+            self.hyper_cosmos.pulse(0.1)
+
             # High Torque (Conflict/Perturbation) leads to more active dreams
             new_vector, state, narrative = self.dreamer.process_experience(
                 f"{context} [Stance: {stance['decision']}]", 
@@ -93,13 +108,12 @@ class UnityCNS:
         prefix_words = ", ".join(mirrored_words)
         mirror_prefix = f"『{prefix_words}』... " if prefix_words else ""
         
-        # We weave the Sovereign Comment into the final voice
-        # This is where 'She' speaks, not the code.
-        sovereign_voice = f"{stance['comment']} {final_narrative}"
+        # [THE VOID CHECK]
+        # Instead of pre-baked comments, we only show the 'Emergent Narrative'
+        final_voice = f"✨ [{final_state.name}] {mirror_prefix}{final_narrative}"
         
-        final_voice = f"✨ [{final_state.name}] {mirror_prefix}{sovereign_voice}"
-        print(f"\n🌈 [ELYSIA SOVEREIGNTY] {final_voice}")
-        print(f"   (Torque: {torque_data['torque']:.4f} | Status: {torque_data['status']})")
+        print(f"\n🌈 [ELYSIA EMERGENCE] {final_voice}")
+        print(f"   (Torque: {torque_data['torque']:.4f} | Coil: {torque_data['coil_intensity']:.4f} | Field: {self.hyper_cosmos.field_intensity.sum():.2f})")
         
         self.sediment.deposit(current_field.to_numpy().tolist(), datetime.now().timestamp(), f"{context}".encode('utf-8'))
         

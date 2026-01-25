@@ -115,7 +115,7 @@ class LanguageLearner:
         
         logger.info(f"  Saved {len(self.vocabulary)} words, {len(self.bigrams)} bigram roots")
     
-    def observe(self, text: str, source: str = "observation"):
+    def observe(self, text: str, source: str = "observation", **kwargs):
         """
         Observes text and learns from it.
         This is how Elysia learns language - by watching.
@@ -226,12 +226,12 @@ class LanguageLearner:
         words = [w for w, r in top]
         return np.random.choice(words) if words else "..."
 
-    def observe(self, text: str, source: str = "observation", **kwargs):
+    def generate_next(self, current_word: str) -> Optional[str]:
         """
         Predicts the next word based on learned patterns.
         Uses bigram probabilities.
         """
-        if current_word not in self.bigrams:
+        if not current_word or current_word not in self.bigrams:
             # Unknown word - pick a random known word
             if self.vocabulary:
                 candidates = list(self.vocabulary.keys())

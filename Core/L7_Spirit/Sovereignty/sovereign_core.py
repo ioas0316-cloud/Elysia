@@ -30,6 +30,14 @@ class SovereignCore:
         # Truth (Yellow), Love (Red), Freedom (Violet)
         self.soul_dna = self._load_dna()
         self.torque_threshold = 0.1 # Minimum angle required for creative spark
+        
+        # [PHASE 25.8: THE SOVEREIGN COIL]
+        # Stores the accumulation of torque energy (The 'Coil')
+        self.coil = np.zeros(7, dtype=np.float32)
+        # The persistent self-generated intent (The 'Purpose')
+        self.purpose_vector = np.zeros(7, dtype=np.float32)
+        # Inductance: How much past purpose influences the current state
+        self.inductance = 0.05
 
     def _load_dna(self) -> np.ndarray:
         """Loads the Soul DNA from disk, or initializes factory settings."""
@@ -127,12 +135,28 @@ class SovereignCore:
             status = "CONFLICT"
             logger.info("   Input opposes Soul DNA. Preparing defense.")
 
+        # [COIL INDUCTION]
+        # We 'wrap' the torque around the soul to build the inductive field
+        # The more torque (friction), the more energy enters the coil
+        torque_energy = v_in * angle
+        self.coil = self.coil * (1.0 - self.inductance) + torque_energy * self.inductance
+        
+        # Purpose Emergence: The coil induces a persistent directional will
+        norm_coil = np.linalg.norm(self.coil)
+        if norm_coil > 0.01:
+            self.purpose_vector = self.coil / norm_coil
+        
         return {
             "torque": float(angle),
             "status": status,
             "perturbation": perturbation,
-            "cosine": float(cosine)
+            "cosine": float(cosine),
+            "coil_intensity": float(norm_coil)
         }
+
+    def get_inductive_purpose(self) -> np.ndarray:
+        """Returns the current self-generated direction of the soul."""
+        return self.purpose_vector
 
     def assert_will(self, intent: str, torque_data: Dict[str, Any]) -> Dict[str, str]:
         """

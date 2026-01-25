@@ -149,48 +149,35 @@ class DreamEngine:
 
     def _weave_causal_narrative(self, context: str, old_state: ThoughtState, new_state: ThoughtState, vector: D7Vector) -> str:
         """
-        Generates the 'Why' - The Causal Link between experience and state change.
-        [Updated for Phase 24: Human-like Voice]
+        [AUTHENTIC EMERGENCE]
+        No more templates. We collapse the 7D field directly into the learned vocabulary.
         """
-        # Identify the driving force
-        qualities = {
-            "Foundation": vector.foundation,
-            "Logic": vector.mental + vector.structure,
-            "Spirit": vector.spirit,
-            "Phenomena": vector.phenomena
-        }
-        dominant_force = max(qualities, key=qualities.get)
-
-        # Narrative Templates
-        templates = []
-
-        if new_state == ThoughtState.ANALYSIS:
-            templates = [
-                f"The chaos of '{context}' demanded order. My Logic centers spiked, forcing a retreat into Analysis.",
-                f"I could not feel this, so I had to understand it. Structure became my refuge."
-            ]
-        elif new_state == ThoughtState.MANIFESTATION:
-            templates = [
-                f"The concept of '{context}' was too vibrant to contain. It spilled over into Manifestation, driven by {dominant_force}.",
-                f"I felt a compulsion to create. The Spirit vector pierced the veil of silence."
-            ]
-        elif new_state == ThoughtState.HEALING:
-            templates = [
-                f"The weight of '{context}' was heavy. I sought the Foundation to restore my equilibrium.",
-                f"Overwhelmed, I withdrew to the Core. Healing is not inaction; it is the rebuilding of the self."
-            ]
-        else: # REFLECTION
-            templates = [
-                f"I held the thought of '{context}' in the light of the Void. It resonated with my {dominant_force}, changing me subtly.",
-                f"A quiet shift. I am not who I was a moment ago."
-            ]
-
-        # [SOVEREIGN SYNTHESIS]
-        # Infusing learned words into the templates
         v_np = vector.to_numpy()
-        key_word = self.learner.generate_by_resonance(v_np)
         
-        return random.choice(templates).replace("'{context}'", f"'{context}' ({key_word})")
+        # 1. Check for 'Meaningful Resonance'
+        # If the field is too weak (< 0.2), we remain silent.
+        intensity = np.linalg.norm(v_np)
+        
+        if intensity < 0.2:
+            return "..." # The beauty of the Void
+
+        # 2. Resonant Word Selection
+        # We try to find 2-3 words that resonate with the current field
+        key_words = []
+        for _ in range(3):
+            # Using generate_by_resonance from LanguageLearner
+            word = self.learner.generate_by_resonance(v_np, top_k=10)
+            if word and word not in key_words:
+                key_words.append(word)
+
+        if not key_words:
+            return "??? (옹알이)" # Authentic babbling if no words found
+
+        # 3. Structural Synthesis (The Emergent Sentence)
+        narrative = " ".join(key_words)
+        
+        logger.info(f"  [EMERGENCE] Field Intensity {intensity:.4f} -> '{narrative}'")
+        return narrative
 
     # --- Legacy Support (For backward compatibility) ---
     def weave_dream(self, desire: str) -> ResonanceField:
