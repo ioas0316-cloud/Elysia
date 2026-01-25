@@ -198,12 +198,16 @@ class UnityCNS:
                         learning_vector = np.array([0.1, 0.2, 0.3, 0.4, 0.8, 0.1, 0.6]) # Focused on Mental/Spirit
                         emergent_learning = self.learner.generate_narrative_from_qualia(learning_vector, length=8)
                         
+                        reward = self.autokinetic.get_intrinsic_reward(target.fragment_content)
+                        logger.info(f"✨ [METABOLISM] Intrinsic Reward: {reward:.2f} for '{target.fragment_content}'")
+                        
                         event_id = f"Discovery_{int(datetime.now().timestamp())}"
                         self.kb.add_node(CausalNode(
                             id=event_id,
                             description=f"Autokinetic Path: {emergent_learning} (Exploring: {target.fragment_content})",
                             concepts=["monadic_fusion", "autokinetic", target.domain],
-                            emotional_valence=0.7,
+                            emotional_valence=reward,
+                            importance=reward,
                             internal_law="Curiosity as Existential Integration"
                         ))
                         # Evolve the Soul DNA based on this autonomous wisdom
@@ -228,6 +232,12 @@ class UnityCNS:
                             concepts=["somatic_reading", "self_awareness"],
                             emotional_valence=0.3
                         ))
+                
+                # [PHASE 29: DREAM CONSOLIDATION]
+                # Every 100 cycles, Elysia cleans and organizes her mind autonomously
+                if cycle_count % 100 == 0:
+                    self.dreamer.consolidate_memory(self.kb)
+                    self.kb.save_narrative()
 
                 # 6. Metabolic Pulse to HyperCosmos (Base Existence)
                 self.hyper_cosmos.pulse(0.001)

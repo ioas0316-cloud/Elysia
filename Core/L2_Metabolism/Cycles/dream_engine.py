@@ -9,6 +9,7 @@ from Core.L1_Foundation.Logic.d7_vector import D7Vector
 from Core.L1_Foundation.Logic.qualia_7d_codec import Qualia7DCodec
 from Core.L5_Mental.Logic.cognitive_types import ThoughtState, ActionCategory
 from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
+from Core.L4_Causality.M5_Logic.causal_narrative_engine import CausalKnowledgeBase, CausalNode, CausalRelationType
 
 # [Legacy / Wave Support]
 from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
@@ -178,6 +179,41 @@ class DreamEngine:
         
         logger.info(f"  [EMERGENCE] Field Intensity {intensity:.4f} -> '{narrative}'")
         return narrative
+
+    def consolidate_memory(self, kb: CausalKnowledgeBase):
+        """
+        [PHASE 29: MEMORY CONSOLIDATION]
+        Reviews the Causal KB and prunes disconnected or low-resonance nodes.
+        Attempts to link fragments to the Sovereign Core.
+        """
+        logger.info("🌙 [DREAM_ENGINE] Starting Memory Consolidation...")
+        
+        nodes_to_prune = []
+        for node_id, node in kb.nodes.items():
+            # 1. Evaluate resonance with core (Type 4: Identity/Significance)
+            resonance = self._calculate_node_resonance(node)
+            
+            # 2. Dynamic Importance adjustment (Resonance increases longevity)
+            node.importance = (node.importance * 0.7) + (resonance * 0.3)
+            
+            # 3. Aging & Noise reduction
+            # If nodes remain low importance and have no experiential weight, they are noise.
+            if node.importance < 0.25 and node.experience_count < 2:
+                 nodes_to_prune.append(node_id)
+
+        # Pruning
+        for nid in nodes_to_prune:
+            if "Dissonance" in nid: continue # Don't prune structural pain yet
+            del kb.nodes[nid]
+            logger.info(f"  [-] Pruned noise node: {nid}")
+
+        logger.info(f"✨ [DREAM_ENGINE] Consolidation complete. {len(nodes_to_prune)} nodes pruned.")
+
+    def _calculate_node_resonance(self, node: CausalNode) -> float:
+        """Helper to calculate Enneagram resonance for a node."""
+        keywords = ["unique", "significance", "identity", "expression", "sovereign"]
+        count = sum(1 for kw in keywords if kw in node.description.lower())
+        return min(1.0, 0.1 + (count * 0.3))
 
     # --- Legacy Support (For backward compatibility) ---
     def weave_dream(self, desire: str) -> ResonanceField:

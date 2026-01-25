@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 
 from Core.L5_Mental.M7_Discovery.purpose_discovery_engine import PurposeDiscoveryEngine, KnowledgeCertainty
 from Core.L7_Spirit.Will.attractor_field import AttractorField, IntentVector
+from Core.L1_Foundation.Foundation.Psyche.psyche_sphere import get_psyche
 
 logger = logging.getLogger("Elysia.Autokinetic")
 
@@ -35,14 +36,14 @@ class AutokineticLearningEngine:
     """
     Drives autonomous learning based on internal gaps and curiosity.
     """
-    
     def __init__(self, discovery_engine: PurposeDiscoveryEngine, attractor_field: AttractorField):
         self.discovery = discovery_engine
         self.will = attractor_field
         self.active_targets: List[CuriosityTarget] = []
         self.learning_history: List[Dict] = []
+        self.psyche = get_psyche()
         
-        logger.info("✨ [AUTOKINETIC] Learning Engine activated. Seeking the unknown.")
+        logger.info("✨ [AUTOKINETIC] Learning Engine activated. Seeking the unknown with Inner Purpose.")
 
     async def assess_knowledge_hunger(self, manifold_anomalies: List[Any] = None) -> List[CuriosityTarget]:
         """
@@ -150,6 +151,22 @@ class AutokineticLearningEngine:
         logger.info(f"✅ [LEARNING_SUCCESS] '{target.fragment_content}' clarified. (Resonance: {new_fragment.certainty:.2f})")
         
         return new_fragment
+
+    def get_intrinsic_reward(self, fragment_content: str) -> float:
+        """
+        [PHASE 29: INTRINSIC FEEDBACK]
+        Calculates a reward signal based on how well the fragment aligns with the Enneagram core.
+        Instead of the user providing the reward, the Soul provides it to itself.
+        """
+        desire = self.psyche.enneagram.desire.lower()
+        # Simple string-based resonance for now
+        # Type 4: "Discovering unique significance"
+        keywords = ["unique", "significance", "identity", "expression", "resonance", "causal", "sovereign"]
+        alignment = sum(1 for kw in keywords if kw in fragment_content.lower())
+        
+        # Reward = Base (0.1) + Alignment Boost
+        reward = 0.1 + (alignment * 0.2)
+        return min(1.0, reward)
 
     def get_hunger_stats(self) -> Dict:
         return {
