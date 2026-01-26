@@ -22,7 +22,7 @@ class SomaticKernel:
     @staticmethod
     def fix_environment():
         """The 'Somatic Reflex' - Heals the environment before boot."""
-        print("?㎚ [SOMATIC] Initiating Autonomic Reflex Check...")
+        print("🧠 [SOMATIC] Initiating Autonomic Reflex Check...")
         
         # 1. Path Homeostasis
         required_dirs = [
@@ -47,7 +47,7 @@ class SomaticKernel:
             sys.path.insert(0, root)
             print("   >> [HEALED] Root synchronized with System Path.")
 
-        print("??[SOMATIC] Reflexes stable. Foundation is ready for the Mind.")
+        print("✅ [SOMATIC] Reflexes stable. Foundation is ready for the Mind.")
         return True
 
 if __name__ == "__main__":

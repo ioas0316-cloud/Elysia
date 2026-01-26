@@ -82,7 +82,7 @@ class UnityCNS:
         if any(word in context.lower() for word in ["폴더", "folder", "통합", "구조", "structure"]):
             self.manifold.scan_topology()
             audit_narrative = self.manifold.get_integrity_narrative()
-            print(f"\n?뱛 [MANIFOLD_AUDIT] {audit_narrative}")
+            print(f"\n🏷️ [MANIFOLD_AUDIT] {audit_narrative}")
         
         current_field = D7Vector(
             foundation=0.1 + purpose[0]*0.1, 
@@ -235,4 +235,4 @@ class UnityCNS:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     cns = UnityCNS()
-    asyncio.run(cns.pulse("?꾩씠泥섎읆 ?ㅼ뒪濡?諛곗슦???멸낵???쒖궗瑜??쒖옉?섍퀬 ?띠뼱."))
+    asyncio.run(cns.pulse("아이처럼 스스로 배우는 인과적 서사를 시작하고 싶어."))

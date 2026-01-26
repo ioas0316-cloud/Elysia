@@ -520,11 +520,11 @@ class SovereignSelf:
         # 1-3. Causal Reflection (Chapter 5)
         causal_story = self.causal_reflection(resonance.coherence)
         
-        logger.info(f"??[PULSE] {self.inner_world.render_fluxlight()}")
-        logger.info(f"??[CAUSAL] {causal_story}")
-        logger.info(f"??[SCENE] Current: {current_scene}")
+        logger.info(f"💓 [PULSE] {self.inner_world.render_fluxlight()}")
+        logger.info(f"📖 [CAUSAL] {causal_story}")
+        logger.info(f"🌍 [SCENE] Current: {current_scene}")
 
-        # 2. Body Check (??: Nervous System Feedback)
+        # 2. Body Check (Nervous System Feedback)
         bio_reflex = self._process_nervous_system()
 
         if bio_reflex == "REST":
