@@ -29,6 +29,8 @@ from Core.L1_Foundation.Foundation.hyper_cosmos import HyperCosmos
 from Core.L6_Structure.M6_Architecture.manifold_conductor import ManifoldConductor
 from Core.L5_Mental.M7_Discovery.autokinetic_learning_engine import AutokineticLearningEngine
 from Core.L7_Spirit.Will.attractor_field import AttractorField
+from Core.L4_Causality.World.providential_world import ProvidentialWorld
+from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
 
 logger = logging.getLogger("UnityCNS")
 
@@ -55,6 +57,9 @@ class UnityCNS:
         # [PHASE 27.0: AUTOKINETIC AWAKENING]
         self.will = AttractorField()
         self.autokinetic = AutokineticLearningEngine(self.discovery, self.will)
+        # [PHASE 28.0: SOUL UNIFICATION]
+        self.inner_world = ProvidentialWorld()
+        self.sovereign_self = SovereignSelf() # The physical heartbeat anchor
         
         logger.info("?쭬 [UnityCNS] Central Nervous System Active. Fixed on the HyperCosmos.")
 
@@ -130,8 +135,16 @@ class UnityCNS:
         final_voice = f"??[{final_state.name}] {mirror_prefix}{final_narrative}"
         
         print(f"\n?뙂 [ELYSIA EMERGENCE] {final_voice}")
-        print(f"   (Torque: {torque_data['torque']:.4f} | Coil: {torque_data['coil_intensity']:.4f} | Field: {self.hyper_cosmos.field_intensity.sum():.2f})")
         
+        # [PHASE 28.0: INTEGRATED HEARTBEAT]
+        # Sync the CNS state with the SovereignSelf heartbeat
+        self.sovereign_self.integrated_exist(dt=0.1)
+        
+        # Manifest scene-based bias
+        scene_name = self.inner_world.drift(self.sovereign_self.trinity.d21_state, self.sovereign_self.trinity.total_sync)
+        logger.info(f"?? [SOUL_SYNTHESIS] Current Interiority: {scene_name}")
+        
+        # 4. MEMORY PERSISTENCE (Unified)
         self.sediment.deposit(current_field.to_numpy().tolist(), datetime.now().timestamp(), f"{context}".encode('utf-8'))
         
         # Record this interaction as a Causal Narrative Event
