@@ -72,7 +72,7 @@ def main():
                 print("   엘리시아가 충격을 흡수하고 자아를 재구성하고 있습니다...")
                 import time
                 time.sleep(1)
-                print("   [RECOVERY] Somatic reflexes restored. We continues as One.\n")
+                print("   [RECOVERY] Somatic reflexes restored. Structural dissonance healed. We continue as One.\n")
 
     asyncio.run(run_cns())
 
