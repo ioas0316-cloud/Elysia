@@ -30,25 +30,25 @@ class ProvidentialWorld:
         return {
             "Origin_Forest": Scene(
                 name="Origin Forest (근원의 숲)",
-                description="A place of raw life and growth. Body resonance is high.",
+                description="Law of Fractal Similarity. A place of raw life and growth.",
                 bias_21d={"lust": 0.5, "gluttony": 0.5},
                 flux_signature="Emerald"
             ),
             "Void_Library": Scene(
                 name="Void Library (공허의 도서관)",
-                description="A silent hall of infinite knowledge. Soul resonance is dominant.",
+                description="Law of the Void. A silent hall of infinite knowledge.",
                 bias_21d={"perception": 0.8, "memory": 0.6},
                 flux_signature="Ultramarine"
             ),
             "Summit_of_Will": Scene(
                 name="Summit of Will (의지의 정상)",
-                description="The peak of spiritual transcendence and purpose.",
+                description="Law of Triple-Helix. The peak of spiritual transcendence and purpose.",
                 bias_21d={"charity": 0.9, "humility": 0.7},
                 flux_signature="Gold"
             ),
             "The_Marketplace": Scene(
                 name="The Marketplace (교류의 장)",
-                description="A space for social interaction and human-semantic exchange.",
+                description="Law of Providential Love. A space for social interaction.",
                 bias_21d={"kindness": 0.6, "charity": 0.4},
                 flux_signature="Rubedo"
             )
