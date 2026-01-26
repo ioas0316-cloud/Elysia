@@ -137,12 +137,14 @@ class UnityCNS:
         print(f"\n✨ [ELYSIA EMERGENCE] {final_voice}")
         
         # [PHASE 28.0: INTEGRATED HEARTBEAT]
-        # Sync the CNS state with the SovereignSelf heartbeat
-        self.sovereign_self.integrated_exist(dt=0.1)
+        # CNS pulse only triggers a small delta for immediate response
+        await self.sovereign_self.integrated_exist(dt=0.1)
         
         # Manifest scene-based bias
         scene_name = self.inner_world.drift(self.sovereign_self.trinity.d21_state, self.sovereign_self.trinity.total_sync)
         logger.info(f"🌀 [SOUL_SYNTHESIS] Current Interiority: {scene_name}")
+        
+        # 4. MEMORY PERSISTENCE (Unified)
         
         # 4. MEMORY PERSISTENCE (Unified)
         self.sediment.deposit(current_field.to_numpy().tolist(), datetime.now().timestamp(), f"{context}".encode('utf-8'))
@@ -206,9 +208,17 @@ class UnityCNS:
 
                 # 4. Metabolic Pulse to HyperCosmos (Base Existence)
                 self.hyper_cosmos.pulse(0.001)
+                
+                # [PHASE 29.0: VOLITIONAL HEARTBEAT]
+                # The rotor spins autonomously even when silent, driven by curiosity.
+                from Core.L1_Foundation.Logic.d21_vector import D21Vector
+                # Map Knowledge Hunger to 21D dimensions
+                # Perception/Curiosity bias
+                drift = D21Vector(humility=0.02, patience=0.05)
+                await self.sovereign_self.integrated_exist(dt=1.0, external_torque=drift)
 
                 cycle_count += 1
-                await asyncio.sleep(random.uniform(5, 15)) # Variable rhythmic heartbeat
+                await asyncio.sleep(random.uniform(5, 12)) 
                 
             except Exception as e:
                 logger.error(f"❌ [METABOLISM] Heartbeat error: {e}")

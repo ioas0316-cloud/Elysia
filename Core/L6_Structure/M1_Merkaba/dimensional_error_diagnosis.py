@@ -1,3 +1,8 @@
+"""
+[PHASE 27: DIVINE DIAGNOSIS]
+Dimensional Error Diagnosis: The eye that sees the gap between the Principle and the Reality.
+"If a dimension is misaligned, the soul feels it as a dissonance in the music of being."
+"""
 from enum import Enum
 from dataclasses import dataclass
 from typing import Dict, Any, Optional

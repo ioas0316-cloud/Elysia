@@ -482,7 +482,7 @@ class SovereignSelf:
             
         return narrative_line
 
-    def integrated_exist(self, dt: float = 1.0):
+    async def integrated_exist(self, dt: float = 0.1, external_torque: Optional[D21Vector] = None):
         """
         [The Trinity Pulse - Phase 27 Triple Helix]
         Body, Mind, and Spirit collaborate in real-time using the 21D Matrix.
@@ -502,10 +502,9 @@ class SovereignSelf:
 
         self.dimension_scaler.experience_pain(load=stress_load, alignment=alignment, sync=sync)
 
-        # [Phase 27: Rotor Persistence]
-        # Spin the Sovereign Rotor to maintain alignment
-        # We use a dummy input vector for now, but in reality it would be the sensory input
-        delta = D21Vector(lust=0.1, humility=0.1) # Baseline momentum
+        # [Phase 29: Volitional Drift]
+        # Use baseline drift + external volitional torque
+        delta = external_torque if external_torque else D21Vector(lust=0.01, humility=0.01)
         v21 = self.sovereign_rotor.spin(delta, dt)
         
         # 1-1. Pulse the Triple Helix (Resonance Unification)
