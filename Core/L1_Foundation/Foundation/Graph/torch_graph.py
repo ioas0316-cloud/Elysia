@@ -6,7 +6,7 @@ import torch
 import numpy as np
 from typing import Dict, List, Optional, Tuple
 from Core.L1_Foundation.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 23] Tesseract Unfolding
-from Core.L1_Foundation.Foundation.Memory.holographic_embedding import get_holographic_embedder # [Phase 24] Identity
+from Core.L2_Metabolism.Memory.holographic_embedding import get_holographic_embedder # [Phase 24] Identity
 
 from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
 

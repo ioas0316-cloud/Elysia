@@ -19,7 +19,7 @@ import sys
 # Adjust path to access Core
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
-from Core.L1_Foundation.Foundation.Memory.Orb.orb_manager import OrbManager
+from Core.L2_Metabolism.Memory.Orb.orb_manager import OrbManager
 from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
 
 # Initialize Logger

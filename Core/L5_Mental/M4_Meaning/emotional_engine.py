@@ -191,7 +191,7 @@ class EmotionalEngine:
             Poetic description of the emotional state
         """
         try:
-            from Core.L1_Foundation.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+            from Core.L5_Mental.linguistic_collapse import LinguisticCollapseProtocol
             
             if not hasattr(self, '_linguistic_protocol'):
                 language = getattr(self, '_preferred_language', 'ko')
@@ -261,7 +261,7 @@ class EmotionalEngine:
             Short poetic expression of the emotional state
         """
         try:
-            from Core.L1_Foundation.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+            from Core.L5_Mental.linguistic_collapse import LinguisticCollapseProtocol
             
             if not hasattr(self, '_linguistic_protocol'):
                 language = getattr(self, '_preferred_language', 'ko')
@@ -289,7 +289,7 @@ class EmotionalEngine:
             from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
             self._conversation_memory = create_conversation_memory(context_turns=context_turns)
         except ImportError:
-            raise ImportError("ConversationMemory system not available. Install Core.L1_Foundation.Foundation.Memory.conversation_memory")
+            raise ImportError("ConversationMemory system not available. Install Core.L2_Metabolism.Memory.conversation_memory")
     
     def record_conversation_turn(self,
                                 user_message: str,

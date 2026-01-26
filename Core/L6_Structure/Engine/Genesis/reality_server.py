@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.
 
 # Import the core logic directly (Avoid WorldServer overhead for now)
 try:
-    from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+    from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
     from Core.L6_Structure.Engine.character_field_engine import CharacterField
     from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
     from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA

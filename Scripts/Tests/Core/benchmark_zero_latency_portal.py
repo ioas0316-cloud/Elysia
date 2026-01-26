@@ -16,7 +16,7 @@ sys.path.append(os.getcwd())
 
 from Core.L6_Structure.Merkaba.portal import MerkabaPortal
 from Core.L6_Structure.System.Metabolism.zero_latency_portal import ZeroLatencyPortal
-from Core.L1_Foundation.Foundation.Nature.metal_field_bridge import MetalFieldBridge
+from Core.L6_Structure.Nature.metal_field_bridge import MetalFieldBridge
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

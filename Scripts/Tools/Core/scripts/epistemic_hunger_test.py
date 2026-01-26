@@ -16,7 +16,7 @@ import time
 # Ensure we can import from Core
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L1_Foundation.Foundation.Elysia.elysia_core import ElysiaCore
+from Core.L5_Mental.Elysia.elysia_core import ElysiaCore
 from Core.L1_Foundation.Foundation.causal_narrative_engine import ThoughtUniverse
 from Core.L1_Foundation.Foundation.gap_bridging import GapBridgingDrive
 from Core.L1_Foundation.Foundation.metacognition import GapReport

@@ -32,7 +32,7 @@ from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L5_Mental.Intelligence.Intelligence.concept_extractor import ConceptExtractor, ConceptDefinition
 from Core.L5_Mental.Intelligence.Intelligence.relationship_extractor import RelationshipExtractor, Relationship
-from Core.L1_Foundation.Foundation.grammar_engine import GrammarEmergenceEngine
+from Core.L5_Mental.grammar_engine import GrammarEmergenceEngine
 
 logger = logging.getLogger("RapidLearning")
 

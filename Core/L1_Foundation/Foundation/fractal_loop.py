@@ -7,9 +7,9 @@ import random
 
 # Core Dependencies
 try:
-    from Core.L1_Foundation.Foundation.fractal_causality import FractalCausalityEngine, FractalCausalNode
+    from Core.L4_Causality.fractal_causality import FractalCausalityEngine, FractalCausalNode
     from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
-    from Core.L1_Foundation.Foundation.chronos import Chronos
+    from Core.L4_Causality.chronos import Chronos
 except ImportError:
     # Fallback for minimal testing environment
     FractalCausalityEngine = None
@@ -24,13 +24,13 @@ except ImportError:
 
 # LifeCycle for complete feedback loop
 try:
-    from Core.L1_Foundation.Foundation.life_cycle import LifeCycle
+    from Core.L2_Metabolism.life_cycle import LifeCycle
 except ImportError:
     LifeCycle = None
 
 # GrowthJournal - visible evidence of change (uses existing SelfGovernance)
 try:
-    from Core.L1_Foundation.Foundation.growth_journal import get_growth_journal
+    from Core.L2_Metabolism.growth_journal import get_growth_journal
 except ImportError:
     get_growth_journal = None
 

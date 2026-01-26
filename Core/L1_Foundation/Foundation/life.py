@@ -7,7 +7,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
 from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
-from Core.L1_Foundation.Foundation.chronos import Chronos
+from Core.L4_Causality.chronos import Chronos
 
 # Configure logging
 logging.basicConfig(

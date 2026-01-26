@@ -18,7 +18,7 @@ import os
 import json # [PHASE 41]
 from typing import Dict, Optional, Any, List
 
-from Core.L1_Foundation.Foundation.Memory.unified_experience_core import get_experience_core
+from Core.L2_Metabolism.Memory.unified_experience_core import get_experience_core
 import numpy as np
 from Core.L4_Causality.World.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.L5_Mental.Intelligence.Education.CausalityMirror.variable_mesh import VariableMesh
@@ -241,7 +241,7 @@ class ElysianHeartbeat:
             except Exception as e: logger.warning(f"     voicebox failed: {e}")
 
             try:
-                from Core.L1_Foundation.Foundation.synesthesia_engine import SynesthesiaEngine
+                from Core.L3_Phenomena.synesthesia_engine import SynesthesiaEngine
                 self.synesthesia = SynesthesiaEngine()
                 logger.info("    synesthesia matured.")
             except Exception as e: logger.warning(f"     synesthesia failed: {e}")

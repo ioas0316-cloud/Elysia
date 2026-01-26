@@ -22,7 +22,7 @@ import warnings
 #       (         )
 warnings.warn(
     "Core.L1_Foundation.Foundation.internal_universe is deprecated. "
-    "Use Core.L1_Foundation.Foundation.Memory.Vector.internal_universe instead.",
+    "Use Core.L2_Metabolism.Memory.Vector.internal_universe instead.",
     DeprecationWarning,
     stacklevel=2
 )

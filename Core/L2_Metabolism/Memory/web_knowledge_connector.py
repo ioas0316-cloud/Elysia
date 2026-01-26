@@ -159,7 +159,7 @@ class WebKnowledgeConnector:
 
         # Check Memory for known tools
         try:
-            from Core.L1_Foundation.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
+            from Core.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore
             hippocampus = UnifiedExperienceCore() # Singleton access
             if hippocampus.holographic_memory:
                 # Ask: "What is a Search Engine?" -> Get connected concepts

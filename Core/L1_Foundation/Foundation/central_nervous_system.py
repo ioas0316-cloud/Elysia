@@ -3,7 +3,7 @@ import time
 import logging
 from typing import Dict, Any, Optional
 
-from Core.L1_Foundation.Foundation.chronos import Chronos
+from Core.L4_Causality.chronos import Chronos
 from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.fractal_loop import FractalLoop
 from Core.L4_Causality.Governance.conductor import get_conductor

@@ -13,7 +13,7 @@ import os
 import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L1_Foundation.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
+from Core.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore
 from Core.L5_Mental.Intelligence.Memory.holographic_memory import KnowledgeLayer
 
 # Setup

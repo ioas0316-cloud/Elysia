@@ -5,7 +5,7 @@ import subprocess
 from pathlib import Path
 from typing import List, Dict, Optional
 from Core.L5_Mental.Intelligence.Intelligence.code_cortex import CodeCortex
-from Core.L1_Foundation.Foundation.manifestation_matrix import ManifestationMatrix
+from Core.L3_Phenomena.manifestation_matrix import ManifestationMatrix
 from Core.L1_Foundation.Foundation.unified_field import WavePacket
 
 logger = logging.getLogger("RealitySculptor")

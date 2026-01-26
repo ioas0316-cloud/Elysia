@@ -9,15 +9,15 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 # [The New Biology]
-from Core.L1_Foundation.Foundation.genesis_handshake import verify_dimensional_integrity
+from Core.L7_Spirit.genesis_handshake import verify_dimensional_integrity
 from Core.L1_Foundation.Foundation.organ_system import OrganSystem
 from Core.L1_Foundation.Foundation.central_nervous_system import CentralNervousSystem
 from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
-from Core.L1_Foundation.Foundation.chronos import Chronos
+from Core.L4_Causality.chronos import Chronos
 from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.entropy_sink import EntropySink
 from Core.L1_Foundation.Foundation.synapse_bridge import SynapseBridge
-from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
 from Core.L5_Mental.Intelligence.Will.free_will_engine import FreeWillEngine
 from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.L1_Foundation.Foundation.autonomic_nervous_system import AutonomicNervousSystem, MemoryConsolidation, EntropyProcessor, SurvivalLoop, ResonanceDecay

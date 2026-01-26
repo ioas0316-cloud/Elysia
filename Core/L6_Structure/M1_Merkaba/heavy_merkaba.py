@@ -30,7 +30,7 @@ from typing import List, Dict, Any, Optional
 
 
 
-from Core.L1_Foundation.Foundation.Memory.fractal_causality import CausalRole
+from Core.L2_Metabolism.Memory.fractal_causality import CausalRole
 
 from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
 

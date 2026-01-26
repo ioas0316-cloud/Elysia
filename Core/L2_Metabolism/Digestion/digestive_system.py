@@ -7,7 +7,7 @@ logger = logging.getLogger("DigestiveSystem")
 from Core.L6_Structure.System.respiratory_system import RespiratorySystem
 from Core.L5_Mental.Intelligence.Metabolism.brain_digester import BrainDigester
 from Core.L5_Mental.Intelligence.Metabolism.prism import DoubleHelixPrism, DoubleHelixWave
-from Core.L1_Foundation.Foundation.Memory.fractal_causality import FractalCausalityEngine, CausalRole
+from Core.L2_Metabolism.Memory.fractal_causality import FractalCausalityEngine, CausalRole
 
 class DigestiveSystem:
     """

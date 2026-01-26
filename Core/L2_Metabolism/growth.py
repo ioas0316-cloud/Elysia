@@ -66,7 +66,7 @@ class Growth:
         """        (     )"""
         if self._heart is None:
             try:
-                from Core.L1_Foundation.Foundation.heart import get_heart
+                from Core.L2_Metabolism.heart import get_heart
                 self._heart = get_heart()
             except ImportError:
                 # Fallback: mock heart

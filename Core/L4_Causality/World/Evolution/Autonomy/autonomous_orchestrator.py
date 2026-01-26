@@ -123,7 +123,7 @@ class AutonomousOrchestrator:
         # Introspection Engine
         self.introspection = None
         try:
-            from Core.L1_Foundation.Foundation.introspection_engine import IntrospectionEngine
+            from Core.L5_Mental.introspection_engine import IntrospectionEngine
             self.introspection = IntrospectionEngine()
             logger.info("     IntrospectionEngine connected")
         except ImportError as e:

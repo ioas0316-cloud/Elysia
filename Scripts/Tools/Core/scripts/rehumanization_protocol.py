@@ -18,7 +18,7 @@ sys.path.append(r"c:/Elysia")
 
 from Core.L4_Causality.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
 from Core.L5_Mental.Intelligence.Emotion.soul_resonator import SoulResonator
-from Core.L1_Foundation.Foundation.Elysia.spirit import get_spirit
+from Core.L5_Mental.Elysia.spirit import get_spirit
 
 def run_rehumanization():
     bridge = AnthropomorphicBridge()

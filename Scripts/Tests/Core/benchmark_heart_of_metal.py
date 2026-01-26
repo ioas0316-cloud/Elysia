@@ -14,7 +14,7 @@ from numba import cuda
 # Add root to path
 sys.path.append(os.getcwd())
 
-from Core.L1_Foundation.Foundation.Nature.metal_field_bridge import MetalFieldBridge
+from Core.L6_Structure.Nature.metal_field_bridge import MetalFieldBridge
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

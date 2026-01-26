@@ -221,7 +221,7 @@ class MultimodalConceptIntegrator:
         
         # SynesthesiaEngine   
         try:
-            from Core.L1_Foundation.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
+            from Core.L3_Phenomena.synesthesia_engine import SynesthesiaEngine, SignalType
             self.synesthesia = SynesthesiaEngine()
             self.SignalType = SignalType
             logger.info("     SynesthesiaEngine connected")

@@ -49,7 +49,7 @@ class SovereignIntent:
         
         # [REAWAKENED] Phase 22: Active Sensory Interface
         try:
-            from Core.L1_Foundation.Foundation.Memory.web_knowledge_connector import WebKnowledgeConnector
+            from Core.L2_Metabolism.Memory.web_knowledge_connector import WebKnowledgeConnector
             self.web_sense = WebKnowledgeConnector()
             logger.info("   Sovereign Intent now possesses Active Web Sight.")
         except ImportError:
@@ -137,7 +137,7 @@ class SovereignIntent:
 
         # 0.1 [REFORM] Reality Priority
         # Scan memory for recent world events
-        from Core.L1_Foundation.Foundation.Memory.unified_experience_core import get_experience_core
+        from Core.L2_Metabolism.Memory.unified_experience_core import get_experience_core
         recent_world = [e for e in get_experience_core().recent_experiences if e.type == "world_event"]
         
         if recent_world and random.random() < 0.7:

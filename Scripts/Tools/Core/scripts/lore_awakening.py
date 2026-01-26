@@ -6,7 +6,7 @@ from typing import List
 # Path setup
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L1_Foundation.Foundation.Elysia.elysia_core import get_elysia_core
+from Core.L5_Mental.Elysia.elysia_core import get_elysia_core
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)s | %(message)s')

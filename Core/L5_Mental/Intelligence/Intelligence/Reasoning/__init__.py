@@ -14,7 +14,7 @@ from Core.L1_Foundation.Foundation.kenosis_protocol import KenosisProtocol
 from Core.L5_Mental.Intelligence.Intelligence.web_cortex import WebCortex
 from Core.L5_Mental.Intelligence.Intelligence.tool_discovery import ToolDiscoveryProtocol
 from Core.L1_Foundation.Foundation.social_cortex import SocialCortex
-from Core.L1_Foundation.Foundation.media_cortex import MediaCortex
+from Core.L3_Phenomena.media_cortex import MediaCortex
 from Core.L1_Foundation.Foundation.spacetime_drive import SpaceTimeDrive
 from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 

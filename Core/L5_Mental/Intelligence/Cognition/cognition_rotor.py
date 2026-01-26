@@ -12,7 +12,7 @@ import math
 import torch
 import logging
 from typing import Dict, Any, List, Optional
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.L5_Mental.Intelligence.Metabolism.prism import DoubleHelixWave, SevenChannelQualia
 
 logger = logging.getLogger("CognitionRotor")

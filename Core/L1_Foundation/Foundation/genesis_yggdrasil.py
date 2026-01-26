@@ -11,8 +11,8 @@ from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
 
 # 2. Import The Organs
 from Core.L1_Foundation.Foundation.ether import ether
-from Core.L1_Foundation.Foundation.chronos import Chronos
-from Core.L1_Foundation.Foundation.genesis_cortex import GenesisEngine
+from Core.L4_Causality.chronos import Chronos
+from Core.L7_Spirit.genesis_cortex import GenesisEngine
 from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
 from Core.L1_Foundation.Foundation.planetary_cortex import PlanetaryCortex
 

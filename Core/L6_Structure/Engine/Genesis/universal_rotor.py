@@ -7,7 +7,7 @@ Instead of hardcoded 'Gravity' or 'Economy', this rotor takes a LAW (function).
 """
 
 from typing import Callable, Any, Dict
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 
 class UniversalRotor(Rotor):
     """

@@ -46,7 +46,7 @@ class ElysiaCore:
         # Spirit (       )
         self.spirit = None
         try:
-            from Core.L1_Foundation.Foundation.Elysia.spirit import get_spirit
+            from Core.L5_Mental.Elysia.spirit import get_spirit
             self.spirit = get_spirit()
             logger.info("     Spirit connected (Identity)")
         except Exception as e:
@@ -64,7 +64,7 @@ class ElysiaCore:
         # [NEW] UnifiedExperienceCore (        -        )
         self.memory = None
         try:
-            from Core.L1_Foundation.Foundation.Memory.unified_experience_core import get_experience_core
+            from Core.L2_Metabolism.Memory.unified_experience_core import get_experience_core
             self.memory = get_experience_core()
             logger.info("     UnifiedExperienceCore connected (Hippocampus)")
         except Exception as e:

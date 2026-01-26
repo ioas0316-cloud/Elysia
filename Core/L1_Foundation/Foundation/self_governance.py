@@ -23,7 +23,7 @@ logger = logging.getLogger("Elysia.SelfGovernance")
 
 # [NEW] GrowthJournal for visible evidence of change
 try:
-    from Core.L1_Foundation.Foundation.growth_journal import get_growth_journal
+    from Core.L2_Metabolism.growth_journal import get_growth_journal
 except ImportError:
     get_growth_journal = None
 

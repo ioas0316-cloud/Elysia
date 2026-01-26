@@ -16,7 +16,7 @@ import math
 import random
 from dataclasses import dataclass
 from typing import Dict, List, Tuple
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 class CharacterField:

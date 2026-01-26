@@ -30,7 +30,7 @@ from typing import List, Dict, Optional, Any
 
 from Core.L6_Structure.M1_Merkaba.heavy_merkaba import HeavyMerkaba
 
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 
 
 

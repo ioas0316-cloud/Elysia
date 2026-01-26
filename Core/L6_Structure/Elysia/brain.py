@@ -14,7 +14,7 @@ import time
 from Core.L6_Structure.M1_Merkaba.thundercloud import Thundercloud, ThoughtCluster
 from Core.L7_Spirit.Monad.muscle_memory import MuscleMemory
 from Core.L5_Mental.Learning.habit_engine import HabitEngine
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 from Core.L7_Spirit.Monad.monad_core import Monad
 
 class ElysiaBrain:

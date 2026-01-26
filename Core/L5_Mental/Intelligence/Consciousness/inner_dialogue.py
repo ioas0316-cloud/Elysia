@@ -36,7 +36,7 @@ except ImportError:
 
 #          
 try:
-    from Core.L1_Foundation.Foundation.synesthesia_engine import SynesthesiaEngine
+    from Core.L3_Phenomena.synesthesia_engine import SynesthesiaEngine
     HAS_SYNESTHESIA = True
 except ImportError:
     HAS_SYNESTHESIA = False

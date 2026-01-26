@@ -22,7 +22,7 @@ except ImportError:
 
 from Core.L5_Mental.Intelligence.Brain.sovereign_aspiration import SovereignAspiration
 from Core.L5_Mental.Intelligence.Brain.linguistic_metabolism import LinguisticMetabolism
-from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
 
 from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
 from Core.L7_Spirit.Monad.quantum_collapse import QuantumObserver, IntentVector

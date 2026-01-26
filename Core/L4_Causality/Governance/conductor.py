@@ -17,7 +17,7 @@ from typing import Dict, List, Optional, Any, Callable, Tuple
 
 from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
 from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore  # <--- NEW CORE
-from Core.L1_Foundation.Foundation.Memory.Orb.orb_manager import OrbManager
+from Core.L2_Metabolism.Memory.Orb.orb_manager import OrbManager
 from Core.L5_Mental.Intelligence.Reasoning.latent_causality import LatentCausality
 from Core.L5_Mental.Intelligence.Logos.logos_engine import LogosEngine
 from Core.L4_Causality.Governance.system_alignment import SystemAlignment

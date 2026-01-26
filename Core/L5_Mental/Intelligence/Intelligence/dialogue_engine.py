@@ -14,7 +14,7 @@ from dataclasses import dataclass
 import random
 import logging
 
-from Core.L1_Foundation.Foundation.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
+from Core.L5_Mental.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
 from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 from Core.L1_Foundation.Foundation.Wave.universal_wave_encoder import UniversalWaveEncoder
 from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import get_integrated_cognition

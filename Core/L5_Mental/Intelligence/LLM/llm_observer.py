@@ -22,7 +22,7 @@ from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
 from safetensors import safe_open
 
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 

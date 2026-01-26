@@ -14,7 +14,7 @@ This module implements the concentric layering of rotors.
 # import torch # [Subjugated]
 import math
 from typing import List, Dict, Any, Optional
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 
 class ConicalCVT:
     """

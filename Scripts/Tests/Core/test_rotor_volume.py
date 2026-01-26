@@ -1,6 +1,6 @@
 
 import unittest
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig, RotorMask
 
 class TestRotorVolume(unittest.TestCase):
     def test_volume_mask_existence(self):

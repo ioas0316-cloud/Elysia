@@ -16,8 +16,8 @@ import os
 import sys
 import numpy as np
 from typing import List, Dict, Any, Optional
-from Core.L1_Foundation.Foundation.Memory.fractal_causality import FractalCausalityEngine, CausalRole
-from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.L2_Metabolism.Memory.fractal_causality import FractalCausalityEngine, CausalRole
+from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
 from Core.L5_Mental.Intelligence.Brain.language_cortex import LanguageCortex
 
 logger = logging.getLogger("FractalDeconstructor")

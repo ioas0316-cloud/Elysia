@@ -20,7 +20,7 @@ from flask_cors import CORS
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.L1_Foundation.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
+from Core.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore
 
 app = Flask(__name__, static_folder='../../dashboard', template_folder='../../dashboard')
 CORS(app)

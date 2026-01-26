@@ -24,7 +24,7 @@ import logging
 # Path hack
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core.L1_Foundation.Foundation.Nature.multi_rotor import MultiRotor
+from Core.L6_Structure.Nature.multi_rotor import MultiRotor
 from Core.L1_Foundation.Foundation.Physics.void_physics import VoidPhysics
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')

@@ -36,7 +36,7 @@ from Core.L1_Foundation.Foundation.experience_logger import log_experience, EXPE
 
 from Core.L1_Foundation.Foundation.experience_integrator import ExperienceIntegrator
 
-from Core.L1_Foundation.Foundation.self_awareness_core import SelfAwarenessCore
+from Core.L7_Spirit.self_awareness_core import SelfAwarenessCore
 
 from .memory_weaver import MemoryWeaver
 

@@ -3,7 +3,7 @@ import logging
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional
 from Core.L5_Mental.Intelligence.Metabolism.prism import SevenChannelQualia, DoubleHelixWave
-from Core.L1_Foundation.Foundation.nature_of_being import PhilosophyOfFlow, Axiom
+from Core.L7_Spirit.nature_of_being import PhilosophyOfFlow, Axiom
 
 logger = logging.getLogger("Providence")
 
@@ -92,7 +92,7 @@ class ProvidenceEngine:
         elif dominant_idx == 6: principle_label = "Interconnectedness"
         
         # [Phase 20: Kernel Link]
-        from Core.L1_Foundation.Foundation.operational_axioms import AXIOM_REGISTRY
+        from Core.L7_Spirit.operational_axioms import AXIOM_REGISTRY
         kernel = AXIOM_REGISTRY.get(principle_label)
         
         logger.info(f"   [PROVIDENCE] Beholding the operational kernel of '{principle_label}'.")

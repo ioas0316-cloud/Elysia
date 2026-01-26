@@ -132,7 +132,7 @@ class GrowthTracker:
         """Growth       """
         if self._growth is None:
             try:
-                from Core.L1_Foundation.Foundation.growth import get_growth
+                from Core.L2_Metabolism.growth import get_growth
                 self._growth = get_growth()
             except ImportError:
                 logger.warning("Growth system not available")

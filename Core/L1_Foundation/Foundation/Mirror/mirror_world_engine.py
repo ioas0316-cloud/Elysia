@@ -13,7 +13,7 @@ the internal HyperSphere coordinates. It allows Monads to be
 
 import logging
 from typing import Dict, List, Tuple, Optional
-from Core.L1_Foundation.Foundation.Nature.geo_anchor import GeoAnchor
+from Core.L6_Structure.Nature.geo_anchor import GeoAnchor
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 
 logger = logging.getLogger("Foundation.Mirror.MirrorWorld")

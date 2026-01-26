@@ -19,7 +19,7 @@ import time
 from typing import List, Dict, Any
 
 from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType, ResonatorInterface
-from Core.L1_Foundation.Foundation.Memory.Orb.orb_manager import OrbManager
+from Core.L2_Metabolism.Memory.Orb.orb_manager import OrbManager
 
 logger = logging.getLogger("DreamCortex")
 

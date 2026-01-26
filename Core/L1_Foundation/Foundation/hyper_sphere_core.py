@@ -16,7 +16,7 @@ Roles:
 
 import logging
 from typing import Dict, Any, List, Optional, Tuple
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
 from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import PulseBroadcaster # Import
 from Core.L7_Spirit.Monad.monad_core import Monad

@@ -18,8 +18,8 @@ from typing import List, Dict, Any, Optional
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 
-from Core.L1_Foundation.Foundation.Memory.fractal_causality import FractalCausalityEngine, CausalRole
-from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.L2_Metabolism.Memory.fractal_causality import FractalCausalityEngine, CausalRole
+from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
 
 logger = logging.getLogger("StructuralInductor")
 

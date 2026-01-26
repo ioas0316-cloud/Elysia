@@ -1,7 +1,7 @@
 """
 Elysian Body (The Somatic Self)
 ===============================
-Core.L1_Foundation.Foundation.Nature.Body
+Core.L6_Structure.Nature.Body
 
 "To know Fire, one must be burnable."
 

@@ -17,7 +17,7 @@ from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import Insight
 
 # [Phase 25] Synesthesia for Field-to-Text
 try:
-    from Core.L1_Foundation.Foundation.synesthesia_engine import SynesthesiaEngine
+    from Core.L3_Phenomena.synesthesia_engine import SynesthesiaEngine
 except ImportError:
     SynesthesiaEngine = None
 

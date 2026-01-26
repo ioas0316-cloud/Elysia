@@ -13,7 +13,7 @@ import os
 sys.path.append(os.getcwd())
 
 from Core.L7_Spirit.Monad.monad_core import Monad, FractalRule
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor
+from Core.L6_Structure.Nature.rotor import Rotor
 from Core.L6_Structure.Engine.wfc_engine import WFCEngine
 from typing import Dict, Any
 

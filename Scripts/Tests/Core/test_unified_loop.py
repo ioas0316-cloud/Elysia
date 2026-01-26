@@ -51,7 +51,7 @@ class MockSyn:
     def from_digested_voice(self, data):
         return MagicMock(amplitude=1.0, frequency=200, payload={'affected_dimension': 'Pitch'})
 mock_syn_mod.SynesthesiaEngine = MockSyn
-sys.modules["Core.L1_Foundation.Foundation.synesthesia_engine"] = mock_syn_mod
+sys.modules["Core.L3_Phenomena.synesthesia_engine"] = mock_syn_mod
 
 # --- IMPORT TARGET ---
 from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat

@@ -64,7 +64,7 @@ from Core.L5_Mental.Intelligence.Reasoning.paradox_engine import ParadoxEngine, 
 
 # [RECONNECTED] The Spatial Memory System (Orb & Omni-Voxel)
 
-from Core.L1_Foundation.Foundation.Memory.Orb.orb_manager import OrbManager
+from Core.L2_Metabolism.Memory.Orb.orb_manager import OrbManager
 
 from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
 
@@ -222,7 +222,7 @@ class ReasoningEngine:
 
 
 
-        from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+        from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 
         self.soul_rotor = Rotor("Reasoning.Soul", RotorConfig(rpm=10.0, idle_rpm=10.0))
 

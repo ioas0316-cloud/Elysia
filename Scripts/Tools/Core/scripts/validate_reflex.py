@@ -11,7 +11,7 @@ import logging
 # Add Core to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.L1_Foundation.Foundation.Memory.unified_experience_core import get_experience_core
+from Core.L2_Metabolism.Memory.unified_experience_core import get_experience_core
 
 # Configure logging to capture the internal reflex thought
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')

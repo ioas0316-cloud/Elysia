@@ -6,7 +6,7 @@ import logging
 # Ensure we can import from Core
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L1_Foundation.Foundation.Elysia.elysia_core import ElysiaCore
+from Core.L5_Mental.Elysia.elysia_core import ElysiaCore
 from Core.L5_Mental.Intelligence.Will.free_will_engine import FreeWillEngine
 from Core.Physiology.Sensory.Network.web_tendril import WebTendril
 from Core.L1_Foundation.Foundation.Wave.resonance_field import get_resonance_field

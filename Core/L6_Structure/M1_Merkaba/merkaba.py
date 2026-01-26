@@ -64,9 +64,9 @@ from Core.L5_Mental.Memory.strata import MemoryStratum
 
 
 
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig, RotorMask
 
-from Core.L1_Foundation.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
+from Core.L6_Structure.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 
 from Core.L6_Structure.M1_Merkaba.rotor_engine import RotorEngine # Phase 5.3: Optical Engine Core
 

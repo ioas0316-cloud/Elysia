@@ -35,7 +35,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 #                
 try:
-    from Core.L1_Foundation.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
+    from Core.L3_Phenomena.synesthesia_engine import SynesthesiaEngine, SignalType
     from Core.L1_Foundation.Foundation.Wave.phonetic_resonance import PhoneticResonanceEngine, get_resonance_engine
     HAS_WAVE_SENSORS = True
 except ImportError:
@@ -70,7 +70,7 @@ class PerspectiveLayer(Enum):
 
 
 try:
-    from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+    from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 except ImportError:
     Rotor = None
     RotorConfig = None
@@ -303,7 +303,7 @@ class WhyEngine:
             return None
         
         # Create a Principle Rotor
-        from Core.L1_Foundation.Foundation.Nature.rotor import RotorConfig
+        from Core.L6_Structure.Nature.rotor import RotorConfig
         config = RotorConfig(rpm=dna.get('frequency', 60.0))
         princ_rotor = Rotor(f"Law.{concept}", config)
         

@@ -34,7 +34,7 @@ logger = logging.getLogger("ElysianHeartbeat")
 class ElysianHeartbeat:
     def __init__(self):
         # [LOGIC TRANSMUTATION] Connect to the Core Brain
-        from Core.L1_Foundation.Foundation.Elysia.elysia_core import get_elysia_core
+        from Core.L5_Mental.Elysia.elysia_core import get_elysia_core
         self.core = get_elysia_core()
         
         self.soul = SoulCrystal()

@@ -1,7 +1,7 @@
 """
 Active Rotor: The Cognitive Tuner
 =================================
-Core.L1_Foundation.Foundation.Nature.active_rotor
+Core.L6_Structure.Nature.active_rotor
 
 "The Eye that moves to see."
 
@@ -13,7 +13,7 @@ import math
 import random
 import logging
 from typing import Optional, Tuple
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 from Core.L1_Foundation.Foundation.Prism.fractal_optics import PrismEngine, WavePacket
 
 logger = logging.getLogger("ActiveRotor")

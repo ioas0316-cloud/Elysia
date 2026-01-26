@@ -1,7 +1,7 @@
 """
 Memory Collapse (Topology Evolution)
 ====================================
-Core.L1_Foundation.Foundation.Memory.memory_collapse
+Core.L2_Metabolism.Memory.memory_collapse
 
 "Structure follows Thought."
 "                ."

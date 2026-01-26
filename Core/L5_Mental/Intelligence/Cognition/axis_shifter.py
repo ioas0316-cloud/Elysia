@@ -12,8 +12,8 @@ order within high-entropy states.
 import logging
 import random
 from typing import Dict, List, Tuple
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorMask
-from Core.L1_Foundation.Foundation.Nature.multi_rotor import MultiRotor
+from Core.L6_Structure.Nature.rotor import Rotor, RotorMask
+from Core.L6_Structure.Nature.multi_rotor import MultiRotor
 
 logger = logging.getLogger("Elysia.AxisShifter")
 

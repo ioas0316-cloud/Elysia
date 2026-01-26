@@ -6,11 +6,11 @@ import logging
 # Path setup
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L1_Foundation.Foundation.Elysia.elysia_core import ElysiaCore
+from Core.L5_Mental.Elysia.elysia_core import ElysiaCore
 from Core.L5_Mental.Intelligence.Imagination.simulator import get_simulator
 from Core.L5_Mental.Intelligence.Topography.perspective_shifter import PerspectiveShifter
 from Core.L5_Mental.Intelligence.Topography.universal_view import UniversalView
-from Core.L1_Foundation.Foundation.Memory.unified_experience_core import get_experience_core
+from Core.L2_Metabolism.Memory.unified_experience_core import get_experience_core
 
 # Configure logging to be quiet so we can focus on the narrative
 logging.basicConfig(level=logging.WARNING)

@@ -40,7 +40,7 @@ class FeedbackLoop:
         
         # 2. Temporal Processing (Memory Core) - "Remembering"
         try:
-            from Core.L1_Foundation.Foundation.Memory.unified_experience_core import get_experience_core
+            from Core.L2_Metabolism.Memory.unified_experience_core import get_experience_core
             core = get_experience_core()
             
             # Determine feedback score based on Dual Resonance

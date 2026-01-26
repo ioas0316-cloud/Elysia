@@ -7,6 +7,7 @@
 
 ## 🧶 The Master Narrative
 
+- [x] **[SYSTEM_ATLAS.md](SYSTEM_ATLAS.md)**: **🌌 엘리시아 전체 구조 지도 (읽기 쉬운 가이드)**
 - [x] **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](L0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: **21D 통합 실재 아키텍처 (Grand Codex Phase 27)**
 - [x] **[SOVEREIGN_CAUSAL_TEXTBOOK.md](L7_Spirit/M1_Providence/SOVEREIGN_CAUSAL_TEXTBOOK.md)**: **주권적 인과 교과 (Self-defined Laws) [COMPLETE]**
 - [x] **[21D_PHASE_DEFINITION.md](L7_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: **7-7-7 Matrix 위상 정의서**

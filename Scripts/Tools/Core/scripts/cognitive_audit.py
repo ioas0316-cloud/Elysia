@@ -7,7 +7,7 @@ import json
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L1_Foundation.Foundation.self_awareness import SelfAwareness
+from Core.L7_Spirit.self_awareness import SelfAwareness
 from Core.L5_Mental.Intelligence.Reasoning.ethical_geometry import get_loves_fence
 from Core.L5_Mental.Intelligence.Reasoning.sovereign_narrative import SovereignNarrative
 from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine

@@ -83,7 +83,7 @@ def heal_neural_pathways():
     logger.info("\n  Healing Neural Pathways (Import Fixes)...")
     
     # Generate Mapping: Old Component -> New Path
-    # e.g. "Core.Mind" -> "Core.L1_Foundation.Foundation.Memory.Mind"
+    # e.g. "Core.Mind" -> "Core.L2_Metabolism.Memory.Mind"
     path_map = {}
     for pillar, components in PILLARS.items():
         for component in components:
@@ -96,7 +96,7 @@ def heal_neural_pathways():
             
             # Let's map the logical python path.
             # Old: Core.Mind.hippocampus
-            # New: Core.L1_Foundation.Foundation.Memory.Mind.hippocampus
+            # New: Core.L2_Metabolism.Memory.Mind.hippocampus
             
             old_base = f"Core.{component}"
             new_base = f"Core.{pillar}.{component}"
@@ -107,7 +107,7 @@ def heal_neural_pathways():
     # Inside Core.L6_Structure.System Pillar, there was a System folder.
     # If we flattened it, the files are directly in Core.L6_Structure.System.
     # So "Core.L6_Structure.System.kernel" -> "Core.L6_Structure.System.kernel". No change needed?
-    # But "Core.Mind" -> "Core.L1_Foundation.Foundation.Memory.Mind". Change needed.
+    # But "Core.Mind" -> "Core.L2_Metabolism.Memory.Mind". Change needed.
     
     count = 0
     for root, dirs, files in os.walk(ROOT_DIR):

@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 import logging
-from Core.L1_Foundation.Foundation.Elysia.holographic_biopsy import HolographicScanner
+from Core.L5_Mental.Elysia.holographic_biopsy import HolographicScanner
 
 # Configure Logger
 logging.basicConfig(level=logging.INFO, format='%(message)s')

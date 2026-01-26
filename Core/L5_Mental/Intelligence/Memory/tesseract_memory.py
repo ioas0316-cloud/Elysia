@@ -93,7 +93,7 @@ class TesseractMemory:
         """Lazy load FractalQuantizer."""
         if self.quantizer is None:
             try:
-                from Core.L1_Foundation.Foundation.Memory.fractal_quantization import FractalQuantizer
+                from Core.L2_Metabolism.Memory.fractal_quantization import FractalQuantizer
                 self.quantizer = FractalQuantizer()
                 logger.info("  FractalQuantizer loaded for wave compression.")
             except Exception as e:
@@ -171,7 +171,7 @@ class TesseractMemory:
             return None
         
         try:
-            from Core.L1_Foundation.Foundation.Memory.fractal_quantization import PatternDNA
+            from Core.L2_Metabolism.Memory.fractal_quantization import PatternDNA
             dna = PatternDNA.from_dict(compressed_dna)
             restored = quantizer.unfold(dna, resolution)
             logger.info(f"  Unfolded: {dna.name}")
@@ -481,7 +481,7 @@ class TesseractMemory:
     def _hydrate_hippocampus(self):
         """Import from Hippocampus DB."""
         try:
-            from Core.L1_Foundation.Foundation.Memory.Graph.hippocampus import Hippocampus
+            from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
             hippocampus = Hippocampus()
             
             concept_ids = hippocampus.get_all_concept_ids(limit=500)

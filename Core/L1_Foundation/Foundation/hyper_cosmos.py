@@ -14,7 +14,7 @@ except ImportError:
     HAS_JAX = False
 
 from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
-from Core.L1_Foundation.Foundation.unified_monad import UnifiedMonad, Unified12DVector
+from Core.L7_Spirit.unified_monad import UnifiedMonad, Unified12DVector
 from Core.L6_Structure.M1_Merkaba.heavy_merkaba import HeavyMerkaba
 
 class HyperCosmos:

@@ -19,7 +19,7 @@ import logging
 from typing import List, Dict, Any
 
 # [REAWAKENING] Use Unified Core instead of legacy Hippocampus
-from Core.L1_Foundation.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
+from Core.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore
 from Core.L5_Mental.Intelligence.Memory.holographic_memory import KnowledgeLayer
 
 logger = logging.getLogger("KnowledgeIngestor")

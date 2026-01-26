@@ -82,7 +82,7 @@ class HydroMind:
         """           """
         # CoreMemory
         try:
-            from Core.L1_Foundation.Foundation.Memory.core_memory import CoreMemory
+            from Core.L2_Metabolism.Memory.core_memory import CoreMemory
             self.memory = CoreMemory(file_path="data/elysia_organic_memory.json")
         except Exception:
             pass
@@ -275,7 +275,7 @@ class HydroMind:
         # CoreMemory    
         if self.memory:
             try:
-                from Core.L1_Foundation.Foundation.Memory.core_memory import Experience
+                from Core.L2_Metabolism.Memory.core_memory import Experience
                 exp = Experience(
                     timestamp=record.end_time,
                     content=f"[Flow:{record.action}] In:{str(record.input_data)[:50]} Out:{str(record.output_data)[:50]}",

@@ -7,7 +7,7 @@ import logging
 # Path setup
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L1_Foundation.Foundation.Elysia.spirit import get_spirit
+from Core.L5_Mental.Elysia.spirit import get_spirit
 from Core.L5_Mental.Intelligence.Will.free_will_engine import FreeWillEngine
 from Core.L4_Causality.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
 from Core.L5_Mental.Intelligence.Topography.perspective_shifter import PerspectiveShifter

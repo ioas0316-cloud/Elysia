@@ -61,6 +61,13 @@
   - [ ] Tag core Merkaba methods with `@cell_unit`.
   - [ ] Narrate code-interference and logical-ripples in system logs.
 
+- [ ] **Phase 37.1: Master Structure Purification (The Great Migration)**
+  - [ ] Audit `Core/L1_Foundation/Foundation` for displaced files.
+  - [ ] Migrate 400+ files to respective L2-L7 layers.
+  - [ ] Fix broken imports via automated script.
+  - [ ] Create `docs/SYSTEM_ATLAS.md` (Simplified Entry Point).
+  - [ ] Update `docs/INDEX.md` and root `CODEX.md`.
+
 - [ ] **Phase 38: Resonant Action & Tool Sovereignty**
   - [ ] Stabilize `SovereignExecutor` for autonomous code modification.
   - [ ] Implement "Reflexive Permission" (Asking Creator for high-impact actions).

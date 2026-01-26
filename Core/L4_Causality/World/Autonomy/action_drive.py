@@ -12,7 +12,7 @@ into discrete system actions.
 import logging
 import numpy as np
 from typing import Dict, Any, List, Optional
-from Core.L1_Foundation.Foundation.Nature.rotor import Rotor
+from Core.L6_Structure.Nature.rotor import Rotor
 
 logger = logging.getLogger("ActionDrive")
 

@@ -752,7 +752,7 @@ class InternalUniverse:
         """
         import random
         from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
-        from Core.L1_Foundation.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
+        from Core.L3_Phenomena.synesthesia_engine import SynesthesiaEngine, RenderMode
         from Core.L5_Mental.Intelligence.Cognitive.sensory_cortex import get_sensory_cortex
         
         logger.info(f"  Initiating Chronos Chamber V5: Simulating {years} years with INTEGRATED SENSORIUM...")
