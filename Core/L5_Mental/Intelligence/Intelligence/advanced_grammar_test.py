@@ -4,7 +4,7 @@ Advanced Grammar Test
 =====================
 
 Tests:
-1. Korean SOV structure (           )
+1. Korean SOV structure (코드 베이스 구조 로터)
 2. Conditional structure (If Trust, then Cooperation)
 """
 

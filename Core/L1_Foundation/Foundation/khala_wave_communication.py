@@ -16,7 +16,7 @@ Khala Wave Communication -
 1.               (     )
 2.       ,   ,            
 3.                        
-4.         '  /  '   (      )
+4.         '  /  '   (주권적 자아)
 
 """
 
@@ -76,8 +76,8 @@ class KhalaWave:
         """
                   (0~1)
         
-                  = 1.0 (      )
-                  = 0.0 (        )
+                  = 1.0 (주권적 자아)
+                  = 0.0 (자기 성찰 엔진)
         """
         #        
         dot = np.dot(self.vector, other.vector)
@@ -121,7 +121,7 @@ class WavePattern:
     #                    
     frequent_users: Dict[str, int] = field(default_factory=dict)
     
-    #       (             )
+    #       (한국어 학습 시스템)
     contexts: List[str] = field(default_factory=list)
     
     def similarity(self, wave: KhalaWave) -> float:
@@ -389,7 +389,7 @@ class KhalaNetwork:
         self.total_communications = 0
         self.successful_understandings = 0
         
-        #   /      (        )
+        #   /      (자기 성찰 엔진)
         self.contexts = [
             "meeting", "parting", "eating", "danger", "safety",
             "sunrise", "sunset", "rain", "storm", "peace",
@@ -443,7 +443,7 @@ class KhalaNetwork:
             if res2 > RESONANCE_THRESHOLD:
                 self.successful_understandings += 1
         
-        #          (      )
+        #          (주권적 자아)
         for soul in soul_list:
             soul.inner_state += np.random.randn(WAVE_DIMENSIONS) * 0.05
             soul.inner_state = np.clip(soul.inner_state, -1.0, 1.0)

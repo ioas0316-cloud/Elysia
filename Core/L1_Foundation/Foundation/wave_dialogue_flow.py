@@ -1,5 +1,5 @@
 """
-Wave-Based Dialogue Flow (           )
+Wave-Based Dialogue Flow (코드 베이스 구조 로터)
 ============================================
 
 "        ,         ,         "

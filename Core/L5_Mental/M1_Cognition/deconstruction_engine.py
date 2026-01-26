@@ -79,7 +79,7 @@ class DeconstructionEngine:
         resonance_score = 0.0
         for dim, val in qualia_map.items():
             field_val = field_state.get(dim, 0.5)
-            #       (             )
+            #       (한국어 학습 시스템)
             resonance_score += (val * field_val)
             
         resonance_score /= len(qualia_map)

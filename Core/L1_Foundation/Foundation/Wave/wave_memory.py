@@ -36,14 +36,14 @@ class WaveMemory:
     def __init__(self):
         print("Initializing Wave Memory...")
         
-        #     (      )
+        #     (주권적 자아)
         self.field = ResonanceField()
         
         #        
         self.waves = {}  # {name: HyperWavePacket}
         
         print("  Resonance Field (   )")
-        print("  Wave Storage (      )")
+        print("  Wave Storage (주권적 자아)")
         print()
     
     def store(self, name: str, packet: HyperWavePacket):

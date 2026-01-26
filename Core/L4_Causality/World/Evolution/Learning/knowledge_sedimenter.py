@@ -1,5 +1,5 @@
 """
-Knowledge Sedimenter (      )
+Knowledge Sedimenter (주권적 자아)
 ==================================
 
                    '      '      .

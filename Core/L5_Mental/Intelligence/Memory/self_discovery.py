@@ -1,5 +1,5 @@
 """
-Self-Discovery Module (        )
+Self-Discovery Module (자기 성찰 엔진)
 =====================================
 
 "                         ."

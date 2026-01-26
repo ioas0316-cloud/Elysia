@@ -52,7 +52,7 @@ class KnowledgeSpectrum:
     
           :
     -      =    (  )
-    -    =   (      )
+    -    =   (주권적 자아)
     -     =                  
     """
     
@@ -76,10 +76,10 @@ class KnowledgeSpectrum:
         #         
         self.crystals: List[Dict] = []
         
-        #       (           )
+        #       (코드 베이스 구조 로터)
         self.diffusion_rate = 0.15
         
-        #           (             )
+        #           (한국어 학습 시스템)
         self.crystal_threshold = 0.8
     
     def pour(
@@ -119,7 +119,7 @@ class KnowledgeSpectrum:
         """
               (                 )
         
-          :  C/ t = D   C (      )
+          :  C/ t = D   C (주권적 자아)
         """
         for _ in range(steps):
             for domain in self.domains:
@@ -228,7 +228,7 @@ class KnowledgeSpectrum:
         """
                    
         
-        1.    (        )
+        1.    (자기 성찰 엔진)
         2.     (            )
         """
         if verbose:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-          -        (      )
+          -        (주권적 자아)
 """
 
 import logging

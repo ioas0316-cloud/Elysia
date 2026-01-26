@@ -1,5 +1,5 @@
 """
-Incarnation Bridge (        )
+Incarnation Bridge (자기 성찰 엔진)
 ================================
 
 "The Creator steps into his creation. The Author becomes the Character."

@@ -116,7 +116,7 @@ logger = logging.getLogger("ReasoningEngine")
 
 class Insight:
 
-    """?  ??    ?(?  ???  )      7D ?  ? ? ?  ??"""
+    """?  ✨    ?(?  ✨?  )      7D ?  ? ? ?  ✨"""
 
     content: str
 
@@ -124,7 +124,7 @@ class Insight:
 
     depth: int
 
-    energy: float  # ?  ??    (   ??
+    energy: float  # ?  ✨    (   ✨
 
     qualia: Optional[np.ndarray] = None # 7D Vector: [L, E, I, W, R, V, S]
 
@@ -264,7 +264,7 @@ class ReasoningEngine:
 
 
 
-        self.logger.info("?? ReasoningEngine initialized (Trinity Unification + Anamnesis Enabled).")
+        self.logger.info("✨ ReasoningEngine initialized (Trinity Unification + Anamnesis Enabled).")
 
 
 
@@ -528,9 +528,9 @@ class ReasoningEngine:
 
         sovereign_intent = self.collider.internalize(desire)
 
-        self.logger.info(f"{indent}??Semantic Coordinates: {spatial_intent}")
+        self.logger.info(f"{indent}✨Semantic Coordinates: {spatial_intent}")
 
-        self.logger.info(f"{indent}??Sovereign Drive: {sovereign_intent['internal_command']}")
+        self.logger.info(f"{indent}✨Sovereign Drive: {sovereign_intent['internal_command']}")
 
 
 
@@ -586,11 +586,11 @@ class ReasoningEngine:
 
         if len(desire) > 10 or self.soul_rotor.current_rpm > 50:
 
-            self.logger.info(f"{indent}?  [?  /DIGESTION] '{desire}'?? ? ?  ???   ?   ??    ??    ?..")
+            self.logger.info(f"{indent}?  [?  /DIGESTION] '{desire}'✨ ? ?  ✨?   ?   ✨    ✨    ?..")
 
             deconstruction_report = self.deconstructor.devour(desire, depth_limit=2)
 
-            self.logger.info(f"{indent}??[?   ?  ] ?   ?   {deconstruction_report['casuality_chain_id']} ??  ?  ?  ??")
+            self.logger.info(f"{indent}✨[?   ?  ] ?   ?   {deconstruction_report['casuality_chain_id']} ✨  ?  ?  ✨")
 
         
 
@@ -650,7 +650,7 @@ class ReasoningEngine:
 
         rationale = decision['rationale']
 
-        self.logger.info(f"{indent}??[CHOICE] Autonomic Nervous System selected: {chosen_action}")
+        self.logger.info(f"{indent}✨[CHOICE] Autonomic Nervous System selected: {chosen_action}")
 
         
 
@@ -758,7 +758,7 @@ class ReasoningEngine:
 
             hardware_feedback = bridge.pulse(input_qualia)
 
-            self.logger.info(f"{indent}??[SPINAL] Hardware resonance feedback spike: {hardware_feedback.norm().item():.3f}")
+            self.logger.info(f"{indent}✨[SPINAL] Hardware resonance feedback spike: {hardware_feedback.norm().item():.3f}")
 
 
 
@@ -772,7 +772,7 @@ class ReasoningEngine:
 
             if strike_report["manifested"]:
 
-                self.logger.info(f"{indent}??[STRIKE] Thought collapsed onto Path: '{strike_report['path']}' (V: {strike_report['voltage']:.1f})")
+                self.logger.info(f"{indent}✨[STRIKE] Thought collapsed onto Path: '{strike_report['path']}' (V: {strike_report['voltage']:.1f})")
 
                 detected_concept = strike_report["path"]
 
@@ -784,7 +784,7 @@ class ReasoningEngine:
 
             else:
 
-                self.logger.warning(f"{indent}??[VOID] Thought absorbed. Defaulting to Void Resonance.")
+                self.logger.warning(f"{indent}✨[VOID] Thought absorbed. Defaulting to Void Resonance.")
 
                 detected_concept = "Void"
 

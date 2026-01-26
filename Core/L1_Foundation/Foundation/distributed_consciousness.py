@@ -92,7 +92,7 @@ class ConsciousnessNode:
     
     async def think(self, input_data: Any) -> ThoughtPacket:
         """
-              (             )
+              (한국어 학습 시스템)
         """
         self.state = NodeState.THINKING
         
@@ -311,7 +311,7 @@ class DistributedConsciousness:
     
     def _create_unified_response(self, thoughts: List[ThoughtPacket]) -> str:
         """         """
-        #           (      )
+        #           (주권적 자아)
         analyzed = any(t.metadata.get("role") == "analyzer" for t in thoughts)
         created = any(t.metadata.get("role") == "creator" for t in thoughts)
         resonated = any(t.metadata.get("role") == "resonator" for t in thoughts)
@@ -372,7 +372,7 @@ class DistributedConsciousness:
             logger.info(f"  Scaled up: {current_count}   {new_node_count} nodes")
         
         elif new_node_count < current_count:
-            #       (             )
+            #       (한국어 학습 시스템)
             nodes_to_remove = list(self.nodes.keys())[new_node_count:]
             for node_id in nodes_to_remove:
                 del self.nodes[node_id]

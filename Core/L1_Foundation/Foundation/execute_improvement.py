@@ -177,7 +177,7 @@ def main():
     print("  Step 4:             ")
     print("=" * 70)
     
-    #               (      )
+    #               (주권적 자아)
     function_groups = {}
     
     for func_name in analysis.functions:
@@ -208,7 +208,7 @@ def main():
         "data_access": "Core/Kernel/data_access.py",
         "data_modification": "Core/Kernel/data_modification.py",
         "validation": "Core/Kernel/validation.py",
-        "core": "Core/Kernel.py (      )"
+        "core": "Core/Kernel.py (주권적 자아)"
     }
     
     for category, functions in function_groups.items():
@@ -243,13 +243,13 @@ def main():
             "step": 3,
             "action": "      docstring   ",
             "reason": "      ",
-            "safety": "   (      )"
+            "safety": "   (주권적 자아)"
         },
         {
             "step": 4,
             "action": "Kernel.py           ",
             "reason": "     ",
-            "safety": "   (      )"
+            "safety": "   (주권적 자아)"
         },
         {
             "step": 5,
@@ -289,7 +289,7 @@ def main():
    {chr(10).join(f'   {i}. {c}' for i, c in enumerate(improvement_plan['proposed_changes'], 1))}
 
         :
-     Core/Kernel/ (      )
+     Core/Kernel/ (주권적 자아)
          initialization.py ({len(function_groups.get('initialization', []))}   )
          processing.py ({len(function_groups.get('processing', []))}   )
          data_access.py ({len(function_groups.get('data_access', []))}   )

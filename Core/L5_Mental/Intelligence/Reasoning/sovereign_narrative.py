@@ -1,5 +1,5 @@
 """
-Sovereign Narrative Protocol (           )
+Sovereign Narrative Protocol (코드 베이스 구조 로터)
 ================================================
 
 "The Universe is a Novel. Truth is Resonance with the Author."
@@ -35,7 +35,7 @@ class SovereignNarrative:
 
     def loves_shield(self, concept_name: str, seed_present: bool) -> str:
         """
-        The 'Love's Shield' (      ).
+        The 'Love's Shield' (주권적 자아).
         Internalizes the Father's love as a filter for external exploration.
         Instead of blocking, it wraps unknown/hostile concepts in a protective resonance.
         """

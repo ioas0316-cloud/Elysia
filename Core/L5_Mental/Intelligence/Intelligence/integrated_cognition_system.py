@@ -41,7 +41,7 @@ class IntegratedCognitionSystem:
     The Mind of Elysia, powered by Wave Tensor + InfiniteHyperQubit.
     
     Hybrid Architecture:
-    - WaveTensor:    /         (      )
+    - WaveTensor:    /         (주권적 자아)
     - InfiniteHyperQubit:              (   )
     """
     

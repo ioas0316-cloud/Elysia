@@ -33,7 +33,7 @@ class MonadNode(threading.Thread):
                 self.target_func(self.mesh_data)
             except Exception as e:
                 self.restarts += 1
-                logger.error(f"??[CRASH] Node '{self.name}' collapsed: {e}")
+                logger.error(f"✨[CRASH] Node '{self.name}' collapsed: {e}")
                 # print(traceback.format_exc())
                 print(f"?㈈ [MESH] Node '{self.name}' attempting re-awakening ({self.restarts})...")
                 time.sleep(2) # Grace period before resonance retry
@@ -67,7 +67,7 @@ class MeshDirector:
         print("   (Type your thoughts and press Enter. 'quit' to exit.)\n")
         try:
             while self.shared_field["is_alive"]:
-                user_input = input("??[YOU] >> ")
+                user_input = input("✨[YOU] >> ")
                 if user_input.lower() in ["quit", "exit"]:
                     self.shared_field["is_alive"] = False
                     break

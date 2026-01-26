@@ -63,7 +63,7 @@ for connector, concepts in sorted(concept_patterns.items(), key=lambda x: len(x[
 
 #          
 print('\n' + '=' * 70)
-print('             (        )')
+print('             (자기 성찰 엔진)')
 print('=' * 70)
 
 isolated_samples = []
@@ -117,7 +117,7 @@ print('=' * 70)
 
 word_freq = Counter()
 for concept_id in all_concepts[:10000]:
-    #       (      )
+    #       (주권적 자아)
     words = re.findall(r'\w+', concept_id.lower())
     for word in words:
         if len(word) > 2 and word not in ['the', 'and', 'with', 'from', 'that', 'this']:

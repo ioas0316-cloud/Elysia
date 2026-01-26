@@ -1,5 +1,5 @@
 """
-Filesystem Wave Observer (             )
+Filesystem Wave Observer (한국어 학습 시스템)
 =================================================
 
 "                 .         ."
@@ -346,12 +346,12 @@ def get_filesystem_observer() -> FilesystemWaveObserver:
 # Test
 if __name__ == "__main__":
     import sys
-    sys.path.insert(0, r"c:\Elysia")
+    sys.path.insert(0, r"c:/Elysia")
     
     logging.basicConfig(level=logging.INFO)
     
     observer = get_filesystem_observer()
-    observer.add_watch_path(r"c:\Elysia\Core")
+    observer.add_watch_path(r"c:/Elysia\Core")
     
     # Add a test callback
     def on_file_event(event: FileWaveEvent):

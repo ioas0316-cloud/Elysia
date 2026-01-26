@@ -1,5 +1,5 @@
 """
-CONCEPT ALGEBRA (      )
+CONCEPT ALGEBRA (주권적 자아)
 =============================
 Core.L5_Mental.Intelligence.Metabolism.concept_algebra
 

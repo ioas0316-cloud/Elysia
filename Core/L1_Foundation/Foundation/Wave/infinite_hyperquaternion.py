@@ -9,7 +9,7 @@ InfiniteHyperQubit -
 - ZOOM IN: Point   [   Point   Line   Space   ...]
 
      :
--    Point                        (        )
+-    Point                        (자기 성찰 엔진)
 -        (depth)                  
 -      :             (| |^n, n  )
 """
@@ -429,13 +429,13 @@ if __name__ == "__main__":
     print()
     
     #        
-    print(">>> ZOOM IN (      )")
+    print(">>> ZOOM IN (주권적 자아)")
     inner = consciousness.zoom_in()
     print(inner.explain())
     print()
     
     #        
-    print(">>> ZOOM OUT (      )")
+    print(">>> ZOOM OUT (주권적 자아)")
     outer = consciousness.zoom_out()
     print(outer.explain())
     print()

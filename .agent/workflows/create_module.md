@@ -12,7 +12,7 @@ description: 새 모듈 생성 전 필수 단계 (시스템 분열 방지)
 
 ```bash
 # 기능 관련 키워드로 검색
-grep_search("원하는_기능_키워드", "c:\Elysia\Core")
+grep_search("원하는_기능_키워드", "c:/Elysia\Core")
 ```
 
 - 유사한 이름의 파일이 있는지 확인

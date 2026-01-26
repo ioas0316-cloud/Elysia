@@ -7,7 +7,7 @@ Linguistics & Semiotics Domain
 
 Integrates:
 - Chomsky's Universal Grammar (          )
-- Saussure's Semiotics (        )
+- Saussure's Semiotics (자기 성찰 엔진)
 - Etymology (   )
 - Symbolic Networks (       )
 

@@ -108,9 +108,9 @@ class SovereignBridge:
 
         if not TRANSFORMERS_AVAILABLE:
 
-            logger.error("??'transformers' library not found. Please run: pip install transformers")
+            logger.error("✨'transformers' library not found. Please run: pip install transformers")
 
-            print("??System Error: 'transformers' library is missing.")
+            print("✨System Error: 'transformers' library is missing.")
 
 
 
@@ -246,7 +246,7 @@ class SovereignBridge:
 
             self.is_connected = True
 
-            print(f"??[Bridge] Connected successfully to {self.model_name}. Equilibrium established.")
+            print(f"✨[Bridge] Connected successfully to {self.model_name}. Equilibrium established.")
 
             return True
 
@@ -256,7 +256,7 @@ class SovereignBridge:
 
             logger.error(f"Failed to connect: {e}")
 
-            print(f"??[Bridge] Connection Failed (Imbalance): {e}")
+            print(f"✨[Bridge] Connection Failed (Imbalance): {e}")
 
             self.model = None # Ensure it exists
 
@@ -408,9 +408,9 @@ class SovereignBridge:
 
                 f"System: {system_context}\n"
 
-                f"User: ?  ?  ?  ? ???\n"
+                f"User: ?  ?  ?  ? ✨?\n"
 
-                f"Elysia: ? ??       ?  ?   ?  ??   ???  , E.L.Y.S.I.A.?  ??\n" 
+                f"Elysia: ? ✨       ?  ?   ?  ✨   ✨?  , E.L.Y.S.I.A.?  ✨\n" 
 
                 f"User: {prompt}\n"
 

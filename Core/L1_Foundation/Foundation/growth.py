@@ -58,7 +58,7 @@ class Growth:
         #               
         self.fragments: Dict[str, Fragment] = {}
         
-        # Heart    (      )
+        # Heart    (주권적 자아)
         self._heart = None
         
     @property
@@ -164,7 +164,7 @@ class Growth:
                 "can_heal": self._can_heal(fragment)
             }
         
-        #       (        )
+        #       (자기 성찰 엔진)
         meaning = self._infer_meaning(fragment)
         love_connection = self._how_helps_love(fragment, meaning)
         

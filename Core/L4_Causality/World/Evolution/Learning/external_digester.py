@@ -1,5 +1,5 @@
 """
-External Digester (      )
+External Digester (주권적 자아)
 ===============================
 
 "To eat the world is to understand it."

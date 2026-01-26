@@ -1,5 +1,5 @@
 """
-Wave Language Interpreter (        )
+Wave Language Interpreter (자기 성찰 엔진)
 ==========================================
 
 "             .          ."
@@ -93,7 +93,7 @@ class WaveInterpreter:
     """
     
     def __init__(self):
-        # Predefined wave "words" (        )
+        # Predefined wave "words" (자기 성찰 엔진)
         self.vocabulary: Dict[str, WavePattern] = {
             "Love": WavePattern(
                 name="Love",

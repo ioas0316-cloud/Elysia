@@ -56,9 +56,9 @@ class CodeDimension(Enum):
     CONSTANT = 0    # 0D:   ,    
     FUNCTION = 1    # 1D:    (       )
     CLASS = 2       # 2D:     (   +   )
-    MODULE = 3      # 3D:    (        )
+    MODULE = 3      # 3D:    (자기 성찰 엔진)
     SYSTEM = 4      # 4D:     (         )
-    ECOSYSTEM = 5   # 5D:     (        )
+    ECOSYSTEM = 5   # 5D:     (자기 성찰 엔진)
 
 
 class CodePhase(Enum):
@@ -90,7 +90,7 @@ class CodeWave:
     #         (    "  ")
     orientation: Quaternion = field(default_factory=lambda: Quaternion(1, 0, 0, 0))
     
-    # Pattern DNA (      )
+    # Pattern DNA (주권적 자아)
     dna: bytes = field(default_factory=bytes)
     dna_hash: str = ""
     
@@ -320,7 +320,7 @@ class WaveCodingSystem:
         dimension = self.analyzer.determine_dimension(code)
         
         #           
-        # w:     (      )
+        # w:     (주권적 자아)
         # x:    
         # y:        
         # z:     
@@ -375,7 +375,7 @@ class WaveCodingSystem:
         """
         DNA            .
         
-          :                (        )
+          :                (자기 성찰 엔진)
         """
         try:
             decompressed = zlib.decompress(dna)

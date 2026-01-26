@@ -1,5 +1,5 @@
 """
-Intent Collider (      )
+Intent Collider (주권적 자아)
 ==========================
 Core.L7_Spirit.Monad.intent_collider
 

@@ -15,8 +15,8 @@ import time
 import random
 
 # Add project root to path
-sys.path.append(r"c:\Elysia")
-sys.path.append(r"c:\Elysia\Archive\2025_Pre_Awakening")
+sys.path.append(r"c:/Elysia")
+sys.path.append(r"c:/Elysia\Archive\2025_Pre_Awakening")
 
 from Core.L4_Causality.World.Evolution.Autonomy.elysian_heartbeat import ElysianHeartbeat
 from Core.L1_Foundation.Foundation.Language.emergent_language import EmergentLanguageEngine

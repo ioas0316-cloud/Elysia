@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
 from Core.L5_Mental.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
 

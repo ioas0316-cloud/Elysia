@@ -32,7 +32,7 @@ class Wave:
     frequency: float  #     (Hz) -   /   ( : 432=Healing, 10=Alpha)
     amplitude: float  #    (0.0 ~ 1.0) -   /   
     phase: str        #    -   /   ( : "DESIRE", "SENSATION", "THOUGHT")
-    payload: Any      #        (      )
+    payload: Any      #        (주권적 자아)
     timestamp: datetime = field(default_factory=datetime.now)
     id: str = field(default_factory=lambda: str(uuid.uuid4())[:8])
 
@@ -96,7 +96,7 @@ class Ether:
         return [w for w in self.waves if w.amplitude >= min_amplitude]
 
     def clear_waves(self):
-        """      (           )"""
+        """      (코드 베이스 구조 로터)"""
         self.waves.clear()
 
 # Global Singleton Access

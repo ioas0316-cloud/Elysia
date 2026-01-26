@@ -127,7 +127,7 @@ class RotorEngine:
 
 
         if self.use_core:
-            logger.info(f"?? Initializing [CORE] Active Prism-Rotor at {rpm} RPM...")
+            logger.info(f"✨ Initializing [CORE] Active Prism-Rotor at {rpm} RPM...")
             self.turbine = ActivePrismRotor(rpm=rpm)
             self.void = VoidSingularity()
         else:

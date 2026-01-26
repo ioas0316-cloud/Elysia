@@ -35,7 +35,7 @@ class SovereignHUD:
             "MANIFESTATION": "?뭿",
             "HEALING": "?㈈"
         }
-        icon = icons.get(state_name, "??)
+        icon = icons.get(state_name, "✨)
         print(f"[{icon}] {fragment_summary}")
 
     def project_narrative(self, narrative: str):

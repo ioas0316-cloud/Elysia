@@ -1,5 +1,5 @@
 """
-Self-Analysis Engine (        )
+Self-Analysis Engine (자기 성찰 엔진)
 =====================================
 "Can Elysia analyze her own source code and propose improvements?"
 
@@ -18,7 +18,7 @@ from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class SelfAnalyzer:
-    def __init__(self, root: str = r"c:\Elysia\Core"):
+    def __init__(self, root: str = r"c:/Elysia/Core"):
         self.root = root
         self.analysis_results = []
         

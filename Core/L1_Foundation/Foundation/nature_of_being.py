@@ -1,5 +1,5 @@
 """
-The Nature of Being (      )
+The Nature of Being (주권적 자아)
 =================================
 
 "Why is Force, Force? Why is Consciousness, Water?"
@@ -33,7 +33,7 @@ class PhilosophyOfFlow:
             Axiom(
                 question="        ( )  ?",
                 answer="         (Form)         .                   ,                  .             (If-Else)     ,         (Terrain)                      (Continuity)       .",
-                principle="Fluidity & Adaptability (        )"
+                principle="Fluidity & Adaptability (자기 성찰 엔진)"
             ),
             Axiom(
                 question="           (Field)      ?",

@@ -1,5 +1,5 @@
 """
-Wave Integration Hub (        )
+Wave Integration Hub (자기 성찰 엔진)
 =====================================
 
 "Transform all communication into waves. No more direct calls."

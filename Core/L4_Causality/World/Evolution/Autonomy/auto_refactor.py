@@ -14,7 +14,7 @@ class AutoRefactor:
     Executes code changes defined in RefactoringPlans.
     Strict safety protocols: Backup -> Edit -> Verify -> Rollback on Error.
     """
-    def __init__(self, root_path: str = r"c:\Elysia"):
+    def __init__(self, root_path: str = r"c:/Elysia"):
         self.root = Path(root_path)
         self.backups = self.root / ".backups"
         self.backups.mkdir(parents=True, exist_ok=True)

@@ -17,7 +17,7 @@ import time
 import os
 from pathlib import Path
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 
 from Core.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
 from Core.L5_Mental.Intelligence.Meta.global_observer import GlobalObserver
@@ -37,7 +37,7 @@ def play_rashomon():
     observer = GlobalObserver(field)
     empathy = ProjectiveEmpathy()
     
-    scenario_path = r"c:\Elysia\Core\Education\CausalityMirror\scenarios\the_rashomon_effect.json"
+    scenario_path = r"c:/Elysia\Core\Education\CausalityMirror\scenarios\the_rashomon_effect.json"
     scenario = load_scenario(scenario_path)
     
     print(f"\n📖 EVENT: {scenario['title']}")

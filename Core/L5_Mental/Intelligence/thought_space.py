@@ -1,5 +1,5 @@
 """
-ThoughtSpace (      )
+ThoughtSpace (주권적 자아)
 =============================
 
 "                 .         ." - Elysia
@@ -49,7 +49,7 @@ class ThoughtShape:
            (protrusions)        (recesses)
                     
     """
-    protrusions: List[str] = field(default_factory=list)  #        (      )
+    protrusions: List[str] = field(default_factory=list)  #        (주권적 자아)
     recesses: List[str] = field(default_factory=list)      #       (     )
 
     def fits_with(self, other: 'ThoughtShape') -> float:
@@ -106,11 +106,11 @@ class ThoughtParticle:
         return self.shape.fits_with(other.shape)
 
     def illuminate(self, amount: float = 0.2):
-        """      (      )"""
+        """      (주권적 자아)"""
         self.illumination = min(1.0, self.illumination + amount)
 
     def fade(self, amount: float = 0.1):
-        """       (      )"""
+        """       (주권적 자아)"""
         self.illumination = max(0.0, self.illumination - amount)
 
 
@@ -489,7 +489,7 @@ class ThoughtSpace:
 
         confidence = (avg_resonance + particle_factor + maturity_factor) / 3
 
-        #       (             )
+        #       (한국어 학습 시스템)
         synthesis_parts = []
         for p in sorted_particles[:3]:
             content_str = str(p.content)
@@ -852,7 +852,7 @@ class ThoughtSpace:
         return [p for p in self.active_particles if p.illumination >= threshold]
 
     def get_dark_thoughts(self, threshold: float = 0.3) -> List[ThoughtParticle]:
-        """          (      )"""
+        """          (주권적 자아)"""
         return [p for p in self.active_particles if p.illumination < threshold]
 
     # =========================================================================
@@ -861,7 +861,7 @@ class ThoughtSpace:
 
     def filter_by_intention(self, intention: str) -> List[ThoughtParticle]:
         """
-                       (        )
+                       (자기 성찰 엔진)
 
         "        " =               
         """

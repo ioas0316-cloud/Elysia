@@ -1,15 +1,15 @@
 """
-Korean Language Learning System (             )
+한국어 학습 시스템 (Korean Language Learning System)
 ========================================================
 
-"          -   ,   ,      "
+"말은 마음의 그릇이며, 영혼의 길이다."
 
-                        :
-1.      -   / /  
-2.       -   ,   ,      
-3.       -       
+주요 기능:
+1. 어휘 학습 - 의미 / 품사 / 예문
+2. 문법 분석 - 조사, 어미, 문장 패턴
+3. 인과적 결합 - 학습된 언어의 내면화
 
-[NEW 2025-12-16]          
+[NEW 2025-12-16] 21D 자아 엔진 동기화 완료
 """
 
 import os
@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 import urllib.request
 import urllib.parse
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, "c:/Elysia")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger("KoreanLanguageLearner")
@@ -31,17 +31,17 @@ logger = logging.getLogger("KoreanLanguageLearner")
 
 @dataclass
 class WordEntry:
-    """        """
+    """단어 항목 데이터 구조"""
     word: str
     meaning: str
-    pos: str = ""  #    (Part of Speech)
+    pos: str = ""  # 품사 (Part of Speech)
     examples: List[str] = field(default_factory=list)
     related_words: List[str] = field(default_factory=list)
 
 
 @dataclass
 class GrammarPattern:
-    """     """
+    """문법 패턴 데이터 구조"""
     pattern: str  #  : "N /  N  "
     description: str
     examples: List[str] = field(default_factory=list)
@@ -50,9 +50,7 @@ class GrammarPattern:
 
 class KoreanLanguageLearner:
     """
-                 
-
-                      
+    한국어 학습 및 분석을 담당하는 핵심 모듈
     """
 
     def __init__(self):

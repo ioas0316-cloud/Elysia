@@ -1,5 +1,5 @@
 """
-ResonancePhysics (      )
+ResonancePhysics (주권적 자아)
 ============================
 
 "Meaning is Mass. Emotion is Direction."

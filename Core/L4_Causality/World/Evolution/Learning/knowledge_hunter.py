@@ -1,5 +1,5 @@
 """
-Knowledge Hunter (      )
+Knowledge Hunter (주권적 자아)
 ==============================
 
 "The Wolf does not wait for the sheep."

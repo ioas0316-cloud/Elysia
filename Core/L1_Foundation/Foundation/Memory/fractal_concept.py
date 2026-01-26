@@ -22,7 +22,7 @@ MAX_SUB_CONCEPTS = 5   # Limit branching factor
 @dataclass
 class ConceptNode:
     """
-    A Concept Seed (      )
+    A Concept Seed (주권적 자아)
     
     Stores a concept as a compressed "DNA formula":
     - name: The concept's label ("Love", "Hope", etc.)
@@ -73,7 +73,7 @@ class ConceptNode:
 
 class ConceptDecomposer:
     """
-    The Seed Generator (      )
+    The Seed Generator (주권적 자아)
     
     Decomposes concepts into fractal sub-waves.
     Uses hardcoded "genetic templates" for now (can be learned later).
@@ -445,7 +445,7 @@ class ConceptDecomposer:
     }
     
     def __init__(self):
-        # Hardcoded genetic templates (           )
+        # Hardcoded genetic templates (코드 베이스 구조 로터)
         self.decompositions = {
             "Love": [
                 ("Unity", 528.0, Quaternion(1, 0.9, 0, 0.5)),      # Emotion + Ethics

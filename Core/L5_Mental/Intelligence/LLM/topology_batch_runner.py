@@ -1,6 +1,6 @@
 
 """
-LLM Topology Batch Runner (      )
+LLM Topology Batch Runner (주권적 자아)
 =====================================
 Core.L5_Mental.Intelligence.LLM.topology_batch_runner
 

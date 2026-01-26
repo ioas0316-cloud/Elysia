@@ -104,7 +104,7 @@ for i in range(0, len(comprehensive_curriculum), batch_size):
     
     print(f"   Progress: {learned_count}/{len(comprehensive_curriculum)}")
     
-    #    (      )
+    #    (주권적 자아)
     if batch_num % 3 == 0:
         print("     Compressing memories...")
         memory.compress_fractal()

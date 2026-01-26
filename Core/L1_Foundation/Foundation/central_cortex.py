@@ -111,7 +111,7 @@ class CentralCortex:
             result['concept_orientation'] = coord.orientation
             print(f"     Orientation (fallback): {coord.orientation}")
         
-        # 4. Communication (      )
+        # 4. Communication (주권적 자아)
         if self.comm_enhancer:
             print("\n4   Expressing in Language...")
             

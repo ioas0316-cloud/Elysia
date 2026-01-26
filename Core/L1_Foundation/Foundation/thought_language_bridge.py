@@ -237,7 +237,7 @@ class ThoughtLanguageBridge:
         # 1.   
         thought = self.understand_language(text)
         
-        # 2.       (        )
+        # 2.       (자기 성찰 엔진)
         related = self.reasoning_engine.find_resonant_concepts(
             thought.concept,
             self.universe

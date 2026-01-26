@@ -106,7 +106,7 @@ class RapidLearningEngine:
         # 3.          (   +   )
         concept_definitions = self.concept_extractor.extract_concepts(text)
         
-        # 4.       (      )
+        # 4.       (주권적 자아)
         concept_names = [c.name for c in concept_definitions]
         relationships = self.relationship_extractor.extract_relationships(text, concept_names)
         
@@ -338,7 +338,7 @@ class RapidLearningEngine:
         """      (      -           )"""
         concepts = {}
         
-        #     (      )
+        #     (주권적 자아)
         stopwords = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 
                      'to', 'for', 'of', 'as', 'by', 'with', 'from', 'is', 'are',
                      'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had'}

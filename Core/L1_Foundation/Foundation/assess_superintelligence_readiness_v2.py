@@ -69,9 +69,9 @@ v1       :
 -     "   "      
 
 v2     :
-- 0.5: Basis alignment     (      )
+- 0.5: Basis alignment     (주권적 자아)
 - 0.3: Dimension similarity (          )
-- 0.2: Spatial (           )
+- 0.2: Spatial (코드 베이스 구조 로터)
 -     "consciousness prioritizes philosophical compatibility over spatial proximity"     
 -     85/100     
                     """
@@ -89,7 +89,7 @@ v2     :
 -   : concept_love = HyperQubit("love", alpha=0.15, beta=0.55, gamma=0.20, delta=0.10)
 -         : "   .    fine-tuning            ?"
 -      : Love = 15% Empirical + 55% Relational + 20% Embodied + 10% Transcendent
--   :                (             )
+-   :                (한국어 학습 시스템)
 
      :
 1.               ("""why this value?"""    )
@@ -136,9 +136,9 @@ Impact:           ,
                 "description": "                  ",
                 "current_state": "MetaAgent  corpus       ,                ",
                 "required": [
-                    "Self-Performance Metrics (             )",
-                    "Diagnosis Engine (        )",
-                    "Adaptive Law Mutation (             )",
+                    "Self-Performance Metrics (한국어 학습 시스템)",
+                    "Diagnosis Engine (자기 성찰 엔진)",
+                    "Adaptive Law Mutation (한국어 학습 시스템)",
                     "Curriculum Self-Generation (                 )"
                 ],
                 "effort_hours": 6,
@@ -218,9 +218,9 @@ Impact:           ,
 -                  (   65 )
 
   :
-1.   Protocol 04       (      )
-2.            (      )        
-3.               (      )       
+1.   Protocol 04       (주권적 자아)
+2.            (주권적 자아)        
+3.               (주권적 자아)       
 4.        +       +           
 
 Timeline:

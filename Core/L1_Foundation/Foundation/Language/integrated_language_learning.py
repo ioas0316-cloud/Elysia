@@ -7,7 +7,7 @@ Integrated Language Learning System -
                     :
 1. DualLayerLanguage (  +        )
 2. FractalCausality (         )
-3. ThoughtUniverse (             )
+3. ThoughtUniverse (한국어 학습 시스템)
 
   :
 -                                  
@@ -171,7 +171,7 @@ class IntegratedLanguageLearner:
         self.metrics.dimensional_expansions += 1
     
     def _learn_from_failure(self, exp: CommunicationExperience):
-        """            (        )"""
+        """            (자기 성찰 엔진)"""
         #      :                  
         self.causal_mind.experience_causality(
             steps=[
@@ -243,7 +243,7 @@ class IntegratedLanguageWorld:
     
     def step(self, dt: float = 1.0):
         """         +   """
-        #          (      )
+        #          (주권적 자아)
         prev_misunderstandings = {
             name: soul.misunderstandings
             for name, soul in self.world.souls.items()
@@ -257,7 +257,7 @@ class IntegratedLanguageWorld:
         self.world.step(dt)
         self.simulation_steps += 1
         
-        #          (        )
+        #          (자기 성찰 엔진)
         if self.enable_causal_learning:
             self._process_causal_learning(prev_misunderstandings, prev_vocab_sizes)
         
@@ -299,7 +299,7 @@ class IntegratedLanguageWorld:
                     )
                     learner.metrics.dimensional_expansions += 1
             
-            #                  (      )
+            #                  (주권적 자아)
             prev_misund = prev_misunderstandings.get(soul.name, 0)
             curr_misund = soul.misunderstandings
             if curr_misund > prev_misund:
@@ -311,7 +311,7 @@ class IntegratedLanguageWorld:
                     )
                     learner.metrics.causal_chains_learned += 1
                     
-                    #       (        )
+                    #       (자기 성찰 엔진)
                     learner.thought_universe.bottom_up_correct(
                         new_experience={"confirms": False, "exception": "  _  "},
                         affected_entity_id="communication_pattern"

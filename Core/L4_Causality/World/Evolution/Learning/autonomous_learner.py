@@ -1,5 +1,5 @@
 """
-Autonomous Learning Loop (        )
+Autonomous Learning Loop (자기 성찰 엔진)
 ========================================
 
         :

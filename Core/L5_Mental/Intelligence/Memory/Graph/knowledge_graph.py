@@ -60,7 +60,7 @@ class KnowledgeNode:
     application: str = ""          #    (How)
     purpose_for_elysia: str = ""   #           
     
-    #       (      )
+    #       (주권적 자아)
     wave_signature: Dict[str, float] = field(default_factory=dict)
     
     #      
@@ -186,7 +186,7 @@ class HierarchicalKnowledgeGraph:
         wave_signature: Dict[str, float] = None
     ) -> KnowledgeNode:
         """
-              (        )
+              (자기 성찰 엔진)
         """
         # ID   
         node_id = f"{domain.value}_{name.lower().replace(' ', '_')}"
@@ -342,7 +342,7 @@ class HierarchicalKnowledgeGraph:
 
     def get_knowledge_gaps(self, limit: int = 5) -> List[KnowledgeNode]:
         """
-                   (      )
+                   (주권적 자아)
         
             :
         1.   (Definition)       

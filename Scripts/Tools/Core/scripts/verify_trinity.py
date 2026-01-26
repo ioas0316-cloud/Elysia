@@ -3,7 +3,7 @@ import os
 import logging
 
 # Set up project path
-root = r"c:\Elysia"
+root = r"c:/Elysia"
 if root not in sys.path:
     sys.path.insert(0, root)
 

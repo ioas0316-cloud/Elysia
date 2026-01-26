@@ -31,7 +31,7 @@ class ConversationEngine:
             user_input (str):        (     )
             
         Returns:
-            str:          (      )
+            str:          (주권적 자아)
         """
         self.logger.info(f"Input received: {user_input}")
         

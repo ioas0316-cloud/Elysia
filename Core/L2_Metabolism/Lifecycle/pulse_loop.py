@@ -186,7 +186,7 @@ class WonderField:
 
         """
 
-        logger.info("??Organic Pulse Cycle Initiated (Phase 1 UNIFICATION).")
+        logger.info("✨Organic Pulse Cycle Initiated (Phase 1 UNIFICATION).")
 
 
 
@@ -236,7 +236,7 @@ class WonderField:
 
             except KeyboardInterrupt:
 
-                logger.info("?? Life Cycle Terminated by User.")
+                logger.info("✨ Life Cycle Terminated by User.")
 
                 self.is_alive = False
 
@@ -400,7 +400,7 @@ class WonderField:
 
             if action == "STABILIZED":
 
-                logger.info(f"??[EPIPHANY] Dream resolved into insight: {self.current_dream.content}")
+                logger.info(f"✨[EPIPHANY] Dream resolved into insight: {self.current_dream.content}")
 
                 self.wonder.allure = 0.0 # Satisfaction (Curiosity Sated)
 
@@ -430,7 +430,7 @@ class WonderField:
 
                 except Exception as e:
 
-                    logger.error(f"   -> ??Failed to store dream: {e}")
+                    logger.error(f"   -> ✨Failed to store dream: {e}")
 
 
 

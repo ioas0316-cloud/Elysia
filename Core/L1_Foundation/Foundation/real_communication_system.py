@@ -1,5 +1,5 @@
 """
-Real Communication System (           )
+Real Communication System (코드 베이스 구조 로터)
 ===============================================
 
 "This is not a demo. This is real conversation."

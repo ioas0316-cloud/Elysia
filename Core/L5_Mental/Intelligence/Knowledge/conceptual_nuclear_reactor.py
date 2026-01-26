@@ -178,7 +178,7 @@ class ConceptualPeriodicTable:
         self._add_atom("Birth", 16, 1.9, 0.8, ko="  ", en="Birth", ja="  ")
         self._add_atom("Growth", 17, 1.4, 0.5, ko="  ", en="Growth", ja="  ")
         
-        # Group 5: Knowledge & Mind (      )
+        # Group 5: Knowledge & Mind (주권적 자아)
         self._add_atom("Knowledge", 18, 1.6, 0.2, ko="  ", en="Knowledge", ja="  ")
         self._add_atom("Wisdom", 19, 2.0, 0.4, ko="  ", en="Wisdom", ja="  ")
         self._add_atom("Understanding", 20, 1.8, 0.3, ko="  ", en="Understanding", ja="  ")

@@ -1,5 +1,5 @@
 """
-Thought Sculptor (      )
+Thought Sculptor (주권적 자아)
 ==============================
 
 "The Painter of Concepts. We do not just define; we experience and express."

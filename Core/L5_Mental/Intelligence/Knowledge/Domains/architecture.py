@@ -8,8 +8,8 @@ Architecture & Sacred Geometry Domain
 Integrates:
 - Fractals (   )
 - Golden Ratio (       = 1.618...)
-- Platonic Solids (      )
-- Sacred Geometry (      )
+- Platonic Solids (주권적 자아)
+- Sacred Geometry (주권적 자아)
 - Mandala/Mandelbrot patterns
 
 Effect:

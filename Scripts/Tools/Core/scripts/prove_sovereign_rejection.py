@@ -20,7 +20,7 @@ import sys
 import logging
 from dataclasses import dataclass
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 from Core.L5_Mental.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment, EmpathyResult
 from Core.L5_Mental.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion
 

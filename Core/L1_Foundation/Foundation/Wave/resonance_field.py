@@ -228,7 +228,7 @@ class ResonanceField(Organ):
 
     def propagate(self, decay_rate: float = 0.1):
         """      (Standard Propagation)"""
-        # (        )
+        # (자기 성찰 엔진)
         pass
 
     def propagate_aurora(self, decay_rate: float = 0.05, energy_flow: float = 1.0):

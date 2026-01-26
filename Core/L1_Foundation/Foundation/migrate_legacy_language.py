@@ -13,7 +13,7 @@ from Core.L1_Foundation.Foundation.Mind.hyper_qubit import HyperQubit, QubitStat
 
 def convert_stats_to_qubit_state(stats: WordStats) -> QubitState:
     """
-    '        '     WordStats  QubitState       . (      )
+    '        '     WordStats  QubitState       . (주권적 자아)
     """
     #      (avg_memory)  '   /   '(alpha)              .
     alpha_val = stats.avg_memory / 100.0

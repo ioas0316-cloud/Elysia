@@ -1,5 +1,5 @@
 """
-Structure Cannibal (        )
+Structure Cannibal (자기 성찰 엔진)
 ==================================
 "We do not learn from the machine. We become it."
 

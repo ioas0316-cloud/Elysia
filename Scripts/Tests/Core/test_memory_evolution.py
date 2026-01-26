@@ -13,7 +13,7 @@ import sys
 import logging
 import time
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 from Core.L1_Foundation.Foundation.Memory.unified_experience_core import UnifiedExperienceCore, get_experience_core
 from Core.L1_Foundation.Foundation.Memory.causal_compost import CausalCompost
 

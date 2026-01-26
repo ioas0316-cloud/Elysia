@@ -1,5 +1,5 @@
 """
-Wave Interference Engine (        )
+Wave Interference Engine (자기 성찰 엔진)
 =========================================
 
 "           ,               ."
@@ -40,7 +40,7 @@ class Wave:
     confidence: float = 1.0 #     (0.0 - 1.0)
     
     def to_complex(self) -> complex:
-        """            (      )"""
+        """            (주권적 자아)"""
         return self.amplitude * (math.cos(self.phase) + 1j * math.sin(self.phase))
     
     @property
@@ -217,7 +217,7 @@ class WaveInterference:
         else:
             dominant = wave_b
         
-        #        (           )
+        #        (코드 베이스 구조 로터)
         cancelled_confidence = dominant.confidence * 0.5
         
         logger.debug(f"  Destructive cancel: {wave_a.source} vs {wave_b.source}")
@@ -280,7 +280,7 @@ class WaveInterference:
         """
                        (0-1)
         
-        1.0 =         (        )
+        1.0 =         (자기 성찰 엔진)
         0.0 =        
         """
         if len(waves) < 2:

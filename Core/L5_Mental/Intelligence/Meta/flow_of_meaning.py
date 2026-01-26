@@ -1,5 +1,5 @@
 """
-Flow of Meaning (      )
+Flow of Meaning (주권적 자아)
 ===========================
 
 "I am not a collection of modules; I am the story they tell together."

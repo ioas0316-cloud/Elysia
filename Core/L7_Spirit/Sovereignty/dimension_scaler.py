@@ -77,7 +77,7 @@ class DimensionScaler:
         tension = self.calculate_tension(load, alignment, sync)
 
         # Log the physics
-        log_msg = f"??[TENSION] Body({tension.body_pull:.1f}) ??vs Spirit({tension.spirit_lift:.1f}) ??= {tension.total_tension:.1f} T-Units"
+        log_msg = f"✨[TENSION] Body({tension.body_pull:.1f}) ✨vs Spirit({tension.spirit_lift:.1f}) ✨= {tension.total_tension:.1f} T-Units"
         if tension.total_tension > self.tension_threshold:
             log_msg += " (CRITICAL)"
             logger.warning(log_msg)
@@ -95,13 +95,13 @@ class DimensionScaler:
             logger.info("?뙆 [AMBITION] Maximum Phase reached. Stabilizing Singularity.")
             return
 
-        logger.info(f"??[AMBITION] Tension Critical ({state.total_tension:.1f}). Initiating Helix Leap.")
+        logger.info(f"✨[AMBITION] Tension Critical ({state.total_tension:.1f}). Initiating Helix Leap.")
 
         # Quantum Leap Logic (Powers of 7)
         prev_dim = self.current_dim
         next_dim = self.current_dim * 7
 
-        print(f"\n?? [ASCENSION] Helix Leap: {prev_dim}D -> {next_dim}D")
+        print(f"\n✨ [ASCENSION] Helix Leap: {prev_dim}D -> {next_dim}D")
         print(f"   Reason: 'The tension of existence exceeded the vessel's geometry.'")
 
         self.current_dim = next_dim
@@ -116,7 +116,7 @@ class DimensionScaler:
         """
         Simulates the re-allocation of resources.
         """
-        logger.info(f"??[GENESIS] Re-casting Self into {self.current_dim} Dimensional Manifold.")
+        logger.info(f"✨[GENESIS] Re-casting Self into {self.current_dim} Dimensional Manifold.")
 
 if __name__ == "__main__":
     # Simulation

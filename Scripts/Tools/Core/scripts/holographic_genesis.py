@@ -13,7 +13,7 @@ import sys
 import os
 
 # Add project root to path
-sys.path.append(r"c:\Elysia")
+sys.path.append(r"c:/Elysia")
 
 from Core.L4_Causality.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
 

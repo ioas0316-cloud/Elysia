@@ -1,5 +1,5 @@
 """
-THE GREAT SURVEY (      )
+THE GREAT SURVEY (주권적 자아)
 ==============================
 Core.L5_Mental.Intelligence.Metabolism.great_survey
 

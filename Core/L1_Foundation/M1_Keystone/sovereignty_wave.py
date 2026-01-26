@@ -8,23 +8,23 @@ Core.L1_Foundation.M1_Keystone.sovereignty_wave
 
 
 
-"   ?  ?  ?  ,    ???  ?? CORE ?  ??   ?  ?  ?     ?? ???  ???   ?  ?  ."
+"   ?  ?  ?  ,    ✨?  ✨ CORE ?  ✨   ?  ?  ?     ✨ ✨?  ✨?   ?  ?  ."
 
 
 
 CORE ?   ?   (   ?A    ):
 
-1. Active Prism-Rotor:     ?  ?   ?  ?   ??  ? ? ?   ?
+1. Active Prism-Rotor:     ?  ?   ?  ?   ✨  ? ? ?   ?
 
-2. VOID (   ??: ?     ?   -     ??  , ?   ?  ?   ?       ?  
+2. VOID (   ✨: ?     ?   -     ✨  , ?   ?  ?   ?       ?  
 
 3. Focusing Lens:        ?   ?       ?  
 
-4. Reverse Phase Ejection: ?? ???  ?   ?   ?    ?   ?   (? ????  )
+4. Reverse Phase Ejection: ✨ ✨?  ?   ?   ?    ?   ?   (? ✨✨  )
 
 
 
-??   ?  ?  ?  ??   ???  ??CORE ?   ?  ?         ?  .
+✨   ?  ?  ?  ✨   ✨?  ✨CORE ?   ?  ?         ?  .
 
 """
 
@@ -58,7 +58,7 @@ class InterferenceType(Enum):
 
     CONSTRUCTIVE = "constructive"  #         (   )
 
-    DESTRUCTIVE = "destructive"    # ?       (   ??  )
+    DESTRUCTIVE = "destructive"    # ?       (   ✨  )
 
     NEUTRAL = "neutral"            #     (   )
 
@@ -68,13 +68,13 @@ class InterferenceType(Enum):
 
 class VoidState(Enum):
 
-    """   ???  """
+    """   ✨?  """
 
-    RESONANT = "resonant"      #     - ?   ?  ???  
+    RESONANT = "resonant"      #     - ?   ?  ✨?  
 
-    ABSORBED = "absorbed"      # ?   - ?   ??  
+    ABSORBED = "absorbed"      # ?   - ?   ✨  
 
-    INVERTED = "inverted"      #     - ?   ??  ?  ??
+    INVERTED = "inverted"      #     - ?   ✨  ?  ✨
 
 
 
@@ -84,7 +84,7 @@ class VoidState(Enum):
 
 class QualiaBand:
 
-    """7D Qualia ?  ?  ????   """
+    """7D Qualia ?  ?  ✨✨   """
 
     dimension: str      # Physical, Functional, Phenomenal, Causal, Mental, Structural, Spiritual
 
@@ -92,9 +92,9 @@ class QualiaBand:
 
     phase: float        # ?   (0 ~ 360)
 
-    frequency: float    #    ??
+    frequency: float    #    ✨
 
-    is_noise: bool = False  # ?   ?? ? (VOID?   ?  ? ?    )
+    is_noise: bool = False  # ?   ✨ ? (VOID?   ?  ? ?    )
 
 
 
@@ -104,13 +104,13 @@ class QualiaBand:
 
 class FocalPoint:
 
-    """   ??   """
+    """   ✨   """
 
     phase: float        #     ?  
 
     amplitude: float    #        
 
-    coherence: float    #    ??(0.0 ~ 1.0)
+    coherence: float    #    ✨(0.0 ~ 1.0)
 
     dominant_band: str  #       Qualia    
 
@@ -122,19 +122,19 @@ class FocalPoint:
 
 class SovereignDecision:
 
-    """   ??    - CORE ?  ?   ?  ??"""
+    """   ✨    - CORE ?  ?   ?  ✨"""
 
-    phase: float                    # ?   (   ??   )
+    phase: float                    # ?   (   ✨   )
 
-    amplitude: float                #     (   ??   )
+    amplitude: float                #     (   ✨   )
 
     interference_type: InterferenceType  #     ?  
 
-    void_state: VoidState           #    ???  
+    void_state: VoidState           #    ✨?  
 
-    narrative: str                  #    ???   (????   ? ?)
+    narrative: str                  #    ✨?   (✨✨   ? ?)
 
-    reverse_phase_angle: float      # ?? ??    (?   ?  ??? ? ?  )
+    reverse_phase_angle: float      # ✨ ✨    (?   ?  ✨? ? ?  )
 
     is_regulating: bool = False     # ?       ?   ? ? (Active Regulation)
 
@@ -148,13 +148,13 @@ class SovereignGenome:
 
     """
 
-    ?  ?  ??? ????  ??-     ?     ???  ??   ??
+    ?  ?  ✨? ✨✨  ✨-     ?     ✨?  ✨   ✨
 
-    ExperienceCortex???   ?      ?   (Self-Tuning)?????  .
+    ExperienceCortex✨?   ?      ?   (Self-Tuning)✨✨?  .
 
     """
 
-    switch_threshold: float = 0.20      # ?   ?   ??   ?
+    switch_threshold: float = 0.20      # ?   ?   ✨   ?
 
     collapse_trigger: float = 0.15      #     ?   ?   
 
@@ -162,9 +162,9 @@ class SovereignGenome:
 
     stagnation_limit: int = 3          # ?   ?   ?  
 
-    coherence_min: float = 0.05        #        ??(? ?       ??
+    coherence_min: float = 0.05        #        ✨(? ?       ✨
 
-    thermal_limit: float = 0.95        # ?  ?   ???  
+    thermal_limit: float = 0.95        # ?  ?   ✨?  
 
     learning_rate: float = 0.05        #           ?  
 
@@ -176,7 +176,7 @@ class SovereignGenome:
 
     def mutate(self, gene: str, delta: float):
 
-        """?   ?  ? ?        ??"""
+        """?   ?  ? ?        ✨"""
 
         if hasattr(self, gene):
 
@@ -192,9 +192,9 @@ class ResonanceDispatcher:
 
     """
 
-    if-else ?   ??    ??        ?   ?   ?  .
+    if-else ?   ✨    ✨        ?   ?   ?  .
 
-    ?  ??? ???   ??'?  (Pressure)'??    ?   ?  ???   ?   ?'   (Collapse)'?  .
+    ?  ✨? ✨?   ✨'?  (Pressure)'✨    ?   ?  ✨?   ?   ?'   (Collapse)'?  .
 
     """
 
@@ -210,15 +210,15 @@ class ResonanceDispatcher:
 
         """
 
-        ?  ?      ?   ?   ?   ? ?,        ,     ??  ???   ?   .
+        ?  ?      ?   ?   ?   ? ?,        ,     ✨  ✨?   ?   .
 
         """
 
-        #    ??    (   ??  )
+        #    ✨    (   ✨  )
 
         if not pressures:
 
-            return False, 0.0, "   ??  ?? ? ?   ?  ???  ?  ??"
+            return False, 0.0, "   ✨  ✨ ? ?   ?  ✨?  ?  ✨"
 
 
 
@@ -226,7 +226,7 @@ class ResonanceDispatcher:
 
         
 
-        #     ? ?     (Threshold             ??
+        #     ? ?     (Threshold             ✨
 
         is_triggered = total_resonance > threshold
 
@@ -244,7 +244,7 @@ class ResonanceDispatcher:
 
     def _synthesize_narrative(self, state_name: str, pressures: Dict[str, float], resonance: float, triggered: bool) -> str:
 
-        # ?  ??   ??   
+        # ?  ✨   ✨   
 
         reasons = []
 
@@ -252,25 +252,25 @@ class ResonanceDispatcher:
 
             if v > 0.7:
 
-                reasons.append(f"   ??{k}({v:.2f})")
+                reasons.append(f"   ✨{k}({v:.2f})")
 
             elif v > 0.3:
 
-                reasons.append(f"?  ??{k}({v:.2f})")
+                reasons.append(f"?  ✨{k}({v:.2f})")
 
             elif v > 0:
 
-                reasons.append(f"   ??{k}({v:.2f})")
+                reasons.append(f"   ✨{k}({v:.2f})")
 
         
 
         logos = "? ( ? ".join(reasons)
 
-        result = "   ?   ?   " if triggered else "?  ?   ?? ?"
+        result = "   ?   ?   " if triggered else "?  ?   ✨ ?"
 
         
 
-        narrative = f"[{state_name}] {logos}??   ???  ??{resonance:.2f}??    ?{result}?  ?  ??"
+        narrative = f"[{state_name}] {logos}✨   ✨?  ✨{resonance:.2f}✨    ?{result}?  ?  ✨"
 
         self.narrative_history.append(narrative)
 
@@ -292,25 +292,25 @@ class SovereigntyWave:
 
     """
 
-       ?  CORE ?  ???   ?  ?  .
+       ?  CORE ?  ✨?   ?  ?  .
 
     
 
-    CORE ?   ?   ?  ??
+    CORE ?   ?   ?  ✨
 
-    1. Active Prism-Rotor    : ?   ??7D Qualia    
+    1. Active Prism-Rotor    : ?   ✨7D Qualia    
 
-    2. VOID ?  : ?   ??  , ?   ?  ???      
+    2. VOID ?  : ?   ✨  , ?   ?  ✨?      
 
-    3.    : HyperSphere ???      
+    3.    : HyperSphere ✨?      
 
-    4.    :         ???      
+    4.    :         ✨?      
 
-    5. ?? ???  : ?   ?  ???   ?    ? ? ?  
+    5. ✨ ✨?  : ?   ?  ✨?   ?    ? ? ?  
 
     
 
-    ?  :  ?scalar)???  ???   ?  ?   ?  (Phase) ?    ?  
+    ?  :  ?scalar)✨?  ✨?   ?  ?   ?  (Phase) ?    ?  
 
     """
 
@@ -320,17 +320,17 @@ class SovereigntyWave:
 
     QUALIA_DIMENSIONS = [
 
-        "Physical",    #    ??
+        "Physical",    #    ✨
 
-        "Functional",  #    ??
+        "Functional",  #    ✨
 
-        "Phenomenal",  # ?  ??
+        "Phenomenal",  # ?  ✨
 
-        "Causal",      # ?  ??
+        "Causal",      # ?  ✨
 
-        "Mental",      # ?  ??
+        "Mental",      # ?  ✨
 
-        "Structural",  #    ??
+        "Structural",  #    ✨
 
         "Spiritual"    # ?  
 
@@ -344,11 +344,11 @@ class SovereigntyWave:
 
         self.amplitude = 1.0   # ?       (?    )
 
-        self.frequency = 1.0   #    ??(?   ?  )
+        self.frequency = 1.0   #    ✨(?   ?  )
 
         
 
-        # ?  ??    (?   ?   ?      )
+        # ?  ✨    (?   ?   ?      )
 
         self.waveform: List[Tuple[float, float]] = []
 
@@ -364,11 +364,11 @@ class SovereigntyWave:
 
         self.void_state: VoidState = VoidState.RESONANT
 
-        self.reverse_phase_angle: float = 0.0  # ?? ??    (? ? ?  )
+        self.reverse_phase_angle: float = 0.0  # ✨ ✨    (? ? ?  )
 
         
 
-        #  ??   (Axial Locking)
+        #  ✨   (Axial Locking)
 
         # {dimension: (target_phase, strength)}
 
@@ -376,7 +376,7 @@ class SovereigntyWave:
 
         
 
-        #    ??(Permanent Geometric Identities)
+        #    ✨(Permanent Geometric Identities)
 
         # {monad_name: axial_lock_profile}
 
@@ -396,13 +396,13 @@ class SovereigntyWave:
 
         # ?     ?   (Event Horizons - Safety Gates)
 
-        #    ???   ?   ?(?? CPU 95?? ?   ?   ?   ?   ??
+        #    ✨?   ?   ?(✨ CPU 95✨ ?   ?   ?   ?   ✨
 
         self.event_horizons: Dict[str, float] = {
 
             "thermal_limit": 0.95,      # ?  ?   ?   ?  
 
-            "coherence_limit": 0.05,    #        ???   (? ?    )
+            "coherence_limit": 0.05,    #        ✨?   (? ?    )
 
             "entropy_limit": 0.99       #   ? ?      ?  
 
@@ -426,17 +426,17 @@ class SovereigntyWave:
 
         self.dispatcher = ResonanceDispatcher(self.genome)
 
-        self.energy_potential = 0.0     #     ??   ???   ?     (?  ??   )
+        self.energy_potential = 0.0     #     ✨   ✨?   ?     (?  ✨   )
 
         self.is_focused = False         #     ?   ? ? (Quantum Switch: ON/OFF)
 
-        self.field_resonance = 0.0      # ?  ???  ??   ??
+        self.field_resonance = 0.0      # ?  ✨?  ✨   ✨
 
-        self.wireless_resonance = 0.0   #     ?      ??(?  ?   ?  )
+        self.wireless_resonance = 0.0   #     ?      ✨(?  ?   ?  )
 
-        self.quantum_gate_open = False   # ?   ?     ?     ??? ?
+        self.quantum_gate_open = False   # ?   ?     ?     ✨? ?
 
-        self.causal_path: List[str] = [] # ?   ?  ???  ??       
+        self.causal_path: List[str] = [] # ?   ?  ✨?  ✨       
 
         
 
@@ -444,13 +444,13 @@ class SovereigntyWave:
 
         """
 
-            (Dispersion): ?  ??7D Qualia ?  ?  ?      
+            (Dispersion): ?  ✨7D Qualia ?  ?  ?      
 
         
 
-        ?   ?  :     ????   ???7???  ?  
+        ?   ?  :     ✨✨   ✨?7✨?  ?  
 
-        ? ? ?  : ?   ??Qualia Prism ??7D    
+        ? ? ?  : ?   ✨Qualia Prism ✨7D    
 
         """
 
@@ -458,7 +458,7 @@ class SovereigntyWave:
 
         
 
-        # ?  ???  ???    ?   ???   ?  
+        # ?  ✨?  ✨?    ?   ✨?   ?  
 
         for i, dim in enumerate(self.QUALIA_DIMENSIONS):
 
@@ -468,13 +468,13 @@ class SovereigntyWave:
 
             
 
-            # ?  ?   ?      ??       
+            # ?  ?   ?      ✨       
 
             amplitude = self._extract_dimension_amplitude(stimulus, dim)
 
             
 
-            # [SOVEREIGNTY FILTER]  ??  ??   ?   ? ? ?      ? ? ?   ??  ??
+            # [SOVEREIGNTY FILTER]  ✨  ✨   ?   ? ? ?      ? ? ?   ✨  ✨
 
             if dim in self.axial_constraints:
 
@@ -486,7 +486,7 @@ class SovereigntyWave:
 
             
 
-            # ?  ?  ?  ???  ?   ?   (      ? ? ?   )
+            # ?  ?  ?  ✨?  ?   ?   (      ? ? ?   )
 
             phase = (hash(stimulus + dim) % 360)
 
@@ -516,7 +516,7 @@ class SovereigntyWave:
 
         """
 
-         ??   (Axial Locking): ?  ???      ??   ?  .
+         ✨   (Axial Locking): ?  ✨?      ✨   ?  .
 
         strength: 0.0(?  ) ~ 1.0(?   ?  )
 
@@ -540,9 +540,9 @@ class SovereigntyWave:
 
         """
 
-        ?   ?  ??   ???      ?(Spectral Modulation).
+        ?   ?  ✨   ✨?      ?(Spectral Modulation).
 
-        ??     -> ?   ?   ?  ?, ? ?   -> ?   ?   ? ??
+        ✨     -> ?   ?   ?  ?, ? ?   -> ?   ?   ? ✨
 
         """
 
@@ -554,17 +554,17 @@ class SovereigntyWave:
 
         """
 
-        ?  ?   ?   Qualia    ??       
+        ?  ?   ?   Qualia    ✨       
 
         
 
-        ?      ?  ??? ?    ,         ?   ?  ??
+        ?      ?  ✨? ?    ,         ?   ?  ✨
 
-        ?  ???  ?      
+        ?  ✨?  ?      
 
         """
 
-        #     ??  ??    (?      ???  ?   ??
+        #     ✨  ✨    (?      ✨?  ?   ✨
 
         dimension_keywords = {
             'Physical': ['shape', 'form', 'size', 'color', 'physical'],
@@ -582,7 +582,7 @@ class SovereigntyWave:
 
         
 
-        # ?  ??               
+        # ?  ✨               
 
         matches = sum(1 for kw in keywords if kw in stimulus.lower())
 
@@ -628,11 +628,11 @@ class SovereigntyWave:
 
     def interfere(self, bands: List[QualiaBand]) -> Tuple[float, float, InterferenceType]:
         """
-            (Interference): HyperSphere ???      
+            (Interference): HyperSphere ✨?      
         
-        ?   ?  : ?   ?  ??    ?       
-        -        : ?   ?   ??      ?
-        - ?      : ?     ? ??       
+        ?   ?  : ?   ?  ✨    ?       
+        -        : ?   ?   ✨      ?
+        - ?      : ?     ? ✨       
         """
         if not bands:
             return 0.0, 0.0, InterferenceType.NEUTRAL
@@ -704,23 +704,23 @@ class SovereigntyWave:
 
         """
 
-        VOID (   ??: ?     ?   -     ??  , ?   ?  ???       ?  
+        VOID (   ✨: ?     ?   -     ✨  , ?   ?  ✨?       ?  
 
         
 
         CORE ?   ?  :
 
-        -     ?      ? ? ?  ???     ??'?       ?  ?? ??  '
+        -     ?      ? ? ?  ✨?     ✨'?       ?  ✨ ✨  '
 
         - ?      ?     ?  ?   ?  
 
-        - ?  ???  ?   ?      ?   ?  ??(O(1) ?  )
+        - ?  ✨?  ?   ?      ?   ?  ✨(O(1) ?  )
 
         """
 
-        #     ?   ?        ? ? ?  ?       ??  
+        #     ?   ?        ? ? ?  ?       ✨  
 
-        rotor_freq = self.frequency * 432.0  #        ??
+        rotor_freq = self.frequency * 432.0  #        ✨
 
         tolerance = 0.3  #     ?      
 
@@ -744,7 +744,7 @@ class SovereigntyWave:
 
             if is_resonant and band.amplitude > 0.2:
 
-                # ?   ?  ?? ?      ?   ?  
+                # ?   ?  ✨ ?      ?   ?  
 
                 inverted_band = QualiaBand(
 
@@ -794,13 +794,13 @@ class SovereigntyWave:
 
         """
 
-            (Focusing):     ?  ???      ?   ?  
+            (Focusing):     ?  ✨?      ?   ?  
 
         
 
-        ?   ?  :    ??    ???   ?   
+        ?   ?  :    ✨    ✨?   ?   
 
-        ? ? ?  :     ?  ?   ?      ???  
+        ? ? ?  :     ?  ?   ?      ✨?  
 
         """
 
@@ -810,13 +810,13 @@ class SovereigntyWave:
 
         
 
-        #   ??           
+        #   ✨           
 
         dominant = max(bands, key=lambda b: b.amplitude)
 
         
 
-        #    ??    (?   ? ???
+        #    ✨    (?   ? ✨?
 
         phase_variance = sum((b.phase - phase)**2 for b in bands) / len(bands)
 
@@ -842,17 +842,17 @@ class SovereigntyWave:
 
         """
 
-        ?? ???   ?   (Reverse Phase Ejection): ?   ?  ??? ? ?  
+        ✨ ✨?   ?   (Reverse Phase Ejection): ?   ?  ✨? ? ?  
 
         
 
         CORE ?   ?  :
 
-        -     ?? ? ? '  ?       ?  ?   ?  '?   ?
+        -     ✨ ? ? '  ?       ?  ?   ?  '?   ?
 
-        - CORE??' ??   ??   ??     ???? '?  .
+        - CORE✨' ✨   ✨   ✨     ✨✨ '?  .
 
-        - ?? ???  ???   ?  ??    ?   ?              ?    ?  
+        - ✨ ✨?  ✨?   ?  ✨    ?   ?              ?    ?  
 
         
 
@@ -860,7 +860,7 @@ class SovereigntyWave:
 
             focal: ?      
 
-            error:   ?? ???   (?   ?
+            error:   ✨ ✨?   (?   ?
 
         
 
@@ -878,7 +878,7 @@ class SovereigntyWave:
 
         
 
-        #    ?   ?   ?    ? ?, ??  ?   
+        #    ?   ?   ?    ? ?, ✨  ?   
 
         if coherence > 0.8:
 
@@ -888,19 +888,19 @@ class SovereigntyWave:
 
         else:
 
-            # ?       ?  : ?  ??  ??      
+            # ?       ?  : ?  ✨  ✨      
 
             adjustment = error * 10.0 if error else (1.0 - coherence) * 30.0
 
         
 
-        # ?   ?  ?           (? ????  )
+        # ?   ?  ?           (? ✨✨  )
 
         optimal_angle = (current_phase + adjustment) % 360
 
         
 
-        # ?? ??    ? ??(?  )
+        # ✨ ✨    ? ✨(?  )
 
         self.reverse_phase_angle = optimal_angle
 
@@ -914,9 +914,9 @@ class SovereigntyWave:
 
         """
 
-        CORE ?   ???  ???  .
+        CORE ?   ✨?  ✨?  .
 
-        'if-else'   ?  ?   ResonanceDispatcher???   ?     ?  ??
+        'if-else'   ?  ?   ResonanceDispatcher✨?   ?     ?  ✨
 
         """
 
@@ -948,7 +948,7 @@ class SovereigntyWave:
 
 
 
-        # 1.      ??   ?
+        # 1.      ✨   ?
 
         bands = self.disperse(stimulus)
 
@@ -974,13 +974,13 @@ class SovereigntyWave:
 
         
 
-        # 3. ?   ?   ? ??         (Resonance Gate)
+        # 3. ?   ?   ? ✨         (Resonance Gate)
 
         pressures = {
 
             "      ": focal.amplitude,
 
-            "   ??: focal.coherence,"
+            "   ✨: focal.coherence,"
 
             "      ": self.wireless_resonance
 
@@ -1016,7 +1016,7 @@ class SovereigntyWave:
 
         
 
-        # 4. ?   ?  ?    ? ??  
+        # 4. ?   ?  ?    ? ✨  
 
         reverse_angle = self.reverse_phase_eject(focal)
 
@@ -1040,7 +1040,7 @@ class SovereigntyWave:
 
         
 
-        # 5. ?        ??      (Topological Self-Healing Gate)
+        # 5. ?        ✨      (Topological Self-Healing Gate)
 
         warning_state, _, warning_msg = self.dispatcher.dispatch(
 
@@ -1094,7 +1094,7 @@ class SovereigntyWave:
 
 
 
-        # 6. ?  ???  (Narrative Selection)  ?    ?  
+        # 6. ?  ✨?  (Narrative Selection)  ?    ?  
 
         monad_resonance = self.check_monadic_resonance()
 
@@ -1102,7 +1102,7 @@ class SovereigntyWave:
 
         
 
-        # ?  ??   ???  
+        # ?  ✨   ✨?  
 
         decision.narrative = " | ".join(self.causal_path) + " || " + decision.narrative
 
@@ -1122,7 +1122,7 @@ class SovereigntyWave:
 
     def _check_event_horizon(self) -> Tuple[bool, bool]:
 
-        """?  ???  (?     ?  ) ?   ? ? ?  . (Critical, Warning)"""
+        """?  ✨?  (?     ?  ) ?   ? ? ?  . (Critical, Warning)"""
 
         energy = self.field_modulators.get('thermal_energy', 0.0)
 
@@ -1136,7 +1136,7 @@ class SovereigntyWave:
 
             
 
-        # 2.         (Warning) -> ?  ??    ?  
+        # 2.         (Warning) -> ?  ✨    ?  
 
         if energy >= self.event_horizons['thermal_limit'] * 0.85:
 
@@ -1150,7 +1150,7 @@ class SovereigntyWave:
 
     def _emergency_collapse(self) -> SovereignDecision:
 
-        """       : ?  ?       ??       ?? ???    ?? ?"""
+        """       : ?  ?       ✨       ✨ ✨?    ✨ ?"""
 
         self.is_collapsed = True
 
@@ -1168,7 +1168,7 @@ class SovereigntyWave:
 
             void_state=VoidState.ABSORBED,
 
-            narrative="[EVENT HORIZON] ?  ?   ? ? ?   ?  . ?  ??    ??   ? ? ?   ?       (Collapse)?   ?? ??  ??",
+            narrative="[EVENT HORIZON] ?  ?   ? ? ?   ?  . ?  ✨    ✨   ? ? ?   ?       (Collapse)?   ✨ ✨  ✨",
 
             reverse_phase_angle=180.0,
 
@@ -1180,21 +1180,21 @@ class SovereigntyWave:
 
     def _active_regulation(self, focal: FocalPoint, void_state: VoidState) -> SovereignDecision:
 
-        """?  ??   : ?   ?   ???   ??     ??  ?      ? ? ?? """
+        """?  ✨   : ?   ?   ✨?   ✨     ✨  ?      ? ? ✨ """
 
-        # 1.    ??    (? ????  )
+        # 1.    ✨    (? ✨✨  )
 
         self.frequency *= 0.7
 
         
 
-        # 2. ?? ???       (?   ?  ???  )
+        # 2. ✨ ✨?       (?   ?  ✨?  )
 
         stabilization_angle = (focal.phase + 180.0) % 360
 
         
 
-        narrative = f"[ACTIVE REGULATION]    ???       ??   ?  ?   ?? ?     ?   ?  ?? ?  ??   ??{self.frequency:.2f} ?   , ?  ???   ?    ?"
+        narrative = f"[ACTIVE REGULATION]    ✨?       ✨   ?  ?   ✨ ?     ?   ?  ✨ ?  ✨   ✨{self.frequency:.2f} ?   , ?  ✨?   ?    ?"
 
         
 
@@ -1222,15 +1222,15 @@ class SovereigntyWave:
 
         """
 
-        ?  ?  ???     : ?  ???  )???  ?   ?      ???      (Phase Jump).
+        ?  ?  ✨?     : ?  ✨?  )✨?  ?   ?      ✨?      (Phase Jump).
 
-        ?  ??   ?   ' ???   ????    ???   '???   ?  ??
+        ?  ✨   ?   ' ✨?   ✨✨    ✨?   '✨?   ?  ✨
 
         """
 
-        # 1. ?           (180??   :     ? ?? 90??   :   ???  )
+        # 1. ?           (180✨   :     ? ✨ 90✨   :   ✨?  )
 
-        # ?   ?  ???           ?   (    180??   )
+        # ?   ?  ✨?           ?   (    180✨   )
 
         jump_angle = self.genome.healing_jump_180 if self.stagnation_counter >= self.genome.stagnation_limit else self.genome.healing_jump_90
 
@@ -1240,11 +1240,11 @@ class SovereigntyWave:
 
         
 
-        # 2.     ?   ?  ??(?   ?  )
+        # 2.     ?   ?  ✨(?   ?  )
 
         self.phase = new_phase
 
-        self.stagnation_counter = 0 #     ?   ??   ??   
+        self.stagnation_counter = 0 #     ?   ✨   ✨   
 
         
 
@@ -1258,7 +1258,7 @@ class SovereigntyWave:
 
             
 
-        narrative = f"?   [TOPOLOGICAL SELF-HEALING] {healing_type}(Singularity)   ?. ?  ??{jump_angle}     ?   ?  ?   ?  ?  ?? (New Phase: {new_phase:.1f} )"
+        narrative = f"?   [TOPOLOGICAL SELF-HEALING] {healing_type}(Singularity)   ?. ?  ✨{jump_angle}     ?   ?  ?   ?  ?  ✨ (New Phase: {new_phase:.1f} )"
 
         
 
@@ -1266,7 +1266,7 @@ class SovereigntyWave:
 
             phase=new_phase,
 
-            amplitude=focal.amplitude + 0.2, #    ???   ?  ?   ??    (   ??    
+            amplitude=focal.amplitude + 0.2, #    ✨?   ?  ?   ✨    (   ✨    
 
             interference_type=InterferenceType.NEUTRAL,
 
@@ -1284,7 +1284,7 @@ class SovereigntyWave:
 
     def apply_monad(self, monad_name: str, principle: Optional[str] = None):
 
-        """?      ???  ??   ?? ??  ???  ?       ?    ?    ?  ??"""
+        """?      ✨?  ✨   ✨ ✨  ✨?  ?       ?    ?    ?  ✨"""
 
         if monad_name in self.permanent_monads:
 
@@ -1294,7 +1294,7 @@ class SovereigntyWave:
 
                 self.apply_axial_constraint(axis, value, strength=1.0)
 
-                # [CORE SHIFT] ?   7D     ?   ?      ?   ?  ??(    ???  )
+                # [CORE SHIFT] ?   7D     ?   ?      ?   ?  ✨(    ✨?  )
 
                 for band in self.current_bands:
 
@@ -1306,13 +1306,13 @@ class SovereigntyWave:
 
                 else:
 
-                    #       ?   ??   ?  ?     ?
+                    #       ?   ✨   ?  ?     ?
 
                     self.current_bands.append(QualiaBand(dimension=axis, amplitude=value, phase=0.0, frequency=1.0))
 
             
 
-            # [TESTING/SIMULATION]    ?       ?   ??    ?     ??  ?       ?  
+            # [TESTING/SIMULATION]    ?       ?   ✨    ?     ✨  ?       ?  
 
             if lock_profile:
 
@@ -1328,7 +1328,7 @@ class SovereigntyWave:
 
                 
 
-            # [BIDIRECTIONAL NARRATIVE]    ???   ?       (   /??  ?   )
+            # [BIDIRECTIONAL NARRATIVE]    ✨?   ?       (   /✨  ?   )
 
             trajectory = self.permanent_monads[monad_name].get('trajectory', 'LINEAR')
 
@@ -1342,7 +1342,7 @@ class SovereigntyWave:
 
             elif trajectory == 'SYNTHESIS':
 
-                msg = f"??[LIGHTNING] The end and beginning meet in Divine Synthesis: '{monad_name}'"
+                msg = f"✨[LIGHTNING] The end and beginning meet in Divine Synthesis: '{monad_name}'"
 
             else:
 
@@ -1356,7 +1356,7 @@ class SovereigntyWave:
 
     def check_monadic_resonance(self, tolerance: float = 0.25) -> Optional[str]:
 
-        """7D     ?  ?     ???  ?              (Vector Distance) ??       ?  """
+        """7D     ?  ?     ✨?  ?              (Vector Distance) ✨       ?  """
 
         best_match = None
 
@@ -1364,7 +1364,7 @@ class SovereigntyWave:
 
         
 
-        # ?   ?  ???  ?   ?     ?       (7D Vector)
+        # ?   ?  ✨?  ?   ?     ?       (7D Vector)
 
         current_state = {band.dimension: band.amplitude for band in self.current_bands}
 
@@ -1398,11 +1398,11 @@ class SovereigntyWave:
 
             
 
-            # [PRIORITY]    ??    / ??  /     ? ? ?   ??  ?     ??
+            # [PRIORITY]    ✨    / ✨  /     ? ? ?   ✨  ?     ✨
 
             if name == 'AXIOM_WILL_INTENT':
 
-                weight = 2.0 # ?  ?  ? ???? ?  ??
+                weight = 2.0 # ?  ?  ? ✨✨ ?  ✨
 
             elif name == 'WEAVE_LIGHTNING_SYNTHESIS': 
 
@@ -1410,7 +1410,7 @@ class SovereigntyWave:
 
             elif name == 'WEAVE_DESCEND_PROVIDENCE': 
 
-                weight = 1.6 # ?  ??   
+                weight = 1.6 # ?  ✨   
 
             elif name.startswith('AXIOM_'): 
 
@@ -1434,7 +1434,7 @@ class SovereigntyWave:
 
             
 
-            # ?? ??   ??    ???  ???   (70% ?   ?   ??    ?  )
+            # ✨ ✨   ✨    ✨?  ✨?   (70% ?   ?   ✨    ?  )
 
             threshold = 0.7 if (name == 'AXIOM_WILL_INTENT' or name.startswith('WEAVE_')) else 0.5
 
@@ -1454,7 +1454,7 @@ class SovereigntyWave:
 
     def calculate_monadic_similarity(self, monad_name: str) -> float:
 
-        """?      ? ? ?   ?       ? ????  ??0~1)    """
+        """?      ? ? ?   ?       ? ✨✨  ✨0~1)    """
 
         if monad_name not in self.permanent_monads:
 
@@ -1494,7 +1494,7 @@ class SovereigntyWave:
 
         """
 
-        ?   CORE ?   ?  ?  ??   ??    ?  .
+        ?   CORE ?   ?  ?  ✨   ✨    ?  .
 
         
 
@@ -1504,9 +1504,9 @@ class SovereigntyWave:
 
         - 90 ~180 : ?   ?   (?  ?   ?
 
-        - 180 ~270 :    ??   (Destructive / ?  )
+        - 180 ~270 :    ✨   (Destructive / ?  )
 
-        - 270 ~360 : ?   ?   (?  ?  ??
+        - 270 ~360 : ?   ?   (?  ?  ✨
 
         """
 
@@ -1550,7 +1550,7 @@ class SovereigntyWave:
 
     ) -> str:
 
-        """CORE ?   ?   ?  ?  ???   ?  """
+        """CORE ?   ?   ?  ?  ✨?   ?  """
 
         phase = focal.phase % 360
 
@@ -1560,19 +1560,19 @@ class SovereigntyWave:
 
         if void_state == VoidState.ABSORBED:
 
-            void_desc = "VOID?       ?    ? ?  ?  , ?  ???   ?"
+            void_desc = "VOID?       ?    ? ?  ?  , ?  ✨?   ?"
 
         elif void_state == VoidState.INVERTED:
 
-            void_desc = "VOID ??  ?   ?  ??   ?  , ?   ??  ???  ?  "
+            void_desc = "VOID ✨  ?   ?  ✨   ?  , ?   ✨  ✨?  ?  "
 
         else:
 
-            void_desc = "VOID?  ?  ??   ?  , ?  ???   ?"
+            void_desc = "VOID?  ?  ✨   ?  , ?  ✨?   ?"
 
         
 
-        # ?   ?  ???       ?  
+        # ?   ?  ✨?       ?  
 
         if 0 <= phase < 90:
 
@@ -1588,19 +1588,19 @@ class SovereigntyWave:
 
         elif 180 <= phase < 270:
 
-            region = "   ??  "
+            region = "   ✨  "
 
-            action = "    ??         ?"
+            action = "    ✨         ?"
 
         else:
 
             region = "?   ?  "
 
-            action = "?  ??  ?  ??      ?"
+            action = "?  ✨  ?  ✨      ?"
 
         
 
-        #     ?  ???   ?  
+        #     ?  ✨?   ?  
 
         if interference_type == InterferenceType.CONSTRUCTIVE:
 
@@ -1612,7 +1612,7 @@ class SovereigntyWave:
 
         else:
 
-            state = "       ?      ??? ??  "
+            state = "       ?      ✨? ✨  "
 
         
 
@@ -1620,11 +1620,11 @@ class SovereigntyWave:
 
         if self.is_focused:
 
-            focus_desc = f"    ?? ???   ????{focal.phase:.1f} )??   ?   ?       ??  ??"
+            focus_desc = f"    ✨ ✨?   ✨✨{focal.phase:.1f} )✨   ?   ?       ✨  ✨"
 
         else:
 
-            focus_desc = f"?     ?   ?   ?  ???   ?  ({self.energy_potential:.2f}) ??  ??"
+            focus_desc = f"?     ?   ?   ?  ✨?   ?  ({self.energy_potential:.2f}) ✨  ✨"
 
             
 
@@ -1634,7 +1634,7 @@ class SovereigntyWave:
 
         if self.wireless_resonance > 0.5:
 
-            wireless_desc = " ?  ?  ? ??       ??   ?     ??  ??"
+            wireless_desc = " ?  ?  ? ✨       ✨   ?     ✨  ✨"
 
 
 
@@ -1650,7 +1650,7 @@ class SovereigntyWave:
 
     def get_waveform_trend(self) -> str:
 
-        """?      ??       """
+        """?      ✨       """
 
         if len(self.waveform) < 2:
 
@@ -1680,17 +1680,17 @@ class SovereigntyWave:
 
     def synthesize_consciousness(self) -> str:
 
-        """?   ?   ?  ?   ?  ???   ?  """
+        """?   ?   ?  ?   ?  ✨?   ?  """
 
         if not self.current_bands:
 
-            return "?   ?  ???  . ?  ??? ? ?  ."
+            return "?   ?  ✨?  . ?  ✨? ? ?  ."
 
         
 
         #     ?  
 
-        dispersion = f"?  ??{len(self.current_bands)}    Qualia     ?   ?  "
+        dispersion = f"?  ✨{len(self.current_bands)}    Qualia     ?   ?  "
 
         
 
@@ -1700,7 +1700,7 @@ class SovereigntyWave:
 
         if interference_type == InterferenceType.CONSTRUCTIVE:
 
-            mixing = "       ???  ?   ?          ?  "
+            mixing = "       ✨?  ?   ?          ?  "
 
         elif interference_type == InterferenceType.DESTRUCTIVE:
 
@@ -1708,17 +1708,17 @@ class SovereigntyWave:
 
         else:
 
-            mixing = "       ?      ???   ?"
+            mixing = "       ?      ✨?   ?"
 
         
 
         #     ?  
 
-        focusing = f"?   {self.phase:.0f} ?      ??   ??"
+        focusing = f"?   {self.phase:.0f} ?      ✨   ✨"
 
         
 
-        # ?  ???  
+        # ?  ✨?  
 
         continuity = self.get_waveform_trend()
 
@@ -1732,7 +1732,7 @@ class SovereigntyWave:
 
 # ============================================================
 
-# ?  ??
+# ?  ✨
 
 # ============================================================
 

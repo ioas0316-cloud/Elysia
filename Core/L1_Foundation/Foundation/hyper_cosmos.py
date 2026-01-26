@@ -50,7 +50,7 @@ class HyperCosmos:
         self.resolver = DissonanceResolver()
         
         self._ignite_fixed_points()
-        print(f"??[HyperCosmos] Lightning Path 2.0 Active. Ready for sub-5ms reality.")
+        print(f"✨[HyperCosmos] Lightning Path 2.0 Active. Ready for sub-5ms reality.")
 
     @property
     def field_intensity(self):

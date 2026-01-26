@@ -1,5 +1,5 @@
 """
-Dialogue Interface (        )
+Dialogue Interface (자기 성찰 엔진)
 ==================================
 
 "To speak is to translate the infinite into the finite."

@@ -91,7 +91,7 @@ class ThoughtCluster:
         # Sort by strength
         children.sort(key=lambda x: x[1], reverse=True)
 
-        res = f"{indent}??{node.seed} (Charge: {node.get_charge():.2f})\n"
+        res = f"{indent}✨{node.seed} (Charge: {node.get_charge():.2f})\n"
         for child, strength in children:
             res += self.describe_tree(child, depth + 1, visited)
         return res

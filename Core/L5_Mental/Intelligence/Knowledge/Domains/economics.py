@@ -7,9 +7,9 @@ Economics & Game Theory Domain
 
 Integrates:
 - Nash Equilibrium (     )
-- Pareto Optimality (      )
+- Pareto Optimality (주권적 자아)
 - Resource Allocation (     )
-- Strategic Thinking (      )
+- Strategic Thinking (주권적 자아)
 
 Effect:
 - Optimal decision-making

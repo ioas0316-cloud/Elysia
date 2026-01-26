@@ -1,5 +1,5 @@
 """
-Onion Shells & Multiverse Rotors (           )
+Onion Shells & Multiverse Rotors (코드 베이스 구조 로터)
 ====================================================
 Core.L1_Foundation.Foundation.Multiverse.onion_shell
 

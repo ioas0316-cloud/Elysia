@@ -100,7 +100,7 @@ class CognitiveArcheologist:
 
         if not os.path.exists(file_path):
 
-            logger.error(f"??Fossil not found at {file_path}")
+            logger.error(f"✨Fossil not found at {file_path}")
 
             return
 
@@ -156,7 +156,7 @@ class CognitiveArcheologist:
 
                 if discovery_map:
 
-                    logger.info(f"??Excavation complete. {len(discovery_map['intents'])} glimmers of intent and {len(discovery_map['abstractions'])} clouds of abstraction identified.")
+                    logger.info(f"✨Excavation complete. {len(discovery_map['intents'])} glimmers of intent and {len(discovery_map['abstractions'])} clouds of abstraction identified.")
 
                 return discovery_map
 

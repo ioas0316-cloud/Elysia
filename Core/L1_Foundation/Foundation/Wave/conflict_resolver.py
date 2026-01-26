@@ -1,5 +1,5 @@
 """
-Conflict Resolver Engine (        )
+Conflict Resolver Engine (자기 성찰 엔진)
 ========================================
 
 "                   ,               ."
@@ -32,7 +32,7 @@ logger = logging.getLogger("ConflictResolver")
 class ConflictType(Enum):
     """     """
     NONE = "none"                    #      
-    SEMANTIC = "semantic"            #        (        )
+    SEMANTIC = "semantic"            #        (자기 성찰 엔진)
     INTENSITY = "intensity"          #       (     ,       )
     TEMPORAL = "temporal"            #        (   vs   )
     CONTEXTUAL = "contextual"        #       (   vs      )
@@ -366,7 +366,7 @@ def demo_conflict_resolution():
     resolver = ConflictResolver()
     
     # 1.       
-    print("\n[1] Semantic Conflict (      )")
+    print("\n[1] Semantic Conflict (주권적 자아)")
     print("-" * 40)
     outputs1 = [
         ConflictOutput("Apple is red", "Memory", 0.7),
@@ -392,7 +392,7 @@ def demo_conflict_resolution():
     print(f"   Confidence: {result2.confidence:.2f} (boosted)")
     
     # 3.       
-    print("\n[3] Temporal Conflict (      )")
+    print("\n[3] Temporal Conflict (주권적 자아)")
     print("-" * 40)
     import time
     old_time = time.time() - 7200  # 2    

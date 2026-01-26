@@ -1,5 +1,5 @@
 """
-Ascension/Descension Axis System (        )
+Ascension/Descension Axis System (자기 성찰 엔진)
 ==============================================
 
 7 Angels (     ) + 7 Demons (     )

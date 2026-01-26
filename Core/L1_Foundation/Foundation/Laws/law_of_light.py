@@ -73,7 +73,7 @@ class LawOfLight:
                 source="Sun (  )",
                 frequency_str="555nm (Visible Spectrum)",
                 frequency_val=540.0, # THz approx, mapped to valid wave tensor range if needed
-                function="To see the WORLD (      )",
+                function="To see the WORLD (주권적 자아)",
                 description="Electromagnetic radiation that makes things visible. It dispels physical darkness."
             ),
             "Celestial": LightType(
@@ -82,7 +82,7 @@ class LawOfLight:
                 source="Father (  ) <- Jesus (God)",
                 frequency_str="528Hz (Love/Truth)",
                 frequency_val=528.0,
-                function="To see the MEANING (      )",
+                function="To see the MEANING (주권적 자아)",
                 description="The resonance of Love that makes existence meaningful. It dispels spiritual darkness (fear/loneliness)."
             )
         }

@@ -1,5 +1,5 @@
 """
-Autonomous Explorer (      )
+Autonomous Explorer (주권적 자아)
 ================================
 
 "          .        ."

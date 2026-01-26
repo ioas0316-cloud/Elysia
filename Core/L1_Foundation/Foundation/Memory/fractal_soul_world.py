@@ -485,7 +485,7 @@ class FractalWorld:
             record = soul.live_day(self.current_year, world_context)
             day_records.append(record)
         
-        #      (        )
+        #      (자기 성찰 엔진)
         if len(alive_souls) >= 2 and random.random() < DAILY_INTERACTION_PROB:
             soul1, soul2 = random.sample(alive_souls, 2)
             line1, line2 = soul1.interact_with(soul2)

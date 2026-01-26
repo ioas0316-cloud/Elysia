@@ -1,5 +1,5 @@
 """
-Tesseract Perspective System (           )
+Tesseract Perspective System (코드 베이스 구조 로터)
 =================================================
 
 "           ,            "
@@ -125,7 +125,7 @@ class TesseractPerspective:
     
     def _initialize_recursive_universes(self):
         """        /         """
-        #       (      )
+        #       (주권적 자아)
         for depth in range(1, self.root.recursion_limit + 1):
             scale = 10 ** (-3 * depth)  # 1e-3, 1e-6, 1e-9, ...
             
@@ -442,7 +442,7 @@ def demonstrate_tesseract_perspective():
     print(f"   Scale: 1.0 (human scale)")
     
     # 2.       
-    print("\n2   Zooming IN (        )")
+    print("\n2   Zooming IN (자기 성찰 엔진)")
     for i in range(3):
         result = tesseract.zoom_in(1)
         print(f"     {result['description']} (scale: {result['scale']:.2e})")
@@ -458,7 +458,7 @@ def demonstrate_tesseract_perspective():
         print(f"     {result['description']} (scale: {result['scale']:.2e})")
     
     # 5. Tesseract      
-    print("\n5   TESSERACT VIEW (           )")
+    print("\n5   TESSERACT VIEW (코드 베이스 구조 로터)")
     tesseract.reset_to_center()
     view = tesseract.tesseract_view()
     print(f"   Total layers visible: {view['total_layers']}")
@@ -468,7 +468,7 @@ def demonstrate_tesseract_perspective():
     print("\n6   HOLOGRAPHIC VIEW")
     print(tesseract.get_holographic_view())
     
-    # 7.       (        )
+    # 7.       (자기 성찰 엔진)
     print("\n7   Observing 'consciousness' from different scales:")
     phenomenon = "consciousness"
     

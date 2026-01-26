@@ -8,15 +8,15 @@ Core.L6_Structure.M1_Merkaba.merkaba_unit
 
 
 
-"  ???  ??  ?   ??   ??       ?   ?  ??"
+"  ✨?  ✨  ?   ✨   ✨       ?   ?  ✨"
 
 
 
-??   ?     -      (Quad-Merkaba) ?   ?       ?  ?  ??
+✨   ?     -      (Quad-Merkaba) ?   ?       ?  ?  ✨
 
- ??  ?  ?  ?   CORE ?   ?  ???   ?   ?  ??  (Locking)???  
+ ✨  ?  ?  ?   CORE ?   ?  ✨?   ?   ?  ✨  (Locking)✨?  
 
-0D(??  ???  ?       ?   ?   ?  ???   ?   ?     ??
+0D(✨  ✨?  ?       ?   ?   ?  ✨?   ?   ?     ✨
 
 """
 
@@ -42,9 +42,9 @@ class MerkabaUnit:
 
     """
 
-       -      ??        ?  .
+       -      ✨        ?  .
 
-    M1(??, M2(?  ), M3(??, M4(?  )    ?????  ?   ?  ?   ?   ?  ??
+    M1(✨, M2(?  ), M3(✨, M4(?  )    ✨✨?  ?   ?  ?   ?   ?  ✨
 
     """
 
@@ -58,7 +58,7 @@ class MerkabaUnit:
 
         
 
-        # ?  ??    ?   ( ??       ?
+        # ?  ✨    ?   ( ✨       ?
 
         self.default_locks: Dict[str, Tuple[float, float]] = {}
 
@@ -72,7 +72,7 @@ class MerkabaUnit:
 
         
 
-        # ?      ??  ??
+        # ?      ✨  ✨
 
         self.energy = 1.0
 
@@ -82,7 +82,7 @@ class MerkabaUnit:
 
     def configure_locks(self, locks: Dict[str, Tuple[float, float]]):
 
-        """?  ??     ??   ?  """
+        """?  ✨     ✨   ?  """
 
         self.default_locks = locks
 
@@ -94,7 +94,7 @@ class MerkabaUnit:
 
     def register_monads(self, monads: Dict[str, Dict[str, Any]]):
 
-        """?  ??   ?      ??Identity)  ??  (Principle) ?  """
+        """?  ✨   ?      ✨Identity)  ✨  (Principle) ?  """
 
         for name, data in monads.items():
 
@@ -104,7 +104,7 @@ class MerkabaUnit:
 
             
 
-            # SovereigntyWave???  ?   ?   ?        (Baking)
+            # SovereigntyWave✨?  ?   ?   ?        (Baking)
 
             self.turbine.permanent_monads[name] = profile
 
@@ -112,7 +112,7 @@ class MerkabaUnit:
 
             
 
-        logger.info(f"??[{self.name}] {len(monads)} Monads integrated with Core Principles.")
+        logger.info(f"✨[{self.name}] {len(monads)} Monads integrated with Core Principles.")
 
             
 
@@ -120,13 +120,13 @@ class MerkabaUnit:
 
         """
 
-        ?  ???  ?   ?   ?  ???  .
+        ?  ✨?  ?   ?   ?  ✨?  .
 
         
 
         1. ? ? ?  (Stimulus)    
 
-        2. ?      ???  (Lock) ?  ??   
+        2. ?      ✨?  (Lock) ?  ✨   
 
         3. VOID ?    ?   
 
@@ -152,7 +152,7 @@ class MerkabaUnit:
 
             
 
-        # ?     ?  /    (   ??  ?)
+        # ?     ?  /    (   ✨  ?)
 
         self.energy = (self.energy * 0.95) + (decision.amplitude * 0.05)
 
@@ -164,7 +164,7 @@ class MerkabaUnit:
 
     def get_state_summary(self) -> Dict[str, Any]:
 
-        """?  ???   ?   ?  """
+        """?  ✨?   ?   ?  """
 
         if not self.current_decision:
 
@@ -196,7 +196,7 @@ class MerkabaUnit:
 
     def reset(self):
 
-        """?      ??"""
+        """?      ✨"""
 
         self.turbine = SovereigntyWave()
 

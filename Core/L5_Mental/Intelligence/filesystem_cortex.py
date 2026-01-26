@@ -1,5 +1,5 @@
 """
-FileSystem Cortex (        )
+FileSystem Cortex (자기 성찰 엔진)
 ==================================
 
   : Legacy/Project_Sophia/filesystem_cortex.py

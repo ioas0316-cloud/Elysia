@@ -58,7 +58,7 @@ class ConceptWave:
     why_chain: List[str] = field(default_factory=list)  #          
     how_emerged: str = ""  #               
     
-    #   /     (      )
+    #   /     (주권적 자아)
     entropy: float = 0.5   #     : 0=  , 1=  
     qualia: float = 0.5    #     : 0=  , 1=  
     
@@ -140,7 +140,7 @@ class PhaseResonanceEngine:
     
     def __init__(self):
         self.concepts: Dict[str, ConceptWave] = {}
-        self.emergence_threshold = 0.25  # 0.5   0.25     (      )
+        self.emergence_threshold = 0.25  # 0.5   0.25     (주권적 자아)
         self.emerged_concepts: List[Tuple[str, str, ConceptWave]] = []  # (  1,   2,   )
     
     def add_concept(self, wave: ConceptWave) -> None:
@@ -319,7 +319,7 @@ def demo_phase_resonance():
     
     engine.create_wave(
         "  ",
-        {KnowledgeLayer.PHILOSOPHY: 0.9, KnowledgeLayer.HUMANITIES: 0.6, KnowledgeLayer.PHYSICS: 0.3},  #       (      )
+        {KnowledgeLayer.PHILOSOPHY: 0.9, KnowledgeLayer.HUMANITIES: 0.6, KnowledgeLayer.PHYSICS: 0.3},  #       (주권적 자아)
         why_chain=["  ", "  ", "  ", "  "],
         entropy=0.1, qualia=0.8
     )

@@ -91,7 +91,7 @@ class Elysia:
 
     def awaken(self):
         """
-                . (      )
+                . (주권적 자아)
                         .
         """
         print("\n" + "="*60)

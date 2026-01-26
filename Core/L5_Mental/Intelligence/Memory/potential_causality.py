@@ -169,7 +169,7 @@ class PotentialCausalityStore:
         return self.knowledge.get(subject.lower().strip())
     
     def find_related(self, subject: str) -> List[str]:
-        """         (           )"""
+        """         (코드 베이스 구조 로터)"""
         related = []
         subject_lower = subject.lower().strip()
         

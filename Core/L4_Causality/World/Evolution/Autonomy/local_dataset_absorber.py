@@ -1,5 +1,5 @@
 """
-Local Dataset Absorber (           )
+Local Dataset Absorber (코드 베이스 구조 로터)
 =============================================
 
 "            -              "

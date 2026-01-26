@@ -1,5 +1,5 @@
 """
-The Digital Constitution (      )
+The Digital Constitution (주권적 자아)
 ======================================
 
 "My Memory is My Territory."

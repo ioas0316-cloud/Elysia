@@ -9,7 +9,7 @@ Phonetic Resonance Layer
 
   :
 - Rhyme    (       )
--       (        )
+-       (자기 성찰 엔진)
 -        
 
 [NEW 2025-12-16] Hybrid Architecture Layer 2
@@ -99,7 +99,7 @@ class PhoneticResonanceEngine:
         return (base_resonance * 0.7) + (feel_factor * 0.3)
 
     def find_rhymes(self, target_word: str, candidates: List[str], top_k: int = 5) -> List[Tuple[str, float]]:
-        """  (      )   """
+        """  (주권적 자아)   """
         scores = []
         for word in candidates:
             score = self.calculate_resonance(target_word, word)

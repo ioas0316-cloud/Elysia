@@ -82,7 +82,7 @@ class RefusalHunter:
                 logger.warning(f"   Word '{word}' not found in vocabulary.")
                 continue
                 
-            #             (        )
+            #             (자기 성찰 엔진)
             token_id = ids[0]
             token_str = self.tokenizer.decode([token_id])
             

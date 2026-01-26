@@ -29,7 +29,7 @@ class ProjectWatcher:
     """
     The High-Level Orchestrator for Self-Observation.
     """
-    def __init__(self, root_path: str = r"c:\Elysia"):
+    def __init__(self, root_path: str = r"c:/Elysia"):
         self.root_path = root_path
         self.observer = get_filesystem_observer()
         

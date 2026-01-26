@@ -1,5 +1,5 @@
 """
-Korean Dictionary Dump Parser (             )
+Korean Dictionary Dump Parser (한국어 학습 시스템)
 ======================================================
 
 "API    40 +      "
@@ -219,7 +219,7 @@ class WoorimalsamParser:
         return results
 
     def export_to_json(self, output_path: str, max_entries: int = None) -> int:
-        """JSON        (           )"""
+        """JSON        (코드 베이스 구조 로터)"""
         entries = []
 
         for entry in self.stream_entries(max_entries=max_entries):

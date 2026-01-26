@@ -42,7 +42,7 @@ class FieldPhonetics:
         if organ == "tongue_root":    #  :         (  )
             qualia_map['Functional'] = 0.8
             qualia_map['Structural'] = 0.6
-        elif organ == "tongue_tip":  #  :        (      )
+        elif organ == "tongue_tip":  #  :        (주권적 자아)
             qualia_map['Physical'] = 0.7
             qualia_map['Functional'] = 0.4
         elif organ == "lips":        #  :       (  /  )
@@ -84,7 +84,7 @@ class FieldPhonetics:
             'Spiritual': 0.5
         }
         
-        # 1.          (        )
+        # 1.          (자기 성찰 엔진)
         if yin_yang == "yang":      #  ,  :   ,   
             qualia_map['Spiritual'] = 0.9
             qualia_map['Phenomenal'] += 0.2
@@ -112,7 +112,7 @@ class FieldPhonetics:
         if phoneme.lower() == 's':
             qualia_map['Phenomenal'] = 0.9 #            
             qualia_map['Physical'] = 0.6
-        #   : /b/ (      )
+        #   : /b/ (주권적 자아)
         elif phoneme.lower() == 'b':
             qualia_map['Structural'] = 0.8 #   
             qualia_map['Physical'] = 0.7   #   

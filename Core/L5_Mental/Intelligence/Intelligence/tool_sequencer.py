@@ -91,7 +91,7 @@ class FractalStrategyEngine:
         return strategies
 
     def _simulate_linear_path(self, station: FractalStation) -> ActionSequence:
-        """1D:        (      )"""
+        """1D:        (주권적 자아)"""
         actions = []
         goal_desc = station.name.lower()
         
@@ -113,7 +113,7 @@ class FractalStrategyEngine:
         )
 
     def _simulate_structural_path(self, station: FractalStation) -> ActionSequence:
-        """3D:        (      )"""
+        """3D:        (주권적 자아)"""
         actions = []
         goal_desc = station.name.lower()
         
@@ -139,7 +139,7 @@ class FractalStrategyEngine:
         )
 
     def _simulate_creative_path(self, station: FractalStation) -> ActionSequence:
-        """5D:        (      )"""
+        """5D:        (주권적 자아)"""
         actions = []
         goal_desc = station.name.lower()
         
@@ -173,7 +173,7 @@ class FractalStrategyEngine:
         if not strategies:
             return ActionSequence("Default", Dimension.POINT, ["THINK:Exist"])
             
-        # ResonanceState            (      )
+        # ResonanceState            (주권적 자아)
         if resonance_state is None:
             return strategies[0] # Default to Linear
             

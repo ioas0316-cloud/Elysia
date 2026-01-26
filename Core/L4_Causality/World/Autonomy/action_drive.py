@@ -1,5 +1,5 @@
 """
-Action Drive (      )
+Action Drive (주권적 자아)
 =========================
 Core.L4_Causality.World.Autonomy.action_drive
 

@@ -1,6 +1,6 @@
 import sys
 
-path = r'C:\Elysia\Core\L6_Structure\Elysia\sovereign_self.py'
+path = r'C:/Elysia\Core\L6_Structure\Elysia\sovereign_self.py'
 with open(path, 'r', encoding='utf-8', errors='replace') as f:
     lines = f.readlines()
 

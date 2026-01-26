@@ -86,7 +86,7 @@ class ResonatorInterface:
 
     def on_resonate(self, packet: WavePacket, intensity: float):
         """
-                       . (           )
+                       . (코드 베이스 구조 로터)
         """
         raise NotImplementedError("Resonators must implement on_resonate()")
 

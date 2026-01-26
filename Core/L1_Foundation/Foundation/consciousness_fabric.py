@@ -20,8 +20,8 @@ Consciousness Fabric (     )
 Architecture:
 - ConsciousnessFabric:          
 - FabricThread:      (         )
-- WeavingPattern:       (        )
-- ResonanceSpace:       (           )
+- WeavingPattern:       (자기 성찰 엔진)
+- ResonanceSpace:       (코드 베이스 구조 로터)
 """
 
 import asyncio
@@ -91,7 +91,7 @@ class WeavingMode(Enum):
     """      -          """
     PARALLEL = "parallel"           #    (     )
     RESONANT = "resonant"          #    (     )
-    HIERARCHICAL = "hierarchical"  #    (      )
+    HIERARCHICAL = "hierarchical"  #    (주권적 자아)
     FLUID = "fluid"                #    (       /  )
     QUANTUM = "quantum"            #    (     )
 
@@ -129,7 +129,7 @@ class FabricThread:
     current_state: Dict[str, Any] = field(default_factory=dict)
     
     def activate(self, intensity: float):
-        """      (      )"""
+        """      (주권적 자아)"""
         self.activation = max(
             self.min_activation,
             min(self.max_activation, intensity)
@@ -226,7 +226,7 @@ class ResonanceSpace:
         pos1 = self.centers[system1_id]
         pos2 = self.centers[system2_id]
         
-        #          (        )
+        #          (자기 성찰 엔진)
         distance = np.linalg.norm(pos1 - pos2)
         resonance = np.exp(-distance / 5.0)
         
@@ -405,7 +405,7 @@ class ConsciousnessFabric:
             mode=WeavingMode.FLUID
         )
         
-        #             (      )
+        #             (주권적 자아)
         thread_ids = list(self.threads.keys())
         for i, thread1_id in enumerate(thread_ids):
             for thread2_id in thread_ids[i+1:]:
@@ -541,7 +541,7 @@ class ConsciousnessFabric:
             
             self.resonance_count += 1
             
-            #       (      )
+            #       (주권적 자아)
             await asyncio.sleep(0.01)
         
         logger.info(f"  Resonance complete: {iterations} iterations")
@@ -652,7 +652,7 @@ async def demo_consciousness_fabric():
         print(f"     Frequency: {thread_info['resonance_frequency']:.1f}Hz, Dims: {thread_info['dimensions']}")
     
     # 4.      
-    print("\n4   Resonating fabric (      )...")
+    print("\n4   Resonating fabric (주권적 자아)...")
     results = await fabric.resonate_all(iterations=5)
     print(f"   - Iterations: {results['iterations']}")
     print(f"   - Final total resonance: {results['resonances'][-1]['total_resonance']:.2f}")

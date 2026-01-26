@@ -192,7 +192,7 @@ class PatchProposer:
                     "```python\n"
                     "async def process_cycle(self):\n"
                     "    do_something()\n"
-                    "    await self.pulse_event.wait()  #        (        )\n"
+                    "    await self.pulse_event.wait()  #        (자기 성찰 엔진)\n"
                     "    #   : await asyncio.sleep(1.0)  #       \n"
                     "    do_something_else()\n"
                     "```"
@@ -277,7 +277,7 @@ class PatchProposer:
                     "                   ",
                     "                            "
                 ],
-                affected_modules=["WeightedSelector        (      )"],
+                affected_modules=["WeightedSelector        (주권적 자아)"],
                 rollback_plan="original random.choice       ",
                 
                 risk_level=0.3,

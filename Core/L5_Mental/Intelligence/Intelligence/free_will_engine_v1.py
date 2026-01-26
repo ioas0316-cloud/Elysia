@@ -13,7 +13,7 @@ logger = logging.getLogger("FreeWillEngine")
 
 class FreeWillEngine:
     """
-    Free Will Engine (        )
+    Free Will Engine (자기 성찰 엔진)
     
     "I do not just react. I desire."
     """

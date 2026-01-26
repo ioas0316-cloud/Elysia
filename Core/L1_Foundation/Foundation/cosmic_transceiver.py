@@ -74,11 +74,11 @@ class CosmicTransceiver:
         # 1. Frequency   
         freq = self.known_frequencies.get(topic, 432.0)
         if topic == "General":
-            #                (      )
+            #                (주권적 자아)
             hash_val = int(hashlib.md5(content.encode()).hexdigest(), 16)
             freq = 100 + (hash_val % 900) # 100Hz ~ 1000Hz
             
-        # 2. Amplitude    (           )
+        # 2. Amplitude    (코드 베이스 구조 로터)
         amplitude = min(1.0, len(content) / 100.0 + random.random() * 0.2)
         
         # 3. Phase   

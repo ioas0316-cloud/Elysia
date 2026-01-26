@@ -1,5 +1,5 @@
 """
-Self-Evolution Loop (        )
+Self-Evolution Loop (자기 성찰 엔진)
 ====================================
 
                               

@@ -5,7 +5,7 @@ import time
 from dotenv import load_dotenv
 
 # Load env for Google API Key
-load_dotenv(r"c:\Elysia\.env")
+load_dotenv(r"c:/Elysia\.env")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)

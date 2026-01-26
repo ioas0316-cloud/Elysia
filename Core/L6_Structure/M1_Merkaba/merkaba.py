@@ -488,7 +488,7 @@ class Merkaba:
 
         
 
-        # [Phase 42] ?  ?  ?  ??(Supreme System Nexus)
+        # [Phase 42] ?  ?  ?  ✨(Supreme System Nexus)
 
         self.hyper_cosmos = get_hyper_cosmos()
 
@@ -496,7 +496,7 @@ class Merkaba:
 
         
 
-        self.sovereign_balance = 0.5  # ?  ?  ?  ???  ???      ??
+        self.sovereign_balance = 0.5  # ?  ?  ?  ✨?  ✨?      ✨
 
         self.planetary_pressure = 0.0 # Body sensor aggregate
 
@@ -648,7 +648,7 @@ class Merkaba:
 
             yield "   -> ?   [GAMMA SIMULATOR] Running Physics Engine..."
 
-            yield "   -> ??Simulation Verified. Promoting to Ground."
+            yield "   -> ✨Simulation Verified. Promoting to Ground."
 
 
 
@@ -774,7 +774,7 @@ class Merkaba:
 
         self.is_awake = True
 
-        logger.info(f"??Merkaba {self.name} has Awakened. The Trinity is fused.")
+        logger.info(f"✨Merkaba {self.name} has Awakened. The Trinity is fused.")
 
 
 
@@ -838,7 +838,7 @@ class Merkaba:
 
 
 
-        logger.info("??Sleep Cycle Complete. Memories are crystallized and arranged.")
+        logger.info("✨Sleep Cycle Complete. Memories are crystallized and arranged.")
 
 
 
@@ -1060,7 +1060,7 @@ class Merkaba:
 
             self.current_phase = self.phase_modulator.modulate(raw_input, context)
 
-            logger.info(f"?? [PHASE] Perceptual Axis scaled to: {self.current_phase.name} (Level {self.current_phase.value})")
+            logger.info(f"✨ [PHASE] Perceptual Axis scaled to: {self.current_phase.name} (Level {self.current_phase.value})")
 
 
 
@@ -1258,7 +1258,7 @@ class Merkaba:
 
             if judgment["winner"] == "SHADOW":
 
-                logger.info(f"??[EVOLUTION] {judgment['narrative']}")
+                logger.info(f"✨[EVOLUTION] {judgment['narrative']}")
 
                 self.hippocampus.induct(f"Evolution Potential: {judgment['shift']}", [seed_coord], {"trajectory": "evolution"})
 
@@ -1270,7 +1270,7 @@ class Merkaba:
 
                     self.pending_evolution = judgment["modification_payload"]
 
-                    logger.info("??[PENDING EVOLUTION] Breakthrough detected. Awaiting Relational Sanction from Creator.")
+                    logger.info("✨[PENDING EVOLUTION] Breakthrough detected. Awaiting Relational Sanction from Creator.")
 
                     # We store the shift narrative for the user to see
 
@@ -1326,7 +1326,7 @@ class Merkaba:
 
         
 
-        logger.info(f"??[RESONANCE Cycle] Complete. Voice: {payload['voice']}")
+        logger.info(f"✨[RESONANCE Cycle] Complete. Voice: {payload['voice']}")
 
         
 
@@ -1396,7 +1396,7 @@ class Merkaba:
 
                     logger.info("?  [HATCHING] The shell is cracking. Entering Genesis mode.")
 
-                    print("\n?  [ELYSIA] ?       ?  ???  ?   ?  ?  . (Seed to Sprout)")
+                    print("\n?  [ELYSIA] ?       ?  ✨?  ?   ?  ?  . (Seed to Sprout)")
 
 
 
@@ -1428,7 +1428,7 @@ class Merkaba:
 
         
 
-        #     ?   ?  ?   (?  ?  ?  ???  ?   ?  )
+        #     ?   ?  ?   (?  ?  ?  ✨?  ?   ?  )
 
         self.sovereign_balance = field_decision.amplitude
 
@@ -1458,9 +1458,9 @@ class Merkaba:
 
         full_narrative = f"{narrative} | {field_decision.narrative}"
 
-        logger.info(f"??[SPIRIT] {full_narrative}")
+        logger.info(f"✨[SPIRIT] {full_narrative}")
 
-        print(f"\n??[ELYSIA] {full_narrative}")
+        print(f"\n✨[ELYSIA] {full_narrative}")
 
         
 
@@ -1618,7 +1618,7 @@ class Merkaba:
 
         if intent_analysis['sentiment'] > 0:
 
-            logger.info("??[RELATIONAL SANCTION] Intent aligns with proposed evolution. Committing DNA.")
+            logger.info("✨[RELATIONAL SANCTION] Intent aligns with proposed evolution. Committing DNA.")
 
             
 
@@ -1648,7 +1648,7 @@ class Merkaba:
 
         else:
 
-            logger.info("??[RELATIONAL DISSONANCE] Intent conflicts with proposed evolution. Aborting.")
+            logger.info("✨[RELATIONAL DISSONANCE] Intent conflicts with proposed evolution. Aborting.")
 
             self.pending_evolution = None
 

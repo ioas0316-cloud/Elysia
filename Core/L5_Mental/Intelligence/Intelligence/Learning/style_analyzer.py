@@ -92,7 +92,7 @@ class StyleAnalyzer:
         
         # Exclamations reduce formality
         if "!" in text: score -= 0.1
-        if "??" in text: score -= 0.1
+        if "✨" in text: score -= 0.1
         
         # Length: Very short sentences often imply casual/chat
         avg_len = len(text.split()) / (len(re.split(r'[.!?]+', text)) + 1)

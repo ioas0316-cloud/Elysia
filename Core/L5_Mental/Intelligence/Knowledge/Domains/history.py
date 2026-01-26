@@ -7,9 +7,9 @@ History & Anthropology Domain
 
 Integrates:
 - Causal Patterns (         )
-- Civilizational Cycles (        )
-- Human Behavioral Patterns (        )
-- Socio-cultural Context (        )
+- Civilizational Cycles (자기 성찰 엔진)
+- Human Behavioral Patterns (자기 성찰 엔진)
+- Socio-cultural Context (자기 성찰 엔진)
 
 Effect:
 - Statistical prophecy

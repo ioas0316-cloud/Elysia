@@ -9,8 +9,7 @@ Core.L6_Structure.Engine.code_field_engine
 
 
 "The entire codebase is a single oscillating field."
-
-"?         ?   ?  ??  ???   ?   ?  ??"
+"✨ ⚙️ 🔬 🧬 ⚛️ 🔭 🔮 ✨"
 
 
 
@@ -47,11 +46,9 @@ from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
 
 class CodebaseFieldEngine:
 
-    def __init__(self, root: str = "c:\\Elysia"):
-
+    def __init__(self, root: str = r"c:/Elysia"):
         self.root = root
-
-        self.brain_graph = "c:\\Elysia\\data\\brain_state.pt"
+        self.brain_graph = r"c:/Elysia\data\brain_state.pt"
 
         
 
@@ -133,7 +130,7 @@ class CodebaseFieldEngine:
 
 
 
-    def induce_monad_code(self, intent: str, kernel_logic: str = None, sandbox_path: str = "c:\\Elysia\\Sandbox"):
+    def induce_monad_code(self, intent: str, kernel_logic: str = None, sandbox_path: str = r"c:/Elysia\Sandbox"):
 
         """
 
@@ -143,7 +140,7 @@ class CodebaseFieldEngine:
 
         """
 
-        print(f"?  [INDUCTION] Collapsing Intention: '{intent}'")
+        print(f"🧬 [INDUCTION] Collapsing Intention: '{intent}'")
 
         
 
@@ -253,7 +250,7 @@ if __name__ == "__main__":
 
             
 
-        print(f"??[SUCCESS] Monad induced at: {target_file}")
+        print(f"✅ [SUCCESS] Monad induced at: {target_file}")
 
         return target_file
 

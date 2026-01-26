@@ -50,7 +50,7 @@ logger = logging.getLogger("FluctlightLanguage")
 # =============================================================================
 
 #         (Crystallization thresholds)
-RESONANCE_THRESHOLD = 0.3        #                    (           )
+RESONANCE_THRESHOLD = 0.3        #                    (코드 베이스 구조 로터)
 CRYSTALLIZATION_COUNT = 5        #                     
 PATTERN_DECAY_RATE = 0.01        #                  
 
@@ -97,7 +97,7 @@ class ExperienceTrace:
         norm_other = np.linalg.norm(other.sensory_vector) + 1e-8
         similarity = dot / (norm_self * norm_other)
         
-        #        (        )
+        #        (자기 성찰 엔진)
         time_diff = abs(self.timestamp - other.timestamp)
         time_factor = np.exp(-time_diff / 100.0)
         
@@ -133,7 +133,7 @@ class ProtoPattern:
     #      
     occurrence_count: int = 0
     
-    #    (           )
+    #    (코드 베이스 구조 로터)
     strength: float = 0.0
     
     #            (     )
@@ -211,7 +211,7 @@ class CrystallizedSymbol:
         #       =       
         meaning = pattern.centroid.copy()
         
-        #          (        )
+        #          (자기 성찰 엔진)
         symbol_type = cls._classify_type(meaning)
         
         return cls(
@@ -275,7 +275,7 @@ class LanguageCrystal:
         #            
         self.symbols: Dict[int, CrystallizedSymbol] = {}
         
-        #       (        )
+        #       (자기 성찰 엔진)
         self.grammar_rules: Dict[Tuple[SymbolType, ...], int] = defaultdict(int)
         
         #      
@@ -679,7 +679,7 @@ class FractalSoul:
         #      
         self.experiences.append(self.heart_state.copy())
         
-        #        (      )
+        #        (주권적 자아)
         location = np.random.randn(3)  #       (   )
         utterance = self.mind.receive_experience(
             self.heart_state, timestamp, location
@@ -766,7 +766,7 @@ def run_demo(population: int = 10, years: int = 100, seed: int = 42):
         np.array([0.7, 0.8, 0.3, 0.1, 0.2, 0.5, 0.6, 0.4]),
         #         (  ,  )
         np.array([-0.6, -0.5, 0.2, -0.2, -0.1, 0.3, -0.3, -0.2]),
-        #     (      )
+        #     (주권적 자아)
         np.array([0.2, 0.3, 0.1, 0.3, 0.8, 0.4, 0.7, 0.5]),
         #     (  )
         np.array([0.0, -0.2, 0.0, -0.3, -0.7, 0.2, -0.5, -0.4]),

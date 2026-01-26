@@ -1,5 +1,5 @@
 """
-Magnetic Cortex (      )
+Magnetic Cortex (주권적 자아)
 ==================================
 
 "  (Magnetism)     (Chaos)      ."
@@ -126,7 +126,7 @@ class MagneticCompass:
               (Dict   )                   .
         """
         if not self.is_active or not self.current_field:
-            return thoughts #               (      )    
+            return thoughts #               (주권적 자아)    
             
         # 1. Dict -> Dipole   
         dipoles = []
@@ -147,7 +147,7 @@ class MagneticCompass:
         # 2.       
         aligned_dipoles = self.current_field.apply(dipoles)
         
-        # 3. Dipole -> Dict    (        )
+        # 3. Dipole -> Dict    (자기 성찰 엔진)
         return [d.metadata for d in aligned_dipoles]
 
     def get_field_status(self) -> str:

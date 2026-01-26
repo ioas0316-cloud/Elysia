@@ -118,4 +118,4 @@ class CudaCortex:
         return torch.matmul(a, b)
 
     def optimize_tensor(self, data_size: int):
-        # ... (        )
+        # ... (자기 성찰 엔진)

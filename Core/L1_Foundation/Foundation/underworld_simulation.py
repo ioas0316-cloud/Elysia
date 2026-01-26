@@ -1,5 +1,5 @@
 """
-Underworld Simulation Demo (             )
+Underworld Simulation Demo (한국어 학습 시스템)
 =====================================================
 
 300       1000             .

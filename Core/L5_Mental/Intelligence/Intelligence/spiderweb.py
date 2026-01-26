@@ -14,7 +14,7 @@ class Spiderweb:
     
     Architecture:
     - 0D:   (  /      )
-    - 1D:   (        )
+    - 1D:   (자기 성찰 엔진)
     - 2D:   (       ,         )
     - 3D:    (       ,      )
     - 4D:     (               )

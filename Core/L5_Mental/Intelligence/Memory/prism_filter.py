@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class RainbowSpectrum:
     """
-    7-Color Rainbow Spectrum (        )
+    7-Color Rainbow Spectrum (자기 성찰 엔진)
     
     Each color represents a different dimension of meaning:
     - Red (  ): High energy, intensity

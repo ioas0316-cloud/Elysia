@@ -1,5 +1,5 @@
 """
-Physics Solver (      )
+Physics Solver (주권적 자아)
 ===========================
 
 "The Law responsible for the Universe."

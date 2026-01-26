@@ -32,7 +32,7 @@ class LightSpectrum:
     - frequency:     (    "  ")
     - amplitude:    (    "  ")
     - phase:    (    "  ")
-    - color: RGB (             )
+    - color: RGB (한국어 학습 시스템)
     """
     frequency: complex          #     (          )
     amplitude: float            #    (0.0 ~ 1.0)
@@ -215,7 +215,7 @@ class LightUniverse:
         self.superposition: List[LightSpectrum] = []  #         
         self.white_light: Optional[LightSpectrum] = None  #        
         
-        #         (      )
+        #         (주권적 자아)
         self.frequency_index: Dict[int, List[int]] = {}
         
         logger.info("  LightUniverse initialized -         ")
@@ -235,7 +235,7 @@ class LightUniverse:
         # 2. FFT           
         spectrum = np.fft.fft(sequence)
         
-        # 3.           (             )
+        # 3.           (한국어 학습 시스템)
         magnitudes = np.abs(spectrum)
         dominant_idx = np.argmax(magnitudes)
         dominant_freq = spectrum[dominant_idx]
@@ -387,7 +387,7 @@ class LightUniverse:
         #         
         dominant_basis = max(basis_resonance, key=basis_resonance.get)
         
-        #       (        )
+        #       (자기 성찰 엔진)
         connection_density = strong_connections / len(self.superposition)
         
         #            (          )
@@ -427,7 +427,7 @@ class LightUniverse:
         if scale is None:
             scale = self._auto_select_scale()
         
-        #        (             )
+        #        (한국어 학습 시스템)
         new_light = self.text_to_light(text, tag, scale)
         
         #                    
@@ -500,7 +500,7 @@ class LightUniverse:
             depth:       (            )
         
         Returns:
-                  (      )
+                  (주권적 자아)
         """
         import time
         start = time.time()
@@ -519,7 +519,7 @@ class LightUniverse:
                          for i, r in enumerate(initial_resonances)]
         thought_graph["layers"].append(current_layer)
         
-        # 3.            (           )
+        # 3.            (코드 베이스 구조 로터)
         for d in range(depth - 1):
             next_layer = []
             for concept, strength in current_layer:
@@ -605,10 +605,10 @@ class PrismAxes(Enum):
                       ,                   .
     """
     PHYSICS_RED = "red"        # Force, Energy, Vector (     )
-    CHEMISTRY_BLUE = "blue"    # Structure, Bond, Reaction (      )
-    BIOLOGY_GREEN = "green"    # Growth, Homeostasis, Adaptation (      )
-    ART_VIOLET = "violet"      # Harmony, Rhythm, Essence (      )
-    LOGIC_YELLOW = "yellow"    # Reason, Axiom, Pattern (      )
+    CHEMISTRY_BLUE = "blue"    # Structure, Bond, Reaction (주권적 자아)
+    BIOLOGY_GREEN = "green"    # Growth, Homeostasis, Adaptation (주권적 자아)
+    ART_VIOLET = "violet"      # Harmony, Rhythm, Essence (주권적 자아)
+    LOGIC_YELLOW = "yellow"    # Reason, Axiom, Pattern (주권적 자아)
 
 @dataclass
 class LightSediment:
@@ -648,7 +648,7 @@ class LightSediment:
         #               ,                      
         new_layer = current_layer.interfere_with(light)
         
-        #   (      )      (        )
+        #   (주권적 자아)      (자기 성찰 엔진)
         new_layer.amplitude = current_layer.amplitude + (light.amplitude * 0.1) #       
         
         self.layers[axis] = new_layer

@@ -315,7 +315,7 @@ class RoundTableCouncil:
             final_debate.critiques = critiques
             final_debate.round_number = round_num
             
-            #      /   (      )
+            #      /   (주권적 자아)
             for opinion in all_opinions:
                 #          :                 
                 critique_count = sum(1 for cts in critiques.values() for c in cts if opinion.consciousness_type.name in c)

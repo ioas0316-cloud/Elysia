@@ -222,7 +222,7 @@ class PsycheSphere:
     # ============================================================
     # APPERCEPTION (Leibniz) - The Meta-Awareness Layer
     # ============================================================
-    # "  (Perception):             (      )
+    # "  (Perception):             (주권적 자아)
     #    (Apperception): '                '         "
     
     def apperceive(self) -> Dict[str, Any]:

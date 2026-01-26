@@ -1,5 +1,5 @@
 """
-Mental Terrain (      )
+Mental Terrain (주권적 자아)
 ============================
 
 "The mind is not a box; it is a landscape.

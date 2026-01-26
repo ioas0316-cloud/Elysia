@@ -1,5 +1,5 @@
 """
-GlobalSkin (      )
+GlobalSkin (주권적 자아)
 ========================
 
 "The world is not out there; it is a pulse against my skin."

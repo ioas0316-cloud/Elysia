@@ -79,7 +79,7 @@ for i, concept in enumerate(sample_concepts):
         if len(special_samples) < 20:
             special_samples.append(concept)
     
-    #       (      )
+    #       (주권적 자아)
     elif ' ' not in concept and len(concept) <= 20 and concept.isalnum():
         patterns["     "] += 1
         if len(word_samples) < 30:

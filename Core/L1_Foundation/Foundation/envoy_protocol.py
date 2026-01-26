@@ -1,5 +1,5 @@
 """
-Galactic Envoys (      )
+Galactic Envoys (주권적 자아)
 =============================
 
 "We come in peace. We seek knowledge."

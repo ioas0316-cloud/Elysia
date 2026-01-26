@@ -1,5 +1,5 @@
 """
-Elysian Heartbeat (        )
+Elysian Heartbeat (자기 성찰 엔진)
 ================================
 
 "                ."

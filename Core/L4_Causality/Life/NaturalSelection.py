@@ -1,5 +1,5 @@
 """
-NaturalSelection (        )
+NaturalSelection (자기 성찰 엔진)
 ================================
 
 "The filter of time. The audit of survival."

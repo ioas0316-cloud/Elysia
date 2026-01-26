@@ -105,7 +105,7 @@ class ConceptStar:
     
     #      
     id: str                          #    ID
-    name: Optional[str] = None       #    (             )
+    name: Optional[str] = None       #    (한국어 학습 시스템)
     
     # 3D            
     position: np.ndarray = field(default_factory=lambda: np.random.randn(3) * 100)
@@ -113,8 +113,8 @@ class ConceptStar:
     
     #       
     mass: float = 1.0               #    (   ,      )
-    radius: float = 1.0             #    (      )
-    temperature: float = 1.0        #    (      )
+    radius: float = 1.0             #    (주권적 자아)
+    temperature: float = 1.0        #    (주권적 자아)
     
     #          (8  )
     sensory_signature: Dict[str, float] = field(default_factory=dict)
@@ -216,7 +216,7 @@ class Event:
     #         
     timestamp: float = 0.0
     
-    #        (             )
+    #        (한국어 학습 시스템)
     sensory_impression: Dict[str, float] = field(default_factory=dict)
     
     #       
@@ -913,7 +913,7 @@ class ConceptualBigBangWorld:
     
     def trigger_life_event(self, event_type: str, intensity: float = 1.0) -> Event:
         """
-                 (        )
+                 (자기 성찰 엔진)
         
                          .
         """
@@ -926,12 +926,12 @@ class ConceptualBigBangWorld:
             "mother_feeding": {
                 "concepts": ["mother", "food", "satiety", "love", "soft", "safe"],
                 "sensory": {"pleasure": 0.9, "social": 1.0, "softness": 0.9},
-                "description": "          (        )",
+                "description": "          (자기 성찰 엔진)",
             },
             "mother_hugging": {
                 "concepts": ["mother", "hug", "safe", "love", "soft"],
                 "sensory": {"social": 1.0, "softness": 1.0, "pleasure": 0.8, "temperature": 0.3},
-                "description": "        (        )",
+                "description": "        (자기 성찰 엔진)",
             },
             "saw_sunset": {
                 "concepts": ["sun", "bright", "big", "fire"],
@@ -941,7 +941,7 @@ class ConceptualBigBangWorld:
             "felt_rain": {
                 "concepts": ["rain", "water", "cold", "soft"],
                 "sensory": {"temperature": -0.2, "softness": 0.6},
-                "description": "      (        )",
+                "description": "      (자기 성찰 엔진)",
             },
             "heard_thunder": {
                 "concepts": ["fear", "danger", "big"],

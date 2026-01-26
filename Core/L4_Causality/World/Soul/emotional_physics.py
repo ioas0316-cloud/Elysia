@@ -1,5 +1,5 @@
 """
-Emotional Physics (      )
+Emotional Physics (주권적 자아)
 ===============================
 " Emotion is not a state of mind, but a state of matter. "
 "                ,        . "

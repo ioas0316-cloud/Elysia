@@ -1,5 +1,5 @@
 """
-SystemAlignment: The Compass Logic (      )
+SystemAlignment: The Compass Logic (주권적 자아)
 
 "The leaf does not decide to turn; it aligns to the wind."
 

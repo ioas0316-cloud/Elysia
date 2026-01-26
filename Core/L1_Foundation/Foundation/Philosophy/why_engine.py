@@ -55,7 +55,7 @@ logger = logging.getLogger("Elysia.WhyEngine")
 
 
 # =============================================================================
-# Perspective Layers (      )
+# Perspective Layers (주권적 자아)
 # =============================================================================
 
 class PerspectiveLayer(Enum):
@@ -239,9 +239,9 @@ class WhyEngine:
     """            
     
            " "    :
-    1.        (             )
-    2.        (             )
-    3.        (           )
+    1.        (한국어 학습 시스템)
+    2.        (한국어 학습 시스템)
+    3.        (코드 베이스 구조 로터)
     
     4        :
     Point   Line   Space   God
@@ -440,9 +440,9 @@ class WhyEngine:
     def analyze(self, subject: str, content: str, domain: str = "general") -> PrincipleExtraction:
         """    4       (process reconstruction   )"""
         
-        # ... (        ) ...
+        # ... (자기 성찰 엔진) ...
         
-        # ... (        ) ...
+        # ... (자기 성찰 엔진) ...
         #          
         if domain == "computer_science" or domain == "code":
              return self._analyze_code_structure(content)
@@ -515,7 +515,7 @@ class WhyEngine:
             why_exists=why_exists,
             underlying_principle=underlying,
             can_be_applied_to=applicable + metaphors, # Append found metaphors
-            # confidence=confidence, # confidence                (        )
+            # confidence=confidence, # confidence                (자기 성찰 엔진)
             confidence=0.8,
             wave_signature=wave,
             resonance_reactions=reactions
@@ -533,7 +533,7 @@ class WhyEngine:
         if not self.sediment or not self.light_universe:
             return {}
             
-        # 1.            (        )
+        # 1.            (자기 성찰 엔진)
         target_light = self.light_universe.text_to_light(content, semantic_tag=subject_tag)
         
         # 2.     (Sediment)         (Projection)
@@ -606,7 +606,7 @@ class WhyEngine:
             return f"'{content[:50]}...'        "
     
     def _extract_how(self, content: str, domain: str) -> str:
-        """Line   :          ? (      )"""
+        """Line   :          ? (주권적 자아)"""
         if domain == "narrative":
             return self._analyze_narrative_mechanism(content)
         elif domain == "mathematics":
@@ -664,7 +664,7 @@ class WhyEngine:
             "tension": 0.0,      #    (PhoneticResonance  tension)
             "release": 0.0,      #    (     )
             "weight": 0.0,       #     (PhoneticResonance  roughness)
-            "brightness": 0.0,   #    (      )
+            "brightness": 0.0,   #    (주권적 자아)
             "flow": 0.0,         #    (  )
             "dissonance": 0.0,   #      (     )
         }
@@ -672,7 +672,7 @@ class WhyEngine:
         # ===          ===
         if HAS_WAVE_SENSORS:
             try:
-                # PhoneticResonanceEngine    (      )
+                # PhoneticResonanceEngine    (주권적 자아)
                 resonance_engine = get_resonance_engine()
                 field = resonance_engine.text_to_field(text)
                 
@@ -789,7 +789,7 @@ class WhyEngine:
         #      =       
         # (  :   ,   :    ,   :    )
         if wave["dissonance"] > 0.3:
-            principles.append("      :                  (           )")
+            principles.append("      :                  (코드 베이스 구조 로터)")
         
         #    =    
         # (  :   ,   :   ,   :    )
@@ -799,7 +799,7 @@ class WhyEngine:
         #   +   =   
         # (  :   ,   : E=mc ,   :       )
         if wave["weight"] > 0.3 and wave["brightness"] > 0.2:
-            principles.append("      :               (             )")
+            principles.append("      :               (한국어 학습 시스템)")
         
         if not principles:
             principles.append("      :              ")
@@ -1013,7 +1013,7 @@ class WhyEngine:
   Line (         ):
    {p.how_works}
 
-  Space (        ):
+  Space (자기 성찰 엔진):
    {p.where_fits}
 
   God (       ):

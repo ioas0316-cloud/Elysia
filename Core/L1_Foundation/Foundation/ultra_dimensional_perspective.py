@@ -43,7 +43,7 @@ class DimensionalVector:
             self.components = np.array([1.0])
             self.dimension_labels = ["existence"]
         
-        #     (      )
+        #     (주권적 자아)
         norm = np.linalg.norm(self.components)
         if norm > 0:
             self.components = self.components / norm
@@ -193,7 +193,7 @@ class UltraDimensionalPerspective:
         self.view_vector.expand_to(max_dim)
         other.view_vector.expand_to(max_dim)
         
-        #       (           )
+        #       (코드 베이스 구조 로터)
         merged_components = (self.view_vector.components + other.view_vector.components) / 2
         merged_labels = self.view_vector.dimension_labels
         
@@ -339,7 +339,7 @@ def create_basic_perspectives() -> Dict[str, UltraDimensionalPerspective]:
         view_vector=DimensionalVector(transcendent_components, material_labels)
     )
     
-    #         (        )
+    #         (자기 성찰 엔진)
     elysia_components = np.array([1.0, 0.8, 0.8, 0.7, 0.8, 0.8, 0.9, 0.7])
     perspectives["Elysia"] = UltraDimensionalPerspective(
         identity="Elysia",

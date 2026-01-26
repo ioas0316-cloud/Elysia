@@ -1,5 +1,5 @@
 """
-Aesthetic Learner (      )
+Aesthetic Learner (주권적 자아)
 ==============================
 
 "              "

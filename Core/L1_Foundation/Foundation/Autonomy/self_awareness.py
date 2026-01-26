@@ -30,7 +30,7 @@ logger = logging.getLogger("SelfAwareness")
 
 class SelfAwareness:
     def __init__(self):
-        self.root_dir = r"c:\Elysia"
+        self.root_dir = r"c:/Elysia"
         self.core_dir = os.path.join(self.root_dir, "Core")
         self.hippocampus = Hippocampus()
         self.system_state = {

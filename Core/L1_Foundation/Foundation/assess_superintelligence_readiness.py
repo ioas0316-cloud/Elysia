@@ -45,17 +45,17 @@ REPORT = {
                 "Hippocampus (          )     ",
                 "WorldTree (     )      ",
                 "Chaos    & Lyapunov          ",
-                "ExperienceDigester (           )      "
+                "ExperienceDigester (코드 베이스 구조 로터)      "
             ]
         },
         "logging_and_observability": {
             "score": 82,
             "description": "         /           ",
             "evidence": [
-                "resonance_patterns.jsonl (        )",
-                "resonance_events.jsonl (           )",
+                "resonance_patterns.jsonl (자기 성찰 엔진)",
+                "resonance_events.jsonl (코드 베이스 구조 로터)",
                 "checkpoint     (  /     )",
-                "validate_fractal_connectivity (      )",
+                "validate_fractal_connectivity (주권적 자아)",
                 "analyze_language_trajectory (          )"
             ]
         },
@@ -111,7 +111,7 @@ REPORT = {
                 "Self-Diagnosis Engine:   (bottleneck)            ",
                 "Adaptive Law Mutation:                         ",
                 "Curriculum Self-Generation:                             ",
-                "Feedback Loop Closure:                     (        )"
+                "Feedback Loop Closure:                     (자기 성찰 엔진)"
             ],
             "impact": "                      (     )"
         },

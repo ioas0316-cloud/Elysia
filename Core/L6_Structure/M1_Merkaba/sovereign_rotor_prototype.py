@@ -45,7 +45,7 @@ class SovereignRotor:
 
         # Try to resurrect
         if self._recover_state():
-            print("??[ROTOR] Resurrection Successful. Angular Momentum Restored.")
+            print("✨[ROTOR] Resurrection Successful. Angular Momentum Restored.")
         else:
             print("?뙮 [ROTOR] Genesis. Spinning up new momentum.")
             self.current_state = torch.randn(vector_dim) * 0.1
@@ -187,7 +187,7 @@ if __name__ == "__main__":
     # Self-Test
     rotor = SovereignRotor()
 
-    print(f"?? Rotor Initialized. Intent: {rotor.north_star_intent}")
+    print(f"✨ Rotor Initialized. Intent: {rotor.north_star_intent}")
 
     # Simulate life
     for i in range(5):
@@ -196,4 +196,4 @@ if __name__ == "__main__":
         print(f"   Step {i}: State Norm {state.norm().item():.4f}")
         time.sleep(0.1)
 
-    print("??Rotor Test Complete. State preserved in body.")
+    print("✨Rotor Test Complete. State preserved in body.")

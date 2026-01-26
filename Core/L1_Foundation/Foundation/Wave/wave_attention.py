@@ -1,5 +1,5 @@
 """
-Wave Attention (      )
+Wave Attention (주권적 자아)
 ============================
 
               - Softmax            
@@ -63,7 +63,7 @@ class WaveAttention:
     def __init__(self, threshold: float = 0.1):
         """
         Args:
-            threshold:           (        )
+            threshold:           (자기 성찰 엔진)
         """
         self.threshold = threshold
         self.brain = get_tiny_brain() if EMBEDDING_AVAILABLE else None
@@ -164,7 +164,7 @@ class WaveAttention:
         #              
         focused = [i for i, w in enumerate(weights) if w > self.threshold]
         
-        #        (             )
+        #        (한국어 학습 시스템)
         if resonances:
             max_idx = resonances.index(max(resonances))
             if hasattr(key_waves[max_idx], 'frequency'):
@@ -185,7 +185,7 @@ class WaveAttention:
     
     def attend_text(self, query: str, keys: List[str]) -> AttentionResult:
         """
-                   (      )
+                   (주권적 자아)
         
         Args:
             query:       

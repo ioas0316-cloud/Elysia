@@ -76,7 +76,7 @@ class ZeroLatencyPortal(MerkabaPortal):
 
         if NUMBA_AVAILABLE:
 
-            logger.info("??Zero-Latency Portal initialized. NVMe -> GPU path prioritized.")
+            logger.info("✨Zero-Latency Portal initialized. NVMe -> GPU path prioritized.")
 
         else:
 
@@ -242,7 +242,7 @@ class ZeroLatencyPortal(MerkabaPortal):
 
         except Exception as e:
 
-            logger.error(f"??Portal Write Error: {e}")
+            logger.error(f"✨Portal Write Error: {e}")
 
             return False
 

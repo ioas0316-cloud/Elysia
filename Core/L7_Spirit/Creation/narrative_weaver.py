@@ -1,5 +1,5 @@
 """
-Narrative Weaver (      )
+Narrative Weaver (주권적 자아)
 ==============================
 Core.L7_Spirit.Creation.narrative_weaver
 

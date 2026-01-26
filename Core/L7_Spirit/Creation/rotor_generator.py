@@ -1,5 +1,5 @@
 """
-Rotor Generator (             )
+Rotor Generator (한국어 학습 시스템)
 =========================================
 Core.L7_Spirit.Creation.rotor_generator
 

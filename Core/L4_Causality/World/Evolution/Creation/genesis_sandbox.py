@@ -1,5 +1,5 @@
 """
-Genesis Sandbox (        )
+Genesis Sandbox (자기 성찰 엔진)
 ===============================
 
 "Before the Word becomes Flesh, it must be tested in the Fire."

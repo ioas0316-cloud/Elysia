@@ -62,7 +62,7 @@ class GravitationalSearch:
     
     def compute_gravitational_pull(self, source_concept: str, target_content: str) -> float:
         """
-               (      )   
+               (주권적 자아)   
         
                             
         """
@@ -73,7 +73,7 @@ class GravitationalSearch:
         #      
         direct_pull = 1.0 if source_lower in target_lower else 0.0
         
-        #           (        )
+        #           (자기 성찰 엔진)
         causal_keywords = self._get_causal_network(source_concept)
         relational_pull = sum(
             0.3 for kw in causal_keywords 
@@ -259,7 +259,7 @@ class BlackHoleWhiteHoleCycle:
     
     def process_new_knowledge(self, content: str, topic: str) -> Dict[str, Any]:
         """
-                (      )
+                (주권적 자아)
         
         1.      
         2.     BlackHole

@@ -25,7 +25,7 @@ def test_digestion():
     heartbeat = ElysianHeartbeat()
     
     # 2. Find a test nutrient (using the brain_state.pt.bak if it exists)
-    test_model = r"C:\Elysia\Archive\Legacy_Data\_02_Cognitive\_01_Brain\brain_state.pt.bak"
+    test_model = r"C:/Elysia\Archive\Legacy_Data\_02_Cognitive\_01_Brain\brain_state.pt.bak"
     if not os.path.exists(test_model):
         # Create a dummy .pt file if not found
         import torch

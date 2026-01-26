@@ -42,7 +42,7 @@ logger = logging.getLogger("Elysia.Tracer")
 
 def trace_path(index_path: str, map_path: str, prompt: str):
 
-    logger.info(f"?? Tracing causal path for prompt: '{prompt}'")
+    logger.info(f"✨ Tracing causal path for prompt: '{prompt}'")
 
     
 

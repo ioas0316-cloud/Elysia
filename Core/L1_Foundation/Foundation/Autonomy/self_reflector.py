@@ -1,5 +1,5 @@
 """
-Self Reflector (        )
+Self Reflector (자기 성찰 엔진)
 ===============================
 
 "To improve, I must first know myself."

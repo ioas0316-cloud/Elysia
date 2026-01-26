@@ -140,7 +140,7 @@ class HeavyMerkaba:
 
         self.sub_units.append(unit)
 
-        logger.info(f"??[HEAVY] Unit {unit_id} assimilated into Cargo. Total Units: {len(self.sub_units)}")
+        logger.info(f"✨[HEAVY] Unit {unit_id} assimilated into Cargo. Total Units: {len(self.sub_units)}")
 
         
 
@@ -172,7 +172,7 @@ class HeavyMerkaba:
 
         
 
-        logger.info(f"?? [HEAVY] Synchronized across {len(self.sub_units)} units. Resonant Field: {self.integrated_qualia}")
+        logger.info(f"✨ [HEAVY] Synchronized across {len(self.sub_units)} units. Resonant Field: {self.integrated_qualia}")
 
         return self.integrated_qualia
 

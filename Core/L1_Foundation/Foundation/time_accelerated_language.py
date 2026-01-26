@@ -11,7 +11,7 @@ Time-Accelerated Primal Language System -
 
       :
 - NumPy        (100 +      )
--          (        )
+-          (자기 성찰 엔진)
 -               
 -                   
 
@@ -255,7 +255,7 @@ class AcceleratedResonancePattern:
     segment_name: Optional[str] = None
     
     #         
-    compressed_occurrences: float = 0.0  #           (           )
+    compressed_occurrences: float = 0.0  #           (코드 베이스 구조 로터)
     last_compression_level: str = "normal"
     
     def signature(self) -> Tuple[float, float, float]:
@@ -280,7 +280,7 @@ class AcceleratedResonancePattern:
         return (freq_sim + spread_sim + coherence_sim) / 3.0
     
     def add_occurrence(self, compression_factor: float = 1.0, level: str = "normal"):
-        """         (        )"""
+        """         (자기 성찰 엔진)"""
         self.occurrence_count += 1
         self.compressed_occurrences += compression_factor
         self.last_compression_level = level
@@ -332,7 +332,7 @@ class TimeAcceleratedSoul:
         compression_factor: float = 1.0
     ):
         """
-                 (        )
+                 (자기 성찰 엔진)
         
         Args:
             world_stimuli: {     : (  ,    )}
@@ -627,7 +627,7 @@ class TimeAcceleratedPrimalWorld:
         subjective_dt = dt * compression_factor
         self.total_subjective_years += subjective_dt / (365.0 * 24.0 * 3600.0)  #      
         
-        #              (        )
+        #              (자기 성찰 엔진)
         source_keys = list(self.world_sources.keys())
         
         for soul in self.souls.values():

@@ -1,5 +1,5 @@
 """
-THE REFLEXIVE LOOP (      )
+THE REFLEXIVE LOOP (주권적 자아)
 ================================
 
 Phase 59:                    

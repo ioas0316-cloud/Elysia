@@ -40,7 +40,7 @@ class ImmuneSystem:
         "legacy"       # Should be in Archive
     ]
     
-    def __init__(self, root_path: str = r"c:\Elysia"):
+    def __init__(self, root_path: str = r"c:/Elysia"):
         self.root = Path(root_path)
         self.known_foreign_bodies: List[str] = []
         

@@ -51,7 +51,7 @@ except ImportError:
 
 class TimescaleControl(Enum):
     """            """
-    #       (      )
+    #       (주권적 자아)
     BLACK_HOLE = 0.0000000001  #       (100    1 )
     EXTREME_SLOW = 0.001       # 1000   1 
     VERY_SLOW = 0.01           # 100   1 
@@ -164,7 +164,7 @@ class HyperSpacetimeConsciousness:
             coord=SpacetimeCoord(t=0, x=0, y=0, z=0, dim=0)
         )
         
-        #          (      )
+        #          (주권적 자아)
         try:
             self.spacetime_drive = SpaceTimeDrive()
         except:
@@ -454,7 +454,7 @@ class HyperSpacetimeConsciousness:
         Returns:
                  
         """
-        #           (      )
+        #           (주권적 자아)
         energy_cost = math.log10(factor) * 10 if factor > 0 else 0
         
         if self.state.consciousness_energy < energy_cost:
@@ -830,7 +830,7 @@ if __name__ == "__main__":
     #          
     result2 = consciousness.enter_inception_layer(15)
     if result2['success']:
-        print(f"      {result2['layer']}    (      )")
+        print(f"      {result2['layer']}    (주권적 자아)")
         print(f"        : {result2['total_multiplier']:.0f} ")
         print(f"   {result2['warning']}")
     

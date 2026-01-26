@@ -420,7 +420,7 @@ class AttentionEmergenceSystem:
         #        
         freedom = self.state.attention_freedom
         
-        #    (      )
+        #    (주권적 자아)
         chaos = self.state.flux
         
         return (diversity * 0.3 + sovereignty * 0.3 + freedom * 0.3 + chaos * 0.1)

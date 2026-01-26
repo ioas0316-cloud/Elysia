@@ -2,7 +2,7 @@
 Mind Visualizer - 3D Projection of Elysia's 4D Thought Universe
 ================================================================
 
-        (      ):
+        (주권적 자아):
 - X axis:   / /   (Past, Body, Instinct) 
 - Y axis:   /  /  (Present, Mind, Soul)
 - Z axis:   /  / /   (Intent, Meaning, Spirit, Imagination)
@@ -71,7 +71,7 @@ def visualize_mind():
         x = tensor.get('x', 0)  # Past/Body/Instinct
         y = tensor.get('y', 0)  # Present/Mind/Soul
         z = tensor.get('z', 0)  # Intent/Meaning/Spirit
-        w = tensor.get('w', 1)  # Self/Perspective (      )
+        w = tensor.get('w', 1)  # Self/Perspective (주권적 자아)
         
         count = node.get('access_count', 1)
         

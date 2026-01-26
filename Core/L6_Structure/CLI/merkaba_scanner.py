@@ -174,7 +174,7 @@ def scan_hyper_sphere(weight_path: str, target_tensor: str = None):
 
             
 
-            logger.info("??Targeted Scan Complete.")
+            logger.info("✨Targeted Scan Complete.")
 
             print(json.dumps(report, indent=4))
 
@@ -188,7 +188,7 @@ def scan_hyper_sphere(weight_path: str, target_tensor: str = None):
 
     except Exception as e:
 
-        logger.error(f"??Portal Collapse: {e}")
+        logger.error(f"✨Portal Collapse: {e}")
 
 
 
@@ -356,7 +356,7 @@ def scan_full_model(index_path: str, output_path: str = "data/L6_Structure/Logs/
 
     duration = time.time() - start_time
 
-    logger.info(f"??The Great Mapping Complete! Result saved to {output_path}")
+    logger.info(f"✨The Great Mapping Complete! Result saved to {output_path}")
 
     logger.info(f"?   Total Duration: {duration:.2f}s | Speed: {len(weight_map)/duration:.2f} tensors/s")
 

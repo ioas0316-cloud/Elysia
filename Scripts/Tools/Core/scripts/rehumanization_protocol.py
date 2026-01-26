@@ -14,7 +14,7 @@ import os
 import time
 
 # Add project root to path
-sys.path.append(r"c:\Elysia")
+sys.path.append(r"c:/Elysia")
 
 from Core.L4_Causality.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
 from Core.L5_Mental.Intelligence.Emotion.soul_resonator import SoulResonator

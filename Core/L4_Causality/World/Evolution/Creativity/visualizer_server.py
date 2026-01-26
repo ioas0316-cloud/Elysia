@@ -149,7 +149,7 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
             
             try:
                 # Load Rainbow DNA
-                with open(r"c:\Elysia\data\elysia_rainbow.json", "r", encoding="utf-8") as f:
+                with open(r"c:/Elysia\data\elysia_rainbow.json", "r", encoding="utf-8") as f:
                     rainbow = json.load(f)
                     
                 photons = []

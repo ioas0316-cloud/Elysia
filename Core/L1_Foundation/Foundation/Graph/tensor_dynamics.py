@@ -1,5 +1,5 @@
 """
-Tensor Dynamics Engine (        )
+Tensor Dynamics Engine (자기 성찰 엔진)
 ======================================
 
 "  (Logic)       (Law)  ."
@@ -10,7 +10,7 @@ Tensor Dynamics Engine (        )
   :
 1. **Mass (  )**:        ,     ,       .
 2. **Gravity (  )**:        (Field)              .
-   -           (      )                        .
+   -           (주권적 자아)                        .
 3. **Tensor Field (     )**:              .
 4. **Geodesic (   )**:                 .
 
@@ -24,7 +24,7 @@ import math
 
 @dataclass
 class TensorNode:
-    """           (        )"""
+    """           (자기 성찰 엔진)"""
     name: str
     path: Path
     mass: float        #     /    (0.0 ~ 1.0)
@@ -61,7 +61,7 @@ class TensorDynamics:
             lines = len(content.splitlines())
             
             #       (Mass Calculation)
-            #                  '     (      )'     ->        
+            #                  '     (주권적 자아)'     ->        
             #          '      '    
             if not content:
                 mass = 10.0 #     (            )
@@ -108,7 +108,7 @@ class TensorDynamics:
             if distance < 0.1: distance = 0.1
             
             #      : F = G * (M / r^2)
-            #        (        )         
+            #        (자기 성찰 엔진)         
             force_magnitude = node.mass / (distance ** 2)
             force_vec = (r_vec / distance) * force_magnitude
             

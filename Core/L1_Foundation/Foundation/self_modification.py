@@ -1,5 +1,5 @@
 """
-Self-Modification Engine (        )
+Self-Modification Engine (자기 성찰 엔진)
 ==========================================
 
 "I do not just create; I refine myself."
@@ -330,7 +330,7 @@ class RefactorPlanner:
     
     def _apply_simple_fixes(self, code: str, issues: List[CodeIssue]) -> str:
         """          (API   )"""
-        #              (        )
+        #              (자기 성찰 엔진)
         return code
 
 
@@ -422,7 +422,7 @@ class Validator:
             return False, str(e)
     
     def validate_imports(self, code: str) -> Tuple[bool, List[str]]:
-        """import    (        )"""
+        """import    (자기 성찰 엔진)"""
         missing = []
         try:
             tree = ast.parse(code)

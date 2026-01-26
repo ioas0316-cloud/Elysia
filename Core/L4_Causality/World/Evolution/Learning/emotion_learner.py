@@ -52,7 +52,7 @@ if __name__ == "__main__":
     
     soul = SoulResonator()
     learner = EmotionLearner(soul)
-    learner.load_scenarios(r"c:\Elysia\data\training_data\scenarios.json")
+    learner.load_scenarios(r"c:/Elysia\data\training_data\scenarios.json")
     learner.learn()
     learner.reflect()
     

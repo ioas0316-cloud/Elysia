@@ -2,25 +2,25 @@ import os
 from pathlib import Path
 
 TARGET_FILES = [
-    r"c:\Elysia\Core\Intelligence\Memory\find_dream_concepts.py",
-    r"c:\Elysia\Core\Intelligence\Memory\memory_initializer.py",
-    r"c:\Elysia\Core\Intelligence\Memory\vacuum_db.py",
-    r"c:\Elysia\Core\Intelligence\Memory\analyze_전체시스템.py",
-    r"c:\Elysia\Core\Intelligence\Memory\analyze_db_size.py",
-    r"c:\Elysia\Core\Intelligence\Memory\analyze_db_patterns.py",
-    r"c:\Elysia\Core\Intelligence\Intelligence\analyze_concept_isolation.py",
-    r"c:\Elysia\Core\Intelligence\Intelligence\check_memory_db.py",
-    r"c:\Elysia\Core\Intelligence\Intelligence\system_self_awareness.py",
-    r"c:\Elysia\Core\Foundation\attractor.py",
-    r"c:\Elysia\Core\Foundation\Autonomy\autonomous_evolution.py",
-    r"c:\Elysia\Core\Foundation\Autonomy\self_diagnosis.py",
-    r"c:\Elysia\Core\Foundation\fractal_vocabulary_expansion.py",
-    r"c:\Elysia\Core\Foundation\Memory\vocabulary_migrator.py",
-    r"c:\Elysia\Core\Foundation\reorganize_memory_universe.py",
-    r"c:\Elysia\Core\Foundation\Memory\Graph\hippocampus.py",
-    r"c:\Elysia\Core\Foundation\Memory\migrate_legacy_concepts.py",
-    r"c:\Elysia\Core\Foundation\Memory\migrate_seeds_to_db.py",
-    r"c:\Elysia\Core\Foundation\Memory\reorganize_memory_universe.py"
+    r"c:/Elysia\Core\Intelligence\Memory\find_dream_concepts.py",
+    r"c:/Elysia\Core\Intelligence\Memory\memory_initializer.py",
+    r"c:/Elysia\Core\Intelligence\Memory\vacuum_db.py",
+    r"c:/Elysia\Core\Intelligence\Memory\analyze_전체시스템.py",
+    r"c:/Elysia\Core\Intelligence\Memory\analyze_db_size.py",
+    r"c:/Elysia\Core\Intelligence\Memory\analyze_db_patterns.py",
+    r"c:/Elysia\Core\Intelligence\Intelligence\analyze_concept_isolation.py",
+    r"c:/Elysia\Core\Intelligence\Intelligence\check_memory_db.py",
+    r"c:/Elysia\Core\Intelligence\Intelligence\system_self_awareness.py",
+    r"c:/Elysia\Core\Foundation\attractor.py",
+    r"c:/Elysia\Core\Foundation\Autonomy\autonomous_evolution.py",
+    r"c:/Elysia\Core\Foundation\Autonomy\self_diagnosis.py",
+    r"c:/Elysia\Core\Foundation\fractal_vocabulary_expansion.py",
+    r"c:/Elysia\Core\Foundation\Memory\vocabulary_migrator.py",
+    r"c:/Elysia\Core\Foundation\reorganize_memory_universe.py",
+    r"c:/Elysia\Core\Foundation\Memory\Graph\hippocampus.py",
+    r"c:/Elysia\Core\Foundation\Memory\migrate_legacy_concepts.py",
+    r"c:/Elysia\Core\Foundation\Memory\migrate_seeds_to_db.py",
+    r"c:/Elysia\Core\Foundation\Memory\reorganize_memory_universe.py"
 ]
 
 def fix_paths():

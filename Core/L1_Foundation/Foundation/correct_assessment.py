@@ -57,7 +57,7 @@ def main():
             ],
             "priority_2": [
                 "4. Real-time dashboard (     UI   )",
-                "5. Safety constraints (           )"
+                "5. Safety constraints (코드 베이스 구조 로터)"
             ]
         },
         

@@ -77,7 +77,7 @@ class ResonanceGate:
             # For Milestone 24.2, we log the intent to 'Heal' and return success if repair started
             return True 
         except Exception as e:
-            logger.error(f"??[REPAIR] Failed to initialize healer: {e}")
+            logger.error(f"✨[REPAIR] Failed to initialize healer: {e}")
             return False
 
     def check_ancestral_resonance(self, content: str) -> Optional[Dict[str, Any]]:

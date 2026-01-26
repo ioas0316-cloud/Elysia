@@ -223,13 +223,13 @@ class ContextPlane(DimensionalEntity):
     #             
     line_ids: List[str] = field(default_factory=list)
     
-    #             (      )
+    #             (주권적 자아)
     point_ids: List[str] = field(default_factory=list)
     
     #       
     context_type: str = "situation"  # "situation", "scenario", "episode"
     
-    #         (             )
+    #         (한국어 학습 시스템)
     emotional_tone: float = 0.0
     
     #       
@@ -395,9 +395,9 @@ class CausalRelationType(Enum):
     
     #    /       (Experiential/Semantic)
     CORRELATES = "correlates"      # A  B          
-    ASSOCIATED_WITH = "associated_with" # A  B      (      )
+    ASSOCIATED_WITH = "associated_with" # A  B      (주권적 자아)
     MOTIVATES = "motivates"        # A  B(  /  )       
-    CONTRASTS_WITH = "contrasts_with" # A  B      (             )
+    CONTRASTS_WITH = "contrasts_with" # A  B      (한국어 학습 시스템)
 
 
 
@@ -425,7 +425,7 @@ class CausalNode:
     #      
     is_state: bool = True         # True:   , False:   
     
-    #         (             )
+    #         (한국어 학습 시스템)
     concepts: List[str] = field(default_factory=list)
 
     #       :                   (EpistemicSpace)
@@ -435,7 +435,7 @@ class CausalNode:
     sensory_signature: Dict[str, float] = field(default_factory=dict)
     emotional_valence: float = 0.0  # -1 (  ) ~ +1 ( )
     
-    #     (        )
+    #     (자기 성찰 엔진)
     agent: Optional[str] = None
     
     #      
@@ -574,7 +574,7 @@ class CausalChain:
     #      
     experience_count: int = 1
     
-    #         (        )
+    #         (자기 성찰 엔진)
     success_rate: float = 0.0
     
     def get_length(self) -> int:
@@ -1149,7 +1149,7 @@ class CausalNarrativeEngine:
             #         
             self.knowledge_base.add_link(
                 source, target, relation,
-                strength=0.5,  #       (        )
+                strength=0.5,  #       (자기 성찰 엔진)
                 description=description
             )
             
@@ -1403,7 +1403,7 @@ class CausalNarrativeEngine:
         goal_state: str
     ) -> Optional[CausalChain]:
         """
-                     (        )
+                     (자기 성찰 엔진)
         
         Args:
             current_state:      
@@ -1544,7 +1544,7 @@ class ThoughtUniverse:
         #         (Epistemic Spaces - Fractal Worlds)
         self.epistemic_spaces: Dict[str, EpistemicSpace] = {}
 
-        #           (      )
+        #           (주권적 자아)
         self.all_entities: Dict[str, DimensionalEntity] = {}
         
         #      
@@ -2423,7 +2423,7 @@ class ThoughtUniverse:
                 self.add_point(point_id, step)
                 result["points_created"] += 1
         
-        # 2.      (        )
+        # 2.      (자기 성찰 엔진)
         point_ids = [s.lower().replace(" ", "_") for s in experience_steps]
         plane = self.emerge_plane_from_experience(
             experience_description="   ".join(experience_steps),
@@ -2483,7 +2483,7 @@ class ThoughtUniverse:
         target_space: SchemaSpace,
         threshold: float = 0.7
     ) -> List[str]:
-        """          (           )"""
+        """          (코드 베이스 구조 로터)"""
         similar = []
         target_patterns = set(target_space.core_patterns)
         

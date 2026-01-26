@@ -245,7 +245,7 @@ class KoreanWaveConverter:
         """
                       
         
-                         (      )
+                         (주권적 자아)
         
         Args:
             sentence:      

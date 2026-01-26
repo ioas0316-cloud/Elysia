@@ -1,5 +1,5 @@
 """
-Exploration Bridge (      )
+Exploration Bridge (주권적 자아)
 ================================
 
 "[     ]"                
@@ -81,7 +81,7 @@ class ExplorationBridge:
     def __init__(self):
         # ===        ===
         
-        # 1. WhyEngine (        )
+        # 1. WhyEngine (자기 성찰 엔진)
         self.why_engine = None
         try:
             from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
@@ -127,7 +127,7 @@ class ExplorationBridge:
         except Exception as e:
             logger.warning(f"NaverConnector not available: {e}")
         
-        # 6. KoreanEnglishMapper (      )
+        # 6. KoreanEnglishMapper (주권적 자아)
         self.lang_mapper = None
         try:
             from Core.L1_Foundation.Foundation.extreme_hyper_learning import KoreanEnglishMapper
@@ -364,7 +364,7 @@ class ExplorationBridge:
             import urllib.request
             import json
             
-            #           (      )
+            #           (주권적 자아)
             keywords = question.replace("?", "").replace("  ", "").replace("    ", "").strip()
             keywords = keywords.split()[-1] if keywords.split() else question[:10]
             
@@ -396,7 +396,7 @@ class ExplorationBridge:
             return (None, str(e)[:50])
     
     def _try_naver(self, question: str) -> tuple:
-        """          (      )"""
+        """          (주권적 자아)"""
         if not self.naver or not self.naver.available:
             return (None, "Naver not available")
         
@@ -429,7 +429,7 @@ class ExplorationBridge:
             #              
             english = self.lang_mapper.get_english(word)
             
-            #       (           )
+            #       (코드 베이스 구조 로터)
             if english and english != word:
                 logger.info(f"     Trying English: {word}   {english}")
                 
@@ -510,7 +510,7 @@ class ExplorationBridge:
         
         "                ,                   "
         
-            : Naver > Wikipedia > InnerDialogue (        )
+            : Naver > Wikipedia > InnerDialogue (자기 성찰 엔진)
         """
         logger.info(f"  Exploring ALL sources for: {question[:40]}...")
         
@@ -573,7 +573,7 @@ class ExplorationBridge:
         
              :
         - reliability:              
-        - relevance:          (      )
+        - relevance:          (주권적 자아)
         - depth:        (   +   )
         """
         #        (   )

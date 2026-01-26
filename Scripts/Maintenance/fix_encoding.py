@@ -1,6 +1,6 @@
 import os
 
-path = r'C:\Elysia\Core\L1_Foundation\Foundation\hyper_cosmos.py'
+path = r'C:/Elysia\Core\L1_Foundation\Foundation\hyper_cosmos.py'
 try:
     with open(path, 'rb') as f:
         content = f.read()

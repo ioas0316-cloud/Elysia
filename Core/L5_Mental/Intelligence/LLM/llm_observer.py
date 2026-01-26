@@ -153,7 +153,7 @@ class LLMObserver:
                     keys = list(f.keys())
                     view["layer_count"] = len(keys)
                     
-                    #               (        )
+                    #               (자기 성찰 엔진)
                     sample_keys = self._select_representative_layers(keys)
                     for key in sample_keys:
                         tensor = f.get_tensor(key)
@@ -208,10 +208,10 @@ class LLMObserver:
                 #    : Entropy (  )   
                 signal = flat.std().item()
             elif axis_name == "narrative":
-                #    : Complexity (      )   
+                #    : Complexity (주권적 자아)   
                 signal = flat.abs().mean().item()
             else:  # aesthetic
-                #    : Harmonic (        )   
+                #    : Harmonic (자기 성찰 엔진)   
                 norm = flat.norm().item()
                 std = flat.std().item()
                 signal = std / (norm + 1e-8)

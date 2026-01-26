@@ -41,7 +41,7 @@ class Purpose:
     origin_time: float = field(default_factory=time.time)
     
     def decay(self, factor: float = PURPOSE_DECAY):
-        """               (           )"""
+        """               (코드 베이스 구조 로터)"""
         self.intensity *= factor
         return self.intensity > 0.1  # Still active?
     
@@ -107,7 +107,7 @@ class FlowingState:
                           for i in range(1, len(emotions))]
         avg_change = sum(emotion_changes) / len(emotion_changes) if emotion_changes else 0
         
-        # 0 (     ) ~ 2 (      )   0~1    
+        # 0 (     ) ~ 2 (주권적 자아)   0~1    
         coherence = max(0, 1.0 - avg_change)
         
         return coherence
@@ -229,7 +229,7 @@ class NarrativeFlowSystem:
         
         purpose = self.state.current_purpose
         
-        #           (             )
+        #           (한국어 학습 시스템)
         relevance_map = {
             PurposeType.CONNECTION: [' ', '  ', '  ', '   '],
             PurposeType.REST: [' ', '  ', '  '],

@@ -1,5 +1,5 @@
 """
-Axiomatic Architect (      )
+Axiomatic Architect (주권적 자아)
 ==============================
 Core.L7_Spirit.Monad.axiomatic_architect
 

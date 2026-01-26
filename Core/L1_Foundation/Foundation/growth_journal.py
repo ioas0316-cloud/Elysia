@@ -11,7 +11,7 @@ Growth Journal (     )
 3.      
 4.       
 
-     c:\Elysia\journals\       
+     c:/Elysia\journals\       
                   .
 """
 
@@ -31,7 +31,7 @@ class GrowthJournal:
          
     
     -           
-    -         "     "    (      )
+    -         "     "    (주권적 자아)
     -           (  )
     """
     
@@ -144,7 +144,7 @@ class GrowthJournal:
             return f"""-     : {concept_count}
 -     (  ): {total_curvature:.2f}
 -     (   ): {total_charge:.2f}
--   (        ): {satellite_count}"""
+-   (자기 성찰 엔진): {satellite_count}"""
         except:
             return "(TensionField         )"
     

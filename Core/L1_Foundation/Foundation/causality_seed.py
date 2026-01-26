@@ -30,13 +30,13 @@ class CausalType(Enum):
     LOGICAL = "      "    #      ,     
     EMOTIONAL = "      "  #   ,     
     INTENTIONAL = "      " #             
-    UNKNOWN = "      "    #            (      )
+    UNKNOWN = "      "    #            (주권적 자아)
 
 @dataclass
 class SpacetimeCoord:
-    """       (             )"""
+    """       (한국어 학습 시스템)"""
     t: float  #   
-    x: float  #    X (      )
+    x: float  #    X (주권적 자아)
     y: float  #    Y
     z: float  #    Z
     dim: int = 0  #    (0=  , 1=  , 2=  )

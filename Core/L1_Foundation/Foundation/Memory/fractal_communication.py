@@ -1,5 +1,5 @@
 """
-Fractal Communication Protocol (           )
+Fractal Communication Protocol (코드 베이스 구조 로터)
 ================================================
 
 "            ,         "

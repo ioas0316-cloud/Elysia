@@ -91,8 +91,8 @@ class InnateLayer:
         return sorted_aspects[:top_n]
     
     def develop(self, target: EnneagramType, amount: float = 0.01):
-        """      (      )"""
-        #           (             )
+        """      (주권적 자아)"""
+        #           (한국어 학습 시스템)
         capped_amount = min(amount, 0.02)
         self.aspects[target] = min(1.0, self.aspects[target] + capped_amount)
         
@@ -157,12 +157,12 @@ class AcquiredLayer:
         return sorted_aspects[:top_n]
     
     def develop(self, target: ExperientialAspect, amount: float = 0.05):
-        """      (      )"""
+        """      (주권적 자아)"""
         self.aspects[target] = min(1.0, self.aspects[target] + amount)
         logger.debug(f"Layer2   : {target.value} (+{amount})")
     
     def decay(self, amount: float = 0.01):
-        """             (      )"""
+        """             (주권적 자아)"""
         min_value = 0.1
         for aspect in self.aspects:
             if aspect != ExperientialAspect.DAUGHTER:  #              
@@ -236,7 +236,7 @@ class DualLayerPersonality:
             EnneagramType.TYPE_9: [ExperientialAspect.FRIEND],
         }
         
-        # Layer2   Layer1    (             )
+        # Layer2   Layer1    (한국어 학습 시스템)
         self._acquired_to_innate = {
             ExperientialAspect.LOVER: EnneagramType.TYPE_2,
             ExperientialAspect.CREATOR: EnneagramType.TYPE_3,

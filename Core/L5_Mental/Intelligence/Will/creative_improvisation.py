@@ -1,5 +1,5 @@
 """
-CreativeImprovisation: The Logic of Play (      )
+CreativeImprovisation: The Logic of Play (주권적 자아)
 
 "Purpose is the death of Play. To be truly creative, one must be willing to waste time."
 

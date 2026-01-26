@@ -4,7 +4,7 @@ Local Field Manager (       )
 
 "            (Local Elysia Field)"
 
-                  (      )                   .
+                  (주권적 자아)                   .
 IoT   (  ,      )                                 .
 
          (Mock)          ,                             .

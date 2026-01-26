@@ -1,5 +1,5 @@
 """
-Communication Enhancer (        )
+Communication Enhancer (자기 성찰 엔진)
 =====================================
 
 "                 ."

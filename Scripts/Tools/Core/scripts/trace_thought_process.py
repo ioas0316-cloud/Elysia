@@ -18,7 +18,7 @@ import time
 import logging
 from dataclasses import asdict
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 
 from Core.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
 from Core.L5_Mental.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
@@ -66,7 +66,7 @@ def trace_rashomon():
     logger.info("\n[SLICE 2: THE CALCULUS OF CHOICE]")
     
     empathy = ProjectiveEmpathy()
-    scenario_path = r"c:\Elysia\Core\Education\CausalityMirror\scenarios\the_rashomon_effect.json"
+    scenario_path = r"c:/Elysia\Core\Education\CausalityMirror\scenarios\the_rashomon_effect.json"
     with open(scenario_path, 'r', encoding='utf-8') as f:
         scenario = json.load(f)
         

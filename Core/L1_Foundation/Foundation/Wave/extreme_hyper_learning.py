@@ -28,7 +28,7 @@ class KoreanEnglishMapper:
         self.mappings: Dict[str, str] = {}  # English -> Korean
         self.reverse_mappings: Dict[str, str] = {}  # Korean -> English
         
-        #          (           )
+        #          (코드 베이스 구조 로터)
         self._initialize_base_mappings()
     
     def _initialize_base_mappings(self):
@@ -93,7 +93,7 @@ class KoreanEnglishMapper:
         return self.reverse_mappings.get(korean, korean)
     
     def auto_map(self, english_concept: str) -> str:
-        """      (             )"""
+        """      (한국어 학습 시스템)"""
         if english_concept in self.mappings:
             return self.mappings[english_concept]
         

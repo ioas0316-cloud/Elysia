@@ -1,5 +1,5 @@
 """
-Rotor (      )
+Rotor (주권적 자아)
 ==================================
 
 "The Rotor is the Oscillator and the Filter."

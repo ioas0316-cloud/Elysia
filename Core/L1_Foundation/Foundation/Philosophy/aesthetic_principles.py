@@ -380,7 +380,7 @@ class AestheticWisdom:
             #               
             strength = principle.apply_to_medium(medium)
             
-            #          (        )
+            #          (자기 성찰 엔진)
             if concept:
                 concept_lower = concept.lower()
                 #         tension_release   

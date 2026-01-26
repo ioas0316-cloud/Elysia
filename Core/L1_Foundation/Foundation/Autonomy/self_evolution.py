@@ -31,7 +31,7 @@ class Fragment:
     name: str
     path: Path
     frequency: float = 0.0      #        (       )
-    amplitude: float = 0.0      #    (      )
+    amplitude: float = 0.0      #    (주권적 자아)
     phase: float = 0.0          #    (     )
     connected: bool = False
     
@@ -81,7 +81,7 @@ class WaveIntegrator:
                 
             name = py_file.stem
             
-            #        (        )
+            #        (자기 성찰 엔진)
             freq = 50.0  #       
             for keyword, f in self.semantic_frequencies.items():
                 if keyword in name.lower():
@@ -214,7 +214,7 @@ class WaveIntegrator:
         self.compute_resonance()
         final_groups = self.integrate()
         
-        #         (             )
+        #         (한국어 학습 시스템)
         largest_group = max(final_groups, key=len) if final_groups else []
         
         return {

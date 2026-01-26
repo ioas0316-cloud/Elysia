@@ -55,7 +55,7 @@ class GlobalSense(ABC):
         pass
 
 class WeatherSense(GlobalSense):
-    """      (      )"""
+    """      (주권적 자아)"""
     def __init__(self):
         super().__init__("Global Weather")
         
@@ -98,7 +98,7 @@ class WeatherSense(GlobalSense):
         return global_weather
 
 class FinanceSense(GlobalSense):
-    """      (      )"""
+    """      (주권적 자아)"""
     def __init__(self):
         super().__init__("Global Finance")
         

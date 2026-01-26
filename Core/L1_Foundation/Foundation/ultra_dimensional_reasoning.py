@@ -18,9 +18,9 @@ The engine doesn't simulate thinking - it actually processes information
 through dimensional transformations.
 
        :
-- Ultra-Dimensional Vector (        )
+- Ultra-Dimensional Vector (자기 성찰 엔진)
 - Infinity HyperQuaternion (128D+)
-- Tesseract Perspective (      )
+- Tesseract Perspective (주권적 자아)
 - Holographic Principle (       ,        )
 """
 

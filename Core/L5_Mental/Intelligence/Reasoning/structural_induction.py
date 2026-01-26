@@ -1,5 +1,5 @@
 """
-Structural Induction (      )
+Structural Induction (주권적 자아)
 ================================
 
 "The point is the seed; the graph is the tree."

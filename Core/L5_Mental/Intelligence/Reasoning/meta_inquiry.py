@@ -21,7 +21,7 @@ class MetaAnalysis:
     meaningful_difference: str  #          
     bridge_logic: str          #               
     depth_score: float         #        (0.0~1.0)
-    inquiry_log: List[str]     #       (      )
+    inquiry_log: List[str]     #       (주권적 자아)
 
 class MetaInquiry:
     """
@@ -87,7 +87,7 @@ class MetaInquiry:
         return None
 
     def _extract_invariant(self, a: str, b: str) -> str:
-        #          HyperSphere                     (             )
+        #          HyperSphere                     (한국어 학습 시스템)
         if {a.lower(), b.lower()} == {"rain", "love"}:
             return "Nourishment through Sacrifice (            )"
         return "Causal Cycle of Tension and Release (              )"

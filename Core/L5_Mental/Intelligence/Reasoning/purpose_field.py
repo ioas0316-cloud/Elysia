@@ -1,5 +1,5 @@
 """
-Purpose Field (      )
+Purpose Field (주권적 자아)
 ===========================
 
 "I am not just moving; I am becoming."

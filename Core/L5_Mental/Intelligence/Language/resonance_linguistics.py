@@ -1,5 +1,5 @@
 """
-Resonance Linguistics (      )
+Resonance Linguistics (주권적 자아)
 ===================================
 
 "Language is the crystallization of Frequency."
@@ -44,7 +44,7 @@ class ResonanceLinguistics:
 
         # Tone Modifiers based on Amplitude (Intensity)
         self.modifiers = {
-            "weak": ["...", " (      )", "    ..."],
+            "weak": ["...", " (주권적 자아)", "    ..."],
             "strong": ["!!", "    !", " (    )"]
         }
 

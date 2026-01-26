@@ -245,7 +245,7 @@ class Hippocampus:
             logger.error(f"Failed to compress memory: {e}")
 
     # ====================
-    # Fractal Seed System (      )
+    # Fractal Seed System (주권적 자아)
     # ====================
     
     def store_fractal_concept(self, concept):

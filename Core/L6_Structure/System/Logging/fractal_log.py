@@ -27,7 +27,7 @@ class LogEntry:
     level: str
     name: str
     message: str
-    resonance: float = 0.5  # 0.0 (  ) ~ 1.0 (        )
+    resonance: float = 0.5  # 0.0 (  ) ~ 1.0 (자기 성찰 엔진)
     
     # 4D    (HyperSphere    )
     theta: float = 0.0  #      (timestamp        )
@@ -137,7 +137,7 @@ class FractalLogSphere:
         self.ring.append(entry)
         self.total_logged += 1
         
-        # HyperSphere     (      )
+        # HyperSphere     (주권적 자아)
         if resonance > 0.6:
             coord_key = f"{entry.theta:.4f}_{entry.phi:.4f}_{entry.psi:.4f}"
             self.sphere[coord_key] = entry

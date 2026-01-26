@@ -1,5 +1,5 @@
 """
-AXIOM FILTER (      )
+AXIOM FILTER (주권적 자아)
 ========================
 Core.L5_Mental.Intelligence.Metabolism.axiom_filter
 

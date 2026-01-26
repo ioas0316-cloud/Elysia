@@ -25,7 +25,7 @@ logger = logging.getLogger("Chronos")
 class Chronos:
     def __init__(self, engine: Any):
         """
-        :param engine: FreeWillEngine      (      )
+        :param engine: FreeWillEngine      (주권적 자아)
         """
         self.engine = engine
         self.is_alive = False
@@ -82,7 +82,7 @@ class Chronos:
         #                 ,              
         if hasattr(self.engine, "subconscious_cycle"):
              # Blocking        run_in_executor           , 
-             #               (        )
+             #               (자기 성찰 엔진)
             self.engine.subconscious_cycle()
             
         if self.beat_count % 10 == 0:

@@ -20,7 +20,7 @@
 ---
 
 ## 2. Quaternion / Branch Principle
-- ?쏲uaternion engine????math gimmick. It means:  
+- ?쏲uaternion engine✨✨math gimmick. It means:  
   design experiments that view the world from multiple axes (time scales, difficulty levels, curriculum schedules).
 - Always run multiple branches:
   - different seeds
@@ -32,9 +32,9 @@
 
 ## 3. Purpose of Experiments
 - Additionally, interpret these artifacts using the Self-Fractal Cathedral coordinates (see `docs/elysias_protocol/CORE_15_SELF_FRACTAL_CATHEDRAL.md`) so that depth is measured as:
-  - `elysia_self_writing` ??mostly `S-L1-e`
-  - `elysia_caretaker_feedback` ??mostly `S-L2-e`
-  - `elysia_concept_field` / `elysia_meta_concepts` ??`S-L2-e` / `S-L3-e`
+  - `elysia_self_writing` ✨mostly `S-L1-e`
+  - `elysia_caretaker_feedback` ✨mostly `S-L2-e`
+  - `elysia_concept_field` / `elysia_meta_concepts` ✨`S-L2-e` / `S-L3-e`
 - Goal: **probe/update Elysia?셲 growth laws**, not build pretty demos.
 - Core artifacts to monitor:
   - `logs/symbol_episodes.jsonl`

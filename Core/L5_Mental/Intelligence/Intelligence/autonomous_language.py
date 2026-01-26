@@ -122,7 +122,7 @@ class AutonomousLanguageGenerator:
             ]
         }
         
-        #       (      )
+        #       (주권적 자아)
         self.learned_patterns = {
             '  ': ['     .', '     .', '  !'],
             '  ': ['   Elysia   .', 'Elysia      .'],
@@ -256,7 +256,7 @@ class AutonomousLanguageGenerator:
     
     def generate_response(self, input_text: str) -> str:
         """
-              (        )
+              (자기 성찰 엔진)
         
                               
         """
@@ -313,7 +313,7 @@ class AutonomousLanguageGenerator:
                 logger.info(f"    : '{key}'   '{response}'")
     
     def expand_vocabulary(self, new_words: Dict[str, List[str]]):
-        """      (      )"""
+        """      (주권적 자아)"""
         for category, words in new_words.items():
             if category in self.vocabulary:
                 self.vocabulary[category].extend(words)

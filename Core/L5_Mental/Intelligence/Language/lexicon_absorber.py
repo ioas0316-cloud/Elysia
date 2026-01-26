@@ -1,5 +1,5 @@
 """
-Lexicon Absorber (      )
+Lexicon Absorber (주권적 자아)
 ==============================
 
 "To read is to eat the soul of another."

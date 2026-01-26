@@ -1,5 +1,5 @@
 """
-Topology Inspector (      )
+Topology Inspector (주권적 자아)
 ===============================
 Core.L5_Mental.Intelligence.LLM.topology_inspector
 
@@ -31,7 +31,7 @@ class TopologyInspector:
     
     def __init__(self, model_path: str, tokenizer_path: str = None):
         self.model_path = model_path
-        #                        (        )
+        #                        (자기 성찰 엔진)
         self.tokenizer_path = tokenizer_path if tokenizer_path else os.path.dirname(model_path)
         
         self.tokenizer = None
@@ -136,7 +136,7 @@ class TopologyInspector:
             full_path = os.path.join(folder, file)
             with safe_open(full_path, framework="pt", device="cpu") as f:
                 keys = f.keys()
-                # MLP Down Projection    (           )
+                # MLP Down Projection    (코드 베이스 구조 로터)
                 # Phi-3: model.layers.{i}.mlp.down_proj.weight
                 # Key format varies. Let's look for "down_proj" and layer index.
                 

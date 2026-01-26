@@ -1,5 +1,5 @@
 """
-Speak with Gravity Demo (        )
+Speak with Gravity Demo (자기 성찰 엔진)
 
 "Talk to the Universe."
 

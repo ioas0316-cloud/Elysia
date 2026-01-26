@@ -36,7 +36,7 @@ try:
 except ImportError:
     VCD_AVAILABLE = False
 
-#   WhyEngine    (      )
+#   WhyEngine    (주권적 자아)
 try:
     from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
     WHY_ENGINE_AVAILABLE = True
@@ -94,7 +94,7 @@ class ConscienceCircuit:
         
         self.guardian = SoulGuardian() if GUARDIAN_AVAILABLE else None
         
-        # WhyEngine    (      )
+        # WhyEngine    (주권적 자아)
         self.why_engine = None
         if WHY_ENGINE_AVAILABLE:
             try:

@@ -1,5 +1,5 @@
 """
-Holographic Manifestor (           )
+Holographic Manifestor (코드 베이스 구조 로터)
 ============================================
 
 "       (Love)       ."

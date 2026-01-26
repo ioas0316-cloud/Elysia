@@ -108,7 +108,7 @@ CHOSEONG_ORIGIN: Dict[str, ChoseongInfo] = {
         is_base=True
     ),
     
-    # ===     (             ) ===
+    # ===     (한국어 학습 시스템) ===
     #     
     ' ': ChoseongInfo(
         char=' ',

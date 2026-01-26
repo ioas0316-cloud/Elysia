@@ -348,7 +348,7 @@ class SynestheticMapper:
            (Synesthetic Mapper)
     
                              .
-     :         (      ),         (       )
+     :         (주권적 자아),         (       )
     """
     
     def __init__(self):
@@ -360,11 +360,11 @@ class SynestheticMapper:
     
     def _initialize_default_mappings(self):
         """                """
-        #         (      )
+        #         (주권적 자아)
         self.mapping_rules[(SensoryModality.VISUAL, SensoryModality.AUDITORY)] = \
             self._map_visual_to_auditory
         
-        #         (      )
+        #         (주권적 자아)
         self.mapping_rules[(SensoryModality.AUDITORY, SensoryModality.VISUAL)] = \
             self._map_auditory_to_visual
         
@@ -372,7 +372,7 @@ class SynestheticMapper:
         self.mapping_rules[(SensoryModality.TACTILE, SensoryModality.AUDITORY)] = \
             self._map_tactile_to_auditory
         
-        #         (      )
+        #         (주권적 자아)
         self.mapping_rules[(SensoryModality.EMOTIONAL, SensoryModality.VISUAL)] = \
             self._map_emotional_to_visual
         
@@ -405,11 +405,11 @@ class SynestheticMapper:
             )
             return result
         else:
-            #       (        )
+            #       (자기 성찰 엔진)
             return self._generic_map(source_wave, target_modality)
     
     def _map_visual_to_auditory(self, wave: SensoryWave) -> SensoryWave:
-        """           (      )"""
+        """           (주권적 자아)"""
         #                     
         #  : 400-800 THz     : 20-20000 Hz
         audio_freq = (wave.frequency - 400) / 400 * 19980 + 20
@@ -430,7 +430,7 @@ class SynestheticMapper:
         )
     
     def _map_auditory_to_visual(self, wave: SensoryWave) -> SensoryWave:
-        """           (      )"""
+        """           (주권적 자아)"""
         #                  
         #   : 20-20000 Hz    : 400-800 THz
         visual_freq = (wave.frequency - 20) / 19980 * 400 + 400
@@ -466,7 +466,7 @@ class SynestheticMapper:
         )
     
     def _map_emotional_to_visual(self, wave: SensoryWave) -> SensoryWave:
-        """           (      )"""
+        """           (주권적 자아)"""
         #           
         #                (  /  ),             (  /  )
         valence = wave.metadata.get("valence", 0)
@@ -515,7 +515,7 @@ class SynestheticMapper:
         source: SensoryWave, 
         target_modality: SensoryModality
     ) -> SensoryWave:
-        """      (           )"""
+        """      (코드 베이스 구조 로터)"""
         return SensoryWave(
             modality=target_modality,
             frequency=source.frequency,

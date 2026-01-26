@@ -124,7 +124,7 @@ class FractalCausalNode:
     spiral_angle: float = 0.0
     spiral_radius: float = 1.0
     
-    #       (           )
+    #       (코드 베이스 구조 로터)
     parent_id: Optional[str] = None
     parent_role: Optional[CausalRole] = None  #              
     
@@ -271,7 +271,7 @@ class FractalCausalityEngine:
         #          
         self.focus_node_id: Optional[str] = None
         
-        #        (        )
+        #        (자기 성찰 엔진)
         self.spiral_counter: int = 0
         
         #   
@@ -303,7 +303,7 @@ class FractalCausalityEngine:
         # ID   
         node_id = self._generate_node_id(description, depth)
         
-        #          (      )
+        #          (주권적 자아)
         self.spiral_counter += 1
         angle = self.spiral_counter * 2 * math.pi / PHI
         radius = math.sqrt(self.spiral_counter)
@@ -655,7 +655,7 @@ class FractalCausalityEngine:
             if i < len(emotional_arc):
                 node.emotional_valence = emotional_arc[i]
         
-        #                     (      )
+        #                     (주권적 자아)
         if auto_zoom and len(steps) >= 4:
             #                          
             last_effect = self.get_or_create_node(steps[-1], depth)
@@ -966,10 +966,10 @@ def demo():
     )
     print("    '     '          ")
     
-    # 4.       (      )
+    # 4.       (주권적 자아)
     print()
     print("-" * 70)
-    print("4.       (      )")
+    print("4.       (주권적 자아)")
     print("-" * 70)
     
     #            

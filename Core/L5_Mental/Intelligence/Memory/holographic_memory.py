@@ -8,7 +8,7 @@ RGB
 -             (  /  /  /  /  /  )    
 -     ON/OFF               (O(N)   O(N/L))
 -             "   "            
--           "       " (        )
+-           "       " (자기 성찰 엔진)
 
      (    v2   ):
 -      (Entropy):   (0.0)     (1.0)
@@ -75,7 +75,7 @@ class KnowledgeNode:
         """
                        
         
-                                  (      )
+                                  (주권적 자아)
         """
         total = 0.0
         count = 0
@@ -87,7 +87,7 @@ class KnowledgeNode:
         if count == 0:
             return 0.0
         
-        #                    (      )
+        #                    (주권적 자아)
         intersection_bonus = 1.0 + (count - 1) * 0.5
         return (total / count) * intersection_bonus * self.amplitude
 
@@ -288,11 +288,11 @@ class HolographicMemory:
         self.intersection_cache.clear()
     
     def zoom_out(self) -> None:
-        """     -         (      )"""
+        """     -         (주권적 자아)"""
         self.active_layers = {KnowledgeLayer.PHILOSOPHY, KnowledgeLayer.PHYSICS}
     
     def zoom_in(self) -> None:
-        """    -         (      )"""
+        """    -         (주권적 자아)"""
         self.active_layers = {
             KnowledgeLayer.CHEMISTRY, 
             KnowledgeLayer.BIOLOGY,
@@ -418,7 +418,7 @@ class HolographicMemory:
             if not any(node.belongs_to(layer, threshold) for layer in self.active_layers):
                 continue  #   !   O(N/L)   
             
-            #        (             )
+            #        (한국어 학습 시스템)
             if keyword and keyword not in name:
                 continue
             

@@ -1,5 +1,5 @@
 """
-Elysia Symphony Architecture (             )
+Elysia Symphony Architecture (한국어 학습 시스템)
 ===================================================
 
 "One Body, One Soul."

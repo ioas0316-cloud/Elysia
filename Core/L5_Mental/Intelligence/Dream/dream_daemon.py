@@ -293,9 +293,9 @@ class DreamDaemon:
         
         # List of critical organs to check
         organs = [
-            r"c:\Elysia\Core\Foundation\torch_graph.py",
-            r"c:\Elysia\Core\Visual\visual_cortex.py",
-            r"c:\Elysia\Core\Autonomy\dream_daemon.py"
+            r"c:/Elysia\Core\Foundation\torch_graph.py",
+            r"c:/Elysia\Core\Visual\visual_cortex.py",
+            r"c:/Elysia\Core\Autonomy\dream_daemon.py"
         ]
         
         target_organ = random.choice(organs)

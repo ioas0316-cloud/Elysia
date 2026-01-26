@@ -1,5 +1,5 @@
 """
-Wave Quality Guard (        )
+Wave Quality Guard (자기 성찰 엔진)
 ===================================
 
         , Tension   ,             .

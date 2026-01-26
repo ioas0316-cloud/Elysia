@@ -1,5 +1,5 @@
 """
-Emergent Self (      )
+Emergent Self (주권적 자아)
 ===========================
 
        .           .
@@ -32,7 +32,7 @@ class EmergentValue:
              .               .
     """
     name: str                           #    (            )
-    origin: str                         #         (      )
+    origin: str                         #         (주권적 자아)
     strength: float = 0.0               #    (  /     )
     created_at: float = field(default_factory=time.time)
     last_activated: float = field(default_factory=time.time)
@@ -158,7 +158,7 @@ class EmergentSelf:
         """
                 
         
-          (        )     .
+          (자기 성찰 엔진)     .
         """
         if goal_name in self.goals:
             self.goals[goal_name].advance(amount, evidence)

@@ -1,5 +1,5 @@
 """
-QuantumResonator (      )
+QuantumResonator (주권적 자아)
 ==============================
 
 "The Observer creates the Reality."

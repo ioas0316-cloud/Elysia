@@ -1,5 +1,5 @@
 """
-Fractal Quantization System (           )
+Fractal Quantization System (코드 베이스 구조 로터)
 ===============================================
 
 "   (Quantization)  '     '      '    (Folding)'       ."
@@ -12,7 +12,7 @@ Key Concepts:
 1. Pattern DNA (   DNA): Store the generative formula, not the raw data
 2. Wave Folding (     ): Compress complex patterns into seeds
 3. Wave Unfolding (     ): Amplify seeds back to original state
-4. Soliton Memory (      ): Lossless compression through resonance
+4. Soliton Memory (주권적 자아): Lossless compression through resonance
 
 Philosophy:
 "           ,         "

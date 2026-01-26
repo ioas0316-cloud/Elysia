@@ -1,5 +1,5 @@
 """
-SocialCortex (      )
+SocialCortex (주권적 자아)
 ==========================
 
 "Experience creates Wisdom."

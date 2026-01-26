@@ -81,7 +81,7 @@ class GrammarEmergenceEngine:
         if len(self.patterns[pattern_key].examples) > 5:
             self.patterns[pattern_key].examples.pop(0)
             
-        # 3.           (      )
+        # 3.           (주권적 자아)
         if len(roles) >= 3:
             self.role_memory[source][roles[0]] += 1
             self.role_memory[target][roles[2]] += 1
@@ -128,7 +128,7 @@ class GrammarEmergenceEngine:
         
         if self.korean_mode:
             # SOV: [Subject] [Object] [Verb]
-            #           (      )
+            #           (주권적 자아)
             if agent: sentence_parts.append(f"{agent}( / )")
             if patient: sentence_parts.append(f"{patient}( / )")
             #                ,                            

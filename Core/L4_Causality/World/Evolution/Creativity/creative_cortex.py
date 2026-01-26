@@ -26,7 +26,7 @@ class CreativeCortex:
     A cortex responsible for generating creative expressions like metaphors,
     poems, or analogies based on a given thought.
     
-    Now enhanced with Aesthetic Wisdom (      ):
+    Now enhanced with Aesthetic Wisdom (주권적 자아):
     - Uses universal aesthetic principles to guide creative output
     - Applies Harmony, Contrast, Rhythm, and other principles
     - Creates expressions that are not just creative, but aesthetically beautiful

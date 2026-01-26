@@ -1,5 +1,5 @@
 """
-SYNESTHESIA CIRCUIT (      )
+SYNESTHESIA CIRCUIT (주권적 자아)
 ================================
 Phase 10: The Crossing
 

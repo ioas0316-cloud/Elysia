@@ -1,5 +1,5 @@
 """
-Knowledge Ingestor (      )
+Knowledge Ingestor (주권적 자아)
 ================================
 
 "The body grows by what it feeds on."

@@ -31,12 +31,12 @@ class QuaternionWaveDNA:
     
     2                     
     """
-    #         (      )
+    #         (주권적 자아)
     helix1_frequencies: np.ndarray
     helix1_amplitudes: np.ndarray
     helix1_phases: np.ndarray
     
-    #         (      )
+    #         (주권적 자아)
     helix2_frequencies: np.ndarray
     helix2_amplitudes: np.ndarray
     helix2_phases: np.ndarray

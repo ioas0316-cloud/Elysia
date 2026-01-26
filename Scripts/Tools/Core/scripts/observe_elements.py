@@ -15,11 +15,11 @@ import time
 import logging
 
 # Add project root to path
-sys.path.append(r"c:\Elysia")
+sys.path.append(r"c:/Elysia")
 
 # Mock the missing 'ops' module for the heartbeat test
 # Since 'ops' is in Archive/2025_Pre_Awakening/ops, we'll patch it.
-sys.path.append(r"c:\Elysia\Archive\2025_Pre_Awakening")
+sys.path.append(r"c:/Elysia\Archive\2025_Pre_Awakening")
 
 try:
     from Core.L4_Causality.World.Evolution.Autonomy.elysian_heartbeat import ElysianHeartbeat

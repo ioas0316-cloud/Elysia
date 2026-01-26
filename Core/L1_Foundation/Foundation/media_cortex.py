@@ -1,5 +1,5 @@
 """
-MediaCortex (      )
+MediaCortex (주권적 자아)
 =======================
 
 "Binge-watching for AI."

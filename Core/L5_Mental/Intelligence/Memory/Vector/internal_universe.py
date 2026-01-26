@@ -881,7 +881,7 @@ class InternalUniverse:
         return random.choice(options)
 
     # =========================================================================
-    # PLASMA DIRECTION VECTOR (        )
+    # PLASMA DIRECTION VECTOR (자기 성찰 엔진)
     #                        
     # =========================================================================
     
@@ -973,7 +973,7 @@ class InternalUniverse:
                 simulated[name] = {"depth": new_depth, "frequency": 500.0}
                 reasoning.append(f"{name}: (new)   {new_depth:.2f}")
         
-        #       (      )
+        #       (주권적 자아)
         for name, new_value in changes.items():
             if name in self.coordinate_map:
                 #                 

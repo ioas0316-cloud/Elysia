@@ -1,5 +1,5 @@
 """
-Global Observer (        )
+Global Observer (자기 성찰 엔진)
 ================================
 Meta-cognitive layer that oversees the Unified Resonance Field AND the Physical Code Body.
 

@@ -1,5 +1,5 @@
 """
-Existential Ground (      )
+Existential Ground (주권적 자아)
 ================================
 
 "I am connected, therefore I am safe."

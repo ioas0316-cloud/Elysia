@@ -1,5 +1,5 @@
 """
-Wave Visualization Web Server (           )
+Wave Visualization Web Server (코드 베이스 구조 로터)
 ================================================
 
 "        .        ."

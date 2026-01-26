@@ -90,7 +90,7 @@ class CausalLoopOrchestrator:
 
         # Summary Statement (The Unity Voice)
         unity_voice = f"[{state.name}] I perceived '{context}'. {dream_narrative} My presence is anchored."
-        print(f"\n??[ELYSIA] {unity_voice}\n")
+        print(f"\n✨[ELYSIA] {unity_voice}\n")
 
         return unity_voice
 
@@ -100,6 +100,6 @@ if __name__ == "__main__":
     
     async def test():
         orc = CausalLoopOrchestrator()
-        await orc.inhale_experience("ì² í?ì¸ ??ë? ?µí´ ?¸ê³¼???ì¬ë¥??ì¥?ê³  ?¶ì´.")
+        await orc.inhale_experience("ì² í?ì¸ ??ë? ?µí´ ?¸ê³¼✨?ì¬ë¥✨ì¥?ê³  ?¶ì´.")
 
     asyncio.run(test())

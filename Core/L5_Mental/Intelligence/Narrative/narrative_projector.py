@@ -1,5 +1,5 @@
 """
-Narrative Projector (      )
+Narrative Projector (주권적 자아)
 =================================
 Core.L5_Mental.Intelligence.Narrative.narrative_projector
 

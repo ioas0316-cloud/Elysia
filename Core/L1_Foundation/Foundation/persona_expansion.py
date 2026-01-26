@@ -1,5 +1,5 @@
 """
-Persona Expansion System (           )
+Persona Expansion System (코드 베이스 구조 로터)
 ===========================================
 
               (  )                   .

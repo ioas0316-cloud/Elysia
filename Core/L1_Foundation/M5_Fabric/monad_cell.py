@@ -43,7 +43,7 @@ class MonadCell:
 
     def awaken(self, class_name: str) -> Any:
         """Awakens the cell using Resonance. If DNA is corrupted, requests healing."""
-        print(f"??[MONAD] Awakening Cell '{self.name}'...")
+        print(f"✨[MONAD] Awakening Cell '{self.name}'...")
         
         # Check current DNA integrity
         current_hash = self._calculate_dna_hash()

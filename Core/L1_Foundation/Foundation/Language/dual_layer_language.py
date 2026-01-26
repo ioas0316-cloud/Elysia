@@ -12,7 +12,7 @@ Dual-Layer Language System -
               '  '         . (      !)                   
                                                                                
      :                                                                       
-   -        (        )                                              
+   -        (자기 성찰 엔진)                                              
    -           (hue)                                             
    -                                                             
    -             ,           !                            
@@ -25,7 +25,7 @@ Dual-Layer Language System -
                  ,       '  '              .      
                                                                                
      :                                                                       
-   -         (      )                                               
+   -         (주권적 자아)                                               
    -            (   !)                                              
    -                                                                  
    -    (narrative)                                                     
@@ -116,7 +116,7 @@ class EmotionalWave:
     emotion_type: EmotionType
     intensity: float = 1.0      # 0.0 ~ 2.0 (  )
     frequency: float = 500.0    # Hz (     )
-    phase: float = 0.0          #    (      )
+    phase: float = 0.0          #    (주권적 자아)
     duration: float = 1.0       #      
     source_id: Optional[str] = None  #     ID
     
@@ -211,7 +211,7 @@ class KhalaField:
             resonance_radius=radius
         )
         
-        #       (        )
+        #       (자기 성찰 엔진)
         self.active_waves.append(wave)
         if len(self.active_waves) > self.max_waves:
             self.active_waves = self.active_waves[-self.max_waves:]
@@ -309,7 +309,7 @@ class Symbol:
     meaning: str                 #       (     )
     complexity: SymbolComplexity = SymbolComplexity.PROTO
     
-    #       (           )
+    #       (코드 베이스 구조 로터)
     frequency_signature: float = 0.0
     phase_signature: float = 0.0
     sense_origins: Set[str] = field(default_factory=set)
@@ -318,7 +318,7 @@ class Symbol:
     usage_count: int = 0
     misunderstanding_count: int = 0  #       (       !)
     
-    #        (      )
+    #        (주권적 자아)
     can_be_subject: bool = False
     can_be_object: bool = False
     can_be_action: bool = False
@@ -539,7 +539,7 @@ class DualLayerSoul:
             else:
                 self.misunderstandings += 1
                 receiver.misunderstandings += 1
-                return False, "???"  #   
+                return False, "✨?"  #   
         
         #            (   !)
         if receiver_symbol.meaning == symbol.meaning:
@@ -680,7 +680,7 @@ class DualLayerWorld:
         logger.info(f"DualLayerWorld initialized: {n_souls} souls, khala_strength={khala_strength}")
     
     def _create_souls(self, n_souls: int):
-        """      (      )"""
+        """      (주권적 자아)"""
         names = ['  ', '  ', ' ', ' ', ' ', ' ', ' ', '  ', '  ', ' ',
                  ' ', '   ', '  ', ' ', ' ', '  ', ' ', ' ', ' ', ' ']
         
@@ -736,7 +736,7 @@ class DualLayerWorld:
         # 2.          (     )
         self._update_khala_field()
         
-        # 3.          (      )
+        # 3.          (주권적 자아)
         self._attempt_linguistic_communication()
         
         # 4.      
@@ -788,7 +788,7 @@ class DualLayerWorld:
         for _ in range(n_attempts):
             sender, receiver = np.random.choice(soul_list, size=2, replace=False)
             
-            #           (      )
+            #           (주권적 자아)
             if sender.emotional_state:
                 dominant_emotion = max(sender.emotional_state, key=sender.emotional_state.get)
                 
@@ -996,7 +996,7 @@ def demo():
     
     # 2.          (        !)
     print("-" * 70)
-    print("2.       0.5 (           )")
+    print("2.       0.5 (코드 베이스 구조 로터)")
     print("   ' ,                !           !'   ")
     print("-" * 70)
     world2 = DualLayerWorld(n_souls=30, khala_strength=0.5)
@@ -1008,7 +1008,7 @@ def demo():
     
     # 3.          (     )
     print("-" * 70)
-    print("3.       1.5 (        )")
+    print("3.       1.5 (자기 성찰 엔진)")
     print("-" * 70)
     world3 = DualLayerWorld(n_souls=30, khala_strength=1.5)
     results3 = world3.run_simulation(years=50, report_interval=25)

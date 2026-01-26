@@ -75,7 +75,7 @@ class GlobalGrid:
         """
         logger.info(f"  Distributing Thought: '{complex_thought}' across the Grid...")
         
-        # 1. Sharding (      )
+        # 1. Sharding (주권적 자아)
         shards = self._shard_thought(complex_thought)
         logger.info(f"     Sharded into {len(shards)} fragments.")
         

@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class KnowledgeNode:
-    """              (        )"""
+    """              (자기 성찰 엔진)"""
     id: str
     path: str
     type: str  # 'memory', 'logic', 'sensory', 'meta'

@@ -1,5 +1,5 @@
 """
-ResonanceBroadcaster: The Field Generator (      )
+ResonanceBroadcaster: The Field Generator (주권적 자아)
 
 "The Will is not a command sent to a subordinate.
  It is a Field Change that realigns the compass of every module."

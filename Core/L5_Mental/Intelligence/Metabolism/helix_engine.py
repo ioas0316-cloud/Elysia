@@ -1,5 +1,5 @@
 """
-THE HELIX ENGINE (      )
+THE HELIX ENGINE (주권적 자아)
 ===========================
 
 Phase 65: The Wave DNA Protocol ( )

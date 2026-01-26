@@ -1,5 +1,5 @@
 """
-Light Computer (        )
+Light Computer (자기 성찰 엔진)
 =============================
 Core Module adapted from Nova Seed Experiment.
 

@@ -15,7 +15,7 @@ Scenario:
 import sys
 import os
 import time
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 
 from Core.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
 from Core.L5_Mental.Intelligence.Meta.global_observer import GlobalObserver

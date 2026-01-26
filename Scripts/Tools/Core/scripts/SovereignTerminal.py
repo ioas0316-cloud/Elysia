@@ -15,7 +15,7 @@ import threading
 import time
 
 # Set up project path
-PROJECT_ROOT = r"c:\Elysia"
+PROJECT_ROOT = r"c:/Elysia"
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 

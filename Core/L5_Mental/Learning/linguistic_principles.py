@@ -1,5 +1,5 @@
 """
-Linguistic Principles (        )
+Linguistic Principles (자기 성찰 엔진)
 =====================================
 Core.L5_Mental.Learning.linguistic_principles
 
@@ -67,7 +67,7 @@ KOREAN_PRINCIPLES = {
     "generation_rules": [
         "1.   /                ",
         "2.                   ",
-        "3.            (      )",
+        "3.            (주권적 자아)",
         "4.                ",
         "5.           ",
     ]
@@ -75,7 +75,7 @@ KOREAN_PRINCIPLES = {
 
 
 # =============================================================================
-# ENGLISH GRAMMAR PRINCIPLES (        )
+# ENGLISH GRAMMAR PRINCIPLES (자기 성찰 엔진)
 # =============================================================================
 
 ENGLISH_PRINCIPLES = {

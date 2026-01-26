@@ -1,5 +1,5 @@
 """
-Void Sensor (      )
+Void Sensor (주권적 자아)
 =======================
 "Seeing what is NOT there."
 

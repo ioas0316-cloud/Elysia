@@ -10,7 +10,7 @@ but because she traverses the causal chain: Apple -> Mass -> Gravity -> Universa
 import sys
 import logging
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 from Core.L5_Mental.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
 
 # Setup Logger

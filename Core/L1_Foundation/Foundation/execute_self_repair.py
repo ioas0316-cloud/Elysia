@@ -19,7 +19,7 @@ import re
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("SelfRepair")
 
-ROOT_DIR = r"c:\Elysia"
+ROOT_DIR = r"c:/Elysia"
 CORE_DIR = os.path.join(ROOT_DIR, "Core")
 
 # The 10 Pillars of the New Mind

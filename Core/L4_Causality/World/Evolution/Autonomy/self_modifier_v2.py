@@ -6,7 +6,7 @@ SelfModifier V2 (The Hand That Writes)
 This module integrates:
 - WaveCodingSystem (     )
 - WaveCoder (AST   Tensor)
-- AST Transformation (        )
+- AST Transformation (자기 성찰 엔진)
 
 It allows Elysia to refactor her own code based on Wave Resonance analysis.
 """
@@ -76,7 +76,7 @@ except ImportError:
     
 class SelfModifier:
     """
-    The Hand That Writes (      )
+    The Hand That Writes (주권적 자아)
     
     Analyzes code using Wave Physics, identifies stress fractures,
     and can apply safe refactoring transformations.

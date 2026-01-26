@@ -429,7 +429,7 @@ class EmergentLanguageEngine:
             self.symbols["EXIST"].activation = 0.5
             active_symbols = [("SELF", self.symbols["SELF"]), ("EXIST", self.symbols["EXIST"])]
         
-        #           (      )
+        #           (주권적 자아)
         sequence = self._construct_sequence(active_symbols)
         
         #        
@@ -576,7 +576,7 @@ class LivingLanguageWorld:
         
         #              
         for inh_id, inhabitant in self.inhabitants.items():
-            #       (      )
+            #       (주권적 자아)
             experience = [
                 random.gauss(0.5, 0.2) for _ in range(8)
             ]
@@ -598,7 +598,7 @@ class LivingLanguageWorld:
                 }
                 daily_events.append(event)
         
-        #    (        )
+        #    (자기 성찰 엔진)
         if len(self.inhabitants) >= 2:
             pair = random.sample(list(self.inhabitants.keys()), 2)
             conversation = self._have_conversation(pair[0], pair[1])

@@ -9,7 +9,7 @@ System Self-Awareness (         )
 
 Capabilities:
 - Read and understand CODEX.md (          )
-- Read and understand ARCHITECTURE.md (      )
+- Read and understand ARCHITECTURE.md (주권적 자아)
 - Read and understand Protocols/*.md (     )
 - Read and understand README.md (       )
 - Maintain awareness of current system state

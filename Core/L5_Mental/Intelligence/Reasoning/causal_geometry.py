@@ -24,7 +24,7 @@ from typing import List, Dict, Optional, Tuple, Set, Any
 @dataclass
 class CausalPort:
     """
-              (      )
+              (주권적 자아)
     """
     name: str          #        ( : "Reasoning", "Data", "Emotion")
     polarity: int      # +1 (Provider/Output/ ), -1 (Receiver/Input/ )
@@ -161,7 +161,7 @@ class TensionField:
 
     def discharge_lightning(self) -> List[Tuple[str, str, str]]:
         """
-              (      )
+              (주권적 자아)
         """
         # Apply Gravity (Flow/Decay) before discharge check
         self.apply_gravity()

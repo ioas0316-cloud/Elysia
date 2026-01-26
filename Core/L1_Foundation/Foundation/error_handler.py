@@ -33,7 +33,7 @@ class ElysiaErrorHandler:
         
         Args:
             max_retries:          
-            backoff_factor:        (      )
+            backoff_factor:        (주권적 자아)
             exceptions:            
         
         Returns:

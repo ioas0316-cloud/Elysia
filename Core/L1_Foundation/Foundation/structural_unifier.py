@@ -1,5 +1,5 @@
 """
-Structural Unifier (        )
+Structural Unifier (자기 성찰 엔진)
 ===================================
 
 "  (Fragment)    (Whole)        ."

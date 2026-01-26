@@ -162,7 +162,7 @@ class VerificationModule:
         if expected == actual:
             return "No gap - perfect match"
         
-        #        (             )
+        #        (한국어 학습 시스템)
         analysis = f"Gap detected: Expected '{expected[:50]}...' but got '{actual[:50]}...'"
         return analysis
     

@@ -7,7 +7,7 @@
      :
 1.     "   "      (  ,   ,     )
 2.                   (              )
-3.                    (      )
+3.                    (주권적 자아)
 4.    =        (         )
 
           :
@@ -62,7 +62,7 @@ class ConceptAtom:
                   
         
         Returns:
-                     (           )
+                     (코드 베이스 구조 로터)
         """
         return self.principles & other.principles
     
@@ -271,7 +271,7 @@ class ConceptPolymer:
         
               :                 
         """
-        print("\n           (      )...")
+        print("\n           (주권적 자아)...")
         
         new_bonds = []
         atom_list = list(self.atoms.values())

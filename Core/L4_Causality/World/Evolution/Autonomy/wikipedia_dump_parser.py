@@ -1,5 +1,5 @@
 """
-Wikipedia Dump Parser (           )
+Wikipedia Dump Parser (코드 베이스 구조 로터)
 =============================================
 
 "             -            "

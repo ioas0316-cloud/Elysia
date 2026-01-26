@@ -10,7 +10,7 @@ depending on the active Cognitive Mode (Dimension).
 import sys
 import logging
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
 
 # Setup Logger

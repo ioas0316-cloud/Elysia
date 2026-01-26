@@ -78,7 +78,7 @@ class PhilosopherStone:
 
         """
 
-        logger.info(f"\n?? [OUROBOROS] Beginning contemplation on: '{topic}'")
+        logger.info(f"\n✨ [OUROBOROS] Beginning contemplation on: '{topic}'")
 
 
 
@@ -112,7 +112,7 @@ class PhilosopherStone:
 
         synthesis = self._generate_synthesis(topic, thesis, antithesis)
 
-        logger.info(f"   ??[SYNTHESIS]: {synthesis}")
+        logger.info(f"   ✨[SYNTHESIS]: {synthesis}")
 
 
 

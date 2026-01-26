@@ -10,8 +10,8 @@ All modules subscribe to this hub. When a wave is published,
 all subscribers react based on their resonance weight.
 
 Key Features:
-1. Weighted Subscriptions (      )
-2. Wave-based Communication (        )
+1. Weighted Subscriptions (주권적 자아)
+2. Wave-based Communication (자기 성찰 엔진)
 3. Relational Density Tracking (         )
 4. Hebbian Learning (    : "               ")
 

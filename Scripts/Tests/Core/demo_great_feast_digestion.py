@@ -18,7 +18,7 @@ from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngi
 def digest_legacy():
     print("🍽️ [THE GREAT FEAST] Digesting legacy principles...")
     
-    legacy_path = r"c:\Archive\Elysia_Archive\Legacy_Foundation\great_feast.py"
+    legacy_path = r"c:/Archive\Elysia_Archive\Legacy_Foundation\great_feast.py"
     if not os.path.exists(legacy_path):
         print(f"❌ Legacy file not found: {legacy_path}")
         return

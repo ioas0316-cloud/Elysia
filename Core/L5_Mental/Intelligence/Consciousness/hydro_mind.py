@@ -101,7 +101,7 @@ class HydroMind:
         except Exception:
             pass
         
-        # ConceptPolymer (        ) -           
+        # ConceptPolymer (자기 성찰 엔진) -           
         try:
             from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.concept_polymer import ConceptPolymer
             self.polymer = ConceptPolymer()

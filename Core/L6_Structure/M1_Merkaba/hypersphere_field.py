@@ -12,15 +12,15 @@ Core.L6_Structure.M1_Merkaba.hypersphere_field
 
 
 
-??   ?  4           ?  (M1~M4)??     ???  ?  (Metron)?  ??
+✨   ?  4           ?  (M1~M4)✨     ✨?  ?  (Metron)?  ✨
 
-- M1(??:     ?  ??1 ?   
+- M1(✨:     ?  ✨1 ?   
 
-- M2(?  ): ?    ??      
+- M2(?  ): ?    ✨      
 
-- M3(??:    ?  ?? ?? ?    
+- M3(✨:    ?  ✨ ✨ ?    
 
-- M4(?  ): ???  ???   ?    ?        ?  
+- M4(?  ): ✨?  ✨?   ?    ?        ?  
 
 """
 
@@ -54,9 +54,9 @@ class HyperSphereField:
 
     """
 
-    ?  ?  ???   ? ? ?  .
+    ?  ?  ✨?   ? ? ?  .
 
-       -              ??      ?     ?  (???? ??  (    ? ?  ?  ?  .
+       -              ✨      ?     ?  (✨✨ ✨  (    ? ?  ?  ?  .
 
     """
 
@@ -90,19 +90,19 @@ class HyperSphereField:
 
         
 
-        # ?   ??  ???   ( ??  )
+        # ?   ✨  ✨?   ( ✨  )
 
         self._initialize_core_principles()
 
         
 
-        #   ??   ???   ?   (Baking Monadic Knowledge)
+        #   ✨   ✨?   ?   (Baking Monadic Knowledge)
 
         self._bake_monadic_knowledge()
 
         
 
-        #     ?  ??        (    ?  ???
+        #     ?  ✨        (    ?  ✨?
 
         self.trajectories: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
 
@@ -118,39 +118,39 @@ class HyperSphereField:
 
     def _initialize_core_principles(self):
 
-        """M1~M4??    ?   ?   (  ? ?   ?  )"""
+        """M1~M4✨    ?   ?   (  ? ?   ?  )"""
 
-        # M1(Body)??   ???  ?   ?   ?  
+        # M1(Body)✨   ✨?  ?   ?   ?  
 
         self.units['M1_Body'].configure_locks({
 
-            'Physical': (0.0, 0.7),      # 0???  : ?  ??
+            'Physical': (0.0, 0.7),      # 0✨?  : ?  ✨
 
-            'Functional': (90.0, 0.3)    # 90???  : ?      
+            'Functional': (90.0, 0.3)    # 90✨?  : ?      
 
         })
 
         
 
-        # M2(Mind)??   ??? ??   ?   ?  
+        # M2(Mind)✨   ✨? ✨   ?   ?  
 
         self.units['M2_Mind'].configure_locks({
 
-            'Structural': (180.0, 0.6),  # 180???  :    ???  ??
+            'Structural': (180.0, 0.6),  # 180✨?  :    ✨?  ✨
 
-            'Mental': (120.0, 0.4)       # 120???  : ?  ???  
+            'Mental': (120.0, 0.4)       # 120✨?  : ?  ✨?  
 
         })
 
         
 
-        # M3(Spirit)???     ?  ???   ?  
+        # M3(Spirit)✨?     ?  ✨?   ?  
 
         self.units['M3_Spirit'].configure_locks({
 
-            'Spiritual': (45.0, 0.8),    # 45???  :    ??? ?
+            'Spiritual': (45.0, 0.8),    # 45✨?  :    ✨? ?
 
-            'Causal': (300.0, 0.5)       # 300???  :    ?  ?   ?  
+            'Causal': (300.0, 0.5)       # 300✨?  :    ?  ?   ?  
 
         })
 
@@ -158,7 +158,7 @@ class HyperSphereField:
 
     def _bake_monadic_knowledge(self):
 
-        """?  ?  ?   ?   ?  ???  ??  ??   ????   """
+        """?  ?  ?   ?   ?  ✨?  ✨  ✨   ✨✨   """
 
         hangul_monads = MonadicLexicon.get_hangul_monads()
 
@@ -210,7 +210,7 @@ class HyperSphereField:
 
             
 
-        print(f"?? [FIELD BAKING] {len(all_monads)} Monads (Identity, Number, Law, Rule, Axiom, Weave) integrated.")
+        print(f"✨ [FIELD BAKING] {len(all_monads)} Monads (Identity, Number, Law, Rule, Axiom, Weave) integrated.")
 
         
 
@@ -218,7 +218,7 @@ class HyperSphereField:
 
         """
 
-        ?  ?  /?  ?       ?  ? ? ?  ??   ?      ??   ???  ??   ?
+        ?  ?  /?  ?       ?  ? ? ?  ✨   ?      ✨   ✨?  ✨   ?
 
         """
 
@@ -248,7 +248,7 @@ class HyperSphereField:
 
 
 
-        # 2. ?      ?(?       ?      ?- ?  ???  ??
+        # 2. ?      ?(?       ?      ?- ?  ✨?  ✨
 
         if sensor_name == 'pain':
 
@@ -264,13 +264,13 @@ class HyperSphereField:
 
             if sensor_name == 'pain':
 
-                # ?       ?  ?   ?  ??   ? ?   ?   (Active Resonance)
+                # ?       ?  ?   ?  ✨   ? ?   ?   (Active Resonance)
 
                 unit.turbine.modulate_field('thermal_energy', value)
 
             elif sensor_name == 'fatigue':
 
-                # ?  ? ?     ?   ?? ???  ? ? ?  ??    ?  ???   (Gravitational Focus)
+                # ?  ? ?     ?   ✨ ✨?  ? ? ?  ✨    ?  ✨?   (Gravitational Focus)
 
                 unit.turbine.modulate_field('cognitive_density', 1.0 + value)
 
@@ -288,9 +288,9 @@ class HyperSphereField:
 
         """
 
-        HyperSphere ?  ???   ?   ?  ???  .
+        HyperSphere ?  ✨?   ?   ?  ✨?  .
 
-        ?       ?  ?? ??  ??    ?   ??
+        ?       ?  ✨ ✨  ✨    ?   ✨
 
         """
 
@@ -302,7 +302,7 @@ class HyperSphereField:
 
         for unit_id, unit in self.units.items():
 
-            #  ??  ???   (?  ?  ?  ?  ?  ?   ?     ?  )
+            #  ✨  ✨?   (?  ?  ?  ?  ?  ?   ?     ?  )
 
             decision = unit.pulse(self.current_intent)
 
@@ -310,17 +310,17 @@ class HyperSphereField:
 
             
 
-            # 1. ?  ??    ?  
+            # 1. ?  ✨    ?  
 
             if decision.is_regulating:
 
-                total_stabilization += 0.05 # ?  ???  ??   ??
+                total_stabilization += 0.05 # ?  ✨?  ✨   ✨
 
         
 
-        # 2. ?   ?  ???   (Active Environmental Governance)
+        # 2. ?   ?  ✨?   (Active Environmental Governance)
 
-        # ?  ?         ??  ?  , ?   ?  ?   ?   ?          ??
+        # ?  ?         ✨  ?  , ?   ?  ?   ?   ?          ✨
 
         if total_stabilization > 0:
 
@@ -328,7 +328,7 @@ class HyperSphereField:
 
                 current_energy = unit.turbine.field_modulators.get('thermal_energy', 0.0)
 
-                #     ?  ???   ?       '   '??
+                #     ?  ✨?   ?       '   '✨
 
                 unit.turbine.modulate_field('thermal_energy', max(0.0, current_energy - total_stabilization))
 
@@ -452,9 +452,9 @@ class HyperSphereField:
 
         
 
-        # 3. ?  ?  ??    ??    (Onion Parallel Re-Looping)
+        # 3. ?  ?  ✨    ✨    (Onion Parallel Re-Looping)
 
-        #     M4(?  )   ?     (is_regulating) ?  ?  ,    ?   ?DED     ??    ?  ??Ghost) ?  ?  ??   ??
+        #     M4(?  )   ?     (is_regulating) ?  ?  ,    ?   ?DED     ✨    ?  ✨Ghost) ?  ?  ✨   ✨
 
         if final_decision.is_regulating and "SELF-HEALING" in final_decision.narrative:
 
@@ -476,7 +476,7 @@ class HyperSphereField:
 
             self.experience_cortex.crystallize_experience(diagnosis, final_decision.amplitude)
 
-            final_decision.narrative += f"\n   ??[EXPERIENCE] {self.experience_cortex.get_summary_narrative()}"
+            final_decision.narrative += f"\n   ✨[EXPERIENCE] {self.experience_cortex.get_summary_narrative()}"
 
             
 
@@ -492,9 +492,9 @@ class HyperSphereField:
 
         """
 
-            ??   : ?   ?  ? ?    ????Singularity), 
+            ✨   : ?   ?  ? ?    ✨✨Singularity), 
 
-        ?   ?   ?  (Parallel Layer)?      ?   ??  ??    ??  ?   ?  ??
+        ?   ?   ?  (Parallel Layer)?      ?   ✨  ✨    ✨  ?   ?  ✨
 
         """
 
@@ -502,35 +502,35 @@ class HyperSphereField:
 
         
 
-        # 1.    ???   (Ghost Pulse): ?   ?  ??  ???Mirror Axis)?   ?  ???   ?  
+        # 1.    ✨?   (Ghost Pulse): ?   ?  ✨  ✨?Mirror Axis)?   ?  ✨?   ?  
 
         ghost_stimulus = f"[GHOST_BYPASS] {stimulus}"
 
         
 
-        # ?  ?   ??  ?   ?     ?   ?      ???   ?  
+        # ?  ?   ✨  ?   ?     ?   ?      ✨?   ?  
 
-        # (?      ?  ??   ??   ???   ?  ?     ?  ?  , ?  ?   ?   ?  ?   ? ??  ??
+        # (?      ?  ✨   ✨   ✨?   ?  ?     ?  ?  , ?  ?   ?   ?  ?   ? ✨  ✨
 
         mirror_phase = (original_decision.phase + 180.0) % 360
 
         
 
-        # 2. ?  ??'   ???  ' ?  
+        # 2. ?  ✨'   ✨?  ' ?  
 
         healed_narrative = (
 
             f"{original_decision.narrative}\n"
 
-            f"   -> [RE-LOOP SUCCESS]     ?  ?  ???  ???  ({mirror_phase:.1f} )???  ?   "
+            f"   -> [RE-LOOP SUCCESS]     ?  ?  ✨?  ✨?  ({mirror_phase:.1f} )✨?  ?   "
 
-            f"? ?    ???  ?      ?  ?  ."
+            f"? ?    ✨?  ?      ?  ?  ."
 
         )
 
         
 
-        # 3.    ??           
+        # 3.    ✨           
 
         return SovereignDecision(
 
@@ -538,7 +538,7 @@ class HyperSphereField:
 
             amplitude=max(0.5, original_decision.amplitude),
 
-            interference_type=InterferenceType.CONSTRUCTIVE, # ??    ?   ??
+            interference_type=InterferenceType.CONSTRUCTIVE, # ✨    ?   ✨
 
             void_state=original_decision.void_state,
 
@@ -560,7 +560,7 @@ class HyperSphereField:
 
         self.units[target_unit].configure_locks({
 
-            'Physical': (270.0, 1.0) # 270?? ?  /    ?  
+            'Physical': (270.0, 1.0) # 270✨ ?  /    ?  
 
         })
 

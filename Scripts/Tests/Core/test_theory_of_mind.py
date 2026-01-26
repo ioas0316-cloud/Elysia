@@ -12,7 +12,7 @@ This script demonstrates Phase 20: Theory of Mind.
 import sys
 import logging
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 from Core.L5_Mental.Intelligence.Meta.user_mental_model import UserMentalModel
 
 # Setup Logging

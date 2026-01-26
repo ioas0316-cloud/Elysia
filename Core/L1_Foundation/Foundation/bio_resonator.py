@@ -1,5 +1,5 @@
 """
-BioResonator (      )
+BioResonator (주권적 자아)
 ==========================
 
 "Life is a song. DNA is the score."

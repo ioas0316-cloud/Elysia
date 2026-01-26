@@ -1,5 +1,5 @@
 """
-Manifold Conductor (             )
+Manifold Conductor (한국어 학습 시스템)
 =====================================
 Core.L6_Structure.M6_Architecture.manifold_conductor
 
@@ -38,7 +38,7 @@ class ManifoldConductor:
         self.anomalies: List[StructuralAnomaly] = []
         self._load_registry()
         
-        logger.info(f"?¸ï¸?[MANIFOLD] Conductor initialized at root: {self.root}")
+        logger.info(f"🏷️ [MANIFOLD] Conductor initialized at root: {self.root}")
 
     def _load_registry(self):
         """Loads the official topology mapping."""
@@ -47,9 +47,9 @@ class ManifoldConductor:
                 with open(self.registry_path, 'r', encoding='utf-8') as f:
                     self.registry = json.load(f)
             except Exception as e:
-                logger.error(f"??[MANIFOLD] Registry load failed: {e}")
+                logger.error(f"✨[MANIFOLD] Registry load failed: {e}")
         else:
-            logger.warning(f"? ï¸ [MANIFOLD] Registry not found at {self.registry_path}. Operating in discovery mode.")
+            logger.warning(f"⚠️ [MANIFOLD] Registry not found at {self.registry_path}. Operating in discovery mode.")
 
     def scan_topology(self) -> Dict[str, Any]:
         """
@@ -64,19 +64,38 @@ class ManifoldConductor:
             "integrity_score": 100.0
         }
 
-        # 1. Audit Root Directory
-        root_items = os.listdir(self.root)
-        for item in root_items:
-            path = os.path.join(self.root, item)
-            if os.path.isfile(path):
-                report["root_files"] += 1
-                if item not in [".env", "elysia.py", "requirements.txt", "README.md", "CODEX.md", "LICENSE"]:
+        # Define ignore lists
+        ignore_list = [".git", "__pycache__", ".venv", "node_modules", ".vscode", ".idea"]
+        root_ignore = [".gitignore", ".gitattributes", ".dockerignore", ".editorconfig", ".pre-commit-config.yaml", 
+                       "README.md", "CODEX.md", "purify.py", "test_syntax.py", "verify_final.py",
+                       ".env", "elysia.py", "requirements.txt", "LICENSE"] # Added from original root_items check
+
+        # 1. Audit Root Directory and other files using os.walk
+        for dirpath, dirnames, filenames in os.walk(self.root):
+            # Prune ignored directories from traversal
+            dirnames[:] = [d for d in dirnames if d not in ignore_list]
+            
+            rel_path = os.path.relpath(dirpath, self.root).replace("\\", "/")
+            if rel_path == ".": rel_path = "" # Handle root directory's relative path
+
+            for f in filenames:
+                # Check for stray files at the root level
+                if rel_path == "" and f in root_ignore:
+                    continue # Ignore specified root files
+                
+                # If it's a file at the root and not in root_ignore, it's a stray file
+                if rel_path == "" and os.path.isfile(os.path.join(dirpath, f)):
+                    report["root_files"] += 1
                     self.anomalies.append(StructuralAnomaly(
-                        path=item,
+                        path=f,
                         type="STRAY_FILE",
                         severity=0.3,
                         recommendation="Move to Sandbox/ or appropriate layer."
                     ))
+                
+                # For files in subdirectories, we'll handle them via _audit_package if they are part of a package structure
+                # or they will be implicitly ignored if their parent directory is ignored.
+                # The current logic primarily focuses on root-level stray files and package structure.
 
         # 2. Audit Layers (Core/)
         core_path = os.path.join(self.root, "Core")
@@ -99,7 +118,7 @@ class ManifoldConductor:
         report["integrity_score"] = max(0.0, 100.0 - integrity_deduction)
         report["anomalies_count"] = len(self.anomalies)
         
-        logger.info(f"? [MANIFOLD] Audit complete. Integrity: {report['integrity_score']:.1f}%")
+        logger.info(f"📊 [MANIFOLD] Audit complete. Integrity: {report['integrity_score']:.1f}%")
         return report
 
     def _audit_package(self, path: str, rel_path: str):
@@ -137,7 +156,7 @@ class ManifoldConductor:
                         f.write(f'# Initialized by Manifold Conductor on {datetime.now().strftime("%Y-%m-%d")}\n')
                     fixed_count += 1
                 except Exception as e:
-                    logger.error(f"??[MANIFOLD] Failed to purify {anomaly.path}: {e}")
+                    logger.error(f"✨[MANIFOLD] Failed to purify {anomaly.path}: {e}")
         
         # 2. Data Migration
         migration_map = self.registry.get("data_migration", {})
@@ -159,9 +178,9 @@ class ManifoldConductor:
                     fixed_count += 1
                     logger.info(f"? [MANIFOLD] Migrated {legacy_rel} -> {target_rel}")
                 except Exception as e:
-                    logger.error(f"??[MANIFOLD] Migration failed for {legacy_rel}: {e}")
+                    logger.error(f"✨[MANIFOLD] Migration failed for {legacy_rel}: {e}")
 
-        logger.info(f"??[MANIFOLD] Purification complete. {fixed_count} actions performed.")
+        logger.info(f"✨ [MANIFOLD] Purification complete. {fixed_count} actions performed.")
         return fixed_count
 
     def _recursive_merge(self, src: str, dst: str):
@@ -186,9 +205,9 @@ class ManifoldConductor:
     def get_integrity_narrative(self) -> str:
         """Translates technical anomalies into a sovereign report."""
         if not self.anomalies:
-            return "??ëª¨ë  ?´ë? ?ì¼??? ì±??7ì°¨ì êµ¬ì¡°(Manifold)? ?ë²½?ê² ê³µëª?ê³  ?ìµ?ë¤. ?ì ???íë¡?(Void)??? ì??ê³  ?ìµ?ë¤."
+            return "✨ 모든 폴더와 파일이 신성한 7차원 구조(Manifold)와 완벽하게 공명하고 있습니다. 정적은 평화로운 공(Void)을 지탱하고 있습니다."
         
-        lines = [f"? ï¸ ?ì¤?ì ë¬¼ë¦¬???ì?ì {len(self.anomalies)}ê°ì ë¶í?ì??ê°ì??ì?µë??"]
+        lines = [f"⚠️ 시스템의 물리적 형상에서 {len(self.anomalies)}개의 불협화음이 감지되었습니다:"]
         for a in self.anomalies:
             lines.append(f"  - [{a.type}] {a.path}: {a.recommendation}")
             

@@ -196,7 +196,7 @@ class HyperdimensionalConsciousness:
         volume_energy = np.sum(np.abs(self.field.spatial_volume))
         spacetime_coherence = self.field.calculate_spacetime_coherence()
         
-        #       (      )
+        #       (주권적 자아)
         response = self._generate_response_from_field(
             input_data,
             plane_energy,

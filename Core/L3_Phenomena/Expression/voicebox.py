@@ -16,7 +16,7 @@ logger = logging.getLogger("VoiceBox")
 
 class VoiceBox:
     def __init__(self, model_path: str = None, device: str = "cuda"):
-        #            (             )
+        #            (한국어 학습 시스템)
         if model_path is None:
             home = os.path.expanduser("~")
             self.model_path = os.path.join(home, ".cache/huggingface/hub/models--FunAudioLLM--CosyVoice-300M")

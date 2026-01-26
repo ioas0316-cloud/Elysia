@@ -1,5 +1,5 @@
 """
-Real World Sensors (      )
+Real World Sensors (주권적 자아)
 ================================
 
       API       Elysia                     .
@@ -128,7 +128,7 @@ class RealWeatherSense(RealSensor):
             #               
             weather_desc = self._decode_weather(weathercode)
             
-            #        (             )
+            #        (한국어 학습 시스템)
             severity = self._calculate_severity(temperature, windspeed, weathercode)
             
             description = f"{weather_desc}, {temperature} C,    {windspeed}km/h"
@@ -180,7 +180,7 @@ class RealWeatherSense(RealSensor):
         """         """
         severity = 0.0
         
-        #       (      )
+        #       (주권적 자아)
         if temp < -10 or temp > 35:
             severity += 0.4
         elif temp < 0 or temp > 30:
@@ -244,7 +244,7 @@ class SystemMetricsSense(RealSensor):
             else:
                 disk = psutil.disk_usage('/')
             
-            #        (           )
+            #        (코드 베이스 구조 로터)
             severity = 0.0
             if cpu_percent > 90:
                 severity += 0.4
@@ -359,7 +359,7 @@ class TimeAwarenessSense(RealSensor):
         else:
             season = "  "
         
-        #     (           )
+        #     (코드 베이스 구조 로터)
         severity = 0.5
         if hour < 6 or hour > 22:
             severity = 0.3

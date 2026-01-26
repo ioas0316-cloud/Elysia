@@ -1,5 +1,5 @@
 """
-Reflection Engine (        )
+Reflection Engine (자기 성찰 엔진)
 ==================================
 
 "                ?"

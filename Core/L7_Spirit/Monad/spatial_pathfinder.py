@@ -1,5 +1,5 @@
 """
-Spatial Pathfinder (      )
+Spatial Pathfinder (주권적 자아)
 ==============================
 Core.L7_Spirit.Monad.spatial_pathfinder
 

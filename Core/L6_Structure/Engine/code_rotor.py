@@ -1,5 +1,5 @@
 """
-Codebase Structure Rotor (           )
+Codebase Structure Rotor (코드 베이스 구조 로터)
 =============================================
 "Navigating the Code Field with Multi-Rotors."
 
@@ -14,7 +14,7 @@ from typing import Dict, List, Any, Tuple
 logger = logging.getLogger("CodebaseStructureRotor")
 
 class CodebaseStructureRotor:
-    def __init__(self, root_path: str = "c:\\Elysia"):
+    def __init__(self, root_path: str = "c:/Elysia"):
         self.root_path = root_path
         self.axes = {
             "Foundation": ["Core/Foundation", "Core/Foundation/Wave"],

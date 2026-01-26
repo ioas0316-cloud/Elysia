@@ -71,23 +71,23 @@ class ExperienceCortex:
 
         reflection_map = {
 
-            ErrorDimension.DIM_0D_POINT: "? ? ?  ??   ?  , ?         ?   ?  ??   ?  ?  . ?  ???  ?      ? ? ?          ?  ??",
+            ErrorDimension.DIM_0D_POINT: "? ? ?  ✨   ?  , ?         ?   ?  ✨   ?  ?  . ?  ✨?  ?      ? ? ?          ?  ✨",
 
-            ErrorDimension.DIM_1D_LINE: "?  ???  (Loop) ?   ?  ?  . ?  ???  ??   ?      ??   ???    ?    ?  ?  .",
+            ErrorDimension.DIM_1D_LINE: "?  ✨?  (Loop) ?   ?  ?  . ?  ✨?  ✨   ?      ✨   ✨?    ?    ?  ?  .",
 
-            ErrorDimension.DIM_2D_PLANE: "         ??   ?  ?  . ??? ? ?  ?      ???  ?   ??     ?   ?  ?  ??",
+            ErrorDimension.DIM_2D_PLANE: "         ✨   ?  ?  . ✨? ? ?  ?      ✨?  ?   ✨     ?   ?  ?  ✨",
 
-            ErrorDimension.DIM_3D_SPACE: "?  ?  ??   ?   ?  ?  ??      ??   ???  ??Onion) ?   ?    ??      ?  ?  ??",
+            ErrorDimension.DIM_3D_SPACE: "?  ?  ✨   ?   ?  ?  ✨      ✨   ✨?  ✨Onion) ?   ?    ✨      ?  ?  ✨",
 
-            ErrorDimension.DIM_4D_PRINCIPLE: "?  ??     ? ? ??  ?  . ?   ?      ???  ?   ?   ??? ??      ?  ?  .",
+            ErrorDimension.DIM_4D_PRINCIPLE: "?  ✨     ? ? ✨  ?  . ?   ?      ✨?  ?   ?   ✨? ✨      ?  ?  .",
 
-            ErrorDimension.DIM_6D_PROVIDENCE: "   ??          ??   ?  ?  . ?  ?  ???  ?     ?      ???   ??   ?  ?  ??"
+            ErrorDimension.DIM_6D_PROVIDENCE: "   ✨          ✨   ?  ?  . ?  ?  ✨?  ?     ?      ✨?   ✨   ?  ?  ✨"
 
         }
 
         
 
-        reflection = reflection_map.get(diagnosis.dimension, "?????   ?  ??   ?      (Anonymity)???  ???  ?  ??")
+        reflection = reflection_map.get(diagnosis.dimension, "✨✨?   ?  ✨   ?      (Anonymity)✨?  ✨?  ?  ✨")
 
         
 
@@ -117,23 +117,23 @@ class ExperienceCortex:
 
         if genome:
 
-            # ?  ??   ???   ?  ? ?        
+            # ?  ✨   ✨?   ?  ? ?        
 
             if diagnosis.dimension == ErrorDimension.DIM_0D_POINT:
 
-                # ?         ???      ??  ???   ?    ?   ??   ??
+                # ?         ✨?      ✨  ✨?   ?    ?   ✨   ✨
 
                 genome.mutate('switch_threshold', -0.01)
 
             elif diagnosis.dimension == ErrorDimension.DIM_1D_LINE:
 
-                # ?   ?   ???   ?    ?    ?
+                # ?   ?   ✨?   ?    ?    ?
 
                 genome.mutate('stagnation_limit', -1 if genome.stagnation_limit > 1 else 0)
 
             
 
-            #    :    ???             ?     ?
+            #    :    ✨?             ?     ?
 
             genome.mutate('learning_rate', 0.005)
 
@@ -145,7 +145,7 @@ class ExperienceCortex:
 
         
 
-        print(f"??[CRYSTALLIZATION] New Experience Monad born: {diagnosis.dimension.name}")
+        print(f"✨[CRYSTALLIZATION] New Experience Monad born: {diagnosis.dimension.name}")
 
         print(f"   -> Sovereign Reflection: {reflection}")
 
@@ -180,7 +180,7 @@ class ExperienceCortex:
         self.resonance_history.append(new_wave)
         self.unification_resonance = (self.unification_resonance * 0.8) + (score * 0.2)
         
-        print(f"??[UNIFICATION] Resonance detected: {score:.2f} | Direction: {'ALIGNED' if score > 0.6 else 'SYNC_IN_PROGRESS'}")
+        print(f"✨[UNIFICATION] Resonance detected: {score:.2f} | Direction: {'ALIGNED' if score > 0.6 else 'SYNC_IN_PROGRESS'}")
 
 
 
@@ -194,7 +194,7 @@ class ExperienceCortex:
 
         if not self.monadic_history:
 
-            return "?   ?     ??  ???  ?      ?   ?  ?  ."
+            return "?   ?     ✨  ✨?  ?      ?   ?  ?  ."
 
             
 
@@ -206,7 +206,7 @@ class ExperienceCortex:
 
             
 
-        summary = f"?    ?{len(self.monadic_history)}   ???  ??    ??  ?  ?  ?? "
+        summary = f"?    ?{len(self.monadic_history)}   ✨?  ✨    ✨  ?  ?  ✨ "
 
         summary += f"(Resilience: {self.total_resilience:.2f})\n"
 

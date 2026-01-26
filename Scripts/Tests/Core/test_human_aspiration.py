@@ -15,7 +15,7 @@ import time
 import logging
 
 # Add project root to path
-sys.path.append(r"c:\Elysia")
+sys.path.append(r"c:/Elysia")
 
 from Core.L4_Causality.World.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.L4_Causality.World.Evolution.Autonomy.dream_daemon import get_dream_daemon

@@ -1,5 +1,5 @@
 """
-PersonaTemplates (        )
+PersonaTemplates (자기 성찰 엔진)
 ===============================
 
 "We are the Council."

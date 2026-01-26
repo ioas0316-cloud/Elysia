@@ -185,7 +185,7 @@ class InnerDialogue:
                           
         
           :
-        1.             (           )
+        1.             (코드 베이스 구조 로터)
         2.          (     )
         3.              
         4.           =   
@@ -247,7 +247,7 @@ class InnerDialogue:
         #        
         avg_tone = sum(t.emotional_tone for t in thoughts) / len(thoughts)
         
-        #       =           (           )
+        #       =           (코드 베이스 구조 로터)
         tone_variance = sum((t.emotional_tone - avg_tone)**2 for t in thoughts) / len(thoughts)
         resonance = 1.0 - min(1.0, tone_variance)
         

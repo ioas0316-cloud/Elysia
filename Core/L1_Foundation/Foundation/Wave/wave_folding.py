@@ -92,7 +92,7 @@ class SpaceUnfolder:
         """
         # Valid reflection indices create virtual targets at:
         # x_target_virtual = n*2L + target      (if n is even)
-        # x_target_virtual = n*2L + (L-target)  (if n is odd) ??
+        # x_target_virtual = n*2L + (L-target)  (if n is odd) ✨
         # Let's derive the exact Mirror Method formula.
         
         # Mirror 0: [0, L]   -> Target is at T

@@ -2,13 +2,13 @@ from __future__ import annotations
 
 """
 
-Unified Monad (?      ??
+Unified Monad (?      ✨
 
 ===========================
 
 "Every thought is a world. Every world is a monad."
 
-"    ?  ?  ?  ???  ?  ,     ?  ???  ??   ?  ."
+"    ?  ?  ?  ✨?  ?  ,     ?  ✨?  ✨   ?  ."
 
 
 

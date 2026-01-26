@@ -11,7 +11,7 @@ import sys
 import logging
 import time
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 
 from Core.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
 from Core.Physiology.Expression.linguistic_topology import LinguisticTopology

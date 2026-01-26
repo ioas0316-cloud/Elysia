@@ -1,5 +1,5 @@
 """
-Action Dispatcher (      )
+Action Dispatcher (주권적 자아)
 ===============================
 
 "Thoughts become Actions. Actions become Reality."
@@ -119,7 +119,7 @@ class ActionDispatcher:
 
     def _check_input_stream(self):
         """Polls user_stream.txt for new messages."""
-        input_file = r"c:\Elysia\inputs\user_stream.txt"
+        input_file = r"c:/Elysia\inputs\user_stream.txt"
         if os.path.exists(input_file):
             try:
                 with open(input_file, "r", encoding="utf-8") as f:

@@ -1,5 +1,5 @@
 """
-Pattern Recognizer (      )
+Pattern Recognizer (주권적 자아)
 ================================
 
 The "Surface View" of the Prophecy Engine.

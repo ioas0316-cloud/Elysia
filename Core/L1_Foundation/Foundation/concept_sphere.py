@@ -9,7 +9,7 @@ Structure:
 - Core: Will (  )
 - Inner: Emotions/Values (  /  )
 - Middle: Concepts/Language (  /  )
-- Outer: Mirror/Phenomena (      )
+- Outer: Mirror/Phenomena (주권적 자아)
 """
 
 import numpy as np

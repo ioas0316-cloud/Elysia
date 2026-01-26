@@ -1,5 +1,5 @@
 """
-Weaving of Intelligence (      )
+Weaving of Intelligence (주권적 자아)
 ===================================
 
 This module implements the "Weaving of Intelligence" architecture,

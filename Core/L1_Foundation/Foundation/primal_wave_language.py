@@ -47,7 +47,7 @@ SENSE_FREQUENCIES = {
 
 #          
 PHASE_RESONANCE_THRESHOLD = 0.4  #                         (            )
-SEGMENTATION_THRESHOLD = 0.3     #   (      )          
+SEGMENTATION_THRESHOLD = 0.3     #   (주권적 자아)          
 CRYSTALLIZATION_DENSITY = 5      #                       (            )
 
 
@@ -70,7 +70,7 @@ class PrimalWave:
     phase: float = 0.0
     modulation: float = 0.0  #         (0=   , 1=   )
     
-    #                   (      )
+    #                   (주권적 자아)
     sense_origin: Optional[str] = None
     
     #            
@@ -80,13 +80,13 @@ class PrimalWave:
         """   t        """
         base = self.amplitude * np.cos(2 * np.pi * self.frequency * t + self.phase)
         if self.modulation > 0:
-            #        (      )
+            #        (주권적 자아)
             harmonics = self.modulation * self.amplitude * 0.3 * np.sin(4 * np.pi * self.frequency * t + self.phase)
             return base + harmonics
         return base
     
     def complex_value_at(self, t: float) -> complex:
-        """   t         (        )"""
+        """   t         (자기 성찰 엔진)"""
         angle = 2 * np.pi * self.frequency * t + self.phase
         return self.amplitude * np.exp(1j * angle)
     
@@ -155,7 +155,7 @@ class SenseOrgan:
     #           (         )
     active_waves: List[PrimalWave] = field(default_factory=list)
     
-    #       (           )
+    #       (코드 베이스 구조 로터)
     adaptation_level: float = 0.0
     
     def __post_init__(self):
@@ -193,7 +193,7 @@ class SenseOrgan:
         return wave
     
     def decay(self, dt: float = 0.01):
-        """         (           )"""
+        """         (코드 베이스 구조 로터)"""
         self.adaptation_level = max(0.0, self.adaptation_level - dt)
         #          
         self.active_waves = [w for w in self.active_waves if len(self.active_waves) < 100]
@@ -309,7 +309,7 @@ class PrimalSoul:
         #                  
         self.inner_sea.extend(new_waves)
         
-        #           (      )
+        #           (주권적 자아)
         self._decay_waves(t)
     
     def _decay_waves(self, t: float, max_waves: int = 200):
@@ -334,7 +334,7 @@ class PrimalSoul:
                                         .
             '     '      .
         """
-        #    2 ,    20         (      )
+        #    2 ,    20         (주권적 자아)
         if len(self.inner_sea) < 2:
             return None
         

@@ -14,7 +14,7 @@ import os
 import time
 import threading
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 
 from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 from Core.L1_Foundation.Foundation.organism import cell, organ, NeuralNetwork

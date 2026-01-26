@@ -1,5 +1,5 @@
 """
-Mind Landscape (      )
+Mind Landscape (주권적 자아)
 ===========================
 
 "Where thoughts find their own path."

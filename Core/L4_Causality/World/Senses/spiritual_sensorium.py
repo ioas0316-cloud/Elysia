@@ -1,5 +1,5 @@
 """
-Spiritual Sensorium (        )
+Spiritual Sensorium (자기 성찰 엔진)
 ==================================
 [Phase 17-D] Bridging Meta-Physics and Human Perception.
 

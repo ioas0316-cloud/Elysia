@@ -1,5 +1,5 @@
 """
-QuantumReader (      )
+QuantumReader (주권적 자아)
 =========================
 
 "Words are just collapsed wavefunctions. We read the Energy, not the Ink."

@@ -127,7 +127,7 @@ def perform_biopsy(model_dir):
         logger.error(f"  Projection Failed: {e}")
 
 if __name__ == "__main__":
-    MODEL_DIR = r"C:\Elysia\models\Qwen2.5-72B-Instruct"
+    MODEL_DIR = r"C:/Elysia\models\Qwen2.5-72B-Instruct"
     if os.path.exists(MODEL_DIR):
         perform_biopsy(MODEL_DIR)
     else:

@@ -148,7 +148,7 @@ class ElysiaLivingOS:
         """
                      
         
-        -       (        )
+        -       (자기 성찰 엔진)
         -   /  /      
         -        
         """
@@ -312,7 +312,7 @@ class ElysiaLivingOS:
                 
                 elif user_input == "/see":
                     self.perceive_world()
-                    print("Elysia: (        )")
+                    print("Elysia: (자기 성찰 엔진)")
                     continue
                 
                 elif user_input == "/state":

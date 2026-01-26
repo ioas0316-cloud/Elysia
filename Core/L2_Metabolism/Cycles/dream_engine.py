@@ -171,7 +171,7 @@ class DreamEngine:
                 key_words.append(word)
 
         if not key_words:
-            return "??? (?뱀븣??" # Authentic babbling if no words found
+            return "✨? (?뱀븣✨" # Authentic babbling if no words found
 
         # 3. Structural Synthesis (The Emergent Sentence)
         narrative = " ".join(key_words)

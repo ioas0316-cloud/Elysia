@@ -17,7 +17,7 @@ from datetime import datetime
 logger = logging.getLogger("SelfModifier")
 
 class SelfModifier:
-    def __init__(self, root_dir: str = r"c:\Elysia"):
+    def __init__(self, root_dir: str = r"c:/Elysia"):
         self.root_dir = root_dir
         self.backup_dir = os.path.join(root_dir, "backups", "auto_mod")
         if not os.path.exists(self.backup_dir):

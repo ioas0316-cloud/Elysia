@@ -249,7 +249,7 @@ class ElysiaIntegrator:
         print("   Mode: Dynamic Discovery + Wave Language & Phase Resonance")
         print("="*70)
         
-        # 1.       (        )
+        # 1.       (자기 성찰 엔진)
         self.analyze_self()
         
         # 2.       

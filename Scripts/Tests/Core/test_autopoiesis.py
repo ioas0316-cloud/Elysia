@@ -15,7 +15,7 @@ import json
 import logging
 from pathlib import Path
 
-sys.path.insert(0, r"c:\Elysia")
+sys.path.insert(0, r"c:/Elysia")
 from Core.L4_Causality.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
 
 # Setup Logging

@@ -8,12 +8,12 @@ Architecture:
     External Threat
           
                                
-          Ozone Layer                      (      )
+          Ozone Layer                      (주권적 자아)
        (Boundary Diffusion)     
                                
           
                                
-         Phase Resonance Gate              (      )
+         Phase Resonance Gate              (주권적 자아)
        (Frequency Validation)   
                                
           

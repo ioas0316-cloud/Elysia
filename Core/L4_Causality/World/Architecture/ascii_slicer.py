@@ -42,7 +42,7 @@ class AsciiSlicer:
             line = ""
             for c in range(cols):
                 val = layer[r, c]
-                char = self.CHAR_MAP.get(val, "??")
+                char = self.CHAR_MAP.get(val, "✨")
                 line += char
             lines.append(line)
 

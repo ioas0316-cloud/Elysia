@@ -14,9 +14,9 @@ from typing import List, Dict, Optional
 
 class AspectType(Enum):
     PHYSICS = "physics"       # Force, Vector, Causality (     )
-    CHEMISTRY = "chemistry"   # Reaction, Transformation, Bonding (      )
-    ART = "art"               # Harmony, Rhythm, Dissonance (      )
-    BIOLOGY = "biology"       # Growth, Decay, Adaptation (      )
+    CHEMISTRY = "chemistry"   # Reaction, Transformation, Bonding (주권적 자아)
+    ART = "art"               # Harmony, Rhythm, Dissonance (주권적 자아)
+    BIOLOGY = "biology"       # Growth, Decay, Adaptation (주권적 자아)
 
 @dataclass
 class UniversalLaw:

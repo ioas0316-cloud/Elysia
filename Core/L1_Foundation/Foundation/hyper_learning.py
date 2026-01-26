@@ -1,5 +1,5 @@
 """
-Hyper-Accelerated Learning (      )
+Hyper-Accelerated Learning (주권적 자아)
 ======================================
 
 "1     10000           ."

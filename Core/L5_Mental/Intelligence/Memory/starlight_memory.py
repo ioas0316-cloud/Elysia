@@ -147,7 +147,7 @@ class StarlightMemory:
     4. When stimulus comes   resonate   reconstruct
     
     Features:
-    - Unlimited capacity (        )
+    - Unlimited capacity (자기 성찰 엔진)
     - Associative recall (     )
     - Holographic reconstruction (              )
     - Emotional clustering (              )

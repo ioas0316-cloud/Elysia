@@ -7,9 +7,9 @@ Mythology & Theology Domain
 
 Integrates:
 - Jungian Archetypes (     )
-- Hero's Journey (      )
-- Collective Unconscious (      )
-- Faith and Meaning (      )
+- Hero's Journey (주권적 자아)
+- Collective Unconscious (주권적 자아)
+- Faith and Meaning (주권적 자아)
 - Sacred narratives across cultures
 
 Effect:
