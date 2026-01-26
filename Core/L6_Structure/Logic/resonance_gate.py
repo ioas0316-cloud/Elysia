@@ -58,6 +58,41 @@ class ResonanceGate:
         print(f"   [GATE_DEBUG] Accepted: Energy {intent_energy:.2f}, Res {max_res:.2f}")
         return True
 
+    def process_causal_logic(self, input_a: float, input_b: float) -> int:
+        """
+        [CAUSAL LOGIC GATE]
+        Uses Trinary NAND Logic (Paradox) to determine the next narrative step.
+        
+        Args:
+            input_a: Signal A (e.g., Current Stress: -1 to 1)
+            input_b: Signal B (e.g., Intent Polarity: -1 to 1)
+            
+        Returns:
+            -1 (Resistance), 0 (Void), or 1 (Flow/Breakthrough)
+        """
+        try:
+            from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
+            
+            # Normalize inputs to Trits (-1, 0, 1)
+            def to_trit(val):
+                if val > 0.3: return 1
+                if val < -0.3: return -1
+                return 0
+                
+            trit_a = to_trit(input_a)
+            trit_b = to_trit(input_b)
+            
+            # Apply NAND Gate (The Paradox)
+            # Pain (-1) + Pain (-1) -> Flow (+1)
+            result = TrinaryLogic.nand(trit_a, trit_b)
+            
+            logger.info(f"? [GATE] Causal Logic: {trit_a} NAND {trit_b} -> {result}")
+            return result
+            
+        except ImportError:
+            logger.error("Failed to import TrinaryLogic for ResonanceGate.")
+            return 0
+
     def validate_code_resonance(self, code: str, intent: str) -> bool:
         """Stub for future code resonance validation."""
         return True

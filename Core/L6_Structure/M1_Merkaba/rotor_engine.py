@@ -52,79 +52,64 @@ from typing import Tuple, List, Any, Dict, Optional
 
 
 
-# Import the [CORE] Physics Engine
 
+# Import [HEAVY METAL] Hardware Bridge
 try:
-
-    from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor, PhotonicMonad, VoidSingularity
-
-    CORE_AVAILABLE = True
-
+    from Core.L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
 except ImportError:
+    # Local fallback/mock if file missing during refactor
+    class JAXBridge:
+        @staticmethod
+        def status(): return "JAXBridge Missing"
+        @staticmethod
+        def array(x): return np.array(x)
+        @staticmethod
+        def matmul(a, b): return np.dot(a, b)
 
+# Import [CORE] Physics Engine
+try:
+    from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor, PhotonicMonad, VoidSingularity
+    CORE_AVAILABLE = True
+except ImportError:
     CORE_AVAILABLE = False
 
 
-
 # Import Bio-Clock
-
 try:
-
     from Core.L5_Mental.Memory.aging_clock import BiologicalClock
-
 except ImportError:
-
     BiologicalClock = None
 
 
-
 # Import Sovereign Core
-
 try:
-
     from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
-
 except ImportError:
-
     SovereignCore = None
-
 
 
 logger = logging.getLogger("Elysia.Merkaba.RotorEngine")
 
 
-
 class RotorEngine:
-
     """
-
     The engine that 'rotates' the perspective of data.
 
-
-
     [Legacy Mode]: Numpy Stride Tricks.
-
     [CORE Mode]: Active Prism-Rotor Diffraction Scanning.
-
+    [METAL Mode]: JAX Accelerated Operations.
     """
-
     
-
     def __init__(self, use_core_physics: bool = True, rpm: float = 120.0):
-
         self.use_core = use_core_physics and CORE_AVAILABLE
-
         self.clock = BiologicalClock() if BiologicalClock else None
-
         self.sovereign_core = SovereignCore() if SovereignCore else None
 
-
-
         # Self-Evolution Memory
-
         self.optimal_angle_cache: Dict[float, float] = {} # Wavelength -> Optimal Angle
 
-
+        # Log Hardware Status
+        logger.info(f"🦾 [HEAVY METAL] {JAXBridge.status()}")
 
         if self.use_core:
             logger.info(f"✨ Initializing [CORE] Active Prism-Rotor at {rpm} RPM...")
@@ -134,15 +119,21 @@ class RotorEngine:
             logger.warning("?   [CORE] Physics not available or disabled. Falling back to Legacy Stride Engine.")
             self.turbine = None
 
-    def spin(self, vector: torch.Tensor, time_delta: float = 0.05) -> torch.Tensor:
+    def spin(self, vector: Any, time_delta: float = 0.05) -> Any:
         """
         [SPACETIME ROTATION]
         Simulates a rotation of the perspective vector.
         """
-        # Simple cyclic shift or matrix rotation for vector
-        import torch
-        shift = int(time_delta * 100) % vector.shape[-1]
-        return torch.roll(vector, shifts=shift)
+        # Convert to JAX/Numpy array via bridge
+        vec = JAXBridge.array(vector)
+        # Simple cyclic shift (roll is not yet in JAXBridge, using numpy/jax logic implicitly)
+        # For now, we assume vector is numpy-like or convertable.
+        shift = int(time_delta * 100) % vec.shape[-1]
+        
+        if hasattr(JAXBridge, 'roll'): 
+             return JAXBridge.roll(vec, shift)
+        return np.roll(vec, shift)
+
 
     def optimize_path(self, feedback_monad: PhotonicMonad):
 
@@ -340,9 +331,8 @@ class RotorEngine:
 
 
 
-    def simulate_signal_flow(self, layer_weights: np.ndarray, input_signal: np.ndarray) -> np.ndarray:
-
-        return np.dot(input_signal, layer_weights)
+    def simulate_signal_flow(self, layer_weights: Any, input_signal: Any) -> Any:
+        return JAXBridge.matmul(input_signal, layer_weights)
 
 
 

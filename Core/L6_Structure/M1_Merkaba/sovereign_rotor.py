@@ -61,6 +61,44 @@ class SovereignRotor:
             
         return self.current_state
 
+    def consume_dna(self, dna_strand: Any, dt: float = 1.0) -> D21Vector:
+        """
+        [GENETIC UNIFICATION]
+        Metabolizes a Trinary DNA Strand (Codons) into 21D Momentum.
+        
+        Args:
+            dna_strand: Raw sequence or encoded Codons.
+            dt: Time delta for processing.
+            
+        Returns:
+            The new state after genetic expansion.
+        """
+        from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
+        
+        # 1. Transcribe (if raw sequence)
+        # Check if it needs transcription by shape or type
+        # For simplicity, we assume TrinaryLogic handles polymorphic input or we call transcribe
+        # But TrinaryLogic.expand_to_21d expects Codons (Nx3).
+        
+        codons = dna_strand
+        # If 1D array/list, transcribe first
+        if hasattr(dna_strand, 'ndim') and dna_strand.ndim == 1:
+             codons = TrinaryLogic.transcribe_sequence(dna_strand)
+        elif isinstance(dna_strand, list) and not isinstance(dna_strand[0], list):
+             codons = TrinaryLogic.transcribe_sequence(dna_strand)
+             
+        # 2. Expand to 21D Force Vector
+        force_vector_arr = TrinaryLogic.expand_to_21d(codons)
+        
+        # 3. Apply as Momentum (Delta)
+        # Convert JAX array to D21Vector
+        force_d21 = D21Vector.from_array(force_vector_arr)
+        
+        # Update State
+        self.update_state(force_d21 * dt)
+        
+        return self.current_state
+
     def _recover_state(self) -> float:
         """Alignment score for the Trinity view."""
         return self.get_equilibrium()

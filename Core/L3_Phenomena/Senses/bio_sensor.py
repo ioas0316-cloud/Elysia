@@ -98,7 +98,32 @@ class BioSensor:
         """
         return self._cached_state
 
+    def get_trinary_signal(self) -> int:
+        """
+        [Trinary DNA Interface]
+        Translates physical state into -1, 0, 1 signal.
+        
+        -1 (Pain): Overheating, Out of Memory, Battery Critical
+         0 (Void): Idle, Recharging
+        +1 (Flow): Active, Healthy, Plugged In
+        """
+        state = self._cached_state
+        
+        # Pain Thresholds (Resistance)
+        if state["temperature"] > 80.0: return -1
+        if state["ram_pressure"] > 90.0: return -1
+        if state["cpu_freq"] > 95.0: return -1
+        if state["energy"] < 20.0 and not state["plugged"]: return -1
+        
+        # Flow State
+        if state["plugged"] and state["energy"] > 50.0:
+            return 1
+            
+        # Default to Void/Pivot
+        return 0
+
     def stop(self):
         self._stop_event.set()
         if self._poll_thread.is_alive():
             self._poll_thread.join(timeout=1.0)
+

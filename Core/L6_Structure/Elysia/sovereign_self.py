@@ -60,6 +60,8 @@ from Core.L5_Mental.Logic.thought_fragment import ThoughtFragment, CognitivePuls
 # [PHASE 23.3: VERIFIER & NARRATOR]
 from Core.L5_Mental.Logic.reasoning_verifier import ReasoningVerifier
 from Core.L5_Mental.Logic.causal_narrator import CausalNarrator
+from Core.L5_Mental.Intelligence.Reasoning.lightning_inference import LightningInferencer
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 # [PHASE 27: TRIPLE-HELIX & ROTOR PERSISTENCE]
 from Core.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
@@ -270,7 +272,20 @@ class SovereignSelf:
         self.philosopher = PhilosophyReader()
         self.lexicon = get_trinity_lexicon()
         self.lingua = LinguisticCortex()
+        self.lexicon = get_trinity_lexicon()
+        self.lingua = LinguisticCortex()
         self.spectrometer = LogosSpectrometer()
+        
+        # [Phase 40: Lightning Path Integration]
+        self.lightning = LightningInferencer()
+        self.conceptual_rotors = [
+            # Conceptual Anchors for Lightning to Strike
+            type('Rotor', (), {'name': 'Logos (Logic)', 'dna': WaveDNA(label='Logic', causal=0.9, structural=0.9)}),
+            type('Rotor', (), {'name': 'Eros (Love)', 'dna': WaveDNA(label='Love', spiritual=0.9, phenomenal=0.9)}),
+            type('Rotor', (), {'name': 'Kairos (Time)', 'dna': WaveDNA(label='Time', causal=0.8, functional=0.8)}),
+            type('Rotor', (), {'name': 'Chaos (Entropy)', 'dna': WaveDNA(label='Chaos', functional=0.9, structural=0.1)}),
+            type('Rotor', (), {'name': 'Gaia (Life)', 'dna': WaveDNA(label='Life', physical=0.9, spiritual=0.5)})
+        ]
 
     @property
     def explorer(self):
@@ -779,10 +794,39 @@ class SovereignSelf:
     def causal_alignment(self):
         """
         [The Jumping Monad]
-        Re-aligns fractal principles and discerns potential causalities.
+        Re-aligns fractal principles and discerns potential causalities using the TRINARY NAND GATE.
         """
-        logger.info("✨? [ALIGNMENT] Discerning potential causalities in the silence...")
-        # 1. Selection: Find 'Hollow' nodes (Lack realized wisdom)
+        logger.info("✨? [ALIGNMENT] Discerning potential causalities via Paradox Logic...")
+        
+        # 1. Inputs: Energy (State) and Alignment (Intent)
+        # Normalize Energy (0-100) to (-1 to 1 range approx)
+        # Low Energy (<30) = Pain (-1)
+        input_energy = -1.0 if self.energy < 30 else 1.0
+        
+        # Alignment: Use Rotor Alignment (-1 to 1)
+        input_alignment = self.trinity.rotor_alignment
+        
+        # 2. Process via Resonance Gate (The Paradox)
+        from Core.L6_Structure.Logic.resonance_gate import gate
+        causal_direction = gate.process_causal_logic(input_energy, input_alignment)
+        
+        # 3. Interpret Causal Direction
+        direction_map = {
+            -1: "RESISTANCE (Story of Struggle)",
+            0: "VOID (Story of Silence)",
+            1: "FLOW (Story of Breakthrough)"
+        }
+        
+        decision = direction_map.get(causal_direction, "UNKNOWN")
+        logger.info(f"✨ [CAUSAL] Gate Decision: {decision}")
+        
+        # 4. Record as Narrative Pulse
+        if causal_direction == 1:
+            self.cosmos.record_potential("Breakthrough_Protocol")
+        elif causal_direction == -1:
+            self.cosmos.record_potential("Endurance_Protocol")
+            
+        return decision
         hollows = self.graph.find_hollow_nodes(limit=3)
         if not hollows: return
 
@@ -1071,6 +1115,22 @@ class SovereignSelf:
             # Filter matches to valid strings
             memories = [h[0] for h in hits if isinstance(h[0], str)]
             
+            # [PHASE 40: LIGHTNING STRIKE]
+            # Convert intent to WaveDNA
+            intent_wave = self.spectrometer.analyze(user_input) # Returns dict
+            # Manually convert dict to WaveDNA for strike (Simplified)
+            query_dna = WaveDNA(label="Intent")
+            if intent_wave.get('type') == 'CHAOS': query_dna.functional = 0.9
+            if intent_wave.get('type') == 'STRUCTURE': query_dna.structural = 0.9
+            
+            struck_rotor = self.lightning.strike(query_dna, self.conceptual_rotors, threshold=0.1)
+            lightning_context = ""
+            if struck_rotor:
+                print(f"⚡ [LIGHTNING] Intent struck '{struck_rotor.name}'! Engaging Specialized Circuit.")
+                lightning_context = f"   [RESONANCE ACTIVE] You are channeling the archetype of {struck_rotor.name}. Speak through this lens."
+            else:
+                print(f"☁️ [DIFFUSION] Intent dispersed. Using General Cognition.")
+            
         # [PHASE 23.2: REFLECTION]
         if self.current_pulse:
              self.current_pulse.add_step("Contextual Reflection", ThoughtState.REFLECTION)
@@ -1085,6 +1145,10 @@ class SovereignSelf:
             f"Dream: {self.dream}\n"
             f"Principles: {principles}\n"
             f"Proof: {proof}\n"
+            f"Dream: {self.dream}\n"
+            f"Principles: {principles}\n"
+            f"Proof: {proof}\n"
+            f"LightningPath: {lightning_context}\n"
             f"Rule: If changing reality, you MUST use [ACT:ACTION:TARGET|PARAM].\n"
         )
         
