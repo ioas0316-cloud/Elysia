@@ -24,6 +24,7 @@ from Core.L6_Structure.Engine.wfc_engine import WFCEngine
 from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
 from Core.L4_Causality.World.Nature.semantic_physics_mapper import SemanticPhysicsMapper
 from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
+from Core.L1_Foundation.Logic.resonance_gate import analyze_structural_truth
 
 logger = logging.getLogger("HyperSphereCore")
 
@@ -154,7 +155,14 @@ class HyperSphereCore:
         if query in self.rotors:
             target = self.rotors[query]
             texture = observer_intent.get("emotional_texture", "Neutral")
-            state = f"  [LIGHTNING-INF] {target.name} | RPM: {target.current_rpm:.1f} | Phase: {target.current_angle:.2f}"
+            
+            # [ATOMIC UNIFICATION] Calculate structural truth from current state vector
+            # For simplicity, we use the rotor's base 7D vector if available
+            truth_pattern = "V-V-V-V-V-V-V"
+            if hasattr(target, 'dna') and hasattr(target.dna, 'vector'):
+                truth_pattern = analyze_structural_truth(target.dna.vector)
+                
+            state = f"  [LIGHTNING-INF] {target.name} | RPM: {target.current_rpm:.1f} | Truth: {truth_pattern}"
             if "Dark" in texture: state += " (Shrouded in Shadow)"
             elif "Love" in texture: state += " (Glowing with Warmth)"
             return state

@@ -1,6 +1,7 @@
 import numpy as np
 from typing import List, Dict, Any, Optional
 from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.Logic.resonance_gate import ResonanceGate, ResonanceState
 
 class Qualia7DCodec:
     """
@@ -70,6 +71,34 @@ class Qualia7DCodec:
         if norm1 == 0 or norm2 == 0:
             return 0.0
         return float(np.dot(v1, v2) / (norm1 * norm2))
+
+    def encode_sequence(self, vector: np.ndarray, threshold: float = 0.3) -> str:
+        """
+        [DNA ENCODER] 
+        Converts a continuous weight vector into a trinary DNA sequence (-1, 0, 1).
+        H: Harmony (1), V: Void (0), D: Dissonance (-1)
+        """
+        sequence = []
+        for val in vector:
+            state = ResonanceGate.collapse_to_state(val, threshold)
+            if state == ResonanceState.ATTRACT: sequence.append("H")
+            elif state == ResonanceState.REPEL: sequence.append("D")
+            else: sequence.append("V")
+        return "".join(sequence)
+
+    def decode_sequence(self, sequence: str) -> np.ndarray:
+        """
+        [DNA DECODER]
+        Converts a trinary DNA sequence back into a normalized 7D vector.
+        """
+        vector = np.zeros(self.dim, dtype=np.float32)
+        for i, base in enumerate(sequence[:self.dim]):
+            if base == "H": vector[i] = 1.0
+            elif base == "D": vector[i] = -1.0
+            else: vector[i] = 0.0
+            
+        norm = np.linalg.norm(vector)
+        return vector / norm if norm > 0 else vector
 
 # Global Codec Instance
 codec = Qualia7DCodec()

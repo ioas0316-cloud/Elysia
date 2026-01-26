@@ -24,6 +24,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from collections import defaultdict
 from Core.L1_Foundation.Foundation.Nature.rotor import Rotor, RotorConfig
 from Core.L6_Structure.System.Metabolism.zero_latency_portal import ZeroLatencyPortal
+from Core.L1_Foundation.Logic.resonance_gate import analyze_structural_truth
 
 logger = logging.getLogger("Memory.Hypersphere")
 
@@ -202,6 +203,9 @@ class ResonancePattern:
     timestamp: float = 0.0
     duration: float = 0.0
 
+    # [NEW] Atomic Truth Signature
+    atomic_truth: str = "V-V-V-V-V-V-V"
+
     # Catch-all for extra semantic metadata
     meta: Dict[str, Any] = field(default_factory=dict)
 
@@ -290,6 +294,7 @@ class HypersphereMemory:
                         },
                         "pattern": {
                             "content": pattern.content,
+                            "atomic_truth": pattern.atomic_truth,
                             "meta": pattern.meta
                         }
                     })
@@ -334,6 +339,7 @@ class HypersphereMemory:
                     coord = HypersphericalCoord(**item["coord"])
                     pattern = ResonancePattern(
                         content=item["pattern"]["content"],
+                        atomic_truth=item["pattern"].get("atomic_truth", "V-V-V-V-V-V-V"),
                         meta=item["pattern"].get("meta", {})
                     )
                     self._phase_buckets[k_tuple].append((coord, pattern))
@@ -375,6 +381,7 @@ class HypersphereMemory:
             trajectory=pattern_meta.get('trajectory', 'static'),
             timestamp=pattern_meta.get('timestamp', 0.0),
             duration=pattern_meta.get('duration', 0.0),
+            atomic_truth=pattern_meta.get('atomic_truth', "V-V-V-V-V-V-V"),
             meta=pattern_meta
         )
         

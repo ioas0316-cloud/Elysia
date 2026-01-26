@@ -23,17 +23,9 @@ import time
 # Setup Path
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-# Configure Logging
-log_dir = "data/Logs/System"
-os.makedirs(log_dir, exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(name)s | %(levelname)s | %(message)s',
-    handlers=[
-        logging.FileHandler(f"{log_dir}/elysia_{datetime.now().strftime('%Y%m%d')}.log", encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
+# Configure Logging (Unified Soul Sink)
+from Core.L1_Foundation.Foundation.logger_config import setup_unified_logging
+setup_unified_logging()
 logger = logging.getLogger("ELYSIA")
 
 

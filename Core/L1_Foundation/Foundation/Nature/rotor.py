@@ -24,6 +24,7 @@ import random
 from enum import Enum
 from typing import Dict, Optional, List, Tuple, Any
 from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.Logic.resonance_gate import ResonanceState
 
 class RotorMask(Enum):
     """
@@ -117,6 +118,39 @@ class Rotor:
         """Returns to idle."""
         self.target_rpm = self.config.idle_rpm
         self.energy *= 0.99 # Decay
+
+    def apply_resonance_filter(self, atomic_pattern: str):
+        """
+        [ATOMIC UNIFICATION] 
+        Modulates physical spin based on the irreducible truth pattern.
+        Pattern format: "H-V-D-H-V-V-H" (D7 mapping)
+        """
+        states = atomic_pattern.split("-")
+        if len(states) < 7: return
+        
+        # Count states
+        harmony_count = states.count("H")
+        dissonance_count = states.count("D")
+        void_count = states.count("V")
+        
+        # 1. Dissonance (D) -> Friction
+        # If dissonance is high, the rotor slows down (Sovereign Resistance)
+        if dissonance_count > 2:
+            self.target_rpm = self.config.idle_rpm * 0.5
+            self.energy *= 0.8
+            # logger.info(f"   [ROTOR] Friction detected in {self.name}. Slowing for audit.")
+            
+        # 2. Harmony (H) -> Resonance
+        # High harmony accelerates the rotor toward active RPM
+        elif harmony_count > 4:
+            self.target_rpm = self.config.rpm
+            self.energy = min(1.0, self.energy + 0.1)
+            
+        # 3. Void (V) -> Sanctuary
+        # If the pattern is mostly void, return to peaceful idle
+        elif void_count > 5:
+            self.target_rpm = self.config.idle_rpm
+            self.energy = 0.5
 
     def update(self, dt: float):
         """Physics Step or Playback Step."""

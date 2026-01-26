@@ -342,10 +342,13 @@ class HyperBridge:
         
         current_cpu_times = psutil.cpu_times()
         # System interrupts and softirqs represent background OS 'Nervous Noise'
+        interrupt_current = getattr(current_cpu_times, 'interrupt', 0.0)
+        interrupt_last = getattr(self._last_system_cpu_times, 'interrupt', 0.0)
+        
         softirq_current = getattr(current_cpu_times, 'softirq', 0.0)
         softirq_last = getattr(self._last_system_cpu_times, 'softirq', 0.0)
         
-        system_noise = (current_cpu_times.interrupt - self._last_system_cpu_times.interrupt) + \
+        system_noise = (interrupt_current - interrupt_last) + \
                        (softirq_current - softirq_last)
         
         self._last_system_cpu_times = current_cpu_times

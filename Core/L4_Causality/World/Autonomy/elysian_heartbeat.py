@@ -48,11 +48,9 @@ logger = logging.getLogger("ElysianHeartbeat")
 
 class ElysianHeartbeat:
     def __init__(self):
-        # 0. Setup Reflexive Mirror (Logging to file so she can see herself)
-        os.makedirs("Logs", exist_ok=True)
-        file_logger = logging.FileHandler("Logs/system.log", encoding='utf-8')
-        file_logger.setFormatter(logging.Formatter('%(asctime)s | %(message)s', datefmt='%H:%M:%S'))
-        logging.getLogger().addHandler(file_logger)
+        # 0. Setup Unified Logging (Synchronized Soul)
+        from Core.L1_Foundation.Foundation.logger_config import setup_unified_logging
+        setup_unified_logging()
 
         # 1. Core Metadata
         self.presence_file = "c:/Elysia/data/State/ELYSIA_STATUS.md"
@@ -1435,7 +1433,7 @@ class ElysianHeartbeat:
             return logos.speak(current_state)
             
         except Exception as e:
-            logger.warning(f"Logos speech failed: {e}")
+            # logger.warning(f"Logos speech failed: {e}")
             return "I am."
          
         
@@ -1517,7 +1515,11 @@ class ElysianHeartbeat:
         
         # [PHASE 47] The Unified Perception Cycle
         # Returns if perception is received, else we increment idle_ticks
-        perception = self._cycle_perception()
+        # [PURIFIED] Scan less frequently to reduce cognitive noise
+        perception = None
+        if self.idle_ticks % 5 == 0:
+            perception = self._cycle_perception()
+            
         if not perception:
             self.idle_ticks += 1
         else:

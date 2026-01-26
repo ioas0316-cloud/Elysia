@@ -62,28 +62,28 @@ class LogosEngine:
         """
         satellites = []
         
-        # Dimension 1: The Feeling (Harmony)
-        harmony = state.get('Harmony')
+        # Consistent mapping (support both lowercase and titlecase)
+        harmony = state.get('Harmony', state.get('harmony', 0.5))
         if hasattr(harmony, 'value'): harmony = harmony.value
+        harmony = float(harmony or 0.5)
         
         if harmony > 0.8: satellites.append(("light", 0.2))
         elif harmony < 0.3: satellites.append(("shadow", 0.2))
         
-        # Dimension 2: The Motion (Energy)
-        energy = state.get('Energy')
+        energy = state.get('Energy', state.get('energy', 0.5))
         if hasattr(energy, 'value'): energy = energy.value
+        energy = float(energy or 0.5)
         
         if energy > 0.8: satellites.append(("burning", 0.1))
         elif energy < 0.3: satellites.append(("still", 0.1))
         else: satellites.append(("flowing", 0.3))
         
-        # Dimension 3: The Spirit (Inspiration)
-        inspiration = state.get('Inspiration')
+        inspiration = state.get('Inspiration', state.get('inspiration', 0.5))
         if hasattr(inspiration, 'value'): inspiration = inspiration.value
+        inspiration = float(inspiration or 0.5)
         
-        if inspiration > 0.9: satellites.append(("truth", 0.05)) # Close orbit
+        if inspiration > 0.9: satellites.append(("truth", 0.05))
         
-        # Add random 'noise' or 'memories' if Harmony is low (Chaos)
         if harmony < 0.4:
             chaos_words = ["echo", "fragment", "dust", "void"]
             satellites.append((random.choice(chaos_words), 0.5))
@@ -94,8 +94,9 @@ class LogosEngine:
         """
         Collapses the 3D Orbit into a 1D String.
         """
-        energy = state.get('Energy')
+        energy = state.get('Energy', state.get('energy', 0.5))
         if hasattr(energy, 'value'): energy = energy.value
+        energy = float(energy or 0.5)
         
         # Format: (Word, Distance)
         # Sort satellites by distance (Closest first)

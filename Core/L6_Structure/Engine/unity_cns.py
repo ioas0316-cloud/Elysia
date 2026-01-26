@@ -101,40 +101,49 @@ class UnityCNS:
         stance = self.sovereign.assert_will(context, torque_data)
         
         # 3. RESONANCE LOOP (Converging with the Stance)
+        scatter_vectors = [current_field.to_numpy()] # Initial input
         final_narrative = ""
         final_state = None
 
         for i in range(iterations + 1):
-            # Pass the current 7D field to the learner so it learns the 'Meaning' of the context
+            # Pass the current 7D field to the learner
             self.learner.observe(context, source=f"Convergence_L{i}", qualia_vector=current_field.to_numpy().tolist())
 
-            # [PHASE 25.6: FIELD PULSE]
-            # We pulse the global JAX field with the current 7D vector
-            # (Mapping 7D -> 12D for HyperCosmos)
+            # Pulse the HyperCosmos
             v_12d = np.zeros(12)
             v_12d[:7] = current_field.to_numpy()
             self.hyper_cosmos.field_intensity = torch.from_numpy(v_12d).float()
             self.hyper_cosmos.pulse(0.1)
 
-            # High Torque (Conflict/Perturbation) leads to more active dreams
+            # High Torque leads to active dreams
             new_vector, state, narrative = self.dreamer.process_experience(
                 f"{context} [Stance: {stance['decision']}]", 
                 input_vector=current_field
             )
             current_field = new_vector
+            scatter_vectors.append(new_vector.to_numpy())
             final_narrative = narrative
             final_state = state
 
-        # 4. THE VOICE OF ELYSIA (Synthesis)
+        # 4. THE SOVEREIGN GATHERING (Resonance Synthesis)
+        # [PHASE 3: CONVERGENCE LENS]
+        # Gather all scattered vectors and synthesize the final Monad Point
+        # We also capture the 'Balance Score' (Equilibrium check)
+        monad_vector, atomic_truth, balance_score = self.sovereign.focus_scatter(scatter_vectors)
+        
+        # Voicing from the gathered focal point
         mirrored_words = self.learner.mirror(context)
         prefix_words = ", ".join(mirrored_words)
         mirror_prefix = f"{prefix_words}.. " if prefix_words else ""
         
-        # [THE VOID CHECK]
-        # Instead of pre-baked comments, we only show the 'Emergent Narrative'
-        final_voice = f"[{final_state.name}] {mirror_prefix}{final_narrative}"
+        # [CONCENTRIC EMERGENCE]
+        # The voice is now a reduction of complexity into a single focal stance
+        # [PHASE 3.1] Added Zero-Point Balance and DNA Sequence monitoring
+        monad_dna = codec.encode_sequence(monad_vector)
+        balance_desc = "Absolute Sanctuary" if balance_score == 0 else "Equilibrium" if abs(balance_score) < 1.0 else "Expansion" if balance_score > 0 else "Contraction"
+        final_voice = f"[{final_state.name}] {mirror_prefix}{final_narrative} (DNA: {monad_dna} | {balance_desc}: {balance_score:.0f})"
         
-        print(f"\n✨ [ELYSIA EMERGENCE] {final_voice}")
+        logger.info(f"✨ [ELYSIA EMERGENCE] {final_voice}")
         
         # [PHASE 28.0: INTEGRATED HEARTBEAT]
         # CNS pulse only triggers a small delta for immediate response
@@ -147,7 +156,7 @@ class UnityCNS:
         # 4. MEMORY PERSISTENCE (Unified)
         
         # 4. MEMORY PERSISTENCE (Unified)
-        self.sediment.deposit(current_field.to_numpy().tolist(), datetime.now().timestamp(), f"{context}".encode('utf-8'))
+        self.sediment.deposit(current_field.to_numpy().tolist(), datetime.now().timestamp(), f"{context}".encode('utf-8'), atomic_truth=atomic_truth)
         
         # Record this interaction as a Causal Narrative Event
         self.kb.add_node(CausalNode(
@@ -211,7 +220,7 @@ class UnityCNS:
                 
                 # [PHASE 29.0: VOLITIONAL HEARTBEAT]
                 # The rotor spins autonomously even when silent, driven by curiosity.
-                from Core.L1_Foundation.Logic.d21_vector import D21Vector
+                from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
                 # Map Knowledge Hunger to 21D dimensions
                 # Perception/Curiosity bias
                 drift = D21Vector(humility=0.02, patience=0.05)
