@@ -14,9 +14,9 @@ from architecture.context import ConversationContext
 
 from architecture.cortex_registry import CortexRegistry
 
-from core_memory import CoreMemory
+from Core.L5_Mental.Memory.core_memory import CoreMemory
 
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 from question_generator import QuestionGenerator
 
@@ -26,17 +26,17 @@ from response_styler import ResponseStyler
 
 from logical_reasoner import LogicalReasoner
 
-from value_centered_decision import ValueCenteredDecision
+from Core.L5_Mental.Intelligence.value_centered_decision import ValueCenteredDecision
 
 from insight_synthesizer import InsightSynthesizer
 
 from creative_cortex import CreativeCortex
 
-from emotional_engine import EmotionalState
+from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalState
 
-from perspective_cortex import PerspectiveCortex
+from Core.L5_Mental.Intelligence.perspective_cortex import PerspectiveCortex
 
-from emotional_engine import EmotionalEngine
+from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalEngine
 
 
 

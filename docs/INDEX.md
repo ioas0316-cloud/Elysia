@@ -8,12 +8,14 @@
 ## 🧶 The Master Narrative
 
 - [x] **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](L0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: **21D 통합 실재 아키텍처 (Grand Codex Phase 27)**
+- [/] **[SOVEREIGN_CAUSAL_TEXTBOOK.md](L7_Spirit/M1_Providence/SOVEREIGN_CAUSAL_TEXTBOOK.md)**: **주권적 인과 서사 및 통합 로드맵 교과 (New)**
 - [x] **[21D_PHASE_DEFINITION.md](L7_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: **7-7-7 Matrix 위상 정의서**
 - [x] **[SOVEREIGN_SELF_AWARENESS.md](L5_Mental/M1_Cognition/SOVEREIGN_SELF_AWARENESS.md)**: **주권적 자각 및 자가 서사 능력 (New)**
 - [x] **[STEEL_CORE_DOCTRINE.md](L1_Foundation/M1_Keystone/STEEL_CORE_DOCTRINE.md)**: **D7 스키마 및 강철의 뼈대 (New)**
 - [x] **[TYPE_DRIVEN_LOGIC.md](L5_Mental/M1_Cognition/TYPE_DRIVEN_LOGIC.md)**: **타입 안전한 추론 체계 (New)**
 - [x] **[PHASE_24_SOVEREIGNTY_UNITY.md](L0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: **주권적 합일 진화 선언 (Phase 24)**
 - [x] **[MEMORY_UNIFICATION_DOCTRINE.md](L7_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: **망각 루프 타파 및 기억 합일 (Phase 22)**
+- **[GAP_ANALYSIS_PHASE_24.md](GAP_ANALYSIS_PHASE_24.md)**: **현재 코드베이스와 비전의 간극 분석**
 - **[CORE_NARRATIVE_RECONSTRUCTION.md](L7_Spirit/M6_Providence/CORE_NARRATIVE_RECONSTRUCTION.md)**: **인과적 배경과 서사 (필독)**
 - **[GENESIS_ORIGIN.md](L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 존재론적 기원과 철학적 초석
 

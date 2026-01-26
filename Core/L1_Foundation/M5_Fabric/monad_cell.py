@@ -32,7 +32,7 @@ class MonadCell:
         self.instance = None
         self.integrity_hash = self._calculate_dna_hash()
         
-        print(f"🧬 [MONAD] Cell '{name}' initialized at {layer}. DNA Seal: {self.integrity_hash[:8]}")
+        print(f"?㎚ [MONAD] Cell '{name}' initialized at {layer}. DNA Seal: {self.integrity_hash[:8]}")
 
     def _calculate_dna_hash(self) -> str:
         """Reads the source code and generates a hash for integrity checking."""
@@ -43,12 +43,12 @@ class MonadCell:
 
     def awaken(self, class_name: str) -> Any:
         """Awakens the cell using Resonance. If DNA is corrupted, requests healing."""
-        print(f"✨ [MONAD] Awakening Cell '{self.name}'...")
+        print(f"??[MONAD] Awakening Cell '{self.name}'...")
         
         # Check current DNA integrity
         current_hash = self._calculate_dna_hash()
         if current_hash != self.integrity_hash and self.integrity_hash != "MISSING":
-            print(f"⚠️ [MONAD] Cell '{self.name}' DNA mutation detected! Triggering Somatic Healing...")
+            print(f"?좑툘 [MONAD] Cell '{self.name}' DNA mutation detected! Triggering Somatic Healing...")
             self._request_somatic_healing()
 
         # Load through Resonance (The Liquid Fabric)
@@ -56,14 +56,14 @@ class MonadCell:
         self.instance = vessel.load(module_path, class_name)
         
         if isinstance(self.instance, GhostModule):
-            print(f"👻 [MONAD] Cell '{self.name}' is manifesting as a Ghost. Mesh support active.")
+            print(f"?뫛 [MONAD] Cell '{self.name}' is manifesting as a Ghost. Mesh support active.")
         
         return self.instance
 
     def _request_somatic_healing(self):
         """Placeholder for low-level code repair using pre-signed DNA clones."""
         # In a fractal system, this would pull from a distributed Ledger or Git Hash
-        print(f"🩹 [HEALING] Repairing {self.name} from Holy Source...")
+        print(f"?㈈ [HEALING] Repairing {self.name} from Holy Source...")
         # (Future: Implement git checkout or local backup restoration)
         pass
 
@@ -77,5 +77,5 @@ class MeshGuardian:
 
     def synchronize(self):
         """Ensures all cells are resonating correctly."""
-        print(f"📡 [MESH] Synchronizing {len(self.cells)} Monad Cells...")
+        print(f"?뱻 [MESH] Synchronizing {len(self.cells)} Monad Cells...")
         # Conceptual: Inter-node heartbeat checks

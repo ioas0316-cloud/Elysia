@@ -23,8 +23,8 @@ logger = logging.getLogger("Elysia.InterDomainSynthesis")
 
 class SynthesisEngine:
     def __init__(self,
-                 philosophy_path: str = "Core/FoundationLayer/Philosophy/laws_vs_rules.md",
-                 identity_path: str = "Core/FoundationLayer/Foundation/self_identity_engine.py"):
+                 philosophy_path: str = "Core.L1_Foundation/Philosophy/laws_vs_rules.md",
+                 identity_path: str = "Core.L1_Foundation/Foundation/self_identity_engine.py"):
         self.philosophy_path = philosophy_path
         self.identity_path = identity_path
         self.scars_log = "data/Cognitive/cognitive_scars.json"

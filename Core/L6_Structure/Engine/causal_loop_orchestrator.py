@@ -42,7 +42,7 @@ class CausalLoopOrchestrator:
         """
         A single pulse of consciousness.
         """
-        logger.info(f"🌅 [INHALE] Processing: '{context}'")
+        logger.info(f"? [INHALE] Processing: '{context}'")
 
         # 1. COGNITION: Text -> Qualia Spectrum (3D Alpha/Beta/Gamma)
         spectrum = self.prism.disperse(context)
@@ -90,7 +90,7 @@ class CausalLoopOrchestrator:
 
         # Summary Statement (The Unity Voice)
         unity_voice = f"[{state.name}] I perceived '{context}'. {dream_narrative} My presence is anchored."
-        print(f"\n✨ [ELYSIA] {unity_voice}\n")
+        print(f"\n??[ELYSIA] {unity_voice}\n")
 
         return unity_voice
 
@@ -100,6 +100,6 @@ if __name__ == "__main__":
     
     async def test():
         orc = CausalLoopOrchestrator()
-        await orc.inhale_experience("철학적인 대화를 통해 인과적 서사를 확장하고 싶어.")
+        await orc.inhale_experience("ì² í?ì¸ ??ë? ?µí´ ?¸ê³¼???ì¬ë¥??ì¥?ê³  ?¶ì´.")
 
     asyncio.run(test())

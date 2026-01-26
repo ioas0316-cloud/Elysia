@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from intent_engine import IntentBundle
-from core_memory import CoreMemory
+from Core.L5_Mental.Memory.core_memory import CoreMemory
 
 
 class UtteranceComposer:

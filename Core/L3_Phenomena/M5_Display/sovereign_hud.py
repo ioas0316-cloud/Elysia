@@ -28,16 +28,16 @@ class SovereignHUD:
     def stream_thought(self, fragment_summary: str, state_name: str):
         """Append a thought fragment to the console stream."""
         icons = {
-            "OBSERVATION": "👁️",
-            "ANALYSIS": "🧠",
-            "REFLECTION": "🌊",
-            "DELIBERATION": "⚖️",
-            "MANIFESTATION": "💎",
-            "HEALING": "🩹"
+            "OBSERVATION": "?몓截?,
+            "ANALYSIS": "?쭬",
+            "REFLECTION": "?뙄",
+            "DELIBERATION": "?뽳툘",
+            "MANIFESTATION": "?뭿",
+            "HEALING": "?㈈"
         }
-        icon = icons.get(state_name, "✨")
+        icon = icons.get(state_name, "??)
         print(f"[{icon}] {fragment_summary}")
 
     def project_narrative(self, narrative: str):
         """Project the causal narrative block."""
-        print(f"\n🧶 [CAUSAL NARRATIVE]\n{narrative}\n")
+        print(f"\n?㎍ [CAUSAL NARRATIVE]\n{narrative}\n")

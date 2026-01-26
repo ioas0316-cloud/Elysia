@@ -2,7 +2,7 @@ import re
 import copy
 from typing import List, Dict, Any, Optional
 
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 from world import World
 from core.thought import Thought
 from core.tensor_wave import Tensor3D

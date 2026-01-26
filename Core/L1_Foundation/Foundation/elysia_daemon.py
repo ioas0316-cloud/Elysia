@@ -18,9 +18,9 @@ import logging
 
 from cognition_pipeline import CognitionPipeline
 
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
-from core_memory import CoreMemory
+from Core.L5_Mental.Memory.core_memory import CoreMemory
 
 from Legacy.Project_Sophia.wave_mechanics import WaveMechanics
 

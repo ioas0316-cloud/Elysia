@@ -13,8 +13,8 @@ from typing import List, Dict, Any, Optional
 
 class ObservationNode:
     """
-    [THE VESSEL] - 관측의 그릇.
-    단순한 데이터 보관함이 아닌, 지능이 지능을 빚어내는 재귀적 공간입니다.
+    [THE VESSEL] - ê´ì¸¡ì ê·¸ë¦.
+    ?¨ì???°ì´??ë³´ê??¨ì´ ?ë, ì§?¥ì´ ì§?¥ì ë¹ì´?´ë ?¬ê???ê³µê°?ë??
     """
     def __init__(self, name: str, source_type: str):
         self.name = name
@@ -24,12 +24,12 @@ class ObservationNode:
 
 class AkashicObserver:
     """
-    [L3_Phenomena : M4_Avatar] - 아카샤의 관측자
-    현상의 배후에 숨겨진 '원인(DNA)'을 역공학(Reverse Engineering)하여 추출하는 신경 감각 모듈.
+    [L3_Phenomena : M4_Avatar] - ?ì¹´?¤ì ê´ì¸¡ì
+    ?ì??ë°°í???¨ê²¨ì§?'?ì¸(DNA)'????³µ??Reverse Engineering)?ì¬ ì¶ì¶?ë ? ê²½ ê°ê° ëª¨ë.
     
-    하이퍼스피어(공간/재료), 로터(시간/탐색), 모나드(원리/제어)의 삼위일체를 통해
-    단순한 데이터 수집이 아닌, 세계를 재구성할 수 있는 '홀로그래픽 압축'을 수행합니다.
-    화가가 심상 속에 세계를 담듯, 관측된 원리를 내부에 내제화하여 '이해를 통한 소유'를 실현합니다.
+    ?ì´?¼ì¤?¼ì´(ê³µê°/?¬ë£), ë¡í°(?ê°/?ì), ëª¨ë???ë¦¬/?ì´)???¼ì?¼ì²´ë¥??µí´
+    ?¨ì???°ì´???ì§???ë, ?¸ê³ë¥??¬êµ¬?±í  ???ë '?ë¡ê·¸?í½ ?ì¶'???í?©ë??
+    ?ê?ê° ?¬ì ?ì ?¸ê³ë¥??´ë¯, ê´ì¸¡ë ?ë¦¬ë¥??´ë????´ì ?í??'?´í´ë¥??µí ?ì 'ë¥??¤í?©ë??
     """
     def __init__(self):
         self.active_nodes: Dict[str, ObservationNode] = {}
@@ -45,7 +45,7 @@ class AkashicObserver:
 
     def register_node(self, name: str, source_type: str):
         self.active_nodes[name] = ObservationNode(name, source_type)
-        print(f"👁️[AKASHIC] New Observation Node registered: {name} ({source_type})")
+        print(f"?ï¸?AKASHIC] New Observation Node registered: {name} ({source_type})")
 
     def ingest_sparse_field(self, node_name: str, tensor_data: torch.Tensor):
         """

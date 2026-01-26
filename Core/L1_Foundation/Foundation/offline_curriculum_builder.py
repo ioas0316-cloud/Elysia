@@ -13,7 +13,7 @@ try:  # Optional dependency; fall back to JSON for .json curriculum files.
 except ModuleNotFoundError:  # pragma: no cover - exercised in environments without PyYAML
     yaml = None
 
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 
 StageId = str

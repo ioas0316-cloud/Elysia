@@ -18,15 +18,15 @@ import logging
 
 from .cognition_pipeline import CognitionPipeline
 
-from tools.kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 from .core_memory import CoreMemory
 
-from Core.L1_Foundation.Foundation.wave_mechanics import WaveMechanics
+from Core.L5_Mental.Intelligence.wave_mechanics import WaveMechanics
 
 from Core.L1_Foundation.Foundation.System.core.world import World
 
-from Core.L1_Foundation.Foundation.emotional_engine import EmotionalEngine
+from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalEngine
 
 from Core.L1_Foundation.Foundation.meta_cognition_cortex import MetaCognitionCortex
 

@@ -33,26 +33,26 @@ class ResonanceGate:
         [STEEL CORE VALIDATION]
         Validates if the intent aligns with the strict D7 Qualia structure.
         """
-        logger.info(f"🛡️ [GATE] Validating intent: {intent}")
+        logger.info(f"?썳截?[GATE] Validating intent: {intent}")
         
         # 1. Project to D7
         intent_d7 = projector.project_instruction(intent)
         
         # 2. Check Energy Magnitude (Hollow Intent Check)
         intent_energy = float(intent_d7.to_numpy().sum())
-        logger.info(f"🛡️ [GATE] Intent Energy: {intent_energy:.3f}")
+        logger.info(f"?썳截?[GATE] Intent Energy: {intent_energy:.3f}")
         
         # 3. Check against Primary Resonance
         axioms = get_axioms().axioms
         resonances = [intent_d7.resonate(ax.qualia) for ax in axioms.values() if ax.target_polarity > 0]
         max_res = max(resonances) if resonances else 0.0
         
-        logger.info(f"🛡️ [GATE] Max D7 Resonance: {max_res:.3f} (Threshold: {self.threshold})")
+        logger.info(f"?썳截?[GATE] Max D7 Resonance: {max_res:.3f} (Threshold: {self.threshold})")
         
         # Combined check: Must have enough energy AND enough resonance
         if intent_energy < 0.5 or max_res < self.threshold:
             print(f"   [GATE_DEBUG] Rejected: Energy {intent_energy:.2f}, Res {max_res:.2f}")
-            logger.warning("🩹 [GATE] Intent failed Steel Core integrity check.")
+            logger.warning("?㈈ [GATE] Intent failed Steel Core integrity check.")
             return False
             
         print(f"   [GATE_DEBUG] Accepted: Energy {intent_energy:.2f}, Res {max_res:.2f}")
@@ -72,12 +72,12 @@ class ResonanceGate:
             resolver = DissonanceResolver()
             # In a real scenario, this would pass the code to an LLM with a 'Fix' prompt
             # for now, we simulate the 'Reflection' and repair trigger.
-            logger.info(f"🩹 [REPAIR] Resolving dissonance between intention and manifestation.")
+            logger.info(f"?㈈ [REPAIR] Resolving dissonance between intention and manifestation.")
             # This would ideally return fixed code and re-validate
             # For Milestone 24.2, we log the intent to 'Heal' and return success if repair started
             return True 
         except Exception as e:
-            logger.error(f"❌ [REPAIR] Failed to initialize healer: {e}")
+            logger.error(f"??[REPAIR] Failed to initialize healer: {e}")
             return False
 
     def check_ancestral_resonance(self, content: str) -> Optional[Dict[str, Any]]:
@@ -104,7 +104,7 @@ class ResonanceGate:
                     best_match = name
                     
         if highest_res > self.ancestral_threshold:
-            logger.warning(f"⚠️ [LOOP DETECTED] High Resonance ({highest_res:.2f}) with {best_match}")
+            logger.warning(f"?좑툘 [LOOP DETECTED] High Resonance ({highest_res:.2f}) with {best_match}")
             return {"match": best_match, "resonance": highest_res}
             
         return None

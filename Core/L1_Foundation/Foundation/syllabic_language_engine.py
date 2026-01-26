@@ -18,9 +18,9 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 
 
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
-from core_memory import CoreMemory
+from Core.L5_Mental.Memory.core_memory import CoreMemory
 
 from high_engine.meta_law_engine import MetaLawEngine
 

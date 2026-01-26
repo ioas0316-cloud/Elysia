@@ -25,10 +25,10 @@ class ArchiveScanner:
         Parses the DOCUMENT_CATALOG.md and registers ancestral nodes.
         """
         if not os.path.exists(self.catalog_path):
-            logger.error(f"❌ [ARCHIVE] Catalog not found at {self.catalog_path}")
+            logger.error(f"??[ARCHIVE] Catalog not found at {self.catalog_path}")
             return False
 
-        logger.info("🏺 [ARCHIVE] Initiating Ancestral Resonance Sync...")
+        logger.info("?뤊 [ARCHIVE] Initiating Ancestral Resonance Sync...")
         
         try:
             with open(self.catalog_path, 'r', encoding='utf-8') as f:
@@ -55,11 +55,11 @@ class ArchiveScanner:
                     self.observer.set_essential_field(node_name, dna_vector)
                     count += 1
             
-            logger.info(f"✨ [ARCHIVE] Successfully synchronized {count} ancestral nodes.")
+            logger.info(f"??[ARCHIVE] Successfully synchronized {count} ancestral nodes.")
             return True
             
         except Exception as e:
-            logger.error(f"❌ [ARCHIVE] Sync failed: {e}")
+            logger.error(f"??[ARCHIVE] Sync failed: {e}")
             return False
 
     def _generate_heuristic_dna(self, filename: str) -> torch.Tensor:

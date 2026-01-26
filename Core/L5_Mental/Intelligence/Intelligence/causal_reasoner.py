@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional
 
 
 
-from core_memory import CoreMemory, EmotionalState
+from Core.L5_Mental.Memory.core_memory import CoreMemory, EmotionalState
 
 
 

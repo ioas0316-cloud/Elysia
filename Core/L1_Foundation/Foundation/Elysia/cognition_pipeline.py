@@ -5,26 +5,26 @@ from pathlib import Path
 from typing import Dict, Any, Optional, Tuple
 
 # --- New Architecture Dependencies ---
-from Project_Elysia.architecture.context import ConversationContext
-from Project_Elysia.architecture.cortex_registry import CortexRegistry
-from Project_Elysia.architecture.event_bus import EventBus
-from Project_Elysia.architecture.handlers import (
+from Core.L6_Structure.Architecture.context import ConversationContext
+from Core.L6_Structure.Architecture.cortex_registry import CortexRegistry
+from Core.L6_Structure.Architecture.event_bus import EventBus
+from Core.L6_Structure.Architecture.handlers import (
     HypothesisHandler, CommandWordHandler, DefaultReasoningHandler, PlanningHandler
 )
 
 # --- Existing Component Dependencies (for dependency injection) ---
 from .core_memory import CoreMemory
-from Core.L1_Foundation.Foundation.logical_reasoner import LogicalReasoner
-from Core.L1_Foundation.Foundation.wave_mechanics import WaveMechanics
-from tools.kg_manager import KGManager
+from Core.L5_Mental.Logic.logical_reasoner import LogicalReasoner
+from Core.L5_Mental.Intelligence.wave_mechanics import WaveMechanics
+from Core.L5_Mental.Memory.kg_manager import KGManager
 from Core.L1_Foundation.Foundation.System.core.world import World
-from Core.L1_Foundation.Foundation.emotional_engine import EmotionalEngine, EmotionalState
-from Core.L1_Foundation.Foundation.response_styler import ResponseStyler
-from Core.L1_Foundation.Foundation.insight_synthesizer import InsightSynthesizer
+from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalEngine, EmotionalState
+from Core.L5_Mental.Intelligence.M3_Lexicon.response_styler import ResponseStyler
+from Core.L5_Mental.Intelligence.M4_Meaning.insight_synthesizer import InsightSynthesizer
 from .value_centered_decision import ValueCenteredDecision
-from Core.L1_Foundation.Foundation.arithmetic_cortex import ArithmeticCortex
+from Core.L5_Mental.Intelligence.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
-from Core.L1_Foundation.Foundation.question_generator import QuestionGenerator
+from Core.L5_Mental.Intelligence.question_generator import QuestionGenerator
 from Project_Mirror.perspective_cortex import PerspectiveCortex
 from .high_engine.dialogue_law_evaluator import DialogueLawEvaluator
 from .high_engine.intent_engine import IntentEngine

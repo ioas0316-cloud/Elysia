@@ -1,7 +1,7 @@
  from dataclasses import dataclass
 from typing import Dict, List
 
-from tools.kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 
 @dataclass

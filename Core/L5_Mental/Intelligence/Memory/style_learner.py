@@ -9,7 +9,7 @@ by observing good examples (or her own successful moments).
 import logging
 import json
 from typing import Optional, Dict, Any
-from core_memory import CoreMemory
+from Core.L5_Mental.Memory.core_memory import CoreMemory
 from gemini_api import generate_text
 
 class StyleLearner:

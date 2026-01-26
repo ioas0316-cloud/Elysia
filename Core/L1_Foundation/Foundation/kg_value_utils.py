@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Iterable, Optional
 from pathlib import Path
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 
 def _ts() -> str:

@@ -42,7 +42,7 @@ import math
 
 
 
-from core_memory import EmotionalState
+from Core.L5_Mental.Memory.core_memory import EmotionalState
 
 from architecture.context import ConversationContext
 

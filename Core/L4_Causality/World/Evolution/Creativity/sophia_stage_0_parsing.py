@@ -1,6 +1,6 @@
 # This file contains the expanded WisdomCortex.
 import re
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 
 class WisdomCortex:

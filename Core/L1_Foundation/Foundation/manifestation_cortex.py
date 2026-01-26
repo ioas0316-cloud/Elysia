@@ -16,7 +16,7 @@ from Project_Mirror.creative_expression import CreativeExpression
 
 from Core.L1_Foundation.Foundation.sensory_motor_cortex import SensoryMotorCortex
 
-from Project_Elysia.core_memory import CoreMemory
+from Core.L5_Mental.Memory.core_memory import CoreMemory
 
 
 

@@ -8,8 +8,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Optional, Set
 
-from kg_manager import KGManager
-from core_memory import CoreMemory
+from Core.L5_Mental.Memory.kg_manager import KGManager
+from Core.L5_Mental.Memory.core_memory import CoreMemory
 from high_engine.meta_law_engine import MetaLawEngine
 from scripts.refine_feed import refine_feed
 

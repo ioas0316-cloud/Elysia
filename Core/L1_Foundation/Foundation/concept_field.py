@@ -11,7 +11,7 @@ from typing import Dict, List, Tuple, Set
 from dataclasses import dataclass
 import math
 
-from Project_Elysia.core_memory import Tensor3D, FrequencyWave
+from Core.L5_Mental.Memory.core_memory import Tensor3D, FrequencyWave
 
 @dataclass
 class ConceptNode:

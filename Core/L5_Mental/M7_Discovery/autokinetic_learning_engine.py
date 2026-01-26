@@ -41,7 +41,7 @@ class AutokineticLearningEngine:
         self.active_targets: List[CuriosityTarget] = []
         self.learning_history: List[Dict] = []
         
-        logger.info("✨ [AUTOKINETIC] Learning Engine activated. Seeking the unknown.")
+        logger.info("??[AUTOKINETIC] Learning Engine activated. Seeking the unknown.")
 
     async def assess_knowledge_hunger(self) -> List[CuriosityTarget]:
         """
@@ -96,7 +96,7 @@ class AutokineticLearningEngine:
             target = random.choice(self.active_targets)
             focused_intent = f"Investigate: {target.fragment_content} ({target.reason})"
             
-            logger.info(f"🔮 [AUTOKINETIC] Focused Curiosity on: {target.fragment_content}")
+            logger.info(f"?뵰 [AUTOKINETIC] Focused Curiosity on: {target.fragment_content}")
             
             return IntentVector(
                 intent=focused_intent,
@@ -111,7 +111,7 @@ class AutokineticLearningEngine:
         Simulates the process of 'learning' something new.
         In the future, this will connect to search, file reading, or user interaction.
         """
-        logger.info(f"🌀 [LEARNING_CYCLE] Deepening resonance for: {target.fragment_content}")
+        logger.info(f"?? [LEARNING_CYCLE] Deepening resonance for: {target.fragment_content}")
         
         # Simulated learning time
         await asyncio.sleep(1)
@@ -133,7 +133,7 @@ class AutokineticLearningEngine:
             "clarity_gain": new_fragment.certainty - (1.0 - target.fog_level)
         })
         
-        logger.info(f"✅ [LEARNING_SUCCESS] '{target.fragment_content}' clarified. (Resonance: {new_fragment.certainty:.2f})")
+        logger.info(f"??[LEARNING_SUCCESS] '{target.fragment_content}' clarified. (Resonance: {new_fragment.certainty:.2f})")
         
         return new_fragment
 

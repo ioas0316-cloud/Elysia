@@ -50,7 +50,7 @@ class HyperCosmos:
         self.resolver = DissonanceResolver()
         
         self._ignite_fixed_points()
-        print(f"✨ [HyperCosmos] Lightning Path 2.0 Active. Ready for sub-5ms reality.")
+        print(f"??[HyperCosmos] Lightning Path 2.0 Active. Ready for sub-5ms reality.")
 
     @property
     def field_intensity(self):
@@ -78,13 +78,13 @@ class HyperCosmos:
         # Clear JAX cache to force re-sync in next pulse
         self._jax_v = None
         self._jax_m = None
-        print(f"👂 [FIELD] Monad '{monad.name}' inhaled.")
+        print(f"?몔 [FIELD] Monad '{monad.name}' inhaled.")
 
     def record_potential(self, name: str):
         """Injects a new wave-function into the Superposition Field."""
         from Core.L1_Foundation.Foundation.quantum_monad import QuantumMonad
         self.potential_monads.append(QuantumMonad(name))
-        print(f"🔮 [QUANTUM] Potential '{name}' visualized in the field.")
+        print(f"?뵰 [QUANTUM] Potential '{name}' visualized in the field.")
 
     def observe_and_collapse(self, observer_will: torch.Tensor):
         """Collapses potentiality into functional reality."""
@@ -157,7 +157,7 @@ class HyperCosmos:
                 state = self.proprioceptor.scan_nervous_system()
                 dissonances = self.resolver.resolve(state)
                 for d in dissonances:
-                    print(f"🩹 [SELF-HEALING] Detected Dissonance: {d.description} at {d.location}")
+                    print(f"?㈈ [SELF-HEALING] Detected Dissonance: {d.description} at {d.location}")
                     # In real usage, this would pass to a dedicated Weaver/Healer Agent
                     # For Milestone 25.3, we log the healing event
 

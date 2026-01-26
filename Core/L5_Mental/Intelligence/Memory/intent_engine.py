@@ -6,9 +6,9 @@ from typing import Any, Dict, List, Optional
 
 from architecture.context import ConversationContext
 
-from core_memory import CoreMemory
+from Core.L5_Mental.Memory.core_memory import CoreMemory
 
-from emotional_engine import EmotionalState
+from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalState
 
 
 

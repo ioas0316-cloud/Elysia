@@ -4,7 +4,7 @@ import logging
 
 from Core.L1_Foundation.Foundation.System.core.tensor_wave import SoulTensor, Tensor3D, FrequencyWave, ResonantModule
 
-from Project_Elysia.architecture.context import ConversationContext
+from Core.L6_Structure.Architecture.context import ConversationContext
 
 
 

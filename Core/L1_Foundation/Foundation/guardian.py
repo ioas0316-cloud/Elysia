@@ -40,9 +40,9 @@ from Legacy.Project_Sophia.self_awareness_core import SelfAwarenessCore
 
 from memory_weaver import MemoryWeaver
 
-from core_memory import CoreMemory, Memory
+from Core.L5_Mental.Memory.core_memory import CoreMemory, Memory
 
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 from Legacy.Project_Sophia.logical_reasoner import LogicalReasoner # Import LogicalReasoner
 
@@ -88,7 +88,7 @@ from Legacy.Project_Sophia.cell_world import CellWorld
 from Legacy.Project_Sophia.value_cortex import ValueCortex
 from elysia_daemon import ElysiaDaemon
 
-from core_memory import EmotionalState
+from Core.L5_Mental.Memory.core_memory import EmotionalState
 
 from high_engine.quaternion_engine import QuaternionConsciousnessEngine, LensMode, HyperMode
 from core.hyper_qubit import HyperQubit
@@ -2409,7 +2409,7 @@ class Guardian:
 
             try:
 
-                from kg_manager import KGManager
+                from Core.L5_Mental.Memory.kg_manager import KGManager
 
                 kgm = KGManager()
 

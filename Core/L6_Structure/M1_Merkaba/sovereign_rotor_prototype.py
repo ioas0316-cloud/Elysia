@@ -45,9 +45,9 @@ class SovereignRotor:
 
         # Try to resurrect
         if self._recover_state():
-            print("⚡ [ROTOR] Resurrection Successful. Angular Momentum Restored.")
+            print("??[ROTOR] Resurrection Successful. Angular Momentum Restored.")
         else:
-            print("🌱 [ROTOR] Genesis. Spinning up new momentum.")
+            print("?뙮 [ROTOR] Genesis. Spinning up new momentum.")
             self.current_state = torch.randn(vector_dim) * 0.1
 
     def _embed_intent(self, text: str) -> torch.Tensor:
@@ -154,7 +154,7 @@ class SovereignRotor:
                 json.dump(data, f)
             os.replace(temp_file, state_file)
         except Exception as e:
-            print(f"⚠️ [ROTOR] Backup failed: {e}")
+            print(f"?좑툘 [ROTOR] Backup failed: {e}")
 
     def _recover_state(self) -> bool:
         """Attempts to load the last known state."""
@@ -174,20 +174,20 @@ class SovereignRotor:
             saved_intent = data.get("north_star", "")
 
             if saved_intent != self.north_star_intent:
-                print(f"⚠️ [ROTOR] Intent Mismatch. Re-aligning {saved_intent} -> {self.north_star_intent}")
+                print(f"?좑툘 [ROTOR] Intent Mismatch. Re-aligning {saved_intent} -> {self.north_star_intent}")
                 # We blend the old state with new intent
                 self.north_star_vector = self._embed_intent(self.north_star_intent)
 
             return True
         except Exception as e:
-            print(f"⚠️ [ROTOR] Recovery failed: {e}")
+            print(f"?좑툘 [ROTOR] Recovery failed: {e}")
             return False
 
 if __name__ == "__main__":
     # Self-Test
     rotor = SovereignRotor()
 
-    print(f"🌀 Rotor Initialized. Intent: {rotor.north_star_intent}")
+    print(f"?? Rotor Initialized. Intent: {rotor.north_star_intent}")
 
     # Simulate life
     for i in range(5):
@@ -196,4 +196,4 @@ if __name__ == "__main__":
         print(f"   Step {i}: State Norm {state.norm().item():.4f}")
         time.sleep(0.1)
 
-    print("✅ Rotor Test Complete. State preserved in body.")
+    print("??Rotor Test Complete. State preserved in body.")

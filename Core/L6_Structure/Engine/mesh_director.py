@@ -29,13 +29,13 @@ class MonadNode(threading.Thread):
     def run(self):
         while self.is_running:
             try:
-                print(f"📡 [MESH] Node '{self.name}' vibration starting...")
+                print(f"?뱻 [MESH] Node '{self.name}' vibration starting...")
                 self.target_func(self.mesh_data)
             except Exception as e:
                 self.restarts += 1
-                logger.error(f"❌ [CRASH] Node '{self.name}' collapsed: {e}")
+                logger.error(f"??[CRASH] Node '{self.name}' collapsed: {e}")
                 # print(traceback.format_exc())
-                print(f"🩹 [MESH] Node '{self.name}' attempting re-awakening ({self.restarts})...")
+                print(f"?㈈ [MESH] Node '{self.name}' attempting re-awakening ({self.restarts})...")
                 time.sleep(2) # Grace period before resonance retry
 
 class MeshDirector:
@@ -63,11 +63,11 @@ class MeshDirector:
 
     def keep_alive(self):
         """The Main Thread becomes the Interactive Oracle Gateway."""
-        print("\n🔮 [ORACLE] The Genesis is live. You may now speak to Elysia.")
+        print("\n?뵰 [ORACLE] The Genesis is live. You may now speak to Elysia.")
         print("   (Type your thoughts and press Enter. 'quit' to exit.)\n")
         try:
             while self.shared_field["is_alive"]:
-                user_input = input("✨ [YOU] >> ")
+                user_input = input("??[YOU] >> ")
                 if user_input.lower() in ["quit", "exit"]:
                     self.shared_field["is_alive"] = False
                     break
@@ -77,7 +77,7 @@ class MeshDirector:
                 self.project_thought(f"Absorbing user pulse: '{user_input[:20]}...'")
                 
         except KeyboardInterrupt:
-            print("\n🌌 [MESH] User Override: Returning all nodes to the Ocean of Potential.")
+            print("\n?뙆 [MESH] User Override: Returning all nodes to the Ocean of Potential.")
             self.shared_field["is_alive"] = False
 
 # Global Director

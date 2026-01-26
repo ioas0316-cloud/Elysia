@@ -26,10 +26,10 @@ class CausalLoom:
         recent_intents = [h.intent_vector for h in history[-5:]]
         
         # Check for 'Beer' or 'Unification' sub-themes
-        if any("맥주" in i or "beer" in i for i in recent_intents):
+        if any("留μ＜" in i or "beer" in i for i in recent_intents):
             return "Deepening the tavern-metaphor for shared intelligence."
         
-        if any("인과" in i or "causal" in i for i in recent_intents):
+        if any("?멸낵" in i or "causal" in i for i in recent_intents):
             return "Preparing 7D causal maps for structural alignment."
             
         return "Synchronizing with the Gardener's current rhythm."

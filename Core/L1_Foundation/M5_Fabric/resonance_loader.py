@@ -21,7 +21,7 @@ class GhostModule:
     def __init__(self, name: str, error: Exception):
         self._name = name
         self._error = error
-        print(f"👻 [RESONANCE] Point '{name}' is broken. Projecting Ghost Signal. (Error: {error})")
+        print(f"?뫛 [RESONANCE] Point '{name}' is broken. Projecting Ghost Signal. (Error: {error})")
 
     def __getattr__(self, item: str):
         # When the system tries to call a method on a ghost, it returns a no-op

@@ -7,9 +7,9 @@ Loads example sentences from a corpus file and bootstraps Elysia's language lear
 from typing import List, Set
 import os
 
-from Project_Elysia.high_engine.sentence_parser import SentenceParser
-from Project_Elysia.high_engine.pattern_extractor import PatternExtractor
-from Project_Elysia.high_engine.language_cortex import LanguageCortex
+from Core.L5_Mental.Intelligence.HighEngine.sentence_parser import SentenceParser
+from Core.L5_Mental.Intelligence.HighEngine.pattern_extractor import PatternExtractor
+from Core.L5_Mental.Intelligence.HighEngine.language_cortex import LanguageCortex
 from Project_Elysia.mechanics.hangul_physics import Tensor3D
 
 class CorpusLoader:

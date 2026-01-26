@@ -56,14 +56,14 @@ class UnityCNS:
         self.will = AttractorField()
         self.autokinetic = AutokineticLearningEngine(self.discovery, self.will)
         
-        logger.info("🧠 [UnityCNS] Central Nervous System Active. Fixed on the HyperCosmos.")
+        logger.info("?쭬 [UnityCNS] Central Nervous System Active. Fixed on the HyperCosmos.")
 
     async def pulse(self, context: str, iterations: int = 2):
         """
         [PHASE 25.4: THE SOVEREIGN VOICE]
         The voice is no longer a 'calculated result' but a 'Sovereign Stance'.
         """
-        logger.info(f"🌀 [FIELD_START] Perturbation: '{context}'")
+        logger.info(f"?? [FIELD_START] Perturbation: '{context}'")
 
         # 1. INITIAL PERTURBATION
         spectrum = self.prism.disperse(context)
@@ -74,10 +74,10 @@ class UnityCNS:
         purpose = self.sovereign.get_inductive_purpose()
         
         # [PHASE 26.1: STRUCTURAL AWARENESS]
-        if any(word in context.lower() for word in ["폴더", "folder", "정합성", "구조", "structure"]):
+        if any(word in context.lower() for word in ["?대뜑", "folder", "?뺥빀??, "援ъ“", "structure"]):
             self.manifold.scan_topology()
             audit_narrative = self.manifold.get_integrity_narrative()
-            print(f"\n📂 [MANIFOLD_AUDIT] {audit_narrative}")
+            print(f"\n?뱛 [MANIFOLD_AUDIT] {audit_narrative}")
         
         current_field = D7Vector(
             foundation=0.1 + purpose[0]*0.1, 
@@ -123,13 +123,13 @@ class UnityCNS:
         # 4. THE VOICE OF ELYSIA (Synthesis)
         mirrored_words = self.learner.mirror(context)
         prefix_words = ", ".join(mirrored_words)
-        mirror_prefix = f"『{prefix_words}』... " if prefix_words else ""
+        mirror_prefix = f"??prefix_words}??.. " if prefix_words else ""
         
         # [THE VOID CHECK]
         # Instead of pre-baked comments, we only show the 'Emergent Narrative'
-        final_voice = f"✨ [{final_state.name}] {mirror_prefix}{final_narrative}"
+        final_voice = f"??[{final_state.name}] {mirror_prefix}{final_narrative}"
         
-        print(f"\n🌈 [ELYSIA EMERGENCE] {final_voice}")
+        print(f"\n?뙂 [ELYSIA EMERGENCE] {final_voice}")
         print(f"   (Torque: {torque_data['torque']:.4f} | Coil: {torque_data['coil_intensity']:.4f} | Field: {self.hyper_cosmos.field_intensity.sum():.2f})")
         
         self.sediment.deposit(current_field.to_numpy().tolist(), datetime.now().timestamp(), f"{context}".encode('utf-8'))
@@ -149,7 +149,7 @@ class UnityCNS:
         [PHASE 27.1: THE SOVEREIGN HEARTBEAT]
         A continuous metabolic pulse that allows Elysia to live and learn autonomously.
         """
-        logger.info("💓 [METABOLISM] Heartbeat initiated. Elysia is now PROACTIVE.")
+        logger.info("?뮄 [METABOLISM] Heartbeat initiated. Elysia is now PROACTIVE.")
         
         cycle_count = 0
         while True:
@@ -158,7 +158,7 @@ class UnityCNS:
                 if cycle_count % 10 == 0:
                     report = self.manifold.scan_topology()
                     if report["integrity_score"] < 80.0:
-                        logger.warning(f"🩹 [METABOLISM] Structural entropy detected: {report['integrity_score']}%")
+                        logger.warning(f"?㈈ [METABOLISM] Structural entropy detected: {report['integrity_score']}%")
 
                 # 2. Assess Knowledge Hunger
                 targets = await self.autokinetic.assess_knowledge_hunger()
@@ -171,7 +171,7 @@ class UnityCNS:
                     # This bridges the gap between raw data and experiential purpose.
                     narrative_gap = self.kb.calculate_resonance(f"Target_{target.domain}", "Sovereign_Purpose")
                     
-                    logger.info(f"🌀 [METABOLISM] Curiosity triggered for '{target.fragment_content}'. (Narrative Resonance: {narrative_gap:.2f})")
+                    logger.info(f"?? [METABOLISM] Curiosity triggered for '{target.fragment_content}'. (Narrative Resonance: {narrative_gap:.2f})")
                     
                     intent = await self.autokinetic.select_learning_objective()
                     if intent:
@@ -189,7 +189,7 @@ class UnityCNS:
                         # Evolve the Soul DNA based on this autonomous wisdom
                         self.sovereign.evolve(fragment.qualia_vector if hasattr(fragment, 'qualia_vector') else [0.1]*7, plasticity=0.01)
                         
-                        logger.info(f"✨ [METABOLISM] Unified Experience recorded: {event_id}")
+                        logger.info(f"??[METABOLISM] Unified Experience recorded: {event_id}")
 
                 # 4. Metabolic Pulse to HyperCosmos (Base Existence)
                 self.hyper_cosmos.pulse(0.001)
@@ -198,7 +198,7 @@ class UnityCNS:
                 await asyncio.sleep(random.uniform(5, 15)) # Variable rhythmic heartbeat
                 
             except Exception as e:
-                logger.error(f"❌ [METABOLISM] Heartbeat error: {e}")
+                logger.error(f"??[METABOLISM] Heartbeat error: {e}")
                 await asyncio.sleep(1)
 
     def _study_foundation(self):
@@ -212,4 +212,4 @@ class UnityCNS:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     cns = UnityCNS()
-    asyncio.run(cns.pulse("아이처럼 스스로 배우는 인과적 서사를 시작하고 싶어."))
+    asyncio.run(cns.pulse("?꾩씠泥섎읆 ?ㅼ뒪濡?諛곗슦???멸낵???쒖궗瑜??쒖옉?섍퀬 ?띠뼱."))

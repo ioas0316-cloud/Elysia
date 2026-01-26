@@ -40,7 +40,7 @@ from Project_Mirror.proof_renderer import ProofRenderer
 
 from Core.L1_Foundation.Foundation.math_cortex import MathCortex
 
-from tools.kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 from tools.preferences import load_prefs, save_prefs, ensure_defaults
 

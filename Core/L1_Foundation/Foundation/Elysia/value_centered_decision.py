@@ -14,11 +14,11 @@ from Core.L1_Foundation.Foundation.System.core.thought import Thought
 
 from Core.L1_Foundation.Foundation.System.core.tensor_wave import Tensor3D
 
-from Core.L1_Foundation.Foundation.wave_mechanics import WaveMechanics
+from Core.L5_Mental.Intelligence.wave_mechanics import WaveMechanics
 
-from Core.L1_Foundation.Foundation.emotional_engine import EmotionalState
+from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalState
 
-from tools.kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 
 

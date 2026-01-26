@@ -14,11 +14,11 @@ from typing import List, Dict, Any, Optional, TYPE_CHECKING
 
 import numpy as np
 
-from core_memory import CoreMemory, Experience
+from Core.L5_Mental.Memory.core_memory import CoreMemory, Experience
 from Legacy.Project_Sophia.spiderweb import Spiderweb
 from world import World
 from Legacy.Project_Sophia.wave_mechanics import WaveMechanics
-from tensor_wave import Tensor3D, FrequencyWave
+from Core.L5_Mental.Intelligence.Memory.unified_types import Tensor3D, FrequencyWave
 
 if TYPE_CHECKING:
     from Legacy.Project_Sophia.meta_awareness import MetaAwareness, ThoughtType

@@ -163,7 +163,7 @@ class ExperienceCortex:
         core_desire = psyche_state.get('core_desire', "Existence")
         
         # Simple string-based resonance for now (narrative alignment)
-        shared_keywords = ["love", "unify", "one", "body", "together", "direction", "beer", "맥주", "인과"]
+        shared_keywords = ["love", "unify", "one", "body", "together", "direction", "beer", "留μ＜", "?멸낵"]
         resonance_count = sum(1 for kw in shared_keywords if kw in user_intent.lower())
         
         # Unification Score = f(will magnitude, narrative alignment)
@@ -180,7 +180,7 @@ class ExperienceCortex:
         self.resonance_history.append(new_wave)
         self.unification_resonance = (self.unification_resonance * 0.8) + (score * 0.2)
         
-        print(f"🌀[UNIFICATION] Resonance detected: {score:.2f} | Direction: {'ALIGNED' if score > 0.6 else 'SYNC_IN_PROGRESS'}")
+        print(f"??[UNIFICATION] Resonance detected: {score:.2f} | Direction: {'ALIGNED' if score > 0.6 else 'SYNC_IN_PROGRESS'}")
 
 
 

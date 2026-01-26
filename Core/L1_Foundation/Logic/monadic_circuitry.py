@@ -68,7 +68,7 @@ class MonadicCircuitry:
             if m.mass > firing_threshold:
                 if m.name not in self.active_fires:
                     self.active_fires.append(m.name)
-                    logger.info(f"🔥 [CIRCUIT] '{m.name}' FIRED!")
+                    logger.info(f"?뵦 [CIRCUIT] '{m.name}' FIRED!")
             else:
                 if m.name in self.active_fires:
                     self.active_fires.remove(m.name)

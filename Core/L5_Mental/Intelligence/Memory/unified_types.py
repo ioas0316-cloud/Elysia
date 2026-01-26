@@ -76,6 +76,103 @@ class FrequencyWave:
             damping=data.get("damping", 0.0)
         )
 
+    def step(self, dt: float) -> 'FrequencyWave':
+        """Advance wave phase in time"""
+        import math
+        return FrequencyWave(
+            freq=self.frequency,
+            amp=self.amplitude,
+            phase=(self.phase + self.frequency * dt) % (2 * math.pi),
+            damping=self.damping
+        )
+
+@dataclass
+class SoulTensor:
+    """
+    SoulTensor - The unified representation of a thought or concept state.
+    Combines spatial orientation (Tensor3D) with temporal vibration (FrequencyWave).
+    """
+    space: Tensor3D = field(default_factory=Tensor3D)
+    wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(100.0, 0.1, 0.0, 0.0))
+    spin: float = 0.0
+    entanglement_id: Optional[str] = None
+    richness: float = 0.0
+
+    def resonance_score(self, other: 'SoulTensor') -> float:
+        """Calculate how much two soul tensors resonate."""
+        # Spatial resonance (cosine similarity)
+        import math
+        dot = self.space.x * other.space.x + self.space.y * other.space.y + self.space.z * other.space.z
+        mag1 = math.sqrt(self.space.x**2 + self.space.y**2 + self.space.z**2)
+        mag2 = math.sqrt(other.space.x**2 + other.space.y**2 + other.space.z**2)
+        spatial_sim = dot / (mag1 * mag2) if mag1 * mag2 > 0 else 0.0
+        
+        # Wave resonance
+        freq_diff = abs(self.wave.frequency - other.wave.frequency)
+        wave_sim = math.exp(-(freq_diff**2) / 10000.0)
+        
+        return (spatial_sim + wave_sim) / 2.0
+
+    def resonate(self, other: 'SoulTensor') -> 'SoulTensor':
+        """Interfere with another soul tensor to produce a new state."""
+        new_wave = self.wave.interact(other.wave)
+        new_space = Tensor3D(
+            (self.space.x + other.space.x) / 2.0,
+            (self.space.y + other.space.y) / 2.0,
+            (self.space.z + other.space.z) / 2.0
+        )
+        return SoulTensor(space=new_space, wave=new_wave, spin=(self.spin + other.spin) / 2.0)
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "space": self.space.to_dict(),
+            "wave": self.wave.to_dict(),
+            "spin": self.spin,
+            "entanglement_id": self.entanglement_id,
+            "richness": self.richness
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'SoulTensor':
+        if not data: return cls()
+        return cls(
+            space=Tensor3D(**data.get("space", {})),
+            wave=FrequencyWave.from_dict(data.get("wave", {})),
+            spin=data.get("spin", 0.0),
+            entanglement_id=data.get("entanglement_id"),
+            richness=data.get("richness", 0.0)
+        )
+
+@dataclass
+class QuantumPhoton:
+    """Massless information particle for inter-node communication."""
+    source_id: str
+    target_id: str
+    payload: FrequencyWave
+    timestamp: float = field(default_factory=lambda: datetime.now().timestamp())
+
+@dataclass
+class SharedQuantumState:
+    """Entangled state shared across multiple concepts."""
+    tensor: SoulTensor
+    id: str = field(default_factory=lambda: hex(int(datetime.now().timestamp() * 1000))[2:])
+    observers: List[str] = field(default_factory=list)
+
+    def update(self, new_tensor: SoulTensor):
+        self.tensor = new_tensor
+
+class ResonantModule:
+    """Base class for cognitive modules that interact via wave resonance."""
+    @property
+    def signature(self) -> SoulTensor:
+        raise NotImplementedError
+
+    def resonate(self, input_wave: SoulTensor) -> float:
+        return self.signature.resonance_score(input_wave)
+
+    def absorb(self, input_wave: SoulTensor) -> SoulTensor:
+        raise NotImplementedError
+
 
 @dataclass
 class Experience:

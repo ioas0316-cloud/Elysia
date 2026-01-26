@@ -22,9 +22,9 @@ from datetime import datetime
 
 
 
-from Project_Elysia.core_memory import CoreMemory, Memory
+from Core.L5_Mental.Memory.core_memory import CoreMemory, Memory
 
-from tools.kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 import logging
 
@@ -530,7 +530,7 @@ if __name__ == '__main__':
 
     # Example usage for testing
 
-    from Project_Elysia.core_memory import EmotionalState
+    from Core.L5_Mental.Memory.core_memory import EmotionalState
 
     logging.basicConfig(level=logging.INFO)
 

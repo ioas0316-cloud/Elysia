@@ -40,7 +40,7 @@ from proof_renderer import ProofRenderer
 
 from Legacy.Project_Sophia.math_cortex import MathCortex
 
-from kg_manager import KGManager
+from Core.L5_Mental.Memory.kg_manager import KGManager
 
 from preferences import load_prefs, save_prefs, ensure_defaults
 
