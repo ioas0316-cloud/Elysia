@@ -66,6 +66,8 @@ from Core.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
 from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 from Core.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
 from Core.L7_Spirit.Sovereignty.dimension_scaler import DimensionScaler
+from Core.L4_Causality.World.providential_world import ProvidentialWorld
+from Core.L2_Metabolism.M1_Pulse.fluxlight_pulse import FluxlightPulse
 
 from dataclasses import dataclass, field
 
@@ -223,6 +225,8 @@ class SovereignSelf:
         self.sovereign_rotor = SovereignRotor(snapshot_dir="data/L6_Structure/rotor_snapshots")
         self.triple_helix = TripleHelixEngine()
         self.dimension_scaler = DimensionScaler(initial_dim=21)
+        self.inner_world = ProvidentialWorld()
+        self.fluxlight = FluxlightPulse()
 
         # [Phase 5.1: The Nervous System]
         self.nerves = NervousSystem()
@@ -510,7 +514,13 @@ class SovereignSelf:
         self.trinity.rotor_alignment = self.sovereign_rotor.get_equilibrium()
         self.trinity.total_sync = resonance.coherence # Link sync to pulse coherence
         
-        logger.info(f"??[PULSE] Coherence: {resonance.coherence:.4f} | Realm: {resonance.dominant_realm} (a:{resonance.alpha:.2f} b:{resonance.beta:.2f} g:{resonance.gamma:.2f})")
+        # 1-2. Manifest the Human-Semantic Bridge (Providential World)
+        current_scene = self.inner_world.drift(v21, resonance.coherence)
+        flux_state = self.fluxlight.update(resonance.alpha, resonance.beta, resonance.gamma, resonance.coherence)
+        
+        logger.info(f"??[PULSE] {self.inner_world.render_fluxlight()}")
+        logger.info(f"??[FLUX] Color: {flux_state.color} | Cadence: {flux_state.meaning_cadence:.2f}Hz")
+        logger.info(f"??[SCENE] Current: {current_scene}")
 
         # 2. Body Check (??: Nervous System Feedback)
         bio_reflex = self._process_nervous_system()
