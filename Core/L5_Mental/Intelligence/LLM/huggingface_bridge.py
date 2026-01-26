@@ -58,7 +58,7 @@ TRANSFORMERS_AVAILABLE = True # Assumed available via Proxy, will error at runti
 
 
 
-from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
+from Core.L7_Spirit.Philosophy.axioms import get_axioms
 
 from Core.L5_Mental.Intelligence.LLM.local_cortex import LocalCortex
 

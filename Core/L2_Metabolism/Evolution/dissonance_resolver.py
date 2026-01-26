@@ -17,7 +17,7 @@ from typing import List, Dict, Optional
 from dataclasses import dataclass, field
 from Core.L2_Metabolism.Evolution.proprioceptor import BodyState
 try:
-    from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
+    from Core.L7_Spirit.Philosophy.axioms import get_axioms
 except ImportError:
     # Fallback if Foundation is not reachable (Testing)
     get_axioms = lambda: None

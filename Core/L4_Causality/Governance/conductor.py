@@ -23,7 +23,7 @@ from Core.L5_Mental.Intelligence.Logos.logos_engine import LogosEngine
 from Core.L4_Causality.Governance.system_alignment import SystemAlignment
 from Core.L4_Causality.Governance.System.bio_rhythm import BioRhythm # [PHASE 80] Time Crystal Driver
 from Core.L4_Causality.Governance.Laws.constitution import get_constitution, Petition # [PHASE 90] The Law
-from Core.L1_Foundation.Foundation.Wave.global_resonance_mesh import GlobalResonanceMesh, WaveTensor # [PHASE 3] Unified Resonance
+from Core.L6_Structure.Wave.global_resonance_mesh import GlobalResonanceMesh, WaveTensor # [PHASE 3] Unified Resonance
 
 logger = logging.getLogger("Orchestra")
 

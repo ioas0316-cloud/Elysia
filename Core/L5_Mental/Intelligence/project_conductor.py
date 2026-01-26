@@ -24,7 +24,7 @@ if project_root not in sys.path:
 
 from typing import List, Dict, Optional
 from Core.L1_Foundation.Foundation.Code.code_rotor import CodeRotor
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 class ProjectConductor:
     def __init__(self, root_path: str):

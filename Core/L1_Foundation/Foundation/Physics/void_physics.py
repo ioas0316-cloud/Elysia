@@ -18,7 +18,7 @@ import random
 from typing import List, Dict, Tuple, Optional
 
 from Core.L6_Structure.Nature.multi_rotor import MultiRotor
-from Core.L1_Foundation.Foundation.Wave.helix_dna import HelixDNA
+from Core.L6_Structure.Wave.helix_dna import HelixDNA
 
 logger = logging.getLogger("VoidPhysics")
 

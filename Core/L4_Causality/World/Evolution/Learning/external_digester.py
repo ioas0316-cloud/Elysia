@@ -11,7 +11,7 @@ It allows Elysia to browse the web and internalize what she sees.
 
 import logging
 from typing import List, Dict, Optional
-from Core.L1_Foundation.Physiology.Sensory.Network.web_tendril import WebTendril, FrequencySignal
+from Core.L2_Metabolism.Physiology.Sensory.Network.web_tendril import WebTendril, FrequencySignal
 from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
 from Core.L2_Metabolism.Memory.Orb.orb_manager import OrbManager
 

@@ -27,7 +27,7 @@ class HyperCosmos:
     def __init__(self, code_path: str = "c:/Elysia"):
         from Core.L1_Foundation.Foundation.akashic_field import AkashicField
         from Core.L1_Foundation.Foundation.quantum_monad import QuantumMonad
-        from Core.L1_Foundation.Foundation.Psyche.psyche_sphere import get_psyche
+        from Core.L5_Mental.Psyche.psyche_sphere import get_psyche
 
         self.monads: List[UnifiedMonad] = []
         self.potential_monads: List[QuantumMonad] = []

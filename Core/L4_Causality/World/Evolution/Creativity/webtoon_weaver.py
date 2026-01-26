@@ -15,7 +15,7 @@ from Core.L4_Causality.World.Evolution.Creativity.webtoon_illustrator import Web
 
 # Optional External AI
 try:
-    from Core.L1_Foundation.Physiology.Sensory.Network.comfy_adapter import ComfyAdapter
+    from Core.L2_Metabolism.Physiology.Sensory.Network.comfy_adapter import ComfyAdapter
     HAS_COMFY = True
 except ImportError:
     HAS_COMFY = False

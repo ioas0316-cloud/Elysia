@@ -8,7 +8,7 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 def test_rotor_atomic_sync():
     print("--- 🔬 Rotor-Atomic Sync Verification ---")

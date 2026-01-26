@@ -28,7 +28,7 @@ from unittest.mock import patch, MagicMock
 sys.path.append(os.getcwd())
 
 from Core.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.L1_Foundation.Foundation.Prism.fractal_optics import PrismEngine as FractalPrism, WavePacket
+from Core.L3_Phenomena.Prism.fractal_optics import PrismEngine as FractalPrism, WavePacket
 from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
 from Core.L5_Mental.Memory.sediment import SedimentLayer
 from Core.L5_Mental.Memory.prismatic_sediment import PrismaticSediment

@@ -22,7 +22,7 @@ import ast
 import os
 from dataclasses import dataclass
 from typing import Dict
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 class CodeDNAScanner:
     def __init__(self):

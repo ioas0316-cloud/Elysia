@@ -16,7 +16,7 @@ from typing import Tuple, Dict, Any, List, Optional
 import logging
 
 from Core.L2_Metabolism.Memory.holographic_embedding import HolographicEmbedder as HolographicEmbedding
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion as HyperQuaternion
 from Core.L2_Metabolism.Memory.Orb.hyper_resonator import HyperResonator
 
 # Configure logger

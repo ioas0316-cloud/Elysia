@@ -11,7 +11,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 from Core.L4_Causality.World.World.living_village import village
-from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import create_infinite_qubit, InfiniteQubitState
+from Core.L6_Structure.Wave.infinite_hyperquaternion import create_infinite_qubit, InfiniteQubitState
 
 def verify_integration():
     print("--- 1. Setup ---")

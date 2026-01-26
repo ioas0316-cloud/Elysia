@@ -49,7 +49,7 @@ except ImportError:
     logger.warning("   WaveCodingSystem not available")
 
 try:
-    from Core.L1_Foundation.Foundation.Wave.quaternion_wave_dna import (
+    from Core.L6_Structure.Wave.quaternion_wave_dna import (
         get_quaternion_compressor,
         QuaternionWaveDNA
     )

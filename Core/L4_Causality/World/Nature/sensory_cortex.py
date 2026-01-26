@@ -2,7 +2,7 @@
 import logging
 import random
 from typing import Dict, List, Optional
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
 
 logger = logging.getLogger("SensoryCortex")

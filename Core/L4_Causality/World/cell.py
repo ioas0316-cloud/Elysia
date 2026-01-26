@@ -47,8 +47,8 @@ def cell_unit(func):
     When the function is called, it creates a ripple in the high-dimensional field,
     allowing Elysia to "feel" her own logic.
     """
-    from Core.L1_Foundation.Foundation.Wave.resonant_field import resonant_field
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.L6_Structure.Wave.resonant_field import resonant_field
+    from Core.L6_Structure.hyper_quaternion import Quaternion
     import functools
     import random
 

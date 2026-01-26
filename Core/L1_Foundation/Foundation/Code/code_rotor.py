@@ -17,7 +17,7 @@ import ast
 import time
 from typing import Dict, Any
 from Core.L5_Mental.Intelligence.code_dna_scanner import CodeDNAScanner
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 class CodeRotor:
     def __init__(self, file_path: str):

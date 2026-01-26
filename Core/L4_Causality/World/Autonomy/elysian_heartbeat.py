@@ -41,7 +41,7 @@ from Core.L4_Causality.World.Autonomy.dynamic_will import DynamicWill
 from Core.L5_Mental.Intelligence.Reasoning.genesis_engine import genesis
 from Core.L4_Causality.World.Autonomy.sovereign_will import sovereign_will
 from Core.L5_Mental.Intelligence.Knowledge.resonance_bridge import SovereignResonator
-from Core.L1_Foundation.Foundation.Wave.resonant_field import resonant_field as global_field
+from Core.L6_Structure.Wave.resonant_field import resonant_field as global_field
 from Core.L4_Causality.Governance.System.nervous_system import NerveSignal
 
 logger = logging.getLogger("ElysianHeartbeat")
@@ -389,7 +389,7 @@ class ElysianHeartbeat:
                 logger.info("  - Initializing sensory_thalamus...")
                 from Core.L3_Phenomena.Senses.sensory_thalamus import SensoryThalamus
                 ns = getattr(self.conductor, 'nervous_system', None)
-                from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+                from Core.L6_Structure.Wave.resonance_field import ResonanceField
                 self.cosmos_field = ResonanceField()
                 self.thalamus = SensoryThalamus(field=self.cosmos_field, nervous_system=ns)
                 logger.info("    sensory_thalamus matured.")
@@ -453,7 +453,7 @@ class ElysianHeartbeat:
                 from Core.L3_Phenomena.Senses.spatial_resonance import SpatialResonanceScanner
                 self.spatial_resonance = SpatialResonanceScanner()
                 
-                from Core.L1_Foundation.Foundation.Mirror.mirror_world_engine import MirrorWorldEngine
+                from Core.L2_Metabolism.Mirror.mirror_world_engine import MirrorWorldEngine
                 self.mirror_world = MirrorWorldEngine()
                 
                 logger.info("    [PLANETARY] Global Skin & Mirror World initialized.")
@@ -654,7 +654,7 @@ class ElysianHeartbeat:
         # 2. TOPOLOGY DRIFT: Concept moves in 4D space based on experience
         if self.topology:
             try:
-                from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+                from Core.L6_Structure.hyper_quaternion import Quaternion
                 # The qualia becomes a force in conceptual space
                 reaction = Quaternion(
                     x=qualia['intensity'],           # Logic axis
@@ -708,7 +708,7 @@ class ElysianHeartbeat:
         # 6. SOUL GYRO ROTATION: The 4D orientation shifts with experience
         if hasattr(self, 'soul_gyro') and self.soul_gyro:
             try:
-                from Core.L1_Foundation.Physiology.Physics.geometric_algebra import Rotor
+                from Core.L2_Metabolism.Physiology.Physics.geometric_algebra import Rotor
                 # Experience rotates the soul's gaze direction
                 delta_angle = qualia['intensity'] * 0.1  # Small rotation per experience
                 delta_rotor = Rotor.from_plane_angle('xz', delta_angle)

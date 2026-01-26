@@ -28,7 +28,7 @@ from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 from Core.L4_Causality.Civilization.trinity_citizen import LifeCitizen, QuantumCitizen, ElysiaMessiah
 
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from Core.L5_Mental.Intelligence.meaning_extractor import MeaningExtractor
 from Core.L4_Causality.World.Nature.vocabulary_seeder import SEEDED_LEXICON
 from Core.L5_Mental.Intelligence.narrative_weaver import THE_BARD

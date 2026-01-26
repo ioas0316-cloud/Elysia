@@ -75,8 +75,8 @@ class HyperBridge:
 
         # [PHASE 18] Sovereign Cellular Network (H5-C)
         try:
-            from Core.L1_Foundation.Foundation.Cellular.sovereign_cellular_network import SovereignCellularNetwork
-            from Core.L1_Foundation.Foundation.Cellular.sovereign_monad import SovereignMonad
+            from Core.L2_Metabolism.Cellular.sovereign_cellular_network import SovereignCellularNetwork
+            from Core.L2_Metabolism.Cellular.sovereign_monad import SovereignMonad
             self.cellular_network = SovereignCellularNetwork()
             
             # Register Core Monads

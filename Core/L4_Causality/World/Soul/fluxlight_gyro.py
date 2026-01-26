@@ -16,8 +16,8 @@ Spin Zones:
 import math
 from dataclasses import dataclass
 from typing import Dict, Optional, Tuple
-from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
-from Core.L1_Foundation.Physiology.Physics.geometric_algebra import MultiVector
+from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+from Core.L2_Metabolism.Physiology.Physics.geometric_algebra import MultiVector
 
 @dataclass
 class GyroState:

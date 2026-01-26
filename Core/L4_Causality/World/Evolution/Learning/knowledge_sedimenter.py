@@ -17,9 +17,9 @@ import logging
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 
-from Core.L1_Foundation.Physiology.Sensory.Network.browser_explorer import BrowserExplorer
-from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
-from Core.L1_Foundation.Foundation.Wave.light_spectrum import LightSpectrum, LightSediment, PrismAxes
+from Core.L2_Metabolism.Physiology.Sensory.Network.browser_explorer import BrowserExplorer
+from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
+from Core.L6_Structure.Wave.light_spectrum import LightSpectrum, LightSediment, PrismAxes
 
 logger = logging.getLogger("Elysia.KnowledgeSedimenter")
 

@@ -10,7 +10,7 @@ It allows Elysia to 'feel' the texture of an image or the weight of a tragedy.
 """
 
 from typing import List, Dict, Tuple
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 class SensoryCortex:
     def __init__(self):

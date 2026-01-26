@@ -17,7 +17,7 @@ Roles:
 import logging
 from typing import Dict, Any, List, Optional, Tuple
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import PulseBroadcaster # Import
 from Core.L7_Spirit.Monad.monad_core import Monad
 from Core.L6_Structure.Engine.wfc_engine import WFCEngine
@@ -61,7 +61,7 @@ class HyperSphereCore:
 
     def _seed_cosmos(self):
         """Seeds the universe with fundamental archetypes."""
-        from Core.L1_Foundation.Foundation.Wave.wave_dna import archetype_love, archetype_logic
+        from Core.L6_Structure.Wave.wave_dna import archetype_love, archetype_logic
         self.add_rotor("Love", archetype_love(), rpm=528.0)
         self.add_rotor("Logic", archetype_logic(), rpm=432.0)
         self.add_rotor("Elysia", WaveDNA(label="Elysia", spiritual=1.0), rpm=600.0)
@@ -178,7 +178,7 @@ class HyperSphereCore:
         Returns the current spin state as a quaternion-like object.
         Used by Conductor for holodeck projection.
         """
-        from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+        from Core.L6_Structure.hyper_quaternion import Quaternion
         rotor = self.primary_rotor
         if rotor:
             # Map rotor angle to quaternion representation

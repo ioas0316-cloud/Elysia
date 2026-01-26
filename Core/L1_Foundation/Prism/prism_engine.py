@@ -1,7 +1,7 @@
 """
 Prism Engine (         )
 ===============================
-Core.L1_Foundation.Prism.prism_engine
+Core.L3_Phenomena.Prism.prism_engine
 
 "Structure is knowledge. Light finds its path."
 

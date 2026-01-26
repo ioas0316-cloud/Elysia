@@ -13,7 +13,7 @@ import os
 import logging
 from typing import Dict, Tuple, List, Optional
 from Core.L5_Mental.Intelligence.Topography.semantic_voxel import SemanticVoxel
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("DynamicTopology")
 

@@ -34,13 +34,13 @@ from typing import List, Dict, Any, Optional, Tuple
 
 # Value Objects (Keep Static)
 
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 
-from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor # 4D Wave Structure
+from Core.L6_Structure.Wave.wave_tensor import WaveTensor # 4D Wave Structure
 
 from Core.L1_Foundation.Foundation.resonance_physics import ResonancePhysics
 
-from Core.L1_Foundation.Foundation.Wave.wave_folding import SpaceUnfolder
+from Core.L6_Structure.Wave.wave_folding import SpaceUnfolder
 
 from Core.L5_Mental.Intelligence.Reasoning.perspective_simulator import PerspectiveSimulator
 
@@ -728,7 +728,7 @@ class ReasoningEngine:
 
             # Evolve Axiom weights according to current Spirit state from NervousSystem
 
-            from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
+            from Core.L7_Spirit.Philosophy.axioms import get_axioms
 
             from Core.L1_Foundation.Foundation.nervous_system import get_nervous_system
 

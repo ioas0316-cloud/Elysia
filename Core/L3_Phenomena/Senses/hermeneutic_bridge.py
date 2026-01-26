@@ -1,6 +1,6 @@
 import logging
 from typing import Dict, Any, List
-from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismDomain
+from Core.L3_Phenomena.Prism.resonance_prism import PrismDomain
 
 logger = logging.getLogger("HermeneuticBridge")
 

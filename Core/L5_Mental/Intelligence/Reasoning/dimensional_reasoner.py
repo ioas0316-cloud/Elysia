@@ -55,7 +55,7 @@ class DimensionalReasoner:
         
         # 1D: Line (Logic) - WhyEngine
         try:
-            from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+            from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
             why = WhyEngine()
             # Analyze purely for logical principle
             why_result = why.analyze(subject=kernel, content=kernel, domain="logic")

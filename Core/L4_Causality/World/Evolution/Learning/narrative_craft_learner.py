@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 #           
 try:
-    from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine, PrincipleExtraction
+    from Core.L7_Spirit.Philosophy.why_engine import WhyEngine, PrincipleExtraction
     HAS_WHY_ENGINE = True
 except ImportError:
     HAS_WHY_ENGINE = False

@@ -23,7 +23,7 @@ from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse, WorldCoordinate
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("ExternalDataConnector")
 

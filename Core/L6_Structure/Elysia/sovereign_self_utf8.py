@@ -41,7 +41,7 @@ from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
 # [The Trinity Engines]
 from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
 # from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph # [Subjugated]
-from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
+from Core.L7_Spirit.Philosophy.axioms import get_axioms
 from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
 
 # [The Satori Protocol (Metabolism)]

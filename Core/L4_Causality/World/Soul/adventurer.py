@@ -5,7 +5,7 @@ from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
 
 class Adventurer(GyroscopicFluxlight):
     def __init__(self, name: str, archetype: str, pos: Tuple[float, float, float, float] = (0, 0, 0, 0)):
-        from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+        from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit
         from Core.L4_Causality.World.Soul.world_soul import world_soul
         
         # 1. Soul (Physical)

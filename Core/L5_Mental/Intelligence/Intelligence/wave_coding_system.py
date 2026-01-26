@@ -37,7 +37,7 @@ logger = logging.getLogger("WaveCodingSystem")
 
 # Import core structures
 try:
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
     from Core.L1_Foundation.Foundation.ether import Wave, ether
 except ImportError:
     @dataclass

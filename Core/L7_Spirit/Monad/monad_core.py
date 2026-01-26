@@ -143,7 +143,7 @@ class Monad:
         """
         if prism_engine is None:
             # Lazy import to avoid circular dependencies
-            from Core.L1_Foundation.Foundation.Prism.prism_engine import PrismEngine, PrismSpace
+            from Core.L3_Phenomena.Prism.prism_engine import PrismEngine, PrismSpace
             # In a real system, this should be a shared singleton or injected
             prism_engine = PrismEngine(PrismSpace(size=64))
         

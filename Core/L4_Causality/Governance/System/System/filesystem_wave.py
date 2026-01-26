@@ -243,7 +243,7 @@ class FilesystemWaveObserver:
         # Broadcast to GlobalHub
         if self._hub:
             try:
-                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L6_Structure.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=event.frequency,
                     amplitude=event.amplitude,

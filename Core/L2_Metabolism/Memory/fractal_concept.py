@@ -11,7 +11,7 @@ Concepts are stored as compressed "DNA formulas" that can be unfolded into full 
 import logging
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("FractalConcept")
 
@@ -522,7 +522,7 @@ class ConceptDecomposer:
         # Broadcast to GlobalHub
         if self._hub:
             try:
-                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L6_Structure.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=963.0,  # High frequency for understanding
                     amplitude=1.0,

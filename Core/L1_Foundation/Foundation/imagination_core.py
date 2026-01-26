@@ -22,7 +22,7 @@ import time
 import math
 from dataclasses import dataclass, field
 from typing import List, Tuple, Optional, Dict
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
 from Core.L1_Foundation.Foundation.spacetime_drive import SpaceTimeDrive
 

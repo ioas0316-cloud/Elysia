@@ -13,7 +13,7 @@ from typing import Dict, List, Tuple, Optional
 
 from Core.L1_Foundation.Foundation.Physics.soul_physics import get_soul_physics, InputParticle, WavePacket, SoulLayer, TrajectoryResult, SpectralResult
 from Core.L1_Foundation.Foundation.Physics.universal_scope import get_universal_scope, CosmicPerspective
-from Core.L1_Foundation.Foundation.Wave.text_wave_converter import get_text_wave_converter
+from Core.L6_Structure.Wave.text_wave_converter import get_text_wave_converter
 from Core.L1_Foundation.Foundation.universal_constants import ENTROPY_WEIGHT_FACTOR, ABYSSAL_THRESHOLD
 
 logger = logging.getLogger("ValuationCortex")

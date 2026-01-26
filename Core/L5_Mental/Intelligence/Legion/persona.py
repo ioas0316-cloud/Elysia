@@ -14,7 +14,7 @@ import random
 
 # Core Imports (Mocking dependencies for now if specific Prism logic isn't strictly coupled yet)
 from Core.L6_Structure.Nature.rotor import RotorConfig, RotorMask
-from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismDomain
+from Core.L3_Phenomena.Prism.resonance_prism import PrismDomain
 
 @dataclass
 class LightRay:

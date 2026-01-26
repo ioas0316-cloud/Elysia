@@ -16,7 +16,7 @@ import re
 from typing import List, Dict, Set
 from collections import defaultdict
 from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
-from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit
 
 logger = logging.getLogger("ConceptDigester")
 

@@ -14,7 +14,7 @@ import logging
 import json
 import os
 from typing import Dict, Any, List, Optional
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 
 logger = logging.getLogger("Crystallizer")

@@ -35,7 +35,7 @@ def test_qualitative_metacognition():
         "The concept of 'Nothingness' (Sunyata)"
     ]
     
-    from Core.L1_Foundation.Foundation.Prism.harmonizer import PrismContext
+    from Core.L3_Phenomena.Prism.harmonizer import PrismContext
     
     contexts = [
         PrismContext.DEFAULT,

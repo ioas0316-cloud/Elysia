@@ -64,7 +64,7 @@ def semantic_render(concept: str, manual_wave=None):
     print(f"   - colorTemperature: {uniforms['colorTemperature']:.2f}")
 
 if __name__ == "__main__":
-    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.L6_Structure.Wave.wave_tensor import WaveTensor
     
     # Case A: Love (Harmonic)
     love_wave = WaveTensor("Love")

@@ -19,7 +19,7 @@ import math
 from pathlib import Path
 from typing import Dict, List, Tuple
 from Core.L1_Foundation.Foundation.potential_field import PotentialField
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 class CodeGravitySystem:
     def __init__(self, root_path: str):

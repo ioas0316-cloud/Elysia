@@ -7,9 +7,9 @@ MAPPING = {
     # L1 Foundation
     "Core.Foundation": "Core.L1_Foundation.Foundation",
     "Core.Physics": "Core.L1_Foundation.Physics",
-    "Core.Prism": "Core.L1_Foundation.Prism",
+    "Core.Prism": "Core.L3_Phenomena.Prism",
     "Core.Metabolism": "Core.L1_Foundation.Metabolism",
-    "Core.Physiology": "Core.L1_Foundation.Physiology",
+    "Core.Physiology": "Core.L2_Metabolism.Physiology",
     
     # L2 Metabolism
     "Core.Evolution": "Core.L2_Metabolism.Evolution",

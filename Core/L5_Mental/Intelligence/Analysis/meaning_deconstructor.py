@@ -16,7 +16,7 @@ Current Status:
 """
 
 from typing import Dict, List, Any, Tuple
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 class MeaningDeconstructor:
     def __init__(self):

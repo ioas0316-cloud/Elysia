@@ -16,7 +16,7 @@ import threading
 import random
 import numpy as np
 from typing import Optional, Dict, Any
-from Core.L1_Foundation.Physiology.hardware_monitor import HardwareMonitor, BioSignal
+from Core.L2_Metabolism.Physiology.hardware_monitor import HardwareMonitor, BioSignal
 
 logger = logging.getLogger("Elysia.ElysianHeartbeat")
 

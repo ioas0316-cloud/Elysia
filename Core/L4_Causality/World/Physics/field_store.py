@@ -11,7 +11,7 @@ across the 4D Tesseract (W, X, Y, Z).
 import math
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional
-from Core.L1_Foundation.Physiology.Physics.geometric_algebra import MultiVector
+from Core.L2_Metabolism.Physiology.Physics.geometric_algebra import MultiVector
 
 @dataclass
 class FieldExcitation:
@@ -43,7 +43,7 @@ class UniversalField:
         
         # 3. Axial Tilt (Experience Anchor)
         # Using a Rotor to tilt the "North" of the field
-        from Core.L1_Foundation.Physiology.Physics.geometric_algebra import Rotor
+        from Core.L2_Metabolism.Physiology.Physics.geometric_algebra import Rotor
         self.axial_tilt_rotor = Rotor.from_plane_angle('xz', math.radians(23.5))
         
         # 4. Goldilocks Tuning
@@ -53,7 +53,7 @@ class UniversalField:
 
     def get_voxel_coord(self, pos: Tuple[float, float, float, float]) -> Tuple[int, int, int, int]:
         # Apply Axial Tilt to the coordinates BEFORE voxel lookup for seasonal effects
-        from Core.L1_Foundation.Physiology.Physics.geometric_algebra import Rotor
+        from Core.L2_Metabolism.Physiology.Physics.geometric_algebra import Rotor
         tilted_pos = Rotor.rotate_vector(pos, self.axial_tilt_rotor)
         return tuple(int(p / self.voxel_size) for p in tilted_pos)
 

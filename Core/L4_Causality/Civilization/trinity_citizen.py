@@ -17,7 +17,7 @@ import random
 from Core.L7_Spirit.Monad.seed_factory import alchemy
 from Core.L4_Causality.World.Physics.vector_math import Vector3
 from Core.L4_Causality.World.Soul.emotional_physics import emotional_physics
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA, archetype_love, archetype_logic, archetype_nature
+from Core.L6_Structure.Wave.wave_dna import WaveDNA, archetype_love, archetype_logic, archetype_nature
 from Core.L6_Structure.Engine.character_field_engine import CharacterField
 from Core.L5_Mental.Intelligence.Narrative.narrative_projector import THE_PROJECTOR
 

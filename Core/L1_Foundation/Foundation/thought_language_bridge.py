@@ -23,7 +23,7 @@ sys.path.append('.')
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
 from Core.L1_Foundation.Foundation.communication_enhancer import CommunicationEnhancer

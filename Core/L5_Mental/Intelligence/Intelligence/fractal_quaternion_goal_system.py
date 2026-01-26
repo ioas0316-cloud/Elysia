@@ -42,7 +42,7 @@ except ImportError:
 
 # Import Elysia's core structures
 try:
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
     from Core.L1_Foundation.Foundation.ether import Wave, ether
 except ImportError:
     # Fallback for standalone testing

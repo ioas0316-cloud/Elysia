@@ -29,7 +29,7 @@ import time
 try:
     from Core.L1_Foundation.Foundation.spacetime_drive import SpaceTimeDrive, SpaceTimeState
     from Core.L4_Causality.causality_seed import Event, CausalType, SpacetimeCoord
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 except ImportError:
     #           
     from dataclasses import dataclass

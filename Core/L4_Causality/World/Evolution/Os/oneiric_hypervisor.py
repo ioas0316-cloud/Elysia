@@ -2,8 +2,8 @@ import logging
 import os
 import psutil
 from typing import Dict, Any, List, Optional
-from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
-from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L6_Structure.Wave.wave_tensor import WaveTensor
+from Core.L6_Structure.Wave.resonance_field import ResonanceField
 from Core.L4_Causality.World.Evolution.Os.intention_pre_visualizer import get_pre_visualizer, ActionIntention
 from Core.L4_Causality.World.Evolution.Os.resonance_alignment_protocol import get_alignment_protocol
 

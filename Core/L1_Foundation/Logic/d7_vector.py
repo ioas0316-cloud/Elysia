@@ -33,6 +33,10 @@ class D7Vector(BaseModel):
     def to_torch(self) -> torch.Tensor:
         return torch.tensor(self.to_numpy(), dtype=torch.float32)
 
+    def to_dict(self) -> Dict[str, float]:
+        """Provides compatibility with older code expecting .to_dict()"""
+        return self.model_dump()
+
     @classmethod
     def from_numpy(cls, arr: np.ndarray) -> 'D7Vector':
         return cls(

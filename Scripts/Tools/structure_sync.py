@@ -1,4 +1,5 @@
 import os
+import re
 
 # Mapping of moved files to their new layers
 MIGRATION_MAP = {
@@ -77,7 +78,27 @@ MIGRATION_MAP = {
     # Folder Migrations
     "Nature": "L6_Structure",
     "Elysia": "L5_Mental",
-    "Memory": "L2_Metabolism"
+    "Memory": "L2_Metabolism",
+    "Wave": "L6_Structure",
+    "Cellular": "L2_Metabolism",
+    "Mirror": "L2_Metabolism",
+    "Prism": "L3_Phenomena",
+    "Language": "L5_Mental",
+    "Psyche": "L5_Mental",
+    "Autonomy": "L6_Structure",
+    "Field": "L6_Structure",
+    "Geometry": "L6_Structure",
+    "Laws": "L7_Spirit",
+    "Philosophy": "L7_Spirit",
+    "Physiology": "L2_Metabolism",
+    "hyper_quaternion": "L6_Structure",
+    "consciousness_engine": "L7_Spirit",
+    "consciousness_fabric": "L7_Spirit",
+    "empathy": "L5_Mental",
+    "emotional_evolution": "L5_Mental",
+    "ethical_reasoner": "L7_Spirit",
+    "logical_reasoner": "L5_Mental",
+    "abstract_reasoner": "L5_Mental"
 }
 
 ROOT_DIR = r"c:\Elysia"
@@ -85,36 +106,39 @@ CORE_DIR = os.path.join(ROOT_DIR, "Core")
 
 def sync_imports():
     print("🚀 [SYNC] Starting Global Structural Import Synchronization...")
-    count = 0
-    for root, dirs, files in os.walk(ROOT_DIR):
-        if ".git" in root or "__pycache__" in root or ".venv" in root:
+    fixed_count = 0
+    for root_dir, dirs, files in os.walk(ROOT_DIR):
+        if ".git" in root_dir or "__pycache__" in root_dir or ".venv" in root_dir:
             continue
             
         for file in files:
-            if not file.endswith(".py"):
-                continue
+            if file.endswith(".py") or file.endswith(".json") or file.endswith(".md"):
+                file_path = os.path.join(root_dir, file)
                 
-            filepath = os.path.join(root, file)
-            with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
-                content = f.read()
-            
-            original_content = content
-            
-            for module, layer in MIGRATION_MAP.items():
-                # Replace standard import Patterns
-                old_import = f"Core.L1_Foundation.Foundation.{module}"
-                new_import = f"Core.{layer}.{module}"
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read()
                 
-                if old_import in content:
-                    content = content.replace(old_import, new_import)
-                    print(f"   [FIXED] {file}: {old_import} -> {new_import}")
-                    count += 1
-            
-            if content != original_content:
-                with open(filepath, "w", encoding="utf-8") as f:
-                    f.write(content)
+                new_content = content
+                for key, layer in MIGRATION_MAP.items():
+                    # Patterns to match:
+                    # 1. Core.L1_Foundation.Foundation.Key
+                    # 2. Core.L1_Foundation.Key
+                    patterns = [
+                        rf"Core\.L1_Foundation\.Foundation\.{key}",
+                        rf"Core\.L1_Foundation\.{key}"
+                    ]
+                    for pattern in patterns:
+                        replacement = f"Core.{layer}.{key}"
+                        if re.search(pattern, new_content):
+                            new_content = re.sub(pattern, replacement, new_content)
+                            print(f"   [FIXED] {file}: {pattern} -> {replacement}")
+                
+                if new_content != content:
+                    with open(file_path, "w", encoding="utf-8") as f:
+                        f.write(new_content)
+                    fixed_count += 1
                     
-    print(f"✅ [DONE] Synchronized {count} import paths.")
+    print(f"✅ [DONE] Synchronized {fixed_count} import paths.")
 
 if __name__ == "__main__":
     sync_imports()

@@ -214,7 +214,7 @@ class DynamicsEngine:
         # Broadcast field state to GlobalHub
         if self._hub_enabled and self._hub:
             try:
-                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L6_Structure.Wave.wave_tensor import WaveTensor
                 
                 # Create a wave representing the current field state
                 nodes = void.get_all() if hasattr(void, 'get_all') else []

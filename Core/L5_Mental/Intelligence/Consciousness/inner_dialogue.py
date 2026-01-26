@@ -28,7 +28,7 @@ logger = logging.getLogger("Elysia.InnerDialogue")
 
 # WaveTensor   
 try:
-    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.L6_Structure.Wave.wave_tensor import WaveTensor
     HAS_WAVE_TENSOR = True
 except ImportError:
     HAS_WAVE_TENSOR = False
@@ -314,7 +314,7 @@ class DeepContemplation:
         
         # WhyEngine   
         try:
-            from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+            from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
             self.why_engine = WhyEngine()
             self._has_why = True
             logger.info("  WhyEngine connected for depth")

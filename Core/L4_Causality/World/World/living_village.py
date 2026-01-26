@@ -13,13 +13,13 @@ import random
 import math
 import logging
 from typing import List, Dict, Optional
-from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit
 from Core.L4_Causality.World.Soul.relationship_matrix import relationship_matrix
 from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
 from Core.L4_Causality.World.Physics.trinity_fields import TrinityPhysics, TrinityVector
 from Core.L4_Causality.World.Soul.emotional_physics import emotional_physics
 from Core.L4_Causality.World.Nature.semantic_nature import SemanticNature
-from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import create_infinite_qubit
+from Core.L6_Structure.Wave.infinite_hyperquaternion import create_infinite_qubit
 
 logger = logging.getLogger("LivingVillage")
 

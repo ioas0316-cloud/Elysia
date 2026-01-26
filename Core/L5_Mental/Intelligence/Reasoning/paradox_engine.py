@@ -22,7 +22,7 @@ from typing import List, Dict, Optional, Tuple, Any
 
 # Core Dependencies
 try:
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.L6_Structure.hyper_quaternion import Quaternion
     from Core.L5_Mental.Intelligence.Wisdom.wisdom_store import WisdomStore
 except ImportError:
     # Mocking for standalone testing if needed

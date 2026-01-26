@@ -25,7 +25,7 @@ from Core.L1_Foundation.Foundation.System.elysia_core import Cell
 
 # Import Hyper-Quaternion for 4D Spin
 try:
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.L6_Structure.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback if Foundation is not reachable yet
     @dataclass

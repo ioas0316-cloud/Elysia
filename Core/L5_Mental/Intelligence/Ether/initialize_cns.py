@@ -73,7 +73,7 @@ def demonstrate_wave_communication():
     Demonstrate how modules communicate via waves.
     """
     from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
-    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.L6_Structure.Wave.wave_tensor import WaveTensor
     
     hub = get_global_hub()
     

@@ -4,8 +4,8 @@ import numpy as np
 from typing import List, Dict, Any, Tuple
 
 try:
-    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
-    from Core.L1_Foundation.Foundation.Wave.concept_mapping import Theme, THEME_FREQUENCY_MAP, get_theme_label
+    from Core.L6_Structure.Wave.wave_tensor import WaveTensor
+    from Core.L6_Structure.Wave.concept_mapping import Theme, THEME_FREQUENCY_MAP, get_theme_label
 except ImportError:
     WaveTensor = None
     Theme = None

@@ -14,7 +14,7 @@ Role:
 import logging
 from typing import Dict, Any, Optional
 from Core.L3_Phenomena.Senses.eardrum import EarDrum
-from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismProjector, PrismProjection
+from Core.L3_Phenomena.Prism.resonance_prism import PrismProjector, PrismProjection
 
 logger = logging.getLogger("AuditoryCortex")
 

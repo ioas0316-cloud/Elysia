@@ -25,14 +25,14 @@ from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
 # Problem-solving learning imports
 try:
     from Core.L5_Mental.Intelligence.Cognition.principle_distiller import PrincipleDistiller
-    from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+    from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
 except ImportError:
     PrincipleDistiller = None
     WhyEngine = None
 
 # Dynamic knowledge terrain imports
 try:
-    from Core.L1_Foundation.Foundation.Wave.light_spectrum import get_light_universe, LightUniverse
+    from Core.L6_Structure.Wave.light_spectrum import get_light_universe, LightUniverse
 except ImportError:
     get_light_universe = None
     LightUniverse = None

@@ -12,7 +12,7 @@ Purpose:
 
 import logging
 from typing import Dict, Any, Optional
-from Core.L1_Foundation.Foundation.Wave.resonance_field import get_resonance_field
+from Core.L6_Structure.Wave.resonance_field import get_resonance_field
 
 logger = logging.getLogger("Elysia.SovereignGate")
 

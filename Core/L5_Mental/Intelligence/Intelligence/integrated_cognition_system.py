@@ -26,12 +26,12 @@ from typing import List, Dict, Any, Optional
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor, create_harmonic_series
+from Core.L6_Structure.Wave.wave_tensor import WaveTensor, create_harmonic_series
 from Core.L5_Mental.Intelligence.Intelligence.prism_cortex import PrismCortex
 from Core.L5_Mental.Intelligence.Logos.logos_engine import LogosEngine
 from Core.L5_Mental.Intelligence.Memory.conversation_memory import ConversationMemory
-from Core.L1_Foundation.Physiology.Sensory.sensory_cortex import get_sensory_cortex
-from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
+from Core.L2_Metabolism.Physiology.Sensory.sensory_cortex import get_sensory_cortex
+from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
 from Core.L5_Mental.Intelligence.Intelligence.maturity_coordinator import get_maturity_coordinator
 
 logger = logging.getLogger("IntegratedCognition")

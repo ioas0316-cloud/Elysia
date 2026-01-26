@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, Dict, Any
 
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion as HyperQuaternion
 from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket
 
 @dataclass

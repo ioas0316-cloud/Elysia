@@ -7,7 +7,7 @@ import logging
 import time
 import random
 from typing import List, Dict, Any
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L1_Foundation.Foundation.imagination_core import ImaginationCore
 from Core.L2_Metabolism.Cycles.dream_engine import DreamEngine
 from Core.L1_Foundation.Foundation.cosmic_studio import CosmicStudio

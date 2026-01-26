@@ -40,13 +40,13 @@ def fix_imports():
         (r'from Core\.Creativity', 'from Core.L4_Causality.World.Evolution.Creativity'),
         
         # Foundation Standardizations
-        (r'from Core\.Foundation\.Math\.wave_tensor', 'from Core.L1_Foundation.Foundation.Wave.wave_tensor'),
-        (r'from Core\.Foundation\.light_spectrum', 'from Core.L1_Foundation.Foundation.Wave.light_spectrum'), # Moving this too if needed
-        (r'from Core\.Foundation\.Math\.quaternion_engine', 'from Core.L1_Foundation.Foundation.hyper_quaternion'),
+        (r'from Core\.Foundation\.Math\.wave_tensor', 'from Core.L6_Structure.Wave.wave_tensor'),
+        (r'from Core\.Foundation\.light_spectrum', 'from Core.L6_Structure.Wave.light_spectrum'), # Moving this too if needed
+        (r'from Core\.Foundation\.Math\.quaternion_engine', 'from Core.L6_Structure.hyper_quaternion'),
         
         # Relative to Absolute (for Core)
-        (r'from \.wave_tensor', 'from Core.L1_Foundation.Foundation.Wave.wave_tensor'),
-        (r'from Wave\.wave_tensor', 'from Core.L1_Foundation.Foundation.Wave.wave_tensor')
+        (r'from \.wave_tensor', 'from Core.L6_Structure.Wave.wave_tensor'),
+        (r'from Wave\.wave_tensor', 'from Core.L6_Structure.Wave.wave_tensor')
     ]
 
     for r_dir in root_dirs:

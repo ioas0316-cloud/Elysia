@@ -18,7 +18,7 @@ import logging
 
 try:
     from Core.L1_Foundation.Foundation.wave_semantic_search import WavePattern
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.L6_Structure.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback for testing
     @dataclass

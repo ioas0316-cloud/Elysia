@@ -12,7 +12,7 @@ Roles:
 """
 
 from typing import List, Dict, Any
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 class MeaningExtractor:
     def __init__(self):

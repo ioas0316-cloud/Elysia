@@ -9,7 +9,7 @@ from pathlib import Path
 #       (Core    import    )
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
 
 logger = logging.getLogger("IntrospectionEngine")
 
@@ -46,7 +46,7 @@ class IntrospectionEngine:
         
         # [NEW] Principle Diagnostics   
         try:
-            from Core.L1_Foundation.Foundation.Philosophy.principle_diagnostics import PrincipleDiagnostics
+            from Core.L7_Spirit.Philosophy.principle_diagnostics import PrincipleDiagnostics
             self.diagnostics = PrincipleDiagnostics()
         except ImportError:
             self.diagnostics = None

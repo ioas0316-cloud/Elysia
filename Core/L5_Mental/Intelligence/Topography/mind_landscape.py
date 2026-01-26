@@ -18,7 +18,7 @@ logger = logging.getLogger("MindLandscape")
 
 from Core.L5_Mental.Intelligence.Topography.semantic_voxel import SemanticVoxel
 from Core.L5_Mental.Intelligence.Topography.semantic_map import get_semantic_map
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 from Core.L4_Causality.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
 
 # ... existing imports ...

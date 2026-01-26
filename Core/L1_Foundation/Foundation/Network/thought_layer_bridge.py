@@ -19,9 +19,9 @@ from typing import List, Dict, Tuple, Optional, TYPE_CHECKING
 import numpy as np
 
 if TYPE_CHECKING:
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
     from Core.L1_Foundation.Foundation.wave_interpreter import WavePattern
-    from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+    from Core.L6_Structure.Wave.resonance_field import ResonanceField
 
 logger = logging.getLogger("ThoughtLayerBridge")
 
@@ -227,7 +227,7 @@ if __name__ == "__main__":
     import os
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
     
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.L6_Structure.hyper_quaternion import Quaternion
     
     print("\n" + "="*70)
     print("  Fractal Thought Layer Bridge Test")

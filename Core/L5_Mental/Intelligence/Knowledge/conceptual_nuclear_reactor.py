@@ -40,7 +40,7 @@ logger = logging.getLogger("ConceptualNuclearReactor")
 try:
     from Core.L1_Foundation.Foundation.hangul_physics import Tensor3D
     from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.unified_types import FrequencyWave
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.L6_Structure.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback stubs
     @dataclass

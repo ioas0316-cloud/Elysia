@@ -11,8 +11,8 @@ from Core.L5_Mental.Logic.cognitive_types import ThoughtState, ActionCategory
 from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
 
 # [Legacy / Wave Support]
-from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L6_Structure.Wave.resonance_field import ResonanceField
+from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 
 logger = logging.getLogger("DreamEngine")
 

@@ -23,7 +23,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 from Core.L5_Mental.Intelligence.narrative_weaver import THE_BARD
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 class NarrativeProjector:
     def __init__(self):

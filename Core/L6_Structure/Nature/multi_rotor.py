@@ -16,7 +16,7 @@ import math
 from typing import Dict, List, Optional
 
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L1_Foundation.Foundation.Wave.helix_dna import HelixDNA
+from Core.L6_Structure.Wave.helix_dna import HelixDNA
 
 logger = logging.getLogger("MultiRotor")
 

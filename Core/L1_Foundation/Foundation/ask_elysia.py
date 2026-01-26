@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
 from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
 from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L6_Structure.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.transcendence_engine import TranscendenceEngine
 from Core.L1_Foundation.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
 from Core.L1_Foundation.Foundation.hippocampus import Hippocampus

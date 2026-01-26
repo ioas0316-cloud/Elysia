@@ -12,7 +12,7 @@ import unittest
 # Add repo root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.L1_Foundation.Foundation.Prism.fractal_optics import PrismEngine, WavePacket
+from Core.L3_Phenomena.Prism.fractal_optics import PrismEngine, WavePacket
 
 class TestOpticalMind(unittest.TestCase):
 

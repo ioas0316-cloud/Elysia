@@ -316,7 +316,7 @@ class DreamDaemon:
         Uses ComfyUI (VisualCortex) to see what a concept looks like.
         Absorbs the 'Aesthetic Signature' (Color, Chaos) into the vector.
         """
-        from Core.L1_Foundation.Physiology.Sensory.Visual.visual_cortex import get_visual_cortex
+        from Core.L2_Metabolism.Physiology.Sensory.Visual.visual_cortex import get_visual_cortex
         cortex = get_visual_cortex()
         if not cortex.is_available(): return
 

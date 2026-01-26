@@ -107,7 +107,7 @@ class ProjectiveEmpathy:
         # This wave represents the "Reading Experience"
         # It's less intense than 'Real Life' (Amplitude lower) but high frequency (Intellect).
         
-        from Core.L1_Foundation.Foundation.hyper_quaternion import HyperQuaternion
+        from Core.L6_Structure.hyper_quaternion import HyperQuaternion
         q = HyperQuaternion(
             w=alignment * 5, # Time/Alignment
             x=best_choice.empathy_score * 5 if is_aligned else 2.0, # Emotion

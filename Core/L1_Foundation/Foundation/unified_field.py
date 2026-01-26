@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 
 # [INTEGRATION] Hyper-SpaceTime Systems
 try:
-    from Core.L1_Foundation.Foundation.hyper_quaternion import HyperQuaternion
+    from Core.L6_Structure.hyper_quaternion import HyperQuaternion
     from Core.L1_Foundation.Foundation.spacetime_drive import SpaceTimeDrive
 except ImportError:
     # Fallback for bootstrapping

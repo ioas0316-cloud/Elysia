@@ -38,7 +38,7 @@ except ImportError:
 
 #   WhyEngine    (주권적 자아)
 try:
-    from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+    from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
     WHY_ENGINE_AVAILABLE = True
 except ImportError:
     WHY_ENGINE_AVAILABLE = False

@@ -16,7 +16,7 @@ Core Logic:
 
 import logging
 from typing import List, Dict, Optional, Tuple
-from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
+from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit
 from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
 from Core.L4_Causality.World.living_village import village
 

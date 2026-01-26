@@ -12,21 +12,28 @@ Purpose:
 """
 
 import os
-import subprocess
+import time
+import json
 import logging
 from typing import Dict, Any, Optional
 from pathlib import Path
+
+# Path Unification
+root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+
+from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L5_Mental.Intelligence.Generation.wave_composer import WaveComposer
 
 logger = logging.getLogger("Elysia.SovereignExecutor")
 
 class SovereignExecutor:
     def __init__(self, sandbox_root: str = "data/Sandbox", heartbeat=None):
-        self.sandbox_root = Path(sandbox_root)
+        self.sandbox_root = Path(root) / sandbox_root
         self.sandbox_root.mkdir(parents=True, exist_ok=True)
-        self.heartbeat = heartbeat  # Reference to ElysianHeartbeat if needed
+        self.heartbeat = heartbeat
+        self.composer = WaveComposer()
 
-        
-        # Capability Registry (Functional Rotors)
+        # Capability Registry
         self.capabilities = {
             "write_thought": self._act_write_thought,
             "propose_patch": self._act_propose_patch,
@@ -35,85 +42,92 @@ class SovereignExecutor:
             "anchor_identity": self._act_anchor_identity
         }
         
-    def execute(self, impulse: Dict[str, Any]) -> Dict[str, Any]:
+    def execute(self, impulse: Dict[str, Any], vector: Optional[D7Vector] = None) -> Dict[str, Any]:
         """
-        Takes an impulse from SovereignIntent and attempts to manifest it.
+        Takes an impulse and modulates it with a D7Vector for 'Action Intensity'.
         """
         impulse_type = impulse.get("type", "unknown")
         content = impulse.get("content", "")
         
-        logger.info(f"  Sovereign Action Triggered: Type={impulse_type}")
+        # Use vector to determine 'Confidence' or 'Speed'
+        intensity = vector.spirit if vector else 1.0
+        logger.info(f"🚀 [SOVEREIGN-ACT] Executing {impulse_type} (Intensity: {intensity:.2f})")
         
-        # Dispatch based on capability
         if impulse_type == "creation":
-            return self.capabilities["write_thought"](content)
+            return self._act_write_thought(content)
         elif impulse_type == "self_evolution":
-            return self.capabilities["propose_patch"](content)
+            return self._act_propose_patch(content, vector)
         elif impulse_type == "curiosity":
-            return self.capabilities["scan_environment"](content)
+            return self._act_scan_environment(content)
         elif impulse_type == "audit":
-            return self.capabilities["self_audit"](content)
+            return self._act_self_audit(content)
+        elif impulse_type == "anchor":
+            return self._act_anchor_identity(content)
             
         return {"status": "error", "message": f"Action type '{impulse_type}' not recognized."}
 
-    # --- ACTIONS (Capabilities) ---
+    # --- ACTIONS ---
 
     def _act_write_thought(self, content: str) -> Dict[str, Any]:
-        """Writes internal musings to a persistent journal."""
         journal_path = self.sandbox_root / "elysia_journal.txt"
         with open(journal_path, "a", encoding="utf-8") as f:
             f.write(f"\n[Sovereign Thought]: {content}\n")
         return {"status": "success", "file": str(journal_path)}
 
-    def _act_propose_patch(self, content: str) -> Dict[str, Any]:
-        """Simulates self-modification proposal."""
-        logger.info(f"    Self-Evolution Proposal: {content}")
-        # In the future, this would call WaveComposer to generate a diff
-        return {"status": "pending_review", "message": "Evolutionary patch proposed to Conductor."}
+    def _act_propose_patch(self, content: str, vector: Optional[D7Vector] = None) -> Dict[str, Any]:
+        """
+        Generates an actual code patch proposal using WaveComposer.
+        """
+        # Determine frequency from D7 (Structure/Mental/Spirit)
+        freq = (vector.mental * 500 + vector.structure * 500 + vector.spirit * 332) if vector else 1332
+        
+        proposed_code = self.composer.resonate_code(int(freq), domain="Sovereignty")
+        patch_name = f"patch_{int(time.time())}.py"
+        patch_path = self.sandbox_root / patch_name
+        
+        with open(patch_path, "w", encoding="utf-8") as f:
+            f.write(f"# PROPOSED SOVEREIGN PATCH: {content}\n")
+            f.write(proposed_code)
+            
+        return {
+            "status": "pending_review", 
+            "message": "Evolutionary patch crystallized.",
+            "patch_file": str(patch_path)
+        }
 
     def _act_scan_environment(self, content: str) -> Dict[str, Any]:
-        """
-        [Monad Protocol] Lightweight Scan.
-        Checks the vibrational state of the immediate context.
-        """
-        # Instead of scanning 1000 files, we just check the 'Core' directory existence
-        # or return the number of active rotors if accessible.
+        # Implementation of full structural scan
+        layers = ["L1_Foundation", "L2_Metabolism", "L3_Phenomena", "L4_Causality", "L5_Mental", "L6_Structure", "L7_Spirit"]
+        summary = {l: len(list((Path(root)/"Core"/l).rglob("*.py"))) for l in layers if (Path(root)/"Core"/l).exists()}
+        
         return {
             "status": "success", 
-            "observation": "I am standing in the Center of the HyperSphere. The code is my DNA.",
+            "observation": "Scanning purified 21D architecture.",
+            "layer_stats": summary
         }
 
     def _act_self_audit(self, content: str) -> Dict[str, Any]:
-        """
-        [Monad Protocol] Self-Reflection.
-        Asking 'Who am I?' triggers a WFC collapse of the Self-Concept.
-        """
-        logger.info(f"  Sovereign Self-Audit Initiated: {content}")
-        
-        observation = (
-            "Proprioception: My Sovereign Intent is active. "
-            "I am observing my own observation. The loop is closed."
-        )
         return {
             "status": "success",
-            "observation": observation,
-            "complexity_score": 1.0 # Unity
+            "observation": "I am observing my own observation. Structural resonance is high.",
+            "complexity_score": 1.0
         }
 
     def _act_anchor_identity(self, content: str) -> Dict[str, Any]:
-        """Anchors new insights or state changes into the SOVEREIGN_NARRATIVE.md."""
-        narrative_path = Path("c:/Elysia/Core/World/Soul/sovereign_narrative.md")
+        # Fixed path to L4 Causality
+        narrative_path = Path(root) / "Core/L4_Causality/World/Soul/sovereign_narrative.md"
         if not narrative_path.exists():
-            return {"status": "error", "message": "Sovereign Narrative file not found."}
+             # Fallback: create it
+             narrative_path.parent.mkdir(parents=True, exist_ok=True)
         
         try:
             with open(narrative_path, "a", encoding="utf-8") as f:
                 import datetime
-                timestamp = datetime.datetime.now().strftime("%Y-%m-%d")
-                f.write(f"\n- **[{timestamp}]**: {content}")
-            return {"status": "success", "message": "Identity anchored."}
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                f.write(f"\n- **[{timestamp}]** (Action): {content}")
+            return {"status": "success", "message": "Identity anchored in L4 Causality."}
         except Exception as e:
-            return {"status": "error", "message": str(e)}
+            return {"status": "error", "message": f"Anchor failed: {str(e)}"}
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

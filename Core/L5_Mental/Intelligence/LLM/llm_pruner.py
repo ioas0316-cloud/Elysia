@@ -14,7 +14,7 @@ import torch
 from typing import List, Dict, Any, Optional
 
 from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 from Core.L5_Mental.Intelligence.Memory.Vector.internal_universe import InternalUniverse
 
 logger = logging.getLogger("LLMPruner")

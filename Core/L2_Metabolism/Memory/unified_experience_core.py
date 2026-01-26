@@ -26,8 +26,8 @@ from Core.L1_Foundation.Foundation.System.elysia_core import Cell, Organ
 
 # Optional Imports (Wave Physics)
 try:
-    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
-    from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+    from Core.L6_Structure.Wave.wave_tensor import WaveTensor
+    from Core.L6_Structure.Wave.resonance_field import ResonanceField
 except ImportError:
     WaveTensor = None
     ResonanceField = None
@@ -82,7 +82,7 @@ class UnifiedExperienceCore:
         
         # [NEW] Link to Global Field
         try:
-            from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+            from Core.L6_Structure.Wave.resonance_field import ResonanceField
             self.field = ResonanceField() # Often injected, but here we assume access
         except ImportError:
             self.field = None
@@ -274,7 +274,7 @@ class UnifiedExperienceCore:
         # 7. [PHASE 54] Topology Evolution: Move concepts based on experience
         if self.topology:
             try:
-                from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+                from Core.L6_Structure.hyper_quaternion import Quaternion
                 # Extract key concept from content (first significant word)
                 words = [w.strip(".,!?").lower() for w in content.split() if len(w) > 4]
                 concept = words[0] if words else "experience"

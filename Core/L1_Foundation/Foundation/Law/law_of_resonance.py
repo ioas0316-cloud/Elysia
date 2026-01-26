@@ -18,7 +18,7 @@ Logic:
 
 import math
 from typing import Tuple, List
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 class LawOfResonance:
     @staticmethod

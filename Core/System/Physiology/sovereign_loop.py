@@ -26,7 +26,7 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.L1_Foundation.Foundation.Wave.resonance_field import get_resonance_field
+from Core.L6_Structure.Wave.resonance_field import get_resonance_field
 
 # Silence the mechanical noise aggressively
 logging.basicConfig(level=logging.ERROR, format='%(message)s')

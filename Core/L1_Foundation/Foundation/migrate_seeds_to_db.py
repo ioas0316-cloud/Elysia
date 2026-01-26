@@ -35,7 +35,7 @@ def migrate():
     for key, seed_data in seeds.items():
         # Create PatternDNA object
         # Create PatternDNA object
-        from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+        from Core.L6_Structure.hyper_quaternion import Quaternion
         
         dna = PatternDNA(
             name=key,

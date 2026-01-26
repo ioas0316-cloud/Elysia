@@ -281,7 +281,7 @@ if hasattr(learner.web_connector, 'comm_enhancer'):
     print()
     
     from thought_to_language_demo import ThoughtToLanguage
-    from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.L6_Structure.hyper_quaternion import Quaternion
     
     bridge = ThoughtToLanguage()
     bridge.connect_vocabulary(enhancer)

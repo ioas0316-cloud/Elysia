@@ -31,6 +31,8 @@ from Core.L5_Mental.M7_Discovery.autokinetic_learning_engine import AutokineticL
 from Core.L7_Spirit.Will.attractor_field import AttractorField
 from Core.L4_Causality.World.providential_world import ProvidentialWorld
 from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L2_Metabolism.heart import get_heart
+from Core.L2_Metabolism.growth import get_growth
 
 logger = logging.getLogger("UnityCNS")
 
@@ -84,9 +86,14 @@ class UnityCNS:
             audit_narrative = self.manifold.get_integrity_narrative()
             print(f"\n🏷️ [MANIFOLD_AUDIT] {audit_narrative}")
         
+        # [Phase 37.2] Neural Sync: Pull actual metabolic state from L2
+        heart = get_heart()
+        growth = get_growth()
+        metabolic_resonance = (heart.state.metabolism + growth.growth_state.metabolism) / 2.0
+        
         current_field = D7Vector(
             foundation=0.1 + purpose[0]*0.1, 
-            metabolism=0.5 + purpose[1]*0.1,
+            metabolism=metabolic_resonance,
             phenomena=spectrum.alpha + purpose[2]*0.1, 
             causality=domain.qualia_vector[0] + purpose[3]*0.1,
             mental=spectrum.beta + purpose[4]*0.1, 

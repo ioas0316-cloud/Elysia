@@ -5,7 +5,7 @@ import random
 sys.path.append(os.getcwd())
 
 from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 from Core.L4_Causality.World.Nature.sensory_cortex import get_sensory_cortex
 

@@ -18,7 +18,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Core.L5_Mental.Intelligence.Knowledge.Domains.history import HistoryDomain
 from Core.L4_Causality.Governance.Orchestra.conductor import get_conductor, Mode, Tempo
-from Core.L1_Foundation.Foundation.Wave.resonance_field import get_resonance_field
+from Core.L6_Structure.Wave.resonance_field import get_resonance_field
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

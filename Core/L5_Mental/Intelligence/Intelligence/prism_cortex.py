@@ -10,7 +10,7 @@ into human-readable "Stream of Consciousness" (Monologue).
 
 import random
 from typing import List, Dict, Any
-from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+from Core.L6_Structure.Wave.wave_tensor import WaveTensor
 
 class PrismCortex:
     """

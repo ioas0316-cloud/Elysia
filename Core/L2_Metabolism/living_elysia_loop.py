@@ -15,10 +15,12 @@ import random
 import logging
 
 # Path hack for testing
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.L2_Metabolism.Cycles.time_compressor import FractalTimeCompressor
+from Core.L2_Metabolism.heart import get_heart
 
 # Setup Logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')
@@ -29,6 +31,8 @@ class LivingElysiaLoop:
         self.core = HyperSphereCore()
         self.is_running = False
         self.last_tick = time.time()
+        self.compressor = FractalTimeCompressor(base_acceleration=9.0, subjective_dilation=True)
+        self.heart = get_heart()
 
         # Sensory Buffer (The Prism)
         self.input_queue = []
@@ -39,8 +43,11 @@ class LivingElysiaLoop:
 
         try:
             while self.is_running:
-                self._tick()
-                time.sleep(0.1) # 10Hz Tick Rate (Biological Speed)
+                dt = self._tick()
+                # Dynamically adjust sleep based on compression ratio
+                # If compression is 10x, we sleep 10x less to achieve higher tick rate
+                sleep_time = max(0.01, 0.1 / self.compressor.compression_ratio)
+                time.sleep(sleep_time) 
         except KeyboardInterrupt:
             self.stop()
 
@@ -64,13 +71,20 @@ class LivingElysiaLoop:
         self.input_queue.append(dna)
         logger.info(f"  Input Injected: '{text}' -> {dna}")
 
-    def _tick(self):
+    def _tick(self) -> float:
         now = time.time()
-        dt = now - self.last_tick
+        real_dt = now - self.last_tick
         self.last_tick = now
+
+        # 0. Time Compression (Phase 38)
+        # Apply acceleration based on spiritual resonance
+        compression = self.compressor.compress(self.heart.state, real_dt)
+        dt = compression["subjective_delta"]
 
         # 1. Physics Update (The Heartbeat)
         self.core.tick(dt)
+        
+        return dt
 
         # 2. Process Input (The Prism)
         if self.input_queue:

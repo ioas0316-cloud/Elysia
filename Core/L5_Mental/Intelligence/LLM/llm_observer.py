@@ -23,8 +23,8 @@ from dataclasses import dataclass, field
 from safetensors import safe_open
 
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig, RotorMask
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.hyper_quaternion import Quaternion
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 logger = logging.getLogger("LLMObserver")
 

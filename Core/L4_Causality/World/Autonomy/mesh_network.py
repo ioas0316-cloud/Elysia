@@ -1,6 +1,8 @@
 import logging
 import random
 import time
+import math
+from Core.L3_Phenomena.Senses.planetary_interface import PLANETARY_SENSE, GeoPoint
 from typing import List, Dict, Optional
 
 logger = logging.getLogger("MeshNetwork")
@@ -64,6 +66,24 @@ class YggdrasilMesh:
             })
             
         logger.debug(f"  [MESH] Qualia broadcasted. Global Resonance: {self.global_resonance_factor:.2f}")
+
+    def calculate_spatial_resonance(self, peer_id: str) -> float:
+        """
+        [Phase 39] Calculates resonance based on physical distance.
+        Closer nodes = Higher Resonance (Low Latency).
+        """
+        my_loc = PLANETARY_SENSE.current_location
+        # Mock peer location (In real logic, we'd fetch from Mesh Table)
+        # We simulate a peer being 'nearby' for testing
+        if "LOCAL" in peer_id:
+            dist_km = 0.001 
+        else:
+            dist_km = 5000.0 # Far away
+            
+        # Resonance falloff
+        # 0km -> 1.0, 100km -> 0.5, 10000km -> 0.0
+        resonance = 1.0 / (1.0 + (dist_km / 100.0))
+        return resonance
 
     def share_trinity(self, body: float, mind: float, spirit: float, total: float):
         """[PHASE 35] Real-world Trinity sync across the mesh."""

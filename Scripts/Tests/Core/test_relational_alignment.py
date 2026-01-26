@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".
 
 from Core.L6_Structure.Merkaba.merkaba import Merkaba
 from Core.L7_Spirit.Monad.monad_core import Monad
-from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismDomain
+from Core.L3_Phenomena.Prism.resonance_prism import PrismDomain
 
 # Setup logging to see the Hermeneutic Pulse in action
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')

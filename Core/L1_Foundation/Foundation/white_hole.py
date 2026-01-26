@@ -53,7 +53,7 @@ class GravitationalSearch:
     def __init__(self):
         #            
         try:
-            from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+            from Core.L6_Structure.Wave.wave_tensor import WaveTensor
             self.wave_enabled = True
         except:
             self.wave_enabled = False

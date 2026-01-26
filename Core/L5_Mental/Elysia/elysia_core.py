@@ -335,7 +335,7 @@ class ElysiaCore:
         if self.topology:
             try:
                 # Calculate Reaction Vector from Spirit/Wave
-                from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+                from Core.L6_Structure.hyper_quaternion import Quaternion
                 
                 # Default: Positive Spin (0.5), High Reality (0.5)
                 # In a real system, this would be mapped from Spirit resonance

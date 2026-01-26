@@ -84,7 +84,7 @@ class ExplorationBridge:
         # 1. WhyEngine (자기 성찰 엔진)
         self.why_engine = None
         try:
-            from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+            from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
             self.why_engine = WhyEngine()
             logger.info("  WhyEngine connected")
         except Exception as e:
@@ -120,7 +120,7 @@ class ExplorationBridge:
         # 5. NaverSearchConnector (         )
         self.naver = None
         try:
-            from Core.L1_Foundation.Physiology.Sensory.Network.naver_connector import NaverSearchConnector
+            from Core.L2_Metabolism.Physiology.Sensory.Network.naver_connector import NaverSearchConnector
             self.naver = NaverSearchConnector()
             if self.naver.available:
                 logger.info("  NaverConnector connected")

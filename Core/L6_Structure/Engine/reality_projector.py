@@ -17,7 +17,7 @@ from enum import Enum
 # Add project root to sys.path for standalone testing
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from Core.L1_Foundation.Foundation.universal_constants import GOLDEN_RATIO, FREQ_LOVE, FREQ_TRUTH
 from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
 from Core.L4_Causality.World.Physics.sofa_optimizer import SofaPathOptimizer

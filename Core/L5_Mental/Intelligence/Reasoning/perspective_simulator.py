@@ -11,7 +11,7 @@ allowing Elysia to simulate *why* the user believes what they believe.
 import logging
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Any
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L1_Foundation.Foundation.resonance_topology import TopologicalAnalyzer, TopologyType, ConsciousnessCoordinates
 
 logger = logging.getLogger("PerspectiveSimulator")

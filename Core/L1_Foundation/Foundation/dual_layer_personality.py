@@ -25,8 +25,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
-    from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
-    from Core.L1_Foundation.Foundation.Wave.light_spectrum import LightUniverse, get_light_universe
+    from Core.L6_Structure.Wave.wave_tensor import WaveTensor
+    from Core.L6_Structure.Wave.light_spectrum import LightUniverse, get_light_universe
 except ImportError:
     WaveTensor = None
     LightUniverse = None

@@ -21,7 +21,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.L1_Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
 from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
-from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L6_Structure.Wave.resonance_field import ResonanceField
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')

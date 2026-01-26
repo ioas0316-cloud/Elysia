@@ -18,7 +18,7 @@ from typing import Dict, Any, Optional
 from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
 from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("NeuralIntegration")
@@ -176,7 +176,7 @@ class CentralCortex:
         
         # 2. Memory     [LOGIC TRANSMUTATION]
         print("2   Storing in Memory...")
-        from Core.L1_Foundation.Foundation.hyper_quaternion import HyperWavePacket
+        from Core.L6_Structure.hyper_quaternion import HyperWavePacket
         
         resonant = self.universe.query_resonance(sum(ord(c) for c in concept) % 1000, tolerance=100.0)
         concept_key = resonant[0] if resonant else concept

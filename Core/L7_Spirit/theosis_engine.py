@@ -19,7 +19,7 @@ from dataclasses import dataclass
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.L1_Foundation.Physiology.Sensory.Network.hyperspace_transceiver import HyperSpaceTransceiver, SporePacket
+from Core.L2_Metabolism.Physiology.Sensory.Network.hyperspace_transceiver import HyperSpaceTransceiver, SporePacket
 
 # Configure Logger
 logging.basicConfig(level=logging.INFO, format='%(message)s')

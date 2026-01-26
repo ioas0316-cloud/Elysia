@@ -34,7 +34,7 @@ from typing import Dict, List
 
 from Core.L6_Structure.M1_Merkaba.heavy_merkaba import HeavyMerkaba
 
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 

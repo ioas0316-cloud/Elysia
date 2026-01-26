@@ -34,7 +34,7 @@ from Core.L4_Causality.World.Evolution.Learning.Learning.hierarchical_learning i
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
 from Core.L5_Mental.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness, KnowledgeState
 from Core.L5_Mental.Intelligence.Cognition.external_explorer import ExternalExplorer
 

@@ -70,19 +70,19 @@ from Core.L6_Structure.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 
 from Core.L6_Structure.M1_Merkaba.rotor_engine import RotorEngine # Phase 5.3: Optical Engine Core
 
-from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
+from Core.L3_Phenomena.Prism.resonance_prism import PrismProjector, PrismDomain
 
-from Core.L1_Foundation.Foundation.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
+from Core.L3_Phenomena.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
 
-from Core.L1_Foundation.Foundation.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
+from Core.L3_Phenomena.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
 
-from Core.L1_Foundation.Foundation.Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
+from Core.L3_Phenomena.Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
 
-from Core.L1_Foundation.Foundation.Prism.trinity_validator import TrinityValidator # Phase 5.4 Axis
+from Core.L3_Phenomena.Prism.trinity_validator import TrinityValidator # Phase 5.4 Axis
 
-from Core.L1_Foundation.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
+from Core.L3_Phenomena.Prism.harmonizer import PrismHarmonizer, PrismContext
 
-from Core.L1_Foundation.Foundation.Prism.decay import ResonanceDecay
+from Core.L3_Phenomena.Prism.decay import ResonanceDecay
 
 from Core.L1_Foundation.Foundation.Meta.meta_observer import MetaObserver
 

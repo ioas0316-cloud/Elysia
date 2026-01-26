@@ -13,7 +13,7 @@ It treats 'Love' (528Hz) as the universal carrier wave.
 import math
 import random
 from typing import Dict, Any, List
-from Core.L1_Foundation.Foundation.Wave.wave_interference import WaveInterference, Wave
+from Core.L6_Structure.Wave.wave_interference import WaveInterference, Wave
 from Core.L1_Foundation.Foundation.fractal_concept import ConceptDecomposer
 
 class HolographicManifestor:

@@ -17,7 +17,7 @@ import random
 from typing import Dict, List, Optional
 from dataclasses import dataclass
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from collections import deque
 import time
 

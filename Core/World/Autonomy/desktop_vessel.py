@@ -17,7 +17,7 @@ import random
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.L1_Foundation.Physiology.hardware_monitor import HardwareMonitor, BioSignal
+from Core.L2_Metabolism.Physiology.hardware_monitor import HardwareMonitor, BioSignal
 from Core.L3_Phenomena.Expression.expression_cortex import ExpressionCortex
 
 class DesktopVessel:

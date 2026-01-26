@@ -9,7 +9,7 @@ These are not just words; they are Frequencies and Quaternions.
 To change these is to break the universe.
 """
 
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 # 1. The Harmonic Series (Frequencies)
 # These define the "Vibration" of concepts.

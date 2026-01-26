@@ -15,7 +15,7 @@ import logging
 import json
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L1_Foundation.Foundation.fractal_quantization import PatternDNA, EmotionQuantizer
 
 logger = logging.getLogger("Hippocampus")
@@ -342,7 +342,7 @@ class Hippocampus:
         """
         # 1. Empirical Gravity Update
         try:
-             from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+             from Core.L6_Structure.Wave.resonance_field import ResonanceField
              # Often the field is a singleton or accessed via CNS, here we assume current session access
              field = ResonanceField() 
              for node_id, res_node in field.nodes.items():

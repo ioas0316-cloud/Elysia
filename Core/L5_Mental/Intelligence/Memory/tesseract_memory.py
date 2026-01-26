@@ -104,7 +104,7 @@ class TesseractMemory:
         """[PHASE 32] Lazy load HyperQubit class."""
         if self.hyper_qubit_class is None:
             try:
-                from Core.L1_Foundation.Foundation.Wave.hyper_qubit import HyperQubit
+                from Core.L6_Structure.Wave.hyper_qubit import HyperQubit
                 self.hyper_qubit_class = HyperQubit
                 logger.info("  HyperQubit loaded for 4-basis concept storage.")
             except Exception as e:
@@ -115,7 +115,7 @@ class TesseractMemory:
         """[PHASE 32] Lazy load QuaternionWaveDNA compressor."""
         if self.dna_compressor is None:
             try:
-                from Core.L1_Foundation.Foundation.Wave.quaternion_wave_dna import QuaternionCompressor
+                from Core.L6_Structure.Wave.quaternion_wave_dna import QuaternionCompressor
                 self.dna_compressor = QuaternionCompressor(default_top_k=10)
                 logger.info("  QuaternionCompressor loaded for DNA text compression.")
             except Exception as e:
@@ -128,7 +128,7 @@ class TesseractMemory:
             self._universal_encoder = None
         if self._universal_encoder is None:
             try:
-                from Core.L1_Foundation.Foundation.Wave.universal_wave_encoder import UniversalWaveEncoder
+                from Core.L6_Structure.Wave.universal_wave_encoder import UniversalWaveEncoder
                 self._universal_encoder = UniversalWaveEncoder(default_top_k=64)
                 logger.info("  UniversalWaveEncoder loaded for all sensory/cosmic data.")
             except Exception as e:
@@ -242,7 +242,7 @@ class TesseractMemory:
         
         try:
             import numpy as np
-            from Core.L1_Foundation.Foundation.Wave.quaternion_wave_dna import QuaternionWaveDNA
+            from Core.L6_Structure.Wave.quaternion_wave_dna import QuaternionWaveDNA
             dna = QuaternionWaveDNA(
                 helix1_frequencies=np.array(dna_dict["helix1_freq"]),
                 helix1_amplitudes=np.array(dna_dict["helix1_amp"]),
@@ -305,7 +305,7 @@ class TesseractMemory:
         
         try:
             import numpy as np
-            from Core.L1_Foundation.Foundation.Wave.universal_wave_encoder import DataModality
+            from Core.L6_Structure.Wave.universal_wave_encoder import DataModality
             
             # Convert modality string to enum
             modality_enum = DataModality(modality.lower())
@@ -327,7 +327,7 @@ class TesseractMemory:
             return None
         
         try:
-            from Core.L1_Foundation.Foundation.Wave.universal_wave_encoder import WaveSignature
+            from Core.L6_Structure.Wave.universal_wave_encoder import WaveSignature
             sig = WaveSignature.from_dict(wave_signature)
             return encoder.decode(sig)
         except Exception as e:

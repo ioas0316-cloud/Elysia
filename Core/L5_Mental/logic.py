@@ -8,7 +8,7 @@ import time
 import random
 import math
 from typing import List, Dict, Any, Tuple
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L1_Foundation.Foundation.resonance_physics import ResonancePhysics
 from Core.L5_Mental.Intelligence.Intelligence.cuda_cortex import CudaCortex
 from Core.L1_Foundation.Foundation.universal_constants import (

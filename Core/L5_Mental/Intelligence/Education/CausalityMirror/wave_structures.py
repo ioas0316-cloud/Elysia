@@ -21,7 +21,7 @@ import random
 
 # Import Elysia's Physics Core if available, otherwise mock for isolation testing
 try:
-    from Core.L1_Foundation.Foundation.hyper_quaternion import HyperQuaternion
+    from Core.L6_Structure.hyper_quaternion import HyperQuaternion
 except ImportError:
     # Fallback for standalone testing
     class HyperQuaternion:

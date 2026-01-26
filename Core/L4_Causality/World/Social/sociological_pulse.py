@@ -4,7 +4,7 @@ import random
 import math
 import numpy as np
 from typing import List, Dict, Tuple, Optional
-from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
 from Core.L4_Causality.World.Soul.emotional_physics import emotional_physics
 

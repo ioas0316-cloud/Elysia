@@ -4,10 +4,10 @@ import logging
 from typing import Dict, Any, Optional
 
 from Core.L4_Causality.chronos import Chronos
-from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L6_Structure.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.fractal_loop import FractalLoop
 from Core.L4_Causality.Governance.conductor import get_conductor
-from Core.L1_Foundation.Foundation.Wave.structural_resonator import get_resonator
+from Core.L6_Structure.Wave.structural_resonator import get_resonator
 from Core.L4_Causality.World.Evolution.Os.oneiric_hypervisor import get_hypervisor
 
 logger = logging.getLogger("NovaCNS")

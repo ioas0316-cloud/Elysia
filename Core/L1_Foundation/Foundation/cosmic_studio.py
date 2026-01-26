@@ -11,7 +11,7 @@ from the ReasoningEngine and uses the RealitySculptor to manifest them into the 
 import os
 import logging
 from typing import Optional, List
-from Core.L1_Foundation.Foundation.hyper_quaternion import HyperWavePacket
+from Core.L6_Structure.hyper_quaternion import HyperWavePacket
 from Core.L1_Foundation.Foundation.reality_sculptor import RealitySculptor
 
 logger = logging.getLogger("CosmicStudio")

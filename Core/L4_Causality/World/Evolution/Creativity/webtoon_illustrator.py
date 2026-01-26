@@ -115,7 +115,7 @@ class WebtoonIllustrator:
         Uses CompositionEngine to apply Sacred Geometry and Dynamic Flow.
         Replacing random particles with structured Artistic Principles.
         """
-        from Core.L1_Foundation.Physiology.Values.aesthetic_canon import AestheticCanon
+        from Core.L2_Metabolism.Physiology.Values.aesthetic_canon import AestheticCanon
         canon = AestheticCanon()
         
         # 1. Ask WHY this should be beautiful

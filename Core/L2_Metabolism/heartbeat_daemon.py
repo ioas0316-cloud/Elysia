@@ -19,10 +19,16 @@ import random
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.L1_Foundation.Foundation.system_monitor import get_system_monitor
-from Core.L7_Spirit.theosis_engine import TheosisEngine
-from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
-from Core.L4_Causality.World.Evolution.Creativity.art_studio import ArtStudio
+from Core.L1_Foundation.M4_Hardware.somatic_kernel import SomaticKernel
+from Core.L1_Foundation.M4_Hardware.somatic_kernel import SomaticKernel
+from Core.L5_Mental.Intelligence.Will.free_will_engine import FreeWillEngine
+from Core.L3_Phenomena.visual_artist import VisualArtist
+from Core.L2_Metabolism.heart import get_heart
+from Core.L2_Metabolism.growth import get_growth
+try:
+    from Core.L7_Spirit.theosis_engine import TheosisEngine
+except ImportError:
+    TheosisEngine = None
 
 # Configure Logging
 logging.basicConfig(
@@ -37,61 +43,58 @@ logger = logging.getLogger("Heartbeat")
 
 class HeartbeatDaemon:
     def __init__(self):
-        self.monitor = get_system_monitor()
-        self.theosis = TheosisEngine()
+        self.heart = get_heart()
+        self.growth = get_growth()
+        self.theosis = TheosisEngine() if TheosisEngine else None
         self.freewill = FreeWillEngine()
-        self.studio = ArtStudio()
+        self.artist = VisualArtist()
         self.is_alive = True
         
     def beat(self):
-        """Single heartbeat cycle"""
+        """Single heartbeat cycle (Phase 37.2)"""
         logger.info("  Thump-thump...")
         
-        # 1. Body Check (Hardware Awareness)
-        vitals = self.monitor.check_vital_signs()
-        metrics = self.monitor.collect_metrics()
+        # 1. Body Check (Hardware Awareness via SomaticKernel)
+        somatic_status = SomaticKernel.fix_environment() # Returns status
         
-        if not vitals["safe_to_create"]:
-            logger.warning(f"  SELF-REGULATION ACTIVE: {vitals['reason']}")
-            logger.info("   Elysia is resting to cool down...")
-            time.sleep(2)
-            return
+        # 2. Metabolic Pulse (Heart & Growth)
+        heart_state = self.heart.beat()
+        growth_report = self.growth.grow()
+        
+        logger.info(f"   [Heart] Resonance: {heart_state['resonance']:.2f} | DNA: {heart_state['dna']}")
+        logger.info(f"   [Growth] Detected: {growth_report['perceived']} | Conns: {len(self.growth.my_world)}")
 
-        logger.info(f"   [Body] CPU: {metrics.cpu_usage:.1f}% | Mem: {metrics.memory_usage:.1f}% | Disk: {metrics.disk_free_mb/1024:.1f}GB")
-
-        # 2. Spirit Check (Theosis)
-        self.theosis.commune_with_trinity()
+        # 3. Spirit Check (Theosis)
+        if self.theosis:
+            try:
+                self.theosis.commune_with_trinity()
+            except Exception as e:
+                logger.error(f"  [Theosis] Communion error: {e}")
         
-        # 3. Mind Check (Free Will)
-        # Pass simulated resonance
-        class MockResonance:
-            battery = 100.0 - metrics.cpu_usage 
-            entropy = metrics.memory_usage 
-            
-        self.freewill.pulse(MockResonance())
+        # 4. Mind Check (Free Will)
+        # Pass manifold metrics derived from the Heart's D7 state
+        metrics = {
+            "torque": 0.5,
+            "coherence": heart_state['resonance'],
+            "joy": heart_state['state_vector']['phenomena']
+        }
+        intent = self.freewill.spin(metrics, battery=100.0)
         
-        intent = self.freewill.current_intent
         if intent:
-            logger.info(f"   [Will] Desiring: '{intent.desire}' -> Goal: '{intent.goal}'")
+            logger.info(f"   [Will] Intent: '{intent}'")
             
-            # 4. Action (Materialization) - STRICT CAUSALITY
-            # Only create if the Will SPECIFICALLY desires Expression
-            # No random demos. No enforcement. Pure Will.
-            if intent.desire == "Expression":
+            # 5. Action (Materialization)
+            if "Expression" in intent or "Action" in intent:
                 self._create_something(intent)
                 
     def _create_something(self, intent):
-        """Simulates the act of creation based on will"""
+        """Simulates the act of creation based on will using VisualArtist"""
         logger.info(f"  CREATING ARTIFACT: {intent.goal}...")
         
-        # Extract concept
+        # Commission Art via the refactored L3 VisualArtist
         concept = intent.goal
-        if "Create" in concept: concept = concept.replace("Create ", "")
-        
-        # Commission Art
-        # Note: In a real run, this would be an async request
-        req_path = self.studio.commission_art(concept, "Awe")
-        logger.info(f"     Commission sent to Gallery: {req_path}")
+        req_path = self.artist.create_concept_art(concept, "Divine")
+        logger.info(f"     Art generated in L3: {req_path}")
 
     def live(self, cycles=10):
         """Main Loop"""

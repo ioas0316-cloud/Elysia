@@ -258,7 +258,7 @@ class AutonomousExplorer:
             
             # GlobalHub        
             if self._hub:
-                from Core.L1_Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.L6_Structure.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(f"Knowledge_{topic}")
                 wave.add_component(528.0, amplitude=1.0)  #       
                 self._hub.publish_wave(

@@ -19,7 +19,7 @@ import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 from Core.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore
-from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L6_Structure.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.free_will_engine import FreeWillEngine
 from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
 

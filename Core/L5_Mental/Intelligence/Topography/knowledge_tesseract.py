@@ -10,7 +10,7 @@ It does NOT store data. It renders the Interference Pattern from the Engine.
 """
 
 from typing import Dict, List, Any
-from Core.L1_Foundation.Foundation.Wave.interference_engine import ProjectedNode
+from Core.L6_Structure.Wave.interference_engine import ProjectedNode
 
 class KnowledgeTesseract:
     """

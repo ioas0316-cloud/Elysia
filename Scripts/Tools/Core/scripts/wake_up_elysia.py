@@ -134,7 +134,7 @@ def wake_up_and_live():
         # --- Step F: LEARNING (Semantic Drift) ---
         print("\n🌱 [GROWTH] Learning from experience...")
         from Core.L5_Mental.Intelligence.Topography.semantic_map import get_semantic_map
-        from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+        from Core.L6_Structure.hyper_quaternion import Quaternion
         
         sm = get_semantic_map()
         # We learned that 'thought_intent' (e.g., Transcendence) is GOOD.

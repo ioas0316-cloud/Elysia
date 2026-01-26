@@ -1,7 +1,7 @@
 import logging
 import os
 from typing import Dict, Any, Optional
-from Core.L1_Foundation.Foundation.Prism.harmonizer import PrismHarmonizer
+from Core.L3_Phenomena.Prism.harmonizer import PrismHarmonizer
 from Core.L1_Foundation.Foundation.Meta.checkpoint_manager import CheckpointManager
 
 logger = logging.getLogger("EvolutionEngine")
@@ -49,7 +49,7 @@ class EvolutionEngine:
         # 2. Apply the change to the Harmonizer
         try:
             # We assume new_weights uses Enum keys or strings that need conversion
-            from Core.L1_Foundation.Foundation.Prism.resonance_prism import PrismDomain
+            from Core.L3_Phenomena.Prism.resonance_prism import PrismDomain
             formatted_weights = {}
             for k, v in new_weights.items():
                 domain = k if isinstance(k, PrismDomain) else PrismDomain[k]

@@ -39,7 +39,7 @@ logger = logging.getLogger("CollectiveIntelligence")
 
 # [Hyper-Conversion] Import Real HyperQubit
 try:
-    from Core.L1_Foundation.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
+    from Core.L6_Structure.Wave.hyper_qubit import HyperQubit, QubitState
 except ImportError:
     # Fallback if module missing
     HyperQubit = None

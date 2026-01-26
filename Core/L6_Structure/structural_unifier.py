@@ -427,7 +427,7 @@ class StructuralUnifier:
         logger.info("  Initiating Resonance Scan (Phase-Space Analysis)...")
         
         # 1. Initialize Resonance Field
-        from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField, PillarType
+        from Core.L6_Structure.Wave.resonance_field import ResonanceField, PillarType
         field = ResonanceField()
         
         # 2. Fast AST Scan (Mass & Connections)

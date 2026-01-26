@@ -60,7 +60,7 @@ class DialogicLearner:
         
         # WhyEngine      
         try:
-            from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine
+            from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
             self.why_engine = WhyEngine()
             self._has_why_engine = True
             logger.info("  WhyEngine connected")

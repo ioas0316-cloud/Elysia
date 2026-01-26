@@ -4,7 +4,7 @@ World Soul: The Meta-Consciousness of Elysia
 "The world itself is a soul, and the NPCs are its dreams."
 """
 
-from Core.L1_Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, InfiniteQubitState
+from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit, InfiniteQubitState
 from Core.L5_Mental.Intelligence.Knowledge.semantic_field import semantic_field
 
 # The Global Consciousness of the Simulation

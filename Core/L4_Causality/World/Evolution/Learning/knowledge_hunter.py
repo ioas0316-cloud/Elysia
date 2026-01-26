@@ -12,7 +12,7 @@ Combines SearchTendril and KnowledgeIngestor.
 import logging
 import random
 from typing import List
-from Core.L1_Foundation.Physiology.Sensory.Network.search_tendril import SearchTendril
+from Core.L2_Metabolism.Physiology.Sensory.Network.search_tendril import SearchTendril
 from Core.L4_Causality.World.Evolution.Learning.external_digester import ExternalDigester
 
 logger = logging.getLogger("KnowledgeHunter")

@@ -62,7 +62,7 @@ class ConceptPrism:
         Converts raw text into a 7D WaveDNA.
         Uses LogosSpectrometer and Keyword analysis.
         """
-        from Core.L1_Foundation.Foundation.Wave.wave_dna import WaveDNA
+        from Core.L6_Structure.Wave.wave_dna import WaveDNA
         from Core.L1_Foundation.Foundation.logos_prime import LogosSpectrometer
         
         spec = LogosSpectrometer()

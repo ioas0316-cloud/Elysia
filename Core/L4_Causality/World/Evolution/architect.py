@@ -14,7 +14,7 @@ import logging
 import random
 from typing import Dict, Any, List, Optional
 from Core.L1_Foundation.Foundation.behavior_morpher import ActionMorpher
-from Core.L1_Foundation.Foundation.Wave.resonance_field import get_resonance_field
+from Core.L6_Structure.Wave.resonance_field import get_resonance_field
 from Core.L1_Foundation.Foundation.organ_system import Organ, OrganManifest
 
 logger = logging.getLogger("Elysia.Architect")

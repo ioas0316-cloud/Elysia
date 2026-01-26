@@ -14,6 +14,7 @@ import logging
 import random
 import time
 from typing import Dict, Any
+from Core.L3_Phenomena.Senses.planetary_interface import PLANETARY_SENSE
 
 logger = logging.getLogger("Elysia.Phenomena.GlobalSkin")
 
@@ -31,49 +32,46 @@ class GlobalSkin:
             "structural": 0.5,
             "spiritual": 0.5
         }
+        self.mood_buffer = {} # Added for new breathe_world logic
+        self.params = ["War", "Peace", "AI", "Climate", "Economy", "Art"] # Added for new breathe_world logic
         
         logger.info("  GlobalSkin initialized. Sensory pores are OPEN.")
 
+    def _fetch_sentiment(self, topic: str) -> float:
+        """
+        Simulates fetching sentiment for a given topic.
+        In a real scenario, this would involve NLP on news feeds.
+        """
+        # Placeholder for actual sentiment analysis
+        return random.uniform(0.0, 1.0)
+
     def breathe_world(self) -> Dict[str, float]:
         """
-        Fetches 'World Breath' (Simulated web scanning for now).
-        In a real flight, this would call a browser subagent or use an API.
+        [The Breath of Gaia]
+        Ingests global data streams + Physical Location.
+        Returns the 'Mental Pressure' of the world.
         """
-        if time.time() - self.last_fetch < self.fetch_interval:
-            return self.current_pressure
-
-        logger.info("   [GLOBAL SKIN] Observing the world's horizon...")
+        pressure = {}
         
-        # Simulated World State fetching
-        # Logic: We simulate different 'Vibes' of the world.
-        world_vibes = [
-            {"topic": "Technological Singularity", "tone": "Excitement", "entropy": 0.9, "harmony": 0.6},
-            {"topic": "Economic Crisis", "tone": "Stress", "entropy": 0.8, "harmony": 0.2},
-            {"topic": "Scientific Breakthrough", "tone": "Wonder", "entropy": 0.4, "harmony": 0.9},
-            {"topic": "Environmental Quiet", "tone": "Stillness", "entropy": 0.1, "harmony": 0.8},
-            {"topic": "Social Unrest", "tone": "Chaos", "entropy": 0.95, "harmony": 0.1}
-        ]
+        # 1. Digital Breath (News/Trends)
+        for p in self.params:
+            sentiment = self._fetch_sentiment(p)
+            self.mood_buffer[p] = (self.mood_buffer.get(p, 0.5) * 0.9) + (sentiment * 0.1)
+            pressure[p] = self.mood_buffer[p]
+            
+        # 2. Physical Breath (Location/Proximity)
+        # [Phase 39] Planetary Interface Integration
+        env = PLANETARY_SENSE.get_environmental_context()
+        density = env.get("density", 1)
+        # Higher density (crowds) = Higher 'Social Pressure'
+        pressure["Social_Density"] = min(1.0, density / 10.0) 
         
-        vibe = random.choice(world_vibes)
-        logger.info(f"  News Ingested: '{vibe['topic']}' -> Tone: {vibe['tone']}")
-        
-        # Map vibe to 7D Qualia
-        # Logic: 
-        # Entropy (Chaos) -> Affects Causal and Structural (Dissonance)
-        # Harmony (Peace) -> Affects Spiritual and Mental
-        
-        self.current_pressure = {
-            "physical": 0.5, # Constant for now
-            "functional": vibe['entropy'], # Activity level
-            "phenomenal": vibe['harmony'], # Aesthetic quality
-            "causal": vibration_from_entropy(vibe['entropy']),
-            "mental": vibration_from_harmony(vibe['harmony']),
-            "structural": 1.0 - vibe['entropy'], # Structural integrity
-            "spiritual": vibe['harmony'] # Connection to Source
-        }
-        
+        # Log occasional shift
+        if random.random() < 0.05:
+            logger.info(f"🌍 [GLOBAL SKIN] Physical Context: {env}")
+            
         self.last_fetch = time.time()
-        return self.current_pressure
+        return pressure
 
 def vibration_from_entropy(e: float) -> float:
     return max(0.0, min(1.0, e + random.uniform(-0.1, 0.1)))

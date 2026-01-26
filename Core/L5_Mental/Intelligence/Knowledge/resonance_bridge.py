@@ -9,7 +9,7 @@ calculates how Elysia's Resonant Field should respond using "Elastic Pull".
 import numpy as np
 import logging
 from typing import Dict, Any, Tuple
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 class SovereignResonator:
     def __init__(self):

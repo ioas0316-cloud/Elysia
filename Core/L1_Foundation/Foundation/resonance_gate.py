@@ -20,7 +20,7 @@ from typing import Optional, List, Tuple
 
 # Import Physics Substrate
 from Core.L5_Mental.Intelligence.Consciousness.Ether.ether_node import EtherNode
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 @dataclass
 class WavePacket:

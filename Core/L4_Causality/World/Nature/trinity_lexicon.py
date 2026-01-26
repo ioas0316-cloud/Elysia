@@ -388,7 +388,7 @@ class TrinityLexicon:
         # Simple extraction: split by space, strip punctuation
         words = text.replace("_", " ").split()
         for w in words:
-            w_clean = w.strip(".,!?()[]{}:;\"'")"'
+            w_clean = w.strip(".,!?()[]{}:;\"'")
             if len(w_clean) > 4: # Ignore small words like 'the', 'is' for now
                 if not self.is_known(w_clean):
                     unknowns.append(w_clean)

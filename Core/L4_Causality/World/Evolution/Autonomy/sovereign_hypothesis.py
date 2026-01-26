@@ -24,8 +24,8 @@ import os
 # Adjust path for imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.L1_Foundation.Foundation.Philosophy.why_engine import WhyEngine, PrincipleExtraction
-from Core.L1_Foundation.Foundation.Wave.light_spectrum import PrismAxes
+from Core.L7_Spirit.Philosophy.why_engine import WhyEngine, PrincipleExtraction
+from Core.L6_Structure.Wave.light_spectrum import PrismAxes
 
 logger = logging.getLogger("Elysia.SovereignHypothesis")
 

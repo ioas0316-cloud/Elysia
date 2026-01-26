@@ -18,7 +18,7 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Any
 
-from Core.L1_Foundation.Foundation.Wave.wave_interpreter import WaveInterpreter, WavePattern
+from Core.L6_Structure.Wave.wave_interpreter import WaveInterpreter, WavePattern
 # [PHASE 26] WaveCoder temporarily removed to avoid cascading import issues
 # from Core.L4_Causality.World.Evolution.Autonomy.wave_coder import WaveCoder
 from Core.L4_Causality.World.Evolution.Creation.holographic_manifestor import HolographicManifestor

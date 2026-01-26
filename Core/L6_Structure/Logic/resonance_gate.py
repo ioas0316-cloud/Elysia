@@ -1,7 +1,7 @@
 import torch
 import logging
 from typing import Optional, Any, Dict
-from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
+from Core.L7_Spirit.Philosophy.axioms import get_axioms
 from Core.L1_Foundation.Logic.qualia_7d_codec import codec
 from Core.L1_Foundation.Logic.d7_vector import D7Vector
 from Core.L1_Foundation.Logic.qualia_projector import projector

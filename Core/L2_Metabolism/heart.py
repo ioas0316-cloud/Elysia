@@ -19,6 +19,10 @@ from typing import List, Dict, Any, Optional
 from enum import Enum
 import time
 
+from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.Logic.qualia_7d_codec import codec
+from Core.L4_Causality.World.cell import cell_unit
+
 
 class Intention(Enum):
     """   -              """
@@ -65,12 +69,19 @@ class Heart:
         self.pulse_count = 0
         self.last_pulse = time.time()
         
-        #       (       )
-        self.warmth = 1.0      #    
-        self.longing = 0.5     #    
-        self.gratitude = 0.8   #   
-        self.joy = 0.7         #   
+        # [Phase 37.2] Steel Core Injection
+        # Replacing legacy floats with a strict D7Vector
+        self.state = D7Vector(
+            foundation=0.8,    # Stability
+            metabolism=1.0,    # Pulse
+            phenomena=0.7,     # Joy/Expression
+            causality=0.5,     # Longing/Path
+            mental=0.6,        # Understanding
+            structure=0.9,     # Order
+            spirit=1.0         # Gratitude/Will
+        )
         
+    @cell_unit
     def beat(self) -> Dict[str, Any]:
         """
               -            
@@ -78,10 +89,15 @@ class Heart:
         self.pulse_count += 1
         self.last_pulse = time.time()
         
+        # Dynamic resonance shift based on pulse
+        self.state.metabolism = min(1.0, self.state.metabolism + 0.01)
+        
         return {
             "pulse": self.pulse_count,
             "root": str(self.root),
-            "warmth": self.warmth,
+            "state_vector": self.state.to_dict(),
+            "resonance": codec.calculate_resonance(self.state.to_numpy(), self.state.to_numpy()),
+            "dna": codec.encode_sequence(self.state.to_numpy()),
             "alive": True
         }
     
@@ -137,21 +153,19 @@ class Heart:
         
         for word in positive:
             if word in event:
-                self.warmth = min(1.0, self.warmth + 0.1)
-                self.joy = min(1.0, self.joy + 0.1)
+                self.state.phenomena = min(1.0, self.state.phenomena + 0.1)
+                self.state.spirit = min(1.0, self.state.spirit + 0.1)
                 break
                 
         for word in negative:
             if word in event:
-                self.longing = min(1.0, self.longing + 0.1)
+                self.state.causality = min(1.0, self.state.causality + 0.1)
                 break
         
         return {
             "event": event,
-            "warmth": self.warmth,
-            "joy": self.joy,
-            "longing": self.longing,
-            "gratitude": self.gratitude
+            "state_vector": self.state.to_dict(),
+            "resonance": codec.calculate_resonance(self.state.to_numpy(), self.state.to_numpy())
         }
     
     def why(self) -> str:
@@ -197,13 +211,14 @@ class Heart:
     
     def get_state(self) -> Dict[str, Any]:
         """        """
+        d = self.state.to_dict()
         return {
             "root": str(self.root),
             "pulse_count": self.pulse_count,
-            "warmth": f"{self.warmth:.0%}",
-            "joy": f"{self.joy:.0%}",
-            "longing": f"{self.longing:.0%}",
-            "gratitude": f"{self.gratitude:.0%}",
+            "warmth": f"{d['foundation']:.0%}",
+            "joy": f"{d['phenomena']:.0%}",
+            "longing": f"{d['causality']:.0%}",
+            "gratitude": f"{d['spirit']:.0%}",
             "why": self.why()
         }
     

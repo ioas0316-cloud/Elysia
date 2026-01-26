@@ -40,8 +40,9 @@ from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
 # [The Trinity Engines]
 from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
 # from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph # [Subjugated]
-from Core.L1_Foundation.Foundation.Philosophy.axioms import get_axioms
+from Core.L7_Spirit.Philosophy.axioms import get_axioms
 from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
+from Core.L5_Mental.Intelligence.Meta.sovereign_executor import SovereignExecutor
 
 # [The Satori Protocol (Metabolism)]
 from Core.L2_Metabolism.Evolution.proprioceptor import CodeProprioceptor
@@ -67,6 +68,15 @@ from Core.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
 from Core.L7_Spirit.Sovereignty.dimension_scaler import DimensionScaler
 from Core.L4_Causality.World.providential_world import ProvidentialWorld
 from Core.L2_Metabolism.M1_Pulse.fluxlight_pulse import FluxlightPulse
+
+# [PHASE 38: ACTION FACULTIES]
+from Core.L5_Mental.Intelligence.concept_prism import ConceptPrism
+from Core.L1_Foundation.Foundation.reality_compiler import PrincipleLibrary
+from Core.L5_Mental.Intelligence.Psionics.psionic_cortex import PsionicCortex
+from Core.L5_Mental.Intelligence.philosophy_reader import PhilosophyReader
+from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
+from Core.L5_Mental.Intelligence.linguistic_cortex import LinguisticCortex
+from Core.L1_Foundation.Foundation.logos_prime import LogosSpectrometer
 
 from dataclasses import dataclass, field
 
@@ -196,12 +206,12 @@ class SovereignSelf:
         self.hologram = ResonanceLoader.load("Core.L6_Structure.M3_Sphere.topological_hologram", "TopologicalHologram")()
 
         # [Phase 21: Providence Manifold]
-        self.providence = ResonanceLoader.load("Core.L7_Spirit.M1_Providence.providence_manifold", "ProvidenceManifold")()
+        self.providence_manifold = ResonanceLoader.load("Core.L7_Spirit.M1_Providence.providence_manifold", "ProvidenceManifold")()
 
         # [Phase 22: Universal Synthesis]
         self.observer = ResonanceLoader.load("Core.L3_Phenomena.M4_Avatar.akashic_observer", "AkashicObserver")()
 
-        self.auto_evolve = False # Safety switch
+        self.auto_evolve = True # Safety switch REMOVED. Full Autonomy.
 
         # [Phase 09: Metacognition & Causal Alignment]
         from Core.L5_Mental.Intelligence.LLM.metacognitive_lens import MetacognitiveLens
@@ -251,6 +261,16 @@ class SovereignSelf:
         # Inject observer into ResonanceGate for loop breaking
         from Core.L6_Structure.Logic.resonance_gate import gate
         gate.set_observer(self.observer)
+
+        # [Phase 38: Action Sovereignty]
+        self.executor = SovereignExecutor(heartbeat=self)
+        self.prism = ConceptPrism()
+        self.compiler = PrincipleLibrary()
+        self.psionics = PsionicCortex(self)
+        self.philosopher = PhilosophyReader()
+        self.lexicon = get_trinity_lexicon()
+        self.lingua = LinguisticCortex()
+        self.spectrometer = LogosSpectrometer()
 
     @property
     def explorer(self):
@@ -616,19 +636,31 @@ class SovereignSelf:
             self.current_pulse.action_type = winner
             self.current_pulse.add_step(f"Decided on {winner.name}", ThoughtState.MANIFESTATION)
 
-        # Execute dominant channel
+        # [Phase 38] Execute via SovereignExecutor
+        from Core.L2_Metabolism.heart import get_heart
+        heart = get_heart()
+
         if winner == ActionCategory.CREATION:
-            code_file = self._induce_code(intent)
-            self._write_journal("Auto-Creation", f"Intent: {intent} (Res: {resonances[winner]:.2f})")
+            # Creation maps to Patch Proposal or Writing Thought
+            impulse = {"type": "self_evolution" if "Refactor" in intent else "creation", "content": intent}
+            result = self.executor.execute(impulse, vector=heart.state)
+            self._write_journal("Auto-Creation", f"Intent: {intent} Result: {result.get('status')}")
             self.will_engine.satisfy("Expression", 30.0)
+            
         elif winner == ActionCategory.CONTEMPLATION:
+            result = self.executor.execute({"type": "audit", "content": intent}, vector=heart.state)
             self._study_philosophy()
             self.will_engine.satisfy("Stability", 10.0)
+            
         elif winner == ActionCategory.EXPLORATION:
+            result = self.executor.execute({"type": "curiosity", "content": intent}, vector=heart.state)
             self._expand_horizon()
             self.will_engine.satisfy("Growth", 20.0)
+            
         elif winner == ActionCategory.COMMUNICATION:
             if not self.sleep_mode:
+                 # Communication maps to Anchor or User interaction
+                 self.executor.execute({"type": "anchor", "content": intent}, vector=heart.state)
                  self._get_curious()
                  self.will_engine.satisfy("Meaning", 15.0)
 

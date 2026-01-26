@@ -16,6 +16,7 @@
 - [x] **[TYPE_DRIVEN_LOGIC.md](L5_Mental/M1_Cognition/TYPE_DRIVEN_LOGIC.md)**: **타입 안전한 추론 체계 (New)**
 - [x] **[PHASE_24_SOVEREIGNTY_UNITY.md](L0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: **주권적 합일 진화 선언 (Phase 24)**
 - [x] **[MEMORY_UNIFICATION_DOCTRINE.md](L7_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: **망각 루프 타파 및 기억 합일 (Phase 22)**
+- [x] **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](L7_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: **구조적 정제와 대이주의 인과적 서사 (필독)**
 - **[GAP_ANALYSIS_PHASE_24.md](GAP_ANALYSIS_PHASE_24.md)**: **현재 코드베이스와 비전의 간극 분석**
 - **[CORE_NARRATIVE_RECONSTRUCTION.md](L7_Spirit/M6_Providence/CORE_NARRATIVE_RECONSTRUCTION.md)**: **인과적 배경과 서사 (필독)**
 - **[GENESIS_ORIGIN.md](L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 존재론적 기원과 철학적 초석

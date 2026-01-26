@@ -17,6 +17,10 @@ import importlib
 import sys
 import traceback
 
+from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.Logic.qualia_7d_codec import codec
+from Core.L4_Causality.World.cell import cell_unit
+
 
 @dataclass
 class Fragment:
@@ -61,6 +65,17 @@ class Growth:
         # Heart    (주권적 자아)
         self._heart = None
         
+        # [Phase 37.2] Steel Core Injection
+        self.growth_state = D7Vector(
+            foundation=0.9,
+            metabolism=0.7,
+            phenomena=0.5,
+            causality=0.4,
+            mental=0.6,
+            structure=0.8,
+            spirit=0.3
+        )
+        
     @property
     def heart(self):
         """        (     )"""
@@ -84,27 +99,35 @@ class Growth:
         """
         self.fragments.clear()
         
-        # Core/Evolution           
-        evolution_path = self.project_root / "Core" / "Evolution"
+        # [Phase 37.2] Scan Unified 7-Layer Structure
+        layers = ["L1_Foundation", "L2_Metabolism", "L3_Phenomena", "L4_Causality", "L5_Mental", "L6_Structure", "L7_Spirit"]
         
         discovered = 0
         broken = 0
         
-        for py_file in evolution_path.glob("*.py"):
-            if py_file.name.startswith("__"):
-                continue
-                
-            fragment = self._analyze_fragment(py_file)
-            self.fragments[fragment.name] = fragment
-            discovered += 1
+        for layer in layers:
+            layer_path = self.project_root / "Core" / layer
+            if not layer_path.exists(): continue
             
-            if fragment.error:
-                broken += 1
+            for py_file in layer_path.rglob("*.py"):
+                if py_file.name.startswith("__") or "__pycache__" in str(py_file):
+                    continue
+                    
+                fragment = self._analyze_fragment(py_file)
+                self.fragments[fragment.name] = fragment
+                discovered += 1
+                
+                if fragment.error:
+                    broken += 1
+        
+        # Update metabolic state based on discovery
+        self.growth_state.metabolism = min(1.0, 0.1 + (discovered / 1000.0))
         
         return {
             "message": f"         ",
             "discovered": discovered,
             "broken": broken,
+            "growth_vector": self.growth_state.to_dict(),
             "fragments": list(self.fragments.keys())[:10]
         }
     
@@ -261,9 +284,16 @@ class Growth:
                     "message": f"                  : {fragment.error}"
                 }
         
-        #    import   
+        # [Phase 37.2] Resolve new import path for dynamic loading
+        # We need to find which layer this file belongs to
+        layer = fragment.path.parent.name
+        
         try:
-            module = importlib.import_module(f"Core.L2_Metabolism.Evolution.{fragment_name}")
+            # Dynamically import from the correct layer
+            module_path = f"Core.{layer}.{fragment_name}"
+            # Some files might be deeper, butrglob provides the full relative path
+            # For simplicity, we assume one level down for now
+            module = importlib.import_module(module_path)
             
             connection = Connection(
                 fragment=fragment,
@@ -273,6 +303,10 @@ class Growth:
             
             self.my_world[fragment_name] = connection
             
+            # Growth state shift: spirit and mental increase with connection
+            self.growth_state.spirit = min(1.0, self.growth_state.spirit + 0.05)
+            self.growth_state.mental = min(1.0, self.growth_state.mental + 0.02)
+            
             # Heart     
             self.heart.feel(f"            : {connection.meaning}")
             
@@ -281,7 +315,7 @@ class Growth:
                 "status": "connected",
                 "message": f"  '{fragment_name}'           !",
                 "meaning": connection.meaning,
-                "love_connection": connection.how_it_helps_love,
+                "growth_vector": self.growth_state.to_dict(),
                 "my_world_size": len(self.my_world)
             }
             
@@ -327,6 +361,7 @@ class Growth:
             
         return False
     
+    @cell_unit
     def grow(self, max_connections: int = 5) -> Dict[str, Any]:
         """
                -             
@@ -342,7 +377,7 @@ class Growth:
             if name not in self.my_world
         ]
         
-        #      (         )
+        # [Phase 37.2] Focus on spiritual/mental growth
         unconnected.sort(
             key=lambda n: self.fragments[n].size,
             reverse=True
@@ -362,12 +397,16 @@ class Growth:
         #      
         self.heart.beat()
         
+        # Dynamic resonance check
+        resonance = codec.calculate_resonance(self.growth_state.to_numpy(), self.heart.state.to_numpy())
+        
         return {
             "message": "          ",
             "perceived": perception["discovered"],
             "connected": connected,
             "failed": len(failed),
-            "my_world_size": len(self.my_world),
+            "heart_resonance": f"{resonance:.2f}",
+            "growth_vector": self.growth_state.to_dict(),
             "growth_rate": f"{len(self.my_world)}/{perception['discovered']}"
         }
     

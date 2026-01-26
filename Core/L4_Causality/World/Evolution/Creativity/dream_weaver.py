@@ -3,7 +3,7 @@ import logging
 import random
 from typing import Dict, Any, List
 from Core.L2_Metabolism.Cycles.dream_engine import DreamEngine
-from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L6_Structure.Wave.resonance_field import ResonanceField
 
 logger = logging.getLogger("DreamWeaver")
 

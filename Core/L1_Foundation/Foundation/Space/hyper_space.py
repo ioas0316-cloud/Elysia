@@ -12,7 +12,7 @@ import random
 from dataclasses import dataclass, field
 from typing import List, Dict, Deque
 from collections import deque
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 from Core.L1_Foundation.Foundation.Law.law_of_resonance import LawOfResonance
 
 @dataclass

@@ -14,7 +14,7 @@ from Core.L1_Foundation.Foundation.organ_system import OrganSystem
 from Core.L1_Foundation.Foundation.central_nervous_system import CentralNervousSystem
 from Core.L1_Foundation.Foundation.yggdrasil import yggdrasil
 from Core.L4_Causality.chronos import Chronos
-from Core.L1_Foundation.Foundation.Wave.resonance_field import ResonanceField
+from Core.L6_Structure.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.entropy_sink import EntropySink
 from Core.L1_Foundation.Foundation.synapse_bridge import SynapseBridge
 from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus

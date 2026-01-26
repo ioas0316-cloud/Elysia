@@ -35,7 +35,7 @@ import json
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.L1_Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.L6_Structure.hyper_quaternion import Quaternion
 
 # [LOGIC TRANSMUTATION] Unified Wave Storage
 # Import definitions from HolographicMemory to merge systems
@@ -135,7 +135,7 @@ class InternalUniverse:
         # [Phase 11] Apply Wave Interference for multiple matches
         if len(hits) > 1:
             try:
-                from Core.L1_Foundation.Foundation.Wave.wave_interference import WaveInterference
+                from Core.L6_Structure.Wave.wave_interference import WaveInterference
                 interference_engine = WaveInterference()
                 hits = interference_engine.process_multiple_matches(hits, self.coordinate_map)
                 logger.debug(f"  Wave Interference applied to {len(results)} resonant concepts")

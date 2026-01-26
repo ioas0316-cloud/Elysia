@@ -17,7 +17,7 @@ from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 import time
 
-from Core.L1_Foundation.Foundation.Wave.hyper_qubit import HyperQubit
+from Core.L6_Structure.Wave.hyper_qubit import HyperQubit
 
 
 @dataclass
