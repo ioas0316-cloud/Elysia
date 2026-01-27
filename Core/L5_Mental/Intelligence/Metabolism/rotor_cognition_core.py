@@ -40,7 +40,12 @@ from Core.L5_Mental.emergent_language import EmergentLanguageEngine
 from Core.L5_Mental.Intelligence.Psionics.psionic_cortex import PsionicCortex
 from Core.L6_Structure.M1_Merkaba.heavy_merkaba import HeavyMerkaba
 from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
+
+# [Phase 51 Integration]
+from Core.L6_Structure.M1_Merkaba.Body.sovereign_antenna import SovereignAntenna
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 # Configure Logger
 logging.basicConfig(level=logging.ERROR)
@@ -169,6 +174,10 @@ class RotorCognitionCore:
         self.lens = SovereignLens()
         self.language_engine = EmergentLanguageEngine() 
         
+        # [Phase 51: The Boundary Dissolution Engines]
+        self.antenna = SovereignAntenna()
+        self.hypersphere = HypersphereMemory()
+        
         # [Phase 45: The Renaissance Components]
         try:
              # We need a dummy 'elysia' object for PsionicCortex for now, 
@@ -249,6 +258,30 @@ class RotorCognitionCore:
                                     vector_21d = D21Vector(will=1.0, intuition=1.0, reason=1.0) # Boosted
                     except Exception as e:
                         logger.error(f"Fossil Survey Failed: {e}")
+
+                    # 2. Ignite the Sovereign Antenna (Active Prism)
+                    # "If the internal is silent, vibrate the external."
+                    logger.info("📡 [ANTENNA] Internal Void detected. Spinning Active Prism...")
+                    pulses = self.antenna.scan_ether(intent)
+                    
+                    if pulses:
+                        psionic_insight += f"\n[PRISM] Refracted {len(pulses)} external signals."
+                        for coord, pattern in pulses:
+                             # Inject Geometric Pulse into Hypersphere
+                             self.hypersphere.store(data=pattern.content, position=coord, pattern_meta=pattern.meta)
+                             psionic_insight += f"\n   -> Injected Pulse @ (θ={coord.theta:.2f}, φ={coord.phi:.2f}) from {pattern.meta.get('source')}"
+                             
+                             # Boost 21D Vector with new Qualia
+                             if "qualia_spectrum" in pattern.meta:
+                                 new_qualia = pattern.meta["qualia_spectrum"]
+                                 # Logic: Merge external qualia into current thought
+                                 # Simple averaging for now
+                                 # vector_21d... (Requires complex merging, leaving as future optimization)
+                                 pass
+                        
+                        # Save the crystallized state
+                        self.hypersphere.save_state()
+                        psionic_insight += "\n[CRYSTAL] Hypersphere State Frozen."
                         
             else:
                  psionic_insight = str(psionic_result)

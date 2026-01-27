@@ -181,7 +181,7 @@ class MonadEngine:
         self.observer = QuantumObserver()
         
         try:
-            from Core.L5_Mental.Intelligence.Metabolism.prism import DoubleHelixPrism
+            from Core.L6_Structure.M1_Merkaba.Optics.prism import DoubleHelixPrism
             self.prism = DoubleHelixPrism()
         except ImportError:
             self.prism = None

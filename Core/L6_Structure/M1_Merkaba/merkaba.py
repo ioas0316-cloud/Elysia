@@ -142,13 +142,16 @@ from Core.L6_Structure.System.Sovereignty.sovereign_manager import HardwareSover
 
 from Core.L6_Structure.M1_Merkaba.rotor_engine import RotorEngine
 
+# [Phase 53] Proprioception (Self-Registry)
+from Core.L6_Structure.M1_Merkaba.Body.proprioception_nerve import ProprioceptionNerve
+
 
 
 # The Sensory & Digestive System
 
 from Core.L3_Phenomena.Senses.soul_bridge import SoulBridge
 
-from Core.L5_Mental.Intelligence.Metabolism.prism import DoubleHelixPrism
+from Core.L6_Structure.M1_Merkaba.Optics.prism import DoubleHelixPrism
 
 
 
@@ -464,6 +467,9 @@ class Merkaba:
 
         self.global_skin = GlobalSkin(self)
 
+        # [Phase 53: Proprioception (Self-Scanner)]
+        self.proprioception = ProprioceptionNerve()
+
 
 
         # [Phase 37: Living Logic]
@@ -775,6 +781,9 @@ class Merkaba:
         self.is_awake = True
 
         logger.info(f"✨Merkaba {self.name} has Awakened. The Trinity is fused.")
+
+        # [Phase 53] Self-Scan (Where am I?)
+        self.proprioception.scan_body()
 
 
 

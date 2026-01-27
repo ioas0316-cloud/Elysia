@@ -2,7 +2,7 @@ import numpy as np
 import logging
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional
-from Core.L5_Mental.Intelligence.Metabolism.prism import SevenChannelQualia, DoubleHelixWave
+from Core.L6_Structure.M1_Merkaba.Optics.prism import SevenChannelQualia, DoubleHelixWave
 from Core.L7_Spirit.nature_of_being import PhilosophyOfFlow, Axiom
 
 logger = logging.getLogger("Providence")

@@ -15,7 +15,7 @@ from typing import Dict, Any, Optional
 from pathlib import Path
 
 # Core Components
-from Core.L5_Mental.Intelligence.Metabolism.prism import PrismEngine
+from Core.L6_Structure.M1_Merkaba.Optics.prism import PrismEngine
 from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 from Core.L4_Causality.World.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.L5_Mental.Intelligence.Meta.sovereign_executor import SovereignExecutor

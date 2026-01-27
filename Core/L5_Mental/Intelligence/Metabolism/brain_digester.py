@@ -21,7 +21,7 @@ from typing import Dict, Any, List, Optional
 from safetensors import safe_open
 
 # Merkava Integration
-from Core.L5_Mental.Intelligence.Metabolism.prism import PrismEngine, WaveDynamics
+from Core.L6_Structure.M1_Merkaba.Optics.prism import PrismEngine, WaveDynamics
 
 logger = logging.getLogger("BrainDigester")
 

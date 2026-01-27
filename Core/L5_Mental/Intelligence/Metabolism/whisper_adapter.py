@@ -98,7 +98,7 @@ def transduce_audio(audio_path: Union[str, Path]) -> Optional[AudioDNA]:
         
         # Convert transcription to Wave DNA
         if transcription:
-            from Core.L5_Mental.Intelligence.Metabolism.prism import PrismEngine
+            from Core.L6_Structure.M1_Merkaba.Optics.prism import PrismEngine
             
             prism = PrismEngine()
             prism._load_model()

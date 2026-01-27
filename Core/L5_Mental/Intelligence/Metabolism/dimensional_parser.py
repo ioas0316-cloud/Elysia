@@ -24,7 +24,7 @@ from pathlib import Path
 
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Intelligence.Metabolism.prism import PrismEngine, WaveDynamics
+from Core.L6_Structure.M1_Merkaba.Optics.prism import PrismEngine, WaveDynamics
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("DimensionalParser")
