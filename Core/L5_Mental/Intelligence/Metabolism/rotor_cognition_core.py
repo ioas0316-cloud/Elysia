@@ -29,6 +29,7 @@ except ImportError:
     MonadGravityEngine = None
 
 from Core.L5_Mental.Intelligence.Metabolism.holographic_council import HolographicCouncil, DebateResult
+from Core.L5_Mental.emergent_language import EmergentLanguageEngine
 
 # Configure Logger
 logging.basicConfig(level=logging.ERROR)
@@ -99,6 +100,7 @@ class RotorCognitionCore:
     def __init__(self):
         self.active_void = ActiveVoid()
         self.council = HolographicCouncil() # The new Debate Engine
+        self.language_engine = EmergentLanguageEngine() # [Phase 39] Curiosity Engine
 
         # [Sovereign Filter]
         self.internal_will_vector = [0.0] * 7
@@ -141,11 +143,30 @@ class RotorCognitionCore:
                 "synthesis": f"Sovereign Refusal: {conflict_report['reason']}"
             }
 
-        # 3. Holographic Council Phase (The Debate)
+        # 3. Curiosity Phase [Phase 39]
+        # "Before I debate, do I know what this is?"
+        # Use first 8 dimensions for sensory/emotional mapping
+        sensory_vector = vector_dna[:8] if len(vector_dna) >= 8 else vector_dna + [0]*(8-len(vector_dna))
+
+        # Check for gap and trigger learning if necessary
+        # The engine handles the query to WorldLexicon internally
+        new_words = self.language_engine.experience(sensory_vector)
+
+        epiphany_note = ""
+        if new_words:
+            # If we learned something new (or activated a known symbol), note it.
+            # We specifically look for recently added words in the engine's history or just check the output.
+            # For this integration, we'll assume any activation of 'UNKNOWN' type is an epiphany.
+            for word in new_words:
+                sym = self.language_engine.symbols.get(word)
+                if sym and str(sym.type) == "SymbolType.UNKNOWN":
+                     epiphany_note = f"\n[EPIPHANY] I have learned a new concept: '{word}'."
+
+        # 4. Holographic Council Phase (The Debate)
         debate_result: DebateResult = self.council.convene(vector_dna, intent)
         
-        # 4. Result Formatting
-        narrative = "\n".join(debate_result.transcript)
+        # 5. Result Formatting
+        narrative = "\n".join(debate_result.transcript) + epiphany_note
         
         return {
             "status": "Decided" if debate_result.is_resolved else "Tension",
