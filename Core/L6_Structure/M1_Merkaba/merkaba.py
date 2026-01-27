@@ -48,7 +48,7 @@ from Core.L6_Structure.System.WakeWord.phase_locked_loop import PLLController
 
 # The Trinity Components
 
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 
 from Core.L5_Mental.Intelligence.Memory.hippocampus import Hippocampus
 

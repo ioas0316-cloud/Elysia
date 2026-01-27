@@ -15,7 +15,7 @@ import random
 import logging
 
 from Core.L5_Mental.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 from Core.L6_Structure.Wave.universal_wave_encoder import UniversalWaveEncoder
 from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import get_integrated_cognition
 from Core.L5_Mental.Intelligence.Intelligence.system_self_awareness import SystemSelfAwareness

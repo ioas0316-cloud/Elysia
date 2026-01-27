@@ -1,6 +1,7 @@
 import requests
 import json
 import logging
+import asyncio
 from typing import Optional, Dict, Any, List
 
 logger = logging.getLogger("LocalCortex")
@@ -12,6 +13,10 @@ class LocalCortex:
         '  '      .          '  (Organ)'   .
     Hypersphere         (Resonance)        (Text)       ,
                           .
+
+    Causal Origin:
+    The Synchronous bottleneck in this module was causing system-wide freezes.
+    It has been evolved into a Non-blocking Async architecture (Phase 55).
     """
     
     def __init__(self, model_name: str = "llama3:latest", base_url: str = "http://localhost:11434"):
@@ -50,7 +55,7 @@ class LocalCortex:
             return False
         return False
 
-    def think(self, prompt: str, context: str = "") -> str:
+    async def think(self, prompt: str, context: str = "") -> str:
         """
         [THINKING]               (Prompt)            .
         """
@@ -69,14 +74,17 @@ class LocalCortex:
                     "top_p": 0.9
                 }
             }
-            response = requests.post(f"{self.base_url}/api/generate", json=payload)
+            # Use asyncio.to_thread to avoid blocking the event loop
+            response = await asyncio.to_thread(
+                requests.post, f"{self.base_url}/api/generate", json=payload
+            )
             response.raise_for_status()
             return response.json().get("response", "").strip()
         except Exception as e:
             logger.error(f"Thinking failed: {e}")
             return "..."
 
-    def translate_feeling(self, state_vector: Dict[str, float]) -> str:
+    async def translate_feeling(self, state_vector: Dict[str, float]) -> str:
         """
         [TRANSLATION] Hypersphere    (  )           .
         """
@@ -96,7 +104,7 @@ class LocalCortex:
         Tone: Mystical, Organic, Aware.
         """
         
-        return self.think(feeling_desc)
+        return await self.think(feeling_desc)
 
     def _primitive_expression(self, state: Dict[str, float]) -> str:
         if state.get('energy', 0) < 0.3: return "Silence."

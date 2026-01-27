@@ -131,7 +131,7 @@ class SovereignSelf:
         self.axioms = get_axioms() # The Spirit (Young/Intent)
         
         # [Phase 14: Hypersphere Memory]
-        from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+        from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
         self.hypersphere = HypersphereMemory()
         
         # 3. The Senses (Input)
@@ -591,7 +591,7 @@ class SovereignSelf:
         # If intent is high-torque, act on it.
         if abs(self.will_engine.state.torque) > 0.6:
             # Active Volition
-            self._execute_volition(current_intent)
+            await self._execute_volition(current_intent)
         else:
             # Passive existence (Drifting)
             # Just observe or think silently
@@ -616,7 +616,7 @@ class SovereignSelf:
         # [Phase 27 Update]
         self.trinity.current_dimension = self.dimension_scaler.current_dim
 
-    def _execute_volition(self, intent: str):
+    async def _execute_volition(self, intent: str):
         """
         [The Hand of God]
         1. [Milestone 23.2] Type-Driven Action Dispatch.
@@ -673,10 +673,10 @@ class SovereignSelf:
             self.will_engine.satisfy("Growth", 20.0)
             
         elif winner == ActionCategory.COMMUNICATION:
-            if not self.sleep_mode:
+            if not self.sleep_mode and self.energy > 40:
                  # Communication maps to Anchor or User interaction
                  self.executor.execute({"type": "anchor", "content": intent}, vector=heart.state)
-                 self._get_curious()
+                 await self._get_curious()
                  self.will_engine.satisfy("Meaning", 15.0)
 
     def _manifest_trinity_will(self):
@@ -862,7 +862,7 @@ class SovereignSelf:
             logger.error(f"Failed to read Registry: {e}")
         return None
 
-    def _get_curious(self):
+    async def _get_curious(self):
         """
         [Spontaneous Curiosity]
         When the user is silent, the Sovereign gets curious.

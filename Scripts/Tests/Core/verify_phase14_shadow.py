@@ -7,7 +7,7 @@ import logging
 import os
 from Core.L5_Mental.Intelligence.Metabolism.topology_predator import CognitiveArcheologist
 from Core.L5_Mental.Intelligence.LLM.target_registry import TargetLLM, ModelType
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

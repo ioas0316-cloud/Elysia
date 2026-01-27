@@ -179,6 +179,12 @@ class CodeProprioceptor:
                 if code_len > 0:
                     health.intent_density = min(1.0, (doc_len / code_len) * 5.0)
 
+                # [NEW: Causal Narrative Sense]
+                if docstring and "Causal Origin:" in docstring:
+                    health.philosophy_check = "CAUSAL_ANCHOR"
+                    # We can store the origin in the metadata for CausalKnowledgeBase integration later
+                    logger.info(f"✨ [PROPRIOCEPTION] Sensed Causal Origin in {rel_path}")
+
                 # 4. Ghost Detection Logic (Simplified)
                 if code_len < 10 or ((health.has_class or health.has_functions) and doc_len == 0):
                     health.is_ghost = True

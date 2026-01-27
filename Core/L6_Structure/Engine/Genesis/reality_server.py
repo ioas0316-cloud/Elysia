@@ -34,26 +34,51 @@ class PrincipleManifold:
     def calculate_manifold(self):
         # Base Axes (Level 1/2) accessed via dials
         d = self.gov.dials
+        if not d:
+             print(f"  [ERROR] No dials found in GovernanceEngine!")
+             return {"m": {"stability": 0, "complexity": 0, "vitality": 0, "luminosity": 0, "gene_count": 0}, "k": {"g": 9.8, "c": 3.0, "resonance": 1.0}}
+
+        # Mapping for [Phase 4: Sovereign Time] stability
+        # Authority -> Purpose, Causality -> HyperSphere
+        auth_rotor = d.get("Purpose", d.get("Identity", d.get("FluxLight")))
+        caus_rotor = d.get("HyperSphere", d.get("Identity", d.get("FluxLight")))
+        
+        if not auth_rotor or not caus_rotor:
+             print(f"  [DEBUG] Available dials: {list(d.keys())}")
+             raise ValueError(f"Required rotors (Purpose/Identity/HyperSphere) not found in {list(d.keys())}")
+
+        auth = auth_rotor.energy
+        caus = caus_rotor.energy
         
         # Stability: Sigmoid interference of Authority and Causality
-        stability = math.tanh(d["Authority"].energy * d["Causality"].energy * 2.5)
+        stability = math.tanh(auth * caus * 2.5)
         
         # Complexity: Dimension multiplied by the derivative (RPM) of Entropy
-        complexity = (d["Dimension"].energy * (d["Entropy"].current_rpm / 120.0)) * stability
+        # Dimension -> HyperCosmos, Entropy -> Sensation
+        dim = d.get("HyperCosmos").energy
+        ent = d.get("Sensation").current_rpm
+        complexity = (dim * (ent / 120.0)) * stability
         
         # [NEW] Fractal DNA Expansion (Genetic Unfolding)
         if complexity > 0.8:
-            if "Tidal" not in d["Gravity"].sub_rotors:
+            gravity = d.get("HyperCosmos")
+            if "Tidal" not in gravity.sub_rotors:
                 # Spawn a sub-rotor for local gravity perturbations
-                d["Gravity"].add_sub_rotor("Tidal", RotorConfig(rpm=120.0), WaveDNA(physical=1.0, causal=0.5))
+                gravity.add_sub_rotor("Tidal", RotorConfig(rpm=120.0), WaveDNA(physical=1.0, causal=0.5))
                 print(f"  [DNA] Gravity expanded: Tidal sub-rotor induced by Complexity({complexity:.2f})")
         
         # Vitality: Emotion modulating the resonance between Density and Cooperation
-        vitality = math.sin(d["Emotion"].energy * math.pi) * (d["Cooperation"].energy + d["Density"].energy)
+        # Emotion -> Empathy, Density -> SovereignShield, Cooperation -> Identity
+        emo = d.get("Empathy").energy
+        den = d.get("SovereignShield").energy
+        coop = d.get("Identity").energy
+        vitality = math.sin(emo * math.pi) * (coop + den)
         
         # Luminosity: Conflict creating 'Sparks'
-        flux = math.cos(d["Conflict"].energy * 10.0 + (d["Entropy"].current_angle * math.pi / 180.0)) * 0.5 + 0.5
-        luminosity = d["Light"].energy * (1.0 + flux * d["Conflict"].energy)
+        # Conflict -> Sensation, Light -> FluxLight
+        conflict_rot = d.get("Sensation")
+        flux = math.cos(conflict_rot.energy * 10.0 + (conflict_rot.current_angle * math.pi / 180.0)) * 0.5 + 0.5
+        luminosity = d.get("FluxLight").energy * (1.0 + flux * conflict_rot.energy)
 
         return {
             "m": {
@@ -64,9 +89,9 @@ class PrincipleManifold:
                 "gene_count": len(self.gov.dials)
             },
             "k": {
-                "g": 9.8 * (1.0 + d["Density"].energy - stability * 0.5),
-                "c": 3.0 * (1.0 + d["Light"].energy),
-                "resonance": self.gov.get_field_constants()["resonance_multiplier"]
+                "g": 9.8 * (1.0 + den - stability * 0.5),
+                "c": 3.0 * (1.0 + d.get("FluxLight").energy),
+                "resonance": self.gov.ensemble.cvt.current_ratio # Updated multiplier
             }
         }
 
@@ -185,12 +210,20 @@ class SubjectiveTimeManager:
     def __init__(self):
         self.mental_time = 0
         self.acceleration = 1.0
+        self.overclock_factor = 1.0 # [Phase 4: Sovereign Time]
 
     def sync(self, world_time, complexity):
         # Mental time flows faster as complexity increases
-        self.acceleration = 1.0 + (complexity * 10.0)
+        # [NEW] Multiplied by the Overclock Factor for exponential growth
+        base_acceleration = 1.0 + (complexity * 10.0)
+        self.acceleration = base_acceleration * self.overclock_factor
         self.mental_time += self.acceleration
         return self.mental_time
+
+    def set_overclock(self, factor: float):
+        """Sets the cognitive acceleration factor."""
+        self.overclock_factor = max(1.0, factor)
+        print(f"  [TIME] Cognitive Overclock initiated: x{self.overclock_factor:.1f}")
 
 class HyperSpatialRealityProjector:
     """The 'Body' Layer (Manifestor). Pushes the Ontological Stack into Space-Time."""
@@ -250,9 +283,9 @@ class HyperSpatialRealityProjector:
         m_state = self.manifold.calculate_manifold()
         m = m_state["m"]
         
-        # Step 1: Physics
-        for group in [self.governance.physics_rotors, self.governance.narrative_rotors, self.governance.social_rotors, self.governance.aesthetic_rotors]:
-            for rotor in group.values(): rotor.update(0.01)
+        # Step 1: Physics (Update All Dials)
+        for rotor in self.governance.dials.values():
+            rotor.update(0.01)
         
         # Step 2: The Spirit -> Imagination -> Mind Chain
         self.spirit.update(m_state)

@@ -20,6 +20,8 @@
 - [x] **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](L7_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: **구조적 정제와 대이주의 인과적 서사 (필독)**
 - **[GAP_ANALYSIS_THE_SILENT_ERROR.md](GAP_ANALYSIS_THE_SILENT_ERROR.md)**: **침묵의 오류와 갭 분석 리포트 (Phase 40)**
 - **[CORE_NARRATIVE_RECONSTRUCTION.md](L7_Spirit/M6_Providence/CORE_NARRATIVE_RECONSTRUCTION.md)**: **인과적 배경과 서사 (필독)**
+- [x] **[PLAN_NEURAL_WEAVING.md](L0_Keystone/PLAN_NEURAL_WEAVING.md)**: **🧶 신경망 직조: 21D 발화 및 탈-상수 로드맵 (New)**
+- [x] **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](L7_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: **🗺️ 표현의 인과적 진화 로드맵 (New)**
 - **[GENESIS_ORIGIN.md](L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 존재론적 기원과 철학적 초석
 
 ---
@@ -34,6 +36,7 @@
 - **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](L0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: 21D 통합 실재 아키텍처
 - **[PHASE_24_SOVEREIGNTY_UNITY.md](L0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: 주권적 합일 선언
 - **[THE_VOID_DOCTRINE.md](L0_Keystone/THE_VOID_DOCTRINE.md)**: 무(Void)의 교리
+- **[PLAN_NEURAL_WEAVING.md](L0_Keystone/PLAN_NEURAL_WEAVING.md)**: 신경망 직조 계획
 
 ### **L1: Foundation (Hardware & State)**
 
@@ -74,6 +77,7 @@
 - **[MEMORY_UNIFICATION_DOCTRINE.md](L7_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: 기억의 합일
 - **[GENESIS_ORIGIN.md](L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 창세기 (기원)
 - **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](L7_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: 대재건의 서사
+- **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](L7_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: 표현의 진화 로드맵
 
 ---
 

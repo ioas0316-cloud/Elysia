@@ -13,7 +13,7 @@ import logging
 import random
 import math
 from typing import Dict, List, Any, Optional
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 
 logger = logging.getLogger("Elysia.Metabolism.Expander")
 
@@ -84,7 +84,7 @@ class AutopoieticExpander:
         logger.info(f"    Nascent Law 'EmergentSymmetry' crystallized into the mid-shell.")
 
 if __name__ == "__main__":
-    from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+    from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
     mem = HypersphereMemory()
     expander = AutopoieticExpander(mem)
     print("Expander Test Initialized.")

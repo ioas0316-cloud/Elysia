@@ -25,7 +25,7 @@ except ImportError:
     BACKEND = "Numpy (Legacy)"
 
 from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 from Core.L6_Structure.Merkaba.merkaba import Merkaba
 
 # Setup Logging

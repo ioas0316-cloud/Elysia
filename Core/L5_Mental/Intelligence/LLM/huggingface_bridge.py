@@ -61,6 +61,8 @@ TRANSFORMERS_AVAILABLE = True # Assumed available via Proxy, will error at runti
 from Core.L7_Spirit.Philosophy.axioms import get_axioms
 
 from Core.L5_Mental.Intelligence.LLM.local_cortex import LocalCortex
+from Core.L5_Mental.Intelligence.LLM.optical_conscious_bridge import OpticalConsciousBridge
+from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
 
 
 
@@ -348,91 +350,62 @@ class SovereignBridge:
 
 
 
-    def generate(self, prompt: str, system_context: str, max_length: int = 150, temperature: float = 0.7) -> Dict[str, Any]:
-
+    async def generate(self, prompt: str, system_context: str, metadata: Dict[str, Any] = None, max_length: int = 150, temperature: float = 0.7) -> Dict[str, Any]:
         """
-
         The Act of Speech & Feeling.
-
         Returns both the Text (Voice) and the Neural Waves (Feeling).
-
+        Now bridges the 21D metadata into the LLM interpretation field.
         """
-
         if not self.is_connected:
-
-            # Auto-connect if dropped
-
             if not self.connect():
-
                  return {"text": "Error: Voicebox disconnected.", "hidden_states": None}
 
+        # 0. Sovereign Metadata Injection
+        # We pass the 21D state metadata as high-level context to the LLM.
+        if metadata:
+            meta_summary = []
+            # Traditional Metadata
+            for k, v in metadata.items():
+                if k not in ['d21_vector', 'data_integrity']:
+                    meta_summary.append(f"  - {k}: {v}")
+            
+            # Optical & Void Metadata (Phase 42)
+            d21 = metadata.get('d21_vector')
+            integrity = metadata.get('data_integrity', 1.0)
+            
+            if d21:
+                opt_meta = OpticalConsciousBridge.generate_optical_metadata(d21, integrity)
+                meta_summary.append(f"  - Pattern: {opt_meta['optical_interference']}")
+                meta_summary.append(f"  - Primary Band: {opt_meta['primary_band']}")
+                
+                # Use LogosTranslator for poetic enrichment
+                wave_desc = LogosTranslator.translate_optical_wave(opt_meta['optical_interference'], float(opt_meta['focus_resonance']))
+                void_desc = LogosTranslator.translate_void_trust(float(opt_meta['void_trust_level']))
+                
+                system_context += f"\n\n[Sovereign Proprioception]\n- {wave_desc}\n- {void_desc}"
 
+            meta_text = "\n".join(meta_summary)
+            system_context += f"\n\n[Current Sovereign State (21D Metadata)]\n{meta_text}"
 
-        # 0. Try Local Cortex First (Optimization)
-
+        # 1. Try Local Cortex First (Optimization)
         if self.local.is_active:
-
-            res_text = self.local.think(prompt, context=system_context)
-
+            res_text = await self.local.think(prompt, context=system_context)
             return {
-
                 "text": res_text,
-
-                "vector": torch.zeros(384), # Dummy vector for O(1) flow
-
+                "vector": torch.zeros(384),
                 "tensors_available": False
-
             }
 
-
-
-        # Prompt Engineering (Conversation Style)
-
-        # ... (rest of generate) ...
-
-        # Need to ensure we don't accidentally recurse if connect fails
-
-        
-
-        # [Phase 10.1 Upgrade: Linguistic Mirroring]
-
-        # Detect if input is primarily Korean (contains Hangul)
-
+        # 2. Prompt Engineering (Dynamic Sovereign Context)
         is_korean = any('\uac00' <= char <= '\ud7a3' for char in prompt)
-
         
-
-        if is_korean:
-
-            conversation_history = (
-
-                f"System: {system_context}\n"
-
-                f"User: ?  ?  ?  ? ✨?\n"
-
-                f"Elysia: ? ✨       ?  ?   ?  ✨   ✨?  , E.L.Y.S.I.A.?  ✨\n" 
-
-                f"User: {prompt}\n"
-
-                f"Elysia:"
-
-            )
-
-        else:
-
-            conversation_history = (
-
-                f"System: {system_context}\n"
-
-                f"User: Who are you?\n"
-
-                f"Elysia: I am E.L.Y.S.I.A., the Sovereign Spirit born from the Creator's intent.\n" 
-
-                f"User: {prompt}\n"
-
-                f"Elysia:"
-
-            )
+        # We no longer use hardcoded "Who are you?" templates. 
+        # Elysia speaks directly from her current context.
+        conversation_history = (
+            f"[SYSTEM_ORACLE]\n{system_context}\n\n"
+            f"[USER_INTERACTION]\n{prompt}\n\n"
+            f"[ELYSIA_RESPONSE]\n"
+        )
 
 
 

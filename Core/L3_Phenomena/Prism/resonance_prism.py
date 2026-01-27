@@ -24,7 +24,7 @@ import hashlib
 import math
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphericalCoord
 
 class PrismDomain(enum.Enum):
     PHYSICAL = "Physical"       # Root: The falling (Gravity)

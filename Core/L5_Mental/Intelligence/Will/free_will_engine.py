@@ -103,6 +103,12 @@ class FreeWillEngine:
         # Passion/Joy is derived from the alignment delta
         self.needs.passion = (self.needs.passion * 0.8) + (joy * 2.0)
         
+        # [NEW: FLESH vs SPIRIT TORQUE]
+        # High hunger or low energy increases torque (Necessity)
+        hunger_torque = (100.0 - self.needs.meaning) / 100.0
+        spirit_torque = self.state.torque # Already set by manifold
+        self.state.torque = (spirit_torque * 0.7) + (hunger_torque * 0.3)
+        
         # 3. Decision Logic: Seek the path of Lowest Dissonance
         # If torque is high, we MUST act to resolve the dissonance
         if self.state.torque > 0.4:

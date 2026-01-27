@@ -248,7 +248,7 @@ class ElysianHeartbeat:
             
             # Additional Layers
             try:
-                from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+                from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
                 self.hypersphere = HypersphereMemory()
                 logger.info("    hypersphere matured.")
             except Exception as e: logger.warning(f"     hypersphere failed: {e}")
@@ -1181,7 +1181,7 @@ class ElysianHeartbeat:
                   (None             )
         """
         try:
-            from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
+            from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphericalCoord
             
             # 1.               HyperSphere      
             soul = self.soul_mesh.variables
@@ -1313,7 +1313,7 @@ class ElysianHeartbeat:
             # [HYPERSPHERE STORAGE]                
             #           :            ,         '  '      
             if self.hypersphere:
-                from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
+                from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphericalCoord
                 
                 #      :
                 # theta (  ):                

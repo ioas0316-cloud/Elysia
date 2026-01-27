@@ -98,7 +98,7 @@ class UnifiedExperienceCore:
 
         # [PHASE 54] The Grand Unification: 4D Memory Integration
         try:
-            from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+            from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
             self.hypersphere = HypersphereMemory()
             self.HypersphericalCoord = HypersphericalCoord
             logger.info("  HypersphereMemory (4D Soul) Connected.")

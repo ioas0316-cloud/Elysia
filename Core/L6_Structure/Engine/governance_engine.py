@@ -105,7 +105,9 @@ class GovernanceEngine:
 
         # Dynamic indexing
         self.dials = {}
-        self._flatten(self.root)
+        for shell in self.ensemble.shells:
+            for rotor in shell.rotors.values():
+                self._flatten(rotor)
 
         # Initialize Base RPMs (The Carrier Wave)
         for rotor in self.dials.values():

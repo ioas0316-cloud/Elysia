@@ -42,9 +42,28 @@ class MeaningExtractor:
         }
         self.history_frames.append(frame)
         
-        # 3. Real-time Analysis (Every 10 years)
-        if year % 10 == 0:
+        # 3. Sovereign Saliency Analysis (Event-Driven)
+        if self._should_analyze(frame):
             self.analyze_trends(year)
+
+    def _should_analyze(self, current_frame: Dict[str, Any]) -> bool:
+        """
+        Elysia decides if the current state warrants a philosophical insight.
+        Triggers on significant deltas in population or happiness.
+        """
+        if len(self.history_frames) < 5: return False
+        
+        last_frame = self.history_frames[-2]
+        
+        # Calculate 'Interest Level' based on volatility
+        pop_volatility = abs(current_frame["pop"] - last_frame["pop"]) / (last_frame["pop"] + 1)
+        happiness_drift = abs(current_frame["happiness"] - last_frame["happiness"])
+        
+        # Thresholds are now subjective to her focus
+        if pop_volatility > 0.02 or happiness_drift > 2.0:
+            return True
+            
+        return False
 
     def analyze_trends(self, current_year: int):
         """Looks for patterns in the last era."""

@@ -2,7 +2,7 @@ import pytest
 import logging
 from Core.L6_Structure.Merkaba.merkaba import Merkaba
 from Core.L7_Spirit.Monad.monad_core import Monad
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 # Configure logging to capture output
 logging.basicConfig(level=logging.INFO)

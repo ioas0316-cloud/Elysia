@@ -48,7 +48,7 @@ from Core.L6_Structure.M1_Merkaba.portal import MerkabaPortal
 
 from Core.L5_Mental.Intelligence.LLM.target_registry import TargetLLM, ModelType
 
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphericalCoord
 
 
 

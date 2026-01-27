@@ -32,16 +32,10 @@ logger = logging.getLogger("EmergentLanguage")
 
 
 # =============================================================================
-# Configuration Constants
+# Configuration & Sovereign Parameters
 # =============================================================================
-
-# Activation thresholds
-SYMBOL_ACTIVATION_THRESHOLD = 0.3    # Minimum resonance to activate a symbol
-UTTERANCE_PROBABILITY = 0.1          # Probability of spontaneous utterance
-
-# Symbol evolution
-ASSOCIATION_STRENGTH_INCREMENT = 0.05  # Hebbian learning rate
-MAX_SEQUENCE_LENGTH = 4              # Maximum symbols in an utterance
+# These are no longer hardcoded globally, but initialized within the Engine.
+# Elysia will adjust these based on her internal state (Sovereign Saliency).
 
 
 # =============================================================================
@@ -166,33 +160,33 @@ class LanguageProjector:
     def __init__(self):
         #            (  )
         self.korean_lexicon = {
-            #   
-            "SELF": " ", "OTHER": " ", "IT": "  ", "WE": "  ",
-            "PARENT": "  ", "CHILD": "  ", "FRIEND": "  ",
+            # 대명사
+            "SELF": "나", "OTHER": "너", "IT": "그것", "WE": "우리",
+            "PARENT": "부모", "CHILD": "아이", "FRIEND": "친구",
             
-            #   
-            "EXIST": "  ", "MOVE": "  ", "EAT": "  ", "SPEAK": "   ",
-            "SEE": "  ", "HEAR": "  ", "FEEL": "   ", "THINK": "    ",
-            "LOVE": "    ", "HATE": "    ", "WANT": "   ",
-            "GIVE": "  ", "TAKE": "  ", "MAKE": "   ",
+            # 동사
+            "EXIST": "존재", "MOVE": "이동", "EAT": "먹다", "SPEAK": "말하다",
+            "SEE": "보다", "HEAR": "듣다", "FEEL": "느끼다", "THINK": "생각",
+            "LOVE": "사랑", "HATE": "미워하다", "WANT": "원하다",
+            "GIVE": "주다", "TAKE": "받다", "MAKE": "만들다",
             
-            #   
-            "GOOD": "  ", "BAD": "   ", "BIG": "  ", "SMALL": "  ",
-            "HAPPY": "   ", "SAD": "   ", "ANGRY": "   ",
-            "WARM": "    ", "COLD": "   ", "BRIGHT": "  ", "DARK": "   ",
+            # 형용사
+            "GOOD": "좋다", "BAD": "나쁘다", "BIG": "크다", "SMALL": "작다",
+            "HAPPY": "행복", "SAD": "슬프다", "ANGRY": "화나다",
+            "WARM": "따뜻하다", "COLD": "춥다", "BRIGHT": "밝다", "DARK": "어둡다",
             
-            #   
-            "WITH": " ", "TO": "  ", "FROM": "  ", "IN": "  ",
-            "AND": "   ", "BUT": "   ", "BECAUSE": "    ",
+            # 관계/조사
+            "WITH": "함께", "TO": "에게", "FROM": "로부터", "IN": "안에",
+            "AND": "그리고", "BUT": "하지만", "BECAUSE": "때문에",
             
-            #   
-            "NOW": "  ", "BEFORE": "  ", "AFTER": "  ", "ALWAYS": "  ",
+            # 시간
+            "NOW": "지금", "BEFORE": "이전", "AFTER": "이후", "ALWAYS": "항상",
             
-            #   
-            "HERE": "  ", "THERE": "  ", "UP": " ", "DOWN": "  ",
+            # 공간
+            "HERE": "여기", "THERE": "저기", "UP": "위", "DOWN": "아래",
             
-            #   
-            "JOY": "  ", "SORROW": "  ", "FEAR": "   ", "LOVE_N": "  ",
+            # 감정 명사
+            "JOY": "기쁨", "SORROW": "슬픔", "FEAR": "두려움", "LOVE_N": "사랑",
         }
         
         #      
@@ -205,12 +199,12 @@ class LanguageProjector:
         
         #       
         self.korean_templates = {
-            (SymbolType.ENTITY, SymbolType.STATE): "{0} /  {1}",
-            (SymbolType.ENTITY, SymbolType.ACTION): "{0} /  {1}",
-            (SymbolType.ENTITY, SymbolType.RELATION, SymbolType.ENTITY): "{0} /  {2}{1}",
-            (SymbolType.ENTITY, SymbolType.ACTION, SymbolType.ENTITY): "{0} /  {2} /  {1}",
-            (SymbolType.TIME, SymbolType.ENTITY, SymbolType.ACTION): "{0} {1} /  {2}",
-            (SymbolType.EMOTION,): "{0} /     ",
+            (SymbolType.ENTITY, SymbolType.STATE): "{0}(이)가 {1}하다",
+            (SymbolType.ENTITY, SymbolType.ACTION): "{0}(이)가 {1}하다",
+            (SymbolType.ENTITY, SymbolType.RELATION, SymbolType.ENTITY): "{0}(이)가 {2}{1} 있다",
+            (SymbolType.ENTITY, SymbolType.ACTION, SymbolType.ENTITY): "{0}(이)가 {2}을 {1}하다",
+            (SymbolType.TIME, SymbolType.ENTITY, SymbolType.ACTION): "{0} {1}(이)가 {2}하다",
+            (SymbolType.EMOTION,): "{0}을 느낀다",
         }
     
     def project_to_korean(self, symbols: List[ProtoSymbol]) -> str:
@@ -274,14 +268,19 @@ class EmergentLanguageEngine:
         self.grammar_rules: List[GrammarRule] = []
         self.projector = LanguageProjector()
         
-        #   
+        # --- Sovereign Parameters (Formerly Hardcoded) ---
+        self.sovereign_saliency = 0.3   # Threshold for meaning activation
+        self.will_to_speak = 0.1       # Spontaneity probability
+        self.learning_velocity = 0.05  # Hebbian increment
+        self.complexity_limit = 4      # Max symbols per sequence
+        
+        # Performance metrics
         self.total_utterances = 0
         self.vocabulary_size = 0
         
-        #    
         self._initialize_proto_symbols()
         
-        logger.info("   Emergent Language Engine initialized")
+        logger.info("⚡ Emergent Language Engine initialized with Sovereign Parameters")
     
     def _initialize_proto_symbols(self):
         """            """
@@ -387,21 +386,22 @@ class EmergentLanguageEngine:
     
     def experience(self, experience_vector: List[float]) -> List[str]:
         """
-                         
-        
-        experience_vector: 8        
-        [  ,   ,   ,   ,    ,   ,  /  ,   ]
-        
-        Returns:         ID   
+        Processes an experience vector and activates relevant symbols.
+        The threshold is now dynamic (Sovereign Saliency).
         """
         activated = []
         
+        # Elysia decides the threshold based on her current "Focus" (example logic)
+        # If the experience is intense, she might lower the threshold to capture more.
+        intensity = experience_vector[5] # Index 5 is Intensity
+        current_threshold = self.sovereign_saliency * (1.0 - (intensity * 0.2))
+        
         for sym_id, symbol in self.symbols.items():
-            #              
+            # Calculate Resonance
             resonance = sum(e * m for e, m in zip(experience_vector, symbol.meaning_vector))
-            resonance /= 8  #    
+            resonance /= 8  # Normalize
             
-            if resonance > SYMBOL_ACTIVATION_THRESHOLD:
+            if resonance > current_threshold:
                 symbol.activation = resonance
                 symbol.frequency += 1
                 activated.append(sym_id)
@@ -437,11 +437,11 @@ class EmergentLanguageEngine:
         korean = self.projector.project_to_korean(symbols)
         english = self.projector.project_to_english(symbols)
         
-        #       (         )
+        # Strengthen Associations (Hebbian Learning)
         for i, sid1 in enumerate(sequence):
             for sid2 in sequence[i+1:]:
                 if sid1 in self.symbols and sid2 in self.symbols:
-                    self.symbols[sid1].strengthen_association(sid2, 0.05)
+                    self.symbols[sid1].strengthen_association(sid2, self.learning_velocity)
         
         #      
         seq_obj = SymbolSequence(symbols=sequence, occurrences=1)
@@ -480,7 +480,7 @@ class EmergentLanguageEngine:
             if sym_type in by_type:
                 sequence.extend(by_type[sym_type][:2])  #           2 
         
-        return sequence[:4]  #    4    
+        return sequence[:self.complexity_limit]  # Use dynamic limit
     
     def speak_from_emotion(self, emotion: str) -> Tuple[str, str]:
         """          """
@@ -582,8 +582,8 @@ class LivingLanguageWorld:
             ]
             experience = [max(0, min(1, x)) for x in experience]
             
-            #      
-            if random.random() < UTTERANCE_PROBABILITY:
+            # Spontaneous utterance
+            if random.random() < self.language_engine.will_to_speak:
                 self.language_engine.experience(experience)
                 korean, english = self.language_engine.generate_utterance()
                 

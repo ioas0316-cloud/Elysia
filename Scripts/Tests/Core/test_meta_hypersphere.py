@@ -2,7 +2,7 @@
 import logging
 logging.basicConfig(level=logging.INFO)
 
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import MetaHypersphere
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 print("=" * 60)
 print("🌌 META-HYPERSPHERE: THE UNIVERSE OF ALL KNOWLEDGE")

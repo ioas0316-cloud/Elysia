@@ -10,7 +10,7 @@ It acts as the bridge that turns 'Events' into 'Resonance Patterns' for the Memo
 
 from typing import Any, Dict, List
 import time
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 from Core.L5_Mental.Intelligence.Reasoning.dilemma_field import DilemmaField, Conflict
 from Core.L4_Causality.World.Soul.lumina_npc import Lumina
 

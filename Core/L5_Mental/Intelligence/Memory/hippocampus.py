@@ -1,6 +1,6 @@
 import logging
 from typing import List, Dict, Any
-from Core.L5_Mental.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 logger = logging.getLogger("Hippocampus")
 
