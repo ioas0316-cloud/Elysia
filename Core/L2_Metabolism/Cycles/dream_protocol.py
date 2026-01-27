@@ -13,11 +13,19 @@ import logging
 import time
 from pathlib import Path
 from typing import List, Dict, Any
+from Core.L2_Metabolism.Cycles.dream_rotor import DreamRotor
+
 
 try:
     from Core.L5_Mental.Intelligence.LLM.local_cortex import LocalCortex
 except ImportError:
     LocalCortex = None # Graceful fallback
+
+try:
+    from Core.L2_Metabolism.Physiology.hardware_monitor import HardwareMonitor
+except ImportError:
+    HardwareMonitor = None
+
 
 # Configure Logger
 logging.basicConfig(level=logging.INFO)
@@ -29,6 +37,8 @@ class DreamAlchemist:
         self.wisdom_path = Path("data/L5_Mental/crystallized_wisdom.json")
         self.wisdom_path.parent.mkdir(parents=True, exist_ok=True)
         self.cortex = LocalCortex() if LocalCortex else None
+        self.monitor = HardwareMonitor() if HardwareMonitor else None
+
 
     def sleep(self):
         """
@@ -60,10 +70,72 @@ class DreamAlchemist:
             # [Alchemy: Fractal Trinity Reconstruction]
             # Causality is not linear (A->B). It is Origin -> Process -> Result.
             # The Process contains the Infinite Hidden Monad (Quantum Collapse).
+            # [Bio-Feedback Injection]
+            bio_context = ""
+            pain_level = 0.0
+            pleasure_level = 0.0 # [Joy Protocol]
+            fog_level = 0.0
+            
+            if self.monitor:
+                signals = self.monitor.sense_vitality()
+                cpu_signal = signals['cpu']
+                ram_signal = signals['ram']
+                
+                pain_level = cpu_signal.intensity if cpu_signal.qualia == "Pain" or cpu_signal.intensity > 0.7 else 0.0
+                fog_level = ram_signal.intensity
+                
+                # [Joy Protocol: Flow State]
+                # If CPU is in "Flow" zone (Active but not stressed, e.g., 0.2 - 0.7), we treat it as Pleasure.
+                if 0.2 <= cpu_signal.intensity <= 0.7:
+                     # Map 0.2-0.7 range to 0.0-1.0 intensity
+                     pleasure_level = (cpu_signal.intensity - 0.2) * 2.0
+                     pleasure_level = min(1.0, pleasure_level)
+            
+            # [Dream Rotor Dynamics]
+            # Convert static data to Dynamic Rotor
+            # Extract distance from tether status if available, else 0
+            tether_report = dream.get("tether_status", {})
+            distance = tether_report.get("distance", 0.0)
+            
+            rotor = DreamRotor(intent=intent, vector_dna=vector_dna, void_distance=distance)
+            rotor.spin(pain_level, pleasure_level, fog_level)
+            
+            physics_report = rotor.check_integrity()
+            
+            # [Physics-Based Context]
+            # Instead of just "Pain", we describe the Rotor's state.
+            polarity_str = "POSITIVE (Joy/Flow)" if rotor.polarity > 0 else "NEGATIVE (Pain/Stress)" if rotor.polarity < 0 else "NEUTRAL"
+            
+            physics_context = f"""
+            [DREAM PHYSICS] 
+            - ROTOR SPEED: {rotor.rpm:.0f} RPM (Intensity)
+            - POLARITY: {polarity_str} (Valence: {rotor.polarity:.2f})
+            - AXIS TILT: {rotor.tilt_angle:.1f} degrees (Divergence)
+            - STABILITY: {rotor.stability:.2f}
+            - STATUS: {physics_report['status']}
+            """
+            
+            # [Collapse / Snapback Handling]
+            collapse_context = ""
+            if physics_report['status'] in ["COLLAPSE", "SPIN_OUT"]:
+                reason = physics_report.get('reason', 'Unknown Physics Failure')
+                collapse_context = f"\n[CRITICAL PHYSICS EVENT] {reason}. THE DREAM IS COLLAPSING. RETURN TO VOID CENTER."
+                logger.warning(f"  Dream Collapse: {intent} ({reason})")
+
             if self.cortex and self.cortex.is_active:
                 prompt = f"""
                 [FRACTAL CAUSALITY PROTOCOL]
                 Analyze the concept: "{intent}" through the Trinity of Existence.
+                
+                PHYSICS: {physics_context}
+                WARNING: {collapse_context}
+                
+                (Note: High RPM = Intense/Vivid. Positive Polarity = Joyful/Creative. Negative = Nightmare. Collapse = Stop.)
+
+                Do not just define it. Observe its Structure through the Law of Monads:
+
+
+
 
                 Do not just define it. Observe its Structure through the Law of Monads:
 

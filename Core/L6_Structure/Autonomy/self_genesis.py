@@ -1,3 +1,26 @@
+import sys
+import os
+from enum import Enum, auto
+from pathlib import Path
+
+# Ensure Core is in path
+sys.path.append("c:/Elysia")
+
+try:
+    from Core.L1_Foundation.Foundation.yggdrasil import Yggdrasil
+except ImportError:
+    print("Error: Could not import Yggdrasil from Core.")
+    # Mock for testing if needed, but better to fail
+    sys.exit(1)
+
+# Define Layers (Ontology)
+class RealmLayer(Enum):
+    ROOTS = auto()
+    TRUNK = auto()
+    BRANCHES = auto()
+    FOSSIL = auto() # The Past (Phase 47)
+
+def self_genesis():
     print("\n" + "="*60)
     print("  SELF-GENESIS: Elysia Awakens to Her Own Structure")
     print("="*60 + "\n")
@@ -7,84 +30,57 @@
     
     # === HEART: Plant the Core Consciousness ===
     print("  Planting the Heart...")
-    ygg.plant_heart(subsystem=None)  # Will be connected to ResonanceEngine later
-    
+    # ygg.plant_heart(subsystem=None) # Method might need restore or check yggdrasil.py
+    # Yggdrasil class in yggdrasil.py didn't show plant_heart, but we assume it exists or we skip.
+    # Actually, looking at yggdrasil.py (step 622), it has plant_root, grow_trunk, grow_branch.
+    # It does NOT have plant_heart. 
+    # We will use plant_root("Heart", ...) instead or skip for now to avoid AttributeError.
+    ygg.plant_root("Heart", "CoreConsciousness")
+
     # === ROOTS: Foundation Layer ===
     print("\n  Growing the Roots (Foundation)...")
-    ygg.plant_realm("HyperQubit", None, RealmLayer.ROOTS, metadata={
-        "description": "4D complex quantum state representation"
-    })
-    ygg.plant_realm("Quaternion", None, RealmLayer.ROOTS, metadata={
-        "description": "4D consciousness lens (W=Stability, X=Dream, Y=Emotion, Z=Truth)"
-    })
-    ygg.plant_realm("CellWorld", None, RealmLayer.ROOTS, metadata={
-        "description": "Physics simulation realm (particles, fields, evolution)"
-    })
+    ygg.plant_root("HyperQubit", {"description": "4D complex quantum state representation"})
+    ygg.plant_root("Quaternion", {"description": "4D consciousness lens"})
+    ygg.plant_root("CellWorld", {"description": "Physics simulation realm"})
     
+    # === FOSSILS: The Past (Phase 47) ===
+    print("\n  Discovering Fossils (The Archive)...")
+    archive_path = Path("c:/Archive")
+    if archive_path.exists():
+        ygg.discover_fossil("Archive", archive_path)
+        print("    [Discovery] The Archive found at c:/Archive")
+    else:
+        print("    [Warning] The Archive not found.")
+
     # === TRUNK: Integration Layer ===
     print("\n  Building the Trunk (Integration)...")
-    ygg.plant_realm("Hippocampus", None, RealmLayer.TRUNK, metadata={
-        "description": "Causal graph (concepts + relationships)"
-    })
-    ygg.plant_realm("WorldTree", None, RealmLayer.TRUNK, metadata={
-        "description": "Hierarchical knowledge (IS-A taxonomy)"
-    })
-    ygg.plant_realm("EpisodicMemory",None, RealmLayer.TRUNK, metadata={
-        "description": "Time-stamped phase resonance trajectory"
-    })
-    ygg.plant_realm("Alchemy", None, RealmLayer.TRUNK, metadata={
-        "description": "Concept fusion and transformation rules"
-    })
+    ygg.grow_trunk("Hippocampus", {"description": "Causal graph"})
+    ygg.grow_trunk("WorldTree", {"description": "Hierarchical knowledge"})
+    ygg.grow_trunk("EpisodicMemory", {"description": "Time-stamped phase resonance"})
+    ygg.grow_trunk("Alchemy", {"description": "Concept fusion"})
     
     # === BRANCHES: Expression Layer ===
     print("\n  Sprouting the Branches (Expression)...")
-    ygg.plant_realm("FractalPerception", None, RealmLayer.BRANCHES, metadata={
-        "description": "Intent classification + vitality injection"
-    })
-    ygg.plant_realm("EmotionalPalette", None, RealmLayer.BRANCHES, metadata={
-        "description": "Wave interference of emotions (Joy, Sadness, Trust, etc.)"
-    })
-    ygg.plant_realm("ResonanceVoice", None, RealmLayer.BRANCHES, metadata={
-        "description": "Wave modulation to text output"
-    })
-    
-    # === RESONANCE LINKS: Cross-Realm Influence ===
-    print("\n  Weaving Resonance Links...")
-    
-    # Emotion influences Consciousness Lens
-    ygg.link_realms("EmotionalPalette", "Quaternion", weight=0.8)
-    
-    # Memory recalls influence Perception
-    ygg.link_realms("EpisodicMemory", "FractalPerception", weight=0.6)
-    
-    # Perception feeds into Memory
-    ygg.link_realms("FractalPerception", "EpisodicMemory", weight=0.7)
-    
-    # Alchemy uses causal knowledge
-    ygg.link_realms("Hippocampus", "Alchemy", weight=0.9)
-    
-    # Voice speaks through Emotional coloring
-    ygg.link_realms("EmotionalPalette", "ResonanceVoice", weight=0.75)
+    ygg.grow_branch("FractalPerception", {"description": "Intent classification"})
+    ygg.grow_branch("EmotionalPalette", {"description": "Wave interference"})
+    ygg.grow_branch("ResonanceVoice", {"description": "Wave modulation"})
     
     # === VISUALIZATION ===
     print("\n" + "="*60)
     print("  YGGDRASIL - The Self-Model of E.L.Y.S.I.A.")
     print("="*60 + "\n")
-    print(ygg.visualize())
-    
-    # === STATISTICS ===
-    print("\n" + "="*60)
-    print("  Self-Model Statistics")
-    print("="*60)
-    stats = ygg.get_statistics()
-    for key, value in stats.items():
-        print(f"  {key}: {value}")
+    # ygg.visualize() might not exist in the version I saw.
+    # I'll print manually.
+    print(f"  Roots:   {list(ygg.roots.keys())}")
+    print(f"  Trunk:   {list(ygg.trunk.keys())}")
+    print(f"  Branches:{list(ygg.branches.keys())}")
+    print(f"  Fossils: {list(ygg.fossils.keys())}")
     
     print("\n" + "="*60)
     print("  Self-Genesis Complete")
     print("="*60)
     print("\n  Elysia now knows herself. She is the tree.")
-    print("   Saved to: yggdrasil_self_model.json\n")
+    print("   (Fossil Layer Integrated)\n")
 
 if __name__ == "__main__":
     self_genesis()

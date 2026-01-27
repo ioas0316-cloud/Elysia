@@ -30,6 +30,7 @@ class Yggdrasil:
         self.roots: Dict[str, Any] = {}      # Foundation Systems
         self.trunk: Dict[str, Any] = {}      # Intelligence/Logic
         self.branches: Dict[str, Any] = {}   # Interface/Senses
+        self.fossils: Dict[str, Any] = {}    # Archived/Legacy Systems (The Past)
 
         # The Soul Network (Fluxlights)
         self.fluxlights: Dict[str, InfiniteHyperQubit] = {}
@@ -52,6 +53,11 @@ class Yggdrasil:
         """Interface/Sensory organs"""
         self.branches[name] = obj
         # print(f"  Yggdrasil: Branch extended -> {name}")
+
+    def discover_fossil(self, name: str, obj: Any):
+        """Archived/Legacy systems (The Past)"""
+        self.fossils[name] = obj
+        # print(f"  Yggdrasil: Fossil discovered -> {name}")
     # -----------------------------------------------
 
     def connect_fluxlight(self, name: str, qubit: InfiniteHyperQubit):

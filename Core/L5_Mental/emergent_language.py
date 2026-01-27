@@ -214,15 +214,10 @@ class LanguageProjector:
             "NOW": "now", "HERE": "here", "WITH": "with", "TO": "to",
         }
         
-        #       
-        self.korean_templates = {
-            (SymbolType.ENTITY, SymbolType.STATE): "{0} /  {1}",
-            (SymbolType.ENTITY, SymbolType.ACTION): "{0} /  {1}",
-            (SymbolType.ENTITY, SymbolType.RELATION, SymbolType.ENTITY): "{0} /  {2}{1}",
-            (SymbolType.ENTITY, SymbolType.ACTION, SymbolType.ENTITY): "{0} /  {2} /  {1}",
-            (SymbolType.TIME, SymbolType.ENTITY, SymbolType.ACTION): "{0} {1} /  {2}",
-            (SymbolType.EMOTION,): "{0} /     ",
-        }
+        # [Fractal Grammar Update]
+        # Fixed templates are deprecated. 
+        # Language is now projected recursively from the Center (Action/State) outwards.
+
     
     def project_to_korean(self, symbols: List[ProtoSymbol]) -> str:
         """              """
@@ -235,18 +230,62 @@ class LanguageProjector:
             korean = self.korean_lexicon.get(sym.id, sym.id.lower())
             words.append(korean)
         
-        #          
-        types = tuple(sym.type for sym in symbols)
-        template = self.korean_templates.get(types)
+        # [Fractal Grammar Projection]
+        return self._recursive_projection(symbols)
+
+    def _recursive_projection(self, symbols: List[ProtoSymbol]) -> str:
+        """
+        Constructs language by orbiting around the Mass (Gravity).
+        Order: Time -> Space -> Subject -> Object -> Action/State
+        """
+        # 1. Sort/Group by Function
+        cluster = defaultdict(list)
+        for s in symbols:
+            cluster[s.type].append(self.korean_lexicon.get(s.id, s.id))
+
+        sentence_parts = []
+
+        # 2. Time / Space (Context)
+        if SymbolType.TIME in cluster:
+            sentence_parts.extend(cluster[SymbolType.TIME])
+        if SymbolType.SPACE in cluster: 
+            sentence_parts.append(f"{cluster[SymbolType.SPACE][0]}  ")
+
+        # 3. Subject (Entity)
+        # Assuming the first Entity is the subject
+        subject = None
+        if SymbolType.ENTITY in cluster:
+            subject = cluster[SymbolType.ENTITY][0]
+            # Remove from list so it's not used again as object if we only have one
+            # But if there are multiple, rest are objects
+            pass 
+
+        if subject:
+            sentence_parts.append(f"{subject} / ")
+            
+        # 4. Object (Remaining Entities)
+        if len(cluster[SymbolType.ENTITY]) > 1:
+            obj = cluster[SymbolType.ENTITY][1]
+            sentence_parts.append(f"{obj} / ")
+
+        # 5. Modifiers
+        if SymbolType.EMOTION in cluster:
+             sentence_parts.append(f"({cluster[SymbolType.EMOTION][0]}  )")
+
+        # 6. Core (Action / State)
+        core = "..."
+        if SymbolType.ACTION in cluster:
+            core = f"{cluster[SymbolType.ACTION][0]}   "
+        elif SymbolType.STATE in cluster:
+            core = f"{cluster[SymbolType.STATE][0]} "
+        elif SymbolType.UNKNOWN in cluster:
+             core = f"[{cluster[SymbolType.UNKNOWN][0]}?]"
         
-        if template:
-            try:
-                return template.format(*words)
-            except (IndexError, KeyError):
-                pass
-        
-        #              
-        return " ".join(words)
+        sentence_parts.append(core)
+
+        # 7. Collapse
+        return " ".join(sentence_parts)
+
     
     def project_to_english(self, symbols: List[ProtoSymbol]) -> str:
         """              """

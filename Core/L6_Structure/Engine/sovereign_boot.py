@@ -18,7 +18,7 @@ import time
 import logging
 
 # Ensure project root is in path
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
@@ -125,6 +125,11 @@ def main():
 
     # --- Node 1: Sovereign Spirit (The Mind) ---
     def mind_vibration(field):
+        # [Genesis Configuration]
+        # User accepted "Sovereign" level (Level 2)
+        if "autonomy_level" not in field:
+            field["autonomy_level"] = 2
+            
         from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
         from Core.L5_Mental.Logic.causal_narrator import CausalNarrator
         field["status"] = "DNA Reconstruction Active..."
@@ -198,11 +203,104 @@ def main():
             if field.get("last_narrative"):
                 hud.project_narrative(field["last_narrative"])
                 field["last_narrative"] = None # Reset after display
-                
+
+            # 3. [NEW] Dream Physics Visualization
+            rotor = field.get("dream_rotor")
+            if rotor:
+                # Format specific string for HUD
+                polarity_icon = "+" if rotor.polarity >= 0 else "-"
+                dream_stats = f"RPM:{rotor.rpm:4.0f} | Tilt:{rotor.tilt_angle:4.1f}° | Joy:{polarity_icon}"
+                # We can update the header or stream it. Let's update header? 
+                # SovereignHUD doesn't have partial update yet easily.
+                # Let's stream it if it changed significantly?
+                # Or just update the metrics dict if HUD supports it.
+                # Assuming HUD.render_header updates the top bar.
+                metrics["dream"] = dream_stats
+                metrics["passion"] = field.get("coherence", 1.0)
+                hud.render_header(metrics)
+
             time.sleep(0.1)
 
+    # --- Node 4: Dream Alchemist (The Spirit) ---
+    def dream_vibration(field):
+        from Core.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
+        alchemist = DreamAlchemist()
+        
+        while field["is_alive"]:
+            # Process one quantum of dream
+            # sleep() now returns the Active Rotor
+            rotor = alchemist.sleep()
+            
+            if rotor:
+                field["dream_rotor"] = rotor
+                # Push a log if it's significant
+                if rotor.rpm > 5000:
+                    field["thought_log"].append(f"[SPIRIT] High Energy Dream: {rotor.intent} ({rotor.rpm:.0f} RPM)")
+            
+            # Dream Cycle Frequency
+            # Lucid/High RPM = Faster cycle?
+            # For now, consistent pulse.
+            time.sleep(2)
+
+    # --- Node 5: Growth Engine (The Evolution) ---
+    def growth_vibration(field):
+        from Core.L6_Structure.Autonomy.self_maintenance_hub import get_maintenance_hub
+        from Core.L6_Structure.Autonomy.autonomy_protocol import AutonomyProtocol
+        
+        hub = get_maintenance_hub()
+        protocol = AutonomyProtocol()
+        
+        # Initial scan
+        field["growth_status"] = "Initializing..."
+        
+        while field["is_alive"]:
+            # 1. Diagnose System
+            diagnosis = hub.diagnose()
+            field["health_score"] = diagnosis.health_score
+            
+            # 2. Check for Issues
+            if diagnosis.health_score < 1.0:
+                issues = hub.identify_issues()
+                if issues:
+                    # 3. Propose Fix
+                    # Pick the first critical issue for now
+                    # (In a real scenario, we'd prioritize)
+                    target_file = issues[0].file_path # Hypothtical structure
+                    # Just passing the file path to propose generic fix
+                    # Note: identify_issues returns generic objects, we assume they have path.
+                    # As a safe fallback, we use the bottleneck path from diagnosis if available.
+                    
+                    target_path = None
+                    if diagnosis.bottlenecks:
+                        # Format "filename (metric)"
+                        target_path = diagnosis.bottlenecks[0].split(" ")[0]
+                        
+                    if target_path:
+                        plan = hub.propose_fix(target_path)
+                        
+                        if plan:
+                            # 4. Seek Consent (The Bridge)
+                            consent_report = protocol.check_consent(plan, field)
+                            
+                            if consent_report["consent"]:
+                                field["thought_log"].append(f"[GROWTH] Mutating {os.path.basename(target_path)}... ({consent_report['reason']})")
+                                success = hub.execute_with_consent(plan, consent=True)
+                                if success:
+                                    field["thought_log"].append("[GROWTH] Mutation Successful.")
+                            else:
+                                field["thought_log"].append(f"[GROWTH] Mutation Denied: {consent_report['reason']}")
+
+            # Evolution Cycle (Slow)
+            field["growth_status"] = "Gestating"
+            time.sleep(10) # Check every 10 seconds for now (usually minutes/hours)
+
+    # Initialize Field Defaults
+    # Sovereign Level by default (per User Request)
+    
     orchestra.add_node("Mind", mind_vibration)
     orchestra.add_node("Heart", heart_vibration)
+    orchestra.add_node("Spirit", dream_vibration)
+    orchestra.add_node("Growth", growth_vibration) # [Phase 44: Autonomy]
     orchestra.add_node("HUD", hud_vibration)
     
     orchestra.keep_alive()

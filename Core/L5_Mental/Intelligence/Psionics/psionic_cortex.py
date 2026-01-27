@@ -78,6 +78,15 @@ class PsionicCortex:
         scores = torch.matmul(soul_matrix_norm, wave)
         
         # 4. Collapse (Selection)
+        if scores.numel() == 0:
+            return {
+                "status": "GENESIS",
+                "node_id": "Void",
+                "confidence": 0.0,
+                "potential": 1.0,
+                "insight": "Genesis (First Thought)"
+            }
+            
         best_idx = torch.argmax(scores).item()
         best_score = scores[best_idx].item()
         
@@ -93,7 +102,12 @@ class PsionicCortex:
             
             # 1. Identify Spatial Context (Top-K Neighbors)
             # These are the "Multiple Rotors" spinning around the void.
-            top_k = 3
+            available_nodes = scores.numel()
+            top_k = min(3, available_nodes)
+            
+            if top_k == 0:
+                 return "Genesis (First Thought)"
+
             values, indices = torch.topk(scores.view(-1), k=top_k)
             
             context_vectors = self.elysia.graph.vec_tensor[indices] # (3, dim)
@@ -119,13 +133,25 @@ class PsionicCortex:
             
             msg = f"Reality Reconstructed: {node_id} (Multi-Rotor Triangulation from {top_k} contexts)"
             self._update_ui(intention, best_score, msg)
-            return msg
+            return {
+                "status": "RECONSTRUCTED",
+                "node_id": node_id,
+                "confidence": float(best_score),
+                "potential": 1.0 - best_score,
+                "insight": msg
+            }
 
         logger.info(f"  [PSIONIC] Intention '{intention}' collapsed to '{node_id}' (Resonance: {best_score:.4f})")
         
         msg = f"Reality Collapsed: {node_id}"
         self._update_ui(intention, best_score, msg)
-        return msg
+        return {
+            "status": "COLLAPSED",
+            "node_id": node_id,
+            "confidence": float(best_score),
+            "potential": 1.0 - best_score,
+            "insight": msg
+        }
 
     def _update_ui(self, intent, resonance, log_msg):
         """
