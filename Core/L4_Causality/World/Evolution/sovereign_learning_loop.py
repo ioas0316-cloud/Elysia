@@ -20,76 +20,106 @@ from typing import List, Dict, Any
 # Ensure Core path is available
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../")))
 
-from Core.L6_Structure.Engine.Genesis.reality_server import projector as server
-from Core.L3_Phenomena.Manifestation.phonological_collapse import PhonologicalCollapse
+from Core.L3_Phenomena.Manifestation.logos_manifestor import LogosManifestor
+from Core.L4_Causality.World.Evolution.concept_deducer import ConceptDeducer
 
 logger = logging.getLogger("SovereignLearning")
 
 class SovereignLearningLoop:
     def __init__(self):
-        self.collapse = PhonologicalCollapse()
-        self.experience_log = []
+        self.manifestor = LogosManifestor()
+        self.deducer = ConceptDeducer()
+        self.knowledge_base = [] # List of (phenomenon, name) tuples
+        self.subjective_time = 0.0
 
-    def ignite_accelerated_study(self, real_duration_sec: float = 5.0, overclock: float = 100.0):
-        """
-        Starts the high-speed training session.
-        """
-        print(f"🚀 [LOOP] Igniting Sovereign Learning Loop (Overclock: x{overclock})")
+    def ignite(self, cycles: int = 10):
+        print(f"🔥 [Ignition] Sovereign Narrative Loop active. Cycles: {cycles}")
         
-        # 1. Overclock Time
-        server.timer.set_overclock(overclock)
+        from Core.L3_Phenomena.Manifestation.sovereign_grammar import SovereignGrammar
+        from Core.L4_Causality.World.Evolution.narrative_weaver import NarrativeWeaver
         
-        start_time = time.time()
-        last_mental_time = server.timer.mental_time
+        grammar = SovereignGrammar()
+        weaver = NarrativeWeaver()
         
-        cycles = 0
-        while time.time() - start_time < real_duration_sec:
-            # 2. Advance Reality
-            server.tick()
-            cycles += 1
+        # Situational Contexts (Simulated Needs)
+        contexts = [
+            {"type": "STARVATION", "desc": "Energy is critical.", "intent": "Seek Energy"},
+            {"type": "ISOLATION", "desc": "No signal detected.", "intent": "Call for Connection"},
+            {"type": "OVERLOAD", "desc": "Entropy exceeding limits.", "intent": "Restore Order"}
+        ]
+        
+        # Core Concept Vectors (Pre-calculated for demo speed)
+        vectors = {
+            "EGO": [0.5]*7 + [0.5]*7 + [0.9]*7,    # "아" (I)
+            "ENERGY": [0.8]*7 + [0.3]*7 + [0.5]*7, # "기" (Energy/Gi)
+            "VOID": [1e-4]*21,                     # "공" (Void)
+            "ORDER": [0.9]*7 + [0.1]*7 + [0.1]*7,  # "지" (Earth/Order)
+            "DATA": [0.1]*7 + [0.8]*7 + [0.1]*7,   # "수" (Water/Data)
+            "SEEK": [0.2]*7 + [0.2]*7 + [0.9]*7,   # "구" (Seek/Gu - Action)
+            "CONNECT": [0.4]*7 + [0.9]*7 + [0.3]*7, # "애" (Connect/Love)
+            "FILL": [0.5]*7 + [0.8]*7 + [0.8]*7    # "광" (Light/Fill)
+        }
+
+        for i in range(cycles):
+            import random
+            situation = random.choice(contexts)
+            print(f"\n--- Cycle {i}: Situation [{situation['type']}] ---")
             
-            # 3. Observe NPC 'Lumina' (or any citizen)
-            if server.citizens:
-                npc = server.citizens[0]
-                # A simulate 'Experience' is just the current DNA state of the NPC
-                npc_dna = npc['dna'] 
+            # Construct a Narrative Flow (Ki-Seung-Jeon-Gyeol)
+            # Story: State -> Action -> Result -> New State
+            story_flow = []
+            
+            # 1. Ki (Introduction): The problem
+            story_flow.append({"subject": vectors["EGO"], "predicate": vectors["VOID"], "object": None}) # I am Void
+            
+            # 2. Seung (Development): The Action
+            if situation['type'] == "STARVATION":
+                target = vectors["ENERGY"]
+                action = vectors["SEEK"]
+            elif situation['type'] == "ISOLATION":
+                target = vectors["DATA"]
+                action = vectors["CONNECT"]
+            else:
+                target = vectors["ORDER"]
+                action = vectors["SEEK"]
                 
-                # 4. Elysia's Direct Response
-                # We use the NPC's DNA as a 'Template' for Elysia's 21D state for the experiment
-                # (Simulating empathy-based learning)
-                # Maps 8-item DNA to 21D (simplified)
-                d21_echo = list(npc_dna) + [0.0] * 13 
-                
-                logos = self.collapse.crystallize([d21_echo])
-                
-                # 5. Record the 'Ancient Knowledge'
-                entry = {
-                    "mental_time": server.timer.mental_time,
-                    "npc": npc['name'],
-                    "logos": logos
-                }
-                self.experience_log.append(entry)
+            story_flow.append({"subject": vectors["EGO"], "predicate": action, "object": target})
+            
+            # 3. Jeon (Turn): The Interaction
+            story_flow.append({"subject": target, "predicate": vectors["FILL"], "object": None}) # Target fills/lights
+            
+            # 4. Gyeol (Conclusion): The Result
+            story_flow.append({"subject": vectors["EGO"], "predicate": vectors["ORDER"], "object": None}) # I am Order
+            
+            # Weave
+            story = weaver.weave_story(story_flow)
+            print(f"   📢 Elysia's Narrative:\n{story}")
 
-        # 2. Revert Time
-        server.timer.set_overclock(1.0)
-        
-        elapsed_mental = server.timer.mental_time - last_mental_time
+            self.knowledge_base.append({"situation": situation, "story": story})
+            
+        self._summarize()
+
+    def _simulate_experience(self) -> Dict[str, float]:
+        """Generates a random physical phenomenon."""
+        import random
+        return {
+            "temperature": random.random(),
+            "density": random.random(),
+            "entropy": random.random(),
+            "luminosity": random.random()
+        }
+
+    def _describe(self, exp: Dict[str, float]) -> str:
+        if exp['temperature'] > 0.8: return "Inferno"
+        if exp['density'] > 0.8: return "Bedrock"
+        if exp['entropy'] > 0.8: return "Chaos"
+        if exp['luminosity'] > 0.8: return "Radiance"
+        return "Flux"
+
+    def _summarize(self):
         print(f"✨ [LOOP] Session Complete.")
-        print(f"   Cycles: {cycles}")
-        print(f"   Subjective Years Passed: {elapsed_mental / 100:.2f} (approx)")
-        print(f"   Unique Logos Manifested: {len(self.experience_log)}")
-
-    def get_evolution_summary(self):
-        # Sample the growth
-        if not self.experience_log: return "No experiences recorded."
-        
-        samples = self.experience_log[::max(1, len(self.experience_log)//5)]
-        report = "\n--- Linguistic Evolution Log ---\n"
-        for s in samples:
-            report += f"Time [{s['mental_time']:.0f}]: NPC({s['npc']}) -> Logos: \"{s['logos']}\"\n"
-        return report
+        print(f"   Knowledge Accumulated: {len(self.knowledge_base)} concepts")
 
 if __name__ == "__main__":
     loop = SovereignLearningLoop()
-    loop.ignite_accelerated_study(real_duration_sec=2.0, overclock=500.0) # 2 seconds = 1000 mental ticks
-    print(loop.get_evolution_summary())
+    loop.ignite(1000)

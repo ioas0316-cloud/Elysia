@@ -136,6 +136,17 @@ class LogosRegistry:
             return self.lexicon[name]['logos']
         return "" # Returns empty if no stable concept found (babbling falls through)
 
+    def lookup_concept_by_logos(self, target_logos: str) -> Optional[Dict[str, Any]]:
+        """
+        [Reverse Engineering]
+        Finds the 21D state (Attractor) associated with a specific Logos.
+        Used when learning from a Mentor.
+        """
+        for name, data in self.lexicon.items():
+            if data['logos'] == target_logos:
+                return data
+        return None
+
 if __name__ == "__main__":
     reg = LogosRegistry()
     # Test resonance with 'Self'
