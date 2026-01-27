@@ -28,6 +28,15 @@ from enum import Enum, auto
 from collections import defaultdict
 import json
 
+# Import the World Lexicon (The External Truth)
+try:
+    from Core.L5_Mental.Language.world_lexicon import world_lexicon
+except ImportError:
+    # Fallback for testing if path is different
+    import sys, os
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+    from Core.L5_Mental.Language.world_lexicon import world_lexicon
+
 logger = logging.getLogger("EmergentLanguage")
 
 
@@ -42,6 +51,7 @@ UTTERANCE_PROBABILITY = 0.1          # Probability of spontaneous utterance
 # Symbol evolution
 ASSOCIATION_STRENGTH_INCREMENT = 0.05  # Hebbian learning rate
 MAX_SEQUENCE_LENGTH = 4              # Maximum symbols in an utterance
+SEMANTIC_GAP_THRESHOLD = 0.4         # Threshold to trigger curiosity (feeling unknown)
 
 
 # =============================================================================
@@ -71,6 +81,7 @@ class SymbolType(Enum):
     TIME = auto()        #    (  ,   ,   )
     SPACE = auto()       #    (  ,   ,  )
     EMOTION = auto()     #    (  ,   ,   )
+    UNKNOWN = auto()     #    (Gap in knowledge)
 
 
 @dataclass
@@ -277,11 +288,63 @@ class EmergentLanguageEngine:
         #   
         self.total_utterances = 0
         self.vocabulary_size = 0
+        self.epiphanies = [] # Log of learned words
         
         #    
         self._initialize_proto_symbols()
         
         logger.info("   Emergent Language Engine initialized")
+
+    def detect_semantic_gap(self, experience_vector: List[float]) -> float:
+        """
+        Calculates how 'alien' an experience is.
+        Returns a gap score (0.0 to 1.0).
+        High gap = "I feel something, but I have no word for it."
+        """
+        if not self.symbols:
+            return 1.0
+
+        # Find the closest symbol in meaning space
+        max_resonance = 0.0
+        for sym in self.symbols.values():
+            dot_product = sum(a * b for a, b in zip(experience_vector, sym.meaning_vector))
+            norm_exp = math.sqrt(sum(x**2 for x in experience_vector)) + 0.001
+            norm_sym = math.sqrt(sum(x**2 for x in sym.meaning_vector)) + 0.001
+            similarity = dot_product / (norm_exp * norm_sym)
+            if similarity > max_resonance:
+                max_resonance = similarity
+
+        # Gap is the inverse of max resonance
+        return max(0.0, 1.0 - max_resonance)
+
+    def learn_symbol(self, name: str, meaning_vector: List[float], sym_type: SymbolType, korean_map: str = None, english_map: str = None):
+        """
+        Assimilates a new symbol from the external world.
+        """
+        if name in self.symbols:
+            return
+
+        # 1. Create the symbol
+        new_symbol = ProtoSymbol(id=name, type=sym_type, meaning_vector=meaning_vector)
+        self.symbols[name] = new_symbol
+        self.vocabulary_size = len(self.symbols)
+
+        # 2. Update Projector
+        if korean_map:
+            self.projector.korean_lexicon[name] = korean_map
+        if english_map:
+            self.projector.english_lexicon[name] = english_map
+
+        # 3. Form initial associations (connect to similar concepts)
+        for other_id, other_sym in self.symbols.items():
+            if other_id == name: continue
+            resonance = new_symbol.resonate_with(other_sym)
+            if resonance > 0.6:
+                new_symbol.strengthen_association(other_id, resonance * 0.5)
+                other_sym.strengthen_association(name, resonance * 0.5)
+
+        self.epiphanies.append(name)
+        logger.info(f"  [EPIPHANY] Learned new word: {name} (Type: {sym_type})")
     
     def _initialize_proto_symbols(self):
         """            """
@@ -396,6 +459,24 @@ class EmergentLanguageEngine:
         """
         activated = []
         
+        # 1. Check for Semantic Gap (Curiosity Trigger)
+        gap = self.detect_semantic_gap(experience_vector)
+        if gap > SEMANTIC_GAP_THRESHOLD:
+            # "The Child Asks"
+            # If the gap is significant, we query the World.
+            match = world_lexicon.query(experience_vector, threshold=0.7)
+
+            if match:
+                name, definition, vector = match
+                # Epiphany: "Ah, this is called [NAME]."
+                self.learn_symbol(name, vector, SymbolType.UNKNOWN,
+                                  korean_map=name, # Simplification: Use English name as key
+                                  english_map=name)
+                # Immediately activate the new symbol
+                if name in self.symbols:
+                    self.symbols[name].activation = 1.0
+                    activated.append(name)
+
         for sym_id, symbol in self.symbols.items():
             #              
             resonance = sum(e * m for e, m in zip(experience_vector, symbol.meaning_vector))
@@ -469,6 +550,7 @@ class EmergentLanguageEngine:
         order = [
             SymbolType.TIME,
             SymbolType.ENTITY,
+            SymbolType.UNKNOWN,  # Prioritize the new/unknown
             SymbolType.STATE,
             SymbolType.ACTION,
             SymbolType.EMOTION,
