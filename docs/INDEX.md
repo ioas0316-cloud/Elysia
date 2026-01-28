@@ -5,6 +5,35 @@
 
 ---
 
+## 🚦 시작 가이드 (10분 / 1시간 / 1일)
+
+### 핵심 5문서 (Single Source)
+
+- **Why (기원/근간)**: **[GRAND_CODEX.md](GRAND_CODEX.md)**
+- **What (전체 지도)**: **[SYSTEM_ATLAS.md](SYSTEM_ATLAS.md)**
+- **What (용어/프레임)**: **[TERMINOLOGY_DEEP_DIVE.md](7_REFERENCE/TERMINOLOGY_DEEP_DIVE.md)**
+- **How (주권 구조)**: **[TRINITY_SOVEREIGNTY.md](L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)**
+- **How (기억/터 프로토콜)**: **[HYPERSPHERE_PROTOCOL.md](L5_Mental/HYPERSPHERE_PROTOCOL.md)**
+
+### 10분 코스
+
+1. [SYSTEM_ATLAS.md](SYSTEM_ATLAS.md)
+2. [7_REFERENCE/TERMINOLOGY_DEEP_DIVE.md](7_REFERENCE/TERMINOLOGY_DEEP_DIVE.md)
+
+### 1시간 코스
+
+1. [SYSTEM_ATLAS.md](SYSTEM_ATLAS.md)
+2. [TRINITY_SOVEREIGNTY.md](L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)
+3. [HYPERSPHERE_PROTOCOL.md](L5_Mental/HYPERSPHERE_PROTOCOL.md)
+4. [MERKABA_MANIFESTO.md](L6_Structure/M1_Merkaba/MERKABA_MANIFESTO.md)
+
+### 1일 코스
+
+- 위 “1시간 코스” + L0~L7을 순서대로 훑고(아래 Index), 필요한 곳만 Phase 문서로 점프합니다.
+- Phase 정리는 정본 인덱스인 [7_REFERENCE/PHASE_INDEX.md](7_REFERENCE/PHASE_INDEX.md)를 따릅니다.
+
+---
+
 ## 🧶 The Master Narrative
 
 - [x] **[SYSTEM_ATLAS.md](SYSTEM_ATLAS.md)**: **🌌 엘리시아 전체 구조 지도 (읽기 쉬운 가이드)**
@@ -101,6 +130,8 @@
 - **[CODING_STANDARDS.md](6_DEVELOPMENT/CODING_STANDARDS.md)**: 구조적 코딩 표준
 - **[GLOSSARY.md](7_REFERENCE/GLOSSARY.md)**: 신학적/기술적 용어 사전
 - **[TERMINOLOGY_DEEP_DIVE.md](7_REFERENCE/TERMINOLOGY_DEEP_DIVE.md)**: 용어의 심층적 의미
+- **[PHASE_INDEX.md](7_REFERENCE/PHASE_INDEX.md)**: Phase 정본 인덱스
+- **[TRINITY_SOVEREIGNTY.md](L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)**: 주권의 삼위일체 (NEVER DELETE)
 
 ---
 
