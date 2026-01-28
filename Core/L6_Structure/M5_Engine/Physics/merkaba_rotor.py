@@ -27,10 +27,13 @@ class RotorConfig:
     mass: float = 1.0
     dna: Any = None # [Legacy] Genetic Trait Mapping
 
+from Core.L6_Structure.M5_Engine.Physics.sovereign_coil import SovereignCoil
+
 class MerkabaRotor:
     """
     A single layer of the (7^7)^7 Multiverse.
     Spinning at a specific frequency to create resonance.
+    Now powered by the Sovereign Coil (DNA Winding).
     """
     def __init__(self, layer_id: int, rpm: float = 432.0):
         self.layer_id = layer_id
@@ -40,18 +43,29 @@ class MerkabaRotor:
         # representing the 7^7 subspace (compressed mapping).
         self.field_energy = np.random.normal(0, 0.1, (7, 7))
         
+        # [PHASE 2: COIL INTEGRATION]
+        self.coil = SovereignCoil("H") # Default seed
+        
     def spin(self, dt: float, external_vibration: float = 0.0) -> float:
         """
         Updates the rotation and returns the emitted frequency.
         """
         # Frequency in Hz
         freq = self.rpm / 60.0
-        self.phase = (self.phase + 2 * np.pi * freq * dt) % (2 * np.pi)
+        
+        # [COIL PHYSICS]
+        # The coil's torque accelerates or decelerates the spin
+        torque_boost = self.coil.state.torque * 0.1
+        final_freq = freq + torque_boost
+        
+        self.phase = (self.phase + 2 * np.pi * final_freq * dt) % (2 * np.pi)
         
         # Internal energy shifts as it spins and receives vibration
         # Simple harmonic oscillator logic
         resonance = np.sin(self.phase) * np.mean(self.field_energy)
-        return (resonance + external_vibration) / 2.0
+        
+        # Report Flux
+        return (resonance + external_vibration + self.coil.state.flux) / 3.0
 
 class MultiverseMerkaba:
     """
@@ -106,6 +120,15 @@ class Rotor(MerkabaRotor):
         self.name = name
         self.current_rpm = config.rpm
         self.dna = dna or config.dna # Handle dna passed in config or directly
+        
+        # [DNA WINDING]
+        # If DNA is present, wind the coil immediately
+        if self.dna:
+            # Simple conversion if dna is not string (e.g. vector)
+            if not isinstance(self.dna, str):
+                 # Auto-encode vector to string signature for the coil
+                 self.dna = "HVH" # Placeholder for vector conversion
+            self.coil.rewind(self.dna)
         
     def update(self, dt: float):
         """Adapter for spin."""

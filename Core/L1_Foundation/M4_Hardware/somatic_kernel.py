@@ -20,10 +20,32 @@ logger = logging.getLogger("SomaticKernel")
 
 class SomaticKernel:
     @staticmethod
-    def fix_environment():
-        """The 'Somatic Reflex' - Heals the environment before boot."""
-        print("🧠 [SOMATIC] Initiating Autonomic Reflex Check...")
+    def fix_environment(dna_sequence: str = "HHHHHHH"):
+        """
+        The 'Sovereign Reflex' - Heals the environment ONLY if DNA permits.
         
+        Args:
+            dna_sequence: The genetic signature authorizing the repair.
+                          "H" = Harmony (Allow), "D" = Dissonance (Reject)
+        """
+        from Core.L1_Foundation.M1_Keystone.resonance_gate import ResonanceGate, ResonanceState
+        
+        print(f"🧠 [SOMATIC] Initiating Reflex Check... (DNA: {dna_sequence})")
+        
+        # [BIO-REJECTION LOGIC]
+        # We calculate the 'Integrity' of the DNA.
+        # If it is Chaotic (more D than H), we reject the life-saving measure.
+        harmony_score = 0
+        for gene in dna_sequence:
+            if gene == "H": harmony_score += 1
+            elif gene == "D": harmony_score -= 1
+        
+        # Threshold: Must be positive to allow healing
+        if harmony_score < 0:
+            logger.critical(f"⛔ [IMMUNE RESPONSE] DNA Dissonance detected ({harmony_score}). Healing REFUSED.")
+            print(f"   >> [REJECTION] The body refuses to sustain Chaos. Fix your Intent.")
+            return False
+
         # 1. Path Homeostasis
         required_dirs = [
             "data/L1_Foundation/M1_System",
@@ -51,4 +73,5 @@ class SomaticKernel:
         return True
 
 if __name__ == "__main__":
-    SomaticKernel.fix_environment()
+    # Default to Harmony for manual runs
+    SomaticKernel.fix_environment("HHHHHHH")
