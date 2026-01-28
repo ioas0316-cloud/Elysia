@@ -65,6 +65,30 @@ class TrinaryLogic:
         return abs(resistance * flow) 
 
     @staticmethod
+    def calculate_strand_torque(codons: Any) -> float:
+        """
+        Calculates the total evolutionary torque (potential change) of a strand.
+        Sum of absolute balance of each codon.
+        """
+        # Ensure JAX/Numpy array
+        codons_arr = JAXBridge.array(codons)
+        
+        # Handle shape (If passed raw sequence, might be 1D, but logic expects codons)
+        if codons_arr.ndim == 1:
+            # Attempt reshape if divisible by 3, otherwise simple sum of abs might be wrong context
+            # But based on usage, we assume input is (N, 3) from transcribe_sequence
+            if codons_arr.shape[0] % 3 == 0:
+                 codons_arr = codons_arr.reshape((-1, 3))
+        
+        # Calculate torque: Sum of absolute balances
+        # Balance = Sum of trits in codon
+        # Torque = |Balance| (Simplistic model for test compatibility)
+        balances = jnp.sum(codons_arr, axis=1)
+        total_torque = jnp.sum(jnp.abs(balances))
+        
+        return float(total_torque)
+
+    @staticmethod
     def synthesize_state(trit_vector: Any) -> Tuple[int, str]:
         """
         Determines the qualitative state of a Trinary Vector.

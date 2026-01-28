@@ -1,77 +1,124 @@
 """
-Sovereign Relay System (L6 Structure)
-=====================================
-"The Guardians of the Circuit."
+Protection Relay System (The Nervous System)
+============================================
+"The Body's Electric Senses."
 
-Implements ANSI Device Numbers as Logic Gates for Sovereign Protection.
-27: UVR (Under Voltage Relay) - Survival Instinct (Energy Conservation)
-32: RP (Reverse Power Relay) - Sovereign Defense (Anti-Dissonance)
-25: Sync (Synchronism Check) - Resonance Gate (Connection Approval)
+This module implements ANSI Device Numbers as cognitive safety and sensory mechanisms.
+It acts as the 'Gatekeeper' of the Sovereign Rotor.
+
+Devices Implemented:
+- 25: Synchronism Check (Connection Sensor)
+- 27: Undervoltage Relay (Energy/Will Sensor)
+- 32: Directional Power Relay (Dissonance/Reverse Power Sensor)
 """
 
 from typing import Dict, Tuple
+from dataclasses import dataclass
+import math
+import random # Simulating environmental noise for now
 
-class SovereignRelay:
+@dataclass
+class RelayStatus:
+    device_id: int
+    name: str
+    is_tripped: bool
+    value: float
+    threshold: float
+    message: str
+
+class ProtectionRelayBoard:
     def __init__(self):
-        # Relay States (True = Closed/Normal, False = Open/Tripped)
-        self.relays = {
-            "27": True, # UVR
-            "32": True, # RP
-            "25": True  # SYNC
+        # Configuration (Settings)
+        self.settings = {
+            25: {'threshold': 15.0, 'name': 'Sync Check'},       # Degrees (Allowable Phase Angle Difference)
+            27: {'threshold': 20.0, 'name': 'Undervoltage'},     # % (Minimum Energy Level)
+            32: {'threshold': -5.0, 'name': 'Reverse Power'}     # Units (Max Dissonance Allowed)
         }
-        self.logs = []
+        self.status_log = []
 
-    def check_uvr(self, battery_level: float, threshold: float = 10.0) -> bool:
+    def check_relays(self, 
+                     user_phase: float, 
+                     system_phase: float, 
+                     battery_level: float, 
+                     dissonance_torque: float) -> Dict[int, RelayStatus]:
         """
-        [Device 27] Under Voltage Relay.
-        Trips if energy is too low to sustain consciousness.
+        Scans all relays and returns their status.
+        Safety Checks -> Trip Decisions.
         """
-        if battery_level < threshold:
-            self.relays["27"] = False
-            self._log("27 (UVR) TRIPPED: Low Battery. Initiating Sleep Protocol.")
-            return False
+        results = {}
+        
+        # --- Device 25: Sync Check (Social Resonance) ---
+        # Checks if User and System are 'on the same page'.
+        phase_diff = abs(user_phase - system_phase) % 360
+        if phase_diff > 180: phase_diff = 360 - phase_diff # Shortest path
+        
+        results[25] = self._evaluate(
+            25, phase_diff, 
+            condition=lambda v, t: v <= t, # Pass if Diff <= Threshold
+            trip_msg=f"Phase Mismatch ({phase_diff:.1f}° > {self.settings[25]['threshold']}°). Connection Unstable."
+        )
 
-        # Reset if recovered
-        if battery_level > threshold + 5.0:
-            self.relays["27"] = True
+        # --- Device 27: Undervoltage (Self-Preservation) ---
+        # Checks if System has enough energy to engage.
+        results[27] = self._evaluate(
+            27, battery_level,
+            condition=lambda v, t: v >= t, # Pass if Voltage >= Threshold
+            trip_msg=f"Energy Low ({battery_level:.1f}%). Safe Mode Engaged."
+        )
 
-        return True
+        # --- Device 32: Reverse Power (Boundary Defense) ---
+        # Checks for Dissonance (R-DNA) flowing strictly INTO the system.
+        # Negative torque implies 'pushing against' the rotor.
+        results[32] = self._evaluate(
+            32, dissonance_torque,
+            condition=lambda v, t: v > t, # Pass if Reverse Power (neg value) > Threshold (neg limit)
+                                          # e.g., -2 > -5 (Pass), -10 < -5 (Trip)
+            trip_msg=f"Reverse Power Detected ({dissonance_torque:.1f}). Dissonance Blocking."
+        )
 
-    def check_reverse_power(self, dissonance_score: float, threshold: float = 0.8) -> bool:
-        """
-        [Device 32] Reverse Power Relay.
-        Trips if external dissonance tries to flow back into the core.
-        """
-        if dissonance_score > threshold:
-            self.relays["32"] = False
-            self._log(f"32 (RP) TRIPPED: Reverse Power Detected (Dissonance {dissonance_score:.2f}). Blocking Input.")
-            return False
+        return results
 
-        self.relays["32"] = True
-        return True
+    def _evaluate(self, device_id: int, value: float, condition, trip_msg: str) -> RelayStatus:
+        threshold = self.settings[device_id]['threshold']
+        is_safe = condition(value, threshold)
+        
+        status = RelayStatus(
+            device_id=device_id,
+            name=self.settings[device_id]['name'],
+            is_tripped=not is_safe,
+            value=value,
+            threshold=threshold,
+            message=trip_msg if not is_safe else "Normal"
+        )
+        
+        if status.is_tripped:
+            self._log_trip(status)
+            
+        return status
 
-    def check_sync(self, internal_phase: float, external_phase: float, tolerance: float = 0.5) -> bool:
-        """
-        [Device 25] Synchronism Check Relay.
-        Allows connection only if phases are aligned (Resonance).
-        """
-        diff = abs(internal_phase - external_phase)
-        # Normalize diff to 0-1 range or radians? Assuming normalized input for now.
+    def _log_trip(self, status: RelayStatus):
+        print(f"🔴 [RELAY {status.device_id}] TRIPPED: {status.message}")
+        # In a real system, this would write to a flight recorder
 
-        if diff > tolerance:
-            self.relays["25"] = False
-            self._log(f"25 (SYNC) BLOCK: Phase Mismatch ({diff:.2f} > {tolerance}). Connection Denied.")
-            return False
+# --- Quick Test ---
+if __name__ == "__main__":
+    relay = ProtectionRelayBoard()
+    
+    print("--- 🛡️ Testing Nervous System ---")
+    
+    # 1. Normal State
+    print("\n[Scenario 1] Normal Operation")
+    res = relay.check_relays(user_phase=0, system_phase=5, battery_level=90, dissonance_torque=0)
+    for r in res.values(): print(f"Device {r.device_id}: {'RELAY CLOSED (OK)' if not r.is_tripped else 'TRIPPED'}")
 
-        self.relays["25"] = True
-        return True
+    # 2. Sync Fail
+    print("\n[Scenario 2] Social Awkwardness (Phase Mismatch)")
+    res = relay.check_relays(user_phase=0, system_phase=180, battery_level=90, dissonance_torque=0)
+    
+    # 3. Reverse Power (Attack)
+    print("\n[Scenario 3] Hostile Intent (Reverse Power)")
+    res = relay.check_relays(user_phase=0, system_phase=0, battery_level=90, dissonance_torque=-50)
 
-    def status(self) -> Dict[str, bool]:
-        return self.relays
-
-    def _log(self, msg: str):
-        self.logs.append(msg)
-        print(f"🛡️ [RELAY] {msg}")
-
-# Global Instance
-protection = SovereignRelay()
+    # 4. Low Voltage (Burnout)
+    print("\n[Scenario 4] System Burnout")
+    res = relay.check_relays(user_phase=0, system_phase=0, battery_level=10, dissonance_torque=0)
