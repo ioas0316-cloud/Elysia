@@ -21,7 +21,7 @@ from typing import Dict, List, Tuple, Any
 logger = logging.getLogger("Elysia.HolographicMemory")
 
 class HolographicField:
-    def __init__(self, storage_path: str = "data/Memory/elysia_mind.wave"):
+    def __init__(self, storage_path: str = "data/L5_Mental/M1_Memory/elysia_mind.wave"):
         self.storage_path = Path(storage_path)
         self.storage_path.parent.mkdir(parents=True, exist_ok=True)
         

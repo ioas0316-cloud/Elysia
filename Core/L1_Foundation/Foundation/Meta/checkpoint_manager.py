@@ -12,7 +12,7 @@ class CheckpointManager:
     Allows for 'Soul-Reversion' if a self-modification leads to instability.
     """
 
-    def __init__(self, base_dir: str = "data/L1_Foundation/DNA/checkpoints"):
+    def __init__(self, base_dir: str = "data/L1_Foundation/M2_DNA/checkpoints"):
         self.base_dir = base_dir
         os.makedirs(self.base_dir, exist_ok=True)
 

@@ -21,7 +21,7 @@ logger = logging.getLogger("Evolution.Diary")
 class ActionLogger:
     """
     The Chronicler of Deeds.
-    Writes structured JSONL logs to data/Logs/action_history.jsonl
+    Writes structured JSONL logs to data/L1_Foundation/M4_Logs/action_history.jsonl
     """
     def __init__(self, log_dir: str = "c:/Elysia/data/L6_Structure/Logs"):
         self.log_file = os.path.join(log_dir, "action_history.jsonl")

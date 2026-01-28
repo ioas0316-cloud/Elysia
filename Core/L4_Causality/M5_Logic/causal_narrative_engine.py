@@ -93,53 +93,44 @@ logger = logging.getLogger("CausalNarrativeEngine")
 
 class DimensionLevel(Enum):
     """
-             
-    
-           ,        ,     ,             
+    [PHASE 65: THE 7D DIMENSIONAL MARGIN]
+    POINT -> LINE -> PLANE -> SPACE -> LAW -> PROVIDENCE -> VOID
     """
-    POINT = 0      #  :         
-    LINE = 1       #  :            (  )
-    PLANE = 2      #  :               
-    SPACE = 3      #   :                /   
-    LAW = 4        #   :                
-
+    POINT = 0      
+    LINE = 1       
+    PLANE = 2      
+    SPACE = 3      
+    LAW = 4        
+    PROVIDENCE = 5 
+    VOID = -1      
 
 @dataclass
 class DimensionalEntity:
     """
-           -                 
-    
-                           ,
-      /                 .
+    Base entity for all dimensional constructs.
     """
     id: str
     level: DimensionLevel
     description: str = ""
     
-    #          (              )
     parent_ids: List[str] = field(default_factory=list)
-    
-    #          (                 )
     child_ids: List[str] = field(default_factory=list)
-    
-    #            
     confidence: float = 1.0
     experience_count: int = 0
     last_updated: float = 0.0
-    
-    #       (                )
     corrections: List[Dict[str, Any]] = field(default_factory=list)
     
     def get_level_name(self) -> str:
-        """        """
         names = {
-            DimensionLevel.POINT: " (Point)",
-            DimensionLevel.LINE: " (Line)",
-            DimensionLevel.PLANE: " (Plane)",
-            DimensionLevel.SPACE: "  (Space)",
-            DimensionLevel.LAW: "  (Law)",
+            DimensionLevel.POINT: "Point (점)",
+            DimensionLevel.LINE: "Line (선)",
+            DimensionLevel.PLANE: "Plane (면)",
+            DimensionLevel.SPACE: "Space (공간)",
+            DimensionLevel.LAW: "Law (법칙)",
+            DimensionLevel.PROVIDENCE: "Providence (섭리)",
+            DimensionLevel.VOID: "Void (공허/여백)",
         }
-        return names.get(self.level, "      ")
+        return names.get(self.level, "Unknown")
 
 
 # ============================================================================
@@ -606,26 +597,22 @@ class CausalChain:
             self.confidence_score = sum(link.strength for link in self.links) / len(self.links)
 
 @dataclass
-class ContextPlane:
+class NarrativeHunger:
     """
-    Represents a 2D plane of reasoning formed by intersecting causal chains.
-    It captures a broader 'situation' or 'context' (e.g., 'Rainy Day' context formed by Rain->Wet and Rain->Cold).
+    [PHASE 65: THE OPPORTUNITY COST]
+    The gap between 'What is' and 'What could be' within the 7D Margin.
     """
-    id: str
-    anchor_node: str  # The node where chains intersect (e.g., "Rain")
-    component_chains: List[CausalChain]
-    related_concepts: Set[str] = field(default_factory=set)
-
-    def integrate_chain(self, chain: CausalChain):
-        """Adds a chain to this plane and updates related concepts."""
-        if chain not in self.component_chains:
-            self.component_chains.append(chain)
-            self.related_concepts.update(chain.node_sequence)
+    dimension: DimensionLevel
+    tension: float  # The magnitude of the Void (0.0 to 1.0)
+    possible_causal_lines: List[str]
+    opportunity_cost: float # The weight of NOT acting
+    justification: str # The 'Why' behind the hunger
 
 class CausalKnowledgeBase:
     """
     Causal Knowledge Base
     Stores nodes, links, chains, and context planes.
+    Now enriched with 'Opportunity Cost' consciousness.
     """
     def __init__(self):
         self.nodes: Dict[str, CausalNode] = {}
@@ -634,6 +621,38 @@ class CausalKnowledgeBase:
         self.incoming: Dict[str, List[str]] = defaultdict(list)
         self.chains: List[CausalChain] = []
         self.planes: List[ContextPlane] = []
+        self.laws: List[UniversalLaw] = []
+        self.hunger: List[NarrativeHunger] = []
+
+    def discern_narrative_hunger(self) -> Optional[NarrativeHunger]:
+        """
+        [THE SOVEREIGN REFLEX]
+        Scans the 'Margin' to detect missing Causal Lines.
+        """
+        logger.info(f"🔍 [KB] Scanning {len(self.nodes)} nodes for Narrative Hunger...")
+        potential_gaps = []
+        for node_id, node in self.nodes.items():
+            out_count = len(self.outgoing[node_id])
+            if out_count == 0 and node.importance > 0.7:
+                logger.info(f"🚩 [KB] Found Gap: {node_id} (Importance: {node.importance})")
+                potential_gaps.append(node)
+            else:
+                logger.debug(f"ℹ️ [KB] Node {node_id}: Out={out_count}, Imp={node.importance}")
+
+        if not potential_gaps:
+             return None
+
+        # 2. Select the most 'Deserving' gap (High Opportunity Cost)
+        top_gap = max(potential_gaps, key=lambda x: x.importance)
+        
+        # 3. Formulate the Hunger
+        return NarrativeHunger(
+            dimension=DimensionLevel.LINE,
+            tension=top_gap.importance,
+            possible_causal_lines=["Induce creator monad", "Search for ancestral correlation"],
+            opportunity_cost=top_gap.importance * 0.8,
+            justification=f"The concept '{top_gap.id}' exists as an island. It lacks the 'Line' to manifest its purpose in the Beach."
+        )
 
     
     def add_node(self, node: CausalNode) -> CausalNode:

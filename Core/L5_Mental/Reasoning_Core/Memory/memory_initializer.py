@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 
 # Setup
-DB_PATH = Path("data/Memory/memory.db")
+DB_PATH = Path("data/L5_Mental/M1_Memory/memory.db")
 SCHEMA_PATH = Path("c:/Elysia/Core/Memory/memory_schema_v10.sql")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("MemoryInit")

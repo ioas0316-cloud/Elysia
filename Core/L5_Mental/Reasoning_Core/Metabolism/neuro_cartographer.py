@@ -186,7 +186,7 @@ class NeuroCartographer:
             report["semantic_layer"]["love_system_distance"] = float(dist)
             
         # Save to disk
-        output_path = "data/Qualia/neuro_topology.json"
+        output_path = "data/L3_Phenomena/M1_Qualia/neuro_topology.json"
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, 'w') as f:
             json.dump(report, f, indent=2)

@@ -2,7 +2,7 @@
 import sqlite3
 import os
 
-db_path = "data/Memory/memory.db"
+db_path = "data/L5_Mental/M1_Memory/memory.db"
 if os.path.exists(db_path):
     print(f"Original size: {os.path.getsize(db_path)} bytes")
     conn = sqlite3.connect(db_path)

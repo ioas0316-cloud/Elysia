@@ -7,7 +7,7 @@ from typing import Dict, Any
 
 from Core.L1_Foundation.Foundation.Rotor.rotor_engine import RotorEngine
 
-STATE_FILE = "c:/Elysia/data/psionic_state.json"
+STATE_FILE = "data/L6_Structure/M1_State/psionic_state.json"
 os.makedirs("c:/Elysia/data", exist_ok=True)
 
 logger = logging.getLogger("PsionicCortex")

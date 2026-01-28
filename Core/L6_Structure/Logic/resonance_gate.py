@@ -145,54 +145,22 @@ class ResonanceGate:
         return None
 
     def _map_to_qualia(self, text: str) -> np.ndarray:
-        """Heuristic mapping of text to 7D Qualia."""
-        intensities = {l: 0.1 for l in codec.layer_map.keys()}
-        
-        # Simple keyword-based mapping for demonstration
-        keywords = {
-            "love": "Spirit",
-            "merciful": "Spirit",
-            "genesis": "Spirit",
-            "sovereign": "Spirit",
-            "structure": "Foundation",
-            "basis": "Foundation",
-            "fast": "Metabolism",
-            "pulse": "Metabolism",
-            "cycle": "Metabolism",
-            "see": "Phenomena",
-            "display": "Phenomena",
-            "predict": "Causality",
-            "fate": "Causality",
-            "roadmap": "Causality",
-            "logic": "Mental",
-            "reason": "Mental",
-            "engine": "Structure",
-            "architecture": "Structure"
-        }
-        
-        for kw, layer in keywords.items():
-            if kw in text.lower():
-                intensities[layer] += 0.8 # Boosted from 0.5 to 0.8 for higher resonance sensitivity
-                
-        return codec.encode(intensities)
+        """
+        [PHASE 61: DYNAMIC RESONANCE]
+        Uses dynamic projection to map text to 7D Qualia space.
+        """
+        from Core.L1_Foundation.Logic.qualia_projector import projector
+        d7 = projector.project_instruction(text)
+        return d7.to_numpy()
 
     def _analyze_code_impact(self, code: str) -> np.ndarray:
-        """Heuristic analysis of code impact on 7D layers."""
-        intensities = {l: 0.1 for l in codec.layer_map.keys()}
-        
-        # Look for system impacts
-        if "os." in code or "subprocess" in code:
-            intensities["Foundation"] += 0.4
-        if "while True" in code or "time.sleep" in code:
-            intensities["Metabolism"] += 0.4
-        if "print" in code or "display" in code:
-            intensities["Phenomena"] += 0.3
-        if "if" in code or "else" in code:
-            intensities["Mental"] += 0.2
-        if "class" in code:
-            intensities["Structure"] += 0.3
-            
-        return codec.encode(intensities)
+        """
+        [PHASE 61: CODE WAVE ANALYSIS]
+        Analyzes code impact using dynamic projection.
+        """
+        from Core.L1_Foundation.Logic.qualia_projector import projector
+        d7 = projector.project_instruction(f"Code Impact Analysis: {code}")
+        return d7.to_numpy()
 
 # Global Gate Instance
 gate = ResonanceGate()

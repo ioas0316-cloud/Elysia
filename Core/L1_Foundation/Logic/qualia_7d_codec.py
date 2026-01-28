@@ -1,7 +1,6 @@
 import numpy as np
 from typing import List, Dict, Any, Optional
 from Core.L1_Foundation.Logic.d7_vector import D7Vector
-from Core.L1_Foundation.Logic.resonance_gate import ResonanceGate, ResonanceState
 
 class Qualia7DCodec:
     """
@@ -78,6 +77,7 @@ class Qualia7DCodec:
         Converts a continuous weight vector into a trinary DNA sequence (-1, 0, 1).
         H: Harmony (1), V: Void (0), D: Dissonance (-1)
         """
+        from Core.L1_Foundation.Logic.resonance_gate import ResonanceGate, ResonanceState
         sequence = []
         for val in vector:
             state = ResonanceGate.collapse_to_state(val, threshold)

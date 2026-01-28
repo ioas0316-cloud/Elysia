@@ -5,9 +5,9 @@ from datetime import datetime
 def setup_unified_logging():
     """
     Sets up a single, unified logging sink for the entire Elysia system.
-    Redirects all logs to data/Logs/unified_soul.log.
+    Redirects all logs to data/L1_Foundation/M4_Logs/unified_soul.log.
     """
-    log_dir = "data/Logs"
+    log_dir = "data/L1_Foundation/M4_Logs"
     os.makedirs(log_dir, exist_ok=True)
     log_file = os.path.join(log_dir, "unified_soul.log")
     

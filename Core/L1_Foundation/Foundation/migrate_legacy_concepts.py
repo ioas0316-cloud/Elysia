@@ -23,7 +23,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger("Migration")
 
-DB_PATH = "data/Memory/memory.db"
+DB_PATH = "data/L5_Mental/M1_Memory/memory.db"
 BATCH_SIZE = 10000
 
 def get_legacy_count(cursor):

@@ -254,7 +254,7 @@ class ReasoningEngine:
 
         self.akashic = AkashicField()
 
-        self.akashic.exhume_graveyard("c:/Elysia/data/L5_Mental/Memory/Raw/Knowledge/CodeDNA")
+        self.akashic.exhume_graveyard("data/L5_Mental/M1_Memory/Raw/Knowledge/CodeDNA")
 
 
 

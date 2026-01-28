@@ -27,7 +27,7 @@ from Core.L5_Mental.Reasoning_Core.Generation.wave_composer import WaveComposer
 logger = logging.getLogger("Elysia.SovereignExecutor")
 
 class SovereignExecutor:
-    def __init__(self, sandbox_root: str = "data/Sandbox", heartbeat=None):
+    def __init__(self, sandbox_root: str = "data/L2_Metabolism/M2_Incubation", heartbeat=None):
         self.sandbox_root = Path(root) / sandbox_root
         self.sandbox_root.mkdir(parents=True, exist_ok=True)
         self.heartbeat = heartbeat

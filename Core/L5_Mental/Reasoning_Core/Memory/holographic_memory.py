@@ -177,11 +177,11 @@ class HolographicMemory:
     def _hydrate_from_orbs(self):
         """
         [PHASE 28.5: Orb Hydration]
-        Load memory orbs from data/Memory/orbs/*.json (orbs are stored as JSON)
+        Load memory orbs from data/L5_Mental/M1_Memory/orbs/*.json (orbs are stored as JSON)
         """
         import os
         import json
-        orb_dir = "data/Memory/orbs"
+        orb_dir = "data/L5_Mental/M1_Memory/orbs"
         
         if not os.path.exists(orb_dir):
             logger.warning(f"   Orb directory not found: {orb_dir}")

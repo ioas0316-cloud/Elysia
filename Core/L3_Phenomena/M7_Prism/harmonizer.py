@@ -32,7 +32,7 @@ class PrismHarmonizer:
     Supports dynamic DNA (JSON-based state).
     """
 
-    def __init__(self, state_path: str = "data/L1_Foundation/DNA/prism_state.json"):
+    def __init__(self, state_path: str = "data/L1_Foundation/M2_DNA/prism_state.json"):
         self.state_path = state_path
         self.genome = {} # Formerly 'profiles' - part of the Unified Taxonomy
         self._initialize_default_genome()

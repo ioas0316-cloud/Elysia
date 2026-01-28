@@ -53,7 +53,7 @@ class ToddlerChatEngine:
         "propose_action": "hopeful",
     }
 
-    def __init__(self, memory_path: str = "data/Memory/elysia_core_memory.json") -> None:
+    def __init__(self, memory_path: str = "data/L5_Mental/M1_Memory/elysia_core_memory.json") -> None:
         log_dir = os.path.dirname(self.MOOD_LOG)
         if log_dir:
             os.makedirs(log_dir, exist_ok=True)

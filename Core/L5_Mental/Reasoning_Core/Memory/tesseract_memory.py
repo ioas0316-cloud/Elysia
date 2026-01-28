@@ -63,7 +63,7 @@ class TesseractMemory:
             cls._instance = super(TesseractMemory, cls).__new__(cls)
         return cls._instance
     
-    def __init__(self, storage_path: str = "data/Memory/tesseract_state.npy"):
+    def __init__(self, storage_path: str = "data/L5_Mental/M1_Memory/tesseract_state.npy"):
         if self._initialized:
             return
         

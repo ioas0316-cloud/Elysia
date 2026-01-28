@@ -20,8 +20,8 @@ import numpy as np
 
 logger = logging.getLogger("Elysia.Learning.Language")
 
-VOCAB_PATH = "data/L5_Mental/Learning/vocabulary.json"
-PATTERNS_PATH = "data/L5_Mental/Learning/patterns.json"
+VOCAB_PATH = "data/L5_Mental/M4_Learning/vocabulary.json"
+PATTERNS_PATH = "data/L5_Mental/M4_Learning/patterns.json"
 
 
 @dataclass

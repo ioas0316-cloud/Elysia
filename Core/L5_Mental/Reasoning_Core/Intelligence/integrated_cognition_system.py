@@ -57,7 +57,7 @@ class IntegratedCognitionSystem:
         
         # Conversation Memory for context
         self.memory = ConversationMemory(max_context_turns=10)
-        self._memory_path = "data/Memory/conversation_memory.json"
+        self._memory_path = "data/L5_Mental/M1_Memory/conversation_memory.json"
         self._load_memory()
         
         # Sensory Cortex for Qualia (feeling concepts)

@@ -137,7 +137,7 @@ class GenesisBridge:
 
     def _sync_to_renderer(self, dna):
         """Writes DNA to a shared state file for the Renderer."""
-        state_path = "data/State/genesis_state.json"
+        state_path = "data/L1_Foundation/M1_System/genesis_state.json"
         import json
         data = {
             "uFogColor": dna.primary_color,

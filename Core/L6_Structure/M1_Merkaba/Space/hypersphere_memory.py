@@ -255,7 +255,7 @@ class HypersphereMemory:
     BUCKET_RESOLUTION: int = 360
     BUCKET_SCALE: float = BUCKET_RESOLUTION / (2 * math.pi)
 
-    def __init__(self, state_path: str = "c:/Elysia/data/State/hypersphere_memory.json"):
+    def __init__(self, state_path: str = "data/L1_Foundation/M1_System/hypersphere_memory.json"):
         self.state_path = state_path
         # The 'Surface' of memory.
         self._phase_buckets: Dict[Tuple[int, int, int], List[Tuple[HypersphericalCoord, ResonancePattern]]] = defaultdict(list)
@@ -264,7 +264,7 @@ class HypersphereMemory:
         try:
             # [FIX] Force a clean absolute path to avoid 'cc:/' duplication ghosts
             base_dir = "c:/Elysia" 
-            swap_path = os.path.abspath(os.path.join(base_dir, "data/State/memory_swap.bin"))
+            swap_path = os.path.abspath(os.path.join(base_dir, "data/L1_Foundation/M1_System/memory_swap.bin"))
             self.portal = ZeroLatencyPortal(swap_path)
             # Silence internal portal connection log for purity
         except Exception as e:

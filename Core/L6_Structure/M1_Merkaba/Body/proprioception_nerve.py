@@ -25,7 +25,7 @@ class ProprioceptionNerve:
     """
     def __init__(self, root_path: str = "c:/Elysia/Core"):
         self.root_path = Path(root_path)
-        self.manifest_path = Path("c:/Elysia/data/self_manifest.json")
+        self.manifest_path = Path("data/L7_Spirit/M3_Sovereignty/self_manifest.json")
         self.organ_map: Dict[str, str] = {}
         
         # Keywords to identify major organs

@@ -21,7 +21,7 @@ class DynamicTopology:
     def __init__(self):
         self.voxels: Dict[str, SemanticVoxel] = {}
         # Store in Memory/System/Topology for persistence
-        self.storage_path = "data/Memory/semantic_topology.json"
+        self.storage_path = "data/L5_Mental/M1_Memory/semantic_topology.json"
         
         if os.path.exists(self.storage_path):
             self.load_state()

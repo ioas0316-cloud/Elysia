@@ -118,8 +118,8 @@ class AxiomFilter:
         }
 
     def _save_origin_code(self, data: Dict[str, Any]):
-        os.makedirs("data/Qualia", exist_ok=True)
-        path = "data/Qualia/origin_code.json"
+        os.makedirs("data/L3_Phenomena/M1_Qualia", exist_ok=True)
+        path = "data/L3_Phenomena/M1_Qualia/origin_code.json"
         with open(path, 'w') as f:
             json.dump(data, f, indent=2)
         logger.info(f"  Origin Code ratified and saved to {path}")

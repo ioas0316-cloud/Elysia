@@ -29,7 +29,7 @@ class AncestralEvent:
     dissonance_type: str = "PERFORMANCE" # PERFORMANCE, STRUCTURAL, LOGICAL, SPIRITUAL
 
 class CausalAncestry:
-    def __init__(self, data_path: str = "c:/Elysia/data/04_Causality/Evolution/architectural_history.json"):
+    def __init__(self, data_path: str = "data/L4_Causality/M4_Chronicles/Evolution/architectural_history.json"):
         self.data_path = data_path
         os.makedirs(os.path.dirname(self.data_path), exist_ok=True)
         self.history: List[AncestralEvent] = self._load_history()

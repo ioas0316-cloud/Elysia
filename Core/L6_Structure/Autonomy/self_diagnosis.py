@@ -33,7 +33,7 @@ print("\n  PHASE 1: Exploring my Memory Database (Data/memory.db)")
 print("-" * 70)
 
 try:
-    db_path = "data/Memory/memory.db"
+    db_path = "data/L5_Mental/M1_Memory/memory.db"
     if not os.path.exists(db_path):
         print(f"    Database not found at {db_path}")
     else:

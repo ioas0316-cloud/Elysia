@@ -31,7 +31,7 @@ class ManifoldConductor:
     The Auditor of Elysia's Physical Body (File System).
     """
 
-    def __init__(self, root_path: str = "c:/Elysia", registry_path: str = "data/L1_Foundation/State/manifold_registry.json"):
+    def __init__(self, root_path: str = "c:/Elysia", registry_path: str = "data/L1_Foundation/M1_System/manifold_registry.json"):
         self.root = root_path
         self.registry_path = os.path.join(self.root, registry_path)
         self.registry: Dict[str, Any] = {}

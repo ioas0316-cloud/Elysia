@@ -21,7 +21,7 @@ logger = logging.getLogger("SovereignMemory")
 class SovereignMemoryNavigator:
     def __init__(self, buffer_size_mb: int = 128):
         self.buffer_size = buffer_size_mb * 1024 * 1024
-        self.file_path = "data/State/sovereign_buffer.bin"
+        self.file_path = "data/L1_Foundation/M1_System/sovereign_buffer.bin"
         
         # Ensure directory exists
         os.makedirs(os.path.dirname(self.file_path), exist_ok=True)

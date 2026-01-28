@@ -6,7 +6,7 @@ import threading
 import time
 
 PORT = 8000
-STATE_FILE = "c:/Elysia/data/psionic_state.json"
+STATE_FILE = "data/L6_Structure/M1_State/psionic_state.json"
 
 class PsionicHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):

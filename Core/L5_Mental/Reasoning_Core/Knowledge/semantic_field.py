@@ -39,7 +39,7 @@ class SemanticField:
         self.concepts: Dict[Tuple[int, int, int, int], List[SemanticExcitation]] = {}
         self.glossary: Dict[str, Tuple[float, float, float, float]] = {} # name -> (w,x,y,z)
         self.history: List[SemanticExcitation] = [] # Track arrival order (Phase 25)
-        self.save_path = "data/Memory/semantic_field.json"
+        self.save_path = "data/L5_Mental/M1_Memory/semantic_field.json"
         
         # Auto-load
         self.load()

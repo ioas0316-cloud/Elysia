@@ -52,7 +52,7 @@ class DomainAbsorber:
     Converts any knowledge domain into 7D Qualia space.
     """
     
-    def __init__(self, storage_path: str = "data/Qualia/domains.json"):
+    def __init__(self, storage_path: str = "data/L3_Phenomena/M1_Qualia/domains.json"):
         self.storage_path = storage_path
         self.domains: Dict[str, DomainQualia] = {}
         self._load()

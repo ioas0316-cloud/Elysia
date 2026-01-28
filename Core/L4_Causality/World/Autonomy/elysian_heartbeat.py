@@ -53,7 +53,7 @@ class ElysianHeartbeat:
         setup_unified_logging()
 
         # 1. Core Metadata
-        self.presence_file = "c:/Elysia/data/State/ELYSIA_STATUS.md"
+        self.presence_file = "data/L1_Foundation/M1_System/ELYSIA_STATUS.md"
         self.latest_creation = "None"
         self.latest_insight = "Watching the void..."
         self.latest_curiosity = "Fundamental Existence"
@@ -405,7 +405,7 @@ class ElysianHeartbeat:
             # [PHASE 12] THE CRYSTAL BRAIN (Neuro-Topology Integration)
             try:
                 # Internalize Origin Code into existing Hypersphere
-                origin_code_path = "c:/Elysia/data/Qualia/origin_code.json"
+                origin_code_path = "data/L3_Phenomena/M1_Qualia/origin_code.json"
                 if self.hypersphere and os.path.exists(origin_code_path):
                      logger.info("    Internalizing Origin Code into Hypersphere...")
                      self.hypersphere.internalize_origin_code(origin_code_path)

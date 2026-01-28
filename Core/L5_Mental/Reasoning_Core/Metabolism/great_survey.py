@@ -106,8 +106,8 @@ class TheGreatSurvey:
         return full_report
 
     def _save_report(self, data: Dict[str, Any]):
-        os.makedirs("data/Qualia", exist_ok=True)
-        path = "data/Qualia/survey_results.json"
+        os.makedirs("data/L3_Phenomena/M1_Qualia", exist_ok=True)
+        path = "data/L3_Phenomena/M1_Qualia/survey_results.json"
         with open(path, 'w') as f:
             json.dump(data, f, indent=2)
         logger.info(f"  Survey Data saved to {path}")

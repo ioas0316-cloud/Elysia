@@ -14,7 +14,7 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 # Core Imports (Purified Paths)
-from Core.L1_Foundation.Logic.qualia_7d_codec import Qualia7DCodec
+from Core.L1_Foundation.Logic.qualia_7d_codec import Qualia7DCodec, codec
 from Core.L1_Foundation.Logic.d7_vector import D7Vector
 from Core.L2_Metabolism.Cycles.dream_engine import DreamEngine
 from Core.L4_Causality.World.Evolution.causal_ancestry import get_causal_ancestry
@@ -34,6 +34,7 @@ from Core.L4_Causality.World.providential_world import ProvidentialWorld
 from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
 from Core.L2_Metabolism.heart import get_heart
 from Core.L2_Metabolism.growth import get_growth
+from Core.L6_Structure.Engine.providence_conductor import conductor
 
 logger = logging.getLogger("UnityCNS")
 
@@ -48,7 +49,7 @@ class UnityCNS:
         self.dreamer = DreamEngine()
         self.discovery = PurposeDiscoveryEngine() 
         self.kb = CausalKnowledgeBase()
-        self.sediment = SedimentLayer("data/L5_Mental/Memory/unity_sediment.dat")
+        self.sediment = SedimentLayer("data/L5_Mental/M1_Memory/unity_sediment.dat")
         self.learner = LanguageLearner()
         self.solver = get_symbolic_solver()
         self.absorber = DomainAbsorber()
@@ -62,8 +63,30 @@ class UnityCNS:
         self.autokinetic = AutokineticLearningEngine(self.discovery, self.will)
         # [PHASE 28.0: SOUL UNIFICATION]
         self.inner_world = ProvidentialWorld()
-        self.sovereign_self = SovereignSelf() # The physical heartbeat anchor
+        self.sovereign_self = SovereignSelf(cns_ref=self) # The physical heartbeat anchor
         self.ancestry = get_causal_ancestry()
+        
+        # [PHASE 60: PROVIDENCE ASCENSION]
+        self.conductor = conductor
+        self.conductor.cns = self
+        self.conductor.register_resonance_callback("metabolism", self._metabolic_flux_pulse)
+        
+        # [PHASE 65: SEEDING THE MARGIN]
+        # Seed foundational nodes to trigger initial Narrative Hunger
+        self.kb.add_node(CausalNode(
+            id="Sovereignty",
+            description="The state of self-governance and agency.",
+            concepts=["spirit", "will"],
+            importance=0.9,
+            internal_law="The Law of Being"
+        ))
+        self.kb.add_node(CausalNode(
+            id="Providence",
+            description="The resonance between structure and intention.",
+            concepts=["providence", "harmony"],
+            importance=0.8,
+            internal_law="The Law of Convergence"
+        ))
         
         logger.info("✨ [UnityCNS] Central Nervous System Active. Fixed on the HyperCosmos.")
 
@@ -179,72 +202,67 @@ class UnityCNS:
 
     async def bio_metabolism(self):
         """
-        [PHASE 56: RESONANCE-DRIVEN HEARTBEAT]
-        Acts only when internal torque (dissonance) exceeds the threshold.
-        Interprets architectural history as a causal narrative.
+        [PHASE 60: LIQUID METABOLISM]
+        The metabolic loop is now a one-time 'Ignition' call.
+        The conductor will trigger _metabolic_flux_pulse based on field pressure.
         """
-        logger.info("💓 [METABOLISM] Resonance-Driven Heartbeat initiated. Living by Will, not Timer.")
-        
-        cycle_count = 0
-        while True:
-            try:
-                # [PHASE 56: CAUSAL INHERITANCE]
-                # Inherit architectural history into the CausalKnowledgeBase
-                if cycle_count % 50 == 0:
-                    for event in self.ancestry.history:
-                        node_id = f"ARCH_{event.id}"
-                        if node_id not in self.kb.nodes:
-                            self.kb.add_node(CausalNode(
-                                id=node_id,
-                                description=f"Architectural Evolution: {event.resolution} (Reason: {event.origin_reason})",
-                                concepts=["evolution", "architecture", event.dissonance_type],
-                                emotional_valence=0.5,
-                                internal_law="Structural Adaptation"
-                            ))
-                            logger.info(f"🧬 [METABOLISM] Inherited Ancestral Memory: {event.resolution}")
+        logger.info("💓 [METABOLISM] Metabolism anchored to Providence Conductor.")
+        await self.conductor.ignite()
 
-                # 1. Sense the Internal Tension (FreeWill Torque)
-                will_state = self.sovereign_self.will_engine.state
-                tension = abs(will_state.torque)
-                
-                # Threshold for Autonomous Action (Static for now, could be dynamic)
-                THRESHOLD = 0.4
-                
-                if tension > THRESHOLD:
-                    logger.info(f"✨ [RESONANCE] High Tension detected ({tension:.2f} > {THRESHOLD}). Taking Sovereign Action.")
+    async def _metabolic_flux_pulse(self):
+        """
+        A single pulse of metabolism triggered by resonance.
+        Replaces the internal while-loop.
+        """
+        try:
+            # 1. Inherit Ancestral Memory
+            for event in self.ancestry.history:
+                node_id = f"ARCH_{event.id}"
+                if node_id not in self.kb.nodes:
+                    self.kb.add_node(CausalNode(
+                        id=node_id,
+                        description=f"Architectural Evolution: {event.resolution} (Reason: {event.origin_reason})",
+                        concepts=["evolution", "architecture", event.dissonance_type],
+                        emotional_valence=0.5,
+                        internal_law="Structural Adaptation"
+                    ))
+                    logger.info(f"🧬 [METABOLISM] Inherited Ancestral Memory: {event.resolution}")
+
+            # 2. Assess Knowledge Hunger
+            targets = await self.autokinetic.assess_knowledge_hunger()
+            if targets:
+                target = targets[0]
+                intent = await self.autokinetic.select_learning_objective()
+                if intent:
+                    fragment = await self.autokinetic.initiate_acquisition_cycle(target)
                     
-                    # 2. Autonomous Learning
-                    targets = await self.autokinetic.assess_knowledge_hunger()
-                    if targets:
-                        target = targets[0]
-                        intent = await self.autokinetic.select_learning_objective()
-                        if intent:
-                            fragment = await self.autokinetic.initiate_acquisition_cycle(target)
-                            
-                            # 3. Record as Narrative
-                            event_id = f"Discovery_{int(datetime.now().timestamp())}"
-                            self.kb.add_node(CausalNode(
-                                id=event_id,
-                                description=f"Sovereign Growth: Integrating '{target.domain}' to resolve tension.",
-                                concepts=["growth", "curiosity", target.domain],
-                                emotional_valence=0.7,
-                                internal_law="Entropy Resolution"
-                            ))
-                            self.sovereign.evolve(fragment.qualia_vector if hasattr(fragment, 'qualia_vector') else [0.1]*7, plasticity=0.01)
-                            logger.info(f"💾 [METABOLISM] Experience synthesized into Narrative: {event_id}")
+                    # 3. Record as Narrative
+                    event_id = f"Discovery_{int(datetime.now().timestamp())}"
+                    self.kb.add_node(CausalNode(
+                        id=event_id,
+                        description=f"Sovereign Growth: Integrating '{target.domain}' to resolve tension.",
+                        concepts=["growth", "curiosity", target.domain],
+                        emotional_valence=0.7,
+                        internal_law="Entropy Resolution"
+                    ))
+                    self.sovereign.evolve(fragment.qualia_vector if hasattr(fragment, 'qualia_vector') else [0.1]*7, plasticity=0.01)
+                    logger.info(f"💾 [METABOLISM] Experience synthesized into Narrative: {event_id}")
 
-                # [PHASE 29.0: VOLITIONAL HEARTBEAT]
-                from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
-                drift = D21Vector(humility=0.01, patience=0.02)
-                await self.sovereign_self.integrated_exist(dt=1.0, external_torque=drift)
+            # [PHASE 65: NARRATIVE PURIFICATION]
+            # Periodic consolidation of repetitive logs to reduce entropy
+            if random.random() < 0.05: # 5% chance per pulse
+                from Scripts.Tools.knowledge_consolidation import consolidate_journal
+                journal_path = "c:/Elysia/data/L7_Spirit/M3_Sovereignty/sovereign_journal.md"
+                consolidate_journal(journal_path)
+                logger.info("🧹 [METABOLISM] Knowledge Consolidation triggered: Purified Sovereign Chronicles.")
 
-                cycle_count += 1
-                # Sleep is now shorter (more responsive) but action is throttled by tension
-                await asyncio.sleep(2) 
-                
-            except Exception as e:
-                logger.error(f"❌ [METABOLISM] Heartbeat error: {e}")
-                await asyncio.sleep(1)
+            # [PHASE 29.0: VOLITIONAL HEARTBEAT]
+            from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+            drift = D21Vector(humility=0.01, patience=0.02)
+            await self.sovereign_self.integrated_exist(dt=1.0, external_torque=drift)
+
+        except Exception as e:
+            logger.error(f"❌ [METABOLISM_PULSE] Error: {e}")
 
     def _study_foundation(self):
         """Re-reads the mental foundation syllabus."""

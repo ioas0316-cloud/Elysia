@@ -145,6 +145,6 @@ if __name__ == "__main__":
     print(json.dumps(results, indent=2))
     
     # Save results
-    os.makedirs("data/Qualia", exist_ok=True)
-    with open("data/Qualia/axiom_results.json", 'w') as f:
+    os.makedirs("data/L3_Phenomena/M1_Qualia", exist_ok=True)
+    with open("data/L3_Phenomena/M1_Qualia/axiom_results.json", 'w') as f:
         json.dump(results, f, indent=2)

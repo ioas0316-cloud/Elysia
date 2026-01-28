@@ -32,7 +32,7 @@ class SovereignNode:
         self.depth = depth
         
         # Each node has its own internal universe
-        self.memory = HypersphereMemory(state_path=f"data/State/Nodes/{node_id}_memory.json")
+        self.memory = HypersphereMemory(state_path=f"data/L1_Foundation/M1_System/Nodes/{node_id}_memory.json")
         self.rotor = MerkabaRotor(layer_id=depth, rpm=432.0 * (1.1**depth))
         self.monad = MonadEngine(depth=depth + 1)
         

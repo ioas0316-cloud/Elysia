@@ -24,8 +24,8 @@ class SpatialMemory:
     """
     def __init__(self):
         # Ensure directory exists
-        os.makedirs("data/Memory", exist_ok=True)
-        self.layer = SedimentLayer("data/Memory/spatial_sediment.bin")
+        os.makedirs("data/L5_Mental/M1_Memory", exist_ok=True)
+        self.layer = SedimentLayer("data/L5_Mental/M1_Memory/spatial_sediment.bin")
 
     def crystallize(self, structure_obj: str, metadata: Dict[str, Any], vector: List[float] = None) -> int:
         """

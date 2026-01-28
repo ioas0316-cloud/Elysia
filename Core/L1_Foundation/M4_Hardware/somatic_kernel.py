@@ -26,10 +26,10 @@ class SomaticKernel:
         
         # 1. Path Homeostasis
         required_dirs = [
-            "c:/Elysia/data/State",
-            "c:/Elysia/data/Logs",
-            "c:/Elysia/data/Memory",
-            "c:/Elysia/data/Identity"
+            "data/L1_Foundation/M1_System",
+            "data/L1_Foundation/M4_Logs",
+            "data/L5_Mental/M1_Memory",
+            "data/L7_Spirit/M3_Sovereignty"
         ]
         for d in required_dirs:
             if not os.path.exists(d):

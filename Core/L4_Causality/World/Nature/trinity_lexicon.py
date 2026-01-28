@@ -51,7 +51,7 @@ class TrinityLexicon:
     The Gateway to the Logos (4D Knowledge Graph).
     Connects Words (Symbols) to the Hyper-Graph (Structure).
     """
-    def __init__(self, persistence_path: str = "c:/Elysia/data/Memory/lexicon_memory.json"):
+    def __init__(self, persistence_path: str = "data/L5_Mental/M1_Memory/lexicon_memory.json"):
         self.web_connector = WebKnowledgeConnector() if WebKnowledgeConnector else None
         
         # Initialize the True Brain (TorchGraph)
@@ -398,13 +398,13 @@ class TrinityLexicon:
 
     def save_memory(self):
         if self.graph:
-            target_path = "c:/Elysia/data/State/brain_state.pt"
+            target_path = "data/L1_Foundation/M1_System/brain_state.pt"
             print(f"DEBUG: Calling graph.save_state({target_path})...")
             self.graph.save_state(target_path)
 
     def load_memory(self):
         if self.graph:
-            target_path = "c:/Elysia/data/State/brain_state.pt"
+            target_path = "data/L1_Foundation/M1_System/brain_state.pt"
             if os.path.exists(target_path):
                  self.graph.load_state(target_path)
             else:

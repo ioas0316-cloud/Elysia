@@ -32,7 +32,7 @@ class VisualElement:
 class CompositionEngine:
     def __init__(self):
         self.golden_ratio = 1.61803398875
-        self.genome_path = Path("data/Memory/style_genome.json")
+        self.genome_path = Path("data/L5_Mental/M1_Memory/style_genome.json")
         self.genome = self._load_genome()
         
     def _load_genome(self):

@@ -1,7 +1,7 @@
 """    DB    /           """
 import sqlite3
 
-conn = sqlite3.connect('data/Memory/memory.db')
+conn = sqlite3.connect('data/L5_Mental/M1_Memory/memory.db')
 cursor = conn.cursor()
 
 print('=' * 60)

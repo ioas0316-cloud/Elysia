@@ -35,7 +35,7 @@ class CausalLoopOrchestrator:
         self.dreamer = DreamEngine()
         self.discovery = SelfDiscovery()
         self.kb = CausalKnowledgeBase()
-        self.sediment = SedimentLayer("data/L5_Mental/Memory/sediment_strata.dat")
+        self.sediment = SedimentLayer("data/L5_Mental/M1_Memory/sediment_strata.dat")
         logger.info("  [Orchestrator] Causal Loop Unified.")
 
     async def inhale_experience(self, context: str):

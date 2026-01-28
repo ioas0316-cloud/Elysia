@@ -22,7 +22,7 @@ print('=' * 70)
 # ============================================================================
 
 print('\n[   1]    DB     ...')
-conn = sqlite3.connect('data/Memory/memory.db')
+conn = sqlite3.connect('data/L5_Mental/M1_Memory/memory.db')
 cursor = conn.cursor()
 
 cursor.execute('SELECT COUNT(*) FROM concepts')

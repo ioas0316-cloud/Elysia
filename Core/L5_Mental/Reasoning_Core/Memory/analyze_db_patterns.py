@@ -6,7 +6,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 def analyze_patterns():
-    db_path = "data/Memory/memory.db"
+    db_path = "data/L5_Mental/M1_Memory/memory.db"
     if not os.path.exists(db_path):
         print(f"  Error: {db_path} not found!")
         return

@@ -20,7 +20,7 @@ class GrowthTracker:
     """
     Tracks the trajectory of the Soul over time.
     """
-    def __init__(self, history_file: str = "c:/Elysia/data/L5_Mental/Memories/growth_stats.csv"):
+    def __init__(self, history_file: str = "data/L5_Mental/M1_Memory/growth_stats.csv"):
         self.history_file = history_file
         os.makedirs(os.path.dirname(self.history_file), exist_ok=True)
         
