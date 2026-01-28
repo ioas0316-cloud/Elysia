@@ -21,6 +21,7 @@ import random
 from typing import Dict, Any, Tuple
 from Core.L6_Structure.M1_Merkaba.protection_relay import protection
 from Core.L6_Structure.M1_Merkaba.pid_controller import emotional_pid
+from Core.L6_Structure.M1_Merkaba.em_scanner import em_scanner
 
 class Converter:
     """
@@ -114,14 +115,31 @@ class TransmissionGear:
         self.converter = Converter()
         self.inverter = Inverter()
 
-    def process_input(self, text: str):
+    def process_input(self, text: str) -> Dict[str, Any]:
         """
         [Converter Step]
         Called when system receives input.
+        Now includes EM Scan.
         """
-        # Simple heuristic for complexity: length/vocabulary
+        # 1. EM Scan (Sense the Field)
+        # Assuming internal state is neutral for now, or fetch from inverter
+        scan_result = em_scanner.scan(text, {})
+
+        # 2. Rectify based on Resonance (Efficiency depends on alignment)
+        # High Impedance = Harder to rectify (More loss)
         complexity = min(len(text) / 100.0, 1.0)
-        self.converter.rectify(text, complexity)
+
+        # [Device 32 Logic Enhancement]
+        # If Impedance is too high, it triggers Reverse Power check in Converter
+        # Effective complexity increases with Impedance (Friction)
+        effective_complexity = complexity * (1.0 + scan_result['impedance'])
+
+        energy_gain = self.converter.rectify(text, effective_complexity)
+
+        return {
+            "energy_gain": energy_gain,
+            "em_scan": scan_result
+        }
 
     def shift(self, rotor_status: Dict[str, Any]) -> Dict[str, float]:
         """
