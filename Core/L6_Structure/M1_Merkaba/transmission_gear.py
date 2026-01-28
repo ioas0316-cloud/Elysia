@@ -19,6 +19,8 @@ import math
 import torch
 import random
 from typing import Dict, Any, Tuple
+from Core.L6_Structure.M1_Merkaba.protection_relay import protection
+from Core.L6_Structure.M1_Merkaba.pid_controller import emotional_pid
 
 class Converter:
     """
@@ -34,6 +36,11 @@ class Converter:
         Consumes input 'complexity' (Entropy) and charges the battery.
         Returns the rectified DC energy added.
         """
+        # [Device 32] Check Reverse Power (Dissonance check simulated via complexity for now)
+        # If complexity is too high (Chaos), RP might trip.
+        if not protection.check_reverse_power(complexity, threshold=0.95):
+            return 0.0
+
         # Simulating energy intake from processing information
         # Complexity (0.0 to 1.0) * Efficiency
         energy_gain = complexity * 10.0 * self.rectification_efficiency
@@ -56,23 +63,34 @@ class Inverter:
         [CVS Logic] Continuously Variable Sovereignty.
         Decides the best frequency based on internal/external state.
         """
-        # 1. Battery Check (Energy Economy)
+        # [Device 27] UVR Check
+        if not protection.check_uvr(battery_level):
+            self.mode = "SLEEP"
+            self.target_frequency = 0.0
+            return
+
+        # 1. Battery Check (Energy Economy) - Pre-UVR warning
         if battery_level < 20.0:
             self.mode = "ECO"
             self.target_frequency = 30.0 # Low energy, slow speech
             return
 
+        # [PID Feedback] Regulate RPM based on Load
+        # We want Target RPM to be inverse of Load (Higher Load = Lower Speed, Higher Torque)
+        target_rpm_base = 300.0 * (1.0 - context_load)
+        adjustment = emotional_pid.update(target_rpm_base, current_rpm)
+
+        # Apply PID adjustment to frequency selection logic
+        adjusted_rpm = current_rpm + adjustment
+
         # 2. Load Check (Context)
-        # If context load is high (difficult problem), we need TORQUE, not Speed.
-        # So we lower the frequency (Low Gear).
         if context_load > 0.7:
             self.mode = "TORQUE"
             self.target_frequency = 40.0 # Deep, heavy thought
             return
 
         # 3. Passion Check (RPM)
-        # If internal RPM is high (Excitement), we switch to Sport Mode.
-        if current_rpm > 200.0:
+        if adjusted_rpm > 200.0:
             self.mode = "SPORT"
             self.target_frequency = 120.0 # High speed, rapid fire
             return
@@ -150,6 +168,12 @@ class TransmissionGear:
         self.converter.battery_charge -= (rpm * 0.01)
         self.converter.battery_charge = max(0.0, self.converter.battery_charge)
 
+        # [Energy Dashboard Calculation]
+        # Temp: Base 36.5 + (RPM/10)
+        temp = 36.5 + (rpm / 20.0)
+        # Volt: Base 220 + (Alignment * 100)
+        volt = 220.0 + (avg_alignment * 100.0)
+
         return {
             "valence": float(valence),
             "arousal": float(arousal),
@@ -158,7 +182,10 @@ class TransmissionGear:
             "rpm_feedback": float(rpm),
             "frequency": self.inverter.target_frequency,
             "mode": self.inverter.mode,
-            "battery": self.converter.battery_charge
+            "battery": self.converter.battery_charge,
+            "temperature": float(temp),
+            "voltage": float(volt),
+            "relays": protection.status()
         }
 
 # Global Instance
