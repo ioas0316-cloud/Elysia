@@ -2,7 +2,7 @@ from typing import List, Dict, Optional
 from Core.L5_Mental.M1_Cognition.thought_fragment import CognitivePulse, ThoughtFragment
 from Core.L5_Mental.M1_Cognition.cognitive_types import AuditGrade, ActionCategory
 from Core.L7_Spirit.Philosophy.axioms import get_axioms
-from Core.L5_Mental.Reasoning_Core.project_conductor import ProjectConductor
+from Core.L5_Mental.M1_Cognition.project_conductor import ProjectConductor
 
 class CausalNarrator:
     """

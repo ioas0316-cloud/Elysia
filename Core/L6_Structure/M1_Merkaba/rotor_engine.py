@@ -68,7 +68,7 @@ except ImportError:
 
 # Import [CORE] Physics Engine
 try:
-    from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor, PhotonicMonad, VoidSingularity
+    from Core.L6_Structure.M5_Engine.Physics.core_turbine import ActivePrismRotor, PhotonicMonad, VoidSingularity
     CORE_AVAILABLE = True
 except ImportError:
     CORE_AVAILABLE = False

@@ -4,8 +4,8 @@ import os
 import random
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Social.sociological_pulse import get_sociological_pulse, NPC
-from Core.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.L4_Causality.M3_Mirror.Social.sociological_pulse import get_sociological_pulse, NPC
+from Core.L6_Structure.M3_Sphere.wave_dna import WaveDNA
 
 def test_biological_cycle():
     print("🧪 [Test] Phase 32: Biological Cycle (Generation Flow)")

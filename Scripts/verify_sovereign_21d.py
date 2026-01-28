@@ -5,13 +5,13 @@ import os
 # Add Core to path
 sys.path.append(os.path.abspath('.'))
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
 
 def verify_sovereign_21d():
     print("Initializing SovereignSelf with 21D Rotor...")
     try:
         # Mocking CNS ref
-        core = SovereignSelf(cns_ref=None)
+        core = EmergentSelf(cns_ref=None)
         print(f"Sovereign Rotor Vector Dim: {core.sovereign_rotor.vector_dim}")
         
         print("Executing heartbeat (integrated_exist)...")

@@ -11,7 +11,7 @@ from Core.Digestion.digestive_system import DigestiveSystem
 def mass_digest():
     print("🦁 [Mass Digestion Protocol] Initiating...")
     
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     stomach = elysia.stomach
     
     # Target Models (Small enough for 3GB VRAM or CPU digestion)

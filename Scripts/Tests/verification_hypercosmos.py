@@ -47,7 +47,7 @@ def test_hypercosmos_hierarchy():
     decision = cosmos.perceive("환경적 스트레스가 심한데, 어떻게 대처할 거니?")
     
     # LogosTranslator를 통한 의식 흐름 합성
-    from Core.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
+    from Core.L5_Mental.M1_Cognition.Meta.logos_translator import LogosTranslator
     m1_turbine = cosmos.field.units['M1_Body'].turbine
     state = {
         'intent': 'Self-Preservation & Service',

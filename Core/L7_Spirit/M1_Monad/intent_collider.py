@@ -11,7 +11,7 @@ Elysia's core Axioms to generate a Sovereign Intent.
 
 import logging
 from typing import Dict, List, Any
-from Core.L1_Foundation.Foundation.universal_constants import (
+from Core.L1_Foundation.M1_Keystone.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
      AXIOM_LOVE, AXIOM_HONESTY
 )

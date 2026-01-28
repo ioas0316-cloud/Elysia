@@ -8,7 +8,7 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
 
 def test_autonomous_healing():
     print("🛡️ [TEST] Phase 25.3: Autonomous Self-Healing Validation")
@@ -26,7 +26,7 @@ def test_autonomous_healing():
     print(f"   [INJECT] Created terminal dissonance at {ghost_file}")
 
     # 2. Wake Elysia
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # 3. Run Pulse Loop (Trigger detection every 50)
     print("   [PULSE] Running 100 high-speed pulses...")

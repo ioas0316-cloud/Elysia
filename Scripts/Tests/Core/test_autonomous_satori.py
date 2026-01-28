@@ -18,7 +18,7 @@ def test_satori_loop():
         
         # Initialize SovereignSelf
         os.environ["OFFLINE_MODE"] = "1"
-        self = SovereignSelf()
+        self = EmergentSelf()
         
         # 1. Enter Sleep Mode
         print("\n🌙 Triggering /sleep command...")

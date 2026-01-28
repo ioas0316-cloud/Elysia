@@ -9,8 +9,8 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 from Core.L3_Phenomena.Senses.planetary_interface import PLANETARY_SENSE
-from Core.L4_Causality.World.Terrain.hypersphere_terrain import TERRAIN_ENGINE
-from Core.L4_Causality.World.Autonomy.mesh_network import YggdrasilMesh
+from Core.L4_Causality.M3_Mirror.Terrain.hypersphere_terrain import TERRAIN_ENGINE
+from Core.L4_Causality.M3_Mirror.Autonomy.mesh_network import YggdrasilMesh
 
 def test_planetary_resonance():
     logging.basicConfig(level=logging.INFO)

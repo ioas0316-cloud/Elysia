@@ -21,7 +21,7 @@ from typing import Dict, List, Any
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
+from Core.L1_Foundation.M1_Keystone.hippocampus import Hippocampus
 from Core.L7_Spirit.genesis_elysia import GenesisElysia
 # We import the repair logic dynamically to avoid circular dependencies if possible,
 # or we can just import the function if it's in a utility module.

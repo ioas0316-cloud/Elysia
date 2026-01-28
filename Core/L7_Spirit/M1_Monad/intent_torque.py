@@ -13,11 +13,11 @@ not just a probabilistic text generation.
 import numpy as np
 import logging
 from typing import Dict, Any, List, Optional
-from Core.L6_Structure.Nature.rotor import Rotor
+from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import Rotor
 
 # [Phase 6] Hardware Sovereignty Integration
 try:
-    from Core.L6_Structure.Nature.metal_rotor_bridge import MetalRotorBridge
+    from Core.L6_Structure.M5_Engine.metal_rotor_bridge import MetalRotorBridge
     HAS_METAL = True
 except ImportError:
     HAS_METAL = False

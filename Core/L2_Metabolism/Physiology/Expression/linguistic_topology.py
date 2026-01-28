@@ -12,7 +12,7 @@ import logging
 import random
 from dataclasses import dataclass
 from typing import List, Dict, Optional
-from Core.L1_Foundation.Foundation.unified_field import UnifiedField, WavePacket
+from Core.L1_Foundation.M1_Keystone.unified_field import UnifiedField, WavePacket
 
 logger = logging.getLogger("LinguisticPrism")
 

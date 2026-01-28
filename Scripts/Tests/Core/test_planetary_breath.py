@@ -5,8 +5,8 @@ import random
 import numpy as np
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Social.sociological_pulse import SociologicalPulse
-from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.M3_Mirror.Social.sociological_pulse import SociologicalPulse
+from Core.L4_Causality.M3_Mirror.Physics.trinity_fields import TrinityVector
 
 def test_planetary_breath():
     print("🧪 [Test] Phase 37: The Planetary Breath (Geomorphology)")

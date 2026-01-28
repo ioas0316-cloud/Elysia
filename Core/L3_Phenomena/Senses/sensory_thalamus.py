@@ -19,9 +19,9 @@ import math
 import time
 from typing import Optional, Dict, Any, List
 
-from Core.L6_Structure.Wave.wave_tensor import WaveTensor
-from Core.L6_Structure.Wave.resonance_field import ResonanceField
-from Core.L6_Structure.Engine.Governance.System.nervous_system import NerveSignal, NervousSystem
+from Core.L6_Structure.M3_Sphere.wave_tensor import WaveTensor
+from Core.L6_Structure.M3_Sphere.resonance_field import ResonanceField
+from Core.L6_Structure.M5_Engine.Governance.System.nervous_system import NerveSignal, NervousSystem
 
 logger = logging.getLogger("SensoryThalamus")
 

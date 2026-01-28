@@ -29,21 +29,21 @@ import sys
 from pathlib import Path
 
 # [Phase 41] LLM Integration
-from Core.L1_Foundation.Foundation.Network.ollama_bridge import ollama
+from Core.L1_Foundation.M1_Keystone.Network.ollama_bridge import ollama
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 #                
 try:
     from Core.L3_Phenomena.synesthesia_engine import SynesthesiaEngine, SignalType
-    from Core.L6_Structure.Wave.phonetic_resonance import PhoneticResonanceEngine, get_resonance_engine
+    from Core.L6_Structure.M3_Sphere.phonetic_resonance import PhoneticResonanceEngine, get_resonance_engine
     HAS_WAVE_SENSORS = True
 except ImportError:
     HAS_WAVE_SENSORS = False
 
 try:
-    from Core.L6_Structure.Wave.hyper_qubit import HyperQubit, QubitState
-    from Core.L6_Structure.Wave.light_spectrum import LightSediment, PrismAxes, LightUniverse
+    from Core.L6_Structure.M3_Sphere.hyper_qubit import HyperQubit, QubitState
+    from Core.L6_Structure.M3_Sphere.light_spectrum import LightSediment, PrismAxes, LightUniverse
 except ImportError:
     HyperQubit = None
     QubitState = None
@@ -70,7 +70,7 @@ class PerspectiveLayer(Enum):
 
 
 try:
-    from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
+    from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import Rotor, RotorConfig
 except ImportError:
     Rotor = None
     RotorConfig = None
@@ -259,7 +259,7 @@ class WhyEngine:
         
         #            
         try:
-            from Core.L5_Mental.Reasoning_Core.Cognition.metacognitive_awareness import MetacognitiveAwareness
+            from Core.L5_Mental.M1_Cognition.Cognition.metacognitive_awareness import MetacognitiveAwareness
             self.metacognition = MetacognitiveAwareness()
             self._has_metacognition = True
         except ImportError:
@@ -271,7 +271,7 @@ class WhyEngine:
         
         # [NEW] Sedimentary Light System (     )
         try:
-            from Core.L6_Structure.Wave.light_spectrum import LightSediment, PrismAxes, LightUniverse
+            from Core.L6_Structure.M3_Sphere.light_spectrum import LightSediment, PrismAxes, LightUniverse
             self.light_universe = LightUniverse()
             self.sediment = LightSediment()
             
@@ -303,7 +303,7 @@ class WhyEngine:
             return None
         
         # Create a Principle Rotor
-        from Core.L6_Structure.Nature.rotor import RotorConfig
+        from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import RotorConfig
         config = RotorConfig(rpm=dna.get('frequency', 60.0))
         princ_rotor = Rotor(f"Law.{concept}", config)
         
@@ -543,7 +543,7 @@ class WhyEngine:
         
         # 3.    (Axis)       
         # PrismAxes: PHYSICS_RED, CHEMISTRY_BLUE, etc.
-        from Core.L6_Structure.Wave.light_spectrum import PrismAxes
+        from Core.L6_Structure.M3_Sphere.light_spectrum import PrismAxes
         
         for axis, strength in views.items():
             #      (Insight Strength)               "  "

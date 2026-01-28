@@ -3,7 +3,7 @@ import numpy as np
 from typing import List, Dict, Optional
 from Core.L5_Mental.M1_Cognition.thought_fragment import CognitivePulse, ThoughtFragment
 from Core.L5_Mental.M1_Cognition.cognitive_types import AuditGrade, ViolationType
-from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.M1_Keystone.d7_vector import D7Vector
 
 class ReasoningVerifier:
     """

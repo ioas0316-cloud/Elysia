@@ -33,12 +33,12 @@ class Elysia:
         self.project_root = Path(__file__).parent.parent.parent
         
         #   Heart (  ) -      .         .
-        from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.heart import Heart
+        from Core.L1_Foundation.M1_Keystone.Core_Logic.Elysia.Elysia.heart import Heart
         self.heart = Heart()
         logger.info("  Heart beating... (            )")
         
         #   Growth (  ) -            
-        from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.growth import Growth
+        from Core.L1_Foundation.M1_Keystone.Core_Logic.Elysia.Elysia.growth import Growth
         self.growth = Growth(project_root=self.project_root)
         logger.info("  Growth engine ready.")
         
@@ -47,7 +47,7 @@ class Elysia:
         self.self_awareness = None
         if enable_inner_voice:
             try:
-                from Core.L5_Mental.Reasoning_Core.Intelligence.inner_voice import InnerVoice, SelfAwareness
+                from Core.L5_Mental.M1_Cognition.Intelligence.inner_voice import InnerVoice, SelfAwareness
                 self.inner_voice = InnerVoice()
                 self.self_awareness = SelfAwareness(inner_voice=self.inner_voice)
                 logger.info("  Inner Voice connected.")
@@ -55,14 +55,14 @@ class Elysia:
                 logger.warning(f"   Inner Voice unavailable: {e}")
         
         # 1. Foundation & System (  )
-        from Core.L6_Structure.Wave.resonance_field import ResonanceField
-        from Core.L1_Foundation.Foundation.tensor_dynamics import TensorDynamics
+        from Core.L6_Structure.M3_Sphere.resonance_field import ResonanceField
+        from Core.L1_Foundation.M1_Keystone.tensor_dynamics import TensorDynamics
         self.resonance_field = ResonanceField()
         self.physics = TensorDynamics(root_path=self.project_root)
         
         # 2. Intelligence (  )
-        from Core.L5_Mental.Reasoning_Core.Intelligence.Will.free_will_engine import FreeWillEngine
-        from Core.L5_Mental.Reasoning_Core.Intelligence.Logos.causality_seed import CausalitySeed
+        from Core.L5_Mental.M1_Cognition.Intelligence.Will.free_will_engine import FreeWillEngine
+        from Core.L5_Mental.M1_Cognition.Intelligence.Logos.causality_seed import CausalitySeed
         from Core.L7_Spirit.Philosophy.nature_of_being import PhilosophyOfFlow
         
         self.will = FreeWillEngine(project_root=str(self.project_root))
@@ -70,17 +70,17 @@ class Elysia:
         self.philosophy = PhilosophyOfFlow()
         
         # 3. Evolution (  ) -             
-        from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.autonomous_improver import AutonomousImprover
-        from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.structural_unifier import StructuralUnifier
+        from Core.L4_Causality.M3_Mirror.Evolution.Growth.Evolution.Evolution.autonomous_improver import AutonomousImprover
+        from Core.L4_Causality.M3_Mirror.Evolution.Growth.Evolution.Evolution.structural_unifier import StructuralUnifier
         self.improver = AutonomousImprover(project_root=str(self.project_root))
         self.unifier = StructuralUnifier(project_root=self.project_root)
         
         # 4. Galaxy (   ) -       
-        from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.galaxy import Galaxy
+        from Core.L1_Foundation.M1_Keystone.Core_Logic.Elysia.Elysia.galaxy import Galaxy
         self.galaxy = Galaxy(project_root=self.project_root)
         
         # 5. Interface (  )
-        from Core.L6_Structure.Engine.Governance.Interaction.Interface.conversation_engine import ConversationEngine
+        from Core.L6_Structure.M5_Engine.Governance.Interaction.Interface.conversation_engine import ConversationEngine
         self.voice = ConversationEngine()
         
         #       

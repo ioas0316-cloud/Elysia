@@ -17,9 +17,9 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.L6_Structure.Engine.Genesis.cognitive_cycle import CognitiveCycle
-from Core.L6_Structure.Engine.Genesis.silicon_scholar_laws import law_dining_philosophers
+from Core.L6_Structure.M5_Engine.Genesis.genesis_lab import GenesisLab
+from Core.L6_Structure.M5_Engine.Genesis.cognitive_cycle import CognitiveCycle
+from Core.L6_Structure.M5_Engine.Genesis.silicon_scholar_laws import law_dining_philosophers
 
 def run_deadlock_evolution():
     print("\n🌋 [Evolution] Testing Chaos Resolution (Deadlock).")

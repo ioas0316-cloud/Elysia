@@ -17,7 +17,7 @@ from Core.L2_Metabolism.Cycles.dream_rotor import DreamRotor
 
 
 try:
-    from Core.L5_Mental.Reasoning_Core.LLM.local_cortex import LocalCortex
+    from Core.L5_Mental.M1_Cognition.LLM.local_cortex import LocalCortex
 except ImportError:
     LocalCortex = None # Graceful fallback
 

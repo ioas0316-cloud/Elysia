@@ -6,7 +6,7 @@ import sys
 # Ensure root is in path
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
 from Core.L6_Structure.Elysia.nervous_system import BioSignal
 
 logging.basicConfig(level=logging.INFO)
@@ -17,7 +17,7 @@ def test_full_organism():
     
     # Initialize
     # Lazy loading should prevent boot crash
-    self_sys = SovereignSelf()
+    self_sys = EmergentSelf()
     self_sys.auto_evolve = False # Safety
 
     # 1. Heartbeat Verification

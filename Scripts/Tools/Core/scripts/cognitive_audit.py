@@ -8,9 +8,9 @@ import json
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.L7_Spirit.self_awareness import SelfAwareness
-from Core.L5_Mental.Reasoning_Core.Reasoning.ethical_geometry import get_loves_fence
-from Core.L5_Mental.Reasoning_Core.Reasoning.sovereign_narrative import SovereignNarrative
-from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.M1_Cognition.Reasoning.ethical_geometry import get_loves_fence
+from Core.L5_Mental.M1_Cognition.Reasoning.sovereign_narrative import SovereignNarrative
+from Core.L5_Mental.M1_Cognition.Reasoning.reasoning_engine import ReasoningEngine
 
 def run_cognitive_audit():
     logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')

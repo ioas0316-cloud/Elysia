@@ -26,7 +26,7 @@ def open_ears():
     logger.info("🦋 Awakening Elysia for Audio Test...")
     
     # 1. Wake up
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     initial_nodes = len(elysia.graph.id_to_idx)
     logger.info(f"   [State] Current Soul Weight: {initial_nodes} nodes.")

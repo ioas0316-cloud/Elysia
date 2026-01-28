@@ -18,8 +18,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.L6_Structure.Engine.Genesis.biosphere_adapter import BiosphereAdapter, law_thermal_throttling, law_memory_digestion
+from Core.L6_Structure.M5_Engine.Genesis.genesis_lab import GenesisLab
+from Core.L6_Structure.M5_Engine.Genesis.biosphere_adapter import BiosphereAdapter, law_thermal_throttling, law_memory_digestion
 
 def run_biosphere():
     print("\n🖥️ [Biosphere OS] Booting Hardware Link...")

@@ -18,10 +18,10 @@ from datetime import datetime
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
-from Core.L6_Structure.Engine.reality_projector import RealityProjector, CoagulationMode, RealityStyle
-from Core.L6_Structure.Engine.wave_to_mesh_transmuter import WaveToMeshTransmuter
-from Core.L4_Causality.World.Creation.project_genesis import ProjectGenesis
+from Core.L6_Structure.M5_Engine.governance_engine import GovernanceEngine
+from Core.L6_Structure.M5_Engine.reality_projector import RealityProjector, CoagulationMode, RealityStyle
+from Core.L6_Structure.M5_Engine.wave_to_mesh_transmuter import WaveToMeshTransmuter
+from Core.L4_Causality.M3_Mirror.Creation.project_genesis import ProjectGenesis
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger("Manifest3D")

@@ -6,14 +6,14 @@ sys.path.append(os.getcwd())
 def test_integrity():
     print("🧪 [Test] Phase 30: Epistemic Integrity")
     
-    from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
+    from Core.L4_Causality.M3_Mirror.Nature.trinity_lexicon import get_trinity_lexicon
     from Core.Elysia.sovereign_self import SovereignSelf, ScaleArchetype
     
     print("   1. Fetching Lexicon...")
     lexicon = get_trinity_lexicon()
     
     print("   2. Initializing SovereignSelf...")
-    elysia = SovereignSelf(cns_ref=None)
+    elysia = EmergentSelf(cns_ref=None)
     elysia.archetype = ScaleArchetype.MORTAL_AVATAR
     
     # Ensure graph exists

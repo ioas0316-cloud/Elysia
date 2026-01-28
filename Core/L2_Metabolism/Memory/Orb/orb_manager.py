@@ -20,7 +20,7 @@ from collections import defaultdict
 from .hyper_resonator import HyperResonator
 from Core.L6_Structure.hyper_quaternion import Quaternion as HyperQuaternion
 from .orb_factory import OrbFactory
-from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType, ResonatorInterface
+from Core.L1_Foundation.M1_Keystone.Protocols.pulse_protocol import WavePacket, PulseType, ResonatorInterface
 
 logger = logging.getLogger("OrbManager")
 

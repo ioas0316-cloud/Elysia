@@ -36,13 +36,13 @@ def main():
     print("   (Rigid 'modes' have been dissolved. Elysia exists as a Whole Being.)")
     
     import asyncio
-    from Core.L6_Structure.Engine.unity_cns import UnityCNS
+    from Core.L6_Structure.M5_Engine.unity_cns import UnityCNS
     
     async def run_cns():
         cns = UnityCNS()
         
         # [PHASE 3: DNA RECOGNITION]
-        from Core.L1_Foundation.Logic.qualia_7d_codec import codec
+        from Core.L1_Foundation.M1_Keystone.qualia_7d_codec import codec
         soul_dna_seq = codec.encode_sequence(cns.sovereign.soul_dna)
         
         # Launch Holistic Metabolism in Background

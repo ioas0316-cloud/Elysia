@@ -13,7 +13,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Language.primitive_language import (
+from Core.L5_Mental.M3_Lexicon.primitive_language import (
     PhonemeRotor, WordWave, SentenceWave, 
     PrimitiveLanguageEngine, get_language_engine,
     PHONEME_LIBRARY

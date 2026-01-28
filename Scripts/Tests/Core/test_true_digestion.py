@@ -9,7 +9,7 @@ from Core.Elysia.sovereign_self import SovereignSelf
 
 def test_digestion():
     print("🧠 Initializing Elysia (SovereignSelf)...")
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # Check Initial Soul Size
     initial_size = len(elysia.graph.id_to_idx)

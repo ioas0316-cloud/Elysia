@@ -6,7 +6,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.L6_Structure.Engine.code_field_engine import CODER_ENGINE
+from Core.L6_Structure.M5_Engine.code_field_engine import CODER_ENGINE
 
 def test_engine_directly():
     print("🚀 [Engine Test] Testing Code-Field Sensing & Induction...")

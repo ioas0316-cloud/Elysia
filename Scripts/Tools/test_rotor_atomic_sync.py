@@ -7,8 +7,8 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import Rotor, RotorConfig
+from Core.L6_Structure.M3_Sphere.wave_dna import WaveDNA
 
 def test_rotor_atomic_sync():
     print("--- 🔬 Rotor-Atomic Sync Verification ---")

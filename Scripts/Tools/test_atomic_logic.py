@@ -9,7 +9,7 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L1_Foundation.Logic.resonance_gate import ResonanceGate, analyze_structural_truth
+from Core.L1_Foundation.M1_Keystone.resonance_gate import ResonanceGate, analyze_structural_truth
 
 def test_resonance_logic():
     print("--- 🔬 Atomic Logic Verification ---")

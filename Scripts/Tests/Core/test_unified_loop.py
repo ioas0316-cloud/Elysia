@@ -54,7 +54,7 @@ mock_syn_mod.SynesthesiaEngine = MockSyn
 sys.modules["Core.L3_Phenomena.synesthesia_engine"] = mock_syn_mod
 
 # --- IMPORT TARGET ---
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.L4_Causality.M3_Mirror.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 class TestUnifiedLoop(unittest.TestCase):
     def setUp(self):

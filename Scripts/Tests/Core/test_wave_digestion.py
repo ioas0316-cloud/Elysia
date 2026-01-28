@@ -1,7 +1,7 @@
 import unittest
 import torch
 import numpy as np
-from Core.L5_Mental.Reasoning_Core.Metabolism.prism import DoubleHelixPrism, DoubleHelixWave, SevenChannelQualia
+from Core.L5_Mental.M1_Cognition.Metabolism.prism import DoubleHelixPrism, DoubleHelixWave, SevenChannelQualia
 
 class TestDoubleHelixPrism(unittest.TestCase):
     def setUp(self):

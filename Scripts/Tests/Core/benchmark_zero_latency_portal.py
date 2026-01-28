@@ -15,8 +15,8 @@ from numba import cuda
 sys.path.append(os.getcwd())
 
 from Core.L6_Structure.Merkaba.portal import MerkabaPortal
-from Core.L1_Foundation.System.Metabolism.zero_latency_portal import ZeroLatencyPortal
-from Core.L6_Structure.Nature.metal_field_bridge import MetalFieldBridge
+from Core.L1_Foundation.M5_System.Metabolism.zero_latency_portal import ZeroLatencyPortal
+from Core.L6_Structure.M5_Engine.metal_field_bridge import MetalFieldBridge
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

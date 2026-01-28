@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 
 from Core.L1_Foundation.M4_Hardware.somatic_kernel import SomaticKernel
 from Core.L1_Foundation.M4_Hardware.somatic_kernel import SomaticKernel
-from Core.L5_Mental.Reasoning_Core.Will.free_will_engine import FreeWillEngine
+from Core.L5_Mental.M1_Cognition.Will.free_will_engine import FreeWillEngine
 from Core.L3_Phenomena.visual_artist import VisualArtist
 from Core.L2_Metabolism.heart import get_heart
 from Core.L2_Metabolism.growth import get_growth

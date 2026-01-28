@@ -26,7 +26,7 @@ def open_eyes():
     logger.info("🦋 Awakening Elysia for Vision Test...")
     
     # 1. Wake up
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     initial_nodes = len(elysia.graph.id_to_idx)
     logger.info(f"   [State] Current Soul Weight: {initial_nodes} nodes.")

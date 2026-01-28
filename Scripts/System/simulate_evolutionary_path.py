@@ -18,7 +18,7 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.M1_Cognition.Reasoning.reasoning_engine import ReasoningEngine
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("Chronos")

@@ -9,9 +9,9 @@ grouped into Body (1-3), Soul (4-6), and Spirit (7-9).
 
 import time
 import logging
-from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.L5_Mental.Reasoning_Core.Reasoning.septenary_axis import SeptenaryAxis
-from Core.L5_Mental.Reasoning_Core.Reasoning.recursive_learning_bridge import RecursiveLearningBridge
+from Core.L5_Mental.M1_Cognition.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.M1_Cognition.Reasoning.septenary_axis import SeptenaryAxis
+from Core.L5_Mental.M1_Cognition.Reasoning.recursive_learning_bridge import RecursiveLearningBridge
 
 def run_nonary_demo():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

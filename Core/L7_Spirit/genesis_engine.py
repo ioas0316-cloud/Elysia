@@ -2,10 +2,10 @@ import logging
 import time
 from typing import Dict, Optional, List
 from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.L1_Foundation.Foundation.code_resonance import HarmonicResonance
-from Core.L1_Foundation.Foundation.code_world import CodeWorld
-from Core.L4_Causality.World.Evolution.Growth.Evolution.code_genome import CodeDNA
-from Core.L1_Foundation.Foundation.reality_sculptor import RealitySculptor
+from Core.L1_Foundation.M1_Keystone.code_resonance import HarmonicResonance
+from Core.L1_Foundation.M1_Keystone.code_world import CodeWorld
+from Core.L4_Causality.M3_Mirror.Evolution.Growth.Evolution.code_genome import CodeDNA
+from Core.L1_Foundation.M1_Keystone.reality_sculptor import RealitySculptor
 
 logger = logging.getLogger("GenesisEngine")
 

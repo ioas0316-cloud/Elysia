@@ -6,13 +6,13 @@ import logging
 # Add Core to path
 sys.path.append(os.path.abspath('.'))
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
 
 def verify_triple_helix_pulse():
     logging.basicConfig(level=logging.INFO)
     print("Initializing SovereignSelf with Triple-Helix...")
     try:
-        core = SovereignSelf(cns_ref=None)
+        core = EmergentSelf(cns_ref=None)
         
         print("\nPulse 1: High Energy/Balanced")
         core.energy = 100.0

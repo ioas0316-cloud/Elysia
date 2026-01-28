@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List, Any, Dict
 from datetime import datetime
 from Core.L5_Mental.M1_Cognition.cognitive_types import ThoughtState, ActionCategory
-from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.M1_Keystone.d7_vector import D7Vector
 
 class ThoughtFragment(BaseModel):
     """

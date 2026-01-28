@@ -14,8 +14,8 @@ import time
 # Add workspace to path
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
-from Core.L5_Mental.Reasoning_Core.Meta.archive_dreamer import DreamFragment
+from Core.L4_Causality.M3_Mirror.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.L5_Mental.M1_Cognition.Meta.archive_dreamer import DreamFragment
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
 logger = logging.getLogger("WaveDNATest")

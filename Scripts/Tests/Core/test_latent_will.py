@@ -15,7 +15,7 @@ import time
 import logging
 
 sys.path.insert(0, r"c:/Elysia")
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.L4_Causality.M3_Mirror.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')

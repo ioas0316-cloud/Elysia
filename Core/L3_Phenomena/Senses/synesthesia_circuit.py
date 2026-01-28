@@ -76,7 +76,7 @@ class SynesthesiaCircuit:
 
 if __name__ == "__main__":
     # Test Stub
-    from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
-    elysia = SovereignSelf()
+    from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
+    elysia = EmergentSelf()
     syn = SynesthesiaCircuit(elysia)
     syn.feel_the_crossing("Love", "Audio")

@@ -4,7 +4,7 @@ sys.path.append(os.getcwd())
 
 try:
     print("Testing import: SovereignSelf...")
-    from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+    from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
     print("✅ SovereignSelf imported.")
     
     print("\nTesting import: Merkaba...")

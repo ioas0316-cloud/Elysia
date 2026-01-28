@@ -13,7 +13,7 @@ from typing import Dict, Any
 import math
 from Core.L7_Spirit.M1_Monad.monad_core import FractalRule
 
-from Core.L4_Causality.World.Physics.vector_math import Vector3
+from Core.L4_Causality.M3_Mirror.Physics.vector_math import Vector3
 
 # --- PHYSICS: FIRE (Combustion & Thermodynamics) ---
 class ThermodynamicsRule(FractalRule):

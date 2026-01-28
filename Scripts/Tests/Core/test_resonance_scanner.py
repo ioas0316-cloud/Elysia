@@ -5,9 +5,9 @@ import os
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
-from Core.L4_Causality.World.living_village import village
-from Core.L4_Causality.World.Soul.resonance_scanner import resonance_scanner
+from Core.L4_Causality.M3_Mirror.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
+from Core.L4_Causality.M3_Mirror.living_village import village
+from Core.L4_Causality.M3_Mirror.Soul.resonance_scanner import resonance_scanner
 
 def test_scanner():
     print("Testing Resonance Scanner...")

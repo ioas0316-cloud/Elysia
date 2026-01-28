@@ -26,11 +26,11 @@ def test_wave_decisions():
             print(f"   -> {output}")
 
     # Test 3: Biological Feedback
-    from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+    from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
     from Core.L6_Structure.Elysia.nervous_system import BioSignal
     
     print("\n[Test 3] Testing Nervous System Wave Interference...")
-    self_sys = SovereignSelf()
+    self_sys = EmergentSelf()
     
     # Simulate high stress
     stress_signal = BioSignal(heart_rate=120.0, adrenaline=0.1, pain_level=0.9, cognitive_load=0.5, fatigue=0.2)

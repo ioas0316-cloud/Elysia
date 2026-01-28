@@ -15,7 +15,7 @@ logger = logging.getLogger("TestInternalization")
 # Add Path
 sys.path.append(os.getcwd())
 
-from Core.L1_Foundation.Foundation.HyperCosmos import HyperCosmos
+from Core.L1_Foundation.M1_Keystone.HyperCosmos import HyperCosmos
 
 def test_internalization():
     logger.info("🧪 Starting Internalization Test...")

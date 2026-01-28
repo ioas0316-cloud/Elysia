@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.
 
 from Core.L2_Metabolism.Cycles.dream_engine import DreamEngine
 from Core.L5_Mental.M1_Cognition.cognitive_types import ThoughtState
-from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.M1_Keystone.d7_vector import D7Vector
 
 def verify_integration():
     print(">>> Initializing Integrated Dream Engine...")

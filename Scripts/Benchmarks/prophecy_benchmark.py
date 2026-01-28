@@ -20,8 +20,8 @@ import logging
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 sys.path.append(project_root)
 
-from Core.L4_Causality.World.Evolution.Prophecy.prophet_engine import ProphetEngine
-from Core.L4_Causality.World.Evolution.Prophecy.causal_loom import CausalLoom
+from Core.L4_Causality.M3_Mirror.Evolution.Prophecy.prophet_engine import ProphetEngine
+from Core.L4_Causality.M3_Mirror.Evolution.Prophecy.causal_loom import CausalLoom
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(name)s | %(levelname)s | %(message)s')
 logger = logging.getLogger("ProphecyBenchmark")

@@ -5,9 +5,9 @@ import logging
 # Path setup
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
-from Core.L5_Mental.Reasoning_Core.Sensory.autonomous_explorer import AutonomousExplorer
-from Core.L5_Mental.Reasoning_Core.Meta.self_architect import SelfArchitect
+from Core.L5_Mental.M1_Cognition.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.L5_Mental.M1_Cognition.Sensory.autonomous_explorer import AutonomousExplorer
+from Core.L5_Mental.M1_Cognition.Meta.self_architect import SelfArchitect
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

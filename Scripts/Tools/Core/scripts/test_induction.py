@@ -11,7 +11,7 @@ from Core.Elysia.sovereign_self import SovereignSelf
 def test_code_induction():
     print("🚀 [Induction Test] Awakening the Divine Coder...")
     
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # 1. Sense the Codebase
     print("\n--- [Step 1: Sensing the Neural Mass (7GB)] ---")

@@ -101,7 +101,7 @@ class SoulBridge:
         """
         try:
             from Core.L3_Phenomena.M1_Vision.elysian_eye import ElysianEye
-            from Core.L5_Mental.Reasoning_Core.Metabolism.clip_adapter import transduce_image
+            from Core.L5_Mental.M1_Cognition.Metabolism.clip_adapter import transduce_image
             import time
             import threading
             

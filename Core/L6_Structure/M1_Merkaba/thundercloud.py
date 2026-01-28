@@ -13,7 +13,7 @@ import numpy as np
 from dataclasses import dataclass, field
 from typing import List, Dict, Set, Tuple, Optional
 from Core.L7_Spirit.M1_Monad.monad_core import Monad
-from Core.L5_Mental.Cognition.semantic_prism import QualiaSpectrum
+from Core.L5_Mental.M1_Cognition.semantic_prism import QualiaSpectrum
 
 # Lazy import inside method or forward reference?
 # We'll use a property to inject/lazy load the generator to avoid circular imports if needed

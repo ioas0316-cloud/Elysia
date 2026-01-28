@@ -16,7 +16,7 @@ import psutil
 # Path hack for Laboratory
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from Core.L4_Causality.World.Observation.sovereign_observer import SovereignObserver
+from Core.L4_Causality.M3_Mirror.Observation.sovereign_observer import SovereignObserver
 
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')
 logger = logging.getLogger("TestObserver")

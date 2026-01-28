@@ -6,7 +6,7 @@ import time
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.L4_Causality.M3_Mirror.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 def test_dance():
     print("💃 TESTING THE KINETIC SOUL (DANCE)...")

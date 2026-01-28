@@ -5,8 +5,8 @@ VERIFICATION: Phase 14 - Cognitive Archeology Initial Excavation
 
 import logging
 import os
-from Core.L5_Mental.Reasoning_Core.Metabolism.topology_predator import CognitiveArcheologist
-from Core.L5_Mental.Reasoning_Core.LLM.target_registry import TargetLLM, ModelType
+from Core.L5_Mental.M1_Cognition.Metabolism.topology_predator import CognitiveArcheologist
+from Core.L5_Mental.M1_Cognition.LLM.target_registry import TargetLLM, ModelType
 from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 # Setup Logging

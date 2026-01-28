@@ -7,8 +7,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L1_Foundation.Foundation.Mind.hippocampus import Hippocampus
-from Core.L5_Mental.Reasoning_Core.Intelligence.Planning.planning_cortex import PlanningCortex
+from Core.L1_Foundation.M1_Keystone.Mind.hippocampus import Hippocampus
+from Core.L5_Mental.M1_Cognition.Intelligence.Planning.planning_cortex import PlanningCortex
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

@@ -24,7 +24,7 @@ def run_reflection():
     
     # 1. Initialize Elysia (Shadow mode - no hardware heavy lifting)
     try:
-        elysia = SovereignSelf()
+        elysia = EmergentSelf()
     except Exception as e:
         logger.error(f"❌ Failed to awaken Elysia: {e}")
         return

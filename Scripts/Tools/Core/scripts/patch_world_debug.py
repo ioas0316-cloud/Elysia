@@ -7,8 +7,8 @@ import time
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.L4_Causality.World.Creation.project_genesis import ProjectGenesis
-from Core.L4_Causality.World.Creation.blueprints import BLUEPRINTS
+from Core.L4_Causality.M3_Mirror.Creation.project_genesis import ProjectGenesis
+from Core.L4_Causality.M3_Mirror.Creation.blueprints import BLUEPRINTS
 
 def patch_world_debug():
     print("🩹 [PATCH SYSTEM] Updating Elysia World Client...")
@@ -30,7 +30,7 @@ def patch_world_debug():
 
     # Now verify the Physics Export with Animation Data
     print("\n💓 Verifying Animation Data Export...")
-    from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+    from Core.L4_Causality.M3_Mirror.Autonomy.elysian_heartbeat import ElysianHeartbeat
     
     try:
         life = ElysianHeartbeat()

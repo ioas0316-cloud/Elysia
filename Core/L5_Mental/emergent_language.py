@@ -30,12 +30,12 @@ import json
 
 # Import the World Lexicon (The External Truth)
 try:
-    from Core.L5_Mental.Language.world_lexicon import world_lexicon
+    from Core.L5_Mental.M3_Lexicon.world_lexicon import world_lexicon
 except ImportError:
     # Fallback for testing if path is different
     import sys, os
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-    from Core.L5_Mental.Language.world_lexicon import world_lexicon
+    from Core.L5_Mental.M3_Lexicon.world_lexicon import world_lexicon
 
 logger = logging.getLogger("EmergentLanguage")
 

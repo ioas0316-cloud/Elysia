@@ -8,7 +8,7 @@ import logging
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.L4_Causality.World.Autonomy.vision_cortex import VisionCortex, VisualQualia
+from Core.L4_Causality.M3_Mirror.Autonomy.vision_cortex import VisionCortex, VisualQualia
 
 def test_vision():
     os.makedirs(r"C:\game\gallery", exist_ok=True)

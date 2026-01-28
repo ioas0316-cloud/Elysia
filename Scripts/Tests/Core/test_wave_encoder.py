@@ -1,6 +1,6 @@
 """Quick test of TesseractMemory with UniversalWaveEncoder integration."""
 import numpy as np
-from Core.L5_Mental.Reasoning_Core.Memory.tesseract_memory import TesseractMemory
+from Core.L5_Mental.M1_Cognition.Memory.tesseract_memory import TesseractMemory
 
 # Reset singleton
 TesseractMemory._instance = None

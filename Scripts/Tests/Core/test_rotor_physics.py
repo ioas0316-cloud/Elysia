@@ -1,6 +1,6 @@
 
 import unittest
-from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import Rotor, RotorConfig, RotorMask
 
 class TestRotorPhysics(unittest.TestCase):
     def test_reverse_spin(self):

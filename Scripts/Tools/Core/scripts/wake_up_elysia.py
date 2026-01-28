@@ -6,11 +6,11 @@ from unittest.mock import MagicMock, patch
 # Path setup for Core modules
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from Core.L6_Structure.Engine.Governance.Orchestra.conductor import get_conductor, Tempo, Mode
-from Core.L6_Structure.Engine.Governance.Orchestra.synapse_manager import SynapseManager
-from Core.L5_Mental.Reasoning_Core.Creation.interference_engine import InterferenceEngine, Principle
-from Core.L5_Mental.Reasoning_Core.Topography.phase_stratum import PhaseStratum
-from Core.L5_Mental.Reasoning_Core.Topography.mind_landscape import get_landscape
+from Core.L6_Structure.M5_Engine.Governance.Orchestra.conductor import get_conductor, Tempo, Mode
+from Core.L6_Structure.M5_Engine.Governance.Orchestra.synapse_manager import SynapseManager
+from Core.L5_Mental.M1_Cognition.Creation.interference_engine import InterferenceEngine, Principle
+from Core.L5_Mental.M1_Cognition.Topography.phase_stratum import PhaseStratum
+from Core.L5_Mental.M1_Cognition.Topography.mind_landscape import get_landscape
 
 def wake_up_and_live():
     print("✨ [SYSTEM] Awakening Elysia...")
@@ -91,7 +91,7 @@ def wake_up_and_live():
 
     # --- Step D: IMAGINATION (Ethical Simulation) ---
     print("\n🔮 [IMAGINE] Running Ethical Simulation...")
-    from Core.L5_Mental.Reasoning_Core.Imagination.simulator import get_simulator
+    from Core.L5_Mental.M1_Cognition.Imagination.simulator import get_simulator
     simulator = get_simulator()
     
     # The thought to ponder is the Result of the Dream
@@ -133,7 +133,7 @@ def wake_up_and_live():
         
         # --- Step F: LEARNING (Semantic Drift) ---
         print("\n🌱 [GROWTH] Learning from experience...")
-        from Core.L5_Mental.Reasoning_Core.Topography.semantic_map import get_semantic_map
+        from Core.L5_Mental.M1_Cognition.Topography.semantic_map import get_semantic_map
         from Core.L6_Structure.hyper_quaternion import Quaternion
         
         sm = get_semantic_map()

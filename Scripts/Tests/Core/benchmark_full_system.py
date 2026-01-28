@@ -24,7 +24,7 @@ except ImportError:
     import numpy as jnp
     BACKEND = "Numpy (Legacy)"
 
-from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
+from Core.L6_Structure.M5_Engine.Physics.core_turbine import ActivePrismRotor
 from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 from Core.L6_Structure.Merkaba.merkaba import Merkaba
 

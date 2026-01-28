@@ -10,7 +10,7 @@ It maps Intents to pre-recorded Action Tracks (Rotors), bypassing the Thunderclo
 """
 
 from typing import Dict, List, Optional
-from Core.L6_Structure.Nature.rotor import Rotor
+from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import Rotor
 
 class MuscleMemory:
     """

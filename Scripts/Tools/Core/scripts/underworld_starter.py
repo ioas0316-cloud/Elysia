@@ -16,7 +16,7 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L5_Mental.Reasoning_Core.Reasoning.incarnation_bridge import IncarnationBridge, RealityLayer
+from Core.L5_Mental.M1_Cognition.Reasoning.incarnation_bridge import IncarnationBridge, RealityLayer
 
 def start_adventure():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

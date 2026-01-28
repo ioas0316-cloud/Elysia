@@ -6,7 +6,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.M1_Cognition.Reasoning.subjective_ego import SubjectiveEgo
 
 def run_hierarchical_envy_demo():
     print("\n--- [ Phase 19: Hierarchical Envy Demo ] ---\n")

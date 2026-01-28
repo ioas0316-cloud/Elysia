@@ -23,9 +23,9 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional, Any
 
 # Cognitive Core
-from Core.L5_Mental.Reasoning_Core.Cognitive.memory_stream import get_memory_stream, ExperienceType
-from Core.L5_Mental.Reasoning_Core.Cognitive.concept_formation import get_concept_formation
-from Core.L5_Mental.Reasoning_Core.Cognitive.sensory_cortex import get_sensory_cortex
+from Core.L5_Mental.M1_Cognition.Cognitive.memory_stream import get_memory_stream, ExperienceType
+from Core.L5_Mental.M1_Cognition.Cognitive.concept_formation import get_concept_formation
+from Core.L5_Mental.M1_Cognition.Cognitive.sensory_cortex import get_sensory_cortex
 from Core.L7_Spirit.Philosophy.aesthetic_principles import Medium
 
 logger = logging.getLogger("AestheticLearner")

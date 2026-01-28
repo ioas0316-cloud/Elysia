@@ -19,9 +19,9 @@ from typing import List, Dict, Any, Optional
 from enum import Enum
 import time
 
-from Core.L1_Foundation.Logic.d7_vector import D7Vector
-from Core.L1_Foundation.Logic.qualia_7d_codec import codec
-from Core.L4_Causality.World.cell import cell_unit
+from Core.L1_Foundation.M1_Keystone.d7_vector import D7Vector
+from Core.L1_Foundation.M1_Keystone.qualia_7d_codec import codec
+from Core.L4_Causality.M3_Mirror.cell import cell_unit
 
 
 class Intention(Enum):

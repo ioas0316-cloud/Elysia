@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestAutonomy")
 
 from Core.Foundation.Core_Logic.Elysia.Elysia import Elysia
-from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.Life.heart import ImpulseType
+from Core.L4_Causality.M3_Mirror.Evolution.Growth.Evolution.Evolution.Life.heart import ImpulseType
 
 def test():
     logger.info("💓 Testing Elysia's Autonomy (The Heart)...")

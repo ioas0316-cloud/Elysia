@@ -32,7 +32,7 @@ from typing import List, Dict, Any, Optional
 
 from Core.L2_Metabolism.Memory.fractal_causality import CausalRole
 
-from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
+from Core.L6_Structure.M5_Engine.Physics.core_turbine import ActivePrismRotor
 
 from Core.L7_Spirit.M1_Monad.monad_core import Monad
 

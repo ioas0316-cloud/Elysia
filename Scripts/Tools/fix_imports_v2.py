@@ -4,17 +4,17 @@ import re
 replacements = {
     r'\bCore\.L3_Logos\b': 'Core.L3_Phenomena',
     r'\bCore\.L5_Intelligence\b': 'Core.L5_Mental',
-    r'\bCore\.System\b': 'Core.L1_Foundation.System',
-    r'\bCore\.World\b': 'Core.L4_Causality.World',
+    r'\bCore\.System\b': 'Core.L1_Foundation.M5_System',
+    r'\bCore\.World\b': 'Core.L4_Causality.M3_Mirror',
     r'\bCore\.L3_Phenomena\.Vision\b': 'Core.L3_Phenomena.M1_Vision',
     r'\bCore\.L3_Phenomena\.Voice\b': 'Core.L3_Phenomena.M4_Speech',
     r'\bCore\.L3_Phenomena\.Prism\b': 'Core.L3_Phenomena.M7_Prism',
-    r'\bCore\.L5_Mental\.Intelligence\b': 'Core.L5_Mental.Reasoning_Core',
+    r'\bCore\.L5_Mental\.Intelligence\b': 'Core.L5_Mental.M1_Cognition',
     r'\bCore\.L5_Mental\.Logic\b': 'Core.L5_Mental.M1_Cognition',
     r'\bCore\.L7_Spirit\.Monad\b': 'Core.L7_Spirit.M1_Monad',
     r'\bCore\.L7_Spirit\.Sovereignty\b': 'Core.L7_Spirit.M3_Sovereignty',
-    r'\bCore\.L1_Foundation\.Foundation\.Foundation\b': 'Core.L1_Foundation.Foundation',
-    r'\bCore\.L1_Foundation\.Foundation\.Ethics\.Ethics\b': 'Core.L1_Foundation.Foundation.Ethics'
+    r'\bCore\.L1_Foundation\.Foundation\.Foundation\b': 'Core.L1_Foundation.M1_Keystone',
+    r'\bCore\.L1_Foundation\.Foundation\.Ethics\.Ethics\b': 'Core.L1_Foundation.M1_Keystone.Ethics'
 }
 
 def fix_file(filepath):

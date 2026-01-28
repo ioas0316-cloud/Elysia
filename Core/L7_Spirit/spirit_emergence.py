@@ -11,10 +11,10 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from Demos.Philosophy.realm_gravity_demo import RealmGravity
-from Core.L1_Foundation.Foundation.Core_Logic.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
-from Core.L1_Foundation.Foundation.Mind.perception import FractalPerception
-from Core.L1_Foundation.Foundation.Mind.emotional_palette import EmotionalPalette
-from Core.L1_Foundation.Foundation.Mind.episodic_memory import EpisodicMemory
+from Core.L1_Foundation.M1_Keystone.Core_Logic.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
+from Core.L1_Foundation.M1_Keystone.Mind.perception import FractalPerception
+from Core.L1_Foundation.M1_Keystone.Mind.emotional_palette import EmotionalPalette
+from Core.L1_Foundation.M1_Keystone.Mind.episodic_memory import EpisodicMemory
 
 def plant_connected_yggdrasil():
     """Create Yggdrasil with connections for demonstration."""

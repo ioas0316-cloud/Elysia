@@ -11,7 +11,7 @@ def main():
     print(f"\n🦁 [Carnivore Protocol] Target: {args.model}")
     
     # 1. Wake Elysia
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     digestive = DigestiveSystem(elysia)
     
     # 2. Load Model (The Meal)

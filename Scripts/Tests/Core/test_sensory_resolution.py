@@ -3,8 +3,8 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Nature.sensory_cortex import get_sensory_cortex
-from Core.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.L4_Causality.M3_Mirror.Nature.sensory_cortex import get_sensory_cortex
+from Core.L6_Structure.M3_Sphere.wave_dna import WaveDNA
 
 def test_sensory_resolution():
     print("🧪 [Test] Phase 31: Sensory Fractalization (Qualia Resolution)")

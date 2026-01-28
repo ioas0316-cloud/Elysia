@@ -3,9 +3,9 @@ import copy
 from typing import List, Dict, Any, Optional
 
 from Core.L5_Mental.Memory.kg_manager import KGManager
-from Core.L4_Causality.World.world import World
+from Core.L4_Causality.M3_Mirror.world import World
 from Core.L5_Mental.M1_Cognition.thought import Thought
-from Core.L5_Mental.Reasoning_Core.Memory.unified_types import Tensor3D
+from Core.L5_Mental.M1_Cognition.Memory.unified_types import Tensor3D
 
 class LogicalReasoner:
     """

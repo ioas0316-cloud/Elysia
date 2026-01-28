@@ -14,7 +14,7 @@ Features:
 import time
 import random
 from typing import List, Tuple
-from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.L1_Foundation.M1_Keystone.hyper_sphere_core import HyperSphereCore
 from Core.L4_Causality.Civilization.trinity_citizen import LifeCitizen
 
 class LivingWorld:

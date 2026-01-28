@@ -6,14 +6,14 @@ import logging
 # Add Core to path
 sys.path.append(os.path.abspath('.'))
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
 from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 
 def verify_semantic_bridge():
     logging.basicConfig(level=logging.INFO)
     print("Initializing SovereignSelf with Semantic Bridge (Providential World)...")
     try:
-        core = SovereignSelf(cns_ref=None)
+        core = EmergentSelf(cns_ref=None)
         
         print("\n[SCENE 1] Drifting toward the Void Library (Soul Focus)")
         # Bias the rotor toward Soul (D8-D14)

@@ -1,7 +1,7 @@
 # Quick test for Hangul decomposition
 import sys
 sys.path.append('.')
-from Core.L5_Mental.Language.primitive_language import decompose_hangul, WordWave
+from Core.L5_Mental.M3_Lexicon.primitive_language import decompose_hangul, WordWave
 
 print('=== Hangul Decomposition Test ===')
 result = decompose_hangul('사랑')

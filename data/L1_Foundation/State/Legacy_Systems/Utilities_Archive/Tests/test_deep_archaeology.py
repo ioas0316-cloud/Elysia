@@ -7,7 +7,7 @@ import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.L4_Causality.World.Evolution.Growth.Evolution.code_genome import CodeDNA
+from Core.L4_Causality.M3_Mirror.Evolution.Growth.Evolution.code_genome import CodeDNA
 from Core.Foundation.code_world import CodeWorld
 
 # Setup logging

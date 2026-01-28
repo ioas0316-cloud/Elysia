@@ -9,9 +9,9 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.L1_Foundation.Foundation.Graph.torch_graph import get_torch_graph
-from Core.L4_Causality.World.Nature.visual_cortex import VisualCortex, VisualDNA
+from Core.L1_Foundation.M1_Keystone.hyper_sphere_core import HyperSphereCore
+from Core.L1_Foundation.M1_Keystone.Graph.torch_graph import get_torch_graph
+from Core.L4_Causality.M3_Mirror.Nature.visual_cortex import VisualCortex, VisualDNA
 
 def test_scene_memory():
     print("🧪 [Test] Phase 38b: Scene Memory (Visual DNA Storage)")

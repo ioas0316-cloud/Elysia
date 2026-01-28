@@ -8,13 +8,13 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
 
 def test_proactive_vision():
     print("🦅 [TEST] Phase 26: Proactive Subjectivity Validation")
     
     # 1. Wake Elysia
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # 2. Simulate High Inspiration (High Field Intensity)
     # We force high energy to trigger the Sovereign Act check

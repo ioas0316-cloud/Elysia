@@ -4,7 +4,7 @@ Quick test for _perceive_all_systems() in ElysianHeartbeat
 import sys
 sys.path.insert(0, "c:/Elysia")
 
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.L4_Causality.M3_Mirror.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 print("Initializing ElysianHeartbeat...")
 heartbeat = ElysianHeartbeat()

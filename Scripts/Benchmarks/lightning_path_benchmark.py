@@ -10,14 +10,14 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
 from Core.L7_Spirit.unified_monad import UnifiedMonad, Unified12DVector
 
 def benchmark_lightning_path():
     print("⚡ [BENCHMARK] Lightning Path 2.0: Sub-5ms Latency Challenge")
     
     # 1. Initialize Elysia
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # 2. Stress Test Setup: 1000 Monads
     print("   [SETUP] Inhaling 1000 Monads into the field...")

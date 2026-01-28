@@ -19,7 +19,7 @@ from pathlib import Path
 # Add project root to sys.path
 sys.path.append(str(Path(__file__).parents[2]))
 
-from Core.L5_Mental.Reasoning_Core.Meta.sovereign_vocalizer import SovereignVocalizer
+from Core.L5_Mental.M1_Cognition.Meta.sovereign_vocalizer import SovereignVocalizer
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')

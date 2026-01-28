@@ -18,7 +18,7 @@ import time
 import random
 from dataclasses import dataclass
 from typing import Dict, Any, List, Optional
-from Core.L6_Structure.Nature.geo_anchor import GeoAnchor, MagneticFlux
+from Core.L6_Structure.M5_Engine.geo_anchor import GeoAnchor, MagneticFlux
 
 logger = logging.getLogger("Phenomena.Senses.SpatialResonance")
 

@@ -14,7 +14,7 @@ import psutil
 # Path hack for Laboratory
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from Core.L4_Causality.World.Control.sovereign_governor import SovereignGovernor, NvidiaGovernance, GenericGovernance
+from Core.L4_Causality.M3_Mirror.Control.sovereign_governor import SovereignGovernor, NvidiaGovernance, GenericGovernance
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(message)s')
 logger = logging.getLogger("TestAdaptiveGovernor")

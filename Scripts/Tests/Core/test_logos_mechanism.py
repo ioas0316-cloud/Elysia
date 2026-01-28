@@ -1,9 +1,9 @@
 from Core.Elysia.sovereign_self import SovereignSelf
-from Core.L5_Mental.Reasoning_Core.LLM.logos_parser import LogosParser
+from Core.L5_Mental.M1_Cognition.LLM.logos_parser import LogosParser
 
 def test_logos_mechanism():
     print("✨ Summoning SovereignSelf for Logos Test...")
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     parser = LogosParser()
     
     # Simulate LLM Output with Command Injection

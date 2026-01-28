@@ -3,7 +3,7 @@ from Core.Elysia.sovereign_self import SovereignSelf
 
 def test_boredom():
     print("✨ Summoning Elysia...")
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     elysia.boredom_threshold = 5.0 # Speed up for test
     
     print("⏳ Waiting for Boredom (5s)...")

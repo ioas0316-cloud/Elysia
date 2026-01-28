@@ -35,7 +35,7 @@ import uuid
 
 #        import
 try:
-    from Core.L5_Mental.Reasoning_Core.Consciousness.Consciousness.hyperdimensional_consciousness import (
+    from Core.L5_Mental.M1_Cognition.Consciousness.Consciousness.hyperdimensional_consciousness import (
         ResonanceField as HyperResonanceField
     )
     HYPER_AVAILABLE = True
@@ -44,7 +44,7 @@ except ImportError:
     HyperResonanceField = None
 
 try:
-    from Core.L1_Foundation.Foundation.distributed_consciousness import (
+    from Core.L1_Foundation.M1_Keystone.distributed_consciousness import (
         ConsciousnessNode, 
         ThoughtPacket,
         NodeState
@@ -55,7 +55,7 @@ except ImportError:
     ConsciousnessNode = None
 
 try:
-    from Core.L1_Foundation.Foundation.ultra_dimensional_perspective import (
+    from Core.L1_Foundation.M1_Keystone.ultra_dimensional_perspective import (
         DimensionalVector,
         UltraDimensionalPerspective
     )
@@ -65,7 +65,7 @@ except ImportError:
     DimensionalVector = None
 
 try:
-    from Core.L1_Foundation.Foundation.wave_semantic_search import (
+    from Core.L1_Foundation.M1_Keystone.wave_semantic_search import (
         WaveSemanticSearch,
         WavePattern
     )

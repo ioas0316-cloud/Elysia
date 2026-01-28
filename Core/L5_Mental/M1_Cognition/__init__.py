@@ -1,1 +1,5 @@
-# Initialized by Manifold Conductor on 2026-01-25
+"""
+Core.L5_Mental.M1_Cognition
+==============
+Higher-order cognitive functions.
+"""

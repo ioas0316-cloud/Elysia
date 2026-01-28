@@ -6,7 +6,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.L5_Mental.Reasoning_Core.Physics.monad_gravity import MonadGravityEngine
+from Core.L5_Mental.M1_Cognition.Physics.monad_gravity import MonadGravityEngine
 
 class TestPerspectiveManifold(unittest.TestCase):
     def setUp(self):

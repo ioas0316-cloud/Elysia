@@ -6,14 +6,14 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import RegionalField
+from Core.L5_Mental.M1_Cognition.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.M1_Cognition.Reasoning.memetic_legacy import RegionalField
 
 def run_mending_demo():
     print("\n--- [ Phase 13: Trauma, Grace & Relational Induction Demo ] ---\n")
     
     # 1. Setup Region: The Land of Trials (High Friction)
-    from Core.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import SpiritualDNA
+    from Core.L5_Mental.M1_Cognition.Reasoning.memetic_legacy import SpiritualDNA
     ethos = SpiritualDNA(technique=0.8, reason=0.2, meaning=0.5)
     trials = RegionalField("Land of Trials", dominant_archetype="Warrior", ethos_dna=ethos)
     

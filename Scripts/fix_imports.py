@@ -5,7 +5,7 @@ import os
 # However, these seem mostly distinct prefix replacements.
 MAPPING = {
     # L1 Foundation
-    "Core.Foundation": "Core.L1_Foundation.Foundation",
+    "Core.Foundation": "Core.L1_Foundation.M1_Keystone",
     "Core.Physics": "Core.L1_Foundation.Physics",
     "Core.Prism": "Core.L3_Phenomena.M7_Prism",
     "Core.Metabolism": "Core.L2_Metabolism.Physiology",
@@ -26,24 +26,24 @@ MAPPING = {
     "Core.Manifestation": "Core.L3_Phenomena.Manifestation",
     
     # L4 Causality
-    "Core.Governance": "Core.L6_Structure.Engine.Governance",
+    "Core.Governance": "Core.L6_Structure.M5_Engine.Governance",
     "Core.Civilization": "Core.L4_Causality.Civilization",
-    "Core.L4_Causality.World": "Core.L4_Causality.World",
+    "Core.L4_Causality.M3_Mirror": "Core.L4_Causality.M3_Mirror",
     "Core.Action": "Core.L4_Causality.Action",
     "Core.Autonomy": "Core.L4_Causality.Autonomy",
     
     # L5 Mental
-    "Core.Intelligence": "Core.L5_Mental.Reasoning_Core",
+    "Core.Intelligence": "Core.L5_Mental.M1_Cognition",
     "Core.Learning": "Core.L5_Mental.Learning",
     "Core.Memory": "Core.L5_Mental.Memory",
-    "Core.Cognition": "Core.L5_Mental.Cognition",
+    "Core.Cognition": "Core.L5_Mental.M1_Cognition",
     "Core.Induction": "Core.L5_Mental.Induction",
     "Core.Training": "Core.L5_Mental.Training",
     
     # L6 Structure
     "Core.Merkaba": "Core.L6_Structure.Merkaba",
-    "Core.L1_Foundation.System": "Core.L1_Foundation.System",
-    "Core.Engine": "Core.L6_Structure.Engine",
+    "Core.L1_Foundation.M5_System": "Core.L1_Foundation.M5_System",
+    "Core.Engine": "Core.L6_Structure.M5_Engine",
     "Core.CLI": "Core.L6_Structure.CLI",
     "Core.Elysia": "Core.L6_Structure.Elysia",
     

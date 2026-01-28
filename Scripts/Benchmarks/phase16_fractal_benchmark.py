@@ -15,7 +15,7 @@ import logging
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.M1_Cognition.Metabolism.rotor_cognition_core import RotorCognitionCore
 from Core.L7_Spirit.M1_Monad.quantum_collapse import QuantumObserver, IntentVector
 from Core.L7_Spirit.M1_Monad.temporal_bridge import TemporalBridge, FutureState
 

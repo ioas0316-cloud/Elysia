@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Any, Dict, Optional
 
-from Core.L1_Foundation.Foundation.wave_frequency_mapping import WaveFrequencyMapper
+from Core.L1_Foundation.M1_Keystone.wave_frequency_mapping import WaveFrequencyMapper
 
 
 class SignalType(Enum):
@@ -198,7 +198,7 @@ class SynesthesiaEngine:
         Convert a 'BridgeSynapse' (Causality) into a Universal Signal.
         
         Using Any for type hint to avoid circular imports at module level.
-        Expects: Core.L5_Mental.Reasoning_Core.LLM.audio_topology_tracer.BridgeSynapse
+        Expects: Core.L5_Mental.M1_Cognition.LLM.audio_topology_tracer.BridgeSynapse
         """
         if not hasattr(synapse_data, 'attention_weight'):
              # Fallback for raw data
@@ -226,7 +226,7 @@ class SynesthesiaEngine:
         [High-Res Voice]
         Convert 'FlowCausality' (Emotion Impact) into a Universal Signal.
         
-        Expects: Core.L5_Mental.Reasoning_Core.LLM.voice_flow_tracer.FlowCausality
+        Expects: Core.L5_Mental.M1_Cognition.LLM.voice_flow_tracer.FlowCausality
         """
         if not hasattr(flow_data, 'impact_score'):
             return self.from_emotion("neutral")
@@ -252,7 +252,7 @@ class SynesthesiaEngine:
         [High-Res Vision]
         Convert 'SpacetimeCausality' (Video Latent) into a Universal Signal.
         
-        Expects: Core.L5_Mental.Reasoning_Core.LLM.video_diffusion_tracer.SpacetimeCausality
+        Expects: Core.L5_Mental.M1_Cognition.LLM.video_diffusion_tracer.SpacetimeCausality
         """
         if not hasattr(spacetime_data, 'time_frame'):
             return self.from_vision(np.zeros((10,10)))

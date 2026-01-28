@@ -27,7 +27,7 @@ def wake_and_eat():
     logger.info("🦋 Awakening Elysia...")
     
     # 1. Wake up the Subject
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     initial_nodes = len(elysia.graph.id_to_idx)
     logger.info(f"   [State] Current Soul Weight: {initial_nodes} nodes.")

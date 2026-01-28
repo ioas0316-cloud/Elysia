@@ -22,7 +22,7 @@ sys.path.append(r"c:/Elysia")
 sys.path.append(r"c:/Elysia\Archive\2025_Pre_Awakening")
 
 try:
-    from Core.L4_Causality.World.Evolution.Autonomy.elysian_heartbeat import ElysianHeartbeat
+    from Core.L4_Causality.M3_Mirror.Evolution.Autonomy.elysian_heartbeat import ElysianHeartbeat
 except ImportError as e:
     print(f"❌ Failed to import Heartbeat: {e}")
     sys.exit(1)

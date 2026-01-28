@@ -17,8 +17,8 @@ import logging
 # Path hack for testing
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.L1_Foundation.M1_Keystone.hyper_sphere_core import HyperSphereCore
+from Core.L6_Structure.M3_Sphere.wave_dna import WaveDNA
 from Core.L2_Metabolism.Cycles.time_compressor import FractalTimeCompressor
 from Core.L2_Metabolism.heart import get_heart
 

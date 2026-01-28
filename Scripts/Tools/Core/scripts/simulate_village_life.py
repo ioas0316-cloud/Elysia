@@ -14,9 +14,9 @@ import time
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
-from Core.L4_Causality.World.living_village import village
-from Core.L4_Causality.World.Soul.relationship_matrix import relationship_matrix
+from Core.L4_Causality.M3_Mirror.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
+from Core.L4_Causality.M3_Mirror.living_village import village
+from Core.L4_Causality.M3_Mirror.Soul.relationship_matrix import relationship_matrix
 
 def main():
     print("✨ Initializing the Living Village...")

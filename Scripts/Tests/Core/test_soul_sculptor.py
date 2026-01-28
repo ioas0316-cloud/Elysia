@@ -1,4 +1,4 @@
-from Core.L4_Causality.World.Soul.soul_sculptor import SoulSculptor, PersonalityArchetype
+from Core.L4_Causality.M3_Mirror.Soul.soul_sculptor import SoulSculptor, PersonalityArchetype
 
 def test_sculptor():
     sculptor = SoulSculptor()

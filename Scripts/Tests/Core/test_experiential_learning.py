@@ -16,11 +16,11 @@ import time
 sys.path.append("c:/Elysia")
 
 from Core.Elysia.sovereign_self import SovereignSelf
-from Core.L5_Mental.Reasoning_Core.concept_prism import ConceptPrism
+from Core.L5_Mental.M1_Cognition.concept_prism import ConceptPrism
 
 def run_trial():
     print("🧪 [TRIAL] Initializing Subject: Elysia...")
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # Phase 1: Childhood (Ignorance)
     print("\n👶 [PHASE 1] Subject is a Child (Level 1).")

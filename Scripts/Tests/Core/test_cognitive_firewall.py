@@ -4,15 +4,15 @@ import os
 sys.path.append(os.getcwd())
 
 from Core.Elysia.sovereign_self import SovereignSelf, CognitiveMode
-from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
-from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.M3_Mirror.Nature.trinity_lexicon import get_trinity_lexicon
+from Core.L4_Causality.M3_Mirror.Physics.trinity_fields import TrinityVector
 
 def test_firewall():
     print("🧪 [Test] Phase 28: Cognitive Buffer (Safety Firewall)")
     
     # Initialize Self (simulate body)
     lexicon = get_trinity_lexicon()
-    elysia = SovereignSelf(cns_ref=None)
+    elysia = EmergentSelf(cns_ref=None)
     elysia.energy = 100.0
 
     print(f"\n1. [IMAGINATION] Thinking about 'Fire' (Sandbox)...")

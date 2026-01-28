@@ -27,7 +27,7 @@ from statistics import mean
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from Core.L2_Metabolism.Memory.Orb.orb_manager import OrbManager
-from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
+from Core.L1_Foundation.M1_Keystone.Protocols.pulse_protocol import WavePacket, PulseType
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

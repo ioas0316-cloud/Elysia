@@ -7,7 +7,7 @@ import logging
 # Path setup
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.L6_Structure.Wave.wave_tensor import WaveTensor, create_harmonic_series
+from Core.L6_Structure.M3_Sphere.wave_tensor import WaveTensor, create_harmonic_series
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("WaveBenchmark")

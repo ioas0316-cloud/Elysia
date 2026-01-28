@@ -26,14 +26,14 @@ logger = logging.getLogger("Elysia.LifeCycle")
 
 # SelfGovernance for meaningful evaluation
 try:
-    from Core.L1_Foundation.Foundation.self_governance import SelfGovernance, IdealSelf
+    from Core.L1_Foundation.M1_Keystone.self_governance import SelfGovernance, IdealSelf
 except ImportError:
     SelfGovernance = None
     IdealSelf = None
 
 # [Phase 25] TensionField for Field-based reinforcement
 try:
-    from Core.L5_Mental.Reasoning_Core.Reasoning.causal_geometry import TensionField
+    from Core.L5_Mental.M1_Cognition.Reasoning.causal_geometry import TensionField
 except ImportError:
     TensionField = None
 
@@ -50,7 +50,7 @@ class WorldSnapshot:
 
 # [Phase 6] Predictive Verfication
 try:
-    from Core.L5_Mental.Reasoning_Core.predictive_mind import PredictiveMind
+    from Core.L5_Mental.M1_Cognition.predictive_mind import PredictiveMind
 except ImportError:
     PredictiveMind = None
 

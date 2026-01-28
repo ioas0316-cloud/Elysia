@@ -31,7 +31,7 @@ logger = logging.getLogger("Elysia.Sovereignty.Registry")
 class ModuleCapability:
     """Describes what a module can do."""
     name: str
-    module_path: str           # e.g., "Core.L6_Structure.Engine.Physics.core_turbine"
+    module_path: str           # e.g., "Core.L6_Structure.M5_Engine.Physics.core_turbine"
     class_name: str            # e.g., "ActivePrismRotor"
     capabilities: List[str]    # e.g., ["optical_scan", "diffraction", "void_transit"]
     layer: str                 # e.g., "L6_Structure"

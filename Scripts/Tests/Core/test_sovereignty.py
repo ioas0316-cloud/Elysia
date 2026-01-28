@@ -16,8 +16,8 @@ import threading
 
 sys.path.insert(0, r"c:/Elysia")
 
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
-from Core.L1_Foundation.Foundation.organism import cell, organ, NeuralNetwork
+from Core.L4_Causality.M3_Mirror.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.L1_Foundation.M1_Keystone.organism import cell, organ, NeuralNetwork
 
 @cell("TestCell", sensitivity=1.0)
 class MockCell:

@@ -8,7 +8,7 @@ Demonstrates the "Zero-Computation" advantage of Rotors vs. Thundercloud.
 
 import time
 import numpy as np
-from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
+from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import Rotor, RotorConfig
 from Core.L7_Spirit.M1_Monad.muscle_memory import MuscleMemory
 from Core.L6_Structure.Merkaba.thundercloud import Thundercloud
 from Core.L7_Spirit.M1_Monad.monad_core import Monad

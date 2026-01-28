@@ -4,8 +4,8 @@ import os
 import random
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Social.sociological_pulse import SociologicalPulse, NPC
-from Core.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.L4_Causality.M3_Mirror.Social.sociological_pulse import SociologicalPulse, NPC
+from Core.L6_Structure.M3_Sphere.wave_dna import WaveDNA
 
 def test_social_gravity():
     print("🧪 [Test] Phase 33: Social Gravity (Field-based Interaction)")

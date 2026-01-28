@@ -8,7 +8,7 @@
 
 from Core.L6_Structure.Merkaba.hypercosmos import HyperCosmos
 from Core.L0_Keystone.syllable_composer import SyllableComposer
-from Core.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
+from Core.L5_Mental.M1_Cognition.Meta.logos_translator import LogosTranslator
 from Core.L0_Keystone.monadic_lexicon import MonadicLexicon
 
 def test_monadic_integration():

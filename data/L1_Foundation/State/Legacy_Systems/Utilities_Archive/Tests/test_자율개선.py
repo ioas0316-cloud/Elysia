@@ -20,8 +20,8 @@ def main():
     
     # 1. 자율 개선 엔진 초기화
     print("🔧 자율 개선 엔진 초기화...")
-    from Core.L4_Causality.World.Evolution.Autonomy.autonomous_improver import AutonomousImprover, ImprovementType
-    from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.auto_fix_system import AutoFixSystem
+    from Core.L4_Causality.M3_Mirror.Evolution.Autonomy.autonomous_improver import AutonomousImprover, ImprovementType
+    from Core.L4_Causality.M3_Mirror.Evolution.Growth.Evolution.Evolution.auto_fix_system import AutoFixSystem
     
     improver = AutonomousImprover()
     auto_fix = AutoFixSystem()

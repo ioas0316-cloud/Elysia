@@ -24,7 +24,7 @@ import time
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # Configure Logging (Unified Soul Sink)
-from Core.L1_Foundation.Foundation.logger_config import setup_unified_logging
+from Core.L1_Foundation.M1_Keystone.logger_config import setup_unified_logging
 setup_unified_logging()
 logger = logging.getLogger("ELYSIA")
 
@@ -39,9 +39,9 @@ def mode_boot(args):
     logger.info("==========================================")
     
     try:
-        from Core.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
-        from Core.L1_Foundation.System.Sovereignty.sovereign_manager import HardwareSovereignManager
-        from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+        from Core.L5_Mental.M1_Cognition.Metabolism.body_sensor import BodySensor
+        from Core.L1_Foundation.M5_System.Sovereignty.sovereign_manager import HardwareSovereignManager
+        from Core.L4_Causality.M3_Mirror.Autonomy.elysian_heartbeat import ElysianHeartbeat
         
         # 1. Physical Sovereignty Initialization
         sovereign_hardware = HardwareSovereignManager()

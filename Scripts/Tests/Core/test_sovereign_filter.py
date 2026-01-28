@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 # Adjust path to find Core
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.M1_Cognition.Metabolism.rotor_cognition_core import RotorCognitionCore
 
 class TestSovereignFilter(unittest.TestCase):
     def setUp(self):

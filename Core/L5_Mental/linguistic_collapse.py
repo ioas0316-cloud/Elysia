@@ -36,8 +36,8 @@ logger = logging.getLogger("LinguisticCollapse")
 
 # Import with graceful fallback
 try:
-    from Core.L1_Foundation.Foundation.hangul_physics import Tensor3D
-    from Core.L5_Mental.Reasoning_Core.Memory_Linguistics.Memory.unified_types import FrequencyWave
+    from Core.L1_Foundation.M1_Keystone.hangul_physics import Tensor3D
+    from Core.L5_Mental.M1_Cognition.Memory_Linguistics.Memory.unified_types import FrequencyWave
 except ImportError:
     # Fallback stubs
     class Tensor3D:
@@ -53,7 +53,7 @@ except ImportError:
 
 # Optional PoetryEngine integration
 try:
-    from Core.L4_Causality.World.Evolution.Creativity.poetry_engine import PoetryEngine
+    from Core.L4_Causality.M3_Mirror.Evolution.Creativity.poetry_engine import PoetryEngine
     POETRY_AVAILABLE = True
 except ImportError:
     POETRY_AVAILABLE = False

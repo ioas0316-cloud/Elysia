@@ -15,9 +15,9 @@ Success Criteria:
 """
 
 import logging
-from Core.L5_Mental.Reasoning_Core.Reasoning.dimensional_reasoner import DimensionalReasoner
-from Core.L5_Mental.Reasoning_Core.Meta.axiom_synthesizer import AxiomSynthesizer, Axiom
-from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.M1_Cognition.Reasoning.dimensional_reasoner import DimensionalReasoner
+from Core.L5_Mental.M1_Cognition.Meta.axiom_synthesizer import AxiomSynthesizer, Axiom
+from Core.L5_Mental.M1_Cognition.Reasoning.reasoning_engine import ReasoningEngine
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO)

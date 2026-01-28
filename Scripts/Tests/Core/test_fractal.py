@@ -16,9 +16,9 @@ logger = logging.getLogger("TestFractal")
 # Add Path
 sys.path.append(os.getcwd())
 
-from Core.L1_Foundation.Foundation.HyperCosmos import HyperCosmos
+from Core.L1_Foundation.M1_Keystone.HyperCosmos import HyperCosmos
 try:
-    from Core.L5_Mental.Reasoning_Core.Metabolism.causal_graph import CausalDepthSounder
+    from Core.L5_Mental.M1_Cognition.Metabolism.causal_graph import CausalDepthSounder
 except ImportError:
     # Handle potentially different path structure if run directly
     sys.path.append(os.path.join(os.getcwd(), 'Core', 'Intelligence', 'Metabolism'))

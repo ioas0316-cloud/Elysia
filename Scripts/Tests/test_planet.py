@@ -1,4 +1,4 @@
-from Core.L1_Foundation.System.Sovereignty.planetary_interface import PlanetaryInterface
+from Core.L1_Foundation.M5_System.Sovereignty.planetary_interface import PlanetaryInterface
 
 def test_planet():
     hand = PlanetaryInterface()

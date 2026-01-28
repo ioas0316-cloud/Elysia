@@ -13,8 +13,8 @@ import os
 sys.path.append(os.getcwd())
 
 from Core.L7_Spirit.M1_Monad.monad_core import Monad, FractalRule
-from Core.L6_Structure.Nature.rotor import Rotor
-from Core.L6_Structure.Engine.wfc_engine import WFCEngine
+from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import Rotor
+from Core.L6_Structure.M5_Engine.wfc_engine import WFCEngine
 from typing import Dict, Any
 
 # Mock Rule

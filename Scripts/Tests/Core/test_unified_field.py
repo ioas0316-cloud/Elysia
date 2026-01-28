@@ -4,10 +4,10 @@ import os
 import random
 sys.path.append(os.getcwd())
 
-from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.L6_Structure.Wave.wave_dna import WaveDNA
-from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
-from Core.L4_Causality.World.Nature.sensory_cortex import get_sensory_cortex
+from Core.L1_Foundation.M1_Keystone.hyper_sphere_core import HyperSphereCore
+from Core.L6_Structure.M3_Sphere.wave_dna import WaveDNA
+from Core.L4_Causality.M3_Mirror.Physics.trinity_fields import TrinityVector
+from Core.L4_Causality.M3_Mirror.Nature.sensory_cortex import get_sensory_cortex
 
 def test_unified_field():
     print("🧪 [Test] Phase 35: The Sensory Field (Unified HyperSphere Architecture)")

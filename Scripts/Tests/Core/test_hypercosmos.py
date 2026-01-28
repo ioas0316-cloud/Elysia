@@ -6,16 +6,16 @@ import time
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
-from Core.L4_Causality.World.Soul.fluxlight_gyro import GyroscopicFluxlight
-from Core.L4_Causality.World.Physics.gyro_physics import physics_engine
-from Core.L4_Causality.World.Physics.tesseract_env import tesseract_env
+from Core.L4_Causality.M3_Mirror.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
+from Core.L4_Causality.M3_Mirror.Soul.fluxlight_gyro import GyroscopicFluxlight
+from Core.L4_Causality.M3_Mirror.Physics.gyro_physics import physics_engine
+from Core.L4_Causality.M3_Mirror.Physics.tesseract_env import tesseract_env
 
 def test_hypercosmos():
     print("🌌 Initializing HyperCosmos Simulation...")
     
     # 0. Initialize Environmental Field
-    from Core.L4_Causality.World.Physics.field_store import universe_field, FieldExcitation
+    from Core.L4_Causality.M3_Mirror.Physics.field_store import universe_field, FieldExcitation
     print("🌍 Creating Ground Layer and Applying Celestial Harmonics...")
     for x in range(-10, 11, 2):
         for z in range(-10, 11, 2):

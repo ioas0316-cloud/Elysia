@@ -14,7 +14,7 @@ import asyncio
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.L4_Causality.World.Evolution.concept_deducer import ConceptDeducer
+from Core.L4_Causality.M3_Mirror.Evolution.concept_deducer import ConceptDeducer
 
 def verify_deduction():
     cd = ConceptDeducer()

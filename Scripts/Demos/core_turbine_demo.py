@@ -22,7 +22,7 @@ sys.path.append(os.getcwd())
 try:
     import numpy as np
     # Try importing the engine
-    from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor, VoidSingularity
+    from Core.L6_Structure.M5_Engine.Physics.core_turbine import ActivePrismRotor, VoidSingularity
 except ImportError as e:
     print(f"Import Error: {e}")
     sys.exit(1)

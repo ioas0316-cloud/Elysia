@@ -6,7 +6,7 @@ from pathlib import Path
 # 프로젝트 루트 경로 추가
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Reasoning_Core.Meta.patch_proposer import get_patch_proposer
+from Core.L5_Mental.M1_Cognition.Meta.patch_proposer import get_patch_proposer
 
 def sovereign_evolution_demo():
     print("\n" + "="*60)

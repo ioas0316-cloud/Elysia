@@ -3,8 +3,8 @@ from typing import Dict, List, Optional, Any
 
 # Import physics types with graceful fallback
 try:
-    from Core.L1_Foundation.Foundation.hangul_physics import Tensor3D
-    from Core.L5_Mental.Reasoning_Core.Memory_Linguistics.Memory.unified_types import FrequencyWave
+    from Core.L1_Foundation.M1_Keystone.hangul_physics import Tensor3D
+    from Core.L5_Mental.M1_Cognition.Memory_Linguistics.Memory.unified_types import FrequencyWave
 except ImportError:
     # Fallback stub classes if imports fail
     class Tensor3D:
@@ -83,7 +83,7 @@ class EmotionalEngine:
         self._conversation_memory = None
         if enable_conversation_memory:
             try:
-                from Core.L5_Mental.Reasoning_Core.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
+                from Core.L5_Mental.M1_Cognition.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
                 self._conversation_memory = create_conversation_memory(context_turns=10)
             except ImportError:
                 pass  # Memory system not available
@@ -286,7 +286,7 @@ class EmotionalEngine:
             context_turns: Number of recent turns to keep in active context
         """
         try:
-            from Core.L5_Mental.Reasoning_Core.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
+            from Core.L5_Mental.M1_Cognition.Memory_Linguistics.Memory.conversation_memory import create_conversation_memory
             self._conversation_memory = create_conversation_memory(context_turns=context_turns)
         except ImportError:
             raise ImportError("ConversationMemory system not available. Install Core.L2_Metabolism.Memory.conversation_memory")

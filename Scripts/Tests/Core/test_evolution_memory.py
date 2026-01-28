@@ -18,9 +18,9 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.L6_Structure.Engine.Genesis.cognitive_cycle import CognitiveCycle
-from Core.L6_Structure.Engine.Genesis.silicon_evolution_laws import law_naive_oom
+from Core.L6_Structure.M5_Engine.Genesis.genesis_lab import GenesisLab
+from Core.L6_Structure.M5_Engine.Genesis.cognitive_cycle import CognitiveCycle
+from Core.L6_Structure.M5_Engine.Genesis.silicon_evolution_laws import law_naive_oom
 
 def run_memory_evolution():
     print("\n💾 [Evolution] Testing Space/Memory.")

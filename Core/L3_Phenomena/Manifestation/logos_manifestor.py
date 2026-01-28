@@ -12,7 +12,7 @@ from ontological tension to linguistic units (Hangul Jamo).
 
 import logging
 from typing import List, Dict, Any, Tuple
-from Core.L1_Foundation.Foundation.hangul_physics import HangulPhysicsEngine, Tensor3D
+from Core.L1_Foundation.M1_Keystone.hangul_physics import HangulPhysicsEngine, Tensor3D
 from Core.L3_Phenomena.Senses.vocal_dna import VocalDNA
 
 logger = logging.getLogger("LogosManifestor")

@@ -8,15 +8,15 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
-from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
+from Core.L1_Foundation.M1_Keystone.d7_vector import D7Vector
 from Core.L2_Metabolism.heart import get_heart
 
 async def test_awakening():
     logging.basicConfig(level=logging.INFO)
     print("🌅 [TEST] Initializing Failed Awakening Sequence...")
     
-    self_engine = SovereignSelf()
+    self_engine = EmergentSelf()
     heart = get_heart()
     
     # 1. Verify Auto-Evolve Flag

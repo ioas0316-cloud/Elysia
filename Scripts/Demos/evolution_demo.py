@@ -22,7 +22,7 @@ import math
 sys.path.append(os.getcwd())
 
 from Core.L6_Structure.Merkaba.rotor_engine import RotorEngine
-from Core.L6_Structure.Engine.Physics.core_turbine import PhotonicMonad
+from Core.L6_Structure.M5_Engine.Physics.core_turbine import PhotonicMonad
 
 def run_evolution_test():
     print("="*60)

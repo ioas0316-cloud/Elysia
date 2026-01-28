@@ -1,1 +1,1 @@
-# Initialized by Manifold Conductor on 2026-01-25
+from .spirit import Spirit, get_spirit

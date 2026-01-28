@@ -3,8 +3,8 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
-from Core.L5_Mental.Reasoning_Core.Logos.logos_engine import get_logos_engine
+from Core.L4_Causality.M3_Mirror.Nature.trinity_lexicon import get_trinity_lexicon
+from Core.L5_Mental.M1_Cognition.Logos.logos_engine import get_logos_engine
 
 def test_causal_explanation():
     print("🧪 [Test] Phase 27: Causal Syntax (Active Logic)")

@@ -3,7 +3,7 @@ from Core.Elysia.sovereign_self import SovereignSelf
 
 def test_integration():
     print("🔮 Initializing Integrated System...")
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # 1. Seed Reality (So we have something to resonate with)
     print("🌱 Seeding Reality...")

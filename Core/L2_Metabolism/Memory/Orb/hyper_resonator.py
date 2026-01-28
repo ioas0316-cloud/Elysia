@@ -20,7 +20,7 @@ from datetime import datetime
 from typing import Optional, Dict, Any
 
 from Core.L6_Structure.hyper_quaternion import Quaternion as HyperQuaternion
-from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket
+from Core.L1_Foundation.M1_Keystone.Protocols.pulse_protocol import WavePacket
 
 @dataclass
 class ResonanceState:

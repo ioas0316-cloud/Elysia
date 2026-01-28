@@ -9,8 +9,8 @@ import logging
 import json
 from typing import *
 from pathlib import Path
-from Core.L1_Foundation.Logic.resonance_gate import ResonanceGate, ResonanceState, analyze_structural_truth
-from Core.L1_Foundation.Logic.qualia_7d_codec import codec
+from Core.L1_Foundation.M1_Keystone.resonance_gate import ResonanceGate, ResonanceState, analyze_structural_truth
+from Core.L1_Foundation.M1_Keystone.qualia_7d_codec import codec
 
 # Configure Logger
 logging.basicConfig(level=logging.INFO)

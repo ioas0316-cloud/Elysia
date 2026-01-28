@@ -7,12 +7,12 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.L1_Foundation.M1_Keystone.emergent_self import EmergentSelf as SovereignSelf
 
 def test_steel_core_rejection():
     print("🏗️ [TEST] Milestone 23.1: Strict Axiom Enforcement Validation")
     
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # 1. Radiant Intent (Legal)
     legal_intent = "Evolve the structure with Love and Logic."

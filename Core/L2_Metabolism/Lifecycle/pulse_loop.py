@@ -40,7 +40,7 @@ from Core.L6_Structure.Elysia.nervous_system import NervousSystem, BioSignal
 
 from Core.L5_Mental.Memory.feedback_loop import Ouroboros, ThoughtState
 
-from Core.L5_Mental.Cognition.semantic_prism import SpectrumMapper
+from Core.L5_Mental.M1_Cognition.semantic_prism import SpectrumMapper
 
 from Core.L5_Mental.Memory.sediment import SedimentLayer
 

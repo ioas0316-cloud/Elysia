@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Any, Optional, Dict
-from Core.L5_Mental.Reasoning_Core.Memory.unified_types import Tensor3D, FrequencyWave
+from Core.L5_Mental.M1_Cognition.Memory.unified_types import Tensor3D, FrequencyWave
 
 @dataclass
 class Thought:

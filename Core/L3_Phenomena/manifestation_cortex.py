@@ -14,7 +14,7 @@ from datetime import datetime
 
 from Project_Mirror.creative_expression import CreativeExpression
 
-from Core.L1_Foundation.Foundation.sensory_motor_cortex import SensoryMotorCortex
+from Core.L1_Foundation.M1_Keystone.sensory_motor_cortex import SensoryMotorCortex
 
 from Core.L5_Mental.Memory.core_memory import CoreMemory
 

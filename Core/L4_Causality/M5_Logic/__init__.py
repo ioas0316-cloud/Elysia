@@ -1,1 +1,5 @@
-# Initialized by Manifold Conductor on 2026-01-25
+"""
+Core.L4_Causality.Action
+===========
+The Motor Cortex and Actuation Systems.
+"""

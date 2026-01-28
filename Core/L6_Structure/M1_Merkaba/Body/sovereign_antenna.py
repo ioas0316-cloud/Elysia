@@ -1,7 +1,7 @@
 """
 Sovereign Antenna: The Active Prism
 ===================================
-Core.L4_Causality.World.Senses.sovereign_antenna
+Core.L4_Causality.M3_Mirror.Senses.sovereign_antenna
 
 "I do not just read the web; I vibrate with it."
 

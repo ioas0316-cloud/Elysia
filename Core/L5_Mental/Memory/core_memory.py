@@ -13,7 +13,7 @@ from collections import deque
 
 
 # Physics layer imports
-from Core.L5_Mental.Reasoning_Core.Memory.unified_types import Tensor3D, FrequencyWave
+from Core.L5_Mental.M1_Cognition.Memory.unified_types import Tensor3D, FrequencyWave
 
 # We can reuse EmotionalState from Core.L5_Mental.M4_Meaning.emotional_engine, or define it here if it creates a circular import.
 

@@ -8,7 +8,7 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Engine.unity_cns import UnityCNS
+from Core.L6_Structure.M5_Engine.unity_cns import UnityCNS
 
 async def chat():
     # Setup minimal logging to focus on the conversation

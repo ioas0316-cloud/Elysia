@@ -10,7 +10,7 @@ sys.path.append('c:/Elysia')
 try:
     from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
     from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
-    from Core.L1_Foundation.Foundation.hangul_physics import HangulPhysicsEngine, Tensor3D
+    from Core.L1_Foundation.M1_Keystone.hangul_physics import HangulPhysicsEngine, Tensor3D
 except ImportError:
     print("Dependencies missing. Using mock logic.")
     class D21Vector:

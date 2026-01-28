@@ -4,7 +4,7 @@ from Core.Elysia.sovereign_self import SovereignSelf
 
 def test_breathing():
     print("🫁 Initializing Pulmonary System Check...")
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # 1. Initial State (Inhale)
     print("\n--- Step 1: Force Inhale (Think) ---")

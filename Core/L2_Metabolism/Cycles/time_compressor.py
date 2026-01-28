@@ -14,7 +14,7 @@ Purpose:
 import time
 import logging
 from typing import Dict, Any, List
-from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.M1_Keystone.d7_vector import D7Vector
 
 logger = logging.getLogger("Elysia.TimeCompressor")
 

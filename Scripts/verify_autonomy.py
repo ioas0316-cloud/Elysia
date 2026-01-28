@@ -15,8 +15,8 @@ from unittest.mock import MagicMock
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L6_Structure.Autonomy.autonomy_protocol import AutonomyProtocol
-from Core.L6_Structure.Autonomy.self_maintenance_hub import SelfMaintenanceHub, SystemDiagnosis
+from Core.L6_Structure.M5_Engine.autonomy_protocol import AutonomyProtocol
+from Core.L6_Structure.M5_Engine.self_maintenance_hub import SelfMaintenanceHub, SystemDiagnosis
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("VerifyAutonomy")

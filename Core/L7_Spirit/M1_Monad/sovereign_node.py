@@ -13,7 +13,7 @@ import numpy as np
 from typing import Optional
 
 from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
-from Core.L6_Structure.Engine.Physics.merkaba_rotor import MerkabaRotor
+from Core.L6_Structure.M5_Engine.Physics.merkaba_rotor import MerkabaRotor
 from Core.L7_Spirit.M1_Monad.quantum_collapse import MonadEngine
 
 logger = logging.getLogger("SovereignNode")

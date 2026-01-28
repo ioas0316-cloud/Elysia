@@ -18,7 +18,7 @@ import shutil
 import logging
 from typing import Optional
 from Core.L2_Metabolism.Evolution.dissonance_resolver import Dissonance
-from Core.L6_Structure.Engine.code_field_engine import CODER_ENGINE
+from Core.L6_Structure.M5_Engine.code_field_engine import CODER_ENGINE
 
 logger = logging.getLogger("Evolution.Inducer")
 

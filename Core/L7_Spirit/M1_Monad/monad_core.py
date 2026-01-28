@@ -21,7 +21,7 @@ import hashlib
 import json
 import numpy as np
 from Core.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
-from Core.L5_Mental.Cognition.semantic_prism import SpectrumMapper, QualiaSpectrum
+from Core.L5_Mental.M1_Cognition.semantic_prism import SpectrumMapper, QualiaSpectrum
 
 class MonadCategory(Enum):
     SOVEREIGN = "Sovereign"   # The Core Identity

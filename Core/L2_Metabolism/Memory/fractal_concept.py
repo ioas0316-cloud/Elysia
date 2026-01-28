@@ -480,7 +480,7 @@ class ConceptDecomposer:
         # GlobalHub integration
         self._hub = None
         try:
-            from Core.L5_Mental.Reasoning_Core.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.M1_Cognition.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "ConceptDecomposer",
@@ -522,7 +522,7 @@ class ConceptDecomposer:
         # Broadcast to GlobalHub
         if self._hub:
             try:
-                from Core.L6_Structure.Wave.wave_tensor import WaveTensor
+                from Core.L6_Structure.M3_Sphere.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=963.0,  # High frequency for understanding
                     amplitude=1.0,

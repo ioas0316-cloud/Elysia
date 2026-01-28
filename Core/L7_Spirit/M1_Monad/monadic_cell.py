@@ -15,8 +15,8 @@ import numpy as np
 import logging
 from typing import Dict, List, Any, Optional, Tuple
 from Core.L7_Spirit.M1_Monad.monad_core import Monad, MonadCategory
-from Core.L1_Foundation.Logic.resonance_gate import ResonanceGate, ResonanceState, analyze_structural_truth
-from Core.L1_Foundation.Logic.qualia_7d_codec import codec
+from Core.L1_Foundation.M1_Keystone.resonance_gate import ResonanceGate, ResonanceState, analyze_structural_truth
+from Core.L1_Foundation.M1_Keystone.qualia_7d_codec import codec
 
 logger = logging.getLogger("MonadicCell")
 

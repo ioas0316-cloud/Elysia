@@ -12,8 +12,8 @@ This script demonstrates:
 
 import time
 import logging
-from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import AkashicField, SpiritualDNA
+from Core.L5_Mental.M1_Cognition.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.M1_Cognition.Reasoning.memetic_legacy import AkashicField, SpiritualDNA
 
 def run_legacy_demo():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

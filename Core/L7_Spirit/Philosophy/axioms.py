@@ -15,7 +15,7 @@ Structure:
 
 from pydantic import BaseModel, Field, validator
 from typing import List, Dict, Optional
-from Core.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.L1_Foundation.M1_Keystone.d7_vector import D7Vector
 
 class Axiom(BaseModel):
     name: str

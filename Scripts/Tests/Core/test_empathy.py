@@ -9,8 +9,8 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
-from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import Zeitgeist, ChoiceNode
+from Core.L5_Mental.M1_Cognition.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
+from Core.L5_Mental.M1_Cognition.Education.CausalityMirror.wave_structures import Zeitgeist, ChoiceNode
 from Core.L6_Structure.hyper_quaternion import HyperQuaternion
 
 def test_les_miserables():

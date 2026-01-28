@@ -10,7 +10,7 @@ from Core.Elysia.sovereign_self import SovereignSelf
 
 def test_sovereign_identity():
     print("✨ Summoning SovereignSelf...")
-    elysia = SovereignSelf()
+    elysia = EmergentSelf()
     
     # Test 1: Identity
     q1 = "Who are you?"

@@ -15,7 +15,7 @@ from typing import List, Dict, Any
 # Ensure project root is in path
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.M1_Cognition.Metabolism.rotor_cognition_core import RotorCognitionCore
 
 # Configure Benchmarking Logger
 logging.basicConfig(level=logging.ERROR)

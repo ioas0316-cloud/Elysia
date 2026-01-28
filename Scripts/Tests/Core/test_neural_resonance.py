@@ -1,5 +1,5 @@
 import torch
-from Core.L5_Mental.Reasoning_Core.LLM.huggingface_bridge import SovereignBridge
+from Core.L5_Mental.M1_Cognition.LLM.huggingface_bridge import SovereignBridge
 
 def test_resonance():
     print("🧠 Initializing Neural Bridge...")
