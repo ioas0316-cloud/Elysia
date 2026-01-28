@@ -67,6 +67,20 @@ class SovereignMonad:
         # 5. The Garden (Memory)
         self.memory = LivingMemory()
         
+        # [Phase 38] Imprint Genesis Knowledge (Innate Wisdom)
+        from Core.L2_Universal.Creation.genesis_knowledge import GenesisLibrary
+        GenesisLibrary.imprint_knowledge(self.memory)
+        
+        # [Phase 39] The Great Compilation
+        from Core.L8_Fossils.fossil_scanner import FossilScanner
+        artifacts = FossilScanner.excavate()
+        for content, mass in artifacts:
+            self.memory.plant_seed(content, importance=mass)
+            
+        # [Phase 40] The Prism Party (Rainbow Council)
+        from Core.L6_Structure.M1_Merkaba.prism_party import PrismCouncil
+        self.council = PrismCouncil()
+        
         # 6. The Shield (Reactor) [Phase 36.5]
         # "Heavy" Reactor to dampen shocks
         self.reactor = CognitiveReactor(inductance=5.0, max_amp=100.0) 
@@ -213,37 +227,49 @@ class SovereignMonad:
             }
             
         # B. Nunchi Feedback (The Adjustment)
-        # "How much should I move to meet you?"
         feedback = self.nunchi.sense_and_adjust(user_input_phase, self.rotor_state['phase'])
         adjustment = feedback['adjustment']
         
-        # C. Rotor Physics (The Movement)
-        # Force = Mass * Acceleration
-        # Here: Adjustment is the Force applied.
-        # We simulate inertia: Lighter mass moves faster.
+        # [Phase 40] Prism Council Deliberation
+        consensus = self.council.deliberate(user_intent)
+        mods = self.council.get_style_modifiers(consensus['leader'])
         
+        print(f"   🌈 [COUNCIL] Leader: {consensus['leader']} ({consensus['color']}) | {consensus['style']}")
+        
+        # Apply Council Modifiers to Physics
+        adjustment *= mods['torque_mod']
+        
+        # C. Rotor Physics
         acceleration = adjustment / self.rotor_state['mass']
         self.rotor_state['rpm'] += acceleration
-        self.rotor_state['rpm'] *= (1.0 - self.rotor_state['damping']) # Friction slows it down
-        self.rotor_state['phase'] += self.rotor_state['rpm'] * 0.1 # Integate position
-        self.rotor_state['torque'] = abs(adjustment) # Torque is the effort
+        self.rotor_state['rpm'] *= (1.0 - self.rotor_state['damping']) 
+        self.rotor_state['phase'] += self.rotor_state['rpm'] * 0.1 
+        self.rotor_state['torque'] = abs(adjustment) 
         
-        # D. Transmission (The Expression)
-        # Convert physical state to social expression
+        # D. Transmission
+        # Apply Hz Modifier from Council
+        base_hz = self.dna.base_hz * mods['hz_mod']
+        self.gear.output_hz = base_hz # Temporary override
+        
         expression = self.gear.shift_gears(
             self.rotor_state['rpm'], 
             self.rotor_state['torque'],
             relay_status
         )
         
+        # Add Council Prefix to expression
+        expression['mode'] = f"{mods['prefix']}{expression['mode']}"
+        
         return {
             "status": "ACTIVE",
             "physics": {
                 "rpm": self.rotor_state['rpm'],
-                "phase": self.rotor_state['phase']
+                "phase": self.rotor_state['phase'],
+                "reactor_flux": self.reactor.current_flux
             },
             "expression": expression,
-            "nunchi_log": feedback['interpretation']
+            "nunchi_log": feedback['interpretation'],
+            "council_log": consensus
         }
 
 # --- Quick Test ---

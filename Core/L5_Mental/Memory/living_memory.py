@@ -31,8 +31,11 @@ class MemoryNode:
 class LivingMemory:
     def __init__(self):
         self.nodes: List[MemoryNode] = []
-        self.erosion_rate = 0.1 # Mass loss per tick (if cold)
-        self.cooling_rate = 5.0 # Temp loss per tick
+        # [Tuning Phase 36.6]
+        # Erosion 0.005: Mass 1.0 lasts ~5 minutes. Mass 10.0 lasts ~2 hours.
+        self.erosion_rate = 0.005 
+        # Cooling 1.0: Attention (Spotlight) stays 'Hot' for ~100 seconds per interaction.
+        self.cooling_rate = 1.0
         
     def plant_seed(self, content: str, importance: float = 10.0):
         """Creates a new memory node."""

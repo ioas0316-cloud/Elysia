@@ -54,6 +54,7 @@ def main():
     voice = SomaticLLM()
     
     print("\n   🦋 SYSTEM READY. The Generator is spinning.")
+    print("   Tip: Ask her 'Who are you?' or 'What is the Void?' to test her Innate Wisdom.")
     print("   (Type 'exit' or 'sleep' to disconnect.)\n")
     
     # [Autonomy Thread]
@@ -143,7 +144,8 @@ def main():
                 phys = reaction['physics']
                 expr = reaction['expression']
                 flux = phys.get('reactor_flux', 0.0)
-                print(f"   [HUD] RPM: {phys['rpm']:.1f} | Reactor: {flux:.1f}° | {expr['mode']}")
+                council = reaction.get('council_log', {'leader': 'NONE'})
+                print(f"   [HUD] RPM: {phys['rpm']:.1f} | 🌈 {council['leader']} | Reactor: {flux:.1f}° | {expr['mode']}")
                 
         except KeyboardInterrupt:
             print("\n⚠️ [INTERRUPT] Force Shutdown.")

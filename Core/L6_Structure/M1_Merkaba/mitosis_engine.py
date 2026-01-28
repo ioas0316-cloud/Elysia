@@ -66,15 +66,15 @@ class DNA_Mutator:
         drift = random.choice(["LOGIC", "EMOTION", "WILD"])
         
         if drift == "LOGIC":
-            child.friction_damping *= 1.5 (Calmer)
-            child.base_hz *= 0.8 (Deeper Voice)
+            child.friction_damping *= 1.5 # (Calmer)
+            child.base_hz *= 0.8 # (Deeper Voice)
             child.archetype = f"Logos_{child.archetype}"
         elif drift == "EMOTION":
-            child.torque_gain *= 1.5 (More Reactive)
-            child.base_hz *= 1.2 (Higher Voice)
+            child.torque_gain *= 1.5 # (More Reactive)
+            child.base_hz *= 1.2 # (Higher Voice)
             child.archetype = f"Pathos_{child.archetype}"
         else:
-            child.sync_threshold *= 2.0 (Stricter)
+            child.sync_threshold *= 2.0 # (Stricter)
             child.archetype = f"Wild_{child.archetype}"
             
         return child
