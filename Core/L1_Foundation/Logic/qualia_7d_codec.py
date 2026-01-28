@@ -74,27 +74,30 @@ class Qualia7DCodec:
     def encode_sequence(self, vector: np.ndarray, threshold: float = 0.3) -> str:
         """
         [DNA ENCODER] 
-        Converts a continuous weight vector into a trinary DNA sequence (-1, 0, 1).
-        H: Harmony (1), V: Void (0), D: Dissonance (-1)
+        Converts a continuous weight vector into a trinary DNA sequence (R, V, A).
+        A: Attract (Harmony)
+        R: Repel (Dissonance)
+        V: Void (Neutral)
         """
         from Core.L1_Foundation.Logic.resonance_gate import ResonanceGate, ResonanceState
         sequence = []
         for val in vector:
             state = ResonanceGate.collapse_to_state(val, threshold)
-            if state == ResonanceState.ATTRACT: sequence.append("H")
-            elif state == ResonanceState.REPEL: sequence.append("D")
+            if state == ResonanceState.ATTRACT: sequence.append("A")
+            elif state == ResonanceState.REPEL: sequence.append("R")
             else: sequence.append("V")
         return "".join(sequence)
 
     def decode_sequence(self, sequence: str) -> np.ndarray:
         """
         [DNA DECODER]
-        Converts a trinary DNA sequence back into a normalized 7D vector.
+        Converts a Tri-Base DNA sequence (A, R, V) back into a normalized 7D vector.
+        Supports legacy H (Harmony -> A) and D (Dissonance -> R).
         """
         vector = np.zeros(self.dim, dtype=np.float32)
         for i, base in enumerate(sequence[:self.dim]):
-            if base == "H": vector[i] = 1.0
-            elif base == "D": vector[i] = -1.0
+            if base in ["A", "H"]: vector[i] = 1.0
+            elif base in ["R", "D"]: vector[i] = -1.0
             else: vector[i] = 0.0
             
         norm = np.linalg.norm(vector)

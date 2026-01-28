@@ -39,6 +39,22 @@ class ExpressionCortex:
         self.current_face = self._resolve_ascii()
         return self.current_face
 
+    def reflect_rotor(self, rotor_status: dict) -> str:
+        """
+        [Phase 28] Direct Physical Reflection.
+        Updates expression based on the Transmission Gear's interpretation of the Rotor.
+        """
+        from Core.L6_Structure.M1_Merkaba.transmission_gear import transmission
+
+        expressive_params = transmission.shift(rotor_status)
+
+        return self.update(
+            torque=expressive_params["torque"],
+            entropy=expressive_params["entropy"],
+            valence=expressive_params["valence"],
+            arousal=expressive_params["arousal"]
+        )
+
     def _resolve_ascii(self) -> str:
         """
         Maps dimensions to ASCII glyphs.
@@ -75,9 +91,12 @@ class ExpressionCortex:
         # Cheeks (Optional Arousal/Torque indicator)
         l_cheek = "("
         r_cheek = ")"
-        if t > 0.9:
+        if t > 0.9: # High Torque = Electric
             l_cheek = "{"
             r_cheek = "}"
+        elif a > 0.8: # High Arousal = Blushing/Vibrating
+            l_cheek = "*"
+            r_cheek = "*"
         
         return f"{l_cheek} {l_eye}{mouth}{r_eye} {r_cheek}"
 
