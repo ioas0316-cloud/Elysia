@@ -22,9 +22,9 @@ try:
     
     # L4: The Causal World
     from Core.L4_Causality.World.world import World
-    from Core.L3_Logos.Voice.logos_voice import LogosVoice
-    from Core.L3_Logos.Wave.logos_dna import LogosDNA
-    from Core.L5_Intelligence.Bridge.optical_conscious_bridge import OpticalConsciousBridge
+    from Core.L3_Phenomena.M4_Speech.logos_voice import LogosVoice
+    from Core.L3_Phenomena.Wave.logos_dna import LogosDNA
+    from Core.L5_Mental.Bridge.optical_conscious_bridge import OpticalConsciousBridge
     
     # L1: Hardware Sovereignty (Lightning Path)
     from Core.L1_Foundation.Foundation.Optimization.lightning_path import LightningPath

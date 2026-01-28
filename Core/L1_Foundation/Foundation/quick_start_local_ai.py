@@ -19,7 +19,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from Core.L5_Mental.Intelligence.Intelligence.ollama_bridge import ollama
+from Core.L5_Mental.Reasoning_Core.Intelligence.ollama_bridge import ollama
 from Core.L1_Foundation.Foundation.korean_wave_converter import korean_wave
 from Core.L1_Foundation.Foundation.ether import ether, Wave
 

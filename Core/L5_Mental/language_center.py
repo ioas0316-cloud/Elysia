@@ -2,7 +2,7 @@ import logging
 import random
 from typing import Dict, List, Optional
 from dataclasses import dataclass
-from Core.L5_Mental.Intelligence.Intelligence.web_cortex import WebCortex
+from Core.L5_Mental.Reasoning_Core.Intelligence.web_cortex import WebCortex
 
 from Core.L5_Mental.celestial_grammar import SolarSystem, MagneticEngine, Galaxy, Nebula
 

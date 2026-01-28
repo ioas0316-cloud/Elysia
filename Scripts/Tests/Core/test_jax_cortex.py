@@ -1,7 +1,7 @@
 """
 Test JAX Cortex
 ===============
-Tests for Core.L5_Mental.Intelligence.Brain.jax_cortex
+Tests for Core.L5_Mental.Reasoning_Core.Brain.jax_cortex
 """
 
 import os
@@ -14,7 +14,7 @@ os.environ['KERAS_BACKEND'] = 'jax'
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
-from Core.L5_Mental.Intelligence.Brain.jax_cortex import JAXCortex
+from Core.L5_Mental.Reasoning_Core.Brain.jax_cortex import JAXCortex
 
 
 class TestJAXCortexInit:
@@ -74,7 +74,7 @@ class TestJAXCortexEmbed:
 # Quick sanity test that doesn't require model loading
 def test_import():
     """Test that the module can be imported."""
-    from Core.L5_Mental.Intelligence.Brain import JAXCortex
+    from Core.L5_Mental.Reasoning_Core.Brain import JAXCortex
     assert JAXCortex is not None
 
 

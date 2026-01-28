@@ -7,7 +7,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 from Core.L6_Structure.Engine.world_server import WorldServer
-from Core.L5_Mental.Intelligence.Narrative.narrative_projector import THE_PROJECTOR
+from Core.L5_Mental.Reasoning_Core.Narrative.narrative_projector import THE_PROJECTOR
 
 def test_phase_13():
     print("🚀 [Phase 13 Test] Initializing Multi-Rotor World...")

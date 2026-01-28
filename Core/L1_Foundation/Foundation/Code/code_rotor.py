@@ -16,7 +16,7 @@ import os
 import ast
 import time
 from typing import Dict, Any
-from Core.L5_Mental.Intelligence.code_dna_scanner import CodeDNAScanner
+from Core.L5_Mental.Reasoning_Core.code_dna_scanner import CodeDNAScanner
 from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 class CodeRotor:

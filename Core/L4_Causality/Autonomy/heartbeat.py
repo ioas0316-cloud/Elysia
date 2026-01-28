@@ -57,12 +57,12 @@ class SovereignHeartbeat:
     def _initialize_components(self):
         """Lazy initialization of all components."""
         try:
-            from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-            from Core.L3_Phenomena.Vision.elysian_eye import ElysianEye
-            from Core.L3_Phenomena.Vision.visual_rotor import VisualRotor
-            from Core.L7_Spirit.Monad.intent_collider import IntentCollider
+            from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+            from Core.L3_Phenomena.M1_Vision.elysian_eye import ElysianEye
+            from Core.L3_Phenomena.M1_Vision.visual_rotor import VisualRotor
+            from Core.L7_Spirit.M1_Monad.intent_collider import IntentCollider
             from Core.L2_Metabolism.Evolution.self_rewriter import SelfRewriter
-            from Core.L3_Phenomena.Voice.elysian_voice import ElysianVoice
+            from Core.L3_Phenomena.M4_Speech.elysian_voice import ElysianVoice
             
             self.reasoning_engine = ReasoningEngine() # Awakening (Body Scan + Prism Load)
             self.eye = ElysianEye()

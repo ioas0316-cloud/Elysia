@@ -88,10 +88,10 @@ def heal_neural_pathways():
     for pillar, components in PILLARS.items():
         for component in components:
             # Special case: If component name is same as pillar (e.g. System/System),
-            # the previous move might have created "Core.L6_Structure.System.System".
-            # But we want "Core.L6_Structure.System".
-            # Wait, the original structure was "Core.L6_Structure.System". 
-            # Now it is "Core.L6_Structure.System.System" (if nested) or "Core.L6_Structure.System" (if flattened).
+            # the previous move might have created "Core.L1_Foundation.System.System".
+            # But we want "Core.L1_Foundation.System".
+            # Wait, the original structure was "Core.L1_Foundation.System". 
+            # Now it is "Core.L1_Foundation.System.System" (if nested) or "Core.L1_Foundation.System" (if flattened).
             # But the file is inside.
             
             # Let's map the logical python path.
@@ -103,10 +103,10 @@ def heal_neural_pathways():
             path_map[old_base] = new_base
 
     # Also handle the "Pillar inside Pillar" naming confusion if any.
-    # e.g. Core.L6_Structure.System was a folder. Now Core.L6_Structure.System is a Pillar.
-    # Inside Core.L6_Structure.System Pillar, there was a System folder.
-    # If we flattened it, the files are directly in Core.L6_Structure.System.
-    # So "Core.L6_Structure.System.kernel" -> "Core.L6_Structure.System.kernel". No change needed?
+    # e.g. Core.L1_Foundation.System was a folder. Now Core.L1_Foundation.System is a Pillar.
+    # Inside Core.L1_Foundation.System Pillar, there was a System folder.
+    # If we flattened it, the files are directly in Core.L1_Foundation.System.
+    # So "Core.L1_Foundation.System.kernel" -> "Core.L1_Foundation.System.kernel". No change needed?
     # But "Core.Mind" -> "Core.L2_Metabolism.Memory.Mind". Change needed.
     
     count = 0
@@ -128,8 +128,8 @@ def heal_neural_pathways():
                     # Apply fixes
                     # 1. Fix the "Core.L3_Phenomena.Interface" double nesting caused by previous script
                     content = content.replace("Core.L3_Phenomena.Interface.", "Core.L3_Phenomena.Interface.")
-                    content = content.replace("Core.L6_Structure.System.System.", "Core.L6_Structure.System.")
-                    content = content.replace("Core.L5_Mental.Intelligence.", "Core.L5_Mental.Intelligence.")
+                    content = content.replace("Core.L1_Foundation.System.System.", "Core.L1_Foundation.System.")
+                    content = content.replace("Core.L5_Mental.Reasoning_Core.", "Core.L5_Mental.Reasoning_Core.")
                     content = content.replace("Core.L2_Metabolism.Evolution.Evolution.", "Core.L2_Metabolism.Evolution.")
                     content = content.replace("Core.Ethics.Ethics.", "Core.Ethics.")
                     content = content.replace("Core.L6_Structure.Elysia.Elysia.", "Core.L6_Structure.Elysia.")

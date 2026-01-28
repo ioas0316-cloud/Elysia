@@ -7,7 +7,7 @@ import logging
 # Ensure Core is in path
 sys.path.append("c:/Elysia")
 
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
 
 # Configure Logger to show only the good stuff
 logging.basicConfig(level=logging.ERROR)

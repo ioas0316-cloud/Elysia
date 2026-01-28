@@ -7,7 +7,7 @@ Core.L4_Causality.Civilization.society
 """
 
 from typing import Dict, List, Any
-from Core.L7_Spirit.Monad.seed_factory import alchemy
+from Core.L7_Spirit.M1_Monad.seed_factory import alchemy
 import random
 
 class Citizen:

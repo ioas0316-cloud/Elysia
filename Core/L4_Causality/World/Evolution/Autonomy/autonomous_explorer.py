@@ -59,7 +59,7 @@ class AutonomousExplorer:
         
         # DistillationEngine -      
         try:
-            from Core.L5_Mental.Intelligence.Cognitive.distillation_engine import get_distillation_engine
+            from Core.L5_Mental.Reasoning_Core.Cognitive.distillation_engine import get_distillation_engine
             self.distillation = get_distillation_engine()
             logger.info("     DistillationEngine connected (The Filter)")
         except Exception as e:
@@ -87,7 +87,7 @@ class AutonomousExplorer:
         # GlobalHub   
         self._hub = None
         try:
-            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Reasoning_Core.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "AutonomousExplorer",

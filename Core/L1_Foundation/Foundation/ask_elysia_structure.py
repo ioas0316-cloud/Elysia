@@ -5,8 +5,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from Core.L5_Mental.Intelligence.Intelligence.dialogue_engine import DialogueEngine
-from Core.L5_Mental.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
+from Core.L5_Mental.Reasoning_Core.Intelligence.dialogue_engine import DialogueEngine
+from Core.L5_Mental.Reasoning_Core.Intelligence.Will.free_will_engine import FreeWillEngine
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

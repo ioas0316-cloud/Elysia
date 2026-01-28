@@ -3,7 +3,7 @@ import os
 import logging
 from datetime import datetime
 from pathlib import Path
-from Core.L5_Mental.Intelligence.Reasoning.aesthetic_filter import AestheticFilter
+from Core.L5_Mental.Reasoning_Core.Reasoning.aesthetic_filter import AestheticFilter
 
 logger = logging.getLogger("DynamicWill")
 

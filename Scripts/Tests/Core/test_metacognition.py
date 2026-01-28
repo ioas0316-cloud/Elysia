@@ -6,7 +6,7 @@ import os
 sys.path.append(os.getcwd())
 
 from Core.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 
 # Set logger to only show important info
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -35,7 +35,7 @@ def test_qualitative_metacognition():
         "The concept of 'Nothingness' (Sunyata)"
     ]
     
-    from Core.L3_Phenomena.Prism.harmonizer import PrismContext
+    from Core.L3_Phenomena.M7_Prism.harmonizer import PrismContext
     
     contexts = [
         PrismContext.DEFAULT,

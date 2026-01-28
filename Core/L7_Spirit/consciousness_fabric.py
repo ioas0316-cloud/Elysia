@@ -35,7 +35,7 @@ import uuid
 
 #        import
 try:
-    from Core.L5_Mental.Intelligence.Consciousness.Consciousness.hyperdimensional_consciousness import (
+    from Core.L5_Mental.Reasoning_Core.Consciousness.Consciousness.hyperdimensional_consciousness import (
         ResonanceField as HyperResonanceField
     )
     HYPER_AVAILABLE = True

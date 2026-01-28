@@ -50,7 +50,7 @@ class CosmicStudio:
         simulated_amplitude = min(1.0, desire_packet.energy / 120.0)
         
         # Import dynamically to avoid circular issues
-        from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import CodeWave, CodePhase, CodeDimension, Quaternion
+        from Core.L5_Mental.Reasoning_Core.Intelligence.wave_coding_system import CodeWave, CodePhase, CodeDimension, Quaternion
         
         wave = CodeWave(
             source_file="manifestation_seed",

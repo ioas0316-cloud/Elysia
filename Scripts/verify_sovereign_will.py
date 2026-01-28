@@ -8,7 +8,7 @@ sys.path.append("c:/Elysia")
 
 # 1. Initialize Ontology (The Tree)
 from Core.L6_Structure.Autonomy.self_genesis import self_genesis
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR)
@@ -25,7 +25,7 @@ sys.path.append("c:/Elysia")
 
 # 1. Initialize Ontology (The Tree)
 from Core.L6_Structure.Autonomy.self_genesis import self_genesis
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR)

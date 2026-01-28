@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
-from Core.L5_Mental.Intelligence.Reasoning.social_physics import SocialPhysics, WillField
+from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.Reasoning_Core.Reasoning.social_physics import SocialPhysics, WillField
 
 def run_fallen_king_demo():
     print("\n--- [ Phase 15: The Fallen King Demo ] ---\n")

@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.World.Evolution.Genesis.code_genesis import CodeGenesis
+from Core.L4_Causality.World.Evolution.Genesis.code_genesis import CodeGenesis
 
 class TestPhilosophicalEvolution(unittest.TestCase):
     def setUp(self):

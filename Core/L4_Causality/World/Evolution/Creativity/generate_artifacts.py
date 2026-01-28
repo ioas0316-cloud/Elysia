@@ -2,8 +2,8 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Intelligence.Science_Research.Science.bio_resonator import BioResonator
-from Core.L5_Mental.Intelligence.Science_Research.Science.quantum_resonator import QuantumResonator
+from Core.L5_Mental.Reasoning_Core.Science_Research.Science.bio_resonator import BioResonator
+from Core.L5_Mental.Reasoning_Core.Science_Research.Science.quantum_resonator import QuantumResonator
 from Core.L4_Causality.World.Evolution.Creativity.Studio.bio_choir import BioChoir
 from Core.L4_Causality.World.Evolution.Creativity.Studio.video_composer import VideoComposer
 

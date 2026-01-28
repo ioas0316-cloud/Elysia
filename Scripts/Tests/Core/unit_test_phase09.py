@@ -6,7 +6,7 @@ from typing import Dict, Any
 # Ensure root directory is in path
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Intelligence.LLM.metacognitive_lens import MetacognitiveLens
+from Core.L5_Mental.Reasoning_Core.LLM.metacognitive_lens import MetacognitiveLens
 from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph
 
 def test_lens():

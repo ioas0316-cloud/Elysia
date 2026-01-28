@@ -48,7 +48,7 @@ if __name__ == "__main__":
     # Test Run
     import sys
     sys.path.append("c:\\Elysia")
-    from Core.L5_Mental.Intelligence.Consciousness.Emotion.soul_resonator import SoulResonator
+    from Core.L5_Mental.Reasoning_Core.Consciousness.Emotion.soul_resonator import SoulResonator
     
     soul = SoulResonator()
     learner = EmotionLearner(soul)

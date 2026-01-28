@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, r"c:/Elysia")
-from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
-from Core.L5_Mental.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
+from Core.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.L5_Mental.Reasoning_Core.Reasoning.dimensional_reasoner import DimensionalReasoner
 
 def test_analog_zoom():
     processor = DimensionalProcessor()

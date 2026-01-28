@@ -18,7 +18,7 @@ except ImportError:
 
 # ThoughtSpace for What-If Simulation
 try:
-    from Core.L5_Mental.Intelligence.thought_space import ThoughtSpace
+    from Core.L5_Mental.Reasoning_Core.thought_space import ThoughtSpace
 except ImportError:
     ThoughtSpace = None
 

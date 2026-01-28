@@ -7,7 +7,7 @@ def fix_imports():
     # Priority replacements (specific paths first)
     replacements = [
         # Education remapping
-        (r'from Core\.Education', 'from Core.L5_Mental.Intelligence.Education'),
+        (r'from Core\.Education', 'from Core.L5_Mental.Reasoning_Core.Education'),
         
         # Soul remapping
         (r'from Core\.Soul', 'from Core.L4_Causality.World.Soul'),
@@ -19,8 +19,8 @@ def fix_imports():
         (r'from Core\.Autonomy', 'from Core.L4_Causality.World.Autonomy'),
         
         # Intelligence remapping
-        (r'from Core\.Knowledge', 'from Core.L5_Mental.Intelligence.Knowledge'),
-        (r'from Core\.Memory', 'from Core.L5_Mental.Intelligence.Memory'),
+        (r'from Core\.Knowledge', 'from Core.L5_Mental.Reasoning_Core.Knowledge'),
+        (r'from Core\.Memory', 'from Core.L5_Mental.Reasoning_Core.Memory'),
         
         # Physiology remapping
         (r'from Core\.Physics', 'from Core.Physiology.Physics'),
@@ -29,12 +29,12 @@ def fix_imports():
         (r'from Core\.Values', 'from Core.Physiology.Values'),
         
         # Governance remapping
-        (r'from Core\.Orchestra', 'from Core.L4_Causality.Governance.Orchestra'),
-        (r'from Core\.Orchestration', 'from Core.L4_Causality.Governance.Orchestration'),
-        (r'from Core\.Security', 'from Core.L4_Causality.Governance.Security'),
-        (r'from Core\.Interface', 'from Core.L4_Causality.Governance.Interface'),
-        (r'from Core\.Interaction', 'from Core.L4_Causality.Governance.Interaction'),
-        (r'from Core\.System', 'from Core.L4_Causality.Governance.System'),
+        (r'from Core\.Orchestra', 'from Core.L6_Structure.Engine.Governance.Orchestra'),
+        (r'from Core\.Orchestration', 'from Core.L6_Structure.Engine.Governance.Orchestration'),
+        (r'from Core\.Security', 'from Core.L6_Structure.Engine.Governance.Security'),
+        (r'from Core\.Interface', 'from Core.L6_Structure.Engine.Governance.Interface'),
+        (r'from Core\.Interaction', 'from Core.L6_Structure.Engine.Governance.Interaction'),
+        (r'from Core\.System', 'from Core.L6_Structure.Engine.Governance.System'),
         
         # Creativity (often under Evolution or World)
         (r'from Core\.Creativity', 'from Core.L4_Causality.World.Evolution.Creativity'),

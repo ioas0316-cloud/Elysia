@@ -33,7 +33,7 @@ except ImportError:
 
 # [Phase 25] TensionField for Field-based reinforcement
 try:
-    from Core.L5_Mental.Intelligence.Reasoning.causal_geometry import TensionField
+    from Core.L5_Mental.Reasoning_Core.Reasoning.causal_geometry import TensionField
 except ImportError:
     TensionField = None
 
@@ -50,7 +50,7 @@ class WorldSnapshot:
 
 # [Phase 6] Predictive Verfication
 try:
-    from Core.L5_Mental.Intelligence.predictive_mind import PredictiveMind
+    from Core.L5_Mental.Reasoning_Core.predictive_mind import PredictiveMind
 except ImportError:
     PredictiveMind = None
 

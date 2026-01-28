@@ -14,7 +14,7 @@ import random
 import time
 from pathlib import Path
 
-from Core.L4_Causality.Governance.System.System.System.Kernel import kernel
+from Core.L6_Structure.Engine.Governance.System.System.System.Kernel import kernel
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("MetaRunner")

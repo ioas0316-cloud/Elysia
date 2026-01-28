@@ -36,7 +36,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 # We access the Kernel via the System's Organ registry or direct import if needed
 # But Synesthesia was a standalone demo. Let's fix the path.
 try:
-    from Core.L4_Causality.Governance.System.System.System.Kernel import kernel
+    from Core.L6_Structure.Engine.Governance.System.System.System.Kernel import kernel
 except ImportError:
     # Fallback to creating a dummy kernel bridge if the path changed deeply
     from elysia_core import Organ

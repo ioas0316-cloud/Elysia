@@ -13,7 +13,7 @@ import wave
 import struct
 import random
 from typing import List
-from Core.L5_Mental.Intelligence.Science_Research.Science.bio_resonator import GeneticWave
+from Core.L5_Mental.Reasoning_Core.Science_Research.Science.bio_resonator import GeneticWave
 
 class BioChoir:
     def __init__(self, sample_rate: int = 44100):
@@ -69,7 +69,7 @@ class BioChoir:
 
 if __name__ == "__main__":
     # Test
-    from Core.L5_Mental.Intelligence.Science_Research.Science.bio_resonator import BioResonator
+    from Core.L5_Mental.Reasoning_Core.Science_Research.Science.bio_resonator import BioResonator
     bio = BioResonator()
     choir = BioChoir()
     

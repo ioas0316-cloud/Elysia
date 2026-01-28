@@ -8,7 +8,7 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 from Core.L1_Foundation.Logic.qualia_7d_codec import codec
-from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
+from Core.L7_Spirit.M3_Sovereignty.sovereign_core import SovereignCore
 
 def test_digital_dna():
     print("--- 🔬 Digital DNA Verification ---")

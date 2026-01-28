@@ -273,12 +273,12 @@ class VisualizerServer:
         except: pass
         
         try:
-            from Core.L5_Mental.Intelligence.Intelligence.web_cortex import WebCortex
+            from Core.L5_Mental.Reasoning_Core.Intelligence.web_cortex import WebCortex
             self.web = WebCortex()
         except: pass
         
         try:
-            from Core.L5_Mental.Intelligence.Intelligence.tool_executor import ToolExecutor
+            from Core.L5_Mental.Reasoning_Core.Intelligence.tool_executor import ToolExecutor
             self.tool_executor = ToolExecutor()
         except: pass
 

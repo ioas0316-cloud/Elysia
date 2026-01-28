@@ -96,7 +96,7 @@ class AutonomousOrchestrator:
         # Filesystem Observer
         self.filesystem_observer = None
         try:
-            from Core.L4_Causality.Governance.System.System.filesystem_wave import get_filesystem_observer
+            from Core.L6_Structure.Engine.Governance.System.System.filesystem_wave import get_filesystem_observer
             self.filesystem_observer = get_filesystem_observer()
             logger.info("     FilesystemObserver connected")
         except ImportError as e:
@@ -105,7 +105,7 @@ class AutonomousOrchestrator:
         # Unified Dialogue
         self.dialogue = None
         try:
-            from Core.L4_Causality.Governance.Interaction.Interface.unified_dialogue import get_unified_dialogue
+            from Core.L6_Structure.Engine.Governance.Interaction.Interface.unified_dialogue import get_unified_dialogue
             self.dialogue = get_unified_dialogue()
             logger.info("     UnifiedDialogue connected")
         except ImportError as e:
@@ -114,7 +114,7 @@ class AutonomousOrchestrator:
         # Distillation Engine
         self.distillation = None
         try:
-            from Core.L5_Mental.Intelligence.Cognitive.distillation_engine import get_distillation_engine
+            from Core.L5_Mental.Reasoning_Core.Cognitive.distillation_engine import get_distillation_engine
             self.distillation = get_distillation_engine()
             logger.info("     DistillationEngine connected")
         except ImportError as e:
@@ -142,7 +142,7 @@ class AutonomousOrchestrator:
         """Connect to GlobalHub for central coordination."""
         self._hub = None
         try:
-            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Reasoning_Core.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "AutonomousOrchestrator",

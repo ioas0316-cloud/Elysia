@@ -18,11 +18,11 @@ import time
 # Add Core to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.L5_Mental.Intelligence.Education.CausalityMirror.variable_mesh import VariableMesh
-from Core.L5_Mental.Intelligence.Education.CausalityMirror.impact_engine import ImpactEngine
-from Core.L5_Mental.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
-from Core.L5_Mental.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion, HistoricalWave, Consequence
-from Core.L5_Mental.Intelligence.Education.CausalityMirror.feedback_loop import FeedbackLoop
+from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.variable_mesh import VariableMesh
+from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.impact_engine import ImpactEngine
+from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
+from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion, HistoricalWave, Consequence
+from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.feedback_loop import FeedbackLoop
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

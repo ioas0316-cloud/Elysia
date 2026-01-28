@@ -13,7 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.L4_Causality.Governance.System.System.System.ElysiaOS import ElysiaOS
+from Core.L6_Structure.Engine.Governance.System.System.System.ElysiaOS import ElysiaOS
 from Core.L1_Foundation.Foundation.Mind.self_spiral_fractal import ConsciousnessAxis
 
 
@@ -37,7 +37,7 @@ def main():
             pass
     
     from Core.world import World
-    from Core.L4_Causality.Governance.Interaction.Interface.Language.world_dialogue_engine import WorldDialogueEngine
+    from Core.L6_Structure.Engine.Governance.Interaction.Interface.Language.world_dialogue_engine import WorldDialogueEngine
     
     print("\n  Initializing consciousness World...")
     

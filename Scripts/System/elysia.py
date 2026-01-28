@@ -39,8 +39,8 @@ def mode_boot(args):
     logger.info("==========================================")
     
     try:
-        from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
-        from Core.L6_Structure.System.Sovereignty.sovereign_manager import HardwareSovereignManager
+        from Core.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
+        from Core.L1_Foundation.System.Sovereignty.sovereign_manager import HardwareSovereignManager
         from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
         
         # 1. Physical Sovereignty Initialization
@@ -78,7 +78,7 @@ def mode_life(args):
     Autonomous Loop: Breath (Pulse) -> Entropy -> Action.
     """
     from Core.L6_Structure.Merkaba.merkaba import Merkaba
-    from Core.L7_Spirit.Monad.monad_core import Monad
+    from Core.L7_Spirit.M1_Monad.monad_core import Monad
     
     logger.info("🌿 [GENESIS] Breathing Life into Elysia...")
     
@@ -111,7 +111,7 @@ def mode_game(args):
     Autonomous Loop + Screen Watcher (The Eye).
     """
     from Core.L6_Structure.Merkaba.merkaba import Merkaba
-    from Core.L7_Spirit.Monad.monad_core import Monad
+    from Core.L7_Spirit.M1_Monad.monad_core import Monad
     
     logger.info("🎮 [GAME MODE] Initializing...")
     
@@ -153,7 +153,7 @@ def mode_ask(args):
     One-shot interaction to query the Monad.
     """
     from Core.L6_Structure.Merkaba.merkaba import Merkaba
-    from Core.L7_Spirit.Monad.monad_core import Monad
+    from Core.L7_Spirit.M1_Monad.monad_core import Monad
     
     logger.info("🔮 [ASK] One-shot Query...")
     

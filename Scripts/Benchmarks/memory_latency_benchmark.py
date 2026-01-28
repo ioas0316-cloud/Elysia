@@ -110,7 +110,7 @@ def run_benchmark():
     # 4. Phase 6: Hardware Bridge Verification
     print("\n🛠️ [HARDWARE CHECKS]")
     try:
-        from Core.L7_Spirit.Monad.intent_torque import IntentTorque
+        from Core.L7_Spirit.M1_Monad.intent_torque import IntentTorque
         torque = IntentTorque()
         has_metal = getattr(torque, "HAS_METAL", False)
         status_icon = "✅" if has_metal else "⚠️" 

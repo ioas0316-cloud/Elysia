@@ -22,7 +22,7 @@ import logging
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.L4_Causality.Governance.System.System.System.resonance_navigator import ResonanceNavigator
+from Core.L6_Structure.Engine.Governance.System.System.System.resonance_navigator import ResonanceNavigator
 
 # Configure logging to look like a ship's log
 logging.basicConfig(level=logging.INFO, format='%(message)s')

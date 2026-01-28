@@ -7,7 +7,7 @@ import logging
 # Ensure path
 sys.path.append("c:\\Elysia")
 
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
 from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 def verify_hyper_pulse():

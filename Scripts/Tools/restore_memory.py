@@ -15,7 +15,7 @@ from typing import Dict, Any
 
 # Local Imports
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
-from Core.System.Metabolism.zero_latency_portal import ZeroLatencyPortal
+from Core.L1_Foundation.System.Metabolism.zero_latency_portal import ZeroLatencyPortal
 from Core.Foundation.Wave.wave_dna import WaveDNA
 
 # Setup Logging

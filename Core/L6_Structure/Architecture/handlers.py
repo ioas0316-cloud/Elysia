@@ -15,17 +15,17 @@ from Core.L6_Structure.Architecture.cortex_registry import CortexRegistry
 from Core.L5_Mental.Memory.core_memory import CoreMemory
 
 from Core.L5_Mental.Memory.kg_manager import KGManager
-from Core.L5_Mental.Intelligence.question_generator import QuestionGenerator
-from Core.L5_Mental.Intelligence.relationship_extractor import extract_relationship_type
-from Core.L5_Mental.Intelligence.M3_Lexicon.response_styler import ResponseStyler
+from Core.L5_Mental.Reasoning_Core.question_generator import QuestionGenerator
+from Core.L5_Mental.Reasoning_Core.relationship_extractor import extract_relationship_type
+from Core.L5_Mental.Reasoning_Core.M3_Lexicon.response_styler import ResponseStyler
 
-from Core.L5_Mental.Logic.logical_reasoner import LogicalReasoner
-from Core.L5_Mental.Intelligence.value_centered_decision import ValueCenteredDecision
-from Core.L5_Mental.Intelligence.M4_Meaning.insight_synthesizer import InsightSynthesizer
+from Core.L5_Mental.M1_Cognition.logical_reasoner import LogicalReasoner
+from Core.L5_Mental.Reasoning_Core.value_centered_decision import ValueCenteredDecision
+from Core.L5_Mental.Reasoning_Core.M4_Meaning.insight_synthesizer import InsightSynthesizer
 
 from Core.L2_Metabolism.Evolution.creative_cortex import CreativeCortex
 from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalState
-from Core.L5_Mental.Intelligence.perspective_cortex import PerspectiveCortex
+from Core.L5_Mental.Reasoning_Core.perspective_cortex import PerspectiveCortex
 from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalEngine
 
 

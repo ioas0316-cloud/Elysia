@@ -36,7 +36,7 @@ except ImportError as e:
     logger.warning(f"SelfReflector not available: {e}")
 
 try:
-    from Core.L5_Mental.Intelligence.Intelligence.system_self_awareness import SystemSelfAwareness
+    from Core.L5_Mental.Reasoning_Core.Intelligence.system_self_awareness import SystemSelfAwareness
     HAS_AWARENESS = True
 except ImportError as e:
     HAS_AWARENESS = False

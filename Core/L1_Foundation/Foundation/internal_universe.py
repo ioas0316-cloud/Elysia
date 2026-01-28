@@ -14,7 +14,7 @@ Internal Universe Facade (Redirect Module)
     from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
     
     #    (   import)
-    from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse
+    from Core.L5_Mental.Reasoning_Core.Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse
 """
 
 import warnings
@@ -28,8 +28,8 @@ warnings.warn(
 )
 
 #                  
-from Core.L5_Mental.Intelligence.Memory.Vector.internal_universe import *
-from Core.L5_Mental.Intelligence.Memory.Vector.internal_universe import InternalUniverse, WorldCoordinate
+from Core.L5_Mental.Reasoning_Core.Memory.Vector.internal_universe import *
+from Core.L5_Mental.Reasoning_Core.Memory.Vector.internal_universe import InternalUniverse, WorldCoordinate
 
 #     export
 __all__ = ['InternalUniverse', 'WorldCoordinate', 'get_internal_universe']

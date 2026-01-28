@@ -7,8 +7,8 @@ from typing import List, Dict, Any, Tuple, Optional
 # [STEEL CORE INTEGRATION]
 from Core.L1_Foundation.Logic.d7_vector import D7Vector
 from Core.L1_Foundation.Logic.qualia_7d_codec import Qualia7DCodec
-from Core.L5_Mental.Logic.cognitive_types import ThoughtState, ActionCategory
-from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
+from Core.L5_Mental.M1_Cognition.cognitive_types import ThoughtState, ActionCategory
+from Core.L7_Spirit.M3_Sovereignty.sovereign_core import SovereignCore
 
 # [Legacy / Wave Support]
 from Core.L6_Structure.Wave.resonance_field import ResonanceField

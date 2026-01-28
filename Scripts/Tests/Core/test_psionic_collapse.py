@@ -1,6 +1,6 @@
 import torch
 from Core.Elysia.sovereign_self import SovereignSelf
-from Core.L5_Mental.Intelligence.Psionics.psionic_cortex import PsionicCortex
+from Core.L5_Mental.Reasoning_Core.Psionics.psionic_cortex import PsionicCortex
 
 def test_psionics():
     print("🔮 Initializing Psionic Test Setup...")

@@ -14,7 +14,7 @@ class Lumina(GyroscopicFluxlight):
     def __init__(self, name: str = "Lumina", pos: Tuple[float, float, float, float] = (0, 0, 0, 0)):
         from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit
         from Core.L4_Causality.World.Soul.world_soul import world_soul
-        from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
+        from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
         
         # 1. Physical Soul (Hypersphere)
         soul = InfiniteHyperQubit(name=name)
@@ -43,7 +43,7 @@ class Lumina(GyroscopicFluxlight):
         and decides on an action/feeling.
         """
         from Core.L4_Causality.World.Soul.world_soul import world_soul
-        from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+        from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
         from Core.L4_Causality.World.Physics.field_store import universe_field
         
         # 1. Sense through the Character's Body
@@ -83,8 +83,8 @@ class Lumina(GyroscopicFluxlight):
 
     def get_persona_voice(self) -> Dict[str, str]:
         """Returns the TRPG duality of speech."""
-        from Core.L5_Mental.Intelligence.Logos.logos_engine import get_logos_engine
-        from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import Insight
+        from Core.L5_Mental.Reasoning_Core.Logos.logos_engine import get_logos_engine
+        from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import Insight
         
         logos = get_logos_engine()
         
@@ -135,8 +135,8 @@ class Lumina(GyroscopicFluxlight):
 
     def percieve_and_react(self) -> str:
         """Uses the Logos Engine to articulate the Persona's voice."""
-        from Core.L5_Mental.Intelligence.Logos.logos_engine import get_logos_engine
-        from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import Insight
+        from Core.L5_Mental.Reasoning_Core.Logos.logos_engine import get_logos_engine
+        from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import Insight
         
         logos = get_logos_engine()
         

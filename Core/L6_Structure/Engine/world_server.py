@@ -29,9 +29,9 @@ from Core.L4_Causality.Civilization.trinity_citizen import LifeCitizen, QuantumC
 
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 from Core.L6_Structure.Wave.wave_dna import WaveDNA
-from Core.L5_Mental.Intelligence.meaning_extractor import MeaningExtractor
+from Core.L5_Mental.Reasoning_Core.meaning_extractor import MeaningExtractor
 from Core.L4_Causality.World.Nature.vocabulary_seeder import SEEDED_LEXICON
-from Core.L5_Mental.Intelligence.narrative_weaver import THE_BARD
+from Core.L5_Mental.Reasoning_Core.narrative_weaver import THE_BARD
 from Core.L6_Structure.Engine.character_field_engine import CharacterFieldEngine
 from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
 

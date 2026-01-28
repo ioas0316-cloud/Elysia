@@ -10,8 +10,8 @@ Demonstrates the MERKAVA Cycle:
 import torch
 import torch.nn as nn
 import logging
-from Core.L7_Spirit.Monad.monad_core import Monad
-from Core.L5_Mental.Intelligence.Metabolism.prism import DoubleHelixPrism, DoubleHelixWave
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.L5_Mental.Reasoning_Core.Metabolism.prism import DoubleHelixPrism, DoubleHelixWave
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

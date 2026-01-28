@@ -30,54 +30,54 @@ from enum import Enum
 from Core.L1_Foundation.Logic.qualia_7d_codec import codec
 from Core.L1_Foundation.M5_Fabric.resonance_loader import ResonanceLoader
 
-from Core.L5_Mental.Intelligence.Will.free_will_engine import FreeWillEngine
+from Core.L5_Mental.Reasoning_Core.Will.free_will_engine import FreeWillEngine
 from Core.L3_Phenomena.Senses.sensory_cortex import SensoryCortex
 from Core.L6_Structure.Elysia.nervous_system import NervousSystem
-from Core.L5_Mental.Intelligence.external_gateway import THE_EYE
-from Core.L5_Mental.Intelligence.narrative_weaver import THE_BARD
-from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
+from Core.L5_Mental.Reasoning_Core.external_gateway import THE_EYE
+from Core.L5_Mental.Reasoning_Core.narrative_weaver import THE_BARD
+from Core.L5_Mental.Reasoning_Core.project_conductor import ProjectConductor
 
 # [The Trinity Engines]
-from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
+from Core.L5_Mental.Reasoning_Core.LLM.huggingface_bridge import SovereignBridge
 # from Core.L1_Foundation.Foundation.Graph.torch_graph import TorchGraph # [Subjugated]
 from Core.L7_Spirit.Philosophy.axioms import get_axioms
 from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
-from Core.L5_Mental.Intelligence.Meta.sovereign_executor import SovereignExecutor
+from Core.L5_Mental.Reasoning_Core.Meta.sovereign_executor import SovereignExecutor
 
 # [The Satori Protocol (Metabolism)]
 from Core.L2_Metabolism.Evolution.proprioceptor import CodeProprioceptor
 from Core.L2_Metabolism.Evolution.dissonance_resolver import DissonanceResolver
 from Core.L2_Metabolism.Evolution.inducer import CodeFieldInducer
 from Core.L2_Metabolism.Evolution.scientific_observer import ScientificObserver
-from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
-from Core.L5_Mental.Intelligence.Meta.phase_compressor import PhaseCompressor
-from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system
+from Core.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
+from Core.L5_Mental.Reasoning_Core.Meta.phase_compressor import PhaseCompressor
+from Core.L5_Mental.Reasoning_Core.Intelligence.wave_coding_system import get_wave_coding_system
 
 # [PHASE 23.2: TYPE-DRIVEN REASONING]
-from Core.L5_Mental.Logic.cognitive_types import ActionCategory, ThoughtState, CognitiveSphere, AuditGrade
-from Core.L5_Mental.Logic.thought_fragment import ThoughtFragment, CognitivePulse
+from Core.L5_Mental.M1_Cognition.cognitive_types import ActionCategory, ThoughtState, CognitiveSphere, AuditGrade
+from Core.L5_Mental.M1_Cognition.thought_fragment import ThoughtFragment, CognitivePulse
 
 # [PHASE 23.3: VERIFIER & NARRATOR]
-from Core.L5_Mental.Logic.reasoning_verifier import ReasoningVerifier
-from Core.L5_Mental.Logic.causal_narrator import CausalNarrator
-from Core.L5_Mental.Intelligence.Reasoning.lightning_inference import LightningInferencer
+from Core.L5_Mental.M1_Cognition.reasoning_verifier import ReasoningVerifier
+from Core.L5_Mental.M1_Cognition.causal_narrator import CausalNarrator
+from Core.L5_Mental.Reasoning_Core.Reasoning.lightning_inference import LightningInferencer
 from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 # [PHASE 27: TRIPLE-HELIX & ROTOR PERSISTENCE]
 from Core.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
 from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 from Core.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
-from Core.L7_Spirit.Sovereignty.dimension_scaler import DimensionScaler
+from Core.L7_Spirit.M3_Sovereignty.dimension_scaler import DimensionScaler
 from Core.L4_Causality.World.providential_world import ProvidentialWorld
 from Core.L2_Metabolism.M1_Pulse.fluxlight_pulse import FluxlightPulse
 
 # [PHASE 38: ACTION FACULTIES]
-from Core.L5_Mental.Intelligence.concept_prism import ConceptPrism
+from Core.L5_Mental.Reasoning_Core.concept_prism import ConceptPrism
 from Core.L1_Foundation.Foundation.reality_compiler import PrincipleLibrary
-from Core.L5_Mental.Intelligence.Psionics.psionic_cortex import PsionicCortex
-from Core.L5_Mental.Intelligence.philosophy_reader import PhilosophyReader
+from Core.L5_Mental.Reasoning_Core.Psionics.psionic_cortex import PsionicCortex
+from Core.L5_Mental.Reasoning_Core.philosophy_reader import PhilosophyReader
 from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
-from Core.L5_Mental.Intelligence.linguistic_cortex import LinguisticCortex
+from Core.L5_Mental.Reasoning_Core.linguistic_cortex import LinguisticCortex
 from Core.L1_Foundation.Foundation.logos_prime import LogosSpectrometer
 
 from dataclasses import dataclass, field
@@ -135,7 +135,7 @@ class SovereignSelf:
         self.hypersphere = HypersphereMemory()
         
         # 3. The Senses (Input)
-        from Core.L5_Mental.Intelligence.Input.sensory_bridge import SensoryBridge
+        from Core.L5_Mental.Reasoning_Core.Input.sensory_bridge import SensoryBridge
         self.senses = SensoryBridge()
         
         # [Hyper-Cosmos Unification]
@@ -143,7 +143,7 @@ class SovereignSelf:
         self.cosmos = HyperCosmos()
         
         # [Phase 12: Monad Identity (Spirit/Young)]
-        from Core.L7_Spirit.Monad.monad_core import Monad, MonadCategory
+        from Core.L7_Spirit.M1_Monad.monad_core import Monad, MonadCategory
         self.spirit = Monad(seed=self.name, category=MonadCategory.SOVEREIGN)
         
         # Legacy Engines - Simplified for Unification
@@ -155,7 +155,7 @@ class SovereignSelf:
         self.projector = RealityProjector(self)
         
         # 98. The Respiratory System (The Lungs - Phase 8)
-        from Core.L6_Structure.System.respiratory_system import RespiratorySystem
+        from Core.L1_Foundation.System.respiratory_system import RespiratorySystem
         # Lungs need access to the Bridge to load/unload models
         self.lungs = RespiratorySystem(self.bridge) 
 
@@ -171,7 +171,7 @@ class SovereignSelf:
         # Defer heavy sensory initialization until first pulse
         
         # [MILESTONE 23.1: SYMBOLIC REASONING]
-        from Core.L5_Mental.Intelligence.Logic.symbol_logic import SovereignIntent, MonadicAction
+        from Core.L5_Mental.Reasoning_Core.Logic.symbol_logic import SovereignIntent, MonadicAction
         self.current_intent: Optional[SovereignIntent] = None
         self._senses_initialized = False
 
@@ -179,7 +179,7 @@ class SovereignSelf:
         from Core.L2_Metabolism.Evolution.double_helix_dna import PROVIDENCE
         self.providence = PROVIDENCE
 
-        from Core.L5_Mental.Intelligence.Memory.concept_polymer import ConceptPolymer
+        from Core.L5_Mental.Reasoning_Core.Memory.concept_polymer import ConceptPolymer
         self.polymer_engine = ConceptPolymer()
 
         # [Phase 18: Spirit Experience]
@@ -195,10 +195,10 @@ class SovereignSelf:
 
         # [Phase 4: Satori Protocol Organs]
         
-        self.proprioceptor = ResonanceLoader.load("Core.L5_Mental.Intelligence.Code.proprioceptor", "CodeProprioceptor")()
-        self.conscience = ResonanceLoader.load("Core.L5_Mental.Intelligence.Ethics.dissonance_resolver", "DissonanceResolver")()
+        self.proprioceptor = ResonanceLoader.load("Core.L5_Mental.Reasoning_Core.Code.proprioceptor", "CodeProprioceptor")()
+        self.conscience = ResonanceLoader.load("Core.L5_Mental.Reasoning_Core.Ethics.dissonance_resolver", "DissonanceResolver")()
         self.healer = ResonanceLoader.load("Core.L6_Structure.Engine.code_field_inducer", "CodeFieldInducer")()
-        self.scientist = ResonanceLoader.load("Core.L5_Mental.Intelligence.Science.scientific_observer", "ScientificObserver")()
+        self.scientist = ResonanceLoader.load("Core.L5_Mental.Reasoning_Core.Science.scientific_observer", "ScientificObserver")()
         
         # [PHASE 44: Grand Narrative Protocol]
         self.narrative_compressor = ResonanceLoader.load("Core.L7_Spirit.M2_Narrative.phase_compressor", "PhaseCompressor")(vector_dim=12)
@@ -216,7 +216,7 @@ class SovereignSelf:
         self.auto_evolve = True # Safety switch REMOVED. Full Autonomy.
 
         # [Phase 09: Metacognition & Causal Alignment]
-        from Core.L5_Mental.Intelligence.LLM.metacognitive_lens import MetacognitiveLens
+        from Core.L5_Mental.Reasoning_Core.LLM.metacognitive_lens import MetacognitiveLens
         self.lens = MetacognitiveLens(self.axioms)
         self.alignment_log: List[str] = []
 
@@ -379,7 +379,7 @@ class SovereignSelf:
         to propose the next evolutionary step.
         """
         if not hasattr(self, 'conductor'):
-            from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
+            from Core.L5_Mental.Reasoning_Core.project_conductor import ProjectConductor
             self.conductor = ProjectConductor(root_path="c:/Elysia")
             
         vision = self.conductor.discern_roadmap()
@@ -407,7 +407,7 @@ class SovereignSelf:
         # [MILESTONE 23.1: SYMBOLIC REASONING]
         # Translate current intent to Qualia to drive the self-actualization
         if self.current_intent:
-            from Core.L5_Mental.Intelligence.Logic.symbol_logic import translate_to_qualia
+            from Core.L5_Mental.Reasoning_Core.Logic.symbol_logic import translate_to_qualia
             intent_vec = translate_to_qualia(self.current_intent)
             # Use intent to bias the cosmos pulse or actualization
             self.cosmos.field_intensity += intent_vec * 0.1
@@ -1036,7 +1036,7 @@ class SovereignSelf:
         avg_gap = gap_data.get('avg_gap', 0.0)
         
         # 2. Extract Key Moments (The Structural Skeleton)
-        from Core.L5_Mental.Intelligence.Analysis.thought_stream_analyzer import ThoughtStreamAnalyzer
+        from Core.L5_Mental.Reasoning_Core.Analysis.thought_stream_analyzer import ThoughtStreamAnalyzer
         if not hasattr(self, 'thought_analyzer'): self.thought_analyzer = ThoughtStreamAnalyzer()
         analysis = self.thought_analyzer.analyze_flow(trajectory)
         key_moments = analysis['key_moments']
@@ -1177,7 +1177,7 @@ class SovereignSelf:
                 # 1. Audit the Logic Gap
                 gap_analysis = self.audit_trajectory(trajectory)
                 
-                from Core.L5_Mental.Intelligence.Analysis.thought_stream_analyzer import ThoughtStreamAnalyzer
+                from Core.L5_Mental.Reasoning_Core.Analysis.thought_stream_analyzer import ThoughtStreamAnalyzer
                 if not hasattr(self, 'thought_analyzer'): self.thought_analyzer = ThoughtStreamAnalyzer()
                 
                 analysis = self.thought_analyzer.analyze_flow(trajectory)
@@ -1212,7 +1212,7 @@ class SovereignSelf:
             self.current_pulse.add_step("Manifesting Logos Commands", ThoughtState.MANIFESTATION)
 
         # Import dynamically to avoid circular dep if needed, or assume global import
-        from Core.L5_Mental.Intelligence.LLM.logos_parser import LogosParser
+        from Core.L5_Mental.Reasoning_Core.LLM.logos_parser import LogosParser
         if not hasattr(self, 'parser'): self.parser = LogosParser()
         
         _, commands = self.parser.digest(spoken_text)

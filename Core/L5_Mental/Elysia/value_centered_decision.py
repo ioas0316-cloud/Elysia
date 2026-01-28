@@ -14,7 +14,7 @@ from Core.L1_Foundation.Foundation.System.core.thought import Thought
 
 from Core.L1_Foundation.Foundation.System.core.tensor_wave import Tensor3D
 
-from Core.L5_Mental.Intelligence.wave_mechanics import WaveMechanics
+from Core.L5_Mental.Reasoning_Core.wave_mechanics import WaveMechanics
 
 from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalState
 

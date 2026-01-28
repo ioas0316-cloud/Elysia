@@ -6,9 +6,9 @@ import json
 # 프로젝트 루트 경로 추가
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Intelligence.Meta.self_architect import SelfArchitect
-from Core.L5_Mental.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
-from Core.L5_Mental.Intelligence.Meta.patch_proposer import get_patch_proposer
+from Core.L5_Mental.Reasoning_Core.Meta.self_architect import SelfArchitect
+from Core.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.L5_Mental.Reasoning_Core.Meta.patch_proposer import get_patch_proposer
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(name)s] %(message)s')

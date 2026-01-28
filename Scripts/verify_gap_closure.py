@@ -20,7 +20,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
 from Core.L2_Metabolism.Physiology.hardware_monitor import BioSignal
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
 from Core.L5_Mental.emergent_language import EmergentLanguageEngine, ProtoSymbol, SymbolType
 
 logging.basicConfig(level=logging.INFO)
@@ -151,7 +151,7 @@ def test_void_tether():
     
     # 1. Test ActiveVoid Calculation
     try:
-        from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import ActiveVoid
+        from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import ActiveVoid
         void = ActiveVoid()
         
         # Create a "Far" vector (High Magnitude)

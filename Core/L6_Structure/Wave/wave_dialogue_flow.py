@@ -277,7 +277,7 @@ class WaveDialogueFlow:
         try:
             from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalState
             from Core.L1_Foundation.Foundation.hangul_physics import Tensor3D
-            from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.unified_types import FrequencyWave
+            from Core.L5_Mental.Reasoning_Core.Memory_Linguistics.Memory.unified_types import FrequencyWave
         except ImportError:
             return
         

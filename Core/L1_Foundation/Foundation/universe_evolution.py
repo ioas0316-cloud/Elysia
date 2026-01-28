@@ -18,7 +18,7 @@ from Core.L5_Mental.Memory.core_memory import CoreMemory, Experience
 from Legacy.Project_Sophia.spiderweb import Spiderweb
 from world import World
 from Legacy.Project_Sophia.wave_mechanics import WaveMechanics
-from Core.L5_Mental.Intelligence.Memory.unified_types import Tensor3D, FrequencyWave
+from Core.L5_Mental.Reasoning_Core.Memory.unified_types import Tensor3D, FrequencyWave
 
 if TYPE_CHECKING:
     from Legacy.Project_Sophia.meta_awareness import MetaAwareness, ThoughtType

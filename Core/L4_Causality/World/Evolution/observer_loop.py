@@ -17,7 +17,7 @@ from typing import Dict, Any
 # Ensure path for Core imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../")))
 
-from Core.L5_Intelligence.Bridge.optical_conscious_bridge import OpticalConsciousBridge, ConceptFrame
+from Core.L5_Mental.Bridge.optical_conscious_bridge import OpticalConsciousBridge, ConceptFrame
 
 # Configuration
 SERVER_URL = "http://localhost:8000"

@@ -49,19 +49,19 @@ class SelfDocumenter:
     def _init_tools(self):
         """      """
         try:
-            from Core.L5_Mental.Intelligence.Cognition.codebase_introspector import get_introspector
+            from Core.L5_Mental.Reasoning_Core.Cognition.codebase_introspector import get_introspector
             self.introspector = get_introspector()
         except Exception as e:
             print(f"   Introspector not available: {e}")
         
         try:
-            from Core.L5_Mental.Intelligence.Memory_Linguistics.Memory.self_discovery import SelfDiscovery
+            from Core.L5_Mental.Reasoning_Core.Memory_Linguistics.Memory.self_discovery import SelfDiscovery
             self.discovery = SelfDiscovery()
         except Exception as e:
             print(f"   SelfDiscovery not available: {e}")
         
         try:
-            from Core.L5_Mental.Intelligence.Cognition.why_how_explainer import get_explainer
+            from Core.L5_Mental.Reasoning_Core.Cognition.why_how_explainer import get_explainer
             self.explainer = get_explainer()
         except Exception as e:
             print(f"   WhyHowExplainer not available: {e}")

@@ -7,7 +7,7 @@ import time
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Intelligence.Metabolism.helix_engine import HelixEngine
+from Core.L5_Mental.Reasoning_Core.Metabolism.helix_engine import HelixEngine
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
 logger = logging.getLogger("ZenithBanquet")

@@ -14,7 +14,7 @@ import random
 import logging
 from typing import Optional, Tuple
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L3_Phenomena.Prism.fractal_optics import PrismEngine, WavePacket
+from Core.L3_Phenomena.M7_Prism.fractal_optics import PrismEngine, WavePacket
 
 logger = logging.getLogger("ActiveRotor")
 

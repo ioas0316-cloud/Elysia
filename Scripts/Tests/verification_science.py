@@ -9,7 +9,7 @@ Phase 6+: Universal Science & Logic (ULS)
 
 from Core.L6_Structure.Merkaba.hypercosmos import HyperCosmos
 from Core.L0_Keystone.monadic_lexicon import MonadicLexicon
-from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
+from Core.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
 import time
 
 def test_negative_symmetry():

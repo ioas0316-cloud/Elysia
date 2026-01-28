@@ -13,7 +13,7 @@ try:
 except ImportError:
     HAS_JAX = False
 
-from Core.L5_Mental.Intelligence.project_conductor import ProjectConductor
+from Core.L5_Mental.Reasoning_Core.project_conductor import ProjectConductor
 from Core.L7_Spirit.unified_monad import UnifiedMonad, Unified12DVector
 from Core.L6_Structure.M1_Merkaba.heavy_merkaba import HeavyMerkaba
 

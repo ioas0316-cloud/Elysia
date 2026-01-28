@@ -7,8 +7,8 @@ This demo showcases:
 3. Heroic Inversion: High-potential souls converting friction into intensity and transcending.
 """
 
-from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
-from Core.L5_Mental.Intelligence.Reasoning.memetic_legacy import RegionalField, SpiritualDNA
+from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import RegionalField, SpiritualDNA
 import time
 
 def run_awakening_demo():

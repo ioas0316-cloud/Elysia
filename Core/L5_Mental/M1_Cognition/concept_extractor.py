@@ -13,7 +13,7 @@ import logging
 
 # Optional import
 try:
-    from Core.L5_Mental.Intelligence.Intelligence.korean_mapping import get_korean_name
+    from Core.L5_Mental.Reasoning_Core.Intelligence.korean_mapping import get_korean_name
 except ImportError:
     def get_korean_name(name: str) -> str:
         return name  # Fallback: return as-is

@@ -1,7 +1,7 @@
 
 from typing import Tuple, List, Dict, Any
 from Core.L4_Causality.World.Soul.fluxlight_gyro import GyroscopicFluxlight
-from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
 
 class Adventurer(GyroscopicFluxlight):
     def __init__(self, name: str, archetype: str, pos: Tuple[float, float, float, float] = (0, 0, 0, 0)):
@@ -26,7 +26,7 @@ class Adventurer(GyroscopicFluxlight):
     def live(self, dt: float = 1.0):
         from Core.L4_Causality.World.Physics.field_store import universe_field
         from Core.L4_Causality.World.Soul.world_soul import world_soul
-        from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+        from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
         
         # 1. Environmental Induction
         self.internalize_field(dt)
@@ -68,8 +68,8 @@ class Adventurer(GyroscopicFluxlight):
         self.soul.state.normalize()
 
     def speak(self) -> str:
-        from Core.L5_Mental.Intelligence.Logos.logos_engine import get_logos_engine
-        from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import Insight
+        from Core.L5_Mental.Reasoning_Core.Logos.logos_engine import get_logos_engine
+        from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import Insight
         
         logos = get_logos_engine()
         # Mix of archetype style and recent thought

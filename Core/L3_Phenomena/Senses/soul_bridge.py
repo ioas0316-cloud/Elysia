@@ -100,8 +100,8 @@ class SoulBridge:
         Connects the Metal Layer (Screen) to the Spirit (Merkaba).
         """
         try:
-            from Core.L3_Phenomena.Vision.elysian_eye import ElysianEye
-            from Core.L5_Mental.Intelligence.Metabolism.clip_adapter import transduce_image
+            from Core.L3_Phenomena.M1_Vision.elysian_eye import ElysianEye
+            from Core.L5_Mental.Reasoning_Core.Metabolism.clip_adapter import transduce_image
             import time
             import threading
             

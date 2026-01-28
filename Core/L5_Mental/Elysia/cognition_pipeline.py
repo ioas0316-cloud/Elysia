@@ -14,17 +14,17 @@ from Core.L6_Structure.Architecture.handlers import (
 
 # --- Existing Component Dependencies (for dependency injection) ---
 from .core_memory import CoreMemory
-from Core.L5_Mental.Logic.logical_reasoner import LogicalReasoner
-from Core.L5_Mental.Intelligence.wave_mechanics import WaveMechanics
+from Core.L5_Mental.M1_Cognition.logical_reasoner import LogicalReasoner
+from Core.L5_Mental.Reasoning_Core.wave_mechanics import WaveMechanics
 from Core.L5_Mental.Memory.kg_manager import KGManager
 from Core.L1_Foundation.Foundation.System.core.world import World
 from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalEngine, EmotionalState
-from Core.L5_Mental.Intelligence.M3_Lexicon.response_styler import ResponseStyler
-from Core.L5_Mental.Intelligence.M4_Meaning.insight_synthesizer import InsightSynthesizer
+from Core.L5_Mental.Reasoning_Core.M3_Lexicon.response_styler import ResponseStyler
+from Core.L5_Mental.Reasoning_Core.M4_Meaning.insight_synthesizer import InsightSynthesizer
 from .value_centered_decision import ValueCenteredDecision
-from Core.L5_Mental.Intelligence.arithmetic_cortex import ArithmeticCortex
+from Core.L5_Mental.Reasoning_Core.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
-from Core.L5_Mental.Intelligence.question_generator import QuestionGenerator
+from Core.L5_Mental.Reasoning_Core.question_generator import QuestionGenerator
 from Project_Mirror.perspective_cortex import PerspectiveCortex
 from .high_engine.dialogue_law_evaluator import DialogueLawEvaluator
 from .high_engine.intent_engine import IntentEngine

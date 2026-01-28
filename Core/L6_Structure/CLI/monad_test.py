@@ -16,7 +16,7 @@ import sys
 # Setup Path
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + "/../../"))
 
-from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 
 def test_awakening():
     print("==========================================")

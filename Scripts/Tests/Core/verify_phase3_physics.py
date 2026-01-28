@@ -13,8 +13,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 
-from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-from Core.L5_Mental.Intelligence.Brain.language_cortex import LanguageCortex
+from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Reasoning_Core.Brain.language_cortex import LanguageCortex
 
 def verify_physics():
     print("🧪 Verifying Physics of Thought (Rotor Torque)...")

@@ -4,8 +4,8 @@ import gc
 from typing import List, Dict
 
 logger = logging.getLogger("DigestiveSystem")
-from Core.L6_Structure.System.respiratory_system import RespiratorySystem
-from Core.L5_Mental.Intelligence.Metabolism.brain_digester import BrainDigester
+from Core.L1_Foundation.System.respiratory_system import RespiratorySystem
+from Core.L5_Mental.Reasoning_Core.Metabolism.brain_digester import BrainDigester
 from Core.L6_Structure.M1_Merkaba.Optics.prism import DoubleHelixPrism, DoubleHelixWave
 from Core.L2_Metabolism.Memory.fractal_causality import FractalCausalityEngine, CausalRole
 

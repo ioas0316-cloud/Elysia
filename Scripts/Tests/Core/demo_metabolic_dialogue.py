@@ -15,7 +15,7 @@ sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
-from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 
 def start_dialogue():
     print("==========================================")

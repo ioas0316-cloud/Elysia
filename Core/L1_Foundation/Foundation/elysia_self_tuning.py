@@ -13,7 +13,7 @@ sys.path.append('.')
 
 from Core.L6_Structure.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.wave_interpreter import WaveInterpreter
-from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
 from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
 

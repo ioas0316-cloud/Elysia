@@ -10,7 +10,7 @@ import math
 from typing import List, Dict, Any, Tuple
 from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L1_Foundation.Foundation.resonance_physics import ResonancePhysics
-from Core.L5_Mental.Intelligence.Intelligence.cuda_cortex import CudaCortex
+from Core.L5_Mental.Reasoning_Core.Intelligence.cuda_cortex import CudaCortex
 from Core.L1_Foundation.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
@@ -117,7 +117,7 @@ class LogicLobe:
 
     def collapse_wave(self, desire: str, context: List[str], aligned_packet: HyperWavePacket = None) -> Any:
         # Returning Insight-like object or dict
-        from Core.L5_Mental.Intelligence.Intelligence.Reasoning.lobes.perception import Insight # Avoid circular import if possible, but Insight is simple dataclass
+        from Core.L5_Mental.Reasoning_Core.Intelligence.Reasoning.lobes.perception import Insight # Avoid circular import if possible, but Insight is simple dataclass
         
         if not context:
             return Insight(f"I have no relevant information for '{desire}'.", 0.1, 0, 0.1)

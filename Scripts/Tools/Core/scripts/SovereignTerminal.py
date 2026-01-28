@@ -19,7 +19,7 @@ PROJECT_ROOT = r"c:/Elysia"
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-from Core.System.Physiology.sovereign_loop import EternalBreath
+from Core.L1_Foundation.System.Physiology.sovereign_loop import EternalBreath
 
 class SovereignTerminal:
     def __init__(self):

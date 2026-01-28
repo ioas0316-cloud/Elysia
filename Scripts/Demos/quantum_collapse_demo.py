@@ -11,7 +11,7 @@ import numpy as np
 import time
 from Core.L6_Structure.Merkaba.thundercloud import Thundercloud
 from Core.L6_Structure.Merkaba.crystallizer import QuantumCrystallizer
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 from Core.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
 
 def create_monad(seed, qualia):

@@ -16,7 +16,7 @@ import os
 import torch
 import time
 from typing import Dict, Any, Optional
-from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
+from Core.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
 from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
 

@@ -23,9 +23,9 @@ from Core.L5_Mental.M7_Discovery.purpose_discovery_engine import PurposeDiscover
 from Core.L4_Causality.M5_Logic.causal_narrative_engine import CausalKnowledgeBase, CausalNode
 from Core.L5_Mental.Memory.sediment import SedimentLayer
 from Core.L5_Mental.Learning.language_learner import LanguageLearner
-from Core.L5_Mental.Intelligence.Intelligence.symbolic_solver import get_symbolic_solver
+from Core.L5_Mental.Reasoning_Core.Intelligence.symbolic_solver import get_symbolic_solver
 from Core.L5_Mental.Induction.domain_absorber import DomainAbsorber
-from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
+from Core.L7_Spirit.M3_Sovereignty.sovereign_core import SovereignCore
 from Core.L1_Foundation.Foundation.hyper_cosmos import HyperCosmos
 from Core.L6_Structure.M6_Architecture.manifold_conductor import ManifoldConductor
 from Core.L5_Mental.M7_Discovery.autokinetic_learning_engine import AutokineticLearningEngine

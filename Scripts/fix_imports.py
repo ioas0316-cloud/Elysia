@@ -7,8 +7,8 @@ MAPPING = {
     # L1 Foundation
     "Core.Foundation": "Core.L1_Foundation.Foundation",
     "Core.Physics": "Core.L1_Foundation.Physics",
-    "Core.Prism": "Core.L3_Phenomena.Prism",
-    "Core.Metabolism": "Core.L1_Foundation.Metabolism",
+    "Core.Prism": "Core.L3_Phenomena.M7_Prism",
+    "Core.Metabolism": "Core.L2_Metabolism.Physiology",
     "Core.Physiology": "Core.L2_Metabolism.Physiology",
     
     # L2 Metabolism
@@ -21,19 +21,19 @@ MAPPING = {
     "Core.Interface": "Core.L3_Phenomena.Interface",
     "Core.Senses": "Core.L3_Phenomena.Senses",
     "Core.Expression": "Core.L3_Phenomena.Expression",
-    "Core.Voice": "Core.L3_Phenomena.Voice",
-    "Core.Vision": "Core.L3_Phenomena.Vision",
+    "Core.Voice": "Core.L3_Phenomena.M4_Speech",
+    "Core.Vision": "Core.L3_Phenomena.M1_Vision",
     "Core.Manifestation": "Core.L3_Phenomena.Manifestation",
     
     # L4 Causality
-    "Core.Governance": "Core.L4_Causality.Governance",
+    "Core.Governance": "Core.L6_Structure.Engine.Governance",
     "Core.Civilization": "Core.L4_Causality.Civilization",
-    "Core.World": "Core.L4_Causality.World",
+    "Core.L4_Causality.World": "Core.L4_Causality.World",
     "Core.Action": "Core.L4_Causality.Action",
     "Core.Autonomy": "Core.L4_Causality.Autonomy",
     
     # L5 Mental
-    "Core.Intelligence": "Core.L5_Mental.Intelligence",
+    "Core.Intelligence": "Core.L5_Mental.Reasoning_Core",
     "Core.Learning": "Core.L5_Mental.Learning",
     "Core.Memory": "Core.L5_Mental.Memory",
     "Core.Cognition": "Core.L5_Mental.Cognition",
@@ -42,13 +42,13 @@ MAPPING = {
     
     # L6 Structure
     "Core.Merkaba": "Core.L6_Structure.Merkaba",
-    "Core.System": "Core.L6_Structure.System",
+    "Core.L1_Foundation.System": "Core.L1_Foundation.System",
     "Core.Engine": "Core.L6_Structure.Engine",
     "Core.CLI": "Core.L6_Structure.CLI",
     "Core.Elysia": "Core.L6_Structure.Elysia",
     
     # L7 Spirit
-    "Core.Monad": "Core.L7_Spirit.Monad",
+    "Core.Monad": "Core.L7_Spirit.M1_Monad",
     "Core.Soul": "Core.L7_Spirit.Soul",
     "Core.Will": "Core.L7_Spirit.Will",
     "Core.Creation": "Core.L7_Spirit.Creation",

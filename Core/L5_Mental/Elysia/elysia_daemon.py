@@ -22,7 +22,7 @@ from Core.L5_Mental.Memory.kg_manager import KGManager
 
 from .core_memory import CoreMemory
 
-from Core.L5_Mental.Intelligence.wave_mechanics import WaveMechanics
+from Core.L5_Mental.Reasoning_Core.wave_mechanics import WaveMechanics
 
 from Core.L1_Foundation.Foundation.System.core.world import World
 

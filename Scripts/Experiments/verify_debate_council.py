@@ -15,7 +15,7 @@ import random
 # Ensure Core is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
 
 def run_test():
     print("🔮 Initializing Rotor Cognition Core (Holographic Mode)...")

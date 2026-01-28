@@ -50,7 +50,7 @@ class WebtoonWeaver:
         
         # 2. Draw the Panels (Hand)
         from Core.L4_Causality.World.Evolution.Creativity.style_mimic import StyleMimic
-        from Core.L5_Mental.Intelligence.Physics_Waves.Holographic.synaptic_cortex import SynapticCortex
+        from Core.L5_Mental.Reasoning_Core.Physics_Waves.Holographic.synaptic_cortex import SynapticCortex
         
         self.mimic = StyleMimic()
         self.cortex = SynapticCortex()

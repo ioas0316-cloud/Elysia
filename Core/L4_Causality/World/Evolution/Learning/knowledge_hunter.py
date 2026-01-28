@@ -45,7 +45,7 @@ class KnowledgeHunter:
         result = self.stomach.digest_url(target)
         
         # 4. Feel Joy (Dopamine Reward)
-        from Core.L5_Mental.Intelligence.Cognitive.curiosity_core import get_curiosity_core
+        from Core.L5_Mental.Reasoning_Core.Cognitive.curiosity_core import get_curiosity_core
         joy_engine = get_curiosity_core()
         joy_engine.satisfy_curiosity(topic, novelty_score=0.9) # High novelty for active hunt
         

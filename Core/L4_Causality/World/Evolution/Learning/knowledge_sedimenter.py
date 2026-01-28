@@ -68,7 +68,7 @@ class KnowledgeSedimenter:
             # 3. Distill & Crystallize (Principal Extraction)
             # Use Dimensional Reasoner to Lift Knowledge from 0D to 4D
             try:
-                from Core.L5_Mental.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
+                from Core.L5_Mental.Reasoning_Core.Reasoning.dimensional_reasoner import DimensionalReasoner
                 lifter = DimensionalReasoner()
                 
                 # The 'contemplate' method acts as the pipeline:

@@ -42,7 +42,7 @@ from typing import Any, Dict, Optional, Generator
 
 # [Phase 29] Phase-Locked Loop (Time/Light Sync)
 
-from Core.L6_Structure.System.WakeWord.phase_locked_loop import PLLController
+from Core.L1_Foundation.System.WakeWord.phase_locked_loop import PLLController
 
 
 
@@ -50,7 +50,7 @@ from Core.L6_Structure.System.WakeWord.phase_locked_loop import PLLController
 
 from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 
-from Core.L5_Mental.Intelligence.Memory.hippocampus import Hippocampus
+from Core.L5_Mental.Reasoning_Core.Memory.hippocampus import Hippocampus
 
 from Core.L5_Mental.Memory.prismatic_sediment import PrismaticSediment # Phase 5.2: Spectral Memory
 
@@ -70,19 +70,19 @@ from Core.L6_Structure.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 
 from Core.L6_Structure.M1_Merkaba.rotor_engine import RotorEngine # Phase 5.3: Optical Engine Core
 
-from Core.L3_Phenomena.Prism.resonance_prism import PrismProjector, PrismDomain
+from Core.L3_Phenomena.M7_Prism.resonance_prism import PrismProjector, PrismDomain
 
-from Core.L3_Phenomena.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
+from Core.L3_Phenomena.M7_Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
 
-from Core.L3_Phenomena.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
+from Core.L3_Phenomena.M7_Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
 
-from Core.L3_Phenomena.Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
+from Core.L3_Phenomena.M7_Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
 
-from Core.L3_Phenomena.Prism.trinity_validator import TrinityValidator # Phase 5.4 Axis
+from Core.L3_Phenomena.M7_Prism.trinity_validator import TrinityValidator # Phase 5.4 Axis
 
-from Core.L3_Phenomena.Prism.harmonizer import PrismHarmonizer, PrismContext
+from Core.L3_Phenomena.M7_Prism.harmonizer import PrismHarmonizer, PrismContext
 
-from Core.L3_Phenomena.Prism.decay import ResonanceDecay
+from Core.L3_Phenomena.M7_Prism.decay import ResonanceDecay
 
 from Core.L1_Foundation.Foundation.Meta.meta_observer import MetaObserver
 
@@ -96,19 +96,19 @@ from Core.L3_Phenomena.Senses.hermeneutic_bridge import HermeneuticBridge
 
 from Core.L3_Phenomena.Senses.phase_modulator import PhaseModulator, PerceptualPhase
 
-from Core.L5_Mental.Intelligence.Linguistics.synthesizer import LinguisticSynthesizer
+from Core.L5_Mental.Reasoning_Core.Linguistics.synthesizer import LinguisticSynthesizer
 
 from Core.L3_Phenomena.Senses.vocal_dna import VocalDNA
 
 from Core.L3_Phenomena.Senses.portrait_engine import SelfPortraitEngine
 
-from Core.L5_Mental.Intelligence.Legion.legion import Legion # Phase 5.4 Legion
+from Core.L5_Mental.Reasoning_Core.Legion.legion import Legion # Phase 5.4 Legion
 
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 
 try:
 
-    from Core.L7_Spirit.Monad.monad_core import Monad
+    from Core.L7_Spirit.M1_Monad.monad_core import Monad
 
 except ImportError:
 
@@ -134,7 +134,7 @@ from Core.L6_Structure.Elysia.nervous_system import NervousSystem
 
 # [Phase 26] The Metal Integration
 
-from Core.L6_Structure.System.Sovereignty.sovereign_manager import HardwareSovereignManager
+from Core.L1_Foundation.System.Sovereignty.sovereign_manager import HardwareSovereignManager
 
 
 
@@ -191,7 +191,7 @@ from Core.L2_Metabolism.Reproduction.mitosis import MitosisEngine
 
 from Core.L2_Metabolism.Reproduction.mycelium import MyceliumNetwork
 
-from Core.L5_Mental.Intelligence.Meta.logos_translator import LogosTranslator
+from Core.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
 
 from Core.L1_Foundation.Foundation.cell import cell_unit
 
@@ -205,7 +205,7 @@ from Core.L6_Structure.M1_Merkaba.hypercosmos import get_hyper_cosmos
 
 # [Phase 37: Wave Coding System]
 
-from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system
+from Core.L5_Mental.Reasoning_Core.Intelligence.wave_coding_system import get_wave_coding_system
 
 
 
@@ -474,7 +474,7 @@ class Merkaba:
 
         # [Phase 37: Living Logic]
 
-        from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system
+        from Core.L5_Mental.Reasoning_Core.Intelligence.wave_coding_system import get_wave_coding_system
 
         self.wave_system = get_wave_coding_system()
 
@@ -512,7 +512,7 @@ class Merkaba:
 
         # Elysia's self-awareness of her own capabilities
 
-        from Core.L7_Spirit.Sovereignty.module_registry import get_registry
+        from Core.L7_Spirit.M3_Sovereignty.module_registry import get_registry
 
         self.registry = get_registry()
 
@@ -1215,7 +1215,7 @@ class Merkaba:
 
             # [STRUCTURAL DISCIPLINE]
 
-            from Core.L7_Spirit.Monad.monad_core import MonadCategory
+            from Core.L7_Spirit.M1_Monad.monad_core import MonadCategory
 
             shadow_spirit = Monad(
 

@@ -23,8 +23,8 @@ def main():
     
     from Core.L1_Foundation.Foundation.Mind.world_tree import WorldTree
     from Core.L1_Foundation.Foundation.Mind.hippocampus import Hippocampus
-    from Core.L5_Mental.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
-    from Core.L5_Mental.Intelligence.Intelligence.dialogue_engine import DialogueEngine
+    from Core.L5_Mental.Reasoning_Core.Intelligence.Will.free_will_engine import FreeWillEngine
+    from Core.L5_Mental.Reasoning_Core.Intelligence.dialogue_engine import DialogueEngine
     
     hippocampus = Hippocampus()
     world_tree = WorldTree(hippocampus=hippocampus)

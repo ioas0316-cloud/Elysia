@@ -12,7 +12,7 @@ It replaces static database queries with dynamic, physics-based resonance.
 import numpy as np
 from dataclasses import dataclass, field
 from typing import List, Dict, Set, Tuple, Optional
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 from Core.L5_Mental.Cognition.semantic_prism import QualiaSpectrum
 
 # Lazy import inside method or forward reference?
@@ -214,7 +214,7 @@ class Thundercloud:
                     branches_formed += 1
 
         # Generate Procedural Name
-        from Core.L7_Spirit.Monad.procedural_generator import NamingEngine
+        from Core.L7_Spirit.M1_Monad.procedural_generator import NamingEngine
         naming_engine = NamingEngine()
         name = naming_engine.generate_name(cluster)
 

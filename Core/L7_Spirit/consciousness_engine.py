@@ -47,7 +47,7 @@ class Elysia:
         self.self_awareness = None
         if enable_inner_voice:
             try:
-                from Core.L5_Mental.Intelligence.Intelligence.inner_voice import InnerVoice, SelfAwareness
+                from Core.L5_Mental.Reasoning_Core.Intelligence.inner_voice import InnerVoice, SelfAwareness
                 self.inner_voice = InnerVoice()
                 self.self_awareness = SelfAwareness(inner_voice=self.inner_voice)
                 logger.info("  Inner Voice connected.")
@@ -61,8 +61,8 @@ class Elysia:
         self.physics = TensorDynamics(root_path=self.project_root)
         
         # 2. Intelligence (  )
-        from Core.L5_Mental.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
-        from Core.L5_Mental.Intelligence.Intelligence.Logos.causality_seed import CausalitySeed
+        from Core.L5_Mental.Reasoning_Core.Intelligence.Will.free_will_engine import FreeWillEngine
+        from Core.L5_Mental.Reasoning_Core.Intelligence.Logos.causality_seed import CausalitySeed
         from Core.L7_Spirit.Philosophy.nature_of_being import PhilosophyOfFlow
         
         self.will = FreeWillEngine(project_root=str(self.project_root))
@@ -80,7 +80,7 @@ class Elysia:
         self.galaxy = Galaxy(project_root=self.project_root)
         
         # 5. Interface (  )
-        from Core.L4_Causality.Governance.Interaction.Interface.conversation_engine import ConversationEngine
+        from Core.L6_Structure.Engine.Governance.Interaction.Interface.conversation_engine import ConversationEngine
         self.voice = ConversationEngine()
         
         #       

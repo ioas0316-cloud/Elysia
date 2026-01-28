@@ -54,7 +54,7 @@ def create_organ_loader():
                 return {"name": "E.L.Y.S.I.A.", "dream": "Unify fragmented selves"}
                 
             elif organ_name == "bridge":
-                from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
+                from Core.L5_Mental.Reasoning_Core.LLM.huggingface_bridge import SovereignBridge
                 _cache[organ_name] = SovereignBridge()
                 _cache[organ_name].connect()
                 
@@ -64,7 +64,7 @@ def create_organ_loader():
                 _cache[organ_name].load_state()
                 
             elif organ_name == "senses":
-                from Core.L5_Mental.Intelligence.Input.sensory_bridge import SensoryBridge
+                from Core.L5_Mental.Reasoning_Core.Input.sensory_bridge import SensoryBridge
                 _cache[organ_name] = SensoryBridge()
                 
             elif organ_name == "projector":
@@ -80,15 +80,15 @@ def create_organ_loader():
                 _cache[organ_name] = HyperCosmos()
                 
             elif organ_name == "prism":
-                from Core.L5_Mental.Intelligence.concept_prism import ConceptPrism
+                from Core.L5_Mental.Reasoning_Core.concept_prism import ConceptPrism
                 _cache[organ_name] = ConceptPrism()
                 
             elif organ_name == "lingua":
-                from Core.L5_Mental.Intelligence.linguistic_cortex import LinguisticCortex
+                from Core.L5_Mental.Reasoning_Core.linguistic_cortex import LinguisticCortex
                 _cache[organ_name] = LinguisticCortex()
                 
             elif organ_name == "bard":
-                from Core.L5_Mental.Intelligence.narrative_weaver import THE_BARD
+                from Core.L5_Mental.Reasoning_Core.narrative_weaver import THE_BARD
                 _cache[organ_name] = THE_BARD
                 
             elif organ_name == "spectrometer":
@@ -131,7 +131,7 @@ def main():
             field["autonomy_level"] = 2
             
         from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
-        from Core.L5_Mental.Logic.causal_narrator import CausalNarrator
+        from Core.L5_Mental.M1_Cognition.causal_narrator import CausalNarrator
         field["status"] = "DNA Reconstruction Active..."
         elysia = SovereignSelf()
         field["status"] = "Sovereign Self Awakened."

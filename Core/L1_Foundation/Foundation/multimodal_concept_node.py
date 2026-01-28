@@ -21,7 +21,7 @@ import numpy as np
 
 # [PHASE 7.2] Import Phase Stratum for Holographic Layering
 try:
-    from Core.L5_Mental.Intelligence.Topography.phase_stratum import PhaseStratum
+    from Core.L5_Mental.Reasoning_Core.Topography.phase_stratum import PhaseStratum
 except ImportError:
     PhaseStratum = None
 

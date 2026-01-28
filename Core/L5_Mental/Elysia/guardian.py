@@ -44,7 +44,7 @@ from .core_memory import CoreMemory, Memory
 
 from Core.L5_Mental.Memory.kg_manager import KGManager
 
-from Core.L5_Mental.Logic.logical_reasoner import LogicalReasoner # Import LogicalReasoner
+from Core.L5_Mental.M1_Cognition.logical_reasoner import LogicalReasoner # Import LogicalReasoner
 
 from nano_core.bus import MessageBus
 
@@ -64,7 +64,7 @@ from Core.L1_Foundation.Foundation.System.core.world import World
 
 from Core.L1_Foundation.Foundation.System.core.cell import Cell
 
-from Core.L5_Mental.Intelligence.wave_mechanics import WaveMechanics
+from Core.L5_Mental.Reasoning_Core.wave_mechanics import WaveMechanics
 
 from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalEngine
 
@@ -81,8 +81,8 @@ from Core.L1_Foundation.Foundation.System.core.monologue_generator import Monolo
 from Project_Elysia.manifestation_cortex import ManifestationCortex
 from Project_Elysia.dream_observer import DreamObserver
 from Project_Elysia.core.cell_memory_store import CellMemoryStore
-from Core.L5_Mental.Intelligence.HighEngine.self_intention_engine import SelfIntentionEngine
-from Core.L5_Mental.Intelligence.HighEngine.self_identity_engine import SelfIdentityEngine
+from Core.L5_Mental.Reasoning_Core.HighEngine.self_intention_engine import SelfIntentionEngine
+from Core.L5_Mental.Reasoning_Core.HighEngine.self_identity_engine import SelfIdentityEngine
 from Core.L1_Foundation.Foundation.world_tree import WorldTree
 from Core.L1_Foundation.Foundation.cell_world import CellWorld
 from Core.L1_Foundation.Foundation.value_cortex import ValueCortex
@@ -90,7 +90,7 @@ from Project_Elysia.elysia_daemon import ElysiaDaemon
 
 from Core.L5_Mental.Memory.core_memory import EmotionalState
 
-from Core.L5_Mental.Intelligence.HighEngine.quaternion_engine import QuaternionConsciousnessEngine, LensMode, HyperMode
+from Core.L5_Mental.Reasoning_Core.HighEngine.quaternion_engine import QuaternionConsciousnessEngine, LensMode, HyperMode
 from Project_Elysia.core.hyper_qubit import HyperQubit
 
 

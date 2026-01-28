@@ -24,7 +24,7 @@ from Core.L1_Foundation.Foundation.internal_universe import InternalUniverse
 
 # Problem-solving learning imports
 try:
-    from Core.L5_Mental.Intelligence.Cognition.principle_distiller import PrincipleDistiller
+    from Core.L5_Mental.Reasoning_Core.Cognition.principle_distiller import PrincipleDistiller
     from Core.L7_Spirit.Philosophy.why_engine import WhyEngine
 except ImportError:
     PrincipleDistiller = None

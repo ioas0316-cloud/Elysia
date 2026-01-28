@@ -7,9 +7,9 @@ import logging
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Core.L5_Mental.Elysia.elysia_core import ElysiaCore
-from Core.L5_Mental.Intelligence.Imagination.simulator import get_simulator
-from Core.L5_Mental.Intelligence.Topography.perspective_shifter import PerspectiveShifter
-from Core.L5_Mental.Intelligence.Topography.universal_view import UniversalView
+from Core.L5_Mental.Reasoning_Core.Imagination.simulator import get_simulator
+from Core.L5_Mental.Reasoning_Core.Topography.perspective_shifter import PerspectiveShifter
+from Core.L5_Mental.Reasoning_Core.Topography.universal_view import UniversalView
 from Core.L2_Metabolism.Memory.unified_experience_core import get_experience_core
 
 # Configure logging to be quiet so we can focus on the narrative

@@ -480,7 +480,7 @@ class ConceptDecomposer:
         # GlobalHub integration
         self._hub = None
         try:
-            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Reasoning_Core.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "ConceptDecomposer",

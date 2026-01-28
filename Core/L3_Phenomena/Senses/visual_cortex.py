@@ -44,7 +44,7 @@ class VisualCortex:
             # self.pipe.enable_sequential_cpu_offload() # Even more VRAM saving
             
             # Initialize Digestion Tracer
-            from Core.L5_Mental.Intelligence.LLM.video_diffusion_tracer import VideoDiffusionTracer
+            from Core.L5_Mental.Reasoning_Core.LLM.video_diffusion_tracer import VideoDiffusionTracer
             self.tracer = VideoDiffusionTracer(self.pipe)
             
             logger.info(f"     Visual Cortex initialized ({self.device})")

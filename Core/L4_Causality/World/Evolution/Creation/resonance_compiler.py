@@ -46,7 +46,7 @@ class ResonanceCompiler:
         """[PHASE 30] Lazy load TesseractMemory."""
         if self.memory is None:
             try:
-                from Core.L5_Mental.Intelligence.Memory.tesseract_memory import get_tesseract_memory
+                from Core.L5_Mental.Reasoning_Core.Memory.tesseract_memory import get_tesseract_memory
                 self.memory = get_tesseract_memory()
             except Exception as e:
                 logger.warning(f"   TesseractMemory unavailable: {e}")

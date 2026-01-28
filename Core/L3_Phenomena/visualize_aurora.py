@@ -8,8 +8,8 @@ import sys
 # Ensure the Core directory is in the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L4_Causality.Governance.System.System.System.Kernel import kernel
-from Core.L5_Mental.Intelligence.Intelligence.Consciousness.wave import WaveInput
+from Core.L6_Structure.Engine.Governance.System.System.System.Kernel import kernel
+from Core.L5_Mental.Reasoning_Core.Intelligence.Consciousness.wave import WaveInput
 
 # --- Visualization Parameters ---
 OUTPUT_DIR = "aurora_frames"

@@ -6,7 +6,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
 
 def run_misunderstood_saint_demo():
     print("\n--- [ Phase 19: The Misunderstood Saint Demo ] ---\n")

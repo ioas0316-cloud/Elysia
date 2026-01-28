@@ -18,8 +18,8 @@ from Core.L6_Structure.Wave.resonance_field import ResonanceField
 from Core.L1_Foundation.Foundation.entropy_sink import EntropySink
 from Core.L1_Foundation.Foundation.synapse_bridge import SynapseBridge
 from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
-from Core.L5_Mental.Intelligence.Will.free_will_engine import FreeWillEngine
-from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Reasoning_Core.Will.free_will_engine import FreeWillEngine
+from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 from Core.L1_Foundation.Foundation.autonomic_nervous_system import AutonomicNervousSystem, MemoryConsolidation, EntropyProcessor, SurvivalLoop, ResonanceDecay
 from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf # <--- The I AM
 

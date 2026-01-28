@@ -126,7 +126,7 @@ class NervousSystem:
             logger.warning(f"CentralCortex failed: {e}, trying ReasoningEngine directly...")
             print(f"   CentralCortex Start Failed: {e}") # VISIBLE LOG
             try:
-                from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+                from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
                 self.brain = ReasoningEngine()
                 logger.info("  ReasoningEngine Connected (Direct)")
             except Exception as e2:

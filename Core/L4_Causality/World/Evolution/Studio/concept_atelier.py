@@ -13,7 +13,7 @@ import logging
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 
-from Core.L5_Mental.Intelligence.Intelligence.integrated_cognition_system import (
+from Core.L5_Mental.Reasoning_Core.Intelligence.integrated_cognition_system import (
     get_integrated_cognition,
     ThoughtWave,
     Quaternion

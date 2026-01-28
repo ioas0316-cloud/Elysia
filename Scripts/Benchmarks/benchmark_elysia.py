@@ -18,7 +18,7 @@ import cProfile
 import pstats
 import io
 from Core.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 
 # Configure Console Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

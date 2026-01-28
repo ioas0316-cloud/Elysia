@@ -15,9 +15,9 @@ import logging
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
-from Core.L7_Spirit.Monad.quantum_collapse import QuantumObserver, IntentVector
-from Core.L7_Spirit.Monad.temporal_bridge import TemporalBridge, FutureState
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L7_Spirit.M1_Monad.quantum_collapse import QuantumObserver, IntentVector
+from Core.L7_Spirit.M1_Monad.temporal_bridge import TemporalBridge, FutureState
 
 # Disable logging for benchmark speed
 logging.getLogger("Elysia").setLevel(logging.ERROR)

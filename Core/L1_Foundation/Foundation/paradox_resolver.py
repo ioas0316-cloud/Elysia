@@ -15,7 +15,7 @@ from enum import Enum
 from Legacy.Project_Sophia.spiderweb import Spiderweb
 from Legacy.Project_Sophia.wave_mechanics import WaveMechanics
 from Legacy.Project_Sophia.world_tree_core import WorldTreeCore
-from Core.L5_Mental.Intelligence.Memory.unified_types import Tensor3D, SoulTensor, FrequencyWave
+from Core.L5_Mental.Reasoning_Core.Memory.unified_types import Tensor3D, SoulTensor, FrequencyWave
 from Core.L5_Mental.Memory.core_memory import CoreMemory, Experience, EssencePrinciple
 
 

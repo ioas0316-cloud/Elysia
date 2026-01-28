@@ -12,7 +12,7 @@ It manages the physics parameters to shape the Thought Crystal.
 from typing import Tuple, List, Optional
 import numpy as np
 from Core.L6_Structure.M1_Merkaba.thundercloud import Thundercloud, Atmosphere, ThoughtCluster
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 
 class QuantumCrystallizer:
     """

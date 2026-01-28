@@ -13,7 +13,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
-from Core.L5_Mental.Intelligence.Meta.fractal_wfc import FractalWFC
+from Core.L5_Mental.Reasoning_Core.Meta.fractal_wfc import FractalWFC
 from Core.L6_Structure.Wave.wave_dna import WaveDNA
 
 def test_civilization_genesis():

@@ -4,7 +4,7 @@ import os
 import subprocess
 from pathlib import Path
 from typing import List, Dict, Optional
-from Core.L5_Mental.Intelligence.Intelligence.code_cortex import CodeCortex
+from Core.L5_Mental.Reasoning_Core.Intelligence.code_cortex import CodeCortex
 from Core.L3_Phenomena.manifestation_matrix import ManifestationMatrix
 from Core.L1_Foundation.Foundation.unified_field import WavePacket
 
@@ -27,7 +27,7 @@ class RealitySculptor:
         self.workspace_root = Path(os.getcwd())
         
         # Late import
-        from Core.L5_Mental.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system
+        from Core.L5_Mental.Reasoning_Core.Intelligence.wave_coding_system import get_wave_coding_system
         self.wave_system = get_wave_coding_system()
 
         # [THE ANCHOR] Immutable Core Files

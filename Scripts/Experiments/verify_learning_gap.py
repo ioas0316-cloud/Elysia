@@ -10,7 +10,7 @@ from unittest.mock import MagicMock, patch
 # Add repository root to path
 sys.path.append(os.getcwd())
 
-from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
+from Core.L7_Spirit.M3_Sovereignty.sovereign_core import SovereignCore
 from Core.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
 
 # Setup logging

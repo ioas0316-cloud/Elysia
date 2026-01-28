@@ -38,7 +38,7 @@ from typing import Dict, Any, Optional, Tuple
 
 
 
-from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
+from Core.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
 
 
 

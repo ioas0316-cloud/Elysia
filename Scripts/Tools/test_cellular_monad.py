@@ -7,7 +7,7 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L7_Spirit.Monad.monadic_cell import MonadicCell
+from Core.L7_Spirit.M1_Monad.monadic_cell import MonadicCell
 from Core.L1_Foundation.Logic.qualia_7d_codec import codec
 
 def test_cellular_monad():

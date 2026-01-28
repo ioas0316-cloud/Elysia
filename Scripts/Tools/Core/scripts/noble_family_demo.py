@@ -14,8 +14,8 @@ It also showcases 'Counter-Resonance' – rejecting the Father's cold nature.
 
 import time
 import logging
-from Core.L5_Mental.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
-from Core.L5_Mental.Intelligence.Reasoning.memetic_legacy import SpiritualDNA
+from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import SpiritualDNA
 
 def run_noble_family_demo():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

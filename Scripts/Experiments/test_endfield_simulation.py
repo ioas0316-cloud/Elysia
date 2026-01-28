@@ -14,8 +14,8 @@ import time
 # Add repo root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.World.Simulations.endfield_world import EndfieldWorld, AICFactory, SovereignOperator, Vector3
-from Core.L7_Spirit.Monad.Laws.endfield_physics import EndfieldPhysicsMonad
+from Core.L4_Causality.World.Simulations.endfield_world import EndfieldWorld, AICFactory, SovereignOperator, Vector3
+from Core.L7_Spirit.M1_Monad.Laws.endfield_physics import EndfieldPhysicsMonad
 
 def run_simulation():
     print("🌌 Initializing Endfield Reconstruction...")

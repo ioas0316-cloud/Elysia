@@ -13,7 +13,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 
-from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 
 def digest_legacy():
     print("🍽️ [THE GREAT FEAST] Digesting legacy principles...")

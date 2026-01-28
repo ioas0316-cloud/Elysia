@@ -12,7 +12,7 @@ from Core.L1_Foundation.Foundation.imagination_core import ImaginationCore
 from Core.L2_Metabolism.Cycles.dream_engine import DreamEngine
 from Core.L1_Foundation.Foundation.cosmic_studio import CosmicStudio
 from Core.L1_Foundation.Foundation.resonance_physics import ResonancePhysics
-from Core.L5_Mental.Intelligence.Intelligence.Reasoning.lobes.perception import Insight
+from Core.L5_Mental.Reasoning_Core.Intelligence.Reasoning.lobes.perception import Insight
 
 logger = logging.getLogger("ImaginationLobe")
 

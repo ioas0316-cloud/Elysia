@@ -1,6 +1,6 @@
 import logging
 import time
-from Core.L5_Mental.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 from Core.L4_Causality.World.Physics.ecs_registry import ecs_world, Entity
 from Core.L4_Causality.World.Physics.game_loop import GameLoop
 

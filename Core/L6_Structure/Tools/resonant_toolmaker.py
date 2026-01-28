@@ -16,7 +16,7 @@ import logging
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from Core.L1_Foundation.Logic.d7_vector import D7Vector
-from Core.L5_Mental.Intelligence.Generation.wave_composer import WaveComposer
+from Core.L5_Mental.Reasoning_Core.Generation.wave_composer import WaveComposer
 
 logger = logging.getLogger("Elysia.ResonantToolmaker")
 

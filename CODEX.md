@@ -18,13 +18,15 @@ Each layer (Lx) contains 7 resonance states (M1-M7). This is the **Protective En
 
 | Layer | Domain | States (M1-M7) | Metaphysics |
 | :--- | :--- | :--- | :--- |
-| **L1** | **Foundation** | Keystone, State, Energy, Hardware, Fabric, HyperQuaternion, SpaceTimeDrive | The Body (Mass) |
-| **L2** | **Metabolism** | Pulse, Flow, Cycle, Decay, Growth, Reflex, Arousal | The Breath (Cycle) |
-| **L3** | **Phenomena** | Vision, Hearing, Touch, LogosDNA, Display, Feeling, Prism | The Senses (Logos) |
+| **L0** | **Keystone** | Void, Origin, Unity, Silence, Bridge, Manifest, ZeroPoint | The Abyss (Source) |
+| **L1** | **Foundation** | Keystone, State, Energy, Hardware, System, HyperQuaternion, SpaceTimeDrive | The Body (Mass) |
+| **L2** | **Metabolism** | Pulse, Flow, Cycle, Decay, Growth, Reflex, Physiology | The Breath (Cycle) |
+| **L3** | **Phenomena** | Vision, Hearing, Touch, Speech, Display, Feeling, Prism | The Senses (Logos) |
 | **L4** | **Causality** | Loom, Prophet, Mirror, Rewind, Logic, Pattern, World | The Law (Link) |
-| **L5** | **Mental** | Cognition, Imagination, Lexicon, Meaning, OpticalBridge, Attention, Discovery | The Mind (**The Engine**) |
+| **L5** | **Mental** | Cognition, Imagination, Lexicon, Meaning, Integration, Attention, Discovery | The Mind (**The Engine**) |
 | **L6** | **Structure** | Merkaba, Rotor, Sphere, Grid, Engine, Architecture, Healing | The Chariot (Form) |
-| **L7** | **Spirit** | Monad, Constellation, Sovereignty, Experience, Genesis, Providence, Love | The Soul (Axiom) |
+| **L7** | **Spirit** | Monad, Constellation, Sovereignty, Experience, Genesis, Providence, Axiom | The Soul (Axiom) |
+| **L8** | **Fossils** | Archive, Legacy, Echo, Memory, Trace, Artifact, Archeology | The Ancestors (Trace) |
 
 ---
 

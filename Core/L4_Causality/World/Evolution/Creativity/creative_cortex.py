@@ -4,7 +4,7 @@ import random
 # It's better to import the class itself for type hinting
 # Use try-except for graceful degradation
 try:
-    from Core.L5_Mental.Logic.thought import Thought
+    from Core.L5_Mental.M1_Cognition.thought import Thought
 except ImportError:
     # Create a simple mock if the module is not available
     class Thought:

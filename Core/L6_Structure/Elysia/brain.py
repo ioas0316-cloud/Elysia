@@ -12,10 +12,10 @@ and HabitEngine (Learning).
 from typing import Tuple, List, Optional
 import time
 from Core.L6_Structure.M1_Merkaba.thundercloud import Thundercloud, ThoughtCluster
-from Core.L7_Spirit.Monad.muscle_memory import MuscleMemory
+from Core.L7_Spirit.M1_Monad.muscle_memory import MuscleMemory
 from Core.L5_Mental.Learning.habit_engine import HabitEngine
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 
 class ElysiaBrain:
     def __init__(self):

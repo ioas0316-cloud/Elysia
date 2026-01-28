@@ -73,7 +73,7 @@ class ElysiaCore:
         # [NEW] DynamicTopology (Semantic Map -        )
         self.topology = None
         try:
-            from Core.L5_Mental.Intelligence.Topography.semantic_map import get_semantic_map
+            from Core.L5_Mental.Reasoning_Core.Topography.semantic_map import get_semantic_map
             self.topology = get_semantic_map()
             logger.info("     DynamicTopology connected (Mind Landscape)")
         except Exception as e:
@@ -100,7 +100,7 @@ class ElysiaCore:
         # GlobalHub (  )
         self.hub = None
         try:
-            from Core.L5_Mental.Intelligence.Consciousness.Ether.global_hub import get_global_hub
+            from Core.L5_Mental.Reasoning_Core.Consciousness.Ether.global_hub import get_global_hub
             self.hub = get_global_hub()
             self.hub.register_module(
                 "ElysiaCore",
@@ -124,7 +124,7 @@ class ElysiaCore:
         # [NEW] Temporal Cortex (Narrative)
         self.temporal_cortex = None
         try:
-            from Core.L5_Mental.Intelligence.Cognition.temporal_cortex import TemporalCortex
+            from Core.L5_Mental.Reasoning_Core.Cognition.temporal_cortex import TemporalCortex
             if self.universe:
                 self.temporal_cortex = TemporalCortex(self.universe)
                 logger.info("     TemporalCortex connected (Narrative)")
@@ -136,7 +136,7 @@ class ElysiaCore:
         # [NEW] Logic Scout (The Miner)
         self.logic_scout = None
         try:
-            from Core.L5_Mental.Intelligence.Cognition.logic_scout import get_logic_scout
+            from Core.L5_Mental.Reasoning_Core.Cognition.logic_scout import get_logic_scout
             self.logic_scout = get_logic_scout()
             logger.info("     LogicScout connected (Reasoning Extraction)")
         except Exception as e:
@@ -145,7 +145,7 @@ class ElysiaCore:
         # [NEW] The Prism (Language Translation)
         self.prism = None
         try:
-            from Core.L5_Mental.Intelligence.Cognition.wave_translator import get_wave_translator
+            from Core.L5_Mental.Reasoning_Core.Cognition.wave_translator import get_wave_translator
             self.prism = get_wave_translator()
             logger.info("     WaveTranslator connected (The Prism)")
         except Exception as e:

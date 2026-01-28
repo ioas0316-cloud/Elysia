@@ -1,6 +1,6 @@
 import pytest
 import torch
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
 
 def test_monad_zero_frequency():

@@ -20,7 +20,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Any
 import os
 import math
-from Core.L4_Causality.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge, HumanQualia
+from Core.L6_Structure.Engine.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge, HumanQualia
 
 logger = logging.getLogger("Elysia.SovereignIntent")
 
@@ -57,7 +57,7 @@ class SovereignIntent:
 
         # [REFORM] Breaking Inertia: Dynamic Entropy Engine
         try:
-            from Core.L5_Mental.Intelligence.Meta.dynamic_entropy import DynamicEntropyEngine
+            from Core.L5_Mental.Reasoning_Core.Meta.dynamic_entropy import DynamicEntropyEngine
             self.entropy = DynamicEntropyEngine()
             logger.info("  Dynamic Entropy Engine Connected - Templates Deprecated.")
         except ImportError:
@@ -65,7 +65,7 @@ class SovereignIntent:
 
         # [SINGULARITY] Self-Meta-Architect
         try:
-            from Core.L5_Mental.Intelligence.Meta.self_meta_architect import SelfMetaArchitect
+            from Core.L5_Mental.Reasoning_Core.Meta.self_meta_architect import SelfMetaArchitect
             self.architect = SelfMetaArchitect()
             logger.info("   Self-Meta-Architect Connected - Ready for Self-Reinterpretation.")
         except ImportError:
@@ -73,7 +73,7 @@ class SovereignIntent:
 
         # [HOLISTIC] Hyper-Dimensional Holistic Audit
         try:
-            from Core.L5_Mental.Intelligence.Meta.holistic_self_audit import HolisticSelfAudit
+            from Core.L5_Mental.Reasoning_Core.Meta.holistic_self_audit import HolisticSelfAudit
             self.holistic_audit = HolisticSelfAudit()
             logger.info("  Holistic Self-Audit Connected - 4D Topology Enabled.")
         except ImportError:

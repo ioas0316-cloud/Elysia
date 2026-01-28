@@ -26,7 +26,7 @@ from response_styler import ResponseStyler
 
 from logical_reasoner import LogicalReasoner
 
-from Core.L5_Mental.Intelligence.value_centered_decision import ValueCenteredDecision
+from Core.L5_Mental.Reasoning_Core.value_centered_decision import ValueCenteredDecision
 
 from insight_synthesizer import InsightSynthesizer
 
@@ -34,7 +34,7 @@ from creative_cortex import CreativeCortex
 
 from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalState
 
-from Core.L5_Mental.Intelligence.perspective_cortex import PerspectiveCortex
+from Core.L5_Mental.Reasoning_Core.perspective_cortex import PerspectiveCortex
 
 from Core.L5_Mental.M4_Meaning.emotional_engine import EmotionalEngine
 

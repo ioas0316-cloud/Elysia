@@ -14,7 +14,7 @@ import logging
 # Path setup
 sys.path.append(r"c:/Elysia")
 
-from Core.L5_Mental.Intelligence.Topography.mind_landscape import get_landscape
+from Core.L5_Mental.Reasoning_Core.Topography.mind_landscape import get_landscape
 from Core.L4_Causality.World.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.L5_Mental.Elysia.spirit import get_spirit
 

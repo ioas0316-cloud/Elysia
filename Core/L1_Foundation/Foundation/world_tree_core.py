@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 
 from Legacy.Project_Sophia.world_tree import TreeNode, WorldTree
 from Legacy.Project_Sophia.spiderweb import Spiderweb
-from Core.L5_Mental.Intelligence.Memory.unified_types import Tensor3D, SoulTensor
+from Core.L5_Mental.Reasoning_Core.Memory.unified_types import Tensor3D, SoulTensor
 from Legacy.Project_Sophia.wave_mechanics import WaveMechanics
 
 

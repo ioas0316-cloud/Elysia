@@ -1,1 +1,3 @@
-from .conscience_circuit import ConscienceCircuit
+"""Ethics layer utilities and filters."""
+
+__all__ = []

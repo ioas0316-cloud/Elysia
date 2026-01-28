@@ -26,7 +26,7 @@ class OllamaBridge:
     Ollama    LLM     
     
        :
-        from Core.L5_Mental.Intelligence.Intelligence.ollama_bridge import ollama
+        from Core.L5_Mental.Reasoning_Core.Intelligence.ollama_bridge import ollama
         
         if ollama.is_available():
             response = ollama.chat("  ?    Elysia .")

@@ -1,6 +1,6 @@
 import logging
 from Core.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.L7_Spirit.Monad.monad_core import Monad, MonadCategory
+from Core.L7_Spirit.M1_Monad.monad_core import Monad, MonadCategory
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("WaveTest")

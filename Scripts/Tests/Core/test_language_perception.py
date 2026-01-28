@@ -11,7 +11,7 @@ import numpy as np
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
-from Core.L5_Mental.Intelligence.Brain import LanguageCortex, OllamaCortex
+from Core.L5_Mental.Reasoning_Core.Brain import LanguageCortex, OllamaCortex
 
 def test_language_perception():
     print("🧠 Testing LanguageCortex Spatial Perception...")

@@ -89,7 +89,7 @@ class UnifiedExperienceCore:
 
         # [REAWAKENED] Phase 21: Holographic Memory Injection
         try:
-            from Core.L5_Mental.Intelligence.Memory.holographic_memory import HolographicMemory, KnowledgeLayer
+            from Core.L5_Mental.Reasoning_Core.Memory.holographic_memory import HolographicMemory, KnowledgeLayer
             self.holographic_memory = HolographicMemory()
             logger.info("  Holographic Memory System Actuated.")
         except ImportError:
@@ -108,7 +108,7 @@ class UnifiedExperienceCore:
             logger.warning(f"   HypersphereMemory not found: {e}")
 
         try:
-            from Core.L5_Mental.Intelligence.Topography.semantic_map import get_semantic_map
+            from Core.L5_Mental.Reasoning_Core.Topography.semantic_map import get_semantic_map
             self.topology = get_semantic_map()
             logger.info("  DynamicTopology (4D Meaning Terrain) Connected.")
         except ImportError as e:
@@ -138,8 +138,8 @@ class UnifiedExperienceCore:
         # Before we even log the event, the Subconscious checks for dilemmas.
         reflex_result = None
         try:
-            from Core.L5_Mental.Intelligence.Education.CausalityMirror.scenario_synthesizer import ScenarioSynthesizer
-            from Core.L5_Mental.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
+            from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.scenario_synthesizer import ScenarioSynthesizer
+            from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
             
             synthesizer = ScenarioSynthesizer()
             fragment = synthesizer.detect_and_synthesize(content)
@@ -147,7 +147,7 @@ class UnifiedExperienceCore:
             # [NEW] Phase 20: Theory of Mind (User Mental Model)
             # If this is a perception (User Input), we deduce their state
             if type == "perception":
-                from Core.L5_Mental.Intelligence.Meta.user_mental_model import UserMentalModel
+                from Core.L5_Mental.Reasoning_Core.Meta.user_mental_model import UserMentalModel
                 tom = UserMentalModel()
                 # We need history, but for now we just pass current content or partial history from stream
                 # To do it right, we should fetch recent perceptions from stream
@@ -190,7 +190,7 @@ class UnifiedExperienceCore:
             # Simple Logic: Map feedback/type to layers
             # Ideally this uses the DimensionalReasoner to extract principles first
             # For now, we deposit raw event content with estimated layers
-            from Core.L5_Mental.Intelligence.Memory.holographic_memory import KnowledgeLayer
+            from Core.L5_Mental.Reasoning_Core.Memory.holographic_memory import KnowledgeLayer
             
             # Estimate Layers
             layers = {}

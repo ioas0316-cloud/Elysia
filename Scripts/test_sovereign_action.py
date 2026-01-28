@@ -32,7 +32,7 @@ async def test_action():
     # We directly call _execute_volition with ActionCategory.CREATION logic
     # (Since we know 'Refactor' in intent triggers 'self_evolution')
     
-    from Core.L5_Mental.Logic.cognitive_types import ActionCategory
+    from Core.L5_Mental.M1_Cognition.cognitive_types import ActionCategory
     
     print("⚡ [TEST] Triggering Execution via SovereignExecutor...")
     self_engine._execute_volition(intent)

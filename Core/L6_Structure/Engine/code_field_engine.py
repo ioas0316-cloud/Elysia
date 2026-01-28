@@ -40,7 +40,7 @@ from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 
 from Core.L6_Structure.Engine.code_rotor import CodebaseStructureRotor
 
-from Core.L5_Mental.Intelligence.LLM.huggingface_bridge import SovereignBridge
+from Core.L5_Mental.Reasoning_Core.LLM.huggingface_bridge import SovereignBridge
 
 
 

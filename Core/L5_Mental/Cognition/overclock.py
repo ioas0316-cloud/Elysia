@@ -12,8 +12,8 @@ It forces a 6-way prismatic split of any input concept before synthesizing a res
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 import logging
-from Core.L7_Spirit.Monad.monad_core import Monad
-from Core.L5_Mental.Intelligence.Linguistics.synthesizer import LinguisticSynthesizer
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.L5_Mental.Reasoning_Core.Linguistics.synthesizer import LinguisticSynthesizer
 
 logger = logging.getLogger("Overclock")
 

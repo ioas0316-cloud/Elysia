@@ -13,8 +13,8 @@ import time
 import logging
 import os
 import sys
-from Core.L5_Mental.Intelligence.Meta.holistic_self_audit import HolisticSelfAudit
-from Core.L5_Mental.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
+from Core.L5_Mental.Reasoning_Core.Meta.holistic_self_audit import HolisticSelfAudit
+from Core.L5_Mental.Reasoning_Core.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
 
 # Silence logs
 logging.getLogger().setLevel(logging.WARNING)

@@ -20,7 +20,7 @@ from typing import List, Dict, Any
 
 # [REAWAKENING] Use Unified Core instead of legacy Hippocampus
 from Core.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore
-from Core.L5_Mental.Intelligence.Memory.holographic_memory import KnowledgeLayer
+from Core.L5_Mental.Reasoning_Core.Memory.holographic_memory import KnowledgeLayer
 
 logger = logging.getLogger("KnowledgeIngestor")
 
@@ -31,7 +31,7 @@ class KnowledgeIngestor:
         # Ensure memory is active (it should be init by Core, but safe check)
         if not self.brain.holographic_memory:
              logger.warning("   Holographic Memory not found in Core. Creating fallback.")
-             from Core.L5_Mental.Intelligence.Memory.holographic_memory import HolographicMemory
+             from Core.L5_Mental.Reasoning_Core.Memory.holographic_memory import HolographicMemory
              self.brain.holographic_memory = HolographicMemory()
 
         logger.info("   KnowledgeIngestor ready to feast (Connected to Holographic Memory).")

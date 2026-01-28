@@ -19,7 +19,7 @@ from typing import Dict, Any, List, Optional, Tuple
 from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
 from Core.L6_Structure.Wave.wave_dna import WaveDNA
 from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import PulseBroadcaster # Import
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 from Core.L6_Structure.Engine.wfc_engine import WFCEngine
 from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
 from Core.L4_Causality.World.Nature.semantic_physics_mapper import SemanticPhysicsMapper

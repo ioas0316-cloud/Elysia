@@ -29,7 +29,7 @@ from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.L1_Foundation.Foundation.organ_system import Organ, OrganManifest
 try:
     from Core.L2_Metabolism.Physiology.Physics.geometric_algebra import Rotor, MultiVector
-    from Core.L5_Mental.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
+    from Core.L5_Mental.Reasoning_Core.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
     from Core.L6_Structure.Wave.sensory_packet import SensoryPacket
 except ImportError as e:
     # Fallback/Mock for tests or limited environments

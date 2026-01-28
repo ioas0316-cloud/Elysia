@@ -12,7 +12,7 @@ print("🌱 [INIT] Running Self-Genesis to waken Yggdrasil...")
 self_genesis()
 
 # 2. Initialize Cognition (The Mind)
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
 core = RotorCognitionCore()
 
 print("\n🔍 [ARCHAEOLOGY] Testing Epistemic Curiosity...")

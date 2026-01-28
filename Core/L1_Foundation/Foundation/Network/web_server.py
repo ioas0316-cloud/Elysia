@@ -29,7 +29,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 # Initialize Brain
-from Core.L5_Mental.Intelligence.Intelligence.Reasoning import ReasoningEngine
+from Core.L5_Mental.Reasoning_Core.Intelligence.Reasoning import ReasoningEngine
 try:
     logger.info("  Initializing ReasoningEngine for Web Server...")
     brain = ReasoningEngine()

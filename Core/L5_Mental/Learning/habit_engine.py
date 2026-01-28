@@ -12,7 +12,7 @@ repeated patterns into unconscious reflexes (Rotor Tracks).
 from typing import Dict, List, Tuple
 from collections import defaultdict
 from Core.L6_Structure.M1_Merkaba.thundercloud import ThoughtCluster
-from Core.L7_Spirit.Monad.muscle_memory import MuscleMemory
+from Core.L7_Spirit.M1_Monad.muscle_memory import MuscleMemory
 
 class HabitEngine:
     """

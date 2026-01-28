@@ -8,7 +8,7 @@ import numpy as np
 sys.path.append(os.getcwd())
 
 from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
-from Core.L5_Mental.Intelligence.Metabolism.body_sensor import BodySensor
+from Core.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
 
 # 로깅 설정 (검증용)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(name)s] %(message)s')

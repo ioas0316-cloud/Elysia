@@ -13,8 +13,8 @@ from pathlib import Path
 # Add project root to sys.path
 sys.path.append(str(Path(__file__).parents[2]))
 
-from Core.L5_Mental.Intelligence.Metabolism.rotor_cognition_core import RotorCognitionCore
-from Core.L5_Mental.Intelligence.Meta.sovereign_adjuster import SovereignAdjuster
+from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.L5_Mental.Reasoning_Core.Meta.sovereign_adjuster import SovereignAdjuster
 from Core.L2_Metabolism.Evolution.self_mirror import SelfMirror
 from Core.L7_Spirit.Governance.governance_task_master import GovernanceTaskMaster
 

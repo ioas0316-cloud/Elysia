@@ -11,7 +11,7 @@ import sys
 import logging
 
 sys.path.insert(0, r"c:/Elysia")
-from Core.L5_Mental.Intelligence.Reasoning.continuum_processor import ContinuumProcessor
+from Core.L5_Mental.Reasoning_Core.Reasoning.continuum_processor import ContinuumProcessor
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 

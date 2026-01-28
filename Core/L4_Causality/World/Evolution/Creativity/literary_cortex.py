@@ -18,7 +18,7 @@ from dataclasses import dataclass, field, asdict
 from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
 from Core.L1_Foundation.Foundation.nervous_system import get_nervous_system
 from Core.L6_Structure.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
-from Core.L5_Mental.Intelligence.Intelligence.logos_engine import LogosEngine
+from Core.L5_Mental.Reasoning_Core.Intelligence.logos_engine import LogosEngine
 
 logger = logging.getLogger("LiteraryCortex")
 

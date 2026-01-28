@@ -8,7 +8,7 @@ Verifies the "Spark" mechanism and Fractal Expansion.
 
 import numpy as np
 import time
-from Core.L7_Spirit.Monad.monad_core import Monad
+from Core.L7_Spirit.M1_Monad.monad_core import Monad
 from Core.L6_Structure.Merkaba.thundercloud import Thundercloud, Atmosphere
 from Core.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
 

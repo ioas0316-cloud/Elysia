@@ -4,7 +4,7 @@ COGNITIVE ARCHEOLOGIST: The Uncovering of Latent Principles
 
 ===========================================================
 
-Core.L5_Mental.Intelligence.Metabolism.topology_predator
+Core.L5_Mental.Reasoning_Core.Metabolism.topology_predator
 
 
 
@@ -46,7 +46,7 @@ from typing import Dict, List, Any, Optional, Tuple
 
 from Core.L6_Structure.M1_Merkaba.portal import MerkabaPortal
 
-from Core.L5_Mental.Intelligence.LLM.target_registry import TargetLLM, ModelType
+from Core.L5_Mental.Reasoning_Core.LLM.target_registry import TargetLLM, ModelType
 
 from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphericalCoord
 

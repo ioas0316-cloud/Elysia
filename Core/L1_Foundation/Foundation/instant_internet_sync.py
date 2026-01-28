@@ -29,7 +29,7 @@ import time
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.L5_Mental.Intelligence.Intelligence.spiderweb import Spiderweb
+from Core.L5_Mental.Reasoning_Core.Intelligence.spiderweb import Spiderweb
 from Core.L1_Foundation.Foundation.wave_integration_hub import WaveIntegrationHub
 from Core.L1_Foundation.Foundation.resonance_data_connector import ResonanceDataConnector
 

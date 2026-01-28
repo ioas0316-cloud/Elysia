@@ -259,7 +259,7 @@ class WhyEngine:
         
         #            
         try:
-            from Core.L5_Mental.Intelligence.Cognition.metacognitive_awareness import MetacognitiveAwareness
+            from Core.L5_Mental.Reasoning_Core.Cognition.metacognitive_awareness import MetacognitiveAwareness
             self.metacognition = MetacognitiveAwareness()
             self._has_metacognition = True
         except ImportError:

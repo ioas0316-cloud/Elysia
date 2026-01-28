@@ -14,7 +14,7 @@ from Core.L1_Foundation.Logic.qualia_7d_codec import Qualia7DCodec
 from Core.L1_Foundation.Logic.d7_vector import D7Vector
 from Core.L2_Metabolism.Cycles.dream_engine import DreamEngine
 from Core.L5_Mental.Cognition.semantic_prism import SpectrumMapper
-from Core.L5_Mental.Intelligence.Memory.self_discovery import SelfDiscovery
+from Core.L5_Mental.Reasoning_Core.Memory.self_discovery import SelfDiscovery
 from Core.L4_Causality.M5_Logic.causal_narrative_engine import CausalKnowledgeBase, CausalNode, CausalRelationType
 from Core.L5_Mental.Memory.sediment import SedimentLayer
 

@@ -25,7 +25,7 @@ project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(project_root))
 
 from Core.L1_Foundation.Foundation.purpose_discovery_engine import PurposeDiscoveryEngine, DimensionalPerspective
-from Core.L5_Mental.Intelligence.thought_space import ThoughtSpace, ThoughtParticle
+from Core.L5_Mental.Reasoning_Core.thought_space import ThoughtSpace, ThoughtParticle
 
 # Configure Logging
 logging.basicConfig(

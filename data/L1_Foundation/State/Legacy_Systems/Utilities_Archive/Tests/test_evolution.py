@@ -15,11 +15,11 @@ repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
-from Core.World.Evolution.Growth.Evolution.Evolution.evolution_manager import EvolutionManager
+from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.evolution_manager import EvolutionManager
 from Core.Foundation.Physics.fluctlight import FluctlightEngine, FluctlightParticle
 from Core.Foundation.Mind.hippocampus import Hippocampus
 from Core.Foundation.Mind.alchemy import Alchemy
-from Core.World.Evolution.Growth.Evolution.Evolution.code_mutator import EvolutionaryCoder, SafetySandbox
+from Core.L4_Causality.World.Evolution.Growth.Evolution.Evolution.code_mutator import EvolutionaryCoder, SafetySandbox
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestEvolution")

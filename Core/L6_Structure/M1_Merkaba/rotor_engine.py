@@ -83,7 +83,7 @@ except ImportError:
 
 # Import Sovereign Core
 try:
-    from Core.L7_Spirit.Sovereignty.sovereign_core import SovereignCore
+    from Core.L7_Spirit.M3_Sovereignty.sovereign_core import SovereignCore
 except ImportError:
     SovereignCore = None
 

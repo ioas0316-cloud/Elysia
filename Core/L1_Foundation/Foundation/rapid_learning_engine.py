@@ -30,8 +30,8 @@ from Core.L1_Foundation.Foundation.hippocampus import Hippocampus
 from Core.L1_Foundation.Foundation.fractal_concept import ConceptNode, ConceptDecomposer
 from Core.L6_Structure.Wave.resonance_field import ResonanceField
 from Core.L6_Structure.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.L5_Mental.Intelligence.Intelligence.concept_extractor import ConceptExtractor, ConceptDefinition
-from Core.L5_Mental.Intelligence.Intelligence.relationship_extractor import RelationshipExtractor, Relationship
+from Core.L5_Mental.Reasoning_Core.Intelligence.concept_extractor import ConceptExtractor, ConceptDefinition
+from Core.L5_Mental.Reasoning_Core.Intelligence.relationship_extractor import RelationshipExtractor, Relationship
 from Core.L5_Mental.grammar_engine import GrammarEmergenceEngine
 
 logger = logging.getLogger("RapidLearning")

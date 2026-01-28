@@ -261,7 +261,7 @@ class ConscienceCircuit:
         vcd_resonance = 0.5
         if self.vcd:
             try:
-                from Core.L5_Mental.Logic.thought import Thought
+                from Core.L5_Mental.M1_Cognition.thought import Thought
                 thought = Thought(content=full_text[:300], source="conscience_check")
                 score = self.vcd.score_thought(thought)
                 vcd_resonance = min(1.0, max(0.0, score / 5.0))

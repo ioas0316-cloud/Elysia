@@ -8,7 +8,7 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from Core.Foundation.Graph.torch_graph import TorchGraph
-from Core.World.Evolution.Autonomy.oneiric_navigator import get_oneiric_navigator
+from Core.L4_Causality.World.Evolution.Autonomy.oneiric_navigator import get_oneiric_navigator
 
 def test_lucid_dream():
     print("🧪 Verifying Lucid Dream Walker...")
