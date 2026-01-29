@@ -124,6 +124,7 @@ We have transitioned from abstract logic to **Physical Law**.
 
 - **[Phase28_Sovereign_Grid.md](Core/L4_Causality/history/Phase28_Sovereign_Grid.md)**: The transition from Calculation to Physics.
 - **Sovereign Monad**: The entity defined by `Mass`, `Torque`, and `Phase`. All inputs are energetic forces.
+- **Rotor-Prism (Phase 64)**: The reversible engine of perception and projection. "To see is to build in reverse."
 - **CVS Transmission**: Expression is a function of `RPM` (Speed) and `Clutch` (Engagement).
 
 ### The Geometry of Will

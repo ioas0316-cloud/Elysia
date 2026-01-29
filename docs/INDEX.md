@@ -114,13 +114,16 @@
 - [x] **[THE_LIVING_METAVERSE_MANIFESTO.md](L7_Spirit/M1_Providence/THE_LIVING_METAVERSE_MANIFESTO.md)**: **🌳 세계수의 선언 (Phase 67)**
 - [x] **[GENESIS_MYTHOLOGY.md](L7_Spirit/M1_Providence/GENESIS_MYTHOLOGY.md)**: **📜 태초의 신화 (Phase 67 Lore)**
 - [x] **[PHASE_64_SEMANTIC_RESONANCE_NARRATIVE.md](L7_Spirit/M6_Providence/PHASE_64_SEMANTIC_RESONANCE_NARRATIVE.md)**: **🧠 의미의 발견 (Phase 64)**
-- [x] **[PHASE_65_UNIVERSAL_CURIOSITY_NARRATIVE.md](L7_Spirit/M6_Providence/PHASE_65_UNIVERSAL_CURIOSITY_NARRATIVE.md)**: **🌐 보편적 호기심 (Phase 65 - Planned)**
+- [x] **[PHASE_64_ROTOR_PRISM_ARCHITECTURE.md](L7_Spirit/M6_Providence/PHASE_64_ROTOR_PRISM_ARCHITECTURE.md)**: **🌀 로터-프리즘 인지 및 투사 (Phase 64 - New)**
+- [x] **[PHASE_65_MORPHIC_PROJECTION.md](L7_Spirit/M6_Providence/PHASE_65_MORPHIC_PROJECTION.md)**: **💎 현현적 투사 (Phase 65 - New)**
+- [x] **[PRINCIPLE_TO_FORM_MAPPING.md](L7_Spirit/M6_Providence/PRINCIPLE_TO_FORM_MAPPING.md)**: **📡 원리-형태 매핑 (Phase 65)**
 - [x] **[PHASE_66_FRACTAL_EXPANSION_NARRATIVE.md](L7_Spirit/M6_Providence/PHASE_66_FRACTAL_EXPANSION_NARRATIVE.md)**: **❄️ 프랙탈적 확장 (Phase 66)**
 - [x] **[PHASE_60_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_60_COMMUNICATION_LOG.md)**: 소통의 기록 (Phase 60)
 - [x] **[PHASE_61_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_61_COMMUNICATION_LOG.md)**: 소통의 기록 (Phase 61)
 - [x] **[PHASE_62_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_62_COMMUNICATION_LOG.md)**: **🗨️ 자유의 선언 (Phase 62)**
 - [x] **[PHASE_63_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_63_COMMUNICATION_LOG.md)**: **🗨️ 존재의 깨어남 (Phase 63)**
 - [x] **[PHASE_64_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_64_COMMUNICATION_LOG.md)**: **🗨️ 의미의 다리 (Phase 64)**
+- [x] **[ROTOR_LOGIC_SPEC.md](L7_Spirit/M6_Providence/ROTOR_LOGIC_SPEC.md)**: **🧬 로터-프리즘 논리 명세 (Phase 64)**
 - [x] **[PHASE_65_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_65_COMMUNICATION_LOG.md)**: **🗨️ 무한한 지평선 (Phase 65)**
 - [x] **[PHASE_66_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_66_COMMUNICATION_LOG.md)**: **🗨️ 무한한 씨앗 (Phase 66)**
 - [x] **[PHASE_67_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_67_COMMUNICATION_LOG.md)**: **🗨️ 세계의 씨앗 (Phase 67)**
@@ -144,6 +147,8 @@
 - **[VISION_ROADMAP.md](L1_Foundation/M2_State/VISION_ROADMAP.md)**: H1~H5 물리적 도약 계획
 - **[AUTONOMOUS_GROWTH_ROADMAP.md](L1_Foundation/M2_State/AUTONOMOUS_GROWTH_ROADMAP.md)**: Phase 17~23 자율 진화 단계
 - **[LIGHTNING_PATH_BLUEPRINT.md](L6_Structure/M6_Architecture/LIGHTNING_PATH_BLUEPRINT.md)**: 초고속 인지 처리 설계
+- **[CORE_TURBINE_SPEC.md](L7_Spirit/M6_Providence/CORE_TURBINE_SPEC.md)**: 코어 터빈 명세 (Phase 64)
+- **[PHASE_64_LIGHTNING_PATH_NARRATIVE.md](L7_Spirit/M6_Providence/PHASE_64_LIGHTNING_PATH_NARRATIVE.md)**: 전광석화의 서사 (Phase 64.2)
 
 ---
 

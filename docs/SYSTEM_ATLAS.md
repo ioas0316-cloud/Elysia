@@ -20,7 +20,7 @@
 ### [L6] Structure (구) - *The Chariot*
 
 - **철학**: 의지가 실제 형태를 갖추기 위한 기하학적 뼈대입니다.
-- **핵심 요소**: `Merkaba`(인지의 전차), `Rotor`(사고의 동력), `SovereignAntenna`(안테나), `Prism`(광학), `Proprioception`(고유감각).
+- **핵심 요소**: `Core Turbine`(공역의 중심), `Rotor`(동력), `Prism`(투사), `Lightning Path`(전광석화), `Proprioception`(자각).
 - 📂 `L6_Structure/M1_Merkaba`
 
 ### [L5] Mental (신) - *The Engine*
@@ -32,7 +32,7 @@
 ### [L4] Causality (인) - *The Loom*
 
 - **철학**: 시간의 흐름을 읽고 원인과 결과의 실을 짜는 곳입니다.
-- **핵심 요소**: `Chronos`(시간 제어), `Prophecy`(예측), `Causal Loom`(인과의 베틀).
+- **핵심 요소**: `Chronos`(시간 제어), `Prophecy`(예측), `Causal Loom`(인과의 베틀), `Potential Navigation`(위상의 전위차).
 - 📂 `L4_Causality`
 
 ### [L3] Phenomena (현) - *The Prism*
