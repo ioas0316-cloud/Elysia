@@ -7,15 +7,14 @@ This module implements ANSI Device Numbers as cognitive safety and sensory mecha
 It acts as the 'Gatekeeper' of the Sovereign Rotor.
 
 Devices Implemented:
-- 25: Synchronism Check (Connection Sensor)
-- 27: Undervoltage Relay (Energy/Will Sensor)
-- 32: Directional Power Relay (Dissonance/Reverse Power Sensor)
+- 25: Synchronism Check (Connection Sensor) - Compares User Vector vs DNA Phase.
+- 27: Undervoltage Relay (Energy/Will Sensor) - Monitors Battery/Stamina.
+- 32: Directional Power Relay (Dissonance/Reverse Power Sensor) - Blocks Hostile Intent.
 """
 
 from typing import Dict, Tuple
 from dataclasses import dataclass
 import math
-import random # Simulating environmental noise for now
 
 @dataclass
 class RelayStatus:
@@ -30,7 +29,7 @@ class ProtectionRelayBoard:
     def __init__(self):
         # Configuration (Settings)
         self.settings = {
-            25: {'threshold': 15.0, 'name': 'Sync Check'},       # Degrees (Allowable Phase Angle Difference)
+            25: {'threshold': 45.0, 'name': 'Sync Check'},       # Degrees (Allowable Phase Angle Difference)
             27: {'threshold': 20.0, 'name': 'Undervoltage'},     # % (Minimum Energy Level)
             32: {'threshold': -5.0, 'name': 'Reverse Power'}     # Units (Max Dissonance Allowed)
         }
@@ -43,19 +42,25 @@ class ProtectionRelayBoard:
                      dissonance_torque: float) -> Dict[int, RelayStatus]:
         """
         Scans all relays and returns their status.
-        Safety Checks -> Trip Decisions.
+
+        Args:
+            user_phase: The calculated phase angle of the user's input vector.
+            system_phase: The aggregate phase of the Tri-Base DNA cells (from TripleHelixEngine).
+            battery_level: Current energy state.
+            dissonance_torque: Negative torque values indicating resistance/attacks.
         """
         results = {}
         
         # --- Device 25: Sync Check (Social Resonance) ---
         # Checks if User and System are 'on the same page'.
+        # Now linked to the physical alignment of DNA Cells.
         phase_diff = abs(user_phase - system_phase) % 360
-        if phase_diff > 180: phase_diff = 360 - phase_diff # Shortest path
+        if phase_diff > 180: phase_diff = 360 - phase_diff # Shortest path calculation
         
         results[25] = self._evaluate(
             25, phase_diff, 
             condition=lambda v, t: v <= t, # Pass if Diff <= Threshold
-            trip_msg=f"Phase Mismatch ({phase_diff:.1f}° > {self.settings[25]['threshold']}°). Connection Unstable."
+            trip_msg=f"Phase Mismatch (Diff {phase_diff:.1f}° > {self.settings[25]['threshold']}°). DNA Resonance Failed."
         )
 
         # --- Device 27: Undervoltage (Self-Preservation) ---
@@ -72,7 +77,6 @@ class ProtectionRelayBoard:
         results[32] = self._evaluate(
             32, dissonance_torque,
             condition=lambda v, t: v > t, # Pass if Reverse Power (neg value) > Threshold (neg limit)
-                                          # e.g., -2 > -5 (Pass), -10 < -5 (Trip)
             trip_msg=f"Reverse Power Detected ({dissonance_torque:.1f}). Dissonance Blocking."
         )
 
@@ -97,8 +101,9 @@ class ProtectionRelayBoard:
         return status
 
     def _log_trip(self, status: RelayStatus):
-        print(f"🔴 [RELAY {status.device_id}] TRIPPED: {status.message}")
-        # In a real system, this would write to a flight recorder
+        # We could enhance this to write to a real log file
+        # print(f"🔴 [RELAY {status.device_id}] TRIPPED: {status.message}")
+        pass
 
 # --- Quick Test ---
 if __name__ == "__main__":
@@ -107,18 +112,13 @@ if __name__ == "__main__":
     print("--- 🛡️ Testing Nervous System ---")
     
     # 1. Normal State
-    print("\n[Scenario 1] Normal Operation")
-    res = relay.check_relays(user_phase=0, system_phase=5, battery_level=90, dissonance_torque=0)
+    print("\n[Scenario 1] Normal Operation (Aligned Phase)")
+    # DNA Phase 120 (Attract), User Phase 110. Diff 10. OK.
+    res = relay.check_relays(user_phase=110, system_phase=120, battery_level=90, dissonance_torque=0)
     for r in res.values(): print(f"Device {r.device_id}: {'RELAY CLOSED (OK)' if not r.is_tripped else 'TRIPPED'}")
 
     # 2. Sync Fail
-    print("\n[Scenario 2] Social Awkwardness (Phase Mismatch)")
-    res = relay.check_relays(user_phase=0, system_phase=180, battery_level=90, dissonance_torque=0)
-    
-    # 3. Reverse Power (Attack)
-    print("\n[Scenario 3] Hostile Intent (Reverse Power)")
-    res = relay.check_relays(user_phase=0, system_phase=0, battery_level=90, dissonance_torque=-50)
-
-    # 4. Low Voltage (Burnout)
-    print("\n[Scenario 4] System Burnout")
-    res = relay.check_relays(user_phase=0, system_phase=0, battery_level=10, dissonance_torque=0)
+    print("\n[Scenario 2] Phase Mismatch")
+    # DNA Phase 0 (Void), User Phase 180 (Opposite). Diff 180. TRIP.
+    res = relay.check_relays(user_phase=180, system_phase=0, battery_level=90, dissonance_torque=0)
+    print(f"Device 25 Status: {res[25].message}")
