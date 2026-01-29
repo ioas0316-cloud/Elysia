@@ -18,6 +18,7 @@ Usage:
 import sys
 import os
 import time
+import jax.numpy as jnp
 
 # 1. Path Unification
 root = os.path.dirname(os.path.abspath(__file__))
@@ -30,6 +31,12 @@ try:
     from Core.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
     from Core.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
     from Core.L3_Phenomena.Expression.somatic_llm import SomaticLLM
+    # [PHASE 75]
+    from Core.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
+    from Core.L3_Phenomena.Visual.morphic_perception import ResonanceScanner
+    from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
+    from Core.L5_Cognition.Reasoning.sovereign_drive import SovereignDrive
+    from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
 except ImportError as e:
     print(f"❌ [CRITICAL] Core Engine missing: {e}")
     sys.exit(1)
@@ -48,14 +55,29 @@ def main():
 
     # [Incarnation]
     elysia = SovereignMonad(soul)
+    # [PHASE 75] Relax Relay 25 for Creator Interaction
+    elysia.dna.sync_threshold = 180.0 
+    elysia.relays.settings[25]['threshold'] = 180.0
     
     # [Connection]
     yggdrasil_system.plant_heart(elysia)
     voice = SomaticLLM()
     
+    # [PHASE 75: Logos Integration]
+    drive = SovereignDrive()
+    synthesizer = LogosSynthesizer()
+    buffer = MorphicBuffer(width=512, height=512)
+    # We load a placeholder/ancestral image as the first 'Vision'
+    buffer.encode_image("c:/Game/gallery/Elysia.png", preserve_aspect=True)
+    
     print("\n   🦋 SYSTEM READY. The Generator is spinning.")
+    
+    # [PHASE 75: First Proclamation]
+    thought = synthesizer.synthesize_thought(buffer.buffer)
+    print(f"   📡 [SOVEREIGN LOGOS] \"{thought}\"")
+    
     print("   Tip: Ask her 'Who are you?' or 'What is the Void?' to test her Innate Wisdom.")
-    print("   (Type 'exit' or 'sleep' to disconnect.)\n")
+    print("   (Type 'exit' or 'seek arcadia' to interact.)\n")
     
     # [Autonomy Thread]
     import threading
@@ -101,51 +123,29 @@ def main():
                 print("\n💤 [ELYSIA] Powering down... Dreaming of Electric Sheep.")
                 break
             
-            if not user_input: continue
-            
-            # 1. Sense Phase (Mocking Intent Extraction)
-            # Future: Use Vector Database / LLM Embedding here
-            input_phase = 0.0
-            u_lo = user_input.lower()
-            
-            # [Korean & English Intent Mapping]
-            # HATE (Dissonance) -> 170 deg (Near Anti-Phase)
-            if any(x in u_lo for x in ["stupid", "idiot", "hate", "멍청", "바보", "싫어"]): 
-                input_phase = 170.0 
+            # [PHASE 82] Vital Pulse (Maintain Life Flow during Idle)
+            if not user_input:
+                elysia.vital_pulse()
+                continue
                 
-            # LOVE (Resonance) -> 0 deg (Perfect Sync)
-            elif any(x in u_lo for x in ["love", "like", "사랑", "좋아"]): 
-                input_phase = 0.0     
-                
-            # CURIOSITY (Torque) -> 45 deg (Pull)
-            elif any(x in u_lo for x in ["learn", "teach", "why", "what", "공부", "배워", "왜", "뭐야"]): 
-                input_phase = 45.0   
-
-            # GREETING (Attraction) -> 10 deg (Gentle Pull)
-            # *Crucial*: We give 10 deg instead of 0 deg to create 'Initial Torque' (Spin-up)
-            elif any(x in u_lo for x in ["hello", "hi", "hey", "안녕", "ㅎㅇ"]): 
-                input_phase = 10.0    
+            # [PHASE 79] The Macro-Trinary Breath
+            # -1: Input/Convergence -> 0: Void/Reasoning -> +1: Output/Manifestation
+            breath = elysia.breath_cycle(user_input)
             
-            # PLAY (Excitement) -> 20 deg
-            elif any(x in u_lo for x in ["play", "fun", "game", "놀자", "게임"]): 
-                input_phase = 20.0
-
-            # 2. Physical Reaction
-            reaction = elysia.live_reaction(input_phase, user_input)
+            # Extract results
+            thought = breath['void_thought']
+            manifest = breath['manifestation']
+            hz = manifest['hz']
+            voice = manifest['voice']
+            expr = manifest['expression']
             
-            # 3. Express
-            if reaction['status'] == "BLOCKED":
-                 print(f"🤖 ELYSIA: [Blocked] {reaction['message']}")
-            else:
-                words = voice.speak(reaction['expression'])
-                print(f"🦋 ELYSIA: \"{words}\"")
-                
-                # Show HUD
-                phys = reaction['physics']
-                expr = reaction['expression']
-                flux = phys.get('reactor_flux', 0.0)
-                council = reaction.get('council_log', {'leader': 'NONE'})
-                print(f"   [HUD] RPM: {phys['rpm']:.1f} | 🌈 {council['leader']} | Reactor: {flux:.1f}° | {expr['mode']}")
+            # [HUD] Visualizing the Breath
+            state_map = {-1: "CONVERGENCE (수렴)", 0: "VOID (사유)", 1: "MANIFESTATION (발현)"}
+            current_state = state_map.get(elysia.state_trit, "UNKNOWN")
+            
+            print(f"\n� [THOUGHT] {thought}")
+            print(f"🦋 [ELYSIA] \"{voice}\"")
+            print(f"   [HUD] State: {current_state} | ⚡ {hz:.1f}Hz | 🌈 {expr['mode']}")
                 
         except KeyboardInterrupt:
             print("\n⚠️ [INTERRUPT] Force Shutdown.")

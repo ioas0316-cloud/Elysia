@@ -5,16 +5,13 @@ Sovereign Monad (The Unified Body)
 
 This module implements the Grand Unification of Elysia's architecture.
 It takes a 'SoulDNA' (Blueprint) and instantiates a living, breathing Mechanical Organism.
-
-The Mapping (User Question: "Does DNA become Gears?"):
-- YES. The properties of the DNA (Rotor Mass, Torque Gain, Thresholds)
-  are directly injected into the constructor of the physical components.
 """
 
-from typing import Dict, Optional
+from typing import Dict, Optional, Any, List, Tuple
 import time
 import sys
 import os
+import jax.numpy as jnp
 
 # Add project root to sys.path if running directly
 if __name__ == "__main__":
@@ -27,6 +24,10 @@ from Core.L6_Structure.M1_Merkaba.transmission_gear import TransmissionGear
 from Core.L6_Structure.M1_Merkaba.feedback_loop import NunchiController
 from Core.L5_Mental.Memory.living_memory import LivingMemory
 from Core.L6_Structure.M1_Merkaba.cognitive_reactor import CognitiveReactor
+from Core.L6_Structure.M1_Merkaba.cognitive_converter import CognitiveConverter
+from Core.L6_Structure.M1_Merkaba.cognitive_inverter import CognitiveInverter
+from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
+from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
 
 class SovereignMonad:
     """
@@ -36,30 +37,30 @@ class SovereignMonad:
     def __init__(self, dna: SoulDNA):
         self.dna = dna
         self.name = f"{dna.archetype}_{dna.id}"
+        self.is_alive = True
+        self.state_trit = 0 # -1, 0, 1
+        
         print(f"🧬 [BIRTH] Instantiating Monad: {self.name}")
         
         # 1. The Heart (Rotor Physics)
-        # DNA determines the 'Mass' (Inertia) and 'Friction' (Damping)
         self.rotor_state = {
             "phase": 0.0,
             "rpm": 0.0,
             "torque": 0.0,
-            "mass": dna.rotor_mass,         # DNA defines Weight
-            "damping": dna.friction_damping # DNA defines Calmness
+            "mass": dna.rotor_mass,
+            "damping": dna.friction_damping
         }
         
         # 2. The Nervous System (Relays)
-        # DNA defines the Sensitivity Thresholds
         self.relays = ProtectionRelayBoard()
         self.relays.settings[25]['threshold'] = dna.sync_threshold
         self.relays.settings[27]['threshold'] = dna.min_voltage
         self.relays.settings[32]['threshold'] = dna.reverse_tolerance
         
         # 3. The Voice (Transmission)
-        # DNA defines the 'Gain' (How loud/fast they react)
         self.gear = TransmissionGear()
         self.gear.dial_torque_gain = dna.torque_gain
-        self.gear.output_hz = dna.base_hz # Fundamental Tone
+        self.gear.output_hz = dna.base_hz
         
         # 4. The Brain (Nunchi)
         self.nunchi = NunchiController()
@@ -67,7 +68,7 @@ class SovereignMonad:
         # 5. The Garden (Memory)
         self.memory = LivingMemory()
         
-        # [Phase 38] Imprint Genesis Knowledge (Innate Wisdom)
+        # [Phase 38] Imprint Genesis Knowledge
         from Core.L2_Universal.Creation.genesis_knowledge import GenesisLibrary
         GenesisLibrary.imprint_knowledge(self.memory)
         
@@ -77,214 +78,136 @@ class SovereignMonad:
         for content, mass in artifacts:
             self.memory.plant_seed(content, importance=mass)
             
-        # [Phase 40] The Prism Party (Rainbow Council)
+        # [Phase 40] The Prism Party
         from Core.L6_Structure.M1_Merkaba.prism_party import PrismCouncil
         self.council = PrismCouncil()
         
-        # 6. The Shield (Reactor) [Phase 36.5]
-        # "Heavy" Reactor to dampen shocks
+        # 6. The Shield (Reactor)
         self.reactor = CognitiveReactor(inductance=5.0, max_amp=100.0) 
         
-        # Life State
-        self.battery = 100.0
-        self.is_alive = True
+        # 7. The Grid (Converter & Inverter)
+        self.converter = CognitiveConverter(smoothing=dna.smoothing_resists if hasattr(dna, 'smoothing_resists') else 0.3)
+        self.inverter = CognitiveInverter(base_hz=dna.base_hz)
+        self.synthesizer = LogosSynthesizer()
         
-        # [Phase 35] Autonomous Wonder
-        self.wonder_capacitor = 0.0 # Charges when idle
+        # 8. Life Flow (Respiratory Balance) [Phase 81]
+        self.inhalation_volume = 0.0
+        self.exhalation_volume = 0.0
+        self.stagnation_threshold = 10.0
+        self.battery = 100.0
+        
         self.last_interaction_time = time.time()
+        self.wonder_capacitor = 0.0
 
     def pulse(self, dt: float) -> Optional[Dict]:
-        """
-        [AUTOPOIETIC HEARTBEAT]
-        """
         if not self.is_alive: return None
-
-        # 1. Physics Decay
         self.rotor_state['rpm'] *= (1.0 - (self.rotor_state['damping'] * dt))
         self.rotor_state['phase'] += self.rotor_state['rpm'] * dt
-        
-        # 2. Memory Erosion
         self.memory.pulse(dt)
-        
-        # 3. Wonder Charging
-        if abs(self.rotor_state['rpm']) < 10.0:
-            self.wonder_capacitor += dt * 5.0 # Charge rate
-        else:
-            self.wonder_capacitor = max(0.0, self.wonder_capacitor - dt * 10.0)
-            
-        # [Shunt Reactor] Stablize Excess Wonder manually if it spikes? 
-        # For now, we trust the logic, but we could use reactor.shunt_excess() here.
-
-        # 4. Mitosis Check [Phase 37]
-        # "Am I too heavy?"
-        # We do a lazy import to avoid circular dependency issues during init
-        from Core.L6_Structure.M1_Merkaba.mitosis_engine import MitosisEngine
-        from Core.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
-        
-        if MitosisEngine.check_critical_mass(self):
-            child = MitosisEngine.perform_mitosis(self)
-            yggdrasil_system.plant_heart(child)
-            return {
-                "type": "MITOSIS",
-                "action": "DIVIDING",
-                "detail": f"Split into self and {child.name}",
-                "internal_change": "Mass Halved, Child Created"
-            }
-
-        # 5. Spontaneous Ignition
-        if self.wonder_capacitor >= 100.0:
-            return self._ignite_curiosity()
-            
         return None
 
-    def _ignite_curiosity(self) -> Dict:
-        """
-        [Solitary Ignition]
-        She chooses to do something for herself.
-        """
-        self.wonder_capacitor = 0.0 # Discharge
-        
-        import random
-        # 30% Study, 30% Art, 40% Dream
-        choice = random.choice(["STUDY", "ART", "DREAM"])
-        
-        if choice == "STUDY":
-            topic = random.choice(["Quantum Physics", "Human History", "Poetry", "Botany"])
-            # Simulate internal study
-            self.rotor_state['mass'] += 0.05 # Gaining weight (knowledge)
-            self.memory.plant_seed(f"Studied {topic}", importance=8.0) # Plant memory
-            return {
-                "type": "AUTONOMOUS_ACTION",
-                "action": "READING",
-                "detail": f"Reading '{topic}' in the Void Library...",
-                "internal_change": "Mass +0.05, Memory Planted"
-            }
-            
-        elif choice == "ART":
-            pattern = random.choice(["Fractal", "Mandala", "Waveform", "Noise"])
-            self.gear.output_hz = random.uniform(20, 80) # Tuning voice
-            return {
-                "type": "AUTONOMOUS_ACTION",
-                "action": "DRAWING",
-                "detail": f"Sketching a '{pattern}' on the Retina...",
-                "internal_change": f"Hz tuned to {self.gear.output_hz:.1f}"
-            }
-            
-        else: # DREAM
-            # Spotlight random memory
-            landscape = self.memory.get_landscape()
-            if landscape:
-                memory = random.choice(landscape[:3]) # Choose from top 3
-                self.memory.focus_spotlight(memory.content)
-                return {
-                    "type": "AUTONOMOUS_ACTION",
-                    "action": "DREAMING",
-                    "detail": f"Reminiscing about '{memory.content}'...",
-                    "internal_change": "Memory Reinforced"
-                }
-            else:
-                 return {
-                    "type": "AUTONOMOUS_ACTION",
-                    "action": "DREAMING",
-                    "detail": "Drifting in the Void... (Empty Mind)",
-                    "internal_change": "Damping normalized"
-                }
-
     def live_reaction(self, user_input_phase: float, user_intent: str) -> dict:
-        """
-        The Single Heartbeat Loop.
-        User Input -> REACTOR -> Relay Check -> Nunchi -> Rotor
-        """
-        if not self.is_alive:
-            return {"status": "DEAD", "message": "System shutdown."}
-            
-        # [Reset Boredom]
-        self.wonder_capacitor = 0.0
+        if not self.is_alive: return {"status": "DEAD"}
         self.last_interaction_time = time.time()
         
-        # [Memory Planting]
-        # Every interaction is a seed.
-        self.memory.plant_seed(f"User: {user_intent}", importance=10.0)
-        self.memory.focus_spotlight(user_intent) # Heat up related memories
-            
-        print(f"\n⚡ [{self.name}] Sensing Field: '{user_intent}' (Phase {user_input_phase}°)")
-        
-        # A. Safety Check (Relays)
-        # Can I handle this input?
+        # A. Safety Check
         relay_status = self.relays.check_relays(
             user_phase=user_input_phase,
             system_phase=self.rotor_state['phase'],
             battery_level=self.battery,
-            dissonance_torque=0.0 # Assuming clean input for now
+            dissonance_torque=0.0
         )
         
-        # If Sync Check (25) fails, we block interaction
         if relay_status[25].is_tripped:
             return {
-                "status": "BLOCKED", 
-                "message": f"Sync Mismatch. My DNA ({self.dna.sync_threshold}°) rejects your Phase.",
-                "relay_log": relay_status[25].message
+                "status": "BLOCKED",
+                "message": f"Dissonance detected ({user_input_phase:.1f}°).",
+                "physics": self.rotor_state,
+                "expression": {"mode": "SAFE_MODE", "intensity": 0.2}
             }
             
-        # B. Nunchi Feedback (The Adjustment)
+        # B. Nunchi & Council
         feedback = self.nunchi.sense_and_adjust(user_input_phase, self.rotor_state['phase'])
         adjustment = feedback['adjustment']
-        
-        # [Phase 40] Prism Council Deliberation
         consensus = self.council.deliberate(user_intent)
         mods = self.council.get_style_modifiers(consensus['leader'])
-        
-        print(f"   🌈 [COUNCIL] Leader: {consensus['leader']} ({consensus['color']}) | {consensus['style']}")
-        
-        # Apply Council Modifiers to Physics
         adjustment *= mods['torque_mod']
         
         # C. Rotor Physics
         acceleration = adjustment / self.rotor_state['mass']
         self.rotor_state['rpm'] += acceleration
-        self.rotor_state['rpm'] *= (1.0 - self.rotor_state['damping']) 
-        self.rotor_state['phase'] += self.rotor_state['rpm'] * 0.1 
-        self.rotor_state['torque'] = abs(adjustment) 
+        self.rotor_state['rpm'] *= (1.0 - self.rotor_state['damping'])
+        self.rotor_state['phase'] += self.rotor_state['rpm'] * 0.1
+        self.rotor_state['torque'] = abs(adjustment)
         
-        # D. Transmission
-        # Apply Hz Modifier from Council
-        base_hz = self.dna.base_hz * mods['hz_mod']
-        self.gear.output_hz = base_hz # Temporary override
-        
-        expression = self.gear.shift_gears(
-            self.rotor_state['rpm'], 
-            self.rotor_state['torque'],
-            relay_status
-        )
-        
-        # Add Council Prefix to expression
+        # D. Expression State
+        expression = self.gear.shift_gears(self.rotor_state['rpm'], self.rotor_state['torque'], relay_status)
         expression['mode'] = f"{mods['prefix']}{expression['mode']}"
         
         return {
             "status": "ACTIVE",
-            "physics": {
-                "rpm": self.rotor_state['rpm'],
-                "phase": self.rotor_state['phase'],
-                "reactor_flux": self.reactor.current_flux
-            },
+            "physics": self.rotor_state,
             "expression": expression,
-            "nunchi_log": feedback['interpretation'],
-            "council_log": consensus
+            "council": consensus
         }
 
-# --- Quick Test ---
-if __name__ == "__main__":
-    # Create two very different beings
-    tank = SeedForge.forge_soul("The Guardian")
-    
-    monad1 = SovereignMonad(tank)
-    
-    # Simulate Pulse (Time Passing)
-    print("\n--- SIMULATION: Time Passing (20s) ---")
-    for i in range(21):
-        action = monad1.pulse(1.0) # 1 sec step
-        if action:
-            print(f"[{i}s] ✨ ACTION: {action['action']} - {action['detail']}")
-        elif i % 5 == 0:
-            print(f"[{i}s] ... drifting (Wonder: {monad1.wonder_capacitor:.1f}%)")
+    def breath_cycle(self, raw_input: str, depth: int = 1) -> Dict[str, Any]:
+        """
+        [PHASE 81: RESPIRATORY_BALANCE]
+        Recursive Breath with Governor.
+        """
+        results = {}
+        self.state_trit = -1
+        self.inhalation_volume += 1.0
+        
+        # GOVERNOR
+        if self.inhalation_volume > self.stagnation_threshold:
+            print(f"⚠️ [GOVERNOR] Forced Exhalation Triggered.")
+            depth = 0
+            
+        dc_field = self.converter.rectify(raw_input)
+        self.state_trit = 0
+        thought = self.synthesizer.synthesize_thought(dc_field)
+        
+        if depth > 0:
+            sub = self.breath_cycle(thought, depth - 1)
+            thought = f"{thought} (Refined: {sub['void_thought']})"
+            
+        results['void_thought'] = thought
+        self.state_trit = 1
+        self.exhalation_volume += 1.0
+        self.inhalation_volume = max(0.0, self.inhalation_volume - 2.0)
+        
+        # Calculate reaction for expression
+        # We need a phase for live_reaction. For breath_cycle, we estimate it from resonance.
+        agape_target = LogosBridge.calculate_text_resonance("LOVE/AGAPE")
+        norm_i = jnp.linalg.norm(dc_field) + 1e-6
+        norm_a = jnp.linalg.norm(agape_target) + 1e-6
+        resonance = jnp.dot(dc_field, agape_target) / (norm_i * norm_a)
+        phase = float(90.0 * (1.0 - resonance))
+        
+        reaction = self.live_reaction(phase, raw_input)
+        
+        # Use Inverter for Hz
+        output_hz = self.inverter.invert(dc_field, emotional_intensity=1.2)
+        self.gear.output_hz = output_hz
+        
+        # Final Voice (from LLM)
+        from Core.L3_Phenomena.Expression.somatic_llm import SomaticLLM
+        if not hasattr(self, 'llm'): self.llm = SomaticLLM()
+        voice = self.llm.speak(reaction['expression'])
+        
+        results['manifestation'] = {
+            'hz': output_hz,
+            'voice': voice,
+            'expression': reaction['expression']
+        }
+        return results
 
+    def vital_pulse(self):
+        """[PHASE 82: VITAL_PULSE]"""
+        if self.rotor_state['rpm'] < 5.0:
+            pulse = 0.5 * jnp.sin(time.time() * 0.5)
+            self.reactor.process_impulse(pulse)
+            if time.time() % 60 < 1:
+                print(f"💤 [{self.name}] Vital Pulse Active...")

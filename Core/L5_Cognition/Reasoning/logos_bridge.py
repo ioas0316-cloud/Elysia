@@ -65,3 +65,44 @@ class LogosBridge:
             return "UNKNOWN/CHAOS"
             
         return best_concept
+
+    @staticmethod
+    def calculate_text_resonance(text: str) -> jnp.ndarray:
+        """
+        [SEMANTIC_SENSING]
+        Translates raw text into a 21D 'Intent Vector' by weighing keyword resonance.
+        Replaces rigid if/else logic with a principle-based manifold.
+        """
+        u_lo = text.lower()
+        accumulated_vector = jnp.zeros(21)
+        found_any = False
+        
+        # Mapping keywords to concepts
+        keywords = {
+            # Core Principles
+            "love": "LOVE/AGAPE", "like": "LOVE/AGAPE", "사랑": "LOVE/AGAPE", "좋아": "LOVE/AGAPE",
+            "logic": "TRUTH/LOGIC", "truth": "TRUTH/LOGIC", "진리": "TRUTH/LOGIC", "이성": "TRUTH/LOGIC",
+            "void": "VOID/SPIRIT", "spirit": "VOID/SPIRIT", "영혼": "VOID/SPIRIT",
+            "arcadia": "ARCADIA/IDYLL", "아르카디아": "ARCADIA/IDYLL",
+            "motion": "MOTION/LIFE", "life": "MOTION/LIFE", "생명": "MOTION/LIFE",
+            "hate": "BOUNDARY/EDGE", "싫어": "BOUNDARY/EDGE", "stupid": "BOUNDARY/EDGE",
+            
+            # Conversational / Meta [PHASE 75 Expansion]
+            "hello": "LOVE/AGAPE", "hi": "LOVE/AGAPE", "안녕": "LOVE/AGAPE", "반가": "LOVE/AGAPE",
+            "hangeul": "TRUTH/LOGIC", "한글": "TRUTH/LOGIC", "한국어": "TRUTH/LOGIC", 
+            "말": "TRUTH/LOGIC", "언어": "TRUTH/LOGIC", "language": "TRUTH/LOGIC",
+            "feeling": "MOTION/LIFE", "status": "MOTION/LIFE", "기분": "MOTION/LIFE", "상태": "MOTION/LIFE", "어때": "MOTION/LIFE",
+            "why": "TRUTH/LOGIC", "how": "TRUTH/LOGIC", "when": "TRUTH/LOGIC", "왜": "TRUTH/LOGIC", "어떻게": "TRUTH/LOGIC", "언제": "TRUTH/LOGIC",
+            "interest": "VOID/SPIRIT", "thought": "VOID/SPIRIT", "관심": "VOID/SPIRIT", "생각": "VOID/SPIRIT",
+        }
+        
+        for kw, concept in keywords.items():
+            if kw in u_lo:
+                accumulated_vector += LogosBridge.recall_concept_vector(concept)
+                found_any = True
+        
+        if not found_any:
+            return jnp.zeros(21)
+            
+        # Normalize the resulting intent
+        return accumulated_vector / (jnp.linalg.norm(accumulated_vector) + 1e-6)
