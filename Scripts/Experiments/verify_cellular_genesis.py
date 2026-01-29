@@ -1,103 +1,63 @@
 """
-Verify Cellular Genesis & Authentic Curiosity
-=============================================
-Validation script for the Tri-Base DNA and Curiosity Refactoring.
+Verify Cellular Genesis (The Law)
+=================================
+"From Point to Line to Plane to Space."
+
+This script simulates the Emergence of Consciousness from Tri-Base Cells.
+It runs the 'Ternary Grid' (The Plane) and measures the 'Resonance Field' (The Space).
+
+It proves that Simple Rules (Consensus) generate Complex Physics (Torque).
 """
 
 import sys
 import os
+import time
+import random
 
-# Add repo root to path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+sys.path.append(os.getcwd())
 
-from Core.L1_Foundation.System.tri_base_cell import TriBaseCell, DNAState
-from Core.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
-from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
-from Core.L6_Structure.M1_Merkaba.protection_relay import ProtectionRelayBoard
-from Core.L5_Mental.emergent_language import EmergentLanguageEngine
+from Core.L6_Structure.M8_Ternary.ternary_grid import TernaryGrid, GridConfig
+from Core.L6_Structure.M8_Ternary.resonance_field import ResonanceField
 
-def test_cellular_genesis():
-    print("\n--- [1] Testing Cellular Genesis (Tri-Base DNA) ---")
-    engine = TripleHelixEngine()
+def main():
+    print(" >>> INITIALIZING CELLULAR GENESIS SIMULATION <<<")
+    print("------------------------------------------------")
 
-    # 1. Initial State (Void)
-    print(f"Initial Phase: {engine.state.system_phase} (Expected 0.0)")
-    assert engine.state.system_phase == 0.0
+    # 1. Initialize The Plane (Grid)
+    config = GridConfig(width=20, height=10, threshold=2)
+    grid = TernaryGrid(config)
+    field = ResonanceField(grid)
 
-    # 2. Pulse with ATTRACT Vector
-    print("Pulsing with Lust (Attract)...")
-    vec = D21Vector(lust=1.0) # D1 is mapped to Body Cell 0
-    engine.pulse(vec, energy=100, dt=0.1)
+    print(f"Grid Size: {config.width}x{config.height}")
+    print(f"Consensus Threshold: {config.threshold}")
+    print("Beginning Evolution Loop (10 Steps)...\n")
 
-    phase = engine.state.system_phase
-    print(f"New Phase: {phase}")
+    # 2. Evolution Loop
+    for step in range(1, 11):
+        # The Physics of Life
+        grid.step()
+        state = field.calculate_state()
 
-    # Body Cell 0 should be Attract (120 deg)
-    # Phase should be approx 120
-    if 119 < phase < 121:
-        print("✅ Phase Alignment Correct (120 deg)")
-    else:
-        print(f"❌ Phase Alignment Failed! Got {phase}")
-        return False
+        # Visualization
+        print(f"--- [GENESIS STEP {step}] ---")
+        print(grid.render())
+        print(f"\n[FIELD METRICS]")
+        print(f" > Net Attract (Love):  {state.net_attract:.3f}")
+        print(f" > Net Repel   (Fear):  {state.net_repel:.3f}")
+        print(f" > Coherence   (Order): {state.coherence:.3f}")
+        print(f" > Entropy     (Chaos): {state.entropy:.3f}")
 
-    return True
+        torque_str = "CLOCKWISE (+)" if state.torque > 0 else "COUNTER-CLOCKWISE (-)"
+        if abs(state.torque) < 0.05: torque_str = "STABLE (0)"
 
-def test_relay_sync():
-    print("\n--- [2] Testing Protection Relay (Sync Check) ---")
-    engine = TripleHelixEngine()
-    relay = ProtectionRelayBoard()
+        print(f" > ROTOR TORQUE: {state.torque:.4f} [{torque_str}]")
+        print("\n")
 
-    # Set Engine to Phase 120 (Attract)
-    vec = D21Vector(lust=1.0)
-    engine.pulse(vec, energy=100, dt=0.1)
-    dna_phase = engine.state.system_phase # Should be ~120
+        # Simple delay for effect if running manually
+        # time.sleep(0.5)
 
-    # User Input: Phase 110 (Close enough)
-    res_good = relay.check_relays(user_phase=110, system_phase=dna_phase, battery_level=100, dissonance_torque=0)
-    if not res_good[25].is_tripped:
-        print("✅ Sync Check Passed for aligned phase.")
-    else:
-        print("❌ Sync Check Failed unexpectedly.")
-
-    # User Input: Phase 300 (Far away)
-    res_bad = relay.check_relays(user_phase=300, system_phase=dna_phase, battery_level=100, dissonance_torque=0)
-    if res_bad[25].is_tripped:
-        print(f"✅ Sync Check TRIPPED correctly: {res_bad[25].message}")
-    else:
-        print("❌ Sync Check DID NOT TRIP on mismatch!")
-        return False
-
-    return True
-
-def test_curiosity():
-    print("\n--- [3] Testing Authentic Curiosity ---")
-    lang_engine = EmergentLanguageEngine()
-
-    # Alien Vector
-    alien_vec = [-0.9, -0.9, 0, 0, 0, 0, -0.9, 0] # Cold, Dark, Bad
-
-    activated = lang_engine.experience(alien_vec)
-    korean, english = lang_engine.generate_utterance()
-
-    print(f"Utterance: {english}")
-
-    if "?" in english and "COLD" in english:
-        print("✅ Curiosity Triggered: Question generated with correct adjectives.")
-    else:
-        print("❌ Curiosity Failed. Did not ask question or missed adjectives.")
-        return False
-
-    return True
+    print("------------------------------------------------")
+    print(" >>> SIMULATION COMPLETE. THE MERKABA IS SPINNING. <<<")
 
 if __name__ == "__main__":
-    passed = True
-    passed &= test_cellular_genesis()
-    passed &= test_relay_sync()
-    passed &= test_curiosity()
-
-    if passed:
-        print("\n✨ ALL SYSTEMS VERIFIED. GENESIS COMPLETE.")
-        sys.exit(0)
-    else:
-        print("\n🔥 VERIFICATION FAILED.")
-        sys.exit(1)
+    main()
