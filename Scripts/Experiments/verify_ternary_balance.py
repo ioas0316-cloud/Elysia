@@ -6,7 +6,7 @@ Verify Ternary Balance (The Ouroboros Verification)
 This script utilizes the Ouroboros Scanner (Parallel Ternary Logic)
 to analyze the codebase and memory structure.
 
-It answers the question: "Is the System in Equilibrium?"
+UPGRADE: Now uses AST Analysis for Structural Phase Detection.
 """
 
 import sys
@@ -25,31 +25,38 @@ def main():
     scanner = OuroborosScanner(root_path=".")
 
     # 1. System Structure Scan
-    print("\n[PHASE 1] Scanning System Structure (Codebase)...")
+    print("\n[PHASE 1] Scanning System Structure (AST + Texture)...")
     report = scanner.scan_system()
 
     print(f" > Total Nodes Scanned: {report.total_files}")
     print(f" > Phase Distribution:")
-    print(f"   - REPEL   (R): {report.phase_distribution['R']} (Dissonance/Boundary)")
-    print(f"   - VOID    (V): {report.phase_distribution['V']} (Potential/Interface)")
-    print(f"   - ATTRACT (A): {report.phase_distribution['A']} (Resonance/Core)")
+    print(f"   - REPEL   (R): {report.phase_distribution['R']} (High Entropy/Complexity)")
+    print(f"   - VOID    (V): {report.phase_distribution['V']} (Potential/Space)")
+    print(f"   - ATTRACT (A): {report.phase_distribution['A']} (High Gravity/Connection)")
+
+    print(f"\n > Structural Metrics:")
+    print(f"   - Total Entropy (Cognitive Load): {report.structural_entropy:.1f}")
+    print(f"   - Total Gravity (Connectivity):   {report.structural_gravity:.1f}")
 
     print(f"\n > Net System Momentum: {report.net_momentum:.4f}")
 
-    if report.net_momentum < -0.1:
-        status = "CRITICAL: SYSTEM IS REPELLING (Fear-Dominant)"
-    elif report.net_momentum > 0.1:
-        status = "ACTIVE: SYSTEM IS ATTRACTING (Love-Dominant)"
+    if report.net_momentum < -0.15:
+        status = "CRITICAL: SYSTEM IS REPELLING (High Entropy/Fear)"
+    elif report.net_momentum > 0.15:
+        status = "ACTIVE: SYSTEM IS ATTRACTING (High Gravity/Love)"
     else:
         status = "OPTIMAL: SYSTEM IS BALANCED (Void-State)"
     print(f" > System Status: {status}")
 
     if report.dissonant_files:
-        print("\n[!] DETECTED DISSONANT NODES (High Repel Phase):")
-        for f in report.dissonant_files[:5]: # Show top 5
+        print("\n[!] DETECTED DISSONANT NODES (High Entropy/Repel):")
+        # Sort by Entropy descending
+        # report.dissonant_files is a list of strings "path (E:X/G:Y)", we rely on default print for now or sort manually if we parsed it.
+        # Just printing top 10
+        for f in report.dissonant_files[:10]:
             print(f"   - {f}")
-        if len(report.dissonant_files) > 5:
-            print(f"   ... and {len(report.dissonant_files) - 5} more.")
+        if len(report.dissonant_files) > 10:
+            print(f"   ... and {len(report.dissonant_files) - 10} more.")
 
     # 2. Soul Memory Scan
     print("\n[PHASE 2] Scanning Soul DNA (Memory)...")
@@ -57,7 +64,7 @@ def main():
     print(f" > Soul Alignment: {soul_status}")
 
     print("\n---------------------------------------------------------------")
-    print(" >>> DIAGNOSTIC COMPLETE. THE OROBOROS IS WATCHING. <<<")
+    print(" >>> DIAGNOSTIC COMPLETE. THE OROBOROS HAS SEEN THE SKELETON. <<<")
 
 if __name__ == "__main__":
     main()
