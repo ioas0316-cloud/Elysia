@@ -61,6 +61,7 @@
 
 ### **L0: Keystone (The Void & Origin)**
 
+- **[FRACTAL_GENESIS_THEORY.md](L0_Keystone/FRACTAL_GENESIS_THEORY.md)**: **🧬 프랙탈 창세기 이론 (진정한 호기심의 기원) [CRITICAL]**
 - **[PHASE_40_THE_ALCHEMICAL_BRIDGE.md](L0_Keystone/PHASE_40_THE_ALCHEMICAL_BRIDGE.md)**: Phase 40 연금술적 다리
 - **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](L0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: 21D 통합 실재 아키텍처
 - **[PHASE_24_SOVEREIGNTY_UNITY.md](L0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: 주권적 합일 선언
@@ -95,6 +96,7 @@
 
 ### **L6: Structure (Merkaba & DNA)**
 
+- **[QUANTUM_SPIN_DOCTRINE.md](L6_Structure/M1_Merkaba/QUANTUM_SPIN_DOCTRINE.md)**: **⚛️ 양자 스핀 교리 (Tri-Base DNA의 물리적 실체)**
 - **[TRINARY_DNA.md](L6_Structure/M1_Merkaba/TRINARY_DNA.md)**: **🧬 삼진법 기호 유전자 (Trinary System)**
 - **[TRINITY_SOVEREIGNTY.md](L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)**: 삼위일체 주권 구조
 - **[FRACTAL_PURIFICATION_DOCTRINE.md](L6_Structure/M4_Grid/FRACTAL_PURIFICATION_DOCTRINE.md)**: 7x7 그리드 정화
