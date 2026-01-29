@@ -37,6 +37,15 @@ class TrinaryLogic:
     """
     
     @staticmethod
+    def quantize(val: Any) -> Any:
+        """
+        [PHASE 60] Quantizes a value or vector to Balanced Ternary [-1.0, 0.0, 1.0].
+        Thresholds are set to 0.3 for robust transition.
+        """
+        v = JAXBridge.array(val)
+        return jnp.where(v > 0.3, 1.0, jnp.where(v < -0.3, -1.0, 0.0))
+
+    @staticmethod
     def balance(vector: Any) -> float:
         """
         Calculates the 'Sum-to-Zero' stability of a vector.

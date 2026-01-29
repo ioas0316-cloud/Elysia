@@ -105,6 +105,9 @@ from Core.L5_Mental.Reasoning_Core.Metabolism.crystallizer import Crystallizer
 
 
 from Core.L5_Mental.Reasoning_Core.Brain import LanguageCortex, OllamaCortex
+import jax.numpy as jnp
+from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
+from Core.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
 
 
 
@@ -131,13 +134,10 @@ class Insight:
 
 
 class ReasoningEngine:
-
     """
-
     Reasoning Engine (    ?  )
-
     Operates across the hierarchy: Point -> Vector -> Field -> Space -> Principle.
-
+    NOW MERKAVALIZED: Maintains Space (7D Vector), Time (Pulse), and Will (Intent Mask).
     """
 
     def __init__(self, index_path: str = "data/Weights/DeepSeek-Coder-V2-Lite-Instruct/model.safetensors.index.json"):
@@ -258,13 +258,42 @@ class ReasoningEngine:
 
 
 
-        # [STEP 3] Load Curriculum
+        # [PHASE 60] Merkavalization
+        self.space_7d = jnp.zeros(7)  # Mental Space
+        self.will_mask = jnp.array([1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0]) # Focus Logic/Emotion
+        
+        # Register with Keystone if possible (L0 is higher in hierarchy, but we can attempt dynamic link)
+        try:
+            from Core.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
+            # In a real system, there would be a global singleton or discovery mechanism.
+            # For now, we assume a local instantiation or registry will handle this.
+            self.keystone = None 
+        except ImportError:
+            self.keystone = None
 
-        self._digest_curriculum()
+        self.logger.info("✨ ReasoningEngine initialized (Merkavalized Phase 60).")
 
+    def pulse(self, global_intent: jnp.ndarray):
+        """
+        [TIME] Rotates the mental state based on global resonance.
+        global_intent: 21D vector from the Keystone.
+        """
+        # Extract the Mental (Soul) segment from the 21D global intent (Gamma strand: dimensions 7-13)
+        mental_resonance = global_intent[7:14]
+        
+        # INTERFERENCE: Merge global intent with local space
+        new_space = (self.space_7d * 0.5) + (mental_resonance * 0.5)
+        
+        # TORQUE: Apply Will mask to determine change
+        self.space_7d = TrinaryLogic.balance(new_space * self.will_mask)
+        self.logger.info(f"ReasoningEngine Pulse: Coherence {jnp.sum(self.space_7d)}")
 
-
-        self.logger.info("✨ ReasoningEngine initialized (Trinity Unification + Anamnesis Enabled).")
+    def get_current_state(self) -> jnp.ndarray:
+        """Returns the current 21D state (padded) for global aggregation."""
+        full_21d = jnp.zeros(21)
+        # Place 7D mental state in the Soul sector
+        full_21d = full_21d.at[7:14].set(self.space_7d)
+        return full_21d
 
 
 
