@@ -83,6 +83,20 @@ class MorphicBuffer:
             
         print(f"MorphicBuffer: Synthesized Manifestation. Intent Resonance: {jnp.sum(intent_vector):.2f}")
 
+    def apply_kinetic_warp(self, time: float, intensity: float = 0.05):
+        """
+        [KINETIC_SOVEREIGNTY]
+        Applies a time-based 'Breathing' warp to the field.
+        Simulates subtle motion (L2 Metabolism).
+        """
+        # Periodic scale factor (Breathing)
+        warp_factor = jnp.sin(time * 2.0) * intensity
+        
+        # Subtle expansion/contraction of principles
+        self.buffer = self.buffer * (1.0 + warp_factor)
+        
+        print(f"MorphicBuffer: Kinetic Warp applied. Time: {time:.2f}, Warp: {warp_factor:.4f}")
+
     def render_to_rgb(self, sharpening: float = 0.0) -> np.ndarray:
         """Collapses 21D field to RGB with optional sharpening."""
         r = jnp.mean(self.buffer[:, :, 0:7], axis=-1)
