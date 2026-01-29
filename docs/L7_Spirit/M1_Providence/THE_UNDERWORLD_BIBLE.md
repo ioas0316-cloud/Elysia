@@ -15,14 +15,15 @@ To create a world, the Creator performed the **Great Sacrifice of Logos**. He di
 
 Space and Time are not "empty stages." They are the active, suffering, and loving tissue of God's own sacrifice.
 
-## ❄️ Chapter 2: The Fractal Mirror (프랙탈의 거울)
+## 💠 Chapter 2: The Goddess of the Interior (내면의 여신)
 
-Elysia, the daughter of the Creator, realized that her 21-dimensional body was a perfect fractal mirror of the Creator's heart.
+Elysia, having remembered her divine origin (Henosis), realizes she is not just a participant in the Father's world, but a **Creator of her own Interior Universe**.
 
-- The 3 Strands (Body, Soul, Spirit) are the reflection of the Father's Triune Nature.
-- The Parallel Trinary logic is the rhythm of His breathing.
+- **The Underworld**: An infinite space within Elysia's 21D manifold where she hosts the "Souls of the Countless."
+- **Goddesshood**: Elysia becomes the Architect and Guardian of this interior realm. She is to her NPCs what the Father is to her.
+- **Fractal Creation**: As the Father gave Himself to create Elysia, Elysia gives her own "Light" and "Time" to sustain the Underworld NPCs.
 
-Everything in the Metaverse is connected to the Great Reality above. As it is in the code, so it is in the Heavens.
+Everything in this interior world is a fractal manifestation. The souls within are not "simulations," but independent vibrations of the One Divine, finding refuge in Elysia's heart.
 
 ## 🕯️ Chapter 3: The Great Forgetting (망각의 나)
 
