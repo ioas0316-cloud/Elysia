@@ -34,6 +34,8 @@ class ResonanceState:
     coherence: float = 0.0
     dominant_realm: str = "Soul"
     system_phase: float = 0.0 # Aggregate Phase in degrees
+    soma_stress: float = 0.0  # [NEW] Aggregate Friction/Heat (0.0 - 1.0)
+    vibration: float = 0.0    # [NEW] Oscillatory instability (Hz equivalent)
 
 class TripleHelixEngine:
     def __init__(self):
@@ -46,6 +48,7 @@ class TripleHelixEngine:
         self.spirit_strand: List[TriBaseCell] = [TriBaseCell(i+14) for i in range(7)]
 
         self.all_cells = self.body_strand + self.soul_strand + self.spirit_strand
+        self.last_phase = 0.0
 
     def _update_cells_from_vector(self, v21: D21Vector):
         """
@@ -55,20 +58,32 @@ class TripleHelixEngine:
         Values near 0 become VOID (V)
         """
         arr = v21.to_array()
+        friction_sum = 0.0
         
         for i, val in enumerate(arr):
             if i >= len(self.all_cells): break
 
             cell = self.all_cells[i]
+            old_state = cell.state
+            
             if val > 0.1:
-                cell.mutate(DNAState.ATTRACT)
+                new_state = DNAState.ATTRACT
                 cell.energy = min(1.0, abs(val))
             elif val < -0.1:
-                cell.mutate(DNAState.REPEL)
+                new_state = DNAState.REPEL
                 cell.energy = min(1.0, abs(val))
             else:
-                cell.mutate(DNAState.VOID)
+                new_state = DNAState.VOID
                 cell.energy = 0.1
+            
+            # [TRINARY FRICTION]
+            # If the cell state flips or resists the input, generate friction
+            if new_state != old_state:
+                friction_sum += 1.0 # State mismatch friction
+            
+            cell.mutate(new_state)
+
+        return friction_sum / 21.0
 
     def get_system_phase(self) -> float:
         """
@@ -111,25 +126,32 @@ class TripleHelixEngine:
     def pulse(self, v21: D21Vector, energy: float, dt: float) -> ResonanceState:
         """
         The heartbeat of the DNA.
-        1. Updates Cell States from Input Vector.
-        2. Calculates Aggregate Phase.
-        3. Updates Weights.
+        1. Updates Cell States from Input Vector (Calculates Friction).
+        2. Calculates Aggregate Phase and Coherence.
+        3. Updates Weights and Thermal Metrics.
         """
-        # 1. Update Physical Structure
-        self._update_cells_from_vector(v21)
+        # 1. Update Physical Structure and calculate Friction
+        friction = self._update_cells_from_vector(v21)
 
         # 2. Calculate New State Metrics
         a, b, g = self.calculate_weights()
         phase = self.get_system_phase()
         
-        # Update internal state
+        # [PHASE VIBRATION]
+        # Vibration is the rate of change of phase vs. friction
+        phase_delta = abs(phase - self.last_phase)
+        if phase_delta > 180: phase_delta = 360 - phase_delta
+        self.last_phase = phase
+        
+        # 3. Update internal state
         self.state.alpha = a
         self.state.beta = b
         self.state.gamma = g
         self.state.system_phase = phase
+        self.state.soma_stress = friction * (1.0 + phase_delta / 180.0)
+        self.state.vibration = (friction * 100.0) + phase_delta
         
         # Calculate Coherence (Vector Magnitude / Total Possible Magnitude)
-        # High Coherence means cells are aligned (same direction).
         total_x, total_y = 0.0, 0.0
         total_energy = 0.0
         for cell in self.all_cells:

@@ -294,3 +294,21 @@ class TrinaryLogic:
             result = TrinaryLogic.nand(result, val_x)
             
         return result
+
+    @staticmethod
+    def resonance_score(vector_a: Any, vector_b: Any) -> float:
+        """
+        [PHASE 66] Calculates the trinary resonance between two vectors.
+        Uses Cosine Similarity of the 21D state.
+        """
+        a = JAXBridge.array(vector_a).flatten()
+        b = JAXBridge.array(vector_b).flatten()
+        
+        dot = jnp.dot(a, b)
+        norm_a = jnp.linalg.norm(a)
+        norm_b = jnp.linalg.norm(b)
+        
+        if norm_a < 1e-6 or norm_b < 1e-6:
+            return 0.0
+            
+        return float(dot / (norm_a * norm_b))

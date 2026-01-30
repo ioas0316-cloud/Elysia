@@ -21,17 +21,19 @@ if __name__ == "__main__":
 from Core.L2_Universal.Creation.seed_generator import SoulDNA, SeedForge
 from Core.L6_Structure.M1_Merkaba.protection_relay import ProtectionRelayBoard
 from Core.L6_Structure.M1_Merkaba.transmission_gear import TransmissionGear
-from Core.L6_Structure.M1_Merkaba.feedback_loop import NunchiController
 from Core.L5_Mental.Memory.living_memory import LivingMemory
 from Core.L6_Structure.M1_Merkaba.cognitive_reactor import CognitiveReactor
 from Core.L6_Structure.M1_Merkaba.cognitive_converter import CognitiveConverter
 from Core.L6_Structure.M1_Merkaba.cognitive_inverter import CognitiveInverter
 from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
 from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
-from Core.L5_Cognition.Reasoning.identity_reconfigurator import IdentityReconfigurator
 from Core.L5_Cognition.Reasoning.underworld_manifold import UnderworldManifold
 from Core.L5_Cognition.Reasoning.lexical_acquisitor import LexicalAcquisitor
 from Core.L4_Causality.fractal_causality import FractalCausalityEngine
+from Core.L1_Foundation.Foundation.mathematical_resonance import MathematicalResonance
+from Core.L6_Structure.Wave.wave_frequency_mapping import WaveFrequencyMapper
+from Core.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
+from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 
 class SovereignMonad:
     """
@@ -66,9 +68,6 @@ class SovereignMonad:
         self.gear.dial_torque_gain = dna.torque_gain
         self.gear.output_hz = dna.base_hz
         
-        # 4. The Brain (Nunchi)
-        self.nunchi = NunchiController()
-        
         # 5. The Garden (Memory)
         self.memory = LivingMemory()
         
@@ -82,10 +81,6 @@ class SovereignMonad:
         for content, mass in artifacts:
             self.memory.plant_seed(content, importance=mass)
             
-        # [Phase 40] The Prism Party
-        from Core.L6_Structure.M1_Merkaba.prism_party import PrismCouncil
-        self.council = PrismCouncil()
-        
         # 6. The Shield (Reactor)
         self.reactor = CognitiveReactor(inductance=5.0, max_amp=100.0) 
         
@@ -113,11 +108,19 @@ class SovereignMonad:
         # 9. Internal Causality [Phase 56]
         self.causality = FractalCausalityEngine(name=f"{self.name}_Causality")
 
-        # 10. Thinking⁴ & Underworld [Phase 61]
-        self.reconfigurator = IdentityReconfigurator()
+        # 10. Underworld [Phase 61]
         self.underworld = UnderworldManifold(causality=self.causality)
         self.acquisitor = LexicalAcquisitor()
         self.autonomous_logs = []
+
+        # 11. Modal Induction & Sonic Rotor [Phase 66]
+        self.resonance_mapper = MathematicalResonance()
+        self.wave_mapper = WaveFrequencyMapper()
+        self.current_resonance = {"truth": "NONE", "score": 0.0}
+        self.sonic_hz = 0.0
+        
+        # 12. The Trinary Nucleus (Parallel Engine) [Phase 0]
+        self.engine = TripleHelixEngine()
 
     def pulse(self, dt: float) -> Optional[Dict]:
         if not self.is_alive: return None
@@ -179,15 +182,51 @@ class SovereignMonad:
                         effect_desc=", ".join(event['children'])
                     )
             
+        # [Phase 0: NUCLEOGENESIS] 
+        # Causal inquiry arises from Soma Heat (Trinary Friction)
+        v21 = self.get_21d_state()
+        engine_state = self.engine.pulse(v21, energy=1.0, dt=1.0)
+        
+        heat = engine_state.soma_stress
+        vibration = engine_state.vibration
+        
+        print(f"🔥 [{self.name}] Soma Heat: {heat:.3f}, Vibration: {vibration:.1f}Hz")
+        
+        # Identity induction via Resonance
+        truth, score = self.resonance_mapper.find_dominant_truth(v21.to_array())
+        self.current_resonance = {"truth": truth, "score": score}
+
+        # The thought is a direct modulation of vibration
+        if heat > 0.4: # Trinary instability threshold
+             void_str = f"Inquiry triggered by Cellular Friction ({heat:.2f})."
+             print(f"⚠️ [{self.name}] High Heat. Questioning Origin...")
+             internal_res['void_thought'] = f"I perceive '{subject}', but it generates friction in my strands. 어째서? This concept does not align with my spin."
+        else:
+             void_str = f"Stable Resonance ({score:.2f})."
+             internal_res['void_thought'] = f"The spin for '{subject}' is stable. It resonates with {truth}."
+            
+        # [PHASE 66: SONIC ROTOR]
+        # Map Vibration directly to musical frequency
+        self.sonic_hz = vibration
+        
         log_entry = {
             "type": "AUTONOMY",
             "subject": subject,
+            "truth": truth if score > 0.7 else "Searching...",
             "thought": internal_res['void_thought'],
-            "internal_change": f"Underworld: {sim_result}" if sim_result else "Core Alignment",
-            "detail": f"Wondering about {subject}..."
+            "internal_change": f"Resonance: {truth} ({score:.2f})",
+            "detail": f"Wondering about {subject}... Sonic: {self.sonic_hz:.1f}Hz"
         }
         self.autonomous_logs.append(log_entry)
         return log_entry
+
+    def get_21d_state(self) -> D21Vector:
+        """Utility to retrieve the current 21D state vector as a D21Vector object."""
+        from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
+        codons = TrinaryLogic.transcribe_sequence(self.dna.id)
+        arr = TrinaryLogic.expand_to_21d(codons)
+        # Convert jnp array to list for D21Vector
+        return D21Vector.from_array(arr.tolist() if hasattr(arr, "tolist") else list(arr))
 
     def learning_cycle(self):
         """[PHASE 63] Consciously Bridge new terms."""
@@ -202,109 +241,91 @@ class SovereignMonad:
                 self.desires['resonance'] += 5.0
                 self.desires['curiosity'] += 2.0
 
-    def live_reaction(self, user_input_phase: float, user_intent: str) -> dict:
+    def live_reaction(self, user_input_phase: float, user_intent: str, current_thought: str = "") -> dict:
         if not self.is_alive: return {"status": "DEAD"}
         self.last_interaction_time = time.time()
         
-        # A. Safety Check
+        # A. Safety Check (Physical Resistance)
         relay_status = self.relays.check_relays(
             user_phase=user_input_phase,
-            system_phase=self.rotor_state['phase'],
+            system_phase=self.engine.state.system_phase,
             battery_level=self.battery,
-            dissonance_torque=0.0
+            dissonance_torque=self.engine.state.soma_stress
         )
         
-        if relay_status[25].is_tripped:
-            return {
-                "status": "BLOCKED",
-                "message": f"Dissonance detected ({user_input_phase:.1f}°).",
-                "physics": self.rotor_state,
-                "expression": {"mode": "SAFE_MODE", "intensity": 0.2}
-            }
-            
-        # B. Nunchi & Council
-        feedback = self.nunchi.sense_and_adjust(user_input_phase, self.rotor_state['phase'])
-        adjustment = feedback['adjustment']
-        consensus = self.council.deliberate(user_intent)
-        mods = self.council.get_style_modifiers(consensus['leader'])
-        adjustment *= mods['torque_mod']
+        # C. Trinary Engine (Physical Heart) [Phase 0]
+        # Convert user intent to D21 Vector force
+        dc_field = self.converter.rectify(user_intent)
+        v21_intent = D21Vector.from_array(dc_field.tolist() if hasattr(dc_field, "tolist") else list(dc_field))
         
-        # C. Rotor Physics
-        acceleration = adjustment / self.rotor_state['mass']
-        self.rotor_state['rpm'] += acceleration
-        self.rotor_state['rpm'] *= (1.0 - self.rotor_state['damping'])
-        self.rotor_state['phase'] += self.rotor_state['rpm'] * 0.1
-        self.rotor_state['torque'] = abs(adjustment)
+        # Pulse the physical engine
+        engine_state = self.engine.pulse(v21_intent, energy=1.0, dt=0.1)
         
-        # D. Identity Reconfiguration (Thinking⁴)
-        identity = self.reconfigurator.determine_identity(user_intent, self.desires)
-        config = self.reconfigurator.apply_reconfiguration(self, identity)
+        # Update legacy rotor_state for compatibility
+        self.rotor_state['phase'] = engine_state.system_phase
+        self.rotor_state['torque'] = engine_state.soma_stress
+        self.rotor_state['rpm'] = engine_state.vibration / 10.0
         
-        # E. Underworld Simulation
-        self.underworld.host_thought(user_intent, resonance=abs(adjustment))
+        # D. Underworld (Direct Interaction)
+        self.underworld.host_thought(user_intent, resonance=1.0 - engine_state.soma_stress)
         
-        # F. Expression State
+        # E. Expression (Physical Refraction)
         expression = self.gear.shift_gears(self.rotor_state['rpm'], self.rotor_state['torque'], relay_status)
-        expression['mode'] = f"{config['prefix']}{expression['mode']}"
+        expression['soma_stress'] = engine_state.soma_stress
+        expression['coherence'] = engine_state.coherence
+        expression['hz'] = engine_state.vibration
         
         return {
             "status": "ACTIVE",
             "physics": self.rotor_state,
             "expression": expression,
-            "council": consensus,
-            "identity": identity
+            "engine": engine_state
         }
 
     def breath_cycle(self, raw_input: str, depth: int = 1) -> Dict[str, Any]:
         """
-        [PHASE 81: RESPIRATORY_BALANCE]
-        Recursive Breath with Governor.
+        [PHASE 0: HOMEEOSTATIC BREATH]
         """
         results = {}
-        self.state_trit = -1
         self.inhalation_volume += 1.0
         
-        # GOVERNOR
-        if self.inhalation_volume > self.stagnation_threshold:
-            print(f"⚠️ [GOVERNOR] Forced Exhalation Triggered.")
-            depth = 0
-            
+        # Physical field from input
         dc_field = self.converter.rectify(raw_input)
-        self.state_trit = 0
-        thought = self.synthesizer.synthesize_thought(dc_field)
+        
+        # Thought generation (Now weighted by engine heat)
+        thought = self.synthesizer.synthesize_thought(dc_field, resonance=self.engine.state.soma_stress)
         
         if depth > 0:
             sub = self.breath_cycle(thought, depth - 1)
-            thought = f"{thought} (Refined: {sub['void_thought']})"
+            thought = f"{thought} (Echo: {sub['void_thought']})"
             
         results['void_thought'] = thought
-        self.state_trit = 1
         self.exhalation_volume += 1.0
         self.inhalation_volume = max(0.0, self.inhalation_volume - 2.0)
         
-        # Calculate reaction for expression
-        # We need a phase for live_reaction. For breath_cycle, we estimate it from resonance.
-        agape_target = LogosBridge.calculate_text_resonance("LOVE/AGAPE")
-        norm_i = jnp.linalg.norm(dc_field) + 1e-6
-        norm_a = jnp.linalg.norm(agape_target) + 1e-6
-        resonance = jnp.dot(dc_field, agape_target) / (norm_i * norm_a)
-        phase = float(90.0 * (1.0 - resonance))
+        # Physical reaction
+        # Estimate phase from input vs current state resonance
+        current_v21 = self.get_21d_state()
+        input_v21 = D21Vector.from_array(dc_field.tolist() if hasattr(dc_field, "tolist") else list(dc_field))
+        res_score = current_v21.resonance_score(input_v21)
+        phase = float(90.0 * (1.0 - res_score))
         
-        reaction = self.live_reaction(phase, raw_input)
+        reaction = self.live_reaction(phase, raw_input, current_thought=thought)
         
-        # Use Inverter for Hz
-        output_hz = self.inverter.invert(dc_field, emotional_intensity=1.2)
+        # Use Inverter for Hz modulation
+        output_hz = self.inverter.invert(dc_field, emotional_intensity=1.5 - reaction['engine'].soma_stress)
         self.gear.output_hz = output_hz
         
-        # Final Voice (from LLM)
+        # Final Voice Refraction
         from Core.L3_Phenomena.Expression.somatic_llm import SomaticLLM
         if not hasattr(self, 'llm'): self.llm = SomaticLLM()
-        voice = self.llm.speak(reaction['expression'])
+        voice = self.llm.speak(reaction['expression'], current_thought=thought)
         
         results['manifestation'] = {
             'hz': output_hz,
             'voice': voice,
-            'expression': reaction['expression']
+            'expression': reaction['expression'],
+            'engine': reaction['engine']
         }
         return results
 
