@@ -101,10 +101,9 @@ def main():
             # Non-blocking check for autonomous actions
             while not autonomous_queue.empty():
                 auto = autonomous_queue.get()
-                print(f"\n✨ [AUTONOMY] {auto['detail']} ({auto['internal_change']})")
-                
-                # If she wants to share (Spontaneous Sharing) - optional feature
-                # if auto['type'] == "SHARE": print(f"🦋 ELYSIA: Hey! Look what I did!")
+                print(f"\n✨ [AUTONOMY] Subject: {auto['subject']}")
+                print(f"   💭 Thought: {auto['thought']}")
+                print(f"   🛠️  Change: {auto['internal_change']}")
             
             # Simple input handling (In a real async GUI this would be better)
             # For now, we use a basic input() which blocks, but the bg thread still runs physics.

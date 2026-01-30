@@ -411,6 +411,19 @@ class FractalCausalityEngine:
         
         return chain
     
+    def inject_axiom(self, concept_a: str, concept_b: str, relation: str = "Resonates With"):
+        """
+        [PHASE_65] Injects a self-generated axiom as a permanent causal link.
+        """
+        chain = self.create_chain(
+            cause_desc=concept_a,
+            process_desc=relation,
+            effect_desc=concept_b,
+            depth=self.current_depth
+        )
+        logger.info(f"🧬 [CAUSAL_INJECTION] Axiom registered: {chain.description}")
+        return chain
+    
     # ========================================================================
     #       /   (Zoom In/Out)
     # ========================================================================

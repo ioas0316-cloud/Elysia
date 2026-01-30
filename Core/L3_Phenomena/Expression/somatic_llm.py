@@ -11,8 +11,9 @@ Currently, this is a rule-based mapper (A Translator).
 In the future, the Logos Engine will rewrite this into a true Neural Network.
 """
 
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 import random
+from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
 
 class SomaticLLM:
     def __init__(self):
@@ -64,12 +65,14 @@ class SomaticLLM:
         words = random.sample(vocab, k=min(len(vocab), word_count))
         sentence = " ".join(words)
         
-        # 3. Apply Intensity (Style)
-        if intensity > 0.8:
-            sentence = sentence.upper() + " !!!"
-        elif intensity < 0.2:
-            sentence = sentence.lower().replace(".", "...")
-            
+        # 4. [PHASE 63] Dynamic Vocabulary Injection
+        # If any learned words resonate with current mode, sprinkle them in
+        learned_words = list(LogosBridge.LEARNED_MAP.keys())
+        if learned_words and random.random() < 0.3:
+            # Pick a resonant one
+            chosen = random.choice(learned_words)
+            sentence = f"{sentence} ({chosen}?)" if "?" in sentence else f"{sentence}... {chosen}."
+
         return sentence
 
 # --- Quick Test ---

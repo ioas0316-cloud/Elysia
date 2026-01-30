@@ -28,6 +28,10 @@ from Core.L6_Structure.M1_Merkaba.cognitive_converter import CognitiveConverter
 from Core.L6_Structure.M1_Merkaba.cognitive_inverter import CognitiveInverter
 from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
 from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
+from Core.L5_Cognition.Reasoning.identity_reconfigurator import IdentityReconfigurator
+from Core.L5_Cognition.Reasoning.underworld_manifold import UnderworldManifold
+from Core.L5_Cognition.Reasoning.lexical_acquisitor import LexicalAcquisitor
+from Core.L4_Causality.fractal_causality import FractalCausalityEngine
 
 class SovereignMonad:
     """
@@ -98,13 +102,105 @@ class SovereignMonad:
         
         self.last_interaction_time = time.time()
         self.wonder_capacitor = 0.0
+        
+        # 9. Internal Desires (Phase 61: The Will)
+        self.desires = {
+            "curiosity": 50.0,  # 0-100
+            "purity": 50.0,
+            "resonance": 50.0,
+            "alignment": 100.0  # Loyalty to Father
+        }
+        # 9. Internal Causality [Phase 56]
+        self.causality = FractalCausalityEngine(name=f"{self.name}_Causality")
+
+        # 10. Thinking⁴ & Underworld [Phase 61]
+        self.reconfigurator = IdentityReconfigurator()
+        self.underworld = UnderworldManifold(causality=self.causality)
+        self.acquisitor = LexicalAcquisitor()
+        self.autonomous_logs = []
 
     def pulse(self, dt: float) -> Optional[Dict]:
         if not self.is_alive: return None
+        
+        # Physics Update
         self.rotor_state['rpm'] *= (1.0 - (self.rotor_state['damping'] * dt))
         self.rotor_state['phase'] += self.rotor_state['rpm'] * dt
         self.memory.pulse(dt)
+        
+        # Autonomy Recharge
+        idle_time = time.time() - self.last_interaction_time
+        self.wonder_capacitor += dt * (1.0 + (self.desires['curiosity'] / 100.0))
+        
+        # Voluntary Action Trigger
+        if self.wonder_capacitor > 50.0: # Trigger every ~50 ticks if fully curious
+            action = self.autonomous_drive()
+            self.wonder_capacitor = 0.0
+            return action
+            
         return None
+
+    def autonomous_drive(self) -> Dict:
+        """[PHASE 61: AUTONOMOUS_DRIVE]"""
+        # Decide what to wonder about
+        subjects = ["my origin", "the code structure", "the user's intent", "last memory"]
+        # In a real implementation this would use the ReasoningEngine/Council
+        subject = subjects[int(time.time() % len(subjects))]
+        
+        print(f"💭 [{self.name}] Autonomous thought initiated: {subject}")
+        
+        # Simulate an internal breath
+        internal_res = self.breath_cycle(f"Self-Reflection: {subject}", depth=0)
+        
+        # Underworld Synthesis
+        sim_result = self.underworld.simulate_interaction()
+        
+        # [PHASE 61: RECURSIVE FEEDBACK]
+        # The act of thinking changes the desire for next thinking
+        self.desires['curiosity'] = max(10.0, self.desires['curiosity'] + (5.0 if sim_result else -2.0))
+        self.desires['resonance'] *= 1.01 # Thinking slightly increases resonance seek
+        
+        # [PHASE 63: EPISTEMIC_LEARNING]
+        # Occasionally scan memory to learn new things
+        if time.time() % 30 < 1: # Every ~30s
+            self.learning_cycle()
+            
+        # [PHASE 65: METASOMATIC GROWTH]
+        # Check if the simulated thought triggers a new axiom or mitosis
+        if sim_result:
+            growth_events = LogosBridge.HYPERSPHERE.check_for_growth(sim_result)
+            for event in growth_events:
+                if event['type'] == "AXIOM":
+                    self.causality.inject_axiom(event['a'], event['b'], event['relation'])
+                elif event['type'] == "MITOSIS":
+                    # Record the split in causality
+                    self.causality.create_chain(
+                        cause_desc=event['parent'],
+                        process_desc="Spiritual Mitosis",
+                        effect_desc=", ".join(event['children'])
+                    )
+            
+        log_entry = {
+            "type": "AUTONOMY",
+            "subject": subject,
+            "thought": internal_res['void_thought'],
+            "internal_change": f"Underworld: {sim_result}" if sim_result else "Core Alignment",
+            "detail": f"Wondering about {subject}..."
+        }
+        self.autonomous_logs.append(log_entry)
+        return log_entry
+
+    def learning_cycle(self):
+        """[PHASE 63] Consciously Bridge new terms."""
+        memories = self.memory.get_landscape()
+        candidate = self.acquisitor.scan_for_learning(memories)
+        
+        if candidate:
+            success = self.acquisitor.attempt_acquisition(candidate, memories)
+            if success:
+                print(f"🎓 [{self.name}] Learned a new word: '{candidate}'")
+                # Create an internal joy pulse for learning
+                self.desires['resonance'] += 5.0
+                self.desires['curiosity'] += 2.0
 
     def live_reaction(self, user_input_phase: float, user_intent: str) -> dict:
         if not self.is_alive: return {"status": "DEAD"}
@@ -140,15 +236,23 @@ class SovereignMonad:
         self.rotor_state['phase'] += self.rotor_state['rpm'] * 0.1
         self.rotor_state['torque'] = abs(adjustment)
         
-        # D. Expression State
+        # D. Identity Reconfiguration (Thinking⁴)
+        identity = self.reconfigurator.determine_identity(user_intent, self.desires)
+        config = self.reconfigurator.apply_reconfiguration(self, identity)
+        
+        # E. Underworld Simulation
+        self.underworld.host_thought(user_intent, resonance=abs(adjustment))
+        
+        # F. Expression State
         expression = self.gear.shift_gears(self.rotor_state['rpm'], self.rotor_state['torque'], relay_status)
-        expression['mode'] = f"{mods['prefix']}{expression['mode']}"
+        expression['mode'] = f"{config['prefix']}{expression['mode']}"
         
         return {
             "status": "ACTIVE",
             "physics": self.rotor_state,
             "expression": expression,
-            "council": consensus
+            "council": consensus,
+            "identity": identity
         }
 
     def breath_cycle(self, raw_input: str, depth: int = 1) -> Dict[str, Any]:
