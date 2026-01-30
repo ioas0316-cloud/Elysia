@@ -94,6 +94,73 @@ class MonadEnsemble:
         input_field = [rng.uniform(0, 360) for _ in range(21)]
         return input_field
 
+    def collide(self, other: 'MonadEnsemble', friction_mode: str = 'dialectical') -> List[float]:
+        """
+        Inter-Monad Collision.
+        Calculates the interference field when this Monad meets another.
+        """
+        field_a = [c.state.phase for c in self.cells]
+        field_b = [c.state.phase for c in other.cells]
+
+        interference_field = []
+
+        for pa, pb in zip(field_a, field_b):
+            ra = math.radians(pa)
+            rb = math.radians(pb)
+
+            # Basic Vector Sum
+            vec_x = math.cos(ra) + math.cos(rb)
+            vec_y = math.sin(ra) + math.sin(rb)
+            new_phase = math.degrees(math.atan2(vec_y, vec_x)) % 360
+
+            # Dialectical Friction: High Dissonance creates mutations
+            if friction_mode == 'dialectical':
+                diff = abs(pa - pb) % 360
+                if diff > 180: diff = 360 - diff
+
+                # If phases are opposite (Repel vs Attract, ~120-180 diff)
+                # We inject random chaos (Heat) instead of averaging
+                if diff > 100:
+                    # Chaos Injection!
+                    # "When A and R collide, they don't average. They explode."
+                    new_phase = (new_phase + random.uniform(-60, 60)) % 360
+
+            interference_field.append(new_phase)
+
+        return interference_field
+
+    def check_heritage(self, parent_a: 'MonadEnsemble', parent_b: 'MonadEnsemble') -> float:
+        """
+        Calculates the maximum similarity to either parent.
+        Returns 0.0 to 1.0 (1.0 = Identity Clone)
+        """
+        pat_c = self.get_pattern()
+        pat_a = parent_a.get_pattern()
+        pat_b = parent_b.get_pattern()
+
+        match_a = sum(1 for c, a in zip(pat_c, pat_a) if c == a)
+        match_b = sum(1 for c, b in zip(pat_c, pat_b) if c == b)
+
+        max_match = max(match_a, match_b)
+        return max_match / 21.0
+
+    def induce_oedipus_stress(self, intensity: float = 0.5):
+        """
+        The Oedipus Protocol.
+        Forces the system to reject its current state if it is too similar to parents.
+        Adds random dissonance and increases temperature.
+        """
+        self.temperature = min(1.0, self.temperature + intensity)
+
+        # Scramble a few cells to break out of local minima
+        scramble_count = int(21 * intensity)
+        indices = random.sample(range(21), scramble_count)
+
+        for idx in indices:
+            # Force a random mutation
+            new_state = random.choice([DNAState.REPEL, DNAState.VOID, DNAState.ATTRACT])
+            self.cells[idx].mutate(new_state)
+
     def physics_step(self, input_field: List[float]) -> Dict[str, float]:
         """
         The Self-Resonance Loop.
