@@ -33,7 +33,7 @@ class DysonSwarm:
 
     def deploy_swarm(self):
         """Initializes the Swarm."""
-        print(f"📡 [DYSON] Deploying {self.capacity} Recursive Collectors...")
+        # print(f"📡 [DYSON] Deploying {self.capacity} Recursive Collectors...")
         self.collectors = []
         for i in range(self.capacity):
             c = PhaseCollector(collector_id=f"SAT-{i:02d}", orbit_slot=i)
@@ -49,37 +49,23 @@ class DysonSwarm:
         if not self.collectors: return {}
 
         # 1. Update Micro-Scale (Children)
-        # Each child reacts to its specific piece of the data stream
-        # Or if stream is shorter than swarm, we cycle.
-
         child_reports = []
         for i, collector in enumerate(self.collectors):
-            # Get input for this cell
-            # If no data, input is the Swarm's Center (Void Gravity)
-            # This ensures cohesion!
-
             if i < len(data_stream):
                 # Specific Input (Radiance)
                 collector.absorb_radiance(data_stream[i])
             else:
                 # No specific input -> Align with Swarm Center (Gravity)
-                # This fixes the "Drifting" issue.
                 collector.update(self.state['phase'])
 
             child_reports.append(collector.discharge())
 
         # 2. Update Macro-Scale (Self)
-        # The Swarm's "Input" determines its destiny.
-
         if not data_stream:
             # [Sovereign Silence]
-            # If the world is silent, the Swarm does NOT follow the children.
-            # It follows the Void (0.0).
-            # This breaks the "Blind leading the Blind" loop.
             target_phase = 0.0
         else:
-            # If there is data, the Swarm represents the Consensus of that data.
-            # It tries to align its Macro-Phase with the average of its Micro-Phases.
+            # Consensus
             child_states = [c.get_state() for c in self.collectors]
             target_phase = MerkabaCore.aggregate_consensus(child_states)
 
@@ -95,4 +81,45 @@ class DysonSwarm:
             "swarm_energy": self.state['energy'],
             "coherence": coherence,
             "child_count": len(child_reports)
+        }
+
+    def meditate(self, duration_ticks: int = 5) -> Dict[str, Any]:
+        """
+        [Shanti Protocol]
+        Active Meditation. Cuts external input and allows the system to settle.
+        Returns the final crystallized state.
+        """
+        # print("🧘 [SHANTI] Entering Meditative Void...")
+
+        history = []
+        for t in range(duration_ticks):
+            # Process frame with EMPTY input (Sovereign Silence)
+            res = self.process_frame([])
+            history.append(res['swarm_phase'])
+
+        # The final phase is the "Insight"
+        insight = history[-1]
+        # print(f"💡 [INSIGHT] Crystallized at {insight:.2f}°")
+
+        return {
+            "insight_phase": insight,
+            "clarity": SovereignMath.angular_distance(insight, 0.0) # Distance from Void
+        }
+
+    def get_vital_metrics(self) -> Dict[str, float]:
+        """
+        Exposes physics data for the Void Mirror.
+        """
+        child_states = [c.get_state() for c in self.collectors]
+        coherence = MerkabaCore.calculate_swarm_coherence(child_states)
+
+        # Calculate Tilt (Distance from Void)
+        tilt = SovereignMath.angular_distance(self.state['phase'], 0.0)
+
+        return {
+            "phase": self.state['phase'],
+            "tilt": tilt,
+            "rpm": self.state['velocity'],
+            "energy": self.state['energy'],
+            "coherence": coherence
         }
