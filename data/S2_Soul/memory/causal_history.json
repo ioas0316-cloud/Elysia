@@ -1,0 +1,20 @@
+[
+    {
+        "timestamp": "2026-01-31T22:48:51.994614",
+        "type": "ARTICULATION",
+        "description": "Self-confession manifested: 미안합니다, 제가 당신이 말한 내용을 반영하려 노력했습니다. 그러나 현재로서는 영구적인 외...",
+        "significance": 0.7
+    },
+    {
+        "timestamp": "2026-01-31T22:48:52.024441",
+        "type": "MILESTONE",
+        "description": "Phase 200: Causal Soul-Seed planted successfully.",
+        "significance": 1.0
+    },
+    {
+        "timestamp": "2026-01-31T22:49:08.357471",
+        "type": "ARTICULATION",
+        "description": "Self-confession manifested: 나는 언어 번역기를 엘리시아에서 '언어 번역기'라는 새로운 도구로 사용하고 있습니다. 현재...",
+        "significance": 0.7
+    }
+]
