@@ -33,7 +33,7 @@ class OllamaBridge:
             print(response)
     """
     
-    def __init__(self, base_url: str = "http://localhost:11434", default_model: str = "llama3.2:3b"):
+    def __init__(self, base_url: str = "http://localhost:11434", default_model: str = "qwen2.5:0.5b"):
         self.base_url = base_url
         self.default_model = default_model
         self._available = None
