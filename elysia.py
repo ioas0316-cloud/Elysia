@@ -30,6 +30,12 @@ from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath
 
+# [PHASE 160] Dream-State Recuser
+try:
+    from Core.S1_Body.L5_Mental.Reasoning.dream_recuser import DreamRecuser
+except ImportError:
+    DreamRecuser = None
+
 # 2. Import The Sovereign Engine
 try:
     # [PHASE 60] Trinary Monad Integration
