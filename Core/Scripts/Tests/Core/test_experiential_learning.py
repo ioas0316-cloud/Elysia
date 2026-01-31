@@ -16,7 +16,7 @@ import time
 sys.path.append("c:/Elysia")
 
 from Core.Elysia.sovereign_self import SovereignSelf
-from Core.L5_Mental.Reasoning_Core.concept_prism import ConceptPrism
+from Core.1_Body.L5_Mental.Reasoning_Core.concept_prism import ConceptPrism
 
 def run_trial():
     print("🧪 [TRIAL] Initializing Subject: Elysia...")

@@ -5,8 +5,8 @@ import os
 # Add Core to path
 sys.path.append(os.path.abspath('.'))
 
-from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
-from Core.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
+from Core.1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+from Core.1_Body.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
 
 def test_triple_helix():
     print("Testing TripleHelixEngine Pulse...")

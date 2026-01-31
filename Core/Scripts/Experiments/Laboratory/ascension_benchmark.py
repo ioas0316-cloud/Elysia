@@ -1,7 +1,7 @@
 import time
 import numpy as np
 import logging
-from Core.L1_Foundation.Foundation.physics import HamiltonianSystem, QuantumState
+from Core.1_Body.L1_Foundation.Foundation.physics import HamiltonianSystem, QuantumState
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

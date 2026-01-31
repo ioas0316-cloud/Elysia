@@ -6,8 +6,8 @@ import json # needed for manual JSON verification
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.L4_Causality.World.Creation.project_genesis import ProjectGenesis
-from Core.L4_Causality.World.Creation.blueprints import BLUEPRINTS
+from Core.1_Body.L4_Causality.World.Creation.project_genesis import ProjectGenesis
+from Core.1_Body.L4_Causality.World.Creation.blueprints import BLUEPRINTS
 
 def patch_world():
     print("🩹 [PATCH SYSTEM] Updating Elysia World Client...")
@@ -29,7 +29,7 @@ def patch_world():
 
     # Now verify the Physics Export with Animation Data
     print("\n💓 Verifying Animation Data Export...")
-    from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+    from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
     life = ElysianHeartbeat()
     life.is_alive = True
     life.game_loop.start()

@@ -5,8 +5,8 @@ Verifies that the Conscience correctly judges the BodyState.
 """
 
 import pytest
-from Core.L2_Metabolism.Evolution.proprioceptor import BodyState
-from Core.L2_Metabolism.Evolution.dissonance_resolver import DissonanceResolver
+from Core.1_Body.L2_Metabolism.Evolution.proprioceptor import BodyState
+from Core.1_Body.L2_Metabolism.Evolution.dissonance_resolver import DissonanceResolver
 
 def test_conscience_mechanics():
     # 1. Mock Body State (Sinful)

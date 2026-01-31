@@ -18,9 +18,9 @@ root_dir = os.path.abspath(os.path.join(current_dir, '..', '..', '..')) # Adjust
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
-from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
-from Core.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
-from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+from Core.1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
+from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
+from Core.1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

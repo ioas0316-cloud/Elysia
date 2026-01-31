@@ -17,9 +17,9 @@ import os
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.L3_Phenomena.M7_Prism.resonance_prism import PrismProjector, PrismDomain, PrismProjection
-from Core.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.1_Body.L3_Phenomena.M7_Prism.resonance_prism import PrismProjector, PrismDomain, PrismProjection
+from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

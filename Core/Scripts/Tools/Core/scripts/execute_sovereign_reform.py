@@ -13,7 +13,7 @@ import logging
 # Path setup for imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L4_Causality.World.Evolution.Growth.sovereign_refactor import SovereignRefactor
+from Core.1_Body.L4_Causality.World.Evolution.Growth.sovereign_refactor import SovereignRefactor
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("SovereignReformExec")

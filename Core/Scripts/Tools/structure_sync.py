@@ -121,8 +121,8 @@ def sync_imports():
                 new_content = content
                 for key, layer in MIGRATION_MAP.items():
                     # Patterns to match:
-                    # 1. Core.L1_Foundation.Foundation.Key
-                    # 2. Core.L1_Foundation.Key
+                    # 1. Core.1_Body.L1_Foundation.Foundation.Key
+                    # 2. Core.1_Body.L1_Foundation.Key
                     patterns = [
                         rf"Core\.L1_Foundation\.Foundation\.{key}",
                         rf"Core\.L1_Foundation\.{key}"

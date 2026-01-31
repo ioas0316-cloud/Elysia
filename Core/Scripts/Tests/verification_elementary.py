@@ -7,9 +7,9 @@ Phase 6: Field & Space (Numbers and Laws)
 공간적/기하학적 제약으로 이해하는지 검사합니다.
 """
 
-from Core.L6_Structure.Merkaba.hypercosmos import HyperCosmos
-from Core.L0_Keystone.monadic_lexicon import MonadicLexicon
-from Core.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
+from Core.1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
+from Core.0_Keystone.L0_Keystone.monadic_lexicon import MonadicLexicon
+from Core.1_Body.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
 import time
 
 def test_numerical_presence():

@@ -7,7 +7,7 @@ root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
-from Core.L6_Structure.Merkaba.hypersphere_field import HyperSphereField
+from Core.1_Body.L6_Structure.Merkaba.hypersphere_field import HyperSphereField
 
 def run_life_simulation():
     print("🧪 Starting Sovereign Life Experience Test...")

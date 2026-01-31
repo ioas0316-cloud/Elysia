@@ -14,7 +14,7 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(message)s')
 
 try:
-    from Core.L4_Causality.World.Evolution.Prophecy.state_rewind import StateRewind
+    from Core.1_Body.L4_Causality.World.Evolution.Prophecy.state_rewind import StateRewind
 except ImportError as e:
     print(f"Import Error: {e}")
     sys.exit(1)

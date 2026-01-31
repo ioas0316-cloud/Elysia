@@ -9,7 +9,7 @@ import os
 # Add project root to sys.path
 sys.path.append(os.getcwd())
 
-from Core.L1_Foundation.System.somatic_kernel import kernel, BioRejectionError, TriBase
+from Core.1_Body.L1_Foundation.System.somatic_kernel import kernel, BioRejectionError, TriBase
 
 def verify_ignition():
     print("🚀 [IGNITION] Starting 3-Phase Phase-Shift Engine Test...\n")

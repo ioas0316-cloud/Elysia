@@ -3,7 +3,7 @@ import unittest
 import os
 import shutil
 import numpy as np
-from Core.L5_Mental.Memory.prismatic_sediment import PrismaticSediment
+from Core.1_Body.L5_Mental.Memory.prismatic_sediment import PrismaticSediment
 
 class TestPrismaticSediment(unittest.TestCase):
     def setUp(self):

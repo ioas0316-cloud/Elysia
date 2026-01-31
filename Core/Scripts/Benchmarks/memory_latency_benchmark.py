@@ -26,8 +26,8 @@ from statistics import mean
 # Verify Path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.L2_Metabolism.Memory.Orb.orb_manager import OrbManager
-from Core.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
+from Core.1_Body.L2_Metabolism.Memory.Orb.orb_manager import OrbManager
+from Core.1_Body.L1_Foundation.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -110,7 +110,7 @@ def run_benchmark():
     # 4. Phase 6: Hardware Bridge Verification
     print("\n🛠️ [HARDWARE CHECKS]")
     try:
-        from Core.L7_Spirit.M1_Monad.intent_torque import IntentTorque
+        from Core.1_Body.L7_Spirit.M1_Monad.intent_torque import IntentTorque
         torque = IntentTorque()
         has_metal = getattr(torque, "HAS_METAL", False)
         status_icon = "✅" if has_metal else "⚠️" 

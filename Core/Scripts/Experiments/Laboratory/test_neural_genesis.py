@@ -14,7 +14,7 @@ import logging
 # Path hack for Laboratory
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from Core.L2_Metabolism.Evolution.neural_genesis import NeuralGenesis
+from Core.1_Body.L2_Metabolism.Evolution.neural_genesis import NeuralGenesis
 
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')
 logger = logging.getLogger("TestGenesis")

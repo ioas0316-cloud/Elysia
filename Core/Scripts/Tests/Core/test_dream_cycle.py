@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 from pathlib import Path
-from Core.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
+from Core.1_Body.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
 
 class TestDreamCycle(unittest.TestCase):
     def setUp(self):

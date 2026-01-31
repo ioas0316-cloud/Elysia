@@ -8,8 +8,8 @@ import os
 import shutil
 import pytest
 from unittest.mock import MagicMock
-from Core.L2_Metabolism.Evolution.inducer import CodeFieldInducer
-from Core.L2_Metabolism.Evolution.dissonance_resolver import Dissonance
+from Core.1_Body.L2_Metabolism.Evolution.inducer import CodeFieldInducer
+from Core.1_Body.L2_Metabolism.Evolution.dissonance_resolver import Dissonance
 
 @pytest.fixture
 def mock_environment(tmp_path):

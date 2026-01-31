@@ -9,8 +9,8 @@ and how their behavior is induced by the ontological gravity of their domain.
 
 import time
 import logging
-from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.L5_Mental.Reasoning_Core.Reasoning.septenary_axis import SeptenaryAxis
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.septenary_axis import SeptenaryAxis
 
 def run_induction_demo():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

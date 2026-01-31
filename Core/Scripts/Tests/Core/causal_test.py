@@ -18,8 +18,8 @@ except ImportError:
 # Add root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.L2_Metabolism.Evolution.resonance_field import ResonanceField
-from Core.L2_Metabolism.Evolution.karma_geometry import KarmaGeometry
+from Core.1_Body.L2_Metabolism.Evolution.resonance_field import ResonanceField
+from Core.1_Body.L2_Metabolism.Evolution.karma_geometry import KarmaGeometry
 
 def run_test():
     print("==================================")

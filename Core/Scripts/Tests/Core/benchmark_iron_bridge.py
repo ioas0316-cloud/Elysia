@@ -14,8 +14,8 @@ from numba import cuda
 # Add root to path
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.L6_Structure.Nature.metal_rotor_bridge import MetalRotorBridge
+from Core.1_Body.L6_Structure.Nature.rotor import Rotor, RotorConfig
+from Core.1_Body.L6_Structure.Nature.metal_rotor_bridge import MetalRotorBridge
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

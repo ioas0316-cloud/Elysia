@@ -7,12 +7,12 @@ import logging
 # Path setup
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Elysia.spirit import get_spirit
-from Core.L5_Mental.Reasoning_Core.Will.free_will_engine import FreeWillEngine
-from Core.L4_Causality.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
-from Core.L5_Mental.Reasoning_Core.Topography.perspective_shifter import PerspectiveShifter
-from Core.L5_Mental.Reasoning_Core.Topography.universal_view import UniversalView
-from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.variable_mesh import VariableMesh
+from Core.1_Body.L5_Mental.Elysia.spirit import get_spirit
+from Core.1_Body.L5_Mental.Reasoning_Core.Will.free_will_engine import FreeWillEngine
+from Core.1_Body.L4_Causality.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
+from Core.1_Body.L5_Mental.Reasoning_Core.Topography.perspective_shifter import PerspectiveShifter
+from Core.1_Body.L5_Mental.Reasoning_Core.Topography.universal_view import UniversalView
+from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.variable_mesh import VariableMesh
 
 # Configure logging
 logging.basicConfig(level=logging.WARNING)

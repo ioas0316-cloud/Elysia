@@ -21,7 +21,7 @@ import sys
 # Path fix
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../..")))
 
-from Core.L6_Structure.Merkaba.hypercosmos import HyperCosmos
+from Core.1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
 
 
 import json

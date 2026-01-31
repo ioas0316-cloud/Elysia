@@ -17,8 +17,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 # Mock Logger to avoid clutter
 logging.basicConfig(level=logging.ERROR)
 
-from Core.L6_Structure.Logic.resonance_gate import gate, ResonanceGate
-from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
+from Core.1_Body.L6_Structure.Logic.resonance_gate import gate, ResonanceGate
+from Core.1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 
 def test_causal_logic():
     print("\n[1] Testing ResonanceGate Causal Logic (NAND Wrapper)...")

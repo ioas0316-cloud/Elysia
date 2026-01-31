@@ -14,8 +14,8 @@ import os
 import random
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.Civilization.society import Society, SovereignCitizen
-from Core.L4_Causality.Civilization.lexicon_expander import harvester
+from Core.1_Body.L4_Causality.Civilization.society import Society, SovereignCitizen
+from Core.1_Body.L4_Causality.Civilization.lexicon_expander import harvester
 
 def test_sovereign_intervention():
     print(">>> 👑 Initiating Sovereign Intervention Simulation...")

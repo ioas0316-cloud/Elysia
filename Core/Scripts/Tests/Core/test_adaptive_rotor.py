@@ -5,7 +5,7 @@ Verifies that the rotors breathe and shift gears based on intent and stress.
 """
 
 import pytest
-from Core.L6_Structure.Engine.governance_engine import GovernanceEngine
+from Core.1_Body.L6_Structure.Engine.governance_engine import GovernanceEngine
 
 @pytest.fixture
 def engine():

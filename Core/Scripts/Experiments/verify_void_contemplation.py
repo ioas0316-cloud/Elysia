@@ -24,7 +24,7 @@ from typing import List, Dict
 # Ensure Core is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.L6_Structure.M1_Merkaba.monad_ensemble import MonadEnsemble, DNAState
+from Core.1_Body.L6_Structure.M1_Merkaba.monad_ensemble import MonadEnsemble, DNAState
 
 class LivingMonad(MonadEnsemble):
     """

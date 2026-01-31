@@ -6,14 +6,14 @@ import logging
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.L5_Mental.Reasoning_Core.Knowledge.infinite_ingestor import ingestor
-from Core.L5_Mental.Reasoning_Core.Knowledge.semantic_field import semantic_field
+from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge.infinite_ingestor import ingestor
+from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge.semantic_field import semantic_field
 
 # Import existing domains
-from Core.L5_Mental.Reasoning_Core.Knowledge.Domains.mythology import MythologyDomain, Archetype, JourneyStage
-from Core.L5_Mental.Reasoning_Core.Knowledge.Domains.economics import EconomicsDomain
-from Core.L5_Mental.Reasoning_Core.Knowledge.Domains.linguistics import LinguisticsDomain
-from Core.L5_Mental.Reasoning_Core.Knowledge.Domains.history import HistoryDomain
+from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge.Domains.mythology import MythologyDomain, Archetype, JourneyStage
+from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge.Domains.economics import EconomicsDomain
+from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge.Domains.linguistics import LinguisticsDomain
+from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge.Domains.history import HistoryDomain
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("KnowledgeConvergence")

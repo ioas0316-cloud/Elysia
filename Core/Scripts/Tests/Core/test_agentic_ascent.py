@@ -16,9 +16,9 @@ import time
 # Ensure we can import from Core
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L1_Foundation.Foundation.Evolution.architect import get_architect
-from Core.L1_Foundation.Foundation.Protocols.sovereign_gate import get_sovereign_gate
-from Core.L6_Structure.Wave.resonance_field import get_resonance_field, PillarType
+from Core.1_Body.L1_Foundation.Foundation.Evolution.architect import get_architect
+from Core.1_Body.L1_Foundation.Foundation.Protocols.sovereign_gate import get_sovereign_gate
+from Core.1_Body.L6_Structure.Wave.resonance_field import get_resonance_field, PillarType
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

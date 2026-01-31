@@ -8,9 +8,9 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 import jax.numpy as jnp
-from Core.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
-from Core.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
-from Core.L3_Phenomena.Visual.morphic_perception import ResonanceScanner
+from Core.1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
+from Core.1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
+from Core.1_Body.L3_Phenomena.Visual.morphic_perception import ResonanceScanner
 from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
 from Core.L5_Cognition.Reasoning.sovereign_drive import SovereignDrive
 from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge

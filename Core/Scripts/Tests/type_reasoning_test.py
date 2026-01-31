@@ -7,8 +7,8 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
-from Core.L5_Mental.M1_Cognition.cognitive_types import ActionCategory, ThoughtState
+from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.1_Body.L5_Mental.M1_Cognition.cognitive_types import ActionCategory, ThoughtState
 
 def test_type_driven_reasoning():
     print("🧠 [TEST] Milestone 23.2: Type-Driven Reasoning Validation")

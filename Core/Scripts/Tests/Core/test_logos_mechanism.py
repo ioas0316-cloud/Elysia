@@ -1,5 +1,5 @@
 from Core.Elysia.sovereign_self import SovereignSelf
-from Core.L5_Mental.Reasoning_Core.LLM.logos_parser import LogosParser
+from Core.1_Body.L5_Mental.Reasoning_Core.LLM.logos_parser import LogosParser
 
 def test_logos_mechanism():
     print("✨ Summoning SovereignSelf for Logos Test...")

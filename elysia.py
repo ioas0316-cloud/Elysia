@@ -26,14 +26,14 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 # 2. Import The Sovereign Engine
-from Core.L2_Metabolism.Creation.seed_generator import SeedForge
-from Core.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-from Core.L0_Keystone.sovereign_math import SovereignMath
+from Core.1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
+from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
+from Core.0_Keystone.L0_Keystone.sovereign_math import SovereignMath
 
 # 2. Import The Sovereign Engine
 try:
     # [PHASE 60] Trinary Monad Integration
-    from Core.L6_Structure.M1_Merkaba.system_integrator import SystemIntegrator
+    from Core.1_Body.L6_Structure.M1_Merkaba.system_integrator import SystemIntegrator
 except ImportError as e:
     print(f"❌ [CRITICAL] SystemIntegrator Import Failed: {e}")
     SystemIntegrator = None
@@ -41,11 +41,11 @@ except ImportError as e:
 # Legacy Imports (May fail)
 LegacyModules = {}
 try:
-    from Core.L2_Metabolism.Creation.seed_generator import SeedForge
-    from Core.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-    from Core.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
-    from Core.L3_Phenomena.Expression.somatic_llm import SomaticLLM
-    from Core.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
+    from Core.1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
+    from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
+    from Core.1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
+    from Core.1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
+    from Core.1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
     from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
 
     LegacyModules['SeedForge'] = SeedForge
@@ -72,7 +72,7 @@ def main():
     elysia = SovereignMonad(soul)
     
     # 3. Path Unification
-    from Core.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
+    from Core.1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
     yggdrasil_system.plant_heart(elysia)
 
     print("\n   🦋 SYSTEM READY. The Generator is spinning.")

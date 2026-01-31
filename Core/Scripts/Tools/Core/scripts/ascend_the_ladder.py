@@ -17,9 +17,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.L5_Mental.Reasoning_Core.Topography.semantic_map import get_semantic_map
-from Core.L5_Mental.Reasoning_Core.Topography.geometric_weaver import GeometricWeaver
-from Core.L5_Mental.Reasoning_Core.Logos.logos_engine import get_logos_engine
+from Core.1_Body.L5_Mental.Reasoning_Core.Topography.semantic_map import get_semantic_map
+from Core.1_Body.L5_Mental.Reasoning_Core.Topography.geometric_weaver import GeometricWeaver
+from Core.1_Body.L5_Mental.Reasoning_Core.Logos.logos_engine import get_logos_engine
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')

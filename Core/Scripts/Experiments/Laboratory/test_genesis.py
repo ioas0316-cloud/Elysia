@@ -16,7 +16,7 @@ import time
 # Path hack for Laboratory
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from Core.L4_Causality.World.Genesis.genesis_bridge import GenesisBridge
+from Core.1_Body.L4_Causality.World.Genesis.genesis_bridge import GenesisBridge
 
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')
 logger = logging.getLogger("TestGenesis")

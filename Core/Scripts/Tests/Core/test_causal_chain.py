@@ -2,7 +2,7 @@ import py
 import torch
 import pytest
 from Core.Digestion.digestive_system import DigestiveSystem
-from Core.L2_Metabolism.Memory.fractal_causality import CausalRole
+from Core.1_Body.L2_Metabolism.Memory.fractal_causality import CausalRole
 
 class MockElysia:
     def __init__(self):
@@ -31,7 +31,7 @@ def test_active_probing_chain():
     print(f"[TEST] Probe Reality: {probe_results['reality']}")
 
 def test_causal_engine_roles():
-    from Core.L2_Metabolism.Memory.fractal_causality import FractalCausalityEngine
+    from Core.1_Body.L2_Metabolism.Memory.fractal_causality import FractalCausalityEngine
     engine = FractalCausalityEngine("TestEngine")
     
     # Create a 4-step chain manually

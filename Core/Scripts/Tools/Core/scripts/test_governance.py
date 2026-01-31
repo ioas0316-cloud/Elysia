@@ -6,7 +6,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.L6_Structure.Engine.world_server import WorldServer
+from Core.1_Body.L6_Structure.Engine.world_server import WorldServer
 from Core.Elysia.sovereign_self import SovereignSelf
 
 def test_governance_shift():

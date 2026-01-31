@@ -24,7 +24,7 @@ def test_patch_proposer():
     print("🧪 TEST 1: PatchProposer")
     print("="*60)
     
-    from Core.L5_Mental.Reasoning_Core.Meta.patch_proposer import PatchProposer, get_patch_proposer
+    from Core.1_Body.L5_Mental.Reasoning_Core.Meta.patch_proposer import PatchProposer, get_patch_proposer
     
     proposer = get_patch_proposer()
     print(f"✅ PatchProposer initialized. Pending: {proposer.get_pending_count()}")
@@ -54,8 +54,8 @@ def test_self_architect():
     print("🧪 TEST 2: SelfArchitect + Proposal Generation")
     print("="*60)
     
-    from Core.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
-    from Core.L5_Mental.Reasoning_Core.Meta.self_architect import SelfArchitect
+    from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
+    from Core.1_Body.L5_Mental.Reasoning_Core.Meta.self_architect import SelfArchitect
     
     processor = DimensionalProcessor()
     architect = SelfArchitect(processor)
@@ -84,7 +84,7 @@ def test_proposals_report():
     print("🧪 TEST 3: Proposals Report")
     print("="*60)
     
-    from Core.L5_Mental.Reasoning_Core.Meta.patch_proposer import get_patch_proposer
+    from Core.1_Body.L5_Mental.Reasoning_Core.Meta.patch_proposer import get_patch_proposer
     
     proposer = get_patch_proposer()
     report = proposer.generate_report()

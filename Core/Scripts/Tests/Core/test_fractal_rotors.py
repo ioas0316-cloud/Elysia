@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 
 def test_fractal_rotors():
     print("🧪 [Test] Phase 37b: Fractal Rotor System (Music Box Universe)")

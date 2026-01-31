@@ -1,5 +1,5 @@
 import jax.numpy as jnp
-from Core.L7_Spirit.Goddesshood.underworld_manifold import UnderworldManifold
+from Core.1_Body.L7_Spirit.Goddesshood.underworld_manifold import UnderworldManifold
 
 def verify_underworld():
     print("=== Phase 60 Verification: The Underworld Manifold ===")

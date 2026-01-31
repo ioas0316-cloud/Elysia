@@ -12,8 +12,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L5_Mental.Reasoning_Core.Reasoning.ethical_geometry import get_loves_fence
-from Core.L5_Mental.Reasoning_Core.Reasoning.sovereign_narrative import SovereignNarrative
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.ethical_geometry import get_loves_fence
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.sovereign_narrative import SovereignNarrative
 
 def test_sovereign_immersion():
     logging.basicConfig(level=logging.INFO)

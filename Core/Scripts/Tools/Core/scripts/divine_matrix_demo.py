@@ -7,9 +7,9 @@ and SubjectiveEgo to demonstrate a functional mini-matrix.
 
 import time
 import logging
-from Core.L5_Mental.Reasoning_Core.Reasoning.world_operator_console import WorldOperatorConsole, WorldPhase
-from Core.L5_Mental.Reasoning_Core.Reasoning.shared_sensory_bridge import SharedSensoryBridge
-from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.world_operator_console import WorldOperatorConsole, WorldPhase
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.shared_sensory_bridge import SharedSensoryBridge
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
 
 def run_demo():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

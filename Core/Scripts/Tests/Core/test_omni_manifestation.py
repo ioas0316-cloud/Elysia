@@ -18,7 +18,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab, law_gravity, law_inflation, law_trauma_healing
+from Core.1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab, law_gravity, law_inflation, law_trauma_healing
 
 def run_god_mode():
     logging.basicConfig(level=logging.INFO)

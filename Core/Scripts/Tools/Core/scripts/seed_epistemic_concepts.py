@@ -13,8 +13,8 @@ import os
 import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore
-from Core.L5_Mental.Reasoning_Core.Memory.holographic_memory import KnowledgeLayer
+from Core.1_Body.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore
+from Core.1_Body.L5_Mental.Reasoning_Core.Memory.holographic_memory import KnowledgeLayer
 
 # Setup
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')

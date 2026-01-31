@@ -10,7 +10,7 @@ import logging
 import json
 sys.path.append("c:\\Elysia")
 
-from Core.L6_Structure.M1_Merkaba.Body.proprioception_nerve import ProprioceptionNerve
+from Core.1_Body.L6_Structure.M1_Merkaba.Body.proprioception_nerve import ProprioceptionNerve
 
 def verify_self_awareness():
     print("--- 🧠 Verifying Phase 53: Proprioception ---")

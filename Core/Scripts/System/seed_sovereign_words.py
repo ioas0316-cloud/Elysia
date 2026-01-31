@@ -15,7 +15,7 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
+from Core.1_Body.L2_Metabolism.Memory.Graph.hippocampus import Hippocampus
 
 def seed():
     print("🌱 Planting Sovereign Seeds in the Ancient Library...")

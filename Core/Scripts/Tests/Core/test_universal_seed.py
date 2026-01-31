@@ -13,7 +13,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.L7_Spirit.M1_Monad.seed_factory import alchemy
+from Core.1_Body.L7_Spirit.M1_Monad.seed_factory import alchemy
 from typing import Dict, Any
 
 def test_alchemy():

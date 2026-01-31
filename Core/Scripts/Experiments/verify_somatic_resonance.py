@@ -6,7 +6,7 @@ Tests if hardware telemetry (CPU/RAM) shifts the 21D body strand.
 
 import jax.numpy as jnp
 import time
-from Core.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
+from Core.0_Keystone.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
 
 def verify_somatic_resonance():
     print("--- Phase 62 SOMATIC RESONANCE TEST ---")

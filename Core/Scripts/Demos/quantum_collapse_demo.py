@@ -9,10 +9,10 @@ Shows how changing variables (Humidity/Voltage) alters the crystal shape.
 
 import numpy as np
 import time
-from Core.L6_Structure.Merkaba.thundercloud import Thundercloud
-from Core.L6_Structure.Merkaba.crystallizer import QuantumCrystallizer
-from Core.L7_Spirit.M1_Monad.monad_core import Monad
-from Core.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
+from Core.1_Body.L6_Structure.Merkaba.thundercloud import Thundercloud
+from Core.1_Body.L6_Structure.Merkaba.crystallizer import QuantumCrystallizer
+from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.1_Body.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
 
 def create_monad(seed, qualia):
     dna = DoubleHelixDNA(

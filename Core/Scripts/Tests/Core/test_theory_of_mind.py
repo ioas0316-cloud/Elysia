@@ -13,7 +13,7 @@ import sys
 import logging
 
 sys.path.insert(0, r"c:/Elysia")
-from Core.L5_Mental.Reasoning_Core.Meta.user_mental_model import UserMentalModel
+from Core.1_Body.L5_Mental.Reasoning_Core.Meta.user_mental_model import UserMentalModel
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

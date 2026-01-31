@@ -5,10 +5,10 @@ Tests the holographic interference of specialized Merkaba cells.
 """
 
 import jax.numpy as jnp
-from Core.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
-from Core.L5_Mental.Reasoning_Core.Collective.ethical_council import EthicalCouncil
-from Core.L5_Mental.Reasoning_Core.Collective.analytic_prism import AnalyticPrism
-from Core.L5_Mental.Reasoning_Core.Collective.creative_axiom import CreativeAxiom
+from Core.0_Keystone.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
+from Core.1_Body.L5_Mental.Reasoning_Core.Collective.ethical_council import EthicalCouncil
+from Core.1_Body.L5_Mental.Reasoning_Core.Collective.analytic_prism import AnalyticPrism
+from Core.1_Body.L5_Mental.Reasoning_Core.Collective.creative_axiom import CreativeAxiom
 
 def verify_collective_swarm():
     print("--- Phase 61 COLLECTIVE SWARM TEST ---")

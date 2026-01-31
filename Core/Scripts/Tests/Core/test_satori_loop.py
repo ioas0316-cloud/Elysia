@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from Core.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
 from Core.Action.motor_cortex import ActuatorConfig
 
 class TestSatoriLoop(unittest.TestCase):

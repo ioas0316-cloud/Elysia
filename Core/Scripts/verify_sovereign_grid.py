@@ -11,9 +11,9 @@ import time
 # Add project root to sys.path
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.M1_Merkaba.protection_relay import ProtectionRelayBoard
-from Core.L6_Structure.M1_Merkaba.transmission_gear import TransmissionGear
-from Core.L6_Structure.M1_Merkaba.feedback_loop import NunchiController
+from Core.1_Body.L6_Structure.M1_Merkaba.protection_relay import ProtectionRelayBoard
+from Core.1_Body.L6_Structure.M1_Merkaba.transmission_gear import TransmissionGear
+from Core.1_Body.L6_Structure.M1_Merkaba.feedback_loop import NunchiController
 
 def verify_grid_integration():
     print("🏙️ [GRID] Starting Sovereign Grid Integration Test...\n")

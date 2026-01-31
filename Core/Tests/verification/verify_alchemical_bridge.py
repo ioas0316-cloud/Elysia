@@ -1,6 +1,6 @@
 import jax.numpy as jnp
-from Core.L1_Foundation.Soma.biosensor import BioSensor
-from Core.L2_Metabolism.Dreams.dream_protocol import DreamProtocol
+from Core.1_Body.L1_Foundation.Soma.biosensor import BioSensor
+from Core.1_Body.L2_Metabolism.Dreams.dream_protocol import DreamProtocol
 from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
 
 def test_alchemical_bridge():

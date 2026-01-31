@@ -12,7 +12,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TemporalSyncTest")

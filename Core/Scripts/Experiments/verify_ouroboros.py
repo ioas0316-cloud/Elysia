@@ -7,7 +7,7 @@ import time
 # Ensure we can import Core
 sys.path.append(os.getcwd())
 
-from Core.L2_Metabolism.Cycles.dream_engine import DreamEngine
+from Core.1_Body.L2_Metabolism.Cycles.dream_engine import DreamEngine
 
 def verify_ouroboros():
     print("=== [VERIFICATION] The Ouroboros Protocol ===")

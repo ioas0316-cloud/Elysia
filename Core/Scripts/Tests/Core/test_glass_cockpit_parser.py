@@ -1,5 +1,5 @@
 import unittest
-from Core.L3_Phenomena.Interface.GlassCockpit.parser import StreamParser, EventType, StreamEvent
+from Core.1_Body.L3_Phenomena.Interface.GlassCockpit.parser import StreamParser, EventType, StreamEvent
 
 class TestGlassCockpitParser(unittest.TestCase):
     def test_parser_chunked(self):

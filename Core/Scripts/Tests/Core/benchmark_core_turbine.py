@@ -2,7 +2,7 @@
 BENCHMARK: Core Turbine (ActivePrismRotor)
 ==========================================
 Measures the throughput and latency of the Hyper-Light Turbine.
-Target: Core.L6_Structure.Engine.Physics.core_turbine.ActivePrismRotor
+Target: Core.1_Body.L6_Structure.Engine.Physics.core_turbine.ActivePrismRotor
 """
 
 import time
@@ -22,7 +22,7 @@ except ImportError:
     import numpy as jnp
     print("🐢 Backend: Numpy (Legacy)")
     
-from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor, PhotonicMonad, VoidSingularity
+from Core.1_Body.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor, PhotonicMonad, VoidSingularity
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

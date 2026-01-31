@@ -6,7 +6,7 @@ import time
 # Add project root to sys.path
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
+from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
 from Core.L2_Universal.Creation.seed_generator import SeedForge
 
 def test_physical_emergence():

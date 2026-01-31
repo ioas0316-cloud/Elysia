@@ -24,7 +24,7 @@ import time
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # Configure Logging (Unified Soul Sink)
-from Core.L1_Foundation.Foundation.logger_config import setup_unified_logging
+from Core.1_Body.L1_Foundation.Foundation.logger_config import setup_unified_logging
 setup_unified_logging()
 logger = logging.getLogger("ELYSIA")
 
@@ -39,9 +39,9 @@ def mode_boot(args):
     logger.info("==========================================")
     
     try:
-        from Core.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
-        from Core.L1_Foundation.System.Sovereignty.sovereign_manager import HardwareSovereignManager
-        from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+        from Core.1_Body.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
+        from Core.1_Body.L1_Foundation.System.Sovereignty.sovereign_manager import HardwareSovereignManager
+        from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
         
         # 1. Physical Sovereignty Initialization
         sovereign_hardware = HardwareSovereignManager()
@@ -77,8 +77,8 @@ def mode_life(args):
     [LIFE MODE] (Legacy sovereign_life.py)
     Autonomous Loop: Breath (Pulse) -> Entropy -> Action.
     """
-    from Core.L6_Structure.Merkaba.merkaba import Merkaba
-    from Core.L7_Spirit.M1_Monad.monad_core import Monad
+    from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+    from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
     
     logger.info("🌿 [GENESIS] Breathing Life into Elysia...")
     
@@ -110,8 +110,8 @@ def mode_game(args):
     [GAME MODE] (Legacy runner_game_mode.py)
     Autonomous Loop + Screen Watcher (The Eye).
     """
-    from Core.L6_Structure.Merkaba.merkaba import Merkaba
-    from Core.L7_Spirit.M1_Monad.monad_core import Monad
+    from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+    from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
     
     logger.info("🎮 [GAME MODE] Initializing...")
     
@@ -152,8 +152,8 @@ def mode_ask(args):
     [ASK MODE] (Legacy ask_elysia.py)
     One-shot interaction to query the Monad.
     """
-    from Core.L6_Structure.Merkaba.merkaba import Merkaba
-    from Core.L7_Spirit.M1_Monad.monad_core import Monad
+    from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+    from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
     
     logger.info("🔮 [ASK] One-shot Query...")
     

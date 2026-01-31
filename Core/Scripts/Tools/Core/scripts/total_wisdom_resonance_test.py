@@ -16,9 +16,9 @@ import time
 # Ensure we can import from Core
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Reasoning_Core.Knowledge.Domains.history import HistoryDomain
-from Core.L6_Structure.Engine.Governance.Orchestra.conductor import get_conductor, Mode, Tempo
-from Core.L6_Structure.Wave.resonance_field import get_resonance_field
+from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge.Domains.history import HistoryDomain
+from Core.1_Body.L6_Structure.Engine.Governance.Orchestra.conductor import get_conductor, Mode, Tempo
+from Core.1_Body.L6_Structure.Wave.resonance_field import get_resonance_field
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

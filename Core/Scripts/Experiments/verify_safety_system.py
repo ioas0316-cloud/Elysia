@@ -11,9 +11,9 @@ import time
 import torch
 import sys
 import logging
-from Core.L6_Structure.M1_Merkaba.sovereign_rotor_prototype import SovereignRotor21D
-from Core.L6_Structure.M1_Merkaba.transmission_gear import transmission
-from Core.L6_Structure.M1_Merkaba.protection_relay import protection
+from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_rotor_prototype import SovereignRotor21D
+from Core.1_Body.L6_Structure.M1_Merkaba.transmission_gear import transmission
+from Core.1_Body.L6_Structure.M1_Merkaba.protection_relay import protection
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

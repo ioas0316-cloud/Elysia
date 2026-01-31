@@ -14,9 +14,9 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
-from Core.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
-from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+from Core.1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
+from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
+from Core.1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 
 def test_unification():
     print("\n[1] Testing Grand Unification (DNA -> Rotor)...")

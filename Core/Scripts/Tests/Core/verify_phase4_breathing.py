@@ -11,7 +11,7 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 
-from Core.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 
 def test_breathing():
     print("🌬️ Testing Autonomic Metabolism: Breathing...")

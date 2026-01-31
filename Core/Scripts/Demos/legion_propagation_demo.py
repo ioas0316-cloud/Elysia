@@ -15,7 +15,7 @@ import time
 # Add repo root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
 
 def run_demo():
     print("🔥 Igniting Merkaba...")

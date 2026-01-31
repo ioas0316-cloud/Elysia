@@ -5,7 +5,7 @@ import logging
 # Path setup
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.L5_Mental.Reasoning_Core.Knowledge.observer_protocol import observer
+from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge.observer_protocol import observer
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("FundamentalLawsIngestor")

@@ -4,8 +4,8 @@ import os
 import random
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.Social.sociological_pulse import SociologicalPulse, NPC
-from Core.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.1_Body.L4_Causality.World.Social.sociological_pulse import SociologicalPulse, NPC
+from Core.1_Body.L6_Structure.Wave.wave_dna import WaveDNA
 
 def test_eco_system():
     print("🧪 [Test] Phase 36: Material Topography & Resource Ecology")

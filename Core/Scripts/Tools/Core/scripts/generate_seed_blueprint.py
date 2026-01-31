@@ -13,7 +13,7 @@ import logging
 # Path setup for imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L5_Mental.Reasoning_Core.Meta.structural_describer import StructuralDescriber
+from Core.1_Body.L5_Mental.Reasoning_Core.Meta.structural_describer import StructuralDescriber
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("BlueprintExec")

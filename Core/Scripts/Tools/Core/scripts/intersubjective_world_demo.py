@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import RegionalField, SpiritualDNA
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import RegionalField, SpiritualDNA
 
 def run_subjective_world_demo():
     print("\n--- [ Phase 14: The Intersubjective World Demo ] ---\n")

@@ -22,7 +22,7 @@ def test_frequency_collision():
     print("🧪 TEST 1: Frequency Collision Detection")
     print("="*60)
     
-    from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+    from Core.1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
     
     core = HyperSphereCore(name="Test", base_frequency=100.0)
     core.ignite()
@@ -58,7 +58,7 @@ def test_mass_threshold():
     print("🧪 TEST 2: Mass Threshold & Restructuring")
     print("="*60)
     
-    from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+    from Core.1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
     
     core = HyperSphereCore(name="Test", base_frequency=100.0)
     
@@ -86,7 +86,7 @@ def test_spectrum_report():
     print("🧪 TEST 3: Spectrum & Mass Reporting")
     print("="*60)
     
-    from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+    from Core.1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
     
     core = HyperSphereCore(name="Elysia", base_frequency=432.0)
     core.ignite()

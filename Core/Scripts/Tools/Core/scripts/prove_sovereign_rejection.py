@@ -21,8 +21,8 @@ import logging
 from dataclasses import dataclass
 
 sys.path.insert(0, r"c:/Elysia")
-from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment, EmpathyResult
-from Core.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion
+from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment, EmpathyResult
+from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

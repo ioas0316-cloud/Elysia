@@ -18,7 +18,7 @@ import time
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L3_Phenomena.Senses.eardrum import EarDrum
+from Core.1_Body.L3_Phenomena.Senses.eardrum import EarDrum
 
 # Logging Setup
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')

@@ -27,12 +27,12 @@ from unittest.mock import patch, MagicMock
 # Ensure path is correct
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.L3_Phenomena.M7_Prism.fractal_optics import PrismEngine as FractalPrism, WavePacket
-from Core.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
-from Core.L5_Mental.Memory.sediment import SedimentLayer
-from Core.L5_Mental.Memory.prismatic_sediment import PrismaticSediment
-from Core.L5_Mental.Reasoning_Core.Linguistics.synthesizer import LinguisticSynthesizer
+from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.1_Body.L3_Phenomena.M7_Prism.fractal_optics import PrismEngine as FractalPrism, WavePacket
+from Core.1_Body.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
+from Core.1_Body.L5_Mental.Memory.sediment import SedimentLayer
+from Core.1_Body.L5_Mental.Memory.prismatic_sediment import PrismaticSediment
+from Core.1_Body.L5_Mental.Reasoning_Core.Linguistics.synthesizer import LinguisticSynthesizer
 
 # Configure Logging
 logging.basicConfig(level=logging.ERROR) # Suppress info logs during benchmark

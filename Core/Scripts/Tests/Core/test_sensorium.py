@@ -6,7 +6,7 @@ import time
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.L4_Causality.World.Senses.sensorium import Sensorium
+from Core.1_Body.L4_Causality.World.Senses.sensorium import Sensorium
 
 def test_sensorium():
     print("🌐 TESTING THE SENSORIUM (Omni-Sensory)...")

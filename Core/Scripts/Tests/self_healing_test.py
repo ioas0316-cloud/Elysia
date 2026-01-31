@@ -8,7 +8,7 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
 
 def test_autonomous_healing():
     print("🛡️ [TEST] Phase 25.3: Autonomous Self-Healing Validation")

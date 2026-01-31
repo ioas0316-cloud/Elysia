@@ -6,7 +6,7 @@ sys.path.append(os.getcwd())
 def test_integrity():
     print("🧪 [Test] Phase 30: Epistemic Integrity")
     
-    from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
+    from Core.1_Body.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
     from Core.Elysia.sovereign_self import SovereignSelf, ScaleArchetype
     
     print("   1. Fetching Lexicon...")

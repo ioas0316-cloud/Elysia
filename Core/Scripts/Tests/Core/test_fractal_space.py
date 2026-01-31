@@ -18,9 +18,9 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.L6_Structure.Engine.Genesis.concept_monad import ConceptMonad
-from Core.L6_Structure.Engine.Genesis.filesystem_geometry import (
+from Core.1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
+from Core.1_Body.L6_Structure.Engine.Genesis.concept_monad import ConceptMonad
+from Core.1_Body.L6_Structure.Engine.Genesis.filesystem_geometry import (
     BlockMonad, DirectoryMonad, law_stream_continuity, law_fractal_propagation
 )
 

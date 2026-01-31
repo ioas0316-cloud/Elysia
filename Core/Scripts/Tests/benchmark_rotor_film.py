@@ -14,7 +14,7 @@ import jax.numpy as jnp
 # Standard Path Injection
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
+from Core.1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
 
 def run_benchmark():
     rpu = RotorPrismUnit()

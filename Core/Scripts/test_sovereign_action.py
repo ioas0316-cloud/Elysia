@@ -8,9 +8,9 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
-from Core.L1_Foundation.Logic.d7_vector import D7Vector
-from Core.L2_Metabolism.heart import get_heart
+from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.1_Body.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.1_Body.L2_Metabolism.heart import get_heart
 
 async def test_action():
     logging.basicConfig(level=logging.INFO)
@@ -32,7 +32,7 @@ async def test_action():
     # We directly call _execute_volition with ActionCategory.CREATION logic
     # (Since we know 'Refactor' in intent triggers 'self_evolution')
     
-    from Core.L5_Mental.M1_Cognition.cognitive_types import ActionCategory
+    from Core.1_Body.L5_Mental.M1_Cognition.cognitive_types import ActionCategory
     
     print("⚡ [TEST] Triggering Execution via SovereignExecutor...")
     self_engine._execute_volition(intent)

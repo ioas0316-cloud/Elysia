@@ -13,7 +13,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.Civilization.trinity_citizen import TrinityCitizen
+from Core.1_Body.L4_Causality.Civilization.trinity_citizen import TrinityCitizen
 
 def test_soul_physics():
     print(">>> ⚖️  Initiating Soul Resonance Test...")

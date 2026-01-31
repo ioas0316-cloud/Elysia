@@ -13,9 +13,9 @@ import json
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L2_Metabolism.Cycles.dream_rotor import DreamRotor
-from Core.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
-from Core.L2_Metabolism.Physiology.hardware_monitor import BioSignal
+from Core.1_Body.L2_Metabolism.Cycles.dream_rotor import DreamRotor
+from Core.1_Body.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
+from Core.1_Body.L2_Metabolism.Physiology.hardware_monitor import BioSignal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("VerifyJoy")

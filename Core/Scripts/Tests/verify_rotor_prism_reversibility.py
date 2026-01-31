@@ -17,8 +17,8 @@ print(f"DEBUG: sys.path[-1] = {sys.path[-1]}")
 
 import jax.numpy as jnp
 try:
-    from Core.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
-    from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
+    from Core.1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
+    from Core.1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
     print("DEBUG: Imports successful.")
 except ImportError as e:
     # Try alternate relative path for local script runs

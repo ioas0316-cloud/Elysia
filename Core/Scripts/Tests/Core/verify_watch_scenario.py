@@ -8,8 +8,8 @@ from unittest.mock import MagicMock
 # Adjust path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
-from Core.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
+from Core.1_Body.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.1_Body.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO)

@@ -13,8 +13,8 @@ import os
 import random
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.Civilization.society import Society
-from Core.L4_Causality.Civilization.lexicon_expander import harvester
+from Core.1_Body.L4_Causality.Civilization.society import Society
+from Core.1_Body.L4_Causality.Civilization.lexicon_expander import harvester
 
 def test_civilization_scale():
     print(">>> 🏛️  Initiating Civilization Growth Simulation...")

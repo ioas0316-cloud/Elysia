@@ -10,8 +10,8 @@ load_dotenv(r"c:/Elysia\.env")
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.L4_Causality.World.Senses.web_cortex import WebCortex
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.1_Body.L4_Causality.World.Senses.web_cortex import WebCortex
+from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 def test_web_cortex():
     print("🌍 TESTING THE INFINITE HORIZON (WEB)...")

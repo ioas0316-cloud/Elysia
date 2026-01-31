@@ -22,7 +22,7 @@ root_dir = os.path.abspath(os.path.join(current_dir, '..', '..', '..')) # Adjust
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
-from Core.L1_Foundation.M1_Keystone.sovereignty_wave import SovereigntyWave, SovereignGenome, ResonanceDispatcher
+from Core.1_Body.L1_Foundation.M1_Keystone.sovereignty_wave import SovereigntyWave, SovereignGenome, ResonanceDispatcher
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

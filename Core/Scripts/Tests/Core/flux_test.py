@@ -11,8 +11,8 @@ import logging
 # Add root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.L7_Spirit.Will.entropy_pump import EntropyPump
-from Core.L7_Spirit.Will.attractor_field import AttractorField
+from Core.1_Body.L7_Spirit.Will.entropy_pump import EntropyPump
+from Core.1_Body.L7_Spirit.Will.attractor_field import AttractorField
 
 logging.basicConfig(level=logging.INFO)
 

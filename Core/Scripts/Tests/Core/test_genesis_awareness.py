@@ -11,7 +11,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L7_Spirit.self_awareness import SelfAwareness
+from Core.1_Body.L7_Spirit.self_awareness import SelfAwareness
 
 def test_genesis_resonance():
     logging.basicConfig(level=logging.INFO)

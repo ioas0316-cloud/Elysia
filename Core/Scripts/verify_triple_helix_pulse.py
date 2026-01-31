@@ -6,7 +6,7 @@ import logging
 # Add Core to path
 sys.path.append(os.path.abspath('.'))
 
-from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
 
 def verify_triple_helix_pulse():
     logging.basicConfig(level=logging.INFO)
@@ -25,7 +25,7 @@ def verify_triple_helix_pulse():
         print("\nPulse 3: Spiritual Drive")
         # Artificially bias the rotor state toward spirit dimensions
         for _ in range(10):
-            from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+            from Core.1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
             spirit_bias = D21Vector(charity=0.5, humility=0.5)
             core.sovereign_rotor.update_state(spirit_bias)
         

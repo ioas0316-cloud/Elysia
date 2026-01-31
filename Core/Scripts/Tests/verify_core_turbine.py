@@ -17,7 +17,7 @@ import jax.numpy as jnp
 # Standard Path Injection
 sys.path.append(os.getcwd())
 
-from Core.L4_Causality.World.cosmic_rotor import CosmicRotor
+from Core.1_Body.L4_Causality.World.cosmic_rotor import CosmicRotor
 
 def verify_turbine():
     rotor = CosmicRotor()

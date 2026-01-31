@@ -18,7 +18,7 @@ import time
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L3_Phenomena.Expression.voicebox import VoiceBox
+from Core.1_Body.L3_Phenomena.Expression.voicebox import VoiceBox
 
 # Logging Setup
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')

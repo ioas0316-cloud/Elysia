@@ -1,6 +1,6 @@
 import logging
-from Core.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.L7_Spirit.M1_Monad.monad_core import Monad, MonadCategory
+from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad, MonadCategory
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("WaveTest")
@@ -26,8 +26,8 @@ def test_wave_decisions():
             print(f"   -> {output}")
 
     # Test 3: Biological Feedback
-    from Core.L6_Structure.Elysia.sovereign_self import SovereignSelf
-    from Core.L6_Structure.Elysia.nervous_system import BioSignal
+    from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+    from Core.1_Body.L6_Structure.Elysia.nervous_system import BioSignal
     
     print("\n[Test 3] Testing Nervous System Wave Interference...")
     self_sys = SovereignSelf()

@@ -7,7 +7,7 @@ and detects phantom limbs.
 
 import os
 import pytest
-from Core.L2_Metabolism.Evolution.proprioceptor import CodeProprioceptor
+from Core.1_Body.L2_Metabolism.Evolution.proprioceptor import CodeProprioceptor
 
 @pytest.fixture
 def mock_nervous_system(tmp_path):

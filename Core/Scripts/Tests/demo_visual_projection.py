@@ -17,8 +17,8 @@ import numpy as np
 # Standard Path Injection
 sys.path.append(os.getcwd())
 
-from Core.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
-from Core.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
+from Core.1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
+from Core.1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
 
 def run_visual_demo():
     print("🎬 STARTING VISUAL PROJECTION DEMO...")

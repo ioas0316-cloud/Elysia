@@ -7,7 +7,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 try:
-    from Core.L6_Structure.M6_Architecture.manifold_conductor import ManifoldConductor
+    from Core.1_Body.L6_Structure.M6_Architecture.manifold_conductor import ManifoldConductor
 except ImportError as e:
     print(f"❌ Import failed: {e}")
     sys.exit(1)

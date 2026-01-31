@@ -16,9 +16,9 @@ import time
 # 프로젝트 루트 경로 추가
 sys.path.append(os.path.abspath(os.curdir))
 
-from Core.L6_Structure.Merkaba.hypercosmos import get_hyper_cosmos
-from Core.L6_Structure.Elysia.nervous_system import NervousSystem
-from Core.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.1_Body.L6_Structure.Merkaba.hypercosmos import get_hyper_cosmos
+from Core.1_Body.L6_Structure.Elysia.nervous_system import NervousSystem
+from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
 
 def test_hypercosmos_hierarchy():
     print("🌌 [TEST] Testing HyperCosmos Supreme Hierarchy...")
@@ -47,7 +47,7 @@ def test_hypercosmos_hierarchy():
     decision = cosmos.perceive("환경적 스트레스가 심한데, 어떻게 대처할 거니?")
     
     # LogosTranslator를 통한 의식 흐름 합성
-    from Core.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
+    from Core.1_Body.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
     m1_turbine = cosmos.field.units['M1_Body'].turbine
     state = {
         'intent': 'Self-Preservation & Service',

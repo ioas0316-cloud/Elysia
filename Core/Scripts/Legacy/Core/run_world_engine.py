@@ -14,8 +14,8 @@ Features:
 import time
 import random
 from typing import List, Tuple
-from Core.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.L4_Causality.Civilization.trinity_citizen import LifeCitizen
+from Core.1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.1_Body.L4_Causality.Civilization.trinity_citizen import LifeCitizen
 
 class LivingWorld:
     def __init__(self, size: int = 20):

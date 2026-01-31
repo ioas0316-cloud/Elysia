@@ -4,8 +4,8 @@ import os
 sys.path.append(os.getcwd())
 
 from Core.Elysia.sovereign_self import SovereignSelf, CognitiveMode, ScaleArchetype
-from Core.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
-from Core.L4_Causality.World.Physics.trinity_fields import TrinityVector
+from Core.1_Body.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
+from Core.1_Body.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_governance():
     print("🧪 [Test] Phase 29: Sensory Governance (Safety & Adaptation)")

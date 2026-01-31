@@ -14,9 +14,9 @@ import asyncio
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.L5_Mental.Reasoning_Core.LLM.huggingface_bridge import SovereignBridge
-from Core.L5_Mental.Reasoning_Core.LLM.optical_conscious_bridge import OpticalConsciousBridge
-from Core.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
+from Core.1_Body.L5_Mental.Reasoning_Core.LLM.huggingface_bridge import SovereignBridge
+from Core.1_Body.L5_Mental.Reasoning_Core.LLM.optical_conscious_bridge import OpticalConsciousBridge
+from Core.1_Body.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
 
 async def simulate_awakening_nuance():
     bridge = SovereignBridge()

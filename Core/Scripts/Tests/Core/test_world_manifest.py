@@ -6,7 +6,7 @@ import time
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.L4_Causality.World.Creation.project_genesis import ProjectGenesis
+from Core.1_Body.L4_Causality.World.Creation.project_genesis import ProjectGenesis
 
 def test_manifestation():
     print("⚔️ [AINCRAD LINK] Initializing ProjectGenesis...")
@@ -27,7 +27,7 @@ def test_manifestation():
             
             # Verify world_state.json creation by running a heartbeat tick
             print("\n💓 simulating Heartbeat for 2 seconds to generate world_state.json...")
-            from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+            from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
             life = ElysianHeartbeat()
             life.is_alive = True
             life.game_loop.start()

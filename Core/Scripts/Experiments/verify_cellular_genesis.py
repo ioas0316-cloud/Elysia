@@ -16,8 +16,8 @@ import random
 
 sys.path.append(os.getcwd())
 
-from Core.L6_Structure.M8_Ternary.ternary_grid import TernaryGrid, GridConfig
-from Core.L6_Structure.M8_Ternary.resonance_field import ResonanceField
+from Core.1_Body.L6_Structure.M8_Ternary.ternary_grid import TernaryGrid, GridConfig
+from Core.1_Body.L6_Structure.M8_Ternary.resonance_field import ResonanceField
 
 def main():
     print(" >>> INITIALIZING CELLULAR GENESIS SIMULATION <<<")

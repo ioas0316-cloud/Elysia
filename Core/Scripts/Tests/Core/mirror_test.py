@@ -10,8 +10,8 @@ import time
 # Add root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.L2_Metabolism.Evolution.action_logger import ActionLogger
-from Core.L2_Metabolism.Evolution.evaluator import OutcomeEvaluator
+from Core.1_Body.L2_Metabolism.Evolution.action_logger import ActionLogger
+from Core.1_Body.L2_Metabolism.Evolution.evaluator import OutcomeEvaluator
 
 def run_test():
     print("==================================")

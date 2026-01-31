@@ -14,7 +14,7 @@ import os
 root_path = os.path.abspath("c:/Elysia")
 sys.path.append(root_path)
 
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 def verify_phase61():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')

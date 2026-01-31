@@ -16,7 +16,7 @@ from dataclasses import dataclass
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L3_Phenomena.synesthesia_engine import SynesthesiaEngine, SignalType
+from Core.1_Body.L3_Phenomena.synesthesia_engine import SynesthesiaEngine, SignalType
 
 # Mock Data Structures (to avoid loading full ML modules)
 @dataclass

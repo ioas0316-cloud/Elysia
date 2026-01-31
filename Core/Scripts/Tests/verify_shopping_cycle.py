@@ -15,9 +15,9 @@ sys.path.append(os.getcwd())
 
 import jax.numpy as jnp
 try:
-    from Core.L4_Causality.World.market_field import MarketField
-    from Core.L4_Causality.World.npc_spawner import NPCSpawner
-    from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
+    from Core.1_Body.L4_Causality.World.market_field import MarketField
+    from Core.1_Body.L4_Causality.World.npc_spawner import NPCSpawner
+    from Core.1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
     print("DEBUG: Component imports successful.")
 except ImportError as e:
     print(f"DEBUG: Import failed: {e}")

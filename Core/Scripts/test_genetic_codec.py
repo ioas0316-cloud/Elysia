@@ -13,7 +13,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
+from Core.1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 
 def test_codon_mapping():
     print("\n[1] Testing Codon -> Layer Mapping...")

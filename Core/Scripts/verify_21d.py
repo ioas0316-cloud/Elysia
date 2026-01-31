@@ -5,8 +5,8 @@ import os
 # Add Core to path
 sys.path.append(os.path.abspath('.'))
 
-from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
-from Core.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
+from Core.1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_rotor import SovereignRotor
 
 def test_21d_engine():
     print("Testing D21Vector...")

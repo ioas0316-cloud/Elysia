@@ -7,10 +7,10 @@ import logging
 # Path setup
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.L5_Mental.Elysia.elysia_core import ElysiaCore
-from Core.L4_Causality.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
-from Core.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
-from Core.L5_Mental.Reasoning_Core.Will.free_will_engine import FreeWillEngine
+from Core.1_Body.L5_Mental.Elysia.elysia_core import ElysiaCore
+from Core.1_Body.L4_Causality.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
+from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.1_Body.L5_Mental.Reasoning_Core.Will.free_will_engine import FreeWillEngine
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')

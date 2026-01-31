@@ -8,9 +8,9 @@ if project_root not in sys.path:
 
 import jax.numpy as jnp
 from PIL import Image
-from Core.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
-from Core.L3_Phenomena.Visual.morphic_perception import ResonanceScanner
-from Core.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
+from Core.1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
+from Core.1_Body.L3_Phenomena.Visual.morphic_perception import ResonanceScanner
+from Core.1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
 
 def verify_perception():
     print("🌅 INITIATING MORPHIC PERCEPTION TEST...")
