@@ -26,9 +26,9 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 # 2. Import The Sovereign Engine
-from Core.L2_Universal.Creation.seed_generator import SeedForge
+from Core.L2_Metabolism.Creation.seed_generator import SeedForge
 from Core.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-from Core.L0_Sovereignty.sovereign_math import SovereignMath
+from Core.L0_Keystone.sovereign_math import SovereignMath
 
 # 2. Import The Sovereign Engine
 try:
@@ -41,7 +41,7 @@ except ImportError as e:
 # Legacy Imports (May fail)
 LegacyModules = {}
 try:
-    from Core.L2_Universal.Creation.seed_generator import SeedForge
+    from Core.L2_Metabolism.Creation.seed_generator import SeedForge
     from Core.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
     from Core.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
     from Core.L3_Phenomena.Expression.somatic_llm import SomaticLLM

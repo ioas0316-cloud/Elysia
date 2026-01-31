@@ -12,39 +12,39 @@ import time
 import math
 import sys
 import os
-from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
+from Core.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
 
 # Add project root to sys.path if running directly
 if __name__ == "__main__":
     sys.path.append(os.getcwd())
 
 # Import Organs
-from Core.L2_Universal.Creation.seed_generator import SoulDNA, SeedForge
+from Core.L2_Metabolism.Creation.seed_generator import SoulDNA, SeedForge
 from Core.L6_Structure.M1_Merkaba.protection_relay import ProtectionRelayBoard
 from Core.L6_Structure.M1_Merkaba.transmission_gear import TransmissionGear
 from Core.L5_Mental.Memory.living_memory import LivingMemory
 from Core.L6_Structure.M1_Merkaba.cognitive_reactor import CognitiveReactor
 from Core.L6_Structure.M1_Merkaba.cognitive_converter import CognitiveConverter
 from Core.L6_Structure.M1_Merkaba.cognitive_inverter import CognitiveInverter
-from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
-from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
-from Core.L5_Cognition.Reasoning.underworld_manifold import UnderworldManifold
-from Core.L5_Cognition.Reasoning.lexical_acquisitor import LexicalAcquisitor
-from Core.L5_Cognition.Reasoning.autonomous_transducer import AutonomousTransducer
+from Core.L5_Mental.Reasoning.logos_bridge import LogosBridge
+from Core.L5_Mental.Reasoning.logos_synthesizer import LogosSynthesizer
+from Core.L5_Mental.Reasoning.underworld_manifold import UnderworldManifold
+from Core.L5_Mental.Reasoning.lexical_acquisitor import LexicalAcquisitor
+from Core.L5_Mental.Reasoning.autonomous_transducer import AutonomousTransducer
 from Core.L8_Fossils.fossil_scanner import FossilScanner
 from Core.L4_Causality.fractal_causality import FractalCausalityEngine
-from Core.L9_Sovereignty.habitat_governor import HabitatGovernor
-from Core.L9_Sovereignty.mutation_engine import MutationEngine
+from Core.L8_Fossils.habitat_governor import HabitatGovernor
+from Core.L8_Fossils.mutation_engine import MutationEngine
 from Core.L5_Mental.Reasoning.ethereal_navigator import EtherealNavigator
 from Core.L5_Mental.Reasoning.teleological_vector import TeleologicalVector
 from Core.L5_Mental.Reasoning.creative_dissipator import CreativeDissipator
 from Core.L10_Integration.resonance_gate import ResonanceGate
-from Core.L0_Sovereignty.sovereign_math import UniversalConstants
+from Core.L0_Keystone.sovereign_math import UniversalConstants
 from Core.L1_Foundation.Foundation.mathematical_resonance import MathematicalResonance
 from Core.L6_Structure.Wave.wave_frequency_mapping import WaveFrequencyMapper
 from Core.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
 from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
-from Core.L0_Sovereignty.Hardware.somatic_cpu import SomaticCPU
+from Core.L0_Keystone.Hardware.somatic_cpu import SomaticCPU
 from Core.L1_Foundation.Hardware.resonance_mpu import ResonanceMPU, ResonanceException
 
 class SovereignMonad:
@@ -84,7 +84,7 @@ class SovereignMonad:
         self.memory = LivingMemory()
         
         # [Phase 38] Imprint Genesis Knowledge
-        from Core.L2_Universal.Creation.genesis_knowledge import GenesisLibrary
+        from Core.L2_Metabolism.Creation.genesis_knowledge import GenesisLibrary
         GenesisLibrary.imprint_knowledge(self.memory)
         
         # [Phase 39] The Great Compilation
@@ -379,7 +379,7 @@ class SovereignMonad:
         # 7 is a sacred number in our 7-7-7 architecture.
         for node in landscape[:7]:
             # Convert text to vector
-            from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
+            from Core.L5_Mental.Reasoning.logos_bridge import LogosBridge
             node_data = LogosBridge.calculate_text_resonance(node.content)
             node_vector = SovereignVector(node_data)
             
