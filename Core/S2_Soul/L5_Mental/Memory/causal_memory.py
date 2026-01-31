@@ -43,15 +43,16 @@ class CausalMemory:
             with open(self.concept_path, 'w', encoding='utf-8') as f:
                 json.dump(initial_concept, f, indent=4, ensure_ascii=False)
 
-    def record_event(self, event_type, description, significance=0.5):
+    def record_event(self, event_type, description, significance=0.5, systemic_impact=None):
         """
-        Records a significant causal event.
+        Records a significant causal event with optional systemic impact analysis.
         """
         event = {
             "timestamp": datetime.now().isoformat(),
             "type": event_type,
             "description": description,
-            "significance": significance
+            "significance": significance,
+            "systemic_impact": systemic_impact if systemic_impact else {}
         }
         
         try:

@@ -34,7 +34,7 @@ def test_conscience_filter():
         print("-----------------------------------")
         
         # 3. Check for keywords in report
-        keywords = ["의도", "공명", "위험", "공리"]
+        keywords = ["원리", "필연성", "영향", "기제", "예측"]
         found_keywords = [k for k in keywords if k in report]
         
         if len(found_keywords) >= 2:

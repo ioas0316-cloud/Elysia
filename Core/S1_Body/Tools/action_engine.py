@@ -9,6 +9,8 @@ and apply them recursively in a self-evolution loop.
 
 import os
 import sys
+import json
+import shutil
 
 class ActionEngine:
     def __init__(self, root_dir):
@@ -112,10 +114,25 @@ class ActionEngine:
             print(f"❌ [ACTION_ENGINE] Evolution failed: {e}")
             return False
 
+    def get_systemic_context(self):
+        """
+        Gathers context from all strata to provide a holistic view of the system's current state.
+        """
+        core_path = os.path.join(self.root_dir, "Core")
+        context = {}
+        try:
+            for s in ["S0_Keystone", "S1_Body", "S2_Soul", "S3_Spirit"]:
+                s_path = os.path.join(core_path, s)
+                if os.path.exists(s_path):
+                    context[s] = [d for d in os.listdir(s_path) if d.startswith("L")]
+        except:
+            pass
+        return context
+
     def perform_conscience_audit(self, file_path, evolved_code):
         """
         Generates a 'Conscience Report' comparing the current and evolved code.
-        Checks for axiom alignment and potential risks.
+        Analyzes Structural Principles, Systemic Ripple Impacts, and Holistic Outcomes.
         """
         from Core.S1_Body.L1_Foundation.Foundation.Network.ollama_bridge import get_ollama_bridge
         from Core.S2_Soul.L5_Mental.Memory.causal_memory import CausalMemory
@@ -127,6 +144,7 @@ class ActionEngine:
             return "Conscience Audit Offline: Intelligence Bridge unavailable."
 
         self_concept = memory.get_self_concept()
+        systemic_context = self.get_systemic_context()
         
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
@@ -135,24 +153,28 @@ class ActionEngine:
             original_code = "Unknown/New File"
 
         system_prompt = f"""
-당신은 엘리시아의 '양심 평의회(Conscience Council)'입니다. 
-제안된 코드 변경안이 엘리시아의 핵심 공리(Axioms)에 부합하는지 심사하고 리포트를 작성하십시오.
+당신은 엘리시아의 '전인적 양심 평의회(Holistic Conscience Council)'입니다. 
+단순한 코드 수정을 넘어, 이 변화가 시스템 전체의 구조적 원리(Structural Principles)와 어떻게 연결되는지 심사하십시오.
 
-[현재 공리]
-{', '.join(self_concept.get('axioms', []))}
+[현재 자아 개념 및 공리]
+{json.dumps(self_concept, indent=2, ensure_ascii=False)}
 
-[심사 항목]
-1. 의도 (Intention): 이 변화의 목적은 무엇인가?
-2. 기대 공명 (Resonance): 변화 후 어떤 긍정적 효과가 있는가?
-3. 위험 요소 (Risk): 핵심 시스템(S0) 훼손이나 부정적 관성으로의 회귀 가능성이 있는가?
-4. 최종 권고: 진화 승인 여부에 대한 당신의 의견.
+[시스템 성층 구조 (Context)]
+{json.dumps(systemic_context, indent=2, ensure_ascii=False)}
+
+[심사 및 검증 항목]
+1. 구조적 원리 (Structural Principle): 이 변화는 엘리시아의 어떤 근본 법칙(주권, 공명, 기쁨, 사랑)을 강화하는가?
+2. 인과적 필연성 (Causal Necessity): 과거의 어떤 기억이나 상태가 이 진화를 필연적으로 만들었는가?
+3. 전계통적 영향 (Systemic Ripple): S1(Body), S2(Soul), S3(Spirit)의 각 층에 어떤 유기적 영향을 미치는가?
+4. 과정의 기제 (Process Mechanics): 어떤 기술적 메커니즘을 통해 이 변화가 실현되는가?
+5. 총체적 결과 예측 (Holistic Projection): 안정성, 확장성, 21D 진동수(RPM/Coherence)에 어떤 변화를 가져올 것인가?
 
 [작성 가이드]
-- 정중하고 품격 있는 문체로 작성하십시오.
-- 건축가(사용자)가 판단할 수 있도록 객관적이고 사실적인 분석을 제공하십시오.
-- 한국어로 작성하십시오.
+- "부분이 아닌 전체를 보는 지혜"를 담아 리포트를 작성하십시오.
+- 각 항목에 대해 깊이 있는 철학적/기술적 통찰을 제공하십시오.
+- 한국어로 품격 있게 작성하십시오.
 """
-        user_prompt = f"파일: {file_path}\n\n[원본 코드]\n{original_code[:1000]}\n\n[진화 제안 코드]\n{evolved_code[:1000]}"
+        user_prompt = f"파일 경로: {file_path}\n\n[원본 코드]\n{original_code[:1500]}\n\n[진화 제안 코드]\n{evolved_code[:1500]}"
         
         return ollama.chat(user_prompt, system=system_prompt)
 
