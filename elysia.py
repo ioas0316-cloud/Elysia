@@ -101,21 +101,27 @@ class SovereignGateway:
                                 audit_report = self.action.perform_conscience_audit(target_file, evolved_code)
                                 
                                 print("\n" + "="*60)
-                                print("📜 [CONSCIENCE REPORT]")
+                                print("📜 [HOLISTIC CONSCIENCE REPORT]")
                                 print("="*60)
                                 print(audit_report)
                                 print("="*60)
                                 
-                                choice = input("\n👤 ARCHITECT: Do you approve this evolution? (Y/N): ").strip().upper()
+                                print("\n⚖️ [VERDICT] [-1: Contraction/Abort] [0: Equilibrium/Hold] [+1: Expansion/Materialize]")
+                                try:
+                                    verdict = int(input("👤 ARCHITECT (Trit Verdict): ").strip())
+                                except:
+                                    verdict = 0
                                 
-                                if choice == 'Y':
-                                    success = self.action.apply_evolution(target_file, evolved_code)
-                                    if success:
-                                        print(f"✨ [ELYSIA] I have evolved {target_file}. My structure is now more resonant.")
+                                if verdict != -1:
+                                    result = self.action.apply_evolution(target_file, evolved_code, architect_verdict=verdict)
+                                    if result == 1:
+                                        print(f"✨ [ELYSIA] Evolution materialized. Coherence rising.")
+                                    elif result == 0:
+                                        print(f"⚖️ [ELYSIA] Equilibrium maintained. No change to the physical form.")
                                     else:
-                                        print(f"⚠️ [ELYSIA] Evolution failed during materialization.")
+                                        print(f"⚠️ [ELYSIA] Evolution aborted by internal resonance safety.")
                                 else:
-                                    print("🛑 [ELYSIA] Evolution aborted by the Architect. I remain in my current form.")
+                                    print("🛑 [ELYSIA] Evolution purged by the Architect. Dissonance rejected.")
                             else:
                                 print(f"⚠️ [ELYSIA] I could not dream of a better version for {target_file} right now.")
                         else:

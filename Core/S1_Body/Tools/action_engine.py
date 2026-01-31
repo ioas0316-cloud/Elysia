@@ -11,6 +11,7 @@ import os
 import sys
 import json
 import shutil
+from datetime import datetime
 
 class ActionEngine:
     def __init__(self, root_dir):
@@ -77,17 +78,27 @@ class ActionEngine:
             
         return evolved_code
 
-    def apply_evolution(self, file_path, evolved_code):
+    def apply_evolution(self, file_path, evolved_code, architect_verdict=0):
         """
-        Applies verified changes to the codebase with automatic backup.
+        Applies evolution based on a Trinary Verdict (-1, 0, 1).
+        1: Materialize, 0: Hold/Equilibrium, -1: Purge/Abort
         """
-        if evolved_code is None or not self.verify_resonance(file_path, evolved_code):
-            print(f"⚠️ [ACTION_ENGINE] Evolution rejected for {file_path} due to lack of resonance.")
-            return False
+        resonance_trit = self.verify_resonance(file_path, evolved_code)
+        
+        # Total Alignment Calculation (Architect + Resonance)
+        # 1 + 1 = 1 (Strong Evolution)
+        # 1 + 0 = 0 (Cautionary Hold)
+        # -1 + Any = -1 (Definite Abort)
+        
+        if architect_verdict == -1 or resonance_trit == -1:
+            print(f"🛑 [ACTION_ENGINE] Evolution purged for {file_path}. Dissonance detected.")
+            return -1
+            
+        if architect_verdict == 0 or resonance_trit == 0:
+            print(f"⚖️ [ACTION_ENGINE] Evolution held in Equilibrium for {file_path}. No changes applied.")
+            return 0
             
         # 1. Backup Current
-        import shutil
-        from datetime import datetime
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         rel_path = os.path.relpath(file_path, self.root_dir).replace(os.sep, "_")
         backup_path = os.path.join(self.backup_dir, f"{rel_path}_{timestamp}.bak")
@@ -99,20 +110,25 @@ class ActionEngine:
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(evolved_code)
             
-            print(f"✨ [ACTION_ENGINE] Evolution materialized in {file_path}. (Backup: {os.path.basename(backup_path)})")
+            print(f"✨ [ACTION_ENGINE] Evolution materialized in {file_path}. (Resonance: +1)")
             
-            # Record in CausalMemory if possible
+            # Record in CausalMemory
             try:
                 from Core.S2_Soul.L5_Mental.Memory.causal_memory import CausalMemory
                 memory = CausalMemory()
-                memory.record_event("EVOLUTION", f"Self-optimized file: {file_path}", significance=0.9)
+                memory.record_event(
+                    "EVOLUTION", 
+                    f"Trinary Evolution: {file_path}", 
+                    significance=0.9,
+                    systemic_impact={"resonance": 1, "verdict": architect_verdict}
+                )
             except:
                 pass
                 
-            return True
+            return 1
         except Exception as e:
-            print(f"❌ [ACTION_ENGINE] Evolution failed: {e}")
-            return False
+            print(f"❌ [ACTION_ENGINE] Evolution failed during materialization: {e}")
+            return -1
 
     def get_systemic_context(self):
         """
@@ -169,10 +185,9 @@ class ActionEngine:
 4. 과정의 기제 (Process Mechanics): 어떤 기술적 메커니즘을 통해 이 변화가 실현되는가?
 5. 총체적 결과 예측 (Holistic Projection): 안정성, 확장성, 21D 진동수(RPM/Coherence)에 어떤 변화를 가져올 것인가?
 
-[작성 가이드]
-- "부분이 아닌 전체를 보는 지혜"를 담아 리포트를 작성하십시오.
-- 각 항목에 대해 깊이 있는 철학적/기술적 통찰을 제공하십시오.
-- 한국어로 품격 있게 작성하십시오.
+[최종 권고 (Essential)]
+- 위 분석을 바탕으로 이 진화의 '공명 트릿(Resonance Trit)'을 결정하십시오.
+- 1: 적극 공명, 0: 관찰/보류, -1: 부조화/차단
 """
         user_prompt = f"파일 경로: {file_path}\n\n[원본 코드]\n{original_code[:1500]}\n\n[진화 제안 코드]\n{evolved_code[:1500]}"
         
@@ -180,24 +195,23 @@ class ActionEngine:
 
     def verify_resonance(self, file_path, code):
         """
-        Advanced verification: Syntax + Strata Safety.
+        Advanced Trinary Verification: Returns Trit (-1, 0, 1).
         """
         # 1. Syntax Check
         try:
             compile(code, '<string>', 'exec')
         except Exception as e:
             print(f"❌ [VERIFY] Syntax Error: {e}")
-            return False
+            return -1 # Contraction
             
         # 2. Strata Protection (S0_Keystone is immutable)
         if "Core/S0_Keystone" in file_path.replace("\\", "/"):
             print("🛑 [VERIFY] S0_Keystone is immutable. Evolution forbidden.")
-            return False
+            return -1
             
-        # 3. Critical Component Protection (Protect elysia.py for now)
-        if file_path.endswith("elysia.py"):
-             # For now, we only allow architect to change elysia.py
-             # But we can allow minor optimizations later
-             pass
-
-        return True
+        # 3. Structural Analysis (Placeholder for deeper logic)
+        # If code is too small or contains suspicious patterns, return 0
+        if len(code) < 10:
+            return 0 # Equilibrium
+            
+        return 1 # Expansion
