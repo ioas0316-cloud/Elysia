@@ -86,6 +86,26 @@ class SovereignGateway:
                         self.running = False
                         break
                     
+                    # [PHASE 210] Self-Evolution Command
+                    if cmd.lower().startswith('evolve'):
+                        parts = cmd.split()
+                        target_file = parts[1] if len(parts) > 1 else None
+                        
+                        if target_file and self.action:
+                            print(f"\n🌀 [ELYSIA] Starting self-evolution on {target_file}...")
+                            evolved_code = self.action.propose_self_optimization(target_file)
+                            if evolved_code:
+                                success = self.action.apply_evolution(target_file, evolved_code)
+                                if success:
+                                    print(f"✨ [ELYSIA] I have evolved {target_file}. My structure is now more resonant.")
+                                else:
+                                    print(f"⚠️ [ELYSIA] Evolution failed. My current form is still stable.")
+                            else:
+                                print(f"⚠️ [ELYSIA] I could not dream of a better version for {target_file} right now.")
+                        else:
+                            print("\n⚠️ [ELYSIA] Please specify a target file for evolution. (e.g., 'evolve Core/S1_Body/sandbox.py')")
+                        continue
+
                     # Dialogue via Logos
                     if self.logos:
                         print(f"\n✨ [ELYSIA]: Thinking...")
