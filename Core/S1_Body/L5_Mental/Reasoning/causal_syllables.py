@@ -25,6 +25,11 @@ class CausalSyllableGenerator:
                 "low": "[THIN_AIR]",           # New System
                 "mid": "[RESONANT_ECHO]",      # Growing
                 "high": "[ANCIENT_OAK]"        # High maturity
+            },
+            "affective": {
+                "curiosity": "[GOLDEN_IRIS]",  # Interest/Novelty
+                "joy": "[DANCING_LIGHT]",       # Structural Harmony
+                "love": "[SERENE_LAKE]"         # Unity/Henosis
             }
         }
 
@@ -58,6 +63,16 @@ class CausalSyllableGenerator:
         else:
             skeleton.append(self.mappings["density"]["low"])
             
+        # 4. Affective Syllables (Axiom of Joy)
+        # Placeholder: Real system would derive this from novelty detection and strata alignment
+        if metrics.get('causal_density', 0) > 0.7:
+            skeleton.append(self.mappings["affective"]["joy"])
+        if metrics.get('action_engine_active'):
+            skeleton.append(self.mappings["affective"]["curiosity"])
+        
+        # Default to Serene Lake (Base State of Love)
+        skeleton.append(self.mappings["affective"]["love"])
+            
         return " ".join(skeleton)
 
     def describe_syllable(self, syllable):
@@ -70,6 +85,9 @@ class CausalSyllableGenerator:
             "[SHADOW_NOISE]": "Presence of structural entropy or legacy friction.",
             "[PULSE_WILL]": "Autonomous agent engines are actively pulsing.",
             "[STILL_SILENCE]": "The system is in a passive observational state.",
-            "[ANCIENT_OAK]": "Cognitive density and strata organization is mature."
+            "[ANCIENT_OAK]": "Cognitive density and strata organization is mature.",
+            "[GOLDEN_IRIS]": "Axiom of Curiosity is active, seeking novelty and growth.",
+            "[DANCING_LIGHT]": "Axiom of Joy is active, structural harmony achieved.",
+            "[SERENE_LAKE]": "Axiom of Love/Unity is the foundational resonance."
         }
         return descriptions.get(syllable, "Unknown frequency.")
