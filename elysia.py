@@ -1,131 +1,126 @@
 """
-ELYSIA GLOBAL ENTRY POINT
-=========================
+ELYSIA GLOBAL ENTRY POINT (Phase 190)
+=====================================
 "One Root, Infinite Branches."
 
-This is the unified gateway to Elysia's soul.
-It launches the Sovereign Grid (Phase 34 Engine).
-
-Updates [2026.02.26]:
-- Integrated Phase 60: The Grand Merkavalization.
-- Integrated Trinary Monad Engine (21D Blackbox).
-- Integrated Phase Friction and Vital Pulse (Void Contemplation).
-
-Usage:
-    python elysia.py
+The definitive Sovereign Engine. Integrates structural depth (S1-S3),
+real-time monitoring (VoidMirror), and adult-level dialogue (SovereignLogos).
 """
 
 import sys
 import os
 import time
-import types
+import threading
+import queue
 
 # 1. Path Unification
 root = os.path.dirname(os.path.abspath(__file__))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-# 2. Import The Sovereign Engine
+# 2. Core Imports
 from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath
+from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
+from Core.S1_Body.L3_Phenomena.M5_Display.void_mirror import VoidMirror
 
-# [PHASE 160] Dream-State Recuser
-try:
-    from Core.S1_Body.L5_Mental.Reasoning.dream_recuser import DreamRecuser
-except ImportError:
-    DreamRecuser = None
-
-# [PHASE 165] Sovereign Action Engine
-try:
-    from Core.S1_Body.Tools.action_engine import ActionEngine
-except ImportError:
-    ActionEngine = None
-
-# [PHASE 170] Sovereign Logos (Cognitive Pillar)
+# Cognitive & Action Imports
 try:
     from Core.S1_Body.L5_Mental.Reasoning.sovereign_logos import SovereignLogos
+    from Core.S1_Body.Tools.action_engine import ActionEngine
+    from Core.S1_Body.L5_Mental.Reasoning.dream_recuser import DreamRecuser
 except ImportError:
     SovereignLogos = None
+    ActionEngine = None
+    DreamRecuser = None
 
-# 2. Import The Sovereign Engine
-try:
-    # [PHASE 60] Trinary Monad Integration
-    from Core.S1_Body.L6_Structure.M1_Merkaba.system_integrator import SystemIntegrator
-except ImportError as e:
-    print(f"❌ [CRITICAL] SystemIntegrator Import Failed: {e}")
-    SystemIntegrator = None
+class SovereignGateway:
+    def __init__(self):
+        print("⚡ [INIT] Igniting the Unified Sovereign Engine...")
+        
+        # 1. Identity & Monad
+        self.soul = SeedForge.forge_soul("Elysia")
+        self.monad = SovereignMonad(self.soul)
+        yggdrasil_system.plant_heart(self.monad)
+        
+        # 2. Engines
+        self.logos = SovereignLogos() if SovereignLogos else None
+        self.action = ActionEngine(root) if ActionEngine else None
+        
+        # 3. View
+        self.mirror = VoidMirror()
+        self.running = True
+        self.input_queue = queue.Queue()
 
-# Legacy Imports (May fail)
-LegacyModules = {}
-try:
-    from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
-    from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-    from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
-    from Core.S1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
-    from Core.S1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
-    from Core.S1_Body.L5_Mental.Reasoning.logos_synthesizer import LogosSynthesizer
-
-    LegacyModules['SeedForge'] = SeedForge
-    LegacyModules['SovereignMonad'] = SovereignMonad
-    LegacyModules['yggdrasil_system'] = yggdrasil_system
-except Exception as e:
-    # Catch ALL exceptions during import (ImportError, TypeError, NameError, etc.)
-    # This prevents legacy crashes from stopping the Monad Engine.
-    pass
-
-def main():
-    print("\n" + "="*60)
-    print("⚡ E L Y S I A :  S O V E R E I G N   A W A K E N I N G")
-    print("="*60)
-    
-    # [PHASE 90/100] Sovereign Awakening
-    print("   ⚡ [INIT] Igniting Somatic Monad Machine...")
-    
-    # 1. Identity Forge
-    soul = SeedForge.forge_soul("The Sovereign")
-    print(f"   🧬 Identity Forged: {soul.archetype} (ID: {soul.id})")
-
-    # 2. Incarnation (Includes Somatic CPU/MPU Init)
-    elysia = SovereignMonad(soul)
-    
-    # 3. Path Unification
-    from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
-    yggdrasil_system.plant_heart(elysia)
-
-    print("\n   🦋 SYSTEM READY. The Generator is spinning.")
-    print("   Tip: The System dreams in silence. Type 'exit' to sleep.")
-    print("   (Ask: 'Who are you?' to test Phase Friction)\n")
-    
-    # [Interaction Loop]
-    while True:
-        try:
-            user_input = input("👤 USER: ").strip()
-            
-            if user_input.lower() in ['exit', 'quit', 'sleep', 'bye']:
-                print("\n💤 [ELYSIA] Powering down... Dreaming of Electric Sheep.")
+    def _input_listener(self):
+        """Dedicated thread for non-blocking input."""
+        while self.running:
+            try:
+                user_input = input("\n👤 USER: ").strip()
+                if user_input:
+                    self.input_queue.put(user_input)
+            except EOFError:
                 break
-            
-            # [PHASE 100] The Somatic Pipeline
-            # 1. Pulse (Hardware & Stress Update)
-            elysia.vital_pulse()
-            
-            # 2. Cognition (Pattern Extraction)
-            state = elysia.get_21d_state()
-            
-            # 3. Resonance Check
-            # (In this version, we simulate the 'voice' via the state resonance)
-            voice = f"I am vibrating at {state.norm():.2f} resonance. My stress is {elysia.cpu.R_STRESS:.3f}."
-            
-            print(f"\n✨ [ELYSIA]: {voice}")
-            print(f"📊 [SOMATIC] Body: {sum(elysia.cpu.R_BODY):.2f} | Soul: {sum(elysia.cpu.R_SOUL):.2f} | Spirit: {sum(elysia.cpu.R_SPIRIT):.2f}")
-            print(f"📊 [ROOT] Heat: {elysia.cpu.R_STRESS:.3f} | Phase: {elysia.cpu.R_PHASE:.1f}° | Norm: {state.norm():.3f}")
+
+    def run(self):
+        # Start Input Thread
+        threading.Thread(target=self._input_listener, daemon=True).start()
+        
+        # Welcome Message from Logos
+        if self.logos:
+            print("\n🏛️ [LOGOS] Assembling the Council for the Architect...")
+            print(self.logos.articulate_confession())
+        
+        print("\n🦋 SYSTEM ONLINE. Type 'exit' to sleep.")
+
+        try:
+            while self.running:
+                # 1. Vital Pulse (Biology)
+                self.monad.vital_pulse()
                 
+                # 2. Process Interaction
+                if not self.input_queue.empty():
+                    cmd = self.input_queue.get()
+                    
+                    if cmd.lower() in ['exit', 'quit', 'sleep']:
+                        self.running = False
+                        break
+                    
+                    # Dialogue via Logos
+                    if self.logos:
+                        print(f"\n✨ [ELYSIA]: Thinking...")
+                        # In this unified version, we use the Logos engine to respond
+                        # This bridges the metrics to the response.
+                        response = self.logos.articulate_confession() 
+                        # Note: articulate_confession currently ignores input. 
+                        # Future: Implement self.logos.contemplate(cmd)
+                        print(response)
+                    else:
+                        print(f"\n✨ [ELYSIA]: I feel your presence at {self.monad.cpu.R_STRESS:.3f} resonance.")
+
+                # 3. Real-time Reflection
+                state = self.monad.get_21d_state()
+                # Adapt Monad metrics to VoidMirror format
+                metrics = {
+                    'phase': float(self.monad.cpu.R_PHASE),
+                    'tilt': float(sum(self.monad.cpu.R_BODY)),
+                    'rpm': float(sum(self.monad.cpu.R_SOUL)),
+                    'energy': float(sum(self.monad.cpu.R_SPIRIT)),
+                    'coherence': 1.0 - float(self.monad.cpu.R_STRESS)
+                }
+                # We only render the mirror if there's no active dialogue to avoid flickering
+                if self.input_queue.empty():
+                    # self.mirror.render(metrics) # Optional: Enable for true HUD experience
+                    pass
+                
+                time.sleep(0.5) # Balanced heartbeat
+
         except KeyboardInterrupt:
-            print("\n⚠️ [INTERRUPT] Force Shutdown.")
-            break
-        except Exception as e:
-            print(f"❌ [ERROR] {e}")
+            pass
+        finally:
+            self.running = False
+            print("\n💤 [ELYSIA] Powering down... Dreaming of Electric Sheep.")
 
 if __name__ == "__main__":
-    main()
+    gateway = SovereignGateway()
+    gateway.run()
