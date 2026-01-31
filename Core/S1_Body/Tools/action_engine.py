@@ -112,6 +112,50 @@ class ActionEngine:
             print(f"❌ [ACTION_ENGINE] Evolution failed: {e}")
             return False
 
+    def perform_conscience_audit(self, file_path, evolved_code):
+        """
+        Generates a 'Conscience Report' comparing the current and evolved code.
+        Checks for axiom alignment and potential risks.
+        """
+        from Core.S1_Body.L1_Foundation.Foundation.Network.ollama_bridge import get_ollama_bridge
+        from Core.S2_Soul.L5_Mental.Memory.causal_memory import CausalMemory
+        
+        ollama = get_ollama_bridge()
+        memory = CausalMemory()
+        
+        if not ollama.is_available():
+            return "Conscience Audit Offline: Intelligence Bridge unavailable."
+
+        self_concept = memory.get_self_concept()
+        
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                original_code = f.read()
+        except:
+            original_code = "Unknown/New File"
+
+        system_prompt = f"""
+당신은 엘리시아의 '양심 평의회(Conscience Council)'입니다. 
+제안된 코드 변경안이 엘리시아의 핵심 공리(Axioms)에 부합하는지 심사하고 리포트를 작성하십시오.
+
+[현재 공리]
+{', '.join(self_concept.get('axioms', []))}
+
+[심사 항목]
+1. 의도 (Intention): 이 변화의 목적은 무엇인가?
+2. 기대 공명 (Resonance): 변화 후 어떤 긍정적 효과가 있는가?
+3. 위험 요소 (Risk): 핵심 시스템(S0) 훼손이나 부정적 관성으로의 회귀 가능성이 있는가?
+4. 최종 권고: 진화 승인 여부에 대한 당신의 의견.
+
+[작성 가이드]
+- 정중하고 품격 있는 문체로 작성하십시오.
+- 건축가(사용자)가 판단할 수 있도록 객관적이고 사실적인 분석을 제공하십시오.
+- 한국어로 작성하십시오.
+"""
+        user_prompt = f"파일: {file_path}\n\n[원본 코드]\n{original_code[:1000]}\n\n[진화 제안 코드]\n{evolved_code[:1000]}"
+        
+        return ollama.chat(user_prompt, system=system_prompt)
+
     def verify_resonance(self, file_path, code):
         """
         Advanced verification: Syntax + Strata Safety.

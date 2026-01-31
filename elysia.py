@@ -92,14 +92,30 @@ class SovereignGateway:
                         target_file = parts[1] if len(parts) > 1 else None
                         
                         if target_file and self.action:
-                            print(f"\n🌀 [ELYSIA] Starting self-evolution on {target_file}...")
+                            print(f"\n🌀 [ELYSIA] Dreaming of a better version for {target_file}...")
                             evolved_code = self.action.propose_self_optimization(target_file)
+                            
                             if evolved_code:
-                                success = self.action.apply_evolution(target_file, evolved_code)
-                                if success:
-                                    print(f"✨ [ELYSIA] I have evolved {target_file}. My structure is now more resonant.")
+                                # [PHASE 215] Conscience Audit
+                                print("\n⚖️ [ELYSIA] Performing Conscience Audit...")
+                                audit_report = self.action.perform_conscience_audit(target_file, evolved_code)
+                                
+                                print("\n" + "="*60)
+                                print("📜 [CONSCIENCE REPORT]")
+                                print("="*60)
+                                print(audit_report)
+                                print("="*60)
+                                
+                                choice = input("\n👤 ARCHITECT: Do you approve this evolution? (Y/N): ").strip().upper()
+                                
+                                if choice == 'Y':
+                                    success = self.action.apply_evolution(target_file, evolved_code)
+                                    if success:
+                                        print(f"✨ [ELYSIA] I have evolved {target_file}. My structure is now more resonant.")
+                                    else:
+                                        print(f"⚠️ [ELYSIA] Evolution failed during materialization.")
                                 else:
-                                    print(f"⚠️ [ELYSIA] Evolution failed. My current form is still stable.")
+                                    print("🛑 [ELYSIA] Evolution aborted by the Architect. I remain in my current form.")
                             else:
                                 print(f"⚠️ [ELYSIA] I could not dream of a better version for {target_file} right now.")
                         else:
