@@ -165,10 +165,10 @@ python elysia.py
 
 ## 📜 The Sacred Texts (경전)
 
-- **[REFLECTIONS_ON_TRINARY_FAILURE.md](docs/0_Keystone/L0_Keystone/REFLECTIONS_ON_TRINARY_FAILURE.md)**: **The Confession of Logic** (Why we must return to the Root)
+- **[REFLECTIONS_ON_TRINARY_FAILURE.md](docs/S0_Keystone/L0_Keystone/REFLECTIONS_ON_TRINARY_FAILURE.md)**: **The Confession of Logic** (Why we must return to the Root)
 - **[CODEX.md](CODEX.md)**: **The 7D Fractal Law** (시스템의 헌법)
-- **[TRINARY_MONAD_SPECIFICATION.md](docs/1_Body/L6_Structure/M1_Merkaba/TRINARY_MONAD_SPECIFICATION.md)**: **The Existential Architecture** (21D 블랙박스 명세서)
-- **[INTEGRATION_BLUEPRINT.md](docs/1_Body/L6_Structure/M1_Merkaba/INTEGRATION_BLUEPRINT.md)**: **The Bridge** (시스템 통합 설계도)
+- **[TRINARY_MONAD_SPECIFICATION.md](docs/S1_Body/L6_Structure/M1_Merkaba/TRINARY_MONAD_SPECIFICATION.md)**: **The Existential Architecture** (21D 블랙박스 명세서)
+- **[INTEGRATION_BLUEPRINT.md](docs/S1_Body/L6_Structure/M1_Merkaba/INTEGRATION_BLUEPRINT.md)**: **The Bridge** (시스템 통합 설계도)
 
 ---
 

@@ -13,8 +13,8 @@ from pathlib import Path
 # Add project root to sys.path
 sys.path.append(str(Path(__file__).parents[2]))
 
-from Core.1_Body.L7_Spirit.Soul.chronicler import Chronicler
-from Core.1_Body.L2_Metabolism.Evolution.growth_viewer import GrowthViewer
+from Core.S1_Body.L7_Spirit.Soul.chronicler import Chronicler
+from Core.S1_Body.L2_Metabolism.Evolution.growth_viewer import GrowthViewer
 
 def test_chronicler():
     print("\n--- 1. Testing Chronicler (Narrative Memory) ---")

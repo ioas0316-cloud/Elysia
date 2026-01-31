@@ -22,7 +22,7 @@ import time
 # Ensure Core is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.1_Body.L6_Structure.M1_Merkaba.monad_ensemble import MonadEnsemble
+from Core.S1_Body.L6_Structure.M1_Merkaba.monad_ensemble import MonadEnsemble
 
 def run_simulation(input_symbol: str = "ㄱ", max_steps: int = 100):
     print(f"\n⚡ [GENESIS] Initiating Trinary Monad Engine Simulation.")

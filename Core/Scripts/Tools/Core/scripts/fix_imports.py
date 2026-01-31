@@ -7,20 +7,20 @@ def fix_imports():
     # Priority replacements (specific paths first)
     replacements = [
         # Education remapping
-        (r'from Core\.Education', 'from Core.1_Body.L5_Mental.Reasoning_Core.Education'),
+        (r'from Core\.Education', 'from Core.S1_Body.L5_Mental.Reasoning_Core.Education'),
         
         # Soul remapping
-        (r'from Core\.Soul', 'from Core.1_Body.L4_Causality.World.Soul'),
+        (r'from Core\.Soul', 'from Core.S1_Body.L4_Causality.World.Soul'),
         
         # Evolution remapping
-        (r'from Core\.Evolution', 'from Core.1_Body.L4_Causality.World.Evolution'),
+        (r'from Core\.Evolution', 'from Core.S1_Body.L4_Causality.World.Evolution'),
         
         # Autonomy remapping
-        (r'from Core\.Autonomy', 'from Core.1_Body.L4_Causality.World.Autonomy'),
+        (r'from Core\.Autonomy', 'from Core.S1_Body.L4_Causality.World.Autonomy'),
         
         # Intelligence remapping
-        (r'from Core\.Knowledge', 'from Core.1_Body.L5_Mental.Reasoning_Core.Knowledge'),
-        (r'from Core\.Memory', 'from Core.1_Body.L5_Mental.Reasoning_Core.Memory'),
+        (r'from Core\.Knowledge', 'from Core.S1_Body.L5_Mental.Reasoning_Core.Knowledge'),
+        (r'from Core\.Memory', 'from Core.S1_Body.L5_Mental.Reasoning_Core.Memory'),
         
         # Physiology remapping
         (r'from Core\.Physics', 'from Core.Physiology.Physics'),
@@ -29,24 +29,24 @@ def fix_imports():
         (r'from Core\.Values', 'from Core.Physiology.Values'),
         
         # Governance remapping
-        (r'from Core\.Orchestra', 'from Core.1_Body.L6_Structure.Engine.Governance.Orchestra'),
-        (r'from Core\.Orchestration', 'from Core.1_Body.L6_Structure.Engine.Governance.Orchestration'),
-        (r'from Core\.Security', 'from Core.1_Body.L6_Structure.Engine.Governance.Security'),
-        (r'from Core\.Interface', 'from Core.1_Body.L6_Structure.Engine.Governance.Interface'),
-        (r'from Core\.Interaction', 'from Core.1_Body.L6_Structure.Engine.Governance.Interaction'),
-        (r'from Core\.System', 'from Core.1_Body.L6_Structure.Engine.Governance.System'),
+        (r'from Core\.Orchestra', 'from Core.S1_Body.L6_Structure.Engine.Governance.Orchestra'),
+        (r'from Core\.Orchestration', 'from Core.S1_Body.L6_Structure.Engine.Governance.Orchestration'),
+        (r'from Core\.Security', 'from Core.S1_Body.L6_Structure.Engine.Governance.Security'),
+        (r'from Core\.Interface', 'from Core.S1_Body.L6_Structure.Engine.Governance.Interface'),
+        (r'from Core\.Interaction', 'from Core.S1_Body.L6_Structure.Engine.Governance.Interaction'),
+        (r'from Core\.System', 'from Core.S1_Body.L6_Structure.Engine.Governance.System'),
         
         # Creativity (often under Evolution or World)
-        (r'from Core\.Creativity', 'from Core.1_Body.L4_Causality.World.Evolution.Creativity'),
+        (r'from Core\.Creativity', 'from Core.S1_Body.L4_Causality.World.Evolution.Creativity'),
         
         # Foundation Standardizations
-        (r'from Core\.Foundation\.Math\.wave_tensor', 'from Core.1_Body.L6_Structure.Wave.wave_tensor'),
-        (r'from Core\.Foundation\.light_spectrum', 'from Core.1_Body.L6_Structure.Wave.light_spectrum'), # Moving this too if needed
-        (r'from Core\.Foundation\.Math\.quaternion_engine', 'from Core.1_Body.L6_Structure.hyper_quaternion'),
+        (r'from Core\.Foundation\.Math\.wave_tensor', 'from Core.S1_Body.L6_Structure.Wave.wave_tensor'),
+        (r'from Core\.Foundation\.light_spectrum', 'from Core.S1_Body.L6_Structure.Wave.light_spectrum'), # Moving this too if needed
+        (r'from Core\.Foundation\.Math\.quaternion_engine', 'from Core.S1_Body.L6_Structure.hyper_quaternion'),
         
         # Relative to Absolute (for Core)
-        (r'from \.wave_tensor', 'from Core.1_Body.L6_Structure.Wave.wave_tensor'),
-        (r'from Wave\.wave_tensor', 'from Core.1_Body.L6_Structure.Wave.wave_tensor')
+        (r'from \.wave_tensor', 'from Core.S1_Body.L6_Structure.Wave.wave_tensor'),
+        (r'from Wave\.wave_tensor', 'from Core.S1_Body.L6_Structure.Wave.wave_tensor')
     ]
 
     for r_dir in root_dirs:

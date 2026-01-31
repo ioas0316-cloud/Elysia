@@ -2,10 +2,10 @@ import os
 import re
 
 replacements = {
-    r'\bCore\.L6_Structure\.System\b': 'Core.1_Body.L1_Foundation.System',
-    r'\bCore\.L1_Foundation\.Metabolism\b': 'Core.1_Body.L2_Metabolism.Physiology',
-    r'\bCore\.L2_Metabolism\.Mirror\b': 'Core.1_Body.L4_Causality.M3_Mirror',
-    r'\bCore\.L4_Causality\.Governance\b': 'Core.1_Body.L6_Structure.Engine.Governance'
+    r'\bCore\.L6_Structure\.System\b': 'Core.S1_Body.L1_Foundation.System',
+    r'\bCore\.L1_Foundation\.Metabolism\b': 'Core.S1_Body.L2_Metabolism.Physiology',
+    r'\bCore\.L2_Metabolism\.Mirror\b': 'Core.S1_Body.L4_Causality.M3_Mirror',
+    r'\bCore\.L4_Causality\.Governance\b': 'Core.S1_Body.L6_Structure.Engine.Governance'
 }
 
 def fix_file(filepath):

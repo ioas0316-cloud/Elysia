@@ -8,8 +8,8 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.1_Body.L6_Structure.Engine.unity_cns import UnityCNS
-from Core.1_Body.L5_Mental.Memory.sediment import SedimentLayer
+from Core.S1_Body.L6_Structure.Engine.unity_cns import UnityCNS
+from Core.S1_Body.L5_Mental.Memory.sediment import SedimentLayer
 
 async def test_monadic_convergence():
     print("--- 🔬 Monadic Convergence Verification ---")

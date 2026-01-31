@@ -13,10 +13,10 @@ from pathlib import Path
 # Add project root to sys.path
 sys.path.append(str(Path(__file__).parents[2]))
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
-from Core.1_Body.L5_Mental.Reasoning_Core.Meta.sovereign_adjuster import SovereignAdjuster
-from Core.1_Body.L2_Metabolism.Evolution.self_mirror import SelfMirror
-from Core.1_Body.L7_Spirit.Governance.governance_task_master import GovernanceTaskMaster
+from Core.S1_Body.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.S1_Body.L5_Mental.Reasoning_Core.Meta.sovereign_adjuster import SovereignAdjuster
+from Core.S1_Body.L2_Metabolism.Evolution.self_mirror import SelfMirror
+from Core.S1_Body.L7_Spirit.Governance.governance_task_master import GovernanceTaskMaster
 
 def test_sovereign_will():
     print("\n--- 1. Testing Sovereign Will Adjustment ---")

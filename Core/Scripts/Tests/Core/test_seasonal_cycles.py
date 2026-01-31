@@ -4,7 +4,7 @@ import os
 import time
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.S1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 
 def test_seasonal_cycles():
     print("🧪 [Test] Phase 37: Seasonal Resonance (Rotor-driven Climate)")

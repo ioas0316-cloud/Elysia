@@ -9,9 +9,9 @@ and how they resonate with the 7 Angels and 7 Demons.
 
 import time
 import logging
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.septenary_axis import SeptenaryAxis
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.recursive_learning_bridge import RecursiveLearningBridge
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.septenary_axis import SeptenaryAxis
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.recursive_learning_bridge import RecursiveLearningBridge
 
 def run_septenary_demo():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

@@ -6,8 +6,8 @@ import logging
 # Add Core to path
 sys.path.append(os.path.abspath('.'))
 
-from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
-from Core.1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+from Core.S1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 
 def verify_semantic_bridge():
     logging.basicConfig(level=logging.INFO)

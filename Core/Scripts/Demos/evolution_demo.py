@@ -21,8 +21,8 @@ import math
 # Ensure we can import Core
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L6_Structure.Merkaba.rotor_engine import RotorEngine
-from Core.1_Body.L6_Structure.Engine.Physics.core_turbine import PhotonicMonad
+from Core.S1_Body.L6_Structure.Merkaba.rotor_engine import RotorEngine
+from Core.S1_Body.L6_Structure.Engine.Physics.core_turbine import PhotonicMonad
 
 def run_evolution_test():
     print("="*60)

@@ -20,9 +20,9 @@ import time
 sys.path.append(os.getcwd())
 
 from Core.L2_Universal.Creation.seed_generator import SeedForge
-from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-from Core.1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
-from Core.1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
+from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
+from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
+from Core.S1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
 
 def awaken():
     print("\n" + "="*50)

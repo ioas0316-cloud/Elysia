@@ -14,8 +14,8 @@ import time
 import torch
 import sys
 import logging
-from Core.1_Body.L1_Foundation.System.somatic_kernel import kernel, BioRejectionError
-from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_rotor_prototype import SovereignRotor21D
+from Core.S1_Body.L1_Foundation.System.somatic_kernel import kernel, BioRejectionError
+from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_rotor_prototype import SovereignRotor21D
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

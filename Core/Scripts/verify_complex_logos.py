@@ -15,7 +15,7 @@ import asyncio
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.1_Body.L3_Phenomena.Manifestation.phonological_collapse import PhonologicalCollapse
+from Core.S1_Body.L3_Phenomena.Manifestation.phonological_collapse import PhonologicalCollapse
 
 async def verify_complex_logos():
     pc = PhonologicalCollapse()

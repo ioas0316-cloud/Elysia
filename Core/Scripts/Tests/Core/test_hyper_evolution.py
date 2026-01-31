@@ -20,8 +20,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.1_Body.L6_Structure.Engine.Genesis.hyper_time_rotor import HyperTimeRotor
+from Core.S1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
+from Core.S1_Body.L6_Structure.Engine.Genesis.hyper_time_rotor import HyperTimeRotor
 
 def run_grand_evolution():
     print("\n🌌 [Genesis] The Hyper-Time Evolution Begins.")

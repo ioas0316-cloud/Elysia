@@ -14,8 +14,8 @@ import os
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.1_Body.L6_Structure.Engine.code_field_engine import CODER_ENGINE
-from Core.1_Body.L4_Causality.World.Physics.sofa_optimizer import SofaPathOptimizer
+from Core.S1_Body.L6_Structure.Engine.code_field_engine import CODER_ENGINE
+from Core.S1_Body.L4_Causality.World.Physics.sofa_optimizer import SofaPathOptimizer
 
 def run_demo():
     print("🚀 [SOFA NAV] Elysia is entering the 'Codebase Hallway'...")

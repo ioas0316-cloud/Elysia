@@ -11,7 +11,7 @@ import sys
 import logging
 
 sys.path.insert(0, r"c:/Elysia")
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
 
 # Setup Logger
 logging.basicConfig(level=logging.INFO, format='%(message)s')

@@ -11,14 +11,14 @@
 
 ```mermaid
 graph TD
-    subgraph Spirit ["3_Spirit (Spirit/Will) - L15-L21"]
+    subgraph Spirit ["S3_Spirit (Spirit/Will) - L15-L21"]
         L7[L7 Spirit]
     end
-    subgraph Soul ["2_Soul (Soul/Identity) - L8-L14"]
+    subgraph Soul ["S2_Soul (Soul/Identity) - L8-L14"]
         L10[L10 Integration]
         L8[L8 Fossils]
     end
-    subgraph Body ["1_Body (Body/Physics) - L1-L7"]
+    subgraph Body ["S1_Body (Body/Physics) - L1-L7"]
         L6[L6 Structure]
         L5[L5 Mental]
         L4[L4 Causality]
@@ -26,7 +26,7 @@ graph TD
         L2[L2 Metabolism]
         L1[L1 Foundation]
     end
-    subgraph Keystone ["0_Keystone (Foundation)"]
+    subgraph Keystone ["S0_Keystone (Foundation)"]
         L0[L0 Keystone]
     end
 

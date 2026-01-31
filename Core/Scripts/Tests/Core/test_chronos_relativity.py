@@ -20,8 +20,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.1_Body.L6_Structure.Engine.Genesis.chronos_laws import law_fast_metabolism, law_slow_erosion, law_system_homeostasis
+from Core.S1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
+from Core.S1_Body.L6_Structure.Engine.Genesis.chronos_laws import law_fast_metabolism, law_slow_erosion, law_system_homeostasis
 
 def run_chronos_test():
     print("\n🌌 [Genesis] The Chronos Relativity Test.")

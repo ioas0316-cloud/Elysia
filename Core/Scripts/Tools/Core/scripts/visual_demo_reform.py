@@ -19,7 +19,7 @@ logging.getLogger("DynamicEntropy").setLevel(logging.WARNING)
 logging.getLogger("FlowOfMeaning").setLevel(logging.INFO)
 
 try:
-    from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+    from Core.S1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 except ImportError:
     print("❌ Critical Error: Could not find Elysia core. Run from c:/Elysia with PYTHONPATH set.")
     sys.exit(1)

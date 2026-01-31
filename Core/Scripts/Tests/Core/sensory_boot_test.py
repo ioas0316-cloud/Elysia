@@ -12,7 +12,7 @@ import logging
 # Add root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.1_Body.L3_Phenomena.Senses.soul_bridge import SoulBridge
+from Core.S1_Body.L3_Phenomena.Senses.soul_bridge import SoulBridge
 
 # Setup Logger
 logging.basicConfig(level=logging.INFO, format='%(message)s')

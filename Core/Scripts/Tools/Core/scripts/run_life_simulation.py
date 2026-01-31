@@ -13,7 +13,7 @@ import argparse
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.variable_mesh import VariableMesh
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.variable_mesh import VariableMesh
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

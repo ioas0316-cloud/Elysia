@@ -7,9 +7,9 @@ from dataclasses import dataclass
 # Path setup
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.dimensional_reasoner import DimensionalReasoner
-from Core.1_Body.L5_Mental.Reasoning_Core.Weaving.void_kernel import VoidKernel
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.dimensional_reasoner import DimensionalReasoner
+from Core.S1_Body.L5_Mental.Reasoning_Core.Weaving.void_kernel import VoidKernel
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

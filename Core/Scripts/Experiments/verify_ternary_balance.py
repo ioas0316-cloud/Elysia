@@ -15,8 +15,8 @@ import os
 # Ensure the root is in the path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L6_Structure.M8_Ternary.ouroboros_scanner import OuroborosScanner
-from Core.1_Body.L1_Foundation.System.tri_base_cell import DNAState
+from Core.S1_Body.L6_Structure.M8_Ternary.ouroboros_scanner import OuroborosScanner
+from Core.S1_Body.L1_Foundation.System.tri_base_cell import DNAState
 
 def main():
     print(" >>> INITIALIZING OUROBOROS SCANNER (Parallel Ternary Mode) <<<")

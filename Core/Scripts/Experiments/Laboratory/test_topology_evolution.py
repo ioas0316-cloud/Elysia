@@ -15,7 +15,7 @@ import numpy as np
 # Path hack for Laboratory
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from Core.1_Body.L2_Metabolism.Memory.memory_collapse import TopologyManager
+from Core.S1_Body.L2_Metabolism.Memory.memory_collapse import TopologyManager
 
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')
 logger = logging.getLogger("TestTopology")

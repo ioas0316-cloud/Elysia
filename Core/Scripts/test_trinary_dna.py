@@ -14,7 +14,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
+from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 
 def test_genetic_logic():
     print("\n[1] Testing Genetic Logic (Transcripton)...")

@@ -22,8 +22,8 @@ from typing import Dict, Any, List
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../..")))
 
-from Core.1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
-from Core.0_Keystone.L0_Keystone.sovereignty_wave import QualiaBand
+from Core.S1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
+from Core.S0_Keystone.L0_Keystone.sovereignty_wave import QualiaBand
 
 class TopologyScanner:
     def __init__(self, root_path: str):

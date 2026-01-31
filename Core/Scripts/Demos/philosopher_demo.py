@@ -4,7 +4,7 @@ Philosopher Demo
 Verifies that the Merkaba has integrated the Metacognitive insights.
 """
 
-from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.S1_Body.L6_Structure.Merkaba.merkaba import Merkaba
 
 def main():
     merkaba = Merkaba("Socrates")

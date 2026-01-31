@@ -16,7 +16,7 @@ from typing import List, Dict, Any
 # Ensure project root is in path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore, QualiaColor
+from Core.S1_Body.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore, QualiaColor
 
 # Configure Benchmarking Logger
 logging.basicConfig(level=logging.ERROR) # Suppress normal logs for cleaner output

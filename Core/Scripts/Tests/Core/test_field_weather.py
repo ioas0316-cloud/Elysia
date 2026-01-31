@@ -6,7 +6,7 @@ import math
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L4_Causality.World.Physics.field_store import universe_field, FieldExcitation
+from Core.S1_Body.L4_Causality.World.Physics.field_store import universe_field, FieldExcitation
 
 def test_field_weather():
     print("🌤️ Testing Field-Based Weather System...")

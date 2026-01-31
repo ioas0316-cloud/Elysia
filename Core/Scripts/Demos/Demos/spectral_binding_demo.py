@@ -9,7 +9,7 @@ import logging
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L5_Mental.Memory.prismatic_sediment import PrismaticSediment
+from Core.S1_Body.L5_Mental.Memory.prismatic_sediment import PrismaticSediment
 
 def setup_logging():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

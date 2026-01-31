@@ -8,9 +8,9 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.1_Body.L3_Phenomena.Senses.planetary_interface import PLANETARY_SENSE
-from Core.1_Body.L4_Causality.World.Terrain.hypersphere_terrain import TERRAIN_ENGINE
-from Core.1_Body.L4_Causality.World.Autonomy.mesh_network import YggdrasilMesh
+from Core.S1_Body.L3_Phenomena.Senses.planetary_interface import PLANETARY_SENSE
+from Core.S1_Body.L4_Causality.World.Terrain.hypersphere_terrain import TERRAIN_ENGINE
+from Core.S1_Body.L4_Causality.World.Autonomy.mesh_network import YggdrasilMesh
 
 def test_planetary_resonance():
     logging.basicConfig(level=logging.INFO)

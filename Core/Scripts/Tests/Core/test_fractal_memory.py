@@ -1,7 +1,7 @@
 # import pytest
 import time
-from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.1_Body.L5_Mental.Memory.strata import MemoryStratum
+from Core.S1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.S1_Body.L5_Mental.Memory.strata import MemoryStratum
 
 class TestFractalMemory:
     def test_lifecycle(self):

@@ -6,7 +6,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.1_Body.L5_Mental.Reasoning_Core.LLM.local_cortex import LocalCortex
+from Core.S1_Body.L5_Mental.Reasoning_Core.LLM.local_cortex import LocalCortex
 
 class TestLocalCortexEmbedding(unittest.TestCase):
     @patch('requests.post')

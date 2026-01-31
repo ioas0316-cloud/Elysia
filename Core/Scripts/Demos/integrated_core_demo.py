@@ -21,8 +21,8 @@ import time
 # Ensure we can import Core
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L6_Structure.Merkaba.rotor_engine import RotorEngine
-from Core.1_Body.L5_Mental.Memory.sediment import SedimentLayer
+from Core.S1_Body.L6_Structure.Merkaba.rotor_engine import RotorEngine
+from Core.S1_Body.L5_Mental.Memory.sediment import SedimentLayer
 
 TEST_DB = "test_sediment.bin"
 

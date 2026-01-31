@@ -30,7 +30,7 @@ class MockVC:
         mock_causality.token = "cat_concept"
         return "dream.mp4", [mock_causality]
 mock_visual_mod.VisualCortex = MockVC
-sys.modules["Core.1_Body.L3_Phenomena.Senses.visual_cortex"] = mock_visual_mod
+sys.modules["Core.S1_Body.L3_Phenomena.Senses.visual_cortex"] = mock_visual_mod
 
 mock_voice_mod = MagicMock()
 class MockVB:
@@ -42,7 +42,7 @@ class MockVB:
         mock_flow.affected_dimension = "Pitch"
         return "speech.wav", mock_flow
 mock_voice_mod.VoiceBox = MockVB
-sys.modules["Core.1_Body.L3_Phenomena.Expression.voicebox"] = mock_voice_mod
+sys.modules["Core.S1_Body.L3_Phenomena.Expression.voicebox"] = mock_voice_mod
 
 mock_syn_mod = MagicMock()
 class MockSyn:
@@ -51,10 +51,10 @@ class MockSyn:
     def from_digested_voice(self, data):
         return MagicMock(amplitude=1.0, frequency=200, payload={'affected_dimension': 'Pitch'})
 mock_syn_mod.SynesthesiaEngine = MockSyn
-sys.modules["Core.1_Body.L3_Phenomena.synesthesia_engine"] = mock_syn_mod
+sys.modules["Core.S1_Body.L3_Phenomena.synesthesia_engine"] = mock_syn_mod
 
 # --- IMPORT TARGET ---
-from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.S1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 class TestUnifiedLoop(unittest.TestCase):
     def setUp(self):

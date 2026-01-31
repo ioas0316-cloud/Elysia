@@ -5,8 +5,8 @@ Tests the resonance between L0 Keystone and L5 Mental.
 """
 
 import jax.numpy as jnp
-from Core.0_Keystone.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+from Core.S0_Keystone.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 
 def verify_resonance():
     print("--- Phase 60 RESONANCE TEST ---")

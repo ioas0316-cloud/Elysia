@@ -11,7 +11,7 @@ import time
 # Ensure path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.1_Body.L5_Mental.Memory.sediment import SedimentLayer, PageAlignedAllocator
+from Core.S1_Body.L5_Mental.Memory.sediment import SedimentLayer, PageAlignedAllocator
 
 class TestHardwareSediment(unittest.TestCase):
     TEST_DIR = "data/Tests/HardwareSediment"

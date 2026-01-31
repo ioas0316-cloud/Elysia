@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, "c:/Elysia")
 
-from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.S1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 print("🔄 Creating ElysianHeartbeat and running bootstrap...")
 h = ElysianHeartbeat()

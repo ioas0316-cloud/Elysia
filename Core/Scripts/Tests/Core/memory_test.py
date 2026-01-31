@@ -12,8 +12,8 @@ from datetime import datetime
 # Add root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.1_Body.L7_Spirit.Soul.logbook import Logbook
-from Core.1_Body.L7_Spirit.Soul.growth_graph import GrowthTracker
+from Core.S1_Body.L7_Spirit.Soul.logbook import Logbook
+from Core.S1_Body.L7_Spirit.Soul.growth_graph import GrowthTracker
 
 logging.basicConfig(level=logging.INFO)
 

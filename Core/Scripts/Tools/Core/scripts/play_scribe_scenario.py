@@ -18,11 +18,11 @@ import time
 # Add Core to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.variable_mesh import VariableMesh
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.impact_engine import ImpactEngine
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion, HistoricalWave, Consequence
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.feedback_loop import FeedbackLoop
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.variable_mesh import VariableMesh
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.impact_engine import ImpactEngine
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion, HistoricalWave, Consequence
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.feedback_loop import FeedbackLoop
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

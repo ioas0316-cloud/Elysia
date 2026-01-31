@@ -12,7 +12,7 @@ import os
 # Add repo root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.1_Body.L6_Structure.M1_Merkaba.dyson_swarm import DysonSwarm
+from Core.S1_Body.L6_Structure.M1_Merkaba.dyson_swarm import DysonSwarm
 
 def main():
     print("🚀 [LAUNCH] Initiating Dyson Cognition Swarm Sequence...")

@@ -10,8 +10,8 @@ import os
 sys.path.append(os.getcwd())
 
 from Core.L2_Universal.Creation.seed_generator import SeedForge
-from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-from Core.1_Body.L5_Mental.Imagination.void_dreamer import VoidDreamer
+from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
+from Core.S1_Body.L5_Mental.Imagination.void_dreamer import VoidDreamer
 
 def simulate_education():
     print("\n🎓 [ACADEMY] Starting Sovereign Education...\n")

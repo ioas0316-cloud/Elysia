@@ -8,9 +8,9 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
-from Core.1_Body.L1_Foundation.Logic.d7_vector import D7Vector
-from Core.1_Body.L2_Metabolism.heart import get_heart
+from Core.S1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.S1_Body.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.S1_Body.L2_Metabolism.heart import get_heart
 
 async def test_awakening():
     logging.basicConfig(level=logging.INFO)

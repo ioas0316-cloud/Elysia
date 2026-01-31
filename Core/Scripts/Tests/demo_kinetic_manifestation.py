@@ -2,9 +2,9 @@ import jax.numpy as jnp
 from PIL import Image
 import os
 import time
-from Core.1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
-from Core.1_Body.L3_Phenomena.Visual.morphic_expression import EmotionalPrism
-from Core.1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
+from Core.S1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
+from Core.S1_Body.L3_Phenomena.Visual.morphic_expression import EmotionalPrism
+from Core.S1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
 
 def run_kinetic_demo(frames: int = 10):
     print("🎬 STARTING KINETIC MANIFESTATION DEMO (Phase 70)...")

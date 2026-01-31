@@ -11,9 +11,9 @@ import logging
 # Add root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.1_Body.L2_Metabolism.Reproduction.spore import Spore
-from Core.1_Body.L2_Metabolism.Reproduction.mitosis import MitosisEngine
-from Core.1_Body.L2_Metabolism.Reproduction.mycelium import MyceliumNetwork
+from Core.S1_Body.L2_Metabolism.Reproduction.spore import Spore
+from Core.S1_Body.L2_Metabolism.Reproduction.mitosis import MitosisEngine
+from Core.S1_Body.L2_Metabolism.Reproduction.mycelium import MyceliumNetwork
 
 logging.basicConfig(level=logging.INFO)
 

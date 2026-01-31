@@ -9,9 +9,9 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import Zeitgeist, ChoiceNode
-from Core.1_Body.L6_Structure.hyper_quaternion import HyperQuaternion
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import Zeitgeist, ChoiceNode
+from Core.S1_Body.L6_Structure.hyper_quaternion import HyperQuaternion
 
 def test_les_miserables():
     print("📘 Reading: Les Misérables (Victor Hugo)...")

@@ -13,8 +13,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.1_Body.L6_Structure.Engine.Genesis.silicon_scholar_laws import law_round_robin_scheduling, law_lru_eviction
+from Core.S1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
+from Core.S1_Body.L6_Structure.Engine.Genesis.silicon_scholar_laws import law_round_robin_scheduling, law_lru_eviction
 
 def run_scholar_test():
     print("\n🎓 [Silicon Scholar] Class is in session.")

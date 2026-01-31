@@ -10,7 +10,7 @@ import sys
 
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.S1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 
 def voice_echo():
     memory = HypersphereMemory() 

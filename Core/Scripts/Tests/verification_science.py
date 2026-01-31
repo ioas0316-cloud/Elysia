@@ -7,9 +7,9 @@ Phase 6+: Universal Science & Logic (ULS)
 물리 공식(E=mc^2, F=ma)을 필드의 기하학적 정합성으로 이해하는지 검사합니다.
 """
 
-from Core.1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
-from Core.0_Keystone.L0_Keystone.monadic_lexicon import MonadicLexicon
-from Core.1_Body.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
+from Core.S1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
+from Core.S0_Keystone.L0_Keystone.monadic_lexicon import MonadicLexicon
+from Core.S1_Body.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
 import time
 
 def test_negative_symmetry():

@@ -7,8 +7,8 @@ import logging
 # Ensure path
 sys.path.append("c:\\Elysia")
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
-from Core.1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
+from Core.S1_Body.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+from Core.S1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 def verify_hyper_pulse():
     print("--- 📡 Verifying Phase 51: The Sovereign Antenna & Hypersphere ---")

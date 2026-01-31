@@ -5,7 +5,7 @@ import os
 # Add Core to path
 sys.path.append(os.path.abspath('.'))
 
-from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.S1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
 
 def verify_sovereign_21d():
     print("Initializing SovereignSelf with 21D Rotor...")

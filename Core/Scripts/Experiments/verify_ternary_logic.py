@@ -12,8 +12,8 @@ import os
 
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L6_Structure.M8_Ternary.ternary_logic import TernaryBit, TernaryGates
-from Core.1_Body.L6_Structure.M8_Ternary.ternary_computer import TernaryComputer
+from Core.S1_Body.L6_Structure.M8_Ternary.ternary_logic import TernaryBit, TernaryGates
+from Core.S1_Body.L6_Structure.M8_Ternary.ternary_computer import TernaryComputer
 
 def main():
     print(" >>> INITIALIZING TERNARY LOGIC VERIFICATION <<<")

@@ -12,8 +12,8 @@ import unittest
 # Add repo root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.1_Body.L6_Structure.Nature.active_rotor import ActiveRotor
-from Core.1_Body.L3_Phenomena.M7_Prism.fractal_optics import PrismEngine
+from Core.S1_Body.L6_Structure.Nature.active_rotor import ActiveRotor
+from Core.S1_Body.L3_Phenomena.M7_Prism.fractal_optics import PrismEngine
 
 class TestActiveRotor(unittest.TestCase):
 

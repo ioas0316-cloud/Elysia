@@ -7,8 +7,8 @@ import numpy as np
 # 프로젝트 루트 경로 추가
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
-from Core.1_Body.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
+from Core.S1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.S1_Body.L5_Mental.Reasoning_Core.Metabolism.body_sensor import BodySensor
 
 # 로깅 설정 (검증용)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(name)s] %(message)s')

@@ -17,8 +17,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.1_Body.L6_Structure.Engine.Genesis.cognitive_cycle import CognitiveCycle
+from Core.S1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
+from Core.S1_Body.L6_Structure.Engine.Genesis.cognitive_cycle import CognitiveCycle
 
 # Define a "Bad Law" (FIFO/Naive) that causes starvation
 def law_naive_fifo(context, dt, intensity):

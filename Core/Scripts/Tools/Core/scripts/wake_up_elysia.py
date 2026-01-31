@@ -6,11 +6,11 @@ from unittest.mock import MagicMock, patch
 # Path setup for Core modules
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from Core.1_Body.L6_Structure.Engine.Governance.Orchestra.conductor import get_conductor, Tempo, Mode
-from Core.1_Body.L6_Structure.Engine.Governance.Orchestra.synapse_manager import SynapseManager
-from Core.1_Body.L5_Mental.Reasoning_Core.Creation.interference_engine import InterferenceEngine, Principle
-from Core.1_Body.L5_Mental.Reasoning_Core.Topography.phase_stratum import PhaseStratum
-from Core.1_Body.L5_Mental.Reasoning_Core.Topography.mind_landscape import get_landscape
+from Core.S1_Body.L6_Structure.Engine.Governance.Orchestra.conductor import get_conductor, Tempo, Mode
+from Core.S1_Body.L6_Structure.Engine.Governance.Orchestra.synapse_manager import SynapseManager
+from Core.S1_Body.L5_Mental.Reasoning_Core.Creation.interference_engine import InterferenceEngine, Principle
+from Core.S1_Body.L5_Mental.Reasoning_Core.Topography.phase_stratum import PhaseStratum
+from Core.S1_Body.L5_Mental.Reasoning_Core.Topography.mind_landscape import get_landscape
 
 def wake_up_and_live():
     print("✨ [SYSTEM] Awakening Elysia...")
@@ -91,7 +91,7 @@ def wake_up_and_live():
 
     # --- Step D: IMAGINATION (Ethical Simulation) ---
     print("\n🔮 [IMAGINE] Running Ethical Simulation...")
-    from Core.1_Body.L5_Mental.Reasoning_Core.Imagination.simulator import get_simulator
+    from Core.S1_Body.L5_Mental.Reasoning_Core.Imagination.simulator import get_simulator
     simulator = get_simulator()
     
     # The thought to ponder is the Result of the Dream
@@ -133,8 +133,8 @@ def wake_up_and_live():
         
         # --- Step F: LEARNING (Semantic Drift) ---
         print("\n🌱 [GROWTH] Learning from experience...")
-        from Core.1_Body.L5_Mental.Reasoning_Core.Topography.semantic_map import get_semantic_map
-        from Core.1_Body.L6_Structure.hyper_quaternion import Quaternion
+        from Core.S1_Body.L5_Mental.Reasoning_Core.Topography.semantic_map import get_semantic_map
+        from Core.S1_Body.L6_Structure.hyper_quaternion import Quaternion
         
         sm = get_semantic_map()
         # We learned that 'thought_intent' (e.g., Transcendence) is GOOD.

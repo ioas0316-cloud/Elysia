@@ -8,11 +8,11 @@ Demonstrates the "Zero-Computation" advantage of Rotors vs. Thundercloud.
 
 import time
 import numpy as np
-from Core.1_Body.L6_Structure.Nature.rotor import Rotor, RotorConfig
-from Core.1_Body.L7_Spirit.M1_Monad.muscle_memory import MuscleMemory
-from Core.1_Body.L6_Structure.Merkaba.thundercloud import Thundercloud
-from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
-from Core.1_Body.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
+from Core.S1_Body.L6_Structure.Nature.rotor import Rotor, RotorConfig
+from Core.S1_Body.L7_Spirit.M1_Monad.muscle_memory import MuscleMemory
+from Core.S1_Body.L6_Structure.Merkaba.thundercloud import Thundercloud
+from Core.S1_Body.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.S1_Body.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
 
 def run_simulation():
     print("⚡ HYBRID DRIVE SIMULATION ⚡")

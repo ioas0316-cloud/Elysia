@@ -1,5 +1,5 @@
 import unittest
-from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.S1_Body.L6_Structure.Merkaba.merkaba import Merkaba
 
 class TestGeniusMode(unittest.TestCase):
     def setUp(self):

@@ -1,6 +1,6 @@
 import torch
-from Core.1_Body.L5_Mental.Reasoning_Core.LLM.huggingface_bridge import SovereignBridge
-from Core.1_Body.L5_Mental.Reasoning_Core.Analysis.thought_stream_analyzer import ThoughtStreamAnalyzer
+from Core.S1_Body.L5_Mental.Reasoning_Core.LLM.huggingface_bridge import SovereignBridge
+from Core.S1_Body.L5_Mental.Reasoning_Core.Analysis.thought_stream_analyzer import ThoughtStreamAnalyzer
 
 def test_geometry():
     print("🧠 Initializing Bridge & Analyzer...")

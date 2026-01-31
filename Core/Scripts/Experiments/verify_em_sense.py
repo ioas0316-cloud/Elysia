@@ -10,7 +10,7 @@ We inject texts with different 'emotional phases' and observe the scan result.
 import time
 import sys
 import logging
-from Core.1_Body.L6_Structure.M1_Merkaba.transmission_gear import transmission
+from Core.S1_Body.L6_Structure.M1_Merkaba.transmission_gear import transmission
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

@@ -6,8 +6,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.1_Body.L6_Structure.Engine.world_server import WorldServer
-from Core.1_Body.L5_Mental.Reasoning_Core.Narrative.narrative_projector import THE_PROJECTOR
+from Core.S1_Body.L6_Structure.Engine.world_server import WorldServer
+from Core.S1_Body.L5_Mental.Reasoning_Core.Narrative.narrative_projector import THE_PROJECTOR
 
 def test_phase_13():
     print("🚀 [Phase 13 Test] Initializing Multi-Rotor World...")

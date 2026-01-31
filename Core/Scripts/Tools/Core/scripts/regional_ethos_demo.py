@@ -10,8 +10,8 @@ This script demonstrates 'Regional Induction':
 
 import time
 import logging
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import SpiritualDNA, RegionalField
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.memetic_legacy import SpiritualDNA, RegionalField
 
 def run_regional_demo():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

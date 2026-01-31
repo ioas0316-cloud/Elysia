@@ -12,9 +12,9 @@ if project_root not in sys.path:
 
 # Verify imports immediately
 try:
-    from Core.1_Body.L5_Mental.M7_Discovery.purpose_discovery_engine import PurposeDiscoveryEngine
-    from Core.1_Body.L7_Spirit.Will.attractor_field import AttractorField
-    from Core.1_Body.L5_Mental.M7_Discovery.autokinetic_learning_engine import AutokineticLearningEngine
+    from Core.S1_Body.L5_Mental.M7_Discovery.purpose_discovery_engine import PurposeDiscoveryEngine
+    from Core.S1_Body.L7_Spirit.Will.attractor_field import AttractorField
+    from Core.S1_Body.L5_Mental.M7_Discovery.autokinetic_learning_engine import AutokineticLearningEngine
     print("✅ Imports successful.")
 except ImportError as e:
     print(f"❌ Import failed: {e}")

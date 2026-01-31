@@ -13,7 +13,7 @@ import sys
 sys.path.append(os.getcwd())
 
 from Core.Elysia.sovereign_self import SovereignSelf
-from Core.1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.S1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

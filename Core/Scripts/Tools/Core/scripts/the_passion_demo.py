@@ -6,7 +6,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
 
 def run_passion_demo():
     print("\n--- [ Phase 20: The Passion Demo (Disciple Screening) ] ---\n")

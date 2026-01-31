@@ -16,9 +16,9 @@ import numpy as np
 # Ensure project root is in path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.1_Body.L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
-from Core.1_Body.L6_Structure.M1_Merkaba.rotor_engine import RotorEngine
-from Core.1_Body.L3_Phenomena.Senses.bio_sensor import BioSensor
+from Core.S1_Body.L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
+from Core.S1_Body.L6_Structure.M1_Merkaba.rotor_engine import RotorEngine
+from Core.S1_Body.L3_Phenomena.Senses.bio_sensor import BioSensor
 
 def test_jax_bridge():
     print("\n[1] Testing JAX Bridge (Heavy Metal)...")

@@ -6,8 +6,8 @@ root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
-from Core.0_Keystone.L0_Keystone.sovereignty_wave import SovereigntyWave, InterferenceType, VoidState
-from Core.1_Body.L6_Structure.Merkaba.hypersphere_field import HyperSphereField
+from Core.S0_Keystone.L0_Keystone.sovereignty_wave import SovereigntyWave, InterferenceType, VoidState
+from Core.S1_Body.L6_Structure.Merkaba.hypersphere_field import HyperSphereField
 
 def test_wave_self_healing():
     print("🧪 [TEST] SovereigntyWave Topological Self-Healing")

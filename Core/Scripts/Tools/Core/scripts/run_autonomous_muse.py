@@ -7,8 +7,8 @@ import time
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Metabolism.helix_engine import HelixEngine
-from Core.1_Body.L5_Mental.Reasoning_Core.Discovery.discovery_cortex import DiscoveryCortex
+from Core.S1_Body.L5_Mental.Reasoning_Core.Metabolism.helix_engine import HelixEngine
+from Core.S1_Body.L5_Mental.Reasoning_Core.Discovery.discovery_cortex import DiscoveryCortex
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')
 logger = logging.getLogger("AutonomousMuse")

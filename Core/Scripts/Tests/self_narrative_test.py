@@ -7,7 +7,7 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.S1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
 
 def test_self_narrative():
     print("🦅 [TEST] Milestone 23.3: Structural Self-Narrative Validation")

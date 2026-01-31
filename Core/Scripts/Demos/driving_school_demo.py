@@ -11,8 +11,8 @@ Demonstrates the 'Driving Analogy':
 
 import numpy as np
 from Core.Elysia.brain import ElysiaBrain
-from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
-from Core.1_Body.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
+from Core.S1_Body.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.S1_Body.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
 
 def create_monad(seed):
     dna = DoubleHelixDNA(

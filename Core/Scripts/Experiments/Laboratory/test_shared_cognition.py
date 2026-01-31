@@ -1,7 +1,7 @@
 """
 Test Shared Cognition (Phase 18.3 Verification)
 ===============================================
-Core.1_Body.L1_Foundation.Foundation.Network.test_shared_cognition
+Core.S1_Body.L1_Foundation.Foundation.Network.test_shared_cognition
 
 Verifies that a Main Node can dispatch a 'Thought Packet' 
 and a Satellite Node can receive and process it.
@@ -10,7 +10,7 @@ and a Satellite Node can receive and process it.
 import time
 import logging
 import threading
-from Core.1_Body.L1_Foundation.Foundation.Network.aura_pulse import AuraPulse
+from Core.S1_Body.L1_Foundation.Foundation.Network.aura_pulse import AuraPulse
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')

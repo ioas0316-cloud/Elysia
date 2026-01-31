@@ -17,8 +17,8 @@ import numpy as np
 # Standard Path Injection
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L6_Structure.Logic.lightning_path import LightningPath
-from Core.1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
+from Core.S1_Body.L6_Structure.Logic.lightning_path import LightningPath
+from Core.S1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
 
 def verify_manifestation():
     print("⚡ Initiating LIGHTNING_PATH Strike...")

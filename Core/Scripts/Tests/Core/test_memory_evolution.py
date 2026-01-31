@@ -14,8 +14,8 @@ import logging
 import time
 
 sys.path.insert(0, r"c:/Elysia")
-from Core.1_Body.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore, get_experience_core
-from Core.1_Body.L2_Metabolism.Memory.causal_compost import CausalCompost
+from Core.S1_Body.L2_Metabolism.Memory.unified_experience_core import UnifiedExperienceCore, get_experience_core
+from Core.S1_Body.L2_Metabolism.Memory.causal_compost import CausalCompost
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

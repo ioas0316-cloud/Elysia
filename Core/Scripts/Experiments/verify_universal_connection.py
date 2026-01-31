@@ -26,7 +26,7 @@ from typing import List, Tuple
 # Ensure Core is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.1_Body.L6_Structure.M1_Merkaba.monad_ensemble import MonadEnsemble, MonadLayer
+from Core.S1_Body.L6_Structure.M1_Merkaba.monad_ensemble import MonadEnsemble, MonadLayer
 
 def run_genesis(label: str, input_symbol: str) -> MonadEnsemble:
     """Runs a genesis simulation for a single concept."""

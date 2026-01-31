@@ -7,7 +7,7 @@ import json
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.S1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 def test_quest_gen():
     print("📜 TESTING THE NARRATIVE WEAVE...")

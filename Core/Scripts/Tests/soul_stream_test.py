@@ -8,9 +8,9 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
-from Core.1_Body.L3_Phenomena.M5_Display.sovereign_hud import SovereignHUD
-from Core.1_Body.L5_Mental.M1_Cognition.causal_narrator import CausalNarrator
+from Core.S1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.S1_Body.L3_Phenomena.M5_Display.sovereign_hud import SovereignHUD
+from Core.S1_Body.L5_Mental.M1_Cognition.causal_narrator import CausalNarrator
 
 def test_soul_streaming():
     print("🌊 [TEST] Milestone 23.6: Sublime Narrative HUD Validation")

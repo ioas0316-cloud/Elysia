@@ -10,8 +10,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.1_Body.L4_Causality.World.Nature.visual_cortex import VisualCortex, VisualDNA
+from Core.S1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.S1_Body.L4_Causality.World.Nature.visual_cortex import VisualCortex, VisualDNA
 
 def test_visual_cortex():
     print("🧪 [Test] Phase 38: The Visual Cortex (Seeing the OmniField)")

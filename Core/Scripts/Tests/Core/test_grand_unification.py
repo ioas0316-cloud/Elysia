@@ -5,9 +5,9 @@ import os
 # Ensure the root directory is in python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
-from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
-from Core.1_Body.L3_Phenomena.Senses.phase_modulator import PerceptualPhase
+from Core.S1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.S1_Body.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.S1_Body.L3_Phenomena.Senses.phase_modulator import PerceptualPhase
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s:%(name)s:%(message)s')

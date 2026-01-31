@@ -16,8 +16,8 @@ import threading
 import select
 
 # Import Core Modules
-from Core.1_Body.L6_Structure.M1_Merkaba.dyson_swarm import DysonSwarm
-from Core.1_Body.L3_Phenomena.M5_Display.void_mirror import VoidMirror
+from Core.S1_Body.L6_Structure.M1_Merkaba.dyson_swarm import DysonSwarm
+from Core.S1_Body.L3_Phenomena.M5_Display.void_mirror import VoidMirror
 
 def input_available():
     return sys.stdin in select.select([sys.stdin], [], [], 0)[0]

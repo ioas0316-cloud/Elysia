@@ -13,8 +13,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.1_Body.L6_Structure.Engine.Genesis.silicon_scholar_laws import law_dining_philosophers, law_hardware_interrupts
+from Core.S1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
+from Core.S1_Body.L6_Structure.Engine.Genesis.silicon_scholar_laws import law_dining_philosophers, law_hardware_interrupts
 
 def run_chaos_test():
     print("\n🌋 [The Abyss] Chaos Simulation Started.")

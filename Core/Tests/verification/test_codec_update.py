@@ -1,5 +1,5 @@
 import numpy as np
-from Core.1_Body.L1_Foundation.Logic.qualia_7d_codec import codec
+from Core.S1_Body.L1_Foundation.Logic.qualia_7d_codec import codec
 
 def test_codec():
     print("Testing Codec Update...")

@@ -6,7 +6,7 @@ Tests if the system spawns new nodes when the field is saturated.
 
 import jax.numpy as jnp
 import time
-from Core.0_Keystone.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
+from Core.S0_Keystone.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
 
 def verify_structural_expansion():
     print("--- Phase 66 FRACTAL EXPANSION TEST ---")

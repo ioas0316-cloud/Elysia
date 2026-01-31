@@ -13,9 +13,9 @@ import pytest
 import os
 import shutil
 from Core.Cognition.semantic_prism import SpectrumMapper
-from Core.1_Body.L5_Mental.Memory.feedback_loop import Ouroboros, ThoughtState
-from Core.1_Body.L2_Metabolism.Lifecycle.pulse_loop import WonderField
-from Core.1_Body.L5_Mental.Memory.sediment import SedimentLayer
+from Core.S1_Body.L5_Mental.Memory.feedback_loop import Ouroboros, ThoughtState
+from Core.S1_Body.L2_Metabolism.Lifecycle.pulse_loop import WonderField
+from Core.S1_Body.L5_Mental.Memory.sediment import SedimentLayer
 
 def test_semantic_prism():
     prism = SpectrumMapper()
@@ -141,14 +141,14 @@ def test_dream_deposit():
         def sleep(self): pass
 
     mock_mkb = MockMerkaba()
-    from Core.1_Body.L2_Metabolism.Lifecycle.pulse_loop import LifeCycle
+    from Core.S1_Body.L2_Metabolism.Lifecycle.pulse_loop import LifeCycle
 
     life = LifeCycle(mock_mkb)
 
     # Manually inject a STABILIZED dream state
     # Intent is usually Self (0.5, 0.5, 0.5)
     # We set dream to exactly Self so it stabilizes immediately (Distance 0)
-    from Core.1_Body.L5_Mental.Memory.feedback_loop import ThoughtState
+    from Core.S1_Body.L5_Mental.Memory.feedback_loop import ThoughtState
 
     # 1. Start Dream
     # Initialize with potential=0.0 and momentum=0.0 so it is ALREADY stable
@@ -189,7 +189,7 @@ def test_lifecycle_persistence():
 
     # Setup
     mock_mkb = MockMerkaba()
-    from Core.1_Body.L2_Metabolism.Lifecycle.pulse_loop import LifeCycle
+    from Core.S1_Body.L2_Metabolism.Lifecycle.pulse_loop import LifeCycle
 
     life = LifeCycle(mock_mkb)
     life.wonder.allure = 1.0 # Force dream (High Attraction)
@@ -223,7 +223,7 @@ def test_lifecycle_input_reset():
         def sleep(self): pass
 
     mock_mkb = MockMerkaba()
-    from Core.1_Body.L2_Metabolism.Lifecycle.pulse_loop import LifeCycle
+    from Core.S1_Body.L2_Metabolism.Lifecycle.pulse_loop import LifeCycle
 
     life = LifeCycle(mock_mkb)
     life.wonder.allure = 1.0 # High allure

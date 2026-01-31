@@ -7,7 +7,7 @@ root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.1_Body.L6_Structure.Logic.resonance_gate import gate
+from Core.S1_Body.L6_Structure.Logic.resonance_gate import gate
 
 def test_steel_core_logic():
     print("🏗️ [TEST] Milestone 23.1: D7 Resonance Logic Validation")

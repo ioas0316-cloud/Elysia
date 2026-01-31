@@ -16,9 +16,9 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-from Core.1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
-from Core.1_Body.L6_Structure.Engine.Genesis.filesystem_geometry import DirectoryMonad
-from Core.1_Body.L6_Structure.Engine.Genesis.cosmic_laws import law_entropy_decay, law_semantic_gravity, law_autopoiesis
+from Core.S1_Body.L6_Structure.Engine.Genesis.genesis_lab import GenesisLab
+from Core.S1_Body.L6_Structure.Engine.Genesis.filesystem_geometry import DirectoryMonad
+from Core.S1_Body.L6_Structure.Engine.Genesis.cosmic_laws import law_entropy_decay, law_semantic_gravity, law_autopoiesis
 
 def run_providence_test():
     print("\n🌌 [Genesis] The Cosmic Providence Test.")

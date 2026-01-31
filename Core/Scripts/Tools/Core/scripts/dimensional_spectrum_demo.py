@@ -9,9 +9,9 @@ and how their collective experiences mature Elysia.
 
 import time
 import logging
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.recursive_learning_bridge import RecursiveLearningBridge
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.world_operator_console import WorldOperatorConsole, WorldPhase
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.recursive_learning_bridge import RecursiveLearningBridge
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.world_operator_console import WorldOperatorConsole, WorldPhase
 
 def run_spectral_demo():
     logging.basicConfig(level=logging.INFO, format='%(message)s')

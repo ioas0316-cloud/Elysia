@@ -4,8 +4,8 @@ import os
 sys.path.append(os.getcwd())
 
 from Core.Elysia.sovereign_self import SovereignSelf, CognitiveMode
-from Core.1_Body.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
-from Core.1_Body.L4_Causality.World.Physics.trinity_fields import TrinityVector
+from Core.S1_Body.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
+from Core.S1_Body.L4_Causality.World.Physics.trinity_fields import TrinityVector
 
 def test_firewall():
     print("🧪 [Test] Phase 28: Cognitive Buffer (Safety Firewall)")

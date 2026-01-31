@@ -3,32 +3,23 @@ import re
 
 root_dirs = [r"c:\Elysia\Core", r"c:\Elysia\docs", r"c:\Elysia\data", r"c:\Elysia"]
 replacements = {
-    r"Core\.L0_Keystone": "Core.0_Keystone.L0_Keystone",
-    r"Core\.L1_Foundation": "Core.1_Body.L1_Foundation",
-    r"Core\.L2_Metabolism": "Core.1_Body.L2_Metabolism",
-    r"Core\.L3_Phenomena": "Core.1_Body.L3_Phenomena",
-    r"Core\.L4_Causality": "Core.1_Body.L4_Causality",
-    r"Core\.L5_Mental": "Core.1_Body.L5_Mental",
-    r"Core\.L6_Structure": "Core.1_Body.L6_Structure",
-    r"Core\.L7_Spirit": "Core.1_Body.L7_Spirit",
-    r"Core\.L8_Fossils": "Core.2_Soul.L8_Fossils",
-    r"Core\.L10_Integration": "Core.2_Soul.L10_Integration",
-    # Documentation links fix
-    r"docs/0_Keystone/L0_Keystone": "docs/0_Keystone/L0_Keystone",
-    r"docs/1_Body/L1_Foundation": "docs/1_Body/L1_Foundation",
-    r"docs/1_Body/L2_Metabolism": "docs/1_Body/L2_Metabolism",
-    r"docs/1_Body/L3_Phenomena": "docs/1_Body/L3_Phenomena",
-    r"docs/1_Body/L4_Causality": "docs/1_Body/L4_Causality",
-    r"docs/1_Body/L5_Mental": "docs/1_Body/L5_Mental",
-    r"docs/1_Body/L6_Structure": "docs/1_Body/L6_Structure",
-    r"docs/1_Body/L7_Spirit": "docs/1_Body/L7_Spirit",
-    r"docs/2_Soul/L8_Fossils": "docs/2_Soul/L8_Fossils"
+    # Fix previous numeric names to S-names
+    r"Core\.0_Keystone": "Core.S0_Keystone",
+    r"Core\.1_Body": "Core.S1_Body",
+    r"Core\.2_Soul": "Core.S2_Soul",
+    r"Core\.3_Spirit": "Core.S3_Spirit",
+    r"docs/S0_Keystone": "docs/S0_Keystone",
+    r"docs/S1_Body": "docs/S1_Body",
+    r"docs/S2_Soul": "docs/S2_Soul",
+    r"docs/S3_Spirit": "docs/S3_Spirit",
+    r"data/S1_Body": "data/S1_Body",
+    r"data/S2_Soul": "data/S2_Soul",
+    r"data/S3_Spirit": "data/S3_Spirit",
 }
 
 def fix_imports(directories):
     for directory in directories:
         for root, dirs, files in os.walk(directory):
-            # Skip .git, .venv, etc.
             if any(folder in root for folder in [".git", ".venv", "__pycache__"]):
                 continue
             for file in files:

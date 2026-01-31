@@ -1,8 +1,8 @@
 import pytest
 import logging
-from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
-from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
-from Core.1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
+from Core.S1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.S1_Body.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.S1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory
 
 # Configure logging to capture output
 logging.basicConfig(level=logging.INFO)

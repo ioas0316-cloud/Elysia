@@ -6,8 +6,8 @@ import sys
 # Ensure root is in path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
-from Core.1_Body.L6_Structure.Elysia.nervous_system import BioSignal
+from Core.S1_Body.L6_Structure.Elysia.sovereign_self import SovereignSelf
+from Core.S1_Body.L6_Structure.Elysia.nervous_system import BioSignal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("UnifiedTest")

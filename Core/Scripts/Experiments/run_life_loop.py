@@ -7,15 +7,15 @@ Phase 63: Continuous pulse and self-reflection.
 import jax.numpy as jnp
 import time
 import os
-from Core.0_Keystone.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
-from Core.1_Body.L5_Mental.Reasoning_Core.Collective.ethical_council import EthicalCouncil
-from Core.1_Body.L5_Mental.Reasoning_Core.Collective.analytic_prism import AnalyticPrism
-from Core.1_Body.L5_Mental.Reasoning_Core.Collective.creative_axiom import CreativeAxiom
-from Core.1_Body.L5_Mental.Reasoning_Core.Collective.curiosity_attractor import CuriosityAttractor
-from Core.1_Body.L5_Mental.Reasoning_Core.Collective.joy_resonance import JoyResonance
-from Core.1_Body.L5_Mental.Reasoning_Core.Memory.discovery_engine import DiscoveryEngine
-from Core.1_Body.L5_Mental.Reasoning_Core.Memory.trinary_memory_bank import TrinaryMemoryBank
-from Core.1_Body.L4_Causality.World.world_genesis_core import WorldGenesisCore
+from Core.S0_Keystone.L0_Keystone.parallel_trinary_controller import ParallelTrinaryController
+from Core.S1_Body.L5_Mental.Reasoning_Core.Collective.ethical_council import EthicalCouncil
+from Core.S1_Body.L5_Mental.Reasoning_Core.Collective.analytic_prism import AnalyticPrism
+from Core.S1_Body.L5_Mental.Reasoning_Core.Collective.creative_axiom import CreativeAxiom
+from Core.S1_Body.L5_Mental.Reasoning_Core.Collective.curiosity_attractor import CuriosityAttractor
+from Core.S1_Body.L5_Mental.Reasoning_Core.Collective.joy_resonance import JoyResonance
+from Core.S1_Body.L5_Mental.Reasoning_Core.Memory.discovery_engine import DiscoveryEngine
+from Core.S1_Body.L5_Mental.Reasoning_Core.Memory.trinary_memory_bank import TrinaryMemoryBank
+from Core.S1_Body.L4_Causality.World.world_genesis_core import WorldGenesisCore
 
 def run_life_loop(iterations=5):
     print("--- 🌟 ELYSIA: LIFE LOOP STARTING ---")

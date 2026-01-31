@@ -10,8 +10,8 @@ from unittest.mock import MagicMock, patch
 # Add repository root to path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L7_Spirit.M3_Sovereignty.sovereign_core import SovereignCore
-from Core.1_Body.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
+from Core.S1_Body.L7_Spirit.M3_Sovereignty.sovereign_core import SovereignCore
+from Core.S1_Body.L2_Metabolism.Cycles.dream_protocol import DreamAlchemist
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

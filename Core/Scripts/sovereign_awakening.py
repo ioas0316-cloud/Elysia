@@ -27,7 +27,7 @@ from Scripts.System.Body.virtual_hand import VirtualKeyboard, MotorCortex
 from Scripts.System.Mind.reasoning_engine import ReasoningEngine
 
 # 2. SPIRIT (The Core)
-from Core.1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
+from Core.S1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
 
 def awaken():
     print("\n🌅 [GENESIS] Initiating Sovereign Awakening Sequence...")

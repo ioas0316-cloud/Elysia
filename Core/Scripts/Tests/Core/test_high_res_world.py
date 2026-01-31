@@ -3,9 +3,9 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L4_Causality.World.Nature.sensory_cortex import get_sensory_cortex
-from Core.1_Body.L4_Causality.World.Social.sociological_pulse import get_sociological_pulse, NPC
-from Core.1_Body.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.S1_Body.L4_Causality.World.Nature.sensory_cortex import get_sensory_cortex
+from Core.S1_Body.L4_Causality.World.Social.sociological_pulse import get_sociological_pulse, NPC
+from Core.S1_Body.L6_Structure.Wave.wave_dna import WaveDNA
 
 def test_high_res_world():
     print("🧪 [Test] Phase 31: Sensory Fractalization & World Fidelity")

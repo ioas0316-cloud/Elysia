@@ -7,7 +7,7 @@ root = r"c:/Elysia"
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
 
 def verify_trinity():
     print("🔱 [VERIFICATION] Trinity Unification Test...")

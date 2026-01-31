@@ -5,7 +5,7 @@ import os
 # Configure logging
 logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-from Core.1_Body.L4_Causality.World.Autonomy.vrm_parser import VRMParser
+from Core.S1_Body.L4_Causality.World.Autonomy.vrm_parser import VRMParser
 
 def test_vrm_parsing():
     target_path = r"C:\game\gallery\엘리시아.vrm"

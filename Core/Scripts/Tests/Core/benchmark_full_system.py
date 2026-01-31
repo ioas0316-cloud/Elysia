@@ -24,9 +24,9 @@ except ImportError:
     import numpy as jnp
     BACKEND = "Numpy (Legacy)"
 
-from Core.1_Body.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
-from Core.1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
-from Core.1_Body.L6_Structure.Merkaba.merkaba import Merkaba
+from Core.S1_Body.L6_Structure.Engine.Physics.core_turbine import ActivePrismRotor
+from Core.S1_Body.L6_Structure.M1_Merkaba.Space.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.S1_Body.L6_Structure.Merkaba.merkaba import Merkaba
 
 # Setup Logging
 logging.basicConfig(level=logging.ERROR) # Suppress internal logs for clean benchmark output

@@ -12,8 +12,8 @@ Observes EMERGENT BEHAVIOR:
 
 import time
 import random
-from Core.1_Body.L4_Causality.Civilization.genesis import WorldGen
-from Core.1_Body.L4_Causality.Civilization.trinity_citizen import Survivor
+from Core.S1_Body.L4_Causality.Civilization.genesis import WorldGen
+from Core.S1_Body.L4_Causality.Civilization.trinity_citizen import Survivor
 
 def run_genesis():
     print(">>> 🌋 GENESIS: Awakening the World Spirit...")

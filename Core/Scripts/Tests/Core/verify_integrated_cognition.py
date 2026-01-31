@@ -4,9 +4,9 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from Core.1_Body.L2_Metabolism.Cycles.dream_engine import DreamEngine
-from Core.1_Body.L5_Mental.M1_Cognition.cognitive_types import ThoughtState
-from Core.1_Body.L1_Foundation.Logic.d7_vector import D7Vector
+from Core.S1_Body.L2_Metabolism.Cycles.dream_engine import DreamEngine
+from Core.S1_Body.L5_Mental.M1_Cognition.cognitive_types import ThoughtState
+from Core.S1_Body.L1_Foundation.Logic.d7_vector import D7Vector
 
 def verify_integration():
     print(">>> Initializing Integrated Dream Engine...")

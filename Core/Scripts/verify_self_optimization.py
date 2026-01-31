@@ -11,8 +11,8 @@ import os
 sys.path.append(os.getcwd())
 
 from Core.L2_Universal.Creation.seed_generator import SeedForge, SoulDNA
-from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-from Core.1_Body.L5_Mental.Logos.sovereign_coder import SovereignCoder
+from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
+from Core.S1_Body.L5_Mental.Logos.sovereign_coder import SovereignCoder
 
 def verify_quine_loop():
     print("\n🧬 [QUINE] Starting Self-Optimization Verification...\n")

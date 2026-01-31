@@ -16,8 +16,8 @@ import statistics
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.1_Body.L6_Structure.M1_Merkaba.dyson_swarm import DysonSwarm
-from Core.1_Body.L6_Structure.M1_Merkaba.sovereign_math import SovereignMath
+from Core.S1_Body.L6_Structure.M1_Merkaba.dyson_swarm import DysonSwarm
+from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_math import SovereignMath
 
 def main():
     print("🌪️ [STRESS] Initiating Zero Point Equilibrium Test...")

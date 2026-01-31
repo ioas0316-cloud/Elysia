@@ -7,8 +7,8 @@ import random
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.social_physics import SocialPhysics, WillField
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.subjective_ego import SubjectiveEgo
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.social_physics import SocialPhysics, WillField
 
 def run_poisoned_king_demo():
     print("\n--- [ Phase 16: The Poisoned King Demo ] ---\n")

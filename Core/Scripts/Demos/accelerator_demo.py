@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 # Ensure we can import Core
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L1_Foundation.System.optimizer import HyperAccelerator
+from Core.S1_Body.L1_Foundation.System.optimizer import HyperAccelerator
 
 def heavy_logic(a, b):
     """

@@ -9,7 +9,7 @@ import os
 # Add project root to sys.path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L1_Foundation.Logic.ternary_gate import Trit, TritState, TernaryGate
+from Core.S1_Body.L1_Foundation.Logic.ternary_gate import Trit, TritState, TernaryGate
 
 def verify_ternary_brick():
     print("🧱 [BRICK] Verifying Ternary Atomic Logic...\n")

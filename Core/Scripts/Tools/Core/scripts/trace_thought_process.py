@@ -20,10 +20,10 @@ from dataclasses import asdict
 
 sys.path.insert(0, r"c:/Elysia")
 
-from Core.1_Body.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist
-from Core.1_Body.L5_Mental.Reasoning_Core.Meta.global_observer import GlobalObserver
+from Core.S1_Body.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist
+from Core.S1_Body.L5_Mental.Reasoning_Core.Meta.global_observer import GlobalObserver
 
 # Setup Custom Logger
 logging.basicConfig(level=logging.INFO, format='%(message)s')

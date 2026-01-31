@@ -6,10 +6,10 @@
 의도에 맞는 음절을 생성할 수 있는지 검증합니다.
 """
 
-from Core.1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
-from Core.0_Keystone.L0_Keystone.syllable_composer import SyllableComposer
-from Core.1_Body.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
-from Core.0_Keystone.L0_Keystone.monadic_lexicon import MonadicLexicon
+from Core.S1_Body.L6_Structure.Merkaba.hypercosmos import HyperCosmos
+from Core.S0_Keystone.L0_Keystone.syllable_composer import SyllableComposer
+from Core.S1_Body.L5_Mental.Reasoning_Core.Meta.logos_translator import LogosTranslator
+from Core.S0_Keystone.L0_Keystone.monadic_lexicon import MonadicLexicon
 
 def test_monadic_integration():
     print("\n🌌 [TEST] Phase 5: Testing Monadic Knowledge Integration...")

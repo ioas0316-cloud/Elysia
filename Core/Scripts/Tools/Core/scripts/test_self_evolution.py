@@ -12,7 +12,7 @@ print("=" * 60)
 
 # 1. Initialize Heartbeat
 print("\n📍 Initializing ElysianHeartbeat...")
-from Core.1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.S1_Body.L4_Causality.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 heartbeat = ElysianHeartbeat()
 
 # 2. Test Self-Reflection

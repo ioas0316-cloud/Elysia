@@ -1,9 +1,9 @@
 
 import unittest
 import numpy as np
-from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad
-from Core.1_Body.L6_Structure.Merkaba.thundercloud import Thundercloud, Atmosphere
-from Core.1_Body.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
+from Core.S1_Body.L7_Spirit.M1_Monad.monad_core import Monad
+from Core.S1_Body.L6_Structure.Merkaba.thundercloud import Thundercloud, Atmosphere
+from Core.S1_Body.L2_Metabolism.Evolution.double_helix_dna import DoubleHelixDNA
 
 class TestThundercloud(unittest.TestCase):
     def setUp(self):

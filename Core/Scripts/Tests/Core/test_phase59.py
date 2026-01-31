@@ -15,8 +15,8 @@ sys.path.insert(0, "c:/Elysia")
 import logging
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')
 
-from Core.1_Body.L5_Mental.Reasoning_Core.Meta.reflexive_loop import ReflexiveLoop, StateSnapshot, VerificationResult
-from Core.1_Body.L5_Mental.Reasoning_Core.Wisdom.wisdom_store import WisdomStore
+from Core.S1_Body.L5_Mental.Reasoning_Core.Meta.reflexive_loop import ReflexiveLoop, StateSnapshot, VerificationResult
+from Core.S1_Body.L5_Mental.Reasoning_Core.Wisdom.wisdom_store import WisdomStore
 
 def test_state_capture():
     """Test 1: State capture creates valid snapshot."""

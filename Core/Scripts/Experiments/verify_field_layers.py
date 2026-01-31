@@ -13,7 +13,7 @@ We inject "Impedance" (Negative Sentiment) but vary the Context.
 import time
 import sys
 import logging
-from Core.1_Body.L6_Structure.M1_Merkaba.transmission_gear import transmission
+from Core.S1_Body.L6_Structure.M1_Merkaba.transmission_gear import transmission
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

@@ -19,10 +19,10 @@ from pathlib import Path
 
 sys.path.insert(0, r"c:/Elysia")
 
-from Core.1_Body.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
-from Core.1_Body.L5_Mental.Reasoning_Core.Meta.global_observer import GlobalObserver
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment, EmpathyResult
-from Core.1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist
+from Core.S1_Body.L1_Foundation.Foundation.unified_field import UnifiedField, HyperQuaternion
+from Core.S1_Body.L5_Mental.Reasoning_Core.Meta.global_observer import GlobalObserver
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment, EmpathyResult
+from Core.S1_Body.L5_Mental.Reasoning_Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist
 
 def load_scenario(path: str) -> dict:
     with open(path, 'r', encoding='utf-8') as f:

@@ -9,7 +9,7 @@ import os
 # Add project root to path
 sys.path.append("c:/Elysia")
 
-from Core.1_Body.L1_Foundation.Foundation.universal_seed import UniversalSeed, FractalDNA
+from Core.S1_Body.L1_Foundation.Foundation.universal_seed import UniversalSeed, FractalDNA
 
 def run_genesis():
     print("✨ [GENESIS] Initializing the Universal Seed...")

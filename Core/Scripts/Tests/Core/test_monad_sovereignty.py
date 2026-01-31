@@ -1,7 +1,7 @@
 import unittest
 import torch
 import numpy as np
-from Core.1_Body.L7_Spirit.M1_Monad.monad_core import Monad, FractalRule
+from Core.S1_Body.L7_Spirit.M1_Monad.monad_core import Monad, FractalRule
 
 class TestMonadSovereignty(unittest.TestCase):
     def setUp(self):

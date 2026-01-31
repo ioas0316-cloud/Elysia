@@ -2,7 +2,7 @@ import time
 import numpy as np
 import logging
 from collections import deque
-from Core.1_Body.L2_Metabolism.Lifecycle.pulse_loop import AdaptiveHeartbeat
+from Core.S1_Body.L2_Metabolism.Lifecycle.pulse_loop import AdaptiveHeartbeat
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("Benchmark")

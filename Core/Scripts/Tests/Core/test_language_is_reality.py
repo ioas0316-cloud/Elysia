@@ -13,7 +13,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
+from Core.S1_Body.L1_Foundation.Foundation.hyper_sphere_core import HyperSphereCore
 
 def test_manifestation():
     print(">>> 🗣️  Initiating Word-to-World Manifestation...")

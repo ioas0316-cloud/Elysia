@@ -1,8 +1,8 @@
 import logging
 import time
-from Core.1_Body.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
-from Core.1_Body.L4_Causality.World.Physics.ecs_registry import ecs_world, Entity
-from Core.1_Body.L4_Causality.World.Physics.game_loop import GameLoop
+from Core.S1_Body.L5_Mental.Reasoning_Core.Reasoning.reasoning_engine import ReasoningEngine
+from Core.S1_Body.L4_Causality.World.Physics.ecs_registry import ecs_world, Entity
+from Core.S1_Body.L4_Causality.World.Physics.game_loop import GameLoop
 
 # Mock Components
 class Position:

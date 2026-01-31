@@ -13,10 +13,10 @@ import time
 # Ensure root is in path
 sys.path.append(os.getcwd())
 
-from Core.1_Body.L4_Causality.World.Architecture.blueprint_analyzer import BlueprintGenerator
-from Core.1_Body.L4_Causality.World.Architecture.quantum_architect import QuantumArchitect
-from Core.1_Body.L4_Causality.World.Architecture.ascii_slicer import AsciiSlicer
-from Core.1_Body.L4_Causality.World.Architecture.spatial_memory import SpatialMemory
+from Core.S1_Body.L4_Causality.World.Architecture.blueprint_analyzer import BlueprintGenerator
+from Core.S1_Body.L4_Causality.World.Architecture.quantum_architect import QuantumArchitect
+from Core.S1_Body.L4_Causality.World.Architecture.ascii_slicer import AsciiSlicer
+from Core.S1_Body.L4_Causality.World.Architecture.spatial_memory import SpatialMemory
 
 def main():
     print("\n🚀 [Quantum Pop-Up Protocol] Initializing...")
