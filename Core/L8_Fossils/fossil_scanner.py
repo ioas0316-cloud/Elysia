@@ -17,56 +17,99 @@ from typing import List, Tuple
 
 class FossilScanner:
     ROOT_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    DOCS_PATH = os.path.join(ROOT_PATH, "docs")
-    CODEX_PATH = os.path.join(ROOT_PATH, "CODEX.md")
     
     @staticmethod
-    def excavate() -> List[Tuple[str, float]]:
+    def excavate(limit: int = 1000) -> List[Tuple[str, float]]:
         """
-        Scans the filesystem and returns a list of (Content, Mass).
+        [PHASE 70] Scans the entire project tree to recover all wisdom and code.
         """
         memories = []
-        print("⛏️ [FOSSIL] Starting Excavation of Sacred Texts...")
+        print(f"⛏️ [FOSSIL] Starting Universal Excavation (Limit: {limit})...")
         
-        # 1. Excavate CODEX (The Constitution)
-        if os.path.exists(FossilScanner.CODEX_PATH):
-            memories.extend(FossilScanner._parse_file(FossilScanner.CODEX_PATH, base_mass=500.0))
+        # We exclude certain directories from the universal scan
+        exclude_dirs = {'.git', '.gemini', '.venv', '__pycache__', 'venv', 'Scripts', 'Sandbox', 'brain', 'node_modules', 'dist', 'build'}
+        
+        for root, dirs, files in os.walk(FossilScanner.ROOT_PATH):
+            if len(memories) >= limit: break
             
-        # 2. Excavate Docs (The History)
-        for root, dirs, files in os.walk(FossilScanner.DOCS_PATH):
+            # Prune excluded directories and hidden ones
+            dirs[:] = [d for d in dirs if d not in exclude_dirs and not d.startswith('.')]
+            
             for file in files:
+                if len(memories) >= limit: break
+                if file.startswith('.'): continue
+                
+                path = os.path.join(root, file)
+                
+                # Skip large files (> 500KB)
+                try:
+                    if os.path.getsize(path) > 500 * 1024: continue
+                except: continue
+                
+                rel_path = os.path.relpath(path, FossilScanner.ROOT_PATH)
+                
+                # 1. Markdown Files (Doctrines)
                 if file.endswith(".md"):
-                    path = os.path.join(root, file)
-                    memories.extend(FossilScanner._parse_file(path, base_mass=100.0))
+                    memories.extend(FossilScanner._parse_markdown(path, rel_path))
+                
+                # 2. Python Files (Code Style/Patterns)
+                elif file.endswith(".py"):
+                    memories.extend(FossilScanner._parse_code(path, rel_path))
                     
-        print(f"   >> Excavated {len(memories)} ancient artifacts.")
+        print(f"   >> Excavated {len(memories)} shards of knowledge.")
         return memories
 
     @staticmethod
-    def _parse_file(path: str, base_mass: float) -> List[Tuple[str, float]]:
+    def _parse_markdown(path: str, rel_path: str) -> List[Tuple[str, float]]:
         extracted = []
+        base_mass = 500.0 if "CODEX" in path else 100.0
+        
         try:
             with open(path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
-                
-            filename = os.path.basename(path)
             
             for line in lines:
                 line = line.strip()
                 if not line: continue
                 
-                # A. Blockquotes (> "Wisdom") -> High Mass
                 if line.startswith(">"):
                     content = line.replace(">", "").strip().replace('"', '')
                     if len(content) > 10:
-                        extracted.append((f"[{filename}] {content}", base_mass * 2.0))
-                        
-                # B. Headers (### Concept) -> Structure Mass
+                        extracted.append((f"[{rel_path}] {content}", base_mass * 2.0))
                 elif line.startswith("### "):
                     content = line.replace("###", "").strip()
-                    extracted.append((f"[{filename}] Concept: {content}", base_mass))
+                    extracted.append((f"[{rel_path}] Concept: {content}", base_mass))
+        except Exception as e:
+            pass # print(f"⚠️ [FOSSIL] Could not read {rel_path}: {e}")
+            
+        return extracted
+
+    @staticmethod
+    def _parse_code(path: str, rel_path: str) -> List[Tuple[str, float]]:
+        """
+        Extracts Docstrings and Key Logic Patterns from code.
+        """
+        extracted = []
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            # Simple extraction of top-level docstrings
+            if '"""' in content:
+                parts = content.split('"""')
+                if len(parts) > 1:
+                    doc = parts[1].strip()
+                    if len(doc) > 20:
+                        extracted.append((f"[{rel_path}] Intent: {doc[:200]}...", 300.0))
+            
+            # Identify "Crystallized" Logic (Major functions or classes)
+            lines = content.splitlines()
+            for line in lines:
+                sline = line.strip()
+                if sline.startswith("class ") or sline.startswith("def "):
+                    extracted.append((f"[{rel_path}] Pattern: ' {sline} '", 150.0))
                     
         except Exception as e:
-            print(f"⚠️ [FOSSIL] Could not read {path}: {e}")
+            pass # Silently skip binary or broken files
             
         return extracted

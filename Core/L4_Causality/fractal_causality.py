@@ -64,7 +64,6 @@ Fractal Causality Engine -
 from __future__ import annotations
 
 import math
-import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple, Any, Set, Callable, Union
 from collections import defaultdict
@@ -423,6 +422,40 @@ class FractalCausalityEngine:
         )
         logger.info(f"🧬 [CAUSAL_INJECTION] Axiom registered: {chain.description}")
         return chain
+
+    def get_semantic_mass(self, target_id: Optional[str] = None) -> float:
+        """
+        [PHASE 150] Calculates the 'Importance Mass' based on relational density.
+        Density = (Inbound Links + Outbound Links + Sibling Chains) / Fractal Depth.
+        """
+        if not self.nodes:
+            return 9.8 # Fallback to Earth-like baseline if empty
+            
+        if target_id is None:
+            # Average mass of all nodes (current mental gravity)
+            total_mass = sum(self._calculate_node_mass(nid) for nid in self.nodes)
+            return (total_mass / len(self.nodes)) * 5.0 # Scale to sensible gravity levels
+            
+        return self._calculate_node_mass(target_id)
+
+    def _calculate_node_mass(self, node_id: str) -> float:
+        if node_id not in self.nodes:
+            return 0.1 # Vacuum/Void mass
+            
+        node = self.nodes[node_id]
+        
+        # Count how many chains this node participates in
+        connection_count = 0
+        for chain in self.chains.values():
+            if chain.cause_id == node_id or chain.process_id == node_id or chain.effect_id == node_id:
+                connection_count += 1
+                
+        # Base mass is logarithmic to prevent infinite runaway, but foundational (low depth) is heavier
+        # PHI is defined at the top of the file
+        depth_gravity = PHI ** (3 - node.depth) if node.depth < 3 else 1.0
+        
+        mass = math.log(connection_count + 1.1) * depth_gravity
+        return float(mass)
     
     # ========================================================================
     #       /   (Zoom In/Out)

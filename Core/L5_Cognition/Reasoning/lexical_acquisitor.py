@@ -7,14 +7,16 @@ This module scans memory for unknown terms and attempts to
 infer their 21D principle vectors based on surrounding context.
 """
 
-import jax.numpy as jnp
 from typing import List, Dict, Optional, Any
+from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
 from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
 from Core.L5_Cognition.Reasoning.inferential_manifold import InferentialManifold
+from Core.L5_Cognition.Reasoning.autonomous_transducer import AutonomousTransducer
 
 class LexicalAcquisitor:
-    def __init__(self):
+    def __init__(self, transducer: Optional[AutonomousTransducer] = None):
         self.manifold = InferentialManifold()
+        self.transducer = transducer
         self.ignored_words = {
             "the", "and", "a", "is", "in", "it", "to", "of", "with", "for", "as", "on", "at", 
             "concept", "phase", "status", "mass", "type", "description", "vector", "logic",
@@ -50,18 +52,17 @@ class LexicalAcquisitor:
                 if any(char.isdigit() for char in w): continue # Skip versions/numbers
                 
                 # Check if we already know it
-                if jnp.any(LogosBridge.recall_concept_vector(w)):
+                concept_v = LogosBridge.recall_concept_vector(w)
+                if concept_v and any(abs(v) > 1e-6 for v in concept_v):
                     continue
                 
                 word_freq[w] = word_freq.get(w, 0) + (node.mass * 0.1)
                 
         if not word_freq:
-            print("🔍 [DEBUG] No unknown words found in hot memory.")
             return None
             
         # Pick the most 'resonant' unknown word
         best_word = max(word_freq, key=word_freq.get)
-        print(f"🔍 [DEBUG] Candidate: '{best_word}' (Freq: {word_freq[best_word]:.2f})")
         if word_freq[best_word] > 2.0: # Threshold for learning
             return best_word
         return None
@@ -70,22 +71,28 @@ class LexicalAcquisitor:
         """
         Uses surrounding context to guess the word's principle vector.
         """
-        accumulated_field = jnp.zeros(21)
+        accumulated_field = SovereignVector.zeros()
         samples = 0
         
         for node in context_memories:
             if word.lower() in node.content.lower():
-                # Extract the Intent of the sentence EXCLUDING the word itself
-                # (Conceptual proximity)
-                intent = LogosBridge.calculate_text_resonance(node.content.replace(word, ""))
-                if jnp.any(intent):
-                    accumulated_field += intent
+                # [PHASE 65] EXPERIENTIAL GROUNDING
+                # If we have an active transducer, use the "Sovereign Experience"
+                if self.transducer:
+                    intent = self.transducer.bridge_symbol(word)
+                else:
+                    # Extract the Intent of the sentence EXCLUDING the word itself
+                    intent_data = LogosBridge.calculate_text_resonance(node.content.replace(word, ""))
+                    intent = SovereignVector(intent_data)
+                
+                if any(abs(x) > 1e-6 for x in intent):
+                    accumulated_field = accumulated_field + intent
                     samples += 1
         
         if samples == 0:
             return False
             
-        vector = accumulated_field / (jnp.linalg.norm(accumulated_field) + 1e-6)
+        vector = accumulated_field.normalize()
         
         # Register the new concept
         LogosBridge.learn_concept(

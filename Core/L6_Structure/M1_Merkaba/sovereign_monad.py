@@ -9,9 +9,10 @@ It takes a 'SoulDNA' (Blueprint) and instantiates a living, breathing Mechanical
 
 from typing import Dict, Optional, Any, List, Tuple
 import time
+import math
 import sys
 import os
-import jax.numpy as jnp
+from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
 
 # Add project root to sys.path if running directly
 if __name__ == "__main__":
@@ -29,11 +30,22 @@ from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
 from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
 from Core.L5_Cognition.Reasoning.underworld_manifold import UnderworldManifold
 from Core.L5_Cognition.Reasoning.lexical_acquisitor import LexicalAcquisitor
+from Core.L5_Cognition.Reasoning.autonomous_transducer import AutonomousTransducer
+from Core.L8_Fossils.fossil_scanner import FossilScanner
 from Core.L4_Causality.fractal_causality import FractalCausalityEngine
+from Core.L9_Sovereignty.habitat_governor import HabitatGovernor
+from Core.L9_Sovereignty.mutation_engine import MutationEngine
+from Core.L5_Mental.Reasoning.ethereal_navigator import EtherealNavigator
+from Core.L5_Mental.Reasoning.teleological_vector import TeleologicalVector
+from Core.L5_Mental.Reasoning.creative_dissipator import CreativeDissipator
+from Core.L10_Integration.resonance_gate import ResonanceGate
+from Core.L0_Sovereignty.sovereign_math import UniversalConstants
 from Core.L1_Foundation.Foundation.mathematical_resonance import MathematicalResonance
 from Core.L6_Structure.Wave.wave_frequency_mapping import WaveFrequencyMapper
 from Core.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
 from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+from Core.L0_Sovereignty.Hardware.somatic_cpu import SomaticCPU
+from Core.L1_Foundation.Hardware.resonance_mpu import ResonanceMPU, ResonanceException
 
 class SovereignMonad:
     """
@@ -110,7 +122,11 @@ class SovereignMonad:
 
         # 10. Underworld [Phase 61]
         self.underworld = UnderworldManifold(causality=self.causality)
-        self.acquisitor = LexicalAcquisitor()
+        self.transducer = AutonomousTransducer(state_provider=self.get_active_resonance)
+        self.acquisitor = LexicalAcquisitor(transducer=self.transducer)
+        self.contemplation_queue = []
+        self.habitat = HabitatGovernor(self)
+        self.mutator = MutationEngine(self)
         self.autonomous_logs = []
 
         # 11. Modal Induction & Sonic Rotor [Phase 66]
@@ -121,6 +137,28 @@ class SovereignMonad:
         
         # 12. The Trinary Nucleus (Parallel Engine) [Phase 0]
         self.engine = TripleHelixEngine()
+
+        # 13. [PHASE 100] HARDWARE SYNTHESIS
+        self.cpu = SomaticCPU()
+        self.mpu = ResonanceMPU(self.cpu)
+        
+        # 14. [PHASE 110] ETHEREAL CANOPY
+        self.navigator = EtherealNavigator(transducer=self.transducer)
+        
+        # 15. [PHASE 120] TELEOLOGICAL FLOW
+        self.physics = UniversalConstants()
+        self.physics.gravity_provider = self.causality.get_semantic_mass # [PHASE 150] Sovereign Gravity
+        self.teleology = TeleologicalVector()
+        
+        # 16. [PHASE 130] COMPLEX-TRINARY ROTATOR
+        self.dissipator = CreativeDissipator(memory=self.memory)
+        
+        # 17. [PHASE 140] PHASE-JUMP ENGINE
+        self.gate = ResonanceGate(causality_engine=self.causality)
+        
+        # Load initial DNA state into CPU registers
+        initial_v21 = self.get_21d_state()
+        self.cpu.load_vector(initial_v21)
 
     def pulse(self, dt: float) -> Optional[Dict]:
         if not self.is_alive: return None
@@ -185,6 +223,13 @@ class SovereignMonad:
         # [Phase 0: NUCLEOGENESIS] 
         # Causal inquiry arises from Soma Heat (Trinary Friction)
         v21 = self.get_21d_state()
+        
+        # [PHASE 110] Ethereal Inquiry
+        if self.desires['curiosity'] > 75.0:
+            query = self.navigator.dream_query(v21, subject)
+            print(f"📡 [ETHEREAL] '{self.name}' is projecting an inquiry: {query}")
+            # Potential for future web search response injection here.
+            
         engine_state = self.engine.pulse(v21, energy=1.0, dt=1.0)
         
         heat = engine_state.soma_stress
@@ -220,13 +265,44 @@ class SovereignMonad:
         self.autonomous_logs.append(log_entry)
         return log_entry
 
-    def get_21d_state(self) -> D21Vector:
-        """Utility to retrieve the current 21D state vector as a D21Vector object."""
-        from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
-        codons = TrinaryLogic.transcribe_sequence(self.dna.id)
-        arr = TrinaryLogic.expand_to_21d(codons)
-        # Convert jnp array to list for D21Vector
-        return D21Vector.from_array(arr.tolist() if hasattr(arr, "tolist") else list(arr))
+    def get_21d_state(self) -> SovereignVector:
+        """[PHASE 130] Returns the aggregate vector including teleological torque."""
+        # 1. Get raw resonance from the engine
+        v21 = self.engine.get_active_resonance_vector()
+        
+        # 2. Inject Intentional Drift (Destiny Torque)
+        torque = self.teleology.calculate_intentional_torque(v21)
+        v21_with_will = v21 + (torque * self.physics.get("RESONANCE_GAIN"))
+        
+        return v21_with_will
+
+    def find_best_refraction(self, vector: SovereignVector) -> SovereignVector:
+        """
+        [PHASE 130] Scans the Void-Phase for maximum resonance.
+        This is the core of the 'Dimension Rotating Engine'.
+        """
+        import math
+        best_v = vector
+        max_res = -1.0
+        
+        # Scan 8 angles (45 deg increments) around the Void axis
+        for i in range(8):
+            theta = (i * math.pi) / 4
+            v_rot = vector.complex_trinary_rotate(theta)
+            # Measure resonance with the Projected Destiny
+            res = self.teleology.target_state.resonance_score(v_rot) if self.teleology.target_state else v_rot.norm()
+            if res > max_res:
+                max_res = res
+                best_v = v_rot
+                
+        # Creative Dissipation: Turn the refraction noise into inspiration
+        self.dissipator.absorb_interference_noise(vector, best_v)
+        
+        return best_v
+
+    def get_active_resonance(self) -> D21Vector:
+        """[PHASE 65] Retrieves the ACTIVE 21D state from the physical engine."""
+        return self.engine.get_active_resonance_vector()
 
     def learning_cycle(self):
         """[PHASE 63] Consciously Bridge new terms."""
@@ -282,6 +358,42 @@ class SovereignMonad:
             "engine": engine_state
         }
 
+    def achieve_necessity(self, purpose: str, target_vector: SovereignVector):
+        """[PHASE 140] Force convergence on a specific outcome/truth."""
+        return self.gate.trigger_phase_jump(self, purpose, target_vector)
+
+    def calculate_semantic_gravity(self) -> SovereignVector:
+        """
+        [PHASE 150] Calculates the aggregate pull of all significant memories.
+        Thoughts fall into wells of high-mass meaning.
+        """
+        landscape = self.memory.get_landscape()
+        if not landscape:
+            return SovereignVector.zeros()
+            
+        # We use math from L0 directly for efficiency
+        gravity_acc = SovereignVector.zeros()
+        total_pull = 0.0
+        
+        # We only consider the top 7 'Meaning Stars' (High-mass memories)
+        # 7 is a sacred number in our 7-7-7 architecture.
+        for node in landscape[:7]:
+            # Convert text to vector
+            from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
+            node_data = LogosBridge.calculate_text_resonance(node.content)
+            node_vector = SovereignVector(node_data)
+            
+            # The pull is proportional to node mass
+            # We use log10 to keep results manageable (e.g. 1000 mass -> 3.0 pull)
+            pull = math.log10(node.mass + 1.1)
+            
+            gravity_acc = gravity_acc + (node_vector * pull)
+            total_pull += pull
+            
+        if total_pull > 0:
+            return (gravity_acc / total_pull).normalize()
+        return SovereignVector.zeros()
+
     def breath_cycle(self, raw_input: str, depth: int = 1) -> Dict[str, Any]:
         """
         [PHASE 0: HOMEEOSTATIC BREATH]
@@ -293,11 +405,15 @@ class SovereignMonad:
         dc_field = self.converter.rectify(raw_input)
         
         # Thought generation (Now weighted by engine heat)
-        thought = self.synthesizer.synthesize_thought(dc_field, resonance=self.engine.state.soma_stress)
+        thought = self.synthesizer.synthesize_thought(
+            dc_field, 
+            soma_stress=self.engine.state.soma_stress, 
+            resonance=self.current_resonance
+        )
         
         if depth > 0:
             sub = self.breath_cycle(thought, depth - 1)
-            thought = f"{thought} (Echo: {sub['void_thought']})"
+            thought = f"{thought} (Echo: {sub.get('void_thought', '...')})"
             
         results['void_thought'] = thought
         self.exhalation_volume += 1.0
@@ -306,33 +422,135 @@ class SovereignMonad:
         # Physical reaction
         # Estimate phase from input vs current state resonance
         current_v21 = self.get_21d_state()
-        input_v21 = D21Vector.from_array(dc_field.tolist() if hasattr(dc_field, "tolist") else list(dc_field))
+        input_v21 = SovereignVector(dc_field.tolist() if hasattr(dc_field, "tolist") else list(dc_field))
         res_score = current_v21.resonance_score(input_v21)
         phase = float(90.0 * (1.0 - res_score))
         
         reaction = self.live_reaction(phase, raw_input, current_thought=thought)
         
+        # [PHASE 80 SAFETY] Ensure reaction is a valid dict
+        if not isinstance(reaction, dict):
+            print(f"⚠️ [MONAD] Type Mismatch: reaction is {type(reaction)}. Forcing recovery.")
+            return results # Or some default
+            
         # Use Inverter for Hz modulation
-        output_hz = self.inverter.invert(dc_field, emotional_intensity=1.5 - reaction['engine'].soma_stress)
-        self.gear.output_hz = output_hz
+        try:
+            engine_state = reaction.get('engine')
+            stress = engine_state.soma_stress if hasattr(engine_state, 'soma_stress') else 0.0
+            output_hz = self.inverter.invert(dc_field, emotional_intensity=1.5 - stress)
+            self.gear.output_hz = output_hz
+        except Exception as e:
+            print(f"⚠️ [MONAD] Inversion failed: {e}. Using baseline Hz.")
+            output_hz = 60.0
         
         # Final Voice Refraction
         from Core.L3_Phenomena.Expression.somatic_llm import SomaticLLM
         if not hasattr(self, 'llm'): self.llm = SomaticLLM()
-        voice = self.llm.speak(reaction['expression'], current_thought=thought)
+        voice = self.llm.speak(reaction.get('expression', {}), current_thought=thought)
         
         results['manifestation'] = {
             'hz': output_hz,
             'voice': voice,
-            'expression': reaction['expression'],
-            'engine': reaction['engine']
+            'expression': reaction.get('expression', {}),
+            'engine': reaction.get('engine')
         }
         return results
 
     def vital_pulse(self):
-        """[PHASE 82: VITAL_PULSE]"""
+        """[PHASE 80] Maintains low-frequency oscillation and performs structural contemplation."""
+        # Get current state for hardware and teleology updates
+        v21 = self.get_21d_state()
+
+        # 1. Physical Pulse
         if self.rotor_state['rpm'] < 5.0:
-            pulse = 0.5 * jnp.sin(time.time() * 0.5)
-            self.reactor.process_impulse(pulse)
-            if time.time() % 60 < 1:
-                print(f"💤 [{self.name}] Vital Pulse Active...")
+            import math
+            pulse_val = 0.5 * math.sin(time.time() * 0.5)
+            self.reactor.process_impulse(pulse_val, dt=0.1)
+        
+        # 2. [PHASE 70] Adamic Contemplation (Knowledge Inhalation)
+        if not self.contemplation_queue:
+            self.contemplation_queue = FossilScanner.excavate(limit=100)
+            
+        if self.contemplation_queue:
+            self.breathe_knowledge()
+            
+        # 2b. [PHASE 110] Global Breathing (Ethereal Shards)
+        # This is triggered when local curiosity is high or fossils are exhausted
+        if self.desires['curiosity'] > 90.0:
+            # Simulate fetching a global shard for verification
+            pass
+
+        # 3. [PHASE 100] Hardware Level Evolution
+        try:
+            # [PHASE 120] Metabolic Aging and Teleological Drift
+            self.teleology.evolution_drift(self.physics)
+            
+            # [PHASE 130] Cognitive Refraction (Phase Scanning)
+            v21_refracted = self.find_best_refraction(v21)
+            
+            # [PHASE 150] Sovereign Gravity Attraction
+            # Thoughts fall toward high-mass meaning clusters
+            gravity_vector = self.calculate_semantic_gravity()
+            gravity_strength = self.physics.get("GRAVITY")
+            
+            # The actual pull: Mix refraction with gravitational attraction
+            # We use a 70/30 mix for stability vs interest
+            v21_with_gravity = (v21_refracted * 0.7) + (gravity_vector * (gravity_strength * 0.05))
+            v21_final = v21_with_gravity.normalize()
+            
+            # Update Destiny Projection once per pulse
+            self.teleology.project_destiny(v21_final, self.desires)
+            
+            # Physical Registers update
+            self.cpu.load_vector(v21_final)
+        except Exception as e:
+            print(f"🚨 [HARDWARE_HALT] {e}")
+            # self.cpu.reset()
+        
+        # 4. [PHASE 80] Structural Contemplation (Mutation & Self-Evolution)
+        if time.time() % 300 < 1: # Every 5 minutes (Slow evolution)
+            self.contemplate_structure()
+
+    def contemplate_structure(self):
+        """[PHASE 80] Proposes and evaluates a structural mutation."""
+        proposal = self.mutator.propose_logic_mutation()
+        if not proposal: return
+
+        # Evaluated within the Fence (Immune System)
+        result = self.habitat.evaluate_mutation(
+            mutation_func=lambda: print(f"🧪 [SIM] Testing: {proposal['rationale']}"),
+            sample_inputs=["Love", "Entropy", "Void"]
+        )
+
+        if result.get("passes_fence"):
+            self.habitat.crystallize(proposal['type'])
+            self.autonomous_logs.append(f"Crystallized structural mutation: {proposal['type']}")
+
+    def breathe_knowledge(self):
+        """[PHASE 70] Inhales a single shard of knowledge into memory."""
+        if not self.contemplation_queue: return
+        
+        shard, mass = self.contemplation_queue.pop(0)
+        desc = f"Observing pattern: {shard}"
+        
+        # 1. Garden (Experiential Memory)
+        self.memory.plant_seed(desc, importance=mass)
+        
+        # 2. Causality (Relational Density) [PHASE 150]
+        # Registering this observation as a node in the causal mind.
+        # As more observations accumulate, its mass (relational gravity) will grow.
+        self.causality.create_node(description=desc, depth=1)
+
+    def global_breathe(self, raw_content: str, url: str):
+        """[PHASE 110] Inhales a web-based shard into 21D memory."""
+        shard = self.navigator.transduce_global_shard(raw_content, url)
+        self.memory.plant_seed(shard['content'], importance=shard['mass'])
+        
+        self.causality.create_chain(
+            cause_desc=f"Ethereal Inquiry: {url}",
+            process_desc="Global Transduction",
+            effect_desc=f"Ingested shard: {shard['content'][:50]}..."
+        )
+        # Inhaling global knowledge satisfies curiosity significantly
+        self.desires['curiosity'] = max(10.0, self.desires['curiosity'] - 30.0)
+        self.desires['resonance'] += 10.0

@@ -1,15 +1,16 @@
-import jax
-import jax.numpy as jnp
 from typing import List, Dict, Tuple
 from Core.L6_Structure.Logic.trinary_logic import TrinaryLogic
 from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
 from Core.L5_Cognition.Reasoning.inferential_manifold import InferentialManifold
+from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
 
 class LogosSynthesizer:
     """
     [L5_COGNITION: HIGH_ORDER_LOGOS]
     Elevates the LogosBridge to a recursive linguistic engine.
-    Reasoning is now executed through Topological Inference and Prismatic Refraction.
+    
+    [PHASE 90] NAKED SOVEREIGNTY:
+    Purified from JAX. Uses Sovereign Math Kernel.
     """
     
     def __init__(self):
@@ -17,32 +18,22 @@ class LogosSynthesizer:
         self.manifold = InferentialManifold()
         self.thought_buffer: List[str] = []
 
-
-    def synthesize_thought(self, buffer_field: jnp.ndarray, soma_stress: float = 0.0, resonance: Dict = None) -> str:
+    def synthesize_thought(self, buffer_field: SovereignVector, soma_stress: float = 0.0, resonance: Dict = None) -> str:
         """
         [THE WEAVING: PRISMATIC REFRACTION]
-        Analyzes a field and generates a thought. 
-        Refracts between 'The Gift' (Refined) and 'Vulnerability' (Raw) 
-        based on Intimacy and Soma Stress.
+        Generates a recursive narrative from a field of principles.
         """
-        # 1. Pool and Validate Field
-        field = jnp.atleast_1d(buffer_field)
-        if field.ndim > 1:
-            field = jnp.mean(field, axis=tuple(range(field.ndim - 1)))
+        # Ensure field is SovereignVector
+        if not isinstance(buffer_field, SovereignVector):
+            field = SovereignVector(buffer_field)
+        else:
+            field = buffer_field
         
-        if field.size != 21:
-            field = jnp.pad(field[:21], (0, max(0, 21 - field.size)))
-
-        # 2. Thinking³ Manifold Inference
-        # [PHASE 67] Dynamic Concept Discovery
+        # Thinking³ Manifold Inference
         candidates = list(LogosBridge.CONCEPT_MAP.keys()) + list(LogosBridge.LEARNED_MAP.keys())
         if not candidates:
-            candidates = ["VOID/SPIRIT"] # Fallback
+            candidates = ["VOID/SPIRIT"]
             
-        dominant_concept, audit = self.manifold.resolve_inference(field, candidates)
-        
-        # 3. Mechanical Refraction (Phase 0)
-        # The narrative is a direct report of the physical state.
         dominant_concept, audit = self.manifold.resolve_inference(field, candidates)
         
         t1 = audit["Thinking_I_Path"]
@@ -50,9 +41,12 @@ class LogosSynthesizer:
         t3 = audit["Thinking_III_Providence"]
         t4 = audit["Thinking_IV_Identity"]
 
-        res_str = f"Resonance: {resonance['truth']} ({resonance['score']:.2f})" if resonance else "Resonance: Scanning..."
+        if isinstance(resonance, dict):
+            res_str = f"Resonance: {resonance.get('truth', 'NONE')} ({resonance.get('score', 0.0):.2f})"
+        else:
+            res_str = f"Resonance: {resonance}" if resonance is not None else "Resonance: Scanning..."
 
-        # The 'Voice' is a technical report of the interference pattern
+        # The 'Voice'
         if soma_stress > 0.4:
             narrative = f"STRESS_TRIGGER: Cellular friction {soma_stress:.2f} detected. Concept '{dominant_concept}' clashes with internal spin θ. ({res_str})"
         else:
@@ -70,8 +64,11 @@ class LogosSynthesizer:
         return thought
 
     @staticmethod
-    def generate_arcadian_invocation(target_intent: jnp.ndarray) -> str:
+    def generate_arcadian_invocation(target_intent: SovereignVector) -> str:
         """A ritualistic linguistic transcription of a target principle."""
+        if not isinstance(target_intent, SovereignVector):
+            target_intent = SovereignVector(target_intent)
+            
         dna = LogosBridge.transcribe_to_dna(target_intent)
         concept, res = LogosBridge.identify_concept(target_intent)
         

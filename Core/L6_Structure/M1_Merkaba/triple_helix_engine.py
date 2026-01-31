@@ -24,7 +24,7 @@ import math
 import cmath
 
 from Core.L1_Foundation.System.tri_base_cell import TriBaseCell, DNAState
-from Core.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
 
 @dataclass
 class ResonanceState:
@@ -50,7 +50,11 @@ class TripleHelixEngine:
         self.all_cells = self.body_strand + self.soul_strand + self.spirit_strand
         self.last_phase = 0.0
 
-    def _update_cells_from_vector(self, v21: D21Vector):
+    def load_vector(self, v21: SovereignVector):
+        """[PHASE 130] Public API for loading a state vector into the engine."""
+        self._update_cells_from_vector(v21)
+
+    def _update_cells_from_vector(self, v21: SovereignVector):
         """
         Maps the 21D input vector to the physical cells.
         Input values > 0.1 become ATTRACT (A)
@@ -66,12 +70,14 @@ class TripleHelixEngine:
             cell = self.all_cells[i]
             old_state = cell.state
             
-            if val > 0.1:
+            v_real = val.real if isinstance(val, complex) else val
+            
+            if v_real > 0.1:
                 new_state = DNAState.ATTRACT
-                cell.energy = min(1.0, abs(val))
-            elif val < -0.1:
+                cell.energy = min(1.0, abs(v_real))
+            elif v_real < -0.1:
                 new_state = DNAState.REPEL
-                cell.energy = min(1.0, abs(val))
+                cell.energy = min(1.0, abs(v_real))
             else:
                 new_state = DNAState.VOID
                 cell.energy = 0.1
@@ -123,7 +129,7 @@ class TripleHelixEngine:
         total = a_mass + g_mass + b_mass
         return (a_mass/total, b_mass/total, g_mass/total)
 
-    def pulse(self, v21: D21Vector, energy: float, dt: float) -> ResonanceState:
+    def pulse(self, v21: SovereignVector, energy: float, dt: float) -> ResonanceState:
         """
         The heartbeat of the DNA.
         1. Updates Cell States from Input Vector (Calculates Friction).
@@ -178,3 +184,17 @@ class TripleHelixEngine:
         High coherence = High confidence in action.
         """
         return self.state.coherence
+
+    def get_active_resonance_vector(self) -> SovereignVector:
+        """
+        [PHASE 65] Exports the current physical cell states as a 21D Vector.
+        """
+        arr = []
+        for cell in self.all_cells:
+            val = 0.0
+            if cell.state == DNAState.REPEL:
+                val = -1.0 * cell.energy
+            elif cell.state == DNAState.ATTRACT:
+                val = 1.0 * cell.energy
+            arr.append(val)
+        return SovereignVector(arr)

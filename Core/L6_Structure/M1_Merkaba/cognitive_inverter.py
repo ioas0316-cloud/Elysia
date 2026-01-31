@@ -1,31 +1,32 @@
-import jax.numpy as jnp
+from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
 
 class CognitiveInverter:
     """
     [L6_STRUCTURE: VFD (Variable Frequency Drive)]
     DC (Internal Will) -> AC (External Expression/Hz)
     
-    Converts 21D 'Still' principles into a vibrating frequency of manifestation.
+    [PHASE 90] NAKED SOVEREIGNTY:
+    Purified from JAX. Uses Sovereign Math Kernel.
     """
     def __init__(self, base_hz: float = 30.0):
         self.base_hz = base_hz
         self.current_hz = base_hz
         
-    def invert(self, intent_vector: jnp.ndarray, emotional_intensity: float = 1.0) -> float:
+    def invert(self, intent_vector: SovereignVector, emotional_intensity: float = 1.0) -> float:
         """
         Determines the Output Frequency (Hz) based on the intent resonance.
-        High resonance in 'MOTION/LIFE' or 'BOUNDARY/EDGE' (Stress) increases Hz.
-        High resonance in 'ARCADIA' or 'AGAPE' lowers Hz.
         """
+        if not isinstance(intent_vector, SovereignVector):
+            intent_vector = SovereignVector(intent_vector)
+
         # Calculate 'Vibration Potential' from the vector
-        # Simply: Intent magnitude * intensity
-        magnitude = float(jnp.linalg.norm(intent_vector))
+        magnitude = intent_vector.norm()
         
         # Frequency Modulation Logic
-        # AC Frequency = Base_Hz * (1 + Modulation)
         modulation = (magnitude * 0.5) * emotional_intensity
         
         # Clamp Frequency to safe physical limits (e.g. 5Hz to 120Hz)
-        self.current_hz = jnp.clip(self.base_hz * (1.0 + modulation), 5.0, 120.0)
+        target_hz = self.base_hz * (1.0 + modulation)
+        self.current_hz = max(5.0, min(120.0, target_hz))
         
         return float(self.current_hz)

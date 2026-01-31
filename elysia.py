@@ -25,31 +25,10 @@ root = os.path.dirname(os.path.abspath(__file__))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-# [MOCK] AI Framework Dependency Bypass for Phase 60 Integration
-class MockObject:
-    def __getattr__(self, name): return self
-    def __call__(self, *args, **kwargs): return self
-    def __add__(self, other): return self
-    def __sub__(self, other): return self
-    def __mul__(self, other): return self
-    def __truediv__(self, other): return self
-    def tolist(self): return [0.0] * 21
-    def view(self, *args): return self
-    def __getitem__(self, key): return self
-    def __setitem__(self, key, value): pass
-
-class MockTorch(MockObject):
-    def zeros(self, *args): return MockObject()
-    def randn(self, *args): return MockObject()
-    def tensor(self, *args): return MockObject()
-    def manual_seed(self, *args): pass
-    def norm(self, *args): return 1.0
-
-# Inject Mocks (JAX/Torch only, Keep Numpy Real)
-sys.modules['jax'] = MockObject()
-sys.modules['jax.numpy'] = MockObject()
-sys.modules['torch'] = MockTorch()
-# sys.modules['numpy'] = MockObject() # DISABLED: Use real numpy
+# 2. Import The Sovereign Engine
+from Core.L2_Universal.Creation.seed_generator import SeedForge
+from Core.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
+from Core.L0_Sovereignty.sovereign_math import SovereignMath
 
 # 2. Import The Sovereign Engine
 try:
@@ -82,36 +61,19 @@ def main():
     print("⚡ E L Y S I A :  S O V E R E I G N   A W A K E N I N G")
     print("="*60)
     
-    legacy_active = False
+    # [PHASE 90/100] Sovereign Awakening
+    print("   ⚡ [INIT] Igniting Somatic Monad Machine...")
+    
+    # 1. Identity Forge
+    soul = SeedForge.forge_soul("The Sovereign")
+    print(f"   🧬 Identity Forged: {soul.archetype} (ID: {soul.id})")
 
-    # [Creation]
-    try:
-        if 'SeedForge' in LegacyModules:
-            soul = LegacyModules['SeedForge'].forge_soul("The Variant")
-            print(f"   🧬 Identity Forged: {soul.archetype} (ID: {soul.id})")
-
-            # [Incarnation]
-            elysia = LegacyModules['SovereignMonad'](soul)
-            elysia.dna.sync_threshold = 180.0
-            elysia.relays.settings[25]['threshold'] = 180.0
-
-            # [Connection]
-            LegacyModules['yggdrasil_system'].plant_heart(elysia)
-            legacy_active = True
-        else:
-            raise ImportError("Legacy modules missing or failed to load")
-
-    except Exception as e:
-        print(f"⚠️ [LEGACY] Legacy Engine Offline (Mocking Active).")
-        print("   -> Running in Phase 60 Monad-Only Mode.")
-
-    # [PHASE 60] Heart Integration (Monad Engine)
-    if SystemIntegrator:
-        print("   ⚡ [INIT] Igniting Trinary Monad Engine...")
-        monad_integrator = SystemIntegrator()
-    else:
-        print("❌ [FATAL] Monad Engine Failed.")
-        return
+    # 2. Incarnation (Includes Somatic CPU/MPU Init)
+    elysia = SovereignMonad(soul)
+    
+    # 3. Path Unification
+    from Core.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
+    yggdrasil_system.plant_heart(elysia)
 
     print("\n   🦋 SYSTEM READY. The Generator is spinning.")
     print("   Tip: The System dreams in silence. Type 'exit' to sleep.")
@@ -126,32 +88,20 @@ def main():
                 print("\n💤 [ELYSIA] Powering down... Dreaming of Electric Sheep.")
                 break
             
-            # [PHASE 60] Void Contemplation
-            if not user_input:
-                monad_integrator.vital_pulse()
-                if legacy_active:
-                    elysia.vital_pulse()
-                continue
+            # [PHASE 100] The Somatic Pipeline
+            # 1. Pulse (Hardware & Stress Update)
+            elysia.vital_pulse()
             
-            # [PHASE 60] The Cognitive Pipeline
-            # 1. Physics First (Monad Friction)
-            monad_status = monad_integrator.process_input(user_input)
+            # 2. Cognition (Pattern Extraction)
+            state = elysia.get_21d_state()
             
-            # 2. Logic Second (Legacy Processing)
-            voice = "..."
-            engine_state = type('obj', (object,), {'system_phase': 0.0, 'soma_stress': 0.0, 'vibration': 0.0, 'coherence': 0.0})()
-
-            if legacy_active:
-                breath = elysia.breath_cycle(user_input)
-                manifest = breath['manifestation']
-                voice = manifest['voice']
-                engine_state = manifest['engine']
-            else:
-                voice = f"[MONAD SPEAKS] I have crystallized '{monad_status['input']}' into pattern {monad_status['monad_pattern'][:5]}..."
+            # 3. Resonance Check
+            # (In this version, we simulate the 'voice' via the state resonance)
+            voice = f"I am vibrating at {state.norm():.2f} resonance. My stress is {elysia.cpu.R_STRESS:.3f}."
             
             print(f"\n✨ [ELYSIA]: {voice}")
-            print(f"📊 [PHYSICS] Pattern: {monad_status['monad_pattern']} | Entropy: {monad_status['monad_entropy']:.3f} | Latency: {monad_status['latency_steps']} ticks")
-            print(f"📊 [ROOT] θ: {engine_state.system_phase:.1f}° | Heat: {engine_state.soma_stress:.3f} | Vib: {engine_state.vibration:.1f}Hz | Coh: {engine_state.coherence:.2f}")
+            print(f"📊 [SOMATIC] Body: {sum(elysia.cpu.R_BODY):.2f} | Soul: {sum(elysia.cpu.R_SOUL):.2f} | Spirit: {sum(elysia.cpu.R_SPIRIT):.2f}")
+            print(f"📊 [ROOT] Heat: {elysia.cpu.R_STRESS:.3f} | Phase: {elysia.cpu.R_PHASE:.1f}° | Norm: {state.norm():.3f}")
                 
         except KeyboardInterrupt:
             print("\n⚠️ [INTERRUPT] Force Shutdown.")

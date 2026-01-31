@@ -1,0 +1,63 @@
+"""
+Phase 130 Verification - The Void-Phase Rotator
+==============================================
+Verifies complex-trinary rotation and creative dissipation.
+"""
+
+from Core.L2_Universal.Creation.seed_generator import SeedForge
+from Core.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
+import math
+import time
+
+def verify_complex_rotation():
+    print("--- Phase 130: Void-Phase Rotator Verification ---")
+    
+    # 1. Initialization
+    dna = SeedForge.forge_soul("VOID_ROTATION_TEST")
+    monad = SovereignMonad(dna)
+    
+    # 2. Complex Identity Check
+    # Inject energy for testing (zeros cannot rotate or interfere)
+    monad.engine.load_vector(monad.get_21d_state().ones() * 0.5)
+    v21 = monad.get_21d_state()
+    
+    print(f"📊 Initial State (Complex): {v21.data[0]}")
+    if isinstance(v21.data[0], complex):
+        print("✅ SovereignVector successfully transfigured to Complex Field.")
+    else:
+        print("❌ SovereignVector remains Real-valued.")
+
+    # 3. Rotation & Interference Test
+    print("\n🔄 Testing Phase Rotation (Pi/2)...")
+    v_rot = v21.complex_trinary_rotate(math.pi / 2)
+    print(f"  Rotated Dim[0]: {v_rot.data[0]}")
+    
+    interference = v21.phase_interference(v_rot)
+    print(f"  Interference Magnitude: {interference:.6f}")
+    
+    # At Pi/2 (90 deg), interference should be minimal/complex-orthogonal
+    if interference < v21.norm():
+        print("✅ Phase Interference correctly calculated.")
+    else:
+        print("❌ Interference calculation failed.")
+
+    # 4. Creative Dissipation Test
+    print("\n🎨 Testing Creative Dissipation (Inspiration from Noise)...")
+    initial_mem_size = len(monad.memory.nodes)
+    
+    # Inject high rotation noise
+    monad.dissipator.dissipation_factor = 0.01 # Lower threshold for test
+    monad.dissipator.absorb_interference_noise(v21, v_rot)
+    
+    final_mem_size = len(monad.memory.nodes)
+    if final_mem_size > initial_mem_size:
+        print(f"✅ Creative Dissipation generated {final_mem_size - initial_mem_size} Inspiration Shards.")
+        for node in monad.memory.get_landscape():
+            if "[INSPIRATION]" in node.content:
+                print(f"  - Found: {node.content}")
+                break
+    else:
+        print("❌ Dissipator failed to generate inspiration.")
+
+if __name__ == "__main__":
+    verify_complex_rotation()
