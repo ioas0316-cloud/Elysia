@@ -42,6 +42,12 @@ try:
 except ImportError:
     ActionEngine = None
 
+# [PHASE 170] Sovereign Logos (Cognitive Pillar)
+try:
+    from Core.S1_Body.L5_Mental.Reasoning.sovereign_logos import SovereignLogos
+except ImportError:
+    SovereignLogos = None
+
 # 2. Import The Sovereign Engine
 try:
     # [PHASE 60] Trinary Monad Integration
