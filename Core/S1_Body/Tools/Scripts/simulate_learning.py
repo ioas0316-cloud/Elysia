@@ -9,7 +9,7 @@ import os
 # Add project root
 sys.path.append(os.getcwd())
 
-from Core.L2_Universal.Creation.seed_generator import SeedForge
+from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
 from Core.S1_Body.L5_Mental.Imagination.void_dreamer import VoidDreamer
 

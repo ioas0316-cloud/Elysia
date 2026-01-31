@@ -9,7 +9,7 @@ Translates cognitive leaps into physical experience (Lightning Paths).
 """
 
 from typing import Any, Dict, List
-from Core.L0_Sovereignty.sovereign_math import SovereignVector
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 from Core.S1_Body.L4_Causality.fractal_causality import FractalCausalityEngine
 
 class ResonanceGate:

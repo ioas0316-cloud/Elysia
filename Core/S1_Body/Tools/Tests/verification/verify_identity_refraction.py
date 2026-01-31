@@ -1,5 +1,5 @@
 import jax.numpy as jnp
-from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
+from Core.S1_Body.L5_Mental.Reasoning.logos_synthesizer import LogosSynthesizer
 
 def verify_identity_refraction():
     print("=== Phase 41 & 42 Verification: Identity & Refraction ===")

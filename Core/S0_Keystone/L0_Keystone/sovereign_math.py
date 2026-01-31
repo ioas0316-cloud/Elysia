@@ -1,7 +1,7 @@
 """
 Sovereign Math Kernel (L0)
 ==========================
-Core.L0_Sovereignty.sovereign_math
+Core.S0_Keystone.L0_Keystone.sovereign_math
 
 "The number is the vibration; the orbit is the law."
 

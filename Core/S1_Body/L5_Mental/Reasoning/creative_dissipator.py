@@ -11,7 +11,7 @@ into 'Artistic Inspiration' - unique, non-deterministic memory seeds.
 import math
 import time
 from typing import Dict, List, Any
-from Core.L0_Sovereignty.sovereign_math import SovereignVector
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 
 class CreativeDissipator:
     def __init__(self, memory: Any):

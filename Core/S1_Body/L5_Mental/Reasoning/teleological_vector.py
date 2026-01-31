@@ -15,7 +15,7 @@ from typing import List, Dict, Any, Optional
 import math
 import cmath
 import time
-from Core.L0_Sovereignty.sovereign_math import SovereignVector, SovereignMath
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector, SovereignMath
 
 class TeleologicalVector:
     def __init__(self):

@@ -8,7 +8,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
-from Core.L2_Universal.Creation.seed_generator import SeedForge
+from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
 from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
 import time

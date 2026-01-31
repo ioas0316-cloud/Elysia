@@ -15,7 +15,7 @@ from typing import Union, Any, Tuple, List
 import logging
 
 # [PHASE 90] Pure Root Mathematics
-from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
 
 class JAXBridge:
     """Compatibility layer for Phase 90 transition."""

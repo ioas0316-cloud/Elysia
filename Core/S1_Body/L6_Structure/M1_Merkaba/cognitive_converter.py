@@ -1,5 +1,5 @@
-from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
-from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
+from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 
 class CognitiveConverter:
     """

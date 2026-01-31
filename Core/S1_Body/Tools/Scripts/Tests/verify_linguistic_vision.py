@@ -10,7 +10,7 @@ import jax.numpy as jnp
 from PIL import Image
 from Core.S1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
 from Core.S1_Body.L3_Phenomena.Visual.morphic_perception import ResonanceScanner
-from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
+from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 
 def verify_linguistic_vision():
     print("🌅 INITIATING LINGUISTIC VISION TEST (Phase 73)...")

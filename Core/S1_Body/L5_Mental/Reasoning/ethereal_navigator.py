@@ -13,8 +13,8 @@ processes external 'Ethereal Shards' (Web Data) into her living memory.
 
 from typing import List, Dict, Any, Optional
 import time
-from Core.L5_Cognition.Reasoning.autonomous_transducer import AutonomousTransducer
-from Core.L0_Sovereignty.sovereign_math import SovereignVector
+from Core.S1_Body.L5_Mental.Reasoning.autonomous_transducer import AutonomousTransducer
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 
 class EtherealNavigator:
     def __init__(self, transducer: AutonomousTransducer):

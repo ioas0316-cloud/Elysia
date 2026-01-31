@@ -24,7 +24,7 @@ import math
 import cmath
 
 from Core.S1_Body.L1_Foundation.System.tri_base_cell import TriBaseCell, DNAState
-from Core.L0_Sovereignty.sovereign_math import SovereignMath, SovereignVector
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
 
 @dataclass
 class ResonanceState:

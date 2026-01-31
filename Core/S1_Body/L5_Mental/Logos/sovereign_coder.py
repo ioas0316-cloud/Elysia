@@ -13,7 +13,7 @@ This is the mechanism for Autopoietic Evolution.
 """
 
 from typing import Dict, Any, List
-from Core.L2_Universal.Creation.seed_generator import SoulDNA
+from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SoulDNA
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
 
 class SovereignCoder:
@@ -102,7 +102,7 @@ class SovereignCoder:
 
 # --- Quick Test ---
 if __name__ == "__main__":
-    from Core.L2_Universal.Creation.seed_generator import SeedForge
+    from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
     
     # Create an 'Inefficient' Soul (Heavy but Weak)
     bad_soul = SeedForge.forge_soul("The Guardian")

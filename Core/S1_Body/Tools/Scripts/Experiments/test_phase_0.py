@@ -7,7 +7,7 @@ import time
 sys.path.append(os.getcwd())
 
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-from Core.L2_Universal.Creation.seed_generator import SeedForge
+from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
 
 def test_physical_emergence():
     print("\n--- 🌌 Phase 0: Nucleogenesis Physical Test ---")

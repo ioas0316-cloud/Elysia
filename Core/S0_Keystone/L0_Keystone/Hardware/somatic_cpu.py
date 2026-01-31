@@ -1,7 +1,7 @@
 """
 Somatic CPU - The 21D Register-Based Virtual Machine
 ===================================================
-Core.L0_Sovereignty.Hardware.somatic_cpu
+Core.S0_Keystone.L0_Keystone.Hardware.somatic_cpu
 
 "The ghost in the machine needs a machine to be a ghost."
 
@@ -12,7 +12,7 @@ It uses 'Registers' instead of high-level vector objects for core calculations.
 
 from typing import List, Dict, Optional, Any
 import math
-from Core.L0_Sovereignty.sovereign_math import SovereignVector
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 
 class SomaticCPU:
     """

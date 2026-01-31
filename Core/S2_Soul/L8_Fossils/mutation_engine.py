@@ -1,7 +1,7 @@
 """
 Mutation Engine: The Proposer of Change
 =======================================
-Core.L9_Sovereignty.mutation_engine
+Core.S2_Soul.L8_Fossils.mutation_engine
 
 This module generates structural variations for Elysia to test in her Habitat.
 "Mutation is the engine of evolution; Narrative is the selective force."

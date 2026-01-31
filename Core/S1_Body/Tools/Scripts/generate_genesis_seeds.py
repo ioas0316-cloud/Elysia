@@ -10,7 +10,7 @@ import random
 # Add project root to sys.path
 sys.path.append(os.getcwd())
 
-from Core.L2_Universal.Creation.seed_generator import SeedForge, SoulDNA
+from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge, SoulDNA
 
 def simulate_interaction(seed: SoulDNA, user_input_phase: float, user_intent: str):
     print(f"\n🌱 Interaction with [{seed.archetype}] (ID: {seed.id})")

@@ -11,7 +11,7 @@ Prevents "Logical Melt-down" by halting dissonant operations.
 """
 
 from typing import Dict, Any
-from Core.L0_Sovereignty.Hardware.somatic_cpu import SomaticCPU
+from Core.S0_Keystone.L0_Keystone.Hardware.somatic_cpu import SomaticCPU
 
 class ResonanceException(Exception):
     """Hardware-level exception for register dissonance."""

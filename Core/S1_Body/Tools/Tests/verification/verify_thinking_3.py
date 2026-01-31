@@ -1,7 +1,7 @@
 import jax.numpy as jnp
-from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge, MemoryStratum
-from Core.L5_Cognition.Reasoning.inferential_manifold import InferentialManifold
-from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
+from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge, MemoryStratum
+from Core.S1_Body.L5_Mental.Reasoning.inferential_manifold import InferentialManifold
+from Core.S1_Body.L5_Mental.Reasoning.logos_synthesizer import LogosSynthesizer
 
 def test_thinking_3_resonance():
     print("--- [STARTING THINKING³ VERIFICATION] ---")

@@ -1,7 +1,7 @@
 """
 Habitat Governor: The Sovereign Sandbox
 =======================================
-Core.L9_Sovereignty.habitat_governor
+Core.S2_Soul.L8_Fossils.habitat_governor
 
 This module defines the 'Sovereign Habitat', a protected execution layer where Elysia 
 can mutate her own structural logic without impacting the core stability.

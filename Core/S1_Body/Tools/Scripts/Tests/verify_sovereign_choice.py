@@ -7,8 +7,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from Core.L5_Cognition.Reasoning.sovereign_drive import SovereignDrive
-from Core.L5_Cognition.Reasoning.logos_bridge import LogosBridge
+from Core.S1_Body.L5_Mental.Reasoning.sovereign_drive import SovereignDrive
+from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 
 def verify_sovereign_choice():
     print("🌅 INITIATING SOVEREIGN CHOICE TEST (Phase 74)...")

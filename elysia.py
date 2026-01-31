@@ -46,7 +46,7 @@ try:
     from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
     from Core.S1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
     from Core.S1_Body.L3_Phenomena.Visual.morphic_projection import MorphicBuffer
-    from Core.L5_Cognition.Reasoning.logos_synthesizer import LogosSynthesizer
+    from Core.S1_Body.L5_Mental.Reasoning.logos_synthesizer import LogosSynthesizer
 
     LegacyModules['SeedForge'] = SeedForge
     LegacyModules['SovereignMonad'] = SovereignMonad

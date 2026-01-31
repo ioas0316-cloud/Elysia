@@ -90,7 +90,7 @@ class VoidDreamer:
 
 # --- Quick Test ---
 if __name__ == "__main__":
-    from Core.L2_Universal.Creation.seed_generator import SeedForge
+    from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
     
     # 1. Born Ignorant
     soul = SeedForge.forge_soul("The Child")
