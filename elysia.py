@@ -36,6 +36,12 @@ try:
 except ImportError:
     DreamRecuser = None
 
+# [PHASE 165] Sovereign Action Engine
+try:
+    from Core.S1_Body.Tools.action_engine import ActionEngine
+except ImportError:
+    ActionEngine = None
+
 # 2. Import The Sovereign Engine
 try:
     # [PHASE 60] Trinary Monad Integration
