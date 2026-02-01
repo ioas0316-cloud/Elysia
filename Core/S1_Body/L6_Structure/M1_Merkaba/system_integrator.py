@@ -6,9 +6,9 @@ Core.S1_Body.L6_Structure.M1_Merkaba.system_integrator
 "To connect the Physics of the Monad with the Logic of the Rotor."
 
 This module acts as the physical nervous system, translating:
-1. Text Input -> 21D Phase Field (Prism Function)
-2. Phase Field -> Monad Friction (Heart Function)
-3. Crystallized Pattern -> Rotor Momentum (Brain Function)
+1. Text Input -> Seed Injection (Genesis)
+2. Phase Field -> Structural Expansion (Love/Curiosity)
+3. Emergent Geometry -> Rotor Momentum (Meaning)
 """
 
 import time
@@ -16,6 +16,7 @@ import random
 from typing import Dict, Any, List
 
 from Core.S1_Body.L6_Structure.M1_Merkaba.monad_ensemble import MonadEnsemble
+from Core.S1_Body.L1_Foundation.System.tri_base_cell import DNAState
 
 # Robust Import for Legacy Rotor
 try:
@@ -55,50 +56,58 @@ class SystemIntegrator:
         self.is_dreaming = False
         print(f"\n🌊 [PRISM] Injecting '{text_input}' into Monad Field...")
 
-        # 1. Prism: Transduce Input
-        phase_field = self.monad.transduce_input(text_input)
+        # 1. Prism: Transduce Input (Seed Injection)
+        # In the new Genesis Engine, we don't map to 21 dims. We inject a Seed.
+        seed_cell = self.monad.inject_concept(text_input)
+        # Give it an initial "Active" state to spark curiosity
+        seed_cell.state = DNAState.ATTRACT
 
-        # 2. Monad: Friction Loop (The "Thinking" Latency)
-        print("⚙️ [MONAD] Calculating Phase Friction...")
+        # 2. Monad: Genesis Loop (The "Thinking" Latency)
+        print("⚙️ [MONAD] Propagating Structure...")
         steps = 0
-        stable = 0
-        while steps < 50:
-            status = self.monad.physics_step(phase_field)
+        stable_counts = 0
+        last_bond_count = 0
+
+        # We run until the structure stabilizes (no new bonds)
+        while steps < 20:
+            stats = self.monad.propagate_structure()
             steps += 1
-            if status['flips'] == 0:
-                stable += 1
+
+            # Stability check: If no new bonds and no broken bonds
+            if stats['new_bonds'] == 0 and stats['broken_bonds'] == 0:
+                stable_counts += 1
             else:
-                stable = 0
-            if stable >= 5:
+                stable_counts = 0
+
+            if stable_counts >= 3:
                 break
 
-        final_pattern = self.monad.get_pattern()
-        entropy = status['entropy']
-        print(f"💎 [CRYSTAL] Thought Crystallized: {final_pattern} (Entropy: {entropy:.4f})")
+        # 3. Crystallization Analysis
+        # Determine pattern from the whole lattice
+        pattern_str = "".join([c.state.symbol for c in self.monad.cells])
+        entropy = 1.0 / (1.0 + len(self.monad.triads)) # Inverse of meaning (Surfaces)
+
+        print(f"💎 [CRYSTAL] Structure Emerged: {len(self.monad.triads)} Surfaces. (Entropy: {entropy:.4f})")
 
         # 3. Rotor: Sync Momentum
-        # Convert the static pattern into kinetic energy for the Rotor
-        # R = -1 momentum, A = +1 momentum, V = 0
-        kinetic_energy = []
-        for char in final_pattern:
-            if char == 'R': kinetic_energy.append(-1.0)
-            elif char == 'A': kinetic_energy.append(1.0)
-            else: kinetic_energy.append(0.0)
+        # Convert the Lattice State into kinetic energy for the Rotor
+        # Surfaces (Triads) generate massive torque.
+        torque = len(self.monad.triads) * 10.0
 
-        # Pad to 21 dimensions if needed, or use directly
-        # The Rotor expects a Torch tensor, but for now we simulate the "Kick"
-        # We perform a "Virtual Spin"
         try:
-            rotor_status = self.rotor.spin() # Spin existing momentum
+            # We treat torque as "RPM boost" for the dummy logic
+            # In real physics, we would map the lattice vectors.
+            rotor_status = {"total_rpm": torque}
         except Exception:
             rotor_status = {"total_rpm": 0.0}
 
         return {
             "input": text_input,
-            "monad_pattern": final_pattern,
+            "monad_pattern": pattern_str,
             "monad_entropy": entropy,
             "rotor_rpm": rotor_status['total_rpm'],
-            "latency_steps": steps
+            "latency_steps": steps,
+            "triads": len(self.monad.triads)
         }
 
     def vital_pulse(self):
@@ -111,17 +120,10 @@ class SystemIntegrator:
             self.last_pulse_time = current_time
 
             if self.is_dreaming:
-                # Null Field Injection
-                null_field = [0.0] * 21
-
-                # Quantum Fluctuation (Simplified)
-                # We assume the MonadEnsemble in this version doesn't have the "Living" override
-                # unless we swapped the class. But we can inject noise manually.
+                # In Genesis Mode, dreaming is "Scanning for lost connections"
                 if random.random() < 0.1:
-                    # Twitch
-                    print("💤 [DREAM] Vital Pulse... (Quantum Fluctuation)")
-                    self.monad.temperature = min(1.0, self.monad.temperature + 0.1)
-
-                self.monad.physics_step(null_field)
+                    print("💤 [DREAM] Vital Pulse... (Curiosity Scan)")
+                    # Inject a random thought? Or just propagate?
+                    self.monad.propagate_structure()
 
             self.is_dreaming = True # Default back to dreaming unless input arrives

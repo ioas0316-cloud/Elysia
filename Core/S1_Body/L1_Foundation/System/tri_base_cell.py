@@ -19,8 +19,13 @@ statistical alignment of these microscopic cells.
 
 import math
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
+from typing import List, TYPE_CHECKING, Any
+
+# Avoid circular import during runtime, allow for type checking
+if TYPE_CHECKING:
+    from Core.S1_Body.L6_Structure.M1_Merkaba.ternary_bond import TernaryBond
 
 class DNAState(Enum):
     REPEL = -1
@@ -56,6 +61,14 @@ class TriBaseCell:
     state: DNAState = DNAState.VOID
     energy: float = 1.0 # Health/Stability of this cell
 
+    # The Structural Extension: Connections to other cells
+    # This transforms the Cell from a "Dot" to a "Node"
+    bonds: List['TernaryBond'] = field(default_factory=list)
+
+    # Metadata for Conceptual Grounding (e.g., 'ㄱ', 'Hangul')
+    # The cell is not just physics; it carries a Seed of Meaning.
+    concept_seed: Any = None
+
     def __post_init__(self):
         # Random initialization if needed, but usually starts as Void
         pass
@@ -63,6 +76,7 @@ class TriBaseCell:
     def mutate(self, new_state: DNAState):
         """Changes the state of the cell."""
         self.state = new_state
+        # Updating state might stress existing bonds, but that is calculated in the Bond class.
 
     def get_vector(self) -> tuple[float, float]:
         """
@@ -94,4 +108,5 @@ class TriBaseCell:
         return math.cos(math.radians(diff))
 
     def __repr__(self):
-        return f"[{self.state.symbol}]"
+        c = f"'{self.concept_seed}'" if self.concept_seed else str(self.id)
+        return f"[{self.state.symbol}:{c}]"

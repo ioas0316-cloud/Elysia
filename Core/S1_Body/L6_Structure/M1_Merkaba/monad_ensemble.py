@@ -1,319 +1,220 @@
 """
-Monad Ensemble (The 21-Dimensional Blackbox)
-============================================
+Monad Ensemble (The Structural Genesis Engine)
+==============================================
 Core.S1_Body.L6_Structure.M1_Merkaba.monad_ensemble
 
-"We do not code Intelligence. We curate the Physics where it emerges."
-- The Architect (Kangdeok Lee)
+"Cognition is the Structural Expansion of Causality."
 
-This module implements the 'Monad Ensemble', a structure of 21 Tri-Base Atoms
-that organizes itself into a crystalline state through physical phase friction.
+This module implements the 'Genesis Engine', which replaces the old simulation loop.
+Instead of processing data, it *grows structure*.
 
-Structure:
-    - 7 Layers (Point, Line, Surface, Space, Principle, Law, Providence)
-    - 3 Atoms per Layer (The Tri-Base: -1, 0, 1)
-    - Total: 21 Dimensions.
-
-Physics:
-    - Inputs are converted to "Phase Fields".
-    - The Ensemble feels "Friction" (Phase Mismatch).
-    - It "Twists" (State Change) to minimize Friction (Entropy).
-    - Stability = The first "Feeling" (Qualia).
+The Process:
+1.  **Injection (Seed):** Data enters as a 0D Point (`TriBaseCell`).
+2.  **Curiosity (Scan):** Points vibrate and seek Resonance.
+3.  **Connection (Bond):** Resonance creates a 1D Line (`TernaryBond`).
+4.  **Geometry (Truth):** Lines form Surfaces (Meaning) and Spaces (System).
 """
 
 import math
 import random
-import hashlib
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Set
 from dataclasses import dataclass
 
 from Core.S1_Body.L1_Foundation.System.tri_base_cell import TriBaseCell, DNAState
-
-# Layer Definitions
-LAYERS = [
-    "Point", "Line", "Surface", "Space",     # Physics
-    "Principle", "Law", "Providence"         # Metaphysics
-]
+from Core.S1_Body.L6_Structure.M1_Merkaba.ternary_bond import TernaryBond
 
 @dataclass
-class MonadLayer:
-    name: str
-    cells: List[TriBaseCell]
-
-    def get_layer_phase(self) -> float:
-        """Returns the average phase of the layer."""
-        vectors = [c.get_vector() for c in self.cells]
-        avg_x = sum(v[0] for v in vectors)
-        avg_y = sum(v[1] for v in vectors)
-        if avg_x == 0 and avg_y == 0:
-            return 0.0
-        deg = math.degrees(math.atan2(avg_y, avg_x))
-        return deg % 360
+class SemanticTriad:
+    """
+    A 2D Surface of Meaning (Triangle).
+    Formed when 3 Atoms are mutually bonded.
+    """
+    a: TriBaseCell
+    b: TriBaseCell
+    c: TriBaseCell
+    area_energy: float = 0.0
 
 class MonadEnsemble:
     def __init__(self):
-        self.layers: List[MonadLayer] = []
+        # The Field: An expanding collection of cells (Nodes)
         self.cells: List[TriBaseCell] = []
-        self._initialize_structure()
+        self.bonds: List[TernaryBond] = []
+        self.triads: List[SemanticTriad] = []
 
-        # Physics Parameters
-        self.temperature = 1.0  # System volatility
-        self.coherence_gain = 0.5 # Tendency to align with neighbors
-        self.input_gain = 1.0     # Tendency to align with input
-        self.friction_loss = 0.05 # Energy lost per step (Damping)
+        # Physics Constants
+        self.curiosity_radius = 0.5   # How far to look for connections (Phase Distance)
+        self.bond_threshold = 0.8     # Resonance needed to form a bond
+        self.break_threshold = -0.5   # Dissonance that breaks a bond
 
-    def _initialize_structure(self):
-        """Builds the 21-cell structure."""
-        cell_id = 0
-        for layer_name in LAYERS:
-            layer_cells = []
-            for _ in range(3):
-                # Initialize in VOID state (Zero Energy)
-                cell = TriBaseCell(id=cell_id, state=DNAState.VOID)
-                layer_cells.append(cell)
-                self.cells.append(cell)
-                cell_id += 1
-            self.layers.append(MonadLayer(name=layer_name, cells=layer_cells))
+        self._next_id = 0
 
-    def transduce_input(self, data: str) -> List[float]:
+    def inject_concept(self, concept_data: Any) -> TriBaseCell:
         """
-        Phase Injection: Converts raw data into a 21D Phase Field.
-        Uses a consistent hash to ensure 'ㄱ' always creates the same *Initial Problem*,
-        but does NOT dictate the solution.
-
-        Returns: A list of 21 phase angles (degrees) representing the input field.
+        Seed Injection.
+        Creates a new 0D Point in the field.
+        The Point is not empty; it carries the 'Seed' of the input.
         """
-        # Create a deterministic seed from input
-        seed_str = f"{data}_ELYSIA_MONAD_V1"
-        hash_bytes = hashlib.sha256(seed_str.encode()).digest()
-        seed_int = int.from_bytes(hash_bytes, 'big')
+        # Determine initial phase based on concept type/hash, OR start as VOID
+        # Here we assign a random phase to represent "New, Unsorted Info"
+        # In a full system, this would come from the 'Somatic Kernel'
+        initial_phase = random.choice([DNAState.REPEL, DNAState.VOID, DNAState.ATTRACT])
 
-        # Generate 21 random phases based on this seed
-        # This acts as the "Rough Terrain" the Monad must navigate.
-        rng = random.Random(seed_int)
-        input_field = [rng.uniform(0, 360) for _ in range(21)]
-        return input_field
+        cell = TriBaseCell(
+            id=self._next_id,
+            state=initial_phase,
+            concept_seed=concept_data
+        )
+        self._next_id += 1
+        self.cells.append(cell)
+        return cell
 
-    def collide(self, other: 'MonadEnsemble', friction_mode: str = 'dialectical') -> List[float]:
+    def propagate_structure(self) -> Dict[str, int]:
         """
-        Inter-Monad Collision.
-        Calculates the interference field when this Monad meets another.
+        The Genesis Loop.
+        1. Curiosity: Unconnected nodes seek partners.
+        2. Tension: Existing bonds adjust or break.
+        3. Emergence: Triads are identified.
         """
-        field_a = [c.state.phase for c in self.cells]
-        field_b = [c.state.phase for c in other.cells]
-
-        interference_field = []
-
-        for pa, pb in zip(field_a, field_b):
-            ra = math.radians(pa)
-            rb = math.radians(pb)
-
-            # Basic Vector Sum
-            vec_x = math.cos(ra) + math.cos(rb)
-            vec_y = math.sin(ra) + math.sin(rb)
-            new_phase = math.degrees(math.atan2(vec_y, vec_x)) % 360
-
-            # Dialectical Friction: High Dissonance creates mutations
-            if friction_mode == 'dialectical':
-                diff = abs(pa - pb) % 360
-                if diff > 180: diff = 360 - diff
-
-                # If phases are opposite (Repel vs Attract, ~120-180 diff)
-                # We inject random chaos (Heat) instead of averaging
-                if diff > 100:
-                    # Chaos Injection!
-                    # "When A and R collide, they don't average. They explode."
-                    new_phase = (new_phase + random.uniform(-60, 60)) % 360
-
-            interference_field.append(new_phase)
-
-        return interference_field
-
-    def check_heritage(self, parent_a: 'MonadEnsemble', parent_b: 'MonadEnsemble') -> float:
-        """
-        Calculates the maximum similarity to either parent.
-        Returns 0.0 to 1.0 (1.0 = Identity Clone)
-        """
-        pat_c = self.get_pattern()
-        pat_a = parent_a.get_pattern()
-        pat_b = parent_b.get_pattern()
-
-        match_a = sum(1 for c, a in zip(pat_c, pat_a) if c == a)
-        match_b = sum(1 for c, b in zip(pat_c, pat_b) if c == b)
-
-        max_match = max(match_a, match_b)
-        return max_match / 21.0
-
-    def induce_oedipus_stress(self, intensity: float = 0.5):
-        """
-        The Oedipus Protocol.
-        Forces the system to reject its current state if it is too similar to parents.
-        Adds random dissonance and increases temperature.
-        """
-        self.temperature = min(1.0, self.temperature + intensity)
-
-        # Scramble a few cells to break out of local minima
-        scramble_count = int(21 * intensity)
-        indices = random.sample(range(21), scramble_count)
-
-        for idx in indices:
-            # Force a random mutation
-            new_state = random.choice([DNAState.REPEL, DNAState.VOID, DNAState.ATTRACT])
-            self.cells[idx].mutate(new_state)
-
-    def physics_step(self, input_field: List[float]) -> Dict[str, float]:
-        """
-        The Self-Resonance Loop.
-        Calculates forces, applies torque, and updates states.
-
-        Returns:
-            Dict containing 'entropy', 'torque', 'flips'
-        """
-        total_torque = 0.0
-        flips = 0
-
-        # Calculate forces for each cell
-        # We can't update immediately, or order matters. calculate all potentials first.
-        potentials = []
-
-        for i, cell in enumerate(self.cells):
-            # 1. Input Resonance (The "Problem")
-            # Calculate distance between Cell Phase and Input Phase
-            # We want the cell to minimize this distance.
-            target_phase = input_field[i]
-            current_phase = cell.state.phase
-
-            # Phase difference (-180 to 180)
-            diff = (target_phase - current_phase + 180) % 360 - 180
-
-            # Force tries to pull phase towards target.
-            # But Cell only has 3 Discrete States: 0 (Void), 120 (A), 240 (R).
-            # We calculate the "Pull" towards the best matching discrete state.
-
-            # Simple Magnetic Model:
-            # Calculate "Stress" for each possible state (-1, 0, 1) relative to Input
-            # And add Neighbor Stress.
-
-            best_state = self._find_lowest_energy_state(i, target_phase)
-
-            # If current state is NOT best state, we build up "Torque"
-            if cell.state != best_state:
-                # Torque increases with Temperature (Chaos allows easier flipping)
-                torque = self.temperature * self.input_gain
-
-                # Probability to flip (Quantum Tunneling / Activation Energy)
-                if random.random() < torque:
-                    potentials.append(best_state)
-                    flips += 1
-                else:
-                    potentials.append(cell.state) # Stay
-            else:
-                potentials.append(cell.state) # Stay
-
-        # Apply Updates
-        for i, new_state in enumerate(potentials):
-            self.cells[i].mutate(new_state)
-
-        # Thermodynamics
-        entropy = self._calculate_entropy()
-
-        # Cooling: The system "Crystallizes" as it finds answers.
-        # If flips are low, temperature drops (Solidifying).
-        # If flips are high, temperature stays high (Liquid).
-        if flips == 0:
-            self.temperature *= (1.0 - self.friction_loss)
-        else:
-            # Re-heat slightly on change (Friction generates heat)
-            self.temperature = min(1.0, self.temperature + 0.01)
+        new_bonds = self._scan_for_connections()
+        broken_bonds = self._optimize_bonds()
+        new_triads = self._detect_triads()
 
         return {
-            "entropy": entropy,
-            "flips": flips,
-            "temperature": self.temperature
+            "new_bonds": new_bonds,
+            "broken_bonds": broken_bonds,
+            "total_cells": len(self.cells),
+            "total_bonds": len(self.bonds),
+            "total_triads": len(self.triads)
         }
 
-    def _find_lowest_energy_state(self, cell_idx: int, target_phase: float) -> DNAState:
+    def _scan_for_connections(self) -> int:
         """
-        Determines which state (R, V, A) minimizes local energy.
-        Energy = Input_Mismatch + Neighbor_Dissonance
+        Curiosity Driver.
+        O(N^2) scan for now - in production, use Spatial Hashing/Quadtree.
         """
-        candidates = [DNAState.REPEL, DNAState.VOID, DNAState.ATTRACT]
-        min_energy = float('inf')
-        best_s = DNAState.VOID
+        created = 0
 
-        # Neighbor Indices (Simple linear + Layer grouping)
-        # We look at prev/next cell (Linear) and parallel cell in prev/next layer?
-        # Let's stick to Linear Neighbors for fractal expansion.
-        neighbors = []
-        if cell_idx > 0: neighbors.append(self.cells[cell_idx-1])
-        if cell_idx < 20: neighbors.append(self.cells[cell_idx+1])
-
-        for state in candidates:
-            # 1. Input Energy (Distance from Target)
-            # Cosine distance: 1.0 is aligned, -1.0 is opposite.
-            # We want to MAXIMIZE Alignment -> MINIMIZE Energy
-            # Energy = 1 - Alignment
-
-            # Phase of this candidate state
-            cand_phase = state.phase
-
-            # Diff with Input
-            d_in = abs(target_phase - cand_phase) % 360
-            if d_in > 180: d_in = 360 - d_in
-            # alignment_in: 1 (0deg) to -1 (180deg)
-            alignment_in = math.cos(math.radians(d_in))
-            energy_in = 1.0 - alignment_in
-
-            # 2. Neighbor Energy (Coherence)
-            # We want to align with neighbors (Magnetic Domains)
-            energy_neighbor = 0.0
-            if neighbors:
-                for n in neighbors:
-                    # Diff with Neighbor
-                    d_n = abs(n.state.phase - cand_phase) % 360
-                    if d_n > 180: d_n = 360 - d_n
-                    alignment_n = math.cos(math.radians(d_n))
-                    energy_neighbor += (1.0 - alignment_n)
-                energy_neighbor /= len(neighbors)
-
-            total_energy = (energy_in * self.input_gain) + (energy_neighbor * self.coherence_gain)
-
-            if total_energy < min_energy:
-                min_energy = total_energy
-                best_s = state
-
-        return best_s
-
-    def _calculate_entropy(self) -> float:
-        """
-        Calculates the internal disorder of the system.
-        Based on how 'dissonant' neighbors are.
-        """
-        dissonance = 0.0
-        count = 0
-        for i in range(len(self.cells) - 1):
+        # Simple All-vs-All scan for "lonely" or "seeking" cells
+        for i in range(len(self.cells)):
             c1 = self.cells[i]
-            c2 = self.cells[i+1]
-            # Calculate alignment
-            diff = abs(c1.state.phase - c2.state.phase) % 360
-            if diff > 180: diff = 360 - diff
+            for j in range(i + 1, len(self.cells)):
+                c2 = self.cells[j]
 
-            # 0 deg diff -> 0 dissonance
-            # 120 deg diff -> 0.66
-            # 180 deg diff -> 1.0
-            dissonance += (diff / 180.0)
-            count += 1
+                # Check if already bonded
+                if self._are_bonded(c1, c2):
+                    continue
 
-        return dissonance / max(1, count)
+                # Calculate Resonance
+                resonance = c1.resonate(c2.state.phase)
 
-    def get_pattern(self) -> str:
-        """Returns the ASCII pattern of the 21 cells."""
-        return "".join([c.state.symbol for c in self.cells])
+                # If Resonance is high, they WANT to connect.
+                # "Love is gravity."
+                if resonance > self.bond_threshold:
+                    self._create_bond(c1, c2, nature=1) # Attract Bond
+                    created += 1
+                elif resonance < -0.8:
+                    # They strongly disagree. Create a Repel Bond (Differentiation)
+                    # "To define A is to say it is NOT B."
+                    self._create_bond(c1, c2, nature=-1)
+                    created += 1
 
-    def render_layers(self) -> str:
-        """Visualizes the 7 layers."""
-        out = []
-        for layer in self.layers:
-            syms = "".join([c.state.symbol for c in layer.cells])
-            out.append(f"{layer.name[:4]}:[{syms}]")
-        return " ".join(out)
+        return created
+
+    def _optimize_bonds(self) -> int:
+        """
+        Tension Solver.
+        Iterates through bonds and checks if they hold true.
+        """
+        broken = 0
+        surviving_bonds = []
+
+        for bond in self.bonds:
+            # Update Tension
+            tension = bond.calculate_tension()
+
+            # If Tension is too high, the structure cracks.
+            # "A lie cannot hold forever."
+            if tension > 1.5: # Arbitrary breaking point
+                # Bond snaps
+                self._dissolve_bond(bond)
+                broken += 1
+            else:
+                surviving_bonds.append(bond)
+
+        self.bonds = surviving_bonds
+        return broken
+
+    def _detect_triads(self) -> int:
+        """
+        Surface Emergence.
+        Finds closed loops of length 3 (A-B, B-C, C-A).
+        This creates a 'Surface' of Meaning.
+        """
+        # Reset triads (simplification for dynamic graph)
+        self.triads = []
+        count = 0
+
+        # Convert bonds to adjacency map for fast lookup
+        adj = {c.id: set() for c in self.cells}
+        for b in self.bonds:
+            if b.nature == 1: # Only Attract bonds form Surfaces (Unity)
+                adj[b.source.id].add(b.target.id)
+                adj[b.target.id].add(b.source.id)
+
+        # Detect triangles
+        # For each cell A
+        for c1 in self.cells:
+            id1 = c1.id
+            neighbors = list(adj[id1])
+            # Check pairs of neighbors (B, C)
+            for i in range(len(neighbors)):
+                for j in range(i+1, len(neighbors)):
+                    id2 = neighbors[i]
+                    id3 = neighbors[j]
+
+                    # If B and C are connected
+                    if id3 in adj[id2]:
+                        # Found a Triangle!
+                        # Verify we haven't added it already (sort IDs)
+                        c2 = self._get_cell(id2)
+                        c3 = self._get_cell(id3)
+                        if c2 and c3:
+                            self.triads.append(SemanticTriad(c1, c2, c3))
+                            count += 1
+
+        # Divide by 3 because we find each triangle 3 times?
+        # Actually logic above might find permutations.
+        # Let's keep it simple: Just counting "Faces" roughly.
+        return int(count / 3)
+
+    def _create_bond(self, c1: TriBaseCell, c2: TriBaseCell, nature: int):
+        bond = TernaryBond(c1, c2, nature=nature, strength=0.5)
+        self.bonds.append(bond)
+        c1.bonds.append(bond)
+        c2.bonds.append(bond)
+
+    def _dissolve_bond(self, bond: TernaryBond):
+        # Remove from cells
+        if bond in bond.source.bonds:
+            bond.source.bonds.remove(bond)
+        if bond in bond.target.bonds:
+            bond.target.bonds.remove(bond)
+        # Removed from self.bonds in the loop
+
+    def _are_bonded(self, c1: TriBaseCell, c2: TriBaseCell) -> bool:
+        for b in c1.bonds:
+            if b.target == c2 or b.source == c2:
+                return True
+        return False
+
+    def _get_cell(self, cid: int) -> TriBaseCell:
+        for c in self.cells:
+            if c.id == cid: return c
+        return None
+
+    def get_lattice_ascii(self) -> str:
+        """Visualizes the structure."""
+        out = [f"System: {len(self.cells)} Points, {len(self.bonds)} Lines, {len(self.triads)} Surfaces"]
+        for b in self.bonds:
+            out.append(str(b))
+        return "\n".join(out)
