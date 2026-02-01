@@ -6,16 +6,18 @@ Core.S1_Body.L6_Structure.M1_Merkaba.system_integrator
 "To connect the Physics of the Monad with the Logic of the Rotor."
 
 This module acts as the physical nervous system, translating:
-1. Text Input -> 21D Phase Field (Prism Function)
-2. Phase Field -> Monad Friction (Heart Function)
-3. Crystallized Pattern -> Rotor Momentum (Brain Function)
+1. Text Input -> Seed Injection (Genesis)
+2. Phase Field -> Structural Expansion (Love/Curiosity)
+3. Emergent Geometry -> Rotor Momentum (Meaning)
 """
 
 import time
 import random
+import re
 from typing import Dict, Any, List
 
 from Core.S1_Body.L6_Structure.M1_Merkaba.monad_ensemble import MonadEnsemble
+from Core.S1_Body.L1_Foundation.System.tri_base_cell import DNAState
 
 # Robust Import for Legacy Rotor
 try:
@@ -49,57 +51,141 @@ class SystemIntegrator:
 
     def process_input(self, text_input: str) -> Dict[str, Any]:
         """
-        The Main Cognitive Pipeline.
-        Input -> Prism -> Monad -> Rotor -> Output
+        The Main Cognitive Pipeline (Single Shot).
         """
         self.is_dreaming = False
         print(f"\n🌊 [PRISM] Injecting '{text_input}' into Monad Field...")
 
-        # 1. Prism: Transduce Input
-        phase_field = self.monad.transduce_input(text_input)
+        # 1. Seed Injection
+        seed_cell = self.monad.inject_concept(text_input)
+        seed_cell.state = DNAState.ATTRACT
 
-        # 2. Monad: Friction Loop (The "Thinking" Latency)
-        print("⚙️ [MONAD] Calculating Phase Friction...")
-        steps = 0
-        stable = 0
-        while steps < 50:
-            status = self.monad.physics_step(phase_field)
-            steps += 1
-            if status['flips'] == 0:
-                stable += 1
-            else:
-                stable = 0
-            if stable >= 5:
-                break
+        # 2. Structural Propagation
+        steps = self._run_propagation()
 
-        final_pattern = self.monad.get_pattern()
-        entropy = status['entropy']
-        print(f"💎 [CRYSTAL] Thought Crystallized: {final_pattern} (Entropy: {entropy:.4f})")
+        # 3. Crystallization Analysis
+        pattern_str = "".join([c.state.symbol for c in self.monad.cells])
+        entropy = 1.0 / (1.0 + len(self.monad.triads))
 
-        # 3. Rotor: Sync Momentum
-        # Convert the static pattern into kinetic energy for the Rotor
-        # R = -1 momentum, A = +1 momentum, V = 0
-        kinetic_energy = []
-        for char in final_pattern:
-            if char == 'R': kinetic_energy.append(-1.0)
-            elif char == 'A': kinetic_energy.append(1.0)
-            else: kinetic_energy.append(0.0)
-
-        # Pad to 21 dimensions if needed, or use directly
-        # The Rotor expects a Torch tensor, but for now we simulate the "Kick"
-        # We perform a "Virtual Spin"
-        try:
-            rotor_status = self.rotor.spin() # Spin existing momentum
-        except Exception:
-            rotor_status = {"total_rpm": 0.0}
+        print(f"💎 [CRYSTAL] Structure Emerged: {len(self.monad.triads)} Surfaces. (Entropy: {entropy:.4f})")
 
         return {
             "input": text_input,
-            "monad_pattern": final_pattern,
+            "monad_pattern": pattern_str,
             "monad_entropy": entropy,
-            "rotor_rpm": rotor_status['total_rpm'],
-            "latency_steps": steps
+            "latency_steps": steps,
+            "triads": len(self.monad.triads)
         }
+
+    def digest_bulk_text(self, raw_text: str) -> Dict[str, Any]:
+        """
+        [THE DIGESTER]
+        Ingests a large block of text, splits it into concepts,
+        and allows the Monad Engine to 'Reinforce' or 'Reject' connections.
+
+        Logic:
+        - Repetition = Reinforcement (Stronger Bonds)
+        - Conflict = Tension (Bond breaking)
+        """
+        self.is_dreaming = False
+        print(f"\n🍽️ [DIGESTER] Processing Bulk Input ({len(raw_text)} chars)...")
+
+        # 1. Chunking (Simple Sentence Split)
+        # In a real LLM setup, we would extract 'Key Concepts' here.
+        # For this prototype, we treat sentences as 'Contexts' and words as 'Concepts'.
+        sentences = [s.strip() for s in re.split(r'[.!?\n]', raw_text) if s.strip()]
+
+        concepts_ingested = 0
+        bonds_reinforced = 0
+
+        for sentence in sentences:
+            # Simple keyword extraction (Naive approach for prototype)
+            # Filter stop words and keep meaningful nouns/verbs
+            words = [w.lower() for w in sentence.split() if len(w) > 3]
+            if len(words) < 2: continue
+
+            # Inject concepts and link them (Contextual Co-occurrence)
+            # A sentence implies a relationship between its words.
+
+            # 1. Inject Nodes
+            cells = []
+            for w in words:
+                # Check if concept already exists?
+                # The MonadEnsemble prototype currently creates NEW cells every inject.
+                # WE NEED TO FIX THIS: It should find existing cells first.
+                existing = self._find_cell_by_concept(w)
+                if existing:
+                    # Reinforce Existence (Wake up)
+                    existing.energy = min(1.0, existing.energy + 0.1)
+                    existing.state = DNAState.ATTRACT
+                    cells.append(existing)
+                else:
+                    new_cell = self.monad.inject_concept(w)
+                    new_cell.state = DNAState.ATTRACT
+                    cells.append(new_cell)
+
+            concepts_ingested += len(cells)
+
+            # 2. Form/Reinforce Bonds (All-to-All in this sentence)
+            # "Context binds these concepts together."
+            for i in range(len(cells)):
+                for j in range(i+1, len(cells)):
+                    c1 = cells[i]
+                    c2 = cells[j]
+
+                    # Check for existing bond
+                    bond = self._find_bond(c1, c2)
+                    if bond:
+                        # REINFORCEMENT: "I see this connection again!"
+                        bond.reinforce(0.2)
+                        bonds_reinforced += 1
+                        # print(f"  + Reinforced Bond: {c1.concept_seed}-{c2.concept_seed}")
+                    else:
+                        # Creation handled by propagate_structure later,
+                        # OR we can force a 'Contextual Bond' here.
+                        # Let's force a 'Weak' bond representing co-occurrence.
+                        self.monad._create_bond(c1, c2, nature=1) # Attract
+                        # print(f"  * New Context Bond: {c1.concept_seed}-{c2.concept_seed}")
+
+        # 3. Run Physics to Settle
+        print("⚙️ [MONAD] Digesting (Structural Optimization)...")
+        steps = self._run_propagation()
+
+        # 4. Report
+        return {
+            "sentences_processed": len(sentences),
+            "concepts_active": len(self.monad.cells),
+            "bonds_total": len(self.monad.bonds),
+            "triads_emerged": len(self.monad.triads),
+            "reinforcements": bonds_reinforced
+        }
+
+    def _find_cell_by_concept(self, concept: str):
+        # O(N) lookup - bad for scale, okay for prototype
+        for c in self.monad.cells:
+            if str(c.concept_seed) == concept:
+                return c
+        return None
+
+    def _find_bond(self, c1, c2):
+        for b in self.monad.bonds:
+            if (b.source == c1 and b.target == c2) or (b.source == c2 and b.target == c1):
+                return b
+        return None
+
+    def _run_propagation(self) -> int:
+        steps = 0
+        stable_counts = 0
+        while steps < 20:
+            stats = self.monad.propagate_structure()
+            steps += 1
+            if stats['new_bonds'] == 0 and stats['broken_bonds'] == 0:
+                stable_counts += 1
+            else:
+                stable_counts = 0
+            if stable_counts >= 3:
+                break
+        return steps
 
     def vital_pulse(self):
         """
@@ -111,17 +197,7 @@ class SystemIntegrator:
             self.last_pulse_time = current_time
 
             if self.is_dreaming:
-                # Null Field Injection
-                null_field = [0.0] * 21
-
-                # Quantum Fluctuation (Simplified)
-                # We assume the MonadEnsemble in this version doesn't have the "Living" override
-                # unless we swapped the class. But we can inject noise manually.
                 if random.random() < 0.1:
-                    # Twitch
-                    print("💤 [DREAM] Vital Pulse... (Quantum Fluctuation)")
-                    self.monad.temperature = min(1.0, self.monad.temperature + 0.1)
-
-                self.monad.physics_step(null_field)
-
-            self.is_dreaming = True # Default back to dreaming unless input arrives
+                    # Decay unused bonds?
+                    pass
+            self.is_dreaming = True
