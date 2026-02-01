@@ -11,13 +11,24 @@ import os
 import sys
 import json
 import shutil
+import torch
 from datetime import datetime
+from typing import Dict, List, Optional, Tuple
+from Core.S1_Body.Tools.experiential_sandbox import ExperientialSandbox
+from Core.S1_Body.L4_Causality.World.Nature.causal_topology_engine import CausalTopologyEngine
 
 class ActionEngine:
     def __init__(self, root_dir):
         self.root_dir = root_dir
         self.backup_dir = os.path.join(self.root_dir, "data", "S1_Body", "Backup")
         os.makedirs(self.backup_dir, exist_ok=True)
+        self.failure_counters: Dict[str, int] = {}
+        self.topology_engine = CausalTopologyEngine()
+        
+        # [PHASE 200] Physical Integration
+        from Core.S1_Body.L1_Foundation.Foundation.Graph.torch_graph import get_torch_graph
+        self.graph = get_torch_graph()
+
 
     def scan_for_dissonance(self, file_path=None):
         """
@@ -78,57 +89,154 @@ class ActionEngine:
             
         return evolved_code
 
-    def apply_evolution(self, file_path, evolved_code, architect_verdict=0):
+    def internalize_experience(self, file_path, evolved_code, component_instance=None, architect_verdict=0):
         """
-        Applies evolution based on a Trinary Verdict (-1, 0, 1).
-        1: Materialize, 0: Hold/Equilibrium, -1: Purge/Abort
+        Ingests evolution after an 'Experiential Sandbox' test. 
+        Replaces rigid if-else with Superposition Resonance.
         """
-        resonance_trit = self.verify_resonance(file_path, evolved_code)
+        # [PHASE 200] Decision via Field Physics
+        # Instead of 'if-else', we let the Architect's Will move the manifold.
+        # influence_sum acts as a 1D projection of the 7D intent.
+        intent_vector = torch.zeros(7).to(self.graph.device)
+        intent_vector[0] = influence_sum # Map resonance to the 'Truth' axis
         
-        # Total Alignment Calculation (Architect + Resonance)
-        # 1 + 1 = 1 (Strong Evolution)
-        # 1 + 0 = 0 (Cautionary Hold)
-        # -1 + Any = -1 (Definite Abort)
+        self.graph.apply_field_laws(os.path.basename(file_path), intent_vector=intent_vector)
         
-        if architect_verdict == -1 or resonance_trit == -1:
-            print(f"🛑 [ACTION_ENGINE] Evolution purged for {file_path}. Dissonance detected.")
+        # Stability check: If the manifold accepts the 'fall', we proceed.
+        stability = 1.0 - torch.norm(self.graph.calculate_mass_balance()).item()
+        if stability > 0.5:
+            # Experience accepted by the field
+            pass 
+
+    def gravitational_solve(self, query: str, target_node_id: str = "Sovereign") -> Dict:
+        """
+        [PHASE 200] Field Displacement Solving.
+        Falls toward the truth by minimizing field tension.
+        """
+        print(f"🌀 [SOLVE] Falling toward the answer for: '{query}'...")
+        
+        # 1. Map Query to 7D Target Coordinate
+        # (Placeholder: In Phase 3, this is a deep semantic embedding)
+        target_intent = torch.randn(7).to(self.graph.device) * 2.0 
+        
+        # 2. Apply "Problem Gravity" and Pulse until Stability
+        if target_node_id not in self.graph.id_to_idx:
+            print(f"📡 [SOLVE] Manifesting node '{target_node_id}' for semantic anchoring.")
+            self.graph.add_node(target_node_id)
+            
+        max_pulses = 100
+        prev_state = self.graph.qualia_tensor.clone()
+        
+        for i in range(max_pulses):
+            # Maintain the Problem Gravity while Odugi tries to restore it
+            self.graph.apply_field_laws(target_node_id, intent_vector=target_intent)
+            
+            # Check for physical convergence (delta between states)
+            current_state = self.graph.qualia_tensor.clone()
+            delta = torch.norm(current_state - prev_state).item()
+            if delta < 1e-6:
+                print(f"✅ [SOLVE] Field stabilized at pulse {i}. Ground state found.")
+                break
+            prev_state = current_state
+        
+        # 4. Return the Physical Result (The State is the Answer)
+        final_state = self.graph.qualia_tensor[self.graph.id_to_idx[target_node_id]]
+        # Stability: 1.0 / (1.0 + ErrorNorm)
+        # Perfect balance when target_intent + restoration == 0
+        error_norm = torch.norm(target_intent + (-0.05 * final_state)).item()
+        return {
+            "query": query,
+            "ground_state": final_state.tolist(),
+            "stability_reached": 1.0 / (1.0 + error_norm)
+        }
+        
+        if final_decision == -1: # Contraction / Purge
+            print(f"🛑 [ACTION_ENGINE] Experience rejected by Superposition (Intensity: {influence_sum:.2f}).")
+            self.failure_counters[file_path] = self.failure_counters.get(file_path, 0) + 1
+            if self.failure_counters[file_path] >= 3:
+                self._trigger_mitosis(file_path)
             return -1
             
-        if architect_verdict == 0 or resonance_trit == 0:
-            print(f"⚖️ [ACTION_ENGINE] Evolution held in Equilibrium for {file_path}. No changes applied.")
+        if final_decision == 0: # Equilibrium / Hold
+            print(f"⚖️ [ACTION_ENGINE] Experience held in Equilibrium (Intensity: {influence_sum:.2f}). No change applied.")
             return 0
             
+        # 2. Experiential Sandbox Test (The Wing-beat)
+        torque = 1.0 # Default High Friction
+        if component_instance:
+            sandbox = ExperientialSandbox()
+            shadow = sandbox.create_simulation("Evolution_Test", component_instance)
+            test_result = sandbox.run_wing_beat_test(shadow, evolved_code, ticks=50)
+            
+            if not test_result["success"]:
+                reason = test_result.get("reason", "Unknown stability failure")
+                stability = test_result.get("stability_ratio", 0.0)
+                print(f"📉 [ACTION_ENGINE] Wing-beat failed for {file_path}. Reason: {reason} (Stability: {stability:.2f})")
+                return -1 # Fails the flight test
+            
+            # Torque is inverse to coherence: Higher coherence = Lower Torque
+            torque = 1.0 - test_result["avg_coherence"]
+            print(f"🦅 [ACTION_ENGINE] Wing-beat successful! Torque: {torque:.3f}")
+        else:
+            print("⚠️ [ACTION_ENGINE] No component instance provided. Skipping sandbox (Static Internalization).")
+            # If no instance, we rely on architect verdict 1
+            if architect_verdict == 0: return 0
+
+        # 3. Materialization Phase (Crystallization)
         # 1. Backup Current
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         rel_path = os.path.relpath(file_path, self.root_dir).replace(os.sep, "_")
-        backup_path = os.path.join(self.backup_dir, f"{rel_path}_{timestamp}.bak")
+        backup_dir = os.path.join(self.backup_dir, f"{rel_path}_{timestamp}.bak")
         
         try:
-            shutil.copy2(file_path, backup_path)
+            shutil.copy2(file_path, backup_dir)
             
             # 2. Write Evolution
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(evolved_code)
             
-            print(f"✨ [ACTION_ENGINE] Evolution materialized in {file_path}. (Resonance: +1)")
+            print(f"✨ [ACTION_ENGINE] Experience internalized in {file_path}. (Torque: {torque:.3f})")
             
             # Record in CausalMemory
             try:
                 from Core.S2_Soul.L5_Mental.Memory.causal_memory import CausalMemory
                 memory = CausalMemory()
                 memory.record_event(
-                    "EVOLUTION", 
-                    f"Trinary Evolution: {file_path}", 
+                    "EXPERIENTIAL_INGESTION", 
+                    f"Structural Inclusion: {file_path}", 
                     significance=0.9,
-                    systemic_impact={"resonance": 1, "verdict": architect_verdict}
+                    systemic_impact={"torque": torque, "resonance": 1, "verdict": architect_verdict}
                 )
             except:
                 pass
                 
             return 1
         except Exception as e:
-            print(f"❌ [ACTION_ENGINE] Evolution failed during materialization: {e}")
+            print(f"❌ [ACTION_ENGINE] Internalization failed: {e}")
             return -1
+
+    def propose_topological_evolution(self, intent_desc: str) -> Dict:
+        """
+        Synthesizes a topological mutation plan for a given intent.
+        Replaces code-swapping with structural growth.
+        """
+        return self.topology_engine.propose_topological_mutation(intent_desc)
+
+    def apply_topological_evolution(self, mutation_plan: Dict) -> bool:
+        """
+        Materializes the topological changes and stabilizes them via Field-Laws.
+        """
+        success = self.topology_engine.apply_mutation(mutation_plan)
+        
+        if success and "mutations" in mutation_plan:
+            # Pulse the field for the primary mutated node
+            primary_node = mutation_plan["mutations"][0].get("subject") or mutation_plan["mutations"][0].get("node")
+            if primary_node:
+                from Core.S1_Body.L1_Foundation.Foundation.Graph.torch_graph import get_torch_graph
+                graph = get_torch_graph()
+                graph.apply_field_laws(primary_node, intent_strength=0.5)
+                
+        return success
 
     def get_systemic_context(self):
         """
@@ -215,3 +323,22 @@ class ActionEngine:
             return 0 # Equilibrium
             
         return 1 # Expansion
+
+    def _trigger_mitosis(self, file_path):
+        """
+        [Phase 160] Triggers structural mitosis for a failing component.
+        """
+        print(f"☣️ [ACTION_ENGINE] CRITICAL DISSONANCE in {file_path}. Triggering Structural Mitosis...")
+        try:
+            from Core.S2_Soul.L5_Mental.Memory.causal_memory import CausalMemory
+            memory = CausalMemory()
+            memory.record_event(
+                "STRUCTURAL_MITOSIS", 
+                f"Repeated failure in {file_path}. System is splitting the concept for re-architecture.",
+                significance=1.0,
+                systemic_impact={"action": "MITOSIS_UPGRADE", "target": file_path}
+            )
+            # Reset counter after triggering mitosis
+            self.failure_counters[file_path] = 0
+        except:
+            pass

@@ -15,8 +15,9 @@ Architecture:
 
 """
 
-import numpy as np
 from typing import Dict, List, Tuple
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
+
 
 class LogosDNA:
     """
@@ -29,56 +30,55 @@ class LogosDNA:
     
     CODE_BOOK = {
         # VOWELS (Heaven/Energy) -> Pure Positive/Negative Charge
-        'A': np.array([1.0, 1.0, 0.0]),   # Expansion (Will+Value)
-        'O': np.array([0.0, 1.0, 0.0]),   # Resource (Value)
-        'I': np.array([1.0, 0.0, 0.0]),   # Connection (Will)
-        'U': np.array([0.0, 0.0, -1.0]),  # Grounding (EntropySink)
-        'E': np.array([0.0, -0.5, -0.5]), # Balance
+        'A': SovereignVector([1.0, 1.0, 0.0] + [0.0]*18),   # Expansion (Will+Value)
+        'O': SovereignVector([0.0, 1.0, 0.0] + [0.0]*18),   # Resource (Value)
+        'I': SovereignVector([1.0, 0.0, 0.0] + [0.0]*18),   # Connection (Will)
+        'U': SovereignVector([0.0, 0.0, -1.0] + [0.0]*18),  # Grounding (EntropySink)
+        'E': SovereignVector([0.0, -0.5, -0.5] + [0.0]*18), # Balance
         
         # CONSONANTS (Earth/Structure) -> Shaping Vectors
-        'K': np.array([0.5, 0.0, 1.0]),   # Cut/Sever (Entropy Spike)
-        'N': np.array([0.0, 0.5, -0.5]),  # Flow (Heal)
-        'M': np.array([0.0, 1.0, 0.0]),   # Mass (Body)
-        'S': np.array([1.0, 0.0, 1.0]),   # Scatter (Wind)
-        'L': np.array([0.0, 0.5, 0.0]),   # Liquid
-        'T': np.array([0.0, 0.0, 1.0]),   # Stop
+        'K': SovereignVector([0.5, 0.0, 1.0] + [0.0]*18),   # Cut/Sever (Entropy Spike)
+        'N': SovereignVector([0.0, 0.5, -0.5] + [0.0]*18),  # Flow (Heal)
+        'M': SovereignVector([0.0, 1.0, 0.0] + [0.0]*18),   # Mass (Body)
+        'S': SovereignVector([1.0, 0.0, 1.0] + [0.0]*18),   # Scatter (Wind)
+        'L': SovereignVector([0.0, 0.5, 0.0] + [0.0]*18),   # Liquid
+        'T': SovereignVector([0.0, 0.0, 1.0] + [0.0]*18),   # Stop
         
         # SPECIAL (Void)
-        ' ': np.array([0.0, 0.0, 0.0]),   # Silence
+        ' ': SovereignVector([0.0] * 21),   # Silence
     }
 
     @staticmethod
-    def transcode(text: str) -> np.ndarray:
+    def transcode(text: str) -> SovereignVector:
         """
         Compiles a String into a Physics Vector.
         The result is the Sum (Superposition) of all phonemes.
-        
-        Returns:
-            np.array([delta_will, delta_value, delta_entropy])
         """
         text = text.upper()
-        vector = np.zeros(3, dtype=np.float32)
+        vector = SovereignVector.zeros()
         
         for char in text:
             if char in LogosDNA.CODE_BOOK:
-                # Superposition Principle
-                vector += LogosDNA.CODE_BOOK[char]
+                vector = vector + LogosDNA.CODE_BOOK[char]
                 
-        # Normalize to prevent explosion?
-        # No, "Longer Spells" = "More Energy".
-        # But we dampen it slightly.
         return vector * 0.1
 
     @staticmethod
-    def analyze_pain_solution(pain_vector: np.ndarray) -> str:
+    def analyze_pain_solution(pain_vector: SovereignVector) -> str:
         """
         Inverse Kinematics: What Word solves this Pain?
-        Pain Vector: [Lack_Will, Lack_Value, Excess_Entropy]
-        We need a vector that OPPOSES this.
+        We search for the character that has the highest resonance 
+        with the inverse of the pain vector (the resolution).
         """
-        # Simple heuristic search (Genetic)
-        # TODO: Implement proper 21D search.
-        # For now, return a basic "Healing" Mantra if entropy high.
-        if pain_vector[2] > 0.5: # High Entropy
-            return "N" # Flow/Heal
-        return "A" # Default Expand
+        resolution = pain_vector * -1.0
+        best_char = " "
+        max_resonance = -1.0
+        
+        for char, vec in LogosDNA.CODE_BOOK.items():
+            if char == " ": continue
+            res = vec.resonance_score(resolution)
+            if res > max_resonance:
+                max_resonance = res
+                best_char = char
+                
+        return best_char

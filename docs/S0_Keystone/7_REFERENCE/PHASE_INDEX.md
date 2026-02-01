@@ -9,7 +9,7 @@
 ## ✅ 현재 기준 “최신/핵심” Phase
 
 - **Phase 40**: [PHASE_40_THE_ALCHEMICAL_BRIDGE.md](../L0_Keystone/PHASE_40_THE_ALCHEMICAL_BRIDGE.md)
-  - 관련: [GAP_ANALYSIS_THE_SILENT_ERROR.md](../GAP_ANALYSIS_THE_SILENT_ERROR.md)
+  - 관련: [GAP_ANALYSIS_THE_SILENT_ERROR.md](../S0_Keystone/GAP_ANALYSIS_THE_SILENT_ERROR.md)
 
 - **Phase 27 (21D 통합 실재)**: [PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](../L0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)
   - 관련(서사/재건): [SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](../L7_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)
@@ -36,8 +36,8 @@
 ## 🔗 빠른 점프
 
 - 용어(정본): [TERMINOLOGY_DEEP_DIVE.md](TERMINOLOGY_DEEP_DIVE.md)
-- 전체 지도: [SYSTEM_ATLAS.md](../SYSTEM_ATLAS.md)
-- Grand Codex: [GRAND_CODEX.md](../GRAND_CODEX.md)# 📆 Phase Index (정본)
+- 전체 지도: [SYSTEM_ATLAS.md](../S0_Keystone/SYSTEM_ATLAS.md)
+- Grand Codex: [CODEX.md](../../CODEX.md)# 📆 Phase Index (정본)
 
 > 프로젝트 전체에서 Phase 정의/명명/요약을 한 곳에서 관리합니다.
 

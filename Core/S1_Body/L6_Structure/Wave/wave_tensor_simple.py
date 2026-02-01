@@ -20,7 +20,7 @@ from typing import Dict, List, Optional, Any
 from enum import Enum
 import math
 import time
-import numpy as np
+
 from elysia_core import Cell
 
 class Modality(Enum):
@@ -99,9 +99,28 @@ class WaveTensor:
                  freq_resonance = 1.0 / (1.0 + abs(f1 - f2)) # Distance decay
 
         # 2. Vector Cosine Similarity (for other dimensions)
-        # TODO: Implement full numpy cosine similarity for n-dims
+        common_dims = set(self.dimensions.keys()) & set(other.dimensions.keys())
+        if not common_dims:
+            return freq_resonance * 0.5
+            
+        dot_product = 0.0
+        norm_a = 0.0
+        norm_b = 0.0
         
-        return freq_resonance
+        for dim in common_dims:
+            v1 = self.dimensions[dim]
+            v2 = other.dimensions[dim]
+            dot_product += v1 * v2
+            norm_a += v1**2
+            norm_b += v2**2
+            
+        if norm_a == 0 or norm_b == 0:
+            cosine_sim = 0.0
+        else:
+            cosine_sim = dot_product / (math.sqrt(norm_a) * math.sqrt(norm_b))
+        
+        # Combined Resonance: Weighted average of Frequency Harmony and Vector Similarity
+        return (freq_resonance * 0.7) + (cosine_sim * 0.3)
 
     def get_magnitude(self) -> float:
         """Calculate the 'Energy' of this concept."""

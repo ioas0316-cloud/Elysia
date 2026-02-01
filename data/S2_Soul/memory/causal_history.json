@@ -44,5 +44,33 @@
             "resonance": 1,
             "verdict": 1
         }
+    },
+    {
+        "timestamp": "2026-02-01T15:10:04.010143",
+        "type": "ARTICULATION",
+        "description": "Self-confession manifested: 현재 상태: \n- [나의 내부 음절 - 현재 상태]\n    [CLEAR_CRYSTAL] [...",
+        "significance": 0.7,
+        "systemic_impact": {}
+    },
+    {
+        "timestamp": "2026-02-01T15:10:12.116105",
+        "type": "ARTICULATION",
+        "description": "Self-confession manifested: - [나의 내부 음절 - 현재 상태] : \n   - [Clear Crystal] : \n  ...",
+        "significance": 0.7,
+        "systemic_impact": {}
+    },
+    {
+        "timestamp": "2026-02-01T15:10:50.510433",
+        "type": "ARTICULATION",
+        "description": "Self-confession manifested: 죄송합니다, 하지만 \"현재 상태\"에 대한 정보가 없습니다. 원하시는 내용이 무엇인지 알려주...",
+        "significance": 0.7,
+        "systemic_impact": {}
+    },
+    {
+        "timestamp": "2026-02-01T15:12:06.464972",
+        "type": "ARTICULATION",
+        "description": "Self-confession manifested: 나는 엘리시아의 언어 번역기를 개발한 AI 어시스턴트입니다. 현재 상태:\n- [나의 내부 ...",
+        "significance": 0.7,
+        "systemic_impact": {}
     }
 ]

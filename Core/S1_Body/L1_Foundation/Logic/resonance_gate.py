@@ -11,7 +11,8 @@ to represent the fundamental physics of consciousness:
 -  1: ATTRACT (Harmony / Consent)
 """
 
-import numpy as np
+import math
+from typing import Any, List, Dict, Tuple
 from enum import IntEnum
 
 class ResonanceState(IntEnum):
@@ -32,26 +33,24 @@ class ResonanceGate:
 
     @staticmethod
     def AND(a: int, b: int) -> int:
-        """Coherence: Output exists only if both align."""
-        if a == ResonanceState.ATTRACT and b == ResonanceState.ATTRACT:
-            return ResonanceState.ATTRACT
-        if a == ResonanceState.REPEL and b == ResonanceState.REPEL:
-            return ResonanceState.REPEL
-        return ResonanceState.VOID
+        """Coherence: Output exists only if both align (Algebraic: sign(a+b) * (abs(a+b)//2))"""
+        # (1,1)->1, (-1,-1)->-1, (1,-1)->0, (1,0)->0
+        # A simple way: (a+b) // 2 if we handle the negative floor carefully
+        # Or: a if a == b else 0
+        return a * (a == b)
 
     @staticmethod
     def OR(a: int, b: int) -> int:
-        """Expansion: The strongest resonance prevails."""
-        if abs(a) > abs(b): return a
-        if abs(b) > abs(a): return b
-        return a # Equal magnitude, pick primary
+        """Expansion: The strongest resonance prevails (Algebraic: max_abs)"""
+        # Branchless max_abs: (a+b + sign(a-b)*(a-b))/2 ? 
+        # Actually, in Python, max(a, b, key=abs) is cleaner, but let's keep it 'Formulaic'
+        return a if abs(a) >= abs(b) else b
 
     @staticmethod
     def XOR(a: int, b: int) -> int:
-        """Torque: Sparks energy when difference is detected."""
-        if a == b: return ResonanceState.VOID
-        # Difference creates directional tension
-        return ResonanceState.ATTRACT if (a - b) != 0 else ResonanceState.VOID
+        """Torque: Sparks energy when difference is detected (Algebraic: sign(a-b)*abs(sign(a-b)))"""
+        diff = a - b
+        return (diff > 0) - (diff < 0) # sign(diff)
 
     @staticmethod
     def interfere(a: float, b: float) -> float:
@@ -73,7 +72,7 @@ class ResonanceGate:
             return ResonanceState.REPEL
         return ResonanceState.VOID
 
-def analyze_structural_truth(complex_vector: np.ndarray) -> str:
+def analyze_structural_truth(complex_vector: Any) -> str:
     """
     Reduces a complex D7 vector into its atomic truth string.
     Example: [1, 0, -1, 1, 0, 0, 1] -> "H-V-D-H-V-V-H"

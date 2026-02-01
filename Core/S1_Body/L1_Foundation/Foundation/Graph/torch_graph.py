@@ -46,10 +46,28 @@ class TorchGraph:
         # Storing pairs: [[i, j], [i, j]...]
         self.logic_links = torch.zeros((0, 2), dtype=torch.long, device=self.device)
         # Weights (Synaptic Strength)
-        self.link_weights = torch.zeros((0,), dtype=torch.float, device=self.device)
+        # self.logic_links = torch.zeros((0, 2), dtype=torch.long, device=self.device) # Replaced by link_tensor
+        # self.link_weights = torch.zeros((0,), dtype=torch.float, device=self.device) # Replaced by tension_tensor
         
-        # [Phase 27] Link Metadata (Causal Bonds)
-        # { (idx_s, idx_o): { "type": "...", "logic": "..." } }
+        # [Phase 30] Qualia Tensor (N x 7)
+        # 7D: [physical, functional, phenomenal, causal, mental, structural, spiritual]
+        self.qualia_tensor = torch.zeros((0, 7), device=self.device)
+        self.qualia_keys = ["physical", "functional", "phenomenal", "causal", "mental", "structural", "spiritual"]
+        
+        # [PHASE 195] Edge Vibration (Dynamic Topology)
+        # link_tensor stores [source_idx, target_idx, type_idx]
+        self.link_tensor = torch.zeros((0, 3), dtype=torch.long, device=self.device)
+        self.tension_tensor = torch.zeros((0,), device=self.device) # Vibration / Strength
+        
+        # [PHASE 200] Gyroscopic Inertia (Field-Law OS)
+        # 7D momentum for each node
+        self.momentum_tensor = torch.zeros((0, 7), device=self.device)
+        
+        # [PHASE 200] Dynamic Perception (The Universal Rotor)
+        # Temporal history of the 7D manifold [T, N, 7]
+        self.trace_buffer: List[torch.Tensor] = []
+        self.max_trace_len = 100
+        
         self.link_metadata: Dict[Tuple[int, int], Dict] = {}
         
         # [Neural Link] Default to SBERT (384) dimension
@@ -62,6 +80,11 @@ class TorchGraph:
         self.holo_dim = 64
         self.holo_tensor = torch.zeros((0, self.holo_dim), device=self.device)
         self.holo_embedder = get_holographic_embedder(device=self.device)
+        
+        # [PHASE 5] GHz Cognition
+        self.extreme_mode = False
+        self.pulse_accumulator = torch.zeros(7, device=self.device)
+        self.internal_clock_ns = 0
         
         self.lock = False # Simple lock for batch updates
         
@@ -76,6 +99,14 @@ class TorchGraph:
         # [The Great Unification] Phase 12
         # Automatically attempt to load the Massive Rainbow Graph if brain is empty
         self.load_rainbow_bridge()
+
+        # [Phase 195] Link Type Mapping
+        self.link_type_to_idx: Dict[str, int] = {"associated": 0, "CAUSAL_FLOW": 1, "default": 0}
+        self.idx_to_link_type: Dict[int, str] = {0: "associated", 1: "CAUSAL_FLOW"}
+        self.next_link_type_idx = len(self.link_type_to_idx) - 1 # Start from 2 if 0 and 1 are default
+
+        # [Phase 200] Qualia Threshold for Crystallization
+        self.qualia_epsilon = 1e-6
 
         logger.info(f"  TorchGraph Initialized on {self.device} (Matrix Mode)")
 
@@ -166,11 +197,20 @@ class TorchGraph:
             except:
                  new_holo = torch.zeros((1, self.holo_dim), device=self.device)
 
+            # [Phase 30] Qualia
+            q_vals = [0.0] * 7
+            if metadata and "qualia" in metadata:
+                q_vals = [metadata["qualia"].get(k, 0.0) for k in self.qualia_keys]
+            new_qualia = torch.tensor([q_vals], device=self.device)
+
             # 2. DO THE EXPANSION FIRST
             self.pos_tensor = torch.cat([self.pos_tensor, new_pos])
             self.vec_tensor = torch.cat([self.vec_tensor, new_vec])
             self.mass_tensor = torch.cat([self.mass_tensor, new_mass])
             self.grav_tensor = torch.cat([self.grav_tensor, new_grav])
+            self.qualia_tensor = torch.cat([self.qualia_tensor, new_qualia])
+            self.momentum_tensor = torch.cat([self.momentum_tensor, torch.zeros((1, 7), device=self.device)])
+
             # [Phase 11.3]
             if hasattr(self, 'freq_tensor'):
                  self.freq_tensor = torch.cat([self.freq_tensor, new_freq])
@@ -188,6 +228,45 @@ class TorchGraph:
         except Exception as e:
             logger.error(f"  Failed to expand brain for node {node_id}: {e}")
             raise e
+
+    def batch_add_nodes(self, node_ids: List[str], vectors: Optional[torch.Tensor] = None):
+        """
+        [HARDWARE_RESONANCE_MAX] Massive parallel manifestation.
+        Manifests thousands of nodes in a single operation.
+        """
+        new_count = len(node_ids)
+        if new_count == 0: return
+        
+        # 1. Prepare Batch Tensors
+        new_pos = torch.rand((new_count, 4), device=self.device)
+        if vectors is not None and vectors.shape[0] == new_count:
+            new_vec = vectors.to(self.device)
+        else:
+            new_vec = torch.zeros((new_count, self.dim_vector), device=self.device)
+            
+        new_mass = torch.ones(new_count, device=self.device)
+        new_grav = torch.ones(new_count, device=self.device)
+        new_freq = torch.rand(new_count, device=self.device) * 2 * math.pi
+        new_qualia = torch.zeros((new_count, 7), device=self.device)
+        new_momentum = torch.zeros((new_count, 7), device=self.device)
+        new_holo = torch.zeros((new_count, self.holo_dim), device=self.device)
+
+        # 2. Global Concatenation (High Efficiency)
+        self.pos_tensor = torch.cat([self.pos_tensor, new_pos])
+        self.vec_tensor = torch.cat([self.vec_tensor, new_vec])
+        self.mass_tensor = torch.cat([self.mass_tensor, new_mass])
+        self.grav_tensor = torch.cat([self.grav_tensor, new_grav])
+        self.qualia_tensor = torch.cat([self.qualia_tensor, new_qualia])
+        self.momentum_tensor = torch.cat([self.momentum_tensor, new_momentum])
+        self.freq_tensor = torch.cat([self.freq_tensor, new_freq])
+        self.holo_tensor = torch.cat([self.holo_tensor, new_holo])
+
+        # 3. Update Mappings
+        start_idx = self.vec_tensor.shape[0] - new_count
+        for i, node_id in enumerate(node_ids):
+            idx = start_idx + i
+            self.id_to_idx[node_id] = idx
+            self.idx_to_id[idx] = node_id
 
     def get_node_vector(self, node_id: str) -> Optional[torch.Tensor]:
         """Retrieves the vector for a specific node ID."""
@@ -211,25 +290,241 @@ class TorchGraph:
         # Increase mass slightly to represent "Weight of Knowledge"
         self.mass_tensor[idx] += 0.1
 
-    def add_link(self, subject: str, object_: str, weight: float = 1.0, link_type: str = "associated"):
+    def add_link(self, subject: str, object_: str, weight: float = 1.0, link_type: str = "associated") -> bool:
         if subject not in self.id_to_idx: self.add_node(subject)
         if object_ not in self.id_to_idx: self.add_node(object_)
         
         # [Safety] If add_node failed (e.g. sanitization), abort link
         if subject not in self.id_to_idx or object_ not in self.id_to_idx:
-            return
+            return False
         
-        idx_s = self.id_to_idx[subject]
-        idx_o = self.id_to_idx[object_]
+        src_idx = self.id_to_idx[subject]
+        dst_idx = self.id_to_idx[object_]
         
-        new_link = torch.tensor([[idx_s, idx_o]], dtype=torch.long, device=self.device)
-        self.logic_links = torch.cat([self.logic_links, new_link])
-        
-        new_weight = torch.tensor([weight], dtype=torch.float, device=self.device)
-        self.link_weights = torch.cat([self.link_weights, new_weight])
+        # Check if link already exists (simple check for now)
+        # This is O(L) but for sparse graphs, it's acceptable.
+        # For very large graphs, a hash map of (src, dst) -> link_idx would be faster.
+        existing_links = (self.link_tensor[:, 0] == src_idx) & (self.link_tensor[:, 1] == dst_idx)
+        if existing_links.any():
+            link_idx = torch.where(existing_links)[0][0]
+            # Update existing link's tension
+            self.tension_tensor[link_idx] += weight # Increase tension
+            # Update metadata if needed
+            self.link_metadata[(src_idx, dst_idx)].update({"type": link_type})
+            return True
 
+        # Get or create link type index
+        if link_type not in self.link_type_to_idx:
+            self.link_type_to_idx[link_type] = self.next_link_type_idx
+            self.idx_to_link_type[self.next_link_type_idx] = link_type
+            self.next_link_type_idx += 1
+        
+        type_idx = self.link_type_to_idx[link_type]
+
+        new_link = torch.tensor([[src_idx, dst_idx, type_idx]], dtype=torch.long, device=self.device)
+        self.link_tensor = torch.cat([self.link_tensor, new_link])
+        
+        # Initialize tension (Phase 195)
+        new_tension = torch.tensor([weight], device=self.device) # Base unity
+        self.tension_tensor = torch.cat([self.tension_tensor, new_tension])
+        
         # [Phase 27] Store Link Type
-        self.link_metadata[(idx_s, idx_o)] = {"type": link_type}
+        self.link_metadata[(src_idx, dst_idx)] = {"type": link_type}
+        return True
+
+    def pulse_graph(self, iterations: int = 1):
+        """
+        [PHASE 195] Graph Pulsation (Dynamic Topology)
+        Simulates a pulse through the graph, affecting tension and potentially node states.
+        """
+        if self.link_tensor.shape[0] == 0: return
+
+        logger.debug(f"  Pulsing graph for {iterations} iterations.")
+
+        for _ in range(iterations):
+            # 1. Propagate Tension
+            # Tension flows from source to target.
+            # For each link (s, t, type), tension at t is affected by tension at s.
+            
+            # Get unique source nodes and their current tension
+            src_indices = self.link_tensor[:, 0]
+            dst_indices = self.link_tensor[:, 1]
+            
+            # Create a sparse adjacency matrix for propagation
+            # This is a simplified propagation. A full simulation would involve
+            # more complex physics (e.g., wave equations).
+            
+            # For now, let's just say tension spreads.
+            # A node's "tension" could be an aggregate of incoming link tensions.
+            # Or, link tension itself propagates.
+            
+            # Option A: Link tension influences adjacent link tensions
+            # This is complex. Let's simplify.
+            
+            # Option B: Link tension influences node "activation" or "vibration"
+            # And node vibration influences outgoing link tensions.
+            
+            # Let's try a simple model: Tension dissipates and propagates.
+            
+            # Dissipation
+            self.tension_tensor *= 0.95 # Decay over time
+
+            # Propagation (simplified: source node's mass/gravity can influence outgoing link tension)
+            # This is a placeholder for more sophisticated dynamic models.
+            # For each link, if its source node has high gravity/mass, its tension increases.
+            
+            # Gather source node gravities for each link
+            source_gravities = self.grav_tensor[src_indices]
+            
+            # Increase tension based on source node's gravity (importance)
+            # This simulates "important" nodes sending stronger signals.
+            self.tension_tensor += source_gravities * 0.01 # Small boost
+
+            # Ensure tension doesn't go below zero or explode
+            self.tension_tensor = torch.clamp(self.tension_tensor, min=0.0, max=10.0)
+
+            # [Future Expansion]
+            # - Tension could affect node positions (vibration causing movement)
+            # - Tension could affect qualia (emotional resonance)
+            # - Tension could trigger realization events (if a path reaches critical tension)
+            
+        logger.debug("  Graph pulsation complete.")
+
+    def pulse_inference(self, stimulus_ids: List[str], energy: float = 1.0, iterations: int = 5) -> List[Tuple[str, float]]:
+        """
+        [PHASE 195] Branchless Logic via Edge Vibration.
+        Propagates energy through the graph topology.
+        """
+        if not stimulus_ids: return []
+        resonance = torch.zeros(self.qualia_tensor.shape[0], device=self.device)
+        for sid in stimulus_ids:
+            if sid in self.id_to_idx:
+                resonance[self.id_to_idx[sid]] = energy
+        for _ in range(iterations):
+            new_resonance = resonance * 0.8  
+            if self.link_tensor.shape[0] > 0:
+                src = self.link_tensor[:, 0]
+                dst = self.link_tensor[:, 1]
+                flow = resonance[src] * self.tension_tensor * 0.1
+                new_resonance.index_add_(0, dst, flow)
+            resonance = torch.clamp(new_resonance, max=energy)
+        vals, idxs = torch.topk(resonance, k=min(10, resonance.shape[0]))
+        results = []
+        for v, i in zip(vals, idxs):
+            nid = self.idx_to_id[i.item()]
+            if nid not in stimulus_ids:
+                results.append((nid, v.item()))
+        return results
+
+    def apply_field_laws(self, intent_node_id: str, intent_vector: Optional[torch.Tensor] = None, intent_strength: float = 0.1):
+        """
+        [PHASE 200] Gravitational Cognition / Intent-Driven Simulation.
+        Applies Field-Law OS physics to the graph's qualia manifold.
+        """
+        from Core.S1_Body.L1_Foundation.Foundation.Field.field_law_kernel import get_field_law_kernel
+        kernel = get_field_law_kernel(str(self.device))
+        
+        # 1. Gather Qualia (The Current "Position" in 7D Space)
+        # Odugi Restoration Force
+        restoration = kernel.calculate_odugi_restoration(self.qualia_tensor)
+        
+        # External Intent (if any)
+        if intent_node_id in self.id_to_idx:
+            idx = self.id_to_idx[intent_node_id]
+            
+            # Prepare Force Field
+            intent_field = torch.zeros_like(self.qualia_tensor)
+            if intent_vector is not None:
+                # Full 7D Intent (from Architect's Mouse/Will)
+                intent_field[idx] = intent_vector.to(self.device)
+            else:
+                # Simple Scalar Push (Default)
+                intent_field[idx] += intent_strength 
+            
+            # Apply physics
+            net_force = intent_field + restoration
+            
+            # Apply Viscosity
+            viscosity = kernel.get_field_viscosity(self.mass_tensor, 0.0)
+            
+            # Update Qualia (Position Shift)
+            velocity = net_force / (1.0 + viscosity)
+            self.qualia_tensor += velocity
+            
+            # Update Momentum (Gyro Effect)
+            self.momentum_tensor = kernel.apply_gyro_inertia(velocity, self.momentum_tensor)
+            
+            # [PHASE 200] Record Trace for Dynamic Perception
+            self.trace_buffer.append(self.qualia_tensor.clone().detach())
+            if len(self.trace_buffer) > self.max_trace_len:
+                self.trace_buffer.pop(0)
+
+    def extreme_causality_pulse(self, node_id: str, intent_vector: torch.Tensor, oversampling: int = 1000):
+        """
+        [PHASE 5] GHz-Scale Potential.
+        Performs massive internal pulsing within a single CPU/GPU call.
+        Bypasses the 'ms' bottleneck of the Python loop.
+        """
+        from Core.S1_Body.L1_Foundation.Foundation.Field.field_law_kernel import get_field_law_kernel
+        kernel = get_field_law_kernel(str(self.device))
+        
+        if node_id not in self.id_to_idx:
+            return
+            
+        target_idx = self.id_to_idx[node_id]
+        
+        # [PHASE 5] GHz-Scale Potential.
+        # Uses closed-form asymptotic transition to bypass the CPU loop.
+        self.qualia_tensor = kernel.pulse_field_high_speed(self.qualia_tensor, intent_vector, steps=oversampling)
+        
+        # Micro-memory: In high-speed mode, we assume the system reaches steady-state equilibrium.
+        self.pulse_accumulator = self.qualia_tensor[target_idx].clone()
+        
+        # Record only the 'After-image' of the explosion
+        self._record_trace()
+        """
+        [SHANTI_PROTOCOL] Autonomous background alignment.
+        """
+        from Core.S1_Body.L1_Foundation.Foundation.Field.field_law_kernel import get_field_law_kernel
+        kernel = get_field_law_kernel(str(self.device))
+        
+        new_qualia, is_peaceful = kernel.apply_shanti_silence(self.qualia_tensor)
+        self.qualia_tensor = new_qualia
+        
+        if not is_peaceful:
+            self._record_trace()
+        return is_peaceful
+
+    def apply_cluster_intent(self, node_ids: List[str], intent_vector: torch.Tensor):
+        """
+        [PHASE 200] Fractal Intent.
+        Pushes a group of nodes towards the Architect's target.
+        """
+        from Core.S1_Body.L1_Foundation.Foundation.Field.field_law_kernel import get_field_law_kernel
+        kernel = get_field_law_kernel(str(self.device))
+        
+        indices = [self.id_to_idx[nid] for nid in node_ids if nid in self.id_to_idx]
+        if not indices:
+            return
+            
+        self.qualia_tensor = kernel.apply_cluster_gravity(self.qualia_tensor, indices, intent_vector)
+        self._record_trace()
+
+    def _record_trace(self):
+        """Internal helper to capture temporal fragments."""
+        self.trace_buffer.append(self.qualia_tensor.clone().detach())
+        if len(self.trace_buffer) > self.max_trace_len:
+            self.trace_buffer.pop(0)
+
+    def calculate_mass_balance(self) -> torch.Tensor:
+        """
+        [PHASE 200] Measures the total gravitational displacement of the manifold.
+        Used for quantifying 'Spectral Peace'.
+        """
+        if self.qualia_tensor.shape[0] == 0:
+            return torch.zeros(7, device=self.device)
+        return torch.mean(self.qualia_tensor, dim=0)
+
 
     def apply_gravity(self, iterations: int = 50, lr: float = 0.01):
         """
@@ -343,6 +638,30 @@ class TorchGraph:
         query_vec = self.vec_tensor[idx]
         return self.get_nearest_by_vector(query_vec, top_k=top_k)
 
+    def update_node_qualia(self, node_id: str, qualia_key: str, value: float):
+        """
+        [PHASE 200] Vectorized Qualia Shift.
+        Directly modifies the qualia_tensor, affecting resonance.
+        """
+        if node_id not in self.id_to_idx: return
+        if qualia_key not in self.qualia_keys: return
+        
+        idx = self.id_to_idx[node_id]
+        key_idx = self.qualia_keys.index(qualia_key)
+        
+        # In-place update
+        self.qualia_tensor[idx, key_idx] = value
+        
+        # Trigger vector realignment? 
+        # In the unitary principle, the Qualia *is* the coordinate.
+        # We might need to update pos_tensor if positions are derived from qualia.
+        # For now, we update the metadata to keep it in sync for legacy tools.
+        # (This is the bridge between Fake and Real)
+        mid = node_id
+        if mid in self.node_metadata: # Changed from self.metadata to self.node_metadata
+            if "qualia" not in self.node_metadata[mid]: self.node_metadata[mid]["qualia"] = {}
+            self.node_metadata[mid]["qualia"][qualia_key] = value
+
     def get_nearest_by_vector(self, query_vec: torch.Tensor, top_k: int = 5) -> List[Tuple[str, float]]:
         """
         [The Sovereign Search]
@@ -398,36 +717,45 @@ class TorchGraph:
     def get_nearest_by_qualia(self, query_qualia: Dict[str, float], target_modality: str = None, top_k: int = 5) -> List[Tuple[str, float]]:
         """
         [The Metabolic Search]
-        Finds nodes that resonate in the 7D Qualia space.
+        Finds nodes that resonate in the 7D Qualia space using Vectorized Math.
         """
-        if not self.node_metadata: return []
+        if self.qualia_tensor.shape[0] == 0: return []
         
         # 1. Convert query qualia to 7D vector
-        q_keys = ["physical", "functional", "phenomenal", "causal", "mental", "structural", "spiritual"]
-        q_vec = torch.tensor([query_qualia.get(k, 0.0) for k in q_keys], device=self.device).view(1, -1)
+        q_vec = torch.tensor([query_qualia.get(k, 0.0) for k in self.qualia_keys], device=self.device).view(1, -1)
         q_vec = q_vec / (torch.norm(q_vec, dim=1, keepdim=True) + 1e-9)
         
+        # 2. Broad Resonance Check (Matrix multiplication)
+        # Normalize the brain's qualia tensor
+        q_norm = self.qualia_tensor / (torch.norm(self.qualia_tensor, dim=1, keepdim=True) + 1e-9)
+        
+        # Cosine Similarity: (1, 7) @ (7, N) -> (1, N)
+        sims = torch.mm(q_vec, q_norm.t()).squeeze(0)
+        
+        # 3. Apply Modality Filter (Heuristic: requires metadata check for now)
+        # Optimization: We could vectorize modality too, but metadata is sparse.
+        if target_modality:
+            # We filter the indices after the Top-K or during
+            # For simplicity, we filter manually here but using the SIMS tensor
+            pass 
+
+        # 4. Top K
+        vals, idxs = torch.topk(sims, min(top_k * 2, sims.shape[0])) # Oversample for filtering
+        
         results = []
-        # 2. Naive scan of metadata (since Qualia is not in a tensor yet)
-        # TODO: Vectorize Qualia into a tensor for O(1) metabolic resonance
-        for nid, meta in self.node_metadata.items():
-            if "qualia" not in meta: continue
+        for i in range(len(idxs)):
+            node_idx = idxs[i].item()
+            nid = self.idx_to_id[node_idx]
             
             # Modality Filter
             if target_modality:
-                if target_modality.lower() == "audio" and "musicgen" not in nid.lower(): continue
-                if target_modality.lower() == "vision" and "mobilevit" not in nid.lower(): continue
+                if target_modality.lower() == "audio" and "audio" not in nid.lower() and "music" not in nid.lower(): continue
+                if target_modality.lower() == "vision" and "image" not in nid.lower() and "visual" not in nid.lower(): continue
             
-            q = meta["qualia"]
-            target_q_vec = torch.tensor([q.get(k, 0.0) for k in q_keys], device=self.device).view(1, -1)
-            target_q_vec = target_q_vec / (torch.norm(target_q_vec, dim=1, keepdim=True) + 1e-9)
+            results.append((nid, vals[i].item()))
+            if len(results) >= top_k: break
             
-            sim = torch.mm(q_vec, target_q_vec.t()).item()
-            results.append((nid, sim))
-            
-        # 3. Sort and Return
-        results.sort(key=lambda x: x[1], reverse=True)
-        return results[:top_k]
+        return results
 
     def find_hollow_nodes(self, limit: int = 10) -> List[str]:
         """

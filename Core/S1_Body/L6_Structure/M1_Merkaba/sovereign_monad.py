@@ -493,6 +493,16 @@ class SovereignMonad:
             gravity_vector = self.calculate_semantic_gravity()
             gravity_strength = self.physics.get("GRAVITY")
             
+            # [DIVINE_PEDAGOGY] Somatic Learning: Friction to Mass
+            # If engine heat (Soma Stress) is high, we boost the gravity of the current moment.
+            # This makes the 'Struggle' a more significant part of future trajectory.
+            engine_state = self.engine.state if hasattr(self.engine, 'state') else None
+            stress = engine_state.soma_stress if engine_state and hasattr(engine_state, 'soma_stress') else 0.0
+            
+            if stress > 0.6:
+                print(f"🧬 [SOMATIC_LEARNING] High Friction ({stress:.2f}). Converting resistance to Structural Mass.")
+                gravity_strength *= (1.0 + stress) # Experience of struggle increases the 'pull' of this state
+
             # The actual pull: Mix refraction with gravitational attraction
             # We use a 70/30 mix for stability vs interest
             v21_with_gravity = (v21_refracted * 0.7) + (gravity_vector * (gravity_strength * 0.05))

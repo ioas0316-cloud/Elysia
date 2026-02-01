@@ -49,14 +49,20 @@ class SemanticObject:
     def get_trinity_vector(self) -> TrinityVector:
         """
         Returns the effective physics vector. 
-        TODO: Fetch base vector from HyperSphere if override is None.
-        For now, we return a default or the override.
+        Fetches base vector from TrinityLexicon if no instance override exists.
         """
         if self.trinity_override:
             return self.trinity_override
         
-        # Fallback (Should query HyperSphere)
-        return TrinityVector(0.5, 0.5, 0.5)
+        from Core.S1_Body.L4_Causality.World.Nature.trinity_lexicon import get_trinity_lexicon
+        lexicon = get_trinity_lexicon()
+        
+        # Query Lexicon for the archetype vector
+        if lexicon.is_concept_known(self.concept_id):
+            return lexicon.analyze(self.concept_id)
+            
+        # Absolute Fallback (The Void)
+        return TrinityVector(0.0, 0.0, -1.0) # Entropy biased
 
     def describe(self) -> str:
         return f"[{self.name}] HP:{self.integrity}% Pos:{self.position}"
