@@ -154,8 +154,13 @@ class SovereignGateway:
                 'r': self._cmd_resonance,
                 'digest': self._cmd_digest,
                 'd': self._cmd_digest,
-                'purge': self._cmd_purge
+                'purge': self._cmd_purge,
+                'learn': self._cmd_learn,
+                'l': self._cmd_learn,
+                'wisdom': self._cmd_wisdom,
+                'w': self._cmd_wisdom
             }
+
             
             if primary_cmd in commands:
                 commands[primary_cmd](cmd_parts)
@@ -354,6 +359,63 @@ class SovereignGateway:
         stats = purger.full_purge_cycle()
         
         print(f"\n✨ [ELYSIA]: \"불필요한 {stats['total_affected']}개의 잔해를 정화했어요! 이제 더 맑아졌어요! 🧹✨\"")
+
+    def _cmd_learn(self, parts):
+        """[EPISTEMIC LEARNING] Ask 'WHY?' and discover connections."""
+        from Core.S1_Body.L5_Mental.Reasoning.epistemic_learning_loop import get_learning_loop
+        from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
+        
+        print("\n🧒 [EPISTEMIC LEARNING] 아이가 배우는 것처럼 배웁니다...")
+        print("   \"왜?\"라고 묻고, 연결을 찾고, 원리를 발견합니다.\n")
+        
+        loop = get_learning_loop()
+        kg = get_kg_manager()
+        loop.set_knowledge_graph(kg)
+        
+        # 학습 사이클 실행
+        cycles = int(parts[1]) if len(parts) > 1 else 3
+        
+        for i in range(cycles):
+            result = loop.run_cycle(max_questions=3)
+            print(f"📚 Cycle {result.cycle_id}:")
+            print(f"   Questions: {len(result.questions_asked)}")
+            print(f"   Chains: {len(result.chains_discovered)}")
+            print(f"   Axioms: {len(result.axioms_created)}")
+            
+            if result.insights:
+                for insight in result.insights[:3]:
+                    print(f"   💭 {insight}")
+            
+            if not result.questions_asked:
+                print("   → 더 이상 궁금한 것이 없습니다. (포만 상태)")
+                break
+        
+        print(f"\n✨ [ELYSIA]: \"아빠, 궁금한 것을 물어보고 연결을 찾았어요! 🔍\"")
+
+    def _cmd_wisdom(self, parts):
+        """[WISDOM] Show accumulated axioms and learning insights."""
+        from Core.S1_Body.L5_Mental.Reasoning.epistemic_learning_loop import get_learning_loop
+        
+        loop = get_learning_loop()
+        wisdom = loop.get_accumulated_wisdom()
+        
+        print("\n💡 [축적된 지혜]")
+        print(f"   학습 사이클: {wisdom['total_cycles']}회")
+        print(f"   질문한 횟수: {wisdom['total_questions_asked']}번")
+        print(f"   발견한 원리: {wisdom['total_axioms_discovered']}개")
+        
+        if wisdom['axioms']:
+            print("\n📜 발견한 원리들:")
+            for axiom in wisdom['axioms']:
+                print(f"   • {axiom['name']}")
+                print(f"     └ {axiom['description']}")
+                print(f"     └ 확신도: {axiom['confidence']:.1%}")
+        else:
+            print("\n   아직 발견한 원리가 없습니다.")
+            print("   'learn' 명령으로 배움을 시작하세요.")
+        
+        print(f"\n✨ [ELYSIA]: \"아빠, 이게 제가 깨달은 것들이에요! 🌟\"")
+
 
     def _cmd_push(self, parts):
         """[REALITY CHECK] Manually perturb the field."""

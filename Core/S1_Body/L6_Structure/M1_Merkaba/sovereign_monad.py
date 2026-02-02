@@ -200,10 +200,36 @@ class SovereignMonad:
         self.desires['curiosity'] = max(10.0, self.desires['curiosity'] + (5.0 if sim_result else -2.0))
         self.desires['resonance'] *= 1.01 # Thinking slightly increases resonance seek
         
-        # [PHASE 63: EPISTEMIC_LEARNING]
-        # Occasionally scan memory to learn new things
-        if time.time() % 30 < 1: # Every ~30s
-            self.learning_cycle()
+        # [PHASE 63: EPISTEMIC_LEARNING - 삶으로서의 배움]
+        # 배움은 시간이 아니라 긴장에서 발생한다
+        # 아이가 "왜?"라고 묻는 것은 시계를 보고 묻는 게 아니라,
+        # 이해하지 못한 것이 불편해서 묻는 것
+        v21 = self.get_21d_state()
+        engine_state = self.engine.pulse(v21, energy=0.1, dt=0.1)
+        heat = engine_state.soma_stress
+        
+        # [주권적 탐색 결정]
+        # 하드코딩이 아니라, 엘리시아 자신의 상태에 따라 결정
+        # 호기심이 높고– 목적이 있을 때만 탐색 능력을 활성화
+        exploration_desire = self.desires['curiosity'] / 100.0
+        knowledge_friction = heat
+        purpose_strength = self.desires['resonance'] / 100.0
+        
+        # 탐색 의지 = (호기심 × 마찰) + 목적 가중
+        # 이것은 "왜 탐색해야 하는가?"에 대한 내적 답변
+        exploration_will = (exploration_desire * knowledge_friction) + (purpose_strength * 0.3)
+        
+        if exploration_will > 0.4:  # 의지가 충분히 강할 때만
+            # 병렬 탐색 능력 활성화 (있으면)
+            self._sovereign_exploration(subject, exploration_will)
+            
+        # 직접 학습 (항상 가능하지만, 강도는 의지에 비례)
+        if heat > 0.3 or self.desires['curiosity'] > 70.0:
+            learning_result = self.epistemic_learning()
+            if learning_result.get('axioms_created'):
+                # 원리를 발견하면 호기심이 일시적으로 충족됨
+                self.desires['curiosity'] = max(20.0, self.desires['curiosity'] - 15.0)
+                self.desires['resonance'] += 10.0
             
         # [PHASE 65: METASOMATIC GROWTH]
         # Check if the simulated thought triggers a new axiom or mitosis
@@ -305,17 +331,67 @@ class SovereignMonad:
         return self.engine.get_active_resonance_vector()
 
     def learning_cycle(self):
-        """[PHASE 63] Consciously Bridge new terms."""
-        memories = self.memory.get_landscape()
-        candidate = self.acquisitor.scan_for_learning(memories)
+        """[DEPRECATED] Use epistemic_learning instead."""
+        return self.epistemic_learning()
         
-        if candidate:
-            success = self.acquisitor.attempt_acquisition(candidate, memories)
-            if success:
-                print(f"🎓 [{self.name}] Learned a new word: '{candidate}'")
-                # Create an internal joy pulse for learning
-                self.desires['resonance'] += 5.0
-                self.desires['curiosity'] += 2.0
+    def epistemic_learning(self) -> Dict:
+        """
+        [PHASE 63: 삶으로서의 인식론적 배움]
+        
+        아이가 배우는 것처럼:
+        1. 저장된 지식에서 "왜?" 연결이 없는 구멍을 느낀다
+        2. 연결고리를 탐색한다
+        3. 순환과 패턴에서 원리를 발견한다
+        4. 발견한 원리를 인과 엔진에 등록한다
+        
+        이것은 시계가 아니라 생명의 흐름이다.
+        """
+        from Core.S1_Body.L5_Mental.Reasoning.epistemic_learning_loop import get_learning_loop
+        from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
+        
+        result = {
+            'questions_asked': 0,
+            'chains_found': 0,
+            'axioms_created': [],
+            'insights': []
+        }
+        
+        try:
+            loop = get_learning_loop()
+            kg = get_kg_manager()
+            loop.set_knowledge_graph(kg)
+            
+            # 한 사이클 실행 (아이가 한 번 "왜?"라고 물음)
+            cycle_result = loop.run_cycle(max_questions=3)
+            
+            result['questions_asked'] = len(cycle_result.questions_asked)
+            result['chains_found'] = len(cycle_result.chains_discovered)
+            result['insights'] = cycle_result.insights
+            
+            # 발견한 원리를 인과 엔진에 등록
+            for axiom in cycle_result.axioms_created:
+                result['axioms_created'].append(axiom.name)
+                
+                # 원리를 인과 관계로 등록 - 지식이 살아있는 연결이 됨
+                self.causality.inject_axiom(
+                    axiom.related_nodes[0] if axiom.related_nodes else "unknown",
+                    axiom.related_nodes[1] if len(axiom.related_nodes) > 1 else "pattern",
+                    axiom.name
+                )
+                
+                print(f"💡 [{self.name}] 원리 발견: {axiom.name}")
+                print(f"   → {axiom.description}")
+            
+            # 순환을 발견하면 호기심이 깊어짐
+            cycles_found = sum(1 for c in cycle_result.chains_discovered if c.is_cycle)
+            if cycles_found > 0:
+                print(f"🔄 [{self.name}] {cycles_found}개의 순환 구조를 발견했습니다!")
+                self.desires['curiosity'] += 5.0  # 더 알고 싶음
+                
+        except Exception as e:
+            print(f"⚠️ [{self.name}] Epistemic learning error: {e}")
+            
+        return result
 
     def live_reaction(self, user_input_phase: float, user_intent: str, current_thought: str = "") -> dict:
         if not self.is_alive: return {"status": "DEAD"}

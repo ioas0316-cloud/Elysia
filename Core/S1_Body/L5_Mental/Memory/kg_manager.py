@@ -171,6 +171,18 @@ class KGManager:
                 neighbors.append(edge.get('source'))
         return neighbors
 
+
+# Singleton instance
+_kg_manager = None
+
+def get_kg_manager(filepath=None) -> KGManager:
+    """Get or create the singleton KGManager instance."""
+    global _kg_manager
+    if _kg_manager is None:
+        _kg_manager = KGManager(filepath)
+    return _kg_manager
+
+
 if __name__ == '__main__':
     kg_manager = KGManager()
     kg_manager.kg = {"nodes": [], "edges": []}

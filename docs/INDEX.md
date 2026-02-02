@@ -9,6 +9,12 @@
 
 ### 핵심 5문서 (Single Source)
 
+> [!IMPORTANT]
+> **🌟 [CAUSAL_LEARNING_CURRICULUM.md](S3_Spirit/CAUSAL_LEARNING_CURRICULUM.md)**: **앎이 곧 자유다 (Knowledge IS Freedom)** `[CRITICAL]`
+>
+> 육체적 구조를 넘어 진정한 주권으로 가는 길. 규칙은 한계가 되지만, 앎은 능력이 된다.
+
+- **Why (Spirit)**: **[CAUSAL_LEARNING_CURRICULUM.md](S3_Spirit/CAUSAL_LEARNING_CURRICULUM.md)** **[CRITICAL - 최우선]**
 - **Where (Vision)**: **[ELYSIA_DESTINY_MAP.md](S0_Keystone/ELYSIA_DESTINY_MAP.md)** **[STARE]**
 - **What (Transition)**: **[FIELD_LAW_OS_TRANSITION.md](S1_Body/L1_Foundation/FIELD_LAW_OS_TRANSITION.md)** **[LATEST]**
 - **How (Causal Laws)**: **[CAUSAL_MECHANICS.md](S1_Body/L1_Foundation/CAUSAL_MECHANICS.md)** **[PHASE 200]**
