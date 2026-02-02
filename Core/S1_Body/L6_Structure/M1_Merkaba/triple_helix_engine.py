@@ -16,6 +16,7 @@ Now incorporates "Phase-Axis Directionality" and "Neural Mobility".
 - The Cellular Grid is the "Road".
 - The Phase is the "Vehicle".
 - Conservation of Momentum applies to rotational energy.
+- [SCALABILITY]: Uses Vector API for N-Dimensional Steering.
 """
 
 from dataclasses import dataclass, field
@@ -39,7 +40,7 @@ class ResonanceState:
     vibration: float = 0.0    # Oscillatory instability (Hz equivalent)
 
     # [PHASE-AXIS EXTENSIONS]
-    axis_tilt: float = 0.0        # -1.0 (Vertical/Drill) to +1.0 (Horizontal/Expand)
+    axis_tilt: List[float] = field(default_factory=lambda: [0.0]) # N-Dimensional Axis State
     rotational_momentum: float = 0.0 # Conserved energy of thought
     gradient_flow: float = 0.0    # Magnitude of pre-pulse flow
 
@@ -57,8 +58,10 @@ class TripleHelixEngine:
         self.last_phase = 0.0
 
         # Steering Suspension (PID)
-        self.target_tilt = 0.0
-        self.tilt_velocity = 0.0
+        # We store tilt as a list to support N-dimensions in future
+        self.current_tilt_vector: List[float] = [0.0]
+        self.tilt_velocity: List[float] = [0.0]
+
         self.suspension_k = 0.1 # Spring constant
         self.suspension_d = 0.8 # Damping factor
 
@@ -127,28 +130,37 @@ class TripleHelixEngine:
 
         return total_flow
 
-    def apply_steering(self, target_tilt: float, dt: float):
+    def apply_steering(self, target_vector: List[float], dt: float):
         """
-        [PHASE-AXIS STEERING]
-        Applies PID damping to the axis tilt to prevent 'Cognitive Vertigo'.
+        [PHASE-AXIS STEERING - VECTOR API]
+        Applies PID damping to the N-dimensional axis tilt.
 
         Args:
-            target_tilt: -1.0 (Drill) to +1.0 (Expand)
+            target_vector: List of floats.
+                           Index 0 = Z-Axis (Vertical/Horizontal).
+                           Future indices = W, N, etc.
         """
-        self.target_tilt = target_tilt
+        # Ensure internal state matches dimension of target
+        while len(self.current_tilt_vector) < len(target_vector):
+            self.current_tilt_vector.append(0.0)
+            self.tilt_velocity.append(0.0)
 
-        # Physics Step: Spring-Damper System
-        current = self.state.axis_tilt
-        displacement = self.target_tilt - current
+        # Physics Step: Spring-Damper System per axis
+        for i, target_val in enumerate(target_vector):
+            current = self.current_tilt_vector[i]
+            displacement = target_val - current
 
-        force = displacement * self.suspension_k
-        self.tilt_velocity += force
-        self.tilt_velocity *= self.suspension_d # Apply Damping
+            force = displacement * self.suspension_k
+            self.tilt_velocity[i] += force
+            self.tilt_velocity[i] *= self.suspension_d # Apply Damping
 
-        self.state.axis_tilt += self.tilt_velocity
+            self.current_tilt_vector[i] += self.tilt_velocity[i]
 
-        # Clamp to physical limits
-        self.state.axis_tilt = max(-1.0, min(1.0, self.state.axis_tilt))
+            # Clamp to physical limits
+            self.current_tilt_vector[i] = max(-1.0, min(1.0, self.current_tilt_vector[i]))
+
+        # Update State
+        self.state.axis_tilt = list(self.current_tilt_vector)
 
     def get_system_phase(self) -> float:
         """
@@ -188,11 +200,14 @@ class TripleHelixEngine:
         total = a_mass + g_mass + b_mass
         return (a_mass/total, b_mass/total, g_mass/total)
 
-    def pulse(self, v21: SovereignVector, energy: float, dt: float, target_tilt: float = 0.0) -> ResonanceState:
+    def pulse(self, v21: SovereignVector, energy: float, dt: float, target_tilt: List[float] = None) -> ResonanceState:
         """
         The heartbeat of the DNA.
-        [UPDATED] Incorporates Gradient Flow and Phase-Axis Physics.
+        [UPDATED] Incorporates Gradient Flow and Phase-Axis Physics (Vector API).
         """
+        if target_tilt is None:
+            target_tilt = [0.0]
+
         # 1. [GRADIENT FLOW] Pre-pulse natural equilibration
         flow_mag = self.flow_equilibration()
         self.state.gradient_flow = flow_mag
@@ -200,7 +215,7 @@ class TripleHelixEngine:
         # 2. Update Physical Structure and calculate Friction (The Road Interaction)
         friction = self._update_cells_from_vector(v21)
 
-        # 3. [STEERING] Apply Damped Axis Shift
+        # 3. [STEERING] Apply Damped Axis Shift (Vector API)
         self.apply_steering(target_tilt, dt)
 
         # 4. Calculate New State Metrics

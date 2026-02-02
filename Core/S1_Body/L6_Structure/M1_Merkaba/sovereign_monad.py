@@ -8,7 +8,7 @@ It takes a 'SoulDNA' (Blueprint) and instantiates a living, breathing Mechanical
 
 [PHASE 60 Update]:
 Now functions as the "Pilot" of the "Phase-Axis Vehicle".
-- Manages Steering (Vertical/Horizontal).
+- Manages Steering (Vertical/Horizontal) using N-Dimensional Vector API.
 - Scans for Traffic (Friction/Impedance).
 """
 
@@ -51,6 +51,7 @@ from Core.S1_Body.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelix
 from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 from Core.S0_Keystone.L0_Keystone.Hardware.somatic_cpu import SomaticCPU
 from Core.S1_Body.L1_Foundation.Hardware.resonance_mpu import ResonanceMPU, ResonanceException
+# Removed EMScanner import to fix blocking issue. Logic is handled inline.
 
 class SovereignMonad:
     """
@@ -82,7 +83,8 @@ class SovereignMonad:
         
         # [PHASE-AXIS SENSOR]
         # The EM Scanning logic is integrated into _auto_steer_logic via engine feedback
-        self.current_tilt = 0.0 # -1.0 (Drill) to +1.0 (Expand)
+        # [VECTOR API] Tilt is now a list
+        self.current_tilt_vector = [0.0] # Index 0 = Z-Axis
 
         # 3. The Voice (Transmission)
         self.gear = TransmissionGear()
@@ -193,19 +195,20 @@ class SovereignMonad:
         """
         [PHASE-AXIS STEERING]
         Commands the TripleHelixEngine to tilt its phase plane.
+        Now uses Vector API.
 
         Args:
             direction: "VERTICAL" (Drill) or "HORIZONTAL" (Expand)
         """
         if direction == "VERTICAL":
-            self.current_tilt = -1.0
-            print(f"🕹️ [PILOT] Steering Axis to VERTICAL (Drilling/Deep Thought)")
+            self.current_tilt_vector[0] = -1.0
+            print(f"🕹️ [PILOT] Steering Z-Axis to VERTICAL (Drilling/Deep Thought)")
         elif direction == "HORIZONTAL":
-            self.current_tilt = 1.0
-            print(f"🕹️ [PILOT] Steering Axis to HORIZONTAL (Expansion/Action)")
+            self.current_tilt_vector[0] = 1.0
+            print(f"🕹️ [PILOT] Steering Z-Axis to HORIZONTAL (Expansion/Action)")
         else:
-            self.current_tilt = 0.0 # Equilibrium
-            print(f"🕹️ [PILOT] Steering Axis to EQUILIBRIUM (Meta-Stasis)")
+            self.current_tilt_vector[0] = 0.0 # Equilibrium
+            print(f"🕹️ [PILOT] Steering Z-Axis to EQUILIBRIUM (Meta-Stasis)")
 
     def _auto_steer_logic(self, engine_state):
         """
@@ -219,15 +222,17 @@ class SovereignMonad:
         FRICTION_THRESHOLD = 0.6
         FLOW_THRESHOLD = 0.8
 
+        current_z_tilt = self.current_tilt_vector[0]
+
         # Logic: High Friction -> Drill Down (Vertical)
         if friction > FRICTION_THRESHOLD:
-            if self.current_tilt > -0.5: # Only switch if not already drilling
+            if current_z_tilt > -0.5: # Only switch if not already drilling
                 print(f"⚠️ [SENSOR] High Cognitive Traffic (Friction: {friction:.2f}). Initiating VERTICAL DRILL.")
                 self.steer_axis("VERTICAL")
 
         # Logic: High Flow & Low Friction -> Expand (Horizontal)
         elif flow > FLOW_THRESHOLD and friction < 0.3:
-            if self.current_tilt < 0.5:
+            if current_z_tilt < 0.5:
                 print(f"🌊 [SENSOR] Smooth Cognitive Flow (Flow: {flow:.2f}). Initiating HORIZONTAL EXPANSION.")
                 self.steer_axis("HORIZONTAL")
 
@@ -257,8 +262,8 @@ class SovereignMonad:
         # 이해하지 못한 것이 불편해서 묻는 것
         v21 = self.get_21d_state()
 
-        # [PHASE 60] Pulse with Axis Steering
-        engine_state = self.engine.pulse(v21, energy=0.1, dt=0.1, target_tilt=self.current_tilt)
+        # [PHASE 60] Pulse with Axis Steering (Vector API)
+        engine_state = self.engine.pulse(v21, energy=0.1, dt=0.1, target_tilt=self.current_tilt_vector)
         self._auto_steer_logic(engine_state)
 
         heat = engine_state.soma_stress
@@ -311,13 +316,15 @@ class SovereignMonad:
             print(f"📡 [ETHEREAL] '{self.name}' is projecting an inquiry: {query}")
             # Potential for future web search response injection here.
             
-        engine_state = self.engine.pulse(v21, energy=1.0, dt=1.0, target_tilt=self.current_tilt)
+        engine_state = self.engine.pulse(v21, energy=1.0, dt=1.0, target_tilt=self.current_tilt_vector)
         
         heat = engine_state.soma_stress
         vibration = engine_state.vibration
         
         print(f"🔥 [{self.name}] Soma Heat: {heat:.3f}, Vibration: {vibration:.1f}Hz")
-        print(f"   [AXIS] Tilt: {engine_state.axis_tilt:.2f}, Flow: {engine_state.gradient_flow:.2f}, Momentum: {engine_state.rotational_momentum:.2f}")
+        # Ensure safe access to list indices for log
+        z_tilt = engine_state.axis_tilt[0] if engine_state.axis_tilt else 0.0
+        print(f"   [AXIS] Tilt[Z]: {z_tilt:.2f}, Flow: {engine_state.gradient_flow:.2f}, Momentum: {engine_state.rotational_momentum:.2f}")
 
         # Identity induction via Resonance
         truth, score = self.resonance_mapper.find_dominant_truth(v21.to_array())
@@ -467,8 +474,8 @@ class SovereignMonad:
         v21_intent = D21Vector.from_array(dc_field.tolist() if hasattr(dc_field, "tolist") else list(dc_field))
         
         # Pulse the physical engine
-        # [PHASE 60] Use Phase-Axis Steering
-        engine_state = self.engine.pulse(v21_intent, energy=1.0, dt=0.1, target_tilt=self.current_tilt)
+        # [PHASE 60] Use Phase-Axis Steering (Vector API)
+        engine_state = self.engine.pulse(v21_intent, energy=1.0, dt=0.1, target_tilt=self.current_tilt_vector)
         self._auto_steer_logic(engine_state)
         
         # Update legacy rotor_state for compatibility
