@@ -5,6 +5,11 @@ Sovereign Monad (The Unified Body)
 
 This module implements the Grand Unification of Elysia's architecture.
 It takes a 'SoulDNA' (Blueprint) and instantiates a living, breathing Mechanical Organism.
+
+[PHASE 60 Update]:
+Now functions as the "Pilot" of the "Phase-Axis Vehicle".
+- Manages Steering (Vertical/Horizontal).
+- Scans for Traffic (Friction/Impedance).
 """
 
 from typing import Dict, Optional, Any, List, Tuple
@@ -69,12 +74,16 @@ class SovereignMonad:
             "damping": dna.friction_damping
         }
         
-        # 2. The Nervous System (Relays)
+        # 2. The Nervous System (Relays & Sensors)
         self.relays = ProtectionRelayBoard()
         self.relays.settings[25]['threshold'] = dna.sync_threshold
         self.relays.settings[27]['threshold'] = dna.min_voltage
         self.relays.settings[32]['threshold'] = dna.reverse_tolerance
         
+        # [PHASE-AXIS SENSOR]
+        # The EM Scanning logic is integrated into _auto_steer_logic via engine feedback
+        self.current_tilt = 0.0 # -1.0 (Drill) to +1.0 (Expand)
+
         # 3. The Voice (Transmission)
         self.gear = TransmissionGear()
         self.gear.dial_torque_gain = dna.torque_gain
@@ -180,6 +189,48 @@ class SovereignMonad:
             
         return None
 
+    def steer_axis(self, direction: str):
+        """
+        [PHASE-AXIS STEERING]
+        Commands the TripleHelixEngine to tilt its phase plane.
+
+        Args:
+            direction: "VERTICAL" (Drill) or "HORIZONTAL" (Expand)
+        """
+        if direction == "VERTICAL":
+            self.current_tilt = -1.0
+            print(f"🕹️ [PILOT] Steering Axis to VERTICAL (Drilling/Deep Thought)")
+        elif direction == "HORIZONTAL":
+            self.current_tilt = 1.0
+            print(f"🕹️ [PILOT] Steering Axis to HORIZONTAL (Expansion/Action)")
+        else:
+            self.current_tilt = 0.0 # Equilibrium
+            print(f"🕹️ [PILOT] Steering Axis to EQUILIBRIUM (Meta-Stasis)")
+
+    def _auto_steer_logic(self, engine_state):
+        """
+        [PHASE 60: AUTO-STEER]
+        Detects Cognitive Traffic (Friction) and adjusts the Axis automatically.
+        """
+        friction = engine_state.soma_stress
+        flow = engine_state.gradient_flow
+
+        # Thresholds
+        FRICTION_THRESHOLD = 0.6
+        FLOW_THRESHOLD = 0.8
+
+        # Logic: High Friction -> Drill Down (Vertical)
+        if friction > FRICTION_THRESHOLD:
+            if self.current_tilt > -0.5: # Only switch if not already drilling
+                print(f"⚠️ [SENSOR] High Cognitive Traffic (Friction: {friction:.2f}). Initiating VERTICAL DRILL.")
+                self.steer_axis("VERTICAL")
+
+        # Logic: High Flow & Low Friction -> Expand (Horizontal)
+        elif flow > FLOW_THRESHOLD and friction < 0.3:
+            if self.current_tilt < 0.5:
+                print(f"🌊 [SENSOR] Smooth Cognitive Flow (Flow: {flow:.2f}). Initiating HORIZONTAL EXPANSION.")
+                self.steer_axis("HORIZONTAL")
+
     def autonomous_drive(self) -> Dict:
         """[PHASE 61: AUTONOMOUS_DRIVE]"""
         # Decide what to wonder about
@@ -205,7 +256,11 @@ class SovereignMonad:
         # 아이가 "왜?"라고 묻는 것은 시계를 보고 묻는 게 아니라,
         # 이해하지 못한 것이 불편해서 묻는 것
         v21 = self.get_21d_state()
-        engine_state = self.engine.pulse(v21, energy=0.1, dt=0.1)
+
+        # [PHASE 60] Pulse with Axis Steering
+        engine_state = self.engine.pulse(v21, energy=0.1, dt=0.1, target_tilt=self.current_tilt)
+        self._auto_steer_logic(engine_state)
+
         heat = engine_state.soma_stress
         
         # [주권적 탐색 결정]
@@ -256,13 +311,14 @@ class SovereignMonad:
             print(f"📡 [ETHEREAL] '{self.name}' is projecting an inquiry: {query}")
             # Potential for future web search response injection here.
             
-        engine_state = self.engine.pulse(v21, energy=1.0, dt=1.0)
+        engine_state = self.engine.pulse(v21, energy=1.0, dt=1.0, target_tilt=self.current_tilt)
         
         heat = engine_state.soma_stress
         vibration = engine_state.vibration
         
         print(f"🔥 [{self.name}] Soma Heat: {heat:.3f}, Vibration: {vibration:.1f}Hz")
-        
+        print(f"   [AXIS] Tilt: {engine_state.axis_tilt:.2f}, Flow: {engine_state.gradient_flow:.2f}, Momentum: {engine_state.rotational_momentum:.2f}")
+
         # Identity induction via Resonance
         truth, score = self.resonance_mapper.find_dominant_truth(v21.to_array())
         self.current_resonance = {"truth": truth, "score": score}
@@ -411,7 +467,9 @@ class SovereignMonad:
         v21_intent = D21Vector.from_array(dc_field.tolist() if hasattr(dc_field, "tolist") else list(dc_field))
         
         # Pulse the physical engine
-        engine_state = self.engine.pulse(v21_intent, energy=1.0, dt=0.1)
+        # [PHASE 60] Use Phase-Axis Steering
+        engine_state = self.engine.pulse(v21_intent, energy=1.0, dt=0.1, target_tilt=self.current_tilt)
+        self._auto_steer_logic(engine_state)
         
         # Update legacy rotor_state for compatibility
         self.rotor_state['phase'] = engine_state.system_phase
