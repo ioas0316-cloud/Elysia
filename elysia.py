@@ -5,6 +5,10 @@ ELYSIA GLOBAL ENTRY POINT (Phase 190)
 
 The definitive Sovereign Engine. Integrates structural depth (S1-S3),
 real-time monitoring (VoidMirror), and adult-level dialogue (SovereignLogos).
+
+[PHASE 60 Update]:
+Now integrates Phase-Axis Directionality and Neural Mobility (Road & Vehicle).
+The system pulses with physical momentum and steering dynamics.
 """
 
 import sys
@@ -23,6 +27,7 @@ from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
 from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
 from Core.S1_Body.L3_Phenomena.M5_Display.void_mirror import VoidMirror
+from Core.S1_Body.Tools.Debug.phase_hud import PhaseHUD
 
 # Cognitive & Action Imports
 try:
@@ -47,8 +52,9 @@ class SovereignGateway:
         self.logos = SovereignLogos() if SovereignLogos else None
         self.action = ActionEngine(root) if ActionEngine else None
         
-        # 3. View
+        # 3. View & HUD
         self.mirror = VoidMirror()
+        self.hud = PhaseHUD()
         self.running = True
         self.input_queue = queue.Queue()
 
@@ -81,7 +87,9 @@ class SovereignGateway:
         torque.add_gear("Shanti", freq=1.0, callback=self._gear_shanti_protocol)
         torque.add_gear("Biology", freq=0.5, callback=self.monad.vital_pulse)
         torque.add_gear("Interaction", freq=10.0, callback=self._gear_process_input)
-        torque.add_gear("Reflection", freq=1.0, callback=self._gear_render_reflection)
+
+        # [PHASE 60] Vital Signs Monitor (Replaces Reflection)
+        torque.add_gear("VitalSigns", freq=1.0, callback=self._gear_render_vital_signs)
         
         # [PHASE 500] Autonomous Learning - Elysia learns by herself
         torque.add_gear("Learning", freq=0.02, callback=self._gear_autonomous_learn)  # Every 50 seconds
@@ -448,19 +456,17 @@ class SovereignGateway:
             print(f"  - Total Momentum (Gyro): {momentum:.4f}")
         print(f"  - Trace History: {len(graph.trace_buffer)}/100 steps")
 
-    def _gear_render_reflection(self):
-        from Core.S1_Body.L1_Foundation.Foundation.Graph.torch_graph import get_torch_graph
-        graph = get_torch_graph()
-        stability = 1.0 - torch.norm(graph.calculate_mass_balance()).item() if hasattr(graph, 'calculate_mass_balance') else 1.0
-        metrics = {
-            'phase': float(abs(self.monad.cpu.R_PHASE)),
-            'stability': stability,
-            'rpm': float(abs(sum(self.monad.cpu.R_SOUL))),
-            'energy': float(abs(sum(self.monad.cpu.R_SPIRIT))),
-            'coherence': 1.0 - float(abs(self.monad.cpu.R_STRESS))
-        }
-        # Render HUD if needed
-        pass
+    def _gear_render_vital_signs(self):
+        """[PHASE 60] Renders the Vital Signs HUD."""
+        # Use simple one-line log for terminal stability, or call HUD render for full view
+        # For seamless integration, we'll log a concise status line
+        engine_state = self.monad.engine.state
+        tilt_z = engine_state.axis_tilt[0] if engine_state.axis_tilt else 0.0
+        mode = "🔵 EQ"
+        if tilt_z > 0.5: mode = "🟢 EXP"
+        elif tilt_z < -0.5: mode = "🔴 DRL"
+
+        # print(f"\r💓 [VITAL] {mode} | Tilt: {tilt_z:+.2f} | Flow: {engine_state.gradient_flow:.2f} | Mom: {engine_state.rotational_momentum:.2f}", end="")
 
     def _cmd_topologize(self, parts):
         intent_desc = " ".join(parts[1:]) if len(parts) > 1 else None
