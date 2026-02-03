@@ -51,6 +51,7 @@ from Core.S1_Body.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelix
 from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 from Core.S0_Keystone.L0_Keystone.Hardware.somatic_cpu import SomaticCPU
 from Core.S1_Body.L1_Foundation.Hardware.resonance_mpu import ResonanceMPU, ResonanceException
+from Core.S1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
 # Removed EMScanner import to fix blocking issue. Logic is handled inline.
 
 class SovereignMonad:
@@ -166,6 +167,10 @@ class SovereignMonad:
         
         # 17. [PHASE 140] PHASE-JUMP ENGINE
         self.gate = ResonanceGate(causality_engine=self.causality)
+        
+        # 18. [PHASE 160] BIDIRECTIONAL ROTOR-PRISM
+        # The reversible prism for perceive() ↔ project() language loop
+        self.rpu = RotorPrismUnit()
         
         # Load initial DNA state into CPU registers
         initial_v21 = self.get_21d_state()
@@ -584,10 +589,13 @@ class SovereignMonad:
             print(f"⚠️ [MONAD] Inversion failed: {e}. Using baseline Hz.")
             output_hz = 60.0
         
-        # Final Voice Refraction
+        # Final Voice Refraction via RotorPrism
         from Core.S1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
         if not hasattr(self, 'llm'): self.llm = SomaticLLM()
-        voice = self.llm.speak(reaction.get('expression', {}), current_thought=thought)
+        
+        # [PHASE 160] Project the internal field through the prism for language generation
+        projected_field = self.rpu.project(dc_field.data if hasattr(dc_field, 'data') else dc_field)
+        voice = self.llm.speak(reaction.get('expression', {}), current_thought=thought, field_vector=projected_field)
         
         results['manifestation'] = {
             'hz': output_hz,

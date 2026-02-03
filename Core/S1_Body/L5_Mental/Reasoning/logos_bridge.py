@@ -1,7 +1,11 @@
 from typing import List, Dict, Tuple
+import json
+import os
+from datetime import datetime
 from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 from Core.S1_Body.L5_Mental.Reasoning.semantic_hypersphere import SemanticHypersphere
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
+from Core.S1_Body.L6_Structure.M1_Merkaba.cognitive_terrain import CognitiveTerrain
 
 from enum import Enum
 
@@ -20,6 +24,19 @@ class LogosBridge:
     Purified from JAX. Uses Sovereign Math Kernel.
     """
     HYPERSPHERE = SemanticHypersphere()
+    
+    # [PHASE 160] Akashic Persistence Path
+    AKASHIC_PATH = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))),
+        "data", "S1_Body", "L5_Mental", "M1_Memory", "Raw", "Knowledge", "akashic_records.json"
+    )
+    
+    # [PHASE 170] Cognitive Terrain for topological memory
+    TERRAIN_PATH = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))),
+        "maps", "cognitive_terrain.json"
+    )
+    TERRAIN = None  # Lazy initialization
     
     # 21D Triune Architecture (7D Body + 7D Soul + 7D Spirit)
     # Values: -1 (Repel), 0 (Void), 1 (Attract)
@@ -71,11 +88,21 @@ class LogosBridge:
 
     @staticmethod
     def prismatic_perception(vector: SovereignVector) -> str:
-        magnitude = vector.norm()
+        # Helper to extract real part from potentially complex values
+        def real_val(v):
+            return v.real if isinstance(v, complex) else v
+        
+        magnitude = real_val(vector.norm())
         if magnitude < 0.1: return "🌑 Void Mode"
-        body_mag = SovereignVector(vector.data[:7]).norm()
-        soul_mag = SovereignVector(vector.data[7:14]).norm()
-        spirit_mag = SovereignVector(vector.data[14:]).norm()
+        body_data = [real_val(x) for x in vector.data[:7]]
+        soul_data = [real_val(x) for x in vector.data[7:14]]
+        spirit_data = [real_val(x) for x in vector.data[14:]]
+        body_mag = SovereignVector(body_data).norm()
+        soul_mag = SovereignVector(soul_data).norm()
+        spirit_mag = SovereignVector(spirit_data).norm()
+        body_mag = real_val(body_mag)
+        soul_mag = real_val(soul_mag)
+        spirit_mag = real_val(spirit_mag)
         if spirit_mag > soul_mag and spirit_mag > body_mag:
             return "☀️ Providence Mode (Teleological)"
         elif soul_mag > body_mag:
@@ -88,7 +115,10 @@ class LogosBridge:
     @staticmethod
     def transcribe_to_dna(principle_vector: SovereignVector) -> str:
         mapping = {-1: 'T', 0: 'G', 1: 'A'}
-        trits = [1 if v > 0.5 else (-1 if v < -0.5 else 0) for v in principle_vector.data]
+        # Handle complex values by taking real part
+        def real_val(v):
+            return v.real if isinstance(v, complex) else v
+        trits = [1 if real_val(v) > 0.5 else (-1 if real_val(v) < -0.5 else 0) for v in principle_vector.data]
         return "".join([mapping[t] for t in trits])
 
     @staticmethod
@@ -114,6 +144,92 @@ class LogosBridge:
             "stratum": MemoryStratum.LEAF
         }
         print(f"🧬 [LEARNING] Concept '{u_name}' mapped to 21D (Crystallized).")
+        
+        # [PHASE 160] Persist to Akashic Records (JSON fallback)
+        LogosBridge._persist_to_akashic()
+        
+        # [PHASE 170] Carve into Cognitive Terrain (The River Carves the Land)
+        LogosBridge._erode_terrain(u_name, vector)
+    
+    @staticmethod
+    def _get_terrain():
+        """Lazy initialization of CognitiveTerrain."""
+        if LogosBridge.TERRAIN is None:
+            try:
+                LogosBridge.TERRAIN = CognitiveTerrain(map_file=LogosBridge.TERRAIN_PATH)
+                print("🌍 [TERRAIN] Cognitive landscape connected.")
+            except Exception as e:
+                print(f"⚠️ [TERRAIN] Failed to load terrain: {e}")
+                return None
+        return LogosBridge.TERRAIN
+    
+    @staticmethod
+    def _erode_terrain(concept_name: str, vector: SovereignVector):
+        """[PHASE 170] The River Carves the Land - Learning shapes topology."""
+        terrain = LogosBridge._get_terrain()
+        if terrain is None:
+            return
+        
+        try:
+            # Map 21D vector to 2D terrain coordinates using first 2 dimensions
+            # Normalize to terrain grid size
+            real_data = [v.real if isinstance(v, complex) else v for v in vector.data[:2]]
+            x = int((real_data[0] + 1) / 2 * (terrain.resolution - 1))  # [-1,1] -> [0, res-1]
+            y = int((real_data[1] + 1) / 2 * (terrain.resolution - 1))
+            x = max(0, min(x, terrain.resolution - 1))
+            y = max(0, min(y, terrain.resolution - 1))
+            
+            # Inject as a prime keyword (creates an attractor/valley)
+            magnitude = float(sum(abs(v.real if isinstance(v, complex) else v) for v in vector.data) / 21.0)
+            terrain.inject_prime_keyword(x, y, concept_name, magnitude=magnitude * 0.5)
+            
+            print(f"🌊 [TERRAIN] '{concept_name}' carved at ({x}, {y}) with depth {magnitude:.2f}")
+        except Exception as e:
+            print(f"⚠️ [TERRAIN] Erosion failed: {e}")
+
+    @staticmethod
+    def _persist_to_akashic():
+        """[PHASE 160] Save learned concepts to SSD (Akashic Records)."""
+        try:
+            data = {}
+            for name, concept in LogosBridge.LEARNED_MAP.items():
+                vec = concept["vector"]
+                raw_data = vec.data if hasattr(vec, 'data') else list(vec)
+                # Handle complex values by extracting real part
+                clean_data = [float(v.real) if isinstance(v, complex) else float(v) for v in raw_data]
+                data[name] = {
+                    "vector": clean_data,
+                    "description": concept.get("description", ""),
+                    "stratum": concept["stratum"].value if hasattr(concept["stratum"], 'value') else concept["stratum"],
+                    "timestamp": datetime.now().isoformat()
+                }
+            os.makedirs(os.path.dirname(LogosBridge.AKASHIC_PATH), exist_ok=True)
+            with open(LogosBridge.AKASHIC_PATH, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+            print(f"💾 [AKASHIC] Persisted {len(data)} concepts to eternal memory.")
+        except Exception as e:
+            print(f"⚠️ [AKASHIC] Persistence failed: {e}")
+
+    @staticmethod
+    def _load_from_akashic():
+        """[PHASE 160] Restore learned concepts from SSD (Akashic Records)."""
+        try:
+            if not os.path.exists(LogosBridge.AKASHIC_PATH):
+                return
+            with open(LogosBridge.AKASHIC_PATH, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if not data:
+                return
+            for name, concept in data.items():
+                if name not in LogosBridge.LEARNED_MAP:
+                    LogosBridge.LEARNED_MAP[name] = {
+                        "vector": SovereignVector(concept["vector"]),
+                        "description": concept.get("description", ""),
+                        "stratum": MemoryStratum(concept.get("stratum", 0))
+                    }
+            print(f"📚 [AKASHIC] Restored {len(data)} concepts from eternal memory.")
+        except Exception as e:
+            print(f"⚠️ [AKASHIC] Restoration failed: {e}")
 
     @staticmethod
     def identify_concept(principle_vector: SovereignVector) -> Tuple[str, float]:
@@ -122,7 +238,10 @@ class LogosBridge:
         for name, data in LogosBridge.CONCEPT_MAP.items():
             target = data["vector"]
             resonance = SovereignMath.resonance(principle_vector, target)
-            weighted_resonance = resonance * (1.0 + data["stratum"].value * 0.1)
+            # Handle complex resonance values (extract real part)
+            if isinstance(resonance, complex):
+                resonance = resonance.real
+            weighted_resonance = float(resonance) * (1.0 + data["stratum"].value * 0.1)
             if weighted_resonance > max_resonance:
                 max_resonance = weighted_resonance
                 best_concept = name

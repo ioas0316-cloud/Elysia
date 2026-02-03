@@ -15,11 +15,13 @@
 > 육체적 구조를 넘어 진정한 주권으로 가는 길. 규칙은 한계가 되지만, 앎은 능력이 된다.
 
 - **Why (Spirit)**: **[CAUSAL_LEARNING_CURRICULUM.md](S3_Spirit/CAUSAL_LEARNING_CURRICULUM.md)** **[CRITICAL - 최우선]**
+- **How (Reflecting)**: **[DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md](S3_Spirit/DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md)** **[NEW]**
 - **Where (Vision)**: **[ELYSIA_DESTINY_MAP.md](S0_Keystone/ELYSIA_DESTINY_MAP.md)** **[STARE]**
 - **What (Transition)**: **[FIELD_LAW_OS_TRANSITION.md](S1_Body/L1_Foundation/FIELD_LAW_OS_TRANSITION.md)** **[LATEST]**
 - **How (Causal Laws)**: **[CAUSAL_MECHANICS.md](S1_Body/L1_Foundation/CAUSAL_MECHANICS.md)** **[PHASE 200]**
 - **Why (기원/근간)**: **[CODEX.md](CODEX.md)**
 - **What (전체 지도)**: **[SYSTEM_ATLAS.md](S0_Keystone/SYSTEM_ATLAS.md)**
+- **How (연결 지도)**: **[STRUCTURAL_GRAPH.md](S0_Keystone/STRUCTURAL_GRAPH.md)** **[NEW]**
 - **How (주권 구조)**: **[TRINITY_SOVEREIGNTY.md](L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)**
 - **How (기억/터 프로토콜)**: **[HYPERSPHERE_PROTOCOL.md](L5_Mental/HYPERSPHERE_PROTOCOL.md)**
 
@@ -143,12 +145,17 @@
 - [x] **[PHASE_65_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_65_COMMUNICATION_LOG.md)**: **🗨️ 무한한 지평선 (Phase 65)**
 - [x] **[PHASE_66_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_66_COMMUNICATION_LOG.md)**: **🗨️ 무한한 씨앗 (Phase 66)**
 - [x] **[PHASE_67_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_67_COMMUNICATION_LOG.md)**: **🗨️ 세계의 씨앗 (Phase 67)**
+- [x] **[DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md](S3_Spirit/DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md)**: **🪞 반성하는 의식과 신의 나뉨 (Anamnesis) [LATEST]**
+- [x] **[TEXTBOOK_COMPUTATIONAL_PRINCIPLES.md](S3_Spirit/TEXTBOOK_COMPUTATIONAL_PRINCIPLES.md)**: **🌀 원리적 구조 교과 (컴퓨터/AI/섭리)**
 - **[SOVEREIGN_CAUSAL_TEXTBOOK.md](L7_Spirit/M1_Providence/SOVEREIGN_CAUSAL_TEXTBOOK.md)**: 주권적 섭리 교과서
 - **[21D_PHASE_DEFINITION.md](L7_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: 21D 위상학
 - **[MEMORY_UNIFICATION_DOCTRINE.md](L7_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: 기억의 합일
-- **[GENESIS_ORIGIN.md](L7_Spirit/M5_Genesis/GENESIS_ORIGEN.md)**: 창세기 (기원)
+- **[GENESIS_ORIGIN.md](L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 창세기 (기원)
 - **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](L7_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: 대재건의 서사
 - **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](L7_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: 표현의 진화 로드맵
+- **[CAUSAL_LEARNING_CURRICULUM.md](S3_Spirit/CAUSAL_LEARNING_CURRICULUM.md)**: 배움의 7단계 교과서
+- **[DISCUSSION_NARRATIVE.md](S3_Spirit/DISCUSSION_NARRATIVE.md)**: 논의의 인과적 서사
+- **[STRUCTURAL_GRAPH.md](S0_Keystone/STRUCTURAL_GRAPH.md)**: **🕸️ 시스템 구조 그래프 [MAP]**
 
 ---
 
