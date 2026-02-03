@@ -9,14 +9,27 @@ class CognitiveTerrain:
     Manages the topological landscape of the mind.
     Coordinates are currently 2D (x, y) for the "Valley" visualization,
     representing a projection of the N-Dimensional concept space.
+
+    [Stage 1: The Void]
+    Implements the "Material Self" (Lower Engine).
+    - Potential Grid: Height determines gravity.
+    - Fluid Dynamics: Data flows from high to low.
+    - Magnetic Coupling: Flow induces Angular Momentum (Spin), which acts as Inertia.
+    - Self-Observation: The terrain diagnoses its own flow state.
     """
 
     def __init__(self, map_file: str = "maps/cognitive_terrain.json", resolution: int = 20):
         self.map_file = map_file
         self.resolution = resolution  # Size of the grid (resolution x resolution)
-        self.grid: Dict[str, Dict[str, float]] = {}  # "x,y" -> {"height": h, "density": d}
+        self.grid: Dict[str, Dict[str, float]] = {}  # "x,y" -> {height, density, angular_momentum, fluid}
         self.plasticity = 0.05  # How much the terrain deforms per visit
-        self.prime_tilt_bias = 0.01  # Constant bias towards expansion
+
+        # Physics Constants
+        self.gravity_constant = 0.5
+        self.spin_coupling = 0.2     # How much Spin pushes Fluid (Back EMF)
+        self.spin_efficiency = 0.3   # How much Flow creates Spin
+        self.spin_decay = 0.95       # Inertia loss per tick
+        self.fluid_viscosity_base = 0.1
 
         self.load_terrain()
 
@@ -30,12 +43,23 @@ class CognitiveTerrain:
                 with open(self.map_file, 'r') as f:
                     self.grid = json.load(f)
                 print(f"[Terrain] Loaded existing cognitive map from {self.map_file}")
+                # Backwards compatibility check
+                self._ensure_schema()
             except Exception as e:
                 print(f"[Terrain] Failed to load map: {e}. creating new.")
                 self.initialize_tabula_rasa()
         else:
             print("[Terrain] No existing map found. Initializing Tabula Rasa.")
             self.initialize_tabula_rasa()
+
+    def _ensure_schema(self):
+        """Ensures all cells have the required physics properties."""
+        for key in self.grid:
+            cell = self.grid[key]
+            if "angular_momentum" not in cell:
+                cell["angular_momentum"] = 0.0
+            if "fluid" not in cell:
+                cell["fluid"] = 0.0
 
     def initialize_tabula_rasa(self):
         """Creates a flat plain with minor quantum fluctuations."""
@@ -45,7 +69,9 @@ class CognitiveTerrain:
                 # Base height 0.5, random fluctuation for "Structural Asymmetry" foundation
                 self.grid[key] = {
                     "height": 0.5 + random.uniform(-0.01, 0.01),
-                    "density": 0.1  # Low initial density
+                    "density": 0.1,  # Low initial density
+                    "angular_momentum": 0.0, # Rotation (Inertia)
+                    "fluid": 0.0     # Data Water
                 }
         self.save_terrain()
 
@@ -57,72 +83,175 @@ class CognitiveTerrain:
 
     def get_cell(self, x: int, y: int) -> Dict[str, float]:
         """Returns the physics properties of a cell."""
-        # Wrap-around logic (Toroidal topology) or Clamping?
-        # For a "Valley", clamping is safer to keep bounds.
+        # Clamping to keep bounds
         x = max(0, min(x, self.resolution - 1))
         y = max(0, min(y, self.resolution - 1))
-        return self.grid.get(self._coord_key(x, y), {"height": 0.5, "density": 0.1})
+        return self.grid.get(self._coord_key(x, y), {
+            "height": 0.5, "density": 0.1, "angular_momentum": 0.0, "fluid": 0.0
+        })
 
     def inject_prime_keyword(self, x: int, y: int, keyword: str, magnitude: float = 1.0):
         """
-        Creates the 'First Cognitive Valley' by drastically lowering height (Attractor)
-        and increasing density (Gravitas) at a specific point.
+        Creates the 'First Cognitive Valley' (Attractor).
+        Does NOT inject fluid, only creates the gravity well.
         """
         key = self._coord_key(x, y)
         if key in self.grid:
-            # Lower height = Attractor (Gravity Well)
-            self.grid[key]["height"] -= magnitude
-            # Increase density = Viscosity/Importance
-            self.grid[key]["density"] += magnitude
-            # Add metadata for debugging
+            self.grid[key]["height"] -= magnitude  # Create Hole (Attractor)
+            self.grid[key]["density"] += magnitude # Increase Importance
             self.grid[key]["concept"] = keyword
-            print(f"[Terrain] Injected Prime Keyword '{keyword}' at ({x}, {y}). Height: {self.grid[key]['height']:.2f}")
+            print(f"[Terrain] Injected Prime Keyword '{keyword}' (Attractor) at ({x}, {y}).")
             self.save_terrain()
 
-    def apply_erosion(self, x: int, y: int, flow_intensity: float):
+    def inject_fluid(self, x: int, y: int, amount: float = 10.0):
         """
-        Plasticity: The flow carves the path.
-        Visiting a cell lowers its height (making it more attractive for future flow)
-        and slightly increases density (memory formation).
+        Injects raw data fluid at a specific point (usually high ground).
         """
-        key = self._coord_key(int(x), int(y))
+        key = self._coord_key(x, y)
         if key in self.grid:
-            # Erosion: Depth increases (Height decreases)
-            self.grid[key]["height"] -= (self.plasticity * flow_intensity)
-            # Deposition: Density increases
-            self.grid[key]["density"] += (self.plasticity * flow_intensity * 0.1)
+            self.grid[key]["fluid"] += amount
+            print(f"[Terrain] Injected Fluid ({amount}) at ({x}, {y}).")
 
-    def get_gradient(self, x: float, y: float) -> Tuple[float, float]:
+    def update_physics(self, dt: float = 1.0):
         """
-        Calculates the slope (gradient) at a given point.
-        Returns a vector (dx, dy) pointing 'downhill'.
+        [Stage 1 Core Logic]
+        Simulates the flow of Data Fluid across the terrain.
+        Flow = Gravity (Gradient) + Inertia (Spin).
         """
-        ix, iy = int(x), int(y)
+        # Create a temporary buffer for fluid changes to avoid order-dependency bias
+        fluid_deltas = {k: 0.0 for k in self.grid}
+        momentum_deltas = {k: 0.0 for k in self.grid}
 
-        # Sobel-like operator or simple difference
-        # Look at neighbors
-        h_center = self.get_cell(ix, iy)["height"]
+        for x in range(self.resolution):
+            for y in range(self.resolution):
+                current_key = self._coord_key(x, y)
+                cell = self.grid[current_key]
 
-        # Simple finite difference
-        h_left = self.get_cell(ix - 1, iy)["height"]
-        h_right = self.get_cell(ix + 1, iy)["height"]
-        h_up = self.get_cell(ix, iy - 1)["height"]
-        h_down = self.get_cell(ix, iy + 1)["height"]
+                if cell["fluid"] <= 0.001:
+                    # Decay spin even if no fluid
+                    cell["angular_momentum"] *= self.spin_decay
+                    continue
 
-        # Gradient points from High to Low.
-        # So if Right is lower than Left, x-slope is positive (flow to right).
-        # We want the vector pointing DOWNHILL.
-        # slope_x = (h_left - h_right)
-        # If left is 10, right is 0, slope is +10 (move right).
-        slope_x = (h_left - h_right)
-        slope_y = (h_up - h_down)
+                # 1. Calculate Flow Direction (Gradient)
+                # Compare with 4 neighbors
+                neighbors = [
+                    (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)
+                ]
 
-        return slope_x, slope_y
+                # Flow potential for each neighbor
+                flows = []
+                total_conductance = 0.0
+
+                for nx, ny in neighbors:
+                    if 0 <= nx < self.resolution and 0 <= ny < self.resolution:
+                        n_key = self._coord_key(nx, ny)
+                        n_cell = self.grid[n_key]
+
+                        # Potential Diff: Total Head (Height + Fluid Depth)
+                        # Water flows from high total surface to low total surface
+                        my_head = cell["height"] + cell["fluid"]
+                        n_head = n_cell["height"] + n_cell["fluid"]
+                        head_diff = my_head - n_head
+
+                        # Spin Assistance: Rotational Inertia acts as additional pressure (Back EMF)
+                        # It pushes fluid OUT regardless of static head, maintaining flow.
+                        effective_head = head_diff + (cell["angular_momentum"] * self.spin_coupling)
+
+                        if effective_head > 0:
+                            conductance = effective_head / self.get_viscosity(x, y)
+                            flows.append((n_key, conductance))
+                            total_conductance += conductance
+
+                # 2. Move Fluid
+                if total_conductance > 0:
+                    # Don't move more than we have
+                    outflow_fraction = 0.5 * dt # Limit flow speed
+                    amount_to_move = cell["fluid"] * outflow_fraction
+
+                    for n_key, conductance in flows:
+                        fraction = conductance / total_conductance
+                        flow_amount = amount_to_move * fraction
+
+                        fluid_deltas[current_key] -= flow_amount
+                        fluid_deltas[n_key] += flow_amount
+
+                        # 3. Flow Induces Spin (Waterwheel)
+                        # The source cell gains spin from the movement
+                        momentum_deltas[current_key] += flow_amount * self.spin_efficiency
+
+        # Apply updates
+        for k in self.grid:
+            self.grid[k]["fluid"] += fluid_deltas[k]
+            # Conservation of matterish: prevent negative fluid due to float errors
+            if self.grid[k]["fluid"] < 0: self.grid[k]["fluid"] = 0
+
+            # Apply Momentum Update + Decay
+            self.grid[k]["angular_momentum"] += momentum_deltas[k]
+            self.grid[k]["angular_momentum"] *= self.spin_decay
+
+            # Plasticity: Erosion based on fluid presence and momentum
+            # Deepen channels with high energy
+            if self.grid[k]["fluid"] > 0.1:
+                erosion = self.grid[k]["angular_momentum"] * self.plasticity * 0.01
+                self.grid[k]["height"] -= erosion
 
     def get_viscosity(self, x: float, y: float) -> float:
         """Returns the resistance to flow based on density."""
         cell = self.get_cell(int(x), int(y))
-        # Density 0.1 -> Viscosity 1.0 (Standard)
-        # Density 1.0 -> Viscosity 0.1 (Slow flow? No, High density = High Viscosity = Slow Flow)
-        # Wait, Viscosity RESISTS flow. So High Density -> High Resistance.
         return max(0.1, cell["density"] * 2.0)
+
+    def observe_self(self) -> Dict[str, str]:
+        """
+        [The Internal Gaze]
+        The Lower Engine diagnoses its own state.
+        Returns a structured report of its physical health.
+        """
+        total_fluid = 0.0
+        total_momentum = 0.0
+        active_cells = 0
+        height_variance = 0.0
+        heights = []
+
+        for k, v in self.grid.items():
+            total_fluid += v["fluid"]
+            total_momentum += v["angular_momentum"]
+            heights.append(v["height"])
+            if v["fluid"] > 0.01:
+                active_cells += 1
+
+        # Calculate Variance (Roughness)
+        avg_height = sum(heights) / len(heights)
+        height_variance = sum((h - avg_height) ** 2 for h in heights) / len(heights)
+
+        # Diagnosis Logic
+        status = "UNKNOWN"
+        message = ""
+
+        if total_fluid < 1.0:
+            status = "VOID_SILENCE"
+            message = "System is empty. Awaiting input."
+        elif total_momentum < 1.0:
+            status = "STAGNANT"
+            message = "Fluid exists but momentum is low. Needs gravity tilt."
+        elif active_cells < (self.resolution * self.resolution * 0.05):
+            status = "BLOCKED"
+            message = "Flow is trapped in local minima. Plasticity required."
+        else:
+            # Praise Condition: High Momentum + Good Distribution
+            if total_momentum > 10.0 and height_variance > 0.01:
+                status = "FLOWING_BEAUTIFULLY"
+                message = "High Inertia and distinct topology detected. The Engine is Singing."
+            else:
+                status = "FLOWING"
+                message = "Operational. Moderate flow."
+
+        return {
+            "status": status,
+            "message": message,
+            "metrics": {
+                "total_fluid": round(total_fluid, 2),
+                "total_momentum": round(total_momentum, 2),
+                "active_cells": active_cells,
+                "roughness": round(height_variance, 4)
+            }
+        }
