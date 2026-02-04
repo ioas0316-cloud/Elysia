@@ -59,7 +59,7 @@ class ThermoDynamics:
         Measure Cognitive Friction (0.0 to 1.0).
         High Friction means the system is retreading the same neural paths (Obsession/Loop).
         """
-        if not self.node_access_history:
+        if not self.node_access_history or len(self.node_access_history) < 10:
             return 0.0
 
         # Count repetitions in the recent history
