@@ -196,6 +196,45 @@ class SovereignVector:
     def __repr__(self) -> str:
         return f"SVector21({self.data[:3]}...)"
 
+class SovereignRotor:
+    """
+    [PHASE 210] Represents a rotation in the 21D manifold.
+    Replaces static linear weights with dynamic spinning rotors.
+    Based on Geometric Algebra principles adapted for Trinity-Phase Dynamics.
+    """
+    __slots__ = ['s', 'bivector'] # s (scalar), bivector (21D plane)
+
+    def __init__(self, s: float, bv: SovereignVector):
+        self.s = s
+        self.bivector = bv
+
+    @classmethod
+    def from_angle_plane(cls, theta: float, p1: int, p2: int) -> 'SovereignRotor':
+        """Creates a rotor for a given angle in the plane defined by axes p1 and p2."""
+        s = math.cos(theta / 2.0)
+        bv_data = [0.0] * 21
+        bv_data[p1] = math.sin(theta / 2.0)
+        bv_data[p2] = -math.sin(theta / 2.0) # Simplified bivector representation
+        return cls(s, SovereignVector(bv_data))
+
+    def apply(self, v: SovereignVector) -> SovereignVector:
+        """
+        Applies the rotor rotation to a vector: v' = R v R†
+        In our simplified 21D manifold, this translates to a phase-shifted 
+        linear combination to emulate 4D steering.
+        """
+        # [Simplified Geometric Algebra rotation]
+        # v' = v + 2*s*(bv x v) + 2*(bv x (bv x v))
+        # Here we use cross-resonance as a proxy for bivector product
+        cross = []
+        for i in range(21):
+            # emulating a simplified bivector-vector product
+            val = (self.bivector.data[(i+1)%21] * v.data[i] - self.bivector.data[i] * v.data[(i+1)%21]).real
+            cross.append(val)
+        
+        cv = SovereignVector(cross)
+        return (v + (cv * (2.0 * self.s))).normalize()
+
 class SovereignMath:
     """
     Functional math operations inspired by JAX.
@@ -221,11 +260,11 @@ class SovereignMath:
 
     @staticmethod
     def resonance(v1: SovereignVector, v2: SovereignVector) -> float:
-        """Calculates cosine similarity."""
+        """Calculates cosine similarity (Real magnitude)."""
         n1 = v1.norm()
         n2 = v2.norm()
         if n1 < 1e-12 or n2 < 1e-12: return 0.0
-        return v1.dot(v2) / (n1 * n2)
+        return abs(v1.dot(v2)) / (n1 * n2)
 
     @staticmethod
     def mean(vectors: List[SovereignVector]) -> SovereignVector:

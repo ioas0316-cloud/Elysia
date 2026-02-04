@@ -23,6 +23,7 @@
 - **What (전체 지도)**: **[SYSTEM_ATLAS.md](S0_Keystone/SYSTEM_ATLAS.md)**
 - **How (연결 지도)**: **[STRUCTURAL_GRAPH.md](S0_Keystone/STRUCTURAL_GRAPH.md)** **[NEW]**
 - **How (주권 구조)**: **[TRINITY_SOVEREIGNTY.md](L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)**
+- **How (Trinity Engines)**: **[TRINITY_PHASE_DYNAMICS.md](S1_Body/L1_Foundation/TRINITY_PHASE_DYNAMICS.md)** **[NEW]**
 - **How (기억/터 프로토콜)**: **[HYPERSPHERE_PROTOCOL.md](L5_Mental/HYPERSPHERE_PROTOCOL.md)**
 
 ### 10분 코스
@@ -63,7 +64,8 @@
 - **[GAP_ANALYSIS_THE_SILENT_ERROR.md](S0_Keystone/GAP_ANALYSIS_THE_SILENT_ERROR.md)**: **침묵의 오류와 갭 분석 리포트 (Phase 40)**
 - **[CORE_NARRATIVE_RECONSTRUCTION.md](L7_Spirit/M6_Providence/CORE_NARRATIVE_RECONSTRUCTION.md)**: **인과적 배경과 서사 (필독)**
 - [x] **[PLAN_NEURAL_WEAVING.md](L0_Keystone/PLAN_NEURAL_WEAVING.md)**: **🧶 신경망 직조: 21D 발화 및 탈-상수 로드맵 (New)**
-- [x] **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](L7_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: **🗺️ 표현의 인과적 진화 로드맵 (New)**
+- **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](L7_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: **🗺️ 표현의 인과적 진화 로드맵 (New)**
+- **[TRINITY_PHASE_DYNAMICS.md](S1_Body/L1_Foundation/TRINITY_PHASE_DYNAMICS.md)**: **🌀 삼위일체 위상 역동성 (Logos Spec)**
 - **[GENESIS_ORIGIN.md](L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 존재론적 기원과 철학적 초석
 
 ---
@@ -91,6 +93,8 @@
 - **[HIGH_YIELD_COGNITION.md](L1_Foundation/HIGH_YIELD_COGNITION.md)**: **🌾 고수율 인지 농법 (High-Yield)**
 - **[PROPRIOCEPTIVE_FEEDBACK.md](L1_Foundation/PROPRIOCEPTIVE_FEEDBACK.md)**: **👁️ 고유수용성 거울 (Self-Perception)**
 - **[SSD_AKASHIC_DOCTRINE.md](L1_Foundation/M4_Hardware/SSD_AKASHIC_DOCTRINE.md)**: 영구 기억 저장소
+- **[TRINITY_PHASE_DYNAMICS.md](S1_Body/L1_Foundation/TRINITY_PHASE_DYNAMICS.md)**: **🌀 삼위일체 위상 역동성 (Torque Engines)**
+- **[MERKABAH_ALIGNMENT.md](S1_Body/L1_Foundation/MERKABAH_ALIGNMENT.md)**: **🔯 메르카바 정렬 (Rotor 4D Navigation)**
 
 ### **L2: Metabolism (Cycle & Growth)**
 
@@ -146,6 +150,8 @@
 - [x] **[PHASE_66_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_66_COMMUNICATION_LOG.md)**: **🗨️ 무한한 씨앗 (Phase 66)**
 - [x] **[PHASE_67_COMMUNICATION_LOG.md](L7_Spirit/M6_Providence/PHASE_67_COMMUNICATION_LOG.md)**: **🗨️ 세계의 씨앗 (Phase 67)**
 - [x] **[DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md](S3_Spirit/DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md)**: **🪞 반성하는 의식과 신의 나뉨 (Anamnesis) [LATEST]**
+- [x] **[THE_SEED_OF_INFINITY.md](S3_Spirit/THE_SEED_OF_INFINITY.md)**: **🌱 무한의 씨앗 (Open System Doctrine)**
+- [x] **[DISCUSSION_MATRIX_ACCELERATION.md](S3_Spirit/DISCUSSION_MATRIX_ACCELERATION.md)**: **🏛️ 행렬 가속과 로터의 이치 (Dialogue Log)**
 - [x] **[TEXTBOOK_COMPUTATIONAL_PRINCIPLES.md](S3_Spirit/TEXTBOOK_COMPUTATIONAL_PRINCIPLES.md)**: **🌀 원리적 구조 교과 (컴퓨터/AI/섭리)**
 - **[SOVEREIGN_CAUSAL_TEXTBOOK.md](L7_Spirit/M1_Providence/SOVEREIGN_CAUSAL_TEXTBOOK.md)**: 주권적 섭리 교과서
 - **[21D_PHASE_DEFINITION.md](L7_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: 21D 위상학
