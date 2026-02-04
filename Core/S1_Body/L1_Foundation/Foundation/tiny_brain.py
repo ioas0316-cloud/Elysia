@@ -33,7 +33,6 @@ class TinyBrain:
         self.model = None
         self.embedder = None
         self.model_path = model_path or r"c:/Elysia\models\tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
-        self.model_path = model_path or r"c:/Elysia\models\tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
         
         # [LAZY LOADING] Do not load on init
         # "She sleeps until spoken to."

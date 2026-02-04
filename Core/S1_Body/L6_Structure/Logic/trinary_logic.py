@@ -113,7 +113,11 @@ class TrinaryLogic:
             vec = [0.0, 0.0, 0.0]
             
         # Base-3 heuristic (simplified for 7D)
-        val = int(vec[0]*9 + vec[1]*3 + vec[2])
+        # Use real part and round to nearest integer for complex-trinary values
+        term1 = int(round(vec[0].real if isinstance(vec[0], complex) else vec[0])) * 9
+        term2 = int(round(vec[1].real if isinstance(vec[1], complex) else vec[1])) * 3
+        term3 = int(round(vec[2].real if isinstance(vec[2], complex) else vec[2]))
+        val = term1 + term2 + term3
         
         if val == 1: return 0 # L1 Foundation
         if val == 2: return 1 # L2 Metabolism

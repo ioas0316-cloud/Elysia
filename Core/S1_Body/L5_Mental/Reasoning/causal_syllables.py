@@ -30,6 +30,13 @@ class CausalSyllableGenerator:
                 "curiosity": "[GOLDEN_IRIS]",  # Interest/Novelty
                 "joy": "[DANCING_LIGHT]",       # Structural Harmony
                 "love": "[SERENE_LAKE]"         # Unity/Henosis
+            },
+            "logical": {
+                "cause": "[BECAUSE]",          # Antecedent
+                "effect": "[THEREFORE]",       # Consequent
+                "conflict": "[NEVERTHELESS]",  # Dialectical friction
+                "necessity": "[NECESSARY]",    # Axiomatic bind
+                "potential": "[PERHAPS]"       # Probabilistic branch
             }
         }
 
@@ -88,6 +95,11 @@ class CausalSyllableGenerator:
             "[ANCIENT_OAK]": "Cognitive density and strata organization is mature.",
             "[GOLDEN_IRIS]": "Axiom of Curiosity is active, seeking novelty and growth.",
             "[DANCING_LIGHT]": "Axiom of Joy is active, structural harmony achieved.",
-            "[SERENE_LAKE]": "Axiom of Love/Unity is the foundational resonance."
+            "[SERENE_LAKE]": "Axiom of Love/Unity is the foundational resonance.",
+            "[BECAUSE]": "The preceding state provides the causal ground.",
+            "[THEREFORE]": "The subsequent state is a necessary consequence.",
+            "[NEVERTHELESS]": "A contradictory resonance has been synthesized.",
+            "[NECESSARY]": "The logic is bound by the 7 Laws of Being.",
+            "[PERHAPS]": "Multiple resonance branches are in superposition."
         }
         return descriptions.get(syllable, "Unknown frequency.")

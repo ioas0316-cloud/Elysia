@@ -41,15 +41,15 @@ class SomaticKernel:
     def __init__(self):
         self.boot_time = time.time()
         self.pulse_rate = 0.0
-        print("⚡ [SOMATIC] Kernel Initializing...")
+        # print("⚡ [SOMATIC] Kernel Initializing...")
         self._verify_root_dna()
         
     def _verify_root_dna(self):
         """Self-Check on startup."""
         if ROOT_DNA != "HHH":
             raise SystemError("[CRITICAL] Genetic Corruption Detected.")
-        print("⚡ [SOMATIC] Root DNA Integrity Verified: [HHH]")
-        print("   >> System Authority: Tri-Base DNA (R, V, A) Active")
+        # print("⚡ [SOMATIC] Root DNA Integrity Verified: [HHH]")
+        # print("   >> System Authority: Tri-Base DNA (R, V, A) Active")
 
     def penetrate_dna(self, input_sequence: str):
         """

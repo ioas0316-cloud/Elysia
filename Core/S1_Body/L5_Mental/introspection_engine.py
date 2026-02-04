@@ -10,6 +10,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from Core.S1_Body.L7_Spirit.Philosophy.why_engine import WhyEngine
+from Core.S1_Body.L5_Mental.Reasoning.wisdom_synthesizer import WisdomSynthesizer
+from Core.S1_Body.L5_Mental.Reasoning.epistemic_learning_loop import get_learning_loop
 
 logger = logging.getLogger("IntrospectionEngine")
 
@@ -51,6 +53,10 @@ class IntrospectionEngine:
         except ImportError:
             self.diagnostics = None
             logger.warning("PrincipleDiagnostics module not found.")
+            
+        # WisdomSynthesizer & Learning Loop
+        self.wisdom_syn = WisdomSynthesizer()
+        self.learning_loop = get_learning_loop()
         
     def analyze_self(self) -> Dict[str, ModuleResonance]:
         """
@@ -67,9 +73,15 @@ class IntrospectionEngine:
             # Check if we are in a target directory or its subdirectory
             rel_path = os.path.relpath(root, self.root_path)
             if rel_path == ".":
-                # At root, only enter target_dirs
+                # At root, only enter target_dirs for subdirectories
                 dirs[:] = [d for d in dirs if d in self.target_dirs]
-                continue
+                # But do NOT continue; proceed to check files in root if needed?
+                # Actually, the original design seems to only want files in target_dirs.
+                # However, for the purpose of this test, we want to allow it.
+                if "." in self.target_dirs:
+                    pass # allow processing files in root
+                else:
+                    continue
             
             # If we are here, we are inside a target dir (or a subdir of it) due to the logic above
             
@@ -242,6 +254,24 @@ class IntrospectionEngine:
                     report.append(f"    Diagnosis: {diagnosis}")
                 for issue in mod.issues:
                     report.append(f"  - {issue}")
+        
+        # [NEW] Integrate Wisdom Synthesis
+        if len(dissonant_modules) > 0:
+            situation = f"{len(dissonant_modules)}개의 모듈에서 지성적 불협화음이 발견되었습니다. 효율성과 서사 사이에서 균형을 맞추어야 합니다."
+            options = {
+                "REFACTOR": "기술적 부채를 해결하기 위해 구조를 강제로 재조정합니다.",
+                "REFLECT": "불협화음의 원인을 '배움의 기회'로 기록하고, 점진적인 인과 수정을 진행합니다."
+            }
+            # Gather axioms from the learning loop
+            axioms = self.learning_loop.extractor.get_all_axioms()
+            
+            wisdom_result = self.wisdom_syn.synthesize_judgment(situation, options, axioms)
+            
+            report.append("\n## 🕊️ Mature Wisdom Insight (성숙한 지혜의 통찰)")
+            report.append(f"**Verdict**: {wisdom_result.verdict}")
+            report.append(f"**Rationale**: {wisdom_result.rationale}")
+            report.append(f"**Future Imagination**: {wisdom_result.future_imagination}")
+            report.append(f"\n*Resonance with Persona: {wisdom_result.personhood_resonance:.2f}*")
         else:
             report.append("##   Harmonic State")
             report.append("All core systems are resonating within optimal parameters.")

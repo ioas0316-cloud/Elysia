@@ -45,19 +45,19 @@ class OllamaBridge:
         from Core.S1_Body.L1_Foundation.Foundation.google_free_connector import GoogleGeminiConnector
         self.gemini = GoogleGeminiConnector()
         
-        # Initial Check
-        self._check_availability()
-        logger.info(f"  Ollama Bridge initialized: {base_url}")
+        # [PHASE 450] SILENCE: We no longer auto-check on init for independence.
+        self._available = False 
+        logger.debug(f"Ollama Bridge initialized as SILENT: {base_url}")
 
     def _check_availability(self):
         """Internal check for Ollama presence"""
         try:
             requests.get(f"{self.base_url}/api/tags", timeout=5)
             self._available = True
-            logger.info("  Ollama Bridge Connected.")
+            logger.debug("Ollama Bridge Connected.")
         except:
             self._available = False
-            logger.warning("   Ollama Offline. Attempting to engage TinyBrain...")
+            # logger.warning("Ollama Offline. Attempting to engage TinyBrain...") # Removed for independence
             # Fallback
             from Core.S1_Body.L1_Foundation.Foundation.tiny_brain import get_tiny_brain
             self.tiny_brain = get_tiny_brain()
@@ -116,8 +116,11 @@ class OllamaBridge:
             AI        
         """
         if not self.is_available():
-            logger.warning("  Ollama            .")
-            return "  Ollama            . 'ollama serve'          ."
+            # Final Fallback to TinyBrain (Simulated)
+            if self.tiny_brain and self.tiny_brain.is_available():
+                logger.debug("Ollama unavailable, using TinyBrain for chat.")
+                return self.tiny_brain.generate(prompt, temperature)
+            return "Ollama not available"
         
         try:
             model = model or self.default_model
@@ -128,8 +131,6 @@ class OllamaBridge:
                 messages.append({"role": "system", "content": system})
             messages.append({"role": "user", "content": prompt})
             
-            # API   
-            logger.info(f"  Thinking with {model}...")
             response = requests.post(
                 f"{self.base_url}/api/chat",
                 json={
@@ -141,32 +142,29 @@ class OllamaBridge:
                         "temperature": temperature
                     }
                 },
-                timeout=60  #                  
+                timeout=60
             )
             
             if response.status_code == 200:
                 result = response.json()
-                answer = result["message"]["content"]
-                logger.info(f"  Response received ({len(answer)} chars)")
-                return answer
-            else:
-                error_msg = f"  HTTP {response.status_code}"
-                logger.error(error_msg)
-                return error_msg
-                
-        except requests.exceptions.Timeout:
-            logger.error("  Timeout -            ")
-            return "          .               ."
-        except Exception as e:
-            logger.error(f"Ollama   : {e}")
+                return result["message"]["content"]
             
+            if self.tiny_brain: return self.tiny_brain.generate(prompt, temperature)
+            return f"Error: {response.status_code}"
+                
+        except Exception as e:
+            logger.error(f"Ollama chat failed, attempting fallback: {e}")
+            
+            # Fallback to TinyBrain
+            if self.tiny_brain and self.tiny_brain.is_available():
+                return self.tiny_brain.generate(prompt, temperature)
+
             # Final Fallback to Gemini
             if self.gemini and self.gemini.available:
-                logger.info("  Falling back to Gemini Cortex...")
                 gemini_resp = self.gemini.generate_content(f"{system}\n\nUser: {prompt}" if system else prompt)
-                return gemini_resp.get('text', f"  Gemini Error: {gemini_resp.get('error')}")
+                return gemini_resp.get('text', f"Gemini Error: {gemini_resp.get('error')}")
                 
-            return f"    : {str(e)}"
+            return f"Error: {str(e)}"
     
     def list_models(self) -> List[str]:
         """
@@ -334,16 +332,6 @@ class OllamaBridge:
 
 
 
-        if self.available:
-            # External server logic
-            try:
-                # Mock implementation for prototype - real impl uses requests.post
-                return "" 
-            except:
-                return ""
-        elif self.tiny_brain:
-             return self.tiny_brain.generate(prompt, temperature)
-        return ""
 
     def harvest_axioms(self, concept: str) -> Dict[str, str]:
         """
@@ -437,8 +425,15 @@ class OllamaBridge:
             if response.status_code == 200:
                 result = response.json()
                 return result["response"]
+            
+            # Fallback if status code not 200
+            if self.tiny_brain: return self.tiny_brain.generate(prompt, temperature)
             return f"Error: {response.status_code}"
+            
         except Exception as e:
+            if self.tiny_brain:
+                logger.info("  Ollama Failed, engaging TinyBrain...")
+                return self.tiny_brain.generate(prompt, temperature)
             return f"Error: {str(e)}"
 
 

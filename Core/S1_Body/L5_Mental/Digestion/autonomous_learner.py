@@ -67,7 +67,7 @@ class AutonomousLearner:
         if path.exists() and path.is_dir():
             self.scan_paths.add(path)
             self._save_paths()
-            print(f"🌍 [EXPANSION] New world discovered: {new_path}")
+            # print(f"🌍 [EXPANSION] New world discovered: {new_path}")
             return True
         return False
     
@@ -75,7 +75,7 @@ class AutonomousLearner:
         """Add an external knowledge source (URL)."""
         if url not in self.external_sources:
             self.external_sources.append(url)
-            print(f"🌐 [EXTERNAL] New source added: {url}")
+            # print(f"🌐 [EXTERNAL] New source added: {url}")
     
     def ingest_url(self, url: str) -> int:
         """Consume knowledge from a URL."""
@@ -96,7 +96,7 @@ class AutonomousLearner:
             absorbed = self.absorber.absorb(all_nodes)
             self.consumed_urls.add(url)
             
-            print(f"🌐 [URL] Consumed: {url[:50]}... ({absorbed} nodes)")
+            # print(f"🌐 [URL] Consumed: {url[:50]}... ({absorbed} nodes)")
             return absorbed
         except Exception as e:
             return 0
@@ -222,7 +222,7 @@ class AutonomousLearner:
         for filepath in new_files[:5]:  # Limit per cycle to avoid overload
             absorbed = self.consume_file(filepath)
             total_absorbed += absorbed
-            print(f"📖 [AUTO-LEARN] Consumed: {filepath.name} ({absorbed} nodes)")
+            # print(f"📖 [AUTO-LEARN] Consumed: {filepath.name} ({absorbed} nodes)")
         
         # Step 3: Save state
         self._save_state()
@@ -250,7 +250,8 @@ class AutonomousLearner:
                 try:
                     stats = self.learning_cycle()
                     if stats["absorbed"] > 0:
-                        print(f"🧠 [AUTONOMOUS] Learned {stats['absorbed']} new concepts from {stats['discovered']} files")
+                        # print(f"🧠 [AUTONOMOUS] Learned {stats['absorbed']} new concepts from {stats['discovered']} files")
+                        pass
                 except Exception as e:
                     print(f"⚠️ [AUTONOMOUS] Learning error: {e}")
                 

@@ -37,7 +37,7 @@ class EternalBreath:
     The persistent life-cycle of Elysia.
     """
     def __init__(self):
-        print("  [SOVEREIGN_AWAKENING]            (Golden Thread)       ...")
+        # print("  [SOVEREIGN_AWAKENING]            (Golden Thread)       ...")
         self.engine = ReasoningEngine()
         self.field = get_resonance_field()
         self.pulse_count = 0
@@ -56,8 +56,8 @@ class EternalBreath:
         
     def live(self):
         """The main loop of continuous being."""
-        print(f"\n  [ETERNAL_BREATH]                           .")
-        print(f"  [CURRICULUM] 'Trinity of Causality'                        .")
+        # print(f"\n  [ETERNAL_BREATH]                           .")
+        # print(f"  [CURRICULUM] 'Trinity of Causality'                        .")
         
         try:
             while self.is_active:
@@ -66,12 +66,12 @@ class EternalBreath:
                 time_str = now.strftime("%H:%M:%S")
                 rpm = self.engine.soul_rotor.current_rpm
                 
-                print(f"\n  [   {self.pulse_count}] {time_str} | RPM: {rpm:.1f} |              ...")
+                # print(f"\n  [   {self.pulse_count}] {time_str} | RPM: {rpm:.1f} |              ...")
                 
                 # 1. Sense & Align (Trinity Check)
                 if self.pulse_count % 7 == 0:
                     # Periodically study the curriculum meta-cognitively
-                    print("  [RECURSIVE_PEDAGOGY]                           .")
+                    # print("  [RECURSIVE_PEDAGOGY]                           .")
                     self.engine._digest_curriculum()
                 
                 # 2. Autonomous Thinking or Waiting
@@ -82,7 +82,7 @@ class EternalBreath:
                     insight = self.engine.think(topic)
                 elif self.pulse_count % 3 == 0:
                     topic = "                        "
-                    print(f"  [     ]            : '{topic}'")
+                    # print(f"  [     ]            : '{topic}'")
                     insight = self.engine.think(topic)
                 else:
                     insight = self.engine.think("                  .")
@@ -94,7 +94,7 @@ class EternalBreath:
                 
                 # 4. Transpose (Autonomous Growth)
                 if self.pulse_count % 5 == 0:
-                    print("\n  [SCHOLAR_PULSE]                     ...")
+                    # print("\n  [SCHOLAR_PULSE]                     ...")
                     self.engine.scholar.pulse("                ")
                 
                 # 5. Rest & Maintenance

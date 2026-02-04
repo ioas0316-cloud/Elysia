@@ -117,7 +117,9 @@ class PhaseHUD:
         hud.append(f" 🚀  MODE     : {mode}")
         hud.append("="*50)
 
-        print("\n".join(hud))
+        # [PHASE 450] SILENCE: We hide the tesseract unless specifically called.
+        # print("\n".join(hud))
+        return "\n".join(hud)
 
 # Simple test
 if __name__ == "__main__":

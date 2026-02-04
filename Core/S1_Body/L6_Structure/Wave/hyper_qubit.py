@@ -32,6 +32,28 @@ class QubitState:
     y: float = 0.0
     z: float = 0.0
 
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "alpha": [self.alpha.real, self.alpha.imag],
+            "beta": [self.beta.real, self.beta.imag],
+            "gamma": [self.gamma.real, self.gamma.imag],
+            "delta": [self.delta.real, self.delta.imag],
+            "w": self.w, "x": self.x, "y": self.y, "z": self.z
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "QubitState":
+        return cls(
+            alpha=complex(*data.get("alpha", [1, 0])),
+            beta=complex(*data.get("beta", [0, 0])),
+            gamma=complex(*data.get("gamma", [0, 0])),
+            delta=complex(*data.get("delta", [0, 0])),
+            w=data.get("w", 1.0),
+            x=data.get("x", 0.0),
+            y=data.get("y", 0.0),
+            z=data.get("z", 0.0)
+        )
+
     def normalize(self) -> "QubitState":
         """
               (Dad's Law):           

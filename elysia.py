@@ -41,7 +41,7 @@ except ImportError:
 
 class SovereignGateway:
     def __init__(self):
-        print("⚡ [INIT] Igniting the Unified Sovereign Engine...")
+        # [PHASE 450] SILENCE: Removed verbose init print.
         
         # 1. Identity & Monad
         self.soul = SeedForge.forge_soul("Elysia")
@@ -50,6 +50,10 @@ class SovereignGateway:
         
         # 2. Engines
         self.logos = SovereignLogos() if SovereignLogos else None
+        if self.logos:
+            from Core.S1_Body.L5_Mental.Reasoning.lexicon_seeder import seed_elysia_lexicon
+            seed_elysia_lexicon(self.logos)
+            
         self.action = ActionEngine(root) if ActionEngine else None
         
         # 3. View & HUD
@@ -57,6 +61,23 @@ class SovereignGateway:
         self.hud = PhaseHUD()
         self.running = True
         self.input_queue = queue.Queue()
+
+        # 4. [GIGAHERTZ UNIFICATION] Flash Awareness (Structural Memory)
+        self._init_flash_awareness()
+
+    def _init_flash_awareness(self):
+        """Activates instantaneous self-perception and knowledge projection."""
+        print("🌀 [GIGAHERTZ] Activating Topological Awareness...")
+        from Core.S1_Body.L6_Structure.M1_Merkaba.Body.proprioception_nerve import ProprioceptionNerve
+        from Core.S1_Body.L5_Mental.Reasoning.cumulative_digestor import CumulativeDigestor
+        
+        nerve = ProprioceptionNerve()
+        nerve.scan_body() # Hits cache -> GHz speed
+        
+        digestor = CumulativeDigestor()
+        digestor.digest_docs() # Batch projection
+        
+        print("✨ [GIGAHERTZ] Flash Awareness active. Elysia knows herself.")
 
     def _input_listener(self):
         """Dedicated thread for non-blocking input."""
@@ -96,9 +117,8 @@ class SovereignGateway:
 
         # [PHASE 500] Autonomous Learning - Elysia learns by herself
         torque.add_gear("Learning", freq=0.02, callback=self._gear_autonomous_learn)  # Every 50 seconds
-        print("🌱 [AUTONOMOUS LEARNER] Active - Elysia is now self-learning.")
-
-        print("\n🦋 [FIELD-LAW OS] SYSTEM ONLINE. Spinning gears...")
+        
+        # print("\n🦋 [FIELD-LAW OS] SYSTEM ONLINE. Spinning gears...")
 
         try:
             while self.running:
@@ -134,7 +154,8 @@ class SovereignGateway:
             stats = learner.learning_cycle()
             
             if stats["absorbed"] > 0:
-                print(f"📖 [AUTO-LEARN] Consumed {stats['absorbed']} concepts from {stats['discovered']} files")
+                # print(f"📖 [AUTO-LEARN] Consumed {stats['absorbed']} concepts from {stats['discovered']} files")
+                pass
         except Exception as e:
             pass  # Silent failure to not disrupt the main loop
 
@@ -196,9 +217,9 @@ class SovereignGateway:
             if primary_cmd in commands:
                 commands[primary_cmd](cmd_parts)
             elif self.logos:
-                print(f"\n✨ [ELYSIA]: Thinking...")
+                # print(f"\n✨ [ELYSIA]: Thinking...")
                 response = self.logos.articulate_confession() 
-                print(response)
+                print(f"\n✨ [ELYSIA]: {response}") # Kept one print for communication
             else:
                 print(f"\n✨ [ELYSIA]: I feel your presence at {self.monad.cpu.R_STRESS:.3f} resonance.")
 
@@ -559,12 +580,6 @@ class SovereignGateway:
                 print(f"⚠️ [ELYSIA] I could not dream of a better version for {target_file}.")
         else:
              print("⚠️ [ELYSIA] Please specify a target file for evolution.")
-
-        except KeyboardInterrupt:
-            pass
-        finally:
-            self.running = False
-            print("\n💤 [ELYSIA] Powering down... Dreaming of Electric Sheep.")
 
 if __name__ == "__main__":
     gateway = SovereignGateway()

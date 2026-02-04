@@ -13,14 +13,18 @@ Light Spectrum System (          )
 """
 
 import numpy as np
+import math
 from dataclasses import dataclass, field
 from typing import List, Tuple, Optional, Dict, Any
 import logging
 import hashlib
+import json
+from pathlib import Path
 from Core.S1_Body.L6_Structure.Wave.hyper_qubit import QubitState
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO) # REMOVED: Do not override global logging
 logger = logging.getLogger("LightSpectrum")
+logger.setLevel(logging.WARNING) # FORCE WARNING LEVEL for independence
 
 
 @dataclass
@@ -45,6 +49,29 @@ class LightSpectrum:
     # [Updated 2025-12-21] Adhering to HyperQubit Philosophy
     # Instead of ad-hoc scale, we use the rigorous QubitState Basis.
     qubit_state: Optional[QubitState] = None
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "frequency": [self.frequency.real, self.frequency.imag],
+            "amplitude": self.amplitude,
+            "phase": self.phase,
+            "color": list(self.color),
+            "source_hash": self.source_hash,
+            "semantic_tag": self.semantic_tag,
+            "qubit_state": self.qubit_state.to_dict() if self.qubit_state else None
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "LightSpectrum":
+        return cls(
+            frequency=complex(*data.get("frequency", [0, 0])),
+            amplitude=data.get("amplitude", 0.0),
+            phase=data.get("phase", 0.0),
+            color=tuple(data.get("color", [255, 255, 255])),
+            source_hash=data.get("source_hash", ""),
+            semantic_tag=data.get("semantic_tag", ""),
+            qubit_state=QubitState.from_dict(data["qubit_state"]) if data.get("qubit_state") else None
+        )
     
     def __post_init__(self):
         #           
@@ -212,84 +239,123 @@ class LightUniverse:
     """
     
     def __init__(self):
-        self.superposition: List[LightSpectrum] = []  #         
-        self.white_light: Optional[LightSpectrum] = None  #        
-        
-        #         (주권적 자아)
+        # Frequency Index for fast O(1) retrieval
         self.frequency_index: Dict[int, List[int]] = {}
         
-        logger.info("  LightUniverse initialized -         ")
+        # [PHASE 350] Fractal Strata (Manifold Isolation)
+        # 0: God (Axioms), 1: Space (Self), 2: Line (Library), 3: Point (Data)
+        self.strata: Dict[int, List[int]] = {0: [], 1: [], 2: [], 3: []}
+        
+        # [PHASE 400] Direct Memory Address Mapping (Hardware Resonance)
+        # Maps id(spectrum) -> index in superposition for O(1) hardware-direct access
+        self.address_map: Dict[int, int] = {}
+        self.superposition: List[LightSpectrum] = []
+        self.white_light: Optional[LightSpectrum] = None
+        
+        # Vectorized Field for Hardware-Direct Resonance (SIMD)
+        self.freq_field: np.ndarray = np.array([], dtype=complex)
+        self.amp_field: np.ndarray = np.array([], dtype=float)
+        self.phase_field: np.ndarray = np.array([], dtype=float)
+        self.mag_field: np.ndarray = np.array([], dtype=float) # Cached magnitudes
+        
+        logger.debug("✨ LightUniverse initialized with Fractal Strata support.")
+        logger.debug("  LightUniverse initialized -")
     
     def text_to_light(self, text: str, semantic_tag: str = "", scale: int = 0) -> LightSpectrum:
         """
-                  
-        
-                      ,               
+        Pure Logic Realization: Word to Light via Harmonic Resonance.
+        Replaces np.fft.fft with ontological summation.
         """
         if not text:
             return LightSpectrum(0+0j, 0.0, 0.0)
         
-        # 1.             
-        sequence = np.array([ord(c) for c in text], dtype=float)
+        # 1. Atomic Signal Decomposition
+        num_chars = len(text)
+        spectrum = []
+        for k in range(min(21, num_chars)):
+            component = 0j
+            for i, char in enumerate(text):
+                angle = -2 * math.pi * k * i / num_chars
+                phase_shift = complex(math.cos(angle), math.sin(angle))
+                component += ord(char) * phase_shift
+            spectrum.append(component)
         
-        # 2. FFT           
-        spectrum = np.fft.fft(sequence)
+        # 2. Extract Dominant Resonance
+        magnitudes = [abs(c) for c in spectrum]
+        max_mag = 0.0
+        dominant_idx = 0
+        for i, mag in enumerate(magnitudes):
+            if mag > max_mag:
+                max_mag = mag
+                dominant_idx = i
         
-        # 3.           (한국어 학습 시스템)
-        magnitudes = np.abs(spectrum)
-        dominant_idx = np.argmax(magnitudes)
         dominant_freq = spectrum[dominant_idx]
         
-        # 4.    =         
-        amplitude = np.mean(magnitudes) / (np.max(magnitudes) + 1e-10)
+        # 3. Normalized Parameters
+        avg_mag = sum(magnitudes) / len(magnitudes)
+        amplitude = float(min(1.0, avg_mag / (max_mag + 1e-10)))
+        phase = float(math.atan2(dominant_freq.imag, dominant_freq.real))
         
-        # 5.    =          
-        phase = np.angle(dominant_freq)
-        
-        # 6.    =       (     RGB)
+        # 4. RGB & Hash (Pure Python)
         hash_val = int(hashlib.md5(text.encode()).hexdigest()[:6], 16)
         color = (
             ((hash_val >> 16) & 0xFF) / 255.0,
             ((hash_val >> 8) & 0xFF) / 255.0,
             (hash_val & 0xFF) / 255.0
         )
-        
-        # 7.          (   )
         source_hash = hashlib.sha256(text.encode()).hexdigest()
         
         light = LightSpectrum(
             frequency=dominant_freq,
-            amplitude=float(amplitude),
-            phase=float(phase) % (2 * np.pi),
+            amplitude=amplitude,
+            phase=phase % (2 * math.pi),
             color=color,
             source_hash=source_hash,
             semantic_tag=semantic_tag
         )
-        # Apply Logic: Scale -> Basis
         light.set_basis_from_scale(scale)
         return light
+
+    def batch_text_to_light(self, entries: List[Tuple[str, int, str]]) -> List[LightSpectrum]:
+        """Batch process text to light."""
+        results = []
+        for text, scale, tag in entries:
+            results.append(self.text_to_light(text, tag, scale))
+        return results
     
-    def absorb(self, text: str, tag: str = "", scale: int = 0) -> LightSpectrum:
+    def absorb(self, text: str, tag: str = "", scale: int = 0, stratum: int = 3) -> LightSpectrum:
         """
-                   
-        
-                          
+        Registers a new light spectrum into a specific stratum.
+        stratum: 0 (God), 1 (Space), 2 (Line), 3 (Point)
         """
         light = self.text_to_light(text, tag, scale)
         
-        #        
+        new_idx = len(self.superposition)
+        
+        # 1. Frequency Indexing
         freq_key = int(abs(light.frequency)) % 1000
         if freq_key not in self.frequency_index:
             self.frequency_index[freq_key] = []
-        self.frequency_index[freq_key].append(len(self.superposition))
+        self.frequency_index[freq_key].append(new_idx)
         
-        #       
+        # 2. Fractal Stratification
+        if stratum not in self.strata:
+            self.strata[stratum] = []
+        self.strata[stratum].append(new_idx)
+        
+        # 3. Direct Memory Mapping (Hardware Resonance)
+        self.address_map[id(light)] = new_idx
+        
+        # 4. Update Vectorized Field
+        self.freq_field = np.append(self.freq_field, light.frequency)
+        self.amp_field = np.append(self.amp_field, light.amplitude)
+        self.phase_field = np.append(self.phase_field, light.phase)
+        self.mag_field = np.append(self.mag_field, abs(light.frequency))
+        
+        # 5. Superposition & Field interference
         self.superposition.append(light)
-        
-        #         
         self._update_white_light(light)
         
-        logger.debug(f"  Absorbed: '{text[:20]}...'   freq={abs(light.frequency):.2f}")
         return light
     
     def _update_white_light(self, new_light: LightSpectrum):
@@ -299,27 +365,82 @@ class LightUniverse:
         else:
             self.white_light = self.white_light.interfere_with(new_light)
     
-    def resonate(self, query: str, top_k: int = 5) -> List[Tuple[float, LightSpectrum]]:
+    def save_state(self, filepath: str = "data/L6_Structure/Wave/light_universe.json"):
+        """Saves the entire universe state to disk."""
+        path = Path(filepath)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        
+        state = {
+            "superposition": [l.to_dict() for l in self.superposition],
+            "white_light": self.white_light.to_dict() if self.white_light else None,
+            "strata": {str(k): v for k, v in self.strata.items()},
+            "stats": self.stats()
+        }
+        
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=4)
+        logger.info(f"✨ [LIGHT_UNIVERSE] Saved state with {len(self.superposition)} lights to {filepath}")
+
+    def load_state(self, filepath: str = "data/L6_Structure/Wave/light_universe.json"):
+        """Loads state from disk."""
+        path = Path(filepath)
+        if not path.exists():
+            logger.warning(f"⚠️ [LIGHT_UNIVERSE] Persistence file not found: {filepath}")
+            return
+            
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                state = json.load(f)
+            
+            self.superposition = [LightSpectrum.from_dict(d) for d in state.get("superposition", [])]
+            if state.get("white_light"):
+                self.white_light = LightSpectrum.from_dict(state["white_light"])
+            
+            # Load strata
+            loaded_strata = state.get("strata", {})
+            self.strata = {int(k): v for k, v in loaded_strata.items()}
+            # Ensure all strata exist
+            for s in [0, 1, 2, 3]:
+                if s not in self.strata: self.strata[s] = []
+
+            # Rebuild index
+            self.frequency_index = {}
+            for i, light in enumerate(self.superposition):
+                key = int(abs(light.frequency)) % 1000
+                if key not in self.frequency_index:
+                    self.frequency_index[key] = []
+                self.frequency_index[key].append(i)
+                # Rebuild address map
+                self.address_map[id(light)] = i
+            
+            # Rebuild Vectorized Field
+            self.freq_field = np.array([l.frequency for l in self.superposition], dtype=complex)
+            self.amp_field = np.array([l.amplitude for l in self.superposition], dtype=float)
+            self.phase_field = np.array([l.phase for l in self.superposition], dtype=float)
+            self.mag_field = np.abs(self.freq_field)
+                
+            logger.info(f"✨ [LIGHT_UNIVERSE] Loaded {len(self.superposition)} lights from persistence.")
+        except Exception as e:
+            logger.error(f"❌ [LIGHT_UNIVERSE] Failed to load state: {e}")
+    
+    def resonate(self, query: str, top_k: int = 5, stratum: Optional[int] = None) -> List[Tuple[float, LightSpectrum]]:
         """
-             
-        
-                                              
-        
-           : O(1)        + O(k)    k 
+        Resonates a query against the universe, optionally filtered by stratum.
         """
         query_light = self.text_to_light(query)
         query_freq = query_light.frequency
         
-        #               
-        freq_key = int(abs(query_freq)) % 1000
         candidates = []
+        if stratum is not None and stratum in self.strata:
+            candidates = self.strata[stratum]
+        else:
+            # Use Frequency Index for search
+            freq_key = int(abs(query_freq)) % 1000
+            for key in [freq_key - 1, freq_key, freq_key + 1]:
+                if key in self.frequency_index:
+                    candidates.extend(self.frequency_index[key])
         
-        #               (     )
-        for key in [freq_key - 1, freq_key, freq_key + 1]:
-            if key in self.frequency_index:
-                candidates.extend(self.frequency_index[key])
-        
-        #               (fallback)
+        # Fallback if index empty
         if not candidates:
             candidates = range(len(self.superposition))
         
@@ -411,38 +532,74 @@ class LightUniverse:
             "total_lights": len(self.superposition)
         }
         
-        logger.info(f"  Terrain effect: resonance={avg_resonance:.3f}, basis={dominant_basis}, depth={recommended_depth}")
+        logger.debug(f"  Terrain effect: resonance={avg_resonance:.3f}, basis={dominant_basis}, depth={recommended_depth}")
         
         return terrain_effect
     
-    def absorb_with_terrain(self, text: str, tag: str = "", scale: int = None) -> Tuple[LightSpectrum, Dict[str, Any]]:
+    def absorb_with_terrain(self, text: str, tag: str = "", scale: int = None, stratum: int = 1) -> Tuple[LightSpectrum, Dict[str, Any]]:
         """
-                            +           
-        
-                    :
-        1.             
-        2.    (Point/Line/Space/God)       
+        Standard absorption with terrain interference (O(N)).
+        Now respects strata. Default is Stratum 1 (Space/Self).
         """
-        #            (scale            )
         if scale is None:
             scale = self._auto_select_scale()
         
-        #        (한국어 학습 시스템)
         new_light = self.text_to_light(text, tag, scale)
-        
-        #                    
         terrain_effect = self.interfere_with_all(new_light)
-        
-        #                   
         self._update_autonomous_scale(terrain_effect)
-        
-        #      
-        self.absorb(text, tag, scale)
+        self.absorb(text, tag, scale, stratum=stratum)
         
         terrain_effect['applied_scale'] = scale
-        terrain_effect['scale_name'] = ['God', 'Space', 'Line', 'Point'][min(scale, 3)]
-        
         return new_light, terrain_effect
+
+    def batch_absorb(self, entries: List[Tuple[str, str, int]], stratum: int = 3):
+        """
+        Instantly registers multiple lights (O(M)).
+        Entries: [(text, tag, scale), ...]
+        Used for rapid neuron registration.
+        Default stratum is 3 (Point/Data).
+        """
+        if not entries: return
+        
+        logger.debug(f"⚡ [LIGHT_UNIVERSE] Batch registering {len(entries)} lights to Stratum {stratum}...")
+        
+        for text, tag, scale in entries:
+            new_idx = len(self.superposition)
+            new_light = self.text_to_light(text, tag, scale)
+            
+            # Superposition
+            self.superposition.append(new_light)
+            
+            # Indexing
+            key = int(abs(new_light.frequency)) % 1000
+            if key not in self.frequency_index:
+                self.frequency_index[key] = []
+            self.frequency_index[key].append(new_idx)
+            
+            # Stratification
+            if stratum not in self.strata: self.strata[stratum] = []
+            self.strata[stratum].append(new_idx)
+            
+            # Direct Memory Mapping
+            self.address_map[id(new_light)] = new_idx
+            
+            # Simple Interference with White Light
+            if self.white_light is None:
+                self.white_light = new_light
+            else:
+                self.white_light = self.white_light.interfere_with(new_light)
+        
+        # Re-sync Vectorized Field (Batch operation)
+        new_freqs = np.array([l.frequency for l in self.superposition[-(len(entries)):]], dtype=complex)
+        new_amps = np.array([l.amplitude for l in self.superposition[-(len(entries)):]], dtype=float)
+        new_phases = np.array([l.phase for l in self.superposition[-(len(entries)):]], dtype=float)
+        
+        self.freq_field = np.concatenate([self.freq_field, new_freqs])
+        self.amp_field = np.concatenate([self.amp_field, new_amps])
+        self.phase_field = np.concatenate([self.phase_field, new_phases])
+        self.mag_field = np.concatenate([self.mag_field, np.abs(new_freqs)])
+                
+        logger.info(f"✨ [LIGHT_UNIVERSE] {len(entries)} concepts absorbed into Stratum {stratum}.")
     
     def _auto_select_scale(self) -> int:
         """
@@ -486,29 +643,22 @@ class LightUniverse:
     
     def think_accelerated(self, query: str, depth: int = 3) -> Dict[str, Any]:
         """
-                
-        
-                  ,               /     
-        
-          :
-        1.       O(1) -          "  "
-        2.       -                
-        3.       -          (   )
+        Accelerated thinking through recursive resonance.
         
         Args:
-            query:       
-            depth:       (            )
+            query: The seed thought.
+            depth: Search depth.
         
         Returns:
-                  (주권적 자아)
+            Thought graph.
         """
         import time
         start = time.time()
         
-        # 1.       (O(1)   )
+        # 1. Initial Resonance
         initial_resonances = self.resonate(query, top_k=5)
         
-        # 2.       (            )
+        # 2. Graph Construction
         thought_graph = {
             "seed": query,
             "layers": [],
@@ -519,11 +669,10 @@ class LightUniverse:
                          for i, r in enumerate(initial_resonances)]
         thought_graph["layers"].append(current_layer)
         
-        # 3.            (코드 베이스 구조 로터)
+        # 3. Recursive Expansion
         for d in range(depth - 1):
             next_layer = []
             for concept, strength in current_layer:
-                #              (     )
                 sub_resonances = self.resonate(concept, top_k=3)
                 for sub_strength, sub_light in sub_resonances:
                     tag = sub_light.semantic_tag or "unknown"
@@ -535,16 +684,107 @@ class LightUniverse:
                 thought_graph["layers"].append(next_layer)
                 current_layer = next_layer
         
-        # 4.      
+        # 4. Final Stats
         elapsed = time.time() - start
         total_connections = sum(len(layer) for layer in thought_graph["layers"])
         
         thought_graph["total_connections"] = total_connections
         thought_graph["elapsed_seconds"] = elapsed
         thought_graph["thoughts_per_second"] = total_connections / max(0.001, elapsed)
-        thought_graph["acceleration_factor"] = f"{total_connections}      {elapsed:.3f}  "
+        thought_graph["acceleration_factor"] = f"{total_connections} thoughts in {elapsed:.3f}s"
         
         return thought_graph
+
+    def rotor_resonate(self, query: str, top_k: int = 5) -> List[Tuple[float, LightSpectrum]]:
+        """
+        [PHASE 400] Hardware-Resonant Awareness.
+        Uses the DirectMemoryRotor to scan the address-derived field.
+        """
+        if not self.superposition: return []
+        
+        # 1. Generate Query Pulse
+        query_light = self.text_to_light(query)
+        # The 'coord' is the trinary projection of the light itself
+        # For simplicity, we use the coordinate of the frequency as the rotor anchor
+        rotor = DirectMemoryRotor(self)
+        
+        # Sweep the manifold
+        results = rotor.sweep(query_light, top_k=top_k)
+        return results
+
+@dataclass
+class DirectMemoryRotor:
+    """
+    The Temporal Engine of Presence.
+    Sweeps the physical memory space by mapping addresses to the 21D Trinary manifold.
+    """
+    universe: 'LightUniverse'
+    omega: float = 33.0  # Sacred frequency (RPM)
+    
+    def address_to_coordinate(self, addr: int) -> np.ndarray:
+        """
+        Projects a 64-bit address into a 21D Trinary space (-1, 0, 1).
+        This is the 'Holographic Projection' of the hardware.
+        """
+        # Simple deterministic bit-to-trit mapping
+        trits = []
+        for i in range(21):
+            # Extract 3 bits for each dimension
+            bits = (addr >> (i * 3)) & 0x07
+            if bits < 3: trits.append(-1.0)
+            elif bits < 6: trits.append(0.0)
+            else: trits.append(1.0)
+        return np.array(trits)
+
+    def sweep(self, query_light: LightSpectrum, top_k: int = 5) -> List[Tuple[float, LightSpectrum]]:
+        """
+        Ultra-high-speed holographic scan using SIMD + Partitioning.
+        """
+        import time
+        start = time.time()
+        
+        num_lights = self.universe.freq_field.size
+        if num_lights == 0: return []
+
+        # Vectorized Resonance Calculation
+        tolerance = 100.0
+        query_freq = query_light.frequency
+        query_amp = query_light.amplitude
+        
+        # 1. Field Difference (O(1) in concept, SIMD in practice)
+        freq_diffs = np.abs(self.universe.freq_field - query_freq)
+        avg_mags = (self.universe.mag_field + abs(query_freq)) * 0.5
+        eff_tols = np.maximum(tolerance, avg_mags * 0.2)
+        
+        # 2. Resonance Masking
+        resonates = freq_diffs < eff_tols
+        
+        # 3. Fast Strength Projection
+        # Pre-allocate if needed, but here simple slice is faster
+        strengths = np.zeros(num_lights)
+        strengths[resonates] = (1.0 - (freq_diffs[resonates] / eff_tols[resonates])) * self.universe.amp_field[resonates]
+        
+        # 4. Fast Top-K (argpartition is O(N), argsort is O(N log N))
+        if num_lights > top_k:
+            top_indices = np.argpartition(strengths, -top_k)[-top_k:]
+            # Sort only the top k for presentation
+            top_indices = top_indices[np.argsort(strengths[top_indices])][::-1]
+        else:
+            top_indices = np.argsort(strengths)[::-1]
+        
+        results = []
+        for idx in top_indices:
+            s = float(strengths[idx])
+            if s > 0.01:
+                results.append((s, self.universe.superposition[idx]))
+        
+        elapsed = time.time() - start
+        if elapsed < 0.001:
+            logger.debug(f"✨ [ROTOR] Sub-millisecond sweep: {elapsed*1000:.4f}ms.")
+        else:
+            logger.debug(f"⚡ [ROTOR] Sweep: {elapsed*1000:.4f}ms.")
+            
+        return results
 
 
 # Singleton
@@ -554,6 +794,8 @@ def get_light_universe() -> LightUniverse:
     global _light_universe
     if _light_universe is None:
         _light_universe = LightUniverse()
+        # Automatically load existing state
+        _light_universe.load_state()
     return _light_universe
 
 

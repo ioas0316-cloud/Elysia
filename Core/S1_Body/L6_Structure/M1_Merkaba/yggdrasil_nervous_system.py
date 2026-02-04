@@ -26,7 +26,7 @@ class YggdrasilNervousSystem:
         return cls._instance
 
     def _initialize(self):
-        print("🌳 [YGGDRASIL] Nervous System Awakening...")
+        # print("🌳 [YGGDRASIL] Nervous System Awakening...")
         self.roots: Dict[str, Any] = {}
         self.trunk: Dict[str, Any] = {}
         self.crown: Dict[str, Any] = {}
@@ -41,12 +41,14 @@ class YggdrasilNervousSystem:
         Connects a Sovereign Monad (Heart) to the Tree.
         """
         self.colony.append(monad)
-        print(f"❤️ [YGGDRASIL] Heart Planted: {monad.name} (Total: {len(self.colony)})")
+        # print(f"❤️ [YGGDRASIL] Heart Planted: {monad.name} (Total: {len(self.colony)})")
         
         if len(self.colony) == 1:
-            print("   >> Nervous System is pulsing with DNA.")
+            # print("   >> Nervous System is pulsing with DNA.")
+            pass
         else:
-            print("   >> Nervous System expanding to Multi-Core Cluster.")
+            # print("   >> Nervous System expanding to Multi-Core Cluster.")
+            pass
 
     def get_primary_monad(self) -> Optional[SovereignMonad]:
         """Returns the first/main monad for interaction."""

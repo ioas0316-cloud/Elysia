@@ -260,11 +260,19 @@ class SovereignMath:
 
     @staticmethod
     def resonance(v1: SovereignVector, v2: SovereignVector) -> float:
-        """Calculates cosine similarity (Real magnitude)."""
+        """Calculates unsigned cosine similarity (Absolute resonance)."""
         n1 = v1.norm()
         n2 = v2.norm()
         if n1 < 1e-12 or n2 < 1e-12: return 0.0
         return abs(v1.dot(v2)) / (n1 * n2)
+
+    @staticmethod
+    def signed_resonance(v1: SovereignVector, v2: SovereignVector) -> float:
+        """Calculates signed cosine similarity (Phase resonance)."""
+        n1 = v1.norm()
+        n2 = v2.norm()
+        if n1 < 1e-12 or n2 < 1e-12: return 0.0
+        return v1.dot(v2).real / (n1 * n2)
 
     @staticmethod
     def mean(vectors: List[SovereignVector]) -> SovereignVector:
