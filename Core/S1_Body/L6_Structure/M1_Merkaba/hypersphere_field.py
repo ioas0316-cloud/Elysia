@@ -115,6 +115,21 @@ class HyperSphereField:
         self.experience_cortex = ExperienceCortex()
 
         
+        # --- [Phase 3] 4D HyperSphere Phase Projection ---
+        try:
+            from Core.S1_Body.L6_Structure.M1_Merkaba.phase_projection_engine import (
+                HyperHologram, HyperSphereProjector
+            )
+            from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+            self.hologram = HyperHologram()
+            self.projector = HyperSphereProjector()
+            self._ppe_enabled = True
+        except ImportError:
+            self.hologram = None
+            self.projector = None
+            self._ppe_enabled = False
+
+
 
     def _initialize_core_principles(self):
 
@@ -579,3 +594,79 @@ class HyperSphereField:
             for unit_id, unit in self.units.items()
 
         }
+
+    # === [Phase 3] 4D Cognitive Map Projection ===
+    
+    def project_cognitive_map(self, dt: float = 0.1) -> Dict[str, Any]:
+        """
+        Projects M1-M4 unit states into 4D HyperSphere hologram.
+        
+        Maps:
+        - M1_Body → D21Vector Body strata (D1-D7)
+        - M2_Mind → D21Vector Soul strata (D8-D14)  
+        - M3_Spirit → D21Vector Spirit strata (D15-D21)
+        - M4_Metron → Synthesis/Intensity
+        
+        Returns:
+            Dict with 4D coordinates (θ, φ, ψ, r) and equilibrium tensor.
+        """
+        if not self._ppe_enabled or self.hologram is None:
+            return {"enabled": False}
+        
+        from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+        
+        # Extract states from M1-M4 units
+        m1 = self.units['M1_Body']
+        m2 = self.units['M2_Mind']
+        m3 = self.units['M3_Spirit']
+        m4 = self.units['M4_Metron']
+        
+        # Map unit states to D21Vector
+        # Using energy and phase as proxies for the 7D stratum values
+        body_val = m1.energy if hasattr(m1, 'energy') else 0.5
+        mind_val = m2.energy if hasattr(m2, 'energy') else 0.5
+        spirit_val = m3.energy if hasattr(m3, 'energy') else 0.5
+        metron_val = m4.energy if hasattr(m4, 'energy') else 0.5
+        
+        # Create D21Vector from unit states
+        d21 = D21Vector(
+            # Body stratum (scaled by body_val)
+            lust=body_val*0.3, gluttony=body_val*0.2, greed=body_val*0.1,
+            sloth=body_val*0.2, wrath=body_val*0.3, envy=body_val*0.1, pride=body_val*0.4,
+            # Soul stratum (scaled by mind_val)
+            perception=mind_val*0.5, memory=mind_val*0.6, reason=mind_val*0.7,
+            will=mind_val*0.8, imagination=mind_val*0.4, intuition=mind_val*0.5, consciousness=mind_val*0.9,
+            # Spirit stratum (scaled by spirit_val)
+            chastity=spirit_val*0.7, temperance=spirit_val*0.8, charity=spirit_val*0.9,
+            diligence=spirit_val*0.6, patience=spirit_val*0.7, kindness=spirit_val*0.8, humility=spirit_val*1.0
+        )
+        
+        # Project to 4D HyperSphere
+        coord = self.hologram.project(d21, dt)
+        
+        # Get equilibrium tensor
+        eq_tensor = self.projector.get_equilibrium_tensor(d21)
+        
+        return {
+            "enabled": True,
+            "theta": coord.theta,
+            "phi": coord.phi,
+            "psi": coord.psi,
+            "radius": coord.radius,
+            "cartesian_4d": coord.to_cartesian_4d(),
+            "equilibrium": {
+                "body": eq_tensor[0],
+                "soul": eq_tensor[1],
+                "spirit": eq_tensor[2]
+            },
+            "hologram_count": len(self.hologram.history)
+        }
+    
+    def get_hologram_status(self) -> Dict[str, Any]:
+        """Returns hologram status summary."""
+        if not self._ppe_enabled or self.hologram is None:
+            return {"enabled": False}
+        
+        summary = self.hologram.get_summary()
+        summary["enabled"] = True
+        return summary

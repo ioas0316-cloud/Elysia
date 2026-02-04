@@ -7,6 +7,7 @@ Responsible for:
 - Saving snapshots of the self.
 - Restoring the "North Star" (intent) across restarts.
 - Compatible with existing SovereignSelf pulse/spin logic.
+- [Phase 2] 4D HyperSphere projection via PhaseProjectionEngine.
 """
 
 import json
@@ -23,8 +24,18 @@ class SovereignRotor:
         self.current_state = D21Vector()
         self.last_sync_time: float = 0.0
         
+        # [Phase 2] Initialize 4D HyperHologram for cognitive mapping
+        try:
+            from Core.S1_Body.L6_Structure.M1_Merkaba.phase_projection_engine import HyperHologram
+            self.hologram = HyperHologram()
+            self._hologram_enabled = True
+        except ImportError:
+            self.hologram = None
+            self._hologram_enabled = False
+        
         # Load latest snapshot if exists
         self.load_latest()
+
 
     @property
     def vector_dim(self) -> int:
@@ -147,3 +158,28 @@ class SovereignRotor:
         if total == 0: return 1.0 # Perfect void
         
         return (spirit_sum / total) if total > 0 else 0.0
+
+    # === [Phase 2] HyperHologram Integration ===
+    
+    def project_to_hologram(self, dt: float = 0.1):
+        """
+        Projects current 21D state into 4D HyperSphere hologram.
+        
+        Returns:
+            HyperSphereCoord with (θ, φ, ψ, r) if hologram enabled, else None.
+        """
+        if not self._hologram_enabled or self.hologram is None:
+            return None
+        
+        return self.hologram.project(self.current_state, dt)
+    
+    def get_hologram_status(self) -> dict:
+        """
+        Returns current hologram state including trajectory and center of mass.
+        """
+        if not self._hologram_enabled or self.hologram is None:
+            return {"enabled": False}
+        
+        summary = self.hologram.get_summary()
+        summary["enabled"] = True
+        return summary
