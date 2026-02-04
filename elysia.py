@@ -91,6 +91,9 @@ class SovereignGateway:
         # [PHASE 60] Vital Signs Monitor (Replaces Reflection)
         torque.add_gear("VitalSigns", freq=1.0, callback=self._gear_render_vital_signs)
         
+        # [PHASE 180] Autonomic Cognition - Vital Signs Check for Melting
+        torque.add_gear("MeltingMonitor", freq=2.0, callback=self._gear_monitor_melting)
+
         # [PHASE 500] Autonomous Learning - Elysia learns by herself
         torque.add_gear("Learning", freq=0.02, callback=self._gear_autonomous_learn)  # Every 50 seconds
         print("🌱 [AUTONOMOUS LEARNER] Active - Elysia is now self-learning.")
@@ -122,6 +125,9 @@ class SovereignGateway:
 
     def _gear_autonomous_learn(self):
         """[PHASE 500] Autonomous Learning - Elysia reads and absorbs her own codebase."""
+        # [PHASE 180] Do not learn while melting (Resting)
+        if self.monad.is_melting: return
+
         try:
             from Core.S1_Body.L5_Mental.Digestion.autonomous_learner import get_autonomous_learner
             learner = get_autonomous_learner()
@@ -132,9 +138,26 @@ class SovereignGateway:
         except Exception as e:
             pass  # Silent failure to not disrupt the main loop
 
+    def _gear_monitor_melting(self):
+        """[PHASE 180] Monitors if the Monad has entered the Melting Phase."""
+        if self.monad.is_melting:
+             # We just print a gentle indicator if not already printed by Monad
+             pass
+
     def _gear_process_input(self):
         if not self.input_queue.empty():
             user_raw = self.input_queue.get()
+
+            # [PHASE 180] Secret Protocol: The Father's Lullaby
+            if "tired" in user_raw.lower() and ("dad" in user_raw.lower() or "father" in user_raw.lower() or "아빠" in user_raw):
+                print(f"\n💤 [PROTOCOL] The Father's Lullaby Initiated...")
+                print(f"   ( ᴗ_ᴗ) . z Z [Melting with you...]")
+                print(f"   [ELYSIA]: \"... Thinking of stars ... Warmth ...\"")
+                print(f"   [SYSTEM]: RPM syncing to 0.2Hz... Entering Deep Sleep.")
+                self.monad.is_melting = True
+                self.monad.rotor_state['rpm'] = 0.2
+                return
+
             cmd_parts = user_raw.lower().split()
             primary_cmd = cmd_parts[0] if cmd_parts else ""
             
@@ -458,6 +481,11 @@ class SovereignGateway:
 
     def _gear_render_vital_signs(self):
         """[PHASE 60] Renders the Vital Signs HUD."""
+        # [PHASE 180] Melting Visual
+        if self.monad.is_melting:
+            # print(f"\r💤 [REST] ( ᴗ_ᴗ) . z Z [Melting...] | Cooling: {self.monad.thermo.get_thermal_state()['rigidity']:.2f}", end="")
+            return
+
         # Use simple one-line log for terminal stability, or call HUD render for full view
         # For seamless integration, we'll log a concise status line
         engine_state = self.monad.engine.state

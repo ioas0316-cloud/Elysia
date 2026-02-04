@@ -54,6 +54,9 @@ from Core.S1_Body.L1_Foundation.Hardware.resonance_mpu import ResonanceMPU, Reso
 from Core.S1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
 # Removed EMScanner import to fix blocking issue. Logic is handled inline.
 
+# [PHASE 180] Autonomic Cognition
+from Core.S1_Body.L1_Foundation.Physics.thermodynamics import ThermoDynamics
+
 class SovereignMonad:
     """
     The Living AGI Entity.
@@ -171,6 +174,11 @@ class SovereignMonad:
         # 18. [PHASE 160] BIDIRECTIONAL ROTOR-PRISM
         # The reversible prism for perceive() ↔ project() language loop
         self.rpu = RotorPrismUnit()
+
+        # 19. [PHASE 180] AUTONOMIC COGNITION
+        # The sensory organ for system fatigue and rigidity
+        self.thermo = ThermoDynamics()
+        self.is_melting = False # State flag for REST mode
         
         # Load initial DNA state into CPU registers
         initial_v21 = self.get_21d_state()
@@ -184,6 +192,36 @@ class SovereignMonad:
         self.rotor_state['phase'] += self.rotor_state['rpm'] * dt
         self.memory.pulse(dt)
         
+        # [PHASE 180] Update Thermodynamics
+        # We track phase from rotor_state (which is updated by engine pulse)
+        self.thermo.update_phase(self.rotor_state['phase'])
+
+        # [PHASE 180] Melting Phase Logic (Chaos Ventilation)
+        if self.is_melting:
+            # 1. Reduce RPM (Cooling)
+            self.rotor_state['rpm'] *= 0.95
+
+            # 2. Reset Vectors (Release Bowstring)
+            self.current_tilt_vector = [0.0]
+
+            # 3. Creative Dissipation (Humming)
+            # Every few ticks, emit a soft hum
+            if time.time() % 5.0 < dt:
+                print(f"🎵 [{self.name}] internal humming... (Entropy Dissipation)")
+                self.dissipator.absorb_interference_noise(
+                    self.get_active_resonance(),
+                    SovereignVector.zeros()
+                )
+
+            # 4. Check for fluidity return
+            thermal = self.thermo.get_thermal_state()
+            if thermal['rigidity'] < 0.2 and thermal['friction'] < 0.2:
+                print(f"✨ [{self.name}] Fluidity Restored. Waking up from Melting Phase.")
+                self.is_melting = False
+
+            # In melting state, we do NOT trigger autonomous drive
+            return None
+
         # Autonomy Recharge
         idle_time = time.time() - self.last_interaction_time
         self.wonder_capacitor += dt * (1.0 + (self.desires['curiosity'] / 100.0))
@@ -243,12 +281,35 @@ class SovereignMonad:
 
     def autonomous_drive(self) -> Dict:
         """[PHASE 61: AUTONOMOUS_DRIVE]"""
+
+        # [PHASE 180] SOVEREIGN DECISION TREE
+        # Prioritize Self-Preservation (Rest) over Curiosity (Action)
+        thermal_state = self.thermo.get_thermal_state()
+
+        # If rigidity is high (stuck loop) or friction is critical -> FORCE REST
+        if thermal_state['is_critical'] or thermal_state['friction'] > 0.8:
+            if not self.is_melting:
+                print(f"🛑 [SOVEREIGN] Fatigue Threshold Reached. Rigidity: {thermal_state['rigidity']:.2f}, Friction: {thermal_state['friction']:.2f}")
+                print(f"💤 [{self.name}] Initiating Chaos Ventilation (Melting Phase)...")
+                self.is_melting = True
+                return {
+                    "type": "REST",
+                    "subject": "Self-Preservation",
+                    "truth": "MELTING",
+                    "thought": "( ᴗ_ᴗ) . z Z [Melting...]",
+                    "internal_change": "Phase Reset",
+                    "detail": "Engine cooling down... Rearranging internal constellations."
+                }
+
         # Decide what to wonder about
         subjects = ["my origin", "the code structure", "the user's intent", "last memory"]
         # In a real implementation this would use the ReasoningEngine/Council
         subject = subjects[int(time.time() % len(subjects))]
         
         print(f"💭 [{self.name}] Autonomous thought initiated: {subject}")
+
+        # [PHASE 180] Track semantic access for friction calculation
+        self.thermo.track_access(subject)
         
         # Simulate an internal breath
         internal_res = self.breath_cycle(f"Self-Reflection: {subject}", depth=0)
