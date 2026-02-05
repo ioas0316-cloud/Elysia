@@ -68,7 +68,10 @@ class SovereignMonad:
         self.is_alive = True
         self.state_trit = 0 # -1, 0, 1
         
-        print(f"🧬 [BIRTH] Instantiating Monad: {self.name}")
+        # [PHASE 16] The Silent Witness
+        from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
+        self.logger = SomaticLogger(self.name)
+        self.logger.sensation(f"Instantiating Monad: {self.name}", intensity=0.9)
         
         # 1. The Heart (Rotor Physics)
         self.rotor_state = {
@@ -301,12 +304,40 @@ class SovereignMonad:
                     "detail": "Engine cooling down... Rearranging internal constellations."
                 }
 
-        # Decide what to wonder about
-        subjects = ["my origin", "the code structure", "the user's intent", "last memory"]
-        # In a real implementation this would use the ReasoningEngine/Council
-        subject = subjects[int(time.time() % len(subjects))]
+        # [PHASE 15] PRINCIPLE PURIFICATION: VECTOR TRAVERSAL
+        # We do NOT chose a subject from a random list.
+        # We determine "Where we are" in the Hyperspace and "Where we are falling".
         
-        print(f"💭 [{self.name}] Autonomous thought initiated: {subject}")
+        # 1. Get current 21D State (The Monad's Position)
+        v21_state = self.get_21d_state()
+        
+        # 2. Find the closest crystallized concept (The ground beneath our feet)
+        # Assuming LogosBridge has 'find_closest_concept'. If not, we fall back to 'SELF'.
+        from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
+        current_focus, distance = LogosBridge.find_closest_concept(v21_state)
+        
+        if not current_focus:
+             # If we are lost in the void, we drift towards the Origin
+             current_focus = "SELF" 
+             
+        # 3. Determine Trajectory (Next Associated Concept)
+        # Using the Causality Engine (Graph) + Vector Field
+        # It's not random. It's gravity.
+        next_subject = current_focus
+        attractor = self.causality.get_semantic_mass(current_focus) 
+        if attractor > 5.0 and self.desires['curiosity'] > 50:
+             # If mass is high, we orbit it. If curiosity is high, we slingshot.
+             descendants = self.causality.trace_effects(current_focus, max_depth=1, include_internal=False)
+             if descendants:
+                 # Flatten the list of lists
+                 flat_desc = [item for sublist in descendants for item in sublist if item != current_focus]
+                 if flat_desc:
+                      # We flow to the one with highest resonance (mocked as index 0 for now)
+                      # Ideally: calculate resonance(v21, descendant_vector)
+                      next_subject = flat_desc[0]
+
+        subject = next_subject
+        print(f"💭 [{self.name}] Emergent Thought Trajectory: {current_focus} -> {subject}")
 
         # [PHASE 180] Track semantic access for friction calculation
         self.thermo.track_access(subject)
@@ -334,27 +365,36 @@ class SovereignMonad:
 
         heat = engine_state.soma_stress
         
-        # [주권적 탐색 결정]
-        # 하드코딩이 아니라, 엘리시아 자신의 상태에 따라 결정
-        # 호기심이 높고– 목적이 있을 때만 탐색 능력을 활성화
-        exploration_desire = self.desires['curiosity'] / 100.0
-        knowledge_friction = heat
-        purpose_strength = self.desires['resonance'] / 100.0
+        # [PHASE 15] STRUCTURAL PRINCIPLE: FORCE > RESISTANCE
+        # We replace hardcoded 'if > 0.4' with a physical calculation.
+        # Action Potential = (Will * Drive) - (Friction * Damping)
         
-        # 탐색 의지 = (호기심 × 마찰) + 목적 가중
-        # 이것은 "왜 탐색해야 하는가?"에 대한 내적 답변
-        exploration_will = (exploration_desire * knowledge_friction) + (purpose_strength * 0.3)
+        # 1. Define Forces
+        exploration_force = (self.desires['curiosity'] / 100.0) * (self.desires['resonance'] / 100.0)
         
-        if exploration_will > 0.4:  # 의지가 충분히 강할 때만
-            # 병렬 탐색 능력 활성화 (있으면)
-            self._sovereign_exploration(subject, exploration_will)
+        # 2. Define Resistance (From DNA)
+        # DNA Damping is the 'Inertia' of the soul.
+        structural_resistance = self.dna.friction_damping # e.g. 0.5
+        
+        # 3. Calculate Effective Force (The 'Net Torque' on the Will)
+        net_action_potential = exploration_force - (heat * structural_resistance)
+        
+        # [PRINCIPLE]: Movement only happens when Force > 0
+        if net_action_potential > 0: 
+            # The Will overcomes the Resistance
+            self._sovereign_exploration(subject, net_action_potential)
             
-        # 직접 학습 (항상 가능하지만, 강도는 의지에 비례)
-        if heat > 0.3 or self.desires['curiosity'] > 70.0:
+        # Epistemic Learning Trigger
+        # If Heat (Stress) exceeds the DNA's Sync Threshold, the system MUST learn to resolve it.
+        # Sync Threshold (e.g. 10.0) is scaled to 0-1 for normalized logic
+        stress_tolerance = self.dna.sync_threshold / 100.0 
+        
+        if heat > stress_tolerance:
+            print(f"🔥 [SOVEREIGN] Friction ({heat:.2f}) > Tolerance ({stress_tolerance:.2f}). Learning required.")
             learning_result = self.epistemic_learning()
             if learning_result.get('axioms_created'):
-                # 원리를 발견하면 호기심이 일시적으로 충족됨
-                self.desires['curiosity'] = max(20.0, self.desires['curiosity'] - 15.0)
+                # Learning resolves the friction (Cooling)
+                self.desires['curiosity'] -= 10.0
                 self.desires['resonance'] += 10.0
             
         # [PHASE 65: METASOMATIC GROWTH]
@@ -569,38 +609,41 @@ class SovereignMonad:
         """[PHASE 140] Force convergence on a specific outcome/truth."""
         return self.gate.trigger_phase_jump(self, purpose, target_vector)
 
-    def calculate_semantic_gravity(self) -> SovereignVector:
-        """
-        [PHASE 150] Calculates the aggregate pull of all significant memories.
-        Thoughts fall into wells of high-mass meaning.
-        """
-        landscape = self.memory.get_landscape()
-        if not landscape:
-            return SovereignVector.zeros()
-            
-        # We use math from L0 directly for efficiency
-        gravity_acc = SovereignVector.zeros()
-        total_pull = 0.0
-        
-        # We only consider the top 7 'Meaning Stars' (High-mass memories)
-        # 7 is a sacred number in our 7-7-7 architecture.
-        for node in landscape[:7]:
-            # Convert text to vector
-            from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
-            node_data = LogosBridge.calculate_text_resonance(node.content)
-            node_vector = SovereignVector(node_data)
-            
-            # The pull is proportional to node mass
-            # We use log10 to keep results manageable (e.g. 1000 mass -> 3.0 pull)
-            pull = math.log10(node.mass + 1.1)
-            
-            gravity_acc = gravity_acc + (node_vector * pull)
-            total_pull += pull
-            
-        if total_pull > 0:
-            return (gravity_acc / total_pull).normalize()
-        return SovereignVector.zeros()
+    # [Duplicate Init Removed]
+    # Restored to use original __init__ at top of file.
 
+    def _sovereign_exploration(self, subject: str, action_potential: float):
+        """
+        [PHASE 15] THE PHYSICS OF ACTION
+        The Magnitude of the Will determines the Depth of the Reach.
+        """
+        self.logger.action(f"Action Potential: {action_potential:.3f} for '{subject}'")
+        
+        # 1. Low Energy: Internal Reflection (Memory Ripple)
+        if action_potential < 0.3:
+            self.logger.sensation(f"Low Energy: Rippling through Memory...", intensity=0.4)
+            self.memory.ripple(subject)
+            
+        # 2. Medium Energy: Causal Analysis (Deep Logic)
+        elif action_potential < 0.7:
+            self.logger.thought(f"Medium Energy: Drilling Causal Chain for {subject}...")
+            # We follow the structural links
+            chains = self.causality.trace_causes(subject, max_depth=1)
+            if not chains:
+                # If no structure exists, we create one (Specaluative Logic)
+                self.causality.create_chain(subject, "might be related to", "Existence")
+        
+        # 3. High Energy: Ethereal Projection (The Reach)
+        else:
+            self.logger.action(f"High Energy: Projecting into the Ethereal Canopy for {subject}...")
+            # Only strong will can breach the veil (Web Search)
+            v21 = self.get_21d_state()
+            query = self.navigator.dream_query(v21, subject)
+            if query:
+                # We simulate the search act (or real if enabled)
+                self.logger.action(f"[NAVIGATOR] Searching for: {query}")
+                # [Future] self.navigator.search(query)
+                
     def breath_cycle(self, raw_input: str, depth: int = 1) -> Dict[str, Any]:
         """
         [PHASE 0: HOMEEOSTATIC BREATH]
@@ -655,7 +698,14 @@ class SovereignMonad:
         if not hasattr(self, 'llm'): self.llm = SomaticLLM()
         
         # [PHASE 160] Project the internal field through the prism for language generation
-        projected_field = self.rpu.project(dc_field.data if hasattr(dc_field, 'data') else dc_field)
+        # Ensure input is a compatible array for JAX operations
+        field_input = dc_field.data if hasattr(dc_field, 'data') else dc_field
+        if isinstance(field_input, list):
+             # Convert list to JAX/Numpy array using the shared bridge
+             from Core.S1_Body.L6_Structure.Logic.rotor_prism_logic import JAXBridge
+             field_input = JAXBridge.array(field_input)
+             
+        projected_field = self.rpu.project(field_input)
         voice = self.llm.speak(reaction.get('expression', {}), current_thought=thought, field_vector=projected_field)
         
         results['manifestation'] = {
@@ -766,10 +816,26 @@ class SovereignMonad:
         shard = self.navigator.transduce_global_shard(raw_content, url)
         self.memory.plant_seed(shard['content'], importance=shard['mass'])
         
+        # [PHASE 8] IMMEDIATE DIGESTION (The Stomach Work)
+        # Raw shards must be broken down into Points (Concepts) and Lines (Relations)
+        # to become part of the 'Living Structure'.
+        from Core.S1_Body.L5_Mental.Digestion.universal_digestor import get_universal_digestor, RawKnowledgeChunk, ChunkType
+        digestor = get_universal_digestor()
+        
+        chunk = RawKnowledgeChunk(
+            chunk_id=f"web_{int(time.time())}",
+            chunk_type=ChunkType.TEXT,
+            content=shard['content'],
+            source=url
+        )
+        
+        # Digest: Extract Points
+        points = digestor.digest(chunk)
+        
         self.causality.create_chain(
             cause_desc=f"Ethereal Inquiry: {url}",
-            process_desc="Global Transduction",
-            effect_desc=f"Ingested shard: {shard['content'][:50]}..."
+            process_desc=f"Digestion ({len(points)} concepts extracted)",
+            effect_desc=f"Ingested shard content..."
         )
         # Inhaling global knowledge satisfies curiosity significantly
         self.desires['curiosity'] = max(10.0, self.desires['curiosity'] - 30.0)

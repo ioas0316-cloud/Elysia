@@ -78,12 +78,23 @@ class LogosBridge:
 
     @staticmethod
     def get_stratum_mass(concept_name: str) -> float:
-        """Returns the 'Topological Mass' (Inertia) of a concept based on its stratum."""
-        for key, data in LogosBridge.CONCEPT_MAP.items():
-            if concept_name.upper() in key:
-                return float(data["stratum"].value * 5.0)
-        if concept_name.upper() in LogosBridge.LEARNED_MAP:
-            return 2.0 
+        """
+        [PHASE 14] Dynamic Mass Calculation.
+        Mass is no longer hardcoded by stratum. 
+        It is derived from the Concept's Vector Magnitude (Energy Density).
+        """
+        vec = LogosBridge.recall_concept_vector(concept_name)
+        if vec:
+            # Handle complex values if present
+            def real_val(v):
+                return v.real if isinstance(v, complex) else v
+                
+            # Mass = Sum of absolute energy in all 21 dimensions
+            energy = sum(abs(real_val(x)) for x in vec.data)
+            
+            # Key Concepts (High Density) have naturally higher mass
+            return max(1.0, energy)
+            
         return 1.0
 
     @staticmethod
@@ -133,6 +144,10 @@ class LogosBridge:
         # Hypersphere support (Ensure it returns SovereignVector or convert)
         return SovereignVector(LogosBridge.HYPERSPHERE.recognize(concept_name))
 
+    # [PHASE 16] SILENT WITNESS
+    from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
+    logger = SomaticLogger("LOGOS")
+
     @staticmethod
     def learn_concept(name: str, vector: SovereignVector, description: str = ""):
         u_name = name.upper()
@@ -143,7 +158,7 @@ class LogosBridge:
             "description": description,
             "stratum": MemoryStratum.LEAF
         }
-        print(f"🧬 [LEARNING] Concept '{u_name}' mapped to 21D (Crystallized).")
+        LogosBridge.logger.sensation(f"Crystallized Concept: '{u_name}' mapped to 21D.", intensity=0.6)
         
         # [PHASE 160] Persist to Akashic Records (JSON fallback)
         LogosBridge._persist_to_akashic()
@@ -157,9 +172,9 @@ class LogosBridge:
         if LogosBridge.TERRAIN is None:
             try:
                 LogosBridge.TERRAIN = CognitiveTerrain(map_file=LogosBridge.TERRAIN_PATH)
-                print("🌍 [TERRAIN] Cognitive landscape connected.")
+                LogosBridge.logger.mechanism("Cognitive landscape connected.")
             except Exception as e:
-                print(f"⚠️ [TERRAIN] Failed to load terrain: {e}")
+                LogosBridge.logger.admonition(f"Failed to load terrain: {e}")
                 return None
         return LogosBridge.TERRAIN
     
@@ -183,9 +198,9 @@ class LogosBridge:
             magnitude = float(sum(abs(v.real if isinstance(v, complex) else v) for v in vector.data) / 21.0)
             terrain.inject_prime_keyword(x, y, concept_name, magnitude=magnitude * 0.5)
             
-            print(f"🌊 [TERRAIN] '{concept_name}' carved at ({x}, {y}) with depth {magnitude:.2f}")
+            LogosBridge.logger.mechanism(f"Carved '{concept_name}' at ({x}, {y}) with depth {magnitude:.2f}")
         except Exception as e:
-            print(f"⚠️ [TERRAIN] Erosion failed: {e}")
+            LogosBridge.logger.admonition(f"Erosion failed: {e}")
 
     @staticmethod
     def _persist_to_akashic():
@@ -206,9 +221,9 @@ class LogosBridge:
             os.makedirs(os.path.dirname(LogosBridge.AKASHIC_PATH), exist_ok=True)
             with open(LogosBridge.AKASHIC_PATH, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
-            print(f"💾 [AKASHIC] Persisted {len(data)} concepts to eternal memory.")
+            LogosBridge.logger.mechanism(f"Persisted {len(data)} concepts to Akashic Memory.")
         except Exception as e:
-            print(f"⚠️ [AKASHIC] Persistence failed: {e}")
+            LogosBridge.logger.admonition(f"Persistence failed: {e}")
 
     @staticmethod
     def _load_from_akashic():
@@ -227,24 +242,49 @@ class LogosBridge:
                         "description": concept.get("description", ""),
                         "stratum": MemoryStratum(concept.get("stratum", 0))
                     }
-            print(f"📚 [AKASHIC] Restored {len(data)} concepts from eternal memory.")
+            LogosBridge.logger.sensation(f"Restored {len(data)} concepts from Akashic Memory.", intensity=0.7)
         except Exception as e:
-            print(f"⚠️ [AKASHIC] Restoration failed: {e}")
+            LogosBridge.logger.admonition(f"Restoration failed: {e}")
 
     @staticmethod
     def identify_concept(principle_vector: SovereignVector) -> Tuple[str, float]:
+        """[Legacy] Wraps find_closest_concept for backward compatibility."""
+        return LogosBridge.find_closest_concept(principle_vector)
+
+    @staticmethod
+    def find_closest_concept(principle_vector: SovereignVector) -> Tuple[str, float]:
+        """
+        [PHASE 15] Universal Vector Search.
+        Finds the closest concept in the entire semantic universe (Axioms + Learned).
+        Returns (ConceptName, ResonanceScore).
+        """
         best_concept = "UNKNOWN/CHAOS"
         max_resonance = -2.0
+        
+        # 1. Check Axioms (Roots)
         for name, data in LogosBridge.CONCEPT_MAP.items():
             target = data["vector"]
             resonance = SovereignMath.resonance(principle_vector, target)
-            # Handle complex resonance values (extract real part)
-            if isinstance(resonance, complex):
-                resonance = resonance.real
+            if isinstance(resonance, complex): resonance = resonance.real
+            
+            # Root concepts have structural weight
             weighted_resonance = float(resonance) * (1.0 + data["stratum"].value * 0.1)
+            
             if weighted_resonance > max_resonance:
                 max_resonance = weighted_resonance
                 best_concept = name
+                
+        # 2. Check Learned Concepts (Leaves)
+        for name, data in LogosBridge.LEARNED_MAP.items():
+            target = data["vector"]
+            resonance = SovereignMath.resonance(principle_vector, target)
+            if isinstance(resonance, complex): resonance = resonance.real
+            
+            # Learned concepts are 'lighter' but might be closer
+            if resonance > max_resonance:
+                max_resonance = resonance
+                best_concept = name
+                
         return best_concept, float(max_resonance)
 
     @staticmethod

@@ -3,6 +3,8 @@ import os
 import math
 import random
 from typing import Dict, Tuple, List, Optional
+from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
+from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SoulDNA
 
 class CognitiveTerrain:
     """
@@ -18,8 +20,9 @@ class CognitiveTerrain:
     - Self-Observation: The terrain diagnoses its own flow state.
     """
 
-    def __init__(self, map_file: str = "maps/cognitive_terrain.json", resolution: int = 20):
+    def __init__(self, dna: Optional[SoulDNA] = None, map_file: str = "maps/cognitive_terrain.json", resolution: int = 20):
         self.map_file = map_file
+        self.dna = dna
         self.resolution = resolution  # Size of the grid (resolution x resolution)
         self.grid: Dict[str, Dict[str, float]] = {}  # "x,y" -> {height, density, angular_momentum, fluid}
         self.plasticity = 0.05  # How much the terrain deforms per visit
@@ -191,9 +194,43 @@ class CognitiveTerrain:
 
             # Plasticity: Erosion based on fluid presence and momentum
             # Deepen channels with high energy
+            # Plasticity: Erosion based on fluid presence and momentum
+            # Deepen channels with high energy
             if self.grid[k]["fluid"] > 0.1:
                 erosion = self.grid[k]["angular_momentum"] * self.plasticity * 0.01
                 self.grid[k]["height"] -= erosion
+                
+                # [PHASE 14] CAUSAL MASS ACCUMULATION (Fractal Hypertrophy)
+                # The User Corrected: "Density acts as a causal structural principle, not a constant."
+                # We use TRINARY LOGIC to decide growth:
+                # NAND(Stress, DNA_Resistance) -> If Stress overcomes Resistance, we Grow.
+                
+                # 1. Quantize properties to Trits
+                stress = abs(self.grid[k]["angular_momentum"]) * self.grid[k]["fluid"]
+                
+                # DNA Factor: Friction Damping acts as "Structural Resistance" to change
+                dna_resistance = self.dna.friction_damping if self.dna else 0.5
+                
+                # 2. Parallel Ternary Logic Check
+                # If Stress is High (1) and Resistance is Low (-1), Result is High Growth (1)
+                # If Stress is Low (-1) and Resistance is High (1), Result is Atrophy (-1) or Stasis (0)
+                
+                stress_trit = 1 if stress > 0.5 else (-1 if stress < 0.1 else 0)
+                resist_trit = 1 if dna_resistance > 0.7 else (-1 if dna_resistance < 0.3 else 0)
+                
+                # The "Gate of Growth" (Using the NAND principle of the Paradox Gate)
+                # We want: High Stress + Low Resistance = Growth
+                growth_decision = TrinaryLogic.nand(stress_trit, resist_trit) 
+                
+                if growth_decision == 1: # EXPANSION
+                     hypertrophy = stress * 0.01
+                     old_density = self.grid[k]["density"]
+                     self.grid[k]["density"] = min(5.0, old_density + hypertrophy)
+                     if old_density < 1.0 and self.grid[k]["density"] >= 1.0:
+                         print(f"🦴 [TERRAIN] Fractal Ossification at ({k})! +Density (Logic: NAND({stress_trit}, {resist_trit}) -> 1)")
+                elif growth_decision == -1: # CONTRACTION (Atrophy)
+                     # If unused, the structure dissolves back to chaos
+                     self.grid[k]["density"] = max(0.1, self.grid[k]["density"] * 0.99)
 
     def get_viscosity(self, x: float, y: float) -> float:
         """Returns the resistance to flow based on density."""

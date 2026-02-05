@@ -87,9 +87,17 @@ class MetabolicEngine:
         return time.time() - now + dt # Return actual dt
 
     def get_status(self) -> Dict[str, Any]:
-        return {
+        """
+        Returns raw metrics and a formatted HUD string.
+        """
+        raw = {
             "current_hz": round(self.current_hz, 2),
             "period": round(1.0 / self.current_hz, 4),
             "will_pressure": round(self.will_pressure, 3),
             "stress_tension": round(self.stress_tension, 3)
         }
+        # HUD String pre-calculation
+        # Format: "💓 [PULSE] 10Hz | Will: 0.5 | Str: 0.2"
+        hud = f"💓 [PULSE] {self.current_hz:.1f}Hz | Will: {self.will_pressure:.1f} | Str: {self.stress_tension:.1f}"
+        raw["hud_string"] = hud
+        return raw

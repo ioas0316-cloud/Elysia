@@ -14,7 +14,7 @@ Features:
 
 import math
 import random
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from Core.S1_Body.L6_Structure.Nature.rotor import Rotor, RotorConfig
 from Core.S1_Body.L6_Structure.Wave.wave_dna import WaveDNA
@@ -187,3 +187,29 @@ class GovernanceEngine:
 
     def get_status(self) -> str:
         return f"Focus: {self.focus_intensity:.2f} | {self.ensemble.get_status()}"
+
+    def get_vital_report(self) -> Dict[str, Any]:
+        """
+        [PHASE 60] Vital Signs Report for HUD.
+        Delegates the logic previously in 'elysia.py'.
+        """
+        # In a full migration, 'monad.engine' would be here or linked.
+        # For now, we report the high-level Governance state which drives the Monad.
+        
+        # Get primary rotor states
+        spirit_rpm = self.spirit.current_rpm
+        mind_rpm = self.mind.current_rpm
+        body_rpm = self.body.current_rpm
+        
+        # Determine mode based on dominant rotor or stress
+        mode = "🔵 EQ"
+        if self.focus_intensity > 0.8: mode = "🟢 EXP" # High expansion/focus
+        elif self.stress_level > 0.8: mode = "🔴 DRL" # High stress/drill
+        
+        return {
+            "mode": mode,
+            "focus": self.focus_intensity,
+            "stress": self.stress_level,
+            "rpm_spirit": spirit_rpm,
+            "rpm_mind": mind_rpm
+        }

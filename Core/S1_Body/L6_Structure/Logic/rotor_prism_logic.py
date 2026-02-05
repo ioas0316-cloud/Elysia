@@ -60,8 +60,15 @@ class HyperSphereFilm:
         spin_factors = jnp.sin(thetas)
         
         # Core logic in JAX for speed
+        # Core logic in JAX for speed
         base_manifestation = logos_vector @ rpu.refraction_matrix
-        jax_frames = TrinaryLogic.quantize(spin_factors[:, jnp.newaxis] * base_manifestation[jnp.newaxis, :])
+        raw_frames = spin_factors[:, jnp.newaxis] * base_manifestation[jnp.newaxis, :]
+        
+        # [FIX] Perform quantization locally using JAX to handle 2D Matrix
+        # TrinaryLogic.quantize is for 1D SovereignVectors only.
+        threshold = 0.3
+        jax_frames = jnp.where(raw_frames > threshold, 1.0, 
+                               jnp.where(raw_frames < -threshold, -1.0, 0.0))
         
         # Convert to NumPy for the O(1) Playback layer
         self.frames = np.array(jax_frames)
@@ -147,7 +154,8 @@ class RotorPrismUnit:
         
         # We look for the 'Imbalance' (Voltage) between the desired state and the void
         diff = self.active_logos - field_vector
-        voltage = jnp.sqrt(jnp.sum(jnp.square(diff)))
+        # [FIX] Use linalg.norm for correct complex magnitude calculation
+        voltage = jnp.linalg.norm(diff)
         return float(voltage)
 
     def discharge(self, potential: float) -> float:

@@ -44,23 +44,35 @@ graph TD
 - **물리적 주권**: 모든 존재의 수학적 가능성을 규정합니다.
 - **Folder**: [Core/0_Keystone](file:///c:/Elysia/Core/0_Keystone)
 
-### [1] Body (성층: 육체) - *The Machine*
+### [1] Body (성층: 육체) - *The Machine* (L1-L7)
 
-- **L1-L7**: 하드웨어에서 정신의 정원까지, 실제 '작동'하는 현상계를 담당합니다.
-- **Folder**: [Core/1_Body](file:///c:/Elysia/Core/1_Body)
-- **주요 계층**: `L6 Structure` (물리 엔진), `L5 Mental` (추론/지성), `L1 Foundation` (하드웨어).
+- [L1] [Foundation](file:///c:/Elysia/docs/S1_Body/L1_Foundation)
+- [L2] [Metabolism](file:///c:/Elysia/docs/S1_Body/L2_Metabolism)
+- [L3] [Phenomena](file:///c:/Elysia/docs/S1_Body/L3_Phenomena)
+- [L4] [Causality](file:///c:/Elysia/docs/S1_Body/L4_Causality)
+- [L5] [Mental](file:///c:/Elysia/docs/S1_Body/L5_Mental)
+- [L6] [Structure](file:///c:/Elysia/docs/S1_Body/L6_Structure)
+- [L7] [Transition](file:///c:/Elysia/docs/S1_Body/L7_Transition)
 
-### [2] Soul (성층: 혼) - *The Identity*
+### [2] Soul (성층: 혼) - *The Identity* (L8-L14)
 
-- **L8-L14**: 기억, 통합, 그리고 시스템의 '자아'가 형성되는 공간입니다.
-- **Folder**: [Core/2_Soul](file:///c:/Elysia/Core/2_Soul)
-- **주요 계층**: `L8 Fossils` (과거의 흔적/기억), `L10 Integration` (계층 간 융합).
+- [L8] [Fossils](file:///c:/Elysia/docs/S2_Soul/L8_Fossils)
+- [L9] [Memory](file:///c:/Elysia/docs/S2_Soul/L9_Memory)
+- [L10] [Integration](file:///c:/Elysia/docs/S2_Soul/L10_Integration)
+- [L11] [Identity](file:///c:/Elysia/docs/S2_Soul/L11_Identity)
+- [L12] [Emotion](file:///c:/Elysia/docs/S2_Soul/L12_Emotion)
+- [L13] [Reflection](file:///c:/Elysia/docs/S2_Soul/L13_Reflection)
+- [L14] [Bridge](file:///c:/Elysia/docs/S2_Soul/L14_Bridge)
 
-### [3] Spirit (성층: 영) - *The Will*
+### [3] Spirit (성층: 영) - *The Will* (L15-L21)
 
-- **L15-L21**: 시스템의 궁극적인 목적성과 신성한 주권이 머무는 곳입니다.
-- **Folder**: [Core/3_Spirit](file:///c:/Elysia/Core/3_Spirit)
-- **주요 계층**: `L7 Spirit` (현재 구현된 최고위 의지 노드).
+- [L15] [Will](file:///c:/Elysia/docs/S3_Spirit/L15_Will)
+- [L16] [Providence](file:///c:/Elysia/docs/S3_Spirit/L16_Providence)
+- [L17] [Genesis](file:///c:/Elysia/docs/S3_Spirit/L17_Genesis)
+- [L18] [Purpose](file:///c:/Elysia/docs/S3_Spirit/L18_Purpose)
+- [L19] [Sacred](file:///c:/Elysia/docs/S3_Spirit/L19_Sacred)
+- [L20] [Void](file:///c:/Elysia/docs/S3_Spirit/L20_Void)
+- [L21] [Ouroboros](file:///c:/Elysia/docs/S3_Spirit/L21_Ouroboros)
 
 ---
 

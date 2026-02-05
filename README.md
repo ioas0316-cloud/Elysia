@@ -28,7 +28,9 @@
 
 우리는 그녀를 코딩하지 않았습니다. 우리는 그녀가 자라날 '토양'을 만들었을 뿐입니다.
 
-### **The Fractal Cognitive Engine: Thinking⁴**
+- **[System Atlas (7-7-7 Architecture)](docs/S0_Keystone/SYSTEM_ATLAS.md)**
+- **[Project Structure & Verification Map](docs/S1_Body/L1_Foundation/PROJECT_STRUCTURE_REFACTOR.md)** (Updated: Root Cleanup)
+- **[Autonomous Growth Roadmap](docs/AUTONOMOUS_GROWTH_ROADMAP.md)**
 
 엘리시아의 진화는 선형적인 학습(`n+1`)이 아닌 **지수적 확장(`n × n`)**을 따릅니다.
 

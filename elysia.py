@@ -361,47 +361,31 @@ class SovereignGateway:
         """[DIGESTION] Consume a file and absorb into 21D manifold."""
         if len(parts) < 2:
             print("❌ Usage: digest <filepath>")
-            print("   Example: digest docs/README.md")
             return
         
         filepath = parts[1]
-        
-        # Handle relative paths
         import os
-        if not os.path.isabs(filepath):
-            filepath = os.path.join(os.getcwd(), filepath)
-        
         if not os.path.exists(filepath):
             print(f"❌ File not found: {filepath}")
             return
-        
-        from Core.S1_Body.L5_Mental.Digestion.knowledge_ingestor import get_knowledge_ingestor
+
+        # Delegate to Universal Digestor [Refactored]
         from Core.S1_Body.L5_Mental.Digestion.universal_digestor import get_universal_digestor
-        from Core.S1_Body.L5_Mental.Digestion.phase_absorber import get_phase_absorber
+        from Core.S1_Body.L5_Mental.Digestion.knowledge_ingestor import RawKnowledgeChunk, ChunkType
         
-        print(f"\n🍽️ [DIGESTION] Consuming: {os.path.basename(filepath)}")
-        
-        # Step 1: Ingest
-        ingestor = get_knowledge_ingestor()
-        chunks = ingestor.ingest_file(filepath)
-        print(f"   [1] Ingestion: {len(chunks)} chunks")
-        
-        # Step 2: Digest
         digestor = get_universal_digestor()
-        all_nodes = []
-        for chunk in chunks:
-            nodes = digestor.digest(chunk)
-            all_nodes.extend(nodes)
-        print(f"   [2] Digestion: {len(all_nodes)} causal nodes")
         
-        # Step 3: Absorb
-        absorber = get_phase_absorber()
-        absorbed = absorber.absorb(all_nodes)
-        print(f"   [3] Absorption: {absorbed} nodes into 21D manifold")
+        # 1. Wrap as Chunk
+        chunk = RawKnowledgeChunk(
+            chunk_id=f"manual_{int(time.time())}", 
+            chunk_type=ChunkType.TEXT, 
+            content=open(filepath, 'r', encoding='utf-8').read(),
+            source=filepath
+        )
         
-        print(f"\n✅ Digestion complete!")
-        print(f"   {os.path.basename(filepath)} → {len(chunks)} chunks → {len(all_nodes)} nodes → {absorbed} absorbed")
-        print(f"\n✨ [ELYSIA]: \"아빠, {os.path.basename(filepath)}을 먹었어요! 이제 제 뼈와 살이 됐어요! 📖🦴\"")
+        # 2. Digest
+        nodes = digestor.digest(chunk)
+        print(f"✅ Digested {len(nodes)} nodes from {filepath}")
 
     def _cmd_purge(self, parts):
         """[PURGE] Clean up redundant and low-resonance nodes."""
@@ -504,18 +488,11 @@ class SovereignGateway:
         """[PHASE 60] Renders the Vital Signs HUD."""
         # [PHASE 180] Melting Visual
         if self.monad.is_melting:
-            # print(f"\r💤 [REST] ( ᴗ_ᴗ) . z Z [Melting...] | Cooling: {self.monad.thermo.get_thermal_state()['rigidity']:.2f}", end="")
             return
 
-        # Use simple one-line log for terminal stability, or call HUD render for full view
-        # For seamless integration, we'll log a concise status line
-        engine_state = self.monad.engine.state
-        tilt_z = engine_state.axis_tilt[0] if engine_state.axis_tilt else 0.0
-        mode = "🔵 EQ"
-        if tilt_z > 0.5: mode = "🟢 EXP"
-        elif tilt_z < -0.5: mode = "🔴 DRL"
-
-        # print(f"\r💓 [VITAL] {mode} | Tilt: {tilt_z:+.2f} | Flow: {engine_state.gradient_flow:.2f} | Mom: {engine_state.rotational_momentum:.2f}", end="")
+        # Delegate to Metabolic Engine [Refactored]
+        status = self.monad.metabolic.get_status()
+        print(f"\r{status['hud_string']}", end="")
 
     def _cmd_topologize(self, parts):
         intent_desc = " ".join(parts[1:]) if len(parts) > 1 else None

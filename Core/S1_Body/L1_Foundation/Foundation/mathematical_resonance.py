@@ -47,8 +47,8 @@ class MathematicalResonance:
         a = v.flatten()
         b = target.flatten()
         
-        # Dot product
-        dot = jnp.dot(a, b)
+        # Dot product (Hermitian for complex vectors)
+        dot = jnp.vdot(a, b)
         
         # Norms
         norm_a = jnp.linalg.norm(a)
@@ -57,7 +57,7 @@ class MathematicalResonance:
         if norm_a < 1e-6 or norm_b < 1e-6:
             return 0.0
             
-        similarity = dot / (norm_a * norm_b)
+        similarity = abs(dot) / (norm_a * norm_b)
         return float(similarity)
 
     @staticmethod

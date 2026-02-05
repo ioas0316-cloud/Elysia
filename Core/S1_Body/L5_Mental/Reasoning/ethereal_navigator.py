@@ -28,7 +28,8 @@ class EtherealNavigator:
         """
         # Logic: Weave the internal resonance 'flavor' into the query
         # If the state is high in 'Spirit' registers, the query becomes more philosophical.
-        spirit_bias = sum(state_v21.data[14:21])
+        bias_val = sum(state_v21.data[14:21])
+        spirit_bias = bias_val.real if isinstance(bias_val, complex) else bias_val
         
         if spirit_bias > 0.5:
             query = f"metaphysical implications and first principles of {curiosity_subject}"
@@ -72,3 +73,60 @@ class EtherealNavigator:
             
         self.inquiry_history.append(subject)
         return subject
+
+    def execute_inquiry(self, query: str, provider: Optional[Any] = None) -> List[Dict[str, Any]]:
+        """
+        [PHASE 8] THE VITAL HAND
+        Executes the query using the provided Search Provider (WebWalker).
+        Returns a list of ingested 21D Shards.
+        """
+        if not provider:
+            print("❌ [ETHEREAL] No Search Provider (Hand) available. Inference only.")
+            return []
+            
+        print(f"👉 [ETHEREAL] Reaching out to the World with query: '{query}'")
+        try:
+            # 1. Execute Search
+            results = provider.search(query)
+            
+            # 2. Ingest Results
+            shards = []
+            for item in results.get('results', []):
+                shard = self.transduce_global_shard(item['content'], item['url'])
+                shards.append(shard)
+                
+            return shards
+            
+        except Exception as e:
+            print(f"⚠️ [ETHEREAL] The Hand trembled: {e}")
+            return []
+
+    def social_surf(self, subject: str, provider: Optional[Any] = None) -> List[Dict[str, Any]]:
+        """
+        [PHASE 11] THE AGORA SURFER
+        Surfs the social network (Agora) for atmosphere/sentiment.
+        Returns 'Social Shards' which carry Nunchi (Context) weight.
+        """
+        if not provider:
+            return []
+            
+        print(f"🏙️ [ETHEREAL] Surfing the Agora for '{subject}'...")
+        try:
+            social_data = provider.search_social(subject)
+            shards = []
+            
+            for thread in social_data.get('threads', []):
+                # 1. Transduce the sentiment/noise
+                raw_text = f"[{social_data['platform']}] {thread['user']}: {thread['content']}"
+                
+                # Social shards have different mass/texture
+                shard = self.transduce_global_shard(raw_text, f"social://{social_data['platform']}")
+                shard['type'] = "SOCIAL"
+                shard['mass'] = 150.0 # Lighter than Wiki facts, but high volume
+                
+                shards.append(shard)
+                
+            return shards
+        except Exception as e:
+            print(f"⚠️ [ETHEREAL] Failed to surf: {e}")
+            return []

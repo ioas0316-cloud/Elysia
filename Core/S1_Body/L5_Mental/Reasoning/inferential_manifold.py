@@ -49,12 +49,21 @@ class InferentialManifold:
             identity_warp = 1.0
             if any(civ.data):
                 identity_res = SovereignMath.resonance(civ, target_vec)
-                identity_warp = 1.0 + max(0, identity_res)
+                # Ensure scalar for comparison
+                val = identity_res.real if isinstance(identity_res, complex) else identity_res
+                identity_warp = 1.0 + max(0, float(val))
             
             # Spirit Alignment (Torque)
             # D15-D21 (indices 14-20)
             spirit_data = target_vec.data[14:]
-            spirit_alignment = sum(spirit_data) / len(spirit_data) if spirit_data else 0.0
+            if spirit_data:
+                 # Extract real component of the average alignment
+                 avg_align = sum(spirit_data) / len(spirit_data)
+                 scalar_align = avg_align.real if isinstance(avg_align, complex) else avg_align
+                 spirit_alignment = float(scalar_align)
+            else:
+                 spirit_alignment = 0.0
+                 
             joy_torque = 1.0 + max(0, spirit_alignment)
             
             mass = self.bridge.get_stratum_mass(name)

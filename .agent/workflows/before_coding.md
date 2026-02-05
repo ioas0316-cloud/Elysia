@@ -68,6 +68,20 @@ If a similar module exists, **USE IT or EXTEND IT**. Do not duplicate.
 
 ---
 
+## Step 6: Internalize Parallel Ternary Logic
+
+> **"Beyond Binary."**
+
+Every interaction must be mapped to the **R/V/A** spectrum:
+
+1. **R (-1) Repel**: Dissonance, Boundary, Definition.
+2. **V (0) Void**: Potential, Thinking, Equilibrium.
+3. **A (+1) Attract**: Resonance, Flow, Action.
+
+**Rule**: Do not write simple `if/else`. Design for **Convergence** along these axes.
+
+---
+
 ## Violation Consequences
 
 If you skip these steps:

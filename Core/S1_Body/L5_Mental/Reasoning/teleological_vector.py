@@ -32,13 +32,19 @@ class TeleologicalVector:
         # Teleological Bias: Stronger push toward the 'Spirit' realm
         for i in range(14, 21):
             val = ideal_data[i]
-            if isinstance(val, complex):
-                # Preserve phase, grow real magnitude
-                phase = cmath.phase(well_v if (well_v := val) else 1.0j) if abs(val) > 1e-6 else 0.0
-                new_mag = min(1.0, abs(val) + 0.4)
+            # Always treat as Phasor in 21D space
+            # Preserve phase, grow real magnitude
+            magnitude = abs(val)
+            new_mag = min(1.0, magnitude + 0.4)
+            if magnitude > 1e-6:
+                phase = cmath.phase(val)
                 ideal_data[i] = cmath.rect(new_mag, phase)
             else:
-                ideal_data[i] = min(1.0, val + 0.4)
+                 # If magnitude is 0, we can't infer phase, so we assume alignment (0 phase, real)
+                 # or keep it 0 if we assume it only grows if it exists.
+                 # But Teleology implies growing NEW intent.
+                 # We seed it with pure real intent (+1)
+                 ideal_data[i] = complex(new_mag, 0.0)
             
         # Clearer suppression of stagnation
         for i in range(0, 7):
