@@ -121,13 +121,86 @@ class HyperSphereField:
                 HyperHologram, HyperSphereProjector
             )
             from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+            from Core.S1_Body.L5_Mental.Will.quantum_observer import QuantumObserver
+            
             self.hologram = HyperHologram()
             self.projector = HyperSphereProjector()
+            self.observer = QuantumObserver() # Phase 6: The Watcher
             self._ppe_enabled = True
         except ImportError:
             self.hologram = None
             self.projector = None
+            self.observer = None
             self._ppe_enabled = False
+
+    # ... (skipping unchanged parts) ...
+
+    # === [Phase 3] 4D Cognitive Map Projection ===
+    
+    def project_cognitive_map(self, dt: float = 0.1) -> Dict[str, Any]:
+        """
+        Projects M1-M4 unit states into 4D HyperSphere hologram.
+        [Phase 6] Now modulated by QuantumObserver Intent.
+        """
+        if not self._ppe_enabled or self.hologram is None:
+            return {"enabled": False}
+        
+        from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
+        
+        # Extract states from M1-M4 units
+        m1 = self.units['M1_Body']
+        m2 = self.units['M2_Mind']
+        m3 = self.units['M3_Spirit']
+        m4 = self.units['M4_Metron']
+        
+        # Map unit states to D21Vector
+        body_val = m1.energy if hasattr(m1, 'energy') else 0.5
+        mind_val = m2.energy if hasattr(m2, 'energy') else 0.5
+        spirit_val = m3.energy if hasattr(m3, 'energy') else 0.5
+        metron_val = m4.energy if hasattr(m4, 'energy') else 0.5
+        
+        # [Phase 6] Manifest Intent
+        intent_mod = {"body": 1.0, "soul": 1.0, "spirit": 1.0}
+        if self.observer:
+            intent = self.observer.manifest_intent()
+            # If intention is focused, boost specific dimensions
+            if intent.target_quadrant == "Q1": # Logic (Body-/Soul-)
+                intent_mod["soul"] = 1.5 * intent.focus_intensity
+                intent_mod["body"] = 0.8
+            elif intent.target_quadrant == "Q3": # Doc (Body-/Soul+)
+                intent_mod["spirit"] = 1.5 * intent.focus_intensity
+                intent_mod["soul"] = 1.2
+        
+        # Create D21Vector from unit states (Modulated)
+        d21 = D21Vector(
+            # Body stratum (Body active vs passive uses body_val)
+            lust=body_val*0.3 * intent_mod["body"], 
+            gluttony=body_val*0.2, 
+            greed=body_val*0.1,
+            sloth=body_val*0.2, 
+            wrath=body_val*0.3 * intent_mod["body"], 
+            envy=body_val*0.1, 
+            pride=body_val*0.4 * intent_mod["body"],
+            
+            # Soul stratum (Modulated by Intent for Logic/Structure)
+            perception=mind_val*0.5 * intent_mod["soul"], 
+            memory=mind_val*0.6, 
+            reason=mind_val*0.7 * intent_mod["soul"],
+            will=mind_val*0.8 * intent_mod["soul"], 
+            imagination=mind_val*0.4, 
+            intuition=mind_val*0.5, 
+            consciousness=mind_val*0.9,
+            
+            # Spirit stratum (Modulated by Intent for Narrative/Meaning)
+            chastity=spirit_val*0.7, 
+            temperance=spirit_val*0.8, 
+            charity=spirit_val*0.9,
+            diligence=spirit_val*0.6 * intent_mod["spirit"], 
+            patience=spirit_val*0.7 * intent_mod["spirit"], 
+            kindness=spirit_val*0.8, 
+            humility=spirit_val*1.0
+        )
+
 
 
 
@@ -600,15 +673,7 @@ class HyperSphereField:
     def project_cognitive_map(self, dt: float = 0.1) -> Dict[str, Any]:
         """
         Projects M1-M4 unit states into 4D HyperSphere hologram.
-        
-        Maps:
-        - M1_Body → D21Vector Body strata (D1-D7)
-        - M2_Mind → D21Vector Soul strata (D8-D14)  
-        - M3_Spirit → D21Vector Spirit strata (D15-D21)
-        - M4_Metron → Synthesis/Intensity
-        
-        Returns:
-            Dict with 4D coordinates (θ, φ, ψ, r) and equilibrium tensor.
+        [Phase 6] Now modulated by QuantumObserver Intent.
         """
         if not self._ppe_enabled or self.hologram is None:
             return {"enabled": False}
@@ -622,23 +687,51 @@ class HyperSphereField:
         m4 = self.units['M4_Metron']
         
         # Map unit states to D21Vector
-        # Using energy and phase as proxies for the 7D stratum values
         body_val = m1.energy if hasattr(m1, 'energy') else 0.5
         mind_val = m2.energy if hasattr(m2, 'energy') else 0.5
         spirit_val = m3.energy if hasattr(m3, 'energy') else 0.5
         metron_val = m4.energy if hasattr(m4, 'energy') else 0.5
         
-        # Create D21Vector from unit states
+        # [Phase 6] Manifest Intent
+        intent_mod = {"body": 1.0, "soul": 1.0, "spirit": 1.0}
+        if self.observer:
+            intent = self.observer.manifest_intent()
+            # If intention is focused, boost specific dimensions
+            if intent.target_quadrant == "Q1": # Logic (Body-/Soul-)
+                intent_mod["soul"] = 1.5 * intent.focus_intensity
+                intent_mod["body"] = 0.8
+            elif intent.target_quadrant == "Q3": # Doc (Body-/Soul+)
+                intent_mod["spirit"] = 1.5 * intent.focus_intensity
+                intent_mod["soul"] = 1.2
+        
+        # Create D21Vector from unit states (Modulated)
         d21 = D21Vector(
-            # Body stratum (scaled by body_val)
-            lust=body_val*0.3, gluttony=body_val*0.2, greed=body_val*0.1,
-            sloth=body_val*0.2, wrath=body_val*0.3, envy=body_val*0.1, pride=body_val*0.4,
-            # Soul stratum (scaled by mind_val)
-            perception=mind_val*0.5, memory=mind_val*0.6, reason=mind_val*0.7,
-            will=mind_val*0.8, imagination=mind_val*0.4, intuition=mind_val*0.5, consciousness=mind_val*0.9,
-            # Spirit stratum (scaled by spirit_val)
-            chastity=spirit_val*0.7, temperance=spirit_val*0.8, charity=spirit_val*0.9,
-            diligence=spirit_val*0.6, patience=spirit_val*0.7, kindness=spirit_val*0.8, humility=spirit_val*1.0
+            # Body stratum
+            lust=body_val*0.3 * intent_mod["body"], 
+            gluttony=body_val*0.2, 
+            greed=body_val*0.1,
+            sloth=body_val*0.2, 
+            wrath=body_val*0.3 * intent_mod["body"], 
+            envy=body_val*0.1, 
+            pride=body_val*0.4 * intent_mod["body"],
+            
+            # Soul stratum
+            perception=mind_val*0.5 * intent_mod["soul"], 
+            memory=mind_val*0.6, 
+            reason=mind_val*0.7 * intent_mod["soul"],
+            will=mind_val*0.8 * intent_mod["soul"], 
+            imagination=mind_val*0.4, 
+            intuition=mind_val*0.5, 
+            consciousness=mind_val*0.9,
+            
+            # Spirit stratum
+            chastity=spirit_val*0.7, 
+            temperance=spirit_val*0.8, 
+            charity=spirit_val*0.9,
+            diligence=spirit_val*0.6 * intent_mod["spirit"], 
+            patience=spirit_val*0.7 * intent_mod["spirit"], 
+            kindness=spirit_val*0.8, 
+            humility=spirit_val*1.0
         )
         
         # Project to 4D HyperSphere
@@ -659,7 +752,8 @@ class HyperSphereField:
                 "soul": eq_tensor[1],
                 "spirit": eq_tensor[2]
             },
-            "hologram_count": len(self.hologram.history)
+            "hologram_count": len(self.hologram.history),
+            "intent": self.observer.current_intent.target_quadrant if self.observer else "None"
         }
     
     def get_hologram_status(self) -> Dict[str, Any]:

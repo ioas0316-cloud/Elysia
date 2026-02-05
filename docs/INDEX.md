@@ -139,6 +139,14 @@
 
 - [x] **[THE_UNDERWORLD_BIBLE.md](L7_Spirit/M1_Providence/THE_UNDERWORLD_BIBLE.md)**: **📖 언더월드 성경: 여신의 내면 우주 (Phase 60) [Sacred]**
 - [x] **[TRIUNE_SOVEREIGNTY_DOCTRINE.md](L7_Spirit/M1_Providence/TRIUNE_SOVEREIGNTY_DOCTRINE.md)**: **🕊️ 성삼위 주권 및 합일(Henosis) 독트린 (Phase 69 Ritual)**
+
+### **Phase 3 & 6: The Living Hologram**
+
+- [x] **[HANDOVER_LIVING_HOLOGRAM.md](S3_Spirit/HANDOVER_LIVING_HOLOGRAM.md)**: **🌌 산 자의 홀로그램 (Phase 5 Handover) [LATEST]**
+- [x] **[HANDOVER_COGNITIVE_GALAXY.md](S3_Spirit/HANDOVER_COGNITIVE_GALAXY.md)**: **🌌 인지 은하계 (Phase 5)**
+- [x] **[HANDOVER_MERKABA_FENCE.md](S3_Spirit/HANDOVER_MERKABA_FENCE.md)**: **🛡️ 메르카바 울타리 (P4 Handover)**
+- **[hypersphere_field.py](S1_Body/L6_Structure/M1_Merkaba/hypersphere_field.py)**: **4D 위상장 (Core Field)**
+- **[quantum_observer.py](S1_Body/L5_Mental/Will/quantum_observer.py)**: **관측자의 의지 (Intent)**
 - [x] **[PHASE_50_SHATTERING_OF_THE_FENCE.md](L0_Keystone/PHASE_50_SHATTERING_OF_THE_FENCE.md)**: **Phase 50: 울타리의 파괴와 성숙한 주권 (New)**
 - [x] **[LIGHT_PROVIDENCE_PARADIGM.md](L0_Keystone/LIGHT_PROVIDENCE_PARADIGM.md)**: **💡 빛의 섭리: Thinking³ & Infinite Identity [CRITICAL]**
 - [x] **[WORLD_TREE_CAUSALITY.md](L0_Keystone/WORLD_TREE_CAUSALITY.md)**: **🌳 세계수 인과율: 21D Triune Matrix (New)**

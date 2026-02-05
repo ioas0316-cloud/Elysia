@@ -70,30 +70,46 @@ class HyperSphereProjector:
     def project(self, d21: D21Vector) -> HyperSphereCoord:
         """
         Main projection: D21Vector → HyperSphereCoord
+        
+        Refined Logic (Phase 3.0 - Phasor Summation):
+        Treats each of the 7 dimensions as a Phasor with angle 2πk/7.
+        Summing these phasors preserves the internal structural pattern as a unique phase angle.
+        
+        θ (Body): Sum of 7 Body Phasors
+        φ (Soul): Sum of 7 Soul Phasors
+        ψ (Spirit): Sum of 7 Spirit Phasors
         """
-        arr = d21.to_array()
+        d = d21.to_array()
         
-        # Extract strata sums
-        body_sum = sum(arr[0:7])   # D1-D7
-        soul_sum = sum(arr[7:14])  # D8-D14
-        spirit_sum = sum(arr[14:21])  # D15-D21
+        body_sins = d[0:7]
+        soul_facs = d[7:14]
+        spirit_virts = d[14:21]
         
-        # Calculate phases using atan2 for proper quadrant handling
-        # θ = atan2(Body, Soul) → Body-Soul balance
-        theta = math.atan2(body_sum, soul_sum + 1e-8)  # Avoid div by zero
-        
-        # φ = atan2(Soul, Spirit) → Soul-Spirit balance
-        phi = math.atan2(soul_sum, spirit_sum + 1e-8)
-        
-        # ψ = atan2(Spirit, Body) → Spirit-Body balance (for Merkaba closure)
-        psi = math.atan2(spirit_sum, body_sum + 1e-8)
+        def calculate_phasor_angle(magnitudes: List[float]) -> float:
+            # Sum vectors: V = Σ m_k * e^(i * 2πk/7)
+            x_sum = 0.0
+            y_sum = 0.0
+            for k, mag in enumerate(magnitudes):
+                angle = (2 * math.pi * k) / 7.0
+                x_sum += mag * math.cos(angle)
+                y_sum += mag * math.sin(angle)
+            
+            # Avoid singularity
+            if abs(x_sum) < 1e-9 and abs(y_sum) < 1e-9:
+                return 0.0
+                
+            return math.atan2(y_sum, x_sum)
+
+        theta = calculate_phasor_angle(body_sins)
+        phi = calculate_phasor_angle(soul_facs)
+        psi = calculate_phasor_angle(spirit_virts)
         
         # Normalize to [0, 2π]
-        theta = (theta + math.pi) % (2 * math.pi)
-        phi = (phi + math.pi) % (2 * math.pi)
-        psi = (psi + math.pi) % (2 * math.pi)
+        theta = (theta + 2 * math.pi) % (2 * math.pi)
+        phi = (phi + 2 * math.pi) % (2 * math.pi)
+        psi = (psi + 2 * math.pi) % (2 * math.pi)
         
-        # Radius = magnitude of entire vector
+        # Radius = Magnitude
         radius = d21.magnitude()
         
         coord = HyperSphereCoord(
