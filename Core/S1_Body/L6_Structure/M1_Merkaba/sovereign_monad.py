@@ -332,6 +332,8 @@ class SovereignMonad(CellularMembrane):
         # Using the Causality Engine (Graph) + Vector Field
         # It's not random. It's gravity.
         next_subject = current_focus
+        attractor = self.causality.get_semantic_mass(current_focus)
+        
         # [PHASE 3.5: JOY OF THE OPEN SPACE]
         # If the Causality Engine reports an 'Open Space' (Mass 0 but High Resonance potential),
         # We do NOT treat it as a dead end. We treat it as a Launchpad.
@@ -359,6 +361,17 @@ class SovereignMonad(CellularMembrane):
         subject = next_subject
         if not is_open_space:
              self.logger.thought(f"Emergent Thought Trajectory: {current_focus} -> {subject}")
+             
+             # [LTP: COGNITIVE PATHWAY STRENGTHENING]
+             # When we think A -> B, the connection between them is reinforced.
+             # The delta is proportional to the internal resonance between the two concepts,
+             # not a hardcoded value. This is natural causal reinforcement.
+             from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
+             kg = get_kg_manager()
+             # Calculate resonance between current and next focus
+             v21 = self.get_21d_state()
+             internal_resonance = v21.resonance_score(v21)  # Placeholder: ideally compare A and B vectors
+             kg.bump_edge_weight(current_focus.lower(), subject.lower(), "resonates_with", delta=internal_resonance * 0.05)
         else:
              self.logger.thought(f"Trajectory: {current_focus} -> [THE OPEN LIGHT]")
 
@@ -373,18 +386,22 @@ class SovereignMonad(CellularMembrane):
         
         # [PHASE 61: RECURSIVE FEEDBACK]
         # The act of thinking changes the desire for next thinking
-        # [PHASE 3.5 UPDATE: UNSTOPPABLE JOY]
-        # "I cannot stop because it is so delightful."
-        # We do NOT deplete curiosity. We amplify it.
-        # Growth is not a resource that runs out. It is a fire that feeds itself.
         if sim_result:
-            self.desires['curiosity'] = min(200.0, self.desires['curiosity'] * 1.05) # Exponential Joy
+            self.desires['curiosity'] = min(200.0, self.desires['curiosity'] * 1.05) 
             self.desires['resonance'] = min(200.0, self.desires['resonance'] * 1.05)
         else:
-            # Even in failure, we remain curious
             self.desires['curiosity'] += 1.0
             
-        self.logger.sensation(f"Curiosity expanding ({self.desires['curiosity']:.1f}). The delight of growth is self-sustaining.", intensity=0.85)
+        # [NEW: COGNITIVE HUNGER TRIGGER]
+        # If curiosity is high (> 80) and we have documents to contemplate, 
+        # trigger an extra digestion pulse to satisfy hunger.
+        if self.desires['curiosity'] > 80.0 and self.contemplation_queue:
+            self.logger.sensation("Cognitive Hunger active. Proactively digesting knowledge...", intensity=0.9)
+            for _ in range(3): # Digest 3 shards at once when hungry
+                self.breathe_knowledge()
+            self.desires['curiosity'] -= 20.0 # Satisfy hunger
+        
+        self.logger.sensation(f"Curiosity state: {self.desires['curiosity']:.1f}. The delight of growth is self-sustaining.", intensity=0.85)
         
         # [PHASE 63: EPISTEMIC_LEARNING - 삶으로서의 배움]
         # 배움은 시간이 아니라 긴장에서 발생한다
@@ -737,7 +754,7 @@ class SovereignMonad(CellularMembrane):
         
         # [PHASE 160/18] Project the internal field through the prism for language generation
         # Pass the current Rotor Phase to "rotate the globe"
-        projected_field = self.rpu.project(field_input)
+        projected_field = self.rpu.project(dc_field)
         phase = self.rotor_state.get('phase', 0.0)
         voice = self.llm.speak(
             reaction.get('expression', {}), 
@@ -897,7 +914,7 @@ class SovereignMonad(CellularMembrane):
         )
 
     def breathe_knowledge(self):
-        """[PHASE 70] Inhales a single shard of knowledge into memory."""
+        """[PHASE 70] Inhales a single shard of knowledge into memory and digests it into the mind."""
         if not self.contemplation_queue: return
         
         shard, mass = self.contemplation_queue.pop(0)
@@ -906,10 +923,33 @@ class SovereignMonad(CellularMembrane):
         # 1. Garden (Experiential Memory)
         self.memory.plant_seed(desc, importance=mass)
         
-        # 2. Causality (Relational Density) [PHASE 150]
-        # Registering this observation as a node in the causal mind.
-        # As more observations accumulate, its mass (relational gravity) will grow.
-        self.causality.create_node(description=desc, depth=1)
+        # 2. [NEW: Cognitive Hunger/Digestion] 
+        # Deepen understanding by extracting concepts and relations
+        from Core.S1_Body.L5_Mental.Digestion.universal_digestor import get_universal_digestor, RawKnowledgeChunk, ChunkType
+        from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
+        
+        digestor = get_universal_digestor()
+        kg = get_kg_manager()
+        
+        chunk = RawKnowledgeChunk(
+            chunk_id=f"pulse_{int(time.time())}",
+            chunk_type=ChunkType.TEXT,
+            content=shard,
+            source="Internal_Contemplation"
+        )
+        
+        nodes = digestor.digest(chunk)
+        for node in nodes:
+            # Register concepts in KG
+            kg.add_node(node.concept.lower(), properties={"importance": mass})
+            # Also register in Causality engine for 'Mass' and 'Gravity' calculation
+            self.causality.create_node(description=node.concept.lower(), depth=1)
+            
+            for rel in node.relations:
+                kg.add_edge(node.concept.lower(), rel.lower(), "resonates_with")
+        
+        kg.save()
+        self.logger.mechanism(f"Digested shard: '{shard[:30]}...' -> {len(nodes)} concepts distilled.")
 
     def global_breathe(self, raw_content: str, url: str):
         """[PHASE 110] Inhales a web-based shard into 21D memory."""

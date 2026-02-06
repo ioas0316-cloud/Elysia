@@ -48,7 +48,7 @@ class MathematicalResonance:
         if hasattr(state_21d, 'flatten'):
             v = state_21d
         else:
-            v = np.array(state_21d, dtype=float)
+            v = np.array(state_21d)
 
         a = v.flatten()
         b = target.flatten()

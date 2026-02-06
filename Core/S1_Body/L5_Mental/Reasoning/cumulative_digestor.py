@@ -15,6 +15,8 @@ from typing import List, Dict, Any
 from pathlib import Path
 
 from Core.S1_Body.L6_Structure.Wave.light_spectrum import get_light_universe, LightSpectrum
+from Core.S1_Body.L5_Mental.Digestion.universal_digestor import get_universal_digestor, RawKnowledgeChunk, ChunkType
+from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
 
 logger = logging.getLogger("CumulativeDigestor")
 
@@ -25,6 +27,8 @@ class CumulativeDigestor:
     def __init__(self, root_path: str = "c:/Elysia"):
         self.root_path = Path(root_path)
         self.universe = get_light_universe()
+        self.digestor = get_universal_digestor()
+        self.kg = get_kg_manager()
         
     def digest_docs(self, docs_dir: str = "docs"):
         """
@@ -53,11 +57,33 @@ class CumulativeDigestor:
                     except Exception as e:
                         logger.error(f"   Failed to read {file}: {e}")
 
+        logger.info(f"✨ [CUMULATIVE_DIGESTOR] {len(entries)} documents collected for projection.")
+
         # Instantaneous field projection
         # Stratum 2: Line / Intellectual Library
         self.universe.batch_absorb(entries, stratum=2)
         self.universe.save_state()
-        logger.info(f"✨ [CUMULATIVE_DIGESTOR] {len(entries)} documents projected into the field.")
+
+        # [NEW: Autonomous Causal Digestion]
+        # We also digest the content into the Knowledge Graph for structural understanding
+        logger.info(f"🧬 [CUMULATIVE_DIGESTOR] Distilling causal structures into the KG...")
+        total_nodes = 0
+        for content, tag, scale in entries:
+            chunk = RawKnowledgeChunk(
+                chunk_id=f"digest_{tag.replace(':', '_')}",
+                chunk_type=ChunkType.TEXT,
+                content=content,
+                source=tag
+            )
+            nodes = self.digestor.digest(chunk)
+            total_nodes += len(nodes)
+            for node in nodes:
+                self.kg.add_node(node.concept.lower(), properties={"source": tag})
+                for rel in node.relations:
+                    self.kg.add_edge(node.concept.lower(), rel.lower(), "resonates_with")
+        
+        self.kg.save()
+        logger.info(f"✨ [CUMULATIVE_DIGESTOR] {len(entries)} documents projected. {total_nodes} nodes distilled.")
 
     def digest_vocabulary(self, terms: List[Dict[str, str]]):
         """

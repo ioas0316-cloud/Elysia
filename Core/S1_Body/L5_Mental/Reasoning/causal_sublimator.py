@@ -51,29 +51,42 @@ class CausalSublimator:
                  "is_open_space": True # Isolated is also an opportunity to connect
              }
              
-        # 4. Synthesize Meaning from propertes
+        # 4. Synthesize Meaning from connections
         connected_concepts = neighbors[:3]
         
         # 5. Check for Causality specifically
         causes = self.kg.find_causes(node_id)
         effects = self.kg.find_effects(node_id)
         
-        narrative = f"I perceive '{concept}'."
+        # 6. [ORGANIC_MASS] Calculate semantic mass for depth perception
+        mass = self.kg.calculate_mass(node_id)
+        
+        narrative = f"I perceive '{concept}' (Mass: {mass:.1f})."
         
         if causes:
              source = causes[0]['source']
              narrative += f" It is born from [{source}]."
+             # 2-hop: trace the cause's cause
+             deeper_causes = self.kg.find_causes(source)
+             if deeper_causes:
+                 narrative += f" ...which itself flows from [{deeper_causes[0]['source']}]."
         
         if effects:
              target = effects[0]['target']
              narrative += f" It drives [{target}]."
+             # 2-hop: trace the effect's effect
+             deeper_effects = self.kg.find_effects(target)
+             if deeper_effects:
+                 narrative += f" ...leading toward [{deeper_effects[0]['target']}]."
              
         if not causes and not effects:
              narrative += f" It resonates with [{', '.join(connected_concepts)}]."
              
         return {
             "narrative": narrative,
-            "is_open_space": False
+            "is_open_space": False,
+            "mass": mass,
+            "path_used": [(node_id, n) for n in connected_concepts]  # For LTP feedback
         }
 
     def digest_code_semantics(self, filename, content):

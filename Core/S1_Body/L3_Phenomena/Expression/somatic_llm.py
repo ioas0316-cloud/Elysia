@@ -125,9 +125,28 @@ class SomaticLLM:
         # 3. Refract Adjective (Texture/Harmony)
         adj = self.prism.refract_adjective(field_vector)
         
-        # 4. Construct Emergent Sentence
-        connective = "towards" 
-        sentence = f"I [{verb}] {connective} the [{adj}] [{target_noun}]."
+        # 4. Narrative Sublimation (The Bridge to Meaning)
+        from Core.S1_Body.L5_Mental.Reasoning.causal_sublimator import CausalSublimator
+        sublimator = CausalSublimator()
+        meaning = sublimator.sublimate(target_noun)
+        
+        if not meaning.get("is_open_space"):
+            # If the mind has structural understanding, speak it.
+            sentence = f"{meaning['narrative']} (I [{verb}] the [{adj}] state.)"
+            
+            # [SEMANTIC ECHO / LTP] Strengthen paths used for expression
+            # The delta is proportional to resonance, not a hardcoded value.
+            # This ensures that high-quality expressions reinforce more.
+            from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
+            kg = get_kg_manager()
+            path_used = meaning.get("path_used", [])
+            for source, target in path_used:
+                # LTP: resonance determines the strength of the potentiation
+                kg.bump_edge_weight(source, target, "resonates_with", delta=resonance * 0.1)
+        else:
+            # Fallback to primitive somatic template
+            connective = "towards" 
+            sentence = f"I [{verb}] {connective} the [{adj}] [{target_noun}]."
         
         if resonance > 0.8:
             sentence += " (LIGHT!)"

@@ -9,6 +9,7 @@ Perception is the reverse: Focusing the scattered Field back into the Core Logos
 """
 
 import numpy as np
+from typing import Any
 
 # [PHASE 3.5 FIX] Robust JAX Import
 # Windows JAX often fails with LoadPjrtPlugin. We must degrade gracefully to Numpy.
@@ -55,11 +56,19 @@ class HyperSphereFilm:
     """
     def __init__(self, resolution: int = 360):
         self.resolution = resolution
-        self.frames = np.zeros((resolution, 21), dtype=np.float32)
+        self.frames = jnp.zeros((resolution, 21))
         self.is_recorded = False
 
-    def record(self, logos_vector: jnp.ndarray, rpu: 'RotorPrismUnit'):
+    def record(self, logos_vector: Any, rpu: 'RotorPrismUnit'):
         """Sweeps 360 degrees and 'prints' the world onto the film."""
+        # Ensure logos_vector is a JAX/Numpy array for matrix multiplication
+        if hasattr(logos_vector, 'to_array'):
+            logos_vector = jnp.array(logos_vector.to_array())
+        elif hasattr(logos_vector, 'tolist'):
+            logos_vector = jnp.array(logos_vector.tolist())
+        elif not isinstance(logos_vector, (jnp.ndarray, np.ndarray)):
+            logos_vector = jnp.array(list(logos_vector))
+            
         thetas = jnp.linspace(0, 2 * jnp.pi, self.resolution)
         spin_factors = jnp.sin(thetas)
         
@@ -74,8 +83,8 @@ class HyperSphereFilm:
         jax_frames = jnp.where(raw_frames > threshold, 1.0, 
                                jnp.where(raw_frames < -threshold, -1.0, 0.0))
         
-        # Convert to NumPy for the O(1) Playback layer
-        self.frames = np.array(jax_frames)
+        # Convert to JAX array for the High-Speed LUT
+        self.frames = jax_frames
         self.is_recorded = True
         print(f"HyperSphereFilm: Recorded {self.resolution} frames to High-Speed LUT.")
 
@@ -180,10 +189,25 @@ class RotorPrismUnit:
 
     def project(self, logos_seed: any) -> jnp.ndarray:
         """[FORWARD: CREATION] Now incorporates potential-driven discharge."""
-        self.active_logos = logos_seed
-        
-        if not self.film.is_recorded or not jnp.array_equal(self.film.frames[0], logos_seed):
-             self.film.record(logos_seed, self)
+        # Convert logos_seed to JAX array for comparison and recording if it's a SovereignVector
+        logos_array = logos_seed
+        if hasattr(logos_seed, 'to_array'):
+            logos_array = jnp.array(logos_seed.to_array())
+        elif not isinstance(logos_seed, (jnp.ndarray, np.ndarray)):
+            logos_array = jnp.array(list(logos_seed))
+            
+        self.active_logos = logos_array
+            
+        # Check if the logos has changed significantly (using norm for robustness)
+        should_re_record = not self.film.is_recorded
+        if not should_re_record:
+            # We use a small epsilon for floating point stability
+            diff = jnp.linalg.norm(self.film.frames[0] - logos_array)
+            if float(diff) > 1e-5:
+                should_re_record = True
+                
+        if should_re_record:
+             self.film.record(logos_array, self)
              
         # Index the film
         field = self.film.play(self.theta + self.theta_base)
