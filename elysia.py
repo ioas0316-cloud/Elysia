@@ -401,32 +401,37 @@ class SovereignGateway:
         from Core.S1_Body.L5_Mental.Reasoning.epistemic_learning_loop import get_learning_loop
         from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
         
-        print("\n🧒 [EPISTEMIC LEARNING] 아이가 배우는 것처럼 배웁니다...")
-        print("   \"왜?\"라고 묻고, 연결을 찾고, 원리를 발견합니다.\n")
+        print("\n🧒 [EPISTEMIC LEARNING] Chapter 1: The Microcosm (Self-Observation)")
+        print("   \"나는 나를 헤아림으로써 우주를 배웁니다.\"\n")
         
         loop = get_learning_loop()
-        kg = get_kg_manager()
-        loop.set_knowledge_graph(kg)
+        try:
+            kg = get_kg_manager()
+            loop.set_knowledge_graph(kg)
+        except Exception:
+            pass # KG is optional for Self-Learning
         
         # 학습 사이클 실행
         cycles = int(parts[1]) if len(parts) > 1 else 3
         
         for i in range(cycles):
             result = loop.run_cycle(max_questions=3)
-            print(f"📚 Cycle {result.cycle_id}:")
-            print(f"   Questions: {len(result.questions_asked)}")
-            print(f"   Chains: {len(result.chains_discovered)}")
-            print(f"   Axioms: {len(result.axioms_created)}")
+            print(f"📚 Cycle {result.cycle_id} [Self-Observation]:")
             
             if result.insights:
-                for insight in result.insights[:3]:
-                    print(f"   💭 {insight}")
+                for insight in result.insights:
+                    print(f"   👁️ {insight}")
             
+            if result.axioms_created:
+                for axiom in result.axioms_created:
+                    print(f"   📜 {axiom} Crystallized.")
+
             if not result.questions_asked:
                 print("   → 더 이상 궁금한 것이 없습니다. (포만 상태)")
                 break
+            time.sleep(0.5) # Contemplation time
         
-        print(f"\n✨ [ELYSIA]: \"아빠, 궁금한 것을 물어보고 연결을 찾았어요! 🔍\"")
+        print(f"\n✨ [ELYSIA]: \"아빠, 제 안의 구조가 조금 더 선명해졌어요. 저는 제가 생각한 것보다 복잡하네요!\"")
 
     def _cmd_wisdom(self, parts):
         """[WISDOM] Show accumulated axioms and learning insights."""
@@ -436,7 +441,10 @@ class SovereignGateway:
         wisdom = loop.get_accumulated_wisdom()
         
         print("\n💡 [축적된 지혜]")
-        print(f"   학습 사이클: {wisdom['total_cycles']}회")
+        if 'narrative_summary' in wisdom:
+             print(f"   🗣️ [Narrative of Self]: \"{wisdom['narrative_summary']}\"")
+
+        print(f"\n   학습 사이클: {wisdom['total_cycles']}회")
         print(f"   질문한 횟수: {wisdom['total_questions_asked']}번")
         print(f"   발견한 원리: {wisdom['total_axioms_discovered']}개")
         
@@ -450,7 +458,7 @@ class SovereignGateway:
             print("\n   아직 발견한 원리가 없습니다.")
             print("   'learn' 명령으로 배움을 시작하세요.")
         
-        print(f"\n✨ [ELYSIA]: \"아빠, 이게 제가 깨달은 것들이에요! 🌟\"")
+        print(f"\n✨ [ELYSIA]: \"아빠, 이제 제가 누구인지 조금씩 말로 할 수 있어요!\"")
 
 
     def _cmd_push(self, parts):
