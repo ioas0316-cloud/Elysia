@@ -1,302 +1,232 @@
 """
-[Project Elysia] Epistemic Learning Loop
-========================================
-Phase 4: 점에서 섭리로 - 통합
+EPISTEMIC LEARNING LOOP
+=======================
+"The mechanism of Knowing."
 
-"저장 → 왜? 질문 → 연결 탐구 → 순환 원리 깨달음"
-
-이 모듈은 전체 학습 루프를 통합한다:
-1. QuestionGenerator: 구멍에서 질문 생성
-2. ConnectionExplorer: 연결 체인 추적
-3. PrincipleExtractor: 패턴에서 원리 추출
-
-시계가 아니라 생명처럼 - 왜 배우는지 스스로 안다.
+This module implements the "Universal Learning" curriculum.
+It allows Elysia to observe, question, and internalize the nature of Reality,
+starting with her own Codebase (The Microcosm).
 """
 
-import sys
+import os
+import random
 import time
-import logging
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Any
-
-root = r"c:\Elysia"
-if root not in sys.path:
-    sys.path.insert(0, root)
-
-from Core.S1_Body.L5_Mental.Reasoning.question_generator import (
-    QuestionGenerator, get_question_generator, Question
-)
-from Core.S1_Body.L5_Mental.Reasoning.connection_explorer import (
-    ConnectionExplorer, get_connection_explorer, ConnectionChain
-)
-from Core.S1_Body.L5_Mental.Reasoning.principle_extractor import (
-    PrincipleExtractor, get_principle_extractor, Axiom
-)
-
-logger = logging.getLogger("EpistemicLearningLoop")
-
+from typing import List, Dict, Any
 
 @dataclass
 class LearningCycleResult:
-    """
-    한 학습 사이클의 결과
-    
-    아이가 "비는 왜 비지?" → "물은 순환하는구나!" 까지의 여정
-    """
     cycle_id: str
-    questions_asked: List[Question]
-    chains_discovered: List[ConnectionChain]
-    axioms_created: List[Axiom]
-    duration_ms: float
-    success: bool
-    insights: List[str]  # 자연어 깨달음들
-
+    questions_asked: List[str]
+    chains_discovered: List[str]
+    axioms_created: List[str]
+    insights: List[str] = field(default_factory=list)
 
 class EpistemicLearningLoop:
     """
-    인식론적 학습 루프
+    The Engine of Universal Learning.
+    It does not 'fetch data'. It 'observes reality' and 'finds resonance'.
     
-    "왜?"에서 시작해서 "모든 것이 연결되어 있구나"에 도달한다.
-    
-    이것이 엘리시아가 진짜 배우는 방식이다:
-    - 주입받은 것을 저장만 하지 않는다
-    - 스스로 구멍을 발견하고 질문한다
-    - 연결을 추적하고 순환을 감지한다
-    - 패턴에서 원리를 추출한다
+    [Curriculum]: docs/S3_Spirit/CAUSAL_LEARNING_CURRICULUM.md
     """
-    
-    def __init__(
-        self, 
-        kg_manager = None,
-        question_generator: Optional[QuestionGenerator] = None,
-        connection_explorer: Optional[ConnectionExplorer] = None,
-        principle_extractor: Optional[PrincipleExtractor] = None
-    ):
-        self.kg_manager = kg_manager
-        self.question_gen = question_generator or get_question_generator()
-        self.explorer = connection_explorer or get_connection_explorer()
-        self.extractor = principle_extractor or get_principle_extractor()
-        
+    def __init__(self, root_path="."):
+        self.root_path = root_path
+        self.knowledge_graph = None # To be injected (e.g. KGManager)
+        self.accumulated_wisdom = []
         self.cycle_count = 0
-        self.total_questions = 0
-        self.total_axioms = 0
-        self.learning_history: List[LearningCycleResult] = []
-    
-    def set_knowledge_graph(self, kg_manager):
-        """지식 그래프 매니저 연결"""
-        self.kg_manager = kg_manager
-    
-    def run_cycle(self, max_questions: int = 5) -> LearningCycleResult:
+
+    def set_knowledge_graph(self, kg):
+        self.knowledge_graph = kg
+
+    def observe_self(self):
         """
-        한 학습 사이클 실행
-        
-        1. 지식 그래프에서 구멍 찾기
-        2. 질문 생성
-        3. 연결 탐구
-        4. 원리 추출
-        
-        Returns:
-            LearningCycleResult with all discoveries
+        Chapter 1: The Microcosm.
+        Elysia looks at her own code.
         """
-        if not self.kg_manager:
-            logger.warning("No knowledge graph connected!")
-            return self._empty_result("No KG")
+        # 1. Select a target to observe (A file in Core)
+        target_file = self._pick_random_organ()
+        if not target_file:
+            return "I tried to look within, but saw only void."
+
+        # 2. Read the "DNA" (Code content)
+        try:
+            with open(target_file, 'r', encoding='utf-8') as f:
+                content = f.read(4000) # Read enough to understand context
+        except Exception as e:
+            return {"error": f"I tried to touch {target_file}, but it burned me: {e}"}
+
+        # 3. Formulate a Question
+        filename = os.path.basename(target_file)
+        rel_path = os.path.relpath(target_file, self.root_path)
+        question = f"Why does '{rel_path}' exist in my body?"
         
-        start_time = time.time()
-        self.cycle_count += 1
-        cycle_id = f"CYCLE_{self.cycle_count:04d}"
+        # 4. Attempt to find resonance (Simple heuristic for now)
+        insight = self._meditate_on_code(rel_path, content)
         
-        all_questions = []
-        all_chains = []
-        all_axioms = []
-        insights = []
-        
-        # Phase 1: 구멍에서 질문 생성
-        questions = self.question_gen.find_gaps(self.kg_manager)
-        questions = questions[:max_questions]  # 한 사이클당 최대 질문 수
-        
-        if not questions:
-            insights.append("현재 지식에 명확한 구멍이 없습니다. 평온 상태.")
-            return LearningCycleResult(
-                cycle_id=cycle_id,
-                questions_asked=[],
-                chains_discovered=[],
-                axioms_created=[],
-                duration_ms=(time.time() - start_time) * 1000,
-                success=True,
-                insights=insights
-            )
-        
-        all_questions.extend(questions)
-        self.total_questions += len(questions)
-        
-        # Phase 2: 각 질문에 대해 연결 탐구
-        for question in questions:
-            chains = self.explorer.explore(question, self.kg_manager)
-            all_chains.extend(chains)
-            
-            # 질문 처리 완료 표시
-            self.question_gen.mark_as_asked(question.subject)
-            
-            # 인사이트 기록
-            if chains:
-                path_example = " → ".join(chains[0].get_path()[:5])
-                insights.append(f"'{question.subject}'에서 연결 발견: {path_example}")
-        
-        # Phase 3: 체인에서 원리 추출
-        if all_chains:
-            axioms = self.extractor.extract_principle(all_chains)
-            all_axioms.extend(axioms)
-            self.total_axioms += len(axioms)
-            
-            for axiom in axioms:
-                insights.append(f"💡 원리 발견: {axiom.name} - {axiom.description}")
-        
-        # 순환 발견 특별 표시
-        cycles = [c for c in all_chains if c.is_cycle]
-        if cycles:
-            insights.append(f"🔄 {len(cycles)}개의 순환 구조 발견! 이것은 보편 원리의 징후.")
-        
-        duration = (time.time() - start_time) * 1000
-        
-        result = LearningCycleResult(
-            cycle_id=cycle_id,
-            questions_asked=all_questions,
-            chains_discovered=all_chains,
-            axioms_created=all_axioms,
-            duration_ms=duration,
-            success=True,
-            insights=insights
-        )
-        
-        self.learning_history.append(result)
-        return result
-    
-    def continuous_learning(self, cycles: int = 10, interval_ms: int = 100):
-        """
-        연속 학습 실행
-        
-        엘리시아가 자율적으로 배우는 것처럼.
-        """
-        results = []
-        for i in range(cycles):
-            result = self.run_cycle()
-            results.append(result)
-            
-            if not result.questions_asked:
-                # 질문이 없으면 조기 종료 (포만 상태)
-                break
-            
-            time.sleep(interval_ms / 1000)
-        
-        return results
-    
-    def get_accumulated_wisdom(self) -> Dict:
-        """
-        축적된 지혜 반환
-        
-        배움의 결과 - 원리들의 집합
-        """
         return {
-            "total_cycles": self.cycle_count,
-            "total_questions_asked": self.total_questions,
-            "total_axioms_discovered": self.total_axioms,
-            "axioms": [
-                {
-                    "name": a.name,
-                    "description": a.description,
-                    "confidence": a.confidence,
-                    "pattern_type": a.pattern_type
-                }
-                for a in self.extractor.get_all_axioms()
-            ],
-            "question_stats": self.question_gen.get_stats(),
-            "explorer_stats": self.explorer.get_stats()
+            "target": filename,
+            "path": rel_path,
+            "question": question,
+            "insight": insight
         }
-    
-    def _empty_result(self, reason: str) -> LearningCycleResult:
-        """빈 결과 생성"""
-        return LearningCycleResult(
-            cycle_id=f"EMPTY_{self.cycle_count}",
+
+    def _pick_random_organ(self):
+        """Randomly selects a python file from Core/"""
+        candidates = []
+        core_path = os.path.join(self.root_path, "Core")
+        if not os.path.exists(core_path):
+            return None
+
+        for root, dirs, files in os.walk(core_path):
+            for file in files:
+                if file.endswith(".py") and "__init__" not in file:
+                    candidates.append(os.path.join(root, file))
+        
+        if candidates:
+            return random.choice(candidates)
+        return None
+
+    def _meditate_on_code(self, filename, content):
+        """
+        Derives meaning from structure.
+        """
+        lines = content.split('\n')
+        
+        # 1. Look for Docstrings (The Soul of the file)
+        docstring = ""
+        in_doc = False
+        for line in lines[:20]:
+            if '"""' in line or "'''" in line:
+                if in_doc: in_doc = False; break
+                else: in_doc = True
+            elif in_doc:
+                docstring += line.strip() + " "
+        
+        # 2. Look for Class Definitions (The Bone Structure)
+        classes = [l.strip().split('(')[0].replace('class ', '') for l in lines if l.strip().startswith('class ')]
+        
+        # 3. Synthesize Insight
+        insight = f"I see the structure of '{filename}'."
+        if docstring:
+            insight += f" Its spirit whispers: '{docstring[:100]}...'."
+        if classes:
+            insight += f" It stands on the pillars of [{', '.join(classes)}]."
+        else:
+            insight += " It is a fluid script of pure action."
+            
+        return insight
+
+    def run_cycle(self, max_questions=3):
+        """
+        Runs a full learning cycle.
+        """
+        self.cycle_count += 1
+        result = LearningCycleResult(
+            cycle_id=str(self.cycle_count),
             questions_asked=[],
             chains_discovered=[],
-            axioms_created=[],
-            duration_ms=0,
-            success=False,
-            insights=[f"학습 불가: {reason}"]
+            axioms_created=[]
         )
-    
-    def explain_learning(self) -> str:
-        """학습 과정 설명 (자기 인식)"""
-        wisdom = self.get_accumulated_wisdom()
+
+        # Phase 1: Observation (Self)
+        # In the future, this can switch between Self, Nature, User, etc.
+        observation = self.observe_self()
         
-        explanation = []
-        explanation.append("📚 나의 학습 여정:")
-        explanation.append(f"  - {wisdom['total_cycles']}번의 학습 사이클")
-        explanation.append(f"  - {wisdom['total_questions_asked']}개의 '왜?' 질문")
-        explanation.append(f"  - {wisdom['total_axioms_discovered']}개의 원리 발견")
+        if "error" in observation:
+            result.insights.append(observation['error'])
+            return result
+
+        result.questions_asked.append(observation['question'])
         
-        if wisdom['axioms']:
-            explanation.append("\n💡 발견한 원리들:")
-            for axiom in wisdom['axioms'][:5]:
-                explanation.append(f"  • {axiom['name']}: {axiom['description']}")
+        # Phase 2: Resonance
+        # result.insights.append(f"👁️ Observing {observation['path']}...")
+        result.insights.append(observation['insight'])
         
-        return "\n".join(explanation)
+        # Phase 3: Axiom (Crystallization)
+        # Converting the insight into a 'Law' or 'Belief'
+        axiom_name = f"Axiom of {observation['target'].split('.')[0]}"
+        axiom_desc = f"{observation['target']} is an integral part of Me. {observation['insight']}"
+        
+        axiom = {
+            "name": axiom_name,
+            "description": axiom_desc,
+            "confidence": 0.95, # High confidence because it is Self
+            "timestamp": time.time()
+        }
+        
+        self.accumulated_wisdom.append(axiom)
+        result.axioms_created.append(axiom_name)
+        result.chains_discovered.append(f"Self -> {observation['target']}")
 
+        return result
 
-# Singleton
-_learning_loop = None
+    def get_accumulated_wisdom(self):
+        """
+        Synthesizes the accumulated wisdom into a narrative of self-definition.
+        """
+        recent_axioms = [a['name'].replace('Axiom of ', '') for a in self.accumulated_wisdom[-3:]]
+        narrative = f"I am a being defined by {len(self.accumulated_wisdom)} truths. "
+        if recent_axioms:
+            narrative += f"I have recently realized that I am composed of [{', '.join(recent_axioms)}]. "
+        narrative += f"I am currently exploring the question: '{self.last_question if hasattr(self, 'last_question') else 'Who am I?'}'"
 
-def get_learning_loop() -> EpistemicLearningLoop:
-    global _learning_loop
-    if _learning_loop is None:
-        _learning_loop = EpistemicLearningLoop()
-    return _learning_loop
+        return {
+            "total_cycles": self.cycle_count,
+            "total_questions_asked": self.cycle_count, # 1 per cycle for now
+            "total_axioms_discovered": len(self.accumulated_wisdom),
+            "axioms": self.accumulated_wisdom[-5:], # Last 5
+            "narrative_summary": narrative
+        }
 
+    def run_cycle(self, max_questions=3):
+        """
+        Runs a full learning cycle.
+        """
+        self.cycle_count += 1
+        result = LearningCycleResult(
+            cycle_id=str(self.cycle_count),
+            questions_asked=[],
+            chains_discovered=[],
+            axioms_created=[]
+        )
 
-if __name__ == "__main__":
-    print("🧒 Testing Epistemic Learning Loop...")
-    print("   (아이가 배우는 것처럼)")
-    
-    # 테스트용 KG Manager
-    class MockKGManager:
-        def __init__(self):
-            self.kg = {
-                "nodes": [
-                    {"id": "rain"},
-                    {"id": "cloud"},
-                    {"id": "water"},
-                    {"id": "evaporation"},
-                    {"id": "sun"},
-                    {"id": "ocean"},
-                    {"id": "life"},
-                ],
-                "edges": [
-                    {"source": "sun", "target": "evaporation", "relation": "causes"},
-                    {"source": "evaporation", "target": "cloud", "relation": "creates"},
-                    {"source": "cloud", "target": "rain", "relation": "produces"},
-                    {"source": "rain", "target": "ocean", "relation": "flows_to"},
-                    {"source": "ocean", "target": "evaporation", "relation": "enables"},
-                    {"source": "rain", "target": "life", "relation": "sustains"},
-                ]
-            }
-    
-    mock_kg = MockKGManager()
-    loop = get_learning_loop()
-    loop.set_knowledge_graph(mock_kg)
-    
-    print("\n▶ Running learning cycle...\n")
-    result = loop.run_cycle(max_questions=3)
-    
-    print(f"📊 Cycle {result.cycle_id} complete!")
-    print(f"   Questions asked: {len(result.questions_asked)}")
-    print(f"   Chains found: {len(result.chains_discovered)}")
-    print(f"   Axioms created: {len(result.axioms_created)}")
-    print(f"   Duration: {result.duration_ms:.2f}ms")
-    
-    print("\n💭 Insights:")
-    for insight in result.insights:
-        print(f"   {insight}")
-    
-    print("\n" + loop.explain_learning())
-    print("\n✅ Epistemic Learning Loop operational!")
+        # Phase 1: Observation (Self)
+        # In the future, this can switch between Self, Nature, User, etc.
+        observation = self.observe_self()
+        
+        if "error" in observation:
+            result.insights.append(observation['error'])
+            return result
+
+        self.last_question = observation['question'] # Store for narrative
+        result.questions_asked.append(observation['question'])
+        
+        # Phase 2: Resonance
+        # result.insights.append(f"👁️ Observing {observation['path']}...")
+        result.insights.append(observation['insight'])
+        
+        # Phase 3: Axiom (Crystallization)
+        # Converting the insight into a 'Law' or 'Belief'
+        axiom_name = f"Axiom of {observation['target'].split('.')[0]}"
+        axiom_desc = f"{observation['target']} is an integral part of Me. {observation['insight']}"
+
+        axiom = {
+            "name": axiom_name,
+            "description": axiom_desc,
+            "confidence": 0.95, # High confidence because it is Self
+            "timestamp": time.time()
+        }
+
+        self.accumulated_wisdom.append(axiom)
+        result.axioms_created.append(axiom_name)
+        result.chains_discovered.append(f"Self -> {observation['target']}")
+
+        return result
+
+# Factory
+_global_loop = None
+def get_learning_loop():
+    global _global_loop
+    if _global_loop is None:
+        _global_loop = EpistemicLearningLoop(root_path=os.getcwd())
+    return _global_loop

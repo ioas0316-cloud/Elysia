@@ -10,7 +10,6 @@ can mutate her own structural logic without impacting the core stability.
 """
 
 import time
-import jax.numpy as jnp
 from typing import Dict, Any, List, Optional, Callable
 
 class HabitatGovernor:

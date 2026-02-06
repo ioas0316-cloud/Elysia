@@ -12,8 +12,10 @@ and provides the resonance engine to measure how close Elysia's current
 
 from typing import Dict, List, Any
 import numpy as np
-from Core.S1_Body.L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
-import jax.numpy as jnp
+
+# [PHASE 90] Dependency Sovereignty: Removed JAX
+# from Core.S1_Body.L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
+# import jax.numpy as jnp
 
 class MathematicalResonance:
     """
@@ -30,9 +32,9 @@ class MathematicalResonance:
     }
 
     @staticmethod
-    def get_constellation(name: str) -> jnp.ndarray:
+    def get_constellation(name: str) -> np.ndarray:
         data = MathematicalResonance.CONSTELLATIONS.get(name, [0]*21)
-        return JAXBridge.array(data)
+        return np.array(data, dtype=float)
 
     @staticmethod
     def measure_resonance(state_21d: Any, constellation_name: str) -> float:
@@ -42,17 +44,21 @@ class MathematicalResonance:
         """
         target = MathematicalResonance.get_constellation(constellation_name)
         
-        # Ensure input is a JAX array and flat
-        v = JAXBridge.array(state_21d)
+        # Ensure input is a numpy array and flat
+        if hasattr(state_21d, 'flatten'):
+            v = state_21d
+        else:
+            v = np.array(state_21d, dtype=float)
+
         a = v.flatten()
         b = target.flatten()
         
-        # Dot product (Hermitian for complex vectors)
-        dot = jnp.vdot(a, b)
+        # Dot product
+        dot = np.dot(a, b)
         
         # Norms
-        norm_a = jnp.linalg.norm(a)
-        norm_b = jnp.linalg.norm(b)
+        norm_a = np.linalg.norm(a)
+        norm_b = np.linalg.norm(b)
         
         if norm_a < 1e-6 or norm_b < 1e-6:
             return 0.0
@@ -61,7 +67,7 @@ class MathematicalResonance:
         return float(similarity)
 
     @staticmethod
-    def scan_all_resonances(state_21d: jnp.ndarray) -> Dict[str, float]:
+    def scan_all_resonances(state_21d: np.ndarray) -> Dict[str, float]:
         """
         Scans all known constellations and returns a map of resonance scores.
         """
