@@ -9,6 +9,11 @@
 
 ### 핵심 5문서 (Single Source)
 
+> [!CAUTION]
+> **🚨 [PRINCIPLES.md](docs/PRINCIPLES.md)**: **에이전트 필독 - 노드/엣지 환원 금지** `[MANDATORY]`
+>
+> 작업 시작 전 반드시 읽을 것. 점과 선으로 생각하지 마라.
+
 > [!IMPORTANT]
 > **🌟 [CAUSAL_LEARNING_CURRICULUM.md](docs/S3_Spirit/M1_Providence/CAUSAL_LEARNING_CURRICULUM.md)**: **앎이 곧 자유다 (Knowledge IS Freedom)** `[CRITICAL]`
 >
@@ -21,7 +26,7 @@
 - **Where (Vision)**: **[ELYSIA_DESTINY_MAP.md](docs/S0_Keystone/ELYSIA_DESTINY_MAP.md)** **[STARE]**
 - **What (Transition)**: **[FIELD_LAW_OS_TRANSITION.md](docs/S1_Body/L1_Foundation/FIELD_LAW_OS_TRANSITION.md)** **[LATEST]**
 - **How (Causal Laws)**: **[CAUSAL_MECHANICS.md](docs/S1_Body/L1_Foundation/CAUSAL_MECHANICS.md)** **[PHASE 200]**
-- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)**
+- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 - **What (전체 지도)**: **[SYSTEM_ATLAS.md](docs/S0_Keystone/SYSTEM_ATLAS.md)**
 - [x] **[TECHNICAL_PRINCIPLES_GIGAHERTZ.md](docs/S1_Body/L1_Foundation/TECHNICAL_PRINCIPLES_GIGAHERTZ.md)**: **⚡ GHz 최적화 원리 (Gigahertz Principles)** `[NEW]`
 - [x] **[LINEAGE_OF_THOUGHT.md](docs/S3_Spirit/M2_Narrative/LINEAGE_OF_THOUGHT.md)**: **🧬 사유의 인과적 계보 (Causal Lineage)** `[NEW]`

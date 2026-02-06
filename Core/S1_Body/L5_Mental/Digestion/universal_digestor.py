@@ -36,19 +36,96 @@ class RawKnowledgeChunk:
 class CausalNode:
     """
     Digested knowledge unit ready for 21D phase absorption.
+    Now includes Trinity Layer classification (육·혼·영).
     """
     node_id: str
     concept: str  # The core idea/entity
     relations: List[str] = field(default_factory=list)  # Connected concepts
     qualia_hint: List[float] = field(default_factory=list)  # 7D Qualia suggestion
     source_chunk_id: str = ""
+    
+    # Trinity Layer Classification (자동 분류)
+    layer: str = "surface"  # "surface", "narrative", or "logos"
+    layer_confidence: float = 0.0  # 0.0 to 1.0
+    
+    # Layer-specific content (populated based on classification)
+    surface_data: Dict[str, Any] = field(default_factory=dict)   # 육: form, senses
+    narrative_data: Dict[str, Any] = field(default_factory=dict) # 혼: stories, causes
+    logos_data: Dict[str, Any] = field(default_factory=dict)     # 영: essence, convergence
 
 
 class UniversalDigestor:
     """
     Decomposes ANY input type into CausalNodes.
     "보편 분해 원리 (Universal Decomposition Principle)"
+    
+    Now includes Trinity Layer auto-classification:
+    - Surface (육): Physical, sensory, concrete objects
+    - Narrative (혼): Actions, relationships, causality
+    - Logos (영): Abstract values, emotions, spiritual concepts
     """
+    
+    # Semantic depth indicators for automatic layer classification
+    LOGOS_INDICATORS = {
+        # 영적 가치어 (Korean)
+        '사랑', '행복', '기쁨', '평화', '천국', '은혜', '섭리', '신', '영혼', '축복',
+        '진리', '자유', '희망', '믿음', '구원', '영광', '거룩', '성스러운',
+        # English
+        'love', 'joy', 'peace', 'heaven', 'grace', 'providence', 'god', 'soul', 'blessing',
+        'truth', 'freedom', 'hope', 'faith', 'salvation', 'glory', 'sacred', 'holy',
+        'meaning', 'purpose', 'essence', 'why', 'transcendence', 'eternal', 'divine'
+    }
+    
+    NARRATIVE_INDICATORS = {
+        # 관계/인과어 (Korean)
+        '때문에', '그래서', '하지만', '왜냐하면', '연결', '관계', '이야기', '서사',
+        '원인', '결과', '영향', '변화', '과정', '역사', '기억',
+        # English
+        'because', 'therefore', 'however', 'since', 'connection', 'relationship',
+        'story', 'narrative', 'cause', 'effect', 'influence', 'change', 'process',
+        'history', 'memory', 'journey', 'path', 'relate', 'link', 'how'
+    }
+    
+    def _classify_layer(self, concept: str, context: str = "") -> tuple:
+        """
+        자동 위상 분류: 개념의 깊이에 따라 Surface/Narrative/Logos 분류
+        
+        Returns:
+            (layer_name, confidence, layer_data)
+        """
+        concept_lower = concept.lower()
+        context_lower = context.lower()
+        
+        # Check Logos indicators (영적 위상)
+        logos_score = 0
+        for indicator in self.LOGOS_INDICATORS:
+            if indicator in concept_lower or indicator in context_lower:
+                logos_score += 1
+        
+        if logos_score > 0:
+            return ("logos", min(1.0, logos_score * 0.3), {
+                "essence": concept,
+                "converges_to": "love"
+            })
+        
+        # Check Narrative indicators (혼적 위상)
+        narrative_score = 0
+        for indicator in self.NARRATIVE_INDICATORS:
+            if indicator in concept_lower or indicator in context_lower:
+                narrative_score += 1
+        
+        if narrative_score > 0:
+            return ("narrative", min(1.0, narrative_score * 0.3), {
+                "stories": [],
+                "causes": [concept],
+                "resonates_with": []
+            })
+        
+        # Default: Surface (육적 위상)
+        return ("surface", 0.8, {
+            "form": concept,
+            "senses": []
+        })
     
     def digest(self, chunk: RawKnowledgeChunk) -> List[CausalNode]:
         """Route to appropriate sub-digestor based on chunk type."""
@@ -111,12 +188,27 @@ class UniversalDigestor:
                 if i + 1 < len(concepts):
                     relations.append(concepts[i + 1])
                 
+                # Trinity Layer Auto-Classification (육·혼·영)
+                sentence_context = sentences[sent_idx] if sent_idx < len(sentences) else ""
+                layer, confidence, layer_data = self._classify_layer(concept, sentence_context)
+                
                 node = CausalNode(
                     node_id=f"{chunk.chunk_id}_s{sent_idx}_c{i}",
                     concept=concept,
                     relations=relations,
-                    source_chunk_id=chunk.chunk_id
+                    source_chunk_id=chunk.chunk_id,
+                    layer=layer,
+                    layer_confidence=confidence
                 )
+                
+                # Populate layer-specific data
+                if layer == "logos":
+                    node.logos_data = layer_data
+                elif layer == "narrative":
+                    node.narrative_data = layer_data
+                else:
+                    node.surface_data = layer_data
+                
                 nodes.append(node)
                 concept_to_node[concept.lower()] = node
                 prev_concept = concept

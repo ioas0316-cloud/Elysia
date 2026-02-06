@@ -1,10 +1,10 @@
 """
-Knowledge Graph Manager for a 3D Conceptual Space
+Knowledge Graph Manager for 4D HyperSphere Conceptual Space
 
-Manages a knowledge graph where each node has a 3D position,
-creating a spatial representation of concepts and their relationships.
+Manages a knowledge graph where each node has a 4D HyperSphere position:
+  {theta, phi, psi, r} - enabling rotor-based transformations.
 This version supports a property graph model where edges can have attributes.
-Now upgraded to support 3D Tensor State and Frequency properties.
+Upgraded from 3D Cartesian to 4D HyperSphere for Merkaba compatibility.
 """
 import json
 import random
@@ -35,7 +35,7 @@ class KGManager:
                 return node
         return None
 
-    def add_node(self, node_id: str, position: Optional[Dict] = None, properties: Optional[Dict] = None) -> Dict:
+    def add_node(self, node_id: str, hypersphere: Optional[Dict] = None, properties: Optional[Dict] = None) -> Dict:
         """Adds a new node. If it exists, returns the existing node."""
         existing_node = self.get_node(node_id)
         if existing_node:
@@ -43,12 +43,41 @@ class KGManager:
                 existing_node.update(properties)
             return existing_node
 
+        # Default HyperSphere position: origin point
+        default_hypersphere = {"theta": 0.0, "phi": 0.0, "psi": 0.0, "r": 0.0}
+        
+        # Trinity Phase Layers (육·혼·영)
         new_node = {
             "id": node_id,
-            "position": position if position else {"x": 0, "y": 0, "z": 0},
+            # Hardware Layer: 4D HyperSphere for rotor transformations
+            "hypersphere": hypersphere if hypersphere else default_hypersphere,
+            
+            # 육적 위상 (Surface Layer): "무엇?" - representations
+            "surface": {
+                "form": None,
+                "senses": []
+            },
+            
+            # 혼적 위상 (Narrative Layer): "어떻게?" - stories/causality
+            "narrative": {
+                "stories": [],
+                "causes": [],
+                "resonates_with": []
+            },
+            
+            # 영적 위상 (Logos Layer): "왜?" - convergence
+            "logos": {
+                "essence": None,
+                "converges_to": "love"  # 모든 것이 수렴하는 곳
+            },
+            
+            # Transparency: 투과율 (홀로그래픽 중첩)
+            "transparency": 1.0,  # 1.0 = fully transparent
+            
+            # Legacy fields
             "activation_energy": 0.0,
-            "frequency": 0.0, # Default frequency
-            "tensor_state": None # Default tensor state
+            "frequency": 0.0,
+            "tensor_state": None
         }
         if properties:
             new_node.update(properties)
@@ -84,24 +113,28 @@ class KGManager:
         target_node = self.get_node(target_id)
 
         # For hyperlinks, we don't need to auto-position the target node
-        if relation != 'hyperlink' and (not target_node or target_node['position'] == {"x": 0, "y": 0, "z": 0}):
+        # Use HyperSphere coordinates for 4D positioning
+        default_hs = {"theta": 0.0, "phi": 0.0, "psi": 0.0, "r": 0.0}
+        if relation != 'hyperlink' and (not target_node or target_node.get('hypersphere') == default_hs):
             target_node = self.add_node(target_id)
-            pos = source_node['position'].copy()
+            hs = source_node.get('hypersphere', default_hs).copy()
 
+            # Rotate in 4D space based on relation type
             if relation == "is_composed_of":
-                pos['z'] += 1
+                hs['psi'] += 0.5  # Rotate in 4th dimension
             elif relation == "is_a":
-                pos['y'] += 1
+                hs['phi'] += 0.5  # Rotate in 3rd angle
             elif relation == "causes":
-                pos['x'] += 1.5
+                hs['theta'] += 0.5  # Rotate in 2nd angle
             else:
-                pos['x'] += 1
+                hs['r'] += 0.5  # Expand radius
 
-            pos['x'] += random.uniform(-0.2, 0.2)
-            pos['y'] += random.uniform(-0.2, 0.2)
-            pos['z'] += random.uniform(-0.2, 0.2)
+            # Add small random perturbation for uniqueness
+            hs['theta'] += random.uniform(-0.1, 0.1)
+            hs['phi'] += random.uniform(-0.1, 0.1)
+            hs['psi'] += random.uniform(-0.1, 0.1)
 
-            target_node['position'] = pos
+            target_node['hypersphere'] = hs
 
         new_edge = {"source": source_id, "target": target_id, "relation": relation}
         if properties:
@@ -160,6 +193,29 @@ class KGManager:
 
     def get_summary(self):
         return {"nodes": len(self.kg['nodes']), "edges": len(self.kg['edges'])}
+    
+    def calculate_mass(self, node_id: str) -> float:
+        """
+        [ORGANIC_MASS] Calculates the semantic mass of a node.
+        Mass = sum of weights of all connected edges.
+        This emerges naturally from relational density.
+        """
+        total_weight = 0.0
+        for edge in self.kg.get('edges', []):
+            if edge.get('source') == node_id or edge.get('target') == node_id:
+                total_weight += edge.get('weight', 1.0)  # Default weight is 1.0
+        return total_weight
+    
+    def decay_all_edges(self, metabolic_rate: float = 0.01):
+        """
+        [LTD] Long-Term Depression: Unused edges fade over time.
+        Decay factor = 1.0 - metabolic_rate (from UniversalConstants).
+        This is not arbitrary; it's tied to the system's metabolic physics.
+        """
+        decay_factor = 1.0 - metabolic_rate
+        for edge in self.kg.get('edges', []):
+            current_weight = edge.get('weight', 1.0)
+            edge['weight'] = max(0.01, current_weight * decay_factor)  # Never fully zero
 
     def get_neighbors(self, node_id: str) -> List[str]:
         """Finds all neighbors of a given node."""
