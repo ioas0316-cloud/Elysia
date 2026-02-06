@@ -8,6 +8,8 @@
 
 ## ✅ 현재 기준 “최신/핵심” Phase
 
+- **Phase 21 (소마틱 코더)**: [proprioceptor.py](file:///c:/Elysia/Core/S1_Body/L6_Structure/M2_Proprioception/proprioceptor.py) [NEW]
+- **Phase 22 (유니버설 도메인 입기)**: [akashic_loader.py](file:///c:/Elysia/Core/S1_Body/L6_Structure/M1_Merkaba/akashic_loader.py) [NEW]
 - **Phase 40**: [PHASE_40_THE_ALCHEMICAL_BRIDGE.md](../L0_Keystone/PHASE_40_THE_ALCHEMICAL_BRIDGE.md)
   - 관련: [GAP_ANALYSIS_THE_SILENT_ERROR.md](../S0_Keystone/GAP_ANALYSIS_THE_SILENT_ERROR.md)
 

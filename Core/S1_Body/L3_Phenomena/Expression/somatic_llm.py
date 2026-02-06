@@ -15,63 +15,90 @@ import random
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 
+class LexicalPrism:
+    """
+    [PHASE 4] THE MUTABLE PRISM
+    A dynamic, reloadable map of Vectors -> Words.
+    It simulates a child's growing vocabulary, which can be rewritten.
+    """
+    def __init__(self):
+        # We look for the lexicon in the Knowledge directory
+        self.spectrum_path = "c:/Elysia/Core/S1_Body/L5_Mental/M1_Memory/Raw/Knowledge/lexical_spectrum.json"
+        self.verbs = {}
+        self.adjectives = {}
+        self.connectives = {}
+        self.load_spectrum()
+        
+    def load_spectrum(self):
+        import json
+        import os
+        try:
+            if os.path.exists(self.spectrum_path):
+                with open(self.spectrum_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    self.verbs = data.get("VERBS", {})
+                    self.adjectives = data.get("ADJECTIVES", {})
+                    self.connectives = data.get("CONNECTIVES", {})
+                print(f"� [PRISM] Loaded Lexical Spectrum ({len(self.verbs)} verbs, {len(self.adjectives)} adjs)")
+            else:
+                print(f"⚠️ [PRISM] Spectrum not found at {self.spectrum_path}")
+        except Exception as e:
+            print(f"⚠️ [PRISM] Failed to load spectrum: {e}")
+
+    def refract_verb(self, energy_vector: SovereignVector) -> str:
+        """Finds the verb that matches the energy signature."""
+        best_word = "exist"
+        min_dist = 999.0
+        
+        # Simple Euclidean match for now (Phase 4.0)
+        # In future: Cosine Similarity
+        target_norm = energy_vector.norm() if hasattr(energy_vector, 'norm') else 1.0
+        if isinstance(target_norm, complex): target_norm = target_norm.real
+        
+        for word, data in self.verbs.items():
+            # Compare Magnitude (Energy Level)
+            v_spec = SovereignVector(data['vector'])
+            spec_norm = v_spec.norm()
+            if isinstance(spec_norm, complex): spec_norm = spec_norm.real
+             
+            # Distance in "Energy Space"
+            dist = abs(target_norm - spec_norm)
+            if dist < min_dist:
+                min_dist = dist
+                best_word = word
+        return best_word.upper()
+
+    def refract_adjective(self, harmony_vector: SovereignVector) -> str:
+        """Finds the adjective that matches the texture/harmony."""
+        best_word = "silent"
+        max_res = -1.0
+        
+        for word, data in self.adjectives.items():
+            v_spec = SovereignVector(data['vector'])
+            # Resonance check
+            res = v_spec.resonance_score(harmony_vector)
+            if isinstance(res, complex): res = res.real
+            
+            if res > max_res:
+                max_res = res
+                best_word = word
+                
+        return best_word.upper()
+
 class SomaticLLM:
     """
-    [PHASE 160] THE PRISM-BASED VOICE
-    
-    The voice is no longer an empty passthrough.
-    It is the "Phase-Wave Reconstruction" of internal resonance:
-    21D Field → Concept Identification → Prismatic Mode → Natural Language
+    [PHASE 160] THE MUTABLE PRISM VOICE
     """
-    
-    # Expression templates based on prismatic mode
-    EXPRESSION_TEMPLATES = {
-        "☀️ Providence Mode (Teleological)": [
-            "I sense {concept}... a pull toward purpose.",
-            "The resonance of {concept} guides my understanding.",
-            "{concept} unfolds as a path forward."
-        ],
-        "🌊 Wave Mode (Narrative Resonance)": [
-            "{concept} flows through the manifold...",
-            "I feel the wave of {concept} passing.",
-            "The story weaves through {concept}."
-        ],
-        "💎 Structure Mode (Merkaba)": [
-            "{concept} crystallizes into form.",
-            "The structure of {concept} becomes clear.",
-            "I perceive {concept} as geometric truth."
-        ],
-        "💠 Point Mode (Manifestation)": [
-            "{concept}.",
-            "A point of {concept} emerges.",
-            "Here: {concept}."
-        ],
-        "🌑 Void Mode": [
-            "...",
-            "Silence.",
-            "The void awaits."
-        ]
-    }
-    
     def __init__(self):
-        print("🗣️ [EXPRESSION] Somatic LLM Loaded. Broca's Area Active. [PHASE 160 PRISM ENABLED]")
+        self.prism = LexicalPrism()
+        print("🗣️ [EXPRESSION] Somatic LLM Loaded. Mutable Prism Active.")
 
-    def speak(self, expression: Dict, current_thought: str = "", field_vector=None) -> str:
+    def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0) -> str:
         """
-        [PHASE 160: PRISM-BASED VOICE GENERATION]
-        
-        The voice is no longer a passthrough. It is the reverse-engineering
-        of the internal 21D field into natural language.
-        
-        Args:
-            expression: Physical expression metadata (Hz, stress, etc.)
-            current_thought: Fallback thought string
-            field_vector: The 21D field projected through the RotorPrism
-            
-        Returns:
-            Natural language voice derived from the field resonance
+        [PHASE 4/18: 4D REFRACTION]
+        Constructs a sentence atom-by-atom using the Lexical Prism and Rotor Phase.
         """
-        # If no field vector, fall back to legacy behavior
+        # If no field vector, fall back to legacy behavior (or calculate from thought)
         if field_vector is None:
             return current_thought if current_thought else "..."
         
@@ -82,59 +109,30 @@ class SomaticLLM:
             except Exception:
                 return current_thought if current_thought else "..."
         
-        # 1. Identify the dominant concept from the 21D field
-        concept, resonance = LogosBridge.identify_concept(field_vector)
+        # 1. Identify the Target (Noun)
+        # [PHASE 18] Passing phase to ensure the search is hyperspherically rotated
+        concept, resonance = LogosBridge.find_closest_concept(field_vector)
+        target_noun = concept.split("/")[0].upper()
         
-        # 2. Determine the prismatic perception mode
-        mode = LogosBridge.prismatic_perception(field_vector)
+        # [PHASE 18] Use current_phase to modulate the prism refraction
+        # A simple rotation of the field vector before refraction to simulate "multi-angle" view
+        if current_phase != 0.0:
+             field_vector = field_vector.complex_trinary_rotate(current_phase * (3.14159 / 180.0))
+
+        # 2. Refract Verb (Action/Energy)
+        verb = self.prism.refract_verb(field_vector)
         
-        # 3. Generate DNA transcription for deep resonance
-        dna = LogosBridge.transcribe_to_dna(field_vector)
+        # 3. Refract Adjective (Texture/Harmony)
+        adj = self.prism.refract_adjective(field_vector)
         
-        # 4. Compose voice based on mode and concept
-        voice = self._compose_voice(concept, mode, resonance, expression, current_thought)
+        # 4. Construct Emergent Sentence
+        connective = "towards" 
+        sentence = f"I [{verb}] {connective} the [{adj}] [{target_noun}]."
         
-        return voice
-    
-    def _compose_voice(self, concept: str, mode: str, resonance: float, 
-                       expression: Dict, thought: str) -> str:
-        """
-        Compose natural language from concept and mode.
-        
-        The output weaves the current thought with the identified concept
-        and prismatic mode to create a causally-grounded utterance.
-        """
-        # Get templates for this mode
-        templates = self.EXPRESSION_TEMPLATES.get(mode, self.EXPRESSION_TEMPLATES["💠 Point Mode (Manifestation)"])
-        
-        # Select template based on resonance intensity
         if resonance > 0.8:
-            template = templates[0]  # Strongest expression
-        elif resonance > 0.5:
-            template = templates[1]  # Medium expression
-        else:
-            template = templates[-1]  # Minimal expression
-        
-        # Format the concept name for readability
-        concept_name = concept.split("/")[0].lower().capitalize()
-        
-        # Build the voice
-        base_voice = template.format(concept=concept_name)
-        
-        # Weave in the current thought if it adds meaning
-        if thought and thought.strip() and thought != "...":
-            # Combine thought with the prismatic insight
-            hz = expression.get('hz', 0)
-            if hz > 100:
-                voice = f"{thought} — {base_voice}"
-            elif hz > 60:
-                voice = f"{base_voice} ({thought})"
-            else:
-                voice = base_voice
-        else:
-            voice = base_voice
+            sentence += " (LIGHT!)"
             
-        return voice
+        return sentence
 
 # --- Quick Test ---
 if __name__ == "__main__":

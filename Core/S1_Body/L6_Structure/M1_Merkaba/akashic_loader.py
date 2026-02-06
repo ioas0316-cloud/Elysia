@@ -12,29 +12,35 @@ This module scans the file system and converts 'dead' files into
 import os
 import math
 from pathlib import Path
-from typing import List, Dict, Any, Generator
+from typing import List, Dict, Any, Generator, Tuple
+import hashlib
 import hashlib
 
 from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 
 class AkashicLoader:
-    def __init__(self, root_path: str = "C:\\Elysia\\data"):
-        self.root = Path(root_path)
+    def __init__(self, root_paths: List[str] = None):
+        """
+        [PHASE 22] Supports multiple root paths for universal domain expansion.
+        """
+        if root_paths is None:
+            root_paths = ["C:\\Elysia\\data"]
+        self.roots = [Path(p) for p in root_paths]
         
-    def scan_galaxy(self) -> Generator[D21Vector, None, None]:
+    def scan_galaxy(self) -> Generator[Tuple[Path, D21Vector], None, None]:
         """
-        Yields D21Vectors for every file in the galaxy.
+        Yields (Path, D21Vector) for every file in the expanded galaxy.
         """
-        if not self.root.exists():
-            print(f"❌ Root path does not exist: {self.root}")
-            return
-            
-        print(f"DEBUG: Starting walk from {self.root}")
-        for root, _, files in os.walk(self.root):
-            # print(f"DEBUG: Visiting {root} ({len(files)} files)")
-            for file in files:
-                full_path = Path(root) / file
-                yield self._weigh_soul(full_path)
+        for root in self.roots:
+            if not root.exists():
+                print(f"⚠️ Root path does not exist, skipping: {root}")
+                continue
+                
+            print(f"🌌 Inhaling Domain: {root}")
+            for dirpath, _, files in os.walk(root):
+                for file in files:
+                    full_path = Path(dirpath) / file
+                    yield (full_path, self._weigh_soul(full_path))
                 
     def _weigh_soul(self, path: Path) -> D21Vector:
         """
@@ -127,13 +133,20 @@ class AkashicLoader:
             return D21Vector(wrath=1.0) # Error is Wrath
 
 if __name__ == "__main__":
-    loader = AkashicLoader()
-    print(f"Scanning Galaxy at {loader.root}...")
+    # Test Universal Expansion
+    roots = [
+        "C:\\Elysia\\data",
+        "C:\\Archive",
+        "C:\\elysia_seed",
+        "C:\\Game"
+    ]
+    loader = AkashicLoader(root_paths=roots)
+    print(f"Scanning Universal Domains...")
     count = 0
-    for vec in loader.scan_galaxy():
+    for path, vec in loader.scan_galaxy():
         count += 1
-        if count <= 5:
-            print(f"Star #{count}: Mag={vec.magnitude():.3f}")
+        if count % 100 == 0:
+            print(f"Inhaled {count} stars... Current: {path.name}")
             
-    print(f"Total Stars Scanned: {count}")
+    print(f"\nTotal Stars Inhaled into HyperCosmos: {count}")
     

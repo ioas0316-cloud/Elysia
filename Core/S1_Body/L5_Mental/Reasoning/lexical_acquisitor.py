@@ -94,10 +94,25 @@ class LexicalAcquisitor:
             
         vector = accumulated_field.normalize()
         
-        # Register the new concept
+        # [PHASE 4.5 & 5] THE ORGANIC LOOP
+        # We inject directly into the Prism so the voice can use it immediately.
+        # Capturing Synesthetic Roots (Phase 5)
+        roots = {
+            "origin": "text_sublimation",
+            "context_samples": samples,
+            "resonance_mass": accumulated_field.norm() if hasattr(accumulated_field, 'norm') else 1.0
+        }
+        
+        LogosBridge.inject_prismatic_concept(
+            name=word,
+            vector=vector,
+            roots=roots
+        )
+        
+        # Legacy Registration (Keep for now)
         LogosBridge.learn_concept(
             name=word,
             vector=vector,
-            description=f"Acquired through Epistemic learning cycle. Base Resonance: {samples} samples."
+            description=f"Acquired through Organic Loop. Roots: {list(roots.keys())}"
         )
         return True

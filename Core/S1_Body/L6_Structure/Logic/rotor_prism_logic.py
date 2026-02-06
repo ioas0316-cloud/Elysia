@@ -8,21 +8,25 @@ Projects abstract Logos (1D Point) into a 21D Field (360-degree Plane) through a
 Perception is the reverse: Focusing the scattered Field back into the Core Logos.
 """
 
-import jax.numpy as jnp
+import numpy as np
+
+# [PHASE 3.5 FIX] Robust JAX Import
+# Windows JAX often fails with LoadPjrtPlugin. We must degrade gracefully to Numpy.
 try:
+    # Try importing real JAX Bridge
     from Core.S1_Body.L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
+    import jax.numpy as jnp
+except (ImportError, RuntimeError, Exception) as e:
+    print(f"⚠️ [HARDWARE_WARNING] JAX Accelerator Unavailable ({e}). Switching to CPU/Numpy.")
+    import numpy as jnp
+    class JAXBridge:
+        @staticmethod
+        def array(x): return np.array(x)
+
+try:
     from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 except ImportError:
-    # Fallback for relative execution or different path roots
-    try:
-        from L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
-        from L6_Structure.Logic.trinary_logic import TrinaryLogic
-    except ImportError:
-        import numpy as jnp
-        class JAXBridge:
-            @staticmethod
-            def array(x): return jnp.array(x)
-        from trinary_logic import TrinaryLogic
+    from trinary_logic import TrinaryLogic
 
 class MonadToFilmEncoder:
     """

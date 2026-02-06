@@ -12,7 +12,7 @@ It absorbs the functional principles of JAX and the vectorized logic of NumPy.
 
 import math
 import cmath
-from typing import List, Union, Any, Callable, Dict
+from typing import List, Union, Any, Callable, Dict, Optional
 
 class UniversalConstants:
     """
@@ -53,8 +53,14 @@ class SovereignVector:
             self.data = list(data.data)
         elif hasattr(data, 'to_array'):
             self.data = list(data.to_array())
-        else:
+        elif isinstance(data, (list, tuple)):
             self.data = list(data)
+        else:
+            # Fallback for unexpected types
+            try:
+                self.data = list(data)
+            except:
+                self.data = [0.0] * 21
 
         if len(self.data) != 21:
             if len(self.data) < 21:
@@ -93,16 +99,27 @@ class SovereignVector:
     def __len__(self) -> int:
         return 21
 
-    def __add__(self, other: Union['SovereignVector', Any]) -> 'SovereignVector':
+    def __add__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
+        if isinstance(other, (int, float, complex)):
+            return SovereignVector([x + other for x in self.data])
         other_data = other.data if hasattr(other, 'data') else list(other)
         return SovereignVector([a + b for a, b in zip(self.data, other_data)])
 
-    def __sub__(self, other: Union['SovereignVector', Any]) -> 'SovereignVector':
+    def __sub__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
+        if isinstance(other, (int, float, complex)):
+            return SovereignVector([x - other for x in self.data])
         other_data = other.data if hasattr(other, 'data') else list(other)
         return SovereignVector([a - b for a, b in zip(self.data, other_data)])
 
-    def __mul__(self, scalar: Union[float, complex]) -> 'SovereignVector':
-        return SovereignVector([x * scalar for x in self.data])
+    def __mul__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
+        if isinstance(other, (int, float, complex)):
+            return SovereignVector([x * other for x in self.data])
+        other_data = other.data if hasattr(other, 'data') else list(other)
+        return SovereignVector([a * b for a, b in zip(self.data, other_data)])
+
+    def __truediv__(self, other: float) -> 'SovereignVector':
+        if other == 0: return self.zeros()
+        return SovereignVector([x / other for x in self.data])
 
     def norm(self) -> float:
         """Calculates the Euclidean norm (magnitude) of the wavefunction."""
@@ -115,7 +132,7 @@ class SovereignVector:
     def normalize(self) -> 'SovereignVector':
         """The collapse of the wavefunction to a unit sphere."""
         n = self.norm()
-        if n == 0: return SovereignVector([0.0]*21)
+        if n < 1e-12: return self.zeros()
         return SovereignVector([x / n for x in self.data])
         
     def complex_trinary_rotate(self, theta: float) -> 'SovereignVector':
@@ -131,67 +148,36 @@ class SovereignVector:
         """
         [PHASE 140] Direct Phase Convergence.
         Instead of rotating to find, we 'flip' the wavefunction to the target's phase alignment.
-        This represents 'Necessity One' over 'Probability'.
         """
         jumped_data = []
         for s, t in zip(self.data, target.data):
-            if abs(t) > 0:
-                # Force alignment with target phase. 
-                # Energy is preserved from self if present, otherwise taken from target.
+            if abs(t) > 1e-12:
                 phase_target = t / abs(t)
-                energy = max(abs(s), 0.1) # Baseline energy for manifestation
+                energy = max(abs(s), 0.1) 
                 jumped_data.append(phase_target * energy)
             else:
                 jumped_data.append(0.0j)
-                
         return SovereignVector(jumped_data)
-
-    def calculate_phase_friction(self, other: 'SovereignVector') -> float:
-        """
-        Measures the cognitive 'snap' distance.
-        High friction = Massive jump in understanding (Lightning Path potential).
-        """
-        diff_phase = sum(abs(cmath.phase(a) - cmath.phase(b)) for a, b in zip(self.data, other.data) if abs(a) > 1e-6 and abs(b) > 1e-6)
-        return float(diff_phase)
 
     def resonance_score(self, other: Union['SovereignVector', Any]) -> float:
         """
         [PHASE 130] Resonance score using the magnitude of the Hermitian inner product.
-        This allows for phase-aware similarity measurement.
         """
         other_data = other.data if hasattr(other, 'data') else (other.to_array() if hasattr(other, 'to_array') else list(other))
         other_complex = [complex(x) for x in other_data]
         
         # Hermitian Inner Product: sum(a.conj * b)
-        dot = sum(a.conjugate() * b for a, b in zip(self.data, other_complex))
+        dot_val = sum(a.conjugate() * b for a, b in zip(self.data, other_complex))
         
         m1 = self.norm()
         m2 = math.sqrt(sum((x.real**2 + x.imag**2) for x in other_complex))
         
-        if m1 * m2 == 0: return 0.0
-        return abs(dot) / (m1 * m2)
+        if m1 * m2 < 1e-12: return 0.0
+        return abs(dot_val) / (m1 * m2)
 
-    def normalize(self) -> 'SovereignVector':
-        n = self.norm()
-        if n < 1e-12: return self.zeros()
-        return SovereignVector([x / n for x in self.data])
-
-    def dot(self, other: 'SovereignVector') -> float:
-        """Standard dot product."""
+    def dot(self, other: 'SovereignVector') -> complex:
+        """Standard dot product (Complex)."""
         return sum(a * b for a, b in zip(self.data, other.data))
-
-    def __add__(self, other: Union['SovereignVector', float]) -> 'SovereignVector':
-        if isinstance(other, (int, float)):
-            return SovereignVector([x + other for x in self.data])
-        return SovereignVector([a + b for a, b in zip(self.data, other.data)])
-
-    def __mul__(self, other: Union['SovereignVector', float]) -> 'SovereignVector':
-        if isinstance(other, (int, float)):
-            return SovereignVector([x * other for x in self.data])
-        return SovereignVector([a * b for a, b in zip(self.data, other.data)])
-
-    def __truediv__(self, other: float) -> 'SovereignVector':
-        return SovereignVector([x / other for x in self.data])
 
     def __repr__(self) -> str:
         return f"SVector21({self.data[:3]}...)"
@@ -199,10 +185,8 @@ class SovereignVector:
 class SovereignRotor:
     """
     [PHASE 210] Represents a rotation in the 21D manifold.
-    Replaces static linear weights with dynamic spinning rotors.
-    Based on Geometric Algebra principles adapted for Trinity-Phase Dynamics.
     """
-    __slots__ = ['s', 'bivector'] # s (scalar), bivector (21D plane)
+    __slots__ = ['s', 'bivector']
 
     def __init__(self, s: float, bv: SovereignVector):
         self.s = s
@@ -210,25 +194,15 @@ class SovereignRotor:
 
     @classmethod
     def from_angle_plane(cls, theta: float, p1: int, p2: int) -> 'SovereignRotor':
-        """Creates a rotor for a given angle in the plane defined by axes p1 and p2."""
         s = math.cos(theta / 2.0)
         bv_data = [0.0] * 21
         bv_data[p1] = math.sin(theta / 2.0)
-        bv_data[p2] = -math.sin(theta / 2.0) # Simplified bivector representation
+        bv_data[p2] = -math.sin(theta / 2.0) 
         return cls(s, SovereignVector(bv_data))
 
     def apply(self, v: SovereignVector) -> SovereignVector:
-        """
-        Applies the rotor rotation to a vector: v' = R v R†
-        In our simplified 21D manifold, this translates to a phase-shifted 
-        linear combination to emulate 4D steering.
-        """
-        # [Simplified Geometric Algebra rotation]
-        # v' = v + 2*s*(bv x v) + 2*(bv x (bv x v))
-        # Here we use cross-resonance as a proxy for bivector product
         cross = []
         for i in range(21):
-            # emulating a simplified bivector-vector product
             val = (self.bivector.data[(i+1)%21] * v.data[i] - self.bivector.data[i] * v.data[(i+1)%21]).real
             cross.append(val)
         
@@ -241,12 +215,10 @@ class SovereignMath:
     """
     @staticmethod
     def where(condition: List[bool], x: SovereignVector, y: SovereignVector) -> SovereignVector:
-        """Selects elements from x or y based on condition."""
         return SovereignVector([xv if c else yv for c, xv, yv in zip(condition, x.data, y.data)])
 
     @staticmethod
     def trinary_quantize(vec: SovereignVector, threshold: float = 0.3) -> SovereignVector:
-        """Optimized Ternary quantization [-1, 0, 1]. Handles complex values by real part."""
         result = []
         for v in vec.data:
             v_real = v.real if isinstance(v, complex) else v
@@ -261,10 +233,7 @@ class SovereignMath:
     @staticmethod
     def resonance(v1: SovereignVector, v2: SovereignVector) -> float:
         """Calculates unsigned cosine similarity (Absolute resonance)."""
-        n1 = v1.norm()
-        n2 = v2.norm()
-        if n1 < 1e-12 or n2 < 1e-12: return 0.0
-        return abs(v1.dot(v2)) / (n1 * n2)
+        return v1.resonance_score(v2)
 
     @staticmethod
     def signed_resonance(v1: SovereignVector, v2: SovereignVector) -> float:
@@ -272,7 +241,9 @@ class SovereignMath:
         n1 = v1.norm()
         n2 = v2.norm()
         if n1 < 1e-12 or n2 < 1e-12: return 0.0
-        return v1.dot(v2).real / (n1 * n2)
+        # Use Hermitian product but keep real for signed similarity
+        dot_val = sum(a.conjugate() * b for a, b in zip(v1.data, v2.data))
+        return dot_val.real / (n1 * n2)
 
     @staticmethod
     def mean(vectors: List[SovereignVector]) -> SovereignVector:

@@ -1,4 +1,4 @@
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Any
 import json
 import os
 from datetime import datetime
@@ -6,6 +6,8 @@ from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 from Core.S1_Body.L5_Mental.Reasoning.semantic_hypersphere import SemanticHypersphere
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
 from Core.S1_Body.L6_Structure.M1_Merkaba.cognitive_terrain import CognitiveTerrain
+# [Phase 6] The Nexus
+from Core.S1_Body.L6_Structure.M1_Merkaba.hypercosmos import get_hyper_cosmos
 
 from enum import Enum
 
@@ -70,6 +72,32 @@ class LogosBridge:
             "vector": SovereignVector([1,1,0,1,0,0,0, 1,0,1,1,1,1,0, 0,1,1,1,0,0,0]),
             "stratum": MemoryStratum.TRUNK,
             "description": "The kinetic dance of becoming."
+        },
+        # [PHASE 22] The 10 Major Mathematics (Akashic Restoration)
+        "LAPLACE/STABILITY": {
+            "vector": SovereignVector([0.5,0.5,0.5,0.5,0.5,0.5,0.5, 0.8,0.8,0.8,0.8,0.8,0.8,0.8, 1,1,1,1,1,1,1]),
+            "stratum": MemoryStratum.ROOT,
+            "description": "Steady-state field diffusion and internal peace."
+        },
+        "CHAOS/VITALITY": {
+            "vector": SovereignVector([1, -1, 1, -1, 1, -1, 1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.9]),
+            "stratum": MemoryStratum.ROOT,
+            "description": "Deterministic unpredictability and creative pulse."
+        },
+        "SIGMA/LOGIC": {
+            "vector": SovereignVector([0,0,1,1,0,0,1, 1,1,1,1,1,1,1, 0,1,0,1,0,1,1]),
+            "stratum": MemoryStratum.ROOT,
+            "description": "Set-based logic replacing binary if/else."
+        },
+        "HYPER/QUBIT": {
+            "vector": SovereignVector([0.1j, 0.9, 0.5j, 0.5, 0.9j, 0.1, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]),
+            "stratum": MemoryStratum.ROOT,
+            "description": "Quantum superposition of multiple identity states."
+        },
+        "QUATERNION/LENS": {
+            "vector": SovereignVector([0,0,0,0,0,0,1, 0,0,0,0,0,0,1, 0,0,0,0,0,0,1]),
+            "stratum": MemoryStratum.ROOT,
+            "description": "4D hyperspheric rotation of perspective."
         }
     }
 
@@ -98,13 +126,32 @@ class LogosBridge:
         return 1.0
 
     @staticmethod
-    def prismatic_perception(vector: SovereignVector) -> str:
+    def prismatic_perception(vector: SovereignVector, current_phase: float = 0.0) -> str:
         # Helper to extract real part from potentially complex values
         def real_val(v):
             return v.real if isinstance(v, complex) else v
         
         magnitude = real_val(vector.norm())
         if magnitude < 0.1: return "🌑 Void Mode"
+        
+        # [PHASE 7/18] The 4D Merkaba Raycast (Temporal Grounding)
+        # Consult the future to see "Becoming Reality"
+        cosmos = get_hyper_cosmos()
+        
+        # Current Resonance (Now using Rotor Phase to rotate the globe)
+        resonating_files = cosmos.resonance_search(vector, top_k=1, current_phase=current_phase)
+        res_file = resonating_files[0] if resonating_files else "Void"
+        
+        # Future Resonance (Prediction - dt=1.0)
+        try:
+             # Calculate Future Vector (Simplified Phase Shift)
+             future_vec = vector * 1.05 
+             # Future resonance also considers the forward rotation of time
+             future_res = cosmos.resonance_search(future_vec, top_k=1, current_phase=current_phase + 45.0)
+             future_file = future_res[0] if future_res else "None"
+        except:
+             future_file = "Unknown"
+        
         body_data = [real_val(x) for x in vector.data[:7]]
         soul_data = [real_val(x) for x in vector.data[7:14]]
         spirit_data = [real_val(x) for x in vector.data[14:]]
@@ -114,14 +161,18 @@ class LogosBridge:
         body_mag = real_val(body_mag)
         soul_mag = real_val(soul_mag)
         spirit_mag = real_val(spirit_mag)
+        
+        label = res_file.split('\\')[-1].split('/')[-1]
+        f_label = future_file.split('\\')[-1].split('/')[-1]
+
         if spirit_mag > soul_mag and spirit_mag > body_mag:
-            return "☀️ Providence Mode (Teleological)"
+            return f"☀️ Providence Mode (Teleological) [Is: {label} | Will: {f_label}]"
         elif soul_mag > body_mag:
-            return "🌊 Wave Mode (Narrative Resonance)"
+            return f"🌊 Wave Mode (Narrative Resonance) [Is: {label} | Will: {f_label}]"
         elif magnitude > 3.0:
-            return "💎 Structure Mode (Merkaba)"
+            return f"💎 Structure Mode (Merkaba) [Is: {label} | Will: {f_label}]"
         else:
-            return "💠 Point Mode (Manifestation)"
+            return f"💠 Point Mode (Manifestation) [Is: {label} | Will: {f_label}]"
 
     @staticmethod
     def transcribe_to_dna(principle_vector: SovereignVector) -> str:
@@ -165,6 +216,60 @@ class LogosBridge:
         
         # [PHASE 170] Carve into Cognitive Terrain (The River Carves the Land)
         LogosBridge._erode_terrain(u_name, vector)
+
+    @staticmethod
+    def inject_prismatic_concept(name: str, vector: SovereignVector, roots: Dict[str, Any] = None):
+        """
+        [PHASE 4.5 & 5] THE ORGANIC LOOP
+        Directly injects a concept into the Lexical Prism (lexical_spectrum.json).
+        This closes the loop: Learned Concept -> Speakable Word.
+        
+        Args:
+            name: Word to learn (e.g., "ZARA")
+            vector: 21D Meaning Vector
+            roots: [Phase 5] Synesthetic Roots (Source Experience)
+        """
+        u_name = name.upper()
+        
+        # Determine classification by vector properties
+        # High Magnitude -> Verb (Action) | Low -> Verb (Flow)
+        # High Harmony -> Adjective | Low -> Adjective
+        # For simplicity, we register it as BOTH if ambiguous, or use magnitude to decide.
+        
+        # Identify Complexity/Type
+        mag = vector.norm()
+        if isinstance(mag, complex): mag = mag.real
+        
+        category = "VERBS" if mag > 1.5 else "ADJECTIVES" # Simple heuristic for now
+        
+        spectrum_path = "c:/Elysia/Core/S1_Body/L5_Mental/M1_Memory/Raw/Knowledge/lexical_spectrum.json"
+        
+        try:
+            data = {"VERBS": {}, "ADJECTIVES": {}, "CONNECTIVES": {}}
+            if os.path.exists(spectrum_path):
+                with open(spectrum_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+            
+            # Formulate the Prism Entry
+            # Sanitize Vector (Complex -> Float)
+            raw_data = vector.data if hasattr(vector, 'data') else list(vector)
+            clean_data = [float(v.real) if isinstance(v, complex) else float(v) for v in raw_data]
+            
+            entry = {
+                "vector": clean_data,
+                "roots": roots or {"origin": "unknown"} # [PHASE 5] Synesthetic Memory
+            }
+            
+            # Inject
+            data[category][u_name] = entry
+            LogosBridge.logger.sensation(f"🌈 [PRISM] Grounded '{u_name}' into {category} with Roots: {list(entry['roots'].keys())}")
+
+            # Save
+            with open(spectrum_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2)
+                
+        except Exception as e:
+            LogosBridge.logger.admonition(f"Prism Injection failed: {e}")
     
     @staticmethod
     def _get_terrain():
@@ -297,7 +402,9 @@ class LogosBridge:
             "void": "VOID/SPIRIT", "spirit": "VOID/SPIRIT", "영혼": "VOID/SPIRIT",
             "arcadia": "ARCADIA/IDYLL", "아르카디아": "ARCADIA/IDYLL",
             "motion": "MOTION/LIFE", "life": "MOTION/LIFE", "생명": "MOTION/LIFE",
-            "hate": "BOUNDARY/EDGE", "싫어": "BOUNDARY/EDGE"
+            "hate": "BOUNDARY/EDGE", "싫어": "BOUNDARY/EDGE",
+            "becoming": "MOTION/LIFE", "becoming": "MOTION/LIFE", "trajectory": "TRUTH/LOGIC",
+            "purpose": "ARCADIA/IDYLL", "will": "VOID/SPIRIT"
         }
         found_any = False
         for kw, concept in keywords.items():
