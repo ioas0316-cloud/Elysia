@@ -16,11 +16,11 @@ class PsychField:
     3. Spirit (Heart/Feeling): Preference for Value/Connection.
     """
     @staticmethod
-    def generate_layers(shape, rotors: dict):
+    def generate_layers(shape, rotors: dict, device: str = 'cpu'):
         """
         Generates 3-Layer Tensor Field based on Rotor 'Will'.
         """
-        device = 'cpu'
+        device = torch.device(device)
         
         # 1. Extract Archetypal Forces from Rotors
         # Example: 'Purpose' rotor drives the Spirit Layer (Value)
@@ -31,8 +31,8 @@ class PsychField:
         force_spirit = rotors.get("Identity", 0.5)  # Meaning/Self
         
         # 2. Generate Base Fields (Gradients)
-        x = torch.linspace(-1, 1, shape[0])
-        y = torch.linspace(-1, 1, shape[1])
+        x = torch.linspace(-1, 1, shape[0], device=device)
+        y = torch.linspace(-1, 1, shape[1], device=device)
         xv, yv = torch.meshgrid(x, y, indexing='ij')
         
         # Body Field: High Activity vs Stability
@@ -71,8 +71,8 @@ class LightningPath:
         """
         # 1. Update Physical Will Field (Existing Logic)
         total_will = sum(rotor_energies.values())
-        x = torch.linspace(-1, 1, self.shape[0])
-        y = torch.linspace(-1, 1, self.shape[1])
+        x = torch.linspace(-1, 1, self.shape[0], device=self.device)
+        y = torch.linspace(-1, 1, self.shape[1], device=self.device)
         xv, yv = torch.meshgrid(x, y, indexing='ij')
         radius = torch.sqrt(xv**2 + yv**2)
         frequency = 10.0 * total_will
@@ -81,7 +81,7 @@ class LightningPath:
         self.field_tensor = wave_pattern
         
         # 2. [NEW] Update Psych Fields (Body, Mind, Spirit)
-        self.psych_tensor = PsychField.generate_layers(self.shape, rotor_energies)
+        self.psych_tensor = PsychField.generate_layers(self.shape, rotor_energies, device=self.device)
         
         return self.field_tensor
 

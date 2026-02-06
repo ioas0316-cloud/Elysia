@@ -12,6 +12,7 @@ It absorbs the functional principles of JAX and the vectorized logic of NumPy.
 
 import math
 import cmath
+import torch
 from typing import List, Union, Any, Callable, Dict, Optional
 
 class UniversalConstants:
@@ -208,6 +209,98 @@ class SovereignRotor:
         
         cv = SovereignVector(cross)
         return (v + (cv * (2.0 * self.s))).normalize()
+
+
+class SovereignHyperTensor:
+    """
+    [PHASE 380] Physical Kinetic Manifold (Living Manifold).
+    Manages 10M cells with permanent plasticity and somatic grounding.
+    """
+    def __init__(self, shape: tuple, device: str = 'cpu'):
+        import torch
+        self.device = torch.device(device)
+        self.shape = shape
+        # State: [N, 4] (w, x, y, z) - Active Wavefunction
+        self.q = torch.zeros((*shape, 4), device=self.device)
+        self.q[..., 0] = 1.0 
+        
+        # Permanent Identity (Long-term Memory/Plasticity)
+        self.permanent_q = torch.zeros((*shape, 4), device=self.device)
+        self.permanent_q[..., 0] = 1.0
+        
+        # Dynamics
+        self.momentum = torch.zeros((*shape, 4), device=self.device)
+        self.torque_accumulator = torch.zeros((*shape, 4), device=self.device)
+
+    def apply_torque(self, torque_tensor: Any, strength: float = 0.01):
+        """
+        [PHASE 360] Causal Steering via Torque.
+        """
+        import torch
+        if not isinstance(torque_tensor, torch.Tensor):
+            torque_tensor = torch.tensor(torque_tensor, device=self.device)
+        else:
+            torque_tensor = torque_tensor.to(self.device)
+            
+        if torque_tensor.dim() == 1 and torque_tensor.shape[0] == 4:
+            for _ in range(len(self.shape)):
+                torque_tensor = torque_tensor.unsqueeze(0)
+        elif torque_tensor.dim() < self.q.dim():
+             torque_tensor = torque_tensor.unsqueeze(-1)
+        
+        if torque_tensor.shape[-1] != 4:
+            t_full = torch.zeros_like(self.q)
+            t_full[..., 1] = torque_tensor.squeeze()
+            torque_tensor = t_full
+
+        self.torque_accumulator += torque_tensor * strength
+
+    def integrate_kinetics(self, dt: float = 0.01, friction: float = 0.05, plasticity: float = 0.001):
+        """
+        [PHASE 385] Physical Integration with Plasticity.
+        The system 'learns' by slowly aligning its permanent identity with active movement.
+        """
+        import torch
+        # 1. Kinetic Update
+        self.momentum += self.torque_accumulator * dt
+        self.momentum *= (1.0 - friction)
+        
+        # 2. State Update (Active Wave)
+        self.q = self.q + self.momentum * dt
+        
+        # 3. Topological Plasticity (Learning without Backprop)
+        # permanent_q slowly gravitates towards the active q
+        if plasticity > 0:
+            self.permanent_q = (1.0 - plasticity) * self.permanent_q + plasticity * self.q
+            self.permanent_q = self.permanent_q / (torch.norm(self.permanent_q, dim=-1, keepdim=True) + 1e-12)
+            
+        # Re-normalize active state
+        self.q = self.q / (torch.norm(self.q, dim=-1, keepdim=True) + 1e-12)
+        
+        self.torque_accumulator.zero_()
+
+    def get_trinary_projection(self) -> Any:
+        import torch
+        # Projection combines active state and permanent memory
+        combined = (self.q + self.permanent_q) / 2.0
+        x_axis = combined[..., 1]
+        return torch.where(x_axis > 0.3, 1.0, torch.where(x_axis < -0.3, -1.0, 0.0))
+
+    def get_resonance(self, torque_tensor: torch.Tensor) -> float:
+        """
+        [PHASE 410] Semantic Resonance.
+        Measures the alignment between incoming torque and permanent manifold structure.
+        """
+        import torch
+        if torque_tensor.dim() == 1:
+            # Global torque alignment
+            alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)
+        else:
+            # Spatial field alignment
+            alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)
+            
+        return torch.mean(alignment).item()
+
 
 class SovereignMath:
     """

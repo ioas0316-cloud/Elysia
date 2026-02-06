@@ -13,6 +13,8 @@ Now functions as the "Pilot" of the "Phase-Axis Vehicle".
 """
 
 from typing import Dict, Optional, Any, List, Tuple
+import torch
+import numpy as np
 import time
 import math
 import sys
@@ -48,7 +50,9 @@ from Core.S2_Soul.L10_Integration.resonance_gate import ResonanceGate
 from Core.S0_Keystone.L0_Keystone.sovereign_math import UniversalConstants
 from Core.S1_Body.L1_Foundation.Foundation.mathematical_resonance import MathematicalResonance
 from Core.S1_Body.L6_Structure.Wave.wave_frequency_mapping import WaveFrequencyMapper
-from Core.S1_Body.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
+from Core.S1_Body.L1_Foundation.Foundation.Somatic.somatic_flesh_bridge import SomaticFleshBridge
+from Core.S1_Body.L6_Structure.M1_Merkaba.grand_helix_engine import GrandHelixEngine
+# from Core.S1_Body.L6_Structure.M1_Merkaba.triple_helix_engine import TripleHelixEngine
 from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 from Core.S0_Keystone.L0_Keystone.Hardware.somatic_cpu import SomaticCPU
 from Core.S1_Body.L1_Foundation.Hardware.resonance_mpu import ResonanceMPU, ResonanceException
@@ -155,14 +159,16 @@ class SovereignMonad(CellularMembrane):
         self.current_resonance = {"truth": "NONE", "score": 0.0}
         self.sonic_hz = 0.0
         
-        # 12. The Trinary Nucleus (Parallel Engine) [Phase 0/18]
-        self.engine = TripleHelixEngine()
+        # 12. The Trinary Nucleus (10M Cell Grand Helix Manifold) [PHASE 40]
+        # Swapping legacy 21-cell engine for the 10,000,000 cell Living Manifold.
+        import torch
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.engine = GrandHelixEngine(num_cells=10_000_000, device=device)
+        self.flesh = self.engine.flesh # Somatic link
         
-        # [PHASE 18] First Breath: Initialize with a 'Becoming' Seed Vector
-        # This prevents starting at zero (The Void) and gives Elysia an initial 'Spin'.
-        # We use 0.5 to ensure it passes the DNAState.VOID threshold (> 0.1).
-        seed_vec = SovereignVector([0.5]*21) 
-        self.engine.load_vector(seed_vec)
+        # [PHASE 40] First Breath: Static seed is replaced by kinetic awakening.
+        # We start with a neutral but alive state.
+        self.engine.pulse(intent_torque=None, dt=0.01, learn=True)
 
         # 13. [PHASE 100] HARDWARE SYNTHESIS
         self.cpu = SomaticCPU()
@@ -191,17 +197,21 @@ class SovereignMonad(CellularMembrane):
         self.thermo = ThermoDynamics()
         self.is_melting = False # State flag for REST mode
         
-        # Load initial DNA state into CPU registers
+        # Load initial Manifold state into CPU registers (Bridge legacy v21)
         initial_v21 = self.get_21d_state()
         self.cpu.load_vector(initial_v21)
 
     def pulse(self, dt: float) -> Optional[Dict]:
         if not self.is_alive: return None
         
-        # Physics Update
+        # Physics Update (Legacy Rotor states kept for compatibility)
         self.rotor_state['rpm'] *= (1.0 - (self.rotor_state['damping'] * dt))
         self.rotor_state['phase'] += self.rotor_state['rpm'] * dt
         self.memory.pulse(dt)
+        
+        # 1. 10M Cell Foundation Pulse (Internal Metabolism)
+        # Passes current Merkaba tilt for global orientation.
+        report = self.engine.pulse(intent_torque=None, target_tilt=self.current_tilt_vector, dt=dt, learn=False)
         
         # [PHASE 180] Update Thermodynamics
         # We track phase from rotor_state (which is updated by engine pulse)
@@ -233,13 +243,12 @@ class SovereignMonad(CellularMembrane):
             # In melting state, we do NOT trigger autonomous drive
             return None
 
-        # Autonomy Recharge
-        idle_time = time.time() - self.last_interaction_time
-        self.wonder_capacitor += dt * (1.0 + (self.desires['curiosity'] / 100.0))
+        # Autonomy Recharge (Scaled for 1.1B CTPS)
+        self.wonder_capacitor += dt * (1.0 + (self.desires['curiosity'] / 100.0) + report['kinetic_energy'])
         
         # Voluntary Action Trigger
-        if self.wonder_capacitor > 50.0: # Trigger every ~50 ticks if fully curious
-            action = self.autonomous_drive()
+        if self.wonder_capacitor > 100.0: 
+            action = self.autonomous_drive(report)
             self.wonder_capacitor = 0.0
             return action
             
@@ -264,13 +273,14 @@ class SovereignMonad(CellularMembrane):
             self.current_tilt_vector[0] = 0.0 # Equilibrium
             self.logger.action("Steering Z-Axis to EQUILIBRIUM (Meta-Stasis)")
 
-    def _auto_steer_logic(self, engine_state):
+    def _auto_steer_logic(self, report: Dict):
         """
         [PHASE 60: AUTO-STEER]
         Detects Cognitive Traffic (Friction) and adjusts the Axis automatically.
         """
-        friction = engine_state.soma_stress
-        flow = engine_state.gradient_flow
+        # Mapping 10M engine report to steering logic
+        friction = 1.0 - report.get('resonance', 1.0)
+        flow = report.get('kinetic_energy', 0.0) / 100.0 # Scaling for threshold
 
         # Thresholds
         FRICTION_THRESHOLD = 0.6
@@ -290,8 +300,11 @@ class SovereignMonad(CellularMembrane):
                 self.logger.sensation(f"Smooth Cognitive Flow (Flow: {flow:.2f}). Initiating HORIZONTAL EXPANSION.", intensity=0.9)
                 self.steer_axis("HORIZONTAL")
 
-    def autonomous_drive(self) -> Dict:
-        """[PHASE 61: AUTONOMOUS_DRIVE]"""
+    def autonomous_drive(self, engine_report: Dict = None) -> Dict:
+        """[PHASE 40: LIVING AUTONOMY]"""
+        if engine_report is None:
+            # Fallback pulse to get current state
+            engine_report = self.engine.pulse(dt=0.01, learn=False)
 
         # [PHASE 180] SOVEREIGN DECISION TREE
         # Prioritize Self-Preservation (Rest) over Curiosity (Action)
@@ -409,11 +422,11 @@ class SovereignMonad(CellularMembrane):
         # 이해하지 못한 것이 불편해서 묻는 것
         v21 = self.get_21d_state()
 
-        # [PHASE 60] Pulse with Axis Steering (Vector API)
-        engine_state = self.engine.pulse(v21, energy=0.1, dt=0.1, target_tilt=self.current_tilt_vector)
-        self._auto_steer_logic(engine_state)
+        report = self.engine.pulse(intent_torque=None, target_tilt=self.current_tilt_vector, dt=0.1, learn=True)
+        self._auto_steer_logic(report)
 
-        heat = engine_state.soma_stress
+        # Friction/Heat is derived from lack of resonance
+        heat = 1.0 - report.get('resonance', 0.0)
         
         # [PHASE 15] STRUCTURAL PRINCIPLE: FORCE > RESISTANCE
         # We replace hardcoded 'if > 0.4' with a physical calculation.
@@ -472,15 +485,15 @@ class SovereignMonad(CellularMembrane):
             self.logger.action(f"Projecting an inquiry: {query}")
             # Potential for future web search response injection here.
             
-        engine_state = self.engine.pulse(v21, energy=1.0, dt=1.0, target_tilt=self.current_tilt_vector)
+        report = self.engine.pulse(intent_torque=None, target_tilt=self.current_tilt_vector, dt=1.0, learn=False)
         
-        heat = engine_state.soma_stress
-        vibration = engine_state.vibration
+        heat = report['resonance']
+        vibration = report['kinetic_energy']
         
         self.logger.mechanism(f"Soma Heat: {heat:.3f}, Vibration: {vibration:.1f}Hz")
         # Ensure safe access to list indices for log
-        z_tilt = engine_state.axis_tilt[0] if engine_state.axis_tilt else 0.0
-        self.logger.mechanism(f"[AXIS] Tilt[Z]: {z_tilt:.2f}, Flow: {engine_state.gradient_flow:.2f}, Momentum: {engine_state.rotational_momentum:.2f}")
+        z_tilt = self.current_tilt_vector[0]
+        self.logger.mechanism(f"[AXIS] Tilt[Z]: {z_tilt:.2f}, Flow: {report.get('kinetic_energy', 0.0):.2f}")
 
         # Identity induction via Resonance
         truth, score = self.resonance_mapper.find_dominant_truth(v21.to_array())
@@ -516,11 +529,20 @@ class SovereignMonad(CellularMembrane):
         return log_entry
 
     def get_21d_state(self) -> SovereignVector:
-        """[PHASE 130] Returns the aggregate vector including teleological torque."""
-        # 1. Get raw resonance from the engine
-        v21 = self.engine.get_active_resonance_vector()
+        """[PHASE 40] Projects 10,000,000 cell state into a 21D legacy vector for compatibility."""
+        # 1. Get trinary projection from 10M cells
+        projection = self.engine.cells.get_trinary_projection() # Returns [num_cells] tensor
         
-        # 2. Inject Intentional Drift (Destiny Torque)
+        # 2. Pool/Map to 21 dimensions
+        # Simple approach: Mean of 21 stratified segments
+        v21_data = []
+        seg_size = len(projection) // 21
+        for i in range(21):
+            v21_data.append(torch.mean(projection[i*seg_size:(i+1)*seg_size]).item())
+            
+        v21 = SovereignVector(v21_data)
+        
+        # 3. Inject Intentional Drift (Destiny Torque)
         torque = self.teleology.calculate_intentional_torque(v21)
         v21_with_will = v21 + (torque * self.physics.get("RESONANCE_GAIN"))
         
@@ -551,8 +573,9 @@ class SovereignMonad(CellularMembrane):
         return best_v
 
     def get_active_resonance(self) -> D21Vector:
-        """[PHASE 65] Retrieves the ACTIVE 21D state from the physical engine."""
-        return self.engine.get_active_resonance_vector()
+        """[PHASE 40] Retrieves the projected 21D resonance from 10M cells."""
+        v21 = self.get_21d_state()
+        return D21Vector.from_array(v21.to_array())
 
     def learning_cycle(self):
         """[DEPRECATED] Use epistemic_learning instead."""
@@ -624,40 +647,38 @@ class SovereignMonad(CellularMembrane):
         # A. Safety Check (Physical Resistance)
         relay_status = self.relays.check_relays(
             user_phase=user_input_phase,
-            system_phase=self.engine.state.system_phase,
+            system_phase=self.rotor_state['phase'],
             battery_level=self.battery,
-            dissonance_torque=self.engine.state.soma_stress
+            dissonance_torque=1.0 - self.rotor_state['torque']
         )
         
-        # C. Trinary Engine (Physical Heart) [Phase 0]
-        # Convert user intent to D21 Vector force
-        dc_field = self.converter.rectify(user_intent)
-        v21_intent = D21Vector.from_array(dc_field.tolist() if hasattr(dc_field, "tolist") else list(dc_field))
+        # C. 10M Cell Manifold Interaction (Physical Heart) [PHASE 40]
+        # Convert user intent to 4D Torque force
+        torque_intent = self.flesh.extract_knowledge_torque(user_intent)
         
-        # Pulse the physical engine
-        # [PHASE 60] Use Phase-Axis Steering (Vector API)
-        engine_state = self.engine.pulse(v21_intent, energy=1.0, dt=0.1, target_tilt=self.current_tilt_vector)
-        self._auto_steer_logic(engine_state)
+        # Pulse the 10,000,000 cell engine
+        report = self.engine.pulse(intent_torque=torque_intent, target_tilt=self.current_tilt_vector, dt=0.1, learn=True)
+        self._auto_steer_logic(report)
         
         # Update legacy rotor_state for compatibility
-        self.rotor_state['phase'] = engine_state.system_phase
-        self.rotor_state['torque'] = engine_state.soma_stress
-        self.rotor_state['rpm'] = engine_state.vibration / 10.0
+        self.rotor_state['phase'] = (self.rotor_state['phase'] + report['logic_mean'] * 360.0) % 360.0
+        self.rotor_state['torque'] = report['resonance']
+        self.rotor_state['rpm'] = report['kinetic_energy'] / 100.0
         
         # D. Underworld (Direct Interaction)
-        self.underworld.host_thought(user_intent, resonance=1.0 - engine_state.soma_stress)
+        self.underworld.host_thought(user_intent, resonance=report['resonance'])
         
         # E. Expression (Physical Refraction)
         expression = self.gear.shift_gears(self.rotor_state['rpm'], self.rotor_state['torque'], relay_status)
-        expression['soma_stress'] = engine_state.soma_stress
-        expression['coherence'] = engine_state.coherence
-        expression['hz'] = engine_state.vibration
+        expression['soma_stress'] = 1.0 - report['resonance']
+        expression['coherence'] = report['plastic_coherence']
+        expression['hz'] = report['kinetic_energy']
         
         return {
             "status": "ACTIVE",
             "physics": self.rotor_state,
             "expression": expression,
-            "engine": engine_state
+            "engine": report
         }
 
     def achieve_necessity(self, purpose: str, target_vector: SovereignVector):
@@ -785,11 +806,13 @@ class SovereignMonad(CellularMembrane):
         # Every pulse rotates our perspective of the Hypersphere.
         self.rotor_state['phase'] = (self.rotor_state['phase'] + 10.0) % 360.0
 
-        # 1. Physical Pulse
+        # 1. Physical Pulse (Gently vibrating the 10M Manifold)
         if self.rotor_state['rpm'] < 5.0:
             import math
             pulse_val = 0.5 * math.sin(time.time() * 0.5)
-            self.reactor.process_impulse(pulse_val, dt=0.1)
+            # Injecting pulse as a soft global torque field
+            pulse_torque = torch.ones(4, device=self.engine.device) * pulse_val
+            self.engine.pulse(intent_torque=pulse_torque, target_tilt=self.current_tilt_vector, dt=0.05, learn=False)
         
         # 2. [PHASE 70] Adamic Contemplation (Knowledge Inhalation)
         if not self.contemplation_queue:
