@@ -143,5 +143,97 @@ class HolographicMemory:
         # If aligned, Real=1.0. If shifted 90 deg, Real=0.0. If opposite, Real=-1.0.
         return 1.0 - np.real(resonance_val)
 
+    def broadcast(self, quality: str) -> List[Tuple[str, float]]:
+        """
+        [COGNITIVE EMERGENCE]
+        Pulses the manifold with a pure "Quality" (Phase) to find all concepts
+        that share this quality. This simulates "Associative Recall".
+
+        Args:
+            quality: The shared attribute (e.g., "RED").
+
+        Returns:
+            List of (Concept, ResonanceStrength) tuples.
+        """
+        results = []
+        qual_freq = self._get_frequency(quality)
+        indices = np.arange(self.dimension)
+
+        # Iterate over all known concepts to check their resonance with this quality.
+        # NOTE: In a true optical system, this loop is instantaneous O(1)
+        # because the "Red" light would hit all "Red" holograms simultaneously.
+        # In this simulation, we must iterate the keys.
+
+        for concept, base_freq in self.frequency_map.items():
+            # Skip the quality concept itself
+            if concept == quality: continue
+
+            # Construct the expected wave for this Concept + Quality
+            # We are checking: "Does (Concept + Quality) exist in the manifold?"
+            query_wave = np.exp(1j * (base_freq * indices / self.dimension + qual_freq))
+
+            # Check resonance (Project Manifold onto this specific Wave)
+            resonance_val = np.vdot(query_wave, self.manifold) / self.dimension
+
+            # Use Real part to ensure Phase Alignment (not just Energy)
+            # High Real part means the concept was stored with THIS quality.
+            strength = np.real(resonance_val)
+
+            # DEBUG PRINT
+            # if concept == "Sky":
+            #    print(f"DEBUG: Sky check against {quality}. Strength: {strength:.4f}")
+
+            # Since multiple items are in the manifold, they interfere.
+            # A single item's contribution is 1.0 (normalized), but with many items,
+            # the noise floor rises or constructive interference amplifies peaks.
+            # However, for 64-dim and < 10 items, orthogonality is decent but not perfect.
+            # We lower the threshold to 0.1 to catch signals in a crowded manifold.
+
+            if strength > 0.1: # Threshold for "Active Association"
+                results.append((concept, strength))
+
+        # Sort by strength (Most relevant first)
+        results.sort(key=lambda x: x[1], reverse=True)
+        return results
+
+    def interfere(self, concept_a: str, concept_b: str) -> str:
+        """
+        [CREATIVITY]
+        Generates a new concept by interfering two existing concept waves.
+        Constructive interference regions become the 'Seed' of the new idea.
+
+        Args:
+            concept_a: First Parent Concept.
+            concept_b: Second Parent Concept.
+
+        Returns:
+            A string representation of the interference result (Metaphor).
+        """
+        freq_a = self._get_frequency(concept_a)
+        freq_b = self._get_frequency(concept_b)
+        indices = np.arange(self.dimension)
+
+        # Wave A and Wave B
+        wave_a = np.exp(1j * (freq_a * indices / self.dimension))
+        wave_b = np.exp(1j * (freq_b * indices / self.dimension))
+
+        # Superposition
+        interference = wave_a + wave_b
+
+        # Analyze the Resulting Pattern
+        # In a real system, we would decode this back to a Concept.
+        # Here, we simulate the "Emergent Meaning" by hashing the interference energy.
+        total_energy = np.sum(np.abs(interference))
+
+        # Metaphor Generation based on Phase Relationship
+        phase_diff = abs(freq_a - freq_b)
+
+        if phase_diff < 0.1:
+            return f"Resonance: {concept_a} is essentially {concept_b}."
+        elif phase_diff > 3.0: # Approx PI
+            return f"Contrast: {concept_a} opposes {concept_b}."
+        else:
+            return f"Synthesis: {concept_a} and {concept_b} merge into a new form (Energy: {total_energy:.2f})."
+
     def clear(self):
         self.manifold = np.zeros(self.dimension, dtype=np.complex128)

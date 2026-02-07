@@ -13,24 +13,47 @@ This engine orchestrates the Holographic Causal Cycle:
 
 from Core.S1_Body.L6_Structure.M6_Architecture.holographic_memory import HolographicMemory
 import numpy as np
+from dataclasses import dataclass
+
+@dataclass
+class MerkabaParams:
+    """
+    [SPACETIME CONTROL]
+    Parameters that modulate the Causal Flow.
+    """
+    rotor_rpm: float = 1.0      # Time Dilation (Simulation Speed)
+    focus_depth: float = 1.0    # Spatial Compression (Attention Radius)
+    axis_tilt: float = 0.0      # Perspective Shift (Phase Modulation)
 
 class CausalFlowEngine:
     def __init__(self, memory: HolographicMemory):
         self.memory = memory
         self.current_state = "IDLE"
+        self.merkaba = MerkabaParams()
+
+    def adjust_merkaba(self, rpm: float = None, focus: float = None, tilt: float = None):
+        """
+        [CONTROL] Dynamic adjustment of the spacetime engine.
+        """
+        if rpm is not None: self.merkaba.rotor_rpm = rpm
+        if focus is not None: self.merkaba.focus_depth = focus
+        if tilt is not None: self.merkaba.axis_tilt = tilt
 
     def ignite(self, intent_seed: str, intensity: float = 1.0) -> dict:
         """
         [STEP 1] Ignition: Converts raw intent into a Wave Pulse.
+        Intensity is modulated by the Merkaba's Focus.
         """
         self.current_state = "IGNITED"
 
-        # Metaphor: Striking a match.
-        # Physics: Generating a localized high-energy wave.
+        # [CONTROL] Focus compresses the wave, increasing local intensity
+        modulated_intensity = intensity * self.merkaba.focus_depth
+
         return {
             "seed": intent_seed,
-            "intensity": intensity,
-            "phase": "RISING"
+            "intensity": modulated_intensity,
+            "phase": "RISING",
+            "axis_tilt": self.merkaba.axis_tilt
         }
 
     def flow(self, ignition_packet: dict) -> dict:
@@ -40,6 +63,11 @@ class CausalFlowEngine:
         self.current_state = "RESONATING"
         seed = ignition_packet["seed"]
         intensity = ignition_packet["intensity"]
+        tilt = ignition_packet.get("axis_tilt", 0.0)
+
+        # [CONTROL] Rotor RPM determines how "far" the resonance spreads (Simulation)
+        # High RPM = Fast Search (Shallow), Low RPM = Deep Resonance
+        # Here we simulate it by modulating the threshold or 'noise' floor.
 
         # Check Resonance with existing memories
         # We query the memory manifold.

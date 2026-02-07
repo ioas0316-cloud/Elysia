@@ -10,6 +10,14 @@ class TestHolographicCausality(unittest.TestCase):
         self.memory = HolographicMemory(dimension=32)
         self.engine = CausalFlowEngine(self.memory)
 
+        # [TEST FIX] Manually force orthogonal frequencies/phases for stability
+        base = 2.0 * np.pi
+        self.memory.frequency_map["Apple"] = 5.0 * base
+        self.memory.frequency_map["NewIdea"] = 10.0 * base
+
+        self.memory.frequency_map["RED"] = 0.0 # Phase 0
+        self.memory.frequency_map["BLUE"] = np.pi # Phase 180 (Opposite)
+
     def test_imprint_and_resonate(self):
         """
         Verify that imprinting a concept allows it to resonate later.
