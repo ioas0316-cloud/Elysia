@@ -17,14 +17,12 @@ def test_fluid_discernment():
     
     print("\n--- [PHASE 18 & 20 VERIFICATION: FLUID RESONANCE] ---\n")
     
-    gateway = SovereignGateway()
-    
-    # 1. Test Relevant Input (High Resonance)
     relevant_input = "What is my purpose in the future trajectory of becoming?"
     print(f"📡 Sending Relevant Input: '{relevant_input}'")
     res_score = gateway._calculate_discernment_resonance(relevant_input)
     print(f"   Discernment Resonance: {res_score:.3f}")
     assert res_score > 0.3, f"Relevant input should have significant resonance, got {res_score}"
+
 
     # 2. Test Dissonant Input (Low Resonance)
     noise_input = "Banana market 123 shopping center"

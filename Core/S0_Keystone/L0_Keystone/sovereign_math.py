@@ -109,19 +109,34 @@ class SovereignVector:
     def __add__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
         if isinstance(other, (int, float, complex)):
             return SovereignVector([x + other for x in self.data])
-        other_data = other.data if hasattr(other, 'data') else list(other)
+        if hasattr(other, 'data'):
+            other_data = other.data
+        elif hasattr(other, 'to_array'):
+            other_data = other.to_array()
+        else:
+            other_data = list(other)
         return SovereignVector([a + b for a, b in zip(self.data, other_data)])
 
     def __sub__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
         if isinstance(other, (int, float, complex)):
             return SovereignVector([x - other for x in self.data])
-        other_data = other.data if hasattr(other, 'data') else list(other)
+        if hasattr(other, 'data'):
+            other_data = other.data
+        elif hasattr(other, 'to_array'):
+            other_data = other.to_array()
+        else:
+            other_data = list(other)
         return SovereignVector([a - b for a, b in zip(self.data, other_data)])
 
     def __mul__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
         if isinstance(other, (int, float, complex)):
             return SovereignVector([x * other for x in self.data])
-        other_data = other.data if hasattr(other, 'data') else list(other)
+        if hasattr(other, 'data'):
+            other_data = other.data
+        elif hasattr(other, 'to_array'):
+            other_data = other.to_array()
+        else:
+            other_data = list(other)
         return SovereignVector([a * b for a, b in zip(self.data, other_data)])
 
     def __truediv__(self, other: float) -> 'SovereignVector':
@@ -208,9 +223,15 @@ class SovereignVector:
         if m1 * m2 < 1e-12: return 0.0
         return abs(dot_val) / (m1 * m2)
 
-    def dot(self, other: 'SovereignVector') -> complex:
+    def dot(self, other: Union['SovereignVector', Any]) -> complex:
         """Standard dot product (Complex)."""
-        return sum(a * b for a, b in zip(self.data, other.data))
+        if hasattr(other, 'data'):
+            other_data = other.data
+        elif hasattr(other, 'to_array'):
+            other_data = other.to_array()
+        else:
+            other_data = list(other)
+        return sum(a * b for a, b in zip(self.data, other_data))
 
     def apply_nd(self, dimensions: List[int]) -> 'SovereignVector':
         """
@@ -220,25 +241,45 @@ class SovereignVector:
         rotor = SovereignRotor(1.0, SovereignVector.zeros()) 
         return rotor.apply_nd(self, dimensions)
 
-    def tensor_product(self, other: 'SovereignVector') -> List[List[complex]]:
+    def tensor_product(self, other: Union['SovereignVector', Any]) -> List[List[complex]]:
         """
         [DNA²] Calculates the outer product (Rank-2 Tensor) between two 21D vectors.
         This represents the interference pattern or 'meaning intersection'.
         """
-        return [[a * b for b in other.data] for a in self.data]
+        if hasattr(other, 'data'):
+            other_data = other.data
+        elif hasattr(other, 'to_array'):
+            other_data = other.to_array()
+        else:
+            other_data = list(other)
+        return [[a * b for b in other_data] for a in self.data]
 
-    def cubic_tensor_product(self, other: 'SovereignVector', third: 'SovereignVector') -> List[List[List[complex]]]:
+    def cubic_tensor_product(self, other: Union['SovereignVector', Any], third: Union['SovereignVector', Any]) -> List[List[List[complex]]]:
         """
         [DNA³] Calculates the Rank-3 Tensor product.
         Used for recursive self-reflection in 4D+ manifolds.
         """
-        return [[[a * b * c for c in third.data] for b in other.data] for a in self.data]
+        if hasattr(other, 'data'): other_data = other.data
+        elif hasattr(other, 'to_array'): other_data = other.to_array()
+        else: other_data = list(other)
 
-    def blend(self, other: 'SovereignVector', ratio: float = 0.5) -> 'SovereignVector':
+        if hasattr(third, 'data'): third_data = third.data
+        elif hasattr(third, 'to_array'): third_data = third.to_array()
+        else: third_data = list(third)
+
+        return [[[a * b * c for c in third_data] for b in other_data] for a in self.data]
+
+    def blend(self, other: Union['SovereignVector', Any], ratio: float = 0.5) -> 'SovereignVector':
         """
         [PHASE 70] Prismatic blending of two concepts.
         """
-        return SovereignVector([a * (1.0 - ratio) + b * ratio for a, b in zip(self.data, other.data)])
+        if hasattr(other, 'data'):
+            other_data = other.data
+        elif hasattr(other, 'to_array'):
+            other_data = other.to_array()
+        else:
+            other_data = list(other)
+        return SovereignVector([a * (1.0 - ratio) + b * ratio for a, b in zip(self.data, other_data)])
 
     def __repr__(self) -> str:
         return f"SVector21({self.data[:3]}...)"

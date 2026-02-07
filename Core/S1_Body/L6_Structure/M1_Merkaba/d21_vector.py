@@ -41,7 +41,12 @@ class D21Vector:
     kindness: float = 0.0      # D20: UX Alignment
     humility: float = 0.0      # D21: Accuracy/Ground Truth
 
+    @property
+    def data(self) -> List[float]:
+        return self.to_array()
+
     def to_array(self) -> List[float]:
+
         return [
             self.lust, self.gluttony, self.greed, self.sloth, self.wrath, self.envy, self.pride,
             self.perception, self.memory, self.reason, self.will, self.imagination, self.intuition, self.consciousness,
@@ -55,19 +60,22 @@ class D21Vector:
         return cls(*arr)
 
     def magnitude(self) -> float:
-        return math.sqrt(sum(x*x for x in self.to_array()))
+        # Use abs(x)**2 to correctly handle complex magnitude (norm)
+        return math.sqrt(sum(abs(x)**2 for x in self.to_array()))
 
     def normalize(self) -> 'D21Vector':
         m = self.magnitude()
-        if m == 0: return self
+        if m < 1e-12: return self
         return self.from_array([x/m for x in self.to_array()])
 
     def resonance_score(self, other: 'D21Vector') -> float:
         """Cosine similarity between two D21 vectors."""
-        dot = sum(a*b for a, b in zip(self.to_array(), other.to_array()))
+        # Use Hermitian product logic: sum(a.conj * b) for complex similarity
+        dot = sum(getattr(a, 'conjugate', lambda: a)() * b for a, b in zip(self.to_array(), other.to_array()))
         mag_prod = self.magnitude() * other.magnitude()
-        if mag_prod == 0: return 0.0
-        return dot / mag_prod
+        if mag_prod < 1e-12: return 0.0
+        res = dot / mag_prod
+        return res.real if hasattr(res, 'real') else float(res)
 
     def to_dict(self) -> Dict[str, float]:
         return {
