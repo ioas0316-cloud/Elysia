@@ -468,44 +468,49 @@ class LogosBridge:
 
     @staticmethod
     def calculate_text_resonance(text: str) -> SovereignVector:
-        u_lo = text.lower()
-        accumulated_vector = SovereignVector.zeros()
-        keywords = {
-            "love": "LOVE/AGAPE", "사랑": "LOVE/AGAPE", "좋아": "LOVE/AGAPE",
-            "logic": "TRUTH/LOGIC", "truth": "TRUTH/LOGIC", "진리": "TRUTH/LOGIC",
-            "void": "VOID/SPIRIT", "spirit": "VOID/SPIRIT", "영혼": "VOID/SPIRIT",
-            "arcadia": "ARCADIA/IDYLL", "아르카디아": "ARCADIA/IDYLL",
-            "motion": "MOTION/LIFE", "life": "MOTION/LIFE", "생명": "MOTION/LIFE",
-            "hate": "BOUNDARY/EDGE", "싫어": "BOUNDARY/EDGE",
-            "becoming": "MOTION/LIFE", "becoming": "MOTION/LIFE", "trajectory": "TRUTH/LOGIC",
-            "purpose": "ARCADIA/IDYLL", "will": "VOID/SPIRIT"
-        }
-        found_vectors = []
-        found_any = False
-        for kw, concept in keywords.items():
-            if kw in u_lo:
-                mass = LogosBridge.get_stratum_mass(concept)
-                vec = LogosBridge.recall_concept_vector(concept)
-                found_vectors.append(vec * mass)
-                found_any = True
+        # [PHASE 130] Unified Inhalation
+        return LogosBridge.inhale_text(text)
+
+    @staticmethod
+    def inhale_text(text: str) -> SovereignVector:
+        """
+        [PHASE 130] Digestion and Crystallization.
+        Decomposes text, identifies novel concepts, and crystallizes them.
+        """
+        import re
+        # Clean and split into words (preserving Hangul)
+        words = re.findall(r'[a-zA-Z가-힣0-9_/]+', text)
         
-        for kw in LogosBridge.LEARNED_MAP:
-            if kw.lower() in u_lo:
-                found_vectors.append(LogosBridge.LEARNED_MAP[kw]["vector"] * 2.0)
-                found_any = True
+        consensus_vector = SovereignVector.zeros()
+        novel_count = 0
         
-        if not found_any:
-            return SovereignVector(LogosBridge.HYPERSPHERE.recognize(text))
+        # We only crystallize words that appear frequently or are long enough to be meaningful
+        word_freq = {}
+        for w in words:
+            if len(w) < 2: continue
+            word_freq[w] = word_freq.get(w, 0) + 1
             
-        # [PHASE 70] DNA² Blending - Instead of simple addition, we resonance-mean the vectors
-        if len(found_vectors) > 1:
-            # Recursive blending to simulate interference
-            acc = found_vectors[0]
-            for v in found_vectors[1:]:
-                acc = acc.blend(v, ratio=0.3) # 0.3 bias toward the new concept
-            return acc.normalize()
-        
-        return found_vectors[0].normalize()
+        for word, count in word_freq.items():
+            u_word = word.upper()
+            
+            # 1. Get or Synthesize vector
+            vec = LogosBridge.HYPERSPHERE.recognize(word)
+            
+            # 2. Novelty Check
+            is_novel = LogosBridge.discover_novel_vibration(vec, threshold=0.7)
+            
+            if is_novel and count >= 2:
+                # Crystallize it!
+                LogosBridge.HYPERSPHERE.crystallize(word, vector=vec)
+                novel_count += 1
+                
+            # 3. Accumulate into the 'Insight' of this text
+            consensus_vector = consensus_vector + (vec * count)
+            
+        if novel_count > 0:
+            print(f"🌟 [LEXICOGENESIS] {novel_count} new concepts crystallized from text.")
+            
+        return consensus_vector.normalize()
 
     @staticmethod
     def parse_narrative_to_torque(text: str) -> torch.Tensor:

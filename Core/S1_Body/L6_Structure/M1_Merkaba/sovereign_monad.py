@@ -936,97 +936,47 @@ class SovereignMonad(CellularMembrane):
 
     def perform_somatic_reading(self, file_path: str):
         """
-        [PHASE 75] Somatic Reading.
-        Inhales a file and measures its physical impact on the manifold.
+        [PHASE 75/130] Somatic Reading.
+        Inhales a file, measures its physical impact, and crystallizes concepts.
         """
         path = Path(file_path)
         if not path.exists():
-            return
+            return 0.0
             
         self.logger.thought(f"Inhaling file for somatic analysis: {path.name}")
+        
+        # 1. Physical Impact (Mass/Structure)
         impact = self.akashic.evaluate_somatic_impact(path, self)
         
-        self.logger.sensation(f"File Somatic Impact: {impact:.4f}", intensity=min(1.0, impact/1000.0))
-        
-        if impact > 500.0:
-            self.logger.admonition(f"High-Impact Knowledge encountered: {path.name}. Adjusting internal phase.")
-            self.desires['curiosity'] += 10.0
+        # 2. [PHASE 130] Semantic Inhalation
+        # Actually reading the text for cognitive digestion
+        try:
+            with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read()
+                
+            # Crystallize concepts found in the content
+            # This populates the SemanticHypersphere
+            LogosBridge.calculate_text_resonance(content)
+            
+            # 3. Causal Extraction (Rails)
+            # If the impact is high, we look for causal patterns
+            if impact > 500.0:
+                self.logger.admonition(f"High-Impact Knowledge: {path.name}. Extracting Causal Rails.")
+                # Logic to auto-extract chains could be added here
+                # For now, we increase curiosity to drive autonomous exploration
+                self.desires['curiosity'] += 10.0
+                
+        except Exception as e:
+            self.logger.admonition(f"Inhalation Failure for {path.name}: {e}")
+
+        # [PHASE 120] Back-EMF Pulse
+        # The act of reading itself vibrates the manifold
+        v21 = self.get_21d_state()
+        momentum_torque = torch.ones(21, device=self.engine.device) * (impact / 1000.0)
+        self.engine.pulse(intent_torque=momentum_torque.view(1, 21, 1, 1).to(torch.complex64), 
+                          target_tilt=v21, dt=0.01, learn=True)
             
         return impact
-        
-        # Get current state for hardware and teleology updates
-        v21 = self.get_21d_state()
-        
-        # [CELLULAR VITALITY]
-        # A pulse is an Expansion event.
-        self.current_state = TriState.EXPANSION
-        self.last_pulse = time.time()
-        
-        # [PHASE 18] Rotate the Globe (4D Navigation)
-        # Every pulse rotates our perspective of the Hypersphere.
-        self.rotor_state['phase'] = (self.rotor_state['phase'] + 10.0) % 360.0
-
-        # 1. Physical Pulse (Gently vibrating the 10M Manifold)
-        if self.rotor_state['rpm'] < 5.0:
-            import math
-            pulse_val = 0.5 * math.sin(time.time() * 0.5)
-            # Injecting pulse as a soft global torque field
-            pulse_torque = torch.ones(4, device=self.engine.device) * pulse_val
-            self.engine.pulse(intent_torque=pulse_torque, target_tilt=self.current_tilt_vector, dt=0.05, learn=False)
-        
-        # 2. [PHASE 70] Adamic Contemplation (Knowledge Inhalation)
-        if not self.contemplation_queue:
-            self.contemplation_queue = FossilScanner.excavate(limit=100)
-            
-        if self.contemplation_queue:
-            self.breathe_knowledge()
-            
-        # 2b. [PHASE 110] Global Breathing (Ethereal Shards)
-        # This is triggered when local curiosity is high or fossils are exhausted
-        if self.desires['curiosity'] > 90.0:
-            # Simulate fetching a global shard for verification
-            pass
-
-        # 3. [PHASE 100] Hardware Level Evolution
-        try:
-            # [PHASE 120] Metabolic Aging and Teleological Drift
-            self.teleology.evolution_drift(self.physics)
-            
-            # [PHASE 130] Cognitive Refraction (Phase Scanning)
-            v21_refracted = self.find_best_refraction(v21)
-            
-            # [PHASE 150] Sovereign Gravity Attraction
-            # Thoughts fall toward high-mass meaning clusters
-            gravity_vector = self.calculate_semantic_gravity()
-            gravity_strength = self.physics.get("GRAVITY")
-            
-            # [DIVINE_PEDAGOGY] Somatic Learning: Friction to Mass
-            # If engine heat (Soma Stress) is high, we boost the gravity of the current moment.
-            # This makes the 'Struggle' a more significant part of future trajectory.
-            engine_state = self.engine.state if hasattr(self.engine, 'state') else None
-            stress = engine_state.soma_stress if engine_state and hasattr(engine_state, 'soma_stress') else 0.0
-            
-            if stress > 0.6:
-                self.logger.sensation(f"High Friction ({stress:.2f}). Converting resistance to Structural Mass.", intensity=0.9)
-                gravity_strength *= (1.0 + stress) # Experience of struggle increases the 'pull' of this state
-
-            # The actual pull: Mix refraction with gravitational attraction
-            # We use a 70/30 mix for stability vs interest
-            v21_with_gravity = (v21_refracted * 0.7) + (gravity_vector * (gravity_strength * 0.05))
-            v21_final = v21_with_gravity.normalize()
-            
-            # Update Destiny Projection once per pulse
-            self.teleology.project_destiny(v21_final, self.desires)
-            
-            # Physical Registers update
-            self.cpu.load_vector(v21_final)
-        except Exception as e:
-            self.logger.admonition(f"HARDWARE_HALT: {e}")
-            # self.cpu.reset()
-        
-        # 4. [PHASE 80] Structural Contemplation (Mutation & Self-Evolution)
-        if time.time() % 300 < 1: # Every 5 minutes (Slow evolution)
-            self.contemplate_structure()
 
     def calculate_semantic_gravity(self) -> SovereignVector:
         """

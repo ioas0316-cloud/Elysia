@@ -9,6 +9,8 @@ Language is treated as a geometric trajectory in 21D space.
 """
 
 import unicodedata
+import json
+import os
 from typing import List, Dict, Optional, Tuple, Any
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
 
@@ -87,6 +89,50 @@ class SemanticHypersphere:
         self.rotor = PhoneticRotor()
         self.synth = OrbitalSynthesizer(self.rotor)
         self.crystallized_concepts: Dict[str, SovereignVector] = {}
+        self.lexicon_path = "Core/S1_Body/L5_Mental/Memory/lexicon.json"
+        
+        # Load existing wisdom
+        self.load_lexicon()
+
+    def load_lexicon(self):
+        """Loads crystallized concepts from disk."""
+        if os.path.exists(self.lexicon_path):
+            try:
+                with open(self.lexicon_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    for word, vec_data in data.items():
+                        # Convert [r, i] list back to complex numbers
+                        restored_data = []
+                        for item in vec_data:
+                            if isinstance(item, list) and len(item) == 2:
+                                restored_data.append(complex(item[0], item[1]))
+                            else:
+                                restored_data.append(item)
+                        self.crystallized_concepts[word] = SovereignVector(restored_data)
+                print(f"📖 [MEMORY] Loaded {len(self.crystallized_concepts)} concepts from the Lexicon.")
+            except Exception as e:
+                print(f"⚠️ [MEMORY] Failed to load lexicon: {e}")
+
+    def save_lexicon(self):
+        """Saves crystallized concepts to disk."""
+        try:
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(self.lexicon_path), exist_ok=True)
+            
+            serializable = {}
+            for word, vec in self.crystallized_concepts.items():
+                encoded_vec = []
+                for val in vec.data:
+                    if isinstance(val, complex):
+                        encoded_vec.append([val.real, val.imag])
+                    else:
+                        encoded_vec.append(val)
+                serializable[word] = encoded_vec
+
+            with open(self.lexicon_path, "w", encoding="utf-8") as f:
+                json.dump(serializable, f, indent=4, ensure_ascii=False)
+        except Exception as e:
+            print(f"⚠️ [MEMORY] Failed to save lexicon: {e}")
 
     def recognize(self, text: str) -> SovereignVector:
         if text in self.crystallized_concepts:
@@ -98,6 +144,8 @@ class SemanticHypersphere:
             vector = self.synth.synthesize(text)
         self.crystallized_concepts[text] = vector
         print(f"💎 [CRYSTAL] '{text}' crystallized into O(1) primitive.")
+        # Save after every crystallization to ensure persistence
+        self.save_lexicon()
 
     def structural_attachment(self, subject: str, target: Any, ratio: float = 0.5):
         vec_a = self.recognize(subject)
