@@ -28,6 +28,16 @@ class HolographicMemory:
         self.dimension = dimension
         # The Manifold is a complex vector representing the sum of all waves.
         # Initialize as Void (Zero Amplitude).
+
+        # [INTEGRATION NOTE]
+        # In the "GrandHelixEngine" (10M Cells) implementation, this manifold
+        # is physically realized as an array of TriBaseCells (Attract/Void/Repel).
+        # - Attract (+1) = Phase 0
+        # - Repel (-1)   = Phase PI
+        # - Void (0)     = Null Amplitude
+        # Here, we simulate the collective interference pattern using complex numbers.
+        # See: docs/S1_Body/L6_Structure/M6_Architecture/INTEGRATION_TRINARY_HOLOGRAPH.md
+
         self.manifold = np.zeros(self.dimension, dtype=np.complex128)
 
         # A registry of known frequencies (Concepts -> Phase Angle)
