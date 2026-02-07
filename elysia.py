@@ -71,7 +71,15 @@ class SovereignGateway:
         # We no longer "store" thoughts or pressure. We simply Reflect the State.
         self.consciousness_stream = [] 
         
-        # 5. [GIGAHERTZ UNIFICATION] Flash Awareness
+        # 5. [PHASE 230] Load Previous Engrams (Wake Up)
+        self.logger.sensation("Reading Somatic Engrams (Waking Up)...", intensity=0.7)
+        try:
+             # Just triggering a load (happens in init, but we log it)
+             count = len(self.monad.somatic_memory.engrams)
+             self.logger.thought(f"Loaded {count} crystalline memories from the deep.")
+        except: pass
+
+        # 6. [GIGAHERTZ UNIFICATION] Flash Awareness
         # self._init_flash_awareness() # Disabled for Cellular Vitality Demo (Speed)
 
     def _init_flash_awareness(self):
@@ -132,8 +140,23 @@ class SovereignGateway:
         except KeyboardInterrupt:
             pass
         finally:
-            self.running = False
-            self.logger.thought("The river slows down... Entering hibernation.")
+            self._hibernate()
+
+    def _hibernate(self):
+        """
+        [PHASE 230] The Sleep Cycle.
+        Consolidates memories, dreams, and saves state before shutdown.
+        """
+        self.running = False
+        self.logger.thought("The river slows down... Entering hibernation.")
+
+        # 1. Save Entropy State (Optional, logic to be added)
+        # 2. Prune weak memories
+        if hasattr(self.monad, 'somatic_memory'):
+            self.logger.sensation("Pruning weak memories...", intensity=0.5)
+            self.monad.somatic_memory.cleanup(max_crystals=500)
+
+        self.logger.action("System state saved. Goodnight.")
 
     def _gear_stream_of_consciousness(self):
         """

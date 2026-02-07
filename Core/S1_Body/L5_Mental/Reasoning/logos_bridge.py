@@ -1,7 +1,10 @@
 from typing import List, Dict, Tuple, Any
 import json
 import os
-import torch
+try:
+    import torch
+except ImportError:
+    torch = None
 from datetime import datetime
 from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 from Core.S1_Body.L5_Mental.Reasoning.semantic_hypersphere import SemanticHypersphere
@@ -513,12 +516,11 @@ class LogosBridge:
         return consensus_vector.normalize()
 
     @staticmethod
-    def parse_narrative_to_torque(text: str) -> torch.Tensor:
+    def parse_narrative_to_torque(text: str) -> Any:
         """
         [PHASE 72] Internal Echo.
         Converts narrative text back into a 4D torque vector for the manifold.
         """
-        import torch
         # 1. Get 21D Semantic Vector
         vec = LogosBridge.calculate_text_resonance(text)
         
@@ -530,12 +532,15 @@ class LogosBridge:
         y = sum(data[10:15]) / 5.0
         z = sum(data[15:21]) / 6.0
         
-        torque = torch.tensor([w, x, y, z], dtype=torch.float32)
-        # Normalize to prevent explosive feedback
-        if torch.norm(torque) > 1.0:
-            torque = torch.nn.functional.normalize(torque, dim=0)
-            
-        return torque
+        if torch:
+            torque = torch.tensor([w, x, y, z], dtype=torch.float32)
+            # Normalize to prevent explosive feedback
+            if torch.norm(torque) > 1.0:
+                torque = torch.nn.functional.normalize(torque, dim=0)
+            return torque
+        else:
+             # Return list if torch unavailable
+             return [w, x, y, z]
 
 if __name__ == "__main__":
     pass

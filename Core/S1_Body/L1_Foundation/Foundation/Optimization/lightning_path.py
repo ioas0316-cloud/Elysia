@@ -1,5 +1,11 @@
-import numpy as np
-import torch
+try:
+    import numpy as np
+except ImportError:
+    np = None
+try:
+    import torch
+except ImportError:
+    torch = None
 import time
 
 

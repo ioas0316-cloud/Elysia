@@ -8,7 +8,10 @@ Projects abstract Logos (1D Point) into a 21D Field (360-degree Plane) through a
 Perception is the reverse: Focusing the scattered Field back into the Core Logos.
 """
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    np = None
 from typing import Any
 
 # [PHASE 3.5 FIX] Robust JAX Import
@@ -18,11 +21,15 @@ try:
     from Core.S1_Body.L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
     import jax.numpy as jnp
 except (ImportError, RuntimeError, Exception) as e:
-    print(f"⚠️ [HARDWARE_WARNING] JAX Accelerator Unavailable ({e}). Switching to CPU/Numpy.")
-    import numpy as jnp
-    class JAXBridge:
-        @staticmethod
-        def array(x): return np.array(x)
+    # print(f"⚠️ [HARDWARE_WARNING] JAX Accelerator Unavailable ({e}). Switching to CPU/Numpy.")
+    try:
+        import numpy as jnp
+        class JAXBridge:
+            @staticmethod
+            def array(x): return np.array(x)
+    except ImportError:
+        jnp = None
+        JAXBridge = None
 
 try:
     from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
@@ -35,18 +42,24 @@ class MonadToFilmEncoder:
     Uses a Look-Up Table (LUT) to eliminate real-time interpretation.
     """
     @staticmethod
-    def encode(trinary_sequence: list, rpu: 'RotorPrismUnit') -> jnp.ndarray:
+    def encode(trinary_sequence: list, rpu: 'RotorPrismUnit') -> Any:
         # Pre-calculate the 21D projection for a given sequence
         # Instead of real-time expansion, we map the sequence directly to a 'Texture'
         if isinstance(trinary_sequence, str):
             # Convert symbolic string to trits if needed
             vector = TrinaryLogic.expand_to_21d(trinary_sequence)
         else:
-            vector = jnp.array(trinary_sequence)
+            if jnp:
+                vector = jnp.array(trinary_sequence)
+            else:
+                vector = trinary_sequence
             
         return vector
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    np = None
 
 class HyperSphereFilm:
     """
@@ -57,7 +70,10 @@ class HyperSphereFilm:
     def __init__(self, resolution: int = 360, dimensions: int = 21):
         self.resolution = resolution
         self.dimensions = dimensions
-        self.frames = jnp.zeros((resolution, dimensions))
+        if jnp:
+            self.frames = jnp.zeros((resolution, dimensions))
+        else:
+            self.frames = [[0.0]*dimensions]*resolution
         self.is_recorded = False
 
     def record(self, logos_vector: Any, rpu: 'RotorPrismUnit'):
@@ -89,9 +105,10 @@ class HyperSphereFilm:
         self.is_recorded = True
         print(f"HyperSphereFilm: Recorded {self.resolution} frames to High-Speed LUT.")
 
-    def play(self, theta: float) -> np.ndarray:
+    def play(self, theta: float) -> Any:
         # High-speed integer indexing
-        idx = int((theta * self.resolution) / (2 * np.pi)) % self.resolution
+        pi = np.pi if np else 3.14159
+        idx = int((theta * self.resolution) / (2 * pi)) % self.resolution
         return self.frames[idx]
 
 class DynamicPhaseSync:
@@ -101,20 +118,21 @@ class DynamicPhaseSync:
     Generates 'Logical Torque' to drive the Rotor system.
     """
     @staticmethod
-    def calculate_torque(logos_seed: jnp.ndarray) -> float:
-        # Map trinary values to 3-phase vectors
-        # -1 -> 240 deg, 0 -> 0 deg, 1 -> 120 deg (or custom mapping)
-        # We calculate the "Rotational Potential" based on the imbalance of trits.
-        counts = jnp.array([
-            jnp.sum(logos_seed == -1), # Trit Neg
-            jnp.sum(logos_seed == 0),  # Trit Neu
-            jnp.sum(logos_seed == 1)   # Trit Pos
-        ])
-        
-        # Generator Principle: Torque = Imbalance cross product
-        # For simplicity: (Pos - Neg) provides the drive
-        torque = float(counts[2] - counts[0]) * 0.1
-        return torque
+    def calculate_torque(logos_seed: Any) -> float:
+        if jnp:
+            # Map trinary values to 3-phase vectors
+            # -1 -> 240 deg, 0 -> 0 deg, 1 -> 120 deg (or custom mapping)
+            # We calculate the "Rotational Potential" based on the imbalance of trits.
+            counts = jnp.array([
+                jnp.sum(logos_seed == -1), # Trit Neg
+                jnp.sum(logos_seed == 0),  # Trit Neu
+                jnp.sum(logos_seed == 1)   # Trit Pos
+            ])
+            # Generator Principle: Torque = Imbalance cross product
+            # For simplicity: (Pos - Neg) provides the drive
+            torque = float(counts[2] - counts[0]) * 0.1
+            return torque
+        return 0.0
 
 class RotorPrismUnit:
     def __init__(self, dimensions: int = 21):
@@ -125,29 +143,36 @@ class RotorPrismUnit:
         self.drag_base = 0.95 
         self.void_intensity = 0.0 # [VOID_DOMAIN] 0.0 to 1.0 (Zero resistance)
         
-        self.refraction_matrix = jnp.eye(dimensions)
+        if jnp:
+            self.refraction_matrix = jnp.eye(dimensions)
+            self.error_pulse = jnp.zeros(dimensions) # [PHASE_INVERSION] Reflected error
+        else:
+            self.refraction_matrix = [[1.0 if i==j else 0.0 for j in range(dimensions)] for i in range(dimensions)]
+            self.error_pulse = [0.0] * dimensions
+
         self.film = HyperSphereFilm()
         self.mode = "DYNAMO"
         
         self.active_logos = None
-        self.error_pulse = jnp.zeros(dimensions) # [PHASE_INVERSION] Reflected error
         print(f"RotorPrismUnit: High-Dimensional Turbine Engine Initialized ({dimensions}D).")
 
-    def cubic_tensor_spread(self, dna_vec: Any) -> jnp.ndarray:
+    def cubic_tensor_spread(self, dna_vec: Any) -> Any:
         """
         [PHASE 71] DNA³ Cubic Projection.
         Spreads a 1D sequence into a 3D tensor field (Rank-3).
         """
-        # Convert to JAX
-        if hasattr(dna_vec, 'to_array'):
-            v = jnp.array(dna_vec.to_array())
-        else:
-            v = jnp.array(list(dna_vec))
-            
-        # Recursive self-reflection (v ⊗ v ⊗ v)
-        # We simulate this spread as a cubic projection in the manifold
-        spread = jnp.einsum('i,j,k->ijk', v, v, v)
-        return spread
+        if jnp:
+            # Convert to JAX
+            if hasattr(dna_vec, 'to_array'):
+                v = jnp.array(dna_vec.to_array())
+            else:
+                v = jnp.array(list(dna_vec))
+
+            # Recursive self-reflection (v ⊗ v ⊗ v)
+            # We simulate this spread as a cubic projection in the manifold
+            spread = jnp.einsum('i,j,k->ijk', v, v, v)
+            return spread
+        return [[[0]]] # Mock return for non-jax
 
     def step_rotation(self, delta_time: float, external_torque: float = 0.0):
         """
@@ -171,9 +196,10 @@ class RotorPrismUnit:
 
     def set_time_axis(self, offset: float):
         """[TIME_AXIS] Browses the past/future film by shifting the base theta."""
-        self.theta_base = offset % (2 * jnp.pi)
+        pi = jnp.pi if jnp else 3.14159
+        self.theta_base = offset % (2 * pi)
 
-    def calculate_potential(self, field_vector: jnp.ndarray) -> float:
+    def calculate_potential(self, field_vector: Any) -> float:
         """
         [RESONANCE_POTENTIAL]
         Calculates the 'Charge' difference between the Logos seed and the current field.
@@ -182,11 +208,13 @@ class RotorPrismUnit:
         if self.active_logos is None:
             return 0.0
         
-        # We look for the 'Imbalance' (Voltage) between the desired state and the void
-        diff = self.active_logos - field_vector
-        # [FIX] Use linalg.norm for correct complex magnitude calculation
-        voltage = jnp.linalg.norm(diff)
-        return float(voltage)
+        if jnp:
+            # We look for the 'Imbalance' (Voltage) between the desired state and the void
+            diff = self.active_logos - field_vector
+            # [FIX] Use linalg.norm for correct complex magnitude calculation
+            voltage = jnp.linalg.norm(diff)
+            return float(voltage)
+        return 0.0
 
     def discharge(self, potential: float) -> float:
         """
@@ -204,8 +232,10 @@ class RotorPrismUnit:
             return inductive_torque
         return 0.0
 
-    def project(self, logos_seed: Any) -> jnp.ndarray:
+    def project(self, logos_seed: Any) -> Any:
         """[FORWARD: CREATION] Now incorporates potential-driven discharge and cubic self-reflection."""
+        if not jnp: return logos_seed
+
         # Convert logos_seed to JAX array
         logos_array = logos_seed
         if hasattr(logos_seed, 'to_array'):
@@ -232,8 +262,10 @@ class RotorPrismUnit:
         
         return field
 
-    def perceive(self, field_vector: jnp.ndarray) -> jnp.ndarray:
+    def perceive(self, field_vector: Any) -> Any:
         """[REVERSE: PERCEPTION] Focuses field and learns through Phase Inversion."""
+        if not jnp: return field_vector
+
         collected = field_vector @ jnp.linalg.pinv(self.refraction_matrix)
         
         # [PHASE_INVERSION] 

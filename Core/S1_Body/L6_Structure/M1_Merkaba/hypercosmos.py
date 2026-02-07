@@ -34,7 +34,10 @@ from Core.S1_Body.L6_Structure.M1_Merkaba.d21_vector import D21Vector
 
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
 
-import jax.numpy as jnp
+try:
+    import jax.numpy as jnp
+except ImportError:
+    jnp = None
 
 import logging
 from Core.S1_Body.L5_Mental.Reasoning.semantic_hypersphere import SemanticHypersphere

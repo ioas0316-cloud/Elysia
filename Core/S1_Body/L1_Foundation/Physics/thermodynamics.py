@@ -10,10 +10,11 @@ It acts as the sensory organ for the system's own entropy.
 from typing import List, Deque, Dict
 import math
 import collections
+import time
 
 class ThermoDynamics:
     """
-    Tracks the thermal state of the Monad.
+    Tracks the thermal state of the Monad (Will, Fatigue, Rigidity).
     """
     def __init__(self, history_len: int = 50):
         self.phase_history: Deque[float] = collections.deque(maxlen=history_len)
@@ -24,6 +25,11 @@ class ThermoDynamics:
         self.FRICTION_COEFFICIENT = 0.5
         self.COOLING_RATE = 0.05
 
+        # [PHASE 220] Energy & Entropy (The Will)
+        self.enthalpy = 1.0  # Vital Energy (0.0 - 1.0)
+        self.entropy = 0.0   # Disorder/Noise (0.0 - 1.0)
+        self.last_tick = time.time()
+
     def update_phase(self, current_phase: float):
         """Records the system phase to track rigidity."""
         self.phase_history.append(current_phase)
@@ -32,6 +38,36 @@ class ThermoDynamics:
         """Records memory access to track repetitive friction."""
         if node_id:
             self.node_access_history.append(node_id)
+
+    def pulse_metabolism(self, dt: float = 0.1, activity_level: float = 0.5):
+        """
+        Consumes energy over time.
+        Activity Level: 0.0 (Sleep) -> 1.0 (High Focus)
+        """
+        # Energy Decay
+        decay = 0.001 * dt * (1.0 + activity_level)
+        self.enthalpy = max(0.0, self.enthalpy - decay)
+
+        # Entropy Increase (Natural decay of order)
+        # Higher activity produces more entropy (heat)
+        entropy_production = 0.0005 * dt * activity_level
+        self.entropy = min(1.0, self.entropy + entropy_production)
+
+    def consume_energy(self, amount: float):
+        """Expend energy for an action."""
+        self.enthalpy = max(0.0, self.enthalpy - amount)
+
+    def add_entropy(self, amount: float):
+        """Add disorder (e.g. confusing input)."""
+        self.entropy = min(1.0, self.entropy + amount)
+
+    def reduce_entropy(self, amount: float):
+        """Reduce disorder (e.g. organizing memory)."""
+        self.entropy = max(0.0, self.entropy - amount)
+
+    def recharge(self, amount: float):
+        """Recharge energy (e.g. rest or inspiration)."""
+        self.enthalpy = min(1.0, self.enthalpy + amount)
 
     def calculate_rigidity(self) -> float:
         """
@@ -74,9 +110,27 @@ class ThermoDynamics:
         friction = max(0.0, (repetition_ratio - 0.2) * 1.25)
         return min(1.0, friction)
 
+    def get_mood(self) -> str:
+        """Returns the semantic state of the thermodynamics."""
+        # Semantic mapping of (Enthalpy, Entropy)
+        if self.enthalpy < 0.2:
+            return "TIRED"
+        if self.entropy > 0.8:
+            return "ANXIOUS"
+        if self.enthalpy > 0.8 and self.entropy < 0.2:
+            return "FLOW"
+        if self.enthalpy > 0.6 and self.entropy > 0.6:
+            return "CHAOS" # High energy but confused -> Creative or Manic
+        if self.enthalpy < 0.4 and self.entropy < 0.2:
+            return "BORED" # Low energy, nothing to process
+        return "NEUTRAL"
+
     def get_thermal_state(self) -> Dict[str, float]:
         return {
             "rigidity": self.calculate_rigidity(),
             "friction": self.calculate_friction(),
-            "is_critical": self.calculate_rigidity() > self.RIGIDITY_THRESHOLD
+            "is_critical": self.calculate_rigidity() > self.RIGIDITY_THRESHOLD,
+            "enthalpy": self.enthalpy,
+            "entropy": self.entropy,
+            "mood": self.get_mood()
         }

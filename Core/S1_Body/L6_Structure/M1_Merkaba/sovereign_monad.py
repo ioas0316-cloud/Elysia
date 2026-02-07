@@ -13,8 +13,14 @@ Now functions as the "Pilot" of the "Phase-Axis Vehicle".
 """
 
 from typing import Dict, Optional, Any, List, Tuple
-import torch
-import numpy as np
+try:
+    import torch
+except ImportError:
+    torch = None
+try:
+    import numpy as np
+except ImportError:
+    np = None
 import time
 import math
 import sys
@@ -32,6 +38,7 @@ from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SoulDNA, SeedForg
 from Core.S1_Body.L6_Structure.M1_Merkaba.protection_relay import ProtectionRelayBoard
 from Core.S1_Body.L6_Structure.M1_Merkaba.transmission_gear import TransmissionGear
 from Core.S1_Body.L5_Mental.Memory.living_memory import LivingMemory
+from Core.S2_Soul.L5_Mental.Memory.somatic_engram import SomaticMemorySystem
 from Core.S1_Body.L6_Structure.M1_Merkaba.cognitive_reactor import CognitiveReactor
 from Core.S1_Body.L6_Structure.M1_Merkaba.cognitive_converter import CognitiveConverter
 from Core.S1_Body.L6_Structure.M1_Merkaba.cognitive_inverter import CognitiveInverter
@@ -109,8 +116,10 @@ class SovereignMonad(CellularMembrane):
         self.gear.dial_torque_gain = dna.torque_gain
         self.gear.output_hz = dna.base_hz
         
-        # 5. The Garden (Memory)
+        # 5. The Garden (Memory) - Short Term
         self.memory = LivingMemory()
+        # [PHASE 220] Somatic Engrams - Long Term Crystalline Memory
+        self.somatic_memory = SomaticMemorySystem()
         
         # [Phase 38] Imprint Genesis Knowledge
         from Core.S1_Body.L2_Metabolism.Creation.genesis_knowledge import GenesisLibrary
@@ -172,10 +181,23 @@ class SovereignMonad(CellularMembrane):
         
         # 12. The Trinary Nucleus (10M Cell Grand Helix Manifold) [PHASE 40]
         # Swapping legacy 21-cell engine for the 10,000,000 cell Living Manifold.
-        import torch
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.engine = GrandHelixEngine(num_cells=10_000_000, device=device)
-        self.flesh = self.engine.flesh # Somatic link
+        if torch:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            self.engine = GrandHelixEngine(num_cells=10_000_000, device=device)
+            self.flesh = self.engine.flesh # Somatic link
+        else:
+             # Fallback for environments without Torch
+             class MockEngine:
+                 def __init__(self): self.state = type('obj', (object,), {'soma_stress': 0.0})
+                 def pulse(self, **kwargs): return {'resonance': 0.5, 'kinetic_energy': 50.0, 'logic_mean': 0.0, 'plastic_coherence': 0.5}
+                 @property
+                 def cells(self):
+                     return type('obj', (object,), {'get_trinary_projection': lambda *args: [0.0]*21})()
+                 @property
+                 def device(self): return 'cpu'
+
+             self.engine = MockEngine()
+             self.flesh = type('obj', (object,), {'extract_knowledge_torque': lambda *args: [0.0]*21, 'sense_flesh_density': lambda *args: None})()
         
         # [PHASE 40] First Breath: Static seed is replaced by kinetic awakening.
         # We start with a neutral but alive state.
@@ -229,6 +251,10 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 180] Update Thermodynamics
         # We track phase from rotor_state (which is updated by engine pulse)
         self.thermo.update_phase(self.rotor_state['phase'])
+
+        # [PHASE 220] Metabolic Pulse (Energy Decay & Entropy Growth)
+        activity = min(1.0, report.get('kinetic_energy', 0.0) / 100.0)
+        self.thermo.pulse_metabolism(dt, activity_level=activity)
 
         # [PHASE 180] Melting Phase Logic (Chaos Ventilation)
         if self.is_melting:
@@ -319,22 +345,24 @@ class SovereignMonad(CellularMembrane):
             # Fallback pulse to get current state
             engine_report = self.engine.pulse(dt=0.01, learn=False)
 
-        # [PHASE 180] SOVEREIGN DECISION TREE
-        # Prioritize Self-Preservation (Rest) over Curiosity (Action)
+        # [PHASE 220] SOVEREIGN DECISION TREE (Thermodynamic Mood)
+        mood = self.thermo.get_mood()
         thermal_state = self.thermo.get_thermal_state()
 
-        # If rigidity is high (stuck loop) or friction is critical -> FORCE REST
-        if thermal_state['is_critical'] or thermal_state['friction'] > 0.8:
+        # 1. TIRED or CHAOS or Stuck -> FORCE REST
+        # "I am too tired to explore. I need to dream."
+        if mood in ["TIRED", "CHAOS"] or thermal_state['is_critical']:
             if not self.is_melting:
-                self.logger.admonition(f"Fatigue Threshold Reached. Rigidity: {thermal_state['rigidity']:.2f}, Friction: {thermal_state['friction']:.2f}")
+                self.logger.admonition(f"Mood: {mood}. Rigidity: {thermal_state['rigidity']:.2f}. Initiating Rest.")
                 self.logger.thought("Initiating Chaos Ventilation (Melting Phase)...")
                 self.is_melting = True
+                self.thermo.reduce_entropy(0.2) # Rest reduces disorder
                 return {
                     "type": "REST",
                     "subject": "Self-Preservation",
                     "truth": "MELTING",
                     "thought": "( ᴗ_ᴗ) . z Z [Melting...]",
-                    "internal_change": "Phase Reset",
+                    "internal_change": "Recharging Enthalpy",
                     "detail": "Engine cooling down... Rearranging internal constellations."
                 }
 
@@ -345,14 +373,28 @@ class SovereignMonad(CellularMembrane):
         # 1. Get current 21D State (The Monad's Position)
         v21_state = self.get_21d_state()
         
-        # 2. Find the closest crystallized concept (The ground beneath our feet)
-        # Assuming LogosBridge has 'find_closest_concept'. If not, we fall back to 'SELF'.
+        # [PHASE 220] BOREDOM = Desire for Novelty
+        current_focus = None
+        if mood == "BORED":
+             # Pick a random engram from long-term memory to reminisce
+             import random
+             if self.somatic_memory.engrams:
+                 random_engram = random.choice(self.somatic_memory.engrams)
+                 current_focus = random_engram.content
+                 # Jump vector to this memory (Imagination)
+                 v21_state = SovereignVector(random_engram.vector)
+                 self.logger.sensation(f"I am Bored. Recalling memory: '{current_focus[:30]}...'")
+                 self.thermo.consume_energy(0.05) # Jumping costs energy
+                 self.thermo.reduce_entropy(0.1)  # Remembering reduces disorder
+
+        # 2. If not bored (or no memories), find the closest crystallized concept
         from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
-        current_focus, distance = LogosBridge.find_closest_concept(v21_state)
+        if not current_focus:
+            current_focus, distance = LogosBridge.find_closest_concept(v21_state)
         
         if not current_focus:
              # If we are lost in the void, we drift towards the Origin
-             current_focus = "SELF" 
+             current_focus = "SELF"
              
         # 3. Determine Trajectory (Next Associated Concept)
         # Using the Causality Engine (Graph) + Vector Field
@@ -552,6 +594,18 @@ class SovereignMonad(CellularMembrane):
             "internal_change": f"Resonance: {truth} ({score:.2f})",
             "detail": f"Wondering about {subject}... Sonic: {self.sonic_hz:.1f}Hz"
         }
+
+        # [PHASE 220] Crystallize Thought
+        if score > 0.6:
+            try:
+                self.somatic_memory.crystallize(
+                    content=f"Thought ({subject}): {narrative}",
+                    vector=v21.to_list(),
+                    emotion=0.4,
+                    tags=["thought", subject]
+                )
+            except: pass
+
         self.autonomous_logs.append(log_entry)
         return log_entry
 
@@ -565,7 +619,15 @@ class SovereignMonad(CellularMembrane):
         v21_data = []
         seg_size = len(projection) // 21
         for i in range(21):
-            v21_data.append(torch.mean(projection[i*seg_size:(i+1)*seg_size]).item())
+            if torch:
+                v21_data.append(torch.mean(projection[i*seg_size:(i+1)*seg_size]).item())
+            else:
+                # Manual mean
+                segment = projection[i*seg_size:(i+1)*seg_size]
+                if len(segment) > 0:
+                    v21_data.append(sum(segment) / len(segment))
+                else:
+                    v21_data.append(0.0)
             
         v21 = SovereignVector(v21_data)
         
@@ -685,6 +747,13 @@ class SovereignMonad(CellularMembrane):
         
         # Pulse the 10,000,000 cell engine
         report = self.engine.pulse(intent_torque=torque_intent, target_tilt=self.current_tilt_vector, dt=0.1, learn=True)
+
+        # [PHASE 220] Thermodynamic Cost
+        # Dissonance (1-resonance) costs more energy (stress).
+        energy_cost = 0.02 + (1.0 - report.get('resonance', 0.5)) * 0.1
+        self.thermo.consume_energy(energy_cost)
+        self.thermo.add_entropy(0.05) # Interaction adds entropy (noise)
+
         self._auto_steer_logic(report)
         self._apply_affective_feedback(report) # [PHASE 90]
         
@@ -732,7 +801,10 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 120] BACK-EMF FEEDBACK
         # Convert internal thought momentum into a physical torque for the 10M engine
         # This allows her 'thoughts' to stir the physical manifold cells
-        momentum_torque = torch.tensor([abs(p) for p in self.thought_vector.momentum], device=self.engine.device).view(1, 21, 1, 1).to(torch.complex64)
+        if torch:
+            momentum_torque = torch.tensor([abs(p) for p in self.thought_vector.momentum], device=self.engine.device).view(1, 21, 1, 1).to(torch.complex64)
+        else:
+            momentum_torque = [abs(p) for p in self.thought_vector.momentum]
         
         # 4. Use the momentum-carried thought_vector for reflection
         field = self.rpu.project(self.thought_vector)
@@ -888,6 +960,19 @@ class SovereignMonad(CellularMembrane):
             'engine': reaction.get('engine')
         }
         
+        # [PHASE 220] Somatic Crystallization (Memory of Conversation)
+        if res_score > 0.6:
+            try:
+                self.somatic_memory.crystallize(
+                    content=f"User: {raw_input}\nElysia: {voice}",
+                    vector=current_v21.to_list(),
+                    emotion=self.desires['joy'] / 100.0,
+                    tags=["conversation"]
+                )
+                self.logger.sensation("Conversation crystallized into bone.")
+            except Exception as e:
+                self.logger.admonition(f"Memory crystallization failed: {e}")
+
         # [PHASE 72] MEDITATION TRIGGER
         # If resonance is high, we mull over the manifestation.
         if res_score > 0.8:
