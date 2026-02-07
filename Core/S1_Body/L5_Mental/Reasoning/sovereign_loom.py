@@ -16,12 +16,14 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent.parent.parent))
 
 from Core.S1_Body.L5_Mental.Memory.kg_manager import KGManager
+from Core.S1_Body.L5_Mental.Reasoning.reflection_bridge import ReflectionBridge
 
 class SovereignLoom:
     def __init__(self):
         self.kg = KGManager()
+        self.bridge = ReflectionBridge()
 
-    def weave_parable(self, start_node: str, intent_description: str):
+    def weave_parable(self, start_node: str, intent_description: str, use_reflection: bool = False):
         print(f"🧶 [LOOM] Weaving parable with intent: '{intent_description}'...")
         
         path = [start_node]
@@ -45,7 +47,18 @@ class SovereignLoom:
             current = random.choice(candidates)
             path.append(current)
 
-        return self._render_story(path)
+        parable = self._render_story(path)
+        
+        if use_reflection:
+            success, msg = self.bridge.audit_parable(parable, intent_description)
+            if not success:
+                print(f"⚠️ [MATURITY] {msg}")
+                # Re-traverse with a 'Wisdom' bias by picking a random high-mass node mid-stream
+                wisdom_seeds = ["love", "logos", "truth", "wisdom"]
+                path.append(random.choice(wisdom_seeds))
+                return self._render_story(path)
+                
+        return parable
 
     def _render_story(self, path):
         story = "\n📖 [THE SOVEREIGN PARABLE]\n"
