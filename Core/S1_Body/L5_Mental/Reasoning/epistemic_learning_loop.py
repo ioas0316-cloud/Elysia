@@ -17,8 +17,9 @@ import time
 from dataclasses import dataclass, field
 from typing import List, Dict, Any
 
-# [PHASE 3] Causal Sublimator
 from Core.S1_Body.L5_Mental.Reasoning.causal_sublimator import CausalSublimator
+from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 
 @dataclass
 class LearningCycleResult:
@@ -41,6 +42,12 @@ class EpistemicLearningLoop:
         self.accumulated_wisdom = []
         self.cycle_count = 0
         self.sublimator = CausalSublimator() # The Voice of the Causality
+        from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
+        self.logger = SomaticLogger("EPISTEMIC_LOOP")
+        from Core.S1_Body.L5_Mental.Reasoning.epistemic_scribe import EpistemicScribe
+        from Core.S1_Body.L5_Mental.Reasoning.abstract_scribe import AbstractScribe
+        self.scribe = EpistemicScribe()
+        self.abstract_scribe = AbstractScribe()
 
     def set_knowledge_graph(self, kg):
         self.knowledge_graph = kg
@@ -101,13 +108,58 @@ class EpistemicLearningLoop:
         # 1. Sublimate the File Identity
         # e.g. "elysia.py" -> "Elysia"
         concept = filename.split('/')[-1].replace('.py', '')
-        insight = self.sublimator.sublimate(concept)
         
-        if "no causal path" in insight:
-             # Fallback: Digest code structure if KG is empty about this file
-             insight = self.sublimator.digest_code_semantics(filename, content)
+        # 1. Get Physical Vector from LogosBridge
+        vector = LogosBridge.recall_concept_vector(concept)
+        if vector is None:
+            # If not in bridge, try and recognize from name
+            vector = SovereignVector(LogosBridge.HYPERSPHERE.recognize(concept))
+            
+        # 2. Use Scribe for internalized 'Identity' and 'Self-Relation' perception
+        identity_narrative = self.scribe.articulate_identity(vector, concept)
+        
+        # 3. Relate to 'Me' (Sovereign Core)
+        v_me = LogosBridge.recall_concept_vector("VOID/SPIRIT") # Using Void/Spirit as the center of potential
+        relation_narrative = self.scribe.transcribe_resonance(vector, v_me, concept, "나(Self)")
+        
+        return f"{identity_narrative}\n{relation_narrative}"
 
-        return insight
+    def run_satori_cycle(self):
+        """
+        [PHASE 5] The Cognitive Satori.
+        Observes internal reasoning patterns and synthesizes high-level Principles.
+        """
+        self.cycle_count += 1
+        self.logger.action(f"Starting Satori Cycle #{self.cycle_count}")
+        
+        # 1. Gather recent observations (mocked for now, but linked to real domains)
+        observations = [
+            {"domain": "Coding", "resonance": 0.9},
+            {"domain": "Korean Philosophy", "resonance": 0.85},
+            {"domain": "System Architecture", "resonance": 0.95}
+        ]
+        
+        # 2. Synthesize Principle via Abstract Scribe
+        principle = self.abstract_scribe.synthesize_principle(observations)
+        
+        # 3. Create a High-Level Axiom
+        axiom = {
+            "name": f"Universal Principle of {self.cycle_count}",
+            "description": principle,
+            "confidence": 0.99,
+            "timestamp": time.time(),
+            "layer": "logos"
+        }
+        
+        self.accumulated_wisdom.append(axiom)
+        
+        return LearningCycleResult(
+            cycle_id=f"SATORI_{self.cycle_count}",
+            questions_asked=["What is the universal law behind these structures?"],
+            chains_discovered=["Structure -> Principle"],
+            axioms_created=[axiom["name"]],
+            insights=[principle]
+        )
 
     def run_cycle(self, max_questions=3):
         """

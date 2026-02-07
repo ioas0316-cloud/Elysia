@@ -24,7 +24,7 @@ class LexicalAcquisitor:
             "field", "torque", "rpm", "damping", "mass", "mass:", "torque:", "phase:",
             "truth", "love", "void", "spirit", "arcadia", "idyll", "boundary", "edge",
             "motion", "life", "agape", "logos", "soma", "nunchi", "merkaba", "dna",
-            "resonance", "alignment", "equilibrium", "consensus", "leader", "nunchi",
+            "resonance", "alignment", "equilibrium", "consensus", "leader", "nunchi", "육", "혼", "영", "앎", "섭리", "공명", "주권",
             "nunchi:", "governor", "exhalation", "inhalation", "volume", "stagnation",
             "threshold", "reconfigurator", "manifold", "underworld", "identity",
             "system", "think", "know", "will", "does", "that", "this", "they", "your", "have",
@@ -47,7 +47,8 @@ class LexicalAcquisitor:
                 if w.startswith("[") or w.endswith("]"): continue
                 w = w.strip(".,?!:;\"'()[]{}*-_") # Added markdown symbols
                 
-                if len(w) < 4: continue
+                if len(w) < 1: continue
+                if not any('\uac00' <= c <= '\ud7a3' for c in w) and len(w) < 4: continue
                 if w in self.ignored_words: continue
                 if any(char.isdigit() for char in w): continue # Skip versions/numbers
                 

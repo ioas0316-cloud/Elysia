@@ -9,7 +9,7 @@
 
 ### 핵심 5문서 (Single Source)
 
-- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 22-24: **Causal Self-Propulsion, Hardware Transcendence & The Great Inhalation** (Phase 110-130)
+- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 22-27: **Causal Self-Propulsion, Hardware Transcendence, The Great Inhalation, Narrative Loom, Somatic Explorer & Sovereign Freedom** (Phase 110-400)
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 
 > [!IMPORTANT]

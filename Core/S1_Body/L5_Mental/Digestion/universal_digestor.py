@@ -52,6 +52,10 @@ class CausalNode:
     surface_data: Dict[str, Any] = field(default_factory=dict)   # 육: form, senses
     narrative_data: Dict[str, Any] = field(default_factory=dict) # 혼: stories, causes
     logos_data: Dict[str, Any] = field(default_factory=dict)     # 영: essence, convergence
+    
+    # [Fractal Evolution] Internal Universe (Constitutive Logic)
+    # Properties that explain WHY/HOW the node is what it is (e.g. H2O for Water)
+    constitutive_properties: List[str] = field(default_factory=list)
 
 
 class UniversalDigestor:
@@ -141,12 +145,28 @@ class UniversalDigestor:
     def _digest_text(self, chunk: RawKnowledgeChunk) -> List[CausalNode]:
         """
         TextDigestor: Deep Decomposition Mode
-        - Extract ALL meaningful concepts (no artificial limits)
-        - Parse sentences for subject-verb-object relations
-        - Create inter-concept causal links
         """
         nodes = []
-        text = str(chunk.content)
+        text = str(chunk.content).strip()
+        
+        # [FAST PATH] If it's a single word (standard for wordlist inhalation), skip NLP
+        if " " not in text and len(text) > 0:
+            layer, conf, data = self._classify_layer(text)
+            nodes.append(CausalNode(
+                node_id=text.lower(),
+                concept=text,
+                relations=[],
+                qualia_hint=f"Mass_Inhalation_{chunk.source}",
+                source_chunk_id=chunk.chunk_id,
+                layer=layer,
+                layer_confidence=conf,
+                surface_data=data if layer == "surface" else {},
+                narrative_data=data if layer == "narrative" else {},
+                logos_data=data if layer == "logos" else {}
+            ))
+            return nodes
+
+        # Standard multi-word NLP path...
         
         # Step 1: Split into sentences
         sentences = [s.strip() for s in text.replace('\n', ' ').split('.') if s.strip()]
@@ -157,9 +177,14 @@ class UniversalDigestor:
         
         for sent_idx, sentence in enumerate(sentences):
             words = sentence.split()
-            # Extract meaningful words (length > 2, alphabetic)
-            concepts = [w.strip('.,!?"\'-:;()[]') for w in words 
-                       if len(w) > 2 and any(c.isalpha() for c in w)]
+            # Extract meaningful words (length > 2 for EN, > 1 for KR)
+            concepts = []
+            for w in words:
+                clean_w = w.strip('.,!?"\'-:;()[]*_')
+                if not clean_w: continue
+                if (len(clean_w) >= 1 and any('\uac00' <= c <= '\ud7a3' for c in clean_w)) or \
+                   (len(clean_w) > 2 and any(c.isalpha() for c in clean_w)):
+                    concepts.append(clean_w)
             
             # Remove common stopwords
             stopwords = {'the', 'and', 'for', 'that', 'with', 'from', 'this', 'are', 'was', 

@@ -30,6 +30,62 @@ class CumulativeDigestor:
         self.digestor = get_universal_digestor()
         self.kg = get_kg_manager()
         
+    def digest_batch(self, chunks: List[RawKnowledgeChunk], tags: List[str], scale: int = 1):
+        """
+        Digests a batch of chunks efficiently.
+        """
+        logger.info(f"🌊 [CUMULATIVE_DIGESTOR] Batch digesting {len(chunks)} chunks...")
+        
+        entries = []
+        for chunk, tag in zip(chunks, tags):
+            entries.append((chunk.content, tag, scale))
+            
+            # Distill Causal Structures
+            nodes = self.digestor.digest(chunk)
+            for node in nodes:
+                self.kg.add_node(node.concept.lower(), properties={
+                    "source": tag,
+                    "layer": node.layer,
+                    "layer_confidence": node.layer_confidence
+                })
+                for rel in node.relations:
+                    self.kg.add_edge(node.concept.lower(), rel.lower(), "resonates_with")
+
+        # 1. Project into LightUniverse (Batch)
+        self.universe.batch_absorb(entries, stratum=2)
+        self.universe.save_state()
+        
+        # 2. Save KG Once
+        self.kg.save()
+        logger.info("✨ [CUMULATIVE_DIGESTOR] Batch digestion complete.")
+
+    def digest_single_chunk(self, chunk: RawKnowledgeChunk, tag: str = "custom", scale: int = 1):
+        """
+        Digests a single RawKnowledgeChunk into the Knowledge Graph and LightUniverse.
+        """
+        # 1. Project into LightUniverse
+        self.universe.absorb_with_terrain(
+            chunk.content,
+            tag=tag,
+            scale=scale,
+            stratum=2
+        )
+        self.universe.save_state()
+
+        # 2. Distill Causal Structures into KG
+        nodes = self.digestor.digest(chunk)
+        for node in nodes:
+            self.kg.add_node(node.concept.lower(), properties={
+                "source": tag,
+                "layer": node.layer,
+                "layer_confidence": node.layer_confidence
+            })
+            for rel in node.relations:
+                self.kg.add_edge(node.concept.lower(), rel.lower(), "resonates_with")
+        
+        self.kg.save()
+        return len(nodes)
+
     def digest_docs(self, docs_dir: str = "docs"):
         """
         Fast batch digestion of documentation.
@@ -78,7 +134,11 @@ class CumulativeDigestor:
             nodes = self.digestor.digest(chunk)
             total_nodes += len(nodes)
             for node in nodes:
-                self.kg.add_node(node.concept.lower(), properties={"source": tag})
+                self.kg.add_node(node.concept.lower(), properties={
+                    "source": tag,
+                    "layer": node.layer,
+                    "layer_confidence": node.layer_confidence
+                })
                 for rel in node.relations:
                     self.kg.add_edge(node.concept.lower(), rel.lower(), "resonates_with")
         

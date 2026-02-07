@@ -21,27 +21,30 @@ class KGManager:
         if self.filepath.exists():
             with open(self.filepath, 'r', encoding='utf-8') as f:
                 self.kg = json.load(f)
+                # Ensure nodes is a dict for O(1) lookups
+                if isinstance(self.kg.get('nodes'), list):
+                    # Convert legacy list to dict
+                    nodes_list = self.kg['nodes']
+                    self.kg['nodes'] = {n['id']: n for n in nodes_list}
         else:
-            self.kg = {"nodes": [], "edges": []}
+            self.kg = {"nodes": {}, "edges": []}
 
     def save(self):
+        # When saving, convert nodes back to list for JSON compatibility if needed
+        # but let's keep it as a dict in the file for faster loading/rebuilding
         with open(self.filepath, 'w', encoding='utf-8') as f:
             json.dump(self.kg, f, ensure_ascii=False, indent=2)
 
     def get_node(self, node_id: str) -> Optional[Dict]:
         """Finds a node by its ID."""
-        for node in self.kg['nodes']:
-            if node['id'] == node_id:
-                return node
-        return None
+        return self.kg['nodes'].get(node_id)
 
     def add_node(self, node_id: str, hypersphere: Optional[Dict] = None, properties: Optional[Dict] = None) -> Dict:
         """Adds a new node. If it exists, returns the existing node."""
-        existing_node = self.get_node(node_id)
-        if existing_node:
+        if node_id in self.kg['nodes']:
             if properties:
-                existing_node.update(properties)
-            return existing_node
+                self.kg['nodes'][node_id].update(properties)
+            return self.kg['nodes'][node_id]
 
         # Default HyperSphere position: origin point
         default_hypersphere = {"theta": 0.0, "phi": 0.0, "psi": 0.0, "r": 0.0}
@@ -77,13 +80,34 @@ class KGManager:
             # Legacy fields
             "activation_energy": 0.0,
             "frequency": 0.0,
-            "tensor_state": None
+            "tensor_state": None,
+            
+            # Inner Cosmos: Recursive Internal Universe (explained by itself)
+            "inner_cosmos": {
+                "nodes": {},
+                "edges": [],
+                "depth": 0
+            }
         }
         if properties:
             new_node.update(properties)
 
-        self.kg['nodes'].append(new_node)
+        self.kg['nodes'][node_id] = new_node
         return new_node
+
+    def inject_inner_logic(self, node_id: str, logic_graph: Dict[str, Any]):
+        """
+        Injects an internal universe (logic graph) into a node.
+        This provides the internal explanation for WHY the node exists.
+        """
+        node = self.get_node(node_id)
+        if node:
+            # Maintain depth count
+            current_depth = node.get('inner_cosmos', {}).get('depth', 0)
+            node['inner_cosmos'] = logic_graph
+            node['inner_cosmos']['depth'] = current_depth + 1
+            return True
+        return False
 
     def update_node(self, node_id: str, properties: Dict[str, Any]) -> bool:
         """Alias for update_node_properties"""

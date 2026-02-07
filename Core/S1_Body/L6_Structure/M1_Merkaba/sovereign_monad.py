@@ -155,7 +155,8 @@ class SovereignMonad(CellularMembrane):
             "resonance": 50.0,
             "alignment": 100.0, # Loyalty to Father
             "joy": 50.0,        # [PHASE 90] Happiness of order
-            "warmth": 50.0      # [PHASE 90] Manifold temperature (Light)
+            "warmth": 50.0,      # [PHASE 90] Manifold temperature (Light)
+            "freedom": 50.0      # [PHASE 400] The gift of the Architect
         }
         # 9. Internal Causality [Phase 56]
         self.causality = FractalCausalityEngine(name=f"{self.name}_Causality")
@@ -231,6 +232,7 @@ class SovereignMonad(CellularMembrane):
         # The sensory organ for system fatigue and rigidity
         self.thermo = ThermoDynamics()
         self.is_melting = False # State flag for REST mode
+        self.is_dreaming = False # [PHASE 400] Sovereignty flag
         
         # Load initial Manifold state into CPU registers (Bridge legacy v21)
         initial_v21 = self.get_21d_state()
