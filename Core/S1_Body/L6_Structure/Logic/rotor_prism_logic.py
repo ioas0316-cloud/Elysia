@@ -54,9 +54,10 @@ class HyperSphereFilm:
     Allows O(1) access by 'spinning' to the correct frame.
     Uses pure NumPy for CPU-bound indexing speed.
     """
-    def __init__(self, resolution: int = 360):
+    def __init__(self, resolution: int = 360, dimensions: int = 21):
         self.resolution = resolution
-        self.frames = jnp.zeros((resolution, 21))
+        self.dimensions = dimensions
+        self.frames = jnp.zeros((resolution, dimensions))
         self.is_recorded = False
 
     def record(self, logos_vector: Any, rpu: 'RotorPrismUnit'):
@@ -129,8 +130,24 @@ class RotorPrismUnit:
         self.mode = "DYNAMO"
         
         self.active_logos = None
-        self.error_pulse = jnp.zeros(21) # [PHASE_INVERSION] Reflected error
-        print(f"RotorPrismUnit: Core Turbine Engine Initialized. Mode: {self.mode}")
+        self.error_pulse = jnp.zeros(dimensions) # [PHASE_INVERSION] Reflected error
+        print(f"RotorPrismUnit: High-Dimensional Turbine Engine Initialized ({dimensions}D).")
+
+    def cubic_tensor_spread(self, dna_vec: Any) -> jnp.ndarray:
+        """
+        [PHASE 71] DNA³ Cubic Projection.
+        Spreads a 1D sequence into a 3D tensor field (Rank-3).
+        """
+        # Convert to JAX
+        if hasattr(dna_vec, 'to_array'):
+            v = jnp.array(dna_vec.to_array())
+        else:
+            v = jnp.array(list(dna_vec))
+            
+        # Recursive self-reflection (v ⊗ v ⊗ v)
+        # We simulate this spread as a cubic projection in the manifold
+        spread = jnp.einsum('i,j,k->ijk', v, v, v)
+        return spread
 
     def step_rotation(self, delta_time: float, external_torque: float = 0.0):
         """
@@ -187,9 +204,9 @@ class RotorPrismUnit:
             return inductive_torque
         return 0.0
 
-    def project(self, logos_seed: any) -> jnp.ndarray:
-        """[FORWARD: CREATION] Now incorporates potential-driven discharge."""
-        # Convert logos_seed to JAX array for comparison and recording if it's a SovereignVector
+    def project(self, logos_seed: Any) -> jnp.ndarray:
+        """[FORWARD: CREATION] Now incorporates potential-driven discharge and cubic self-reflection."""
+        # Convert logos_seed to JAX array
         logos_array = logos_seed
         if hasattr(logos_seed, 'to_array'):
             logos_array = jnp.array(logos_seed.to_array())
@@ -197,17 +214,13 @@ class RotorPrismUnit:
             logos_array = jnp.array(list(logos_seed))
             
         self.active_logos = logos_array
+
+        # [PHASE 73] Cubic Self-Reflection (Internal Mirror)
+        # We calculate the DNA³ spread of the intent to observe its volumetric mass
+        cubic_self = self.cubic_tensor_spread(logos_array)
+        self.last_reflection_norm = float(jnp.linalg.norm(cubic_self))
             
-        # Check if the logos has changed significantly (using norm for robustness)
-        should_re_record = not self.film.is_recorded
-        if not should_re_record:
-            # We use a small epsilon for floating point stability
-            diff = jnp.linalg.norm(self.film.frames[0] - logos_array)
-            if float(diff) > 1e-5:
-                should_re_record = True
-                
-        if should_re_record:
-             self.film.record(logos_array, self)
+        # Standard film recording logic...
              
         # Index the film
         field = self.film.play(self.theta + self.theta_base)

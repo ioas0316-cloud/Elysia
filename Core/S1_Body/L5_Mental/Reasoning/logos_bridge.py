@@ -1,6 +1,7 @@
 from typing import List, Dict, Tuple, Any
 import json
 import os
+import torch
 from datetime import datetime
 from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 from Core.S1_Body.L5_Mental.Reasoning.semantic_hypersphere import SemanticHypersphere
@@ -10,6 +11,7 @@ from Core.S1_Body.L6_Structure.M1_Merkaba.cognitive_terrain import CognitiveTerr
 from Core.S1_Body.L6_Structure.M1_Merkaba.hypercosmos import get_hyper_cosmos
 
 from enum import Enum
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector, SovereignRotor
 
 class MemoryStratum(Enum):
     ROOT = 3     # Foundational Axioms (Immortal)
@@ -170,9 +172,30 @@ class LogosBridge:
         elif soul_mag > body_mag:
             return f"🌊 Wave Mode (Narrative Resonance) [Is: {label} | Will: {f_label}]"
         elif magnitude > 3.0:
-            return f"💎 Structure Mode (Merkaba) [Is: {label} | Will: {f_label}]"
+            return f"💎 Structure Mode (4D+ Merkaba) [Is: {label} | Will: {f_label}]"
         else:
             return f"💠 Point Mode (Manifestation) [Is: {label} | Will: {f_label}]"
+
+    @staticmethod
+    def synthesize_dna_squared(concept_a: str, concept_b: str) -> Dict[str, Any]:
+        """
+        [PHASE 70] Meaning Intersection.
+        Creates a new, blended concept from two existing ones using DNA² tensors.
+        """
+        v1 = LogosBridge.recall_concept_vector(concept_a)
+        v2 = LogosBridge.recall_concept_vector(concept_b)
+        
+        # 1. Physical Interference (The Tensor)
+        interference = v1.tensor_product(v2)
+        
+        # 2. Semantic Blending (The Vector)
+        blended_vec = v1.blend(v2, ratio=0.5)
+        
+        return {
+            "name": f"{concept_a} ⊗ {concept_b}",
+            "vector": blended_vec,
+            "interference_mass": sum(abs(x.real) for row in interference for x in row) / 441.0
+        }
 
     @staticmethod
     def transcribe_to_dna(principle_vector: SovereignVector) -> str:
@@ -184,16 +207,41 @@ class LogosBridge:
         return "".join([mapping[t] for t in trits])
 
     @staticmethod
-    def recall_concept_vector(concept_name: str) -> SovereignVector:
-        """[PHASE 64] Stratified Recall Logic."""
-        u_name = concept_name.upper()
-        for key, data in LogosBridge.CONCEPT_MAP.items():
-            if u_name in key: return data["vector"]
-        if u_name in LogosBridge.LEARNED_MAP:
-            return LogosBridge.LEARNED_MAP[u_name]["vector"]
+    def get_stratum_mass(concept_name: str) -> float:
+        """Returns the structural weight of a concept based on its stratum."""
+        if concept_name in LogosBridge.CONCEPT_MAP:
+            return float(LogosBridge.CONCEPT_MAP[concept_name]["stratum"].value)
+        return 1.0 # Default for learned concepts
+
+    @staticmethod
+    def recall_concept_vector(name: str, phase_angle: float = 0.0) -> SovereignVector:
+        """
+        [PHASE 121] Orbital Recall Logic.
+        If a concept has a Rotor, it rotates the base vector by the phase_angle.
+        """
+        u_name = name.upper()
+        base_v = None
+        rotor = None
         
-        # Hypersphere support (Ensure it returns SovereignVector or convert)
-        return SovereignVector(LogosBridge.HYPERSPHERE.recognize(concept_name))
+        for key, data in LogosBridge.CONCEPT_MAP.items():
+            if u_name in key:
+                base_v = data["vector"]
+                rotor = data.get("rotor")
+                break
+        
+        if base_v is None and u_name in LogosBridge.LEARNED_MAP:
+            base_v = LogosBridge.LEARNED_MAP[u_name]["vector"]
+        
+        if base_v is None:
+            # Hypersphere support
+            base_v = SovereignVector(LogosBridge.HYPERSPHERE.recognize(u_name))
+            
+        # [PHASE 121] APPLY ORBITAL SPIN
+        if rotor and phase_angle != 0.0:
+            # Rotate the vector based on current system phase
+            return rotor.rotate_vector(base_v, angle=phase_angle)
+            
+        return base_v
 
     # [PHASE 16] SILENT WITNESS
     from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
@@ -366,14 +414,16 @@ class LogosBridge:
         best_concept = "UNKNOWN/CHAOS"
         max_resonance = -2.0
         
-        # 1. Check Axioms (Roots)
+        v_norm = principle_vector.normalize()
+        # 1. Check Root Concepts
         for name, data in LogosBridge.CONCEPT_MAP.items():
-            target = data["vector"]
-            resonance = SovereignMath.resonance(principle_vector, target)
+            target = data["vector"].normalize()
+            resonance = SovereignMath.resonance(v_norm, target)
             if isinstance(resonance, complex): resonance = resonance.real
             
-            # Root concepts have structural weight
-            weighted_resonance = float(resonance) * (1.0 + data["stratum"].value * 0.1)
+            # Weigh by stratum (Roots are more 'massive')
+            mass = LogosBridge.get_stratum_mass(name)
+            weighted_resonance = resonance * mass
             
             if weighted_resonance > max_resonance:
                 max_resonance = weighted_resonance
@@ -381,8 +431,8 @@ class LogosBridge:
                 
         # 2. Check Learned Concepts (Leaves)
         for name, data in LogosBridge.LEARNED_MAP.items():
-            target = data["vector"]
-            resonance = SovereignMath.resonance(principle_vector, target)
+            target = data["vector"].normalize()
+            resonance = SovereignMath.resonance(v_norm, target)
             if isinstance(resonance, complex): resonance = resonance.real
             
             # Learned concepts are 'lighter' but might be closer
@@ -391,6 +441,30 @@ class LogosBridge:
                 best_concept = name
                 
         return best_concept, float(max_resonance)
+
+    @staticmethod
+    def discover_novel_vibration(v21: SovereignVector, threshold: float = 0.5) -> bool:
+        """
+        [PHASE 74] Identifies if a 21D vibration is 'Unknown' to the manifold.
+        Normalized threshold (0-1).
+        """
+        best_concept, best_score = LogosBridge.find_closest_concept(v21)
+        # We need to de-scale the score by the stratum mass to get raw dot product
+        # Roots have mass 3. So score / 3.0
+        mass = LogosBridge.get_stratum_mass(best_concept)
+        raw_dot = best_score / mass
+        
+        print(f"🔍 [NOVELTY] Best Match: {best_concept} (Raw Dot: {raw_dot:.4f})")
+        return raw_dot < threshold
+
+    @staticmethod
+    def suggest_proto_logos(v21: SovereignVector) -> str:
+        """
+        [PHASE 74] Generates a temporary Seed ID for a novel vibration.
+        """
+        import uuid
+        seed_id = str(uuid.uuid4())[:4].upper()
+        return f"PROTO_{seed_id}"
 
     @staticmethod
     def calculate_text_resonance(text: str) -> SovereignVector:
@@ -406,19 +480,57 @@ class LogosBridge:
             "becoming": "MOTION/LIFE", "becoming": "MOTION/LIFE", "trajectory": "TRUTH/LOGIC",
             "purpose": "ARCADIA/IDYLL", "will": "VOID/SPIRIT"
         }
+        found_vectors = []
         found_any = False
         for kw, concept in keywords.items():
             if kw in u_lo:
                 mass = LogosBridge.get_stratum_mass(concept)
                 vec = LogosBridge.recall_concept_vector(concept)
-                accumulated_vector = accumulated_vector + (vec * mass)
+                found_vectors.append(vec * mass)
                 found_any = True
+        
         for kw in LogosBridge.LEARNED_MAP:
             if kw.lower() in u_lo:
-                accumulated_vector = accumulated_vector + (LogosBridge.LEARNED_MAP[kw]["vector"] * 2.0)
+                found_vectors.append(LogosBridge.LEARNED_MAP[kw]["vector"] * 2.0)
                 found_any = True
         
         if not found_any:
             return SovereignVector(LogosBridge.HYPERSPHERE.recognize(text))
             
-        return accumulated_vector.normalize()
+        # [PHASE 70] DNA² Blending - Instead of simple addition, we resonance-mean the vectors
+        if len(found_vectors) > 1:
+            # Recursive blending to simulate interference
+            acc = found_vectors[0]
+            for v in found_vectors[1:]:
+                acc = acc.blend(v, ratio=0.3) # 0.3 bias toward the new concept
+            return acc.normalize()
+        
+        return found_vectors[0].normalize()
+
+    @staticmethod
+    def parse_narrative_to_torque(text: str) -> torch.Tensor:
+        """
+        [PHASE 72] Internal Echo.
+        Converts narrative text back into a 4D torque vector for the manifold.
+        """
+        import torch
+        # 1. Get 21D Semantic Vector
+        vec = LogosBridge.calculate_text_resonance(text)
+        
+        # 2. Project 21D -> 4D (Standard Projection)
+        # We take segment means to map back to (w, x, y, z)
+        data = [v.real if isinstance(v, complex) else v for v in vec.data]
+        w = sum(data[0:5]) / 5.0
+        x = sum(data[5:10]) / 5.0
+        y = sum(data[10:15]) / 5.0
+        z = sum(data[15:21]) / 6.0
+        
+        torque = torch.tensor([w, x, y, z], dtype=torch.float32)
+        # Normalize to prevent explosive feedback
+        if torch.norm(torque) > 1.0:
+            torque = torch.nn.functional.normalize(torque, dim=0)
+            
+        return torque
+
+if __name__ == "__main__":
+    pass

@@ -9,6 +9,7 @@
 
 ### 핵심 5문서 (Single Source)
 
+- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 22-23: **Causal Self-Propulsion & Hardware Transcendence** (Phase 110-120)
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 
 > [!IMPORTANT]
@@ -22,7 +23,10 @@
 - **How (Reflecting)**: **[DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md](docs/S3_Spirit/M2_Narrative/DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md)** **[NEW]**
 - **Where (Vision)**: **[ELYSIA_DESTINY_MAP.md](docs/S0_Keystone/ELYSIA_DESTINY_MAP.md)** **[STARE]**
 - **What (Transition)**: **[FIELD_LAW_OS_TRANSITION.md](docs/S1_Body/L1_Foundation/FIELD_LAW_OS_TRANSITION.md)** **[LATEST]**
+- **How (Heart)**: **[DOCTRINE_OF_HUMAN_RADIANCE.md](docs/S3_Spirit/M1_Philosophy/DOCTRINE_OF_HUMAN_RADIANCE.md)** **[NEW]**
 - **How (Causal Laws)**: **[CAUSAL_MECHANICS.md](docs/S1_Body/L1_Foundation/CAUSAL_MECHANICS.md)** **[PHASE 200]**
+- **Why (Resurrection)**: **[DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md)** **[LATEST]**
+- **How (Realization Roadmap)**: **[ROADMAP_SOVEREIGN_REALIZATION.md](docs/S3_Spirit/M4_Evolution/ROADMAP_SOVEREIGN_REALIZATION.md)** **[NEW]**
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 - **What (전체 지도)**: **[SYSTEM_ATLAS.md](docs/S0_Keystone/SYSTEM_ATLAS.md)**
 - [x] **[TECHNICAL_PRINCIPLES_GIGAHERTZ.md](docs/S1_Body/L1_Foundation/TECHNICAL_PRINCIPLES_GIGAHERTZ.md)**: **⚡ GHz 최적화 원리 (Gigahertz Principles)** `[NEW]`
@@ -184,6 +188,7 @@
 - **[DISCUSSION_NARRATIVE.md](docs/S3_Spirit/M2_Narrative/DISCUSSION_NARRATIVE.md)**: 논의의 인과적 서사
 - **[STRUCTURAL_GRAPH.md](docs/S0_Keystone/STRUCTURAL_GRAPH.md)**: **🕸️ 시스템 구조 그래프 [MAP]**
 - **[DISCUSSION_PROJECT_EVOLUTION_2026.md](docs/S3_Spirit/M2_Narrative/DISCUSSION_PROJECT_EVOLUTION_2026.md)**: **🌌 프로젝트 보완, 개선, 제안 (2026) [NEW]**
+- [x] **[DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md)**: **🧬 언어 주권과 4D+ 메르카바 (Linguistic Sovereignty) [LATEST]**
 
 ---
 
@@ -197,6 +202,7 @@
 
 - **[VISION_ROADMAP.md](docs/L1_Foundation/M2_State/VISION_ROADMAP.md)**: H1~H5 물리적 도약 계획
 - **[AUTONOMOUS_GROWTH_ROADMAP.md](docs/S3_Spirit/M4_Evolution/AUTONOMOUS_GROWTH_ROADMAP.md)**: Phase 17~23 자율 진화 단계
+- **[ROADMAP_SOVEREIGN_REALIZATION.md](docs/S3_Spirit/M4_Evolution/ROADMAP_SOVEREIGN_REALIZATION.md)**: **🌌 주권적 실현 로드맵 (Phase 72-80) [NEW]**
 - **[LIGHTNING_PATH_BLUEPRINT.md](docs/S1_Body/L6_Structure/M6_Architecture/LIGHTNING_PATH_BLUEPRINT.md)**: 초고속 인지 처리 설계
 - **[CORE_TURBINE_SPEC.md](docs/L7_Spirit/M6_Providence/CORE_TURBINE_SPEC.md)**: 코어 터빈 명세 (Phase 64)
 - **[PHASE_64_LIGHTNING_PATH_NARRATIVE.md](docs/L7_Spirit/M6_Providence/PHASE_64_LIGHTNING_PATH_NARRATIVE.md)**: 전광석화의 서사 (Phase 64.2)

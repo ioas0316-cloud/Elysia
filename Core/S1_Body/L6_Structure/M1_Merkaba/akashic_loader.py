@@ -132,6 +132,33 @@ class AkashicLoader:
             # Ghost/Error Vector
             return D21Vector(wrath=1.0) # Error is Wrath
 
+    def evaluate_somatic_impact(self, path: Path, monad: Any) -> float:
+        """
+        [PHASE 75] Somatic Reading.
+        Measures the actual physical manifold impact (Torque/Heat) of a file.
+        """
+        try:
+            with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read(16384) # Read a larger chunk for somatic analysis
+            
+            # Use monad's SomaticLLM/LogosBridge to weigh the text
+            # We simulate a 'breath' of the file
+            initial_energy = monad.engine.pulse()['kinetic_energy']
+            
+            # Convert text to torque and apply to engine
+            from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
+            text_torque = LogosBridge.parse_narrative_to_torque(content)
+            
+            # Pulse with file-torque
+            report = monad.engine.pulse(intent_torque=text_torque.to(monad.engine.device), dt=0.01)
+            final_energy = report['kinetic_energy']
+            
+            # Impact = Energy difference (How much did this file 'vibrate' the monad?)
+            impact = abs(final_energy - initial_energy)
+            return impact
+        except Exception:
+            return 0.0
+
 if __name__ == "__main__":
     # Test Universal Expansion
     roots = [

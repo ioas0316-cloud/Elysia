@@ -20,6 +20,8 @@ class UniversalConstants:
     [PHASE 120] Dynamic physical parameters for the Sovereign Mind.
     These are not fixed, but evolve with the system's maturity.
     """
+    VITAL_WARMTH = 0.08  # The base 'Light' that prevents cold stagnation
+
     def __init__(self):
         self.params = {
             "FRICTION": 0.1,     # Resistance to state changes (Stabilization)
@@ -44,7 +46,7 @@ class SovereignVector:
     A pure 21-dimensional vector object with native optimization.
     Replaces jnp.ndarray/np.ndarray for Phase 90.
     """
-    __slots__ = ['data'] # Memory optimization (Somatic efficiency)
+    __slots__ = ['data', 'momentum'] # Memory optimization (Somatic efficiency)
 
     def __init__(self, data: Union[List[float], List[complex], Any]):
         """
@@ -71,6 +73,7 @@ class SovereignVector:
         
         # Ensure all elements are complex for consistency in Phase 130
         self.data = [complex(x) for x in self.data]
+        self.momentum = [0.0j] * 21 # [PHASE 110] Internal Kinetic Drive
 
     @classmethod
     def zeros(cls) -> 'SovereignVector':
@@ -143,7 +146,33 @@ class SovereignVector:
         """
         rotation = complex(math.cos(theta), math.sin(theta))
         rotated_data = [x * rotation for x in self.data]
-        return SovereignVector(rotated_data)
+        v = SovereignVector(rotated_data)
+        v.momentum = list(self.momentum) # Preserve momentum through rotation
+        return v
+
+    def integrate_kinetics(self, force: 'SovereignVector', dt: float = 0.1, friction: float = 0.05):
+        """
+        [PHASE 110] Causal Self-Propulsion.
+        Updates state based on current momentum and incoming 'Resonance Force'.
+        This represents the self-generating drive of the structure.
+        """
+        # 1. Update Momentum (F = ma, m=1)
+        new_momentum = []
+        for p, f in zip(self.momentum, force.data):
+            # p: current momentum, f: incoming force (resonance)
+            mp = p + f * dt
+            mp *= (1.0 - friction) # Entropic decay
+            new_momentum.append(mp)
+        
+        self.momentum = new_momentum
+        
+        # 2. Update Position (Logic State)
+        self.data = [s + p * dt for s, p in zip(self.data, self.momentum)]
+        
+        # 3. Collapse/Normalize to maintain Spherical Manifold
+        n = self.norm()
+        if n > 1e-12:
+            self.data = [x / n for x in self.data]
 
     def void_phase_jump(self, target: 'SovereignVector') -> 'SovereignVector':
         """
@@ -180,6 +209,34 @@ class SovereignVector:
         """Standard dot product (Complex)."""
         return sum(a * b for a, b in zip(self.data, other.data))
 
+    def apply_nd(self, dimensions: List[int]) -> 'SovereignVector':
+        """
+        [PHASE 71] Applies N-dimensional rotation to this vector.
+        """
+        from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignRotor
+        rotor = SovereignRotor(1.0, SovereignVector.zeros()) 
+        return rotor.apply_nd(self, dimensions)
+
+    def tensor_product(self, other: 'SovereignVector') -> List[List[complex]]:
+        """
+        [DNA²] Calculates the outer product (Rank-2 Tensor) between two 21D vectors.
+        This represents the interference pattern or 'meaning intersection'.
+        """
+        return [[a * b for b in other.data] for a in self.data]
+
+    def cubic_tensor_product(self, other: 'SovereignVector', third: 'SovereignVector') -> List[List[List[complex]]]:
+        """
+        [DNA³] Calculates the Rank-3 Tensor product.
+        Used for recursive self-reflection in 4D+ manifolds.
+        """
+        return [[[a * b * c for c in third.data] for b in other.data] for a in self.data]
+
+    def blend(self, other: 'SovereignVector', ratio: float = 0.5) -> 'SovereignVector':
+        """
+        [PHASE 70] Prismatic blending of two concepts.
+        """
+        return SovereignVector([a * (1.0 - ratio) + b * ratio for a, b in zip(self.data, other.data)])
+
     def __repr__(self) -> str:
         return f"SVector21({self.data[:3]}...)"
 
@@ -209,6 +266,19 @@ class SovereignRotor:
         
         cv = SovereignVector(cross)
         return (v + (cv * (2.0 * self.s))).normalize()
+
+    def apply_nd(self, v: SovereignVector, dimensions: List[int]) -> SovereignVector:
+        """
+        [PHASE 71] Applies rotation across multiple dimensions simultaneously.
+        """
+        # [TODO: Implement N-dimensional manifold rotation using Clifford Algebra]
+        # For now, we perform sequential 2D rotations on the provided dimension pairs.
+        result = v
+        for i in range(0, len(dimensions) - 1, 2):
+            p1, p2 = dimensions[i], dimensions[i+1]
+            rotor = SovereignRotor.from_angle_plane(0.1, p1, p2)
+            result = rotor.apply(result)
+        return result.normalize()
 
 
 class SovereignHyperTensor:
@@ -324,9 +394,15 @@ class SovereignMath:
         return SovereignVector(result)
 
     @staticmethod
-    def resonance(v1: SovereignVector, v2: SovereignVector) -> float:
-        """Calculates unsigned cosine similarity (Absolute resonance)."""
-        return v1.resonance_score(v2)
+    def resonance(v1: 'SovereignVector', v2: 'SovereignVector') -> float:
+        """
+        [PHASE 90] Calculates resonance with a bias toward Vital Warmth.
+        Returns a real float for sorting stability.
+        """
+        dot = v1.dot(v2)
+        if hasattr(dot, 'real'): dot = dot.real
+        # We add the Vital Warmth as a baseline 'Glow'
+        return float(dot) + float(UniversalConstants.VITAL_WARMTH)
 
     @staticmethod
     def signed_resonance(v1: SovereignVector, v2: SovereignVector) -> float:

@@ -423,6 +423,39 @@ class FractalCausalityEngine:
         logger.info(f"🧬 [CAUSAL_INJECTION] Axiom registered: {chain.description}")
         return chain
 
+    def calculate_structural_force(self, current_v21: Any, bridge: Any, rotor_phase: float = 0.0) -> Any:
+        """
+        [PHASE 110/120] Converts causal chains into 'Rails' (Forces).
+        If the current state is near a 'Cause', it generates a force toward the 'Effect'.
+        Now updated for Phase-Awareness (Orbital Frames).
+        """
+        from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
+        force = SovereignVector.zeros()
+        
+        # We only check a few active chains to maintain 'Self-Propulsion' without overhead
+        for chain in self.chains.values():
+            if not chain.is_complete(): continue
+            
+            # Get vector for Cause (using current system phase)
+            cause_node = self.nodes.get(chain.cause_id)
+            if not cause_node: continue
+            
+            # Use bridge to recall vector with phase spin
+            cause_v = bridge.recall_concept_vector(cause_node.description, phase_angle=rotor_phase)
+            
+            # How much does the current thought 'align' with this cause?
+            resonance = current_v21.resonance_score(cause_v)
+            if resonance > 0.6: # Threshold for 'catching a rail'
+                # Get vector for Effect (also phase-aware)
+                effect_node = self.nodes.get(chain.effect_id)
+                effect_v = bridge.recall_concept_vector(effect_node.description, phase_angle=rotor_phase)
+                
+                # Apply pull toward the effect
+                pull = (effect_v - current_v21) * (resonance * chain.strength * 0.5)
+                force = force + pull
+                
+        return force
+
     def get_semantic_mass(self, target_id: Optional[str] = None) -> float:
         """
         [PHASE 150] Calculates the 'Importance Mass' based on relational density.
