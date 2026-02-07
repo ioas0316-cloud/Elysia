@@ -11,7 +11,11 @@ and provides the resonance engine to measure how close Elysia's current
 """
 
 from typing import Dict, List, Any
-import numpy as np
+import math
+try:
+    import numpy as np
+except ImportError:
+    np = None
 
 # [PHASE 90] Dependency Sovereignty: Removed JAX
 # from Core.S1_Body.L1_Foundation.M4_Hardware.jax_bridge import JAXBridge
@@ -32,9 +36,12 @@ class MathematicalResonance:
     }
 
     @staticmethod
-    def get_constellation(name: str) -> np.ndarray:
+    def get_constellation(name: str) -> Any:
         data = MathematicalResonance.CONSTELLATIONS.get(name, [0]*21)
-        return np.array(data, dtype=float)
+        if np:
+            return np.array(data, dtype=float)
+        else:
+            return data
 
     @staticmethod
     def measure_resonance(state_21d: Any, constellation_name: str) -> float:
@@ -46,19 +53,34 @@ class MathematicalResonance:
         
         # Ensure input is a numpy array and flat
         if hasattr(state_21d, 'flatten'):
-            v = state_21d
+            v = state_21d.flatten()
+        elif hasattr(state_21d, 'data'):
+            v = state_21d.data
+        elif hasattr(state_21d, 'to_array'):
+            v = state_21d.to_array()
         else:
-            v = np.array(state_21d)
+            v = state_21d
 
-        a = v.flatten()
-        b = target.flatten()
-        
-        # Dot product
-        dot = np.dot(a, b)
-        
-        # Norms
-        norm_a = np.linalg.norm(a)
-        norm_b = np.linalg.norm(b)
+        if np and isinstance(v, np.ndarray):
+            a = v.flatten()
+            b = target.flatten()
+            dot = np.dot(a, b)
+            norm_a = np.linalg.norm(a)
+            norm_b = np.linalg.norm(b)
+        else:
+            # Python fallback
+            if isinstance(v, list): a = v
+            else: a = list(v)
+            if isinstance(target, list): b = target
+            else: b = list(target)
+
+            # Handle complex
+            a = [x.real if isinstance(x, complex) else x for x in a]
+            b = [x.real if isinstance(x, complex) else x for x in b]
+
+            dot = sum(x*y for x,y in zip(a,b))
+            norm_a = math.sqrt(sum(x*x for x in a))
+            norm_b = math.sqrt(sum(x*x for x in b))
         
         if norm_a < 1e-6 or norm_b < 1e-6:
             return 0.0
@@ -67,7 +89,7 @@ class MathematicalResonance:
         return float(similarity)
 
     @staticmethod
-    def scan_all_resonances(state_21d: np.ndarray) -> Dict[str, float]:
+    def scan_all_resonances(state_21d: Any) -> Dict[str, float]:
         """
         Scans all known constellations and returns a map of resonance scores.
         """

@@ -12,7 +12,10 @@ It absorbs the functional principles of JAX and the vectorized logic of NumPy.
 
 import math
 import cmath
-import torch
+try:
+    import torch
+except ImportError:
+    torch = None
 from typing import List, Union, Any, Callable, Dict, Optional
 
 class UniversalConstants:
@@ -356,12 +359,12 @@ class SovereignHyperTensor:
         x_axis = combined[..., 1]
         return torch.where(x_axis > 0.3, 1.0, torch.where(x_axis < -0.3, -1.0, 0.0))
 
-    def get_resonance(self, torque_tensor: torch.Tensor) -> float:
+    def get_resonance(self, torque_tensor: Any) -> float:
         """
         [PHASE 410] Semantic Resonance.
         Measures the alignment between incoming torque and permanent manifold structure.
         """
-        import torch
+        if torch is None: return 0.0
         if torque_tensor.dim() == 1:
             # Global torque alignment
             alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)

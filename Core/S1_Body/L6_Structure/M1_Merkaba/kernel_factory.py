@@ -6,9 +6,16 @@ Core.S1_Body.L6_Structure.M1_Merkaba.kernel_factory
 "Calculators compute; Kernels ignite."
 """
 
-import jax
-import jax.numpy as jnp
-from typing import Dict, Any, Tuple
+try:
+    import jax
+    import jax.numpy as jnp
+    from jax import jit, grad, vmap
+except ImportError:
+    jax = None
+    jnp = None
+    jit = lambda x: x
+    grad = lambda x: x
+    vmap = lambda x: x
 
 class MerkabaKernel:
     """
@@ -17,16 +24,17 @@ class MerkabaKernel:
     """
     
     @staticmethod
-    @jax.jit
     def fused_pulse(
-        stimulus_vector: jnp.ndarray,  # (7,) Amplitude vector
-        axial_locks: jnp.ndarray,      # (7, 2) [target_phase, strength]
-        field_modulators: jnp.ndarray, # (2,) [thermal_energy, cognitive_density]
-        unit_states: jnp.ndarray       # (4, 3) [phase, amplitude, energy] for M1-M4
-    ) -> jnp.ndarray:
+        stimulus_vector: 'jnp.ndarray',  # (7,) Amplitude vector
+        axial_locks: 'jnp.ndarray',      # (7, 2) [target_phase, strength]
+        field_modulators: 'jnp.ndarray', # (2,) [thermal_energy, cognitive_density]
+        unit_states: 'jnp.ndarray'       # (4, 3) [phase, amplitude, energy] for M1-M4
+    ) -> 'jnp.ndarray':
         """
         Executes M1 -> M2 -> M3 -> M4 transition in a single XLA cluster.
         """
+        if jnp is None: return unit_states # Mock return
+
         # 1. Environment Parsing
         thermal_energy = field_modulators[0]
         cognitive_density = 1.0 + field_modulators[1]
@@ -60,7 +68,7 @@ class MerkabaKernel:
             # i is unit index (1=Mind, 2=Spirit, 3=Metron)
             # Input is the narrative/scalar from prev unit
             amp_vec = jnp.full((7,), prev_output) 
-            rads = jnp.radians((m1_phases * frequency) / cognitive_density)
+            # rads reused
             r = jnp.sum(amp_vec * jnp.cos(rads))
             im = jnp.sum(amp_vec * jnp.sin(rads))
             return jnp.sqrt(r**2 + im**2) / 7.0, jnp.degrees(jnp.atan2(im, r)) % 360
@@ -79,6 +87,10 @@ class MerkabaKernel:
             [m3_phase, m3_amp, state[2, 2]],
             [m4_phase, m4_amp, state[3, 2]]
         ])
+
+# Conditional JIT compilation
+if jax:
+    MerkabaKernel.fused_pulse = jit(MerkabaKernel.fused_pulse)
 
 def get_kernel():
     return MerkabaKernel()

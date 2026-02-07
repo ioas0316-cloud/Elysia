@@ -42,7 +42,10 @@ from Core.S1_Body.L1_Foundation.M1_Keystone.monadic_lexicon import MonadicLexico
 
 import time
 
-import jax.numpy as jnp
+try:
+    import jax.numpy as jnp
+except ImportError:
+    jnp = None
 
 from Core.S1_Body.L6_Structure.M1_Merkaba.kernel_factory import get_kernel
 
