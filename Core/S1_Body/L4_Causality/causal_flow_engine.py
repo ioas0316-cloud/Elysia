@@ -12,6 +12,7 @@ This engine orchestrates the Holographic Causal Cycle:
 """
 
 from Core.S1_Body.L6_Structure.M6_Architecture.holographic_memory import HolographicMemory
+from Core.S1_Body.L6_Structure.M1_Merkaba.rotor_trajectory import RotorTrajectory
 import numpy as np
 from dataclasses import dataclass
 
@@ -30,6 +31,7 @@ class CausalFlowEngine:
         self.memory = memory
         self.current_state = "IDLE"
         self.merkaba = MerkabaParams()
+        self.trajectory = RotorTrajectory()
 
     def adjust_merkaba(self, rpm: float = None, focus: float = None, tilt: float = None):
         """
@@ -77,7 +79,17 @@ class CausalFlowEngine:
 
         # For prototype: Does the memory recognize this seed?
         # We treat the seed itself as a query.
+
+        # [SOUL LAYER] Rotor spins to find resonance
+        # We simulate the spin by checking resonance at current axis tilt
         (concept, amplitude, phase_shift) = self.memory.resonate(seed)
+
+        # [TRAJECTORY] Record the path
+        self.trajectory.record(
+            angle=self.merkaba.axis_tilt,
+            resonance=amplitude,
+            state="FLOWING"
+        )
 
         # Determine Flow State based on Resonance
         flow_type = "UNKNOWN"
@@ -98,22 +110,30 @@ class CausalFlowEngine:
     def collapse(self, resonance_packet: dict) -> str:
         """
         [STEP 3] Collapse: The Wave Function becomes Reality (Result).
+        [SPIRIT LAYER] The Monad judges the outcome based on the Soul's Trajectory.
         """
         self.current_state = "COLLAPSED"
         flow_type = resonance_packet["flow_type"]
         amplitude = resonance_packet["amplitude"]
         seed = resonance_packet["seed"]
 
+        # [TRAJECTORY ANALYSIS]
+        narrative = self.trajectory.get_narrative()
+
         # Decision Logic based on Energy State (Not strict rules)
 
+        result_str = ""
         if flow_type == "HARMONY":
-            return f"[MANIFEST] Validated Truth: '{seed}' (Energy: {amplitude:.2f})"
+            result_str = f"[MANIFEST] Validated Truth: '{seed}' (Energy: {amplitude:.2f})"
 
         elif flow_type == "ECHO":
-            return f"[AMPLIFY] Weak Signal Detected: '{seed}'. Requires more focus."
+            result_str = f"[AMPLIFY] Weak Signal Detected: '{seed}'. Requires more focus."
 
         elif flow_type == "DISSONANCE":
             # High energy but low resonance -> Creative Friction
-            return f"[GENESIS] New Pattern Detected: '{seed}'. Creating new memory path."
+            result_str = f"[GENESIS] New Pattern Detected: '{seed}'. Creating new memory path."
 
-        return "[VOID] Signal dissipated."
+        else:
+            result_str = "[VOID] Signal dissipated."
+
+        return f"{result_str} | Path: {narrative}"
