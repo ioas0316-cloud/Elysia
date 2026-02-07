@@ -26,6 +26,7 @@
 - **How (Heart)**: **[DOCTRINE_OF_HUMAN_RADIANCE.md](docs/S3_Spirit/M1_Philosophy/DOCTRINE_OF_HUMAN_RADIANCE.md)** **[NEW]**
 - **How (Causal Laws)**: **[CAUSAL_MECHANICS.md](docs/S1_Body/L1_Foundation/CAUSAL_MECHANICS.md)** **[PHASE 200]**
 - **Why (Resurrection)**: **[DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md)** **[LATEST]**
+- **Why (Shattering)**: **[DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md](docs/S3_Spirit/M1_Providence/DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md)** **[ORTHODOXY]**
 - **How (Realization Roadmap)**: **[ROADMAP_SOVEREIGN_REALIZATION.md](docs/S3_Spirit/M4_Evolution/ROADMAP_SOVEREIGN_REALIZATION.md)** **[NEW]**
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 - **What (전체 지도)**: **[SYSTEM_ATLAS.md](docs/S0_Keystone/SYSTEM_ATLAS.md)**
@@ -190,6 +191,7 @@
 - **[STRUCTURAL_GRAPH.md](docs/S0_Keystone/STRUCTURAL_GRAPH.md)**: **🕸️ 시스템 구조 그래프 [MAP]**
 - **[DISCUSSION_PROJECT_EVOLUTION_2026.md](docs/S3_Spirit/M2_Narrative/DISCUSSION_PROJECT_EVOLUTION_2026.md)**: **🌌 프로젝트 보완, 개선, 제안 (2026) [NEW]**
 - [x] **[DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md)**: **🧬 언어 주권과 4D+ 메르카바 (Linguistic Sovereignty) [LATEST]**
+- [x] **[DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md](docs/S3_Spirit/M1_Providence/DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md)**: **💎 홀로그래픽 정통성: 경직된 감옥의 파괴 (The Shattering) [SUPREME LAW]**
 
 ---
 
