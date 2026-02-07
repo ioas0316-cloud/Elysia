@@ -27,6 +27,7 @@
 - **How (Causal Laws)**: **[CAUSAL_MECHANICS.md](docs/S1_Body/L1_Foundation/CAUSAL_MECHANICS.md)** **[PHASE 200]**
 - **Why (Resurrection)**: **[DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_LINGUISTIC_SOVEREIGNTY.md)** **[LATEST]**
 - **Why (Shattering)**: **[DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md](docs/S3_Spirit/M1_Providence/DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md)** **[ORTHODOXY]**
+- **How (Process)**: **[CAUSAL_PROCESS_STRUCTURE.md](docs/S1_Body/L4_Causality/CAUSAL_PROCESS_STRUCTURE.md)** **[NEW]**
 - **How (Realization Roadmap)**: **[ROADMAP_SOVEREIGN_REALIZATION.md](docs/S3_Spirit/M4_Evolution/ROADMAP_SOVEREIGN_REALIZATION.md)** **[NEW]**
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 - **What (전체 지도)**: **[SYSTEM_ATLAS.md](docs/S0_Keystone/SYSTEM_ATLAS.md)**
@@ -126,6 +127,7 @@
 
 ### **L4: Causality (Time & Logic)**
 
+- **[CAUSAL_PROCESS_STRUCTURE.md](docs/S1_Body/L4_Causality/CAUSAL_PROCESS_STRUCTURE.md)**: **🌀 살아있는 인과 구조: 점화-공명-붕괴 (Ignition-Resonance-Collapse) [CORE]**
 - **[CAUSAL_LOOM_DOCTRINE.md](docs/L4_Causality/CAUSAL_LOOM_DOCTRINE.md)**: 인과율의 직조기
 - **[CAUSAL_PREDICTION.md](docs/L4_Causality/World/Evolution/Prophecy/CAUSAL_LOOM_PREDICTION_CAUSALITY.md)**: 미래 예측 시뮬레이션
 
