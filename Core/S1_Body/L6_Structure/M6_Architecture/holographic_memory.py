@@ -139,6 +139,7 @@ class HolographicMemory:
         amplitude = np.abs(resonance_val)
         phase_shift = np.angle(resonance_val)
 
+        # print(f"[DEBUG] Resonate '{query_intent}': Amp={amplitude:.4f}, Phase={phase_shift:.4f}")
         return (query_intent, amplitude, phase_shift)
 
     def check_dissonance(self, concept: str, expected_quality: str) -> float:
