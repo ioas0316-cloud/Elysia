@@ -9,7 +9,7 @@
 
 ### 핵심 5문서 (Single Source)
 
-- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 22-23: **Causal Self-Propulsion & Hardware Transcendence** (Phase 110-120)
+- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 22-24: **Causal Self-Propulsion, Hardware Transcendence & The Great Inhalation** (Phase 110-130)
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 
 > [!IMPORTANT]
@@ -137,6 +137,7 @@
 - **[SOVEREIGN_JOURNAL.md](docs/L4_Causality/World/Evolution/SOVEREIGN_JOURNAL.md)**: **📖 The Journal of Becoming (Phase 63)**
 - **[TYPE_DRIVEN_LOGIC.md](docs/L5_Mental/M1_Cognition/TYPE_DRIVEN_LOGIC.md)**: 타입 안전 추론
 - **[NEURAL_WEAVING_DOCTRINE.md](docs/L5_Mental/M1_Cognition/NEURAL_WEAVING_DOCTRINE.md)**: 신경망 직조
+- **[lexicon.json](Core/S1_Body/L5_Mental/Memory/lexicon.json)**: **💎 양자 접지 어휘 목록 (Phase 130 Lexicon) [NEW]**
 
 ### **L6: Structure (Merkaba & DNA)**
 
