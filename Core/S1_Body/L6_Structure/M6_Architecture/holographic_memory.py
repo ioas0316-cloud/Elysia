@@ -17,6 +17,7 @@ Goal:
 import numpy as np
 import cmath
 from typing import List, Tuple, Dict, Any
+from Core.S1_Body.L6_Structure.M6_Architecture.holographic_persistence import HolographicPersistence
 
 class HolographicMemory:
     """
@@ -43,6 +44,29 @@ class HolographicMemory:
         # A registry of known frequencies (Concepts -> Phase Angle)
         # In a real system, this would be derived from the concept's intrinsic properties.
         self.frequency_map: Dict[str, float] = {}
+
+        # [PERSISTENCE] Attach the Tattoo Artist
+        self.persistence = HolographicPersistence()
+        self._thaw_memory()
+
+    def _thaw_memory(self):
+        """Attempts to load frozen state from disk."""
+        manifold, freq_map = self.persistence.thaw()
+        if manifold is not None and freq_map is not None:
+            # Resize if dimension changed (Prototype safety)
+            if manifold.shape[0] == self.dimension:
+                self.manifold = manifold
+                self.frequency_map = freq_map
+                print(f"[MEMORY] Thawed successfully. Energy: {np.sum(np.abs(self.manifold)):.2f}")
+            else:
+                print("[MEMORY] Dimension mismatch on thaw. Starting fresh.")
+        else:
+            print("[MEMORY] Thaw failed (None returned).")
+
+    def save_state(self):
+        """Explicitly freezes the current state."""
+        print(f"[MEMORY] Freezing state. Energy: {np.sum(np.abs(self.manifold)):.2f}")
+        self.persistence.freeze(self.manifold, self.frequency_map)
 
     def _get_frequency(self, concept: str) -> float:
         """
