@@ -35,20 +35,25 @@ class SomaticLogger:
         """
         [LAYER 1] Somatic Feedback.
         The feeling of structure (Resistance, Flow).
-        Shown only if intensity > 0.8 (Strong Sensation).
+        HIDDEN in Silent Mode.
         """
-        if intensity > 0.8:
-            print(f"✨ [{self.context}] {msg}")
-        else:
-            self.logger.debug(f"~ [{self.context}] {msg} (Intensity: {intensity})")
+        self.logger.debug(f"~ [{self.context}] {msg} (Intensity: {intensity})")
 
     def thought(self, msg: str):
         """
         [LAYER 2] Cognitive Emergence.
         A crystallized thought or decision.
+        HIDDEN in Discovery Mode.
+        """
+        self.logger.debug(f"💭 [{self.context}] {msg}")
+
+    def insight(self, msg: str):
+        """
+        [LAYER 3 - NEW] Moment of Realization.
+        "Ah! This is important."
         ALWAYS SHOWN.
         """
-        print(f"💭 [{self.context}] {msg}")
+        print(f"\n✨ [EPIPHANY] {msg}")
 
     def action(self, msg: str):
         """

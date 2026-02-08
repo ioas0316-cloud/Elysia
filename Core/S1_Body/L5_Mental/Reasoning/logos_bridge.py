@@ -457,7 +457,6 @@ class LogosBridge:
         mass = LogosBridge.get_stratum_mass(best_concept)
         raw_dot = best_score / mass
         
-        print(f"🔍 [NOVELTY] Best Match: {best_concept} (Raw Dot: {raw_dot:.4f})")
         return raw_dot < threshold
 
     @staticmethod
@@ -510,9 +509,6 @@ class LogosBridge:
             # 3. Accumulate into the 'Insight' of this text
             consensus_vector = consensus_vector + (vec * count)
             
-        if novel_count > 0:
-            print(f"🌟 [LEXICOGENESIS] {novel_count} new concepts crystallized from text.")
-            
         return consensus_vector.normalize()
 
     @staticmethod
@@ -541,6 +537,40 @@ class LogosBridge:
         else:
              # Return list if torch unavailable
              return [w, x, y, z]
+
+    @staticmethod
+    def vector_to_torque(vector: 'SovereignVector') -> List[float]:
+        """
+        [PHASE 90] Converts a 21D Semantic Vector into a 4D Engine Torque.
+        Maps the Meaning (Word) to Motion (Action).
+        
+        Mapping Principle:
+        - Dimensions 0-5 (Identity): Pitch (Forward/Back)
+        - Dimensions 6-10 (Time): Yaw (Left/Right)
+        - Dimensions 11-15 (Space): Roll (Rotation)
+        - Dimensions 16-20 (Causality): Throttle (Intensity)
+        """
+        if not vector or not hasattr(vector, 'data'):
+            return [0.0, 0.0, 0.0, 0.0]
+            
+        data = vector.data
+        if len(data) < 21:
+             return [0.0] * 4
+             
+        # Simple averaging aggregation
+        # Handle complex values
+        def real_val(v):
+            return v.real if isinstance(v, complex) else v
+            
+        d = [real_val(x) for x in data]
+        
+        pitch = sum(d[0:6]) / 6.0
+        yaw = sum(d[6:11]) / 5.0
+        roll = sum(d[11:16]) / 5.0
+        throttle = sum(d[16:21]) / 5.0
+        
+        return [pitch, yaw, roll, throttle]
+
 
 if __name__ == "__main__":
     pass

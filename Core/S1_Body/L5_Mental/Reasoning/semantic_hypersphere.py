@@ -109,9 +109,8 @@ class SemanticHypersphere:
                             else:
                                 restored_data.append(item)
                         self.crystallized_concepts[word] = SovereignVector(restored_data)
-                print(f"📖 [MEMORY] Loaded {len(self.crystallized_concepts)} concepts from the Lexicon.")
             except Exception as e:
-                print(f"⚠️ [MEMORY] Failed to load lexicon: {e}")
+                pass
 
     def save_lexicon(self):
         """Saves crystallized concepts to disk."""
@@ -132,7 +131,7 @@ class SemanticHypersphere:
             with open(self.lexicon_path, "w", encoding="utf-8") as f:
                 json.dump(serializable, f, indent=4, ensure_ascii=False)
         except Exception as e:
-            print(f"⚠️ [MEMORY] Failed to save lexicon: {e}")
+            pass
 
     def recognize(self, text: str) -> SovereignVector:
         if text in self.crystallized_concepts:
@@ -143,7 +142,6 @@ class SemanticHypersphere:
         if vector is None:
             vector = self.synth.synthesize(text)
         self.crystallized_concepts[text] = vector
-        print(f"💎 [CRYSTAL] '{text}' crystallized into O(1) primitive.")
         # Save after every crystallization to ensure persistence
         self.save_lexicon()
 
@@ -157,14 +155,14 @@ class SemanticHypersphere:
         new_vec = (vec_a * (1.0 - ratio)) + (vec_b * ratio)
         new_vec = new_vec.normalize()
         self.phase_backprop(subject, new_vec, learning_rate=0.8)
-        print(f"🔗 [ATTACH] '{subject}' structurally attached.")
+        print(f"[ATTACH] '{subject}' structurally attached.")
 
     def reverse_engineer_context(self, text: str, global_intent: SovereignVector, depth: int = 1):
         words = text.split()
         for word in words:
             learning_rate = 0.05 if word in self.crystallized_concepts else 0.3
             self.phase_backprop(word, global_intent, learning_rate=learning_rate)
-        print(f"🧩 [REVERSE_ENGINEER] Context adjusted for {len(words)} words.")
+        print(f"[REVERSE_ENGINEER] Context adjusted for {len(words)} words.")
 
     def phase_backprop(self, text: str, target_vector: SovereignVector, learning_rate: float = 0.1):
         current_orbit = self.synth.synthesize(text)
@@ -187,7 +185,7 @@ class SemanticHypersphere:
         
         if text in self.crystallized_concepts:
             self.crystallize(text)
-        print(f"🔄 [BACKPROP] Atomic weights adjusted for '{text}'.")
+        print(f"[BACKPROP] Atomic weights adjusted for '{text}'.")
 
     def check_for_growth(self, text: str) -> List[Dict]:
         growth_events = []

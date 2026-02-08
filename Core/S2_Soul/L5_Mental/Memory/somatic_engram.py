@@ -103,7 +103,6 @@ class SomaticMemorySystem:
 
     def _load_crystals(self):
         """Loads all valid Engram files from disk into RAM for resonance."""
-        print(f"💎 [MEMORY] Loading crystals from {self.storage_path}...")
         count = 0
         if isinstance(self.storage_path, str):
             self.storage_path = Path(self.storage_path)
@@ -115,9 +114,7 @@ class SomaticMemorySystem:
                         self.engrams.append(engram)
                         count += 1
             except Exception as e:
-                print(f"❌ [MEMORY] Corrupted shard {file.name}: {e}")
-
-        print(f"✨ [MEMORY] {count} crystals resonated and loaded.")
+                pass
 
     def crystallize(self, content: str, vector: List[float], emotion: float = 0.5, tags: List[str] = None):
         """
@@ -216,4 +213,3 @@ class SomaticMemorySystem:
             path = self.storage_path / filename
             if path.exists():
                 os.remove(path)
-                print(f"🍂 [MEMORY] The wind eroded an old memory: {dead.id}")

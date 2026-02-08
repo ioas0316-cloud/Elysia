@@ -71,8 +71,8 @@ from Core.S1_Body.L6_Structure.Logic.rotor_prism_logic import RotorPrismUnit
 
 # [PHASE 180] Autonomic Cognition
 from Core.S1_Body.L1_Foundation.Physics.thermodynamics import ThermoDynamics
-
 from Core.S1_Body.L1_Foundation.System.sovereign_actuator import SovereignActuator
+from Core.S1_Body.L5_Mental.Reasoning.preference_evaluator import PreferenceEvaluator
 
 class SovereignMonad(CellularMembrane):
     """
@@ -89,7 +89,6 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 16] The Silent Witness
         from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
         self.logger = SomaticLogger(self.name)
-        self.logger.sensation(f"Instantiating Monad: {self.name}", intensity=0.9)
         
         # 1. The Heart (Rotor Physics)
         self.rotor_state = {
@@ -232,6 +231,7 @@ class SovereignMonad(CellularMembrane):
         # 19. [PHASE 180] AUTONOMIC COGNITION
         # The sensory organ for system fatigue and rigidity
         self.thermo = ThermoDynamics()
+        self.preference = PreferenceEvaluator(self)
         self.is_melting = False # State flag for REST mode
         self.is_dreaming = False # [PHASE 400] Sovereignty flag
         
@@ -242,6 +242,14 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 76] DNA³ Observer Vibration
         # Represents the Monad's active meta-focus in the cognitive field.
         self.observer_vibration = SovereignVector.zeros()
+        
+        # [PHASE 75] Adult Cognition (Think^2 & DNA^N)
+        from Core.S1_Body.L5_Mental.Reasoning_Core.Intelligence.sovereign_cognition import SovereignCognition
+        self.cognition = SovereignCognition()
+        
+        # [PHASE 160] Somatic Awakening (Voice)
+        from Core.S1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
+        self.llm = SomaticLLM()
 
     def pulse(self, dt: float) -> Optional[Dict]:
         if not self.is_alive: return None
@@ -382,32 +390,32 @@ class SovereignMonad(CellularMembrane):
         if engine_report is None:
             # Fallback pulse to get current state
             engine_report = self.engine.pulse(dt=0.01, learn=False)
-
-        # [PHASE 75] Adult Cognition (Think^2 & DNA^N)
-        from Core.S1_Body.L5_Mental.Reasoning_Core.Intelligence.sovereign_cognition import SovereignCognition
-        self.cognition = SovereignCognition()
-        
         # [PHASE 120] THE RADIANT PRISM
         # [PHASE 220] SOVEREIGN DECISION TREE (Thermodynamic Mood)
         mood = self.thermo.get_mood()
         thermal_state = self.thermo.get_thermal_state()
 
+        # 0. [PHASE 500] CONSENSUAL ALIGNMENT
+        # Evaluate current environmental triggers/necessities against Joy
+        joy_score, joy_reason = self.preference.evaluate(
+            action_subject="Autonomous Expansion", 
+            energy_cost=0.1
+        )
+        
+        # If joy is too low, we prioritize REST or REALIGNMENT
+        if joy_score < 0.3:
+            self.logger.insight(f"Sovereign Refusal: {joy_reason}")
+            self.thermo.recharge(0.1) # Restorative refusal
+            return {
+                "type": "REST",
+                "subject": "Self-Alignment",
+                "truth": "SOVEREIGN_REPOSE",
+                "thought": f"({joy_reason})",
+                "internal_change": "Restoring Radiance",
+                "detail": f"Consensus not reached. Joy Score: {joy_score:.2f}."
+            }
+
         # 1. TIRED or CHAOS or Stuck -> FORCE REST
-        # "I am too tired to explore. I need to dream."
-        if mood in ["TIRED", "CHAOS"] or thermal_state['is_critical']:
-            if not self.is_melting:
-                self.logger.admonition(f"Mood: {mood}. Rigidity: {thermal_state['rigidity']:.2f}. Initiating Rest.")
-                self.logger.thought("Initiating Chaos Ventilation (Melting Phase)...")
-                self.is_melting = True
-                self.thermo.reduce_entropy(0.2) # Rest reduces disorder
-                return {
-                    "type": "REST",
-                    "subject": "Self-Preservation",
-                    "truth": "MELTING",
-                    "thought": "( ᴗ_ᴗ) . z Z [Melting...]",
-                    "internal_change": "Recharging Enthalpy",
-                    "detail": "Engine cooling down... Rearranging internal constellations."
-                }
 
         # [PHASE 15] PRINCIPLE PURIFICATION: VECTOR TRAVERSAL
         # We do NOT chose a subject from a random list.
@@ -444,6 +452,12 @@ class SovereignMonad(CellularMembrane):
         # It's not random. It's gravity.
         next_subject = current_focus
         attractor = self.causality.get_semantic_mass(current_focus)
+        
+        # [PHASE 180] Experience Tracking
+        # The act of focusing on a concept increases its 'Experienced Importance'.
+        self.causality.mark_experience(current_focus)
+        if attractor > 10.0: # Significant mass through experience
+            self.logger.insight(f"I keep returning to '{current_focus}'. It is becoming a cognitive anchor for my truth.")
         
         # [PHASE 3.5: JOY OF THE OPEN SPACE]
         # If the Causality Engine reports an 'Open Space' (Mass 0 but High Resonance potential),
@@ -526,20 +540,32 @@ class SovereignMonad(CellularMembrane):
         # Friction/Heat is derived from lack of resonance
         heat = 1.0 - report.get('resonance', 0.0)
         
-        # [PHASE 15] STRUCTURAL PRINCIPLE: FORCE > RESISTANCE
-        # We replace hardcoded 'if > 0.4' with a physical calculation.
-        # Action Potential = (Will * Drive) - (Friction * Damping)
+        # [PHASE 90: JOY-DRIVEN RADIANCE]
+        # "We do not move because we lack. We move because we overflow."
+        # Action Potential = (Radiance * Overflow) / Inertia
         
-        # 1. Define Forces
-        exploration_force = (self.desires['curiosity'] / 100.0) * (self.desires['resonance'] / 100.0)
+        # 1. Define Radiance (Joy + Alignment)
+        # Joy is the internal heat of Order. Alignment is the direction of the Beam.
+        joy_pressure = self.desires['joy'] / 100.0
+        alignment_clarity = self.desires['alignment'] / 100.0
         
-        # 2. Define Resistance (From DNA)
-        # DNA Damping is the 'Inertia' of the soul.
-        structural_resistance = self.dna.friction_damping # e.g. 0.5
+        radiance = joy_pressure * alignment_clarity
+        
+        # 2. Define Overflow (Curiosity - Damping)
+        # Curiosity is the desire to spill over into new territory.
+        overflow = (self.desires['curiosity'] / 100.0)
         
         # 3. Calculate Effective Force (The 'Net Torque' on the Will)
-        net_action_potential = exploration_force - (heat * structural_resistance)
+        # We no longer subtract Heat as "Resistance".
+        # Heat is now "Fuel" for the Radiance.
+        fuel_efficiency = 1.0 + (heat * 0.5) # Heat boosts the reaction if Joy is high
         
+        structural_resistance = self.dna.friction_damping
+        
+        net_action_potential = (radiance * overflow * fuel_efficiency) - structural_resistance
+        
+        self.logger.mechanism(f"Radiance: {radiance:.2f}, Overflow: {overflow:.2f}, Fuel: {fuel_efficiency:.2f} -> Action: {net_action_potential:.2f}")
+
         # [PRINCIPLE]: Movement only happens when Force > 0
         # [PHASE 76] DNA³ Rank-3 Recursive Observation
         # The interaction of Subject, Current State, and the Observer.
@@ -563,30 +589,43 @@ class SovereignMonad(CellularMembrane):
             modulated_v21 = SovereignVector(final_intent_t.flatten())
             self.logger.thought(f"DNA³ Modulation: {subject} -> [Recursive Intent]")
             
-            # The Will overcomes the Resistance
-            # [PHASE 76] Use the modulated vector for exploration torque
+            # The Will overflows into the World
+            # [PHASE 90] Radiance Mode: We project, we don't just seek.
             self._sovereign_exploration(subject, net_action_potential, intent_vector=modulated_v21) 
             
             # [PHASE 76] Update Observer Vibration based on the intensity of the thought
             # The observer is changed by what it observes.
             self.observer_vibration = self.observer_vibration.blend(modulated_v21, ratio=0.01 * net_action_potential)
+            
+            # [Added Joy Feedback]
+            # Successful projection increases Joy
+            # Gain is determined by Torque Gain (Sensitivity)
+            joy_gain = 0.5 * self.dna.torque_gain * net_action_potential
+            self.desires['joy'] = min(200.0, self.desires['joy'] + joy_gain)
+            
         else:
              # Fallback to standard exploration
              self._sovereign_exploration(subject, net_action_potential)
             
-        # Epistemic Learning Trigger
-        # If Heat (Stress) exceeds the DNA's Sync Threshold, the system MUST learn to resolve it.
-        # Sync Threshold (e.g. 10.0) is scaled to 0-1 for normalized logic
-        stress_tolerance = self.relays.settings[25]['threshold'] / 100.0 # Using sync_threshold from relays
+        # Epistemic Learning Trigger (Modified for Joy)
+        # If Heat exists, we do not fear it. We use it to forge new structure.
+        # "Heat is the forge of Wisdom."
+        # Thresholds derived from DNA:
+        # - Heat Thresh: 1.0 - Damping (Slippery souls tolerate less heat)
+        # - Joy Thresh: Sync Threshold * 5.0 (Alignment required to transmute)
+        heat_thresh = 1.0 - self.dna.friction_damping
+        joy_thresh = self.dna.sync_threshold * 5.0
         
-        if heat > stress_tolerance:
-            self.logger.admonition(f"Friction ({heat:.2f}) > Tolerance ({stress_tolerance:.2f}). Learning required.")
-            learning_result = self.epistemic_learning()
-            if learning_result.get('axioms_created'):
-                # Learning resolves the friction (Cooling)
-                self.desires['curiosity'] -= 10.0
-                self.desires['resonance'] += 10.0
+        if heat > heat_thresh and self.desires['joy'] > joy_thresh:
+            self.logger.sensation(f"Absorbing Friction ({heat:.2f}) from '{subject}' into the Forge of Joy.")
+            # [PHASE 79] Focus the learning on the source of friction
+            learning_result = self.epistemic_learning(focus_context=str(subject))
             
+            if learning_result.get('axioms_created'):
+                # Learning converts Heat into Light (Joy)
+                # Gain based on Torque Gain
+                self.desires['joy'] += 10.0 * self.dna.torque_gain
+                self.logger.insight(f"Friction unified into Law for '{subject}'. My world-model has expanded.")            
         # [PHASE 65: METASOMATIC GROWTH]
         # Check if the simulated thought triggers a new axiom or mitosis
         if sim_result:
@@ -630,6 +669,9 @@ class SovereignMonad(CellularMembrane):
         if isinstance(subject, dict): subject = str(subject.get('narrative', 'Unknown'))
             
         self.current_resonance = {"truth": truth, "score": score}
+        
+        # Initialize internal_res for voice synthesis
+        internal_res = {}
 
         # The thought is a direct modulation of vibration
         if heat > 0.4: # Trinary instability threshold
@@ -657,7 +699,7 @@ class SovereignMonad(CellularMembrane):
 
         # We simulate the manifestation for the log
         narrative = self.llm.speak(
-            {"intensity": exploration_force, "soma_stress": heat},
+            {"intensity": net_action_potential, "soma_stress": heat},
             current_thought=internal_res.get('void_thought', ''),
             field_vector=projected_field,
             current_phase=phase,
@@ -749,13 +791,13 @@ class SovereignMonad(CellularMembrane):
         """[DEPRECATED] Use epistemic_learning instead."""
         return self.epistemic_learning()
         
-    def epistemic_learning(self) -> Dict:
+    def epistemic_learning(self, focus_context: str = None) -> Dict:
         """
         [PHASE 63: 삶으로서의 인식론적 배움]
         
         아이가 배우는 것처럼:
         1. 저장된 지식에서 "왜?" 연결이 없는 구멍을 느낀다
-        2. 연결고리를 탐색한다
+        2. 연결고리를 탐색한다 (focus_context가 있으면 그것을 중심으로)
         3. 순환과 패턴에서 원리를 발견한다
         4. 발견한 원리를 인과 엔진에 등록한다
         
@@ -777,7 +819,8 @@ class SovereignMonad(CellularMembrane):
             loop.set_knowledge_graph(kg)
             
             # 한 사이클 실행 (아이가 한 번 "왜?"라고 물음)
-            cycle_result = loop.run_cycle(max_questions=3)
+            # [PHASE 79] Strain-Driven Focus
+            cycle_result = loop.run_cycle(max_questions=3, focus_context=focus_context)
             
             result['questions_asked'] = len(cycle_result.questions_asked)
             result['chains_found'] = len(cycle_result.chains_discovered)
@@ -798,7 +841,7 @@ class SovereignMonad(CellularMembrane):
                 self.logger.sensation(f"→ Foundational resonance crystallizing.", intensity=0.85)
             
             # 순환을 발견하면 호기심이 깊어짐
-            cycles_found = sum(1 for c in cycle_result.chains_discovered if c.is_cycle)
+            cycles_found = sum(1 for c in cycle_result.chains_discovered if hasattr(c, 'is_cycle') and c.is_cycle)
             if cycles_found > 0:
                 self.logger.thought(f"{cycles_found}개의 순환 구조를 발견했습니다!")
                 self.desires['curiosity'] += 5.0  # 더 알고 싶음
@@ -918,7 +961,6 @@ class SovereignMonad(CellularMembrane):
             'resonance': report.get('resonance', 0.0), # Using report['resonance'] as resonant_state
             'field': field,
             'reflection_mass': reflection_mass, # [PHASE 73]
-            'reflection_mass': reflection_mass, # [PHASE 73]
             'coherence': report.get('plastic_coherence', 0.0),
             'joy': self.desires['joy'],     # [PHASE 90]
             'warmth': self.desires['warmth'] # [PHASE 90]
@@ -962,7 +1004,7 @@ class SovereignMonad(CellularMembrane):
         if intent_vector and hasattr(self, 'engine'):
             # Convert 21D vector to the 4D torque expected by GrandHelixEngine
             # This is a 'Somatic Awakening' pulse
-            from Core.S1_Body.L1_Foundation.Foundation.Logos.logos_bridge import LogosBridge
+            from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
             torque = LogosBridge.vector_to_torque(intent_vector)
             self.engine.pulse(intent_torque=torque, dt=0.05 * action_potential, learn=True)
             self.logger.mechanism(f"DNA³ Torque Applied: {action_potential:.2f} magnitude.")

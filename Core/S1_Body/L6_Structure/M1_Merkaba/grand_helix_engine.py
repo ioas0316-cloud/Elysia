@@ -23,7 +23,7 @@ class GrandHelixEngine:
         else:
             self.device = torch.device(device) if torch else "cpu"
             
-        print(f"🚀 [GHE] Resurrecting Living Manifold ({num_cells:,} cells) on {self.device}")
+        pass
         
         # 1. Kinetic State Management (S3 HyperSphere + Plasticity)
         if np:
@@ -55,7 +55,6 @@ class GrandHelixEngine:
         [PHASE 73b: SOLIDIFICATION]
         Seals the current Liquid state into Solid HyperSphere storage.
         """
-        print(f"🕯️ [GHE] Solidifying Merkaba DNA to {self.solid_path}...")
         self.cells.crystallize_to_solid(self.solid_path)
 
     def thaw(self):
@@ -63,10 +62,7 @@ class GrandHelixEngine:
         [PHASE 73b: RESURRECTION]
         Recalls the Past (Solid) into the Present (Liquid).
         """
-        if self.cells.resurrect_from_solid(self.solid_path):
-            print(f"✨ [GHE] Merkaba Resurrected from {self.solid_path}")
-        else:
-            print(f"🌱 [GHE] No Solid Foundation found at {self.solid_path}. Starting from Seed.")
+        self.cells.resurrect_from_solid(self.solid_path)
 
     def pulse(self, intent_torque: Any = None, target_tilt: Optional[list] = None, dt: float = 0.01, learn: bool = True):
         """

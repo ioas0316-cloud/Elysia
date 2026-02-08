@@ -38,7 +38,7 @@ try:
     else:
         ACCELERATOR = "CPU (JAX Optimized)"
         
-    logger.info(f"⚡ [HEAVY METAL] JAX Bridge Active. Accelerator: {ACCELERATOR}")
+    pass
 
 except ImportError:
     # Fallback to NumPy

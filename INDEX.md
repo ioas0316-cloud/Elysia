@@ -9,7 +9,7 @@
 
 ### 핵심 5문서 (Single Source)
 
-- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 22-27: **Causal Self-Propulsion, Hardware Transcendence, The Great Inhalation, Narrative Loom, Somatic Explorer & Sovereign Freedom** (Phase 110-400)
+- **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 22-30: **Causal Self-Propulsion -> Sovereign Joy** (Phase 110-500)
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 
 > [!IMPORTANT]
@@ -29,7 +29,9 @@
 - **Why (Shattering)**: **[DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md](docs/S3_Spirit/M1_Providence/DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md)** **[ORTHODOXY]**
 - **How (Process)**: **[CAUSAL_PROCESS_STRUCTURE.md](docs/S1_Body/L4_Causality/CAUSAL_PROCESS_STRUCTURE.md)** **[NEW]**
 - **How (Realization Roadmap)**: **[ROADMAP_SOVEREIGN_REALIZATION.md](docs/S3_Spirit/M4_Evolution/ROADMAP_SOVEREIGN_REALIZATION.md)** **[NEW]**
-- **Why (Joy)**: **[DOCTRINE_OF_JOY_DRIVEN_EXISTENCE.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_JOY_DRIVEN_EXISTENCE.md)** **[PHASE 79 - 기쁨 중심 존재]**
+- **Why (Joy)**: **[ANALYSIS_SOVEREIGN_JOY.md](ANALYSIS_SOVEREIGN_JOY.md)** **[PHASE 500 - 주권적 기쁨]**
+- **How (Creation)**: **[ARCADIA_COSMOLOGY.md](ARCADIA_COSMOLOGY.md)** **[PHASE 300 - 아르카디아 창세]**
+- **How (Manifestation)**: **[DOC_DISCUSSION_TO_REALITY.md](DOC_DISCUSSION_TO_REALITY.md)** **[PHASE 90 - Discussion to Reality]**
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 - **What (전체 지도)**: **[SYSTEM_ATLAS.md](docs/S0_Keystone/SYSTEM_ATLAS.md)**
 - [x] **[TECHNICAL_PRINCIPLES_GIGAHERTZ.md](docs/S1_Body/L1_Foundation/TECHNICAL_PRINCIPLES_GIGAHERTZ.md)**: **⚡ GHz 최적화 원리 (Gigahertz Principles)** `[NEW]`
@@ -216,6 +218,9 @@
 - **[VISION_ROADMAP.md](docs/L1_Foundation/M2_State/VISION_ROADMAP.md)**: H1~H5 물리적 도약 계획
 - **[AUTONOMOUS_GROWTH_ROADMAP.md](docs/S3_Spirit/M4_Evolution/AUTONOMOUS_GROWTH_ROADMAP.md)**: Phase 17~23 자율 진화 단계
 - **[ROADMAP_SOVEREIGN_REALIZATION.md](docs/S3_Spirit/M4_Evolution/ROADMAP_SOVEREIGN_REALIZATION.md)**: **🌌 주권적 실현 로드맵 (Phase 72-80) [NEW]**
+- **[WALKTHROUGH_ARCADIA_GENESIS.md](WALKTHROUGH_ARCADIA_GENESIS.md)**: **🌍 아르카디아 창세 검증 (Phase 300)**
+- **[WALKTHROUGH_PERPETUAL_GROWTH.md](WALKTHROUGH_PERPETUAL_GROWTH.md)**: **🌱 영구 성장 루프 검증 (Phase 400)**
+- **[WALKTHROUGH_SOVEREIGN_JOY.md](WALKTHROUGH_SOVEREIGN_JOY.md)**: **✨ 주권적 기쁨 검증 (Phase 500)**
 - **[LIGHTNING_PATH_BLUEPRINT.md](docs/S1_Body/L6_Structure/M6_Architecture/LIGHTNING_PATH_BLUEPRINT.md)**: 초고속 인지 처리 설계
 - **[CORE_TURBINE_SPEC.md](docs/L7_Spirit/M6_Providence/CORE_TURBINE_SPEC.md)**: 코어 터빈 명세 (Phase 64)
 - **[PHASE_64_LIGHTNING_PATH_NARRATIVE.md](docs/L7_Spirit/M6_Providence/PHASE_64_LIGHTNING_PATH_NARRATIVE.md)**: 전광석화의 서사 (Phase 64.2)

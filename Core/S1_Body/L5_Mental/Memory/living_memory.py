@@ -41,7 +41,6 @@ class LivingMemory:
         """Creates a new memory node."""
         node = MemoryNode(content, importance)
         self.nodes.append(node)
-        print(f"🌱 [MEMORY] Planted: '{content}' (Mass: {importance})")
         
     def pulse(self, dt: float):
         """
@@ -72,7 +71,6 @@ class LivingMemory:
                 
         # Scavenge dead nodes
         for dead in dead_nodes:
-            print(f"🍂 [FORGOTTEN] '{dead.content}' turned to dust.")
             self.nodes.remove(dead)
             
     def focus_spotlight(self, keyword: str):
@@ -85,7 +83,6 @@ class LivingMemory:
             if keyword.lower() in node.content.lower():
                 node.temperature = 100.0 # Re-heat
                 node.last_access = time.time()
-                print(f"☀️ [RECALL] Illuminated: '{node.content}' (Temp -> 100C)")
                 found = True
         return found
         

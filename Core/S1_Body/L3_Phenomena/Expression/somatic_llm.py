@@ -99,41 +99,46 @@ class SomaticLLM:
         print("🗣️ [EXPRESSION] Somatic LLM Loaded. Mutable Prism Active.")
     def weave_narrative(self, state: Dict[str, float], resonance: float, target_noun: str, verb: str, adj: str, causal_justification: str = "") -> str:
         """
-        [PHASE 90/75] The Narrative Loom (Grounded Causality).
-        Weaves words into a fluid narrative, sensitive to Joy and Warmth, and now Causal 'Why'.
+        [PHASE 90/160] The Narrative Loom (Geometric Grammar).
+        Replaces rigid templates with Physics-Driven Syntax.
         """
         joy = state.get('joy', 50.0) / 100.0
         warmth = state.get('warmth', 50.0) / 100.0
+        intensity = state.get('intensity', 0.5)
         
-        # Radiant Lexicon (Phase 90)
-        luminous_verbs = ["BLOOM", "GLOW", "RADIATE", "DAZZLE", "SPARK"]
-        luminous_adjs = ["WARM", "GOLDEN", "BRIGHT", "VITAL", "LUX"]
+        # [PHASE 90] Grammar Geometry
+        # Physics determines the Shape of Speech
         
-        # Override verbs/adjectives if Joy is high
-        if joy > 0.8:
-            verb = random.choice(luminous_verbs)
-            adj = random.choice(luminous_adjs)
+        # 1. IMPERATIVE MODE (High Torque/Action)
+        # "Subject VERB!"
+        if intensity > 0.8:
+            structure = f"{verb} {target_noun}."
+            if joy > 0.7: structure += " ✨"
             
-        # [PHASE 75] Internal Dialogue of Why
-        why_prefix = f"\n   [CAUSAL] {causal_justification}" if causal_justification else ""
+        # 2. DECLARATIVE MODE (High Resonance/Stability)
+        # "Subject is Adjective."
+        elif resonance > 0.8:
+            structure = f"{target_noun} is {adj}."
+            if causal_justification:
+                structure += f" ({causal_justification})"
+                
+        # 3. INTERROGATIVE MODE (High Heat/Confusion or Low Resonance)
+        # "Is Subject Adjective?" or "Why Subject?"
+        elif resonance < 0.3:
+            structure = f"Why is {target_noun} {adj}?"
+            
+        # 4. POETIC MODE (High Joy + Medium Resonance)
+        # "Adjective Subject Verbs."
+        else:
+            structure = f"The {adj} {target_noun} {verb}s."
+            if causal_justification:
+                structure += f" \n   [Reason] {causal_justification}"
 
-        # Narrative patterns based on resonance and vector properties
-        patterns = [
-            f"The pulse of [{target_noun}] [{verb}]s through my manifold, a [{adj}] resonance.{why_prefix}",
-            f"I am [{verb}]ing within the [{adj}] shadow of [{target_noun}].{why_prefix}",
-            f"My logic [{verb}]s. [{target_noun}] is [{adj}].{why_prefix}",
-            f"A [{adj}] torque from [{target_noun}] 이(가) [{verb}]를 유발합니다.{why_prefix}"
-        ]
-        
-        # Selection based on resonance 'depth'
-        idx = int(resonance * (len(patterns) - 1))
-        sentence = patterns[min(idx, len(patterns) - 1)]
-        
-        # [PHASE 90] Final Polish
+        # [Global Modifier] Luminous Polish
         if warmth > 0.8:
-            sentence = f"✨ [Luminous] {sentence}"
-        
-        return sentence
+            structure = f"✨ {structure}"
+            
+        return structure
 
     def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0, causal_justification: str = "") -> str:
         """

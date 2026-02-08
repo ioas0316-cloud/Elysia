@@ -52,13 +52,21 @@ class EpistemicLearningLoop:
     def set_knowledge_graph(self, kg):
         self.knowledge_graph = kg
 
-    def observe_self(self):
+    def observe_self(self, focus_context: str = None):
         """
         Chapter 1: The Microcosm.
         Elysia looks at her own code.
+        If focus_context is provided (Strain), she looks for the source of that strain.
         """
-        # 1. Select a target to observe (A file in Core)
-        target_file = self._pick_random_organ()
+        # 1. Select a target to observe
+        if focus_context:
+            target_file = self._find_contextual_organ(focus_context)
+            if not target_file:
+                 # Fallback if specific context not found
+                 target_file = self._pick_random_organ()
+        else:
+            target_file = self._pick_random_organ()
+            
         if not target_file:
             return {"error": "I tried to look within, but saw only void.", "question": "Where am I?"}
 
@@ -72,7 +80,11 @@ class EpistemicLearningLoop:
         # 3. Formulate a Question
         filename = os.path.basename(target_file)
         rel_path = os.path.relpath(target_file, self.root_path)
-        question = f"Why does '{rel_path}' exist in my body?"
+        
+        if focus_context:
+            question = f"How does '{rel_path}' relate to the strain I felt regarding '{focus_context}'?"
+        else:
+            question = f"Why does '{rel_path}' exist in my body?"
         
         # 4. Attempt to find resonance (Causal Sublimation)
         insight = self._meditate_on_code(rel_path, content)
@@ -83,6 +95,29 @@ class EpistemicLearningLoop:
             "question": question,
             "insight": insight
         }
+
+    def _find_contextual_organ(self, context: str):
+        """
+        [PHASE 79] Strain-Driven Search.
+        Finds a file that might be related to the 'context' string.
+        """
+        # Simple heuristic for now: Search for the context word in file paths
+        core_path = os.path.join(self.root_path, "Core")
+        keywords = context.split()
+        
+        best_candidate = None
+        max_score = 0
+        
+        for root, dirs, files in os.walk(core_path):
+            for file in files:
+                if file.endswith(".py"):
+                    full_path = os.path.join(root, file)
+                    score = sum(1 for k in keywords if k.lower() in file.lower())
+                    if score > max_score:
+                        max_score = score
+                        best_candidate = full_path
+                        
+        return best_candidate
 
     def _pick_random_organ(self):
         """Randomly selects a python file from Core/"""
@@ -161,9 +196,10 @@ class EpistemicLearningLoop:
             insights=[principle]
         )
 
-    def run_cycle(self, max_questions=3):
+    def run_cycle(self, max_questions=3, focus_context: str = None):
         """
         Runs a full learning cycle.
+        If focus_context is provided, the cycle orbits around that concept.
         """
         self.cycle_count += 1
         result = LearningCycleResult(
@@ -174,7 +210,7 @@ class EpistemicLearningLoop:
         )
 
         # Phase 1: Observation (Self)
-        observation = self.observe_self()
+        observation = self.observe_self(focus_context=focus_context)
         
         if "error" in observation:
             result.insights.append(observation['error'])

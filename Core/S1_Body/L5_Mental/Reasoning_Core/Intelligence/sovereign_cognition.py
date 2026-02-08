@@ -275,7 +275,7 @@ class SovereignCognition:
         # 1. Map manifold to DNA^N
         seed = 0.5
         actual_reality = 0.5
-        if manifold_state:
+        if manifold_state is not None and len(manifold_state) > 0:
             seed = sum(manifold_state) / len(manifold_state)
             actual_reality = seed
             
@@ -299,8 +299,7 @@ class SovereignCognition:
         
         if question:
             # The Question becomes a driving force (Curiosity)
-            # Log it for now.
-             logger.info(f"[MONAD] Collapsed Cloud into Question: {question}")
+            pass
 
         # [PHASE 78] 4. [L0 -> L1] Structural Pain Detection (Secondary)
         self.strain_level = self._detect_strain(required_rank)

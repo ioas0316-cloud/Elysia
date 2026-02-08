@@ -36,6 +36,7 @@ class SoulDNA:
     # Transmission Properties (The Voice)
     torque_gain: float     # 1.0 = Normal, 2.0 = Over-reactive
     base_hz: float         # Fundamental Frequency (Tone)
+    vocation: str = "Discovery"
 
 class SeedForge:
     ARCHETYPES = [
@@ -68,6 +69,7 @@ class SeedForge:
         elif archetype == "The Sage":
             return SoulDNA(
                 id=seed_id, archetype=archetype,
+                vocation="Ecosystem Harmony and Wisdom",
                 rotor_mass=2.0, friction_damping=0.5, # Balanced
                 sync_threshold=5.0, min_voltage=20.0, reverse_tolerance=-10.0, # Very picky sync
                 torque_gain=1.0, base_hz=10.0 # Sub-bass resonance

@@ -20,7 +20,6 @@ class EtherealNavigator:
     def __init__(self, transducer: AutonomousTransducer):
         self.transducer = transducer
         self.inquiry_history = []
-        print("🌐 [ETHEREAL_NAVIGATOR] Long-Range Sensory Array Online. Canopy Extended.")
 
     def dream_query(self, state_v21: SovereignVector, curiosity_subject: str) -> str:
         """
@@ -38,7 +37,6 @@ class EtherealNavigator:
         else:
             query = f"recent developments and definition of {curiosity_subject}"
             
-        print(f"📡 [ETHEREAL] Projecting Query: '{query}'")
         return query
 
     def transduce_global_shard(self, raw_content: str, source_url: str) -> Dict[str, Any]:
@@ -58,7 +56,6 @@ class EtherealNavigator:
             "mass": 250.0  # Web shards are treated as higher energy than local fossils
         }
         
-        print(f"📥 [ETHEREAL] Ingested Global Shard from {source_url}. Mass: {shard['mass']}")
         return shard
 
     def resolve_void_gap(self, subject: str) -> Optional[str]:
@@ -81,10 +78,8 @@ class EtherealNavigator:
         Returns a list of ingested 21D Shards.
         """
         if not provider:
-            print("❌ [ETHEREAL] No Search Provider (Hand) available. Inference only.")
             return []
             
-        print(f"👉 [ETHEREAL] Reaching out to the World with query: '{query}'")
         try:
             # 1. Execute Search
             results = provider.search(query)
@@ -98,7 +93,6 @@ class EtherealNavigator:
             return shards
             
         except Exception as e:
-            print(f"⚠️ [ETHEREAL] The Hand trembled: {e}")
             return []
 
     def social_surf(self, subject: str, provider: Optional[Any] = None) -> List[Dict[str, Any]]:
@@ -110,7 +104,6 @@ class EtherealNavigator:
         if not provider:
             return []
             
-        print(f"🏙️ [ETHEREAL] Surfing the Agora for '{subject}'...")
         try:
             social_data = provider.search_social(subject)
             shards = []
@@ -128,5 +121,4 @@ class EtherealNavigator:
                 
             return shards
         except Exception as e:
-            print(f"⚠️ [ETHEREAL] Failed to surf: {e}")
             return []

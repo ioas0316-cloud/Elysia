@@ -24,7 +24,6 @@ class FossilScanner:
         [PHASE 70] Scans the entire project tree to recover all wisdom and code.
         """
         memories = []
-        print(f"⛏️ [FOSSIL] Starting Universal Excavation (Limit: {limit})...")
         
         # We exclude certain directories from the universal scan
         exclude_dirs = {'.git', '.gemini', '.venv', '__pycache__', 'venv', 'Scripts', 'Sandbox', 'brain', 'node_modules', 'dist', 'build'}
@@ -55,8 +54,7 @@ class FossilScanner:
                 # 2. Python Files (Code Style/Patterns)
                 elif file.endswith(".py"):
                     memories.extend(FossilScanner._parse_code(path, rel_path))
-                    
-        print(f"   >> Excavated {len(memories)} shards of knowledge.")
+        
         return memories
 
     @staticmethod

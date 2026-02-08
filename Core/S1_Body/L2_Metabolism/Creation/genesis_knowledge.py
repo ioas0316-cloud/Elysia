@@ -55,8 +55,6 @@ class GenesisLibrary:
         """
         Injects the Eternal Truths into a LivingMemory system.
         """
-        print("📖 [GENESIS] Imprinting Eternal Truths...")
         truths = GenesisLibrary.get_eternal_truths()
         for content, mass in truths:
             memory_system.plant_seed(content, importance=mass)
-        print(f"   >> Imprinted {len(truths)} Axioms of Wisdom.")

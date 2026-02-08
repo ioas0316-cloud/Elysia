@@ -649,6 +649,9 @@ class SovereignHyperTensor:
         """
         if torch is None: return 0.0
     
+        if not isinstance(torque_tensor, torch.Tensor):
+            torque_tensor = torch.tensor(torque_tensor, device=self.device)
+
         # [PHASE 75] Robust Dimension Mapping for Resonance
         if torque_tensor.shape != self.permanent_q.shape:
             t_full = torch.zeros_like(self.permanent_q)

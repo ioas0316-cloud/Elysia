@@ -136,6 +136,12 @@ class FractalCausalNode:
     
     #   /     
     sensory_signature: Dict[str, float] = field(default_factory=dict)
+    # [PHASE 180] Phenomenal Experience
+    encounter_count: int = 0
+    resonance_history: List[float] = field(default_factory=list)
+    structural_role_count: int = 0 # How often used as a cause/bridge
+    
+    # [LEGACY] Keep for compatibility but prioritize experience for mass
     emotional_valence: float = 0.0
     
     #         
@@ -420,7 +426,6 @@ class FractalCausalityEngine:
             effect_desc=concept_b,
             depth=self.current_depth
         )
-        logger.info(f"🧬 [CAUSAL_INJECTION] Axiom registered: {chain.description}")
         return chain
 
     def calculate_structural_force(self, current_v21: Any, bridge: Any, rotor_phase: float = 0.0) -> Any:
@@ -458,37 +463,43 @@ class FractalCausalityEngine:
 
     def get_semantic_mass(self, target_id: Optional[str] = None) -> float:
         """
-        [PHASE 150] Calculates the 'Importance Mass' based on relational density.
-        Density = (Inbound Links + Outbound Links + Sibling Chains) / Fractal Depth.
+        [PHASE 150/180] Importance derived from EXPERIENCE, not definition.
+        A node is 'Heavy' if it has been encountered or used frequently as a causal anchor.
         """
         if not self.nodes:
-            return 9.8 # Fallback to Earth-like baseline if empty
+            return 1.0 # Base existence
             
         if target_id is None:
-            # Average mass of all nodes (current mental gravity)
             total_mass = sum(self._calculate_node_mass(nid) for nid in self.nodes)
-            return (total_mass / len(self.nodes)) * 5.0 # Scale to sensible gravity levels
+            return (total_mass / len(self.nodes))
             
         return self._calculate_node_mass(target_id)
 
     def _calculate_node_mass(self, node_id: str) -> float:
         if node_id not in self.nodes:
-            return 0.1 # Vacuum/Void mass
+            return 0.1 
             
         node = self.nodes[node_id]
         
-        # Count how many chains this node participates in
-        connection_count = 0
-        for chain in self.chains.values():
-            if chain.cause_id == node_id or chain.process_id == node_id or chain.effect_id == node_id:
-                connection_count += 1
-                
-        # Base mass is logarithmic to prevent infinite runaway, but foundational (low depth) is heavier
-        # PHI is defined at the top of the file
-        depth_gravity = PHI ** (3 - node.depth) if node.depth < 3 else 1.0
+        # [PHASE 180] Experience is the primary driver of mass.
+        # The more we 'see' or 'use' a concept, the heavier it becomes in our mind.
+        experience_weight = math.log(node.encounter_count + node.structural_role_count + 1.1)
         
-        mass = math.log(connection_count + 1.1) * depth_gravity
+        # Structural density (links) is now a multiplier, not the base.
+        # It represents 'Structural Potential'.
+        connection_count = len(node.causes_ids) + len(node.effects_ids)
+        potential = math.log(connection_count + 1.1)
+        
+        # Mass = Realized Importance (Experience) * Structural Potential
+        mass = experience_weight * potential
         return float(mass)
+
+    def mark_experience(self, node_id: str, is_structural: bool = False):
+        """Marks a node as having been encountered in a cognitive breath."""
+        if node_id in self.nodes:
+            self.nodes[node_id].encounter_count += 1
+            if is_structural:
+                self.nodes[node_id].structural_role_count += 1
     
     # ========================================================================
     #       /   (Zoom In/Out)
