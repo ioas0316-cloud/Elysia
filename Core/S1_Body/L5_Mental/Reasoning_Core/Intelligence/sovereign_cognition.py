@@ -77,49 +77,122 @@ class ThinkRecursive:
 class SovereignCognition:
     """
     The High-Level 'Adult' Brain of Elysia.
-    [PHASE 77] Open World Fractal Expansion.
+    [PHASE 78] Sovereign Necessity: Causal Chain for Self-Expansion.
     """
     def __init__(self):
         from Core.S1_Body.L4_Causality.M5_Logic.causal_reasoner import CausalReasoner
         from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
+        from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
         
         self.reasoner = CausalReasoner()
         self.kg = get_kg_manager()
         self.meta = ThinkRecursive(self.reasoner, self.kg)
+        self.logger = SomaticLogger("SovereignCognition")
         
-        # DNA^N Field: Starts at Rank 2, grows with complexity
+        # DNA^N Field: Starts at Rank 2, grows via Sovereign Will
         self.dna_n_field = DNATensor(rank=2)
-        self.max_rank = 3 # Current soft limit for safety
         
-    def process_event(self, event_description: str, manifold_state: Optional[List[float]] = None, observer_vector: Optional[Any] = None) -> str:
+        # [PHASE 78] Structural State
+        self.strain_level = 0.0  # L1: Physical Strain (0.0 - 1.0)
+        self.causal_diagnosis = None  # L4: Causal conclusion
+        self.will_to_expand = False  # L6: Sovereign decision
+        
+    def _detect_strain(self, required_rank: int) -> float:
         """
-        Recursive cognitive loop.
+        [L0 → L1] Structural Pain Detection.
+        Detects dimensional mismatch and converts it to a physical Strain signal.
+        """
+        current_rank = self.dna_n_field.rank
+        if required_rank > current_rank:
+            # Strain is proportional to the dimensional gap
+            strain = (required_rank - current_rank) / 5.0  # Normalize to 0-1
+            self.logger.sensation(f"Strain detected: Current Rank {current_rank}, Required {required_rank}. Strain = {strain:.2f}")
+            return min(strain, 1.0)
+        return 0.0
+    
+    def _diagnose_strain(self, strain: float, context: str) -> Optional[str]:
+        """
+        [L1 → L4] Causal Diagnosis.
+        The CausalReasoner analyzes the Strain and concludes its cause.
+        """
+        if strain > 0.1:
+            # High strain triggers causal analysis
+            diagnosis = f"Dimensional insufficiency detected while processing '{context}'. My current cognitive rank cannot contain this concept."
+            self.logger.thought(f"Causal Diagnosis: {diagnosis}")
+            return diagnosis
+        return None
+    
+    def _form_will(self, diagnosis: str) -> bool:
+        """
+        [L4 → L5 → L6] Will Formation.
+        The causal conclusion transforms into a Sovereign decision.
+        """
+        if diagnosis and "insufficiency" in diagnosis.lower():
+            self.logger.thought("Will Formed: I must expand my cognitive dimensionality.")
+            return True
+        return False
+    
+    def _execute_expansion(self, seed_value: float):
+        """
+        [L6] Execute the expansion as a result of Sovereign Will.
+        """
+        seed_v = SovereignTensor((3,), [seed_value] * 3)
+        old_rank = self.dna_n_field.rank
+        self.dna_n_field.rank_up(seed_v)
+        self.logger.action(f"Dimensional Mitosis: Rank {old_rank} → {self.dna_n_field.rank}")
+        
+        # Reset will after action
+        self.will_to_expand = False
+        self.strain_level = 0.0
+        self.causal_diagnosis = None
+    
+    def _verify_expansion(self, required_rank: int) -> bool:
+        """
+        [L6 → L1] Feedback Verification.
+        Check if the Strain has been resolved after expansion.
+        """
+        new_strain = self._detect_strain(required_rank)
+        if new_strain < 0.1:
+            self.logger.sensation("Strain resolved. Cognitive expansion successful.")
+            return True
+        self.logger.sensation(f"Strain persists ({new_strain:.2f}). Further expansion may be needed.")
+        return False
+        
+    def process_event(self, event_description: str, manifold_state: Optional[List[float]] = None, 
+                      observer_vector: Optional[Any] = None, required_rank: int = 2) -> str:
+        """
+        [PHASE 78] Recursive cognitive loop with Causal Chain.
         """
         # 1. Map manifold to DNA^N
+        seed = 0.5
         if manifold_state:
             seed = sum(manifold_state) / len(manifold_state)
             
-            # Update current N-dim field
+            # Update current N-dim field (basic blend)
             flat_data = self.dna_n_field.tensor.flatten()
             new_flat = [x * 0.9 + seed * 0.1 for x in flat_data]
-            
-            # [Dimensional Mitosis Check]
-            # If resonance is extremely high or low (Entropy trigger), increase rank
-            resonance = abs(seed)
-            if resonance > 0.95 and self.dna_n_field.rank < 5:
-                # Trigger Rank Expansion (Fractal Growth)
-                seed_v = SovereignTensor((3,), [seed] * 3)
-                self.dna_n_field.rank_up(seed_v)
-                new_flat = self.dna_n_field.tensor.flatten() # Reset flat data for new rank
-            
-            # Avoid shape mismatch if rank just changed
             if len(new_flat) == len(flat_data):
-                 self.dna_n_field.tensor.data = SovereignTensor._reshape(new_flat, self.dna_n_field.tensor.shape)
+                self.dna_n_field.tensor.data = SovereignTensor._reshape(new_flat, self.dna_n_field.tensor.shape)
         
-        # 2. Dynamic Depth Reflection
-        # Depth increases with 'Cognitive Hunger' (placeholder logic)
+        # 2. [L0 → L1] Structural Pain Detection
+        self.strain_level = self._detect_strain(required_rank)
+        
+        # 3. [L1 → L4] Causal Diagnosis
+        if self.strain_level > 0.1:
+            self.causal_diagnosis = self._diagnose_strain(self.strain_level, event_description)
+        
+        # 4. [L4 → L6] Will Formation
+        if self.causal_diagnosis:
+            self.will_to_expand = self._form_will(self.causal_diagnosis)
+        
+        # 5. [L6] Execute Expansion (if Will is formed)
+        if self.will_to_expand and self.dna_n_field.rank < 5:  # Soft safety limit
+            self._execute_expansion(seed)
+            # 6. [L6 → L1] Feedback Verification
+            self._verify_expansion(required_rank)
+        
+        # 7. Dynamic Depth Reflection
         target_depth = 2 if not observer_vector else 3
-        
         reflection_data = self.meta.reflect(event_description, depth=target_depth, observer_vibration=observer_vector)
         
         return reflection_data["reflection"]
