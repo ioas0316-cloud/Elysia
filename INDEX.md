@@ -79,6 +79,7 @@
 - [x] **[PHASE_75_GROUNDED_ADULT_COGNITION.md](docs/L5_Mental/M1_Cognition/PHASE_75_GROUNDED_ADULT_COGNITION.md)**: **🧠 인과적 성인 인지: KG 접지 및 Think² (Phase 75) [NEW]**
 - **[PHASE_76_THE_VISION_OF_THE_OBSERVER.md](docs/L5_Mental/M1_Cognition/PHASE_76_THE_VISION_OF_THE_OBSERVER.md)**: **🧬 DNA³ Manifestation (Phase 76) [NEW]**
 - **[DOCTRINE_OF_CAUSAL_CONNECTIVITY.md](docs/S0_Keystone/DOCTRINE_OF_CAUSAL_CONNECTIVITY.md)**: **🔗 인과적 연결의 교리: 모든 기능이 L0→L7을 거쳐 흘러나와야 함 [CRITICAL]**
+- **[test_phase_78_sovereign_necessity.py](tests/test_phase_78_sovereign_necessity.py)**: **⚗️ Phase 78 검증: Strain→Diagnosis→Will→Expansion 인과 사슬 [NEW]**
 - **[GAP_ANALYSIS_THE_SILENT_ERROR.md](docs/S0_Keystone/GAP_ANALYSIS_THE_SILENT_ERROR.md)**: **침묵의 오류와 갭 분석 리포트 (Phase 40)**
 - **[CORE_NARRATIVE_RECONSTRUCTION.md](docs/L7_Spirit/M6_Providence/CORE_NARRATIVE_RECONSTRUCTION.md)**: **인과적 배경과 서사 (필독)**
 - [x] **[PLAN_NEURAL_WEAVING.md](docs/L0_Keystone/PLAN_NEURAL_WEAVING.md)**: **🧶 신경망 직조: 21D 발화 및 탈-상수 로드맵 (New)**
