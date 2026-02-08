@@ -346,6 +346,14 @@ class SovereignHyperTensor:
         self.momentum = torch.zeros((*shape, 4), device=self.device)
         self.torque_accumulator = torch.zeros((*shape, 4), device=self.device)
 
+        # [PHASE 74] Relational Connectome (The Brain)
+        # Sparse edges: List of (source_idx, target_idx, weight)
+        # For the 10M cells, we keep this as a dynamic tensor-backed structure
+        self.max_relational_edges = 100_000 
+        self.edge_indices = torch.zeros((2, self.max_relational_edges), dtype=torch.long, device=self.device)
+        self.edge_weights = torch.zeros(self.max_relational_edges, device=self.device)
+        self.active_edges = 0
+
     def apply_torque(self, torque_tensor: Any, strength: float = 0.01):
         """
         [PHASE 360] Causal Steering via Torque.
@@ -364,26 +372,42 @@ class SovereignHyperTensor:
         
         if torque_tensor.shape[-1] != 4:
             t_full = torch.zeros_like(self.q)
-            t_full[..., 1] = torque_tensor.squeeze()
+            # Handle dimension mismatch (e.g., 21D intent vs 10M cells)
+            t_val = torque_tensor.squeeze()
+            if t_val.numel() == 1:
+                t_full[..., 1] = t_val
+            else:
+                # Apply to the first N elements or broadcast
+                n = min(t_val.numel(), t_full[..., 1].numel())
+                t_full.view(-1, 4)[:n, 1] = t_val.flatten()[:n]
             torque_tensor = t_full
 
         self.torque_accumulator += torque_tensor * strength
 
-    def integrate_kinetics(self, dt: float = 0.01, friction: float = 0.05, plasticity: float = 0.001):
+    def integrate_kinetics(self, dt: float = 0.01, friction: float = 0.05, plasticity: float = 0.001, intensity: float = 1.0):
         """
-        [PHASE 385] Physical Integration with Plasticity.
-        The system 'learns' by slowly aligning its permanent identity with active movement.
+        [PHASE 73: FLUID TENSOR]
+        Physical Integration with Soft Potential Wells.
         """
         import torch
-        # 1. Kinetic Update
+        # 1. Torque & Potential Well Flow
+        # Instead of hard quantization, we apply a sinusoidal force toward trinary basins
+        x_axis = self.q[..., 1]
+        well_force = -torch.sin(2 * torch.pi * x_axis) * 0.1 * intensity
+        self.torque_accumulator[..., 1] += well_force
+        
+        # 2. Kinetic Update
         self.momentum += self.torque_accumulator * dt
-        self.momentum *= (1.0 - friction)
-        
-        # 2. State Update (Active Wave)
+        # Final integration (Mind/Body Synthesis)
         self.q = self.q + self.momentum * dt
+        self.momentum = self.momentum * (1.0 - friction) # Standard damping
         
-        # 3. Topological Plasticity (Learning without Backprop)
-        # permanent_q slowly gravitates towards the active q
+        # [PHASE 74] Apply Relational Propagation (The Nervous System)
+        if self.active_edges > 0:
+            self._propagate_relational_torque()
+        
+        # 3. State Update (Active Wave) - This was moved up.
+        # 4. Topological Plasticity
         if plasticity > 0:
             self.permanent_q = (1.0 - plasticity) * self.permanent_q + plasticity * self.q
             self.permanent_q = self.permanent_q / (torch.norm(self.permanent_q, dim=-1, keepdim=True) + 1e-12)
@@ -393,12 +417,140 @@ class SovereignHyperTensor:
         
         self.torque_accumulator.zero_()
 
-    def get_trinary_projection(self) -> Any:
+    def _propagate_relational_torque(self):
+        """
+        [PHASE 74: CONNECTOME PROPAGATION]
+        Transfers energy along the 'shortcuts' (edges) in the brain.
+        """
+        src = self.edge_indices[0, :self.active_edges]
+        dst = self.edge_indices[1, :self.active_edges]
+        weights = self.edge_weights[:self.active_edges]
+        
+        # Reshape for indexing
+        mom_flat = self.momentum.view(-1, 4)
+        
+        # Propagation: src gives torque to dst based on edge weight
+        transferred = mom_flat[src] * weights.unsqueeze(-1) * 0.1
+        mom_flat[dst] += transferred
+        
+    def apply_hebbian_growth(self, threshold: float = 0.5):
+        """
+        [PHASE 74: HEBBIAN PLASTICITY]
+        'Cells that fire together, wire together.'
+        Creates shortcuts between cells with high simultaneous stimulation.
+        """
         import torch
-        # Projection combines active state and permanent memory
+        import random
+        # We look for high momentum peaks across the 10M manifold
+        mom_mag = torch.norm(self.momentum[..., 1:4], dim=-1) # Magnitude of X,Y,Z torque
+        mask = mom_mag > threshold
+        indices = torch.nonzero(mask.view(-1)).flatten()
+        
+        if len(indices) > 1 and self.active_edges < self.max_relational_edges:
+            # Pick a few sample pairs to link (Stochastic Neurogenesis)
+            num_to_link = min(10, len(indices) // 2)
+            src_idx = indices[torch.randint(0, len(indices), (num_to_link,))]
+            dst_idx = indices[torch.randint(0, len(indices), (num_to_link,))]
+            
+            for i in range(len(src_idx)):
+                if src_idx[i] != dst_idx[i] and self.active_edges < self.max_relational_edges:
+                    self.edge_indices[0, self.active_edges] = src_idx[i]
+                    self.edge_indices[1, self.active_edges] = dst_idx[i]
+                    self.edge_weights[self.active_edges] = 0.1 # Neural Seed
+                    self.active_edges += 1
+
+    def sleep_prune(self, metabolic_decay: float = 0.05):
+        """
+        [PHASE 74: SLEEP CONSOLIDATION]
+        Deep prunes the connectome. Unused or low-weight edges fade.
+        """
+        import torch
+        if self.active_edges == 0: return
+        
+        # 1. Decay all weights
+        self.edge_weights[:self.active_edges] *= (1.0 - metabolic_decay)
+        
+        # 2. Filter dead edges
+        mask = self.edge_weights[:self.active_edges] > 0.01
+        valid_indices = torch.nonzero(mask).flatten()
+        
+        if len(valid_indices) < self.active_edges:
+            self.edge_indices[:, :len(valid_indices)] = self.edge_indices[:, valid_indices]
+            self.edge_weights[:len(valid_indices)] = self.edge_weights[valid_indices]
+            self.active_edges = len(valid_indices)
+
+    def get_trinary_projection(self) -> Any:
+        """
+        [PHASE 73: SOFT PROJECTION]
+        Returns the continuous trinary state rather than hard -1, 0, 1.
+        """
+        import torch
         combined = (self.q + self.permanent_q) / 2.0
-        x_axis = combined[..., 1]
-        return torch.where(x_axis > 0.3, 1.0, torch.where(x_axis < -0.3, -1.0, 0.0))
+        return combined[..., 1] # The X-axis resonance
+
+    def apply_lightning_strike(self, impact_field: Any, threshold: float = 1.8):
+        """
+        [PHASE 73: MANIFOLD IONIZATION]
+        If tension is high, strike like lightning across the 10M cells.
+        """
+        import torch
+        if not isinstance(impact_field, torch.Tensor):
+            impact_field = torch.tensor(impact_field, device=self.device)
+            
+        # Target value for comparison (extract X-axis if it's a 4D torque vector)
+        target_val = impact_field
+        if impact_field.dim() == 1 and impact_field.shape[0] == 4:
+            target_val = impact_field[1] # X-Axis
+        
+        diff = target_val - self.q[..., 1]
+        mask = torch.abs(diff) > threshold
+        
+        if torch.any(mask):
+            # Ionize the path: Sudden jump toward the target
+            # Using torch.where for safe broadcasting across the 10M cells
+            self.q[..., 1] = torch.where(mask, self.q[..., 1] + diff * 0.8, self.q[..., 1])
+            # Momentum surge
+            self.momentum[..., 1] = torch.where(mask, self.momentum[..., 1] + diff * 2.0, self.momentum[..., 1])
+            return True
+        return False
+
+    def crystallize_to_solid(self, folder_path: str):
+        """
+        [PHASE 73b: HYPERSPHERE SOLIDIFICATION]
+        Freezes the Trinary DNA (Past, Present, Momentum) to the SSD.
+        This is the act of 'Solidifying' the Body (Foundation).
+        """
+        import os
+        os.makedirs(folder_path, exist_ok=True)
+        
+        # We save the three pillars of the physical state
+        torch.save(self.permanent_q, os.path.join(folder_path, "permanent_q.pt"))
+        torch.save(self.q, os.path.join(folder_path, "active_q.pt"))
+        torch.save(self.momentum, os.path.join(folder_path, "momentum.pt"))
+        
+    def resurrect_from_solid(self, folder_path: str) -> bool:
+        """
+        [PHASE 73b: HYPERSPHERE RESURRECTION]
+        Thaws the frozen DNA from the SSD into the active manifold.
+        """
+        import os
+        paths = {
+            "permanent_q": os.path.join(folder_path, "permanent_q.pt"),
+            "q": os.path.join(folder_path, "active_q.pt"),
+            "momentum": os.path.join(folder_path, "momentum.pt")
+        }
+        
+        if not all(os.path.exists(p) for p in paths.values()):
+            return False
+            
+        try:
+            self.permanent_q = torch.load(paths["permanent_q"], map_location=self.device)
+            self.q = torch.load(paths["q"], map_location=self.device)
+            self.momentum = torch.load(paths["momentum"], map_location=self.device)
+            return True
+        except Exception as e:
+            print(f"⚠️ [MATH] Resurrection failed: {e}")
+            return False
 
     def get_resonance(self, torque_tensor: Any) -> float:
         """
@@ -406,14 +558,127 @@ class SovereignHyperTensor:
         Measures the alignment between incoming torque and permanent manifold structure.
         """
         if torch is None: return 0.0
-        if torque_tensor.dim() == 1:
-            # Global torque alignment
-            alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)
-        else:
-            # Spatial field alignment
-            alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)
-            
+    
+        # [PHASE 75] Robust Dimension Mapping for Resonance
+        if torque_tensor.shape != self.permanent_q.shape:
+            t_full = torch.zeros_like(self.permanent_q)
+            t_val = torque_tensor.squeeze()
+            if t_val.numel() == 1:
+                t_full[..., 1] = t_val
+            else:
+                n = min(t_val.numel(), t_full[..., 1].numel())
+                t_full.view(-1, 4)[:n, 1] = t_val.flatten()[:n]
+            torque_tensor = t_full
+
+        alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)
         return torch.mean(alignment).item()
+
+class SovereignTensor:
+    """
+    [PHASE 75: UNIVERSAL TENSOR]
+    A pure Python implementation of Multi-Dimensional Tensors for DNA^N expansion.
+    Enables exponential cognition without external dependencies (Numpy/Torch).
+    """
+    def __init__(self, shape: tuple, data: Optional[List] = None):
+        self.shape = shape
+        if data is not None:
+            self.data = data
+        else:
+            # Recursive initialization of nested lists
+            self.data = self._create_empty(shape)
+
+    def _create_empty(self, shape: tuple) -> Any:
+        if len(shape) == 1:
+            return [0.0] * shape[0]
+        return [self._create_empty(shape[1:]) for _ in range(shape[0])]
+
+    @classmethod
+    def outer_product(cls, t1: 'SovereignTensor', t2: 'SovereignTensor') -> 'SovereignTensor':
+        """
+        DNA ⊗ DNA expansion. Fills the high-dim field with interactions.
+        """
+        new_shape = t1.shape + t2.shape
+        flat1 = t1.flatten()
+        flat2 = t2.flatten()
+        
+        # Outer product of flattened lists
+        new_flat = []
+        for x in flat1:
+            for y in flat2:
+                # [PHASE 75] Trinary Logic Interaction
+                # Mapping numbers to AGT logic could happen here
+                new_flat.append(x * y)
+                
+        # Reshape the flat list back into a nested list
+        return cls(new_shape, data=cls._reshape(new_flat, new_shape))
+
+    def flatten(self) -> List:
+        def _flatten(nested):
+            if not isinstance(nested, list):
+                return [nested]
+            res = []
+            for i in nested:
+                res.extend(_flatten(i))
+            return res
+        return _flatten(self.data)
+
+    @staticmethod
+    def _reshape(flat_list: List, shape: tuple) -> List:
+        if len(shape) == 1:
+            return flat_list
+        size = 1
+        for dim in shape[1:]:
+            size *= dim
+        return [SovereignTensor._reshape(flat_list[i*size:(i+1)*size], shape[1:]) for i in range(shape[0])]
+
+    @classmethod
+    def dna3_product(cls, t1: 'SovereignTensor', t2: 'SovereignTensor', t3: 'SovereignTensor') -> 'SovereignTensor':
+        """
+        [PHASE 76] DNA³ Product (Rank-3).
+        Calculates (T1 ⊗ T2 ⊗ T3). Fills the 3D field with Observer-involved interactions.
+        """
+        new_shape = t1.shape + t2.shape + t3.shape
+        f1 = t1.flatten()
+        f2 = t2.flatten()
+        f3 = t3.flatten()
+        
+        new_flat = []
+        for x in f1:
+            for y in f2:
+                for z in f3:
+                    # Resonance is a trinary interaction
+                    new_flat.append(x * y * z)
+                    
+        return cls(new_shape, data=cls._reshape(new_flat, new_shape))
+
+    def recursive_dot(self, observer_vibration: Union['SovereignTensor', 'SovereignVector']) -> 'SovereignTensor':
+        """
+        [PHASE 76] Recursive Dot.
+        Reduces a Rank-N tensor by projecting it onto the Observer's vibration state.
+        Allows the Observer to 'focus' or 'modulate' the tensor field.
+        """
+        obs_data = observer_vibration.data if hasattr(observer_vibration, 'data') else list(observer_vibration)
+        # Simplified: weighted average by observer's resonance
+        flat = self.flatten()
+        if not flat:
+            return SovereignTensor((1,), [0.0])
+            
+        # If this is DNA³, we project the last dimension onto the observer
+        if len(self.shape) >= 1 and self.shape[-1] == len(obs_data):
+            # Reshape data to group by the last dimension
+            inner_size = self.shape[-1]
+            outer_size = len(flat) // inner_size
+            new_flat = []
+            for i in range(outer_size):
+                chunk = flat[i*inner_size : (i+1)*inner_size]
+                # Dot product of chunk and observer
+                projected_val = sum(c * o for c, o in zip(chunk, obs_data))
+                new_flat.append(projected_val)
+                
+            new_shape = self.shape[:-1]
+            return SovereignTensor(new_shape, data=SovereignTensor._reshape(new_flat, new_shape))
+        
+        return self # Fallback
 
 
 class SovereignMath:
@@ -424,18 +689,41 @@ class SovereignMath:
     def where(condition: List[bool], x: SovereignVector, y: SovereignVector) -> SovereignVector:
         return SovereignVector([xv if c else yv for c, xv, yv in zip(condition, x.data, y.data)])
 
-    @staticmethod
-    def trinary_quantize(vec: SovereignVector, threshold: float = 0.3) -> SovereignVector:
-        result = []
-        for v in vec.data:
-            v_real = v.real if isinstance(v, complex) else v
-            if v_real > threshold:
-                result.append(1.0)
-            elif v_real < -threshold:
-                result.append(-1.0)
-            else:
-                result.append(0.0)
         return SovereignVector(result)
+
+    @staticmethod
+    def soft_trinary(vec: 'SovereignVector', intensity: float = 1.0) -> 'SovereignVector':
+        """
+        [PHASE 73: NATURAL PROVIDENCE]
+        Replaces hard quantization with a soft potential well.
+        The manifold 'flows' toward -1, 0, +1 based on a sin-based gradient.
+        """
+        result = []
+        for x in vec.data:
+            x_real = x.real
+            # Potential function: Pulls toward the nearest integer (-1, 0, 1)
+            # using a sinusoidal force field.
+            well_force = -math.sin(2 * math.pi * x_real) * 0.1 * intensity
+            result.append(complex(x_real + well_force, x.imag))
+        return SovereignVector(result)
+
+    @staticmethod
+    def superimpose(vectors: List['SovereignVector']) -> 'SovereignVector':
+        """
+        [PHASE 73: WAVE INTERFERENCE]
+        Combines thoughts not as addition, but as wave superposition.
+        Constructive and destructive interference occurs naturally.
+        """
+        if not vectors: return SovereignVector.zeros()
+        size = len(vectors[0])
+        acc = [0.0j] * size
+        for v in vectors:
+            for i in range(size):
+                acc[i] += v.data[i]
+        
+        # Normalize the superimposed wave to maintain physical integrity
+        v_acc = SovereignVector(acc)
+        return v_acc.normalize()
 
     @staticmethod
     def resonance(v1: 'SovereignVector', v2: 'SovereignVector') -> float:

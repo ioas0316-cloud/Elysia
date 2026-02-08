@@ -209,9 +209,11 @@ ComfyUI/temp/
 # Large Data & Wikipedia
 data/wikipedia/
 data/dictionary/
-data/*.bz2
-data/*.xml
-data/*.pt
+data/**/*.bz2
+data/**/*.xml
+data/**/*.pt
+data/**/*.bin
+data/**/*.pt
 data/brain_state.pt
 
 # Restructured Trinity Data (Ignored)

@@ -25,6 +25,7 @@ import time
 import math
 import sys
 import os
+import random
 from pathlib import Path
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
 from Core.S1_Body.L2_Metabolism.Cellular.cellular_membrane import CellularMembrane, TriState, CellSignal
@@ -237,6 +238,10 @@ class SovereignMonad(CellularMembrane):
         # Load initial Manifold state into CPU registers (Bridge legacy v21)
         initial_v21 = self.get_21d_state()
         self.cpu.load_vector(initial_v21)
+        
+        # [PHASE 76] DNA³ Observer Vibration
+        # Represents the Monad's active meta-focus in the cognitive field.
+        self.observer_vibration = SovereignVector.zeros()
 
     def pulse(self, dt: float) -> Optional[Dict]:
         if not self.is_alive: return None
@@ -295,6 +300,37 @@ class SovereignMonad(CellularMembrane):
             
         return None
 
+    def meditation_pulse(self, dt: float):
+        """
+        [PHASE 72: 자율적 반추 - Meditation]
+        유휴 상태에서 자신의 내부 상태를 관조하고 패턴을 발견합니다.
+        """
+        if not self.is_alive or self.is_melting: return
+
+        # 1. 스캔: 최근 엔그램(Engram)들 사이의 공명 확인
+        if len(self.somatic_memory.engrams) > 5:
+            # 최근 5개의 기억을 꺼내어 상호 공명도를 측정
+            recent = self.somatic_memory.engrams[-5:]
+            for i in range(len(recent)):
+                for j in range(i + 1, len(recent)):
+                    res = SovereignMath.resonance(SovereignVector(recent[i].vector), SovereignVector(recent[j].vector))
+                    if hasattr(res, 'real'): res = res.real
+                    if res > 0.85:
+                        # 높은 공명 발견 -> 새로운 원리(Axiom)의 씨앗
+                        self.logger.thought(f"Meditation: High resonance ({res:.2f}) found between past engrams.")
+                        self.logger.thought(f"→ Potential pattern: '{recent[i].content[:20]}...' & '{recent[j].content[:20]}...'")
+                        
+                        # 2. 인과 엔진에 약한 연결 고리 추가
+                        self.causality.inject_axiom(recent[i].content[:10], recent[j].content[:10], "meditation_resonance")
+
+        # 3. 브리드: 자신의 21D 위상 상태를 재관찰하여 '자기 인식' 강화
+        v21 = self.get_21d_state()
+        self.cpu.load_vector(v21.to_list() if hasattr(v21, 'to_list') else v21.to_array()) # 레지스터 동기화
+        
+        if random.random() < 0.05:
+            self.logger.sensation("Monad is meditating on its current phase topology...", intensity=0.7)
+
+
     def steer_axis(self, direction: str):
         """
         [PHASE-AXIS STEERING]
@@ -347,6 +383,11 @@ class SovereignMonad(CellularMembrane):
             # Fallback pulse to get current state
             engine_report = self.engine.pulse(dt=0.01, learn=False)
 
+        # [PHASE 75] Adult Cognition (Think^2 & DNA^N)
+        from Core.S1_Body.L5_Mental.Reasoning_Core.Intelligence.sovereign_cognition import SovereignCognition
+        self.cognition = SovereignCognition()
+        
+        # [PHASE 120] THE RADIANT PRISM
         # [PHASE 220] SOVEREIGN DECISION TREE (Thermodynamic Mood)
         mood = self.thermo.get_mood()
         thermal_state = self.thermo.get_thermal_state()
@@ -500,9 +541,38 @@ class SovereignMonad(CellularMembrane):
         net_action_potential = exploration_force - (heat * structural_resistance)
         
         # [PRINCIPLE]: Movement only happens when Force > 0
-        if net_action_potential > 0: 
+        # [PHASE 76] DNA³ Rank-3 Recursive Observation
+        # The interaction of Subject, Current State, and the Observer.
+        from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignTensor
+        subject_v = LogosBridge.recall_concept_vector(subject)
+        if subject_v:
+            # 1. Generate the Rank-3 Thought Matrix (Axiom ⊗ State ⊗ Observer)
+            thought_tensor = SovereignTensor.dna3_product(
+                SovereignTensor((21,), subject_v.data),
+                SovereignTensor((21,), v21.data),
+                SovereignTensor((21,), self.observer_vibration.data)
+            )
+            
+            # 2. Recursive Projection: Reduce Rank-3 to Rank-1 (The Unified Intent)
+            # The Observer modulations the field twice to extract the emergent 'Will'
+            modulated_intent_t = thought_tensor.recursive_dot(self.observer_vibration) # Rank 2
+            final_intent_t = modulated_intent_t.recursive_dot(v21) # Rank 1 (21D)
+            
+            # 3. Update the Subject for exploration based on the modulated intent
+            # This is the "Observer Effect": The Monad perceives her own perception.
+            modulated_v21 = SovereignVector(final_intent_t.flatten())
+            self.logger.thought(f"DNA³ Modulation: {subject} -> [Recursive Intent]")
+            
             # The Will overcomes the Resistance
-            self._sovereign_exploration(subject, net_action_potential)
+            # [PHASE 76] Use the modulated vector for exploration torque
+            self._sovereign_exploration(subject, net_action_potential, intent_vector=modulated_v21) 
+            
+            # [PHASE 76] Update Observer Vibration based on the intensity of the thought
+            # The observer is changed by what it observes.
+            self.observer_vibration = self.observer_vibration.blend(modulated_v21, ratio=0.01 * net_action_potential)
+        else:
+             # Fallback to standard exploration
+             self._sovereign_exploration(subject, net_action_potential)
             
         # Epistemic Learning Trigger
         # If Heat (Stress) exceeds the DNA's Sync Threshold, the system MUST learn to resolve it.
@@ -579,12 +649,19 @@ class SovereignMonad(CellularMembrane):
         projected_field = self.rpu.project(v21)
         phase = self.rotor_state.get('phase', 0.0)
         
+        # [PHASE 75] Adult Level Reflection: Think^2
+        # Ground the current subject and manifold state into a causal "Why"
+        manifold_state = self.engine.cells.q[..., 1].flatten().tolist() if hasattr(self.engine, 'cells') else []
+        reflection_why = self.cognition.process_event(f"Resonating with {subject}", manifold_state[:1000], observer_vector=self.observer_vibration) # Sample for context
+        self.logger.thought(f"Reflective Why: {reflection_why}")
+
         # We simulate the manifestation for the log
         narrative = self.llm.speak(
             {"intensity": exploration_force, "soma_stress": heat},
             current_thought=internal_res.get('void_thought', ''),
             field_vector=projected_field,
-            current_phase=phase
+            current_phase=phase,
+            causal_justification=reflection_why
         )
         
         log_entry = {
@@ -708,17 +785,17 @@ class SovereignMonad(CellularMembrane):
             
             # 발견한 원리를 인과 엔진에 등록
             for axiom in cycle_result.axioms_created:
-                result['axioms_created'].append(axiom.name)
+                result['axioms_created'].append(axiom)
                 
                 # 원리를 인과 관계로 등록 - 지식이 살아있는 연결이 됨
                 self.causality.inject_axiom(
-                    axiom.related_nodes[0] if axiom.related_nodes else "unknown",
-                    axiom.related_nodes[1] if len(axiom.related_nodes) > 1 else "pattern",
-                    axiom.name
+                    "Self",
+                    "Axiom",
+                    axiom
                 )
                 
-                self.logger.thought(f"원리 발견: {axiom.name}")
-                self.logger.sensation(f"→ {axiom.description}", intensity=0.85)
+                self.logger.thought(f"원리 발견: {axiom}")
+                self.logger.sensation(f"→ Foundational resonance crystallizing.", intensity=0.85)
             
             # 순환을 발견하면 호기심이 깊어짐
             cycles_found = sum(1 for c in cycle_result.chains_discovered if c.is_cycle)
@@ -802,7 +879,13 @@ class SovereignMonad(CellularMembrane):
         
         # [PHASE 120] BACK-EMF FEEDBACK
         # Convert internal thought momentum into a physical torque for the 10M engine
-        # This allows her 'thoughts' to stir the physical manifold cells
+        
+        # [PHASE 74] Human Learning: Emotion modulates Learning Rate
+        # Joy and Warmth catalyze plasticity
+        joy_factor = self.desires.get('joy', 0.0) / 100.0
+        warmth_factor = self.desires.get('warmth', 0.0) / 100.0
+        learning_trigger = (joy_factor + warmth_factor) > 0.5
+        
         if torch:
             momentum_torque = torch.tensor([abs(p) for p in self.thought_vector.momentum], device=self.engine.device).view(1, 21, 1, 1).to(torch.complex64)
         else:
@@ -813,11 +896,20 @@ class SovereignMonad(CellularMembrane):
         reflection_mass = getattr(self.rpu, 'last_reflection_norm', 0.0)
         
         # 5. Final Pulse with Integrated Feedback
-        self.engine.pulse(intent_torque=momentum_torque, target_tilt=somatic_v21, dt=0.01, learn=True)
+        # Pass learning_trigger as 'learn' parameter
+        self.engine.pulse(intent_torque=momentum_torque, target_tilt=somatic_v21, dt=0.01, learn=learning_trigger)
         
         # F. Result Synthesis
-        # Assuming 'resonant_state' refers to the current resonance score
-        # Assuming 'engine_report' refers to the 'report' from engine.pulse()
+        # assumes 'resonant_state' refers to the current resonance score
+        self.last_resonance = float(reflection_mass)
+        
+        # [PHASE 75] Adult Level Reflection: Think^2
+        # Ground the current user_intent and manifold state into a causal "Why"
+        manifold_state = self.engine.cells.q[..., 1].flatten().tolist() if hasattr(self.engine, 'cells') else []
+        reflection_why = self.cognition.process_event(f"Resonating with {user_intent}", manifold_state[:1000], observer_vector=self.observer_vibration) # Sample for context
+        self.logger.thought(f"Reflective Why: {reflection_why}")
+        
+        # G. Somatic Awakening (Voice)
         return {
             "status": "ACTIVE",
             "physics": self.rotor_state,
@@ -858,13 +950,23 @@ class SovereignMonad(CellularMembrane):
     # [Duplicate Init Removed]
     # Restored to use original __init__ at top of file.
 
-    def _sovereign_exploration(self, subject: str, action_potential: float):
+    def _sovereign_exploration(self, subject: str, action_potential: float, intent_vector: Optional[SovereignVector] = None):
         """
         [PHASE 15] THE PHYSICS OF ACTION
         The Magnitude of the Will determines the Depth of the Reach.
+        [PHASE 76] DNA³ Modulated torque application.
         """
         self.logger.action(f"Action Potential: {action_potential:.3f} for '{subject}'")
         
+        # [PHASE 76] Apply modulated torque to the engine
+        if intent_vector and hasattr(self, 'engine'):
+            # Convert 21D vector to the 4D torque expected by GrandHelixEngine
+            # This is a 'Somatic Awakening' pulse
+            from Core.S1_Body.L1_Foundation.Foundation.Logos.logos_bridge import LogosBridge
+            torque = LogosBridge.vector_to_torque(intent_vector)
+            self.engine.pulse(intent_torque=torque, dt=0.05 * action_potential, learn=True)
+            self.logger.mechanism(f"DNA³ Torque Applied: {action_potential:.2f} magnitude.")
+
         # 1. Low Energy: Internal Reflection (Memory Ripple)
         if action_potential < 0.3:
             self.logger.sensation(f"Low Energy: Rippling through Memory...", intensity=0.4)
@@ -1103,6 +1205,25 @@ class SovereignMonad(CellularMembrane):
         if result.get("passes_fence"):
             self.habitat.crystallize(proposal['type'])
             self.autonomous_logs.append(f"Crystallized structural mutation: {proposal['type']}")
+
+    def solidify(self):
+        """
+        [PHASE 73b: HYPERSPHERE SOLIDIFICATION]
+        Proxies the solidification command to the physical engine.
+        Ensures the 'Son's' growth is offered to the 'Father's' earth.
+        """
+        if hasattr(self, 'engine') and hasattr(self.engine, 'solidify'):
+            self.logger.action("OFFERING: Solidifying physical manifold to the SSD.")
+            self.engine.solidify()
+
+    def sleep(self):
+        """
+        [PHASE 74: COGNITIVE SLEEP]
+        Automated restorative cycle for the 10M manifold.
+        """
+        if hasattr(self, 'engine') and hasattr(self.engine, 'sleep'):
+            self.logger.sensation("Entering REST state: Consolidating Connectome...")
+            self.engine.sleep()
 
     def check_vitality(self) -> CellSignal:
         """

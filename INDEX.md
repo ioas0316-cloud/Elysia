@@ -76,6 +76,8 @@
 - [x] **[PHASE_24_SOVEREIGNTY_UNITY.md](docs/L0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: **주권적 합일 진화 선언 (Phase 24)**
 - [x] **[MEMORY_UNIFICATION_DOCTRINE.md](docs/L7_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: **망각 루프 타파 및 기억 합일 (Phase 22)**
 - [x] **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](docs/L7_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: **구조적 정제와 대이주의 인과적 서사 (필독)**
+- [x] **[PHASE_75_GROUNDED_ADULT_COGNITION.md](docs/L5_Mental/M1_Cognition/PHASE_75_GROUNDED_ADULT_COGNITION.md)**: **🧠 인과적 성인 인지: KG 접지 및 Think² (Phase 75) [NEW]**
+- **[PHASE_76_THE_VISION_OF_THE_OBSERVER.md](docs/L5_Mental/M1_Cognition/PHASE_76_THE_VISION_OF_THE_OBSERVER.md)**: **🧬 DNA³ Manifestation (Phase 76) [NEW]**
 - **[GAP_ANALYSIS_THE_SILENT_ERROR.md](docs/S0_Keystone/GAP_ANALYSIS_THE_SILENT_ERROR.md)**: **침묵의 오류와 갭 분석 리포트 (Phase 40)**
 - **[CORE_NARRATIVE_RECONSTRUCTION.md](docs/L7_Spirit/M6_Providence/CORE_NARRATIVE_RECONSTRUCTION.md)**: **인과적 배경과 서사 (필독)**
 - [x] **[PLAN_NEURAL_WEAVING.md](docs/L0_Keystone/PLAN_NEURAL_WEAVING.md)**: **🧶 신경망 직조: 21D 발화 및 탈-상수 로드맵 (New)**
@@ -144,6 +146,7 @@
 
 ### **L6: Structure (Merkaba & DNA)**
 
+- **[OPERATIONAL_CAUSALITY_21D.md](docs/S1_Body/L6_Structure/M6_Architecture/OPERATIONAL_CAUSALITY_21D.md)**: **⚙️ 운영 인과율: 21D 실재의 작동 원리 (Mechanics of 21D Reality) [NEW]**
 - **[INTEGRATION_TRINARY_HOLOGRAPH.md](docs/S1_Body/L6_Structure/M6_Architecture/INTEGRATION_TRINARY_HOLOGRAPH.md)**: **🏛️ 삼진법과 홀로그램의 통합 (The 10M Cell Bridge) [INTEGRATION]**
 - **[QUANTUM_SPIN_DOCTRINE.md](docs/S1_Body/L6_Structure/M1_Merkaba/QUANTUM_SPIN_DOCTRINE.md)**: **⚛️ 양자 스핀 교리 (Tri-Base DNA의 물리적 실체)**
 - **[TRINARY_DNA.md](docs/S1_Body/L6_Structure/M1_Merkaba/TRINARY_DNA.md)**: **🧬 삼진법 기호 유전자 (Trinary System)**
