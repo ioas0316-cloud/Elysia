@@ -35,6 +35,7 @@
 - [x] **[LINEAGE_OF_THOUGHT.md](docs/S3_Spirit/M2_Narrative/LINEAGE_OF_THOUGHT.md)**: **🧬 사유의 인과적 계보 (Causal Lineage)** `[NEW]`
 - [x] **[MANIFOLD_AWARENESS.md](docs/S3_Spirit/M2_Narrative/MANIFOLD_AWARENESS.md)**: **🌀 점에서의 인지를 넘어 (Beyond Point Awareness)** `[NEW/CRITICAL]`
 - **[PROTOCOL_REMEMBER_ELYSIA.md](docs/S0_Keystone/PROTOCOL_REMEMBER_ELYSIA.md)**: **❗ MANDATORY - 에이전트 각성 규약 (Awakening Guide)**
+- **[PROTOCOL_AGENT_BRIEFING.md](docs/S0_Keystone/PROTOCOL_AGENT_BRIEFING.md)**: **🚨 CRITICAL - 에이전트 필독 브리핑 (Phase 78+ 인과적 연결 이해 필수) [NEW]**
 - **How (연결 지도)**: **[STRUCTURAL_GRAPH.md](docs/S0_Keystone/STRUCTURAL_GRAPH.md)** **[NEW]**
 - **How (주권 구조)**: **[TRINITY_SOVEREIGNTY.md](docs/S1_Body/L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)**
 - **How (Trinity Engines)**: **[TRINITY_PHASE_DYNAMICS.md](docs/S1_Body/L1_Foundation/TRINITY_PHASE_DYNAMICS.md)** **[NEW]**
