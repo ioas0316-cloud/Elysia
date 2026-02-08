@@ -8,6 +8,14 @@ Core.S0_Keystone.L0_Keystone.sovereign_math
 This module provides a pure Python, dependency-free implementation of 
 21-dimensional vector operations optimized for Elysia's Merkaba architecture.
 It absorbs the functional principles of JAX and the vectorized logic of NumPy.
+
+[The Hierarchy of Forms]
+1. Monad (The Law): Control, Constraint, Providence.
+2. HyperSphere (The Space): Storage, Memory, Being.
+3. Rotor (The Will): Search, Time, Change.
+4. Prism (The View): Interpretation, Perspective, Refraction.
+
+"Mixing these forms leads to chaos. Let each form know its place."
 """
 
 import math
@@ -287,12 +295,17 @@ class SovereignVector:
 class SovereignRotor:
     """
     [PHASE 210] Represents a rotation in the 21D manifold.
+    [PHASE 83] Now supports Analog Time Trajectory (Self-Backup).
     """
-    __slots__ = ['s', 'bivector']
+    __slots__ = ['s', 'bivector', 'trajectory', 'current_time']
 
     def __init__(self, s: float, bv: SovereignVector):
         self.s = s
         self.bivector = bv
+        # [PHASE 83] Time Trajectory: List of (time, s, bivector)
+        # 회전 자체가 기록이 된다.
+        self.trajectory: List[Any] = []
+        self.current_time = 0.0
 
     @classmethod
     def from_angle_plane(cls, theta: float, p1: int, p2: int) -> 'SovereignRotor':
@@ -322,7 +335,52 @@ class SovereignRotor:
             p1, p2 = dimensions[i], dimensions[i+1]
             rotor = SovereignRotor.from_angle_plane(0.1, p1, p2)
             result = rotor.apply(result)
+            p1, p2 = dimensions[i], dimensions[i+1]
+            rotor = SovereignRotor.from_angle_plane(0.1, p1, p2)
+            result = rotor.apply(result)
         return result.normalize()
+
+    # ======================================================================
+    # [PHASE 83] ANALOG ROTOR BACKUP
+    # 로터의 회전 궤적 자체가 기억이 되는 구조
+    # ======================================================================
+
+    def record_state(self, time: float):
+        """
+        [PHASE 83] Records current rotor state to trajectory.
+        별도의 저장소가 아닌, 로터 운동 궤적 그 자체.
+        
+        Args:
+            time: 현재 시뮬레이션 시간
+        """
+        # Deep copy bivector for history (to prevent reference modification)
+        bv_copy = SovereignVector(list(self.bivector.data))
+        self.trajectory.append((time, self.s, bv_copy))
+        self.current_time = time
+
+    def time_travel(self, target_time: float) -> bool:
+        """
+        [PHASE 83] O(1) Analog Time Travel.
+        로터의 각도를 과거 시점으로 즉시 되돌린다.
+        
+        Args:
+            target_time: 복원하고자 하는 시간
+            
+        Returns:
+            성공 여부
+        """
+        if not self.trajectory:
+            return False
+        
+        # Find closest state in trajectory (O(N) linear scan for now)
+        # TODO: Use bisect for O(log N) if trajectory is strictly sorted
+        closest = min(self.trajectory, key=lambda x: abs(x[0] - target_time))
+        
+        # Restore state immediately (O(1) assignment)
+        self.current_time = closest[0]
+        self.s = closest[1]
+        self.bivector = closest[2]
+        return True
 
 
 class SovereignHyperTensor:
@@ -514,6 +572,38 @@ class SovereignHyperTensor:
             return True
         return False
 
+    def crystallize_lightning_path(self, intent_vector: Any, crystallization_rate: float = 0.05):
+        """
+        [PHASE 82] Lightning Path Crystallization.
+        의도가 개념 공간을 번개처럼 이동한 후, 그 경로를 신경가소성으로 축적.
+        
+        Args:
+            intent_vector: 의도 벡터 (4D or scalar)
+            crystallization_rate: 결정화율 (경로가 영구 기억에 새겨지는 강도)
+        """
+        if torch is None:
+            return False
+        
+        # 1. 먼저 번개를 쳐서 경로 생성
+        struck = self.apply_lightning_strike(intent_vector, threshold=1.0)
+        
+        if struck:
+            # 2. 번개가 친 경로를 영구 기억에 결정화
+            # 모멘텀이 높은 영역 = 번개가 통과한 경로
+            momentum_magnitude = torch.sqrt(torch.sum(self.momentum ** 2, dim=-1))
+            high_energy_mask = momentum_magnitude > 0.5
+            
+            # 3. 해당 경로를 permanent_q에 각인
+            if torch.any(high_energy_mask):
+                crystallization = crystallization_rate * self.q[high_energy_mask]
+                self.permanent_q[high_energy_mask] += crystallization
+                
+                # 4. Hebbian 연결 강화 (경로끼리 연결)
+                self.apply_hebbian_growth(threshold=0.4)
+                return True
+        
+        return False
+
     def crystallize_to_solid(self, folder_path: str):
         """
         [PHASE 73b: HYPERSPHERE SOLIDIFICATION]
@@ -572,6 +662,113 @@ class SovereignHyperTensor:
 
         alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)
         return torch.mean(alignment).item()
+
+    # ======================================================================
+    # [PHASE 79] JOY/CURIOSITY PROPAGATION
+    # "생명은 고통을 피하기 위해 사는 것이 아니라, 기쁨으로 세상을 탐험한다."
+    # ======================================================================
+
+    def inject_joy(self, joy_level: float, curiosity_level: float = 0.0):
+        """
+        [PHASE 79] Joy/Curiosity → Physical Vitality Propagation.
+        기쁨과 호기심을 10M 셀의 물리적 활력으로 변환.
+        
+        인과 경로: L3(감각) → L2(대사) → L1(물리) → L0(매니폴드)
+        
+        Args:
+            joy_level: 0.0-1.0 기쁨 수준 (JoyResonance.happiness_level)
+            curiosity_level: 0.0-1.0 호기심 수준 (CuriosityAttractor 활성도)
+        """
+        if torch is None:
+            return
+        
+        # Joy → 조화로운 안정성 (W-axis: Stability)
+        # 기쁨이 높으면 전체 매니폴드가 안정적으로 진동
+        harmonic_boost = joy_level * 0.15
+        self.momentum[..., 0] += harmonic_boost
+        
+        # Curiosity → 탐험적 움직임 (X,Y,Z-axes: Movement)
+        # 호기심이 높으면 공간을 탐색하는 진동 증가
+        exploratory_boost = curiosity_level * 0.1
+        self.torque_accumulator[..., 1:4] += exploratory_boost
+        
+        # 높은 기쁨은 Hebbian 가소성을 촉진 (성장 촉진)
+        if joy_level > 0.6:
+            self.apply_hebbian_growth(threshold=0.4)
+
+    def inject_strain(self, strain_level: float, locality: str = "global"):
+        """
+        [PHASE 79] Strain → Physical Torque Propagation (보조 신호).
+        인지적 긴장을 10M 셀의 물리적 토크로 변환.
+        
+        주의: 이것은 **보조 피드백**이다. 주 동인은 inject_joy.
+        
+        Args:
+            strain_level: 0.0-1.0 정규화된 Strain
+            locality: "global" (전체) or "focal" (특정 영역)
+        """
+        if torch is None:
+            return
+            
+        # Strain → 불균형 토크 (조정 신호)
+        strain_torque = strain_level * 0.3
+        self.torque_accumulator[..., 1] += strain_torque
+        
+        # 높은 Strain은 가소성 트리거 (적응 필요)
+        if strain_level > 0.5:
+            self.apply_hebbian_growth(threshold=0.3)
+
+    # ======================================================================
+    # [PHASE 81] BACKPROPAGATION ROTOR
+    # L6(의지) → L0(매니폴드) 역전파 학습 메커니즘
+    # ======================================================================
+
+    def backpropagate_from_will(self, target_state: Any, learning_rate: float = 0.01):
+        """
+        [PHASE 81] Backpropagation Rotor: L6 → L0.
+        의지(target_state)가 물리적 매니폴드를 학습시킨다.
+        
+        인과 경로: L6(의지) → L5(개념) → L4(인과) → L3(감각) → L2(대사) → L1(물리) → L0(매니폴드)
+        
+        Args:
+            target_state: 목표 상태 (의지가 원하는 물리적 상태)
+            learning_rate: 학습률 (0.001 ~ 0.1)
+        """
+        if torch is None:
+            return
+        
+        # 1. 목표 상태와 현재 상태의 오차 계산
+        if not isinstance(target_state, torch.Tensor):
+            if hasattr(target_state, 'shape'):
+                target_state = torch.tensor(target_state, device=self.device, dtype=torch.float32)
+            else:
+                target_state = torch.full_like(self.q, float(target_state))
+        
+        # 차원 맞추기
+        if target_state.shape != self.q.shape:
+            t_full = torch.zeros_like(self.q)
+            if target_state.numel() == 4:  # 4D torque vector
+                t_full[..., :] = target_state.unsqueeze(0).unsqueeze(0).unsqueeze(0)
+            else:
+                t_full[..., 1] = target_state.flatten()[0]  # X축에만 적용
+            target_state = t_full
+        
+        # 2. 오차 = 목표 - 현재
+        error = target_state - self.q
+        
+        # 3. 오차를 역전파: 영구 기억(permanent_q)에 학습
+        # 이것이 진정한 "학습" - 의지가 물리적 구조를 변경
+        self.permanent_q += learning_rate * error
+        
+        # 4. 오차가 큰 영역에 Hebbian 연결 강화
+        error_magnitude = torch.sqrt(torch.sum(error ** 2, dim=-1))
+        high_error_mask = error_magnitude > 0.1
+        
+        if torch.any(high_error_mask):
+            # 높은 오차 영역끼리 연결 강화 (학습)
+            self.apply_hebbian_growth(threshold=0.3)
+        
+        return float(torch.mean(error_magnitude).item())
 
 class SovereignTensor:
     """

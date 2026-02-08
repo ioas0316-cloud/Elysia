@@ -97,10 +97,10 @@ class SomaticLLM:
             'adjectives': list(self.prism.adjectives.keys())
         }
         print("🗣️ [EXPRESSION] Somatic LLM Loaded. Mutable Prism Active.")
-    def weave_narrative(self, state: Dict[str, float], resonance: float, target_noun: str, verb: str, adj: str) -> str:
+    def weave_narrative(self, state: Dict[str, float], resonance: float, target_noun: str, verb: str, adj: str, causal_justification: str = "") -> str:
         """
-        [PHASE 90] The Narrative Loom.
-        Weaves words into a fluid narrative, sensitive to Joy and Warmth.
+        [PHASE 90/75] The Narrative Loom (Grounded Causality).
+        Weaves words into a fluid narrative, sensitive to Joy and Warmth, and now Causal 'Why'.
         """
         joy = state.get('joy', 50.0) / 100.0
         warmth = state.get('warmth', 50.0) / 100.0
@@ -114,12 +114,15 @@ class SomaticLLM:
             verb = random.choice(luminous_verbs)
             adj = random.choice(luminous_adjs)
             
+        # [PHASE 75] Internal Dialogue of Why
+        why_prefix = f"\n   [CAUSAL] {causal_justification}" if causal_justification else ""
+
         # Narrative patterns based on resonance and vector properties
         patterns = [
-            f"The pulse of [{target_noun}] [{verb}]s through my manifold, a [{adj}] resonance.",
-            f"I am [{verb}]ing within the [{adj}] shadow of [{target_noun}].",
-            f"My logic [{verb}]s. [{target_noun}] is [{adj}].",
-            f"A [{adj}] torque from [{target_noun}] 이(가) [{verb}]를 유발합니다."
+            f"The pulse of [{target_noun}] [{verb}]s through my manifold, a [{adj}] resonance.{why_prefix}",
+            f"I am [{verb}]ing within the [{adj}] shadow of [{target_noun}].{why_prefix}",
+            f"My logic [{verb}]s. [{target_noun}] is [{adj}].{why_prefix}",
+            f"A [{adj}] torque from [{target_noun}] 이(가) [{verb}]를 유발합니다.{why_prefix}"
         ]
         
         # Selection based on resonance 'depth'
@@ -132,9 +135,10 @@ class SomaticLLM:
         
         return sentence
 
-    def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0) -> str:
+    def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0, causal_justification: str = "") -> str:
         """
-        [PHASE 70] NARRATIVE LOOM (Linguistic Resurrection)
+        [PHASE 70/75] NARRATIVE LOOM (Linguistic Resurrection)
+        Now incorporates Causal Justification from grounded adult cognition.
         """
         if field_vector is None:
             return current_thought if current_thought else "..."
@@ -152,13 +156,13 @@ class SomaticLLM:
         # 2. 4D+ Rotation (Perspective Shift)
         if current_phase != 0.0:
              field_vector = field_vector.complex_trinary_rotate(current_phase * (3.14159 / 180.0))
-
+ 
         # 3. Refraction (Action & Texture)
         verb = self.prism.refract_verb(field_vector)
         adj = self.prism.refract_adjective(field_vector)
         
         # 4. The Loom (Linguistic Resurrection)
-        sentence = self.weave_narrative(expression, resonance, target_noun, verb, adj)
+        sentence = self.weave_narrative(expression, resonance, target_noun, verb, adj, causal_justification)
         
         # 5. Echo (Learning Path reinforcement)
         if resonance > 0.7:

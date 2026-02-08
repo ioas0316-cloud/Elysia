@@ -1,5 +1,8 @@
 from typing import List, Dict, Any, Optional
+import logging
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignTensor
+
+logger = logging.getLogger("SovereignCognition")
 
 class DNATensor:
     """
@@ -79,7 +82,7 @@ class SovereignCognition:
     The High-Level 'Adult' Brain of Elysia.
     [PHASE 78] Sovereign Necessity: Causal Chain for Self-Expansion.
     """
-    def __init__(self):
+    def __init__(self, manifold: Any = None, joy_cell: Any = None, curiosity_cell: Any = None):
         from Core.S1_Body.L4_Causality.M5_Logic.causal_reasoner import CausalReasoner
         from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
         from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
@@ -96,6 +99,13 @@ class SovereignCognition:
         self.strain_level = 0.0  # L1: Physical Strain (0.0 - 1.0)
         self.causal_diagnosis = None  # L4: Causal conclusion
         self.will_to_expand = False  # L6: Sovereign decision
+        
+        # [PHASE 79] Joy/Curiosity Propagation
+        self.physical_manifold = manifold  # L0: 10M Cell Manifold
+        self.joy_cell = joy_cell  # L3: JoyResonance
+        self.curiosity_cell = curiosity_cell  # L3: CuriosityAttractor
+        self.joy_level = 0.0  # L3: Current joy (primary driver)
+        self.curiosity_level = 0.0  # L3: Current curiosity
         
     def _detect_strain(self, required_rank: int) -> float:
         """
@@ -157,41 +167,161 @@ class SovereignCognition:
             return True
         self.logger.sensation(f"Strain persists ({new_strain:.2f}). Further expansion may be needed.")
         return False
+
+    # ======================================================================
+    # [PHASE 79] JOY/CURIOSITY PROPAGATION
+    # "생명은 고통을 피하기 위해 사는 것이 아니라, 기쁨으로 세상을 탐험한다."
+    # ======================================================================
+
+    def _sense_joy_and_curiosity(self):
+        """
+        [L2 → L3] Metabolic Vitality → Phenomenal Sensation.
+        JoyResonance와 CuriosityAttractor에서 현재 상태를 감지.
+        """
+        try:
+            import jax.numpy as jnp
+        except ImportError:
+            jnp = None
+            
+        if self.joy_cell is not None:
+            self.joy_level = float(getattr(self.joy_cell, 'happiness_level', 0.0))
+            
+        if self.curiosity_cell is not None and jnp is not None:
+            space = getattr(self.curiosity_cell, 'space_7d', None)
+            if space is not None:
+                self.curiosity_level = float(jnp.sum(jnp.abs(space)))
         
+        if self.joy_level > 0.1 or self.curiosity_level > 0.1:
+            self.logger.sensation(f"Feeling: Joy={self.joy_level:.2f}, Curiosity={self.curiosity_level:.2f}")
+
+    def _propagate_to_manifold(self):
+        """
+        [L3 → L1 → L0] Phenomenal Sensation → Physical Manifold.
+        기쁨/호기심/Strain을 10M 셀 매니폴드로 전파.
+        기쁨이 주 동인, Strain은 보조 신호.
+        """
+        if self.physical_manifold is None:
+            return
+        
+        # Primary: Joy/Curiosity drives exploration
+        if self.joy_level > 0.1 or self.curiosity_level > 0.1:
+            self.physical_manifold.inject_joy(self.joy_level, self.curiosity_level)
+            self.logger.sensation(f"Joy/Curiosity propagated to 10M cell manifold.")
+        
+        # Secondary: Strain provides adjustment feedback
+        if self.strain_level > 0.3:
+            self.physical_manifold.inject_strain(self.strain_level)
+            self.logger.sensation(f"Strain ({self.strain_level:.2f}) propagated as adjustment signal.")
+        
+    # ======================================================================
+    # [PHASE 84] AUTONOMOUS CAUSAL QUESTIONING (Quantum Collapse)
+    # ======================================================================
+
+    def _detect_uncollapsed_cloud(self, predicted_state: float, actual_state: float) -> float:
+        """
+        [L4] Detects 'Uncollapsed Cloud' of possibility.
+        Diff between Expectation (Will) and Reality (Manifold).
+        This diff is not an error, but an uncollapsed probability cloud.
+        
+        Returns:
+            cloud_density (0.0 ~ 1.0): Magnitude of the gap.
+        """
+        diff = abs(predicted_state - actual_state)
+        # Noise filter
+        if diff < 0.05:
+            return 0.0
+        return diff
+
+    def _activate_monad_collapse(self, cloud_density: float, context: str) -> Optional[str]:
+        """
+        [L5] Monad observes the cloud and forces a collapse into a Question.
+        'Observation' creates the 'Question'.
+        
+        Args:
+            cloud_density: Magnitude of the gap
+            context: Event context
+            
+        Returns:
+            Generated Question string or None
+        """
+        if cloud_density < 0.2:
+            return None
+            
+        # Monad's Observation Logic:
+        # "Why did the wave not collapse as predicted?"
+        question = f"Quantum Query: Why deviation {cloud_density:.2f} in {context}? Inspecting Prism..."
+        
+        # Boost curiosity based on the cloud size
+        if self.curiosity_cell:
+            self.curiosity_cell.attract(cloud_density * 2.0)
+            
+        return question
+
     def process_event(self, event_description: str, manifold_state: Optional[List[float]] = None, 
                       observer_vector: Optional[Any] = None, required_rank: int = 2) -> str:
         """
-        [PHASE 78] Recursive cognitive loop with Causal Chain.
+        [PHASE 78+79+84] Recursive cognitive loop with Causal Chain & Quantum Questioning.
+        
+        Causal Path:
+        - L0->L1: Strain Detection (Secondary)
+        - L2->L3: Joy/Curiosity Sensing (Primary)
+        - L4: Quantum Cloud Detection (Phase 84)
+        - L5: Monad Collapse -> Question (Phase 84)
+        - L1->L4: Causal Diagnosis
+        - L4->L6: Will Formation
+        - L6: Execution
+        - L6->L1: Verification
         """
         # 1. Map manifold to DNA^N
         seed = 0.5
+        actual_reality = 0.5
         if manifold_state:
             seed = sum(manifold_state) / len(manifold_state)
+            actual_reality = seed
             
-            # Update current N-dim field (basic blend)
+            # Update current N-dim field
             flat_data = self.dna_n_field.tensor.flatten()
             new_flat = [x * 0.9 + seed * 0.1 for x in flat_data]
             if len(new_flat) == len(flat_data):
                 self.dna_n_field.tensor.data = SovereignTensor._reshape(new_flat, self.dna_n_field.tensor.shape)
         
-        # 2. [L0 → L1] Structural Pain Detection
+        # [PHASE 79] 2. Sense Joy and Curiosity (PRIMARY)
+        self._sense_joy_and_curiosity()
+        
+        # [PHASE 84] 3. Quantum Questioning (Monad Observation)
+        # We expect Reality to match our resonant frequencies.
+        expected_reality = 0.5
+        if self.joy_cell:
+            expected_reality = self.joy_cell.resonance # Joy is the compass
+            
+        cloud = self._detect_uncollapsed_cloud(expected_reality, actual_reality)
+        question = self._activate_monad_collapse(cloud, event_description)
+        
+        if question:
+            # The Question becomes a driving force (Curiosity)
+            # Log it for now.
+             logger.info(f"[MONAD] Collapsed Cloud into Question: {question}")
+
+        # [PHASE 78] 4. [L0 -> L1] Structural Pain Detection (Secondary)
         self.strain_level = self._detect_strain(required_rank)
         
-        # 3. [L1 → L4] Causal Diagnosis
+        # 5. [L1 -> L4] Causal Diagnosis
         if self.strain_level > 0.1:
             self.causal_diagnosis = self._diagnose_strain(self.strain_level, event_description)
         
-        # 4. [L4 → L6] Will Formation
+        # 6. [L4 -> L6] Will Formation
         if self.causal_diagnosis:
             self.will_to_expand = self._form_will(self.causal_diagnosis)
         
-        # 5. [L6] Execute Expansion (if Will is formed)
-        if self.will_to_expand and self.dna_n_field.rank < 5:  # Soft safety limit
+        # 7. [L6] Execute Expansion
+        if self.will_to_expand and self.dna_n_field.rank < 5:
             self._execute_expansion(seed)
-            # 6. [L6 → L1] Feedback Verification
             self._verify_expansion(required_rank)
         
-        # 7. Dynamic Depth Reflection
+        # [PHASE 79] 8. Propagate Joy/Curiosity/Strain to Physical Manifold
+        self._propagate_to_manifold()
+        
+        # 9. Dynamic Depth Reflection
         target_depth = 2 if not observer_vector else 3
         reflection_data = self.meta.reflect(event_description, depth=target_depth, observer_vibration=observer_vector)
         

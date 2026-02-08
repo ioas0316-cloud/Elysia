@@ -131,6 +131,8 @@ class SovereignGateway:
         torque.add_gear("Stream", freq=0.2, callback=self._gear_stream_of_consciousness) 
         # 3. Sensory: The Ear (Absorbs vibration)
         torque.add_gear("Sensory", freq=10.0, callback=self._gear_process_sensory)
+        # 4. Identity: The Meditation (Self-reflection)
+        torque.add_gear("Meditation", freq=0.1, callback=self.monad.meditation_pulse)
 
         try:
             while self.running:
@@ -155,6 +157,9 @@ class SovereignGateway:
         if hasattr(self.monad, 'somatic_memory'):
             self.logger.sensation("Pruning weak memories...", intensity=0.5)
             self.monad.somatic_memory.cleanup(max_crystals=500)
+
+        # 3. [PHASE 73b] Merkaba Solidification & [PHASE 74] Sleep Consolidation
+        self.monad.sleep()
 
         self.logger.action("System state saved. Goodnight.")
 

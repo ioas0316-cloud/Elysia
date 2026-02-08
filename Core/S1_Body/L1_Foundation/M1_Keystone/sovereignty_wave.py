@@ -49,15 +49,28 @@ class SovereignDecision:
 
 class SovereigntyWave:
     def __init__(self):
-        pass
+        self.field_modulators = {"thermal_energy": 0.0, "cognitive_density": 1.0}
+        self.permanent_monads = {}
+        self.monadic_principles = {}
+        self.locks = {}
+
+    def apply_axial_constraint(self, dim: str, phase: float, strength: float):
+        self.locks[dim] = (phase, strength)
+
+    def modulate_field(self, key: str, value: float):
+        self.field_modulators[key] = value
+
     def disperse(self, stimulus):
         return []
+
     def interfere(self, bands):
         return 0.0, 0.0, InterferenceType.NEUTRAL
+
     def focus(self, phase, amplitude, bands):
-        return FocalPoint(0,0,0,"")
+        return FocalPoint(0.0, 0.0, 0.0, "")
+
     def pulse(self, stimulus):
-        return SovereignDecision(0,0,InterferenceType.NEUTRAL, VoidState.RESONANT, "Mock", 0)
+        return SovereignDecision(0.0, 0.0, InterferenceType.NEUTRAL, VoidState.RESONANT, "Mock Pulse", 0.0)
 
 if __name__ == "__main__":
     pass

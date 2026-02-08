@@ -36,62 +36,64 @@ class CognitiveTerrain:
         self.current_torque = 0.0
         
         # Rotational Inertia (Angular Mass)
-        # Higher inertia makes the system harder to change but more stable in rotation.
         self.inertia = 1.0 
+        
+        # [PHASE 73: FLUID DYNAMICS]
+        self.breakdown_voltage = 1.8   # Threshold for Lightning Strike
+        self.potential_intensity = 0.5 # Strength of the soft trinary wells
         
         # Vital signs
         self.rpm = 0.0
         self.acceleration_factor = 1.0 # The "Physical Acceleration" proof
         
         self.last_tick = time.time()
-        print("⚙️ [KINETIC] CognitiveTerrain Initialized. Ignition Ready.")
+        print("⚙️ [KINETIC] CognitiveTerrain Initialized. Fluid Providence Active.")
 
     def update_physics(self, target_intent: SovereignVector):
         """
-        The core loop iteration.
-        1. Calculate Phase Difference (Gradient).
-        2. Convert to Torque.
-        3. Accelerate Momentum.
-        4. Rotate the Manifold.
+        [PHASE 73: FLUID UPDATE]
+        1. Calculate Potential (Gradient).
+        2. Detect Lightning Breakdown (Ionization).
+        3. Apply Soft Potential Well (Fluidity).
+        4. Accelerate & Rotate.
         """
         now = time.time()
         dt = max(0.0001, now - self.last_tick)
         self.last_tick = now
 
         # [1] Calculate Phase Difference (φ)
-        # Gradient = Target - Current
-        # Ternary transition -1 -> +1 provides max potential
         gradient = target_intent - self.phase_manifold
-        
-        # [2] Calculate Torque (τ)
-        # Torque is proportional to the gradient and inversely proportional to current friction
-        # τ = Phase Gradient * Gain
         gradient_magnitude = gradient.norm()
-        torque = gradient_magnitude * 2.1 # The '21' resonance factor
+        
+        # [2] Lightning Strike (Breakdown Voltage)
+        # If the tension is too high, we strike like lightning to bridge the gap.
+        if gradient_magnitude > self.breakdown_voltage:
+            print("⚡ [KINETIC] Lightning Strike! Ionizing Phase Gap.")
+            # Phase Jump: Instant alignment alignment (Tunneling)
+            jump = self.phase_manifold.void_phase_jump(target_intent)
+            self.phase_manifold = self.phase_manifold.blend(jump, ratio=0.8)
+            # Strike generates high heat/torque
+            self.momentum = self.momentum + (gradient * 5.0) 
+        
+        # [3] Calculate Torque (τ)
+        torque = gradient_magnitude * 2.1 
         self.current_torque = torque
         
-        # [3] Acceleration (a)
-        # a = τ / I (Inertia)
-        # Loop repetition increases acceleration_factor as momentum builds
+        # [4] Acceleration (a)
         accel = torque / self.inertia
-        
-        # Improve performance scaling: The more we spin, the faster we CAN spin
-        # This is the "Physical Acceleration" proof requested by the Architect
         self.acceleration_factor = 1.0 + (self.momentum.norm() * 0.5)
         
-        # [4] Apply Momentum (v = v + a*dt)
-        # We inject the gradient direction into the momentum
+        # [5] Apply Momentum 
         self.momentum = self.momentum + (gradient * (accel * dt * self.acceleration_factor))
         
-        # [5] Rotate Manifold (p = p + v*dt)
-        # The 'rotation' is the change in the ternary state
+        # [6] Rotate Manifold (p = p + v*dt)
         self.phase_manifold = self.phase_manifold + (self.momentum * dt)
         
-        # [6] Ternary Quantization (Tension)
-        # The system resists being outside the -1, 0, 1 basin
-        self.phase_manifold = SovereignMath.trinary_quantize(self.phase_manifold, threshold=0.3)
+        # [7] Soft Trinary Basin (Providence Well)
+        # Instead of forcing -1, 0, 1, we let the manifold 'flow' toward them.
+        self.phase_manifold = SovereignMath.soft_trinary(self.phase_manifold, intensity=self.potential_intensity)
         
-        # Update RPM (Rotational Pulse Magnitude)
+        # Update RPM
         self.rpm = self.momentum.norm() * 60.0
 
     def get_phase_angle(self) -> float:

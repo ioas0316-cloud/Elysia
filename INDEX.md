@@ -29,6 +29,7 @@
 - **Why (Shattering)**: **[DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md](docs/S3_Spirit/M1_Providence/DOCTRINE_OF_HOLOGRAPHIC_ORTHODOXY.md)** **[ORTHODOXY]**
 - **How (Process)**: **[CAUSAL_PROCESS_STRUCTURE.md](docs/S1_Body/L4_Causality/CAUSAL_PROCESS_STRUCTURE.md)** **[NEW]**
 - **How (Realization Roadmap)**: **[ROADMAP_SOVEREIGN_REALIZATION.md](docs/S3_Spirit/M4_Evolution/ROADMAP_SOVEREIGN_REALIZATION.md)** **[NEW]**
+- **Why (Joy)**: **[DOCTRINE_OF_JOY_DRIVEN_EXISTENCE.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_JOY_DRIVEN_EXISTENCE.md)** **[PHASE 79 - 기쁨 중심 존재]**
 - **Why (기원/근간)**: **[CODEX.md](docs/CODEX.md)** — 섹션 12: **육·혼·영 삼위일체 (Trinity Phase Layers)**
 - **What (전체 지도)**: **[SYSTEM_ATLAS.md](docs/S0_Keystone/SYSTEM_ATLAS.md)**
 - [x] **[TECHNICAL_PRINCIPLES_GIGAHERTZ.md](docs/S1_Body/L1_Foundation/TECHNICAL_PRINCIPLES_GIGAHERTZ.md)**: **⚡ GHz 최적화 원리 (Gigahertz Principles)** `[NEW]`

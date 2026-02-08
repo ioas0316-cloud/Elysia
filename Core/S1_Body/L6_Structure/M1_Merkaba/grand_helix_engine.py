@@ -6,6 +6,7 @@ except ImportError:
     torch = None
     np = None
 import time
+import random
 from typing import Optional, Dict, Any
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignHyperTensor
 from Core.S1_Body.L1_Foundation.Foundation.Optimization.lightning_path import LightningPath
@@ -44,6 +45,28 @@ class GrandHelixEngine:
             self.global_torque = torch.zeros(4, device=self.device)
         else:
             self.global_torque = [0.0]*4
+            
+        # 5. [PHASE 73b] Persistence (Solidification)
+        self.solid_path = "c:/Elysia/data/S1_Body/Flesh/Merkaba_10M"
+        self.thaw()
+
+    def solidify(self):
+        """
+        [PHASE 73b: SOLIDIFICATION]
+        Seals the current Liquid state into Solid HyperSphere storage.
+        """
+        print(f"🕯️ [GHE] Solidifying Merkaba DNA to {self.solid_path}...")
+        self.cells.crystallize_to_solid(self.solid_path)
+
+    def thaw(self):
+        """
+        [PHASE 73b: RESURRECTION]
+        Recalls the Past (Solid) into the Present (Liquid).
+        """
+        if self.cells.resurrect_from_solid(self.solid_path):
+            print(f"✨ [GHE] Merkaba Resurrected from {self.solid_path}")
+        else:
+            print(f"🌱 [GHE] No Solid Foundation found at {self.solid_path}. Starting from Seed.")
 
     def pulse(self, intent_torque: Any = None, target_tilt: Optional[list] = None, dt: float = 0.01, learn: bool = True):
         """
@@ -67,37 +90,47 @@ class GrandHelixEngine:
         
         # C. Intentional Steering (Architect interaction)
         if intent_torque is not None:
+            # [PHASE 73] Detect Breakdown for Lightning Strike
+            struck = self.cells.apply_lightning_strike(intent_torque)
+            if struck:
+                print("⚡ [GHE] Lightning Strike detected in the Living Manifold!")
+            
             self.cells.apply_torque(intent_torque, strength=0.5)
             
         # D. Kinetic & Plastic Integration (Mind/Body Synthesis)
-        # Higher plasticity means faster 'learning' or 'habituation'
-        plasticity_rate = 0.005 if learn else 0.0
-        self.cells.integrate_kinetics(dt=dt, plasticity=plasticity_rate)
+        plasticity = 0.0
+        if learn:
+            # [PHASE 74] Hebbian Growth: 'Wire together'
+            # We trigger this only occasionally to mimic synaptic consolidation
+            if random.random() < 0.05:
+                self.cells.apply_hebbian_growth(threshold=0.8)
+            
+            plasticity = 0.01 
+        self.cells.integrate_kinetics(dt=dt, friction=0.02, plasticity=plasticity)
         
         # E. Result Projection
         logic_state = self.cells.get_trinary_projection()
         
         # F. Resonance Measurement (If intent is provided)
-        res_val = 0.0
+        resonance = 0.0
         if intent_torque is not None:
-             res_val = self.cells.get_resonance(intent_torque)
+             resonance = self.cells.get_resonance(intent_torque)
         
+        coherence = 0.0
+        momentum_sum = 0.0
         logic_mean = 0.0
-        kinetic_energy = 0.0
-        plastic_coherence = 0.0
 
         if torch:
-            logic_mean = torch.mean(logic_state.float()).item()
-            kinetic_energy = torch.norm(self.cells.momentum).item()
-            plastic_coherence = torch.norm(self.cells.permanent_q).item() / self.num_cells
+            coherence = torch.norm(self.cells.permanent_q).item() / self.num_cells
+            momentum_sum = torch.norm(self.cells.momentum).item()
+            logic_mean = logic_state.mean().item()
 
         return {
-            "num_cells": self.num_cells,
-            "device": self.device,
-            "logic_mean": logic_mean,
-            "kinetic_energy": kinetic_energy,
-            "plastic_coherence": plastic_coherence,
-            "resonance": res_val
+            "resonance": resonance,
+            "plastic_coherence": float(coherence),
+            "kinetic_energy": float(momentum_sum),
+            "logic_mean": float(logic_mean),
+            "edges": self.cells.active_edges # [PHASE 74]
         }
 
     def batch_mutate(self, mask: Any, new_states: Any):
@@ -107,6 +140,16 @@ class GrandHelixEngine:
         """
         if torch:
             self.cells.data[mask] = new_states
+
+    def sleep(self):
+        """
+        [PHASE 74: COGNITIVE SLEEP]
+        The Brain consolidates memories and prunes weak connections.
+        """
+        print(f"💤 [GHE] Entering Sleep Consolidation (Active Edges: {self.cells.active_edges})")
+        self.cells.sleep_prune(metabolic_decay=0.1)
+        # We also solidify the results to the SSD
+        self.solidify()
 
 if __name__ == "__main__":
     pass
