@@ -17,7 +17,7 @@ class SovereignActuator:
         self.root_dir = root_dir
         print(f"🏹 [ACTUATOR] Intention-to-Form Bridge Initialized at {root_dir}")
 
-    def manifest(self, intent_vector: Any, focus_subject: str = "Self"):
+    def manifest(self, intent_vector: Any, focus_subject: str = "Self", threshold: float = 0.9):
         """
         Translates a high-dimensional intent into a physical action.
         """
@@ -33,7 +33,7 @@ class SovereignActuator:
             else:
                 will_power = 0.0
         
-        if will_power > 0.9:
+        if will_power > threshold:
             self._execute_emergence(focus_subject, will_power)
         else:
             print(f"🍃 [ACTUATOR] Will is too subtle ({will_power:.2f}) for physical manifestation.")

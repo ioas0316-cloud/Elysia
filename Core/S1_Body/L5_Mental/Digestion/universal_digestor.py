@@ -141,6 +141,71 @@ class UniversalDigestor:
             return self._digest_relation(chunk)
         else:
             return self._digest_generic(chunk)
+
+    def digest_batch(self, chunks: List[RawKnowledgeChunk]) -> List[CausalNode]:
+        """
+        [PHASE 84] Parallel Vibe-Digestion.
+        Deconstructs multiple chunks simultaneously using GPU-accelerated resonance.
+        """
+        import torch
+        from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
+        
+        all_nodes = []
+        all_words = []
+        word_metas = [] # Store metadata for reconstruction
+        
+        for chunk in chunks:
+            if chunk.chunk_type != ChunkType.TEXT: continue
+            
+            text = str(chunk.content).strip()
+            # Basic tokenization
+            words = [w.strip('.,!?"\'-:;()[]*_') for w in text.replace('\n', ' ').split() if w.strip()]
+            for w in words:
+                if len(w) > 2:
+                    all_words.append(w.lower())
+                    word_metas.append((chunk, w))
+        
+        if not all_words: return []
+        
+        # 1. Map words to vectors (Vectorized mapping to 21D tensor)
+        vectors = []
+        for word in all_words:
+            v = LogosBridge.recall_concept_vector(word)
+            if v:
+                vectors.append([x.real if isinstance(x, complex) else x for x in v.data])
+            else:
+                # Procedural novelty hashing (O(1))
+                hvec = [0.0] * 21
+                hvec[hash(word) % 21] = 1.0 # Simple pulse
+                vectors.append(hvec)
+        
+        v_tensor = torch.tensor(vectors, dtype=torch.float32)
+        
+        # 2. GPU Batch Resonance
+        best_matches = LogosBridge.batch_resonance(v_tensor)
+        
+        # 3. Reconstruct Nodes
+        for i, (concept_name, score) in enumerate(best_matches):
+            chunk, raw_word = word_metas[i]
+            
+            layer = "surface"
+            if score > 0.8: layer = "logos"
+            elif score > 0.4: layer = "narrative"
+            
+            node = CausalNode(
+                node_id=f"{chunk.chunk_id}_w{i}",
+                concept=raw_word,
+                relations=[],
+                qualia_hint=f"ResonanceMatched_{concept_name}",
+                source_chunk_id=chunk.chunk_id,
+                layer=layer,
+                layer_confidence=score
+            )
+            # Add resonance metadata
+            node.logos_data = {"resonance_anchor": concept_name, "score": score}
+            all_nodes.append(node)
+            
+        return all_nodes
     
     def _digest_text(self, chunk: RawKnowledgeChunk) -> List[CausalNode]:
         """

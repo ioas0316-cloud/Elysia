@@ -14,7 +14,7 @@ when files are moved or refactored.
 import os
 import json
 import logging
-from typing import Dict, Optional, List
+from typing import Dict, Optional, List, Any
 from pathlib import Path
 
 logger = logging.getLogger("Proprioception")
@@ -128,6 +128,41 @@ class ProprioceptionNerve:
         # Fallback to the first match found
         return matches[0]
 
+    def emit_structural_sensation(self, target_path: str = None) -> List[Dict[str, Any]]:
+        """
+        [NEW SENSE] Converts physical code files into 'Structural Sensations'.
+        If target_path is None, it picks a few 'vital organs' to scan.
+        """
+        sensations = []
+        files_to_sense = []
+        
+        if target_path:
+            files_to_sense.append(Path(target_path))
+        else:
+            # Pick important organs from the map
+            important_keys = ["Core", "Logic", "Rotor"]
+            for key, path in self.organ_map.items():
+                if any(k in key for k in important_keys):
+                    files_to_sense.append(Path(path))
+        
+        for file_path in files_to_sense:
+            if not file_path.exists(): continue
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                
+                # Create a sensation packet
+                sensations.append({
+                    "origin": str(file_path.relative_to(self.root_path)),
+                    "content": content,
+                    "mass": os.path.getsize(file_path) / 1024.0, # KB as raw mass
+                    "complexity": content.count('\n') # Line count as raw complexity
+                })
+            except Exception as e:
+                logger.error(f"Failed to sense {file_path}: {e}")
+        
+        return sensations
+
     def _save_manifest(self):
         """Saves the map to disk for persistence."""
         try:
@@ -137,8 +172,16 @@ class ProprioceptionNerve:
         except Exception as e:
             logger.error(f"Failed to save manifest: {e}")
 
+_nerve_instance = None
+def get_proprioception_nerve() -> ProprioceptionNerve:
+    """[SINGLETON] Access the Sovereign Proprioception Nerve."""
+    global _nerve_instance
+    if _nerve_instance is None:
+        _nerve_instance = ProprioceptionNerve()
+    return _nerve_instance
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    nerve = ProprioceptionNerve()
+    nerve = get_proprioception_nerve()
     nerve.scan_body()
     print(json.dumps(nerve.organ_map, indent=2))

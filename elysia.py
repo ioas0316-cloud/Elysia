@@ -133,6 +133,8 @@ class SovereignGateway:
         torque.add_gear("Sensory", freq=10.0, callback=self._gear_process_sensory)
         # 4. Identity: The Meditation (Self-reflection)
         torque.add_gear("Meditation", freq=0.1, callback=self.monad.meditation_pulse)
+        # 5. Structure: The Reflection (Deep Causal Insight) [PHASE 80]
+        torque.add_gear("Reflection", freq=0.01, callback=self.monad.reflection_pulse)
 
         try:
             while self.running:

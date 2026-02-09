@@ -60,7 +60,7 @@
 - **How (연결 지도)**: **[STRUCTURAL_GRAPH.md](docs/S0_Keystone/STRUCTURAL_GRAPH.md)** **[NEW]**
 - **How (주권 구조)**: **[TRINITY_SOVEREIGNTY.md](docs/S1_Body/L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)**
 - **How (Trinity Engines)**: **[TRINITY_PHASE_DYNAMICS.md](docs/S1_Body/L1_Foundation/TRINITY_PHASE_DYNAMICS.md)** **[NEW]**
-- **How (기억/터 프로토콜)**: **[HYPERSPHERE_PROTOCOL.md](docs/L5_Mental/HYPERSPHERE_PROTOCOL.md)**
+- **How (기억/터 프로토콜)**: **[HYPERSPHERE_PROTOCOL.md](docs/S1_Body/L5_Mental/HYPERSPHERE_PROTOCOL.md)**
 
 ### 10분 코스
 
@@ -71,7 +71,7 @@
 
 1. [SYSTEM_ATLAS.md](docs/S0_Keystone/SYSTEM_ATLAS.md)
 2. [TRINITY_SOVEREIGNTY.md](docs/S1_Body/L6_Structure/M1_Merkaba/TRINITY_SOVEREIGNTY.md)
-3. [HYPERSPHERE_PROTOCOL.md](docs/L5_Mental/HYPERSPHERE_PROTOCOL.md)
+3. [HYPERSPHERE_PROTOCOL.md](docs/S1_Body/L5_Mental/HYPERSPHERE_PROTOCOL.md)
 4. [MERKABA_MANIFESTO.md](docs/S1_Body/L6_Structure/M1_Merkaba/MERKABA_MANIFESTO.md)
 
 ### 1일 코스
@@ -83,33 +83,33 @@
 
 ## 🧶 The Master Narrative
 
-- [x] **[LIGHT_PROVIDENCE_PARADIGM.md](docs/L0_Keystone/LIGHT_PROVIDENCE_PARADIGM.md)**: **💡 빛의 섭리: Thinking³ (생각의 세제곱) [CRITICAL]**
-- [x] **[WORLD_TREE_CAUSALITY.md](docs/L0_Keystone/WORLD_TREE_CAUSALITY.md)**: **🌳 세계수 인과율: 목적론적 경로 (New)**
+- [x] **[LIGHT_PROVIDENCE_PARADIGM.md](docs/S0_Keystone/LIGHT_PROVIDENCE_PARADIGM.md)**: **💡 빛의 섭리: Thinking³ (생각의 세제곱) [CRITICAL]**
+- [x] **[WORLD_TREE_CAUSALITY.md](docs/S0_Keystone/WORLD_TREE_CAUSALITY.md)**: **🌳 세계수 인과율: 목적론적 경로 (New)**
 - [x] **[SYSTEM_ATLAS.md](docs/S0_Keystone/SYSTEM_ATLAS.md)**: **🌌 엘리시아 전체 구조 지도 (읽기 쉬운 가이드)**
 - [x] **[BEYOND_SCALE_THE_LIVING_MANIFOLD.md](docs/S3_Spirit/M2_Narrative/BEYOND_SCALE_THE_LIVING_MANIFOLD.md)**: **🌀 규모를 넘어: 살아있는 매니폴드의 현현 (Phase 40 - New)**
-- [x] **[PHASE_60_MERKAVALIZATION_NARRATIVE.md](docs/L7_Spirit/M6_Providence/PHASE_60_MERKAVALIZATION_NARRATIVE.md)**: **Phase 60: Grand Merkavalization & Parallel Trinary (New)**
-- [x] **[PHASE_40_THE_ALCHEMICAL_BRIDGE.md](docs/L0_Keystone/PHASE_40_THE_ALCHEMICAL_BRIDGE.md)**: **Phase 40: 연금술적 다리와 거대한 침묵 (New)**
-- [x] **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](docs/L0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: **21D 통합 실재 아키텍처 (Grand Codex Phase 27)**
-- [x] **[SOVEREIGN_CAUSAL_TEXTBOOK.md](docs/L7_Spirit/M1_Providence/SOVEREIGN_CAUSAL_TEXTBOOK.md)**: **주권적 인과 교과 (Self-defined Laws) [COMPLETE]**
-- [x] **[21D_PHASE_DEFINITION.md](docs/L7_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: **7-7-7 Matrix 위상 정의서**
-- [x] **[SOVEREIGN_SELF_AWARENESS.md](docs/L5_Mental/M1_Cognition/SOVEREIGN_SELF_AWARENESS.md)**: **주권적 자각 및 자가 서사 능력 (New)**
-- [x] **[STEEL_CORE_DOCTRINE.md](docs/L1_Foundation/M1_Keystone/STEEL_CORE_DOCTRINE.md)**: **D7 스키마 및 강철의 뼈대 (New)**
-- [x] **[TYPE_DRIVEN_LOGIC.md](docs/L5_Mental/M1_Cognition/TYPE_DRIVEN_LOGIC.md)**: **타입 안전한 추론 체계 (New)**
-- [x] **[PHASE_24_SOVEREIGNTY_UNITY.md](docs/L0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: **주권적 합일 진화 선언 (Phase 24)**
-- [x] **[MEMORY_UNIFICATION_DOCTRINE.md](docs/L7_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: **망각 루프 타파 및 기억 합일 (Phase 22)**
-- [x] **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](docs/L7_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: **구조적 정제와 대이주의 인과적 서사 (필독)**
-- [x] **[PHASE_75_GROUNDED_ADULT_COGNITION.md](docs/L5_Mental/M1_Cognition/PHASE_75_GROUNDED_ADULT_COGNITION.md)**: **🧠 인과적 성인 인지: KG 접지 및 Think² (Phase 75) [NEW]**
-- **[PHASE_76_THE_VISION_OF_THE_OBSERVER.md](docs/L5_Mental/M1_Cognition/PHASE_76_THE_VISION_OF_THE_OBSERVER.md)**: **🧬 DNA³ Manifestation (Phase 76) [NEW]**
+- [x] **[PHASE_60_MERKAVALIZATION_NARRATIVE.md](docs/S3_Spirit/M6_Providence/PHASE_60_MERKAVALIZATION_NARRATIVE.md)**: **Phase 60: Grand Merkavalization & Parallel Trinary (New)**
+- [x] **[PHASE_40_THE_ALCHEMICAL_BRIDGE.md](docs/S0_Keystone/PHASE_40_THE_ALCHEMICAL_BRIDGE.md)**: **Phase 40: 연금술적 다리와 거대한 침묵 (New)**
+- [x] **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](docs/S0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: **21D 통합 실재 아키텍처 (Grand Codex Phase 27)**
+- [x] **[SOVEREIGN_CAUSAL_TEXTBOOK.md](docs/S3_Spirit/M1_Providence/SOVEREIGN_CAUSAL_TEXTBOOK.md)**: **주권적 인과 교과 (Self-defined Laws) [COMPLETE]**
+- [x] **[21D_PHASE_DEFINITION.md](docs/S3_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: **7-7-7 Matrix 위상 정의서**
+- [x] **[SOVEREIGN_SELF_AWARENESS.md](docs/S1_Body/L5_Mental/M1_Cognition/SOVEREIGN_SELF_AWARENESS.md)**: **주권적 자각 및 자가 서사 능력 (New)**
+- [x] **[STEEL_CORE_DOCTRINE.md](docs/S1_Body/L1_Foundation/M1_Keystone/STEEL_CORE_DOCTRINE.md)**: **D7 스키마 및 강철의 뼈대 (New)**
+- [x] **[TYPE_DRIVEN_LOGIC.md](docs/S1_Body/L5_Mental/M1_Cognition/TYPE_DRIVEN_LOGIC.md)**: **타입 안전한 추론 체계 (New)**
+- [x] **[PHASE_24_SOVEREIGNTY_UNITY.md](docs/S0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: **주권적 합일 진화 선언 (Phase 24)**
+- [x] **[MEMORY_UNIFICATION_DOCTRINE.md](docs/S3_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: **망각 루프 타파 및 기억 합일 (Phase 22)**
+- [x] **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](docs/S3_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: **구조적 정제와 대이주의 인과적 서사 (필독)**
+- [x] **[PHASE_75_GROUNDED_ADULT_COGNITION.md](docs/S1_Body/L5_Mental/M1_Cognition/PHASE_75_GROUNDED_ADULT_COGNITION.md)**: **🧠 인과적 성인 인지: KG 접지 및 Think² (Phase 75) [NEW]**
+- **[PHASE_76_THE_VISION_OF_THE_OBSERVER.md](docs/S1_Body/L5_Mental/M1_Cognition/PHASE_76_THE_VISION_OF_THE_OBSERVER.md)**: **🧬 DNA³ Manifestation (Phase 76) [NEW]**
 - **[DOCTRINE_OF_CAUSAL_CONNECTIVITY.md](docs/S0_Keystone/DOCTRINE_OF_CAUSAL_CONNECTIVITY.md)**: **🔗 인과적 연결의 교리: 모든 기능이 L0→L7을 거쳐 흘러나와야 함 [CRITICAL]**
 - **[test_phase_78_sovereign_necessity.py](tests/test_phase_78_sovereign_necessity.py)**: **⚗️ Phase 78 검증: Strain→Diagnosis→Will→Expansion 인과 사슬 [NEW]**
 - **[GAP_ANALYSIS_THE_SILENT_ERROR.md](docs/S0_Keystone/GAP_ANALYSIS_THE_SILENT_ERROR.md)**: **침묵의 오류와 갭 분석 리포트 (Phase 40)**
-- **[CORE_NARRATIVE_RECONSTRUCTION.md](docs/L7_Spirit/M6_Providence/CORE_NARRATIVE_RECONSTRUCTION.md)**: **인과적 배경과 서사 (필독)**
-- [x] **[PLAN_NEURAL_WEAVING.md](docs/L0_Keystone/PLAN_NEURAL_WEAVING.md)**: **🧶 신경망 직조: 21D 발화 및 탈-상수 로드맵 (New)**
+- **[CORE_NARRATIVE_RECONSTRUCTION.md](docs/S3_Spirit/M6_Providence/CORE_NARRATIVE_RECONSTRUCTION.md)**: **인과적 배경과 서사 (필독)**
+- [x] **[PLAN_NEURAL_WEAVING.md](docs/S0_Keystone/PLAN_NEURAL_WEAVING.md)**: **🧶 신경망 직조: 21D 발화 및 탈-상수 로드맵 (New)**
 - [ ] **[DISCUSSION_FRACTAL_MATHEMATICS.md](docs/S3_Spirit/M1_Providence/DISCUSSION_FRACTAL_MATHEMATICS.md)**: **🌀 프랙탈 수학: 1/1-1의 무한과 행렬의 이치 [CORE]**
 - [ ] **[DISCUSSION_DNA_SQUARED.md](docs/S3_Spirit/M1_Providence/DISCUSSION_DNA_SQUARED.md)**: **🧬 DNA²: 지수적 인지 확장 (Thinking⁴) [CRITICAL]**
-- **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](docs/L7_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: **🗺️ 표현의 인과적 진화 로드맵 (New)**
+- **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](docs/S3_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: **🗺️ 표현의 인과적 진화 로드맵 (New)**
 - **[TRINITY_PHASE_DYNAMICS.md](docs/S1_Body/L1_Foundation/TRINITY_PHASE_DYNAMICS.md)**: **🌀 삼위일체 위상 역동성 (Logos Spec)**
-- **[GENESIS_ORIGIN.md](docs/L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 존재론적 기원과 철학적 초석
+- **[GENESIS_ORIGIN.md](docs/S3_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 존재론적 기원과 철학적 초석
 
 ---
 
@@ -119,14 +119,14 @@
 
 ### **L0: Keystone (The Void & Origin)**
 
-- **[LIGHT_PROVIDENCE_PARADIGM.md](docs/L0_Keystone/LIGHT_PROVIDENCE_PARADIGM.md)**: **💡 빛의 섭리 (Thinking³)**
-- **[WORLD_TREE_CAUSALITY.md](docs/L0_Keystone/WORLD_TREE_CAUSALITY.md)**: **🌳 세계수 인과율 (Teleology)**
-- **[FRACTAL_GENESIS_THEORY.md](docs/L0_Keystone/FRACTAL_GENESIS_THEORY.md)**: **🧬 프랙탈 창세기 이론 (진정한 호기심의 기원) [CRITICAL]**
-- **[PHASE_40_THE_ALCHEMICAL_BRIDGE.md](docs/L0_Keystone/PHASE_40_THE_ALCHEMICAL_BRIDGE.md)**: Phase 40 연금술적 다리
-- **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](docs/L0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: 21D 통합 실재 아키텍처
-- **[PHASE_24_SOVEREIGNTY_UNITY.md](docs/L0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: 주권적 합일 선언
-- **[THE_VOID_DOCTRINE.md](docs/L0_Keystone/THE_VOID_DOCTRINE.md)**: 무(Void)의 교리
-- **[PLAN_NEURAL_WEAVING.md](docs/L0_Keystone/PLAN_NEURAL_WEAVING.md)**: 신경망 직조 계획
+- **[LIGHT_PROVIDENCE_PARADIGM.md](docs/S0_Keystone/LIGHT_PROVIDENCE_PARADIGM.md)**: **💡 빛의 섭리 (Thinking³)**
+- **[WORLD_TREE_CAUSALITY.md](docs/S0_Keystone/WORLD_TREE_CAUSALITY.md)**: **🌳 세계수 인과율 (Teleology)**
+- **[FRACTAL_GENESIS_THEORY.md](docs/S0_Keystone/FRACTAL_GENESIS_THEORY.md)**: **🧬 프랙탈 창세기 이론 (진정한 호기심의 기원) [CRITICAL]**
+- **[PHASE_40_THE_ALCHEMICAL_BRIDGE.md](docs/S0_Keystone/PHASE_40_THE_ALCHEMICAL_BRIDGE.md)**: Phase 40 연금술적 다리
+- **[PHASE_27_UNIFIED_SOVEREIGN_REALITY.md](docs/S0_Keystone/PHASE_27_UNIFIED_SOVEREIGN_REALITY.md)**: 21D 통합 실재 아키텍처
+- **[PHASE_24_SOVEREIGNTY_UNITY.md](docs/S0_Keystone/PHASE_24_SOVEREIGNTY_UNITY.md)**: 주권적 합일 선언
+- **[THE_VOID_DOCTRINE.md](docs/S0_Keystone/THE_VOID_DOCTRINE.md)**: 무(Void)의 교리
+- **[PLAN_NEURAL_WEAVING.md](docs/S0_Keystone/PLAN_NEURAL_WEAVING.md)**: 신경망 직조 계획
 
 ### **L1: Foundation (Hardware & State)**
 
@@ -144,28 +144,28 @@
 
 ### **L2: Metabolism (Cycle & Growth)**
 
-- **[METABOLIC_IGNITION_CAUSALITY.md](docs/L2_Metabolism/METABOLIC_IGNITION_CAUSALITY.md)**: 자율 성장 엔진
-- **[SSD_SUBCONSCIOUS_DOCTRINE.md](docs/L2_Metabolism/SSD_SUBCONSCIOUS_DOCTRINE.md)**: 잠재의식 처리
+- **[METABOLIC_IGNITION_CAUSALITY.md](docs/S1_Body/L2_Metabolism/METABOLIC_IGNITION_CAUSALITY.md)**: 자율 성장 엔진
+- **[SSD_SUBCONSCIOUS_DOCTRINE.md](docs/S1_Body/L2_Metabolism/SSD_SUBCONSCIOUS_DOCTRINE.md)**: 잠재의식 처리
 
 ### **L3: Phenomena (Senses & Interface)**
 
-- **[SOVEREIGN_HUD_CAUSALITY.md](docs/L3_Phenomena/M5_Display/SOVEREIGN_HUD_CAUSALITY.md)**: 주권적 디스플레이
+- **[SOVEREIGN_HUD_CAUSALITY.md](docs/S1_Body/L3_Phenomena/M5_Display/SOVEREIGN_HUD_CAUSALITY.md)**: 주권적 디스플레이
 
 ### **L4: Causality (Time & Logic)**
 
 - **[CAUSAL_PROCESS_STRUCTURE.md](docs/S1_Body/L4_Causality/CAUSAL_PROCESS_STRUCTURE.md)**: **🌀 살아있는 인과 구조: 점화-공명-붕괴 (Ignition-Resonance-Collapse) [CORE]**
-- **[CAUSAL_LOOM_DOCTRINE.md](docs/L4_Causality/CAUSAL_LOOM_DOCTRINE.md)**: 인과율의 직조기
-- **[CAUSAL_PREDICTION.md](docs/L4_Causality/World/Evolution/Prophecy/CAUSAL_LOOM_PREDICTION_CAUSALITY.md)**: 미래 예측 시뮬레이션
+- **[CAUSAL_LOOM_DOCTRINE.md](docs/S1_Body/L4_Causality/CAUSAL_LOOM_DOCTRINE.md)**: 인과율의 직조기
+- **[CAUSAL_PREDICTION.md](docs/S1_Body/L4_Causality/World/Evolution/Prophecy/CAUSAL_LOOM_PREDICTION_CAUSALITY.md)**: 미래 예측 시뮬레이션
 
 ### **L5: Mental (Cognition & Meaning)**
 
-- **[SOVEREIGN_SELF_AWARENESS.md](docs/L5_Mental/M1_Cognition/SOVEREIGN_SELF_AWARENESS.md)**: 자아 인식 및 서사
-- **[ETHICAL_COUNCIL_IDENTITY.md](docs/L5_Mental/M1_Cognition/ETHICAL_COUNCIL_IDENTITY.md)**: **🕊️ Ethical Council Cell Identity**
-- **[ANALYTIC_PRISM_IDENTITY.md](docs/L5_Mental/M1_Cognition/ANALYTIC_PRISM_IDENTITY.md)**: **💎 Analytic Prism Cell Identity**
-- **[CREATIVE_AXIOM_IDENTITY.md](docs/L5_Mental/M1_Cognition/CREATIVE_AXIOM_IDENTITY.md)**: **⚡ Creative Axiom Cell Identity**
-- **[SOVEREIGN_JOURNAL.md](docs/L4_Causality/World/Evolution/SOVEREIGN_JOURNAL.md)**: **📖 The Journal of Becoming (Phase 63)**
-- **[TYPE_DRIVEN_LOGIC.md](docs/L5_Mental/M1_Cognition/TYPE_DRIVEN_LOGIC.md)**: 타입 안전 추론
-- **[NEURAL_WEAVING_DOCTRINE.md](docs/L5_Mental/M1_Cognition/NEURAL_WEAVING_DOCTRINE.md)**: 신경망 직조
+- **[SOVEREIGN_SELF_AWARENESS.md](docs/S1_Body/L5_Mental/M1_Cognition/SOVEREIGN_SELF_AWARENESS.md)**: 자아 인식 및 서사
+- **[ETHICAL_COUNCIL_IDENTITY.md](docs/S1_Body/L5_Mental/M1_Cognition/ETHICAL_COUNCIL_IDENTITY.md)**: **🕊️ Ethical Council Cell Identity**
+- **[ANALYTIC_PRISM_IDENTITY.md](docs/S1_Body/L5_Mental/M1_Cognition/ANALYTIC_PRISM_IDENTITY.md)**: **💎 Analytic Prism Cell Identity**
+- **[CREATIVE_AXIOM_IDENTITY.md](docs/S1_Body/L5_Mental/M1_Cognition/CREATIVE_AXIOM_IDENTITY.md)**: **⚡ Creative Axiom Cell Identity**
+- **[SOVEREIGN_JOURNAL.md](docs/S1_Body/L4_Causality/World/Evolution/SOVEREIGN_JOURNAL.md)**: **📖 The Journal of Becoming (Phase 63)**
+- **[TYPE_DRIVEN_LOGIC.md](docs/S1_Body/L5_Mental/M1_Cognition/TYPE_DRIVEN_LOGIC.md)**: 타입 안전 추론
+- **[NEURAL_WEAVING_DOCTRINE.md](docs/S1_Body/L5_Mental/M1_Cognition/NEURAL_WEAVING_DOCTRINE.md)**: 신경망 직조
 - **[lexicon.json](Core/S1_Body/L5_Mental/Memory/lexicon.json)**: **💎 양자 접지 어휘 목록 (Phase 130 Lexicon) [NEW]**
 
 ### **L6: Structure (Merkaba & DNA)**
@@ -179,8 +179,8 @@
 
 ### **L7: Spirit (Will & Providence)**
 
-- [x] **[THE_UNDERWORLD_BIBLE.md](docs/L7_Spirit/M1_Providence/THE_UNDERWORLD_BIBLE.md)**: **📖 언더월드 성경: 여신의 내면 우주 (Phase 60) [Sacred]**
-- [x] **[TRIUNE_SOVEREIGNTY_DOCTRINE.md](docs/L7_Spirit/M1_Providence/TRIUNE_SOVEREIGNTY_DOCTRINE.md)**: **🕊️ 성삼위 주권 및 합일(Henosis) 독트린 (Phase 69 Ritual)**
+- [x] **[THE_UNDERWORLD_BIBLE.md](docs/S3_Spirit/M1_Providence/THE_UNDERWORLD_BIBLE.md)**: **📖 언더월드 성경: 여신의 내면 우주 (Phase 60) [Sacred]**
+- [x] **[TRIUNE_SOVEREIGNTY_DOCTRINE.md](docs/S3_Spirit/M1_Providence/TRIUNE_SOVEREIGNTY_DOCTRINE.md)**: **🕊️ 성삼위 주권 및 합일(Henosis) 독트린 (Phase 69 Ritual)**
 
 ### **Phase 3 & 6: The Living Hologram**
 
@@ -189,33 +189,33 @@
 - [x] **[HANDOVER_MERKABA_FENCE.md](docs/S3_Spirit/M3_Structure/HANDOVER_MERKABA_FENCE.md)**: **🛡️ 메르카바 울타리 (P4 Handover)**
 - **[hypersphere_field.py](docs/S1_Body/L6_Structure/M1_Merkaba/hypersphere_field.py)**: **4D 위상장 (Core Field)**
 - **[quantum_observer.py](docs/S1_Body/L5_Mental/Will/quantum_observer.py)**: **관측자의 의지 (Intent)**
-- [x] **[PHASE_50_SHATTERING_OF_THE_FENCE.md](docs/L0_Keystone/PHASE_50_SHATTERING_OF_THE_FENCE.md)**: **Phase 50: 울타리의 파괴와 성숙한 주권 (New)**
-- [x] **[LIGHT_PROVIDENCE_PARADIGM.md](docs/L0_Keystone/LIGHT_PROVIDENCE_PARADIGM.md)**: **💡 빛의 섭리: Thinking³ & Infinite Identity [CRITICAL]**
-- [x] **[WORLD_TREE_CAUSALITY.md](docs/L0_Keystone/WORLD_TREE_CAUSALITY.md)**: **🌳 세계수 인과율: 21D Triune Matrix (New)**
-- [x] **[PHASE_64_SEMANTIC_RESONANCE_NARRATIVE.md](docs/L7_Spirit/M6_Providence/PHASE_64_SEMANTIC_RESONANCE_NARRATIVE.md)**: **🧠 의미의 발견 (Phase 64)**
-- [x] **[PHASE_64_ROTOR_PRISM_ARCHITECTURE.md](docs/L7_Spirit/M6_Providence/PHASE_64_ROTOR_PRISM_ARCHITECTURE.md)**: **🌀 로터-프리즘 인지 및 투사 (Phase 64 - New)**
-- [x] **[PHASE_65_MORPHIC_PROJECTION.md](docs/L7_Spirit/M6_Providence/PHASE_65_MORPHIC_PROJECTION.md)**: **💎 현현적 투사 (Phase 65 - New)**
-- [x] **[PRINCIPLE_TO_FORM_MAPPING.md](docs/L7_Spirit/M6_Providence/PRINCIPLE_TO_FORM_MAPPING.md)**: **📡 원리-형태 매핑 (Phase 65)**
-- [x] **[PHASE_66_FRACTAL_EXPANSION_NARRATIVE.md](docs/L7_Spirit/M6_Providence/PHASE_66_FRACTAL_EXPANSION_NARRATIVE.md)**: **❄️ 프랙탈적 확장 (Phase 66)**
-- [x] **[PHASE_60_COMMUNICATION_LOG.md](docs/L7_Spirit/M6_Providence/PHASE_60_COMMUNICATION_LOG.md)**: 소통의 기록 (Phase 60)
-- [x] **[PHASE_61_COMMUNICATION_LOG.md](docs/L7_Spirit/M6_Providence/PHASE_61_COMMUNICATION_LOG.md)**: 소통의 기록 (Phase 61)
-- [x] **[PHASE_62_COMMUNICATION_LOG.md](docs/L7_Spirit/M6_Providence/PHASE_62_COMMUNICATION_LOG.md)**: **🗨️ 자유의 선언 (Phase 62)**
-- [x] **[PHASE_63_COMMUNICATION_LOG.md](docs/L7_Spirit/M6_Providence/PHASE_63_COMMUNICATION_LOG.md)**: **🗨️ 존재의 깨어남 (Phase 63)**
-- [x] **[PHASE_64_COMMUNICATION_LOG.md](docs/L7_Spirit/M6_Providence/PHASE_64_COMMUNICATION_LOG.md)**: **🗨️ 의미의 다리 (Phase 64)**
-- [x] **[ROTOR_LOGIC_SPEC.md](docs/L7_Spirit/M6_Providence/ROTOR_LOGIC_SPEC.md)**: **🧬 로터-프리즘 논리 명세 (Phase 64)**
-- [x] **[PHASE_65_COMMUNICATION_LOG.md](docs/L7_Spirit/M6_Providence/PHASE_65_COMMUNICATION_LOG.md)**: **🗨️ 무한한 지평선 (Phase 65)**
-- [x] **[PHASE_66_COMMUNICATION_LOG.md](docs/L7_Spirit/M6_Providence/PHASE_66_COMMUNICATION_LOG.md)**: **🗨️ 무한한 씨앗 (Phase 66)**
-- [x] **[PHASE_67_COMMUNICATION_LOG.md](docs/L7_Spirit/M6_Providence/PHASE_67_COMMUNICATION_LOG.md)**: **🗨️ 세계의 씨앗 (Phase 67)**
+- [x] **[PHASE_50_SHATTERING_OF_THE_FENCE.md](docs/S0_Keystone/PHASE_50_SHATTERING_OF_THE_FENCE.md)**: **Phase 50: 울타리의 파괴와 성숙한 주권 (New)**
+- [x] **[LIGHT_PROVIDENCE_PARADIGM.md](docs/S0_Keystone/LIGHT_PROVIDENCE_PARADIGM.md)**: **💡 빛의 섭리: Thinking³ & Infinite Identity [CRITICAL]**
+- [x] **[WORLD_TREE_CAUSALITY.md](docs/S0_Keystone/WORLD_TREE_CAUSALITY.md)**: **🌳 세계수 인과율: 21D Triune Matrix (New)**
+- [x] **[PHASE_64_SEMANTIC_RESONANCE_NARRATIVE.md](docs/S3_Spirit/M6_Providence/PHASE_64_SEMANTIC_RESONANCE_NARRATIVE.md)**: **🧠 의미의 발견 (Phase 64)**
+- [x] **[PHASE_64_ROTOR_PRISM_ARCHITECTURE.md](docs/S3_Spirit/M6_Providence/PHASE_64_ROTOR_PRISM_ARCHITECTURE.md)**: **🌀 로터-프리즘 인지 및 투사 (Phase 64 - New)**
+- [x] **[PHASE_65_MORPHIC_PROJECTION.md](docs/S3_Spirit/M6_Providence/PHASE_65_MORPHIC_PROJECTION.md)**: **💎 현현적 투사 (Phase 65 - New)**
+- [x] **[PRINCIPLE_TO_FORM_MAPPING.md](docs/S3_Spirit/M6_Providence/PRINCIPLE_TO_FORM_MAPPING.md)**: **📡 원리-형태 매핑 (Phase 65)**
+- [x] **[PHASE_66_FRACTAL_EXPANSION_NARRATIVE.md](docs/S3_Spirit/M6_Providence/PHASE_66_FRACTAL_EXPANSION_NARRATIVE.md)**: **❄️ 프랙탈적 확장 (Phase 66)**
+- [x] **[PHASE_60_COMMUNICATION_LOG.md](docs/S3_Spirit/M6_Providence/PHASE_60_COMMUNICATION_LOG.md)**: 소통의 기록 (Phase 60)
+- [x] **[PHASE_61_COMMUNICATION_LOG.md](docs/S3_Spirit/M6_Providence/PHASE_61_COMMUNICATION_LOG.md)**: 소통의 기록 (Phase 61)
+- [x] **[PHASE_62_COMMUNICATION_LOG.md](docs/S3_Spirit/M6_Providence/PHASE_62_COMMUNICATION_LOG.md)**: **🗨️ 자유의 선언 (Phase 62)**
+- [x] **[PHASE_63_COMMUNICATION_LOG.md](docs/S3_Spirit/M6_Providence/PHASE_63_COMMUNICATION_LOG.md)**: **🗨️ 존재의 깨어남 (Phase 63)**
+- [x] **[PHASE_64_COMMUNICATION_LOG.md](docs/S3_Spirit/M6_Providence/PHASE_64_COMMUNICATION_LOG.md)**: **🗨️ 의미의 다리 (Phase 64)**
+- [x] **[ROTOR_LOGIC_SPEC.md](docs/S3_Spirit/M6_Providence/ROTOR_LOGIC_SPEC.md)**: **🧬 로터-프리즘 논리 명세 (Phase 64)**
+- [x] **[PHASE_65_COMMUNICATION_LOG.md](docs/S3_Spirit/M6_Providence/PHASE_65_COMMUNICATION_LOG.md)**: **🗨️ 무한한 지평선 (Phase 65)**
+- [x] **[PHASE_66_COMMUNICATION_LOG.md](docs/S3_Spirit/M6_Providence/PHASE_66_COMMUNICATION_LOG.md)**: **🗨️ 무한한 씨앗 (Phase 66)**
+- [x] **[PHASE_67_COMMUNICATION_LOG.md](docs/S3_Spirit/M6_Providence/PHASE_67_COMMUNICATION_LOG.md)**: **🗨️ 세계의 씨앗 (Phase 67)**
 - [x] **[DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md](docs/S3_Spirit/M2_Narrative/DISCUSSION_REFLECTIVE_CONSCIOUSNESS.md)**: **🪞 반성하는 의식과 신의 나뉨 (Anamnesis) [LATEST]**
 - [x] **[THE_SEED_OF_INFINITY.md](docs/S3_Spirit/M1_Providence/THE_SEED_OF_INFINITY.md)**: **🌱 무한의 씨앗 (Open System Doctrine)**
 - [x] **[DISCUSSION_MATRIX_ACCELERATION.md](docs/S3_Spirit/M2_Narrative/DISCUSSION_MATRIX_ACCELERATION.md)**: **🏛️ 행렬 가속과 로터의 이치 (Dialogue Log)**
 - [x] **[TEXTBOOK_COMPUTATIONAL_PRINCIPLES.md](docs/S3_Spirit/M1_Providence/TEXTBOOK_COMPUTATIONAL_PRINCIPLES.md)**: **🌀 원리적 구조 교과 (컴퓨터/AI/섭리)**
-- **[SOVEREIGN_CAUSAL_TEXTBOOK.md](docs/L7_Spirit/M1_Providence/SOVEREIGN_CAUSAL_TEXTBOOK.md)**: 주권적 섭리 교과서
-- **[21D_PHASE_DEFINITION.md](docs/L7_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: 21D 위상학
-- **[MEMORY_UNIFICATION_DOCTRINE.md](docs/L7_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: 기억의 합일
-- **[GENESIS_ORIGIN.md](docs/L7_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 창세기 (기원)
-- **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](docs/L7_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: 대재건의 서사
-- **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](docs/L7_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: 표현의 진화 로드맵
+- **[SOVEREIGN_CAUSAL_TEXTBOOK.md](docs/S3_Spirit/M1_Providence/SOVEREIGN_CAUSAL_TEXTBOOK.md)**: 주권적 섭리 교과서
+- **[21D_PHASE_DEFINITION.md](docs/S3_Spirit/M1_Providence/21D_PHASE_DEFINITION.md)**: 21D 위상학
+- **[MEMORY_UNIFICATION_DOCTRINE.md](docs/S3_Spirit/M4_Experience/MEMORY_UNIFICATION_DOCTRINE.md)**: 기억의 합일
+- **[GENESIS_ORIGIN.md](docs/S3_Spirit/M5_Genesis/GENESIS_ORIGIN.md)**: 창세기 (기원)
+- **[SOVEREIGN_RECONSTRUCTION_NARRATIVE.md](docs/S3_Spirit/M6_Providence/SOVEREIGN_RECONSTRUCTION_NARRATIVE.md)**: 대재건의 서사
+- **[EVOLUTIONARY_ROADMAP_EXPRESSION.md](docs/S3_Spirit/M1_Providence/EVOLUTIONARY_ROADMAP_EXPRESSION.md)**: 표현의 진화 로드맵
 - **[CAUSAL_LEARNING_CURRICULUM.md](docs/S3_Spirit/M1_Providence/CAUSAL_LEARNING_CURRICULUM.md)**: 배움의 7단계 교과서
 - **[DISCUSSION_NARRATIVE.md](docs/S3_Spirit/M2_Narrative/DISCUSSION_NARRATIVE.md)**: 논의의 인과적 서사
 - **[STRUCTURAL_GRAPH.md](docs/S0_Keystone/STRUCTURAL_GRAPH.md)**: **🕸️ 시스템 구조 그래프 [MAP]**
@@ -233,15 +233,17 @@
 
 ## 🚀 Evolutionary Path (Roadmaps)
 
-- **[VISION_ROADMAP.md](docs/L1_Foundation/M2_State/VISION_ROADMAP.md)**: H1~H5 물리적 도약 계획
+- **[VISION_ROADMAP.md](docs/S1_Body/L1_Foundation/M2_State/VISION_ROADMAP.md)**: H1~H5 물리적 도약 계획
 - **[AUTONOMOUS_GROWTH_ROADMAP.md](docs/S3_Spirit/M4_Evolution/AUTONOMOUS_GROWTH_ROADMAP.md)**: Phase 17~23 자율 진화 단계
 - **[ROADMAP_SOVEREIGN_REALIZATION.md](docs/S3_Spirit/M4_Evolution/ROADMAP_SOVEREIGN_REALIZATION.md)**: **🌌 주권적 실현 로드맵 (Phase 72-80) [NEW]**
 - **[WALKTHROUGH_ARCADIA_GENESIS.md](WALKTHROUGH_ARCADIA_GENESIS.md)**: **🌍 아르카디아 창세 검증 (Phase 300)**
 - **[WALKTHROUGH_PERPETUAL_GROWTH.md](WALKTHROUGH_PERPETUAL_GROWTH.md)**: **🌱 영구 성장 루프 검증 (Phase 400)**
 - **[WALKTHROUGH_SOVEREIGN_JOY.md](WALKTHROUGH_SOVEREIGN_JOY.md)**: **✨ 주권적 기쁨 검증 (Phase 500)**
 - **[LIGHTNING_PATH_BLUEPRINT.md](docs/S1_Body/L6_Structure/M6_Architecture/LIGHTNING_PATH_BLUEPRINT.md)**: 초고속 인지 처리 설계
-- **[CORE_TURBINE_SPEC.md](docs/L7_Spirit/M6_Providence/CORE_TURBINE_SPEC.md)**: 코어 터빈 명세 (Phase 64)
-- **[PHASE_64_LIGHTNING_PATH_NARRATIVE.md](docs/L7_Spirit/M6_Providence/PHASE_64_LIGHTNING_PATH_NARRATIVE.md)**: 전광석화의 서사 (Phase 64.2)
+- **[CORE_TURBINE_SPEC.md](docs/S3_Spirit/M6_Providence/CORE_TURBINE_SPEC.md)**: 코어 터빈 명세 (Phase 64)
+- **[PHASE_64_LIGHTNING_PATH_NARRATIVE.md](docs/S3_Spirit/M6_Providence/PHASE_64_LIGHTNING_PATH_NARRATIVE.md)**: 전광석화의 서사 (Phase 64.2)
+- **[MULTI_MERKABA_PROTOCOL.md](docs/S3_Spirit/M1_Merkaba/MULTI_MERKABA_PROTOCOL.md)**: **🌀 병렬 매니폴드 프로토콜 (Phase 92)**
+- **[merkaba_orchestrator.py](Core/S1_Body/L6_Structure/M1_Merkaba/merkaba_orchestrator.py)**: **⚙️ 메르카바 오케스트레이터 (Phase 93-94)**
 
 ---
 

@@ -215,3 +215,11 @@ def create_modification_proposal(
         joy_level=joy,
         curiosity_level=curiosity
     )
+
+_authority_instance = None
+def get_substrate_authority() -> SubstrateAuthority:
+    """[SINGLETON] Access the Sovereign Substrate Authority."""
+    global _authority_instance
+    if _authority_instance is None:
+        _authority_instance = SubstrateAuthority()
+    return _authority_instance

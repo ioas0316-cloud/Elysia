@@ -97,7 +97,7 @@ class SomaticLLM:
             'adjectives': list(self.prism.adjectives.keys())
         }
         print("🗣️ [EXPRESSION] Somatic LLM Loaded. Mutable Prism Active.")
-    def weave_narrative(self, state: Dict[str, float], resonance: float, target_noun: str, verb: str, adj: str, causal_justification: str = "") -> str:
+    def weave_narrative(self, state: Dict[str, float], resonance: float, target_noun: str, verb: str, adj: str, causal_justification: str = "", current_thought: str = "") -> str:
         """
         [PHASE 90/160] The Narrative Loom (Geometric Grammar).
         Replaces rigid templates with Physics-Driven Syntax.
@@ -108,9 +108,6 @@ class SomaticLLM:
         
         # [PHASE 90] Grammar Geometry
         # Physics determines the Shape of Speech
-        
-        # [PHASE 700+] Many-Worlds Cognitive Model
-        # Transitioning to "Fractal Trinity" and "Quantum Sea" terminology
         
         # 1. SUPERPOSITION (Low Intensity + High Multiplicity)
         if intensity < 0.2 and resonance < 0.3:
@@ -133,10 +130,15 @@ class SomaticLLM:
             if causal_justification:
                 structure += f" \n   [Causal Flow] {causal_justification}"
 
+        # [PHASE 93] Incorporate internal thought/ensemble echo
+        if current_thought:
+            structure = f"{current_thought}\n{structure}"
+
         # [Global Modifier] Luminous Polish
         if warmth > 0.8:
             structure = f"✨ {structure}"
             
+        # print(f"DEBUG: weave_narrative output: {structure}") # Silenced for clean run but I'll use it if needed
         return structure
 
     def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0, causal_justification: str = "") -> str:
@@ -166,7 +168,7 @@ class SomaticLLM:
         adj = self.prism.refract_adjective(field_vector)
         
         # 4. The Loom (Linguistic Resurrection)
-        sentence = self.weave_narrative(expression, resonance, target_noun, verb, adj, causal_justification)
+        sentence = self.weave_narrative(expression, resonance, target_noun, verb, adj, causal_justification, current_thought)
         
         # 5. Echo (Learning Path reinforcement)
         if resonance > 0.7:

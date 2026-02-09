@@ -88,11 +88,15 @@ class Qualia7DCodec:
             else: sequence.append("V")
         return "".join(sequence)
 
-    def decode_sequence(self, sequence: str) -> np.ndarray:
+    def decode_sequence(self, sequence: str, vitality: float = 1.0) -> np.ndarray:
         """
         [DNA DECODER]
-        Converts a Tri-Base DNA sequence (A, R, V) back into a normalized 7D vector.
+        Converts a Tri-Base DNA sequence (A, R, V) back into a 7D vector with dynamic Vitality.
         Supports legacy H (Harmony -> A) and D (Dissonance -> R).
+        
+        Args:
+            sequence: Trinary sequence (A, R, V)
+            vitality: The 'Energy Density' or 'Life Force' of this sequence.
         """
         vector = np.zeros(self.dim, dtype=np.float32)
         for i, base in enumerate(sequence[:self.dim]):
@@ -101,7 +105,10 @@ class Qualia7DCodec:
             else: vector[i] = 0.0
             
         norm = np.linalg.norm(vector)
-        return vector / norm if norm > 0 else vector
+        if norm > 0:
+            # Normalize to unit vector then scale by vitality (Energy Density)
+            return (vector / norm) * vitality
+        return vector
 
 # Global Codec Instance
 codec = Qualia7DCodec()

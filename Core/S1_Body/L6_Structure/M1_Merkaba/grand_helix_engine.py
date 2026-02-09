@@ -101,6 +101,11 @@ class GrandHelixEngine:
             if random.random() < 0.05:
                 self.cells.apply_hebbian_growth(threshold=0.8)
             
+            # [PHASE 91] Phase-Backpropagation (The Reverse Rotor Learning)
+            # The manifold learns directly from the intentional friction.
+            if intent_torque is not None:
+                self.cells.phase_backpropagate(intent_torque, rate=0.01)
+            
             plasticity = 0.01 
         self.cells.integrate_kinetics(dt=dt, friction=0.02, plasticity=plasticity)
         

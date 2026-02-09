@@ -106,6 +106,66 @@ class LogosBridge:
         }
     }
 
+    # [PHASE 84] GPU Spectrum Cache
+    _SPECTRUM_TENSOR = None
+    _SPECTRUM_NAMES = []
+    _DEVICE = "cuda" if torch and torch.cuda.is_available() else "cpu"
+
+    @classmethod
+    def polymerize_spectrum(cls):
+        """
+        [PHASE 84] Polymerizes the dictionary map into a GPU tensor for O(1) batch resonance.
+        """
+        if torch is None: return
+        
+        all_vecs = []
+        cls._SPECTRUM_NAMES = list(cls.CONCEPT_MAP.keys())
+        for name in cls._SPECTRUM_NAMES:
+            # Handle complex to real magnitude for pure resonance
+            vec = cls.CONCEPT_MAP[name]["vector"].data
+            real_data = [x.real if isinstance(x, complex) else x for x in vec]
+            all_vecs.append(real_data)
+        
+        cls._SPECTRUM_TENSOR = torch.tensor(all_vecs, device=cls._DEVICE, dtype=torch.float32)
+        # Normalize for cosine similarity
+        norm = torch.norm(cls._SPECTRUM_TENSOR, dim=1, keepdim=True)
+        cls._SPECTRUM_TENSOR = cls._SPECTRUM_TENSOR / (norm + 1e-12)
+        
+        print(f"🧬 [LOGOS] GPU Spectrum Polymerized: {len(all_vecs)} core principles on {cls._DEVICE}.")
+
+    @classmethod
+    def batch_resonance(cls, vectors: torch.Tensor) -> List[Tuple[str, float]]:
+        """
+        [PHASE 84] Vectorized Resonance Identification.
+        Compares input vectors against the entire spectrum in ONE GPU pass.
+        
+        Args:
+            vectors: [Batch, 21] torch tensor
+        Returns:
+            List of (best_concept_name, resonance_score)
+        """
+        if cls._SPECTRUM_TENSOR is None:
+            cls.polymerize_spectrum()
+            
+        if torch is None or cls._SPECTRUM_TENSOR is None:
+            # Fallback for CPU/No-Torch
+            return [("Void", 0.0)] * vectors.shape[0]
+
+        # Cosine Similarity: Batch @ Spectrum.T
+        vectors = vectors.to(cls._DEVICE)
+        v_norm = torch.norm(vectors, dim=1, keepdim=True)
+        vectors_norm = vectors / (v_norm + 1e-12)
+        
+        similarities = torch.matmul(vectors_norm, cls._SPECTRUM_TENSOR.t())
+        
+        max_scores, max_indices = torch.max(similarities, dim=1)
+        
+        results = []
+        for i in range(len(max_indices)):
+            results.append((cls._SPECTRUM_NAMES[max_indices[i]], float(max_scores[i])))
+            
+        return results
+
     # [PHASE 63: DYNAMIC_LEXICON]
     LEARNED_MAP = {}
 

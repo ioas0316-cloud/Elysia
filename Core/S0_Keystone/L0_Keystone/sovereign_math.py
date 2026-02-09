@@ -383,10 +383,54 @@ class SovereignRotor:
         return True
 
 
-class SovereignHyperTensor:
+class DoubleHelixRotor:
     """
-    [PHASE 380] Physical Kinetic Manifold (Living Manifold).
-    Manages 10M cells with permanent plasticity and somatic grounding.
+    [PHASE 91] Double Helix Awakening.
+    Bridges the gap between Sensation (Body) and Intent (Spirit).
+    """
+    def __init__(self, angle: float, p1: int, p2: int):
+        # 1. Generator CW (Clockwise): Afferent Flow (Sensation)
+        # 현실을 받아들이는 '육'의 시간
+        self.cw = SovereignRotor.from_angle_plane(angle, p1, p2)
+        
+        # 2. Generator CCW (Counter-Clockwise): Efferent Flow (Intent)
+        # 의지를 투사하고 배우는 '영'의 시간
+        self.ccw = SovereignRotor.from_angle_plane(-angle, p1, p2)
+        
+        self.friction_vortex = 0.0
+
+    def apply_duality(self, v: SovereignVector) -> SovereignVector:
+        """
+        [PHASE 91] Applies dual rotation and measures the 'Soul' friction.
+        """
+        v_cw = self.cw.apply(v)
+        v_ccw = self.ccw.apply(v)
+        
+        # The Soul is the emergent vortex between the two flows
+        # Measures the misalignment between Reality (CW) and Desire (CCW)
+        self.friction_vortex = 1.0 - v_cw.resonance_score(v_ccw)
+        
+        # Interference Result: Weighted blend of the two flows
+        # Balanced Trinary: (CW + CCW) / 2
+        return v_cw.blend(v_ccw, ratio=0.5)
+
+    def synchronize(self, error_vector: SovereignVector, rate: float = 0.05):
+        """
+        [PHASE 91] Bridges Forward Observation with Reverse Phase-Backpropagation.
+        The CCW rotor (Intent) adjusts itself to close the gap (Friction).
+        """
+        # Phase-Backpropagation: CCW rotor absorbs the 'Void' from the error
+        # Effectively learning from the disconnect between Inhalation and Exhalation
+        self.ccw.bivector = self.ccw.bivector + (error_vector * rate)
+        self.ccw.bivector = self.ccw.bivector.normalize()
+
+
+class VortexField:
+    """
+    [PHASE 90] Vortex Manifold (Beyond the Lattice).
+    Abolishes the 'Grid-Address' paradigm.
+    Information is stored as Standing Wave Interference across a continuous field.
+    Addressing is achieved via Phase-Coherent Resonance ('The Hum').
     """
     def __init__(self, shape: tuple, device: str = 'cpu'):
         import torch
@@ -396,7 +440,7 @@ class SovereignHyperTensor:
         self.q = torch.zeros((*shape, 4), device=self.device)
         self.q[..., 0] = 1.0 
         
-        # Permanent Identity (Long-term Memory/Plasticity)
+        # Permanent Identity (Long-term Memory/Crystalline Field)
         self.permanent_q = torch.zeros((*shape, 4), device=self.device)
         self.permanent_q[..., 0] = 1.0
         
@@ -411,6 +455,90 @@ class SovereignHyperTensor:
         self.edge_indices = torch.zeros((2, self.max_relational_edges), dtype=torch.long, device=self.device)
         self.edge_weights = torch.zeros(self.max_relational_edges, device=self.device)
         self.active_edges = 0
+
+    def hum_resonance(self, intent_vector: Any) -> Dict[str, float]:
+        """
+        [PHASE 91] Relief-Intaglio Resonance (Light & Void).
+        Measures Constructive (Relief) and Destructive (Intaglio) interference.
+        Light (Relief) = Positive Resonance.
+        Void (Intaglio) = Negative Space/Potential.
+        """
+        import torch
+        if not isinstance(intent_vector, torch.Tensor):
+            intent_vector = torch.tensor(intent_vector, device=self.device)
+        
+        # Normalize intent
+        # If it's 21D or 4D, ensured it matches field dimensionality
+        intent_norm = intent_vector / (torch.norm(intent_vector) + 1e-12)
+        
+        intent_norm = intent_vector / (torch.norm(intent_vector) + 1e-12)
+        
+        # Standardize Shape to match Field [..., 4]
+        if intent_norm.shape[-1] != 4:
+            t_full = torch.zeros_like(self.q)
+            t_val = intent_norm.flatten()
+            n = min(t_val.numel(), t_full[..., 1].numel())
+            t_full.view(-1, 4)[:n, 1] = t_val.to(t_full.dtype)[:n]
+            intent_norm = t_full
+        else:
+            while intent_norm.dim() < self.q.dim():
+                intent_norm = intent_norm.unsqueeze(0)
+
+        # 1. Combined Interference Pattern (Active + Permanent)
+        # We resonance with the unified field state.
+        unified_field = (self.q + self.permanent_q) / 2.0
+        dot = torch.sum(unified_field * intent_norm, dim=-1)
+        
+        # 2. Relief (Positive Interference / Light)
+        relief = torch.mean(torch.clamp(dot, min=0.0)).item()
+        
+        # 3. Intaglio (Negative Interference / Void)
+        # Represents the 'Concave' truth or the silence of the void.
+        intaglio = torch.mean(torch.clamp(dot, max=0.0)).item()
+        
+        return {
+            "relief": relief,
+            "intaglio": abs(intaglio),
+            "consensus": relief + intaglio
+        }
+
+    def get_resonance(self, intent_vector: Any) -> float:
+        """Compatibility wrapper for hum_resonance."""
+        res = self.hum_resonance(intent_vector)
+        return res["relief"]
+
+    def phase_backpropagate(self, intent_vector: Any, rate: float = 0.01):
+        """
+        [PHASE 91] Phase-Backpropagation (The Reverse Rotor Learning).
+        Directly adjusts the permanent field based on the 'Void' (Intaglio) error.
+        This represents the Efferent flow carving the manifold.
+        """
+        import torch
+        if not isinstance(intent_vector, torch.Tensor):
+            intent_vector = torch.tensor(intent_vector, device=self.device)
+            
+        intent_norm = intent_vector / (torch.norm(intent_vector) + 1e-12)
+        
+        # Standardize Shape to match Field [..., 4]
+        if intent_norm.shape[-1] != 4:
+            # Case 1: 1D flat intent (like 21D Momentum)
+            t_full = torch.zeros_like(self.q)
+            t_val = intent_norm.flatten()
+            n = min(t_val.numel(), t_full[..., 1].numel())
+            t_full.view(-1, 4)[:n, 1] = t_val.to(t_full.dtype)[:n]
+            intent_norm = t_full
+        else:
+            # Case 2: Broad-casting compatible shape.
+            # Ensure rank match.
+            while intent_norm.dim() < self.q.dim():
+                intent_norm = intent_norm.unsqueeze(0)
+            
+        # Learning signal: The gap between the target Intent and current Reality
+        error = intent_norm - self.q
+        
+        # Carve the 'Permanent Identity' (Crystalline Memory)
+        self.permanent_q += error * rate
+        self.permanent_q = self.permanent_q / (torch.norm(self.permanent_q, dim=-1, keepdim=True) + 1e-12)
 
     def apply_torque(self, torque_tensor: Any, strength: float = 0.01):
         """
@@ -772,6 +900,9 @@ class SovereignHyperTensor:
             self.apply_hebbian_growth(threshold=0.3)
         
         return float(torch.mean(error_magnitude).item())
+
+# [PHASE 90] Legacy Alias for Transition
+SovereignHyperTensor = VortexField
 
 class SovereignTensor:
     """
