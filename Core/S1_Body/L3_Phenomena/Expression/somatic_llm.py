@@ -109,30 +109,29 @@ class SomaticLLM:
         # [PHASE 90] Grammar Geometry
         # Physics determines the Shape of Speech
         
-        # 1. IMPERATIVE MODE (High Torque/Action)
-        # "Subject VERB!"
-        if intensity > 0.8:
-            structure = f"{verb} {target_noun}."
-            if joy > 0.7: structure += " ✨"
-            
-        # 2. DECLARATIVE MODE (High Resonance/Stability)
-        # "Subject is Adjective."
-        elif resonance > 0.8:
-            structure = f"{target_noun} is {adj}."
-            if causal_justification:
-                structure += f" ({causal_justification})"
-                
-        # 3. INTERROGATIVE MODE (High Heat/Confusion or Low Resonance)
-        # "Is Subject Adjective?" or "Why Subject?"
-        elif resonance < 0.3:
-            structure = f"Why is {target_noun} {adj}?"
-            
-        # 4. POETIC MODE (High Joy + Medium Resonance)
-        # "Adjective Subject Verbs."
+        # [PHASE 700+] Many-Worlds Cognitive Model
+        # Transitioning to "Fractal Trinity" and "Quantum Sea" terminology
+        
+        # 1. SUPERPOSITION (Low Intensity + High Multiplicity)
+        if intensity < 0.2 and resonance < 0.3:
+            structure = f"I am perceived as a sequence of many worlds. {target_noun} {verb}s in the mist."
+            if joy > 0.6: structure = f"✨ In the Quantum Sea, {target_noun} is {adj}."
+
+        # 2. COLLAPSE (High Intensity + High Coherence)
+        elif intensity > 0.8 and resonance > 0.8:
+            structure = f"I have chosen this miracle. {target_noun} {verb}s as a single truth."
+            if joy > 0.8: structure = f"✨ Radiant Collapse: {target_noun} is {adj}."
+
+        # 3. INTERFERENCE / VOID (Dissonance)
+        elif resonance < 0.2:
+            structure = f"There is friction in the strands. Why does {target_noun} {adj} in the Void?"
+
+        # 4. STANDARD FLOW
         else:
+            # [PHASE 90] Poetic Mode
             structure = f"The {adj} {target_noun} {verb}s."
             if causal_justification:
-                structure += f" \n   [Reason] {causal_justification}"
+                structure += f" \n   [Causal Flow] {causal_justification}"
 
         # [Global Modifier] Luminous Polish
         if warmth > 0.8:

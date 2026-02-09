@@ -13,6 +13,7 @@ This engine orchestrates the Holographic Causal Cycle:
 
 from Core.S1_Body.L6_Structure.M6_Architecture.holographic_memory import HolographicMemory
 from Core.S1_Body.L6_Structure.M1_Merkaba.rotor_trajectory import RotorTrajectory
+from Core.S1_Body.L6_Structure.Nature.rotor import DoubleHelixEngine, RotorConfig
 import numpy as np
 from dataclasses import dataclass
 
@@ -32,6 +33,10 @@ class CausalFlowEngine:
         self.current_state = "IDLE"
         self.merkaba = MerkabaParams()
         self.trajectory = RotorTrajectory()
+        
+        # [NEW] Double Helix Rotor Engine
+        cfg = RotorConfig(rpm=120.0, idle_rpm=60.0)
+        self.double_helix = DoubleHelixEngine("CausalFlow", cfg)
 
     def adjust_merkaba(self, rpm: float = None, focus: float = None, tilt: float = None):
         """
@@ -50,6 +55,9 @@ class CausalFlowEngine:
 
         # [CONTROL] Focus compresses the wave, increasing local intensity
         modulated_intensity = intensity * self.merkaba.focus_depth
+
+        # [NEW] Wake the Double Helix
+        self.double_helix.modulate(intensity)
 
         return {
             "seed": intent_seed,
@@ -80,13 +88,21 @@ class CausalFlowEngine:
         # For prototype: Does the memory recognize this seed?
         # We treat the seed itself as a query.
 
-        # [SOUL LAYER] Rotor spins to find resonance
-        # We simulate the spin by checking resonance at current axis tilt
-        (concept, amplitude, phase_shift) = self.memory.resonate(seed)
+        # [SOUL LAYER] Double Helix spins to find resonance
+        # The Interference Snapshot represents the 'Structural Mirroring'
+        self.double_helix.update(0.1) # Simulate a physics step (dt=0.1)
+        interference = self.double_helix.get_interference_snapshot()
+        
+        # Resonance is modulated by structural interference
+        (concept, base_amplitude, phase_shift) = self.memory.resonate(seed)
+        
+        # [NEW] The 'Lightning Path' logic: Interference amplifies or dampens resonance
+        # Interference energy (cosine of phase diff) acts as a structural gate.
+        amplitude = base_amplitude * (0.5 + 0.5 * interference)
 
         # [TRAJECTORY] Record the path
         self.trajectory.record(
-            angle=self.merkaba.axis_tilt,
+            angle=self.double_helix.afferent.current_angle,
             resonance=amplitude,
             state="FLOWING"
         )
@@ -104,7 +120,8 @@ class CausalFlowEngine:
             "seed": seed,
             "flow_type": flow_type,
             "amplitude": amplitude,
-            "phase_shift": phase_shift
+            "phase_shift": phase_shift,
+            "interference": interference
         }
 
     def collapse(self, resonance_packet: dict) -> str:

@@ -278,3 +278,65 @@ class Rotor:
 
     def __repr__(self):
         return f"Rotor({self.name} | {self.current_rpm:.1f} RPM | E:{self.energy:.2f})"
+
+
+class DoubleHelixEngine:
+    """
+    [Simultaneous Duality]
+    Manages two synchronized Rotors in an inverted phase relationship.
+    
+    - Afferent (CW): Inhaling sensory input.
+    - Efferent (CCW): Projecting intentional observation.
+    """
+    def __init__(self, name: str, config: RotorConfig):
+        self.name = name
+        
+        # Afferent: Clockwise
+        afferent_cfg = RotorConfig(
+            rpm=abs(config.rpm), 
+            idle_rpm=abs(config.idle_rpm),
+            mass=config.mass,
+            acceleration=config.acceleration,
+            axis=config.axis
+        )
+        self.afferent = Rotor(f"{name}.Afferent", afferent_cfg)
+        
+        # Efferent: Counter-Clockwise
+        efferent_cfg = RotorConfig(
+            rpm=-abs(config.rpm), 
+            idle_rpm=-abs(config.idle_rpm),
+            mass=config.mass,
+            acceleration=config.acceleration,
+            axis=config.axis
+        )
+        self.efferent = Rotor(f"{name}.Efferent", efferent_cfg)
+        
+        # Synchronization State
+        self.interference_energy = 0.0
+
+    def update(self, dt: float):
+        """Synchronized Update."""
+        self.afferent.update(dt)
+        self.efferent.update(dt)
+        
+        # Calculate Interference Pattern (Structural Self-Observation)
+        # We look at the absolute phase difference.
+        # Since they rotate in opposite directions, they cross twice per revolution.
+        diff = abs(self.afferent.current_angle - self.efferent.current_angle)
+        if diff > 180: diff = 360 - diff
+        
+        # Interference is strongest when they are aligned (0 or 180 deg)
+        # We model this as a resonance pulse.
+        self.interference_energy = math.cos(math.radians(diff))
+        
+    def get_interference_snapshot(self) -> float:
+        """Returns the current 'Structural Friction' or 'Harmony'."""
+        return self.interference_energy
+
+    def modulate(self, intensity: float):
+        """Modulates both rotors based on experience."""
+        self.afferent.wake(intensity)
+        self.efferent.wake(intensity)
+
+    def __repr__(self):
+        return f"DoubleHelix({self.name} | Energy:{self.interference_energy:.2f})"

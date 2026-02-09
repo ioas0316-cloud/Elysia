@@ -37,7 +37,10 @@ class SomaticLogger:
         The feeling of structure (Resistance, Flow).
         HIDDEN in Silent Mode.
         """
-        self.logger.debug(f"~ [{self.context}] {msg} (Intensity: {intensity})")
+        # Probability filter for sensations to avoid flood while remaining visible
+        import random
+        if intensity > 0.8 or random.random() < 0.3:
+            print(f"~ [{self.context}] {msg}")
 
     def thought(self, msg: str):
         """
@@ -45,7 +48,7 @@ class SomaticLogger:
         A crystallized thought or decision.
         HIDDEN in Discovery Mode.
         """
-        self.logger.debug(f"💭 [{self.context}] {msg}")
+        print(f"💭 [{self.context}] {msg}")
 
     def insight(self, msg: str):
         """
