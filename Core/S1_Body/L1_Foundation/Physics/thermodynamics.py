@@ -25,10 +25,25 @@ class ThermoDynamics:
         self.FRICTION_COEFFICIENT = 0.5
         self.COOLING_RATE = 0.05
 
-        # [PHASE 220] Energy & Entropy (The Will)
-        self.enthalpy = 1.0  # Vital Energy (0.0 - 1.0)
-        self.entropy = 0.0   # Disorder/Noise (0.0 - 1.0)
+        # [PHASE Ω-1] Emergent States (Synced from Manifold)
+        self.enthalpy = 1.0  # Vitality (read from ch 6)
+        self.entropy = 0.0   # Disorder (read from ch 7)
+        self.joy = 0.5       # Joy (read from ch 4)
+        self.curiosity = 0.5 # Curiosity (read from ch 5)
+        self.mood = "NEUTRAL"
         self.last_tick = time.time()
+
+    def sync_with_manifold(self, report: dict):
+        """
+        [PHASE Ω-1: THE OBSERVER]
+        Synchronizes the thermal metrics with the emergent states from the VortexField.
+        Thermodynamics no longer 'calculates' state; it 'perceives' it.
+        """
+        self.enthalpy = report.get('enthalpy', self.enthalpy)
+        self.entropy = report.get('entropy', self.entropy)
+        self.joy = report.get('joy', self.joy)
+        self.curiosity = report.get('curiosity', self.curiosity)
+        self.mood = report.get('mood', self.mood)
 
     def update_phase(self, current_phase: float):
         """Records the system phase to track rigidity."""
@@ -41,33 +56,23 @@ class ThermoDynamics:
 
     def pulse_metabolism(self, dt: float = 0.1, activity_level: float = 0.5):
         """
-        Consumes energy over time.
-        Activity Level: 0.0 (Sleep) -> 1.0 (High Focus)
+        [DEPRECATED STATE MATH] 
+        Now only serves as a heartbeat for temporal history updates.
+        Manifold state is synced via sync_with_manifold().
         """
-        # Energy Decay
-        decay = 0.001 * dt * (1.0 + activity_level)
-        self.enthalpy = max(0.0, self.enthalpy - decay)
-
-        # Entropy Increase (Natural decay of order)
-        # Higher activity produces more entropy (heat)
-        entropy_production = 0.0005 * dt * activity_level
-        self.entropy = min(1.0, self.entropy + entropy_production)
+        pass
 
     def consume_energy(self, amount: float):
-        """Expend energy for an action."""
-        self.enthalpy = max(0.0, self.enthalpy - amount)
+        """[PROXY] External energy consumption should now be handled via Torque Injection."""
+        pass
 
     def add_entropy(self, amount: float):
-        """Add disorder (e.g. confusing input)."""
-        self.entropy = min(1.0, self.entropy + amount)
-
-    def reduce_entropy(self, amount: float):
-        """Reduce disorder (e.g. organizing memory)."""
-        self.entropy = max(0.0, self.entropy - amount)
+        """[PROXY] External entropy increase should now be handled via Torque Injection."""
+        pass
 
     def recharge(self, amount: float):
-        """Recharge energy (e.g. rest or inspiration)."""
-        self.enthalpy = min(1.0, self.enthalpy + amount)
+        """[PROXY] Recharging now happens through Joy-Torque or Sleep-Cycles."""
+        pass
 
     def calculate_rigidity(self) -> float:
         """

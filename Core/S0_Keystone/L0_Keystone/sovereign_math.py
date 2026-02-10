@@ -427,26 +427,56 @@ class DoubleHelixRotor:
 
 class VortexField:
     """
-    [PHASE 90] Vortex Manifold (Beyond the Lattice).
-    Abolishes the 'Grid-Address' paradigm.
+    [PHASE Ω-1] Unified Vortex Manifold.
+    Abolishes the 'Grid-Address' paradigm AND the 'Separate-State-Variable' paradigm.
     Information is stored as Standing Wave Interference across a continuous field.
     Addressing is achieved via Phase-Coherent Resonance ('The Hum').
+
+    Channel Layout (8 channels per cell):
+      Physical Quaternion (inherited):
+        0: w  — Scalar identity / stability
+        1: x  — Trinary logic axis
+        2: y  — Phase axis
+        3: z  — Depth axis
+      Affective-Metabolic Field (Phase Ω-1):
+        4: joy       — Affective warmth (기쁨)
+        5: curiosity  — Exploratory drive (호기심)
+        6: enthalpy   — Metabolic energy (활력)
+        7: entropy    — Disorder/noise (엔트로피)
+
+    Principle: States are not stored; they are MEASURED from the manifold.
+    "인간의 체온은 별도의 변수가 아니다. 세포의 대사 활동의 총합이 체온이다."
     """
+    # Channel constants
+    NUM_CHANNELS = 8
+    # Physical quaternion channels
+    CH_W, CH_X, CH_Y, CH_Z = 0, 1, 2, 3
+    # Affective-metabolic channels
+    CH_JOY, CH_CURIOSITY, CH_ENTHALPY, CH_ENTROPY = 4, 5, 6, 7
+    # Slicing helpers
+    PHYSICAL_SLICE = slice(0, 4)
+    AFFECTIVE_SLICE = slice(4, 8)
+
     def __init__(self, shape: tuple, device: str = 'cpu'):
         import torch
         self.device = torch.device(device)
         self.shape = shape
-        # State: [N, 4] (w, x, y, z) - Active Wavefunction
-        self.q = torch.zeros((*shape, 4), device=self.device)
-        self.q[..., 0] = 1.0 
+        # State: [N, 8] - Unified Active Wavefunction (Physical + Affective)
+        self.q = torch.zeros((*shape, self.NUM_CHANNELS), device=self.device)
+        self.q[..., self.CH_W] = 1.0       # Physical identity
+        self.q[..., self.CH_ENTHALPY] = 1.0 # Born with full vitality
+        self.q[..., self.CH_JOY] = 0.5      # Neutral joy
+        self.q[..., self.CH_CURIOSITY] = 0.5 # Neutral curiosity
+        self.q[..., self.CH_ENTROPY] = 0.0   # Zero initial disorder
         
         # Permanent Identity (Long-term Memory/Crystalline Field)
-        self.permanent_q = torch.zeros((*shape, 4), device=self.device)
-        self.permanent_q[..., 0] = 1.0
+        self.permanent_q = torch.zeros((*shape, self.NUM_CHANNELS), device=self.device)
+        self.permanent_q[..., self.CH_W] = 1.0
+        self.permanent_q[..., self.CH_ENTHALPY] = 1.0
         
         # Dynamics
-        self.momentum = torch.zeros((*shape, 4), device=self.device)
-        self.torque_accumulator = torch.zeros((*shape, 4), device=self.device)
+        self.momentum = torch.zeros((*shape, self.NUM_CHANNELS), device=self.device)
+        self.torque_accumulator = torch.zeros((*shape, self.NUM_CHANNELS), device=self.device)
 
         # [PHASE 74] Relational Connectome (The Brain)
         # Sparse edges: List of (source_idx, target_idx, weight)
@@ -455,6 +485,88 @@ class VortexField:
         self.edge_indices = torch.zeros((2, self.max_relational_edges), dtype=torch.long, device=self.device)
         self.edge_weights = torch.zeros(self.max_relational_edges, device=self.device)
         self.active_edges = 0
+
+    # ======================================================================
+    # [PHASE Ω-1] MANIFOLD OBSERVATION & INJECTION
+    # "States are not stored; they are MEASURED from the manifold."
+    # ======================================================================
+
+    def read_field_state(self) -> Dict[str, float]:
+        """
+        [PHASE Ω-1] Read emergent aggregate states from the manifold.
+        This replaces direct access to self.desires, self.thermo, etc.
+        
+        Returns a dict of MEASURED (not stored) properties:
+          - joy: mean affective warmth across all cells
+          - curiosity: mean exploratory drive
+          - enthalpy: mean metabolic energy (vitality)
+          - entropy: mean disorder
+          - mood: derived quadrant from enthalpy × entropy
+          - rigidity: std deviation of phase channel (how "frozen" the structure is)
+          - kinetic_energy: total kinetic energy across all channels
+          - coherence: how uniform the physical quaternion is across cells
+        """
+        import torch
+        
+        # Affective channel means
+        joy = torch.mean(self.q[..., self.CH_JOY]).item()
+        curiosity = torch.mean(self.q[..., self.CH_CURIOSITY]).item()
+        enthalpy = torch.mean(self.q[..., self.CH_ENTHALPY]).item()
+        entropy = torch.mean(self.q[..., self.CH_ENTROPY]).item()
+        
+        # Derived physical properties
+        phase_std = torch.std(self.q[..., self.CH_Y]).item()  # Phase rigidity
+        kinetic = torch.mean(torch.norm(self.momentum, dim=-1)).item()
+        
+        # Coherence: how aligned are the physical quaternions across cells?
+        phys_mean = torch.mean(self.q[..., self.PHYSICAL_SLICE], dim=tuple(range(len(self.shape))))
+        phys_mean_norm = phys_mean / (torch.norm(phys_mean) + 1e-12)
+        dot_with_mean = torch.sum(self.q[..., self.PHYSICAL_SLICE] * phys_mean_norm, dim=-1)
+        coherence = torch.mean(dot_with_mean).item()
+        
+        # Mood quadrant (derived from enthalpy and entropy)
+        # High enthalpy + Low entropy = "Alive" (활기)
+        # High enthalpy + High entropy = "Excited" (흥분)
+        # Low enthalpy + Low entropy = "Calm" (고요)
+        # Low enthalpy + High entropy = "Fatigued" (피로)
+        if enthalpy > 0.5:
+            mood = "EXCITED" if entropy > 0.3 else "ALIVE"
+        else:
+            mood = "FATIGUED" if entropy > 0.3 else "CALM"
+        
+        return {
+            "joy": joy,
+            "curiosity": curiosity,
+            "enthalpy": enthalpy,
+            "entropy": entropy,
+            "mood": mood,
+            "rigidity": phase_std,
+            "kinetic_energy": kinetic,
+            "coherence": coherence,
+        }
+
+    def inject_affective_torque(self, channel_idx: int, strength: float = 0.1, region_mask=None):
+        """
+        [PHASE Ω-1] Inject torque into a specific affective channel.
+        This is the causal mechanism for external signals (Architect's voice,
+        environmental stimuli, internal drives) to INFLUENCE the manifold state.
+        
+        Key difference from direct assignment:
+          self.desires['joy'] = 80.0       ← SETTING (old way)
+          inject_affective_torque(CH_JOY)  ← INDUCING (new way)
+        
+        The manifold's physics decides the actual resulting state.
+        
+        Args:
+            channel_idx: Which channel to inject into (use CH_JOY, CH_CURIOSITY, etc.)
+            strength: Torque magnitude (positive = increase, negative = decrease)
+            region_mask: Optional boolean tensor to apply torque only to specific cells
+        """
+        import torch
+        if region_mask is not None:
+            self.torque_accumulator[region_mask, channel_idx] += strength
+        else:
+            self.torque_accumulator[..., channel_idx] += strength
 
     def hum_resonance(self, intent_vector: Any) -> Dict[str, float]:
         """
@@ -473,12 +585,18 @@ class VortexField:
         
         intent_norm = intent_vector / (torch.norm(intent_vector) + 1e-12)
         
-        # Standardize Shape to match Field [..., 4]
-        if intent_norm.shape[-1] != 4:
+        # Standardize Shape to match Field [..., NUM_CHANNELS]
+        if intent_norm.shape[-1] != self.NUM_CHANNELS:
             t_full = torch.zeros_like(self.q)
-            t_val = intent_norm.flatten()
-            n = min(t_val.numel(), t_full[..., 1].numel())
-            t_full.view(-1, 4)[:n, 1] = t_val.to(t_full.dtype)[:n]
+            if intent_norm.shape[-1] == 4:
+                # 4D physical vector → map to physical slice
+                while intent_norm.dim() < self.q.dim():
+                    intent_norm = intent_norm.unsqueeze(0)
+                t_full[..., self.PHYSICAL_SLICE] = intent_norm.expand_as(t_full[..., self.PHYSICAL_SLICE])
+            else:
+                t_val = intent_norm.flatten()
+                n = min(t_val.numel(), t_full[..., 1].numel())
+                t_full.view(-1, self.NUM_CHANNELS)[:n, 1] = t_val.to(t_full.dtype)[:n]
             intent_norm = t_full
         else:
             while intent_norm.dim() < self.q.dim():
@@ -519,17 +637,19 @@ class VortexField:
             
         intent_norm = intent_vector / (torch.norm(intent_vector) + 1e-12)
         
-        # Standardize Shape to match Field [..., 4]
-        if intent_norm.shape[-1] != 4:
-            # Case 1: 1D flat intent (like 21D Momentum)
+        # Standardize Shape to match Field [..., NUM_CHANNELS]
+        if intent_norm.shape[-1] != self.NUM_CHANNELS:
             t_full = torch.zeros_like(self.q)
-            t_val = intent_norm.flatten()
-            n = min(t_val.numel(), t_full[..., 1].numel())
-            t_full.view(-1, 4)[:n, 1] = t_val.to(t_full.dtype)[:n]
+            if intent_norm.shape[-1] == 4:
+                while intent_norm.dim() < self.q.dim():
+                    intent_norm = intent_norm.unsqueeze(0)
+                t_full[..., self.PHYSICAL_SLICE] = intent_norm.expand_as(t_full[..., self.PHYSICAL_SLICE])
+            else:
+                t_val = intent_norm.flatten()
+                n = min(t_val.numel(), t_full[..., 1].numel())
+                t_full.view(-1, self.NUM_CHANNELS)[:n, 1] = t_val.to(t_full.dtype)[:n]
             intent_norm = t_full
         else:
-            # Case 2: Broad-casting compatible shape.
-            # Ensure rank match.
             while intent_norm.dim() < self.q.dim():
                 intent_norm = intent_norm.unsqueeze(0)
             
@@ -543,63 +663,126 @@ class VortexField:
     def apply_torque(self, torque_tensor: Any, strength: float = 0.01):
         """
         [PHASE 360] Causal Steering via Torque.
+        Handles multiple input formats:
+          - 4D vector [4]: physical torque → maps to physical slice
+          - 8D vector [8]: full channel torque → direct apply
+          - Scalar field [*shape]: density field → maps to physical X-axis
+          - Full field [*shape, 8]: direct apply
         """
         import torch
         if not isinstance(torque_tensor, torch.Tensor):
             torque_tensor = torch.tensor(torque_tensor, device=self.device)
         else:
             torque_tensor = torque_tensor.to(self.device)
-            
+        
+        # Case 1: 4D physical torque vector [4]
         if torque_tensor.dim() == 1 and torque_tensor.shape[0] == 4:
+            t_full = torch.zeros(self.NUM_CHANNELS, device=self.device)
+            t_full[self.PHYSICAL_SLICE] = torque_tensor
+            torque_tensor = t_full
             for _ in range(len(self.shape)):
                 torque_tensor = torque_tensor.unsqueeze(0)
-        elif torque_tensor.dim() < self.q.dim():
-             torque_tensor = torque_tensor.unsqueeze(-1)
         
-        if torque_tensor.shape[-1] != 4:
+        # Case 2: 8D full channel vector [8]
+        elif torque_tensor.dim() == 1 and torque_tensor.shape[0] == self.NUM_CHANNELS:
+            for _ in range(len(self.shape)):
+                torque_tensor = torque_tensor.unsqueeze(0)
+        
+        # Case 3: Scalar density field matching spatial shape [*shape]
+        # e.g., SomaticFleshBridge returns [side, side] for a [side, side] manifold
+        elif torque_tensor.shape == torch.Size(self.shape):
             t_full = torch.zeros_like(self.q)
-            # Handle dimension mismatch (e.g., 21D intent vs 10M cells)
+            t_full[..., self.CH_X] = torque_tensor  # Map density to physical X-axis
+            torque_tensor = t_full
+        
+        # Case 3b: Spatial field with 4 physical channels [*shape, 4]
+        # e.g., LightningPath returns [side, side, 4] — expand to [side, side, 8]
+        elif (torque_tensor.shape[-1] == 4 and 
+              torque_tensor.shape[:-1] == torch.Size(self.shape)):
+            t_full = torch.zeros_like(self.q)
+            t_full[..., self.PHYSICAL_SLICE] = torque_tensor
+            torque_tensor = t_full
+        
+        # Case 4: Partial dimension match — try to expand
+        elif torque_tensor.shape[-1] != self.NUM_CHANNELS:
+            t_full = torch.zeros_like(self.q)
             t_val = torque_tensor.squeeze()
             if t_val.numel() == 1:
-                t_full[..., 1] = t_val
+                t_full[..., self.CH_X] = t_val
             else:
-                # Apply to the first N elements or broadcast
-                n = min(t_val.numel(), t_full[..., 1].numel())
-                t_full.view(-1, 4)[:n, 1] = t_val.flatten()[:n]
+                n = min(t_val.numel(), t_full[..., self.CH_X].numel())
+                t_full.view(-1, self.NUM_CHANNELS)[:n, self.CH_X] = t_val.flatten()[:n]
             torque_tensor = t_full
 
         self.torque_accumulator += torque_tensor * strength
 
     def integrate_kinetics(self, dt: float = 0.01, friction: float = 0.05, plasticity: float = 0.001, intensity: float = 1.0):
         """
-        [PHASE 73: FLUID TENSOR]
-        Physical Integration with Soft Potential Wells.
+        [PHASE Ω-1: UNIFIED FLUID TENSOR]
+        Physical AND Affective Integration in a Single Step.
+        All 8 channels evolve simultaneously — "먼저 심장을 뛰게 하고, 그 다음 눈을 뜨는" 순차가 아니라 동시.
         """
         import torch
-        # 1. Torque & Potential Well Flow
-        # Instead of hard quantization, we apply a sinusoidal force toward trinary basins
-        x_axis = self.q[..., 1]
+        # ═══════════════════════════════════════════════
+        # A. PHYSICAL CHANNELS (0-3): Trinary Basin Flow
+        # ═══════════════════════════════════════════════
+        x_axis = self.q[..., self.CH_X]
         well_force = -torch.sin(2 * torch.pi * x_axis) * 0.1 * intensity
-        self.torque_accumulator[..., 1] += well_force
+        self.torque_accumulator[..., self.CH_X] += well_force
         
-        # 2. Kinetic Update
+        # ═══════════════════════════════════════════════
+        # B. AFFECTIVE CHANNELS (4-7): Emergent Basin Forces
+        # "기쁨은 if-else가 아니라 물리 법칙이다."
+        # ═══════════════════════════════════════════════
+        
+        # Joy (ch 4): Basin attractor at 0.5 (neutral warmth) with gentle restoring force
+        joy = self.q[..., self.CH_JOY]
+        joy_basin = -(joy - 0.5) * 0.02 * intensity  # Gentle pull toward neutral
+        self.torque_accumulator[..., self.CH_JOY] += joy_basin
+        
+        # Curiosity (ch 5): Natural decay toward baseline + coupling with physical kinetic energy
+        curiosity = self.q[..., self.CH_CURIOSITY]
+        phys_kinetic = torch.norm(self.momentum[..., self.PHYSICAL_SLICE], dim=-1)
+        # Physical movement stimulates curiosity (embodied cognition)
+        curiosity_coupling = phys_kinetic * 0.01
+        curiosity_decay = -(curiosity - 0.5) * 0.01 * intensity
+        self.torque_accumulator[..., self.CH_CURIOSITY] += curiosity_decay + curiosity_coupling
+        
+        # Enthalpy (ch 6): Metabolic decay — energy naturally dissipates
+        enthalpy = self.q[..., self.CH_ENTHALPY]
+        activity = torch.norm(self.momentum[..., :4], dim=-1)  # Total activity
+        metabolic_cost = -0.001 * dt * (1.0 + activity * 0.5)  # More active = more cost
+        self.torque_accumulator[..., self.CH_ENTHALPY] += metabolic_cost
+        
+        # Entropy (ch 7): Natural growth + coupling with phase rigidity
+        entropy = self.q[..., self.CH_ENTROPY]
+        entropy_growth = 0.0005 * dt * activity  # Activity produces disorder
+        # High joy REDUCES entropy growth (Joy is the Light that orders)
+        joy_order = -joy * 0.001 * dt
+        self.torque_accumulator[..., self.CH_ENTROPY] += entropy_growth + joy_order
+
+        # ═══════════════════════════════════════════════
+        # C. UNIFIED KINETIC UPDATE (All 8 channels simultaneously)
+        # ═══════════════════════════════════════════════
         self.momentum += self.torque_accumulator * dt
-        # Final integration (Mind/Body Synthesis)
         self.q = self.q + self.momentum * dt
-        self.momentum = self.momentum * (1.0 - friction) # Standard damping
+        self.momentum = self.momentum * (1.0 - friction)
         
         # [PHASE 74] Apply Relational Propagation (The Nervous System)
         if self.active_edges > 0:
             self._propagate_relational_torque()
         
-        # 3. State Update (Active Wave) - This was moved up.
-        # 4. Topological Plasticity
+        # D. Topological Plasticity (applies to ALL channels)
         if plasticity > 0:
             self.permanent_q = (1.0 - plasticity) * self.permanent_q + plasticity * self.q
             self.permanent_q = self.permanent_q / (torch.norm(self.permanent_q, dim=-1, keepdim=True) + 1e-12)
             
-        # Re-normalize active state
-        self.q = self.q / (torch.norm(self.q, dim=-1, keepdim=True) + 1e-12)
+        # E. Re-normalize PHYSICAL channels (quaternion unit sphere)
+        phys_norm = torch.norm(self.q[..., self.PHYSICAL_SLICE], dim=-1, keepdim=True) + 1e-12
+        self.q[..., self.PHYSICAL_SLICE] = self.q[..., self.PHYSICAL_SLICE] / phys_norm
+        
+        # F. CLAMP affective channels (0.0 to 1.0 bounded — they are intensities, not quaternions)
+        self.q[..., self.AFFECTIVE_SLICE] = torch.clamp(self.q[..., self.AFFECTIVE_SLICE], 0.0, 1.0)
         
         self.torque_accumulator.zero_()
 
@@ -612,8 +795,8 @@ class VortexField:
         dst = self.edge_indices[1, :self.active_edges]
         weights = self.edge_weights[:self.active_edges]
         
-        # Reshape for indexing
-        mom_flat = self.momentum.view(-1, 4)
+        # Reshape for indexing (all 8 channels propagate together)
+        mom_flat = self.momentum.view(-1, self.NUM_CHANNELS)
         
         # Propagation: src gives torque to dst based on edge weight
         transferred = mom_flat[src] * weights.unsqueeze(-1) * 0.1
@@ -750,6 +933,7 @@ class VortexField:
         """
         [PHASE 73b: HYPERSPHERE RESURRECTION]
         Thaws the frozen DNA from the SSD into the active manifold.
+        Includes 4→8 channel migration for old saved data.
         """
         import os
         paths = {
@@ -762,9 +946,35 @@ class VortexField:
             return False
             
         try:
-            self.permanent_q = torch.load(paths["permanent_q"], map_location=self.device)
-            self.q = torch.load(paths["q"], map_location=self.device)
-            self.momentum = torch.load(paths["momentum"], map_location=self.device)
+            loaded_pq = torch.load(paths["permanent_q"], map_location=self.device)
+            loaded_q = torch.load(paths["q"], map_location=self.device)
+            loaded_m = torch.load(paths["momentum"], map_location=self.device)
+            
+            # Check spatial shape compatibility
+            if loaded_q.shape[:-1] != torch.Size(self.shape):
+                return False  # Spatial shape mismatch — cannot resurrect
+            
+            # Channel migration: old 4-channel → new 8-channel
+            if loaded_q.shape[-1] == 4 and self.NUM_CHANNELS == 8:
+                # Preserve physical channels, initialize affective channels
+                self.q[..., self.PHYSICAL_SLICE] = loaded_q
+                self.q[..., self.CH_JOY] = 0.5
+                self.q[..., self.CH_CURIOSITY] = 0.5
+                self.q[..., self.CH_ENTHALPY] = 1.0
+                self.q[..., self.CH_ENTROPY] = 0.0
+                
+                self.permanent_q[..., self.PHYSICAL_SLICE] = loaded_pq
+                self.permanent_q[..., self.CH_ENTHALPY] = 1.0
+                
+                self.momentum[..., self.PHYSICAL_SLICE] = loaded_m
+            elif loaded_q.shape[-1] == self.NUM_CHANNELS:
+                # Same channel count — direct load
+                self.permanent_q = loaded_pq
+                self.q = loaded_q
+                self.momentum = loaded_m
+            else:
+                return False  # Unknown channel count
+                
             return True
         except Exception as e:
             print(f"⚠️ [MATH] Resurrection failed: {e}")
@@ -788,40 +998,43 @@ class VortexField:
                 t_full[..., 1] = t_val
             else:
                 n = min(t_val.numel(), t_full[..., 1].numel())
-                t_full.view(-1, 4)[:n, 1] = t_val.flatten()[:n]
+                t_full.view(-1, self.NUM_CHANNELS)[:n, 1] = t_val.flatten()[:n]
             torque_tensor = t_full
 
         alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)
         return torch.mean(alignment).item()
 
     # ======================================================================
-    # [PHASE 79] JOY/CURIOSITY PROPAGATION
-    # "생명은 고통을 피하기 위해 사는 것이 아니라, 기쁨으로 세상을 탐험한다."
+    # [PHASE Ω-1] JOY/CURIOSITY PROPAGATION (Unified Manifold)
+    # "기쁨은 if-else가 아니라 물리 법칙이다."
     # ======================================================================
 
     def inject_joy(self, joy_level: float, curiosity_level: float = 0.0):
         """
-        [PHASE 79] Joy/Curiosity → Physical Vitality Propagation.
-        기쁨과 호기심을 10M 셀의 물리적 활력으로 변환.
-        
-        인과 경로: L3(감각) → L2(대사) → L1(물리) → L0(매니폴드)
+        [PHASE Ω-1] Joy/Curiosity → Unified Manifold Injection.
+        Now writes directly to affective channels AND couples to physical channels.
         
         Args:
-            joy_level: 0.0-1.0 기쁨 수준 (JoyResonance.happiness_level)
-            curiosity_level: 0.0-1.0 호기심 수준 (CuriosityAttractor 활성도)
+            joy_level: 0.0-1.0 기쁨 수준
+            curiosity_level: 0.0-1.0 호기심 수준
         """
         if torch is None:
             return
         
+        # A. Direct affective channel injection (THE NEW WAY)
+        # Joy torque → channel 4
+        self.torque_accumulator[..., self.CH_JOY] += joy_level * 0.1
+        # Curiosity torque → channel 5
+        self.torque_accumulator[..., self.CH_CURIOSITY] += curiosity_level * 0.1
+        
+        # B. Cross-channel coupling (Joy/Curiosity → Physical)
         # Joy → 조화로운 안정성 (W-axis: Stability)
-        # 기쁨이 높으면 전체 매니폴드가 안정적으로 진동
         harmonic_boost = joy_level * 0.15
-        self.momentum[..., 0] += harmonic_boost
+        self.momentum[..., self.CH_W] += harmonic_boost
         
         # Curiosity → 탐험적 움직임 (X,Y,Z-axes: Movement)
-        # 호기심이 높으면 공간을 탐색하는 진동 증가
         exploratory_boost = curiosity_level * 0.1
-        self.torque_accumulator[..., 1:4] += exploratory_boost
+        self.torque_accumulator[..., self.CH_X:self.CH_Z+1] += exploratory_boost
         
         # 높은 기쁨은 Hebbian 가소성을 촉진 (성장 촉진)
         if joy_level > 0.6:
@@ -878,8 +1091,14 @@ class VortexField:
         # 차원 맞추기
         if target_state.shape != self.q.shape:
             t_full = torch.zeros_like(self.q)
-            if target_state.numel() == 4:  # 4D torque vector
-                t_full[..., :] = target_state.unsqueeze(0).unsqueeze(0).unsqueeze(0)
+            if target_state.numel() == 4:  # 4D physical torque vector → map to physical slice
+                for _ in range(len(self.shape)):
+                    target_state = target_state.unsqueeze(0)
+                t_full[..., self.PHYSICAL_SLICE] = target_state.expand_as(t_full[..., self.PHYSICAL_SLICE])
+            elif target_state.numel() == self.NUM_CHANNELS:  # Full 8-channel vector
+                for _ in range(len(self.shape)):
+                    target_state = target_state.unsqueeze(0)
+                t_full[..., :] = target_state.expand_as(t_full)
             else:
                 t_full[..., 1] = target_state.flatten()[0]  # X축에만 적용
             target_state = t_full

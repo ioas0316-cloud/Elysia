@@ -126,13 +126,19 @@ class GrandHelixEngine:
             momentum_sum = torch.norm(self.cells.momentum).item()
             logic_mean = logic_state.mean().item()
 
-        return {
+        # G. [PHASE Ω-1] Read Emergent Affective State from Manifold
+        field_state = self.cells.read_field_state()
+
+        result = {
             "resonance": resonance,
             "plastic_coherence": float(coherence),
             "kinetic_energy": float(momentum_sum),
             "logic_mean": float(logic_mean),
-            "edges": self.cells.active_edges # [PHASE 74]
+            "edges": self.cells.active_edges,
         }
+        # Merge manifold-emergent states (joy, curiosity, enthalpy, entropy, mood, etc.)
+        result.update(field_state)
+        return result
 
     def batch_mutate(self, mask: Any, new_states: Any):
         """

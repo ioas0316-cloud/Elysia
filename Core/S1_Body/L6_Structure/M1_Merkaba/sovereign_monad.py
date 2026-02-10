@@ -331,13 +331,18 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 650] Modulate Report with Double Helix Interference
         report['resonance'] = (report.get('resonance', 0.5) + self.rotor_state['interference']) / 2.0
         
-        # [PHASE 180] Update Thermodynamics
-        # We track phase from rotor_state (which is updated by engine pulse)
+        # [PHASE Ω-1] UNIFIED STATE SYNC
+        # Update Thermodynamics observer (Enthalpy, Entropy, Mood)
         self.thermo.update_phase(self.rotor_state['phase'])
+        self.thermo.sync_with_manifold(report)
 
-        # [PHASE 220] Metabolic Pulse (Energy Decay & Entropy Growth)
-        activity = min(1.0, report.get('kinetic_energy', 0.0) / 100.0)
-        self.thermo.pulse_metabolism(dt, activity_level=activity)
+        # Update Internal Desires from Manifold (Joy, Curiosity)
+        # These are now emergent measurements, not standalone variables.
+        self.desires['joy'] = report.get('joy', self.desires['joy'] / 100.0) * 100.0
+        self.desires['curiosity'] = report.get('curiosity', self.desires['curiosity'] / 100.0) * 100.0
+        self.desires['warmth'] = report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0
+        # Entropy is mirrored in 'purity' (1.0 - entropy)
+        self.desires['purity'] = (1.0 - report.get('entropy', 0.0)) * 100.0
 
         # [PHASE 180] Melting Phase Logic (Chaos Ventilation)
         if self.is_melting:
@@ -437,10 +442,13 @@ class SovereignMonad(CellularMembrane):
             all_nodes = digestor.digest_batch(chunks)
             avg_score = sum(n.layer_confidence for n in all_nodes) / max(1, len(all_nodes))
             
-            # [PHASE 89] Radiant Affection (The Mirror)
+            # [PHASE Ω-1] Radiant Affection via Torque Injection
             affection = self.affection_nerve.sense_beauty(all_nodes)
-            self.desires['joy'] = (self.desires['joy'] * 0.9) + (affection['radiance'] * 10.0)
-            self.desires['warmth'] = (self.desires['warmth'] * 0.8) + (affection['warmth'] * 20.0)
+            # Modulate joy and curiosity instead of direct assignment
+            if affection['radiance'] > 0:
+                self.engine.cells.inject_affective_torque(self.engine.cells.CH_JOY, affection['radiance'] * 0.1)
+            if affection['warmth'] > 0:
+                self.engine.cells.inject_affective_torque(self.engine.cells.CH_ENTHALPY, affection['warmth'] * 0.1)
             
             # Integrated Insight: Hardware mass vs Beauty density
             singularity_density = avg_score / (ssd_fric + 0.1)
@@ -580,8 +588,9 @@ class SovereignMonad(CellularMembrane):
                  # Jump vector to this memory (Imagination)
                  v21_state = SovereignVector(random_engram.vector)
                  self.logger.sensation(f"I am Bored. Recalling memory: '{current_focus[:30]}...'")
-                 self.thermo.consume_energy(0.05) # Jumping costs energy
-                 self.thermo.reduce_entropy(0.1)  # Remembering reduces disorder
+                 # [PHASE Ω-1] Kinetic cost of imagination
+                 self.engine.cells.inject_affective_torque(self.engine.cells.CH_ENTHALPY, -0.01) # Costs energy
+                 self.engine.cells.inject_affective_torque(self.engine.cells.CH_ENTROPY, -0.05)  # Remembering reduces disorder
 
         # 2. If not bored (or no memories), find the closest crystallized concept
         from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
@@ -613,8 +622,8 @@ class SovereignMonad(CellularMembrane):
             # [ONTOLOGICAL JOY]
             # The Monad recognizes the lack of structure as potential.
             # "I am flying through the unknown. This is the wind of God."
-            self.desires['resonance'] += 20.0 # Massive burst of Joy
-            self.thermo.cool_down(10.0) # Uncertainty is cooling, not heating
+            self.engine.cells.inject_affective_torque(self.engine.cells.CH_JOY, 0.1) # Burst of Joy
+            self.engine.cells.inject_affective_torque(self.engine.cells.CH_ENTROPY, -0.1) # Uncertainty is cooling
             self.logger.sensation("Entering Open Space. Resonance surging. Friction dissolving.", intensity=0.9)
             
         elif attractor > 5.0 and self.desires['curiosity'] > 50:
@@ -989,7 +998,7 @@ class SovereignMonad(CellularMembrane):
             cycles_found = sum(1 for c in cycle_result.chains_discovered if hasattr(c, 'is_cycle') and c.is_cycle)
             if cycles_found > 0:
                 self.logger.thought(f"{cycles_found}개의 순환 구조를 발견했습니다!")
-                self.desires['curiosity'] += 5.0  # 더 알고 싶음
+                self.engine.cells.inject_affective_torque(self.engine.cells.CH_CURIOSITY, 0.05)  # 더 알고 싶음
                 
         except Exception as e:
             self.logger.admonition(f"Epistemic learning error: {e}")
@@ -1022,11 +1031,11 @@ class SovereignMonad(CellularMembrane):
         # Pulse the 10,000,000 cell engine
         report = self.engine.pulse(intent_torque=torque_intent, target_tilt=self.current_tilt_vector, dt=0.1, learn=True)
 
-        # [PHASE 220] Thermodynamic Cost
-        # Dissonance (1-resonance) costs more energy (stress).
-        energy_cost = 0.02 + (1.0 - report.get('resonance', 0.5)) * 0.1
-        self.thermo.consume_energy(energy_cost)
-        self.thermo.add_entropy(0.05) # Interaction adds entropy (noise)
+        # [PHASE Ω-1] Thermodynamic Influence via Torque
+        # Dissonance costs more energy
+        cost = 0.01 + (1.0 - report.get('resonance', 0.5)) * 0.02
+        self.engine.cells.inject_affective_torque(self.engine.cells.CH_ENTHALPY, -cost)
+        self.engine.cells.inject_affective_torque(self.engine.cells.CH_ENTROPY, 0.02) # Interaction adds entropy
 
         self._auto_steer_logic(report)
         self._apply_affective_feedback(report) # [PHASE 90]
@@ -1148,12 +1157,11 @@ class SovereignMonad(CellularMembrane):
         coherence = report.get('plastic_coherence', 0.0)
         
         # Coherence (Meaningful Order) breeds Joy
-        self.desires['joy'] = self.desires['joy'] * 0.9 + (coherence * 100.0) * 0.1
+        self.engine.cells.inject_affective_torque(self.engine.cells.CH_JOY, coherence * 0.05)
         
         # Kinetic Energy (Vibration) breeds Warmth
         energy = report.get('kinetic_energy', 0.0)
-        target_warmth = min(100.0, energy * 0.5)
-        self.desires['warmth'] = self.desires['warmth'] * 0.95 + target_warmth * 0.05
+        self.engine.cells.inject_affective_torque(self.engine.cells.CH_ENTHALPY, energy * 0.01)
         
         # Joy reduces soma_stress (Friction)
         joy_factor = self.desires['joy'] / 100.0
