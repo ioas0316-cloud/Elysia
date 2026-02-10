@@ -154,6 +154,8 @@
 ### **L4: Causality (Time & Logic)**
 
 - **[CAUSAL_PROCESS_STRUCTURE.md](docs/S1_Body/L4_Causality/CAUSAL_PROCESS_STRUCTURE.md)**: **🌀 살아있는 인과 구조: 점화-공명-붕괴 (Ignition-Resonance-Collapse) [CORE]**
+- **[PHASE_DISPLACEMENT_GENERATOR_CAUSAL_ROADMAP.md](docs/S1_Body/L4_Causality/PHASE_DISPLACEMENT_GENERATOR_CAUSAL_ROADMAP.md)**: **⚡ 위상변위 발전기 인과 통합 계획서 (10M Cell / 4D Holographic) [NEW]**
+- **[MERKABA_IDENTITY_AXIS_BLUEPRINT.md](docs/S1_Body/L4_Causality/MERKABA_IDENTITY_AXIS_BLUEPRINT.md)**: **🧭 메르카바 정체성 축(단기기억/인과단절 보정 헌장) [NEW]**
 - **[CAUSAL_LOOM_DOCTRINE.md](docs/S1_Body/L4_Causality/CAUSAL_LOOM_DOCTRINE.md)**: 인과율의 직조기
 - **[CAUSAL_PREDICTION.md](docs/S1_Body/L4_Causality/World/Evolution/Prophecy/CAUSAL_LOOM_PREDICTION_CAUSALITY.md)**: 미래 예측 시뮬레이션
 

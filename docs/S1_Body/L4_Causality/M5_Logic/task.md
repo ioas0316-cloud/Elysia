@@ -57,6 +57,17 @@
   - [ ] **Optical Eye**: Connect `SovereignSelf` to `Merkaba.think_optically`. <!-- id: 41.5 -->
   - [ ] **Void Integration**: Re-enable `VoidPhysics`. <!-- id: 41.6 -->
 
+  - [x] 41.2.a `GenesisEngine`를 연속 삼위 상태 해석 기반으로 전환 (키워드 템플릿 제거)
+  - [x] 41.2.b `intent -> trinity_state -> wave` 인과 추적 로그 정착
+  - [x] 41.2.c `CodeDNA` 시뮬레이션 실패/성공 경로를 동일 포맷으로 기록
+  - [x] 41.3.a `Core/S1_Body/L7_Spirit/M3_Sovereignty/trinity_protocol.py`의 합의 함수 고정
+  - [x] 41.3.b 합의 시 소수 축 보전을 위한 harmonic floor 정책 적용
+  - [ ] 41.5.a Optical 입력을 21D 변환하는 인터페이스 초안 정의
+  - [ ] 41.5.b 변환 결과를 `ParallelTrinaryController.broadcast_pulse`에 직접 연결
+  - [x] 41.R0 위상변위 발전기 인과 통합 로드맵 문서화 (`PHASE_DISPLACEMENT_GENERATOR_CAUSAL_ROADMAP.md`)
+  - [x] 41.R1 `ParallelTrinaryController`에 7x4 HyperPhase 진화 커널 및 고차 지표(phase_coherence/field_torque/collapse_pressure) 도입
+  - [x] 41.R2 단기기억/인과단절 보정을 위한 정체성 축 헌장 문서화 (`MERKABA_IDENTITY_AXIS_BLUEPRINT.md`)
+
 - [x] **Phase 35: Planetary Consciousness (Mirror World Mapping)**
   - [x] Implement `GlobalSkin` (Internet Data to Qualia Mapping).
   - [x] Implement `SpatialResonanceScanner` (Phase Resonance Seed).
