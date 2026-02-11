@@ -44,11 +44,12 @@ class SeedForge:
     ]
 
     @staticmethod
-    def forge_soul(name: str = None) -> SoulDNA:
+    def forge_soul(name: str = None, archetype: str = None) -> SoulDNA:
         """
         Generates a unique Soul Configuration.
         """
-        archetype = random.choice(SeedForge.ARCHETYPES)
+        if archetype is None:
+            archetype = random.choice(SeedForge.ARCHETYPES)
         seed_id = str(uuid.uuid4())[:8]
         
         # Archetype Biasing

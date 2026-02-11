@@ -23,7 +23,7 @@ import math
 import random
 from enum import Enum
 from typing import Dict, Optional, List, Tuple, Any
-from Core.S1_Body.L6_Structure.Wave.wave_dna import WaveDNA
+from Core.S1_Body.L6_Structure.Wave.wave_dna import WaveDNA # TODO: Rename to WavePhase
 from Core.S1_Body.L1_Foundation.Logic.resonance_gate import ResonanceState
 
 class RotorMask(Enum):
@@ -280,9 +280,9 @@ class Rotor:
         return f"Rotor({self.name} | {self.current_rpm:.1f} RPM | E:{self.energy:.2f})"
 
 
-class DoubleHelixEngine:
+class PhaseDisplacementEngine:
     """
-    [Simultaneous Duality]
+    [Phase Displacement Dynamics]
     Manages two synchronized Rotors in an inverted phase relationship.
     
     - Afferent (CW): Inhaling sensory input.
@@ -339,4 +339,4 @@ class DoubleHelixEngine:
         self.efferent.wake(intensity)
 
     def __repr__(self):
-        return f"DoubleHelix({self.name} | Energy:{self.interference_energy:.2f})"
+        return f"PhaseDisplacement({self.name} | Energy:{self.interference_energy:.2f})"

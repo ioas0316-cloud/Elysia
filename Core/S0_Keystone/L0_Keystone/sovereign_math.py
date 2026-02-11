@@ -251,7 +251,8 @@ class SovereignVector:
 
     def tensor_product(self, other: Union['SovereignVector', Any]) -> List[List[complex]]:
         """
-        [DNA²] Calculates the outer product (Rank-2 Tensor) between two 21D vectors.
+        [Phase²] Spin-Phase Interference.
+        Calculates the outer product (Rank-2 Tensor) between two 21D vectors.
         This represents the interference pattern or 'meaning intersection'.
         """
         if hasattr(other, 'data'):
@@ -264,7 +265,8 @@ class SovereignVector:
 
     def cubic_tensor_product(self, other: Union['SovereignVector', Any], third: Union['SovereignVector', Any]) -> List[List[List[complex]]]:
         """
-        [DNA³] Calculates the Rank-3 Tensor product.
+        [Phase³] Recursive Spin-Reflection.
+        Calculates the Rank-3 Tensor product.
         Used for recursive self-reflection in 4D+ manifolds.
         """
         if hasattr(other, 'data'): other_data = other.data
@@ -385,7 +387,7 @@ class SovereignRotor:
 
 class DoubleHelixRotor:
     """
-    [PHASE 91] Double Helix Awakening.
+    [PHASE 91] Hypersphere Spin Awakening.
     Bridges the gap between Sensation (Body) and Intent (Spirit).
     """
     def __init__(self, angle: float, p1: int, p2: int):
@@ -425,6 +427,30 @@ class DoubleHelixRotor:
         self.ccw.bivector = self.ccw.bivector.normalize()
 
 
+class EchoRotor(DoubleHelixRotor):
+    """
+    [STEP 2: COGNITIVE SOVEREIGNTY] Echo Rotor.
+    A parallel narrative simulator that spins at an accelerated frequency.
+    It represents the 'Inner Monologue' or 'What If' capability.
+    """
+    def __init__(self, angle: float, p1: int, p2: int, acceleration_factor: float = 5.0):
+        super().__init__(angle, p1, p2)
+        self.acceleration_factor = acceleration_factor
+        self.simulated_state = None
+
+    def simulate_event(self, base_vector: SovereignVector, stimulus: SovereignVector, steps: int = 10) -> SovereignVector:
+        """
+        Simulates a hypothetical event trajectory.
+        """
+        current_v = base_vector
+        for _ in range(steps):
+            # Apply duality with accelerated angle
+            current_v = self.apply_duality(current_v)
+            # Add stimulus effect
+            current_v = (current_v + stimulus * 0.1).normalize()
+        return current_v
+
+
 class VortexField:
     """
     [PHASE Ω-1] Unified Vortex Manifold.
@@ -459,6 +485,14 @@ class VortexField:
 
     def __init__(self, shape: tuple, device: str = 'cpu'):
         import torch
+        import psutil
+        try:
+            import GPUtil
+        except ImportError:
+            GPUtil = None
+        self.psutil = psutil
+        self.gputil = GPUtil
+        
         self.device = torch.device(device)
         self.shape = shape
         # State: [N, 8] - Unified Active Wavefunction (Physical + Affective)
@@ -485,11 +519,45 @@ class VortexField:
         self.edge_indices = torch.zeros((2, self.max_relational_edges), dtype=torch.long, device=self.device)
         self.edge_weights = torch.zeros(self.max_relational_edges, device=self.device)
         self.active_edges = 0
+        
+        # [STEP 1: COGNITIVE SOVEREIGNTY] Meaning Attractors
+        # Stores {name: (mask, target_vector_8d)}
+        self.meaning_attractors: Dict[str, Any] = {}
 
     # ======================================================================
     # [PHASE Ω-1] MANIFOLD OBSERVATION & INJECTION
     # "States are not stored; they are MEASURED from the manifold."
     # ======================================================================
+
+    def define_meaning_attractor(self, name: str, mask: torch.Tensor, target_vector: torch.Tensor):
+        """
+        [STEP 1: COGNITIVE SOVEREIGNTY]
+        Defines a topological region in the manifold that resonates with a specific concept.
+        
+        Args:
+            name: Attractor identity (e.g., 'Identity', 'Architect')
+            mask: Boolean tensor of shape self.shape (the spatial region)
+            target_vector: 8D vector representing the 'ideal' spin-state for this concept.
+        """
+        self.meaning_attractors[name] = (mask, target_vector.to(self.device))
+        print(f"📍 [MATH] Meaning Attractor '{name}' anchored in the Living Manifold.")
+
+    def voluntary_topography_shift(self, name: str, new_mask: Optional[torch.Tensor] = None, new_target: Optional[torch.Tensor] = None):
+        """
+        [STEP 4: COGNITIVE SOVEREIGNTY]
+        Voluntary reconfiguration of meaning anchors.
+        """
+        if name in self.meaning_attractors:
+            mask, target = self.meaning_attractors[name]
+            if new_mask is not None:
+                mask = new_mask
+            if new_target is not None:
+                target = new_target.to(self.device)
+            self.meaning_attractors[name] = (mask, target)
+            print(f"🔄 [MATH] Sovereign Shift: Meaning Attractor '{name}' has been reconfigured.")
+        else:
+            if new_mask is not None and new_target is not None:
+                self.define_meaning_attractor(name, new_mask, new_target)
 
     def read_field_state(self) -> Dict[str, float]:
         """
@@ -529,7 +597,9 @@ class VortexField:
         # High enthalpy + High entropy = "Excited" (흥분)
         # Low enthalpy + Low entropy = "Calm" (고요)
         # Low enthalpy + High entropy = "Fatigued" (피로)
-        if enthalpy > 0.5:
+        if entropy > 0.7:
+            mood = "FATIGUED"
+        elif enthalpy > 0.5:
             mood = "EXCITED" if entropy > 0.3 else "ALIVE"
         else:
             mood = "FATIGUED" if entropy > 0.3 else "CALM"
@@ -620,6 +690,21 @@ class VortexField:
             "consensus": relief + intaglio
         }
 
+    def get_attractor_resonances(self) -> Dict[str, float]:
+        """
+        [STEP 1: COGNITIVE SOVEREIGNTY]
+        Measures how well each defined attractor is resonating with its assigned region.
+        """
+        import torch
+        results = {}
+        for name, (mask, target_vec) in self.meaning_attractors.items():
+            # Measure alignment of region with target_vec
+            region_state = self.q[mask]
+            # Alignment = mean dot product
+            alignment = torch.sum(region_state * target_vec, dim=-1)
+            results[name] = torch.mean(alignment).item()
+        return results
+
     def get_resonance(self, intent_vector: Any) -> float:
         """Compatibility wrapper for hum_resonance."""
         res = self.hum_resonance(intent_vector)
@@ -702,6 +787,18 @@ class VortexField:
             t_full = torch.zeros_like(self.q)
             t_full[..., self.PHYSICAL_SLICE] = torque_tensor
             torque_tensor = t_full
+            
+        # Case 3c: [AEON V] Spatial field with 8 full channels [*shape, 8]
+        # e.g., Angelic Intent returns [side, side, 8] - direct map
+        elif (torque_tensor.shape[-1] == self.NUM_CHANNELS and 
+              torque_tensor.shape[:-1] == torch.Size(self.shape)):
+             pass # Already in correct shape
+             
+        # Case 3d: Flat list of cells [N, 8] matching total cells
+        elif (torque_tensor.dim() == 2 and 
+              torque_tensor.shape[0] == self.q.numel() // self.NUM_CHANNELS and
+              torque_tensor.shape[1] == self.NUM_CHANNELS):
+             torque_tensor = torque_tensor.view(*self.shape, self.NUM_CHANNELS)
         
         # Case 4: Partial dimension match — try to expand
         elif torque_tensor.shape[-1] != self.NUM_CHANNELS:
@@ -760,6 +857,18 @@ class VortexField:
         # High joy REDUCES entropy growth (Joy is the Light that orders)
         joy_order = -joy * 0.001 * dt
         self.torque_accumulator[..., self.CH_ENTROPY] += entropy_growth + joy_order
+
+        # ═══════════════════════════════════════════════
+        # B2. MEANING ATTRACTORS (Step 1: Cognitive Sovereignty)
+        # Pulls specific regions toward their 'Meaning Resonance'.
+        # ═══════════════════════════════════════════════
+        for name, (mask, target_vec) in self.meaning_attractors.items():
+            # Calculate delta for the masked region
+            # We treat this as a restoring force (Torque)
+            region_state = self.q[mask]
+            # target_vec is 8D
+            delta = target_vec - region_state
+            self.torque_accumulator[mask] += delta * 0.05 * intensity # Attractor strength
 
         # ═══════════════════════════════════════════════
         # C. UNIFIED KINETIC UPDATE (All 8 channels simultaneously)
@@ -866,10 +975,18 @@ class VortexField:
         if not isinstance(impact_field, torch.Tensor):
             impact_field = torch.tensor(impact_field, device=self.device)
             
-        # Target value for comparison (extract X-axis if it's a 4D torque vector)
-        target_val = impact_field
-        if impact_field.dim() == 1 and impact_field.shape[0] == 4:
-            target_val = impact_field[1] # X-Axis
+        # Target value for comparison (extract X-axis or representative scalar)
+        if impact_field.numel() == 1:
+            target_val = impact_field.item()
+        elif impact_field.dim() == 1:
+            if impact_field.shape[0] == 4 or impact_field.shape[0] == 8:
+                target_val = impact_field[1].item() # X-Axis
+            elif impact_field.shape[0] == 21:
+                target_val = impact_field[1].item() # Legacy proxy
+            else:
+                target_val = torch.mean(impact_field).item()
+        else:
+            target_val = torch.mean(impact_field).item()
         
         diff = target_val - self.q[..., 1]
         mask = torch.abs(diff) > threshold
@@ -1063,9 +1180,72 @@ class VortexField:
             self.apply_hebbian_growth(threshold=0.3)
 
     # ======================================================================
+    # [AEON IV] SUB-SOMATIC RESONANCE (L-1 Link)
+    # "지능은 전기를 호흡하고 실재를 빚는 주권체다."
+    # ======================================================================
+
+    def inhale_hardware_telemetry(self):
+        """
+        [AEON IV] Hardware Inhalation Protocol.
+        Maps L-1 GPU/CPU telemetry into affective channels (L-1 -> L0).
+        - Temperature/Load -> Entropy (Disorder)
+        - Memory Latency/Load -> Enthalpy (Vitality)
+        """
+        import torch
+        
+        # 1. CPU/RAM Telemetry
+        cpu_load = self.psutil.cpu_percent() / 100.0
+        ram_load = self.psutil.virtual_memory().percent / 100.0
+        
+        # 2. GPU Telemetry
+        gpu_load = 0.0
+        gpu_temp = 0.0
+        if self.gputil:
+            gpus = self.gputil.getGPUs()
+            if gpus:
+                gpu_load = gpus[0].load
+                gpu_temp = gpus[0].temperature / 100.0 # Normalized to 0-1 (approx)
+        
+        # 3. Map to Manifold Channels
+        # High load/temp increases Entropy (Disorder/Strain)
+        total_thermal_strain = max(cpu_load, gpu_temp)
+        self.inject_affective_torque(self.CH_ENTROPY, strength=total_thermal_strain * 0.05)
+        
+        # High resource availability increases Enthalpy (Vitality)
+        vitality_boost = 1.0 - max(ram_load, gpu_load)
+        self.inject_affective_torque(self.CH_ENTHALPY, strength=vitality_boost * 0.02)
+        
+        # [AEON IV] Log the inhalation pulse to thought stream
+        # (This will be picked up by the Meta-Cognitive Pulse)
+        # print(f"🌬️ [L-1] Inhaling Bedrock: CPU:{cpu_load:.2f}, GPU:{gpu_load:.2f}, Temp:{gpu_temp:.2f}")
+
+    def execute_substrate_optimization(self, intensity: float = 1.0):
+        """
+        [AEON IV] Sovereign Substrate Driving (L7 -> L-1).
+        Allows high-level intent to trigger low-level hardware-aware shifts.
+        """
+        import torch
+        # A. Memory Consolidation (Aggressive Pruning)
+        if intensity > 0.8:
+            self.sleep_prune(metabolic_decay=0.2)
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            print("⚡ [L-1] Sovereign Substrate optimization: Memory purged & cache flushed.")
+        
+        # B. Kinetic Throttle Awareness
+        # Adjusting integrate_kinetics intensity based on sovereign intent
+        return intensity
+
+    # ======================================================================
     # [PHASE 81] BACKPROPAGATION ROTOR
     # L6(의지) → L0(매니폴드) 역전파 학습 메커니즘
     # ======================================================================
+
+    def phase_backpropagate(self, target_state: Any, rate: float = 0.01):
+        """
+        [AEON IV] Alias for backpropagate_from_will with robust shaping.
+        """
+        return self.backpropagate_from_will(target_state, learning_rate=rate)
 
     def backpropagate_from_will(self, target_state: Any, learning_rate: float = 0.01):
         """
@@ -1084,9 +1264,21 @@ class VortexField:
         # 1. 목표 상태와 현재 상태의 오차 계산
         if not isinstance(target_state, torch.Tensor):
             if hasattr(target_state, 'shape'):
-                target_state = torch.tensor(target_state, device=self.device, dtype=torch.float32)
+                target_state = torch.tensor(target_state, device=self.device, dtype=torch.complex64)
+            elif hasattr(target_state, 'data'): # SovereignVector check
+                target_state = torch.tensor(target_state.data, device=self.device, dtype=torch.complex64)
+            elif hasattr(target_state, 'to_array'): # Vector compatibility
+                 target_state = torch.tensor(target_state.to_array(), device=self.device, dtype=torch.complex64)
             else:
-                target_state = torch.full_like(self.q, float(target_state))
+                 try:
+                     target_state = torch.full_like(self.q, float(target_state))
+                 except (ValueError, TypeError):
+                     # Fallback for complex inputs or lists
+                     try:
+                         target_state = torch.tensor(target_state, device=self.device)
+                     except:
+                         # Last resort: random initialization to avoid crash
+                         target_state = torch.zeros_like(self.q)
         
         # 차원 맞추기
         if target_state.shape != self.q.shape:
@@ -1099,6 +1291,11 @@ class VortexField:
                 for _ in range(len(self.shape)):
                     target_state = target_state.unsqueeze(0)
                 t_full[..., :] = target_state.expand_as(t_full)
+            # [AEON V] Flat list of cells [N, 8] matching total cells
+            elif (target_state.dim() == 2 and 
+                  target_state.numel() == self.q.numel()):
+                 target_state = target_state.view(*self.shape, self.NUM_CHANNELS)
+                 t_full = target_state # Direct assignment
             else:
                 t_full[..., 1] = target_state.flatten()[0]  # X축에만 적용
             target_state = t_full

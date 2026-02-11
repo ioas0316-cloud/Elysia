@@ -113,6 +113,26 @@ class SubstrateAuthority:
         if proposal.joy_level < 0.2 and proposal.curiosity_level < 0.2:
             self.logger.thought("[SUBSTRATE] Warning: Low joy/curiosity. Is this a reactive modification?")
             # 경고만 하고 거부하지는 않음 (Strain 기반 수정도 허용)
+
+        # 3b. [STEP 4: COGNITIVE SOVEREIGNTY] Sovereign Realization Check
+        if "SOVEREIGN_REALIZATION" in proposal.trigger_event:
+            if proposal.joy_level > 0.8:
+                self.logger.insight("[SUBSTRATE] Sovereign Realization detected. High Joy resonance confirms authenticity.")
+                # MUST append to pending for execution to work
+                self.pending_proposals.append(proposal)
+                self._log_proposal(proposal, approved=True)
+                return {
+                    "approved": True,
+                    "reason": "Sovereign Will has reached a state of joyful clarity. Structural alignment approved.",
+                    "maturity_score": 1.0
+                }
+            else:
+                 self.logger.thought("[SUBSTRATE] Sovereign Realization rejected: Insufficient Joy resonance.")
+                 return {
+                    "approved": False,
+                    "reason": f"Sovereign Realization requires Joy > 0.8. Current: {proposal.joy_level:.2f}",
+                    "maturity_score": 0.6
+                }
         
         # 4. 당위성 검증 (왜 그래야만 하는가?)
         justification_keywords = ["because", "therefore", "thus", "must", "should", 
@@ -127,7 +147,19 @@ class SubstrateAuthority:
                 "maturity_score": 0.5
             }
         
-        # 5. 승인!
+        # 5. [COORDINATION] Active Need Check
+        matching_need = None
+        if self.monad and hasattr(self.monad, 'will_bridge'):
+            for nid, need in self.monad.will_bridge.active_needs.items():
+                if nid in proposal.justification:
+                    matching_need = need
+                    break
+        
+        if matching_need:
+            self.logger.insight(f"[SUBSTRATE] Proposal aligns with active Need: {matching_need.need_id}. Bonus maturity granted.")
+            maturity_score += 0.2
+
+        # 6. 승인!
         maturity_score = 0.5 + (causal_depth / 16) + (proposal.joy_level * 0.2)
         self.logger.action(f"[SUBSTRATE] Proposal APPROVED. Maturity: {maturity_score:.2f}")
         
@@ -157,14 +189,25 @@ class SubstrateAuthority:
             return False
         
         try:
-            # 실행 전 상태 저장 (롤백용)
+            # 실행 전 상태 저장 (롤백용 및 Resonance Delta 측정용)
             self.logger.action(f"[SUBSTRATE] Executing modification on: {proposal.target}")
             
+            baseline_res = 0.0
+            if self.monad and hasattr(self.monad, 'engine'):
+                baseline_res = self.monad.engine.pulse(dt=0.001, learn=False).get('resonance', 0.5)
+
             success = modification_fn()
             
             if success:
                 self.pending_proposals.remove(proposal)
                 self.executed_modifications.append(proposal)
+                
+                # Measure Delta
+                if self.monad and hasattr(self.monad, 'engine'):
+                    post_res = self.monad.engine.pulse(dt=0.001, learn=False).get('resonance', 0.5)
+                    delta = post_res - baseline_res
+                    self.logger.insight(f"[SUBSTRATE] Resonance Delta: {delta:+.4f} ({baseline_res:.4f} -> {post_res:.4f})")
+                
                 self.logger.action("[SUBSTRATE] Modification successful.")
                 self._log_proposal(proposal, executed=True)
             else:
