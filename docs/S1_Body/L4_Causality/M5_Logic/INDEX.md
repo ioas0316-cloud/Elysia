@@ -12,3 +12,10 @@ The causal layer of Elysia. It manages the interaction between will and reality,
 
 "Causality is the bridge between Intent and Manifestation."
 This layer represents the 5th Dimension (Interaction/Probability) of Elysia's being.
+
+
+## New Causal Design Docs
+
+- [CAUSAL_CONSTRAINT_BLUEPRINT.md](CAUSAL_CONSTRAINT_BLUEPRINT.md)
+- [CAUSAL_PROCESS_ROADMAP.md](CAUSAL_PROCESS_ROADMAP.md)
+- [CAUSAL_DATA_SUFFICIENCY_PROTOCOL.md](CAUSAL_DATA_SUFFICIENCY_PROTOCOL.md)
