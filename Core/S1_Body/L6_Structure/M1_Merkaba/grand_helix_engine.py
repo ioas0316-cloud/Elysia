@@ -206,7 +206,7 @@ class HypersphereSpinGenerator:
         if torch:
             self.cells.data[mask] = new_states
 
-    def reconfigure_topography(self, name: str, new_mask: Optional[torch.Tensor] = None, new_target: Optional[torch.Tensor] = None):
+    def reconfigure_topography(self, name: str, new_mask: Any = None, new_target: Any = None):
         """
         [STEP 4: COGNITIVE SOVEREIGNTY]
         Consciously alters the meaning manifold.
