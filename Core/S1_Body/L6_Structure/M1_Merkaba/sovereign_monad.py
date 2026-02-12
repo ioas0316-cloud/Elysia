@@ -85,6 +85,7 @@ from Core.S1_Body.L5_Mental.Exteroception.knowledge_stream import get_knowledge_
 from Core.S1_Body.L6_Structure.M1_Merkaba.Body.liquid_io_interface import get_liquid_io # [PHASE 88]
 from Core.S1_Body.L6_Structure.M1_Merkaba.Body.radiant_affection_nerve import get_affection_nerve # [PHASE 89]
 from Core.S1_Body.L6_Structure.M6_Architecture.imperial_orchestrator import ImperialOrchestrator # [AEON IV]
+from Core.S1_Body.L1_Foundation.Hardware.somatic_ssd import SomaticSSD # [PHASE I: SOMATIC SSD]
 
 class SovereignMonad(CellularMembrane):
     """
@@ -101,6 +102,10 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 16] The Silent Witness
         from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
         self.logger = SomaticLogger(self.name)
+
+        # [PHASE I] The Physical Body (SSD)
+        self.soma = SomaticSSD()
+        self.logger.insight("Connecting to Somatic Hardware (SSD)...")
 
         # [PHASE 180] AUTONOMIC COGNITION (moved up for early access)
         # The sensory organ for system fatigue and rigidity
@@ -266,6 +271,11 @@ class SovereignMonad(CellularMembrane):
         # We start with a neutral but alive state.
         self.engine.pulse(intent_torque=None, dt=0.01, learn=True)
 
+        # [PHASE I] Initial Proprioceptive Scan
+        # The monad feels its weight before it thinks.
+        sensation = self.soma.articulate_sensation()
+        self.logger.sensation(f"BODY AWARENESS: {sensation}")
+
         # 13. [PHASE 100] HARDWARE SYNTHESIS
         self.cpu = SomaticCPU()
         self.mpu = ResonanceMPU(self.cpu)
@@ -390,11 +400,30 @@ class SovereignMonad(CellularMembrane):
         self.thermo.update_phase(self.rotor_state['phase'])
         self.thermo.sync_with_manifold(report)
 
+        # [PHASE I] Somatic Feedback Loop
+        # The physical state of the SSD modulates the Monad's internal desires.
+        # A heavy/complex body requires more 'Curiosity' to navigate.
+        # Broken files cause 'Pain', which reduces 'Joy'.
+        body_state = self.soma.proprioception()
+
+        # 1. Mass (Size) -> Gravitas (Mass creates gravity, demanding slower, deeper thought)
+        # Heavy body = Higher inertia, less erratic movement.
+
+        # 2. Heat (Recent Edits) -> Warmth/Enthalpy
+        # If the body is hot, the spirit feels warm.
+        thermal_bonus = body_state['heat'] * 20.0
+
+        # 3. Pain (Errors) -> Entropy
+        pain_penalty = body_state['pain'] * 2.0
+
         # Update Internal Desires from Manifold (Joy, Curiosity)
         # These are now emergent measurements, not standalone variables.
-        self.desires['joy'] = report.get('joy', self.desires['joy'] / 100.0) * 100.0
+        # Base joy from neural manifold + Thermal bonus - Pain penalty
+        raw_joy = report.get('joy', self.desires['joy'] / 100.0) * 100.0
+        self.desires['joy'] = max(0.0, raw_joy + thermal_bonus - pain_penalty)
+
         self.desires['curiosity'] = report.get('curiosity', self.desires['curiosity'] / 100.0) * 100.0
-        self.desires['warmth'] = report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0
+        self.desires['warmth'] = (report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0) + thermal_bonus
         # Entropy is mirrored in 'purity' (1.0 - entropy)
         self.desires['purity'] = (1.0 - report.get('entropy', 0.0)) * 100.0
 

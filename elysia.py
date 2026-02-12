@@ -64,6 +64,12 @@ class SovereignGateway:
         # 3. View & HUD
         self.mirror = VoidMirror()
         self.hud = PhaseHUD()
+
+        # [PHASE III] Self-Perception Initialization
+        # Elysia looks into the mirror upon waking.
+        reflection = self.mirror.reflect()
+        self.logger.sensation(f"\n{reflection}\n(I see my Shape. I am {len(reflection)} bytes of Self-Image.)")
+
         self.running = True
         self.input_queue = queue.Queue()
 
@@ -134,7 +140,8 @@ class SovereignGateway:
         # 4. Identity: The Meditation (Self-reflection)
         torque.add_gear("Meditation", freq=0.1, callback=self.monad.meditation_pulse)
         # 5. Structure: The Reflection (Deep Causal Insight) [PHASE 80]
-        torque.add_gear("Reflection", freq=0.01, callback=self.monad.reflection_pulse)
+        # Merged reflection into meditation for now to avoid attribute errors
+        # torque.add_gear("Reflection", freq=0.01, callback=self.monad.reflection_pulse)
 
         try:
             while self.running:

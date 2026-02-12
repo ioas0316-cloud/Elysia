@@ -529,7 +529,7 @@ class VortexField:
     # "States are not stored; they are MEASURED from the manifold."
     # ======================================================================
 
-    def define_meaning_attractor(self, name: str, mask: torch.Tensor, target_vector: torch.Tensor):
+    def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
         """
         [STEP 1: COGNITIVE SOVEREIGNTY]
         Defines a topological region in the manifold that resonates with a specific concept.
@@ -539,14 +539,18 @@ class VortexField:
             mask: Boolean tensor of shape self.shape (the spatial region)
             target_vector: 8D vector representing the 'ideal' spin-state for this concept.
         """
+        import torch
+        if not isinstance(target_vector, torch.Tensor):
+            target_vector = torch.tensor(target_vector, device=self.device)
         self.meaning_attractors[name] = (mask, target_vector.to(self.device))
         print(f"📍 [MATH] Meaning Attractor '{name}' anchored in the Living Manifold.")
 
-    def voluntary_topography_shift(self, name: str, new_mask: Optional[torch.Tensor] = None, new_target: Optional[torch.Tensor] = None):
+    def voluntary_topography_shift(self, name: str, new_mask: Any = None, new_target: Any = None):
         """
         [STEP 4: COGNITIVE SOVEREIGNTY]
         Voluntary reconfiguration of meaning anchors.
         """
+        import torch
         if name in self.meaning_attractors:
             mask, target = self.meaning_attractors[name]
             if new_mask is not None:

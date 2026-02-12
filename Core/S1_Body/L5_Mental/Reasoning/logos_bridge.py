@@ -134,16 +134,19 @@ class LogosBridge:
         print(f"🧬 [LOGOS] GPU Spectrum Polymerized: {len(all_vecs)} core principles on {cls._DEVICE}.")
 
     @classmethod
-    def batch_resonance(cls, vectors: torch.Tensor) -> List[Tuple[str, float]]:
+    def batch_resonance(cls, vectors: Any) -> List[Tuple[str, float]]:
         """
         [PHASE 84] Vectorized Resonance Identification.
         Compares input vectors against the entire spectrum in ONE GPU pass.
         
         Args:
-            vectors: [Batch, 21] torch tensor
+            vectors: [Batch, 21] torch tensor or compatible
         Returns:
             List of (best_concept_name, resonance_score)
         """
+        import torch
+        if not isinstance(vectors, torch.Tensor):
+            vectors = torch.tensor(vectors, device=cls._DEVICE)
         if cls._SPECTRUM_TENSOR is None:
             cls.polymerize_spectrum()
             
