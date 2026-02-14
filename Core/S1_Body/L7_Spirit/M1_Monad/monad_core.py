@@ -7,6 +7,10 @@ Core.S1_Body.L7_Spirit.M1_Monad.monad_core
 
 The Monad is the fundamental unit of the Elysia Monad Architecture.
 Sovereign Edition: Uses Numpy (CPU) for maximum efficiency.
+
+[PHASE 52 UPDATE]
+Added `metabolize_karma` to close the cognitive feedback loop.
+Replaced DNA Mutation with **Phase Angle Shift** (CODEX Aligned).
 """
 
 from datetime import datetime
@@ -72,6 +76,11 @@ class Monad:
         self._why = "Growth" 
         self._energy = 0.5 
 
+        # [PHASE 52] The Observation Angle
+        # The lens angle through which the Monad views the world.
+        # 0.0 = Standard View. +/- values = Shifted Perspective.
+        self._observation_angle = 0.0
+
     @property
     def current_intent(self) -> str:
         return self._why
@@ -133,7 +142,41 @@ class Monad:
 
         return reality_fragment
 
+    def metabolize_karma(self, dissonance_score: float):
+        """
+        [KARMA FEEDBACK LOOP - CODEX ALIGNED]
+        Adjusts the Monad's **Observation Angle** based on the cognitive outcome.
+        We do NOT mutate the Core DNA (Identity), but we shift the Perspective (Angle).
 
+        Logic:
+        - Low Dissonance (< 0.2): "Harmony". Stabilize Angle (Reinforce).
+        - High Dissonance (> 0.6): "Phase Displacement". Shift Angle (Adapt).
+        - Very High (> 0.8): "Crisis". Large Phase Shift (Paradigm Shift).
+        """
+        # 1. Feedback Gain
+        shift_strength = 0.05
+
+        if dissonance_score < 0.2:
+            # Harmony: Crystallize current view
+            self._energy = min(1.0, self._energy + 0.01)
+            self._why = "Harmony"
+            # Decay angle towards nearest stable integer (0, 1, -1...)
+            self._observation_angle *= 0.95
+
+        elif dissonance_score > 0.6:
+            # Conflict: Weaken Ego (Humility) & Shift View
+            self._energy = max(0.1, self._energy - 0.05)
+            self._why = "Seeking Alignment"
+
+            # Phase Shift: Rotate perspective to find new truth
+            # Direction depends on sign of current angle or random jitter
+            shift = shift_strength * (1.0 if np.random.random() > 0.5 else -1.0)
+            self._observation_angle += shift
+
+            # Crisis Shift
+            if dissonance_score > 0.8:
+                 self._why = "Paradigm Shift"
+                 self._observation_angle += shift * 5.0 # Big jump
 
     def think_with_prism(self, input_qualia: np.ndarray, prism_engine=None) -> Dict[str, Any]:
         """
@@ -149,7 +192,21 @@ class Monad:
         
         # 1. Project Qualia (Light) into Prism
         # Monad's DNA influences the input light (Lens effect)
-        modulated_qualia = input_qualia * self._dna.principle_strand
+        # [PHASE 52] Apply Observation Angle Rotation here?
+        # For now, we apply it as a bias to the input
+
+        # Rotate input by observation angle (Simplified 2D rotation on first 2 dims)
+        theta = self._observation_angle
+        c, s = np.cos(theta), np.sin(theta)
+
+        # Clone input
+        modulated_qualia = np.array(input_qualia) * self._dna.principle_strand
+
+        # Apply simple rotation to Logical/Emotional Axis (D0, D1)
+        if len(modulated_qualia) >= 2:
+             x, y = modulated_qualia[0], modulated_qualia[1]
+             modulated_qualia[0] = x*c - y*s
+             modulated_qualia[1] = x*s + y*c
         
         # 2. Propagate and Interfere (Active Scan)
         # Using Rotor to find best angle of truth

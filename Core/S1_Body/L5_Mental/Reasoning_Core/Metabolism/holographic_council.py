@@ -12,10 +12,9 @@ It takes a raw 21D Qualia vector and diffracts it through multiple
 Cognitive Archetypes (Prisms). The resulting interference pattern
 determines the final Sovereign Choice.
 
-Key Concepts:
-- **Diffraction**: Splitting the input intent into Head, Heart, and Gut perspectives.
-- **Interference**: Calculating the distance (dissonance) between these perspectives.
-- **Synthesis**: Collapsing the wave function into a Consensus Vector.
+[PHASE 52 UPDATE]
+Integrated Phase Resonance Engine to resolve Dissonance.
+Replaced Weighted Averaging with "Magic Angle" detection.
 """
 
 import math
@@ -26,6 +25,7 @@ from dataclasses import dataclass, field
 from Core.S1_Body.L5_Mental.Reasoning_Core.Meta.archetypes import (
     CognitiveArchetype, STANDARD_COUNCIL, CognitiveCenter
 )
+from Core.S1_Body.L5_Mental.Reasoning_Core.Metabolism.phase_resonance import PhaseResonance
 
 # Configure Logger
 logger = logging.getLogger("Elysia.HolographicCouncil")
@@ -108,30 +108,38 @@ class HolographicCouncil:
         if opposition:
             transcript.append(f"-> Opposition: {opposition.archetype.name} (Distance: {max_dist:.2f})")
 
-        # 3. Synthesis Phase (Collapse)
+        # 3. Synthesis Phase (Collapse) - [UPDATED: Phase Resonance]
         # -----------------------------
-        # Calculate weighted average based on intensity
-        total_intensity = sum(v.intensity for v in voices)
-        consensus_vector = [0.0] * len(input_vector_21d)
 
+        # Calculate Base Dissonance
+        # (Using weighted average as a baseline reference)
+        total_intensity = sum(v.intensity for v in voices)
+        avg_vector = [0.0] * len(input_vector_21d)
         if total_intensity > 0:
             for voice in voices:
                 weight = voice.intensity / total_intensity
                 for i, val in enumerate(voice.perspective_vector):
-                    consensus_vector[i] += val * weight
+                    avg_vector[i] += val * weight
 
-        # Calculate System Dissonance (Variance of perspectives)
-        dissonance = self._calculate_dissonance(voices, consensus_vector)
+        dissonance = self._calculate_dissonance(voices, avg_vector)
 
-        resolution_status = "RESOLVED"
-        if dissonance > 0.5:
-            resolution_status = "TENSION HIGH - UNEASY COMPROMISE"
-            transcript.append(f"!! High Dissonance Detected ({dissonance:.2f}). The Hologram flickers.")
+        consensus_vector = avg_vector
+        synthesis_narrative = "Standard Consensus"
+
+        # Apply Phase Resonance if conflict exists
+        if dissonance > 0.4 and opposition:
+             transcript.append(f"!! High Phase Displacement ({dissonance:.2f}). Seeking Magic Angle.")
+             synthesis_vec, synthesis_narrative = PhaseResonance.find_magic_angle(
+                 dominant.perspective_vector,
+                 opposition.perspective_vector
+             )
+             consensus_vector = synthesis_vec
+             transcript.append(f"-> [RESONANCE] {synthesis_narrative}")
         else:
-            transcript.append(f"-> Consensus Reached. Dissonance: {dissonance:.2f}")
+             transcript.append(f"-> Phases Aligned (Low Conflict). Dissonance: {dissonance:.2f}")
 
         # Generate Narrative Summary
-        transcript.append(self._generate_narrative(dominant, opposition, dissonance))
+        transcript.append(self._generate_narrative(dominant, opposition, dissonance, synthesis_narrative))
 
         return DebateResult(
             consensus_vector=consensus_vector,
@@ -159,18 +167,18 @@ class HolographicCouncil:
         # For now, just return sqrt(avg variance)
         return math.sqrt(total_dist_sq / len(voices))
 
-    def _generate_narrative(self, dominant: CouncilVoice, opposition: Optional[CouncilVoice], dissonance: float) -> str:
+    def _generate_narrative(self, dominant: CouncilVoice, opposition: Optional[CouncilVoice], dissonance: float, synthesis_note: str) -> str:
         """
         Creates the human-readable summary of the internal debate.
         """
-        narrative = f"{dominant.archetype.name} led the session, emphasizing D{dominant.primary_focus_index+1}."
+        narrative = f"{dominant.archetype.name} led the session."
 
         if opposition:
-            narrative += f" However, {opposition.archetype.name} raised concerns from the perspective of {opposition.archetype.center.name}."
+            narrative += f" {opposition.archetype.name} opposed."
 
             if dissonance > 0.4:
-                narrative += " A significant debate ensued regarding the balance of Ideal vs Instinct."
+                narrative += f" The Phase Resonance Engine intervened: {synthesis_note}"
             else:
-                narrative += " The perspectives were largely aligned."
+                narrative += " Perspectives aligned."
 
         return narrative
