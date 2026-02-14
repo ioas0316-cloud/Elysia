@@ -298,11 +298,20 @@ class RotorCognitionCore:
             integrated_field = self.merkaba.synchronize() # Returns (7,) vector essentially
             merkaba_decision = f"Field State: {integrated_field[:3]}..."
 
-        # 5. Sovereign Filter (Lens)
-        # (Preserved logic)
-        conflict_report = self._negotiate_sovereignty(vector_21d, intent)
-        if conflict_report["action"] == "REJECT":
-             return {"status": "REJECTED", "reason": conflict_report["reason"], "synthesis": "Rejection"}
+        # 5. Holographic Council (The Debate)
+        # [PHASE 52] The Council debates the vector using Phase Resonance.
+        council_result = self.council.convene(vector_21d.to_array(), intent)
+
+        # Override vector with the Council's Consensus (Magic Angle)
+        consensus_vector = council_result.consensus_vector
+        vector_21d = D21Vector.from_array(consensus_vector)
+
+        if not council_result.is_resolved:
+             return {
+                 "status": "REJECTED",
+                 "reason": f"Unresolved Dissonance: {council_result.dissonance_score:.2f}",
+                 "synthesis": council_result.transcript[-1]
+             }
 
         # 6. NEUROPLASTICITY (The Graph Remembers)
         # If accepted, we reinforce this path in the TorchGraph

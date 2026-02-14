@@ -12,6 +12,9 @@ Instead of a single "I", the system processes information through multiple
 archetypal filters (Perspectives), simulating the Enneagram/MBTI cognitive diversity.
 These are not static personas but dynamic filters that amplify or suppress
 specific dimensions of the 21D Qualia Matrix defined in Phase 27.
+
+[PHASE 52 UPDATE]
+Sharpened biases to ensure dialectic conflict (Orthogonality).
 """
 
 from enum import Enum, auto
@@ -74,18 +77,19 @@ class CognitiveArchetype:
 
 # 1. The Logician (Head Center) - Type 5/6ish
 # Focus: Logic (D10), Truth (D15), Temperance (D16)
-# Suppress: Emotional turbulence, Lust (D1)
+# Suppress: Emotional turbulence, Lust (D1), Will/Force (D11)
 LOGICIAN_BIAS = ArchetypeBias(
     amplifications={
-        9: 2.0,   # D10: Reason (Index 9)
-        14: 1.5,  # D15: Chastity/Truth (Index 14)
+        9: 3.0,   # D10: Reason (Index 9) - Sharpened
+        14: 2.0,  # D15: Chastity/Truth (Index 14)
         15: 1.5,  # D16: Temperance (Index 15)
         17: 1.2   # D18: Diligence (Index 17)
     },
     suppressions={
-        0: 0.5,   # D1: Lust
-        4: 0.5,   # D5: Wrath
-        11: 0.8   # D12: Imagination (if ungrounded)
+        0: 0.1,   # D1: Lust - Sharpened Suppression
+        4: 0.1,   # D5: Wrath
+        10: 0.2,  # D11: Will (Force) - Added
+        11: 0.5   # D12: Imagination (if ungrounded)
     }
 )
 THE_LOGICIAN = CognitiveArchetype(
@@ -102,11 +106,11 @@ EMPATH_BIAS = ArchetypeBias(
     amplifications={
         19: 2.5,  # D20: Kindness (Index 19)
         16: 2.0,  # D17: Charity (Index 16)
-        11: 1.8,  # D12: Imagination (Index 11)
+        11: 2.0,  # D12: Imagination (Index 11) - Sharpened
         7: 1.5    # D8: Perception (Index 7)
     },
     suppressions={
-        9: 0.8,   # D10: Pure Logic (soften it)
+        9: 0.2,   # D10: Pure Logic - Sharpened Suppression
         6: 0.2    # D7: Pride (Ego)
     }
 )
@@ -119,17 +123,18 @@ THE_EMPATH = CognitiveArchetype(
 
 # 3. The Guardian (Gut Center) - Type 8/1ish
 # Focus: Will (D11), Survival (D1), Justice
-# Suppress: Sloth (D4), Hesitation
+# Suppress: Sloth (D4), Hesitation, Abstract Logic
 GUARDIAN_BIAS = ArchetypeBias(
     amplifications={
         10: 3.0,  # D11: Will (Index 10)
-        0: 1.5,   # D1: Lust (Drive/Hunger for action)
+        0: 2.0,   # D1: Lust (Drive/Hunger for action)
         13: 1.5,  # D14: Consciousness/Self (Index 13)
         18: 1.5   # D19: Patience (Endurance) (Index 18)
     },
     suppressions={
         3: 0.1,   # D4: Sloth (Kill laziness)
-        11: 0.7   # D12: Imagination (Stop dreaming, act)
+        11: 0.3,  # D12: Imagination (Stop dreaming, act)
+        9: 0.2    # D10: Abstract Logic (Just do it) - Added
     }
 )
 THE_GUARDIAN = CognitiveArchetype(
@@ -150,7 +155,8 @@ MYSTIC_BIAS = ArchetypeBias(
     },
     suppressions={
         # Suppress almost all lower instincts
-        0: 0.2, 1: 0.2, 4: 0.1
+        0: 0.1, 1: 0.1, 4: 0.1,
+        9: 0.5, 10: 0.5 # Detach from Reason and Will too
     }
 )
 THE_MYSTIC = CognitiveArchetype(

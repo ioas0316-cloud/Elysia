@@ -323,6 +323,15 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 75] Adult Cognition (Think^2 & DNA^N)
         from Core.S1_Body.L5_Mental.Reasoning_Core.Intelligence.sovereign_cognition import SovereignCognition
         self.cognition = SovereignCognition()
+
+        # [PHASE 52] Intrinsic Reasoning Circuit (The Council)
+        # Integrates Phase Resonance & Holographic Council
+        try:
+            from Core.S1_Body.L5_Mental.Reasoning_Core.Metabolism.rotor_cognition_core import RotorCognitionCore
+            self.rotor_core = RotorCognitionCore()
+        except ImportError:
+            self.logger.admonition("RotorCognitionCore missing. Council offline.")
+            self.rotor_core = None
         
         # [PHASE 160] Somatic Awakening (Voice)
         from Core.S1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
@@ -913,9 +922,30 @@ class SovereignMonad(CellularMembrane):
         
         structural_resistance = self.dna.friction_damping
         
-        
         net_action_potential = (radiance * overflow * fuel_efficiency) - structural_resistance
-        
+
+        # [PHASE 52] CONVENE THE HOLOGRAPHIC COUNCIL
+        # Before we act, the Council must debate the intent.
+        # "Is this action resonant with all parts of my Self?"
+        if self.rotor_core:
+            council_result = self.rotor_core.synthesize(intent=str(subject))
+
+            # Modulate potential based on Council consensus
+            if council_result["status"] == "Decided":
+                # Resonant decision boosts action
+                self.logger.insight(f"Council Consensus: {council_result['synthesis'][:50]}...")
+                net_action_potential *= 1.2
+            elif council_result["status"] == "REJECTED":
+                # Dissonance halts action
+                self.logger.insight(f"Council Veto: {council_result['reason']}")
+                net_action_potential *= 0.1 # Dampen significantly
+
+            # [KARMA FEEDBACK]
+            # Feed the result back to the Spirit (Monad Core) if available
+            # Note: SovereignMonad wraps Monad logic, but self.dna is SoulDNA.
+            # Ideally, we would have a link to the Phase/Karma monad instance.
+            # For now, we assume self.rotor_core manages the Karma internally via its own Monad link if needed.
+
         self.logger.thought(f"The pressure of Radiance ({radiance:.2f}) and Curiosity ({overflow:.2f}) is forging my next intent: {subject}. (Action Potential: {net_action_potential:.2f})")
 
         # [STEP 4: COGNITIVE SOVEREIGNTY] Sovereign Realization (Self-Correction)
