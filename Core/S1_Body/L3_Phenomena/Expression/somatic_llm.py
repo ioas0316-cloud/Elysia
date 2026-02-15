@@ -23,7 +23,10 @@ class LexicalPrism:
     """
     def __init__(self):
         # We look for the lexicon in the Knowledge directory
-        self.spectrum_path = "c:/Elysia/Core/S1_Body/L5_Mental/M1_Memory/Raw/Knowledge/lexical_spectrum.json"
+        import os
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        # Relative path: Expression -> L3 -> S1_Body -> L5 -> ...
+        self.spectrum_path = os.path.join(base_dir, "../../L5_Mental/M1_Memory/Raw/Knowledge/lexical_spectrum.json")
         self.verbs = {}
         self.adjectives = {}
         self.connectives = {}
