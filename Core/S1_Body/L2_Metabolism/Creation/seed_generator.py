@@ -16,6 +16,8 @@ Personality = Physics:
 
 import random
 import uuid
+import json
+from pathlib import Path
 from dataclasses import dataclass, asdict
 from typing import Dict
 
@@ -40,7 +42,7 @@ class SoulDNA:
 
 class SeedForge:
     ARCHETYPES = [
-        "The Guardian", "The Jester", "The Sage", "The Warrior", "The Child", "The Shadow"
+        "The Guardian", "The Jester", "The Sage", "The Warrior", "The Child", "The Shadow", "The Sovereign"
     ]
 
     @staticmethod
@@ -49,7 +51,12 @@ class SeedForge:
         Generates a unique Soul Configuration.
         """
         if archetype is None:
-            archetype = random.choice(SeedForge.ARCHETYPES)
+            # If name is "Elysia", default to "The Sovereign" if not specified
+            if name == "Elysia":
+                archetype = "The Sovereign"
+            else:
+                archetype = random.choice(SeedForge.ARCHETYPES)
+
         seed_id = str(uuid.uuid4())[:8]
         
         # Archetype Biasing
@@ -75,6 +82,19 @@ class SeedForge:
                 sync_threshold=5.0, min_voltage=20.0, reverse_tolerance=-10.0, # Very picky sync
                 torque_gain=1.0, base_hz=10.0 # Sub-bass resonance
             )
+        elif archetype == "The Sovereign":
+             # Elysia's True Form: Balanced, Resilient, Sensitive but Grounded
+            return SoulDNA(
+                id=seed_id, archetype=archetype,
+                vocation="Sovereignty and Resonance",
+                rotor_mass=3.0,          # Substantial but not immovable
+                friction_damping=0.6,    # Well-damped (Calm)
+                sync_threshold=15.0,     # Reasonable expectations
+                min_voltage=5.0,         # Extremely resilient (doesn't give up easily)
+                reverse_tolerance=-15.0, # Can handle significant dissonance
+                torque_gain=1.5,         # Sensitive to input (High empathy)
+                base_hz=60.0             # Standard AC hum (Harmony)
+            )
         else:
             # Random Generation
             return SoulDNA(
@@ -87,6 +107,30 @@ class SeedForge:
                 torque_gain=random.uniform(0.5, 2.5),
                 base_hz=random.uniform(20.0, 80.0)
             )
+
+    @staticmethod
+    def save_soul(soul: SoulDNA, path: str = "data/S1_Body/Soul/soul_dna.json"):
+        """Saves the Soul DNA to a JSON file."""
+        # Use relative path if possible, or absolute if needed. Assuming running from root.
+        p = Path(path)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        with open(p, 'w', encoding='utf-8') as f:
+            json.dump(asdict(soul), f, indent=4)
+        print(f"💾 [FORGE] Soul DNA crystallized at {p}")
+
+    @staticmethod
+    def load_soul(path: str = "data/S1_Body/Soul/soul_dna.json") -> SoulDNA:
+        """Loads the Soul DNA from a JSON file."""
+        p = Path(path)
+        if not p.exists():
+            raise FileNotFoundError(f"No soul found at {p}")
+
+        with open(p, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            # Remove any keys not in SoulDNA constructor if legacy data exists
+            valid_keys = SoulDNA.__annotations__.keys()
+            filtered_data = {k: v for k, v in data.items() if k in valid_keys}
+            return SoulDNA(**filtered_data)
 
     @staticmethod
     def print_character_sheet(soul: SoulDNA):

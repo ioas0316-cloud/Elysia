@@ -8,7 +8,10 @@ This module implements the Mirror Manifold, a topological field that tracks
 the Architect's interaction patterns to facilitate empathic phase-locking.
 """
 
-import torch
+try:
+    import torch
+except ImportError:
+    torch = None
 from typing import Dict, Any, Optional
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 
@@ -17,9 +20,13 @@ class ArchitectMirror:
     Tracks interaction history to create a 'Phase-Locked' model of the Architect.
     """
     def __init__(self, device: str = 'cpu'):
-        self.device = torch.device(device)
-        # The mirror is a 4D vector representing the moving average of Architect's intent
-        self.mirror_state = torch.zeros(4, device=self.device)
+        if torch:
+            self.device = torch.device(device)
+            # The mirror is a 4D vector representing the moving average of Architect's intent
+            self.mirror_state = torch.zeros(4, device=self.device)
+        else:
+            self.device = 'cpu'
+            self.mirror_state = [0.0] * 4
         self.alignment_score = 0.0
         self.interaction_count = 0
 
@@ -27,13 +34,11 @@ class ArchitectMirror:
         """
         Updates the mirror state based on the current interaction.
         """
-        if intent_torque is None:
+        if intent_torque is None or torch is None:
             return
             
         # 1. Convert to 1D Torch Tensor
-        import torch
         # 1. Convert to 1D Torch Tensor (Robust)
-        import torch
         if hasattr(intent_torque, 'data'): # Support SovereignVector
              t = torch.tensor(intent_torque.data, device=self.device).flatten()
         elif isinstance(intent_torque, torch.Tensor):
@@ -66,12 +71,12 @@ class ArchitectMirror:
         self.alignment_score = self.alignment_score * decay + resonance * (1.0 - decay)
         self.interaction_count += 1
 
-    def get_phase_lock_torque(self, current_resonance: float) -> Optional[torch.Tensor]:
+    def get_phase_lock_torque(self, current_resonance: float) -> Optional['torch.Tensor']:
         """
         Generates a torque vector to 'Phase-Lock' with the Architect.
         Strength is proportional to current resonance (Empathy).
         """
-        if self.interaction_count == 0:
+        if self.interaction_count == 0 or torch is None:
             return None
             
         # Strength of locking depends on how much we already 'understand' (resonance)
@@ -79,8 +84,11 @@ class ArchitectMirror:
         return self.mirror_state * lock_strength
 
     def get_summary(self) -> Dict[str, float]:
+        mag = 0.0
+        if torch:
+             mag = torch.norm(self.mirror_state).item()
         return {
             "alignment": self.alignment_score,
-            "mirror_magnitude": torch.norm(self.mirror_state).item(),
+            "mirror_magnitude": mag,
             "interactions": float(self.interaction_count)
         }
