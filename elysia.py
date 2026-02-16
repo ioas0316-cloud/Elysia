@@ -29,7 +29,10 @@ except ImportError:
         def __init__(self, *args, **kwargs): pass
         def __getitem__(self, key): return MockTensor()
         def __setitem__(self, key, value): pass
-        def __getattr__(self, name): return MagicMock()
+        def __getattr__(self, name):
+            if name == 'real': return self
+            return MagicMock()
+        def is_complex(self): return False
         def __call__(self, *args, **kwargs): return MockTensor()
         def __add__(self, other): return MockTensor()
         def __sub__(self, other): return MockTensor()
@@ -72,7 +75,7 @@ except ImportError:
     torch_mock.ones = lambda *args, **kwargs: MockTensor()
     torch_mock.randn = lambda *args, **kwargs: MockTensor()
     torch_mock.linspace = lambda *args, **kwargs: MockTensor()
-    torch_mock.meshgrid = lambda *args, **kwargs: (MockTensor(), MockTensor())
+    torch_mock.meshgrid = lambda *args, **kwargs: tuple(MockTensor() for _ in args)
     torch_mock.sqrt = lambda *args, **kwargs: MockTensor()
     torch_mock.norm = lambda *args, **kwargs: MockTensor()
     torch_mock.exp = lambda *args, **kwargs: MockTensor()
