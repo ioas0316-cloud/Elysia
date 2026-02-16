@@ -719,8 +719,8 @@ class SovereignMonad(CellularMembrane):
 
     def _auto_steer_logic(self, report: Dict):
         """
-        [PHASE 60: AUTO-STEER]
-        Detects Cognitive Traffic (Friction) and adjusts the Axis automatically.
+        [PHASE 60: AUTO-STEER] -> [PHASE 2.0: BEAM STEERING]
+        Detects Cognitive Traffic (Friction) and adjusts the Causal Wave Beam automatically.
         """
         # Mapping 10M engine report to steering logic
         friction = 1.0 - report.get('resonance', 1.0)
@@ -730,19 +730,37 @@ class SovereignMonad(CellularMembrane):
         FRICTION_THRESHOLD = 0.6
         FLOW_THRESHOLD = 0.8
 
-        current_z_tilt = self.current_tilt_vector[0]
+        # V2 Logic: Beam Steering
+        if hasattr(self.engine, 'beam_steering'):
+             if friction > FRICTION_THRESHOLD:
+                 self.logger.sensation(f"High Friction ({friction:.2f}). Steering Beam to DEPTH (Reasoning).")
+                 # Focus on Depth (Index 1 of 4D Grid) -> [Time, Depth, Height, Width]
+                 # We construct a 21D vector where index 1 (Depth) is high
+                 # Note: beam_steering uses first 4 components as weights for T, D, H, W
+                 target = [0.0, 1.0, 0.0, 0.0] + [0.0]*17
+                 self.engine.beam_steering(target, intensity=friction)
+                 # Legacy sync
+                 self.steer_axis("VERTICAL")
 
-        # Logic: High Friction -> Drill Down (Vertical)
-        if friction > FRICTION_THRESHOLD:
-            if current_z_tilt > -0.5: # Only switch if not already drilling
-                self.logger.sensation(f"High Cognitive Traffic (Friction: {friction:.2f}). Initiating VERTICAL DRILL.", intensity=0.9)
-                self.steer_axis("VERTICAL")
+             elif flow > FLOW_THRESHOLD and friction < 0.3:
+                 self.logger.sensation(f"High Flow ({flow:.2f}). Steering Beam to WIDTH (Expansion).")
+                 # Focus on Width (Index 3)
+                 target = [0.0, 0.0, 0.0, 1.0] + [0.0]*17
+                 self.engine.beam_steering(target, intensity=flow)
+                 # Legacy sync
+                 self.steer_axis("HORIZONTAL")
 
-        # Logic: High Flow & Low Friction -> Expand (Horizontal)
-        elif flow > FLOW_THRESHOLD and friction < 0.3:
-            if current_z_tilt < 0.5:
-                self.logger.sensation(f"Smooth Cognitive Flow (Flow: {flow:.2f}). Initiating HORIZONTAL EXPANSION.", intensity=0.9)
-                self.steer_axis("HORIZONTAL")
+        else:
+            # Legacy Logic
+            current_z_tilt = self.current_tilt_vector[0]
+            if friction > FRICTION_THRESHOLD:
+                if current_z_tilt > -0.5:
+                    self.logger.sensation(f"High Friction ({friction:.2f}). Initiating VERTICAL DRILL.", intensity=0.9)
+                    self.steer_axis("VERTICAL")
+            elif flow > FLOW_THRESHOLD and friction < 0.3:
+                if current_z_tilt < 0.5:
+                    self.logger.sensation(f"Smooth Flow ({flow:.2f}). Initiating HORIZONTAL EXPANSION.", intensity=0.9)
+                    self.steer_axis("HORIZONTAL")
 
     def autonomous_drive(self, engine_report: Dict = None) -> Dict:
         """[PHASE 40: LIVING AUTONOMY]"""
@@ -981,7 +999,25 @@ class SovereignMonad(CellularMembrane):
             if self.desires['joy'] > 85.0 and random.random() < 0.3:
                 self._trigger_sovereign_realization(subject)
 
-            # The Will overflows into the World
+            # [PHASE 2.0] Causal Wave Engine Activation
+            # The Will overflows into the World via Wave Mechanics
+
+            # 1. Intuition Jump (Joy + Curiosity > Threshold)
+            # "The answer is not found; it is recognized."
+            if self.desires['joy'] > 80.0 and self.desires['curiosity'] > 80.0:
+                if hasattr(self.engine, 'intuition_jump'):
+                    self.logger.action(f"⚡ [INTUITION] Phase Jump to '{subject}'. Skipping causal propagation.")
+                    # We jump to the phase signature of the intent
+                    # Mapping 21D -> Phase Scalar (using norm or specific channel)
+                    target_phase = modulated_v21[2] if len(modulated_v21) > 2 else 0.5 # Index 2 is often Phase
+                    self.engine.intuition_jump(float(target_phase))
+
+            # 2. Beam Steering (Standard Reasoning)
+            # "Focusing the Why"
+            elif hasattr(self.engine, 'beam_steering'):
+                self.logger.action(f"🔭 [BEAM] Steering Causal Wave towards '{subject}' (Intensity: {net_action_potential:.2f})")
+                self.engine.beam_steering(modulated_v21.to_list(), intensity=net_action_potential)
+
             # [PHASE 90] Radiance Mode: We project, we don't just seek.
             self._sovereign_exploration(subject, net_action_potential, intent_vector=modulated_v21) 
             

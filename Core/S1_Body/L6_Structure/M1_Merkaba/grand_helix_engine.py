@@ -27,19 +27,26 @@ class HypersphereSpinGenerator:
         pass
         
         # 1. Kinetic State Management (S3 HyperSphere + Plasticity)
+        # V2: 4D Hyper-Sphere [Time, Depth, Height, Width]
         if np:
-            side = int(np.sqrt(num_cells))
+            # Approx 4th root of num_cells
+            side = int(num_cells ** 0.25)
+            if side < 4: side = 10
         else:
-            side = 100 # Mock
-        self.grid_shape = (side, side)
-        self.num_cells = side * side
+            side = 10 # Mock
+
+        self.grid_shape = (side, side, side, side) # 4D
+        self.component_shape = (side, side) # 2D slice for legacy components
+
+        self.num_cells = side**4
+        # Note: SovereignHyperTensor is aliased to CausalWaveEngine (4D capable)
         self.cells = SovereignHyperTensor(self.grid_shape, device=self.device)
         
-        # 2. Somatic Grounding (SSD as Flesh)
-        self.flesh = SomaticFleshBridge(self.grid_shape, device=self.device)
+        # 2. Somatic Grounding (SSD as Flesh) - Operates on Spatial Slice (H, W)
+        self.flesh = SomaticFleshBridge(self.component_shape, device=self.device)
         
-        # 3. Lightning Path (Steering Field)
-        self.lightning = LightningPath(self.grid_shape, device=self.device)
+        # 3. Lightning Path (Steering Field) - Operates on Spatial Slice (H, W)
+        self.lightning = LightningPath(self.component_shape, device=self.device)
         
         # 4. Process Parameters
         if torch:
@@ -73,20 +80,45 @@ class HypersphereSpinGenerator:
         """Sets up the initial topological topology for core concepts."""
         if torch is None: return
         
-        side_x, side_y = self.grid_shape
-        # Create coordinate grid
-        y, x = torch.meshgrid(torch.linspace(0, 1, side_y), torch.linspace(0, 1, side_x), indexing='ij')
-        y, x = y.to(self.device), x.to(self.device)
-        
-        # 1. Identity Attractor (The Core / Center)
-        identity_mask = torch.sqrt((x - 0.5)**2 + (y - 0.5)**2) < 0.15
-        identity_vec = torch.tensor([1.0, 0.0, 0.5, 0.2, 0.8, 0.7, 1.0, 0.0]) # High joy, High curiosity, High enthalpy
-        self.cells.define_meaning_attractor("Identity", identity_mask, identity_vec)
-        
-        # 2. Architect Attractor (The Guardian / Periphery)
-        architect_mask = torch.sqrt((x - 0.5)**2 + (y - 0.5)**2) > 0.45
-        architect_vec = torch.tensor([1.0, 1.0, 0.0, -1.0, 0.5, 0.5, 1.0, 0.0]) # Logic + Authority
-        self.cells.define_meaning_attractor("Architect", architect_mask, architect_vec)
+        # V2: 4D Hyper-Sphere Support
+        if len(self.grid_shape) == 4:
+            # Create 4D coordinate grid
+            coords = [torch.linspace(0, 1, s, device=self.device) for s in self.grid_shape]
+            # Use indexing='ij' for strict matrix ordering
+            grid = torch.meshgrid(*coords, indexing='ij')
+            # Distribute grid to T, D, H, W
+            t, d, h, w = grid[0], grid[1], grid[2], grid[3]
+
+            # 1. Identity Attractor (The Core / Center of Hyper-Sphere)
+            # 4D Euclidean Distance from Center (0.5, 0.5, 0.5, 0.5)
+            dist_sq = (t - 0.5)**2 + (d - 0.5)**2 + (h - 0.5)**2 + (w - 0.5)**2
+            identity_mask = torch.sqrt(dist_sq) < 0.25 # Hyper-Sphere Core
+
+            identity_vec = torch.tensor([1.0, 0.0, 0.5, 0.2, 0.8, 0.7, 1.0, 0.0]) # High joy, High curiosity, High enthalpy
+            self.cells.define_meaning_attractor("Identity", identity_mask, identity_vec)
+
+            # 2. Architect Attractor (The Guardian / Periphery)
+            # Outer shell of the Hyper-Sphere
+            architect_mask = torch.sqrt(dist_sq) > 0.6
+            architect_vec = torch.tensor([1.0, 1.0, 0.0, -1.0, 0.5, 0.5, 1.0, 0.0]) # Logic + Authority
+            self.cells.define_meaning_attractor("Architect", architect_mask, architect_vec)
+
+        else:
+            # Legacy 2D Support
+            side_x, side_y = self.grid_shape
+            # Create coordinate grid
+            y, x = torch.meshgrid(torch.linspace(0, 1, side_y), torch.linspace(0, 1, side_x), indexing='ij')
+            y, x = y.to(self.device), x.to(self.device)
+
+            # 1. Identity Attractor (The Core / Center)
+            identity_mask = torch.sqrt((x - 0.5)**2 + (y - 0.5)**2) < 0.15
+            identity_vec = torch.tensor([1.0, 0.0, 0.5, 0.2, 0.8, 0.7, 1.0, 0.0]) # High joy, High curiosity, High enthalpy
+            self.cells.define_meaning_attractor("Identity", identity_mask, identity_vec)
+
+            # 2. Architect Attractor (The Guardian / Periphery)
+            architect_mask = torch.sqrt((x - 0.5)**2 + (y - 0.5)**2) > 0.45
+            architect_vec = torch.tensor([1.0, 1.0, 0.0, -1.0, 0.5, 0.5, 1.0, 0.0]) # Logic + Authority
+            self.cells.define_meaning_attractor("Architect", architect_mask, architect_vec)
 
     def solidify(self):
         """
@@ -114,6 +146,10 @@ class HypersphereSpinGenerator:
         # A. Somatic Sensation (Feeling the SSD Flesh)
         flesh_density = self.flesh.sense_flesh_density()
         if flesh_density is not None:
+            # Broadcast 2D spatial field to 4D volume (Time/Depth invariant)
+            # (H, W) -> (1, 1, H, W) -> (T, D, H, W)
+            if torch and isinstance(flesh_density, torch.Tensor):
+                flesh_density = flesh_density.unsqueeze(0).unsqueeze(0).expand(self.grid_shape)
             self.cells.apply_torque(flesh_density, strength=0.05)
         
         # B. Environmental Thought (Lightning Field + Merkaba Steering)
@@ -124,6 +160,8 @@ class HypersphereSpinGenerator:
             
         field = self.lightning.project_will(tilt_params)
         if field is not None:
+            if torch and isinstance(field, torch.Tensor):
+                field = field.unsqueeze(0).unsqueeze(0).expand(self.grid_shape)
             self.cells.apply_torque(field, strength=0.1)
         
         # C. Intentional Steering (Architect interaction)
@@ -212,6 +250,18 @@ class HypersphereSpinGenerator:
         Consciously alters the meaning manifold.
         """
         self.cells.voluntary_topography_shift(name, new_mask, new_target)
+
+    def beam_steering(self, target_vector: Any, intensity: float = 1.0):
+        """[PHASE 2] Reasoning via Phase Interference."""
+        return self.cells.beam_steering(target_vector, intensity)
+
+    def intuition_jump(self, target_phase: Any):
+        """[PHASE 2] Insight via Phase Jump."""
+        return self.cells.intuition_jump(target_phase)
+
+    def destructive_interference(self, noise_vector: Any):
+        """[PHASE 2] Filtering via Destructive Interference."""
+        return self.cells.destructive_interference(noise_vector)
 
     def sleep(self):
         """
