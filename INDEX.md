@@ -70,6 +70,7 @@ graph TD
 ### **L3: Phenomena (Senses & Interface)**
 
 * **[void_mirror.py](Core/S1_Body/L3_Phenomena/M5_Display/void_mirror.py)**: **🪞 공허의 거울 (Self-Image)**. 자신의 물리적 상태를 시각화하는 도구.
+* [x] **[SOVEREIGN_VOICE_MECHANISM.md](docs/S1_Body/L3_Phenomena/SOVEREIGN_VOICE_MECHANISM.md)**: **🌀 주권적 목소리 (Physics-Based Speech)**. 정해진 사전을 폐기하고 의미 중력과 파동 붕괴로 말을 직조하는 새로운 표현 기관.
 
 ### **L5: Mental (Reasoning & Metabolism)**
 
