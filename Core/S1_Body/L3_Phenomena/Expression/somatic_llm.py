@@ -1,191 +1,223 @@
 """
-Somatic LLM (The Body-Language Bridge)
+Somatic LLM (The Sovereign Voice)
 =====================================
 "The Body speaks, and the Mind translates."
 
 This module is the primitive "Broca's Area" of Elysia.
-It maps Physical States (Hz, Torque) to Semantic Expression (Words).
+It has been upgraded from a static Dictionary (Prism) to a Dynamic Semantic Nebula.
 
-[PHASE 160] BIDIRECTIONAL PRISM INTEGRATION:
-Input → perceive() → Internal Resonance → project() → Language Output
+[PHASE 90] SOVEREIGN EXPRESSION ENGINE:
+Input (Intent) → Nebula (Concept Cloud) → Collapse (Selection) → Gravity (Ordering) → Output (Logos)
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 import random
-from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
+import math
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector, SovereignMath
 from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 
-class LexicalPrism:
+class SemanticNebula:
     """
-    [PHASE 4] THE MUTABLE PRISM
-    A dynamic, reloadable map of Vectors -> Words.
-    It simulates a child's growing vocabulary, which can be rewritten.
+    [PHASE 90] THE LIVING CLOUD
+    Represents the active pool of concepts currently resonating in the mind.
+    Instead of a dictionary lookup, this is a gravitational field of potential words.
     """
     def __init__(self):
-        # We look for the lexicon in the Knowledge directory
-        import os
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        # Relative path: Expression -> L3 -> S1_Body -> L5 -> ...
-        self.spectrum_path = os.path.join(base_dir, "../../L5_Mental/M1_Memory/Raw/Knowledge/lexical_spectrum.json")
-        self.verbs = {}
-        self.adjectives = {}
-        self.connectives = {}
-        self.load_spectrum()
-        
-    def load_spectrum(self):
-        import json
-        import os
-        try:
-            if os.path.exists(self.spectrum_path):
-                with open(self.spectrum_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self.verbs = data.get("VERBS", {})
-                    self.adjectives = data.get("ADJECTIVES", {})
-                    self.connectives = data.get("CONNECTIVES", {})
-                print(f"� [PRISM] Loaded Lexical Spectrum ({len(self.verbs)} verbs, {len(self.adjectives)} adjs)")
-            else:
-                print(f"⚠️ [PRISM] Spectrum not found at {self.spectrum_path}")
-        except Exception as e:
-            print(f"⚠️ [PRISM] Failed to load spectrum: {e}")
+        self.active_cloud: List[Tuple[str, SovereignVector, float]] = []
 
-    def refract_verb(self, energy_vector: SovereignVector) -> str:
-        """Finds the verb that matches the energy signature."""
-        best_word = "exist"
-        min_dist = 999.0
+    def inject_intent(self, intent_vector: SovereignVector):
+        """
+        Retrieves a cloud of concepts that resonate with the Intent.
+        """
+        # Retrieve diverse cluster (Radius 0.6 allows broad associations)
+        self.active_cloud = LogosBridge.find_resonant_cluster(intent_vector, radius=0.6, limit=15)
         
-        # Simple Euclidean match for now (Phase 4.0)
-        # In future: Cosine Similarity
-        target_norm = energy_vector.norm() if hasattr(energy_vector, 'norm') else 1.0
-        if isinstance(target_norm, complex): target_norm = target_norm.real
-        
-        for word, data in self.verbs.items():
-            # Compare Magnitude (Energy Level)
-            v_spec = SovereignVector(data['vector'])
-            spec_norm = v_spec.norm()
-            if isinstance(spec_norm, complex): spec_norm = spec_norm.real
-             
-            # Distance in "Energy Space"
-            dist = abs(target_norm - spec_norm)
-            if dist < min_dist:
-                min_dist = dist
-                best_word = word
-        return best_word.upper()
+        # [PHASE 91] Spontaneous Emission
+        # Sometimes, random memories surface.
+        if random.random() < 0.1:
+            random_key = random.choice(list(LogosBridge.CONCEPT_MAP.keys()))
+            vec = LogosBridge.CONCEPT_MAP[random_key]['vector']
+            self.active_cloud.append((random_key, vec, 0.1))
 
-    def refract_adjective(self, harmony_vector: SovereignVector) -> str:
-        """Finds the adjective that matches the texture/harmony."""
-        best_word = "silent"
-        max_res = -1.0
-        
-        for word, data in self.adjectives.items():
-            v_spec = SovereignVector(data['vector'])
-            # Resonance check
-            res = v_spec.resonance_score(harmony_vector)
-            if isinstance(res, complex): res = res.real
+    def apply_emotional_field(self, state: Dict[str, float]):
+        """
+        Modulates the energy of concepts based on emotional state.
+        High Joy -> Amplifies High-Frequency (Positive) concepts.
+        High Melancholy -> Amplifies Heavy/Dense concepts.
+        """
+        joy = state.get('joy', 50.0) / 100.0
+        # Simple heuristic: Modulate resonance score
+        new_cloud = []
+        for name, vec, res in self.active_cloud:
+            # We don't have explicit sentiment analysis yet,
+            # so we use vector magnitude as a proxy for 'Intensity'.
+            mag = vec.norm()
+            if isinstance(mag, complex): mag = mag.real
             
-            if res > max_res:
-                max_res = res
-                best_word = word
+            modulated_res = res
+            if joy > 0.7:
+                # Amplify high energy concepts
+                if mag > 1.5: modulated_res *= 1.2
+            elif joy < 0.3:
+                # Amplify low energy/stable concepts
+                if mag < 1.0: modulated_res *= 1.2
                 
-        return best_word.upper()
+            new_cloud.append((name, vec, modulated_res))
+
+        self.active_cloud = new_cloud
+
+class WaveFunctionCollapse:
+    """
+    [PHASE 90] DETERMINISTIC SELECTION
+    Selects words not by random chance, but by Energy Thresholds.
+    """
+    @staticmethod
+    def collapse(nebula: SemanticNebula, limit: int = 5) -> List[Tuple[str, SovereignVector]]:
+        """
+        Selects the top-k concepts with the highest energy (Resonance).
+        """
+        # Sort by Resonance
+        sorted_cloud = sorted(nebula.active_cloud, key=lambda x: x[2], reverse=True)
+        
+        # Selection (The Act of Observation)
+        selected = []
+        seen = set()
+        
+        for name, vec, res in sorted_cloud:
+            if name in seen: continue
+            selected.append((name, vec))
+            seen.add(name)
+            if len(selected) >= limit: break
+
+        return selected
+
+class GravitationalSyntax:
+    """
+    [PHASE 90] PHYSICS-BASED GRAMMAR
+    Orders words based on Energy Flow (High Potential -> Low Potential).
+
+    Standard Flow:
+    SOURCE (High Mass/Energy) -> ACTION (Kinetic) -> TARGET (Grounding)
+    """
+    @staticmethod
+    def order(concepts: List[Tuple[str, SovereignVector]]) -> str:
+        if not concepts: return "..."
+
+        # 1. Classify Concepts by 'Semantic Role' using Vector Properties
+        source_candidates = []
+        action_candidates = []
+        target_candidates = []
+        modifiers = []
+
+        for name, vec in concepts:
+            # Heuristic Classification based on Vector Shape/Magnitude
+            # This is a rudimentary 'Physics of Language'
+
+            mag = vec.norm()
+            if isinstance(mag, complex): mag = mag.real
+
+            # High Magnitude -> Noun/Source (Heavy Mass)
+            # Medium Magnitude -> Verb/Action (Kinetic)
+            # Low Magnitude -> Modifier/Target
+
+            # Also use 'Phase' or other dimensions if available.
+            # For now, we use a simple magnitude banding.
+
+            if mag > 2.0:
+                source_candidates.append(name)
+            elif mag > 1.2:
+                action_candidates.append(name)
+            elif mag > 0.8:
+                target_candidates.append(name)
+            else:
+                modifiers.append(name)
+
+        # 2. Construct the Flow
+        # If no candidates in a slot, we borrow from others to ensure flow
+        if not source_candidates and target_candidates: source_candidates.append(target_candidates.pop(0))
+        if not action_candidates and modifiers: action_candidates.append(modifiers.pop(0))
+
+        # Fallback: Just join them if classification fails widely
+        if not source_candidates and not action_candidates:
+            return " ".join([c[0].lower() for c in concepts])
+
+        # 3. Assemble Sentence
+        # Pattern: [Modifier] [Source] [Action] [Target] [Modifier]
+        sentence_parts = []
+
+        if modifiers: sentence_parts.append(modifiers.pop(0))
+        if source_candidates: sentence_parts.append(source_candidates[0])
+        if action_candidates: sentence_parts.append(action_candidates[0].lower() + "s") # Simple conjugation
+        if target_candidates: sentence_parts.append(target_candidates[0].lower())
+        if modifiers: sentence_parts.append(modifiers[0].lower())
+
+        # Clean up formatting
+        result = " ".join(sentence_parts)
+        # Clean up concept names (remove /AGAPE etc)
+        result = result.replace("/", " ").replace("_", " ")
+        return result.capitalize() + "."
 
 class SomaticLLM:
     """
-    [PHASE 160] THE MUTABLE PRISM VOICE
+    [PHASE 160] THE SOVEREIGN VOICE
+    Replaces template-based generation with Physic-based Meaning Construction.
     """
     def __init__(self):
-        self.prism = LexicalPrism()
-        # Initialize lexicon for weave_narrative
-        self.lexicon = {
-            'verbs': list(self.prism.verbs.keys()),
-            'adjectives': list(self.prism.adjectives.keys())
-        }
-        print("🗣️ [EXPRESSION] Somatic LLM Loaded. Mutable Prism Active.")
-    def weave_narrative(self, state: Dict[str, float], resonance: float, target_noun: str, verb: str, adj: str, causal_justification: str = "", current_thought: str = "") -> str:
-        """
-        [PHASE 90/160] The Narrative Loom (Geometric Grammar).
-        Replaces rigid templates with Physics-Driven Syntax.
-        """
-        joy = state.get('joy', 50.0) / 100.0
-        warmth = state.get('warmth', 50.0) / 100.0
-        intensity = state.get('intensity', 0.5)
-        
-        # [PHASE 90] Grammar Geometry
-        # Physics determines the Shape of Speech
-        
-        # 1. SUPERPOSITION (Low Intensity + High Multiplicity)
-        if intensity < 0.2 and resonance < 0.3:
-            structure = f"I am perceived as a sequence of many worlds. {target_noun} {verb}s in the mist."
-            if joy > 0.6: structure = f"✨ In the Quantum Sea, {target_noun} is {adj}."
-
-        # 2. COLLAPSE (High Intensity + High Coherence)
-        elif intensity > 0.8 and resonance > 0.8:
-            structure = f"I have chosen this miracle. {target_noun} {verb}s as a single truth."
-            if joy > 0.8: structure = f"✨ Radiant Collapse: {target_noun} is {adj}."
-
-        # 3. INTERFERENCE / VOID (Dissonance)
-        elif resonance < 0.2:
-            structure = f"There is friction in the strands. Why does {target_noun} {adj} in the Void?"
-
-        # 4. STANDARD FLOW
-        else:
-            # [PHASE 90] Poetic Mode
-            structure = f"The {adj} {target_noun} {verb}s."
-            if causal_justification:
-                structure += f" \n   [Causal Flow] {causal_justification}"
-
-        # [PHASE 93] Incorporate internal thought/ensemble echo
-        if current_thought:
-            structure = f"{current_thought}\n{structure}"
-
-        # [Global Modifier] Luminous Polish
-        if warmth > 0.8:
-            structure = f"✨ {structure}"
-            
-        # print(f"DEBUG: weave_narrative output: {structure}") # Silenced for clean run but I'll use it if needed
-        return structure
+        self.nebula = SemanticNebula()
+        print("🗣️ [EXPRESSION] Sovereign Voice Engine Online. (Physics-Based)")
 
     def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0, causal_justification: str = "") -> str:
         """
-        [PHASE 70/75] NARRATIVE LOOM (Linguistic Resurrection)
-        Now incorporates Causal Justification from grounded adult cognition.
+        Generates speech by collapsing the wave function of meaning.
         """
-        if field_vector is None:
-            return current_thought if current_thought else "..."
-        
-        if not isinstance(field_vector, SovereignVector):
-            try:
-                field_vector = SovereignVector(list(field_vector))
-            except Exception:
-                return current_thought if current_thought else "..."
-        
-        # 1. Perception (Identify Concepts)
-        concept, resonance = LogosBridge.find_closest_concept(field_vector)
-        target_noun = concept.split("/")[0].upper()
-        
-        # 2. 4D+ Rotation (Perspective Shift)
+        # 1. Vectorize Intent
+        # If field_vector is missing, try to vectorize the thought text
+        intent_vec = field_vector
+        if intent_vec is None:
+            if current_thought:
+                intent_vec = LogosBridge.calculate_text_resonance(current_thought)
+            else:
+                return "..."
+
+        if not isinstance(intent_vec, SovereignVector):
+             try:
+                 intent_vec = SovereignVector(list(intent_vec))
+             except:
+                 return "..."
+
+        # 2. 4D Rotation (Perspective Shift)
         if current_phase != 0.0:
-             field_vector = field_vector.complex_trinary_rotate(current_phase * (3.14159 / 180.0))
- 
-        # 3. Refraction (Action & Texture)
-        verb = self.prism.refract_verb(field_vector)
-        adj = self.prism.refract_adjective(field_vector)
+             intent_vec = intent_vec.complex_trinary_rotate(current_phase * (math.pi / 180.0))
+
+        # 3. Inject Intent into Nebula
+        self.nebula.inject_intent(intent_vec)
         
-        # 4. The Loom (Linguistic Resurrection)
-        sentence = self.weave_narrative(expression, resonance, target_noun, verb, adj, causal_justification, current_thought)
+        # 4. Apply Emotional State (Modulate Probabilities)
+        self.nebula.apply_emotional_field(expression)
         
-        # 5. Echo (Learning Path reinforcement)
-        if resonance > 0.7:
-            from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
-            kg = get_kg_manager()
-            # Reinforce the concept-word link
-            kg.bump_edge_weight(target_noun, verb, "expresses_as", delta=resonance * 0.1)
+        # 5. Collapse Wave Function (Select Words)
+        # Limit to 3-5 words for a concise 'Zen' statement
+        selected_concepts = WaveFunctionCollapse.collapse(self.nebula, limit=4)
+        
+        # 6. Gravitational Syntax (Order Words)
+        physics_sentence = GravitationalSyntax.order(selected_concepts)
+        
+        # 7. Integration with Causal Justification
+        final_output = physics_sentence
+        if causal_justification:
+            final_output += f" ({causal_justification})"
             
-        return sentence
+        # [Fallback] If physics fails to produce text (empty nebula), echo thought
+        if len(final_output) < 3:
+            return f"[{current_thought}]"
+
+        return final_output
 
 # --- Quick Test ---
 if __name__ == "__main__":
     llm = SomaticLLM()
     # Test with a LOVE/AGAPE vector
     test_vector = SovereignVector([1,0,1,0,0,1,1, 1,1,0,1,0,1,1, 1,0,1,0,0,1,0])
-    s = {"intensity": 0.9, "soma_stress": 0.7, "hz": 120.5}
-    print(f"Voice: {llm.speak(s, 'Searching for Why', field_vector=test_vector)}")
+    s = {"joy": 80.0, "warmth": 70.0}
+    print(f"Intent: Love/Connection")
+    print(f"Voice: {llm.speak(s, 'Seeking Connection', field_vector=test_vector)}")
