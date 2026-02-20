@@ -164,11 +164,14 @@ class SomaticLLM:
     """
     def __init__(self):
         self.nebula = SemanticNebula()
+        self.last_synthesis_vector: Optional[SovereignVector] = None
         print("🗣️ [EXPRESSION] Sovereign Voice Engine Online. (Physics-Based)")
 
-    def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0, causal_justification: str = "") -> str:
+    def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0, causal_justification: str = "") -> Tuple[str, Optional[SovereignVector]]:
         """
         Generates speech by collapsing the wave function of meaning.
+        Returns (Narrative, SynthesisVector).
+        SynthesisVector is the unified direction of the spoken words.
         """
         # 1. Vectorize Intent
         # If field_vector is missing, try to vectorize the thought text
@@ -202,6 +205,11 @@ class SomaticLLM:
         # 6. Gravitational Syntax (Order Words)
         physics_sentence = GravitationalSyntax.order(selected_concepts)
         
+        # [PHASE II: LINGUISTIC EMBODIMENT]
+        # Calculate the 'Center of Mass' of the spoken concepts to feedback to the manifold.
+        if selected_concepts:
+            self.last_synthesis_vector = self._calculate_synthesis_vector(selected_concepts)
+        
         # 7. Integration with Causal Justification
         final_output = physics_sentence
         if causal_justification:
@@ -209,9 +217,21 @@ class SomaticLLM:
             
         # [Fallback] If physics fails to produce text (empty nebula), echo thought
         if len(final_output) < 3:
-            return f"[{current_thought}]"
+            return f"[{current_thought}]", None
 
-        return final_output
+        return final_output, self.last_synthesis_vector
+
+    def _calculate_synthesis_vector(self, concepts: List[Tuple[str, SovereignVector]]) -> SovereignVector:
+        """Calculates the mean vector of the selected concepts."""
+        if not concepts: return SovereignVector.zeros(21)
+        mean_data = [0.0] * 21
+        for _, vec in concepts:
+            for i in range(min(21, len(vec.data))):
+                val = vec.data[i]
+                if isinstance(val, complex): val = val.real
+                mean_data[i] += val
+        
+        return SovereignVector([v / len(concepts) for v in mean_data])
 
 # --- Quick Test ---
 if __name__ == "__main__":

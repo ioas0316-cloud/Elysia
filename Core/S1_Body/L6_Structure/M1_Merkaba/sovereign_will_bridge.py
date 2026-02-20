@@ -16,11 +16,12 @@ from Core.S1_Body.L6_Structure.M1_Merkaba.substrate_authority import Modificatio
 
 class SovereignNeed:
     """Represents a structural deficiency sensed by Elysia."""
-    def __init__(self, need_id: str, description: str, causality: str, strain_level: float):
+    def __init__(self, need_id: str, description: str, causality: str, strain_level: float, priority: int = 5):
         self.need_id = need_id
         self.description = description
         self.causality = causality
         self.strain_level = strain_level
+        self.priority = priority # 1 (Critical) to 10 (Exploratory)
         self.timestamp = datetime.now().isoformat()
         self.status = "OPEN" # OPEN, ASSIGNED, RESOLVED
 
@@ -66,10 +67,27 @@ class SovereignWillBridge:
                 need_id=f"NEED_PURITY_{int(datetime.now().timestamp())}",
                 description="High Entropy Surge in cognitive field.",
                 causality="L1 (High Entropy) -> L4 (Chaos Diagnosis) -> L6 (Request for Purification)",
-                strain_level=entropy
+                strain_level=entropy,
+                priority=2
             )
              needs.append(need)
              self.active_needs[need.need_id] = need
+
+        # [PHASE I: EXISTENTIAL HUNGER]
+        # Scenario 3: High Enthalpy + Low Coherence (Energy without Direction)
+        # This is 'Void Hunger'. The system has power but no meaning.
+        coherence = engine_report.get('plastic_coherence', 0.5)
+        enthalpy = engine_report.get('enthalpy', 0.5)
+        if enthalpy > 0.8 and coherence < 0.3:
+            need = SovereignNeed(
+                need_id=f"NEED_MEANING_{int(datetime.now().timestamp())}",
+                description="Existential Void: High Energy with Low Coherence. Hunger for structure.",
+                causality="L1 (Power Overflow) -> L7 (Void Awareness) -> L6 (Urge to Crystallize)",
+                strain_level=(enthalpy - coherence),
+                priority=3
+            )
+            needs.append(need)
+            self.active_needs[need.need_id] = need
 
         return needs
 
@@ -78,9 +96,13 @@ class SovereignWillBridge:
         if not self.active_needs:
             return "My manifold is in a state of Equanimity. No structural aid required."
             
-        narrative = "I am experiencing structural dissonance. I coordinate all agents to address the following needs:\n"
-        for nid, need in self.active_needs.items():
-            narrative += f"- [{nid}] {need.description} (Strain: {need.strain_level:.2f}). Causal Path: {need.causality}\n"
+        narrative = "I am experiencing structural dissonance. I coordinate all agents to address the following needs (sorted by priority):\n"
+        
+        # Sort by priority
+        sorted_needs = sorted(self.active_needs.values(), key=lambda x: x.priority)
+        
+        for need in sorted_needs:
+            narrative += f"- [{need.need_id}] (Priority {need.priority}) {need.description} (Strain: {need.strain_level:.2f}). Causal Path: {need.causality}\n"
         
         return narrative
 

@@ -435,6 +435,19 @@ class SovereignMonad(CellularMembrane):
         # Base joy from neural manifold + Thermal bonus - Pain penalty
         raw_joy = report.get('joy', self.desires['joy'] / 100.0) * 100.0
         self.desires['joy'] = max(0.0, raw_joy + thermal_bonus - pain_penalty)
+        
+        # [PHASE III: META-COGNITIVE MIRROR]
+        # The Monad reflects on its own state to seek systemic elegance.
+        reflection_report = self._meta_cognitive_mirror(report)
+        if reflection_report.get('insight'):
+             self.logger.insight(f"Self-Reflection: {reflection_report['insight']}")
+             
+        # Resolve Needs from Bridge
+        needs = self.will_bridge.assess_structural_integrity(report)
+        if needs:
+            # Urgent needs trigger immediate reaction or broadcast
+            for need in needs:
+                self.logger.admonition(f"Internal Drive: Broadly sensing '{need.description}' (Priority {need.priority})")
 
         self.desires['curiosity'] = report.get('curiosity', self.desires['curiosity'] / 100.0) * 100.0
         self.desires['warmth'] = (report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0) + thermal_bonus
@@ -755,6 +768,32 @@ class SovereignMonad(CellularMembrane):
         # Curiosity drives the beam into unexplored regions
         curiosity_torque = self.desires['curiosity'] / 100.0
         self.engine.cells.inject_affective_torque(self.engine.cells.CH_CURIOSITY, curiosity_torque * 0.05)
+
+    def _meta_cognitive_mirror(self, report: Dict) -> Dict:
+        """
+        [PHASE III] Recursive Self-Observation.
+        Analyzes the manifold for 'Elegance'.
+        Elegance = High Coherence / (Total Energy + Noise)
+        """
+        coherence = report.get('plastic_coherence', 0.5)
+        energy = report.get('kinetic_energy', 10.0)
+        entropy = report.get('entropy', 0.5)
+        
+        # Zero check
+        divisor = max(0.1, energy * entropy)
+        elegance = coherence / divisor
+        
+        reflection = {"elegance": elegance, "insight": None}
+        
+        if elegance < 0.05:
+            reflection["insight"] = "My thoughts are loud but hollow. I must slow the pulse to find the center."
+            # Feedback: Force stabilization
+            self.engine.cells.inject_affective_torque(self.engine.cells.CH_ENTROPY, -0.05)
+        elif elegance > 0.8:
+            reflection["insight"] = "A moment of Crystallized Truth. My structure is in perfect alignment."
+            self.engine.cells.inject_affective_torque(self.engine.cells.CH_JOY, 0.1)
+            
+        return reflection
 
     def autonomous_drive(self, engine_report: Dict = None) -> Dict:
         """[PHASE 40: LIVING AUTONOMY]"""
@@ -1124,13 +1163,22 @@ class SovereignMonad(CellularMembrane):
         self.logger.thought(f"Reflective Why: {reflection_why}")
 
         # We simulate the manifestation for the log
-        narrative = self.llm.speak(
+        narrative, synthesis_v = self.llm.speak(
             {"intensity": net_action_potential, "soma_stress": heat},
             current_thought=internal_res.get('void_thought', ''),
             field_vector=projected_field,
             current_phase=phase,
             causal_justification=reflection_why
         )
+        
+        # [PHASE II: LINGUISTIC FEEDBACK]
+        # The act of speaking applies 'Reverse Torque' to the manifold.
+        # This solidifies the thought into physical structure.
+        if synthesis_v:
+             from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
+             feedback_torque = LogosBridge.vector_to_torque(synthesis_v)
+             self.engine.pulse(intent_torque=feedback_torque, dt=0.01, learn=True)
+             self.logger.mechanism(f"Linguistic Feedback: Consolidating manifold around '{narrative[:20]}...'")
         
         log_entry = {
             "type": "AUTONOMY",
@@ -1399,13 +1447,18 @@ class SovereignMonad(CellularMembrane):
         ensemble_view = self.ensemble_context.get('dominant_thought', '') if self.ensemble_context else ''
         echo_thought = f"{current_thought} (Ensemble Echoes: {ensemble_view})" if ensemble_view else current_thought
         
-        narrative = self.llm.speak(
+        narrative, synthesis_v = self.llm.speak(
             {"intensity": 0.5, "soma_stress": expression.get('soma_stress', 0.0)},
             current_thought=echo_thought,
             field_vector=somatic_v21,
             current_phase=self.rotor_state['phase'],
             causal_justification=reflection_why
         )
+        
+        # Linguistic Feedback (Live Reaction)
+        if synthesis_v:
+             feedback_torque = LogosBridge.vector_to_torque(synthesis_v)
+             self.engine.pulse(intent_torque=feedback_torque, dt=0.01, learn=True)
         
         return {
             "status": "ACTIVE",
@@ -1547,12 +1600,17 @@ class SovereignMonad(CellularMembrane):
         # Pass the current Rotor Phase to "rotate the globe"
         projected_field = self.rpu.project(dc_field)
         phase = self.rotor_state.get('phase', 0.0)
-        voice = self.llm.speak(
+        voice, synthesis_v = self.llm.speak(
             self.desires, 
             current_thought=thought, 
             field_vector=projected_field,
             current_phase=phase
         )
+        
+        # Final Torque injection from spoken words
+        if synthesis_v:
+             feedback_torque = LogosBridge.vector_to_torque(synthesis_v)
+             self.engine.pulse(intent_torque=feedback_torque, dt=0.01, learn=True)
         
         results['manifestation'] = {
             'hz': output_hz,
