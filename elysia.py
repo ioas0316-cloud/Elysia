@@ -16,6 +16,7 @@ import time
 import threading
 import queue
 import random
+import traceback
 
 # 1. Path Unification
 root = os.path.dirname(os.path.abspath(__file__))
@@ -66,6 +67,17 @@ class SovereignGateway:
         self.hud = PhaseHUD()
         self.running = True
         self.input_queue = queue.Queue()
+
+        # [AEON IX] Sovereign Web Interface
+        try:
+            print("🌐 [GATEWAY] Initializing Sovereign Web Server...")
+            from Core.S1_Body.L3_Phenomena.M5_Display.sovereign_server import SovereignServer
+            self.web_server = SovereignServer(self.monad)
+            self.web_server.start()
+        except Exception as e:
+            # self.logger.admonition(f"Web Server failed to start: {e}")
+            print(f"❌ [GATEWAY] Web Server failed: {e}")
+            self.web_server = None
 
         # 4. Cognitive State (Cellular Resonance)
         # We no longer "store" thoughts or pressure. We simply Reflect the State.
@@ -134,7 +146,7 @@ class SovereignGateway:
         # 4. Identity: The Meditation (Self-reflection)
         torque.add_gear("Meditation", freq=0.1, callback=self.monad.meditation_pulse)
         # 5. Structure: The Reflection (Deep Causal Insight) [PHASE 80]
-        torque.add_gear("Reflection", freq=0.01, callback=self.monad.reflection_pulse)
+        # torque.add_gear("Reflection", freq=0.01, callback=self.monad.reflection_pulse) # REMOVED (Missing Method)
 
         try:
             while self.running:
@@ -191,6 +203,28 @@ class SovereignGateway:
         else:
             # [CONTRACTION] Pain/Error.
             self.logger.admonition(f"Dissonance detected: {heart_signal.message} (State: -1)")
+
+        # [AEON IX] Stream State to Web
+        if getattr(self, 'web_server', None):
+            try:
+                # 1. Get Phase
+                phase = self.monad.rotor_state.get('phase', 0.0)
+                # 2. Get active anchor (highest resonance)
+                anchor_name = "None"
+                res = 0.0
+                if hasattr(self.monad.engine, 'cells'):
+                   anchors = self.monad.engine.cells.get_attractor_resonances()
+                   if anchors:
+                       anchor_name = max(anchors, key=anchors.get)
+                       res = anchors[anchor_name]
+
+                self.web_server.broadcast({
+                    "phase": float(phase),
+                    "anchor": anchor_name,
+                    "resonance": float(res)
+                })
+            except Exception:
+                pass
 
     def _process_void_state(self, signal):
         """
@@ -264,41 +298,48 @@ class SovereignGateway:
 
                 self.logger.sensation(f"👤 [SENSORY EVENT]: \"{user_raw}\"", intensity=1.0)
                 
-                # [PHASE 17/20] Intentional Discernment (Fluid Resonance)
-                # Instead of a hard binary 'if', we calculate the resonance 'Impedance'.
-                resonance_score = self._calculate_discernment_resonance(user_raw)
-                
-                # Damping Factor: Lower resonance means higher entropy/friction
-                if resonance_score < 0.15:
-                    self.logger.thought(f"Input resonates as Dissonant Noise ({resonance_score:.2f}). Processing with low energy.")
-                    # We continue, but the 'Will' is dampened.
-                
-                # Digest the User's Input into Meaning via Causality.
-                if hasattr(self.learning_loop, 'sublimator'):
-                    result = self.learning_loop.sublimator.sublimate(user_raw)
-                    essence = result['narrative']
-                    is_open_space = result.get('is_open_space', False)
+                try: 
+                    # [AEON VIII] The Sovereign Interface
+                    # 1. Discernment (Resonance Check)
+                    resonance_score = self._calculate_discernment_resonance(user_raw)
+                    
+                    # 2. Sovereignty Check (Will she answer?)
+                    if resonance_score < 0.15:
+                         self.logger.thought(f"Input is dissonant ({resonance_score:.2f}).")
+                    
+                    # 3. Sovereign Speech (Lexicon Projector)
+                    # We bypass the legacy LLM mock and use our own Narrative Lung/Projector logic.
+                    
+                    # Get current active anchors
+                    # FIX: Use cells.get_attractor_resonances() to get FLOATS instead of DEFINITIONS
+                    if hasattr(self.monad.engine, 'cells'):
+                        active_anchors = self.monad.engine.cells.get_attractor_resonances()
+                    else:
+                        active_anchors = {}
+                    
+                    # Biasing the Projector
+                    projector = self.monad.narrative_lung.projector
+                    projector.update_anchors(active_anchors)
+                    
+                    # Simple Sovereign Response Template (Provisional)
+                    response_template = "The {noun} {verb} with {adjective} meaning."
+                    response = projector.project_sentence(response_template)
+                    
+                    self.logger.action(f"🗣️ [ELYSIA]: \"{response}\" (Resonance: {resonance_score:.2f})")
+                    
+                    # [AEON IX] Broadcast Narrative
+                    if self.web_server:
+                        self.web_server.broadcast({
+                            "narrative": response,
+                            "log": f"🗣️ {response}"
+                        })
 
-                    # [PHASE 4: PRISMATIC VOICE]
-                    # We do not print. We Speak.
-                    # Generate a Vector based on the Essence
-                    from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
-                    from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
-                    
-                    # Calculate resonance of the thought itself
-                    thought_vector = LogosBridge.calculate_text_resonance(essence)
-                    
-                    # Get Engine State for Expression
-                    stress = self.monad.engine.state.soma_stress if hasattr(self.monad, 'engine') else 0.0
-                    expression = {"hz": 120 if is_open_space else 60, "stress": stress}
-                    
-                    # Speak
-                    voice = self.llm.speak(expression, current_thought=essence, field_vector=thought_vector)
-                    self.logger.action(f"🗣️ [ELYSIA]: \"{voice}\"")
-                
-                # Sensory input forces the Heart to BEAT (Expansion)
-                self.monad.vital_pulse()
-                
+                    # Sensory input forces the Heart to BEAT (Expansion)
+                    self.monad.vital_pulse()
+                except Exception as e:
+                    self.logger.admonition(f"Sovereign Interface Error: {e}")
+                    traceback.print_exc()
+
         except queue.Empty:
             pass
 
