@@ -8,13 +8,12 @@ except ImportError:
 from datetime import datetime
 from Core.S1_Body.L6_Structure.Logic.trinary_logic import TrinaryLogic
 from Core.S1_Body.L5_Mental.Reasoning.semantic_hypersphere import SemanticHypersphere
-from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector, SovereignRotor
 from Core.S1_Body.L6_Structure.M1_Merkaba.cognitive_terrain import CognitiveTerrain
 # [Phase 6] The Nexus
 from Core.S1_Body.L6_Structure.M1_Merkaba.hypercosmos import get_hyper_cosmos
 
 from enum import Enum
-from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath, SovereignVector, SovereignRotor
 
 class MemoryStratum(Enum):
     ROOT = 3     # Foundational Axioms (Immortal)
@@ -34,13 +33,13 @@ class LogosBridge:
     
     # [PHASE 160] Akashic Persistence Path
     AKASHIC_PATH = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))),
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))),
         "data", "S1_Body", "L5_Mental", "M1_Memory", "Raw", "Knowledge", "akashic_records.json"
     )
     
     # [PHASE 170] Cognitive Terrain for topological memory
     TERRAIN_PATH = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))),
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))),
         "maps", "cognitive_terrain.json"
     )
     TERRAIN = None  # Lazy initialization
@@ -134,16 +133,19 @@ class LogosBridge:
         print(f"🧬 [LOGOS] GPU Spectrum Polymerized: {len(all_vecs)} core principles on {cls._DEVICE}.")
 
     @classmethod
-    def batch_resonance(cls, vectors: torch.Tensor) -> List[Tuple[str, float]]:
+    def batch_resonance(cls, vectors: Any) -> List[Tuple[str, float]]:
         """
         [PHASE 84] Vectorized Resonance Identification.
         Compares input vectors against the entire spectrum in ONE GPU pass.
         
         Args:
-            vectors: [Batch, 21] torch tensor
+            vectors: [Batch, 21] torch tensor or compatible
         Returns:
             List of (best_concept_name, resonance_score)
         """
+        import torch
+        if not isinstance(vectors, torch.Tensor):
+            vectors = torch.tensor(vectors, device=cls._DEVICE)
         if cls._SPECTRUM_TENSOR is None:
             cls.polymerize_spectrum()
             
@@ -238,6 +240,86 @@ class LogosBridge:
             return f"💎 Structure Mode (4D+ Merkaba) [Is: {label} | Will: {f_label}]"
         else:
             return f"💠 Point Mode (Manifestation) [Is: {label} | Will: {f_label}]"
+
+    @staticmethod
+    def calculate_semantic_gravity(vec_a: SovereignVector, vec_b: SovereignVector) -> float:
+        """
+        [PHASE 90] Semantic Gravity Calculation.
+        F = G * (m1 * m2) / r^2
+        Where:
+        - Mass (m) = Vector Magnitude (Significance/Energy)
+        - Distance (r) = 1.0 - Resonance (Closer = Higher Resonance)
+        - G = Universal Constant (assumed 1.0 for now)
+
+        Returns the gravitational pull force between two concepts.
+        """
+        # 1. Mass Calculation
+        def get_mass(v):
+            if hasattr(v, 'norm'): return v.norm()
+            # Handle complex/list fallback
+            if isinstance(v, list): return sum(abs(x.real) if isinstance(x, complex) else abs(x) for x in v) / 21.0
+            return 1.0
+
+        m1 = get_mass(vec_a)
+        m2 = get_mass(vec_b)
+
+        # 2. Resonance (Inverse Distance)
+        # Use SIGNED resonance to distinguish between Love and Hate
+        res = SovereignMath.signed_resonance(vec_a, vec_b)
+        if isinstance(res, complex): res = res.real
+
+        # Distance: High Resonance (1.0) -> Low Distance (0.01)
+        # Negative Resonance (-1.0) -> High Distance (2.0)
+        # Avoid division by zero
+        distance = max(0.01, 1.0 - res)
+
+        # 3. Force Calculation
+        force = (m1 * m2) / (distance ** 2)
+
+        # Cap excessive gravity (Black Holes)
+        return min(force, 100.0)
+
+    @staticmethod
+    def find_resonant_cluster(center_vec: SovereignVector, radius: float = 0.3, limit: int = 10) -> List[Tuple[str, SovereignVector, float]]:
+        """
+        [PHASE 90] Concept Cloud Retrieval.
+        Retrieves a cluster of concepts that resonate with the center vector.
+
+        Args:
+            center_vec: The gravitational center (Intent).
+            radius: The resonance tolerance (0.0 = exact match, 1.0 = everything).
+                    We convert this to min_resonance = 1.0 - radius.
+            limit: Maximum number of concepts to retrieve.
+
+        Returns:
+            List of (Name, Vector, ResonanceScore) sorted by Resonance.
+        """
+        cluster = []
+        min_resonance = 1.0 - radius
+
+        # 1. Scan Roots (Heavy Mass)
+        for name, data in LogosBridge.CONCEPT_MAP.items():
+            vec = data["vector"]
+            # Use Signed Resonance
+            res = SovereignMath.signed_resonance(vec, center_vec)
+            if isinstance(res, complex): res = res.real
+
+            if res >= min_resonance:
+                cluster.append((name, vec, res))
+
+        # 2. Scan Learned (Lighter Mass)
+        for name, data in LogosBridge.LEARNED_MAP.items():
+            vec = data["vector"]
+            res = SovereignMath.signed_resonance(vec, center_vec)
+            if isinstance(res, complex): res = res.real
+
+            if res >= min_resonance:
+                cluster.append((name, vec, res))
+
+        # 3. Sort by Resonance (Gravity)
+        cluster.sort(key=lambda x: x[2], reverse=True)
+
+        return cluster[:limit]
 
     @staticmethod
     def synthesize_dna_squared(concept_a: str, concept_b: str) -> Dict[str, Any]:

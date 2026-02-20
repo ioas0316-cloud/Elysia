@@ -41,15 +41,14 @@ class RecursiveTorque:
         self.gears[name] = gear
         logger.info(f"⚙️ Gear '{name}' mounted with freq {freq}Hz")
 
-    def spin(self):
-        """
-        The main drive pulse.
-        """
+    def spin(self, override_dt: float = None):
+        """Turns all registered gears."""
         now = time.time()
-        dt = now - self.last_tick
-        self.last_tick = now
+        # Use provided dt or calculate from real time
+        dt = override_dt if override_dt is not None else (now - self.last_spin_time)
+        self.last_spin_time = now
         
-        for gear in self.gears.values():
+        for name, gear in self.gears.items():
             gear.rotate(dt)
             if gear.is_in_resonance():
                 if gear.callback:

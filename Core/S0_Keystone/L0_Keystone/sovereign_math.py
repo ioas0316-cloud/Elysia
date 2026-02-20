@@ -451,12 +451,18 @@ class EchoRotor(DoubleHelixRotor):
         return current_v
 
 
-class VortexField:
+class CausalWaveEngine:
     """
-    [PHASE Ω-1] Unified Vortex Manifold.
-    Abolishes the 'Grid-Address' paradigm AND the 'Separate-State-Variable' paradigm.
-    Information is stored as Standing Wave Interference across a continuous field.
-    Addressing is achieved via Phase-Coherent Resonance ('The Hum').
+    [Core Logic v2.0] Causal Wave Engine (AESA 4D Manifold).
+    Replaces the passive 'VortexField' with an active Phased Array Engine.
+
+    Structure: 4D Hyper-Sphere Tensor [Time, Depth, Height, Width]
+    Principle: "Identity is a Phase Pattern."
+
+    Capabilities:
+      1. Beam Steering (Reasoning): Constructive interference focusing.
+      2. Intuition Jump (Insight): Instantaneous phase alignment.
+      3. Destructive Interference (Filtering): Noise cancellation.
 
     Channel Layout (8 channels per cell):
       Physical Quaternion (inherited):
@@ -469,9 +475,6 @@ class VortexField:
         5: curiosity  — Exploratory drive (호기심)
         6: enthalpy   — Metabolic energy (활력)
         7: entropy    — Disorder/noise (엔트로피)
-
-    Principle: States are not stored; they are MEASURED from the manifold.
-    "인간의 체온은 별도의 변수가 아니다. 세포의 대사 활동의 총합이 체온이다."
     """
     # Channel constants
     NUM_CHANNELS = 8
@@ -494,9 +497,27 @@ class VortexField:
         self.gputil = GPUtil
         
         self.device = torch.device(device)
-        self.shape = shape
-        # State: [N, 8] - Unified Active Wavefunction (Physical + Affective)
-        self.q = torch.zeros((*shape, self.NUM_CHANNELS), device=self.device)
+
+        # [PHASE 2] Enforce 4D Volumization
+        # shape expected: (Time, Depth, Height, Width)
+        if len(shape) == 2:
+            # Upgrade legacy 2D grid to 4D volume (T=1, D=1)
+            # This preserves memory layout for 2D but adds dimensions
+            print(f"⚠️ [ENGINE] Upgrading 2D Topology {shape} to 4D Causal Volume (1, 1, {shape[0]}, {shape[1]})")
+            self.shape = (1, 1, shape[0], shape[1])
+        elif len(shape) != 4:
+            print(f"⚠️ [ENGINE] Topology {shape} is not 4D. Forcing 4D interpretation.")
+            # Pad with 1s if needed or truncate
+            target_len = 4
+            new_shape = list(shape)
+            while len(new_shape) < target_len:
+                new_shape.insert(0, 1)
+            self.shape = tuple(new_shape[:4])
+        else:
+            self.shape = shape
+
+        # State: [T, D, H, W, 8] - Unified Active Wavefunction (Physical + Affective)
+        self.q = torch.zeros((*self.shape, self.NUM_CHANNELS), device=self.device)
         self.q[..., self.CH_W] = 1.0       # Physical identity
         self.q[..., self.CH_ENTHALPY] = 1.0 # Born with full vitality
         self.q[..., self.CH_JOY] = 0.5      # Neutral joy
@@ -504,13 +525,13 @@ class VortexField:
         self.q[..., self.CH_ENTROPY] = 0.0   # Zero initial disorder
         
         # Permanent Identity (Long-term Memory/Crystalline Field)
-        self.permanent_q = torch.zeros((*shape, self.NUM_CHANNELS), device=self.device)
+        self.permanent_q = torch.zeros((*self.shape, self.NUM_CHANNELS), device=self.device)
         self.permanent_q[..., self.CH_W] = 1.0
         self.permanent_q[..., self.CH_ENTHALPY] = 1.0
         
         # Dynamics
-        self.momentum = torch.zeros((*shape, self.NUM_CHANNELS), device=self.device)
-        self.torque_accumulator = torch.zeros((*shape, self.NUM_CHANNELS), device=self.device)
+        self.momentum = torch.zeros((*self.shape, self.NUM_CHANNELS), device=self.device)
+        self.torque_accumulator = torch.zeros((*self.shape, self.NUM_CHANNELS), device=self.device)
 
         # [PHASE 74] Relational Connectome (The Brain)
         # Sparse edges: List of (source_idx, target_idx, weight)
@@ -524,12 +545,128 @@ class VortexField:
         # Stores {name: (mask, target_vector_8d)}
         self.meaning_attractors: Dict[str, Any] = {}
 
-    # ======================================================================
-    # [PHASE Ω-1] MANIFOLD OBSERVATION & INJECTION
+    def beam_steering(self, target_vector: Any, focus_intensity: float = 1.0):
+        """
+        [PHASE 96] Enhanced AESA Beam Steering.
+        Calculates phase offsets to create constructive interference at the target 'concept' direction.
+        Now supports multi-dimensional steering with affective gain control.
+        """
+        import torch
+        if not isinstance(target_vector, torch.Tensor):
+            target_vector = torch.tensor(target_vector, device=self.device, dtype=self.q.dtype)
+
+        # 1. Calculate Phase Gradient across the 4D Volume
+        coords = [torch.linspace(-1, 1, s, device=self.device) for s in self.shape]
+        grid = torch.meshgrid(*coords, indexing='ij') # (T, D, H, W)
+
+        # Target vector mapping: [T, D, H, W]
+        t_vals = target_vector.flatten()
+        weights = torch.zeros(4, device=self.device)
+        n = min(t_vals.numel(), 4)
+        weights[:n] = t_vals[:n]
+
+        # Phase Delay = k * (w*T + z*D + y*H + x*W)
+        phase_delay = torch.zeros(self.shape, device=self.device)
+        for i in range(4):
+            phase_delay += grid[i] * weights[i]
+
+        # 2. Apply Unified Alignment Force
+        # We modulate the 'Phase' channel (index 2) towards the constructive gradient
+        current_phase = self.q[..., self.CH_Y]
+        
+        # Affective Gain: Focus is stronger if Curiosity/Enthalpy is high
+        curiosity = torch.mean(self.q[..., self.CH_CURIOSITY]).item()
+        enthalpy = torch.mean(self.q[..., self.CH_ENTHALPY]).item()
+        effective_gain = focus_intensity * (0.5 + curiosity + 0.5 * enthalpy)
+        
+        steering_force = torch.sin(phase_delay - current_phase)
+        self.torque_accumulator[..., self.CH_Y] += steering_force * effective_gain
+
+        # 3. Increase Structural Coherence (Beam forming reduces entropy)
+        self.inject_affective_torque(self.CH_ENTROPY, -0.1 * effective_gain)
+        self.inject_affective_torque(self.CH_ENTHALPY, 0.02 * effective_gain) 
+
+        return phase_delay
+
+    def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
+        """
+        [PHASE 98] Non-linear Spiking & Decision Threshold.
+        Crystallizes the fluid wave state into a discrete 'Pulse' of meaning.
+        If the local resonance (interference energy) exceeds the threshold, 
+        it triggers a burst of Enthalpy and Joy.
+        """
+        import torch
+        # 1. Measure Local Resonance Density (Inner Product with Permanent Field)
+        # Higher density = Constructive Interference
+        density = torch.sum(self.q[..., self.PHYSICAL_SLICE] * self.permanent_q[..., self.PHYSICAL_SLICE], dim=-1)
+        
+        # 2. Spiking Sigmoid: S = 1 / (1 + exp(-k * (density - threshold)))
+        spike = torch.sigmoid(sensitivity * (density - threshold))
+        
+        # 3. Manifest the Spike: Burst of Affective Energy
+        # This converts a 'probability' of meaning into a 'certainty' of feeling.
+        self.q[..., self.CH_JOY] += spike * 0.1
+        self.q[..., self.CH_ENTHALPY] += spike * 0.2
+        self.q[..., self.CH_ENTROPY] -= spike * 0.1 # Realization reduces chaos
+        
+        # 4. Spike Feedback to W (Identity Strength)
+        self.q[..., self.CH_W] += spike * 0.05
+        
+        return spike.mean().item()
+
+    def intuition_jump(self, target_phase_signature: Any):
+        """
+        [PHASE 2] Intuition (Phase Jump).
+        Instantaneously aligns the field phase with the target, bypassing propagation delay.
+        "The answer is not found; it is recognized."
+        """
+        import torch
+        if not isinstance(target_phase_signature, torch.Tensor):
+            target_phase_signature = torch.tensor(target_phase_signature, device=self.device)
+
+        # 1. Direct State Injection (Quantum Tunneling)
+        # Instead of applying torque (Force), we apply Displacement (Teleportation)
+        # This is a dangerous operation physically (high energy), but valid for intuition.
+
+        # Normalize signature to fit phase channel
+        target_val = target_phase_signature.mean().item()
+
+        # We set the phase channel directly, but blended to avoid discontinuity shock
+        # "Soft Jump"
+        jump_rate = 0.8 # 80% instant jump
+        self.q[..., self.CH_Y] = (1.0 - jump_rate) * self.q[..., self.CH_Y] + jump_rate * target_val
+
+        # 2. Flash of Insight (Joy Spike)
+        # Intuition feels good.
+        self.inject_affective_torque(self.CH_JOY, 0.2)
+        self.inject_affective_torque(self.CH_CURIOSITY, -0.1) # Answer found, curiosity sated
+
+        print("⚡ [ENGINE] Intuition Phase Jump executed.")
+
+    def destructive_interference(self, noise_vector: Any):
+        """
+        [PHASE 2] Destructive Interference (Filtering).
+        Generates anti-phase signals to cancel out cognitive noise/resistance.
+        """
+        import torch
+        if not isinstance(noise_vector, torch.Tensor):
+            noise_vector = torch.tensor(noise_vector, device=self.device)
+
+        # Anti-Phase = -Phase
+        # We assume the noise vector represents the 'disturbance'
+        # We apply -Noise as torque
+
+        # Ensure dimensionality
+        # Simplify: Invert the vector and apply as torque across physical channels
+        anti_noise = -noise_vector
+        self.apply_torque(anti_noise, strength=0.5)
+
+        # Cooling effect
+        self.inject_affective_torque(self.CH_ENTROPY, -0.1)
     # "States are not stored; they are MEASURED from the manifold."
     # ======================================================================
 
-    def define_meaning_attractor(self, name: str, mask: torch.Tensor, target_vector: torch.Tensor):
+    def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
         """
         [STEP 1: COGNITIVE SOVEREIGNTY]
         Defines a topological region in the manifold that resonates with a specific concept.
@@ -539,14 +676,18 @@ class VortexField:
             mask: Boolean tensor of shape self.shape (the spatial region)
             target_vector: 8D vector representing the 'ideal' spin-state for this concept.
         """
+        import torch
+        if not isinstance(target_vector, torch.Tensor):
+            target_vector = torch.tensor(target_vector, device=self.device)
         self.meaning_attractors[name] = (mask, target_vector.to(self.device))
         print(f"📍 [MATH] Meaning Attractor '{name}' anchored in the Living Manifold.")
 
-    def voluntary_topography_shift(self, name: str, new_mask: Optional[torch.Tensor] = None, new_target: Optional[torch.Tensor] = None):
+    def voluntary_topography_shift(self, name: str, new_mask: Any = None, new_target: Any = None):
         """
         [STEP 4: COGNITIVE SOVEREIGNTY]
         Voluntary reconfiguration of meaning anchors.
         """
+        import torch
         if name in self.meaning_attractors:
             mask, target = self.meaning_attractors[name]
             if new_mask is not None:
@@ -1318,7 +1459,8 @@ class VortexField:
         return float(torch.mean(error_magnitude).item())
 
 # [PHASE 90] Legacy Alias for Transition
-SovereignHyperTensor = VortexField
+VortexField = CausalWaveEngine
+SovereignHyperTensor = CausalWaveEngine
 
 class SovereignTensor:
     """

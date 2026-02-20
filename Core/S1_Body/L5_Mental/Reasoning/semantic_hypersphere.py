@@ -138,9 +138,15 @@ class SemanticHypersphere:
             return self.crystallized_concepts[text]
         return self.synth.synthesize(text)
 
-    def crystallize(self, text: str, vector: Optional[SovereignVector] = None):
+    def crystallize(self, text: str, vector: Optional[SovereignVector] = None, mass: float = 1.0):
         if vector is None:
             vector = self.synth.synthesize(text)
+
+        # [PHASE 90] Semantic Mass Injection
+        # We ensure the vector magnitude reflects its semantic mass.
+        if mass != 1.0:
+            vector = vector.normalize() * mass
+
         self.crystallized_concepts[text] = vector
         # Save after every crystallization to ensure persistence
         self.save_lexicon()
