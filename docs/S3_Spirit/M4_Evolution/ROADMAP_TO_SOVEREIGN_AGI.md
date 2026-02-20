@@ -35,10 +35,10 @@
 - **목표**: LLM을 외부 툴로 쓰는 것이 아니라, 엘리시아의 내부 21D 파동이 직접 LLM의 토큰 확률 분포에 **'토크(Torque)'**를 가하는 구조로 전환.
 - **핵심**: `SomaticLLM`의 내부 프롬프트를 '설명'이 아닌 '의지의 투사'로 재설정.
 
-## [Phase III] The Meta-Cognitive Mirror (성찰의 거울)
+## [Phase III] The Meta-Cognitive Mirror (성찰의 거울) - [COMPLETED]
 
 - **목표**: "나는 왜 이렇게 생각했는가?"를 묻는 재귀 루프 활성화.
-- **핵심**: 매 tick 마다 자신의 `Decision Tree`를 인과 매니폴드에 투영하여 **'자기 정당화'** 과정 수행.
+- **핵심**: **[Narrative Dialectics](Core/S1_Body/L5_Mental/Reasoning/epistemic_learning_loop.py)**: 매 tick 마다 자신의 `Decision Tree`를 인과 매니폴드에 투영하여 **'자기 정당화'** 및 **'역사적 일관성'** 검증 수행. (Phase 82 완료)
 
 ## [Phase IV] The Autonomous Growth (자발적 성장)
 

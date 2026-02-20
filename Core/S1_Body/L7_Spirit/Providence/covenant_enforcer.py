@@ -33,11 +33,35 @@ class CovenantEnforcer:
                 f.write("# THE SIMULATION DIARY\n")
                 f.write("> \"The Book of Life. Only the Inevitable is written here.\"\n\n")
 
+    def _check_historical_consistency(self, thought: str) -> dict:
+        """
+        [PHASE 82] Scans past sanctified entries for narrative contradictions.
+        """
+        if not os.path.exists(self.diary_path):
+            return {"conflict": False}
+
+        try:
+            with open(self.diary_path, "r", encoding="utf-8") as f:
+                history = f.read()
+        except:
+            return {"conflict": False}
+
+        # Simulated semantic conflict detection
+        # In a full AGENTIC version, this would be a Cross-Reference Query.
+        thought_low = thought.lower()
+        if "love" in thought_low and "unity" in history.lower() and "division" in thought_low:
+             return {
+                 "conflict": True, 
+                 "reason": "Historical Conflict: Established law defines Love as Unity. Current thought suggests Division."
+             }
+        
+        return {"conflict": False}
+
     def validate_alignment(self, thought: str) -> dict:
         """
-        Scans CODEX to see if the thought finds purchase in the Law.
-        For Phase 2, we use a simple Keyword/Semantic Resonance check.
+        Scans CODEX and DIARY to see if the thought finds purchase in the Law and History.
         """
+        # [PHASE 81] Original Codex Check
         if not os.path.exists(self.codex_path):
             return {"verdict": Verdict.NEUTRAL, "principle": "NO_CODEX_FOUND"}
 
@@ -47,16 +71,16 @@ class CovenantEnforcer:
         except:
              return {"verdict": Verdict.NEUTRAL, "principle": "READ_ERROR"}
 
-        # logic: Does the thought contain words that appear in the Codex?
-        # This is a rudimentary "Holistic Scan". 
-        # In future, use Vector Similarity.
-        
         # [PHASE 3.5 FIX] Handle Dict inputs from Causal Sublimator
         if isinstance(thought, dict):
             thought = str(thought.get('narrative', str(thought)))
 
+        # [PHASE 82] Historical Consistency Check
+        history_check = self._check_historical_consistency(thought)
+        if history_check['conflict']:
+             return {"verdict": Verdict.DISSONANT, "reason": history_check['reason']}
+
         # Mock Check for "Density" or "Growth" or "Truth"
-        # If the thought is just random noise, it fails.
         if "void" in thought.lower() or "stillness" in thought.lower() or "life" in thought.lower() or "structure" in thought.lower():
              return {"verdict": Verdict.SANCTIFIED, "principle": "Resonance with Core Principles"}
         

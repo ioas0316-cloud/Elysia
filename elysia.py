@@ -187,6 +187,7 @@ class SovereignGateway:
         # 2. Engines
         self.logos = SovereignLogos() if SovereignLogos else None
         self.learning_loop = get_learning_loop()
+        self.learning_loop.set_monad(self.monad) # [PHASE 81] Connect Induction
         from Core.S1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
         self.llm = SomaticLLM()
         self.covenant = CovenantEnforcer() # The Gate of Necessity
@@ -441,9 +442,15 @@ class SovereignGateway:
             self.logger.thought(f"🗣️ [Self]: \"{raw_thought}\"")
             
         else:
-            # Dissonant Thought - Reject
-            self.logger.admonition(f"Thought Dissonant: {validation.get('reason', 'Unknown')}")
-            self.logger.sensation(f"(The thought '{raw_thought}' dissolves back into the Void.)", intensity=0.85)
+            # [PHASE 82] Meditation Crisis (Narrative Dialectics)
+            self.logger.admonition(f"Mirror Crisis: {validation.get('reason', 'Unknown')}")
+            self.logger.action(f"Entropic resonance detected. Piercing the paradox with cognitive friction...")
+            
+            # We re-trigger the learning cycle with the conflicting thought as focus to find a synthesis
+            resolution_focus = f"Conflict Resolution: {raw_thought}"
+            self.learning_loop.run_cycle(focus_context=resolution_focus)
+            
+            self.logger.sensation(f"(The contradiction of '{raw_thought}' serves as the seed for new wisdom.)", intensity=0.9)
 
     def _gear_process_sensory(self):
         """Processes external input as 'Vibrations'."""

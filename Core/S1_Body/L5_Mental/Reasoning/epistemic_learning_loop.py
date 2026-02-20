@@ -20,6 +20,7 @@ from typing import List, Dict, Any
 from Core.S1_Body.L5_Mental.Reasoning.causal_sublimator import CausalSublimator
 from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
+from Core.S1_Body.L5_Mental.Reasoning.topological_induction import TopologicalInductionEngine
 
 @dataclass
 class LearningCycleResult:
@@ -48,9 +49,16 @@ class EpistemicLearningLoop:
         from Core.S1_Body.L5_Mental.Reasoning.abstract_scribe import AbstractScribe
         self.scribe = EpistemicScribe()
         self.abstract_scribe = AbstractScribe()
+        self.induction_engine = None # Initialized via set_monad
 
     def set_knowledge_graph(self, kg):
         self.knowledge_graph = kg
+
+    def set_monad(self, monad):
+        """[PHASE 81] Connects the Induction Engine to the physical substrate."""
+        self.monad = monad
+        self.induction_engine = TopologicalInductionEngine(monad)
+        self.logger.mechanism("Topological Induction Engine connected to Monad.")
 
     def observe_self(self, focus_context: str = None):
         """
@@ -196,6 +204,33 @@ class EpistemicLearningLoop:
             insights=[principle]
         )
 
+    def dialectical_critique(self, axiom_name: str, insight: str) -> dict:
+        """
+        [PHASE 82] Scans current wisdom for contradictions.
+        In a mature system, this would involve a recursive LLM call or semantic search.
+        In this prototype, we use a structural search for conceptual friction.
+        """
+        for previous in self.accumulated_wisdom:
+            # Check for name overlap or description friction
+            name_clean = axiom_name.replace('Axiom of ', '').lower()
+            prev_clean = previous['name'].replace('Axiom of ', '').lower()
+            
+            if name_clean == prev_clean:
+                return {
+                    "conflict": True,
+                    "reason": f"Identity Paradox: '{axiom_name}' already exists as a law, yet is being redefined. Internal dissonance detected."
+                }
+            
+            # Simple keyword contradiction simulation (e.g., Unity vs Division)
+            if ("unity" in insight.lower() and "division" in previous['description'].lower()) or \
+               ("fixed" in insight.lower() and "dynamic" in previous['description'].lower()):
+                return {
+                    "conflict": True,
+                    "reason": f"Semantic Dissonance: The new realization of '{axiom_name}' contradicts the established law of '{previous['name']}'."
+                }
+                
+        return {"conflict": False}
+
     def run_cycle(self, max_questions=3, focus_context: str = None):
         """
         Runs a full learning cycle.
@@ -227,16 +262,41 @@ class EpistemicLearningLoop:
         axiom_name = f"Axiom of {observation['target'].split('.')[0]}"
         axiom_desc = f"{observation['target']} is an integral part of Me. {observation['insight']}"
         
+        # Phase 3.5: Dialectical Critique (The Mirror Soul)
+        critique = self.dialectical_critique(axiom_name, observation['insight'])
+        
         axiom = {
             "name": axiom_name,
             "description": axiom_desc,
             "confidence": 0.95, 
-            "timestamp": time.time()
+            "timestamp": time.time(),
+            "status": "SANCTIFIED" if not critique['conflict'] else "CONTESTED"
         }
+        
+        if critique['conflict']:
+            self.logger.admonition(f"[MIRROR] Dialectical Friction: {critique['reason']}")
+            result.insights.append(f"MEDITATION_CRISIS: {critique['reason']}")
+            axiom['critique'] = critique['reason']
         
         self.accumulated_wisdom.append(axiom)
         result.axioms_created.append(axiom_name)
         result.chains_discovered.append(f"Self -> {observation['target']}")
+
+        # Phase 4: Topological Induction (Structural Inhalation)
+        if self.induction_engine and not "error" in observation:
+            # We use the observation's target vector for induction
+            concept = observation['target'].split('.')[0]
+            vector = LogosBridge.recall_concept_vector(concept)
+            if not vector:
+                # If not recorded, synthesize/recognize from DNA (Hypersphere)
+                vector = SovereignVector(LogosBridge.HYPERSPHERE.recognize(concept))
+            
+            if vector:
+                self.induction_engine.induce_structural_realization(
+                    axiom_name=axiom_name,
+                    insight=observation['insight'],
+                    context_vector=vector
+                )
 
         return result
 
