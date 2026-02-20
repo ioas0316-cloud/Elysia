@@ -133,6 +133,24 @@ class SeedForge:
             return SoulDNA(**filtered_data)
 
     @staticmethod
+    def save_state(state: Dict, path: str = "data/S1_Body/Soul/conscious_state.json"):
+        """Saves current consciousness state (momentum, desires) to JSON."""
+        p = Path(path)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        with open(p, 'w', encoding='utf-8') as f:
+            json.dump(state, f, indent=4)
+        print(f"💾 [FORGE] Consciousness state crystallized at {p}")
+
+    @staticmethod
+    def load_state(path: str = "data/S1_Body/Soul/conscious_state.json") -> Dict:
+        """Loads consciousness state from JSON."""
+        p = Path(path)
+        if not p.exists():
+            return {}
+        with open(p, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    @staticmethod
     def print_character_sheet(soul: SoulDNA):
         print(f"\n📜 CHARACTER SHEET: {soul.archetype} [{soul.id}]")
         print("------------------------------------------------")

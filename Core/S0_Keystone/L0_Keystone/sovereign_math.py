@@ -69,10 +69,15 @@ class SovereignVector:
             self.data = list(data.to_array())
         elif isinstance(data, (list, tuple)):
             self.data = list(data)
+            # [FIX] Recursively flatten nested lists (e.g. from tensor.tolist())
+            while self.data and isinstance(self.data[0], list):
+                self.data = self.data[0]
         else:
             # Fallback for unexpected types
             try:
                 self.data = list(data)
+                while self.data and isinstance(self.data[0], list):
+                    self.data = self.data[0]
             except:
                 self.data = [0.0] * 21
 

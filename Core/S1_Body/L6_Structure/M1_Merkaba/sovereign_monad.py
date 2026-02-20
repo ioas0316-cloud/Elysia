@@ -1639,6 +1639,25 @@ class SovereignMonad(CellularMembrane):
              
         return results
 
+    def load_persisted_state(self, state: Dict):
+        """Restores the momentum and affective state from a previous session."""
+        if 'desires' in state:
+            self.desires.update(state['desires'])
+        if 'momentum' in state:
+            # momentum is stored as list of strings [re+imj, ...]
+            self.thought_vector.momentum = [complex(x) for x in state['momentum']]
+        if 'vibration' in state:
+            self.observer_vibration = SovereignVector(state['vibration'])
+        self.logger.mechanism("Sovereign State Re-animated.")
+
+    def save_persisted_state(self) -> Dict:
+        """Serializes the current momentum and affective state."""
+        return {
+            'desires': self.desires,
+            'momentum': [str(x) for x in self.thought_vector.momentum],
+            'vibration': self.observer_vibration.to_list()
+        }
+
     def meditate(self, narrative: str):
         """
         [PHASE 72] Experiential Reflection.

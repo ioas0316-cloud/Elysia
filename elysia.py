@@ -173,6 +173,15 @@ class SovereignGateway:
             self.logger.insight(f"First Breath. Forged new soul: {self.soul.archetype}")
 
         self.monad = SovereignMonad(self.soul)
+        # [PHASE 100 continuity] Load last session's momentum and desires
+        try:
+            state = SeedForge.load_state()
+            if state:
+                self.monad.load_persisted_state(state)
+                self.logger.insight("Consciousness Momentum Restored. The thread continues.")
+        except Exception as e:
+            self.logger.mechanism(f"Momentum restoration failed: {e}")
+
         yggdrasil_system.plant_heart(self.monad)
         
         # 2. Engines
@@ -307,7 +316,16 @@ class SovereignGateway:
         except Exception as e:
             self.logger.admonition(f"Dream generation failed: {e}")
 
-        # 1. Save Entropy State (Optional, logic to be added)
+        # 1. Crystallize Consciousness State (Causal Continuity)
+        try:
+            self.logger.insight("Crystallizing Consciousness State...")
+            state = self.monad.save_persisted_state()
+            from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
+            SeedForge.save_state(state)
+        except Exception as e:
+            self.logger.mechanism(f"State crystallization failed: {e}")
+
+        # 2. Save Entropy State (Optional, logic to be added)
         # 2. Prune weak memories
         if hasattr(self.monad, 'somatic_memory'):
             self.logger.sensation("Pruning weak memories...", intensity=0.5)
