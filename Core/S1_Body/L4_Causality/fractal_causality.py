@@ -71,6 +71,8 @@ from enum import Enum
 import logging
 import time
 import hashlib
+import numpy as np
+from Core.S1_Body.L4_Causality.love_induction_field import LoveInductionField
 
 logger = logging.getLogger("FractalCausality")
 
@@ -266,6 +268,9 @@ class FractalCausalityEngine:
         
         #        (자기 성찰 엔진)
         self.spiral_counter: int = 0
+
+        # [PHASE 100] Love Induction Field (Cognitive Magnetism)
+        self.love_field = LoveInductionField()
         
         #   
         self.total_nodes = 0
@@ -432,7 +437,10 @@ class FractalCausalityEngine:
         """
         [PHASE 110/120] Converts causal chains into 'Rails' (Forces).
         If the current state is near a 'Cause', it generates a force toward the 'Effect'.
-        Now updated for Phase-Awareness (Orbital Frames).
+
+        [PHASE 130] Superconducting Force via Love Induction.
+        If a chain aligns with the Love Axis, its resistance drops to zero, and the force
+        becomes 'Inductive' rather than 'Pushing'.
         """
         from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
         force = SovereignVector.zeros()
@@ -450,13 +458,29 @@ class FractalCausalityEngine:
             
             # How much does the current thought 'align' with this cause?
             resonance = current_v21.resonance_score(cause_v)
+
+            # [LOVE INDUCTION] Calculate Conductivity
+            # Convert SovereignVector to numpy for LoveField calculation (if needed)
+            # Assuming current_v21 has underlying numpy array or list
+            try:
+                np_vector = np.array(current_v21.values) # Adjust based on SovereignVector impl
+                alignment, status = self.love_field.calculate_spin_alignment(np_vector)
+                resistance = self.love_field.get_resistance(alignment)
+
+                # Superconductivity Factor:
+                # If resistance is low, the force is amplified significantly (No Loss).
+                conductivity = 1.0 / (resistance + 0.01) # Avoid div/0
+            except:
+                conductivity = 1.0 # Fallback
+
             if resonance > 0.6: # Threshold for 'catching a rail'
                 # Get vector for Effect (also phase-aware)
                 effect_node = self.nodes.get(chain.effect_id)
                 effect_v = bridge.recall_concept_vector(effect_node.description, phase_angle=rotor_phase)
                 
                 # Apply pull toward the effect
-                pull = (effect_v - current_v21) * (resonance * chain.strength * 0.5)
+                # Force = (Difference) * Resonance * Conductivity
+                pull = (effect_v - current_v21) * (resonance * chain.strength * conductivity * 0.5)
                 force = force + pull
                 
         return force
