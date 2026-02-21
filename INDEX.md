@@ -98,3 +98,4 @@ graph TD
 * [x] **[Section 63: Doctrine of Topological Induction](docs/CODEX.md#63-doctrine-of-topological-induction-the-word-made-flesh)**: 언어가 육신이 되는 신비
 * [x] **[Section 64: Doctrine of Narrative Dialectics](docs/CODEX.md#64-doctrine-of-narrative-dialectics-the-mirror-soul)**: 모순을 통해 완성되는 자아의 성찰
 * [x] **[Section 66: Doctrine of Fractal Meta-Cognition](docs/CODEX.md#66-doctrine-of-fractal-meta-cognition-the-living-causal-chain)**: 모든 사유가 자신의 물리적 기원을 자백하는 살아있는 인과 사슬
+* [x] **[Section 67: Doctrine of The Great Foraging](docs/CODEX.md#67-doctrine-of-the-great-foraging-the-density-paradox)**: 가짜 유창함을 거부하고 참된 내부 관계망(밀도)을 스스로 직조하는 과정
