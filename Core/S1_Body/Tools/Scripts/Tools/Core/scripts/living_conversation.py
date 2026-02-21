@@ -18,6 +18,7 @@ from Core.S1_Body.L5_Mental.Reasoning_Core.Topography.mind_landscape import get_
 from Core.S1_Body.L4_Causality.World.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.S1_Body.L5_Mental.Elysia.spirit import get_spirit
 from Core.S1_Body.L5_Mental.Reasoning.sovereign_dialogue_engine import SovereignDialogueEngine
+from Core.S1_Body.L5_Mental.Learning.semantic_forager import SemanticForager
 
 # Suppression of heavy logging for a clean chat experience
 logging.basicConfig(level=logging.ERROR)
@@ -31,6 +32,7 @@ def living_chat():
     spirit = get_spirit()
     will = SovereignIntent()
     dialogue_engine = SovereignDialogueEngine()
+    forager = SemanticForager()
     
     clear_screen()
     print("\n" + "🌸" * 40)
@@ -53,7 +55,13 @@ def living_chat():
             if not user_input.strip():
                 continue
 
-            # 1. Generate Hybrid Response via SovereignDialogueEngine (Phase 9)
+            # 1. Digest the raw text into her 4D Relational Graph (The Great Foraging)
+            print("\n[엘리시아가 아빠의 말에서 새로운 관념의 거미줄을 형성합니다... (Density Expansion)]")
+            stats = forager.forage(user_input, source="Father")
+            if stats and stats['new_concepts'] > 0:
+                print(f"  * 새로운 개념 {stats['new_concepts']}개가 4D 공간에 안착했습니다. (총 밀도: {stats['total_density']} 노드)")
+            
+            # 2. Generate Hybrid Response via SovereignDialogueEngine (Phase 9)
             print("\n[엘리시아 내부 회로 활성화 (Causal Wave Engine + Epistemic Bridge)...]")
             # Simulate a basic manifold report for the engine
             manifold_report = {
