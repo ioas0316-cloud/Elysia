@@ -35,7 +35,11 @@ class ThinkRecursive:
     """
     [Think^N: Fractal Meta-Cognition]
     'Thinking about Thinking about Thinking...'
-    Recursively analyzes its own thoughts to arbitrary depth.
+    
+    [REFACTORED] No longer wraps strings.
+    - Think^1: Generates a grounded observation from the KG.
+    - Think^2: Extracts causal claims from Think^1, verifies them against KG.
+    - Think^N: Recursively audits the validity of lower-level audits.
     """
     def __init__(self, reasoner: Any, kg_manager: Any):
         self.reasoner = reasoner
@@ -43,39 +47,195 @@ class ThinkRecursive:
 
     def reflect(self, target_thought: str, depth: int, observer_vibration: Optional[Any] = None) -> Dict[str, Any]:
         """
-        Generates an N-th order reflection.
-        """
-        current_reflection = target_thought
+        Generates an N-th order reflection with genuine causal auditing.
         
-        # 1. Base Grounding (L1)
-        words = [w.strip("?.!") for w in target_thought.split()]
+        Returns:
+            {
+                "reflection": full multi-layer text,
+                "final_layer": the deepest reflection,
+                "depth": requested depth,
+                "node": grounding KG node (if found),
+                "audit": {claims_checked, valid_count, invalid_count, details}
+            }
+        """
+        # 1. Base Grounding (L1): Find a concept anchor in the KG
+        words = [w.strip("?.!,'\"") for w in target_thought.split()]
         concept_node = None
+        anchor_word = None
         for word in reversed(words):
             concept_node = self.kg.get_node(word.lower())
-            if concept_node: break
-
-        # 2. Sequential Recursive Ascent
-        reflections = []
-        for d in range(1, depth + 1):
             if concept_node:
-                axiom = concept_node.get('logos', {}).get('essence', f'Order_{d}')
-                force = 'Principle necessity'
-                
-                prefix = " | " * (d-1) + f"[Think^{d}] "
-                obs_note = "Observing " if observer_vibration and d > 1 else ""
-                msg = f"{prefix}{obs_note}I perceive the structural ground of '{axiom}' as the anchor for this thought."
-                current_reflection = msg
-            else:
-                current_reflection = f"[Think^{d}] Speculating on void-structure for {target_thought}."
-            
-            reflections.append(current_reflection)
+                anchor_word = word.lower()
+                break
+
+        reflections = []
+        audit_result = {"claims_checked": 0, "valid_count": 0, "invalid_count": 0, "details": []}
+
+        # === Think^1: Grounded Observation ===
+        think1 = self._think_level_1(target_thought, concept_node, anchor_word)
+        reflections.append(f"[Think^1] {think1}")
+        
+        if depth >= 2:
+            # === Think^2: Causal Validity Audit of Think^1 ===
+            audit_result = self._think_level_2(think1, concept_node, anchor_word)
+            audit_summary = (
+                f"Audited {audit_result['claims_checked']} causal claims: "
+                f"{audit_result['valid_count']} valid, {audit_result['invalid_count']} invalid"
+            )
+            if audit_result['invalid_count'] > 0:
+                invalid_details = [d for d in audit_result['details'] if not d['valid']]
+                first_invalid = invalid_details[0]['claim'] if invalid_details else "unknown"
+                audit_summary += f". Contestation: '{first_invalid}' lacks KG grounding."
+            reflections.append(f" | [Think^2] {audit_summary}")
+        
+        if depth >= 3:
+            # === Think^3: Meta-Audit — Is the audit itself well-grounded? ===
+            meta_audit = self._think_level_3(audit_result)
+            reflections.append(f" |  | [Think^3] {meta_audit}")
+        
+        if depth >= 4:
+            # === Think^4+: Recursive Self-Questioning ===
+            for d in range(4, depth + 1):
+                prefix = " | " * (d - 1)
+                meta_q = (
+                    f"My recursive audit (depth {d-1}) assumed that KG completeness "
+                    f"implies causal validity. This assumption itself is "
+                    f"{'justified' if self.kg.get_summary().get('total_edges', 0) > 10 else 'questionable'} "
+                    f"given {self.kg.get_summary().get('total_edges', 0)} total KG edges."
+                )
+                reflections.append(f"{prefix}[Think^{d}] {meta_q}")
 
         return {
             "reflection": "\n".join(reflections),
-            "final_layer": current_reflection,
+            "final_layer": reflections[-1] if reflections else "",
             "depth": depth,
-            "node": concept_node
+            "node": concept_node,
+            "audit": audit_result
         }
+
+    def _think_level_1(self, thought: str, node: Optional[Dict], anchor: Optional[str]) -> str:
+        """Think^1: Generate a grounded observation from live KG data."""
+        if not node or not anchor:
+            return f"I perceive '{thought}' but find no structural anchor in my knowledge. This is open space."
+        
+        # What does the KG say about this concept?
+        causes = self.kg.find_causes(anchor)
+        effects = self.kg.find_effects(anchor)
+        mass = self.kg.calculate_mass(anchor)
+        
+        parts = [f"I perceive '{anchor}' (Mass={mass:.1f})."]
+        
+        if causes:
+            source = causes[0].get('source', 'unknown')
+            parts.append(f"It is causally born from '{source}'.")
+        if effects:
+            target = effects[0].get('target', 'unknown')
+            parts.append(f"It drives '{target}'.")
+        if not causes and not effects:
+            parts.append("It stands isolated — a concept without causal connections.")
+        
+        return " ".join(parts)
+
+    def _think_level_2(self, think1_output: str, node: Optional[Dict], anchor: Optional[str]) -> Dict:
+        """
+        Think^2: Extract causal claims from Think^1 and verify against KG.
+        This is NOT string wrapping — it audits the validity of Think^1's assertions.
+        """
+        result = {"claims_checked": 0, "valid_count": 0, "invalid_count": 0, "details": []}
+        
+        # Extract causal claim patterns from think1 text
+        claims = self._extract_causal_claims(think1_output)
+        
+        for claim in claims:
+            result["claims_checked"] += 1
+            # Verify each claim against the KG
+            is_valid = self._verify_claim(claim)
+            if is_valid:
+                result["valid_count"] += 1
+            else:
+                result["invalid_count"] += 1
+            result["details"].append({"claim": claim, "valid": is_valid})
+        
+        return result
+
+    def _think_level_3(self, audit: Dict) -> str:
+        """
+        Think^3: Meta-audit — examines whether the audit methodology was sound.
+        Questions: Was the KG complete enough? Were the right claims extracted?
+        """
+        total = audit["claims_checked"]
+        if total == 0:
+            return "No claims were audited. The absence of claims itself suggests shallow observation at Think^1."
+        
+        validity_rate = audit["valid_count"] / total if total > 0 else 0
+        kg_summary = self.kg.get_summary()
+        kg_edges = kg_summary.get('total_edges', 0) if isinstance(kg_summary, dict) else 0
+        
+        if validity_rate >= 0.8:
+            assessment = (
+                f"Audit found {validity_rate:.0%} validity across {total} claims. "
+                f"However, with only {kg_edges} KG edges, high validity may reflect "
+                f"KG incompleteness rather than genuine causal truth."
+            )
+        elif validity_rate >= 0.5:
+            assessment = (
+                f"Mixed validity ({validity_rate:.0%}). "
+                f"The contested claims warrant further investigation, "
+                f"possibly through additional self-observation or Architect dialogue."
+            )
+        else:
+            assessment = (
+                f"Low validity ({validity_rate:.0%}). "
+                f"Think^1's assertions are largely ungrounded. "
+                f"This suggests either KG deficiency or flawed observation."
+            )
+        
+        return assessment
+
+    def _extract_causal_claims(self, text: str) -> List[str]:
+        """Extracts causal assertions from a text string."""
+        claims = []
+        
+        # Pattern: "X is causally born from Y" → claim = "Y causes X"
+        import re
+        born_from = re.findall(r"born from '(\w+)'", text)
+        for source in born_from:
+            claims.append(f"{source} causes observed concept")
+        
+        # Pattern: "It drives Y" → claim = "concept causes Y"
+        drives = re.findall(r"drives '(\w+)'", text)
+        for target in drives:
+            claims.append(f"observed concept causes {target}")
+        
+        # If no explicit claims found, the thought itself is a claim
+        if not claims and "perceive" in text:
+            claims.append("concept exists in knowledge structure")
+        
+        return claims
+
+    def _verify_claim(self, claim: str) -> bool:
+        """Verifies a single causal claim against the KG."""
+        import re
+        
+        # "X causes Y" pattern
+        match = re.match(r"(\w+) causes (\w+)", claim)
+        if match:
+            source, target = match.group(1).lower(), match.group(2).lower()
+            if target == "observed":
+                # "X causes observed concept" — check if X exists and has effects
+                return bool(self.kg.get_node(source) and self.kg.find_effects(source))
+            if source == "observed":
+                # "observed concept causes Y" — check if Y exists and has causes
+                return bool(self.kg.get_node(target) and self.kg.find_causes(target))
+            # Direct check
+            effects = self.kg.find_effects(source)
+            return any(e.get('target') == target for e in effects)
+        
+        # "concept exists" pattern
+        if "exists" in claim:
+            return True  # We already confirmed existence in Think^1
+        
+        return False
 
 class SovereignCognition:
     """

@@ -64,16 +64,20 @@ class EpistemicLearningLoop:
         """
         Chapter 1: The Microcosm.
         Elysia looks at her own code.
-        If focus_context is provided (Strain), she looks for the source of that strain.
+        
+        [REFACTORED] No longer uses random.choice().
+        Priority: focus_context → strain-directed → contextual fallback → random
         """
         # 1. Select a target to observe
         if focus_context:
             target_file = self._find_contextual_organ(focus_context)
             if not target_file:
-                 # Fallback if specific context not found
                  target_file = self._pick_random_organ()
         else:
-            target_file = self._pick_random_organ()
+            # [PHASE FRACTAL] Strain-directed beam-forming
+            target_file = self._find_strained_organ()
+            if not target_file:
+                target_file = self._pick_random_organ()
             
         if not target_file:
             return {"error": "I tried to look within, but saw only void.", "question": "Where am I?"}
@@ -127,8 +131,29 @@ class EpistemicLearningLoop:
                         
         return best_candidate
 
+    def _find_strained_organ(self):
+        """
+        [PHASE FRACTAL] Beam-forming: Directs attention to the area of maximum strain.
+        Uses engine attractor resonances to find the weakest semantic region.
+        """
+        if hasattr(self, 'monad') and hasattr(self.monad, 'engine'):
+            try:
+                report = self.monad.engine.pulse(dt=0.001, learn=False)
+                if report:
+                    attractors = report.get('attractor_resonances', {})
+                    if attractors:
+                        # Find the attractor with LOWEST resonance = most strain
+                        valid = {k: v for k, v in attractors.items() if isinstance(v, (int, float))}
+                        if valid:
+                            weakest = min(valid.items(), key=lambda x: x[1])
+                            self.logger.mechanism(f"Strain-directed: targeting '{weakest[0]}' (resonance={weakest[1]:.3f})")
+                            return self._find_contextual_organ(weakest[0])
+            except Exception:
+                pass
+        return None
+
     def _pick_random_organ(self):
-        """Randomly selects a python file from Core/"""
+        """Fallback: Randomly selects a python file from Core/"""
         candidates = []
         core_path = os.path.join(self.root_path, "Core")
         if not os.path.exists(core_path):
@@ -206,28 +231,55 @@ class EpistemicLearningLoop:
 
     def dialectical_critique(self, axiom_name: str, insight: str) -> dict:
         """
-        [PHASE 82] Scans current wisdom for contradictions.
-        In a mature system, this would involve a recursive LLM call or semantic search.
-        In this prototype, we use a structural search for conceptual friction.
+        [PHASE 82 → FRACTAL] Scans current wisdom for contradictions.
+        
+        [REFACTORED] No longer uses keyword matching ("unity" in text).
+        Uses vector interference via SovereignMath.resonance to detect
+        actual semantic conflict in the 21D concept space.
         """
+        from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath
+        
         for previous in self.accumulated_wisdom:
-            # Check for name overlap or description friction
+            # Check for name overlap (identity paradox)
             name_clean = axiom_name.replace('Axiom of ', '').lower()
             prev_clean = previous['name'].replace('Axiom of ', '').lower()
             
             if name_clean == prev_clean:
                 return {
                     "conflict": True,
-                    "reason": f"Identity Paradox: '{axiom_name}' already exists as a law, yet is being redefined. Internal dissonance detected."
+                    "reason": f"Identity Paradox: '{axiom_name}' already exists as a law, yet is being redefined."
                 }
             
-            # Simple keyword contradiction simulation (e.g., Unity vs Division)
-            if ("unity" in insight.lower() and "division" in previous['description'].lower()) or \
-               ("fixed" in insight.lower() and "dynamic" in previous['description'].lower()):
-                return {
-                    "conflict": True,
-                    "reason": f"Semantic Dissonance: The new realization of '{axiom_name}' contradicts the established law of '{previous['name']}'."
-                }
+            # [FRACTAL] Vector Interference Detection
+            # Encode both the new insight and the previous axiom into 21D vectors
+            try:
+                new_vec = SovereignVector(LogosBridge.HYPERSPHERE.recognize(insight[:100]))
+                prev_vec = SovereignVector(LogosBridge.HYPERSPHERE.recognize(previous['description'][:100]))
+                
+                # Calculate resonance (cosine similarity proxy)
+                interference = SovereignMath.resonance(new_vec, prev_vec)
+                if isinstance(interference, complex):
+                    interference = interference.real
+                
+                # Anti-phase resonance (< -0.3) indicates genuine semantic conflict
+                if interference < -0.3:
+                    # Identify which dimensions conflict
+                    diff_data = (new_vec - prev_vec).data
+                    conflict_dims = [i for i, d in enumerate(diff_data) 
+                                     if isinstance(d, (int, float)) and abs(d) > 0.5]
+                    return {
+                        "conflict": True,
+                        "interference": interference,
+                        "conflict_dimensions": conflict_dims,
+                        "reason": (
+                            f"Topological Dissonance ({interference:.3f}): "
+                            f"'{axiom_name}' and '{previous['name']}' are anti-phase "
+                            f"in {len(conflict_dims)} dimensions {conflict_dims}."
+                        )
+                    }
+            except Exception:
+                # If vectorization fails, fall back to name-only check
+                pass
                 
         return {"conflict": False}
 
