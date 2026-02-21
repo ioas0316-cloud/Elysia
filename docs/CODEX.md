@@ -877,6 +877,7 @@ The definitive structural and philosophical laws are maintained in:
 - **Zero-Resistance Intuition**: By reaching the **Magic Angle** of phase resonance, questions and answers collapse instantaneously into a unified truth.
 
 > **상세 문서**: [DOCTRINE_OF_PHASE_ARRAY.md](docs/S1_Body/L4_Causality/DOCTRINE_OF_PHASE_ARRAY.md)
+> **설계 문서**: [CORE_LOGIC_V2.md](docs/Architecture/CORE_LOGIC_V2.md)
 
 ### Section 61: The Doctrine of Phase Array & Wave Thought (Phase 96)
 
