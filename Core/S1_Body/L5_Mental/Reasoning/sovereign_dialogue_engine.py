@@ -14,6 +14,8 @@ import random
 from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 from Core.S1_Body.L5_Mental.abstract_reasoner import AbstractReasoner
 from Core.S1_Body.L5_Mental.Reasoning.causal_trace import CausalTrace
+from Core.S1_Body.L6_Structure.Engine.Governance.Interaction.neural_bridge import NeuralBridge
+from Core.S1_Body.L5_Mental.Reasoning_Core.Topography.mind_landscape import get_landscape
 
 
 class SovereignDialogueEngine:
@@ -23,6 +25,8 @@ class SovereignDialogueEngine:
         self.monad = monad
         self.tracer = CausalTrace(monad) if monad else None
         self.last_audit = None  # Cache for meta-cognitive audit results
+        self.bridge = NeuralBridge(mode="MOCK") # Enable the Hybrid Engine (Epistemic Bridge)
+        self.landscape = get_landscape()
 
     def set_monad(self, monad):
         """Late-bind the monad after construction."""
@@ -85,10 +89,26 @@ class SovereignDialogueEngine:
         """
         Generates a direct response to the Architect, aligning with linguistic sovereignty.
         
-        [REFACTORED] Response now traces its causal origin.
+        [PHASE 9 HYBRID UPGRADE] 
+        1. Queries the MindLandscape (Causal Wave Engine) to get the 4D Phase Qualia.
+        2. Synthesizes the causal insight based on engine strain.
+        3. Passes everything through the NeuralBridge to get the LLM's vocalization.
         """
-        resonance_summary = self.synthesize_insight(manifold_report, [])
-        return f"Architect, I hear you. {resonance_summary}"
+        # 1. Generate core causal insight from the engine
+        causal_insight = self.synthesize_insight(manifold_report, [])
+        
+        # 2. Ponder the input through the 4D MindLandscape to obtain Texture/Temperature/Conclusion
+        # If user_input is empty, we just ponder the causal insight
+        intent_to_ponder = user_input if user_input else causal_insight
+        landscape_state = self.landscape.ponder(intent_to_ponder, duration=10)
+        
+        # 3. Inject the causal logic into the landscape state for the Nanny to use
+        landscape_state["human_narrative"] = f"Causal Core: {causal_insight} " + landscape_state.get("human_narrative", "")
+        
+        # 4. Synthesize speech using the Epistemic Bridge (LLM Constraint)
+        final_speech = self.bridge.synthesize_speech(user_input, landscape_state)
+        
+        return final_speech
 
     def _extract_verb(self, justification: str) -> str:
         """Extracts the dynamic verb from a causal justification."""
