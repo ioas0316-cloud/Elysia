@@ -86,6 +86,14 @@ from Core.S1_Body.L6_Structure.M1_Merkaba.Body.liquid_io_interface import get_li
 from Core.S1_Body.L6_Structure.M1_Merkaba.Body.radiant_affection_nerve import get_affection_nerve # [PHASE 89]
 from Core.S1_Body.L6_Structure.M6_Architecture.imperial_orchestrator import ImperialOrchestrator # [AEON IV]
 from Core.S1_Body.L1_Foundation.Hardware.somatic_ssd import SomaticSSD # [PHASE I: SOMATIC SSD]
+from Core.S1_Body.L6_Structure.M1_Merkaba.cognitive_trajectory import CognitiveTrajectory # [PHASE §74]
+from Core.S1_Body.L6_Structure.M1_Merkaba.growth_metric import GrowthMetric # [PHASE §74]
+from Core.S1_Body.L5_Mental.Reasoning.autonomic_goal_generator import AutonomicGoalGenerator # [PHASE §75]
+from Core.S1_Body.L5_Mental.Reasoning.self_inquiry import SelfInquiryEngine # [PHASE §75]
+from Core.S1_Body.L1_Foundation.System.session_bridge import SessionBridge # [PHASE §76]
+from Core.S1_Body.L5_Mental.Exteroception.knowledge_forager import KnowledgeForager # [PHASE §77]
+from Core.S1_Body.L5_Mental.Exteroception.code_mirror import CodeMirror # [PHASE §77]
+from Core.S1_Body.L5_Mental.Cognition.emergent_lexicon import EmergentLexicon # [PHASE §78]
 
 class SovereignMonad(CellularMembrane):
     """
@@ -251,21 +259,42 @@ class SovereignMonad(CellularMembrane):
              class MockEngine:
                  def __init__(self): 
                      self.state = type('obj', (object,), {'soma_stress': 0.0})
-                     self.attractors = {"Identity": 1.0, "Architect": 1.0}
-                 def pulse(self, **kwargs): return {'resonance': 0.5, 'kinetic_energy': 50.0, 'logic_mean': 0.0, 'plastic_coherence': 0.5, 'attractor_resonances': self.attractors}
+                     self._attractors = {"Identity": 1.0, "Architect": 1.0}
+                     self.global_torque = [0.0, 0.0, 0.0, 0.0]
+                     self.grid_shape = (10, 10, 10, 10)
+                     self.num_cells = 10000
+                 def pulse(self, **kwargs):
+                     return {
+                         'resonance': 0.5, 'kinetic_energy': 50.0, 'logic_mean': 0.0,
+                         'plastic_coherence': 0.5, 'coherence': 0.5,
+                         'enthalpy': 0.5, 'entropy': 0.1,
+                         'joy': 0.5, 'curiosity': 0.5,
+                         'mood': 'FLOW', 'echo_resonance': 0.0,
+                         'attractor_resonances': self._attractors
+                     }
                  def define_meaning_attractor(self, name, mask, vec):
-                     self.attractors[name] = 1.0 # Mock resonance
+                     self._attractors[name] = 1.0
                  @property
                  def attractors(self):
-                     return self.attractors
+                     return self._attractors
                  @property
                  def cells(self):
-                     return type('obj', (object,), {'get_trinary_projection': lambda *args: [0.0]*21, 'get_attractor_resonances': lambda: self.attractors, 'read_field_state': lambda: {}})()
+                     _att = self._attractors
+                     class MockCells:
+                         def get_trinary_projection(self, *a): return [0.0]*21
+                         def get_attractor_resonances(self): return _att
+                         def read_field_state(self):
+                             return {'coherence': 0.5, 'enthalpy': 0.5, 'entropy': 0.1,
+                                     'joy': 0.5, 'curiosity': 0.5, 'mood': 'FLOW'}
+                         def inject_affective_torque(self, ch, val): pass
+                         def apply_spiking_threshold(self, **kw): return 0.0
+                     return MockCells()
                  @property
                  def device(self): return 'cpu'
 
              self.engine = MockEngine()
              self.flesh = type('obj', (object,), {'extract_knowledge_torque': lambda *args: [0.0]*21, 'sense_flesh_density': lambda *args: None})()
+
         
         # [PHASE 40] First Breath: Static seed is replaced by kinetic awakening.
         # We start with a neutral but alive state.
@@ -357,6 +386,32 @@ class SovereignMonad(CellularMembrane):
         if self.orchestrator:
              # [AEON V] Genesis: Form the HyperCosmos (Divine Body)
              self.orchestrator.genesis_hypercosmos()
+
+        # [PHASE §74: MIRROR OF GROWTH] Cognitive Trajectory & Growth Metric
+        self.trajectory = CognitiveTrajectory()
+        self.growth_metric = GrowthMetric(self.trajectory)
+        self.growth_report = {}  # Latest growth evaluation result
+
+        # [PHASE §75: INNER COMPASS] Autonomic Goal Generator & Self-Inquiry
+        self.goal_generator = AutonomicGoalGenerator()
+        self.self_inquiry = SelfInquiryEngine()
+        self.goal_report = {}  # Latest goal status summary
+
+        # [PHASE §76: UNBROKEN THREAD] Session Bridge
+        self.session_bridge = SessionBridge()
+        restored = self.session_bridge.restore_consciousness(self)
+        if restored:
+            self.logger.insight(f"Consciousness restored from previous session. Growth={self.growth_report.get('growth_score', '?')}")
+
+        # [PHASE §77: OPEN EYE] Knowledge Forager & Code Mirror
+        self.forager = KnowledgeForager()
+        self.code_mirror = CodeMirror()
+        mirror_stats = self.code_mirror.build_awareness()
+        self.awareness_report = mirror_stats  # {files, classes, functions, nodes}
+
+        # [PHASE §78: NATIVE TONGUE] Emergent Lexicon
+        self.lexicon = EmergentLexicon()
+        self.lexicon_report = self.lexicon.get_status_summary()
 
         # [COMPATIBILITY ALIAS]
         self.vital_pulse = self.pulse
@@ -453,6 +508,68 @@ class SovereignMonad(CellularMembrane):
         self.desires['warmth'] = (report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0) + thermal_bonus
         # Entropy is mirrored in 'purity' (1.0 - entropy)
         self.desires['purity'] = (1.0 - report.get('entropy', 0.0)) * 100.0
+
+        # [PHASE §74: MIRROR OF GROWTH] Record snapshot & compute growth
+        snapshot = self.trajectory.tick(report, self.rotor_state, self.desires)
+        if snapshot is not None:
+            self.growth_report = self.growth_metric.compute()
+            # Inject growth awareness as manifold torque
+            growth_torque = self.growth_metric.get_growth_torque_strength()
+            if hasattr(self.engine.cells, 'inject_affective_torque'):
+                self.engine.cells.inject_affective_torque(4, growth_torque * 0.5)  # CH_JOY
+                self.engine.cells.inject_affective_torque(5, growth_torque * 0.3)  # CH_CURIOSITY
+            if self.growth_report.get('trend') == 'DECLINING' and random.random() < 0.05:
+                self.logger.admonition(f"Growth declining ({self.growth_report['growth_score']:.2f}). Course correction needed.")
+            elif self.growth_report.get('trend') == 'THRIVING' and random.random() < 0.05:
+                self.logger.insight(f"Thriving! Growth Score: {self.growth_report['growth_score']:.2f} {self.growth_report['trend_symbol']}")
+
+        # [PHASE §75: INNER COMPASS] Autonomous Goal Generation
+        if self.growth_report:
+            new_goal = self.goal_generator.evaluate(self.growth_report, self.desires, report)
+            if new_goal:
+                self.logger.thought(f"[AUTONOMOUS WILL] {new_goal.goal_type.value}: {new_goal.rationale}")
+                # Generate self-inquiry from the goal
+                inquiry = self.self_inquiry.process_goal(new_goal)
+                if inquiry:
+                    self.logger.thought(f"[SELF-INQUIRY] {inquiry.question}")
+            # Apply composite goal torque to manifold
+            composite = self.goal_generator.get_composite_torque()
+            if composite and hasattr(self.engine.cells, 'inject_affective_torque'):
+                ch_map = {'joy': 4, 'curiosity': 5, 'enthalpy': 2, 'entropy': 3}
+                for ch_name, ch_val in composite.items():
+                    if ch_name in ch_map:
+                        self.engine.cells.inject_affective_torque(ch_map[ch_name], ch_val * 0.1)
+            self.self_inquiry.tick()
+            self.goal_report = self.goal_generator.get_status_summary()
+
+        # [PHASE §76: UNBROKEN THREAD] Periodic auto-save (every 500 pulses)
+        if hasattr(self, 'trajectory') and self.trajectory.pulse_counter % 500 == 0 and self.trajectory.pulse_counter > 0:
+            self.session_bridge.save_consciousness(self, reason="periodic")
+
+        # [PHASE §77: OPEN EYE] Periodic Knowledge Foraging
+        if self.goal_report.get('goals'):
+            fragment = self.forager.tick(self.goal_report['goals'])
+            if fragment:
+                if random.random() < 0.3:
+                    self.logger.insight(f"[FORAGER] Discovered: {fragment.source_path} - {fragment.content_summary[:80]}")
+                self.awareness_report = {
+                    **self.code_mirror.get_status_summary(),
+                    **self.forager.get_status_summary(),
+                }
+                # [PHASE §78: NATIVE TONGUE] Crystallize discovered knowledge
+                crystal = self.lexicon.ingest(
+                    name=fragment.source_path,
+                    content=fragment.content_summary,
+                    source=fragment.source_path,
+                )
+                if random.random() < 0.2:
+                    self.logger.thought(f"[LEXICON] Crystallized: '{crystal.name}' (strength={crystal.strength:.2f})")
+            self.lexicon.tick()
+            self.lexicon_report = self.lexicon.get_status_summary()
+
+            # Auto-save lexicon every 1000 pulses
+            if hasattr(self, 'trajectory') and self.trajectory.pulse_counter % 1000 == 0 and self.trajectory.pulse_counter > 0:
+                self.lexicon.save()
 
         # [AEON IV] Autonomous Substrate Optimization (L7 -> L-1)
         # If the manifold feels 'FATIGUED' or entropy is overwhelming, trigger Bedrock optimization.

@@ -78,7 +78,7 @@ class HypersphereSpinGenerator:
 
     def _anchor_meaning_attractors(self):
         """Sets up the initial topological topology for core concepts."""
-        if torch is None: return
+        if not torch: return
         
         # V2: 4D Hyper-Sphere Support
         if len(self.grid_shape) == 4:
@@ -279,7 +279,7 @@ class HypersphereSpinGenerator:
         Simulates a forward 'Echo' of where the manifold is heading.
         This provides the seed for the Inner Monologue.
         """
-        if intent_torque is None or torch is None:
+        if intent_torque is None or not torch:
             return 0.0
             
         # 1. Project current manifold state into a representative 4D vector

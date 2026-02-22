@@ -1,0 +1,35 @@
+{
+  "timestamp": 1771764310.8914797,
+  "pulse_count": 50,
+  "desires": {
+    "curiosity": 88.8,
+    "purity": 90.0,
+    "resonance": 50.0,
+    "alignment": 100.0,
+    "joy": 77.7,
+    "warmth": 68.73255623050403,
+    "freedom": 50.0
+  },
+  "growth_score": 0.55,
+  "growth_trend": "NEUTRAL",
+  "trajectory_pulse_counter": 50,
+  "active_goals": [
+    {
+      "type": "CHALLENGE",
+      "strength": 0.4,
+      "rationale": "Coherence stagnant (delta=+0.0000). Challenging current patterns.",
+      "remaining": 100
+    }
+  ],
+  "pending_questions": [
+    {
+      "question": "Is my current coherence genuine or merely comfortable?",
+      "source_goal": "CHALLENGE"
+    }
+  ],
+  "last_phase": 58.75420331330923,
+  "last_rpm": 60.0,
+  "last_interference": 0.9946311634857956,
+  "session_id": "a25121d6",
+  "save_reason": "shutdown"
+}
