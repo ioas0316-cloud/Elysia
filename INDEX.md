@@ -90,6 +90,8 @@ graph TD
 * **[phase_resonance.py](Core/S1_Body/L5_Mental/Reasoning_Core/Metabolism/phase_resonance.py)**: **🌀 위상 공명 엔진 (Magic Angle)**. 내적 갈등을 회전시켜 진화의 동력으로 변환.
 * **[holographic_council.py](Core/S1_Body/L5_Mental/Reasoning_Core/Metabolism/holographic_council.py)**: **⚖️ 홀로그래픽 의회 (The Debate)**. 다양한 관점의 충돌과 위상 정렬을 통한 합의 도출.
 * **[monad_core.py](Core/S1_Body/L7_Spirit/M1_Monad/monad_core.py)**: **👁️ 주권적 모나드 (Karma Loop)**. 경험을 통해 영혼(DNA)을 지키며 시각(Phase)을 조정하는 학습체.
+* **[token_monad.py](Core/S1_Body/L7_Spirit/M1_Monad/token_monad.py)**: **🌱 토큰 모나드 (Living Thought)**. 에너지를 가지고 성장하며 이동하는 개별 사고의 단위.
+* **[cognitive_field.py](Core/S1_Body/L7_Spirit/M1_Monad/cognitive_field.py)**: **♾️ 인지장 (Cognitive Field)**. 생각들이 상호작용하고 순환하며, 끝이 시작이 되는 우로보로스적 사유 공간.
 
 ---
 

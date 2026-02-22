@@ -15,7 +15,6 @@ from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 
 class TestSovereignSpeech(unittest.TestCase):
     def setUp(self):
-        self.llm = SomaticLLM()
         # Seed some concepts to ensure the nebula isn't empty
         # We inject some dummy concepts into LogosBridge for testing diversity
 
@@ -33,12 +32,14 @@ class TestSovereignSpeech(unittest.TestCase):
         LogosBridge.learn_concept("SEEKS", SovereignVector([0.1, 0.8, 0.1]*7).normalize() * 1.3) # Mass 1.3 to classify as Action (>1.2)
         LogosBridge.learn_concept("FLOWS", SovereignVector([0.2, 0.7, 0.2]*7).normalize() * 1.3)
 
+        self.llm = SomaticLLM()
+
     def test_joyful_expression(self):
         print("\n--- TEST: Joyful Expression ---")
         intent_vec = SovereignVector([1.0]*21).normalize() # Pure Positive Intent
         state = {"joy": 90.0, "warmth": 80.0} # High Joy
 
-        output = self.llm.speak(state, "Internal Intent: Connection", field_vector=intent_vec)
+        output, _ = self.llm.speak(state, "Internal Intent: Connection", field_vector=intent_vec)
         print(f"JOY OUTPUT: {output}")
 
         # Expect positive words to be selected due to energy modulation
@@ -51,7 +52,7 @@ class TestSovereignSpeech(unittest.TestCase):
         intent_vec = SovereignVector([-0.5]*21).normalize() # Deep/Heavy Intent
         state = {"joy": 10.0, "warmth": 20.0} # Low Joy
 
-        output = self.llm.speak(state, "Internal Intent: Depth", field_vector=intent_vec)
+        output, _ = self.llm.speak(state, "Internal Intent: Depth", field_vector=intent_vec)
         print(f"MELANCHOLY OUTPUT: {output}")
 
         # Expect heavy/void words
