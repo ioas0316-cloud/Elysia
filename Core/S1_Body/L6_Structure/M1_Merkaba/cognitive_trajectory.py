@@ -69,7 +69,7 @@ class CognitiveTrajectory:
     RECORD_INTERVAL = 10        # Record every N pulses (not every pulse)
     CRYSTALLIZE_INTERVAL = 100  # Save to disk every N recordings
 
-    def __init__(self, persistence_path: str = "data/S1_Body/Soul/cognitive_trajectory.json"):
+    def __init__(self, persistence_path: str = "data/runtime/soul/cognitive_trajectory.json"):
         self.buffer: deque = deque(maxlen=self.BUFFER_SIZE)
         self.pulse_counter: int = 0
         self.record_counter: int = 0

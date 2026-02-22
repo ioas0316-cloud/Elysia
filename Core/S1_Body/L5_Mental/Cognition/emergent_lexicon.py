@@ -33,10 +33,10 @@ class EmergentLexicon:
       - Unused crystals gradually decay (but never fully vanish)
     
     Persistence:
-      data/S1_Body/Soul/emergent_lexicon.json
+      data/runtime/soul/emergent_lexicon.json
     """
 
-    SAVE_PATH = Path("data/S1_Body/Soul/emergent_lexicon.json")
+    SAVE_PATH = Path("data/runtime/soul/emergent_lexicon.json")
     DECAY_RATE = 0.001          # Per-pulse strength decay for idle crystals
     MAX_VOCABULARY = 500        # Cap on lexicon size
 

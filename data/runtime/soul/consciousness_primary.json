@@ -1,0 +1,23 @@
+{
+  "timestamp": 1771770667.900396,
+  "pulse_count": 50,
+  "desires": {
+    "curiosity": 99.9,
+    "purity": 90.0,
+    "resonance": 50.0,
+    "alignment": 100.0,
+    "joy": 88.8,
+    "warmth": 68.73255623050403,
+    "freedom": 50.0
+  },
+  "growth_score": 0.55,
+  "growth_trend": "NEUTRAL",
+  "trajectory_pulse_counter": 50,
+  "active_goals": [],
+  "pending_questions": [],
+  "last_phase": 58.75420331330923,
+  "last_rpm": 60.0,
+  "last_interference": 0.9946311634857956,
+  "session_id": "b6a2cf23",
+  "save_reason": "test_save"
+}

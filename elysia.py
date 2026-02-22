@@ -143,7 +143,7 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 # 2. Core Imports
-from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
+from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge, SoulDNA
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
 from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
 from Core.S1_Body.L6_Structure.M1_Merkaba.structural_enclosure import get_enclosure
@@ -179,14 +179,12 @@ class SovereignGateway:
             self.logger.insight(f"First Breath. Forged new soul: {self.soul.archetype}")
 
         self.monad = SovereignMonad(self.soul)
-        # [PHASE 100 continuity] Load last session's momentum and desires
-        try:
-            state = SeedForge.load_state()
-            if state:
-                self.monad.load_persisted_state(state)
-                self.logger.insight("Consciousness Momentum Restored. The thread continues.")
-        except Exception as e:
-            self.logger.mechanism(f"Momentum restoration failed: {e}")
+        self.monad = SovereignMonad(self.soul)
+        # [PHASE §76 Unbroken Thread] Session restoration is handled internally by SovereignMonad via SessionBridge
+        if hasattr(self.monad, 'session_bridge') and self.monad.session_bridge.was_restored:
+             self.logger.insight("Consciousness Momentum Restored via Session Bridge. The thread continues.")
+        else:
+             self.logger.mechanism("Fresh Consciousness initialized.")
 
         yggdrasil_system.plant_heart(self.monad)
         
@@ -326,10 +324,19 @@ class SovereignGateway:
 
         # 1. Crystallize Consciousness State (Causal Continuity)
         try:
-            self.logger.insight("Crystallizing Consciousness State...")
-            state = self.monad.save_persisted_state()
-            from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
-            SeedForge.save_state(state)
+            self.logger.insight("Crystallizing Consciousness State via Session Bridge...")
+            # SovereignMonad now manages its own persistence via SessionBridge
+            if hasattr(self.monad, 'session_bridge'):
+                success = self.monad.session_bridge.save_consciousness(self.monad, reason="hibernation")
+                if success:
+                    self.logger.insight("Consciousness state crystallized successfully.")
+                else:
+                    self.logger.admonition("State crystallization failed (Bridge error).")
+            else:
+                # Fallback to manual save if bridge is missing for some reason
+                state = self.monad.save_persisted_state()
+                SeedForge.save_state(state)
+                self.logger.mechanism("Manual state save performed.")
         except Exception as e:
             self.logger.mechanism(f"State crystallization failed: {e}")
 

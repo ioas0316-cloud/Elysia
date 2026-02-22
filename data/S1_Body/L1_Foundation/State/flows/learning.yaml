@@ -1,9 +1,0 @@
-weights:
-  clarify: 0.5
-  reflect: 0.2
-  suggest: 0.3
-temperature: 0.35
-notes: |
-  Learning profile: emphasize clarification and concrete small-step suggestions.
-  Reflection is reduced to avoid repetitive meta-commentary.
-

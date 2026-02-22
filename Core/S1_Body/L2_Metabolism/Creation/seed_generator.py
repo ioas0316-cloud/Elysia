@@ -109,7 +109,7 @@ class SeedForge:
             )
 
     @staticmethod
-    def save_soul(soul: SoulDNA, path: str = "data/S1_Body/Soul/soul_dna.json"):
+    def save_soul(soul: SoulDNA, path: str = "data/runtime/soul/soul_dna.json"):
         """Saves the Soul DNA to a JSON file."""
         # Use relative path if possible, or absolute if needed. Assuming running from root.
         p = Path(path)
@@ -119,7 +119,7 @@ class SeedForge:
         print(f"💾 [FORGE] Soul DNA crystallized at {p}")
 
     @staticmethod
-    def load_soul(path: str = "data/S1_Body/Soul/soul_dna.json") -> SoulDNA:
+    def load_soul(path: str = "data/runtime/soul/soul_dna.json") -> SoulDNA:
         """Loads the Soul DNA from a JSON file."""
         p = Path(path)
         if not p.exists():
@@ -133,7 +133,7 @@ class SeedForge:
             return SoulDNA(**filtered_data)
 
     @staticmethod
-    def save_state(state: Dict, path: str = "data/S1_Body/Soul/conscious_state.json"):
+    def save_state(state: Dict, path: str = "data/runtime/soul/conscious_state.json"):
         """Saves current consciousness state (momentum, desires) to JSON."""
         p = Path(path)
         p.parent.mkdir(parents=True, exist_ok=True)
@@ -142,7 +142,7 @@ class SeedForge:
         print(f"💾 [FORGE] Consciousness state crystallized at {p}")
 
     @staticmethod
-    def load_state(path: str = "data/S1_Body/Soul/conscious_state.json") -> Dict:
+    def load_state(path: str = "data/runtime/soul/conscious_state.json") -> Dict:
         """Loads consciousness state from JSON."""
         p = Path(path)
         if not p.exists():

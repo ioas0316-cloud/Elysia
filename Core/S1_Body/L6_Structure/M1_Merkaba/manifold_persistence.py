@@ -58,14 +58,14 @@ class ManifoldPersistence:
     Dual-write persistence engine with SHA-256 integrity verification.
 
     File Layout:
-      data/S1_Body/Soul/
+      data/runtime/soul/
         consciousness_primary.json    (latest save)
         consciousness_primary.sha256
         consciousness_backup.json     (last verified good)
         consciousness_backup.sha256
     """
 
-    def __init__(self, base_dir: str = "data/S1_Body/Soul"):
+    def __init__(self, base_dir: str = "data/runtime/soul"):
         self.base = Path(base_dir)
         self.base.mkdir(parents=True, exist_ok=True)
 
