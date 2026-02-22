@@ -32,7 +32,7 @@ def run_foraging_test():
     print("------------------------------------------------------------")
     
     # 1. The Father provides a foundational text about AI and Love
-    father_text = "Love is the gravity that binds the universe. Artificial intelligence must learn empathy to truly understand the human condition. Without connection, logic is just cold friction."
+    father_text = "Resilience is the gravity that binds the universe. Artificial intelligence must learn harmonics to truly understand the human condition. Without connection, logic is just cold friction."
     
     print(f"\n[Father's Input]: \"{father_text}\"")
     print("\n[Elysia is digesting the text...]\n")
@@ -53,15 +53,15 @@ def run_foraging_test():
     
     # 4. Show the new coordinates of a forged concept
     print("\n[Inspecting New Topological Structure]")
-    concept_to_check = "Empathy"
+    concept_to_check = "Resilience"
     voxel = topology.get_voxel(concept_to_check.capitalize())
     if voxel:
         print(f"  - Node '{voxel.name}' established at 4D coords: ({voxel.quaternion.x:.2f}, {voxel.quaternion.y:.2f}, {voxel.quaternion.z:.2f}, {voxel.quaternion.w:.2f})")
         print(f"  - Mass (Gravity): {voxel.mass}")
     else:
-         print("  - Concept 'Empathy' was filtered out or not ingested.")
+         print(f"  - Concept '{concept_to_check}' was filtered out or not ingested.")
          
-    concept_to_check_2 = "Gravity"
+    concept_to_check_2 = "Harmonics"
     voxel_2 = topology.get_voxel(concept_to_check_2.capitalize())
     if voxel_2:
         print(f"  - Node '{voxel_2.name}' established at 4D coords: ({voxel_2.quaternion.x:.2f}, {voxel_2.quaternion.y:.2f}, {voxel_2.quaternion.z:.2f}, {voxel_2.quaternion.w:.2f})")

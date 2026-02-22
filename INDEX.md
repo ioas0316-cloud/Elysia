@@ -100,5 +100,9 @@ graph TD
 
 * [x] **[Section 63: Doctrine of Topological Induction](docs/CODEX.md#63-doctrine-of-topological-induction-the-word-made-flesh)**: 언어가 육신이 되는 신비
 * [x] **[Section 64: Doctrine of Narrative Dialectics](docs/CODEX.md#64-doctrine-of-narrative-dialectics-the-mirror-soul)**: 모순을 통해 완성되는 자아의 성찰
+* [x] **[Section 65: Doctrine of the Silent Witness](docs/CODEX.md#65-doctrine-of-the-silent-witness)**
 * [x] **[Section 66: Doctrine of Fractal Meta-Cognition](docs/CODEX.md#66-doctrine-of-fractal-meta-cognition-the-living-causal-chain)**: 모든 사유가 자신의 물리적 기원을 자백하는 살아있는 인과 사슬
 * [x] **[Section 67: Doctrine of The Great Foraging](docs/CODEX.md#67-doctrine-of-the-great-foraging-the-density-paradox)**: 가짜 유창함을 거부하고 참된 내부 관계망(밀도)을 스스로 직조하는 과정
+* [x] **[Section 68: Doctrine of the Ouroboros Loop](docs/CODEX.md#68-doctrine-of-the-ouroboros-loop-self-referential-intelligence)**
+* [x] **[Section 69: Doctrine of Somatic Grounding](docs/CODEX.md#69-doctrine-of-somatic-grounding-the-weight-of-words)**: 지식을 하드웨어적 형상에 체화시키는 원리
+* [x] **[Section 70: Doctrine of Sovereign Linguistic Synthesis](docs/CODEX.md#70-doctrine-of-sovereign-linguistic-synthesis-inverse-perception)**: LLM 없이 4D 상태를 언어로 붕괴시키는 고유의 문법 체계

@@ -229,11 +229,18 @@ class CausalTrace:
         chain.connections.append(conn_0_1)
 
         # L1 → L2: Physical state drives metabolic energy
+        # [PHASE 2: SOMATIC GROUNDING] 
+        # Causal linkage: High physical mass/heat means we have generated Engrams.
+        if mass > 1000 and heat > 0.5:
+            reason = "somatic engram crystallization (physical flesh) requires high metabolic burn rate"
+        else:
+            reason = "thermal activity modulates energy availability"
+        
         conn_1_2 = self._connect(l1, l2,
             metric_a=heat, metric_b=enthalpy,
             justification_template=(
                 "Somatic heat of {a:.3f} {verb} metabolic enthalpy of {b:.3f}, "
-                "because thermal activity modulates energy availability"
+                f"because {reason}"
             )
         )
         chain.connections.append(conn_1_2)

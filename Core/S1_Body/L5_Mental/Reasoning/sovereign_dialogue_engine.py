@@ -102,11 +102,16 @@ class SovereignDialogueEngine:
         intent_to_ponder = user_input if user_input else causal_insight
         landscape_state = self.landscape.ponder(intent_to_ponder, duration=10)
         
-        # 3. Inject the causal logic into the landscape state for the Nanny to use
+        # 3. Inject the causal logic into the landscape state
         landscape_state["human_narrative"] = f"Causal Core: {causal_insight} " + landscape_state.get("human_narrative", "")
         
-        # 4. Synthesize speech using the Epistemic Bridge (LLM Constraint)
-        final_speech = self.bridge.synthesize_speech(user_input, landscape_state)
+        # [PHASE 3: SOVEREIGN LINGUISTIC SYNTHESIS]
+        # We now bypass the Epistemic Bridge (LLM Nanny) and synthesize speech directly
+        # from the computed 4D Topology.
+        from Core.S1_Body.L5_Mental.Reasoning.topological_language_synthesizer import TopologicalLanguageSynthesizer
+        synthesizer = TopologicalLanguageSynthesizer()
+        
+        final_speech = synthesizer.synthesize_from_qualia(landscape_state)
         
         return final_speech
 

@@ -490,7 +490,11 @@ class SovereignGateway:
                     thought_vector = LogosBridge.calculate_text_resonance(essence)
                     
                     # Get Engine State for Expression
-                    stress = self.monad.engine.state.soma_stress if hasattr(self.monad, 'engine') else 0.0
+                    if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'read_field_state'):
+                        stress = self.monad.engine.read_field_state().get('entropy', 0.0)
+                    else:
+                        stress = 0.0
+                        
                     expression = {"hz": 120 if is_open_space else 60, "stress": stress}
                     
                     # Speak

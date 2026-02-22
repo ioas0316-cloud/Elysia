@@ -53,7 +53,7 @@ class TokenMonad:
         """Returns the vector + evolutionary drift."""
         return self.vector + self.evolution_drift
 
-    def activate(self, intensity: float, is_ambiguous: bool = false):
+    def activate(self, intensity: float, is_ambiguous: bool = False):
         """
         Injects energy into the Monad.
         [Deep Trinary Logic] If the signal is ambiguous (near 0 resonance),

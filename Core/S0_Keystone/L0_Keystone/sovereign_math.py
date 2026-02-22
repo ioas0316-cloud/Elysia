@@ -610,7 +610,11 @@ class CausalWaveEngine:
         analog_zero_mask = (density > -0.2) & (density < 0.2)
         
         # For those in the Analog 0 space, DO NOT spike. Instead, increase Curiosity to 'Hold and Observe'
-        self.q[analog_zero_mask, self.CH_CURIOSITY] += 0.05
+        self.q[..., self.CH_CURIOSITY] = torch.where(
+            analog_zero_mask, 
+            self.q[..., self.CH_CURIOSITY] + 0.05, 
+            self.q[..., self.CH_CURIOSITY]
+        )
         
         # 2. Spiking Sigmoid: S = 1 / (1 + exp(-k * (density - threshold)))
         # Only clearly resonant (> threshold) or strongly dissonant (< -threshold) signals will spike significantly

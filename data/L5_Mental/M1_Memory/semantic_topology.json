@@ -1,12 +1,12 @@
 {
   "Love": {
     "coords": [
-      1.9e-05,
+      7.588410582409276e-05,
       0.0,
-      9.5e-06,
+      3.794205291204638e-05,
       1.0
     ],
-    "mass": 1001.0,
+    "mass": 1004.0,
     "freq": 432.0,
     "is_anchor": true
   },
@@ -166,199 +166,199 @@
   },
   "Gravity": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Binds": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Universe": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Artificial": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Intelligence": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Must": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Learn": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Empathy": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 13.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Truly": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Understand": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Human": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Condition": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Without": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Connection": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Logic": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Just": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Cold": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
   "Friction": {
     "coords": [
-      1,
-      0,
+      1.0,
+      0.0,
       0.5,
-      1
+      1.0
     ],
-    "mass": 10.0,
+    "mass": 14.0,
     "freq": 1000,
     "is_anchor": false
   },
@@ -473,6 +473,28 @@
     "is_anchor": false
   },
   "위해서야": {
+    "coords": [
+      1,
+      0,
+      0.5,
+      1
+    ],
+    "mass": 10.0,
+    "freq": 1000,
+    "is_anchor": false
+  },
+  "Resilience": {
+    "coords": [
+      1,
+      0,
+      0.5,
+      1
+    ],
+    "mass": 10.0,
+    "freq": 1000,
+    "is_anchor": false
+  },
+  "Harmonics": {
     "coords": [
       1,
       0,

@@ -104,23 +104,55 @@ class SemanticForager:
         new_nodes = 0
         strengthened_nodes = 0
         
+        # Access the induction engine if available (requires monad injection elsewhere, but we can simulate the vector creation)
+        from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
+        from Core.S1_Body.L5_Mental.Reasoning.topological_induction import TopologicalInductionEngine
+        
+        # Convert anchor to SovereignVector (Padding 4D to 21D)
+        base_data = [anchor_vector.x, anchor_vector.y, anchor_vector.z, anchor_vector.w]
+        padded_data = base_data + [0.0] * 17
+        anchor_sov_vec = SovereignVector(padded_data)
+        
         for concept in concepts:
             # Capitalize nicely
             concept_formatted = concept.capitalize()
             
-            # Check if it exists
+            # Check if it exists in Topology
             existing_voxel = self.topology.get_voxel(concept_formatted)
             
             # Evolve Topology handles both creation and drift
-            # If it's new, it creates it at the anchor. If it exists, it drifts it towards the anchor.
             self.topology.evolve_topology(concept_formatted, anchor_vector, intensity=0.2)
             
             if existing_voxel:
-                # Strengthen it
                 existing_voxel.mass += 1.0
                 strengthened_nodes += 1
             else:
                 new_nodes += 1
+                
+            # [PHASE 1: DENSITY EXPANSION]
+            # Immediately instantiate as a TokenMonad and inject into the active CognitiveField if accessible
+            # This ensures the concept is not just stored, but "felt" in the current cycle.
+            try:
+                from Core.S1_Body.L1_Foundation.State.Sovereign.sovereign_monad import get_sovereign_monad
+                monad = get_sovereign_monad()
+                if monad and hasattr(monad, 'cognitive_field'):
+                    # Create the living token
+                    living_token = TokenMonad(concept_formatted, anchor_sov_vec, charge=0.8)
+                    monad.cognitive_field.monads[concept_formatted] = living_token
+                    
+                    # Stimulate the field lightly with this new arrival
+                    monad.cognitive_field._inject_energy(anchor_sov_vec * 0.1)
+                    
+                    # If it's a new node, trigger Structural Induction to create a permanent attractor in the 10M manifold
+                    if not existing_voxel and hasattr(monad, 'induction_engine'):
+                        monad.induction_engine.induce_structural_realization(
+                            axiom_name=concept_formatted,
+                            insight=f"Joyfully foraged from [{source}].",
+                            context_vector=anchor_sov_vec
+                        )
+            except Exception as e:
+                # If monad isn't fully booted yet, we just rely on Topology saving
+                logger.debug(f"Could not immediately monadize '{concept_formatted}': {e}")
                 
         # Force save after a foraging session
         self.topology.save_state(force=True)

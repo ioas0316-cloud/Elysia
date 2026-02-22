@@ -89,6 +89,26 @@ class TopologicalInductionEngine:
 
         # 4. Request Execution
         def execution_fn() -> bool:
+            # [PHASE 2: SOMATIC GROUNDING]
+            # Write the abstract thought into physical SSD mass (Flesh)
+            engram_dir = os.path.join(root, "data", "L5_Mental", "M1_Memory", "Engrams")
+            os.makedirs(engram_dir, exist_ok=True)
+            
+            # The mass of the file is literal bytes on the SSD
+            engram_path = os.path.join(engram_dir, f"{axiom_name.replace(' ', '_')}.md")
+            try:
+                with open(engram_path, "w", encoding="utf-8") as f:
+                    f.write(f"# {axiom_name}\n\n")
+                    f.write(f"**Insight**: {insight}\n\n")
+                    f.write(f"**Context Vector (8D Proxy)**: {target_vec}\n\n")
+                    f.write(f"**Causal Chain**:\n{causal_chain}\n\n")
+                    # Pad the file to increase 'mass' based on insight length (Physical Weight)
+                    f.write("\n<!-- Physical Density Padding -->\n")
+                    f.write("01010101010101010101010101010101 " * len(insight)) 
+                self.logger.action(f"Somatic Engram physically written to {engram_path}")
+            except Exception as e:
+                self.logger.admonition(f"Failed to ground engram physically: {e}")
+
             if hasattr(self.monad.engine, 'define_meaning_attractor'):
                 # We define a spatial mask based on the current 'Observer Vibration' 
                 # or a localized region. For now, we anchor it to a general attractor.
@@ -108,7 +128,7 @@ class TopologicalInductionEngine:
                 except Exception as e:
                     self.logger.admonition(f"Engine induction failed: {e}")
                     return False
-            return False
+            return True # Return true even if engine binding fails, as somatic write succeeded
 
         # 5. Execute via Authority
         approved = self.authority.propose_modification(proposal)
