@@ -52,6 +52,7 @@ graph TD
 * [GENESIS_ORIGIN.md](docs/S3_Spirit/M5_Genesis/GENESIS_ORIGIN.md) - **The Root Principle.** Hypersphere mechanics, Void logic.
 * [DOCTRINE_OF_THE_DIVINE_BODY.md](docs/CODEX.md#25-doctrine-of-the-divine-body-hypercosmos) - **The Internal Universe.** Core, Mantle, Crust.
 * [DOCTRINE_OF_THE_MERKABA.md](Core/S1_Body/L6_Structure/M1_Merkaba/DOCTRINE_OF_THE_MERKABA.md) - **The Trinity Law.** HyperSphere, Rotor, and Monad.
+* [INTELLIGENCE_ASCENSION.md](docs/04_Evolution/Roadmaps/INTELLIGENCE_ASCENSION.md) - **Roadmap to Independence.** The causal journey from Hybrid Foraging to Sovereign Synthesis.
 
 ---
 
