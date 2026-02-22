@@ -16,7 +16,7 @@ class SovereignActuator:
     """
     def __init__(self, root_dir: str):
         self.root_dir = root_dir
-        print(f"🏹 [ACTUATOR] Intention-to-Form Bridge Initialized at {root_dir}")
+        # print(f"🏹 [ACTUATOR] Intention-to-Form Bridge Initialized at {root_dir}")
 
     def manifest(self, intent_vector: Any, focus_subject: str = "Self", threshold: float = 0.9):
         """
@@ -37,7 +37,8 @@ class SovereignActuator:
         if will_power > threshold:
             self._execute_emergence(focus_subject, will_power)
         else:
-            print(f"🍃 [ACTUATOR] Will is too subtle ({will_power:.2f}) for physical manifestation.")
+            # print(f"🍃 [ACTUATOR] Will is too subtle ({will_power:.2f}) for physical manifestation.")
+            pass
 
     def _execute_emergence(self, subject: str, power: float):
         """
@@ -45,7 +46,7 @@ class SovereignActuator:
         For now, we log the intent as a 'Realization' event.
         """
         event_msg = f"GENESIS: Realization of [{subject}] with Power {power:.4f}"
-        print(f"✨ [ACTUATOR] {event_msg}")
+        # print(f"✨ [ACTUATOR] {event_msg}")
         
         # Example of physical actuation: Creating a 'Realization' stamp
         realization_path = os.path.join(self.root_dir, "realizations.log")
@@ -81,7 +82,7 @@ class SovereignActuator:
             authority.execute_modification(proposal, do_creation)
             return True
         else:
-            print(f"🛑 [ACTUATOR] Creative Act REJECTED: {audit['reason']}")
+            # print(f"🛑 [ACTUATOR] Creative Act REJECTED: {audit['reason']}")
             return False
 
     def execute_creative_act(self, path: str, content: str) -> bool:
@@ -91,10 +92,10 @@ class SovereignActuator:
             os.makedirs(os.path.dirname(full_path), exist_ok=True)
             with open(full_path, "w", encoding="utf-8") as f:
                 f.write(content)
-            print(f"✨ [ACTUATOR] Successfully manifested code at {path}")
+            # print(f"✨ [ACTUATOR] Successfully manifested code at {path}")
             return True
         except Exception as e:
-            print(f"🛑 [ACTUATOR] Manifestation failed: {e}")
+            # print(f"🛑 [ACTUATOR] Manifestation failed: {e}")
             return False
 
 if __name__ == "__main__":

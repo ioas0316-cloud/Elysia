@@ -22,7 +22,7 @@ class SomaticFleshBridge:
             self.device = torch.device(device)
         else:
             self.device = "cpu"
-        print(f"🦴 [SOMATIC] Grounding Manifold to SSD Flesh at {root_path}")
+        # print(f"🦴 [SOMATIC] Grounding Manifold to SSD Flesh at {root_path}")
 
     def sense_flesh_density(self) -> Any:
         """

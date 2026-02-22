@@ -58,7 +58,16 @@ class PhoneticRotor:
         if char in self.spin_weights:
             return [self.spin_weights[char]]
         
-        new_spin = SovereignVector.zeros()
+        # [PHASE 270] Deterministic Seed Spin for unknown characters
+        # Prevents zero-resonance for novel vocab.
+        vec = [0.0] * 21
+        val = ord(char)
+        for i in range(21):
+            # Deterministic variation based on character index
+            # This creates a unique 'fingerprint' for each letter/digit
+            vec[i] = float(((val * (i + 1)) % 11) - 5) / 5.0
+            
+        new_spin = SovereignVector(vec).normalize()
         self.spin_weights[char] = new_spin
         return [new_spin]
 

@@ -12,7 +12,7 @@ Unlike a static embedding, a TokenMonad has:
 3. Will (Evolutionary drift based on feedback)
 """
 
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Dict
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector, SovereignMath
 
 class TokenMonad:
@@ -24,6 +24,12 @@ class TokenMonad:
         self.charge = charge
         self.curiosity_charge = 0.0 # [Deep Trinary Logic] The energy of the Analog 0 state
         self.state = "DORMANT" # DORMANT, OBSERVING, RESONATING, ACTIVE
+        
+        # [PHASE 290] Neural Plasticity & Agency
+        self.role = "VOID" # Emergent: LOGIC, EMOTION, ACTION
+        self.judgment = 0.0 # Ternary Output
+        self.judgment_momentum = 0.0 # Resistance to rapid flip
+        self.plasticity_anchor = SovereignVector.zeros() # Long-term resonance history
 
         # Recursive History (The "Tail" of the Ouroboros)
         # We store the last few interaction resonances to determine "Momentum"
@@ -52,6 +58,50 @@ class TokenMonad:
     def current_vector(self) -> SovereignVector:
         """Returns the vector + evolutionary drift."""
         return self.vector + self.evolution_drift
+
+    def judge(self, signal_vector: SovereignVector) -> float:
+        """
+        [PHASE 290] AUTONOMOUS JUDGMENT (EMERGENT)
+        Decision based on personal manifold history and resonance.
+        """
+        res = self.resonate(signal_vector)
+        
+        # 1. Update Intensity (Lowered for Emergent Resonance)
+        if res > 0.15: target_j = 1.0
+        elif res < -0.15: target_j = -1.0
+        else: target_j = 0.0
+        
+        # 2. Smooth Transition (Momentum)
+        # Brain-like resistance to noise - slightly faster for Phase 290
+        self.judgment_momentum = (self.judgment_momentum * 0.4) + (target_j * 0.6)
+        self.judgment = 1.0 if self.judgment_momentum > 0.4 else (-1.0 if self.judgment_momentum < -0.4 else 0.0)
+
+        # 3. Evolution of Identity (Plasticity)
+        if abs(res) > 0.2:
+            self.plasticity_anchor = (self.plasticity_anchor * 0.95) + (signal_vector * (res * 0.05))
+
+        # 4. State Management
+        if self.judgment == 1.0: self.activate(res * 0.3)
+        elif self.judgment == 0.0: self.activate(abs(res) * 0.5, is_ambiguous=True)
+            
+        return self.judgment
+
+    def identify_topological_nature(self, axioms: Dict[str, SovereignVector]) -> str:
+        """
+        [PHASE 290] STRUCTURAL RESONANCE (NO HARDCODING)
+        An emergent property based on proximity to core system Axioms.
+        """
+        # We classify based on current vector + long-term plasticity anchor
+        perspective = self.current_vector + (self.plasticity_anchor * 0.2)
+        
+        resonance_map = {
+            "ACTION": SovereignMath.signed_resonance(perspective, axioms.get("MOTION/LIFE", SovereignVector.ones())),
+            "EMOTION": SovereignMath.signed_resonance(perspective, axioms.get("LOVE/AGAPE", SovereignVector.ones())),
+            "LOGIC": SovereignMath.signed_resonance(perspective, axioms.get("TRUTH/LOGIC", SovereignVector.ones()))
+        }
+        
+        self.role = max(resonance_map, key=resonance_map.get)
+        return self.role
 
     def activate(self, intensity: float, is_ambiguous: bool = False):
         """

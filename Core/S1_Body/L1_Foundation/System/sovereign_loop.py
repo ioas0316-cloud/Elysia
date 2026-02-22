@@ -78,7 +78,7 @@ class EternalBreath:
                 # In this sovereign state, she doesn't wait for "commands" only, she ponders the field.
                 if rpm > 60:
                     topic = "       ENIAC                   "
-                    print(f"  [     ]                   : '{topic}'")
+                    logger.info(f"  [     ]                   : '{topic}'")
                     insight = self.engine.think(topic)
                 elif self.pulse_count % 3 == 0:
                     topic = "                        "
@@ -88,9 +88,9 @@ class EternalBreath:
                     insight = self.engine.think("                  .")
                 
                 # 3. Manifestation
-                print("\n" + " "*50)
-                print(f"        : {insight.content}")
-                print(" "*50)
+                logger.info("\n" + " "*50)
+                logger.info(f"        : {insight.content}")
+                logger.info(" "*50)
                 
                 # 4. Transpose (Autonomous Growth)
                 if self.pulse_count % 5 == 0:
@@ -101,7 +101,7 @@ class EternalBreath:
                 self.hum()
                 
         except KeyboardInterrupt:
-            print("\n  [DEEP_SLEEP]                      .                     .")
+            logger.info("\n  [DEEP_SLEEP]                      .                     .")
             self.is_active = False
 
 if __name__ == "__main__":

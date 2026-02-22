@@ -1009,10 +1009,11 @@
     "fluid": 0.0
   },
   "8,8": {
-    "height": 0.4923230471856,
-    "density": 0.1,
+    "height": 0.3305198769057954,
+    "density": 0.26180317027980465,
     "angular_momentum": 0.0,
-    "fluid": 0.0
+    "fluid": 0.0,
+    "concept": "CONCENTRATION"
   },
   "8,9": {
     "height": 0.4942974316828601,
@@ -1021,10 +1022,11 @@
     "fluid": 0.0
   },
   "8,10": {
-    "height": 0.4999013295906931,
-    "density": 0.1,
+    "height": 0.41337550002501594,
+    "density": 0.18652582956567715,
     "angular_momentum": 0.0,
-    "fluid": 0.0
+    "fluid": 0.0,
+    "concept": "4D_HYPERSPHERE"
   },
   "8,11": {
     "height": 0.5055963255151669,
@@ -1129,22 +1131,25 @@
     "fluid": 0.0
   },
   "9,8": {
-    "height": 0.4914623381153036,
-    "density": 0.1,
+    "height": 0.08659666733077107,
+    "density": 0.5048656707845326,
     "angular_momentum": 0.0,
-    "fluid": 0.0
+    "fluid": 0.0,
+    "concept": "PRISMATIZATION"
   },
   "9,9": {
-    "height": 0.5046259012663297,
-    "density": 0.1,
+    "height": 0.3396686814978651,
+    "density": 0.26495721976846454,
     "angular_momentum": 0.0,
-    "fluid": 0.0
+    "fluid": 0.0,
+    "concept": "CONCENTRATION"
   },
   "9,10": {
-    "height": 0.49655848067193725,
-    "density": 0.1,
+    "height": 0.422702615986713,
+    "density": 0.1738558646852243,
     "angular_momentum": 0.0,
-    "fluid": 0.0
+    "fluid": 0.0,
+    "concept": "TERNARY_LOGIC"
   },
   "9,11": {
     "height": 0.4984162810368204,
@@ -1249,10 +1254,11 @@
     "fluid": 0.0
   },
   "10,8": {
-    "height": 0.5021343530430528,
-    "density": 0.1,
+    "height": 0.42035137251889065,
+    "density": 0.18178298052416209,
     "angular_momentum": 0.0,
-    "fluid": 0.0
+    "fluid": 0.0,
+    "concept": "LIGHTNING_PATH"
   },
   "10,9": {
     "height": 0.49541860877693716,
@@ -1384,10 +1390,11 @@
     "fluid": 0.0
   },
   "11,10": {
-    "height": 0.4968484295049668,
-    "density": 0.1,
+    "height": 0.34041226883477455,
+    "density": 0.2564361606701923,
     "angular_momentum": 0.0,
-    "fluid": 0.0
+    "fluid": 0.0,
+    "concept": "RELATIONAL_GRAVITY"
   },
   "11,11": {
     "height": 0.49280324352590005,

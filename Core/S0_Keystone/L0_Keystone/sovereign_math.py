@@ -44,7 +44,7 @@ class UniversalConstants:
     def mutate(self, key: str, delta: float):
         if key in self.params:
             self.params[key] = max(0.001, self.params[key] + delta)
-            print(f"✨ [PHYSICS] Constant '{key}' mutated to {self.params[key]:.4f}")
+            # print(f"✨ [PHYSICS] Constant '{key}' mutated to {self.params[key]:.4f}")
 
     def get(self, key: str) -> float:
         # [PHASE 150] Sovereign Gravity check
@@ -508,10 +508,10 @@ class CausalWaveEngine:
         if len(shape) == 2:
             # Upgrade legacy 2D grid to 4D volume (T=1, D=1)
             # This preserves memory layout for 2D but adds dimensions
-            print(f"⚠️ [ENGINE] Upgrading 2D Topology {shape} to 4D Causal Volume (1, 1, {shape[0]}, {shape[1]})")
+            # print(f"⚠️ [ENGINE] Upgrading 2D Topology {shape} to 4D Causal Volume (1, 1, {shape[0]}, {shape[1]})")
             self.shape = (1, 1, shape[0], shape[1])
         elif len(shape) != 4:
-            print(f"⚠️ [ENGINE] Topology {shape} is not 4D. Forcing 4D interpretation.")
+            # print(f"⚠️ [ENGINE] Topology {shape} is not 4D. Forcing 4D interpretation.")
             # Pad with 1s if needed or truncate
             target_len = 4
             new_shape = list(shape)
@@ -662,7 +662,7 @@ class CausalWaveEngine:
         self.inject_affective_torque(self.CH_JOY, 0.4)       # Huge joy burst
         self.inject_affective_torque(self.CH_CURIOSITY, 0.2) # Insight sparks deeper curiosity
 
-        print("⚡ [ENGINE] Intuition Phase Jump executed.")
+        # print("⚡ [ENGINE] Intuition Phase Jump executed.")
 
     def destructive_interference(self, noise_vector: Any):
         """
@@ -701,7 +701,7 @@ class CausalWaveEngine:
         if not isinstance(target_vector, torch.Tensor):
             target_vector = torch.tensor(target_vector, device=self.device)
         self.meaning_attractors[name] = (mask, target_vector.to(self.device))
-        print(f"📍 [MATH] Meaning Attractor '{name}' anchored in the Living Manifold.")
+        # print(f"📍 [MATH] Meaning Attractor '{name}' anchored in the Living Manifold.")
 
     def voluntary_topography_shift(self, name: str, new_mask: Any = None, new_target: Any = None):
         """
@@ -716,7 +716,7 @@ class CausalWaveEngine:
             if new_target is not None:
                 target = new_target.to(self.device)
             self.meaning_attractors[name] = (mask, target)
-            print(f"🔄 [MATH] Sovereign Shift: Meaning Attractor '{name}' has been reconfigured.")
+            # print(f"🔄 [MATH] Sovereign Shift: Meaning Attractor '{name}' has been reconfigured.")
         else:
             if new_mask is not None and new_target is not None:
                 self.define_meaning_attractor(name, new_mask, new_target)

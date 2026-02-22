@@ -9,7 +9,9 @@ Replaces linear control flow with synchronized angular momentum.
 import math
 import time
 import logging
-from typing import Dict, List, Callable
+import threading
+import concurrent.futures
+from typing import Dict, List, Callable, Optional
 
 logger = logging.getLogger("RecursiveTorque")
 
@@ -21,6 +23,8 @@ class SynchronizedGear:
         self.phase = 0.0
         self.angular_momentum = 1.0
         self.callback: Optional[Callable] = None
+        self.last_execution = 0.0
+        self._is_executing = False
 
     def rotate(self, dt: float):
         # Rotation is biased by momentum (Gyro principle)
@@ -31,9 +35,11 @@ class SynchronizedGear:
         return math.cos(self.phase) > self.threshold
 
 class RecursiveTorque:
-    def __init__(self):
+    def __init__(self, max_workers: int = 4):
         self.gears: Dict[str, SynchronizedGear] = {}
         self.last_tick = time.time()
+        self.last_spin_time = time.time()
+        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="TorqueGear")
         
     def add_gear(self, name: str, freq: float, callback: Callable):
         gear = SynchronizedGear(name, freq)
@@ -51,9 +57,18 @@ class RecursiveTorque:
         for name, gear in self.gears.items():
             gear.rotate(dt)
             if gear.is_in_resonance():
-                if gear.callback:
-                    # Resonance triggered action
-                    gear.callback()
+                if gear.callback and not gear._is_executing:
+                    # [PHASE 250] Presence-based Execution (Pool-based)
+                    gear._is_executing = True
+                    def _task_wrapper(g):
+                        try:
+                            g.callback()
+                        except Exception as e:
+                            logger.error(f"Error in gear '{g.name}': {e}")
+                        finally:
+                            g._is_executing = False
+                    
+                    self.executor.submit(_task_wrapper, gear)
 
     def apply_load(self, gear_name: str, load: float):
         """

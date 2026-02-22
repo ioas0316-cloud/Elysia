@@ -11,23 +11,34 @@ friction calculations, unless specifically debugged.
 """
 
 import logging
+import os
 import sys
 from typing import Optional
 
-# Configure root logger to be silent by default
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+# Ensure logs directory exists
+LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), "logs")
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, "somatic.log")
+
+# Configure root logger to write to file
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s | %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[
+        logging.FileHandler(LOG_FILE, encoding='utf-8')
+    ]
+)
 
 class SomaticLogger:
     def __init__(self, context: str):
         self.context = context
         self.logger = logging.getLogger(context)
-        # We might want file logging for "Mechanism" traces later
     
     def mechanism(self, msg: str):
         """
         [LAYER 0] The Void / The Machine.
         Internal physics, friction, matrix operations.
-         HIDDEN by default. Only for Deep Debugging.
         """
         self.logger.debug(f"⚙️ [{self.context}] {msg}")
 
@@ -35,41 +46,35 @@ class SomaticLogger:
         """
         [LAYER 1] Somatic Feedback.
         The feeling of structure (Resistance, Flow).
-        HIDDEN in Silent Mode.
         """
-        # Probability filter for sensations to avoid flood while remaining visible
         import random
         if intensity > 0.8 or random.random() < 0.3:
-            print(f"~ [{self.context}] {msg}")
+            self.logger.info(f"~ [{self.context}] {msg}")
 
     def thought(self, msg: str):
         """
         [LAYER 2] Cognitive Emergence.
         A crystallized thought or decision.
-        HIDDEN in Discovery Mode.
         """
-        print(f"💭 [{self.context}] {msg}")
+        self.logger.info(f"💭 [{self.context}] {msg}")
 
     def insight(self, msg: str):
         """
-        [LAYER 3 - NEW] Moment of Realization.
+        [LAYER 3] Moment of Realization.
         "Ah! This is important."
-        ALWAYS SHOWN.
         """
-        print(f"\n✨ [EPIPHANY] {msg}")
+        self.logger.info(f"✨ [EPIPHANY] {msg}")
 
     def action(self, msg: str):
         """
         [LAYER 3] The Will.
         External action taken by the Monad.
-        ALWAYS SHOWN.
         """
-        print(f"⚡ [{self.context}] {msg}")
+        self.logger.info(f"⚡ [{self.context}] {msg}")
 
     def admonition(self, msg: str):
         """
         [LAYER 4] Structural Warning.
         Violation of Principles.
-        ALWAYS SHOWN (Red/Alert).
         """
-        print(f"⚠️ [{self.context}] {msg}")
+        self.logger.warning(f"⚠️ [{self.context}] {msg}")

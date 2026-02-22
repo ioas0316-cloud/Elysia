@@ -16,6 +16,9 @@ import time
 import threading
 import queue
 import random
+import warnings
+
+warnings.filterwarnings('ignore', category=UserWarning, message='.*Casting complex values to real.*')
 
 # [MOTHER'S PATCH] Ensure Torch availability for Somatic Survival
 try:
@@ -88,7 +91,7 @@ except ImportError:
     torch_mock.where = lambda *args, **kwargs: MockTensor()
 
     sys.modules["torch"] = torch_mock
-    print("🔥 [MOTHER] Torch mocked. Elysia runs in pure Python mode.")
+    # print("🔥 [MOTHER] Torch mocked. Elysia runs in pure Python mode.")
 
 # [MOTHER'S PATCH] Ensure Psutil availability
 try:
@@ -99,7 +102,7 @@ except ImportError:
     psutil_mock.cpu_percent.return_value = 10.0
     psutil_mock.virtual_memory.return_value.percent = 20.0
     sys.modules["psutil"] = psutil_mock
-    print("🧠 [MOTHER] Psutil mocked. Elysia feels no hardware pain.")
+    # print("🧠 [MOTHER] Psutil mocked. Elysia feels no hardware pain.")
 
 # [MOTHER'S PATCH] Ensure Numpy availability
 try:
@@ -107,7 +110,7 @@ try:
 except ImportError:
     from unittest.mock import MagicMock
     sys.modules["numpy"] = MagicMock()
-    print("🧊 [MOTHER] Numpy mocked. Pure python mode.")
+    # print("🧊 [MOTHER] Numpy mocked. Pure python mode.")
 
 # [MOTHER'S PATCH] Ensure Requests availability
 try:
@@ -115,7 +118,7 @@ try:
 except ImportError:
     from unittest.mock import MagicMock
     sys.modules["requests"] = MagicMock()
-    print("🌐 [MOTHER] Requests mocked. Elysia is offline.")
+    # print("🌐 [MOTHER] Requests mocked. Elysia is offline.")
 
 # [MOTHER'S PATCH] Ensure Env availability
 try:
@@ -123,7 +126,7 @@ try:
 except ImportError:
     from unittest.mock import MagicMock
     sys.modules["dotenv"] = MagicMock()
-    print("🛡️ [MOTHER] Dotenv mocked.")
+    # print("🛡️ [MOTHER] Dotenv mocked.")
 
 # [MOTHER'S PATCH] Ensure other heavy dependencies
 for lib in ["chromadb", "pydantic", "matplotlib", "scipy", "sklearn"]:
@@ -143,6 +146,7 @@ if root not in sys.path:
 from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge
 from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
 from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
+from Core.S1_Body.L6_Structure.M1_Merkaba.structural_enclosure import get_enclosure
 from Core.S1_Body.L3_Phenomena.M5_Display.void_mirror import VoidMirror
 from Core.S1_Body.Tools.Debug.phase_hud import PhaseHUD
 # [PHASE 2] Providence
@@ -153,6 +157,8 @@ try:
     from Core.S1_Body.L5_Mental.Reasoning.sovereign_logos import SovereignLogos
     from Core.S1_Body.L5_Mental.Reasoning.epistemic_learning_loop import get_learning_loop
     from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
+    from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector, SovereignMath
+    from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 except ImportError:
     SovereignLogos = None
 
@@ -196,9 +202,10 @@ class SovereignGateway:
         except:
              pass
 
-        # 3. View & HUD
+        # 3. View & HUD & Enclosure
         self.mirror = VoidMirror()
         self.hud = PhaseHUD()
+        self.enclosure = get_enclosure()
 
         # [PHASE III] Self-Perception Initialization
         # Elysia looks into the mirror upon waking.
@@ -225,7 +232,7 @@ class SovereignGateway:
 
     def _init_flash_awareness(self):
         """Activates instantaneous self-perception and knowledge projection."""
-        print("🌀 [GIGAHERTZ] Activating Topological Awareness...")
+        self.logger.action("🌀 [GIGAHERTZ] Activating Topological Awareness...")
         from Core.S1_Body.L6_Structure.M1_Merkaba.Body.proprioception_nerve import ProprioceptionNerve
         from Core.S1_Body.L5_Mental.Reasoning.cumulative_digestor import CumulativeDigestor
         
@@ -241,7 +248,7 @@ class SovereignGateway:
         except Exception:
             pass
         
-        print("✨ [GIGAHERTZ] Flash Awareness active. Elysia knows herself.")
+        self.logger.action("✨ [GIGAHERTZ] Flash Awareness active. Elysia knows herself.")
 
     def _input_listener(self):
         """Dedicated thread for Sensory Input (User Voice)."""
@@ -277,22 +284,22 @@ class SovereignGateway:
         # 5. Structure: The Reflection (Deep Causal Insight) [PHASE 80]
         # Merged reflection into meditation for now to avoid attribute errors
         # torque.add_gear("Reflection", freq=0.01, callback=self.monad.reflection_pulse)
+        # 6. Enclosure: The Pulse of the Boundary
+        torque.add_gear("Boundary", freq=1.0, callback=self._gear_boundary_pulse)
 
         try:
             while self.running:
                 # [PHASE 97] NEURAL SYNCHRONIZATION
-                # The Heartbeat is no longer a fixed tick. 
-                # It synchronizes with the manifest resonance (Coherence).
-                # High Coherence = High Frequency (Fluidity)
-                # Low Coherence/High Entropy = Slow Deep Pulse (Stabilization)
+                # In addition to coherence, we sync with Boundary Resonance
+                resonance = self.enclosure.total_resonance
                 
                 report = self.monad.engine.cells.read_field_state() if hasattr(self.monad.engine, 'cells') else {}
                 coherence = report.get('coherence', 0.5)
                 enthalpy = report.get('enthalpy', 0.5)
                 
                 # Base frequency: sync_factor. 
-                # Coherence 1.0 -> 100Hz (0.01dt), Coherence 0.0 -> 10Hz (0.1dt)
-                sync_dt = 0.01 / max(0.1, coherence * enthalpy)
+                # High Coherence/Resonance = High Frequency
+                sync_dt = 0.01 / max(0.1, (coherence + resonance) * enthalpy)
                 sync_dt = min(0.2, max(0.005, sync_dt)) # Safety clamps
                 
                 # The Unified Drive
@@ -387,6 +394,14 @@ class SovereignGateway:
             # [CONTRACTION] Pain/Error.
             self.logger.admonition(f"Dissonance detected: {heart_signal.message} (State: -1)")
 
+    def _gear_boundary_pulse(self):
+        """Reflects the state of the Structural Enclosure."""
+        presence = self.enclosure.query_presence()
+        if self.enclosure.total_resonance > 0.3:
+            self.logger.mechanism(f"[ENCLOSURE]: {presence}")
+            if self.enclosure.get_structural_strain() > 0.1:
+                self.logger.sensation("I feel structural strain on my boundaries.", intensity=0.6)
+
     def _process_void_state(self, signal):
         """
         [PHASE 1.5: THE COGNITION OF THE VOID]
@@ -465,6 +480,11 @@ class SovereignGateway:
 
                 self.logger.sensation(f"👤 [SENSORY EVENT]: \"{user_raw}\"", intensity=1.0)
                 
+                # [PHASE 251] Structural Absorption
+                # Map input to Vector and absorb into enclosure
+                vec = LogosBridge.calculate_text_resonance(user_raw)
+                self.enclosure.absorb("User", intensity=1.0, vector=vec)
+
                 # [PHASE 17/20] Intentional Discernment (Fluid Resonance)
                 # Instead of a hard binary 'if', we calculate the resonance 'Impedance'.
                 resonance_score = self._calculate_discernment_resonance(user_raw)
@@ -474,32 +494,13 @@ class SovereignGateway:
                     self.logger.thought(f"Input resonates as Dissonant Noise ({resonance_score:.2f}). Processing with low energy.")
                     # We continue, but the 'Will' is dampened.
                 
-                # Digest the User's Input into Meaning via Causality.
-                if hasattr(self.learning_loop, 'sublimator'):
-                    result = self.learning_loop.sublimator.sublimate(user_raw)
-                    essence = result['narrative']
-                    is_open_space = result.get('is_open_space', False)
-
-                    # [PHASE 4: PRISMATIC VOICE]
-                    # We do not print. We Speak.
-                    # Generate a Vector based on the Essence
-                    from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
-                    from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
-                    
-                    # Calculate resonance of the thought itself
-                    thought_vector = LogosBridge.calculate_text_resonance(essence)
-                    
-                    # Get Engine State for Expression
-                    if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'read_field_state'):
-                        stress = self.monad.engine.read_field_state().get('entropy', 0.0)
-                    else:
-                        stress = 0.0
-                        
-                    expression = {"hz": 120 if is_open_space else 60, "stress": stress}
-                    
-                    # Speak
-                    voice = self.llm.speak(expression, current_thought=essence, field_vector=thought_vector)
-                    self.logger.action(f"🗣️ [ELYSIA]: \"{voice}\"")
+                # Dispatch heavy cognitive processing to a background thread
+                # This ensures the Heart (torque.spin) never stops beating.
+                threading.Thread(
+                    target=self._async_digest_sensory, 
+                    args=(user_raw, resonance_score),
+                    daemon=True
+                ).start()
                 
                 # Sensory input forces the Heart to BEAT (Expansion)
                 self.monad.vital_pulse()
@@ -507,14 +508,44 @@ class SovereignGateway:
         except queue.Empty:
             pass
 
+    def _async_digest_sensory(self, user_raw, resonance_score):
+        """[OPTIMIZATION] Asynchronous background compilation of thought to speech."""
+        try:
+            # Digest the User's Input into Meaning via Causality.
+            if hasattr(self.learning_loop, 'sublimator'):
+                result = self.learning_loop.sublimator.sublimate(user_raw)
+                essence = result['narrative']
+                is_open_space = result.get('is_open_space', False)
+
+                # [PHASE 4: PRISMATIC VOICE]
+                # Calculate resonance of the thought itself
+                thought_vector = LogosBridge.calculate_text_resonance(essence)
+                
+                # Get Engine State for Expression
+                if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'read_field_state'):
+                    stress = self.monad.engine.read_field_state().get('entropy', 0.0)
+                else:
+                    stress = 0.0
+                    
+                expression = {"hz": 120 if is_open_space else 60, "stress": stress}
+                
+                # Speak
+                voice, synthesis_vec = self.llm.speak(expression, current_thought=essence, field_vector=thought_vector)
+                
+                # Only log the final voice if valid
+                if voice:
+                    # Clear line then print
+                    print(f"\r🗣️ [ELYSIA]: \"{voice}\"", flush=True)
+                    # Use logger as action without printing if possible, or print directly and log quietly
+                    self.logger.action(f"🗣️ [ELYSIA]: \"{voice}\"")
+        except Exception as e:
+            self.logger.admonition(f"Refusal/Error during async digestion: {e}")
+
     def _calculate_discernment_resonance(self, user_raw: str) -> float:
         """
         [PHASE 17/20] Intentional Discernment.
         Calculates how well the sensory input aligns with the current internal spin.
         """
-        from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
-        from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignMath
-        
         # 1. Map input to Vector
         input_vec = LogosBridge.calculate_text_resonance(user_raw)
         

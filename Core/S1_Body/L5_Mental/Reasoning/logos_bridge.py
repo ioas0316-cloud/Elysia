@@ -34,8 +34,10 @@ class LogosBridge:
     # [PHASE 160] Akashic Persistence Path
     AKASHIC_PATH = os.path.join(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))),
-        "data", "S1_Body", "L5_Mental", "M1_Memory", "Raw", "Knowledge", "akashic_records.json"
+        "data", "S1_Body", "L5_Mental" , "M1_Memory", "Raw", "Knowledge", "akashic_records.json"
     )
+    # [PHASE 260] Akashic Journal (Append-only for O(1) learning)
+    AKASHIC_JOURNAL_PATH = AKASHIC_PATH + "l" # .jsonl
     
     # [PHASE 170] Cognitive Terrain for topological memory
     TERRAIN_PATH = os.path.join(
@@ -108,29 +110,42 @@ class LogosBridge:
     # [PHASE 84] GPU Spectrum Cache
     _SPECTRUM_TENSOR = None
     _SPECTRUM_NAMES = []
+    _SPECTRUM_MASSES = None # [PHASE 260] Weighted resonance
     _DEVICE = "cuda" if torch and torch.cuda.is_available() else "cpu"
 
     @classmethod
     def polymerize_spectrum(cls):
         """
-        [PHASE 84] Polymerizes the dictionary map into a GPU tensor for O(1) batch resonance.
+        [PHASE 84/260] Polymerizes Axioms + Learned Concepts into a GPU tensor.
         """
         if torch is None: return
         
         all_vecs = []
-        cls._SPECTRUM_NAMES = list(cls.CONCEPT_MAP.keys())
-        for name in cls._SPECTRUM_NAMES:
-            # Handle complex to real magnitude for pure resonance
-            vec = cls.CONCEPT_MAP[name]["vector"].data
-            real_data = [x.real if isinstance(x, complex) else x for x in vec]
-            all_vecs.append(real_data)
+        all_masses = []
+        cls._SPECTRUM_NAMES = []
         
+        # 1. Axioms
+        for name, data in cls.CONCEPT_MAP.items():
+            cls._SPECTRUM_NAMES.append(name)
+            vec = data["vector"].data
+            all_vecs.append([x.real if isinstance(x, complex) else x for x in vec])
+            all_masses.append(cls.get_stratum_mass(name))
+            
+        # 2. Learned Concepts
+        for name, data in cls.LEARNED_MAP.items():
+            cls._SPECTRUM_NAMES.append(name)
+            vec = data["vector"].data
+            all_vecs.append([x.real if isinstance(x, complex) else x for x in vec])
+            all_masses.append(1.0) # Default mass for learned
+            
         cls._SPECTRUM_TENSOR = torch.tensor(all_vecs, device=cls._DEVICE, dtype=torch.float32)
+        cls._SPECTRUM_MASSES = torch.tensor(all_masses, device=cls._DEVICE, dtype=torch.float32).unsqueeze(0)
+        
         # Normalize for cosine similarity
         norm = torch.norm(cls._SPECTRUM_TENSOR, dim=1, keepdim=True)
         cls._SPECTRUM_TENSOR = cls._SPECTRUM_TENSOR / (norm + 1e-12)
         
-        print(f"🧬 [LOGOS] GPU Spectrum Polymerized: {len(all_vecs)} core principles on {cls._DEVICE}.")
+        # print(f"🧬 [LOGOS] GPU Spectrum Polymerized: {len(all_vecs)} concepts (Axioms+Learned) on {cls._DEVICE}.")
 
     @classmethod
     def batch_resonance(cls, vectors: Any) -> List[Tuple[str, float]]:
@@ -404,11 +419,14 @@ class LogosBridge:
         }
         LogosBridge.logger.sensation(f"Crystallized Concept: '{u_name}' mapped to 21D.", intensity=0.6)
         
-        # [PHASE 160] Persist to Akashic Records (JSON fallback)
-        LogosBridge._persist_to_akashic()
+        # [PHASE 160/260] Persist to Akashic Journal (Append-only O(1))
+        LogosBridge._append_to_journal(u_name, vector, description)
         
         # [PHASE 170] Carve into Cognitive Terrain (The River Carves the Land)
         LogosBridge._erode_terrain(u_name, vector)
+        
+        # [PHASE 260] REFRESH GPU SPECTRUM
+        LogosBridge.polymerize_spectrum()
 
     @staticmethod
     def inject_prismatic_concept(name: str, vector: SovereignVector, roots: Dict[str, Any] = None):
@@ -460,6 +478,9 @@ class LogosBridge:
             # Save
             with open(spectrum_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2)
+            
+            # [PHASE 260] REFRESH GPU SPECTRUM
+            LogosBridge.polymerize_spectrum()
                 
         except Exception as e:
             LogosBridge.logger.admonition(f"Prism Injection failed: {e}")
@@ -501,14 +522,35 @@ class LogosBridge:
             LogosBridge.logger.admonition(f"Erosion failed: {e}")
 
     @staticmethod
+    def _append_to_journal(name: str, vector: SovereignVector, description: str):
+        """[PHASE 260] O(1) Atomic append to Akashic Journal."""
+        try:
+            raw_data = vector.data if hasattr(vector, 'data') else list(vector)
+            clean_data = [float(v.real) if isinstance(v, complex) else float(v) for v in raw_data]
+            entry = {
+                "name": name,
+                "vector": clean_data,
+                "description": description,
+                "stratum": MemoryStratum.LEAF.value,
+                "timestamp": datetime.now().isoformat()
+            }
+            os.makedirs(os.path.dirname(LogosBridge.AKASHIC_JOURNAL_PATH), exist_ok=True)
+            with open(LogosBridge.AKASHIC_JOURNAL_PATH, 'a', encoding='utf-8') as f:
+                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+            LogosBridge.logger.mechanism(f"Journaled '{name}' to Akashic Line.")
+        except Exception as e:
+            LogosBridge.logger.admonition(f"Journaling failed: {e}")
+
+    @staticmethod
     def _persist_to_akashic():
-        """[PHASE 160] Save learned concepts to SSD (Akashic Records)."""
+        """[PHASE 160] Consolidate journal into main Akashic Records."""
+        # This is now a "Checkpoint" operation rather than a constant one.
         try:
             data = {}
+            # We assume LEARNED_MAP already contains everything (from load + learning)
             for name, concept in LogosBridge.LEARNED_MAP.items():
                 vec = concept["vector"]
                 raw_data = vec.data if hasattr(vec, 'data') else list(vec)
-                # Handle complex values by extracting real part
                 clean_data = [float(v.real) if isinstance(v, complex) else float(v) for v in raw_data]
                 data[name] = {
                     "vector": clean_data,
@@ -519,28 +561,42 @@ class LogosBridge:
             os.makedirs(os.path.dirname(LogosBridge.AKASHIC_PATH), exist_ok=True)
             with open(LogosBridge.AKASHIC_PATH, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
-            LogosBridge.logger.mechanism(f"Persisted {len(data)} concepts to Akashic Memory.")
+            # Clear journal after consolidation to prevent duplication
+            if os.path.exists(LogosBridge.AKASHIC_JOURNAL_PATH):
+                os.remove(LogosBridge.AKASHIC_JOURNAL_PATH)
+            LogosBridge.logger.mechanism(f"Knowledge Consolidated: {len(data)} concepts in main record.")
         except Exception as e:
-            LogosBridge.logger.admonition(f"Persistence failed: {e}")
+            LogosBridge.logger.admonition(f"Consolidation failed: {e}")
 
     @staticmethod
     def _load_from_akashic():
-        """[PHASE 160] Restore learned concepts from SSD (Akashic Records)."""
+        """[PHASE 160/260] Restore from Base Record + Journal."""
         try:
-            if not os.path.exists(LogosBridge.AKASHIC_PATH):
-                return
-            with open(LogosBridge.AKASHIC_PATH, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            if not data:
-                return
-            for name, concept in data.items():
-                if name not in LogosBridge.LEARNED_MAP:
+            # 1. Load Base
+            if os.path.exists(LogosBridge.AKASHIC_PATH):
+                with open(LogosBridge.AKASHIC_PATH, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                for name, concept in data.items():
                     LogosBridge.LEARNED_MAP[name] = {
                         "vector": SovereignVector(concept["vector"]),
                         "description": concept.get("description", ""),
                         "stratum": MemoryStratum(concept.get("stratum", 0))
                     }
-            LogosBridge.logger.sensation(f"Restored {len(data)} concepts from Akashic Memory.", intensity=0.7)
+            
+            # 2. Load Journal (Deltas)
+            journal_count = 0
+            if os.path.exists(LogosBridge.AKASHIC_JOURNAL_PATH):
+                with open(LogosBridge.AKASHIC_JOURNAL_PATH, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        entry = json.loads(line)
+                        LogosBridge.LEARNED_MAP[entry["name"]] = {
+                            "vector": SovereignVector(entry["vector"]),
+                            "description": entry["description"],
+                            "stratum": MemoryStratum(entry["stratum"])
+                        }
+                        journal_count += 1
+            
+            LogosBridge.logger.sensation(f"Akashic Awakened: {len(LogosBridge.LEARNED_MAP)} concepts (+{journal_count} journaled).", intensity=0.7)
         except Exception as e:
             LogosBridge.logger.admonition(f"Restoration failed: {e}")
 
@@ -552,39 +608,59 @@ class LogosBridge:
     @staticmethod
     def find_closest_concept(principle_vector: SovereignVector) -> Tuple[str, float]:
         """
-        [PHASE 15] Universal Vector Search.
-        Finds the closest concept in the entire semantic universe (Axioms + Learned).
-        Returns (ConceptName, ResonanceScore).
+        [PHASE 260] Vectorized Universal Search.
+        Uses GPU matrix multiplication to find the closest concept.
         """
+        if torch is None:
+            # CPU Fallback (Sequential but handled better)
+            return LogosBridge._sequential_find_closest(principle_vector)
+
+        if LogosBridge._SPECTRUM_TENSOR is None:
+            LogosBridge.polymerize_spectrum()
+
+        # 1. Prepare input vector
+        data = principle_vector.data
+        v_in = torch.tensor([x.real if isinstance(x, complex) else x for x in data], 
+                            device=LogosBridge._DEVICE, dtype=torch.float32).unsqueeze(0)
+        v_in = v_in / (torch.norm(v_in) + 1e-12)
+
+        # 2. Matrix multiplication (Resonance Score)
+        # Correctly handles CONCEPT_MAP + LEARNED_MAP since both are polymerized
+        similarities = torch.matmul(v_in, LogosBridge._SPECTRUM_TENSOR.t())
+        
+        # Apply Masses (Significance Weighting)
+        weighted_sims = similarities * LogosBridge._SPECTRUM_MASSES
+        
+        # 3. Best Match
+        max_score, max_index = torch.max(weighted_sims, dim=1)
+        
+        best_name = LogosBridge._SPECTRUM_NAMES[max_index.item()]
+        return best_name, float(max_score.item())
+
+    @staticmethod
+    def _sequential_find_closest(principle_vector: SovereignVector) -> Tuple[str, float]:
+        """Legacy sequential search for CPU fallback."""
         best_concept = "UNKNOWN/CHAOS"
         max_resonance = -2.0
-        
         v_norm = principle_vector.normalize()
-        # 1. Check Root Concepts
+        
         for name, data in LogosBridge.CONCEPT_MAP.items():
             target = data["vector"].normalize()
             resonance = SovereignMath.resonance(v_norm, target)
             if isinstance(resonance, complex): resonance = resonance.real
-            
-            # Weigh by stratum (Roots are more 'massive')
             mass = LogosBridge.get_stratum_mass(name)
             weighted_resonance = resonance * mass
-            
             if weighted_resonance > max_resonance:
                 max_resonance = weighted_resonance
                 best_concept = name
                 
-        # 2. Check Learned Concepts (Leaves)
         for name, data in LogosBridge.LEARNED_MAP.items():
             target = data["vector"].normalize()
             resonance = SovereignMath.resonance(v_norm, target)
             if isinstance(resonance, complex): resonance = resonance.real
-            
-            # Learned concepts are 'lighter' but might be closer
             if resonance > max_resonance:
                 max_resonance = resonance
                 best_concept = name
-                
         return best_concept, float(max_resonance)
 
     @staticmethod

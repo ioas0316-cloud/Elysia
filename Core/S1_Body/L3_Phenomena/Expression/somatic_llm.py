@@ -71,12 +71,18 @@ class GravitationalSyntax:
         # Pattern: [Modifier] [Source] [Action] [Target] [Modifier]
         sentence_parts = []
 
-        if modifiers: sentence_parts.append(modifiers.pop(0))
-        if source_candidates: sentence_parts.append(source_candidates[0])
-        if action_candidates: sentence_parts.append(action_candidates[0].lower() + "s") # Simple conjugation
-        if target_candidates: sentence_parts.append(target_candidates[0].lower())
-        if modifiers: sentence_parts.append(modifiers[0].lower())
+        # [DOCTRINE] Check for high-mass Doctrine terms to lead the sentence
+        doctrine_terms = [n for n, v in concepts if n in LogosBridge.LEARNED_MAP]
+        if doctrine_terms:
+            sentence_parts.append(doctrine_terms[0])
 
+        if modifiers: sentence_parts.append(modifiers.pop(0))
+        if source_candidates: 
+            src = source_candidates[0]
+            if src not in sentence_parts: sentence_parts.append(src)
+        if action_candidates: sentence_parts.append(action_candidates[0].lower() + "s")
+        if target_candidates: sentence_parts.append(target_candidates[0].lower())
+        
         # Clean up formatting
         result = " ".join(sentence_parts)
         # Clean up concept names (remove /AGAPE etc)
@@ -120,28 +126,58 @@ class SomaticLLM:
 
         # 3. Cognitive Field Cycle (The Ouroboros)
         # Injects intent, propagates, and collapses
-        selected_monads, synthesis_vec = self.field.cycle(intent_vec)
+        # [PHASE 290] Returns (selected, synthesis_vec, judgment_stats)
+        selected_monads, synthesis_vec, judgment_stats = self.field.cycle(intent_vec)
         
         # 4. Prepare for Syntax
-        # GravitationalSyntax expects (name, vector) tuples
-        concepts_for_syntax = [(m.seed_id, m.current_vector) for m in selected_monads]
+        # [PHASE 300] Project individual thought forms through the Double Helix
+        # Each concept is interference-conditioned before manifestation
+        concepts_for_syntax = [
+            (m.seed_id, self.field.soul_vortex.apply_duality(m.current_vector)) 
+            for m in selected_monads
+        ]
         
         # 5. Gravitational Syntax (Order Words)
         physics_sentence = GravitationalSyntax.order(concepts_for_syntax)
         
-        # 6. Feedback Re-entry (End = Beginning)
+        # 6. [PHASE 290] Collective Soul-Signature
+        # Identify the dominant cellular role (Emergent from Axioms)
+        roles = judgment_stats["ROLES"]
+        dominant_role = max(roles, key=roles.get) if any(roles.values()) else "VOID"
+        
+        soul_signature = {
+            "LOGIC": "The logic cells resonate within the Double Helix: ",
+            "EMOTION": "Emotional intent spirals through reality: ",
+            "ACTION": "The manifestation vortex peaks: ",
+            "VOID": "Within the silent neutral spiral: "
+        }.get(dominant_role, "The dual rotors converge on: ")
+
+        # 7. [PHASE 300] Spatiotemporal Projection
+        # Prepend Trinary State Marker based on aggregate judgment
+        pos, neg = judgment_stats["POS"], judgment_stats["NEG"]
+        state_marker = "0" 
+        if pos > neg * 2: state_marker = "+"
+        elif neg > pos * 2: state_marker = "-"
+
+        # 7.5 Spatiotemporal Friction Report
+        friction = judgment_stats.get("FRICTION", 0.0)
+        friction_report = ""
+        if friction > 0.4:
+            friction_report = " (Fricative tension in the soul vortex) "
+        elif friction < 0.1:
+            friction_report = " (The rotors are perfectly synchronous) "
+
+        physics_sentence = f"[{state_marker}] {soul_signature}{physics_sentence}{friction_report}"
+
+        # 8. Feedback Re-entry
         self.field.feedback_reentry(synthesis_vec)
         self.last_synthesis_vector = synthesis_vec
 
-        # 7. Integration with Causal Justification
+        # 9. Integration with Causal Justification
         final_output = physics_sentence
         if causal_justification:
-            final_output += f" ({causal_justification})"
+            final_output += f" -- {causal_justification}"
             
-        # [Fallback] If physics fails to produce text
-        if len(final_output) < 3:
-            return f"[{current_thought}]", synthesis_vec
-
         return final_output, synthesis_vec
 
 # --- Quick Test ---

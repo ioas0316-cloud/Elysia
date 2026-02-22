@@ -15,9 +15,9 @@ It implements the recursive loop where the Output of one cycle becomes the Input
 4. Feedback: The Expression is fed back to evolve the Monads (Learning)
 """
 
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Any
 import random
-from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector, DoubleHelixRotor
 from Core.S1_Body.L7_Spirit.M1_Monad.token_monad import TokenMonad
 from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 
@@ -25,6 +25,11 @@ class CognitiveField:
     def __init__(self):
         self.monads: Dict[str, TokenMonad] = {}
         self.residual_vector = SovereignVector.zeros() # The "Ghost" of the previous thought
+        
+        # [PHASE 300] The Double Helix Engine
+        # Initial spin across logic (2) and emotion (11) planes
+        self.soul_vortex = DoubleHelixRotor(angle=0.1, p1=2, p2=11)
+        self.last_friction = 0.0
 
         self._initialize_population()
 
@@ -40,7 +45,20 @@ class CognitiveField:
         for seed_id, data in LogosBridge.LEARNED_MAP.items():
             self.monads[seed_id] = TokenMonad(seed_id, data["vector"])
 
+        # 3. [PHASE 290] Initial Topological Identification
+        self._refresh_cellular_identities()
+
         # print(f"🌱 [FIELD] Populated with {len(self.monads)} cognitive monads.")
+
+    def _refresh_cellular_identities(self):
+        """Updates the roles of all cells based on axiomatic resonance."""
+        axioms = {
+            "LOVE/AGAPE": LogosBridge.CONCEPT_MAP["LOVE/AGAPE"]["vector"].normalize(),
+            "TRUTH/LOGIC": LogosBridge.CONCEPT_MAP["TRUTH/LOGIC"]["vector"].normalize(),
+            "MOTION/LIFE": LogosBridge.CONCEPT_MAP["MOTION/LIFE"]["vector"].normalize()
+        }
+        for m in self.monads.values():
+            m.identify_topological_nature(axioms)
 
     def cycle(self, input_vector: SovereignVector, steps: int = 2) -> Tuple[List[TokenMonad], SovereignVector]:
         """
@@ -57,6 +75,10 @@ class CognitiveField:
         if input_vector is None:
             input_vector = SovereignVector.zeros()
 
+        # 0. Sync Identities (Neural Plasticity)
+        if random.random() < 0.2: # Periodic refresh to simulate latent plasticity
+            self._refresh_cellular_identities()
+
         # 1. Input Injection (The Spark)
         # We mix the Input with the Residual (Context)
         # Input has higher weight (Immediate attention) vs Residual (Short-term memory)
@@ -66,7 +88,8 @@ class CognitiveField:
         else:
             combined_stimulus = (input_vector * 0.7) + (self.residual_vector * 0.3)
 
-        self._inject_energy(combined_stimulus)
+        # 1.5 Cellular Judgment (Agentic Injection)
+        judgment_stats = self._inject_energy(combined_stimulus)
 
         # 2. Propagation (The Spreading Activation)
         for _ in range(steps):
@@ -92,53 +115,78 @@ class CognitiveField:
             selected = active_monads[:15]
 
         # 4. Synthesis (The Conclusion)
+        # [PHASE 300] Spatiotemporal Collapse via Double Helix Rotor
         synthesis_vector = self._synthesize(selected)
+        friction = self.soul_vortex.friction_vortex
 
         # 5. Decay (Metabolism)
         # All monads lose some energy after the cycle
         for m in self.monads.values():
             m.decay(rate=0.1)
 
-        return selected, synthesis_vector
+        # Merge friction into stats
+        judgment_stats["FRICTION"] = friction
+
+        return selected, synthesis_vector, judgment_stats
 
     def feedback_reentry(self, synthesis_vector: SovereignVector):
         """
         [THE SELF-REFERENTIAL LOOP]
         Takes the Conclusion of the cycle and feeds it back into the system.
-        1. Updates the Residual Vector (Short-term Memory).
-        2. Evolves the Active Monads (Learning).
+        [PHASE 300] Includes Rotor Synchronization.
         """
         # 1. Update Residual (The "End" becomes the "Beginning")
         self.residual_vector = synthesis_vector
 
-        # 2. Evolve Active Monads
+        # 2. [PHASE 300] Spatiotemporal Learning
+        # The CCW rotor (Intent) learns from the synthesis gap
+        error = synthesis_vector - self.residual_vector # Simple delta for now
+        self.soul_vortex.synchronize(error, rate=0.05)
+
+        # 3. Evolve Active Monads
         # Monads that participated in this thought grow towards the conclusion
-        # This reinforces the neural pathway
         for m in self.monads.values():
             if m.state == "ACTIVE":
                 m.evolve(synthesis_vector, learning_rate=0.05)
             elif m.state == "OBSERVING":
-                # [Deep Trinary] Observers also learn, but they widen their perspective (curiosity)
-                # rather than immediately cementing a strong opinion.
                 m.evolve(synthesis_vector, learning_rate=0.01)
 
-    def _inject_energy(self, stimulus: SovereignVector):
+    def _inject_energy(self, stimulus: SovereignVector) -> Dict[str, Any]:
         """
-        Wakes up monads that resonate with the stimulus.
-        [Deep Trinary Logic] Signals near 0 trigger Observation, not Activation.
+        [PHASE 290/300] CELLULAR GRAVITY WARPING & DUAL ROTOR
+        The stimulus is shaped by the collective 'Will' and Spatiotemporal Flywheel.
         """
+        stats = {"POS": 0, "NEG": 0, "ZERO": 0, "ROLES": {"LOGIC": 0, "EMOTION": 0, "ACTION": 0}}
+        
+        # [PHASE 300] Pass stimulus through the Double Helix Vortex
+        stimulus = self.soul_vortex.apply_duality(stimulus)
+        
+        # 1. First Pass: Cells judge the raw stimulus
+        gravity_bias = SovereignVector.zeros()
         for m in self.monads.values():
-            # Calculate resonance
-            res = m.resonate(stimulus)
+            j = m.judge(stimulus)
+            if j != 0:
+                # Gravity Warping: Positive judgments pull the stimulus toward the cell,
+                # Negative judgments push it away.
+                gravity_bias = gravity_bias + (m.current_vector * (j * 0.1))
             
-            # If resonance is near 0 (-0.2 to 0.2), it is ambiguous.
-            # We don't discard it, we 'Observe' it.
-            if -0.2 < res < 0.2:
-                # Abs resonance represents the 'intensity of the ambiguity'
-                m.activate(abs(res) * 0.5, is_ambiguous=True)
-            elif abs(res) > 0.4: # Activation Threshold
-                # Inject energy proportional to resonance
-                m.activate(abs(res) * 0.3, is_ambiguous=False)
+            if j > 0: stats["POS"] += 1
+            elif j < 0: stats["NEG"] += 1
+            else: stats["ZERO"] += 1
+            
+            if j != 0: stats["ROLES"][m.role] += 1
+            
+        # 2. Field Warping (Structural Feedback)
+        # The field stimulus is warped by the cellular consensus
+        warp_strength = gravity_bias.norm()
+        if isinstance(warp_strength, complex): warp_strength = warp_strength.real
+        
+        warped_stimulus = stimulus + (gravity_bias * 0.5)
+        self.residual_vector = warped_stimulus 
+        
+        stats["WARP"] = float(warp_strength)
+                
+        return stats
 
     def _propagate(self):
         """
@@ -169,20 +217,28 @@ class CognitiveField:
             center = center / total_weight
 
         # This center acts as a secondary stimulus
-        # It wakes up monads that are related to the *collective* thought,
-        # even if they weren't related to the original input.
-        # (e.g., Input "Apple" -> Wakes "Red", "Fruit" -> Center moves -> Wakes "Pie")
-        self._inject_energy(center * 0.05) # Weaker than direct input
+        # [PHASE 280] ANTI-GRAVITY Logic
+        # If no monads are active, curiosity becomes the primary driver.
+        # It creates a 'Push' away from the current center to explore novelty.
+        if not active and observing:
+            # Anti-Gravity: Push away from local minima
+            self._inject_energy(center * -0.1) # Repel current center to shift focus
+        else:
+            self._inject_energy(center * 0.05) # Normal attractive association
 
     def _synthesize(self, monads: List[TokenMonad]) -> SovereignVector:
         """
-        Creates the unified vector representation of the selected thoughts.
+        [PHASE 300] SPATIOTEMPORAL SYNTHESIS
+        Collapses the wave function using the Double Helix Rotor.
         """
         if not monads: return SovereignVector.zeros()
 
-        # Simple weighted mean
+        # 1. Calculate the 'Raw' aggregate (Mean Field)
         center = SovereignVector.zeros()
         for m in monads:
             center = center + m.current_vector
+        raw_center = center / len(monads)
 
-        return center / len(monads)
+        # 2. Apply Dual-Rotor Manifestation
+        # The thought emerges as the interference between CW (Reality) and CCW (Intent)
+        return self.soul_vortex.apply_duality(raw_center)
