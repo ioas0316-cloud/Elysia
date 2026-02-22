@@ -22,7 +22,8 @@ class TokenMonad:
 
         # Dynamic State
         self.charge = charge
-        self.state = "DORMANT" # DORMANT, RESONATING, ACTIVE
+        self.curiosity_charge = 0.0 # [Deep Trinary Logic] The energy of the Analog 0 state
+        self.state = "DORMANT" # DORMANT, OBSERVING, RESONATING, ACTIVE
 
         # Recursive History (The "Tail" of the Ouroboros)
         # We store the last few interaction resonances to determine "Momentum"
@@ -52,23 +53,35 @@ class TokenMonad:
         """Returns the vector + evolutionary drift."""
         return self.vector + self.evolution_drift
 
-    def activate(self, intensity: float):
+    def activate(self, intensity: float, is_ambiguous: bool = false):
         """
         Injects energy into the Monad.
+        [Deep Trinary Logic] If the signal is ambiguous (near 0 resonance),
+        it fuels curiosity (observation) rather than immediate action.
         """
-        self.charge = min(1.0, self.charge + intensity)
-        if self.charge > 0.3:
-            self.state = "RESONATING"
-        if self.charge > 0.7:
-            self.state = "ACTIVE"
+        if is_ambiguous:
+            self.curiosity_charge = min(1.0, self.curiosity_charge + intensity)
+            if self.state == "DORMANT":
+                self.state = "OBSERVING"
+        else:
+            self.charge = min(1.0, self.charge + intensity)
+            if self.charge > 0.3 and self.state in ["DORMANT", "OBSERVING"]:
+                self.state = "RESONATING"
+            if self.charge > 0.7:
+                self.state = "ACTIVE"
 
     def decay(self, rate: float = 0.1):
         """
         Natural metabolic decay. Thoughts fade if not fed.
         """
         self.charge = max(0.0, self.charge - rate)
+        self.curiosity_charge = max(0.0, self.curiosity_charge - (rate * 0.5)) # Curiosity decays slower
+
         if self.charge < 0.3:
-            self.state = "DORMANT"
+            if self.curiosity_charge > 0.2:
+                self.state = "OBSERVING"
+            else:
+                self.state = "DORMANT"
         elif self.charge < 0.7 and self.state == "ACTIVE":
             self.state = "RESONATING"
 
@@ -96,4 +109,4 @@ class TokenMonad:
             self.evolution_drift = self.evolution_drift.normalize() * 0.5
 
     def __repr__(self):
-        return f"<Monad '{self.seed_id}' Q={self.charge:.2f} State={self.state}>"
+        return f"<Monad '{self.seed_id}' Q={self.charge:.2f} C={self.curiosity_charge:.2f} State={self.state}>"

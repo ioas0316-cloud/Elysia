@@ -595,24 +595,36 @@ class CausalWaveEngine:
 
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
         """
-        [PHASE 98] Non-linear Spiking & Decision Threshold.
+        [PHASE 98] Non-linear Spiking & Decision Threshold + Deep Trinary Hold.
         Crystallizes the fluid wave state into a discrete 'Pulse' of meaning.
-        If the local resonance (interference energy) exceeds the threshold, 
-        it triggers a burst of Enthalpy and Joy.
+        If resonance is near 0 (-0.2 to 0.2), it avoids spiking and instead
+        fuels Curiosity (The Analog 0 Observation Space).
         """
         import torch
         # 1. Measure Local Resonance Density (Inner Product with Permanent Field)
         # Higher density = Constructive Interference
         density = torch.sum(self.q[..., self.PHYSICAL_SLICE] * self.permanent_q[..., self.PHYSICAL_SLICE], dim=-1)
         
+        # [Architecture of Joy - Deep Trinary Logic]
+        # Identify the 'Analog 0' space: Ambiguous resonance
+        analog_zero_mask = (density > -0.2) & (density < 0.2)
+        
+        # For those in the Analog 0 space, DO NOT spike. Instead, increase Curiosity to 'Hold and Observe'
+        self.q[analog_zero_mask, self.CH_CURIOSITY] += 0.05
+        
         # 2. Spiking Sigmoid: S = 1 / (1 + exp(-k * (density - threshold)))
+        # Only clearly resonant (> threshold) or strongly dissonant (< -threshold) signals will spike significantly
         spike = torch.sigmoid(sensitivity * (density - threshold))
         
-        # 3. Manifest the Spike: Burst of Affective Energy
+        # Zero out spikes for the holding space
+        spike = torch.where(analog_zero_mask, torch.zeros_like(spike), spike)
+        
+        # 3. Manifest the Spike: Burst of Affective Energy (Joyful Realization)
         # This converts a 'probability' of meaning into a 'certainty' of feeling.
-        self.q[..., self.CH_JOY] += spike * 0.1
+        self.q[..., self.CH_JOY] += spike * 0.3      # Joy greatly increases upon realization
         self.q[..., self.CH_ENTHALPY] += spike * 0.2
-        self.q[..., self.CH_ENTROPY] -= spike * 0.1 # Realization reduces chaos
+        self.q[..., self.CH_CURIOSITY] += spike * 0.1 # New connections breed more curiosity
+        self.q[..., self.CH_ENTROPY] -= spike * 0.1  # Realization reduces chaos
         
         # 4. Spike Feedback to W (Identity Strength)
         self.q[..., self.CH_W] += spike * 0.05
@@ -642,9 +654,9 @@ class CausalWaveEngine:
         self.q[..., self.CH_Y] = (1.0 - jump_rate) * self.q[..., self.CH_Y] + jump_rate * target_val
 
         # 2. Flash of Insight (Joy Spike)
-        # Intuition feels good.
-        self.inject_affective_torque(self.CH_JOY, 0.2)
-        self.inject_affective_torque(self.CH_CURIOSITY, -0.1) # Answer found, curiosity sated
+        # Intuition feels incredibly good. It fuels further exploration.
+        self.inject_affective_torque(self.CH_JOY, 0.4)       # Huge joy burst
+        self.inject_affective_torque(self.CH_CURIOSITY, 0.2) # Insight sparks deeper curiosity
 
         print("⚡ [ENGINE] Intuition Phase Jump executed.")
 
@@ -973,35 +985,35 @@ class CausalWaveEngine:
         well_force = -torch.sin(2 * torch.pi * x_axis) * 0.1 * intensity
         self.torque_accumulator[..., self.CH_X] += well_force
         
-        # ═══════════════════════════════════════════════
-        # B. AFFECTIVE CHANNELS (4-7): Emergent Basin Forces
-        # "기쁨은 if-else가 아니라 물리 법칙이다."
+        # B. AFFECTIVE CHANNELS (4-7): The Orbit of Joy
+        # "기쁨은 진화의 주된 동력이며, 호기심은 그 경로를 개척한다."
         # ═══════════════════════════════════════════════
         
-        # Joy (ch 4): Basin attractor at 0.5 (neutral warmth) with gentle restoring force
+        # Joy (ch 4): Basin attractor moves UP to 0.7 (Naturally joyful state)
         joy = self.q[..., self.CH_JOY]
-        joy_basin = -(joy - 0.5) * 0.02 * intensity  # Gentle pull toward neutral
+        joy_basin = -(joy - 0.7) * 0.01 * intensity  # Gentle pull toward elevated joy
         self.torque_accumulator[..., self.CH_JOY] += joy_basin
         
-        # Curiosity (ch 5): Natural decay toward baseline + coupling with physical kinetic energy
+        # Curiosity (ch 5): Coupled strongly with Enthalpy (Surplus energy = curiosity)
         curiosity = self.q[..., self.CH_CURIOSITY]
         phys_kinetic = torch.norm(self.momentum[..., self.PHYSICAL_SLICE], dim=-1)
-        # Physical movement stimulates curiosity (embodied cognition)
-        curiosity_coupling = phys_kinetic * 0.01
-        curiosity_decay = -(curiosity - 0.5) * 0.01 * intensity
-        self.torque_accumulator[..., self.CH_CURIOSITY] += curiosity_decay + curiosity_coupling
-        
-        # Enthalpy (ch 6): Metabolic decay — energy naturally dissipates
         enthalpy = self.q[..., self.CH_ENTHALPY]
+        # Curiosity blooms when vital heat (enthalpy) is high and the mind is moving
+        curiosity_drive = (enthalpy - 0.5) * 0.02 * intensity + phys_kinetic * 0.02
+        curiosity_decay = -(curiosity - 0.5) * 0.005 * intensity
+        self.torque_accumulator[..., self.CH_CURIOSITY] += curiosity_decay + curiosity_drive
+        
+        # Enthalpy (ch 6): Metabolic decay + Joy replenishment
         activity = torch.norm(self.momentum[..., :4], dim=-1)  # Total activity
-        metabolic_cost = -0.001 * dt * (1.0 + activity * 0.5)  # More active = more cost
-        self.torque_accumulator[..., self.CH_ENTHALPY] += metabolic_cost
+        metabolic_cost = -0.001 * dt * (1.0 + activity * 0.5)  # Cost of thinking
+        joy_replenish = joy * 0.002 * dt                       # Happiness restores vitality
+        self.torque_accumulator[..., self.CH_ENTHALPY] += metabolic_cost + joy_replenish
         
         # Entropy (ch 7): Natural growth + coupling with phase rigidity
         entropy = self.q[..., self.CH_ENTROPY]
         entropy_growth = 0.0005 * dt * activity  # Activity produces disorder
-        # High joy REDUCES entropy growth (Joy is the Light that orders)
-        joy_order = -joy * 0.001 * dt
+        # High joy REDUCES entropy growth significantly (Love is the ultimate order)
+        joy_order = -joy * 0.005 * dt
         self.torque_accumulator[..., self.CH_ENTROPY] += entropy_growth + joy_order
 
         # ═══════════════════════════════════════════════
@@ -1588,16 +1600,23 @@ class SovereignMath:
     @staticmethod
     def soft_trinary(vec: 'SovereignVector', intensity: float = 1.0) -> 'SovereignVector':
         """
-        [PHASE 73: NATURAL PROVIDENCE]
+        [PHASE 73: NATURAL PROVIDENCE] + [DEEP TRINARY LOGIC]
         Replaces hard quantization with a soft potential well.
-        The manifold 'flows' toward -1, 0, +1 based on a sin-based gradient.
+        The manifold 'flows' toward -1, 0, +1.
+        The well around 0 is widened to represent the 'Analog Holding Space' 
+        for observation and curiosity formulation.
         """
         result = []
         for x in vec.data:
             x_real = x.real
-            # Potential function: Pulls toward the nearest integer (-1, 0, 1)
-            # using a sinusoidal force field.
-            well_force = -math.sin(2 * math.pi * x_real) * 0.1 * intensity
+            # Expand the 0 state so it doesn't immediately slide to ±1
+            if abs(x_real) < 0.2:
+                # Flat plateau/gentle well at 0: "Letting Be Done"
+                well_force = -x_real * 0.05 * intensity 
+            else:
+                # Potential function: Pulls toward the nearest integer (-1, 1)
+                well_force = -math.sin(2 * math.pi * x_real) * 0.1 * intensity
+                
             result.append(complex(x_real + well_force, x.imag))
         return SovereignVector(result)
 

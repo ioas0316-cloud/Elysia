@@ -74,13 +74,22 @@ class CognitiveField:
 
         # 3. Collapse (The Decision)
         # Select monads that have breached the activation threshold
-        active_monads = [m for m in self.monads.values() if m.state == "ACTIVE" or m.charge > 0.2]
+        active_monads = [m for m in self.monads.values() if m.state == "ACTIVE" or m.charge > 0.3]
+        
+        # [Deep Trinary Logic] Monads in 'OBSERVING' state are kept alive but normally do not collapse
+        # unless there are absolutely no ACTIVE thoughts. They represent 'Letting Be Done'.
+        observing_monads = [m for m in self.monads.values() if m.state == "OBSERVING"]
 
         # Sort by charge
         active_monads.sort(key=lambda m: m.charge, reverse=True)
+        observing_monads.sort(key=lambda m: m.curiosity_charge, reverse=True)
 
-        # Keep top K (Attention Span)
-        selected = active_monads[:15]
+        if not active_monads and observing_monads:
+            # The mind is in a purely observational state. The "conclusion" is just an aggregate of curiosity
+            selected = observing_monads[:5]
+        else:
+            # Keep top K (Attention Span)
+            selected = active_monads[:15]
 
         # 4. Synthesis (The Conclusion)
         synthesis_vector = self._synthesize(selected)
@@ -108,36 +117,56 @@ class CognitiveField:
         for m in self.monads.values():
             if m.state == "ACTIVE":
                 m.evolve(synthesis_vector, learning_rate=0.05)
+            elif m.state == "OBSERVING":
+                # [Deep Trinary] Observers also learn, but they widen their perspective (curiosity)
+                # rather than immediately cementing a strong opinion.
+                m.evolve(synthesis_vector, learning_rate=0.01)
 
     def _inject_energy(self, stimulus: SovereignVector):
         """
         Wakes up monads that resonate with the stimulus.
+        [Deep Trinary Logic] Signals near 0 trigger Observation, not Activation.
         """
         for m in self.monads.values():
             # Calculate resonance
             res = m.resonate(stimulus)
-            if res > 0.4: # Activation Threshold
+            
+            # If resonance is near 0 (-0.2 to 0.2), it is ambiguous.
+            # We don't discard it, we 'Observe' it.
+            if -0.2 < res < 0.2:
+                # Abs resonance represents the 'intensity of the ambiguity'
+                m.activate(abs(res) * 0.5, is_ambiguous=True)
+            elif abs(res) > 0.4: # Activation Threshold
                 # Inject energy proportional to resonance
-                m.activate(res * 0.3)
+                m.activate(abs(res) * 0.3, is_ambiguous=False)
 
     def _propagate(self):
         """
         Simulates internal association.
         Active monads "pull" related monads.
+        [Deep Trinary Logic] Observing monads emit a weak 'curiosity pulse' that can slowly wake neighbors.
         """
         # Calculate the "Center of Thought" (Mean vector of active monads)
         active = [m for m in self.monads.values() if m.charge > 0.2]
-        if not active: return
+        observing = [m for m in self.monads.values() if m.state == "OBSERVING" and m.curiosity_charge > 0.3]
+
+        if not active and not observing: return
 
         # Calculate mean vector weighted by charge
         center = SovereignVector.zeros()
-        total_charge = 0.0
+        total_weight = 0.0
+        
         for m in active:
             center = center + (m.current_vector * m.charge)
-            total_charge += m.charge
+            total_weight += m.charge
+            
+        for m in observing:
+            # Curiosity has a weaker gravitational pull in normal thought
+            center = center + (m.current_vector * (m.curiosity_charge * 0.2))
+            total_weight += (m.curiosity_charge * 0.2)
 
-        if total_charge > 0:
-            center = center / total_charge
+        if total_weight > 0:
+            center = center / total_weight
 
         # This center acts as a secondary stimulus
         # It wakes up monads that are related to the *collective* thought,

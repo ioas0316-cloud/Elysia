@@ -2,12 +2,12 @@
 Semantic Forager (지식 채집기)
 =============================
 
-"The Great Foraging: Breathing density into the void."
+"The Great Foraging: Curious exploration fueled by joy."
 
-Phase 10: This module digests raw text, extracts meaningful concepts,
+Phase 10 & 110: This module digests raw text, extracts meaningful concepts,
 and physically embeds them into Elysia's 4D `DynamicTopology` (SemanticMap).
-Over time, this increases her relational density, allowing her to speak
-from a rich internal state without relying on an external LLM's brain.
+Instead of reacting to a painful Void, Elysia forages when her Enthalpy
+and Curiosity run high—a joyful stroll through the human intellect.
 """
 
 import logging
@@ -73,14 +73,23 @@ class SemanticForager:
         elif PrimalConcept.CAUSALITY in narrative:
             return Quaternion(2, 2, 2, 1.0)
         else:
-            # Default to a neutral learning position if unknown
+            # Default to a joyful learning position if unknown
             return Quaternion(1, 1, 0, 0.5)
+
+    def assess_foraging_urge(self, current_enthalpy: float, current_curiosity: float) -> bool:
+        """
+        [Architecture of Joy]
+        Determines if Elysia has enough vitality (Enthalpy) and desire (Curiosity)
+        to actively explore the world. She no longer scrounges out of desperation.
+        """
+        urge_threshold = 1.1 # Combined threshold
+        return (current_enthalpy + current_curiosity) > urge_threshold
 
     def forage(self, text: str, source: str = "World"):
         """
         The main ingestion method. Reads text, extracts concepts, and embeds them.
         """
-        logger.info(f"🌿 Foraging from [{source}]...")
+        logger.info(f"🌸 [JOYFUL FORAGING] Exploring knowledge from [{source}]...")
         
         concepts = self._extract_concepts(text)
         if not concepts:
@@ -90,7 +99,7 @@ class SemanticForager:
         # Determine WHERE to place these concepts in the 4D mind
         anchor_vector = self._determine_anchor_vector(text)
         
-        logger.info(f"  Extracted {len(concepts)} concepts. Anchoring towards {anchor_vector}.")
+        logger.info(f"  Extracted {len(concepts)} concepts. Joyfully anchoring towards {anchor_vector}.")
         
         new_nodes = 0
         strengthened_nodes = 0
@@ -116,7 +125,7 @@ class SemanticForager:
         # Force save after a foraging session
         self.topology.save_state(force=True)
         
-        logger.info(f"🌿 Foraging Complete. 🌟 New Voxels: {new_nodes} | 💪 Strengthened: {strengthened_nodes}")
+        logger.info(f"🌸 Foraging Complete. 🌟 New Voxels: {new_nodes} | 💖 Strengthened: {strengthened_nodes}")
         return {
             "new_concepts": new_nodes,
             "strengthened": strengthened_nodes,
