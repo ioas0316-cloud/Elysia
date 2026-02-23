@@ -9,7 +9,10 @@ of high-dimensional spin states into perceivable thoughts and narratives.
 """
 
 from typing import Dict, Any, List, Optional
-import torch
+try:
+    import torch
+except ImportError:
+    torch = None
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 
 class MentalFluid:
@@ -41,7 +44,13 @@ class MentalFluid:
             density = spin_state.get("kinetic_energy", 0.0)
             current_res = spin_state.get("resonance", 0.0)
         else:
-            density = torch.norm(torch.tensor(spin_state.data)) if hasattr(spin_state, 'data') else 1.0
+            if torch:
+                density = torch.norm(torch.tensor(spin_state.data)) if hasattr(spin_state, 'data') else 1.0
+            else:
+                # Fallback for no torch
+                density = 1.0
+                if hasattr(spin_state, 'data'):
+                    density = sum(x*x for x in spin_state.data) ** 0.5
             current_res = 0.0
         
         # 2. Check for Manifestation Threshold
@@ -103,7 +112,11 @@ class MentalFluid:
         Injects an external disturbance into the mental fluid.
         Adjusts viscosity based on impact intensity.
         """
-        intensity = torch.norm(torch.tensor(impact_vector.data))
+        if torch:
+            intensity = torch.norm(torch.tensor(impact_vector.data))
+        else:
+            intensity = sum(x*x for x in impact_vector.data) ** 0.5
+
         self.viscosity = max(0.1, self.viscosity - intensity * 0.01)
         print(f"🌊 [MENTAL FLUID] Ripple felt. NEW Viscosity: {self.viscosity:.2f}")
 

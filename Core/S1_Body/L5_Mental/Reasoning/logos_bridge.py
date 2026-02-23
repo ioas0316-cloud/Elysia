@@ -689,13 +689,63 @@ class LogosBridge:
     @staticmethod
     def calculate_text_resonance(text: str) -> SovereignVector:
         # [PHASE 130] Unified Inhalation
+        # [V2.0] Now returns a tuple (vector, residue) if possible, but keep signature for compat.
+        # Ideally, we attach residue to the vector or return it separately.
+        # For now, inhale_text handles the logic.
         return LogosBridge.inhale_text(text)
+
+    @staticmethod
+    def calculate_analog_residue(text: str, vector: SovereignVector) -> float:
+        """
+        [DOCTRINE OF THE PRISM]
+        Calculates the 'Quantization Loss' (Residue) when converting Analog Text to Digital Vector.
+
+        Residue = (Analog Complexity) - (Digital Certainty)
+
+        - Analog Complexity: Richness of adjectives, length, metaphors (entropy).
+        - Digital Certainty: Magnitude of the resulting vector (how well it mapped to known concepts).
+        """
+        import math
+
+        # 1. Measure Analog Complexity (Entropy estimate)
+        # Length, unique words, emotional words
+        words = text.split()
+        unique_words = set(words)
+
+        # Base entropy: longer, more unique text is harder to compress
+        analog_complexity = math.log(len(words) + 1) + (len(unique_words) / (len(words) + 1))
+
+        # 2. Measure Digital Certainty (Resonance Mass)
+        # High norm means we found strong existing concepts to map to.
+        # Low norm means we just averaged a bunch of noise (high loss).
+        digital_certainty = 0.0
+        if hasattr(vector, 'norm'):
+            norm_val = vector.norm()
+            if isinstance(norm_val, complex): norm_val = norm_val.real
+            # A 'perfect' match usually has norm ~1.0 or higher if multiple concepts align
+            digital_certainty = float(norm_val)
+
+        # 3. Calculate Residue
+        # If complexity is high but certainty is low, Residue is HIGH (We missed the meaning).
+        # If complexity is low and certainty is high, Residue is LOW (We got it).
+
+        # [V2.0 FIX] Ensure residue is not zero-clamped too early if norms are small (like in mocks)
+        # If digital_certainty is 0.0 (Mock), Residue = Analog Complexity
+
+        residue = max(0.0, analog_complexity - digital_certainty)
+
+        # Scale for usability (0.0 - 1.0 range preferred)
+        # Increase gain to ensure visibility
+        residue = min(1.0, residue * 0.5)
+
+        return residue
 
     @staticmethod
     def inhale_text(text: str) -> SovereignVector:
         """
         [PHASE 130] Digestion and Crystallization.
         Decomposes text, identifies novel concepts, and crystallizes them.
+        [V2.0] Calculates Analog Residue and attaches it to the vector.
         """
         import re
         # Clean and split into words (preserving Hangul)
@@ -727,7 +777,20 @@ class LogosBridge:
             # 3. Accumulate into the 'Insight' of this text
             consensus_vector = consensus_vector + (vec * count)
             
-        return consensus_vector.normalize()
+        final_vector = consensus_vector.normalize()
+
+        # [V2.0] Calculate Residue
+        residue = LogosBridge.calculate_analog_residue(text, final_vector)
+
+        # Attach residue to the vector object (Duck Typing)
+        try:
+            final_vector.analog_residue = residue
+        except AttributeError:
+            # Fallback if SovereignVector uses __slots__ or is immutable
+            # We return a wrapper or just the vector (residue loss is acceptable in fallback)
+            pass
+
+        return final_vector
 
     @staticmethod
     def parse_narrative_to_torque(text: str) -> Any:

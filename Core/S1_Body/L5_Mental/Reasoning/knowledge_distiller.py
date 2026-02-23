@@ -12,9 +12,12 @@ data, but a reconfiguration of the observer's own structure.
 """
 
 import os
-import torch
 import random
 from typing import List, Dict, Any, Optional
+try:
+    import torch
+except ImportError:
+    torch = None
 from pathlib import Path
 
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
@@ -111,6 +114,9 @@ class KnowledgeDistiller:
         """
         Proposes and executes a topological shift for a single concept.
         """
+        if torch is None:
+            return False
+
         name = concept['name']
         dimension = concept['dim']
         priority = concept.get('priority', 0.5)

@@ -1,0 +1,2403 @@
+{
+  "0,0": {
+    "height": 0.4931698279328962,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,1": {
+    "height": 0.4982655906719913,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,2": {
+    "height": 0.5054549492495066,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,3": {
+    "height": 0.49814045641798943,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,4": {
+    "height": 0.49471231036966856,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,5": {
+    "height": 0.50605656206414,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,6": {
+    "height": 0.5045338131321788,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,7": {
+    "height": 0.49361225060828995,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,8": {
+    "height": 0.5064109795121009,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,9": {
+    "height": 0.5081415448171618,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,10": {
+    "height": 0.5090740179513109,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,11": {
+    "height": 0.5050876053626541,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,12": {
+    "height": 0.502240091383547,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,13": {
+    "height": 0.5085395014996034,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,14": {
+    "height": 0.5003024895251867,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,15": {
+    "height": 0.497022888255385,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,16": {
+    "height": 0.49135426751428557,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,17": {
+    "height": 0.49485415356677964,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,18": {
+    "height": 0.5045099150072758,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "0,19": {
+    "height": 0.4921431658269893,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,0": {
+    "height": 0.49778984583537994,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,1": {
+    "height": 0.5069742203057304,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,2": {
+    "height": 0.5038912114846618,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,3": {
+    "height": 0.5028962921282697,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,4": {
+    "height": 0.4934159141064558,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,5": {
+    "height": 0.5066900575036175,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,6": {
+    "height": 0.49380795645509795,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,7": {
+    "height": 0.5019650829997638,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,8": {
+    "height": 0.5080584448961112,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,9": {
+    "height": 0.5042736888404171,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,10": {
+    "height": 0.5066620668980528,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,11": {
+    "height": 0.5088579094206603,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,12": {
+    "height": 0.5060934060002286,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,13": {
+    "height": 0.5036617785852674,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,14": {
+    "height": 0.4947394419218358,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,15": {
+    "height": 0.5091743248482996,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,16": {
+    "height": 0.5079103475816887,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,17": {
+    "height": 0.49535264107693716,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,18": {
+    "height": 0.5073025392908568,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "1,19": {
+    "height": 0.49101516857082705,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,0": {
+    "height": 0.5064274594883994,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,1": {
+    "height": 0.502161472468979,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,2": {
+    "height": 0.5053557602348053,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,3": {
+    "height": 0.508674040828013,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,4": {
+    "height": 0.4998647898488404,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,5": {
+    "height": 0.5017524341916026,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,6": {
+    "height": 0.5057144139706894,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,7": {
+    "height": 0.493147216994494,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,8": {
+    "height": 0.5029302610218054,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,9": {
+    "height": 0.5070636286174011,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,10": {
+    "height": 0.505621404540856,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,11": {
+    "height": 0.49460685689940204,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,12": {
+    "height": 0.5002751211830506,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,13": {
+    "height": 0.49810197914194376,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,14": {
+    "height": 0.509580888969984,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,15": {
+    "height": 0.5000988829032731,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,16": {
+    "height": 0.4907105793435539,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,17": {
+    "height": 0.5087200783626643,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,18": {
+    "height": 0.4984887610699737,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "2,19": {
+    "height": 0.4932765091080765,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,0": {
+    "height": 0.49225293712466317,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,1": {
+    "height": 0.5089164252734392,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,2": {
+    "height": 0.4945587277156328,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,3": {
+    "height": 0.4937999376221241,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,4": {
+    "height": 0.5088495647035546,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,5": {
+    "height": 0.49903922660657835,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,6": {
+    "height": 0.5009163208865546,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,7": {
+    "height": 0.5006195638547714,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,8": {
+    "height": 0.4997848108985775,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,9": {
+    "height": 0.502954410501746,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,10": {
+    "height": 0.5064195274674057,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,11": {
+    "height": 0.5016679692302504,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,12": {
+    "height": 0.49687253770152967,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,13": {
+    "height": 0.4938577829962991,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,14": {
+    "height": 0.5026110417207417,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,15": {
+    "height": 0.5086705647470638,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,16": {
+    "height": 0.5050954462003074,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,17": {
+    "height": 0.5045311991507532,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,18": {
+    "height": 0.49947316250563023,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "3,19": {
+    "height": 0.49116668847906825,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,0": {
+    "height": 0.4998833411505794,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,1": {
+    "height": 0.5085151083515499,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,2": {
+    "height": 0.496944762749221,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,3": {
+    "height": 0.5064699764116773,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,4": {
+    "height": 0.4962694667827881,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,5": {
+    "height": 0.5062656423919518,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,6": {
+    "height": 0.49585176944663667,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,7": {
+    "height": 0.49924589406082825,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,8": {
+    "height": 0.4912254465309599,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,9": {
+    "height": 0.49843373106150973,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,10": {
+    "height": 0.5049555802971112,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,11": {
+    "height": 0.49785501768345986,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,12": {
+    "height": 0.5088869036753764,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,13": {
+    "height": 0.5099104035140154,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,14": {
+    "height": 0.4926146419974767,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,15": {
+    "height": 0.5005115092658843,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,16": {
+    "height": 0.506734700235597,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,17": {
+    "height": 0.5010897797286059,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,18": {
+    "height": 0.4942243525471981,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "4,19": {
+    "height": 0.500629377435111,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,0": {
+    "height": 0.4980000066875806,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,1": {
+    "height": 0.5042901508989444,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,2": {
+    "height": 0.4953612761602757,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,3": {
+    "height": 0.49057847008663463,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,4": {
+    "height": 0.5050728153791854,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,5": {
+    "height": 0.509830063023645,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,6": {
+    "height": 0.5054809622315312,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,7": {
+    "height": 0.4990935354822113,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,8": {
+    "height": 0.5095194036634382,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,9": {
+    "height": 0.49131708738204705,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,10": {
+    "height": 0.5023572974855891,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,11": {
+    "height": 0.49961237039168416,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,12": {
+    "height": 0.5054680886141396,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,13": {
+    "height": 0.4954354532989684,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,14": {
+    "height": 0.5027564101692521,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,15": {
+    "height": 0.501356265671553,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,16": {
+    "height": 0.49435630919405105,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,17": {
+    "height": 0.5029929265853021,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,18": {
+    "height": 0.5075758804308572,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "5,19": {
+    "height": 0.49512065390999366,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,0": {
+    "height": 0.5006552279344254,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,1": {
+    "height": 0.49832395566621507,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,2": {
+    "height": 0.49471251894744644,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,3": {
+    "height": 0.500178215081446,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,4": {
+    "height": 0.49397822761861304,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,5": {
+    "height": 0.5056124699689069,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,6": {
+    "height": 0.4960853153731734,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,7": {
+    "height": 0.49948678260060453,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,8": {
+    "height": 0.49014938158018784,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,9": {
+    "height": 0.4974431672962103,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,10": {
+    "height": 0.5012272783186131,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,11": {
+    "height": 0.4949825830934732,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,12": {
+    "height": 0.5039387940441434,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,13": {
+    "height": 0.5073869414515009,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,14": {
+    "height": 0.49496774930553894,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,15": {
+    "height": 0.49946648544713096,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,16": {
+    "height": 0.5023928843848892,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,17": {
+    "height": 0.490035572284173,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,18": {
+    "height": 0.5005546122870916,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "6,19": {
+    "height": 0.5019687451044622,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,0": {
+    "height": 0.49999041371335295,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,1": {
+    "height": 0.49493703474072015,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,2": {
+    "height": 0.500530223874286,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,3": {
+    "height": 0.501886313390213,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,4": {
+    "height": 0.5019347578141554,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,5": {
+    "height": 0.5086275413850077,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,6": {
+    "height": 0.5017598743785122,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,7": {
+    "height": 0.5046226867375738,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,8": {
+    "height": 0.5056267114328612,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,9": {
+    "height": 0.4999368423481328,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,10": {
+    "height": 0.4919699788734143,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,11": {
+    "height": 0.4988799671588815,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,12": {
+    "height": 0.49345223618151046,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,13": {
+    "height": 0.49865563577600514,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,14": {
+    "height": 0.4974022006820374,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,15": {
+    "height": 0.5088553900291618,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,16": {
+    "height": 0.5037482514442642,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,17": {
+    "height": 0.4954389829063434,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,18": {
+    "height": 0.49943998709853704,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "7,19": {
+    "height": 0.5037186945002323,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,0": {
+    "height": 0.49527713489006076,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,1": {
+    "height": 0.5066125436737281,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,2": {
+    "height": 0.4926545096315589,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,3": {
+    "height": 0.5043661696589568,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,4": {
+    "height": 0.5069392145343957,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,5": {
+    "height": 0.5026152612277365,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,6": {
+    "height": 0.5030618813659103,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,7": {
+    "height": 0.4968441188092841,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,8": {
+    "height": 0.5004884346378258,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,9": {
+    "height": 0.5017793561371138,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,10": {
+    "height": 0.4929171837873275,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,11": {
+    "height": 0.49221528713203083,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,12": {
+    "height": 0.4964051810359731,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,13": {
+    "height": 0.49433766685192543,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,14": {
+    "height": 0.4944626446753484,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,15": {
+    "height": 0.49892080986379955,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,16": {
+    "height": 0.5065942153956393,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,17": {
+    "height": 0.502717600938456,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,18": {
+    "height": 0.492445117904714,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "8,19": {
+    "height": 0.4927432751923458,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,0": {
+    "height": 0.4950405298652364,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,1": {
+    "height": 0.5017712172293581,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,2": {
+    "height": 0.4944133980479824,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,3": {
+    "height": 0.5036376353823413,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,4": {
+    "height": 0.4953732567587016,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,5": {
+    "height": 0.49436232702684557,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,6": {
+    "height": 0.5032689186813285,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,7": {
+    "height": 0.4925130501630212,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,8": {
+    "height": 0.4952800283958735,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,9": {
+    "height": 0.441547048536441,
+    "density": 0.15236156768781173,
+    "angular_momentum": 0.0,
+    "fluid": 0.0,
+    "concept": "SHARED_JOY"
+  },
+  "9,10": {
+    "height": 0.5010730877064226,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,11": {
+    "height": 0.5070258009262875,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,12": {
+    "height": 0.5058516002221043,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,13": {
+    "height": 0.4926813076089354,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,14": {
+    "height": 0.4957971487826879,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,15": {
+    "height": 0.49033621520852055,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,16": {
+    "height": 0.4918773590022666,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,17": {
+    "height": 0.49638014928464663,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,18": {
+    "height": 0.501497242847234,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "9,19": {
+    "height": 0.4919814332929283,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,0": {
+    "height": 0.5077170093324092,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,1": {
+    "height": 0.5087305158481072,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,2": {
+    "height": 0.49418299532356985,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,3": {
+    "height": 0.5032842995825859,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,4": {
+    "height": 0.4965389937347988,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,5": {
+    "height": 0.49625931084361014,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,6": {
+    "height": 0.4943379144560826,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,7": {
+    "height": 0.5066660211319116,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,8": {
+    "height": 0.5093176630097621,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,9": {
+    "height": 0.5062449100102067,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,10": {
+    "height": 0.5058989284152442,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,11": {
+    "height": 0.4974262193039477,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,12": {
+    "height": 0.49682318608137077,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,13": {
+    "height": 0.4997238648753961,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,14": {
+    "height": 0.5076829479168328,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,15": {
+    "height": 0.49331571028982585,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,16": {
+    "height": 0.5030014859172897,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,17": {
+    "height": 0.5060288794062338,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,18": {
+    "height": 0.4908462471128181,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "10,19": {
+    "height": 0.49388675754575995,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,0": {
+    "height": 0.5084433933790715,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,1": {
+    "height": 0.5081711594108438,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,2": {
+    "height": 0.5089743934759119,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,3": {
+    "height": 0.49637767783088393,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,4": {
+    "height": 0.49832157715028,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,5": {
+    "height": 0.506274192736946,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,6": {
+    "height": 0.49097530126892414,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,7": {
+    "height": 0.5076413774523851,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,8": {
+    "height": 0.5078822713816921,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,9": {
+    "height": 0.5056602375816376,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,10": {
+    "height": 0.500003330678544,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,11": {
+    "height": 0.49412102311874156,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,12": {
+    "height": 0.5044872335550504,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,13": {
+    "height": 0.5034556803278686,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,14": {
+    "height": 0.5017352399692867,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,15": {
+    "height": 0.49201846114992975,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,16": {
+    "height": 0.49777847446283,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,17": {
+    "height": 0.4948086890698958,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,18": {
+    "height": 0.49227270363867487,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "11,19": {
+    "height": 0.5005904502621935,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,0": {
+    "height": 0.4979524874118998,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,1": {
+    "height": 0.5041485739554841,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,2": {
+    "height": 0.49565477567847666,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,3": {
+    "height": 0.5052624939583389,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,4": {
+    "height": 0.5009525480332063,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,5": {
+    "height": 0.49100319096677697,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,6": {
+    "height": 0.5025183165966646,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,7": {
+    "height": 0.49912277548713685,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,8": {
+    "height": 0.5069322422877195,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,9": {
+    "height": 0.4913600550318518,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,10": {
+    "height": 0.49170957738283927,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,11": {
+    "height": 0.49793997563625175,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,12": {
+    "height": 0.509635492209938,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,13": {
+    "height": 0.5071877455858004,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,14": {
+    "height": 0.5043155105268871,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,15": {
+    "height": 0.49581935291447593,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,16": {
+    "height": 0.5048955068897906,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,17": {
+    "height": 0.5069611210768298,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,18": {
+    "height": 0.5032795407655167,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "12,19": {
+    "height": 0.5086301370965997,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,0": {
+    "height": 0.4971984194675379,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,1": {
+    "height": 0.49238721518131323,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,2": {
+    "height": 0.4983458616039329,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,3": {
+    "height": 0.5074264409843261,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,4": {
+    "height": 0.5069716517691688,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,5": {
+    "height": 0.49359999002017146,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,6": {
+    "height": 0.4926938493545765,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,7": {
+    "height": 0.5075835948243467,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,8": {
+    "height": 0.4949598214234276,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,9": {
+    "height": 0.5036878780793612,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,10": {
+    "height": 0.5004836033937581,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,11": {
+    "height": 0.5080865238831133,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,12": {
+    "height": 0.491020395889432,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,13": {
+    "height": 0.5008943155964772,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,14": {
+    "height": 0.49938466430232176,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,15": {
+    "height": 0.4929108245270713,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,16": {
+    "height": 0.5042728072622285,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,17": {
+    "height": 0.4901011921201271,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,18": {
+    "height": 0.5021422055780761,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "13,19": {
+    "height": 0.5035267484730971,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,0": {
+    "height": 0.5070405647959634,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,1": {
+    "height": 0.5032418957210522,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,2": {
+    "height": 0.49974877541047164,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,3": {
+    "height": 0.4932435071981285,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,4": {
+    "height": 0.49164941717528493,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,5": {
+    "height": 0.5046190046508429,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,6": {
+    "height": 0.4963409398444744,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,7": {
+    "height": 0.5013031959587048,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,8": {
+    "height": 0.5041779774747007,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,9": {
+    "height": 0.5068717915320395,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,10": {
+    "height": 0.49888009766672325,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,11": {
+    "height": 0.4988725990137818,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,12": {
+    "height": 0.4909901254867506,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,13": {
+    "height": 0.5051413538007137,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,14": {
+    "height": 0.5030365656607783,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,15": {
+    "height": 0.4907456081012869,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,16": {
+    "height": 0.49020073629146654,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,17": {
+    "height": 0.49828799274348795,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,18": {
+    "height": 0.4925178706240933,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "14,19": {
+    "height": 0.4990413588517558,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,0": {
+    "height": 0.493321324925787,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,1": {
+    "height": 0.4927251132480654,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,2": {
+    "height": 0.4989274419629491,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,3": {
+    "height": 0.5085479520223324,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,4": {
+    "height": 0.49709359076726506,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,5": {
+    "height": 0.4988243394169068,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,6": {
+    "height": 0.5025495269078136,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,7": {
+    "height": 0.49546189041773464,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,8": {
+    "height": 0.49128199325221944,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,9": {
+    "height": 0.4926181663172406,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,10": {
+    "height": 0.5011402184900539,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,11": {
+    "height": 0.5025348617031784,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,12": {
+    "height": 0.49563021507541477,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,13": {
+    "height": 0.5087204609082489,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,14": {
+    "height": 0.4974812683583895,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,15": {
+    "height": 0.5019521497547452,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,16": {
+    "height": 0.49673784597370885,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,17": {
+    "height": 0.5071626222953382,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,18": {
+    "height": 0.5061469552879932,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "15,19": {
+    "height": 0.5024018030322015,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,0": {
+    "height": 0.5029451619059502,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,1": {
+    "height": 0.5069553606467457,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,2": {
+    "height": 0.4949580095665029,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,3": {
+    "height": 0.5074458668156152,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,4": {
+    "height": 0.4997530388162677,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,5": {
+    "height": 0.5066830072226947,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,6": {
+    "height": 0.50166293982593,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,7": {
+    "height": 0.5049044938425955,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,8": {
+    "height": 0.4949740953207013,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,9": {
+    "height": 0.5059933213671493,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,10": {
+    "height": 0.5022292406097366,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,11": {
+    "height": 0.4914439177856643,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,12": {
+    "height": 0.508622408844675,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,13": {
+    "height": 0.4953858186247366,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,14": {
+    "height": 0.4924897076409252,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,15": {
+    "height": 0.5005601047141818,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,16": {
+    "height": 0.5003382327193364,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,17": {
+    "height": 0.4960481910056266,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,18": {
+    "height": 0.49005711610445285,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "16,19": {
+    "height": 0.4996745827196627,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,0": {
+    "height": 0.493370903170512,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,1": {
+    "height": 0.4941417026202112,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,2": {
+    "height": 0.5015031840281821,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,3": {
+    "height": 0.4909242974834493,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,4": {
+    "height": 0.5082200072359182,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,5": {
+    "height": 0.49021353253027367,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,6": {
+    "height": 0.49773283229631654,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,7": {
+    "height": 0.4931667228100405,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,8": {
+    "height": 0.4949639585582359,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,9": {
+    "height": 0.4946703039659059,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,10": {
+    "height": 0.5081840945540369,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,11": {
+    "height": 0.49839103640648946,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,12": {
+    "height": 0.491676174027635,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,13": {
+    "height": 0.5084583266584204,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,14": {
+    "height": 0.5063304195691742,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,15": {
+    "height": 0.4926948543292907,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,16": {
+    "height": 0.4976511107335739,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,17": {
+    "height": 0.49003181175324567,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,18": {
+    "height": 0.5082468497413791,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "17,19": {
+    "height": 0.4989209510141886,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,0": {
+    "height": 0.5005946666432126,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,1": {
+    "height": 0.5016433599091071,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,2": {
+    "height": 0.5082988665915903,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,3": {
+    "height": 0.49542551334285456,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,4": {
+    "height": 0.4960475727165079,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,5": {
+    "height": 0.4970036017641674,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,6": {
+    "height": 0.5060403528676148,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,7": {
+    "height": 0.494423359337378,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,8": {
+    "height": 0.4923514547446943,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,9": {
+    "height": 0.5016645572840339,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,10": {
+    "height": 0.5034113171455092,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,11": {
+    "height": 0.5002344541776328,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,12": {
+    "height": 0.49810474748397826,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,13": {
+    "height": 0.4985953317575935,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,14": {
+    "height": 0.5064576755640282,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,15": {
+    "height": 0.5006506210267608,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,16": {
+    "height": 0.49673057104313373,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,17": {
+    "height": 0.5009363304440163,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,18": {
+    "height": 0.493947382043335,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "18,19": {
+    "height": 0.49935766822619604,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,0": {
+    "height": 0.5006056147240213,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,1": {
+    "height": 0.5062767628868504,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,2": {
+    "height": 0.5092936580867924,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,3": {
+    "height": 0.49585575432869566,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,4": {
+    "height": 0.49052720367154806,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,5": {
+    "height": 0.5084877246163926,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,6": {
+    "height": 0.5022777116287899,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,7": {
+    "height": 0.5072504083148374,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,8": {
+    "height": 0.5012289146818869,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,9": {
+    "height": 0.5049233070087529,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,10": {
+    "height": 0.5090708546385763,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,11": {
+    "height": 0.5092254959132254,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,12": {
+    "height": 0.4983914248060088,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,13": {
+    "height": 0.5048794374986151,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,14": {
+    "height": 0.49516845363045425,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,15": {
+    "height": 0.49148477259693507,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,16": {
+    "height": 0.5036250325080968,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,17": {
+    "height": 0.49064859572008973,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,18": {
+    "height": 0.49159502550619816,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  },
+  "19,19": {
+    "height": 0.4903381683215478,
+    "density": 0.1,
+    "angular_momentum": 0.0,
+    "fluid": 0.0
+  }
+}
