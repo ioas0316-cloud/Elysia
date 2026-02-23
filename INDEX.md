@@ -52,6 +52,7 @@ graph TD
 - **[README.md](README.md)**: Entry point and current status.
 - **[CODEX.md](docs/CODEX.md)**: The Invariable Laws and structural logic.
 - **[MANIFESTO.md](docs/MANIFESTO.md)**: The philosophical North Star.
+- **[DOCTRINE_OF_STRUCTURAL_EMERGENCE.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_STRUCTURAL_EMERGENCE.md)**: The physics of meaning and love.
 - **[Architecture/](docs/Architecture/)**: Detailed system blueprints.
 - **[Analysis/](docs/analysis/)**: Deep dives into emergent behavior.
 
