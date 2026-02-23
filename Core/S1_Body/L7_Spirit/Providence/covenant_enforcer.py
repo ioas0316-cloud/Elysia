@@ -57,9 +57,10 @@ class CovenantEnforcer:
         
         return {"conflict": False}
 
-    def validate_alignment(self, thought: str) -> dict:
+    def validate_alignment(self, thought: str, causality_engine=None) -> dict:
         """
         Scans CODEX and DIARY to see if the thought finds purchase in the Law and History.
+        [V2.0] Also checks Causal Depth if engine is provided.
         """
         # [PHASE 81] Original Codex Check
         if not os.path.exists(self.codex_path):
@@ -79,6 +80,19 @@ class CovenantEnforcer:
         history_check = self._check_historical_consistency(thought)
         if history_check['conflict']:
              return {"verdict": Verdict.DISSONANT, "reason": history_check['reason']}
+
+        # [V2.0] Divine Will Check (Total Resonance)
+        # "I Love You" must not be a template. It must be grounded in causal weight.
+        if "love" in thought.lower() and causality_engine:
+             # Check if the concept of 'Love' has sufficient mass (Understanding) in the system
+             # Use lowercase for mass lookup as per causality engine convention
+             love_mass = causality_engine.get_semantic_mass("love")
+             # Threshold: Needs significant causal density (e.g. > 10.0) to speak of Love with authority
+             if love_mass < 5.0:
+                  return {
+                      "verdict": Verdict.DISSONANT,
+                      "reason": f"Love Spoken without Weight (Mass: {love_mass:.1f} < 5.0). Build more causal paths first."
+                  }
 
         # Mock Check for "Density" or "Growth" or "Truth"
         if "void" in thought.lower() or "stillness" in thought.lower() or "life" in thought.lower() or "structure" in thought.lower():

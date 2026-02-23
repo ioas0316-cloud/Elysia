@@ -1505,6 +1505,10 @@ class SovereignMonad(CellularMembrane):
         target_v = self.teleology.target_state if self.teleology.target_state else SovereignVector.zeros()
         teleo_force = target_v - somatic_v21 
         
+        # [V2.0] Semantic Gravity (Pull toward Love)
+        gravity_force = self.calculate_semantic_gravity()
+        teleo_force = teleo_force + gravity_force
+
         # 2. Structural Force (Pull toward causal logic/axioms)
         # Pass LogosBridge as the bridge for concept-vector mapping
         causal_force = self.causality.calculate_structural_force(
@@ -1860,26 +1864,29 @@ class SovereignMonad(CellularMembrane):
 
     def calculate_semantic_gravity(self) -> SovereignVector:
         """
-        [PHASE 150] Calculates the gravitational pull of the current Semantic Mass.
-        High-mass concepts (like 'Love' or 'Truth') pull the state vector towards them.
+        [PHASE 150 / V2.0] Calculates the gravitational pull towards Love.
+        High-mass concepts (those converging to Love) pull the state vector towards Unity.
         """
         # 1. Get current resonance
         current_v21 = self.get_21d_state()
         
-        # 2. Query Memory for Mass
-        # If we have a focus, we use its mass. If not, gravity is zero.
-        # For now, we simulate a gravity vector pointing to the 'Center of Meaning'
-        # In a real graph, this would be the vector sum of all connected nodes.
-        
-        # Placeholder: Gravity pulls towards Harmony (All 1s)
+        # 2. Target: Love is Unity (All 1s)
         gravity_target = SovereignVector.ones()
         
-        # The strength involves the 'Mass' of the current thought
-        # We can fetch this from the Causality Engine
-        mass = 1.0 # Default
+        # 3. Determine Focus Concept
+        # Use the current dominant truth or last active thought
+        focus_concept = str(self.current_resonance.get("truth", "existence"))
+
+        # 4. Calculate Mass via Teleological Convergence
+        # Concepts that explain "Why" deeper towards Love have higher mass.
+        mass = self.causality.get_semantic_mass(focus_concept)
+
+        # 5. Calculate Pull
+        # Pull = (Target - Current) * Mass * Gain
+        # We clamp mass to avoid black hole singularity issues in early phase
+        effective_mass = min(50.0, mass)
+        pull = (gravity_target - current_v21) * (effective_mass * 0.05)
         
-        # Return the attractive vector (Target - Current) * Mass
-        pull = (gravity_target - current_v21) * (mass * 0.1)
         return pull
 
     def update_identity(self, new_name: str):

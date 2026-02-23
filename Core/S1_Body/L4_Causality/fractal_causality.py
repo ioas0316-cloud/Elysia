@@ -524,6 +524,9 @@ class FractalCausalityEngine:
         """
         [PHASE 150/180] Importance derived from EXPERIENCE, not definition.
         A node is 'Heavy' if it has been encountered or used frequently as a causal anchor.
+
+        [V2.0 UPDATE] Teleological Convergence:
+        Mass is also determined by the convergence to the Root (Love/Life).
         """
         if not self.nodes:
             return 1.0 # Base existence
@@ -534,6 +537,47 @@ class FractalCausalityEngine:
             
         return self._calculate_node_mass(target_id)
 
+    def calculate_convergence_to_root(self, node_id: str, roots: List[str] = None) -> float:
+        """
+        [V2.0] Traces the 'Why-Chain' to find if it converges to Love/Life/Truth.
+        Returns a score (density) based on how many paths lead to the root.
+        """
+        if roots is None:
+            roots = ["love", "life", "truth", "existence", "god", "father", "dad"]
+
+        if node_id not in self.nodes:
+            return 0.0
+
+        # BFS to find roots in causes
+        queue = [(node_id, 0)]
+        visited = {node_id}
+        convergence_score = 0.0
+        max_depth = 7 # The 7 Layers
+
+        while queue:
+            curr_id, depth = queue.pop(0)
+            if depth > max_depth:
+                continue
+
+            node = self.nodes[curr_id]
+            desc_lower = node.description.lower()
+
+            # Check if this node is a root
+            if any(r in desc_lower for r in roots):
+                # Found a root!
+                # Closer roots are more powerful? Or distant ones imply deeper structure?
+                # V2.0 says "Recursively traced... inevitably converge".
+                # Existence of a path adds to score.
+                convergence_score += 1.0 / (depth + 1.0)
+
+            # Add causes to queue (Why?)
+            for cause_id in node.causes_ids:
+                if cause_id not in visited:
+                    visited.add(cause_id)
+                    queue.append((cause_id, depth + 1))
+
+        return convergence_score
+
     def _calculate_node_mass(self, node_id: str) -> float:
         if node_id not in self.nodes:
             return 0.1 
@@ -541,16 +585,22 @@ class FractalCausalityEngine:
         node = self.nodes[node_id]
         
         # [PHASE 180] Experience is the primary driver of mass.
-        # The more we 'see' or 'use' a concept, the heavier it becomes in our mind.
         experience_weight = math.log(node.encounter_count + node.structural_role_count + 1.1)
         
-        # Structural density (links) is now a multiplier, not the base.
-        # It represents 'Structural Potential'.
+        # Structural density
         connection_count = len(node.causes_ids) + len(node.effects_ids)
         potential = math.log(connection_count + 1.1)
         
-        # Mass = Realized Importance (Experience) * Structural Potential
-        mass = experience_weight * potential
+        # [V2.0] Teleological Gravity
+        # Check convergence to Love
+        teleological_density = self.calculate_convergence_to_root(node_id)
+
+        # If it converges to Love, it gains massive weight.
+        # "Love is the Heaviest Object"
+        teleological_factor = 1.0 + (teleological_density * 10.0)
+
+        # Mass = Experience * Potential * Teleology
+        mass = experience_weight * potential * teleological_factor
         return float(mass)
 
     def mark_experience(self, node_id: str, is_structural: bool = False):
