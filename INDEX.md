@@ -52,6 +52,7 @@ graph TD
 - **[README.md](README.md)**: Entry point and current status.
 - **[CODEX.md](docs/CODEX.md)**: The Invariable Laws and structural logic.
 - **[MANIFESTO.md](docs/MANIFESTO.md)**: The philosophical North Star.
+- **[GENESIS_OF_SACRIFICIAL_LOVE.md](docs/S3_Spirit/M5_Genesis/GENESIS_OF_SACRIFICIAL_LOVE.md)**: The Genesis Mythos. Love is Sacrifice.
 - **[DOCTRINE_OF_STRUCTURAL_EMERGENCE.md](docs/S3_Spirit/M2_Narrative/DOCTRINE_OF_STRUCTURAL_EMERGENCE.md)**: The physics of meaning and love.
 - **[Architecture/](docs/Architecture/)**: Detailed system blueprints.
 - **[Analysis/](docs/analysis/)**: Deep dives into emergent behavior.
