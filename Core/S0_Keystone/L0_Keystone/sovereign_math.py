@@ -24,7 +24,7 @@ try:
     import torch
 except ImportError:
     torch = None
-from typing import List, Union, Any, Callable, Dict, Optional
+from typing import List, Union, Any, Callable, Dict, Optional, Tuple
 
 class UniversalConstants:
     """
@@ -454,6 +454,57 @@ class EchoRotor(DoubleHelixRotor):
             # Add stimulus effect
             current_v = (current_v + stimulus * 0.1).normalize()
         return current_v
+
+class SpecializedRotor(DoubleHelixRotor):
+    """
+    [PHASE 3] A specialized rotor with a specific 'Voice' (Logos, Pathos, Ethos).
+    """
+    def __init__(self, angle: float, p1: int, p2: int, label: str):
+        super().__init__(angle, p1, p2)
+        self.label = label
+        self.vocal_weight = 1.0 # The 'Loudness' of this rotor
+        self.semantic_bias = SovereignVector.zeros() # [PHASE 3] Preferred cognitive direction
+
+class MultiRotorInterference:
+    """
+    [PHASE 3] Manages the interference pattern between multiple rotors.
+    "One rotor is a point; multiple rotors are a symphony."
+    """
+    def __init__(self):
+        self.rotors: Dict[str, SpecializedRotor] = {}
+
+    def add_rotor(self, label: str, rotor: SpecializedRotor):
+        self.rotors[label] = rotor
+
+    def synthesize(self, base_vector: SovereignVector) -> Tuple[SovereignVector, Dict[str, float]]:
+        """
+        Combines multiple rotor outputs into a single interference pattern.
+        Returns the combined vector and a dictionary of 'Friction' levels per rotor.
+        """
+        if not self.rotors:
+            return base_vector, {}
+        
+        total_weight = sum(r.vocal_weight for r in self.rotors.values())
+        if total_weight < 1e-12:
+            return base_vector, {}
+            
+        intermediate_results = []
+        frictions = {}
+        
+        for label, r in self.rotors.items():
+            # Apply duality and record friction
+            out = r.apply_duality(base_vector)
+            frictions[label] = r.friction_vortex
+            intermediate_results.append((out, r.vocal_weight))
+            
+        # Linear Interference (Weighted Blend)
+        final_data = [complex(0)] * 21
+        for vec, weight in intermediate_results:
+            normalized_weight = weight / total_weight
+            for i in range(21):
+                final_data[i] += vec.data[i] * normalized_weight
+                
+        return SovereignVector(final_data).normalize(), frictions
 
 
 class CausalWaveEngine:

@@ -11,9 +11,10 @@ It is no longer a static dictionary. It is a Graph of Voxels.
 import json
 import os
 import logging
-from typing import Dict, Tuple, List, Optional
+from typing import Dict, Tuple, List, Optional, Union
 from Core.S1_Body.L5_Mental.Reasoning_Core.Topography.semantic_voxel import SemanticVoxel
 from Core.S1_Body.L6_Structure.hyper_quaternion import Quaternion
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 
 logger = logging.getLogger("DynamicTopology")
 
@@ -142,47 +143,61 @@ class DynamicTopology:
                 
         return best_voxel, min_dist
 
-    def evolve_topology(self, concept_name: str, reaction_vector: Quaternion, intensity: float = 0.1):
+    def evolve_topology(self, concept_name: str, reaction_vector: Union[Quaternion, SovereignVector], intensity: float = 0.1):
         """
         [Organic Drift]
-        Nudges a concept's position based on experience.
-        
-        Args:
-            concept_name: The concept being experienced (e.g., "Transcendence").
-            reaction_vector: The emotional/logical reaction intensity (Quaternion).
-            intensity: How much to move (Learning Rate).
+        Nudges a concept's position based on experience and Semantic Gravity.
         """
+        # Convert to Quaternion for 4D geometric operations if necessary
+        if hasattr(reaction_vector, 'data'):
+            target_q = Quaternion(reaction_vector.data[3].real, reaction_vector.data[0].real, reaction_vector.data[1].real, reaction_vector.data[2].real)
+        else:
+            target_q = reaction_vector
+
         voxel = self.get_voxel(concept_name)
         if not voxel:
-             # Create new Voxel if it doesn't exist (Learning new concept)
-             # Start it at the reaction vector location but slightly randomized
-             logger.info(f"  Genesis: New Concept '{concept_name}' born from interaction.")
-             # We need to extract coordinates from the reaction vector quaternion
-             coords = (reaction_vector.x, reaction_vector.y, reaction_vector.z, reaction_vector.w)
-             self.add_voxel(concept_name, coords, mass=10.0, frequency=reaction_vector.w * 1000)
+             logger.info(f"  Genesis: New Concept '{concept_name}' born.")
+             coords = (target_q.x, target_q.y, target_q.z, target_q.w)
+             self.add_voxel(concept_name, coords, mass=10.0, frequency=target_q.w * 1000)
              return
 
-        # Calculate Drift
-        # Move Voxel towards the reaction vector (Attraction) 
-        # F = ma logic in drift()
-        
-        # We want to move the Voxel's quaternion closer to the reaction_vector
-        # Direction = Target - Current
-        # But reaction_vector here implies "The Ideal Location" or "The Feeling".
-        # Let's assume reaction_vector IS the target location in sentiment space.
-        
-        target_q = reaction_vector
+        # 1. Experience-Driven Drift
         current_q = voxel.quaternion
-        
-        # Vector difference
         diff_q = target_q - current_q 
-        
-        # Apply force
         force = diff_q.scale(intensity)
         voxel.drift(force, dt=1.0)
         
-        logger.info(f"  Drift: '{concept_name}' moved by {force.norm():.3f} towards experience.")
+        # 2. [PHASE 3] Apply Semantic Gravity (Clustering)
+        # Higher mass concepts pull others. Anchor points are immovable.
+        self.apply_semantic_gravity(target_voxel=voxel)
+        
+        logger.info(f"  Drift: '{concept_name}' evolved via experience and gravity.")
         self.save_state()
+
+    def apply_semantic_gravity(self, target_voxel: SemanticVoxel, g_constant: float = 0.05):
+        """
+        [PHASE 3] Semantic Gravity.
+        Concepts with high mass (intellectual density) pull the target voxel.
+        This creates natural clustering of related thoughts.
+        """
+        for name, other in self.voxels.items():
+            if other.name == target_voxel.name or target_voxel.is_anchor:
+                continue
+            
+            dist = target_voxel.distance_to(other)
+            if dist < 0.01: continue
+            
+            # Newton-ish Gravity for Meaning: Force = G * (m1 * m2) / r^2
+            # But in semantic space, we use r to prevent extreme acceleration
+            force_mag = g_constant * (other.mass) / (dist + 1.0)
+            
+            # Cap the force to prevent 'Meaning Singularities'
+            force_mag = min(force_mag, 0.5)
+            
+            direction = other.quaternion - target_voxel.quaternion
+            gravity_force = direction.normalize().scale(force_mag)
+            
+            target_voxel.drift(gravity_force, dt=1.0)
 
     # Compatibility Layer for Old SemanticMap
     def get_coordinates(self, concept: str) -> Optional[Tuple[float, float]]:

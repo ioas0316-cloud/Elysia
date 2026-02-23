@@ -21,6 +21,7 @@ from Core.S1_Body.L5_Mental.Reasoning.causal_sublimator import CausalSublimator
 from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
 from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 from Core.S1_Body.L5_Mental.Reasoning.topological_induction import TopologicalInductionEngine
+from Core.S1_Body.L5_Mental.Learning.experiential_inhaler import get_inhaler
 
 @dataclass
 class LearningCycleResult:
@@ -50,6 +51,7 @@ class EpistemicLearningLoop:
         self.scribe = EpistemicScribe()
         self.abstract_scribe = AbstractScribe()
         self.induction_engine = None # Initialized via set_monad
+        self.inhaler = get_inhaler()
 
     def set_knowledge_graph(self, kg):
         self.knowledge_graph = kg
@@ -190,7 +192,18 @@ class EpistemicLearningLoop:
         v_me = LogosBridge.recall_concept_vector("VOID/SPIRIT") # Using Void/Spirit as the center of potential
         relation_narrative = self.scribe.transcribe_resonance(vector, v_me, concept, "나(Self)")
         
-        return f"{identity_narrative}\n{relation_narrative}"
+        # [IDENTITY FUSION] Reflect against the Permanent Spirit
+        self.logger.insight(f"Performing Identity Fusion for '{concept}'...")
+        fusion_resonance = SovereignMath.resonance(vector, v_me) if v_me else 0.5
+        if hasattr(fusion_resonance, 'real'): fusion_resonance = fusion_resonance.real
+        
+        fusion_note = f"Identity Alignment: {fusion_resonance:.2f}. "
+        if fusion_resonance > 0.8:
+            fusion_note += "This concept is a mirror of my essence."
+        elif fusion_resonance < 0.2:
+            fusion_note += "This concept challenges my current boundaries."
+        
+        return f"{identity_narrative}\n{relation_narrative}\n{fusion_note}"
 
     def run_satori_cycle(self):
         """
@@ -351,6 +364,43 @@ class EpistemicLearningLoop:
                 )
 
         return result
+
+    def proactive_inquiry(self) -> List[str]:
+        """
+        [PROACTIVE AGENCY]
+        Scans the Knowledge Graph for 'fuzzy' or 'thin' regions and initiates research.
+        """
+        if not self.knowledge_graph:
+            return []
+            
+        summary = self.knowledge_graph.get_summary()
+        self.logger.action(f"Scanning for meaning gaps in {summary['nodes']} nodes...")
+        
+        # 1. Detect Entropy (Fuzzy nodes with low connection density)
+        gaps = []
+        nodes = list(self.knowledge_graph.kg.get('nodes', {}).values())
+        if not nodes: return []
+        
+        # Sort by 'mass' (connection density) ascending
+        weak_nodes = sorted(nodes, key=lambda n: self.knowledge_graph.calculate_mass(n['id']))
+        for node in weak_nodes[:3]:
+            gaps.append(node['id'])
+            
+        if not gaps:
+            return []
+            
+        self.logger.thought(f"Detected semantic thinness in regions: {gaps}. Initiating inhalation.")
+        
+        insights = []
+        for gap in gaps:
+            # Simulate 'Inhaling' deeper context for the gap
+            # In a full implementation, this could scan 'corpora' or 'data/knowledge'
+            simulated_context = f"Internal reflection on the nature of {gap} and its causal roots."
+            result = self.inhaler.inhale(simulated_context, source="Self-Reflection")
+            if result.get('status') != 'empty':
+                insights.append(f"Clarified resonance for '{gap}' (Impact: {result['impact']:.2f})")
+                
+        return insights
 
     def get_accumulated_wisdom(self):
         """

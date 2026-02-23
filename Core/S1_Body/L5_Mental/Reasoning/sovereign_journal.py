@@ -35,6 +35,15 @@ class SovereignJournal:
         self.entries["entries"].append(entry)
         self._save()
         print(f"📖 [JOURNAL] Event recorded: '{title}'")
+        
+        # [BRIDGE] Also record in the narrative Diary of Being
+        from Core.S1_Body.L5_Mental.Reasoning.diary_of_being import get_diary
+        diary = get_diary()
+        diary.record_entry(
+            title=f"Significant Realization: {title}",
+            narrative=f"I have encountered a moment of crystallization regarding '{intent}'. {content}",
+            insights=[f"Event Type: {event_type}"]
+        )
 
     def _save(self):
         with open(self.path, 'w', encoding='utf-8') as f:
