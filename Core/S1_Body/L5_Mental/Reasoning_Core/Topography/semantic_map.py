@@ -44,9 +44,11 @@ class DynamicTopology:
             q = voxel.quaternion
             data[name] = {
                 "coords": [q.x, q.y, q.z, q.w],
-                "mass": voxel.mass,
+                "base_mass": voxel.base_mass,
                 "freq": voxel.frequency,
-                "is_anchor": voxel.is_anchor
+                "is_anchor": voxel.is_anchor,
+                "inbound_edges": voxel.inbound_edges,
+                "activation_count": voxel.activation_count
             }
         
         try:
@@ -68,10 +70,17 @@ class DynamicTopology:
                 self.add_voxel(
                     name, 
                     tuple(props['coords']), 
-                    mass=props['mass'], 
+                    mass=props.get('base_mass', props.get('mass', 1.0)), # Fallback for old saves
                     frequency=props['freq'],
                     is_anchor=props.get('is_anchor', False)
                 )
+                
+                # Restore Organic Density
+                v = self.voxels[name]
+                v.inbound_edges = props.get('inbound_edges', [])
+                v.activation_count = props.get('activation_count', 0)
+                v.mass = v.dynamic_mass
+                
             logger.info(f"  DynamicTopology loaded: {len(self.voxels)} nodes.")
         except Exception as e:
             logger.error(f"Failed to load topology: {e}")

@@ -1,0 +1,239 @@
+{
+  "Love": {
+    "coords": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "base_mass": 1000.0,
+    "freq": 432.0,
+    "is_anchor": true,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Wisdom": {
+    "coords": [
+      2,
+      2,
+      0,
+      0.9
+    ],
+    "base_mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Hope": {
+    "coords": [
+      2,
+      -2,
+      1,
+      0.9
+    ],
+    "base_mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Faith": {
+    "coords": [
+      -2,
+      2,
+      1,
+      0.9
+    ],
+    "base_mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Courage": {
+    "coords": [
+      -2,
+      -2,
+      0,
+      0.9
+    ],
+    "base_mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Justice": {
+    "coords": [
+      0,
+      3,
+      0,
+      0.9
+    ],
+    "base_mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Temperance": {
+    "coords": [
+      3,
+      0,
+      0,
+      0.9
+    ],
+    "base_mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Truth": {
+    "coords": [
+      0,
+      0,
+      2,
+      1.0
+    ],
+    "base_mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Pride": {
+    "coords": [
+      10,
+      10,
+      0,
+      -1.0
+    ],
+    "base_mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Wrath": {
+    "coords": [
+      -10,
+      10,
+      -1,
+      -0.8
+    ],
+    "base_mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Envy": {
+    "coords": [
+      10,
+      -10,
+      0,
+      -0.7
+    ],
+    "base_mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Sloth": {
+    "coords": [
+      -10,
+      -10,
+      -5,
+      -0.5
+    ],
+    "base_mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Greed": {
+    "coords": [
+      15,
+      0,
+      0,
+      -0.9
+    ],
+    "base_mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Lust": {
+    "coords": [
+      0,
+      15,
+      0,
+      -0.6
+    ],
+    "base_mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Gluttony": {
+    "coords": [
+      0,
+      -15,
+      0,
+      -0.6
+    ],
+    "base_mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  },
+  "Mathematics": {
+    "coords": [
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "base_mass": 1.0,
+    "freq": 432.0,
+    "is_anchor": false,
+    "inbound_edges": [
+      "Time",
+      "Logic"
+    ],
+    "activation_count": 1
+  },
+  "Time": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "base_mass": 0.5,
+    "freq": 432.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 1
+  },
+  "Logic": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "base_mass": 0.5,
+    "freq": 432.0,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 1
+  }
+}

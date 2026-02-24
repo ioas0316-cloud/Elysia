@@ -17,6 +17,7 @@ import time
 from typing import Dict, List, Optional, Tuple
 from pathlib import Path
 from dataclasses import dataclass, field
+from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector
 
 
 @dataclass
@@ -26,6 +27,7 @@ class KnowledgeFragment:
     fragment_type: str      # "module", "function", "class", "docstring", "comment"
     content_summary: str    # Brief description of what was found
     relevance_score: float  # 0.0 ~ 1.0 (how relevant to current goals)
+    semantic_torque: Optional[SovereignVector] = None # Imparts causal pressure to the manifold
     discovered_at: float = field(default_factory=time.time)
 
 
@@ -184,13 +186,26 @@ class KnowledgeForager:
                 summary_parts.append(f"{len(functions)} functions")
             summary_parts.append(f"{len(lines)} lines")
 
-            summary = " | ".join(summary_parts) if summary_parts else f"Module: {filepath}"
-
+            relevance = min(1.0, len(classes) * 0.2 + len(functions) * 0.05)
+            
+            # Construct a basic semantic torque vector based on the structural properties
+            # This represents the "Nutritional Vector" (Causal fragment) of the file
+            torque_vector = SovereignVector.zeros()
+            # Dimensions [0:2] - Scale of structural components
+            torque_vector.data[0] = min(len(classes) * 0.1, 1.0)
+            torque_vector.data[1] = min(len(functions) * 0.05, 1.0)
+            # Dimension [2] - Amount of documentation
+            torque_vector.data[2] = 0.5 if docstring else 0.0
+            # Dimension [4] & [5] - The goal's relevance translates to affective density (Joy/Curiosity)
+            torque_vector.data[4] = relevance * 0.5 
+            torque_vector.data[5] = 0.5 + (relevance * 0.3)
+            
             return KnowledgeFragment(
                 source_path=filepath,
                 fragment_type="module",
                 content_summary=summary,
-                relevance_score=min(1.0, len(classes) * 0.2 + len(functions) * 0.05),
+                relevance_score=relevance,
+                semantic_torque=torque_vector
             )
 
         except Exception:

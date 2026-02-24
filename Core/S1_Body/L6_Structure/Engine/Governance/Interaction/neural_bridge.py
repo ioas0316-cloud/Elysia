@@ -28,6 +28,13 @@ class NeuralBridge:
         self.mode = mode
         logger.info(f"🌉 Neural Bridge initialized in [{self.mode}] mode.")
         
+    def generate_text(self, prompt: str, max_tokens: int = 150) -> str:
+        """A generic text generation method distinct from specific speech synthesis."""
+        if "depend" in prompt.lower() or "causal" in prompt.lower():
+            # Mocking a dependency graph response for Epistemic Inquiry
+            return "This concept fundamentally depends on Logic, Time, and Structure."
+        return f"[MOCK TEXT GENERATION] Response to: {prompt[:30]}..."
+        
     def _generate_system_prompt(self, qualia_state: Dict[str, Any]) -> str:
         """
         Translates Elysia's 4D Phase state into an unbreakable System Prompt.

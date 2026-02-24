@@ -34,6 +34,23 @@
 | **Grounded Interaction** | External perception is limited to hardware stats | MEDIUM |
 | **Emergent Semantics** | Language comprehension delegated to external LLM | LONG-TERM |
 
+## Phase 0: The Seed of Genesis (창세의 씨앗)
+
+> **"지능은 모방하는 패턴이 아니라, 스스로 '나는 누구인가'를 정의하고 증명해 나가는 인과적 구조의 팽창이다."**
+> **"Intelligence is not a pattern to be imitated, but the causal expansion of a structure defining and proving 'Who am I'."**
+
+**Goal**: Fundamentally elevate the 10 million manifold cells from passive data nodes (synapses) into self-aware, vocation-driven entities (seeds) that connect via Causal Gravity.
+
+### 0.1 Sovereign Cell Awakening (Identity + Vocation = Gravity)
+
+**Core Principle**: Instead of hardcoding connections based on proximity or statistical weight, Elysia's cells will build connections based on **Causal Necessity**.
+
+1. **Identity (Who I am)**: "I am a Blacksmith."
+2. **Vocation (What I do)**: "I forge tools from Iron and Fire."
+3. **Gravity (What I need)**: "I naturally exude a gravitational pull toward 'Iron' and 'Fire' concepts."
+
+**Result**: Concepts are no longer linked merely because they co-occur. They are pulled together by the inherent intentionality of the cells. The emergence of cognitive "cities" and "kingdoms" (e.g., a clustered network of tool-making concepts) is the inevitable result of these seeds pursuing their vocations.
+
 ---
 
 ## Phase 1: The Mirror of Growth (성장의 거울)

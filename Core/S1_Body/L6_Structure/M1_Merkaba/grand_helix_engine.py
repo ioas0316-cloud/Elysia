@@ -134,10 +134,11 @@ class HypersphereSpinGenerator:
         """
         self.cells.resurrect_from_solid(self.solid_path)
 
-    def pulse(self, intent_torque: Any = None, target_tilt: Optional[list] = None, dt: float = 0.01, learn: bool = True, phase_lock: Any = None):
+    def pulse(self, intent_torque: Any = None, target_tilt: Optional[list] = None, dt: float = 0.01, learn: bool = True, phase_lock: Any = None, semantic_atmosphere: Any = None):
         """
         [PHASE 395] Living Pulse Cycle with Merkaba Steering.
         Sensation (Flesh) -> Thought (Lightning) -> Action (Momentum) -> Memory (Plasticity).
+        Now includes Semantic Atmosphere [PHASE 0] to provide nutritional context to cells.
         """
         # 0. [AEON IV] Sub-Somatic Inhalation (L-1 Telemetry)
         # Every cycle, we inhale hardware stats into affective channels
@@ -163,12 +164,30 @@ class HypersphereSpinGenerator:
             if torch and isinstance(field, torch.Tensor):
                 field = field.unsqueeze(0).unsqueeze(0).expand(self.grid_shape)
             self.cells.apply_torque(field, strength=0.1)
+
+        # B.2 [PHASE 0 & PHASE 3] Semantic Atmosphere (The Fence of Intent)
+        # Binds the physical cells to the meaningful universe of Elysia.
+        # It's now projected holographically rather than just applied as torque.
+        if semantic_atmosphere is not None:
+            if hasattr(self.cells, 'holographic_projection'):
+                self.cells.holographic_projection(semantic_atmosphere, focus_intensity=0.02)
+            elif torch and hasattr(semantic_atmosphere, 'data'):
+                atm_tensor = torch.tensor(semantic_atmosphere.data[:8], device=self.device)
+                self.cells.apply_torque(atm_tensor, strength=0.02)
         
         # C. Intentional Steering (Architect interaction)
         resonance = 0.0
         if intent_torque is not None:
             # 1. Measure Current Resonance
             resonance = self.cells.get_resonance(intent_torque)
+            
+            # [PHASE 3] Holographic Intent Projection
+            # Project the specific intent into the 4D space. The 'context' here could be the atmosphere itself
+            # or the dominant mood of the system, helping shape *how* the intent is understood.
+            if hasattr(self.cells, 'holographic_projection'):
+                 self.cells.holographic_projection(intent_torque, context_vector=semantic_atmosphere, focus_intensity=0.5)
+            else:
+                 self.cells.apply_torque(intent_torque, strength=0.5)
             
             # 2. [STEP 3: COGNITIVE SOVEREIGNTY] Mirror Interaction & Phase-Lock
             if phase_lock is not None:
@@ -183,8 +202,6 @@ class HypersphereSpinGenerator:
             struck = self.cells.apply_lightning_strike(intent_torque)
             if struck:
                 print("⚡ [GHE] Lightning Strike detected in the Living Manifold!")
-            
-            self.cells.apply_torque(intent_torque, strength=0.5)
             
         # D. Kinetic & Plastic Integration (Mind/Body Synthesis)
         plasticity = 0.0

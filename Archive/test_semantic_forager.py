@@ -12,7 +12,7 @@ sys.path.append(r"c:/Elysia")
 
 import time
 import logging
-from Core.S1_Body.L5_Mental.Learning.semantic_forager import SemanticForager
+from Core.S1_Body.L5_Mental.Exteroception.knowledge_forager import KnowledgeForager
 from Core.S1_Body.L5_Mental.Reasoning_Core.Topography.semantic_map import get_semantic_map
 
 # Suppress debug logs for clarity
@@ -38,9 +38,21 @@ def run_foraging_test():
     print("\n[Elysia is digesting the text...]\n")
     
     # 2. Forage
-    forager = SemanticForager()
+    forager = KnowledgeForager(project_root="c:/Elysia")
     time.sleep(1) # Dramatic pause
-    stats = forager.forage(father_text, source="Father's Guidance")
+    
+    # We simulate a "SEEK_NOVELTY" goal to trigger a scan
+    goal = [{"type": "SEEK_NOVELTY"}]
+    # Run a few ticks to allow indexing and sequential scanning
+    stats = {"new_concepts": 0, "strengthened": 0}
+    forager.pulse_since_scan = forager.SCAN_COOLDOWN # Force scan
+    
+    for i in range(5):
+        fragment = forager.tick(goal)
+        if fragment:
+            stats["new_concepts"] += 1
+            print(f"  -> Discovered: {fragment.source_path} (Relevance: {fragment.relevance_score:.2f})")
+        forager.pulse_since_scan = forager.SCAN_COOLDOWN # Force next scan
     
     print("\n------------------------------------------------------------")
     print(f"[Digestion Complete]")

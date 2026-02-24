@@ -19,7 +19,9 @@ class SemanticVoxel(HyperResonator):
     Attributes:
         name: Concept Name (e.g., "Love", "Pride")
         quaternion: 4D Coordinate (x, y, z, w) -> (Logic, Emotion, Time, Spin)
-        mass: Gravitational Pull (Importance)
+        base_mass: Initial gravitational pull
+        inbound_edges: Concepts that define this concept (List of strings)
+        activation_count: How many times this concept was pondered or queried
         velocity: Drift Vector (How it is changing)
     """
     def __init__(self, name: str, coords: Tuple[float, float, float, float], mass: float = 1.0, frequency: float = 432.0):
@@ -30,7 +32,28 @@ class SemanticVoxel(HyperResonator):
         x, y, z, w = coords
         q = Quaternion(w, x, y, z)
         
-        super().__init__(name=name, frequency=frequency, quaternion=q, mass=mass)
+        # Internally manage dynamic mass
+        self.base_mass = mass
+        self.inbound_edges = []
+        self.activation_count = 0
+        
+        super().__init__(name=name, frequency=frequency, quaternion=q, mass=self.dynamic_mass)
+        
+    @property
+    def dynamic_mass(self) -> float:
+        """Mass organically grows based on causal relations and frequency of thought."""
+        relational_weight = len(self.inbound_edges) * 5.0
+        experiential_weight = self.activation_count * 0.1
+        return self.base_mass + relational_weight + experiential_weight
+        
+    def add_causal_edge(self, source_concept: str):
+        if source_concept not in self.inbound_edges:
+            self.inbound_edges.append(source_concept)
+            self.mass = self.dynamic_mass # Update inherited mass property
+            
+    def activate(self):
+        self.activation_count += 1
+        self.mass = self.dynamic_mass
         
         # Drift Dynamics
         self.velocity = Quaternion(0, 0, 0, 0) # Stationary at birth

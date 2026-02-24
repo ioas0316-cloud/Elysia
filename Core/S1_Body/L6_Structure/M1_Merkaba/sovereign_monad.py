@@ -428,6 +428,11 @@ class SovereignMonad(CellularMembrane):
         self.lexicon = EmergentLexicon()
         self.lexicon_report = self.lexicon.get_status_summary()
 
+        # [PHASE 0: THE SEED OF GENESIS] Semantic Atmosphere
+        from Core.S1_Body.L7_Spirit.M1_Monad.cognitive_field import CognitiveField
+        self.cognitive_field = CognitiveField()
+        self.logger.insight("Semantic Atmosphere (Fence of Intent) initialized.")
+
         # [COMPATIBILITY ALIAS]
         self.vital_pulse = self.pulse
 
@@ -460,10 +465,17 @@ class SovereignMonad(CellularMembrane):
         
         # Engine pulse with consensus (minimal physics for responsiveness)
         lock_torque = self.mirror.get_phase_lock_torque(self.desires['resonance']/100.0)
+        
+        # [PHASE 0] Retrieve Semantic Atmosphere (The Fence of Intent)
+        atmosphere = None
+        if hasattr(self, 'cognitive_field'):
+            atmosphere = self.cognitive_field.get_semantic_atmosphere()
+            
         report = self.engine.pulse(
             intent_torque=consensus_vec, 
             target_tilt=self.current_tilt_vector, 
-            dt=dt, learn=True, phase_lock=lock_torque
+            dt=dt, learn=True, phase_lock=lock_torque,
+            semantic_atmosphere=atmosphere
         )
         
         # Record interaction in Mirror

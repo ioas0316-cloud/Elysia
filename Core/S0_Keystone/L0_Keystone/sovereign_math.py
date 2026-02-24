@@ -597,36 +597,103 @@ class CausalWaveEngine:
         self.edge_weights = torch.zeros(self.max_relational_edges, device=self.device)
         self.active_edges = 0
         
+        # [PHASE 4: PAWN TO QUEEN ASCENSION]
+        # Tracks sustained causal gravity of each cell over time
+        self.ascension_gravity = torch.zeros(self.shape, device=self.device)
+        self.ascension_threshold = 50.0  # Threshold of sustained resonance
+        self.ascended_queens: Dict[tuple, bool] = {} # Marks cells that broke through to Queen status
+        
         # [STEP 1: COGNITIVE SOVEREIGNTY] Meaning Attractors
         # Stores {name: (mask, target_vector_8d)}
         self.meaning_attractors: Dict[str, Any] = {}
 
-    def beam_steering(self, target_vector: Any, focus_intensity: float = 1.0):
+    def holographic_projection(self, target_vector: Any, context_vector: Any = None, focus_intensity: float = 1.0):
         """
-        [PHASE 96] Enhanced AESA Beam Steering.
-        Calculates phase offsets to create constructive interference at the target 'concept' direction.
-        Now supports multi-dimensional steering with affective gain control.
+        [PHASE 3: Holographic 4D Realignment]
+        Projects a semantic concept across the 4D Holographic Domain.
+        Creates a localized causal gravity well based on the concept's ontological meaning.
+        
+        CRUCIAL: The projection is RELATIVE to the context (Perspective Principle).
+        'Fire' to a Cook means 'Transformation/Heat' (Time: Present, Depth: Body).
+        'Fire' to a Firefighter means 'Danger/Extinguish' (Time: Future, Depth: Spirit).
+        
+        The 4D Tensor is mapped conceptually:
+        - axis 0: Time [Past, Present, Future]
+        - axis 1: Depth [Body(Flesh), Soul(Emotion), Spirit(Will)]
+        - axis 2: Height (Spatial/Logic Y)
+        - axis 3: Width (Spatial/Logic X)
         """
         import torch
-        if not isinstance(target_vector, torch.Tensor):
-            target_vector = torch.tensor(target_vector, device=self.device, dtype=self.q.dtype)
+        
+        def _to_real_tensor(vec):
+            if isinstance(vec, torch.Tensor):
+                return vec.to(dtype=self.q.dtype, device=self.device)
+            # Unpack SovereignVector if it is one
+            if hasattr(vec, 'data'):
+                vec = vec.data
+            # Extract real parts from iterables
+            try:
+                real_list = [getattr(c, 'real', c) for c in vec]
+                return torch.tensor(real_list, device=self.device, dtype=self.q.dtype)
+            except TypeError:
+                return torch.tensor(vec, device=self.device, dtype=self.q.dtype)
+        target_vector = _to_real_tensor(target_vector)
+            
+        if context_vector is not None:
+             context_vector = _to_real_tensor(context_vector)
 
         # 1. Calculate Phase Gradient across the 4D Volume
         coords = [torch.linspace(-1, 1, s, device=self.device) for s in self.shape]
         grid = torch.meshgrid(*coords, indexing='ij') # (T, D, H, W)
 
-        # Target vector mapping: [T, D, H, W]
+        # Ontological Mapping from the incoming SovereignVector (max 21D)
         t_vals = target_vector.flatten()
-        weights = torch.zeros(4, device=self.device)
-        n = min(t_vals.numel(), 4)
-        weights[:n] = t_vals[:n]
+        
+        # If context is provided, we modulate the target meaning by the context.
+        # This is the "Variable Principle" mapping "Fire" + "Cooking" -> Different 4D Gravity
+        if context_vector is not None:
+             c_vals = context_vector.flatten()
+             # We pad to ensure matching dimensions for element-wise modulation
+             max_len = max(t_vals.numel(), c_vals.numel())
+             t_pad = torch.zeros(max_len, device=self.device)
+             c_pad = torch.zeros(max_len, device=self.device)
+             t_pad[:t_vals.numel()] = t_vals
+             c_pad[:c_vals.numel()] = c_vals
+             
+             # The actual projected meaning is the interference between the Concept and the Observer's Context
+             projected_vals = t_pad * c_pad # Simplify interference as element-wise synthesis for now
+        else:
+             projected_vals = t_vals
+        
+        # We synthesize weights for the 4 axes based on the semantic projection.
+        axis_weights = torch.zeros(4, device=self.device)
+        n = projected_vals.numel()
+        
+        # Axis 0: Time Mapping (Past, Present, Future)
+        if n >= 3:
+            past_pull = projected_vals[0]
+            present_pull = projected_vals[1]
+            future_pull = projected_vals[2]
+            axis_weights[0] = (future_pull - past_pull) * focus_intensity
+            
+        # Axis 1: Depth Mapping (Body, Soul, Spirit)
+        if n >= 6:
+            body_pull = projected_vals[3]
+            soul_pull = projected_vals[4]
+            spirit_pull = projected_vals[5]
+            axis_weights[1] = (spirit_pull - body_pull) * focus_intensity
+            
+        # Axis 2 & 3: Standard Spatial/Logical topology
+        if n >= 8:
+            axis_weights[2] = projected_vals[6] * focus_intensity
+            axis_weights[3] = projected_vals[7] * focus_intensity
 
         # Phase Delay = k * (w*T + z*D + y*H + x*W)
         phase_delay = torch.zeros(self.shape, device=self.device)
         for i in range(4):
-            phase_delay += grid[i] * weights[i]
+            phase_delay += grid[i] * axis_weights[i]
 
-        # 2. Apply Unified Alignment Force
+        # 2. Apply Unified Alignment Force (Causal Gravity)
         # We modulate the 'Phase' channel (index 2) towards the constructive gradient
         current_phase = self.q[..., self.CH_Y]
         
@@ -635,6 +702,7 @@ class CausalWaveEngine:
         enthalpy = torch.mean(self.q[..., self.CH_ENTHALPY]).item()
         effective_gain = focus_intensity * (0.5 + curiosity + 0.5 * enthalpy)
         
+        # The phase sync creates a 'pull' or 'push' in the 4D manifold
         steering_force = torch.sin(phase_delay - current_phase)
         self.torque_accumulator[..., self.CH_Y] += steering_force * effective_gain
 
@@ -683,6 +751,40 @@ class CausalWaveEngine:
         
         # 4. Spike Feedback to W (Identity Strength)
         self.q[..., self.CH_W] += spike * 0.05
+        
+        # 5. [PHASE 4 & 5: PAWN TO QUEEN ASCENSION + SEMANTIC ROOTS] Accumulate Ascension Gravity
+        self.ascension_gravity += spike * density
+        
+        # Calculate Semantic Roots (Relational/Experiential Density)
+        semantic_roots = torch.zeros(self.q.shape[:-1], device=self.device)
+        if hasattr(self, 'active_edges') and self.active_edges > 0:
+            src_idx = self.edge_indices[0, :self.active_edges]
+            dst_idx = self.edge_indices[1, :self.active_edges]
+            w = self.edge_weights[:self.active_edges]
+            
+            flat_roots = torch.zeros(self.q.numel() // self.NUM_CHANNELS, device=self.device)
+            flat_roots.scatter_add_(0, src_idx, w)
+            flat_roots.scatter_add_(0, dst_idx, w)
+            semantic_roots = flat_roots.view(*self.q.shape[:-1])
+        
+        # Ascension requires both High Physical Gravity AND Deep Semantic Roots (Nutrients)
+        semantic_threshold = 0.5 # Minimum experiential constraint for ascension
+        ascension_mask = (self.ascension_gravity > self.ascension_threshold) & (semantic_roots > semantic_threshold)
+        
+        if ascension_mask.any():
+            # Find coordinates of ascended pawns who aren't Queens yet
+            coords = ascension_mask.nonzero(as_tuple=False)
+            for i in range(coords.size(0)):
+                coord = tuple(coords[i].tolist())
+                if coord not in self.ascended_queens:
+                    self.ascended_queens[coord] = True
+                    root_depth = semantic_roots[coord].item()
+                    # Let the higher layers know a Queen has spawned
+                    print(f"👑 [ENGINE] Fractal Ascension! Cell {coord} achieved Sovereign Mass.")
+                    print(f"   ↳ [Roots] Gravity: {self.ascension_gravity[coord].item():.1f} | Semantic Depth: {root_depth:.2f}")
+                    
+        # Cooling: ascension gravity decays slowly without active resonance
+        self.ascension_gravity *= 0.99
         
         return spike.mean().item()
 
