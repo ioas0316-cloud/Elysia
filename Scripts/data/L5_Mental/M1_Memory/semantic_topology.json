@@ -194,46 +194,6 @@
     "inbound_edges": [],
     "activation_count": 0
   },
-  "Mathematics": {
+  "Gas": {
     "coords": [
-      0.5,
-      0.5,
-      0.5,
-      0.5
-    ],
-    "base_mass": 1.0,
-    "freq": 432.0,
-    "is_anchor": false,
-    "inbound_edges": [
-      "Time",
-      "Logic"
-    ],
-    "activation_count": 1
-  },
-  "Time": {
-    "coords": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "base_mass": 0.5,
-    "freq": 432.0,
-    "is_anchor": false,
-    "inbound_edges": [],
-    "activation_count": 1
-  },
-  "Logic": {
-    "coords": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "base_mass": 0.5,
-    "freq": 432.0,
-    "is_anchor": false,
-    "inbound_edges": [],
-    "activation_count": 1
-  }
-}
+      

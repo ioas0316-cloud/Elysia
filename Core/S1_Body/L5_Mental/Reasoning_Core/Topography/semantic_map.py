@@ -136,6 +136,22 @@ class DynamicTopology:
     def get_voxel(self, name: str) -> Optional[SemanticVoxel]:
         return self.voxels.get(name)
 
+    def add_causal_edge(self, source_name: str, depends_on_name: str):
+        """
+        [Phase 8/9] Organic Relational Growth.
+        When a concept is derived or relies on another, we wire an edge.
+        This fundamentally increases the Semantic Mass of the target.
+        """
+        source = self.get_voxel(source_name)
+        target = self.get_voxel(depends_on_name)
+        
+        if source and target:
+            if source_name not in target.inbound_edges:
+                target.inbound_edges.append(source_name)
+                # Gravity increases as you become foundational to other concepts
+                target.mass = target.dynamic_mass
+                logger.info(f"  [Causality] Wired '{source_name}' -> depends on -> '{depends_on_name}'. '{depends_on_name}' mass grew to {target.mass:.2f}.")
+
     def get_nearest_concept(self, query_coords: Tuple[float, float, float, float]) -> Tuple[SemanticVoxel, float]:
         """
         Finds the closest concept to the given 4D coordinates.
