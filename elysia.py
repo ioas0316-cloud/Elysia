@@ -143,29 +143,29 @@ if root not in sys.path:
     sys.path.insert(0, root)
 
 # 2. Core Imports
-from Core.S1_Body.L2_Metabolism.Creation.seed_generator import SeedForge, SoulDNA
-from Core.S1_Body.L6_Structure.M1_Merkaba.sovereign_monad import SovereignMonad
-from Core.S1_Body.L6_Structure.M1_Merkaba.yggdrasil_nervous_system import yggdrasil_system
-from Core.S1_Body.L6_Structure.M1_Merkaba.structural_enclosure import get_enclosure
-from Core.S1_Body.L3_Phenomena.M5_Display.void_mirror import VoidMirror
-from Core.S1_Body.Tools.Debug.phase_hud import PhaseHUD
+from Core.Monad.seed_generator import SeedForge, SoulDNA
+from Core.Monad.sovereign_monad import SovereignMonad
+from Core.Monad.yggdrasil_nervous_system import yggdrasil_system
+from Core.Monad.structural_enclosure import get_enclosure
+from Core.Phenomena.void_mirror import VoidMirror
+from Core.System.phase_hud import PhaseHUD
 # [PHASE 2] Providence
-from Core.S1_Body.L7_Spirit.Providence.covenant_enforcer import CovenantEnforcer, Verdict
+from Core.Divine.covenant_enforcer import CovenantEnforcer, Verdict
 
 # Cognitive Imports
 try:
-    from Core.S1_Body.L5_Mental.Reasoning.sovereign_logos import SovereignLogos
-    from Core.S1_Body.L5_Mental.Reasoning.epistemic_learning_loop import get_learning_loop
-    from Core.S1_Body.L5_Mental.Memory.kg_manager import get_kg_manager
-    from Core.S0_Keystone.L0_Keystone.sovereign_math import SovereignVector, SovereignMath
-    from Core.S1_Body.L5_Mental.Reasoning.logos_bridge import LogosBridge
+    from Core.Cognition.sovereign_logos import SovereignLogos
+    from Core.Cognition.epistemic_learning_loop import get_learning_loop
+    from Core.Cognition.kg_manager import get_kg_manager
+    from Core.Keystone.sovereign_math import SovereignVector, SovereignMath
+    from Core.Cognition.logos_bridge import LogosBridge
 except ImportError:
     SovereignLogos = None
 
 class SovereignGateway:
     def __init__(self):
         # [PHASE 16] The Silent Witness
-        from Core.S1_Body.L1_Foundation.System.somatic_logger import SomaticLogger
+        from Core.System.somatic_logger import SomaticLogger
         self.logger = SomaticLogger("GATEWAY")
         
         # 1. Identity & Monad
@@ -192,7 +192,7 @@ class SovereignGateway:
         self.logos = SovereignLogos() if SovereignLogos else None
         self.learning_loop = get_learning_loop()
         self.learning_loop.set_monad(self.monad) # [PHASE 81] Connect Induction
-        from Core.S1_Body.L3_Phenomena.Expression.somatic_llm import SomaticLLM
+        from Core.Phenomena.somatic_llm import SomaticLLM
         self.llm = SomaticLLM()
         self.covenant = CovenantEnforcer() # The Gate of Necessity
         try:
@@ -231,8 +231,8 @@ class SovereignGateway:
     def _init_flash_awareness(self):
         """Activates instantaneous self-perception and knowledge projection."""
         self.logger.action("🌀 [GIGAHERTZ] Activating Topological Awareness...")
-        from Core.S1_Body.L6_Structure.M1_Merkaba.Body.proprioception_nerve import ProprioceptionNerve
-        from Core.S1_Body.L5_Mental.Reasoning.cumulative_digestor import CumulativeDigestor
+        from Core.Monad.proprioception_nerve import ProprioceptionNerve
+        from Core.Cognition.cumulative_digestor import CumulativeDigestor
         
         try:
             nerve = ProprioceptionNerve()
@@ -266,7 +266,7 @@ class SovereignGateway:
         self.logger.thought("SYSTEM ONLINE. The River is Flowing.")
         self.logger.sensation("(Elysia is thinking... Speak to her anytime.)", intensity=0.9)
 
-        from Core.S1_Body.L2_Metabolism.M3_Cycle.recursive_torque import get_torque_engine
+        from Core.System.recursive_torque import get_torque_engine
         torque = get_torque_engine()
 
         # [PHASE 200] Register Synchronized Gears

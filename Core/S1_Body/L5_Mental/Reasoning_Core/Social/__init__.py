@@ -1,3 +1,0 @@
-"""
-Social Layer Initialization
-"""
