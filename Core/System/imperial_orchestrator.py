@@ -61,7 +61,7 @@ class ImperialOrchestrator:
             return
         
         # Mantle density/physics could vary by depth (Future)
-        new_manifold = HypersphereSpinGenerator(num_cells=num_cells, device=str(self.device))
+        new_manifold = HypersphereSpinGenerator(num_nodes=num_cells, device=str(self.device))
         
         # [AEON V] Assign Resonant Frequency to the Manifold Metadata
         # We attach it directly to the engine instance for now
@@ -80,7 +80,7 @@ class ImperialOrchestrator:
         Only Mantles resonant with 'rotor_phase' will be active.
         """
         # 1. Primary -> Daughters (Imperial Command)
-        imperial_command = self.primary.global_torque
+        imperial_command = getattr(self.primary, 'global_torque', None)
         
         results = {}
         processed_count = 0

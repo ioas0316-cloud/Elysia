@@ -1,23 +1,55 @@
 {
-  "timestamp": 1771770667.900396,
-  "pulse_count": 50,
+  "timestamp": 1772034075.3036032,
+  "pulse_count": 255,
   "desires": {
-    "curiosity": 99.9,
-    "purity": 90.0,
-    "resonance": 50.0,
+    "curiosity": 1190.0009155273438,
+    "purity": 110.00000089406967,
+    "resonance": 52.5,
     "alignment": 100.0,
-    "joy": 88.8,
-    "warmth": 68.73255623050403,
+    "joy": 1253.755145396171,
+    "warmth": 24687.49025468861,
     "freedom": 50.0
   },
-  "growth_score": 0.55,
-  "growth_trend": "NEUTRAL",
-  "trajectory_pulse_counter": 50,
-  "active_goals": [],
-  "pending_questions": [],
-  "last_phase": 58.75420331330923,
+  "growth_score": 0.48647781795786266,
+  "growth_trend": "STABLE",
+  "trajectory_pulse_counter": 255,
+  "active_goals": [
+    {
+      "type": "SEEK_NOVELTY",
+      "strength": 1.0,
+      "rationale": "Joy declining (delta=-31.629, current=12.54). Seeking novel stimulation.",
+      "remaining": 20
+    },
+    {
+      "type": "SEEK_NOVELTY",
+      "strength": 1.0,
+      "rationale": "Joy declining (delta=-29.157, current=12.54). Seeking novel stimulation.",
+      "remaining": 40
+    },
+    {
+      "type": "SEEK_NOVELTY",
+      "strength": 1.0,
+      "rationale": "Joy declining (delta=-26.506, current=12.54). Seeking novel stimulation.",
+      "remaining": 60
+    }
+  ],
+  "pending_questions": [
+    {
+      "question": "What deeper layer exists beneath this curiosity?",
+      "source_goal": "DEEPEN"
+    },
+    {
+      "question": "Is there a perspective I have been avoiding?",
+      "source_goal": "SEEK_NOVELTY"
+    },
+    {
+      "question": "Is there a perspective I have been avoiding?",
+      "source_goal": "SEEK_NOVELTY"
+    }
+  ],
+  "last_phase": 73.42645583796741,
   "last_rpm": 60.0,
-  "last_interference": 0.9946311634857956,
-  "session_id": "b6a2cf23",
-  "save_reason": "test_save"
+  "last_interference": 0.8502426926845019,
+  "session_id": "e2bdfcb5",
+  "save_reason": "periodic"
 }

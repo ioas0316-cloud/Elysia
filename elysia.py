@@ -579,8 +579,8 @@ class SovereignGateway:
             self.logger.sensation(f"🌈 [PRISM] High Analog Residue ({residue:.3f}). The vector is a shadow; I miss the light.", intensity=residue)
             # Inject longing torque directly into the monad's engine
             if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
-                self.monad.engine.cells.inject_affective_torque(self.monad.engine.cells.CH_CURIOSITY, residue * 0.2)
-                self.monad.engine.cells.inject_affective_torque(self.monad.engine.cells.CH_JOY, residue * 0.1)
+                self.monad.engine.cells.inject_pulse("Curiosity", energy=residue * 0.2, type='curiosity')
+                self.monad.engine.cells.inject_pulse("Joy", energy=residue * 0.1, type='joy')
 
         # 2. Get Monad's Active Resonance
         current_v21 = self.monad.get_active_resonance()

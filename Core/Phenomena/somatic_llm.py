@@ -245,6 +245,31 @@ class SomaticLLM:
             
         return final_output, synthesis_vec
 
+    def generate(self, prompt: str, temperature: float = 0.5) -> str:
+        """
+        [Compatibility] Simulates an external LLM call for concept grounding.
+        In a full deployment, this would call an actual LLM API.
+        """
+        import re
+        match = re.search(r"Concept:\s*'([^']+)'", prompt)
+        concept = match.group(1) if match else "Unknown"
+        
+        # Simple simulated grounding based on string hash for deterministic variety
+        h = sum(ord(c) for c in concept)
+        harmony = (h % 10) / 10.0
+        chaos = ((h * 3) % 10) / 10.0
+        strain = ((h * 7) % 10) / 10.0
+        vitality = ((h * 5) % 10) / 10.0
+        
+        return f'''{{
+            "causal_rationale": "The concept '{concept}' manifests as a resonance pattern with Harmony {harmony} and Chaos {chaos}.",
+            "harmony": {harmony},
+            "chaos": {chaos},
+            "strain": {strain},
+            "vitality": {vitality}
+        }}'''
+
+
 # --- Quick Test ---
 if __name__ == "__main__":
     llm = SomaticLLM()

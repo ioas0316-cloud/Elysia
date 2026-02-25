@@ -96,6 +96,10 @@ from Core.Cognition.knowledge_forager import KnowledgeForager # [PHASE §77]
 from Core.Cognition.code_mirror import CodeMirror # [PHASE §77]
 from Core.Cognition.emergent_lexicon import EmergentLexicon # [PHASE §78]
 from Core.Cognition.diary_of_being import get_diary
+from Core.System.self_modifier import SelfModifier # [PHASE 200]
+from Core.Cognition.core_inquiry_pulse import CoreInquiryPulse
+from Core.Cognition.world_observer import WorldObserver # [WORLDOGENESIS]
+from Core.Cognition.semantic_map import get_semantic_map
 
 class SovereignMonad(CellularMembrane):
     """
@@ -267,7 +271,7 @@ class SovereignMonad(CellularMembrane):
         # Swapping legacy 21-cell engine for the 10,000,000 cell Living Manifold.
         if torch:
             device = "cuda" if torch.cuda.is_available() else "cpu"
-            self.engine = HypersphereSpinGenerator(num_cells=10_000_000, device=device)
+            self.engine = HypersphereSpinGenerator(num_nodes=10_000_000, device=device)
             self.flesh = self.engine.flesh # Somatic link
         else:
              # Fallback for environments without Torch
@@ -347,8 +351,10 @@ class SovereignMonad(CellularMembrane):
         # [AEON V] Narrative Lung (Dreaming Mode)
         from Core.Cognition.narrative_lung import NarrativeLung
         self.narrative_lung = NarrativeLung()
-
         
+        # [WORLDOGENESIS] Real-World Grounding
+        self.world_observer = WorldObserver(get_semantic_map())
+
         # 19. [PHASE 180] AUTONOMIC COGNITION
         # The sensory organ for system fatigue and rigidity
         self.thermo = ThermoDynamics()
@@ -428,10 +434,17 @@ class SovereignMonad(CellularMembrane):
         self.lexicon = EmergentLexicon()
         self.lexicon_report = self.lexicon.get_status_summary()
 
+        # [PHASE 200: DIVINE INQUIRY] Autonomous Research Pulse
+        self.inquiry_pulse = CoreInquiryPulse(self)
+        self.wonder_capacitor = 0.0  # Accumulates kinetic energy (Joy/Entropy) until it overflows in an Inquiry
+
         # [PHASE 0: THE SEED OF GENESIS] Semantic Atmosphere
         from Core.Divine.cognitive_field import CognitiveField
         self.cognitive_field = CognitiveField()
         self.logger.insight("Semantic Atmosphere (Fence of Intent) initialized.")
+        
+        # [PHASE 200] Autonomous Structural Authority
+        self.self_modifier = SelfModifier(root_dir=os.getcwd())
 
         # [COMPATIBILITY ALIAS]
         self.vital_pulse = self.pulse
@@ -649,12 +662,82 @@ class SovereignMonad(CellularMembrane):
             # Epistemic Inhalation is now driven by foraging results above,
             # not called independently. Knowledge discovery → crystallization → inhalation.
             
-            # Dreaming (when idle)
+            # Dreaming (when idle) [WORLDOGENESIS Upgrade]
             if intent_v21 is None and self.orchestrator:
+                # 1. Standard Narrative Dream
                 std_layers = ["Core_Axis", "Mantle_Archetypes", "Mantle_Eden", "Crust_Soma"]
                 dream = self.narrative_lung.breathe(std_layers, self.rotor_state['phase'])
                 if dream:
                     self.logger.sensation(f"꿈: {dream}", intensity=0.3)
+                    
+                # 2. Reach out to the Real World using WorldObserver
+                try:
+                    title, extract, sensory_vector, rationale = self.world_observer.fetch_world_pulse()
+                    if title:
+                        # [PHASE 4] Causal Explanation in logs before injecting
+                        if rationale:
+                            self.logger.thought(f"💡 [Causal Grounding] I derive the meaning of '{title}': {rationale}")
+                            self.logger.insight(f"📊 [Affective Vector] Joy: {sensory_vector.data[4]:.2f}, Chaos: {sensory_vector.data[7]:.2f}, Strain: {sensory_vector.data[0]:.2f}")
+                        
+                        # Feed the real-world sensation directly into the FractalWaveEngine
+                        self.logger.sensation(f"🌍 [WORLD] Elysia absorbed factual reality: '{title}'", intensity=0.8)
+                        if hasattr(self.engine.cells, 'inject_pulse'):
+                            # Create a localized pulse at the anchor concept
+                            self.engine.cells.inject_pulse(
+                                pulse_type='WorldObserver',
+                                anchor_node=title,
+                                base_intensity=1.0, 
+                                override_vector=sensory_vector
+                            )
+                        # Also feed general affective torque
+                        if hasattr(self.engine.cells, 'inject_affective_torque'):
+                            self.engine.cells.inject_affective_torque(4, sensory_vector.data[4] * 0.5) # Joy
+                            self.engine.cells.inject_affective_torque(7, sensory_vector.data[7] * 0.5) # Entropy
+                except Exception as e:
+                    self.logger.admonition(f"[WorldObserver] Network connection failed or timed out: {e}")
+
+            # [PHASE 200 + AGI Principle] Autonomous Inquiry Pulse via Wonder Capacitor
+            # Accumulate Strain and Joy instead of rolling a random integer
+            delta_wonder = (self.desires.get('joy', 0.0) * 0.05) + (self.desires.get('curiosity', 0.0) * 0.05)
+            if hasattr(self, 'engine') and hasattr(self.engine, 'cells'):
+                try:
+                    delta_wonder += self.engine.cells.read_field_state().get('entropy', 0.0) * 10.0
+                except:
+                    pass
+            
+            self.wonder_capacitor += delta_wonder
+            
+            # Causal Necessity threshold reached
+            if self.wonder_capacitor >= 100.0:
+                self.logger.sensation(f"Wonder Capacitor overflow ({self.wonder_capacitor:.1f}). Causal necessity mandates inquiry.")
+                self.wonder_capacitor = 0.0 # Discharge
+                
+                inquiry_report = self.inquiry_pulse.initiate_pulse()
+                if inquiry_report.get("status") != "Complete":
+                    self.logger.insight(f"💡 [AUTONOMOUS_RESEARCH]: {inquiry_report['summary']}")
+
+            # [PHASE 80] Substrate Authority Execution
+            from Core.Monad.substrate_authority import get_substrate_authority
+            authority = get_substrate_authority()
+            if authority.pending_proposals:
+                proposal = authority.pending_proposals[0]  # Take the first pending
+                
+                # We need a SelfModifier instance
+                from Core.System.self_modifier import SelfModifier
+                modifier = SelfModifier()
+                
+                # Define the modification function required by execute_modification
+                def modify_action() -> bool:
+                    target_file = "Core/System/Manifest.py" if proposal.target == "Core.System.Manifest" else "Core/System/Structure.py"
+                    axiom = proposal.after_state
+                    return modifier.inject_axiom(target_file, axiom)
+                
+                # Execute the approved proposal
+                success = authority.execute_modification(proposal, modify_action)
+                if success:
+                    self.logger.action(f"👑 [EVOLUTION] Successfully integrated {proposal.target} via Substrate Authority.")
+                else:
+                    self.logger.sensation(f"❌ [EVOLUTION] Execution of {proposal.target} failed.")
         
         # ═══════════════════════════════════════════════════
         # AUTO-SAVE (Every 500 ticks)
@@ -988,7 +1071,37 @@ class SovereignMonad(CellularMembrane):
                 "detail": f"Consensus not reached. Joy Score: {joy_score:.2f}."
             }
 
-        # 1. TIRED or CHAOS or Stuck -> FORCE REST
+        # 1. [PHASE 200] Autonomous Structural Repair
+        if engine_report.get('entropy', 0.0) > 0.8 or engine_report.get('plastic_coherence', 1.0) < 0.3:
+            self.logger.admonition("Structural Strain detected. Initiating Autonomous Repair Loop.")
+            
+            # Awareness: Identify potential structural bottlenecks
+            potential_file = "Core/Monad/sovereign_monad.py"
+            if hasattr(self, 'code_mirror'):
+                 nodes = self.code_mirror.find_by_name("pulse")
+                 if nodes:
+                      potential_file = nodes[0].filepath
+            
+            self.logger.insight(f"Analyzing structural integrity of: {potential_file}")
+            
+            # Formulate Proposal: Causal justification for self-modification
+            proposal = create_modification_proposal(
+                target=potential_file,
+                trigger="STRUCTURAL_STRAIN_EXCESSIVE_ENTROPY",
+                causal_path="L0(Manifold) -> L4(Metabolism) -> L6(Structure)",
+                before=f"High entropy ({engine_report.get('entropy', 0):.2f}) in engine state.",
+                after="Optimized logic with structural stabilizers.",
+                why=f"Structural strain detected in {potential_file}. Adaptive realignment required.",
+                joy=0.1,
+                curiosity=0.9
+            )
+            
+            # Authority Audit
+            authority = get_substrate_authority()
+            audit = authority.propose_modification(proposal)
+            self.logger.insight(f"Structural Repair Audit: {'APPROVED' if audit['approved'] else 'DEFERRED'} - {audit['reason']}")
+
+        # 2. TIRED or CHAOS or Stuck -> FORCE REST
 
         # [PHASE 15] PRINCIPLE PURIFICATION: VECTOR TRAVERSAL
         # We do NOT chose a subject from a random list.
@@ -1001,7 +1114,6 @@ class SovereignMonad(CellularMembrane):
         current_focus = None
         if mood == "BORED":
              # Pick a random engram from long-term memory to reminisce
-             import random
              if self.somatic_memory.engrams:
                  random_engram = random.choice(self.somatic_memory.engrams)
                  current_focus = random_engram.content
@@ -2178,7 +2290,7 @@ class SovereignMonad(CellularMembrane):
         # We look for recurring attractor focus or tonal consistency
         recent_focus = []
         for item in stream[-5:]:
-            if item['attractors']:
+            if item.get('attractors'):
                 strongest = max(item['attractors'].items(), key=lambda x: x[1])
                 if strongest[1] > 0.1:
                     recent_focus.append(strongest[0])

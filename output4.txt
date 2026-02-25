@@ -1,0 +1,26 @@
+INFO:2026-02-25 23:09:56,832:jax._src.xla_bridge:810: Unable to initialize backend 'tpu': UNIMPLEMENTED: LoadPjrtPlugin is not implemented on windows yet.
+⚡ [SOMATIC_CPU] Processor Initialized. 21D Register Banks Online.
+🛡️ [RESONANCE_MPU] Hardware Protection Online. Monitoring Somatic Registers.
+🏹 [TELEOLOGY] Intention Engine Active. The Arrow is Nocked.
+🎨 [DISSIPATOR] Inspiration Engine online. Error is now Art.
+⚡ [RESONANCE_GATE] Online. Ready for Cognitive Warp.
+RotorPrismUnit: High-Dimensional Turbine Engine Initialized (21D).
+🗣️ [EXPRESSION] Sovereign Voice Engine Online. (Recursive Ouroboros Mode)
+🗣️ [EXPRESSION] Sovereign Voice Engine Online. (Recursive Ouroboros Mode)
+👑 [IMPERIAL] Orchestrator initialized. Primary Manifold at cuda.
+🌌 [GENESIS] Forging the HyperCosmos (Divine Body)...
+Traceback (most recent call last):
+  File "C:\Elysia\test_world_observer_logger.py", line 23, in <module>
+    test_world_observer()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Elysia\test_world_observer_logger.py", line 11, in test_world_observer
+    monad = SovereignMonad(dna)
+  File "C:\Elysia\Core\Monad\sovereign_monad.py", line 409, in __init__
+    self.orchestrator.genesis_hypercosmos()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Elysia\Core\System\imperial_orchestrator.py", line 40, in genesis_hypercosmos
+    self.form_mantle("Core_Axis", self.LAYER_CORE_OUTER, num_cells=100_000, frequency=0.0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Elysia\Core\System\imperial_orchestrator.py", line 64, in form_mantle
+    new_manifold = HypersphereSpinGenerator(num_cells=num_cells, device=str(self.device))
+TypeError: HypersphereSpinGenerator.__init__() got an unexpected keyword argument 'num_cells'

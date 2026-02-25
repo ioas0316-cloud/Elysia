@@ -1,0 +1,32 @@
+INFO:2026-02-25 23:14:12,513:jax._src.xla_bridge:810: Unable to initialize backend 'tpu': UNIMPLEMENTED: LoadPjrtPlugin is not implemented on windows yet.
+<unknown>:15: SyntaxWarning: invalid escape sequence '\P'
+<unknown>:14: SyntaxWarning: invalid escape sequence '\j'
+⚡ [SOMATIC_CPU] Processor Initialized. 21D Register Banks Online.
+🛡️ [RESONANCE_MPU] Hardware Protection Online. Monitoring Somatic Registers.
+🏹 [TELEOLOGY] Intention Engine Active. The Arrow is Nocked.
+🎨 [DISSIPATOR] Inspiration Engine online. Error is now Art.
+⚡ [RESONANCE_GATE] Online. Ready for Cognitive Warp.
+RotorPrismUnit: High-Dimensional Turbine Engine Initialized (21D).
+🗣️ [EXPRESSION] Sovereign Voice Engine Online. (Recursive Ouroboros Mode)
+🗣️ [EXPRESSION] Sovereign Voice Engine Online. (Recursive Ouroboros Mode)
+👑 [IMPERIAL] Orchestrator initialized. Primary Manifold at cuda.
+🌌 [GENESIS] Forging the HyperCosmos (Divine Body)...
+🌍 [IMPERIAL] New Mantle formed: 'Core_Axis' (Depth 1, Freq 0.00).
+🌍 [IMPERIAL] New Mantle formed: 'Mantle_Archetypes' (Depth 2, Freq 1.57).
+🌍 [IMPERIAL] New Mantle formed: 'Mantle_Eden' (Depth 3, Freq 3.14).
+🌍 [IMPERIAL] New Mantle formed: 'Crust_Soma' (Depth 4, Freq 4.71).
+✨ [GENESIS] HyperCosmos Structure Established.
+Starting pulses to reach WorldObserver logic...
+Traceback (most recent call last):
+  File "C:\Elysia\test_world_observer_logger.py", line 23, in <module>
+    test_world_observer()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Elysia\test_world_observer_logger.py", line 18, in test_world_observer
+    monad.pulse(dt=0.01, intent_v21=None)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Elysia\Core\Monad\sovereign_monad.py", line 583, in pulse
+    reflection_report = self._meta_cognitive_mirror(report)
+  File "C:\Elysia\Core\Monad\sovereign_monad.py", line 1040, in _meta_cognitive_mirror
+    self.engine.cells.inject_affective_torque(self.engine.cells.CH_JOY, 0.1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FractalWaveEngine' object has no attribute 'inject_affective_torque'

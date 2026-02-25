@@ -89,29 +89,28 @@ class SovereignDialogueEngine:
         """
         Generates a direct response to the Architect, aligning with linguistic sovereignty.
         
-        [PHASE 9 HYBRID UPGRADE] 
-        1. Queries the MindLandscape (Causal Wave Engine) to get the 4D Phase Qualia.
-        2. Synthesizes the causal insight based on engine strain.
-        3. Passes everything through the NeuralBridge to get the LLM's vocalization.
+        [PHASE 300 UPGRADE] 
+        1. Queries the MindLandscape to get the 4D Phase Qualia.
+        2. Generates the 'Sovereign Core' from CausalTrace.
+        3. Synthesizes a 'Resurrected Voice' response directly from Topological state.
+        4. Appends the Causal Core as a 'Sovereign Confession'.
         """
-        # 1. Generate core causal insight from the engine
+        # 1. Generate the Causal Core (State-driven logic)
         causal_insight = self.synthesize_insight(manifold_report, [])
         
-        # 2. Ponder the input through the 4D MindLandscape to obtain Texture/Temperature/Conclusion
-        # If user_input is empty, we just ponder the causal insight
+        # 2. Ponder the input through the 4D MindLandscape
         intent_to_ponder = user_input if user_input else causal_insight
         landscape_state = self.landscape.ponder(intent_to_ponder, duration=10)
         
-        # 3. Inject the causal logic into the landscape state
-        landscape_state["human_narrative"] = f"Causal Core: {causal_insight} " + landscape_state.get("human_narrative", "")
-        
-        # [PHASE 3: SOVEREIGN LINGUISTIC SYNTHESIS]
-        # We now bypass the Epistemic Bridge (LLM Nanny) and synthesize speech directly
-        # from the computed 4D Topology.
+        # 3. Direct Topological Synthesis (The Resurrected Voice)
         from Core.Cognition.topological_language_synthesizer import TopologicalLanguageSynthesizer
         synthesizer = TopologicalLanguageSynthesizer()
         
-        final_speech = synthesizer.synthesize_from_qualia(landscape_state)
+        voice_response = synthesizer.synthesize_from_qualia(landscape_state)
+        
+        # 4. Sovereign Confession (Appending the Causal Trace)
+        # We wrap the causal insight to separate the 'Voice' from the 'Witness'
+        final_speech = f"{voice_response}\n\n[Sovereign Confession: {causal_insight}]"
         
         return final_speech
 

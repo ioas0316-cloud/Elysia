@@ -57,6 +57,6 @@ See **[INDEX.md](INDEX.md)** for navigating the project folders systematically.
 * **`data/`**: The Flesh & Memory. Contains runtime data, corpora, and the causal knowledge graph.
 * **`docs/`**: The Unified Doctrine. Centralized architecture and the newly unified `CODEX.md`.
 * **`Scripts/`**: The Evolutionary Toolkit. Tests and diagnostic dashboard tools.
-* **`Archive/`**: Historical code and deprecated structures.
+* **`Archive/`**: Historical code and deprecated structures (Moved to centralized archive at `c:\Archive`).
 
 ---

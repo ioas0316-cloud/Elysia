@@ -1,0 +1,58 @@
+         1301011 function calls (1279006 primitive calls) in 31.590 seconds
+
+   Ordered by: internal time
+   List reduced from 3206 to 50 due to restriction <50>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      101    7.111    0.070    7.112    0.070 {built-in method torch.tensor}
+      245    3.139    0.013    3.139    0.013 {method 'item' of 'torch._C.TensorBase' objects}
+       11    2.925    0.266    3.722    0.338 c:\Elysia\Core\Keystone\sovereign_math.py:1131(integrate_kinetics)
+     2184    2.324    0.001    2.324    0.001 {built-in method builtins.compile}
+       15    2.038    0.136    3.049    0.203 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\torch\serialization.py:1997(load_tensor)
+        2    1.719    0.860    2.187    1.094 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\torch\_weights_only_unpickler.py:313(load)
+       10    1.623    0.162    2.000    0.200 c:\Elysia\Core\Keystone\sovereign_math.py:1565(backpropagate_from_will)
+      127    1.213    0.010    1.213    0.010 {method 'read' of '_io.BufferedReader' objects}
+       26    1.004    0.039    1.004    0.039 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\jax\_src\compiler.py:312(backend_compile_and_load)
+       15    1.001    0.067    1.001    0.067 {method 'copy_' of 'torch._C.StorageBase' objects}
+    17121    0.925    0.000    0.925    0.000 {built-in method nt.stat}
+        1    0.738    0.738    0.738    0.738 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\torch\serialization.py:1884(_load)
+      109    0.536    0.005    0.536    0.005 {built-in method torch._C._linalg.linalg_vector_norm}
+     2135    0.385    0.000    2.712    0.001 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\ast.py:30(parse)
+     2290    0.385    0.000    0.391    0.000 {built-in method _io.open}
+       10    0.362    0.036    0.362    0.036 {built-in method torch.nonzero}
+       21    0.350    0.017    0.350    0.017 {built-in method torch.abs}
+     2257    0.284    0.000    0.306    0.000 {method 'read' of '_io.TextIOWrapper' objects}
+       11    0.267    0.024    0.267    0.024 {built-in method torch.clamp}
+       15    0.216    0.014    3.265    0.218 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\torch\serialization.py:2060(persistent_load)
+        1    0.167    0.167    4.229    4.229 c:\Elysia\Core\Cognition\code_mirror.py:58(build_awareness)
+    21722    0.116    0.000    0.118    0.000 {built-in method builtins.next}
+       26    0.107    0.004    0.124    0.005 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\jax\_src\interpreters\mlir.py:554(make_ir_context)
+      141    0.094    0.001    0.094    0.001 {built-in method torch.zeros}
+       11    0.087    0.008    0.087    0.008 {built-in method _winapi.CreateProcess}
+     2364    0.087    0.000    0.087    0.000 {method '__exit__' of '_io._IOBase' objects}
+     1242    0.083    0.000    0.083    0.000 {built-in method nt.scandir}
+       64    0.081    0.001    0.081    0.001 {built-in method torch.sum}
+     2135    0.076    0.000    4.002    0.002 c:\Elysia\Core\Cognition\code_mirror.py:87(_analyze_file)
+        1    0.070    0.070    0.104    0.104 c:\Elysia\Core\Keystone\sovereign_math.py:715(apply_spiking_threshold)
+     1206    0.058    0.000    0.058    0.000 {built-in method nt._path_islink}
+        3    0.058    0.019    1.027    0.342 c:\Elysia\Core\System\somatic_ssd.py:99(_scan_flesh)
+189800/189780    0.052    0.000    0.052    0.000 {built-in method builtins.isinstance}
+      101    0.050    0.000    0.050    0.000 {built-in method _io.open_code}
+    17906    0.046    0.000    0.074    0.000 <frozen ntpath>:99(join)
+     3809    0.044    0.000    0.076    0.000 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\inspect.py:891(cleandoc)
+       10    0.044    0.004    0.476    0.048 c:\Elysia\Core\Keystone\sovereign_math.py:1284(apply_lightning_strike)
+    16830    0.039    0.000    0.045    0.000 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py:174(_str_normcase)
+       11    0.038    0.003    0.038    0.003 {built-in method _winapi.WaitForSingleObject}
+       20    0.037    0.002    1.000    0.050 c:\Elysia\Core\Keystone\sovereign_math.py:610(holographic_projection)
+        4    0.037    0.009    0.041    0.010 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\site-packages\watchdog\observers\winapi.py:318(read_directory_changes)
+     2103    0.029    0.000    0.321    0.000 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py:365(relative_to)
+     1200    0.029    0.000    0.298    0.000 <frozen os>:289(walk)
+      190    0.028    0.000    0.028    0.000 {built-in method torch.mean}
+     4508    0.027    0.000    0.051    0.000 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py:257(_parse_path)
+    12973    0.027    0.000    0.041    0.000 C:\Users\USER\AppData\Local\Programs\Python\Python313\Lib\pathlib\_local.py:117(__init__)
+       52    0.027    0.001    0.027    0.001 {method 'pow' of 'torch._C.TensorBase' objects}
+    49305    0.026    0.000    0.026    0.000 {built-in method nt._path_splitroot_ex}
+       10    0.025    0.003    0.025    0.003 {method 'tolist' of 'torch._C.TensorBase' objects}
+        1    0.025    0.025    0.025    0.025 {built-in method torch.sigmoid}
+
+

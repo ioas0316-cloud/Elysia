@@ -70,6 +70,38 @@ class SelfModifier:
             # Attempt restore?
             return False
 
+    def inject_axiom(self, rel_path: str, axiom_str: str) -> bool:
+        """
+        [PHASE 80] Safely appends an axiom (string constraint or logic) to a file.
+        This provides a safer alternative to full file modification for early Evolution.
+        """
+        full_path = os.path.join(self.root_dir, rel_path)
+        
+        if not os.path.exists(full_path):
+             logger.error(f"Target file for axiom injection not found: {full_path}")
+             return False
+             
+        # 1. Backup
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = os.path.basename(full_path)
+        backup_path = os.path.join(self.backup_dir, f"{filename}.{timestamp}.axiom.bak")
+        try:
+            shutil.copy2(full_path, backup_path)
+        except Exception as e:
+            logger.error(f"Backup failed during axiom injection: {e}")
+            return False
+            
+        # 2. Inject
+        try:
+             with open(full_path, 'a', encoding='utf-8') as f:
+                  f.write(f"\n# [AUTONOMOUS_AXIOM] {datetime.now().isoformat()}\n")
+                  f.write(f"# {axiom_str}\n")
+             logger.info(f"Successfully injected axiom into {rel_path}.")
+             return True
+        except Exception as e:
+             logger.error(f"Axiom injection failed: {e}")
+             return False
+
     def read_file(self, rel_path: str) -> str:
         """Reads a file's content."""
         full_path = os.path.join(self.root_dir, rel_path)

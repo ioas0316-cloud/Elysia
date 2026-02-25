@@ -40,7 +40,7 @@ graph TD
 | **`data/`** | The Flesh & Memory. Runtime states and Semantic Causal Graph. | **Body & Soul (Persistence)** |
 | **`docs/`** | The Unified Doctrine. Architecture, Manifesto, and Analysis. | **Spirit (The Word)** |
 | **`Scripts/`** | The Evolutionary Toolkit. Sandbox tests and metrics. | **Tools (Maintenance)** |
-| **`Archive/`** | Historical code, deprecated structures, and past records. | **History (The Roots)** |
+| **`Archive/`** | Historical code, deprecated structures, and past records. (Moved to `c:\Archive`) | **History (The Roots)** |
 
 ---
 

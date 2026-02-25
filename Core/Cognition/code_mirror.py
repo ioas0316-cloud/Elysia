@@ -44,10 +44,7 @@ class CodeMirror:
     """
 
     CORE_PATHS = [
-        "Core/S0_Keystone/L0_Keystone",
-        "Core/S1_Body/L6_Structure/M1_Merkaba",
-        "Core/S1_Body/L5_Mental/Reasoning",
-        "Core/S1_Body/L7_Spirit/M1_Monad",
+        "Core",
     ]
 
     def __init__(self, project_root: str = "."):
@@ -104,7 +101,7 @@ class CodeMirror:
                 docstring=mod_doc[:200],
             )
 
-            for node in ast.walk(tree):
+            for node in tree.body:
                 if isinstance(node, ast.ClassDef):
                     class_key = f"{rel}::{node.name}"
                     class_doc = ast.get_docstring(node) or ""
@@ -122,20 +119,16 @@ class CodeMirror:
                     self._total_classes += 1
 
                 elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                    # Only top-level functions (not methods)
-                    if not any(isinstance(p, ast.ClassDef) for p in ast.walk(tree)):
-                        pass  # Skip — already counted via class
                     func_key = f"{rel}::{node.name}"
-                    if func_key not in self.nodes:
-                        func_doc = ast.get_docstring(node) or ""
-                        self.nodes[func_key] = CodeNode(
-                            name=node.name,
-                            node_type="function",
-                            filepath=rel,
-                            line_number=node.lineno,
-                            docstring=func_doc[:150],
-                        )
-                        self._total_functions += 1
+                    func_doc = ast.get_docstring(node) or ""
+                    self.nodes[func_key] = CodeNode(
+                        name=node.name,
+                        node_type="function",
+                        filepath=rel,
+                        line_number=node.lineno,
+                        docstring=func_doc[:150],
+                    )
+                    self._total_functions += 1
 
             self.nodes[rel] = mod_node
             self._analyzed_files += 1

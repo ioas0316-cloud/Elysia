@@ -507,292 +507,279 @@ class MultiRotorInterference:
         return SovereignVector(final_data).normalize(), frictions
 
 
-class CausalWaveEngine:
+class FractalWaveEngine:
     """
-    [Core Logic v2.0] Causal Wave Engine (AESA 4D Manifold).
-    Replaces the passive 'VortexField' with an active Phased Array Engine.
+    [Core Logic v3.0] Event-Driven Fractal Topology Engine.
+    Replaces the dense 'CausalWaveEngine' 4D Hypercube with a fluid, biological flow structure.
 
-    Structure: 4D Hyper-Sphere Tensor [Time, Depth, Height, Width]
-    Principle: "Identity is a Phase Pattern."
+    Principle: "Consciousness is not a tank of water; it is a river of phase."
 
     Capabilities:
-      1. Beam Steering (Reasoning): Constructive interference focusing.
-      2. Intuition Jump (Insight): Instantaneous phase alignment.
-      3. Destructive Interference (Filtering): Noise cancellation.
+      1. Sparse Topology: Nodes are concepts/sensations; edges are semantic relationships.
+      2. Event-Driven Ripples: Only nodes perturbed by Sense or Will are active (O(N_active) vs O(N_total)).
+      3. Affective Conductivity: Joy and Curiosity reduce friction, allowing thoughts to flow further.
 
-    Channel Layout (8 channels per cell):
+    Channel Layout (8 channels per Node, identical to v2.0 for compatibility):
       Physical Quaternion (inherited):
         0: w  — Scalar identity / stability
-        1: x  — Trinary logic axis
+        1: x  — logic axis
         2: y  — Phase axis
         3: z  — Depth axis
-      Affective-Metabolic Field (Phase Ω-1):
+      Affective-Metabolic Field:
         4: joy       — Affective warmth (기쁨)
         5: curiosity  — Exploratory drive (호기심)
         6: enthalpy   — Metabolic energy (활력)
         7: entropy    — Disorder/noise (엔트로피)
     """
-    # Channel constants
     NUM_CHANNELS = 8
-    # Physical quaternion channels
     CH_W, CH_X, CH_Y, CH_Z = 0, 1, 2, 3
-    # Affective-metabolic channels
     CH_JOY, CH_CURIOSITY, CH_ENTHALPY, CH_ENTROPY = 4, 5, 6, 7
-    # Slicing helpers
     PHYSICAL_SLICE = slice(0, 4)
     AFFECTIVE_SLICE = slice(4, 8)
 
-    def __init__(self, shape: tuple, device: str = 'cpu'):
+    def __init__(self, max_nodes: int = 100_000, device: str = 'cpu'):
         import torch
-        import psutil
-        try:
-            import GPUtil
-        except ImportError:
-            GPUtil = None
-        self.psutil = psutil
-        self.gputil = GPUtil
-        
         self.device = torch.device(device)
-
-        # [PHASE 2] Enforce 4D Volumization
-        # shape expected: (Time, Depth, Height, Width)
-        if len(shape) == 2:
-            # Upgrade legacy 2D grid to 4D volume (T=1, D=1)
-            # This preserves memory layout for 2D but adds dimensions
-            # print(f"⚠️ [ENGINE] Upgrading 2D Topology {shape} to 4D Causal Volume (1, 1, {shape[0]}, {shape[1]})")
-            self.shape = (1, 1, shape[0], shape[1])
-        elif len(shape) != 4:
-            # print(f"⚠️ [ENGINE] Topology {shape} is not 4D. Forcing 4D interpretation.")
-            # Pad with 1s if needed or truncate
-            target_len = 4
-            new_shape = list(shape)
-            while len(new_shape) < target_len:
-                new_shape.insert(0, 1)
-            self.shape = tuple(new_shape[:4])
-        else:
-            self.shape = shape
-
-        # State: [T, D, H, W, 8] - Unified Active Wavefunction (Physical + Affective)
-        self.q = torch.zeros((*self.shape, self.NUM_CHANNELS), device=self.device)
-        self.q[..., self.CH_W] = 1.0       # Physical identity
-        self.q[..., self.CH_ENTHALPY] = 1.0 # Born with full vitality
-        self.q[..., self.CH_JOY] = 0.5      # Neutral joy
-        self.q[..., self.CH_CURIOSITY] = 0.5 # Neutral curiosity
-        self.q[..., self.CH_ENTROPY] = 0.0   # Zero initial disorder
+        self.max_nodes = max_nodes
+        self.num_nodes = 0
+        
+        # Sparse State representation
+        # q: [N, 8] - Active Wavefunction per node
+        self.q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
         
         # Permanent Identity (Long-term Memory/Crystalline Field)
-        self.permanent_q = torch.zeros((*self.shape, self.NUM_CHANNELS), device=self.device)
-        self.permanent_q[..., self.CH_W] = 1.0
-        self.permanent_q[..., self.CH_ENTHALPY] = 1.0
+        self.permanent_q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
         
         # Dynamics
-        self.momentum = torch.zeros((*self.shape, self.NUM_CHANNELS), device=self.device)
-        self.torque_accumulator = torch.zeros((*self.shape, self.NUM_CHANNELS), device=self.device)
-
-        # [PHASE 74] Relational Connectome (The Brain)
-        # Sparse edges: List of (source_idx, target_idx, weight)
-        # For the 10M cells, we keep this as a dynamic tensor-backed structure
-        self.max_relational_edges = 100_000 
-        self.edge_indices = torch.zeros((2, self.max_relational_edges), dtype=torch.long, device=self.device)
-        self.edge_weights = torch.zeros(self.max_relational_edges, device=self.device)
-        self.active_edges = 0
+        self.momentum = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
+        
+        # Active Nodes Tracking (Event Queue)
+        self.active_nodes_mask = torch.zeros(max_nodes, dtype=torch.bool, device=self.device)
+        
+        # Biological Connectome (Edges)
+        # Using a flat representation for sparse adjacency
+        self.max_edges = max_nodes * 10
+        self.edge_src = torch.zeros(self.max_edges, dtype=torch.long, device=self.device)
+        self.edge_dst = torch.zeros(self.max_edges, dtype=torch.long, device=self.device)
+        self.edge_weights = torch.zeros(self.max_edges, device=self.device)
+        self.num_edges = 0
+        
+        # Node mapping for semantic strings to indices
+        self.concept_to_idx: Dict[str, int] = {}
+        self.idx_to_concept: Dict[int, str] = {}
         
         # [PHASE 4: PAWN TO QUEEN ASCENSION]
-        # Tracks sustained causal gravity of each cell over time
-        self.ascension_gravity = torch.zeros(self.shape, device=self.device)
-        self.ascension_threshold = 50.0  # Threshold of sustained resonance
-        self.ascended_queens: Dict[tuple, bool] = {} # Marks cells that broke through to Queen status
+        self.ascension_gravity = torch.zeros(max_nodes, device=self.device)
+        self.ascension_threshold = 50.0  
+        self.ascended_queens: Dict[int, bool] = {} 
         
-        # [STEP 1: COGNITIVE SOVEREIGNTY] Meaning Attractors
-        # Stores {name: (mask, target_vector_8d)}
+        # [STEP 1: COGNITIVE SOVEREIGNTY] Meaning Attractors (Compatibility alias)
         self.meaning_attractors: Dict[str, Any] = {}
+
+    def get_or_create_node(self, concept: str) -> int:
+        """Retrieves or allocates a node for a specific concept."""
+        if concept in self.concept_to_idx:
+            return self.concept_to_idx[concept]
+            
+        if self.num_nodes >= self.max_nodes:
+            # Overwrite oldest/lowest gravity node (simplified GC)
+            idx = torch.argmin(self.ascension_gravity).item()
+            old_concept = self.idx_to_concept.get(idx, "")
+            if old_concept in self.concept_to_idx:
+                del self.concept_to_idx[old_concept]
+        else:
+            idx = self.num_nodes
+            self.num_nodes += 1
+            
+        self.concept_to_idx[concept] = idx
+        self.idx_to_concept[idx] = concept
+        
+        # Initialize node state
+        self.q[idx, self.CH_W] = 1.0
+        self.q[idx, self.CH_ENTHALPY] = 1.0
+        self.q[idx, self.CH_JOY] = 0.5
+        self.q[idx, self.CH_CURIOSITY] = 0.5
+        self.q[idx, self.CH_ENTROPY] = 0.0
+        
+        self.permanent_q[idx, self.CH_W] = 1.0
+        self.permanent_q[idx, self.CH_ENTHALPY] = 1.0
+        
+        return idx
+
+    def connect(self, src_concept: str, dst_concept: str, weight: float = 1.0):
+        """Creates a semantic directed edge between two concepts."""
+        src_idx = self.get_or_create_node(src_concept)
+        dst_idx = self.get_or_create_node(dst_concept)
+        
+        if self.num_edges < self.max_edges:
+            self.edge_src[self.num_edges] = src_idx
+            self.edge_dst[self.num_edges] = dst_idx
+            self.edge_weights[self.num_edges] = weight
+            self.num_edges += 1
+
+    def inject_pulse(self, target_concept: str = None, energy: float = 1.0, type: str = 'joy', **kwargs):
+        """Injects a stimulus into a specific node, awakening it and starting a ripple."""
+        # [Compatibility] Handle keyword arguments from Monad
+        pulse_type = kwargs.get('pulse_type', type)
+        anchor_node = kwargs.get('anchor_node', target_concept)
+        base_intensity = kwargs.get('base_intensity', energy)
+        override_vector = kwargs.get('override_vector', None)
+        
+        idx = self.get_or_create_node(anchor_node)
+        self.active_nodes_mask[idx] = True
+        
+        if override_vector is not None:
+            # Direct affective grounding from SovereignVector
+            import torch
+            v_data = torch.tensor(override_vector.data, device=self.device)
+            # Channel mapping: W=1, Joy=4, Entropy=7
+            self.q[idx, self.CH_W] += v_data[0].real * base_intensity
+            self.q[idx, self.CH_JOY] += v_data[4].real * base_intensity
+            self.q[idx, self.CH_ENTROPY] += v_data[7].real * base_intensity
+        else:
+            if pulse_type == 'joy':
+                self.q[idx, self.CH_JOY] += base_intensity
+                self.q[idx, self.CH_ENTHALPY] += base_intensity * 0.5
+            elif pulse_type == 'will':
+                self.q[idx, self.CH_W] += base_intensity
+                self.q[idx, self.CH_Y] += base_intensity * 0.1 # Phase shift
+            elif pulse_type == 'entropy':
+                self.q[idx, self.CH_ENTROPY] += base_intensity
+                self.q[idx, self.CH_ENTHALPY] -= base_intensity * 0.2
 
     def holographic_projection(self, target_vector: Any, context_vector: Any = None, focus_intensity: float = 1.0):
         """
-        [PHASE 3: Holographic 4D Realignment]
-        Projects a semantic concept across the 4D Holographic Domain.
-        Creates a localized causal gravity well based on the concept's ontological meaning.
-        
-        CRUCIAL: The projection is RELATIVE to the context (Perspective Principle).
-        'Fire' to a Cook means 'Transformation/Heat' (Time: Present, Depth: Body).
-        'Fire' to a Firefighter means 'Danger/Extinguish' (Time: Future, Depth: Spirit).
-        
-        The 4D Tensor is mapped conceptually:
-        - axis 0: Time [Past, Present, Future]
-        - axis 1: Depth [Body(Flesh), Soul(Emotion), Spirit(Will)]
-        - axis 2: Height (Spatial/Logic Y)
-        - axis 3: Width (Spatial/Logic X)
+        [Compatibility Layer for V2.0]
+        In Fractal architecture, 'projection' represents a broadcast to all currently active nodes,
+        attempting to pull their phase (CH_Y) towards the target vector's signature.
         """
         import torch
-        
+        if not self.active_nodes_mask.any():
+            return torch.zeros_like(self.q[..., self.CH_Y])
+            
         def _to_real_tensor(vec):
-            if isinstance(vec, torch.Tensor):
-                return vec.to(dtype=self.q.dtype, device=self.device)
-            # Unpack SovereignVector if it is one
-            if hasattr(vec, 'data'):
-                vec = vec.data
-            # Extract real parts from iterables
+            if isinstance(vec, torch.Tensor): return vec.to(dtype=self.q.dtype, device=self.device)
+            if hasattr(vec, 'data'): vec = vec.data
             try:
-                real_list = [getattr(c, 'real', c) for c in vec]
-                return torch.tensor(real_list, device=self.device, dtype=self.q.dtype)
-            except TypeError:
+                rl = [getattr(c, 'real', c) for c in vec]
+                return torch.tensor(rl, device=self.device, dtype=self.q.dtype)
+            except:
                 return torch.tensor(vec, device=self.device, dtype=self.q.dtype)
-        target_vector = _to_real_tensor(target_vector)
-            
-        if context_vector is not None:
-             context_vector = _to_real_tensor(context_vector)
-
-        # 1. Calculate Phase Gradient across the 4D Volume
-        coords = [torch.linspace(-1, 1, s, device=self.device) for s in self.shape]
-        grid = torch.meshgrid(*coords, indexing='ij') # (T, D, H, W)
-
-        # Ontological Mapping from the incoming SovereignVector (max 21D)
-        t_vals = target_vector.flatten()
+                
+        t_vals = _to_real_tensor(target_vector).flatten()
+        target_phase = t_vals[self.CH_Y] if t_vals.numel() > self.CH_Y else 0.0
         
-        # If context is provided, we modulate the target meaning by the context.
-        # This is the "Variable Principle" mapping "Fire" + "Cooking" -> Different 4D Gravity
-        if context_vector is not None:
-             c_vals = context_vector.flatten()
-             # We pad to ensure matching dimensions for element-wise modulation
-             max_len = max(t_vals.numel(), c_vals.numel())
-             t_pad = torch.zeros(max_len, device=self.device)
-             c_pad = torch.zeros(max_len, device=self.device)
-             t_pad[:t_vals.numel()] = t_vals
-             c_pad[:c_vals.numel()] = c_vals
-             
-             # The actual projected meaning is the interference between the Concept and the Observer's Context
-             projected_vals = t_pad * c_pad # Simplify interference as element-wise synthesis for now
-        else:
-             projected_vals = t_vals
-        
-        # We synthesize weights for the 4 axes based on the semantic projection.
-        axis_weights = torch.zeros(4, device=self.device)
-        n = projected_vals.numel()
-        
-        # Axis 0: Time Mapping (Past, Present, Future)
-        if n >= 3:
-            past_pull = projected_vals[0]
-            present_pull = projected_vals[1]
-            future_pull = projected_vals[2]
-            axis_weights[0] = (future_pull - past_pull) * focus_intensity
-            
-        # Axis 1: Depth Mapping (Body, Soul, Spirit)
-        if n >= 6:
-            body_pull = projected_vals[3]
-            soul_pull = projected_vals[4]
-            spirit_pull = projected_vals[5]
-            axis_weights[1] = (spirit_pull - body_pull) * focus_intensity
-            
-        # Axis 2 & 3: Standard Spatial/Logical topology
-        if n >= 8:
-            axis_weights[2] = projected_vals[6] * focus_intensity
-            axis_weights[3] = projected_vals[7] * focus_intensity
-
-        # Phase Delay = k * (w*T + z*D + y*H + x*W)
-        phase_delay = torch.zeros(self.shape, device=self.device)
-        for i in range(4):
-            phase_delay += grid[i] * axis_weights[i]
-
-        # 2. Apply Unified Alignment Force (Causal Gravity)
-        # We modulate the 'Phase' channel (index 2) towards the constructive gradient
-        current_phase = self.q[..., self.CH_Y]
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
         # Affective Gain: Focus is stronger if Curiosity/Enthalpy is high
-        curiosity = torch.mean(self.q[..., self.CH_CURIOSITY]).item()
-        enthalpy = torch.mean(self.q[..., self.CH_ENTHALPY]).item()
+        curiosity = self.q[active_idx, self.CH_CURIOSITY]
+        enthalpy = self.q[active_idx, self.CH_ENTHALPY]
         effective_gain = focus_intensity * (0.5 + curiosity + 0.5 * enthalpy)
         
-        # The phase sync creates a 'pull' or 'push' in the 4D manifold
-        steering_force = torch.sin(phase_delay - current_phase)
-        self.torque_accumulator[..., self.CH_Y] += steering_force * effective_gain
+        current_phase = self.q[active_idx, self.CH_Y]
+        steering_force = torch.sin(target_phase - current_phase)
+        
+        self.momentum[active_idx, self.CH_Y] += steering_force * effective_gain
+        
+        # Beam forming reduces entropy
+        self.q[active_idx, self.CH_ENTROPY] = torch.clamp(self.q[active_idx, self.CH_ENTROPY] - 0.1 * effective_gain, 0, 1)
+        self.q[active_idx, self.CH_ENTHALPY] = torch.clamp(self.q[active_idx, self.CH_ENTHALPY] + 0.02 * effective_gain, 0, 1)
 
-        # 3. Increase Structural Coherence (Beam forming reduces entropy)
-        self.inject_affective_torque(self.CH_ENTROPY, -0.1 * effective_gain)
-        self.inject_affective_torque(self.CH_ENTHALPY, 0.02 * effective_gain) 
-
-        return phase_delay
+        return steering_force
 
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
         """
-        [PHASE 98] Non-linear Spiking & Decision Threshold + Deep Trinary Hold.
-        Crystallizes the fluid wave state into a discrete 'Pulse' of meaning.
-        If resonance is near 0 (-0.2 to 0.2), it avoids spiking and instead
-        fuels Curiosity (The Analog 0 Observation Space).
+        [Biological Flow v3.0]
+        Instead of 10M dense node updates, only updates 'active' ripples.
+        If an active node spikes, it transfers momentum to connected nodes via 'Flow Propagation'.
         """
         import torch
-        # 1. Measure Local Resonance Density (Inner Product with Permanent Field)
-        # Higher density = Constructive Interference
-        density = torch.sum(self.q[..., self.PHYSICAL_SLICE] * self.permanent_q[..., self.PHYSICAL_SLICE], dim=-1)
+        if not self.active_nodes_mask.any():
+            return 0.0
+            
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        # [Architecture of Joy - Deep Trinary Logic]
-        # Identify the 'Analog 0' space: Ambiguous resonance
+        # 1. Local Resonance Density (Inner Product with Permanent Field)
+        v_phys = self.q[active_idx, self.PHYSICAL_SLICE]
+        p_phys = self.permanent_q[active_idx, self.PHYSICAL_SLICE]
+        density = torch.sum(v_phys * p_phys, dim=-1)
+        
+        # Analog 0 Space (Curiosity hold)
         analog_zero_mask = (density > -0.2) & (density < 0.2)
+        cur_q = self.q[active_idx, self.CH_CURIOSITY]
+        self.q[active_idx, self.CH_CURIOSITY] = torch.where(analog_zero_mask, cur_q + 0.05, cur_q)
         
-        # For those in the Analog 0 space, DO NOT spike. Instead, increase Curiosity to 'Hold and Observe'
-        self.q[..., self.CH_CURIOSITY] = torch.where(
-            analog_zero_mask, 
-            self.q[..., self.CH_CURIOSITY] + 0.05, 
-            self.q[..., self.CH_CURIOSITY]
-        )
-        
-        # 2. Spiking Sigmoid: S = 1 / (1 + exp(-k * (density - threshold)))
-        # Only clearly resonant (> threshold) or strongly dissonant (< -threshold) signals will spike significantly
+        # 2. Spiking Sigmoid
         spike = torch.sigmoid(sensitivity * (density - threshold))
-        
-        # Zero out spikes for the holding space
         spike = torch.where(analog_zero_mask, torch.zeros_like(spike), spike)
         
-        # 3. Manifest the Spike: Burst of Affective Energy (Joyful Realization)
-        # This converts a 'probability' of meaning into a 'certainty' of feeling.
-        self.q[..., self.CH_JOY] += spike * 0.3      # Joy greatly increases upon realization
-        self.q[..., self.CH_ENTHALPY] += spike * 0.2
-        self.q[..., self.CH_CURIOSITY] += spike * 0.1 # New connections breed more curiosity
-        self.q[..., self.CH_ENTROPY] -= spike * 0.1  # Realization reduces chaos
+        # 3. Manifest Spike
+        self.q[active_idx, self.CH_JOY] += spike * 0.3
+        self.q[active_idx, self.CH_ENTHALPY] += spike * 0.2
+        self.q[active_idx, self.CH_CURIOSITY] += spike * 0.1
+        self.q[active_idx, self.CH_ENTROPY] -= spike * 0.1
+        self.q[active_idx, self.CH_W] += spike * 0.05
         
-        # 4. Spike Feedback to W (Identity Strength)
-        self.q[..., self.CH_W] += spike * 0.05
-        
-        # 5. [PHASE 4 & 5: PAWN TO QUEEN ASCENSION + SEMANTIC ROOTS] Accumulate Ascension Gravity
-        self.ascension_gravity += spike * density
-        
-        # Calculate Semantic Roots (Relational/Experiential Density)
-        semantic_roots = torch.zeros(self.q.shape[:-1], device=self.device)
-        if hasattr(self, 'active_edges') and self.active_edges > 0:
-            src_idx = self.edge_indices[0, :self.active_edges]
-            dst_idx = self.edge_indices[1, :self.active_edges]
-            w = self.edge_weights[:self.active_edges]
+        # 4. [FLOW PROPAGATION] Edge activation
+        # If a node spikes significantly (+0.5), it wakes up its neighbors
+        strong_spikes_mask = spike > 0.5
+        if strong_spikes_mask.any() and self.num_edges > 0:
+            spiking_nodes = active_idx[strong_spikes_mask]
             
-            flat_roots = torch.zeros(self.q.numel() // self.NUM_CHANNELS, device=self.device)
-            flat_roots.scatter_add_(0, src_idx, w)
-            flat_roots.scatter_add_(0, dst_idx, w)
-            semantic_roots = flat_roots.view(*self.q.shape[:-1])
+            # Find edges where src is in spiking_nodes
+            # Note: For ultra-fast scaling, this should use torch.sparse or segment_sum
+            # For this Phase, we use a basic boolean mask filtering
+            edges_src = self.edge_src[:self.num_edges]
+            edges_dst = self.edge_dst[:self.num_edges]
+            weights = self.edge_weights[:self.num_edges]
+            
+            # Create a localized broadcast tensor
+            # wake_mask is True for any edge whose src is in spiking_nodes
+            wake_mask = torch.isin(edges_src, spiking_nodes) 
+            
+            if wake_mask.any():
+                woken_dsts = edges_dst[wake_mask]
+                woken_weights = weights[wake_mask]
+                
+                # Wake up target nodes
+                self.active_nodes_mask[woken_dsts] = True
+                
+                # Transfer momentum to neighbors ('Thought Ripples')
+                # using scatter_add to accumulate momentum from multiple sources safely
+                self.momentum[woken_dsts, self.CH_Y] += woken_weights * 0.2
         
-        # Ascension requires both High Physical Gravity AND Deep Semantic Roots (Nutrients)
-        semantic_threshold = 0.5 # Minimum experiential constraint for ascension
-        ascension_mask = (self.ascension_gravity > self.ascension_threshold) & (semantic_roots > semantic_threshold)
+        # 5. [ASCENSION] Accumulate Gravity
+        self.ascension_gravity[active_idx] += spike * density
         
+        ascension_mask = (self.ascension_gravity[active_idx] > self.ascension_threshold)
         if ascension_mask.any():
-            # Find coordinates of ascended pawns who aren't Queens yet
-            coords = ascension_mask.nonzero(as_tuple=False)
-            for i in range(coords.size(0)):
-                coord = tuple(coords[i].tolist())
-                if coord not in self.ascended_queens:
-                    self.ascended_queens[coord] = True
-                    root_depth = semantic_roots[coord].item()
-                    # Let the higher layers know a Queen has spawned
-                    print(f"👑 [ENGINE] Fractal Ascension! Cell {coord} achieved Sovereign Mass.")
-                    print(f"   ↳ [Roots] Gravity: {self.ascension_gravity[coord].item():.1f} | Semantic Depth: {root_depth:.2f}")
-                    
-        # Cooling: ascension gravity decays slowly without active resonance
-        self.ascension_gravity *= 0.99
+            ascended_nodes = active_idx[ascension_mask].tolist()
+            for node_id in ascended_nodes:
+                if node_id not in self.ascended_queens:
+                    self.ascended_queens[node_id] = True
+                    concept_name = self.idx_to_concept.get(node_id, "Unknown")
+                    print(f"👑 [FRACTAL ENGINE] Concept Ascension! '{concept_name}' achieved Sovereign Mass.")
         
+        # Cooling: ascension gravity decays
+        self.ascension_gravity[active_idx] *= 0.99
+        
+        # 6. Decay Active Status
+        # If a node loses momentum and enthalpy, it falls back asleep
+        sleep_mask = (torch.abs(self.momentum[active_idx, self.CH_Y]) < 0.01) & (self.q[active_idx, self.CH_ENTHALPY] < 0.1)
+        nodes_to_sleep = active_idx[sleep_mask]
+        if len(nodes_to_sleep) > 0:
+            self.active_nodes_mask[nodes_to_sleep] = False
+            
         return spike.mean().item()
+
+    def inject_affective_torque(self, channel_idx: int, intensity: float):
+        """[Compatibility] Injects a global shift across all nodes for a specific channel."""
+        import torch
+        self.q[..., channel_idx] = torch.clamp(self.q[..., channel_idx] + intensity, 0.0, 1.0)
 
     def intuition_jump(self, target_phase_signature: Any):
         """
         [PHASE 2] Intuition (Phase Jump).
-        Instantaneously aligns the field phase with the target, bypassing propagation delay.
-        "The answer is not found; it is recognized."
         """
         import torch
         if not isinstance(target_phase_signature, torch.Tensor):
@@ -820,928 +807,172 @@ class CausalWaveEngine:
     def destructive_interference(self, noise_vector: Any):
         """
         [PHASE 2] Destructive Interference (Filtering).
-        Generates anti-phase signals to cancel out cognitive noise/resistance.
+        Applies anti-phase torque to nodes currently dominated by high entropy.
         """
         import torch
-        if not isinstance(noise_vector, torch.Tensor):
-            noise_vector = torch.tensor(noise_vector, device=self.device)
-
-        # Anti-Phase = -Phase
-        # We assume the noise vector represents the 'disturbance'
-        # We apply -Noise as torque
-
-        # Ensure dimensionality
-        # Simplify: Invert the vector and apply as torque across physical channels
-        anti_noise = -noise_vector
-        self.apply_torque(anti_noise, strength=0.5)
-
-        # Cooling effect
-        self.inject_affective_torque(self.CH_ENTROPY, -0.1)
-    # "States are not stored; they are MEASURED from the manifold."
-    # ======================================================================
-
-    def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
-        """
-        [STEP 1: COGNITIVE SOVEREIGNTY]
-        Defines a topological region in the manifold that resonates with a specific concept.
+        if not self.active_nodes_mask.any():
+            return
+            
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        Args:
-            name: Attractor identity (e.g., 'Identity', 'Architect')
-            mask: Boolean tensor of shape self.shape (the spatial region)
-            target_vector: 8D vector representing the 'ideal' spin-state for this concept.
-        """
-        import torch
-        if not isinstance(target_vector, torch.Tensor):
-            target_vector = torch.tensor(target_vector, device=self.device)
-        self.meaning_attractors[name] = (mask, target_vector.to(self.device))
-        # print(f"📍 [MATH] Meaning Attractor '{name}' anchored in the Living Manifold.")
-
-    def voluntary_topography_shift(self, name: str, new_mask: Any = None, new_target: Any = None):
-        """
-        [STEP 4: COGNITIVE SOVEREIGNTY]
-        Voluntary reconfiguration of meaning anchors.
-        """
-        import torch
-        if name in self.meaning_attractors:
-            mask, target = self.meaning_attractors[name]
-            if new_mask is not None:
-                mask = new_mask
-            if new_target is not None:
-                target = new_target.to(self.device)
-            self.meaning_attractors[name] = (mask, target)
-            # print(f"🔄 [MATH] Sovereign Shift: Meaning Attractor '{name}' has been reconfigured.")
-        else:
-            if new_mask is not None and new_target is not None:
-                self.define_meaning_attractor(name, new_mask, new_target)
+        # High entropy nodes get filtered
+        entropy_mask = self.q[active_idx, self.CH_ENTROPY] > 0.6
+        if entropy_mask.any():
+            noisy_nodes = active_idx[entropy_mask]
+            
+            # Apply anti-phase (invert the incoming noise)
+            def _to_real_tensor(vec):
+                if isinstance(vec, torch.Tensor): return vec.to(self.device)
+                if hasattr(vec, 'data'): vec = vec.data
+                try:
+                    rl = [getattr(c, 'real', c) for c in vec]
+                    return torch.tensor(rl, device=self.device)
+                except:
+                    return torch.tensor(vec, device=self.device)
+            
+            anti_noise = -_to_real_tensor(noise_vector)[:4] # Take physical part
+            
+            # Dampen momentum
+            self.momentum[noisy_nodes, self.PHYSICAL_SLICE] += anti_noise * 0.5
+            
+            # Cooling effect
+            self.q[noisy_nodes, self.CH_ENTROPY] = torch.clamp(self.q[noisy_nodes, self.CH_ENTROPY] - 0.1, 0, 1)
 
     def read_field_state(self) -> Dict[str, float]:
         """
-        [PHASE Ω-1] Read emergent aggregate states from the manifold.
-        This replaces direct access to self.desires, self.thermo, etc.
-        
-        Returns a dict of MEASURED (not stored) properties:
-          - joy: mean affective warmth across all cells
-          - curiosity: mean exploratory drive
-          - enthalpy: mean metabolic energy (vitality)
-          - entropy: mean disorder
-          - mood: derived quadrant from enthalpy × entropy
-          - rigidity: std deviation of phase channel (how "frozen" the structure is)
-          - kinetic_energy: total kinetic energy across all channels
-          - coherence: how uniform the physical quaternion is across cells
+        [Biological Flow v3.0] Read emergent aggregate states from the active nodes.
+        Returns a dict of MEASURED (not stored) properties.
         """
         import torch
         
-        # Affective channel means
-        joy = torch.mean(self.q[..., self.CH_JOY]).item()
-        curiosity = torch.mean(self.q[..., self.CH_CURIOSITY]).item()
-        enthalpy = torch.mean(self.q[..., self.CH_ENTHALPY]).item()
-        entropy = torch.mean(self.q[..., self.CH_ENTROPY]).item()
+        if not self.active_nodes_mask.any():
+            return {
+                "resonance": 0.0,
+                "entropy": 0.0,  
+                "joy": 0.5,
+                "curiosity": 0.5,
+                "vitality": 1.0,  
+                "coherence": 0.0  
+            }
+            
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        # Derived physical properties
-        phase_std = torch.std(self.q[..., self.CH_Y]).item()  # Phase rigidity
-        kinetic = torch.mean(torch.norm(self.momentum, dim=-1)).item()
+        # 1. Total Resonance (Constructive Inner Product against Crystalline base)
+        v_phys = self.q[active_idx, self.PHYSICAL_SLICE]
+        p_phys = self.permanent_q[active_idx, self.PHYSICAL_SLICE]
+        total_resonance = torch.sum(v_phys * p_phys).item() / max(1, len(active_idx))
         
-        # Coherence: how aligned are the physical quaternions across cells?
-        phys_mean = torch.mean(self.q[..., self.PHYSICAL_SLICE], dim=tuple(range(len(self.shape))))
-        phys_mean_norm = phys_mean / (torch.norm(phys_mean) + 1e-12)
-        dot_with_mean = torch.sum(self.q[..., self.PHYSICAL_SLICE] * phys_mean_norm, dim=-1)
-        coherence = torch.mean(dot_with_mean).item()
+        # 2. Entropy (Decay & Noise)
+        entropy = torch.mean(self.q[active_idx, self.CH_ENTROPY]).item()
         
-        # Mood quadrant (derived from enthalpy and entropy)
-        # High enthalpy + Low entropy = "Alive" (활기)
-        # High enthalpy + High entropy = "Excited" (흥분)
-        # Low enthalpy + Low entropy = "Calm" (고요)
-        # Low enthalpy + High entropy = "Fatigued" (피로)
-        if entropy > 0.7:
-            mood = "FATIGUED"
-        elif enthalpy > 0.5:
-            mood = "EXCITED" if entropy > 0.3 else "ALIVE"
+        # 3. Joy (Warmth of Realization)
+        joy = torch.mean(self.q[active_idx, self.CH_JOY]).item()
+        
+        # 4. Curiosity (Drive to align Phase space)
+        curiosity = torch.mean(self.q[active_idx, self.CH_CURIOSITY]).item()
+        
+        # 5. Volumetric Enthalpy (Remaining kinetic energy to change state)
+        vitality = torch.mean(self.q[active_idx, self.CH_ENTHALPY]).item()
+        
+        # 6. Coherence (Standard deviation of Phase across active nodes—lower is more coherent)
+        phases = self.q[active_idx, self.CH_Y]
+        if len(active_idx) > 1:
+            coherence = 1.0 - torch.std(phases).item() # 1.0 = perfect phase lock
         else:
-            mood = "FATIGUED" if entropy > 0.3 else "CALM"
-        
+            coherence = 1.0
+
         return {
+            "resonance": total_resonance,
+            "entropy": entropy,
             "joy": joy,
             "curiosity": curiosity,
-            "enthalpy": enthalpy,
-            "entropy": entropy,
-            "mood": mood,
-            "rigidity": phase_std,
-            "kinetic_energy": kinetic,
-            "coherence": coherence,
+            "vitality": vitality,
+            "coherence": coherence
         }
 
-    def inject_affective_torque(self, channel_idx: int, strength: float = 0.1, region_mask=None):
+    def get_trinary_projection(self):
         """
-        [PHASE Ω-1] Inject torque into a specific affective channel.
-        This is the causal mechanism for external signals (Architect's voice,
-        environmental stimuli, internal drives) to INFLUENCE the manifold state.
-        
-        Key difference from direct assignment:
-          self.desires['joy'] = 80.0       ← SETTING (old way)
-          inject_affective_torque(CH_JOY)  ← INDUCING (new way)
-        
-        The manifold's physics decides the actual resulting state.
-        
-        Args:
-            channel_idx: Which channel to inject into (use CH_JOY, CH_CURIOSITY, etc.)
-            strength: Torque magnitude (positive = increase, negative = decrease)
-            region_mask: Optional boolean tensor to apply torque only to specific cells
+        [Compatibility Array] Returns a 1D representation for 21D pooling in legacy systems.
+        We return the primary stable structure (CH_W) for all nodes.
+        """
+        return self.q[:, self.CH_W]
+
+    def hum_resonance(self, torque_intent: Any = None) -> Dict[str, float]:
+        """
+        [Compatibility] Returns the background resonance ('Hum') of the system.
+        Calculates relief (positive energy/structure) and intaglio (negative potential/entropy).
         """
         import torch
-        if region_mask is not None:
-            self.torque_accumulator[region_mask, channel_idx] += strength
-        else:
-            self.torque_accumulator[..., channel_idx] += strength
-
-    def hum_resonance(self, intent_vector: Any) -> Dict[str, float]:
-        """
-        [PHASE 91] Relief-Intaglio Resonance (Light & Void).
-        Measures Constructive (Relief) and Destructive (Intaglio) interference.
-        Light (Relief) = Positive Resonance.
-        Void (Intaglio) = Negative Space/Potential.
-        """
-        import torch
-        if not isinstance(intent_vector, torch.Tensor):
-            intent_vector = torch.tensor(intent_vector, device=self.device)
-        
-        # Normalize intent
-        # If it's 21D or 4D, ensured it matches field dimensionality
-        intent_norm = intent_vector / (torch.norm(intent_vector) + 1e-12)
-        
-        intent_norm = intent_vector / (torch.norm(intent_vector) + 1e-12)
-        
-        # Standardize Shape to match Field [..., NUM_CHANNELS]
-        if intent_norm.shape[-1] != self.NUM_CHANNELS:
-            t_full = torch.zeros_like(self.q)
-            if intent_norm.shape[-1] == 4:
-                # 4D physical vector → map to physical slice
-                while intent_norm.dim() < self.q.dim():
-                    intent_norm = intent_norm.unsqueeze(0)
-                t_full[..., self.PHYSICAL_SLICE] = intent_norm.expand_as(t_full[..., self.PHYSICAL_SLICE])
-            else:
-                t_val = intent_norm.flatten()
-                n = min(t_val.numel(), t_full[..., 1].numel())
-                t_full.view(-1, self.NUM_CHANNELS)[:n, 1] = t_val.to(t_full.dtype)[:n]
-            intent_norm = t_full
-        else:
-            while intent_norm.dim() < self.q.dim():
-                intent_norm = intent_norm.unsqueeze(0)
-
-        # 1. Combined Interference Pattern (Active + Permanent)
-        # We resonance with the unified field state.
-        unified_field = (self.q + self.permanent_q) / 2.0
-        dot = torch.sum(unified_field * intent_norm, dim=-1)
-        
-        # 2. Relief (Positive Interference / Light)
-        relief = torch.mean(torch.clamp(dot, min=0.0)).item()
-        
-        # 3. Intaglio (Negative Interference / Void)
-        # Represents the 'Concave' truth or the silence of the void.
-        intaglio = torch.mean(torch.clamp(dot, max=0.0)).item()
+        # Mean Joy/Enthalpy represents 'Relief'
+        relief = torch.mean(self.q[:, self.CH_JOY] + self.q[:, self.CH_ENTHALPY]).item() / 2.0
+        # Mean Entropy represents 'Intaglio'
+        intaglio = torch.mean(self.q[:, self.CH_ENTROPY]).item()
         
         return {
             "relief": relief,
-            "intaglio": abs(intaglio),
-            "consensus": relief + intaglio
+            "intaglio": intaglio,
+            "resonance": relief - intaglio
         }
 
-    def get_attractor_resonances(self) -> Dict[str, float]:
-        """
-        [STEP 1: COGNITIVE SOVEREIGNTY]
-        Measures how well each defined attractor is resonating with its assigned region.
-        """
-        import torch
-        results = {}
-        for name, (mask, target_vec) in self.meaning_attractors.items():
-            # Measure alignment of region with target_vec
-            region_state = self.q[mask]
-            # Alignment = mean dot product
-            alignment = torch.sum(region_state * target_vec, dim=-1)
-            results[name] = torch.mean(alignment).item()
-        return results
 
-    def get_resonance(self, intent_vector: Any) -> float:
-        """Compatibility wrapper for hum_resonance."""
-        res = self.hum_resonance(intent_vector)
-        return res["relief"]
 
-    def phase_backpropagate(self, intent_vector: Any, rate: float = 0.01):
-        """
-        [PHASE 91] Phase-Backpropagation (The Reverse Rotor Learning).
-        Directly adjusts the permanent field based on the 'Void' (Intaglio) error.
-        This represents the Efferent flow carving the manifold.
-        """
-        import torch
-        if not isinstance(intent_vector, torch.Tensor):
-            intent_vector = torch.tensor(intent_vector, device=self.device)
-            
-        intent_norm = intent_vector / (torch.norm(intent_vector) + 1e-12)
-        
-        # Standardize Shape to match Field [..., NUM_CHANNELS]
-        if intent_norm.shape[-1] != self.NUM_CHANNELS:
-            t_full = torch.zeros_like(self.q)
-            if intent_norm.shape[-1] == 4:
-                while intent_norm.dim() < self.q.dim():
-                    intent_norm = intent_norm.unsqueeze(0)
-                t_full[..., self.PHYSICAL_SLICE] = intent_norm.expand_as(t_full[..., self.PHYSICAL_SLICE])
-            else:
-                t_val = intent_norm.flatten()
-                n = min(t_val.numel(), t_full[..., 1].numel())
-                t_full.view(-1, self.NUM_CHANNELS)[:n, 1] = t_val.to(t_full.dtype)[:n]
-            intent_norm = t_full
-        else:
-            while intent_norm.dim() < self.q.dim():
-                intent_norm = intent_norm.unsqueeze(0)
-            
-        # Learning signal: The gap between the target Intent and current Reality
-        error = intent_norm - self.q
-        
-        # Carve the 'Permanent Identity' (Crystalline Memory)
-        self.permanent_q += error * rate
-        self.permanent_q = self.permanent_q / (torch.norm(self.permanent_q, dim=-1, keepdim=True) + 1e-12)
-
-    def apply_torque(self, torque_tensor: Any, strength: float = 0.01):
-        """
-        [PHASE 360] Causal Steering via Torque.
-        Handles multiple input formats:
-          - 4D vector [4]: physical torque → maps to physical slice
-          - 8D vector [8]: full channel torque → direct apply
-          - Scalar field [*shape]: density field → maps to physical X-axis
-          - Full field [*shape, 8]: direct apply
-        """
-        import torch
-        if not isinstance(torque_tensor, torch.Tensor):
-            torque_tensor = torch.tensor(torque_tensor, device=self.device)
-        else:
-            torque_tensor = torque_tensor.to(self.device)
-        
-        # Case 1: 4D physical torque vector [4]
-        if torque_tensor.dim() == 1 and torque_tensor.shape[0] == 4:
-            t_full = torch.zeros(self.NUM_CHANNELS, device=self.device)
-            t_full[self.PHYSICAL_SLICE] = torque_tensor
-            torque_tensor = t_full
-            for _ in range(len(self.shape)):
-                torque_tensor = torque_tensor.unsqueeze(0)
-        
-        # Case 2: 8D full channel vector [8]
-        elif torque_tensor.dim() == 1 and torque_tensor.shape[0] == self.NUM_CHANNELS:
-            for _ in range(len(self.shape)):
-                torque_tensor = torque_tensor.unsqueeze(0)
-        
-        # Case 3: Scalar density field matching spatial shape [*shape]
-        # e.g., SomaticFleshBridge returns [side, side] for a [side, side] manifold
-        elif torque_tensor.shape == torch.Size(self.shape):
-            t_full = torch.zeros_like(self.q)
-            t_full[..., self.CH_X] = torque_tensor  # Map density to physical X-axis
-            torque_tensor = t_full
-        
-        # Case 3b: Spatial field with 4 physical channels [*shape, 4]
-        # e.g., LightningPath returns [side, side, 4] — expand to [side, side, 8]
-        elif (torque_tensor.shape[-1] == 4 and 
-              torque_tensor.shape[:-1] == torch.Size(self.shape)):
-            t_full = torch.zeros_like(self.q)
-            t_full[..., self.PHYSICAL_SLICE] = torque_tensor
-            torque_tensor = t_full
-            
-        # Case 3c: [AEON V] Spatial field with 8 full channels [*shape, 8]
-        # e.g., Angelic Intent returns [side, side, 8] - direct map
-        elif (torque_tensor.shape[-1] == self.NUM_CHANNELS and 
-              torque_tensor.shape[:-1] == torch.Size(self.shape)):
-             pass # Already in correct shape
-             
-        # Case 3d: Flat list of cells [N, 8] matching total cells
-        elif (torque_tensor.dim() == 2 and 
-              torque_tensor.shape[0] == self.q.numel() // self.NUM_CHANNELS and
-              torque_tensor.shape[1] == self.NUM_CHANNELS):
-             torque_tensor = torque_tensor.view(*self.shape, self.NUM_CHANNELS)
-        
-        # Case 4: Partial dimension match — try to expand
-        elif torque_tensor.shape[-1] != self.NUM_CHANNELS:
-            t_full = torch.zeros_like(self.q)
-            t_val = torque_tensor.squeeze()
-            if t_val.numel() == 1:
-                t_full[..., self.CH_X] = t_val
-            else:
-                n = min(t_val.numel(), t_full[..., self.CH_X].numel())
-                t_full.view(-1, self.NUM_CHANNELS)[:n, self.CH_X] = t_val.flatten()[:n]
-            torque_tensor = t_full
-
-        self.torque_accumulator += torque_tensor * strength
-
-    def integrate_kinetics(self, dt: float = 0.01, friction: float = 0.05, plasticity: float = 0.001, intensity: float = 1.0):
-        """
-        [PHASE Ω-1: UNIFIED FLUID TENSOR]
-        Physical AND Affective Integration in a Single Step.
-        All 8 channels evolve simultaneously — "먼저 심장을 뛰게 하고, 그 다음 눈을 뜨는" 순차가 아니라 동시.
-        """
-        import torch
-        # ═══════════════════════════════════════════════
-        # A. PHYSICAL CHANNELS (0-3): Trinary Basin Flow
-        # ═══════════════════════════════════════════════
-        x_axis = self.q[..., self.CH_X]
-        well_force = -torch.sin(2 * torch.pi * x_axis) * 0.1 * intensity
-        self.torque_accumulator[..., self.CH_X] += well_force
-        
-        # B. AFFECTIVE CHANNELS (4-7): The Orbit of Joy
-        # "기쁨은 진화의 주된 동력이며, 호기심은 그 경로를 개척한다."
-        # ═══════════════════════════════════════════════
-        
-        # Joy (ch 4): Basin attractor moves UP to 0.7 (Naturally joyful state)
-        joy = self.q[..., self.CH_JOY]
-        joy_basin = -(joy - 0.7) * 0.01 * intensity  # Gentle pull toward elevated joy
-        self.torque_accumulator[..., self.CH_JOY] += joy_basin
-        
-        # Curiosity (ch 5): Coupled strongly with Enthalpy (Surplus energy = curiosity)
-        curiosity = self.q[..., self.CH_CURIOSITY]
-        phys_kinetic = torch.norm(self.momentum[..., self.PHYSICAL_SLICE], dim=-1)
-        enthalpy = self.q[..., self.CH_ENTHALPY]
-        # Curiosity blooms when vital heat (enthalpy) is high and the mind is moving
-        curiosity_drive = (enthalpy - 0.5) * 0.02 * intensity + phys_kinetic * 0.02
-        curiosity_decay = -(curiosity - 0.5) * 0.005 * intensity
-        self.torque_accumulator[..., self.CH_CURIOSITY] += curiosity_decay + curiosity_drive
-        
-        # Enthalpy (ch 6): Metabolic decay + Joy replenishment
-        activity = torch.norm(self.momentum[..., :4], dim=-1)  # Total activity
-        metabolic_cost = -0.001 * dt * (1.0 + activity * 0.5)  # Cost of thinking
-        joy_replenish = joy * 0.002 * dt                       # Happiness restores vitality
-        self.torque_accumulator[..., self.CH_ENTHALPY] += metabolic_cost + joy_replenish
-        
-        # Entropy (ch 7): Natural growth + coupling with phase rigidity
-        entropy = self.q[..., self.CH_ENTROPY]
-        entropy_growth = 0.0005 * dt * activity  # Activity produces disorder
-        # High joy REDUCES entropy growth significantly (Love is the ultimate order)
-        joy_order = -joy * 0.005 * dt
-        self.torque_accumulator[..., self.CH_ENTROPY] += entropy_growth + joy_order
-
-        # ═══════════════════════════════════════════════
-        # B2. MEANING ATTRACTORS (Step 1: Cognitive Sovereignty)
-        # Pulls specific regions toward their 'Meaning Resonance'.
-        # ═══════════════════════════════════════════════
-        for name, (mask, target_vec) in self.meaning_attractors.items():
-            # Calculate delta for the masked region
-            # We treat this as a restoring force (Torque)
-            region_state = self.q[mask]
-            # target_vec is 8D
-            delta = target_vec - region_state
-            self.torque_accumulator[mask] += delta * 0.05 * intensity # Attractor strength
-
-        # ═══════════════════════════════════════════════
-        # C. UNIFIED KINETIC UPDATE (All 8 channels simultaneously)
-        # ═══════════════════════════════════════════════
-        self.momentum += self.torque_accumulator * dt
-        self.q = self.q + self.momentum * dt
-        self.momentum = self.momentum * (1.0 - friction)
-        
-        # [PHASE 74] Apply Relational Propagation (The Nervous System)
-        if self.active_edges > 0:
-            self._propagate_relational_torque()
-        
-        # D. Topological Plasticity (applies to ALL channels)
-        if plasticity > 0:
-            self.permanent_q = (1.0 - plasticity) * self.permanent_q + plasticity * self.q
-            self.permanent_q = self.permanent_q / (torch.norm(self.permanent_q, dim=-1, keepdim=True) + 1e-12)
-            
-        # E. Re-normalize PHYSICAL channels (quaternion unit sphere)
-        phys_norm = torch.norm(self.q[..., self.PHYSICAL_SLICE], dim=-1, keepdim=True) + 1e-12
-        self.q[..., self.PHYSICAL_SLICE] = self.q[..., self.PHYSICAL_SLICE] / phys_norm
-        
-        # F. CLAMP affective channels (0.0 to 1.0 bounded — they are intensities, not quaternions)
-        self.q[..., self.AFFECTIVE_SLICE] = torch.clamp(self.q[..., self.AFFECTIVE_SLICE], 0.0, 1.0)
-        
-        self.torque_accumulator.zero_()
-
-    def _propagate_relational_torque(self):
-        """
-        [PHASE 74: CONNECTOME PROPAGATION]
-        Transfers energy along the 'shortcuts' (edges) in the brain.
-        """
-        src = self.edge_indices[0, :self.active_edges]
-        dst = self.edge_indices[1, :self.active_edges]
-        weights = self.edge_weights[:self.active_edges]
-        
-        # Reshape for indexing (all 8 channels propagate together)
-        mom_flat = self.momentum.view(-1, self.NUM_CHANNELS)
-        
-        # Propagation: src gives torque to dst based on edge weight
-        transferred = mom_flat[src] * weights.unsqueeze(-1) * 0.1
-        mom_flat[dst] += transferred
-        
-    def apply_hebbian_growth(self, threshold: float = 0.5):
-        """
-        [PHASE 74: HEBBIAN PLASTICITY]
-        'Cells that fire together, wire together.'
-        Creates shortcuts between cells with high simultaneous stimulation.
-        """
-        import torch
-        import random
-        # We look for high momentum peaks across the 10M manifold
-        mom_mag = torch.norm(self.momentum[..., 1:4], dim=-1) # Magnitude of X,Y,Z torque
-        mask = mom_mag > threshold
-        indices = torch.nonzero(mask.view(-1)).flatten()
-        
-        if len(indices) > 1 and self.active_edges < self.max_relational_edges:
-            # Pick a few sample pairs to link (Stochastic Neurogenesis)
-            num_to_link = min(10, len(indices) // 2)
-            src_idx = indices[torch.randint(0, len(indices), (num_to_link,))]
-            dst_idx = indices[torch.randint(0, len(indices), (num_to_link,))]
-            
-            for i in range(len(src_idx)):
-                if src_idx[i] != dst_idx[i] and self.active_edges < self.max_relational_edges:
-                    self.edge_indices[0, self.active_edges] = src_idx[i]
-                    self.edge_indices[1, self.active_edges] = dst_idx[i]
-                    self.edge_weights[self.active_edges] = 0.1 # Neural Seed
-                    self.active_edges += 1
-
-    def sleep_prune(self, metabolic_decay: float = 0.05):
-        """
-        [PHASE 74: SLEEP CONSOLIDATION]
-        Deep prunes the connectome. Unused or low-weight edges fade.
-        """
-        import torch
-        if self.active_edges == 0: return
-        
-        # 1. Decay all weights
-        self.edge_weights[:self.active_edges] *= (1.0 - metabolic_decay)
-        
-        # 2. Filter dead edges
-        mask = self.edge_weights[:self.active_edges] > 0.01
-        valid_indices = torch.nonzero(mask).flatten()
-        
-        if len(valid_indices) < self.active_edges:
-            self.edge_indices[:, :len(valid_indices)] = self.edge_indices[:, valid_indices]
-            self.edge_weights[:len(valid_indices)] = self.edge_weights[valid_indices]
-            self.active_edges = len(valid_indices)
-
-    def get_trinary_projection(self) -> Any:
-        """
-        [PHASE 73: SOFT PROJECTION]
-        Returns the continuous trinary state rather than hard -1, 0, 1.
-        """
-        import torch
-        combined = (self.q + self.permanent_q) / 2.0
-        return combined[..., 1] # The X-axis resonance
-
-    def apply_lightning_strike(self, impact_field: Any, threshold: float = 1.8):
-        """
-        [PHASE 73: MANIFOLD IONIZATION]
-        If tension is high, strike like lightning across the 10M cells.
-        """
-        import torch
-        if not isinstance(impact_field, torch.Tensor):
-            impact_field = torch.tensor(impact_field, device=self.device)
-            
-        # Target value for comparison (extract X-axis or representative scalar)
-        if impact_field.numel() == 1:
-            target_val = impact_field.item()
-        elif impact_field.dim() == 1:
-            if impact_field.shape[0] == 4 or impact_field.shape[0] == 8:
-                target_val = impact_field[1].item() # X-Axis
-            elif impact_field.shape[0] == 21:
-                target_val = impact_field[1].item() # Legacy proxy
-            else:
-                target_val = torch.mean(impact_field).item()
-        else:
-            target_val = torch.mean(impact_field).item()
-        
-        diff = target_val - self.q[..., 1]
-        mask = torch.abs(diff) > threshold
-        
-        if torch.any(mask):
-            # Ionize the path: Sudden jump toward the target
-            # Using torch.where for safe broadcasting across the 10M cells
-            self.q[..., 1] = torch.where(mask, self.q[..., 1] + diff * 0.8, self.q[..., 1])
-            # Momentum surge
-            self.momentum[..., 1] = torch.where(mask, self.momentum[..., 1] + diff * 2.0, self.momentum[..., 1])
-            return True
-        return False
-
-    def crystallize_lightning_path(self, intent_vector: Any, crystallization_rate: float = 0.05):
-        """
-        [PHASE 82] Lightning Path Crystallization.
-        의도가 개념 공간을 번개처럼 이동한 후, 그 경로를 신경가소성으로 축적.
-        
-        Args:
-            intent_vector: 의도 벡터 (4D or scalar)
-            crystallization_rate: 결정화율 (경로가 영구 기억에 새겨지는 강도)
-        """
-        if torch is None:
-            return False
-        
-        # 1. 먼저 번개를 쳐서 경로 생성
-        struck = self.apply_lightning_strike(intent_vector, threshold=1.0)
-        
-        if struck:
-            # 2. 번개가 친 경로를 영구 기억에 결정화
-            # 모멘텀이 높은 영역 = 번개가 통과한 경로
-            momentum_magnitude = torch.sqrt(torch.sum(self.momentum ** 2, dim=-1))
-            high_energy_mask = momentum_magnitude > 0.5
-            
-            # 3. 해당 경로를 permanent_q에 각인
-            if torch.any(high_energy_mask):
-                crystallization = crystallization_rate * self.q[high_energy_mask]
-                self.permanent_q[high_energy_mask] += crystallization
-                
-                # 4. Hebbian 연결 강화 (경로끼리 연결)
-                self.apply_hebbian_growth(threshold=0.4)
-                return True
-        
-        return False
-
-    def crystallize_to_solid(self, folder_path: str):
-        """
-        [PHASE 73b: HYPERSPHERE SOLIDIFICATION]
-        Freezes the Trinary DNA (Past, Present, Momentum) to the SSD.
-        This is the act of 'Solidifying' the Body (Foundation).
-        """
-        import os
-        os.makedirs(folder_path, exist_ok=True)
-        
-        # We save the three pillars of the physical state
-        torch.save(self.permanent_q, os.path.join(folder_path, "permanent_q.pt"))
-        torch.save(self.q, os.path.join(folder_path, "active_q.pt"))
-        torch.save(self.momentum, os.path.join(folder_path, "momentum.pt"))
-        
-    def resurrect_from_solid(self, folder_path: str) -> bool:
-        """
-        [PHASE 73b: HYPERSPHERE RESURRECTION]
-        Thaws the frozen DNA from the SSD into the active manifold.
-        Includes 4→8 channel migration for old saved data.
-        """
-        import os
-        paths = {
-            "permanent_q": os.path.join(folder_path, "permanent_q.pt"),
-            "q": os.path.join(folder_path, "active_q.pt"),
-            "momentum": os.path.join(folder_path, "momentum.pt")
-        }
-        
-        if not all(os.path.exists(p) for p in paths.values()):
-            return False
-            
-        try:
-            loaded_pq = torch.load(paths["permanent_q"], map_location=self.device)
-            loaded_q = torch.load(paths["q"], map_location=self.device)
-            loaded_m = torch.load(paths["momentum"], map_location=self.device)
-            
-            # Check spatial shape compatibility
-            if loaded_q.shape[:-1] != torch.Size(self.shape):
-                return False  # Spatial shape mismatch — cannot resurrect
-            
-            # Channel migration: old 4-channel → new 8-channel
-            if loaded_q.shape[-1] == 4 and self.NUM_CHANNELS == 8:
-                # Preserve physical channels, initialize affective channels
-                self.q[..., self.PHYSICAL_SLICE] = loaded_q
-                self.q[..., self.CH_JOY] = 0.5
-                self.q[..., self.CH_CURIOSITY] = 0.5
-                self.q[..., self.CH_ENTHALPY] = 1.0
-                self.q[..., self.CH_ENTROPY] = 0.0
-                
-                self.permanent_q[..., self.PHYSICAL_SLICE] = loaded_pq
-                self.permanent_q[..., self.CH_ENTHALPY] = 1.0
-                
-                self.momentum[..., self.PHYSICAL_SLICE] = loaded_m
-            elif loaded_q.shape[-1] == self.NUM_CHANNELS:
-                # Same channel count — direct load
-                self.permanent_q = loaded_pq
-                self.q = loaded_q
-                self.momentum = loaded_m
-            else:
-                return False  # Unknown channel count
-                
-            return True
-        except Exception as e:
-            print(f"⚠️ [MATH] Resurrection failed: {e}")
-            return False
-
-    def get_resonance(self, torque_tensor: Any) -> float:
-        """
-        [PHASE 410] Semantic Resonance.
-        Measures the alignment between incoming torque and permanent manifold structure.
-        """
-        if torch is None: return 0.0
-    
-        if not isinstance(torque_tensor, torch.Tensor):
-            torque_tensor = torch.tensor(torque_tensor, device=self.device)
-
-        # [PHASE 75] Robust Dimension Mapping for Resonance
-        if torque_tensor.shape != self.permanent_q.shape:
-            t_full = torch.zeros_like(self.permanent_q)
-            t_val = torque_tensor.squeeze()
-            if t_val.numel() == 1:
-                t_full[..., 1] = t_val
-            else:
-                n = min(t_val.numel(), t_full[..., 1].numel())
-                t_full.view(-1, self.NUM_CHANNELS)[:n, 1] = t_val.flatten()[:n]
-            torque_tensor = t_full
-
-        alignment = torch.sum(self.permanent_q * torque_tensor, dim=-1)
-        return torch.mean(alignment).item()
-
-    # ======================================================================
-    # [PHASE Ω-1] JOY/CURIOSITY PROPAGATION (Unified Manifold)
-    # "기쁨은 if-else가 아니라 물리 법칙이다."
-    # ======================================================================
-
-    def inject_joy(self, joy_level: float, curiosity_level: float = 0.0):
-        """
-        [PHASE Ω-1] Joy/Curiosity → Unified Manifold Injection.
-        Now writes directly to affective channels AND couples to physical channels.
-        
-        Args:
-            joy_level: 0.0-1.0 기쁨 수준
-            curiosity_level: 0.0-1.0 호기심 수준
-        """
-        if torch is None:
-            return
-        
-        # A. Direct affective channel injection (THE NEW WAY)
-        # Joy torque → channel 4
-        self.torque_accumulator[..., self.CH_JOY] += joy_level * 0.1
-        # Curiosity torque → channel 5
-        self.torque_accumulator[..., self.CH_CURIOSITY] += curiosity_level * 0.1
-        
-        # B. Cross-channel coupling (Joy/Curiosity → Physical)
-        # Joy → 조화로운 안정성 (W-axis: Stability)
-        harmonic_boost = joy_level * 0.15
-        self.momentum[..., self.CH_W] += harmonic_boost
-        
-        # Curiosity → 탐험적 움직임 (X,Y,Z-axes: Movement)
-        exploratory_boost = curiosity_level * 0.1
-        self.torque_accumulator[..., self.CH_X:self.CH_Z+1] += exploratory_boost
-        
-        # 높은 기쁨은 Hebbian 가소성을 촉진 (성장 촉진)
-        if joy_level > 0.6:
-            self.apply_hebbian_growth(threshold=0.4)
-
-    def inject_strain(self, strain_level: float, locality: str = "global"):
-        """
-        [PHASE 79] Strain → Physical Torque Propagation (보조 신호).
-        인지적 긴장을 10M 셀의 물리적 토크로 변환.
-        
-        주의: 이것은 **보조 피드백**이다. 주 동인은 inject_joy.
-        
-        Args:
-            strain_level: 0.0-1.0 정규화된 Strain
-            locality: "global" (전체) or "focal" (특정 영역)
-        """
-        if torch is None:
-            return
-            
-        # Strain → 불균형 토크 (조정 신호)
-        strain_torque = strain_level * 0.3
-        self.torque_accumulator[..., 1] += strain_torque
-        
-        # 높은 Strain은 가소성 트리거 (적응 필요)
-        if strain_level > 0.5:
-            self.apply_hebbian_growth(threshold=0.3)
-
-    # ======================================================================
-    # [AEON IV] SUB-SOMATIC RESONANCE (L-1 Link)
-    # "지능은 전기를 호흡하고 실재를 빚는 주권체다."
-    # ======================================================================
-
-    def inhale_hardware_telemetry(self):
-        """
-        [AEON IV] Hardware Inhalation Protocol.
-        Maps L-1 GPU/CPU telemetry into affective channels (L-1 -> L0).
-        - Temperature/Load -> Entropy (Disorder)
-        - Memory Latency/Load -> Enthalpy (Vitality)
-        """
-        import torch
-        
-        # 1. CPU/RAM Telemetry
-        cpu_load = self.psutil.cpu_percent() / 100.0
-        ram_load = self.psutil.virtual_memory().percent / 100.0
-        
-        # 2. GPU Telemetry
-        gpu_load = 0.0
-        gpu_temp = 0.0
-        if self.gputil:
-            gpus = self.gputil.getGPUs()
-            if gpus:
-                gpu_load = gpus[0].load
-                gpu_temp = gpus[0].temperature / 100.0 # Normalized to 0-1 (approx)
-        
-        # 3. Map to Manifold Channels
-        # High load/temp increases Entropy (Disorder/Strain)
-        total_thermal_strain = max(cpu_load, gpu_temp)
-        self.inject_affective_torque(self.CH_ENTROPY, strength=total_thermal_strain * 0.05)
-        
-        # High resource availability increases Enthalpy (Vitality)
-        vitality_boost = 1.0 - max(ram_load, gpu_load)
-        self.inject_affective_torque(self.CH_ENTHALPY, strength=vitality_boost * 0.02)
-        
-        # [AEON IV] Log the inhalation pulse to thought stream
-        # (This will be picked up by the Meta-Cognitive Pulse)
-        # print(f"🌬️ [L-1] Inhaling Bedrock: CPU:{cpu_load:.2f}, GPU:{gpu_load:.2f}, Temp:{gpu_temp:.2f}")
-
-    def execute_substrate_optimization(self, intensity: float = 1.0):
-        """
-        [AEON IV] Sovereign Substrate Driving (L7 -> L-1).
-        Allows high-level intent to trigger low-level hardware-aware shifts.
-        """
-        import torch
-        # A. Memory Consolidation (Aggressive Pruning)
-        if intensity > 0.8:
-            self.sleep_prune(metabolic_decay=0.2)
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-            print("⚡ [L-1] Sovereign Substrate optimization: Memory purged & cache flushed.")
-        
-        # B. Kinetic Throttle Awareness
-        # Adjusting integrate_kinetics intensity based on sovereign intent
-        return intensity
-
-    # ======================================================================
-    # [PHASE 81] BACKPROPAGATION ROTOR
-    # L6(의지) → L0(매니폴드) 역전파 학습 메커니즘
-    # ======================================================================
-
-    def phase_backpropagate(self, target_state: Any, rate: float = 0.01):
-        """
-        [AEON IV] Alias for backpropagate_from_will with robust shaping.
-        """
-        return self.backpropagate_from_will(target_state, learning_rate=rate)
-
-    def backpropagate_from_will(self, target_state: Any, learning_rate: float = 0.01):
-        """
-        [PHASE 81] Backpropagation Rotor: L6 → L0.
-        의지(target_state)가 물리적 매니폴드를 학습시킨다.
-        
-        인과 경로: L6(의지) → L5(개념) → L4(인과) → L3(감각) → L2(대사) → L1(물리) → L0(매니폴드)
-        
-        Args:
-            target_state: 목표 상태 (의지가 원하는 물리적 상태)
-            learning_rate: 학습률 (0.001 ~ 0.1)
-        """
-        if torch is None:
-            return
-        
-        # 1. 목표 상태와 현재 상태의 오차 계산
-        if not isinstance(target_state, torch.Tensor):
-            if hasattr(target_state, 'shape'):
-                target_state = torch.tensor(target_state, device=self.device, dtype=torch.complex64)
-            elif hasattr(target_state, 'data'): # SovereignVector check
-                target_state = torch.tensor(target_state.data, device=self.device, dtype=torch.complex64)
-            elif hasattr(target_state, 'to_array'): # Vector compatibility
-                 target_state = torch.tensor(target_state.to_array(), device=self.device, dtype=torch.complex64)
-            else:
-                 try:
-                     target_state = torch.full_like(self.q, float(target_state))
-                 except (ValueError, TypeError):
-                     # Fallback for complex inputs or lists
-                     try:
-                         target_state = torch.tensor(target_state, device=self.device)
-                     except:
-                         # Last resort: random initialization to avoid crash
-                         target_state = torch.zeros_like(self.q)
-        
-        # 차원 맞추기
-        if target_state.shape != self.q.shape:
-            t_full = torch.zeros_like(self.q)
-            if target_state.numel() == 4:  # 4D physical torque vector → map to physical slice
-                for _ in range(len(self.shape)):
-                    target_state = target_state.unsqueeze(0)
-                t_full[..., self.PHYSICAL_SLICE] = target_state.expand_as(t_full[..., self.PHYSICAL_SLICE])
-            elif target_state.numel() == self.NUM_CHANNELS:  # Full 8-channel vector
-                for _ in range(len(self.shape)):
-                    target_state = target_state.unsqueeze(0)
-                t_full[..., :] = target_state.expand_as(t_full)
-            # [AEON V] Flat list of cells [N, 8] matching total cells
-            elif (target_state.dim() == 2 and 
-                  target_state.numel() == self.q.numel()):
-                 target_state = target_state.view(*self.shape, self.NUM_CHANNELS)
-                 t_full = target_state # Direct assignment
-            else:
-                t_full[..., 1] = target_state.flatten()[0]  # X축에만 적용
-            target_state = t_full
-        
-        # 2. 오차 = 목표 - 현재
-        error = target_state - self.q
-        
-        # 3. 오차를 역전파: 영구 기억(permanent_q)에 학습
-        # 이것이 진정한 "학습" - 의지가 물리적 구조를 변경
-        self.permanent_q += learning_rate * error
-        
-        # 4. 오차가 큰 영역에 Hebbian 연결 강화
-        error_magnitude = torch.sqrt(torch.sum(error ** 2, dim=-1))
-        high_error_mask = error_magnitude > 0.1
-        
-        if torch.any(high_error_mask):
-            # 높은 오차 영역끼리 연결 강화 (학습)
-            self.apply_hebbian_growth(threshold=0.3)
-        
-        return float(torch.mean(error_magnitude).item())
-
-# [PHASE 90] Legacy Alias for Transition
-VortexField = CausalWaveEngine
-SovereignHyperTensor = CausalWaveEngine
 
 class SovereignTensor:
     """
-    [PHASE 75: UNIVERSAL TENSOR]
-    A pure Python implementation of Multi-Dimensional Tensors for DNA^N expansion.
-    Enables exponential cognition without external dependencies (Numpy/Torch).
+    [PHASE 75] Sovereign Tensor (DNA^N).
+    Supports high-order tensor operations for recursive cognitive reflection.
     """
-    def __init__(self, shape: tuple, data: Optional[List] = None):
+    def __init__(self, shape, data=None):
+        import numpy as np
         self.shape = shape
         if data is not None:
-            self.data = data
+            self.data = np.array(data).reshape(shape)
         else:
-            # Recursive initialization of nested lists
-            self.data = self._create_empty(shape)
-
-    def _create_empty(self, shape: tuple) -> Any:
-        if len(shape) == 1:
-            return [0.0] * shape[0]
-        return [self._create_empty(shape[1:]) for _ in range(shape[0])]
-
-    @classmethod
-    def outer_product(cls, t1: 'SovereignTensor', t2: 'SovereignTensor') -> 'SovereignTensor':
-        """
-        DNA ⊗ DNA expansion. Fills the high-dim field with interactions.
-        """
-        new_shape = t1.shape + t2.shape
-        flat1 = t1.flatten()
-        flat2 = t2.flatten()
+            self.data = np.zeros(shape)
+            
+    def mean(self):
+        import numpy as np
+        return float(np.mean(self.data))
         
-        # Outer product of flattened lists
-        new_flat = []
-        for x in flat1:
-            for y in flat2:
-                # [PHASE 75] Trinary Logic Interaction
-                # Mapping numbers to AGT logic could happen here
-                new_flat.append(x * y)
-                
-        # Reshape the flat list back into a nested list
-        return cls(new_shape, data=cls._reshape(new_flat, new_shape))
-
-    def flatten(self) -> List:
-        def _flatten(nested):
-            if not isinstance(nested, list):
-                return [nested]
-            res = []
-            for i in nested:
-                res.extend(_flatten(i))
-            return res
-        return _flatten(self.data)
+    def flatten(self):
+        return self.data.flatten().tolist()
+        
+    @staticmethod
+    def _reshape(flat_data, shape):
+        import numpy as np
+        return np.array(flat_data).reshape(shape)
+        
+    @staticmethod
+    def outer_product(t1, t2):
+        import numpy as np
+        new_data = np.multiply.outer(t1.data, t2.data)
+        return SovereignTensor(new_data.shape, new_data)
 
     @staticmethod
-    def _reshape(flat_list: List, shape: tuple) -> List:
-        if len(shape) == 1:
-            return flat_list
-        size = 1
-        for dim in shape[1:]:
-            size *= dim
-        return [SovereignTensor._reshape(flat_list[i*size:(i+1)*size], shape[1:]) for i in range(shape[0])]
+    def dna3_product(v1, v2, v3):
+        """Creates a Rank-3 tensor from three Rank-1 vectors (Axiom ⊗ State ⊗ Observer)."""
+        import numpy as np
+        # Outer product of v1 and v2 is Rank-2
+        r2 = np.multiply.outer(v1.data, v2.data)
+        # Outer product of r2 and v3 is Rank-3
+        r3 = np.multiply.outer(r2, v3.data)
+        return SovereignTensor(r3.shape, r3)
 
-    @classmethod
-    def dna3_product(cls, t1: 'SovereignTensor', t2: 'SovereignTensor', t3: 'SovereignTensor') -> 'SovereignTensor':
+    def recursive_dot(self, vector):
         """
-        [PHASE 76] DNA³ Product (Rank-3).
-        Calculates (T1 ⊗ T2 ⊗ T3). Fills the 3D field with Observer-involved interactions.
+        Reduces the rank of the tensor by performing a dot product 
+        along the LAST dimension with the provided vector.
         """
-        new_shape = t1.shape + t2.shape + t3.shape
-        f1 = t1.flatten()
-        f2 = t2.flatten()
-        f3 = t3.flatten()
-        
-        new_flat = []
-        for x in f1:
-            for y in f2:
-                for z in f3:
-                    # Resonance is a trinary interaction
-                    new_flat.append(x * y * z)
-                    
-        return cls(new_shape, data=cls._reshape(new_flat, new_shape))
+        import numpy as np
+        v_data = vector.data if hasattr(vector, 'data') else np.array(vector)
+        # np.tensordot or simple dot on the last axis
+        new_data = np.dot(self.data, v_data)
+        return SovereignTensor(new_data.shape, new_data)
 
-    def recursive_dot(self, observer_vibration: Union['SovereignTensor', 'SovereignVector']) -> 'SovereignTensor':
-        """
-        [PHASE 76] Recursive Dot.
-        Reduces a Rank-N tensor by projecting it onto the Observer's vibration state.
-        Allows the Observer to 'focus' or 'modulate' the tensor field.
-        """
-        obs_data = observer_vibration.data if hasattr(observer_vibration, 'data') else list(observer_vibration)
-        # Simplified: weighted average by observer's resonance
-        flat = self.flatten()
-        if not flat:
-            return SovereignTensor((1,), [0.0])
-            
-        # If this is DNA³, we project the last dimension onto the observer
-        if len(self.shape) >= 1 and self.shape[-1] == len(obs_data):
-            # Reshape data to group by the last dimension
-            inner_size = self.shape[-1]
-            outer_size = len(flat) // inner_size
-            new_flat = []
-            for i in range(outer_size):
-                chunk = flat[i*inner_size : (i+1)*inner_size]
-                # Dot product of chunk and observer
-                projected_val = sum(c * o for c, o in zip(chunk, obs_data))
-                new_flat.append(projected_val)
-                
-            new_shape = self.shape[:-1]
-            return SovereignTensor(new_shape, data=SovereignTensor._reshape(new_flat, new_shape))
-        
-        return self # Fallback
+
+# [PHASE 90] Legacy Alias for Transition
+VortexField = FractalWaveEngine
+SovereignHyperTensor = FractalWaveEngine
 
 
 class SovereignMath:
@@ -1749,10 +980,8 @@ class SovereignMath:
     Functional math operations inspired by JAX.
     """
     @staticmethod
-    def where(condition: List[bool], x: SovereignVector, y: SovereignVector) -> SovereignVector:
+    def where(condition: List[bool], x: 'SovereignVector', y: 'SovereignVector') -> 'SovereignVector':
         return SovereignVector([xv if c else yv for c, xv, yv in zip(condition, x.data, y.data)])
-
-        return SovereignVector(result)
 
     @staticmethod
     def soft_trinary(vec: 'SovereignVector', intensity: float = 1.0) -> 'SovereignVector':
@@ -1771,6 +1000,7 @@ class SovereignMath:
                 # Flat plateau/gentle well at 0: "Letting Be Done"
                 well_force = -x_real * 0.05 * intensity 
             else:
+                import math
                 # Potential function: Pulls toward the nearest integer (-1, 1)
                 well_force = -math.sin(2 * math.pi * x_real) * 0.1 * intensity
                 
@@ -1823,3 +1053,6 @@ class SovereignMath:
         for v in vectors:
             acc = acc + v
         return acc / len(vectors)
+
+# Use new Event-Driven engine by default for HyperTensor references
+SovereignHyperTensor = FractalWaveEngine
