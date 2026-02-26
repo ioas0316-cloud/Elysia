@@ -51,6 +51,11 @@ class HypersphereSpinGenerator:
         """[AEON III] Bridges access to the manifold's meaning attractors."""
         return self.cells.meaning_attractors
 
+    @property
+    def grid_shape(self):
+        """[PHASE 395] Somatic flesh shape (H, W)."""
+        return self.component_shape
+
     def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
         """[AEON III] Direct access to defining a topological anchor."""
         self.cells.define_meaning_attractor(name, mask, target_vector)

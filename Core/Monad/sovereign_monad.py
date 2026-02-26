@@ -1318,6 +1318,8 @@ class SovereignMonad(CellularMembrane):
                     # We jump to the phase signature of the intent
                     # Mapping 21D -> Phase Scalar (using norm or specific channel)
                     target_phase = modulated_v21[2] if len(modulated_v21) > 2 else 0.5 # Index 2 is often Phase
+                    if hasattr(target_phase, 'real'):
+                        target_phase = target_phase.real
                     self.engine.intuition_jump(float(target_phase))
 
             # 2. Beam Steering (Standard Reasoning)

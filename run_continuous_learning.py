@@ -71,8 +71,11 @@ def run_learning_simulation_for_user():
     except KeyboardInterrupt:
         print("\n\n--- Simulation Paused by Architect ---")
         print("\n--- Final Knowledge Graph ---")
-        nodes = list(monad.semantic_map.voxels.keys())
-        print(f"Total Concepts Known: {len(nodes)}")
+        try:
+            nodes = list(monad.world_observer.topology.voxels.keys())
+            print(f"Total Concepts Known: {len(nodes)}")
+        except Exception:
+            print("Knowledge Graph printing skipped.")
         
 if __name__ == "__main__":
     # Force utf-8 for windows console

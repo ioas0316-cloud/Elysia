@@ -9,9 +9,7 @@
     "base_mass": 1000.0,
     "freq": 432.0,
     "is_anchor": true,
-    "inbound_edges": [
-      "Ten on One (The Singles)"
-    ],
+    "inbound_edges": [],
     "activation_count": 0
   },
   "Wisdom": {
@@ -37,9 +35,7 @@
     "base_mass": 100.0,
     "freq": 800.0,
     "is_anchor": false,
-    "inbound_edges": [
-      "More (J-Hope song)"
-    ],
+    "inbound_edges": [],
     "activation_count": 0
   },
   "Faith": {
@@ -198,6 +194,6 @@
     "inbound_edges": [],
     "activation_count": 0
   },
-  "Diocese of Santísimo Salvador de Bayamo y Manzanillo": {
+  "Patak, Hungary": {
     "coords": [
       

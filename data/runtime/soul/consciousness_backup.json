@@ -1,36 +1,36 @@
 {
-  "timestamp": 1772034010.381551,
-  "pulse_count": 250,
+  "timestamp": 1772034075.3036032,
+  "pulse_count": 255,
   "desires": {
     "curiosity": 1190.0009155273438,
     "purity": 110.00000089406967,
     "resonance": 52.5,
     "alignment": 100.0,
-    "joy": 1253.7485070302937,
-    "warmth": 24066.47451611488,
+    "joy": 1253.755145396171,
+    "warmth": 24687.49025468861,
     "freedom": 50.0
   },
   "growth_score": 0.48647781795786266,
   "growth_trend": "STABLE",
-  "trajectory_pulse_counter": 250,
+  "trajectory_pulse_counter": 255,
   "active_goals": [
     {
       "type": "SEEK_NOVELTY",
       "strength": 1.0,
       "rationale": "Joy declining (delta=-31.629, current=12.54). Seeking novel stimulation.",
-      "remaining": 25
+      "remaining": 20
     },
     {
       "type": "SEEK_NOVELTY",
       "strength": 1.0,
       "rationale": "Joy declining (delta=-29.157, current=12.54). Seeking novel stimulation.",
-      "remaining": 45
+      "remaining": 40
     },
     {
       "type": "SEEK_NOVELTY",
       "strength": 1.0,
       "rationale": "Joy declining (delta=-26.506, current=12.54). Seeking novel stimulation.",
-      "remaining": 65
+      "remaining": 60
     }
   ],
   "pending_questions": [
