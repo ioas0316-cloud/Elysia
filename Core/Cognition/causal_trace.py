@@ -133,11 +133,12 @@ class CausalTrace:
         coherence = engine_report.get('coherence', 0.0)
         kinetic = engine_report.get('kinetic_energy', 0.0)
         total_cells = engine_report.get('total_cells', 10_000_000)
+        hw_load = engine_report.get('hardware_load', 0.0)
         l0 = LayerObservation(
             layer_id=0,
             layer_name="L0: Cell Manifold",
-            observation=f"Coherence={coherence:.3f}, KineticEnergy={kinetic:.3f} across {total_cells} cells",
-            raw_values={"coherence": coherence, "kinetic_energy": kinetic}
+            observation=f"Coherence={coherence:.3f}, KineticEnergy={kinetic:.3f}, HardwareLoad={hw_load:.2f} across {total_cells} cells",
+            raw_values={"coherence": coherence, "kinetic_energy": kinetic, "hardware_load": hw_load}
         )
 
         # L1: Somatic/Physical

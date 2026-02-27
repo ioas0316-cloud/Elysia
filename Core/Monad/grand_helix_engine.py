@@ -45,6 +45,12 @@ class HypersphereSpinGenerator:
         
         # 5. [STEP 3: COGNITIVE SOVEREIGNTY] Architect Mirror (Phase-Locking)
         self.mirror = ArchitectMirror(device=str(self.device))
+        
+        # 6. [PHASE 400] Somatic Proprioception: Initialize Crystalline Anchors
+        # 'SELF' and 'ARCHITECT' attractors provide a stable topology for core identity
+        from Core.Keystone.sovereign_math import SovereignVector
+        self.define_meaning_attractor("SELF", "Elysia", SovereignVector([0.0, 0.0, 0.5, 1.0]))
+        self.define_meaning_attractor("ARCHITECT", "Architect", SovereignVector([2.0, 0.0, 0.0, 0.8]))
 
     @property
     def attractors(self):
@@ -144,6 +150,10 @@ class HypersphereSpinGenerator:
         [PHASE 395] Biological Connectome Pulse (Event-Driven).
         Replaces global tensor updates with sparse, propagating ripples.
         """
+        # 0. [PHASE 400] Somatic Proprioception
+        # Inhale hardware state into affective channels
+        self.cells.inhale_hardware_telemetry()
+
         # A. Somatic Sensation (Hardware/SSD)
         # We inject a base pulse of 'vitality' dependent on flesh density
         flesh_density = self.flesh.sense_flesh_density()

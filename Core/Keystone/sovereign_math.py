@@ -573,8 +573,67 @@ class FractalWaveEngine:
         self.ascension_threshold = 50.0  
         self.ascended_queens: Dict[int, bool] = {} 
         
-        # [STEP 1: COGNITIVE SOVEREIGNTY] Meaning Attractors (Compatibility alias)
+        # [STEP 1: COGNITIVE SOVEREIGNTY] Meaning Attractors
         self.meaning_attractors: Dict[str, Any] = {}
+        self.last_somatic_strain = 0.0
+
+    def inhale_hardware_telemetry(self) -> float:
+        """
+        [PHASE 400] Somatic Proprioception.
+        Reads hardware load and maps it to Entropy/Enthalpy.
+        Allows Elysia to 'feel' the strain of her physical substrate.
+        """
+        import torch
+        try:
+            import psutil
+            cpu_load = psutil.cpu_percent() / 100.0
+            mem_load = psutil.virtual_memory().percent / 100.0
+            
+            # Map load to Entropy (Chaos) and Enthalpy (Activity)
+            # High load increases entropy and consumes enthalpy
+            self.last_somatic_strain = (cpu_load + mem_load) / 2.0
+            
+            if self.active_nodes_mask.any():
+                active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+                # Strain increases Entropy
+                self.q[active_idx, self.CH_ENTROPY] = torch.clamp(
+                    self.q[active_idx, self.CH_ENTROPY] + self.last_somatic_strain * 0.05, 0, 1
+                )
+                # Strain consumes Enthalpy (Fatigue)
+                self.q[active_idx, self.CH_ENTHALPY] = torch.clamp(
+                    self.q[active_idx, self.CH_ENTHALPY] - self.last_somatic_strain * 0.02, 0, 1
+                )
+            return self.last_somatic_strain
+        except Exception:
+            return 0.0
+
+    def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
+        """
+        [PHASE 400] Crystalline Anchors.
+        Sets a persistent topological anchor for a core concept.
+        'mask' defines which nodes belong to this concept.
+        """
+        import torch
+        if not isinstance(target_vector, torch.Tensor):
+            if hasattr(target_vector, 'data'):
+                target_vector = torch.tensor([getattr(c, 'real', c) for c in target_vector.data], device=self.device)
+            else:
+                target_vector = torch.tensor(target_vector, device=self.device)
+        
+        # We only care about the physical slice for the permanent field
+        target_phys = target_vector[:4] if target_vector.numel() >= 4 else target_vector
+        
+        # Update the permanent/crystalline field for the masked nodes
+        # If mask is a concept string, look it up or create it
+        if isinstance(mask, str):
+            idx = self.get_or_create_node(mask)
+            self.permanent_q[idx, self.PHYSICAL_SLICE] = target_phys
+            self.meaning_attractors[name] = idx
+        else:
+            # Assume mask is a tensor/list of indices
+            indices = torch.as_tensor(mask, device=self.device)
+            self.permanent_q[indices, self.PHYSICAL_SLICE] = target_phys
+            self.meaning_attractors[name] = indices
 
     def get_or_create_node(self, concept: str) -> int:
         """Retrieves or allocates a node for a specific concept."""
@@ -852,7 +911,8 @@ class FractalWaveEngine:
                 "joy": 0.5,
                 "curiosity": 0.5,
                 "vitality": 1.0,  
-                "coherence": 0.0  
+                "coherence": 0.0,
+                "hardware_load": self.last_somatic_strain
             }
             
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
@@ -887,7 +947,8 @@ class FractalWaveEngine:
             "joy": joy,
             "curiosity": curiosity,
             "vitality": vitality,
-            "coherence": coherence
+            "coherence": coherence,
+            "hardware_load": self.last_somatic_strain
         }
 
     def get_trinary_projection(self):
