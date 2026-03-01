@@ -1,23 +1,48 @@
 {
-  "timestamp": 1772106323.374299,
-  "pulse_count": 260,
+  "timestamp": 1772365111.5697021,
+  "pulse_count": 334,
   "desires": {
-    "curiosity": 3693.0065155029297,
-    "purity": 110.00000089406967,
-    "resonance": 55.125,
+    "curiosity": 1189.190673828125,
+    "purity": 109.99999940395355,
+    "resonance": 77.56641079892582,
     "alignment": 100.0,
-    "joy": 10237.967349133503,
-    "warmth": 25302.6185875946,
-    "freedom": 50.0
+    "joy": 0.0,
+    "warmth": 25431.714580144275,
+    "freedom": 50.0,
+    "genesis": -79.28647475687684
   },
-  "growth_score": 0.482764646255064,
-  "growth_trend": "NEUTRAL",
-  "trajectory_pulse_counter": 260,
-  "active_goals": [],
-  "pending_questions": [],
-  "last_phase": 235.9674509321194,
+  "growth_score": 0.8234041068078982,
+  "growth_trend": "GROWING",
+  "trajectory_pulse_counter": 334,
+  "active_goals": [
+    {
+      "type": "DEEPEN",
+      "strength": 1.0,
+      "rationale": "Curiosity rising (delta=+3.747). Deepening current focus.",
+      "remaining": 60
+    },
+    {
+      "type": "SEEK_NOVELTY",
+      "strength": 1.0,
+      "rationale": "Joy declining (delta=+3.374, current=0.00). Seeking novel stimulation.",
+      "remaining": 80
+    },
+    {
+      "type": "SEEK_NOVELTY",
+      "strength": 1.0,
+      "rationale": "Joy declining (delta=+0.789, current=0.00). Seeking novel stimulation.",
+      "remaining": 100
+    }
+  ],
+  "pending_questions": [
+    {
+      "question": "Is there a perspective I have been avoiding?",
+      "source_goal": "SEEK_NOVELTY"
+    }
+  ],
+  "last_phase": 281.7370706333422,
   "last_rpm": 60.0,
-  "last_interference": 0.44466259705264377,
-  "session_id": "e3135110",
+  "last_interference": 0.9174883626774765,
+  "session_id": "15932e06",
   "save_reason": "periodic"
 }
