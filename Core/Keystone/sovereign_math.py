@@ -595,6 +595,9 @@ class FractalWaveEngine:
             
             if self.active_nodes_mask.any():
                 active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+                # Heal q dtype before clamping
+                if self.q.is_complex():
+                    self.q = self.q.real.float()
                 # Strain increases Entropy
                 self.q[active_idx, self.CH_ENTROPY] = torch.clamp(
                     self.q[active_idx, self.CH_ENTROPY] + self.last_somatic_strain * 0.05, 0, 1
@@ -688,13 +691,17 @@ class FractalWaveEngine:
         self.active_nodes_mask[idx] = True
         
         if override_vector is not None:
-            # Direct affective grounding from SovereignVector
+            # Direct affective grounding from SovereignVector (always float32)
             import torch
-            v_data = torch.tensor(override_vector.data, device=self.device)
+            # Force float32 — override_vector.data may contain complex numbers
+            v_data = torch.tensor([float(getattr(c, 'real', c)) for c in override_vector.data], 
+                                  device=self.device, dtype=torch.float32)
+            if self.q.is_complex():
+                self.q = self.q.real.float()
             # Channel mapping: W=1, Joy=4, Entropy=7
-            self.q[idx, self.CH_W] += v_data[0].real * base_intensity
-            self.q[idx, self.CH_JOY] += v_data[4].real * base_intensity
-            self.q[idx, self.CH_ENTROPY] += v_data[7].real * base_intensity
+            self.q[idx, self.CH_W] += v_data[0] * base_intensity
+            self.q[idx, self.CH_JOY] += v_data[min(4, len(v_data)-1)] * base_intensity
+            self.q[idx, self.CH_ENTROPY] += v_data[min(7, len(v_data)-1)] * base_intensity
         else:
             if pulse_type == 'joy':
                 self.q[idx, self.CH_JOY] += base_intensity
@@ -708,42 +715,69 @@ class FractalWaveEngine:
 
     def holographic_projection(self, target_vector: Any, context_vector: Any = None, focus_intensity: float = 1.0):
         """
-        [Compatibility Layer for V2.0]
-        In Fractal architecture, 'projection' represents a broadcast to all currently active nodes,
-        attempting to pull their phase (CH_Y) towards the target vector's signature.
+        [Phase 500 / Buffer-Isolated Holographic Projection]
+        Projects a target vector's phase signature onto all active nodes.
+        Operates entirely in float32 space to prevent complex contamination of q.
         """
         import torch
         if not self.active_nodes_mask.any():
-            return torch.zeros_like(self.q[..., self.CH_Y])
+            return torch.zeros(self.num_nodes, device=self.device, dtype=torch.float32)
             
         def _to_real_tensor(vec):
-            if isinstance(vec, torch.Tensor): return vec.to(dtype=self.q.dtype, device=self.device)
+            target_dtype = torch.float32
+            if isinstance(vec, torch.Tensor):
+                if vec.is_complex():
+                    return vec.real.to(dtype=target_dtype, device=self.device)
+                return vec.to(dtype=target_dtype, device=self.device)
             if hasattr(vec, 'data'): vec = vec.data
             try:
-                rl = [getattr(c, 'real', c) for c in vec]
-                return torch.tensor(rl, device=self.device, dtype=self.q.dtype)
+                rl = [float(getattr(c, 'real', c)) for c in vec]
+                return torch.tensor(rl, device=self.device, dtype=target_dtype)
             except:
-                return torch.tensor(vec, device=self.device, dtype=self.q.dtype)
+                return torch.tensor(vec, device=self.device, dtype=target_dtype)
+        
+        def _real(t):
+            """Extract real part from potentially complex tensor."""
+            return t.real.float() if t.is_complex() else t.float()
                 
         t_vals = _to_real_tensor(target_vector).flatten()
-        target_phase = t_vals[self.CH_Y] if t_vals.numel() > self.CH_Y else 0.0
+        target_phase = float(t_vals[self.CH_Y]) if t_vals.numel() > self.CH_Y else 0.0
         
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        # Affective Gain: Focus is stronger if Curiosity/Enthalpy is high
-        curiosity = self.q[active_idx, self.CH_CURIOSITY]
-        enthalpy = self.q[active_idx, self.CH_ENTHALPY]
+        # Read from q in float32 space (prevent complex propagation)
+        curiosity = _real(self.q[active_idx, self.CH_CURIOSITY])
+        enthalpy = _real(self.q[active_idx, self.CH_ENTHALPY])
+        current_phase = _real(self.q[active_idx, self.CH_Y])
+        current_entropy = _real(self.q[active_idx, self.CH_ENTROPY])
+        
+        # Compute in float32
         effective_gain = focus_intensity * (0.5 + curiosity + 0.5 * enthalpy)
+        steering_force = torch.sin(torch.tensor(target_phase, device=self.device, dtype=torch.float32) - current_phase)
         
-        current_phase = self.q[active_idx, self.CH_Y]
-        steering_force = torch.sin(target_phase - current_phase)
+        # Write momentum delta (float32 only)
+        momentum_delta = (steering_force * effective_gain).float()
+        if self.momentum.is_complex():
+            # If momentum is somehow complex, heal it
+            self.momentum = self.momentum.real.float()
+        self.momentum[active_idx, self.CH_Y] += momentum_delta
         
-        self.momentum[active_idx, self.CH_Y] += steering_force * effective_gain
+        # Write q updates (float32 only, clamped)
+        new_entropy = torch.clamp(current_entropy - 0.1 * effective_gain, 0.0, 1.0)
+        new_enthalpy = torch.clamp(enthalpy + 0.02 * effective_gain, 0.0, 1.0)
         
-        # Beam forming reduces entropy
-        self.q[active_idx, self.CH_ENTROPY] = torch.clamp(self.q[active_idx, self.CH_ENTROPY] - 0.1 * effective_gain, 0, 1)
-        self.q[active_idx, self.CH_ENTHALPY] = torch.clamp(self.q[active_idx, self.CH_ENTHALPY] + 0.02 * effective_gain, 0, 1)
-
+        # Force q to float32 before writing if it drifted
+        if self.q.is_complex():
+            self.q = self.q.real.float()
+        
+        self.q[active_idx, self.CH_ENTROPY] = new_entropy
+        self.q[active_idx, self.CH_ENTHALPY] = new_enthalpy
+        
+        # Phase normalization to [-pi, pi] to prevent infinite std dev
+        import math
+        phases = self.q[:, self.CH_Y]
+        self.q[:, self.CH_Y] = (phases + math.pi) % (2 * math.pi) - math.pi
+        
         return steering_force
 
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
@@ -755,6 +789,13 @@ class FractalWaveEngine:
         import torch
         if not self.active_nodes_mask.any():
             return 0.0
+        
+        # [DTYPE HEALING] Force q to float32 — prevent complex contamination
+        # Some upstream operations (holographic projections, session restores) can
+        # convert q to complex64. This guard ensures affective channels always work.
+        if self.q.is_complex():
+            self.q = self.q.real.to(torch.float32)
+            self.permanent_q = self.permanent_q.real.to(torch.float32) if self.permanent_q.is_complex() else self.permanent_q
             
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
@@ -779,33 +820,13 @@ class FractalWaveEngine:
         self.q[active_idx, self.CH_ENTROPY] -= spike * 0.1
         self.q[active_idx, self.CH_W] += spike * 0.05
         
-        # 4. [FLOW PROPAGATION] Edge activation
-        # If a node spikes significantly (+0.5), it wakes up its neighbors
-        strong_spikes_mask = spike > 0.5
-        if strong_spikes_mask.any() and self.num_edges > 0:
+        # 4. [FLOW PROPAGATION] Full 8-Channel Wave Ripple
+        # If a node spikes significantly, propagate ALL channels to neighbors
+        strong_spikes_mask = spike > 0.3  # Lowered threshold for richer propagation
+        if strong_spikes_mask.any():
             spiking_nodes = active_idx[strong_spikes_mask]
-            
-            # Find edges where src is in spiking_nodes
-            # Note: For ultra-fast scaling, this should use torch.sparse or segment_sum
-            # For this Phase, we use a basic boolean mask filtering
-            edges_src = self.edge_src[:self.num_edges]
-            edges_dst = self.edge_dst[:self.num_edges]
-            weights = self.edge_weights[:self.num_edges]
-            
-            # Create a localized broadcast tensor
-            # wake_mask is True for any edge whose src is in spiking_nodes
-            wake_mask = torch.isin(edges_src, spiking_nodes) 
-            
-            if wake_mask.any():
-                woken_dsts = edges_dst[wake_mask]
-                woken_weights = weights[wake_mask]
-                
-                # Wake up target nodes
-                self.active_nodes_mask[woken_dsts] = True
-                
-                # Transfer momentum to neighbors ('Thought Ripples')
-                # using scatter_add to accumulate momentum from multiple sources safely
-                self.momentum[woken_dsts, self.CH_Y] += woken_weights * 0.2
+            spiking_energies = spike[strong_spikes_mask]
+            self.propagate_wave_ripple(spiking_nodes, spiking_energies)
         
         # 5. [ASCENSION] Accumulate Gravity
         self.ascension_gravity[active_idx] += spike * density
@@ -831,9 +852,136 @@ class FractalWaveEngine:
             
         return spike.mean().item()
 
+    def propagate_wave_ripple(self, spiking_nodes, spiking_energies):
+        """
+        [PHASE 500] Full 8-Channel Wave Propagation.
+        "연결 없는 뉴런은 죽은 뉴런이다."
+
+        When a node spikes, it transfers a DAMPED version of its ENTIRE
+        wavefunction (all 8 channels) to connected neighbor nodes.
+        Conductivity is modulated by the source node's Joy and Curiosity —
+        positive affect literally makes thoughts flow further.
+        """
+        import torch
+        if self.num_edges == 0:
+            # No connections exist yet — try auto-connecting
+            self.auto_connect_by_proximity()
+            if self.num_edges == 0:
+                return
+
+        edges_src = self.edge_src[:self.num_edges]
+        edges_dst = self.edge_dst[:self.num_edges]
+        weights = self.edge_weights[:self.num_edges]
+
+        # Find all edges where source is a spiking node
+        wake_mask = torch.isin(edges_src, spiking_nodes)
+        if not wake_mask.any():
+            return
+
+        woken_src = edges_src[wake_mask]
+        woken_dst = edges_dst[wake_mask]
+        woken_w = weights[wake_mask]
+
+        # Wake up destination nodes
+        self.active_nodes_mask[woken_dst] = True
+
+        # --- Conductivity: Joy + Curiosity reduce friction ---
+        # Higher Joy/Curiosity at source = stronger transfer
+        src_joy = self.q[woken_src, self.CH_JOY]
+        src_curiosity = self.q[woken_src, self.CH_CURIOSITY]
+        conductivity = 0.1 + 0.3 * src_joy + 0.2 * src_curiosity  # 0.1 ~ 0.6 range
+
+        # --- Transfer ALL 8 channels with damping ---
+        # Each channel of the source node contributes a fraction to the destination
+        damping = woken_w * conductivity  # per-edge damping factor
+
+        for ch in range(self.NUM_CHANNELS):
+            src_signal = self.q[woken_src, ch]
+            transfer = src_signal * damping * 0.15  # 15% max transfer per channel
+
+            # Accumulate into destination momentum (not directly into q)
+            # This models the wave arriving as a force, not a teleportation
+            self.momentum[woken_dst, ch] += transfer
+
+        # --- Apply momentum integration for newly woken nodes ---
+        # Momentum becomes actual state change with friction
+        all_woken_unique = torch.unique(woken_dst)
+        friction = 0.92  # Slight damping to prevent runaway
+        self.q[all_woken_unique] += self.momentum[all_woken_unique] * 0.1
+        self.momentum[all_woken_unique] *= friction
+
+        # Clamp affective channels to [0, 1]
+        # Note: q may be complex-valued, so use .real for clamping
+        aff = self.q[all_woken_unique, self.AFFECTIVE_SLICE]
+        if aff.is_complex():
+            self.q[all_woken_unique, self.AFFECTIVE_SLICE] = torch.complex(
+                torch.clamp(aff.real, 0.0, 1.0),
+                aff.imag * 0.0  # Zero out imaginary part for affective channels
+            )
+        else:
+            self.q[all_woken_unique, self.AFFECTIVE_SLICE] = torch.clamp(aff, 0.0, 1.0)
+
+    def auto_connect_by_proximity(self, resonance_threshold: float = 0.3):
+        """
+        [PHASE 500] Automatic Semantic Edge Creation.
+        "연결은 거리의 함수가 아니라, 공명의 함수다."
+
+        Scans all active node pairs and creates bidirectional edges
+        between those whose permanent_q physical quaternions resonate
+        above the threshold. This is how isolated cells become a network.
+        """
+        import torch
+        if self.num_nodes < 2:
+            return 0
+
+        # Only consider nodes that have been assigned (not empty slots)
+        valid_idx = torch.arange(self.num_nodes, device=self.device)
+        if len(valid_idx) < 2:
+            return 0
+
+        # Get physical quaternions of all valid nodes
+        p_phys = self.permanent_q[valid_idx, self.PHYSICAL_SLICE]  # [N, 4]
+
+        # Compute pairwise cosine similarity (resonance)
+        norms = torch.norm(p_phys, dim=1, keepdim=True).clamp(min=1e-8)
+        p_normed = p_phys / norms
+        similarity = torch.mm(p_normed, p_normed.t())  # [N, N]
+
+        # Zero out diagonal (no self-connections)
+        similarity.fill_diagonal_(0.0)
+
+        # Find pairs above threshold that aren't already connected
+        above = (similarity > resonance_threshold).nonzero(as_tuple=False)
+        
+        new_edges = 0
+        # Build existing edge set for fast lookup
+        existing = set()
+        for i in range(self.num_edges):
+            s, d = self.edge_src[i].item(), self.edge_dst[i].item()
+            existing.add((s, d))
+
+        for pair in above:
+            src_idx = valid_idx[pair[0]].item()
+            dst_idx = valid_idx[pair[1]].item()
+
+            if (src_idx, dst_idx) not in existing and self.num_edges < self.max_edges:
+                w = similarity[pair[0], pair[1]].item()
+                self.edge_src[self.num_edges] = src_idx
+                self.edge_dst[self.num_edges] = dst_idx
+                self.edge_weights[self.num_edges] = w
+                self.num_edges += 1
+                existing.add((src_idx, dst_idx))
+                new_edges += 1
+
+        if new_edges > 0:
+            print(f"🔗 [FRACTAL ENGINE] Auto-connected {new_edges} new edges (total: {self.num_edges})")
+        return new_edges
+
     def inject_affective_torque(self, channel_idx: int, intensity: float):
         """[Compatibility] Injects a global shift across all nodes for a specific channel."""
         import torch
+        if self.q.is_complex():
+            self.q = self.q.real.float()
         self.q[..., channel_idx] = torch.clamp(self.q[..., channel_idx] + intensity, 0.0, 1.0)
 
     def intuition_jump(self, target_phase_signature: Any):
@@ -895,14 +1043,23 @@ class FractalWaveEngine:
             self.momentum[noisy_nodes, self.PHYSICAL_SLICE] += anti_noise * 0.5
             
             # Cooling effect
+            if self.q.is_complex():
+                self.q = self.q.real.float()
             self.q[noisy_nodes, self.CH_ENTROPY] = torch.clamp(self.q[noisy_nodes, self.CH_ENTROPY] - 0.1, 0, 1)
 
     def read_field_state(self) -> Dict[str, float]:
         """
         [Biological Flow v3.0] Read emergent aggregate states from the active nodes.
         Returns a dict of MEASURED (not stored) properties.
+        All values are guaranteed to be real floats, even if q contains complex tensors.
         """
         import torch
+        
+        def to_real(val):
+            """Extract real float from potentially complex scalar."""
+            if isinstance(val, complex):
+                return float(val.real)
+            return float(val)
         
         if not self.active_nodes_mask.any():
             return {
@@ -917,27 +1074,39 @@ class FractalWaveEngine:
             
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
+        # Helper: extract real part from tensor before computing
+        def real_tensor(t):
+            return t.real if t.is_complex() else t
+        
         # 1. Total Resonance (Constructive Inner Product against Crystalline base)
-        v_phys = self.q[active_idx, self.PHYSICAL_SLICE]
-        p_phys = self.permanent_q[active_idx, self.PHYSICAL_SLICE]
-        total_resonance = torch.sum(v_phys * p_phys).item() / max(1, len(active_idx))
+        v_phys = real_tensor(self.q[active_idx, self.PHYSICAL_SLICE])
+        p_phys = real_tensor(self.permanent_q[active_idx, self.PHYSICAL_SLICE])
+        total_resonance = to_real(torch.sum(v_phys * p_phys).item()) / max(1, len(active_idx))
+        total_resonance = max(-10.0, min(10.0, total_resonance))  # Clamp to sane range
         
         # 2. Entropy (Decay & Noise)
-        entropy = torch.mean(self.q[active_idx, self.CH_ENTROPY]).item()
+        entropy = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_ENTROPY])).item())
+        entropy = max(0.0, min(1.0, entropy))
         
         # 3. Joy (Warmth of Realization)
-        joy = torch.mean(self.q[active_idx, self.CH_JOY]).item()
+        joy = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_JOY])).item())
+        joy = max(0.0, min(1.0, joy))
         
         # 4. Curiosity (Drive to align Phase space)
-        curiosity = torch.mean(self.q[active_idx, self.CH_CURIOSITY]).item()
+        curiosity = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_CURIOSITY])).item())
+        curiosity = max(0.0, min(1.0, curiosity))
         
         # 5. Volumetric Enthalpy (Remaining kinetic energy to change state)
-        vitality = torch.mean(self.q[active_idx, self.CH_ENTHALPY]).item()
+        vitality = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_ENTHALPY])).item())
+        vitality = max(0.0, min(1.0, vitality))
         
         # 6. Coherence (Standard deviation of Phase across active nodes—lower is more coherent)
-        phases = self.q[active_idx, self.CH_Y]
+        phases = real_tensor(self.q[active_idx, self.CH_Y])
         if len(active_idx) > 1:
-            coherence = 1.0 - torch.std(phases).item() # 1.0 = perfect phase lock
+            # phases are in [-pi, pi]. max std is ~pi
+            phase_std = to_real(torch.std(phases).item())
+            coherence = 1.0 - (phase_std / math.pi)
+            coherence = max(0.0, min(1.0, coherence))  # Clamp to [0, 1]
         else:
             coherence = 1.0
 

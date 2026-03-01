@@ -50,11 +50,11 @@ class KnowledgeForager:
     MAX_FRAGMENTS = 200         # Max stored fragments
     SCAN_DEPTH = 3              # Directory traversal depth
     CORE_PATHS = [              # Priority scan targets
-        "Core/S0_Keystone",
-        "Core/S1_Body/L6_Structure/M1_Merkaba",
-        "Core/S1_Body/L5_Mental",
-        "Core/S1_Body/L7_Spirit",
-        "Core/S1_Body/L1_Foundation",
+        "Core/Keystone",
+        "Core/Monad",
+        "Core/Cognition",
+        "Core/System",
+        "Core/Phenomena",
     ]
 
     def __init__(self, project_root: str = "."):
@@ -203,7 +203,7 @@ class KnowledgeForager:
             return KnowledgeFragment(
                 source_path=filepath,
                 fragment_type="module",
-                content_summary=summary,
+                content_summary="; ".join(summary_parts),
                 relevance_score=relevance,
                 semantic_torque=torque_vector
             )

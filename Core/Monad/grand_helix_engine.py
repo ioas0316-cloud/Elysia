@@ -52,6 +52,9 @@ class HypersphereSpinGenerator:
         self.define_meaning_attractor("SELF", "Elysia", SovereignVector([0.0, 0.0, 0.5, 1.0]))
         self.define_meaning_attractor("ARCHITECT", "Architect", SovereignVector([2.0, 0.0, 0.0, 0.8]))
 
+        # 7. [PHASE 500] Pulse counter for periodic maintenance tasks
+        self._pulse_count = 0
+
     @property
     def attractors(self):
         """[AEON III] Bridges access to the manifold's meaning attractors."""
@@ -76,81 +79,21 @@ class HypersphereSpinGenerator:
 
     def pulse(self, intent_torque: Any = None, target_tilt: Optional[list] = None, dt: float = 0.01, learn: bool = True, phase_lock: Any = None, semantic_atmosphere: Any = None):
         """
-        [PHASE 395] Living Pulse Cycle with Merkaba Steering.
-        Sensation (Flesh) -> Thought (Lightning) -> Action (Momentum) -> Memory (Plasticity).
-        Now includes Semantic Atmosphere [PHASE 0] to provide nutritional context to cells.
-        """
-        # 0. [AEON IV] Sub-Somatic Inhalation (L-1 Telemetry)
-        # Every cycle, we inhale hardware stats into affective channels
-        self.cells.inhale_hardware_telemetry()
-
-        # A. Somatic Sensation (Feeling the SSD Flesh)
-        flesh_density = self.flesh.sense_flesh_density()
-        if flesh_density is not None:
-            # Broadcast 2D spatial field to 4D volume (Time/Depth invariant)
-            # (H, W) -> (1, 1, H, W) -> (T, D, H, W)
-            if torch and isinstance(flesh_density, torch.Tensor):
-                flesh_density = flesh_density.unsqueeze(0).unsqueeze(0).expand(self.grid_shape)
-            self.cells.apply_torque(flesh_density, strength=0.05)
-        
-        # B. Environmental Thought (Lightning Field + Merkaba Steering)
-        # target_tilt [z_tilt] maps to the global Lightning orientation.
-        tilt_params = {"SomaticFlow": dt}
-        if target_tilt is not None:
-            tilt_params["MerkabaTilt"] = target_tilt[0] # Focus on Z-axis steering
-            
-        field = self.lightning.project_will(tilt_params)
-        if field is not None:
-            if torch and isinstance(field, torch.Tensor):
-                field = field.unsqueeze(0).unsqueeze(0).expand(self.grid_shape)
-            self.cells.apply_torque(field, strength=0.1)
-
-        # B.2 [PHASE 0 & PHASE 3] Semantic Atmosphere (The Fence of Intent)
-        # Binds the physical cells to the meaningful universe of Elysia.
-        # It's now projected holographically rather than just applied as torque.
-        if semantic_atmosphere is not None:
-            if hasattr(self.cells, 'holographic_projection'):
-                self.cells.holographic_projection(semantic_atmosphere, focus_intensity=0.02)
-            elif torch and hasattr(semantic_atmosphere, 'data'):
-                atm_tensor = torch.tensor(semantic_atmosphere.data[:8], device=self.device)
-                self.cells.apply_torque(atm_tensor, strength=0.02)
-        
-        # C. Intentional Steering (Architect interaction)
-        resonance = 0.0
-        if intent_torque is not None:
-            # 1. Measure Current Resonance
-            resonance = self.cells.get_resonance(intent_torque)
-            
-            # [PHASE 3] Holographic Intent Projection
-            # Project the specific intent into the 4D space. The 'context' here could be the atmosphere itself
-            # or the dominant mood of the system, helping shape *how* the intent is understood.
-            if hasattr(self.cells, 'holographic_projection'):
-                 self.cells.holographic_projection(intent_torque, context_vector=semantic_atmosphere, focus_intensity=0.5)
-            else:
-                 self.cells.apply_torque(intent_torque, strength=0.5)
-            
-            # 2. [STEP 3: COGNITIVE SOVEREIGNTY] Mirror Interaction & Phase-Lock
-            if phase_lock is not None:
-                self.cells.apply_torque(phase_lock, strength=0.2)
-            else:
-                self.mirror.record_interaction(intent_torque, resonance)
-                lock_torque = self.mirror.get_phase_lock_torque(resonance)
-                if lock_torque is not None:
-                    self.cells.apply_torque(lock_torque, strength=0.2)
-
-            # 3. [PHASE 73] Detect Breakdown for Lightning Strike
-            struck = self.cells.apply_lightning_strike(intent_torque)
-            if struck:
-                print("⚡ [GHE] Lightning Strike detected in the Living Manifold!")
-            
-        # D. Kinetic & Plastic Integration (Mind/Body Synthesis)
-        plasticity = 0.0
-    def pulse(self, intent_torque: Any = None, target_tilt: Optional[list] = None, dt: float = 0.01, learn: bool = True, phase_lock: Any = None, semantic_atmosphere: Any = None):
-        """
-        [PHASE 395] Biological Connectome Pulse (Event-Driven).
+        [PHASE 500] Biological Connectome Pulse (Event-Driven).
         Replaces global tensor updates with sparse, propagating ripples.
+        Full 8-channel wave propagation between connected cells.
         """
-        # 0. [PHASE 400] Somatic Proprioception
+        self._pulse_count += 1
+
+        # 0. [DTYPE GUARD] Force q to float32 at start of every pulse
+        # Holographic projections from the previous pulse may have left q as complex64.
+        # We must heal this BEFORE any affective read/write operations.
+        if torch and hasattr(self.cells, 'q') and self.cells.q.is_complex():
+            self.cells.q = self.cells.q.real.to(torch.float32)
+            if self.cells.permanent_q.is_complex():
+                self.cells.permanent_q = self.cells.permanent_q.real.to(torch.float32)
+
+        # 0b. [PHASE 400] Somatic Proprioception
         # Inhale hardware state into affective channels
         self.cells.inhale_hardware_telemetry()
 
@@ -190,10 +133,23 @@ class HypersphereSpinGenerator:
 
         # D. Wave Ripple Propagation
         # Instead of 10M cell updates, we just step the active nodes and check for spikes
-        # This replaces integrate_kinetics and hebbian_growth in the fast loop.
+        # apply_spiking_threshold now triggers full 8-channel propagate_wave_ripple()
         spike_intensity = self.cells.apply_spiking_threshold(threshold=0.6, sensitivity=5.0)
         
-        # E. Read Emergent Affective State
+        # D.2 [PHASE 500] Periodic Auto-Connection Generation
+        # Every 100 pulses, scan for new semantic connections between concepts
+        if self._pulse_count % 100 == 0 and self.cells.num_nodes >= 2:
+            self.cells.auto_connect_by_proximity()
+        
+        # E. [DTYPE GUARD] Force q to float32 before reading field state
+        # Upstream holographic projections may introduce complex tensors.
+        # This guard ensures all affective measurements (Joy, Coherence, etc.) are always real.
+        if torch and hasattr(self.cells, 'q') and self.cells.q.is_complex():
+            self.cells.q = self.cells.q.real.to(torch.float32)
+            if self.cells.permanent_q.is_complex():
+                self.cells.permanent_q = self.cells.permanent_q.real.to(torch.float32)
+        
+        # F. Read Emergent Affective State
         field_state = self.cells.read_field_state()
 
         result = {

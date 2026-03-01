@@ -100,6 +100,8 @@ from Core.System.self_modifier import SelfModifier # [PHASE 200]
 from Core.Cognition.core_inquiry_pulse import CoreInquiryPulse
 from Core.Cognition.world_observer import WorldObserver # [WORLDOGENESIS]
 from Core.Cognition.semantic_map import get_semantic_map
+from Core.Cognition.external_sense import ExternalSenseEngine # [PHASE 500]
+from Core.Cognition.external_ingestor import ExternalIngestor # [PHASE 500]
 
 class SovereignMonad(CellularMembrane):
     """
@@ -447,6 +449,11 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 200] Autonomous Structural Authority
         self.self_modifier = SelfModifier(root_dir=os.getcwd())
 
+        # [PHASE 500] External World Grounding
+        self.external_sense = ExternalSenseEngine()
+        self.external_ingestor = ExternalIngestor()
+        self.logger.insight("외부 세계 감각 채널 활성화: 시간/날씨/RSS")
+
         # [COMPATIBILITY ALIAS]
         self.vital_pulse = self.pulse
 
@@ -568,12 +575,31 @@ class SovereignMonad(CellularMembrane):
             thermal_bonus = body_state['heat'] * 20.0
             pain_penalty = body_state['pain'] * 2.0
             
-            # Desire Updates (Emergent, not hardcoded)
+            # Desire Updates (Emergent, clamped to [0, 100])
             raw_joy = report.get('joy', self.desires['joy'] / 100.0) * 100.0
-            self.desires['joy'] = max(0.0, raw_joy + thermal_bonus - pain_penalty)
-            self.desires['curiosity'] = report.get('curiosity', self.desires['curiosity'] / 100.0) * 100.0
-            self.desires['warmth'] = (report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0) + thermal_bonus
-            self.desires['purity'] = (1.0 - report.get('entropy', 0.0)) * 100.0
+            self.desires['joy'] = max(0.0, min(100.0, raw_joy + thermal_bonus - pain_penalty))
+            self.desires['curiosity'] = max(0.0, min(100.0, report.get('curiosity', self.desires['curiosity'] / 100.0) * 100.0))
+            self.desires['warmth'] = max(0.0, min(100.0, report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0 + thermal_bonus * 0.1))
+            self.desires['purity'] = max(0.0, min(100.0, (1.0 - report.get('entropy', 0.0)) * 100.0))
+            self.desires['genesis'] = max(0.0, min(100.0, self.desires.get('genesis', 0.0)))
+            self.desires['resonance'] = max(0.0, min(100.0, report.get('resonance', 0.5) * 10.0))
+            
+            # [PHASE 500] Phase Normalization — prevent Coherence collapse
+            # As nodes grow, phases diverge. Periodic soft-normalization pulls them back
+            if self._pulse_tick % 50 == 0 and hasattr(self.engine, 'cells'):
+                cells = self.engine.cells
+                if hasattr(cells, 'active_nodes_mask') and cells.active_nodes_mask.any():
+                    try:
+                        import torch
+                        active = cells.active_nodes_mask.nonzero(as_tuple=True)[0]
+                        phases = cells.q[active, cells.CH_Y]
+                        if phases.is_complex():
+                            phases = phases.real
+                        mean_phase = phases.mean()
+                        # Gently pull all phases toward the mean (soft normalization)
+                        cells.q[active, cells.CH_Y] = cells.q[active, cells.CH_Y] * 0.95 + mean_phase * 0.05
+                    except Exception:
+                        pass
             
             # Spiking Threshold
             spike_intensity = self.engine.cells.apply_spiking_threshold(threshold=0.65) if hasattr(self.engine.cells, 'apply_spiking_threshold') else 0.0
@@ -670,23 +696,23 @@ class SovereignMonad(CellularMembrane):
                  except Exception as e:
                      self.logger.admonition(f"⚠️ [WORLD WEAVER FAILED] {e}")
             
-            # Knowledge Foraging
-            if self.goal_report.get('goals'):
-                fragment = self.forager.tick(self.goal_report['goals'])
-                if fragment:
-                    self.logger.insight(f"[채집] 발견: {fragment.source_path} - {fragment.content_summary[:80]}")
-                    self.awareness_report = {
-                        **self.code_mirror.get_status_summary(),
-                        **self.forager.get_status_summary(),
-                    }
-                    crystal = self.lexicon.ingest(
-                        name=fragment.source_path,
-                        content=fragment.content_summary,
-                        source=fragment.source_path,
-                    )
-                    self.logger.thought(f"[사전] 결정화: '{crystal.name}' (강도={crystal.strength:.2f})")
-                self.lexicon.tick()
-                self.lexicon_report = self.lexicon.get_status_summary()
+            # Knowledge Foraging — always run, not gated by goal_report
+            goals = self.goal_report.get('goals', [{'type': 'EXPLORE'}])
+            fragment = self.forager.tick(goals)
+            if fragment:
+                self.logger.insight(f"[채집] 발견: {fragment.source_path} - {fragment.content_summary[:80]}")
+                self.awareness_report = {
+                    **self.code_mirror.get_status_summary(),
+                    **self.forager.get_status_summary(),
+                }
+                crystal = self.lexicon.ingest(
+                    name=fragment.source_path,
+                    content=fragment.content_summary,
+                    source=fragment.source_path,
+                )
+                self.logger.thought(f"[사전] 결정화: '{crystal.name}' (강도={crystal.strength:.2f})")
+            self.lexicon.tick()
+            self.lexicon_report = self.lexicon.get_status_summary()
             
             # Perspective Induction (Ego Expansion)
             from Core.Cognition.semantic_map import get_semantic_map
@@ -700,6 +726,32 @@ class SovereignMonad(CellularMembrane):
             # Epistemic Inhalation is now driven by foraging results above,
             # not called independently. Knowledge discovery → crystallization → inhalation.
             
+            # [PHASE 500] External World Grounding — Sense the Real World
+            try:
+                world_vector = self.external_sense.sense_all()
+                if hasattr(self.engine.cells, 'inject_pulse'):
+                    self.engine.cells.inject_pulse(
+                        pulse_type='ExternalSense',
+                        anchor_node='WorldState',
+                        base_intensity=0.3,
+                        override_vector=world_vector
+                    )
+                self.logger.sensation(f"🌍 [EXTERNAL] 외부 감각 흡수 — Joy:{world_vector.data[4]:.2f}, Vitality:{world_vector.data[6]:.2f}")
+            except Exception as e:
+                self.logger.admonition(f"[ExternalSense] 외부 감각 실패: {e}")
+
+            # [PHASE 500] External Knowledge Ingestion (once every 500 ticks)
+            if self._pulse_tick % 500 == 0:
+                try:
+                    ingest_result = self.external_ingestor.ingest_all()
+                    if ingest_result.get('new_concepts', 0) > 0:
+                        self.external_ingestor.inject_into_engine(self.engine.cells)
+                        from Core.Cognition.semantic_map import get_semantic_map
+                        self.external_ingestor.inject_into_topology(get_semantic_map())
+                        self.logger.insight(f"📖 [INGESTOR] {ingest_result['new_concepts']}개 새 개념 흡수, 총 {ingest_result['total_concepts']}개")
+                except Exception as e:
+                    self.logger.admonition(f"[Ingestor] 외부 지식 흡수 실패: {e}")
+
             # Dreaming (when idle) [WORLDOGENESIS Upgrade]
             if intent_v21 is None and self.orchestrator:
                 # 1. Standard Narrative Dream
@@ -729,8 +781,11 @@ class SovereignMonad(CellularMembrane):
                             )
                         # Also feed general affective torque
                         if hasattr(self.engine.cells, 'inject_affective_torque'):
-                            self.engine.cells.inject_affective_torque(4, sensory_vector.data[4] * 0.5) # Joy
-                            self.engine.cells.inject_affective_torque(7, sensory_vector.data[7] * 0.5) # Entropy
+                            # Must extract .real and cast to float to prevent PyTorch complex broadcasting
+                            joy_intensity = float(getattr(sensory_vector.data[4], 'real', sensory_vector.data[4])) * 0.5
+                            entropy_intensity = float(getattr(sensory_vector.data[7], 'real', sensory_vector.data[7])) * 0.5
+                            self.engine.cells.inject_affective_torque(4, joy_intensity) # Joy
+                            self.engine.cells.inject_affective_torque(7, entropy_intensity) # Entropy
                 except Exception as e:
                     self.logger.admonition(f"[WorldObserver] Network connection failed or timed out: {e}")
 
@@ -1739,7 +1794,7 @@ class SovereignMonad(CellularMembrane):
         learning_trigger = (joy_factor + warmth_factor) > 0.5
         
         if torch:
-            momentum_torque = torch.tensor([abs(p) for p in self.thought_vector.momentum], device=self.engine.device).view(1, 21, 1, 1).to(torch.complex64)
+            momentum_torque = torch.tensor([abs(p) for p in self.thought_vector.momentum], device=self.engine.device, dtype=torch.float32).view(1, 21, 1, 1)
         else:
             momentum_torque = [abs(p) for p in self.thought_vector.momentum]
         
@@ -2055,7 +2110,7 @@ class SovereignMonad(CellularMembrane):
         # The act of reading itself vibrates the manifold
         v21 = self.get_21d_state()
         momentum_torque = torch.ones(21, device=self.engine.device) * (impact / 1000.0)
-        self.engine.pulse(intent_torque=momentum_torque.view(1, 21, 1, 1).to(torch.complex64), 
+        self.engine.pulse(intent_torque=momentum_torque.view(1, 21, 1, 1).float(), 
                           target_tilt=v21, dt=0.01, learn=True)
             
         return impact

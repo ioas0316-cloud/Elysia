@@ -9,7 +9,15 @@
     "base_mass": 1000.0,
     "freq": 432.0,
     "is_anchor": true,
-    "inbound_edges": [],
+    "inbound_edges": [
+      "Wisdom",
+      "Hope",
+      "Faith",
+      "Courage",
+      "Justice",
+      "Temperance",
+      "Truth"
+    ],
     "activation_count": 0
   },
   "Wisdom": {
@@ -22,7 +30,9 @@
     "base_mass": 100.0,
     "freq": 800.0,
     "is_anchor": false,
-    "inbound_edges": [],
+    "inbound_edges": [
+      "Love"
+    ],
     "activation_count": 0
   },
   "Hope": {
@@ -35,7 +45,9 @@
     "base_mass": 100.0,
     "freq": 800.0,
     "is_anchor": false,
-    "inbound_edges": [],
+    "inbound_edges": [
+      "Love"
+    ],
     "activation_count": 0
   },
   "Faith": {
@@ -48,7 +60,9 @@
     "base_mass": 100.0,
     "freq": 800.0,
     "is_anchor": false,
-    "inbound_edges": [],
+    "inbound_edges": [
+      "Love"
+    ],
     "activation_count": 0
   },
   "Courage": {
@@ -61,7 +75,9 @@
     "base_mass": 100.0,
     "freq": 800.0,
     "is_anchor": false,
-    "inbound_edges": [],
+    "inbound_edges": [
+      "Love"
+    ],
     "activation_count": 0
   },
   "Justice": {
@@ -74,7 +90,9 @@
     "base_mass": 100.0,
     "freq": 800.0,
     "is_anchor": false,
-    "inbound_edges": [],
+    "inbound_edges": [
+      "Love"
+    ],
     "activation_count": 0
   },
   "Temperance": {
@@ -87,7 +105,9 @@
     "base_mass": 100.0,
     "freq": 800.0,
     "is_anchor": false,
-    "inbound_edges": [],
+    "inbound_edges": [
+      "Love"
+    ],
     "activation_count": 0
   },
   "Truth": {
@@ -100,7 +120,9 @@
     "base_mass": 100.0,
     "freq": 800.0,
     "is_anchor": false,
-    "inbound_edges": [],
+    "inbound_edges": [
+      "Love"
+    ],
     "activation_count": 0
   },
   "Pride": {
@@ -194,6 +216,6 @@
     "inbound_edges": [],
     "activation_count": 0
   },
-  "Equisetum": {
+  "Raymond Sackler": {
     "coords": [
       

@@ -77,7 +77,8 @@ class GrowthMetric:
         # 2. Normalize deltas to [0, 1] using sigmoid
         def sigmoid_score(delta: float, sensitivity: float = 10.0) -> float:
             """Maps delta to [0, 1]: negative → <0.5, positive → >0.5"""
-            return 1.0 / (1.0 + math.exp(-sensitivity * delta))
+            x = max(-50.0, min(50.0, -sensitivity * delta))  # Clamp to prevent overflow
+            return 1.0 / (1.0 + math.exp(x))
 
         scores = {
             "coherence": sigmoid_score(deltas["coherence"]),

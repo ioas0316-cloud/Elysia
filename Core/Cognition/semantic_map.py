@@ -224,6 +224,39 @@ class DynamicTopology:
             
             target_voxel.drift(gravity_force, dt=1.0)
 
+    def auto_connect(self, distance_threshold: float = 5.0):
+        """
+        [PHASE 500] Automatic Causal Edge Generation.
+        Scans all voxel pairs and connects those within 4D proximity.
+        This dramatically increases semantic density as concepts accumulate.
+
+        "관계 없는 개념은 죽은 개념이다."
+        """
+        names = list(self.voxels.keys())
+        new_edges = 0
+
+        for i in range(len(names)):
+            for j in range(i + 1, len(names)):
+                v_i = self.voxels[names[i]]
+                v_j = self.voxels[names[j]]
+
+                dist = v_i.distance_to(v_j)
+                if dist < distance_threshold:
+                    # Create bidirectional dependency
+                    if names[i] not in v_j.inbound_edges:
+                        v_j.inbound_edges.append(names[i])
+                        v_j.mass = v_j.dynamic_mass
+                        new_edges += 1
+                    if names[j] not in v_i.inbound_edges:
+                        v_i.inbound_edges.append(names[j])
+                        v_i.mass = v_i.dynamic_mass
+                        new_edges += 1
+
+        if new_edges > 0:
+            logger.info(f"🔗 [DynamicTopology] Auto-connected {new_edges} new causal edges across {len(names)} concepts")
+            self.save_state()
+        return new_edges
+
     # Compatibility Layer for Old SemanticMap
     def get_coordinates(self, concept: str) -> Optional[Tuple[float, float]]:
         """Legacy 2D projector."""
