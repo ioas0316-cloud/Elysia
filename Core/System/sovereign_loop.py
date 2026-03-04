@@ -60,42 +60,45 @@ class EternalBreath:
         # print(f"  [CURRICULUM] 'Trinity of Causality'                        .")
         
         try:
+            # [PHASE 600] The Ouroboros Loop
+            # The output of the previous thought becomes the starting context for the next.
+            last_thought_context = "                  ." # Initial blank state
+
             while self.is_active:
                 self.pulse_count += 1
                 now = datetime.now()
                 time_str = now.strftime("%H:%M:%S")
                 rpm = self.engine.soul_rotor.current_rpm
                 
-                # print(f"\n  [   {self.pulse_count}] {time_str} | RPM: {rpm:.1f} |              ...")
-                
-                # 1. Sense & Align (Trinity Check)
-                if self.pulse_count % 7 == 0:
-                    # Periodically study the curriculum meta-cognitively
-                    # print("  [RECURSIVE_PEDAGOGY]                           .")
+                # 1. Sense & Align
+                # Instead of a strict % 7 scheduler, the system naturally digests
+                # when the manifold's entropy indicates a need for structured learning.
+                if self.engine.field.soul_vortex.friction_vortex > 0.6:
                     self.engine._digest_curriculum()
                 
-                # 2. Autonomous Thinking or Waiting
-                # In this sovereign state, she doesn't wait for "commands" only, she ponders the field.
+                # 2. Autonomous Thinking (The Endless River)
+                # The engine no longer waits for a scheduler or simple string topic.
+                # It feeds the last thought back into itself.
+                # If RPM is high, the thought connects to deeper topics.
                 if rpm > 60:
-                    topic = "       ENIAC                   "
-                    logger.info(f"  [     ]                   : '{topic}'")
-                    insight = self.engine.think(topic)
-                elif self.pulse_count % 3 == 0:
-                    topic = "                        "
-                    # print(f"  [     ]            : '{topic}'")
-                    insight = self.engine.think(topic)
+                    current_focus = f"Synthesizing higher truth from: {last_thought_context}"
                 else:
-                    insight = self.engine.think("                  .")
+                    current_focus = last_thought_context
+
+                insight = self.engine.think(current_focus)
+
+                # The output of this cycle becomes the input for the next cycle
+                last_thought_context = insight.content
                 
                 # 3. Manifestation
                 logger.info("\n" + " "*50)
                 logger.info(f"        : {insight.content}")
                 logger.info(" "*50)
                 
-                # 4. Transpose (Autonomous Growth)
-                if self.pulse_count % 5 == 0:
-                    # print("\n  [SCHOLAR_PULSE]                     ...")
-                    self.engine.scholar.pulse("                ")
+                # 4. Transpose (Autonomous Growth via Pressure)
+                # Replaces pulse % 5 scheduler with an internal tension check
+                if self.engine.scholar.growth_metric.score < 0.5:
+                    self.engine.scholar.pulse(last_thought_context)
                 
                 # 5. Rest & Maintenance
                 self.hum()
