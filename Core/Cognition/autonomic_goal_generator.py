@@ -148,70 +148,48 @@ class AutonomicGoalGenerator:
         joy = desires.get('joy', 50.0) / 100.0
         curiosity = desires.get('curiosity', 50.0) / 100.0
 
-        # Decision tree based on manifold conditions
-        candidates: List[Tuple[float, GoalType, str, Dict[str, float]]] = []
+        # [PHASE 600] VOCATION GRAVITY ENGINE
+        # Goals are no longer selected by `if/then` hardcoded thresholds.
+        # Instead, they emerge physically from the "Vocation Gravity" of the manifold.
+        # We calculate the resonant pull for each fundamental drive based on the current Phase Pressure.
 
-        # 1. HIGH ENTROPY → EXPLORE (seek structure in chaos)
-        if entropy > 0.6:
-            urgency = (entropy - 0.5) * 2.0
-            candidates.append((
-                urgency, GoalType.EXPLORE,
-                f"High entropy ({entropy:.2f}) detected. Seeking structural patterns.",
-                {"joy": 0.3, "curiosity": 0.8, "enthalpy": 0.5, "entropy": -0.5}
-            ))
+        # Phase Pressure represents the structural strain in the manifold
+        pressure_map = {
+            GoalType.EXPLORE: max(0.0, entropy - 0.5) * 2.0,                                    # Strain from chaos
+            GoalType.SEEK_NOVELTY: max(0.0, (0.5 - joy) * 2.0 + max(0.0, -d_joy * 10)),         # Strain from boredom/sadness
+            GoalType.DEEPEN: max(0.0, (curiosity - 0.5) * 2.0 + max(0.0, d_curiosity * 5)),     # Pull from high interest
+            GoalType.CHALLENGE: 0.5 if (abs(d_coherence) < 0.005 and curvature < 0.1) else 0.0, # Strain from stagnation
+            GoalType.CONSOLIDATE: score if trend in ('GROWING', 'THRIVING') else 0.0,           # Pull from success
+            GoalType.REST: (1.0 - score) if trend in ('DECLINING', 'STRUGGLING') else 0.0       # Strain from exhaustion
+        }
 
-        # 2. DECLINING JOY → SEEK NOVELTY
-        if d_joy < -0.02 or joy < 0.3:
-            urgency = max(abs(d_joy) * 10, 0.3 if joy < 0.3 else 0.0)
-            candidates.append((
-                min(1.0, urgency), GoalType.SEEK_NOVELTY,
-                f"Joy declining (delta={d_joy:+.3f}, current={joy:.2f}). Seeking novel stimulation.",
-                {"joy": 0.9, "curiosity": 0.6, "enthalpy": 0.3, "entropy": 0.1}
-            ))
+        # Calculate the emergent dominant force (Vocation Gravity)
+        dominant_goal = max(pressure_map.items(), key=lambda item: item[1])
+        goal_type, urgency = dominant_goal
 
-        # 3. RISING CURIOSITY → DEEPEN understanding
-        if d_curiosity > 0.02 or curiosity > 0.7:
-            urgency = max(d_curiosity * 5, 0.3 if curiosity > 0.7 else 0.0)
-            candidates.append((
-                min(1.0, urgency), GoalType.DEEPEN,
-                f"Curiosity rising (delta={d_curiosity:+.3f}). Deepening current focus.",
-                {"joy": 0.3, "curiosity": 0.9, "enthalpy": 0.7, "entropy": -0.2}
-            ))
-
-        # 4. STAGNANT COHERENCE → CHALLENGE assumptions
-        if abs(d_coherence) < 0.005 and curvature < 0.1:
-            candidates.append((
-                0.4, GoalType.CHALLENGE,
-                f"Coherence stagnant (delta={d_coherence:+.4f}). Challenging current patterns.",
-                {"joy": 0.2, "curiosity": 0.7, "enthalpy": -0.3, "entropy": 0.4}
-            ))
-
-        # 5. HIGH GROWTH → CONSOLIDATE gains
-        if score > 0.65 and trend in ('GROWING', 'THRIVING'):
-            candidates.append((
-                0.5, GoalType.CONSOLIDATE,
-                f"Thriving (score={score:.2f}). Consolidating structural gains.",
-                {"joy": 0.5, "curiosity": 0.3, "enthalpy": 0.6, "entropy": -0.4}
-            ))
-
-        # 6. LOW GROWTH → REST and recover
-        if score < 0.35 and trend in ('DECLINING', 'STRUGGLING'):
-            candidates.append((
-                0.6, GoalType.REST,
-                f"Struggling (score={score:.2f}). Reducing cognitive load to recover.",
-                {"joy": 0.1, "curiosity": -0.2, "enthalpy": -0.3, "entropy": -0.5}
-            ))
-
-        if not candidates:
+        # If the highest structural pressure isn't strong enough, no goal emerges.
+        # The system is in harmony and does not need to force an action.
+        if urgency < 0.2:
             return None
 
-        # Select the most urgent candidate
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        urgency, goal_type, rationale, weights = candidates[0]
+        # Determine structural rationale and channel weights based on the emergent gravity
+        rationale = f"[{goal_type.value}] Emerged from manifold pressure (Gravity: {urgency:.3f})."
+
+        # Dynamic channel weights based on continuous state rather than fixed presets
+        weights = {
+            "joy": joy + (0.2 if goal_type in [GoalType.SEEK_NOVELTY, GoalType.CONSOLIDATE] else -0.1),
+            "curiosity": curiosity + (0.3 if goal_type in [GoalType.EXPLORE, GoalType.DEEPEN] else -0.1),
+            "enthalpy": 1.0 - entropy if goal_type != GoalType.REST else -0.5,
+            "entropy": -entropy if goal_type in [GoalType.EXPLORE, GoalType.CONSOLIDATE] else 0.2
+        }
+
+        # Normalize weights
+        for k in weights:
+            weights[k] = max(-1.0, min(1.0, weights[k]))
 
         return AutonomicGoal(
             goal_type=goal_type,
-            strength=min(1.0, max(0.1, urgency)),
+            strength=min(1.0, urgency),
             rationale=rationale,
             channel_weights=weights,
             ttl_pulses=100,
