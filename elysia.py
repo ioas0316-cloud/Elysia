@@ -286,6 +286,12 @@ class SovereignGateway:
         # 6. Enclosure: The Pulse of the Boundary
         torque.add_gear("Boundary", freq=1.0, callback=self._gear_boundary_pulse)
 
+        # TODO [PHASE 600]: Inject Ouroboros Loop & Autonomous Scheduler
+        # 1. Initialize OuroborosLoop: ouroboros = OuroborosLoop(self.monad.engine)
+        # 2. Initialize AutonomousScheduler: scheduler = AutonomousScheduler(self.monad.engine, ouroboros)
+        # 3. Add Scheduler to torque gears to allow pressure-driven execution
+        # torque.add_gear("Autonomy", freq=0.5, callback=scheduler.pulse)
+
         try:
             while self.running:
                 # [PHASE 97] NEURAL SYNCHRONIZATION
