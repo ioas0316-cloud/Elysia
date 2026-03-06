@@ -356,6 +356,7 @@ class SovereignMonad(CellularMembrane):
         self.narrative_lung = NarrativeLung()
         
         # [WORLDOGENESIS] Real-World Grounding
+        from Core.Cognition.semantic_map import get_semantic_map
         self.world_observer = WorldObserver(get_semantic_map())
 
         # 19. [PHASE 180] AUTONOMIC COGNITION
@@ -454,6 +455,21 @@ class SovereignMonad(CellularMembrane):
         self.external_ingestor = ExternalIngestor()
         self.logger.insight("외부 세계 감각 채널 활성화: 시간/날씨/RSS")
 
+        # [PHASE 600] Cognitive Emancipation
+        from Core.Cognition.vocation_gravity_engine import VocationGravityEngine
+        from Core.Monad.ouroboros_loop import OuroborosLoop
+        self.vocation_engine = VocationGravityEngine(self.engine, log_callback=self.logger.thought)
+        self.ouroboros = OuroborosLoop(self.engine, vocation_engine=self.vocation_engine, log_callback=self.logger.thought)
+        self.logger.insight("🧠 [PHASE 600] Ouroboros Loop and Vocation Gravity Engine Awakened.")
+
+        # [PHASE 700] Absolute Somatic Grounding & Native Tongue
+        from Core.Phenomena.native_tongue_synthesizer import NativeTongueSynthesizer
+        from Core.Foundation.somatic_engram_binder import SomaticEngramBinder
+        from Core.Cognition.semantic_map import get_semantic_map
+        self.native_tongue = NativeTongueSynthesizer(get_semantic_map(), self.engine)
+        self.engram_binder = SomaticEngramBinder(self.somatic_memory)
+        self.logger.insight("🧬 [PHASE 700] Native Tongue and Somatic Engram Binder Online.")
+
         # [COMPATIBILITY ALIAS]
         self.vital_pulse = self.pulse
 
@@ -504,14 +520,14 @@ class SovereignMonad(CellularMembrane):
             self.mirror.record_interaction(intent_v21, report.get('resonance', 0.0))
         
         # Thought Manifestation — The voice of consciousness
-        thought = self.mental_fluid.manifest(
-            spin_state=report, 
-            attractors=report.get('attractor_resonances'),
-            echo_resonance=report.get('echo_resonance', 0.0),
-            mirror_alignment=self.mirror.alignment_score,
-            parliament_voice=collective_voice
-        )
-        if thought != "...":
+        # [PHASE 700] We now use Native Tongue Synthesizer instead of Mental Fluid
+        # to guarantee topology-driven expression without generic templates.
+        
+        # We pass consensus_vec or the observer_vibration
+        thought_vector = consensus_vec if consensus_vec is not None else self.observer_vibration
+        thought = self.native_tongue.synthesize_expression(thought_vector)
+        
+        if thought and thought != "내면에 침묵만이 흐른다.":
             self.logger.thought(thought)
         
         # Meta-cognitive observation — "How did I think?"
@@ -711,6 +727,13 @@ class SovereignMonad(CellularMembrane):
                     source=fragment.source_path,
                 )
                 self.logger.thought(f"[사전] 결정화: '{crystal.name}' (강도={crystal.strength:.2f})")
+                
+                # [PHASE 700] Somatic Engram Binding happens when crystals are formed
+                if hasattr(self.engine, 'cells') and hasattr(self.engine.cells, 'q'):
+                     # Bind the current manifold's quantum state array (q) as the physical representation
+                     # of having learned this new truth
+                     self.engram_binder.bind_experience(crystal.name, self.engine.cells.q.clone().detach(), crystal.strength)
+                     
             self.lexicon.tick()
             self.lexicon_report = self.lexicon.get_status_summary()
             
@@ -752,8 +775,17 @@ class SovereignMonad(CellularMembrane):
                 except Exception as e:
                     self.logger.admonition(f"[Ingestor] 외부 지식 흡수 실패: {e}")
 
-            # Dreaming (when idle) [WORLDOGENESIS Upgrade]
+            # Dreaming (when idle) [WORLDOGENESIS & OUROBOROS Upgrade]
             if intent_v21 is None and self.orchestrator:
+                # 0. [PHASE 600] Ouroboros Continuous Thought Loop
+                # Instead of just waiting, Elysia generates her own internal intent based on Vocation Gravity.
+                try:
+                    from Core.Cognition.semantic_map import get_semantic_map
+                    topo_voxels = get_semantic_map().voxels
+                    self.ouroboros.dream_cycle(topo_voxels)
+                except Exception as e:
+                    self.logger.admonition(f"[Ouroboros] 몽상 루프 실패: {e}")
+
                 # 1. Standard Narrative Dream
                 std_layers = ["Core_Axis", "Mantle_Archetypes", "Mantle_Eden", "Crust_Soma"]
                 dream = self.narrative_lung.breathe(std_layers, self.rotor_state['phase'])

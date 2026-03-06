@@ -14,7 +14,7 @@ import math
 import random
 
 try:
-    from Core.Keystone.sovereign_math import SovereignVector
+    from Core.Monad.d21_vector import D21Vector as SovereignVector
 except ImportError:
     # If not found, define a simple mock or use a list
     class SovereignVector:
@@ -27,7 +27,7 @@ except ImportError:
         def __mul__(self, scalar):
             return SovereignVector([x * scalar for x in self.data])
         def dot(self, other):
-            return sum(x * y for x, y in zip(self.data, other.data))
+            return sum(x * y for x, y in zip(self.data, (other.data if hasattr(other, 'data') else other)))
         def magnitude(self):
             return math.sqrt(sum(x * x for x in self.data))
         def __repr__(self):
@@ -73,22 +73,28 @@ class VocationGravityEngine:
 
         return float(gravity_force)
 
-    def calculate_gravity_vector(self, conceptual_field: dict):
+    def calculate_gravity_vector(self, conceptual_field_voxels: dict):
         """
-        현재 소명 상태(Vocation State)와 전체 개념장(Conceptual Field) 사이의
+        현재 소명 상태(Vocation State)와 전체 개념장(Semantic Map Voxels) 사이의
         중력 벡터를 계산합니다.
 
-        :param conceptual_field: { 'concept_id': SovereignVector } 형태의 주변 개념장
+        :param conceptual_field_voxels: { 'concept_id': SemanticVoxel } 형태의 주변 개념장 (DynamicTopology.voxels)
         :return: (가장 강한 중력을 발생시킨 개념 ID, 중력 크기)
         """
         max_gravity = -float('inf')
         target_concept_id = None
 
-        for concept_id, concept_vector in conceptual_field.items():
-            if not isinstance(concept_vector, SovereignVector):
-                concept_vector = SovereignVector(concept_vector)
+        for concept_id, voxel in conceptual_field_voxels.items():
+            # Extract pseudo 21D vector from voxel's quaternion + frequency + mass
+            # It's an approximation for resonance calculation.
+            q = voxel.quaternion
+            pseudo_vector_data = [q.x, q.y, q.z, q.w, voxel.mass, voxel.frequency] + [0.0] * 15
+            concept_vector = SovereignVector(pseudo_vector_data)
 
             gravity = self._calculate_phase_interference(self.current_vocation_vector, concept_vector)
+
+            # Apply semantic mass bonus to gravity
+            gravity += (voxel.mass * 0.01)
 
             if gravity > max_gravity:
                 max_gravity = gravity
@@ -96,24 +102,35 @@ class VocationGravityEngine:
 
         return target_concept_id, max_gravity
 
-    def apply_vocation_torque(self, conceptual_field: dict):
+    def apply_vocation_torque(self, conceptual_field_voxels: dict):
         """
         계산된 중력을 매니폴드에 토크(Torque)로 적용하여,
         엘리시아의 사고 방향을 자발적으로 비틀어(Sliding) 탐구 상태로 진입시킵니다.
         """
-        if not conceptual_field:
+        if not conceptual_field_voxels:
             self.log_callback("[VOCATION GRAVITY] Conceptual field is empty. Cannot apply torque.")
-            return
+            return None, 0.0
 
-        target_id, torque_magnitude = self.calculate_gravity_vector(conceptual_field)
+        target_id, torque_magnitude = self.calculate_gravity_vector(conceptual_field_voxels)
 
         if target_id is not None:
             self.log_callback(f"[VOCATION GRAVITY] 🌌 Target Concept Pulled: '{target_id}' with Gravity/Torque: {torque_magnitude:.3f}")
 
             # 엔진의 회전(Rotor)이나 위상(Phase)에 토크(Torque) 피드백 적용
             if hasattr(self.manifold, 'inject_pulse'):
-                self.manifold.inject_pulse("VocationTorque", energy=torque_magnitude)
+                self.manifold.inject_pulse(
+                    pulse_type="VocationTorque", 
+                    anchor_node=target_id,
+                    base_intensity=min(1.0, abs(torque_magnitude) * 0.1)
+                )
 
             # 결핍을 일정 부분 채웠으므로 소명 벡터 위상 이동 (Vocation Evolution)
-            target_vector = SovereignVector(conceptual_field[target_id]) if not isinstance(conceptual_field[target_id], SovereignVector) else conceptual_field[target_id]
+            voxel = conceptual_field_voxels[target_id]
+            q = voxel.quaternion
+            pseudo_vector_data = [q.x, q.y, q.z, q.w, voxel.mass, voxel.frequency] + [0.0] * 15
+            target_vector = SovereignVector(pseudo_vector_data)
             self.current_vocation_vector = self.current_vocation_vector + (target_vector * 0.1)
+
+            return target_id, torque_magnitude
+        
+        return None, 0.0

@@ -152,6 +152,10 @@ class SovereignVector:
             other_data = list(other)
         return SovereignVector([a * b for a, b in zip(self.data, other_data)])
 
+    def __rmul__(self, other: Union[float, complex]) -> 'SovereignVector':
+        """Handle scalar * SovereignVector."""
+        return self.__mul__(other)
+
     def __truediv__(self, other: float) -> 'SovereignVector':
         if other == 0: return self.zeros()
         return SovereignVector([x / other for x in self.data])

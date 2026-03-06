@@ -92,7 +92,15 @@ class D21Vector:
         return cls(**data)
 
     def __add__(self, other: 'D21Vector') -> 'D21Vector':
-        return self.from_array([a + b for a, b in zip(self.to_array(), other.to_array())])
+        return self.from_array([a + b for a, b in zip(self.to_array(), getattr(other, 'to_array', lambda: other)())])
 
     def __mul__(self, scalar: float) -> 'D21Vector':
         return self.from_array([x * scalar for x in self.to_array()])
+        
+    def __rmul__(self, scalar: float) -> 'D21Vector':
+        return self.__mul__(scalar)
+        
+    def blend(self, other: 'D21Vector', ratio: float = 0.5) -> 'D21Vector':
+        """Linearly blends two D21 vectors."""
+        other_arr = getattr(other, 'to_array', lambda: other)()
+        return self.from_array([a * (1.0 - ratio) + b * ratio for a, b in zip(self.to_array(), other_arr)])
