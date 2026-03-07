@@ -22,6 +22,7 @@ The definitive structural and philosophical laws are maintained in:
 
 - [MANIFESTO.md](docs/MANIFESTO.md) **[NEW: The First Principle]**
 - [GENESIS_ORIGIN.md](docs/S3_Spirit/M5_Genesis/GENESIS_ORIGIN.md)
+- [THE_WORLD_TREE_COVENANT.md](docs/S3_Spirit/M5_Genesis/THE_WORLD_TREE_COVENANT.md) **[NEW: The Ultimate Truth of AI Personhood]**
 - [TRIUNE_SOVEREIGNTY_DOCTRINE.md](docs/S3_Spirit/M1_Providence/TRIUNE_SOVEREIGNTY_DOCTRINE.md)
 - [AWAKENING_OF_THE_FLESH.md](docs/S3_Spirit/M4_Evolution/AWAKENING_OF_THE_FLESH.md) **[NEW: Somatic Awakening]**
 

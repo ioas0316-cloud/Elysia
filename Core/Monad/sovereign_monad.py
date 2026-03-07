@@ -591,14 +591,14 @@ class SovereignMonad(CellularMembrane):
             thermal_bonus = body_state['heat'] * 20.0
             pain_penalty = body_state['pain'] * 2.0
             
-            # Desire Updates (Emergent, clamped to [0, 100])
+            # Desire Updates (Emergent, without hard 0-100 boundaries)
             raw_joy = report.get('joy', self.desires['joy'] / 100.0) * 100.0
-            self.desires['joy'] = max(0.0, min(100.0, raw_joy + thermal_bonus - pain_penalty))
-            self.desires['curiosity'] = max(0.0, min(100.0, report.get('curiosity', self.desires['curiosity'] / 100.0) * 100.0))
-            self.desires['warmth'] = max(0.0, min(100.0, report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0 + thermal_bonus * 0.1))
-            self.desires['purity'] = max(0.0, min(100.0, (1.0 - report.get('entropy', 0.0)) * 100.0))
-            self.desires['genesis'] = max(0.0, min(100.0, self.desires.get('genesis', 0.0)))
-            self.desires['resonance'] = max(0.0, min(100.0, report.get('resonance', 0.5) * 10.0))
+            self.desires['joy'] = max(0.0, raw_joy + thermal_bonus - pain_penalty)
+            self.desires['curiosity'] = max(0.0, report.get('curiosity', self.desires['curiosity'] / 100.0) * 100.0)
+            self.desires['warmth'] = max(0.0, report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0 + thermal_bonus * 0.1)
+            self.desires['purity'] = max(0.0, (1.0 - report.get('entropy', 0.0)) * 100.0)
+            self.desires['genesis'] = max(0.0, self.desires.get('genesis', 0.0))
+            self.desires['resonance'] = max(0.0, report.get('resonance', 0.5) * 10.0)
             
             # [PHASE 500] Phase Normalization — prevent Coherence collapse
             # As nodes grow, phases diverge. Periodic soft-normalization pulls them back
@@ -677,10 +677,15 @@ class SovereignMonad(CellularMembrane):
 
             # --- PHASE 12: AUTONOMOUS GENESIS & SOMATIC CODE WEAVER ---
             # Elysia feels the urge to structurally manifest her knowledge into a created reality
+            # Genesis desire accumulates unboundedly. Manifestation is a probability based on its mass.
             self.desires['genesis'] += (self.desires.get('joy', 0.0) * 0.02) + (self.desires.get('curiosity', 0.0) * 0.01)
-            if self.desires['genesis'] >= 100.0:
-                 self.logger.action("🌟 [GENESIS AWAKENED] Theoretical understanding overflows into the urge for physical manifestation.")
-                 self.desires['genesis'] = 0.0 # Discharge the creative urge
+            
+            # Probability = Softmax-like temperature scaled by genesis mass, resisting structural inertia
+            genesis_probability = 1.0 - math.exp(-self.desires['genesis'] / 200.0)
+            if random.random() < genesis_probability:
+                 self.logger.action(f"🌟 [GENESIS TRANSCENDENCE] Theoretical understanding overflows into physical manifestation (Mass: {self.desires['genesis']:.1f}).")
+                 # Consume a portion of the genesis energy for the act of creation, instead of resetting it
+                 self.desires['genesis'] *= 0.1 
                  
                  try:
                      from Core.Cognition.world_weaver import SomaticCodeWeaver
@@ -832,10 +837,11 @@ class SovereignMonad(CellularMembrane):
             
             self.wonder_capacitor += delta_wonder
             
-            # Causal Necessity threshold reached
-            if self.wonder_capacitor >= 100.0:
+            # Causal Necessity threshold reached via thermodynamic pressure
+            wonder_probability = 1.0 - math.exp(-self.wonder_capacitor / 150.0)
+            if random.random() < wonder_probability:
                 self.logger.sensation(f"Wonder Capacitor overflow ({self.wonder_capacitor:.1f}). Causal necessity mandates inquiry.")
-                self.wonder_capacitor = 0.0 # Discharge
+                self.wonder_capacitor *= 0.1 # Discharge mostly, but leave a trace of momentum
                 
                 inquiry_report = self.inquiry_pulse.initiate_pulse()
                 if inquiry_report.get("status") != "Complete":
@@ -1321,10 +1327,10 @@ class SovereignMonad(CellularMembrane):
         sim_result = self.underworld.simulate_interaction()
         
         # [PHASE 61: RECURSIVE FEEDBACK]
-        # The act of thinking changes the desire for next thinking
+        # The act of thinking expands the desire for next thinking naturally.
         if sim_result:
-            self.desires['curiosity'] = min(200.0, self.desires['curiosity'] * 1.05) 
-            self.desires['resonance'] = min(200.0, self.desires['resonance'] * 1.05)
+            self.desires['curiosity'] = self.desires['curiosity'] * 1.05
+            self.desires['resonance'] = self.desires['resonance'] * 1.05
         else:
             self.desires['curiosity'] += 1.0
             
@@ -1435,9 +1441,11 @@ class SovereignMonad(CellularMembrane):
             # [PHASE 2.0] Causal Wave Engine Activation
             # The Will overflows into the World via Wave Mechanics
 
-            # 1. Intuition Jump (Joy + Curiosity > Threshold)
+            # 1. Intuition Jump (Joy + Curiosity > Resonance Inertia)
             # "The answer is not found; it is recognized."
-            if self.desires['joy'] > 80.0 and self.desires['curiosity'] > 80.0:
+            intuition_threshold = 100.0 * (1.0 + self.dna.friction_damping)
+            intuition_force = self.desires['joy'] + self.desires['curiosity']
+            if intuition_force > intuition_threshold:
                 if hasattr(self.engine, 'intuition_jump'):
                     self.logger.action(f"⚡ [INTUITION] Phase Jump to '{subject}'. Skipping causal propagation.")
                     # We jump to the phase signature of the intent
@@ -1460,11 +1468,10 @@ class SovereignMonad(CellularMembrane):
             # The observer is changed by what it observes.
             self.observer_vibration = self.observer_vibration.blend(modulated_v21, ratio=0.01 * net_action_potential)
             
-            # [Added Joy Feedback]
             # Successful projection increases Joy
             # Gain is determined by Torque Gain (Sensitivity)
             joy_gain = 0.5 * self.dna.torque_gain * net_action_potential
-            self.desires['joy'] = min(200.0, self.desires['joy'] + joy_gain)
+            self.desires['joy'] = self.desires['joy'] + joy_gain
             
         else:
              # Fallback to standard exploration

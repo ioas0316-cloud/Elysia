@@ -52,7 +52,12 @@ class Quaternion:
         return self.w*other.w + self.x*other.x + self.y*other.y + self.z*other.z
 
     def norm(self) -> float:
-        return math.sqrt(self.w**2 + self.x**2 + self.y**2 + self.z**2)
+        # Strip complex bleed before sizing
+        w = abs(self.w)
+        x = abs(self.x)
+        y = abs(self.y)
+        z = abs(self.z)
+        return math.sqrt(w**2 + x**2 + y**2 + z**2)
 
     def normalize(self):
         n = self.norm()
@@ -72,10 +77,10 @@ class Quaternion:
         Euclidean Distance between two 4D points.
         sqrt((w1-w2)^2 + (x1-x2)^2 + ...)
         """
-        dw = self.w - other.w
-        dx = self.x - other.x
-        dy = self.y - other.y
-        dz = self.z - other.z
+        dw = abs(self.w - other.w)
+        dx = abs(self.x - other.x)
+        dy = abs(self.y - other.y)
+        dz = abs(self.z - other.z)
         return math.sqrt(dw**2 + dx**2 + dy**2 + dz**2)
         
     def __repr__(self):

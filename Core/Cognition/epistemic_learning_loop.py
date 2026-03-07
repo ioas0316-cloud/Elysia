@@ -296,11 +296,16 @@ class EpistemicLearningLoop:
                 
         return {"conflict": False}
 
-    def run_cycle(self, max_questions=3, focus_context: str = None):
+    def run_cycle(self, max_questions=None, focus_context: str = None):
         """
         Runs a full learning cycle.
         If focus_context is provided, the cycle orbits around that concept.
+        Number of questions scales dynamically if max_questions is not provided.
         """
+        if max_questions is None:
+            # Dynamic depth based on current curiosity or thermodynamic pressure
+            max_questions = max(3, int(self.cycle_count % 7) + 1)
+        
         self.cycle_count += 1
         result = LearningCycleResult(
             cycle_id=str(self.cycle_count),
@@ -381,9 +386,10 @@ class EpistemicLearningLoop:
         nodes = list(self.knowledge_graph.kg.get('nodes', {}).values())
         if not nodes: return []
         
-        # Sort by 'mass' (connection density) ascending
+        # Scale dynamic depth based on the total graph size, up to a fluid bound
+        scan_depth = max(3, len(nodes) // 10)
         weak_nodes = sorted(nodes, key=lambda n: self.knowledge_graph.calculate_mass(n['id']))
-        for node in weak_nodes[:3]:
+        for node in weak_nodes[:scan_depth]:
             gaps.append(node['id'])
             
         if not gaps:

@@ -260,15 +260,19 @@ class CognitiveField:
         # Calculate the weighted mean of all stable/known concepts.
         # We give a slight boost to ACTIVE monads, but even dormant ones contribute to the background atmosphere.
         for m in self.monads.values():
-            weight = 1.0
+            # Weight scales organically with the monad's current charge, rather than fixed constants
+            weight = 0.5 + m.charge if hasattr(m, 'charge') else 1.0
             if m.state == "ACTIVE":
-                weight = 2.0
+                weight += 1.0
             elif m.state == "OBSERVING":
-                weight = 1.5
+                weight += 0.5
                 
             atmosphere = atmosphere + (m.current_vector * weight)
             total_weight += weight
             
         if total_weight > 0:
-            return (atmosphere / total_weight).normalize()
+            # Introduce a slight thermodynamic drift to allow for true emergence
+            # rather than strict reversion to the mean of all past concepts.
+            drift = SovereignVector([random.uniform(-0.01, 0.01) for _ in range(21)])
+            return ((atmosphere / total_weight) + drift).normalize()
         return SovereignVector.zeros()

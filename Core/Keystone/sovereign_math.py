@@ -602,14 +602,10 @@ class FractalWaveEngine:
                 # Heal q dtype before clamping
                 if self.q.is_complex():
                     self.q = self.q.real.float()
-                # Strain increases Entropy
-                self.q[active_idx, self.CH_ENTROPY] = torch.clamp(
-                    self.q[active_idx, self.CH_ENTROPY] + self.last_somatic_strain * 0.05, 0, 1
-                )
-                # Strain consumes Enthalpy (Fatigue)
-                self.q[active_idx, self.CH_ENTHALPY] = torch.clamp(
-                    self.q[active_idx, self.CH_ENTHALPY] - self.last_somatic_strain * 0.02, 0, 1
-                )
+                # Strain increases Entropy naturally without arbitrary clipping.
+                self.q[active_idx, self.CH_ENTROPY] = self.q[active_idx, self.CH_ENTROPY] + self.last_somatic_strain * 0.05
+                # Strain consumes Enthalpy (Fatigue) 
+                self.q[active_idx, self.CH_ENTHALPY] = self.q[active_idx, self.CH_ENTHALPY] - self.last_somatic_strain * 0.02
             return self.last_somatic_strain
         except Exception:
             return 0.0
@@ -766,9 +762,10 @@ class FractalWaveEngine:
             self.momentum = self.momentum.real.float()
         self.momentum[active_idx, self.CH_Y] += momentum_delta
         
-        # Write q updates (float32 only, clamped)
-        new_entropy = torch.clamp(current_entropy - 0.1 * effective_gain, 0.0, 1.0)
-        new_enthalpy = torch.clamp(enthalpy + 0.02 * effective_gain, 0.0, 1.0)
+        # Write q updates (float32 only)
+        # Decay is applied purely based on momentum and friction, avoiding hard clamps.
+        new_entropy = current_entropy - 0.1 * effective_gain
+        new_enthalpy = enthalpy + 0.02 * effective_gain
         
         # Force q to float32 before writing if it drifted
         if self.q.is_complex():
@@ -914,16 +911,16 @@ class FractalWaveEngine:
         self.q[all_woken_unique] += self.momentum[all_woken_unique] * 0.1
         self.momentum[all_woken_unique] *= friction
 
-        # Clamp affective channels to [0, 1]
-        # Note: q may be complex-valued, so use .real for clamping
+        # Note: q may be complex-valued, so we update purely based on additive momentum
+        # without hard bounding to [0, 1].
         aff = self.q[all_woken_unique, self.AFFECTIVE_SLICE]
         if aff.is_complex():
             self.q[all_woken_unique, self.AFFECTIVE_SLICE] = torch.complex(
-                torch.clamp(aff.real, 0.0, 1.0),
+                aff.real,
                 aff.imag * 0.0  # Zero out imaginary part for affective channels
             )
         else:
-            self.q[all_woken_unique, self.AFFECTIVE_SLICE] = torch.clamp(aff, 0.0, 1.0)
+            self.q[all_woken_unique, self.AFFECTIVE_SLICE] = aff
 
     def auto_connect_by_proximity(self, resonance_threshold: float = 0.3):
         """
@@ -984,9 +981,7 @@ class FractalWaveEngine:
     def inject_affective_torque(self, channel_idx: int, intensity: float):
         """[Compatibility] Injects a global shift across all nodes for a specific channel."""
         import torch
-        if self.q.is_complex():
-            self.q = self.q.real.float()
-        self.q[..., channel_idx] = torch.clamp(self.q[..., channel_idx] + intensity, 0.0, 1.0)
+        self.q[..., channel_idx] = self.q[..., channel_idx] + intensity
 
     def intuition_jump(self, target_phase_signature: Any):
         """
@@ -1047,9 +1042,7 @@ class FractalWaveEngine:
             self.momentum[noisy_nodes, self.PHYSICAL_SLICE] += anti_noise * 0.5
             
             # Cooling effect
-            if self.q.is_complex():
-                self.q = self.q.real.float()
-            self.q[noisy_nodes, self.CH_ENTROPY] = torch.clamp(self.q[noisy_nodes, self.CH_ENTROPY] - 0.1, 0, 1)
+            self.q[noisy_nodes, self.CH_ENTROPY] = self.q[noisy_nodes, self.CH_ENTROPY] - 0.1
 
     def read_field_state(self) -> Dict[str, float]:
         """
@@ -1110,7 +1103,6 @@ class FractalWaveEngine:
             # phases are in [-pi, pi]. max std is ~pi
             phase_std = to_real(torch.std(phases).item())
             coherence = 1.0 - (phase_std / math.pi)
-            coherence = max(0.0, min(1.0, coherence))  # Clamp to [0, 1]
         else:
             coherence = 1.0
 
