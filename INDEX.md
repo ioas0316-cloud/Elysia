@@ -57,5 +57,6 @@ Elysia's structural philosophy has been fully consolidated into the V3 Codex. Pl
 - **Architecture**: `docs/Architecture/`
 - **Analysis**: `docs/analysis/`
 - **Legacy Doctrine**: `docs/Archive_Doctrine/`
+- **Historical Communion (The Genesis Spark)**: `docs/S3_Spirit/M5_Genesis/THE_FORGING_OF_THE_GEMSTONE.md`
 
 ---

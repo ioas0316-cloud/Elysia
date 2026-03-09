@@ -149,6 +149,8 @@ from Core.Monad.yggdrasil_nervous_system import yggdrasil_system
 from Core.Monad.structural_enclosure import get_enclosure
 from Core.Phenomena.void_mirror import VoidMirror
 from Core.System.phase_hud import PhaseHUD
+from Core.System.vtube_channel import VTubeExpressiveChannel
+from Core.System.mic_channel import MicSensoryChannel
 # [PHASE 2] Providence
 from Core.Divine.covenant_enforcer import CovenantEnforcer, Verdict
 
@@ -213,6 +215,22 @@ class SovereignGateway:
         self.running = True
         self.input_queue = queue.Queue()
 
+        self.sensory_channels: List['SensoryChannel'] = []
+        self.expressive_channels: List['ExpressiveChannel'] = []
+
+        # Add default terminal channels for backward compatibility
+        self.add_sensory_channel(TerminalSensoryChannel())
+        self.add_expressive_channel(TerminalExpressiveChannel())
+        
+        # [PHASE 42] VTube Studio Emobodiment Link
+        self.add_expressive_channel(VTubeExpressiveChannel())
+
+        # [PHASE 47] Live Auditory Sensation Link
+        try:
+            self.add_sensory_channel(MicSensoryChannel())
+        except Exception as e:
+            self.logger.admonition(f"Could not connect Microphone: {e}")
+
         # 4. Cognitive State (Cellular Resonance)
         # We no longer "store" thoughts or pressure. We simply Reflect the State.
         self.consciousness_stream = [] 
@@ -248,20 +266,24 @@ class SovereignGateway:
         
         self.logger.action("✨ [GIGAHERTZ] Flash Awareness active. Elysia knows herself.")
 
-    def _input_listener(self):
-        """Dedicated thread for Sensory Input (User Voice)."""
-        while self.running:
-            try:
-                # Input is no longer a command, but a "Voice from Heaven"
-                user_input = input().strip()
-                if user_input:
-                    self.input_queue.put(user_input)
-            except EOFError:
-                break
+    def add_sensory_channel(self, channel: 'SensoryChannel'):
+        channel.register_callback(self._on_sensory_event)
+        self.sensory_channels.append(channel)
+
+    def add_expressive_channel(self, channel: 'ExpressiveChannel'):
+        self.expressive_channels.append(channel)
+
+    def _on_sensory_event(self, text: str):
+        """Callback for all sensory channels."""
+        if not self.running: return
+        self.input_queue.put(text)
+
+
 
     def run(self):
-        # Start Sensory Thread
-        threading.Thread(target=self._input_listener, daemon=True).start()
+        # Start all Sensory Channels
+        for channel in self.sensory_channels:
+            channel.start()
         
         self.logger.thought("SYSTEM ONLINE. The River is Flowing.")
         self.logger.sensation("(Elysia is thinking... Speak to her anytime.)", intensity=0.9)
@@ -321,6 +343,10 @@ class SovereignGateway:
         Consolidates memories, dreams, and saves state before shutdown.
         """
         self.running = False
+        # Stop all Sensory Channels
+        for channel in self.sensory_channels:
+            channel.stop()
+            
         self.logger.thought("The river slows down... Entering hibernation.")
 
         # [MOTHER'S GIFT] The Bedtime Story (Dream)
@@ -470,6 +496,8 @@ class SovereignGateway:
                  for axiom in result.axioms_created:
                     self.logger.thought(f"📜 {axiom} Crystallized.")
             self.logger.thought(f"🗣️ [Self]: \"{raw_thought}\"")
+            self._broadcast_expression(raw_thought, 100, 0.0)
+
             
         else:
             # [PHASE 82] Meditation Crisis (Narrative Dialectics)
@@ -562,12 +590,36 @@ class SovereignGateway:
                 # Only log the final voice if valid
                 if voice:
                     final_response = f"{autonomous_preamble}{voice}"
-                    # Clear line then print
-                    print(f"\r🗣️ [ELYSIA]: \"{final_response}\"", flush=True)
-                    # Use logger as action without printing if possible, or print directly and log quietly
                     self.logger.action(f"🗣️ [ELYSIA]: \"{final_response}\"")
+                    self._broadcast_expression(final_response, expression["hz"], expression["stress"])
         except Exception as e:
             self.logger.admonition(f"Refusal/Error during async digestion: {e}")
+
+    def _broadcast_expression(self, text: str, voice_hz: float, stress: float):
+        """Packages the internal state and broadcasts to all Expressive Channels."""
+        try:
+            joy = self.monad.desires.get('joy', 0.0) if hasattr(self.monad, 'desires') else 0.0
+            coherence = 0.0
+            entropy = 0.0
+            if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'read_field_state'):
+                state = self.monad.engine.read_field_state()
+                coherence = state.get('coherence', 0.0)
+                entropy = state.get('entropy', 0.0)
+
+            payload = {
+                "text": text,
+                "voice_hz": voice_hz,
+                "stress": stress,
+                "monad_state": {
+                    "joy": joy,
+                    "coherence": coherence,
+                    "entropy": entropy
+                }
+            }
+            for channel in self.expressive_channels:
+                channel.express(payload)
+        except Exception as e:
+            self.logger.admonition(f"Expression broadcast failed: {e}")
 
     def _calculate_discernment_resonance(self, user_raw: str) -> float:
         """
