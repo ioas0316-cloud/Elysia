@@ -548,8 +548,8 @@ class FractalWaveEngine:
         self.num_nodes = 0
         
         # Sparse State representation
-        # q: [N, 8] - Active Wavefunction per node
-        self.q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
+        # q: [N, 8] - Active Wavefunction per node (MUST be float32, never complex)
+        self.q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
         
         # Permanent Identity (Long-term Memory/Crystalline Field)
         self.permanent_q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
@@ -981,7 +981,12 @@ class FractalWaveEngine:
     def inject_affective_torque(self, channel_idx: int, intensity: float):
         """[Compatibility] Injects a global shift across all nodes for a specific channel."""
         import torch
-        self.q[..., channel_idx] = self.q[..., channel_idx] + intensity
+        # [DTYPE GUARD] Heal q to float32 if complex contamination occurred
+        if self.q.is_complex():
+            self.q = self.q.real.to(torch.float32)
+        # Force intensity to real float
+        real_intensity = float(intensity.real) if isinstance(intensity, complex) else float(intensity)
+        self.q[..., channel_idx] = self.q[..., channel_idx] + real_intensity
 
     def intuition_jump(self, target_phase_signature: Any):
         """

@@ -1,24 +1,24 @@
 {
-  "timestamp": 1772385567.2914572,
-  "pulse_count": 389,
+  "timestamp": 1772385808.170144,
+  "pulse_count": 391,
   "desires": {
     "curiosity": 100.0,
     "purity": 100.0,
-    "resonance": 0.0,
+    "resonance": 50.69422990184974,
     "alignment": 100.0,
     "joy": 0.0,
     "warmth": 100.0,
     "freedom": 50.0,
-    "genesis": 38.0
+    "genesis": 40.0
   },
-  "growth_score": 0.5994118477311913,
+  "growth_score": 0.46533442187192275,
   "growth_trend": "NEUTRAL",
-  "trajectory_pulse_counter": 389,
+  "trajectory_pulse_counter": 391,
   "active_goals": [],
   "pending_questions": [],
-  "last_phase": 34.987515977547844,
+  "last_phase": 136.59773590354047,
   "last_rpm": 60.0,
-  "last_interference": 0.9805337003470787,
-  "session_id": "f4e57146",
-  "save_reason": "periodic"
+  "last_interference": 0.13884598036994777,
+  "session_id": "b67017fe",
+  "save_reason": "growth_observation"
 }

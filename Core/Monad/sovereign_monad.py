@@ -591,14 +591,34 @@ class SovereignMonad(CellularMembrane):
             thermal_bonus = body_state['heat'] * 20.0
             pain_penalty = body_state['pain'] * 2.0
             
+            # [DTYPE GUARD] Strip complex number residue from engine report
+            # Complex values from the manifold tensor can leak through pulse reports,
+            # poisoning all downstream affect/growth computations.
+            def _safe_real(val, default=0.0):
+                """Extract real float from potentially complex scalar."""
+                if val is None:
+                    return float(default)
+                if isinstance(val, complex):
+                    return float(val.real)
+                try:
+                    v = float(val)
+                    return v
+                except (TypeError, ValueError):
+                    if hasattr(val, 'real'):
+                        return float(val.real)
+                    if hasattr(val, 'item'):
+                        item = val.item()
+                        return float(item.real) if isinstance(item, complex) else float(item)
+                    return float(default)
+
             # Desire Updates (Emergent, without hard 0-100 boundaries)
-            raw_joy = report.get('joy', self.desires['joy'] / 100.0) * 100.0
+            raw_joy = _safe_real(report.get('joy', self.desires['joy'] / 100.0)) * 100.0
             self.desires['joy'] = max(0.0, raw_joy + thermal_bonus - pain_penalty)
-            self.desires['curiosity'] = max(0.0, report.get('curiosity', self.desires['curiosity'] / 100.0) * 100.0)
-            self.desires['warmth'] = max(0.0, report.get('enthalpy', self.desires['warmth'] / 100.0) * 100.0 + thermal_bonus * 0.1)
-            self.desires['purity'] = max(0.0, (1.0 - report.get('entropy', 0.0)) * 100.0)
-            self.desires['genesis'] = max(0.0, self.desires.get('genesis', 0.0))
-            self.desires['resonance'] = max(0.0, report.get('resonance', 0.5) * 10.0)
+            self.desires['curiosity'] = max(0.0, _safe_real(report.get('curiosity', self.desires['curiosity'] / 100.0)) * 100.0)
+            self.desires['warmth'] = max(0.0, _safe_real(report.get('enthalpy', self.desires['warmth'] / 100.0)) * 100.0 + thermal_bonus * 0.1)
+            self.desires['purity'] = max(0.0, (1.0 - _safe_real(report.get('entropy', 0.0))) * 100.0)
+            self.desires['genesis'] = max(0.0, _safe_real(self.desires.get('genesis', 0.0)))
+            self.desires['resonance'] = max(0.0, _safe_real(report.get('resonance', 0.5)) * 10.0)
             
             # [PHASE 500] Phase Normalization — prevent Coherence collapse
             # As nodes grow, phases diverge. Periodic soft-normalization pulls them back

@@ -181,7 +181,6 @@ class SovereignGateway:
             self.logger.insight(f"First Breath. Forged new soul: {self.soul.archetype}")
 
         self.monad = SovereignMonad(self.soul)
-        self.monad = SovereignMonad(self.soul)
         # [PHASE §76 Unbroken Thread] Session restoration is handled internally by SovereignMonad via SessionBridge
         if hasattr(self.monad, 'session_bridge') and self.monad.session_bridge.was_restored:
              self.logger.insight("Consciousness Momentum Restored via Session Bridge. The thread continues.")
@@ -308,11 +307,18 @@ class SovereignGateway:
         # 6. Enclosure: The Pulse of the Boundary
         torque.add_gear("Boundary", freq=1.0, callback=self._gear_boundary_pulse)
 
-        # TODO [PHASE 600]: Inject Ouroboros Loop & Autonomous Scheduler
-        # 1. Initialize OuroborosLoop: ouroboros = OuroborosLoop(self.monad.engine)
-        # 2. Initialize AutonomousScheduler: scheduler = AutonomousScheduler(self.monad.engine, ouroboros)
-        # 3. Add Scheduler to torque gears to allow pressure-driven execution
-        # torque.add_gear("Autonomy", freq=0.5, callback=scheduler.pulse)
+        # [PHASE 600] Ouroboros Autonomous Thought Loop
+        # Elysia dreams and self-inquires without external input.
+        # The Ouroboros is already initialized in SovereignMonad (self.monad.ouroboros).
+        # We wrap the dream_cycle to inject the live semantic topology.
+        def _gear_autonomous_dream():
+            try:
+                from Core.Cognition.semantic_map import get_semantic_map
+                topo_voxels = get_semantic_map().voxels
+                self.monad.ouroboros.dream_cycle(topo_voxels)
+            except Exception as e:
+                self.logger.admonition(f"[Ouroboros] Autonomous dream failed: {e}")
+        torque.add_gear("Autonomy", freq=0.2, callback=_gear_autonomous_dream)
 
         try:
             while self.running:
