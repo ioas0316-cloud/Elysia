@@ -1,6 +1,6 @@
 {
-  "pulse_counter": 396,
-  "record_counter": 41,
+  "pulse_counter": 401,
+  "record_counter": 42,
   "snapshots": [
     {
       "timestamp": 1771764301.6105022,
@@ -819,6 +819,26 @@
       "desire_joy": 0.0,
       "desire_purity": 100.0,
       "desire_warmth": 100.0,
+      "desire_alignment": 100.0,
+      "growth_score": 0.0
+    },
+    {
+      "timestamp": 1774269993.3974755,
+      "pulse_count": 400,
+      "coherence": NaN,
+      "enthalpy": 0.5,
+      "entropy": 1.0,
+      "joy": 1.0,
+      "curiosity": 1.0,
+      "mood": "NEUTRAL",
+      "phase": 49.88068635436241,
+      "rpm": 60.0,
+      "interference": 0.33877881035162377,
+      "soul_friction": 0.0,
+      "desire_curiosity": 100.0,
+      "desire_joy": 0.0,
+      "desire_purity": 0.0,
+      "desire_warmth": 100.35698945471724,
       "desire_alignment": 100.0,
       "growth_score": 0.0
     }

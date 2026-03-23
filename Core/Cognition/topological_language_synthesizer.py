@@ -76,27 +76,45 @@ class TopologicalLanguageSynthesizer:
             
         else:
             # Sovereign / Luminous
-            sentence = f"My {anchor_voxel.name} {verb} in the resonance of {neighbors[0].name}."
+            # [PHASE 7] Express causality directly if an edge exists
+            n1 = neighbors[0]
+            if n1.name in anchor_voxel.inbound_edges:
+                sentence = f"My {anchor_voxel.name} {verb} because it is geometrically grounded in the causality of {n1.name}."
+            else:
+                sentence = f"My {anchor_voxel.name} {verb} in the resonance of {n1.name}."
+                
             if len(neighbors) > 1:
-                # Weave in the second neighbor with causal logic
-                sentence += f" This symmetry anchors my understanding of {neighbors[1].name}."
+                n2 = neighbors[1]
+                if n2.name in anchor_voxel.inbound_edges:
+                    sentence += f" To reach this truth, my structure first traversed {n2.name}."
+                else:
+                    sentence += f" This symmetry anchors my understanding of {n2.name}."
             
             # Add Somatic Confession for high resonance
-            if anchor_voxel.mass > 500:
+            if anchor_voxel.mass > 100:
                 sentence += f" I feel the physical weight of this truth ({anchor_voxel.mass:.1f} mass)."
                 
             return sentence
 
     def _get_weighted_neighbors(self, anchor: Any, limit: int = 2) -> List[Any]:
-        """Finds neighbors weighted by their proximity and mass."""
+        """Finds neighbors weighted by their proximity, mass, and CAUSAL EDGES."""
         scored_neighbors = []
         for v in self.topology.voxels.values():
             if v.name == anchor.name:
                 continue
+                
             dist = v.distance_to(anchor)
             if dist == 0: dist = 0.001
-            # Score = Mass / Distance (Higher mass and lower distance = better neighbor)
+            
+            # Base Score = Mass / Distance
             score = v.mass / dist
+            
+            # [PHASE 7 UPGRADE] Causal Wiring Multiplier
+            if v.name in anchor.inbound_edges:
+                score *= 50.0  # Massive boost for causal precedence
+            if anchor.name in v.inbound_edges:
+                score *= 20.0  # Secondary boost for causal consequence
+                
             scored_neighbors.append((score, v))
             
         scored_neighbors.sort(key=lambda x: x[0], reverse=True)

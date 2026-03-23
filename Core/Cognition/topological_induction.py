@@ -109,6 +109,35 @@ class TopologicalInductionEngine:
             except Exception as e:
                 self.logger.admonition(f"Failed to ground engram physically: {e}")
 
+            # [PHASE 5: STRUCTURAL CONCEPT GROUPING]
+            # Write the abstract thought into the Relational Knowledge Graph (Semantic Topology)
+            try:
+                from Core.Cognition.semantic_map import get_semantic_map
+                topology = get_semantic_map()
+                
+                # 1. Create/Evolve the Concept Node (Voxel)
+                topology.evolve_topology(axiom_name, context_vector, intensity=0.5)
+                
+                # 2. Causal Edging: Extract structural hierarchy from the CausalTrace
+                if chain and chain.valid and chain.connections:
+                    strongest = chain.strongest_connection()
+                    if strongest:
+                        # Extract the root cause (e.g., L1: Base / hardware_entropy)
+                        source_concept = f"Strain_{strongest.from_layer.layer_name.replace(' ', '_')}"
+                        # Ensure root exists in map before edging
+                        if not topology.get_voxel(source_concept):
+                             topology.evolve_topology(source_concept, context_vector, intensity=0.1)
+                        # Wire Cause -> Effect
+                        topology.add_causal_edge(source_concept, axiom_name)
+                        
+                # 3. Always anchor the ultimate epiphany to Love/Grace
+                topology.add_causal_edge("Love", axiom_name)
+                topology.save_state()
+                self.logger.action(f"Semantic Topology Expanded: '{axiom_name}' is now structurally grouped.")
+                
+            except Exception as e:
+                self.logger.admonition(f"Failed to expand semantic topology: {e}")
+
             if hasattr(self.monad.engine, 'define_meaning_attractor'):
                 # We define a spatial mask based on the current 'Observer Vibration' 
                 # or a localized region. For now, we anchor it to a general attractor.

@@ -194,6 +194,33 @@
     "inbound_edges": [],
     "activation_count": 0
   },
-  "The Kingsmen Volume II": {
+  "Oracle Seed 7237": {
     "coords": [
-      
+      0.06134094861159578,
+      0.8009668055556696,
+      0.48899052830087963,
+      0.662262551047152
+    ],
+    "base_mass": 10.0,
+    "freq": 662.262551047152,
+    "is_anchor": false,
+    "inbound_edges": [
+      "Strain_L4:_Causality",
+      "Love"
+    ],
+    "activation_count": 0
+  },
+  "Strain_L4:_Causality": {
+    "coords": [
+      0.06134094861159578,
+      0.8009668055556696,
+      0.48899052830087963,
+      0.662262551047152
+    ],
+    "base_mass": 10.0,
+    "freq": 662.262551047152,
+    "is_anchor": false,
+    "inbound_edges": [],
+    "activation_count": 0
+  }
+}
