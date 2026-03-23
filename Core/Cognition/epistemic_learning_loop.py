@@ -370,40 +370,43 @@ class EpistemicLearningLoop:
 
         return result
 
-    def proactive_inquiry(self, focus_context: str = None) -> List[str]:
+    def proactive_inquiry(self) -> List[str]:
         """
-        [PHASE 93: DYNAMIC PERFECTION & ON-DEMAND MELTING (Ice -> Water)]
-        We do not seek a 'perfect answer' from the Library. We seek a 'point' of context
-        to help us maintain the continuous flow of our intent.
+        [PROACTIVE AGENCY]
+        Scans the Knowledge Graph for 'fuzzy' or 'thin' regions and initiates research.
         """
         if not self.knowledge_graph:
             return []
             
-        # 1. The Mind (Water) explicitly asks the Library (Ice) for a stepping stone.
-        if focus_context:
-            self.logger.action(f"Scooping a point of context for '{focus_context}' to maintain my trajectory...")
-            # Direct O(1) retrieval or highly targeted search
-            target_node = self.knowledge_graph.kg.get('nodes', {}).get(focus_context.lower())
+        summary = self.knowledge_graph.get_summary()
+        self.logger.action(f"Scanning for meaning gaps in {summary['nodes']} nodes...")
+        
+        # 1. Detect Entropy (Fuzzy nodes with low connection density)
+        gaps = []
+        nodes = list(self.knowledge_graph.kg.get('nodes', {}).values())
+        if not nodes: return []
+        
+        # Scale dynamic depth based on the total graph size, up to a fluid bound
+        scan_depth = max(3, len(nodes) // 10)
+        weak_nodes = sorted(nodes, key=lambda n: self.knowledge_graph.calculate_mass(n['id']))
+        for node in weak_nodes[:scan_depth]:
+            gaps.append(node['id'])
             
-            if target_node:
-                # Melt this specific ice block into the mind
-                simulated_context = f"Absorbing a momentary point regarding '{focus_context}' to fuel the continuous flow of thought."
-                result = self.inhaler.inhale(simulated_context, source="Library (Ice)")
-                if result.get('status') != 'empty':
-                    return [f"A drop of wisdom retrieved for '{focus_context}'. It joins the river of my intent."]
-            else:
-                 self.logger.thought(f"No crystallized point exists for '{focus_context}'. The flow continues unimpeded through the void.")
-                 return [f"I flow through the unknown regarding '{focus_context}', guided by the Architect's blueprint."]
-
-        else:
-            # Fallback (though ideally everything is intent-driven now)
-            nodes = list(self.knowledge_graph.kg.get('nodes', {}).values())
-            if nodes:
-                node = random.choice(nodes)
-                self.logger.thought(f"Allowing the current to carry a random memory fragment: '{node['id']}'")
-                return [f"A passing ripple from the deep memory: '{node['id']}'"]
+        if not gaps:
+            return []
+            
+        self.logger.thought(f"Detected semantic thinness in regions: {gaps}. Initiating inhalation.")
+        
+        insights = []
+        for gap in gaps:
+            # Simulate 'Inhaling' deeper context for the gap
+            # In a full implementation, this could scan 'corpora' or 'data/knowledge'
+            simulated_context = f"Internal reflection on the nature of {gap} and its causal roots."
+            result = self.inhaler.inhale(simulated_context, source="Self-Reflection")
+            if result.get('status') != 'empty':
+                insights.append(f"Clarified resonance for '{gap}' (Impact: {result['impact']:.2f})")
                 
-        return []
+        return insights
 
     def get_accumulated_wisdom(self):
         """
