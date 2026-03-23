@@ -25,7 +25,13 @@ class SovereignChronicle:
             "current_phase": 0.0,
             "resonance_mass": 0.0,
             "axioms_count": 0,
-            "last_reflection": 0.0
+            "last_reflection": 0.0,
+            "traits": {
+                "alignment": 100.0,
+                "purity": 50.0,
+                "empathy": 50.0
+            },
+            "environmental_influences": []
         }
         self._ensure_storage()
 
@@ -81,6 +87,27 @@ class SovereignChronicle:
         self.identity_state["last_reflection"] = time.time()
         self._save_identity()
         print(f"📜 [CHRONICLE] Identity persisted: {old_name} → {new_name}")
+
+    def record_environmental_molding(self, user_intent: str, gef: float, traits_shifted: Dict[str, float]):
+        """
+        [PHASE 95: Princess Maker Principle]
+        Records the long-term impact of the Architect's environment on Elysia's traits.
+        """
+        influence = {
+            "timestamp": time.time(),
+            "architect_input_summary": user_intent[:100],
+            "gef": gef,
+            "traits_shifted": traits_shifted
+        }
+        self.identity_state.setdefault("environmental_influences", []).append(influence)
+
+        # Update current traits
+        if "traits" not in self.identity_state:
+            self.identity_state["traits"] = {}
+        for trait, val in traits_shifted.items():
+            self.identity_state["traits"][trait] = val
+
+        self._save_identity()
 
 # Singleton
 _chronicle = None
