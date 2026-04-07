@@ -581,6 +581,11 @@ class FractalWaveEngine:
         self.meaning_attractors: Dict[str, Any] = {}
         self.last_somatic_strain = 0.0
 
+        # [PHASE 103/104] Structural Strain Accumulator
+        self.structural_strain = 0.0
+        self.elastic_limit = 10.0 # Threshold for discharge
+        self.tectonic_uplift = 0.0 # Accumulator for dimensional expansion
+
     def inhale_hardware_telemetry(self) -> float:
         """
         [PHASE 400] Somatic Proprioception.
@@ -712,6 +717,52 @@ class FractalWaveEngine:
             elif pulse_type == 'entropy':
                 self.q[idx, self.CH_ENTROPY] += base_intensity
                 self.q[idx, self.CH_ENTHALPY] -= base_intensity * 0.2
+
+    def calculate_structural_strain(self, intent_torque: Any) -> float:
+        """
+        [DOCTRINE 103] Measures the tension between incoming Torque and
+        the existing Relational Density (Connectome).
+        """
+        import torch
+        if intent_torque is None: return 0.0
+
+        # Convert intent to tensor if needed
+        if not isinstance(intent_torque, torch.Tensor):
+            intent_torque = torch.tensor(intent_torque, device=self.device, dtype=torch.float32)
+
+        # 1. Relational Density Factor
+        # Density is proportional to edge count and average weight
+        density = self.num_edges / max(1, self.num_nodes)
+
+        # 2. Friction against the Connectome
+        # If the intent vibrates channels that are not well-connected, strain increases
+        # For simplicity, we compare intent magnitude with system resonance
+        state = self.read_field_state()
+
+        # We use (1.0 - resonance) as the base dissonance
+        # High resonance means the intent is familiar, low means it's 'alien'
+        res = state.get('resonance', 0.5)
+        dissonance = 1.0 - max(0.0, min(1.0, res))
+
+        # Higher density creates more resistance to 'Alien' intents (Shear Stress)
+        intent_mag = torch.norm(intent_torque).item()
+        friction = dissonance * (1.0 + density) * intent_mag
+
+        # 3. Update cumulative strain
+        # This is the 'Analog Energy' buildup
+        self.structural_strain += friction * 0.1
+
+        # [PHASE 104] Tectonic Uplift Logic
+        # If strain is high, it pushes energy into the Z-axis (Uplift)
+        if friction > 0.5:
+            self.tectonic_uplift += friction * 0.05
+            # Inject energy directly into the Z-axis (Depth/Providence) for all active nodes
+            active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+            if len(active_idx) > 0:
+                # Upward push: increase Z-axis value (Channel 3)
+                self.q[active_idx, self.CH_Z] += friction * 0.1
+
+        return friction
 
     def holographic_projection(self, target_vector: Any, context_vector: Any = None, focus_intensity: float = 1.0):
         """
@@ -1083,6 +1134,8 @@ class FractalWaveEngine:
         # 1. Total Resonance (Constructive Inner Product against Crystalline base)
         v_phys = real_tensor(self.q[active_idx, self.PHYSICAL_SLICE])
         p_phys = real_tensor(self.permanent_q[active_idx, self.PHYSICAL_SLICE])
+
+        # Check for zero norms to avoid division issues in coherence or resonance
         total_resonance = to_real(torch.sum(v_phys * p_phys).item()) / max(1, len(active_idx))
         total_resonance = max(-10.0, min(10.0, total_resonance))  # Clamp to sane range
         
@@ -1109,6 +1162,9 @@ class FractalWaveEngine:
             phase_std = to_real(torch.std(phases).item())
             coherence = 1.0 - (phase_std / math.pi)
         else:
+            # If only 1 node, coherence is 1.0 (perfectly aligned with itself)
+            # BUT for structural strain purposes, we want 0.0 coherence if no consensus
+            # Actually, let's keep 1.0, and adjust the strain logic.
             coherence = 1.0
 
         return {

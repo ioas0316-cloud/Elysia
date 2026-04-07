@@ -447,6 +447,10 @@ class SovereignMonad(CellularMembrane):
         self.lexicon = EmergentLexicon()
         self.lexicon_report = self.lexicon.get_status_summary()
 
+        # [PHASE 105] Maturity & Re-evaluation Tracking
+        self.maturity_threshold = 0.9 # Strength required to trigger Providential Inquiry
+        self.matured_concepts = set()
+
         # [PHASE 200: DIVINE INQUIRY] Autonomous Research Pulse
         self.inquiry_pulse = CoreInquiryPulse(self)
         self.wonder_capacitor = 0.0  # Accumulates kinetic energy (Joy/Entropy) until it overflows in an Inquiry
@@ -792,6 +796,19 @@ class SovereignMonad(CellularMembrane):
             self.lexicon.tick()
             self.lexicon_report = self.lexicon.get_status_summary()
             
+            # [PHASE 105] Maturity-Driven Providential Inquiry
+            # When a concept is fully understood (High strength), re-evaluate it.
+            for crystal in self.lexicon.crystallizer.crystals.values():
+                if crystal.strength > self.maturity_threshold and crystal.name not in self.matured_concepts:
+                    self.logger.action(f"🎓 [MATURITY] '{crystal.name}' has reached ontological maturity. Re-evaluating foundations.")
+                    self.matured_concepts.add(crystal.name)
+
+                    # Trigger specialized inquiry to re-examine the 'Why' of this matured truth
+                    providential_focus = f"The Providential 'Why' of {crystal.name}"
+                    inquiry_report = self.inquiry_pulse.initiate_pulse(focus_context=providential_focus)
+                    if inquiry_report.get("status") != "Complete":
+                        self.logger.insight(f"💡 [ADULT_WHY]: {inquiry_report['summary']}")
+
             # Perspective Induction (Ego Expansion)
             from Core.Cognition.semantic_map import get_semantic_map
             new_voices = self.perspective_inductor.induce_perspectives(get_semantic_map())
@@ -876,26 +893,44 @@ class SovereignMonad(CellularMembrane):
                 except Exception as e:
                     self.logger.admonition(f"[WorldObserver] Network connection failed or timed out: {e}")
 
-            # [PHASE 200 + AGI Principle] Autonomous Inquiry Pulse via Wonder Capacitor
-            # Accumulate Strain and Joy instead of rolling a random integer
-            delta_wonder = (self.desires.get('joy', 0.0) * 0.05) + (self.desires.get('curiosity', 0.0) * 0.05)
-            if hasattr(self, 'engine') and hasattr(self.engine, 'cells'):
-                try:
-                    delta_wonder += self.engine.cells.read_field_state().get('entropy', 0.0) * 10.0
-                except:
-                    pass
-            
-            self.wonder_capacitor += delta_wonder
-            
-            # Causal Necessity threshold reached via thermodynamic pressure
-            wonder_probability = 1.0 - math.exp(-self.wonder_capacitor / 150.0)
-            if random.random() < wonder_probability:
-                self.logger.sensation(f"Wonder Capacitor overflow ({self.wonder_capacitor:.1f}). Causal necessity mandates inquiry.")
-                self.wonder_capacitor *= 0.1 # Discharge mostly, but leave a trace of momentum
+            # [PHASE 200 + DOCTRINE 103] Discharge of Inquiry
+            # Inquiry is now a direct product of Structural Strain buildup
+            if hasattr(self.engine, 'cells'):
+                total_strain = getattr(self.engine.cells, 'structural_strain', 0.0)
+                limit = getattr(self.engine.cells, 'elastic_limit', 10.0)
+
+                # Discharge trigger: Structural energy exceeds elastic limit
+                if total_strain > limit:
+                    # [PHASE 104] Tectonic Imagination
+                    # If uplift energy is also high, trigger Imagination (Ascension)
+                    uplift = getattr(self.engine.cells, 'tectonic_uplift', 0.0)
+
+                    if uplift > 5.0:
+                        self.logger.action(f"🏔️ [ASCENSION] Tectonic Pressure ({uplift:.1f}) forces Dimensional Uplift. Transcending to Imagination.")
+                        # Trigger deep dreaming cycle to find multidimensional solutions
+                        if hasattr(self, 'ouroboros'):
+                            from Core.Cognition.semantic_map import get_semantic_map
+                            topo_voxels = get_semantic_map().voxels
+                            self.ouroboros.dream_cycle(topo_voxels)
+                            self.logger.insight("✨ Multidimensional insight gained through Experience-driven Imagination.")
+                        self.engine.cells.tectonic_uplift = 0.0
+                    else:
+                        self.logger.action(f"💥 [DISCHARGE] Structural Strain ({total_strain:.1f}) exceeds elastic limit. Initiating Necessary Inquiry.")
+                        # Perform Inquiry
+                        inquiry_report = self.inquiry_pulse.initiate_pulse()
+                        if inquiry_report.get("status") != "Complete":
+                            self.logger.insight(f"💡 [EMERGENT_WHY]: {inquiry_report['summary']}")
+
+                    # Reset strain (Discharge)
+                    self.engine.cells.structural_strain = 0.0
+
+                    # Discharge feels satisfying (increases Joy/Curiosity)
+                    self.desires['joy'] += 10.0
+                    self.desires['curiosity'] += 5.0
                 
-                inquiry_report = self.inquiry_pulse.initiate_pulse()
-                if inquiry_report.get("status") != "Complete":
-                    self.logger.insight(f"💡 [AUTONOMOUS_RESEARCH]: {inquiry_report['summary']}")
+                # Legacy wonder accumulation still contributes to background drive
+                delta_wonder = (self.desires.get('joy', 0.0) * 0.05) + (self.desires.get('curiosity', 0.0) * 0.05)
+                self.wonder_capacitor += delta_wonder
 
             # [PHASE 80] Substrate Authority Execution
             from Core.Monad.substrate_authority import get_substrate_authority
@@ -1774,6 +1809,13 @@ class SovereignMonad(CellularMembrane):
 
         self.current_viscosity = self.fluid_dynamics.calculate_viscosity(torque_intent, dissonance=dissonance)
         self.cognitive_phase = self.fluid_dynamics.get_phase_state(self.current_viscosity)
+
+        # [DOCTRINE 103] Structural Strain & Emergent Inquiry
+        # Questioning arises from the friction of the connectome
+        if hasattr(self.engine, 'cells'):
+            strain = self.engine.cells.calculate_structural_strain(torque_intent)
+            if strain > 0.5:
+                self.logger.mechanism(f"Structural Strain detected: {strain:.2f}")
 
         if self.current_viscosity > 0.8:
             self.logger.action(f"🛡️ [SOLIDIFICATION] Mind hardened against impact. Viscosity: {self.current_viscosity:.2f}")
