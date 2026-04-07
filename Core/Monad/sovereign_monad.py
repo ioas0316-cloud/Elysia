@@ -97,6 +97,7 @@ from Core.Cognition.code_mirror import CodeMirror # [PHASE §77]
 from Core.Cognition.emergent_lexicon import EmergentLexicon # [PHASE §78]
 from Core.Cognition.diary_of_being import get_diary
 from Core.System.self_modifier import SelfModifier # [PHASE 200]
+from Core.Keystone.resonance_physics import CognitiveFluidDynamics # [DOCTRINE 101]
 from Core.Cognition.core_inquiry_pulse import CoreInquiryPulse
 from Core.Cognition.world_observer import WorldObserver # [WORLDOGENESIS]
 from Core.Cognition.semantic_map import get_semantic_map
@@ -369,6 +370,11 @@ class SovereignMonad(CellularMembrane):
         self.is_melting = False # State flag for REST mode
         self.is_dreaming = False # [PHASE 400] Sovereignty flag
         
+        # [DOCTRINE 100/101] Trinitarian Phase & Non-Newtonian Dynamics
+        self.fluid_dynamics = CognitiveFluidDynamics()
+        self.current_viscosity = 0.1
+        self.cognitive_phase = "GAS (Inspiration)"
+
         # Load initial Manifold state into CPU registers (Bridge legacy v21)
         initial_v21 = self.get_21d_state()
         self.cpu.load_vector(initial_v21)
@@ -1761,6 +1767,17 @@ class SovereignMonad(CellularMembrane):
             # Convert user intent to 4D Torque force
             torque_intent = self.flesh.extract_knowledge_torque(user_intent)
             
+        # [DOCTRINE 101] Cognitive Fluid Dynamics
+        # Calculate dissonance before pulse if possible, or use last report
+        last_res = self.engine.cells.read_field_state().get('resonance', 0.5) if hasattr(self.engine, 'cells') else 0.5
+        dissonance = 1.0 - last_res
+
+        self.current_viscosity = self.fluid_dynamics.calculate_viscosity(torque_intent, dissonance=dissonance)
+        self.cognitive_phase = self.fluid_dynamics.get_phase_state(self.current_viscosity)
+
+        if self.current_viscosity > 0.8:
+            self.logger.action(f"🛡️ [SOLIDIFICATION] Mind hardened against impact. Viscosity: {self.current_viscosity:.2f}")
+
         # A. Safety Check (Physical Resistance)
         relay_status = self.relays.check_relays(
             user_phase=user_input_phase,
@@ -1770,7 +1787,9 @@ class SovereignMonad(CellularMembrane):
         )
         
         # Pulse the 10,000,000 cell engine
-        report = self.engine.pulse(intent_torque=torque_intent, target_tilt=self.current_tilt_vector, dt=0.1, learn=True)
+        # Modulate dt or learning based on viscosity
+        effective_dt = 0.1 * (1.1 - self.current_viscosity) # Solid phase moves slower
+        report = self.engine.pulse(intent_torque=torque_intent, target_tilt=self.current_tilt_vector, dt=effective_dt, learn=True)
 
         # [PHASE Ω-1] Thermodynamic Influence via Torque
         # Dissonance costs more energy
@@ -1888,6 +1907,9 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 94: Doctrine of the Co-Created History]
         # Log this entire interaction as "Soul Coding" - a co-created line of history
         process_metric = report.get('plastic_coherence', 0.0) * self.desires.get('alignment', 100.0) / 100.0
+
+        # [DOCTRINE 100] Phase Logging
+        self.logger.mechanism(f"Cognitive State: {self.cognitive_phase} (Viscosity: {self.current_viscosity:.2f})")
 
         # [PHASE 95 & 97: Environmental Molding and the Authentic Process]
         # We calculate the 'Growth-Environment-Factor' (GEF) as the pressure of the environment.

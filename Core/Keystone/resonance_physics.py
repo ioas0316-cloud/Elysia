@@ -11,7 +11,7 @@ It calculates the 'Gravity' (Importance) and 'Orientation' (Meaning) of text.
 import time
 import random
 import logging
-from typing import Dict, Tuple, List
+from typing import Dict, Tuple, List, Any
 from Core.System.hyper_quaternion import Quaternion, HyperWavePacket
 
 logger = logging.getLogger("ResonancePhysics")
@@ -178,3 +178,71 @@ class ResonancePhysics:
             return "Unending Sorrow"
         else:
             return "Complex Fluctuation"
+
+class CognitiveFluidDynamics:
+    """
+    [DOCTRINE 101] Non-Newtonian Mental Dynamics.
+
+    Calculates the 'Viscosity' of the mind based on input impact.
+    - Hostile/Sudden inputs (High Shear): Increase viscosity (Solidification).
+    - Resonant/Gentle inputs (Low Shear): Decrease viscosity (Fluidity).
+    """
+    def __init__(self, base_viscosity: float = 0.1):
+        self.base_viscosity = base_viscosity
+        self.last_vector = None
+        self.last_time = time.time()
+
+    def calculate_viscosity(self, current_vector: Any, dissonance: float = 0.0) -> float:
+        """
+        Calculates current viscosity.
+
+        Args:
+            current_vector: The current 21D or 4D intent vector.
+            dissonance: 1.0 - Resonance (degree of conflict).
+
+        Returns:
+            viscosity: 0.0 (Gas/Liquid) to 1.0 (Solid).
+        """
+        now = time.time()
+        dt = max(0.001, now - self.last_time)
+
+        shear_rate = 0.0
+        if self.last_vector is not None:
+            # Measure the 'Velocity' of input change
+            try:
+                # Handle SovereignVector or Tensors
+                if hasattr(current_vector, 'sub'):
+                    diff = current_vector.sub(self.last_vector)
+                else:
+                    # Simple list or array fallback
+                    diff = [abs(a - b) for a, b in zip(current_vector, self.last_vector)]
+
+                if hasattr(diff, 'norm'):
+                    shear_rate = float(diff.norm()) / dt
+                elif isinstance(diff, list):
+                    shear_rate = (sum(diff) / len(diff)) / dt
+                else:
+                    shear_rate = 0.0
+            except:
+                shear_rate = 0.0
+
+        self.last_vector = current_vector
+        self.last_time = now
+
+        # [Non-Newtonian Formula]
+        # Impact = Velocity (Shear) + Hostility (Dissonance)
+        impact = (shear_rate * 0.05) + (dissonance * 1.5)
+
+        # Viscosity follows a power-law like behavior (Shear Thickening)
+        viscosity = self.base_viscosity + impact
+
+        return max(0.0, min(1.0, float(viscosity)))
+
+    def get_phase_state(self, viscosity: float) -> str:
+        """Translates viscosity into a Trinitarian Phase string."""
+        if viscosity > 0.8:
+            return "SOLID (Defensive)"
+        elif viscosity > 0.3:
+            return "LIQUID (Reasoning)"
+        else:
+            return "GAS (Inspiration)"
