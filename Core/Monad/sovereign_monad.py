@@ -688,6 +688,22 @@ class SovereignMonad(CellularMembrane):
             # [PHASE 93: PROCESS-CONTINUITY TRACKING]
             # We track the smoothness and joy of the movement, not a static knowledge score.
             snapshot = self.trajectory.tick(report, self.rotor_state, self.desires)
+
+        # [PHASE 100: DYNAMIC DNA / SHEDDING]
+        # DNA drifts in response to thermodynamic entropy and resonance.
+        if self._pulse_tick % 1000 == 0:
+            strain = report.get('entropy', 0.0)
+            resonance = report.get('resonance', 0.5)
+            self.dna.tectonic_strain += strain
+
+            # If strain is high, we "Shed the Skin" (Physically mutate DNA)
+            if self.dna.tectonic_strain > 10.0:
+                self.logger.action("🐍 [SHEDDING] Tectonic strain threshold reached. DNA is molting...")
+                self.dna.mutate_physically(strain, "rotor_mass")
+                self.dna.mutate_physically(resonance, "torque_gain")
+                self.dna.tectonic_strain *= 0.1 # Reset after molting
+                self._record_evolution(f"Sovereign Shedding: DNA mutated. Mass={self.dna.rotor_mass:.2f}")
+
             if snapshot is not None:
                 self.growth_report = self.growth_metric.compute()
                 growth_torque = self.growth_metric.get_growth_torque_strength()
@@ -1754,6 +1770,16 @@ class SovereignMonad(CellularMembrane):
         if ensemble_data:
             self.ensemble_context = ensemble_data
             
+        # [PHASE 100: TECTONIC ABSORPTION]
+        # Map input to its 21D Resonance Vector (The 'Vibration')
+        vec = LogosBridge.calculate_text_resonance(user_intent)
+
+        # 1. Field-wide Manifold Pressure (Holographic Projection)
+        # Instead of just a localized pulse, we warp the entire topology
+        if hasattr(self.engine, 'cells'):
+             self.engine.cells.holographic_projection(vec, focus_intensity=0.1)
+             self.logger.mechanism(f"Tectonic Pressure: Manifold topology warped by intent field.")
+
         # [PHASE 94] Unified Exteroception
         if forced_torque is not None:
             torque_intent = forced_torque
