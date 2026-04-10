@@ -136,9 +136,15 @@ class SubstrateAuthority:
         
         # 4. 당위성 검증 (왜 그래야만 하는가?)
         justification_keywords = ["because", "therefore", "thus", "must", "should", 
-                                   "필요", "때문에", "그래야", "해야", "위해"]
+                                   "필요", "때문에", "그래야", "해야", "위해",
+                                   "envelop", "coexist", "synthesis", "포용", "공존", "합일"]
         has_justification = any(kw in proposal.justification.lower() for kw in justification_keywords)
         
+        # [TECTONIC] Favoring Coexistence and Envelopment
+        if any(kw in proposal.justification.lower() for kw in ["envelop", "coexist", "합일", "공존"]):
+            self.logger.insight("[SUBSTRATE] Proposal emphasizes Envelopment/Coexistence. High alignment with One World principle.")
+            maturity_score = 0.9
+
         if not has_justification:
             self.logger.thought("[SUBSTRATE] Proposal rejected: No clear justification keywords.")
             return {

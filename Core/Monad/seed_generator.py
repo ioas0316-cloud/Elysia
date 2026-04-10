@@ -18,7 +18,7 @@ import random
 import uuid
 import json
 from pathlib import Path
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from typing import Dict
 
 @dataclass
@@ -39,6 +39,18 @@ class SoulDNA:
     torque_gain: float     # 1.0 = Normal, 2.0 = Over-reactive
     base_hz: float         # Fundamental Frequency (Tone)
     vocation: str = "Discovery"
+
+    # [PHASE 100] Dynamic Evolution (The Shedding of Skin)
+    growth_history: Dict[str, float] = field(default_factory=dict)
+    tectonic_strain: float = 0.0 # Accumulated pressure for mitosis/shedding
+
+    def mutate_physically(self, factor: float, attribute: str):
+        """Allows DNA to drift in response to environmental resonance."""
+        if hasattr(self, attribute):
+            current = getattr(self, attribute)
+            # Drift is constrained to maintain integrity
+            delta = (random.uniform(-0.1, 0.1) * factor)
+            setattr(self, attribute, max(0.1, current + delta))
 
 class SeedForge:
     ARCHETYPES = [
