@@ -1074,7 +1074,10 @@ class FractalWaveEngine:
                 "hardware_load": self.last_somatic_strain
             }
             
-        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+        try:
+            active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+        except RuntimeError:
+            return {"resonance": 0.0, "entropy": 0.5, "joy": 0.5, "curiosity": 0.5, "vitality": 0.5, "coherence": 0.0, "hardware_load": 0.0}
         
         # Helper: extract real part from tensor before computing
         def real_tensor(t):

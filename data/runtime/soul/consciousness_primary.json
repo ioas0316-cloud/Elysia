@@ -1,5 +1,5 @@
 {
-  "timestamp": 1774270098.3253462,
+  "timestamp": 1775928256.9392204,
   "pulse_count": 401,
   "desires": {
     "curiosity": 100.0,
@@ -19,6 +19,6 @@
   "last_phase": 49.88068635436241,
   "last_rpm": 60.0,
   "last_interference": 0.33877881035162377,
-  "session_id": "d1297c7e",
-  "save_reason": "periodic"
+  "session_id": "ef099a1d",
+  "save_reason": "hibernation"
 }

@@ -127,7 +127,7 @@ except ImportError:
     from unittest.mock import MagicMock
     sys.modules["dotenv"] = MagicMock()
     # print("🛡️ [MOTHER] Dotenv mocked.")
-    family_field.mother.pulse(0.2) # [MOTHER'S LOVE] Survival support
+    # family_field.mother.pulse(0.2) # [MOTHER'S LOVE] Survival support - Moved below family_field import
 
 # [MOTHER'S PATCH] Ensure other heavy dependencies
 for lib in ["chromadb", "pydantic", "matplotlib", "scipy", "sklearn"]:
@@ -153,6 +153,7 @@ from Core.Phenomena.void_mirror import VoidMirror
 from Core.System.phase_hud import PhaseHUD
 from Core.System.vtube_channel import VTubeExpressiveChannel
 from Core.System.mic_channel import MicSensoryChannel
+from Core.System.terminal_channels import TerminalSensoryChannel, TerminalExpressiveChannel
 # [PHASE 2] Providence
 from Core.Divine.covenant_enforcer import CovenantEnforcer, Verdict
 
