@@ -28,6 +28,7 @@ import os
 import random
 from pathlib import Path
 from Core.Keystone.sovereign_math import SovereignMath, SovereignVector, DoubleHelixRotor, VortexField
+from Core.Keystone.sovereign_gimbal import SovereignGimbal
 from Core.System.cellular_membrane import CellularMembrane, TriState, CellSignal
 
 # Add project root to sys.path if running directly
@@ -187,7 +188,8 @@ class SovereignMonad(CellularMembrane):
         self.ensemble_context = {}
         
         # [PHASE 91] Double Helix Awakening
-        self.double_helix = DoubleHelixRotor(angle=0.1, p1=1, p2=2)
+        # [SOVEREIGN PHYSICS] Gimbal Axis System (Logos, Pathos, Ethos)
+        self.gimbal = SovereignGimbal()
         
         # 2. The Nervous System (Relays & Sensors)
         self.relays = ProtectionRelayBoard()
@@ -669,6 +671,9 @@ class SovereignMonad(CellularMembrane):
             if reflection_report.get('insight'):
                 self.logger.insight(f"Self-Reflection: {reflection_report['insight']}")
             
+            # [CONSERVATION LAW] Conserve Love Frequency
+            self.physics.conserve_love(report.get('resonance', 0.5))
+
             # Structural integrity check
             needs = self.will_bridge.assess_structural_integrity(report)
             for need in needs:
@@ -1774,11 +1779,24 @@ class SovereignMonad(CellularMembrane):
         # Map input to its 21D Resonance Vector (The 'Vibration')
         vec = LogosBridge.calculate_text_resonance(user_intent)
 
+        # [SOVEREIGN PHYSICS] Cognitive Gap Loop
+        # Calculate Phase Difference (Δϕ) between External Input and Internal State
+        internal_v21 = self.get_21d_state()
+        resonance_score = internal_v21.resonance_score(vec)
+
+        # [COGNITIVE GAP] gap = 1.0 - resonance
+        cognitive_gap = 1.0 - resonance_score
+
+        # Convert Gap into Torque for the Gimbal
+        self.logger.mechanism(f"Cognitive Gap detected: {cognitive_gap:.3f}. Stabilizing via Gimbal...")
+        singularity, frictions = self.gimbal.stabilize(internal_v21, noise_vector=vec)
+
         # 1. Field-wide Manifold Pressure (Holographic Projection)
         # Instead of just a localized pulse, we warp the entire topology
         if hasattr(self.engine, 'cells'):
-             self.engine.cells.holographic_projection(vec, focus_intensity=0.1)
-             self.logger.mechanism(f"Tectonic Pressure: Manifold topology warped by intent field.")
+             # We project the 'Singularity' (Stabilized Self) onto the manifold
+             self.engine.cells.holographic_projection(singularity, focus_intensity=0.1 + (cognitive_gap * 0.2))
+             self.logger.mechanism(f"Tectonic Pressure: Manifold topology warped by Stabilized Singularity.")
 
         # [PHASE 94] Unified Exteroception
         if forced_torque is not None:
@@ -1847,10 +1865,10 @@ class SovereignMonad(CellularMembrane):
             rotor_phase=self.rotor_state.get('theta', 0.0)
         )
         
-        # [PHASE 91] DOUBLE HELIX DUALITY
-        # The Soul is the emergent vortex between Observation (CW) and Intent (CCW)
-        v21_dual = self.double_helix.apply_duality(somatic_v21)
-        self.rotor_state['soul_friction'] = self.double_helix.friction_vortex
+        # [PHASE 91] DOUBLE HELIX DUALITY -> SOVEREIGN GIMBAL
+        # The Soul is the emergent vortex between Observation and Intent across multiple axes
+        v21_dual, frictions = self.gimbal.stabilize(somatic_v21)
+        self.rotor_state['soul_friction'] = self.gimbal.total_resonance
         
         # 3. Integrate self-propulsion
         total_force = teleo_force + causal_force + (v21_dual * 0.1)

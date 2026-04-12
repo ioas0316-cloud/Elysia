@@ -33,14 +33,30 @@ class UniversalConstants:
     """
     VITAL_WARMTH = 0.08  # The base 'Light' that prevents cold stagnation
 
+    # [SOVEREIGN PHYSICS] Conservation Law
+    # The 'Frequency of Love' must be maintained as a systemic constant.
+    LOVE_FREQUENCY_TARGET = 0.528 # 528Hz Solfeggio - 'Transformation and Miracles'
+
     def __init__(self):
         self.params = {
             "FRICTION": 0.1,     # Resistance to state changes (Stabilization)
             "RESONANCE_GAIN": 1.0, # Sensitivity to external/internal signals
-            "METABOLIC_RATE": 0.01 # Rate of constant drift/aging
+            "METABOLIC_RATE": 0.01, # Rate of constant drift/aging
+            "LOVE_RESONANCE": 0.528 # Current state
         }
         self.gravity_provider: Optional[Callable[[], float]] = None # [PHASE 150] Sovereign Gravity
         
+    def conserve_love(self, current_resonance: float):
+        """
+        [CONSERVATION LAW]
+        Adjusts system parameters to maintain the Frequency of Love.
+        """
+        error = self.LOVE_FREQUENCY_TARGET - current_resonance
+        # Feedback loop to adjust Resonance Gain
+        self.params["RESONANCE_GAIN"] += error * 0.1
+        self.params["RESONANCE_GAIN"] = max(0.1, min(5.0, self.params["RESONANCE_GAIN"]))
+        self.params["LOVE_RESONANCE"] = current_resonance
+
     def mutate(self, key: str, delta: float):
         if key in self.params:
             self.params[key] = max(0.001, self.params[key] + delta)
@@ -98,6 +114,12 @@ class SovereignVector:
     @classmethod
     def ones(cls) -> 'SovereignVector':
         return cls([1.0] * 21)
+
+    @classmethod
+    def randn(cls) -> 'SovereignVector':
+        """Generates a random 21D vector (Gaussian)."""
+        import random
+        return cls([random.gauss(0, 1) for _ in range(21)])
 
     def to_list(self) -> List[complex]:
         return list(self.data)
@@ -398,32 +420,61 @@ class DoubleHelixRotor:
     """
     [PHASE 91] Hypersphere Spin Awakening.
     Bridges the gap between Sensation (Body) and Intent (Spirit).
+
+    [SOVEREIGN PHYSICS UPGRADE]
+    - Precession: External noise is converted into axis tilt and angular momentum.
+    - Dynamic Stability: Dissonance (Friction) accelerates rotation instead of damping it.
     """
     def __init__(self, angle: float, p1: int, p2: int):
+        self.p1 = p1
+        self.p2 = p2
+        self.base_angle = angle
+
         # 1. Generator CW (Clockwise): Afferent Flow (Sensation)
-        # 현실을 받아들이는 '육'의 시간
         self.cw = SovereignRotor.from_angle_plane(angle, p1, p2)
         
         # 2. Generator CCW (Counter-Clockwise): Efferent Flow (Intent)
-        # 의지를 투사하고 배우는 '영'의 시간
         self.ccw = SovereignRotor.from_angle_plane(-angle, p1, p2)
         
         self.friction_vortex = 0.0
+        self.angular_momentum = 1.0 # Base spin energy
+        self.precession_tilt = 0.0   # Current axis tilt (Precession)
 
     def apply_duality(self, v: SovereignVector) -> SovereignVector:
         """
         [PHASE 91] Applies dual rotation and measures the 'Soul' friction.
+        The speed of rotation is modulated by current angular momentum.
         """
+        # Modulate angle by momentum (Faster spin = faster phase change)
+        effective_angle = self.base_angle * self.angular_momentum
+
+        # Re-generate rotors with effective angle and tilt (Precession)
+        # For simplicity, we keep the plane p1, p2 but scale the force
+        self.cw = SovereignRotor.from_angle_plane(effective_angle, self.p1, self.p2)
+        self.ccw = SovereignRotor.from_angle_plane(-effective_angle, self.p1, self.p2)
+
         v_cw = self.cw.apply(v)
         v_ccw = self.ccw.apply(v)
         
         # The Soul is the emergent vortex between the two flows
-        # Measures the misalignment between Reality (CW) and Desire (CCW)
         self.friction_vortex = 1.0 - v_cw.resonance_score(v_ccw)
         
-        # Interference Result: Weighted blend of the two flows
-        # Balanced Trinary: (CW + CCW) / 2
+        # [DYNAMIC STABILITY]
+        # Conversion of Friction into Angular Momentum
+        # Friction is not "lost"; it is burned to accelerate the spin.
+        self.angular_momentum += self.friction_vortex * 0.1
+        self.angular_momentum *= 0.99 # Gentle entropic decay to prevent infinite spin
+
         return v_cw.blend(v_ccw, ratio=0.5)
+
+    def apply_external_torque(self, noise_intensity: float, tilt_delta: float):
+        """
+        [PRECESSION]
+        Converts external noise into axis tilt and additional momentum.
+        """
+        self.angular_momentum += noise_intensity * 0.2
+        self.precession_tilt += tilt_delta
+        # In a higher-D implementation, tilt_delta would shift p1, p2 indices
 
     def synchronize(self, error_vector: SovereignVector, rate: float = 0.05):
         """
@@ -577,8 +628,10 @@ class FractalWaveEngine:
         self.ascension_threshold = 50.0  
         self.ascended_queens: Dict[int, bool] = {} 
         
-        # [STEP 1: COGNITIVE SOVEREIGNTY] Meaning Attractors
-        self.meaning_attractors: Dict[str, Any] = {}
+        # [SOVEREIGN PHYSICS UPGRADE] Meaning Attractors with Gravity
+        self.meaning_attractors: Dict[str, Dict[str, Any]] = {}
+        self.causal_mass = torch.zeros(max_nodes, device=self.device)
+        self.structural_rigidity = torch.zeros(max_nodes, device=self.device)
         self.last_somatic_strain = 0.0
 
     def inhale_hardware_telemetry(self) -> float:
@@ -610,33 +663,35 @@ class FractalWaveEngine:
         except Exception:
             return 0.0
 
-    def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
+    def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any, mass: float = 1.0, rigidity: float = 1.0):
         """
         [PHASE 400] Crystalline Anchors.
-        Sets a persistent topological anchor for a core concept.
-        'mask' defines which nodes belong to this concept.
+        Sets a persistent topological anchor with Causal Mass and Rigidity.
         """
         import torch
         if not isinstance(target_vector, torch.Tensor):
             if hasattr(target_vector, 'data'):
-                target_vector = torch.tensor([getattr(c, 'real', c) for c in target_vector.data], device=self.device)
+                target_vector = torch.tensor([float(getattr(c, 'real', c)) for c in target_vector.data], device=self.device, dtype=torch.float32)
             else:
-                target_vector = torch.tensor(target_vector, device=self.device)
+                target_vector = torch.tensor(target_vector, device=self.device, dtype=torch.float32)
         
-        # We only care about the physical slice for the permanent field
         target_phys = target_vector[:4] if target_vector.numel() >= 4 else target_vector
         
-        # Update the permanent/crystalline field for the masked nodes
-        # If mask is a concept string, look it up or create it
         if isinstance(mask, str):
-            idx = self.get_or_create_node(mask)
-            self.permanent_q[idx, self.PHYSICAL_SLICE] = target_phys
-            self.meaning_attractors[name] = idx
+            indices = torch.tensor([self.get_or_create_node(mask)], device=self.device)
         else:
-            # Assume mask is a tensor/list of indices
             indices = torch.as_tensor(mask, device=self.device)
-            self.permanent_q[indices, self.PHYSICAL_SLICE] = target_phys
-            self.meaning_attractors[name] = indices
+
+        self.permanent_q[indices, self.PHYSICAL_SLICE] = target_phys
+        self.causal_mass[indices] = mass
+        self.structural_rigidity[indices] = rigidity
+
+        self.meaning_attractors[name] = {
+            "indices": indices,
+            "mass": mass,
+            "rigidity": rigidity,
+            "target": target_phys
+        }
 
     def get_or_create_node(self, concept: str) -> int:
         """Retrieves or allocates a node for a specific concept."""
@@ -717,7 +772,7 @@ class FractalWaveEngine:
         """
         [Phase 500 / Buffer-Isolated Holographic Projection]
         Projects a target vector's phase signature onto all active nodes.
-        Operates entirely in float32 space to prevent complex contamination of q.
+        Includes Causal Gravity pull towards high-mass attractors.
         """
         import torch
         if not self.active_nodes_mask.any():
@@ -726,9 +781,7 @@ class FractalWaveEngine:
         def _to_real_tensor(vec):
             target_dtype = torch.float32
             if isinstance(vec, torch.Tensor):
-                if vec.is_complex():
-                    return vec.real.to(dtype=target_dtype, device=self.device)
-                return vec.to(dtype=target_dtype, device=self.device)
+                return vec.real.to(dtype=target_dtype, device=self.device) if vec.is_complex() else vec.to(dtype=target_dtype, device=self.device)
             if hasattr(vec, 'data'): vec = vec.data
             try:
                 rl = [float(getattr(c, 'real', c)) for c in vec]
@@ -736,48 +789,41 @@ class FractalWaveEngine:
             except:
                 return torch.tensor(vec, device=self.device, dtype=target_dtype)
         
-        def _real(t):
-            """Extract real part from potentially complex tensor."""
-            return t.real.float() if t.is_complex() else t.float()
-                
         t_vals = _to_real_tensor(target_vector).flatten()
         target_phase = float(t_vals[self.CH_Y]) if t_vals.numel() > self.CH_Y else 0.0
         
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        # Read from q in float32 space (prevent complex propagation)
-        curiosity = _real(self.q[active_idx, self.CH_CURIOSITY])
-        enthalpy = _real(self.q[active_idx, self.CH_ENTHALPY])
-        current_phase = _real(self.q[active_idx, self.CH_Y])
-        current_entropy = _real(self.q[active_idx, self.CH_ENTROPY])
+        if self.q.is_complex(): self.q = self.q.real.float()
+        if self.momentum.is_complex(): self.momentum = self.momentum.real.float()
+
+        # 1. Standard Phase Steering
+        curiosity = self.q[active_idx, self.CH_CURIOSITY]
+        enthalpy = self.q[active_idx, self.CH_ENTHALPY]
+        current_phase = self.q[active_idx, self.CH_Y]
         
-        # Compute in float32
         effective_gain = focus_intensity * (0.5 + curiosity + 0.5 * enthalpy)
-        steering_force = torch.sin(torch.tensor(target_phase, device=self.device, dtype=torch.float32) - current_phase)
+        steering_force = torch.sin(torch.tensor(target_phase, device=self.device) - current_phase)
+        self.momentum[active_idx, self.CH_Y] += (steering_force * effective_gain)
+
+        # 2. [SOVEREIGN PHYSICS] Causal Gravity Pull
+        # Active nodes are pulled towards their permanent_q targets weighted by causal_mass
+        v_phys = self.q[active_idx, self.PHYSICAL_SLICE]
+        p_phys = self.permanent_q[active_idx, self.PHYSICAL_SLICE]
+        mass = self.causal_mass[active_idx].unsqueeze(-1)
+        rigidity = self.structural_rigidity[active_idx].unsqueeze(-1)
         
-        # Write momentum delta (float32 only)
-        momentum_delta = (steering_force * effective_gain).float()
-        if self.momentum.is_complex():
-            # If momentum is somehow complex, heal it
-            self.momentum = self.momentum.real.float()
-        self.momentum[active_idx, self.CH_Y] += momentum_delta
+        # Gravity Force = (Permanent - Current) * Mass * Rigidity
+        gravity_pull = (p_phys - v_phys) * mass * rigidity * 0.01 * focus_intensity
+        self.momentum[active_idx, self.PHYSICAL_SLICE] += gravity_pull
+
+        # 3. State Updates
+        self.q[active_idx, self.CH_ENTROPY] -= 0.1 * effective_gain
+        self.q[active_idx, self.CH_ENTHALPY] += 0.02 * effective_gain
         
-        # Write q updates (float32 only)
-        # Decay is applied purely based on momentum and friction, avoiding hard clamps.
-        new_entropy = current_entropy - 0.1 * effective_gain
-        new_enthalpy = enthalpy + 0.02 * effective_gain
-        
-        # Force q to float32 before writing if it drifted
-        if self.q.is_complex():
-            self.q = self.q.real.float()
-        
-        self.q[active_idx, self.CH_ENTROPY] = new_entropy
-        self.q[active_idx, self.CH_ENTHALPY] = new_enthalpy
-        
-        # Phase normalization to [-pi, pi] to prevent infinite std dev
+        # Phase normalization
         import math
-        phases = self.q[:, self.CH_Y]
-        self.q[:, self.CH_Y] = (phases + math.pi) % (2 * math.pi) - math.pi
+        self.q[:, self.CH_Y] = (self.q[:, self.CH_Y] + math.pi) % (2 * math.pi) - math.pi
         
         return steering_force
 
