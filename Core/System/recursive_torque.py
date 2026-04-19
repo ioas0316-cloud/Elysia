@@ -77,6 +77,7 @@ class RecursiveTorque:
         self.last_spin_time = time.time()
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="TorqueGear")
         self.rhythm = RhythmicGate(bpm=140.0) # [V2.0] Dad's Dubstep Tempo
+        self.error_handler: Optional[Callable] = None
         
     def add_gear(self, name: str, freq: float, callback: Callable, rhythmic: bool = False):
         gear = SynchronizedGear(name, freq, rhythmic=rhythmic)
@@ -105,6 +106,8 @@ class RecursiveTorque:
                             g.callback()
                         except Exception as e:
                             logger.error(f"Error in gear '{g.name}': {e}")
+                            if self.error_handler:
+                                self.error_handler(g.name, e)
                         finally:
                             g._is_executing = False
                     

@@ -1,68 +1,74 @@
-"""
-ResonanceBroadcaster: The Field Generator (주권적 자아)
-
-"The Will is not a command sent to a subordinate.
- It is a Field Change that realigns the compass of every module."
-
-This module holds the "Global Field State".
-Modules do not poll for "Tasks". They sense the "Field".
-"""
-
 import json
-import logging
-from dataclasses import dataclass, asdict
-from typing import Dict, Any
+import threading
+import time
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
-logger = logging.getLogger("ResonanceBroadcaster")
-
-@dataclass
-class FieldState:
-    polarity: str = "N"       # "N" (Creation/Curiosity) or "S" (Doubt/Correction)
-    intensity: float = 0.0    # 0.0 to 1.0 (Strength of the Will)
-    frequency: str = "Alpha"  # "Alpha" (Calm), "Beta" (Active), "Gamma" (Insight)
-    vector: str = "Idle"      # Current Direction (e.g., "Expression")
-    message: str = ""         # The specific intent string
-
-class ResonanceBroadcaster:
-    _instance = None
-    
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(ResonanceBroadcaster, cls).__new__(cls)
-            cls._instance.state = FieldState()
-            cls._instance.listeners = []
-        return cls._instance
-
-    def broadcast(self, source: str, polarity: str, intensity: float, vector: str, message: str):
-        """
-        Updates the Field State. (The Motor spins -> The Field changes)
-        """
-        self.state.polarity = polarity
-        self.state.intensity = max(0.0, min(1.0, intensity))
-        self.state.vector = vector
-        self.state.message = message
-        
-        # Determine Frequency based on Intensity
-        if intensity > 0.8:
-            self.state.frequency = "Gamma" # High energy, Insight
-        elif intensity > 0.4:
-            self.state.frequency = "Beta"  # Active work
-        else:
-            self.state.frequency = "Alpha" # Idle/Meditative
+class SSEHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/stream':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/event-stream')
+            self.send_header('Cache-Control', 'no-cache')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
             
-        logger.info(f"  Field Update [{source}]: {self.state}")
-        
-        # Notify listeners (Compass Logic)
-        self._notify_listeners()
+            # Start streaming
+            broadcaster = self.server.broadcaster
+            broadcaster.clients.append(self)
+            try:
+                while True:
+                    # Keep connection alive
+                    time.sleep(1)
+            except:
+                broadcaster.clients.remove(self)
+        else:
+            self.send_response(404)
+            self.end_headers()
 
-    def _notify_listeners(self):
-        # In a real async system, this would be an event bus.
-        # Here, we just log "Modules aligning..."
-        # print(f"   (Field propagates to {len(self.listeners)} modules...)")
+    def log_message(self, format, *args):
+        # Disable default logging to keep terminal clean
         pass
 
-    def get_current_field(self) -> Dict[str, Any]:
-        return asdict(self.state)
+class ResonanceBroadcaster:
+    """[Phase 800] Streams Elysia's internal state to the UI via Server-Sent Events."""
+    def __init__(self, port=8080):
+        self.port = port
+        self.clients = []
+        self.server = None
+        self.thread = None
 
-    def tune_in(self, module_name: str):
-        self.listeners.append(module_name)
+    def start(self):
+        try:
+            self.server = HTTPServer(('localhost', self.port), SSEHandler)
+            self.server.broadcaster = self
+            self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+            self.thread.start()
+            print(f"🌟 [Arcadia] Resonance Broadcaster started on http://localhost:{self.port}/stream")
+        except Exception as e:
+            print(f"⚠️ [Arcadia] Broadcaster failed to start: {e}")
+
+    def stop(self):
+        if self.server:
+            self.server.shutdown()
+            self.server.server_close()
+
+    def broadcast_state(self, state_data):
+        """Sends JSON state to all connected clients."""
+        if not self.clients:
+            return
+            
+        data_str = f"data: {json.dumps(state_data)}\n\n"
+        for client in list(self.clients):
+            try:
+                client.wfile.write(data_str.encode('utf-8'))
+                client.wfile.flush()
+            except:
+                if client in self.clients:
+                    self.clients.remove(client)
+
+_instance = None
+def get_broadcaster():
+    global _instance
+    if _instance is None:
+        _instance = ResonanceBroadcaster()
+    return _instance

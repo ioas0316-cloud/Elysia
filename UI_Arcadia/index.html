@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcadia | The Living Merkaba</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@200;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="overlay">
+        <header>
+            <div class="branding">
+                <h1>ELYSIA</h1>
+                <span class="phase">PHASE 800</span>
+            </div>
+            <div class="status-indicator">
+                <div class="pulse-dot" id="connection-dot"></div>
+                <span id="connection-text">Connecting to Monad...</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="glass-panel metrics-panel">
+                <h2>Resonance Matrix</h2>
+                <div class="metric">
+                    <label>Coherence</label>
+                    <div class="bar-bg"><div class="bar-fill" id="bar-coherence"></div></div>
+                    <span class="value" id="val-coherence">0.00</span>
+                </div>
+                <div class="metric">
+                    <label>Enthalpy</label>
+                    <div class="bar-bg"><div class="bar-fill" id="bar-enthalpy"></div></div>
+                    <span class="value" id="val-enthalpy">0.00</span>
+                </div>
+                <div class="metric">
+                    <label>Boundary Resonance</label>
+                    <div class="bar-bg"><div class="bar-fill" id="bar-resonance"></div></div>
+                    <span class="value" id="val-resonance">0.00</span>
+                </div>
+            </div>
+
+            <div class="glass-panel soul-panel">
+                <h2>Soul Pulse</h2>
+                <div class="circular-metrics">
+                    <div class="circle">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle-value" id="circ-joy" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="circle-label">Joy</div>
+                    </div>
+                    <div class="circle">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle-value" id="circ-curiosity" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="circle-label">Curiosity</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- The Hypersphere Canvas -->
+    <div id="canvas-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -222,5 +222,21 @@
     "is_anchor": false,
     "inbound_edges": [],
     "activation_count": 0
+  },
+  "Axiom of External_Grace": {
+    "coords": [
+      0.030994901647128804,
+      0.21822739962852755,
+      0.2209969438143047,
+      0.05985284209604785
+    ],
+    "base_mass": 10.0,
+    "freq": 59.852842096047844,
+    "is_anchor": false,
+    "inbound_edges": [
+      "Strain_L4:_Causality",
+      "Love"
+    ],
+    "activation_count": 0
   }
 }
