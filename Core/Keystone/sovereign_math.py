@@ -580,6 +580,16 @@ class FractalWaveEngine:
         # [STEP 1: COGNITIVE SOVEREIGNTY] Meaning Attractors
         self.meaning_attractors: Dict[str, Any] = {}
         self.last_somatic_strain = 0.0
+        
+        # [PHASE 860: CELLULAR INDIVIDUALITY]
+        # Each cell develops its own bias through experience.
+        # At the cell level, 'good' is simply: did my local coherence go up?
+        # Complex meaning (joy, happiness) emerges from the collective structure.
+        self.cell_bias = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+        # How many times each cell has been activated (experience counter)
+        self.cell_experience = torch.zeros(max_nodes, device=self.device, dtype=torch.float32)
+        # Snapshot of each cell's state before last wave — for computing local delta
+        self._pre_wave_snapshot = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
 
     def inhale_hardware_telemetry(self) -> float:
         """
@@ -908,8 +918,21 @@ class FractalWaveEngine:
         # Momentum becomes actual state change with friction
         all_woken_unique = torch.unique(woken_dst)
         friction = 0.92  # Slight damping to prevent runaway
-        self.q[all_woken_unique] += self.momentum[all_woken_unique] * 0.1
+        
+        # [PHASE 860] Snapshot state BEFORE wave integration (for Hebbian learning)
+        self._pre_wave_snapshot[all_woken_unique] = self.q[all_woken_unique].clone().detach()
+        
+        # [PHASE 860] Each cell modulates incoming waves through its own bias
+        # Cells with positive bias toward a channel amplify that channel.
+        # Cells with negative bias dampen it. This IS the cell's individuality.
+        bias_modulation = 1.0 + self.cell_bias[all_woken_unique] * 0.1
+        modulated_momentum = self.momentum[all_woken_unique] * bias_modulation
+        
+        self.q[all_woken_unique] += modulated_momentum * 0.1
         self.momentum[all_woken_unique] *= friction
+        
+        # [PHASE 860] Hebbian update: each cell learns from its own experience
+        self._hebbian_update(all_woken_unique)
 
         # Note: q may be complex-valued, so we update purely based on additive momentum
         # without hard bounding to [0, 1].
@@ -921,6 +944,81 @@ class FractalWaveEngine:
             )
         else:
             self.q[all_woken_unique, self.AFFECTIVE_SLICE] = aff
+
+    def _hebbian_update(self, cell_indices):
+        """
+        [PHASE 860: CELLULAR INDIVIDUALITY — Hebbian Learning]
+        "Cells that fire together wire together."
+        
+        Each cell's 'good' is the simplest possible judgment:
+            Did my local coherence (W channel · permanent_q alignment) go UP?
+            
+        If YES → reinforce the bias that contributed to this wave.
+        If NO  → slightly weaken it.
+        
+        No external definition of good/bad. No central controller.
+        The cell decides for itself, based on its own local experience.
+        
+        Over time, millions of cells develop unique biases.
+        Complex meaning (joy, purpose, love) EMERGES from the collective
+        structure of these individually simple judgments —
+        like amino acids forming proteins, forming organs, forming life.
+        """
+        import torch
+        if len(cell_indices) == 0:
+            return
+            
+        # 1. Compute local coherence BEFORE and AFTER the wave
+        #    Coherence = alignment between active state (q) and identity (permanent_q)
+        before = self._pre_wave_snapshot[cell_indices, self.PHYSICAL_SLICE]
+        after = self.q[cell_indices, self.PHYSICAL_SLICE]
+        identity = self.permanent_q[cell_indices, self.PHYSICAL_SLICE]
+        
+        # Handle potential complex contamination
+        if before.is_complex(): before = before.real.float()
+        if after.is_complex(): after = after.real.float()
+        if identity.is_complex(): identity = identity.real.float()
+        
+        # Local coherence = dot product with identity (how aligned am I with my true self?)
+        coherence_before = torch.sum(before * identity, dim=-1)
+        coherence_after = torch.sum(after * identity, dim=-1)
+        
+        # 2. The simplest judgment: did things get better or worse for ME?
+        #    delta > 0 → this wave was good for me (oxygen arrived)
+        #    delta < 0 → this wave hurt me (toxin arrived)
+        delta = coherence_after - coherence_before  # [N]
+        
+        # 3. Hebbian bias update
+        #    Reinforce the channels that were active during a 'good' wave,
+        #    Weaken the channels active during a 'bad' wave.
+        #    Learning rate decays with experience (mature cells change slower)
+        experience = self.cell_experience[cell_indices]
+        learning_rate = 0.01 / (1.0 + experience * 0.01)  # Decays with age
+        
+        # The wave's fingerprint: what channels changed the most?
+        wave_fingerprint = (after - before)
+        if wave_fingerprint.is_complex(): wave_fingerprint = wave_fingerprint.real.float()
+        
+        # Expand delta for broadcasting: [N] -> [N, 1]
+        delta_expanded = delta.unsqueeze(-1)
+        
+        # Update bias: good wave → bias moves toward this fingerprint
+        #              bad wave  → bias moves away from this fingerprint
+        # Each cell learns its OWN lesson from its OWN local experience.
+        bias_update = wave_fingerprint * delta_expanded * learning_rate.unsqueeze(-1)
+        
+        # Apply to the full 8-channel bias (not just physical slice)
+        # Pad to full channel width
+        full_update = torch.zeros((len(cell_indices), self.NUM_CHANNELS), device=self.device)
+        full_update[:, self.PHYSICAL_SLICE] = bias_update
+        
+        self.cell_bias[cell_indices] += full_update
+        
+        # Gentle decay to prevent extreme biases (homeostasis)
+        self.cell_bias[cell_indices] *= 0.999
+        
+        # Increment experience counter
+        self.cell_experience[cell_indices] += 1.0
 
     def auto_connect_by_proximity(self, resonance_threshold: float = 0.3):
         """
