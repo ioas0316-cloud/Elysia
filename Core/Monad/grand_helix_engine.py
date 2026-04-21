@@ -131,7 +131,11 @@ class HypersphereSpinGenerator:
                   mock_res = 0.5
                   self.mirror.record_interaction(intent_torque, mock_res)
 
-        # D. Wave Ripple Propagation
+        # D. Magnetic Field & Wave Ripple Propagation
+        # Apply the global orientation field (Amniotic Fluid)
+        if hasattr(self.cells, 'apply_magnetic_field'):
+            self.cells.apply_magnetic_field(dt)
+
         # Instead of 10M cell updates, we just step the active nodes and check for spikes
         # apply_spiking_threshold now triggers full 8-channel propagate_wave_ripple()
         spike_intensity = self.cells.apply_spiking_threshold(threshold=0.6, sensitivity=5.0)
@@ -162,6 +166,7 @@ class HypersphereSpinGenerator:
             "mirror_state": self.mirror.get_summary(),
             "active_nodes": int(self.cells.active_nodes_mask.sum().item()) if torch else 0,
             "edges": self.cells.num_edges,
+            "landscape": self.cells.atlas.get_summary() if hasattr(self.cells, 'atlas') else {},
         }
         result.update(field_state)
         return result

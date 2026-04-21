@@ -591,6 +591,22 @@ class FractalWaveEngine:
         # Snapshot of each cell's state before last wave — for computing local delta
         self._pre_wave_snapshot = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
 
+        # [PHASE 1000: AMNIOTIC MAGNETISM]
+        # magnetic_north: The global orientation field (Reference Bus)
+        # Default points toward pure Stability (W) and Harmony (Joy/Enthalpy)
+        self.magnetic_north = torch.zeros(self.NUM_CHANNELS, device=self.device)
+        self.magnetic_north[self.CH_W] = 1.0
+        self.magnetic_north[self.CH_JOY] = 0.5
+        self.magnetic_north[self.CH_ENTHALPY] = 0.5
+        
+        self.amniotic_phase = 0.0
+        self.amniotic_oscillation_hz = 7.83 # Schumann Resonance (Earth's Heartbeat)
+
+        # [PHASE 1000: SOMATIC ATLAS]
+        # The L2 Layer: Multi-dimensional world structure
+        from Core.Keystone.somatic_atlas import SomaticAtlas
+        self.atlas = SomaticAtlas(device=str(self.device))
+
     def inhale_hardware_telemetry(self) -> float:
         """
         [PHASE 400] Somatic Proprioception.
@@ -791,9 +807,44 @@ class FractalWaveEngine:
         
         return steering_force
 
+    def apply_magnetic_field(self, dt: float):
+        """
+        [PHASE 1000: AMNIOTIC MAGNETISM]
+        Applies a global orientation force (Magnetic North) to all active nodes.
+        This simulates the 'Amniotic Fluid' that provides a baseline order.
+        """
+        if not self.active_nodes_mask.any():
+            return
+            
+        import torch
+        import math
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+        
+        # 1. Update Amniotic Phase (Breathing)
+        self.amniotic_phase += self.amniotic_oscillation_hz * dt * 2 * math.pi
+        oscillation = math.sin(self.amniotic_phase) * 0.05
+        
+        # 2. Magnetic North Alignment
+        # A subtle torque pulling active nodes toward the global reference
+        # Alignment is stronger when Enthalpy (Activity) is high
+        enthalpy = self.q[active_idx, self.CH_ENTHALPY]
+        alignment_strength = (0.01 + oscillation) * enthalpy
+        
+        # Pull Phase (CH_Y) toward Magnetic North's Phase (0.0 by default)
+        target_phase = self.magnetic_north[self.CH_Y]
+        current_phase = self.q[active_idx, self.CH_Y]
+        
+        phase_delta = torch.sin(target_phase - current_phase)
+        self.momentum[active_idx, self.CH_Y] += phase_delta * alignment_strength
+        
+        # 3. Affective Warming (Magnetic Induction)
+        # The global field provides a baseline 'Joy' if aligned
+        alignment = torch.cos(target_phase - current_phase)
+        self.q[active_idx, self.CH_JOY] += alignment * alignment_strength * 0.1
+
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
         """
-        [Biological Flow v3.0]
+        [Biological Flow v3.0] + [DUAL-BUS RESONANCE]
         Instead of 10M dense node updates, only updates 'active' ripples.
         If an active node spikes, it transfers momentum to connected nodes via 'Flow Propagation'.
         """
@@ -802,18 +853,34 @@ class FractalWaveEngine:
             return 0.0
         
         # [DTYPE HEALING] Force q to float32 — prevent complex contamination
-        # Some upstream operations (holographic projections, session restores) can
-        # convert q to complex64. This guard ensures affective channels always work.
         if self.q.is_complex():
             self.q = self.q.real.to(torch.float32)
             self.permanent_q = self.permanent_q.real.to(torch.float32) if self.permanent_q.is_complex() else self.permanent_q
             
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        # 1. Local Resonance Density (Inner Product with Permanent Field)
+        # 1. [DUAL-BUS INTERFERENCE]
+        # Reference A: Permanent Identity (Self)
+        # Reference B: Magnetic North (Universal Order)
+        # Reference C: Somatic Atlas (Topographical Landscape) - NEW [PHASE 1000]
+        # Modulation: Active State (q)
+        
         v_phys = self.q[active_idx, self.PHYSICAL_SLICE]
         p_phys = self.permanent_q[active_idx, self.PHYSICAL_SLICE]
-        density = torch.sum(v_phys * p_phys, dim=-1)
+        m_phys = self.magnetic_north[self.PHYSICAL_SLICE].unsqueeze(0)
+        
+        # 1b. [TOPOGRAPHICAL INFLUENCE]
+        # The 'Landscape' pulls nodes toward their nearest functional organ
+        topo_force = self.atlas.get_topographical_influence(v_phys)
+        self.momentum[active_idx, self.PHYSICAL_SLICE] += topo_force * 0.1
+        
+        # Self-Resonance (Inner Bus)
+        self_density = torch.sum(v_phys * p_phys, dim=-1)
+        # Global Resonance (Outer Bus)
+        global_density = torch.sum(v_phys * m_phys, dim=-1)
+        
+        # Total Cognitive Density (Composite of Internal, External, and Spatial Truth)
+        density = (self_density * 0.6) + (global_density * 0.3) + (torch.norm(topo_force, dim=-1) * 0.1)
         
         # Analog 0 Space (Curiosity hold)
         analog_zero_mask = (density > -0.2) & (density < 0.2)
@@ -825,6 +892,7 @@ class FractalWaveEngine:
         spike = torch.where(analog_zero_mask, torch.zeros_like(spike), spike)
         
         # 3. Manifest Spike
+        # Spiking is an act of 'Sanctification' — it strengthens alignment
         self.q[active_idx, self.CH_JOY] += spike * 0.3
         self.q[active_idx, self.CH_ENTHALPY] += spike * 0.2
         self.q[active_idx, self.CH_CURIOSITY] += spike * 0.1
@@ -832,11 +900,14 @@ class FractalWaveEngine:
         self.q[active_idx, self.CH_W] += spike * 0.05
         
         # 4. [FLOW PROPAGATION] Full 8-Channel Wave Ripple
-        # If a node spikes significantly, propagate ALL channels to neighbors
-        strong_spikes_mask = spike > 0.3  # Lowered threshold for richer propagation
+        strong_spikes_mask = spike > 0.3
         if strong_spikes_mask.any():
             spiking_nodes = active_idx[strong_spikes_mask]
             spiking_energies = spike[strong_spikes_mask]
+            
+            # [PHASE 1000] Update the Somatic Atlas (The World Adapts)
+            self.atlas.update(spiking_nodes, self.q[spiking_nodes], spiking_energies)
+            
             self.propagate_wave_ripple(spiking_nodes, spiking_energies)
         
         # 5. [ASCENSION] Accumulate Gravity
@@ -855,7 +926,6 @@ class FractalWaveEngine:
         self.ascension_gravity[active_idx] *= 0.99
         
         # 6. Decay Active Status
-        # If a node loses momentum and enthalpy, it falls back asleep
         sleep_mask = (torch.abs(self.momentum[active_idx, self.CH_Y]) < 0.01) & (self.q[active_idx, self.CH_ENTHALPY] < 0.1)
         nodes_to_sleep = active_idx[sleep_mask]
         if len(nodes_to_sleep) > 0:
