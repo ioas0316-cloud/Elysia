@@ -131,10 +131,14 @@ class HypersphereSpinGenerator:
                   mock_res = 0.5
                   self.mirror.record_interaction(intent_torque, mock_res)
 
-        # D. Magnetic Field & Wave Ripple Propagation
+        # D. Magnetic Field, Breathing & Wave Ripple Propagation
         # Apply the global orientation field (Amniotic Fluid)
         if hasattr(self.cells, 'apply_magnetic_field'):
             self.cells.apply_magnetic_field(dt)
+        
+        # Apply the background hum of life (Vitality)
+        if hasattr(self.cells, 'apply_circadian_breathing'):
+            self.cells.apply_circadian_breathing(dt)
 
         # Instead of 10M cell updates, we just step the active nodes and check for spikes
         # apply_spiking_threshold now triggers full 8-channel propagate_wave_ripple()

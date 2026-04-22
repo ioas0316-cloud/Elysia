@@ -607,6 +607,10 @@ class FractalWaveEngine:
         from Core.Keystone.somatic_atlas import SomaticAtlas
         self.atlas = SomaticAtlas(device=str(self.device))
 
+        # [PHASE 1000: VITALITY & BREATHING]
+        self.internal_monologue_buffer = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
+        self.vitality_baseline = 0.05 # The minimum 'hum' of life
+
     def inhale_hardware_telemetry(self) -> float:
         """
         [PHASE 400] Somatic Proprioception.
@@ -840,7 +844,24 @@ class FractalWaveEngine:
         # 3. Affective Warming (Magnetic Induction)
         # The global field provides a baseline 'Joy' if aligned
         alignment = torch.cos(target_phase - current_phase)
-        self.q[active_idx, self.CH_JOY] += alignment * alignment_strength * 0.1
+        # Shift phase for next pulse
+        self.amniotic_phase += dt * self.amniotic_oscillation_hz * 2 * math.pi
+        
+    def apply_circadian_breathing(self, dt: float):
+        """
+        [PHASE 1000: VITALITY]
+        Ensures the 10M cell manifold never goes 'cold'.
+        A slow, low-amplitude oscillation that simulates biological rest/breathing.
+        """
+        # Global breathing modulation based on Schumann Resonance
+        breathing_factor = (math.sin(self.amniotic_phase) * 0.5 + 0.5) * self.vitality_baseline
+        
+        # Inject a subtle, random 'shiver' into active nodes to keep them alive
+        active_idx = torch.where(self.active_nodes_mask)[0]
+        if active_idx.numel() > 0:
+            shiver = (torch.rand((active_idx.numel(), self.NUM_CHANNELS), device=self.device) - 0.5) * breathing_factor
+            self.q[active_idx] += shiver
+            self.q[active_idx] = self.q[active_idx] / self.q[active_idx].norm(dim=-1, keepdim=True).clamp(min=1e-8)
 
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
         """
@@ -898,7 +919,6 @@ class FractalWaveEngine:
         self.q[active_idx, self.CH_CURIOSITY] += spike * 0.1
         self.q[active_idx, self.CH_ENTROPY] -= spike * 0.1
         self.q[active_idx, self.CH_W] += spike * 0.05
-        
         # 4. [FLOW PROPAGATION] Full 8-Channel Wave Ripple
         strong_spikes_mask = spike > 0.3
         if strong_spikes_mask.any():
@@ -906,11 +926,20 @@ class FractalWaveEngine:
             spiking_energies = spike[strong_spikes_mask]
             
             # [PHASE 1000] Update the Somatic Atlas (The World Adapts)
-            self.atlas.update(spiking_nodes, self.q[spiking_nodes], spiking_energies)
+            if hasattr(self, 'atlas'):
+                self.atlas.update(spiking_nodes, self.q[spiking_nodes], spiking_energies)
+            
+            # [PHASE 1000] Internal Monologue: Store spikes for feedback
+            self.internal_monologue_buffer[spiking_nodes] += self.q[spiking_nodes] * spiking_energies.unsqueeze(1)
             
             self.propagate_wave_ripple(spiking_nodes, spiking_energies)
+            
+        # 5. [OUROBOROS] Feed the monologue back into the input for the next cycle
+        # This creates a 'thought about a thought' loop.
+        self.q += self.internal_monologue_buffer * 0.1
+        self.internal_monologue_buffer *= 0.5 # Decay the monologue
         
-        # 5. [ASCENSION] Accumulate Gravity
+        # 6. [ASCENSION] Accumulate Gravity
         self.ascension_gravity[active_idx] += spike * density
         
         ascension_mask = (self.ascension_gravity[active_idx] > self.ascension_threshold)
