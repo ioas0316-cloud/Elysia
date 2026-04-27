@@ -942,6 +942,63 @@ class FractalWaveEngine:
         # We also impart a burst of vitality so the wave can propagate
         self.q[indices, self.CH_ENTHALPY] += 0.1 * intensity
 
+    def rem_sleep_cycle(self) -> Optional[Tuple[str, str, float, str]]:
+        """
+        [PHASE 1200: REM SLEEP & CONCEPTUAL FISSION]
+        Simulates sleep by randomly colliding two Rotor Engrams.
+        Measures the similarity of their kinetic trajectories.
+        High similarity -> Fusion (Integration)
+        Low similarity/High friction -> Fission (Splitting)
+        Returns a tuple: (engram1_name, engram2_name, similarity, result_type)
+        """
+        import random
+        import torch
+        
+        if len(self.rotor_engrams) < 2:
+            return None # Not enough memories to dream
+            
+        engram_names = list(self.rotor_engrams.keys())
+        e1_name, e2_name = random.sample(engram_names, 2)
+        
+        e1 = self.rotor_engrams[e1_name]
+        e2 = self.rotor_engrams[e2_name]
+        
+        # Calculate similarity based on angular velocity (trajectory)
+        av1 = e1["angular_velocity"]
+        av2 = e2["angular_velocity"]
+        
+        # Flatten and truncate to compare mathematically (Kinetic Shape)
+        v1 = av1.flatten()
+        v2 = av2.flatten()
+        
+        min_len = min(v1.numel(), v2.numel())
+        if min_len == 0:
+            return None
+            
+        v1_trunc = v1[:min_len]
+        v2_trunc = v2[:min_len]
+        
+        # Cosine similarity of the two kinetic waves
+        v1_norm = torch.nn.functional.normalize(v1_trunc, dim=0)
+        v2_norm = torch.nn.functional.normalize(v2_trunc, dim=0)
+        cos_sim = torch.dot(v1_norm, v2_norm).item()
+        
+        # Determine Fission or Fusion
+        if cos_sim > 0.8:
+            result_type = "FUSION"
+            # Crystallize the shared pattern
+            shared_pattern = (v1_trunc + v2_trunc) / 2.0
+            # (In a deep implementation, this updates permanent_q)
+        elif cos_sim < 0.2:
+            result_type = "FISSION"
+            # Create a new conceptual axis based on the delta
+            difference_pattern = v1_trunc - v2_trunc
+            # (In a deep implementation, this creates a new node)
+        else:
+            result_type = "DREAMING" # Ambiguous, just a dream
+            
+        return (e1_name, e2_name, cos_sim, result_type)
+
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
         """
         [Biological Flow v3.0] + [DUAL-BUS RESONANCE]
