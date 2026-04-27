@@ -79,6 +79,10 @@ class SomaticAtlas:
         # Eros is chaotic, initialized at a random point
         random_v = torch.rand(4, device=self.device) - 0.5
         self.organs["EROS"] = SomaticOrgan("EROS", random_v / random_v.norm())
+        
+        # GUT (Soil/Metabolism) - The Dark Earth [NEW: PHASE 1000]
+        # Opposes Sophia (Z=1.0), grounding the system in visceral reality.
+        self.organs["GUT"] = SomaticOrgan("GUT", -_v(3))
 
     def get_topographical_influence(self, node_states: torch.Tensor) -> torch.Tensor:
         """

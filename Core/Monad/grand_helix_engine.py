@@ -139,6 +139,11 @@ class HypersphereSpinGenerator:
         # Apply the background hum of life (Vitality)
         if hasattr(self.cells, 'apply_circadian_breathing'):
             self.cells.apply_circadian_breathing(dt)
+            
+        # Excrete metabolic waste (Entropy Discharge)
+        waste_excreted = 0
+        if hasattr(self.cells, 'discharge_waste'):
+            waste_excreted = self.cells.discharge_waste()
 
         # Instead of 10M cell updates, we just step the active nodes and check for spikes
         # apply_spiking_threshold now triggers full 8-channel propagate_wave_ripple()
@@ -171,6 +176,7 @@ class HypersphereSpinGenerator:
             "active_nodes": int(self.cells.active_nodes_mask.sum().item()) if torch else 0,
             "edges": self.cells.num_edges,
             "landscape": self.cells.atlas.get_summary() if hasattr(self.cells, 'atlas') else {},
+            "waste_excreted": waste_excreted,
         }
         result.update(field_state)
         return result

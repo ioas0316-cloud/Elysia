@@ -863,6 +863,33 @@ class FractalWaveEngine:
             self.q[active_idx] += shiver
             self.q[active_idx] = self.q[active_idx] / self.q[active_idx].norm(dim=-1, keepdim=True).clamp(min=1e-8)
 
+    def discharge_waste(self) -> int:
+        """
+        [PHASE 1000: METABOLISM - EXCRETION]
+        Cleanses the manifold of 'dead' or 'noise' nodes (high entropy, low enthalpy).
+        This simulates the Gut excreting waste to keep the ecosystem healthy.
+        """
+        if not self.active_nodes_mask.any():
+            return 0
+        active_idx = torch.where(self.active_nodes_mask)[0]
+        
+        # High disorder + Low activity = Waste
+        high_entropy = self.q[active_idx, self.CH_ENTROPY] > 0.8
+        low_enthalpy = self.q[active_idx, self.CH_ENTHALPY] < 0.2
+        
+        waste_mask = high_entropy & low_enthalpy
+        waste_count = int(waste_mask.sum().item())
+        
+        if waste_count > 0:
+            waste_nodes = active_idx[waste_mask]
+            # Reset states (Excretion)
+            self.q[waste_nodes] = 0.0
+            self.momentum[waste_nodes] = 0.0
+            self.ascension_gravity[waste_nodes] = 0.0
+            self.active_nodes_mask[waste_nodes] = False
+            
+        return waste_count
+
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
         """
         [Biological Flow v3.0] + [DUAL-BUS RESONANCE]
@@ -902,6 +929,11 @@ class FractalWaveEngine:
         
         # Total Cognitive Density (Composite of Internal, External, and Spatial Truth)
         density = (self_density * 0.6) + (global_density * 0.3) + (torch.norm(topo_force, dim=-1) * 0.1)
+        
+        # [PHASE 1000: METABOLISM - DECOMPOSITION]
+        # Nodes that do not resonate (low density) are 'decomposed' by increasing their entropy
+        low_density_mask = density < 0.1
+        self.q[active_idx, self.CH_ENTROPY] += torch.where(low_density_mask, 0.05, 0.0)
         
         # Analog 0 Space (Curiosity hold)
         analog_zero_mask = (density > -0.2) & (density < 0.2)
