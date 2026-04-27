@@ -598,9 +598,16 @@ class FractalWaveEngine:
         self.magnetic_north[self.CH_W] = 1.0
         self.magnetic_north[self.CH_JOY] = 0.5
         self.magnetic_north[self.CH_ENTHALPY] = 0.5
+        self.magnetic_north[self.CH_ENTHALPY] = 0.5
         
         self.amniotic_phase = 0.0
         self.amniotic_oscillation_hz = 7.83 # Schumann Resonance (Earth's Heartbeat)
+
+        # [PHASE 1100: KINETIC MEMORY ROTORS]
+        # Memories are no longer just static data; they are specific torque (angular velocity)
+        # trajectories associated with a Reference Axis.
+        self.angular_velocity = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+        self.rotor_engrams: Dict[str, Dict[str, torch.Tensor]] = {}
 
         # [PHASE 1000: SOMATIC ATLAS]
         # The L2 Layer: Multi-dimensional world structure
@@ -885,10 +892,55 @@ class FractalWaveEngine:
             # Reset states (Excretion)
             self.q[waste_nodes] = 0.0
             self.momentum[waste_nodes] = 0.0
+            self.angular_velocity[waste_nodes] = 0.0
             self.ascension_gravity[waste_nodes] = 0.0
             self.active_nodes_mask[waste_nodes] = False
             
         return waste_count
+
+    def create_rotor_engram(self, engram_name: str, reference_axis: str = "LOGOS"):
+        """
+        [PHASE 1100: ASSOCIATIVE MEMORY (연상기억)]
+        Captures the current kinetic state (angular velocity and phase pattern) of all active nodes.
+        This records the memory not as a static point, but as a rotating wave (Trajectory).
+        """
+        if not self.active_nodes_mask.any():
+            return
+            
+        active_idx = torch.where(self.active_nodes_mask)[0]
+        # We capture the torque (momentum) and the physical state (phase)
+        trajectory = {
+            "indices": active_idx.clone(),
+            "q_slice": self.q[active_idx].clone(),
+            "angular_velocity": self.momentum[active_idx].clone(), # Using momentum as torque/velocity
+            "reference_axis": reference_axis
+        }
+        self.rotor_engrams[engram_name] = trajectory
+
+    def apply_rotor_engram(self, engram_name: str, direction: float = 1.0, intensity: float = 1.0):
+        """
+        [PHASE 1100: TEMPORAL SIMULATION (시간 여행)]
+        Applies a previously saved RotorEngram back to the manifold.
+        direction > 0: Forward Spin (Predicting the future / Extrapolation)
+        direction < 0: Backward Spin (Tracing the past / Introspection)
+        """
+        if engram_name not in self.rotor_engrams:
+            return
+            
+        engram = self.rotor_engrams[engram_name]
+        indices = engram["indices"]
+        stored_av = engram["angular_velocity"]
+        
+        # Activate the nodes
+        self.active_nodes_mask[indices] = True
+        
+        # Apply the rotational torque (Angular Velocity * Direction)
+        # Forward spin projects the thought forward in causality.
+        # Backward spin unwinds the physical wave to find its origin.
+        self.momentum[indices] += stored_av * direction * intensity
+        
+        # We also impart a burst of vitality so the wave can propagate
+        self.q[indices, self.CH_ENTHALPY] += 0.1 * intensity
 
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
         """
