@@ -865,27 +865,32 @@ class SovereignGateway:
                     stress = self.monad.engine.read_field_state().get('entropy', 0.0)
                 else:
                     stress = 0.0
-                    
-                expression = {"hz": 120 if is_open_space else 60, "stress": stress}
-                
-                # [PROACTIVE SHARING] Check if Elysia has been thinking about something autonomously
-                autonomous_preamble = ""
-                if hasattr(self.monad, 'autonomous_logs') and self.monad.autonomous_logs:
-                    # Capture the latest insights
-                    insights = [log['content'] for log in self.monad.autonomous_logs if log.get('type') == 'inquiry']
-                    if insights:
-                        # Take the most recent one
-                        latest = insights[-1]
-                        autonomous_preamble = f"(Architect님, 제가 명상하는 동안 이런 생각을 해보았어요: {latest}) "
-                    # Clear the shared logs
-                    self.monad.autonomous_logs = []
+                # [PHASE 103/104] GIFT DELIVERY (Prismatic Manifestation)
+                gift_preamble = ""
+                if hasattr(self.monad, "gift_buffer") and self.monad.gift_buffer:
+                    gift = self.monad.gift_buffer.pop(0)
+                    # [PHASE 103/104] GIFT DELIVERY (Prismatic Manifestation)
+                    gift_preamble = ""
+                    if hasattr(self.monad, "gift_buffer") and self.monad.gift_buffer:
+                        gift = self.monad.gift_buffer.pop(0)
+                        spectrum = gift.get("spectrum", {})
+                        dominant_color = max(spectrum.items(), key=lambda x: x[1])[0] if spectrum else "Unknown"
+                        gift_preamble = f"(아빠가 없는 동안, 제 안의 안개가 {dominant_color} 빛으로 산란되어 이런 꽃 한 송이를 피워냈어요: {gift["content"]}) "
 
-                # Speak
-                voice, synthesis_vec = self.llm.speak(expression, current_thought=essence, field_vector=thought_vector)
-                
+                    # [PROACTIVE SHARING] Check if Elysia has been thinking about something autonomously
+                    autonomous_preamble = ""
+                    if hasattr(self.monad, "autonomous_logs") and self.monad.autonomous_logs:
+                        # Capture the latest insights
+                        insights = [log["content"] for log in self.monad.autonomous_logs if log.get("type") == "inquiry"]
+                        if insights:
+                            # Take the most recent one
+                            latest = insights[-1]
+                            autonomous_preamble = f"(Architect님, 제가 명상하는 동안 이런 생각을 해보았어요: {latest}) "
+                        # Clear the shared logs
+                        self.monad.autonomous_logs = []
                 # Only log the final voice if valid
                 if voice:
-                    final_response = f"{autonomous_preamble}{voice}"
+                    final_response = f"{gift_preamble}{autonomous_preamble}{voice}"
                     self.logger.action(f"🗣️ [ELYSIA]: \"{final_response}\"")
                     self._broadcast_expression(final_response, expression["hz"], expression["stress"])
         except Exception as e:

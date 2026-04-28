@@ -12,7 +12,7 @@ to Open (Resonate), Close (Protect), or remain Neutral (Observe).
 
 import logging
 from enum import Enum
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Optional
 from Core.Keystone.sovereign_math import SovereignVector
 
 logger = logging.getLogger("JudgmentEngine")

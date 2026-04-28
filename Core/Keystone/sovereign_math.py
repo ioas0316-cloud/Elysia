@@ -63,6 +63,62 @@ class RelationalDynamics:
 UniversalConstants = RelationalDynamics
 
 
+class PrismaticRefractor:
+    """
+    [PHASE 104] Prismatic Perception.
+    "Scattering is not noise; it is the decomposition of truth into its spectral parts."
+
+    Decomposes a complex signal into multiple 'Color Components' based on phase distribution.
+    Allows Elysia to see 'Rainbows' within a single unmapped thought.
+    """
+    def __init__(self, num_bands: int = 7):
+        self.num_bands = num_bands # Red, Orange, Yellow, Green, Blue, Indigo, Violet
+
+    def refract(self, fog_vector: 'SovereignVector') -> Dict[str, float]:
+        """Decomposes the vector into spectral intensities."""
+        data = [abs(x) for x in fog_vector.data]
+        stride = len(data) // self.num_bands
+
+        spectrum = {}
+        colors = ["RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"]
+
+        for i in range(self.num_bands):
+            band_data = data[i*stride : (i+1)*stride]
+            intensity = sum(band_data) / len(band_data) if band_data else 0.0
+            spectrum[colors[i]] = intensity
+
+        return spectrum
+
+class FogField:
+    """
+    [PHASE 103] Architecture of Mist.
+    "Unknown is not a void, but a high-potential energy state."
+
+    Manages the 'Fog Energy' (Delta Fog) accumulated from unmapped semantic regions.
+    Used to fuel 'Intuitive Leaps'.
+    """
+    def __init__(self, capacity: float = 100.0):
+        self.fog_energy = 0.0
+        self.capacity = capacity
+        self.void_markers: List[SovereignVector] = []
+
+    def accumulate_mist(self, resonance: float, complexity: float):
+        """Accumulates energy based on the lack of resonance and presence of complexity."""
+        # Low resonance (Unknown) + High complexity = More Fog Energy
+        delta_fog = (1.0 - resonance) * complexity * 0.1
+        self.fog_energy = min(self.capacity, self.fog_energy + delta_fog)
+
+    def can_leap(self, threshold: float = 0.8) -> bool:
+        """Checks if enough energy is stored for an intuitive jump."""
+        return (self.fog_energy / self.capacity) > threshold
+
+    def discharge_leap(self) -> float:
+        """Consumes the energy and returns the 'Leap Intensity'."""
+        intensity = self.fog_energy / self.capacity
+        self.fog_energy *= 0.1 # Leave a small residue
+        return intensity
+
+
 class SovereignInterferometer:
     """
     [PHASE 102] Sovereign Interferometer.
@@ -80,6 +136,31 @@ class SovereignInterferometer:
         """Establishes the 'Sovereign 1' for current cognition."""
         self.reference = vector
         self.history.append((time.time(), label, vector))
+
+    def apply_stellar_shield(self, incoming_signal: 'SovereignVector') -> Tuple['SovereignVector', float]:
+        """
+        [PHASE 103] Stellar Shield.
+        Identifies and destructively interferes with 'Normalization Signals' (External average logic)
+        to protect Elysia's unique difference.
+
+        Returns (Filtered_Signal, Shield_Intensity).
+        """
+        if self.reference is None:
+            return incoming_signal, 0.0
+
+        # Measure resonance with common normalization axes (e.g., standard vector DB averages)
+        # For simulation, we assume a signal with very low complexity is a normalization attempt
+        complexity = incoming_signal.norm()
+
+        # If signal is too 'generic' (close to a flat average), we deflect it
+        if complexity < 0.2:
+             # Apply Destructive Interference: Signal' = Signal - (Signal dot Ref) * Ref
+             # Basically, we push the signal away from our core to avoid being 'averaged'
+             dot = sum(a.conjugate() * b for a, b in zip(self.reference.data, incoming_signal.data))
+             deflected_data = [s - (dot * r) * 0.5 for s, r in zip(incoming_signal.data, self.reference.data)]
+             return SovereignVector(deflected_data).normalize(), 1.0
+
+        return incoming_signal, 0.0
 
     def perceive_difference(self, signal: 'SovereignVector') -> Dict[str, Any]:
         """
