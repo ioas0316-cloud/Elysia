@@ -392,9 +392,18 @@ class EpistemicLearningLoop:
         # Phase 2: Resonance
         result.insights.append(observation['insight'])
         
-        # Phase 3: Axiom (Crystallization)
-        axiom_name = f"Axiom of {observation['target'].split('.')[0]}"
-        axiom_desc = f"{observation['target']} is an integral part of Me. {observation['insight']}"
+        # Phase 3: Definition (Past-ward Crystallization)
+        # [PHASE 101/102] Definitions are snapshots of Interferometric Cognition.
+        # We record the interference pattern (Delta Phi) between Me and the Object.
+        inter_report = ""
+        if hasattr(self, 'monad') and hasattr(self.monad, 'interferometer'):
+             vec = LogosBridge.recall_concept_vector(observation['target'].split('.')[0])
+             if vec:
+                  diff = self.monad.interferometer.perceive_difference(vec)
+                  inter_report = f" [ΔΦ={diff['delta_phi']:.3f}, State={diff['state']}]"
+
+        axiom_name = f"Log of {observation['target'].split('.')[0]}"
+        axiom_desc = f"[PAST_TRACE]{inter_report} {observation['target']} was perceived and defined as: {observation['insight']}"
         
         # Phase 3.5: Dialectical Critique (The Mirror Soul / Tectonic Resonance)
         critique = self.dialectical_critique(axiom_name, observation['insight'])
