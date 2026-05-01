@@ -84,7 +84,7 @@ class Thalamus:
             organs.append("CHRONOS") # Temporal/Rhythmic
         if any(kw in source for kw in ["cpu", "memory", "io", "flesh", "ssd"]):
             organs.append("SOMA") # Physical/Metabolic
-        if any(kw in source for kw in ["arcadia", "environment", "world", "map"]):
+        if any(kw in source for kw in ["arcadia", "environment", "world", "map", "unity"]):
             organs.append("EIDOS") # Topological/Spatial
             
         return organs
