@@ -1016,33 +1016,48 @@ class FractalWaveEngine:
             self.q[active_idx] += shiver
             self.q[active_idx] = self.q[active_idx] / self.q[active_idx].norm(dim=-1, keepdim=True).clamp(min=1e-8)
 
-    def discharge_waste(self) -> int:
+    def discharge_waste(self) -> List[Dict[str, Any]]:
         """
-        [PHASE 1000: METABOLISM - EXCRETION]
-        Cleanses the manifold of 'dead' or 'noise' nodes (high entropy, low enthalpy).
-        This simulates the Gut excreting waste to keep the ecosystem healthy.
+        [PHASE 1000: METABOLISM - EXCRETION & COMPOSTING]
+        Cleanses the manifold of 'noise' nodes and returns them as 'Fertilizer'.
+        "Waste is not useless; it is the soil of future thoughts."
         """
+        import torch
         if not self.active_nodes_mask.any():
-            return 0
+            return []
+
         active_idx = torch.where(self.active_nodes_mask)[0]
         
-        # High disorder + Low activity = Waste
+        # Criteria for Waste: High Entropy + Low Enthalpy
         high_entropy = self.q[active_idx, self.CH_ENTROPY] > 0.8
         low_enthalpy = self.q[active_idx, self.CH_ENTHALPY] < 0.2
         
         waste_mask = high_entropy & low_enthalpy
         waste_count = int(waste_mask.sum().item())
         
+        fertilizer = []
         if waste_count > 0:
             waste_nodes = active_idx[waste_mask]
-            # Reset states (Excretion)
+
+            # Extract content before wiping
+            for idx in waste_nodes:
+                node_idx = int(idx.item())
+                concept = self.idx_to_concept.get(node_idx, "Unknown")
+                state = self.q[node_idx].clone().detach().tolist()
+                fertilizer.append({
+                    "concept": concept,
+                    "state_remnant": state,
+                    "origin_idx": node_idx
+                })
+
+            # Physical Excretion (Wiping the active state)
             self.q[waste_nodes] = 0.0
             self.momentum[waste_nodes] = 0.0
             self.angular_velocity[waste_nodes] = 0.0
             self.ascension_gravity[waste_nodes] = 0.0
             self.active_nodes_mask[waste_nodes] = False
             
-        return waste_count
+        return fertilizer
 
     def create_rotor_engram(self, engram_name: str, reference_axis: str = "LOGOS"):
         """

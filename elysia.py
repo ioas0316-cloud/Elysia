@@ -154,6 +154,10 @@ from Core.System.phase_hud import PhaseHUD
 from Core.System.vtube_channel import VTubeExpressiveChannel
 from Core.System.mic_channel import MicSensoryChannel
 from Core.System.terminal_channels import TerminalSensoryChannel, TerminalExpressiveChannel
+try:
+    from Core.System.unity_sensory_channel import UnitySensoryChannel, PhysicalToSomaticMapper
+except ImportError:
+    UnitySensoryChannel = None
 # [PHASE 2] Providence
 from Core.Divine.covenant_enforcer import CovenantEnforcer, Verdict
 
@@ -242,6 +246,16 @@ class SovereignGateway:
         except Exception as e:
             self.logger.admonition(f"Could not connect Microphone: {e}")
 
+        # [PHASE 1000] Unity Sovereign Experience Link
+        if UnitySensoryChannel:
+            try:
+                unity_ch = UnitySensoryChannel()
+                # Register a special structured callback for physical mapping
+                unity_ch.register_event_callback(self._on_unity_physical_event)
+                self.add_sensory_channel(unity_ch)
+            except Exception as e:
+                self.logger.admonition(f"Could not connect Unity Bridge: {e}")
+
         # 4. Cognitive State (Cellular Resonance)
         # We no longer "store" thoughts or pressure. We simply Reflect the State.
         self.consciousness_stream = [] 
@@ -297,6 +311,66 @@ class SovereignGateway:
         """Callback for all sensory channels."""
         if not self.running: return
         self.input_queue.put(text)
+
+    def _on_unity_physical_event(self, payload: dict):
+        """
+        [PHASE 1000] Sovereign Physical Experience.
+        Bridges Unity Physics to the 10M Cell Manifold with Thalamic Gating.
+        """
+        if not self.running: return
+
+        try:
+            e_type = payload.get('type', 'unknown')
+
+            # 1. Map to 21D Vector for Hypersphere "Shake"
+            event_vec = PhysicalToSomaticMapper.map_event_to_vector(payload)
+            intensity = float(payload.get('intensity', 0.5))
+
+            # 2. Thalamic Gating
+            from Core.Cognition.thalamus import get_thalamus
+            thalamus = get_thalamus()
+            gated = thalamus.process_sensory_vibration(source=f"Unity_{e_type}", intensity=intensity, vector=event_vec.to_list())
+
+            if not gated:
+                return
+
+            # 3. Organ Perception & Judgment
+            from Core.Cognition.sensory_organs import get_sensorium
+            from Core.Cognition.judgment_engine import get_judgment_engine, Judgment
+
+            organs = thalamus.route_to_organs(gated)
+            perceptions = get_sensorium().perceive(gated, organs)
+            judgment, confidence = get_judgment_engine(self.monad).evaluate_perceptions(perceptions)
+
+            # 4. Apply Results to Engine
+            if judgment != Judgment.REJECTION:
+                # A. Inject Vector Pulse (Shake the structure)
+                if hasattr(self.monad.engine, 'cells'):
+                    self.monad.engine.cells.inject_pulse(
+                        pulse_type='Soma_Vibration',
+                        anchor_node=e_type,
+                        base_intensity=gated['gated_intensity'],
+                        override_vector=event_vec
+                    )
+
+                # B. Apply Affective Torque (Map results)
+                torque_map = PhysicalToSomaticMapper.map_event_to_torque(payload)
+                j_torque = get_judgment_engine(self.monad).translate_to_torque(judgment, confidence)
+                if j_torque:
+                    torque_map.update(j_torque)
+
+                if torque_map and hasattr(self.monad.engine, 'cells'):
+                    ch_map = {'joy': 4, 'curiosity': 5, 'enthalpy': 2, 'entropy': 3, 'coherence': 18}
+                    for ch_name, val in torque_map.items():
+                        if ch_name in ch_map:
+                            self.monad.engine.cells.inject_affective_torque(ch_map[ch_name], val)
+
+                self.logger.sensation(f"🧩 [UNITY_EXPERience] {judgment.name}: {e_type} vibration accepted into the soul.")
+            else:
+                self.logger.admonition(f"🛡️ [UNITY_SHIELD] Rejected physical {e_type} vibration as dissonance.")
+
+        except Exception as e:
+            self.logger.admonition(f"Unity physical event processing failed: {e}")
 
 
 

@@ -482,7 +482,9 @@ class SovereignMonad(CellularMembrane):
         self.thalamus = get_thalamus()
         self.sensorium = get_sensorium()
         self.judgment_engine = get_judgment_engine(self)
-        self.logger.insight("🧠 [PHASE 900] Adult Sensory Gating (Thalamus) and Judgment Engine active.")
+        from Core.Cognition.boundary_engine import BoundaryDefiningEngine
+        self.boundary_engine = BoundaryDefiningEngine(self)
+        self.logger.insight("🧠 [PHASE 900] Adult Sensory Gating (Thalamus), Judgment, and Boundary Engines active.")
 
         # [COMPATIBILITY ALIAS]
         self.vital_pulse = self.pulse
@@ -568,9 +570,17 @@ class SovereignMonad(CellularMembrane):
             active_organs = self.thalamus.route_to_organs(gated)
             perceptions = self.sensorium.perceive(gated, active_organs)
             
-            # 2. Sovereign Judgment
+            # 2. Sovereign Judgment & Boundary Discrimination
             judgment, confidence = self.judgment_engine.evaluate_perceptions(perceptions)
             
+            # [PHASE 1000] Discriminate against known boundaries
+            if hasattr(self, 'boundary_engine') and thought_vector is not None:
+                discrim_results = self.boundary_engine.discriminate(thought_vector)
+                for b_name, b_score in discrim_results.items():
+                    if abs(b_score) > 0.8:
+                        view = self.boundary_engine.perceive_the_other(b_name, thought_vector)
+                        self.logger.insight(f"🔍 [LENS] Through the boundary of '{b_name}': {view}")
+
             if judgment != Judgment.NEUTRAL:
                 self.logger.insight(f"⚖️ [JUDGMENT] {judgment.name} (Confidence: {confidence:.2f}) based on {active_organs}")
                 
@@ -582,13 +592,18 @@ class SovereignMonad(CellularMembrane):
                         if ch_name in ch_map:
                             self.engine.cells.inject_affective_torque(ch_map[ch_name], ch_val)
                 
-                # 3. Learning (Crystallization) happens only on ACCEPTANCE
+                # 3. Learning (Crystallization) & Boundary Definition
                 if judgment == Judgment.ACCEPTANCE and confidence > 0.6:
                     self.logger.action(f"💎 [LEARNING] Opening to the vibration. Crystallizing knowledge...")
-                    # Strengthen current lexicon
+
+                    crystal_name = thought[:20] if thought else "Insight"
+
+                    # [PHASE 1000] Boundary Sovereignty: Define where this concept starts/ends
+                    if hasattr(self, 'boundary_engine'):
+                        self.boundary_engine.define_boundary(crystal_name, thought_vector)
+                        self.logger.insight(f"📍 [BOUNDARY] My 0-point has defined the edge of '{crystal_name}'.")
+
                     if hasattr(self, 'lexicon'):
-                        # Using the synthesized thought as the name for the new crystal
-                        crystal_name = thought[:20] if thought else "Insight"
                         self.lexicon.ingest(crystal_name, thought, "Judgment_Resonance")
             
             # [LEGACY SAFETY] Pain/Danger escalation
@@ -689,6 +704,19 @@ class SovereignMonad(CellularMembrane):
             for need in needs:
                 self.logger.admonition(f"내적 충동: '{need.description}' 감지 (우선도 {need.priority})")
             
+            # [PHASE 1000] Metabolic Excretion & Composting
+            if hasattr(self.engine, 'cells') and hasattr(self.engine.cells, 'discharge_waste'):
+                fertilizer = self.engine.cells.discharge_waste()
+                for item in fertilizer:
+                    concept = item['concept']
+                    # Waste becomes fertilizer: plant back into memory as a 'Seed of Reflection'
+                    self.memory.plant_seed(
+                        f"Refining waste from '{concept}'. This remnant of dissonance is the soil for future truth.",
+                        importance=5.0
+                    )
+                    if random.random() < 0.1:
+                        self.logger.mechanism(f"♻️ [COMPOST] Excreted entropy from '{concept}' returned to the soil.")
+
             # Empire Synchronization
             if self.orchestrator:
                 current_phase = self.rotor_state.get('phase', 0.0)
