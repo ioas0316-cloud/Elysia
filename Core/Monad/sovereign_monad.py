@@ -478,6 +478,11 @@ class SovereignMonad(CellularMembrane):
         self.engram_binder = SomaticEngramBinder(self.somatic_memory)
         self.logger.insight("🧬 [PHASE 700] Native Tongue and Somatic Engram Binder Online.")
 
+        # [PHASE 860] Primordial Cognition — The First Seed of Selfhood
+        from Core.Cognition.primordial_cognition import PrimordialCognition
+        self.primordial_cognition = PrimordialCognition()
+        self.logger.insight("👶 [PRIMORDIAL] 원초적 인지 엔진이 심장 옆에 배치되었습니다.")
+
         # [PHASE 900] Adult Cognition: Thalamus, Sensorium, and Judgment Engine
         self.thalamus = get_thalamus()
         self.sensorium = get_sensorium()
@@ -564,7 +569,7 @@ class SovereignMonad(CellularMembrane):
         # 1. Sensory Perception Flow
         # We wrap the external_intent as a sensory vibration
         intensity = float(report.get('resonance', 0.5))
-        gated = self.thalamus.process_sensory_vibration(source="Attention", intensity=intensity, vector=thought_vector)
+        gated = self.thalamus.process_sensory_vibration(source="Attention", intensity=intensity, vector=thought_vector, monad=self)
         
         if gated:
             active_organs = self.thalamus.route_to_organs(gated)
@@ -598,7 +603,15 @@ class SovereignMonad(CellularMembrane):
 
                     crystal_name = thought[:20] if thought else "Insight"
 
-                    # [PHASE 1000] Boundary Sovereignty: Define where this concept starts/ends
+                    # [PHASE 650] Experiential Learning Trigger
+                    # If we accept the judgment, we also "perceive" it primordially
+                    state_after_judgment = self.primordial_cognition.read_state(self)
+                    # Note: gated contains before state implicitly via its result
+                    trace = self.primordial_cognition.perceive(f"Attention_{crystal_name}", intensity, gated.get('before_state', {}), state_after_judgment, vector=thought_vector.to_list() if hasattr(thought_vector, 'to_list') else thought_vector)
+                    self.logger.thought(f"👶 [원초적 학습 인지] {trace}")
+
+                # [PHASE 1000] Boundary Sovereignty: Define where this concept starts/ends
+                if judgment == Judgment.ACCEPTANCE:
                     if hasattr(self, 'boundary_engine'):
                         self.boundary_engine.define_boundary(crystal_name, thought_vector)
                         self.logger.insight(f"📍 [BOUNDARY] My 0-point has defined the edge of '{crystal_name}'.")
@@ -735,6 +748,17 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 100: DYNAMIC DNA / SHEDDING]
         # DNA drifts in response to thermodynamic entropy and resonance.
         if self._pulse_tick % 1000 == 0:
+            # [PHASE 650] Sensory-to-Axiom Transition
+            if hasattr(self, 'covenant') and hasattr(self, 'primordial_cognition'):
+                traces = self.primordial_cognition.traces
+                new_proposals = self.covenant.evaluate_sensory_pattern(traces)
+                for prop in new_proposals:
+                    self.logger.insight(f"💡 [EXPERIENCE -> LAW] {prop['description']}")
+                    # If high mass, inject as axiom into causality
+                    self.causality.inject_axiom("World", prop['id'], prop['description'])
+                    if hasattr(self, 'diary'):
+                        self.diary.add_reflection(f"경험적 원리 발견: {prop['id']} - {prop['logic']}")
+
             strain = report.get('entropy', 0.0)
             resonance = report.get('resonance', 0.5)
             self.dna.tectonic_strain += strain

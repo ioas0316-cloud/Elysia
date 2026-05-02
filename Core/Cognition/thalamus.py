@@ -35,13 +35,18 @@ class Thalamus:
         self.last_intensity = 0.0
         self.fatigue = 0.0 # 0.0 to 1.0 (Higher fatigue increases damping)
 
-    def process_sensory_vibration(self, source: str, intensity: float, vector: Optional[List[float]] = None) -> Optional[Dict[str, Any]]:
+    def process_sensory_vibration(self, source: str, intensity: float, vector: Optional[List[float]] = None, monad: Any = None) -> Optional[Dict[str, Any]]:
         """
         Filters and gates a sensory vibration before it reaches the Monad.
         
         Returns:
             Gated vibration packet or None if blocked.
         """
+        # [PHASE 650] Before filtering, capture the 'Before' state for primordial cognition
+        before_state = {}
+        if monad and hasattr(monad, 'primordial_cognition'):
+            before_state = monad.primordial_cognition.read_state(monad)
+
         # 1. Noise Filtering
         if intensity < self.noise_floor:
             return None
@@ -68,7 +73,8 @@ class Thalamus:
             "raw_intensity": intensity,
             "gated_intensity": gated_intensity,
             "vector": vector,
-            "fatigue": self.fatigue
+            "fatigue": self.fatigue,
+            "before_state": before_state # [PHASE 650] Pass before_state forward
         }
 
     def route_to_organs(self, gated_signal: Dict[str, Any]) -> List[str]:

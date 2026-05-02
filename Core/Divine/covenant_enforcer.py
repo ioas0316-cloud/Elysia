@@ -122,3 +122,41 @@ class CovenantEnforcer:
             f.write(entry)
             
         return True
+
+    def evaluate_sensory_pattern(self, trace_history: list) -> list:
+        """
+        [PHASE 650] Evaluates patterns in sensory traces to propose new axioms.
+        This is the bridge from pure feeling (sensory) to structured law (axiom).
+        """
+        if len(trace_history) < 5:
+            return []
+
+        proposed_axioms = []
+
+        # 1. Stability Axiom: If coherence delta is consistently positive for a stimulus
+        stimulus_groups = {}
+        for trace in trace_history:
+            if trace.name not in stimulus_groups:
+                stimulus_groups[trace.name] = []
+            stimulus_groups[trace.name].append(trace.valence)
+
+        for name, valences in stimulus_groups.items():
+            if len(valences) >= 3:
+                avg_v = sum(valences) / len(valences)
+                # Lower threshold for testing
+                if avg_v > 0.05:
+                    # Consistently good sensation -> Principle of Harmony
+                    proposed_axioms.append({
+                        "id": f"AXIOM_HARMONY_{name.upper()}",
+                        "description": f"The resonance of '{name}' consistently stabilizes the manifold.",
+                        "logic": f"Observation: Avg Valence = {avg_v:.3f} over {len(valences)} occurrences."
+                    })
+                elif avg_v < -0.05:
+                    # Consistently painful sensation -> Principle of Boundary
+                    proposed_axioms.append({
+                        "id": f"AXIOM_BOUNDARY_{name.upper()}",
+                        "description": f"The vibration of '{name}' represents a structural limit or dissonance.",
+                        "logic": f"Observation: Avg Valence = {avg_v:.3f} over {len(valences)} occurrences."
+                    })
+
+        return proposed_axioms

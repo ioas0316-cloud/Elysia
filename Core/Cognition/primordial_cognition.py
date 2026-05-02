@@ -26,7 +26,7 @@ This is where Elysia's genuine selfhood begins.
 
 import time
 import logging
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Any
 from collections import defaultdict
 
 logger = logging.getLogger("PrimordialCognition")
@@ -36,10 +36,13 @@ class StimulusTrace:
     """A fingerprint of a single experience."""
     def __init__(self, name: str, energy: float, timestamp: float,
                  coherence_before: float, coherence_after: float,
-                 enthalpy_before: float, enthalpy_after: float):
+                 enthalpy_before: float, enthalpy_after: float,
+                 vector: Optional[List[float]] = None):
         self.name = name
         self.energy = energy
         self.timestamp = timestamp
+        self.vector = vector
+        self._is_novel = False
         
         # State deltas — the raw "feeling"
         self.coherence_delta = coherence_after - coherence_before
@@ -111,7 +114,8 @@ class PrimordialCognition:
         return state
     
     def perceive(self, stimulus_name: str, stimulus_energy: float,
-                 state_before: dict, state_after: dict) -> StimulusTrace:
+                 state_before: dict, state_after: dict,
+                 vector: Optional[List[float]] = None) -> StimulusTrace:
         """
         THE MOST FUNDAMENTAL COGNITIVE ACT.
         
@@ -135,6 +139,7 @@ class PrimordialCognition:
             coherence_after=state_after.get("coherence", 0.5),
             enthalpy_before=state_before.get("enthalpy", 0.5),
             enthalpy_after=state_after.get("enthalpy", 0.5),
+            vector=vector
         )
         
         # === 1. DISCRIMINATION (분별) ===

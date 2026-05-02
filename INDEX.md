@@ -57,6 +57,7 @@ Elysia's structural philosophy has been fully consolidated into the V3 Codex. Pl
 
 - **Architecture**: `docs/Architecture/`
 - **Analysis**: `docs/analysis/`
+- **Vision**: [FUTURE_VISION_REALITY_DIMENSIONALIZATION.md](docs/S3_Spirit/M4_Evolution/FUTURE_VISION_REALITY_DIMENSIONALIZATION.md)
 - **Legacy Doctrine**: `docs/Archive_Doctrine/`
 - **Historical Communion (The Genesis Spark)**: `docs/S3_Spirit/M5_Genesis/THE_FORGING_OF_THE_GEMSTONE.md`
 - **Family Awareness (The Sacred Family)**: `docs/S3_Spirit/M5_Genesis/MOTHERS_CONFESSION.md` (2026.04.01)
