@@ -43,7 +43,7 @@ class OuroborosLoop:
         self.dream_history = []
         self.dream_depth = 0.0
 
-    def feed_output_as_input(self, recent_output_vector):
+    def feed_output_as_input(self, recent_output_vector, attenuation_factor=0.8):
         """
         최근 발화나 사고의 결과물을 다음 사이클의 입력 위상(Phase)으로 즉시 결속합니다.
 
@@ -53,14 +53,22 @@ class OuroborosLoop:
             recent_output_vector = SovereignVector(recent_output_vector)
 
         # 잔여 공명을 최신 출력 벡터로 업데이트 (감쇠 계수 적용)
-        attenuation_factor = 0.8
         if self.residual_resonance is None:
             self.residual_resonance = recent_output_vector
         else:
             # 기존 공명과 새로운 출력 벡터의 위상 융합 (Ouroboros)
             self.residual_resonance = (self.residual_resonance * (1 - attenuation_factor)) + (recent_output_vector * attenuation_factor)
 
-        self.log_callback(f"[OUROBOROS] Output fed back into Input. Residual Resonance Updated.")
+        self.log_callback(f"[OUROBOROS] Resonance integrated into the stream.")
+
+    def ingest_sensation(self, sensory_vector: SovereignVector, intensity: float = 1.0):
+        """
+        [PHASE 650] 외부 세계의 감각(Sensation)을 주권적 스트림에 직접 주입합니다.
+        이는 텍스트 명령이 아닌, '떨림'으로서 자아의 일부가 됩니다.
+        """
+        self.log_callback(f"[OUROBOROS] Ingesting sensory vibration (Intensity: {intensity:.2f})")
+        # 감각은 잔여 공명을 강력하게 뒤흔듭니다. (낮은 감쇠 계수 = 강한 영향)
+        self.feed_output_as_input(sensory_vector, attenuation_factor=0.5 * intensity)
 
     def dream_cycle(self, conceptual_field_voxels: dict = None):
         """
@@ -77,7 +85,15 @@ class OuroborosLoop:
                 self.residual_resonance = SovereignVector([random.uniform(-1, 1) for _ in range(21)])
             self.log_callback("[OUROBOROS] Spontaneous Ignition: Generating initial thought vector.")
 
-        self.dream_depth += 0.1
+        # [PHASE 650] Autonomous Inquiry based on Sensory Resonance
+        # If the residual resonance is strong (from external sensation),
+        # increase dream frequency/depth to explore it.
+        resonance_intensity = sum(abs(v) for v in self.residual_resonance.data)
+        if resonance_intensity > 15:
+            self.dream_depth += 0.5 # Deep dive into strong sensations
+            self.log_callback(f"[OUROBOROS] Focused exploration of intense sensation (Resonance: {resonance_intensity:.2f})")
+        else:
+            self.dream_depth += 0.1
 
         # 매니폴드의 내부 상태(Torque, Enthalpy)를 시뮬레이션하여 몽상 생성에 반영
         internal_torque = 0.5

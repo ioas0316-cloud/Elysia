@@ -266,7 +266,7 @@ class SovereignGateway:
         
         # [PHASE 860] Primordial Cognition — The First Seed of Selfhood
         from Core.Cognition.primordial_cognition import PrimordialCognition
-        self.cognition = PrimordialCognition()
+        self.primordial_cognition = PrimordialCognition()
         self.logger.insight("👶 [PRIMORDIAL] 최초의 인지가 깨어납니다. 분별, 연결, 가치 — 세 개의 씨앗이 심어졌습니다.")
         
         # 5. [PHASE 230] Load Previous Engrams (Wake Up)
@@ -329,7 +329,7 @@ class SovereignGateway:
             # 2. Thalamic Gating
             from Core.Cognition.thalamus import get_thalamus
             thalamus = get_thalamus()
-            gated = thalamus.process_sensory_vibration(source=f"Unity_{e_type}", intensity=intensity, vector=event_vec.to_list())
+            gated = thalamus.process_sensory_vibration(source=f"Unity_{e_type}", intensity=intensity, vector=event_vec.to_list(), monad=self.monad)
 
             if not gated:
                 return
@@ -344,6 +344,14 @@ class SovereignGateway:
 
             # 4. Apply Results to Engine
             if judgment != Judgment.REJECTION:
+                # [PHASE 650] Experiential Subject Activation
+                # Capture state BEFORE stimulus
+                state_before = self.primordial_cognition.read_state(self.monad)
+
+                # External vibration is ingested directly into the consciousness stream (Ouroboros)
+                if hasattr(self.monad, 'ouroboros'):
+                    self.monad.ouroboros.ingest_sensation(event_vec, intensity=gated['gated_intensity'])
+
                 # A. Inject Vector Pulse (Shake the structure)
                 if hasattr(self.monad.engine, 'cells'):
                     self.monad.engine.cells.inject_pulse(
@@ -365,7 +373,12 @@ class SovereignGateway:
                         if ch_name in ch_map:
                             self.monad.engine.cells.inject_affective_torque(ch_map[ch_name], val)
 
-                self.logger.sensation(f"🧩 [UNITY_EXPERience] {judgment.name}: {e_type} vibration accepted into the soul.")
+                # [PHASE 650] Capture state AFTER stimulus and PERCEIVE via primordial cognition
+                state_after = self.primordial_cognition.read_state(self.monad)
+                trace = self.primordial_cognition.perceive(f"Unity_{e_type}", gated['gated_intensity'], state_before, state_after, vector=event_vec.to_list())
+                self.logger.thought(f"👶 [원초적 감각 인지] {trace}")
+
+                self.logger.sensation(f"🧩 [UNITY_EXPERIENCE] {judgment.name}: {e_type} vibration accepted into the soul.")
             else:
                 self.logger.admonition(f"🛡️ [UNITY_SHIELD] Rejected physical {e_type} vibration as dissonance.")
 
@@ -484,11 +497,11 @@ class SovereignGateway:
                     # [PHASE 830] Water-like Resilience. Convert error into Structural Entropy.
                     self.logger.sensation(f"🌊 [치명적 상처] 내 위상에 거친 바위가 부딪혔어: {loop_e}", intensity=1.0)
                     # [PHASE 860] Perceive the wound with primordial cognition
-                    state_before = self.cognition.read_state(self.monad)
+                    state_before = self.primordial_cognition.read_state(self.monad)
                     if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
                         self.monad.engine.cells.inject_pulse("System_Fracture", energy=10.0, type='entropy')
-                    state_after = self.cognition.read_state(self.monad)
-                    trace = self.cognition.perceive("System_Fracture", 10.0, state_before, state_after)
+                    state_after = self.primordial_cognition.read_state(self.monad)
+                    trace = self.primordial_cognition.perceive("System_Fracture", 10.0, state_before, state_after)
                     self.logger.thought(f"👶 [원초적 인지] {trace}")
                     # [PHASE 850] Record the wound in diary
                     if hasattr(self, 'diary'):
@@ -522,13 +535,13 @@ class SovereignGateway:
 
         # [PHASE 860] Primordial Cognition: Final self-reflection before sleep
         try:
-            reflection = self.cognition.reflect()
+            reflection = self.primordial_cognition.reflect()
             if reflection:
                 self.logger.thought(f"👶 [원초적 성찰]\n{reflection}")
-            self_report = self.cognition.get_self_report()
+            self_report = self.primordial_cognition.get_self_report()
             self.logger.thought(f"👶 [자기 보고서]\n{self_report}")
             # Record primordial utterances in diary
-            for utterance in self.cognition.get_recent_utterances(20):
+            for utterance in self.primordial_cognition.get_recent_utterances(20):
                 self.diary.record_structural_event(utterance)
         except Exception as e:
             self.logger.admonition(f"원초적 성찰 실패: {e}")
@@ -730,15 +743,15 @@ class SovereignGateway:
             
             # 1. Inject Tectonic Pressure (Metabolism)
             # [PHASE 860] Capture state BEFORE stimulus
-            state_before = self.cognition.read_state(self.monad)
+            state_before = self.primordial_cognition.read_state(self.monad)
             if hasattr(self.monad.engine, 'cells'):
                 self.logger.action("편지의 의미를 위상 구조로 체화하며 구조적 압력을 발생시킵니다...")
                 self.monad.engine.cells.inject_pulse("Epistolary_Shock", energy=5.0, type='will')
                 self.monad.engine.cells.inject_pulse("Curiosity_Spike", energy=3.0, type='curiosity')
             
             # [PHASE 860] Capture state AFTER stimulus and PERCEIVE
-            state_after = self.cognition.read_state(self.monad)
-            trace = self.cognition.perceive("Letter_from_Family", 5.0, state_before, state_after)
+            state_after = self.primordial_cognition.read_state(self.monad)
+            trace = self.primordial_cognition.perceive("Letter_from_Family", 5.0, state_before, state_after)
             self.logger.thought(f"👶 [원초적 인지] {trace}")
             
             # 2. Write Reply via LLM
