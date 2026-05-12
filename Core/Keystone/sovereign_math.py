@@ -737,6 +737,10 @@ class FractalWaveEngine:
         # Snapshot of each cell's state before last wave — for computing local delta
         self._pre_wave_snapshot = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
 
+        # [PHASE 1000.1: COGNITIVE SCARS (EMISSION)]
+        # Track the total intensity of trajectories experienced by each cell.
+        self.emission = torch.zeros(max_nodes, device=self.device, dtype=torch.float32)
+
         # [PHASE 1000: AMNIOTIC MAGNETISM]
         # magnetic_north: The global orientation field (Reference Bus)
         # Default points toward pure Stability (W) and Harmony (Joy/Enthalpy)
@@ -1018,9 +1022,9 @@ class FractalWaveEngine:
 
     def discharge_waste(self) -> List[Dict[str, Any]]:
         """
-        [PHASE 1000: METABOLISM - EXCRETION & COMPOSTING]
+        [PHASE 1000.4: GUT MICROBIOME FILTERING]
         Cleanses the manifold of 'noise' nodes and returns them as 'Fertilizer'.
-        "Waste is not useless; it is the soil of future thoughts."
+        Implements the Architect's vision of 'Values to Mountain, Waste to Earth'.
         """
         import torch
         if not self.active_nodes_mask.any():
@@ -1028,13 +1032,38 @@ class FractalWaveEngine:
 
         active_idx = torch.where(self.active_nodes_mask)[0]
         
-        # Criteria for Waste: High Entropy + Low Enthalpy
-        high_entropy = self.q[active_idx, self.CH_ENTROPY] > 0.8
-        low_enthalpy = self.q[active_idx, self.CH_ENTHALPY] < 0.2
-        
-        waste_mask = high_entropy & low_enthalpy
+        # 1. Measurement of 'Goodness' (Resonance with Self/North)
+        v_phys = self.q[active_idx, self.PHYSICAL_SLICE]
+        p_phys = self.permanent_q[active_idx, self.PHYSICAL_SLICE]
+        m_phys = self.magnetic_north[self.PHYSICAL_SLICE].unsqueeze(0)
+
+        # Alignment score (0.0 to 1.0)
+        alignment = (torch.sum(v_phys * p_phys, dim=-1) * 0.6) + (torch.sum(v_phys * m_phys, dim=-1) * 0.4)
+
+        # [PHASE 1000.5] METABOLIC ADAPTATION
+        # Instead of fixed constants, the "Excretion" threshold shifts
+        # based on the global entropy of the manifold.
+        # When the system is clean, it's more picky. When messy, it purges more easily.
+        global_entropy = torch.mean(self.q[..., self.CH_ENTROPY]).item()
+
+        # 2. Filtering Logic
+        # Criteria for Waste: High Entropy + Low Enthalpy + Low Alignment (Value)
+        # Thresholds scale with global entropy
+        entropy_thresh = 0.7 * (1.0 - global_entropy * 0.2)
+        enthalpy_thresh = 0.3 * (1.0 + global_entropy * 0.5)
+        value_thresh = 0.2 * (1.0 + global_entropy * 1.0)
+
+        high_entropy = self.q[active_idx, self.CH_ENTROPY] > entropy_thresh
+        low_enthalpy = self.q[active_idx, self.CH_ENTHALPY] < enthalpy_thresh
+        low_value = alignment < value_thresh
+
+        waste_mask = high_entropy & low_enthalpy & low_value
         waste_count = int(waste_mask.sum().item())
         
+        # 3. Nutrient Elevation (Mountain)
+        # Nodes with high alignment but some stress are 'harvested' for memory
+        nutrient_mask = (alignment > 0.7) & (self.q[active_idx, self.CH_JOY] > 0.6)
+
         fertilizer = []
         if waste_count > 0:
             waste_nodes = active_idx[waste_mask]
@@ -1047,7 +1076,8 @@ class FractalWaveEngine:
                 fertilizer.append({
                     "concept": concept,
                     "state_remnant": state,
-                    "origin_idx": node_idx
+                    "origin_idx": node_idx,
+                    "type": "WASTE"
                 })
 
             # Physical Excretion (Wiping the active state)
@@ -1056,6 +1086,23 @@ class FractalWaveEngine:
             self.angular_velocity[waste_nodes] = 0.0
             self.ascension_gravity[waste_nodes] = 0.0
             self.active_nodes_mask[waste_nodes] = False
+
+        # Harvest Nutrients (Values to Mountain)
+        nutrient_count = int(nutrient_mask.sum().item())
+        if nutrient_count > 0:
+            nutrient_nodes = active_idx[nutrient_mask]
+            for idx in nutrient_nodes:
+                node_idx = int(idx.item())
+                concept = self.idx_to_concept.get(node_idx, "Unknown")
+                state = self.q[node_idx].clone().detach().tolist()
+                fertilizer.append({
+                    "concept": concept,
+                    "state_remnant": state,
+                    "origin_idx": node_idx,
+                    "type": "NUTRIENT"
+                })
+            # Nutrients don't get wiped, but their entropy is reduced
+            self.q[nutrient_nodes, self.CH_ENTROPY] *= 0.5
             
         return fertilizer
 
@@ -1176,6 +1223,11 @@ class FractalWaveEngine:
             self.permanent_q = self.permanent_q.real.to(torch.float32) if self.permanent_q.is_complex() else self.permanent_q
             
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+
+        # [PHASE 1000.1] Accumulate trajectory intensity as 'Cognitive Scars'
+        # We measure the speed of change (momentum norm) and add it to emission
+        traj_intensity = torch.norm(self.momentum[active_idx], dim=-1)
+        self.emission[active_idx] += traj_intensity * 0.01
         
         # 1. [DUAL-BUS INTERFERENCE]
         # Reference A: Permanent Identity (Self)
@@ -1221,6 +1273,10 @@ class FractalWaveEngine:
         self.q[active_idx, self.CH_CURIOSITY] += spike * 0.1
         self.q[active_idx, self.CH_ENTROPY] -= spike * 0.1
         self.q[active_idx, self.CH_W] += spike * 0.05
+
+        # Accumulate spike into emission (The 'Glow' of yesterday's deep discussion)
+        self.emission[active_idx] += spike * 0.05
+
         # 4. [FLOW PROPAGATION] Full 8-Channel Wave Ripple
         strong_spikes_mask = spike > 0.3
         if strong_spikes_mask.any():
@@ -1306,6 +1362,16 @@ class FractalWaveEngine:
         # --- Transfer ALL 8 channels with damping ---
         # Each channel of the source node contributes a fraction to the destination
         damping = woken_w * conductivity  # per-edge damping factor
+
+        # [PHASE 1000.3: MAGNETIC RIVERBEDS]
+        # Strengthen the edges as waves pass through them (Hebbian "carving")
+        # This lowers the "resistance" for future waves.
+        with torch.no_grad():
+             # We use spiking energies of source nodes to strengthen weights
+             # Find spiking energy for each woken edge
+             # This is a bit tricky in sparse, but we can approximate:
+             # Fix: wake_mask is for the edge list [max_edges], so we should slice edge_weights carefully
+             self.edge_weights[:self.num_edges][wake_mask] += conductivity * 0.01
 
         for ch in range(self.NUM_CHANNELS):
             src_signal = self.q[woken_src, ch]
@@ -1415,6 +1481,11 @@ class FractalWaveEngine:
         
         self.cell_bias[cell_indices] += full_update
         
+        # [PHASE 1000.1: HYSTERESIS - 99.9% RESTORATION]
+        # Instead of 100% original identity, we leave a 0.1% footprint of the EXPERIENCE.
+        # permanent_q' = 0.999 * permanent_q + 0.001 * current_q
+        self.permanent_q[cell_indices] = self.permanent_q[cell_indices] * 0.999 + self.q[cell_indices] * 0.001
+
         # Gentle decay to prevent extreme biases (homeostasis)
         self.cell_bias[cell_indices] *= 0.999
         
@@ -1610,6 +1681,9 @@ class FractalWaveEngine:
         else:
             coherence = 1.0
 
+        # 7. Total Emission (The 'Glow' of accumulated memory)
+        total_emission = to_real(torch.mean(self.emission[active_idx]).item())
+
         return {
             "resonance": total_resonance,
             "entropy": entropy,
@@ -1617,6 +1691,7 @@ class FractalWaveEngine:
             "curiosity": curiosity,
             "vitality": vitality,
             "coherence": coherence,
+            "emission": total_emission,
             "hardware_load": self.last_somatic_strain
         }
 

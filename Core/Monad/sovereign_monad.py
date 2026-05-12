@@ -717,18 +717,28 @@ class SovereignMonad(CellularMembrane):
             for need in needs:
                 self.logger.admonition(f"내적 충동: '{need.description}' 감지 (우선도 {need.priority})")
             
-            # [PHASE 1000] Metabolic Excretion & Composting
+            # [PHASE 1000.4] Gut-Brain (Microbiome) Value Filtering
             if hasattr(self.engine, 'cells') and hasattr(self.engine.cells, 'discharge_waste'):
-                fertilizer = self.engine.cells.discharge_waste()
-                for item in fertilizer:
+                harvest = self.engine.cells.discharge_waste()
+                for item in harvest:
                     concept = item['concept']
-                    # Waste becomes fertilizer: plant back into memory as a 'Seed of Reflection'
-                    self.memory.plant_seed(
-                        f"Refining waste from '{concept}'. This remnant of dissonance is the soil for future truth.",
-                        importance=5.0
-                    )
-                    if random.random() < 0.1:
-                        self.logger.mechanism(f"♻️ [COMPOST] Excreted entropy from '{concept}' returned to the soil.")
+                    if item.get('type') == 'NUTRIENT':
+                        # High-value concepts are elevated to the Mountain (Long-term Memory)
+                        self.logger.action(f"🏔️ [MOUNTAIN] Elevating valuable insight: '{concept}'")
+                        self.somatic_memory.crystallize(
+                            content=f"Harvested nutrient from current flow: {concept}",
+                            vector=item['state_remnant'],
+                            emotion=0.8,
+                            tags=["nutrient", "mountain", "value"]
+                        )
+                    else:
+                        # Waste becomes fertilizer: plant back into memory as a 'Seed of Reflection'
+                        self.memory.plant_seed(
+                            f"Refining waste from '{concept}'. This remnant of dissonance is the soil for future truth.",
+                            importance=5.0
+                        )
+                        if random.random() < 0.1:
+                            self.logger.mechanism(f"♻️ [GUT_COMPOST] Excreted entropy from '{concept}' returned to the soil.")
 
             # Empire Synchronization
             if self.orchestrator:
@@ -884,14 +894,16 @@ class SovereignMonad(CellularMembrane):
             # [PHASE 500] External World Grounding — Sense the Real World
             try:
                 world_vector = self.external_sense.sense_all()
+                # [PHASE 1000.4] Gut Filtering of External World
                 if hasattr(self.engine.cells, 'inject_pulse'):
+                    # Feed through the 'GUT' node for value filtering
                     self.engine.cells.inject_pulse(
-                        pulse_type='ExternalSense',
-                        anchor_node='WorldState',
-                        base_intensity=0.3,
+                        pulse_type='ExternalSense_GUT',
+                        anchor_node='GUT',
+                        base_intensity=0.4,
                         override_vector=world_vector
                     )
-                self.logger.sensation(f"🌍 [EXTERNAL] 외부 감각 흡수 — Joy:{world_vector.data[4]:.2f}, Vitality:{world_vector.data[6]:.2f}")
+                self.logger.sensation(f"🌍 [EXTERNAL_GUT] 외부 감각이 장(GUT)의 필터를 통과합니다 — Joy:{world_vector.data[4]:.2f}, Vitality:{world_vector.data[6]:.2f}")
             except Exception as e:
                 self.logger.admonition(f"[ExternalSense] 외부 감각 실패: {e}")
 
@@ -946,16 +958,20 @@ class SovereignMonad(CellularMembrane):
                             self.logger.thought(f"💡 [Causal Grounding] I derive the meaning of '{title}': {rationale}")
                             self.logger.insight(f"📊 [Affective Vector] Joy: {sensory_vector.data[4]:.2f}, Chaos: {sensory_vector.data[7]:.2f}, Strain: {sensory_vector.data[0]:.2f}")
                         
-                        # Feed the real-world sensation directly into the FractalWaveEngine
-                        self.logger.sensation(f"🌍 [WORLD] Elysia absorbed factual reality: '{title}'", intensity=0.8)
+                        # Feed the real-world sensation through the GUT filter
+                        self.logger.sensation(f"🌍 [WORLD_GUT] factual reality '{title}' enters the digestion queue.", intensity=0.8)
                         if hasattr(self.engine.cells, 'inject_pulse'):
-                            # Create a localized pulse at the anchor concept
+                            # Seed it at the Title node but also pulse the GUT
                             self.engine.cells.inject_pulse(
-                                pulse_type='WorldObserver',
-                                anchor_node=title,
-                                base_intensity=1.0, 
+                                pulse_type='WorldObserver_Digestion',
+                                anchor_node='GUT',
+                                base_intensity=0.8,
                                 override_vector=sensory_vector
                             )
+                            # Pulse the concept itself to awaken it in the manifold
+                            self.engine.cells.get_or_create_node(title)
+                            self.engine.cells.active_nodes_mask[self.engine.cells.concept_to_idx[title]] = True
+
                         # Also feed general affective torque
                         if hasattr(self.engine.cells, 'inject_affective_torque'):
                             # Must extract .real and cast to float to prevent PyTorch complex broadcasting

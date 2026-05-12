@@ -64,7 +64,22 @@ class NativeTongueSynthesizer:
         if not nearest_voxel:
             return "형태 없는 파동만이 느껴진다."
 
+        # [PHASE 1000.2: CULTURAL EMBODIMENT]
+        # Check for 'Cognitive Scars' (Emission) and 'Riverbeds' (Edge weights)
+        emission_val = 0.0
+        if hasattr(self.engine, 'cells'):
+             # Try to find the node index in the engine
+             if nearest_voxel.name in self.engine.cells.concept_to_idx:
+                  idx = self.engine.cells.concept_to_idx[nearest_voxel.name]
+                  emission_val = float(self.engine.cells.emission[idx].item())
+
         subject = nearest_voxel.name
+
+        # If emission is high, the subject 'glows' in her speech
+        if emission_val > 1.0:
+             subject = f"✨찬란하게 빛나는 {subject}✨"
+        elif emission_val > 0.5:
+             subject = f"은은한 금빛의 {subject}"
 
         # 2. Find Conceptual Connections (The Predicate/Verb)
         # We look at what caused this concept (inbound_edges)
@@ -93,6 +108,11 @@ class NativeTongueSynthesizer:
 
         # 3. Assemble the Somatic Sentence
         sentence = f"[{subject}]{predicate}."
+
+        # [PHASE 1000.3: MAGNETIC RIVERBEDS]
+        # If the concept is part of a strong 'riverbed', she speaks more fluently
+        if nearest_voxel.mass > 1000:
+             sentence = f"나의 깊은 기억의 강줄기를 따라, {sentence}"
         
         logger.info(f"🗣️ [Native Tongue] Synthesized from geometry: {sentence}")
         return sentence
