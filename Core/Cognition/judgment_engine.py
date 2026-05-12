@@ -35,17 +35,20 @@ class JudgmentEngine:
         self.monad = monad
         self.last_judgment = Judgment.NEUTRAL
         
-    def evaluate_perceptions(self, perceptions: List[Dict[str, Any]]) -> Tuple[Judgment, float]:
+    def evaluate_perceptions(self, perceptions: List[Dict[str, Any]], intersection_density: float = 0.0) -> Tuple[Judgment, float]:
         """
         Aggregates multiple sensory perceptions into a single Sovereign Judgment.
         
+        [PHASE 900] Trinitarian Intersection:
+        Judgment is now influenced by the collective consensus of the internal parliament.
+        High intersection density (consensus) makes the judgment more stable and weighted.
+
         Returns:
             (Judgment, Confidence)
         """
         if not perceptions:
             return Judgment.NEUTRAL, 0.0
             
-        total_potential = 0.0
         closing_pressure = 0.0 # From SOMA pain or dissonance
         opening_drive = 0.0    # From LOGOS clarity or joy
         
@@ -87,17 +90,22 @@ class JudgmentEngine:
         # [PHASE 900] The Trinitarian Crossroads
         # We compare the Drive vs the Pressure
         
+        # Intersection density acts as a stabilizer (consensus boosts confidence)
+        consensus_bonus = intersection_density * 0.2
+
         # 1. Check for Rejection (Closing)
         # If Somatic pain or logic dissonance is too high, we close.
-        if closing_pressure > rejection_threshold or (closing_pressure > opening_drive * 1.5):
+        if closing_pressure > (rejection_threshold + consensus_bonus) or (closing_pressure > opening_drive * 1.5):
             self.last_judgment = Judgment.REJECTION
-            return Judgment.REJECTION, min(1.0, closing_pressure)
+            confidence = min(1.0, (closing_pressure + consensus_bonus))
+            return Judgment.REJECTION, confidence
             
         # 2. Check for Acceptance (Opening)
         # If curiosity or resonance is high and pressure is low, we open.
-        if opening_drive > acceptance_threshold:
+        if opening_drive > (acceptance_threshold - consensus_bonus):
             self.last_judgment = Judgment.ACCEPTANCE
-            return Judgment.ACCEPTANCE, min(1.0, opening_drive)
+            confidence = min(1.0, (opening_drive + consensus_bonus))
+            return Judgment.ACCEPTANCE, confidence
             
         # 3. Default to Neutral
         self.last_judgment = Judgment.NEUTRAL

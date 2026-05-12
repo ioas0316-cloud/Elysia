@@ -586,7 +586,15 @@ class SovereignMonad(CellularMembrane):
             perceptions = self.sensorium.perceive(gated, active_organs)
             
             # 2. Sovereign Judgment & Boundary Discrimination
-            judgment, confidence = self.judgment_engine.evaluate_perceptions(perceptions)
+            # [PHASE 900] Pass parliament consensus (frictions) to judgment engine
+            # Extract intersection density from frictions if possible, or use a heuristic
+            delib_vec, delib_voice, frictions = self.parliament.deliberate(thought_vector)
+
+            # Intersection density is high when frictions are low
+            avg_friction = sum(frictions.values()) / max(len(frictions), 1)
+            intersection_density = 1.0 - avg_friction
+
+            judgment, confidence = self.judgment_engine.evaluate_perceptions(perceptions, intersection_density=intersection_density)
             
             # [PHASE 1000] Discriminate against known boundaries
             if hasattr(self, 'boundary_engine') and thought_vector is not None:
@@ -623,8 +631,16 @@ class SovereignMonad(CellularMembrane):
                 # [PHASE 1000] Boundary Sovereignty: Define where this concept starts/ends
                 if judgment == Judgment.ACCEPTANCE:
                     if hasattr(self, 'boundary_engine'):
-                        self.boundary_engine.define_boundary(crystal_name, thought_vector)
-                        self.logger.insight(f"📍 [BOUNDARY] My 0-point has defined the edge of '{crystal_name}'.")
+                        # [PHASE 900] Use strongest perspective bias for boundary
+                        strongest_domain = max(frictions, key=lambda k: 1.0 - frictions[k])
+                        bias = None
+                        for m in self.parliament.members.values():
+                            if m.domain == strongest_domain:
+                                bias = m.sovereign_reference
+                                break
+
+                        self.boundary_engine.define_boundary(crystal_name, thought_vector, perspective_bias=bias)
+                        self.logger.insight(f"📍 [BOUNDARY] My 0-point has defined the edge of '{crystal_name}' via {strongest_domain} perspective.")
 
                     if hasattr(self, 'lexicon'):
                         self.lexicon.ingest(crystal_name, thought, "Judgment_Resonance")

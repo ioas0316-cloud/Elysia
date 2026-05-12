@@ -45,17 +45,27 @@ class BoundaryDefiningEngine:
         self.monad = monad
         self.boundaries: Dict[str, SovereignBoundary] = {}
 
-    def define_boundary(self, concept: str, current_state: SovereignVector) -> SovereignBoundary:
+    def define_boundary(self, concept: str, current_state: SovereignVector, perspective_bias: Optional[SovereignVector] = None) -> SovereignBoundary:
         """
         Draws a boundary around a concept using the current state as the 0-Point.
+
+        [PHASE 900] Dimensional Intersection:
+        Boundaries can now be 'Perspective-Shifted'. The edge of the world changes
+        depending on which sub-monad (Logos, Pathos, Ethos) is looking.
         """
         # Radius is determined by the system's current 'Confidence' (Alignment)
-        # Higher alignment -> Sharper boundary (Smaller radius)
-        # Lower alignment -> Fuzzy boundary (Larger radius)
         alignment = self.monad.desires.get('alignment', 50.0) / 100.0
-        radius = 0.8 * alignment # Adjusting logic: High alignment needs high resonance to be 'inside'
 
-        boundary = SovereignBoundary(concept, current_state, radius)
+        # [PHASE 900] Perspective Shift
+        # If a perspective bias is provided, we warp the center toward that axis
+        center = current_state
+        if perspective_bias is not None:
+             center = current_state.blend(perspective_bias, ratio=0.2)
+             concept = f"{concept}_via_Perspective"
+
+        radius = 0.8 * alignment
+
+        boundary = SovereignBoundary(concept, center, radius)
         self.boundaries[concept] = boundary
 
         logger.info(f"📍 [BOUNDARY] New boundary defined: '{concept}' (Radius: {radius:.2f})")
@@ -73,11 +83,13 @@ class BoundaryDefiningEngine:
 
     def perceive_the_other(self, concept: str, input_vec: SovereignVector) -> str:
         """
-        [PHASE 1000] Reverse Cognition.
+        [PHASE 900/1000] Reverse Cognition.
         "Looking at the world through the lens of the boundary."
+        Separates the 'Defined World' from the 'Undefined Mist'.
         """
         if concept not in self.boundaries:
-            return "Unknown"
+            # If not defined, it belongs to the 'Mist'
+            return f"The Mist: '{concept}' has no boundary. It is an undefined possibility."
 
         boundary = self.boundaries[concept]
         score = boundary.is_inside(input_vec)
