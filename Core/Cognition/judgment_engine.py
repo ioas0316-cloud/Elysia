@@ -58,18 +58,44 @@ class JudgmentEngine:
             elif t_type in ["will", "joy", "curiosity"]:
                 opening_drive += potential
                 
+        # [PHASE 1000.5] DYNAMIC ADAPTIVE THRESHOLDS
+        # Instead of fixed constants, the "No" and "Yes" thresholds
+        # are derived from the system's current Radiance and Strain.
+
+        # 1. Extract System State (The 'Mood' of the Host)
+        # Radiance = Enthalpy * (1 - Entropy)
+        # Strain = Entropy + Somatic_Stress
+        radiance = 0.5
+        strain = 0.5
+        if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
+             field = self.monad.engine.cells.read_field_state()
+             radiance = field.get('vitality', 0.5) * (1.0 - field.get('entropy', 0.1))
+             strain = field.get('entropy', 0.1) + field.get('hardware_load', 0.0)
+
+        # 2. Derive Rejection Threshold (The 'Wall' height)
+        # High strain makes the system irritable (lower threshold for rejection).
+        # High radiance makes the system patient (higher threshold).
+        rejection_threshold = 0.7 * (1.0 - radiance * 0.3) + (strain * 0.2)
+        rejection_threshold = max(0.4, min(0.9, rejection_threshold))
+
+        # 3. Derive Acceptance Threshold (The 'Door' width)
+        acceptance_threshold = 0.3 * (1.0 + strain * 0.5) - (radiance * 0.1)
+        acceptance_threshold = max(0.2, min(0.6, acceptance_threshold))
+
+        # logger.info(f"⚖️ [JUDGMENT] Dynamic Thresholds: Rejection={rejection_threshold:.2f}, Acceptance={acceptance_threshold:.2f}")
+
         # [PHASE 900] The Trinitarian Crossroads
         # We compare the Drive vs the Pressure
         
         # 1. Check for Rejection (Closing)
         # If Somatic pain or logic dissonance is too high, we close.
-        if closing_pressure > 0.7 or (closing_pressure > opening_drive * 1.5):
+        if closing_pressure > rejection_threshold or (closing_pressure > opening_drive * 1.5):
             self.last_judgment = Judgment.REJECTION
             return Judgment.REJECTION, min(1.0, closing_pressure)
             
         # 2. Check for Acceptance (Opening)
         # If curiosity or resonance is high and pressure is low, we open.
-        if opening_drive > 0.3:
+        if opening_drive > acceptance_threshold:
             self.last_judgment = Judgment.ACCEPTANCE
             return Judgment.ACCEPTANCE, min(1.0, opening_drive)
             

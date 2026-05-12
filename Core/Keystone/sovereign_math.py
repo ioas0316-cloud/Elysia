@@ -1040,12 +1040,23 @@ class FractalWaveEngine:
         # Alignment score (0.0 to 1.0)
         alignment = (torch.sum(v_phys * p_phys, dim=-1) * 0.6) + (torch.sum(v_phys * m_phys, dim=-1) * 0.4)
 
+        # [PHASE 1000.5] METABOLIC ADAPTATION
+        # Instead of fixed constants, the "Excretion" threshold shifts
+        # based on the global entropy of the manifold.
+        # When the system is clean, it's more picky. When messy, it purges more easily.
+        global_entropy = torch.mean(self.q[..., self.CH_ENTROPY]).item()
+
         # 2. Filtering Logic
         # Criteria for Waste: High Entropy + Low Enthalpy + Low Alignment (Value)
-        high_entropy = self.q[active_idx, self.CH_ENTROPY] > 0.7
-        low_enthalpy = self.q[active_idx, self.CH_ENTHALPY] < 0.3
-        low_value = alignment < 0.2
-        
+        # Thresholds scale with global entropy
+        entropy_thresh = 0.7 * (1.0 - global_entropy * 0.2)
+        enthalpy_thresh = 0.3 * (1.0 + global_entropy * 0.5)
+        value_thresh = 0.2 * (1.0 + global_entropy * 1.0)
+
+        high_entropy = self.q[active_idx, self.CH_ENTROPY] > entropy_thresh
+        low_enthalpy = self.q[active_idx, self.CH_ENTHALPY] < enthalpy_thresh
+        low_value = alignment < value_thresh
+
         waste_mask = high_entropy & low_enthalpy & low_value
         waste_count = int(waste_mask.sum().item())
         
