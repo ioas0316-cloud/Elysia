@@ -84,6 +84,10 @@ class SomaticAtlas:
         # Opposes Sophia (Z=1.0), grounding the system in visceral reality.
         self.organs["GUT"] = SomaticOrgan("GUT", -_v(3))
 
+        # MOUNTAIN (Spirit/Ascension) - The High Peak [NEW: PHASE 1000]
+        # Represents the accumulation of 'Good' values filtered from the GUT.
+        self.organs["MOUNTAIN"] = SomaticOrgan("MOUNTAIN", _v(0) + _v(3)) # Stability + Spirit
+
     def get_topographical_influence(self, node_states: torch.Tensor) -> torch.Tensor:
         """
         Calculates the gravitational pull of all organs on the provided nodes.
