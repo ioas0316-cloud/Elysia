@@ -85,7 +85,7 @@ jobs:
       run: |
         # Scan Core but ignore high-volume low severity findings for now if needed
         # Focusing on Medium and High for CI gate
-        bandit -r Core/ -ll -iii
+        bandit -r Core/ -ll -ii
 
   docs:
     runs-on: ubuntu-latest

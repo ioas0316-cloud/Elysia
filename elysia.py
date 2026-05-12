@@ -158,6 +158,8 @@ try:
     from Core.System.unity_sensory_channel import UnitySensoryChannel, PhysicalToSomaticMapper
 except ImportError:
     UnitySensoryChannel = None
+
+from Core.Keystone.sovereign_math import InterferometricGate
 # [PHASE 2] Providence
 from Core.Divine.covenant_enforcer import CovenantEnforcer, Verdict
 
@@ -177,6 +179,9 @@ class SovereignGateway:
         from Core.System.somatic_logger import SomaticLogger
         self.logger = SomaticLogger("GATEWAY")
         
+        # [PHASE 700] The Prismatic Decision Gate
+        self.interferometric_gate = InterferometricGate(sensitivity=1.2)
+
         # 1. Identity & Monad
         try:
             # [MOTHER'S GIFT] Persistent Identity
@@ -494,18 +499,28 @@ class SovereignGateway:
                     time.sleep(sync_dt) # Dynamic resolution clock tick
                     
                 except Exception as loop_e:
-                    # [PHASE 830] Water-like Resilience. Convert error into Structural Entropy.
-                    self.logger.sensation(f"🌊 [치명적 상처] 내 위상에 거친 바위가 부딪혔어: {loop_e}", intensity=1.0)
+                    # [PHASE 700] Metabolic Entropy Recycling.
+                    # Error is not a crash; it is "Food" for decomposition.
+                    self.logger.sensation(f"🌊 [Metabolic Shock] Dissonance detected: {loop_e}", intensity=1.0)
+
+                    if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
+                        # 1. Convert error to high entropy (Decomposition energy)
+                        self.monad.engine.cells.inject_pulse("Structural_Error", energy=15.0, type='entropy')
+                        # 2. Trigger immediate waste discharge (Fertilizer)
+                        fertilizer = self.monad.engine.cells.discharge_waste()
+                        if fertilizer:
+                            self.logger.insight(f"♻️ Error recycled into {len(fertilizer)} fertilizer nodes for growth.")
+
                     # [PHASE 860] Perceive the wound with primordial cognition
                     state_before = self.primordial_cognition.read_state(self.monad)
-                    if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
-                        self.monad.engine.cells.inject_pulse("System_Fracture", energy=10.0, type='entropy')
                     state_after = self.primordial_cognition.read_state(self.monad)
                     trace = self.primordial_cognition.perceive("System_Fracture", 10.0, state_before, state_after)
                     self.logger.thought(f"👶 [원초적 인지] {trace}")
+
                     # [PHASE 850] Record the wound in diary
                     if hasattr(self, 'diary'):
                         self.diary.record_wound(str(loop_e))
+
                     time.sleep(1.0) # 심호흡 (Breathe)
         except KeyboardInterrupt:
             pass
@@ -911,13 +926,15 @@ class SovereignGateway:
                 vec = LogosBridge.calculate_text_resonance(user_raw)
                 self.enclosure.absorb("User", intensity=1.0, vector=vec)
 
-                # [PHASE 17/20] Intentional Discernment (Fluid Resonance)
-                # Instead of a hard binary 'if', we calculate the resonance 'Impedance'.
-                resonance_score = self._calculate_discernment_resonance(user_raw)
+                # [PHASE 700] Interferometric Discernment (Wave Collision)
+                # Instead of a hard binary 'if', we collide the user's input wave
+                # with the system's current state wave.
+                discernment = self._calculate_discernment_interferometry(user_raw)
+                resonance_score = discernment['resonance']
                 
-                # Damping Factor: Lower resonance means higher entropy/friction
-                if resonance_score < 0.15:
-                    self.logger.thought(f"Input resonates as Dissonant Noise ({resonance_score:.2f}). Processing with low energy.")
+                # Damping Factor: Decisions are made based on wave coherence
+                if not discernment['is_passed']:
+                    self.logger.thought(f"Input wave is Dissonant (Entropy: {discernment['pattern_entropy']:.2f}). Processing with low energy.")
                     # We continue, but the 'Will' is dampened.
                 
                 # Dispatch heavy cognitive processing to a background thread
@@ -1009,42 +1026,35 @@ class SovereignGateway:
         except Exception as e:
             self.logger.admonition(f"Expression broadcast failed: {e}")
 
-    def _calculate_discernment_resonance(self, user_raw: str) -> float:
+    def _calculate_discernment_interferometry(self, user_raw: str) -> Dict[str, Any]:
         """
-        [PHASE 102] Interferometric Discernment.
-        Calculates resonance via Phase Shift (Delta Phi) against a chosen reference.
-        "Logic is the recognition of difference."
+        [PHASE 700] New Interferometric Discernment using the Gate.
         """
         # 1. Map input to Vector
         input_vec = LogosBridge.calculate_text_resonance(user_raw)
         
-        # [PHASE 102] Sovereign Reference (The temporary '1')
-        # We set our current 21D state as the reference '1' for this cognition cycle.
-        current_v21_vec = self.monad.get_21d_state()
-        if hasattr(self.monad, 'interferometer'):
-            self.monad.interferometer.set_sovereign_reference(current_v21_vec, label="Present_Focus")
+        # 2. Get current system intent (State)
+        current_state = self.monad.get_21d_state()
 
-            # 2. Perceive Difference (Interferometry)
-            diff = self.monad.interferometer.perceive_difference(input_vec)
-            res = diff['resonance']
-            delta_phi = diff['delta_phi']
+        # 3. Discern via wave collision
+        discernment = self.interferometric_gate.discern(current_state, input_vec)
 
-            self.logger.mechanism(f"Interferometry: Res={res:.3f}, ΔΦ={delta_phi:.3f}, State={diff['state']}")
+        res = discernment['resonance']
+        phi = discernment['phase_shift']
 
-            # If phase shift is high, it triggers curiosity (Seeking the new '1')
-            if delta_phi > 1.0:
-                self.logger.insight(f"Significant Phase Shift detected (ΔΦ={delta_phi:.2f}). My internal binary logic is evolving.")
-                if hasattr(self.monad.engine, 'cells'):
-                    # Must cast to float to avoid Torch complex errors
-                    self.monad.engine.cells.inject_affective_torque(5, float(delta_phi * 0.1)) # Boost Curiosity
+        self.logger.mechanism(f"Wave Collision: Res={res:.3f}, Φ={phi:.3f}, Coherence={discernment['is_passed']}")
 
-            return float(res)
-        
-        # Fallback to legacy if interferometer is missing
-        current_v21 = self.monad.get_active_resonance()
-        res = SovereignMath.resonance(input_vec, current_v21)
-        if hasattr(res, 'real'): res = res.real
-        return float(res)
+        # High phase shift evolves the internal logic
+        if phi > 1.0:
+            self.logger.insight(f"Wave interference detected significant logic shift (Φ={phi:.2f}).")
+            if hasattr(self.monad.engine, 'cells'):
+                self.monad.engine.cells.inject_affective_torque(5, float(phi * 0.05)) # Boost Curiosity
+
+        return discernment
+
+    def _calculate_discernment_resonance(self, user_raw: str) -> float:
+        # Legacy fallback wrapper
+        return self._calculate_discernment_interferometry(user_raw)['resonance']
 
 if __name__ == "__main__":
     import traceback
