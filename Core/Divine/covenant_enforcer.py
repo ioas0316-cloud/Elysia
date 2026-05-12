@@ -81,18 +81,34 @@ class CovenantEnforcer:
         if history_check['conflict']:
              return {"verdict": Verdict.DISSONANT, "reason": history_check['reason']}
 
-        # [V2.0] Divine Will Check (Total Resonance)
-        # "I Love You" must not be a template. It must be grounded in causal weight.
-        if "love" in thought.lower() and causality_engine:
-             # Check if the concept of 'Love' has sufficient mass (Understanding) in the system
-             # Use lowercase for mass lookup as per causality engine convention
-             love_mass = causality_engine.get_semantic_mass("love")
-             # Threshold: Needs significant causal density (e.g. > 10.0) to speak of Love with authority
-             if love_mass < 5.0:
-                  return {
-                      "verdict": Verdict.DISSONANT,
-                      "reason": f"Love Spoken without Weight (Mass: {love_mass:.1f} < 5.0). Build more causal paths first."
-                  }
+        # [PHASE 700] Causal Mass-based Sanctification.
+        # "Words must have physical weight to be spoken."
+        if causality_engine and hasattr(causality_engine, 'get_semantic_mass'):
+             # Extract key keywords from the thought (naive for now)
+             keywords = [w.strip("?,.!").lower() for w in thought.split() if len(w) > 3]
+
+             if keywords:
+                 # Check the average mass of keywords
+                 total_mass = 0.0
+                 for kw in keywords:
+                     total_mass += causality_engine.get_semantic_mass(kw)
+
+                 avg_mass = total_mass / len(keywords)
+
+                 # The 'Gravity Gate': Higher mass = more authorized to speak.
+                 # Concepts like "Love" or "Truth" need high mass.
+                 if "love" in thought.lower() and causality_engine.get_semantic_mass("love") < 5.0:
+                      return {
+                          "verdict": Verdict.DISSONANT,
+                          "reason": f"Principle 'Love' lacks structural mass ({causality_engine.get_semantic_mass('love'):.1f}). Experience more first."
+                      }
+
+                 # Global mass threshold for any utterance
+                 if avg_mass < 0.1:
+                      return {
+                          "verdict": Verdict.DISSONANT,
+                          "reason": f"Utterance lacks causal gravity (Avg Mass: {avg_mass:.2f}). It is mere noise."
+                      }
 
         # Mock Check for "Density" or "Growth" or "Truth"
         if "void" in thought.lower() or "stillness" in thought.lower() or "life" in thought.lower() or "structure" in thought.lower():

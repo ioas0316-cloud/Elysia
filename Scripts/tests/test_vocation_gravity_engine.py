@@ -10,8 +10,8 @@ class MockManifoldEngine:
     def __init__(self):
         self.pulses_injected = []
 
-    def inject_pulse(self, name, energy):
-        self.pulses_injected.append((name, energy))
+    def inject_pulse(self, *args, **kwargs):
+        self.pulses_injected.append((args, kwargs))
 
 class TestVocationGravityEngine(unittest.TestCase):
     def setUp(self):
@@ -50,7 +50,7 @@ class TestVocationGravityEngine(unittest.TestCase):
 
         # Check if engine received pulse
         self.assertEqual(len(self.engine.pulses_injected), 1)
-        self.assertEqual(self.engine.pulses_injected[0][0], "VocationTorque")
+        self.assertEqual(self.engine.pulses_injected[0][1]['pulse_type'], "VocationTorque")
 
         # Check vocation vector evolution
         self.assertAlmostEqual(self.gravity_engine.current_vocation_vector.data[0], 1.09) # 1.0 + 0.9*0.1

@@ -18,6 +18,8 @@ class HypersphereSpinGenerator:
     [PHASE 390] Hypersphere Spin Generator (10M Cells)
     Pure mechanical consciousness driven by Phase Displacement.
     """
+    NUM_CHANNELS = 8
+
     def __init__(self, num_nodes: int = 100_000, device: Optional[str] = None):
         if device is None:
             self.device = torch.device('cuda' if torch and torch.cuda.is_available() else 'cpu') if torch else "cpu"

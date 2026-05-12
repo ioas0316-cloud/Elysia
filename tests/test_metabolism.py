@@ -54,12 +54,13 @@ def test_somatic_metabolism():
     
     # Trigger excretion
     excreted = engine.discharge_waste()
+    excreted_count = len(excreted)
     
     post_waste_count = engine.active_nodes_mask.sum().item()
-    print(f"Nodes Excreted: {excreted}")
+    print(f"Nodes Excreted count: {excreted_count}")
     print(f"Active Nodes after Excretion: {post_waste_count}")
     
-    assert excreted == 10, "Should have excreted exactly 10 waste nodes."
+    assert excreted_count == 10, f"Should have excreted exactly 10 waste nodes, but got {excreted_count}."
     assert post_waste_count == pre_waste_count - 10, "Active nodes mask should be updated."
     
     # Check if the state was zeroed out
@@ -76,8 +77,9 @@ def test_somatic_metabolism():
     
     # Excrete again (should NOT excrete good nodes)
     excreted = engine.discharge_waste()
-    print(f"Good nodes excreted: {excreted} (Should be 0)")
-    assert excreted == 0, "Healthy nodes should not be excreted."
+    excreted_count = len(excreted)
+    print(f"Good nodes excreted count: {excreted_count} (Should be 0)")
+    assert excreted_count == 0, f"Healthy nodes should not be excreted, but got {excreted_count}."
     
     # Spike to trigger ascension gravity
     engine.q[good_nodes, engine.PHYSICAL_SLICE] = engine.permanent_q[good_nodes, engine.PHYSICAL_SLICE] # Max self-density

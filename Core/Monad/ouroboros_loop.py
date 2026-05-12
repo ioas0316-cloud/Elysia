@@ -59,7 +59,7 @@ class OuroborosLoop:
             # 기존 공명과 새로운 출력 벡터의 위상 융합 (Ouroboros)
             self.residual_resonance = (self.residual_resonance * (1 - attenuation_factor)) + (recent_output_vector * attenuation_factor)
 
-        self.log_callback(f"[OUROBOROS] Resonance integrated into the stream.")
+        self.log_callback(f"[OUROBOROS] Output fed back into Input. Resonance integrated into the stream.")
 
     def ingest_sensation(self, sensory_vector: SovereignVector, intensity: float = 1.0):
         """
@@ -88,7 +88,15 @@ class OuroborosLoop:
         # [PHASE 650] Autonomous Inquiry based on Sensory Resonance
         # If the residual resonance is strong (from external sensation),
         # increase dream frequency/depth to explore it.
-        resonance_intensity = sum(abs(v) for v in self.residual_resonance.data)
+        # Ensure we have numerical data if it's a D21Vector or a mock SovereignVector
+        vector_data = self.residual_resonance.data if hasattr(self.residual_resonance, 'data') else self.residual_resonance
+
+        # Guard against complex or non-scalar types if necessary, but here we assume numbers
+        try:
+            resonance_intensity = sum(abs(v) if not isinstance(v, list) else sum(abs(i) for i in v) for v in vector_data)
+        except (TypeError, AttributeError):
+            resonance_intensity = 0.0
+
         if resonance_intensity > 15:
             self.dream_depth += 0.5 # Deep dive into strong sensations
             self.log_callback(f"[OUROBOROS] Focused exploration of intense sensation (Resonance: {resonance_intensity:.2f})")
@@ -133,7 +141,11 @@ class OuroborosLoop:
         (Phase 700 Native Tongue Synthesizer의 초기 버전 역할)
         """
         # 임시적인 벡터 분석 로직 (실제로는 21D 시맨틱 매핑 사용)
-        magnitude = sum(abs(v) for v in vector.data)
+        vector_data = vector.data if hasattr(vector, 'data') else vector
+        try:
+            magnitude = sum(abs(v) if not isinstance(v, list) else sum(abs(i) for i in v) for v in vector_data)
+        except (TypeError, AttributeError):
+            magnitude = 0.0
 
         if target_concept:
             if magnitude > 10:
