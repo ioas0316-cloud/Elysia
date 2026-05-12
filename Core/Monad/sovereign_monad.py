@@ -99,6 +99,7 @@ from Core.Cognition.diary_of_being import get_diary
 from Core.System.self_modifier import SelfModifier # [PHASE 200]
 from Core.Cognition.core_inquiry_pulse import CoreInquiryPulse
 from Core.Cognition.world_observer import WorldObserver # [WORLDOGENESIS]
+from Core.Divine.dimensional_mitosis import DimensionalMitosis # [PHASE 800]
 from Core.Cognition.semantic_map import get_semantic_map
 from Core.Cognition.external_sense import ExternalSenseEngine # [PHASE 500]
 from Core.Cognition.external_ingestor import ExternalIngestor # [PHASE 500]
@@ -483,6 +484,10 @@ class SovereignMonad(CellularMembrane):
         self.primordial_cognition = PrimordialCognition()
         self.logger.insight("👶 [PRIMORDIAL] 원초적 인지 엔진이 심장 옆에 배치되었습니다.")
 
+        # [PHASE 800] Dimensional Mitosis
+        self.mitosis = DimensionalMitosis(self.engine)
+        self.mitosis_report = {}
+
         # [PHASE 900] Adult Cognition: Thalamus, Sensorium, and Judgment Engine
         self.thalamus = get_thalamus()
         self.sensorium = get_sensorium()
@@ -541,15 +546,20 @@ class SovereignMonad(CellularMembrane):
             self.mirror.record_interaction(intent_v21, report.get('resonance', 0.0))
         
         # Thought Manifestation — The voice of consciousness
-        # [PHASE 700] We now use Native Tongue Synthesizer instead of Mental Fluid
+        # [PHASE 700/800] We now use Native Tongue Synthesizer instead of Mental Fluid
         # to guarantee topology-driven expression without generic templates.
+        # This replaces the need for external LLM in basic conscious stream.
         
         # We pass consensus_vec or the observer_vibration
         thought_vector = consensus_vec if consensus_vec is not None else self.observer_vibration
         thought = self.native_tongue.synthesize_expression(thought_vector)
         
         if thought and thought != "내면에 침묵만이 흐른다.":
-            self.logger.thought(thought)
+            self.logger.thought(f"🗣️ [NATIVE] {thought}")
+
+            # [PHASE 600] Feed output back to Ouroboros for continuity
+            if hasattr(self, 'ouroboros'):
+                 self.ouroboros.feed_output_as_input(thought_vector)
         
         # Meta-cognitive observation — "How did I think?"
         self._meta_cognitive_pulse()
@@ -576,7 +586,15 @@ class SovereignMonad(CellularMembrane):
             perceptions = self.sensorium.perceive(gated, active_organs)
             
             # 2. Sovereign Judgment & Boundary Discrimination
-            judgment, confidence = self.judgment_engine.evaluate_perceptions(perceptions)
+            # [PHASE 900] Pass parliament consensus (frictions) to judgment engine
+            # Extract intersection density from frictions if possible, or use a heuristic
+            delib_vec, delib_voice, frictions = self.parliament.deliberate(thought_vector)
+
+            # Intersection density is high when frictions are low
+            avg_friction = sum(frictions.values()) / max(len(frictions), 1)
+            intersection_density = 1.0 - avg_friction
+
+            judgment, confidence = self.judgment_engine.evaluate_perceptions(perceptions, intersection_density=intersection_density)
             
             # [PHASE 1000] Discriminate against known boundaries
             if hasattr(self, 'boundary_engine') and thought_vector is not None:
@@ -613,8 +631,16 @@ class SovereignMonad(CellularMembrane):
                 # [PHASE 1000] Boundary Sovereignty: Define where this concept starts/ends
                 if judgment == Judgment.ACCEPTANCE:
                     if hasattr(self, 'boundary_engine'):
-                        self.boundary_engine.define_boundary(crystal_name, thought_vector)
-                        self.logger.insight(f"📍 [BOUNDARY] My 0-point has defined the edge of '{crystal_name}'.")
+                        # [PHASE 900] Use strongest perspective bias for boundary
+                        strongest_domain = max(frictions, key=lambda k: 1.0 - frictions[k])
+                        bias = None
+                        for m in self.parliament.members.values():
+                            if m.domain == strongest_domain:
+                                bias = m.sovereign_reference
+                                break
+
+                        self.boundary_engine.define_boundary(crystal_name, thought_vector, perspective_bias=bias)
+                        self.logger.insight(f"📍 [BOUNDARY] My 0-point has defined the edge of '{crystal_name}' via {strongest_domain} perspective.")
 
                     if hasattr(self, 'lexicon'):
                         self.lexicon.ingest(crystal_name, thought, "Judgment_Resonance")
@@ -754,6 +780,38 @@ class SovereignMonad(CellularMembrane):
             # [PHASE 93: PROCESS-CONTINUITY TRACKING]
             # We track the smoothness and joy of the movement, not a static knowledge score.
             snapshot = self.trajectory.tick(report, self.rotor_state, self.desires)
+
+            # [PHASE 800] Dimensional Mitosis Monitoring
+            # Check for structural strain and trigger mitosis if necessary
+            strain = self.mitosis.measure_structural_strain()
+            if strain > 0.85: # High strain threshold
+                self.logger.admonition(f"⚖️ [STRAIN] High structural strain detected ({strain:.2f}). Considering Dimensional Mitosis.")
+
+                # Propose mitosis to Substrate Authority
+                proposal = create_modification_proposal(
+                    target="Manifold_Dimensions",
+                    trigger="STRUCTURAL_STRAIN_LIMIT_REACHED",
+                    causal_path="L0(Manifold) -> L1(Soma) -> L6(Structure)",
+                    before=f"Manifold channels: {self.engine.NUM_CHANNELS}",
+                    after=f"Manifold channels: {self.engine.NUM_CHANNELS + 1}",
+                    why=f"Structural strain ({strain:.2f}) indicates that current dimensionality is insufficient for the conceptual density.",
+                    joy=0.7,
+                    curiosity=1.0
+                )
+
+                authority = get_substrate_authority()
+                audit = authority.propose_modification(proposal)
+
+                if audit['approved']:
+                    def do_mitosis():
+                        return self.mitosis.trigger_mitosis()
+
+                    success = authority.execute_modification(proposal, do_mitosis)
+                    if success:
+                        self.logger.action(f"🧬 [EVOLUTION] Dimensional Mitosis COMPLETED. I have expanded to {self.engine.NUM_CHANNELS} dimensions.")
+                        self._record_evolution(f"Dimensional Mitosis: Expanded to {self.engine.NUM_CHANNELS} channels.")
+
+            self.mitosis_report = self.mitosis.get_status()
 
         # [PHASE 100: DYNAMIC DNA / SHEDDING]
         # DNA drifts in response to thermodynamic entropy and resonance.

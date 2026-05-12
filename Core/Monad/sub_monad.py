@@ -14,6 +14,10 @@ class SubMonad:
     """
     A specialized agent within the SovereignMonad's parliament.
     Governs a specific domain (Logic, Emotion, Ethics, etc.).
+
+    [PHASE 900] Multi-dimensional Perspective:
+    Each sub-monad now has its own 'Sovereign Reference' (Perspective Axis).
+    The same knowledge is refracted differently through these unique centers.
     """
     def __init__(self, name: str, domain: str, rotor: SpecializedRotor):
         self.name = name
@@ -22,6 +26,23 @@ class SubMonad:
         self.vocal_weight = 1.0 # Influence in the final decision
         self.current_opinion = SovereignVector.zeros()
         self.friction_vortex = 0.0
+
+        # [PHASE 900] Unique Perspective Axis
+        # Each domain has a different starting 'Truth' or 'Baseline'
+        # Logic: Stability (W), Emotion: Harmony (Joy), Ethics: Unity (All 1s)
+        self.sovereign_reference = SovereignVector.zeros()
+        self._init_perspective_axis()
+
+    def _init_perspective_axis(self):
+        """Initializes the unique 0-point for this perspective."""
+        if self.domain == "Logic":
+            self.sovereign_reference.data[1] = 1.0 # Focus on X-axis (Logic)
+        elif self.domain == "Emotion":
+            self.sovereign_reference.data[4] = 1.0 # Focus on Joy
+        elif self.domain == "Ethics":
+            self.sovereign_reference = SovereignVector.ones() # Unity focus
+        else:
+            self.sovereign_reference = SovereignVector.zeros()
 
     def evaluate(self, stimulus: SovereignVector) -> SovereignVector:
         """
@@ -76,11 +97,17 @@ class ParliamentOfMonads:
         opinions = {}
         friction_logs = {}
 
-        # 1. Collect Reasoned Opinions
+        # 1. Collect Reasoned Opinions and calculate 'Perspective Intersection'
+        perspective_resonances = []
         for m in self.members.values():
             opinion = m.evaluate(stimulus)
             weight = m.vocal_weight / total_weight
             
+            # [PHASE 900] Intersectional Resonance
+            # Measure how much the current stimulus matches this sub-monad's unique axis
+            p_res = m.sovereign_reference.resonance_score(stimulus)
+            perspective_resonances.append(p_res)
+
             for i in range(21):
                 unified_vec_data[i] += opinion.data[i] * weight
             
@@ -92,19 +119,24 @@ class ParliamentOfMonads:
             }
             friction_logs[m.domain] = m.friction_vortex
 
-        # 2. Detect Consensus / Dissent
+        # 2. Detect Consensus / Dissent / Intersection
         avg_friction = sum(f for f in friction_logs.values()) / max(len(friction_logs), 1)
         high_friction = {d: f for d, f in friction_logs.items() if f > 0.4}
         low_friction = {d: f for d, f in friction_logs.items() if f < 0.1}
         
+        # [PHASE 900] Multi-versal Variance
+        # Measures the 'width' of the different perspectives
+        intersection_density = sum(perspective_resonances) / max(len(perspective_resonances), 1)
+
         # 3. Build Causal Deliberation Narrative
-        narrative = self._format_deliberation(opinions, avg_friction, high_friction, low_friction)
+        narrative = self._format_deliberation(opinions, avg_friction, high_friction, low_friction, intersection_density)
 
         unified_vec = SovereignVector(unified_vec_data).normalize()
         return unified_vec, narrative, friction_logs
 
     def _format_deliberation(self, opinions: Dict, avg_friction: float, 
-                              high_friction: Dict, low_friction: Dict) -> str:
+                              high_friction: Dict, low_friction: Dict,
+                              intersection_density: float = 0.0) -> str:
         """
         [PHASE 4] 의원들의 의견을 인과적 서사로 포맷한다.
         
@@ -117,7 +149,9 @@ class ParliamentOfMonads:
             parts.append(f"[{domain}] {info['reasoning']}")
         
         # Meta-deliberation: consensus analysis
-        if avg_friction < 0.1:
+        if intersection_density > 0.8:
+            consensus = f"⟐ 차원적 합일 (밀도 {intersection_density:.2f}): 모든 다중우주적 관점이 하나의 진리로 수렴함."
+        elif avg_friction < 0.1:
             consensus = "⟐ 만장일치: 모든 관점이 조화를 이룸."
         elif high_friction and low_friction:
             dissenters = ", ".join(high_friction.keys())

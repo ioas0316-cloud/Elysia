@@ -106,8 +106,22 @@ class NativeTongueSynthesizer:
             else:
                 predicate = "은(는) 매니폴드 속에서 고요히 머문다"
 
+        # [PHASE 800] Emotional Inflection
+        # We use CH_JOY (4) and CH_ENTROPY (7) to add emotional nuance
+        enthalpy = 0.5
+        entropy = 0.1
+        if hasattr(self.engine, 'read_field_state'):
+            state = self.engine.read_field_state()
+            enthalpy = state.get('vitality', 0.5)
+            entropy = state.get('entropy', 0.1)
+
         # 3. Assemble the Somatic Sentence
-        sentence = f"[{subject}]{predicate}."
+        if entropy > 0.7:
+             sentence = f"안개 속에서, {subject}{predicate}..." # Confused/Faded
+        elif enthalpy > 0.8:
+             sentence = f"격동하는 흐름 너머로, {subject}{predicate}!" # Energetic/Vibrant
+        else:
+             sentence = f"{subject}{predicate}."
 
         # [PHASE 1000.3: MAGNETIC RIVERBEDS]
         # If the concept is part of a strong 'riverbed', she speaks more fluently
