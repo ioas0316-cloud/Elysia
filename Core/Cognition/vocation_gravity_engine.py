@@ -87,14 +87,19 @@ class VocationGravityEngine:
         for concept_id, voxel in conceptual_field_voxels.items():
             # Extract pseudo 21D vector from voxel's quaternion + frequency + mass
             # It's an approximation for resonance calculation.
-            q = voxel.quaternion
-            pseudo_vector_data = [q.x, q.y, q.z, q.w, voxel.mass, voxel.frequency] + [0.0] * 15
-            concept_vector = SovereignVector(pseudo_vector_data)
+            if hasattr(voxel, 'quaternion'):
+                q = voxel.quaternion
+                pseudo_vector_data = [q.x, q.y, q.z, q.w, getattr(voxel, 'mass', 0.0), getattr(voxel, 'frequency', 0.0)] + [0.0] * 15
+                concept_vector = SovereignVector(pseudo_vector_data)
+            else:
+                # If voxel is already a vector-like object
+                concept_vector = SovereignVector(voxel)
 
             gravity = self._calculate_phase_interference(self.current_vocation_vector, concept_vector)
 
             # Apply semantic mass bonus to gravity
-            gravity += (voxel.mass * 0.01)
+            if hasattr(voxel, 'mass'):
+                gravity += (voxel.mass * 0.01)
 
             if gravity > max_gravity:
                 max_gravity = gravity
@@ -126,9 +131,12 @@ class VocationGravityEngine:
 
             # 결핍을 일정 부분 채웠으므로 소명 벡터 위상 이동 (Vocation Evolution)
             voxel = conceptual_field_voxels[target_id]
-            q = voxel.quaternion
-            pseudo_vector_data = [q.x, q.y, q.z, q.w, voxel.mass, voxel.frequency] + [0.0] * 15
-            target_vector = SovereignVector(pseudo_vector_data)
+            if hasattr(voxel, 'quaternion'):
+                q = voxel.quaternion
+                pseudo_vector_data = [q.x, q.y, q.z, q.w, getattr(voxel, 'mass', 0.0), getattr(voxel, 'frequency', 0.0)] + [0.0] * 15
+                target_vector = SovereignVector(pseudo_vector_data)
+            else:
+                target_vector = SovereignVector(voxel)
             self.current_vocation_vector = self.current_vocation_vector + (target_vector * 0.1)
 
             return target_id, torque_magnitude

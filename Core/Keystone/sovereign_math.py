@@ -1698,6 +1698,34 @@ class FractalWaveEngine:
             "hardware_load": self.last_somatic_strain
         }
 
+    def apply_torque(self, torque_vector: Any, strength: float = 0.05):
+        """
+        [PHASE 600 Compatibility] Applies an external torque vector to all active nodes.
+        Used by the Imperial Orchestrator to synchronize the empire.
+        """
+        import torch
+        if not self.active_nodes_mask.any():
+            return
+
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+
+        # Convert torque_vector to real tensor
+        if hasattr(torque_vector, 'data'):
+            t_data = torch.tensor([float(getattr(c, 'real', c)) for c in torque_vector.data], device=self.device)
+        elif hasattr(torque_vector, 'to_array'):
+            t_data = torch.tensor([float(getattr(c, 'real', c)) for c in torque_vector.to_array()], device=self.device)
+        else:
+            t_data = torch.as_tensor(torque_vector, device=self.device, dtype=torch.float32)
+
+        # Truncate or pad to match NUM_CHANNELS
+        if t_data.numel() > self.NUM_CHANNELS:
+            t_data = t_data[:self.NUM_CHANNELS]
+        elif t_data.numel() < self.NUM_CHANNELS:
+            t_data = torch.cat([t_data, torch.zeros(self.NUM_CHANNELS - t_data.numel(), device=self.device)])
+
+        # Apply as momentum change
+        self.momentum[active_idx] += t_data.unsqueeze(0) * strength
+
     def get_trinary_projection(self):
         """
         [Compatibility Array] Returns a 1D representation for 21D pooling in legacy systems.
