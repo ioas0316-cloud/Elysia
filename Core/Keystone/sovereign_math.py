@@ -200,10 +200,12 @@ class SovereignInterferometer:
 
 class SovereignVector:
     """
-    A pure 21-dimensional vector object with native optimization.
+    A pure N-dimensional vector object with native optimization.
     Replaces jnp.ndarray/np.ndarray for Phase 90.
     """
     __slots__ = ['data', 'momentum'] # Memory optimization (Somatic efficiency)
+
+    DIM = 21 # [PHASE 800] Dynamic dimensionality support
 
     def __init__(self, data: Union[List[float], List[complex], Any]):
         """
@@ -227,23 +229,23 @@ class SovereignVector:
             except:
                 self.data = [0.0] * 21
 
-        if len(self.data) != 21:
-            if len(self.data) < 21:
-                self.data.extend([0.0] * (21 - len(self.data)))
+        if len(self.data) != self.DIM:
+            if len(self.data) < self.DIM:
+                self.data.extend([0.0] * (self.DIM - len(self.data)))
             else:
-                self.data = self.data[:21]
+                self.data = self.data[:self.DIM]
         
         # Ensure all elements are complex for consistency in Phase 130
         self.data = [complex(x) for x in self.data]
-        self.momentum = [0.0j] * 21 # [PHASE 110] Internal Kinetic Drive
+        self.momentum = [0.0j] * self.DIM # [PHASE 110] Internal Kinetic Drive
 
     @classmethod
     def zeros(cls) -> 'SovereignVector':
-        return cls([0.0] * 21)
+        return cls([0.0] * cls.DIM)
 
     @classmethod
     def ones(cls) -> 'SovereignVector':
-        return cls([1.0] * 21)
+        return cls([1.0] * cls.DIM)
 
     def to_list(self) -> List[complex]:
         return list(self.data)
@@ -263,7 +265,7 @@ class SovereignVector:
         return self.data[index]
 
     def __len__(self) -> int:
-        return 21
+        return self.DIM
 
     def __add__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
         if isinstance(other, (int, float, complex)):
@@ -474,8 +476,9 @@ class SovereignRotor:
 
     def apply(self, v: SovereignVector) -> SovereignVector:
         cross = []
-        for i in range(21):
-            val = (self.bivector.data[(i+1)%21] * v.data[i] - self.bivector.data[i] * v.data[(i+1)%21]).real
+        dim = len(v)
+        for i in range(dim):
+            val = (self.bivector.data[(i+1)%dim] * v.data[i] - self.bivector.data[i] * v.data[(i+1)%dim]).real
             cross.append(val)
         
         cv = SovereignVector(cross)
