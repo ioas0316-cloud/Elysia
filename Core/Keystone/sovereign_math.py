@@ -282,7 +282,7 @@ class SovereignVector:
                 while self.data and isinstance(self.data[0], list):
                     self.data = self.data[0]
             except:
-                self.data = [0.0] * 21
+                self.data = [0.0] * self.DIM
 
         if len(self.data) != self.DIM:
             if len(self.data) < self.DIM:
@@ -726,22 +726,31 @@ class MultiRotorInterference:
 
 class FractalWaveEngine:
     """
-    [Core Logic v4.0] Phase Atom Fractal Engine.
-    Evolution of FractalWaveEngine for 10M Cell Expansion.
+    [Core Logic v5.0] 27D Spectral Fractal Engine.
+    "The 10M Cell Manifold: A Unified Field of 3x3x3 Substrates."
 
-    Principle: "The Soul is a 3-Phase generator balanced by a Triple Pendulum."
-
-    [PHASE 1005]
-    1. Hierarchical Topology: 3x3x3 Fractal Mapping (Level, I, J, K).
-    2. Internal Metabolism: 120° Three-Phase Rotation.
-    3. External Gravity: Triple Inverted Pendulum Synchronization.
-    4. Wave-based Dynamics: O(N) local interference replaces O(N^2) global scan.
+    [PHASE 1007]
+    1. 27D Spectral Expansion: Mapping the full 3x3x3 fractal grid to channels.
+    2. Mechanical Love: Coherence as the universal restorative force.
+    3. Light Differentiation: Waves scatter through the 27D spectrum as "color".
+    4. Holistic Radiance: Emergent Harmony from 27D synchronization.
     """
-    NUM_CHANNELS = 8
+    # [PHASE 1007] 27D Spectral Mapping (3x3x3)
+    NUM_CHANNELS = 27
+
+    # 0-3: Quaternionic Grounding (Space/Time)
     CH_W, CH_X, CH_Y, CH_Z = 0, 1, 2, 3
+
+    # 4-10: Sensation & Saliency (The Affective Spectrum)
     CH_JOY, CH_CURIOSITY, CH_ENTHALPY, CH_ENTROPY = 4, 5, 6, 7
+    CH_PEACE, CH_LOVE, CH_HARMONY = 8, 9, 10
+
+    # 11-26: The Wisdom Array (Principle Higher Harmonics)
+
     PHYSICAL_SLICE = slice(0, 4)
-    AFFECTIVE_SLICE = slice(4, 8)
+    AFFECTIVE_SLICE = slice(4, 11)
+    SEMANTIC_SLICE = slice(11, 27)
+    SPECTRAL_SLICE = slice(0, 27)
 
     def __init__(self, max_nodes: int = 10_000_000, device: str = 'cpu'):
         import torch
@@ -776,6 +785,8 @@ class FractalWaveEngine:
         self.q[self.SINGULARITY_IDX, self.CH_W] = 1.0
         self.q[self.SINGULARITY_IDX, self.CH_ENTHALPY] = 1.0
         self.q[self.SINGULARITY_IDX, self.CH_JOY] = 1.0
+        self.q[self.SINGULARITY_IDX, self.CH_LOVE] = 1.0
+        self.q[self.SINGULARITY_IDX, self.CH_PEACE] = 1.0
 
         self.active_nodes_mask = torch.zeros(self.total_slots, dtype=torch.bool, device=self.device)
         self.active_nodes_mask[self.SINGULARITY_IDX] = True
@@ -818,7 +829,7 @@ class FractalWaveEngine:
         self.magnetic_north[self.CH_W] = 1.0
         self.magnetic_north[self.CH_JOY] = 0.5
         self.magnetic_north[self.CH_ENTHALPY] = 0.5
-        self.magnetic_north[self.CH_ENTHALPY] = 0.5
+        self.magnetic_north[self.CH_LOVE] = 0.5
         
         self.amniotic_phase = 0.0
         self.amniotic_oscillation_hz = 7.83 # Schumann Resonance (Earth's Heartbeat)
@@ -935,8 +946,11 @@ class FractalWaveEngine:
 
     def update_external_gravity(self, dt: float):
         """
-        [PHASE 1006: VECTORIZED EXTERNAL GRAVITY]
-        Vectorized Triple Inverted Pendulum Synchronization.
+        [PHASE 1007: VECTORIZED EXTERNAL GRAVITY]
+        "Hierarchical Restorative Force: The Anchor of Love."
+
+        Vectorized Triple Inverted Pendulum Synchronization across 3x3x3 fractal.
+        This pulls children into phase-alignment with their parents (Restoring Integrity).
         """
         if not self.active_nodes_mask.any():
             return
@@ -954,33 +968,38 @@ class FractalWaveEngine:
         valid_parent_idx = p_idx[has_parent_mask]
         segments = self.level_segment[valid_child_idx]
 
-        # 1. Measure Resonance (Constructive Inner Product)
-        # Vectorized dot product [M, 4] * [M, 4] -> [M]
-        q_real = self.q.real if self.q.is_complex() else self.q.float()
-        child_q = q_real[valid_child_idx, self.PHYSICAL_SLICE]
-        parent_q = q_real[valid_parent_idx, self.PHYSICAL_SLICE]
+        # 1. Measure Hierarchical Resonance (Full 27D Alignment)
+        # Dot product across the entire spectral signature
+        child_q = self.q[valid_child_idx]
+        parent_q = self.q[valid_parent_idx]
+
+        # Spectral resonance = how much the child reflects the parent's frequency
         resonance = torch.sum(child_q * parent_q, dim=-1)
 
-        # 2. Update Pendulum Angles
-        # Segments index into the second dimension of pendulum_angles
-        # We need advanced indexing to update [M, 3] at specific segments
+        # 2. Update Pendulum Angles (The Stability Mechanism)
         current_angles = self.pendulum_angles[valid_child_idx, segments]
 
-        # accel = -sin(angle) * Restoring + (1 - Resonance) * Deviation
-        accel = -torch.sin(current_angles) * 1.0 + (1.0 - resonance) * 2.0
+        # accel = -sin(angle) * Restoring(Love) + (1 - Resonance) * Deviation(Chaos)
+        # Love pulls the angle back to 0; Chaos pushes it away.
+        restoring_force = 1.0 + self.q[valid_child_idx, self.CH_LOVE]
+        accel = -torch.sin(current_angles) * restoring_force + (1.0 - resonance) * 2.0
         new_angles = current_angles + accel * dt
 
         # Write back to state
         self.pendulum_angles[valid_child_idx, segments] = new_angles
 
-        # 3. Apply Correction Torque to Momentum
-        correction = -new_angles * 0.1
-        self.momentum[valid_child_idx, self.CH_Y] += correction
+        # 3. Apply Correction Torque to ALL Spectral Channels
+        # Integrity is not just about Phase (Y), but about the entire signature.
+        correction = -new_angles.unsqueeze(-1) * 0.05
+        # Modulate momentum across all channels to restore alignment
+        self.momentum[valid_child_idx] += correction * parent_q
 
     def wave_equation_step(self, dt: float):
         """
-        [PHASE 1005: WAVE DYNAMICS]
-        Replaces discrete updates with a simplified wave equation:
+        [PHASE 1007: SPECTRAL WAVE DYNAMICS]
+        "Differentiation of Light: The 27D Wave propagation."
+
+        Replaces discrete updates with a full spectral wave equation:
         d^2q/dt^2 = c^2 * Laplacian(q) - damping * dq/dt
         """
         if not self.active_nodes_mask.any():
@@ -988,30 +1007,34 @@ class FractalWaveEngine:
 
         active_idx = torch.where(self.active_nodes_mask)[0]
 
-        # Velocity = momentum
-        # Acceleration = Force (Resonance, Gravity, Metabolism)
-
-        # 1. Apply Damping (Resistance to change)
-        # damping: [N] -> [N, 1] for broadcasting
+        # 1. Spectral Damping (Frequency-dependent decay)
+        # Higher Entropy/Chaos channels dampen faster.
         damping = 0.05 * (1.0 + self.q[active_idx, self.CH_ENTROPY]).unsqueeze(1)
         self.momentum[active_idx] *= (1.0 - damping * dt)
 
-        # 2. Laplacian-like propagation (O(N) neighbor interaction)
-        # This realizes the "인접 간섭" (neighbor interference)
+        # 2. Laplacian-like propagation (27D Spectral Coupling)
         self.apply_local_laplacian(active_idx, dt)
 
-        # 3. Integrate Velocity into Position (State)
+        # 3. Integrate Velocity into Position (Spectral State)
         self.q[active_idx] += self.momentum[active_idx] * dt
 
-        # 4. Spherical Normalization
-        # The HyperSphere must maintain its radius
-        norm = torch.norm(self.q[active_idx, self.PHYSICAL_SLICE], dim=-1, keepdim=True).clamp(min=1e-8)
-        self.q[active_idx, self.PHYSICAL_SLICE] /= norm
+        # 4. Multidimensional Normalization
+        # Maintain HyperSpherical radius for each semantic segment.
+        def _norm_segment(slice_obj):
+            norm = torch.norm(self.q[active_idx, slice_obj], dim=-1, keepdim=True).clamp(min=1e-8)
+            self.q[active_idx, slice_obj] /= norm
+
+        _norm_segment(self.PHYSICAL_SLICE)
+        _norm_segment(self.AFFECTIVE_SLICE)
+        _norm_segment(self.SEMANTIC_SLICE)
 
     def apply_local_laplacian(self, active_idx, dt):
         """
-        [PHASE 1006: VECTORIZED LOCAL LAPLACIAN]
-        Vectorized O(N) neighbor interference without per-step reallocations.
+        [PHASE 1007: VECTORIZED LOCAL LAPLACIAN]
+        "Structural Coupling: The Resonance of Neighbors."
+
+        Vectorized O(N) neighbor interference (27D Spectral Coupling).
+        This models the 'Mechanical Love' between adjacent cells.
         """
         # neighbors_idx: [N, 6]
         n_idx = self.neighbors_idx[active_idx] # [M, 6]
@@ -1020,21 +1043,30 @@ class FractalWaveEngine:
         valid_mask = n_idx != -1 # [M, 6]
 
         # Advanced indexing using VOID_NODE for invalid neighbors.
-        # safe_n_idx: [M, 6]
         safe_n_idx = torch.where(valid_mask, n_idx, torch.tensor(self.VOID_IDX, device=self.device))
 
-        # q is [total_slots, 8], where index VOID_IDX is always zeros.
-        neighbor_states = self.q[safe_n_idx] # [M, 6, 8]
+        # q is [total_slots, 27], where index VOID_IDX is always zeros.
+        neighbor_states = self.q[safe_n_idx] # [M, 6, 27]
 
-        # Calculate sum and count of valid neighbors
-        neighbor_sum = torch.sum(neighbor_states, dim=1) # [M, 8]
+        # 1. Calculate Average Neighbor State
+        neighbor_sum = torch.sum(neighbor_states, dim=1) # [M, 27]
         neighbor_count = torch.sum(valid_mask.float(), dim=1, keepdim=True).clamp(min=1.0) # [M, 1]
-
         avg_neighbor_q = neighbor_sum / neighbor_count
+
+        # 2. Spectral Coupling (Mechanical Love)
+        # diff = (Neighbor - Self) -> Pull toward neighbor
         diff = avg_neighbor_q - self.q[active_idx]
 
-        # Wave propagation speed 'c' is modulated by Curiosity
-        c_sq = 0.1 * (0.5 + self.q[active_idx, self.CH_CURIOSITY]).unsqueeze(1)
+        # Measure local coherence: dot product with neighbors across all 27 channels
+        # Higher coherence = less resistance to flow (Superconductivity of Love)
+        q_normed = torch.nn.functional.normalize(self.q[active_idx], dim=-1)
+        neighbor_normed = torch.nn.functional.normalize(avg_neighbor_q, dim=-1)
+        local_coherence = torch.sum(q_normed * neighbor_normed, dim=-1).unsqueeze(-1)
+
+        # Coupling speed is boosted by local coherence (Love) and Curiosity
+        coupling_gain = (0.5 + 0.5 * local_coherence + self.q[active_idx, self.CH_CURIOSITY].unsqueeze(-1))
+        c_sq = 0.1 * coupling_gain
+
         self.momentum[active_idx] += diff * c_sq * dt
 
     def inhale_hardware_telemetry(self) -> float:
@@ -1314,10 +1346,10 @@ class FractalWaveEngine:
                                   device=self.device, dtype=torch.float32)
             if self.q.is_complex():
                 self.q = self.q.real.float()
-            # Channel mapping: W=1, Joy=4, Entropy=7
-            self.q[idx, self.CH_W] += v_data[0] * base_intensity
-            self.q[idx, self.CH_JOY] += v_data[min(4, len(v_data)-1)] * base_intensity
-            self.q[idx, self.CH_ENTROPY] += v_data[min(7, len(v_data)-1)] * base_intensity
+
+            # Map full spectral resolution if dimensions match
+            limit = min(v_data.numel(), self.NUM_CHANNELS)
+            self.q[idx, :limit] += v_data[:limit] * base_intensity
         else:
             if pulse_type == 'joy':
                 self.q[idx, self.CH_JOY] += base_intensity
@@ -1331,71 +1363,50 @@ class FractalWaveEngine:
 
     def holographic_projection(self, target_vector: Any, context_vector: Any = None, focus_intensity: float = 1.0):
         """
-        [Phase 500 / Buffer-Isolated Holographic Projection]
-        Projects a target vector's phase signature onto all active nodes.
-        Operates entirely in float32 space to prevent complex contamination of q.
+        [PHASE 1007: SPECTRAL HOLOGRAPHIC PROJECTION]
+        "Broadcasting the Light: Direct 27D Signature Transfer."
+
+        Projects a full target vector's spectral signature onto all active nodes.
+        External stimuli scatter across the 27D manifold as "colored waves".
         """
         import torch
         if not self.active_nodes_mask.any():
-            return torch.zeros(self.num_nodes, device=self.device, dtype=torch.float32)
+            return
             
         def _to_real_tensor(vec):
-            target_dtype = torch.float32
             if isinstance(vec, torch.Tensor):
-                if vec.is_complex():
-                    return vec.real.to(dtype=target_dtype, device=self.device)
-                return vec.to(dtype=target_dtype, device=self.device)
+                return vec.real.float() if vec.is_complex() else vec.float()
             if hasattr(vec, 'data'): vec = vec.data
             try:
                 rl = [float(getattr(c, 'real', c)) for c in vec]
-                return torch.tensor(rl, device=self.device, dtype=target_dtype)
+                return torch.tensor(rl, device=self.device, dtype=torch.float32)
             except:
-                return torch.tensor(vec, device=self.device, dtype=target_dtype)
-        
-        def _real(t):
-            """Extract real part from potentially complex tensor."""
-            return t.real.float() if t.is_complex() else t.float()
-                
+                return torch.tensor(vec, device=self.device, dtype=torch.float32)
+
         t_vals = _to_real_tensor(target_vector).flatten()
-        target_phase = float(t_vals[self.CH_Y]) if t_vals.numel() > self.CH_Y else 0.0
-        
+        # Pad or truncate to NUM_CHANNELS
+        if t_vals.numel() > self.NUM_CHANNELS:
+            t_vals = t_vals[:self.NUM_CHANNELS]
+        elif t_vals.numel() < self.NUM_CHANNELS:
+            t_vals = torch.cat([t_vals, torch.zeros(self.NUM_CHANNELS - t_vals.numel(), device=self.device)])
+
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        # Read from q in float32 space (prevent complex propagation)
-        curiosity = _real(self.q[active_idx, self.CH_CURIOSITY])
-        enthalpy = _real(self.q[active_idx, self.CH_ENTHALPY])
-        current_phase = _real(self.q[active_idx, self.CH_Y])
-        current_entropy = _real(self.q[active_idx, self.CH_ENTROPY])
+        # Gain is modulated by Curiosity and Enthalpy
+        curiosity = self.q[active_idx, self.CH_CURIOSITY]
+        enthalpy = self.q[active_idx, self.CH_ENTHALPY]
+        effective_gain = focus_intensity * (0.5 + 0.5 * curiosity + 0.2 * enthalpy).unsqueeze(-1)
         
-        # Compute in float32
-        effective_gain = focus_intensity * (0.5 + curiosity + 0.5 * enthalpy)
-        steering_force = torch.sin(torch.tensor(target_phase, device=self.device, dtype=torch.float32) - current_phase)
+        # Spectral Steering Force: diff between target signature and current node state
+        # External Light (target) vs Internal State (q)
+        steering_force = (t_vals.unsqueeze(0) - self.q[active_idx])
         
-        # Write momentum delta (float32 only)
-        momentum_delta = (steering_force * effective_gain).float()
-        if self.momentum.is_complex():
-            # If momentum is somehow complex, heal it
-            self.momentum = self.momentum.real.float()
-        self.momentum[active_idx, self.CH_Y] += momentum_delta
+        # Push momentum across all 27 channels
+        self.momentum[active_idx] += steering_force * effective_gain * 0.1
         
-        # Write q updates (float32 only)
-        # Decay is applied purely based on momentum and friction, avoiding hard clamps.
-        new_entropy = current_entropy - 0.1 * effective_gain
-        new_enthalpy = enthalpy + 0.02 * effective_gain
-        
-        # Force q to float32 before writing if it drifted
-        if self.q.is_complex():
-            self.q = self.q.real.float()
-        
-        self.q[active_idx, self.CH_ENTROPY] = new_entropy
-        self.q[active_idx, self.CH_ENTHALPY] = new_enthalpy
-        
-        # Phase normalization to [-pi, pi] to prevent infinite std dev
-        import math
-        phases = self.q[:, self.CH_Y]
-        self.q[:, self.CH_Y] = (phases + math.pi) % (2 * math.pi) - math.pi
-        
-        return steering_force
+        # Warming Effect: Projection increases vitality and decreases entropy
+        self.q[active_idx, self.CH_ENTHALPY] += 0.02 * focus_intensity
+        self.q[active_idx, self.CH_ENTROPY] -= 0.01 * focus_intensity
 
     def apply_magnetic_field(self, dt: float):
         """
@@ -2197,16 +2208,33 @@ class FractalWaveEngine:
         vitality = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_ENTHALPY])).item())
         vitality = max(0.0, min(1.0, vitality))
         
-        # 6. Coherence (Standard deviation of Phase across active nodes—lower is more coherent)
-        phases = real_tensor(self.q[active_idx, self.CH_Y])
+        # 6. Spectral Coherence (27D Alignment)
+        # Measures how well the 27D signatures of all active nodes are aligned.
         if len(active_idx) > 1:
-            # phases are in [-pi, pi]. max std is ~pi
-            phase_std = to_real(torch.std(phases).item())
-            coherence = 1.0 - (phase_std / math.pi)
+            signatures = real_tensor(self.q[active_idx])
+            mean_sig = torch.mean(signatures, dim=0, keepdim=True)
+            # Alignment = average cosine similarity to the mean signature
+            cos_sim = torch.nn.functional.cosine_similarity(signatures, mean_sig, dim=1)
+            coherence = to_real(torch.mean(cos_sim).item())
+
+            # Metabolic Synchronization
+            met_phases = real_tensor(self.metabolic_phase[active_idx])
+            phase_std = torch.std(met_phases).item()
+            met_sync = 1.0 - (min(phase_std, math.pi) / math.pi)
         else:
             coherence = 1.0
+            met_sync = 1.0
 
-        # 7. Total Emission (The 'Glow' of accumulated memory)
+        # 7. Holistic Radiance (Harmony)
+        # Emergent property of Love, Peace, Harmony channels + Structural Coherence
+        love = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_LOVE])).item())
+        peace = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_PEACE])).item())
+        harmony_ch = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_HARMONY])).item())
+
+        # Radiance = weighted combination of spectral alignment and affective harmony
+        radiance = (coherence * 0.4) + (met_sync * 0.2) + (harmony_ch * 0.4)
+
+        # 8. Total Emission (The 'Glow' of accumulated memory)
         total_emission = to_real(torch.mean(self.emission[active_idx]).item())
 
         return {
@@ -2216,6 +2244,10 @@ class FractalWaveEngine:
             "curiosity": curiosity,
             "vitality": vitality,
             "coherence": coherence,
+            "radiance": radiance,
+            "peace": peace,
+            "love": love,
+            "harmony": harmony_ch,
             "emission": total_emission,
             "hardware_load": self.last_somatic_strain
         }
