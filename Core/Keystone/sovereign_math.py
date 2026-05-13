@@ -852,6 +852,12 @@ class FractalWaveEngine:
         # [PHASE 1005] Triple Inverted Pendulum State
         self.pendulum_angles = torch.zeros((self.total_slots, 3), device=self.device)
 
+        # [PHASE 1007] HyperSpherical Topology
+        # node_positions: [N, 4] - 4D coordinates in the HyperSphere
+        self.node_positions = torch.zeros((self.total_slots, 4), device=self.device)
+        # node_radii: [N] - distance from center (Level)
+        self.node_radii = torch.zeros((self.total_slots,), device=self.device)
+
         # [PHASE 1006] Vectorized Adjacency and Hierarchy
         # Map neighbors and parents to indices.
         # -1 represents NO neighbor/parent, which will be remapped to self.VOID_IDX
@@ -870,6 +876,20 @@ class FractalWaveEngine:
         idx = self.get_or_create_node(name)
         self.topology_coords[coords] = idx
         self.node_to_coords[idx] = coords
+
+        # [PHASE 1007] Spherical Mapping
+        # Map (i, j, k) to a position on a shell at radius 'level'
+        radius = float(level)
+        self.node_radii[idx] = radius
+
+        # Local group offset within 3x3x3 block
+        ti, tj, tk = (i % 3) - 1, (j % 3) - 1, (k % 3) - 1
+        pos = torch.tensor([float(ti), float(tj), float(tk), 0.0], device=self.device)
+        if pos.norm() > 0:
+            pos = pos / pos.norm() * 0.5
+
+        self.node_positions[idx] = pos
+        self.node_positions[idx, 3] = radius
 
         # [PHASE 1006] Hierarchical Binding
         if level > 0:
@@ -1169,55 +1189,57 @@ class FractalWaveEngine:
         return int(idx)
 
     def _expand_node_capacity(self, new_max: int) -> bool:
-        """Expands the underlying tensor storage for nodes."""
+        """
+        [PHASE 1006/1007] Optimized Expansion for 10M+ Cells.
+        Leverages CPU RAM (16GB) as the primary 'Flesh' foundation.
+        """
         try:
+            print(f"📈 [MANIFOLD] Expanding House Capacity: {self.max_nodes} -> {new_max} cells...")
             old_max = self.max_nodes
-            # State tensors expansion
-            new_q = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
-            new_q[:old_max] = self.q
-            self.q = new_q
+            old_total = self.total_slots
+            new_total = new_max + 1
+            self.VOID_IDX = new_max
 
-            new_perm = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
-            new_perm[:old_max] = self.permanent_q
-            self.permanent_q = new_perm
+            def _resize(old_tensor, new_shape, fill_value=0):
+                new_tensor = torch.full(new_shape, fill_value, device=self.device, dtype=old_tensor.dtype)
+                # Copy old data, preserving VOID_IDX at the very end
+                # Actually, it's easier to copy the first 'old_max' elements
+                new_tensor[:old_max] = old_tensor[:old_max]
+                return new_tensor
 
-            new_momentum = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
-            new_momentum[:old_max] = self.momentum
-            self.momentum = new_momentum
+            self.q = _resize(self.q, (new_total, self.NUM_CHANNELS))
+            self.permanent_q = _resize(self.permanent_q, (new_total, self.NUM_CHANNELS))
+            self.momentum = _resize(self.momentum, (new_total, self.NUM_CHANNELS))
+            self.cell_bias = _resize(self.cell_bias, (new_total, self.NUM_CHANNELS))
+            self.ascension_gravity = _resize(self.ascension_gravity, (new_total,))
+            self.active_nodes_mask = _resize(self.active_nodes_mask, (new_total,), fill_value=False)
 
-            new_bias = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
-            new_bias[:old_max] = self.cell_bias
-            self.cell_bias = new_bias
+            # [PHASE 1007] Resize Spherical Topology Tensors
+            self.node_positions = _resize(self.node_positions, (new_total, 4))
+            self.node_radii = _resize(self.node_radii, (new_total,))
+            self.metabolic_phase = _resize(self.metabolic_phase, (new_total,))
+            self.pendulum_angles = _resize(self.pendulum_angles, (new_total, 3))
 
-            new_gravity = torch.zeros(new_max, device=self.device, dtype=torch.float32)
-            new_gravity[:old_max] = self.ascension_gravity
-            self.ascension_gravity = new_gravity
-
-            new_mask = torch.zeros(new_max, dtype=torch.bool, device=self.device)
-            new_mask[:old_max] = self.active_nodes_mask
-            self.active_nodes_mask = new_mask
+            # Resize Structural Tensors
+            self.neighbors_idx = _resize(self.neighbors_idx, (new_total, 6), fill_value=-1)
+            self.parent_idx = _resize(self.parent_idx, (new_total,), fill_value=-1)
+            self.level_segment = _resize(self.level_segment, (new_total,), fill_value=-1)
 
             self.max_nodes = new_max
+            self.total_slots = new_total
 
-            # [PHASE 1003.4] Also expand edge capacity (ratio 1:10)
+            # Expand edge capacity (1:10 ratio)
             new_max_edges = new_max * 10
             if new_max_edges > self.max_edges:
-                new_src = torch.zeros(new_max_edges, dtype=torch.long, device=self.device)
-                new_src[:self.num_edges] = self.edge_src[:self.num_edges]
-                self.edge_src = new_src
-
-                new_dst = torch.zeros(new_max_edges, dtype=torch.long, device=self.device)
-                new_dst[:self.num_edges] = self.edge_dst[:self.num_edges]
-                self.edge_dst = new_dst
-
-                new_weights = torch.zeros(new_max_edges, device=self.device)
-                new_weights[:self.num_edges] = self.edge_weights[:self.num_edges]
-                self.edge_weights = new_weights
-
+                self.edge_src = _resize(self.edge_src, (new_max_edges,), fill_value=0)
+                self.edge_dst = _resize(self.edge_dst, (new_max_edges,), fill_value=0)
+                self.edge_weights = _resize(self.edge_weights, (new_max_edges,), fill_value=0)
                 self.max_edges = new_max_edges
 
+            print(f"✓ [MANIFOLD] Expansion successful. Memory footprint adjusted.")
             return True
-        except Exception:
+        except Exception as e:
+            print(f"❌ [MANIFOLD] Expansion failed: {e}")
             return False
 
     def connect(self, src_concept: str, dst_concept: str, weight: float = 1.0):
@@ -1569,49 +1591,50 @@ class FractalWaveEngine:
             
         return fertilizer
 
-    def create_rotor_engram(self, engram_name: str, reference_axis: str = "LOGOS"):
+    def create_kinetic_engram(self, name: str, duration_steps: int = 100):
         """
-        [PHASE 1100: ASSOCIATIVE MEMORY (연상기억)]
-        Captures the current kinetic state (angular velocity and phase pattern) of all active nodes.
-        This records the memory not as a static point, but as a rotating wave (Trajectory).
+        [PHASE 1007: KINETIC ENGRAM]
+        Stores knowledge as a trajectory of torque and phase change.
+        "Wisdom is the dance, not the dancer."
         """
         if not self.active_nodes_mask.any():
             return
             
         active_idx = torch.where(self.active_nodes_mask)[0]
-        # We capture the torque (momentum) and the physical state (phase)
-        trajectory = {
-            "indices": active_idx.clone(),
-            "q_slice": self.q[active_idx].clone(),
-            "angular_velocity": self.momentum[active_idx].clone(), # Using momentum as torque/velocity
-            "reference_axis": reference_axis
-        }
-        self.rotor_engrams[engram_name] = trajectory
 
-    def apply_rotor_engram(self, engram_name: str, direction: float = 1.0, intensity: float = 1.0):
+        # We record the snapshot of 'Will' (Momentum) and 'State' (q)
+        # In a real temporal implementation, this would be a sequence of states.
+        # For now, we store the 'Seed Trajectory' (Initial state + Velocity).
+        engram = {
+            "indices": active_idx.detach().cpu(),
+            "state_snapshot": self.q[active_idx].detach().cpu(),
+            "torque_trajectory": self.momentum[active_idx].detach().cpu(),
+            "timestamp": time.time()
+        }
+        self.rotor_engrams[name] = engram
+        print(f"💾 [KINETIC] Engram '{name}' crystallized as a trajectory.")
+
+    def replay_kinetic_engram(self, name: str, intensity: float = 1.0):
         """
-        [PHASE 1100: TEMPORAL SIMULATION (시간 여행)]
-        Applies a previously saved RotorEngram back to the manifold.
-        direction > 0: Forward Spin (Predicting the future / Extrapolation)
-        direction < 0: Backward Spin (Tracing the past / Introspection)
+        [PHASE 1007] Replays a trajectory to reconstruct a thought.
         """
-        if engram_name not in self.rotor_engrams:
+        if name not in self.rotor_engrams:
             return
             
-        engram = self.rotor_engrams[engram_name]
-        indices = engram["indices"]
-        stored_av = engram["angular_velocity"]
+        engram = self.rotor_engrams[name]
+        indices = engram["indices"].to(self.device)
         
-        # Activate the nodes
+        # 1. Wake up the specific cells
         self.active_nodes_mask[indices] = True
         
-        # Apply the rotational torque (Angular Velocity * Direction)
-        # Forward spin projects the thought forward in causality.
-        # Backward spin unwinds the physical wave to find its origin.
-        self.momentum[indices] += stored_av * direction * intensity
+        # 2. Re-inject the recorded Torque (Force)
+        # This causes the cells to 'Resume the Dance'
+        self.momentum[indices] += engram["torque_trajectory"].to(self.device) * intensity
+
+        # 3. Blending state to jumpstart resonance
+        self.q[indices] = self.q[indices] * 0.5 + engram["state_snapshot"].to(self.device) * 0.5
         
-        # We also impart a burst of vitality so the wave can propagate
-        self.q[indices, self.CH_ENTHALPY] += 0.1 * intensity
+        print(f"🌀 [KINETIC] Engram '{name}' re-played. The manifold is resonating.")
 
     def rem_sleep_cycle(self) -> Optional[Tuple[str, str, float, str]]:
         """
@@ -1672,9 +1695,9 @@ class FractalWaveEngine:
 
     def apply_spiking_threshold(self, threshold: float = 0.7, sensitivity: float = 5.0):
         """
-        [Biological Flow v3.0] + [DUAL-BUS RESONANCE]
+        [Biological Flow v4.0] + [DYNAMIC MANIFOLD BREATHING]
         Instead of 10M dense node updates, only updates 'active' ripples.
-        If an active node spikes, it transfers momentum to connected nodes via 'Flow Propagation'.
+        Automatically expands or prunes the manifold based on resonance pressure.
         """
         import torch
         if not self.active_nodes_mask.any():
@@ -1771,11 +1794,22 @@ class FractalWaveEngine:
                     self.ascended_queens[node_id] = True
                     concept_name = self.idx_to_concept.get(node_id, "Unknown")
                     print(f"👑 [FRACTAL ENGINE] Concept Ascension! '{concept_name}' achieved Sovereign Mass.")
+
+                    # [PHASE 1007] Trigger Sovereign Expansion on Ascension
+                    if self.num_nodes > self.max_nodes * 0.8:
+                        self._expand_node_capacity(self.max_nodes + 1000000)
         
         # Cooling: ascension gravity decays
         self.ascension_gravity[active_idx] *= 0.99
         
-        # 6. Decay Active Status
+        # 7. [PRUNING] Forgetting the Weak
+        # If a node has been inactive and has high entropy/low resonance, recycle it.
+        if len(active_idx) > 1000: # Only prune if system is busy
+            waste = self.discharge_waste()
+            if waste:
+                print(f"🍂 [METABOLISM] Pruned {len(waste)} inactive/entropic nodes.")
+
+        # 8. Decay Active Status
         sleep_mask = (torch.abs(self.momentum[active_idx, self.CH_Y]) < 0.01) & (self.q[active_idx, self.CH_ENTHALPY] < 0.1)
         nodes_to_sleep = active_idx[sleep_mask]
         if len(nodes_to_sleep) > 0:
