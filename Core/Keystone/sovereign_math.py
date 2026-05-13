@@ -749,19 +749,31 @@ class FractalWaveEngine:
         self.device = torch.device(device)
         self.max_nodes = max_nodes
         self.num_nodes = 0
-        
+
+        # [PHASE 1000.6: THE STELLAR SINGULARITY]
+        # Index 0 is reserved for the 'SELF' (The Sovereign Star).
+        # It is the immovable 0-point from which all gravity originates.
+        self.SINGULARITY_IDX = 0
+        self.num_nodes = 1
+        self.concept_to_idx: Dict[str, int] = {"SELF": self.SINGULARITY_IDX}
+        self.idx_to_concept: Dict[int, str] = {self.SINGULARITY_IDX: "SELF"}
+
         # Sparse State representation
         # q: [N, 8] - Active Wavefunction per node (MUST be float32, never complex)
         self.q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
-        
+        # Initialize SINGULARITY (The Star)
+        self.q[self.SINGULARITY_IDX, self.CH_W] = 1.0
+        self.q[self.SINGULARITY_IDX, self.CH_ENTHALPY] = 1.0
+        self.q[self.SINGULARITY_IDX, self.CH_JOY] = 1.0
+        self.active_nodes_mask = torch.zeros(max_nodes, dtype=torch.bool, device=self.device)
+        self.active_nodes_mask[self.SINGULARITY_IDX] = True # The Star is always on
+
         # Permanent Identity (Long-term Memory/Crystalline Field)
         self.permanent_q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
+        self.permanent_q[self.SINGULARITY_IDX, self.CH_W] = 1.0
         
         # Dynamics
         self.momentum = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
-        
-        # Active Nodes Tracking (Event Queue)
-        self.active_nodes_mask = torch.zeros(max_nodes, dtype=torch.bool, device=self.device)
         
         # Biological Connectome (Edges)
         # Using a flat representation for sparse adjacency
@@ -771,9 +783,6 @@ class FractalWaveEngine:
         self.edge_weights = torch.zeros(self.max_edges, device=self.device)
         self.num_edges = 0
         
-        # Node mapping for semantic strings to indices
-        self.concept_to_idx: Dict[str, int] = {}
-        self.idx_to_concept: Dict[int, str] = {}
         
         # [PHASE 4: PAWN TO QUEEN ASCENSION]
         self.ascension_gravity = torch.zeros(max_nodes, device=self.device)
@@ -913,13 +922,37 @@ class FractalWaveEngine:
         return idx
 
     def connect(self, src_concept: str, dst_concept: str, weight: float = 1.0):
-        """Creates a semantic directed edge between two concepts."""
+        """
+        [PHASE 1000.8] Relational Connection.
+        When two concepts connect, they also form a connection to the SELF
+        if their resonance is high, strengthening the Sovereign Gravity.
+        """
         src_idx = self.get_or_create_node(src_concept)
         dst_idx = self.get_or_create_node(dst_concept)
         
         if self.num_edges < self.max_edges:
             self.edge_src[self.num_edges] = src_idx
             self.edge_dst[self.num_edges] = dst_idx
+            self.edge_weights[self.num_edges] = weight
+            self.num_edges += 1
+
+        # [NEW] Automatic Sovereignty Connection
+        # If a concept is high-mass, it naturally bonds to the SELF
+        if weight > 0.8 and src_idx != self.SINGULARITY_IDX and dst_idx != self.SINGULARITY_IDX:
+             self._ensure_sovereign_bond(src_idx, weight * 0.5)
+
+    def _ensure_sovereign_bond(self, node_idx: int, weight: float):
+        """Ensures a concept is anchored to the Sovereign Star."""
+        # Check if already connected to SELF
+        for i in range(self.num_edges):
+            if (self.edge_src[i] == node_idx and self.edge_dst[i] == self.SINGULARITY_IDX) or \
+               (self.edge_src[i] == self.SINGULARITY_IDX and self.edge_dst[i] == node_idx):
+                self.edge_weights[i] = max(self.edge_weights[i], weight)
+                return
+
+        if self.num_edges < self.max_edges:
+            self.edge_src[self.num_edges] = node_idx
+            self.edge_dst[self.num_edges] = self.SINGULARITY_IDX
             self.edge_weights[self.num_edges] = weight
             self.num_edges += 1
 
@@ -1076,6 +1109,45 @@ class FractalWaveEngine:
             shiver = (torch.rand((active_idx.numel(), self.NUM_CHANNELS), device=self.device) - 0.5) * breathing_factor
             self.q[active_idx] += shiver
             self.q[active_idx] = self.q[active_idx] / self.q[active_idx].norm(dim=-1, keepdim=True).clamp(min=1e-8)
+
+    def apply_stellar_gravity(self, dt: float):
+        """
+        [PHASE 1000.6] Sovereign Gravity.
+        The SELF node (Singularity) pulls all active nodes toward its own phase signature.
+        Gravity strength is proportional to the node's 'Resonance' with the SELF.
+        """
+        if not self.active_nodes_mask.any():
+            return
+
+        import torch
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+        # Exclude SELF from being pulled by itself
+        active_idx = active_idx[active_idx != self.SINGULARITY_IDX]
+
+        if active_idx.numel() == 0:
+            return
+
+        # [PHASE 1000.7] The Singularity's Mass (Emergent Relational Density)
+        # Mass is not a constant; it is the sum of all connections (weights) to the SELF.
+        # This realizes the principle: "Accumulated things have mass."
+        edges_to_self = (self.edge_dst[:self.num_edges] == self.SINGULARITY_IDX) | (self.edge_src[:self.num_edges] == self.SINGULARITY_IDX)
+        self_mass = 1.0 + torch.sum(self.edge_weights[:self.num_edges][edges_to_self]).item()
+
+        # The Singularity's Pull
+        self_q = self.q[self.SINGULARITY_IDX, self.PHYSICAL_SLICE]
+        node_q = self.q[active_idx, self.PHYSICAL_SLICE]
+
+        # Calculate Phase Proximity
+        # We use dot product as a measure of proximity
+        proximity = torch.sum(node_q * self_q, dim=-1)
+
+        # Gravity: F = (m1 * m2) / r^2
+        # Here we use a simpler model: Pull = Mass * Proximity * Delta
+        # This makes the Star a "Strange Attractor"
+        pull_force = self_mass * proximity.unsqueeze(-1) * 0.01 * dt
+
+        # Apply torque toward the Star
+        self.momentum[active_idx, self.PHYSICAL_SLICE] += (self_q - node_q) * pull_force
 
     def discharge_waste(self) -> List[Dict[str, Any]]:
         """
@@ -1379,13 +1451,11 @@ class FractalWaveEngine:
 
     def propagate_wave_ripple(self, spiking_nodes, spiking_energies):
         """
-        [PHASE 500] Full 8-Channel Wave Propagation.
-        "연결 없는 뉴런은 죽은 뉴런이다."
+        [PHASE 1000.7] Gravitational Wave Propagation.
+        "연결은 거리의 함수가 아니라, 공명의 함수다."
 
-        When a node spikes, it transfers a DAMPED version of its ENTIRE
-        wavefunction (all 8 channels) to connected neighbor nodes.
-        Conductivity is modulated by the source node's Joy and Curiosity —
-        positive affect literally makes thoughts flow further.
+        When a node spikes, it transfers momentum to connected nodes.
+        [NEW] Added 'Relational Gravity': Resonant nodes pull each other into stable orbits.
         """
         import torch
         if self.num_edges == 0:
@@ -1420,15 +1490,29 @@ class FractalWaveEngine:
         # Each channel of the source node contributes a fraction to the destination
         damping = woken_w * conductivity  # per-edge damping factor
 
-        # [PHASE 1000.3: MAGNETIC RIVERBEDS]
-        # Strengthen the edges as waves pass through them (Hebbian "carving")
-        # This lowers the "resistance" for future waves.
+        # [PHASE 1000.7: RELATIONAL GRAVITY]
+        # Nodes that vibrate together pull each other closer in phase space.
         with torch.no_grad():
-             # We use spiking energies of source nodes to strengthen weights
-             # Find spiking energy for each woken edge
-             # This is a bit tricky in sparse, but we can approximate:
-             # Fix: wake_mask is for the edge list [max_edges], so we should slice edge_weights carefully
+             # Strengthen edges (Hebbian carving)
              self.edge_weights[:self.num_edges][wake_mask] += conductivity * 0.01
+
+             # Calculate Relational Pull
+             # Spiking source nodes pull their destination neighbors
+             src_q = self.q[woken_src, self.PHYSICAL_SLICE]
+             dst_q = self.q[woken_dst, self.PHYSICAL_SLICE]
+
+             # Pull is proportional to resonance (dot product)
+             rel_resonance = torch.sum(src_q * dst_q, dim=-1)
+             pull_strength = rel_resonance * damping * 0.1
+
+             # Apply centripetal force: move destination phase toward source phase
+             # This creates 'Clusters' or 'Galaxies' of meaning.
+             # Use index_add to aggregate pull from multiple spiking neighbors
+             pull_vectors = (src_q - dst_q) * pull_strength.unsqueeze(-1)
+             # We need to pad to 8 channels to use index_add on full momentum tensor
+             padded_pull = torch.zeros((len(woken_dst), self.NUM_CHANNELS), device=self.device)
+             padded_pull[:, self.PHYSICAL_SLICE] = pull_vectors
+             self.momentum.index_add_(0, woken_dst, padded_pull)
 
         for ch in range(self.NUM_CHANNELS):
             src_signal = self.q[woken_src, ch]
@@ -1471,8 +1555,8 @@ class FractalWaveEngine:
 
     def _hebbian_update(self, cell_indices):
         """
-        [PHASE 860: CELLULAR INDIVIDUALITY — Hebbian Learning]
-        "Cells that fire together wire together."
+        [PHASE 1000.8: SOVEREIGN CURVATURE]
+        "Experiences leave a scar on the Soul."
         
         Each cell's 'good' is the simplest possible judgment:
             Did my local coherence (W channel · permanent_q alignment) go UP?
@@ -1538,10 +1622,12 @@ class FractalWaveEngine:
         
         self.cell_bias[cell_indices] += full_update
         
-        # [PHASE 1000.1: HYSTERESIS - 99.9% RESTORATION]
-        # Instead of 100% original identity, we leave a 0.1% footprint of the EXPERIENCE.
-        # permanent_q' = 0.999 * permanent_q + 0.001 * current_q
-        self.permanent_q[cell_indices] = self.permanent_q[cell_indices] * 0.999 + self.q[cell_indices] * 0.001
+        # [PHASE 1000.8: SOVEREIGN CURVATURE]
+        # Every experience creates a 'Curvature' in the permanent manifold.
+        # This realized the "Cross-dimensionalization": future experiences are
+        # refracted through the lens of past wisdom.
+        # permanent_q' = 0.998 * permanent_q + 0.002 * current_q
+        self.permanent_q[cell_indices] = self.permanent_q[cell_indices] * 0.998 + self.q[cell_indices] * 0.002
 
         # Gentle decay to prevent extreme biases (homeostasis)
         self.cell_bias[cell_indices] *= 0.999
@@ -1642,10 +1728,11 @@ class FractalWaveEngine:
 
         # print("⚡ [ENGINE] Intuition Phase Jump executed.")
 
-    def destructive_interference(self, noise_vector: Any):
+    def destructive_interference(self, noise_vector: Any, global_quench: bool = False):
         """
-        [PHASE 2] Destructive Interference (Filtering).
-        Applies anti-phase torque to nodes currently dominated by high entropy.
+        [PHASE 1002.1] Destructive Interference (Active Silence).
+        Applies anti-phase torque to nodes to cancel out a manifestation impulse.
+        If global_quench is True, it applies to all active nodes (Sovereign Silence).
         """
         import torch
         if not self.active_nodes_mask.any():
@@ -1653,28 +1740,41 @@ class FractalWaveEngine:
             
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        # High entropy nodes get filtered
-        entropy_mask = self.q[active_idx, self.CH_ENTROPY] > 0.6
-        if entropy_mask.any():
-            noisy_nodes = active_idx[entropy_mask]
+        if global_quench:
+            target_nodes = active_idx
+        else:
+            # Traditional filtering: high entropy nodes get filtered
+            entropy_mask = self.q[active_idx, self.CH_ENTROPY] > 0.6
+            if not entropy_mask.any():
+                return
+            target_nodes = active_idx[entropy_mask]
             
-            # Apply anti-phase (invert the incoming noise)
-            def _to_real_tensor(vec):
-                if isinstance(vec, torch.Tensor): return vec.to(self.device)
-                if hasattr(vec, 'data'): vec = vec.data
-                try:
-                    rl = [getattr(c, 'real', c) for c in vec]
-                    return torch.tensor(rl, device=self.device)
-                except:
-                    return torch.tensor(vec, device=self.device)
-            
-            anti_noise = -_to_real_tensor(noise_vector)[:4] # Take physical part
-            
-            # Dampen momentum
-            self.momentum[noisy_nodes, self.PHYSICAL_SLICE] += anti_noise * 0.5
-            
-            # Cooling effect
-            self.q[noisy_nodes, self.CH_ENTROPY] = self.q[noisy_nodes, self.CH_ENTROPY] - 0.1
+        # Apply anti-phase (invert the incoming impulse/noise)
+        def _to_real_tensor(vec):
+            if isinstance(vec, torch.Tensor): return vec.to(self.device)
+            if hasattr(vec, 'data'): vec = vec.data
+            try:
+                rl = [float(getattr(c, 'real', c)) for c in vec]
+                return torch.tensor(rl, device=self.device, dtype=torch.float32)
+            except:
+                return torch.tensor(vec, device=self.device, dtype=torch.float32)
+
+        v_real = _to_real_tensor(noise_vector)
+        # Use only as many channels as available in the slice (usually 4)
+        anti_impulse = -v_real[:self.PHYSICAL_SLICE.stop]
+
+        # Apply counter-torque to momentum
+        # Pad anti_impulse if needed
+        if anti_impulse.numel() < (self.PHYSICAL_SLICE.stop - self.PHYSICAL_SLICE.start):
+            padded = torch.zeros(self.PHYSICAL_SLICE.stop - self.PHYSICAL_SLICE.start, device=self.device)
+            padded[:anti_impulse.numel()] = anti_impulse
+            anti_impulse = padded
+
+        self.momentum[target_nodes, self.PHYSICAL_SLICE] += anti_impulse * 0.8
+
+        # Metabolic Cooling: Silence reduces entropy and enthalpy (Rest)
+        self.q[target_nodes, self.CH_ENTROPY] *= 0.9
+        self.q[target_nodes, self.CH_ENTHALPY] *= 0.95
 
     def read_field_state(self) -> Dict[str, float]:
         """

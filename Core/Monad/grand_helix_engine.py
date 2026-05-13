@@ -133,11 +133,15 @@ class HypersphereSpinGenerator:
                   mock_res = 0.5
                   self.mirror.record_interaction(intent_torque, mock_res)
 
-        # D. Magnetic Field, Breathing & Wave Ripple Propagation
+        # D. Magnetic Field, Gravity, Breathing & Wave Ripple Propagation
         # Apply the global orientation field (Amniotic Fluid)
         if hasattr(self.cells, 'apply_magnetic_field'):
             self.cells.apply_magnetic_field(dt)
         
+        # [PHASE 1000.6] Apply Sovereign Gravity (The Star)
+        if hasattr(self.cells, 'apply_stellar_gravity'):
+            self.cells.apply_stellar_gravity(dt)
+
         # Apply the background hum of life (Vitality)
         if hasattr(self.cells, 'apply_circadian_breathing'):
             self.cells.apply_circadian_breathing(dt)

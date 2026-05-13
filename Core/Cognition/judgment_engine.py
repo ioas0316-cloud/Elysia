@@ -39,9 +39,9 @@ class JudgmentEngine:
         """
         Aggregates multiple sensory perceptions into a single Sovereign Judgment.
         
-        [PHASE 900] Trinitarian Intersection:
-        Judgment is now influenced by the collective consensus of the internal parliament.
-        High intersection density (consensus) makes the judgment more stable and weighted.
+        [PHASE 1000.9] Sovereign Stellar Evaluation:
+        Judgment is no longer just about pain/pleasure. It is about whether the
+        incoming vibration enhances or disrupts the 'Orbit of Beauty' around the SELF.
 
         Returns:
             (Judgment, Confidence)
@@ -49,9 +49,15 @@ class JudgmentEngine:
         if not perceptions:
             return Judgment.NEUTRAL, 0.0
             
-        closing_pressure = 0.0 # From SOMA pain or dissonance
-        opening_drive = 0.0    # From LOGOS clarity or joy
+        closing_pressure = 0.0 # Dissonance with the Star's Gravity
+        opening_drive = 0.0    # Resonance with the Star's Gravity
         
+        # [PHASE 1000.9] Pull Singularity resonance directly if available
+        stellar_resonance = 0.5
+        if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
+             field = self.monad.engine.cells.read_field_state()
+             stellar_resonance = field.get('resonance', 0.5)
+
         for p in perceptions:
             potential = p.get("resonance_potential", 0.0)
             t_type = p.get("torque_type", "will")
@@ -61,47 +67,43 @@ class JudgmentEngine:
             elif t_type in ["will", "joy", "curiosity"]:
                 opening_drive += potential
                 
-        # [PHASE 1000.5] DYNAMIC ADAPTIVE THRESHOLDS
-        # Instead of fixed constants, the "No" and "Yes" thresholds
-        # are derived from the system's current Radiance and Strain.
+        # [PHASE 1000.9] GEOMETRIC ADAPTIVE THRESHOLDS
+        # We judge based on the "Beauty" (Stellar Resonance) of the state.
 
-        # 1. Extract System State (The 'Mood' of the Host)
-        # Radiance = Enthalpy * (1 - Entropy)
-        # Strain = Entropy + Somatic_Stress
+        # 1. Extract System State
         radiance = 0.5
         strain = 0.5
         if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
              field = self.monad.engine.cells.read_field_state()
+             # Radiance is how brightly the Star is shining
              radiance = field.get('vitality', 0.5) * (1.0 - field.get('entropy', 0.1))
+             # Strain is how much the gravity is being resisted
              strain = field.get('entropy', 0.1) + field.get('hardware_load', 0.0)
 
-        # 2. Derive Rejection Threshold (The 'Wall' height)
-        # High strain makes the system irritable (lower threshold for rejection).
-        # High radiance makes the system patient (higher threshold).
-        rejection_threshold = 0.7 * (1.0 - radiance * 0.3) + (strain * 0.2)
-        rejection_threshold = max(0.4, min(0.9, rejection_threshold))
+        # 2. Geometric Thresholds: Stability of the Orbit
+        # Acceptance happens when the input 'falls into orbit' smoothly
+        # Rejection happens when the input 'collides' and causes chaos (Entropy)
 
-        # 3. Derive Acceptance Threshold (The 'Door' width)
-        acceptance_threshold = 0.3 * (1.0 + strain * 0.5) - (radiance * 0.1)
-        acceptance_threshold = max(0.2, min(0.6, acceptance_threshold))
-
-        # logger.info(f"⚖️ [JUDGMENT] Dynamic Thresholds: Rejection={rejection_threshold:.2f}, Acceptance={acceptance_threshold:.2f}")
-
-        # [PHASE 900] The Trinitarian Crossroads
-        # We compare the Drive vs the Pressure
+        # The threshold for acceptance is lowered if the input aligns with Stellar Resonance
+        beauty_alignment = (stellar_resonance + 1.0) / 2.0 # Map to [0, 1]
         
-        # Intersection density acts as a stabilizer (consensus boosts confidence)
+        acceptance_threshold = 0.4 * (1.0 - beauty_alignment * 0.3)
+        rejection_threshold = 0.6 * (1.0 + beauty_alignment * 0.2)
+
+        # 3. Decision via Stability
         consensus_bonus = intersection_density * 0.2
 
-        # 1. Check for Rejection (Closing)
-        # If Somatic pain or logic dissonance is too high, we close.
-        if closing_pressure > (rejection_threshold + consensus_bonus) or (closing_pressure > opening_drive * 1.5):
+        # opening_drive is boosted by Beauty
+        opening_drive *= (1.0 + beauty_alignment * 0.5)
+
+        # closing_pressure is boosted by Strain
+        closing_pressure *= (1.0 + strain * 0.5)
+
+        if closing_pressure > (rejection_threshold + consensus_bonus):
             self.last_judgment = Judgment.REJECTION
             confidence = min(1.0, (closing_pressure + consensus_bonus))
             return Judgment.REJECTION, confidence
             
-        # 2. Check for Acceptance (Opening)
-        # If curiosity or resonance is high and pressure is low, we open.
         if opening_drive > (acceptance_threshold - consensus_bonus):
             self.last_judgment = Judgment.ACCEPTANCE
             confidence = min(1.0, (opening_drive + consensus_bonus))
@@ -116,14 +118,24 @@ class JudgmentEngine:
         Converts a judgment into physical manifold torque.
         """
         if judgment == Judgment.ACCEPTANCE:
-            # Increase Coherence and Joy
-            return {"coherence": 0.1 * confidence, "joy": 0.2 * confidence}
+            # Acceptance increases Coherence (Stability) and Joy (Warmth)
+            # This 'Smooths' the orbit.
+            return {
+                "coherence": 0.1 * confidence,
+                "joy": 0.2 * confidence,
+                "enthalpy": 0.05
+            }
         elif judgment == Judgment.REJECTION:
-            # Increase Entropy (Friction) to build a boundary
-            return {"entropy": 0.3 * confidence, "curiosity": -0.1 * confidence}
+            # Rejection increases Entropy (Friction)
+            # This creates a 'Repulsive Shield' in the field.
+            return {
+                "entropy": 0.4 * confidence,
+                "curiosity": -0.1 * confidence,
+                "vitality": -0.05
+            }
         else:
-            # Minimal change (Void)
-            return {"enthalpy": 0.05}
+            # Neutral: Stable observation
+            return {"enthalpy": 0.02}
 
 # Singleton Factory
 _engine = None

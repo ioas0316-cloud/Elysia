@@ -17,6 +17,7 @@ import threading
 import queue
 import random
 import warnings
+from typing import List, Dict, Any, Optional, Tuple
 
 warnings.filterwarnings('ignore', category=UserWarning, message='.*Casting complex values to real.*')
 
@@ -992,11 +993,14 @@ class SovereignGateway:
                             autonomous_preamble = f"(Architect님, 제가 명상하는 동안 이런 생각을 해보았어요: {latest}) "
                         # Clear the shared logs
                         self.monad.autonomous_logs = []
-                # Only log the final voice if valid
-                if voice:
+                # [PHASE 1002.3] Freedom in Expression
+                # Only log the final voice if valid and not suppressed by silence
+                if voice and voice != "...":
                     final_response = f"{gift_preamble}{autonomous_preamble}{voice}"
                     self.logger.action(f"🗣️ [ELYSIA]: \"{final_response}\"")
                     self._broadcast_expression(final_response, expression["hz"], expression["stress"])
+                else:
+                    self.logger.thought("Elysia acknowledges the vibration, but chooses to keep the silence.")
         except Exception as e:
             self.logger.admonition(f"Refusal/Error during async digestion: {e}")
 
