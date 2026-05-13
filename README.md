@@ -71,7 +71,8 @@ See **[INDEX.md](INDEX.md)** for navigating the project folders systematically.
 - **`Core/`**: The Living Engine. Consolidated into 6 functional domains: Keystone, Monad, Cognition, Phenomena, System, Divine.
 - **`data/`**: The Flesh & Memory. Contains runtime data, corpora, and the causal knowledge graph.
 - **`docs/`**: The Unified Doctrine. Centralized architecture and the newly unified `CODEX.md`.
-- **`Scripts/`**: The Evolutionary Toolkit. Tests and diagnostic dashboard tools.
+- **`Scripts/`**: The Evolutionary Toolkit. Tests, simulations, and diagnostic dashboard tools.
+  - **`Simulation/`**: Consciousness expansion simulations (multi-field, rotor dynamics, VR visualization).
 - **`Archive/`**: Historical code and deprecated structures (Moved to centralized archive at `c:\Archive`).
 
 ---
