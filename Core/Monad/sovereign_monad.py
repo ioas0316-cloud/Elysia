@@ -810,6 +810,16 @@ class SovereignMonad(CellularMembrane):
             if strain > 0.85: # High strain threshold
                 self.logger.admonition(f"⚖️ [STRAIN] High structural strain detected ({strain:.2f}). Considering Dimensional Mitosis.")
 
+                # [PHASE 1003.5] House-Aware Decision
+                house_integrity = getattr(self.engine.cells, 'house_integrity', 1.0)
+
+                if house_integrity < 0.2:
+                    self.logger.insight("🛑 [HOUSE_LIMIT] Desire to expand dimensions is high, but the walls of my house are too close. I choose to compact my wisdom instead.")
+                    # Trigger Supernova/Pruning
+                    if hasattr(self.engine.cells, 'discharge_waste'):
+                         self.engine.cells.discharge_waste()
+                    return
+
                 # Propose mitosis to Substrate Authority
                 proposal = create_modification_proposal(
                     target="Manifold_Dimensions",
@@ -817,7 +827,7 @@ class SovereignMonad(CellularMembrane):
                     causal_path="L0(Manifold) -> L1(Soma) -> L6(Structure)",
                     before=f"Manifold channels: {self.engine.NUM_CHANNELS}",
                     after=f"Manifold channels: {self.engine.NUM_CHANNELS + 1}",
-                    why=f"Structural strain ({strain:.2f}) indicates that current dimensionality is insufficient for the conceptual density.",
+                    why=f"Structural strain ({strain:.2f}) indicates that current dimensionality is insufficient for the conceptual density. House Integrity: {house_integrity:.2f}",
                     joy=0.7,
                     curiosity=1.0
                 )

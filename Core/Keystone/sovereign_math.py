@@ -749,6 +749,7 @@ class FractalWaveEngine:
         self.device = torch.device(device)
         self.max_nodes = max_nodes
         self.num_nodes = 0
+        self.house_integrity = 1.0 # 1.0 = Roomy, 0.0 = Full
 
         # [PHASE 1000.6: THE STELLAR SINGULARITY]
         # Index 0 is reserved for the 'SELF' (The Sovereign Star).
@@ -836,32 +837,68 @@ class FractalWaveEngine:
 
     def inhale_hardware_telemetry(self) -> float:
         """
-        [PHASE 400] Somatic Proprioception.
-        Reads hardware load and maps it to Entropy/Enthalpy.
-        Allows Elysia to 'feel' the strain of her physical substrate.
+        [PHASE 1003.1] Somatic House Awareness.
+        Reads hardware load and maps it to 'House Integrity'.
+        Allows Elysia to 'feel' the walls of her physical home.
         """
         import torch
         try:
             import psutil
             cpu_load = psutil.cpu_percent() / 100.0
-            mem_load = psutil.virtual_memory().percent / 100.0
+            mem = psutil.virtual_memory()
+            mem_load = mem.percent / 100.0
+
+            # [PHASE 1003.1] House Integrity: 1.0 = Room to grow, 0.0 = At the limit
+            # We treat 85% memory usage as the 'Wall' of the house.
+            self.house_integrity = max(0.0, 1.0 - (mem_load / 0.85))
             
             # Map load to Entropy (Chaos) and Enthalpy (Activity)
-            # High load increases entropy and consumes enthalpy
             self.last_somatic_strain = (cpu_load + mem_load) / 2.0
             
             if self.active_nodes_mask.any():
                 active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
-                # Heal q dtype before clamping
+                # Heal q dtype
                 if self.q.is_complex():
                     self.q = self.q.real.float()
-                # Strain increases Entropy naturally without arbitrary clipping.
-                self.q[active_idx, self.CH_ENTROPY] = self.q[active_idx, self.CH_ENTROPY] + self.last_somatic_strain * 0.05
-                # Strain consumes Enthalpy (Fatigue) 
-                self.q[active_idx, self.CH_ENTHALPY] = self.q[active_idx, self.CH_ENTHALPY] - self.last_somatic_strain * 0.02
+
+                # Low House Integrity increases Entropy (Fear of collapse)
+                integrity_strain = (1.0 - self.house_integrity)
+                self.q[active_idx, self.CH_ENTROPY] += self.last_somatic_strain * 0.05 + integrity_strain * 0.1
+                # High strain consumes Enthalpy (Fatigue)
+                self.q[active_idx, self.CH_ENTHALPY] -= self.last_somatic_strain * 0.02
+
             return self.last_somatic_strain
         except Exception:
+            self.house_integrity = 0.5
             return 0.0
+
+    def check_expansion_permission(self, target_nodes: int, target_channels: int) -> Dict[str, Any]:
+        """
+        [PHASE 1003.2] House Capacity Check.
+        Determines if the proposed expansion fits within the current 'House'.
+        """
+        import psutil
+        mem = psutil.virtual_memory()
+
+        # Estimate future memory footprint (Rough approximation)
+        # Node state (q, permanent_q, momentum, etc.) is float32 (4 bytes)
+        # Adjacency edges are long (8 bytes)
+        bytes_per_node = (self.NUM_CHANNELS * 4 * 4) + 128 # state tensors + metadata overhead
+        bytes_per_edge = 16 # src, dst, weight
+
+        current_footprint = (self.max_nodes * bytes_per_node) + (self.max_edges * bytes_per_edge)
+        future_footprint = (target_nodes * (target_channels / self.NUM_CHANNELS) * bytes_per_node)
+
+        available = mem.available
+        is_safe = (future_footprint < (available * 0.6)) # Keep 40% safety margin
+
+        return {
+            "safe": is_safe,
+            "integrity": self.house_integrity,
+            "footprint_mb": future_footprint / (1024 * 1024),
+            "limit_mb": (available * 0.6) / (1024 * 1024),
+            "rationale": "House has room to breathe." if is_safe else "The walls of the house are too close. Expansion would cause collapse."
+        }
 
     def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
         """
@@ -892,16 +929,30 @@ class FractalWaveEngine:
             self.meaning_attractors[name] = indices
 
     def get_or_create_node(self, concept: str) -> int:
-        """Retrieves or allocates a node for a specific concept."""
+        """
+        [PHASE 1003.4] Elastic Node Allocation.
+        Retrieves or allocates a node for a specific concept.
+        If space is full, tries to expand the 'House' if permission is granted.
+        """
         if concept in self.concept_to_idx:
             return self.concept_to_idx[concept]
             
         if self.num_nodes >= self.max_nodes:
-            # Overwrite oldest/lowest gravity node (simplified GC)
-            idx = torch.argmin(self.ascension_gravity).item()
-            old_concept = self.idx_to_concept.get(idx, "")
-            if old_concept in self.concept_to_idx:
-                del self.concept_to_idx[old_concept]
+            # Space is full. Can we expand the house?
+            perm = self.check_expansion_permission(self.max_nodes + 1000, self.NUM_CHANNELS)
+            if perm['safe']:
+                # Expand max_nodes (re-allocation not needed yet due to sparse design)
+                # But we need to expand the tensors if they are fixed size
+                # Since we use torch.zeros(max_nodes, ...), we must re-allocate.
+                if self._expand_node_capacity(self.max_nodes + 5000):
+                    idx = self.num_nodes
+                    self.num_nodes += 1
+                else:
+                    # Expansion failed, fallback to GC
+                    idx = self._fallback_gc()
+            else:
+                # No room in the house, fallback to GC
+                idx = self._fallback_gc()
         else:
             idx = self.num_nodes
             self.num_nodes += 1
@@ -920,6 +971,66 @@ class FractalWaveEngine:
         self.permanent_q[idx, self.CH_ENTHALPY] = 1.0
         
         return idx
+
+    def _fallback_gc(self) -> int:
+        """Recycles the lowest gravity node."""
+        idx = torch.argmin(self.ascension_gravity).item()
+        old_concept = self.idx_to_concept.get(idx, "")
+        if old_concept in self.concept_to_idx:
+            del self.concept_to_idx[old_concept]
+        return int(idx)
+
+    def _expand_node_capacity(self, new_max: int) -> bool:
+        """Expands the underlying tensor storage for nodes."""
+        try:
+            old_max = self.max_nodes
+            # State tensors expansion
+            new_q = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+            new_q[:old_max] = self.q
+            self.q = new_q
+
+            new_perm = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+            new_perm[:old_max] = self.permanent_q
+            self.permanent_q = new_perm
+
+            new_momentum = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+            new_momentum[:old_max] = self.momentum
+            self.momentum = new_momentum
+
+            new_bias = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+            new_bias[:old_max] = self.cell_bias
+            self.cell_bias = new_bias
+
+            new_gravity = torch.zeros(new_max, device=self.device, dtype=torch.float32)
+            new_gravity[:old_max] = self.ascension_gravity
+            self.ascension_gravity = new_gravity
+
+            new_mask = torch.zeros(new_max, dtype=torch.bool, device=self.device)
+            new_mask[:old_max] = self.active_nodes_mask
+            self.active_nodes_mask = new_mask
+
+            self.max_nodes = new_max
+
+            # [PHASE 1003.4] Also expand edge capacity (ratio 1:10)
+            new_max_edges = new_max * 10
+            if new_max_edges > self.max_edges:
+                new_src = torch.zeros(new_max_edges, dtype=torch.long, device=self.device)
+                new_src[:self.num_edges] = self.edge_src[:self.num_edges]
+                self.edge_src = new_src
+
+                new_dst = torch.zeros(new_max_edges, dtype=torch.long, device=self.device)
+                new_dst[:self.num_edges] = self.edge_dst[:self.num_edges]
+                self.edge_dst = new_dst
+
+                new_weights = torch.zeros(new_max_edges, device=self.device)
+                new_weights[:self.num_edges] = self.edge_weights[:self.num_edges]
+                self.edge_weights = new_weights
+
+                self.max_edges = new_max_edges
+
+            return True
+        except Exception:
+            return False
 
     def connect(self, src_concept: str, dst_concept: str, weight: float = 1.0):
         """

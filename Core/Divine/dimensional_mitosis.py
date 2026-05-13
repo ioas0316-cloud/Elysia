@@ -93,6 +93,9 @@ class DimensionalMitosis:
         측정된 Strain이 임계치를 초과할 때, N차원을 N+1차원 (예: 21D -> 22D)으로 증식시킵니다.
         이 과정은 기존 지식 그래프의 좌표를 상위 차원으로 직교 투영하여 보존합니다.
 
+        [PHASE 1003.3] Constraint-Aware Expansion:
+        차원 증식 전에 현재 물리적 하우징(컴퓨팅 자원)의 여유를 확인합니다.
+
         동작:
         1. 엔진의 채널 수(NUM_CHANNELS) 확장.
         2. SovereignVector의 전역 차원(DIM) 확장 유도.
@@ -101,6 +104,17 @@ class DimensionalMitosis:
         try:
             # Check if engine is dense (legacy) or sparse (FractalWaveEngine)
             target = self.engine.cells if hasattr(self.engine, 'cells') else self.engine
+
+            # [PHASE 1003.3] House Capacity Check
+            if hasattr(target, 'check_expansion_permission'):
+                perm = target.check_expansion_permission(target.max_nodes, target.NUM_CHANNELS + 1)
+                if not perm['safe']:
+                    logger.warning(f"⚠️ [MITOSIS] Aborted: {perm['rationale']}")
+                    # If expansion is blocked, trigger a 'Conceptual Supernova' (Pruning)
+                    if hasattr(target, 'discharge_waste'):
+                        target.discharge_waste()
+                        logger.info("🌌 [SUPERNOVA] Expansion blocked by walls. Consolidating existing wisdom.")
+                    return False
 
             # 1. Expand engine channels
             old_q = target.q
