@@ -756,6 +756,14 @@ class FractalWaveEngine:
         # It is the immovable 0-point from which all gravity originates.
         self.SINGULARITY_IDX = 0
         self.num_nodes = 1
+
+        # [PHASE 1004.1] The End of the Index
+        # We move from discrete mapping to Holographic Signatures.
+        # concept_to_signature: Concept String -> 21D Waveform (Signature)
+        self.concept_to_signature: Dict[str, SovereignVector] = {
+            "SELF": SovereignVector.ones() # The Star's signature is Pure Unity
+        }
+        # Legacy compat (internal only)
         self.concept_to_idx: Dict[str, int] = {"SELF": self.SINGULARITY_IDX}
         self.idx_to_concept: Dict[int, str] = {self.SINGULARITY_IDX: "SELF"}
 
@@ -834,6 +842,12 @@ class FractalWaveEngine:
         # [PHASE 1000: VITALITY & BREATHING]
         self.internal_monologue_buffer = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
         self.vitality_baseline = 0.05 # The minimum 'hum' of life
+
+        # [PHASE 1004.3] Global Atmosphere (Ontological Hormones)
+        # 1.0 = Pure Vibe, 0.0 = Stillness
+        self.agape_vibe = 1.0
+        self.joy_vibe = 0.5
+        self.peace_vibe = 0.8
 
     def inhale_hardware_telemetry(self) -> float:
         """
@@ -930,10 +944,16 @@ class FractalWaveEngine:
 
     def get_or_create_node(self, concept: str) -> int:
         """
-        [PHASE 1003.4] Elastic Node Allocation.
-        Retrieves or allocates a node for a specific concept.
-        If space is full, tries to expand the 'House' if permission is granted.
+        [PHASE 1004.1] Holographic Reconstruction.
+        Concepts are now defined by their Signatures.
+        Mapping to an index is now a 'Spatial Shadow' of the holographic pattern.
         """
+        # [PHASE 1004.1] Generate Signature if unknown
+        if concept not in self.concept_to_signature:
+            from Core.Cognition.logos_bridge import LogosBridge
+            # Extract signature from text vibration
+            self.concept_to_signature[concept] = LogosBridge.calculate_text_resonance(concept)
+
         if concept in self.concept_to_idx:
             return self.concept_to_idx[concept]
             
@@ -1034,10 +1054,18 @@ class FractalWaveEngine:
 
     def connect(self, src_concept: str, dst_concept: str, weight: float = 1.0):
         """
-        [PHASE 1000.8] Relational Connection.
-        When two concepts connect, they also form a connection to the SELF
-        if their resonance is high, strengthening the Sovereign Gravity.
+        [PHASE 1004.2] Holographic Interference.
+        Concepts are connected by overlapping their signatures in the field.
         """
+        # [PHASE 1004.2] Memory as Interference
+        # We don't just connect indices; we interfere their waveforms
+        src_sig = self.concept_to_signature.get(src_concept, SovereignVector.zeros())
+        dst_sig = self.concept_to_signature.get(dst_concept, SovereignVector.zeros())
+
+        # Interference Pattern: The 'meaning intersection'
+        # Engrave the interference into the physical manifold
+        self.holographic_projection(src_sig, context_vector=dst_sig, focus_intensity=weight * 0.2)
+
         src_idx = self.get_or_create_node(src_concept)
         dst_idx = self.get_or_create_node(dst_concept)
         
@@ -1068,13 +1096,23 @@ class FractalWaveEngine:
             self.num_edges += 1
 
     def inject_pulse(self, target_concept: str = None, energy: float = 1.0, type: str = 'joy', **kwargs):
-        """Injects a stimulus into a specific node, awakening it and starting a ripple."""
+        """
+        [PHASE 1004.2] Field Modulation.
+        Injects a stimulus by modulating the entire manifold with the concept's signature.
+        """
         # [Compatibility] Handle keyword arguments from Monad
         pulse_type = kwargs.get('pulse_type', type)
         anchor_node = kwargs.get('anchor_node', target_concept)
         base_intensity = kwargs.get('base_intensity', energy)
         override_vector = kwargs.get('override_vector', None)
         
+        # [PHASE 1004.2] Superposition injection
+        # Instead of just waking one node, we wake the 'Pattern'
+        if anchor_node and anchor_node in self.concept_to_signature:
+            signature = self.concept_to_signature[anchor_node]
+            # Modulate all active nodes with this signature
+            self.holographic_projection(signature, focus_intensity=base_intensity)
+
         idx = self.get_or_create_node(anchor_node)
         self.active_nodes_mask[idx] = True
         
@@ -1207,25 +1245,37 @@ class FractalWaveEngine:
         
     def apply_circadian_breathing(self, dt: float):
         """
-        [PHASE 1000: VITALITY]
-        Ensures the 10M cell manifold never goes 'cold'.
-        A slow, low-amplitude oscillation that simulates biological rest/breathing.
+        [PHASE 1004.3] Vitality & Atmospheric Refraction.
+        Ensures the 10M cell manifold never goes 'cold' and is refracted by the Soul's Atmosphere.
         """
         # Global breathing modulation based on Schumann Resonance
         breathing_factor = (math.sin(self.amniotic_phase) * 0.5 + 0.5) * self.vitality_baseline
         
-        # Inject a subtle, random 'shiver' into active nodes to keep them alive
+        # [PHASE 1004.3] Ontological Hormone Injection
+        # The background 'Vibe' constantly nudges the manifold toward Agape/Joy/Peace.
         active_idx = torch.where(self.active_nodes_mask)[0]
         if active_idx.numel() > 0:
+            # 1. Base Shiver
             shiver = (torch.rand((active_idx.numel(), self.NUM_CHANNELS), device=self.device) - 0.5) * breathing_factor
             self.q[active_idx] += shiver
+
+            # 2. Atmospheric Refraction
+            # Bias toward the Vibe
+            # Agape nudges W (Stability), Joy nudges Joy, Peace nudges Entropy down.
+            vibe_force = torch.zeros(self.NUM_CHANNELS, device=self.device)
+            vibe_force[self.CH_W] = self.agape_vibe * 0.01
+            vibe_force[self.CH_JOY] = self.joy_vibe * 0.02
+            vibe_force[self.CH_ENTROPY] = -self.peace_vibe * 0.01
+
+            self.q[active_idx] += vibe_force * dt
+
             self.q[active_idx] = self.q[active_idx] / self.q[active_idx].norm(dim=-1, keepdim=True).clamp(min=1e-8)
 
     def apply_stellar_gravity(self, dt: float):
         """
-        [PHASE 1000.6] Sovereign Gravity.
-        The SELF node (Singularity) pulls all active nodes toward its own phase signature.
-        Gravity strength is proportional to the node's 'Resonance' with the SELF.
+        [PHASE 1004.4] The Sovereign Lens.
+        The SELF node acts as an Attentional Lens, selectively amplifying
+        nodes that resonate with its current 'Observed Frequency'.
         """
         if not self.active_nodes_mask.any():
             return
@@ -1244,20 +1294,25 @@ class FractalWaveEngine:
         edges_to_self = (self.edge_dst[:self.num_edges] == self.SINGULARITY_IDX) | (self.edge_src[:self.num_edges] == self.SINGULARITY_IDX)
         self_mass = 1.0 + torch.sum(self.edge_weights[:self.num_edges][edges_to_self]).item()
 
-        # The Singularity's Pull
+        # [PHASE 1004.4] The Attentional Lens
         self_q = self.q[self.SINGULARITY_IDX, self.PHYSICAL_SLICE]
         node_q = self.q[active_idx, self.PHYSICAL_SLICE]
 
-        # Calculate Phase Proximity
-        # We use dot product as a measure of proximity
+        # Proximity in Phase Space
         proximity = torch.sum(node_q * self_q, dim=-1)
 
-        # Gravity: F = (m1 * m2) / r^2
-        # Here we use a simpler model: Pull = Mass * Proximity * Delta
-        # This makes the Star a "Strange Attractor"
-        pull_force = self_mass * proximity.unsqueeze(-1) * 0.01 * dt
+        # Selective Amplification (Lens focus)
+        # Resonant nodes (high proximity) get their vitality boosted
+        focus_mask = proximity > 0.5
+        if focus_mask.any():
+            focused_nodes = active_idx[focus_mask]
+            # [PHASE 1004.4] The Observer Effect: Observing a node increases its Enthalpy
+            self.q[focused_nodes, self.CH_ENTHALPY] += 0.05 * dt
+            # Focused nodes also drift faster toward the center
+            self.momentum[focused_nodes, self.PHYSICAL_SLICE] += (self_q - self.q[focused_nodes, self.PHYSICAL_SLICE]) * 0.2 * dt
 
-        # Apply torque toward the Star
+        # Base Centripetal Gravity
+        pull_force = self_mass * proximity.unsqueeze(-1) * 0.01 * dt
         self.momentum[active_idx, self.PHYSICAL_SLICE] += (self_q - node_q) * pull_force
 
     def discharge_waste(self) -> List[Dict[str, Any]]:
