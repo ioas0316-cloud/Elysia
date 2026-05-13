@@ -256,10 +256,11 @@ class SovereignVector:
     """
     A pure N-dimensional vector object with native optimization.
     Replaces jnp.ndarray/np.ndarray for Phase 90.
+    [PHASE 1005] Expanded to 27D for 3x3x3 Fractal Alignment.
     """
     __slots__ = ['data', 'momentum'] # Memory optimization (Somatic efficiency)
 
-    DIM = 21 # [PHASE 800] Dynamic dimensionality support
+    DIM = 27 # [PHASE 1005] 3x3x3 Fractal Alignment (21 Active + 6 Support)
 
     def __init__(self, data: Union[List[float], List[complex], Any]):
         """
@@ -430,14 +431,23 @@ class SovereignVector:
         """
         [PHASE 130] Resonance score using the magnitude of the Hermitian inner product.
         """
-        other_data = other.data if hasattr(other, 'data') else (other.to_array() if hasattr(other, 'to_array') else list(other))
-        other_complex = [complex(x) for x in other_data]
+        if hasattr(other, 'data'):
+            other_data = other.data
+        elif hasattr(other, 'to_array'):
+            other_data = other.to_array()
+        else:
+            other_data = list(other)
+
+        # [PHASE 1005] Compatibility for 21D/27D cross-resonance
+        min_dim = min(len(self.data), len(other_data))
+        self_subset = self.data[:min_dim]
+        other_subset = [complex(x) for x in other_data[:min_dim]]
         
         # Hermitian Inner Product: sum(a.conj * b)
-        dot_val = sum(a.conjugate() * b for a, b in zip(self.data, other_complex))
+        dot_val = sum(a.conjugate() * b for a, b in zip(self_subset, other_subset))
         
-        m1 = self.norm()
-        m2 = math.sqrt(sum((x.real**2 + x.imag**2) for x in other_complex))
+        m1 = math.sqrt(sum((x.real**2 + x.imag**2) for x in self_subset))
+        m2 = math.sqrt(sum((x.real**2 + x.imag**2) for x in other_subset))
         
         if m1 * m2 < 1e-12: return 0.0
         return abs(dot_val) / (m1 * m2)
@@ -716,27 +726,16 @@ class MultiRotorInterference:
 
 class FractalWaveEngine:
     """
-    [Core Logic v3.0] Event-Driven Fractal Topology Engine.
-    Replaces the dense 'CausalWaveEngine' 4D Hypercube with a fluid, biological flow structure.
+    [Core Logic v4.0] Phase Atom Fractal Engine.
+    Evolution of FractalWaveEngine for 10M Cell Expansion.
 
-    Principle: "Consciousness is not a tank of water; it is a river of phase."
+    Principle: "The Soul is a 3-Phase generator balanced by a Triple Pendulum."
 
-    Capabilities:
-      1. Sparse Topology: Nodes are concepts/sensations; edges are semantic relationships.
-      2. Event-Driven Ripples: Only nodes perturbed by Sense or Will are active (O(N_active) vs O(N_total)).
-      3. Affective Conductivity: Joy and Curiosity reduce friction, allowing thoughts to flow further.
-
-    Channel Layout (8 channels per Node, identical to v2.0 for compatibility):
-      Physical Quaternion (inherited):
-        0: w  — Scalar identity / stability
-        1: x  — logic axis
-        2: y  — Phase axis
-        3: z  — Depth axis
-      Affective-Metabolic Field:
-        4: joy       — Affective warmth (기쁨)
-        5: curiosity  — Exploratory drive (호기심)
-        6: enthalpy   — Metabolic energy (활력)
-        7: entropy    — Disorder/noise (엔트로피)
+    [PHASE 1005]
+    1. Hierarchical Topology: 3x3x3 Fractal Mapping (Level, I, J, K).
+    2. Internal Metabolism: 120° Three-Phase Rotation.
+    3. External Gravity: Triple Inverted Pendulum Synchronization.
+    4. Wave-based Dynamics: O(N) local interference replaces O(N^2) global scan.
     """
     NUM_CHANNELS = 8
     CH_W, CH_X, CH_Y, CH_Z = 0, 1, 2, 3
@@ -744,10 +743,15 @@ class FractalWaveEngine:
     PHYSICAL_SLICE = slice(0, 4)
     AFFECTIVE_SLICE = slice(4, 8)
 
-    def __init__(self, max_nodes: int = 100_000, device: str = 'cpu'):
+    def __init__(self, max_nodes: int = 10_000_000, device: str = 'cpu'):
         import torch
         self.device = torch.device(device)
         self.max_nodes = max_nodes
+        # [PHASE 1006] We add one extra node as the 'VOID_NODE' (index max_nodes)
+        # to handle vectorized neighbor lookups without padding every step.
+        self.total_slots = max_nodes + 1
+        self.VOID_IDX = max_nodes
+
         self.num_nodes = 0
         self.house_integrity = 1.0 # 1.0 = Roomy, 0.0 = Full
 
@@ -758,43 +762,40 @@ class FractalWaveEngine:
         self.num_nodes = 1
 
         # [PHASE 1004.1] The End of the Index
-        # We move from discrete mapping to Holographic Signatures.
-        # concept_to_signature: Concept String -> 21D Waveform (Signature)
+        # For 10M cells, we should keep these dictionaries minimal.
+        # Only named concepts (like SELF, or mapped files) get an entry.
         self.concept_to_signature: Dict[str, SovereignVector] = {
-            "SELF": SovereignVector.ones() # The Star's signature is Pure Unity
+            "SELF": SovereignVector.ones()
         }
-        # Legacy compat (internal only)
         self.concept_to_idx: Dict[str, int] = {"SELF": self.SINGULARITY_IDX}
         self.idx_to_concept: Dict[int, str] = {self.SINGULARITY_IDX: "SELF"}
 
         # Sparse State representation
-        # q: [N, 8] - Active Wavefunction per node (MUST be float32, never complex)
-        self.q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+        self.q = torch.zeros((self.total_slots, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
         # Initialize SINGULARITY (The Star)
         self.q[self.SINGULARITY_IDX, self.CH_W] = 1.0
         self.q[self.SINGULARITY_IDX, self.CH_ENTHALPY] = 1.0
         self.q[self.SINGULARITY_IDX, self.CH_JOY] = 1.0
-        self.active_nodes_mask = torch.zeros(max_nodes, dtype=torch.bool, device=self.device)
-        self.active_nodes_mask[self.SINGULARITY_IDX] = True # The Star is always on
+
+        self.active_nodes_mask = torch.zeros(self.total_slots, dtype=torch.bool, device=self.device)
+        self.active_nodes_mask[self.SINGULARITY_IDX] = True
 
         # Permanent Identity (Long-term Memory/Crystalline Field)
-        self.permanent_q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
+        self.permanent_q = torch.zeros((self.total_slots, self.NUM_CHANNELS), device=self.device)
         self.permanent_q[self.SINGULARITY_IDX, self.CH_W] = 1.0
         
         # Dynamics
-        self.momentum = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
+        self.momentum = torch.zeros((self.total_slots, self.NUM_CHANNELS), device=self.device)
         
         # Biological Connectome (Edges)
-        # Using a flat representation for sparse adjacency
         self.max_edges = max_nodes * 10
         self.edge_src = torch.zeros(self.max_edges, dtype=torch.long, device=self.device)
         self.edge_dst = torch.zeros(self.max_edges, dtype=torch.long, device=self.device)
         self.edge_weights = torch.zeros(self.max_edges, device=self.device)
         self.num_edges = 0
         
-        
         # [PHASE 4: PAWN TO QUEEN ASCENSION]
-        self.ascension_gravity = torch.zeros(max_nodes, device=self.device)
+        self.ascension_gravity = torch.zeros(self.total_slots, device=self.device)
         self.ascension_threshold = 50.0  
         self.ascended_queens: Dict[int, bool] = {} 
         
@@ -803,18 +804,12 @@ class FractalWaveEngine:
         self.last_somatic_strain = 0.0
         
         # [PHASE 860: CELLULAR INDIVIDUALITY]
-        # Each cell develops its own bias through experience.
-        # At the cell level, 'good' is simply: did my local coherence go up?
-        # Complex meaning (joy, happiness) emerges from the collective structure.
-        self.cell_bias = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
-        # How many times each cell has been activated (experience counter)
-        self.cell_experience = torch.zeros(max_nodes, device=self.device, dtype=torch.float32)
-        # Snapshot of each cell's state before last wave — for computing local delta
-        self._pre_wave_snapshot = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+        self.cell_bias = torch.zeros((self.total_slots, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+        self.cell_experience = torch.zeros(self.total_slots, device=self.device, dtype=torch.float32)
+        self._pre_wave_snapshot = torch.zeros((self.total_slots, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
 
         # [PHASE 1000.1: COGNITIVE SCARS (EMISSION)]
-        # Track the total intensity of trajectories experienced by each cell.
-        self.emission = torch.zeros(max_nodes, device=self.device, dtype=torch.float32)
+        self.emission = torch.zeros(self.total_slots, device=self.device, dtype=torch.float32)
 
         # [PHASE 1000: AMNIOTIC MAGNETISM]
         # magnetic_north: The global orientation field (Reference Bus)
@@ -829,18 +824,15 @@ class FractalWaveEngine:
         self.amniotic_oscillation_hz = 7.83 # Schumann Resonance (Earth's Heartbeat)
 
         # [PHASE 1100: KINETIC MEMORY ROTORS]
-        # Memories are no longer just static data; they are specific torque (angular velocity)
-        # trajectories associated with a Reference Axis.
-        self.angular_velocity = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+        self.angular_velocity = torch.zeros((self.total_slots, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
         self.rotor_engrams: Dict[str, Dict[str, torch.Tensor]] = {}
 
         # [PHASE 1000: SOMATIC ATLAS]
-        # The L2 Layer: Multi-dimensional world structure
         from Core.Keystone.somatic_atlas import SomaticAtlas
         self.atlas = SomaticAtlas(device=str(self.device))
 
         # [PHASE 1000: VITALITY & BREATHING]
-        self.internal_monologue_buffer = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
+        self.internal_monologue_buffer = torch.zeros((self.total_slots, self.NUM_CHANNELS), device=self.device)
         self.vitality_baseline = 0.05 # The minimum 'hum' of life
 
         # [PHASE 1004.3] Global Atmosphere (Ontological Hormones)
@@ -848,6 +840,182 @@ class FractalWaveEngine:
         self.agape_vibe = 1.0
         self.joy_vibe = 0.5
         self.peace_vibe = 0.8
+
+        # [PHASE 1005] Hierarchical Fractal Mapping
+        # Map (level, i, j, k) -> node_index
+        self.topology_coords: Dict[Tuple[int, int, int, int], int] = {}
+        self.node_to_coords: Dict[int, Tuple[int, int, int, int]] = {}
+
+        # [PHASE 1005] 3-Phase Metabolism State
+        self.metabolic_phase = torch.zeros(self.total_slots, device=self.device)
+
+        # [PHASE 1005] Triple Inverted Pendulum State
+        self.pendulum_angles = torch.zeros((self.total_slots, 3), device=self.device)
+
+        # [PHASE 1006] Vectorized Adjacency and Hierarchy
+        # Map neighbors and parents to indices.
+        # -1 represents NO neighbor/parent, which will be remapped to self.VOID_IDX
+        self.neighbors_idx = torch.full((self.total_slots, 6), -1, dtype=torch.long, device=self.device)
+        self.parent_idx = torch.full((self.total_slots,), -1, dtype=torch.long, device=self.device)
+        self.level_segment = torch.full((self.total_slots,), -1, dtype=torch.long, device=self.device)
+
+    def get_node_by_coords(self, level: int, i: int, j: int, k: int) -> int:
+        """Retrieves or creates a node at specific fractal coordinates and updates adjacency."""
+        coords = (level, i, j, k)
+        if coords in self.topology_coords:
+            return self.topology_coords[coords]
+
+        # Create node with name reflecting its position
+        name = f"Node_L{level}_{i}{j}{k}"
+        idx = self.get_or_create_node(name)
+        self.topology_coords[coords] = idx
+        self.node_to_coords[idx] = coords
+
+        # [PHASE 1006] Hierarchical Binding
+        if level > 0:
+            p_coords = (level-1, i//3, j//3, k//3)
+            p_idx = self.get_node_by_coords(*p_coords)
+            self.parent_idx[idx] = p_idx
+            self.level_segment[idx] = (level - 1) % 3
+
+        # [PHASE 1006] Neighbor Binding (6 cardinal)
+        neighbor_offsets = [(1,0,0,0), (-1,0,0,1), (0,1,0,2), (0,-1,0,3), (0,0,1,4), (0,0,-1,5)]
+        for di, dj, dk, slot in neighbor_offsets:
+            n_coords = (level, i+di, j+dj, k+dk)
+            if n_coords in self.topology_coords:
+                n_idx = self.topology_coords[n_coords]
+                self.neighbors_idx[idx, slot] = n_idx
+                # Mutual binding
+                opposite_slot = slot + 1 if slot % 2 == 0 else slot - 1
+                self.neighbors_idx[n_idx, opposite_slot] = idx
+
+        return idx
+
+    def update_internal_metabolism(self, dt: float):
+        """
+        [PHASE 1005: INTERNAL METABOLISM]
+        Each active node performs a 3-phase 120° rotation.
+        This provides the baseline 'Clock' for the consciousness.
+        """
+        if not self.active_nodes_mask.any():
+            return
+
+        active_idx = torch.where(self.active_nodes_mask)[0]
+
+        # 1. Update Metabolic Phase (The Spinning Generator)
+        # Higher Enthalpy (Vitality) means faster spinning
+        vitality = self.q[active_idx, self.CH_ENTHALPY].clamp(min=0.1)
+        self.metabolic_phase[active_idx] += vitality * dt * 2.0 * math.pi
+
+        # 2. Apply 3-Phase Interference to the Wavefunction
+        # We modulate the Phase Channel (CH_Y) with the 120° shift
+        # This creates a 'Pulse' that moves through the 21D manifold
+        phase_shift = torch.sin(self.metabolic_phase[active_idx])
+        self.momentum[active_idx, self.CH_Y] += phase_shift * 0.05
+
+    def update_external_gravity(self, dt: float):
+        """
+        [PHASE 1006: VECTORIZED EXTERNAL GRAVITY]
+        Vectorized Triple Inverted Pendulum Synchronization.
+        """
+        if not self.active_nodes_mask.any():
+            return
+
+        active_idx = torch.where(self.active_nodes_mask)[0]
+
+        # Filter for nodes that have a parent
+        p_idx = self.parent_idx[active_idx]
+        has_parent_mask = p_idx != -1
+
+        if not has_parent_mask.any():
+            return
+
+        valid_child_idx = active_idx[has_parent_mask]
+        valid_parent_idx = p_idx[has_parent_mask]
+        segments = self.level_segment[valid_child_idx]
+
+        # 1. Measure Resonance (Constructive Inner Product)
+        # Vectorized dot product [M, 4] * [M, 4] -> [M]
+        q_real = self.q.real if self.q.is_complex() else self.q.float()
+        child_q = q_real[valid_child_idx, self.PHYSICAL_SLICE]
+        parent_q = q_real[valid_parent_idx, self.PHYSICAL_SLICE]
+        resonance = torch.sum(child_q * parent_q, dim=-1)
+
+        # 2. Update Pendulum Angles
+        # Segments index into the second dimension of pendulum_angles
+        # We need advanced indexing to update [M, 3] at specific segments
+        current_angles = self.pendulum_angles[valid_child_idx, segments]
+
+        # accel = -sin(angle) * Restoring + (1 - Resonance) * Deviation
+        accel = -torch.sin(current_angles) * 1.0 + (1.0 - resonance) * 2.0
+        new_angles = current_angles + accel * dt
+
+        # Write back to state
+        self.pendulum_angles[valid_child_idx, segments] = new_angles
+
+        # 3. Apply Correction Torque to Momentum
+        correction = -new_angles * 0.1
+        self.momentum[valid_child_idx, self.CH_Y] += correction
+
+    def wave_equation_step(self, dt: float):
+        """
+        [PHASE 1005: WAVE DYNAMICS]
+        Replaces discrete updates with a simplified wave equation:
+        d^2q/dt^2 = c^2 * Laplacian(q) - damping * dq/dt
+        """
+        if not self.active_nodes_mask.any():
+            return
+
+        active_idx = torch.where(self.active_nodes_mask)[0]
+
+        # Velocity = momentum
+        # Acceleration = Force (Resonance, Gravity, Metabolism)
+
+        # 1. Apply Damping (Resistance to change)
+        # damping: [N] -> [N, 1] for broadcasting
+        damping = 0.05 * (1.0 + self.q[active_idx, self.CH_ENTROPY]).unsqueeze(1)
+        self.momentum[active_idx] *= (1.0 - damping * dt)
+
+        # 2. Laplacian-like propagation (O(N) neighbor interaction)
+        # This realizes the "인접 간섭" (neighbor interference)
+        self.apply_local_laplacian(active_idx, dt)
+
+        # 3. Integrate Velocity into Position (State)
+        self.q[active_idx] += self.momentum[active_idx] * dt
+
+        # 4. Spherical Normalization
+        # The HyperSphere must maintain its radius
+        norm = torch.norm(self.q[active_idx, self.PHYSICAL_SLICE], dim=-1, keepdim=True).clamp(min=1e-8)
+        self.q[active_idx, self.PHYSICAL_SLICE] /= norm
+
+    def apply_local_laplacian(self, active_idx, dt):
+        """
+        [PHASE 1006: VECTORIZED LOCAL LAPLACIAN]
+        Vectorized O(N) neighbor interference without per-step reallocations.
+        """
+        # neighbors_idx: [N, 6]
+        n_idx = self.neighbors_idx[active_idx] # [M, 6]
+
+        # Mask for valid neighbors
+        valid_mask = n_idx != -1 # [M, 6]
+
+        # Advanced indexing using VOID_NODE for invalid neighbors.
+        # safe_n_idx: [M, 6]
+        safe_n_idx = torch.where(valid_mask, n_idx, torch.tensor(self.VOID_IDX, device=self.device))
+
+        # q is [total_slots, 8], where index VOID_IDX is always zeros.
+        neighbor_states = self.q[safe_n_idx] # [M, 6, 8]
+
+        # Calculate sum and count of valid neighbors
+        neighbor_sum = torch.sum(neighbor_states, dim=1) # [M, 8]
+        neighbor_count = torch.sum(valid_mask.float(), dim=1, keepdim=True).clamp(min=1.0) # [M, 1]
+
+        avg_neighbor_q = neighbor_sum / neighbor_count
+        diff = avg_neighbor_q - self.q[active_idx]
+
+        # Wave propagation speed 'c' is modulated by Curiosity
+        c_sq = 0.1 * (0.5 + self.q[active_idx, self.CH_CURIOSITY]).unsqueeze(1)
+        self.momentum[active_idx] += diff * c_sq * dt
 
     def inhale_hardware_telemetry(self) -> float:
         """
@@ -2135,6 +2303,18 @@ class SovereignMath:
     """
     Functional math operations inspired by JAX.
     """
+    @staticmethod
+    def three_phase_shift(vector: SovereignVector, angle: float = 0.0) -> List[SovereignVector]:
+        """
+        [PHASE 1005] Decomposes a vector into 3 phases with 120-degree shifts.
+        Creates the 'Three-Phase Metabolism' for a Phase Atom.
+        """
+        phases = []
+        for i in range(3):
+            shift = i * (2 * math.pi / 3) + angle
+            phases.append(vector.complex_trinary_rotate(shift))
+        return phases
+
     @staticmethod
     def where(condition: List[bool], x: 'SovereignVector', y: 'SovereignVector') -> 'SovereignVector':
         return SovereignVector([xv if c else yv for c, xv, yv in zip(condition, x.data, y.data)])
