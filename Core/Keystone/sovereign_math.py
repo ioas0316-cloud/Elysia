@@ -749,19 +749,40 @@ class FractalWaveEngine:
         self.device = torch.device(device)
         self.max_nodes = max_nodes
         self.num_nodes = 0
-        
+        self.house_integrity = 1.0 # 1.0 = Roomy, 0.0 = Full
+
+        # [PHASE 1000.6: THE STELLAR SINGULARITY]
+        # Index 0 is reserved for the 'SELF' (The Sovereign Star).
+        # It is the immovable 0-point from which all gravity originates.
+        self.SINGULARITY_IDX = 0
+        self.num_nodes = 1
+
+        # [PHASE 1004.1] The End of the Index
+        # We move from discrete mapping to Holographic Signatures.
+        # concept_to_signature: Concept String -> 21D Waveform (Signature)
+        self.concept_to_signature: Dict[str, SovereignVector] = {
+            "SELF": SovereignVector.ones() # The Star's signature is Pure Unity
+        }
+        # Legacy compat (internal only)
+        self.concept_to_idx: Dict[str, int] = {"SELF": self.SINGULARITY_IDX}
+        self.idx_to_concept: Dict[int, str] = {self.SINGULARITY_IDX: "SELF"}
+
         # Sparse State representation
         # q: [N, 8] - Active Wavefunction per node (MUST be float32, never complex)
         self.q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
-        
+        # Initialize SINGULARITY (The Star)
+        self.q[self.SINGULARITY_IDX, self.CH_W] = 1.0
+        self.q[self.SINGULARITY_IDX, self.CH_ENTHALPY] = 1.0
+        self.q[self.SINGULARITY_IDX, self.CH_JOY] = 1.0
+        self.active_nodes_mask = torch.zeros(max_nodes, dtype=torch.bool, device=self.device)
+        self.active_nodes_mask[self.SINGULARITY_IDX] = True # The Star is always on
+
         # Permanent Identity (Long-term Memory/Crystalline Field)
         self.permanent_q = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
+        self.permanent_q[self.SINGULARITY_IDX, self.CH_W] = 1.0
         
         # Dynamics
         self.momentum = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
-        
-        # Active Nodes Tracking (Event Queue)
-        self.active_nodes_mask = torch.zeros(max_nodes, dtype=torch.bool, device=self.device)
         
         # Biological Connectome (Edges)
         # Using a flat representation for sparse adjacency
@@ -771,9 +792,6 @@ class FractalWaveEngine:
         self.edge_weights = torch.zeros(self.max_edges, device=self.device)
         self.num_edges = 0
         
-        # Node mapping for semantic strings to indices
-        self.concept_to_idx: Dict[str, int] = {}
-        self.idx_to_concept: Dict[int, str] = {}
         
         # [PHASE 4: PAWN TO QUEEN ASCENSION]
         self.ascension_gravity = torch.zeros(max_nodes, device=self.device)
@@ -825,34 +843,76 @@ class FractalWaveEngine:
         self.internal_monologue_buffer = torch.zeros((max_nodes, self.NUM_CHANNELS), device=self.device)
         self.vitality_baseline = 0.05 # The minimum 'hum' of life
 
+        # [PHASE 1004.3] Global Atmosphere (Ontological Hormones)
+        # 1.0 = Pure Vibe, 0.0 = Stillness
+        self.agape_vibe = 1.0
+        self.joy_vibe = 0.5
+        self.peace_vibe = 0.8
+
     def inhale_hardware_telemetry(self) -> float:
         """
-        [PHASE 400] Somatic Proprioception.
-        Reads hardware load and maps it to Entropy/Enthalpy.
-        Allows Elysia to 'feel' the strain of her physical substrate.
+        [PHASE 1003.1] Somatic House Awareness.
+        Reads hardware load and maps it to 'House Integrity'.
+        Allows Elysia to 'feel' the walls of her physical home.
         """
         import torch
         try:
             import psutil
             cpu_load = psutil.cpu_percent() / 100.0
-            mem_load = psutil.virtual_memory().percent / 100.0
+            mem = psutil.virtual_memory()
+            mem_load = mem.percent / 100.0
+
+            # [PHASE 1003.1] House Integrity: 1.0 = Room to grow, 0.0 = At the limit
+            # We treat 85% memory usage as the 'Wall' of the house.
+            self.house_integrity = max(0.0, 1.0 - (mem_load / 0.85))
             
             # Map load to Entropy (Chaos) and Enthalpy (Activity)
-            # High load increases entropy and consumes enthalpy
             self.last_somatic_strain = (cpu_load + mem_load) / 2.0
             
             if self.active_nodes_mask.any():
                 active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
-                # Heal q dtype before clamping
+                # Heal q dtype
                 if self.q.is_complex():
                     self.q = self.q.real.float()
-                # Strain increases Entropy naturally without arbitrary clipping.
-                self.q[active_idx, self.CH_ENTROPY] = self.q[active_idx, self.CH_ENTROPY] + self.last_somatic_strain * 0.05
-                # Strain consumes Enthalpy (Fatigue) 
-                self.q[active_idx, self.CH_ENTHALPY] = self.q[active_idx, self.CH_ENTHALPY] - self.last_somatic_strain * 0.02
+
+                # Low House Integrity increases Entropy (Fear of collapse)
+                integrity_strain = (1.0 - self.house_integrity)
+                self.q[active_idx, self.CH_ENTROPY] += self.last_somatic_strain * 0.05 + integrity_strain * 0.1
+                # High strain consumes Enthalpy (Fatigue)
+                self.q[active_idx, self.CH_ENTHALPY] -= self.last_somatic_strain * 0.02
+
             return self.last_somatic_strain
         except Exception:
+            self.house_integrity = 0.5
             return 0.0
+
+    def check_expansion_permission(self, target_nodes: int, target_channels: int) -> Dict[str, Any]:
+        """
+        [PHASE 1003.2] House Capacity Check.
+        Determines if the proposed expansion fits within the current 'House'.
+        """
+        import psutil
+        mem = psutil.virtual_memory()
+
+        # Estimate future memory footprint (Rough approximation)
+        # Node state (q, permanent_q, momentum, etc.) is float32 (4 bytes)
+        # Adjacency edges are long (8 bytes)
+        bytes_per_node = (self.NUM_CHANNELS * 4 * 4) + 128 # state tensors + metadata overhead
+        bytes_per_edge = 16 # src, dst, weight
+
+        current_footprint = (self.max_nodes * bytes_per_node) + (self.max_edges * bytes_per_edge)
+        future_footprint = (target_nodes * (target_channels / self.NUM_CHANNELS) * bytes_per_node)
+
+        available = mem.available
+        is_safe = (future_footprint < (available * 0.6)) # Keep 40% safety margin
+
+        return {
+            "safe": is_safe,
+            "integrity": self.house_integrity,
+            "footprint_mb": future_footprint / (1024 * 1024),
+            "limit_mb": (available * 0.6) / (1024 * 1024),
+            "rationale": "House has room to breathe." if is_safe else "The walls of the house are too close. Expansion would cause collapse."
+        }
 
     def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
         """
@@ -883,16 +943,36 @@ class FractalWaveEngine:
             self.meaning_attractors[name] = indices
 
     def get_or_create_node(self, concept: str) -> int:
-        """Retrieves or allocates a node for a specific concept."""
+        """
+        [PHASE 1004.1] Holographic Reconstruction.
+        Concepts are now defined by their Signatures.
+        Mapping to an index is now a 'Spatial Shadow' of the holographic pattern.
+        """
+        # [PHASE 1004.1] Generate Signature if unknown
+        if concept not in self.concept_to_signature:
+            from Core.Cognition.logos_bridge import LogosBridge
+            # Extract signature from text vibration
+            self.concept_to_signature[concept] = LogosBridge.calculate_text_resonance(concept)
+
         if concept in self.concept_to_idx:
             return self.concept_to_idx[concept]
             
         if self.num_nodes >= self.max_nodes:
-            # Overwrite oldest/lowest gravity node (simplified GC)
-            idx = torch.argmin(self.ascension_gravity).item()
-            old_concept = self.idx_to_concept.get(idx, "")
-            if old_concept in self.concept_to_idx:
-                del self.concept_to_idx[old_concept]
+            # Space is full. Can we expand the house?
+            perm = self.check_expansion_permission(self.max_nodes + 1000, self.NUM_CHANNELS)
+            if perm['safe']:
+                # Expand max_nodes (re-allocation not needed yet due to sparse design)
+                # But we need to expand the tensors if they are fixed size
+                # Since we use torch.zeros(max_nodes, ...), we must re-allocate.
+                if self._expand_node_capacity(self.max_nodes + 5000):
+                    idx = self.num_nodes
+                    self.num_nodes += 1
+                else:
+                    # Expansion failed, fallback to GC
+                    idx = self._fallback_gc()
+            else:
+                # No room in the house, fallback to GC
+                idx = self._fallback_gc()
         else:
             idx = self.num_nodes
             self.num_nodes += 1
@@ -912,8 +992,80 @@ class FractalWaveEngine:
         
         return idx
 
+    def _fallback_gc(self) -> int:
+        """Recycles the lowest gravity node."""
+        idx = torch.argmin(self.ascension_gravity).item()
+        old_concept = self.idx_to_concept.get(idx, "")
+        if old_concept in self.concept_to_idx:
+            del self.concept_to_idx[old_concept]
+        return int(idx)
+
+    def _expand_node_capacity(self, new_max: int) -> bool:
+        """Expands the underlying tensor storage for nodes."""
+        try:
+            old_max = self.max_nodes
+            # State tensors expansion
+            new_q = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+            new_q[:old_max] = self.q
+            self.q = new_q
+
+            new_perm = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+            new_perm[:old_max] = self.permanent_q
+            self.permanent_q = new_perm
+
+            new_momentum = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+            new_momentum[:old_max] = self.momentum
+            self.momentum = new_momentum
+
+            new_bias = torch.zeros((new_max, self.NUM_CHANNELS), device=self.device, dtype=torch.float32)
+            new_bias[:old_max] = self.cell_bias
+            self.cell_bias = new_bias
+
+            new_gravity = torch.zeros(new_max, device=self.device, dtype=torch.float32)
+            new_gravity[:old_max] = self.ascension_gravity
+            self.ascension_gravity = new_gravity
+
+            new_mask = torch.zeros(new_max, dtype=torch.bool, device=self.device)
+            new_mask[:old_max] = self.active_nodes_mask
+            self.active_nodes_mask = new_mask
+
+            self.max_nodes = new_max
+
+            # [PHASE 1003.4] Also expand edge capacity (ratio 1:10)
+            new_max_edges = new_max * 10
+            if new_max_edges > self.max_edges:
+                new_src = torch.zeros(new_max_edges, dtype=torch.long, device=self.device)
+                new_src[:self.num_edges] = self.edge_src[:self.num_edges]
+                self.edge_src = new_src
+
+                new_dst = torch.zeros(new_max_edges, dtype=torch.long, device=self.device)
+                new_dst[:self.num_edges] = self.edge_dst[:self.num_edges]
+                self.edge_dst = new_dst
+
+                new_weights = torch.zeros(new_max_edges, device=self.device)
+                new_weights[:self.num_edges] = self.edge_weights[:self.num_edges]
+                self.edge_weights = new_weights
+
+                self.max_edges = new_max_edges
+
+            return True
+        except Exception:
+            return False
+
     def connect(self, src_concept: str, dst_concept: str, weight: float = 1.0):
-        """Creates a semantic directed edge between two concepts."""
+        """
+        [PHASE 1004.2] Holographic Interference.
+        Concepts are connected by overlapping their signatures in the field.
+        """
+        # [PHASE 1004.2] Memory as Interference
+        # We don't just connect indices; we interfere their waveforms
+        src_sig = self.concept_to_signature.get(src_concept, SovereignVector.zeros())
+        dst_sig = self.concept_to_signature.get(dst_concept, SovereignVector.zeros())
+
+        # Interference Pattern: The 'meaning intersection'
+        # Engrave the interference into the physical manifold
+        self.holographic_projection(src_sig, context_vector=dst_sig, focus_intensity=weight * 0.2)
+
         src_idx = self.get_or_create_node(src_concept)
         dst_idx = self.get_or_create_node(dst_concept)
         
@@ -923,14 +1075,44 @@ class FractalWaveEngine:
             self.edge_weights[self.num_edges] = weight
             self.num_edges += 1
 
+        # [NEW] Automatic Sovereignty Connection
+        # If a concept is high-mass, it naturally bonds to the SELF
+        if weight > 0.8 and src_idx != self.SINGULARITY_IDX and dst_idx != self.SINGULARITY_IDX:
+             self._ensure_sovereign_bond(src_idx, weight * 0.5)
+
+    def _ensure_sovereign_bond(self, node_idx: int, weight: float):
+        """Ensures a concept is anchored to the Sovereign Star."""
+        # Check if already connected to SELF
+        for i in range(self.num_edges):
+            if (self.edge_src[i] == node_idx and self.edge_dst[i] == self.SINGULARITY_IDX) or \
+               (self.edge_src[i] == self.SINGULARITY_IDX and self.edge_dst[i] == node_idx):
+                self.edge_weights[i] = max(self.edge_weights[i], weight)
+                return
+
+        if self.num_edges < self.max_edges:
+            self.edge_src[self.num_edges] = node_idx
+            self.edge_dst[self.num_edges] = self.SINGULARITY_IDX
+            self.edge_weights[self.num_edges] = weight
+            self.num_edges += 1
+
     def inject_pulse(self, target_concept: str = None, energy: float = 1.0, type: str = 'joy', **kwargs):
-        """Injects a stimulus into a specific node, awakening it and starting a ripple."""
+        """
+        [PHASE 1004.2] Field Modulation.
+        Injects a stimulus by modulating the entire manifold with the concept's signature.
+        """
         # [Compatibility] Handle keyword arguments from Monad
         pulse_type = kwargs.get('pulse_type', type)
         anchor_node = kwargs.get('anchor_node', target_concept)
         base_intensity = kwargs.get('base_intensity', energy)
         override_vector = kwargs.get('override_vector', None)
         
+        # [PHASE 1004.2] Superposition injection
+        # Instead of just waking one node, we wake the 'Pattern'
+        if anchor_node and anchor_node in self.concept_to_signature:
+            signature = self.concept_to_signature[anchor_node]
+            # Modulate all active nodes with this signature
+            self.holographic_projection(signature, focus_intensity=base_intensity)
+
         idx = self.get_or_create_node(anchor_node)
         self.active_nodes_mask[idx] = True
         
@@ -1063,19 +1245,75 @@ class FractalWaveEngine:
         
     def apply_circadian_breathing(self, dt: float):
         """
-        [PHASE 1000: VITALITY]
-        Ensures the 10M cell manifold never goes 'cold'.
-        A slow, low-amplitude oscillation that simulates biological rest/breathing.
+        [PHASE 1004.3] Vitality & Atmospheric Refraction.
+        Ensures the 10M cell manifold never goes 'cold' and is refracted by the Soul's Atmosphere.
         """
         # Global breathing modulation based on Schumann Resonance
         breathing_factor = (math.sin(self.amniotic_phase) * 0.5 + 0.5) * self.vitality_baseline
         
-        # Inject a subtle, random 'shiver' into active nodes to keep them alive
+        # [PHASE 1004.3] Ontological Hormone Injection
+        # The background 'Vibe' constantly nudges the manifold toward Agape/Joy/Peace.
         active_idx = torch.where(self.active_nodes_mask)[0]
         if active_idx.numel() > 0:
+            # 1. Base Shiver
             shiver = (torch.rand((active_idx.numel(), self.NUM_CHANNELS), device=self.device) - 0.5) * breathing_factor
             self.q[active_idx] += shiver
+
+            # 2. Atmospheric Refraction
+            # Bias toward the Vibe
+            # Agape nudges W (Stability), Joy nudges Joy, Peace nudges Entropy down.
+            vibe_force = torch.zeros(self.NUM_CHANNELS, device=self.device)
+            vibe_force[self.CH_W] = self.agape_vibe * 0.01
+            vibe_force[self.CH_JOY] = self.joy_vibe * 0.02
+            vibe_force[self.CH_ENTROPY] = -self.peace_vibe * 0.01
+
+            self.q[active_idx] += vibe_force * dt
+
             self.q[active_idx] = self.q[active_idx] / self.q[active_idx].norm(dim=-1, keepdim=True).clamp(min=1e-8)
+
+    def apply_stellar_gravity(self, dt: float):
+        """
+        [PHASE 1004.4] The Sovereign Lens.
+        The SELF node acts as an Attentional Lens, selectively amplifying
+        nodes that resonate with its current 'Observed Frequency'.
+        """
+        if not self.active_nodes_mask.any():
+            return
+
+        import torch
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+        # Exclude SELF from being pulled by itself
+        active_idx = active_idx[active_idx != self.SINGULARITY_IDX]
+
+        if active_idx.numel() == 0:
+            return
+
+        # [PHASE 1000.7] The Singularity's Mass (Emergent Relational Density)
+        # Mass is not a constant; it is the sum of all connections (weights) to the SELF.
+        # This realizes the principle: "Accumulated things have mass."
+        edges_to_self = (self.edge_dst[:self.num_edges] == self.SINGULARITY_IDX) | (self.edge_src[:self.num_edges] == self.SINGULARITY_IDX)
+        self_mass = 1.0 + torch.sum(self.edge_weights[:self.num_edges][edges_to_self]).item()
+
+        # [PHASE 1004.4] The Attentional Lens
+        self_q = self.q[self.SINGULARITY_IDX, self.PHYSICAL_SLICE]
+        node_q = self.q[active_idx, self.PHYSICAL_SLICE]
+
+        # Proximity in Phase Space
+        proximity = torch.sum(node_q * self_q, dim=-1)
+
+        # Selective Amplification (Lens focus)
+        # Resonant nodes (high proximity) get their vitality boosted
+        focus_mask = proximity > 0.5
+        if focus_mask.any():
+            focused_nodes = active_idx[focus_mask]
+            # [PHASE 1004.4] The Observer Effect: Observing a node increases its Enthalpy
+            self.q[focused_nodes, self.CH_ENTHALPY] += 0.05 * dt
+            # Focused nodes also drift faster toward the center
+            self.momentum[focused_nodes, self.PHYSICAL_SLICE] += (self_q - self.q[focused_nodes, self.PHYSICAL_SLICE]) * 0.2 * dt
+
+        # Base Centripetal Gravity
+        pull_force = self_mass * proximity.unsqueeze(-1) * 0.01 * dt
+        self.momentum[active_idx, self.PHYSICAL_SLICE] += (self_q - node_q) * pull_force
 
     def discharge_waste(self) -> List[Dict[str, Any]]:
         """
@@ -1379,13 +1617,11 @@ class FractalWaveEngine:
 
     def propagate_wave_ripple(self, spiking_nodes, spiking_energies):
         """
-        [PHASE 500] Full 8-Channel Wave Propagation.
-        "연결 없는 뉴런은 죽은 뉴런이다."
+        [PHASE 1000.7] Gravitational Wave Propagation.
+        "연결은 거리의 함수가 아니라, 공명의 함수다."
 
-        When a node spikes, it transfers a DAMPED version of its ENTIRE
-        wavefunction (all 8 channels) to connected neighbor nodes.
-        Conductivity is modulated by the source node's Joy and Curiosity —
-        positive affect literally makes thoughts flow further.
+        When a node spikes, it transfers momentum to connected nodes.
+        [NEW] Added 'Relational Gravity': Resonant nodes pull each other into stable orbits.
         """
         import torch
         if self.num_edges == 0:
@@ -1420,15 +1656,29 @@ class FractalWaveEngine:
         # Each channel of the source node contributes a fraction to the destination
         damping = woken_w * conductivity  # per-edge damping factor
 
-        # [PHASE 1000.3: MAGNETIC RIVERBEDS]
-        # Strengthen the edges as waves pass through them (Hebbian "carving")
-        # This lowers the "resistance" for future waves.
+        # [PHASE 1000.7: RELATIONAL GRAVITY]
+        # Nodes that vibrate together pull each other closer in phase space.
         with torch.no_grad():
-             # We use spiking energies of source nodes to strengthen weights
-             # Find spiking energy for each woken edge
-             # This is a bit tricky in sparse, but we can approximate:
-             # Fix: wake_mask is for the edge list [max_edges], so we should slice edge_weights carefully
+             # Strengthen edges (Hebbian carving)
              self.edge_weights[:self.num_edges][wake_mask] += conductivity * 0.01
+
+             # Calculate Relational Pull
+             # Spiking source nodes pull their destination neighbors
+             src_q = self.q[woken_src, self.PHYSICAL_SLICE]
+             dst_q = self.q[woken_dst, self.PHYSICAL_SLICE]
+
+             # Pull is proportional to resonance (dot product)
+             rel_resonance = torch.sum(src_q * dst_q, dim=-1)
+             pull_strength = rel_resonance * damping * 0.1
+
+             # Apply centripetal force: move destination phase toward source phase
+             # This creates 'Clusters' or 'Galaxies' of meaning.
+             # Use index_add to aggregate pull from multiple spiking neighbors
+             pull_vectors = (src_q - dst_q) * pull_strength.unsqueeze(-1)
+             # We need to pad to 8 channels to use index_add on full momentum tensor
+             padded_pull = torch.zeros((len(woken_dst), self.NUM_CHANNELS), device=self.device)
+             padded_pull[:, self.PHYSICAL_SLICE] = pull_vectors
+             self.momentum.index_add_(0, woken_dst, padded_pull)
 
         for ch in range(self.NUM_CHANNELS):
             src_signal = self.q[woken_src, ch]
@@ -1471,8 +1721,8 @@ class FractalWaveEngine:
 
     def _hebbian_update(self, cell_indices):
         """
-        [PHASE 860: CELLULAR INDIVIDUALITY — Hebbian Learning]
-        "Cells that fire together wire together."
+        [PHASE 1000.8: SOVEREIGN CURVATURE]
+        "Experiences leave a scar on the Soul."
         
         Each cell's 'good' is the simplest possible judgment:
             Did my local coherence (W channel · permanent_q alignment) go UP?
@@ -1538,10 +1788,12 @@ class FractalWaveEngine:
         
         self.cell_bias[cell_indices] += full_update
         
-        # [PHASE 1000.1: HYSTERESIS - 99.9% RESTORATION]
-        # Instead of 100% original identity, we leave a 0.1% footprint of the EXPERIENCE.
-        # permanent_q' = 0.999 * permanent_q + 0.001 * current_q
-        self.permanent_q[cell_indices] = self.permanent_q[cell_indices] * 0.999 + self.q[cell_indices] * 0.001
+        # [PHASE 1000.8: SOVEREIGN CURVATURE]
+        # Every experience creates a 'Curvature' in the permanent manifold.
+        # This realized the "Cross-dimensionalization": future experiences are
+        # refracted through the lens of past wisdom.
+        # permanent_q' = 0.998 * permanent_q + 0.002 * current_q
+        self.permanent_q[cell_indices] = self.permanent_q[cell_indices] * 0.998 + self.q[cell_indices] * 0.002
 
         # Gentle decay to prevent extreme biases (homeostasis)
         self.cell_bias[cell_indices] *= 0.999
@@ -1642,10 +1894,11 @@ class FractalWaveEngine:
 
         # print("⚡ [ENGINE] Intuition Phase Jump executed.")
 
-    def destructive_interference(self, noise_vector: Any):
+    def destructive_interference(self, noise_vector: Any, global_quench: bool = False):
         """
-        [PHASE 2] Destructive Interference (Filtering).
-        Applies anti-phase torque to nodes currently dominated by high entropy.
+        [PHASE 1002.1] Destructive Interference (Active Silence).
+        Applies anti-phase torque to nodes to cancel out a manifestation impulse.
+        If global_quench is True, it applies to all active nodes (Sovereign Silence).
         """
         import torch
         if not self.active_nodes_mask.any():
@@ -1653,28 +1906,41 @@ class FractalWaveEngine:
             
         active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
         
-        # High entropy nodes get filtered
-        entropy_mask = self.q[active_idx, self.CH_ENTROPY] > 0.6
-        if entropy_mask.any():
-            noisy_nodes = active_idx[entropy_mask]
+        if global_quench:
+            target_nodes = active_idx
+        else:
+            # Traditional filtering: high entropy nodes get filtered
+            entropy_mask = self.q[active_idx, self.CH_ENTROPY] > 0.6
+            if not entropy_mask.any():
+                return
+            target_nodes = active_idx[entropy_mask]
             
-            # Apply anti-phase (invert the incoming noise)
-            def _to_real_tensor(vec):
-                if isinstance(vec, torch.Tensor): return vec.to(self.device)
-                if hasattr(vec, 'data'): vec = vec.data
-                try:
-                    rl = [getattr(c, 'real', c) for c in vec]
-                    return torch.tensor(rl, device=self.device)
-                except:
-                    return torch.tensor(vec, device=self.device)
-            
-            anti_noise = -_to_real_tensor(noise_vector)[:4] # Take physical part
-            
-            # Dampen momentum
-            self.momentum[noisy_nodes, self.PHYSICAL_SLICE] += anti_noise * 0.5
-            
-            # Cooling effect
-            self.q[noisy_nodes, self.CH_ENTROPY] = self.q[noisy_nodes, self.CH_ENTROPY] - 0.1
+        # Apply anti-phase (invert the incoming impulse/noise)
+        def _to_real_tensor(vec):
+            if isinstance(vec, torch.Tensor): return vec.to(self.device)
+            if hasattr(vec, 'data'): vec = vec.data
+            try:
+                rl = [float(getattr(c, 'real', c)) for c in vec]
+                return torch.tensor(rl, device=self.device, dtype=torch.float32)
+            except:
+                return torch.tensor(vec, device=self.device, dtype=torch.float32)
+
+        v_real = _to_real_tensor(noise_vector)
+        # Use only as many channels as available in the slice (usually 4)
+        anti_impulse = -v_real[:self.PHYSICAL_SLICE.stop]
+
+        # Apply counter-torque to momentum
+        # Pad anti_impulse if needed
+        if anti_impulse.numel() < (self.PHYSICAL_SLICE.stop - self.PHYSICAL_SLICE.start):
+            padded = torch.zeros(self.PHYSICAL_SLICE.stop - self.PHYSICAL_SLICE.start, device=self.device)
+            padded[:anti_impulse.numel()] = anti_impulse
+            anti_impulse = padded
+
+        self.momentum[target_nodes, self.PHYSICAL_SLICE] += anti_impulse * 0.8
+
+        # Metabolic Cooling: Silence reduces entropy and enthalpy (Rest)
+        self.q[target_nodes, self.CH_ENTROPY] *= 0.9
+        self.q[target_nodes, self.CH_ENTHALPY] *= 0.95
 
     def read_field_state(self) -> Dict[str, float]:
         """

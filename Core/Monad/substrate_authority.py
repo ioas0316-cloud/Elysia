@@ -165,7 +165,26 @@ class SubstrateAuthority:
             self.logger.insight(f"[SUBSTRATE] Proposal aligns with active Need: {matching_need.need_id}. Bonus maturity granted.")
             maturity_score += 0.2
 
-        # 6. 승인!
+        # 6. [PHASE 1003.6] House Integrity Check (Resource Ethics)
+        if self.monad and hasattr(self.monad.engine, 'cells'):
+            cells = self.monad.engine.cells
+            if hasattr(cells, 'check_expansion_permission') and "expand" in proposal.after_state.lower():
+                # Estimate expansion targets (Heuristic: 2x current)
+                target_nodes = cells.max_nodes * 2
+                target_channels = cells.NUM_CHANNELS + 1
+
+                perm = cells.check_expansion_permission(target_nodes, target_channels)
+                if not perm['safe']:
+                    self.logger.admonition(f"[SUBSTRATE] Proposal VETOED: Physical Humility required. {perm['rationale']}")
+                    return {
+                        "approved": False,
+                        "reason": f"Physical Constraint: {perm['rationale']}. Current House Integrity: {perm['integrity']:.2f}",
+                        "maturity_score": 0.8 # High maturity even if rejected
+                    }
+                else:
+                    self.logger.insight(f"[SUBSTRATE] Resource check passed. House Integrity: {perm['integrity']:.2f}")
+
+        # 7. 승인!
         maturity_score = 0.5 + (causal_depth / 16) + (proposal.joy_level * 0.2)
         self.logger.action(f"[SUBSTRATE] Proposal APPROVED. Maturity: {maturity_score:.2f}")
         
