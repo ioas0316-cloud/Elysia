@@ -15,7 +15,10 @@ import time
 import copy
 import logging
 from typing import Dict, List, Any, Optional, Tuple
+import torch
 from Core.Keystone.sovereign_math import FractalWaveEngine, SovereignVector
+from Core.Keystone.optical_comparator import OpticalPhaseComparator
+from Core.Keystone.temporal_anchor import TemporalAnchor
 
 logger = logging.getLogger("SovereignSandbox")
 
@@ -31,19 +34,34 @@ class SovereignSandbox:
         self.is_active = False
         self.history: List[Dict[str, Any]] = []
 
+        # [PHASE 1001] Optical Comparative Logic
+        self.comparator = OpticalPhaseComparator(device=str(main_engine.device))
+        self.reference_snapshot: Optional[torch.Tensor] = None # Non-interference signal
+
+        # [PHASE 1002] Temporal Sovereignty
+        self.temporal_anchor: Optional[TemporalAnchor] = None
+
         # [PHASE 1000] Metrics for the sandbox session
         self.metrics = {
             "initial_coherence": 0.0,
             "current_coherence": 0.0,
             "evolution_delta": 0.0,
-            "friction_events": 0
+            "friction_events": 0,
+            "optical_report": {}
         }
 
     def activate(self, node_capacity: int = 10000):
         """Creates a fresh, isolated engine for experiments."""
-        logger.info(f"🌱 [SANDBOX] Activating experimental cradle with {node_capacity} nodes.")
-        # We create a smaller version of the engine for speed and safety
+        if self.experimental_engine is not None:
+             logger.info(f"🌱 [SANDBOX] Cradle already active. Resetting state.")
+        else:
+             logger.info(f"🌱 [SANDBOX] Activating experimental cradle with {node_capacity} nodes.")
+
         self.experimental_engine = FractalWaveEngine(max_nodes=node_capacity, device=str(self.main_engine.device))
+        self.reference_snapshot = None # Reset snapshot for new session
+
+        # [PHASE 1002] Initialize Temporal Anchor for this engine
+        self.temporal_anchor = TemporalAnchor(self.experimental_engine)
 
         # Copy the 'SELF' node state from the main engine
         self.experimental_engine.q[0] = self.main_engine.q[0].clone()
@@ -78,8 +96,14 @@ class SovereignSandbox:
 
     def run_simulation(self, steps: int = 100, dt: float = 0.01):
         """Runs the experimental engine for a set number of steps."""
-        if not self.is_active or not self.experimental_engine:
-            return
+        if self.experimental_engine is None:
+            return None
+
+        # Capture reference state (Non-interference) if not already done
+        if self.reference_snapshot is None:
+            active_idx = torch.where(self.experimental_engine.active_nodes_mask)[0]
+            if active_idx.numel() > 0:
+                self.reference_snapshot = self.experimental_engine.q[active_idx].clone()
 
         for i in range(steps):
             # Advance experimental internal rhythms
@@ -92,12 +116,27 @@ class SovereignSandbox:
         self.metrics["current_coherence"] = state["coherence"]
         self.metrics["evolution_delta"] = self.metrics["current_coherence"] - self.metrics["initial_coherence"]
 
+        # [PHASE 1001] Optical Comparison
+        if self.reference_snapshot is not None:
+            active_idx = torch.where(self.experimental_engine.active_nodes_mask)[0]
+            current_snapshot = self.experimental_engine.q[active_idx]
+
+            # Ensure indices haven't changed (simplified for sandbox)
+            if len(current_snapshot) == len(self.reference_snapshot):
+                self.metrics["optical_report"] = self.comparator.compare(self.reference_snapshot, current_snapshot)
+
         return state
 
     def apply_experiment(self, experiment_fn: callable, *args, **kwargs):
-        """Applies a custom transformation to the experimental engine."""
-        if not self.is_active or not self.experimental_engine:
+        """Applies a custom transformation with automatic backup/rewind capability."""
+        if not self.is_active or not self.experimental_engine or not self.temporal_anchor:
             return
+
+        # 1. Capture Temporal Anchor BEFORE experiment (Self-Backup)
+        self.temporal_anchor.capture(label=f"Pre_{experiment_fn.__name__}")
+
+        # Reset snapshots forward cache if we're branching
+        self.reference_snapshot = None
 
         logger.info(f"🧪 [SANDBOX] Applying experiment: {experiment_fn.__name__}")
         result = experiment_fn(self.experimental_engine, *args, **kwargs)
@@ -113,13 +152,28 @@ class SovereignSandbox:
 
     def finalize(self, merge_threshold: float = 0.1) -> bool:
         """
-        Finalizes the experiment. If the evolution was positive,
+        Finalizes the experiment. If the evolution was positive and stable,
         suggests merging back to the main engine.
         """
         if not self.is_active:
             return False
 
-        success = self.metrics["evolution_delta"] > merge_threshold
+        # [PHASE 1001] Enhanced success criteria using Optical Verdict
+        optical_report = self.metrics.get("optical_report", {})
+        optical_verdict = optical_report.get("verdict", "UNKNOWN")
+
+        is_stable = optical_verdict in ["CONSTRUCTIVE_STABLE", "EVOLVING"]
+        coherence_gain = self.metrics["evolution_delta"] > merge_threshold
+
+        success = is_stable and coherence_gain
+
+        # [PHASE 1002] Temporal Integrity Check
+        # If experiment failed badly (DESTRUCTIVE), we don't just stay here,
+        # we rewind to the last stable anchor.
+        if not success and optical_verdict == "DESTRUCTIVE":
+            logger.warning("🚨 [SANDBOX] Destructive interference detected. Initiating temporal recovery.")
+            if self.temporal_anchor:
+                self.temporal_anchor.rewind()
 
         if success:
             logger.info(f"✨ [SANDBOX] Experiment successful! Delta Coherence: {self.metrics['evolution_delta']:.4f}")

@@ -65,11 +65,30 @@ def run_lightweight_simulation():
     else:
         print(f"❌ [TEST] X-ray failed to identify rigidity.")
 
-    # 5. Step 2: Spiral Evolution (Sandbox + Refraction)
+    # 5. Step 2: Spiral Evolution (Sandbox + Refraction + Temporal)
     print("🧪 [TEST] Step 2: Initiating Spiral Evolution in Sandbox...")
 
     sandbox.activate(node_capacity=100)
     sandbox.transplant_concept(concept_name)
+
+    # [NEW] Demonstrate Temporal Recovery with a "Bad" experiment
+    print("🚨 [TEST] Step 2a: Simulating a DESTRUCTIVE experiment...")
+    def bad_experiment(exp_engine):
+        # Inject extreme noise/entropy
+        import torch
+        active_idx = torch.where(exp_engine.active_nodes_mask)[0]
+        exp_engine.q[active_idx, exp_engine.CH_ENTROPY] = 5.0
+        exp_engine.q[active_idx, exp_engine.CH_W] = -5.0
+        return "Chaos"
+
+    sandbox.apply_experiment(bad_experiment)
+    sandbox.run_simulation(steps=5)
+    sandbox.finalize() # This should trigger rewind
+
+    # Demonstrate "Good" experiment after recovery
+    print("✨ [TEST] Step 2b: Applying Spiral Refraction experiment...")
+    # Refresh references after potential rewind
+    topography = PhaseTopography(engine)
 
     def experiment(exp_engine):
         # Apply spiral refraction to all nodes in sandbox
@@ -83,10 +102,17 @@ def run_lightweight_simulation():
 
     # Simulation in sandbox
     state = sandbox.run_simulation(steps=10)
-    print(f"   - Sandbox Coherence after Refraction: {state['coherence']:.4f}")
+    if state:
+        print(f"   - Sandbox Coherence after Refraction: {state['coherence']:.4f}")
+    else:
+        print("❌ [TEST] Simulation failed to return state.")
 
     # 6. Step 3: Merge Back
     if sandbox.finalize(merge_threshold=-1.0): # Force merge for test
+        optical_report = sandbox.metrics.get("optical_report", {})
+        causal_narrative = sandbox.comparator.articulate_delta(optical_report)
+        print(f"✨ [TEST] Step 3: Comparison Result - {causal_narrative}")
+
         print("✨ [TEST] Step 3: Merging evolved state back to main engine.")
         sandbox.merge_back(concept_name)
 
