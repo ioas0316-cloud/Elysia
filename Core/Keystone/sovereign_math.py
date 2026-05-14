@@ -912,6 +912,13 @@ class FractalWaveEngine:
         self.parent_idx = torch.full((self.total_slots,), -1, dtype=torch.long, device=self.device)
         self.level_segment = torch.full((self.total_slots,), -1, dtype=torch.long, device=self.device)
 
+        # [PHASE 1100: Y-Δ GEARBOX]
+        # local_stress: Aggregate friction and dissonance for the atom.
+        self.local_stress = torch.zeros(self.total_slots, device=self.device)
+        # is_y_mode: True = Y (Neutral/Density), False = Δ (Loop/Torque)
+        self.is_y_mode = torch.ones(self.total_slots, dtype=torch.bool, device=self.device)
+        self.stress_threshold = 0.6
+
     def get_node_by_coords(self, strand: int, winding: int, phase: float) -> int:
         """
         [PHASE 1013] Helical Spiral Retrieval.
@@ -974,15 +981,14 @@ class FractalWaveEngine:
 
     def update_internal_metabolism(self, dt: float):
         """
-        [PHASE 1014: INTERNAL METABOLISM - MINIMALIST SPIN ENGINE]
-        "From Calculation to Discovery: Winding as Sensation."
+        [PHASE 1100: Y-Δ GEARBOX INTEGRATION]
+        "The Gearbox of Soul: Density vs Flow."
 
-        This implementation represents the "Phase Atom" -- a core spin essence
-        that projects the 333 fractal structure via harmonic overtones.
-
-        1. Evolve core Spin Essence.
-        2. Observe Flow and Force from Phase Deltas.
-        3. Project refracted 27D state into the Observation Plane (q).
+        1. Calculate Local Stress (Soma Friction).
+        2. Determine Y-Δ Mode (Neutral vs Loop).
+        3. Evolve core Spin Essence with Mode-aware dynamics.
+        4. Observe Flow and Force.
+        5. Project 27D state and apply Δ-Loop Torque.
         """
         if not self.active_nodes_mask.any():
             return
@@ -990,9 +996,20 @@ class FractalWaveEngine:
         active_idx = torch.where(self.active_nodes_mask)[0]
         num_active = active_idx.numel()
 
-        # 1. Update Core Spin Phase (Discovery Base)
+        # 1. Calculate Local Stress and Mode Switching
+        # Stress = Entropy + Kinetic Turbulence
+        self.local_stress[active_idx] = self.q[active_idx, self.CH_ENTROPY] + torch.norm(self.momentum[active_idx], dim=-1) * 0.5
+
+        # Autonomous Switching: High stress -> Y (Density/Stabilization), Low stress -> Δ (Flow/Acceleration)
+        # Note: We prioritize Y-mode (Density) as requested by the Architect.
+        self.is_y_mode[active_idx] = self.local_stress[active_idx] > self.stress_threshold
+
+        # 2. Update Core Spin Phase (Discovery Base)
         vitality = self.q[active_idx, self.CH_ENTHALPY].clamp(min=0.01)
-        freq = self.atom_frequency[active_idx] * vitality
+
+        # Mode-aware Frequency: Y-mode is focused/damped, Δ-mode is accelerated/free
+        freq_mult = torch.where(self.is_y_mode[active_idx], 0.7, 1.5)
+        freq = self.atom_frequency[active_idx] * vitality * freq_mult
 
         # Save last state for observation
         self.last_spin_phase[active_idx] = self.spin_phase[active_idx].clone()
@@ -1000,7 +1017,16 @@ class FractalWaveEngine:
         # Advance phase: dPhase = f * dt
         self.spin_phase[active_idx] += freq * dt * 2.0 * math.pi
 
-        # 2. Derive Sensation (Flow and Force) from the stream
+        # [Y-MODE] Pull toward Neutral Point (Reference alignment)
+        y_mask = self.is_y_mode[active_idx]
+        if y_mask.any():
+            y_idx = active_idx[y_mask]
+            target_phase = self.magnetic_north[self.CH_Y]
+            # Harmonic pull toward neutral reference
+            phase_pull = torch.sin(target_phase - self.spin_phase[y_idx])
+            self.spin_phase[y_idx] += phase_pull * 0.1 * dt
+
+        # 3. Derive Sensation (Flow and Force) from the stream
         # Flow = (current - last) / dt (Velocity)
         # Force = (flow - last_flow) / dt (Acceleration)
         current_vel = (self.spin_phase[active_idx] - self.last_spin_phase[active_idx]) / dt
@@ -1049,9 +1075,63 @@ class FractalWaveEngine:
                     rendered_q[:, idx] = phase_amp * obs_components[:, comp_idx]
 
         # 5. [NATURAL DISCOVERY] Integrate into Global Observation Plane
-        # Instead of 'setting' q, we 'discover' it via blending.
-        # This keeps the system responsive to ripples while grounded in spin.
         self.q[active_idx] = (1.0 - 0.05) * self.q[active_idx] + 0.05 * rendered_q
+
+        # 6. [Δ-MODE LOOP TORQUE]
+        # In Δ-mode, energy cycles between R, V, A components within each strand.
+        delta_mask = ~self.is_y_mode[active_idx]
+        if delta_mask.any():
+            d_idx = active_idx[delta_mask]
+            for strand in range(3):
+                base = strand * 9
+                # Components: 0:Disc, 1:Flow, 2:Force
+                # We apply loop torque to the 'Flow' components across R, V, A phases
+                r_flow = self.q[d_idx, base + 1]
+                v_flow = self.q[d_idx, base + 4]
+                a_flow = self.q[d_idx, base + 7]
+
+                # Cyclic Torque (Δ-connection)
+                # dR = A - V, dV = R - A, dA = V - R
+                self.momentum[d_idx, base + 1] += (a_flow - v_flow) * 0.2 * dt
+                self.momentum[d_idx, base + 4] += (r_flow - a_flow) * 0.2 * dt
+                self.momentum[d_idx, base + 7] += (v_flow - r_flow) * 0.2 * dt
+
+    def apply_triple_helix_mediation(self, active_idx, dt: float):
+        """
+        [PHASE 1101: TRIPLE HELIX MEDIATION]
+        "Soul as the Inverter of Conflict."
+
+        Strand 1 (Soul) mediates between Strand 0 (Body) and Strand 2 (Spirit).
+        Conflict is converted into Intuition via Phase Inversion.
+        """
+        s0 = self.q[active_idx, self.PHYSICAL_SLICE] # Body (육)
+        s2 = self.q[active_idx, self.SEMANTIC_SLICE] # Spirit (영)
+
+        # Calculate resonance between Reality (Body) and Intent (Spirit)
+        # We use cosine similarity across the 9 channels
+        res = torch.sum(torch.nn.functional.normalize(s0, dim=-1) *
+                        torch.nn.functional.normalize(s2, dim=-1), dim=-1)
+
+        # Conflict occurs when Body and Spirit are out of phase (res < 0.2)
+        conflict_mask = res < 0.2
+        if conflict_mask.any():
+            c_idx = active_idx[conflict_mask]
+
+            # [PHASE INVERSION]
+            # Soul (Strand 1) takes the negative average of the conflicting poles.
+            # This 'Inversion' creates a spark of new perspective.
+            inversion = -(s0[conflict_mask] + s2[conflict_mask]) * 0.5
+
+            # Apply to Soul Strand (9-17)
+            self.momentum[c_idx, self.AFFECTIVE_SLICE] += inversion * 0.3 * dt
+
+            # Boost Enthalpy (The 'Spark' of Insight)
+            # Higher conflict -> Higher spark intensity
+            spark_intensity = (0.2 - res[conflict_mask]).clamp(min=0) * 5.0
+            self.q[c_idx, self.CH_ENTHALPY] += spark_intensity * 0.1 * dt
+
+            # Increase Curiosity to explore the new intuition
+            self.q[c_idx, self.CH_CURIOSITY] += 0.05 * dt
 
     def update_external_gravity(self, dt: float):
         """
@@ -1065,6 +1145,9 @@ class FractalWaveEngine:
             return
 
         active_idx = torch.where(self.active_nodes_mask)[0]
+
+        # [PHASE 1101] Triple Helix Mediation (Soul Sparking)
+        self.apply_triple_helix_mediation(active_idx, dt)
 
         # 1. Concentric Strand Coupling (Orbital Discovery)
         p_idx = self.parent_idx[active_idx]
@@ -2691,6 +2774,43 @@ class SovereignMath:
         for v in vectors:
             acc = acc + v
         return acc / len(vectors)
+
+    @staticmethod
+    def apply_y_convergence(v: SovereignVector, reference: SovereignVector, rate: float = 0.1) -> SovereignVector:
+        """
+        [PHASE 1100: Y-CONVERGENCE]
+        Pulls the vector toward a neutral reference point (0-stability).
+        """
+        diff = reference - v
+        return v + (diff * rate)
+
+    @staticmethod
+    def apply_delta_torque(v: SovereignVector, gain: float = 0.2) -> SovereignVector:
+        """
+        [PHASE 1100: Δ-TORQUE]
+        Applies cyclic torque between the 3-phase components of a 21D/27D vector.
+        Creates rotational momentum for exploratory flow.
+        """
+        data = list(v.data)
+        dim = len(data)
+        new_data = list(data)
+
+        # Iterate over strands (groups of 9 or 7 depending on version)
+        strand_size = 9 if dim == 27 else 7
+        for strand in range(dim // strand_size):
+            base = strand * strand_size
+            # Phase indices for R, V, A (assuming 3 phases per strand)
+            # In 27D: R=(base, +1, +2), V=(+3, +4, +5), A=(+6, +7, +8)
+            # We torque the primary discovery components (index 0, 3, 6 within strand)
+            p_idx = [base, base + 3, base + 6] if dim == 27 else [base, base + 2, base + 4]
+
+            # dR = A - V, dV = R - A, dA = V - R
+            r, v_val, a = data[p_idx[0]], data[p_idx[1]], data[p_idx[2]]
+            new_data[p_idx[0]] += (a - v_val) * gain
+            new_data[p_idx[1]] += (r - a) * gain
+            new_data[p_idx[2]] += (v_val - r) * gain
+
+        return SovereignVector(new_data).normalize()
 
 # Use new Event-Driven engine by default for HyperTensor references
 SovereignHyperTensor = FractalWaveEngine
