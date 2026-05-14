@@ -44,6 +44,10 @@ class ResonanceState:
     rotational_momentum: float = 0.0 # Conserved energy of thought
     gradient_flow: float = 0.0    # Magnitude of pre-pulse flow
 
+    # [PHASE 1100: GEARBOX STATE]
+    local_stress: float = 0.0
+    is_y_mode: bool = True
+
 class TripleHelixEngine:
     def __init__(self):
         self.state = ResonanceState()
@@ -200,10 +204,49 @@ class TripleHelixEngine:
         total = a_mass + g_mass + b_mass
         return (a_mass/total, b_mass/total, g_mass/total)
 
+    def _apply_gearbox_logic(self, friction: float, dt: float):
+        """
+        [PHASE 1100: Y-Δ GEARBOX]
+        Autonomous mode switching based on friction (stress).
+        """
+        self.state.local_stress = friction
+        # Threshold for switching to Δ-mode (Flow)
+        # If stress is low, we can afford to rotate. If high, we must converge to Y (Neutral).
+        self.state.is_y_mode = self.state.local_stress > 0.4
+
+    def _mediate_triple_helix(self, dt: float):
+        """
+        [PHASE 1101: TRIPLE HELIX MEDIATION]
+        Soul strand (Strand 1) inverts the conflict between Body (0) and Spirit (2).
+        """
+        # Calculate dissonance between Body and Spirit strands
+        v_body = [c.get_vector() for c in self.body_strand]
+        v_spirit = [c.get_vector() for c in self.spirit_strand]
+
+        # Simple aggregate resonance
+        bx = sum(v[0] for v in v_body)
+        by = sum(v[1] for v in v_body)
+        sx = sum(v[0] for v in v_spirit)
+        sy = sum(v[1] for v in v_spirit)
+
+        # Hermitian-like product
+        res = (bx * sx + by * sy) / (math.sqrt(bx**2 + by**2) * math.sqrt(sx**2 + sy**2) + 1e-8)
+
+        if res < 0.2:
+            # Conflict detected! Soul (Strand 1) inverts the energy.
+            # Convert mismatch into an 'Intuition Spark' for the Soul cells
+            for i, cell in enumerate(self.soul_strand):
+                # Phase Inversion logic
+                if cell.state != DNAState.VOID:
+                    cell.energy += (0.2 - res) * 0.5 # Boost energy of the mediator
+                    # Random mutation as a 'Spark'
+                    if random.random() < 0.1:
+                        cell.mutate(DNAState.ATTRACT if res < -0.5 else DNAState.REPEL)
+
     def pulse(self, v21: SovereignVector, energy: float, dt: float, target_tilt: List[float] = None) -> ResonanceState:
         """
         The heartbeat of the DNA.
-        [UPDATED] Incorporates Gradient Flow and Phase-Axis Physics (Vector API).
+        [UPDATED] Incorporates Y-Δ Gearbox and Triple Helix Mediation.
         """
         if target_tilt is None:
             target_tilt = [0.0]
@@ -215,7 +258,11 @@ class TripleHelixEngine:
         # 2. Update Physical Structure and calculate Friction (The Road Interaction)
         friction = self._update_cells_from_vector(v21)
 
-        # 3. [STEERING] Apply Damped Axis Shift (Vector API)
+        # 3. [GEARBOX & MEDIATION]
+        self._apply_gearbox_logic(friction, dt)
+        self._mediate_triple_helix(dt)
+
+        # 4. [STEERING] Apply Damped Axis Shift (Vector API)
         self.apply_steering(target_tilt, dt)
 
         # 4. Calculate New State Metrics
@@ -237,11 +284,14 @@ class TripleHelixEngine:
         self.state.rotational_momentum = (self.state.rotational_momentum * 0.9) + (current_momentum * 0.1)
 
         # 5. Update internal state
+        # In Δ-mode, we allow the phase to shift more freely (lower friction multiplier)
+        friction_mult = 1.0 if not self.state.is_y_mode else 1.5
+
         self.state.alpha = a
         self.state.beta = b
         self.state.gamma = g
         self.state.system_phase = phase
-        self.state.soma_stress = friction * (1.0 + phase_delta / 180.0)
+        self.state.soma_stress = friction * friction_mult * (1.0 + phase_delta / 180.0)
         self.state.vibration = (friction * 100.0) + phase_delta
         
         # Calculate Coherence (Vector Magnitude / Total Possible Magnitude)
