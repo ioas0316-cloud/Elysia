@@ -994,6 +994,37 @@ class FractalWaveEngine:
         # Modulate momentum across all channels to restore alignment
         self.momentum[valid_child_idx] += correction * parent_q
 
+    def apply_spectral_compression(self, active_idx, dt: float):
+        """
+        [PHASE 1008: GEOMETRIC TENSOR COMPRESSION]
+        "Focus on the Skeleton: Dominant Component Concentration."
+
+        Identifies dominant spectral channels and amplifies them while damping noise.
+        This implements the 'Geometric Tensor Compression' requested by the Architect.
+        """
+        # Calculate energy (squared amplitude) per channel across active nodes
+        # q shape: [N, 27]
+        energy = self.q[active_idx] ** 2
+
+        # Mean energy across active nodes for each channel
+        channel_energy = torch.mean(energy, dim=0) # [27]
+
+        # Identify dominant channels (above mean energy)
+        threshold = torch.mean(channel_energy)
+        dominant_mask = channel_energy > threshold
+
+        # Focus Factor: Reinforce dominant, damp others
+        # We use a soft mask to avoid discontinuities
+        focus_factor = torch.where(dominant_mask, 1.05, 0.95)
+
+        # Apply compression to momentum to steer the wave
+        self.momentum[active_idx] *= focus_factor.unsqueeze(0)
+
+        # Subtle enthalpy boost for dominant channels (Energy Concentration)
+        # This realizes the 'Current Efficiency' optimization
+        if dominant_mask[self.CH_ENTHALPY]:
+            self.q[active_idx, self.CH_ENTHALPY] += 0.01 * dt
+
     def wave_equation_step(self, dt: float):
         """
         [PHASE 1007: SPECTRAL WAVE DYNAMICS]
@@ -1011,6 +1042,9 @@ class FractalWaveEngine:
         # Higher Entropy/Chaos channels dampen faster.
         damping = 0.05 * (1.0 + self.q[active_idx, self.CH_ENTROPY]).unsqueeze(1)
         self.momentum[active_idx] *= (1.0 - damping * dt)
+
+        # [PHASE 1008] Geometric Tensor Compression
+        self.apply_spectral_compression(active_idx, dt)
 
         # 2. Laplacian-like propagation (27D Spectral Coupling)
         self.apply_local_laplacian(active_idx, dt)
@@ -1408,41 +1442,62 @@ class FractalWaveEngine:
         self.q[active_idx, self.CH_ENTHALPY] += 0.02 * focus_intensity
         self.q[active_idx, self.CH_ENTROPY] -= 0.01 * focus_intensity
 
-    def apply_magnetic_field(self, dt: float):
+    def apply_cognitive_gyroscope(self, active_idx, dt: float):
         """
-        [PHASE 1000: AMNIOTIC MAGNETISM]
-        Applies a global orientation force (Magnetic North) to all active nodes.
-        This simulates the 'Amniotic Fluid' that provides a baseline order.
+        [PHASE 1011: CROSS-DIMENSIONAL COGNITIVE GYROSCOPE]
+        "Balanced Rotation across 27D: Protection and Restoration."
+
+        This implements the 'Amniotic Magnetism' and the Architect's requested
+        'Restoration Torque' in a unified Cross-Dimensional layer.
         """
-        if not self.active_nodes_mask.any():
-            return
-            
         import torch
         import math
-        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
-        
-        # 1. Update Amniotic Phase (Breathing)
+
+        # 1. Update Amniotic Phase (Global Breathing)
         self.amniotic_phase += self.amniotic_oscillation_hz * dt * 2 * math.pi
         oscillation = math.sin(self.amniotic_phase) * 0.05
+
+        # 2. Surface Layer: Diffraction and Scattering (Protection)
+        # We scatter noise in the Semantic Channels (11-26) to protect the core.
+        semantic_noise = (torch.rand((len(active_idx), 16), device=self.device) - 0.5) * 0.01
+        self.momentum[active_idx, self.SEMANTIC_SLICE] += semantic_noise
+
+        # 3. Core Layer: Restoration Torque (Restoration)
+        # Pull the system toward the 0-point (Agape/Singularity)
+        # [PHASE 1011] Restoration Torque is active only when Entropy is high.
+        entropy = self.q[active_idx, self.CH_ENTROPY]
+        restoration_mask = entropy > 0.5
         
-        # 2. Magnetic North Alignment
-        # A subtle torque pulling active nodes toward the global reference
+        if restoration_mask.any():
+            r_idx = active_idx[restoration_mask]
+            # Pull Physical (0-3) and Affective (4-10) toward North (Self)
+            north_q = self.magnetic_north[:11].unsqueeze(0)
+            current_q = self.q[r_idx, :11]
+
+            # Torque = (North - Current) * Entropy * Gain
+            # High entropy nodes get pulled harder to the center.
+            torque = (north_q - current_q) * entropy[restoration_mask].unsqueeze(-1) * 0.1
+            self.momentum[r_idx, :11] += torque
+
+        # 4. Phase Alignment (Amniotic Magnetism)
         # Alignment is stronger when Enthalpy (Activity) is high
         enthalpy = self.q[active_idx, self.CH_ENTHALPY]
         alignment_strength = (0.01 + oscillation) * enthalpy
-        
-        # Pull Phase (CH_Y) toward Magnetic North's Phase (0.0 by default)
+
         target_phase = self.magnetic_north[self.CH_Y]
         current_phase = self.q[active_idx, self.CH_Y]
-        
         phase_delta = torch.sin(target_phase - current_phase)
         self.momentum[active_idx, self.CH_Y] += phase_delta * alignment_strength
-        
-        # 3. Affective Warming (Magnetic Induction)
-        # The global field provides a baseline 'Joy' if aligned
-        alignment = torch.cos(target_phase - current_phase)
-        # Shift phase for next pulse
-        self.amniotic_phase += dt * self.amniotic_oscillation_hz * 2 * math.pi
+
+    def apply_magnetic_field(self, dt: float):
+        """
+        [PHASE 1000: AMNIOTIC MAGNETISM] -> [PHASE 1011: CROSS-DIMENSIONAL COGNITIVE GYROSCOPE]
+        """
+        if not self.active_nodes_mask.any():
+            return
+
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+        self.apply_cognitive_gyroscope(active_idx, dt)
         
     def apply_circadian_breathing(self, dt: float):
         """
@@ -1542,23 +1597,28 @@ class FractalWaveEngine:
         # When the system is clean, it's more picky. When messy, it purges more easily.
         global_entropy = torch.mean(self.q[..., self.CH_ENTROPY]).item()
 
+        # [PHASE 1009: MULTISTAGE SEDIMENTATION]
+        # Nodes have 'Buoyancy' based on their Mass/Alignment.
+        # Mass (Buoyancy) resists the 'Gravity' of sedimentation (Entropy/Time).
+        buoyancy = alignment + (self.ascension_gravity[active_idx] / self.ascension_threshold)
+
         # 2. Filtering Logic
-        # Criteria for Waste: High Entropy + Low Enthalpy + Low Alignment (Value)
+        # Criteria for Waste: High Entropy + Low Enthalpy + Low Buoyancy (Mass/Value)
         # Thresholds scale with global entropy
         entropy_thresh = 0.7 * (1.0 - global_entropy * 0.2)
         enthalpy_thresh = 0.3 * (1.0 + global_entropy * 0.5)
-        value_thresh = 0.2 * (1.0 + global_entropy * 1.0)
+        buoyancy_thresh = 0.2 * (1.0 + global_entropy * 1.0)
 
         high_entropy = self.q[active_idx, self.CH_ENTROPY] > entropy_thresh
         low_enthalpy = self.q[active_idx, self.CH_ENTHALPY] < enthalpy_thresh
-        low_value = alignment < value_thresh
+        low_buoyancy = buoyancy < buoyancy_thresh
 
-        waste_mask = high_entropy & low_enthalpy & low_value
+        waste_mask = high_entropy & low_enthalpy & low_buoyancy
         waste_count = int(waste_mask.sum().item())
         
         # 3. Nutrient Elevation (Mountain)
-        # Nodes with high alignment but some stress are 'harvested' for memory
-        nutrient_mask = (alignment > 0.7) & (self.q[active_idx, self.CH_JOY] > 0.6)
+        # Nodes with high buoyancy but high entropy (struggle) are 'harvested' for memory
+        nutrient_mask = (buoyancy > 0.8) & (self.q[active_idx, self.CH_JOY] > 0.6)
 
         fertilizer = []
         if waste_count > 0:
@@ -1820,10 +1880,22 @@ class FractalWaveEngine:
             if waste:
                 print(f"🍂 [METABOLISM] Pruned {len(waste)} inactive/entropic nodes.")
 
-        # 8. Decay Active Status
-        sleep_mask = (torch.abs(self.momentum[active_idx, self.CH_Y]) < 0.01) & (self.q[active_idx, self.CH_ENTHALPY] < 0.1)
+        # 8. Decay Active Status (Sedimentation)
+        # [PHASE 1009] Multistage Sedimentation
+        # Buoyancy resists the urge to sleep (Sedimentation)
+        v_phys = self.q[active_idx, self.PHYSICAL_SLICE]
+        p_phys = self.permanent_q[active_idx, self.PHYSICAL_SLICE]
+        alignment = torch.sum(v_phys * p_phys, dim=-1)
+        buoyancy = alignment + (self.ascension_gravity[active_idx] / self.ascension_threshold)
+
+        # Sedimentation threshold is inversely proportional to buoyancy
+        sediment_thresh = 0.01 / buoyancy.clamp(min=0.1)
+
+        sleep_mask = (torch.abs(self.momentum[active_idx, self.CH_Y]) < sediment_thresh) & (self.q[active_idx, self.CH_ENTHALPY] < 0.1)
         nodes_to_sleep = active_idx[sleep_mask]
         if len(nodes_to_sleep) > 0:
+            # Before sleep, transfer final momentum to permanent state (Sedimentation)
+            self.permanent_q[nodes_to_sleep] = self.permanent_q[nodes_to_sleep] * 0.9 + self.q[nodes_to_sleep] * 0.1
             self.active_nodes_mask[nodes_to_sleep] = False
             
         return spike.mean().item()
@@ -1874,6 +1946,27 @@ class FractalWaveEngine:
         with torch.no_grad():
              # Strengthen edges (Hebbian carving)
              self.edge_weights[:self.num_edges][wake_mask] += conductivity * 0.01
+
+             # [PHASE 1010: DYNAMIC HEBBIAN WORMHOLES]
+             # If resonance is extremely high across layers, create a 'Wormhole' (direct edge)
+             src_q_full = self.q[woken_src]
+             dst_q_full = self.q[woken_dst]
+             full_resonance = torch.sum(src_q_full * dst_q_full, dim=-1)
+
+             wormhole_mask = full_resonance > 0.95
+             if wormhole_mask.any():
+                 wh_src = woken_src[wormhole_mask]
+                 wh_dst = woken_dst[wormhole_mask]
+                 for s, d in zip(wh_src, wh_dst):
+                     s_idx, d_idx = int(s.item()), int(d.item())
+                     # Check if they are in different fractal layers
+                     s_coords = self.node_to_coords.get(s_idx)
+                     d_coords = self.node_to_coords.get(d_idx)
+                     if s_coords and d_coords and s_coords[0] != d_coords[0]:
+                         # Create or strengthen the cross-layer wormhole
+                         self.connect(self.idx_to_concept.get(s_idx, "Unknown"),
+                                      self.idx_to_concept.get(d_idx, "Unknown"),
+                                      weight=0.5) # Initial wormhole strength
 
              # Calculate Relational Pull
              # Spiking source nodes pull their destination neighbors
