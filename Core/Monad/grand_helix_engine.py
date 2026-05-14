@@ -244,5 +244,8 @@ class GrandHelixEngine:
             
         return float(abs(echo_res))
 
+# Legacy Alias for backward compatibility
+HypersphereSpinGenerator = GrandHelixEngine
+
 if __name__ == "__main__":
     pass
