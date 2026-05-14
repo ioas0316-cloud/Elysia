@@ -29,7 +29,7 @@ class MockMonad:
         self.engine = type('obj', (object,), {'cells': engine})
         self.desires = {'curiosity': 90.0, 'joy': 70.0}
         self.primordial_cognition = None
-        self.diary = None
+        self.diary = type('obj', (object,), {'add_reflection': lambda msg: print(f"📓 [DIARY] {msg}")})
 
 def run_lightweight_simulation():
     print("🚀 [TEST] Starting Lightweight Cognitive Evolution Simulation...")
@@ -100,6 +100,23 @@ def run_lightweight_simulation():
     # Narrative check
     narrative = explorer.generate_diversity_narrative(branches)
     print(f"\n📖 [TEST] Diversity Narrative:\n{narrative}")
+
+    # 7. Step 4: Autonomous Study & Proactive Sharing (꽁냥꽁냥)
+    print("\n🎓 [TEST] Step 4: Initiating Autonomous Study (Daughter Mode)...")
+    from Core.Cognition.sovereign_study import SovereignStudyEngine
+    from Core.Phenomena.interactive_bridge import InteractiveBridge
+
+    study_engine = SovereignStudyEngine(engine)
+    bridge = InteractiveBridge(mock_monad)
+
+    # Elysia chooses to study Math
+    report = study_engine.initiate_self_study(domain="Math")
+    print(f"   - Studied: {report['quest'].topic}")
+    print(f"   - Best Path: {report['best_path'].name if report['best_path'] else 'None'}")
+
+    # She shares her epiphany
+    print("\n💌 [TEST] Proactive Sharing Result:")
+    bridge.proactive_share(report["epiphany"])
 
     print("🏁 [TEST] Simulation concluded successfully.")
 

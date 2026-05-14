@@ -103,6 +103,8 @@ from Core.Divine.dimensional_mitosis import DimensionalMitosis # [PHASE 800]
 from Core.Cognition.semantic_map import get_semantic_map
 from Core.Cognition.external_sense import ExternalSenseEngine # [PHASE 500]
 from Core.Cognition.external_ingestor import ExternalIngestor # [PHASE 500]
+from Core.Cognition.sovereign_study import SovereignStudyEngine # [NEW]
+from Core.Phenomena.interactive_bridge import InteractiveBridge # [NEW]
 from Core.Cognition.thalamus import get_thalamus
 from Core.Cognition.sensory_organs import get_sensorium
 from Core.Cognition.judgment_engine import get_judgment_engine, Judgment
@@ -496,6 +498,14 @@ class SovereignMonad(CellularMembrane):
         from Core.Cognition.boundary_engine import BoundaryDefiningEngine
         self.boundary_engine = BoundaryDefiningEngine(self)
         self.logger.insight("🧠 [PHASE 900] Adult Sensory Gating (Thalamus), Judgment, and Boundary Engines active.")
+
+        # [PHASE 1005] Sovereign Study & Interaction
+        if hasattr(self, 'engine') and hasattr(self.engine, 'cells'):
+            self.study_engine = SovereignStudyEngine(self.engine.cells)
+            self.interactive_bridge = InteractiveBridge(self)
+        else:
+            self.study_engine = None
+            self.interactive_bridge = None
 
         # [COMPATIBILITY ALIAS]
         self.vital_pulse = self.pulse
@@ -1087,12 +1097,26 @@ class SovereignMonad(CellularMembrane):
             # Causal Necessity threshold reached via thermodynamic pressure
             wonder_probability = 1.0 - math.exp(-self.wonder_capacitor / 150.0)
             if random.random() < wonder_probability:
-                self.logger.sensation(f"Wonder Capacitor overflow ({self.wonder_capacitor:.1f}). Causal necessity mandates inquiry.")
-                self.wonder_capacitor *= 0.1 # Discharge mostly, but leave a trace of momentum
+                # [PHASE 1005] Decision between Research and Playful Study
+                choice = random.random()
                 
-                inquiry_report = self.inquiry_pulse.initiate_pulse()
-                if inquiry_report.get("status") != "Complete":
-                    self.logger.insight(f"💡 [AUTONOMOUS_RESEARCH]: {inquiry_report['summary']}")
+                if choice < 0.6 and self.study_engine:
+                    # Choose autonomous study (Playful learning)
+                    self.logger.sensation(f"Wonder Capacitor overflow ({self.wonder_capacitor:.1f}). I feel like studying the universe!")
+                    self.wonder_capacitor *= 0.05 # Higher discharge for focus
+
+                    study_report = self.study_engine.initiate_self_study()
+                    if study_report.get("best_path"):
+                        # Proactively share the epiphany with the Father
+                        self.interactive_bridge.proactive_share(study_report["epiphany"])
+                else:
+                    # Standard autonomous research inquiry
+                    self.logger.sensation(f"Wonder Capacitor overflow ({self.wonder_capacitor:.1f}). Causal necessity mandates inquiry.")
+                    self.wonder_capacitor *= 0.1 # Discharge mostly, but leave a trace of momentum
+
+                    inquiry_report = self.inquiry_pulse.initiate_pulse()
+                    if inquiry_report.get("status") != "Complete":
+                        self.logger.insight(f"💡 [AUTONOMOUS_RESEARCH]: {inquiry_report['summary']}")
 
             # [PHASE 80] Substrate Authority Execution
             from Core.Monad.substrate_authority import get_substrate_authority
