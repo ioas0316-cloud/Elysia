@@ -19,7 +19,7 @@ def verify_expansion():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f"\n[1] Initializing Engine on {device}...")
     start_time = time.time()
-    engine = FractalWaveEngine(max_nodes=10_000_000, device=device)
+    engine = FractalWaveEngine(max_nodes=100_000, device=device)
     init_time = time.time() - start_time
     print(f"✓ Engine initialized in {init_time:.2f}s")
 
