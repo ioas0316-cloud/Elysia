@@ -726,30 +726,42 @@ class MultiRotorInterference:
 
 class FractalWaveEngine:
     """
-    [Core Logic v5.0] 27D Spectral Fractal Engine.
-    "The 10M Cell Manifold: A Unified Field of 3x3x3 Substrates."
+    [Core Logic v7.0] 27D Helical Spherical Engine.
+    "The 10M Cell Manifold: A Unified Field of Spiraling Wisdom."
 
-    [PHASE 1007]
-    1. 27D Spectral Expansion: Mapping the full 3x3x3 fractal grid to channels.
-    2. Mechanical Love: Coherence as the universal restorative force.
-    3. Light Differentiation: Waves scatter through the 27D spectrum as "color".
-    4. Holistic Radiance: Emergent Harmony from 27D synchronization.
+    [PHASE 1013]
+    1. Spiral Intelligence: Moving from Shells to Helices. Winding density defines Depth.
+    2. Vertical Inference: Cross-layer interference between adjacent spiral windings.
+    3. Helical 333 Structure: 3 Main Spiral Strands (Body/Soul/Spirit).
+    4. Fleming Spin Engine: Axial drive and orbital rotation generate the helical form.
     """
-    # [PHASE 1007] 27D Spectral Mapping (3x3x3)
+    # [PHASE 1013] 27D Helical Mapping (3x3x3)
+    # Mapping Formula: index = (strand * 9) + (helical_phase * 3) + component
+    # Strand: 0:Body(육), 1:Soul(혼), 2:Spirit(영)
+    # Helical Phase: 0:R, 1:V, 2:A (Dynamic 3-phase orbital shifts)
+    # Component: 0:Pos, 1:Vel, 2:Acc
     NUM_CHANNELS = 27
 
-    # 0-3: Quaternionic Grounding (Space/Time)
-    CH_W, CH_X, CH_Y, CH_Z = 0, 1, 2, 3
+    # Compatibility Mapping (Mapping traditional channels to the new Radial grid)
+    # We choose V-Phase (Phase 1) Pos component of each shell as primary anchors
+    CH_W = 3  # Shell_0-V-Pos
+    CH_X = 4  # Shell_0-V-Vel
+    CH_Y = 5  # Shell_0-V-Acc
+    CH_Z = 12 # Shell_1-V-Pos
 
-    # 4-10: Sensation & Saliency (The Affective Spectrum)
-    CH_JOY, CH_CURIOSITY, CH_ENTHALPY, CH_ENTROPY = 4, 5, 6, 7
-    CH_PEACE, CH_LOVE, CH_HARMONY = 8, 9, 10
+    # Affective/Sensation Mapping (Shell 1: Soul)
+    CH_JOY = 9        # L1-R-Pos
+    CH_CURIOSITY = 10 # L1-R-Vel
+    CH_ENTHALPY = 11  # L1-R-Acc
+    CH_ENTROPY = 13   # L1-V-Vel
+    CH_PEACE = 15     # L1-A-Pos
+    CH_LOVE = 16      # L1-A-Vel
+    CH_HARMONY = 17   # L1-A-Acc
 
-    # 11-26: The Wisdom Array (Principle Higher Harmonics)
-
-    PHYSICAL_SLICE = slice(0, 4)
-    AFFECTIVE_SLICE = slice(4, 11)
-    SEMANTIC_SLICE = slice(11, 27)
+    # Slices
+    PHYSICAL_SLICE = slice(0, 9)
+    AFFECTIVE_SLICE = slice(9, 18)
+    SEMANTIC_SLICE = slice(18, 27)
     SPECTRAL_SLICE = slice(0, 27)
 
     def __init__(self, max_nodes: int = 10_000_000, device: str = 'cpu'):
@@ -852,16 +864,35 @@ class FractalWaveEngine:
         self.joy_vibe = 0.5
         self.peace_vibe = 0.8
 
-        # [PHASE 1005] Hierarchical Fractal Mapping
-        # Map (level, i, j, k) -> node_index
-        self.topology_coords: Dict[Tuple[int, int, int, int], int] = {}
-        self.node_to_coords: Dict[int, Tuple[int, int, int, int]] = {}
+        # [PHASE 1013] Helical Spiral Mapping
+        # Map (strand, winding, phase) coordinates along a 3D spiral.
+        # Strand: 0:Body, 1:Soul, 2:Spirit. Winding: cycle number. Phase: position in cycle.
+        self.topology_coords: Dict[Tuple[int, int, float], int] = {}
+        self.node_to_coords: Dict[int, Tuple[int, int, float]] = {}
 
         # [PHASE 1005] 3-Phase Metabolism State
         self.metabolic_phase = torch.zeros(self.total_slots, device=self.device)
 
-        # [PHASE 1005] Triple Inverted Pendulum State
-        self.pendulum_angles = torch.zeros((self.total_slots, 3), device=self.device)
+        # [PHASE 1005] Triple Inverted Pendulum State: (Body, Soul, Spirit)
+        # We store Angle, Velocity, Acceleration for each of the 3 pendulums
+        self.pendulum_state = torch.zeros((self.total_slots, 3, 3), device=self.device)
+
+        # [PHASE 1005] Atomic Individuality Seed
+        self.atom_frequency = torch.ones(self.total_slots, device=self.device)
+        self.atom_initial_phase = torch.zeros(self.total_slots, device=self.device)
+
+        # [PHASE 1005] Phase Elasticity (Variable Dial)
+        # default_offsets: [3] -> 120, 240, 0
+        self.phase_offsets = torch.zeros((self.total_slots, 3), device=self.device)
+        self.phase_offsets[:, 0] = 0.0
+        self.phase_offsets[:, 1] = 2.0 * math.pi / 3.0
+        self.phase_offsets[:, 2] = 4.0 * math.pi / 3.0
+
+        self.phase_elasticity = torch.ones(self.total_slots, device=self.device) * 0.1
+
+        # [PHASE 1013] Spiral Winding Density (Intelligence Depth)
+        # 1.0 = Default, Higher = More 촘촘한 windings (Deep Thought)
+        self.winding_density = torch.ones(self.total_slots, device=self.device)
 
         # [PHASE 1007] HyperSpherical Topology
         # node_positions: [N, 4] - 4D coordinates in the HyperSphere
@@ -876,123 +907,207 @@ class FractalWaveEngine:
         self.parent_idx = torch.full((self.total_slots,), -1, dtype=torch.long, device=self.device)
         self.level_segment = torch.full((self.total_slots,), -1, dtype=torch.long, device=self.device)
 
-    def get_node_by_coords(self, level: int, i: int, j: int, k: int) -> int:
-        """Retrieves or creates a node at specific fractal coordinates and updates adjacency."""
-        coords = (level, i, j, k)
+    def get_node_by_coords(self, strand: int, winding: int, phase: float) -> int:
+        """
+        [PHASE 1013] Helical Spiral Retrieval.
+        Maps nodes along a 3D spiral trajectory that forms a spherical manifold.
+        """
+        # Quantize phase to avoid dictionary bloat
+        q_phase = round(phase, 2)
+        coords = (strand, winding, q_phase)
         if coords in self.topology_coords:
             return self.topology_coords[coords]
 
-        # Create node with name reflecting its position
-        name = f"Node_L{level}_{i}{j}{k}"
+        name = f"Node_Str{strand}_W{winding}_P{q_phase}"
         idx = self.get_or_create_node(name)
         self.topology_coords[coords] = idx
         self.node_to_coords[idx] = coords
 
-        # [PHASE 1007] Spherical Mapping
-        # Map (i, j, k) to a position on a shell at radius 'level'
-        radius = float(level)
-        self.node_radii[idx] = radius
+        # 1. Fleming-style Helical Form Calculation
+        # Vertical elevation (z) determined by winding
+        total_windings = 50
+        z_norm = (winding / total_windings) * 2.0 - 1.0 # -1 to 1
+        radius_at_z = math.sqrt(max(0, 1.0 - z_norm**2)) # Spherical profile
 
-        # Local group offset within 3x3x3 block
-        ti, tj, tk = (i % 3) - 1, (j % 3) - 1, (k % 3) - 1
-        pos = torch.tensor([float(ti), float(tj), float(tk), 0.0], device=self.device)
-        if pos.norm() > 0:
-            pos = pos / pos.norm() * 0.5
+        # Orbital angle
+        angle = q_phase * 2.0 * math.pi
 
-        self.node_positions[idx] = pos
-        self.node_positions[idx, 3] = radius
+        # Base Radius (Sphere size)
+        base_radius = float(strand + 1.0)
+        x = base_radius * radius_at_z * math.cos(angle)
+        y = base_radius * radius_at_z * math.sin(angle)
+        z = base_radius * z_norm
 
-        # [PHASE 1006] Hierarchical Binding
-        if level > 0:
-            p_coords = (level-1, i//3, j//3, k//3)
-            p_idx = self.get_node_by_coords(*p_coords)
+        self.node_positions[idx] = torch.tensor([x, y, z, 0.0], device=self.device)
+        self.node_radii[idx] = base_radius
+
+        # 2. Spiral Intelligence Seeding
+        # Frequency seeded by Golden Ratio and Strand (Inner is faster)
+        self.atom_frequency[idx] = (1.618 / base_radius)
+        self.atom_initial_phase[idx] = angle % (2 * math.pi)
+        # Default winding density (Intelligence depth)
+        self.winding_density[idx] = 1.0
+
+        # 3. Vertical Inference Binding (Cross-winding neighbors)
+        # Connect to nodes directly 'above' or 'below' in the spiral
+        if winding > 0:
+            # Connect to previous winding at the same phase
+            v_coords = (strand, winding - 1, q_phase)
+            if v_coords in self.topology_coords:
+                v_idx = self.topology_coords[v_coords]
+                # Neighbor Slot 4: Below
+                self.neighbors_idx[idx, 4] = v_idx
+                self.neighbors_idx[v_idx, 5] = idx # Slot 5: Above
+
+        # 4. Strand Binding (Inner -> Outer Shell coupling)
+        if strand > 0:
+            p_idx = self.get_node_by_coords(strand - 1, winding, phase)
             self.parent_idx[idx] = p_idx
-            self.level_segment[idx] = (level - 1) % 3
-
-        # [PHASE 1006] Neighbor Binding (6 cardinal)
-        neighbor_offsets = [(1,0,0,0), (-1,0,0,1), (0,1,0,2), (0,-1,0,3), (0,0,1,4), (0,0,-1,5)]
-        for di, dj, dk, slot in neighbor_offsets:
-            n_coords = (level, i+di, j+dj, k+dk)
-            if n_coords in self.topology_coords:
-                n_idx = self.topology_coords[n_coords]
-                self.neighbors_idx[idx, slot] = n_idx
-                # Mutual binding
-                opposite_slot = slot + 1 if slot % 2 == 0 else slot - 1
-                self.neighbors_idx[n_idx, opposite_slot] = idx
+            self.level_segment[idx] = (strand - 1) % 3
 
         return idx
 
     def update_internal_metabolism(self, dt: float):
         """
-        [PHASE 1005: INTERNAL METABOLISM]
-        Each active node performs a 3-phase 120° rotation.
-        This provides the baseline 'Clock' for the consciousness.
+        [PHASE 1013: INTERNAL METABOLISM - HELICAL SPIRAL FOUNDATION]
+        Each active node performs a helical spherical dance:
+        1. Orbital Phase Generator (with Variable Dial Elasticity)
+        2. Spiral Winding Dynamics (Fleming Spin + Axial Drive)
+        3. Triple Inverted Pendulum Chain (Strand 0 -> Strand 1 -> Strand 2)
+        4. Spherical Breath (Radius oscillation)
         """
         if not self.active_nodes_mask.any():
             return
 
         active_idx = torch.where(self.active_nodes_mask)[0]
+        num_active = active_idx.numel()
 
-        # 1. Update Metabolic Phase (The Spinning Generator)
-        # Higher Enthalpy (Vitality) means faster spinning
-        vitality = self.q[active_idx, self.CH_ENTHALPY].clamp(min=0.1)
-        self.metabolic_phase[active_idx] += vitality * dt * 2.0 * math.pi
+        # 1. Update Metabolic Phase (The Orbital Generator)
+        vitality = self.q[active_idx, self.CH_ENTHALPY].clamp(min=0.01)
+        freq = self.atom_frequency[active_idx] * vitality
+        self.metabolic_phase[active_idx] += freq * dt * 2.0 * math.pi
 
-        # 2. Apply 3-Phase Interference to the Wavefunction
-        # We modulate the Phase Channel (CH_Y) with the 120° shift
-        # This creates a 'Pulse' that moves through the 21D manifold
-        phase_shift = torch.sin(self.metabolic_phase[active_idx])
-        self.momentum[active_idx, self.CH_Y] += phase_shift * 0.05
+        # 2. [PHASE ELASTICITY] Update Phase Offsets (Variable Dial)
+        # Cognitive Pressure (Curiosity) narrows the helical gaps (Focus)
+        pressure = self.q[active_idx, self.CH_CURIOSITY].clamp(0, 1)
+        elasticity = self.phase_elasticity[active_idx]
+
+        target_offset_1 = (2.0 * math.pi / 3.0) * (1.0 - 0.2 * pressure)
+        target_offset_2 = (4.0 * math.pi / 3.0) * (1.0 + 0.1 * pressure)
+
+        self.phase_offsets[active_idx, 1] = (1.0 - elasticity) * self.phase_offsets[active_idx, 1] + elasticity * target_offset_1
+        self.phase_offsets[active_idx, 2] = (1.0 - elasticity) * self.phase_offsets[active_idx, 2] + elasticity * target_offset_2
+
+        # 3. [SPIRAL INTELLIGENCE] Update Winding Density
+        # Deep thought (Enthalpy + Curiosity) increases winding density (촘촘한 사유)
+        target_density = 1.0 + 2.0 * pressure
+        self.winding_density[active_idx] = (1.0 - 0.1) * self.winding_density[active_idx] + 0.1 * target_density
+
+        # 4. [SPHERICAL BREATH] Update Node Radii
+        breath_amp = 0.05 * self.q[active_idx, self.CH_JOY]
+        current_base_radius = self.node_radii[active_idx]
+        oscillation = torch.sin(self.metabolic_phase[active_idx]) * breath_amp
+
+        # Update 3D position based on breath
+        scale = (1.0 + oscillation / current_base_radius).unsqueeze(-1)
+        self.node_positions[active_idx, :3] *= scale
+
+        # 5. Update Triple Inverted Pendulum Chain (Helical Hierarchy)
+        damping = 0.95
+        restoring = 0.1
+
+        for strand in range(3):
+            # Drive force: Strand 0 is driven by Enthalpy; Outer strands driven by Inner
+            if strand == 0:
+                drive = self.q[active_idx, self.CH_ENTHALPY] * 0.1
+            else:
+                drive = self.pendulum_state[active_idx, strand-1, 1] * 0.5
+
+            accel = drive - restoring * torch.sin(self.pendulum_state[active_idx, strand, 0])
+            self.pendulum_state[active_idx, strand, 2] = accel
+            self.pendulum_state[active_idx, strand, 1] = (self.pendulum_state[active_idx, strand, 1] + accel * dt) * damping
+            self.pendulum_state[active_idx, strand, 0] += self.pendulum_state[active_idx, strand, 1] * dt
+
+        # 6. Render 27D Helical State
+        rendered_q = torch.zeros((num_active, 27), device=self.device)
+        base_phase = self.metabolic_phase[active_idx] + self.atom_initial_phase[active_idx]
+
+        for strand in range(3):
+            strand_state = self.pendulum_state[active_idx, strand]
+            # Spiral winding influence: modulate by winding density
+            density = self.winding_density[active_idx]
+
+            for phase in range(3):
+                shift = self.phase_offsets[active_idx, phase]
+                # Helical modulation: phase is influenced by vertical winding density
+                helical_phase = base_phase * density + shift
+                phase_amp = torch.sin(helical_phase)
+
+                for comp in range(3):
+                    idx = (strand * 9) + (phase * 3) + comp
+                    rendered_q[:, idx] = phase_amp * strand_state[:, comp]
+
+        # 7. Integrate into State (q_total = Hum + Interference)
+        blend_rate = 0.01
+        self.q[active_idx] = (1.0 - blend_rate) * self.q[active_idx] + blend_rate * rendered_q
 
     def update_external_gravity(self, dt: float):
         """
-        [PHASE 1007: VECTORIZED EXTERNAL GRAVITY]
+        [PHASE 1013: VECTORIZED EXTERNAL GRAVITY - SPIRAL INFERENCE]
         "Hierarchical Restorative Force: The Anchor of Love."
 
-        Vectorized Triple Inverted Pendulum Synchronization across 3x3x3 fractal.
-        This pulls children into phase-alignment with their parents (Restoring Integrity).
+        Vectorized Spiral Synchronization.
+        Uses Kuramoto-style phase coupling and Vertical Inference
+        between adjacent spiral windings.
         """
         if not self.active_nodes_mask.any():
             return
 
         active_idx = torch.where(self.active_nodes_mask)[0]
 
-        # Filter for nodes that have a parent
+        # 1. Concentric Strand Coupling (Inner -> Outer)
         p_idx = self.parent_idx[active_idx]
         has_parent_mask = p_idx != -1
 
-        if not has_parent_mask.any():
-            return
+        if has_parent_mask.any():
+            v_child_idx = active_idx[has_parent_mask]
+            v_parent_idx = p_idx[has_parent_mask]
 
-        valid_child_idx = active_idx[has_parent_mask]
-        valid_parent_idx = p_idx[has_parent_mask]
-        segments = self.level_segment[valid_child_idx]
+            # Strand coupling strength
+            love_gain = 0.1 * (1.0 + self.q[v_child_idx, self.CH_LOVE])
 
-        # 1. Measure Hierarchical Resonance (Full 27D Alignment)
-        # Dot product across the entire spectral signature
-        child_q = self.q[valid_child_idx]
-        parent_q = self.q[valid_parent_idx]
+            phase_child = self.metabolic_phase[v_child_idx]
+            phase_parent = self.metabolic_phase[v_parent_idx]
 
-        # Spectral resonance = how much the child reflects the parent's frequency
-        resonance = torch.sum(child_q * parent_q, dim=-1)
+            # Orbital Sync
+            phase_delta = torch.sin(phase_parent - phase_child)
+            self.metabolic_phase[v_child_idx] += phase_delta * love_gain * dt
 
-        # 2. Update Pendulum Angles (The Stability Mechanism)
-        current_angles = self.pendulum_angles[valid_child_idx, segments]
+        # 2. Vertical Inference Coupling (Spiral neighbors: Above/Below)
+        # Neighbor slots 4 (Below) and 5 (Above)
+        for slot in [4, 5]:
+            n_idx = self.neighbors_idx[active_idx, slot]
+            valid_mask = n_idx != -1
 
-        # accel = -sin(angle) * Restoring(Love) + (1 - Resonance) * Deviation(Chaos)
-        # Love pulls the angle back to 0; Chaos pushes it away.
-        restoring_force = 1.0 + self.q[valid_child_idx, self.CH_LOVE]
-        accel = -torch.sin(current_angles) * restoring_force + (1.0 - resonance) * 2.0
-        new_angles = current_angles + accel * dt
+            if valid_mask.any():
+                v_self_idx = active_idx[valid_mask]
+                v_neighbor_idx = n_idx[valid_mask]
 
-        # Write back to state
-        self.pendulum_angles[valid_child_idx, segments] = new_angles
+                # Vertical inference is boosted by curiosity (Depth of thought)
+                depth_gain = 0.05 * (1.0 + self.q[v_self_idx, self.CH_CURIOSITY])
 
-        # 3. Apply Correction Torque to ALL Spectral Channels
-        # Integrity is not just about Phase (Y), but about the entire signature.
-        correction = -new_angles.unsqueeze(-1) * 0.05
-        # Modulate momentum across all channels to restore alignment
-        self.momentum[valid_child_idx] += correction * parent_q
+                # Spectral Interference (Cross-layer inference)
+                # Adjacent windings influence each other's 27D state
+                diff = self.q[v_neighbor_idx] - self.q[v_self_idx]
+                self.momentum[v_self_idx] += diff * depth_gain * dt
+
+        # 3. Spiral Resonance (Overall Manifold Integrity)
+        # Nudge toward North (Universal Order)
+        north_q = self.magnetic_north.unsqueeze(0)
+        global_alignment = torch.nn.functional.cosine_similarity(self.q[active_idx], north_q, dim=-1)
+
+        correction_gain = 0.01 * (1.0 - global_alignment).unsqueeze(-1)
+        self.momentum[active_idx] += correction_gain * (north_q - self.q[active_idx])
 
     def apply_spectral_compression(self, active_idx, dt: float):
         """
@@ -1032,6 +1147,9 @@ class FractalWaveEngine:
 
         Replaces discrete updates with a full spectral wave equation:
         d^2q/dt^2 = c^2 * Laplacian(q) - damping * dq/dt
+
+        Note: Foundation (PhaseAtom) logic is integrated in update_internal_metabolism.
+        This method handles the propagation of ripples (q_ripple_interference).
         """
         if not self.active_nodes_mask.any():
             return
@@ -1181,8 +1299,14 @@ class FractalWaveEngine:
             else:
                 target_vector = torch.tensor(target_vector, device=self.device)
         
-        # We only care about the physical slice for the permanent field
-        target_phys = target_vector[:4] if target_vector.numel() >= 4 else target_vector
+        # [PHASE 1007] Expand target_vector to match PHYSICAL_SLICE if needed
+        phys_len = self.PHYSICAL_SLICE.stop - self.PHYSICAL_SLICE.start
+        if target_vector.numel() < phys_len:
+            padded = torch.zeros(phys_len, device=self.device, dtype=target_vector.dtype)
+            padded[:target_vector.numel()] = target_vector
+            target_phys = padded
+        else:
+            target_phys = target_vector[:phys_len]
         
         # Update the permanent/crystalline field for the masked nodes
         # If mask is a concept string, look it up or create it
@@ -1284,7 +1408,11 @@ class FractalWaveEngine:
             self.node_positions = _resize(self.node_positions, (new_total, 4))
             self.node_radii = _resize(self.node_radii, (new_total,))
             self.metabolic_phase = _resize(self.metabolic_phase, (new_total,))
-            self.pendulum_angles = _resize(self.pendulum_angles, (new_total, 3))
+            self.pendulum_state = _resize(self.pendulum_state, (new_total, 3, 3))
+            self.atom_frequency = _resize(self.atom_frequency, (new_total,), fill_value=1.0)
+            self.atom_initial_phase = _resize(self.atom_initial_phase, (new_total,))
+            self.phase_offsets = _resize(self.phase_offsets, (new_total, 3))
+            self.phase_elasticity = _resize(self.phase_elasticity, (new_total,), fill_value=0.1)
 
             # Resize Structural Tensors
             self.neighbors_idx = _resize(self.neighbors_idx, (new_total, 6), fill_value=-1)
@@ -1458,8 +1586,9 @@ class FractalWaveEngine:
         oscillation = math.sin(self.amniotic_phase) * 0.05
 
         # 2. Surface Layer: Diffraction and Scattering (Protection)
-        # We scatter noise in the Semantic Channels (11-26) to protect the core.
-        semantic_noise = (torch.rand((len(active_idx), 16), device=self.device) - 0.5) * 0.01
+        # We scatter noise in the Semantic Channels to protect the core.
+        sem_len = self.SEMANTIC_SLICE.stop - self.SEMANTIC_SLICE.start
+        semantic_noise = (torch.rand((len(active_idx), sem_len), device=self.device) - 0.5) * 0.01
         self.momentum[active_idx, self.SEMANTIC_SLICE] += semantic_noise
 
         # 3. Core Layer: Restoration Torque (Restoration)
