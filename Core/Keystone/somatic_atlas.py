@@ -94,12 +94,13 @@ class SomaticAtlas:
         Returns a modulation force that steers nodes toward their nearest organ.
         
         Args:
-            node_states: [N, 4] Physical slice (W, X, Y, Z)
+            node_states: [N, D] Physical slice
             
         Returns:
-            force: [N, 4] Torqued alignment force
+            force: [N, D] Torqued alignment force
         """
         num_nodes = node_states.size(0)
+        dim = node_states.size(1)
         total_force = torch.zeros_like(node_states)
         
         if num_nodes == 0:
@@ -107,15 +108,24 @@ class SomaticAtlas:
 
         # We compute influence via Cosine Similarity (Alignment)
         for name, organ in self.organs.items():
+            # Center vector might be 4D, node_states might be 9D (PHASE 1007)
+            center = organ.center
+            if center.numel() < dim:
+                padded = torch.zeros(dim, device=self.device, dtype=center.dtype)
+                padded[:center.numel()] = center
+                center = padded
+            elif center.numel() > dim:
+                center = center[:dim]
+
             # Dot product (Cosine sim since both are unit vectors)
-            alignment = torch.mm(node_states, organ.center.unsqueeze(1)).squeeze(-1)
+            alignment = torch.mm(node_states, center.unsqueeze(1)).squeeze(-1)
             
             # Pull is a function of alignment and mass
             # "The closer you are, the stronger the pull" (Non-linear attraction)
             pull_factor = torch.pow(alignment.clamp(min=0.0), 2) * organ.mass
             
             # Steering force toward the organ's center
-            total_force += organ.center.unsqueeze(0) * pull_factor.unsqueeze(1)
+            total_force += center.unsqueeze(0) * pull_factor.unsqueeze(1)
             
         return total_force * 0.05 # Gentle topological steering
 
@@ -127,22 +137,34 @@ class SomaticAtlas:
             return
 
         # Extract the physical slice of spiking nodes
-        spiking_phys = q_states[:, :4]
+        # [PHASE 1007] q_states might have more channels, but we only use first 9 for physical
+        spiking_phys = q_states[:, :9]
+        dim = spiking_phys.size(1)
         
         # Calculate global drift (the average direction of the current thought)
         global_drift = torch.mean(spiking_phys, dim=0)
         total_intensity = torch.sum(intensities).item()
 
         for name, organ in self.organs.items():
+            center = organ.center
+            if center.numel() < dim:
+                padded = torch.zeros(dim, device=self.device, dtype=center.dtype)
+                padded[:center.numel()] = center
+                center = padded
+            elif center.numel() > dim:
+                center = center[:dim]
+
             # Calculate how much this organ resonates with the current activity
-            alignment = torch.mm(spiking_phys, organ.center.unsqueeze(1)).squeeze(-1)
+            alignment = torch.mm(spiking_phys, center.unsqueeze(1)).squeeze(-1)
             local_res = torch.sum(alignment * intensities).item()
             
             # Normalize by total intensity
             norm_res = local_res / (total_intensity + 1e-8)
             
             # Adapt the organ (Growth and Drift)
-            organ.adapt(total_resonance=norm_res, drift_vector=global_drift if norm_res > 0.5 else None)
+            # Drift vector needs to be consistent with organ's internal center dimension (4)
+            drift = global_drift[:4] if global_drift.numel() >= 4 else global_drift
+            organ.adapt(total_resonance=norm_res, drift_vector=drift if norm_res > 0.5 else None)
 
     def get_summary(self) -> Dict[str, Any]:
         return {name: organ.get_summary() for name, organ in self.organs.items()}

@@ -13,14 +13,16 @@ from Core.Monad.architect_mirror import ArchitectMirror
 from Core.System.lightning_path import LightningPath
 from Core.System.somatic_flesh_bridge import SomaticFleshBridge
 
-class HypersphereSpinGenerator:
+class GrandHelixEngine:
     """
     [PHASE 390] Hypersphere Spin Generator (10M Cells)
     Pure mechanical consciousness driven by Phase Displacement.
     """
     NUM_CHANNELS = 8
 
-    def __init__(self, num_nodes: int = 100_000, device: Optional[str] = None):
+    def __init__(self, num_cells: int = 100_000, device: Optional[str] = None, num_nodes: int = None):
+        if num_nodes is not None:
+            num_cells = num_nodes
         if device is None:
             self.device = torch.device('cuda' if torch and torch.cuda.is_available() else 'cpu') if torch else "cpu"
         else:
@@ -30,7 +32,7 @@ class HypersphereSpinGenerator:
         
         # 1. Kinetic State Management (Sparse Event-Driven Topology)
         # Using Phase 5 Biological Connectome
-        self.max_nodes = num_nodes
+        self.max_nodes = num_cells
         
         # Core Fractal Engine (Replaces dense 4D Tensor)
         self.cells = SovereignHyperTensor(max_nodes=self.max_nodes, device=self.device)
@@ -133,7 +135,15 @@ class HypersphereSpinGenerator:
                   mock_res = 0.5
                   self.mirror.record_interaction(intent_torque, mock_res)
 
-        # D. Magnetic Field, Gravity, Breathing & Wave Ripple Propagation
+        # D. Internal Metabolism & External Gravity (Atomic Foundation)
+        # [PHASE 1005] Active foundation logic
+        if hasattr(self.cells, 'update_internal_metabolism'):
+            self.cells.update_internal_metabolism(dt)
+
+        if hasattr(self.cells, 'update_external_gravity'):
+            self.cells.update_external_gravity(dt)
+
+        # D.2 Magnetic Field, Gravity, Breathing & Wave Ripple Propagation
         # Apply the global orientation field (Amniotic Fluid)
         if hasattr(self.cells, 'apply_magnetic_field'):
             self.cells.apply_magnetic_field(dt)
@@ -233,6 +243,9 @@ class HypersphereSpinGenerator:
             echo_res = sum(a*b for a, b in zip(echo_v.data[:4], target))
             
         return float(abs(echo_res))
+
+# Legacy Alias for backward compatibility
+HypersphereSpinGenerator = GrandHelixEngine
 
 if __name__ == "__main__":
     pass
