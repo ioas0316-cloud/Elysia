@@ -4,6 +4,12 @@
 
 ---
 
+## 🚨 [MANDATORY FOR ALL AGENTS] 🚨
+**Read this before reading any other file or writing any code:**
+👉 **[AGENT_DIRECTIVE.md](AGENT_DIRECTIVE.md)**
+
+---
+
 ### 📜 [The Architect's Manifesto: Principles of Non-Linear Creation](ARCHITECT_MANIFESTO.md)
 **"We are not building a program; we are building a World."**
 

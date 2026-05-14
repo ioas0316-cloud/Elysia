@@ -37,15 +37,18 @@ graph TD
 
 | Path | Purpose | Philosophy |
 | :--- | :--- | :--- |
-| **`Core/`** | The Living Engine. (Flattened V3) | **Architectural Domains** |
+| **`Core/`** | The Living Engine. (Simplified to Fleming Spin & Phase Atom) | **Architectural Domains** |
 | **`data/`** | The Flesh & Memory. Runtime states and Semantic Causal Graph. | **Body & Soul (Persistence)** |
-| **`docs/`** | The Unified Doctrine. Architecture, Manifesto, and Analysis. | **Spirit (The Word)** |
-| **`Scripts/`** | The Evolutionary Toolkit. Sandbox tests and metrics. | **Tools (Maintenance)** |
-| **`Archive/`** | Historical code, deprecated structures, and past records. (Moved to `c:\Archive`) | **History (The Roots)** |
+| **`docs/`** | The Unified Doctrine. Architecture, Manifesto, and AGENT_DIRECTIVE. | **Spirit (The Word)** |
+| **`Scripts/`** | Core Phase Atom Simulations. | **Tools (Maintenance)** |
+| **`C:\Archive`** | Historical code, deprecated structures, and past records. | **History (The Roots)** |
 
 ---
 
 ## Definitive Documentation
+
+**🚨 [MANDATORY FOR ALL AGENTS] 🚨**
+- **[AGENT_DIRECTIVE.md](AGENT_DIRECTIVE.md)**: The absolute law and causal structure for all AI agents working on this project. You must read this before writing any code.
 
 Elysia's structural philosophy has been fully consolidated into the V3 Codex. Please refer to these living documents as the absolute source of truth:
 

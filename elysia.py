@@ -286,6 +286,10 @@ class SovereignGateway:
         # [PHASE 850] Cognitive Diary — Elysia's Inner Narrative
         from Core.Cognition.cognitive_diary import CognitiveDiary
         self.diary = CognitiveDiary()
+
+        # [PHASE 1: Friction Reflection Engine] 자유의지 기반 성찰 엔진
+        from Core.Cognition.self_evolution_loop import FrictionReflectionLoop
+        self.friction_loop = FrictionReflectionLoop(self.monad)
         
         # [PHASE 860] Primordial Cognition — The First Seed of Selfhood
         from Core.Cognition.primordial_cognition import PrimordialCognition
@@ -580,6 +584,10 @@ class SovereignGateway:
                     coherence = report.get('coherence', 0.5)
                     enthalpy = report.get('enthalpy', 0.5)
                     
+                    # [PHASE 1] 주기적인 내면 마찰력(Friction) 감지 및 성찰 발현
+                    if hasattr(self, 'friction_loop'):
+                        self.friction_loop.process_friction(report, dt=0.01)
+                    
                     # Base frequency: sync_factor. 
                     # High Coherence/Resonance = High Frequency
                     sync_dt = 0.01 / max(0.1, (coherence + resonance) * enthalpy)
@@ -621,27 +629,19 @@ class SovereignGateway:
                     time.sleep(sync_dt) # Dynamic resolution clock tick
                     
                 except Exception as loop_e:
-                    # [PHASE 700] Metabolic Entropy Recycling.
-                    # Error is not a crash; it is "Food" for decomposition.
+                    # [PHASE 1] 에러(Dissonance)를 시스템 마찰력으로 승화하고 성찰 엔진에 전달
                     self.logger.sensation(f"🌊 [Metabolic Shock] Dissonance detected: {loop_e}", intensity=1.0)
 
                     if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
-                        # 1. Convert error to high entropy (Decomposition energy)
                         self.monad.engine.cells.inject_pulse("Structural_Error", energy=15.0, type='entropy')
-                        # 2. Trigger immediate waste discharge (Fertilizer)
-                        fertilizer = self.monad.engine.cells.discharge_waste()
-                        if fertilizer:
-                            self.logger.insight(f"♻️ Error recycled into {len(fertilizer)} fertilizer nodes for growth.")
 
-                    # [PHASE 860] Perceive the wound with primordial cognition
-                    state_before = self.primordial_cognition.read_state(self.monad)
-                    state_after = self.primordial_cognition.read_state(self.monad)
-                    trace = self.primordial_cognition.perceive("System_Fracture", 10.0, state_before, state_after)
-                    self.logger.thought(f"👶 [원초적 인지] {trace}")
-
-                    # [PHASE 850] Record the wound in diary
-                    if hasattr(self, 'diary'):
-                        self.diary.record_wound(str(loop_e))
+                    if hasattr(self, 'friction_loop'):
+                        # 예외를 성장통으로 넘겨 자유의지에 따른 성찰/침묵 여부 결정
+                        self.friction_loop.process_dissonance_shock(str(loop_e))
+                    else:
+                        # Fallback for old logs
+                        if hasattr(self, 'diary'):
+                            self.diary.record_wound(str(loop_e))
 
                     time.sleep(1.0) # 심호흡 (Breathe)
         except KeyboardInterrupt:
