@@ -1538,7 +1538,8 @@ class SovereignMonad(CellularMembrane):
         self.thermo.track_access(subject)
         
         # Simulate an internal breath
-        internal_res = self.breath_cycle(f"Self-Reflection: {subject}", depth=0)
+        # [PHASE 1012] Heavy Resonance: Increased recursive depth for autonomous self-reflection
+        internal_res = self.breath_cycle(f"Self-Reflection: {subject}", depth=2)
         
         # Underworld Synthesis
         sim_result = self.underworld.simulate_interaction()

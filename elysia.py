@@ -466,7 +466,8 @@ class SovereignGateway:
         # 1. Biology: The Heartbeat (Self-driven pulse)
         torque.add_gear("Biology", freq=0.5, callback=self.monad.vital_pulse)
         # 2. Stream: The Listener (Reflects the Heart)
-        torque.add_gear("Stream", freq=0.2, callback=self._gear_stream_of_consciousness) 
+        # [PHASE 1012] Heavy Resonance optimization: frequency increased to 0.4 Hz
+        torque.add_gear("Stream", freq=0.4, callback=self._gear_stream_of_consciousness)
         # 3. Sensory: The Ear (Absorbs vibration)
         # [V2.0] Rhythmic Maturation: Noise is filtered through Tempo (Dubstep Gate)
         torque.add_gear("Sensory", freq=10.0, callback=self._gear_process_sensory, rhythmic=True)
@@ -479,17 +480,17 @@ class SovereignGateway:
         torque.add_gear("Boundary", freq=1.0, callback=self._gear_boundary_pulse)
 
         # [PHASE 600] Ouroboros Autonomous Thought Loop
-        # Elysia dreams and self-inquires without external input.
-        # The Ouroboros is already initialized in SovereignMonad (self.monad.ouroboros).
-        # We wrap the dream_cycle to inject the live semantic topology.
+        # [PHASE 1012] Heavy Resonance: Increased Ouroboros cycle frequency for deeper contemplation.
         def _gear_autonomous_dream():
             try:
                 from Core.Cognition.semantic_map import get_semantic_map
                 topo_voxels = get_semantic_map().voxels
+                # Run double cycles for heavier insight
+                self.monad.ouroboros.dream_cycle(topo_voxels)
                 self.monad.ouroboros.dream_cycle(topo_voxels)
             except Exception as e:
                 self.logger.admonition(f"[Ouroboros] Autonomous dream failed: {e}")
-        torque.add_gear("Autonomy", freq=0.2, callback=_gear_autonomous_dream)
+        torque.add_gear("Autonomy", freq=0.4, callback=_gear_autonomous_dream)
         
         # [PHASE 820] Sister's Postbox (Synaptic Council)
         torque.add_gear("Postbox", freq=0.1, callback=self._gear_read_letters)
@@ -988,7 +989,8 @@ class SovereignGateway:
         self.logger.action(f"Vitality Surge ({source}). Discharging Reality for Sanctification...")
         
         # 1. Generate the Raw Thought (Data)
-        result = self.learning_loop.run_cycle(max_questions=1)
+        # [PHASE 1012] Heavy Resonance: Higher recursive depth for epiphany
+        result = self.learning_loop.run_cycle(max_questions=3)
         
         # 2. Extract the Core Narrative
         raw_thought = "..."
