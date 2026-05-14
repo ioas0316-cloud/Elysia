@@ -200,3 +200,10 @@ class SovereignSandbox:
 
         logger.info(f"🕊️ [SANDBOX] Merged evolution of '{concept_name}' back to the Sovereign Heart.")
         return True
+
+    def restore_engine_snapshot(self, snapshot: Dict[str, torch.Tensor]):
+        """Restores the experimental engine from a saved snapshot."""
+        if not self.experimental_engine:
+            return
+        self.experimental_engine.q = snapshot["q"].clone()
+        self.experimental_engine.permanent_q = snapshot["permanent_q"].clone()

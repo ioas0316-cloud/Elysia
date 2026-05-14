@@ -65,65 +65,41 @@ def run_lightweight_simulation():
     else:
         print(f"❌ [TEST] X-ray failed to identify rigidity.")
 
-    # 5. Step 2: Spiral Evolution (Sandbox + Refraction + Temporal)
-    print("🧪 [TEST] Step 2: Initiating Spiral Evolution in Sandbox...")
+    # 5. Step 2: Multiverse Evolution (Parallel Scenario Exploration)
+    print("🧪 [TEST] Step 2: Initiating Multiverse Evolution...")
 
-    sandbox.activate(node_capacity=100)
-    sandbox.transplant_concept(concept_name)
+    from Core.Cognition.scenario_explorer import ParallelScenarioExplorer
+    explorer = ParallelScenarioExplorer(engine)
 
-    # [NEW] Demonstrate Temporal Recovery with a "Bad" experiment
-    print("🚨 [TEST] Step 2a: Simulating a DESTRUCTIVE experiment...")
-    def bad_experiment(exp_engine):
-        # Inject extreme noise/entropy
-        import torch
-        active_idx = torch.where(exp_engine.active_nodes_mask)[0]
-        exp_engine.q[active_idx, exp_engine.CH_ENTROPY] = 5.0
-        exp_engine.q[active_idx, exp_engine.CH_W] = -5.0
-        return "Chaos"
+    # Define parallel variants
+    variants = [
+        {"name": "Gentle_Spiral", "spiral_angle": math.pi/12, "intensity": 0.5},
+        {"name": "Deep_Vortex", "spiral_angle": math.pi/4, "intensity": 1.0}
+    ]
 
-    sandbox.apply_experiment(bad_experiment)
-    sandbox.run_simulation(steps=5)
-    sandbox.finalize() # This should trigger rewind
+    branches = explorer.explore_possibilities(concept_name, variants)
 
-    # Demonstrate "Good" experiment after recovery
-    print("✨ [TEST] Step 2b: Applying Spiral Refraction experiment...")
-    # Refresh references after potential rewind
-    topography = PhaseTopography(engine)
+    print("🔍 [TEST] Parallel Results:")
+    for b in branches:
+        print(f"   - Reality [{b.name}]: Gain={b.coherence_gain:.4f}, Verdict={b.optical_report.get('verdict')}")
 
-    def experiment(exp_engine):
-        # Apply spiral refraction to all nodes in sandbox
-        import torch
-        active_idx = torch.where(exp_engine.active_nodes_mask)[0]
-        refraction_tool = SpiralRefraction(exp_engine)
-        refraction_tool.apply_refraction(active_idx, intensity=1.0, spiral_angle=math.pi/4)
-        return "Spiralized"
-
-    sandbox.apply_experiment(experiment)
-
-    # Simulation in sandbox
-    state = sandbox.run_simulation(steps=10)
-    if state:
-        print(f"   - Sandbox Coherence after Refraction: {state['coherence']:.4f}")
-    else:
-        print("❌ [TEST] Simulation failed to return state.")
-
-    # 6. Step 3: Merge Back
-    if sandbox.finalize(merge_threshold=-1.0): # Force merge for test
-        optical_report = sandbox.metrics.get("optical_report", {})
-        causal_narrative = sandbox.comparator.articulate_delta(optical_report)
-        print(f"✨ [TEST] Step 3: Comparison Result - {causal_narrative}")
-
-        print("✨ [TEST] Step 3: Merging evolved state back to main engine.")
-        sandbox.merge_back(concept_name)
+    # 6. Step 3: Select Best Reality and Merge
+    best = explorer.select_best_path(branches)
+    if best:
+        print(f"✨ [TEST] Step 3: Selected best path '{best.name}'. Merging to Heart.")
+        explorer.sandbox.merge_back(concept_name)
 
         # Verify main engine state change
         main_idx = engine.concept_to_idx[concept_name]
-        # In merge_back, we blend into permanent_q
         p_q_val = engine.permanent_q[main_idx, engine.CH_JOY].item()
         if p_q_val > 0:
-            print(f"✅ [TEST] Evolution merged. Permanent Joy of '{concept_name}' is now {p_q_val:.4f}")
+            print(f"✅ [TEST] Multiverse evolution merged. Permanent Joy is now {p_q_val:.4f}")
         else:
-            print(f"❌ [TEST] Merge failed to update permanent state.")
+            print(f"❌ [TEST] Merge failed.")
+
+    # Narrative check
+    narrative = explorer.generate_diversity_narrative(branches)
+    print(f"\n📖 [TEST] Diversity Narrative:\n{narrative}")
 
     print("🏁 [TEST] Simulation concluded successfully.")
 
