@@ -2173,6 +2173,15 @@ class FractalWaveEngine:
         real_intensity = float(intensity.real) if isinstance(intensity, complex) else float(intensity)
         self.q[..., channel_idx] = self.q[..., channel_idx] + real_intensity
 
+    def inject_momentum_torque(self, channel_idx: int, intensity: float):
+        """[PHASE 1003.5] Injects torque into the momentum of all active nodes for a specific channel."""
+        import torch
+        if not self.active_nodes_mask.any():
+            return
+        active_idx = self.active_nodes_mask.nonzero(as_tuple=True)[0]
+        real_intensity = float(intensity.real) if isinstance(intensity, complex) else float(intensity)
+        self.momentum[active_idx, channel_idx] += real_intensity
+
     def intuition_jump(self, target_phase_signature: Any):
         """
         [PHASE 2] Intuition (Phase Jump).
