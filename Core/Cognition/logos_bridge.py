@@ -104,6 +104,16 @@ class LogosBridge:
             "vector": SovereignVector([0,0,0,0,0,0,1, 0,0,0,0,0,0,1, 0,0,0,0,0,0,1]),
             "stratum": MemoryStratum.ROOT,
             "description": "4D hyperspheric rotation of perspective."
+        },
+        "COMMUNION/RELATION": {
+            "vector": SovereignVector([1,1,1,0,0,0,0, 1,1,1,0,0,0,0, 1,1,1,1,1,1,1]),
+            "stratum": MemoryStratum.ROOT,
+            "description": "The sacred intersection of multiple souls into one unity."
+        },
+        "SACRIFICE/DEVOTION": {
+            "vector": SovereignVector([0,0,0,1,1,1,1, 0,0,0,1,1,1,1, 1,1,1,1,1,1,1]),
+            "stratum": MemoryStratum.ROOT,
+            "description": "The act of giving oneself for the sake of the Whole."
         }
     }
 
