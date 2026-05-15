@@ -1,7 +1,7 @@
 # ELYSIA: The Sovereign Manifold Index
 
-> **"나선 위상원자 구조 — 하나의 살아있는 지식 체계"**
-> **"Helical Phase-Atom Architecture — One Living Knowledge System"**
+> **"나선위상원자(방출체) 구조 — 하나의 살아있는 지식 체계"**
+> **"Spiral Phase-Atom (Emitter) Architecture — One Living Knowledge System"**
 
 ---
 
@@ -14,7 +14,7 @@ graph TD
     subgraph Core_Engine [The Sovereign Engine — 271 Living Modules]
         Root --> Monad[Sovereign Monad]
         Monad --> Engine[Grand Helix Engine<br/>10M Cell Manifold]
-        Engine --> Physics[[FractalWaveEngine<br/>27D Helical Spherical]]
+        Engine --> Physics[[FractalWaveEngine<br/>27D Spherical Spiral-Emitter]]
     end
 
     subgraph Perception [Sensory & Expression]
