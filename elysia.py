@@ -615,6 +615,9 @@ class SovereignGateway:
                                     pass
                             edges = getattr(cells, 'num_edges', 0)
 
+                        # [PHASE 1112] Include Harmony in broadcast
+                        harmony = report.get('harmony', {})
+
                         state_payload = {
                             "coherence": coherence,
                             "enthalpy": enthalpy,
@@ -622,7 +625,8 @@ class SovereignGateway:
                             "joy": joy,
                             "curiosity": curiosity,
                             "active_nodes": active_nodes,
-                            "edges": edges
+                            "edges": edges,
+                            "harmony": harmony
                         }
                         self.broadcaster.broadcast_state(state_payload)
 
