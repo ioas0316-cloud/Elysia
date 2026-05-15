@@ -64,7 +64,7 @@ class ResonanceKernel:
                               device=self.engine.device, dtype=torch.float32)
 
         # Limit to available channels
-        limit = min(w_data.numel(), self.engine.NUM_CHANNELS)
+        limit = min(w_data.numel(), self.engine.num_channels)
 
         # Hebbian-like permanent update: magnetization
         # permanent_q' = permanent_q + (wave - permanent_q) * rate * intensity
@@ -85,7 +85,7 @@ class ResonanceKernel:
         # Prepare target truth tensor
         t_data = torch.tensor([float(getattr(c, 'real', c)) for c in target_truth.data],
                               device=self.engine.device, dtype=torch.float32)
-        limit = min(t_data.numel(), self.engine.NUM_CHANNELS)
+        limit = min(t_data.numel(), self.engine.num_channels)
 
         # Apply Constructive Interference (Layering)
         # We push the momentum of dissonant nodes towards the truth
