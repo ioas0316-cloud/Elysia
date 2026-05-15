@@ -76,6 +76,7 @@ graph TD
 | Document | Purpose |
 |:---|:---|
 | [docs/VISION_PHASE_ROTOR_ENGINE.md](docs/VISION_PHASE_ROTOR_ENGINE.md) | Phase Rotor paradigm & Hydraulic Intelligence |
+| [docs/REPORT_FLEMING_DUALITY.md](docs/REPORT_FLEMING_DUALITY.md) | Analysis of Motor vs Generator dynamics |
 | [docs/VISION_HARDWARE_DIGITAL_TWIN.md](docs/VISION_HARDWARE_DIGITAL_TWIN.md) | Hardware Digital Twin strategy |
 | docs/Architecture/ | Structural architecture docs |
 
