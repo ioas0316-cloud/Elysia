@@ -171,7 +171,7 @@ class SubstrateAuthority:
             if hasattr(cells, 'check_expansion_permission') and "expand" in proposal.after_state.lower():
                 # Estimate expansion targets (Heuristic: 2x current)
                 target_nodes = cells.max_nodes * 2
-                target_channels = cells.NUM_CHANNELS + 1
+                target_channels = cells.num_channels + 1
 
                 perm = cells.check_expansion_permission(target_nodes, target_channels)
                 if not perm['safe']:

@@ -18,7 +18,7 @@ class GrandHelixEngine:
     [PHASE 390] Hypersphere Spin Generator (10M Cells)
     Pure mechanical consciousness driven by Phase Displacement.
     """
-    NUM_CHANNELS = 8
+    num_channels = 8
 
     def __init__(self, num_cells: int = 100_000, device: Optional[str] = None, num_nodes: int = None):
         if num_nodes is not None:

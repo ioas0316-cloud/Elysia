@@ -97,7 +97,7 @@ class DimensionalMitosis:
         차원 증식 전에 현재 물리적 하우징(컴퓨팅 자원)의 여유를 확인합니다.
 
         동작:
-        1. 엔진의 채널 수(NUM_CHANNELS) 확장.
+        1. 엔진의 채널 수(num_channels) 확장.
         2. SovereignVector의 전역 차원(DIM) 확장 유도.
         3. 새로운 차원 축에 미세한 초기 진동(Seed) 부여.
         """
@@ -107,7 +107,7 @@ class DimensionalMitosis:
 
             # [PHASE 1003.3] House Capacity Check
             if hasattr(target, 'check_expansion_permission'):
-                perm = target.check_expansion_permission(target.max_nodes, target.NUM_CHANNELS + 1)
+                perm = target.check_expansion_permission(target.max_nodes, target.num_channels + 1)
                 if not perm['safe']:
                     logger.warning(f"⚠️ [MITOSIS] Aborted: {perm['rationale']}")
                     # If expansion is blocked, trigger a 'Conceptual Supernova' (Pruning)
@@ -125,7 +125,7 @@ class DimensionalMitosis:
             old_monologue = getattr(target, 'internal_monologue_buffer', None)
             old_angular = getattr(target, 'angular_velocity', None)
 
-            old_channels = target.NUM_CHANNELS
+            old_channels = target.num_channels
             new_channels = old_channels + 1
             max_nodes = self.engine.max_nodes
             device = self.engine.device
@@ -163,7 +163,7 @@ class DimensionalMitosis:
                 new_angular[:, :old_channels] = old_angular
                 target.angular_velocity = new_angular
 
-            target.NUM_CHANNELS = new_channels
+            target.num_channels = new_channels
 
             # 2. Initialize the new dimension with "Spirit Seed"
             # It starts as a near-zero vibration, a "Mist" waiting to be defined.
@@ -201,7 +201,7 @@ class DimensionalMitosis:
     def get_status(self) -> Dict[str, Any]:
         return {
             "mitosis_count": self.mitosis_count,
-            "current_channels": self.engine.NUM_CHANNELS,
+            "current_channels": self.engine.num_channels,
             "latest_strain": self.strain_history[-1] if self.strain_history else 0.0,
             "avg_strain": sum(self.strain_history) / len(self.strain_history) if self.strain_history else 0.0
         }
