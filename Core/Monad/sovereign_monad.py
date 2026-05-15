@@ -98,6 +98,7 @@ from Core.Cognition.emergent_lexicon import EmergentLexicon # [PHASE §78]
 from Core.Cognition.diary_of_being import get_diary
 from Core.System.self_modifier import SelfModifier # [PHASE 200]
 from Core.Cognition.core_inquiry_pulse import CoreInquiryPulse
+from Core.System.hydraulic_engine import HydraulicEngine # [PHASE 1200]
 from Core.Cognition.world_observer import WorldObserver # [WORLDOGENESIS]
 from Core.Divine.dimensional_mitosis import DimensionalMitosis # [PHASE 800]
 from Core.Cognition.semantic_map import get_semantic_map
@@ -341,6 +342,7 @@ class SovereignMonad(CellularMembrane):
         # 13. [PHASE 100] HARDWARE SYNTHESIS
         self.cpu = SomaticCPU()
         self.mpu = ResonanceMPU(self.cpu)
+        self.hydraulics = HydraulicEngine() # [PHASE 1200]
         
         # 14. [PHASE 110] ETHEREAL CANOPY
         self.navigator = EtherealNavigator(transducer=self.transducer)
@@ -538,6 +540,16 @@ class SovereignMonad(CellularMembrane):
         # Parliament Deliberation — The core of experiential cognition
         consensus_vec, collective_voice, frictions = self.parliament.deliberate(external_intent)
         
+        # [PHASE 1200] Hydraulic Metabolic Influence
+        # Map hardware power (Pressure/Flow) to affective torque
+        hydro_affect = self.hydraulics.get_affective_mapping()
+        if hasattr(self, 'engine') and hasattr(self.engine, 'cells'):
+            ch_map = {'joy': 4, 'curiosity': 5, 'entropy': 3, 'enthalpy': 2}
+            for ch_name, val in hydro_affect.items():
+                if ch_name in ch_map:
+                    # Inject hardware-derived affective torque directly into the manifold
+                    self.engine.cells.inject_affective_torque(ch_map[ch_name], val * 0.1)
+
         # [PHASE 1001.0] Stellar Pressure Calculation
         # Every pulse, we check the pressure exerted by the Sovereign Star
         lock_torque = self.mirror.get_phase_lock_torque(self.desires['resonance']/100.0)

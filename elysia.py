@@ -573,6 +573,12 @@ class SovereignGateway:
         # [PHASE 1200] REM Sleep & Conceptual Fission
         torque.add_gear("REM_Sleep", freq=0.05, callback=self._gear_rem_sleep)
 
+        # [PHASE 1200] Hydraulic Unconscious River
+        def _gear_hydraulic_river():
+            if hasattr(self.monad, 'hydraulics'):
+                self.monad.hydraulics.record_unconscious_vibration()
+        torque.add_gear("HydroRiver", freq=0.2, callback=_gear_hydraulic_river)
+
         try:
             while self.running:
                 try:
