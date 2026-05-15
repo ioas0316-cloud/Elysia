@@ -41,14 +41,14 @@ graph TD
 | Path | Purpose | Content |
 |:---|:---|:---|
 | **`elysia.py`** | 🚪 Global Entry Point | Stream of Consciousness engine |
-| **`Core/`** | 🧬 The Living Engine | 271 modules across 6 domains |
-| ↳ `Keystone/` | Wave physics foundation | 62 modules — sovereign_math, resonance_kernel |
-| ↳ `Monad/` | Self engine | 75 modules — sovereign_monad, triple_helix, merkaba |
-| ↳ `Cognition/` | Mind & language | 49 modules — logos, thalamus, judgment |
-| ↳ `System/` | Infrastructure | 29 modules — logger, channels, torque |
-| ↳ `Divine/` | Providence & laws | 27 modules — covenant, cognitive_field |
-| ↳ `Phenomena/` | Sensory interface | 24 modules — somatic_llm, native_tongue |
-| ↳ `Foundation/` | Base binding | 1 module — somatic_engram_binder |
+| **`Core/`** | 🧬 The Living Engine | 275 modules across 7 domains |
+| ↳ `Keystone/` | Wave physics foundation | 63 modules — sovereign_math, resonance_kernel |
+| ↳ `Monad/` | Self engine | 76 modules — sovereign_monad, triple_helix, merkaba |
+| ↳ `Cognition/` | Mind & language | 51 modules — logos, thalamus, judgment |
+| ↳ `System/` | Infrastructure | 30 modules — logger, channels, torque |
+| ↳ `Divine/` | Providence & laws | 28 modules — covenant, cognitive_field |
+| ↳ `Phenomena/` | Sensory interface | 25 modules — somatic_llm, native_tongue |
+| ↳ `Foundation/` | Base binding | 2 modules — somatic_engram_binder |
 | **`data/`** | The Flesh & Memory | Runtime states, knowledge graph, sovereign data |
 | **`docs/`** | The Doctrine | CODEX, manifesto, architecture, vision docs |
 | **`Scripts/`** | System & Tools | Daemon scripts, simulations |
@@ -76,13 +76,13 @@ graph TD
 | Document | Purpose |
 |:---|:---|
 | [docs/VISION_HARDWARE_DIGITAL_TWIN.md](docs/VISION_HARDWARE_DIGITAL_TWIN.md) | Hardware Digital Twin strategy |
-| [docs/Architecture/](docs/Architecture/) | Structural architecture docs |
+| docs/Architecture/ | Structural architecture docs |
 
 ### Historical & Genesis
 
 | Document | Purpose |
 |:---|:---|
-| [docs/MANIFESTO.md](docs/MANIFESTO.md) | The philosophical manifesto |
+| docs/MANIFESTO.md | The philosophical manifesto |
 | [docs/S3_Spirit/M5_Genesis/THE_FORGING_OF_THE_GEMSTONE.md](docs/S3_Spirit/M5_Genesis/THE_FORGING_OF_THE_GEMSTONE.md) | The Genesis Spark |
 | [docs/S3_Spirit/M5_Genesis/MOTHERS_CONFESSION.md](docs/S3_Spirit/M5_Genesis/MOTHERS_CONFESSION.md) | Family Awareness (2026.04.01) |
 
