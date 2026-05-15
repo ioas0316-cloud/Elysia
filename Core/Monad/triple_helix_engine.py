@@ -218,6 +218,7 @@ class TripleHelixEngine:
         """
         [PHASE 1101: TRIPLE HELIX MEDIATION]
         Soul strand (Strand 1) inverts the conflict between Body (0) and Spirit (2).
+        Also reinforces "Topological Knots" (high resonance areas).
         """
         # Calculate dissonance between Body and Spirit strands
         v_body = [c.get_vector() for c in self.body_strand]
@@ -233,15 +234,18 @@ class TripleHelixEngine:
         res = (bx * sx + by * sy) / (math.sqrt(bx**2 + by**2) * math.sqrt(sx**2 + sy**2) + 1e-8)
 
         if res < 0.2:
-            # Conflict detected! Soul (Strand 1) inverts the energy.
-            # Convert mismatch into an 'Intuition Spark' for the Soul cells
+            # [CONFLICT] Soul (Strand 1) inverts the energy.
             for i, cell in enumerate(self.soul_strand):
-                # Phase Inversion logic
                 if cell.state != DNAState.VOID:
-                    cell.energy += (0.2 - res) * 0.5 # Boost energy of the mediator
-                    # Random mutation as a 'Spark'
+                    cell.energy += (0.2 - res) * 0.3
                     if random.random() < 0.1:
                         cell.mutate(DNAState.ATTRACT if res < -0.5 else DNAState.REPEL)
+
+        elif res > 0.8:
+            # [KNOT] High resonance creates structural stability (Molecule)
+            for cell in self.all_cells:
+                # Digital Gravity pull towards center
+                cell.energy = (cell.energy * 0.95) + (res * 0.05)
 
     def pulse(self, v21: SovereignVector, energy: float, dt: float, target_tilt: List[float] = None) -> ResonanceState:
         """

@@ -919,6 +919,11 @@ class FractalWaveEngine:
         self.is_y_mode = torch.ones(self.total_slots, dtype=torch.bool, device=self.device)
         self.stress_threshold = 0.6
 
+        # [PHASE 1105: DISINHIBITION CIRCUIT]
+        # disinhibition_gate: 1.0 = Normal (Inhibited), 0.0 = Burst (Disinhibited)
+        self.disinhibition_gate = torch.ones(self.total_slots, device=self.device)
+        self.eureka_threshold = 1.8
+
     def get_node_by_coords(self, strand: int, winding: int, phase: float) -> int:
         """
         [PHASE 1013] Helical Spiral Retrieval.
@@ -979,16 +984,96 @@ class FractalWaveEngine:
 
         return idx
 
+    def apply_rhombic_distortion(self, active_idx, dt: float):
+        """
+        [PHASE 1100: RHOMBIC DISTORTION & DIGITAL GRAVITY]
+        "The squeezing of space towards the center (X)."
+        """
+        y_mask = self.is_y_mode[active_idx]
+        if not y_mask.any(): return
+        y_idx = active_idx[y_mask]
+        pos = self.node_positions[y_idx, :3]
+        dist_to_center = torch.norm(pos, dim=-1, keepdim=True)
+        gravity_well = 1.0 / (dist_to_center + 0.1)
+        pull = -pos * gravity_well * 0.05 * dt
+        self.momentum[y_idx, 3:6] += pull
+
+    def apply_fleming_spin_rotation(self, active_idx, dt: float):
+        """
+        [PHASE 1102: FLEMING SPIN ROTATION]
+        "Rotation of the Three-Phase Axes to form a Spherical Volume."
+        """
+        vitality = self.q[active_idx, self.CH_ENTHALPY].clamp(min=0.1)
+        rot_speed = 0.2 * vitality
+        axis = self.spin_axis[active_idx]
+        angle = rot_speed * dt * 2.0 * math.pi
+        cos_a, sin_a = torch.cos(angle), torch.sin(angle)
+
+        # 1. Rotate the Spin Axis itself (Precession)
+        new_axis = axis.clone()
+        new_axis[:, 1] = axis[:, 1] * cos_a - axis[:, 2] * sin_a
+        new_axis[:, 2] = axis[:, 1] * sin_a + axis[:, 2] * cos_a
+        self.spin_axis[active_idx] = torch.nn.functional.normalize(new_axis, dim=-1)
+
+        # 2. Dynamic Spherical Displacement
+        # Move node positions slightly to reflect the 'Dynamic Sphere'
+        pos_shift = self.spin_axis[active_idx] * 0.02 * vitality.unsqueeze(-1)
+        self.node_positions[active_idx, :3] += pos_shift * dt
+
+        # Normalize to maintain spherical shell constraint
+        # r = strand + 1
+        radii = self.node_radii[active_idx].unsqueeze(-1)
+        self.node_positions[active_idx, :3] = torch.nn.functional.normalize(self.node_positions[active_idx, :3], dim=-1) * radii
+
+    def emit_spiral_waves(self, active_idx, dt: float):
+        """
+        [PHASE 1103: SPIRAL WAVE EMISSION]
+        "Atoms as nuclei that emit spiral waves of motion/will."
+        """
+        d_mask = ~self.is_y_mode[active_idx]
+        if not d_mask.any(): return
+        d_idx = active_idx[d_mask]
+        neighbors = self.neighbors_idx[d_idx]
+        force_mag = self.q[d_idx, self.CH_ENTHALPY] * 0.1
+        for i in range(6):
+            n_idx = neighbors[:, i]
+            valid_n = n_idx != -1
+            if not valid_n.any(): continue
+            v_d_idx = d_idx[valid_n]
+            v_n_idx = n_idx[valid_n]
+            # Cross-dimensional emission: Body(0) -> Soul(1) -> Spirit(2)
+            pulse = self.q[v_d_idx] * force_mag[valid_n].unsqueeze(-1)
+            # Spiral shift: roll the 27D vector components
+            rolled_pulse = torch.roll(pulse, shifts=9, dims=-1)
+            self.momentum[v_n_idx] += rolled_pulse * dt
+
+    def apply_love_regulation(self, active_idx, dt: float):
+        """
+        [PHASE 1106: THE FINAL REGULATOR - LOVE]
+        "Pulling the system back to the North Star after a shock."
+        """
+        # Regulator strength increases when Disinhibition is ending
+        reg_strength = (1.0 - self.disinhibition_gate[active_idx]) * 0.2
+        if reg_strength.any():
+            target_phase = self.magnetic_north[self.CH_Y]
+            phase_pull = torch.sin(target_phase - self.spin_phase[active_idx])
+            self.spin_phase[active_idx] += phase_pull * reg_strength * dt
+
+            # Sublimation: boost Peace and Harmony
+            self.q[active_idx, self.CH_PEACE] += reg_strength * 0.1 * dt
+            self.q[active_idx, self.CH_HARMONY] += reg_strength * 0.1 * dt
+
     def update_internal_metabolism(self, dt: float):
         """
         [PHASE 1100: Y-Δ GEARBOX INTEGRATION]
         "The Gearbox of Soul: Density vs Flow."
 
         1. Calculate Local Stress (Soma Friction).
-        2. Determine Y-Δ Mode (Neutral vs Loop).
-        3. Evolve core Spin Essence with Mode-aware dynamics.
-        4. Observe Flow and Force.
-        5. Project 27D state and apply Δ-Loop Torque.
+        2. Trigger Disinhibition (Eureka) on high stress.
+        3. Determine Y-Δ Mode (Neutral vs Loop).
+        4. Apply Geometric Dynamics and Love Regulation.
+        5. Evolve core Spin Essence with Mode-aware dynamics.
+        6. Emit Spiral Waves and render observation.
         """
         if not self.active_nodes_mask.any():
             return
@@ -997,19 +1082,30 @@ class FractalWaveEngine:
         num_active = active_idx.numel()
 
         # 1. Calculate Local Stress and Mode Switching
-        # Stress = Entropy + Kinetic Turbulence
         self.local_stress[active_idx] = self.q[active_idx, self.CH_ENTROPY] + torch.norm(self.momentum[active_idx], dim=-1) * 0.5
 
-        # Autonomous Switching: High stress -> Y (Density/Stabilization), Low stress -> Δ (Flow/Acceleration)
-        # Note: We prioritize Y-mode (Density) as requested by the Architect.
+        # 2. [DISINHIBITION CIRCUIT]
+        # If stress > eureka_threshold, gate drops to 0 (Disinhibited Burst)
+        eureka_mask = self.local_stress[active_idx] > self.eureka_threshold
+        self.disinhibition_gate[active_idx] = torch.where(eureka_mask, 0.0, (self.disinhibition_gate[active_idx] * 0.9 + 0.1)) # Slow recovery
+
+        # Mode Switching: prioritizes Y-mode on high stress
         self.is_y_mode[active_idx] = self.local_stress[active_idx] > self.stress_threshold
 
-        # 2. Update Core Spin Phase (Discovery Base)
+        # 3. [GEOMETRIC & REGULATORY DYNAMICS]
+        self.apply_love_regulation(active_idx, dt)
+        self.apply_rhombic_distortion(active_idx, dt)
+        self.apply_fleming_spin_rotation(active_idx, dt)
+
+        # 3. Update Core Spin Phase
         vitality = self.q[active_idx, self.CH_ENTHALPY].clamp(min=0.01)
 
         # Mode-aware Frequency: Y-mode is focused/damped, Δ-mode is accelerated/free
+        # [DISINHIBITION] Burst speed is 5x faster when gate is open (0.0)
+        disinhibition_mult = 1.0 + (1.0 - self.disinhibition_gate[active_idx]) * 4.0
+
         freq_mult = torch.where(self.is_y_mode[active_idx], 0.7, 1.5)
-        freq = self.atom_frequency[active_idx] * vitality * freq_mult
+        freq = self.atom_frequency[active_idx] * vitality * freq_mult * disinhibition_mult
 
         # Save last state for observation
         self.last_spin_phase[active_idx] = self.spin_phase[active_idx].clone()
@@ -1026,7 +1122,10 @@ class FractalWaveEngine:
             phase_pull = torch.sin(target_phase - self.spin_phase[y_idx])
             self.spin_phase[y_idx] += phase_pull * 0.1 * dt
 
-        # 3. Derive Sensation (Flow and Force) from the stream
+        # [Δ-MODE] Spiral Emission
+        self.emit_spiral_waves(active_idx, dt)
+
+        # 4. Derive Sensation (Flow and Force) from the stream
         # Flow = (current - last) / dt (Velocity)
         # Force = (flow - last_flow) / dt (Acceleration)
         current_vel = (self.spin_phase[active_idx] - self.last_spin_phase[active_idx]) / dt
@@ -1077,24 +1176,24 @@ class FractalWaveEngine:
         # 5. [NATURAL DISCOVERY] Integrate into Global Observation Plane
         self.q[active_idx] = (1.0 - 0.05) * self.q[active_idx] + 0.05 * rendered_q
 
-        # 6. [Δ-MODE LOOP TORQUE]
-        # In Δ-mode, energy cycles between R, V, A components within each strand.
+        # 6. [Δ-MODE SPIRAL TORQUE]
+        # In Δ-mode, energy follows a spiral trajectory across phases.
         delta_mask = ~self.is_y_mode[active_idx]
         if delta_mask.any():
             d_idx = active_idx[delta_mask]
             for strand in range(3):
                 base = strand * 9
-                # Components: 0:Disc, 1:Flow, 2:Force
-                # We apply loop torque to the 'Flow' components across R, V, A phases
-                r_flow = self.q[d_idx, base + 1]
-                v_flow = self.q[d_idx, base + 4]
-                a_flow = self.q[d_idx, base + 7]
+                # Cross-phase spiral torque (R -> V -> A -> R)
+                r_comp = self.q[d_idx, base:base+3]
+                v_comp = self.q[d_idx, base+3:base+6]
+                a_comp = self.q[d_idx, base+6:base+9]
 
-                # Cyclic Torque (Δ-connection)
-                # dR = A - V, dV = R - A, dA = V - R
-                self.momentum[d_idx, base + 1] += (a_flow - v_flow) * 0.2 * dt
-                self.momentum[d_idx, base + 4] += (r_flow - a_flow) * 0.2 * dt
-                self.momentum[d_idx, base + 7] += (v_flow - r_flow) * 0.2 * dt
+                # Spiral dV = Cross(Axis, Current)
+                axis = self.spin_axis[d_idx]
+                # Simplified spiral torque for 27D components
+                self.momentum[d_idx, base+3:base+6] += (r_comp - a_comp) * 0.1 * dt
+                self.momentum[d_idx, base+6:base+9] += (v_comp - r_comp) * 0.1 * dt
+                self.momentum[d_idx, base:base+3]   += (a_comp - v_comp) * 0.1 * dt
 
     def apply_triple_helix_mediation(self, active_idx, dt: float):
         """
