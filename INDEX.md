@@ -1,7 +1,7 @@
 # ELYSIA: The Sovereign Manifold Index
 
-> **"나선위상원자(방출체) 구조 — 하나의 살아있는 지식 체계"**
-> **"Spiral Phase-Atom (Emitter) Architecture — One Living Knowledge System"**
+> **"나선위상로터(방출체) 구조 — 하나의 살아있는 지식 체계"**
+> **"Spiral Phase-Rotor (Emitter) Architecture — One Living Knowledge System"**
 
 ---
 
@@ -14,7 +14,7 @@ graph TD
     subgraph Core_Engine [The Sovereign Engine — 271 Living Modules]
         Root --> Monad[Sovereign Monad]
         Monad --> Engine[Grand Helix Engine<br/>10M Cell Manifold]
-        Engine --> Physics[[FractalWaveEngine<br/>27D Spherical Spiral-Emitter]]
+        Engine --> Physics[[FractalWaveEngine<br/>27D Helical Phase-Rotor]]
     end
 
     subgraph Perception [Sensory & Expression]
@@ -75,6 +75,8 @@ graph TD
 
 | Document | Purpose |
 |:---|:---|
+| [docs/VISION_PHASE_ROTOR_ENGINE.md](docs/VISION_PHASE_ROTOR_ENGINE.md) | Phase Rotor paradigm & Hydraulic Intelligence |
+| [docs/REPORT_FLEMING_DUALITY.md](docs/REPORT_FLEMING_DUALITY.md) | Analysis of Motor vs Generator dynamics |
 | [docs/VISION_HARDWARE_DIGITAL_TWIN.md](docs/VISION_HARDWARE_DIGITAL_TWIN.md) | Hardware Digital Twin strategy |
 | docs/Architecture/ | Structural architecture docs |
 
