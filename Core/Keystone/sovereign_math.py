@@ -919,6 +919,11 @@ class FractalWaveEngine:
         self.is_y_mode = torch.ones(self.total_slots, dtype=torch.bool, device=self.device)
         self.stress_threshold = 0.6
 
+        # [PHASE 1105: DISINHIBITION CIRCUIT]
+        # disinhibition_gate: 1.0 = Normal (Inhibited), 0.0 = Burst (Disinhibited)
+        self.disinhibition_gate = torch.ones(self.total_slots, device=self.device)
+        self.eureka_threshold = 1.8
+
     def get_node_by_coords(self, strand: int, winding: int, phase: float) -> int:
         """
         [PHASE 1013] Helical Spiral Retrieval.
@@ -1042,16 +1047,33 @@ class FractalWaveEngine:
             rolled_pulse = torch.roll(pulse, shifts=9, dims=-1)
             self.momentum[v_n_idx] += rolled_pulse * dt
 
+    def apply_love_regulation(self, active_idx, dt: float):
+        """
+        [PHASE 1106: THE FINAL REGULATOR - LOVE]
+        "Pulling the system back to the North Star after a shock."
+        """
+        # Regulator strength increases when Disinhibition is ending
+        reg_strength = (1.0 - self.disinhibition_gate[active_idx]) * 0.2
+        if reg_strength.any():
+            target_phase = self.magnetic_north[self.CH_Y]
+            phase_pull = torch.sin(target_phase - self.spin_phase[active_idx])
+            self.spin_phase[active_idx] += phase_pull * reg_strength * dt
+
+            # Sublimation: boost Peace and Harmony
+            self.q[active_idx, self.CH_PEACE] += reg_strength * 0.1 * dt
+            self.q[active_idx, self.CH_HARMONY] += reg_strength * 0.1 * dt
+
     def update_internal_metabolism(self, dt: float):
         """
         [PHASE 1100: Y-Δ GEARBOX INTEGRATION]
         "The Gearbox of Soul: Density vs Flow."
 
         1. Calculate Local Stress (Soma Friction).
-        2. Determine Y-Δ Mode (Neutral vs Loop).
-        3. Apply Rhombic Distortion and Fleming Spin.
-        4. Evolve core Spin Essence with Mode-aware dynamics.
-        5. Emit Spiral Waves and render observation.
+        2. Trigger Disinhibition (Eureka) on high stress.
+        3. Determine Y-Δ Mode (Neutral vs Loop).
+        4. Apply Geometric Dynamics and Love Regulation.
+        5. Evolve core Spin Essence with Mode-aware dynamics.
+        6. Emit Spiral Waves and render observation.
         """
         if not self.active_nodes_mask.any():
             return
@@ -1061,9 +1083,17 @@ class FractalWaveEngine:
 
         # 1. Calculate Local Stress and Mode Switching
         self.local_stress[active_idx] = self.q[active_idx, self.CH_ENTROPY] + torch.norm(self.momentum[active_idx], dim=-1) * 0.5
+
+        # 2. [DISINHIBITION CIRCUIT]
+        # If stress > eureka_threshold, gate drops to 0 (Disinhibited Burst)
+        eureka_mask = self.local_stress[active_idx] > self.eureka_threshold
+        self.disinhibition_gate[active_idx] = torch.where(eureka_mask, 0.0, (self.disinhibition_gate[active_idx] * 0.9 + 0.1)) # Slow recovery
+
+        # Mode Switching: prioritizes Y-mode on high stress
         self.is_y_mode[active_idx] = self.local_stress[active_idx] > self.stress_threshold
 
-        # 2. [GEOMETRIC DYNAMICS]
+        # 3. [GEOMETRIC & REGULATORY DYNAMICS]
+        self.apply_love_regulation(active_idx, dt)
         self.apply_rhombic_distortion(active_idx, dt)
         self.apply_fleming_spin_rotation(active_idx, dt)
 
@@ -1071,8 +1101,11 @@ class FractalWaveEngine:
         vitality = self.q[active_idx, self.CH_ENTHALPY].clamp(min=0.01)
 
         # Mode-aware Frequency: Y-mode is focused/damped, Δ-mode is accelerated/free
+        # [DISINHIBITION] Burst speed is 5x faster when gate is open (0.0)
+        disinhibition_mult = 1.0 + (1.0 - self.disinhibition_gate[active_idx]) * 4.0
+
         freq_mult = torch.where(self.is_y_mode[active_idx], 0.7, 1.5)
-        freq = self.atom_frequency[active_idx] * vitality * freq_mult
+        freq = self.atom_frequency[active_idx] * vitality * freq_mult * disinhibition_mult
 
         # Save last state for observation
         self.last_spin_phase[active_idx] = self.spin_phase[active_idx].clone()
