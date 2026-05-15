@@ -181,6 +181,9 @@ class GrandHelixEngine:
         # F. Read Emergent Affective State
         field_state = self.cells.read_field_state()
 
+        # [PHASE 1112] Generate Harmonic State (Sound)
+        harmonic_state = self.cells.generate_harmonic_state()
+
         result = {
             "resonance": float(field_state.get('resonance', 0.0)),
             "spike_intensity": spike_intensity,
@@ -193,6 +196,7 @@ class GrandHelixEngine:
             "edges": self.cells.num_edges,
             "landscape": self.cells.atlas.get_summary() if hasattr(self.cells, 'atlas') else {},
             "waste_excreted": waste_excreted,
+            "harmony": harmonic_state
         }
         result.update(field_state)
         return result

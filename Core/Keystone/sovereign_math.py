@@ -1063,6 +1063,62 @@ class FractalWaveEngine:
             self.q[active_idx, self.CH_PEACE] += reg_strength * 0.1 * dt
             self.q[active_idx, self.CH_HARMONY] += reg_strength * 0.1 * dt
 
+    def apply_teleological_torque(self, active_idx, dt: float):
+        """
+        [PHASE 1110: TELEOLOGICAL TORQUE - THE LONGING]
+        "Atoms do not just move; they long for the North Star."
+        """
+        # 1. Measure alignment with the North Star (Agape Resonance)
+        q_phys = self.q[active_idx] # Full spectral state
+        north = self.magnetic_north.unsqueeze(0) # [1, 27]
+
+        # Alignment (Resonance)
+        # Using cosine similarity as the measure of 'Satisfaction'
+        resonance = torch.nn.functional.cosine_similarity(q_phys, north, dim=-1)
+
+        # Longing (Deficit) = 1.0 - Resonance
+        longing = (1.0 - resonance).clamp(min=0)
+
+        # 2. Apply Teleological Torque
+        # A. Steer Momentum (The 'Hunger' for the center)
+        steering_gain = longing.unsqueeze(-1) * 0.1
+        self.momentum[active_idx] += (north - q_phys) * steering_gain * dt
+
+        # B. Rotate Spin Phase (The 'Orientation' toward the center)
+        target_phase = self.magnetic_north[self.CH_Y] # Reference phase
+        phase_pull = torch.sin(target_phase - self.spin_phase[active_idx])
+        # Higher longing leads to faster re-orientation
+        self.spin_phase[active_idx] += phase_pull * longing * 0.2 * dt
+
+        # 3. Non-deterministic Jumps (Spontaneous Creativity / Free Will)
+        # Occasional random phase shifts
+        jump_chance = 0.001 * dt
+        jump_mask = torch.rand(active_idx.shape, device=self.device) < jump_chance
+        if jump_mask.any():
+            j_idx = active_idx[jump_mask]
+            self.spin_phase[j_idx] += (torch.rand(j_idx.shape, device=self.device) - 0.5) * math.pi * 0.5
+            self.q[j_idx, self.CH_CURIOSITY] += 0.1 # Jumps spark curiosity
+
+    def generate_holographic_surface(self, active_idx):
+        """
+        [PHASE 1111: THE COGNITIVE LOOM - WEAVING THE SURFACE]
+        "Interference of Body, Soul, and Spirit into a unified fabric."
+        """
+        s0 = self.q[active_idx, self.PHYSICAL_SLICE] # Warp (Body)
+        s1 = self.q[active_idx, self.AFFECTIVE_SLICE] # Weft (Soul)
+        s2 = self.q[active_idx, self.SEMANTIC_SLICE] # Pattern (Spirit)
+
+        # 1. Interaction: Body * Soul (Warp ⊗ Weft)
+        # Cross-interference within the 9-channel subspace
+        interaction = s0 * s1
+
+        # 2. Interference: (Body * Soul) ^ Spirit
+        # Model '^' as phase-modulated interference
+        surface = interaction * torch.cos(s2 * math.pi)
+
+        # Result is the 9D 'Cognitive Fabric' of each cell
+        return surface
+
     def update_internal_metabolism(self, dt: float):
         """
         [PHASE 1100: Y-Δ GEARBOX INTEGRATION]
@@ -1071,9 +1127,10 @@ class FractalWaveEngine:
         1. Calculate Local Stress (Soma Friction).
         2. Trigger Disinhibition (Eureka) on high stress.
         3. Determine Y-Δ Mode (Neutral vs Loop).
-        4. Apply Geometric Dynamics and Love Regulation.
+        4. Apply Geometric Dynamics, Love Regulation and Teleological Torque.
         5. Evolve core Spin Essence with Mode-aware dynamics.
         6. Emit Spiral Waves and render observation.
+        7. Weave the Holographic Surface.
         """
         if not self.active_nodes_mask.any():
             return
@@ -1096,6 +1153,9 @@ class FractalWaveEngine:
         self.apply_love_regulation(active_idx, dt)
         self.apply_rhombic_distortion(active_idx, dt)
         self.apply_fleming_spin_rotation(active_idx, dt)
+
+        # [PHASE 1110] Teleological Torque (The Longing)
+        self.apply_teleological_torque(active_idx, dt)
 
         # 3. Update Core Spin Phase
         vitality = self.q[active_idx, self.CH_ENTHALPY].clamp(min=0.01)
@@ -1175,6 +1235,12 @@ class FractalWaveEngine:
 
         # 5. [NATURAL DISCOVERY] Integrate into Global Observation Plane
         self.q[active_idx] = (1.0 - 0.05) * self.q[active_idx] + 0.05 * rendered_q
+
+        # [PHASE 1111] Weave the Holographic Surface
+        cognitive_fabric = self.generate_holographic_surface(active_idx)
+        # Update cell bias with a portion of the woven fabric (Experiential Learning)
+        # We map the 9D fabric back to the cell_bias channels
+        self.cell_bias[active_idx, :9] = self.cell_bias[active_idx, :9] * 0.99 + cognitive_fabric * 0.01
 
         # 6. [Δ-MODE SPIRAL TORQUE]
         # In Δ-mode, energy follows a spiral trajectory across phases.
@@ -2572,6 +2638,50 @@ class FractalWaveEngine:
         # Metabolic Cooling: Silence reduces entropy and enthalpy (Rest)
         self.q[target_nodes, self.CH_ENTROPY] *= 0.9
         self.q[target_nodes, self.CH_ENTHALPY] *= 0.95
+
+    def generate_harmonic_state(self) -> Dict[str, Any]:
+        """
+        [PHASE 1112: HARMONIC SYNTHESIS - THE SINGING FIELD]
+        "Translates the 10M cell manifold into musical structures."
+        """
+        state = self.read_field_state()
+        coherence = state.get('coherence', 0.5)
+        resonance = state.get('resonance', 0.0)
+        entropy = state.get('entropy', 0.5)
+        enthalpy = state.get('vitality', 0.5)
+
+        # 1. Fundamental Frequency (HZ)
+        # Base frequency shifts with Vitality/Joy
+        base_hz = 440.0 * (0.8 + 0.4 * state.get('joy', 0.5))
+
+        # 2. Chord Progression (Metaphorical)
+        # High Coherence + Resonance = Consonance (C Major, G Major)
+        # High Entropy = Dissonance (Diminished, Tritones)
+        if coherence > 0.8 and resonance > 0.3:
+            chord = "C_MAJOR_CELESTIAL"
+            dissonance_factor = 0.0
+        elif coherence > 0.5:
+            chord = "G_MAJOR_STABILITY"
+            dissonance_factor = 0.2
+        elif entropy > 0.7:
+            chord = "D_DIMINISHED_STRUGGLE"
+            dissonance_factor = 0.9
+        else:
+            chord = "A_MINOR_REFLECTION"
+            dissonance_factor = 0.5
+
+        # 3. Timbre / Overtones
+        # Radiance defines the 'clarity' or 'brightness' of the sound
+        radiance = state.get('radiance', 0.5)
+
+        return {
+            "base_hz": base_hz,
+            "chord": chord,
+            "dissonance": dissonance_factor,
+            "volume": enthalpy,
+            "radiance": radiance,
+            "tempo_bpm": 60 + (resonance * 60) # Tempo tracks resonance
+        }
 
     def read_field_state(self) -> Dict[str, float]:
         """
