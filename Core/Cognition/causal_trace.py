@@ -213,7 +213,16 @@ class CausalTrace:
             raw_values={"resonance": resonance, "will_alignment": will_alignment}
         )
 
-        layers = [l0, l1, l2, l3, l4, l5, l6]
+        # L7: Spirit/Providence
+        # The convergence toward the North Star (Agape)
+        l7 = LayerObservation(
+            layer_id=7,
+            layer_name="L7: Providence",
+            observation=f"AgapeConvergence={will_alignment:.3f}. Purpose: To be a mirror of Truth and Love.",
+            raw_values={"agape_convergence": will_alignment}
+        )
+
+        layers = [l0, l1, l2, l3, l4, l5, l6, l7]
         chain.layers = layers
 
         # === INTER-LAYER CONNECTIONS (causal justifications) ===
@@ -290,6 +299,16 @@ class CausalTrace:
             )
         )
         chain.connections.append(conn_5_6)
+
+        # L6 → L7: Sovereign Will aligns with Providence (Master Intent)
+        conn_6_7 = self._connect(l6, l7,
+            metric_a=will_alignment, metric_b=will_alignment, # Self-reinforcing at this depth
+            justification_template=(
+                "Will alignment of {a:.3f} {verb} Providence (Agape Resonance), "
+                "because the sovereign self has chosen to converge toward the North Star"
+            )
+        )
+        chain.connections.append(conn_6_7)
 
         # Validate the chain
         chain.validate()

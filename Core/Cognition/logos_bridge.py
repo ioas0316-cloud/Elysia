@@ -463,7 +463,12 @@ class LogosBridge:
         
         category = "VERBS" if mag > 1.5 else "ADJECTIVES" # Simple heuristic for now
         
-        spectrum_path = "c:/Elysia/Core/S1_Body/L5_Mental/M1_Memory/Raw/Knowledge/lexical_spectrum.json"
+        # Fixed path for Linux environment
+        # From Core/Cognition/logos_bridge.py, we need 3 steps to reach root
+        spectrum_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+            "data", "knowledge", "lexical_spectrum.json"
+        )
         
         try:
             data = {"VERBS": {}, "ADJECTIVES": {}, "CONNECTIVES": {}}
