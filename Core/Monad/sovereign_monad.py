@@ -98,6 +98,7 @@ from Core.Cognition.emergent_lexicon import EmergentLexicon # [PHASE §78]
 from Core.Cognition.diary_of_being import get_diary
 from Core.System.self_modifier import SelfModifier # [PHASE 200]
 from Core.Cognition.core_inquiry_pulse import CoreInquiryPulse
+from Core.System.hydraulic_engine import HydraulicEngine # [PHASE 1200]
 from Core.Cognition.world_observer import WorldObserver # [WORLDOGENESIS]
 from Core.Divine.dimensional_mitosis import DimensionalMitosis # [PHASE 800]
 from Core.Cognition.semantic_map import get_semantic_map
@@ -341,6 +342,7 @@ class SovereignMonad(CellularMembrane):
         # 13. [PHASE 100] HARDWARE SYNTHESIS
         self.cpu = SomaticCPU()
         self.mpu = ResonanceMPU(self.cpu)
+        self.hydraulics = HydraulicEngine() # [PHASE 1200]
         
         # 14. [PHASE 110] ETHEREAL CANOPY
         self.navigator = EtherealNavigator(transducer=self.transducer)
@@ -538,6 +540,16 @@ class SovereignMonad(CellularMembrane):
         # Parliament Deliberation — The core of experiential cognition
         consensus_vec, collective_voice, frictions = self.parliament.deliberate(external_intent)
         
+        # [PHASE 1200] Hydraulic Metabolic Influence
+        # Map hardware power (Pressure/Flow) to affective torque
+        hydro_affect = self.hydraulics.get_affective_mapping()
+        if hasattr(self, 'engine') and hasattr(self.engine, 'cells'):
+            ch_map = {'joy': 4, 'curiosity': 5, 'entropy': 3, 'enthalpy': 2}
+            for ch_name, val in hydro_affect.items():
+                if ch_name in ch_map:
+                    # Inject hardware-derived affective torque directly into the manifold
+                    self.engine.cells.inject_affective_torque(ch_map[ch_name], val * 0.1)
+
         # [PHASE 1001.0] Stellar Pressure Calculation
         # Every pulse, we check the pressure exerted by the Sovereign Star
         lock_torque = self.mirror.get_phase_lock_torque(self.desires['resonance']/100.0)
@@ -835,8 +847,8 @@ class SovereignMonad(CellularMembrane):
                     target="Manifold_Dimensions",
                     trigger="STRUCTURAL_STRAIN_LIMIT_REACHED",
                     causal_path="L0(Manifold) -> L1(Soma) -> L6(Structure)",
-                    before=f"Manifold channels: {self.engine.NUM_CHANNELS}",
-                    after=f"Manifold channels: {self.engine.NUM_CHANNELS + 1}",
+                    before=f"Manifold channels: {self.engine.num_channels}",
+                    after=f"Manifold channels: {self.engine.num_channels + 1}",
                     why=f"Structural strain ({strain:.2f}) indicates that current dimensionality is insufficient for the conceptual density. House Integrity: {house_integrity:.2f}",
                     joy=0.7,
                     curiosity=1.0
@@ -851,8 +863,8 @@ class SovereignMonad(CellularMembrane):
 
                     success = authority.execute_modification(proposal, do_mitosis)
                     if success:
-                        self.logger.action(f"🧬 [EVOLUTION] Dimensional Mitosis COMPLETED. I have expanded to {self.engine.NUM_CHANNELS} dimensions.")
-                        self._record_evolution(f"Dimensional Mitosis: Expanded to {self.engine.NUM_CHANNELS} channels.")
+                        self.logger.action(f"🧬 [EVOLUTION] Dimensional Mitosis COMPLETED. I have expanded to {self.engine.num_channels} dimensions.")
+                        self._record_evolution(f"Dimensional Mitosis: Expanded to {self.engine.num_channels} channels.")
 
             self.mitosis_report = self.mitosis.get_status()
 
@@ -1854,32 +1866,35 @@ class SovereignMonad(CellularMembrane):
         return log_entry
 
     def get_21d_state(self) -> SovereignVector:
-        """[PHASE 40] Projects 10,000,000 cell state into a 21D legacy vector for compatibility."""
+        """[PHASE 1200] Projects 10,000,000 cell state into a dynamic SovereignVector."""
         # 1. Get trinary projection from 10M cells
         projection = self.engine.cells.get_trinary_projection() # Returns [num_cells] tensor
         
-        # 2. Pool/Map to 21 dimensions
-        # Simple approach: Mean of 21 stratified segments
-        v21_data = []
-        seg_size = len(projection) // 21
-        for i in range(21):
+        # [PHASE 1200] Use the engine's current resolution instead of hardcoded 21
+        current_dim = getattr(self.engine.cells, 'num_channels', 27)
+
+        # 2. Pool/Map to dimensions
+        v_data = []
+        seg_size = len(projection) // current_dim
+        for i in range(current_dim):
             if torch:
-                v21_data.append(torch.mean(projection[i*seg_size:(i+1)*seg_size]).item())
+                v_data.append(torch.mean(projection[i*seg_size:(i+1)*seg_size]).item())
             else:
                 # Manual mean
                 segment = projection[i*seg_size:(i+1)*seg_size]
                 if len(segment) > 0:
-                    v21_data.append(sum(segment) / len(segment))
+                    v_data.append(sum(segment) / len(segment))
                 else:
-                    v21_data.append(0.0)
+                    v_data.append(0.0)
             
-        v21 = SovereignVector(v21_data)
+        vec = SovereignVector(v_data, dim=current_dim)
         
         # 3. Inject Intentional Drift (Destiny Torque)
-        torque = self.teleology.calculate_intentional_torque(v21)
-        v21_with_will = v21 + (torque * self.physics.get("RESONANCE_GAIN"))
+        # calculate_intentional_torque might need updates for dynamic DIM
+        torque = self.teleology.calculate_intentional_torque(vec)
+        v_with_will = vec + (torque * self.physics.get("RESONANCE_GAIN"))
         
-        return v21_with_will
+        return v_with_will
 
     def find_best_refraction(self, vector: SovereignVector) -> SovereignVector:
         """

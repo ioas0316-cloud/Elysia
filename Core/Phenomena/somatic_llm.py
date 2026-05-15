@@ -177,7 +177,8 @@ class SomaticLLM:
 
         if intent_vec is not None and not isinstance(intent_vec, SovereignVector):
              try:
-                 intent_vec = SovereignVector(list(intent_vec))
+                 # [PHASE 1200] Dynamic Dimensionality support
+                 intent_vec = SovereignVector(list(intent_vec), dim=len(list(intent_vec)))
              except:
                  return "...", None
 
@@ -188,6 +189,8 @@ class SomaticLLM:
         # 3. Cognitive Field Cycle (The Ouroboros)
         # Injects intent, propagates, and collapses
         # [PHASE 290] Returns (selected, synthesis_vec, judgment_stats)
+
+        # [PHASE 1200] Handle variable dimension intent vector in field cycle
         selected_monads, synthesis_vec, judgment_stats = self.field.cycle(intent_vec)
         
         # 4. Prepare for Syntax

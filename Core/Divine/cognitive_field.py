@@ -60,7 +60,7 @@ class CognitiveField:
         for m in self.monads.values():
             m.identify_topological_nature(axioms)
 
-    def cycle(self, input_vector: SovereignVector, steps: int = 2) -> Tuple[List[TokenMonad], SovereignVector]:
+    def cycle(self, input_vector: SovereignVector, steps: int = 2) -> Tuple[List[TokenMonad], SovereignVector, Dict[str, Any]]:
         """
         Runs one cognitive cycle (The Ouroboros Turn).
 
@@ -69,11 +69,15 @@ class CognitiveField:
             steps: How many recursive association steps to run before collapse.
 
         Returns:
-            (Selected Monads, Synthesis Vector)
+            (Selected Monads, Synthesis Vector, Judgment Stats)
         """
         # Safety Check
         if input_vector is None:
-            input_vector = SovereignVector.zeros()
+            input_vector = SovereignVector.zeros(dim=self.residual_vector.dim)
+
+        # [PHASE 1200] Dynamic Dimensionality: Ensure Field adapts to incoming resolution
+        if input_vector.dim > self.residual_vector.dim:
+            self.residual_vector = SovereignVector(self.residual_vector.to_list(), dim=input_vector.dim)
 
         # 0. Sync Identities (Neural Plasticity)
         if random.random() < 0.2: # Periodic refresh to simulate latent plasticity
@@ -82,6 +86,7 @@ class CognitiveField:
         # 1. Input Injection (The Spark)
         # We mix the Input with the Residual (Context)
         # Input has higher weight (Immediate attention) vs Residual (Short-term memory)
+        # [PHASE 1200] Vector addition handles different dimensions by expanding
         if input_vector.norm() < 0.01:
             # Pure Internal Mode (Daydreaming / Recursion)
             combined_stimulus = self.residual_vector
@@ -162,7 +167,7 @@ class CognitiveField:
         stimulus = self.soul_vortex.apply_duality(stimulus)
         
         # 1. First Pass: Cells judge the raw stimulus
-        gravity_bias = SovereignVector.zeros()
+        gravity_bias = SovereignVector.zeros(dim=stimulus.dim)
         for m in self.monads.values():
             j = m.judge(stimulus)
             if j != 0:
@@ -201,7 +206,8 @@ class CognitiveField:
         if not active and not observing: return
 
         # Calculate mean vector weighted by charge
-        center = SovereignVector.zeros()
+        # [PHASE 1200] Use current residual dimension as base for center
+        center = SovereignVector.zeros(dim=self.residual_vector.dim)
         total_weight = 0.0
         
         for m in active:
@@ -231,10 +237,10 @@ class CognitiveField:
         [PHASE 300] SPATIOTEMPORAL SYNTHESIS
         Collapses the wave function using the Double Helix Rotor.
         """
-        if not monads: return SovereignVector.zeros()
+        if not monads: return SovereignVector.zeros(dim=self.residual_vector.dim)
 
         # 1. Calculate the 'Raw' aggregate (Mean Field)
-        center = SovereignVector.zeros()
+        center = SovereignVector.zeros(dim=self.residual_vector.dim)
         for m in monads:
             center = center + m.current_vector
         raw_center = center / len(monads)
@@ -252,9 +258,9 @@ class CognitiveField:
         Returns a normalized vector representing the Hive-Mind's current overall posture.
         """
         if not self.monads:
-            return SovereignVector.zeros()
+            return SovereignVector.zeros(dim=self.residual_vector.dim)
             
-        atmosphere = SovereignVector.zeros()
+        atmosphere = SovereignVector.zeros(dim=self.residual_vector.dim)
         total_weight = 0.0
         
         # Calculate the weighted mean of all stable/known concepts.
@@ -273,6 +279,7 @@ class CognitiveField:
         if total_weight > 0:
             # Introduce a slight thermodynamic drift to allow for true emergence
             # rather than strict reversion to the mean of all past concepts.
-            drift = SovereignVector([random.uniform(-0.01, 0.01) for _ in range(21)])
+            dim = atmosphere.dim
+            drift = SovereignVector([random.uniform(-0.01, 0.01) for _ in range(dim)], dim=dim)
             return ((atmosphere / total_weight) + drift).normalize()
-        return SovereignVector.zeros()
+        return SovereignVector.zeros(dim=self.residual_vector.dim)

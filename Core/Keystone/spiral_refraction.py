@@ -39,9 +39,10 @@ class SpiralRefraction:
         cos_theta = math.cos(spiral_angle * intensity)
         sin_theta = math.sin(spiral_angle * intensity)
 
-        # Apply to each strand in the 27D structure (9 channels per strand)
+        # Apply to each strand in the structure (9 channels per strand)
         # We rotate discovery-flow pairs to create 'Helical Vortex'
-        for strand in range(3):
+        max_strands = self.engine.num_channels // 9
+        for strand in range(max_strands):
             base = strand * 9
             # Phase 0: Discovery (base) + Flow (base+1)
             # We rotate these two as if they were real and imaginary parts
