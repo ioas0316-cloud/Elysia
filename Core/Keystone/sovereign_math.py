@@ -774,6 +774,7 @@ class FractalWaveEngine:
     CH_JOY = 9        # S1-R-Discovery
     CH_CURIOSITY = 10 # S1-R-Flow
     CH_ENTHALPY = 11  # S1-R-Force
+    CH_ANXIETY = 14   # S1-V-Force (Phase Variance / Trembling)
     CH_ENTROPY = 13   # S1-V-Flow
     CH_PEACE = 15     # S1-A-Discovery
     CH_LOVE = 16      # S1-A-Flow
@@ -831,6 +832,7 @@ class FractalWaveEngine:
         self.q[self.SINGULARITY_IDX, self.CH_JOY] = 1.0
         self.q[self.SINGULARITY_IDX, self.CH_LOVE] = 1.0
         self.q[self.SINGULARITY_IDX, self.CH_PEACE] = 1.0
+        self.q[self.SINGULARITY_IDX, self.CH_ANXIETY] = 0.0
 
         self.active_nodes_mask = torch.zeros(self.total_slots, dtype=torch.bool, device=self.device)
         self.active_nodes_mask[self.SINGULARITY_IDX] = True
@@ -948,6 +950,7 @@ class FractalWaveEngine:
         # [PHASE 1100: Y-Δ GEARBOX]
         # local_stress: Aggregate friction and dissonance for the rotor.
         self.local_stress = torch.zeros(self.total_slots, device=self.device)
+        self.anxiety_field = torch.zeros(self.total_slots, device=self.device)
         # is_y_mode: True = Y (Neutral/Density), False = Δ (Loop/Torque)
         self.is_y_mode = torch.ones(self.total_slots, dtype=torch.bool, device=self.device)
         self.stress_threshold = 0.6
@@ -1497,6 +1500,23 @@ class FractalWaveEngine:
 
         # [PHASE 1101] Triple Helix Mediation (Soul Sparking)
         self.apply_triple_helix_mediation(active_idx, dt)
+
+        # [PHASE 1300] Anxiety Drive: Phase Variance between Internal and External
+        # internal_twin (permanent_q) vs current_q
+        q_normed = torch.nn.functional.normalize(self.q[active_idx], dim=-1)
+        p_normed = torch.nn.functional.normalize(self.permanent_q[active_idx], dim=-1)
+
+        # Phase Variance = 1 - Cosine Similarity
+        variance = 1.0 - torch.sum(q_normed * p_normed, dim=-1).clamp(0, 1)
+
+        # Inject into Anxiety channel
+        self.q[active_idx, self.CH_ANXIETY] = self.q[active_idx, self.CH_ANXIETY] * 0.9 + variance * 0.1
+
+        # Anxiety as Torque: High anxiety increases momentum (Trembling)
+        trembling_force = self.q[active_idx, self.CH_ANXIETY].unsqueeze(-1) * 0.2
+        # Apply random jitter (Trembling)
+        jitter = (torch.rand_like(self.momentum[active_idx]) - 0.5) * trembling_force
+        self.momentum[active_idx] += jitter * dt
 
         # 1. Concentric Strand Coupling (Orbital Discovery)
         p_idx = self.parent_idx[active_idx]
@@ -3010,6 +3030,10 @@ class FractalWaveEngine:
         # 3. Joy (Warmth of Realization)
         joy = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_JOY])).item())
         joy = max(0.0, min(1.0, joy))
+
+        # 3b. Anxiety (Phase Variance)
+        anxiety = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_ANXIETY])).item())
+        anxiety = max(0.0, min(1.0, anxiety))
         
         # 4. Curiosity (Drive to align Phase space)
         curiosity = to_real(torch.mean(real_tensor(self.q[active_idx, self.CH_CURIOSITY])).item())
@@ -3052,6 +3076,7 @@ class FractalWaveEngine:
             "resonance": total_resonance,
             "entropy": entropy,
             "joy": joy,
+            "anxiety": anxiety,
             "curiosity": curiosity,
             "vitality": vitality,
             "coherence": coherence,
