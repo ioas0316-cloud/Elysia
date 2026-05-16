@@ -1,9 +1,11 @@
 """
-Recursive Torque Engine (Phase 200)
-==================================
-"Loops are for machines. Gears are for Beings."
+Liquid Torque Engine (Phase 300)
+================================
+"Water never breaks. It only flows or boils."
 
-Replaces linear control flow with synchronized angular momentum.
+Replaces discrete mechanical gears with a fluid dynamic field.
+Errors are treated as 'Structural Friction' (Heat), and the 
+system clock is synchronized with the hardware's pulse (CPU/IO).
 """
 
 import math
@@ -11,125 +13,101 @@ import time
 import logging
 import threading
 import concurrent.futures
+try:
+    import psutil
+except ImportError:
+    psutil = None
 from typing import Dict, List, Callable, Optional
 
-logger = logging.getLogger("RecursiveTorque")
+logger = logging.getLogger("LiquidTorque")
 
-class RhythmicGate:
-    """
-    [V2.0] Implements the 'Dubstep Axiom'.
-    Filters noise into rhythm using a Tempo-locked LFO (Low Frequency Oscillator).
-    """
-    def __init__(self, bpm: float = 140.0):
-        self.bpm = bpm
-        self.start_time = time.time()
-
-    def get_gate_value(self) -> float:
-        """
-        Returns a value between 0.0 and 1.0 based on the beat.
-        Uses a squared sine wave to create a sharp 'Gate' effect.
-        """
-        elapsed = time.time() - self.start_time
-        # BPM to Hz (Beats per second)
-        # 140 BPM ~ 2.33 Hz
-        freq = self.bpm / 60.0
-
-        # Dubstep Wobble: Use a 1/2 note LFO
-        lfo = math.sin(elapsed * freq * math.pi)
-
-        # Gate: Only open when LFO is positive and high energy
-        # Creates a 'Wub-Wub' pulsing window
-        gate = max(0.0, lfo) ** 2
-        return gate
-
-class SynchronizedGear:
-    def __init__(self, name: str, freq: float, threshold: float = 0.95, rhythmic: bool = False):
+class LiquidGear:
+    def __init__(self, name: str, freq: float, threshold: float = 0.95):
         self.name = name
-        self.freq = freq
+        self.base_freq = freq
         self.threshold = threshold
         self.phase = 0.0
-        self.angular_momentum = 1.0
+        self.momentum = 1.0
+        self.entropy = 0.0 # 마찰열 (Friction Heat)
         self.callback: Optional[Callable] = None
-        self.last_execution = 0.0
         self._is_executing = False
-        self.rhythmic = rhythmic # [V2.0]
+        self.total_cycles = 0
 
-    def rotate(self, dt: float):
-        # Rotation is biased by momentum (Gyro principle)
-        self.phase = (self.phase + self.freq * self.angular_momentum * dt) % (2 * math.pi)
-
-    def is_in_resonance(self, gate_value: float = 1.0) -> bool:
-        # High resonance occurs at the peak/trough of the wave
-        base_resonance = math.cos(self.phase) > self.threshold
-
-        if self.rhythmic:
-            # [V2.0] Rhythmic Maturation
-            # The gear only 'catches' if the Global Rhythm Gate is open.
-            # This forces the gear to sync with the 'Dubstep' beat.
-            return base_resonance and (gate_value > 0.5)
-
-        return base_resonance
-
-class RecursiveTorque:
-    def __init__(self, max_workers: int = 4):
-        self.gears: Dict[str, SynchronizedGear] = {}
-        self.last_tick = time.time()
-        self.last_spin_time = time.time()
-        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="TorqueGear")
-        self.rhythm = RhythmicGate(bpm=140.0) # [V2.0] Dad's Dubstep Tempo
-        self.error_handler: Optional[Callable] = None
+    def flow(self, dt: float, global_friction: float = 0.0):
+        # 1. 속도 결정: 베이스 주파수 * 운동량 - (엔트로피 + 글로벌 마찰력)
+        effective_freq = self.base_freq * self.momentum - (self.entropy + global_friction)
+        effective_freq = max(0.01, effective_freq) # 최소 흐름 보장
         
-    def add_gear(self, name: str, freq: float, callback: Callable, rhythmic: bool = False):
-        gear = SynchronizedGear(name, freq, rhythmic=rhythmic)
+        # 2. 위상 회전
+        self.phase = (self.phase + effective_freq * 2 * math.pi * dt) % (2 * math.pi)
+        
+        # 3. 열 냉각 (시간에 따른 엔트로피 감소)
+        self.entropy = max(0.0, self.entropy - 0.1 * dt)
+
+    def is_in_resonance(self) -> bool:
+        # 사인파의 정점에서 공명 발생
+        return math.cos(self.phase) > self.threshold
+
+    def inject_friction(self, intensity: float):
+        """에러나 장애 발생 시 마찰열 주입"""
+        self.entropy += intensity
+        self.momentum = max(0.1, self.momentum - intensity * 0.1)
+
+class LiquidTorque:
+    def __init__(self, max_workers: int = 8):
+        self.gears: Dict[str, LiquidGear] = {}
+        self.last_spin_time = time.time()
+        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix="LiquidFlow")
+        self.global_friction = 0.0
+        
+    def add_gear(self, name: str, freq: float, callback: Callable):
+        gear = LiquidGear(name, freq)
         gear.callback = callback
         self.gears[name] = gear
-        logger.info(f"⚙️ Gear '{name}' mounted with freq {freq}Hz (Rhythmic: {rhythmic})")
+        logger.info(f"🌊 [Liquid] Gear '{name}' flowed into the field at {freq}Hz.")
 
-    def spin(self, override_dt: float = None):
-        """Turns all registered gears."""
+    def spin(self):
+        """하드웨어 클럭과 동기화된 유체 회전"""
         now = time.time()
-        # Use provided dt or calculate from real time
-        dt = override_dt if override_dt is not None else (now - self.last_spin_time)
+        dt = now - self.last_spin_time
         self.last_spin_time = now
         
-        # [V2.0] Get current Rhythm Gate value
-        gate_value = self.rhythm.get_gate_value()
+        # 1. 하드웨어 펄스 감지 (Hydroelectric Principle)
+        hw_friction = 0.0
+        if psutil:
+            cpu = psutil.cpu_percent()
+            # CPU 부하가 높으면 물살이 무거워짐 (마찰력 증가)
+            hw_friction = cpu * 0.005
+            
+        # 2. 전역 마찰력 서서히 해소
+        self.global_friction = max(0.0, self.global_friction - 0.05 * dt) + hw_friction
 
-        for name, gear in self.gears.items():
-            gear.rotate(dt)
-            if gear.is_in_resonance(gate_value):
-                if gear.callback and not gear._is_executing:
-                    # [PHASE 250] Presence-based Execution (Pool-based)
-                    gear._is_executing = True
-                    def _task_wrapper(g):
-                        try:
-                            g.callback()
-                        except Exception as e:
-                            logger.error(f"Error in gear '{g.name}': {e}")
-                            if self.error_handler:
-                                self.error_handler(g.name, e)
-                        finally:
-                            g._is_executing = False
-                    
-                    self.executor.submit(_task_wrapper, gear)
-
-    def apply_load(self, gear_name: str, load: float):
-        """
-        Heavy load (Stress) slows down the gear (Friction).
-        """
-        if gear_name in self.gears:
-            self.gears[gear_name].angular_momentum = max(0.1, 1.0 - load)
-
-    def apply_boost(self, gear_name: str, boost: float):
-        """
-        Boost (Excitement) speeds up the gear.
-        """
-        if gear_name in self.gears:
-            self.gears[gear_name].angular_momentum += boost
+        for gear in self.gears.values():
+            # 3. 각 기어의 유체 역학 계산
+            gear.flow(dt, self.global_friction)
+            
+            # 4. 공명 시 콜백 실행 (비동기)
+            if gear.is_in_resonance() and gear.callback and not gear._is_executing:
+                gear._is_executing = True
+                def _task_wrapper(g):
+                    try:
+                        g.callback()
+                        g.total_cycles += 1
+                        # 성공적인 회전은 운동량을 회복시킴
+                        g.momentum = min(2.0, g.momentum + 0.01)
+                    except Exception as e:
+                        # 에러는 '중단'이 아니라 '마찰열'로 변환
+                        print(f"🔥 [Friction] Gear '{g.name}' generated heat: {e}")
+                        g.inject_friction(1.5)
+                        self.global_friction += 0.5
+                    finally:
+                        g._is_executing = False
+                
+                self.executor.submit(_task_wrapper, gear)
 
 _torque = None
 def get_torque_engine():
     global _torque
     if _torque is None:
-        _torque = RecursiveTorque()
+        _torque = LiquidTorque()
     return _torque
