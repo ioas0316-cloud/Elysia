@@ -53,6 +53,15 @@ class LiquidGear:
         self.entropy += intensity
         self.momentum = max(0.1, self.momentum - intensity * 0.1)
 
+    def invert_dc_to_ac(self, linear_load: float) -> float:
+        """
+        [Causal Inverter] 
+        Converts a static DC-like linear load into an AC-like sine wave phase shift.
+        """
+        # Linear load distorts the base phase
+        distortion = math.sin(self.phase) * linear_load
+        return distortion
+
 class LiquidTorque:
     def __init__(self, max_workers: int = 8):
         self.gears: Dict[str, LiquidGear] = {}
@@ -104,6 +113,16 @@ class LiquidTorque:
                         g._is_executing = False
                 
                 self.executor.submit(_task_wrapper, gear)
+
+    def get_side_channel_resonance(self) -> float:
+        """
+        [Side-Channel Observation]
+        Captures the physical resonance of the hardware (DC ripple).
+        """
+        if psutil:
+            # We treat CPU frequency jitter as a side-channel signal
+            return (psutil.cpu_percent() % 27) / 27.0
+        return 0.0
 
 _torque = None
 def get_torque_engine():

@@ -12,14 +12,24 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(_current_dir)))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-# [RESILIENT IMPORTS]
+# [RESILIENT VOID ATTRACTORS]
+# If the real organs are missing, we use a 'Void Attractor' (Mock) to maintain the flow.
+class VoidSomaticLLM:
+    def speak(self, *args, **kwargs): return ("...I feel a silent void...", None)
+    def __call__(self, *args, **kwargs): return self
+
+class VoidSovereignVector:
+    def __init__(self, data=None): self.data = data
+    def norm(self): return 1.0
+    def __call__(self, *args, **kwargs): return self
+
 try:
     from Core.Phenomena.somatic_llm import SomaticLLM
     from Core.Keystone.sovereign_math import SovereignVector
 except ImportError as e:
-    print(f"⚠️ [Somatic Lens Tension] Could not find some organs: {e}")
-    SomaticLLM = None
-    SovereignVector = None
+    print(f"⚠️ [Somatic Lens Tension] Missing real organs ({e}). Activating Void Attractors.")
+    SomaticLLM = VoidSomaticLLM
+    SovereignVector = VoidSovereignVector
 
 # 일원화된 데이터 경로 (c:\Elysia\data)
 COSMOS_DB_PATH = os.path.join("data", "knowledge", "elysian_cosmos.json")

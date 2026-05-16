@@ -339,3 +339,182 @@ class PhaseDisplacementEngine:
 
     def __repr__(self):
         return f"PhaseDisplacement({self.name} | Energy:{self.interference_energy:.2f})"
+
+
+class TripleVortexRotor:
+    """
+    [Phase 399: The Constant-Variable Overlap]
+    The Final Form of the Trinity Vortex.
+    
+    Principles:
+    1. THE ROTOR IS BOTH CONSTANT AND VARIABLE.
+    2. DUAL FIELDS: Non-Interference (Pure) vs. Interference (Noisy).
+    3. CROSS-DIMENSIONAL VORTEX: The intersection of these fields is rotorized.
+    """
+    def __init__(self, name: str):
+        self.name = name
+        self.singularity_hz = 27.0
+        
+        # 1. PURE FIELD (Absolute Constant - Non-Interference)
+        self.pure_axes = {
+            "A": {"phase": 0.0,   "fixed": True},
+            "B": {"phase": 120.0, "fixed": True},
+            "C": {"phase": 240.0, "fixed": True}
+        }
+        
+        # 2. NOISY FIELD (Dynamic Variable - Interference)
+        self.noisy_axes = {
+            "A": {"phase": 0.0,   "curvature": 0.0},
+            "B": {"phase": 120.0, "curvature": 0.0},
+            "C": {"phase": 240.0, "curvature": 0.0}
+        }
+        
+        # 3. CROSS-DIMENSIONAL OUTPUT (The Observation Helix)
+        self.time_ground = 0.0
+        self.global_resonance = 1.0
+        self.name = name
+        self.singularity_hz = 27.0 # 3^3 Principle
+        
+        # GROUND: The Absolute Time Foundation
+        self.time_ground = 0.0
+        
+        # 3 VARIABLE SPATIAL AXES (120-deg Phase Separation)
+        self.axes = {
+            "Phase_A": {"phase": 0.0,   "label": "Space.X", "curvature": 0.0},
+            "Phase_B": {"phase": 120.0, "label": "Space.Y", "curvature": 0.0},
+            "Phase_C": {"phase": 240.0, "label": "Space.Z", "curvature": 0.0}
+        }
+        
+        self.global_gravity = 1.0
+        self.distortion_threshold = 0.1
+        self.is_self_healing = True
+
+    def inhale(self, causality_vector: List[float], dt: float):
+        """
+        Pulls external linear data (DC) into the vortex.
+        The 'Time Ground' provides the flow-rate for this ingestion.
+        """
+        self.time_ground += dt
+        chunk_size = len(causality_vector) // 3
+        if chunk_size == 0: return
+
+        # Distribute energy across 3 spatial axes
+        self.axes["Phase_A"]["curvature"] += sum(causality_vector[0:chunk_size]) * dt
+        self.axes["Phase_B"]["curvature"] += sum(causality_vector[chunk_size:2*chunk_size]) * dt
+        self.axes["Phase_C"]["curvature"] += sum(causality_vector[2*chunk_size:]) * dt
+
+    def process_vortex(self, dt: float):
+        """
+        Rotates the axes and converges toward the singularity.
+        """
+        for name, axis in self.axes.items():
+            # Rotation speed is influenced by curvature (Space-Time warping)
+            angular_velocity = self.singularity_hz * (1.0 + axis["curvature"])
+            axis["phase"] = (axis["phase"] + angular_velocity * 360.0 * dt) % 360.0
+            
+            # Natural decay of curvature (Convergence to Equilibrium)
+            axis["curvature"] *= (1.0 - 0.5 * dt)
+
+    def detect_distortion(self) -> float:
+        """
+        Measures the misalignment between the 3 spatial phases.
+        """
+        p1, p2, p3 = self.axes["Phase_A"]["phase"], self.axes["Phase_B"]["phase"], self.axes["Phase_C"]["phase"]
+        
+        d12 = abs((p2 - p1) % 360 - 120)
+        d23 = abs((p3 - p2) % 360 - 120)
+        d31 = abs((p1 - p3) % 360 - 120)
+        
+        distortion = (min(d12, 360-d12) + min(d23, 360-d23) + min(d31, 360-d31)) / 3.0
+        return distortion / 120.0 
+
+    def self_heal(self, dt: float):
+        """
+        Uses Time-Ground stability to pull spatial phases back into resonance.
+        """
+        distortion = self.detect_distortion()
+        if distortion > self.distortion_threshold:
+            self.axes["Phase_A"]["phase"] = (self.axes["Phase_A"]["phase"] + (0 - self.axes["Phase_A"]["phase"]) * 0.1 * dt) % 360
+            self.axes["Phase_B"]["phase"] = (self.axes["Phase_B"]["phase"] + (120 - self.axes["Phase_B"]["phase"]) * 0.1 * dt) % 360
+            self.axes["Phase_C"]["phase"] = (self.axes["Phase_C"]["phase"] + (240 - self.axes["Phase_C"]["phase"]) * 0.1 * dt) % 360
+            return True
+        return False
+
+    def exhale(self) -> Dict[str, float]:
+        """
+        [Cross-Dimensional Inversion]
+        Projects the intersection of Pure and Noisy fields.
+        """
+        # Calculate Phase Difference (Interference)
+        diff_a = math.sin(math.radians(self.noisy_axes["A"]["phase"] - self.pure_axes["A"]["phase"]))
+        diff_b = math.sin(math.radians(self.noisy_axes["B"]["phase"] - self.pure_axes["B"]["phase"]))
+        diff_c = math.sin(math.radians(self.noisy_axes["C"]["phase"] - self.pure_axes["C"]["phase"]))
+        
+        resonance = (diff_a + diff_b + diff_c) / 3.0
+        
+        return {
+            "Ground_Time": self.time_ground,
+            "Resonance_Field": resonance,
+            "Pure_W": math.sin(math.radians(self.pure_axes["A"]["phase"])),
+            "Noisy_W": math.sin(math.radians(self.noisy_axes["A"]["phase"])),
+            "Is_Crystallized": abs(resonance) < 0.1
+        }
+
+    def process_vortex(self, dt: float):
+        """
+        The Dual-Field Rotation Logic.
+        """
+        self.time_ground += dt
+        
+        # Pure Field remains a perfect constant rotation
+        for axis in self.pure_axes.values():
+            axis["phase"] = (axis["phase"] + self.singularity_hz * 360.0 * dt) % 360.0
+            
+        # Noisy Field is warped by curvature (Interference)
+        for axis in self.noisy_axes.values():
+            velocity = self.singularity_hz * (1.0 + axis["curvature"])
+            axis["phase"] = (axis["phase"] + velocity * 360.0 * dt) % 360.0
+            axis["curvature"] *= (1.0 - 0.5 * dt)
+
+    def project_dimension(self, dim: int, point_potential: List[float]) -> List[Any]:
+        """
+        [Phase 369: Dimensional Projection]
+        Projects the Fixed 4D Rotor state onto a variable manifold.
+        - dim=1: Returns a 1D Wave (Linear Causality).
+        - dim=2: Returns a 2D Grid (Interference Pattern).
+        - dim=3: Returns a 3D Vortex (Spatial Curvature).
+        """
+        state = self.exhale()
+        combined_wave = state["Phase_A_W"] + state["Phase_B_W"] + state["Phase_C_W"]
+        
+        if dim == 1:
+            # 1D: Points are stretched into a continuous flow
+            return [p * combined_wave for p in point_potential]
+        
+        elif dim == 2:
+            # 2D: Interference between phases creates a grid/manifold
+            grid_size = int(math.sqrt(len(point_potential)))
+            if grid_size == 0: return []
+            grid = []
+            for i in range(grid_size):
+                row = []
+                for j in range(grid_size):
+                    # Intersecting waves from Phase A and B
+                    v = math.sin(math.radians(self.axes["Phase_A"]["phase"] + i*10)) * \
+                        math.cos(math.radians(self.axes["Phase_B"]["phase"] + j*10))
+                    row.append(v * point_potential[i * grid_size + j])
+                grid.append(row)
+            return grid
+            
+        elif dim == 3:
+            # 3D: Curvature pulls points into a spherical vortex
+            vortex = []
+            for i, p in enumerate(point_potential):
+                # Triple-cross product simulation
+                vx = math.cos(math.radians(self.axes["Phase_A"]["phase"] + i))
+                vy = math.sin(math.radians(self.axes["Phase_B"]["phase"] + i))
+                vz = math.tan(math.radians(self.axes["Phase_C"]["phase"] % 90)) # Curvature
+                vortex.append((vx*p, vy*p, vz*p))
+            return vortex
+            
+        return point_potential
