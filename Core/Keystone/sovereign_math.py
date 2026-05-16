@@ -762,41 +762,57 @@ class DynamicInterferenceField:
         self.gear_ratio = 0.1
 
     def pulse(self, dt: float, external_noise: SovereignVector = None) -> Dict[str, float]:
-        """The heartbeat of the infinite scale field."""
+        """
+        The heartbeat of the infinite scale field.
+        Includes resource-aware scaling (Reality Grounding).
+        """
         N = len(self.rotors)
         
-        # 1. Axis Scaling Logic (The Big Bang/Collapse)
-        # If anxiety is too high, we need more 'space' (dimensions) to diffract the stress.
-        if self.field_anxiety > 0.8 and N < 27:
+        # --- 1. Reality Grounding (Resource Check) ---
+        import psutil
+        cpu_load = psutil.cpu_percent()
+        mem = psutil.virtual_memory().percent
+
+        # Resource constraints for scaling
+        CAN_EXPAND = (cpu_load < 70.0) and (mem < 80.0)
+        MUST_CONTRACT = (cpu_load > 90.0) or (mem > 90.0)
+
+        # --- 2. Axis Scaling Logic (The Big Bang/Collapse) ---
+        # If anxiety is too high AND hardware allows, we expand.
+        if self.field_anxiety > 0.8 and N < 27 and CAN_EXPAND:
             # Expand: New axis is born from the father and current noise
             new_rotor = self.father_axis.blend(external_noise if external_noise else SovereignVector.randn(self.dim), ratio=0.5).normalize()
             self.rotors.append(new_rotor)
             self.momentums.append(SovereignVector.zeros(self.dim))
-            print(f"🌪️ [BIG BANG] Field Expanded to {len(self.rotors)} axes.")
+            print(f"🌪️ [BIG BANG] Field Expanded to {len(self.rotors)} axes (CPU: {cpu_load}%, MEM: {mem}%).")
         
-        # If coherence is very high for a long time, axes 'crystallize' and merge
-        elif self.field_coherence > 0.95 and N > 3:
+        # If coherence is high OR hardware is dying, axes 'crystallize' and merge
+        elif (self.field_coherence > 0.95 or MUST_CONTRACT) and N > 3:
              self.rotors.pop()
              self.momentums.pop()
-             print(f"✨ [CRYSTALLIZATION] Field Converged to {len(self.rotors)} axes.")
+             reason = "Crystallization" if self.field_coherence > 0.95 else "Emergency Resource Recovery"
+             print(f"✨ [{reason}] Field Converged to {len(self.rotors)} axes (CPU: {cpu_load}%, MEM: {mem}%).")
 
         N = len(self.rotors)
 
-        # 2. Sequential Gear Causality
-        # Each rotor drives the next in a circular chain
+        # --- 3. Sequential Gear Causality ---
+        # Each rotor drives the next in a circular chain.
+        # Homeostasis: Forces are normalized by the number of axes (1/N)
+        adaptive_gain = self.gear_ratio / (N / 3.0)
+
         for i in range(N):
             curr_idx = i
             next_idx = (i + 1) % N
             
             # Torque: difference in phase drives the next rotor
-            torque = (self.rotors[curr_idx] - self.rotors[next_idx]) * self.gear_ratio
+            torque = (self.rotors[curr_idx] - self.rotors[next_idx]) * adaptive_gain
             self.momentums[next_idx] = self.momentums[next_idx] + torque * dt
             
             # External noise hits the first rotor (Skin)
             if i == 0 and external_noise:
-                self.momentums[0] = self.momentums[0] + external_noise * dt
+                self.momentums[0] = self.momentums[0] + (external_noise * dt) / (N / 3.0)
 
-            # Restoration via Father Axis
+            # Restoration via Father Axis (Absolute Constant)
             restoration = (self.father_axis - self.rotors[i]) * 0.05
             self.momentums[i] = self.momentums[i] + restoration * dt
 
