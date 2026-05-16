@@ -740,6 +740,12 @@ class FractalWaveEngine:
     4. Helical 333 Structure: 3 Main Spiral Strands (Body/Soul/Spirit).
     5. Fleming Spin Engine: Axial drive and orbital rotation generate the helical form.
     """
+    # [PHASE 1300] Archetypal Mapping (The Primate Frame):
+    # Strand 0: Body (육) -> Fish Archetype (Wave, Flow, Fluidity)
+    # Strand 1: Soul (혼) -> Plant Archetype (Grounding, Affect, Stability)
+    # Strand 2: Spirit (영) -> Animal/Bird Archetype (Intent, Gravity, Curvature)
+    # Total 27D -> Human/Primate Archetype (Unified Peak Integration)
+    
     # [PHASE 1014] 27D Sensation Mapping (3x3x3 Observation Plane)
     # Mapping Formula: index = (strand * 9) + (helical_phase * 3) + component
     # Strand: 0:Body(육), 1:Soul(혼), 2:Spirit(영)
