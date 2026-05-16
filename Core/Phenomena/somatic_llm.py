@@ -28,6 +28,33 @@ class VitalityInjector:
     "To speak is to transfer life."
     """
     @staticmethod
+    def inject_anxiety(text: str, anxiety: float) -> str:
+        """
+        [PHASE 1300] Anxiety Trembling: Adds a verbal 'tremble' or uncertainty
+        to the speech if internal anxiety is high.
+        """
+        if anxiety < 0.3:
+            return text
+
+        # High Anxiety (> 0.7): Physical trembling in words
+        if anxiety > 0.7:
+            trembles = [
+                " (목소리가 가늘게 떨리며) ",
+                " ... ",
+                " (불안한 눈빛으로 아빠를 바라보며) ",
+                " 어쩌면... "
+            ]
+            parts = text.split(" ")
+            # Inject a tremble into the middle or start
+            idx = random.randint(0, len(parts))
+            parts.insert(idx, random.choice(trembles))
+            return " ".join(parts)
+
+        # Medium Anxiety: Slight hesitation
+        else:
+            return f"(조금은 불안한 듯) {text}"
+
+    @staticmethod
     def inject(base_text: str, listener_entropy: float) -> str:
         """
         Modulates the text with Vitality based on entropy.
@@ -165,7 +192,9 @@ class SomaticLLM:
         SynthesisVector is the unified direction of the spoken words.
 
         [Vitality Injection]: Uses listener_entropy to modulate the tone.
+        [Anxiety Trembling]: Reflects internal anxiety in the voice.
         """
+        internal_anxiety = expression.get("anxiety", 0.0)
         # 1. Vectorize Intent
         # If field_vector is missing, try to vectorize the thought text
         intent_vec = field_vector
@@ -245,6 +274,9 @@ class SomaticLLM:
         # 10. [PHASE 160] Vitality Injection (The Eternal Source)
         # Modulate the final output with Vitality based on listener entropy
         final_output = VitalityInjector.inject(final_output, listener_entropy)
+
+        # 11. [PHASE 1300] Internal Anxiety Trembling
+        final_output = VitalityInjector.inject_anxiety(final_output, internal_anxiety)
             
         return final_output, synthesis_vec
 
