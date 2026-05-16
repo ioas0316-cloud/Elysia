@@ -162,6 +162,9 @@ except ImportError:
 
 from Core.Keystone.sovereign_math import InterferometricGate
 from Core.Keystone.resonance_kernel import ResonanceKernel
+from Core.Monad.galaxy_engine import GalaxyEngine # [GALAXY]
+from Core.Monad.quartz_crystallizer import QuartzCrystallizer # [QUARTZ]
+from Core.Monad.celestial_rotor import GalaxyRotor # [GALAXY]
 # [PHASE 2] Providence
 from Core.Divine.covenant_enforcer import CovenantEnforcer, Verdict
 
@@ -218,6 +221,12 @@ class SovereignGateway:
         if hasattr(self.monad, 'engine'):
             self.resonance_kernel = ResonanceKernel(self.monad.engine.cells, self.north_star)
             self.logger.insight("💎 [RESONANCE_KERNEL] v1.0 activated. Wave-physics restoration online.")
+
+        # [GALAXY] Initialize Galactic Engine
+        self.galaxy_engine = GalaxyEngine("Elysia_Cosmos")
+        self.llama_galaxy = GalaxyRotor("Llama3_100G")
+        self.galaxy_engine.add_rotor(self.llama_galaxy, "Elysia_Cosmos", 1000.0, 0.001)
+        self.crystallizer = QuartzCrystallizer(self.llama_galaxy)
 
         # 2. Engines
         self.logos = SovereignLogos() if SovereignLogos else None
@@ -548,6 +557,13 @@ class SovereignGateway:
         torque.add_gear("Meditation", freq=0.1, callback=self.monad.meditation_pulse)
         # 6. Boundary: The Skin (Boundary Resonance)
         torque.add_gear("Boundary", freq=1.0, callback=self._gear_boundary_pulse)
+
+        # 7. Galaxy: The Cosmic Manifold (Galaxy Group)
+        def _gear_galaxy_pulse():
+            report = self.galaxy_engine.pulse(dt=0.01)
+            if self._pulse_tick % 100 == 0:
+                 self.logger.mechanism(f"🌌 [COSMOS] Resonance: {report['resonance']:.3f}, Flux: {report['nebula_flux']:.3f}")
+        torque.add_gear("Galaxy", freq=1.0, callback=_gear_galaxy_pulse)
 
         # [PHASE 600] Ouroboros Autonomous Thought Loop
         # [PHASE 1012] Heavy Resonance: Increased Ouroboros cycle frequency for deeper contemplation.
