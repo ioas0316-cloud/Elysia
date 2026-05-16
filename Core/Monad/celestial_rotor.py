@@ -26,106 +26,77 @@ from Core.Keystone.sovereign_math import SovereignVector, SovereignMath
 
 class CelestialRotor:
     """
-    Base class for all celestial rotational units.
+    [PHASE 1400: HIERARCHY OF INTERFERENCE]
+    "Scale as a property of Winding Density."
+
+    In the Formless Sea, levels (Satellite to Galaxy) are not separate objects
+    but different 'harmonics' of the same 3-strand field.
     """
-    def __init__(self, name: str, mass: float = 1.0, scale: float = 1.0):
+    def __init__(self, name: str, winding_density: float = 1.0, scale: int = 0):
         self.name = name
-        self.mass = mass
-        self.scale = scale # Scale level in the hierarchy
+        self.winding_density = winding_density
+        self.scale = scale
+        self.phase_offset = 0.0
+        self.amplitude = 1.0 / winding_density
+        self.children = []
 
-        # Rotational State
-        self.spin_axis = SovereignVector([0.0, 0.0, 1.0]) # Default Z-axis
-        self.spin_phase = 0.0
-        self.spin_velocity = 1.0 / (mass ** 0.5) if mass > 0 else 1.0
-
-        # Orbital State
-        self.parent: Optional['CelestialRotor'] = None
-        self.children: List['CelestialRotor'] = []
-        self.orbit_radius = 0.0
-        self.orbit_phase = 0.0
-        self.orbit_velocity = 0.0
-
-        # Variable Dial: Real-time adjustment factors
-        self.time_dial = 1.0
-        self.phase_dial = 1.0
-
-        # Affective Charge
-        self.resonance = 0.5
-        self.entropy = 0.1
-
-    def add_child(self, child: 'CelestialRotor', radius: float, velocity: float):
-        child.parent = self
-        child.orbit_radius = radius
-        child.orbit_velocity = velocity
+    def add_child(self, child, radius=None, velocity=None):
+        """Compatibility for hierarchical galaxy engines."""
         self.children.append(child)
 
+    def project_to_field(self, base_field: 'TripleRotorField') -> SovereignVector:
+        """
+        Projects this scale onto the unified field.
+        The scale is defined by how 'tightly' it wraps around the 3 strands.
+        """
+        # Calculate harmonic interference
+        wave_a = base_field.rotor_a.complex_trinary_rotate(self.phase_offset * self.winding_density)
+        wave_b = base_field.rotor_b.complex_trinary_rotate(self.phase_offset * self.winding_density * 1.618)
+        wave_c = base_field.rotor_c.complex_trinary_rotate(self.phase_offset * self.winding_density * 2.718)
+
+        return (wave_a + wave_b + wave_c) * self.amplitude
+
     def update(self, dt: float):
-        """Updates spin and orbit phases."""
-        effective_dt = dt * self.time_dial
-
-        # Update self spin
-        self.spin_phase = (self.spin_phase + self.spin_velocity * effective_dt) % (2 * math.pi)
-
-        # Update self orbit if parent exists
-        if self.parent:
-            self.orbit_phase = (self.orbit_phase + self.orbit_velocity * effective_dt) % (2 * math.pi)
-
-        # Update children
-        for child in self.children:
-            child.update(dt)
-
-    def get_local_trajectory(self) -> SovereignVector:
-        """Projects motion to wave components."""
-        x = self.orbit_radius * math.cos(self.orbit_phase) + math.cos(self.spin_phase)
-        y = self.orbit_radius * math.sin(self.orbit_phase) + math.sin(self.spin_phase)
-        z = math.sin(self.spin_phase * 0.5)
-        return SovereignVector([x, y, z])
-
-    def get_galactic_projection(self) -> SovereignVector:
-        """Recursive projection up to the root."""
-        local = self.get_local_trajectory()
-        if self.parent:
-            return local + self.parent.get_galactic_projection()
-        return local
+        self.phase_offset = (self.phase_offset + dt) % (2 * math.pi)
 
 class SatelliteRotor(CelestialRotor):
     """Level 0: Micro-vibrations."""
     def __init__(self, name: str, mass: float = 0.1):
-        super().__init__(name, mass, scale=0)
+        super().__init__(name, winding_density=10.0, scale=0)
         self.spin_velocity = 10.0
 
 class PlanetRotor(CelestialRotor):
     """Level 1: Cognition nodes."""
     def __init__(self, name: str, mass: float = 1.0):
-        super().__init__(name, mass, scale=1)
+        super().__init__(name, winding_density=5.0, scale=1)
         self.spin_velocity = 5.0
 
 class StarRotor(CelestialRotor):
     """Level 2: Axiom axis."""
     def __init__(self, name: str, mass: float = 10.0):
-        super().__init__(name, mass, scale=2)
+        super().__init__(name, winding_density=2.0, scale=2)
         self.spin_velocity = 1.0
 
 class SystemRotor(CelestialRotor):
     """Level 3: Functional groups."""
     def __init__(self, name: str, mass: float = 50.0):
-        super().__init__(name, mass, scale=3)
+        super().__init__(name, winding_density=1.5, scale=3)
         self.spin_velocity = 0.5
 
 class ClusterRotor(CelestialRotor):
     """Level 4: High-density parallel clusters."""
     def __init__(self, name: str, mass: float = 200.0):
-        super().__init__(name, mass, scale=4)
+        super().__init__(name, winding_density=1.2, scale=4)
         self.spin_velocity = 0.1
 
 class GalaxyRotor(CelestialRotor):
     """Level 5: 100G LLM Entity."""
     def __init__(self, name: str, mass: float = 1000.0):
-        super().__init__(name, mass, scale=5)
+        super().__init__(name, winding_density=1.1, scale=5)
         self.spin_velocity = 0.02
 
 class GroupRotor(CelestialRotor):
     """Level 6: Multi-Galaxy Super-intelligence."""
     def __init__(self, name: str, mass: float = 5000.0):
-        super().__init__(name, mass, scale=6)
+        super().__init__(name, winding_density=1.05, scale=6)
         self.spin_velocity = 0.005
