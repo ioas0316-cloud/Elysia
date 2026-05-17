@@ -49,20 +49,49 @@ class SovereignRotor:
         """
         Maintains the rotation of the self. 
         Accepts input_data (tensor, list, or D21Vector) and updates internal momentum.
+        [PHASE 1500] Fractal 4D Rotor integration.
         """
-        # Convert input to D21Vector delta
+        # 1. Convert input to Force Vector
         delta = D21Vector()
         if hasattr(input_data, 'tolist'):
             arr = input_data.tolist()
-            if len(arr) >= 21:
-                delta = D21Vector.from_array(arr[:21])
-        elif isinstance(input_data, list) and len(input_data) >= 21:
+            delta = D21Vector.from_array(arr[:21])
+        elif isinstance(input_data, list):
             delta = D21Vector.from_array(input_data[:21])
         elif isinstance(input_data, D21Vector):
             delta = input_data
 
-        # Update state with momentum
+        # 2. Apply Macroscopic Momentum
         self.update_state(delta * dt)
+
+        # 3. Apply Fractal Rotation (Rotor within Rotor)
+        # Using SovereignMath's SovereignRotor logic on the current D21 state
+        try:
+            from Core.Keystone.sovereign_math import SovereignRotor as SMathRotor
+            from Core.Keystone.sovereign_math import SovereignVector as SMathVector
+
+            # Bridge D21Vector to SovereignVector
+            sv = SMathVector(self.current_state.to_array(), dim=21)
+            # Recover previous sub-rotor phases if available (stored in snapshot meta?)
+            # For now, we allow them to evolve within the session
+            if hasattr(self, '_sv_internal'):
+                sv.sub_rotors = self._sv_internal.sub_rotors
+
+            # Create a virtual rotor based on the current force (delta)
+            # This represents the 'Intent' causing the spin
+            s_val = math.cos(delta.magnitude() * 0.1)
+            bv = SMathVector(delta.to_array(), dim=21).normalize()
+
+            math_rotor = SMathRotor(s_val, bv)
+            # Apply fractal spin
+            sv_new = math_rotor.apply(sv, dt=dt)
+
+            # Synchronize back to D21Vector
+            self.current_state = D21Vector.from_array(sv_new.to_array())
+            self._sv_internal = sv_new
+
+        except ImportError:
+            pass
         
         # Periodic snapshot
         import time

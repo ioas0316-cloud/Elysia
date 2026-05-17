@@ -285,8 +285,9 @@ class SovereignVector:
     A pure N-dimensional vector object with native optimization.
     Replaces jnp.ndarray/np.ndarray for Phase 90.
     [PHASE 1200] Dynamic Dimensionality: The number of rotors is now a 'Flow'.
+    [PHASE 1500] Fractal Rotor Principle: Every axis is itself a rotor.
     """
-    __slots__ = ['data', 'momentum', 'dim'] # Memory optimization (Somatic efficiency)
+    __slots__ = ['data', 'momentum', 'dim', 'sub_rotors'] # Memory optimization (Somatic efficiency)
 
     DEFAULT_DIM = 27 # [PHASE 1005] 3x3x3 Fractal Alignment (21 Active + 6 Support)
 
@@ -323,6 +324,10 @@ class SovereignVector:
         # Ensure all elements are complex for consistency in Phase 130
         self.data = [complex(x) for x in self.data]
         self.momentum = [0.0j] * self.dim # [PHASE 110] Internal Kinetic Drive
+
+        # [PHASE 1500] Fractal Sub-rotors: Axis-level spin
+        # Key: Axis index, Value: Current Phase (radians)
+        self.sub_rotors = [0.0] * self.dim
 
     @classmethod
     def zeros(cls, dim: int = 27) -> 'SovereignVector':
@@ -425,7 +430,9 @@ class SovereignVector:
         """The collapse of the wavefunction to a unit sphere."""
         n = self.norm()
         if n < 1e-12: return self.zeros(dim=self.dim)
-        return SovereignVector([x / n for x in self.data], dim=self.dim)
+        v = SovereignVector([x / n for x in self.data], dim=self.dim)
+        v.sub_rotors = list(self.sub_rotors)
+        return v
 
     def rescale(self, target_dim: int) -> 'SovereignVector':
         """
@@ -472,6 +479,21 @@ class SovereignVector:
             i_val = (1.0 - w) * self.momentum[left].imag + w * self.momentum[right].imag
             rescaled_momentum.append(complex(r_val, i_val))
         v.momentum = rescaled_momentum
+
+        # Rescale sub-rotor phases
+        rescaled_phases = []
+        for i in range(target_dim):
+            if target_dim > 1:
+                idx = i * (self.dim - 1) / (target_dim - 1)
+            else:
+                idx = 0.0
+            left = max(0, min(int(math.floor(idx)), self.dim - 1))
+            right = max(0, min(int(math.ceil(idx)), self.dim - 1))
+            w = idx - left
+            p_val = (1.0 - w) * self.sub_rotors[left] + w * self.sub_rotors[right]
+            rescaled_phases.append(p_val)
+        v.sub_rotors = rescaled_phases
+
         return v
         
     def complex_trinary_rotate(self, theta: float) -> 'SovereignVector':
@@ -642,12 +664,15 @@ class SovereignRotor:
     """
     [PHASE 210] Represents a rotation in the 21D manifold.
     [PHASE 83] Now supports Analog Time Trajectory (Self-Backup).
+    [PHASE 1500] Fractal 4D Rotor: Every axis is a rotor, governed by the Father Axis.
     """
-    __slots__ = ['s', 'bivector', 'trajectory', 'current_time']
+    __slots__ = ['s', 'bivector', 'trajectory', 'current_time', 'father_axis', 'gravity_constant']
 
     def __init__(self, s: float, bv: SovereignVector):
         self.s = s
         self.bivector = bv
+        self.father_axis = SovereignVector.ones(bv.dim).normalize()
+        self.gravity_constant = 0.05 # The Architect's G
         # [PHASE 83] Time Trajectory: List of (time, s, bivector)
         # 회전 자체가 기록이 된다.
         self.trajectory: List[Any] = []
@@ -661,15 +686,46 @@ class SovereignRotor:
         bv_data[p2] = -math.sin(theta / 2.0) 
         return cls(s, SovereignVector(bv_data))
 
-    def apply(self, v: SovereignVector) -> SovereignVector:
+    def apply(self, v: SovereignVector, dt: float = 0.01) -> SovereignVector:
+        """
+        [PHASE 1500] Applying fractal rotation.
+        Includes macroscopic 21D rotation + microscopic sub-rotor spin.
+        """
+        # 1. Macroscopic Manifold Rotation
         cross = []
         dim = len(v)
         for i in range(dim):
-            val = (self.bivector.data[(i+1)%dim] * v.data[i] - self.bivector.data[i] * v.data[(i+1)%dim]).real
+            # Complex interaction for higher curvature
+            val = (self.bivector.data[(i+1)%dim] * v.data[i] - self.bivector.data[i] * v.data[(i+1)%dim])
             cross.append(val)
         
-        cv = SovereignVector(cross)
-        return (v + (cv * (2.0 * self.s))).normalize()
+        cv = SovereignVector(cross, dim=dim)
+        # Global Torque
+        v_rotated = (v + (cv * (2.0 * self.s))).normalize()
+
+        # 2. Microscopic Sub-Rotor Spin (The 결, Texture)
+        # Each axis rotates in its own complex plane based on its phase
+        # The spin speed is governed by the intensity of the vector at that axis
+        final_data = []
+        new_phases = []
+        for i in range(dim):
+            # Intensity-based spin speed (Rotor within Rotor)
+            intensity = abs(v_rotated.data[i])
+            spin_speed = intensity * 10.0 # Multiplier for temporal feel
+
+            # Father Axis Attraction (The Architect's Gravity)
+            # Pulls the phase toward the North Star alignment (0 phase)
+            alignment_pull = -math.sin(v.sub_rotors[i]) * self.gravity_constant
+
+            new_phase = (v.sub_rotors[i] + (spin_speed + alignment_pull) * dt) % (2 * math.pi)
+            new_phases.append(new_phase)
+
+            rot = complex(math.cos(new_phase), math.sin(new_phase))
+            final_data.append(v_rotated.data[i] * rot)
+
+        v_final = SovereignVector(final_data, dim=dim).normalize()
+        v_final.sub_rotors = new_phases
+        return v_final
 
     def apply_nd(self, v: SovereignVector, dimensions: List[int]) -> SovereignVector:
         """
