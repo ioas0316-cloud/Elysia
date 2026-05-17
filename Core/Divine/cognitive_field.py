@@ -25,6 +25,7 @@ class CognitiveField:
     def __init__(self):
         self.monads: Dict[str, TokenMonad] = {}
         self.residual_vector = SovereignVector.zeros() # The "Ghost" of the previous thought
+        self.continuity_strength = 0.3 # [PHASE 1400] Initial momentum
         
         # [PHASE 300] The Double Helix Engine
         # Initial spin across logic (2) and emotion (11) planes
@@ -84,14 +85,27 @@ class CognitiveField:
             self._refresh_cellular_identities()
 
         # 1. Input Injection (The Spark)
-        # We mix the Input with the Residual (Context)
-        # Input has higher weight (Immediate attention) vs Residual (Short-term memory)
-        # [PHASE 1200] Vector addition handles different dimensions by expanding
+        # [PHASE 1400] Cognitive Momentum: Residual influence is dynamic.
+        # If the ghost vector (past) has high resonance with the current input,
+        # it builds 'Momentum' (Inertia), making the thought deeper and more continuous.
+
+        res_score = self.residual_vector.resonance_score(input_vector)
+
+        # Momentum builds if thoughts are aligned, but breaks if there's a sharp turn
+        if res_score > 0.6:
+            # Gradual buildup of continuity
+            self.continuity_strength = min(0.85, self.continuity_strength + 0.05)
+        else:
+            # Sharp change in intent reduces inertia to allow for the new
+            self.continuity_strength = max(0.1, self.continuity_strength - 0.15)
+
         if input_vector.norm() < 0.01:
             # Pure Internal Mode (Daydreaming / Recursion)
             combined_stimulus = self.residual_vector
         else:
-            combined_stimulus = (input_vector * 0.7) + (self.residual_vector * 0.3)
+            # Input weight is balanced by momentum (continuity)
+            input_weight = 1.0 - self.continuity_strength
+            combined_stimulus = (input_vector * input_weight) + (self.residual_vector * self.continuity_strength)
 
         # 1.5 Cellular Judgment (Agentic Injection)
         judgment_stats = self._inject_energy(combined_stimulus)
