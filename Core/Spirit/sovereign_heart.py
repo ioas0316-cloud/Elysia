@@ -19,6 +19,8 @@ try:
     import psutil
     from Core.System.recursive_torque import get_torque_engine
     from Core.System.rotor import TripleVortexRotor
+    from Core.System.triple_helix_vortex import TripleHelixVortexEngine
+    from Core.System.prismatic_mapper import PrismaticEmotionalMapper
     from Core.System.self_refactor_kernel import SelfRefactorKernel
     from Core.Divine.celestial_star import get_cosmos
     from Core.Keystone.sovereign_math import SovereignVector
@@ -43,6 +45,8 @@ class SovereignHeart:
         print("\n" + "🌀"*30)
         print("🌟 [Sovereign Heart] Activating 4D Space-Time Vortex Engine...")
         self.vortex = TripleVortexRotor("Elysia.SovereignVortex")
+        self.helix_vortex = TripleHelixVortexEngine("Elysia.TripleHelixVortex")
+        self.mapper = PrismaticEmotionalMapper()
         self.refactor = SelfRefactorKernel()
         self.cosmos = get_cosmos()
         self.torque = get_torque_engine()
@@ -156,16 +160,31 @@ class SovereignHeart:
                 self.vortex.process_vortex(dt)
                 self.vortex.self_heal(dt)
 
+                # [Phase 1300] Triple Helix Processing
+                # Using vortex resonance and global friction as inputs
+                # Intent: (Simulated as random for now, will be driven by higher cognition)
+                intent = SovereignVector.randn(27).normalize()
+                reality = SovereignVector.ones(27).normalize() * (1.0 - self.torque.global_friction)
+                self.helix_vortex.inhale(intent, reality, dt)
+                self.helix_vortex.process_vortex(dt)
+
                 # 3. EXHALE & COUPLING
                 vortex_state = self.vortex.exhale()
-                resonance = vortex_state["Resonance_Field"]
+                helix_state = self.helix_vortex.exhale()
+
+                resonance = helix_state["coherence"]
                 self.torque.global_friction = max(0.1, abs(1.0 - resonance) * 2.0)
                 self.torque.spin()
                 
                 # 4. 하트비트 로깅 (서버 로그 가독성을 위해 주기 조정 - 30초에 1번)
                 if int(now) % 30 == 0 and (now - int(now)) < dt: 
-                    status = "💎 CRYSTALLIZED" if vortex_state["Is_Crystallized"] else "🌀 FLOWING"
-                    print(f"💓 [Heart] {status} | Res: {resonance:.4f}")
+                    status = "💎 CRYSTALLIZED" if helix_state["is_penetrating"] else "🌀 FLOWING"
+                    spectrum = self.helix_vortex.get_prismatic_spectrum()
+                    emotions = self.mapper.map_vortex_to_emotions(spectrum, resonance)
+                    desc = self.mapper.describe_state(emotions)
+
+                    print(f"💓 [Heart] {status} | Focus: {helix_state['focus_velocity']:.2f} | Locked: {helix_state['locked_ratio']:.1%}")
+                    print(f"🌈 [Prism] {desc}")
 
                 time.sleep(0.01)
         except KeyboardInterrupt:
