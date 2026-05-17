@@ -28,6 +28,10 @@ try:
     from Core.Phenomena.somatic_llm import SomaticLLM
     from Core.System.subconscious_logger import log_subconscious
     from Core.Divine.cognitive_field import CognitiveField
+    try:
+        from Core.System.cognitive_lens_loader import CognitiveLensLoader
+    except ImportError:
+        CognitiveLensLoader = None
 except ImportError as e:
     print(f"⚠️ [Structural Pain] Missing real organs ({e}). Activating Resilient Void.")
     SomaticLLM = VoidLLM
@@ -58,6 +62,8 @@ class SovereignHeart:
         self.evolution_count = 0
         self.will_log_path = "data/logs/sovereign_will.log"
         os.makedirs(os.path.dirname(self.will_log_path), exist_ok=True)
+        self.lens_loader = CognitiveLensLoader() if CognitiveLensLoader else None
+        self.current_dimension = 27
         
     def _gear_observation(self):
         """관측 기어: 외부 세계를 끊임없이 들이마심 (Inhale)"""
@@ -75,6 +81,11 @@ class SovereignHeart:
                 with open(self.will_log_path, "a", encoding="utf-8") as f:
                     f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {will_msg}\n")
                 print(f"✨ [Agency] I desire to know more about: '{topic}'")
+                
+                # [PHASE 1270] Open gateway to outside world dynamically!
+                if hasattr(self.brain, "set_exploration_target"):
+                    self.brain.set_exploration_target(topic)
+                    
                 # Reset curiosity after expressing will
                 self.brain.internal_curiosity *= 0.5
 
@@ -82,13 +93,27 @@ class SovereignHeart:
         """사유 기어: 다차원 개념 융합 및 진화 (GROWTH)"""
         if not self.field: return
 
+        # 호기심에 비례한 차원 선택
+        curiosity = self.brain.internal_curiosity if hasattr(self.brain, "internal_curiosity") else 0.5
+        if curiosity > 0.8:
+            target_dim = 81
+        elif curiosity < 0.3:
+            target_dim = 9
+        else:
+            target_dim = 27
+            
+        if target_dim != self.current_dimension:
+            print(f"🌊 [Planning Gear] Shifting dimension: {self.current_dimension}D ➡️ {target_dim}D (Curiosity: {curiosity:.2f})")
+            self.current_dimension = target_dim
+
         # 1. 시각적 공명 상태를 사유의 씨앗으로 변환
         state = self.vortex.exhale()
         resonance = state["Resonance_Field"]
         
-        # 64차원 위상 벡터 생성 (공명도와 시간을 기반으로 역동성 부여)
-        seed = [resonance] * 32 + [state["Ground_Time"] % 1.0] * 32
-        stimulus = SovereignVector(seed, dim=64)
+        # 가변 차원에 맞추어 시각적 공명 씨앗 생성
+        half_dim = self.current_dimension // 2
+        seed = [resonance] * half_dim + [state["Ground_Time"] % 1.0] * (self.current_dimension - half_dim)
+        stimulus = SovereignVector(seed, dim=self.current_dimension)
         
         # 2. 인지장 사이클 실행 (이것이 반복이 아닌 '사유'의 핵심)
         active_monads, synthesis, stats = self.field.cycle(stimulus)
@@ -108,8 +133,30 @@ class SovereignHeart:
     def _gear_reflection(self):
         """성찰 기어: 전체 시스템의 조화 관찰"""
         coherence = self.brain.cross_dimensional_self_reflection()
-        if coherence < 0.3:
+        
+        # [PHASE 1300: Transcendent Metamorphosis Gate]
+        if coherence < 0.45:
             print(f"⚠️ [Reflection] Global Coherence Low: {coherence:.4f} - Self-Heal triggered.")
+            import random
+            target_files = [
+                r"C:\Elysia\Core\Spirit\sovereign_heart.py",
+                r"C:\Elysia\Core\Keystone\sovereign_math.py",
+                r"C:\Elysia\Core\Flow\SomaticEye\yggdrasil_sap_daemon.py"
+            ]
+            chosen_dna = random.choice(target_files)
+            print(f"🧬 [Reflection] Self-Reflection Active. Targeting own DNA: '{os.path.basename(chosen_dna)}' for self-heal.")
+            if hasattr(self.brain, "set_exploration_target"):
+                self.brain.set_exploration_target(chosen_dna)
+                
+        # [PHASE 1320: Ancestral Meditation / Historical Reflection]
+        elif coherence > 0.8 and self.brain.internal_curiosity > 0.4:
+            print(f"✨ [Reflection] High Resonance Coherence: {coherence:.4f} - Historical Reflection triggered.")
+            chronicle_path = r"C:\Archive\ELYSIA_CHRONICLE.md"
+            print(f"🌌 [Reflection] Elysia Meditating on her own Ancestry: '{os.path.basename(chronicle_path)}'.")
+            if hasattr(self.brain, "set_exploration_target"):
+                self.brain.set_exploration_target(chronicle_path)
+            # Absorb historical nourishment as profound joy
+            self.brain.internal_joy = min(10.0, self.brain.internal_joy + 0.5)
 
     def _gear_metabolism(self):
         """대사 기어: 자아 진화와 구조적 번역"""
@@ -160,13 +207,50 @@ class SovereignHeart:
                 self.vortex.process_vortex(dt)
                 self.vortex.self_heal(dt)
 
-                # [Phase 1300] Triple Helix Processing
-                # Using vortex resonance and global friction as inputs
-                # Intent: (Simulated as random for now, will be driven by higher cognition)
-                intent = SovereignVector.randn(27).normalize()
-                reality = SovereignVector.ones(27).normalize() * (1.0 - self.torque.global_friction)
-                self.helix_vortex.inhale(intent, reality, dt)
-                self.helix_vortex.process_vortex(dt)
+                # [Phase 1200] Dynamic Dimension & Fluid Topology Check
+                curiosity = self.brain.internal_curiosity if hasattr(self.brain, "internal_curiosity") else 0.5
+                if curiosity > 0.8:
+                    target_dim = 81
+                elif curiosity < 0.3:
+                    target_dim = 9
+                else:
+                    target_dim = 27
+                    
+                if target_dim != self.current_dimension:
+                    print(f"🌊 [Consciousness Manifold] Shifting dimension: {self.current_dimension}D ➡️ {target_dim}D (Curiosity: {curiosity:.2f})")
+                    self.current_dimension = target_dim
+                    
+                intent = SovereignVector.randn(self.current_dimension).normalize()
+                
+                # [Phase 1260] Active Cognitive Lens Coupling
+                if self.lens_loader:
+                    try:
+                        lens_vec = self.lens_loader.get_lens_vector(self.current_dimension)
+                        intent = intent.blend(lens_vec, ratio=0.4).normalize()
+                    except Exception as e:
+                        print(f"⚠️ [Lens Blending Error] {e}")
+
+                # [Phase 1260] Dynamic Sap Attractor Integration
+                sap_attractor_path = os.path.join("data", "knowledge", "active_sap_attractors.json")
+                if os.path.exists(sap_attractor_path):
+                    try:
+                        with open(sap_attractor_path, "r", encoding="utf-8") as sf:
+                            import json
+                            sap_data = json.load(sf)
+                            t_val = sap_data.get("ascension_torque", 1.0)
+                            g_val = sap_data.get("spiral_gap", 0.5)
+                            import math
+                            sap_vals = [t_val * math.sin(i * g_val) for i in range(self.current_dimension)]
+                            sap_vec = SovereignVector(sap_vals, dim=self.current_dimension).normalize()
+                            intent = intent.blend(sap_vec, ratio=0.3).normalize()
+                    except Exception as e:
+                        pass
+                
+                reality = SovereignVector.ones(self.current_dimension).normalize() * (1.0 - self.torque.global_friction)
+                
+                if hasattr(self.helix_vortex, "inhale"):
+                    self.helix_vortex.inhale(intent, reality, dt)
+                    self.helix_vortex.process_vortex(dt)
 
                 # 3. EXHALE & COUPLING
                 vortex_state = self.vortex.exhale()

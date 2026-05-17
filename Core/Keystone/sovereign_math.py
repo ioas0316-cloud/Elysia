@@ -333,35 +333,50 @@ class SovereignVector:
     def __add__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
         if isinstance(other, (int, float, complex)):
             return SovereignVector([x + other for x in self.data], dim=self.dim)
-        if hasattr(other, 'data'):
-            other_data = other.data
-        elif hasattr(other, 'to_array'):
-            other_data = other.to_array()
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
         else:
-            other_data = list(other)
-        return SovereignVector([a + b for a, b in zip(self.data, other_data)], dim=max(self.dim, len(other_data)))
+            if hasattr(other, 'data'):
+                other_data = other.data
+            elif hasattr(other, 'to_array'):
+                other_data = other.to_array()
+            else:
+                other_data = list(other)
+            if len(other_data) != self.dim:
+                other_data = SovereignVector(other_data).rescale(self.dim).data
+        return SovereignVector([a + b for a, b in zip(self.data, other_data)], dim=self.dim)
 
     def __sub__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
         if isinstance(other, (int, float, complex)):
             return SovereignVector([x - other for x in self.data], dim=self.dim)
-        if hasattr(other, 'data'):
-            other_data = other.data
-        elif hasattr(other, 'to_array'):
-            other_data = other.to_array()
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
         else:
-            other_data = list(other)
-        return SovereignVector([a - b for a, b in zip(self.data, other_data)], dim=max(self.dim, len(other_data)))
+            if hasattr(other, 'data'):
+                other_data = other.data
+            elif hasattr(other, 'to_array'):
+                other_data = other.to_array()
+            else:
+                other_data = list(other)
+            if len(other_data) != self.dim:
+                other_data = SovereignVector(other_data).rescale(self.dim).data
+        return SovereignVector([a - b for a, b in zip(self.data, other_data)], dim=self.dim)
 
     def __mul__(self, other: Union['SovereignVector', float, complex]) -> 'SovereignVector':
         if isinstance(other, (int, float, complex)):
             return SovereignVector([x * other for x in self.data], dim=self.dim)
-        if hasattr(other, 'data'):
-            other_data = other.data
-        elif hasattr(other, 'to_array'):
-            other_data = other.to_array()
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
         else:
-            other_data = list(other)
-        return SovereignVector([a * b for a, b in zip(self.data, other_data)], dim=max(self.dim, len(other_data)))
+            if hasattr(other, 'data'):
+                other_data = other.data
+            elif hasattr(other, 'to_array'):
+                other_data = other.to_array()
+            else:
+                other_data = list(other)
+            if len(other_data) != self.dim:
+                other_data = SovereignVector(other_data).rescale(self.dim).data
+        return SovereignVector([a * b for a, b in zip(self.data, other_data)], dim=self.dim)
 
     def __rmul__(self, other: Union[float, complex]) -> 'SovereignVector':
         """Handle scalar * SovereignVector."""
@@ -384,6 +399,53 @@ class SovereignVector:
         n = self.norm()
         if n < 1e-12: return self.zeros(dim=self.dim)
         return SovereignVector([x / n for x in self.data], dim=self.dim)
+
+    def rescale(self, target_dim: int) -> 'SovereignVector':
+        """
+        [PHASE 1250: Fluid Dimensionality]
+        Rescales the vector to a target dimensionality using complex linear interpolation.
+        This provides perfect phase and magnitude continuity under expansion/contraction.
+        """
+        if target_dim == self.dim:
+            return SovereignVector(list(self.data), dim=self.dim)
+        
+        M = self.dim
+        N = target_dim
+        
+        rescaled_data = []
+        for i in range(N):
+            if N > 1:
+                idx = i * (M - 1) / (N - 1)
+            else:
+                idx = 0.0
+            
+            left = int(math.floor(idx))
+            right = int(math.ceil(idx))
+            
+            left = max(0, min(left, M - 1))
+            right = max(0, min(right, M - 1))
+            
+            w = idx - left
+            r_val = (1.0 - w) * self.data[left].real + w * self.data[right].real
+            i_val = (1.0 - w) * self.data[left].imag + w * self.data[right].imag
+            rescaled_data.append(complex(r_val, i_val))
+            
+        v = SovereignVector(rescaled_data, dim=N)
+        
+        rescaled_momentum = []
+        for i in range(N):
+            if N > 1:
+                idx = i * (M - 1) / (N - 1)
+            else:
+                idx = 0.0
+            left = max(0, min(int(math.floor(idx)), M - 1))
+            right = max(0, min(int(math.ceil(idx)), M - 1))
+            w = idx - left
+            r_val = (1.0 - w) * self.momentum[left].real + w * self.momentum[right].real
+            i_val = (1.0 - w) * self.momentum[left].imag + w * self.momentum[right].imag
+            rescaled_momentum.append(complex(r_val, i_val))
+        v.momentum = rescaled_momentum
+        return v
         
     def complex_trinary_rotate(self, theta: float) -> 'SovereignVector':
         """
@@ -404,8 +466,12 @@ class SovereignVector:
         """
         # 1. Update Momentum (F = ma, m=1)
         new_momentum = []
-        for p, f in zip(self.momentum, force.data):
-            # p: current momentum, f: incoming force (resonance)
+        # Ensure force has matching dimension
+        force_data = force.data
+        if len(force_data) != self.dim:
+            force_data = force.rescale(self.dim).data
+            
+        for p, f in zip(self.momentum, force_data):
             mp = p + f * dt
             mp *= (1.0 - friction) # Entropic decay
             new_momentum.append(mp)
@@ -426,32 +492,37 @@ class SovereignVector:
         Instead of rotating to find, we 'flip' the wavefunction to the target's phase alignment.
         """
         jumped_data = []
-        for s, t in zip(self.data, target.data):
+        target_data = target.data
+        if len(target_data) != self.dim:
+            target_data = target.rescale(self.dim).data
+            
+        for s, t in zip(self.data, target_data):
             if abs(t) > 1e-12:
                 phase_target = t / abs(t)
                 energy = max(abs(s), 0.1) 
                 jumped_data.append(phase_target * energy)
             else:
                 jumped_data.append(0.0j)
-        return SovereignVector(jumped_data, dim=max(self.dim, target.dim))
+        return SovereignVector(jumped_data, dim=self.dim)
 
     def resonance_score(self, other: Union['SovereignVector', Any]) -> float:
         """
         [PHASE 130] Resonance score using the magnitude of the Hermitian inner product.
         """
-        if hasattr(other, 'data'):
-            other_data = other.data
-        elif hasattr(other, 'to_array'):
-            other_data = other.to_array()
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
         else:
-            other_data = list(other)
+            if hasattr(other, 'data'):
+                other_data = other.data
+            elif hasattr(other, 'to_array'):
+                other_data = other.to_array()
+            else:
+                other_data = list(other)
 
-        # [PHASE 1005] Compatibility for 21D/27D cross-resonance
         min_dim = min(len(self.data), len(other_data))
         self_subset = self.data[:min_dim]
         other_subset = [complex(x) for x in other_data[:min_dim]]
         
-        # Hermitian Inner Product: sum(a.conj * b)
         dot_val = sum(a.conjugate() * b for a, b in zip(self_subset, other_subset))
         
         m1 = math.sqrt(sum((x.real**2 + x.imag**2) for x in self_subset))
@@ -462,12 +533,15 @@ class SovereignVector:
 
     def dot(self, other: Union['SovereignVector', Any]) -> complex:
         """Standard dot product (Complex)."""
-        if hasattr(other, 'data'):
-            other_data = other.data
-        elif hasattr(other, 'to_array'):
-            other_data = other.to_array()
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
         else:
-            other_data = list(other)
+            if hasattr(other, 'data'):
+                other_data = other.data
+            elif hasattr(other, 'to_array'):
+                other_data = other.to_array()
+            else:
+                other_data = list(other)
         return sum(a * b for a, b in zip(self.data, other_data))
 
     def apply_nd(self, dimensions: List[int]) -> 'SovereignVector':
@@ -475,7 +549,7 @@ class SovereignVector:
         [PHASE 71] Applies N-dimensional rotation to this vector.
         """
         from Core.Keystone.sovereign_math import SovereignRotor
-        rotor = SovereignRotor(1.0, SovereignVector.zeros()) 
+        rotor = SovereignRotor(1.0, SovereignVector.zeros(dim=self.dim)) 
         return rotor.apply_nd(self, dimensions)
 
     def tensor_product(self, other: Union['SovereignVector', Any]) -> List[List[complex]]:
@@ -484,12 +558,15 @@ class SovereignVector:
         Calculates the outer product (Rank-2 Tensor) between two 21D vectors.
         This represents the interference pattern or 'meaning intersection'.
         """
-        if hasattr(other, 'data'):
-            other_data = other.data
-        elif hasattr(other, 'to_array'):
-            other_data = other.to_array()
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
         else:
-            other_data = list(other)
+            if hasattr(other, 'data'):
+                other_data = other.data
+            elif hasattr(other, 'to_array'):
+                other_data = other.to_array()
+            else:
+                other_data = list(other)
         return [[a * b for b in other_data] for a in self.data]
 
     def cubic_tensor_product(self, other: Union['SovereignVector', Any], third: Union['SovereignVector', Any]) -> List[List[List[complex]]]:
@@ -498,13 +575,19 @@ class SovereignVector:
         Calculates the Rank-3 Tensor product.
         Used for recursive self-reflection in 4D+ manifolds.
         """
-        if hasattr(other, 'data'): other_data = other.data
-        elif hasattr(other, 'to_array'): other_data = other.to_array()
-        else: other_data = list(other)
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
+        else:
+            if hasattr(other, 'data'): other_data = other.data
+            elif hasattr(other, 'to_array'): other_data = other.to_array()
+            else: other_data = list(other)
 
-        if hasattr(third, 'data'): third_data = third.data
-        elif hasattr(third, 'to_array'): third_data = third.to_array()
-        else: third_data = list(third)
+        if hasattr(third, 'dim') and third.dim != self.dim:
+            third_data = third.rescale(self.dim).data
+        else:
+            if hasattr(third, 'data'): third_data = third.data
+            elif hasattr(third, 'to_array'): third_data = third.to_array()
+            else: third_data = list(third)
 
         return [[[a * b * c for c in third_data] for b in other_data] for a in self.data]
 
@@ -512,13 +595,18 @@ class SovereignVector:
         """
         [PHASE 70] Prismatic blending of two concepts.
         """
-        if hasattr(other, 'data'):
-            other_data = other.data
-        elif hasattr(other, 'to_array'):
-            other_data = other.to_array()
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
         else:
-            other_data = list(other)
-        return SovereignVector([a * (1.0 - ratio) + b * ratio for a, b in zip(self.data, other_data)], dim=max(self.dim, len(other_data)))
+            if hasattr(other, 'data'):
+                other_data = other.data
+            elif hasattr(other, 'to_array'):
+                other_data = other.to_array()
+            else:
+                other_data = list(other)
+            if len(other_data) != self.dim:
+                other_data = SovereignVector(other_data).rescale(self.dim).data
+        return SovereignVector([a * (1.0 - ratio) + b * ratio for a, b in zip(self.data, other_data)], dim=self.dim)
 
     def __repr__(self) -> str:
         return f"SVector{self.dim}({self.data[:3]}...)"

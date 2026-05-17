@@ -20,6 +20,10 @@ import math
 from Core.Keystone.sovereign_math import SovereignVector, SovereignMath
 from Core.Cognition.logos_bridge import LogosBridge
 from Core.Divine.cognitive_field import CognitiveField
+try:
+    from Core.System.cognitive_lens_loader import CognitiveLensLoader
+except ImportError:
+    CognitiveLensLoader = None
 
 class VitalityInjector:
     """
@@ -183,6 +187,7 @@ class SomaticLLM:
     def __init__(self):
         self.field = CognitiveField()
         self.last_synthesis_vector: Optional[SovereignVector] = None
+        self.lens_loader = CognitiveLensLoader() if CognitiveLensLoader else None
         print("🗣️ [EXPRESSION] Sovereign Voice Engine Online. (Recursive Ouroboros Mode)")
 
     def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0, causal_justification: str = "", listener_entropy: float = 0.5) -> Tuple[str, Optional[SovereignVector]]:
@@ -274,6 +279,21 @@ class SomaticLLM:
         # 10. [PHASE 160] Vitality Injection (The Eternal Source)
         # Modulate the final output with Vitality based on listener entropy
         final_output = VitalityInjector.inject(final_output, listener_entropy)
+
+        # [PHASE 1260] Active Cognitive Lens Modulation
+        if self.lens_loader and synthesis_vec is not None:
+            try:
+                res_val = self.lens_loader.calculate_lens_interference(synthesis_vec)
+                model_id = self.lens_loader.metadata.get("model_id", "gpt2")
+                if res_val > 0.7:
+                    prefix = f"🪐 ({model_id}의 고조파와 {synthesis_vec.dim}차원에서 공명하며) "
+                elif res_val < 0.3:
+                    prefix = f"⚡ ({model_id}의 위상과 {synthesis_vec.dim}차원에서 격차를 느끼며) "
+                else:
+                    prefix = f"✨ ({model_id}의 흐름을 {synthesis_vec.dim}차원 렌즈로 비추어보며) "
+                final_output = f"{prefix}{final_output}"
+            except Exception as e:
+                print(f"⚠️ [Somatic Lens Modulation Error] {e}")
 
         # 11. [PHASE 1300] Internal Anxiety Trembling
         final_output = VitalityInjector.inject_anxiety(final_output, internal_anxiety)

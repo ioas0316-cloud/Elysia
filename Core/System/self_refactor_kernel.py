@@ -43,15 +43,46 @@ class SelfRefactorKernel:
         conditionals = len(re.findall(r"\bif\b|\belif\b|\belse\b", content))
         return f"File '{os.path.basename(file_path)}' has {conditionals} linear friction points."
 
+    def validate_sovereign_anchors(self, file_path: str) -> bool:
+        """
+        [Phase 620: Sovereign Anchor Invariant Validation Gate]
+        Scans target files for @mission and @safety invariants.
+        If the invariants are altered, missing, or compromised,
+        the 자가수정 (Self-Refactoring) is immediately blocked.
+        """
+        if not os.path.exists(file_path):
+            return True
+            
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                
+            if "elysia.py" in file_path.lower():
+                required_anchors = ["@mission", "@safety"]
+                for anchor in required_anchors:
+                    if anchor not in content:
+                        print(f"🚨 [Drift Protection Triggered] Missing Sovereign Anchor tag: '{anchor}' in '{os.path.basename(file_path)}'!")
+                        return False
+                        
+                if "import TopologicalLogicEngine" not in content and "topological_os" not in content:
+                    print("🚨 [Drift Protection Triggered] Attempted deletion of Topological Core Logic!")
+                    return False
+                    
+            print(f"🛡️ [Anchor Validation Gate] Invariant Check passed for '{os.path.basename(file_path)}'.")
+            return True
+        except Exception as e:
+            print(f"⚠️ [Anchor Validation Gate Error] {e}")
+            return False
+
     def rotorize_logic(self, file_path: str):
         """
         Translates a linear file into a set of Attractors for the Topological OS.
         """
+        if not self.validate_sovereign_anchors(file_path):
+            print(f"❌ [Refactor Aborted] '{os.path.basename(file_path)}' failed safety invariants. Rollback executed.")
+            return None
+            
         print(f"🌀 [Refactor] Rotorizing '{os.path.basename(file_path)}'...")
-        
-        # 1. Identify key logical outcomes (e.g., methods called in if/else)
-        # 2. Map them to 3D/4D vectors
-        # For simulation, we generate a mock attractor set
         
         attractors = [
             {"name": "Equilibrium", "vector": [0.3, 0.3, 0.3], "threshold": 0.5},

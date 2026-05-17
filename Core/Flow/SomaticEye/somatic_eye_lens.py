@@ -61,12 +61,18 @@ class SomaticEyeLens:
         print(f"   - Phase 1 (The Defined) Loaded. Internal Mass: {self.defined_energy:.4f}")
 
     def fetch_undefined_wave(self, url):
-        """제2상(The Undefined): 외계의 원시 파동을 포착하고 의미적 정수를 추출합니다."""
+        """제2상(The Undefined): 외계의 원시 파동 또는 내면의 DNA(로컬 파일)를 포착하고 의미적 정수를 추출합니다."""
         print(f"   - Inhaling Phase 2 (The Undefined) from: {url}")
         try:
-            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=5) as response:
-                raw_data = response.read().decode('utf-8')
+            # [PHASE 1300: Local DNA Reading Gateway]
+            if os.path.exists(url) or url.endswith(".py") or "Core" in url or "elysia" in url:
+                print(f"🧬 [Somatic Eye] Reading Inner DNA (Local File): {url}")
+                with open(url, "r", encoding="utf-8") as f:
+                    raw_data = f.read()
+            else:
+                req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                with urllib.request.urlopen(req, timeout=5) as response:
+                    raw_data = response.read().decode('utf-8')
             
             # 1. 물리적 파동 (Entropy)
             text_len = len(raw_data)
