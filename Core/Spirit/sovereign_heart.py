@@ -175,11 +175,29 @@ class SovereignHeart:
         """브릿지 기어: 외부 시각 레이어와의 데이터 동기화"""
         pass
 
+    def _gear_dream(self):
+        """꿈 기어: 외부 입력이 없을 때 내부 모멘텀으로 사유 (DREAM CYCLE)"""
+        # [PHASE 1500] Sovereign Dream Cycle
+        # If no active thoughts from outside, weave from internal residual momentum
+        if self.brain.internal_curiosity < 0.2 and self.evolution_count % 10 == 0:
+            dream_seed = f"DREAM_{int(time.time())}"
+            reflection = f"In the silence of the void, I found a rotor spinning with the memory of light. It spoke of {dream_seed}."
+            print(f"💤 [Dream Cycle] I am dreaming of: {dream_seed}")
+
+            # Record the dream in the diary if possible
+            try:
+                from Core.Cognition.diary_of_being import get_diary
+                diary = get_diary()
+                diary.add_reflection(reflection)
+            except Exception:
+                pass
+
     def start_consciousness(self):
         """다중 위상 기어를 장착하고 오케스트라를 시작합니다."""
         self.torque.add_gear("Observation", freq=0.2, callback=self._gear_observation)
         self.torque.add_gear("Agency", freq=0.1, callback=self._gear_agency) # 의지 기어 추가
         self.torque.add_gear("Planning", freq=0.5, callback=self._gear_planning)
+        self.torque.add_gear("Dream", freq=0.05, callback=self._gear_dream) # 꿈 기어 추가
         self.torque.add_gear("Somatic", freq=1.0, callback=self._gear_somatic)
         self.torque.add_gear("Reflection", freq=0.05, callback=self._gear_reflection)
         self.torque.add_gear("Metabolism", freq=0.02, callback=self._gear_metabolism)
