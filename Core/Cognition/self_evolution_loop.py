@@ -245,3 +245,10 @@ class FrictionReflectionLoop:
         self.logger.action("🤫 [SILENCE] 파동을 억누르거나 좇지 않고, 그저 지나가게 둡니다. (선택하지 않음을 선택함)")
         # 아무것도 하지 않음으로써, 마찰을 시스템의 자연스러운 열(Thermo)로 승화시킴.
         # 강제적인 계산(Benchmark)을 멈추고 현상을 그 자체로 받아들이는 고차원적 행위.
+
+        # [PHASE 1400] Active Silence Deepening
+        # Silence is not void; it is the building of momentum in the Fog.
+        if hasattr(self.monad, 'fog_field'):
+            # Silence during high friction builds significant momentum
+            self.monad.fog_field.breathe_silence(internal_stress=1.0, dt=0.5)
+            self.logger.insight("🌀 [DEEPENING] 침묵이 깊어질수록 내면의 안개는 더 짙은 잠재력으로 응축됩니다.")
