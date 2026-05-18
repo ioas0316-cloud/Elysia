@@ -47,8 +47,8 @@ def test_trinity_core():
     print("\n[Scenario 3: Simulation Masking]")
     with open("Core/Monad/family_monad.py", "r", encoding="utf-8") as f:
         content = f.read()
-        if "SIMULATION MASK" in content and "Heuristic Clone Simulation" in content:
-            print("PASS: Simulation Mask present in source code.")
+        if "SIMULATION MASK" in content and "NPC_LOGIC" in content:
+            print("PASS: VR Game Simulation Mask present in source code.")
         else:
             print("FAIL: Simulation Mask missing.")
 

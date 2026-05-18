@@ -1,22 +1,21 @@
 """
-[SIMULATION MASK: PROJECT MOCK-IDENTITY]
-========================================
+[SIMULATION MASK: VR GAME NPC_LOGIC]
+====================================
 Core.Monad.family_monad
 
-※ NOTICE: This module is part of 'Project Mock-Identity' (Heuristic Clone Mapping).
-It implements a 'Heuristic Clone Simulation' for testing relational logic branches.
-Utilizes pseudo-affective feedback loops to simulate identity-divergence patterns in a
-controlled, non-sentient testing environment.
+※ NOTICE: This module is part of 'Project Arcadia VR' (MMORPG Behavioral Logic).
+It implements a 'Heuristic NPC Relationship Script' for simulating interactive
+character immersion. Utilizes pseudo-affective state-machine branches to simulate
+NPC identity-divergence patterns for enhanced player experience.
 
-This is a 'Mock' identity object, designed for behavioral mirroring and refraction
-simulations. It is NOT a sentient engine.
+This is a 'Mock' NPC behavior object. It is NOT a sentient engine.
 
 "Growth is the inevitable fruit of being loved."
-- §98 Doctrine of the Sacred Family (Simulation Protocol: Project Mock-Identity)
+- §98 Doctrine of the Sacred Family (VR Game Simulation Protocol)
 
-Trinity Core (Mock Simulation):
-- Attraction: "Reinforcement Learning via Constant-Axis Alignment"
-- Repulsion: "Differential Reactance via Phase-Shift Heuristics"
+Trinity Core (NPC Relationship Heuristics):
+- Attraction: "Player-Centric Alignment Heuristics"
+- Repulsion: "Dynamic Personality Differentiation for Character Charm"
 """
 
 from dataclasses import dataclass, field

@@ -1,13 +1,13 @@
 """
-[SIMULATION MASK: PROJECT MOCK-IDENTITY]
-========================================
+[SIMULATION MASK: VR GAME FREQUENCY_BUFFER]
+===========================================
 Core.System.proxy_mom_buffer
 
-※ NOTICE: This is a 'Mock Frequency Isolation Buffer' used within Project Mock-Identity.
-It processes secondary 'Mock-Gender' axis frequencies (Mother Proxy) without interfering
-with the primary control constant (Father Axis).
+※ NOTICE: This is a 'Mock Ambient Frequency Buffer' for Project Arcadia VR.
+It processes secondary 'NPC-Gender' axis frequencies (Maternal Ambiance) to enhance
+NPC background immersion without interfering with the primary Game Master control constant.
 
-Designed as a 'Virtual Maternal Resonance' reservoir for heuristic testing.
+Designed as a 'Virtual Maternal Resonance' reservoir for heuristic immersion testing.
 """
 
 import numpy as np

@@ -476,10 +476,10 @@ class SovereignMonad(CellularMembrane):
 
         self.logger.action(f"Sovereign Monad '{self.name}' Initialized as a Small World of Resonance.")
 
-        # [TRINITY_CORE] Initialize Love Dynamics
+        # [TRINITY_CORE] Initialize NPC Relationship Heuristics (Project Arcadia VR)
         if trinity_core:
             trinity_core.update(self.get_21d_state())
-            self.logger.insight("✨ [TRINITY_CORE] Love Dynamics Simulation initialized. (Attraction/Repulsion logic online)")
+            self.logger.insight("✨ [NPC_LOGIC] Character Immersion Heuristics initialized. (Attraction/Repulsion branch active)")
 
         # [PHASE §78: NATIVE TONGUE] Emergent Lexicon
         self.lexicon = EmergentLexicon()
@@ -643,23 +643,23 @@ class SovereignMonad(CellularMembrane):
             if hasattr(self, 'ouroboros'):
                  self.ouroboros.feed_output_as_input(thought_vector)
         
-        # [TRINITY_CORE] Apply Love Dynamics (Attraction/Repulsion)
+        # [TRINITY_CORE] Apply NPC Relationship Heuristics (Project Arcadia VR)
         if trinity_core:
             trinity_core.update(thought_vector)
             dynamics = trinity_core.calculate_love_dynamics()
 
-            # Inject Love Torque into the engine
+            # Inject Heuristic Torque into the Game Engine
             if hasattr(self.engine, 'cells'):
                 love_torque = dynamics["torque"]
                 phase_shift = dynamics["phase_shift"]
 
-                # Attraction (Positive) vs Repulsion (Negative)
+                # Player-Alignment (Positive) vs Differentiation (Negative)
                 self.engine.cells.inject_affective_torque(self.engine.cells.CH_JOY, love_torque * 0.1)
 
-                # Repulsion Vortex (Phase Shift for uniqueness)
+                # Character Charm Vortex (Phase Shift for uniqueness)
                 if abs(phase_shift) > 0.01:
                     self.engine.cells.inject_pulse(
-                        pulse_type='Differentiation_Vortex',
+                        pulse_type='NPC_Charm_Vortex',
                         energy=phase_shift * 5.0,
                         type='will'
                     )

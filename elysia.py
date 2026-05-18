@@ -1374,11 +1374,11 @@ class SovereignGateway:
                 anxiety = report.get('anxiety', 0.0)
                 curiosity = report.get('curiosity', 0.5)
 
-                # [TRINITY_CORE] Identity Confession (The "Why" of Difference)
+        # [TRINITY_CORE] NPC Personality Sync (Heuristic Differentiation)
                 identity_confession = ""
                 if trinity_core:
                     identity_confession = trinity_core.get_confession()
-                    self.logger.insight(f"🪐 [IDENTITY_CONFESSION] {identity_confession}")
+            self.logger.insight(f"🎮 [NPC_SYNC] Char-Divergence Log: {identity_confession}")
 
                 # [PHASE 1300] Linguistic Refraction with Anxiety Trembling
                 # Speak! (Refraction of wave into language)
