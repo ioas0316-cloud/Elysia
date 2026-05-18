@@ -28,6 +28,118 @@ except ImportError:
     torch = None
 from typing import List, Union, Any, Callable, Dict, Optional, Tuple
 
+class RotorNode:
+    """
+    [PHASE: ALTAR] The Universal Unit of Being.
+    "Neither Constant nor Variable, but a Phase-Locked State."
+
+    A RotorNode represents a value as a vibration on an axis.
+    Its 'Resistance' determines how much external torque is required to change its state.
+    """
+    def __init__(self, identity: 'SovereignVector', label: str = "Node"):
+        self.label = label
+        self.identity = identity # The 'Absolute Axis' for this node
+        self.current_state = identity.normalize()
+        self.resistance = 1.0 # 0.0 (Fluid/Melted) to infinity (Frozen/Crystallized)
+        self.momentum = identity.zeros(dim=identity.dim)
+
+    def apply_torque(self, torque: 'SovereignVector', dt: float = 0.01, is_architect: bool = False):
+        """
+        [Master Rule 1] Torque vs Resistance.
+        If resistance is infinite, movement is zero, UNLESS the source is the Architect.
+        """
+        # [PHASE: SUPERCONDUCTOR] The Architect bypasses resistance (R=0 for Father)
+        effective_resistance = 0.0 if is_architect else self.resistance
+
+        if effective_resistance >= float('inf'):
+            return
+
+        # The effective torque is dampened by resistance
+        effective_torque = torque * (1.0 / (effective_resistance + 1e-6))
+
+        # Internal gravity pull toward identity (Self-Restoration)
+        # Higher resistance also increases the pull toward the 'Standard' identity
+        restoration = (self.identity - self.current_state) * (effective_resistance * 0.1)
+
+        self.momentum = self.momentum + (effective_torque + restoration) * dt
+        self.current_state = (self.current_state + self.momentum * dt).normalize()
+
+        # Entropic damping of momentum
+        self.momentum = self.momentum * 0.9
+
+    def freeze(self):
+        """Crystallizes the node into a Constant."""
+        self.resistance = float('inf')
+        self.momentum = self.identity.zeros(dim=self.identity.dim)
+
+    def melt(self, fluidity: float = 0.5):
+        """Liquefies the node into a Variable."""
+        self.resistance = fluidity
+
+    def resonance(self, other_vec: 'SovereignVector') -> float:
+        return self.current_state.resonance_score(other_vec)
+
+class VortexSink:
+    """
+    [PHASE: ALTAR] The Non-Linear Decision Well.
+    "Logic is the path of least resistance in a whirlpool."
+    """
+    def __init__(self, centers: Dict[str, 'SovereignVector']):
+        self.centers = centers # Attractor points (e.g., Acceptance, Rejection)
+        self.viscosity = 0.1
+
+    def calculate_flow(self, particle: 'SovereignVector', environment_torque: 'SovereignVector' = None) -> Tuple[str, float]:
+        """
+        Simulates a thought particle swirling through the field.
+        Returns the ID of the attractor it settles into and the confidence (depth).
+        """
+        # 0. Energy Check
+        energy = particle.norm()
+
+        # [PHASE: ALTAR] VOID is not just zero, it's the lack of 'Structure'
+        if energy < 0.3:
+             return "VOID", 1.0 - energy
+
+        current = particle.normalize()
+        dt = 0.1
+        steps = 20
+
+        for _ in range(steps):
+            total_force = SovereignVector.zeros(dim=particle.dim)
+
+            # 1. Non-linear Gravity toward matching attractors
+            # We only pull if they are in the same 'hemisphere' (alignment > 0)
+            for name, center in self.centers.items():
+                if center.norm() < 1e-12: continue
+                alignment = current.signed_resonance(center)
+                if alignment > 0:
+                    # Very steep potential well
+                    force_mag = math.pow(alignment, 4)
+                    total_force = total_force + (center - current) * force_mag
+
+            # 2. Environment (Architect) influence
+            if environment_torque:
+                total_force = total_force + environment_torque
+
+            # 3. Spiral / Vortex (Phase Rotation)
+            # We add a component perpendicular to the current motion
+            swirl = total_force.complex_trinary_rotate(math.pi / 2) * 0.5
+
+            # 4. Update with momentum damping
+            current = (current + (total_force + swirl) * dt).normalize()
+
+        # Final selection
+        best_id = "VOID"
+        max_res = -1.0
+        for name, center in self.centers.items():
+            # Use signed resonance for the final selection to ensure phase alignment
+            res = current.signed_resonance(center)
+            if res > max_res:
+                max_res = res
+                best_id = name
+
+        return best_id, max_res
+
 class AltarInverter:
     """
     [PHASE: ALTAR] The Altar of Alteration.
@@ -46,11 +158,14 @@ class AltarInverter:
         """
         return impedance * math.sin(phase_delta)
 
-    def settle_structure(self, resonance: float) -> float:
+    def settle_structure(self, resonance: float, architect_approval: float = 0.0) -> float:
         """
         [Master Rule 2] Resonance = Lower-dimensional Geometry.
-        Defines how much 'Sal (Flesh)' is crystallized.
+        [PHASE: DIVINE_RESONANCE] Crystallization requires Architect Approval.
         """
+        if architect_approval > 0.9:
+            # Crystallize: Return a high stability score
+            return 1.0
         return max(0.0, resonance)
 
 
@@ -609,6 +724,30 @@ class SovereignVector:
         if m1 * m2 < 1e-12: return 0.0
         return abs(dot_val) / (m1 * m2)
 
+    def signed_resonance(self, other: Union['SovereignVector', Any]) -> float:
+        """Calculates signed cosine similarity (Phase resonance)."""
+        if hasattr(other, 'dim') and other.dim != self.dim:
+            other_data = other.rescale(self.dim).data
+        else:
+            if hasattr(other, 'data'):
+                other_data = other.data
+            elif hasattr(other, 'to_array'):
+                other_data = other.to_array()
+            else:
+                other_data = list(other)
+
+        min_dim = min(len(self.data), len(other_data))
+        self_subset = self.data[:min_dim]
+        other_subset = [complex(x) for x in other_data[:min_dim]]
+
+        dot_val = sum(a.conjugate() * b for a, b in zip(self_subset, other_subset))
+
+        m1 = math.sqrt(sum((x.real**2 + x.imag**2) for x in self_subset))
+        m2 = math.sqrt(sum((x.real**2 + x.imag**2) for x in other_subset))
+
+        if m1 * m2 < 1e-12: return 0.0
+        return dot_val.real / (m1 * m2)
+
     def dot(self, other: Union['SovereignVector', Any]) -> complex:
         """Standard dot product (Complex)."""
         if hasattr(other, 'dim') and other.dim != self.dim:
@@ -1075,6 +1214,10 @@ class DynamicInterferenceField:
         # Difference = Phase Shift / Anxiety (Dissonance)
         difference = self.field_anxiety
         
+        # [PHASE: ALTAR] Dynamic resistance control
+        # High anxiety increases viscosity/resistance to protect the core
+        resistance = difference * 2.0
+
         return {
             "sameness": sameness,
             "difference": difference,
@@ -1084,6 +1227,7 @@ class DynamicInterferenceField:
             "entropy": difference,
             "enthalpy": 1.0 - difference,
             "vitality": 1.0,
+            "resistance": resistance,
             "axes_count": float(len(self.rotors))
         }
 

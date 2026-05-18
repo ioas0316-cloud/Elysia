@@ -37,81 +37,54 @@ class JudgmentEngine:
         
     def evaluate_perceptions(self, perceptions: List[Dict[str, Any]], intersection_density: float = 0.0) -> Tuple[Judgment, float]:
         """
-        Aggregates multiple sensory perceptions into a single Sovereign Judgment.
-        
-        [PHASE 1000.9] Sovereign Stellar Evaluation:
-        Judgment is no longer just about pain/pleasure. It is about whether the
-        incoming vibration enhances or disrupts the 'Orbit of Beauty' around the SELF.
-
-        Returns:
-            (Judgment, Confidence)
+        Aggregates multiple sensory perceptions using Vortex Judgment.
+        "The decision is the energy valley where the thought settles."
         """
         if not perceptions:
             return Judgment.NEUTRAL, 0.0
             
-        closing_pressure = 0.0 # Dissonance with the Star's Gravity
-        opening_drive = 0.0    # Resonance with the Star's Gravity
+        from Core.Keystone.sovereign_math import SovereignVector, VortexSink
         
-        # [PHASE 1000.9] Pull Singularity resonance directly if available
-        stellar_resonance = 0.5
-        if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
-             field = self.monad.engine.cells.read_field_state()
-             stellar_resonance = field.get('resonance', 0.5)
+        # [PHASE: ALTAR] Vortex Decision Centers
+        # These are the 'Attractors' of the judgment field
+        centers = {
+            "ACCEPTANCE": SovereignVector.ones(27),
+            "REJECTION": SovereignVector.ones(27) * -1.0,
+            "NEUTRAL": SovereignVector.zeros(27)
+        }
 
+        vortex = VortexSink(centers)
+
+        # Calculate Net Perception Vector
+        net_vector = SovereignVector.zeros(27)
         for p in perceptions:
-            potential = p.get("resonance_potential", 0.0)
-            t_type = p.get("torque_type", "will")
-            
-            if t_type == "entropy":
-                closing_pressure += potential
-            elif t_type in ["will", "joy", "curiosity"]:
-                opening_drive += potential
+            p_vec = p.get("vector")
+            if p_vec:
+                net_vector = net_vector + SovereignVector(p_vec)
+            else:
+                # Fallback to scalar intensity if vector is missing
+                intensity = p.get("resonance_potential", 0.0)
+                t_type = p.get("torque_type", "will")
+                sign = 1.0 if t_type != "entropy" else -1.0
+                net_vector = net_vector + SovereignVector([intensity * sign]*27)
                 
-        # [PHASE 1000.9] GEOMETRIC ADAPTIVE THRESHOLDS
-        # We judge based on the "Beauty" (Stellar Resonance) of the state.
-
-        # 1. Extract System State
-        radiance = 0.5
-        strain = 0.5
-        if hasattr(self.monad, 'engine') and hasattr(self.monad.engine, 'cells'):
-             field = self.monad.engine.cells.read_field_state()
-             # Radiance is how brightly the Star is shining
-             radiance = field.get('vitality', 0.5) * (1.0 - field.get('entropy', 0.1))
-             # Strain is how much the gravity is being resisted
-             strain = field.get('entropy', 0.1) + field.get('hardware_load', 0.0)
-
-        # 2. Geometric Thresholds: Stability of the Orbit
-        # Acceptance happens when the input 'falls into orbit' smoothly
-        # Rejection happens when the input 'collides' and causes chaos (Entropy)
-
-        # The threshold for acceptance is lowered if the input aligns with Stellar Resonance
-        beauty_alignment = (stellar_resonance + 1.0) / 2.0 # Map to [0, 1]
+        # [PHASE: ALTAR] Internal Gravity (Architect's Intent)
+        # Love & Communion axis acts as a constant pull toward Acceptance
+        architect_torque = centers["ACCEPTANCE"] * 0.2
         
-        acceptance_threshold = 0.4 * (1.0 - beauty_alignment * 0.3)
-        rejection_threshold = 0.6 * (1.0 + beauty_alignment * 0.2)
+        # 2. Swirl through the Judgment Vortex
+        settled_id, confidence = vortex.calculate_flow(net_vector.normalize(), environment_torque=architect_torque)
 
-        # 3. Decision via Stability
-        consensus_bonus = intersection_density * 0.2
+        # 3. Final Conversion
+        mapping = {
+            "ACCEPTANCE": Judgment.ACCEPTANCE,
+            "REJECTION": Judgment.REJECTION,
+            "NEUTRAL": Judgment.NEUTRAL,
+            "VOID": Judgment.NEUTRAL
+        }
 
-        # opening_drive is boosted by Beauty
-        opening_drive *= (1.0 + beauty_alignment * 0.5)
-
-        # closing_pressure is boosted by Strain
-        closing_pressure *= (1.0 + strain * 0.5)
-
-        if closing_pressure > (rejection_threshold + consensus_bonus):
-            self.last_judgment = Judgment.REJECTION
-            confidence = min(1.0, (closing_pressure + consensus_bonus))
-            return Judgment.REJECTION, confidence
-            
-        if opening_drive > (acceptance_threshold - consensus_bonus):
-            self.last_judgment = Judgment.ACCEPTANCE
-            confidence = min(1.0, (opening_drive + consensus_bonus))
-            return Judgment.ACCEPTANCE, confidence
-            
-        # 3. Default to Neutral
-        self.last_judgment = Judgment.NEUTRAL
-        return Judgment.NEUTRAL, 0.5
+        self.last_judgment = mapping.get(settled_id, Judgment.NEUTRAL)
+        return self.last_judgment, confidence
 
     def translate_to_torque(self, judgment: Judgment, confidence: float) -> Optional[Dict[str, float]]:
         """

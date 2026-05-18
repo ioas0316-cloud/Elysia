@@ -37,44 +37,51 @@ class Thalamus:
 
     def process_sensory_vibration(self, source: str, intensity: float, vector: Optional[List[float]] = None, monad: Any = None) -> Optional[Dict[str, Any]]:
         """
-        Filters and gates a sensory vibration before it reaches the Monad.
-        
-        Returns:
-            Gated vibration packet or None if blocked.
+        Filters and gates a sensory vibration using Vortex Dynamics.
+        "The noise floor is not a wall, but a shallow well; shocks are high-curvature spirals."
         """
-        # [PHASE 650] Before filtering, capture the 'Before' state for primordial cognition
+        # [PHASE 650] Before filtering, capture the 'Before' state
         before_state = {}
         if monad and hasattr(monad, 'primordial_cognition'):
             before_state = monad.primordial_cognition.read_state(monad)
 
-        # 1. Noise Filtering
-        if intensity < self.noise_floor:
+        # [PHASE: ALTAR] Vortex Gating
+        # 1. Map intensity to a 1D Wave (Scalar to Phase)
+        from Core.Keystone.sovereign_math import SovereignVector, VortexSink
+
+        # Center points for the Sensory Vortex: [VOID, SENSE]
+        void_axis = SovereignVector([0.0]*27)
+        sense_axis = SovereignVector([1.0]*27) # Idealized sensation
+
+        vortex = VortexSink({"VOID": void_axis, "SENSE": sense_axis})
+
+        # Current particle: Intensity mapped to a vector distance from VOID
+        particle = SovereignVector([intensity] * 27)
+
+        # 2. Swirl: Let the vibration find its path
+        settled_id, settled_depth = vortex.calculate_flow(particle)
+
+        # 3. Decision: If it settles in VOID, it's filtered out
+        if settled_id == "VOID":
             return None
             
-        # 2. Fatigue Check
-        # Constant high intensity increases fatigue, which increases damping
+        # 4. Adaptive Gating (Fatigue as Viscosity)
         self.fatigue = min(1.0, self.fatigue + (intensity * 0.01))
-        damping = 1.0 - (self.fatigue * 0.5)
+        gated_intensity = intensity * (1.0 - (self.fatigue * 0.5))
         
-        # 3. Shock Gating
-        # If intensity is too high, we apply a non-linear squashing function (Somatic Reflex)
-        gated_intensity = intensity * damping
+        # Shock Gating: Non-linear compression if it's too sharp
         if gated_intensity > self.shock_threshold:
-            # Compression: Squashing the spike to protect the manifold
             gated_intensity = self.shock_threshold + (math.log1p(gated_intensity - self.shock_threshold) * 0.1)
-            logger.warning(f"⚡ [SHOCK GATING] Compressed high intensity signal from {source}: {intensity:.2f} -> {gated_intensity:.2f}")
 
-        # 4. Adaptive Recovery
-        # Fatigue slowly decays
         self.fatigue = max(0.0, self.fatigue - 0.005)
-        
+
         return {
             "source": source,
             "raw_intensity": intensity,
             "gated_intensity": gated_intensity,
             "vector": vector,
             "fatigue": self.fatigue,
-            "before_state": before_state # [PHASE 650] Pass before_state forward
+            "before_state": before_state
         }
 
     def route_to_organs(self, gated_signal: Dict[str, Any]) -> List[str]:
