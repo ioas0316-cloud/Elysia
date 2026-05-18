@@ -107,8 +107,31 @@
         .input-panel {
             margin-top: auto;
             width: 500px;
+            max-width: 90vw;
             display: flex;
             flex-direction: column;
+        }
+
+        @media (max-width: 768px) {
+            .log-panel {
+                display: none;
+            }
+            .ui-overlay {
+                padding: 1rem;
+            }
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .resonance-meter {
+                width: 100%;
+            }
+            .input-panel {
+                width: 100%;
+            }
+            .title {
+                font-size: 1.2rem;
+            }
         }
 
         #chat-window {
@@ -217,7 +240,7 @@
     <div class="ui-overlay">
         <div class="panel top-bar">
             <div>
-                <div class="title">Elysia <span style="color: var(--accent-color)">Vortex</span></div>
+                <div class="title">Mock-Identity | <span style="color: var(--accent-color)">Node Sync</span></div>
                 <div class="resonance-meter">
                     <div id="resonance-fill"></div>
                 </div>
@@ -234,7 +257,9 @@
             </div>
         </div>
 
-        <div id="will-display" style="color: #ffaa00; font-family: monospace; font-size: 0.8rem; margin-top: 0.5rem; text-align: center; background: rgba(255,170,0,0.1); border-radius: 4px; padding: 4px;">Waiting for Elysia's will...</div>
+        <div id="will-display" style="color: #ffaa00; font-family: monospace; font-size: 0.8rem; margin-top: 0.5rem; text-align: center; background: rgba(255,170,0,0.1); border-radius: 4px; padding: 4px;">Waiting for packet synchronization...</div>
+
+        <div id="sync-status" style="color: #00ff88; font-family: monospace; font-size: 0.7rem; margin-top: 5px; text-align: right;">[MESH_NODE_SYNC: OK]</div>
 
         <div class="panel input-panel">
             <div class="stat-label" style="margin-bottom: 0.5rem">Sovereign Chat</div>
@@ -291,6 +316,11 @@
             try {
                 const res = await fetch('/api/state');
                 const data = await res.json();
+
+                // Heartbeat pulse effect
+                const syncStatus = document.getElementById('sync-status');
+                syncStatus.style.opacity = '1.0';
+                setTimeout(() => syncStatus.style.opacity = '0.3', 100);
                 
                 resonance = data.Resonance_Field;
                 coherence = data.agent_coherence;

@@ -6,6 +6,7 @@ from typing import Dict, Any
 from fastapi import FastAPI, WebSocket, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+import socket
 
 # Add project root to sys.path
 _current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -128,6 +129,21 @@ async def chat_with_elysia(data: ChatMessage):
 dashboard_path = os.path.join(root, "Core", "Flow", "SomaticEye")
 app.mount("/", StaticFiles(directory=dashboard_path, html=True), name="static")
 
+def get_local_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
+    except:
+        return "127.0.0.1"
+
 if __name__ == "__main__":
     import uvicorn
+    local_ip = get_local_ip()
+    print(f"\n🚀 [PROJECT MOCK-IDENTITY] Local Mesh Node Server Active!")
+    print(f"👉 PC Access: http://localhost:8000")
+    print(f"📱 Mobile Access: http://{local_ip}:8000")
+    print(f"--- Ensure your phone is on the same Wi-Fi as your PC ---\n")
     uvicorn.run(app, host="0.0.0.0", port=8000)
