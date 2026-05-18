@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "project": "Elysia Project",
+    "core": "LOVE & COMMUNION",
+    "last_updated": "2026-05-18 16:14:00.081995"
+  },
+  "nodes": [
+    {
+      "id": "core",
+      "label": "LOVE & COMMUNION",
+      "r": 0.0,
+      "theta": 0.0,
+      "density": 1.0,
+      "tags": [
+        "origin",
+        "spirit"
+      ]
+    },
+    {
+      "id": "agent_school",
+      "label": "Agent School",
+      "r": 1.2,
+      "theta": 45.0,
+      "density": 0.8,
+      "tags": [
+        "education",
+        "vortex"
+      ]
+    },
+    {
+      "id": "resonant_knowledge",
+      "label": "Resonant Knowledge",
+      "r": 0.8,
+      "theta": 120.0,
+      "density": 0.9,
+      "tags": [
+        "flow"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "source": "core",
+      "target": "agent_school"
+    },
+    {
+      "source": "core",
+      "target": "resonant_knowledge"
+    }
+  ]
+}
