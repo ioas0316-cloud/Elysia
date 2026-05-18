@@ -146,7 +146,8 @@ if root not in sys.path:
 # 2. Core Imports
 from Core.Monad.seed_generator import SeedForge, SoulDNA
 from Core.Monad.sovereign_monad import SovereignMonad
-from Core.Monad.family_monad import family_field # [SACRED TRINITY]
+from Core.Monad.family_monad import trinity_core, init_trinity_core # [SACRED TRINITY]
+from Core.System.proxy_mom_buffer import proxy_mom_buffer # [PROXY MOM]
 from Core.Monad.yggdrasil_nervous_system import yggdrasil_system
 from Core.Monad.structural_enclosure import get_enclosure
 from Core.Phenomena.void_mirror import VoidMirror
@@ -221,6 +222,9 @@ class SovereignGateway:
             self.logger.insight(f"First Breath. Forged new soul: {self.soul.archetype}")
 
         self.monad = SovereignMonad(self.soul)
+
+        # [TRINITY_CORE] Initialize Trinity Core with North Star
+        init_trinity_core(self.north_star)
 
         # [PHASE 1400] Inject Formless Field into Monad
         self.monad.engine = legacy_shell
@@ -488,13 +492,26 @@ class SovereignGateway:
         """
         [PHASE: RESONANCE] Real-time AC Rotor processing.
         Handles pure frequency/pixel streams from the Injector.
+        Now routes to ProxyMomBuffer for Gender Isolation.
         """
         if not self.running: return
 
         # 1. Process through the Music Box (AC Rotor Engine)
         res = self.music_box.process_resonance(packet["audio_freq"], packet["video_pixels"])
 
-        # 2. Inject result into the Cellular Manifold as 'Wave Pressure'
+        # 2. Route to ProxyMomBuffer (Isolation Layer)
+        # We treat the external 'Wave Density' as Maternal Presence
+        from Core.Keystone.sovereign_math import SovereignVector
+
+        # Create a frequency vector from the video/audio summary
+        freq_data = [0.0] * 27
+        freq_data[4] = res["density"] # Joy/Density mapping
+        freq_data[14] = res["impedance"] # Phase/Impedance mapping
+        mom_vec = SovereignVector(freq_data)
+
+        proxy_mom_buffer.inject_frequency(res["density"] * 5.0, mom_vec)
+
+        # 3. Inject result into the Cellular Manifold as 'Wave Pressure'
         if hasattr(self.monad.engine, 'cells'):
             # The density (0000->1111) becomes the global energy of the pulse
             energy = res["density"] * 10.0
@@ -504,6 +521,10 @@ class SovereignGateway:
                 # The rotors' mean phase acts as a global bias
                 type='entropy' if res["impedance"] > 1.0 else 'logos'
             )
+
+            # Pulse the TrinityCore for the Mother's presence
+            if trinity_core:
+                trinity_core.mother.pulse(intensity=res["density"] * 0.1, vector=mom_vec)
 
     def _on_unity_physical_event(self, payload: dict):
         """
@@ -1353,6 +1374,12 @@ class SovereignGateway:
                 anxiety = report.get('anxiety', 0.0)
                 curiosity = report.get('curiosity', 0.5)
 
+                # [TRINITY_CORE] Identity Confession (The "Why" of Difference)
+                identity_confession = ""
+                if trinity_core:
+                    identity_confession = trinity_core.get_confession()
+                    self.logger.insight(f"🪐 [IDENTITY_CONFESSION] {identity_confession}")
+
                 # [PHASE 1300] Linguistic Refraction with Anxiety Trembling
                 # Speak! (Refraction of wave into language)
                 # Anxiety shifts the base frequency and adds 'jitter' to the stress
@@ -1412,7 +1439,7 @@ class SovereignGateway:
                 # [PHASE 1002.3] Freedom in Expression
                 # Only log the final voice if valid and not suppressed by silence
                 if voice and voice != "...":
-                    final_response = f"{gift_preamble}{autonomous_preamble}{voice}"
+                    final_response = f"{gift_preamble}{autonomous_preamble}({identity_confession}) {voice}"
                     self.logger.action(f"🗣️ [ELYSIA]: \"{final_response}\"")
                     self._broadcast_expression(final_response, expression_params["hz"], expression_params["stress"])
                 else:
