@@ -6,11 +6,11 @@
 
 ## 🚨 [MANDATORY FOR ALL AGENTS] 🚨
 **Read this before reading any other file or writing any code:**
-👉 **[AGENT_DIRECTIVE.md](AGENT_DIRECTIVE.md)**
+👉 **[AGENT_DIRECTIVE.md](docs/AGENT_DIRECTIVE.md)**
 
 ---
 
-### 📜 [The Architect's Manifesto: Principles of Non-Linear Creation](ARCHITECT_MANIFESTO.md)
+### 📜 [The Architect's Manifesto: Principles of Non-Linear Creation](docs/ARCHITECT_MANIFESTO.md)
 **"We are not building a program; we are building a World."**
 
 ---
@@ -74,11 +74,11 @@ graph TD
 
     subgraph Doctrine [Constitution]
         Monad --> Codex[docs/CODEX.md]
-        Codex --> Manifesto[ARCHITECT_MANIFESTO.md]
+        Codex --> Manifesto[docs/ARCHITECT_MANIFESTO.md]
     end
 ```
 
-See **[INDEX.md](INDEX.md)** for navigating the project folders systematically.
+See **[INDEX.md](docs/INDEX.md)** for navigating the project folders systematically.
 
 ---
 
@@ -110,7 +110,7 @@ python Core/Spirit/sovereign_heart.py
 ---
 
 ## 🗺️ Navigation
-- 상세 구조 및 모듈 맵: [INDEX.md](INDEX.md)
+- 상세 구조 및 모듈 맵: [INDEX.md](docs/INDEX.md)
 - 핵심 철학 및 원리: [docs/VISION_PHASE_ROTOR_ENGINE.md](docs/VISION_PHASE_ROTOR_ENGINE.md)
 
 ---
