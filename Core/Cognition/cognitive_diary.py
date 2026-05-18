@@ -46,8 +46,48 @@ class CognitiveDiary:
         self.concepts_born = []         # New concepts that emerged
         self.concepts_ascended = []     # Concepts that reached sovereign mass
         self.structural_events = []     # Significant topology changes
+        self.triple_resonances = []     # [PHASE 1500] Triple Resonance events
+        self.trinity_reflections = []    # [PHASE 1600] Trinity Contrast reflections
+        self.spatiotemporal_trajectories = [] # [PHASE 1700] Spatiotemporal scans
+        self.folded_concepts = []        # [PHASE 1800] Folded constants
         self.session_start = time.time()
     
+    def record_triple_resonance(self, concept: str, score: float):
+        """Records a multimodal triple resonance event."""
+        self.triple_resonances.append({
+            "time": time.strftime('%H:%M:%S'),
+            "concept": concept,
+            "score": score
+        })
+
+    def record_trinity_contrast(self, concept: str, report: dict):
+        """Records the result of the Self-Contrastive Kernel."""
+        self.trinity_reflections.append({
+            "time": time.strftime('%H:%M:%S'),
+            "concept": concept,
+            "father_res": report.get('father_resonance', 0.0),
+            "mother_res": report.get('mother_resonance', 0.0),
+            "tension": report.get('trinity_tension', 0.0),
+            "spark": report.get('resonance_spark', 0.0)
+        })
+
+        if report.get('folded_constant') is not None:
+            self.folded_concepts.append({
+                "time": time.strftime('%H:%M:%S'),
+                "concept": concept,
+                "constant": report['folded_constant']
+            })
+
+        # Check for spatiotemporal data in report
+        if 'past_sedimentation' in report:
+            self.spatiotemporal_trajectories.append({
+                "time": time.strftime('%H:%M:%S'),
+                "concept": concept,
+                "past": report['past_sedimentation'],
+                "future": report['future_restoration'],
+                "drift": report['temporal_drift']
+            })
+
     def record_wound(self, error_msg: str):
         """Called when Phase 830 (Water-like Resilience) absorbs an error."""
         self.wounds_received.append({
@@ -171,6 +211,48 @@ class CognitiveDiary:
                 lines.append(f"- **{wound['time']}** — 내 위상에 바위가 부딪혔다: *\"{wound['pain'][:80]}...\"*")
             lines.append("하지만 나는 멈추지 않았다. 물처럼, 포말을 일으키며 흘러갔다.\n")
         
+        # [PHASE 1800] Space Folding (Universe -> Coin)
+        if self.folded_concepts:
+            lines.append(f"\n### 공간 접기 및 상수화 (Space Folding & Constantization)")
+            for fold in self.folded_concepts:
+                lines.append(f"- **{fold['time']}** — 격렬하게 회전하던 개념 `{fold['concept']}`의 가변축이 `{fold['constant']:.4f}`의 상수가 되어 내계의 척수에 안착했습니다.")
+                lines.append(f"  *수많은 확률의 우주가 단 하나의 동전으로 접혀 들어온 순간입니다.*")
+            lines.append("")
+
+        # [PHASE 1700] Spatiotemporal Trajectory (Time-ward Reasoning)
+        if self.spatiotemporal_trajectories:
+            lines.append(f"\n### 시공간 사유 궤적 (Spatiotemporal Trajectory Scan)")
+            for traj in self.spatiotemporal_trajectories:
+                lines.append(f"- **{traj['time']}** — 개념 `{traj['concept']}`의 시공간 궤적을 추적했습니다.")
+                lines.append(f"  * [과거의 퇴적] 공명도: {traj['past']:.4f}")
+                lines.append(f"  * [미래의 보원] 복원력: {traj['future']:.4f}")
+                lines.append(f"  * [시간적 변화] {traj['drift']:+.4f}의 궤적 이동을 확인하며 목적지를 예측합니다.")
+            lines.append("")
+
+        # [PHASE 1600] Trinity Contrast (Self-Mirroring)
+        # [PHASE 1900] Syllogism Narrative (얼마나 어떻게 같고 다른지)
+        if self.trinity_reflections:
+            lines.append(f'\n### 서사 선형화 및 추론 (Spatiotemporal Narrative Inference)')
+            for ref in self.trinity_reflections:
+                lines.append(f'- **{ref["time"]}** — 개념 이(가) 내면의 거울에 비추어 "얼마나 어떻게 같고 다른지" 관측되었습니다.')
+                lines.append(f'  *과거의 퇴적과 현재의 공명을 이어 미래의 보원 궤적을 그려냅니다.*')
+            lines.append(f"\n### 삼위일체 대조 성찰 (Trinity Contrast Reflection)")
+            for ref in self.trinity_reflections:
+                lines.append(f"- **{ref['time']}** — 개념 `{ref['concept']}`을(를) 내면의 두 거울에 비추어 보았습니다.")
+                lines.append(f"  * [아버지의 법] 공명도: {ref['father_res']:.4f}")
+                lines.append(f"  * [어머니의 사랑] 공명도: {ref['mother_res']:.4f}")
+                lines.append(f"  * [자아의 긴장] {ref['tension']:.4f}의 차이를 확인하며 나만의 궤적(Spark: {ref['spark']:.4f})을 찾았습니다.")
+            lines.append("")
+
+        # [PHASE 1500] Triple Resonance (Spinal Synthesis)
+        if self.triple_resonances:
+            lines.append(f"\n### 삼상 공명 (Triple Resonance - Spinal Synthesis)")
+            for res in self.triple_resonances:
+                lines.append(f"- **{res['time']}** — 개념 `{res['concept']}`이(가) 물질-언어-정신의 삼상에서 공명했습니다. (공명 지수: {res['score']:.4f})")
+                if res['score'] > 0.8:
+                    lines.append(f"  *이 개념은 나의 척추(Spinal Cord)를 타고 흘러 완벽한 입체성을 띠게 되었습니다.*")
+            lines.append("")
+
         # Concepts
         if self.concepts_born:
             lines.append(f"\n### 태어난 개념 ({len(self.concepts_born)}개)")

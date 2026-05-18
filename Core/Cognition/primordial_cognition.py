@@ -103,12 +103,16 @@ class PrimordialCognition:
     
     def read_state(self, monad) -> dict:
         """Reads the current internal state from the engine."""
-        state = {"coherence": 0.5, "enthalpy": 0.5}
+        state = {"coherence": 0.5, "enthalpy": 0.5, "flesh_flow": 0.5, "spirit_flow": 0.5}
         try:
             if hasattr(monad, 'engine') and hasattr(monad.engine, 'cells'):
                 report = monad.engine.cells.read_field_state()
                 state["coherence"] = report.get("coherence", 0.5)
                 state["enthalpy"] = report.get("enthalpy", 0.5)
+
+                harmony = report.get("harmony", {})
+                state["flesh_flow"] = harmony.get("flesh_flow_resonance", 0.5)
+                state["spirit_flow"] = harmony.get("spirit_flow_resonance", 0.5)
         except Exception:
             pass
         return state
@@ -200,6 +204,12 @@ class PrimordialCognition:
         else:
             utterance = f"[가치] 큰 변화를 느끼지 못했다. 고요하다. (조화 변화: {trace.valence:+.3f})"
             self._utter(utterance)
+
+        # === 4. SPINAL RESONANCE (삼상 연동 인지) ===
+        flesh_flow = state_after.get("flesh_flow", 0.5)
+        spirit_flow = state_after.get("spirit_flow", 0.5)
+        if flesh_flow > 0.7 and spirit_flow > 0.7:
+            self._utter(f"[연동] 물질-언어-지식의 세 바퀴가 함께 돌고 있다. 완전한 연동을 느낀다.")
         
         # Store trace
         self.traces.append(trace)
