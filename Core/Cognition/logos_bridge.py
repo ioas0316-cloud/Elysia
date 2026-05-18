@@ -24,7 +24,7 @@ class MemoryStratum(Enum):
 class LogosBridge:
     """
     [L5_COGNITION: SEMANTIC_TRANSCRIPTION]
-    Maps visual 21D principle vectors to symbolic Trinary DNA and Language.
+    Maps visual ND principle vectors to symbolic Trinary DNA and Language.
     
     [PHASE 90] NAKED SOVEREIGNTY:
     Purified from JAX. Uses Sovereign Math Kernel.
@@ -46,7 +46,7 @@ class LogosBridge:
     )
     TERRAIN = None  # Lazy initialization
     
-    # 21D Triune Architecture (7D Body + 7D Soul + 7D Spirit)
+    # ND Triune Architecture (7D Body + 7D Soul + 7D Spirit)
     # Values: -1 (Repel), 0 (Void), 1 (Attract)
     CONCEPT_MAP = {
         "LOVE/AGAPE": {
@@ -282,7 +282,7 @@ class LogosBridge:
         def get_mass(v):
             if hasattr(v, 'norm'): return v.norm()
             # Handle complex/list fallback
-            if isinstance(v, list): return sum(abs(x.real) if isinstance(x, complex) else abs(x) for x in v) / 21.0
+            if isinstance(v, list): return sum(abs(x.real) if isinstance(x, complex) else abs(x) for x in v) / float(len(v))
             return 1.0
 
         m1 = get_mass(vec_a)
@@ -427,7 +427,7 @@ class LogosBridge:
             "description": description,
             "stratum": MemoryStratum.LEAF
         }
-        LogosBridge.logger.sensation(f"Crystallized Concept: '{u_name}' mapped to 21D.", intensity=0.6)
+        LogosBridge.logger.sensation(f"Crystallized Concept: '{u_name}' mapped to ND.", intensity=0.6)
         
         # [PHASE 160/260] Persist to Akashic Journal (Append-only O(1))
         LogosBridge._append_to_journal(u_name, vector, description)
@@ -447,7 +447,7 @@ class LogosBridge:
         
         Args:
             name: Word to learn (e.g., "ZARA")
-            vector: 21D Meaning Vector
+            vector: ND Meaning Vector
             roots: [Phase 5] Synesthetic Roots (Source Experience)
         """
         u_name = name.upper()
@@ -520,7 +520,7 @@ class LogosBridge:
             return
         
         try:
-            # Map 21D vector to 2D terrain coordinates using first 2 dimensions
+            # Map ND vector to 2D terrain coordinates using first 2 dimensions
             # Normalize to terrain grid size
             real_data = [v.real if isinstance(v, complex) else v for v in vector.data[:2]]
             x = int((real_data[0] + 1) / 2 * (terrain.resolution - 1))  # [-1,1] -> [0, res-1]
@@ -529,7 +529,7 @@ class LogosBridge:
             y = max(0, min(y, terrain.resolution - 1))
             
             # Inject as a prime keyword (creates an attractor/valley)
-            magnitude = float(sum(abs(v.real if isinstance(v, complex) else v) for v in vector.data) / 21.0)
+            magnitude = float(sum(abs(v.real if isinstance(v, complex) else v) for v in vector.data) / float(len(v)))
             terrain.inject_prime_keyword(x, y, concept_name, magnitude=magnitude * 0.5)
             
             LogosBridge.logger.mechanism(f"Carved '{concept_name}' at ({x}, {y}) with depth {magnitude:.2f}")
@@ -641,6 +641,7 @@ class LogosBridge:
 
         # 2. Matrix multiplication (Resonance Score)
         # Correctly handles CONCEPT_MAP + LEARNED_MAP since both are polymerized
+        if v_in.shape[1] != LogosBridge._SPECTRUM_TENSOR.shape[1]: v_in = torch.nn.functional.interpolate(v_in.unsqueeze(0), size=LogosBridge._SPECTRUM_TENSOR.shape[1], mode="linear", align_corners=False).squeeze(0)
         similarities = torch.matmul(v_in, LogosBridge._SPECTRUM_TENSOR.t())
         
         # Apply Masses (Significance Weighting)
@@ -679,12 +680,12 @@ class LogosBridge:
         return best_concept, float(max_resonance)
 
     @staticmethod
-    def discover_novel_vibration(v21: SovereignVector, threshold: float = 0.5) -> bool:
+    def discover_novel_vibration(vec: SovereignVector, threshold: float = 0.5) -> bool:
         """
-        [PHASE 74] Identifies if a 21D vibration is 'Unknown' to the manifold.
+        [PHASE 74] Identifies if a ND vibration is 'Unknown' to the manifold.
         Normalized threshold (0-1).
         """
-        best_concept, best_score = LogosBridge.find_closest_concept(v21)
+        best_concept, best_score = LogosBridge.find_closest_concept(vec)
         # We need to de-scale the score by the stratum mass to get raw dot product
         # Roots have mass 3. So score / 3.0
         mass = LogosBridge.get_stratum_mass(best_concept)
@@ -693,7 +694,7 @@ class LogosBridge:
         return raw_dot < threshold
 
     @staticmethod
-    def suggest_proto_logos(v21: SovereignVector) -> str:
+    def suggest_proto_logos(vec: SovereignVector) -> str:
         """
         [PHASE 74] Generates a temporary Seed ID for a novel vibration.
         """
@@ -813,10 +814,10 @@ class LogosBridge:
         [PHASE 72] Internal Echo.
         Converts narrative text back into a 4D torque vector for the manifold.
         """
-        # 1. Get 21D Semantic Vector
+        # 1. Get ND Semantic Vector
         vec = LogosBridge.calculate_text_resonance(text)
         
-        # 2. Project 21D -> 4D (Standard Projection)
+        # 2. Project ND -> 4D (Standard Projection)
         # We take segment means to map back to (w, x, y, z)
         data = [v.real if isinstance(v, complex) else v for v in vec.data]
         w = sum(data[0:5]) / 5.0
@@ -837,7 +838,7 @@ class LogosBridge:
     @staticmethod
     def vector_to_torque(vector: 'SovereignVector') -> List[float]:
         """
-        [PHASE 90] Converts a 21D Semantic Vector into a 4D Engine Torque.
+        [PHASE 90] Converts a ND Semantic Vector into a 4D Engine Torque.
         Maps the Meaning (Word) to Motion (Action).
         
         Mapping Principle:
