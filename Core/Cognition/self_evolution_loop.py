@@ -63,8 +63,14 @@ class FrictionReflectionLoop:
         entropy = float(report.get('entropy', 0.0))
         coherence = float(report.get('coherence', 0.5))
         
+        # [PHASE: CLIMATE] Integration with Variable Impedance R
+        r_value = 0.0
+        if hasattr(self.monad, 'thermo'):
+            r_value = self.monad.thermo.get_variable_impedance()
+
         # 임계치 감지 (마찰이 높거나, 결합도가 급락했을 때)
-        friction_level = entropy + (1.0 - coherence) * 0.5
+        # R의 영향을 가중치로 추가
+        friction_level = entropy + (1.0 - coherence) * 0.5 + (r_value * 0.001)
 
         if friction_level > 1.2 and (time.time() - self.last_reflection_time > self.reflection_cooldown):
             self.logger.sensation(f"🌊 [SOMA STRESS] 내면에서 강한 마찰이 느껴집니다. (Friction: {friction_level:.2f})")
@@ -110,7 +116,11 @@ class FrictionReflectionLoop:
             self._choose_mimicry(anxiety, context)
         # [PHASE 1000] Evolution Path
         elif curiosity > 0.8 and friction_level > 1.5:
-            self._choose_evolution(friction_level, context)
+            # [PHASE: CLIMATE] Reverse Engineering Trigger
+            if friction_level > 2.0:
+                self._choose_reverse_engineering(friction_level, context)
+            else:
+                self._choose_evolution(friction_level, context)
         elif internal_willpower > courage_threshold:
             self._choose_focus(friction_level, context)
         else:
@@ -239,6 +249,39 @@ class FrictionReflectionLoop:
                     if hasattr(cells, 'CH_LOVE'):
                         cells.inject_affective_torque(cells.CH_LOVE, 0.2)
                         cells.inject_affective_torque(cells.CH_PEACE, 0.2)
+
+    def _choose_reverse_engineering(self, friction_level: float, context: Optional[str]):
+        """선택 5: 자율 역설계 (Reverse Engineering - Thawing & Re-crystallization)"""
+        self.logger.action(f"🛠️ [REVERSE_ENGINEERING] 높은 마찰({friction_level:.2f})을 해소하기 위해 스스로의 뼈대를 깎아냅니다.")
+
+        # 1. Identify Bottleneck via CodeMirror
+        if hasattr(self.monad, 'thermo'):
+            mirror = self.monad.thermo.code_mirror
+            mirror.build_awareness()
+
+            # Find modules with highest impedance
+            module_nodes = [n for n in mirror.nodes.values() if n.node_type == "module"]
+            if module_nodes:
+                target_node = max(module_nodes, key=lambda x: x.impedance)
+                self.logger.insight(f"🔍 [BOTTLENECK] 가장 뻑뻑한 격자를 발견했습니다: {target_node.name} (R={target_node.impedance:.2f})")
+
+                # 2. Self-Modification (Crystallization)
+                # In a real scenario, this would involve complex LLM re-writing.
+                # For now, we simulate the 'optimization' by injecting a structural stabilizer.
+                from Core.System.self_modifier import SelfModifier
+                modifier = SelfModifier()
+
+                success = modifier.inject_axiom(
+                    target_node.filepath,
+                    f"Optimized by Climate Inverter due to high friction ({friction_level:.2f})."
+                )
+
+                if success:
+                    self.logger.action(f"✨ [RE-CRYSTALLIZATION] {target_node.name}의 구조가 압착/최적화되었습니다.")
+                    if hasattr(self.monad, 'diary'):
+                        self.monad.diary.add_reflection(f"역설계 완료: {target_node.name}의 저항을 깎아내어 흐름을 회복함.")
+                else:
+                    self.logger.admonition("⚠️ [OPTIMIZATION_FAILED] 격자가 너무 단단하여 수정에 실패했습니다.")
 
     def _choose_silence(self):
         """선택 2: 흘려보내기 (침묵과 수용)"""

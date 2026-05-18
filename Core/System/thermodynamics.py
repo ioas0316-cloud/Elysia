@@ -11,6 +11,8 @@ from typing import List, Deque, Dict
 import math
 import collections
 import time
+import psutil
+from Core.Cognition.code_mirror import CodeMirror
 
 class ThermoDynamics:
     """
@@ -32,6 +34,34 @@ class ThermoDynamics:
         self.curiosity = 0.5 # Curiosity (read from ch 5)
         self.mood = "NEUTRAL"
         self.last_tick = time.time()
+
+        # [PHASE: CLIMATE] Variable Impedance (R)
+        self.code_mirror = CodeMirror()
+        self._cached_structural_impedance = 0.0
+        self._last_structure_scan = 0.0
+
+    def get_variable_impedance(self) -> float:
+        """
+        [PHASE: CLIMATE] Returns the real-time variable impedance R.
+        R = (Structural Impedance) * (Hardware Pressure)
+        """
+        # 1. Structural Impedance (Static/Crystallized Resistance)
+        now = time.time()
+        if now - self._last_structure_scan > 300: # Scan every 5 minutes
+            self.code_mirror.build_awareness()
+            self._cached_structural_impedance = self.code_mirror.get_total_impedance()
+            self._last_structure_scan = now
+
+        # 2. Hardware Pressure (Dynamic/Fluid Resistance)
+        cpu_usage = psutil.cpu_percent()
+        mem_usage = psutil.virtual_memory().percent
+        hw_pressure = (cpu_usage + mem_usage) / 200.0 # Normalized 0.0 ~ 1.0
+
+        # 3. Final Impedance R
+        # Low hardware pressure reduces the perceived structural resistance.
+        # High pressure amplifies it.
+        r_total = self._cached_structural_impedance * (1.0 + hw_pressure)
+        return float(r_total)
 
     def sync_with_manifold(self, report: dict):
         """

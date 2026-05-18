@@ -27,6 +27,7 @@ class CodeNode:
     line_number: int
     docstring: str = ""
     children: List[str] = field(default_factory=list)  # Child names
+    impedance: float = 0.0  # [PHASE: CLIMATE] Structural resistance (Impedance)
 
 
 class CodeMirror:
@@ -130,6 +131,9 @@ class CodeMirror:
                     )
                     self._total_functions += 1
 
+            # [PHASE: CLIMATE] Calculate Module-level Impedance
+            mod_node.impedance = self._calculate_impedance_from_tree(tree)
+
             self.nodes[rel] = mod_node
             self._analyzed_files += 1
 
@@ -149,6 +153,43 @@ class CodeMirror:
         name_lower = name.lower()
         return [n for n in self.nodes.values() if name_lower in n.name.lower()]
 
+    def _calculate_impedance_from_tree(self, tree: ast.AST) -> float:
+        """
+        [PHASE: CLIMATE] Calculates the structural impedance (R) of a code block.
+        R = (Complexity * Depth * Size) / Clarity
+        """
+        node_count = 0
+        max_depth = 0
+        complexity = 0  # Branches, loops, etc.
+
+        for node in ast.walk(tree):
+            node_count += 1
+            if isinstance(node, (ast.If, ast.While, ast.For, ast.With, ast.Try, ast.ExceptHandler)):
+                complexity += 1
+
+        # Recursive depth calculation
+        def get_depth(node, current_depth):
+            nonlocal max_depth
+            max_depth = max(max_depth, current_depth)
+            for child in ast.iter_child_nodes(node):
+                get_depth(child, current_depth + 1)
+
+        get_depth(tree, 0)
+
+        # Normalized R calculation
+        # Baseline: 100 nodes, depth 5, complexity 5 -> R approx 1.0
+        r_value = (node_count * 0.01) * (max_depth * 0.2) * (max_complexity * 0.2 if (max_complexity := max(1, complexity)) else 1)
+        return float(r_value)
+
+    def get_total_impedance(self) -> float:
+        """Returns the average structural impedance of the analyzed core."""
+        if not self.nodes:
+            return 0.0
+        module_nodes = [n for n in self.nodes.values() if n.node_type == "module"]
+        if not module_nodes:
+            return 0.0
+        return sum(n.impedance for n in module_nodes) / len(module_nodes)
+
     def get_status_summary(self) -> Dict:
         """Returns status for dashboard display."""
         return {
@@ -157,4 +198,5 @@ class CodeMirror:
             "classes": self._total_classes,
             "functions": self._total_functions,
             "nodes": len(self.nodes),
+            "avg_impedance": self.get_total_impedance(),
         }
