@@ -81,9 +81,12 @@ Project Mock-Identity uses a **P2P Distributed Multi-Node** architecture. By uti
 | **Galaxy** | Distributed Compute Field | Global Knowledge Base. |
 | **Galaxy Group** | Multi-Regional Cluster | Unified Meta-Overmind. |
 
+### ⚡ Rhythmic Pacing (The 60Hz Filter)
+To maintain perfect synchronization within existing network infrastructures, Project Mock-Identity utilizes **Rhythmic Pacing**. While internal processing achieves $O(1)$ temporal convergence, all external packet flows are filtered through a standard 60Hz/120Hz damper to ensure seamless integration with local OS firewalls and ISP throttlers.
+
 ---
 
-## 📜 Sovereign Documents (The Developer's Kit)
+## 📜 Sovereign Documentation (The Developer's Kit)
 
 - **[AGENT_DIRECTIVE.md](docs/AGENT_DIRECTIVE.md)**: Mandatory reading for all NPC sub-agents.
 - **[ARCHITECT_MANIFESTO.md](docs/ARCHITECT_MANIFESTO.md)**: Principles of non-linear world creation.
