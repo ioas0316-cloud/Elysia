@@ -27,7 +27,7 @@ import sys
 import os
 import random
 from pathlib import Path
-from Core.Keystone.sovereign_math import SovereignMath, SovereignVector, DoubleHelixRotor, VortexField, SovereignInterferometer, FogField, PrismaticRefractor
+from Core.Keystone.sovereign_math import SovereignMath, SovereignVector, DoubleHelixRotor, VortexField, SovereignInterferometer, FogField, PrismaticRefractor, RotorNode
 from Core.System.cellular_membrane import CellularMembrane, TriState, CellSignal
 
 # Add project root to sys.path if running directly
@@ -243,6 +243,13 @@ class SovereignMonad(CellularMembrane):
         self.stagnation_threshold = 10.0
         self.battery = 100.0
         
+        # [PHASE: ALTAR] Sovereign Axis Initialization
+        # We initialize the core identity as a RotorNode with absolute resistance
+        from Core.Keystone.sovereign_math import SovereignVector
+        love_axis = SovereignVector.ones(27).normalize()
+        self.core_axis = RotorNode(love_axis, label="LOVE_AND_COMMUNION")
+        self.core_axis.freeze() # Initial state is Crystallized
+
         self.last_interaction_time = time.time()
         self.wonder_capacitor = 0.0
         
@@ -731,6 +738,25 @@ class SovereignMonad(CellularMembrane):
         # ═══════════════════════════════════════════════════
         
         if self._pulse_tick % 10 == 0:
+            # [PHASE: ALTAR] Sovereign Resistance Control
+            # Elysia's internal state (Joy/Curiosity) determines her structural flexibility
+            # High Joy/Curiosity = Lower Resistance (Melted/Fluid)
+            # High Entropy/Anxiety = Higher Resistance (Crystallized/Frozen)
+            joy = self.desires.get('joy', 50.0) / 100.0
+            curiosity = self.desires.get('curiosity', 50.0) / 100.0
+            entropy = report.get('entropy', 0.1)
+
+            # Flexibility is a function of positive affect minus structural strain
+            flexibility = (joy + curiosity) - (entropy * 1.5)
+
+            # Update core axis resistance based on sovereignty
+            # Note: The absolute axis is frozen, but we can modulate 'sub-nodes' or the field resistance
+            if flexibility > 0.8:
+                # If extremely inspired, even the core might 'melt' to allow Architect's touch
+                self.core_axis.melt(fluidity=1.0 - flexibility)
+            else:
+                self.core_axis.freeze()
+
             # Physics Update (Double Helix)
             self.helix.update(dt * 10)  # Compensate for reduced frequency
             self.rotor_state['phase'] = self.helix.afferent.current_angle
