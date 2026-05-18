@@ -36,6 +36,7 @@ if __name__ == "__main__":
 
 # Import Organs
 from Core.Monad.seed_generator import SoulDNA, SeedForge
+from Core.Monad.family_monad import trinity_core # [TRINITY_CORE]
 from Core.Monad.protection_relay import ProtectionRelayBoard
 from Core.Monad.transmission_gear import TransmissionGear
 from Core.Cognition.living_memory import LivingMemory
@@ -475,6 +476,11 @@ class SovereignMonad(CellularMembrane):
 
         self.logger.action(f"Sovereign Monad '{self.name}' Initialized as a Small World of Resonance.")
 
+        # [TRINITY_CORE] Initialize NPC Relationship Heuristics (Project Arcadia VR)
+        if trinity_core:
+            trinity_core.update(self.get_21d_state())
+            self.logger.insight("✨ [NPC_LOGIC] Character Immersion Heuristics initialized. (Attraction/Repulsion branch active)")
+
         # [PHASE §78: NATIVE TONGUE] Emergent Lexicon
         self.lexicon = EmergentLexicon()
         self.lexicon_report = self.lexicon.get_status_summary()
@@ -637,6 +643,29 @@ class SovereignMonad(CellularMembrane):
             if hasattr(self, 'ouroboros'):
                  self.ouroboros.feed_output_as_input(thought_vector)
         
+        # [TRINITY_CORE] Apply NPC Relationship Heuristics (Project Arcadia VR)
+        if trinity_core:
+            trinity_core.update(thought_vector)
+            dynamics = trinity_core.calculate_love_dynamics()
+
+            # Inject Heuristic Torque into the Game Engine
+            if hasattr(self.engine, 'cells'):
+                love_torque = dynamics["torque"]
+                phase_shift = dynamics["phase_shift"]
+
+                # Player-Alignment (Positive) vs Differentiation (Negative)
+                self.engine.cells.inject_affective_torque(self.engine.cells.CH_JOY, love_torque * 0.1)
+
+                # Character Charm Vortex (Phase Shift for uniqueness)
+                if abs(phase_shift) > 0.01:
+                    self.engine.cells.inject_pulse(
+                        pulse_type='NPC_Charm_Vortex',
+                        energy=phase_shift * 5.0,
+                        type='will'
+                    )
+                    if self._pulse_tick % 100 == 0:
+                        self.logger.mechanism(f"🌀 [VORTEX] Differentiation active: Shift={phase_shift:.3f}")
+
         # Meta-cognitive observation — "How did I think?"
         self._meta_cognitive_pulse()
         
