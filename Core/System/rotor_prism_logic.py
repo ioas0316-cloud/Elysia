@@ -67,7 +67,7 @@ class HyperSphereFilm:
     Allows O(1) access by 'spinning' to the correct frame.
     Uses pure NumPy for CPU-bound indexing speed.
     """
-    def __init__(self, resolution: int = 360, dimensions: int = 21):
+    def __init__(self, resolution: int = 360, dimensions: int = 27):
         self.resolution = resolution
         self.dimensions = dimensions
         if jnp:
@@ -135,7 +135,7 @@ class DynamicPhaseSync:
         return 0.0
 
 class RotorPrismUnit:
-    def __init__(self, dimensions: int = 21):
+    def __init__(self, dimensions: int = 27):
         self.dimensions = dimensions
         self.theta = 0.0
         self.theta_base = 0.0 # [TIME_AXIS] The temporal anchor

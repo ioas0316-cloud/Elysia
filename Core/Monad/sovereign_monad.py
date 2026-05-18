@@ -133,6 +133,7 @@ class SovereignMonad(CellularMembrane):
         # [PHASE 180] AUTONOMIC COGNITION (moved up for early access)
         # The sensory organ for system fatigue and rigidity
         self.thermo = ThermoDynamics()
+        self.relays = ProtectionRelayBoard()
         self.actuator = SovereignActuator(os.getcwd()) # [PHASE 80]
         self.preference = PreferenceEvaluator(self) # Renamed from pref_eval to preference for consistency
         
@@ -367,7 +368,7 @@ class SovereignMonad(CellularMembrane):
         
         # 18. [PHASE 160] BIDIRECTIONAL ROTOR-PRISM
         # The reversible prism for perceive() ↔ project() language loop
-        self.rpu = RotorPrismUnit(dimensions=21)
+        self.rpu = RotorPrismUnit(dimensions=27)
         self.akashic = AkashicLoader() # [PHASE 75]
         self.actuator = SovereignActuator(os.getcwd()) # [PHASE 80]
         
@@ -382,6 +383,7 @@ class SovereignMonad(CellularMembrane):
         # 19. [PHASE 180] AUTONOMIC COGNITION
         # The sensory organ for system fatigue and rigidity
         self.thermo = ThermoDynamics()
+        self.relays = ProtectionRelayBoard()
         self.preference = PreferenceEvaluator(self)
         self.is_melting = False # State flag for REST mode
         self.is_dreaming = False # [PHASE 400] Sovereignty flag
@@ -1849,9 +1851,9 @@ class SovereignMonad(CellularMembrane):
         if subject_v:
             # 1. Generate the Rank-3 Thought Matrix (Axiom ⊗ State ⊗ Observer)
             thought_tensor = SovereignTensor.dna3_product(
-                SovereignTensor((21,), subject_v.data),
-                SovereignTensor((21,), v21.data),
-                SovereignTensor((21,), self.observer_vibration.data)
+                SovereignTensor((v21.dim,), subject_v.data),
+                SovereignTensor((v21.dim,), v21.data),
+                SovereignTensor((v21.dim,), self.observer_vibration.data)
             )
             
             # 2. Recursive Projection: Reduce Rank-3 to Rank-1 (The Unified Intent)
@@ -2232,7 +2234,8 @@ class SovereignMonad(CellularMembrane):
         # E. Projection & Self-Reflection (Phase 110: Kinetic Drive)
         # Instead of just taking a snapshot, we update the persistent thought_vector
         # The 'force' is the projection of the current physical state + intentional teleology
-        somatic_v21 = self.get_21d_state() 
+        somatic_v21 = self.get_21d_state()
+        if somatic_v21.dim != self.thought_vector.dim: somatic_v21 = somatic_v21.rescale(self.thought_vector.dim)
         
         # [PHASE 110] KINETIC UPDATE
         # 1. Teleological Force (Pull toward the ideal)
@@ -2275,11 +2278,12 @@ class SovereignMonad(CellularMembrane):
         learning_trigger = (joy_factor + warmth_factor) > 0.5
         
         if torch:
-            momentum_torque = torch.tensor([abs(p) for p in self.thought_vector.momentum], device=self.engine.device, dtype=torch.float32).view(1, 21, 1, 1)
+            momentum_torque = torch.tensor([abs(p) for p in self.thought_vector.momentum], device=self.engine.device, dtype=torch.float32).view(1, -1, 1, 1)
         else:
             momentum_torque = [abs(p) for p in self.thought_vector.momentum]
         
         # 4. Use the momentum-carried thought_vector for reflection
+        if self.thought_vector.dim != self.rpu.dimensions: self.thought_vector = self.thought_vector.rescale(self.rpu.dimensions)
         field = self.rpu.project(self.thought_vector)
         reflection_mass = getattr(self.rpu, 'last_reflection_norm', 0.0)
         
@@ -2650,7 +2654,7 @@ class SovereignMonad(CellularMembrane):
         # The act of reading itself vibrates the manifold
         v21 = self.get_21d_state()
         momentum_torque = torch.ones(21, device=self.engine.device) * (impact / 1000.0)
-        self.engine.pulse(intent_torque=momentum_torque.view(1, 21, 1, 1).float(), 
+        self.engine.pulse(intent_torque=momentum_torque.view(1, -1, 1, 1).float(),
                           target_tilt=v21, dt=0.01, learn=True)
             
         return impact

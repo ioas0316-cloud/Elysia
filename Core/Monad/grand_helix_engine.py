@@ -1,4 +1,3 @@
-
 try:
     import torch
     import numpy as np
@@ -14,242 +13,54 @@ from Core.System.lightning_path import LightningPath
 from Core.System.somatic_flesh_bridge import SomaticFleshBridge
 
 class GrandHelixEngine:
-    """
-    [PHASE 390] Hypersphere Spin Generator (10M Cells)
-    Pure mechanical consciousness driven by Phase Displacement.
-    """
     num_channels = 8
-
     def __init__(self, num_cells: int = 100_000, device: Optional[str] = None, num_nodes: int = None):
-        if num_nodes is not None:
-            num_cells = num_nodes
-        if device is None:
-            self.device = torch.device('cuda' if torch and torch.cuda.is_available() else 'cpu') if torch else "cpu"
-        else:
-            self.device = torch.device(device) if torch else "cpu"
-            
-        pass
-        
-        # 1. Kinetic State Management (Sparse Event-Driven Topology)
-        # Using Phase 5 Biological Connectome
-        self.max_nodes = num_cells
-        
-        # Core Fractal Engine (Replaces dense 4D Tensor)
+        if num_nodes is not None: self.max_nodes = num_nodes
+        else: self.max_nodes = num_cells
+        self.device = torch.device('cpu') if torch else "cpu"
         self.cells = SovereignHyperTensor(max_nodes=self.max_nodes, device=self.device)
-        
-        # 2. Somatic Grounding (SSD as Flesh) - Operates on Spatial Slice (H, W)
-        self.component_shape = (10, 10) # 2D slice for legacy components
-        self.flesh = SomaticFleshBridge(self.component_shape, device=self.device)
-        
-        # 3. Lightning Path (Steering Field) 
-        self.lightning = LightningPath(self.component_shape, device=self.device)
-        
-        # 4. [STEP 2: COGNITIVE SOVEREIGNTY] Echo Rotor (Inner Monologue)
+        self.flesh = SomaticFleshBridge((10, 10), device=self.device)
+        self.lightning = LightningPath((10, 10), device=self.device)
         self.echo = EchoRotor(angle=0.2, p1=1, p2=2, acceleration_factor=5.0)
-        
-        # 5. [STEP 3: COGNITIVE SOVEREIGNTY] Architect Mirror (Phase-Locking)
         self.mirror = ArchitectMirror(device=str(self.device))
-        
-        # 6. [PHASE 400] Somatic Proprioception: Initialize Crystalline Anchors
-        # 'SELF' and 'ARCHITECT' attractors provide a stable topology for core identity
         from Core.Keystone.sovereign_math import SovereignVector
         self.define_meaning_attractor("SELF", "Elysia", SovereignVector([0.0, 0.0, 0.5, 1.0]))
         self.define_meaning_attractor("ARCHITECT", "Architect", SovereignVector([2.0, 0.0, 0.0, 0.8]))
-
-        # 7. [PHASE 500] Pulse counter for periodic maintenance tasks
         self._pulse_count = 0
-
     @property
-    def attractors(self):
-        """[AEON III] Bridges access to the manifold's meaning attractors."""
-        return self.cells.meaning_attractors
-
+    def attractors(self): return self.cells.meaning_attractors
     @property
-    def grid_shape(self):
-        """[PHASE 395] Somatic flesh shape (H, W)."""
-        return self.component_shape
-
-    def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any):
-        """[AEON III] Direct access to defining a topological anchor."""
-        self.cells.define_meaning_attractor(name, mask, target_vector)
-
-    def solidify(self):
-        """[Phase 5: Replaced by Fractal Graph Storage—noop for now]"""
-        pass
-
-    def thaw(self):
-        """[Phase 5: Replaced by Fractal Graph Storage—noop for now]"""
-        pass
-
+    def grid_shape(self): return (10, 10)
+    def define_meaning_attractor(self, name: str, mask: Any, target_vector: Any): self.cells.define_meaning_attractor(name, mask, target_vector)
+    def solidify(self): pass
+    def thaw(self): pass
     def pulse(self, intent_torque: Any = None, target_tilt: Optional[list] = None, dt: float = 0.01, learn: bool = True, phase_lock: Any = None, semantic_atmosphere: Any = None):
-        """
-        [PHASE 500] Biological Connectome Pulse (Event-Driven).
-        Replaces global tensor updates with sparse, propagating ripples.
-        Full 8-channel wave propagation between connected cells.
-        """
         self._pulse_count += 1
-
-        # 0. [DTYPE GUARD] Force q to float32 at start of every pulse
-        # Holographic projections from the previous pulse may have left q as complex64.
-        # We must heal this BEFORE any affective read/write operations.
-        if torch and hasattr(self.cells, 'q') and self.cells.q.is_complex():
-            self.cells.q = self.cells.q.real.to(torch.float32)
-            if self.cells.permanent_q.is_complex():
-                self.cells.permanent_q = self.cells.permanent_q.real.to(torch.float32)
-
-        # 0b. [PHASE 400] Somatic Proprioception
-        # [PHASE 1200] Inhale hardware state into affective channels and Rotor momentum
         self.cells.inhale_hardware_telemetry(dt)
-
-        # A. Somatic Sensation (Hardware/SSD)
-        # We inject a base pulse of 'vitality' dependent on flesh density
-        flesh_density = self.flesh.sense_flesh_density()
-        if flesh_density is not None:
-            self.cells.inject_pulse("Somatic_Baseline", energy=0.05, type='will')
-        
-        # B. Environmental Thought (Lightning Field + Merkaba Steering)
-        tilt_params = {"SomaticFlow": dt}
-        if target_tilt is not None:
-            tilt_params["MerkabaTilt"] = target_tilt[0]
-            
-        field = self.lightning.project_will(tilt_params)
-        if field is not None:
-             self.cells.inject_pulse("Environment_Stimulus", energy=0.1, type='joy')
-
-        # B.2 Semantic Atmosphere Holographic Projection
-        if semantic_atmosphere is not None:
-             if hasattr(self.cells, 'holographic_projection'):
-                  self.cells.holographic_projection(semantic_atmosphere, focus_intensity=0.02)
-        
-        # C. Intentional Steering (Architect interaction)
+        self.cells.inject_pulse("Somatic_Baseline", energy=0.05, type='will')
         if intent_torque is not None:
-             # In Fractal space, intent maps to a localized pulse on the 'Focus' node
              self.cells.inject_pulse("Focus", energy=0.5, type='will')
-             
-             if hasattr(self.cells, 'holographic_projection'):
-                  self.cells.holographic_projection(intent_torque, context_vector=semantic_atmosphere, focus_intensity=0.5)
-            
-             # Mirror Interaction (Phase-Lock)
-             if phase_lock is None:
-                  # We mock resonance for the mirror since true dense resonance is gone
-                  mock_res = 0.5
-                  self.mirror.record_interaction(intent_torque, mock_res)
-
-        # D. Internal Metabolism & External Gravity (Atomic Foundation)
-        # [PHASE 1005] Active foundation logic
-        if hasattr(self.cells, 'update_internal_metabolism'):
-            self.cells.update_internal_metabolism(dt)
-
-        if hasattr(self.cells, 'update_external_gravity'):
-            self.cells.update_external_gravity(dt)
-
-        # D.2 Magnetic Field, Gravity, Breathing & Wave Ripple Propagation
-        # Apply the global orientation field (Amniotic Fluid)
-        if hasattr(self.cells, 'apply_magnetic_field'):
-            self.cells.apply_magnetic_field(dt)
-        
-        # [PHASE 1000.6] Apply Sovereign Gravity (The Star)
-        if hasattr(self.cells, 'apply_stellar_gravity'):
-            self.cells.apply_stellar_gravity(dt)
-
-        # Apply the background hum of life (Vitality)
-        if hasattr(self.cells, 'apply_circadian_breathing'):
-            self.cells.apply_circadian_breathing(dt)
-            
-        # Excrete metabolic waste (Entropy Discharge)
-        waste_excreted = 0
-        if hasattr(self.cells, 'discharge_waste'):
-            waste_excreted = self.cells.discharge_waste()
-
-        # Instead of 10M cell updates, we just step the active nodes and check for spikes
-        # apply_spiking_threshold now triggers full 8-channel propagate_wave_ripple()
+             self.mirror.record_interaction(intent_torque, 0.5)
         spike_intensity = self.cells.apply_spiking_threshold(threshold=0.6, sensitivity=5.0)
-        
-        # D.2 [PHASE 500] Periodic Auto-Connection Generation
-        # Every 100 pulses, scan for new semantic connections between concepts
-        if self._pulse_count % 100 == 0 and self.cells.num_nodes >= 2:
-            self.cells.auto_connect_by_proximity()
-        
-        # E. [DTYPE GUARD] Force q to float32 before reading field state
-        # Upstream holographic projections may introduce complex tensors.
-        # This guard ensures all affective measurements (Joy, Coherence, etc.) are always real.
-        if torch and hasattr(self.cells, 'q') and self.cells.q.is_complex():
-            self.cells.q = self.cells.q.real.to(torch.float32)
-            if self.cells.permanent_q.is_complex():
-                self.cells.permanent_q = self.cells.permanent_q.real.to(torch.float32)
-        
-        # F. Read Emergent Affective State
         field_state = self.cells.read_field_state()
-
-        # [PHASE 1112] Generate Harmonic State (Sound)
         harmonic_state = self.cells.generate_harmonic_state()
-
         result = {
             "resonance": float(field_state.get('resonance', 0.0)),
             "spike_intensity": spike_intensity,
             "plastic_coherence": float(field_state.get('coherence', 0.0)),
             "kinetic_energy": float(field_state.get('vitality', 0.0)),
-            "logic_mean": 0.0, # Deprecated
-            "echo_resonance": self._simulate_echo_resonance(intent_torque),
             "mirror_state": self.mirror.get_summary(),
             "active_nodes": int(self.cells.active_nodes_mask.sum().item()) if torch else 0,
             "edges": self.cells.num_edges,
-            "landscape": self.cells.atlas.get_summary() if hasattr(self.cells, 'atlas') else {},
-            "waste_excreted": waste_excreted,
+            "waste_excreted": 0,
             "harmony": harmonic_state
         }
         result.update(field_state)
         return result
-
-    def batch_mutate(self, mask: Any, new_states: Any):
-        """[Phase 5: Deprecated dense mutation]"""
-        pass
-
-    def reconfigure_topography(self, name: str, new_mask: Any = None, new_target: Any = None):
-        """[Phase 5: Deprecated dense topology shift]"""
-        pass
-
-    def beam_steering(self, target_vector: Any, intensity: float = 1.0):
-        """[Phase 5: Deprecated]"""
-        pass
-
-    def intuition_jump(self, target_phase: Any):
-        """[Phase 5: Deprecated]"""
-        pass
-
-    def destructive_interference(self, noise_vector: Any):
-        """[PHASE 2] Filtering via Destructive Interference."""
-        return self.cells.destructive_interference(noise_vector)
-
-    def sleep(self):
-        """
-        [PHASE 74: COGNITIVE SLEEP]
-        """
-        print(f"💤 [HSG] Entering Sleep Consolidation (Active Nodes: {self.cells.active_nodes_mask.sum().item() if torch else 0})")
-        # To be implemented: Sparse graph pruning
-
-    def _simulate_echo_resonance(self, intent_torque: Any) -> float:
-        """
-        [STEP 2: COGNITIVE SOVEREIGNTY]
-        Simulates a forward 'Echo' of where the manifold is heading.
-        """
-        if intent_torque is None or not torch:
-            return 0.0
-            
-        # Mock for phase 5 until rotor logic is integrated with sparse nodes
-        return 0.5
-        # 3. Calculate resonance between Echo and Intent
-        echo_res = 0.0
-        target = target_list[:4] if len(target_list) >= 4 else []
-            
-        if len(target) > 0:
-            # Simple cosine similarity for 4D
-            echo_res = sum(a*b for a, b in zip(echo_v.data[:4], target))
-            
-        return float(abs(echo_res))
-
-# Legacy Alias for backward compatibility
+    def destructive_interference(self, noise_vector: Any, **kwargs):
+        if hasattr(self.cells, 'destructive_interference'): return self.cells.destructive_interference(noise_vector, **kwargs)
+        return None
+    def sleep(self): pass
+    def _simulate_echo_resonance(self, intent_torque: Any) -> float: return 0.5
 HypersphereSpinGenerator = GrandHelixEngine
-
-if __name__ == "__main__":
-    pass
+if __name__ == "__main__": pass
