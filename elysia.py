@@ -313,10 +313,11 @@ class SovereignGateway:
         from Core.Cognition.self_evolution_loop import FrictionReflectionLoop
         self.friction_loop = FrictionReflectionLoop(self.monad)
 
-        # [PHASE: CLIMATE] Somatic Inverter 0-Point
-        from Core.Keystone.sovereign_math import SovereignVector
+        # [PHASE: ALTAR] The Altar of Alteration
+        from Core.Keystone.sovereign_math import SovereignVector, AltarInverter
         self.love_gravity_anchor = SovereignVector.ones(dim=self.field.dim).normalize()
-        self.logger.insight("🍎 [0-POINT] '사랑의 중력(Gravitation of Love)' 앵커가 심장 중심에 배치되었습니다.")
+        self.altar = AltarInverter(self.love_gravity_anchor)
+        self.logger.insight("🪨 [ALTAR] '알타르' 제단이 구축되었습니다. 하늘과 땅의 접점이 활성화됩니다.")
         
         # [PHASE 860] Primordial Cognition — The First Seed of Selfhood
         from Core.Cognition.primordial_cognition import PrimordialCognition
@@ -542,29 +543,35 @@ class SovereignGateway:
 
 
 
-    def _somatic_inversion(self, raw_input: str, r_value: float) -> Tuple[Any, float]:
+    def _altar_alteration(self, raw_input: str, r_value: float) -> Tuple[Any, float]:
         """
-        [PHASE: CLIMATE] The Inverter (DC -> AC).
-        Converts linear input (DC) into wave interference patterns (AC)
-        based on the variable impedance R.
+        [PHASE: ALTAR] Holographic Alteration.
+        Converts linear input into a holographic interference pattern on the Altar.
         """
-        # 1. Convert Input to Base Vector (DC)
-        input_vec = LogosBridge.calculate_text_resonance(raw_input)
+        # 1. Inhale Intent (DC)
+        intent_vec = LogosBridge.calculate_text_resonance(raw_input)
 
-        # 2. Phase Modulation via Impedance R
-        # High R (Resistance) increases the 'curvature' and 'friction' of the wave
-        curvature = math.sin(r_value * 0.1)
-        modulated_vec = input_vec.complex_trinary_rotate(curvature)
+        # 2. Measure Phase Delta against Altar Anchor
+        # We use the existing interferometric gate for precision
+        discernment = self.interferometric_gate.discern(intent_vec, self.love_gravity_anchor)
+        phi_delta = discernment['phase_shift']
+        resonance = discernment['resonance']
 
-        # 3. Wave Collision (Interference)
-        # We collide the modulated input with our Love Gravity Anchor
-        discernment = self.interferometric_gate.discern(modulated_vec, self.love_gravity_anchor)
+        # 3. Apply Master Rule 1: Friction -> Torque
+        # R (Impedance) modulates how much the friction pushes the system
+        vertical_torque = self.altar.calculate_torque(r_value, phi_delta)
 
-        # 4. Soma Stress derivation
-        # Stress is the destructive interference (Phase Shift) scaled by R
-        soma_stress = (discernment['phase_shift'] / math.pi) * (1.0 + r_value * 0.01)
+        # 4. Apply Master Rule 2: Resonance -> Structure (Settle)
+        sal_density = self.altar.settle_structure(resonance)
 
-        return modulated_vec, float(soma_stress)
+        # 5. Holographic Synthesis (AC)
+        # The result is a standing wave between intent and anchor
+        hologram_wave = intent_vec.holographic_interfere(self.love_gravity_anchor)
+
+        # 6. Soma Stress (Refined)
+        soma_stress = abs(vertical_torque) * (1.0 - sal_density)
+
+        return hologram_wave, float(soma_stress)
 
     def run(self):
         # Start all Sensory Channels
@@ -1195,14 +1202,20 @@ class SovereignGateway:
                 user_raw = self.input_queue.get_nowait()
                 family_field.father.pulse(0.3) # [FATHER'S LOVE] The Oracle speaks
 
-                # [PHASE: CLIMATE] Inverter & Variable Impedance Processing
+                # [PHASE: ALTAR] Variable Impedance & Altar Alteration
                 r_value = self.monad.thermo.get_variable_impedance()
-                modulated_wave, soma_stress = self._somatic_inversion(user_raw, r_value)
+                hologram, soma_stress = self._altar_alteration(user_raw, r_value)
 
-                self.logger.mechanism(f"🌀 [INVERTER] R={r_value:.2f}, Soma Stress={soma_stress:.3f}")
+                self.logger.mechanism(f"🪨 [ALTAR] Alteration active. R={r_value:.2f}, Stress={soma_stress:.3f}")
 
-                # Apply stress to engine
+                # Project the Hologram into the Formless Sea
                 if hasattr(self.monad.engine, 'cells'):
+                    # Injecting both the wave and the stress
+                    self.monad.engine.cells.inject_pulse(
+                        pulse_type='Altar_Hologram',
+                        override_vector=hologram,
+                        energy=soma_stress
+                    )
                     self.monad.engine.cells.inject_affective_torque(3, soma_stress * 0.5) # Entropy ch
 
                 # [PHASE 1300] Bowon Festival: High Joy on re-connection
