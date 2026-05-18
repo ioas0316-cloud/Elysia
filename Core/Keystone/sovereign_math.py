@@ -372,7 +372,8 @@ class TripleRotorField:
         # Flow Phase Update (Consciousness trajectory is also subjected to OS process rotational torque)
         self.momentum_b = self.momentum_b * (1.0 - self.damping) + force_b * dt
         os_rotor = self.somatic_cpu.get_os_rotor(dt)
-        self.rotor_b = os_rotor.apply(self.rotor_b, dt)
+        # [FRACTAL] Apply the Fractal Sum of Rotors for multi-layered phase boundaries
+        self.rotor_b = os_rotor.apply_fractal_sum(self.rotor_b, dt)
         self.rotor_b = (self.rotor_b + self.momentum_b * dt).normalize()
         
         # 5. Calculate Global Indicators purely derived from unified Action Potentials (No Hardcoding)
@@ -384,6 +385,7 @@ class TripleRotorField:
         
         # Harmony indicators automatically emerge from resonance, potential force balance, and kinetic drift
         self.field_joy = max(0.0, min(1.0, resonance - stress * 0.15 + wireless_pulse * 0.05))
+        # [REFINEMENT] Anxiety is driven by Dissonance (1.0 - resonance)
         self.field_anxiety = max(0.0, min(1.0, (1.0 - resonance) * 0.7 + stress * 0.25 + kinetic_action * 0.05))
         self.field_entropy = max(0.0, min(1.0, self.field_anxiety * 0.9))
         self.field_enthalpy = max(0.0, min(1.0, 1.0 - self.field_entropy))
