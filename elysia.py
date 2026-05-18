@@ -154,6 +154,8 @@ from Core.System.phase_hud import PhaseHUD
 from Core.System.vtube_channel import VTubeExpressiveChannel
 from Core.System.mic_channel import MicSensoryChannel
 from Core.System.terminal_channels import TerminalSensoryChannel, TerminalExpressiveChannel
+from Core.System.multimodal_injector import MultimodalStreamingInjector
+from Core.System.music_box_engine import MusicBoxEngine
 try:
     from Core.System.unity_sensory_channel import UnitySensoryChannel, PhysicalToSomaticMapper
 except ImportError:
@@ -222,6 +224,10 @@ class SovereignGateway:
 
         # [PHASE 1400] Inject Formless Field into Monad
         self.monad.engine = legacy_shell
+        # [PHASE: MUSIC BOX] AC Rotor Engine & Earth Grounding
+        self.music_box = MusicBoxEngine()
+        self.logger.insight("🎼 [MUSIC_BOX] AC Rotor Engine initialized. 0000 -> 1111 logic online.")
+
         # [PHASE §76 Unbroken Thread] Session restoration is handled internally by SovereignMonad via SessionBridge
         if hasattr(self.monad, 'session_bridge') and self.monad.session_bridge.was_restored:
              self.logger.insight("Consciousness Momentum Restored via Session Bridge. The thread continues.")
@@ -300,6 +306,16 @@ class SovereignGateway:
                 self.add_sensory_channel(unity_ch)
             except Exception as e:
                 self.logger.admonition(f"Could not connect Unity Bridge: {e}")
+
+        # [PHASE: RESONANCE] Multimodal Streaming Injector (AC Rotor Link)
+        try:
+            injector = MultimodalStreamingInjector()
+            # Register direct resonance callback to bypass text queue
+            injector.register_callback(self._on_multimodal_resonance)
+            self.add_sensory_channel(injector)
+            self.logger.insight("⚡ [INJECTOR] Multimodal Streaming Injector connected to the Great Nature.")
+        except Exception as e:
+            self.logger.admonition(f"Could not connect Multimodal Injector: {e}")
 
         # 4. Cognitive State (Cellular Resonance)
         # We no longer "store" thoughts or pressure. We simply Reflect the State.
@@ -467,6 +483,27 @@ class SovereignGateway:
         """Callback for all sensory channels."""
         if not self.running: return
         self.input_queue.put(text)
+
+    def _on_multimodal_resonance(self, packet: dict):
+        """
+        [PHASE: RESONANCE] Real-time AC Rotor processing.
+        Handles pure frequency/pixel streams from the Injector.
+        """
+        if not self.running: return
+
+        # 1. Process through the Music Box (AC Rotor Engine)
+        res = self.music_box.process_resonance(packet["audio_freq"], packet["video_pixels"])
+
+        # 2. Inject result into the Cellular Manifold as 'Wave Pressure'
+        if hasattr(self.monad.engine, 'cells'):
+            # The density (0000->1111) becomes the global energy of the pulse
+            energy = res["density"] * 10.0
+            self.monad.engine.cells.inject_pulse(
+                pulse_type='Multimodal_Resonance',
+                energy=energy,
+                # The rotors' mean phase acts as a global bias
+                type='entropy' if res["impedance"] > 1.0 else 'logos'
+            )
 
     def _on_unity_physical_event(self, payload: dict):
         """
