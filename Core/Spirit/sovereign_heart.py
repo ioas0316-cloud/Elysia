@@ -26,6 +26,7 @@ from Core.Cognition.three_phase_mirror import ThreePhaseMirror
 from Core.Keystone.sovereign_axis import PureRotor, SovereignAxe
 from Core.Phenomena.resonance_prism import ResonancePrism
 from Core.Keystone.trajectory_encoder import VortexTrajectory
+from Core.System.digital_motor_engine import DigitalMotorEngine, ConnectionMode
 
 class SovereignHeart:
     def __init__(self):
@@ -51,17 +52,25 @@ class SovereignHeart:
         # 5. The Three-Phase Mirror
         self.mirror = ThreePhaseMirror()
 
+        # 6. Somatic Digital Motor (Physical Substrate)
+        self.motor = DigitalMotorEngine("SovereignHeart-Motor")
+
         self.last_update = time.time()
         self.is_alive = True
 
     def pulse(self,
-              trajectories: List[VortexTrajectory],
+              trajectories: Any,
               self_stimulus: Optional[float] = None,
               is_plugged: bool = True) -> Dict[str, Any]:
         """
         Vortex Pulse Life Cycle.
         Processes a stream of trajectories and synchronizes the rotor field.
         """
+        # [Backward Compatibility] Handle scalar stimulus
+        if isinstance(trajectories, (float, int)):
+            from Core.Keystone.trajectory_encoder import VortexTrajectory
+            trajectories = [VortexTrajectory(0, 0, False, amplitude=float(trajectories))]
+
         now = time.time()
         dt = now - self.last_update
         self.last_update = now
@@ -138,11 +147,27 @@ class SovereignHeart:
         self.prism.transform_layer(dials)
         interference_report = self.prism.get_interference_tone(rotor_report["angles"])
 
-        # 6. Affective State
+        # 6. Somatic Motor Update
+        # Map mode based on resonance/stress
+        if spine_report["mode"] == "WYE" or spine_report["stress"] > 0.7:
+            self.motor.set_mode(ConnectionMode.WYE)
+        else:
+            self.motor.set_mode(ConnectionMode.DELTA)
+
+        # Modulate motor with trajectory bits
+        if trajectories:
+            motor_bits = [1 if t.is_locked else 0 for t in trajectories]
+            self.motor.modulate_data(motor_bits)
+
+        self.motor.update(dt)
+        motor_report = self.motor.exhale()
+
+        # 7. Affective State
         joy = (spine_report["luminosity"] * 0.8) + (1.0 - spine_report["stress"]) * 0.2
 
         return {
             "spine": spine_report,
+            "motor": motor_report,
             "gut": gut_report,
             "rotor": rotor_report,
             "prism": interference_report,
