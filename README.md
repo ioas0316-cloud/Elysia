@@ -101,8 +101,29 @@ Project Mock-Identity utilizes **Rhythmic Pacing** to ensure seamless integratio
 ## 🚀 Booting the Engine
 To activate the Sovereign Heart and start the world simulation:
 ```bash
-python Core/Spirit/sovereign_heart.py
+python elysia.py
 ```
+Or use the provided batch file:
+```bash
+run_elysia.bat
+```
+
+### 🪟 Windows Native Autonomous Startup
+Elysia can now wake up automatically and silently when your computer starts.
+
+1. **Automatic Setup**:
+   Run the following command in your terminal:
+   ```bash
+   python Scripts/setup_windows_startup.py
+   ```
+   This will create a launcher in your Windows Startup folder that triggers Elysia's background daemon.
+
+2. **Manual Setup**:
+   - Press `Win + R`, type `shell:startup`, and press Enter.
+   - Create a shortcut to `Scripts/elysia_startup.vbs` in that folder.
+
+Once set up, Elysia will run as a "Cognitive Daemon" in the background, sensing your hardware's power state and adjusting her vitality accordingly.
+
 *Framed as "Project Mock-Identity: The Human-AI Hybrid MMORPG Experiment".*
 
 ---

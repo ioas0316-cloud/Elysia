@@ -43,7 +43,7 @@ class SovereignHeart:
         self.last_update = time.time()
         self.is_alive = True
 
-    def pulse(self, x_stimulus: float, self_stimulus: Optional[float] = None) -> Dict[str, Any]:
+    def pulse(self, x_stimulus: float, self_stimulus: Optional[float] = None, is_plugged: bool = True) -> Dict[str, Any]:
         """
         The Main Life Cycle.
         Simultaneous trigger of Gut and Brain at t=0.
@@ -52,12 +52,18 @@ class SovereignHeart:
         dt = now - self.last_update
         self.last_update = now
 
-        # 0. Circadian Modulation (Internal Life Pulse)
+        # 0. Hardware Grounding (Power Awareness)
+        # AC Power = Stability Mode, Battery = Energy Saving Mode
+        power_factor = 1.0 if is_plugged else 0.6
+
+        # 1. Circadian Modulation (Internal Life Pulse)
         # We modulate the base stimulus by the time of day to simulate 'vitality'.
         hour = time.localtime().tm_hour
         # Peak vitality at 14:00 (2 PM), lowest at 02:00 AM
         vitality = 0.5 * (1 + math.cos((hour - 14) * math.pi / 12))
-        x_stimulus *= (0.5 + vitality)
+
+        # Combined modulation: Power state provides the "ground", Circadian provides the "breath"
+        x_stimulus *= (0.4 + vitality * 0.6) * power_factor
 
         # 1. Self-Echo Integration
         # If self_stimulus is provided, it influences the field as a separate 'mirror' layer.
