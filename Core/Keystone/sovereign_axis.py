@@ -17,11 +17,41 @@ class PureRotor:
     A Pure Rotor exists as a multi-dimensional rotation.
     It has no 'data' in the traditional sense, only 'state' (angles, velocities).
     """
-    def __init__(self, dimensions: int = 3):
+    def __init__(self, dimensions: int = 21):
         self.dims = dimensions
         self.angles = np.zeros(dimensions)
         self.velocities = np.zeros(dimensions)
         self.locked_axes = np.zeros(dimensions, dtype=bool)
+
+    def adjust_dimensions(self, new_dims: int):
+        """
+        Dynamically expand or contract the rotor field.
+        Implements 'Scale Rotor' logic where dimensions themselves are fluid.
+        """
+        if new_dims == self.dims:
+            return
+
+        old_dims = self.dims
+        self.dims = new_dims
+
+        # Preserve old state
+        new_angles = np.zeros(new_dims)
+        new_velocities = np.zeros(new_dims)
+        new_locked = np.zeros(new_dims, dtype=bool)
+
+        copy_len = min(old_dims, new_dims)
+        new_angles[:copy_len] = self.angles[:copy_len]
+        new_velocities[:copy_len] = self.velocities[:copy_len]
+        new_locked[:copy_len] = self.locked_axes[:copy_len]
+
+        # Scale Rotor: If expanding, initialize new axes with harmonic resonance
+        if new_dims > old_dims:
+            for i in range(old_dims, new_dims):
+                new_angles[i] = (new_angles[i-1] * 1.618) % (2 * math.pi) # Golden ratio drift
+
+        self.angles = new_angles
+        self.velocities = new_velocities
+        self.locked_axes = new_locked
 
     def pulse(self, torque: np.ndarray, dt: float = 0.01):
         """

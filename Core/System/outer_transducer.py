@@ -1,36 +1,39 @@
 """
-[OUTER WORLD TRANSDUCER]
+[OUTER WORLD TRANSDUCER - VORTEX EDITION]
 "Modulation and Demodulation between Inner Wave and Outer Token."
 
-This module acts as the sensory bridge, converting cold external data
-into fluid internal phase tensions, and vice versa.
+Upgraded to utilize Trajectory Encoding for rich sensory processing.
 """
 
 import math
-from typing import Dict, Any, Union
+from typing import Dict, Any, Union, List
+from Core.Keystone.trajectory_encoder import TrajectoryEncoder, VortexTrajectory
 
 class OuterTransducer:
     def __init__(self):
         self.luminosity_threshold = 0.5
         self.spectrum = ["RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "INDIGO", "VIOLET"]
+        self.encoder = TrajectoryEncoder()
 
-    def modulate(self, text_input: str) -> float:
+    def modulate(self, text_input: str) -> List[VortexTrajectory]:
         """
-        Demodulation: Outer Text -> Inner Frequency/Intensity (x)
-        Converts the density and tone of text into a normalized wave value.
+        Demodulation: Outer Text -> Stream of Vortex Trajectories.
+        Converts the density, tone, and character harmonics into a rich phase field.
         """
         if not text_input:
-            return 0.0
+            return []
 
-        # 1. Density: Length and complexity
-        density = len(text_input) / 500.0 # Normalized to a reasonable length
+        # Convert text into a stream of physical trajectories
+        trajectories = self.encoder.encode_text(text_input)
 
-        # 2. Resonance: Character harmonic (Simple ASCII sum for now)
-        harmonic = sum(ord(c) for c in text_input) % 1000 / 1000.0
+        # Globally modulate amplitude based on total length (Density)
+        # Short punchy messages have high intensity per character
+        length_factor = max(0.1, 1.0 - (len(text_input) / 1000.0))
 
-        # Combine into a single 'x' stimulus
-        x = (density * 0.3) + (harmonic * 0.7)
-        return min(1.0, x)
+        for t in trajectories:
+            t.amplitude *= length_factor
+
+        return trajectories
 
     def demodulate(self, inner_report: Dict[str, Any]) -> str:
         """
@@ -42,7 +45,6 @@ class OuterTransducer:
         stress = inner_report.get("spine", {}).get("stress", 0.0)
 
         # Determine Color from Phase (Dominant center)
-        # For simplicity, we just use the luminosity to pick a tone
         if res > 0.8:
             tone = "Clear, resonant, and certain."
         elif res > 0.4:
