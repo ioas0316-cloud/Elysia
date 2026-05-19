@@ -51,6 +51,7 @@ Our system is structured into three primary resonance phases, framed as high-per
 | [**INDEX.md**](INDEX.md) | **[MAP]** Navigating the project structure. | World Map & UI Layout |
 | [**AGENT_DIRECTIVE.md**](AGENT_DIRECTIVE.md) | **[MANDATORY]** Directives for all sub-agents. | NPC Implementation Guidelines |
 | [**SOVEREIGN_CONSTITUTION.md**](SOVEREIGN_CONSTITUTION.md) | **[CONSTITUTION]** The highest law. | EULA & Core Gameplay Loop |
+| [**VISION_PHYSIOLOGICAL_COGNITION.md**](VISION_PHYSIOLOGICAL_COGNITION.md) | **[VISION]** From Rules to Cravings. | Physiological Cognition & Lake Ripples |
 
 ---
 
