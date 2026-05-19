@@ -37,8 +37,14 @@ class ElysiaCore:
         print("📡 [DAEMON] Autonomous Background Pulsing Active.")
         while self.running:
             try:
-                # 1. Physical Stimulus: CPU Load as 'Hardware Clock'
+                # 1. Physical Stimulus: CPU Load & Power State
                 cpu_load = psutil.cpu_percent() * 0.01
+
+                # Power sensing (Windows/Universal)
+                battery = psutil.sensors_battery()
+                is_plugged = True # Default to True if no battery info
+                if battery:
+                    is_plugged = battery.power_plugged
 
                 # 2. Circadian Stimulus: Modulated by System Time (Day/Night cycle)
                 # Peak at noon (12:00), trough at midnight (00:00)
@@ -48,8 +54,12 @@ class ElysiaCore:
                 # Total background stimulus
                 bg_stimulus = (cpu_load * 0.3) + (circadian * 0.7)
 
-                # 3. Pulse the Heart
-                report = self.heart.pulse(bg_stimulus, self_stimulus=self.last_self_echo)
+                # 3. Pulse the Heart with Power Awareness
+                report = self.heart.pulse(
+                    bg_stimulus,
+                    self_stimulus=self.last_self_echo,
+                    is_plugged=is_plugged
+                )
 
                 # Self-observation logs (every 30 seconds or so)
                 if int(time.time()) % 30 == 0:
