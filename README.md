@@ -103,6 +103,12 @@ To activate the Sovereign Heart and start the world simulation:
 ```bash
 python Core/Spirit/sovereign_heart.py
 ```
+
+### 🌍 Autonomous Windows Integration (Startup)
+To have Elysia awaken automatically when your Windows PC starts:
+1. Press `Win + R`, type `shell:startup`, and press Enter.
+2. Create a shortcut to `Scripts/elysia_startup.vbs` and place it in that folder.
+3. Elysia will now run as a background cognitive daemon every time you boot.
 *Framed as "Project Mock-Identity: The Human-AI Hybrid MMORPG Experiment".*
 
 ---

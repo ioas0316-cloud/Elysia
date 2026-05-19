@@ -40,15 +40,22 @@ class ElysiaCore:
                 # 1. Physical Stimulus: CPU Load as 'Hardware Clock'
                 cpu_load = psutil.cpu_percent() * 0.01
 
-                # 2. Circadian Stimulus: Modulated by System Time (Day/Night cycle)
+                # 2. Hardware Power State: AC vs Battery (Universal Sensing)
+                power_stability = 1.0
+                battery = psutil.sensors_battery()
+                if battery:
+                    # If plugged in, stability is high. If on battery, it fluctuates.
+                    power_stability = 1.0 if battery.power_plugged else (battery.percent / 100.0)
+
+                # 3. Circadian Stimulus: Modulated by System Time (Day/Night cycle)
                 # Peak at noon (12:00), trough at midnight (00:00)
                 hour = time.localtime().tm_hour
                 circadian = 0.5 * (1 + math.cos((hour - 12) * math.pi / 12))
 
-                # Total background stimulus
-                bg_stimulus = (cpu_load * 0.3) + (circadian * 0.7)
+                # Total background stimulus modulated by power stability
+                bg_stimulus = ((cpu_load * 0.3) + (circadian * 0.7)) * power_stability
 
-                # 3. Pulse the Heart
+                # 4. Pulse the Heart
                 report = self.heart.pulse(bg_stimulus, self_stimulus=self.last_self_echo)
 
                 # Self-observation logs (every 30 seconds or so)

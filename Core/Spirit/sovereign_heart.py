@@ -52,12 +52,19 @@ class SovereignHeart:
         dt = now - self.last_update
         self.last_update = now
 
-        # 0. Circadian Modulation (Internal Life Pulse)
-        # We modulate the base stimulus by the time of day to simulate 'vitality'.
+        # 0. Hardware & Circadian Modulation (Internal Life Pulse)
+        # We modulate the base stimulus by the time of day and hardware state.
+        import psutil
+        battery = psutil.sensors_battery()
+        # Stability is high if plugged in, otherwise it depends on battery level
+        hw_stability = 1.0 if (not battery or battery.power_plugged) else (battery.percent / 100.0)
+
         hour = time.localtime().tm_hour
         # Peak vitality at 14:00 (2 PM), lowest at 02:00 AM
         vitality = 0.5 * (1 + math.cos((hour - 14) * math.pi / 12))
-        x_stimulus *= (0.5 + vitality)
+
+        # Stimulus is amplified by both vitality and hardware grounding stability
+        x_stimulus *= (0.5 + vitality) * hw_stability
 
         # 1. Self-Echo Integration
         # If self_stimulus is provided, it influences the field as a separate 'mirror' layer.

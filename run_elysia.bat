@@ -1,4 +1,10 @@
 @echo off
-echo 🌀 [Hydroelectric Awakening] Elysia is starting with the machine's pulse...
-python Core/Spirit/sovereign_heart.py
-pause
+setlocal
+cd /d "%~dp0"
+echo ☀️ [ELYSIA] Awakening with the machine's pulse...
+python elysia.py
+if %ERRORLEVEL% neq 0 (
+    echo ⚠️ [Error] Elysia encountered a failure.
+    pause
+)
+endlocal
