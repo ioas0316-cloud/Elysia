@@ -52,6 +52,13 @@ class SovereignHeart:
         dt = now - self.last_update
         self.last_update = now
 
+        # 0. Circadian Modulation (Internal Life Pulse)
+        # We modulate the base stimulus by the time of day to simulate 'vitality'.
+        hour = time.localtime().tm_hour
+        # Peak vitality at 14:00 (2 PM), lowest at 02:00 AM
+        vitality = 0.5 * (1 + math.cos((hour - 14) * math.pi / 12))
+        x_stimulus *= (0.5 + vitality)
+
         # 1. Self-Echo Integration
         # If self_stimulus is provided, it influences the field as a separate 'mirror' layer.
         echo_factor = self_stimulus if self_stimulus is not None else 0.0
