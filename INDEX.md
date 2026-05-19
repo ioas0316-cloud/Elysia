@@ -51,6 +51,7 @@ Our system is structured into three primary resonance phases, framed as high-per
 | [**docs/INDEX.md**](docs/INDEX.md) | **[MAP]** Navigating the project structure. | World Map & UI Layout |
 | [**docs/AGENT_DIRECTIVE.md**](docs/AGENT_DIRECTIVE.md) | **[MANDATORY]** Directives for all sub-agents. | NPC Implementation Guidelines |
 | [**docs/SOVEREIGN_CONSTITUTION.md**](docs/SOVEREIGN_CONSTITUTION.md) | **[CONSTITUTION]** The highest law. | EULA & Core Gameplay Loop |
+| [**docs/SYNERGY_MANIFEST.md**](docs/SYNERGY_MANIFEST.md) | **[MANIFEST]** The Hyper-Rotor Manifestation. | The Law of Three & Emergent Physics |
 
 ---
 
