@@ -1,0 +1,14 @@
+{
+  "nodes": [
+    {
+      "id": "love",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 1.0
+    }
+  ],
+  "edges": []
+}

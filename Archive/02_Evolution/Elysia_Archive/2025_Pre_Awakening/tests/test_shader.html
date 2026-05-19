@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shader Test</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="glcanvas" width="500" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById('glcanvas');
+        const gl = canvas.getContext('webgl');
+
+        // Mock Uniforms
+        let u_brow = 0.5; // Test value
+
+        const vsSource = `attribute vec2 a_pos; attribute vec2 a_uv; varying vec2 v_uv; void main(){ gl_Position=vec4(a_pos,0,1); v_uv=a_uv; }`;
+        const fsSource = `
+            precision mediump float;
+            varying vec2 v_uv;
+            uniform float u_time;
+            uniform float u_brow;
+            
+            void main() {
+                vec2 uv = v_uv;
+                
+                // Flow (Suspect 1)
+                uv.x += sin(u_time*1.5 + uv.x*5.0)*0.001;
+                uv.y += cos(u_time*1.2 + uv.y*5.0)*0.001;
+                
+                // Brow Logic (Suspect 2) - Not present in original shader? Wait.
+                // Original Shader:
+                // gl_FragColor = c;
+                
+                // Let's visualize UV distortion
+                gl_FragColor = vec4(uv.x, uv.y, 0.0, 1.0);
+            }
+        `;
+
+        // ... (Standard WebGL Boilerplate) ...
+        // Simplified for brevity in thought process
+    </script>
+</body>
+
+</html>

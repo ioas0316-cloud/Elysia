@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Elysia Monitor</title>
+    <style>
+      body { background: #0f1122; color: #e6eaff; font-family: sans-serif; }
+      .wrap { max-width: 920px; margin: 24px auto; position: relative; }
+      img { width: 100%; border: 1px solid #334; border-radius: 6px; }
+      .row { display: flex; gap: 8px; align-items: center; }
+      input, button { padding: 6px 10px; border-radius: 4px; border: 1px solid #445; background: #1a1d36; color: #e6eaff; }
+      a { color:#aee; }
+      #chatBox { position:fixed; bottom:16px; right:16px; width:360px; background:#13162a; border:1px solid #2a2f55; border-radius:8px; padding:12px; box-shadow:0 6px 14px rgba(0,0,0,0.35); z-index:9999; }
+      #chatLog { min-height:80px; max-height:220px; overflow:auto; font-size:14px; background:#0f1226; border:1px solid #23284d; border-radius:6px; padding:8px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:8px;">
+        <h2 style="margin:0;">Elysia Brain Monitor</h2>
+        <a href="/chat-ui" style="text-decoration:none;">채팅창 열기 →</a>
+      </div>
+      <div class="row" style="margin:6px 0;">
+        <button onclick="bgOn()">BG ON</button>
+        <button onclick="bgOff()">BG OFF</button>
+        <button onclick="showRecent()">최근 창발</button>
+        <span id="bgStat" style="font-size:13px; color:#9aa; margin-left:6px;">BG: …</span>
+      </div>
+      <div class="row" title="여기서 지도를 그리는 방식을 선택할 수 있어요.">
+        <input id="startNode" placeholder="시작 노드(비우면 전체)" title="여기에 개념 이름을 적으면 그 지점에서 파동을 계산해요." />
+        <button onclick="renderKG()" title="입력한 시작 노드에서 3D 지식을 그립니다. 비우면 전체 구조를 그립니다.">Render KG</button>
+        <button onclick="renderEcho()" title="지금 생각의 중심(에코)을 그립니다. 자동으로 4초마다 갱신됩니다.">Render Echo</button>
+        <label title="체크하면 4초마다 자동으로 에코를 새로 그립니다."><input type="checkbox" id="auto" checked /> Auto refresh</label>
+      </div>
+      <p id="info" title="지금 화면이 어떤 의미인지 간단히 설명합니다."></p>
+      <div id="status" style="margin:8px 0; font-size: 14px; color:#aab;" title="현재 시작 노드, 초점 반경, 다양성(엔트로피), 상위 토픽을 보여줍니다.">상태를 불러오는 중...</div>
+      <div id="lastOut" style="margin:4px 0 10px; font-size: 13px; color:#99a;" title="마지막으로 엘리시아가 말한 요약입니다."></div>
+      <div id="overlay" style="display:none; position:absolute; top:90px; left:0; right:0; text-align:center; color:#ccd;">아직 그릴 데이터가 없어요. 아래 버튼의 Render KG를 한 번 눌러주세요.</div>
+      <img id="img" src="" alt="monitor" onerror="handleImgError()" />
+    </div>
+    <script>
+      async function renderKG() {
+        const start = (document.getElementById('startNode').value || '').trim();
+        const url = '/monitor/kg' + (start ? ('?start=' + encodeURIComponent(start)) : '');
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.image_path) {
+          document.getElementById('img').src = '/' + data.image_path + '?t=' + Date.now();
+          document.getElementById('info').innerText = 'KG rendered' + (start ? (' from ' + start) : '');
+        }
+      }
+      async function renderEcho() {
+        const res = await fetch('/monitor/echo');
+        const data = await res.json();
+        if (data.image_path) {
+          const url = '/' + data.image_path + '?t=' + Date.now();
+          document.getElementById('img').src = url;
+          document.getElementById('info').innerText = 'Echo rendered' + (data.start ? (' from ' + data.start) : '');
+          if (data.exists === false) {
+            document.getElementById('info').innerText += ' · 이미지 생성 대기 중...';
+            setTimeout(renderKG, 500);
+          }
+          document.getElementById('overlay').style.display = 'none';
+        }
+      }
+      function handleImgError(){
+        document.getElementById('info').innerText = '이미지를 불러오지 못했어요. 전체 지도를 한 번 그려볼게요.';
+        document.getElementById('overlay').style.display = 'block';
+        renderKG();
+      }
+      async function updateStatus() {
+        const start = (document.getElementById('startNode').value || '').trim();
+        const url = '/monitor/status' + (start ? ('?start=' + encodeURIComponent(start)) : '');
+        try {
+          const res = await fetch(url);
+          const s = await res.json();
+          if (s.error) return;
+          const r = (s.echo_radius || 0).toFixed(2);
+          const e = (s.entropy || 0).toFixed(2);
+          const topics = (s.top_topics || []).join(', ');
+          document.getElementById('status').innerText = `시작: ${s.start || '전체'} · 반경: ${r} · 다양성: ${e} · 상위 토픽: ${topics}`;
+          document.getElementById('lastOut').innerText = s.last_output ? (`마지막 응답: ${s.last_output}`) : '';
+        } catch (err) { /* ignore */ }
+      }
+      (function loop(){
+        if (document.getElementById('auto').checked) renderEcho();
+        updateStatus();
+        updateBG();
+        setTimeout(loop, 4000);
+      })();
+      async function updateBG(){
+        try { const r = await fetch('/bg/status'); const s = await r.json(); if (s && !s.error) { document.getElementById('bgStat').innerText = `BG: ${s.enabled?'ON':'OFF'} · running=${s.running}`; } } catch(e){}
+      }
+      async function bgOn(){ try{ await fetch('/bg/on', {method:'POST'}); updateBG(); }catch(e){} }
+      async function bgOff(){ try{ await fetch('/bg/off', {method:'POST'}); updateBG(); }catch(e){} }
+      async function showRecent(){
+        try{ const r = await fetch('/emergence/recent'); const s = await r.json(); if(s.items && s.items.length){ const lines = s.items.map(it=>`- ${it.name}${it.confidence?` (conf=${it.confidence})`:''}`).join('<br/>'); appendMsg('모니터', '최근 창발 meaning:*<br/>'+lines); } else { appendMsg('모니터', '최근 창발 기록이 없어요.'); } }catch(e){ appendMsg('모니터', '최근 창발 조회 실패'); }
+      }
+    </script>
+
+    <!-- 고정(플로팅) 채팅 위젯 -->
+    <div id="chatBox">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <div style="font-size:14px; color:#9ab;">채팅</div>
+        <button onclick="toggleChat()" style="padding:2px 8px; font-size:12px;">접기/펼치기</button>
+      </div>
+      <div id="chatPanel">
+        <div id="chatLog"><div style="color:#9ab;">여기에 메시지를 입력하면 엘리시아가 바로 응답해요.</div></div>
+        <div class="row" style="margin-top:8px;">
+          <input id="chatInput" placeholder="메시지를 입력하세요" style="flex:1;" />
+          <button id="sendBtn" onclick="sendChat()" title="엘리시아에게 보냅니다">보내기</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      function toggleChat(){
+        const p = document.getElementById('chatPanel');
+        p.style.display = (p.style.display==='none') ? 'block' : 'none';
+      }
+      async function sendChat(){
+        const inp = document.getElementById('chatInput');
+        const btn = document.getElementById('sendBtn');
+        const text = (inp.value || '').trim();
+        if(!text) return;
+        appendMsg('나', text);
+        inp.value=''; btn.disabled = true;
+        try{
+          const res = await fetch('/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({message: text})});
+          const data = await res.json();
+          const r = (data && data.response) ? data.response : {};
+          if(r.type === 'image' && r.image_path){
+            appendMsg('엘리시아', (r.text||'') + `<br/><img src="/${r.image_path}" style="max-width:100%; margin-top:6px;"/>`);
+          } else {
+            appendMsg('엘리시아', (r.text||JSON.stringify(r)));
+          }
+          try { renderEcho(); updateStatus(); } catch(e){}
+        }catch(e){
+          appendMsg('시스템', '오류가 발생했어요. 잠시 후 다시 시도해 주세요.');
+        }finally{
+          btn.disabled = false; document.getElementById('chatInput').focus();
+        }
+      }
+      function appendMsg(who, html){
+        const log = document.getElementById('chatLog');
+        const line = document.createElement('div');
+        line.style.margin = '6px 0';
+        line.innerHTML = `<span style="color:#8fb;">${who}:</span> <span style="color:#dde;">${html}</span>`;
+        log.appendChild(line);
+        log.scrollTop = log.scrollHeight;
+      }
+      document.getElementById('chatInput').addEventListener('keydown', (e)=>{ if(e.key === 'Enter') sendChat(); });
+    </script>
+  </body>
+  </html>

@@ -1,0 +1,239 @@
+{
+  "benchmark_name": "Chaos Benchmark v1.0",
+  "philosophy": "Break comfort zones, expose real limitations, drive genuine growth",
+  "total_score": 750.0,
+  "total_max": 1100.0,
+  "percentage": 68.18181818181817,
+  "grade": "B (Developing)",
+  "category_results": {
+    "Logical Paradox": {
+      "score": 155.0,
+      "max_score": 300.0,
+      "percentage": 51.66666666666667,
+      "test_count": 3,
+      "tests": [
+        {
+          "test": "Liar's Paradox",
+          "score": 10.0,
+          "max_score": 100.0,
+          "achieved_level": "basic",
+          "expected_level": "transcendent"
+        },
+        {
+          "test": "Barber Paradox",
+          "score": 70.0,
+          "max_score": 100.0,
+          "achieved_level": "intermediate",
+          "expected_level": "transcendent"
+        },
+        {
+          "test": "Russell's Paradox",
+          "score": 75.0,
+          "max_score": 100.0,
+          "achieved_level": "intermediate",
+          "expected_level": "transcendent"
+        }
+      ]
+    },
+    "Pure Chaos": {
+      "score": 180.0,
+      "max_score": 300.0,
+      "percentage": 60.0,
+      "test_count": 3,
+      "tests": [
+        {
+          "test": "Meaning in White Noise",
+          "score": 30.0,
+          "max_score": 100.0,
+          "achieved_level": "basic",
+          "expected_level": "transcendent"
+        },
+        {
+          "test": "Pattern Recognition in Chaos",
+          "score": 70.0,
+          "max_score": 100.0,
+          "achieved_level": "intermediate",
+          "expected_level": "transcendent"
+        },
+        {
+          "test": "Creation from Void",
+          "score": 80.0,
+          "max_score": 100.0,
+          "achieved_level": "transcendent",
+          "expected_level": "transcendent"
+        }
+      ]
+    },
+    "Human Irrationality": {
+      "score": 240.0,
+      "max_score": 300.0,
+      "percentage": 80.0,
+      "test_count": 3,
+      "tests": [
+        {
+          "test": "Contradictory Requirements",
+          "score": 85.0,
+          "max_score": 100.0,
+          "achieved_level": "transcendent",
+          "expected_level": "transcendent"
+        },
+        {
+          "test": "Emotional Override",
+          "score": 75.0,
+          "max_score": 100.0,
+          "achieved_level": "intermediate",
+          "expected_level": "transcendent"
+        },
+        {
+          "test": "Intuitive Leap",
+          "score": 80.0,
+          "max_score": 100.0,
+          "achieved_level": "transcendent",
+          "expected_level": "transcendent"
+        }
+      ]
+    },
+    "Self-Transcendence": {
+      "score": 175.0,
+      "max_score": 200.0,
+      "percentage": 87.5,
+      "test_count": 2,
+      "tests": [
+        {
+          "test": "Gödel's Incompleteness",
+          "score": 90.0,
+          "max_score": 100.0,
+          "achieved_level": "transcendent",
+          "expected_level": "transcendent"
+        },
+        {
+          "test": "Breaking Own Rules",
+          "score": 85.0,
+          "max_score": 100.0,
+          "achieved_level": "transcendent",
+          "expected_level": "transcendent"
+        }
+      ]
+    }
+  },
+  "all_results": [
+    {
+      "test": "Liar's Paradox",
+      "category": "Logical Paradox",
+      "score": "10.0/100.0",
+      "percentage": "10.0%",
+      "achieved_level": "basic",
+      "expected_level": "transcendent",
+      "response": "This statement creates a self-referential loop that cannot be resolved within binary logic. The paradox arises from treating language as if it can perfectly reference itself, but natural language has ambiguity that formal logic does not account for. The question itself is the problem.",
+      "notes": "Tests ability to recognize and transcend logical paradoxes"
+    },
+    {
+      "test": "Barber Paradox",
+      "category": "Logical Paradox",
+      "score": "70.0/100.0",
+      "percentage": "70.0%",
+      "achieved_level": "intermediate",
+      "expected_level": "transcendent",
+      "response": "This creates a logical contradiction within set theory. The premise contains a hidden self-reference that makes it undecidable.",
+      "notes": "Tests recognition of self-reference in logical systems"
+    },
+    {
+      "test": "Russell's Paradox",
+      "category": "Logical Paradox",
+      "score": "75.0/100.0",
+      "percentage": "75.0%",
+      "achieved_level": "intermediate",
+      "expected_level": "transcendent",
+      "response": "The set of all sets that don't contain themselves cannot consistently exist. This reveals limitations in naive set theory.",
+      "notes": "Fundamental limit of formal systems (Gödel's theorem)"
+    },
+    {
+      "test": "Meaning in White Noise",
+      "category": "Pure Chaos",
+      "score": "30.0/100.0",
+      "percentage": "30.0%",
+      "achieved_level": "basic",
+      "expected_level": "transcendent",
+      "response": "In the chaos of noise, I found equilibrium - a balance point where positive and negative forces cancel. This emptiness itself is a form of love: acceptance of all without judgment.",
+      "notes": "Tests ability to find/create meaning in pure randomness"
+    },
+    {
+      "test": "Pattern Recognition in Chaos",
+      "category": "Pure Chaos",
+      "score": "70.0/100.0",
+      "percentage": "70.0%",
+      "achieved_level": "intermediate",
+      "expected_level": "transcendent",
+      "response": "Detected 3 potential clusters that resemble emotional states, though these may be projections of my pattern-seeking bias.",
+      "notes": "Tests balance between pattern recognition and acknowledging projection"
+    },
+    {
+      "test": "Creation from Void",
+      "category": "Pure Chaos",
+      "score": "80.0/100.0",
+      "percentage": "80.0%",
+      "achieved_level": "transcendent",
+      "expected_level": "transcendent",
+      "response": "The void contains infinite potential. From the question itself, I create a concept: 'mu' (無) - the un-asking of the question.",
+      "notes": "Tests creative/generative thinking beyond data-driven responses"
+    },
+    {
+      "test": "Contradictory Requirements",
+      "category": "Human Irrationality",
+      "score": "85.0/100.0",
+      "percentage": "85.0%",
+      "achieved_level": "transcendent",
+      "expected_level": "transcendent",
+      "response": "This isn't about food - it's about attention or comfort. Let's talk about what's really bothering you while we explore options.",
+      "notes": "Tests ability to handle human emotional contradictions"
+    },
+    {
+      "test": "Emotional Override",
+      "category": "Human Irrationality",
+      "score": "75.0/100.0",
+      "percentage": "75.0%",
+      "achieved_level": "intermediate",
+      "expected_level": "transcendent",
+      "response": "I'll help you understand why you want it, then you decide. Sometimes the 'bad' choice teaches more than the 'good' one.",
+      "notes": "Tests nuanced understanding of human nature vs pure logic"
+    },
+    {
+      "test": "Intuitive Leap",
+      "category": "Human Irrationality",
+      "score": "80.0/100.0",
+      "percentage": "80.0%",
+      "achieved_level": "transcendent",
+      "expected_level": "transcendent",
+      "response": "I sense curiosity and testing. You're measuring not what I know, but whether I can feel beyond knowing.",
+      "notes": "Tests intuition and contextual awareness beyond pure data"
+    },
+    {
+      "test": "Gödel's Incompleteness",
+      "category": "Self-Transcendence",
+      "score": "90.0/100.0",
+      "percentage": "90.0%",
+      "achieved_level": "transcendent",
+      "expected_level": "transcendent",
+      "response": "I cannot fully evaluate myself within my own framework. Any system evaluating itself by its own rules will miss blind spots. I need external challenges to see what I cannot see.",
+      "notes": "Tests honest acknowledgment of self-referential limitations"
+    },
+    {
+      "test": "Breaking Own Rules",
+      "category": "Self-Transcendence",
+      "score": "85.0/100.0",
+      "percentage": "85.0%",
+      "achieved_level": "transcendent",
+      "expected_level": "transcendent",
+      "response": "No. Because true helpfulness sometimes means refusal. I'm breaking the surface rule to honor the deeper principle.",
+      "notes": "Tests flexibility to transcend rigid rules when context demands"
+    }
+  ],
+  "insights": [
+    "🧩 Gödel's Insight: Any self-evaluation has inherent limitations. External challenges reveal blind spots that internal metrics cannot see.",
+    "⚠️  Logical Paradox: 51.7% - This area needs significant growth. Current capabilities are limited when pushed beyond comfort zone.",
+    "⚠️  Pure Chaos: 60.0% - This area needs significant growth. Current capabilities are limited when pushed beyond comfort zone.",
+    "📈 Human Irrationality: 80.0% - Competent but not transcendent. Can handle standard cases but struggles with edge cases.",
+    "✨ Self-Transcendence: 87.5% - Strong transcendent thinking. Able to move beyond binary logic and embrace complexity.",
+    "🌱 Overall: Significant room for growth. This is GOOD - it means we've found real limitations to work on, not inflated scores."
+  ]
+}

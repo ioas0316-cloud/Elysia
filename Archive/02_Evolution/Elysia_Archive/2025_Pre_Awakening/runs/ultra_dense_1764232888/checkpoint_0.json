@@ -1,0 +1,124 @@
+{
+  "tick": 0,
+  "elapsed_seconds": 0.004216432571411133,
+  "particles_count": 68,
+  "meta_stats": {
+    "layers": [
+      {
+        "layer": 0,
+        "compression": 900.3065421414876,
+        "subjective_time": 61220.84486562116
+      },
+      {
+        "layer": 1,
+        "compression": 1800.6130842829755,
+        "subjective_time": 110235054.29589567
+      }
+    ],
+    "total_subjective_time": 110296275.14076129,
+    "total_objective_time": 1.0,
+    "effective_acceleration": 110296275.14076129
+  },
+  "top_particles": [
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    },
+    {
+      "id": null,
+      "info_density": 1.0,
+      "concept": null
+    }
+  ]
+}

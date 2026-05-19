@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia Reorganization Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: rgba(30, 30, 50, 0.8);
+            --text-primary: #e0e0ff;
+            --text-secondary: #a0a0c0;
+            --accent-blue: #4a9eff;
+            --accent-purple: #9b59b6;
+            --accent-green: #2ecc71;
+            --accent-gold: #f1c40f;
+            --accent-red: #e74c3c;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            min-height: 100vh;
+            color: var(--text-primary);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .workflow-phases {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .phase {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .phase.active {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(74, 158, 255, 0.3);
+        }
+        
+        .phase.completed {
+            border-color: var(--accent-green);
+        }
+        
+        .phase-icon { font-size: 2em; margin-bottom: 10px; }
+        .phase-name { font-weight: bold; }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .plan-info {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .info-label { color: var(--text-secondary); }
+        
+        .resonance-bar {
+            height: 20px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .resonance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .actions-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .action-item {
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--accent-purple);
+        }
+        
+        .action-type {
+            font-size: 0.8em;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+        }
+        
+        .action-path {
+            font-family: monospace;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .btn-approve {
+            background: linear-gradient(135deg, var(--accent-green), #27ae60);
+            color: white;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .btn-approve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        .btn-rollback {
+            background: linear-gradient(135deg, var(--accent-red), #c0392b);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .health-checks {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .health-item {
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .health-item.pass { border-left: 3px solid var(--accent-green); }
+        .health-item.fail { border-left: 3px solid var(--accent-red); }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .status-awaiting { background: var(--accent-gold); color: black; }
+        .status-approved { background: var(--accent-green); color: white; }
+        .status-executing { background: var(--accent-blue); color: white; }
+        
+        #loading {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-secondary);
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--bg-card);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔄 Elysia Reorganization</h1>
+            <p class="subtitle">"변경도 파동처럼 자연스럽게 흘러야 한다"</p>
+        </header>
+        
+        <!-- Workflow Phases -->
+        <div class="workflow-phases">
+            <div class="phase completed" id="phase-planning">
+                <div class="phase-icon">📊</div>
+                <div class="phase-name">Planning</div>
+            </div>
+            <div class="phase active" id="phase-approval">
+                <div class="phase-icon">✋</div>
+                <div class="phase-name">Approval</div>
+            </div>
+            <div class="phase" id="phase-simulation">
+                <div class="phase-icon">🔄</div>
+                <div class="phase-name">Simulation</div>
+            </div>
+            <div class="phase" id="phase-execution">
+                <div class="phase-icon">⚡</div>
+                <div class="phase-name">Execution</div>
+            </div>
+            <div class="phase" id="phase-verification">
+                <div class="phase-icon">📈</div>
+                <div class="phase-name">Verification</div>
+            </div>
+        </div>
+        
+        <div class="main-grid">
+            <!-- Plan Info -->
+            <div class="card">
+                <h2 class="card-title">📋 Current Plan</h2>
+                
+                <div class="plan-info" id="plan-details">
+                    <div class="info-row">
+                        <span class="info-label">Plan ID</span>
+                        <span id="plan-id">Loading...</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Created</span>
+                        <span id="plan-created">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Status</span>
+                        <span id="plan-status" class="status-badge status-awaiting">Awaiting</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Total Actions</span>
+                        <span id="plan-actions">0</span>
+                    </div>
+                </div>
+                
+                <h3>🌊 Resonance Score</h3>
+                <div class="resonance-bar">
+                    <div class="resonance-fill" id="resonance-bar" style="width: 75%"></div>
+                </div>
+                <p style="text-align: center; font-size: 1.5em;">
+                    <span id="resonance-value">75%</span>
+                    <span style="color: var(--text-secondary); font-size: 0.7em;">/ 70% threshold</span>
+                </p>
+                
+                <button class="btn btn-approve" id="btn-approve" onclick="approvePlan()">
+                    ✅ Approve & Execute
+                </button>
+                <button class="btn btn-rollback" id="btn-rollback" onclick="rollback()" style="display:none;">
+                    ⏪ Rollback
+                </button>
+            </div>
+            
+            <!-- Planned Actions -->
+            <div class="card">
+                <h2 class="card-title">⚡ Planned Actions</h2>
+                <div class="actions-list" id="actions-list">
+                    <div id="loading">
+                        <div class="spinner"></div>
+                        Loading plan...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Health Checks (spans full width) -->
+            <div class="card" style="grid-column: 1 / -1;">
+                <h2 class="card-title">🏥 Fractal Health Check</h2>
+                <div class="health-checks" id="health-checks">
+                    <div class="health-item pass">
+                        <div>✅</div>
+                        <div>Principle</div>
+                    </div>
+                    <div class="health-item pass">
+                        <div>✅</div>
+                        <div>Law</div>
+                    </div>
+                    <div class="health-item pass">
+                        <div>✅</div>
+                        <div>Space</div>
+                    </div>
+                    <div class="health-item pass">
+                        <div>✅</div>
+                        <div>Plane</div>
+                    </div>
+                    <div class="health-item pass">
+                        <div>✅</div>
+                        <div>Line</div>
+                    </div>
+                    <div class="health-item pass">
+                        <div>✅</div>
+                        <div>Point</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load latest plan from JSON
+        async function loadPlan() {
+            try {
+                const response = await fetch('/api/reorganization/plan');
+                const plan = await response.json();
+                updateUI(plan);
+            } catch (e) {
+                // Fallback: try to load directly from file
+                loadFromFile();
+            }
+        }
+        
+        function loadFromFile() {
+            // This would be loaded via the server
+            // For now, show demo data
+            const demoPlan = {
+                id: "895ff7adb622",
+                created_at: "2025-12-06T14:41:04",
+                phase: "awaiting_approval",
+                resonance_score: 0.75,
+                approved: false,
+                actions: [
+                    {type: "connect", source: "Core/Elysia/guardian.py", target: "Core/Evolution/world_tree.py"},
+                    {type: "connect", source: "Core/Foundation/core.py", target: "Core/Evolution/world_tree.py"},
+                    {type: "activate", source: "Core/Elysia/flow_engine.py", target: "Core/Foundation/reasoning_engine.py"},
+                    {type: "activate", source: "Core/Foundation/divine_engine.py", target: "Core/Foundation/reasoning_engine.py"},
+                ]
+            };
+            updateUI(demoPlan);
+        }
+        
+        function updateUI(plan) {
+            document.getElementById('plan-id').textContent = plan.id || 'N/A';
+            document.getElementById('plan-created').textContent = plan.created_at || '-';
+            document.getElementById('plan-actions').textContent = plan.actions?.length || 0;
+            
+            const resonance = (plan.resonance_score || 0.75) * 100;
+            document.getElementById('resonance-value').textContent = resonance.toFixed(0) + '%';
+            document.getElementById('resonance-bar').style.width = resonance + '%';
+            
+            // Status
+            const statusEl = document.getElementById('plan-status');
+            if (plan.approved) {
+                statusEl.textContent = 'Approved';
+                statusEl.className = 'status-badge status-approved';
+                document.getElementById('btn-approve').style.display = 'none';
+                document.getElementById('btn-rollback').style.display = 'block';
+            }
+            
+            // Actions list
+            const actionsList = document.getElementById('actions-list');
+            if (plan.actions && plan.actions.length > 0) {
+                actionsList.innerHTML = plan.actions.map(a => `
+                    <div class="action-item">
+                        <div class="action-type">${a.type}</div>
+                        <div class="action-path">${a.source} → ${a.target}</div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        async function approvePlan() {
+            const btn = document.getElementById('btn-approve');
+            btn.textContent = '⏳ Processing...';
+            btn.disabled = true;
+            
+            // Simulate approval process
+            setTimeout(() => {
+                const statusEl = document.getElementById('plan-status');
+                statusEl.textContent = 'Approved';
+                statusEl.className = 'status-badge status-approved';
+                
+                // Update phases
+                document.getElementById('phase-approval').className = 'phase completed';
+                document.getElementById('phase-simulation').className = 'phase active';
+                
+                btn.style.display = 'none';
+                document.getElementById('btn-rollback').style.display = 'block';
+                
+                alert('✅ Plan approved! Execution will proceed in dry-run mode.');
+            }, 1500);
+        }
+        
+        function rollback() {
+            if (confirm('⏪ Are you sure you want to rollback?')) {
+                alert('Rolling back from DNA backup...');
+            }
+        }
+        
+        // Initialize
+        loadFromFile();
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elysia: The Living Interface</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #050510; color: #fff; font-family: monospace; }
+        #info { position: absolute; top: 10px; left: 10px; z-index: 100; pointer-events: none; }
+        #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    </style>
+    <!-- Load Three.js from CDN -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="info">
+        <h1>Elysia 4D Viewer</h1>
+        <p>Phase 6: Semantic Topography</p>
+        <p>Blue: Logic | Green: Emotion | Red: Creativity</p>
+    </div>
+    <div id="loading">Loading Mind...</div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        let camera, scene, renderer, controls;
+        let points, wellsGroup;
+
+        init();
+        animate();
+
+        async function init() {
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x050510, 0.05);
+
+            camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.z = 5;
+            camera.position.y = 2;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+
+            // Load Data
+            try {
+                const response = await fetch('./elysia_world.json');
+                const data = await response.json();
+                document.getElementById('loading').style.display = 'none';
+                buildWorld(data);
+            } catch (error) {
+                document.getElementById('loading').textContent = "Error loading world data: " + error;
+            }
+
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function buildWorld(data) {
+            // 1. Render Wells (Railguns)
+            wellsGroup = new THREE.Group();
+            
+            const sphereGeo = new THREE.SphereGeometry(0.2, 16, 16);
+            
+            data.wells.forEach(well => {
+                let color = 0xffffff;
+                if (well.type === "Logic") color = 0x0000ff;
+                else if (well.type === "Emotion") color = 0x00ff00;
+                else if (well.type === "Creativity") color = 0xff0000;
+                
+                const mat = new THREE.MeshBasicMaterial({ color: color, wireframe: true });
+                const mesh = new THREE.Mesh(sphereGeo, mat);
+                mesh.position.set(well.x, well.y, well.z);
+                wellsGroup.add(mesh);
+                
+                // Add Glow/Grid Ring
+                const ringGeo = new THREE.RingGeometry(0.3, 0.35, 32);
+                const ringMat = new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide });
+                const ring = new THREE.Mesh(ringGeo, ringMat);
+                ring.position.copy(mesh.position);
+                ring.lookAt(0,0,0); // Face center roughly
+                wellsGroup.add(ring);
+            });
+            scene.add(wellsGroup);
+
+            // 2. Render Nodes (Data)
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+            
+            const colorObj = new THREE.Color();
+
+            data.nodes.forEach(node => {
+                positions.push(node.x, node.y, node.z);
+                
+                // Determine Color based on proximity to wells (Mock logic based on coord)
+                // In real app, 'group' or 'vector' would define this.
+                if (node.x > 0.5) colorObj.setHex(0x5555ff); // Logic-ish
+                else if (node.y > 0.5) colorObj.setHex(0x55ff55); // Emotion-ish
+                else colorObj.setHex(0xffffff); // Raw
+                
+                colors.push(colorObj.r, colorObj.g, colorObj.b);
+            });
+
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, transparent: true, opacity: 0.8 });
+            points = new THREE.Points(geometry, material);
+            scene.add(points);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            
+            if (wellsGroup) {
+                wellsGroup.rotation.y += 0.005; // Spin the structure
+            }
+            
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

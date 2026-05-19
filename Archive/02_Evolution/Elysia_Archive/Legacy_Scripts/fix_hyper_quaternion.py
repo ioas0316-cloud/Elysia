@@ -1,0 +1,42 @@
+import os
+
+def fix_hyper():
+    print("🔧 Fixing hyper_quaternion imports...")
+    count = 0
+    start_dir = r"c:\Elysia"
+    # Bad patterns
+    bads = [
+        "Core.Foundation.hyper_quaternion",
+        "Core.Foundation.hyper_quaternion",
+        "Core.Foundation.hyper_quaternion"
+    ]
+    # Good pattern
+    good = "Core.Foundation.hyper_quaternion"
+    
+    for root, dirs, files in os.walk(start_dir):
+        if ".git" in root or ".venv" in root:
+            continue
+            
+        for file in files:
+            if file.endswith(".py"):
+                file_path = os.path.join(root, file)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    
+                    original = content
+                    for bad in bads:
+                        content = content.replace(bad, good)
+                        
+                    if content != original:
+                        with open(file_path, 'w', encoding='utf-8') as f:
+                            f.write(content)
+                        count += 1
+                        
+                except Exception as e:
+                    print(f"❌ Error patching {file_path}: {e}")
+                    
+    print(f"✅ Fixed {count} files.")
+
+if __name__ == "__main__":
+    fix_hyper()

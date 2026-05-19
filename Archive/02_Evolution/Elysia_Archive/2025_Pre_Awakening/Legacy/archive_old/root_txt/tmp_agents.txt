@@ -1,0 +1,49 @@
+import numpy as np
+
+SPECIES = {
+    0: {"name":"rabbit","speed":1.0,"metabolism":0.5},
+    1: {"name":"wolf","speed":1.2,"metabolism":0.7},
+    2: {"name":"fish","speed":0.8,"metabolism":0.4},
+}
+
+class Agents:
+    """
+    SoA 구조의 간단한 에이전트 업데이트.
+    - hunger 증가 / 먹이 감지 시 추격 / 포식자 감지 시 도주
+    - 바이옴에 따른 이동 편향
+    """
+    def __init__(self, n=8000, W=256, H=256, seed=7):
+        rng = np.random.default_rng(seed)
+        self.N = n; self.W=W; self.H=H
+        self.x = rng.uniform(0, W, n).astype(np.float32)
+        self.y = rng.uniform(0, H, n).astype(np.float32)
+        self.vx = np.zeros(n, dtype=np.float32)
+        self.vy = np.zeros(n, dtype=np.float32)
+        self.energy = rng.uniform(0.5, 1.0, n).astype(np.float32)
+        self.hunger = rng.uniform(0.0, 0.5, n).astype(np.float32)
+        self.species = rng.integers(0,3,size=n).astype(np.int8)
+
+    def step(self, biome_map, dt=1.0):
+        # 기본 랜덤 워크 + 바이옴 편향
+        theta = np.random.uniform(0, 2*np.pi, self.N).astype(np.float32)
+        speed = np.array([SPECIES[int(s)]["speed"] for s in self.species], dtype=np.float32)
+        self.vx = 0.5*speed*np.cos(theta); self.vy = 0.5*speed*np.sin(theta)
+
+        # 배고픔 증가
+        self.hunger += 0.01 * dt
+        self.energy -= 0.005 * dt
+
+        # 간단 상호작용(토끼는 숲/초원 선호, 늑대는 토끼 향해 편향)
+        # (성능을 위해 근사)
+        idx = (self.y.astype(int)%self.H)*self.W + (self.x.astype(int)%self.W)
+        b = biome_map.ravel()[idx]
+
+        # 숲/초원 편향
+        mask_rabbit = (self.species==0)
+        prefer = ((b==4) | (b==3)).astype(np.float32)  # forest/grass
+        self.vx[mask_rabbit] += 0.2*(prefer[mask_rabbit]-0.5)
+        self.vy[mask_rabbit] += 0.2*(prefer[mask_rabbit]-0.5)
+
+        # 경계 래핑
+        self.x = (self.x + self.vx*dt) % self.W
+        self.y = (self.y + self.vy*dt) % self.H
