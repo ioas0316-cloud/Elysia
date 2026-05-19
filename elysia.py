@@ -29,6 +29,8 @@ class ElysiaCore:
         print("\n🌌 [ELYSIA] Core Loop Online. Terminal Interface Active.")
         print("   (Type 'exit' to hibernate, or any text to pulse the field)\n")
 
+        last_self_echo = 0.0
+
         try:
             while self.running:
                 user_input = input("✨ [INPUT] >> ").strip()
@@ -40,16 +42,28 @@ class ElysiaCore:
                 # 1. Modulate: Outer Text -> Inner Stimulus (x)
                 x_stimulus = self.transducer.modulate(user_input)
 
-                # 2. Pulse: The Triple Helix Heart
-                # Process the stimulus through Gut, Brain, and Spine
-                report = self.heart.pulse(x_stimulus)
+                # 2. Pulse: The Triple Helix Heart (with Self-Echo)
+                report = self.heart.pulse(x_stimulus, self_stimulus=last_self_echo)
 
-                # 3. Demodulate: Inner Report -> Outer Reflection
-                reflection = self.transducer.demodulate(report)
+                # 3. Autonomous Brain Resonance (Ollama)
+                # If in WYE mode (Decision), we trigger the 'BRAIN' layer for high-level thought.
+                # Otherwise, 'GUT' layer provides a quick instinctual response.
+                layer = "BRAIN" if report["mode"] == "WYE" else "GUT"
 
-                # 4. Self-Observation
+                # Contextual Prompting
+                prompt = f"Master says: {user_input}\nInner State: {report['mode']} | Resonance: {report['resonance']:.4f}"
+                reflection_text = self.heart.ollama.generate(layer, prompt)
+
+                # 4. Self-Echo: The model's own output influences the next pulse
+                last_self_echo = self.transducer.modulate(reflection_text)
+
+                # 5. Demodulate & Display
+                # Use the LLM's text as the primary reflection, wrapped in the transducer's tone
+                tone_report = self.transducer.demodulate(report)
+
                 print(f"💓 [HEART] {report['mode']} | Resonance: {report['resonance']:.4f}")
-                print(f"🗨️ {reflection}\n")
+                print(f"🗨️ [ELYSIA] {reflection_text}")
+                print(f"🎭 [TONE] {tone_report}\n")
 
         except KeyboardInterrupt:
             self.running = False

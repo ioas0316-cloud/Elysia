@@ -16,6 +16,10 @@ class PrimalGut:
         self.metabolism_rate = 0.1
         self.boundary_integrity = 1.0
 
+        # Non-Newtonian Fluid Valve (Viscous Resistance)
+        self.viscosity = 0.5  # μ (mu)
+        self.dissonance = 0.0 # D (Dissonance Density)
+
         # 2. Resonance Map (Qualia -> Tension)
         # Different types of stimulus create different Gut responses
         self.gut_topology = {
@@ -26,15 +30,24 @@ class PrimalGut:
 
     def inhale(self, stimulus_vector: Dict[str, float]) -> Dict[str, float]:
         """
-        Transforms raw stimulus into Gut Tension.
+        Transforms raw stimulus into Gut Tension using a Non-Newtonian Valve.
         stimulus_vector: mapping of sensory categories to intensities
         """
         # Calculate impact tension
         impact = stimulus_vector.get("intensity", 0.0)
         complexity = stimulus_vector.get("complexity", 0.0)
 
-        # Tension is the product of impact and resistance
-        new_tension = impact * (2.0 - self.boundary_integrity)
+        # 1. Update Dissonance (D)
+        # Higher complexity or unexpected patterns increase dissonance
+        self.dissonance = (self.dissonance * 0.7) + (complexity * 0.3)
+
+        # 2. Non-Newtonian Valve Equation: T_core = S_ext * e^(-mu * D)
+        # This acts as a 'shock absorber' for the Heart.
+        valve_factor = math.exp(-self.viscosity * self.dissonance)
+        damped_impact = impact * valve_factor
+
+        # 3. Tension is the product of damped impact and resistance
+        new_tension = damped_impact * (2.0 - self.boundary_integrity)
 
         # Update state
         self.tension_level = (self.tension_level * 0.8) + (new_tension * 0.2)

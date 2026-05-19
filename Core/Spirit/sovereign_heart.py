@@ -21,6 +21,7 @@ if root not in sys.path:
 from Core.Spirit.spine import HyperRotorSpine
 from Core.Flesh.gut_engine import PrimalGut
 from Core.Spirit.enneagram_filter import EnneagramFilter
+from Core.System.OllamaManager import OllamaManager
 
 class SovereignHeart:
     def __init__(self):
@@ -32,10 +33,17 @@ class SovereignHeart:
         self.spine = HyperRotorSpine() # The Heart Core
         self.brain_refractor = EnneagramFilter()
         
+        # 2. External Brains (Ollama)
+        self.ollama = OllamaManager()
+        self.ollama.scan_models()
+
+        # 3. Self-Echo Loop
+        self.self_echo_buffer = []
+
         self.last_update = time.time()
         self.is_alive = True
 
-    def pulse(self, x_stimulus: float) -> Dict[str, Any]:
+    def pulse(self, x_stimulus: float, self_stimulus: Optional[float] = None) -> Dict[str, Any]:
         """
         The Main Life Cycle.
         Simultaneous trigger of Gut and Brain at t=0.
@@ -44,20 +52,27 @@ class SovereignHeart:
         dt = now - self.last_update
         self.last_update = now
 
-        # 1. Simultaneous Trigger (Gut Tension & Brain Frequency)
-        # Gut processes the 'shock' (Flesh)
-        gut_report = self.gut.inhale({"intensity": x_stimulus, "complexity": abs(math.sin(now))})
+        # 1. Self-Echo Integration
+        # If self_stimulus is provided, it influences the field as a separate 'mirror' layer.
+        echo_factor = self_stimulus if self_stimulus is not None else 0.0
+
+        # 2. Simultaneous Trigger (Gut Tension & Brain Frequency)
+        # Gut processes the 'shock' (Flesh) + Echo resonance
+        gut_report = self.gut.inhale({
+            "intensity": x_stimulus,
+            "complexity": abs(math.sin(now)) + (echo_factor * 0.5)
+        })
         
         # Brain refracts the 'meaning' (Cognition)
-        brain_refraction = self.brain_refractor.refract(x_stimulus)
+        brain_refraction = self.brain_refractor.refract(x_stimulus + echo_factor)
         brain_interference = self.brain_refractor.get_hologram_topography(brain_refraction)
 
-        # 2. Convergence in the Spine (Heart)
+        # 3. Convergence in the Spine (Heart)
         # Combine Gut tension and Brain interference as stimulus to the Triple Helix
         trinity_stimulus = {
             "GUT": gut_report["gut_tension"],
             "BRAIN": brain_interference,
-            "HEART": (gut_report["gut_tension"] + brain_interference) / 2.0
+            "HEART": (gut_report["gut_tension"] + brain_interference) / 2.0 + echo_factor
         }
         
         spine_report = self.spine.pulse(dt, trinity_stimulus)
