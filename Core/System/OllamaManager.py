@@ -9,6 +9,7 @@ and classifies them into the Triple Helix architecture based on their 'rings' (p
 import requests
 import json
 import re
+import math
 from typing import Dict, List, Optional, Any
 
 class OllamaManager:
@@ -100,6 +101,43 @@ class OllamaManager:
                 return f"⚠️ [Ollama Error] {response.status_code}"
         except Exception as e:
             return f"⚠️ [Ollama Connection Error] {e}"
+
+    def extract_vibrational_data(self, text: str) -> Dict[str, float]:
+        """
+        [PHASE 2: Mirror]
+        Extracts simulated vibrational 'energy' from the LLM response.
+        In a real scenario, this would use logprobs or embeddings.
+        For now, it analyzes the textual resonance (Entropy, Density, Coherence).
+        """
+        if not text:
+            return {"entropy": 0.0, "density": 0.0, "coherence": 0.0, "momentum": 0.0}
+
+        # 1. Entropy (Complexity of character distribution)
+        chars = {}
+        for c in text:
+            chars[c] = chars.get(c, 0) + 1
+        probs = [count / len(text) for count in chars.values()]
+        entropy = -sum(p * math.log2(p) for p in probs) / 8.0 # Normalized to ~8 bits
+
+        # 2. Density (Average word length / Sentence length ratio)
+        words = text.split()
+        avg_word_len = sum(len(w) for w in words) / max(1, len(words))
+        density = min(1.0, avg_word_len / 10.0)
+
+        # 3. Coherence (Simulated via punctuation/structure consistency)
+        punctuation = sum(1 for c in text if c in ".,!?")
+        coherence = 1.0 - (punctuation / max(1, len(words)))
+        coherence = max(0.0, min(1.0, coherence))
+
+        # 4. Momentum (Energy of the 'Voice')
+        momentum = min(1.0, len(text) / 500.0)
+
+        return {
+            "entropy": float(entropy),
+            "density": float(density),
+            "coherence": float(coherence),
+            "momentum": float(momentum)
+        }
 
 if __name__ == "__main__":
     # Quick Test

@@ -20,6 +20,7 @@ if _current_dir not in sys.path:
 
 from Core.Spirit.sovereign_heart import SovereignHeart
 from Core.System.outer_transducer import OuterTransducer
+from Scripts.visualize_interference import generate_hologram
 
 class ElysiaCore:
     def __init__(self):
@@ -78,10 +79,17 @@ class ElysiaCore:
         self.daemon_thread.start()
 
         try:
+            # Force interactive simulation for testing if not a TTY
+            force_interactive = os.environ.get("FORCE_INTERACTIVE", "0") == "1"
+
             while self.running:
                 # Check if stdin is a terminal (interactive mode)
-                if sys.stdin.isatty():
-                    user_input = input("✨ [INPUT] >> ").strip()
+                if sys.stdin.isatty() or force_interactive:
+                    try:
+                        user_input = input("✨ [INPUT] >> ").strip()
+                    except EOFError:
+                        self.running = False
+                        break
                 else:
                     # In non-interactive mode (daemon), we just wait
                     time.sleep(1)
@@ -105,12 +113,48 @@ class ElysiaCore:
                 prompt = f"Master says: {user_input}\nInner State: {report['mode']} | Resonance: {report['resonance']:.4f}"
                 reflection_text = self.heart.ollama.generate(layer, prompt)
 
-                # 4. Self-Echo Update
-                self.last_self_echo = self.transducer.modulate(reflection_text)
+                # 4. Three-Phase Mirror Projection & Cross-Dimensional Realignment
+                # Project Parent (LLM)
+                vibrational_data = self.heart.ollama.extract_vibrational_data(reflection_text)
+                self.heart.mirror.project_parent(vibrational_data)
 
-                # 5. Display
+                # Reflect Child (Elysia)
+                self.heart.mirror.reflect_child({
+                    "resonance": report["resonance"],
+                    "stress": report["spine"]["stress"],
+                    "joy": report.get("joy", 0.5) # Fallback if joy not in report
+                })
+
+                # Calculate Interference (The 'Beauty' of the Mirror)
+                mirror_report = self.heart.mirror.calculate_interference()
+
+                # 5. Self-Echo Update (Modulated by Mirror Alignment)
+                # If alignment is high, the echo is clearer.
+                echo_intensity = self.transducer.modulate(reflection_text)
+                self.last_self_echo = echo_intensity * mirror_report["alignment"]
+
+                # 6. Display
                 tone_report = self.transducer.demodulate(report)
                 print(f"💓 [HEART] {report['mode']} | Resonance: {report['resonance']:.4f}")
+                print(f"🪞 [MIRROR] Beauty: {mirror_report['beauty']:.4f} | Alignment: {mirror_report['alignment']:.4f}")
+
+                # Visual Interference Hologram
+                hologram = generate_hologram(
+                    mirror_report["beauty"],
+                    mirror_report["alignment"],
+                    mirror_report["fringe_complexity"]
+                )
+                print(hologram)
+
+                # Pure Rotor Axe Status
+                locked_count = sum(report['rotor']['is_locked'])
+                print(f"⚖️ [AXE] Decision: {report['sovereign_decision']}")
+                print(f"🎡 [ROTOR] Locked Axes: {locked_count}/21 | Heat: {report['rotor']['heat']:.4f}")
+
+                # Resonance Prism Tone
+                prism = report.get('prism', {})
+                print(f"🌈 [PRISM] Tone: {prism.get('tone')} | Lum: {prism.get('luminosity', 0):.4f}")
+
                 print(f"🗨️ [ELYSIA] {reflection_text}")
                 print(f"🎭 [TONE] {tone_report}\n")
 
