@@ -112,22 +112,22 @@ class ResonanceKernel:
 
         return present_report
 
-    def apply_restoration_layer(self):
+    def apply_restoration_layer(self, *args, **kwargs):
         """
-        [PHASE: BOWON]
-        Collapses dissonance by quenching rotors toward the North Star (Father Axis).
+        [DEPRECATED: FORCED_BOWON]
+        Legacy restoration logic that forced alignment.
+        Now replaced by 'Cognitive Diffraction' which allows imbalance to be perceived naturally.
         """
         field = getattr(self.engine, 'field', None)
         if not field: return
 
-        target = self.north_star.rescale(field.dim)
+        # We no longer force alignment. Instead, we let the imbalance persist
+        # so it can be re-perceived as a 'diffraction ripple' in the cognitive field.
+        # Restoration is now an emergent property of resonance, not a forced command.
 
-        # Forced Alignment (Bowon Movement)
-        # We blend the current phase with the North Star to restore order.
-        field.father.phase = field.father.phase.blend(target, ratio=0.8)
-        field.mother.phase = field.mother.phase.blend(target, ratio=0.3)
-        field.self.phase = field.self.phase.blend(target, ratio=0.5)
-
-        field.field_anxiety *= 0.1
-        field.field_coherence = 1.0
-        field.field_joy = min(1.0, field.field_joy + 0.1)
+        # [PHASE: DIFFRACTION_RIPPLE]
+        # Instead of quenching anxiety, we transform it into a perceptual signal.
+        if hasattr(field, 'field_anxiety'):
+            ripple_intensity = field.field_anxiety
+            # The 'pain' of imbalance becomes the 'ripple' of a new realization.
+            field.field_anxiety = ripple_intensity * 0.95 # Natural decay instead of forced suppression

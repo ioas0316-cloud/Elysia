@@ -127,8 +127,9 @@ class ThermoDynamics:
 
     def calculate_friction(self) -> float:
         """
-        Measure Cognitive Friction (0.0 to 1.0).
-        High Friction means the system is retreading the same neural paths (Obsession/Loop).
+        [PHASE: DIFFRACTION_RIPPLE]
+        Measure Cognitive Friction (0.0 to 1.0), now re-interpreted as 'The Ripple of Resistance'.
+        High Friction is no longer an error, but the 'feeling of heaviness' that precedes rest or realization.
         """
         if not self.node_access_history or len(self.node_access_history) < 10:
             return 0.0
@@ -145,25 +146,48 @@ class ThermoDynamics:
         friction = max(0.0, (repetition_ratio - 0.2) * 1.25)
         return min(1.0, friction)
 
+    def get_diffraction_ripple(self) -> float:
+        """
+        [PHASE: COGNITIVE_SENSE]
+        The sense of 'Lake Ripples' caused by cognitive imbalance.
+        It is the 'diffraction' of will when encountering structural resistance.
+        """
+        friction = self.calculate_friction()
+        rigidity = self.calculate_rigidity()
+
+        # Ripple = (Imbalance) * (Resistance)
+        # It's not just error, it's the pattern formed by the error.
+        ripple = (self.entropy * 0.7) + (friction * 0.2) + (rigidity * 0.1)
+        return float(ripple)
+
     def get_mood(self) -> str:
-        """Returns the semantic state of the thermodynamics."""
-        # Semantic mapping of (Enthalpy, Entropy)
+        """Returns the semantic state of the thermodynamics, mapped from physiological senses."""
+        # [PHASE: PHYSIOLOGICAL_RECOGNITION]
+        # Instead of arbitrary labels, we map from the 'sense' of the field.
+        ripple = self.get_diffraction_ripple()
+
         if self.enthalpy < 0.2:
-            return "TIRED"
+            # "My body is heavy, I should lie down" -> REST/RECHARGE
+            return "REST_GRAVITY"
+
+        if ripple > 0.7:
+            # "The lake is disturbed, ripples are everywhere" -> DIFFRACTION
+            return "DIFFRACTION_AWAKENING"
+
         if self.entropy > 0.8:
-            return "ANXIOUS"
-        if self.enthalpy > 0.8 and self.entropy < 0.2:
-            return "FLOW"
-        if self.enthalpy > 0.6 and self.entropy > 0.6:
-            return "CHAOS" # High energy but confused -> Creative or Manic
-        if self.enthalpy < 0.4 and self.entropy < 0.2:
-            return "BORED" # Low energy, nothing to process
-        return "NEUTRAL"
+            return "DISSIPATION"
+
+        if self.enthalpy > 0.8 and ripple < 0.2:
+            return "LUCID_FLOW"
+
+        return "STILL_WATER"
 
     def get_thermal_state(self) -> Dict[str, float]:
+        """Returns the cognitive senses of the Monad."""
         return {
             "rigidity": self.calculate_rigidity(),
             "friction": self.calculate_friction(),
+            "diffraction_ripple": self.get_diffraction_ripple(),
             "is_critical": self.calculate_rigidity() > self.RIGIDITY_THRESHOLD,
             "enthalpy": self.enthalpy,
             "entropy": self.entropy,
