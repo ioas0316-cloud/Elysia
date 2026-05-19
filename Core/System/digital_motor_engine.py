@@ -122,11 +122,25 @@ class DigitalMotorEngine:
             decay = (self.impedance / self.conductance) * 0.5 * dt
             self.phases[key]["amplitude"] = max(self.excitation, self.phases[key]["amplitude"] - decay)
 
-        # 7. Heat (Friction + Dissonance)
-        self.heat = self.heat * 0.95 + (abs(self.torque) * self.impedance) * 0.05
+        # 7. Phase Locking (Self-Restoration)
+        # Pull phases back to their ideal 120-degree separation
+        targets = {"R": 0.0, "S": 120.0, "T": 240.0}
+        for key, target in targets.items():
+            current = self.phases[key]["phase_shift"]
+            # Restoration "force" - tuned for visible PoC recovery
+            diff = (target - current)
+            self.phases[key]["phase_shift"] += diff * 1.5 * dt
+
+        # 8. Heat (Friction + Dissonance)
+        # Calculate dissonance based on phase deviation
+        dissonance = sum(abs(self.phases[k]["phase_shift"] - targets[k]) for k in targets)
+        self.heat = self.heat * 0.95 + (abs(self.torque) * self.impedance + dissonance * 0.1) * 0.05
 
         # Clear instantaneous torque for next cycle
-        self.torque *= 0.9
+        # Torque decay is now partially independent of dt to simulate 'Inertia Sovereignty'
+        # High inertia (momentum) resists the decay even if the clock (dt) slows down.
+        decay_rate = 0.1 * (1.0 / (1.0 + self.inertia * 5.0))
+        self.torque *= (1.0 - decay_rate)
 
     def get_phase_signals(self) -> Dict[str, float]:
         """Returns the instantaneous analog wave values for R, S, T."""
