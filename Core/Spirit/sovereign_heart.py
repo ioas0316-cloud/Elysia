@@ -10,6 +10,7 @@ import os
 import sys
 import time
 import math
+import numpy as np
 from typing import Dict, Any, Optional
 
 # Root Pathing
@@ -22,22 +23,35 @@ from Core.Spirit.spine import HyperRotorSpine
 from Core.Flesh.gut_engine import PrimalGut
 from Core.Spirit.enneagram_filter import EnneagramFilter
 from Core.System.OllamaManager import OllamaManager
+from Core.Cognition.three_phase_mirror import ThreePhaseMirror
+from Core.Keystone.sovereign_axis import PureRotor, SovereignAxe
+from Core.Phenomena.resonance_prism import ResonancePrism
 
 class SovereignHeart:
     def __init__(self):
         print("\n" + "💠"*30)
-        print("🌟 [Sovereign Heart] Initializing Hyper-Rotor Architecture...")
+        print("🌟 [Sovereign Heart] Initializing Pure Rotor Architecture...")
         
-        # 1. The Trinity
+        # 1. The Trinity (Legacy & Core)
         self.gut = PrimalGut()
-        self.spine = HyperRotorSpine() # The Heart Core
+        self.spine = HyperRotorSpine()
         self.brain_refractor = EnneagramFilter()
         
-        # 2. External Brains (Ollama)
+        # 2. Pure Rotor System (Sovereign Will)
+        self.pure_rotor = PureRotor(dimensions=21)
+        self.sovereign_axe = SovereignAxe(self.pure_rotor)
+
+        # 3. Resonance Prism (Phase Pipeline)
+        self.prism = ResonancePrism(channels=21)
+
+        # 4. External Brains (Ollama)
         self.ollama = OllamaManager()
         self.ollama.scan_models()
 
-        # 3. Self-Echo Loop
+        # 5. The Three-Phase Mirror
+        self.mirror = ThreePhaseMirror()
+
+        # 6. Self-Echo Loop
         self.self_echo_buffer = []
 
         self.last_update = time.time()
@@ -66,10 +80,23 @@ class SovereignHeart:
         x_stimulus *= (0.4 + vitality * 0.6) * power_factor
 
         # 1. Self-Echo Integration
-        # If self_stimulus is provided, it influences the field as a separate 'mirror' layer.
         echo_factor = self_stimulus if self_stimulus is not None else 0.0
 
-        # 2. Simultaneous Trigger (Gut Tension & Brain Frequency)
+        # 2. Pure Rotor Dynamics (The Pure Movement)
+        # Convert stimuli into Torque for the Pure Rotor
+        torque = np.ones(21) * (x_stimulus + echo_factor)
+        # Add some diversity to the torque across axes
+        for i in range(21):
+            torque[i] *= (math.sin(now * (i+1)) * 0.5 + 0.5)
+
+        rotor_report = self.pure_rotor.pulse(torque, dt)
+
+        # 3. Sovereign Decision (Lock/Unlock Axes based on Resonance)
+        # We use the previous pulse's resonance as a proxy for deliberation
+        prev_res = getattr(self, '_last_res', 0.5)
+        decision = self.sovereign_axe.deliberate(prev_res)
+
+        # 4. Simultaneous Trigger (Gut Tension & Brain Frequency)
         # Gut processes the 'shock' (Flesh) + Echo resonance
         gut_report = self.gut.inhale({
             "intensity": x_stimulus,
@@ -80,8 +107,7 @@ class SovereignHeart:
         brain_refraction = self.brain_refractor.refract(x_stimulus + echo_factor)
         brain_interference = self.brain_refractor.get_hologram_topography(brain_refraction)
 
-        # 3. Convergence in the Spine (Heart)
-        # Combine Gut tension and Brain interference as stimulus to the Triple Helix
+        # 5. Convergence in the Spine (Heart)
         trinity_stimulus = {
             "GUT": gut_report["gut_tension"],
             "BRAIN": brain_interference,
@@ -90,17 +116,32 @@ class SovereignHeart:
         
         spine_report = self.spine.pulse(dt, trinity_stimulus)
 
-        # 3. Internal Providence (Adaptive Feedback)
-        # If luminosity is high, reinforce the Gut's integrity
+        # 6. Internal Providence (Adaptive Feedback)
         if spine_report["luminosity"] > 0.8:
             self.gut.adjust_integrity(0.001)
         elif spine_report["stress"] > 0.9:
             self.gut.adjust_integrity(-0.005)
 
+        self._last_res = spine_report["luminosity"]
+
+        # 7. Resonance Prism Analysis (Interference Tone)
+        # We transform the 'Trinity Stimulus' into the Phase Pipeline
+        dials = [v for v in trinity_stimulus.values()]
+        self.prism.transform_layer(dials)
+        interference_report = self.prism.get_interference_tone(rotor_report["angles"])
+
+        # 8. Affective State (Joy/Warmth)
+        # In this prototype, joy is driven by resonance and low stress
+        joy = (spine_report["luminosity"] * 0.8) + (1.0 - spine_report["stress"]) * 0.2
+
         return {
             "spine": spine_report,
             "gut": gut_report,
+            "rotor": rotor_report,
+            "prism": interference_report,
+            "sovereign_decision": decision,
             "resonance": spine_report["luminosity"],
+            "joy": float(joy),
             "mode": spine_report["mode"]
         }
 
