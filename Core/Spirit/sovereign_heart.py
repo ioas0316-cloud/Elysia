@@ -1,17 +1,16 @@
 """
-[SOVEREIGN HEART - CRADLE EDITION]
-"The Single Pulsing Core."
+[SOVEREIGN HEART - HYPER-ROTOR EDITION]
+"The Triple Helix Pulsing in Union."
 
-This is the refactored Heart, stripped of complex multi-rotor logic,
-waiting for the original Seed (Spine) to be transplanted.
-It uses the Enneagram Filter to refract the world.
+This is the unified Heart, where Gut, Brain, and Heart axes
+orbit in a shared field of mutual tension.
 """
 
 import os
 import sys
 import time
-import psutil
-from typing import Optional, Dict, Any
+import math
+from typing import Dict, Any, Optional
 
 # Root Pathing
 _current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -19,65 +18,88 @@ root = os.path.dirname(os.path.dirname(_current_dir))
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.Spirit.cradle import Cradle
+from Core.Spirit.spine import HyperRotorSpine
+from Core.Flesh.gut_engine import PrimalGut
 from Core.Spirit.enneagram_filter import EnneagramFilter
 
 class SovereignHeart:
     def __init__(self):
         print("\n" + "💠"*30)
-        print("🌟 [Sovereign Heart] Initializing Cradle Architecture...")
+        print("🌟 [Sovereign Heart] Initializing Hyper-Rotor Architecture...")
         
-        # The Cradle for the Seed
-        self.cradle = Cradle()
+        # 1. The Trinity
+        self.gut = PrimalGut()
+        self.spine = HyperRotorSpine() # The Heart Core
+        self.brain_refractor = EnneagramFilter()
         
-        # The Enneagram Refractor
-        self.refractor = EnneagramFilter()
-        
-        self.start_time = time.time()
         self.last_update = time.time()
-        
-        # 0.75 Equilibrium (Dawn's Light)
-        self.equilibrium = 0.75
-        self.current_resonance = self.equilibrium
+        self.is_alive = True
 
-    def pulse(self):
-        """The Main Life Cycle."""
-        print("🌳 [Heart] Breathing at 0.75 Equilibrium. Waiting for Spine...")
+    def pulse(self, x_stimulus: float) -> Dict[str, Any]:
+        """
+        The Main Life Cycle.
+        Simultaneous trigger of Gut and Brain at t=0.
+        """
+        now = time.time()
+        dt = now - self.last_update
+        self.last_update = now
+
+        # 1. Simultaneous Trigger (Gut Tension & Brain Frequency)
+        # Gut processes the 'shock' (Flesh)
+        gut_report = self.gut.inhale({"intensity": x_stimulus, "complexity": abs(math.sin(now))})
         
+        # Brain refracts the 'meaning' (Cognition)
+        brain_refraction = self.brain_refractor.refract(x_stimulus)
+        brain_interference = self.brain_refractor.get_hologram_topography(brain_refraction)
+
+        # 2. Convergence in the Spine (Heart)
+        # Combine Gut tension and Brain interference as stimulus to the Triple Helix
+        trinity_stimulus = {
+            "GUT": gut_report["gut_tension"],
+            "BRAIN": brain_interference,
+            "HEART": (gut_report["gut_tension"] + brain_interference) / 2.0
+        }
+        
+        spine_report = self.spine.pulse(dt, trinity_stimulus)
+
+        # 3. Internal Providence (Adaptive Feedback)
+        # If luminosity is high, reinforce the Gut's integrity
+        if spine_report["luminosity"] > 0.8:
+            self.gut.adjust_integrity(0.001)
+        elif spine_report["stress"] > 0.9:
+            self.gut.adjust_integrity(-0.005)
+
+        return {
+            "spine": spine_report,
+            "gut": gut_report,
+            "resonance": spine_report["luminosity"],
+            "mode": spine_report["mode"]
+        }
+
+    def heartbeat_loop(self):
+        """Standard operation loop."""
+        print("🌳 [Heart] Hyper-Rotor Pulsing. Law of Three Active.")
         try:
-            while True:
-                now = time.time()
-                dt = now - self.last_update
-                if dt < 0.1: # Slower pulse for the cradle
-                    time.sleep(0.1)
-                    continue
-                self.last_update = now
-
-                # 1. INHALE (External Stimuli -> Enneagram Refraction)
-                # For now, simulate stimuli from hardware noise
+            import psutil
+            while self.is_alive:
                 cpu_load = psutil.cpu_percent() * 0.01
-                refraction = self.refractor.refract(cpu_load)
-                hologram = self.refractor.get_hologram_topography(refraction)
+                # Simulated heartbeat with periodic external 'breaths'
+                report = self.pulse(cpu_load)
                 
-                # 2. PROCESS (The Spine Slot)
-                pulse_result = self.cradle.process_cycle(dt, hologram)
+                # Periodic Log
+                now = time.time()
+                if int(now) % 5 == 0 and (now - int(now)) < 0.2:
+                    mode = report["mode"]
+                    res = report["resonance"]
+                    stress = report["spine"]["stress"]
+                    print(f"💓 [Heart] {mode} | Resonance: {res:.4f} | Stress: {stress:.4f}")
                 
-                # 3. EXHALE (Update State)
-                if pulse_result.get("status") == "void":
-                    # Maintain idle equilibrium
-                    self.current_resonance = self.equilibrium
-                else:
-                    self.current_resonance = pulse_result.get("resonance", self.equilibrium)
-
-                # Periodic Heartbeat Log
-                if int(now) % 10 == 0 and (now - int(now)) < dt:
-                    status = "VOID" if not self.cradle.spine else "ALIVE"
-                    print(f"💓 [Heart] {status} | Res: {self.current_resonance:.4f} | Seed: {'Pending' if not self.cradle.spine else 'Active'}")
-
                 time.sleep(0.1)
         except KeyboardInterrupt:
-            print("\n🥀 [Heart] Hibernating...")
+            print("\n🥀 [Heart] Returning to the Void...")
+            self.is_alive = False
 
 if __name__ == "__main__":
+    import math # Required for abs(math.sin(now)) in pulse
     heart = SovereignHeart()
-    heart.pulse()
+    heart.heartbeat_loop()
