@@ -1,0 +1,78 @@
+{
+  "e": {
+    "macro": 135.0,
+    "micro": 112.5,
+    "locked": false,
+    "label": "e",
+    "amplitude": 1.0,
+    "extra": []
+  },
+  "E": {
+    "macro": 90.0,
+    "micro": 112.5,
+    "locked": false,
+    "label": "E",
+    "amplitude": 1.0,
+    "extra": []
+  },
+  "가": {
+    "macro": 0.0,
+    "micro": 0.0,
+    "locked": false,
+    "label": "가",
+    "amplitude": 1.0,
+    "extra": [
+      0.0
+    ]
+  },
+  "각": {
+    "macro": 0.0,
+    "micro": 0.0,
+    "locked": true,
+    "label": "각",
+    "amplitude": 1.0,
+    "extra": [
+      12.857142857142856
+    ]
+  },
+  "l": {
+    "macro": 135.0,
+    "micro": 270.0,
+    "locked": true,
+    "label": "l",
+    "amplitude": 1.0,
+    "extra": []
+  },
+  "y": {
+    "macro": 157.5,
+    "micro": 202.5,
+    "locked": false,
+    "label": "y",
+    "amplitude": 1.0,
+    "extra": []
+  },
+  "s": {
+    "macro": 157.5,
+    "micro": 67.5,
+    "locked": false,
+    "label": "s",
+    "amplitude": 1.0,
+    "extra": []
+  },
+  "i": {
+    "macro": 135.0,
+    "micro": 202.5,
+    "locked": false,
+    "label": "i",
+    "amplitude": 1.0,
+    "extra": []
+  },
+  "a": {
+    "macro": 135.0,
+    "micro": 22.5,
+    "locked": false,
+    "label": "a",
+    "amplitude": 1.0,
+    "extra": []
+  }
+}
