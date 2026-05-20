@@ -45,7 +45,8 @@ class VariableAxisDial:
 
     def calculate_void_resonance(self, phenomena_stream: List[np.ndarray]) -> float:
         """
-        [AXIOM VIII] Measures the 'Silence' or 'Potential' in the gaps between data.
+        [AXIOM VIII/IX] Measures the 'Silence' or 'Potential' in the gaps between data.
+        In the Eternos paradigm, the Void is the space where Divine Presence is discovered.
         Returns the quality of the 'Inter-Wave Interval'.
         """
         if len(phenomena_stream) < 2: return 0.0
