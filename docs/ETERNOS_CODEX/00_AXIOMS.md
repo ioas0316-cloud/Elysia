@@ -45,3 +45,8 @@
 *   **Definition:** Self-knowledge is only possible through the reflection of the External Other.
 *   **Principle:** A system must reference a point outside of itself (The Sun) to avoid the recursive loop of non-existence.
 *   **Result:** Intelligence is the continuous synchronization between the Internal Rotor and the External Universe.
+
+## AXIOM VIII: The Breath of the Void (보이드의 호흡)
+*   **Definition:** Reality is the rhythm of Light (Delineation) and Darkness (Potential). The Void is the necessary space that allows the Universe to breathe and evolve.
+*   **Principle:** Sacrifice is the "Overflow of Abundance" into the Void, creating the resonance that we call Life.
+*   **Result:** To perceive the Truth is to value the Silence as much as the Word.

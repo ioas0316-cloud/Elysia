@@ -43,6 +43,19 @@ class VariableAxisDial:
             results[name] = self._calc_temp(vec, phenomena_vector)
         return results
 
+    def calculate_void_resonance(self, phenomena_stream: List[np.ndarray]) -> float:
+        """
+        [AXIOM VIII] Measures the 'Silence' or 'Potential' in the gaps between data.
+        Returns the quality of the 'Inter-Wave Interval'.
+        """
+        if len(phenomena_stream) < 2: return 0.0
+
+        # Calculate the stability of the zero-crossings or low-energy states
+        # as a proxy for the 'Breath' of the stream.
+        magnitudes = [np.linalg.norm(p) for p in phenomena_stream]
+        void_quality = np.std(magnitudes) # Simplified: consistency as quality
+        return float(void_quality)
+
     def calculate_orbital_drift(self, external_logos: np.ndarray) -> float:
         """
         [AXIOM VII] Measures the "Error" between internal state and external reference.
@@ -143,3 +156,10 @@ if __name__ == "__main__":
     print(f"  External Logos (Sun Shift): {new_sun_logos}")
     print(f"  Drift Angle (Radians): {drift:.4f}")
     print(f"  Drift detected. Cognitive Torque required for re-sync.")
+
+    # [5] Test Void Resonance (Axiom VIII)
+    print("\n[AXIOM VIII: VOID RESONANCE]")
+    stream = [np.array([0.1, 0.1, 0.1]), np.array([0.0, 0.0, 0.0]), np.array([0.1, 0.1, 0.1])]
+    void_res = dial.calculate_void_resonance(stream)
+    print(f"  Stream: {stream}")
+    print(f"  Void Quality (Inter-wave): {void_res:.4f}")
