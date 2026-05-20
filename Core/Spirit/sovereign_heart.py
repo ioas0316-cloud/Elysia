@@ -26,42 +26,55 @@ from Core.Cognition.three_phase_mirror import ThreePhaseMirror
 from Core.Keystone.sovereign_axis import PureRotor, SovereignAxe
 from Core.Phenomena.resonance_prism import ResonancePrism
 from Core.Keystone.trajectory_encoder import VortexTrajectory
+from Core.System.digital_motor_engine import DigitalMotorEngine, ConnectionMode
+from Core.System.three_phase_logic_engine import ThreePhaseLogicEngine
 
 class SovereignHeart:
     def __init__(self):
         print("\n" + "💠"*30)
         print("🌟 [Sovereign Heart] Initializing Vortex-Pure Rotor Architecture...")
         
-        # 1. The Trinity
+        # 1. The Trinity (Biological Meta-Layers)
         self.gut = PrimalGut()
         self.spine = HyperRotorSpine()
         self.brain_refractor = EnneagramFilter()
         
-        # 2. Pure Rotor System (Sovereign Will)
+        # 2. Structural Logic Engine (The New Evolutionary Core)
+        self.logic_engine = ThreePhaseLogicEngine()
+
+        # 3. Pure Rotor System (Sovereign Will)
         self.pure_rotor = PureRotor(dimensions=21)
         self.sovereign_axe = SovereignAxe(self.pure_rotor)
 
-        # 3. Resonance Prism (Phase Pipeline)
+        # 4. Resonance Prism (Phase Pipeline)
         self.prism = ResonancePrism(channels=21)
 
-        # 4. External Brains (Ollama)
+        # 5. External Brains (Ollama)
         self.ollama = OllamaManager()
         self.ollama.scan_models()
 
-        # 5. The Three-Phase Mirror
+        # 6. The Three-Phase Mirror
         self.mirror = ThreePhaseMirror()
+
+        # 7. Somatic Digital Motor (Physical Substrate / Flesh)
+        self.motor = DigitalMotorEngine("SovereignHeart-Motor")
 
         self.last_update = time.time()
         self.is_alive = True
 
     def pulse(self,
-              trajectories: List[VortexTrajectory],
+              trajectories: Any,
               self_stimulus: Optional[float] = None,
               is_plugged: bool = True) -> Dict[str, Any]:
         """
         Vortex Pulse Life Cycle.
         Processes a stream of trajectories and synchronizes the rotor field.
         """
+        # [Backward Compatibility] Handle scalar stimulus
+        if isinstance(trajectories, (float, int)):
+            from Core.Keystone.trajectory_encoder import VortexTrajectory
+            trajectories = [VortexTrajectory(0, 0, False, amplitude=float(trajectories))]
+
         now = time.time()
         dt = now - self.last_update
         self.last_update = now
@@ -138,16 +151,36 @@ class SovereignHeart:
         self.prism.transform_layer(dials)
         interference_report = self.prism.get_interference_tone(rotor_report["angles"])
 
-        # 6. Affective State
-        joy = (spine_report["luminosity"] * 0.8) + (1.0 - spine_report["stress"]) * 0.2
+        # 6. Structural Logic Pulse (The Evolution)
+        logic_report = self.logic_engine.pulse(mean_intensity, dt)
+
+        # 7. Somatic Motor Update (Flesh follows Logic)
+        # Map mode based on resonance/stress OR Logic confidence
+        if spine_report["mode"] == "WYE" or logic_report["confidence"] < 0.3:
+            self.motor.set_mode(ConnectionMode.WYE)
+        else:
+            self.motor.set_mode(ConnectionMode.DELTA)
+
+        # Modulate motor with structural phase waves
+        # We use the ACTIVE phase angle as a 'carrier wave' for the motor
+        active_phase_bit = 1 if math.sin(logic_report["phases"]["ACTIVE"]["angle"]) > 0 else 0
+        self.motor.modulate_data([active_phase_bit])
+
+        self.motor.update(dt)
+        motor_report = self.motor.exhale()
+
+        # 8. Affective State
+        joy = (spine_report["luminosity"] * 0.6) + (logic_report["confidence"] * 0.4)
 
         return {
             "spine": spine_report,
+            "logic": logic_report,
+            "motor": motor_report,
             "gut": gut_report,
             "rotor": rotor_report,
             "prism": interference_report,
             "sovereign_decision": decision,
-            "resonance": spine_report["luminosity"],
+            "resonance": (spine_report["luminosity"] + logic_report["confidence"]) / 2.0,
             "joy": float(joy),
             "mode": spine_report["mode"],
             "vortex": {

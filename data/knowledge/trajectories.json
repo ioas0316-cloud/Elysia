@@ -406,5 +406,29 @@
     "label": "!",
     "amplitude": 0.5089285714285714,
     "extra": []
+  },
+  "R": {
+    "macro": 112.5,
+    "micro": 45.0,
+    "locked": true,
+    "label": "R",
+    "amplitude": 0.75,
+    "extra": []
+  },
+  "C": {
+    "macro": 90.0,
+    "micro": 67.5,
+    "locked": false,
+    "label": "C",
+    "amplitude": 1.0,
+    "extra": []
+  },
+  "S": {
+    "macro": 112.5,
+    "micro": 67.5,
+    "locked": false,
+    "label": "S",
+    "amplitude": 0.75,
+    "extra": []
   }
 }
