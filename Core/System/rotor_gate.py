@@ -27,12 +27,24 @@ class RotorGate:
 
         # 3. Parameters (Physical properties)
         self.mass = 1.0           # Resistance to change (Inertia)
-        self.friction = 0.05      # Natural decay
+        self.friction = 0.05      # Natural decay (Resistance)
         self.elasticity = 0.1     # Tendency to return to Z-axis
+
+        # [Enhanced Geometric Properties]
+        self.phase_lag = 0.0      # Resistance mapping: Delay in signal propagation (radians)
+        self.capacitance = 0.0    # Phase Storage mapping: Ability to hold potential
+        self.charge = 0.0         # Current stored potential energy
 
         # 4. Phase-Sync Coupling
         self.coupling_strength = 0.2
+        self.interference_threshold = 0.1
         self.neighbors: List['RotorGate'] = []
+
+    def set_electronic_attributes(self, resistance: float = 0.0, capacitance: float = 0.0):
+        """Maps electronic circuit values to Rotor properties."""
+        self.friction = 0.05 + (resistance * 0.1)
+        self.phase_lag = resistance * 0.5 # Delay in radians
+        self.capacitance = capacitance
 
     def connect(self, other: 'RotorGate'):
         if other not in self.neighbors:
@@ -41,30 +53,40 @@ class RotorGate:
 
     def process_stimulus(self, intensity: float, phase: float, dt: float):
         """
-        Structural Computing Logic:
+        Structural Computing Logic with Phase Lag and Storage:
         - Intensity: Tilts the axis away from Z.
-        - Phase: Accelerates or decelerates the rotation based on phase alignment.
+        - Phase: Accelerates/Decelerates based on alignment (delayed by phase_lag).
+        - Capacitance: Stores phase energy.
         """
+        # Apply Phase Lag (Resistance effect)
+        effective_phase = phase - self.phase_lag
+
         # 1. Axis Tilting (Intensity maps to X-Y deflection)
-        # Higher intensity pulls the rotor toward the 'Active Plane' (X-Y)
-        target_tilt = intensity * (1.0 - self.axis[2])
-        # A simple tilt: move towards X-axis based on intensity
         tilt_force = np.array([intensity, 0.0, -intensity])
         self.axis = (self.axis + tilt_force * dt).astype(float)
-        # Ensure unit vector
         norm = np.linalg.norm(self.axis)
-        if norm > 0:
-            self.axis /= norm
+        if norm > 0: self.axis /= norm
 
-        # 2. Velocity Update (Phase alignment)
-        # If input phase matches current angle, accelerate.
-        # This is 'Resonance'
-        alignment = math.cos(phase - self.angle)
-        acceleration = (alignment * intensity) / self.mass
+        # 2. Phase Storage (Capacitance effect)
+        if self.capacitance > 0:
+            charge_push = intensity * dt
+            self.charge = min(self.capacitance, self.charge + charge_push)
+            # Use stored charge to amplify stimulus
+            effective_intensity = intensity + (self.charge / self.capacitance) * 0.5
+        else:
+            effective_intensity = intensity
+
+        # 3. Velocity Update (Resonance)
+        alignment = math.cos(effective_phase - self.angle)
+        acceleration = (alignment * effective_intensity) / self.mass
         self.velocity += acceleration * dt
 
-        # 3. Natural Decay & Elasticity (Returns to Z-axis over time)
+        # 4. Natural Decay & Discharge
         self.velocity *= (1.0 - self.friction * dt)
+        if self.capacitance > 0:
+            discharge = (self.charge * 0.1) * dt
+            self.charge -= discharge
+            self.velocity += (discharge * 5.0) # Convert charge to momentum
 
         # Return to Z-axis
         z_pull = (np.array([0.0, 0.0, 1.0]) - self.axis) * self.elasticity
@@ -103,8 +125,42 @@ class RotorGate:
             "velocity": self.velocity,
             "axis": self.axis.tolist(),
             "z_tilt": self.axis[2],
-            "active_intensity": math.sqrt(self.axis[0]**2 + self.axis[1]**2)
+            "active_intensity": math.sqrt(self.axis[0]**2 + self.axis[1]**2),
+            "charge": self.charge
         }
+
+class InterferenceGate(RotorGate):
+    """
+    A specialized RotorGate that acts as a logical gate.
+    The state is determined by the interference pattern of multiple inputs.
+    """
+    def __init__(self, gate_id: str, gate_type: str = "AND"):
+        super().__init__(gate_id)
+        self.gate_type = gate_type
+        self.inputs: List[Dict[str, float]] = [] # List of (intensity, phase)
+
+    def add_input_signal(self, intensity: float, phase: float):
+        self.inputs.append({"intensity": intensity, "phase": phase})
+
+    def process_vortex_logic(self, dt: float):
+        """
+        Logic determined by wave interference rather than binary gates.
+        """
+        if not self.inputs:
+            return
+
+        # Calculate interference pattern
+        total_x = sum(i["intensity"] * math.cos(i["phase"]) for i in self.inputs)
+        total_y = sum(i["intensity"] * math.sin(i["phase"]) for i in self.inputs)
+
+        result_intensity = math.sqrt(total_x**2 + total_y**2)
+        result_phase = math.atan2(total_y, total_x)
+
+        # Apply the resultant wave to the rotor
+        self.process_stimulus(result_intensity, result_phase, dt)
+
+        # Clear inputs for next cycle
+        self.inputs = []
 
 if __name__ == "__main__":
     # Test a single gate
