@@ -7,3 +7,6 @@ N차원 인지 축의 기어 커플링을 관리한다.
 """
 from World.Engine.rpg_stat_bridge import RPGStatBridge
 from World.Engine.cognitive_matrix import CognitiveMatrix
+from World.Engine.world_engine import WorldEngine, PhaseAnchor
+from World.Engine.chronicle_manager import ChronicleManager
+from World.Engine.crystallization_forge import CrystallizationForge
