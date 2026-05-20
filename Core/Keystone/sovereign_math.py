@@ -15,8 +15,14 @@ from typing import List, Tuple, Dict, Any
 
 class SovereignVector:
     def __init__(self, data):
+        import torch
+        import numpy as np
         if isinstance(data, torch.Tensor):
             self.data = data
+        elif isinstance(data, np.ndarray):
+            self.data = torch.tensor(data, dtype=torch.float32)
+        elif isinstance(data, memoryview):
+            self.data = torch.tensor(np.array(data), dtype=torch.float32)
         else:
             self.data = torch.tensor(data, dtype=torch.float32)
 
@@ -30,10 +36,20 @@ class SovereignVector:
         return len(self.data)
 
     def __sub__(self, other):
-        return SovereignVector(self.data - other.data)
+        import torch
+        import numpy as np
+        other_data = other.data
+        if isinstance(other_data, memoryview):
+            other_data = torch.tensor(np.array(other_data), dtype=torch.float32)
+        return SovereignVector(self.data - other_data)
 
     def __add__(self, other):
-        return SovereignVector(self.data + other.data)
+        import torch
+        import numpy as np
+        other_data = other.data
+        if isinstance(other_data, memoryview):
+            other_data = torch.tensor(np.array(other_data), dtype=torch.float32)
+        return SovereignVector(self.data + other_data)
 
     def __mul__(self, other):
         if isinstance(other, (float, int)):

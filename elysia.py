@@ -212,7 +212,8 @@ class ElysiaCore:
                 prompt = f"Master says: {user_input}\nInner State: {report['mode']} | Res: {report['resonance']:.4f}\nLogos Alignment: {report['justification']['reason']}"
                 
                 with self.lock:
-                    reflection_text = self.heart.ollama.generate(layer, prompt)
+                    # Pass the resonance directly into the LLM logic as the crystal overlay
+                    reflection_text = self.heart.ollama.generate(layer, prompt, crystal_resonance=report['resonance'])
 
                     # --- Somatic Actuator Parser ---
                     import re
