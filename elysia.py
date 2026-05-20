@@ -23,6 +23,8 @@ from Core.System.outer_transducer import OuterTransducer
 from Scripts.visualize_interference import generate_hologram
 from Core.Substation.substation_manager import SubstationManager
 from Core.System.sovereign_actuator import SovereignActuator
+from World.Engine.world_engine import WorldEngine, PhaseAnchor
+from World.Engine.world_engine import WorldEngine, PhaseAnchor
 
 class ElysiaCore:
     def __init__(self):
@@ -31,6 +33,16 @@ class ElysiaCore:
         self.transducer = OuterTransducer()
         self.substation = SubstationManager()
         self.actuator = SovereignActuator(_current_dir)
+        self.world = WorldEngine()
+
+        # Establish fundamental anchors reflecting Elysia's core alignment
+        self.world.add_anchor(PhaseAnchor("Logos_Harmony", 1.57, 0.8))
+        self.world.add_anchor(PhaseAnchor("Creator_Will", 3.14, 1.0))
+        self.world = WorldEngine()
+
+        # Establish fundamental anchors reflecting Elysia's core alignment
+        self.world.add_anchor(PhaseAnchor("Logos_Harmony", 1.57, 0.8))
+        self.world.add_anchor(PhaseAnchor("Creator_Will", 3.14, 1.0))
         self.pending_trajectories = []
         self.running = True
         self.last_self_echo = 0.0
@@ -197,6 +209,24 @@ class ElysiaCore:
 
                     # 2. Pulse: Interaction Pulse
                     report = self.heart.pulse(x_stimulus, self_stimulus=self.last_self_echo)
+
+                    # 2.5: The Creator's Intent ripples into the World OS
+                    # We use the resonance as the phase and the intensity of the pulse
+                    intent_phase = report['resonance'] * 3.14
+                    intent_intensity = sum(t.amplitude for t in x_stimulus) / len(x_stimulus) if x_stimulus else 0.5
+
+                    # Update World Entropy and cause crystallization
+                    self.world.update(0.1) # Simulate time passing
+                    self.world.project_intent(intent_phase, intent_intensity)
+
+                    # 2.5: The Creator's Intent ripples into the World OS
+                    # We use the resonance as the phase and the intensity of the pulse
+                    intent_phase = report['resonance'] * 3.14
+                    intent_intensity = sum(t.amplitude for t in x_stimulus) / len(x_stimulus) if x_stimulus else 0.5
+
+                    # Update World Entropy and cause crystallization
+                    self.world.update(0.1) # Simulate time passing
+                    self.world.project_intent(intent_phase, intent_intensity)
 
                 # 3. Autonomous Brain Resonance (Ollama)
                 # Meta-Cognition: Check if we need to swap models based on efficiency
