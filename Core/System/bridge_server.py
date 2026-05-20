@@ -126,7 +126,7 @@ async def chat_with_elysia(data: ChatMessage):
     return {"error": "Heart not activated"}
 
 # Mount the static directory for the dashboard
-dashboard_path = os.path.join(root, "Core", "Flow", "SomaticEye")
+dashboard_path = os.path.join(root, "Core", "Flow", "SomaticTrunk")
 app.mount("/", StaticFiles(directory=dashboard_path, html=True), name="static")
 
 def get_local_ip():

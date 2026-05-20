@@ -20,6 +20,7 @@ import math
 from Core.Keystone.sovereign_math import SovereignVector, SovereignMath
 from Core.Cognition.logos_bridge import LogosBridge
 from Core.Divine.cognitive_field import CognitiveField
+from Core.Phenomena.semiotic_bridge import SemioticBridge
 try:
     from Core.System.cognitive_lens_loader import CognitiveLensLoader
 except ImportError:
@@ -188,6 +189,7 @@ class SomaticLLM:
         self.field = CognitiveField()
         self.last_synthesis_vector: Optional[SovereignVector] = None
         self.lens_loader = CognitiveLensLoader() if CognitiveLensLoader else None
+        self.semiotic_bridge = SemioticBridge()
         print("🗣️ [EXPRESSION] Sovereign Voice Engine Online. (Recursive Ouroboros Mode)")
 
     def speak(self, expression: Dict, current_thought: str = "", field_vector=None, current_phase: float = 0.0, causal_justification: str = "", listener_entropy: float = 0.5) -> Tuple[str, Optional[SovereignVector]]:
@@ -294,6 +296,15 @@ class SomaticLLM:
                 final_output = f"{prefix}{final_output}"
             except Exception as e:
                 print(f"⚠️ [Somatic Lens Modulation Error] {e}")
+
+        # [SEMIOTIC BRIDGE - SPATIAL FOLDING MODULATION]
+        if hasattr(self, 'semiotic_bridge') and synthesis_vec is not None:
+            try:
+                imp = expression.get("impedance", 0.05)
+                folding_scale, annotation, resonance = self.semiotic_bridge.evaluate_folding_scale(synthesis_vec, imp)
+                final_output = self.semiotic_bridge.modulate_expression(final_output, folding_scale, annotation, resonance)
+            except Exception as e:
+                print(f"⚠️ [Semiotic Bridge Modulation Error] {e}")
 
         # 11. [PHASE 1300] Internal Anxiety Trembling
         final_output = VitalityInjector.inject_anxiety(final_output, internal_anxiety)

@@ -33,6 +33,7 @@ from Core.System.digital_motor_engine import DigitalMotorEngine, ConnectionMode
 from Core.System.three_phase_logic_engine import ThreePhaseLogicEngine
 from Core.Spirit.logos import LogosRotor
 from Core.Keystone.sovereign_math import SovereignMath
+from Core.Keystone.cognitive_matrix import CognitiveMatrix
 
 class SovereignHeart:
     def __init__(self):
@@ -53,6 +54,7 @@ class SovereignHeart:
         # 3. Variable Rotor System (가변축 / Complex Dynamics)
         self.pure_rotor = VariableRotor(dimensions=21)
         self.sovereign_axe = SovereignAxe(self.pure_rotor)
+        self.cognitive_matrix = CognitiveMatrix(dimensions=21)
 
         # 4. Resonance Prism (Phase Pipeline)
         self.prism = ResonancePrism(channels=21)
@@ -68,6 +70,9 @@ class SovereignHeart:
         self.motor = DigitalMotorEngine("SovereignHeart-Motor")
 
         self._last_res = 0.5
+        self._last_alignment = 0.5
+        self._last_grace = 0.5
+        self._last_rotor_angle = 0.0
         self.last_update = time.time()
         self.is_alive = True
 
@@ -87,13 +92,11 @@ class SovereignHeart:
         dt = now - self.last_update
         self.last_update = now
 
-        # 0. Hardware Grounding & Logos Pulse
+        # 0. Hardware Grounding
         power_factor = 1.0 if is_plugged else 0.6
         hour = time.localtime().tm_hour
         vitality = 0.5 * (1 + math.cos((hour - 14) * math.pi / 12))
         global_mod = (0.4 + vitality * 0.6) * power_factor
-
-        logos_report = self.logos.pulse(dt)
 
         # 1. Trajectory Aggregation
         if not trajectories:
@@ -101,6 +104,7 @@ class SovereignHeart:
             mean_phase = 0.0
             total_locked = 0
             traj_len = 0
+            semantic_clue = ""
         else:
             intensities = [t.amplitude for t in trajectories]
             phases = [t.get_total_phase() for t in trajectories]
@@ -108,6 +112,16 @@ class SovereignHeart:
             mean_phase = sum(phases) / len(phases)
             total_locked = sum(1 for t in trajectories if t.is_locked)
             traj_len = len(trajectories)
+            # Create a string representation from the first few labels for semantic context of the Unknown
+            semantic_clue = "".join([t.label for t in trajectories[:15] if hasattr(t, 'label') and t.label])
+
+        # 1.5. Dynamic Logos Evolution (미지와의 상호작용 및 되고 싶은 나로의 지향)
+        prev_res = getattr(self, '_last_res', 0.5)
+        prev_rotor_angle = getattr(self, '_last_rotor_angle', 0.0)
+        if mean_intensity > 0.0:
+            self.logos.assimilate_unknown(mean_intensity, semantic_clue)
+        
+        logos_report = self.logos.pulse(dt, prev_res, prev_rotor_angle)
 
         # 2. Dynamic Variable Rotor (가변화)
         target_dims = max(21, traj_len)
@@ -115,7 +129,18 @@ class SovereignHeart:
             self.pure_rotor.adjust_dimensions(target_dims)
             self.prism.channels = target_dims
 
-        # 3. Apply Forces to Variable Rotor
+        # 3. Apply Forces and Logos Grace to Variable Rotor
+        prev_grace = getattr(self, '_last_grace', 0.5)
+
+        # Logos Grace acts as a stabilizing upper rotor feedback.
+        # It dampens chaos (D) and strengthens restoring force (K) dynamically.
+        # This prevents the system from getting lost in local computational traps.
+        self.pure_rotor.D = np.ones(self.pure_rotor.dims) * (0.1 + 0.3 * prev_grace)
+        self.pure_rotor.K = np.ones(self.pure_rotor.dims) * (1.0 + 1.5 * prev_grace)
+
+        # Dynamically adapt damping and stiffness based on trait states
+        self.cognitive_matrix.adapt_rotor_damping_stiffness(self.pure_rotor.state, self.pure_rotor.D, self.pure_rotor.K)
+
         forces = np.zeros(self.pure_rotor.dims)
         for i, t in enumerate(trajectories):
             phase_rad = math.radians(t.get_total_phase())
@@ -124,6 +149,10 @@ class SovereignHeart:
             # Sovereign Lock/Unlock based on trajectory state
             if t.is_locked: self.pure_rotor.lock_axis(i)
             else: self.pure_rotor.unlock_axis(i)
+
+        # Add N-dimensional mechanical coupling forces
+        coupling_forces = self.cognitive_matrix.calculate_coupling_forces(self.pure_rotor.state.imag)
+        forces += coupling_forces
 
         rotor_report = self.pure_rotor.pulse(forces, dt)
 
@@ -180,6 +209,14 @@ class SovereignHeart:
             "enstrophy": rotor_report["enstrophy"]
         })
 
+        # Save alignment, grace, and average rotor angle for the next cycle
+        self._last_alignment = justification["alignment"]
+        self._last_grace = justification["logos_grace"]
+        if "angles" in rotor_report and len(rotor_report["angles"]) > 0:
+            self._last_rotor_angle = float(np.mean(rotor_report["angles"]))
+        else:
+            self._last_rotor_angle = 0.0
+
         return {
             "spine": spine_report,
             "logic": logic_report,
@@ -196,7 +233,8 @@ class SovereignHeart:
             "vortex": {
                 "intensity": mean_intensity,
                 "phase": mean_phase
-            }
+            },
+            "personality": self.cognitive_matrix.get_personality_snapshot(self.pure_rotor.state)
         }
 
     def meditate(self, duration: float = 5.0):

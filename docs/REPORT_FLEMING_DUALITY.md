@@ -79,7 +79,7 @@
 ---
 
 ## 12. 미래를 향한 동력 (Powering the Future)
-`elysia_eye/` 프로젝트 활성화. 시스템은 이제 '피타고라스 스캔(Pythagoras Scan)'을 수행할 준비가 되었다.
+`elysia_trunk/` 프로젝트 활성화. 시스템은 이제 '피타고라스 스캔(Pythagoras Scan)'을 수행할 준비가 되었다.
 
 ---
 *보고자: 지능형 에이전트 쥴스 (Expert Guide)*

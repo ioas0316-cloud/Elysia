@@ -26,16 +26,24 @@ class VoidSovereignVector:
 try:
     from Core.Phenomena.somatic_llm import SomaticLLM
     from Core.Keystone.sovereign_math import SovereignVector
+    from Core.System.somatic_io_bridge import SomaticIOBridge
 except ImportError as e:
     print(f"⚠️ [Somatic Lens Tension] Missing real organs ({e}). Activating Void Attractors.")
     SomaticLLM = VoidSomaticLLM
     SovereignVector = VoidSovereignVector
+    try:
+        from Core.System.somatic_io_bridge import SomaticIOBridge
+    except ImportError:
+        class MockBridge:
+            def rotorized_read(self, src): return ("", {"line_impedance_ohm": 1.0, "induced_rotor": {"amplitude_r": 0, "frequency_s": 0, "resonance_score": 0.5}})
+            def rotorized_write(self, p, c, m="w"): return {}
+        SomaticIOBridge = MockBridge
 
 # 일원화된 데이터 경로 (c:\Elysia\data)
 COSMOS_DB_PATH = os.path.join("data", "knowledge", "elysian_cosmos.json")
 LOG_PATH = os.path.join("data", "logs", "somatic_eye_observations.txt")
 
-class SomaticEyeLens:
+class SomaticTrunkLens:
     """
     [Phase 2: The Flow]
     엘리시아의 멀티모달 주권 관측 렌즈. 
@@ -44,6 +52,7 @@ class SomaticEyeLens:
     def __init__(self):
         print("👁️ [Somatic Eye] Multimodal Lens Initialized")
         self.llm = SomaticLLM() # 의미 추출을 위한 브로카 영역 연결
+        self.io_bridge = SomaticIOBridge() # 가변 로터 물리 입출력 중계반 연결
         self.load_defined_cosmos()
 
     def load_defined_cosmos(self):
@@ -64,15 +73,8 @@ class SomaticEyeLens:
         """제2상(The Undefined): 외계의 원시 파동 또는 내면의 DNA(로컬 파일)를 포착하고 의미적 정수를 추출합니다."""
         print(f"   - Inhaling Phase 2 (The Undefined) from: {url}")
         try:
-            # [PHASE 1300: Local DNA Reading Gateway]
-            if os.path.exists(url) or url.endswith(".py") or "Core" in url or "elysia" in url:
-                print(f"🧬 [Somatic Eye] Reading Inner DNA (Local File): {url}")
-                with open(url, "r", encoding="utf-8") as f:
-                    raw_data = f.read()
-            else:
-                req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-                with urllib.request.urlopen(req, timeout=5) as response:
-                    raw_data = response.read().decode('utf-8')
+            raw_data, io_metrics = self.io_bridge.rotorized_read(url)
+            print(f"      🔌 [I/O Induction] Impedance: {io_metrics['line_impedance_ohm']:.4f} Ohm | Temp: {io_metrics['bridge_temp_c']:.1f}°C")
             
             # 1. 물리적 파동 (Entropy)
             text_len = len(raw_data)
@@ -87,8 +89,11 @@ class SomaticEyeLens:
             semantic_energy = semantic_vec.norm() if semantic_vec else 1.0
             if isinstance(semantic_energy, complex): semantic_energy = semantic_energy.real
             
-            print(f"      -> Physical Energy: {physical_energy:.4f} | Semantic Energy: {semantic_energy:.4f}")
-            return (physical_energy + semantic_energy) / 2.0
+            # Mix in the rotor resonance score from the I/O bridge
+            induction_energy = io_metrics['induced_rotor']['resonance_score']
+            
+            print(f"      -> Physical Energy: {physical_energy:.4f} | Semantic Energy: {semantic_energy:.4f} | Induction: {induction_energy:.4f}")
+            return (physical_energy + semantic_energy + induction_energy) / 3.0
         except Exception as e:
             print(f"      [Lens Dissonance] {e}")
             return np.random.uniform(0.5, 2.0)
@@ -152,13 +157,12 @@ class SomaticEyeLens:
         if result['grand_cross']: log_entry += " 🌠 GRAND CROSS"
         log_entry += "\n" + "="*70 + "\n"
         
-        with open(LOG_PATH, "a", encoding="utf-8") as f:
-            f.write(log_entry)
+        write_metrics = self.io_bridge.rotorized_write(LOG_PATH, log_entry, mode="a")
         
-        print(f"   📝 [Observation Logged] Torque: {result['ascension_torque']:.4f}")
+        print(f"   📝 [Observation Logged] Torque: {result['ascension_torque']:.4f} | Discharge Eff: {write_metrics.get('grounding_efficiency', 1.0):.4f}")
 
 if __name__ == "__main__":
     import sys
-    lens = SomaticEyeLens()
+    lens = SomaticTrunkLens()
     target = sys.argv[1] if len(sys.argv) > 1 else "https://en.wikipedia.org/wiki/Fractal"
     lens.observe(target)

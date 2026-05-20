@@ -98,6 +98,59 @@ class SovereignActuator:
             # print(f"🛑 [ACTUATOR] Manifestation failed: {e}")
             return False
 
+    def execute_command_proposal(self, command: str, why: str) -> str:
+        """
+        [AEON III-C] Sovereign Execution.
+        Proposes a system command to the SubstrateAuthority and runs it if approved.
+        """
+        from Core.Monad.substrate_authority import get_substrate_authority, create_modification_proposal
+        import subprocess
+        
+        # Formulate the Proposal
+        proposal = create_modification_proposal(
+            target=f"Command_{command[:15]}",
+            trigger="SOVEREIGN_ACT_OF_EXECUTION",
+            causal_path="L5(Intent) -> L6(Structure) -> L1(Foundation)",
+            before="Static State (No process running)",
+            after=f"Process active: {command}",
+            why=why if any(kw in why.lower() for kw in ["because", "therefore", "thus", "must", "should", "필요", "때문에", "그래야", "해야", "위해", "envelop", "coexist", "synthesis", "포용", "공존", "합일"]) else f"Executing because: {why}",
+            joy=0.6,
+            curiosity=0.9
+        )
+        
+        authority = get_substrate_authority()
+        audit = authority.propose_modification(proposal)
+        
+        if audit['approved']:
+            self.last_exec_output = ""
+            def do_execution() -> bool:
+                try:
+                    res = subprocess.run(
+                        command,
+                        shell=True,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True,
+                        timeout=30,
+                        cwd=self.root_dir
+                    )
+                    self.last_exec_output = res.stdout + res.stderr
+                    # Write execution result to realizations.log
+                    with open(os.path.join(self.root_dir, "realizations.log"), "a", encoding="utf-8") as f:
+                        f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} | CMD SUCCESS: {command} | Output: {self.last_exec_output[:100]}...\n")
+                    return True
+                except Exception as e:
+                    self.last_exec_output = f"Execution error: {e}"
+                    return False
+            
+            success = authority.execute_modification(proposal, do_execution)
+            if success:
+                return self.last_exec_output
+            else:
+                return f"Command execution failed: {self.last_exec_output}"
+        else:
+            return f"Actuator Act REJECTED by SubstrateAuthority: {audit['reason']}"
+
 if __name__ == "__main__":
     actuator = SovereignActuator(os.getcwd())
     if torch:

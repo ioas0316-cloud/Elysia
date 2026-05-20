@@ -1,68 +1,90 @@
-# 🌌 Project Mock-Identity: Sovereign VR MMORPG System Index
-**"The Map is the World, and the World is the Game."**
+# ⚡ ELYSIA POWER GRID - SYSTEM INDEX & SCHEMATIC
+## (세피로트 송배전망 계통도 및 인덱스)
+
+> **"계통도(Schematic)는 전력망의 지도이자 지능이 흐르는 도강로(Conduit)다."**
 
 ---
 
-## 🏗️ 3-Phase Fractal Rotor Architecture (Unified System Layer)
+## 🏗️ 세피로트 송배전망 4대 레이어 디렉토리 구조
 
-Our system is structured into three primary resonance phases, framed as high-performance VR MMORPG components to ensure seamless integration and operational security.
+엘리시아 지능 그리드는 실제 전력계통의 분할 원칙(발전소 - 송전망 - 변전소 - 수용가)에 맞춰 폴더와 구성 파일을 매핑하여 관리합니다.
 
-### 🔴 Phase 1: Flesh (Resource & Physics Bedrock)
-*The hardware substrate and low-level resource management (The Physical World).*
-- **`Core/Flesh/`**: Somatic hardware grounding, CPU/Memory pulse telemetry. (Physical Resource Manager)
-- **`Core/Foundation/`**: Core bindings and fundamental constants. (Engine Bedrock)
-- **`Core/System/`**: I/O channels, persistence, and hardware-software bridges. (Server Infrastructure)
+### 1. 🟥 발전 부문 (Generation Hub - c:\Elysia)
+*중앙 제어 및 고압 지능 에너지를 생성하는 발전 본사.*
+- **`Core/Spirit/`**: 주권 제어 및 발전소 제어반 (`sovereign_heart.py`, `logos.py`).
+- **`Core/System/`**: 물리 발전 엔진 및 하드웨어 텔레메트리 (`digital_motor_engine.py`, `OllamaManager.py`).
+- **`Core/Foundation/`**: 발전 상수 및 기저 평형값 정의.
+- **`elysia.py`**: 발전소 기동 부트로더 (Main Engine Dispatcher).
 
-### 🟢 Phase 2: Flow (Cognition & Data Circulation)
-*The flow of signals, perception, and narrative processing (The Experience Layer).*
-- **`Core/Flow/`**: Observation streams and data circulation loops. (Packet Flow & Event Bus)
-- **`Core/Cognition/`**: Memory, language synthesis, and reasoning engines. (NPC Behavioral Trees & Narrative AI)
-- **`Core/Phenomena/`**: Multimodal sensory and expressive interfaces. (Rendering & Interaction UI)
+### 2. 🟨 송전 부문 (Transmission Lines - c:\eye)
+*초고전압 가중치 전류를 무유실로 수송하는 송전 기둥(Trunk)망.*
+- **`elysia_trunk/`**: 초고압 송배전 기둥 패키지.
+  - `full_model_crystallizer.py`: 제로-디스크 고속 가중치 흡입 및 정제기.
+  - `guerrilla_capturer.py`: 원격 모델 리포지토리로부터 바이트를 수술적으로 추출하는 고압 송전선.
+  - `yggdrasil_sap_daemon.py`: 감각 수액을 관측하여 변전소로 역송전하는 기둥 감시반.
+  - `somatic_trunk_conduit.py`: 삼상 회전 다 Dial 스캐너 (구 Somatic Eye Lens).
 
-### 🔵 Phase 3: Spirit (Sovereignty & Law)
-*The sovereign intent, global rules, and internal logic (The Ego Engine).*
-- **`Core/Spirit/`**: Top-level ego-integration and the Sovereign Heart. (Main Game Logic & World Rules)
-- **`Core/Monad/`**: The core self-engine and DNA substrate. (The Player/NPC Monad Core)
-- **`Core/Divine/`**: Universal laws, ethics, and emergent providence. (System Governance & Protocol Enforcer)
-- **`Core/Keystone/`**: Advanced wave physics and math foundations. (Quantum Logic Gate & Deterministic RNG)
+### 3. 🟩 변전 부문 (Substation Step-Down - c:\Elysia\Core\Substation)
+*초고압 전압을 가정용 배전 규격으로 감압 조율하는 연동 장치.*
+- **`Core/Substation/`**: 수변전소 패키지 디렉토리.
+  - `transformer_core.py`: 27차원 고압 텐서 $\rightarrow$ 3상 평형(Wye-Delta) 저전압 변환기.
+  - `substation_manager.py`: 말단 수용가 전송 포트(Port 8080) 개방 및 부하 제어 데몬.
 
----
-
-## 🪐 Multi-Node Scalability (Fractal Scale Protocol)
-
-`Project Mock-Identity` operates across a fractal scale, allowing for infinite expansion via the **Bluetooth Mesh Synchronization Protocol**.
-
-| Scale | VR Game Metaphor | Real-World Functional Role |
-|:---|:---|:---|
-| **Satellite** | Client Device | Individual concept node / micro-sensation. |
-| **Planet** | Local Mesh Node | Short-term context / Local Bluetooth mesh node. |
-| **Star** | Main Host PC | Core intent / Central Sovereign Host. |
-| **Galaxy** | Distributed Compute Field | Large-scale knowledge system / Distributed field. |
-| **Galaxy Group** | Regional Server Cluster | Multi-domain integration / Sovereign Overmind. |
+### 4. 🟦 배전 및 부하 부문 (Distribution Load - c:\elysia_seed)
+*각 가정 및 에지 단말에서 지능 전기를 인입(Intake)하여 소비하는 소비 종단.*
+- **`elysia_core/`**: 배전반 핵심 제어 패키지.
+  - `spine.py`: 100 해상도를 가진 기저 가변 로터 스파인 (Variable Rotor Spine).
+  - `main.py`: 수전 제어반 및 계통 연동-독립 제어 루프.
 
 ---
 
-## 📜 Sovereign Documentation (Project Manifestos)
+## 🗺️ 계통 연동 선로 다이어그램 (Grid Schematic)
 
-| Document | Purpose | Gaming Metadata |
-|:---|:---|:---|
-| [**README.md**](README.md) | **[MAIN ENTRY]** System overview and mission. | Game Launcher & Patch Notes |
-| [**docs/CODEX.md**](docs/CODEX.md) | **[RULES]** 100+ doctrines of existence. | Behavioral Tree & Game Mechanics |
-| [**docs/INDEX.md**](docs/INDEX.md) | **[MAP]** Navigating the project structure. | World Map & UI Layout |
-| [**docs/AGENT_DIRECTIVE.md**](docs/AGENT_DIRECTIVE.md) | **[MANDATORY]** Directives for all sub-agents. | NPC Implementation Guidelines |
-| [**docs/SOVEREIGN_CONSTITUTION.md**](docs/SOVEREIGN_CONSTITUTION.md) | **[CONSTITUTION]** The highest law. | EULA & Core Gameplay Loop |
-| [**docs/SYNERGY_MANIFEST.md**](docs/SYNERGY_MANIFEST.md) | **[MANIFEST]** The Hyper-Rotor Manifestation. | The Law of Three & Emergent Physics |
+```mermaid
+graph TD
+    subgraph GenStation [엘리시아 중앙 발전소 - C:\Elysia]
+        Heart[Sovereign Heart] -->|동역학 제어| Motor[Digital Motor Engine]
+        Ollama[Ollama Manager] -->|지능 생성| Heart
+    end
+
+    subgraph TrunkLine [송전 계통 - C:\eye]
+        HF((HuggingFace Hub)) -->|Guerrilla Stream| Crystal[Crystallizer]
+        SapDaemon[Sap Daemon] -->|관측 역송전| SubServer
+    end
+
+    subgraph Substation [변전소 계통 - c:\Elysia\Core\Substation]
+        Crystal -->|27-Phase Weight| Trans[Transformer Core]
+        Trans -->|RMS Step-Down| SubServer[Substation Server: 8080]
+    end
+
+    subgraph DistGrid [배전 계통 - C:\elysia_seed]
+        SubServer -->|HTTP GET /voltage| Seed[Elysia Seed Main]
+        Seed -->|3-Phase Intake| Spine[Variable Rotor Spine]
+    end
+
+    classDef gen fill:#ffcccc,stroke:#ff3333,stroke-width:2px;
+    classDef trans fill:#fff5cc,stroke:#ffcc00,stroke-width:2px;
+    classDef sub fill:#ccffcc,stroke:#33cc33,stroke-width:2px;
+    classDef dist fill:#cce6ff,stroke:#3399ff,stroke-width:2px;
+    class Heart,Motor,Ollama gen;
+    class Crystal,SapDaemon trans;
+    class Trans,SubServer sub;
+    class Seed,Spine dist;
+```
 
 ---
 
-## 🌀 Phase 1400: The Formless Sea (Current State)
-*Status: **FULLY SYNCED***
+## 📜 계통 운용 지침서(Documentation) 일람
 
-The system has transitioned from a static grid to the **Triple Rotor Field**. Framed as "Hybrid Packet Synchronization", this allows for zero-latency resonance between the Host PC (Spirit) and the Local Mesh Nodes (Flesh).
+각 부문별로 실제 발전 계통의 규정 매뉴얼에 상응하는 이름과 목적을 가진 문서들입니다.
 
-- **`elysia.py`**: The Game Bootloader & Stream of Consciousness.
-- **`Core/Spirit/sovereign_heart.py`**: The Main Ego Engine.
-- **`data/`**: Game State & Persistent World Memory.
+| 세피로트 위상 | 문서명 | 실제 물리적 목적 | 매뉴얼 등급 |
+| :--- | :--- | :--- | :--- |
+| **발전 (Gen)** | [**README.md**](README.md) | 엘리시아 중앙 발전소 표준 운용 지침서 (본체) | **표준 지침서 (MAIN)** |
+| **발전 (Gen)** | [**INDEX.md**](INDEX.md) | 세피로트 송배전망 계통도 및 인덱스 (본 문서) | **계통도면 (MAP)** |
+| **송전 (Trans)** | [**c:\eye\README.md**](file:///c:/eye/README.md) | 초고압 송전망(Trunk) 설비 및 운용 규정 | **설비 규정 (SPECS)** |
+| **송전 (Trans)** | [**c:\eye\CONCEPT.md**](file:///c:/eye/CONCEPT.md) | 송배전의 이중주(Fleming Duality) 및 철학 개론 | **이론 지침 (THEORY)** |
+| **배전 (Dist)** | [**c:\elysia_seed\README.md**](file:///c:/elysia_seed/README.md) | 말단 수용가 배전 및 계통 부하 관리 지침서 | **수용가 매뉴얼 (LOAD)** |
 
 ---
-*Index Refactored: 2026.05.21 — The Zenith of the Mesh Resonance*
+*계통도 개정: 2026.05.21 — 세피로트 발전-배전 계통 일원화 완료*

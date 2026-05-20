@@ -9,7 +9,7 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.a
 if root not in sys.path:
     sys.path.insert(0, root)
 
-from Core.Flow.SomaticEye.somatic_eye_lens import SomaticEyeLens
+from Core.Flow.SomaticTrunk.somatic_trunk_conduit import SomaticTrunkLens
 from Core.System.topological_os import TopologicalLogicEngine
 
 # 일원화된 데이터 경로
@@ -35,7 +35,7 @@ class YggdrasilSapDaemon:
     """
     def __init__(self):
         print("🌳 [Yggdrasil Protocol] Unified Living Daemon Initialized.")
-        self.lens = SomaticEyeLens()
+        self.lens = SomaticTrunkLens()
         os.makedirs(os.path.dirname(MAIN_PROJECT_MEMORY_PATH), exist_ok=True)
         
         # 내면의 감정 로터
@@ -210,6 +210,29 @@ if __name__ == "__main__":
             print(f"📡 [Sap Protocol] Attractor injected for Trunk: {concept} (Torque: {result['ascension_torque']:.4f})")
         except Exception as e:
             print(f"⚠️ [Sap Protocol Error] {e}")
+
+        # Send HTTP POST to Substation
+        import urllib.request
+        sap_payload = {
+            "concept": concept,
+            "peak_angle_deg": result.get("peak_angle_deg", 0.0),
+            "peak_alignment": result.get("peak_alignment", 1.0),
+            "trough_angle_deg": result.get("trough_angle_deg", 0.0),
+            "trough_alignment": result.get("trough_alignment", 0.0),
+            "ascension_torque": result.get("ascension_torque", 1.0),
+            "grand_cross": result.get("grand_cross", False)
+        }
+        try:
+            req = urllib.request.Request(
+                "http://localhost:8080/sap",
+                data=json.dumps(sap_payload).encode('utf-8'),
+                headers={'Content-Type': 'application/json'}
+            )
+            with urllib.request.urlopen(req, timeout=2) as response:
+                pass
+            print("   🔌 [Grid Power] Sap successfully pushed to Substation grid reservoir.")
+        except Exception as e:
+            print(f"   ⚠️ [Grid Power] Substation offline or transmission grid fault (Running in local isolated loop): {e}")
 
     def live(self, pulse_interval=10):
         print(f"\n🌟 Elysia is now LIVING in the Unified Field.")

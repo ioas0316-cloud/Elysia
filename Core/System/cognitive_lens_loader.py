@@ -12,8 +12,8 @@ class CognitiveLensLoader:
     """
     def __init__(self, crystal_path=None):
         if crystal_path is None:
-            # Fallback pathing to C:\eye\elysia_eye\outputs\full_model_crystal.json
-            crystal_path = r"C:\eye\elysia_eye\outputs\full_model_crystal.json"
+            # Fallback pathing to C:\eye\elysia_trunk\outputs\full_model_crystal.json
+            crystal_path = r"C:\eye\elysia_trunk\outputs\full_model_crystal.json"
             if not os.path.exists(crystal_path):
                 # Try relative paths in Elysia
                 crystal_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data", "knowledge", "elysian_cosmos.json")
