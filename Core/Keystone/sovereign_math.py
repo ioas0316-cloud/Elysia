@@ -9,37 +9,52 @@ This module handles the advanced mathematical requirements of the Elysia Engine:
 """
 
 import numpy as np
+import torch
 import math
 from typing import List, Tuple, Dict, Any
 
 class SovereignVector:
     def __init__(self, data):
-        self.data = np.array(data)
+        if isinstance(data, torch.Tensor):
+            self.data = data
+        else:
+            self.data = torch.tensor(data, dtype=torch.float32)
+
     def __getitem__(self, key):
         return self.data[key]
+
     def __setitem__(self, key, value):
         self.data[key] = value
+
     def __len__(self):
         return len(self.data)
-    def __sub__(self, other): return SovereignVector(self.data - other.data)
-    def __add__(self, other): return SovereignVector(self.data + other.data)
+
+    def __sub__(self, other):
+        return SovereignVector(self.data - other.data)
+
+    def __add__(self, other):
+        return SovereignVector(self.data + other.data)
+
     def __mul__(self, other):
-        if isinstance(other, (float, int)): return SovereignVector(self.data * other)
-        return float(np.dot(self.data, other.data))
+        if isinstance(other, (float, int)):
+            return SovereignVector(self.data * other)
+        # Dot product
+        return float(torch.dot(self.data.view(-1), other.data.view(-1)))
+
     def normalize(self):
         n = self.norm()
-        if n > 0: self.data /= n
+        if n > 0:
+            self.data = self.data / n
         return self
 
     def norm(self):
-        return float(np.linalg.norm(self.data))
+        return float(torch.norm(self.data))
 
     def complex_trinary_rotate(self, angle: float):
         """Rotate the vector in its manifold space."""
-        # Simple rotation projection for the 120-degree trinary principle
         cos_a = math.cos(angle)
         sin_a = math.sin(angle)
-        new_data = self.data * cos_a + np.roll(self.data, 1) * sin_a
+        new_data = self.data * cos_a + torch.roll(self.data, 1) * sin_a
         return SovereignVector(new_data)
 
     def resonance_score(self, other):
@@ -47,19 +62,19 @@ class SovereignVector:
         n1 = self.norm()
         n2 = other.norm()
         if n1 == 0 or n2 == 0: return 0.0
-        return float(np.dot(self.data, other.data) / (n1 * n2))
+        return float(torch.dot(self.data.view(-1), other.data.view(-1)) / (n1 * n2))
 
     @classmethod
     def randn(cls, dim):
-        return cls(np.random.randn(dim))
+        return cls(torch.randn(dim))
 
     @classmethod
     def ones(cls, dim):
-        return cls(np.ones(dim))
+        return cls(torch.ones(dim))
 
     @classmethod
     def zeros(cls, dim):
-        return cls(np.zeros(dim))
+        return cls(torch.zeros(dim))
 
 class SovereignMath:
     @staticmethod
@@ -124,38 +139,55 @@ class SovereignRotor:
     def from_angle_plane(cls, theta: float, p1: int, p2: int, dim: int = 21):
         return cls(theta, p1, p2, dim)
 
+    @torch.compile
+    def _apply_vector_compiled(self, v_data, bv_data, s_val, dt):
+        theta = torch.acos(torch.clamp(torch.tensor(s_val), -1.0, 1.0))
+        angle = theta * dt
+
+        # Align logic with vector projection
+        u_data = bv_data.clone()
+        u_norm = torch.norm(u_data)
+        if u_norm > 0:
+            u_data = u_data / u_norm
+            
+        proj_val = torch.dot(v_data.view(-1), u_data.view(-1))
+        v_para = u_data * proj_val
+        v_perp = v_data - v_para
+        perp_norm = torch.norm(v_perp)
+
+        if perp_norm < 1e-12:
+            return v_data
+            
+        w_data = v_perp / perp_norm
+
+        cos_a = torch.cos(angle)
+        sin_a = torch.sin(angle)
+        c1 = proj_val * cos_a - perp_norm * sin_a
+        c2 = proj_val * sin_a + perp_norm * cos_a
+
+        return u_data * c1 + w_data * c2
+
+    @torch.compile
+    def _apply_plane_compiled(self, v_data, theta, p1, p2, dt):
+        cos_t = torch.cos(torch.tensor(theta * dt))
+        sin_t = torch.sin(torch.tensor(theta * dt))
+
+        # We need to clone to not modify in place for compiled function side effects
+        out_data = v_data.clone()
+        if p1 < out_data.shape[0] and p2 < out_data.shape[0]:
+            x = out_data[p1].clone()
+            y = out_data[p2].clone()
+            out_data[p1] = x * cos_t - y * sin_t
+            out_data[p2] = x * sin_t + y * cos_t
+        return out_data
+
     def apply(self, v: SovereignVector, dt: float = 1.0) -> SovereignVector:
         if self.mode == "vector":
-            theta = math.acos(max(-1.0, min(1.0, self.s_val)))
-            angle = theta * dt
-            
-            # Align logic with vector projection
-            u = SovereignVector(self.bv.data.copy()).normalize()
-            proj_val = v * u
-            v_para = u * proj_val
-            v_perp = v - v_para
-            perp_norm = v_perp.norm()
-            if perp_norm < 1e-12:
-                return v
-            w = v_perp.normalize()
-            
-            cos_a = math.cos(angle)
-            sin_a = math.sin(angle)
-            c1 = proj_val * cos_a - perp_norm * sin_a
-            c2 = proj_val * sin_a + perp_norm * cos_a
-            return u * c1 + w * c2
+            out_data = self._apply_vector_compiled(v.data, self.bv.data, self.s_val, dt)
+            return SovereignVector(out_data)
         else:
-            # Plane-based Givens rotation
-            cos_t = math.cos(self.theta * dt)
-            sin_t = math.sin(self.theta * dt)
-            data = list(v.data)
-            if self.p1 >= len(data) or self.p2 >= len(data):
-                return v
-            x = data[self.p1]
-            y = data[self.p2]
-            data[self.p1] = x * cos_t - y * sin_t
-            data[self.p2] = x * sin_t + y * cos_t
-            return SovereignVector(data)
+            out_data = self._apply_plane_compiled(v.data, self.theta, self.p1, self.p2, dt)
+            return SovereignVector(out_data)
 
     def rotate_vector(self, v: SovereignVector, angle: float) -> SovereignVector:
         if self.mode == "plane":
@@ -163,20 +195,8 @@ class SovereignRotor:
             return self.apply(v, dt=(angle / (self.theta + 1e-12)))
         else:
             # Vector-based attractor rotation by explicit angle
-            u = SovereignVector(self.bv.data.copy()).normalize()
-            proj_val = v * u
-            v_para = u * proj_val
-            v_perp = v - v_para
-            perp_norm = v_perp.norm()
-            if perp_norm < 1e-12:
-                return v
-            w = v_perp.normalize()
-            
-            cos_a = math.cos(angle)
-            sin_a = math.sin(angle)
-            c1 = proj_val * cos_a - perp_norm * sin_a
-            c2 = proj_val * sin_a + perp_norm * cos_a
-            return u * c1 + w * c2
+            out_data = self._apply_vector_compiled(v.data, self.bv.data, self.s_val, angle)
+            return SovereignVector(out_data)
 
 class DoubleHelixRotor:
     def __init__(self, *args, **kwargs):
