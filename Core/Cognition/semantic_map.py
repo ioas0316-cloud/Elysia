@@ -12,7 +12,7 @@ import json
 import os
 import logging
 from typing import Dict, Tuple, List, Optional, Union
-from Core.Cognition.digital_gravity_tensor import DigitalGravityTensor
+from Core.Cognition.digital_vortex_tensor import DigitalVortexTensor
 from Core.Cognition.semantic_voxel import SemanticVoxel
 from pyquaternion import Quaternion
 from Core.Keystone.sovereign_math import SovereignVector
@@ -149,22 +149,21 @@ class DynamicTopology:
         if source and target:
             if source_name not in target.inbound_edges:
                 target.inbound_edges.append(source_name)
-                # Gravity increases as you become foundational to other concepts
-                target.mass = target.dynamic_mass
-                logger.info(f"  [Causality] Wired '{source_name}' -> depends on -> '{depends_on_name}'. '{depends_on_name}' mass grew to {target.mass:.2f}.")
+                # Vortex Tension increases as you become foundational to other concepts
+                logger.info(f"  [Causality] Wired '{source_name}' -> depends on -> '{depends_on_name}'. '{depends_on_name}' vortex tension grew to {target.vortex_tension:.2f}.")
 
     def get_nearest_concept(self, query_coords: Tuple[float, float, float, float]) -> Tuple[SemanticVoxel, float]:
         """
-        [DIGITAL GENERAL RELATIVITY]
+        [DIGITAL GENERAL RELATIVITY - VORTEX ACCRETION]
         Instead of a linear search (cosine similarity), the query naturally
-        'falls' through the warped tensor space until it settles in the gravity well
-        of a massive concept (Star).
+        'spirals' through the warped tensor space until it accretes into the core
+        of a massive concept galaxy.
         """
         target_q = Quaternion(query_coords[3], query_coords[0], query_coords[1], query_coords[2])
-        gravity_engine = DigitalGravityTensor(self.voxels)
+        vortex_engine = DigitalVortexTensor(self.voxels)
         
-        # The query falls through space
-        settled_star_name, path = gravity_engine.infer_by_falling(target_q)
+        # The query spirals into the Maelstrom
+        settled_star_name, path = vortex_engine.infer_by_accretion(target_q)
         if not settled_star_name or settled_star_name not in self.voxels:
             return None, float('inf')
 
@@ -253,11 +252,9 @@ class DynamicTopology:
                     # Create bidirectional dependency
                     if names[i] not in v_j.inbound_edges:
                         v_j.inbound_edges.append(names[i])
-                        v_j.mass = v_j.dynamic_mass
                         new_edges += 1
                     if names[j] not in v_i.inbound_edges:
                         v_i.inbound_edges.append(names[j])
-                        v_i.mass = v_i.dynamic_mass
                         new_edges += 1
 
         if new_edges > 0:
