@@ -23,3 +23,7 @@ keras-hub
 watchdog
 aiohttp
 psutil
+
+pynput
+GPUtil
+pygame
