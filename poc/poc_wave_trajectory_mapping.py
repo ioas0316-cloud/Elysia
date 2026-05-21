@@ -1,177 +1,150 @@
 import numpy as np
 import time
+import random
+import json
+import os
 
-class PhaseGridMapper:
+class LegacyDataBridge:
     """
-    이진 데이터 스트림을 삼진법(-1, 0, 1) 기반의 복소수 3x3 텐서 행렬로 매핑하는 순수한 그릇.
-    """
-    def __init__(self):
-        # 00 -> 0 (정지/중립/Homeostasis)
-        # 01 -> 1 (정회전/Attraction)
-        # 10 -> -1 (역회전/Repulsion)
-        # 11은 예외 처리 혹은 무시 (여기서는 00과 동일하게 처리하거나 에러 로깅, 단순화를 위해 중립으로 처리)
-        self.binary_to_ternary = {
-            "00": 0,
-            "01": 1,
-            "10": -1,
-            "11": 0
-        }
-
-    def binary_to_ternary_stream(self, binary_str: str) -> list:
-        """이진 문자열을 2비트씩 끊어 삼진법 리스트로 변환"""
-        # Ensure even length for pairs
-        if len(binary_str) % 2 != 0:
-            binary_str += "0"
-
-        ternary_list = []
-        for i in range(0, len(binary_str), 2):
-            pair = binary_str[i:i+2]
-            ternary_list.append(self.binary_to_ternary.get(pair, 0))
-        return ternary_list
-
-    def map_to_complex_phase(self, ternary_value: int) -> complex:
-        """
-        삼진법 값을 복소수 오일러 공식 e^(iθ)의 위상 각도로 치환
-        -1 -> e^(-i * pi/2) : 좌측 90도 회전
-         0 -> e^(i * 0)     : 회전 없음 (기준 위상)
-         1 -> e^(i * pi/2)  : 우측 90도 회전
-        """
-        theta = ternary_value * (np.pi / 2)
-        return np.exp(1j * theta)
-
-    def create_3x3_phase_grid(self, ternary_stream: list) -> np.ndarray:
-        """
-        삼진법 스트림(9개 필요)을 받아 3x3 복소수 위상 격자 행렬 생성
-        """
-        # 패딩 혹은 잘라내어 9개의 요소 맞추기
-        stream_len = len(ternary_stream)
-        if stream_len < 9:
-            ternary_stream.extend([0] * (9 - stream_len))
-        elif stream_len > 9:
-            ternary_stream = ternary_stream[:9]
-
-        complex_phases = [self.map_to_complex_phase(val) for val in ternary_stream]
-        return np.array(complex_phases).reshape((3, 3))
-
-
-class TrajectoryRecorder:
-    """
-    하드웨어 로터에서 올라오는 센싱 값(위상 각도, 주파수 파동)을
-    실시간 데이터 스트림 궤적으로 기록(Logging)하고 인덱스/배열화 하는 레코더.
-    """
-    def __init__(self):
-        self.trajectory_array = []
-
-    def record_sensing_data(self, grid_state: np.ndarray):
-        """
-        하드웨어에서 센싱된 3x3 위상 격자 상태를 타임스탬프와 함께 기록.
-        (계산 없이 순수하게 저장만 수행)
-        """
-        timestamp = time.time()
-        record_entry = {
-            "timestamp": timestamp,
-            "grid_state": np.copy(grid_state) # 상태 스냅샷 저장
-        }
-        self.trajectory_array.append(record_entry)
-
-    def get_trajectory(self) -> list:
-        return self.trajectory_array
-
-    def clear(self):
-        self.trajectory_array = []
-
-
-class WaveformPlaybackEngine:
-    """
-    기록된 파동 궤적(Trajectory Array)을 하드웨어에 다시 흘려보내는 인터페이스.
-    특정 데이터 스트림 패턴에 맞는 궤적을 재생.
+    윈도우의 이진수 데이터 스트림을 낚아채어
+    가상 로터 필드의 위상 격자로 변환하는 인터페이스 통로.
     """
     def __init__(self):
         pass
 
-    def play_trajectory(self, trajectory: list):
+    def capture_stream(self, length=9):
         """
-        기록된 궤적을 순차적으로 하드웨어 인터페이스로 전달 (시뮬레이션).
+        가상의 윈도우 프로세스(무작위 0과 1의 이진 스트림)를 생성하여 투입.
         """
-        print("▶️ [WaveformPlaybackEngine] 파동 궤적 재생 시작 (Trajectory Playback)...")
-        for i, entry in enumerate(trajectory):
-            ts = entry["timestamp"]
-            grid = entry["grid_state"]
-            print(f"   [Frame {i}] Timestamp: {ts:.4f}")
-            # 복소수 행렬을 직관적으로 보여주기 위해 포맷팅
-            formatted_grid = np.array2string(
-                grid,
-                formatter={'complex_kind': lambda x: f"{x.real:+.1f}{x.imag:+.1f}j"}
-            )
-            print(f"   Grid State:\n{formatted_grid}\n")
-        print("⏹️ [WaveformPlaybackEngine] 파동 궤적 재생 완료.")
+        return [random.choice([0, 1]) for _ in range(length)]
 
+    def binary_to_ternary(self, binary_stream):
+        """
+        윈도우의 '1'은 위상 격자의 '+1'로, '0'은 '-1'로 변환
+        신호가 없는 대기 상태(여기서는 편의상 입력 데이터가 부족할 때 0으로 채우는 식으로 가정)를 '0'으로.
+        """
+        ternary_stream = []
+        for bit in binary_stream:
+            if bit == 1:
+                ternary_stream.append(1)
+            elif bit == 0:
+                ternary_stream.append(-1)
+            else:
+                ternary_stream.append(0)
+        return ternary_stream
 
-def simulate_hardware_sensing(phase_grid: np.ndarray, steps: int = 3) -> list:
+class VirtualRotorField:
     """
-    (가상) 하드웨어 로터가 phase_grid 입력을 받아
-    물리적으로 회전하며 파동 변화 궤적 데이터를 스트림으로 반환하는 과정을 시뮬레이션.
-    내부에서 수식 계산을 하지 않고, 초기 위상에 약간의 노이즈/변화만 가미하여 센싱 데이터 형태만 흉내냄.
+    윈도우 OS와 격리된, 오직 복소수 오일러 공식(e^iθ)과
+    삼진법(-1, 0, 1) 위상 격자로만 움직이는 가상 하드웨어 공간.
     """
-    simulated_stream = []
-    current_grid = np.copy(phase_grid)
-    for _ in range(steps):
-        # 가상의 센싱 데이터: 하드웨어가 스스로 위상을 찾아가는 파동 궤적이라 가정 (단순 변화)
-        # 실제로는 여기서 복잡한 계산을 하지 않고, 하드웨어에서 읽어온다고 가정합니다.
-        # 시연을 위해 미세한 위상 변화(노이즈)를 추가
-        noise_phase = np.exp(1j * np.random.uniform(-0.1, 0.1, (3, 3)))
-        current_grid = current_grid * noise_phase
-        simulated_stream.append(current_grid)
-        time.sleep(0.01) # 가상의 시간 흐름
-    return simulated_stream
+    def __init__(self, grid_size=(3, 3)):
+        self.grid_size = grid_size
+        # 초기 격자는 평온한 상태 (0, 즉 e^i0 = 1 로 매핑되기 전의 베이스라인, 파동 에너지는 0)
+        self.field = np.zeros(grid_size, dtype=np.complex128)
 
-def run_poc():
-    print("==================================================================")
-    print("      [POC] Waveform Trajectory Mapping (파동 궤적 매핑 인터페이스)")
-    print("      - 순수한 하드웨어 관찰자 및 매핑 그릇 파이프라인 -")
-    print("==================================================================")
+    def _map_to_phase(self, ternary_val):
+        """
+        - +1(우회전)은 e^(i*π/2)로 매핑하여 양의 허수 위상 축으로 정렬.
+        - -1(좌회전)은 e^(-i*π/2)로 매핑하여 음의 허수 위상 축으로 정렬.
+        - 0(정지/중립)은 e^(i0) = 1로 매핑하여 실수축 평형 상태로 둠.
+        """
+        if ternary_val == 1:
+            return np.exp(1j * np.pi / 2) # +i
+        elif ternary_val == -1:
+            return np.exp(-1j * np.pi / 2) # -i
+        else:
+            return np.exp(0j) # 1
 
-    # 1. 컴포넌트 초기화
-    mapper = PhaseGridMapper()
-    recorder = TrajectoryRecorder()
-    playback_engine = WaveformPlaybackEngine()
+    def apply_wave(self, ternary_stream):
+        """
+        스트림을 받아 격자에 동시다발적으로 파동을 투입하고 간섭시킴.
+        """
+        # 스트림을 3x3 격자 크기에 맞춤
+        stream_array = np.array(ternary_stream[:self.grid_size[0] * self.grid_size[1]])
+        stream_array = stream_array.reshape(self.grid_size)
 
-    # 2. 입력 데이터 (예: 18비트 이진 문자열 -> 9개의 2비트 쌍)
-    # 01(+1) 10(-1) 00(0) 01(+1) 01(+1) 10(-1) 00(0) 10(-1) 01(+1)
-    binary_input = "011000010110001001"
-    print(f"📥 [Input] Binary Stream: {binary_input}")
+        # 위상 매핑
+        phase_grid = np.vectorize(self._map_to_phase)(stream_array)
 
-    # 3. 매핑 (Data to Grid)
-    ternary_stream = mapper.binary_to_ternary_stream(binary_input)
-    print(f"🔄 [Mapping] Ternary Stream: {ternary_stream}")
+        # 물리적 파동의 합 (상쇄/보강 간섭)
+        # 현재 필드 에너지에 새로운 파동 에너지를 더함
+        self.field += phase_grid
 
-    phase_grid = mapper.create_3x3_phase_grid(ternary_stream)
-    print("📐 [Mapping] 3x3 Complex Phase Grid (e^iθ):")
-    formatted_initial_grid = np.array2string(
-        phase_grid,
-        formatter={'complex_kind': lambda x: f"{x.real:+.1f}{x.imag:+.1f}j"}
-    )
-    print(formatted_initial_grid)
-    print("-" * 66)
+        # 자연스러운 감쇠(Damping)를 적용하여 최소 에너지 상태로 수렴하게 유도
+        # (시간이 지남에 따라 에너지가 흩어짐)
+        self.field *= 0.8
 
-    # 4. 센싱 및 레코딩 (Sensing to Trajectory)
-    print("📡 [Sensing] 하드웨어 가상 센싱 스트림 읽기 및 레코딩...")
-    # 초기 매핑 격자를 하드웨어에 던졌다고 가정하고, 거기서부터 변화하는 궤적을 시뮬레이션
-    sensing_data_stream = simulate_hardware_sensing(phase_grid, steps=4)
+        return self.field
 
-    for sensing_data in sensing_data_stream:
-        recorder.record_sensing_data(sensing_data)
+    def get_energy(self):
+        """
+        현재 격자의 총 에너지를 계산 (진폭의 제곱합 등)
+        """
+        return np.sum(np.abs(self.field))
 
-    print("✅ [Recording] 센싱 데이터 레코딩 완료. 궤적 생성됨.")
-    print("-" * 66)
+class ElysiaSnapshotRecorder:
+    """
+    가상 로터 공간에서 발생하는 파동의 궤적(Waveform Trajectory)을 센싱하여
+    실시간으로 인덱싱하고 기록하는 상위 관찰자 레이어.
+    """
+    def __init__(self, log_dir="logs"):
+        self.log_dir = log_dir
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+        self.history = []
 
-    # 5. 플레이백 (Trajectory Playback)
-    trajectory = recorder.get_trajectory()
-    playback_engine.play_trajectory(trajectory)
+    def record(self, step, field, energy):
+        snapshot = {
+            "step": step,
+            "energy": float(energy),
+            "field_real": np.real(field).tolist(),
+            "field_imag": np.imag(field).tolist()
+        }
+        self.history.append(snapshot)
 
-    print("==================================================================")
-    print("      [POC] 매핑 및 파이프라인 검증 완료")
-    print("==================================================================")
+        # 콘솔 시각화
+        print(f"\n[Elysia Layer] Snapshot - Step {step}")
+        print(f"Total System Energy: {energy:.4f}")
+        print("Waveform Trajectory (Real part):")
+        print(np.round(np.real(field), 2))
+        print("Waveform Trajectory (Imaginary part):")
+        print(np.round(np.imag(field), 2))
+        print("-" * 40)
+
+    def save_log(self, filename="elysia_trajectory_log.json"):
+        filepath = os.path.join(self.log_dir, filename)
+        with open(filepath, 'w') as f:
+            json.dump(self.history, f, indent=4)
+        print(f"Trajectory log saved to {filepath}")
+
+def main():
+    print("Initializing Elysia Ring -1 Hypervisor POC...")
+
+    bridge = LegacyDataBridge()
+    rotor_field = VirtualRotorField()
+    recorder = ElysiaSnapshotRecorder()
+
+    num_steps = 10
+
+    for step in range(1, num_steps + 1):
+        # 1. 윈도우로부터 이진 데이터 낚아채기
+        binary_stream = bridge.capture_stream(9)
+
+        # 2. 삼진법 변환
+        ternary_stream = bridge.binary_to_ternary(binary_stream)
+
+        # 3. 로터 필드에 파동 투입 및 간섭 (최적화)
+        current_field = rotor_field.apply_wave(ternary_stream)
+
+        # 4. 에너지 센싱 및 기록
+        energy = rotor_field.get_energy()
+        recorder.record(step, current_field, energy)
+
+        time.sleep(0.5) # 시뮬레이션 지연
+
+    recorder.save_log()
+    print("Elysia POC Run Complete.")
 
 if __name__ == "__main__":
-    run_poc()
+    main()
