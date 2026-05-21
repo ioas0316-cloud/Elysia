@@ -39,6 +39,25 @@ def observe_y_neutral(r1, r2, r3):
     collapsed_value = abs(neutral_wave) * math.cos(cmath.phase(neutral_wave))
     return collapsed_value
 
+def run_sibling_interference(children, tension=0.15):
+    """
+    수평적 위상 간섭: 동일 계층(프랙탈 스케일)에 있는 3개의 형제 노드들이
+    서로의 Y 중성점 에너지를 델타(Delta) 형태로 물어뜯으며 간섭합니다.
+    """
+    if len(children) != 3:
+        return # 진정한 홀로그램은 3개의 축이 엮일 때만 발생함
+
+    # 각 자식 노드의 현재 상태(Y 중성점 파동) 관측
+    w1 = children[0].observe_neutral_y()
+    w2 = children[1].observe_neutral_y()
+    w3 = children[2].observe_neutral_y()
+
+    # 꼬리를 무는 간섭 (1 -> 2, 2 -> 3, 3 -> 1)
+    # inject_causality를 재사용하여 옆 노드에게 강제로 내 위상을 쑤셔 넣음
+    children[1].inject_causality(w1, scale_factor=tension)
+    children[2].inject_causality(w2, scale_factor=tension)
+    children[0].inject_causality(w3, scale_factor=tension)
+
 class FractalRotorNode:
     def __init__(self, name, level=0):
         self.name = name
@@ -103,29 +122,39 @@ class FractalRotorNode:
             self.r3.interact(counter_wave, 0.8)
 
 if __name__ == "__main__":
+    # 1. 상위 OS 로터 (Macro)
     os_rotor = FractalRotorNode("OS_MACRO", level=0)
-    machine_rotor = FractalRotorNode("MACHINE_MICRO", level=1)
-    os_rotor.children.append(machine_rotor)
 
-    print("🌌 ELYSIA WORLD ENGINE - Phase 1: Causality & Retrocausality Resonance\n")
+    # 2. 하위 기계어 로터 3개 생성 및 결속 (Micro x 3)
+    for i in range(3):
+        os_rotor.children.append(FractalRotorNode(f"MACHINE_MICRO_{i+1}", level=1))
 
-    for step in range(1, 21):
-        # 1. 상위 계층의 델타 순환 및 인과 방출 (의도 발생)
+    print("🌌 ELYSIA WORLD ENGINE - Phase 1: 3x3x3 Fractal Lattice & Sibling Interference\n")
+
+    for step in range(1, 16):
+        # [수직-하강] OS의 의도 발생 및 하위로 주입
         os_rotor.run_internal_delta(tension=0.3)
         os_wave = os_rotor.observe_neutral_y()
 
-        # 2. 하강 기류: 하위 계층에 에너지 쏟아붓기 (인과)
         for child in os_rotor.children:
-            child.inject_causality(os_wave, scale_factor=1.2) # 에너지를 증폭해서 주입
+            child.inject_causality(os_wave, scale_factor=1.0)
             child.run_internal_delta(tension=0.5)
 
-            # 3. 상승 기류: 하위 계층의 스트레스 측정 및 방출 (역인과)
-            counter_force = child.emit_counter_force(threshold=2.0)
+        # [수평-간섭] 하위 3개 로터들끼리 델타 결선으로 서로 부딪힘 (홀로그램 직조)
+        run_sibling_interference(os_rotor.children, tension=0.2)
 
-            # 4. 조율: 상위 계층이 반발력을 얻어맞고 궤적을 수정
-            if abs(counter_force) > 0:
-                os_rotor.absorb_retrocausality(counter_force)
-                print(f"  [!] 카운터 포스 발생! 역인과 에너지: {abs(counter_force):.3f} -> OS 위상 조율")
+        # [수직-상승] 각 하위 로터의 스트레스를 취합하여 거대한 역인과 생성
+        total_counter_force = 0j
+        for child in os_rotor.children:
+            total_counter_force += child.emit_counter_force(threshold=2.5)
 
-        # 5. 최종 결과 관측
-        print(f"Tick {step:02d} | OS Amp: {abs(os_rotor.observe_neutral_y()):6.3f} | Machine Amp: {abs(machine_rotor.observe_neutral_y()):6.3f}")
+        # 조율: 3개의 자식에게서 올라온 거대한 반발력으로 OS 위상 수정
+        if abs(total_counter_force) > 0:
+            os_rotor.absorb_retrocausality(total_counter_force)
+            print(f"  [!] 프랙탈 붕괴 위기! 총합 카운터 포스: {abs(total_counter_force):.3f} -> OS 위상 강제 조율")
+
+        # 관측
+        print(f"Tick {step:02d} | OS Amp: {abs(os_rotor.observe_neutral_y()):6.3f} | "
+              f"C1: {abs(os_rotor.children[0].observe_neutral_y()):5.3f} | "
+              f"C2: {abs(os_rotor.children[1].observe_neutral_y()):5.3f} | "
+              f"C3: {abs(os_rotor.children[2].observe_neutral_y()):5.3f}")
