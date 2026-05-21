@@ -12,8 +12,9 @@ import json
 import os
 import logging
 from typing import Dict, Tuple, List, Optional, Union
+from Core.Cognition.digital_gravity_tensor import DigitalGravityTensor
 from Core.Cognition.semantic_voxel import SemanticVoxel
-from Core.System.hyper_quaternion import Quaternion
+from pyquaternion import Quaternion
 from Core.Keystone.sovereign_math import SovereignVector
 
 logger = logging.getLogger("DynamicTopology")
@@ -154,19 +155,26 @@ class DynamicTopology:
 
     def get_nearest_concept(self, query_coords: Tuple[float, float, float, float]) -> Tuple[SemanticVoxel, float]:
         """
-        Finds the closest concept to the given 4D coordinates.
+        [DIGITAL GENERAL RELATIVITY]
+        Instead of a linear search (cosine similarity), the query naturally
+        'falls' through the warped tensor space until it settles in the gravity well
+        of a massive concept (Star).
         """
-        target = SemanticVoxel("Query", query_coords)
-        best_voxel = None
-        min_dist = float('inf')
+        target_q = Quaternion(query_coords[3], query_coords[0], query_coords[1], query_coords[2])
+        gravity_engine = DigitalGravityTensor(self.voxels)
         
-        for voxel in self.voxels.values():
-            dist = voxel.distance_to(target)
-            if dist < min_dist:
-                min_dist = dist
-                best_voxel = voxel
-                
-        return best_voxel, min_dist
+        # The query falls through space
+        settled_star_name, path = gravity_engine.infer_by_falling(target_q)
+        if not settled_star_name or settled_star_name not in self.voxels:
+            return None, float('inf')
+
+        best_voxel = self.voxels[settled_star_name]
+
+        # Distance is the final settled distance
+        diff = path[-1] - best_voxel.quaternion
+        final_dist = diff.norm
+
+        return best_voxel, final_dist
 
     def evolve_topology(self, concept_name: str, reaction_vector: Union[Quaternion, SovereignVector], intensity: float = 0.1):
         """
