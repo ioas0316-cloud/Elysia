@@ -1,0 +1,29 @@
+{
+  "source_model": "gpt2",
+  "complexity": 0.08459362320813126,
+  "stepped_down_phases": {
+    "R": {
+      "amplitude": 0.009073998457420263,
+      "phase_shift": 0.0
+    },
+    "S": {
+      "amplitude": 0.009073998457420263,
+      "phase_shift": 0.0
+    },
+    "T": {
+      "amplitude": 0.009073998457420263,
+      "phase_shift": 0.0
+    }
+  },
+  "pcm_summary": [
+    0.030366658436250343,
+    -0.06514784492966585,
+    4.5
+  ],
+  "grid_metrics": {
+    "voltage_level_rms": 0.02722199537226079,
+    "transformer_temp_c": 45.43419409753044,
+    "load_factor": 0.449,
+    "active_frequency_hz": 59.4612
+  }
+}
