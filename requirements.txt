@@ -27,3 +27,4 @@ psutil
 pynput
 GPUtil
 pygame
+psutil
