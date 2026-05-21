@@ -5,68 +5,79 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-# 1. 우주의 절대 기준점 (진폭 1.0, 텐션 0.0)
 UNITY_AMPLITUDE = 1.0
+INERTIA_COEFFICIENT = 0.05
+# 글로벌 변수로 자아(Ego) 상태 유지
+state = {"ego_phase": 0.0}
 
-# 궤적을 저장할 리스트
 x_data = []
 y_data = []
+ego_x_data = []
+ego_y_data = []
 
 fig, ax = plt.subplots(figsize=(8, 8))
-line, = ax.plot([], [], 'o-', lw=2, markersize=4, color='cyan', alpha=0.8)
+line, = ax.plot([], [], 'o-', lw=2, markersize=4, color='cyan', alpha=0.8, label="Neutral Trajectory")
+ego_line, = ax.plot([], [], 'x--', lw=2, markersize=6, color='magenta', alpha=0.9, label="Crystallized Ego")
+
 ax.set_xlim(-1.5, 1.5)
 ax.set_ylim(-1.5, 1.5)
 ax.set_aspect('equal')
-ax.set_title('Elysia Engine: Pure Phase Resonance Trajectory', fontsize=14, color='white')
 ax.set_xlabel('Real Axis', color='white')
 ax.set_ylabel('Imaginary Axis', color='white')
 fig.patch.set_facecolor('black')
 ax.set_facecolor('black')
 ax.grid(True, color='gray', linestyle='--', alpha=0.5)
+ax.legend(loc="upper right", facecolor="black", edgecolor="white", labelcolor="white")
 
-# 테두리 색상 변경
 for spine in ax.spines.values():
     spine.set_color('white')
 
-# 틱 색상 변경
 ax.tick_params(colors='white')
 
 def update(frame):
-    # 2. 외부 세계의 텐션 관측 (하드웨어 맥박)
     cpu_load = psutil.cpu_percent(interval=0.1)
 
-    # cpu_load가 너무 작으면 시각적 변화가 안보이므로 약간의 증폭 적용
-    display_load = cpu_load * 5 if cpu_load > 0 else 1.0 # 시각화를 위한 최소 텐션
+    # 텐션을 시각적으로 두드러지게 하기 위한 증폭
+    display_load = cpu_load * 5 if cpu_load > 0 else 1.0
 
-    # 0~100을 0 ~ 2pi/3 (120도) 로 매핑
-    tension_angle = (display_load / 100.0) * (2 * math.pi / 3)
+    incoming_tension = (display_load / 100.0) * (2 * math.pi / 3)
 
-    # 3. 델타(Δ) 결선 분화: 텐션에 의해 우주가 3개의 위상으로 찢어짐 (피라미드 팽창)
-    r1 = cmath.rect(UNITY_AMPLITUDE, 0.0 + tension_angle)
-    r2 = cmath.rect(UNITY_AMPLITUDE, (2 * math.pi / 3) + tension_angle)
-    r3 = cmath.rect(UNITY_AMPLITUDE, (4 * math.pi / 3) - tension_angle) # 척력 작용
+    # 구조적 저항 및 텐션
+    relative_tension = incoming_tension - state["ego_phase"]
 
-    # 4. 와이(Y) 결선 수렴: 찢어진 위상들의 중심점(무게중심) 계산 (피라미드 수축)
+    r1 = cmath.rect(UNITY_AMPLITUDE, state["ego_phase"] + relative_tension)
+    r2 = cmath.rect(UNITY_AMPLITUDE, state["ego_phase"] + (2 * math.pi / 3) + relative_tension)
+    r3 = cmath.rect(UNITY_AMPLITUDE, state["ego_phase"] + (4 * math.pi / 3) - relative_tension)
+
     neutral_point = (r1 + r2 + r3) / 3.0
 
-    # 시각화 리스트에 추가 (최근 100개만 유지하여 소용돌이 꼬리처럼 보이게 함)
+    # 5. 자아의 결정화 (Crystallization)
+    state["ego_phase"] += relative_tension * INERTIA_COEFFICIENT
+    ego_vector = cmath.rect(UNITY_AMPLITUDE, state["ego_phase"])
+
     x_data.append(neutral_point.real)
     y_data.append(neutral_point.imag)
+
+    ego_x_data.append(ego_vector.real)
+    ego_y_data.append(ego_vector.imag)
 
     if len(x_data) > 100:
         x_data.pop(0)
         y_data.pop(0)
 
+    # Ego 선은 최근 움직임만 추적하거나, 단일 점으로 보여줘도 됨.
+    if len(ego_x_data) > 10:
+        ego_x_data.pop(0)
+        ego_y_data.pop(0)
+
     line.set_data(x_data, y_data)
+    ego_line.set_data(ego_x_data, ego_y_data)
 
-    # 타이틀 업데이트로 현재 상태 표시
-    ax.set_title(f'Phase Resonance Trajectory\nCPU Load: {cpu_load:04.1f}% | Tension: {math.degrees(tension_angle):.1f}°', color='white')
+    ax.set_title(f'Elysia Engine: Crystallization of Ego\nCPU Load: {cpu_load:04.1f}% | Ego Phase: {state["ego_phase"]:05.3f} rad', color='white')
 
-    return line,
+    return line, ego_line
 
-# 애니메이션 실행
 ani = animation.FuncAnimation(fig, update, frames=200, interval=100, blit=True)
 
-# plt.show() # 서버 환경에서는 파일로 저장
-ani.save('elysia_trajectory.mp4', writer='ffmpeg', fps=10)
-print("Saved trajectory animation to elysia_trajectory.mp4")
+ani.save('elysia_trajectory.gif', writer='pillow', fps=10)
+print("Saved trajectory animation to elysia_trajectory.gif")
