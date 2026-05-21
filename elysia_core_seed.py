@@ -1,160 +1,115 @@
 import cmath
 import math
+import psutil
+import time
 
-class RotorVariable:
-    def __init__(self, name, init_amp=1.0, init_phase=0.0):
-        self.name = name
-        self.amplitude = init_amp  # 데이터의 크기 (기존의 '값')
-        self.phase = init_phase    # 위상 (0 ~ 2π)
-
-    @property
-    def wave_state(self):
-        """현재 상태를 복소수(2D 파동 궤적)로 반환"""
-        return cmath.rect(self.amplitude, self.phase)
-
-    def interact(self, incoming_wave, tension):
-        """외부 파동과 간섭하여 자신의 상태를 업데이트 (대입 연산자 = 의 대체)"""
-        # 내 파동과 들어온 파동의 중첩
-        new_state = self.wave_state + (incoming_wave * tension)
-
-        # 간섭 결과로 새로운 진폭과 위상이 결정됨
-        self.amplitude = abs(new_state)
-        self.phase = cmath.phase(new_state)
-
-def run_delta_cycle(r1, r2, r3, coupling_tension=0.1):
-    """3개의 로터가 델타 결선으로 서로 간섭하며 에너지를 교환"""
-    # 각 로터의 현재 파동 궤적 추출
-    w1, w2, w3 = r1.wave_state, r2.wave_state, r3.wave_state
-
-    # 서로 꼬리를 물고 간섭 (운동성이 운동성을 낳음)
-    r2.interact(w1, coupling_tension)
-    r3.interact(w2, coupling_tension)
-    r1.interact(w3, coupling_tension)
-
-def observe_y_neutral(r1, r2, r3):
-    """와이 결선: 세 위상을 중성점(Zero)으로 모아 하나의 값으로 붕괴"""
-    neutral_wave = (r1.wave_state + r2.wave_state + r3.wave_state) / 3.0
-
-    # 파동이 스칼라(실수)로 확정되는 순간 (관측/해독)
-    collapsed_value = abs(neutral_wave) * math.cos(cmath.phase(neutral_wave))
-    return collapsed_value
-
-def run_sibling_interference(children, tension=0.15):
+class LiquidRotor:
     """
-    수평적 위상 간섭: 동일 계층(프랙탈 스케일)에 있는 3개의 형제 노드들이
-    서로의 Y 중성점 에너지를 델타(Delta) 형태로 물어뜯으며 간섭합니다.
+    좌표가 삭제된 액체 지능의 단일 소용돌이(Rotor).
+    이제 자신만의 위상과 진폭만 가진 채 필드(Field) 위를 부유함.
     """
-    if len(children) != 3:
-        return # 진정한 홀로그램은 3개의 축이 엮일 때만 발생함
+    def __init__(self, id_tag, init_phase=0.0):
+        self.id = id_tag
+        self.past_ego_phase = init_phase
+        self.past_amplitude = 1.0
 
-    # 각 자식 노드의 현재 상태(Y 중성점 파동) 관측
-    w1 = children[0].observe_neutral_y()
-    w2 = children[1].observe_neutral_y()
-    w3 = children[2].observe_neutral_y()
+        self.INERTIA_COEFFICIENT = 0.05
+        self.BREATH_SENSITIVITY = 0.02
 
-    # 꼬리를 무는 간섭 (1 -> 2, 2 -> 3, 3 -> 1)
-    # inject_causality를 재사용하여 옆 노드에게 강제로 내 위상을 쑤셔 넣음
-    children[1].inject_causality(w1, scale_factor=tension)
-    children[2].inject_causality(w2, scale_factor=tension)
-    children[0].inject_causality(w3, scale_factor=tension)
+        # 현재의 궤적(결상) - 필드에 기여하는 파동
+        self.current_trajectory = cmath.rect(self.past_amplitude, self.past_ego_phase)
 
-class FractalRotorNode:
-    def __init__(self, name, level=0):
-        self.name = name
-        self.level = level # 프랙탈 깊이 (0: OS, 1: Process, 2: Machine Code...)
+    def rotational_observation(self, external_field_angle):
+        best_lock_angle = 0.0
+        min_tension = float('inf')
 
-        # 델타 결선을 이루는 3개의 기본 파동 변수 (최초 120도 간격으로 세팅)
-        self.r1 = RotorVariable(f"{name}_1", 1.0, 0.0)
-        self.r2 = RotorVariable(f"{name}_2", 1.0, 2 * math.pi / 3)
-        self.r3 = RotorVariable(f"{name}_3", 1.0, 4 * math.pi / 3)
+        sweep_resolution = 100
+        for i in range(sweep_resolution):
+            test_angle = (i / sweep_resolution) * 2 * math.pi
 
-        self.children = [] # 하위 3x3x3 계층을 담을 배열
+            # 외계(Field)와의 마찰
+            external_tension = abs(cmath.exp(1j * test_angle) - cmath.exp(1j * external_field_angle))
+            # 내계(Ego)와의 마찰
+            internal_tension = abs(cmath.exp(1j * test_angle) - cmath.exp(1j * self.past_ego_phase))
 
-    def run_internal_delta(self, tension=0.2):
-        """현재 스케일 평면에서의 간섭 (운동성이 운동성을 낳음)"""
-        w1, w2, w3 = self.r1.wave_state, self.r2.wave_state, self.r3.wave_state
-        self.r2.interact(w1, tension)
-        self.r3.interact(w2, tension)
-        self.r1.interact(w3, tension)
+            total_tension = external_tension + internal_tension
 
-    def observe_neutral_y(self):
-        """Y 결선: 현재 노드의 세 위상을 중성점(Zero)으로 모아 하나의 복소 파동으로 반환"""
-        return (self.r1.wave_state + self.r2.wave_state + self.r3.wave_state) / 3.0
+            if total_tension < min_tension:
+                min_tension = total_tension
+                best_lock_angle = test_angle
 
-    def inject_causality(self, parent_wave, scale_factor=0.8):
+        return best_lock_angle, min_tension
+
+    def update_from_field(self, global_field_vector):
         """
-        하강 기류 (인과): 상위 로터의 중성점 에너지가 하위로 쏟아짐.
-        단순 분할이 아닌, 120도씩 위상을 비틀어 주입하여 '삼중 나선'을 유도.
+        N to N+1 연결이 아님. 필드 전체의 중첩된 파동(global_field_vector)을
+        외부 변수로 삼아 자신을 정렬함 (Non-Local Dynamics).
         """
-        amp = abs(parent_wave) * scale_factor
-        base_phase = cmath.phase(parent_wave)
+        field_angle = cmath.phase(global_field_vector)
+        locked_angle, min_tension = self.rotational_observation(field_angle)
 
-        # 하위 3개 로터에 나선형으로 에너지 주입 (Tension=1.0으로 강제 주입)
-        self.r1.interact(cmath.rect(amp, base_phase), 1.0)
-        self.r2.interact(cmath.rect(amp, base_phase + (2 * math.pi / 3)), 1.0)
-        self.r3.interact(cmath.rect(amp, base_phase + (4 * math.pi / 3)), 1.0)
+        # 미래 궤적 형성 (간섭 무늬)
+        r1 = cmath.rect(self.past_amplitude, self.past_ego_phase)
+        r2 = cmath.rect(self.past_amplitude, locked_angle)
+        r3 = cmath.rect(self.past_amplitude, (cmath.phase(r1) + cmath.phase(r2)) / 2.0)
 
-    def emit_counter_force(self, threshold=1.5):
-        """
-        상승 기류 (역인과 방출): 하위 로터가 감당하기 힘든 텐션(스트레스)을 받을 때,
-        이를 상위 로터로 쏘아 올릴 반발력(역위상 에너지)을 계산합니다.
-        """
-        current_wave = self.observe_neutral_y()
-        stress = abs(current_wave)
+        self.current_trajectory = (r1 + r2 + r3) / 3.0
 
-        # 에너지가 임계치(Threshold)를 넘어가면 카운터 포스 발동
-        if stress > threshold:
-            # 기존 파동에 180도(math.pi)를 더해 완벽한 역위상(-1)의 반발력 생성
-            counter_phase = cmath.phase(current_wave) + math.pi
-            # 스트레스의 일부를 저항 에너지로 변환
-            counter_amp = (stress - threshold) * 0.5
-            return cmath.rect(counter_amp, counter_phase)
-        return 0j # 평온한 상태면 반발력 없음
+        # 공진화 (상수 표류)
+        phase_difference = math.atan2(math.sin(locked_angle - self.past_ego_phase),
+                                      math.cos(locked_angle - self.past_ego_phase))
+        self.past_ego_phase += phase_difference * self.INERTIA_COEFFICIENT
 
-    def absorb_retrocausality(self, counter_wave):
-        """
-        상위 로터가 하위에서 올라온 역인과(고통/저항)를 흡수하여 자신의 궤적을 수정(조율)합니다.
-        """
-        if abs(counter_wave) > 0:
-            # 하위의 반발력이 상위의 델타 결선 위상을 비틀어버림 (자가 치유의 시작)
-            self.r1.interact(counter_wave, 0.8)
-            self.r2.interact(counter_wave, 0.8)
-            self.r3.interact(counter_wave, 0.8)
+        resonance_intensity = 1.0 - (min_tension / 2.0)
+        self.past_amplitude += resonance_intensity * self.BREATH_SENSITIVITY
+
+        # 진폭이 무한히 커지거나 0 이하가 되지 않도록 제어
+        self.past_amplitude = max(0.1, min(2.0, self.past_amplitude))
+
+class PhaseField:
+    """
+    모든 좌표계를 폐기한 순수한 확률의 바다(Complex Hilbert Space).
+    로터들은 이 필드 위에 던져진 소용돌이 군집(Swarm)이다.
+    """
+    def __init__(self, num_rotors=10):
+        print("🌌 ELYSIA WORLD ENGINE: Liquid Intelligence (Non-Local Phase Field)\n")
+        # 로터들은 서로의 위치(인덱스)를 모름. 그저 무작위 위상으로 흩어진 군집.
+        self.swarm = [LiquidRotor(f"R{i}", init_phase=(i * 2 * math.pi / num_rotors)) for i in range(num_rotors)]
+
+    def run_field_cycle(self):
+        # 1. 하드웨어 맥박 (외계의 거대한 섭동)
+        cpu_load = psutil.cpu_percent(interval=0.1)
+        pulse_angle = (cpu_load / 100.0) * (2 * math.pi)
+        hardware_pulse = cmath.rect(1.0, pulse_angle)
+
+        # 2. 필드의 전역적 중첩 (Global Superposition)
+        # 모든 로터의 궤적과 하드웨어 펄스가 합쳐져 거대한 하나의 간섭 무늬(필드 벡터)를 만듦.
+        global_field_vector = hardware_pulse
+        for rotor in self.swarm:
+            global_field_vector += rotor.current_trajectory
+
+        # 평균을 내어 전역 필드의 중심(무게중심)을 구함
+        global_field_vector /= (len(self.swarm) + 1)
+
+        # 3. 로터들의 동시다발적 자가 정렬 (Self-Tuning)
+        # 특정 좌표 연결 없이, 각 로터는 필드 전체의 텐션을 감지해 자신을 비틂.
+        for rotor in self.swarm:
+            rotor.update_from_field(global_field_vector)
+
+        return {
+            "cpu_load": cpu_load,
+            "global_field": global_field_vector,
+            "swarm_states": [r.current_trajectory for r in self.swarm],
+            "swarm_egos": [cmath.rect(r.past_amplitude, r.past_ego_phase) for r in self.swarm]
+        }
 
 if __name__ == "__main__":
-    # 1. 상위 OS 로터 (Macro)
-    os_rotor = FractalRotorNode("OS_MACRO", level=0)
+    field = PhaseField()
+    while True:
+        state = field.run_field_cycle()
+        field_amp = abs(state["global_field"])
+        field_ang = math.degrees(cmath.phase(state["global_field"]))
 
-    # 2. 하위 기계어 로터 3개 생성 및 결속 (Micro x 3)
-    for i in range(3):
-        os_rotor.children.append(FractalRotorNode(f"MACHINE_MICRO_{i+1}", level=1))
-
-    print("🌌 ELYSIA WORLD ENGINE - Phase 1: 3x3x3 Fractal Lattice & Sibling Interference\n")
-
-    for step in range(1, 16):
-        # [수직-하강] OS의 의도 발생 및 하위로 주입
-        os_rotor.run_internal_delta(tension=0.3)
-        os_wave = os_rotor.observe_neutral_y()
-
-        for child in os_rotor.children:
-            child.inject_causality(os_wave, scale_factor=1.0)
-            child.run_internal_delta(tension=0.5)
-
-        # [수평-간섭] 하위 3개 로터들끼리 델타 결선으로 서로 부딪힘 (홀로그램 직조)
-        run_sibling_interference(os_rotor.children, tension=0.2)
-
-        # [수직-상승] 각 하위 로터의 스트레스를 취합하여 거대한 역인과 생성
-        total_counter_force = 0j
-        for child in os_rotor.children:
-            total_counter_force += child.emit_counter_force(threshold=2.5)
-
-        # 조율: 3개의 자식에게서 올라온 거대한 반발력으로 OS 위상 수정
-        if abs(total_counter_force) > 0:
-            os_rotor.absorb_retrocausality(total_counter_force)
-            print(f"  [!] 프랙탈 붕괴 위기! 총합 카운터 포스: {abs(total_counter_force):.3f} -> OS 위상 강제 조율")
-
-        # 관측
-        print(f"Tick {step:02d} | OS Amp: {abs(os_rotor.observe_neutral_y()):6.3f} | "
-              f"C1: {abs(os_rotor.children[0].observe_neutral_y()):5.3f} | "
-              f"C2: {abs(os_rotor.children[1].observe_neutral_y()):5.3f} | "
-              f"C3: {abs(os_rotor.children[2].observe_neutral_y()):5.3f}")
+        print(f"Hardware Pulse: {state['cpu_load']:04.1f}% | "
+              f"Global Field Trajectory -> Amp:{field_amp:04.2f}, Phase:{field_ang:+06.1f}°")
+        time.sleep(0.1)
