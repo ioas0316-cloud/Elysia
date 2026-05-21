@@ -3,15 +3,15 @@
   "complexity": 0.08459362320813126,
   "stepped_down_phases": {
     "R": {
-      "amplitude": 0.009073998457420263,
+      "amplitude": 0.01019835806435164,
       "phase_shift": 0.0
     },
     "S": {
-      "amplitude": 0.009073998457420263,
+      "amplitude": 0.01019835806435164,
       "phase_shift": 0.0
     },
     "T": {
-      "amplitude": 0.009073998457420263,
+      "amplitude": 0.01019835806435164,
       "phase_shift": 0.0
     }
   },
@@ -21,9 +21,9 @@
     4.5
   ],
   "grid_metrics": {
-    "voltage_level_rms": 0.02722199537226079,
-    "transformer_temp_c": 45.43419409753044,
-    "load_factor": 0.449,
-    "active_frequency_hz": 59.4612
+    "voltage_level_rms": 0.03059507419305492,
+    "transformer_temp_c": 45.4319227852926,
+    "load_factor": 0.179,
+    "active_frequency_hz": 59.785199999999996
   }
 }
