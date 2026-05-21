@@ -1,7 +1,7 @@
 # elysia_rop_v0.8_cosmos.py
 # -*- coding: utf-8 -*-
 """
-ELYSIA ROP v0.8 - COSMOS ROTOR
+ELYSIA ROP v0.8 - COSMOS ROTOR (Fixed & Clipped)
 60Hz 렌더링 감옥 탈출 | 우주의 낮과 밤마저 하나의 거대 로터로 제어
 GTX 1060 3GB 친화 초경량 버전
 """
@@ -117,21 +117,21 @@ def main():
 
         universe.update()
 
-        # 배경 = Cosmos Rotor의 위상으로 결정 (거의 무연산)
+        # 배경 = Cosmos Rotor의 위상으로 결정 (RGB 안전 오버플로우 방지 락 배치)
         sun_angle = universe.cosmos.get_sun_angle()
         bg_brightness = max(0, min(255, int(35 + 45 * np.cos(sun_angle))))
         screen.fill((bg_brightness//3, bg_brightness//4, min(255, bg_brightness//2 + 10)))
 
         # 은하 그리기
         for g in universe.galaxies:
-            radius = max(1, int(11 + g.energy * 1.35))
-            alpha = max(0, min(255, int(65 + g.energy * 9)))
+            radius = max(2, int(11 + g.energy * 1.35))
+            alpha = max(0, min(235, int(65 + g.energy * 9)))
 
-            # Glow (캐싱 안 해도 가볍게)
-            s = pygame.Surface((radius*2, radius*2), pygame.SRCALPHA)
-            pygame.draw.circle(s, (*g.color, alpha//2), (radius, radius), radius + 5)
-            pygame.draw.circle(s, (*g.color, alpha), (radius, radius), radius)
-            screen.blit(s, (g.pos[0]-radius, g.pos[1]-radius))
+            # Glow (VRAM 부담 없는 구조 고정)
+            s = pygame.Surface((radius*2 + 10, radius*2 + 10), pygame.SRCALPHA)
+            pygame.draw.circle(s, (*g.color, alpha//2), (radius + 5, radius + 5), radius + 5)
+            pygame.draw.circle(s, (*g.color, alpha), (radius + 5, radius + 5), radius)
+            screen.blit(s, (int(g.pos[0]-radius-5), int(g.pos[1]-radius-5)))
 
             pygame.draw.circle(screen, (255,255,255), (int(g.pos[0]), int(g.pos[1])), 5)
 
@@ -141,7 +141,7 @@ def main():
         screen.blit(hud, (12, 12))
 
         pygame.display.flip()
-        clock.tick(58)   # 1060 3GB에게 여유 주기
+        clock.tick(58)   # 1060 3GB 형님을 위한 완벽한 완충 마디
 
 
 if __name__ == "__main__":
