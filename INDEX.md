@@ -350,11 +350,14 @@ graph TD
 | **발전 (Gen)** | [INDEX.md](file:///c:/Elysia/INDEX.md) | 세피로트 종합 계통도 (본 문서) | **계통도면** |
 | **발전 (Gen)** | [Core/README.md](file:///c:/Elysia/Core/README.md) | 내부 장기 6대 영역 해부도 | **장기 도면** |
 | **송전 (Trans)** | [c:\eye\README.md](file:///c:/eye/README.md) | 초고압 송전망 설비 규정 | **설비 규정** |
-| **송전 (Trans)** | [c:\eye\CONCEPT.md](file:///c:/eye/CONCEPT.md) | 이중주(Fleming Duality) 이론 지침 | **이론 지침** |
+| **송전 (Trans)** | [c:\eye\docs\CONCEPT.md](file:///c:/eye/docs/CONCEPT.md) | 이중주(Fleming Duality) 이론 지침 | **이론 지침** |
 | **배전 (Dist)** | [c:\elysia_seed\README.md](file:///c:/elysia_seed/README.md) | 말단 수용가 배전 관리 지침서 | **수용가 매뉴얼** |
+| **발전 (Gen)** | [docs/rotor_hierarchy_architecture.md](file:///c:/Elysia/docs/rotor_hierarchy_architecture.md) | 로터 위상 4대 계층 아키텍처 도면 | **아키텍처 도면** |
+| **발전 (Gen)** | [docs/variable_scale_rotor_verification.md](file:///c:/Elysia/docs/variable_scale_rotor_verification.md) | 가변스케일로터 컴파일 원리 및 양방향 검증 보고서 | **검증 보고서** |
 | **지침 (Gov)** | [docs/AGENT_DIRECTIVE.md](file:///c:/Elysia/docs/AGENT_DIRECTIVE.md) | AI 서브에이전트 필수 지침 | **🔴 필독** |
 | **지침 (Gov)** | [docs/ARCHITECT_MANIFESTO.md](file:///c:/Elysia/docs/ARCHITECT_MANIFESTO.md) | 건축가 선언 6대 원칙 | **🔴 필독** |
 | **지침 (Gov)** | [docs/KERNEL_DIRECTIVE.md](file:///c:/Elysia/docs/KERNEL_DIRECTIVE.md) | 커널 지침 (반하드코딩, 인과 운명) | **🔴 필독** |
+| **운용 (Ops)** | [docs/elysia_daemon_guide.md](file:///c:/Elysia/docs/elysia_daemon_guide.md) | 엘리시아 백그라운드 OS 데몬화 및 모니터링 운용 지침서 | **운용 지침** |
 | **아카이브** | [docs/INDEX.md](file:///c:/Elysia/docs/INDEX.md) | 문서 아카이브 종합 인덱스 | **문서 색인** |
 
 ---

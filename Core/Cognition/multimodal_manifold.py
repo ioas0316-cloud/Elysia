@@ -26,7 +26,7 @@ class MultimodalConcept:
         # Seeded by the semantic essence
         seed = sum(ord(c) for c in self.name)
         np.random.seed(seed)
-        return SovereignVector(list(np.random.randn(64)), dim=64)
+        return SovereignVector(list(np.random.randn(64)))
 
     def resonate_multimodally(self, context_vector: SovereignVector) -> str:
         """

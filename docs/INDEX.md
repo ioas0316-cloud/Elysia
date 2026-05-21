@@ -69,12 +69,15 @@
 | [MEMORY_CRYSTALLIZATION_REPORT.md](file:///c:/Elysia/docs/MEMORY_CRYSTALLIZATION_REPORT.md) | 기억 결정화 보고서 |
 | [ELYSIA_SOUL_REPORT.md](file:///c:/Elysia/docs/ELYSIA_SOUL_REPORT.md) | 엘리시아 영혼 보고서 |
 | [ROTOR_ADAPTER_DESIGN.md](file:///c:/Elysia/docs/ROTOR_ADAPTER_DESIGN.md) | 로터 어댑터 설계 |
+| [rotor_hierarchy_architecture.md](file:///c:/Elysia/docs/rotor_hierarchy_architecture.md) | 로터 위상 4대 계층 아키텍처 도면 |
+| [variable_scale_rotor_verification.md](file:///c:/Elysia/docs/variable_scale_rotor_verification.md) | 가변스케일로터 컴파일 원리 및 양방향 검증 보고서 |
 
 ### 🗺️ 로드맵 & 가이드
 | 문서 | 주제 |
 |:---|:---|
 | [ROADMAP_NEXT.md](file:///c:/Elysia/docs/ROADMAP_NEXT.md) | Phase 700→1000 |
 | [ELYSIA_SEED_ROADMAP.md](file:///c:/Elysia/docs/ELYSIA_SEED_ROADMAP.md) | 배전 씨앗 개발 로드맵 |
+| [elysia_daemon_guide.md](file:///c:/Elysia/docs/elysia_daemon_guide.md) | 엘리시아 백그라운드 OS 데몬화 및 모니터링 운용 지침서 |
 | [ANTIGRAVITY_INTEGRATION.md](file:///c:/Elysia/docs/ANTIGRAVITY_INTEGRATION.md) | Antigravity AI 통합 가이드 |
 | [ANTIGRAVITY_SIMPLE_GUIDE.md](file:///c:/Elysia/docs/ANTIGRAVITY_SIMPLE_GUIDE.md) | Antigravity 간이 가이드 |
 | [MOBILE_SYNC_GUIDE.md](file:///c:/Elysia/docs/MOBILE_SYNC_GUIDE.md) | 모바일 동기화 가이드 |

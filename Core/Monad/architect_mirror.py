@@ -37,12 +37,14 @@ class ArchitectMirror:
         if intent_torque is None or torch is None:
             return
             
-        # 1. Convert to 1D Torch Tensor
         # 1. Convert to 1D Torch Tensor (Robust)
         if hasattr(intent_torque, 'data'): # Support SovereignVector
-             t = torch.tensor(intent_torque.data, device=self.device).flatten()
+             if isinstance(intent_torque.data, torch.Tensor):
+                 t = intent_torque.data.detach().clone().to(self.device).flatten()
+             else:
+                 t = torch.tensor(intent_torque.data, device=self.device).flatten()
         elif isinstance(intent_torque, torch.Tensor):
-             t = intent_torque.to(self.device).flatten()
+             t = intent_torque.detach().clone().to(self.device).flatten()
         else:
              t = torch.tensor(intent_torque, device=self.device).flatten()
 

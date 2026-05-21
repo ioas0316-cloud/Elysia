@@ -39,15 +39,33 @@ class D21Vector:
             "perception", "memory", "reason", "will", "imagination", "intuition", "consciousness",
             "chastity", "temperance", "charity", "diligence", "patience", "kindness", "humility"
         ]
+        try:
+            import numpy as np
+        except ImportError:
+            np = None
+        try:
+            import torch
+        except ImportError:
+            torch = None
+
         flat_arr = []
         def flatten(item):
-            if isinstance(item, (list, tuple)):
+            if torch and isinstance(item, torch.Tensor):
+                flatten(item.detach().cpu().numpy().tolist())
+            elif np and isinstance(item, np.ndarray):
+                flatten(item.tolist())
+            elif isinstance(item, (list, tuple)):
                 for i in item:
                     flatten(i)
             elif hasattr(item, 'to_array'):
                 flatten(item.to_array())
             elif hasattr(item, 'data'):
-                flatten(item.data)
+                # Avoid infinite recursion if item.data is the same tensor/object
+                # SovereignVector has .data attribute which is a Tensor. If we check torch.Tensor first,
+                # then SovereignVector will fall through to here, and we flatten its .data (which is a Tensor).
+                # The next call will hit the torch.Tensor check, converting it to list. So it is safe.
+                if item.data is not item:
+                    flatten(item.data)
             else:
                 try:
                     flat_arr.append(float(getattr(item, 'real', item)))

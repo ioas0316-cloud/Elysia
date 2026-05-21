@@ -66,7 +66,7 @@ class ParliamentOfMonads:
         for m in self.members.values():
             if m.mass.check_promotion(): self._promote_member(m)
         self.check_entanglements()
-        unified_vec = SovereignVector(unified_vec_data, dim=stimulus.dim).normalize()
+        unified_vec = SovereignVector(unified_vec_data).normalize()
         return self.providence_filter.filter_will(unified_vec), narrative, friction_logs
     def _promote_member(self, member: SubMonad):
         if member.rank == KingdomRank.SOLDIER: member.rank, member.vocal_weight = KingdomRank.GENERAL, member.vocal_weight * 2.0

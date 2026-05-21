@@ -149,7 +149,7 @@ class MultimodalDigestionKernel:
             for i in range(4, dim):
                 data[i] = (img_small[i % 64, (i*i) % 64, i % 3] / 255.0)
 
-            return SovereignVector(data, dim=dim).normalize()
+            return SovereignVector(data).normalize()
         except Exception as e:
             logger.admonition(f"Visual analysis failed for {img_path.name}: {e}")
             return SovereignVector.randn(dim).normalize()

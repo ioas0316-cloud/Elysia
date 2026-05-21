@@ -12,6 +12,20 @@ import time
 import threading
 import psutil
 import math
+import io
+
+# Force UTF-8 stdout/stderr on Windows to prevent cp949 encode errors with emojis
+if sys.platform.startswith('win'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        try:
+            import io
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
+            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', line_buffering=True)
+        except Exception:
+            pass
 
 # Root Pathing
 _current_dir = os.path.dirname(os.path.abspath(__file__))

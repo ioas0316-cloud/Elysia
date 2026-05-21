@@ -31,6 +31,45 @@ class LogosBridge:
     """
     HYPERSPHERE = SemanticHypersphere()
     
+    _CONCEPT_BITMASKS = {} # Cache for O(1) Turing XOR Comparison
+
+    @staticmethod
+    def dna_to_masks(dna_str: str) -> Tuple[int, int]:
+        """
+        Converts a DNA string (e.g. 'ATG...') into two bitmasks:
+        - positive_mask (where character is 'A' for 1)
+        - negative_mask (where character is 'T' for -1)
+        'G' (0) is represented by 0 in both masks.
+        """
+        pos_mask = 0
+        neg_mask = 0
+        for i, char in enumerate(dna_str):
+            if char == 'A':
+                pos_mask |= (1 << i)
+            elif char == 'T':
+                neg_mask |= (1 << i)
+        return pos_mask, neg_mask
+
+    @classmethod
+    def _build_bitmask_cache(cls):
+        """
+        Builds the bitmask cache for all concepts in CONCEPT_MAP and LEARNED_MAP.
+        """
+        cls._CONCEPT_BITMASKS.clear()
+        
+        # 1. Axioms
+        for name, data in cls.CONCEPT_MAP.items():
+            vec = data["vector"]
+            dna = cls.transcribe_to_dna(vec)
+            cls._CONCEPT_BITMASKS[name.upper()] = cls.dna_to_masks(dna)
+            
+        # 2. Learned Concepts
+        for name, data in cls.LEARNED_MAP.items():
+            vec = data["vector"]
+            dna = cls.transcribe_to_dna(vec)
+            cls._CONCEPT_BITMASKS[name.upper()] = cls.dna_to_masks(dna)
+
+    
     # [PHASE 160] Akashic Persistence Path
     AKASHIC_PATH = os.path.join(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))),
@@ -128,34 +167,44 @@ class LogosBridge:
         """
         [PHASE 84/260] Polymerizes Axioms + Learned Concepts into a GPU tensor.
         """
+        cls._build_bitmask_cache()
         if torch is None: return
         
         all_vecs = []
         all_masses = []
         cls._SPECTRUM_NAMES = []
         
+        def to_complex(v):
+            return complex(v)
+            
         # 1. Axioms
         for name, data in cls.CONCEPT_MAP.items():
             cls._SPECTRUM_NAMES.append(name)
             vec = data["vector"].data
-            all_vecs.append([x.real if isinstance(x, complex) else x for x in vec])
+            if hasattr(vec, 'tolist'):
+                vec_list = vec.tolist()
+            else:
+                vec_list = list(vec)
+            all_vecs.append([to_complex(x) for x in vec_list])
             all_masses.append(cls.get_stratum_mass(name))
             
         # 2. Learned Concepts
         for name, data in cls.LEARNED_MAP.items():
             cls._SPECTRUM_NAMES.append(name)
             vec = data["vector"].data
-            all_vecs.append([x.real if isinstance(x, complex) else x for x in vec])
+            if hasattr(vec, 'tolist'):
+                vec_list = vec.tolist()
+            else:
+                vec_list = list(vec)
+            all_vecs.append([to_complex(x) for x in vec_list])
             all_masses.append(1.0) # Default mass for learned
             
-        cls._SPECTRUM_TENSOR = torch.tensor(all_vecs, device=cls._DEVICE, dtype=torch.float32)
+        cls._SPECTRUM_TENSOR = torch.tensor(all_vecs, device=cls._DEVICE, dtype=torch.complex64)
         cls._SPECTRUM_MASSES = torch.tensor(all_masses, device=cls._DEVICE, dtype=torch.float32).unsqueeze(0)
         
-        # Normalize for cosine similarity
+        # Normalize for complex cosine similarity
         norm = torch.norm(cls._SPECTRUM_TENSOR, dim=1, keepdim=True)
         cls._SPECTRUM_TENSOR = cls._SPECTRUM_TENSOR / (norm + 1e-12)
-        
-        # print(f"🧬 [LOGOS] GPU Spectrum Polymerized: {len(all_vecs)} concepts (Axioms+Learned) on {cls._DEVICE}.")
 
     @classmethod
     def batch_resonance(cls, vectors: Any) -> List[Tuple[str, float]]:
@@ -169,23 +218,40 @@ class LogosBridge:
             List of (best_concept_name, resonance_score)
         """
         import torch
+        if torch is None:
+            # Fallback for CPU/No-Torch using sequential concept identification
+            results = []
+            for v in vectors:
+                sv = v if isinstance(v, SovereignVector) else SovereignVector(v)
+                concept, score = cls.find_closest_concept(sv)
+                results.append((concept, score))
+            return results
+
         if not isinstance(vectors, torch.Tensor):
-            vectors = torch.tensor(vectors, device=cls._DEVICE)
+            if hasattr(vectors, 'data'):
+                vectors = vectors.data
+            vectors = torch.tensor(vectors, device=cls._DEVICE, dtype=torch.complex64)
+        else:
+            vectors = vectors.to(device=cls._DEVICE, dtype=torch.complex64)
+
         if cls._SPECTRUM_TENSOR is None:
             cls.polymerize_spectrum()
             
-        if torch is None or cls._SPECTRUM_TENSOR is None:
-            # Fallback for CPU/No-Torch
+        if cls._SPECTRUM_TENSOR is None:
             return [("Void", 0.0)] * vectors.shape[0]
 
-        # Cosine Similarity: Batch @ Spectrum.T
-        vectors = vectors.to(cls._DEVICE)
+        # Cosine Similarity: Re(Vectors @ Spectrum.H)
         v_norm = torch.norm(vectors, dim=1, keepdim=True)
         vectors_norm = vectors / (v_norm + 1e-12)
         
-        similarities = torch.matmul(vectors_norm, cls._SPECTRUM_TENSOR.t())
+        # Hermitian transpose matrix multiplication for complex Euler resonance
+        similarities = torch.matmul(vectors_norm, torch.conj(cls._SPECTRUM_TENSOR.t()))
+        resonance_scores = similarities.real
         
-        max_scores, max_indices = torch.max(similarities, dim=1)
+        # Apply Stratum/Resonance Mass
+        weighted_scores = resonance_scores * cls._SPECTRUM_MASSES
+        
+        max_scores, max_indices = torch.max(weighted_scores, dim=1)
         
         results = []
         for i in range(len(max_indices)):
@@ -370,10 +436,12 @@ class LogosBridge:
     @staticmethod
     def transcribe_to_dna(principle_vector: SovereignVector) -> str:
         mapping = {-1: 'T', 0: 'G', 1: 'A'}
-        # Handle complex values by taking real part
-        def real_val(v):
-            return v.real if isinstance(v, complex) else v
-        trits = [1 if real_val(v) > 0.5 else (-1 if real_val(v) < -0.5 else 0) for v in principle_vector.data]
+        import torch
+        if hasattr(principle_vector, 'data') and isinstance(principle_vector.data, torch.Tensor):
+            data_list = principle_vector.data.real.tolist()
+        else:
+            data_list = [v.real if hasattr(v, 'real') else v for v in principle_vector]
+        trits = [1 if v > 0.5 else (-1 if v < -0.5 else 0) for v in data_list]
         return "".join([mapping[t] for t in trits])
 
     @staticmethod
@@ -624,60 +692,63 @@ class LogosBridge:
     def find_closest_concept(principle_vector: SovereignVector) -> Tuple[str, float]:
         """
         [PHASE 260] Vectorized Universal Search.
-        Uses GPU matrix multiplication to find the closest concept.
+        Uses XOR bitwise comparison for rapid candidate filtering,
+        followed by high-fidelity rotor/mass mapping.
         """
-        if torch is None:
-            # CPU Fallback (Sequential but handled better)
-            return LogosBridge._sequential_find_closest(principle_vector)
+        if not LogosBridge._CONCEPT_BITMASKS:
+            LogosBridge._build_bitmask_cache()
 
-        if LogosBridge._SPECTRUM_TENSOR is None:
-            LogosBridge.polymerize_spectrum()
+        # 1. Transcribe query vector to DNA and get bitmasks
+        dna_in = LogosBridge.transcribe_to_dna(principle_vector)
+        pos_in, neg_in = LogosBridge.dna_to_masks(dna_in)
 
-        # 1. Prepare input vector
-        data = principle_vector.data
-        v_in = torch.tensor([x.real if isinstance(x, complex) else x for x in data], 
-                            device=LogosBridge._DEVICE, dtype=torch.float32).unsqueeze(0)
-        v_in = v_in / (torch.norm(v_in) + 1e-12)
+        # 2. Turing XOR Comparison (Rapid Candidate Selection)
+        candidates = []
+        for name, (cached_pos, cached_neg) in LogosBridge._CONCEPT_BITMASKS.items():
+            diff_pos = pos_in ^ cached_pos
+            diff_neg = neg_in ^ cached_neg
+            diff_count = bin(diff_pos).count('1') + bin(diff_neg).count('1')
+            # Trinary Match Score (Hamming-based)
+            xor_match = (21 - diff_count) / 21.0
+            candidates.append((name, xor_match))
 
-        # 2. Matrix multiplication (Resonance Score)
-        # Correctly handles CONCEPT_MAP + LEARNED_MAP since both are polymerized
-        if v_in.shape[1] != LogosBridge._SPECTRUM_TENSOR.shape[1]: v_in = torch.nn.functional.interpolate(v_in.unsqueeze(0), size=LogosBridge._SPECTRUM_TENSOR.shape[1], mode="linear", align_corners=False).squeeze(0)
-        similarities = torch.matmul(v_in, LogosBridge._SPECTRUM_TENSOR.t())
-        
-        # Apply Masses (Significance Weighting)
-        weighted_sims = similarities * LogosBridge._SPECTRUM_MASSES
-        
-        # 3. Best Match
-        max_score, max_index = torch.max(weighted_sims, dim=1)
-        
-        best_name = LogosBridge._SPECTRUM_NAMES[max_index.item()]
-        return best_name, float(max_score.item())
+        # Sort by XOR match score and take top K (e.g. 5)
+        candidates.sort(key=lambda x: x[1], reverse=True)
+        top_candidates = [c[0] for c in candidates[:5]]
+
+        if not top_candidates:
+            return "UNKNOWN/CHAOS", 0.0
+
+        # 3. High-Fidelity Scoring on Top Candidates (Hybrid Resonance)
+        best_concept = top_candidates[0]
+        max_resonance = -2.0
+        v_norm = principle_vector.normalize()
+
+        for name in top_candidates:
+            target = LogosBridge.recall_concept_vector(name).normalize()
+            
+            # Complex Euler interaction (i * i = -1) - resonance calculation
+            resonance = SovereignMath.resonance(v_norm, target)
+            if isinstance(resonance, complex): 
+                resonance = resonance.real
+                
+            mass = LogosBridge.get_stratum_mass(name)
+            weighted_resonance = resonance * mass
+            
+            # Blend XOR score and vector resonance
+            xor_weight = next(c[1] for c in candidates if c[0] == name)
+            combined_score = (weighted_resonance * 0.7) + (xor_weight * 0.3 * mass)
+
+            if combined_score > max_resonance:
+                max_resonance = combined_score
+                best_concept = name
+
+        return best_concept, float(max_resonance)
 
     @staticmethod
     def _sequential_find_closest(principle_vector: SovereignVector) -> Tuple[str, float]:
-        """Legacy sequential search for CPU fallback."""
-        best_concept = "UNKNOWN/CHAOS"
-        max_resonance = -2.0
-        v_norm = principle_vector.normalize()
-        
-        for name, data in LogosBridge.CONCEPT_MAP.items():
-            target = data["vector"].normalize()
-            resonance = SovereignMath.resonance(v_norm, target)
-            if isinstance(resonance, complex): resonance = resonance.real
-            mass = LogosBridge.get_stratum_mass(name)
-            weighted_resonance = resonance * mass
-            if weighted_resonance > max_resonance:
-                max_resonance = weighted_resonance
-                best_concept = name
-                
-        for name, data in LogosBridge.LEARNED_MAP.items():
-            target = data["vector"].normalize()
-            resonance = SovereignMath.resonance(v_norm, target)
-            if isinstance(resonance, complex): resonance = resonance.real
-            if resonance > max_resonance:
-                max_resonance = resonance
-                best_concept = name
-        return best_concept, float(max_resonance)
+        """Legacy sequential search CPU fallback, routed to the optimized find_closest_concept."""
+        return LogosBridge.find_closest_concept(principle_vector)
 
     @staticmethod
     def discover_novel_vibration(vec: SovereignVector, threshold: float = 0.5) -> bool:

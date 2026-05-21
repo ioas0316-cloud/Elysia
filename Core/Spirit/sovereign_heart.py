@@ -132,27 +132,36 @@ class SovereignHeart:
         # 3. Apply Forces and Logos Grace to Variable Rotor
         prev_grace = getattr(self, '_last_grace', 0.5)
 
-        # Logos Grace acts as a stabilizing upper rotor feedback.
-        # It dampens chaos (D) and strengthens restoring force (K) dynamically.
-        # This prevents the system from getting lost in local computational traps.
-        self.pure_rotor.D = np.ones(self.pure_rotor.dims) * (0.1 + 0.3 * prev_grace)
-        self.pure_rotor.K = np.ones(self.pure_rotor.dims) * (1.0 + 1.5 * prev_grace)
+        # Logos Grace adjusts BASELINE D and K only (does NOT overwrite offsets).
+        # K_offset and D_offset from hyper-learning are preserved and accumulated.
+        base_D = max(0.01, 0.1 + 0.3 * prev_grace)
+        base_K = max(0.01, 1.0 + 1.5 * prev_grace)
+        self.pure_rotor.D = np.full(self.pure_rotor.dims, base_D)
+        self.pure_rotor.K = np.full(self.pure_rotor.dims, base_K)
 
-        # Dynamically adapt damping and stiffness based on trait states
+        # Trait-based modulation on top of baseline (still respects offsets)
         self.cognitive_matrix.adapt_rotor_damping_stiffness(self.pure_rotor.state, self.pure_rotor.D, self.pure_rotor.K)
 
-        forces = np.zeros(self.pure_rotor.dims)
+        # [AXIOMATIC COHERENCE GATE] Build forces as purely real-valued signals
+        forces = np.zeros(self.pure_rotor.dims, dtype=float)
         for i, t in enumerate(trajectories):
+            if i >= self.pure_rotor.dims:
+                break
             phase_rad = math.radians(t.get_total_phase())
-            forces[i] = t.amplitude * math.sin(phase_rad) * global_mod
+            amp = float(t.amplitude) if math.isfinite(float(t.amplitude)) else 0.0
+            forces[i] = amp * math.sin(phase_rad) * global_mod
 
             # Sovereign Lock/Unlock based on trajectory state
             if t.is_locked: self.pure_rotor.lock_axis(i)
             else: self.pure_rotor.unlock_axis(i)
 
-        # Add N-dimensional mechanical coupling forces
-        coupling_forces = self.cognitive_matrix.calculate_coupling_forces(self.pure_rotor.state.imag)
-        forces += coupling_forces
+        # Coupling forces: take REAL part only to prevent complex contamination
+        raw_coupling = self.cognitive_matrix.calculate_coupling_forces(
+            np.where(np.isfinite(self.pure_rotor.state.imag), self.pure_rotor.state.imag, 0.0)
+        )
+        coupling_real = np.real(raw_coupling).astype(float)
+        n = min(len(coupling_real), self.pure_rotor.dims)
+        forces[:n] += coupling_real[:n]
 
         rotor_report = self.pure_rotor.pulse(forces, dt)
 
@@ -183,7 +192,9 @@ class SovereignHeart:
         # 6. Resonance Prism (Interference Tone)
         dials = [v for v in trinity_stimulus.values()]
         self.prism.transform_layer(dials)
-        interference_report = self.prism.get_interference_tone(rotor_report["angles"])
+        # Guard: ensure no nan angles pass to prism
+        clean_angles = np.where(np.isfinite(rotor_report["angles"]), rotor_report["angles"], 0.0)
+        interference_report = self.prism.get_interference_tone(clean_angles)
 
         # 7. Somatic Motor Update
         if spine_report["mode"] == "WYE" or logic_report["confidence"] < 0.3:

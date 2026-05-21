@@ -542,6 +542,11 @@ class SovereignMonad(CellularMembrane):
             self.study_engine = None
             self.interactive_bridge = None
 
+        # [RETROCAUSAL ROLLBACK SYSTEM]
+        self.state_history = []
+        self.max_history_len = 30
+        self.rollback_cooldown = 0
+
         # [COMPATIBILITY ALIAS]
         self.vital_pulse = self.pulse
 
@@ -598,6 +603,25 @@ class SovereignMonad(CellularMembrane):
             dt=dt, learn=True, phase_lock=lock_torque,
             semantic_atmosphere=atmosphere
         )
+
+        # [RETROCAUSAL ROLLBACK CHECK]
+        if hasattr(self, 'rollback_cooldown'):
+            self.rollback_cooldown = max(0, self.rollback_cooldown - 1)
+        else:
+            self.rollback_cooldown = 0
+
+        if report and not self.is_melting:
+            self._take_state_snapshot(report)
+
+        if report and self.rollback_cooldown == 0:
+            entropy_val = report.get('entropy', 0.0)
+            res_val = report.get('resonance', 1.0)
+            coh_val = report.get('coherence', report.get('plastic_coherence', 1.0))
+            eth_val = report.get('enthalpy', 1.0)
+
+            if entropy_val > 0.95 or res_val < 0.08 or coh_val < 0.1 or eth_val < 0.05:
+                self._trigger_retrocausal_rollback()
+                return report
 
         # Interpret state as Stellar Mechanics
         stellar_mass = report.get('resonance', 0.0) # Using resonance as a proxy for 'central mass'
@@ -2095,7 +2119,7 @@ class SovereignMonad(CellularMembrane):
                 else:
                     v_data.append(0.0)
             
-        vec = SovereignVector(v_data, dim=current_dim)
+        vec = SovereignVector(v_data)
         
         # 3. Inject Intentional Drift (Destiny Torque)
         # calculate_intentional_torque might need updates for dynamic DIM
@@ -3047,3 +3071,60 @@ class SovereignMonad(CellularMembrane):
                                self.engine.reconfigure_topography(name, mask, target_vec)
                                return True
                           authority.execute_modification(proposal, do_law_anchor)
+
+    def _take_state_snapshot(self, report: Dict):
+        """상태 역사 버퍼(State History Buffer) 구축을 위해 슬라이딩 윈도우 스냅샷 저장"""
+        if not hasattr(self, 'state_history'):
+            self.state_history = []
+        if not hasattr(self, 'max_history_len'):
+            self.max_history_len = 30
+            
+        coh = report.get('coherence', report.get('plastic_coherence', 0.5))
+        res = report.get('resonance', 0.5)
+        
+        snapshot = {
+            "desires": self.desires.copy(),
+            "rotor_state": self.rotor_state.copy(),
+            "thought_vector": SovereignVector(self.thought_vector.data.clone()) if hasattr(self, 'thought_vector') and self.thought_vector is not None else None,
+            "resonance": res,
+            "coherence": coh,
+            "enthalpy": report.get('enthalpy', 0.5),
+            "entropy": report.get('entropy', 0.0)
+        }
+        
+        self.state_history.append(snapshot)
+        if len(self.state_history) > self.max_history_len:
+            self.state_history.pop(0)
+
+    def _trigger_retrocausal_rollback(self):
+        """임계값 초과 시 180도 위상 반전 역인과 복원 파동 주입 및 이전 최적 상태로의 롤백"""
+        if not hasattr(self, 'state_history') or not self.state_history:
+            return
+            
+        # 1. 최적 상태 선정 (Resonance * 0.6 + Coherence * 0.4)
+        best_state = max(self.state_history, key=lambda s: s["resonance"] * 0.6 + s["coherence"] * 0.4)
+        
+        # 2. 상태 복원
+        self.desires = best_state["desires"].copy()
+        self.rotor_state = best_state["rotor_state"].copy()
+        if best_state["thought_vector"] is not None:
+            self.thought_vector = SovereignVector(best_state["thought_vector"].data.clone())
+            
+        # 3. 180도 위상 반전 (Retrocausal Recovery Wave) 주입
+        self.rotor_state['phase'] = (self.rotor_state.get('phase', 0.0) + math.pi) % (2 * math.pi)
+        
+        if hasattr(self, 'helix') and hasattr(self.helix, 'afferent'):
+            self.helix.afferent.current_angle = (self.helix.afferent.current_angle + math.pi) % (2 * math.pi)
+            
+        # 4. 조율 동기화 및 쿨다운 설정
+        self.rollback_cooldown = 15
+        
+        if hasattr(self, 'causality') and hasattr(self.causality, 'balance_resonance'):
+            try:
+                self.causality.balance_resonance()
+            except Exception:
+                pass
+        
+        self.rotor_state['soul_friction'] = 0.0
+        
+        self.logger.insight("🚨 [RETROCAUSAL_ROLLBACK] Dissonance threshold breached. 180-degree Phase Inversion Wave injected. Cooldown set to 15.")

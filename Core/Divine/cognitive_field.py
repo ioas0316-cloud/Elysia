@@ -78,7 +78,7 @@ class CognitiveField:
 
         # [PHASE 1200] Dynamic Dimensionality: Ensure Field adapts to incoming resolution
         if input_vector.dim > self.residual_vector.dim:
-            self.residual_vector = SovereignVector(self.residual_vector.to_list(), dim=input_vector.dim)
+            self.residual_vector = SovereignVector(self.residual_vector.to_list()).rescale(input_vector.dim)
 
         # 0. Sync Identities (Neural Plasticity)
         if random.random() < 0.2: # Periodic refresh to simulate latent plasticity
@@ -294,6 +294,6 @@ class CognitiveField:
             # Introduce a slight thermodynamic drift to allow for true emergence
             # rather than strict reversion to the mean of all past concepts.
             dim = atmosphere.dim
-            drift = SovereignVector([random.uniform(-0.01, 0.01) for _ in range(dim)], dim=dim)
+            drift = SovereignVector([random.uniform(-0.01, 0.01) for _ in range(dim)])
             return ((atmosphere / total_weight) + drift).normalize()
         return SovereignVector.zeros(dim=self.residual_vector.dim)

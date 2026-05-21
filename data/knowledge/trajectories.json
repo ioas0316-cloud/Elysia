@@ -510,5 +510,69 @@
     "label": "6",
     "amplitude": 0.6666666666666666,
     "extra": []
+  },
+  "j": {
+    "macro": 135.0,
+    "micro": 225.0,
+    "locked": true,
+    "label": "j",
+    "amplitude": 0.5038610038610039,
+    "extra": []
+  },
+  "-": {
+    "macro": 45.0,
+    "micro": 292.5,
+    "locked": false,
+    "label": "-",
+    "amplitude": 0.5038610038610039,
+    "extra": []
+  },
+  "\n": {
+    "macro": 0.0,
+    "micro": 225.0,
+    "locked": true,
+    "label": "\n",
+    "amplitude": 0.5154440154440154,
+    "extra": []
+  },
+  ";": {
+    "macro": 67.5,
+    "micro": 247.5,
+    "locked": false,
+    "label": ";",
+    "amplitude": 0.5019305019305019,
+    "extra": []
+  },
+  "’": {
+    "macro": 22.5,
+    "micro": 202.5,
+    "locked": false,
+    "label": "’",
+    "amplitude": 0.5019305019305019,
+    "extra": []
+  },
+  "O": {
+    "macro": 90.0,
+    "micro": 337.5,
+    "locked": false,
+    "label": "O",
+    "amplitude": 0.5026455026455027,
+    "extra": []
+  },
+  "N": {
+    "macro": 90.0,
+    "micro": 315.0,
+    "locked": true,
+    "label": "N",
+    "amplitude": 0.5013227513227513,
+    "extra": []
+  },
+  "P": {
+    "macro": 112.5,
+    "micro": 0.0,
+    "locked": true,
+    "label": "P",
+    "amplitude": 0.5013227513227513,
+    "extra": []
   }
 }

@@ -28,26 +28,24 @@ class TeleologicalVector:
         Creates a 'Future Ideal' state based on current desires.
         """
         ideal_data = list(current_state.data)
+        dim = len(ideal_data)
         
         # Teleological Bias: Stronger push toward the 'Spirit' realm
-        for i in range(14, 21):
+        # Preserve phase, grow real magnitude (for the last 1/3 of the dimensions)
+        spirit_start = int(dim * 2 / 3)
+        for i in range(spirit_start, dim):
             val = ideal_data[i]
-            # Always treat as Phasor in 21D space
-            # Preserve phase, grow real magnitude
             magnitude = abs(val)
             new_mag = min(1.0, magnitude + 0.4)
             if magnitude > 1e-6:
                 phase = cmath.phase(val)
                 ideal_data[i] = cmath.rect(new_mag, phase)
             else:
-                 # If magnitude is 0, we can't infer phase, so we assume alignment (0 phase, real)
-                 # or keep it 0 if we assume it only grows if it exists.
-                 # But Teleology implies growing NEW intent.
-                 # We seed it with pure real intent (+1)
                  ideal_data[i] = complex(new_mag, 0.0)
             
-        # Clearer suppression of stagnation
-        for i in range(0, 7):
+        # Clearer suppression of stagnation (first 1/3 of the dimensions)
+        stagnation_end = int(dim / 3)
+        for i in range(0, stagnation_end):
             ideal_data[i] *= 0.5
             
         self.target_state = SovereignVector(ideal_data)
@@ -57,12 +55,20 @@ class TeleologicalVector:
         """
         Calculates the directional push needed to move toward 'Destiny'.
         """
+        dim = len(current_state)
         if self.target_state is None:
-            return SovereignVector.zeros()
+            return SovereignVector.zeros(dim=dim)
+            
+        # If target_state dimension doesn't match, rescale or reconstruct it
+        target_data = self.target_state.data
+        if len(target_data) != dim:
+            # Re-project destiny dynamically to match the current dimension
+            # or simply use zeros as fallback/rescaled representation
+            return SovereignVector.zeros(dim=dim)
             
         # Torque = (Target - Current) * Intensity
         diff = []
-        for t, c in zip(self.target_state.data, current_state.data):
+        for t, c in zip(target_data, current_state.data):
             diff.append((t - c) * self.intention_intensity)
             
         return SovereignVector(diff)

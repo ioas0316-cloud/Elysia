@@ -197,7 +197,7 @@ class ExtremeHyperLearning:
         
         return curriculum
     
-    def extreme_learn(self, max_concepts: int = 500) -> Dict[str, Any]:
+    def extreme_learn(self, max_concepts: int = 500, concepts: List[str] = None) -> Dict[str, Any]:
         """        """
         
         print(f"\n{'='*70}")
@@ -206,8 +206,11 @@ class ExtremeHyperLearning:
         print(f"{'='*70}\n")
         
         #        
-        curriculum = self.generate_mega_curriculum()
-        curriculum = curriculum[:max_concepts]  #           
+        if concepts is not None:
+            curriculum = list(concepts)
+        else:
+            curriculum = self.generate_mega_curriculum()
+            curriculum = curriculum[:max_concepts]  #           
         
         print(f"  Curriculum: {len(curriculum)} concepts")
         print(f"  Time dilation: {self.time_dilation_factor:,}x")

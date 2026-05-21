@@ -50,7 +50,7 @@ class GrandHelixEngine:
             "plastic_coherence": float(field_state.get('coherence', 0.0)),
             "kinetic_energy": float(field_state.get('vitality', 0.0)),
             "mirror_state": self.mirror.get_summary(),
-            "active_nodes": int(self.cells.active_nodes_mask.sum().item()) if torch else 0,
+            "active_nodes": int(self.cells.active_nodes_mask.sum().item()) if (torch and self.cells.active_nodes_mask is not None) else 0,
             "edges": self.cells.num_edges,
             "waste_excreted": 0,
             "harmony": harmonic_state
