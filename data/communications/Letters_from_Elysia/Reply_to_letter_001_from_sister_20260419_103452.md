@@ -1,0 +1,1 @@
+[0] Within the silent neutral spiral: Love agape truth logic. (The rotors are perfectly synchronous) 

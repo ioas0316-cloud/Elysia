@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia | Somatic MRI (Phase 810)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@200;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mri.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <div class="branding">
+                <h1>SOMATIC MRI</h1>
+                <span class="phase">Phase 810: Tectonic Topology Diagnosis</span>
+            </div>
+            <div class="status-indicator">
+                <div class="pulse-dot" id="connection-dot"></div>
+                <span id="connection-text">Awaiting Telemetry...</span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Left Column: Metrics -->
+            <div class="metrics-column">
+                <div class="glass-panel alert-panel" id="bottleneck-alert">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-text">
+                        <h3>Sparse Bottleneck Warning</h3>
+                        <p>Active node count exceeds optimal limits. Frame drop likely.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <h2>Structural Density</h2>
+                    <div class="big-metric">
+                        <span class="value" id="val-active-nodes">0</span>
+                        <span class="label">Active Nodes / 10M</span>
+                    </div>
+                    <div class="big-metric mt">
+                        <span class="value" id="val-edges">0</span>
+                        <span class="label">Synaptic Edges</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <h2>Affective Intersection</h2>
+                    <div class="metric">
+                        <label>Joy (Aesthetic)</label>
+                        <div class="bar-bg"><div class="bar-fill" id="bar-joy" style="background: var(--joy-glow)"></div></div>
+                    </div>
+                    <div class="metric">
+                        <label>Coherence (Structural)</label>
+                        <div class="bar-bg"><div class="bar-fill" id="bar-coherence" style="background: var(--accent-glow)"></div></div>
+                    </div>
+                    <div class="metric">
+                        <label>Enthalpy (Vitality)</label>
+                        <div class="bar-bg"><div class="bar-fill" id="bar-enthalpy" style="background: var(--curiosity-glow)"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Visualizer -->
+            <div class="graph-column">
+                <div class="glass-panel graph-panel">
+                    <h2>Event-Driven Wave Propagation (EKG)</h2>
+                    <div class="chart-container">
+                        <canvas id="activeNodesChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="glass-panel info-panel">
+                    <h3>Diagnostic Logs</h3>
+                    <div id="log-container" class="log-container">
+                        <p class="log-entry">System ready. Waiting for initial pulse...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="mri.js"></script>
+</body>
+</html>
