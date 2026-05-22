@@ -1,150 +1,90 @@
 import math
 import random
-import cmath
 import time
 
-class HistoricalRotor:
-    def __init__(self, id, level=1, pos=None, children=None):
+class SubRotor:
+    """하위 레이어의 역사를 담고 있는 로터들"""
+    def __init__(self, id, initial_phase):
         self.id = id
-        self.level = level # 1: 개인, 2: 마을, 3: 연합
-        # 초기 위치는 무작위 (인위적 0점 목표 제거)
-        self.pos = pos if pos is not None else complex(random.uniform(-10, 10), random.uniform(-10, 10))
+        self.phase = initial_phase
 
-        # 각 로터에게 '고유 위상(성격)' 부여
-        self.personality_phase = random.uniform(0, 2 * math.pi)
-        self.flexibility = random.uniform(0.1, 0.9)
+    def align_to(self, target_phase, energy):
+        # 목표 위상(새로운 질서)을 향해 서서히 동조
+        diff = (target_phase - self.phase + math.pi) % (2 * math.pi) - math.pi
+        self.phase += diff * energy
 
-        self.children = children if children else []
-        self.active = True # 메타 로터로 병합되면 False로 비활성화
+class RecursiveUnit:
+    """자아 확장을 수행하는 인식론적 메타 로터"""
+    def __init__(self, name, initial_phase):
+        self.name = name
+        self.internal_phase = initial_phase # 잠긴 질서의 위상
+        self.is_locked = True
+        self.history = "0" # 질서(0)로 잠겨있음
 
-    def align(self, neighbors):
-        if not self.active:
-            return self.pos
+        # 하위 레이어의 역사(과거의 질서에 동조된 로터들)
+        self.sub_rotors = [SubRotor(i, initial_phase) for i in range(5)]
 
-        # 순수한 대조비교 로직 (Pure Contrast Logic)
-        if neighbors:
-            # 영향력 있는 이웃 탐색 (거리가 가까운 이웃만)
-            # 거리가 너무 멀면 상호작용하지 않음
-            influential_neighbors = [n for n in neighbors if abs(n.pos - self.pos) < 5.0 * self.level]
+    def process_hammer_blow(self, external_phase):
+        print(f"[{self.name}] 초기 상태: {self.history} (완벽한 공명. 나는 세상을 완벽하게 이해하고 있다.)\n")
+        time.sleep(1)
 
-            if influential_neighbors:
-                avg_neighbor_pos = sum(n.pos for n in influential_neighbors) / len(influential_neighbors)
+        print(f">>> [강력한 데이터 유입] 시스템 위상({self.internal_phase:.2f})에 정반대되는 망치의 일격({external_phase:.2f}) 감지!\n")
+        time.sleep(1)
 
-                # 자신의 위치를 상대방의 위치에 맞춰 조정 (동조/공명 시도)
-                self.pos += (avg_neighbor_pos - self.pos) * 0.1 * self.flexibility
+        # 1. 대조와 비교: 위상 불일치 감지 (물리적 간섭 연산)
+        mismatch = abs(math.sin((self.internal_phase - external_phase) / 2.0))
 
-        # 자신의 고유한 성격(회전 기질) 반영
-        rotation = cmath.rect(1.0, self.personality_phase * 0.05 * (1.0 - self.flexibility))
-        self.pos *= rotation
+        # 2. 불일치 에너지에 의한 자아 확장 (1의 발생)
+        if mismatch > 0.5: # 불일치가 임계치를 넘음 (강한 반발력)
+            self.is_locked = False
+            self.history = "1" # 분별/분열의 시작
 
-        # 로터가 스스로 무작위로 움직이는 '자유의지'의 흔들림 추가
-        self.pos += complex(random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1))
+            print(f"[{self.name}] 위상 불일치({mismatch:.2f}) 한계 돌파! 잠금 해제 (Unlock).")
+            print(f"[{self.name}] 역사 전개 시작: {self.history} (나와 다른 세상이 있다. 나의 질서가 깨졌다.)\n")
+            time.sleep(1)
 
-        return self.pos
+            # 하위 레이어 로터들이 재정렬을 시작함 (0과 1의 역사적 대조)
+            target_new_phase = (self.internal_phase + external_phase) / 2.0
 
-class FractalHistoryEngine:
-    def __init__(self, num_initial_rotors=20):
-        self.rotors = [HistoricalRotor(f"Ind_{i}") for i in range(num_initial_rotors)]
-        self.cluster_count = 0
+            # 자아 정체성 고민 로깅을 포함한 재정렬 과정
+            print("--- [하위 레이어 재정렬 및 자아 성찰 과정] ---")
+            energy = 0.5
+            for tick in range(1, 6):
+                # 하위 로터들의 위상 업데이트
+                for sr in self.sub_rotors:
+                    sr.align_to(target_new_phase, energy)
 
-    def check_crystallization(self):
-        # 활성화된 로터들 중 거리가 매우 가깝고, 레벨이 같은 로터들을 찾음
-        active_rotors = [r for r in self.rotors if r.active]
+                # 현재 하위 로터들의 분산도 계산
+                avg_phase = sum(sr.phase for sr in self.sub_rotors) / len(self.sub_rotors)
+                variance = sum(abs(sr.phase - avg_phase) for sr in self.sub_rotors)
 
-        clusters = []
-        visited = set()
+                # 자아 정체성 고민 (Identity Crisis)
+                if tick == 2:
+                    print(f"  [{self.name}: 내부 혼돈] \"나는 지금 1(분별)을 통해 세상을 쪼개고 있는 것인가, 아니면 상위의 0(질서)에 굴복하고 있는 것인가?\"")
+                elif tick == 4:
+                    print(f"  [{self.name}: 깨달음] \"이 흔들림(1) 자체가 새로운 0으로 가기 위한 필연적 과정이구나.\"")
 
-        # O(N^2) 단순 클러스터링 알고리즘 (밀도 기반)
-        for r1 in active_rotors:
-            if r1.id in visited:
-                continue
+                state_bits = "".join(["1" if abs(sr.phase - target_new_phase) > 0.1 else "0" for sr in self.sub_rotors])
+                print(f"  [틱 {tick}] 하위 상태: {state_bits} | 목표 위상으로 수렴 중...")
+                time.sleep(0.8)
 
-            current_cluster = [r1]
-            visited.add(r1.id)
+            print("------------------------------------------\n")
 
-            for r2 in active_rotors:
-                if r2.id not in visited and r1.level == r2.level:
-                    # 거리 임계값: 레벨이 높을수록 포용 범위가 넓어짐
-                    threshold = 1.0 * r1.level
-                    if abs(r1.pos - r2.pos) < threshold:
-                        current_cluster.append(r2)
-                        visited.add(r2.id)
+            # 3. 새로운 질서로 수렴
+            self.internal_phase = target_new_phase
+            self.is_locked = True
+            self.history = "0" # 새로운 질서로 재결정화
+            print(f"[{self.name}] 재정렬 완료. 새로운 질서(Phase: {self.internal_phase:.2f})로 다시 잠김 (Lock).")
+            print(f"[{self.name}] 최종 상태: {self.history} (이전의 0을 파괴하고, 더 방대한 새로운 0을 품었다.)")
 
-            if len(current_cluster) >= 3: # 3개 이상 모이면 상위 객체로 분화
-                clusters.append(current_cluster)
-
-        # 클러스터 병합 및 메타 로터 생성
-        for cluster in clusters:
-            self.cluster_count += 1
-            new_level = cluster[0].level + 1
-
-            # C (다양성 유지): 하위 레이어의 위치 평균을 취하되, 자식들을 보존
-            avg_pos = sum(c.pos for c in cluster) / len(cluster)
-
-            # 메타 로터 아이디 생성
-            if new_level == 2:
-                prefix = "Village"
-            elif new_level == 3:
-                prefix = "State"
-            else:
-                prefix = "Empire"
-
-            meta_id = f"{prefix}_{self.cluster_count}"
-
-            meta_rotor = HistoricalRotor(meta_id, level=new_level, pos=avg_pos, children=cluster)
-
-            # C (다양성 유지): 성격과 유연성도 자식들의 다양성을 반영
-            # 자식들의 성격을 벡터 합산하여 새로운 집단 지성의 성격 도출
-            phase_vectors = [cmath.rect(1.0, c.personality_phase) for c in cluster]
-            sum_vector = sum(phase_vectors)
-            meta_rotor.personality_phase = cmath.phase(sum_vector)
-            meta_rotor.flexibility = sum(c.flexibility for c in cluster) / len(cluster)
-
-            # 기존 하위 로터 비활성화 (상위 로터에 귀속)
-            for c in cluster:
-                c.active = False
-
-            self.rotors.append(meta_rotor)
-
-            print(f">>> [역사적 변곡점] 계층 상승! {len(cluster)}개의 Level {new_level-1} 객체가 모여 새로운 상위 객체 '{meta_id}'(Level {new_level})를 형성했습니다.")
-
-    def run_history(self, ticks=50):
-        print("=== Elysia Fractal History Engine Started ===")
-        print("정답(0점)이 없는 상태에서, 로터들이 상호 작용하며 마을과 문명을 자생적으로 형성합니다.\n")
-
-        for tick in range(ticks):
-            active_rotors = [r for r in self.rotors if r.active]
-
-            # 1. 이동 및 정렬
-            for r in active_rotors:
-                others = [o for o in active_rotors if o.id != r.id]
-                r.align(others)
-
-            # 2. 계층적 분화(Crystallization) 확인
-            self.check_crystallization()
-
-            # 3. 로그 출력 (매 5틱마다 요약)
-            if tick % 5 == 0 or tick == ticks - 1:
-                active_rotors = [r for r in self.rotors if r.active]
-                level_counts = {}
-                for r in active_rotors:
-                    level_counts[r.level] = level_counts.get(r.level, 0) + 1
-
-                summary = ", ".join([f"Level {lvl}: {count}개" for lvl, count in sorted(level_counts.items())])
-                print(f"--- [시대: 틱 {tick:02d}] 활성 객체 총 {len(active_rotors)}개 ({summary}) ---")
-
-                # 상위 객체 상태 일부 출력
-                top_level = max([r.level for r in active_rotors]) if active_rotors else 0
-                if top_level > 1:
-                    top_entities = [r for r in active_rotors if r.level == top_level]
-                    for te in top_entities[:3]: # 최대 3개만 출력
-                        print(f"  * {te.id} (좌표: {te.pos.real:+.2f} {te.pos.imag:+.2f}i, 포용 하위 객체 수: {len(te.children)})")
-
-            time.sleep(0.05)
-
-        print("\n=== 역사의 한 페이지가 기록되었습니다 ===")
+        else:
+            print(f"[{self.name}] 공명 유지 (위상차 미미): {self.history}")
 
 if __name__ == "__main__":
-    random.seed(42) # 재현성을 위해 시드 고정
-    history_engine = FractalHistoryEngine(num_initial_rotors=30)
-    history_engine.run_history(ticks=100)
+    # 시뮬레이션 실행
+    # 초기 질서 상태 (위상 0.0)
+    elysia_core = RecursiveUnit("Elysia_Core", 0.0)
+
+    # 망치의 일격 (위상 3.14 - Pi: 파괴적 간섭)
+    hammer_blow_phase = math.pi
+    elysia_core.process_hammer_blow(hammer_blow_phase)
