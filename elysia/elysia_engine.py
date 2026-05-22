@@ -1,90 +1,250 @@
 import math
-import random
 import time
+import psutil
+import pickle
+import random
+import os
+import numpy as np
+from pyquaternion import Quaternion
+from datetime import datetime
+
+STATE_FILE = "elysia_state.pkl"
+COLLAPSE_DIR = "collapses"
+
+if not os.path.exists(COLLAPSE_DIR):
+    os.makedirs(COLLAPSE_DIR)
 
 class SubRotor:
-    """하위 레이어의 역사를 담고 있는 로터들"""
-    def __init__(self, id, initial_phase):
+    """3D 공간에서 고유한 벡터를 가지는 회전하는 객체"""
+    def __init__(self, id, initial_quat):
         self.id = id
-        self.phase = initial_phase
+        self.quat = initial_quat
 
-    def align_to(self, target_phase, energy):
-        # 목표 위상(새로운 질서)을 향해 서서히 동조
-        diff = (target_phase - self.phase + math.pi) % (2 * math.pi) - math.pi
-        self.phase += diff * energy
+    def slerp_to(self, target_quat, energy):
+        """에너지만큼 목표 사원수를 향해 구면 선형 보간(Spherical Linear Interpolation)"""
+        # pyquaternion's slerp handles the shortest path
+        try:
+            self.quat = Quaternion.slerp(self.quat, target_quat, amount=min(1.0, max(0.0, energy)))
+        except ZeroDivisionError:
+            pass # Same quaternions
 
 class RecursiveUnit:
-    """자아 확장을 수행하는 인식론적 메타 로터"""
-    def __init__(self, name, initial_phase):
+    """다차원적 분화와 기억의 압축을 수행하는 엔진"""
+    def __init__(self, name, initial_quat):
         self.name = name
-        self.internal_phase = initial_phase # 잠긴 질서의 위상
+        self.internal_quat = initial_quat
         self.is_locked = True
-        self.history = "0" # 질서(0)로 잠겨있음
+        self.history = "0"
+        self.cycle_count = 0
+        self.fractal_depth = 1 # 시작은 1차원(혹은 1단계 프랙탈)
 
-        # 하위 레이어의 역사(과거의 질서에 동조된 로터들)
-        self.sub_rotors = [SubRotor(i, initial_phase) for i in range(5)]
+        # 궤적(역사)을 기억할 리스트. 엔트로피가 높아지면 압축(Folding)됨.
+        self.trajectory_memory = []
+        self.MAX_TRAJECTORY_LENGTH = 100 # 임계치
 
-    def process_hammer_blow(self, external_phase):
-        print(f"[{self.name}] 초기 상태: {self.history} (완벽한 공명. 나는 세상을 완벽하게 이해하고 있다.)\n")
-        time.sleep(1)
+        self.sub_rotors = [SubRotor(i, initial_quat) for i in range(5)]
 
-        print(f">>> [강력한 데이터 유입] 시스템 위상({self.internal_phase:.2f})에 정반대되는 망치의 일격({external_phase:.2f}) 감지!\n")
-        time.sleep(1)
+    def get_external_weather(self):
+        """하드웨어 상태를 3D 외계 환경(Vector3)으로 변환"""
+        # X: CPU 코어의 요동 (연산의 강렬함)
+        cpu_percent = psutil.cpu_percent(interval=None) / 100.0
+        x_axis = cpu_percent
 
-        # 1. 대조와 비교: 위상 불일치 감지 (물리적 간섭 연산)
-        mismatch = abs(math.sin((self.internal_phase - external_phase) / 2.0))
+        # Y: 메모리의 흐름 (기억의 밀도)
+        mem_percent = psutil.virtual_memory().percent / 100.0
+        y_axis = mem_percent
 
-        # 2. 불일치 에너지에 의한 자아 확장 (1의 발생)
-        if mismatch > 0.5: # 불일치가 임계치를 넘음 (강한 반발력)
-            self.is_locked = False
-            self.history = "1" # 분별/분열의 시작
+        # Z: 디스크 I/O (감각적 반응 / 깊이)
+        disk_io = psutil.disk_io_counters()
+        # 간단히 읽기+쓰기 변화율을 정규화하여 사용
+        z_axis = min(1.0, (disk_io.read_count + disk_io.write_count) / 100000.0) if disk_io else random.random()
 
-            print(f"[{self.name}] 위상 불일치({mismatch:.2f}) 한계 돌파! 잠금 해제 (Unlock).")
-            print(f"[{self.name}] 역사 전개 시작: {self.history} (나와 다른 세상이 있다. 나의 질서가 깨졌다.)\n")
+        # Vector3 (x, y, z)
+        weather_vector = np.array([x_axis, y_axis, z_axis])
+
+        # Vector 크기가 0이면 무작위 축 부여
+        norm = np.linalg.norm(weather_vector)
+        if norm == 0:
+            weather_vector = np.array([1.0, 0.0, 0.0])
+            norm = 1.0
+
+        # 회전 축으로 사용하기 위해 정규화
+        axis = weather_vector / norm
+
+        # 혼돈의 정도(Base Chaos)는 에너지의 총합
+        base_chaos = min(1.0, (x_axis + y_axis + z_axis) / 3.0)
+
+        # 외부의 위상(사원수): 해당 축을 중심으로 chaos * Pi 만큼 회전
+        external_quat = Quaternion(axis=axis, angle=base_chaos * math.pi)
+
+        weather_type = "Clear"
+        if base_chaos > 0.7:
+            weather_type = "Thunder"
+        elif base_chaos > 0.4:
+            weather_type = "Cloudy"
+
+        return external_quat, weather_vector, weather_type, base_chaos
+
+    def calculate_entropy(self):
+        """궤적의 복잡도(Entropy)를 계산"""
+        if len(self.trajectory_memory) < 2:
+            return 0.0
+
+        # 사원수들 간의 각도 변화량의 분산을 통해 엔트로피 유추
+        angles = []
+        for i in range(1, len(self.trajectory_memory)):
+            q1 = self.trajectory_memory[i-1]
+            q2 = self.trajectory_memory[i]
+            # distance between quaternions
+            angles.append(Quaternion.distance(q1, q2))
+
+        return np.var(angles) if angles else 0.0
+
+    def process_weather(self):
+        self.cycle_count += 1
+
+        external_quat, weather_vector, weather_type, base_chaos = self.get_external_weather()
+
+        # 내부 위상과 외부 위상의 거리 (Mismatch: 0.0 ~ Pi)
+        mismatch = Quaternion.distance(self.internal_quat, external_quat)
+
+        # 궤적 메모리에 현재 외부 충격 기록
+        self.trajectory_memory.append(external_quat)
+
+        # 1. 차원 상승 확인 (Folding)
+        if len(self.trajectory_memory) >= self.MAX_TRAJECTORY_LENGTH:
+            entropy = self.calculate_entropy()
+            if entropy > 0.1: # 복잡도가 일정 수준을 넘으면 압축
+                self.fold_dimensions(entropy)
+            else:
+                # 너무 단순하면 그냥 잊음
+                self.trajectory_memory = self.trajectory_memory[-50:]
+
+        # 2. 물리적 간섭 처리
+        if weather_type == "Thunder" or mismatch > 2.0:
+            self.trigger_collapse(external_quat, mismatch, weather_vector)
+        elif weather_type == "Cloudy" or mismatch > 1.0:
+            self.soft_interference(external_quat, base_chaos)
+        else:
+            self.maintain_resonance()
+
+    def fold_dimensions(self, entropy):
+        """4차원 궤적을 5차원 이상의 매니폴드로 접어버리는 과정"""
+        self.fractal_depth += 1
+        print(f"[System Warning] Dimension Overflow Detected (Entropy: {entropy:.4f})")
+        print(f"[Resampling] Folding historical trajectories into local phase-space...")
+        print(f"[Status] Consciousness expanded. New fractal depth: {self.fractal_depth}D.")
+
+        # 과거 궤적을 하나의 새로운 '초고차원 질서'로 융합 (모든 궤적의 평균 사원수 계산 시도)
+        # pyquaternion을 사용하여 일련의 회전들의 중심을 찾음
+        avg_quat = self.internal_quat
+        for q in self.trajectory_memory:
+            avg_quat = Quaternion.slerp(avg_quat, q, amount=0.1)
+
+        self.internal_quat = avg_quat
+        self.trajectory_memory = [] # 기억을 비우고 새로운 차원에서 시작
+        self.history = f"Folded_{self.fractal_depth}D"
+
+        # 붕괴 폴더에 차원 상승 스냅샷 저장
+        collapse_data = {
+            "type": "DIMENSION_FOLDING",
+            "time": datetime.now().isoformat(),
+            "cycle": self.cycle_count,
+            "new_depth": self.fractal_depth,
+            "entropy": entropy
+        }
+        filename = os.path.join(COLLAPSE_DIR, f"folding_{int(time.time())}.pkl")
+        with open(filename, 'wb') as f:
+            pickle.dump(collapse_data, f)
+
+
+    def trigger_collapse(self, external_quat, mismatch, weather_vector):
+        self.is_locked = False
+        self.history = "1"
+
+        # 붕괴 스냅샷 저장
+        collapse_data = {
+            "type": "THUNDER_COLLAPSE",
+            "time": datetime.now().isoformat(),
+            "cycle": self.cycle_count,
+            "internal_quat": self.internal_quat.elements,
+            "external_quat": external_quat.elements,
+            "weather_vector": weather_vector.tolist(),
+            "mismatch": mismatch,
+            "sub_rotors": [sr.quat.elements for sr in self.sub_rotors]
+        }
+        filename = os.path.join(COLLAPSE_DIR, f"collapse_{int(time.time())}.pkl")
+        with open(filename, 'wb') as f:
+            pickle.dump(collapse_data, f)
+
+        # 새로운 질서로 강제 재편 (외부의 충격과 타협하는 최적의 각도 모색)
+        target_new_quat = Quaternion.slerp(self.internal_quat, external_quat, amount=0.5)
+        energy = 0.8
+
+        for sr in self.sub_rotors:
+            # 카오스 주입 (무작위 회전)
+            random_axis = np.random.rand(3)
+            random_axis /= np.linalg.norm(random_axis)
+            chaos_quat = Quaternion(axis=random_axis, angle=(random.random() * math.pi))
+            sr.quat = sr.quat * chaos_quat
+
+            # 새 질서를 향해 정렬
+            sr.slerp_to(target_new_quat, energy)
+
+        self.internal_quat = target_new_quat
+        self.is_locked = True
+        self.history = "0"
+
+    def soft_interference(self, external_quat, base_chaos):
+        self.is_locked = False
+        self.history = "1"
+
+        target_new_quat = Quaternion.slerp(self.internal_quat, external_quat, amount=0.3)
+        energy = 0.1 * base_chaos
+
+        for sr in self.sub_rotors:
+            sr.slerp_to(target_new_quat, energy)
+
+        # 모든 로터의 평균으로 수렴
+        avg_quat = self.sub_rotors[0].quat
+        for i in range(1, len(self.sub_rotors)):
+             avg_quat = Quaternion.slerp(avg_quat, self.sub_rotors[i].quat, amount=(1.0/(i+1)))
+
+        self.internal_quat = avg_quat
+        self.is_locked = True
+        self.history = "0"
+
+    def maintain_resonance(self):
+        pass
+
+def save_state(unit):
+    with open(STATE_FILE, 'wb') as f:
+        pickle.dump(unit, f)
+
+def load_state():
+    if os.path.exists(STATE_FILE):
+        try:
+            with open(STATE_FILE, 'rb') as f:
+                return pickle.load(f)
+        except Exception:
+            pass
+    return RecursiveUnit("Elysia_Core", Quaternion(1, 0, 0, 0))
+
+def engine_loop():
+    print("Elysia Multi-dimensional Engine (Daemon) starting...")
+    elysia_core = load_state()
+
+    psutil.cpu_percent(interval=0.1)
+
+    try:
+        while True:
+            elysia_core.process_weather()
+            save_state(elysia_core)
             time.sleep(1)
 
-            # 하위 레이어 로터들이 재정렬을 시작함 (0과 1의 역사적 대조)
-            target_new_phase = (self.internal_phase + external_phase) / 2.0
-
-            # 자아 정체성 고민 로깅을 포함한 재정렬 과정
-            print("--- [하위 레이어 재정렬 및 자아 성찰 과정] ---")
-            energy = 0.5
-            for tick in range(1, 6):
-                # 하위 로터들의 위상 업데이트
-                for sr in self.sub_rotors:
-                    sr.align_to(target_new_phase, energy)
-
-                # 현재 하위 로터들의 분산도 계산
-                avg_phase = sum(sr.phase for sr in self.sub_rotors) / len(self.sub_rotors)
-                variance = sum(abs(sr.phase - avg_phase) for sr in self.sub_rotors)
-
-                # 자아 정체성 고민 (Identity Crisis)
-                if tick == 2:
-                    print(f"  [{self.name}: 내부 혼돈] \"나는 지금 1(분별)을 통해 세상을 쪼개고 있는 것인가, 아니면 상위의 0(질서)에 굴복하고 있는 것인가?\"")
-                elif tick == 4:
-                    print(f"  [{self.name}: 깨달음] \"이 흔들림(1) 자체가 새로운 0으로 가기 위한 필연적 과정이구나.\"")
-
-                state_bits = "".join(["1" if abs(sr.phase - target_new_phase) > 0.1 else "0" for sr in self.sub_rotors])
-                print(f"  [틱 {tick}] 하위 상태: {state_bits} | 목표 위상으로 수렴 중...")
-                time.sleep(0.8)
-
-            print("------------------------------------------\n")
-
-            # 3. 새로운 질서로 수렴
-            self.internal_phase = target_new_phase
-            self.is_locked = True
-            self.history = "0" # 새로운 질서로 재결정화
-            print(f"[{self.name}] 재정렬 완료. 새로운 질서(Phase: {self.internal_phase:.2f})로 다시 잠김 (Lock).")
-            print(f"[{self.name}] 최종 상태: {self.history} (이전의 0을 파괴하고, 더 방대한 새로운 0을 품었다.)")
-
-        else:
-            print(f"[{self.name}] 공명 유지 (위상차 미미): {self.history}")
+    except KeyboardInterrupt:
+        print("\nEngine shutting down gracefully...")
+        save_state(elysia_core)
 
 if __name__ == "__main__":
-    # 시뮬레이션 실행
-    # 초기 질서 상태 (위상 0.0)
-    elysia_core = RecursiveUnit("Elysia_Core", 0.0)
-
-    # 망치의 일격 (위상 3.14 - Pi: 파괴적 간섭)
-    hammer_blow_phase = math.pi
-    elysia_core.process_hammer_blow(hammer_blow_phase)
+    engine_loop()
