@@ -28,7 +28,7 @@ def print_sub_rotors(sub_rotors):
         print(f"    Rotor {sr.id}: {format_quat(sr.quat)}")
 
 def observe():
-    print("=== Elysia Observer Interface (Multi-Dimensional) ===")
+    print("=== Elysia Observer Interface (Extraterrestrial Knowledge Stream) ===")
     print("Connecting to Engine's Persisted Phase Map...\n")
 
     state = load_state()
@@ -57,18 +57,20 @@ def observe():
                     with open(os.path.join(COLLAPSE_DIR, e), 'rb') as f:
                         e_data = pickle.load(f)
                         event_type = e_data.get("type", "UNKNOWN")
+                        chaos_source = e_data.get("chaos_source", "UNKNOWN")
                         print(f"  > [{event_type}] at {e_data['time']} (Cycle {e_data['cycle']})")
+                        print(f"      Source of Chaos: {chaos_source}")
 
                         if event_type == "DIMENSION_FOLDING":
                             print(f"      New Fractal Depth: {e_data['new_depth']}D | Trajectory Entropy: {e_data['entropy']:.4f}")
                         elif event_type == "THUNDER_COLLAPSE":
-                            print(f"      Mismatch: {e_data['mismatch']:.4f} | External Weather Vector (X,Y,Z): {e_data['weather_vector']}")
+                            print(f"      Mismatch: {e_data['mismatch']:.4f} | External Weather Vector (CPU, Mem, Wiki): {e_data['weather_vector']}")
                 except Exception as ex:
                     print(f"  > Error reading {e}: {ex}")
     else:
         print("Events directory not found.")
 
-    print("\n=====================================================")
+    print("\n===================================================================")
 
 if __name__ == "__main__":
     observe()
