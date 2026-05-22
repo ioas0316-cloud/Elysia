@@ -227,3 +227,7 @@ data/**/Engrams/
 tests/test_output*.bak
 debug_d21.py
 fix_d21.py
+
+# Elysia generated state and collapse logs
+*.pkl
+collapses/
