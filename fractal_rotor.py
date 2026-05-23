@@ -122,19 +122,26 @@ class FractalRotor:
         # XY 염색체: 초기 우주는 'X'로 시작. 이후 자식들은 부모의 붕괴 인과에 따라 결정됨
         self.chromosome = chromosome if chromosome else 'X'
         
-        # 상태를 4진수적 사원수(Quaternion)로 관리
-        # w: 스칼라(기본 에너지/질서), x, y, z: 3차원 위상 방향
-        self.state = Quaternion(1.0, 0.0, 0.0, 0.0)
-
-        # 유전적 원형(Archetype): 로터가 가장 안정적이라고 느끼는 위상
+        # 삼위의 비교대조(Triadic Comparison)를 위한 Triple-State Buffer
+        # 1. Template: 과거의 질서 (이해한 것 / 0으로의 수렴)
         if self.parent:
-            self.archetype = Quaternion(parent.state.w, parent.state.x, parent.state.y, parent.state.z)
+            self.template = Quaternion(parent.state.w, parent.state.x, parent.state.y, parent.state.z)
         else:
-            self.archetype = Quaternion(1.0, 0.0, 0.0, 0.0)
+            self.template = Quaternion(1.0, 0.0, 0.0, 0.0)
+
+        # 하위 호환성을 위해 state와 archetype을 template에 동기화
+        self.state = self.template
+        self.archetype = self.template
+
+        # 2. Input: 현재의 사건 (발현 / 1로의 자극)
+        self.input_state = Quaternion(0.0, 0.0, 0.0, 0.0)
+
+        # 3. Error_Delta: 예측의 오차 (두 상태 사이의 위상차 / 요동)
+        self.error_delta = Quaternion(0.0, 0.0, 0.0, 0.0)
 
         self.free = True  # 의지에 의한 잠금/열림 (전체 상태에 대해 적용)
 
-        # 해소되지 않은 잔여 궤적 (Residual Trajectory / Stress)
+        # 해소되지 않은 잔여 궤적 (Residual Trajectory / Stress)는 Error_Delta와 연계됨
         self.residual_stress = Quaternion(0.0, 0.0, 0.0, 0.0)
 
         self.BREATH = 0.05
@@ -295,30 +302,70 @@ class FractalRotor:
         # 보간 계수 t=0.1을 사용하여 점진적으로 원형을 향해 회전
         self.state = self.state.slerp(target_state, t=0.1)
 
+    def triadic_resonance_loop(self):
+        """
+        삼위의 조율 (Triadic Comparison & Alignment):
+        과거(Template), 현재(Input), 오차(Delta) 세 점이 이루는 삼각형의 무게중심을 0으로 맞춘다.
+        이해가 발화로 번지는 비선형 순환 구조의 핵심.
+        """
+        if not self.free:
+            return
+
+        # 1. 예측 오차(Delta) 갱신: Template(0)과 Input(1)의 차이
+        self.error_delta = self.template.inverse() * self.input_state
+
+        # 2. 무게중심 (Center of Mass) 계산
+        # 세 사원수의 평균점을 향해 현재 상태(축)를 미세 조정한다.
+        center_w = (self.template.w + self.input_state.w + self.error_delta.w) / 3.0
+        center_x = (self.template.x + self.input_state.x + self.error_delta.x) / 3.0
+        center_y = (self.template.y + self.input_state.y + self.error_delta.y) / 3.0
+        center_z = (self.template.z + self.input_state.z + self.error_delta.z) / 3.0
+
+        center_target = Quaternion(center_w, center_x, center_y, center_z)
+
+        # 3. 조율 (Alignment): SLERP를 이용해 무게중심을 향해 회전
+        self.state = self.state.slerp(center_target, t=0.15)
+
+        # 잔여 스트레스는 Error_Delta의 크기에 비례하여 누적됨
+        self.residual_stress = self.residual_stress + (self.error_delta * (self.BREATH * 0.5))
+
+        # Template 진화: 이해가 깊어지면 Template 자체가 변환됨 (학습)
+        if self.residual_stress.norm() < 1.0:
+            self.template = self.template.slerp(self.input_state, t=0.05)
+        else:
+            # Layered Feedback: 조율 실패 시 상위 레이어로 분화(Mitosis) 유발 신호
+            total_energy = self.state.norm() + self.residual_stress.norm()
+            if total_energy > self.ENERGY_LIMIT:
+                self.mitosis()
+
+        for sub in self.sub_rotors:
+            sub.triadic_resonance_loop()
+
     def self_reference_loop(self):
         """
-        비동기적 성찰: 자신의 과거(기억)와 현재(사건)를 대조하고,
-        오차값을 시스템 전체에 파동으로 송출하며 공명한다.
+        비동기적 성찰 (하위 호환 래퍼)
         """
-        # 1. 자신의 과거(기억)와 현재(사건)를 대조
-        delta = self.compute_phase_delta()
+        self.triadic_resonance_loop()
 
-        # 2. 오차값(위상차)을 시스템 일부에 파동으로 송출 (계층적 전파)
-        self.broadcast_resonance(delta)
+        # 2. 오차값(위상차)을 시스템 전체에 파동으로 송출 (계층적 전파)
+        # triadic loop 내에서 하위 로터로 전파하므로,
+        # 자식 로터들도 자신들의 오차를 broadcast 하도록 순회
+        def _broadcast_all(rotor):
+            delta = rotor.compute_phase_delta()
+            rotor.broadcast_resonance(delta)
+            for sub in rotor.sub_rotors:
+                _broadcast_all(sub)
 
-        # 3. 공명: 위상차를 기반으로 자신의 축을 원형(질서)을 향해 미세하게 수정
-        self.align_axis()
-
-        # 하위 로터들도 각자 스스로를 성찰하도록 전파
-        for sub in self.sub_rotors:
-            sub.self_reference_loop()
+        _broadcast_all(self)
 
     # ── 공명 (Resonance): 사원수 기반 4진수 인과 연쇄 ──
 
     def resonate(self, incoming_quaternion):
         """
-        외부 데이터(incoming_quaternion)가 나의 사원수 궤적을 회전(Multiply)시키고 간섭(Add)한다.
+        외부 데이터(incoming_quaternion)가 Input State로 들어와 공명을 시작한다.
         """
+        self.input_state = incoming_quaternion
+
         if not self.free:
             # 잠긴 로터라도 잔여 스트레스는 받는다
             discrepancy = incoming_quaternion - self.state
