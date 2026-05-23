@@ -400,6 +400,19 @@ def amp_bar(amp, width=5):
     filled = int(level * width)
     return '█' * filled + '░' * (width - filled)
 
+def stress_bar(stress, width=4):
+    """무지의 인지(자이로스코프 축의 흔들림)를 시각화"""
+    # 스트레스가 클수록 요동침을 강하게 표현
+    level = min(1.0, max(0.0, stress / 2.0))
+    filled = int(level * width)
+
+    if filled == 0:
+        return '·' * width  # 평온함 (이해의 확정)
+    elif filled < width * 0.5:
+        return '≈' * filled + '·' * (width - filled)  # 약한 의문
+    else:
+        return '⚡' * filled + '·' * (width - filled)  # 강한 요동 (미지와의 충돌)
+
 def display_rotor(rotor, prefix=""):
     glyph = '□' if rotor.free else '◈'
     code = '1' if rotor.free else '0'
@@ -408,12 +421,16 @@ def display_rotor(rotor, prefix=""):
     components = [rotor.state.w, rotor.state.x, rotor.state.y, rotor.state.z]
     axes_str = ''
     total_mass = rotor.state.norm()
+    current_stress = rotor.residual_stress.norm()
 
     for i, comp in enumerate(components):
         mark = '◇' if rotor.free else '◆'
         axes_str += f"{mark}{amp_bar(abs(comp))} "
         
-    print(f"│ {prefix}{rotor.id:<5} ({rotor.chromosome}) [{code}]{glyph} (M:{total_mass:4.1f}) │ {axes_str}│")
+    stress_visual = stress_bar(current_stress)
+
+    # M: 질량(현상/에너지), S: 스트레스(미지/요동)
+    print(f"│ {prefix}{rotor.id:<5} ({rotor.chromosome}) [{code}]{glyph} (M:{total_mass:4.1f}|S:{stress_visual}) │ {axes_str}│")
     
     for i, sub in enumerate(rotor.sub_rotors):
         branch = "├─" if i < len(rotor.sub_rotors)-1 else "└─"
