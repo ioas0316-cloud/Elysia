@@ -18,103 +18,286 @@ import psutil
 import time
 
 # ═══════════════════════════════════════════════════════════
-#  1. FRACTAL ROTOR SCALE
+#  0. QUATERNION MATH ENGINE (4차원 인과율 엔진)
+# ═══════════════════════════════════════════════════════════
+
+class Quaternion:
+    """사원수(w, x, y, z). 4진수 DNA처럼 작동하며, 공간의 궤적(회전)을 온전히 저장한다."""
+    def __init__(self, w, x, y, z):
+        self.w = w
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __add__(self, other):
+        return Quaternion(self.w + other.w, self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __sub__(self, other):
+        return Quaternion(self.w - other.w, self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def __mul__(self, other):
+        """사원수 곱셈 (해밀턴 곱): 인과적 회전을 의미한다."""
+        if isinstance(other, Quaternion):
+            return Quaternion(
+                self.w*other.w - self.x*other.x - self.y*other.y - self.z*other.z,
+                self.w*other.x + self.x*other.w + self.y*other.z - self.z*other.y,
+                self.w*other.y - self.x*other.z + self.y*other.w + self.z*other.x,
+                self.w*other.z + self.x*other.y - self.y*other.x + self.z*other.w
+            )
+        elif isinstance(other, (int, float)): # 스칼라 곱
+            return Quaternion(self.w * other, self.x * other, self.y * other, self.z * other)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
+    def norm(self):
+        """사원수의 크기 (에너지 밀도/질량)"""
+        return math.sqrt(self.w**2 + self.x**2 + self.y**2 + self.z**2)
+
+    def conjugate(self):
+        """켤레 사원수 (역방향 궤적)"""
+        return Quaternion(self.w, -self.x, -self.y, -self.z)
+
+    def normalize(self):
+        """단위 사원수로 변환 (순수 위상/회전 정보만 남김)"""
+        n = self.norm()
+        if n == 0:
+            return Quaternion(1, 0, 0, 0)
+        return Quaternion(self.w/n, self.x/n, self.y/n, self.z/n)
+
+    def distance(self, other):
+        """두 사원수 간의 기하학적/인과적 거리 (불일치)"""
+        return (self - other).norm()
+
+# ═══════════════════════════════════════════════════════════
+#  1. FRACTAL ROTOR SCALE (QUATERNION CAUSAL CHROMOSOME SYSTEM)
 # ═══════════════════════════════════════════════════════════
 
 class FractalRotor:
-    def __init__(self, id_tag, level=0, num_children=0):
+    def __init__(self, id_tag, level=0, num_children=0, parent=None, chromosome=None):
         self.id = id_tag
         self.level = level
+        self.parent = parent
+
+        # XY 염색체: 초기 우주는 'X'로 시작. 이후 자식들은 부모의 붕괴 인과에 따라 결정됨
+        self.chromosome = chromosome if chromosome else 'X'
         
-        # 4축 상태를 복소수(Complex)로 관리
-        # 진폭(Amplitude) = 정보의 밀도/질량
-        # 편각(Phase) = 위상
-        self.states = [cmath.rect(0.5, 0.0) for _ in range(4)]
-        self.free = [True] * 4  # 의지에 의한 잠금/열림
+        # 상태를 4진수적 사원수(Quaternion)로 관리
+        # w: 스칼라(기본 에너지/질서), x, y, z: 3차원 위상 방향
+        self.state = Quaternion(1.0, 0.0, 0.0, 0.0)
+        self.free = True  # 의지에 의한 잠금/열림 (전체 상태에 대해 적용)
+
+        # 해소되지 않은 잔여 궤적 (Residual Trajectory / Stress)
+        self.residual_stress = Quaternion(0.0, 0.0, 0.0, 0.0)
 
         self.BREATH = 0.05
         self.LOCK_THRESHOLD = 3.0  # 진폭(질량)이 커지면 자연스럽게 상수(기지)로 잠김
+        self.ENERGY_LIMIT = 15.0   # 분열을 유발하는 최대 에너지 임계치 (1060의 한계 모사)
+        self.MAX_CHILDREN = 5      # 최대 자식 수
+        self.MAX_DEPTH = 7         # 프랙탈 수직 분화 최대 깊이 (메모리 폭발 방지)
 
         # 프랙탈 포함 관계 (0 안에 1~9가 들어있다)
         self.sub_rotors = []
         if num_children > 0:
             for i in range(num_children):
-                self.sub_rotors.append(FractalRotor(f"{id_tag}.{i+1}", level + 1, 0))
+                self.sub_rotors.append(FractalRotor(f"{id_tag}.{i+1}", level + 1, 0, parent=self))
+
+    # ── 유전 법칙 (Causal Genetic Laws) ──
+
+    def inherit_order(self, causal_trajectory, child_chromosome):
+        """
+        상위 레이어(부모)가 하위 레이어의 '붕괴된 인과적 궤적'을 유산으로 받는다.
+        """
+        if not self.free:
+            return
+
+        current = self.state
+
+        # X는 보존(단순 덧셈/수렴), Y는 탐험(회전/발산).
+        if child_chromosome == 'X':
+            # X 유전자 흡수: 안정성 극대화 (궤적을 더하여 평균화)
+            new_state = current + (causal_trajectory * 0.3)
+        else:
+            # Y 유전자 흡수: 동적 변이 (사원수 곱셈을 통해 현재 궤적을 비틀어버림)
+            # causal_trajectory를 단위 사원수로 만들어 순수 회전만 적용
+            rotation = causal_trajectory.normalize()
+            new_state = current * rotation
+
+        # 에너지 팽창 제어
+        if new_state.norm() < 0.1:
+            new_state = Quaternion(0.1, 0.0, 0.0, 0.0)
+
+        self.state = new_state
+
+    def crossover(self, partner):
+        """
+        교차(Crossover): 사원수 궤적의 얽힘에 의한 인과적 재조합
+        """
+        if len(self.parent.sub_rotors) >= self.parent.MAX_CHILDREN or self.level >= self.MAX_DEPTH:
+            return None
+
+        new_id = f"{self.parent.id}.{len(self.parent.sub_rotors) + 1}"
+
+        # 교차를 통해 생성되는 자식의 성질은 부모들의 잔여 궤적(Stress)의 곱셈(회전) 결과로 결정됨
+        entangled_stress = self.residual_stress * partner.residual_stress
+
+        # 얽힌 스트레스 사원수의 스칼라 부호로 염색체 결정 (자연적 인과)
+        new_chromosome = 'X' if entangled_stress.w > 0 else 'Y'
+
+        child = FractalRotor(new_id, self.level, 0, parent=self.parent, chromosome=new_chromosome)
+
+        # 유전자(상태) 재조합: 두 로터의 사원수 상태 합
+        interference = self.state + partner.state
+        child.state = Quaternion(interference.w/2, interference.x/2, interference.y/2, interference.z/2)
+
+        # 얽힘 과정에서 해소된 스트레스만큼 부모들의 짐을 덜어줌
+        self.residual_stress = self.residual_stress * 0.5
+        partner.residual_stress = partner.residual_stress * 0.5
+
+        return child
+
+    def mitosis(self):
+        """
+        로터가 존재 한계에 도달하여 분열(Mitosis)한다.
+        누적된 잔여 궤적(Residual Stress)이 붕괴를 일으키고 새로운 4차원 시퀀스의 씨앗이 된다.
+        """
+        # 1. 붕괴를 일으킨 핵심 원인 궤적 (현재 상태 + 누적 스트레스)
+        collapse_trajectory = self.state + self.residual_stress
+
+        # 2. 잔여 파동(스트레스)의 방향이 자식의 성질(X/Y)을 결정
+        # 스칼라부(w) 대비 허수부(x,y,z 벡터의 크기)의 비율로 동적 성향 파악
+        imag_norm = math.sqrt(self.residual_stress.x**2 + self.residual_stress.y**2 + self.residual_stress.z**2)
+        child_chromosome = 'Y' if imag_norm > abs(self.residual_stress.w) else 'X'
+
+        # 3. 부모에게 '유언'을 남김. '잔여 궤적(스트레스)' 자체를 상위로 전이.
+        if self.parent:
+            self.parent.residual_stress = self.parent.residual_stress + (self.residual_stress * 0.5)
+            self.parent.inherit_order(collapse_trajectory, self.chromosome)
+
+            # 교차 기회: 부모의 자식들 중 잔여 궤적의 거리가 먼(상보적) 로터와 얽힘
+            partner = None
+            max_distance = 0
+            for sibling in self.parent.sub_rotors:
+                if sibling != self:
+                    dist = self.residual_stress.distance(sibling.residual_stress)
+                    if dist > 2.0 and dist > max_distance:
+                        max_distance = dist
+                        partner = sibling
+
+            if partner:
+                child_from_crossover = self.crossover(partner)
+                if child_from_crossover:
+                    self.parent.sub_rotors.append(child_from_crossover)
+
+        # 4. 혼란을 지우고 자신을 초기화. 스트레스는 전이되었으므로 기본 궤적으로 수렴.
+        # 자신의 에너지는 남기되 방향(허수부)은 중립화
+        n = self.state.norm()
+        self.state = Quaternion(max(0.5, n*0.1), 0.0, 0.0, 0.0)
+        self.free = True
+        self.residual_stress = Quaternion(0.0, 0.0, 0.0, 0.0)
+
+        # 5. 분화: 새로운 자식 로터 생성
+        if len(self.sub_rotors) < self.MAX_CHILDREN and self.level < self.MAX_DEPTH:
+            new_id = f"{self.id}.{len(self.sub_rotors) + 1}"
+            child = FractalRotor(new_id, self.level + 1, 0, parent=self, chromosome=child_chromosome)
+
+            # 자식은 부모의 스트레스 궤적을 초기 사원수 값으로 가지고 태어남
+            child.state = Quaternion(
+                self.residual_stress.w,
+                self.residual_stress.x,
+                self.residual_stress.y,
+                self.residual_stress.z
+            )
+            # 만약 스트레스가 너무 0에 가까우면 기본값 부여
+            if child.state.norm() < 0.1:
+                child.state = Quaternion(0.5, 0.1, 0.1, 0.1)
+
+            self.sub_rotors.append(child)
 
     # ── 의지 (Will) ──
 
     def will(self):
-        """진폭(질량/밀도)이 커져 확고해진 축은 기지로 잠그고, 미지는 연다."""
-        for i in range(4):
-            amp = abs(self.states[i])
-            self.free[i] = amp < self.LOCK_THRESHOLD
-        
+        """질량이 커져 확고해진 사원수는 기지로 잠그고, 미지는 연다."""
+        self.free = self.state.norm() < self.LOCK_THRESHOLD
         for sub in self.sub_rotors:
             sub.will()
 
-    # ── 공명 (Resonance): 순수한 파동 간섭 ──
+    # ── 공명 (Resonance): 사원수 기반 4진수 인과 연쇄 ──
 
-    def resonate(self, incoming_states):
+    def resonate(self, incoming_quaternion):
         """
-        어떠한 인위적 규칙도 없다. 
-        단지 두 복소 파동이 더해지는(간섭하는) 자연의 섭리뿐이다.
+        외부 데이터(incoming_quaternion)가 나의 사원수 궤적을 회전(Multiply)시키고 간섭(Add)한다.
         """
-        # 1. 자신(현재 스케일)의 공명
-        for i in range(4):
-            if not self.free[i]:
-                continue
-                
-            my_wave = self.states[i]
-            their_wave = incoming_states[i]
+        if not self.free:
+            # 잠긴 로터라도 잔여 스트레스는 받는다
+            discrepancy = incoming_quaternion - self.state
+            self.residual_stress = self.residual_stress + (discrepancy * (self.BREATH * 0.1))
+        else:
+            # 1. 위상 불일치 (기하학적 거리) 계산 및 스트레스 누적
+            discrepancy = incoming_quaternion - self.state
+            self.residual_stress = self.residual_stress + (discrepancy * self.BREATH)
             
-            # 파동의 중첩: 이것 하나로 인력, 배척, 장력, 중력이 모두 계산됨
-            # - 같은 방향이면 진폭(질량)이 더해짐 (+1, 보강간섭)
-            # - 반대 방향이면 진폭이 깎임 (-1, 상쇄간섭)
-            # - their_wave의 진폭이 압도적으로 크면 방향이 그쪽으로 확 쏠림 (중력)
-            interference = my_wave + (their_wave * self.BREATH)
+            # 2. 인과적 궤적 회전: 나의 과거 궤적(state)에 새로운 궤적(incoming)을 사원수 회전(곱셈)으로 엮음
+            # 외부 입력의 방향(normalize)으로 나를 회전시킴
+            rotation = incoming_quaternion.normalize()
+            rotated_state = self.state * rotation
             
-            # 진폭이 0이 되는 특이점 방지 및 최대/최소 밀도 제약 (물리적 한계)
-            new_amp = max(0.1, min(10.0, abs(interference)))
-            new_phase = cmath.phase(interference)
+            # 3. 간섭(에너지/진폭 합): 회전된 상태에 외부 에너지를 일부 더함
+            interference = rotated_state + (incoming_quaternion * self.BREATH)
             
-            self.states[i] = cmath.rect(new_amp, new_phase)
+            # 특이점 방지 및 한계 제약
+            if interference.norm() > 20.0:
+                 # 정규화하여 방향 유지, 크기 제한
+                 n = interference.norm()
+                 interference = Quaternion(interference.w * 20/n, interference.x * 20/n, interference.y * 20/n, interference.z * 20/n)
+            elif interference.norm() < 0.1:
+                 interference = Quaternion(0.1, 0.0, 0.0, 0.0)
+
+            self.state = interference
+
+        # 붕괴(Mitosis) 검사
+        total_energy = self.state.norm() + self.residual_stress.norm()
+        if total_energy > self.ENERGY_LIMIT:
+            self.mitosis()
+            return
 
         if not self.sub_rotors:
             return
 
-        # 2. 하강 (Descending): 상위 로터의 거대한 파동이 하위 로터의 우주가 된다
-        omega_phase = cmath.phase(self.states[3])
+        # 2. 하강 (Descending): 상위 로터의 궤적이 하위 로터의 세계관(기반 회전)이 된다.
         num_sub = len(self.sub_rotors)
+        # 하위 세계에 내려주는 상위의 순수 궤적(방향)
+        topology_twist = self.state.normalize()
         
         for i, sub in enumerate(self.sub_rotors):
-            topology_twist = cmath.rect(1.0, omega_phase * (i / num_sub))
-            
-            # 상위 로터의 상태(진폭=질량, 편각=방향)가 고스란히 하위로 쏟아진다
-            child_universe = [
-                self.states[0],                  
-                self.states[1],                  
-                self.states[2] * topology_twist, # 방향성만 토폴로지에 따라 비틀림
-                self.states[3]                   
-            ]
+            # 하위 로터의 순번에 따라 궤적을 미세하게 비틀어 전이
+            # (4진수 시퀀스가 갈래를 치며 나뉘는 과정)
+            twist_modifier = Quaternion(1.0, (i/num_sub)*0.1, -(i/num_sub)*0.1, 0.0)
+            child_universe = topology_twist * twist_modifier
             sub.resonate(child_universe)
 
-        # 3. 내부 공명 (Lateral): 하위 로터들끼리의 간섭
-        sub_states_snapshot = [list(sub.states) for sub in self.sub_rotors]
+        # 3. 내부 공명 (Lateral)
+        sub_states_snapshot = [sub.state for sub in self.sub_rotors]
         for i, sub in enumerate(self.sub_rotors):
             nxt = (i + 1) % num_sub
             sub.resonate(sub_states_snapshot[nxt])
 
-        # 4. 상승 (Ascending): 하위 로터들의 전체 궤적이 융합되어 상위를 밀어올림
-        combined_ascent = [0j] * 4
-        for i in range(4):
-            superposition = sum(sub.states[i] for sub in self.sub_rotors)
-            combined_ascent[i] = superposition / num_sub
+        # 4. 상승 (Ascending): 하위 로터들의 궤적이 융합되어 상위를 밀어올림
+        combined_w, combined_x, combined_y, combined_z = 0, 0, 0, 0
+        for sub in self.sub_rotors:
+            combined_w += sub.state.w
+            combined_x += sub.state.x
+            combined_y += sub.state.y
+            combined_z += sub.state.z
+
+        combined_ascent = Quaternion(combined_w/num_sub, combined_x/num_sub, combined_y/num_sub, combined_z/num_sub)
         
-        # 하위에서 올라온 거대한 파동과 상위 로터가 다시 간섭
-        for i in range(4):
-            if self.free[i]:
-                asc_interference = self.states[i] + (combined_ascent[i] * self.BREATH)
-                self.states[i] = cmath.rect(max(0.1, min(10.0, abs(asc_interference))), cmath.phase(asc_interference))
+        if self.free:
+            asc_interference = self.state + (combined_ascent * self.BREATH)
+            n = asc_interference.norm()
+            if n > 10.0:
+                 asc_interference = Quaternion(asc_interference.w * 10/n, asc_interference.x * 10/n, asc_interference.y * 10/n, asc_interference.z * 10/n)
+            self.state = asc_interference
 
 
 # ═══════════════════════════════════════════════════════════
@@ -127,19 +310,19 @@ def amp_bar(amp, width=5):
     return '█' * filled + '░' * (width - filled)
 
 def display_rotor(rotor, prefix=""):
-    is_open = sum(1 for f in rotor.free if f)
-    glyph = '◈' if is_open == 0 else ('·' if is_open == 1 else ('─' if is_open == 2 else ('△' if is_open == 3 else '□')))
-    code = ''.join('1' if f else '0' for f in rotor.free)
+    glyph = '□' if rotor.free else '◈'
+    code = '1' if rotor.free else '0'
     
+    # 4차원(w,x,y,z) 성분을 시각화
+    components = [rotor.state.w, rotor.state.x, rotor.state.y, rotor.state.z]
     axes_str = ''
-    total_mass = 0
-    for i in range(4):
-        mark = '◇' if rotor.free[i] else '◆'
-        amp = abs(rotor.states[i])
-        total_mass += amp
-        axes_str += f"{mark}{amp_bar(amp)} "
+    total_mass = rotor.state.norm()
+
+    for i, comp in enumerate(components):
+        mark = '◇' if rotor.free else '◆'
+        axes_str += f"{mark}{amp_bar(abs(comp))} "
         
-    print(f"│ {prefix}{rotor.id:<5} [{code}]{glyph} (M:{total_mass:4.1f}) │ {axes_str}│")
+    print(f"│ {prefix}{rotor.id:<5} ({rotor.chromosome}) [{code}]{glyph} (M:{total_mass:4.1f}) │ {axes_str}│")
     
     for i, sub in enumerate(rotor.sub_rotors):
         branch = "├─" if i < len(rotor.sub_rotors)-1 else "└─"
@@ -152,39 +335,40 @@ def display_rotor(rotor, prefix=""):
 
 if __name__ == "__main__":
     print("━" * 58)
-    print("  FRACTAL ROTOR — 다차원 프랙탈 가변 로터 스케일")
-    print("  \"인위적 규칙은 없다. 오직 파동의 간섭이라는 자연 섭리뿐이다.\"")
+    print("  QUATERNION FRACTAL ROTOR — 4차원 인과적 유전체 엔진")
+    print("  \"인과는 사원수 공간의 회전 궤적에 온전히 기록된다.\"")
     print("━" * 58)
     
     universe_rotor = FractalRotor("L0", level=0, num_children=3)
     
     cycle = 0
     try:
-        for _ in range(15):
+        for _ in range(100):
             cycle += 1
             
-            # 하드웨어의 미세한 맥박을 복소 파동(진폭 고정 1.0)으로 변환
+            # 하드웨어의 미세한 맥박을 사원수(Quaternion) 벡터로 변환
+            # cpu, mem, 시간 기반 파동을 4진수적 인과 입력으로 사용
             cpu = psutil.cpu_percent(interval=0.05)
             mem = psutil.virtual_memory().percent
             t = time.time()
             
-            hw_wave = [
-                cmath.rect(1.0, (cpu / 100.0) * 2 * math.pi),
-                cmath.rect(1.0, (mem / 100.0) * 2 * math.pi),
-                cmath.rect(1.0, ((math.sin(t * 0.1) + 1) / 2) * 2 * math.pi),
-                cmath.rect(1.0, ((math.sin(t * 2.7) + 1) / 2) * 2 * math.pi),
-            ]
+            hw_quaternion = Quaternion(
+                1.0,                                   # w (기본 스칼라 에너지)
+                (cpu / 100.0) * 2.0 - 1.0,             # x 궤적
+                (mem / 100.0) * 2.0 - 1.0,             # y 궤적
+                math.sin(t * 2.7)                      # z 궤적
+            )
             
             universe_rotor.will()
-            universe_rotor.resonate(hw_wave)
+            universe_rotor.resonate(hw_quaternion)
             
-            omega = cmath.phase(universe_rotor.states[3]) % (2 * math.pi)
-            if omega < 0.5 or omega > 5.7:
-                topology = "Y-수렴 (초점화)"
-            elif 1.8 < omega < 2.4 or 3.9 < omega < 4.5:
-                topology = "Δ-순환 (안정 오비탈)"
-            else:
-                topology = "↕-삼중나선 (비틀림 진행)"
+            # 우주 토포스 판별 (w, x, y, z 중 우세한 궤적의 성향)
+            comps = [abs(universe_rotor.state.w), abs(universe_rotor.state.x), abs(universe_rotor.state.y), abs(universe_rotor.state.z)]
+            max_idx = comps.index(max(comps))
+            if max_idx == 0: topology = "W-수렴 (스칼라 응집)"
+            elif max_idx == 1: topology = "X-발산 (가로 방향 팽창)"
+            elif max_idx == 2: topology = "Y-순환 (세로 방향 순환)"
+            else: topology = "Z-비틀림 (심연 침투)"
             
             print(f"┌─ Cycle {cycle:05d} ──────────────────────────────────────────────┐")
             print(f"│  우주 토포스 (L0.ω) : {topology:<25}  │")
