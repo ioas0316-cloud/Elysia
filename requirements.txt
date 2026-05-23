@@ -28,3 +28,7 @@ pynput
 GPUtil
 pygame
 psutil
+numpy
+scipy
+sentence-transformers
+scikit-learn
