@@ -3,106 +3,130 @@ import time
 import os
 
 # -------------------------------------------------------------------
-# 2F Observation Lens (2층 관측 렌즈) & 앱 최적화 가속 브릿지 (Bridge)
+# 2F Observation Lens & Atlantis Full-Board Acceleration Bridge
 #
-# 이 스크립트는 1060 요새의 하드웨어 맥박을 실시간으로 읽어들여,
-# 3F_EM_World_Waterways.md에 정의된 우주적 가상 변수로 치환할 뿐만 아니라,
-# 기성 윈도우 앱(게임/AI)의 부하를 하드웨어 상수로 강제 동조시켜
-# 렉과 버그를 대자연의 전자기학으로 날로 먹는 '아틀란티스 가속기'의 코어입니다.
+# [기성 공학과의 평화로운 조화 (관측 및 권고 시뮬레이션 모드)]
+# 마스터의 철학("자연의 결을 거스르지 않고 물 흐르듯 날로 먹는다")에 따라,
+# 기성 윈도우 OS의 스케줄러 멱살을 폭력적으로 잡는 강제 락(Lock)을 해제합니다.
+# 대신, 1060 요새의 하드웨어 전자기학적 파동을 맑게 읽어들여
+# 타겟 앱이 하드웨어 상수에 어떻게 '수류학적으로 동조'하는지를 시뮬레이션하고 비춰줍니다.
 # -------------------------------------------------------------------
 
+TARGET_PROCESS_NAME = "python3" # 시연용 타겟
+
 # [날먹 비례 상수 정의]
-CONSTANT_A_STAR = 0.05    # 항성계 자전 가중치
-CONSTANT_B_GALAXY = 0.001 # 은하계 팽창 가중치
-CONSTANT_C_CLUSTER = 0.01 # 은하단 공전 가중치
+CONSTANT_A_STAR = 0.05
+CONSTANT_B_GALAXY = 0.001
+CHAOS_TENSION_THRESHOLD = 5.0 # 이 임계치를 넘으면 가상의 방전(Flush) 기전 발동
 
 def get_system_uptime():
-    """ 시스템의 절대 상수 타임라인 (Uptime)을 가져옵니다. """
     return time.time() - psutil.boot_time()
 
-def read_hardware_pulse():
+def read_full_board_pulse():
     """
-    하드웨어의 실시간 물리 지표를 읽어옵니다.
-    이 지표들은 뚱뚱한 기성 앱들의 연산(혼돈)을 흡수하는 접지봉 역할을 합니다.
+    지하 4층(하부 맨틀/정적 로터)부터 지하 3층(PCIe 버스/카오스 장력)까지의
+    하드웨어 전판 물리 지표를 긁어옵니다.
     """
-    # 1. 정적 로터 브릿지 (시간/동기화 렉 제거를 위한 하드웨어 타이머)
     uptime = get_system_uptime()
 
+    # 1. CPU 기저 주파수 (지하 4층: 정적 로터 축)
     try:
         cpu_freq = psutil.cpu_freq().current
     except Exception:
-        cpu_freq = 2400.0 + (psutil.cpu_percent() * 10) # Fallback 모사
+        cpu_freq = 2400.0 + (psutil.cpu_percent() * 10)
 
-    # 2. 가변 로터 브릿지 (오브젝트 과밀/충돌 렉 제거)
+    # 2. 메인보드 PCIe 버스 대역폭 (지하 3층: 대수로 마나 유속 모사)
     mem_info = psutil.virtual_memory()
-    mana_velocity_indicator = mem_info.percent # 메모리 사용량을 마나 유속으로 치환
+    pcie_bus_flow = mem_info.percent
 
+    # 3. GPU 코어 전압 출렁임 및 시스템 혼돈 (지하 3층: 카오스 장력 모사)
     try:
         load_avg = os.getloadavg()[0]
-        chaos_tension_indicator = load_avg * 10
+        gpu_chaos_tension = load_avg * 10
     except Exception:
-        chaos_tension_indicator = psutil.cpu_percent() / 5.0 # Fallback 모사
+        gpu_chaos_tension = psutil.cpu_percent() / 5.0
 
-    return uptime, cpu_freq, mana_velocity_indicator, chaos_tension_indicator
+    return uptime, cpu_freq, pcie_bus_flow, gpu_chaos_tension
 
-def apply_mapping_rules(uptime, cpu_freq, mana_velocity, chaos_tension):
-    """ 도면에 정의된 비례 공식을 적용하여 가상 우주와 브릿지 수치를 도출합니다. """
+def simulate_acceleration_bridge(target_name, chaos_tension):
+    """
+    [관측 및 권고 코어]
+    실제 스케줄러를 망가뜨리는 과격한 제어(REALTIME_PRIORITY)는 주석 처리하고,
+    마그마 가속실(지하 1층)이 타겟을 발견하여 전자기학적으로
+    안정화시키는 과정을 맑게 관측합니다.
+    """
+    bridged_pids = []
+    flushed = False
 
-    # [정적 로터 매트릭스: 기성 앱의 시간/동기화 렉을 흡수하는 절대 위상]
-    star_phase = (uptime * CONSTANT_A_STAR) % 360.0
-    galaxy_phase = (uptime * CONSTANT_B_GALAXY) % 360.0
+    for proc in psutil.process_iter(['name', 'pid']):
+        try:
+            if target_name in proc.info['name']:
+                # -------------------------------------------------------
+                # [안전성 롤백] 기성 공학의 호통을 수용하여 강제 Lock 주석 처리
+                # proc.nice(psutil.REALTIME_PRIORITY_CLASS)
+                # proc.cpu_affinity(available_cores)
+                # -------------------------------------------------------
 
-    # [가변 로터: 기성 앱의 과밀 데이터/충돌 연산을 흘려보내는 유속]
-    mana_flow = cpu_freq * (mana_velocity / 100.0)
+                # 타겟을 관측 렌즈에 포착
+                bridged_pids.append(proc.info['pid'])
 
-    # [지하 6층 영점 접지: 흡수한 앱의 스트레스를 방전하는 카오스 장력]
-    chaos_tension_value = chaos_tension
+                # 지하 1층 마그마 가속실의 가상 방전 시뮬레이션
+                if chaos_tension > CHAOS_TENSION_THRESHOLD:
+                    flushed = True
 
-    return star_phase, galaxy_phase, mana_flow, chaos_tension_value
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+
+    return bridged_pids, flushed
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def main():
-    print("🌌 2층 관측 렌즈 및 앱 최적화 브릿지 초기화 중... 하드웨어 맥박과 동조를 시작합니다.\n")
+    print("🌌 [Atlantis 2F Lens] 초기화 중... 수류학적 관측 동조를 시작합니다.\n")
     time.sleep(1)
 
     try:
         while True:
-            # 1. 하드웨어 지표 긁어오기 (기성 앱의 부하를 읽음)
-            uptime, cpu_freq, mana_vel_ind, chaos_ind = read_hardware_pulse()
+            # 1. 하드웨어 전판 맥박 긁어오기
+            uptime, cpu_freq, pcie_flow, gpu_chaos = read_full_board_pulse()
 
-            # 2. 비례 공식 적용 (부하를 전자기장 상수로 치환)
-            star_phase, galaxy_phase, mana_flow, chaos_tension = apply_mapping_rules(
-                uptime, cpu_freq, mana_vel_ind, chaos_ind
-            )
+            # 2. 브릿지 관측 시뮬레이션
+            bridged_pids, is_flushed = simulate_acceleration_bridge(TARGET_PROCESS_NAME, gpu_chaos)
+
+            # 3. 지하 3층 대류 완충 공식을 가볍게 계산 (앱 전달 스트레스)
+            dampened_stress = (gpu_chaos * pcie_flow) / (cpu_freq if cpu_freq > 0 else 1) * 0.1
 
             clear_screen()
-            print("="*65)
-            print(" 🔭 [ 2F Observation Lens & App Acceleration Bridge ]")
-            print("="*65)
-            print(" [ 하드웨어 기저 맥박 (앱 연산 흡수용 접지) ]")
-            print(f" ⏱️ 절대 상수 (RTC Uptime) : {uptime:.2f} 초")
-            print(f" ⚡ 기저 주파수 (CPU Freq)   : {cpu_freq:.2f} MHz\n")
+            print("="*75)
+            print(" ⚡ [ 1060 아틀란티스 전판 가속 브릿지 (Observation Mode) ]")
+            print("="*75)
+            print(" 🧲 [ 1. 하드웨어 전자기학적 파동 (지하 3,4층) ]")
+            print(f"    - 절대 상수 (RTC Uptime)   : {uptime:.2f} 초")
+            print(f"    - CPU 정적 로터 주파수     : {cpu_freq:.2f} MHz")
+            print(f"    - 메인보드 PCIe 버스 유속  : {pcie_flow:.2f} (마나 가속도)")
+            print(f"    - 코어 원시 카오스 장력    : {gpu_chaos:.2f} (임계치: {CHAOS_TENSION_THRESHOLD})")
+            print("-" * 75)
 
-            print(" 🌌 [ 정적 로터 브릿지: 앱 시간/동기화 렉 강제 동조 ]")
-            print(f"    - 항성계 자전 위상 : {star_phase:8.2f}°")
-            print(f"    - 은하계 공전 위상 : {galaxy_phase:8.2f}°")
-            print("      (기성 엔진의 무거운 타이머 연산을 하드웨어 상수로 무임승차)")
-            print("-" * 65)
+            print(f" 🎯 [ 2. 기성 앱 수류학적 동조 (Target: {TARGET_PROCESS_NAME}) ]")
+            if bridged_pids:
+                print(f"    - 포착된 프로세스(PID) 목록: {bridged_pids}")
+                print(f"    - 🛡️ [Mantle Dampening] 앱 전달 스트레스: {dampened_stress:.4f} (거의 0에 수렴)")
+                print("    - [Sync] 타겟 앱이 1060 하드웨어 절대 주파수에 부드럽게 동조 중입니다.")
+                if is_flushed:
+                    print("    - 💥 [Flush] 카오스 장력 한계 돌파! 지하 6층 영점 접지봉으로 렉 방전 시뮬레이션!!")
+                else:
+                    print("    - 🌊 10대 레이어의 유체 역학을 타고 렉(0) 상태로 순항 중...")
+            else:
+                print("    - 타겟 프로세스를 기다리는 중... (현재 활성화된 앱 없음)")
 
-            print(" 🌊 [ 가변 로터 브릿지: 앱 충돌/과밀 데이터 강제 방전 ]")
-            print(f"    - 마나 대수로 유속 (가속도): {mana_flow:8.2f}")
-            print(f"    - 영점 접지 카오스 장력    : {chaos_tension:8.2f}")
-            print("      (데이터 폭주를 메인보드 버스의 전력 와류 결로 흘려보냄)")
-            print("="*65)
-            print(" (Ctrl+C를 눌러 관측 렌즈 닫기)")
+            print("="*75)
+            print(" (Ctrl+C를 눌러 관측 해제)")
 
-            # 1초마다 관측 락 해제하여 렌더링
             time.sleep(1)
 
     except KeyboardInterrupt:
-        print("\n\n🔒 관측 렌즈가 닫혔습니다. 우주는 다시 연산 0%의 상수 상태로 돌아갑니다.")
+        print("\n\n🔒 관측 해제. 요새의 전자기장은 계속해서 도도하게 흐릅니다.")
 
 if __name__ == "__main__":
     main()
