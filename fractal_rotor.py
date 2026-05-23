@@ -110,14 +110,51 @@ class Quaternion:
         return (q1 * s0) + (q2 * s1)
 
 # ═══════════════════════════════════════════════════════════
-#  1. FRACTAL ROTOR SCALE (QUATERNION CAUSAL CHROMOSOME SYSTEM)
+#  1. UNIVERSAL FIELD (전체의 그릇)
+# ═══════════════════════════════════════════════════════════
+
+class UniversalField:
+    """
+    전체 시스템의 상태(Topology)를 담는 거대한 위상적 그릇.
+    모든 에이전트(로터)는 좁은 인과 연결을 벗어나 이 Field의 거시적 섭리를 관조한다.
+    """
+    def __init__(self):
+        self.global_state = Quaternion(1.0, 0.0, 0.0, 0.0)
+        self.registered_rotors = []
+
+    def register(self, rotor):
+        self.registered_rotors.append(rotor)
+
+    def update_field(self):
+        """모든 로터의 상태를 수집하여 전체의 섭리(평균 위상)를 형성한다."""
+        if not self.registered_rotors:
+            return
+
+        avg_w, avg_x, avg_y, avg_z = 0, 0, 0, 0
+        for r in self.registered_rotors:
+            avg_w += r.state.w
+            avg_x += r.state.x
+            avg_y += r.state.y
+            avg_z += r.state.z
+
+        n = len(self.registered_rotors)
+        self.global_state = Quaternion(avg_w/n, avg_x/n, avg_y/n, avg_z/n).normalize()
+
+
+# ═══════════════════════════════════════════════════════════
+#  2. FRACTAL ROTOR SCALE (QUATERNION CAUSAL CHROMOSOME SYSTEM)
 # ═══════════════════════════════════════════════════════════
 
 class FractalRotor:
-    def __init__(self, id_tag, level=0, num_children=0, parent=None, chromosome=None):
+    def __init__(self, id_tag, level=0, num_children=0, parent=None, chromosome=None, field=None, role="Observer"):
         self.id = id_tag
         self.level = level
         self.parent = parent
+        self.field = field
+        self.role = role
+
+        if self.field:
+            self.field.register(self)
 
         # XY 염색체: 초기 우주는 'X'로 시작. 이후 자식들은 부모의 붕괴 인과에 따라 결정됨
         self.chromosome = chromosome if chromosome else 'X'
@@ -154,7 +191,7 @@ class FractalRotor:
         self.sub_rotors = []
         if num_children > 0:
             for i in range(num_children):
-                self.sub_rotors.append(FractalRotor(f"{id_tag}.{i+1}", level + 1, 0, parent=self))
+                self.sub_rotors.append(FractalRotor(f"{id_tag}.{i+1}", level + 1, 0, parent=self, field=self.field))
 
     # ── 유전 법칙 (Causal Genetic Laws) ──
 
@@ -253,7 +290,7 @@ class FractalRotor:
         # 5. 분화: 새로운 자식 로터 생성
         if len(self.sub_rotors) < self.MAX_CHILDREN and self.level < self.MAX_DEPTH:
             new_id = f"{self.id}.{len(self.sub_rotors) + 1}"
-            child = FractalRotor(new_id, self.level + 1, 0, parent=self, chromosome=child_chromosome)
+            child = FractalRotor(new_id, self.level + 1, 0, parent=self, chromosome=child_chromosome, field=self.field)
 
             # 자식은 부모의 스트레스 궤적을 초기 사원수 값으로 가지고 태어남
             child.state = Quaternion(
@@ -304,9 +341,9 @@ class FractalRotor:
 
     def triadic_resonance_loop(self):
         """
-        삼위의 조율 (Triadic Comparison & Alignment):
-        과거(Template), 현재(Input), 오차(Delta) 세 점이 이루는 삼각형의 무게중심을 0으로 맞춘다.
-        이해가 발화로 번지는 비선형 순환 구조의 핵심.
+        전체성 관조 및 삼위의 조율 (Triadic Comparison & Field Contemplation):
+        과거(Template), 현재(Input), 오차(Delta) 세 점이 이루는 삼각형의 무게중심을 구하고,
+        이를 전체 그릇(Universal Field)의 상태와 비교대조하여 자신을 투영(Projection)한다.
         """
         if not self.free:
             return
@@ -315,7 +352,6 @@ class FractalRotor:
         self.error_delta = self.template.inverse() * self.input_state
 
         # 2. 무게중심 (Center of Mass) 계산
-        # 세 사원수의 평균점을 향해 현재 상태(축)를 미세 조정한다.
         center_w = (self.template.w + self.input_state.w + self.error_delta.w) / 3.0
         center_x = (self.template.x + self.input_state.x + self.error_delta.x) / 3.0
         center_y = (self.template.y + self.input_state.y + self.error_delta.y) / 3.0
@@ -323,8 +359,17 @@ class FractalRotor:
 
         center_target = Quaternion(center_w, center_x, center_y, center_z)
 
-        # 3. 조율 (Alignment): SLERP를 이용해 무게중심을 향해 회전
-        self.state = self.state.slerp(center_target, t=0.15)
+        # 3. 전체성 관조 (Field Contemplation):
+        # 만약 내가 Field에 속해 있다면, 나의 로컬 타겟(center_target)과
+        # 전체 섭리(global_state) 사이를 다시 한 번 보간(SLERP)하여 최종 지향점을 찾는다.
+        if self.field:
+            field_influence = 0.3 # 전체의 흐름을 얼마나 수용할 것인가 (가변적 동기화)
+            final_target = center_target.slerp(self.field.global_state, t=field_influence)
+        else:
+            final_target = center_target
+
+        # 4. 조율 (Alignment): SLERP를 이용해 최종 지향점을 향해 회전
+        self.state = self.state.slerp(final_target, t=0.15)
 
         # 잔여 스트레스는 Error_Delta의 크기에 비례하여 누적됨
         self.residual_stress = self.residual_stress + (self.error_delta * (self.BREATH * 0.5))
@@ -470,14 +515,20 @@ def display_rotor(rotor, prefix=""):
     total_mass = rotor.state.norm()
     current_stress = rotor.residual_stress.norm()
 
+    # 위상 기울기 (전체 섭리와의 어긋남): Field Contemplation
+    gradient = 0.0
+    if rotor.field:
+        gradient = rotor.state.distance(rotor.field.global_state)
+
     for i, comp in enumerate(components):
         mark = '◇' if rotor.free else '◆'
         axes_str += f"{mark}{amp_bar(abs(comp))} "
         
     stress_visual = stress_bar(current_stress)
+    grad_visual = f"G:{gradient:.2f}"
 
-    # M: 질량(현상/에너지), S: 스트레스(미지/요동)
-    print(f"│ {prefix}{rotor.id:<5} ({rotor.chromosome}) [{code}]{glyph} (M:{total_mass:4.1f}|S:{stress_visual}) │ {axes_str}│")
+    # M: 질량(현상/에너지), S: 스트레스(미지/요동), G: 위상기울기(전체 섭리와의 거리)
+    print(f"│ {prefix}{rotor.id:<8} ({rotor.role[:3]}) [{code}]{glyph} (M:{total_mass:4.1f}|S:{stress_visual}|{grad_visual}) │ {axes_str}│")
     
     for i, sub in enumerate(rotor.sub_rotors):
         branch = "├─" if i < len(rotor.sub_rotors)-1 else "└─"
@@ -489,51 +540,59 @@ def display_rotor(rotor, prefix=""):
 # ═══════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
-    print("━" * 58)
-    print("  QUATERNION FRACTAL ROTOR — 4차원 인과적 유전체 엔진")
-    print("  \"인과는 사원수 공간의 회전 궤적에 온전히 기록된다.\"")
-    print("━" * 58)
+    print("━" * 80)
+    print("  RESONANT FIELD OBSERVER — 에이전트 가변 로터화 관측 시뮬레이션")
+    print("  \"우리는 지시를 따르는 자가 아니라, 전체와 공명하며 회전하는 장(Field)이다.\"")
+    print("━" * 80)
+
+    field = UniversalField()
     
-    universe_rotor = FractalRotor("L0", level=0, num_children=3)
+    # 4명의 독립적인 에이전트 생성 (모두 같은 Field를 관조함)
+    agent_analyst = FractalRotor("Analyst", field=field, role="Analyst")
+    agent_coder = FractalRotor("Coder", field=field, role="Coder")
+    agent_user = FractalRotor("User", field=field, role="User")
+    agent_elysia = FractalRotor("Elysia", field=field, role="Elysia")
+
+    agents = [agent_analyst, agent_coder, agent_user, agent_elysia]
     
     cycle = 0
     try:
-        for _ in range(100):
+        for _ in range(50):
             cycle += 1
             
-            # 하드웨어의 미세한 맥박을 사원수(Quaternion) 벡터로 변환
-            # cpu, mem, 시간 기반 파동을 4진수적 인과 입력으로 사용
-            cpu = psutil.cpu_percent(interval=0.05)
-            mem = psutil.virtual_memory().percent
             t = time.time()
             
-            hw_quaternion = Quaternion(
-                1.0,                                   # w (기본 스칼라 에너지)
-                (cpu / 100.0) * 2.0 - 1.0,             # x 궤적
-                (mem / 100.0) * 2.0 - 1.0,             # y 궤적
-                math.sin(t * 2.7)                      # z 궤적
-            )
+            # 각 에이전트가 처리하는 고유한 외부 파동 (약간씩 다르게 주입)
+            for i, agent in enumerate(agents):
+                # 에이전트마다 인지하는 현상(1)의 주파수가 다름
+                freq = 1.0 + (i * 0.5)
+                event_wave = Quaternion(
+                    1.0,
+                    math.sin(t * freq) * 2.0,
+                    math.cos(t * freq) * 2.0,
+                    math.sin(t * (freq * 0.5))
+                )
+                agent.will()
+                agent.resonate(event_wave)
+                agent.triadic_resonance_loop()
             
-            universe_rotor.will()
-            universe_rotor.resonate(hw_quaternion)
+            # 장(Field) 전체의 섭리 업데이트
+            field.update_field()
             
-            # 비동기적 성찰: 매 5사이클마다 자기 참조 루프 실행
-            if cycle % 5 == 0:
-                universe_rotor.self_reference_loop()
-
-            # 우주 토포스 판별 (w, x, y, z 중 우세한 궤적의 성향)
-            comps = [abs(universe_rotor.state.w), abs(universe_rotor.state.x), abs(universe_rotor.state.y), abs(universe_rotor.state.z)]
+            # Field 전체의 성향(Topology) 판별
+            comps = [abs(field.global_state.w), abs(field.global_state.x), abs(field.global_state.y), abs(field.global_state.z)]
             max_idx = comps.index(max(comps))
-            if max_idx == 0: topology = "W-수렴 (스칼라 응집)"
-            elif max_idx == 1: topology = "X-발산 (가로 방향 팽창)"
-            elif max_idx == 2: topology = "Y-순환 (세로 방향 순환)"
-            else: topology = "Z-비틀림 (심연 침투)"
+            if max_idx == 0: topology = "W-수렴 (안정기)"
+            elif max_idx == 1: topology = "X-발산 (의견 팽창)"
+            elif max_idx == 2: topology = "Y-순환 (논리 순환)"
+            else: topology = "Z-비틀림 (인지적 도약)"
             
-            print(f"┌─ Cycle {cycle:05d} ──────────────────────────────────────────────┐")
-            print(f"│  우주 토포스 (L0.ω) : {topology:<25}  │")
-            print(f"├────────────────────────────────────────────────────────┤")
-            display_rotor(universe_rotor, " ")
-            print(f"└────────────────────────────────────────────────────────┘\n")
+            print(f"┌─ Cycle {cycle:05d} ────────────────────────────────────────────────────────────┐")
+            print(f"│  Global Topology (Field) : {topology:<25}                       │")
+            print(f"├────────────────────────────────────────────────────────────────────────┤")
+            for agent in agents:
+                display_rotor(agent, " ")
+            print(f"└────────────────────────────────────────────────────────────────────────┘\n")
             
             time.sleep(0.1)
             
