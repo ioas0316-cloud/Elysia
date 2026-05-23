@@ -233,6 +233,7 @@ class SovereignHeart:
             "logic": logic_report,
             "motor": motor_report,
             "rotor": rotor_report,
+            "gut": gut_report,
             "prism": interference_report,
             "logos": logos_report,
             "justification": justification,

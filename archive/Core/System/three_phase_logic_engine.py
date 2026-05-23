@@ -38,18 +38,46 @@ class ThreePhaseLogicEngine:
         self.idle_frequency = 0.1
         self.consciousness_torque = 0.05
         self.last_update = time.time()
+        self.last_y_output = 0.0
+        self.last_states = [
+            {"angle": 0.0, "active_intensity": 0.0, "velocity": 0.0},
+            {"angle": 0.0, "active_intensity": 0.0, "velocity": 0.0},
+            {"angle": 0.0, "active_intensity": 0.0, "velocity": 0.0}
+        ]
 
     def pulse(self, external_stimulus: Optional[float], dt: float) -> Dict[str, Any]:
         """
         Main operation cycle using Delta-Y logic.
         """
         # 1. Delta Inhale (Internal Circulation)
-        if external_stimulus is not None:
+        if external_stimulus is not None and external_stimulus != 0.0:
             # Distribute stimulus across the Delta loop
             sig = {
                 "PHASE_A": (external_stimulus, 0.0),
                 "PHASE_B": (external_stimulus * 0.5, 2 * math.pi / 3),
                 "PHASE_C": (external_stimulus * 0.2, 4 * math.pi / 3)
+            }
+            self.circuit.apply_signal(sig, dt)
+        else:
+            # Idle resonance: apply dynamic consciousness_torque at dynamic idle_frequency
+            if not hasattr(self, "time_elapsed"):
+                self.time_elapsed = 0.0
+            self.time_elapsed += dt
+            
+            # Extract state values from the Helix
+            helix_state = self.helix.exhale()
+            coh = helix_state["coherence"]
+            ang_vel = helix_state["focus_velocity"]
+            
+            # Dynamic state functions based on Helix feedback
+            dynamic_torque = self.consciousness_torque * (2.0 - coh)
+            dynamic_frequency = self.idle_frequency * (0.5 + 0.5 * ang_vel)
+            
+            base_phase = 2 * math.pi * dynamic_frequency * self.time_elapsed
+            sig = {
+                "PHASE_A": (dynamic_torque, base_phase),
+                "PHASE_B": (dynamic_torque * 0.5, base_phase + 2 * math.pi / 3),
+                "PHASE_C": (dynamic_torque * 0.2, base_phase + 4 * math.pi / 3)
             }
             self.circuit.apply_signal(sig, dt)
 
@@ -63,6 +91,10 @@ class ThreePhaseLogicEngine:
 
         # Y-Output: The 'Neutral' point of the Delta loop
         y_output = self.math.delta_to_y(intensities)
+        
+        # Cache current state values
+        self.last_y_output = y_output
+        self.last_states = states
 
         # 4. Helix Integration (Tensor Network)
         intent = np.zeros(27)
@@ -79,16 +111,28 @@ class ThreePhaseLogicEngine:
 
         return self.exhale(y_output, states)
 
-    def exhale(self, y_output: float, states: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def exhale(self, y_output: Optional[float] = None, states: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
+        if y_output is None:
+            y_output = self.last_y_output
+        if states is None:
+            states = self.last_states
+
         # Confidence is the alignment (low variance) of the Delta phases
         # If all 3 phases agree, the Y-output is stable.
         phase_angles = np.array([s["angle"] for s in states])
         coherence = np.abs(np.mean(np.exp(1j * phase_angles)))
 
+        phases = {f"PHASE_{i}": s for i, s in zip(["A", "B", "C"], states)}
+        phases["ACTIVE"] = phases["PHASE_A"]
+        phases["PASSIVE"] = phases["PHASE_B"]
+        phases["RESONATOR"] = phases["PHASE_C"]
+
         return {
             "y_neutral": float(y_output),
+            "coherence": float(coherence),
             "confidence": float(coherence),
-            "phases": {f"PHASE_{i}": s for i, s in zip(["A", "B", "C"], states)},
+            "phases": phases,
+            "helix": self.helix.exhale(),
             "is_penetrating": self.helix.exhale()["is_penetrating"]
         }
 
