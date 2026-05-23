@@ -69,6 +69,46 @@ class Quaternion:
         """두 사원수 간의 기하학적/인과적 거리 (불일치)"""
         return (self - other).norm()
 
+    def inverse(self):
+        """사원수의 역원"""
+        n2 = self.w**2 + self.x**2 + self.y**2 + self.z**2
+        if n2 == 0:
+            return Quaternion(1, 0, 0, 0)
+        conj = self.conjugate()
+        return Quaternion(conj.w/n2, conj.x/n2, conj.y/n2, conj.z/n2)
+
+    def dot(self, other):
+        """사원수의 내적"""
+        return self.w*other.w + self.x*other.x + self.y*other.y + self.z*other.z
+
+    def slerp(self, other, t):
+        """구면 선형 보간 (Spherical Linear Interpolation)"""
+        q1 = self.normalize()
+        q2 = other.normalize()
+        dot = q1.dot(q2)
+
+        # 짧은 경로 선택
+        if dot < 0.0:
+            q2 = Quaternion(-q2.w, -q2.x, -q2.y, -q2.z)
+            dot = -dot
+
+        if dot > 0.9995:
+            # 점들이 너무 가까우면 선형 보간 사용
+            result = q1 + (q2 - q1) * t
+            return result.normalize()
+
+        # 각도 계산
+        theta_0 = math.acos(dot)
+        theta = theta_0 * t
+
+        sin_theta = math.sin(theta)
+        sin_theta_0 = math.sin(theta_0)
+
+        s0 = math.cos(theta) - dot * sin_theta / sin_theta_0
+        s1 = sin_theta / sin_theta_0
+
+        return (q1 * s0) + (q2 * s1)
+
 # ═══════════════════════════════════════════════════════════
 #  1. FRACTAL ROTOR SCALE (QUATERNION CAUSAL CHROMOSOME SYSTEM)
 # ═══════════════════════════════════════════════════════════
@@ -85,6 +125,13 @@ class FractalRotor:
         # 상태를 4진수적 사원수(Quaternion)로 관리
         # w: 스칼라(기본 에너지/질서), x, y, z: 3차원 위상 방향
         self.state = Quaternion(1.0, 0.0, 0.0, 0.0)
+
+        # 유전적 원형(Archetype): 로터가 가장 안정적이라고 느끼는 위상
+        if self.parent:
+            self.archetype = Quaternion(parent.state.w, parent.state.x, parent.state.y, parent.state.z)
+        else:
+            self.archetype = Quaternion(1.0, 0.0, 0.0, 0.0)
+
         self.free = True  # 의지에 의한 잠금/열림 (전체 상태에 대해 적용)
 
         # 해소되지 않은 잔여 궤적 (Residual Trajectory / Stress)
@@ -221,6 +268,50 @@ class FractalRotor:
         self.free = self.state.norm() < self.LOCK_THRESHOLD
         for sub in self.sub_rotors:
             sub.will()
+
+    # ── 자기 참조 (Self-Reference) ──
+
+    def compute_phase_delta(self):
+        """현재 상태와 원형(Archetype) 사이의 위상차 계산"""
+        return self.archetype.inverse() * self.state
+
+    def broadcast_resonance(self, delta):
+        """위상차를 계층적으로 전파 (자신, 형제, 부모에게)"""
+        # 형제들에게 전파 (Level 1)
+        if self.parent:
+            for sibling in self.parent.sub_rotors:
+                if sibling != self:
+                    # 형제들은 위상차의 영향을 받아 자신의 축을 교정할 수 있음
+                    sibling.residual_stress = sibling.residual_stress + (delta * (sibling.BREATH * 0.5))
+
+            # 부모에게 전파 (Level 2)
+            self.parent.residual_stress = self.parent.residual_stress + (delta * (self.parent.BREATH * 0.2))
+
+    def align_axis(self, target_state=None):
+        """자신의 상태를 원형(Archetype)이나 특정 타겟을 향해 교정 (SLERP 적용)"""
+        if target_state is None:
+            target_state = self.archetype
+
+        # 보간 계수 t=0.1을 사용하여 점진적으로 원형을 향해 회전
+        self.state = self.state.slerp(target_state, t=0.1)
+
+    def self_reference_loop(self):
+        """
+        비동기적 성찰: 자신의 과거(기억)와 현재(사건)를 대조하고,
+        오차값을 시스템 전체에 파동으로 송출하며 공명한다.
+        """
+        # 1. 자신의 과거(기억)와 현재(사건)를 대조
+        delta = self.compute_phase_delta()
+
+        # 2. 오차값(위상차)을 시스템 일부에 파동으로 송출 (계층적 전파)
+        self.broadcast_resonance(delta)
+
+        # 3. 공명: 위상차를 기반으로 자신의 축을 원형(질서)을 향해 미세하게 수정
+        self.align_axis()
+
+        # 하위 로터들도 각자 스스로를 성찰하도록 전파
+        for sub in self.sub_rotors:
+            sub.self_reference_loop()
 
     # ── 공명 (Resonance): 사원수 기반 4진수 인과 연쇄 ──
 
@@ -362,6 +453,10 @@ if __name__ == "__main__":
             universe_rotor.will()
             universe_rotor.resonate(hw_quaternion)
             
+            # 비동기적 성찰: 매 5사이클마다 자기 참조 루프 실행
+            if cycle % 5 == 0:
+                universe_rotor.self_reference_loop()
+
             # 우주 토포스 판별 (w, x, y, z 중 우세한 궤적의 성향)
             comps = [abs(universe_rotor.state.w), abs(universe_rotor.state.x), abs(universe_rotor.state.y), abs(universe_rotor.state.z)]
             max_idx = comps.index(max(comps))
