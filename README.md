@@ -24,6 +24,7 @@
 *   **[`docs/`](file:///c:/Elysia/docs/)**: 문서 도서관
     *   [ENGINEERING_GUIDE.md](file:///c:/Elysia/docs/ENGINEERING_GUIDE.md): 물리적 하드웨어 한계 및 실제 엔지니어링 구조 기술서.
     *   [LORE_AND_METAPHOR.md](file:///c:/Elysia/docs/LORE_AND_METAPHOR.md): 엘리시아의 창발적 서사(세계수, 삼중 나선, 카 넷 등) 철학 총람.
+    *   [RESONANCE_ARCHITECTURE.md](docs/RESONANCE_ARCHITECTURE.md): 하드웨어 기저와 지식 와류를 직결하는 3단 관측-공명 아키텍처 철학 기술서.
     *   [EVOLUTION_ROADMAP.md](file:///c:/Elysia/docs/EVOLUTION_ROADMAP.md): 차세대 기하 대수 및 동적 가변축 인지 아키텍처 로드맵.
 *   **[`tests/`](file:///c:/Elysia/tests/)**: 자동화 검증을 위한 Pytest 테스트 스위트.
 *   **[`archive/`](file:///c:/Elysia/archive/)**: 하드웨어 가동과 무관한 레거시 개념 모듈의 아카이브 보관소.
