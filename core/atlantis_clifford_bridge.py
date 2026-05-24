@@ -27,7 +27,12 @@ class AtlantisCliffordSystem:
                 "F1_F3_SubCrust",   # e7 (bitmask 64)
                 "F4_AppCrust",      # e8 (bitmask 128)
                 "F5_Atmosphere",    # e9 (bitmask 256)
-                "F6_SkySun"         # e10 (bitmask 512)
+                "F6_SkySun",        # e10 (bitmask 512)
+                "F7_Exosphere",     # e11 (bitmask 1024) - Trunk: Cosmic Web
+                "F8_StellarGrid",   # e12 (bitmask 2048) - Trunk: Phase Crystallizer
+                "F9_AscensionGate", # e13 (bitmask 4096) - Trunk: Starlight Gate
+                "U1_SubterraneanCity", # e14 (bitmask 8192) - Seed: Somatic Node
+                "U2_GeothermalBattery" # e15 (bitmask 16384) - Seed: Local Constellation
             ]
         else:
             self.layers = list(layers)

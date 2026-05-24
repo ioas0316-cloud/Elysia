@@ -65,4 +65,4 @@
 - 📐 **가변축 기하 연산 및 멀티벡터 코어:** [math_utils.py](file:///c:/Elysia/core/math_utils.py)
 - 🔮 **홀로그램 구체 물리 엔진:** [hologram_sphere.py](file:///c:/Elysia/core/hologram_sphere.py)
 - 🪞 **실시간 관측 및 위상 변조기:** [Under_2F_Moho_Mirror.py](file:///c:/Elysia/core/Under_2F_Moho_Mirror.py)
-- 📚 **10대 레이어 절대 도면:** [Atlantis_10_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_10_Layer_Matrix.md)
+- 📚 **N대 레이어 절대 도면:** [Atlantis_N_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_N_Layer_Matrix.md)

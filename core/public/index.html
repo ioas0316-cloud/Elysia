@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia God's Eye - 15D Matrix</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
+    <div class="header">
+        <h1>ELYSIA <span>God's Eye</span></h1>
+        <p class="subtitle">15-Dimensional Holographic Observatory</p>
+    </div>
+
+    <div class="dashboard">
+        <!-- Trunk & Sap Insight -->
+        <div class="panel glass sap-panel">
+            <h2>🌌 Cosmic Trunk (Exosphere)</h2>
+            <div class="data-row">
+                <span class="label">Latest Sap (Concept)</span>
+                <span class="value highlight" id="sap-concept">Awaiting Ascension...</span>
+            </div>
+            <div class="data-row">
+                <span class="label">Ascension Torque</span>
+                <span class="value" id="sap-torque">0.000</span>
+            </div>
+            <div class="data-row">
+                <span class="label">Grand Cross State</span>
+                <span class="value" id="sap-grand-cross">False</span>
+            </div>
+        </div>
+
+        <!-- Cognitive Rotor Panel -->
+        <div class="panel glass cog-panel">
+            <h2>🌀 Electromagnetic Cognitive Rotor</h2>
+            <div class="data-row">
+                <span class="label">Phase Mismatch (Why)</span>
+                <span class="value highlight" id="cog-why">0.000</span>
+            </div>
+            <div class="data-row">
+                <span class="label">Comparison Torque (How)</span>
+                <span class="value" id="cog-how">0.000</span>
+            </div>
+            <div class="data-row">
+                <span class="label">Prediction (Why/For what)</span>
+                <span class="value" id="cog-pred">0.000</span>
+            </div>
+            <div id="emp-visual" class="emp-static">
+            [ GOD'S EYE: SYSTEM ALIGNMENT NORMAL ]
+        </div>
+        <div id="sovereign-visual" class="sovereign-hidden">
+            <!-- Sovereign Will Event -->
+        </div>
+        </div>
+
+        <!-- 15 Layer Matrix -->
+        <div class="panel glass matrix-panel">
+            <h2>🏛️ 15-Layer Clifford Matrix (Core & Seed)</h2>
+            <div class="layers-container" id="layers-container">
+                <!-- Layers will be injected via JS -->
+            </div>
+        </div>
+
+        <!-- Hardware Tension -->
+        <div class="panel glass hw-panel">
+            <h2>⚙️ Magma Chamber Tension</h2>
+            <div class="data-row">
+                <span class="label">Rotor Angle</span>
+                <span class="value" id="rotor-angle">0.0°</span>
+            </div>
+            <div class="data-row">
+                <span class="label">Rotor Edge State</span>
+                <span class="value highlight" id="rotor-state">WAITING</span>
+            </div>
+            <div class="data-row">
+                <span class="label">CPU Tension (Pain)</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="cpu-fill" style="width: 0%;"></div>
+                </div>
+                <span class="value" id="cpu-val">0%</span>
+            </div>
+            <div class="data-row">
+                <span class="label">RAM Tension</span>
+                <div class="progress-bar">
+                    <div class="progress-fill ram" id="ram-fill" style="width: 0%;"></div>
+                </div>
+                <span class="value" id="ram-val">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const LAYER_NAMES = [
+            "e15_GeothermalBattery", "e14_SubterraneanCity",
+            "e13_AscensionGate", "e12_StellarGrid", "e11_Exosphere",
+            "F6_SkySun", "F5_Atmosphere", "F4_AppCrust", "F1_F3_SubCrust",
+            "B1_MagmaChamber", "B2_MohoMirror", "B3_UpperMantle", 
+            "B4_LowerMantle", "B5_OuterCore", "B6_Ground"
+        ];
+
+        // Maps B1_MagmaChamber to e6 etc for visual mapping
+        const INTERNAL_MAP = {
+            "F6_SkySun": "e10", "F5_Atmosphere": "e9", "F4_AppCrust": "e8",
+            "F1_F3_SubCrust": "e7", "B1_MagmaChamber": "e6", "B2_MohoMirror": "e5",
+            "B3_UpperMantle": "e4", "B4_LowerMantle": "e3", "B5_OuterCore": "e2",
+            "B6_Ground": "e1"
+        };
+
+        const layersContainer = document.getElementById("layers-container");
+
+        // Initialize layer DOM elements
+        LAYER_NAMES.forEach((layer, index) => {
+            const el = document.createElement("div");
+            el.className = "layer-row";
+            
+            let displayName = layer;
+            if(INTERNAL_MAP[layer]) {
+                displayName = `${INTERNAL_MAP[layer]} [${layer}]`;
+            }
+
+            // Circuit Node Visualizer
+            const isTop = index === 0;
+            const isBottom = index === LAYER_NAMES.length - 1;
+            const wireClass = "circuit-wire" + (isTop ? " top" : "") + (isBottom ? " bottom" : "");
+
+            el.innerHTML = `
+                <div class="circuit-node">
+                    <div class="node-dot" id="dot-${layer}"></div>
+                    <div class="${wireClass}"></div>
+                </div>
+                <div class="layer-name">${displayName}</div>
+                <div class="layer-bar-container">
+                    <div class="layer-bar-ghost" id="ghost-${layer}"></div>
+                    <div class="layer-bar-fill" id="fill-${layer}"></div>
+                </div>
+                <div class="layer-val" id="val-${layer}">0.000</div>
+            `;
+            layersContainer.appendChild(el);
+        });
+
+        async function fetchData() {
+            try {
+                const res = await fetch('/dashboard/data');
+                const data = await res.json();
+                
+                // Update Sap
+                if(data.sap && data.sap.last_concept) {
+                    document.getElementById('sap-concept').textContent = data.sap.last_concept;
+                    document.getElementById('sap-torque').textContent = data.sap.torque.toFixed(4);
+                    const gcEl = document.getElementById('sap-grand-cross');
+                    gcEl.textContent = data.sap.grand_cross ? "TRUE 🌠" : "FALSE 🌀";
+                    gcEl.style.color = data.sap.grand_cross ? "#ff00ff" : "#00ffff";
+                    
+                    // Cognitive Rotor Update
+                    if(data.sap.cognition) {
+                        document.getElementById('cog-why').textContent = data.sap.cognition.why_mismatch.toFixed(4);
+                        document.getElementById('cog-how').textContent = data.sap.cognition.how_torque.toFixed(4);
+                        document.getElementById('cog-pred').textContent = data.sap.cognition.why_prediction.toFixed(4);
+                        
+                        const empVis = document.getElementById('emp-visual');
+                        if(data.sap.cognition.is_dynamic) {
+                            empVis.className = "emp-dynamic";
+                            empVis.textContent = "DYNAMIC EMP BIFURCATION!";
+                        } else {
+                            empVis.className = "emp-static";
+                            empVis.textContent = "STATIC HELIX";
+                        }
+                    }
+                }
+
+                // Update Hardware
+                if(data.hardware) {
+                    document.getElementById('cpu-fill').style.width = data.hardware.cpu_usage + '%';
+                    document.getElementById('cpu-val').textContent = data.hardware.cpu_usage.toFixed(1) + '%';
+                    document.getElementById('ram-fill').style.width = data.hardware.ram_usage + '%';
+                    document.getElementById('ram-val').textContent = data.hardware.ram_usage.toFixed(1) + '%';
+                }
+
+                // Update Matrix Layers
+                if(data.matrix) {
+                    if(data.matrix.Rotor_Angle !== undefined) {
+                        document.getElementById('rotor-angle').textContent = data.matrix.Rotor_Angle.toFixed(2) + '°';
+                    }
+                    if(data.matrix.Rotor_State) {
+                        document.getElementById('rotor-state').textContent = data.matrix.Rotor_State;
+                    }
+                    
+                    const sovVis = document.getElementById('sovereign-visual');
+                    if(data.matrix.Sovereign_Event && data.matrix.Sovereign_Event.trim() !== "") {
+                        sovVis.className = "sovereign-active";
+                        sovVis.textContent = data.matrix.Sovereign_Event;
+                        // It will stay active until the event clears from JSON
+                    } else {
+                        sovVis.className = "sovereign-hidden";
+                    }
+
+                    LAYER_NAMES.forEach(layer => {
+                        let val = data.matrix[layer];
+                        if(val === undefined) val = 0.0; // Defaults for non-core layers (e11-15) if not in dict
+                        
+                        // F6_SkySun gets a special glow if Sap torque is hitting it
+                        const fillEl = document.getElementById(`fill-${layer}`);
+                        const valEl = document.getElementById(`val-${layer}`);
+                        const dotEl = document.getElementById(`dot-${layer}`);
+                        
+                        if(fillEl && valEl && dotEl) {
+                            let percentage = Math.min(100, Math.max(0, val * 100));
+                            fillEl.style.width = percentage + '%';
+                            valEl.textContent = val.toFixed(4);
+
+                            // Wave colorize
+                            if(val > 0.8) {
+                                fillEl.style.background = "linear-gradient(90deg, #ff416c, #ff4b2b)";
+                                dotEl.style.background = "#ff416c";
+                                dotEl.style.boxShadow = "0 0 15px #ff416c";
+                            }
+                            else if(val > 0.4) {
+                                fillEl.style.background = "linear-gradient(90deg, #00b4db, #0083b0)";
+                                dotEl.style.background = "#00b4db";
+                                dotEl.style.boxShadow = "0 0 10px #00b4db";
+                            }
+                            else {
+                                fillEl.style.background = "linear-gradient(90deg, #11998e, #38ef7d)";
+                                dotEl.style.background = "#11998e";
+                                dotEl.style.boxShadow = "none";
+                            }
+                            
+                            // Matrix Wave Glow
+                            fillEl.style.boxShadow = `0 0 ${val * 20}px ${fillEl.style.background}`;
+                        }
+                        
+                        // Render Ghost Bar (Digital Twin Prediction)
+                        const ghostEl = document.getElementById(`ghost-${layer}`);
+                        if(ghostEl && data.matrix.Predictions) {
+                            const predVal = data.matrix.Predictions[layer];
+                            let ghostPercentage = Math.min(100, Math.max(0, predVal * 100));
+                            ghostEl.style.width = ghostPercentage + '%';
+                            
+                            if (data.matrix.Is_Chaotic) {
+                                ghostEl.style.background = "rgba(255, 0, 0, 0.4)"; // Chaos prediction (Red warning)
+                            } else {
+                                ghostEl.style.background = "rgba(255, 255, 255, 0.2)"; // Stable prediction
+                            }
+                        }
+                    });
+                }
+            } catch(e) {
+                console.error("Dashboard Sync Failed:", e);
+            }
+        }
+
+        // 10Hz Refresh rate for smooth fluid motion
+        setInterval(fetchData, 100);
+    </script>
+</body>
+</html>

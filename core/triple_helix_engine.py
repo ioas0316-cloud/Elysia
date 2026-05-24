@@ -17,6 +17,7 @@ from typing import Dict, List, Tuple
 from sentence_transformers import SentenceTransformer
 from core.math_utils import Quaternion, Multivector
 from core.clifford_impedance_network import CliffordIPN, CliffordImpedanceLink, mv_normalize, mv_norm, ConnectionMode
+from core.enneagram_rotor import EnneagramRotor
 
 class TripleHelixEngine:
     def __init__(self, model_name='all-MiniLM-L6-v2', jump_threshold=0.5):
@@ -43,15 +44,16 @@ class TripleHelixEngine:
         for j in range(1, 5):
             self.inner_world.connect_nodes(f"H_{j}", "OUT", initial_R=5.0)
 
-        # 3. Setup Outer World (Somatic Layer - locked at Cl(3,0))
-        self.outer_world = CliffordIPN(initial_dims=3)
-        self.outer_world.MAX_AXES = 3 # Hard lock to 3D/Quaternion
+        # 3. Setup Outer World (Somatic Layer - locked at Cl(4,0))
+        self.outer_world = CliffordIPN(initial_dims=4)
+        self.outer_world.MAX_AXES = 4 # Hard lock to 4D to support code tension
         self.outer_world.MIN_AXES = 3
         
         # Somatic Sensory nodes (inputs)
         self.outer_world.add_node("SENSORY_MOTION", layer=0, initial_vector={1: 1.0}) # e1
         self.outer_world.add_node("SENSORY_PAIN", layer=0, initial_vector={2: 1.0})    # e2
         self.outer_world.add_node("SENSORY_VISION", layer=0, initial_vector={4: 1.0})  # e3
+        self.outer_world.add_node("SENSORY_CODE", layer=0, initial_vector={8: 1.0})    # e4
         # Somatic Action nodes (outputs)
         self.outer_world.add_node("ACTUATE_WASD", layer=1, initial_vector={0: 1.0})
         self.outer_world.add_node("ACTUATE_SPACE", layer=1, initial_vector={0: 1.0})
@@ -103,7 +105,7 @@ class TripleHelixEngine:
         len_factor = min(len(words) / 50.0, 1.0)
         return (density + len_factor) / 2.0
 
-    def pulse(self, text_thought: str, sensory_input: Dict[str, float], dt: float = 0.1, lr: float = 0.5) -> Tuple[float, bool, Quaternion]:
+    def pulse(self, text_thought: str, sensory_input: Dict[str, float], clutch_locks: Dict[str, bool] = None, dt: float = 0.1, lr: float = 0.5) -> Tuple[float, str, bool, Quaternion, dict]:
         """
         Executes a Triple Helix loop cycle:
         1. Inner World updates based on text thought.
@@ -113,13 +115,31 @@ class TripleHelixEngine:
         5. Bifurcation/compression triggered in Inner World and bridge links.
         6. Actuation state projected to unit Quaternion.
         """
+        if clutch_locks is None:
+            clutch_locks = {"lock_body": True, "lock_mind": True, "lock_heart": True}
+
         # --- A. Inner World Input Setup ---
         emb = self.encoder.encode([text_thought])[0]
         density_w = self.get_text_density(text_thought)
         
+        # CAD Constraint: Mind
+        code_mind_tension = sensory_input.get("coding_cognitive", 0.0)
+        if clutch_locks.get("lock_mind", True):
+            density_w = min(1.0, density_w + code_mind_tension)
+        
         inner_axes = self.inner_world.signature[0]
         inner_sig = self.inner_world.signature
         
+        # [자율 차원 조율 엔진 발동]
+        # 인지적 장력(코드의 거대한 구조적 변화나 난해한 텍스트 사유)이 임계치를 넘으면 새로운 공리로 취급
+        if code_mind_tension > 0.4:
+            # 텍스트와 텐션이 섞인 낯선 파동 생성
+            anomaly_signal = Multivector({0: 1.0, 1: code_mind_tension, 2: density_w}, inner_sig)
+            if self.inner_world.assimilate_axiom(anomaly_signal, threshold=0.15):
+                print(f"[Cognitive Breakthrough] Inner World expanded to Cl({self.inner_world.signature[0]},0) due to unexplainable axiom tension.")
+                inner_axes = self.inner_world.signature[0]
+                inner_sig = self.inner_world.signature
+
         proj = np.dot(emb, self.W_master[:, :inner_axes])
         inner_inputs = {}
         for i in range(1, inner_axes + 1):
@@ -135,16 +155,26 @@ class TripleHelixEngine:
         pain = sensory_input.get("pain_level", 0.0)
         vision = sensory_input.get("visual_entropy", 0.0)
         
+        # CAD Constraint: Body
+        code_body_tension = sensory_input.get("coding_somatic", 0.0) if clutch_locks.get("lock_body", True) else 0.0
+        
         outer_sig = self.outer_world.signature
         outer_inputs = {
             "SENSORY_MOTION": Multivector({1: motion}, outer_sig), # e1
             "SENSORY_PAIN": Multivector({2: pain}, outer_sig),     # e2
-            "SENSORY_VISION": Multivector({4: vision}, outer_sig)  # e3
+            "SENSORY_VISION": Multivector({4: vision}, outer_sig), # e3
+            "SENSORY_CODE": Multivector({8: code_body_tension}, outer_sig) # e4
         }
         self.outer_world.forward_propagate(outer_inputs)
         self.outer_world.tune_network(dt, lr)
         
-        self.ego_world.forward_propagate({})
+        # CAD Constraint: Heart
+        code_heart_tension = sensory_input.get("coding_emotional", 0.0) if clutch_locks.get("lock_heart", True) else 0.0
+        ego_sig = self.ego_world.signature
+        ego_inputs = {
+            "EGO_REASONING": Multivector({0: 1.0, 1: code_heart_tension}, ego_sig)
+        }
+        self.ego_world.forward_propagate(ego_inputs)
         self.ego_world.tune_network(dt, lr)
 
         # --- C. Cross-Dimensional Coordination Layer Propagation ---
@@ -244,6 +274,14 @@ class TripleHelixEngine:
         else:
             quat = Quaternion(1.0, 0.0, 0.0, 0.0)
 
+        # Extract Ego Enneagram Phase
+        ego_mv = self.ego_world.phases["EGO_DECISION"]
+        eqw = ego_mv.data.get(0, 0.0)
+        eqx = -ego_mv.data.get(6, 0.0)
+        eqy = ego_mv.data.get(5, 0.0)
+        eqz = -ego_mv.data.get(3, 0.0)
+        enneagram_state = EnneagramRotor.quaternion_to_enneagram(eqw, eqx, eqy, eqz)
+
         # Store logs
         self.history.append({
             'thought': text_thought,
@@ -252,7 +290,8 @@ class TripleHelixEngine:
             'tension': avg_tension,
             'mode': current_mode,
             'jumped': jumped,
-            'quat': quat
+            'quat': quat,
+            'enneagram': enneagram_state
         })
 
-        return avg_tension, current_mode, jumped, quat
+        return avg_tension, current_mode, jumped, quat, enneagram_state

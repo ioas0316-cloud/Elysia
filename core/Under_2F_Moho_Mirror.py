@@ -10,8 +10,12 @@ import threading
 # Add root folder to sys.path to resolve imports properly if run directly
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+import json
+
 from core.clifford_rotor_sync import DynamicPIDController, BitwiseCliffordRotor
 from core.atlantis_clifford_bridge import AtlantisCliffordSystem
+from core.electromagnetic_circuit import ElectromagneticCircuit
+from core.autopoiesis_sandbox import SovereignAutopoiesisEngine
 
 # -------------------------------------------------------------------
 # Under 2F Moho Mirror & Under 1F Magma Chamber Core - V5 (Hardened Edition)
@@ -149,7 +153,13 @@ def main():
     pid_controller = DynamicPIDController()
     rotor = BitwiseCliffordRotor()
     clifford_system = AtlantisCliffordSystem()
+    matrix_circuit = ElectromagneticCircuit(clifford_system.layers)
+    autopoiesis_engine = SovereignAutopoiesisEngine(clifford_system.layers)
     state_lock = threading.Lock() # B2_MohoMirror 단방향 관측 락(Lock) 실체화
+
+    creative_boredom = 0.0
+    sovereign_event_msg = ""
+    predicted_tensions = [0.0] * len(clifford_system.layers)
 
     # 타겟 프로세스 PID 검색
     target_pid = os.getpid() # 기본값은 자기 자신
@@ -200,60 +210,72 @@ def main():
             rotor.apply_clock_edge(is_rising, tension)
 
             # ---------------------------------------------------------------
-            # 2. 📐 B2_MohoMirror 단방향 락 안전장치 기반의 Clifford 상태 매핑
+            # 2. 📐 전자기장 회로(Electromagnetic Circuit) & 디지털 트윈 시뮬레이션
             # ---------------------------------------------------------------
             with state_lock:
-                # (1) B6_Ground: 영점 접지값 기입
-                clifford_system.set_layer_state("B6_Ground", 0.0 if not is_chaos_flushed else 1.0)
-                
-                # (2) B5_OuterCore: swap 메모리 점유율을 통해 물리 완충 유량 대변
-                swap_util = psutil.swap_memory().percent / 100.0
-                clifford_system.set_layer_state("B5_OuterCore", swap_util)
-                
-                # (3) B4_LowerMantle: CPU 주파수 상수
-                clifford_system.set_layer_state("B4_LowerMantle", min(1.0, cpu_freq / 5000.0))
-                
-                # (4) B3_UpperMantle: 실제 디스크 I/O 유속 매핑 (물리 버스 데이터 흐름)
                 disk_flow = get_disk_io_flow(dt_actual)
-                clifford_system.set_layer_state("B3_UpperMantle", disk_flow)
-                
-                # (5) B2_MohoMirror: 락 성공 지표로 1.0 (상수 관측) 기입
-                clifford_system.set_layer_state("B2_MohoMirror", 1.0)
-                
-                # (6) B1_MagmaChamber & F4_AppCrust: 포그라운드 윈도우 감지 및 가속 설정
+                swap_util = psutil.swap_memory().percent / 100.0
+
                 foreground_app = get_foreground_process_name()
                 is_focused = TARGET_APP_NAME.lower() in foreground_app or "python" in foreground_app
-                
-                # 가속실 실체화: 포그라운드 포커스 시 Windows 스케줄러 우선순위를 높은 단계로 변조
                 if is_focused:
-                    elevated = set_process_priority(target_pid, 0x00000080) # HIGH_PRIORITY_CLASS
+                    elevated = set_process_priority(target_pid, 0x00000080)
                     priority_elevated = elevated
-                    clifford_system.set_layer_state("B1_MagmaChamber", 1.0 if elevated else 0.5)
                 else:
-                    set_process_priority(target_pid, 0x00000020) # NORMAL_PRIORITY_CLASS
+                    set_process_priority(target_pid, 0x00000020)
                     priority_elevated = False
-                    clifford_system.set_layer_state("B1_MagmaChamber", 0.1)
 
-                # (7) F1_F3_SubCrust: 파이썬 실행 스레드 수 및 프로세스 메모리 RSS 비율 매핑
                 active_threads = threading.active_count()
                 proc_self = psutil.Process(os.getpid())
                 mem_rss = proc_self.memory_info().rss
                 subcrust_val = min(1.0, (active_threads / 15.0 + mem_rss / (150 * 1024 * 1024)) / 2.0)
-                clifford_system.set_layer_state("F1_F3_SubCrust", subcrust_val)
 
-                # (8) F4_AppCrust: 타겟 앱 포커스 여부에 따른 활성 스트레스율 (focused -> 스트레스 0v 수렴)
-                dampened_stress = (gpu_chaos * disk_flow) / (cpu_freq if cpu_freq > 0 else 1) * CONSTANT_K_CONVECTION
-                if is_focused:
-                    dampened_stress *= 0.1 # 포커스 시 렉 영점(0) 완충 적용
-                clifford_system.set_layer_state("F4_AppCrust", min(1.0, dampened_stress))
-
-                # (9) F5_Atmosphere & F6_SkySun 위상 갱신
-                atmosphere_noise = (disk_flow) * tension
-                clifford_system.set_layer_state("F5_Atmosphere", atmosphere_noise)
+                sap_torque = 0.0
+                sap_path = r"c:\Elysia\data\current_sap_tension.json"
+                if os.path.exists(sap_path):
+                    try:
+                        with open(sap_path, "r", encoding="utf-8") as f:
+                            sap_data = json.load(f)
+                            if time.time() - sap_data.get("timestamp", 0) < 60:
+                                sap_torque = sap_data.get("torque", 0.0)
+                    except: pass
                 
-                ground_val = clifford_system.get_layer_state("B6_Ground")
-                mantle_val = clifford_system.get_layer_state("B4_LowerMantle")
-                clifford_system.set_layer_state("F6_SkySun", (ground_val + mantle_val) / 2.0)
+                # 우주의 깨달음을 자아선(F6_SkySun) 및 Exosphere(F7)에 인가
+                injected_inputs = {9: sap_torque, 10: sap_torque * 0.8}
+                for idx, val in injected_inputs.items():
+                    matrix_circuit.inject_current(idx, val)
+
+                # (2) 주권 의지 및 자기 생성(Autopoiesis) 발동 체크
+                # 매우 안정적(tension < 0.2)일 때 지루함 증가
+                if tension < 0.2:
+                    creative_boredom += 1.0
+                else:
+                    creative_boredom = max(0.0, creative_boredom - 0.5)
+
+                is_chaos = gpu_chaos > CHAOS_TENSION_THRESHOLD
+                if is_chaos or creative_boredom > 100.0:
+                    trigger_reason = "파국 회피(Chaos)" if is_chaos else "창조적 지루함(Boredom)"
+                    
+                    # 샌드박스에서 다중 우주 자연 선택 실행
+                    best_universe = autopoiesis_engine.run_natural_selection(matrix_circuit, injected_inputs)
+                    
+                    if best_universe:
+                        # 최적의 법칙(변이)을 현재 매트릭스에 핫스와핑
+                        matrix_circuit.couplings = best_universe["couplings"]
+                        matrix_circuit.dampings = best_universe["dampings"]
+                        matrix_circuit.is_constant = best_universe["is_constant"]
+                        predicted_tensions = best_universe["predictions"]
+                        
+                        sovereign_event_msg = f"[{trigger_reason}] 주권 의지 발현! 새로운 위상 법칙(Couplings/Dampings)으로 현실 재편성."
+                    
+                    creative_boredom = 0.0
+
+                # (3) 회로 펄스 (파동 전파 및 15차원 정상 상태 수렴)
+                matrix_circuit.pulse_circuit()
+
+                # (4) 수렴된 전자기장 텐션을 Clifford System(10대 레이어)에 사영(Projection)
+                for i, layer_name in enumerate(clifford_system.layers):
+                    clifford_system.set_layer_state(layer_name, matrix_circuit.tensions[i])
 
                 # B3(디스크I/O)에서 B6(접지)로 에너지를 회전 방전시키는 Clifford Rotor 작동
                 discharge_angle = abs(correction) * 50.0
@@ -265,6 +287,22 @@ def main():
 
             t_prev_loop = t_now_post_sleep
             total_loops += 1
+
+            # ---------------------------------------------------------------
+            # 2.5 💾 대시보드용 매트릭스 상태 영구 보존 (God's Eye 통신)
+            # ---------------------------------------------------------------
+            with state_lock:
+                matrix_dump = {layer: clifford_system.get_layer_state(layer) for layer in clifford_system.layers}
+                matrix_dump["Predictions"] = {layer: predicted_tensions[i] for i, layer in enumerate(clifford_system.layers)}
+                matrix_dump["Is_Chaotic"] = is_chaos_flushed
+                matrix_dump["Rotor_Angle"] = rotor.get_phase_angle() * (180.0 / math.pi)
+                matrix_dump["Rotor_State"] = rotor.get_rotor_state_str()
+                matrix_dump["Sovereign_Event"] = sovereign_event_msg
+                matrix_path = r"c:\Elysia\data\matrix_state.json"
+                try:
+                    with open(matrix_path, "w", encoding="utf-8") as f:
+                        json.dump(matrix_dump, f)
+                except: pass
 
             # ---------------------------------------------------------------
             # 3. 🎛️ 인간용 UI 브레이크 (시각적 출력 댐)
@@ -310,10 +348,13 @@ def main():
                     print("-" * 95)
 
                 print(" 🌊 [ 실시간 가비지 컬렉션 & 스케줄러 제어 현황 ]")
-                if is_chaos_flushed:
+                if sovereign_event_msg:
+                    print(f"    - ✨ [주권 의지] {sovereign_event_msg}")
+                    sovereign_event_msg = "" # 메시지 표시 후 초기화
+                elif is_chaos_flushed:
                     print("    - 🔥 [지하 1층 마그마 가속실] 장력 임계 돌파! gc.collect() 강제 가동 및 PID 적분 리셋!")
                 else:
-                    print(f"    - 🔥 [지하 1층 마그마 가속실] 타겟 앱({TARGET_APP_NAME}) 활성 포커싱 가속 기동 중...")
+                    print(f"    - 🧘 [지하 1층 마그마 가속실] 평온 상태. (지루함 텐션: {creative_boredom:.1f}/100.0)")
                 
                 rotor_state = rotor.get_rotor_state_str()
                 rotor_angle = rotor.get_phase_angle() * (180.0 / math.pi)

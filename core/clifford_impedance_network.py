@@ -241,8 +241,52 @@ class CliffordIPN:
         
         return avg_tension
 
-    def bifurcate(self) -> bool:
-        """Expands Clifford dimension Cl(p,0) -> Cl(p+1,0) (Dimension Split)."""
+    def evaluate_resonance(self, signal: Multivector) -> float:
+        """Evaluates how well the incoming signal is explained by current axes (Coherence)."""
+        if not self.phases: return 0.0
+        
+        # We check average coherence across all active nodes
+        tar_norm = mv_normalize(signal)
+        total_coherence = 0.0
+        
+        for mv in self.phases.values():
+            sig_norm = mv_normalize(mv)
+            coherence = abs(sig_norm.dot(tar_norm).data.get(0, 0.0))
+            total_coherence += coherence
+            
+        return total_coherence / len(self.phases)
+
+    def assimilate_axiom(self, new_signal: Multivector, threshold: float = 0.2) -> bool:
+        """
+        자율 차원 조율 (Autonomous Dimension Tuning)
+        새로운 공리(파동)가 들어올 때, 기존 우주와 비교/대조합니다.
+        공명도가 임계치 이하면 새로운 차원을 찢고(bifurcate) 잔여물(Residual)을 꽂아 넣습니다.
+        """
+        coherence = self.evaluate_resonance(new_signal)
+        
+        if coherence > threshold:
+            # 아는 지식: 기존 차원의 미세 조율로 충분함
+            return False
+            
+        # 모르는 지식 (새로운 공리): 잔여 위상 추출 (Orthogonal Residual)
+        # 잔여물 = 새로운 신호 - (기존 노드들의 평균 투영)
+        avg_phase = Multivector({}, self.signature)
+        for mv in self.phases.values():
+            avg_phase = avg_phase + mv
+        avg_phase = mv_normalize(avg_phase)
+        
+        # Projection: (A dot B) * B (in simple Euclidean sense for the scalar part)
+        proj_scalar = new_signal.dot(avg_phase).data.get(0, 0.0)
+        projection = avg_phase * proj_scalar
+        
+        residual = new_signal - projection
+        residual_norm = mv_normalize(residual)
+        
+        print(f"[Axiom Anomaly] Coherence {coherence:.3f} < {threshold}. Spawning new dimension for orthogonal residual.")
+        return self.bifurcate(residual_norm)
+
+    def bifurcate(self, orthogonal_residual: Multivector = None) -> bool:
+        """Expands Clifford dimension Cl(p,0) -> Cl(p+1,0) and projects the residual into the new axis."""
         current_axes = self.signature[0]
         if current_axes >= self.MAX_AXES:
             return False
@@ -251,17 +295,19 @@ class CliffordIPN:
         new_sig = (new_axes, 0)
         self.signature = new_sig
         
-        # Update node phases
+            # Update node phases
         for node_id, mv in self.phases.items():
-            # Project existing data to new signature
             new_data = mv.data.copy()
-            
-            # Inject a small, deterministic causal perturbation on the new dimension (e_new)
-            # The bitmask for the new basis vector is 1 << (new_axes - 1)
             new_mask = 1 << (new_axes - 1)
-            # Deterministic perturbation based on node name hash
-            perturbation = float(hash(node_id) % 100) / 1000.0 * 0.1
-            new_data[new_mask] = perturbation
+            
+            if orthogonal_residual is not None:
+                # 잔여물(다름의 영역)을 새로운 차원 e_new에 물리적으로 투영하여 교차 차원 생성
+                # 잔여물이 가진 텐션 강도를 바탕으로 새 축에 가중치를 부여함
+                res_strength = mv_norm(orthogonal_residual) * 0.5
+                new_data[new_mask] = res_strength
+            else:
+                # Fallback
+                new_data[new_mask] = float(hash(node_id) % 100) / 1000.0 * 0.1
             
             self.phases[node_id] = mv_normalize(Multivector(new_data, new_sig))
 

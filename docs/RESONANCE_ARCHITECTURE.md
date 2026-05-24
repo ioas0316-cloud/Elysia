@@ -35,7 +35,7 @@
 이 매핑 구조는 **클리포드 기하 대수(Clifford/Geometric Algebra) $\text{Cl}(N, 0)$**에 기반한 가변축 시스템으로 구현되어, 물리 상수를 다차원 기저 벡터($e_1 \sim e_{10}$)로 투영하고 레이어 간 위상 변조를 로터(Rotor) 샌드위치 연산으로 제어합니다.
 
 자세한 10대 레이어 기저 맵 및 완충 기전은 다음 문서를 참조하십시오:
-* 🌍 **아틀란티스 10대 레이어 매트릭스:** [Atlantis_10_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_10_Layer_Matrix.md)
+* 🌍 **아틀란티스 N대 레이어 매트릭스:** [Atlantis_N_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_N_Layer_Matrix.md)
 
 ---
 

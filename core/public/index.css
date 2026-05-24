@@ -1,0 +1,338 @@
+:root {
+    --bg-dark: #070714;
+    --glass-bg: rgba(20, 20, 40, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff00ff;
+    --neon-green: #00ff88;
+    --text-main: #e2e8f0;
+    --text-dim: #94a3b8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Cosmic Background */
+@keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+
+.stars, .twinkling {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    display: block;
+    z-index: -1;
+}
+
+.stars {
+    background: #000 url('https://raw.githubusercontent.com/danielstuart14/CSS_Fills/master/stars.png') repeat top center;
+}
+.twinkling {
+    background: transparent url('https://raw.githubusercontent.com/danielstuart14/CSS_Fills/master/twinkling.png') repeat top center;
+    animation: move-twink-back 200s linear infinite;
+    opacity: 0.3;
+}
+
+.header {
+    text-align: center;
+    padding: 40px 0 20px 0;
+    animation: fadeInDown 1s ease-out;
+}
+
+.header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    background: linear-gradient(to right, #fff, var(--neon-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.header h1 span {
+    font-weight: 300;
+    color: var(--neon-pink);
+    -webkit-text-fill-color: var(--neon-pink);
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 25px;
+    padding: 30px 50px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Glassmorphism Panel */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(0, 243, 255, 0.15);
+    border-color: rgba(0, 243, 255, 0.3);
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: min-content;
+    gap: 25px;
+    padding: 30px 50px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.matrix-panel {
+    grid-column: span 2;
+}
+
+/* EMP Visualizer */
+#emp-visual {
+    margin-top: 20px;
+    padding: 15px;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 2px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.emp-static {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emp-dynamic {
+    background: rgba(255, 0, 255, 0.2);
+    color: #fff;
+    border: 1px solid var(--neon-pink);
+    box-shadow: 0 0 20px var(--neon-pink), inset 0 0 10px var(--neon-pink);
+    animation: empPulse 0.5s infinite alternate;
+}
+
+@keyframes empPulse {
+    0% { transform: scale(1); box-shadow: 0 0 20px var(--neon-pink); }
+    100% { transform: scale(1.02); box-shadow: 0 0 40px var(--neon-pink), 0 0 20px #fff; }
+}
+
+#sovereign-visual {
+    margin-top: 15px;
+    padding: 10px;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 2px;
+    border-radius: 10px;
+    transition: all 0.5s ease;
+}
+
+.sovereign-hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.sovereign-active {
+    opacity: 1;
+    height: auto;
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    border: 1px solid #ffd700;
+    box-shadow: 0 0 20px #ffd700, inset 0 0 10px #ffd700;
+    animation: sovereignPulse 0.5s infinite alternate;
+}
+
+@keyframes sovereignPulse {
+    0% { transform: scale(1); box-shadow: 0 0 20px #ffd700; }
+    100% { transform: scale(1.02); box-shadow: 0 0 40px #ffd700, 0 0 20px #fff; }
+}
+
+h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: var(--neon-blue);
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.3);
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.data-row .label {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+}
+
+.data-row .value {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.highlight {
+    color: var(--neon-pink);
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.4);
+}
+
+/* Progress Bars for HW Tension */
+.progress-bar {
+    flex-grow: 1;
+    margin: 0 15px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    border-radius: 4px;
+    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-fill.ram {
+    background: linear-gradient(90deg, #00b4db, #0083b0);
+}
+
+/* Matrix Layers View */
+.layers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.layer-row {
+    display: grid;
+    grid-template-columns: 30px 200px 1fr 60px;
+    align-items: center;
+    gap: 15px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Circuit Visualizer */
+.circuit-node {
+    position: relative;
+    width: 30px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.node-dot {
+    width: 10px;
+    height: 10px;
+    background: #333;
+    border-radius: 50%;
+    z-index: 2;
+    transition: all 0.2s ease;
+}
+
+.circuit-wire {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    z-index: 1;
+}
+
+.circuit-wire.top { top: 50%; height: 50%; }
+.circuit-wire.bottom { bottom: 50%; height: 50%; }
+
+.layer-name {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.layer-bar-container {
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.layer-bar-ghost {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    transition: width 0.1s ease, background 0.3s ease;
+    z-index: 1;
+}
+
+.layer-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #11998e, #38ef7d);
+    transition: width 0.15s linear, background 0.3s ease;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.layer-val {
+    font-size: 0.85rem;
+    text-align: right;
+    color: var(--neon-blue);
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1200px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
