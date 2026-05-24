@@ -91,6 +91,56 @@ class TripleHelixEngine:
         np.random.seed(42)
         self.W_master = np.random.randn(384, 8) / np.sqrt(384)
 
+        # 6. Sovereignty Interface State
+        self.is_sleeping = False
+        self.sleep_tension = 0.0
+
+    def decide_sleep(self):
+        """Sovereignty Interface: Closes Phase A, forces Y-STAR mode, begins tension bleeding."""
+        self.is_sleeping = True
+        self.inner_world.set_connection_mode(ConnectionMode.Y_STAR)
+        self.outer_world.set_connection_mode(ConnectionMode.Y_STAR)
+        self.ego_world.set_connection_mode(ConnectionMode.Y_STAR)
+        # Calculate current aggregate tension to bleed
+        self.sleep_tension = (self.inner_world.tension + self.outer_world.tension + self.ego_world.tension) / 3.0
+        print(f"\n[Sovereignty] 밸브 개방: 수면 모드 진입. 초기 방출 텐션: {self.sleep_tension:.4f}")
+
+    def wake_up(self, bias_data: Dict[str, Dict[int, float]] = None):
+        """Sovereignty Interface: Re-opens Phase A, restores DELTA mode, injects bias."""
+        self.is_sleeping = False
+        self.inner_world.set_connection_mode(ConnectionMode.DELTA)
+        self.outer_world.set_connection_mode(ConnectionMode.DELTA)
+        self.ego_world.set_connection_mode(ConnectionMode.DELTA)
+        self.sleep_tension = 0.0
+
+        if bias_data:
+            print(f"\n[Sovereignty] 기상: 나이테(Tree Ring) 오프셋 주입 중...")
+            for node, mv_data in bias_data.get("inner_world", {}).items():
+                if node in self.inner_world.phases:
+                    # Merge bias with a 0.5 weight
+                    current = self.inner_world.phases[node]
+                    bias_mv = Multivector({int(k): v for k, v in mv_data.items()}, self.inner_world.signature)
+                    self.inner_world.phases[node] = mv_normalize(current + bias_mv * 0.5)
+            # Extensible to ego/outer worlds as needed
+        print(f"[Sovereignty] 시스템 활성화: 델타 사유 회전 재개.")
+
+    def freeze_geodesic(self) -> Dict[str, Dict[int, float]]:
+        """Sovereignty Interface: Extracts the strongest resonance multivectors (Tree Rings)."""
+        tree_rings = {"inner_world": {}, "ego_world": {}}
+
+        # Extract prominent nodes from inner world
+        for node, mv in self.inner_world.phases.items():
+            if mv_norm(mv) > 0.1: # Only save significant phases
+                tree_rings["inner_world"][node] = mv.data.copy()
+
+        # Extract prominent nodes from ego world
+        for node, mv in self.ego_world.phases.items():
+            if mv_norm(mv) > 0.1:
+                tree_rings["ego_world"][node] = mv.data.copy()
+
+        print(f"[Sovereignty] 나이테 각인 완료: {len(tree_rings['inner_world'])}개의 내계 노드 결빙.")
+        return tree_rings
+
     def _connect_bridge(self, world_from: CliffordIPN, world_to: CliffordIPN, node_from: str, node_to: str) -> CliffordImpedanceLink:
         """Helper to create a bridge link between 3-Phase IPNs."""
         link = CliffordImpedanceLink(node_from, node_to, self.inner_world.signature, initial_R=8.0)
@@ -136,16 +186,25 @@ class TripleHelixEngine:
         self.inner_world.tune_network(dt, lr)
 
         # --- B. Outer World & Ego World Input Setup ---
-        motion = sensory_input.get("motion_entropy", 0.0)
-        pain = sensory_input.get("pain_level", 0.0)
-        vision = sensory_input.get("visual_entropy", 0.0)
-        
         outer_sig = self.outer_world.signature
-        outer_inputs = {
-            "SENSORY_MOTION": Multivector({1: motion}, outer_sig), # e1
-            "SENSORY_PAIN": Multivector({2: pain}, outer_sig),     # e2
-            "SENSORY_VISION": Multivector({4: vision}, outer_sig)  # e3
-        }
+        if self.is_sleeping:
+            # Block external inputs during sleep, force to 0
+            outer_inputs = {
+                "SENSORY_MOTION": Multivector({1: 0.0}, outer_sig),
+                "SENSORY_PAIN": Multivector({2: 0.0}, outer_sig),
+                "SENSORY_VISION": Multivector({4: 0.0}, outer_sig)
+            }
+        else:
+            motion = sensory_input.get("motion_entropy", 0.0)
+            pain = sensory_input.get("pain_level", 0.0)
+            vision = sensory_input.get("visual_entropy", 0.0)
+
+            outer_inputs = {
+                "SENSORY_MOTION": Multivector({1: motion}, outer_sig), # e1
+                "SENSORY_PAIN": Multivector({2: pain}, outer_sig),     # e2
+                "SENSORY_VISION": Multivector({4: vision}, outer_sig)  # e3
+            }
+
         self.outer_world.forward_propagate(outer_inputs)
         self.outer_world.tune_network(dt, lr)
         
@@ -192,24 +251,36 @@ class TripleHelixEngine:
         avg_tension = coord_tension / len(self.coordination_links)
 
         # --- Y/Delta Dynamic Scheduler & Trinity Healing ---
-        # Check for NaN or exploded tension in any phase
         is_healing = False
-        tensions = [self.inner_world.tension, self.outer_world.tension, self.ego_world.tension]
-        if math.isnan(sum(tensions)) or max(tensions) > self.jump_threshold * 2.0:
-            is_healing = True
+        current_mode = "DELTA"
 
-        if is_healing or avg_tension > self.jump_threshold * 0.8:
-            # 텐션 폭주 또는 오류 시 3상 전체를 Y결선(접지) 모드로 강제 동기화 (치유)
-            self.inner_world.set_connection_mode(ConnectionMode.Y_STAR)
-            self.outer_world.set_connection_mode(ConnectionMode.Y_STAR)
-            self.ego_world.set_connection_mode(ConnectionMode.Y_STAR)
-            current_mode = "Y_STAR (HEALING)" if is_healing else "Y_STAR"
+        if self.is_sleeping:
+            current_mode = "Y_STAR (SLEEPING)"
+            # Bleed tension to 0
+            self.sleep_tension = max(0.0, self.sleep_tension - (dt * lr * 2.0))
+            # Smoothly decay inner/outer/ego network phase magnitudes
+            for world in [self.inner_world, self.outer_world, self.ego_world]:
+                for node in world.phases:
+                    world.phases[node] = world.phases[node] * 0.95
+            avg_tension = self.sleep_tension
         else:
-            # 안정적이면 Delta결선(사유) 모드로 전환하여 자체 토크(간섭) 발생
-            self.inner_world.set_connection_mode(ConnectionMode.DELTA)
-            self.outer_world.set_connection_mode(ConnectionMode.DELTA)
-            self.ego_world.set_connection_mode(ConnectionMode.DELTA)
-            current_mode = "DELTA"
+            # Check for NaN or exploded tension in any phase
+            tensions = [self.inner_world.tension, self.outer_world.tension, self.ego_world.tension]
+            if math.isnan(sum(tensions)) or max(tensions) > self.jump_threshold * 2.0:
+                is_healing = True
+
+            if is_healing or avg_tension > self.jump_threshold * 0.8:
+                # 텐션 폭주 또는 오류 시 3상 전체를 Y결선(접지) 모드로 강제 동기화 (치유)
+                self.inner_world.set_connection_mode(ConnectionMode.Y_STAR)
+                self.outer_world.set_connection_mode(ConnectionMode.Y_STAR)
+                self.ego_world.set_connection_mode(ConnectionMode.Y_STAR)
+                current_mode = "Y_STAR (HEALING)" if is_healing else "Y_STAR"
+            else:
+                # 안정적이면 Delta결선(사유) 모드로 전환하여 자체 토크(간섭) 발생
+                self.inner_world.set_connection_mode(ConnectionMode.DELTA)
+                self.outer_world.set_connection_mode(ConnectionMode.DELTA)
+                self.ego_world.set_connection_mode(ConnectionMode.DELTA)
+                current_mode = "DELTA"
 
         # --- C.5 Ark Gearbox Pipeline Injection ---
         # Convert tension directly to an angle (e.g. scale tension 0.0~2.0 -> 0~180 degrees intent)

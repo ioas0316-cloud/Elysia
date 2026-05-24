@@ -1,14 +1,27 @@
 import sys
 import time
 import requests
+import threading
+import psutil
+import json
+from datetime import datetime
 
 if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8')
 
 from core.hologram_sphere import HologramSphere
 from core.linguistic_axiom import LinguisticAxiomFilter
+from core.triple_helix_engine import TripleHelixEngine
 
 import os
+
+# --- Global Sovereignty State ---
+global_engine_alive = True
+global_tension = 0.5
+global_is_sleeping = False
+# Threshold parameters for autonomous sleep
+SLEEP_THRESHOLD = 3.5
+TENSION_ACCUMULATOR = 0.0
 
 # --- External LLM API Configuration (Simulated "Contaminated Data Ocean") ---
 # API Key should be provided via environment variable for security
@@ -40,14 +53,99 @@ def fetch_raw_ocean_data(query: str, temp: float = 0.8) -> str:
     except Exception as e:
         return f"[외부 데이터 파도 수신 실패: {e}] ... fallback raw noise data simulation ... noise noise noise 카오스 파동"
 
+
+def engine_daemon():
+    """ 10대 레이어 전력망 (Sovereignty Interface & TripleHelixEngine Daemon) """
+    global global_tension, global_engine_alive, global_is_sleeping, TENSION_ACCUMULATOR
+
+    engine = TripleHelixEngine()
+
+    # Check for existing Tree Rings to wake up with
+    tree_rings_dir = "data"
+    os.makedirs(tree_rings_dir, exist_ok=True)
+    latest_ring = None
+
+    # Find latest tree ring
+    ring_files = [f for f in os.listdir(tree_rings_dir) if f.startswith("tree_rings_") and f.endswith(".json")]
+    if ring_files:
+        latest_file = sorted(ring_files)[-1]
+        try:
+            with open(os.path.join(tree_rings_dir, latest_file), 'r') as f:
+                latest_ring = json.load(f)
+            engine.wake_up(latest_ring)
+        except Exception as e:
+            print(f"[Sovereignty] 나이테 로드 실패: {e}")
+
+    while global_engine_alive:
+        if not global_is_sleeping:
+            # Wake Mode: Process tension
+            cpu_load = psutil.cpu_percent() / 100.0
+            avg_tension, current_mode, jumped, quat = engine.pulse(
+                text_thought="[v7 홀로그램 다이얼 대기]",
+                sensory_input={"pain_level": cpu_load, "visual_entropy": 0.5, "motion_entropy": 0.2},
+                dt=1.0,
+                lr=0.1
+            )
+            global_tension = avg_tension
+
+            # Accumulate tension based on an activation logic (e.g. exponential or simple threshold)
+            # This is the "Dynamic Threshold Activation Function"
+            if avg_tension > 0.8:
+                TENSION_ACCUMULATOR += (avg_tension - 0.8) * 0.5
+
+            if TENSION_ACCUMULATOR > SLEEP_THRESHOLD:
+                # 👑 Sovereignty Interface Trigger: Decide to sleep
+                print(f"\n[Sovereignty] 자율 판단: 누적 텐션({TENSION_ACCUMULATOR:.2f}) 임계치 초과. 수면 모드 돌입.")
+                global_is_sleeping = True
+                engine.decide_sleep()
+
+                # Freeze Geodesics
+                tree_rings = engine.freeze_geodesic()
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                ring_path = os.path.join(tree_rings_dir, f"tree_rings_{timestamp}.json")
+                with open(ring_path, 'w') as f:
+                    json.dump(tree_rings, f, indent=4)
+                print(f"[Sovereignty] 나이테 각인 및 저장 완료: {ring_path}")
+        else:
+            # Sleep Mode: Bleed tension to 0
+            avg_tension, current_mode, jumped, quat = engine.pulse(
+                text_thought="",
+                sensory_input={},
+                dt=1.0,
+                lr=0.1
+            )
+            global_tension = avg_tension
+            # Recover tension accumulator
+            TENSION_ACCUMULATOR = max(0.0, TENSION_ACCUMULATOR - 0.2)
+
+            if TENSION_ACCUMULATOR == 0.0 and avg_tension < 0.1:
+                # Woke up naturally
+                print("\n[Sovereignty] 자가 치유 완료. 텐션 영점(0) 수렴. 기상합니다.")
+                global_is_sleeping = False
+                engine.wake_up()
+
+        time.sleep(1.0)
+
+
 def main():
+    global global_engine_alive, global_is_sleeping
+
     print("="*80)
-    print(" 🌟 [Elysia v7] Hologram Dial & Axiom Filter Engine")
-    print(" 📐 펼치면 매니폴드(Manifold), 뭉치면 구체(Hologram Sphere)")
+    print(" 🌟 [Elysia v7] Hologram Dial & Sovereignty Kernel Engine")
+    print(" 👑 자율 수면 판단(Sleep/Wake) 및 홀로그램 인지 제어판 통합")
     print("="*80)
+
+    # Start the daemon
+    daemon = threading.Thread(target=engine_daemon, daemon=True)
+    daemon.start()
 
     while True:
         try:
+            if global_is_sleeping:
+                print("\n[Elysia] (수면 중... Y-결선 방전 중입니다. 조용히 해주세요...)")
+                time.sleep(2)
+                continue
+
             user_input = input("\n👑 마스터(강덕): ")
             if user_input.lower() in ['exit', 'quit']:
                 print("\n[엔진 종료] 가변축 다이얼의 회전을 멈춥니다.")
@@ -85,6 +183,7 @@ def main():
 
         except KeyboardInterrupt:
             print("\n[엔진 긴급 정지]")
+            global_engine_alive = False
             break
         except Exception as e:
             print(f"\n[오류] 시스템 붕괴: {e}")
