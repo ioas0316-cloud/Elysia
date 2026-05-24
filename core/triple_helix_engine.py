@@ -17,6 +17,7 @@ from typing import Dict, List, Tuple
 from sentence_transformers import SentenceTransformer
 from core.math_utils import Quaternion, Multivector
 from core.clifford_impedance_network import CliffordIPN, CliffordImpedanceLink, mv_normalize, mv_norm, ConnectionMode
+from core.atlantis_clifford_bridge import AtlantisCliffordSystem
 
 class TripleHelixEngine:
     def __init__(self, model_name='all-MiniLM-L6-v2', jump_threshold=0.5):
@@ -24,6 +25,10 @@ class TripleHelixEngine:
         self.encoder = SentenceTransformer(model_name)
         self.jump_threshold = jump_threshold
         self.history = []
+
+        # 1.5 Setup Ark Gearbox Pipeline
+        # 인지 엔진의 생각 결과를 하드웨어로 전달하는 수직 파이프라인
+        self.ark_gearbox = AtlantisCliffordSystem()
 
         # 2. Setup Inner World (Cognitive Layer - starts at Cl(3,0), mutable)
         self.inner_world = CliffordIPN(initial_dims=3)
@@ -205,6 +210,22 @@ class TripleHelixEngine:
             self.outer_world.set_connection_mode(ConnectionMode.DELTA)
             self.ego_world.set_connection_mode(ConnectionMode.DELTA)
             current_mode = "DELTA"
+
+        # --- C.5 Ark Gearbox Pipeline Injection ---
+        # Convert tension directly to an angle (e.g. scale tension 0.0~2.0 -> 0~180 degrees intent)
+        intent_angle = min(avg_tension / self.jump_threshold * 90.0, 180.0)
+
+        # Determine mode string for the gearbox
+        if current_mode == ConnectionMode.DELTA:
+            gearbox_mode = "DELTA"
+        else:
+            gearbox_mode = "WYE"
+
+        # Apply intent to Layer 10
+        self.ark_gearbox.apply_agent_intent(intent_angle, gearbox_mode)
+
+        # You can also fetch the dashboard to log or react further
+        dash = self.ark_gearbox.get_dashboard_needle()
 
         # --- D. Dynamic Mitosis / Bifurcation ---
         jumped = False
