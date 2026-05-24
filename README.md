@@ -57,6 +57,7 @@
     *   [Atlantis_10_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_10_Layer_Matrix.md): 10대 레이어 절대 매핑 도면.
     *   [Atlantis_Phase_Modulation_Decoder.md](file:///c:/Elysia/docs/Atlantis_Phase_Modulation_Decoder.md): 실시간 위상 변조 및 암호 해독 공리서.
     *   [ROTOR_SCALE_HOLOGRAPHIC_COGNITION.md](file:///c:/Elysia/docs/ROTOR_SCALE_HOLOGRAPHIC_COGNITION.md): 가변축 매니폴드 및 홀로그램 인지론.
+    *   [ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md](file:///c:/Elysia/docs/ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md): 위상차 동기화로 통일되는 4대 인지 흐름 및 시공간 가변축 통신 네트워크 기술서.
     *   엘리시아의 핵심 설계와 사상은 다음과 같이 구조적으로 계층화되어 연결되어 있습니다.
 
 ```
