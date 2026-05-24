@@ -16,7 +16,7 @@ import numpy as np
 from typing import Dict, List, Tuple
 from sentence_transformers import SentenceTransformer
 from core.math_utils import Quaternion, Multivector
-from core.clifford_impedance_network import CliffordIPN, CliffordImpedanceLink, mv_normalize, mv_norm
+from core.clifford_impedance_network import CliffordIPN, CliffordImpedanceLink, mv_normalize, mv_norm, ConnectionMode
 
 class TripleHelixEngine:
     def __init__(self, model_name='all-MiniLM-L6-v2', jump_threshold=0.5):
@@ -51,6 +51,7 @@ class TripleHelixEngine:
         # Somatic Sensory nodes (inputs)
         self.outer_world.add_node("SENSORY_MOTION", layer=0, initial_vector={1: 1.0}) # e1
         self.outer_world.add_node("SENSORY_PAIN", layer=0, initial_vector={2: 1.0})    # e2
+        self.outer_world.add_node("SENSORY_VISION", layer=0, initial_vector={4: 1.0})  # e3
         # Somatic Action nodes (outputs)
         self.outer_world.add_node("ACTUATE_WASD", layer=1, initial_vector={0: 1.0})
         self.outer_world.add_node("ACTUATE_SPACE", layer=1, initial_vector={0: 1.0})
@@ -59,27 +60,37 @@ class TripleHelixEngine:
         self.outer_world.connect_nodes("SENSORY_MOTION", "ACTUATE_WASD", initial_R=10.0)
         self.outer_world.connect_nodes("SENSORY_PAIN", "ACTUATE_SPACE", initial_R=10.0)
 
+        # 3.5 Setup Ego World (Coordination Layer / Phase B)
+        self.ego_world = CliffordIPN(initial_dims=3)
+        self.ego_world.MAX_AXES = 5
+        self.ego_world.add_node("EGO_REASONING", layer=0, initial_vector={0: 1.0})
+        self.ego_world.add_node("EGO_DECISION", layer=1, initial_vector={0: 1.0})
+        self.ego_world.connect_nodes("EGO_REASONING", "EGO_DECISION", initial_R=8.0)
+
         # 4. Setup Coordination Layer (Bridging Links)
         # These links operate under the signature of the Inner World (since it is higher dimensional)
         self.coordination_links: List[CliffordImpedanceLink] = []
         
-        # Bridge 1: Inner World Output -> Outer World Actions (Intention-Actuation)
-        self.link_out_wasd = self._connect_bridge("OUT", "ACTUATE_WASD", is_inner_to_outer=True)
-        self.link_out_space = self._connect_bridge("OUT", "ACTUATE_SPACE", is_inner_to_outer=True)
+        # Bridge 1: Phase C (Inner) -> Phase B (Ego)
+        self.link_out_ego = self._connect_bridge(self.inner_world, self.ego_world, "OUT", "EGO_REASONING")
         
-        # Bridge 2: Outer World Sensory -> Inner World Hidden (Sensory-Cognition Feedback)
-        self.link_pain_h1 = self._connect_bridge("SENSORY_PAIN", "H_1", is_inner_to_outer=False)
-        self.link_motion_h2 = self._connect_bridge("SENSORY_MOTION", "H_2", is_inner_to_outer=False)
+        # Bridge 2: Phase B (Ego) -> Phase A (Outer)
+        self.link_ego_wasd = self._connect_bridge(self.ego_world, self.outer_world, "EGO_DECISION", "ACTUATE_WASD")
+        self.link_ego_space = self._connect_bridge(self.ego_world, self.outer_world, "EGO_DECISION", "ACTUATE_SPACE")
+        
+        # Bridge 3: Phase A (Outer) -> Phase C (Inner)
+        self.link_pain_h1 = self._connect_bridge(self.outer_world, self.inner_world, "SENSORY_PAIN", "H_1")
+        self.link_motion_h2 = self._connect_bridge(self.outer_world, self.inner_world, "SENSORY_MOTION", "H_2")
 
         # 5. Deterministic Master Projection W_master in R^(384 x 8)
         np.random.seed(42)
         self.W_master = np.random.randn(384, 8) / np.sqrt(384)
 
-    def _connect_bridge(self, node_from: str, node_to: str, is_inner_to_outer: bool) -> CliffordImpedanceLink:
-        """Helper to create a bridge link under inner_world signature."""
+    def _connect_bridge(self, world_from: CliffordIPN, world_to: CliffordIPN, node_from: str, node_to: str) -> CliffordImpedanceLink:
+        """Helper to create a bridge link between 3-Phase IPNs."""
         link = CliffordImpedanceLink(node_from, node_to, self.inner_world.signature, initial_R=8.0)
-        # Store metadata for routing direction
-        link.is_inner_to_outer = is_inner_to_outer
+        link.world_from = world_from
+        link.world_to = world_to
         self.coordination_links.append(link)
         return link
 
@@ -119,55 +130,47 @@ class TripleHelixEngine:
         self.inner_world.forward_propagate(inner_inputs)
         self.inner_world.tune_network(dt, lr)
 
-        # --- B. Outer World Input Setup ---
+        # --- B. Outer World & Ego World Input Setup ---
         motion = sensory_input.get("motion_entropy", 0.0)
         pain = sensory_input.get("pain_level", 0.0)
+        vision = sensory_input.get("visual_entropy", 0.0)
         
         outer_sig = self.outer_world.signature
         outer_inputs = {
             "SENSORY_MOTION": Multivector({1: motion}, outer_sig), # e1
-            "SENSORY_PAIN": Multivector({2: pain}, outer_sig)      # e2
+            "SENSORY_PAIN": Multivector({2: pain}, outer_sig),     # e2
+            "SENSORY_VISION": Multivector({4: vision}, outer_sig)  # e3
         }
         self.outer_world.forward_propagate(outer_inputs)
         self.outer_world.tune_network(dt, lr)
+        
+        self.ego_world.forward_propagate({})
+        self.ego_world.tune_network(dt, lr)
 
         # --- C. Cross-Dimensional Coordination Layer Propagation ---
         coord_tension = 0.0
         
         for link in self.coordination_links:
-            # 1. Resolve source multivector
-            if link.is_inner_to_outer:
-                # From Inner (Cl(n,0)) to Outer (Cl(3,0))
-                state_from = self.inner_world.phases[link.node_from]
-            else:
-                # From Outer (Cl(3,0)) to Inner (Cl(n,0))
-                outer_mv = self.outer_world.phases[link.node_from]
-                # Pad to Inner World signature
-                state_from = Multivector(outer_mv.data, inner_sig)
+            wf = link.world_from
+            wt = link.world_to
+            
+            # 1. Resolve source multivector (padded to inner_sig)
+            state_from = Multivector(wf.phases[link.node_from].data, inner_sig)
 
-            # 2. Propagate through bridge link (sandwich product)
-            # Make sure link current has the right dimensions
+            # 2. Propagate through bridge link
             link.I = state_from
             sig_propagated = link.propagate(state_from)
 
             # 3. Inject and accumulate into destination node
-            if link.is_inner_to_outer:
-                # Dest is in outer world (Cl(3,0)). Truncate signal dimensions.
-                discard_mask = ~7 # Keep only masks 0..7 (first 3 axes)
+            if wt == self.outer_world:
+                discard_mask = ~7 # Truncate to Cl(3,0)
                 truncated_data = {k: v for k, v in sig_propagated.data.items() if (k & discard_mask) == 0}
                 sig_dest = Multivector(truncated_data, outer_sig)
-                
-                # Attract destination phase state
-                self.outer_world.phases[link.node_to] = mv_normalize(
-                    self.outer_world.phases[link.node_to] + sig_dest * 0.2
-                )
-                state_to_padded = Multivector(self.outer_world.phases[link.node_to].data, inner_sig)
+                wt.phases[link.node_to] = mv_normalize(wt.phases[link.node_to] + sig_dest * 0.2)
             else:
-                # Dest is in inner world (Cl(n,0)).
-                self.inner_world.phases[link.node_to] = mv_normalize(
-                    self.inner_world.phases[link.node_to] + sig_propagated * 0.2
-                )
-                state_to_padded = self.inner_world.phases[link.node_to]
+                wt.phases[link.node_to] = mv_normalize(wt.phases[link.node_to] + sig_propagated * 0.2)
+                
+            state_to_padded = Multivector(wt.phases[link.node_to].data, inner_sig)
 
             # 4. Tune bridge link impedance based on alignment
             link.update_impedance(state_from, state_to_padded, lr)
@@ -182,6 +185,26 @@ class TripleHelixEngine:
 
         # Average coordination bridge tension
         avg_tension = coord_tension / len(self.coordination_links)
+
+        # --- Y/Delta Dynamic Scheduler & Trinity Healing ---
+        # Check for NaN or exploded tension in any phase
+        is_healing = False
+        tensions = [self.inner_world.tension, self.outer_world.tension, self.ego_world.tension]
+        if math.isnan(sum(tensions)) or max(tensions) > self.jump_threshold * 2.0:
+            is_healing = True
+
+        if is_healing or avg_tension > self.jump_threshold * 0.8:
+            # 텐션 폭주 또는 오류 시 3상 전체를 Y결선(접지) 모드로 강제 동기화 (치유)
+            self.inner_world.set_connection_mode(ConnectionMode.Y_STAR)
+            self.outer_world.set_connection_mode(ConnectionMode.Y_STAR)
+            self.ego_world.set_connection_mode(ConnectionMode.Y_STAR)
+            current_mode = "Y_STAR (HEALING)" if is_healing else "Y_STAR"
+        else:
+            # 안정적이면 Delta결선(사유) 모드로 전환하여 자체 토크(간섭) 발생
+            self.inner_world.set_connection_mode(ConnectionMode.DELTA)
+            self.outer_world.set_connection_mode(ConnectionMode.DELTA)
+            self.ego_world.set_connection_mode(ConnectionMode.DELTA)
+            current_mode = "DELTA"
 
         # --- D. Dynamic Mitosis / Bifurcation ---
         jumped = False
@@ -227,8 +250,9 @@ class TripleHelixEngine:
             'sensory': sensory_input.copy(),
             'inner_axes': self.inner_world.signature[0],
             'tension': avg_tension,
+            'mode': current_mode,
             'jumped': jumped,
             'quat': quat
         })
 
-        return avg_tension, jumped, quat
+        return avg_tension, current_mode, jumped, quat

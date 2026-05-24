@@ -9,6 +9,10 @@ import math
 from typing import Dict, List, Tuple
 from core.math_utils import Multivector
 
+class ConnectionMode:
+    Y_STAR = "Y_STAR"
+    DELTA = "DELTA"
+
 def mv_norm(mv: Multivector) -> float:
     """Calculates the Euclidean (L2) norm of multivector coefficients."""
     return math.sqrt(sum(v**2 for v in mv.data.values()))
@@ -94,6 +98,15 @@ class CliffordIPN:
         self.stable_ticks = 0
         self.MAX_AXES = 8
         self.MIN_AXES = 3
+        
+        # Y/Delta 동적 스케줄링 플래그
+        self.connection_mode = ConnectionMode.Y_STAR
+        
+        # Y결선 중성점(Neutral Point) 추가
+        self.add_node("NEUTRAL_GROUND", layer=-1, initial_vector={0: 1.0})
+        
+    def set_connection_mode(self, mode: str):
+        self.connection_mode = mode
 
     def add_node(self, node_id: str, layer: int, initial_vector: Dict[int, float] = None):
         """Adds a node with a starting multivector (normalized)."""
@@ -204,6 +217,23 @@ class CliffordIPN:
             # React back onto source node (rotated back)
             rotated_B = link.R_rotor.conjugate() * B * link.R_rotor
             self.phases[link.node_from] = mv_normalize(self.phases[link.node_from] + rotated_B * (coupling * 0.5))
+
+        # 3. Y/Delta 모드에 따른 물리적 위상 강제 처리
+        if self.connection_mode == ConnectionMode.Y_STAR:
+            # [Y결선 모드] 모든 노드가 중성점에 동기화되어 위상 노이즈 방전
+            neutral = self.phases["NEUTRAL_GROUND"]
+            for node, mv in self.phases.items():
+                if node != "NEUTRAL_GROUND":
+                    # 중성점의 강제 견인력(Grounding force)
+                    B_ground = neutral ^ mv
+                    self.phases[node] = mv_normalize(self.phases[node] - B_ground * (lr * 0.1 * dt))
+        elif self.connection_mode == ConnectionMode.DELTA:
+            # [Delta결선 모드] 중성점 간섭 배제 및 사유 와류(Self-Sustaining Torque) 생성
+            for node, mv in self.phases.items():
+                if node != "NEUTRAL_GROUND" and self.node_layers[node] > 0:
+                    # 노드 자체가 지닌 위상 각속도를 유지하여 회전 토크 발생
+                    torque = Multivector({3: 1.0}, self.signature) # e12 평면 토크 예시
+                    self.phases[node] = mv_normalize(self.phases[node] + (torque * mv) * (lr * 0.05 * dt))
 
         # Calculate average tension
         avg_tension = total_tension / max(1, active_links_count)

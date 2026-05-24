@@ -269,6 +269,21 @@ class Multivector:
             raise ValueError("This multivector does not have a simple scalar norm square and cannot be inverted.")
         return rev * (1.0 / scalar)
 
+    def dual(self) -> 'Multivector':
+        """
+        Hodge Dual (Geometric Algebra Dual).
+        A* = A * I^{-1}, where I is the pseudoscalar of the space.
+        Represents the 'Negative Space' (Void) of the multivector (Wave).
+        """
+        I_mask = (1 << self.n) - 1
+        I_mv = Multivector({I_mask: 1.0}, (self.p, self.q))
+        try:
+            I_inv = I_mv.inverse()
+        except ValueError:
+            # Fallback if inverse fails for degenerate signatures
+            I_inv = Multivector({I_mask: -1.0}, (self.p, self.q))
+        return self * I_inv
+
     def __repr__(self):
         if not self.data:
             return "0"
