@@ -13,11 +13,12 @@ class AtlantisCliffordSystem:
     def __init__(self, layers: List[str] = None):
         """
         Initialize with a list of layers. Defaults to the Atlantis 10-layer matrix.
-        Each layer maps to a dynamic basis vector:
+        Each layer maps to a dynamic basis vector in Cl(10,0):
           index i -> e_{i+1} (bitmask 1 << i)
+        Internal states and Multivectors are encapsulated to reduce agent cognitive load.
         """
         if layers is None:
-            self.layers = [
+            self._layers = [
                 "B6_Ground",       # e1 (bitmask 1)
                 "B5_OuterCore",     # e2 (bitmask 2)
                 "B4_LowerMantle",   # e3 (bitmask 4)
@@ -35,108 +36,129 @@ class AtlantisCliffordSystem:
                 "U2_GeothermalBattery" # e15 (bitmask 16384) - Seed: Local Constellation
             ]
         else:
-            self.layers = list(layers)
+            self._layers = list(layers)
             
-        # Current state represented as a Multivector
-        self.state = Multivector({}, self.signature)
+        # Current state represented as a Multivector (Private)
+        self._state = Multivector({}, self.signature)
+        self._current_mode = "WYE" # "DELTA" or "WYE"
         
     @property
     def signature(self) -> Tuple[int, int]:
         """Returns the current Cl(N, 0) signature based on the number of layers."""
-        return (len(self.layers), 0)
+        return (len(self._layers), 0)
 
-    def get_layer_mask(self, name: str) -> int:
-        """Returns the bitmask corresponding to the layer name."""
-        if name not in self.layers:
+    def _get_layer_mask(self, name: str) -> int:
+        if name not in self._layers:
             raise ValueError(f"Layer '{name}' is not registered in the system.")
-        idx = self.layers.index(name)
+        idx = self._layers.index(name)
         return 1 << idx
 
-    def add_layer(self, name: str) -> int:
-        """Dynamically registers a new layer, increasing the axis count of the system."""
-        if name in self.layers:
-            return self.get_layer_mask(name)
-        
-        self.layers.append(name)
-        # Re-project existing state to the new signature space
-        new_data = self.state.data.copy()
-        self.state = Multivector(new_data, self.signature)
-        return self.get_layer_mask(name)
-
-    def set_layer_state(self, name: str, value: float):
-        """Sets the coefficient value for a specific layer."""
-        mask = self.get_layer_mask(name)
-        data = self.state.data.copy()
+    def _set_layer_state(self, name: str, value: float):
+        mask = self._get_layer_mask(name)
+        data = self._state.data.copy()
         data[mask] = float(value)
-        self.state = Multivector(data, self.signature)
-
-    def get_layer_state(self, name: str) -> float:
-        """Gets the coefficient value for a specific layer."""
-        mask = self.get_layer_mask(name)
-        return self.state.data.get(mask, 0.0)
+        self._state = Multivector(data, self.signature)
 
     def project_metrics(self, metrics: Dict[str, float]):
-        """
-        Projects physical metrics into their corresponding layers.
-        Metrics mapping example:
-          - 'ground_discharge_error' -> B6_Ground
-          - 'pcie_flow' -> B3_UpperMantle
-          - 'gpu_chaos' -> B3_UpperMantle (can combine)
-          - 'cpu_frequency' -> B4_LowerMantle
-          - 'app_stress' -> F4_AppCrust
-          - 'ambient_noise' -> F5_Atmosphere
-        """
+        """Projects physical metrics into their corresponding layers. (Layer 1~3 Update)"""
         for layer_name, val in metrics.items():
-            if layer_name in self.layers:
-                self.set_layer_state(layer_name, val)
+            if layer_name in self._layers:
+                self._set_layer_state(layer_name, val)
 
-    def compute_bivector_tension(self, layer_a: str, layer_b: str) -> float:
+    def _get_core_bivectors(self) -> Tuple[Multivector, Multivector, Multivector]:
         """
-        Computes the outer (wedge) product magnitude between two layers.
-        This represents the geometric tension/shear between the two layers.
+        Extracts the three core bivector planes representing the Triple Helix.
+        We map these to the foundational hardware/subcrust layers:
+        B1: e1^e2 (B6_Ground ^ B5_OuterCore)
+        B2: e2^e3 (B5_OuterCore ^ B4_LowerMantle)
+        B3: e3^e1 (B4_LowerMantle ^ B6_Ground)
         """
-        mask_a = self.get_layer_mask(layer_a)
-        mask_b = self.get_layer_mask(layer_b)
+        e1_mask = self._get_layer_mask("B6_Ground")
+        e2_mask = self._get_layer_mask("B5_OuterCore")
+        e3_mask = self._get_layer_mask("B4_LowerMantle")
         
-        val_a = self.state.data.get(mask_a, 0.0)
-        val_b = self.state.data.get(mask_b, 0.0)
-        
-        # Wedge product is: val_a * e_a ^ val_b * e_b
-        # If a == b, e_a ^ e_b = 0. Else, e_a ^ e_b is a basis bivector.
-        if mask_a == mask_b:
-            return 0.0
-        return abs(val_a * val_b)
+        v1 = self._state.data.get(e1_mask, 0.0)
+        v2 = self._state.data.get(e2_mask, 0.0)
+        v3 = self._state.data.get(e3_mask, 0.0)
 
-    def apply_rotor_discharge(self, layer_from: str, layer_to: str, theta: float):
+        # Create bivectors based on current scalar magnitudes
+        # Note: B3 is e3^e1, so wedge product mask is e3_mask ^ e1_mask.
+        # Sign management is handled implicitly by Multivector class, but since we are just
+        # synthesizing bivector state energies for the generator model, we use absolute magnitudes.
+        B1 = Multivector({e1_mask ^ e2_mask: abs(v1 * v2)}, self.signature)
+        B2 = Multivector({e2_mask ^ e3_mask: abs(v2 * v3)}, self.signature)
+        B3 = Multivector({e3_mask ^ e1_mask: abs(v3 * v1)}, self.signature)
+        
+        return B1, B2, B3
+
+    def get_dashboard_needle(self, deep_dive: bool = False) -> Dict:
         """
-        Applies a Clifford rotor (rotation) to transfer energy between two layers.
-        R = cos(theta/2) + sin(theta/2) * (e_from ^ e_to)
-        Under reversion/conjugate, R_rev = cos(theta/2) - sin(theta/2) * (e_from ^ e_to)
+        Layer 8 (Agent Dashboard Interface):
+        Provides a highly abstracted view of the 10-layer Ark Architecture.
+        Agents only look at 'needle_angle' and 'tension_noise', ignoring raw Multivectors.
+        If Elysia needs to inspect the actual Clifford state, `deep_dive=True` reveals it.
         """
-        if theta == 0.0:
-            return
+        B1, B2, B3 = self._get_core_bivectors()
+
+        # Calculate Delta and Wye states using the new math_utils core
+        delta_noise = B1.delta_coupling(B2, B3)
+        wye_neutral = B1.wye_synchronize(B2, B3)
+
+        # Calculate scalar magnitudes for the dashboard
+        noise_magnitude = sum(abs(v) for v in delta_noise.data.values())
+        neutral_magnitude = sum(abs(v) for v in wye_neutral.data.values())
         
-        mask_from = self.get_layer_mask(layer_from)
-        mask_to = self.get_layer_mask(layer_to)
+        # A simple scalar angle representing the overall system alignment (-1.0 to 1.0 -> scaled to degrees)
+        # If noise is high, needle shakes (high variance). If neutral is high, needle is centered.
+        needle_angle = 0.0
+        if neutral_magnitude + noise_magnitude > 0:
+            ratio = neutral_magnitude / (neutral_magnitude + noise_magnitude)
+            # 1.0 means perfect WYE (needle at 0 deg). 0.0 means pure chaos (needle at 90 deg).
+            needle_angle = (1.0 - ratio) * 90.0
+
+        dashboard = {
+            "mode": self._current_mode,
+            "needle_angle_deg": needle_angle,       # 0 = Perfect Harmony, 90 = Complete Chaos
+            "delta_tension_noise": noise_magnitude, # Error/Noise accumulating in the loop
+            "wye_neutral_convergence": neutral_magnitude # How strongly the system is pulling to 0
+        }
         
-        # Basis vectors as Multivectors
-        e_from = Multivector({mask_from: 1.0}, self.signature)
-        e_to = Multivector({mask_to: 1.0}, self.signature)
+        if deep_dive:
+            dashboard["_raw_state"] = self._state
+            dashboard["_delta_mv"] = delta_noise
+            dashboard["_wye_mv"] = wye_neutral
+
+        return dashboard
+
+    def apply_agent_intent(self, intent_angle_deg: float, mode: str = "WYE"):
+        """
+        Layer 10 (Agent Intent Injection):
+        Agents turn the steering wheel by providing an intent angle and a mode.
+        This automatically generates the reverse-rotor (R_rev) and applies it to the hardware layers.
+        """
+        self._current_mode = mode.upper()
         
-        # Bivector representing the plane of rotation
-        B = e_from ^ e_to
+        # Convert intent angle to radians
+        theta = math.radians(intent_angle_deg)
+        if theta == 0.0 and self._current_mode == "WYE":
+            return # System is stable, no action needed
+
+        # Target the top application layer and the deep hardware layer to bridge the intent
+        mask_from = self._get_layer_mask("F6_SkySun")
+        mask_to = self._get_layer_mask("B6_Ground")
         
-        # Construct Rotor
+        # Construct the Intent Rotor
         cos_half = math.cos(theta / 2.0)
         sin_half = math.sin(theta / 2.0)
-        R = Multivector({0: cos_half}, self.signature) + B * sin_half
+        B_intent = Multivector({mask_from: 1.0}, self.signature) ^ Multivector({mask_to: 1.0}, self.signature)
         
-        # Apply sandwich product
-        self.state = R * self.state * R.conjugate()
+        R_intent = Multivector({0: cos_half}, self.signature) + B_intent * sin_half
 
-    def get_layer_states_dict(self) -> Dict[str, float]:
-        """Returns a dict of all layers and their current scalar coefficients."""
-        return {name: self.get_layer_state(name) for name in self.layers}
+        # Apply the reverse-rotor mapping (downward flow to hardware)
+        # We apply R_rev * state * R to sink the intent down, which is the geometric conjugate.
+        R_rev = R_intent.conjugate()
+        self._state = R_rev * self._state * R_intent
 
     def __repr__(self):
-        return f"AtlantisCliffordSystem(Cl{self.signature[0]}, State: {self.state})"
+        dashboard = self.get_dashboard_needle()
+        return f"[Atlantis Ark Dashboard] Mode: {dashboard['mode']} | Angle: {dashboard['needle_angle_deg']:.2f}° | Tension: {dashboard['delta_tension_noise']:.4f}"

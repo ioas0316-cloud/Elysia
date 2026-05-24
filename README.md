@@ -54,11 +54,13 @@
 *   **[`data/`](file:///c:/Elysia/data/) (시스템 데이터)**
     *   노드 임베딩, 성향 가중치, Yggdrasil 메모리 스트림, 런타임 인지 궤적 백업 등의 물리/인지적 로그 저장소.
 *   **[`docs/`](file:///c:/Elysia/docs/) (구조화된 문서 도서관)**
+    *   [ARK_OS_KERNEL_ARCHITECTURE.md](file:///c:/Elysia/docs/ARK_OS_KERNEL_ARCHITECTURE.md): 가변축 OS 커널 설계 및 아틀란티스 방주 통합 구조 정의서. (에이전트 제어 지침 포함)
     *   [Eternos_Codex_v1.md](file:///c:/Elysia/docs/Eternos_Codex_v1.md): 에테르노스 핵심 기저 공리 정의서.
     *   [RESONANCE_ARCHITECTURE.md](file:///c:/Elysia/docs/RESONANCE_ARCHITECTURE.md): 3단 관측-공명 아키텍처 기술서.
     *   [Atlantis_N_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_N_Layer_Matrix.md): N대 레이어 절대 매핑 도면.
     *   [Atlantis_Phase_Modulation_Decoder.md](file:///c:/Elysia/docs/Atlantis_Phase_Modulation_Decoder.md): 실시간 위상 변조 및 암호 해독 공리서.
     *   [ROTOR_SCALE_HOLOGRAPHIC_COGNITION.md](file:///c:/Elysia/docs/ROTOR_SCALE_HOLOGRAPHIC_COGNITION.md): 가변축 매니폴드 및 홀로그램 인지론.
+    *   [ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md](file:///c:/Elysia/docs/ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md): 위상차 동기화로 통일되는 4대 인지 흐름 및 시공간 가변축 통신 네트워크 기술서.
     *   엘리시아의 핵심 설계와 사상은 다음과 같이 구조적으로 계층화되어 연결되어 있습니다.
 
 ```
