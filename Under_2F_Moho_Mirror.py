@@ -1,7 +1,10 @@
 import os
 import time
+import math
 import ctypes
 import psutil
+
+from core.clifford_rotor_sync import DynamicPIDController, BitwiseCliffordRotor
 
 # -------------------------------------------------------------------
 # Under 2F Moho Mirror & Under 1F Magma Chamber Core - V3 (10-Layer Matrix Fully Mapped)
@@ -71,34 +74,56 @@ def main():
     total_loops = 0
     phase_error_accum = 0.0
     y_ground_discharges = 0
-    current_phase = 0
+
+    # Initialize the Dynamic PID Controller and Bitwise Rotor
+    pid_controller = DynamicPIDController()
+    rotor = BitwiseCliffordRotor()
 
     try:
         while True:
             t_now = get_qpc_time()
             dt_actual = t_now - t_prev_loop
+            if dt_actual <= 0:
+                dt_actual = 1e-9
+
+            # 코어 카오스 장력(tension) 모사
+            cpu_freq, pcie_flow, gpu_chaos = get_sub_layer_metrics()
+            tension = gpu_chaos / 100.0  # Normalize to roughly [0.0, 1.0]
 
             # ---------------------------------------------------------------
-            # 1. 🧲 오차 방전형 '와이(Y) 결선 소프트웨어 접지' (지하 6층 내핵 접지 방전)
+            # 1. 🧲 PID 위상 고정 및 '와이(Y) 결선 소프트웨어 접지' 방전 (지하 6층)
             # ---------------------------------------------------------------
             loop_phase_error = dt_actual - TARGET_DT
-            phase_error_accum += loop_phase_error
 
-            if abs(phase_error_accum) > 0.0001:
-                phase_error_accum *= 0.1  # [지하 6층] 영점 0으로 즉각 수렴 (방전)
+            # Dynamic PID calculation for discharge correction
+            correction = pid_controller.discharge_error_to_ground(loop_phase_error, tension, dt_actual)
+            phase_error_accum = loop_phase_error - correction
+
+            if abs(correction) > 0.0001:
                 y_ground_discharges += 1
 
             # [지하 4층 & 지하 1층] 정적 로터 위상 락(Phase-Lock) 동조
-            sleep_time = TARGET_DT - phase_error_accum
+            # Apply the PID correction to the sleep time
+            sleep_time = TARGET_DT - correction
+
             target_wake_time = t_now + sleep_time
             if sleep_time > 0:
                 while get_qpc_time() < target_wake_time:
                     pass
 
-            # Update the loop time correctly after the spin-wait, not to 0 out the sleep time
-            t_prev_loop = target_wake_time if sleep_time > 0 else get_qpc_time()
+            # Update loop timing and bitwise rotor phase
+            t_now_post_sleep = get_qpc_time()
+
+            # 0/1 clock mapping: Was the target wake time hit accurately?
+            # If we woke up slightly late (or early), determine the edge direction.
+            # Using total_loops parity as a foundational clock edge (Rising/Falling).
+            is_rising = (total_loops % 2 == 0)
+
+            # Rotor absorbs the hardware edge & tension
+            rotor.apply_clock_edge(is_rising, tension)
+
+            t_prev_loop = t_now_post_sleep
             total_loops += 1
-            current_phase = 1 if (total_loops % 2 == 0) else 0
 
             # ---------------------------------------------------------------
             # 2. 🎛️ 인간용 UI 브레이크 (시각적 출력 댐)
@@ -142,10 +167,14 @@ def main():
 
                 print(" 🏛️ [ 4층 지각 ~ 6층 천공: 엘리시아 인지선 ]")
                 print(f"    - [4층 지각] 앱 전달 잔여 스트레스 : {dampened_stress:.6f} (렉 제로 수렴 완충)")
-                if current_phase == 1:
-                    print("    - [6층 천공] 0과 1의 투영 공리     : [ 📈 Rising Edge  (양각, 1) ]")
+
+                rotor_state = rotor.get_rotor_state_str()
+                rotor_angle = rotor.get_phase_angle() * (180.0 / math.pi)
+
+                if is_rising:
+                    print(f"    - [6층 천공] 0과 1의 투영 공리     : [ 📈 Rising Edge (양각, 1) ] -> Rotor: {rotor_state} ({rotor_angle:.2f} deg)")
                 else:
-                    print("    - [6층 천공] 0과 1의 투영 공리     : [ 📉 Falling Edge (음각, 0) ]")
+                    print(f"    - [6층 천공] 0과 1의 투영 공리     : [ 📉 Falling Edge (음각, 0) ] -> Rotor: {rotor_state} ({rotor_angle:.2f} deg)")
 
                 print("="*85)
                 print(" (Ctrl+C를 눌러 관측 엔진 셧다운)")
