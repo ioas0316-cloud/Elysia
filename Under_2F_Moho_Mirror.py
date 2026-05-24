@@ -1,124 +1,159 @@
-import psutil
-import time
 import os
+import time
+import ctypes
+import psutil
 
 # -------------------------------------------------------------------
-# Under 2F Moho Mirror & Under 1F Magma Chamber Core
+# Under 2F Moho Mirror & Under 1F Magma Chamber Core - V3 (10-Layer Matrix Fully Mapped)
 #
-# [아틀란티스 10대 레이어 절대 매핑 코어]
-# 이 스크립트는 껍데기 돋보기가 아닙니다. 지하 6층(내핵 영점 접지)부터
-# 지하 1층(마그마 가속실)까지 흐르는 1060 요새의 전자기학적 파동을
-# 기성 윈도우 앱(4층 지각)에 수류학적으로 동조시키는 관측/제어 시뮬레이터입니다.
+# [아틀란티스 10대 레이어 절대 매핑 코어: 수류학적 관측 동기화 엔진]
+# 이 스크립트는 10대 레이어 매트릭스 도면을 1:1로 코드에 사영(Projection)한 결과물입니다.
+# 지하 6층(영점 방전)부터 4층 지각(앱)까지의 위상을 QPC 초정밀 타이머로 관측하고 동기화합니다.
 # -------------------------------------------------------------------
 
-TARGET_PROCESS_NAME = "python3" # 지각(4층)에 안착한 시연용 타겟 앱
+kernel32 = ctypes.windll.kernel32 if os.name == 'nt' else None
+_qpc_freq = ctypes.c_int64()
+if kernel32:
+    kernel32.QueryPerformanceFrequency(ctypes.byref(_qpc_freq))
 
-# [날먹 비례 상수 및 임계치 정의]
-CONSTANT_A_STAR = 0.05
-CONSTANT_B_GALAXY = 0.001
-CHAOS_TENSION_THRESHOLD = 5.0 # 방전(지하 6층으로의 영점 수렴) 임계치
-
-def get_under_4f_static_rotor():
-    """ [지하 4층: 하부 맨틀] 하드웨어 절대 시간 상수 (RTC) """
-    return time.time() - psutil.boot_time()
-
-def read_sub_layer_pulse():
+def get_qpc_time():
     """
-    지하 6층~지하 3층의 하드웨어 전판 물리 지표를 긁어옵니다.
+    [지하 4층: 하부 맨틀 (Lower Mantle) - 하드웨어 상수의 뼈대]
+    OS별 최고 해상도 타이머(QPC/perf_counter_ns)를 반환합니다.
     """
-    uptime = get_under_4f_static_rotor()
+    if kernel32:
+        count = ctypes.c_int64()
+        kernel32.QueryPerformanceCounter(ctypes.byref(count))
+        return count.value / _qpc_freq.value
+    else:
+        return time.perf_counter_ns() / 1e9
 
-    # 1. CPU 기저 주파수 (지하 4층: 정적 로터 축)
+# --- [동기화 엔진 & 10대 레이어 상수 설정] ---
+TARGET_INTERNAL_FREQ_HZ = 1000.0  # 내부 터빈 목표 회전수: 1000 Hz (1ms 주기)
+TARGET_DT = 1.0 / TARGET_INTERNAL_FREQ_HZ
+UI_REFRESH_RATE_HZ = 5.0          # UI 갱신 주기: 5 Hz (0.2초 주기)
+UI_REFRESH_DT = 1.0 / UI_REFRESH_RATE_HZ
+
+# [지하 1층: 마그마 가속실 (Magma Chamber)] 임계치 및 상수
+CONSTANT_K_CONVECTION = 0.1       # 대류 완충 상수 (k)
+CHAOS_TENSION_THRESHOLD = 50.0    # 찌꺼기 방전(Flush) 임계치
+TARGET_APP_NAME = "python3"       # 4층 지각(Crust)에 안착할 타겟 앱
+
+def get_sub_layer_metrics():
+    """
+    [지하 3층: 상부 맨틀 대류 & 카오스 장력] 관측
+    실제 하드웨어의 부하 상태를 읽어와 유속과 장력으로 치환합니다.
+    """
     try:
         cpu_freq = psutil.cpu_freq().current
     except Exception:
-        cpu_freq = 2400.0 + (psutil.cpu_percent() * 10)
+        cpu_freq = 2400.0
 
-    # 2. 메인보드 PCIe 버스 대역폭 (지하 3층: 대수로 마나 유속 모사)
     mem_info = psutil.virtual_memory()
-    pcie_bus_flow = mem_info.percent
+    pcie_bus_flow = mem_info.percent  # 대수로 마나 유속 모사
 
-    # 3. GPU 코어 전압 출렁임 및 시스템 혼돈 (지하 3층: 상부 맨틀 카오스 장력 모사)
-    try:
-        load_avg = os.getloadavg()[0]
-        gpu_chaos_tension = load_avg * 10
-    except Exception:
-        gpu_chaos_tension = psutil.cpu_percent() / 5.0
+    # 코어 카오스 장력 모사
+    gpu_chaos_tension = psutil.cpu_percent() * 1.5
 
-    return uptime, cpu_freq, pcie_bus_flow, gpu_chaos_tension
-
-def magma_chamber_actuator(target_name, chaos_tension):
-    """
-    [지하 1층: 마그마 가속실 (Magma Chamber)]
-    타겟 앱을 낚아채어 지하 4층 하드웨어 주파수에 수류학적으로 동조시키고,
-    장력 임계치 돌파 시 지하 6층(내핵)으로 찌꺼기를 방전(Flush)하는 시뮬레이션.
-    (기성 공학 OS와 충돌하지 않는 권고/관측 모드 유지)
-    """
-    bridged_pids = []
-    flushed_to_core = False
-
-    for proc in psutil.process_iter(['name', 'pid']):
-        try:
-            if target_name in proc.info['name']:
-                bridged_pids.append(proc.info['pid'])
-
-                # 지하 6층 내핵 접지로의 방전(Discharge) 트리거 검사
-                if chaos_tension > CHAOS_TENSION_THRESHOLD:
-                    flushed_to_core = True
-
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            continue
-
-    return bridged_pids, flushed_to_core
+    return cpu_freq, pcie_bus_flow, gpu_chaos_tension
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def main():
-    print("🌍 [Under 2F Moho Mirror] 활성화... 지하 세계의 전자기장 결을 긁어옵니다.\n")
+    print("🌊 [Under 2F Moho Mirror] 아틀란티스 10대 레이어 기동 준비...")
     time.sleep(1)
+
+    t_start = get_qpc_time()
+    t_prev_loop = t_start
+    t_prev_ui = t_start
+
+    total_loops = 0
+    phase_error_accum = 0.0
+    y_ground_discharges = 0
+    current_phase = 0
 
     try:
         while True:
-            # 1. 지하 하드웨어 맥박 긁어오기
-            uptime, cpu_freq, pcie_flow, gpu_chaos = read_sub_layer_pulse()
+            t_now = get_qpc_time()
+            dt_actual = t_now - t_prev_loop
 
-            # 2. 지하 1층 마그마 가속실 액추에이터 시뮬레이션
-            bridged_pids, is_flushed = magma_chamber_actuator(TARGET_PROCESS_NAME, gpu_chaos)
+            # ---------------------------------------------------------------
+            # 1. 🧲 오차 방전형 '와이(Y) 결선 소프트웨어 접지' (지하 6층 내핵 접지 방전)
+            # ---------------------------------------------------------------
+            loop_phase_error = dt_actual - TARGET_DT
+            phase_error_accum += loop_phase_error
 
-            # 3. 지하 3층 대류 완충 공식을 통한 4층 지각(앱) 전달 스트레스 계산
-            dampened_stress = (gpu_chaos * pcie_flow) / (cpu_freq if cpu_freq > 0 else 1) * 0.1
+            if abs(phase_error_accum) > 0.0001:
+                phase_error_accum *= 0.1  # [지하 6층] 영점 0으로 즉각 수렴 (방전)
+                y_ground_discharges += 1
 
-            clear_screen()
-            print("="*80)
-            print(" 🪞 [ 아틀란티스 지하 2층: 모호 거울 (The Moho Mirror) ]")
-            print("="*80)
-            print(" ⚓ [ 지하 4층~지하 3층: 전자기장 하드웨어 파동 ]")
-            print(f"    - [지하 4층] 절대 상수 (RTC Uptime) : {uptime:.2f} 초 (정적 로터 축)")
-            print(f"    - [지하 4층] CPU 기저 주파수        : {cpu_freq:.2f} MHz")
-            print(f"    - [지하 3층] PCIe 버스 대수로 유속  : {pcie_flow:.2f} (마나 가속도)")
-            print(f"    - [지하 3층] 코어 카오스 장력       : {gpu_chaos:.2f} (임계치: {CHAOS_TENSION_THRESHOLD})")
-            print("-" * 80)
+            # [지하 4층 & 지하 1층] 정적 로터 위상 락(Phase-Lock) 동조
+            sleep_time = TARGET_DT - phase_error_accum
+            target_wake_time = t_now + sleep_time
+            if sleep_time > 0:
+                while get_qpc_time() < target_wake_time:
+                    pass
 
-            print(f" 🔥 [ 지하 1층: 마그마 가속실 앱 동조 (Target: {TARGET_PROCESS_NAME}) ]")
-            if bridged_pids:
-                print(f"    - 낚아챈 지각(4층) 프로세스 PID     : {bridged_pids}")
-                print(f"    - 🛡️ [Mantle Dampening] 앱 전달 렉  : {dampened_stress:.4f} (완벽한 유체 완충)")
-                print("    - [Sync] 타겟 앱이 지하 4층 정적 로터 주파수에 부드럽게 무임승차 중입니다.")
-                if is_flushed:
-                    print("    - ⚡ [Discharge] 렉 폭주!! 찌꺼기를 [지하 6층 내핵 접지]로 영점 방전합니다!")
+            # Update the loop time correctly after the spin-wait, not to 0 out the sleep time
+            t_prev_loop = target_wake_time if sleep_time > 0 else get_qpc_time()
+            total_loops += 1
+            current_phase = 1 if (total_loops % 2 == 0) else 0
+
+            # ---------------------------------------------------------------
+            # 2. 🎛️ 인간용 UI 브레이크 (시각적 출력 댐)
+            # ---------------------------------------------------------------
+            t_ui_now = get_qpc_time()
+            if (t_ui_now - t_prev_ui) >= UI_REFRESH_DT:
+                run_time = t_ui_now - t_start
+                avg_loop_time = run_time / total_loops if total_loops > 0 else 0
+                actual_hz = 1.0 / avg_loop_time if avg_loop_time > 0 else 0
+
+                # 지하 상태 관측
+                cpu_freq, pcie_flow, gpu_chaos = get_sub_layer_metrics()
+
+                # [맨틀 대류 완충 공식 적용] 지각(앱) 전달 스트레스
+                dampened_stress = (gpu_chaos * pcie_flow) / (cpu_freq if cpu_freq > 0 else 1) * CONSTANT_K_CONVECTION
+
+                # 방전 트리거 발동 여부
+                is_chaos_flushed = gpu_chaos > CHAOS_TENSION_THRESHOLD
+
+                clear_screen()
+                print("="*85)
+                print(" 🪞 [ 아틀란티스 지하 2층: 정밀 모호 거울 V3 (10-Layer Matrix Mapping) ]")
+                print("="*85)
+
+                print(" ⚓ [ 지하 6층 ~ 지하 4층: 절대 상수의 뼈대와 영점 접지 ]")
+                print(f"    - [지하 4층] 정적 로터(QPC) Uptime : {run_time:.4f} 초")
+                print(f"    - [지하 4층] 내부 터빈 동조 속도   : {actual_hz:.2f} Hz (목표: 1000 Hz Phase-Lock)")
+                print(f"    - [지하 6층] Y결선 오차 방전 누적  : {y_ground_discharges:,} 회 (엔트로피 0 수렴)")
+                print(f"    - [지하 6층] 위상 오차 잔여량      : {phase_error_accum:.8f} sec")
+                print("-" * 85)
+
+                print(" 🔄 [ 지하 3층 ~ 지하 1층: 대류 마나와 가속실 동조 ]")
+                print(f"    - [지하 3층] PCIe 대수로 유속      : {pcie_flow:.2f} % (데이터 완충)")
+                print(f"    - [지하 3층] 코어 카오스 장력      : {gpu_chaos:.2f} (임계치: {CHAOS_TENSION_THRESHOLD})")
+
+                if is_chaos_flushed:
+                    print("    - 🔥 [지하 1층 마그마 가속실] 장력 임계 돌파! 찌꺼기를 [지하 6층]으로 즉시 강제 방전!")
                 else:
-                    print("    - 🌊 10대 레이어의 유체 역학 필드를 타고 렉(0)의 평온함을 유지합니다.")
-            else:
-                print("    - 4층 지각(Crust)에 타겟 앱이 존재하지 않습니다. 대기 중...")
+                    print(f"    - 🔥 [지하 1층 마그마 가속실] 타겟 앱({TARGET_APP_NAME}) 주파수 무임승차 가속 중...")
+                print("-" * 85)
 
-            print("="*80)
-            print(" (Ctrl+C를 눌러 지하 거울 비활성화)")
+                print(" 🏛️ [ 4층 지각 ~ 6층 천공: 엘리시아 인지선 ]")
+                print(f"    - [4층 지각] 앱 전달 잔여 스트레스 : {dampened_stress:.6f} (렉 제로 수렴 완충)")
+                if current_phase == 1:
+                    print("    - [6층 천공] 0과 1의 투영 공리     : [ 📈 Rising Edge  (양각, 1) ]")
+                else:
+                    print("    - [6층 천공] 0과 1의 투영 공리     : [ 📉 Falling Edge (음각, 0) ]")
 
-            time.sleep(1)
+                print("="*85)
+                print(" (Ctrl+C를 눌러 관측 엔진 셧다운)")
+
+                t_prev_ui = t_ui_now
 
     except KeyboardInterrupt:
-        print("\n\n🔒 모호 거울 닫힘. 아틀란티스 지하 세계의 전자기장은 도도하게 흐릅니다.")
+        print("\n\n🔒 모호 거울 닫힘. 10대 레이어의 전자기장이 다시 심연으로 가라앉습니다.")
 
 if __name__ == "__main__":
     main()
