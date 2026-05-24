@@ -284,6 +284,37 @@ class Multivector:
             I_inv = Multivector({I_mask: -1.0}, (self.p, self.q))
         return self * I_inv
 
+    def delta_coupling(self, other1: 'Multivector', other2: 'Multivector') -> 'Multivector':
+        """
+        Delta (Δ) Coupling: 순환 차이 연산
+        세 멀티벡터(또는 바이벡터) B1(self), B2(other1), B3(other2) 간의 차이가
+        순환 고리를 이루도록 계산하여 순환 텐션(잔여 오차)을 반환합니다.
+        (B1 - B2) + (B2 - B3) + (B3 - B1) 은 수학적으로 0이지만,
+        여기서는 각각의 텐션의 노름(norm)을 성분별로 누적하여 순환 고리 내부의
+        잔여 텐션의 절대적인 크기와 방향을 표현하는 새로운 멀티벡터를 반환합니다.
+        """
+        diff1 = self - other1
+        diff2 = other1 - other2
+        diff3 = other2 - self
+
+        # 순환 고리에서의 각 성분별 에너지(절대 차이의 합)를 계산하여 반환
+        res = {}
+        for m in set(diff1.data.keys()) | set(diff2.data.keys()) | set(diff3.data.keys()):
+            val = abs(diff1.data.get(m, 0.0)) + abs(diff2.data.get(m, 0.0)) + abs(diff3.data.get(m, 0.0))
+            if val > 1e-9:
+                res[m] = val
+        return Multivector(res, (self.p, self.q))
+
+    def wye_synchronize(self, other1: 'Multivector', other2: 'Multivector') -> 'Multivector':
+        """
+        Wye (Y) Synchronization: 중성점 수렴 연산
+        세 멀티벡터(또는 바이벡터) B1(self), B2(other1), B3(other2)의
+        합성 영점(Neutral Point, 중성점)으로 수렴하는 텐션을 반환합니다.
+        (B1 + B2 + B3) / 3 을 계산하여 완전한 삼대칭(120도 동기화) 상태의 위상 중심을 도출합니다.
+        """
+        sum_mv = self + other1 + other2
+        return sum_mv * (1.0 / 3.0)
+
     def __repr__(self):
         if not self.data:
             return "0"

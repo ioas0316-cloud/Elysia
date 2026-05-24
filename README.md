@@ -52,6 +52,7 @@
 *   **[`data/`](file:///c:/Elysia/data/) (시스템 데이터)**
     *   노드 임베딩, 성향 가중치, Yggdrasil 메모리 스트림, 런타임 인지 궤적 백업 등의 물리/인지적 로그 저장소.
 *   **[`docs/`](file:///c:/Elysia/docs/) (구조화된 문서 도서관)**
+    *   [ARK_OS_KERNEL_ARCHITECTURE.md](file:///c:/Elysia/docs/ARK_OS_KERNEL_ARCHITECTURE.md): 가변축 OS 커널 설계 및 아틀란티스 방주 통합 구조 정의서. (에이전트 제어 지침 포함)
     *   [Eternos_Codex_v1.md](file:///c:/Elysia/docs/Eternos_Codex_v1.md): 에테르노스 핵심 기저 공리 정의서.
     *   [RESONANCE_ARCHITECTURE.md](file:///c:/Elysia/docs/RESONANCE_ARCHITECTURE.md): 3단 관측-공명 아키텍처 기술서.
     *   [Atlantis_10_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_10_Layer_Matrix.md): 10대 레이어 절대 매핑 도면.
