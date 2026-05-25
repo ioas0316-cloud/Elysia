@@ -186,12 +186,25 @@ class TripleHelixEngine:
         inner_sig = self.inner_world.signature
         
         # [자율 차원 조율 엔진 발동]
-        # 인지적 장력(코드의 거대한 구조적 변화나 난해한 텍스트 사유)이 임계치를 넘으면 새로운 공리로 취급
-        if code_mind_tension > 0.4:
-            # 텍스트와 텐션이 섞인 낯선 파동 생성
-            anomaly_signal = Multivector({0: 1.0, 1: code_mind_tension, 2: density_w}, inner_sig)
-            if self.inner_world.assimilate_axiom(anomaly_signal, threshold=0.15):
-                print(f"[Cognitive Breakthrough] Inner World expanded to Cl({self.inner_world.signature[0]},0) due to unexplainable axiom tension.")
+        # 1. 기존의 텍스트 추상 장력
+        anomaly_signal = Multivector({0: 1.0, 1: code_mind_tension, 2: density_w}, inner_sig)
+        if self.inner_world.assimilate_axiom(anomaly_signal):
+            print(f"[Cognitive Breakthrough] Inner World expanded to Cl({self.inner_world.signature[0]},0) due to topological fracture.")
+            inner_axes = self.inner_world.signature[0]
+            inner_sig = self.inner_world.signature
+            
+        # 2. 인간의 라벨링이 제거된 순수 원시 센서 데이터 (Label-Free Sensory Evolution)
+        raw_vector = sensory_input.get("raw_vector", [])
+        if raw_vector:
+            # 원시 데이터를 1차원, 2차원, 3차원 축에 일단 꽂아 넣고, 텐션을 버티는지 실험
+            raw_data = {0: 1.0}
+            for i, val in enumerate(raw_vector):
+                mask = 1 << i
+                raw_data[mask] = val
+            
+            raw_signal = Multivector(raw_data, inner_sig)
+            if self.inner_world.assimilate_axiom(raw_signal):
+                print(f"[Sensory Evolution] Inner World expanded to Cl({self.inner_world.signature[0]},0) to accommodate raw unlabelled vector.")
                 inner_axes = self.inner_world.signature[0]
                 inner_sig = self.inner_world.signature
 
@@ -339,27 +352,18 @@ class TripleHelixEngine:
         dash = self.ark_gearbox.get_dashboard_needle()
 
         # --- D. Dynamic Mitosis / Bifurcation ---
+        # Bifurcation은 assimilate_axiom의 텐션 누적 붕괴로 이미 처리됨.
+        # 여기서는 오직 긴장이 풀렸을 때 차원을 수축(Compress)하는 복원력만 남김.
         jumped = False
-        if avg_tension > self.jump_threshold:
-            # High tension: Bifurcate Inner World and bridge links
-            success = self.inner_world.bifurcate()
-            if success:
-                jumped = True
+        if avg_tension < self.jump_threshold * 0.3:
+            self.inner_world.stable_ticks += 1
+            if self.inner_world.stable_ticks >= 5:
+                self.inner_world.compress()
                 new_sig = self.inner_world.signature
-                # Expand bridge links signature
                 for link in self.coordination_links:
                     link.update_signature(new_sig)
         else:
-            # Low tension: Compress if stable
-            if avg_tension < self.jump_threshold * 0.3:
-                self.inner_world.stable_ticks += 1
-                if self.inner_world.stable_ticks >= 5:
-                    self.inner_world.compress()
-                    new_sig = self.inner_world.signature
-                    for link in self.coordination_links:
-                        link.update_signature(new_sig)
-            else:
-                self.inner_world.stable_ticks = 0
+            self.inner_world.stable_ticks = 0
 
         # --- E. Project Action output to Quaternion ---
         # Look at ACTUATE_WASD output phase in outer_world (Cl(3,0))

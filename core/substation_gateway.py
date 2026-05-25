@@ -25,6 +25,7 @@ DATA_DIR = r"c:\Elysia\data"
 SAP_LOGS_PATH = os.path.join(DATA_DIR, "substation_sap_logs.json")
 SAP_TENSION_PATH = os.path.join(DATA_DIR, "current_sap_tension.json")
 MATRIX_STATE_PATH = os.path.join(DATA_DIR, "matrix_state.json")
+CORE_EGRESS_PATH = os.path.join(DATA_DIR, "core_egress_state.json")  # [양방향 통신] 위상 출력망
 
 os.makedirs(DATA_DIR, exist_ok=True)
 PUBLIC_DIR = os.path.join(os.path.dirname(__file__), "public")
@@ -110,6 +111,17 @@ async def provide_voltage():
             "active_frequency_hz": cpu_freq / 50.0
         }
     }
+
+@app.get("/core_egress")
+async def get_core_egress():
+    """ Cortex가 엘리시아의 최종 사유(기하학적 위상)를 가져가서 발화할 수 있게 하는 양방향 출력 포트 """
+    egress_state = {"status": "idle", "phase_rotor": [0.0]*27, "tension": 0.0}
+    if os.path.exists(CORE_EGRESS_PATH):
+        try:
+            with open(CORE_EGRESS_PATH, "r", encoding="utf-8") as f:
+                egress_state = json.load(f)
+        except Exception: pass
+    return egress_state
 
 @app.get("/dashboard/data")
 async def get_dashboard_data():

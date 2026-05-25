@@ -10,9 +10,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 
 from core.atlantis_clifford_bridge import AtlantisCliffordSystem
 
-def test_15_layer_expansion():
+def test_n_layer_expansion():
     print("=" * 80)
-    print(" 🧪 [검증] 아틀란티스 15대 레이어 확장 매트릭스")
+    print(" 🧪 [검증] 아틀란티스 N대 가변 계층 확장 매트릭스")
     print("=" * 80)
 
     # 1. 시스템 초기화 검증
@@ -59,8 +59,8 @@ def test_15_layer_expansion():
     print(f"    - B1_MagmaChamber 잔류량: {system.get_layer_state('B1_MagmaChamber'):.4f}")
     print(f"    - U1_SubterraneanCity 수신량: {system.get_layer_state('U1_SubterraneanCity'):.4f}")
 
-    print("\n✅ 모든 클리포드 대수 Cl(15,0) 연산 및 레이어 통신 검증 성공!")
+    print(f"\n✅ 모든 클리포드 대수 Cl({system.signature[0]},0) 연산 및 레이어 통신 검증 성공!")
     print("=" * 80)
 
 if __name__ == "__main__":
-    test_15_layer_expansion()
+    test_n_layer_expansion()

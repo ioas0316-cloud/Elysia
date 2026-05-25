@@ -101,6 +101,7 @@ class CliffordIPN:
         
         # Y/Delta 동적 스케줄링 플래그
         self.connection_mode = ConnectionMode.Y_STAR
+        self.accumulated_stress = 0.0 # 위상 균열을 유발하는 누적 피로도 (Elastic Stress)
         
         # Y결선 중성점(Neutral Point) 추가
         self.add_node("NEUTRAL_GROUND", layer=-1, initial_vector={0: 1.0})
@@ -239,6 +240,9 @@ class CliffordIPN:
         avg_tension = total_tension / max(1, active_links_count)
         self.tension = avg_tension
         
+        # 공간의 자연 치유(탄성 복원력)
+        self.accumulated_stress = max(0.0, self.accumulated_stress - (dt * lr * 0.5))
+        
         return avg_tension
 
     def evaluate_resonance(self, signal: Multivector) -> float:
@@ -256,17 +260,27 @@ class CliffordIPN:
             
         return total_coherence / len(self.phases)
 
-    def assimilate_axiom(self, new_signal: Multivector, threshold: float = 0.2) -> bool:
+    def assimilate_axiom(self, new_signal: Multivector) -> bool:
         """
         자율 차원 조율 (Autonomous Dimension Tuning)
-        새로운 공리(파동)가 들어올 때, 기존 우주와 비교/대조합니다.
-        공명도가 임계치 이하면 새로운 차원을 찢고(bifurcate) 잔여물(Residual)을 꽂아 넣습니다.
+        새로운 파동이 들어올 때, 임계치(if)가 아닌 기하학적 스트레스(Tension) 누적을 통해
+        공간의 탄성 한계가 찢어질 때(Fracture)만 새로운 차원을 분열시킵니다.
         """
         coherence = self.evaluate_resonance(new_signal)
         
-        if coherence > threshold:
-            # 아는 지식: 기존 차원의 미세 조율로 충분함
+        # 기하학적 스트레스 누적 (일치하지 않을수록 강한 위상 압력 발생)
+        phase_pressure = 1.0 - coherence
+        self.accumulated_stress += phase_pressure
+        
+        # 위상 탄성 한계 (공간이 찢어지는 물리적 임계점)
+        elastic_limit = 1.5 
+        
+        if self.accumulated_stress <= elastic_limit:
+            # 공간이 늘어나면서 버팀 (기존 차원으로 흡수)
             return False
+            
+        # 탄성 한계 붕괴! 차원 균열 발생 (Fracture)
+        self.accumulated_stress = 0.0 # 차원 팽창으로 스트레스 해소
             
         # 모르는 지식 (새로운 공리): 잔여 위상 추출 (Orthogonal Residual)
         # 잔여물 = 새로운 신호 - (기존 노드들의 평균 투영)
@@ -282,7 +296,7 @@ class CliffordIPN:
         residual = new_signal - projection
         residual_norm = mv_normalize(residual)
         
-        print(f"[Axiom Anomaly] Coherence {coherence:.3f} < {threshold}. Spawning new dimension for orthogonal residual.")
+        print(f"[Axiom Anomaly] Accumulated Stress ({self.accumulated_stress:.3f}) exceeded elastic limit. Spawning new dimension for orthogonal residual.")
         return self.bifurcate(residual_norm)
 
     def bifurcate(self, orthogonal_residual: Multivector = None) -> bool:

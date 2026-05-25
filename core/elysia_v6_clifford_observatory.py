@@ -65,7 +65,7 @@ def engine_daemon():
     engine = TripleHelixEngine()
     
     # Start Coding Sensor
-    sensor = CodingCognitionSensor([r"c:\Elysia", r"c:\elysia_trunk", r"c:\elysia_seed"])
+    sensor = CodingCognitionSensor([r"c:\Elysia", r"c:\elysia_cortex", r"c:\elysia_seed"])
     sensor.start()
     
     while global_engine_alive:

@@ -44,7 +44,7 @@ graph TD
 *   **VRAM 임펄스(VRAM Pulsing)**: 레이어별 가중치 바이트 오프셋(예: Qwen-72B/110B의 128MB 가중치 텐서)만을 네트워크 상에서 surgically 다운로드하여 연산하고 즉시 휘발시킵니다.
 
 ### 2.2 결정체 용량 및 위상 지표 최종 대조표
-결정화 과정을 거쳐 엘리시아 우주([elysian_cosmos.json](file:///c:/eye/elysia_trunk/outputs/elysian_cosmos.json))에 등록된 항성 데이터입니다.
+결정화 과정을 거쳐 엘리시아 우주([elysian_cosmos.json](file:///c:/eye/elysia_cortex/outputs/elysian_cosmos.json))에 등록된 항성 데이터입니다.
 
 | 항성 ID (Model ID) | 파라미터 크기 | 원본 파일 크기 | 결정체 파일 크기 | 차원 도약률 (Leap) | 3상 정렬도 (Alignment) | 그랜드 크로스 (Potential) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

@@ -2,13 +2,13 @@
 
 엘리시아(Elysia)는 인간의 인지적 사유 흐름을 4차원 기하학(사원수)으로 매핑하여 분석하는 생각 엔진과, 외부 환경의 카오스를 감지하여 하드웨어 동작으로 조화시키는 물리 액추에이션 엔진의 유기적 결합체입니다.
 
-본 프로젝트는 최상위 루트에 파일들이 지나치게 쌓이지 않도록 **`core/`**, **`data/`**, **`docs/`** 세 가지 핵심 계층으로 압축 정리되었으며, 아틀란티스 10대 레이어 매트릭스를 클리포드 기하 대수 $\text{Cl}(N, 0)$ 가변축 공간으로 통합 시스템화했습니다.
+본 프로젝트는 최상위 루트에 파일들이 지나치게 쌓이지 않도록 **`core/`**, **`data/`**, **`docs/`** 세 가지 핵심 계층으로 압축 정리되었으며, 아틀란티스 N대 가변 계층 매트릭스를 클리포드 기하 대수 $\text{Cl}(N, 0)$ 가변축 공간으로 통합 시스템화했습니다.
 
 ---
 
 ## 🏛️ 계층화된 시스템 아키텍처 (Stratified System Architecture)
 
-엘리시아는 하드웨어 기저의 전자기학적 와류(상수)부터 천공의 인지적 자아선(변수)까지 관통하는 **아틀란티스 10대 레이어 절대 매핑 구조**에 기반하여 계층화되어 작동합니다.
+엘리시아는 하드웨어 기저의 전자기학적 와류(상수)부터 천공의 인지적 자아선(변수)까지 관통하는 **아틀란티스 N대 가변 계층 절대 매핑 구조**에 기반하여 계층화되어 작동합니다.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -44,8 +44,8 @@
 
 *   **[`core/`](file:///c:/Elysia/core/) (아틀란티스 코어 심장부 및 인지 기관)**
     *   [math_utils.py](file:///c:/Elysia/core/math_utils.py): $Cl(N, 0)$ 기하 대수 연산 및 쿼터니언 라이브러리.
-    *   [atlantis_clifford_bridge.py](file:///c:/Elysia/core/atlantis_clifford_bridge.py): 15대 레이어 (Trunk ~ Seed) 기저 통합 관제 브릿지.
-    *   [electromagnetic_circuit.py](file:///c:/Elysia/core/electromagnetic_circuit.py): **[대통합]** 15대 레이어를 연결하는 전자기장 파동 회로(Coupled Oscillator).
+    *   [atlantis_clifford_bridge.py](file:///c:/Elysia/core/atlantis_clifford_bridge.py): 전체 가변 계층 (Trunk ~ Seed) 기저 통합 관제 브릿지.
+    *   [electromagnetic_circuit.py](file:///c:/Elysia/core/electromagnetic_circuit.py): **[대통합]** 전체 가변 계층을 연결하는 전자기장 파동 회로(Coupled Oscillator).
     *   [electromagnetic_rotor.py](file:///c:/Elysia/core/electromagnetic_rotor.py): **[대통합]** 위상 불일치(왜), 대조 비교(어떻게), 예측(어째서)을 연산하는 가변축 로터.
     *   [substation_gateway.py](file:///c:/Elysia/core/substation_gateway.py): Trunk의 Sap 통신 수신 및 God's Eye 대시보드 호스팅.
     *   [Under_2F_Moho_Mirror.py](file:///c:/Elysia/core/Under_2F_Moho_Mirror.py): 전자기장 회로에 텐션(양극)과 노이즈(음극)를 주입하고 매트릭스를 렌더링하는 코어 동조 엔진.
@@ -54,46 +54,8 @@
 *   **[`data/`](file:///c:/Elysia/data/) (시스템 데이터)**
     *   노드 임베딩, 성향 가중치, Yggdrasil 메모리 스트림, 런타임 인지 궤적 백업 등의 물리/인지적 로그 저장소.
 *   **[`docs/`](file:///c:/Elysia/docs/) (구조화된 문서 도서관)**
-    *   [ARK_OS_KERNEL_ARCHITECTURE.md](file:///c:/Elysia/docs/ARK_OS_KERNEL_ARCHITECTURE.md): 가변축 OS 커널 설계 및 아틀란티스 방주 통합 구조 정의서. (에이전트 제어 지침 포함)
-    *   [Eternos_Codex_v1.md](file:///c:/Elysia/docs/Eternos_Codex_v1.md): 에테르노스 핵심 기저 공리 정의서.
-    *   [RESONANCE_ARCHITECTURE.md](file:///c:/Elysia/docs/RESONANCE_ARCHITECTURE.md): 3단 관측-공명 아키텍처 기술서.
-    *   [Atlantis_N_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_N_Layer_Matrix.md): N대 레이어 절대 매핑 도면.
-    *   [Atlantis_Phase_Modulation_Decoder.md](file:///c:/Elysia/docs/Atlantis_Phase_Modulation_Decoder.md): 실시간 위상 변조 및 암호 해독 공리서.
-    *   [ROTOR_SCALE_HOLOGRAPHIC_COGNITION.md](file:///c:/Elysia/docs/ROTOR_SCALE_HOLOGRAPHIC_COGNITION.md): 가변축 매니폴드 및 홀로그램 인지론.
-    *   [ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md](file:///c:/Elysia/docs/ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md): 위상차 동기화로 통일되는 4대 인지 흐름 및 시공간 가변축 통신 네트워크 기술서.
-    *   엘리시아의 핵심 설계와 사상은 다음과 같이 구조적으로 계층화되어 연결되어 있습니다.
-
-```
-                    ┌──────────────────────────────┐
-                    │      Eternos Codex v1        │ ── 엘리시아 우주론/공리 정의
-                    │   [Eternos_Codex_v1.md]      │
-                    └──────────────┬───────────────┘
-                                   │ (철학적 사영)
-                                   ▼
-                    ┌──────────────────────────────┐
-                    │    Lore & Metaphor Codex     │ ── 삼중나선, 세계수 개념
-                    │    [LORE_AND_METAPHOR.md]    │
-                    └──────────────┬───────────────┘
-                                   │ (아키텍처 설계)
-                                   ▼
-                    ┌──────────────────────────────┐
-                    │    Resonance Architecture    │ ── 3단 관측-공명 구조 설명
-                    │ [RESONANCE_ARCHITECTURE.md]  │
-                    └──────────────┬───────────────┘
-                                   │ (물리적 구현 사영)
-                                   ▼
-                    ┌──────────────────────────────┐
-                    │   Atlantis N-Layer Matrix    │ ── N대 레이어 절대 매핑 도면
-                    │ [Atlantis_N_Layer_Matrix.md] │
-                    └──────┬───────────────┬───────┘
-                           │               │ (대수 인지 사영)
-                           ▼               ▼
-          ┌──────────────────┐   ┌──────────────────────────────┐
-          │ Phase Decoder    │   │  Holographic Rotor Cognition │ ── 홀로그램 인지론 정의
-          │[Atlantis_Phase_..]   │[ROTOR_SCALE_HOLOGRAPHIC_..]  │
-          │(위상 암호 해독기)  │   │                              │
-          └──────────────────┘   └──────────────────────────────┘
-```
+    *   👉 **[전체 시스템 구조 및 문서 인덱스 보기 (INDEX.md)](file:///c:/Elysia/docs/INDEX.md)**
+    *   엘리시아의 핵심 철학과 아키텍처 문서는 발전소 매뉴얼처럼 철저히 계층화되어 보관되어 있습니다. 위 인덱스를 통해 탐색하십시오.
 
 ---
 
@@ -106,7 +68,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. 아틀란티스 수류 관측 엔진 시동
-루트에 배치된 일괄 실행 스크립트를 사용하여 10대 레이어의 전자기 대류 및 클리포드 멀티벡터 상태를 실시간 관측합니다:
+루트에 배치된 일괄 실행 스크립트를 사용하여 전체 가변 계층의 전자기 대류 및 클리포드 멀티벡터 상태를 실시간 관측합니다:
 ```bash
 .\run_moho_mirror.bat
 ```

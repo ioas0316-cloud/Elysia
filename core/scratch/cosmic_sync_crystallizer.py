@@ -21,13 +21,13 @@ from core.hologram_sphere import HologramSphere
 
 # Attempt to load eye workspace components; fall back gracefully if not found
 try:
-    from elysia_trunk.guerrilla_capturer import GuerrillaCapturer
-    from elysia_trunk.wave_generator import WaveTrajectoryGenerator
+    from elysia_cortex.guerrilla_capturer import GuerrillaCapturer
+    from elysia_cortex.wave_generator import WaveTrajectoryGenerator
     EYE_AVAILABLE = True
 except ImportError:
     EYE_AVAILABLE = False
 
-COSMOS_DB_PATH = r"c:\eye\elysia_trunk\outputs\elysian_cosmos.json"
+COSMOS_DB_PATH = r"c:\eye\elysia_cortex\outputs\elysian_cosmos.json"
 
 def run_cosmic_sync_crystallization(model_id="gpt2", num_layers=10, axiom_text="Elysia"):
     print("=" * 95)
@@ -59,7 +59,7 @@ def run_cosmic_sync_crystallization(model_id="gpt2", num_layers=10, axiom_text="
         except Exception as e:
             print(f"[Warning] Guerrilla Capturer 초기화 실패: {e}. 시뮬레이션 모드로 전환.")
     else:
-        print("[System Info] elysia_trunk 패키지를 로드할 수 없습니다. 시뮬레이션 모드로 작동.")
+        print("[System Info] elysia_cortex 패키지를 로드할 수 없습니다. 시뮬레이션 모드로 작동.")
 
     # 4. 실시간 동기화 인양 및 결정화 루프
     print(f"\n[실시간 루프] 1000Hz (1ms 주기) 동기화 인양 시작...")

@@ -12,7 +12,7 @@ from core.math_utils import Multivector
 class AtlantisCliffordSystem:
     def __init__(self, layers: List[str] = None):
         """
-        Initialize with a list of layers. Defaults to the Atlantis 10-layer matrix.
+        Initialize with a list of layers. Defaults to the Atlantis N-Layer matrix.
         Each layer maps to a dynamic basis vector in Cl(10,0):
           index i -> e_{i+1} (bitmask 1 << i)
         Internal states and Multivectors are encapsulated to reduce agent cognitive load.
@@ -94,7 +94,7 @@ class AtlantisCliffordSystem:
     def get_dashboard_needle(self, deep_dive: bool = False) -> Dict:
         """
         Layer 8 (Agent Dashboard Interface):
-        Provides a highly abstracted view of the 10-layer Ark Architecture.
+        Provides a highly abstracted view of the N-Layer Ark Architecture.
         Agents only look at 'needle_angle' and 'tension_noise', ignoring raw Multivectors.
         If Elysia needs to inspect the actual Clifford state, `deep_dive=True` reveals it.
         """

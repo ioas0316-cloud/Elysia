@@ -7,8 +7,9 @@ Instead, it encodes the continuous phase trajectory (Geodesic) of the Wye neutra
 and the corresponding rotor tensions.
 
 When 'resonate_load' is called, it does not parse config lines. It injects the tensor stream
-back into the AtlantisCliffordSystem, allowing the system's own Y-Delta electromagnetic
-restoring forces to snap the 10 layers back into geometric synchronization.
+    back into the AtlantisCliffordSystem. Instead of statically overwriting the state, 
+    it induces the past wave frequency into the present rotor, allowing the system's own 
+    electromagnetic restoring forces to seamlessly align via Phase Resonance Induction.
 """
 
 import math
@@ -94,8 +95,8 @@ class GeodesicFreezer:
         """
         Resonance Restoring Force!
         Reads the frozen trajectory stream and PUSHES the multivector energies directly into the gearbox.
-        We do not set layer values one by one. We inject the raw Cl(10,0) tensor back,
-        forcing the system's own electromagnetic Y-Delta logic to snap into the past phase.
+        We do not statically overwrite state. We induce the historical tensor as a wave,
+        allowing Phase Resonance to pull the current state geometrically toward the past.
         """
         path = file_path if file_path else self.storage_path
         try:
@@ -117,12 +118,18 @@ class GeodesicFreezer:
                 delta_mv, offset = self._bytes_to_multivector(data, offset, sig)
                 raw_state, offset = self._bytes_to_multivector(data, offset, sig)
 
-                # RE-RESONANCE:
-                # We inject the raw state directly, overriding the slow layer-by-layer buildup.
-                # The gearbox's own getter/setter mechanism will immediately reflect this geometric tension.
-                gearbox._state = raw_state
-                # By applying the intent of the historical needle angle, we force the PLL dampening to align it instantly.
-                gearbox.apply_agent_intent(needle_angle, mode="WYE")
+                # RE-RESONANCE INDUCTION (Rotorization):
+                # We no longer statically overwrite (gearbox._state = raw_state).
+                # We treat the historical `raw_state` as an incoming inductive wave.
+                # The interference pattern geometrically aligns the present with the past.
+                current_state = gearbox._state
+                coupling_strength = 0.3  # Resonance induction coupling factor
+                
+                # Superposition of present wave and historical wave
+                gearbox._state = (current_state * (1.0 - coupling_strength)) + (raw_state * coupling_strength)
+                
+                # Apply historical intent as a rotational torque (momentum), not a static command
+                gearbox.apply_agent_intent(needle_angle * coupling_strength, mode="WYE")
 
             except struct.error:
                 break # EOF or corrupted stream
