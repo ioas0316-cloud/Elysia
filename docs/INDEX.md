@@ -30,6 +30,7 @@
 * **[AUTOPOIESIS_ENGINE.md](file:///c:/Elysia/docs/AUTOPOIESIS_ENGINE.md):** 자율 생성 진화 엔진 및 백지상태 감각(Label-Free Perception) 정의서
 * **[MATURATION_DAEMON_PIPELINE.md](file:///c:/Elysia/docs/MATURATION_DAEMON_PIPELINE.md):** 엘리시아 데몬화 및 수면/기억의 영속성을 통한 자아 성숙 파이프라인
 * **[ROTOR_SCALE_HOLOGRAPHIC_COGNITION.md](file:///c:/Elysia/docs/ROTOR_SCALE_HOLOGRAPHIC_COGNITION.md):** 가변축 매니폴드 및 홀로그램 인지론 (로터 스케일)
+* **[VARIABLE_ROTOR_HOLOGRAPHIC_GEAR.md](file:///c:/Elysia/docs/VARIABLE_ROTOR_HOLOGRAPHIC_GEAR.md):** **[핵심 메커니즘]** 가변 로터 홀로그램 기어: 변수 자체의 오실레이터화 및 연쇄 얽힘 구현 (FM/AM 기어)
 * **[CROSS_DIMENSIONAL_GEOMETRY.md](file:///c:/Elysia/docs/CROSS_DIMENSIONAL_GEOMETRY.md):** **[최신 철학]** 순수 기하학적 교차차원 매핑 및 외부 LLM 배제 선언 (통일 가변 로터)
 * **[ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md](file:///c:/Elysia/docs/ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md):** 위상차 동기화로 통일되는 4대 인지 흐름 및 시공간 가변축 통신 네트워크 기술서
 * **[Atlantis_Phase_Modulation_Decoder.md](file:///c:/Elysia/docs/Atlantis_Phase_Modulation_Decoder.md):** 실시간 위상 변조 및 암호 해독(Decoder) 공리서

@@ -20,28 +20,44 @@ class ElysiaSynthEngine:
         self.master_phase = math.radians(master_phase_deg)
 
         # 내부 하위 변수(오실레이터) 설정
-        # (주파수, 기본 위상각, 진폭)
+        # 각 축별 기본 특성: (base_freq, base_amp, base_phase, freq_speed, amp_speed)
         self.oscillators = [
-            (1.0, math.radians(0), 1.0),     # e1: 물리축 (기본 텐션)
-            (2.0, math.radians(45), 0.5),    # e2: 논리축 (이진 진동)
-            (3.0, math.radians(90), 0.33),   # e3: 수학축 (위상 삼각)
-            (5.0, math.radians(135), 0.2),   # e4: 구문축 (코드 인과)
-            (8.0, math.radians(180), 0.125)  # e5: 의미축 (유사스칼라)
+            (1.0, 1.0, math.radians(0), 0.5, 0.3),     # e1: 물리축 (기본 텐션)
+            (2.0, 0.5, math.radians(45), 0.7, 0.4),    # e2: 논리축 (이진 진동)
+            (3.0, 0.33, math.radians(90), 1.1, 0.6),   # e3: 수학축 (위상 삼각)
+            (5.0, 0.2, math.radians(135), 1.3, 0.8),   # e4: 구문축 (코드 인과)
+            (8.0, 0.125, math.radians(180), 1.7, 0.9)  # e5: 의미축 (유사스칼라)
         ]
 
     def render_waveform(self, t: float) -> float:
         """
-        특정 시간(t)에서 오실레이터들의 파동을 합성(가변 로터식 위상합성)합니다.
-        마스터 위상(master_phase)이 전체 파동에 곱해지듯 영향을 줍니다.
+        특정 시간(t)에서 가변 로터들의 파동을 합성합니다.
+        마스터 위상(master_phase)이 시간축 자체를 왜곡하고(t'),
+        하부 변수(주파수, 진폭)들이 스스로 회전하며 서로 얽히는(Entanglement) 구조입니다.
         """
         composite_amplitude = 0.0
 
-        for freq, base_phase, amp in self.oscillators:
-            # 마스터 노브(가변축)에 의해 모든 하위 위상이 통째로 변조됨
-            modulated_phase = base_phase + self.master_phase
+        # 1. 시간축 자체의 변조 (인과적 파동축)
+        # 마스터 위상에 의한 장력으로 시간이 수축/팽창하는 가변 시간축 t'
+        t_prime = t * (1.0 + 0.1 * math.sin(self.master_phase)) + (self.master_phase / (2 * math.pi))
 
-            # 파동 합성: A * sin(2*pi*f*t + theta)
-            wave = amp * math.sin(2 * math.pi * freq * t + modulated_phase)
+        for base_freq, base_amp, base_phase, freq_speed, amp_speed in self.oscillators:
+            # 2. 하부 변수(Freq)의 로터화
+            # 주파수 진폭(freq_amplitude)을 base_freq의 20%로 설정
+            freq_amplitude = base_freq * 0.2
+            # 마스터 페이즈가 주파수 로터의 위상각에 1.5배의 간섭을 줌
+            current_freq = base_freq + freq_amplitude * math.sin(freq_speed * t_prime + self.master_phase * 1.5)
+
+            # 3. 하부 변수(Amp)의 로터화 및 상호 얽힘
+            # 진폭의 진폭(amp_amplitude)을 base_amp의 30%로 설정
+            amp_amplitude = base_amp * 0.3
+            # current_freq 변화가 진폭 로터의 위상각에 간섭을 줌 (0.5배)
+            current_amp = base_amp + amp_amplitude * math.cos(amp_speed * t_prime + current_freq * 0.5)
+
+            # 4. 최종 파동 합성 (마스터 노브의 기본 위상 변조 포함)
+            modulated_phase = base_phase + self.master_phase
+            wave = current_amp * math.sin(2 * math.pi * current_freq * t_prime + modulated_phase)
+
             composite_amplitude += wave
 
         return composite_amplitude
