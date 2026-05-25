@@ -231,3 +231,4 @@ fix_d21.py
 # Elysia generated state and collapse logs
 *.pkl
 collapses/
+synth_rotor_waveform_*.png
