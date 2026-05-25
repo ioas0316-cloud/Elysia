@@ -101,8 +101,8 @@ class ElectromagneticCircuit:
                 "is_constant": self.is_constant[i],
                 "coupling": self.couplings[i],
                 "damping": self.dampings[i],
-                "is_dynamic": node.phase_mismatch > 0.05,
-                "why_mismatch": node.phase_mismatch,
-                "how_torque": node.comparison_torque
+                "is_dynamic": abs(node.angular_velocity) > 0.05,
+                "why_mismatch": node.internal_rotor_phase,
+                "how_torque": node.tension_arm
             }
         return state_dict

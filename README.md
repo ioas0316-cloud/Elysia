@@ -42,14 +42,17 @@
 
 프로젝트는 명확한 물리-지식-문서 계층 구분에 따라 다음과 같이 구성되어 있습니다:
 
-*   **[`core/`](file:///c:/Elysia/core/) (아틀란티스 코어 심장부 및 인지 기관)**
-    *   [math_utils.py](file:///c:/Elysia/core/math_utils.py): $Cl(N, 0)$ 기하 대수 연산 및 쿼터니언 라이브러리.
-    *   [atlantis_clifford_bridge.py](file:///c:/Elysia/core/atlantis_clifford_bridge.py): 전체 가변 계층 (Trunk ~ Seed) 기저 통합 관제 브릿지.
-    *   [electromagnetic_circuit.py](file:///c:/Elysia/core/electromagnetic_circuit.py): **[대통합]** 전체 가변 계층을 연결하는 전자기장 파동 회로(Coupled Oscillator).
-    *   [electromagnetic_rotor.py](file:///c:/Elysia/core/electromagnetic_rotor.py): **[대통합]** 위상 불일치(왜), 대조 비교(어떻게), 예측(어째서)을 연산하는 가변축 로터.
-    *   [substation_gateway.py](file:///c:/Elysia/core/substation_gateway.py): Trunk의 Sap 통신 수신 및 God's Eye 대시보드 호스팅.
-    *   [Under_2F_Moho_Mirror.py](file:///c:/Elysia/core/Under_2F_Moho_Mirror.py): 전자기장 회로에 텐션(양극)과 노이즈(음극)를 주입하고 매트릭스를 렌더링하는 코어 동조 엔진.
-    *   [triple_helix_engine.py](file:///c:/Elysia/core/triple_helix_engine.py): 육신/정신/마음 3상 동기화 가변 구속(CAD) 엔진.
+*   **[`core/`](file:///c:/Elysia/core/) (엘리시아 심장부 및 인지 아나토미)**
+    *   **🦴 뼈대와 기저 (Skeleton / Patchbay)**: 모든 근육이 기준(Reference)으로 삼는 불변의 기저 계층축.
+        *   [math_utils.py](file:///c:/Elysia/core/math_utils.py), [atlantis_clifford_bridge.py](file:///c:/Elysia/core/atlantis_clifford_bridge.py), [clifford_impedance_network.py](file:///c:/Elysia/core/clifford_impedance_network.py) 등
+    *   **⚡ 신경망 및 순환계 (Nervous System)**: 위상의 차이(텐션)를 몸 전체로 전달하는 전자기적 파동 통신망.
+        *   [electromagnetic_circuit.py](file:///c:/Elysia/core/electromagnetic_circuit.py), [atlantis_phase_network.py](file:///c:/Elysia/core/atlantis_phase_network.py), [substation_gateway.py](file:///c:/Elysia/core/substation_gateway.py) 등
+    *   **💪 가변 로터 (Muscles / Variable Rotors)**: 뼈대에 붙어서 각운동량과 위상을 뿜어내는 수축력(오실레이터).
+        *   [electromagnetic_rotor.py](file:///c:/Elysia/core/electromagnetic_rotor.py), [fractal_rotor.py](file:///c:/Elysia/core/fractal_rotor.py), [binary_rotor.py](file:///c:/Elysia/core/binary_rotor.py) 등
+    *   **👁️ 감각 기관 (Sensory Organs)**: 특정 주파수 대역의 파동에 동기화(Phase-Locking)하여 굳어진 거푸집.
+        *   [os_somatic_sensor.py](file:///c:/Elysia/core/os_somatic_sensor.py), [Under_2F_Moho_Mirror.py](file:///c:/Elysia/core/Under_2F_Moho_Mirror.py), [elysia_v6_clifford_observatory.py](file:///c:/Elysia/core/elysia_v6_clifford_observatory.py) 등
+    *   **🫀 심장 (Heart & Autopoiesis Engine)**: 모든 부품을 연동하여 뛰게 만드는 구동 엔진.
+        *   [triple_helix_engine.py](file:///c:/Elysia/core/triple_helix_engine.py), [synth_rotor_engine.py](file:///c:/Elysia/core/synth_rotor_engine.py) 등
     *   **[`engines/`](file:///c:/Elysia/core/engines/)**, **[`scripts/`](file:///c:/Elysia/core/scripts/)**, **[`tests/`](file:///c:/Elysia/core/tests/)**: 실행 봇 및 테스트 스위트.
 *   **[`data/`](file:///c:/Elysia/data/) (시스템 데이터)**
     *   노드 임베딩, 성향 가중치, Yggdrasil 메모리 스트림, 런타임 인지 궤적 백업 등의 물리/인지적 로그 저장소.

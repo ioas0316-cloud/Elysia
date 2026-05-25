@@ -158,3 +158,42 @@ class LinguisticAxiomFilter:
 
         resonance = norm_orig.dot(norm_rot)
         return resonance
+
+    @classmethod
+    def collapse_to_hangeul(cls, q: Quaternion) -> str:
+        """
+        [유니코드/기계어 연속체 매핑: 상위 인지 계층]
+        사원수(위상 텐션)의 기하학적 각도를 역산하여 가장 공명(Resonance)이 높은 
+        한글 초/중/종성 인덱스를 찾아 단일 문자로 렌더링(창발)합니다.
+        """
+        q = q.normalize()
+        
+        # X, Y, Z 성분(-1.0 ~ 1.0)을 (0.0 ~ 1.0) 확률 밀도로 변환
+        norm_x = (q.x + 1.0) / 2.0
+        norm_y = (q.y + 1.0) / 2.0
+        norm_z = (q.z + 1.0) / 2.0
+        
+        cho_idx = int(norm_x * (cls.CHO_COUNT - 1))
+        jung_idx = int(norm_y * (cls.JUNG_COUNT - 1))
+        jong_idx = int(norm_z * (cls.JONG_COUNT - 1))
+        
+        cho_idx = max(0, min(cho_idx, cls.CHO_COUNT - 1))
+        jung_idx = max(0, min(jung_idx, cls.JUNG_COUNT - 1))
+        jong_idx = max(0, min(jong_idx, cls.JONG_COUNT - 1))
+        
+        # 유니코드 16진수 그리드 재조립
+        code = cls.HANGEUL_BASE + (cho_idx * cls.JUNG_COUNT * cls.JONG_COUNT) + (jung_idx * cls.JONG_COUNT) + jong_idx
+        return chr(code)
+
+    @classmethod
+    def collapse_to_machine_code(cls, q: Quaternion) -> str:
+        """
+        [유니코드/기계어 연속체 매핑: 하위 물리 계층]
+        동일한 위상 텐션을 하위 계층(B6)의 기계어 Opcode(16진수)로 렌더링합니다.
+        """
+        q = q.normalize()
+        # W 성분(스칼라/시간 밀도)을 Opcode로 변환 (0x00 ~ 0xFF)
+        norm_w = (q.w + 1.0) / 2.0
+        opcode = int(norm_w * 255)
+        opcode = max(0, min(opcode, 255))
+        return f"0x{opcode:02X}"

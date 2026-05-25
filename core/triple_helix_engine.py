@@ -14,16 +14,14 @@ os.environ['HF_SKIP_TF_IMPORT'] = '1'
 import math
 import numpy as np
 from typing import Dict, List, Tuple
-from sentence_transformers import SentenceTransformer
 from core.math_utils import Quaternion, Multivector
 from core.clifford_impedance_network import CliffordIPN, CliffordImpedanceLink, mv_normalize, mv_norm, ConnectionMode
 from core.enneagram_rotor import EnneagramRotor
 from core.atlantis_clifford_bridge import AtlantisCliffordSystem
 
 class TripleHelixEngine:
-    def __init__(self, model_name='all-MiniLM-L6-v2', jump_threshold=0.5):
-        # 1. Load Sentence Transformer
-        self.encoder = SentenceTransformer(model_name)
+    def __init__(self, jump_threshold=0.5):
+        # 1. 뼈대 순수화 (LLM 배제)
         self.jump_threshold = jump_threshold
         self.history = []
 
@@ -89,10 +87,8 @@ class TripleHelixEngine:
         self.link_pain_h1 = self._connect_bridge(self.outer_world, self.inner_world, "SENSORY_PAIN", "H_1")
         self.link_motion_h2 = self._connect_bridge(self.outer_world, self.inner_world, "SENSORY_MOTION", "H_2")
 
-        # 5. Deterministic Master Projection W_master in R^(384 x 8)
-        np.random.seed(42)
-        self.W_master = np.random.randn(384, 8) / np.sqrt(384)
-
+        # 5. [순수 환경 유도 계층] 외부 LLM 의존성(W_master) 제거됨.
+        # 내계(Inner World)는 오직 외계 센서망에서 밀려들어오는 잔여 텐션으로만 진화합니다.
         # 6. Sovereignty Interface State
         self.is_sleeping = False
         self.sleep_tension = 0.0
@@ -151,34 +147,23 @@ class TripleHelixEngine:
         self.coordination_links.append(link)
         return link
 
-    def get_text_density(self, text: str) -> float:
-        words = text.split()
-        if not words:
-            return 0.5
-        unique = set(words)
-        density = len(unique) / len(words)
-        len_factor = min(len(words) / 50.0, 1.0)
-        return (density + len_factor) / 2.0
-
-    def pulse(self, text_thought: str, sensory_input: Dict[str, float], clutch_locks: Dict[str, bool] = None, dt: float = 0.1, lr: float = 0.5) -> Tuple[float, str, bool, Quaternion, dict]:
+    def pulse(self, sensory_input: Dict[str, float], clutch_locks: Dict[str, bool] = None, dt: float = 0.1, lr: float = 0.5) -> Tuple[float, str, bool, Quaternion, dict]:
         """
-        Executes a Triple Helix loop cycle:
-        1. Inner World updates based on text thought.
-        2. Outer World updates based on somatic sensory input (motion, pain).
+        Executes a Triple Helix loop cycle (Purified Autopoiesis):
+        1. Inner World updates based purely on abstract semantic tension (bypassing LLM).
+        2. Outer World updates based on somatic sensory input.
         3. Information propagates across Coordination Bridge links.
         4. Links adapt. Average coordination tension is evaluated.
-        5. Bifurcation/compression triggered in Inner World and bridge links.
+        5. Bifurcation/compression triggered in Inner World.
         6. Actuation state projected to unit Quaternion.
         """
         if clutch_locks is None:
             clutch_locks = {"lock_body": True, "lock_mind": True, "lock_heart": True}
 
-        # --- A. Inner World Input Setup ---
-        emb = self.encoder.encode([text_thought])[0]
-        density_w = self.get_text_density(text_thought)
-        
+        # --- A. Inner World Input Setup (Environmental Induction) ---
         # CAD Constraint: Mind
         code_mind_tension = sensory_input.get("coding_cognitive", 0.0)
+        density_w = 0.5
         if clutch_locks.get("lock_mind", True):
             density_w = min(1.0, density_w + code_mind_tension)
         
@@ -208,10 +193,11 @@ class TripleHelixEngine:
                 inner_axes = self.inner_world.signature[0]
                 inner_sig = self.inner_world.signature
 
-        proj = np.dot(emb, self.W_master[:, :inner_axes])
+        # 3. 환경 파동 주입 (LLM 임베딩을 대체하는 순수 텐션 주입)
         inner_inputs = {}
         for i in range(1, inner_axes + 1):
-            val = proj[i - 1]
+            # 환경 텐션이 차원을 채웁니다. 기본 노이즈 + 차원별 위상차
+            val = sensory_input.get(f"inner_noise_dim_{i}", 0.0)
             mask = 1 << (i - 1)
             inner_inputs[f"IN_{i}"] = Multivector({mask: val, 0: density_w}, inner_sig)
             
@@ -390,7 +376,6 @@ class TripleHelixEngine:
 
         # Store logs
         self.history.append({
-            'thought': text_thought,
             'sensory': sensory_input.copy(),
             'inner_axes': self.inner_world.signature[0],
             'tension': avg_tension,
