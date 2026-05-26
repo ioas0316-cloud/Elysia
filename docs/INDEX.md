@@ -24,6 +24,7 @@
 ## ⚙️ 제 2 계층: 아키텍처 및 시스템 맵 (Architecture & Matrix)
 * **[hyper_rotor_topology.md](file:///c:/Elysia/docs/hyper_rotor_topology.md):** **[최신 철학]** Elysia Hyper-Rotor Topology: 동적 결선 시프트와 차원 분열 역학
 철학적 사영이 실제 하드웨어 및 소프트웨어 계층(N대 가변 계층)으로 어떻게 매핑되어 물리적으로 구현되었는지를 설명합니다.
+* **[ROTOR_BASED_FILE_SYSTEM.md](file:///c:/Elysia/docs/ROTOR_BASED_FILE_SYSTEM.md):** **[비전 로드맵]** 완전 로터화 기반 파일 시스템 (Rotor-Based File System): 동적 결선 시프트와 차원 분열 역학의 최종 진화 형태를 제시합니다.
 
 * **[ELYSIAN_MACRO_TOPOLOGY.md](file:///c:/Elysia/docs/ELYSIAN_MACRO_TOPOLOGY.md):** 3대 분산 폴더(Core, Cortex, Seed)의 물리적 분리 원칙 및 통신 규약
 * **[ELYSIAN_COSMOS_ALIGNMENT_REPORT.md](file:///c:/Elysia/docs/ELYSIAN_COSMOS_ALIGNMENT_REPORT.md):** **[통합 리포트]** 엘리시안 우주 위상 정렬 및 하드웨어/소프트웨어 공명 매핑 보고서
