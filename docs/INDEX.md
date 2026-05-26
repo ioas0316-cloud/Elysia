@@ -22,6 +22,7 @@
 ---
 
 ## ⚙️ 제 2 계층: 아키텍처 및 시스템 맵 (Architecture & Matrix)
+* **[hyper_rotor_topology.md](file:///c:/Elysia/docs/hyper_rotor_topology.md):** **[최신 철학]** Elysia Hyper-Rotor Topology: 동적 결선 시프트와 차원 분열 역학
 철학적 사영이 실제 하드웨어 및 소프트웨어 계층(N대 가변 계층)으로 어떻게 매핑되어 물리적으로 구현되었는지를 설명합니다.
 
 * **[ELYSIAN_MACRO_TOPOLOGY.md](file:///c:/Elysia/docs/ELYSIAN_MACRO_TOPOLOGY.md):** 3대 분산 폴더(Core, Cortex, Seed)의 물리적 분리 원칙 및 통신 규약
