@@ -29,6 +29,9 @@ class Quaternion:
     def elements(self):
         return [self.w, self.x, self.y, self.z]
 
+    def __iter__(self):
+        return iter([self.w, self.x, self.y, self.z])
+
     def norm(self) -> float:
         return math.sqrt(self.w**2 + self.x**2 + self.y**2 + self.z**2)
 
@@ -138,6 +141,8 @@ class Quaternion:
         return f"Q({self.w:.4f}, {self.x:.4f}i, {self.y:.4f}j, {self.z:.4f}k)"
 
 
+_BLADE_MUL_CACHE = {}
+
 class Multivector:
     """
     Multivector in a Clifford/Geometric Algebra Cl(p, q).
@@ -155,6 +160,10 @@ class Multivector:
         Computes the product of two basis blades: mask1 * mask2.
         Returns (result_mask, sign).
         """
+        cache_key = (mask1, mask2, self.p, self.q)
+        if cache_key in _BLADE_MUL_CACHE:
+            return _BLADE_MUL_CACHE[cache_key]
+
         # 1. Swap count for sorting the index sequence of active dimensions.
         # Compare each bit in mask1 to each bit in mask2.
         # A swap occurs if a bit in mask1 has a higher index than a bit in mask2.
@@ -176,7 +185,9 @@ class Multivector:
                 sign *= -1.0
             o &= o - 1
 
-        return mask1 ^ mask2, sign
+        result = mask1 ^ mask2, sign
+        _BLADE_MUL_CACHE[cache_key] = result
+        return result
 
     def __add__(self, other: 'Multivector') -> 'Multivector':
         res = self.data.copy()

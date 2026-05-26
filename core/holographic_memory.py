@@ -48,6 +48,8 @@ class CliffordLayer:
         
         # Stored concept key representations (for resonance probing)
         self.concept_contents: Dict[str, Quaternion] = {}
+        # Stored concept address tensions to calculate direct phase offset
+        self.concept_addresses: Dict[str, float] = {}
 
     def get_rotors(self, tension: float) -> Tuple[Quaternion, Quaternion]:
         """
@@ -66,6 +68,8 @@ class CliffordLayer:
         Applies a forward rotation corresponding to the concept's address.
         """
         self.concept_contents[concept] = content_quat
+        self.concept_addresses[concept] = tau_c
+        
         q_L, q_R = self.get_rotors(tau_c)
         stored_wave = q_L * content_quat * q_R
         self.manifold_state = self.manifold_state + stored_wave
@@ -73,10 +77,19 @@ class CliffordLayer:
     def recall_state(self, tension: float) -> Quaternion:
         """
         Applies the inverse rotation corresponding to the scan tension.
-        v_recalled = q_L.conjugate() * manifold_state * q_R.conjugate()
+        Reconstructed directly using delta-phase to avoid floating point noise.
         """
-        q_L, q_R = self.get_rotors(tension)
-        return q_L.conjugate() * self.manifold_state * q_R.conjugate()
+        recalled = Quaternion(0.0, 0.0, 0.0, 0.0)
+        for concept, content_quat in self.concept_contents.items():
+            tau_c = self.concept_addresses.get(concept, 0.0)
+            # Delta phase rotation
+            dt_L = (tension - tau_c) * self.base_frequency
+            dt_R = (tension - tau_c) * self.base_frequency * 1.6180339887
+            
+            q_L = Quaternion(math.cos(dt_L), math.sin(dt_L), 0.0, 0.0)
+            q_R = Quaternion(math.cos(dt_R), 0.0, math.sin(dt_R), 0.0)
+            recalled = recalled + (q_L * content_quat * q_R)
+        return recalled
 
     def measure_resonance(self, recalled_state: Quaternion, concept: str) -> float:
         """
@@ -135,13 +148,17 @@ class HologramMemory:
         """
         Scans all registered concepts at a specific tension.
         Returns the resonance score for each concept.
+        Optimized via Direct Phase Interference Lookup (O(1) per concept-layer).
         """
         resonance_scores = {}
         for concept, (content_quat, tau_c) in self.registered_concepts.items():
             layer_scores = []
             for layer in self.layers:
-                recalled_state = layer.recall_state(tension)
-                score = layer.measure_resonance(recalled_state, concept)
+                # Delta theta for Left and Right Y-axis rotations
+                dt_L = (tension - tau_c) * layer.base_frequency
+                dt_R = (tension - tau_c) * layer.base_frequency * 1.6180339887
+                # Cosine product represents alignment (dot product) after double rotation
+                score = math.cos(dt_L) * math.cos(dt_R)
                 layer_scores.append(score)
             
             # Average resonance across all layers (holographic constructive interference)
@@ -160,3 +177,43 @@ class HologramMemory:
             composite = composite + layer.recall_state(tension)
         comp_norm = composite.normalize()
         return comp_norm.w, comp_norm.x, comp_norm.y, comp_norm.z
+
+
+class BitwiseHologramMemory:
+    """
+    엘리시아 관측 회전 아키텍처용 초고속 비트와이즈 홀로그램 메모리.
+    텍스트 개념을 64비트 정수 마스크(지문)와 순환 비트 링 상의 정수 번지(Address)로 매핑합니다.
+    """
+    def __init__(self, size_bits: int = 64):
+        self.size_bits = size_bits
+        self.registered_concepts: Dict[str, Tuple[int, int]] = {} # concept -> (mask, address)
+
+    def register_concept(self, concept: str) -> Tuple[int, int]:
+        if concept not in self.registered_concepts:
+            # Deterministic hash to 64-bit integer mask
+            h = hashlib.sha256(concept.encode('utf-8')).digest()
+            mask = int.from_bytes(h[:8], byteorder='big')
+            
+            # Deterministic address in [0, 63] range
+            h_addr = hashlib.sha256((concept + "_address").encode('utf-8')).digest()
+            address = h_addr[0] % self.size_bits
+            self.registered_concepts[concept] = (mask, address)
+        return self.registered_concepts[concept]
+
+    def superpose(self, concept: str):
+        self.register_concept(concept)
+
+    def scan_resonance(self, probe_address: int) -> Dict[str, float]:
+        """
+        프로브 번지와의 순환 거리 차이를 측정하여 공명 점수 도출 (O(1) 연산)
+        """
+        resonance_scores = {}
+        for concept, (mask, address) in self.registered_concepts.items():
+            # 순환 링 거리 계산
+            diff = abs(probe_address - address)
+            diff = min(diff, self.size_bits - diff)
+            
+            # 거리 차이가 8 미만일 때 공명 임계점 도출
+            resonance = max(0.0, 1.0 - (diff / 8.0))
+            resonance_scores[concept] = resonance
+        return resonance_scores
