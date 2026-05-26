@@ -217,3 +217,61 @@ class BitwiseHologramMemory:
             resonance = max(0.0, 1.0 - (diff / 8.0))
             resonance_scores[concept] = resonance
         return resonance_scores
+
+
+class Bitwise4DHologramMemory:
+    """
+    4차원 구형 매니폴드 위상 지형을 지원하는 비트와이즈 4D 홀로그램 메모리.
+    개념을 64비트 정수 마스크(지문)와 4차원 시공간 주소 좌표 (w, x, y, z)로 매핑합니다.
+    """
+    def __init__(self, size_bits: int = 64):
+        self.size_bits = size_bits
+        self.registered_concepts: Dict[str, Tuple[int, Tuple[int, int, int, int]]] = {} # concept -> (mask, (w, x, y, z))
+
+    def register_concept(self, concept: str) -> Tuple[int, Tuple[int, int, int, int]]:
+        if concept not in self.registered_concepts:
+            # Deterministic hash to 64-bit integer mask
+            h = hashlib.sha256(concept.encode('utf-8')).digest()
+            mask = int.from_bytes(h[:8], byteorder='big')
+            
+            # Deterministic 4D addresses in [0, 63] range
+            h_w = hashlib.sha256((concept + "_w").encode('utf-8')).digest()
+            h_x = hashlib.sha256((concept + "_x").encode('utf-8')).digest()
+            h_y = hashlib.sha256((concept + "_y").encode('utf-8')).digest()
+            h_z = hashlib.sha256((concept + "_z").encode('utf-8')).digest()
+            
+            addr_w = h_w[0] % self.size_bits
+            addr_x = h_x[0] % self.size_bits
+            addr_y = h_y[0] % self.size_bits
+            addr_z = h_z[0] % self.size_bits
+            
+            self.registered_concepts[concept] = (mask, (addr_w, addr_x, addr_y, addr_z))
+        return self.registered_concepts[concept]
+
+    def superpose(self, concept: str):
+        self.register_concept(concept)
+
+    def scan_resonance(self, probe_w: int, probe_x: int, probe_y: int, probe_z: int) -> Dict[str, float]:
+        """
+        4차원 프로브 주소와의 다차원 위상 차이를 계산하여 보강 간섭 공명도 산출 (O(1) 연산)
+        """
+        resonance_scores = {}
+        probes = (probe_w, probe_x, probe_y, probe_z)
+        
+        for concept, (mask, addresses) in self.registered_concepts.items():
+            resonance_mult = 1.0
+            
+            for d in range(4):
+                p_d = probes[d]
+                a_d = addresses[d]
+                
+                # 순환 거리 계산
+                diff = abs(p_d - a_d)
+                diff = min(diff, self.size_bits - diff)
+                
+                # 차원당 공명 마스킹
+                res_d = max(0.0, 1.0 - (diff / 8.0))
+                resonance_mult *= res_d
+                
+            resonance_scores[concept] = resonance_mult
+        return resonance_scores
