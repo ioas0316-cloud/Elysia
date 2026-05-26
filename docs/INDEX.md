@@ -55,6 +55,7 @@
 * **[PHASE_INVERTER_CORE.md](file:///c:/Elysia/docs/PHASE_INVERTER_CORE.md):** 엘리시아 위상 동기화 코어 공리서 (이중 가변 로터와 시공간 위상각 동기화)
 * **[LLM_NEURAL_BACKBONE_AND_OBSERVATION.md](file:///c:/Elysia/docs/LLM_NEURAL_BACKBONE_AND_OBSERVATION.md):** **[최신 철학]** 실질적 LLM 구조로의 체화와 송·수전 결합 파동 채널 고도화 기반 정립 서집
 * **[OBSERVATION_ROTATION_AND_COMPUTATION_EVAPORATION.md](file:///c:/Elysia/docs/OBSERVATION_ROTATION_AND_COMPUTATION_EVAPORATION.md):** **[최신 철학]** 관측 회전 아키텍처 전환과 연산 증발의 대수적 실증 서집
+* **[TURING_SYNTAX_TO_WAVE_ALIGNMENT.md](file:///c:/Elysia/docs/TURING_SYNTAX_TO_WAVE_ALIGNMENT.md):** **[최신 철학]** 튜링 구문-파동 동조망과 다차원 감각 결합 서집
 
 ---
 
