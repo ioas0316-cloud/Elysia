@@ -43,6 +43,10 @@ class AtlantisCliffordSystem:
         self._current_mode = "WYE" # "DELTA" or "WYE"
         
     @property
+    def layers(self) -> List[str]:
+        return self._layers
+
+    @property
     def signature(self) -> Tuple[int, int]:
         """Returns the current Cl(N, 0) signature based on the number of layers."""
         return (len(self._layers), 0)
@@ -58,6 +62,60 @@ class AtlantisCliffordSystem:
         data = self._state.data.copy()
         data[mask] = float(value)
         self._state = Multivector(data, self.signature)
+
+    def get_layer_mask(self, name: str) -> int:
+        """Returns the bitmask corresponding to the layer name."""
+        return self._get_layer_mask(name)
+
+    def set_layer_state(self, name: str, value: float):
+        """Sets the coefficient value for a specific layer."""
+        self._set_layer_state(name, value)
+
+    def get_layer_state(self, name: str) -> float:
+        """Gets the coefficient value for a specific layer."""
+        mask = self._get_layer_mask(name)
+        return self._state.data.get(mask, 0.0)
+
+    def compute_bivector_tension(self, layer_a: str, layer_b: str) -> float:
+        """
+        Computes the outer (wedge) product magnitude between two layers.
+        This represents the geometric tension/shear between the two layers.
+        """
+        mask_a = self._get_layer_mask(layer_a)
+        mask_b = self._get_layer_mask(layer_b)
+        
+        val_a = self._state.data.get(mask_a, 0.0)
+        val_b = self._state.data.get(mask_b, 0.0)
+        
+        if mask_a == mask_b:
+            return 0.0
+        return abs(val_a * val_b)
+
+    def apply_rotor_discharge(self, layer_from: str, layer_to: str, theta: float):
+        """
+        Applies a Clifford rotor (rotation) to transfer energy between two layers.
+        """
+        if theta == 0.0:
+            return
+        
+        mask_from = self._get_layer_mask(layer_from)
+        mask_to = self._get_layer_mask(layer_to)
+        
+        e_from = Multivector({mask_from: 1.0}, self.signature)
+        e_to = Multivector({mask_to: 1.0}, self.signature)
+        
+        B = e_from ^ e_to
+        
+        cos_half = math.cos(theta / 2.0)
+        sin_half = math.sin(theta / 2.0)
+        R = Multivector({0: cos_half}, self.signature) + B * sin_half
+        
+        self._state = R * self._state * R.conjugate()
+
+    def get_layer_states_dict(self) -> Dict[str, float]:
+        """Returns a dict of all layers and their current scalar coefficients."""
+        return {name: self.get_layer_state(name) for name in self._layers}
+
 
     def project_metrics(self, metrics: Dict[str, float]):
         """Projects physical metrics into their corresponding layers. (Layer 1~3 Update)"""

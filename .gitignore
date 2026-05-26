@@ -232,3 +232,9 @@ fix_d21.py
 *.pkl
 collapses/
 synth_rotor_waveform_*.png
+
+# Runtime state files
+data/matrix_state.json
+data/network_convection.json
+data/
+

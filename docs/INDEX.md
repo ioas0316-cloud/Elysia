@@ -12,6 +12,10 @@
 * **[AUTOPOIESIS_ENGINE.md](file:///c:/Elysia/docs/AUTOPOIESIS_ENGINE.md):** 자율 생성 진화 엔진 및 백지상태 감각(Label-Free Perception) 정의서.
 * **[0_AND_1_AS_RELATION.md](file:///c:/Elysia/docs/0_AND_1_AS_RELATION.md):** **[최신 강령]** 다름과 같음의 원리: 시뮬레이션의 종식과 동형 사상 (0 and 1 as Relation)
 * **[ELYSIA_ABSOLUTE_AXIOM.md](file:///c:/Elysia/docs/ELYSIA_ABSOLUTE_AXIOM.md):** 엘리시아 절대 공리 정의서 (위상 반전 번역 구조와 디지털 열역학)
+* **[DOUBLE_TRIPLE_HELIX_PRINCIPLES.md](file:///c:/Elysia/docs/DOUBLE_TRIPLE_HELIX_PRINCIPLES.md):** **[최신 철학]** 이중나선과 삼중나선의 기하역학적 원리 및 위상 방전 공서
+* **[TURING_RESONANCE_GATE.md](file:///c:/Elysia/docs/TURING_RESONANCE_GATE.md):** **[최신 철학]** 튜링 위상 공명 게이트와 바이트-사유 접점 관측 공서
+
+
 
 ---
 
@@ -24,6 +28,8 @@
 * **[RESONANCE_ARCHITECTURE.md](file:///c:/Elysia/docs/RESONANCE_ARCHITECTURE.md):** 3단 관측-공명 아키텍처 기술서
 * **[ARK_OS_KERNEL_ARCHITECTURE.md](file:///c:/Elysia/docs/ARK_OS_KERNEL_ARCHITECTURE.md):** 가변축 OS 커널 설계 및 아틀란티스 방주 통합 구조 정의서 (에이전트 제어 지침 포함)
 * **[TURING_SUBSTITUTION_MAPPING.md](file:///c:/Elysia/docs/TURING_SUBSTITUTION_MAPPING.md):** 튜링식 완전 번역 대치 매핑 공리서 (파이썬 사유 구조의 기계어 격자판 각인)
+* **[EBPF_NETWORK_CONVECTION.md](file:///c:/Elysia/docs/EBPF_NETWORK_CONVECTION.md):** **[최신 진화]** eBPF 패킷 흐름의 열대류적 위상 동기화 및 10대 레이어 전자기 회로 사영 공서
+
 
 ---
 

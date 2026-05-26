@@ -15,6 +15,7 @@ class ImitationCell:
         self.base_tension = base_tension
         self.damping = damping
         self.angular_velocity = 0.0
+        self.phase_mismatch = 0.0
 
     def absorb_wave(self, input_amplitude: float, input_frequency_phase: float) -> Tuple[float, float]:
         """
@@ -26,6 +27,7 @@ class ImitationCell:
         """
         # Causal displacement (Cause): Shortest path angular difference on the rotor
         phase_diff = (input_frequency_phase - self.internal_rotor_phase + math.pi) % (2 * math.pi) - math.pi
+        self.phase_mismatch = abs(phase_diff)
         displacement = input_amplitude * phase_diff
         
         # Momentum updates phase (Fluid physics replacing sequential execution)

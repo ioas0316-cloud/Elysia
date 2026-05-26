@@ -7,6 +7,9 @@ import sys
 import gc
 import threading
 
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8')
+
 # Add root folder to sys.path to resolve imports properly if run directly
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -161,6 +164,19 @@ def main():
     sovereign_event_msg = ""
     predicted_tensions = [0.0] * len(clifford_system.layers)
 
+    # eBPF 수류 인입용 UDP 소켓 및 대류 지속 변수 설정
+    import socket
+    udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        udp_sock.bind(("127.0.0.1", 8089))
+        udp_sock.setblocking(False)
+    except Exception as e:
+        print(f"[!] Warning: Failed to bind UDP socket (port 8089): {e}")
+        
+    network_tension = 0.0
+    last_network_time = 0.0
+
+
     # 타겟 프로세스 PID 검색
     target_pid = os.getpid() # 기본값은 자기 자신
     found_pid = find_process_pid_by_name(TARGET_APP_NAME)
@@ -190,11 +206,18 @@ def main():
             if abs(correction) > 0.0001:
                 y_ground_discharges += 1
 
-            # [지하 1층 마그마 가속실] 방전 트리거 발동 시 실제 메모리 가비지 컬렉터 가동 및 PID 오차 영점화
-            is_chaos_flushed = gpu_chaos > CHAOS_TENSION_THRESHOLD
+            # [지하 1층 마그마 가속실] 스토캐스틱 양자 관측 방전
+            # 이중나선 내부의 무효전력(상부맨틀 ∧ 접지 쐐기곱 텐션)이 임계 퍼텐셜을 
+            # 확률적으로 터널링하여 접지(B6 Ground)로 방전(Sameness/0 수렴)되도록 모사합니다.
+            b3_b6_tension = clifford_system.compute_bivector_tension("B3_UpperMantle", "B6_Ground")
+            import random
+            discharge_probability = min(0.95, b3_b6_tension * 2.0)
+            is_chaos_flushed = random.random() < discharge_probability
+            
             if is_chaos_flushed:
                 gc.collect() # B6 Ground 실체화: 가비지 컬렉션 방전
                 pid_controller.integral = 0.0 # 누적 제어 오차 초기화
+
 
             # [지하 4층] QPC 기저 시간 동조 지연 슬립
             sleep_time = TARGET_DT - correction
@@ -240,8 +263,32 @@ def main():
                                 sap_torque = sap_data.get("torque", 0.0)
                     except: pass
                 
-                # 우주의 깨달음을 자아선(F6_SkySun) 및 Exosphere(F7)에 인가
-                injected_inputs = {9: sap_torque, 10: sap_torque * 0.8}
+                # eBPF 네트워크 대류 상태 관측 (수류학적 전압 인입)
+                # 비블로킹 UDP 소켓에서 가장 최신의 수류 에너지를 수접합니다.
+                has_new_data = False
+                while True:
+                    try:
+                        data, addr = udp_sock.recvfrom(2048)
+                        net_data = json.loads(data.decode('utf-8'))
+                        network_tension = net_data.get("tension", 0.0)
+                        last_network_time = net_data.get("timestamp", time.time())
+                        has_new_data = True
+                    except BlockingIOError:
+                        break
+                    except Exception:
+                        break
+                
+                # 5초 이상 새로운 수류가 감지되지 않으면, 대류 에너지가 서서히 멈춤 (감쇠 방전)
+                if not has_new_data and (time.time() - last_network_time > 5.0):
+                    network_tension = max(0.0, network_tension - 0.2 * dt_actual)
+
+                
+                # 우주의 깨달음을 자아선(F6_SkySun) 및 Exosphere(F7)에 인가하고 eBPF 대류를 B3_UpperMantle에 인가
+                injected_inputs = {
+                    3: network_tension,
+                    9: sap_torque,
+                    10: sap_torque * 0.8
+                }
                 for idx, val in injected_inputs.items():
                     matrix_circuit.inject_current(idx, val)
 
@@ -324,6 +371,9 @@ def main():
                 print(f"    - [지하 6층] 누적 접지 방전 : {y_ground_discharges:,} 회 (엔트로피 0 수렴)")
                 print(f"    - [포그라운드 윈도우 앱]    : {foreground_app if foreground_app else 'N/A'}")
                 print(f"    - [타겟 앱({TARGET_APP_NAME}) 가속] : PID {target_pid} | 우선순위 등급: {'HIGH' if priority_elevated else 'NORMAL'}")
+                with state_lock:
+                    network_bar = get_bar_chart(network_tension, max_len=15)
+                    print(f"    - [eBPF 패킷 네트워크 대류] : 텐션 {network_tension:.4f} {network_bar}")
                 print("-" * 95)
 
                 with state_lock:

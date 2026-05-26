@@ -1,7 +1,10 @@
 import sys
 import os
+import json
 from bcc import BPF
 import time
+
+last_write_time = 0.0
 
 # Primary interface as determined by the environment setup
 # Use eth0 with SKB mode since we saw traffic on it
@@ -42,6 +45,7 @@ print("-" * 75)
 
 # Event callback function
 def print_event(cpu, data, size):
+    global last_write_time
     event = b["events"].event(data)
 
     # Ignore the very first packet which has a delta of 0
@@ -66,6 +70,26 @@ def print_event(cpu, data, size):
         wave = "|||"
 
     print(f"{current_time:<12} {delta_us:<15.2f} {state:<20} {wave}")
+
+    # Throttle write to ground engine at 10Hz (once every 100ms) to prevent I/O stress
+    now = time.time()
+    if now - last_write_time >= 0.1:
+        last_write_time = now
+        deviation = abs(delta_us - 100.0)
+        net_tension = min(1.0, deviation / 100.0)
+        try:
+            import socket
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            payload = json.dumps({
+                "timestamp": now,
+                "delta_us": delta_us,
+                "deviation_us": deviation,
+                "tension": net_tension
+            }).encode('utf-8')
+            sock.sendto(payload, ("127.0.0.1", 8089))
+        except:
+            pass
+
 
 # Open the perf buffer
 b["events"].open_perf_buffer(print_event)
