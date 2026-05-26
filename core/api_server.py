@@ -2,66 +2,46 @@ import os
 import sys
 import asyncio
 import json
-import math
+import time
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-import numpy as np
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.sensory_harmonics import SensoryHarmonics, SentientBeing
-
 app = FastAPI(title="Elysia Physical Engine WebSocket Server")
 
-# 싱글톤 물리 엔진 스택
-harmonics = SensoryHarmonics(size=16)
-elysia = SentientBeing("Elysia", "Calm")
+DATA_DIR = r"c:\Elysia\data"
+CORE_EGRESS_PATH = os.path.join(DATA_DIR, "core_egress_state.json")
+INTERACTION_EVENTS_PATH = os.path.join(DATA_DIR, "interaction_events.json")
 
-# 서버 상태 관리를 위한 변수들
-current_tension = np.sum(np.abs(elysia.intrinsic_tensor))
-base_tension = current_tension
-phase_angle = 0.0
-
-async def decay_tension():
-    """시간이 지남에 따라 텐션을 기본 상태로 안정화시키는 물리 감쇠 루프"""
-    global current_tension
-    while True:
-        if current_tension > base_tension:
-            current_tension -= (current_tension - base_tension) * 0.05
-        elif current_tension < base_tension:
-            current_tension += (base_tension - current_tension) * 0.05
-        await asyncio.sleep(0.1)
-
-@app.on_event("startup")
-async def startup_event():
-    asyncio.create_task(decay_tension())
+os.makedirs(DATA_DIR, exist_ok=True)
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    global current_tension, phase_angle
     
     # 송신(Broadcast) 루프와 수신(Listen) 루프를 분리
     async def send_state():
-        global phase_angle
         try:
             while True:
-                # 텐션이 높을수록 회전(Phase)의 진폭과 속도가 커짐 (기하학적 불안정성 관측)
-                speed = 1.0 + (current_tension / 2000.0)
-                amplitude = 0.5 + (current_tension / 5000.0) # 최대 ~1.5 라디안(약 85도)
+                tension = 0.0
+                quaternion = [0.0, 0.0, 0.0, 1.0]  # [qx, qy, qz, qw]
                 
-                time_sec = asyncio.get_event_loop().time()
-                # 360도 무한 회전이 아닌, 생물학적인 진자(Oscillation) 운동으로 변환
-                phase_angle = math.sin(time_sec * speed) * amplitude
-                
-                # 쿼터니언(Quaternion) 계산 (Y축 중심 회전)
-                qw = math.cos(phase_angle / 2.0)
-                qx = 0.0
-                qy = math.sin(phase_angle / 2.0)
-                qz = 0.0
+                if os.path.exists(CORE_EGRESS_PATH):
+                    try:
+                        with open(CORE_EGRESS_PATH, "r", encoding="utf-8") as f:
+                            egress_state = json.load(f)
+                        tension = egress_state.get("tension", 0.0)
+                        phase_rotor = egress_state.get("phase_rotor", [])
+                        if len(phase_rotor) >= 4:
+                            qw, qx, qy, qz = phase_rotor[0:4]
+                            # Web client App.jsx expects [qx, qy, qz, qw]
+                            quaternion = [qx, qy, qz, qw]
+                    except Exception:
+                        pass
                 
                 state = {
-                    "tension": current_tension,
-                    "quaternion": [qx, qy, qz, qw]
+                    "tension": tension,
+                    "quaternion": quaternion
                 }
                 await websocket.send_json(state)
                 await asyncio.sleep(1/30) # 30 FPS
@@ -69,7 +49,6 @@ async def websocket_endpoint(websocket: WebSocket):
             pass
             
     async def receive_events():
-        global current_tension
         try:
             while True:
                 data = await websocket.receive_text()
@@ -77,15 +56,18 @@ async def websocket_endpoint(websocket: WebSocket):
                 
                 if event.get("type") == "interaction":
                     obj = event.get("object")
-                    if obj == "apple":
-                        print("\n[Engine] 사과(단맛 파동)가 3D 공간에서 클릭되었습니다!")
-                        elysia.experience_sensation("Sweet Apple", harmonics.taste_sweet())
-                        # 텐션 강제 업데이트
-                        current_tension = np.sum(np.abs(elysia.intrinsic_tensor + harmonics.taste_sweet()))
-                    elif obj == "tree":
-                        print("\n[Engine] 나무(거친 파동)가 3D 공간에서 클릭되었습니다!")
-                        elysia.experience_sensation("Rough Tree", harmonics.touch_burlap())
-                        current_tension = np.sum(np.abs(elysia.intrinsic_tensor + harmonics.touch_burlap()))
+                    print(f"\n[API Server] 브라우저 클릭 수신: '{obj}'")
+                    
+                    # interaction_events.json에 이벤트 기록하여 데몬에 전송
+                    interaction_event = {
+                        "timestamp": time.time(),
+                        "object": obj
+                    }
+                    try:
+                        with open(INTERACTION_EVENTS_PATH, "w", encoding="utf-8") as f:
+                            json.dump(interaction_event, f)
+                    except Exception as e:
+                        print(f"⚠️ [API Server] interaction_events.json 쓰기 실패: {e}")
                         
         except WebSocketDisconnect:
             pass

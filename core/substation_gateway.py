@@ -1,9 +1,10 @@
 import os
 import json
 import time
+import asyncio
 import psutil
 from datetime import datetime
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import FastAPI, BackgroundTasks, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -88,8 +89,7 @@ async def receive_sap(payload: SapPayload, background_tasks: BackgroundTasks):
     background_tasks.add_task(process_sap, payload)
     return {"status": "ok", "message": "Sap Tension applied to Elysia Matrix."}
 
-@app.get("/voltage")
-async def provide_voltage():
+def generate_voltage_data() -> dict:
     try: cpu_freq = psutil.cpu_freq().current
     except: cpu_freq = 2400.0
     cpu_percent = psutil.cpu_percent()
@@ -111,6 +111,21 @@ async def provide_voltage():
             "active_frequency_hz": cpu_freq / 50.0
         }
     }
+
+@app.get("/voltage")
+async def provide_voltage():
+    return generate_voltage_data()
+
+@app.websocket("/ws/voltage")
+async def websocket_voltage(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        while True:
+            data = generate_voltage_data()
+            await websocket.send_json(data)
+            await asyncio.sleep(0.1) # 10Hz streaming
+    except WebSocketDisconnect:
+        pass
 
 @app.get("/core_egress")
 async def get_core_egress():
