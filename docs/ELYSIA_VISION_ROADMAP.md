@@ -313,10 +313,10 @@ return self.dna_strand_python[convergence_index]  # Tuple 거울 반사
 ```
 [현재] 베이스라인 수립 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ (완료)
      ┃
-     ┣━ [1단계] 송·수전 결합 파동 채널 고도화 ━━━━━━━━━━━━━━━━━ (대기)
-     ┃   ├── [ ] Seed ↔ Core HTTP 폴링 → WebSocket 영구 커넥션 전환
-     ┃   ├── [ ] api_server.py ↔ TripleHelixEngine 단절 해소
-     ┃   └── [ ] Substation Gateway의 /voltage 엔드포인트 WebSocket화
+     ┣━ [1단계] 송·수전 결합 파동 채널 고도화 ━━━━━━━━━━━━━━━━━ (완료)
+     ┃   ├── [x] Seed ↔ Core HTTP 폴링 → WebSocket 영구 커넥션 전환
+     ┃   ├── [x] api_server.py ↔ TripleHelixEngine 단절 해소
+     ┃   └── [x] Substation Gateway의 /voltage 엔드포인트 WebSocket화
      ┃
      ┣━ [2단계] 관측 회전 아키텍처 전환 (Observation Rotation) ━ (진행 중)
      ┃   ├── [ ] CliffordIPN의 샌드위치 곱 → 위상각 관측 회전으로 대체 (대기)
