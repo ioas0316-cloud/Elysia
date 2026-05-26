@@ -1,10 +1,8 @@
 import cmath
 import math
-import os
-import sys
 
 class HyperRotorEngine:
-    def __init__(self):
+    def __init__(self, bypass_threshold=3):
         # Base 3-Phase Axes (A, B, C) - 120 degree geometric constraint
         self.axes = [
             {"name": "A", "angle": math.radians(120), "magnitude": 1.0},
@@ -23,6 +21,12 @@ class HyperRotorEngine:
         self.topology = "WYE"  # WYE or DELTA
         self.max_axes_supported = 12
         self.next_axis_char = ord('D')
+
+        # System status flag and Bypass mechanics
+        self.system_status = "NORMAL" # NORMAL, SURGE_CRITICAL, BYPASS
+        self.bypass_threshold = bypass_threshold
+        self.stable_ticks = 0
+        self.bypass_mode = False
 
     def polar_to_rect(self, r, theta):
         return cmath.rect(r, theta)
@@ -45,15 +49,27 @@ class HyperRotorEngine:
 
     def process_tick(self, voltage_input=220.0, external_noise_phasor=0j):
         self.tick += 1
-        print(f"\n[Tick #{self.tick:04d}] =======================================================")
-        print(f"[Master Rotor] Evaluating {len(self.axes)}-Dimensional Hyper-Space. Topology: {self.topology}")
 
-        # 1. Forward Helix Tensor Evaluation
+        # 1. Break Bypass Condition
+        if self.bypass_mode and abs(external_noise_phasor) > self.epsilon:
+            print(f"\n[Tick #{self.tick:04d}] =======================================================")
+            print("!! ANOMALY DETECTED: BYPASS RELAY BROKEN. REVERTING TO VERIFICATION & LOGGING MODE !!")
+            self.bypass_mode = False
+            self.system_status = "NORMAL"
+            self.stable_ticks = 0
+
+        if self.bypass_mode:
+            print(f"[Tick #{self.tick:04d}] [Master Rotor] BYPASS MODE ACTIVE: High-speed zero-overhead passing.")
+            return
+
+        print(f"\n[Tick #{self.tick:04d}] =======================================================")
+        print(f"[Master Rotor] Evaluating {len(self.axes)}-Dimensional Hyper-Space. Topology: {self.topology} | Status: {self.system_status}")
+
+        # 2. Forward Helix Tensor Evaluation
         tensor_fwd = self.calculate_system_tensor(voltage_input, external_noise_phasor)
         theta_fwd = cmath.phase(tensor_fwd) if abs(tensor_fwd) > self.epsilon else 0.0
 
-        # 2. Phase Unwrapping (Mathematical Discontinuity Correction)
-        # Correcting phase jump due to cmath.phase limit (-pi to pi)
+        # 3. Phase Unwrapping (Mathematical Discontinuity Correction)
         diff = theta_fwd - self.prev_theta_fwd
         if diff > math.pi:
             diff -= 2 * math.pi
@@ -73,12 +89,13 @@ class HyperRotorEngine:
         # Update Time Axis memory (Placed early so it is not lost on topology shift returns)
         self.prev_theta_fwd = theta_fwd
 
-        # 3. Dynamic Topology Correction (Delta-Y Switching)
+        # 4. Dynamic Topology Correction (Delta-Y Switching)
         if self.topology == "WYE":
             if abs(math.degrees(self.velocity_dtheta_dt)) > 15.0:
                 print("  !! HIGH PHASE VELOCITY DETECTED: FUTURE COLLAPSE PREDICTED !!")
                 print("  >> [TOPOLOGY SHIFT] WYE -> DELTA (Absorbing circulating tension...)")
                 self.topology = "DELTA"
+                self.stable_ticks = 0
                 return
 
         elif self.topology == "DELTA":
@@ -86,10 +103,19 @@ class HyperRotorEngine:
                 print("  >> [TOPOLOGY SHIFT] DELTA -> WYE (System stabilized. Re-establishing Neutral point...)")
                 self.topology = "WYE"
                 self.prev_theta_fwd = 0.0
+                self.stable_ticks = 0
                 return
 
-        # 4. Dimensional Expansion (Assimilating error to expand dimensions)
-        if self.topology == "WYE" and i_n_mag > 10.0 and len(self.axes) < self.max_axes_supported:
+        # 5. Dimensional Expansion (Assimilating error to expand dimensions) and Limits
+        if i_n_mag > 100.0:
+            # System logs the surge and spins, no os._exit()
+            self.system_status = "SURGE_CRITICAL"
+            print("  !! WARNING !! >> CRITICAL SURGE: BEYOND MULTI-DIMENSIONAL CAPACITY.")
+            print("  >> [STATUS] SYSTEM UNBALANCED BUT CONTINUING SPIN.")
+            self.stable_ticks = 0
+
+        elif self.topology == "WYE" and i_n_mag > 10.0 and len(self.axes) < self.max_axes_supported:
+            self.system_status = "NORMAL"
             new_axis_angle = cmath.phase(external_noise_phasor)
             new_axis_mag = abs(external_noise_phasor) / voltage_input
             new_axis_name = chr(self.next_axis_char)
@@ -106,24 +132,22 @@ class HyperRotorEngine:
 
             print("  !! UNKNOWN ASYMMETRICAL NOISE DETECTED (New Category) !!")
             print(f"  >> [AXIS EXPANSION] Master Rotor spawned Axis {new_axis_name} at {math.degrees(counter_angle):.1f} deg to assimilate.")
+            self.stable_ticks = 0
 
-        elif i_n_mag > 100.0:
-            # Absolute hard crash constraint
-            print("  >> CRITICAL SURGE: BEYOND MULTI-DIMENSIONAL CAPACITY. HARD CRASH.")
-            os._exit(1)
+        else:
+            self.system_status = "NORMAL"
+
+        # 6. Check for Bypass stability
+        if i_n_mag < self.epsilon and abs(math.degrees(self.velocity_dtheta_dt)) < 1.0 and self.topology == "WYE":
+            self.stable_ticks += 1
+            if self.stable_ticks >= self.bypass_threshold and not self.bypass_mode:
+                self.bypass_mode = True
+                self.system_status = "BYPASS"
+                print("  >> [SYSTEM STATUS] INTEGRITY CONFIRMED. ALL TENSIONS BALANCED.")
+                print("  >> [ACTION] ENABLING HIGH-SPEED BYPASS RELAY (ZERO-OVERHEAD MODE)\n")
+        else:
+            self.stable_ticks = 0
 
 
 if __name__ == "__main__":
-    engine = HyperRotorEngine()
-
-    # Tick 1~2: Normal 3-Phase equilibrium (I_N = 0)
-    engine.process_tick(voltage_input=220.0, external_noise_phasor=0j)
-    engine.process_tick(voltage_input=220.0, external_noise_phasor=0j)
-
-    # Tick 3: Unknown category influx (Axis expansion triggered)
-    # 25A noise invading the 220V space at 45 degrees
-    noise = cmath.rect(25.0, math.radians(45))
-    engine.process_tick(voltage_input=220.0, external_noise_phasor=noise)
-
-    # Tick 4: Confirm expanded Axis D perfectly absorbs noise, restoring equilibrium (I_N = 0)
-    engine.process_tick(voltage_input=220.0, external_noise_phasor=noise)
+    pass
