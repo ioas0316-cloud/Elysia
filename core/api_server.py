@@ -25,12 +25,16 @@ async def websocket_endpoint(websocket: WebSocket):
             while True:
                 tension = 0.0
                 quaternion = [0.0, 0.0, 0.0, 1.0]  # [qx, qy, qz, qw]
+                is_sleeping = False
+                sleep_factor = 0.0
                 
                 if os.path.exists(CORE_EGRESS_PATH):
                     try:
                         with open(CORE_EGRESS_PATH, "r", encoding="utf-8") as f:
                             egress_state = json.load(f)
                         tension = egress_state.get("tension", 0.0)
+                        is_sleeping = egress_state.get("is_sleeping", False)
+                        sleep_factor = egress_state.get("sleep_factor", 0.0)
                         phase_rotor = egress_state.get("phase_rotor", [])
                         if len(phase_rotor) >= 4:
                             qw, qx, qy, qz = phase_rotor[0:4]
@@ -41,7 +45,9 @@ async def websocket_endpoint(websocket: WebSocket):
                 
                 state = {
                     "tension": tension,
-                    "quaternion": quaternion
+                    "quaternion": quaternion,
+                    "is_sleeping": is_sleeping,
+                    "sleep_factor": sleep_factor
                 }
                 await websocket.send_json(state)
                 await asyncio.sleep(1/30) # 30 FPS

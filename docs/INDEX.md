@@ -58,6 +58,8 @@
 * **[OBSERVATION_ROTATION_AND_COMPUTATION_EVAPORATION.md](file:///c:/Elysia/docs/OBSERVATION_ROTATION_AND_COMPUTATION_EVAPORATION.md):** **[최신 철학]** 관측 회전 아키텍처 전환과 연산 증발의 대수적 실증 서집
 * **[TURING_SYNTAX_TO_WAVE_ALIGNMENT.md](file:///c:/Elysia/docs/TURING_SYNTAX_TO_WAVE_ALIGNMENT.md):** **[최신 철학]** 튜링 구문-파동 동조망과 다차원 감각 결합 서집
 * **[AUTOPOIESIS_AND_4D_HOLOGRAM_TOPOGRAPHY.md](file:///c:/Elysia/docs/AUTOPOIESIS_AND_4D_HOLOGRAM_TOPOGRAPHY.md):** **[최신 철학]** 무라벨 자율 항상성과 4차원 홀로그램 위상 지형 서집
+* **[HOMEOSTASIS_SOMATOSENSORY_INTEGRATION.md](file:///c:/Elysia/docs/HOMEOSTASIS_SOMATOSENSORY_INTEGRATION.md):** **[항상성 및 감각]** 항상성 3D 연동 및 체성 감각 파동 인입 아키텍처 보고서 (결정론적 임계치 제거와 파동 공명)
+* **[MULTI_AGENT_COHERENT_GRID.md](file:///c:/Elysia/docs/MULTI_AGENT_COHERENT_GRID.md):** **[동조 그리드]** 다중 유기체 동조 그리드 아키텍처 보고서 (쿠라모토 결합 토크 및 P2P P2P 동조)
 
 ---
 

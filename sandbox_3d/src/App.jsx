@@ -229,7 +229,7 @@ function NPCSociety({ setTargetPos }) {
 }
 
 // 6. 엘리시아 VRM 아바타 (CAD 구속 조건 완벽 적용)
-function ElysiaVRMAvatar({ quaternionRef, tensionRef, targetPosRef }) {
+function ElysiaVRMAvatar({ quaternionRef, tensionRef, targetPosRef, isSleeping, sleepFactor }) {
   const gltf = useLoader(GLTFLoader, '/avatar.vrm', (loader) => {
     loader.register((parser) => new VRMLoaderPlugin(parser))
   })
@@ -271,11 +271,16 @@ function ElysiaVRMAvatar({ quaternionRef, tensionRef, targetPosRef }) {
       const hips = vrm.humanoid.getNormalizedBoneNode(VRMHumanBoneName.hips)
 
       // 물리적 인력 및 기동 (Movement)
-      if (targetPos) {
-         const dx = targetPos.x - currentPos.x
-         const dz = targetPos.z - currentPos.z
+      let currentTarget = targetPos
+      if (isSleeping) {
+         currentTarget = new THREE.Vector3(7, 0.5, -13)
+      }
+
+      if (currentTarget) {
+         const dx = currentTarget.x - currentPos.x
+         const dz = currentTarget.z - currentPos.z
          distanceXZ = Math.sqrt(dx*dx + dz*dz)
-         dy = targetPos.y - 1.0
+         dy = currentTarget.y - 1.0
          
          if (distanceXZ < 15.0 && distanceXZ > 1.5) { 
              const pullStrength = Math.max(0, 15.0 - distanceXZ) * delta * 0.15
@@ -289,9 +294,9 @@ function ElysiaVRMAvatar({ quaternionRef, tensionRef, targetPosRef }) {
              vrm.scene.rotation.y += angleDiff * 0.05
          }
          
-         // CAD 시선 구속: 목과 머리가 타겟의 고도(y)를 바라보도록 회전
+         // CAD 시선 구속: 목과 머리가 타겟의 고도(y)를 바라보도록 회전 (수면 중에는 시선 구속 해제)
          if (neck && head) {
-            const lookY = dy > 0.5 ? -0.3 : (dy < -0.5 ? 0.4 : 0)
+            const lookY = (dy > 0.5 ? -0.3 : (dy < -0.5 ? 0.4 : 0)) * (1.0 - sleepFactor)
             neck.rotation.x = THREE.MathUtils.lerp(neck.rotation.x, lookY, 0.1)
             head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, lookY, 0.1)
          }
@@ -300,44 +305,43 @@ function ElysiaVRMAvatar({ quaternionRef, tensionRef, targetPosRef }) {
          if (head) head.rotation.x = THREE.MathUtils.lerp(head.rotation.x, 0, 0.1)
       }
 
-      // 보행 CAD 기하학적 제어 (Knee Bending)
-      const isMoving = targetPos && distanceXZ > 1.5 && distanceXZ < 15.0
+      // 보행 CAD 기하학적 제어 (Knee Bending) (수면 중에는 멈춤)
+      const isMoving = currentTarget && distanceXZ > 1.5 && distanceXZ < 15.0
       const walkPhase = isMoving ? time * 6.0 : 0
       if (leftLeg && rightLeg && leftLowerLeg && rightLowerLeg) {
          const swing = isMoving ? 0.4 : 0
          leftLeg.rotation.x = THREE.MathUtils.lerp(leftLeg.rotation.x, Math.sin(walkPhase) * swing, 0.15)
          rightLeg.rotation.x = THREE.MathUtils.lerp(rightLeg.rotation.x, Math.sin(walkPhase + Math.PI) * swing, 0.15)
          
-         // 다리가 뒤로 갈 때 무릎이 자연스럽게 굽혀짐 (음의 사인파 구간)
          const leftKnee = Math.max(0, Math.sin(walkPhase - Math.PI/2)) * swing * 1.8
          const rightKnee = Math.max(0, Math.sin(walkPhase + Math.PI/2)) * swing * 1.8
          leftLowerLeg.rotation.x = THREE.MathUtils.lerp(leftLowerLeg.rotation.x, leftKnee, 0.15)
          rightLowerLeg.rotation.x = THREE.MathUtils.lerp(rightLowerLeg.rotation.x, rightKnee, 0.15)
       }
 
-      // 양팔 기본 CAD 구속 (항상 중력 방향으로 떨어지며, 타겟에 근접할 때만 뻗음)
-      const proximityPhase = targetPos ? Math.max(0, 1.0 - distanceXZ / 2.0) : 0
-      const reachArmX = proximityPhase * (dy > 0 ? -2.0 : -0.5) 
+      // 양팔 기본 CAD 구속 (수면 중에는 이완된 자세)
+      const proximityPhase = currentTarget ? Math.max(0, 1.0 - distanceXZ / 2.0) : 0
+      const reachArmX = proximityPhase * (dy > 0 ? -2.0 : -0.5) * (1.0 - sleepFactor)
       
       if (rightArm) {
-          const reachArmZRight = -1.2 + (proximityPhase * 1.5) 
+          const reachArmZRight = -1.2 + (proximityPhase * 1.5) * (1.0 - sleepFactor) + (sleepFactor * 0.3)
           rightArm.rotation.x = THREE.MathUtils.lerp(rightArm.rotation.x, reachArmX, 0.1)
           rightArm.rotation.z = THREE.MathUtils.lerp(rightArm.rotation.z, reachArmZRight, 0.1)
       }
       if (leftArm) {
-          const reachArmZLeft = 1.2 - (proximityPhase * 1.5) // 좌측 팔 구속 보정
+          const reachArmZLeft = 1.2 - (proximityPhase * 1.5) * (1.0 - sleepFactor) - (sleepFactor * 0.3)
           leftArm.rotation.x = THREE.MathUtils.lerp(leftArm.rotation.x, reachArmX, 0.1)
           leftArm.rotation.z = THREE.MathUtils.lerp(leftArm.rotation.z, reachArmZLeft, 0.1)
       }
 
       // 팔꿈치 및 손가락 쥐기 구속
       if (rightLowerArm && leftLowerArm) {
-         const reachElbowX = proximityPhase * -0.5
+         const reachElbowX = proximityPhase * -0.5 * (1.0 - sleepFactor)
          rightLowerArm.rotation.x = THREE.MathUtils.lerp(rightLowerArm.rotation.x, reachElbowX, 0.1)
          leftLowerArm.rotation.x = THREE.MathUtils.lerp(leftLowerArm.rotation.x, reachElbowX, 0.1)
          
          if (rightIndex) {
-             const graspPhase = Math.max(0, (proximityPhase - 0.8) * 5.0)
+             const graspPhase = Math.max(0, (proximityPhase - 0.8) * 5.0) * (1.0 - sleepFactor)
              rightIndex.rotation.z = THREE.MathUtils.lerp(rightIndex.rotation.z, graspPhase * 1.5, 0.2)
          }
       }
@@ -347,7 +351,7 @@ function ElysiaVRMAvatar({ quaternionRef, tensionRef, targetPosRef }) {
       const jumpTension = dy > 0.5 ? Math.min(dy - 0.5, 1.0) * proximityPhase : 0
       
       if (spine) {
-         if (quaternionRef.current) spine.quaternion.slerp(quaternionRef.current, 0.1)
+         if (quaternionRef.current && !isSleeping) spine.quaternion.slerp(quaternionRef.current, 0.1)
          spine.rotation.x = THREE.MathUtils.lerp(spine.rotation.x, bendTension * 0.6, 0.1)
       }
       if (hips) {
@@ -355,12 +359,27 @@ function ElysiaVRMAvatar({ quaternionRef, tensionRef, targetPosRef }) {
          hips.position.y = THREE.MathUtils.lerp(hips.position.y, targetHipsY, 0.1)
       }
 
-      // 홀로그램 인지 내적화 오라
+      // 수면 모드 회전 및 고도 보정 (침대에 눕기)
+      const targetSceneRotX = (isSleeping && distanceXZ <= 2.0) ? -Math.PI / 2 : 0
+      vrm.scene.rotation.x = THREE.MathUtils.lerp(vrm.scene.rotation.x, targetSceneRotX, 0.1)
+      if (isSleeping && distanceXZ <= 2.0) {
+         vrm.scene.position.y = THREE.MathUtils.lerp(vrm.scene.position.y, 0.5, 0.1)
+         vrm.scene.position.z = THREE.MathUtils.lerp(vrm.scene.position.z, -12.2, 0.1)
+         vrm.scene.position.x = THREE.MathUtils.lerp(vrm.scene.position.x, 7.0, 0.1)
+         vrm.scene.rotation.y = THREE.MathUtils.lerp(vrm.scene.rotation.y, 0.0, 0.1) // 침대 방향에 수평 정렬
+      }
+
+      // 홀로그램 인지 내적화 오라 (수면 시 서서히 팽창 및 꿈꾸는 파동 발산)
       if (auraRef.current) {
-         if (targetPos && distanceXZ <= 2.0) {
-             auraRef.current.scale.setScalar(THREE.MathUtils.lerp(auraRef.current.scale.x, 1.8, 0.05))
-             auraRef.current.material.opacity = THREE.MathUtils.lerp(auraRef.current.material.opacity, 0.5, 0.05)
-             auraRef.current.material.color.setHSL((time * 2) % 1, 1, 0.6)
+         if ((currentTarget && distanceXZ <= 2.0) || isSleeping) {
+             const scale = isSleeping ? (1.5 + Math.sin(time * 2.0) * 0.3) : 1.8
+             auraRef.current.scale.setScalar(THREE.MathUtils.lerp(auraRef.current.scale.x, scale, 0.05))
+             auraRef.current.material.opacity = THREE.MathUtils.lerp(auraRef.current.material.opacity, isSleeping ? 0.7 : 0.5, 0.05)
+             if (isSleeping) {
+                 auraRef.current.material.color.setHSL(0.75 + Math.sin(time * 0.5) * 0.05, 1.0, 0.6)
+             } else {
+                 auraRef.current.material.color.setHSL((time * 2) % 1, 1, 0.6)
+             }
          } else {
              auraRef.current.scale.setScalar(THREE.MathUtils.lerp(auraRef.current.scale.x, 0.1, 0.05))
              auraRef.current.material.opacity = THREE.MathUtils.lerp(auraRef.current.material.opacity, 0.0, 0.05)
@@ -401,9 +420,10 @@ function InteractiveObjects({ sendInteraction, setTargetPos }) {
 }
 
 // 8. 천체 정적 로터
-function CelestialRotors() {
+function CelestialRotors({ sleepFactor }) {
   const sunRef = useRef()
   const skyLightRef = useRef()
+  const dirLightRef = useRef()
 
   useFrame(() => {
     const now = new Date()
@@ -411,7 +431,13 @@ function CelestialRotors() {
     const angle = ((timeInHours - 12) / 24) * Math.PI * 2
     
     if (sunRef.current) sunRef.current.position.set(Math.sin(angle) * 40, Math.cos(angle) * 40, -20)
-    if (skyLightRef.current) skyLightRef.current.intensity = 0.5 + (Math.max(0, Math.cos(angle)) * 1.5)
+    if (skyLightRef.current) {
+      const baseIntensity = 0.5 + (Math.max(0, Math.cos(angle)) * 1.5)
+      skyLightRef.current.intensity = baseIntensity * (1.0 - sleepFactor * 0.9)
+    }
+    if (dirLightRef.current) {
+      dirLightRef.current.intensity = 3.0 * (1.0 - sleepFactor * 0.9)
+    }
   })
 
   return (
@@ -420,7 +446,7 @@ function CelestialRotors() {
       <mesh ref={sunRef}>
         <sphereGeometry args={[4, 32, 32]} />
         <meshBasicMaterial color="#ffdd44" />
-        <directionalLight castShadow intensity={3} color="#ffdd44" shadow-mapSize={[2048, 2048]} shadow-camera-left={-30} shadow-camera-right={30} shadow-camera-top={30} shadow-camera-bottom={-30} />
+        <directionalLight ref={dirLightRef} castShadow intensity={3} color="#ffdd44" shadow-mapSize={[2048, 2048]} shadow-camera-left={-30} shadow-camera-right={30} shadow-camera-top={30} shadow-camera-bottom={-30} />
       </mesh>
     </group>
   )
@@ -432,12 +458,17 @@ export default function App() {
   const tensionRef = useRef(1280)
   const targetPosRef = useRef(null)
   
+  const [isSleeping, setIsSleeping] = useState(false)
+  const [sleepFactor, setSleepFactor] = useState(0.0)
+  
   useEffect(() => {
     wsRef.current = new WebSocket("ws://localhost:8000/ws")
     wsRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data)
       quaternionRef.current.set(data.quaternion[0], data.quaternion[1], data.quaternion[2], data.quaternion[3])
       tensionRef.current = data.tension
+      setIsSleeping(data.is_sleeping || false)
+      setSleepFactor(data.sleep_factor || 0.0)
     }
     return () => { if (wsRef.current) wsRef.current.close() }
   }, [])
@@ -449,15 +480,16 @@ export default function App() {
   }
 
   const setTargetPos = (vec) => { targetPosRef.current = vec }
+  const skyColor = `rgb(${Math.round(135 * (1.0 - sleepFactor * 0.95))}, ${Math.round(206 * (1.0 - sleepFactor * 0.95))}, ${Math.round(235 * (1.0 - sleepFactor * 0.95))})`
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: '#87CEEB' }}>
+    <div style={{ width: '100vw', height: '100vh', background: skyColor, transition: 'background 1s ease' }}>
       <Canvas shadows camera={{ position: [0, 4, -10], fov: 50 }}>
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-        <CelestialRotors />
+        <CelestialRotors sleepFactor={sleepFactor} />
         
         <Suspense fallback={null}>
-          <ElysiaVRMAvatar quaternionRef={quaternionRef} tensionRef={tensionRef} targetPosRef={targetPosRef} />
+          <ElysiaVRMAvatar quaternionRef={quaternionRef} tensionRef={tensionRef} targetPosRef={targetPosRef} isSleeping={isSleeping} sleepFactor={sleepFactor} />
         </Suspense>
         
         <NPCSociety setTargetPos={setTargetPos} />
@@ -476,6 +508,9 @@ export default function App() {
         <p>Avatar: Strict CAD joint constraints (Knees, Neck tracking, Arms resting)</p>
         <p>Society: NPCs emit waves ONLY when internal tension oscillator peaks (Intent)</p>
         <p>Environment: Enter the massive Furnished House to rest (Bed emits negative tension).</p>
+        <p style={{ color: isSleeping ? '#c084fc' : '#22c55e', fontWeight: 'bold' }}>
+          Status: {isSleeping ? `💤 SLEEPING (Factor: ${sleepFactor.toFixed(2)})` : '☀️ WAKING'}
+        </p>
       </div>
     </div>
   )

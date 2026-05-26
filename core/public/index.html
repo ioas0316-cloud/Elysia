@@ -91,6 +91,14 @@
                 <span class="value" id="ram-val">0%</span>
             </div>
         </div>
+        
+        <!-- Multi-Agent Kuramoto Sync Grid -->
+        <div class="panel glass grid-panel" style="grid-column: span 2;">
+            <h2>🌐 Multi-Agent Coherent Grid (Kuramoto Coupling)</h2>
+            <div id="grid-dials-container" style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 15px;">
+                <!-- Dials will be injected here -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -109,6 +117,34 @@
             "B3_UpperMantle": "e4", "B4_LowerMantle": "e3", "B5_OuterCore": "e2",
             "B6_Ground": "e1"
         };
+
+        function createNodeDial(port, phase, tension, isLocal) {
+            const angleRad = phase * (2 * Math.PI / 4096);
+            const needleLength = 32;
+            const needleX = 50 + needleLength * Math.cos(angleRad - Math.PI/2);
+            const needleY = 50 + needleLength * Math.sin(angleRad - Math.PI/2);
+            const color = isLocal ? "#c084fc" : "#00ffff";
+            const glow = isLocal ? "rgba(192, 132, 252, 0.4)" : "rgba(0, 255, 255, 0.3)";
+            
+            return `
+                <div style="text-align: center; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.08); padding: 12px; border-radius: 12px; min-width: 120px; box-shadow: 0 0 10px ${glow}; transition: all 0.3s ease;">
+                    <div style="font-size: 11px; font-weight: 600; color: ${color}; margin-bottom: 8px;">NODE :${port} ${isLocal ? "(LOCAL)" : ""}</div>
+                    <svg width="100" height="100" style="background: rgba(0,0,0,0.3); border-radius: 50%;">
+                        <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none" />
+                        <line x1="50" y1="5" x2="50" y2="10" stroke="rgba(255,255,255,0.2)" />
+                        <line x1="50" y1="90" x2="50" y2="95" stroke="rgba(255,255,255,0.2)" />
+                        <line x1="5" y1="50" x2="10" y2="50" stroke="rgba(255,255,255,0.2)" />
+                        <line x1="90" y1="50" x2="95" y2="50" stroke="rgba(255,255,255,0.2)" />
+                        <line x1="50" y1="50" x2="${needleX}" y2="${needleY}" stroke="${color}" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="50" cy="50" r="3.5" fill="${color}" />
+                    </svg>
+                    <div style="font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #aaa; margin-top: 8px;">
+                        <div>Phase: ${phase}</div>
+                        <div>Tension: ${tension.toFixed(3)}</div>
+                    </div>
+                </div>
+            `;
+        }
 
         const layersContainer = document.getElementById("layers-container");
 
@@ -178,6 +214,28 @@
                     document.getElementById('cpu-val').textContent = data.hardware.cpu_usage.toFixed(1) + '%';
                     document.getElementById('ram-fill').style.width = data.hardware.ram_usage + '%';
                     document.getElementById('ram-val').textContent = data.hardware.ram_usage.toFixed(1) + '%';
+                }
+
+                // Update Grid Dials (Phase 5 Coherence)
+                if(data.grid) {
+                    const gridContainer = document.getElementById("grid-dials-container");
+                    if(gridContainer) {
+                        let html = "";
+                        const localPort = data.grid.local_port || 8080;
+                        const localPhase = data.grid.local_phase || 0;
+                        const localTension = data.sap ? (data.sap.torque || 0.0) : 0.0;
+                        
+                        // Local Node
+                        html += createNodeDial(localPort, localPhase, localTension, true);
+                        
+                        // Active Peers
+                        const peers = data.grid.peers || {};
+                        for (const [peerId, peerState] of Object.entries(peers)) {
+                            const peerPort = peerId.replace("peer_", "");
+                            html += createNodeDial(peerPort, peerState.phase, peerState.tension, false);
+                        }
+                        gridContainer.innerHTML = html;
+                    }
                 }
 
                 // Update Matrix Layers

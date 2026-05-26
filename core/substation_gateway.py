@@ -127,6 +127,66 @@ async def websocket_voltage(websocket: WebSocket):
     except WebSocketDisconnect:
         pass
 
+active_grid_sockets = set()
+
+@app.websocket("/ws/grid")
+async def websocket_grid(websocket: WebSocket):
+    """ 노드 간 Kuramoto 위상 결합을 위한 P2P 그리드 연결 포트 """
+    await websocket.accept()
+    active_grid_sockets.add(websocket)
+    try:
+        while True:
+            # 상대 노드로부터의 메시지 수신 (연결 유지를 위한 listen)
+            _ = await websocket.receive_text()
+    except WebSocketDisconnect:
+        pass
+    finally:
+        active_grid_sockets.remove(websocket)
+
+async def broadcast_grid_pulse():
+    """ 1Hz 주기로 local state_phase와 tension을 connected peer들에게 브로드캐스트 """
+    while True:
+        try:
+            if os.path.exists(CORE_EGRESS_PATH):
+                with open(CORE_EGRESS_PATH, "r", encoding="utf-8") as f:
+                    egress = json.load(f)
+                phase = egress.get("state_phase", 0)
+                tension = egress.get("tension", 0.0)
+                
+                payload = {
+                    "type": "pulse",
+                    "port": 8080,
+                    "phase": phase,
+                    "tension": tension
+                }
+                
+                # 피어 설정 파일에서 포트 로드
+                peer_config_path = os.path.join(DATA_DIR, "substation_peers.json")
+                if os.path.exists(peer_config_path):
+                    try:
+                        with open(peer_config_path, "r", encoding="utf-8") as f:
+                            config = json.load(f)
+                            payload["port"] = config.get("port", 8080)
+                    except Exception:
+                        pass
+                
+                dead_sockets = []
+                for ws in list(active_grid_sockets):
+                    try:
+                        await ws.send_json(payload)
+                    except Exception:
+                        dead_sockets.append(ws)
+                for ws in dead_sockets:
+                    if ws in active_grid_sockets:
+                        active_grid_sockets.remove(ws)
+        except Exception:
+            pass
+        await asyncio.sleep(1.0)
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(broadcast_grid_pulse())
+
 @app.get("/core_egress")
 async def get_core_egress():
     """ Cortex가 엘리시아의 최종 사유(기하학적 위상)를 가져가서 발화할 수 있게 하는 양방향 출력 포트 """
@@ -140,7 +200,7 @@ async def get_core_egress():
 
 @app.get("/dashboard/data")
 async def get_dashboard_data():
-    """ 15대 레이어의 상태와 최신 Sap 수신 데이터를 반환 """
+    """ 15대 레이어의 상태와 최신 Sap 수신 데이터, 그리고 그리드 동기화 상태를 반환 """
     matrix_state = {}
     if os.path.exists(MATRIX_STATE_PATH):
         try:
@@ -154,7 +214,24 @@ async def get_dashboard_data():
             with open(SAP_TENSION_PATH, "r", encoding="utf-8") as f:
                 sap_tension = json.load(f)
         except Exception: pass
+
+    egress_state = {}
+    if os.path.exists(CORE_EGRESS_PATH):
+        try:
+            with open(CORE_EGRESS_PATH, "r", encoding="utf-8") as f:
+                egress_state = json.load(f)
+        except Exception: pass
         
+    local_port = 8080
+    peer_config_path = os.path.join(DATA_DIR, "substation_peers.json")
+    if os.path.exists(peer_config_path):
+        try:
+            with open(peer_config_path, "r", encoding="utf-8") as f:
+                config = json.load(f)
+                local_port = config.get("port", 8080)
+        except Exception:
+            pass
+
     return {
         "timestamp": time.time(),
         "matrix": matrix_state,
@@ -162,6 +239,11 @@ async def get_dashboard_data():
         "hardware": {
             "cpu_usage": psutil.cpu_percent(),
             "ram_usage": psutil.virtual_memory().percent
+        },
+        "grid": {
+            "local_port": local_port,
+            "local_phase": egress_state.get("state_phase", 0),
+            "peers": egress_state.get("grid_states", {})
         }
     }
 

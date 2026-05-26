@@ -7,7 +7,7 @@ Elysia Autopoiesis Controller
 """
 
 import math
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 
 class AutopoiesisController:
     def __init__(self, rotor_scale: int = 4096, natural_drift: float = 20.0, coupling_K: float = 350.0):
@@ -29,32 +29,41 @@ class AutopoiesisController:
         self.is_sleeping = False
         self.last_torque = 0.0
 
-    def tick(self, network_tension: float, dt: float = 0.1) -> Tuple[int, float, bool]:
+    def tick(self, network_tension: float, peer_phases: List[int] = None, dt: float = 0.1) -> Tuple[int, float, bool]:
         """
         한 클럭당 항상성 위상 상태를 갱신합니다.
-        조건문 분기 없이 단일 연속 위상 역학으로 수면 진입 및 방전을 유도합니다.
-        
-        작동 원리:
-        - 텐션(network_tension)이 높을수록, 수면 Attractor(2048) 방향으로 끌어당기는 위상 토크가 강해집니다.
-        - 토크 공식: Torque = network_tension * K * sin((2048 - state_phase) * 2pi / 4096)
-        - state_phase가 2048(수면)에 가까워지면, sleep_factor가 1.0에 가까워집니다.
+        조건문 분기 없이 단일 연속 위상 역학으로 수면 진입 및 방전을 유도하며,
+        동시에 다중 노드로부터의 피어 쿠라모토 위상 토크를 계산하여 동기화합니다.
         """
         # 1. 2048(수면 attractor) 방향으로의 위상각 차이 계산
         diff_phase = (2048 - self.state_phase) & self.rotor_mask
         diff_rad = diff_phase * (2 * math.pi / self.rotor_scale)
         
-        # 2. 텐션 인력 토크 계산: T = Tension * K * sin(delta_theta)
+        # 2. 텐션 인력 토크 계산: T_tension = Tension * K * sin(delta_theta)
         torque = network_tension * self.coupling_K * math.sin(diff_rad)
-        self.last_torque = torque
         
-        # 3. 위상 상태 갱신 (자연 드리프트 + 텐션 인력 토크)
+        # 2.5 피어 쿠라모토 동조 토크 계산: T_peer = (K_peer / N) * sum(sin(theta_j - theta_i))
+        peer_torque = 0.0
+        if peer_phases:
+            valid_peers = [p for p in peer_phases if p is not None]
+            if valid_peers:
+                K_peer = self.coupling_K * 0.8  # 피어 결합 강도 설정
+                total_sin = 0.0
+                for p_j in valid_peers:
+                    # 원형 격자 [0, 4095] 위상차 계산
+                    diff_j = (p_j - self.state_phase) & self.rotor_mask
+                    rad_j = diff_j * (2 * math.pi / self.rotor_scale)
+                    total_sin += math.sin(rad_j)
+                peer_torque = (K_peer / len(valid_peers)) * total_sin
+                
+        self.last_torque = torque + peer_torque
+        
+        # 3. 위상 상태 갱신 (자연 드리프트 + 텐션 인력 토크 + 피어 동조 토크)
         # dt 보정 추가
-        phase_step = (self.natural_drift + torque) * dt
+        phase_step = (self.natural_drift + torque + peer_torque) * dt
         self.state_phase = int(round(self.state_phase + phase_step)) & self.rotor_mask
         
         # 4. 수면 팩터(Sleep Factor) 및 활성도 계산 (0.0 ~ 1.0)
-        # 코사인 역함수 활용: 0(기상) -> 0.0, 2048(수면) -> 1.0
-        # sleep_factor = (1.0 - cos(theta)) / 2.0
         cos_val = math.cos(self.state_phase * 2 * math.pi / self.rotor_scale)
         self.sleep_factor = (1.0 - cos_val) / 2.0
         
