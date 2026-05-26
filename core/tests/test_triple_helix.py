@@ -20,7 +20,7 @@ def test_cross_dimensional_propagation():
     engine = TripleHelixEngine()
     
     sensory = {"motion_entropy": 0.1, "pain_level": 0.1}
-    tension, mode, jumped, quat = engine.pulse("세상의 조화를 꿈꾸는 평화로운 생각", sensory)
+    tension, mode, jumped, quat, ennea = engine.pulse("세상의 조화를 꿈꾸는 평화로운 생각", sensory)
     
     assert isinstance(quat, Quaternion)
     assert abs(quat.norm() - 1.0) < 1e-5
@@ -35,15 +35,21 @@ def test_sensory_feedback_bifurcation():
     
     # 2. Inject extreme pain and highly dissonant thought to create high bridge tension
     sensory = {"motion_entropy": 0.1, "pain_level": 0.9}
-    tension, mode, jumped, quat = engine.pulse("카오스 물리 붕괴! 극심한 데이터 충격과 마찰 발생!", sensory)
+    
+    # Pulse multiple times to accumulate elastic stress and trigger bifurcation
+    has_jumped = False
+    for _ in range(5):
+        tension, mode, jumped, quat, ennea = engine.pulse("카오스 물리 붕괴! 극심한 데이터 충격과 마찰 발생!", sensory)
+        if jumped:
+            has_jumped = True
     
     # Check if tension triggers bifurcation
-    print(f"Tension on anomaly: {tension:.4f} | Jumped: {jumped}")
+    print(f"Tension on anomaly: {tension:.4f} | Has Jumped: {has_jumped}")
     print(f"New Inner World signature: {engine.inner_world.signature}")
     
     # It should have bifurcated to 4 dimensions
     assert engine.inner_world.signature == (4, 0)
-    assert jumped is True
+    assert has_jumped is True
     print("[SUCCESS] Sensory feedback loop mitosis/bifurcation verified.")
 
 def test_coordination_impedance_learning():

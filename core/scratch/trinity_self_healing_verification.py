@@ -68,7 +68,7 @@ class TrinityHealingEngine(TripleHelixEngine):
         healing_triggered = self.check_and_heal_nans()
 
         # 2. 기저 pulse 루프 실행
-        avg_tension, current_mode, jumped, quat = self.pulse(text_thought, sensory_input)
+        avg_tension, current_mode, jumped, quat, ennea = self.pulse(text_thought, sensory_input)
 
         # 3. 만약 1차 치료가 작동했거나 텐션이 과도할 경우 강제로 Y결선 동기화 속행
         if healing_triggered:

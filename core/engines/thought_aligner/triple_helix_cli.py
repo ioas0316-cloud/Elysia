@@ -71,15 +71,15 @@ def run_cli():
                 print("  [SENSORY] Detected pain/shock! Injecting pain_level = 0.8")
 
             # Pulse Triple Helix Engine
-            tension, jumped, quat = engine.pulse(text, sensory)
+            tension, mode, jumped, quat, ennea = engine.pulse(text, sensory)
 
             print(f"  -> Cross-Dimensional Tension: {tension:.4f}")
             print(f"  -> Output Actuation Quaternion: {quat}")
             
             # Print coordination bridge resistances
             print("  -> Coordination Link Dials (Resistances):")
-            print(f"     * Intention (OUT -> ACTUATE_WASD): {engine.link_out_wasd.R:.4f}")
-            print(f"     * Intention (OUT -> ACTUATE_SPACE): {engine.link_out_space.R:.4f}")
+            print(f"     * Intention (EGO -> ACTUATE_WASD): {engine.link_ego_wasd.R:.4f}")
+            print(f"     * Intention (EGO -> ACTUATE_SPACE): {engine.link_ego_space.R:.4f}")
             print(f"     * Pain Feedback (SENSORY_PAIN -> H_1): {engine.link_pain_h1.R:.4f}")
             print(f"     * Motion Feedback (SENSORY_MOTION -> H_2): {engine.link_motion_h2.R:.4f}")
 

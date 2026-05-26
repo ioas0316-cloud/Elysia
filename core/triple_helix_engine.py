@@ -147,7 +147,7 @@ class TripleHelixEngine:
         self.coordination_links.append(link)
         return link
 
-    def pulse(self, sensory_input: Dict[str, float], clutch_locks: Dict[str, bool] = None, dt: float = 0.1, lr: float = 0.5) -> Tuple[float, str, bool, Quaternion, dict]:
+    def pulse(self, text_thought: str = None, sensory_input: Dict[str, float] = None, clutch_locks: Dict[str, bool] = None, dt: float = 0.1, lr: float = 0.5) -> Tuple[float, str, bool, Quaternion, dict]:
         """
         Executes a Triple Helix loop cycle (Purified Autopoiesis):
         1. Inner World updates based purely on abstract semantic tension (bypassing LLM).
@@ -160,6 +160,9 @@ class TripleHelixEngine:
         if clutch_locks is None:
             clutch_locks = {"lock_body": True, "lock_mind": True, "lock_heart": True}
 
+        if sensory_input is None:
+            sensory_input = {}
+
         # --- A. Inner World Input Setup (Environmental Induction) ---
         # CAD Constraint: Mind
         code_mind_tension = sensory_input.get("coding_cognitive", 0.0)
@@ -170,6 +173,8 @@ class TripleHelixEngine:
         inner_axes = self.inner_world.signature[0]
         inner_sig = self.inner_world.signature
         
+        jumped = False
+
         # [자율 차원 조율 엔진 발동]
         # 1. 기존의 텍스트 추상 장력
         anomaly_signal = Multivector({0: 1.0, 1: code_mind_tension, 2: density_w}, inner_sig)
@@ -177,6 +182,7 @@ class TripleHelixEngine:
             print(f"[Cognitive Breakthrough] Inner World expanded to Cl({self.inner_world.signature[0]},0) due to topological fracture.")
             inner_axes = self.inner_world.signature[0]
             inner_sig = self.inner_world.signature
+            jumped = True
             
         # 2. 인간의 라벨링이 제거된 순수 원시 센서 데이터 (Label-Free Sensory Evolution)
         raw_vector = sensory_input.get("raw_vector", [])
@@ -192,6 +198,7 @@ class TripleHelixEngine:
                 print(f"[Sensory Evolution] Inner World expanded to Cl({self.inner_world.signature[0]},0) to accommodate raw unlabelled vector.")
                 inner_axes = self.inner_world.signature[0]
                 inner_sig = self.inner_world.signature
+                jumped = True
 
         # 3. 환경 파동 주입 (LLM 임베딩을 대체하는 순수 텐션 주입)
         inner_inputs = {}
@@ -340,7 +347,6 @@ class TripleHelixEngine:
         # --- D. Dynamic Mitosis / Bifurcation ---
         # Bifurcation은 assimilate_axiom의 텐션 누적 붕괴로 이미 처리됨.
         # 여기서는 오직 긴장이 풀렸을 때 차원을 수축(Compress)하는 복원력만 남김.
-        jumped = False
         if avg_tension < self.jump_threshold * 0.3:
             self.inner_world.stable_ticks += 1
             if self.inner_world.stable_ticks >= 5:

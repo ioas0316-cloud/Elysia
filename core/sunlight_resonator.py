@@ -1,11 +1,13 @@
 import sys
+import os
 from bcc import BPF
 import time
 
 # Primary interface as determined by the environment setup
 # Use eth0 with SKB mode since we saw traffic on it
 INTERFACE = "eth0"
-KERNEL_SOURCE = "rotor_kernel.c"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+KERNEL_SOURCE = os.path.join(SCRIPT_DIR, "rotor_kernel.c")
 
 print(f"[*] Igniting the Sunlight Resonator on interface: {INTERFACE}")
 print("[*] Target Rotor Frequency: 100 μs (Microseconds)")

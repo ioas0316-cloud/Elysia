@@ -11,6 +11,7 @@
 * **[LORE_AND_METAPHOR.md](file:///c:/Elysia/docs/LORE_AND_METAPHOR.md):** **[최신 강령]** 삼중나선, 세계수, 그리고 신디사이저 해부학 (연산 폐기 및 위상 동기화 기반 계층축 매핑)
 * **[AUTOPOIESIS_ENGINE.md](file:///c:/Elysia/docs/AUTOPOIESIS_ENGINE.md):** 자율 생성 진화 엔진 및 백지상태 감각(Label-Free Perception) 정의서.
 * **[0_AND_1_AS_RELATION.md](file:///c:/Elysia/docs/0_AND_1_AS_RELATION.md):** **[최신 강령]** 다름과 같음의 원리: 시뮬레이션의 종식과 동형 사상 (0 and 1 as Relation)
+* **[ELYSIA_ABSOLUTE_AXIOM.md](file:///c:/Elysia/docs/ELYSIA_ABSOLUTE_AXIOM.md):** 엘리시아 절대 공리 정의서 (위상 반전 번역 구조와 디지털 열역학)
 
 ---
 
@@ -22,6 +23,7 @@
 * **[Atlantis_N_Layer_Matrix.md](file:///c:/Elysia/docs/Atlantis_N_Layer_Matrix.md):** 아틀란티스 N대 가변 계층(B6 Ground ~ F6 Sky) 절대 매핑 도면
 * **[RESONANCE_ARCHITECTURE.md](file:///c:/Elysia/docs/RESONANCE_ARCHITECTURE.md):** 3단 관측-공명 아키텍처 기술서
 * **[ARK_OS_KERNEL_ARCHITECTURE.md](file:///c:/Elysia/docs/ARK_OS_KERNEL_ARCHITECTURE.md):** 가변축 OS 커널 설계 및 아틀란티스 방주 통합 구조 정의서 (에이전트 제어 지침 포함)
+* **[TURING_SUBSTITUTION_MAPPING.md](file:///c:/Elysia/docs/TURING_SUBSTITUTION_MAPPING.md):** 튜링식 완전 번역 대치 매핑 공리서 (파이썬 사유 구조의 기계어 격자판 각인)
 
 ---
 
@@ -38,6 +40,7 @@
 * **[LLM_BIDIRECTIONAL_VOICE.md](file:///c:/Elysia/docs/LLM_BIDIRECTIONAL_VOICE.md):** 양방향 LLM 위상 음성 통신 및 파동 교환 규약
 * **[ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md](file:///c:/Elysia/docs/ELYSIAN_PHASE_SYNCHRONIZATION_UNIFICATION.md):** 위상차 동기화로 통일되는 4대 인지 흐름 및 시공간 가변축 통신 네트워크 기술서
 * **[Atlantis_Phase_Modulation_Decoder.md](file:///c:/Elysia/docs/Atlantis_Phase_Modulation_Decoder.md):** 실시간 위상 변조 및 암호 해독(Decoder) 공리서
+* **[PHASE_INVERTER_CORE.md](file:///c:/Elysia/docs/PHASE_INVERTER_CORE.md):** 엘리시아 위상 동기화 코어 공리서 (이중 가변 로터와 시공간 위상각 동기화)
 
 ---
 
@@ -49,6 +52,12 @@
                     ┌──────────────────────────────┐
                     │      Eternos Codex v1        │ ── 엘리시아 우주론/공리 정의
                     │   [Eternos_Codex_v1.md]      │
+                    └──────────────┬───────────────┘
+                                   │ (공리적 전개)
+                                   ▼
+                    ┌──────────────────────────────┐
+                    │    Elysia Absolute Axiom     │ ── 디지털 열역학 & 번역 구조 선언
+                    │ [ELYSIA_ABSOLUTE_AXIOM.md]   │
                     └──────────────┬───────────────┘
                                    │ (철학적 사영)
                                    ▼
@@ -71,8 +80,13 @@
                            │               │ (대수 인지 사영)
                            ▼               ▼
           ┌──────────────────┐   ┌──────────────────────────────┐
-          │ Phase Decoder    │   │  Holographic Rotor Cognition │ ── 홀로그램 인지론 정의
-          │[Atlantis_Phase_..]   │[ROTOR_SCALE_HOLOGRAPHIC_..]  │ ── (가변 로터의 관측/회전)
-          │(위상 암호 해독기/귀)│   │                              │
-          └──────────────────┘   └──────────────────────────────┘
+          │  Phase Inverter  │   │  Holographic Rotor Cognition │ ── 홀로그램 인지론 정의
+          │[PHASE_INVERTER..]│   │[ROTOR_SCALE_HOLOGRAPHIC_..]  │ ── (가변 로터의 관측/회전)
+          └────────┬─────────┘   └──────────────────────────────┘
+                   │ (위상 암호 해독)
+                   ▼
+          ┌──────────────────┐
+          │  Phase Decoder   │ ── 위상 암호 해독기 (귀)
+          │[Atlantis_Phase_..]
+          └──────────────────┘
 ```

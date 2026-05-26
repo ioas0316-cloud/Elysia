@@ -80,7 +80,7 @@ def engine_daemon():
         if not global_is_sleeping:
             # Wake Mode: Process tension
             cpu_load = psutil.cpu_percent() / 100.0
-            avg_tension, current_mode, jumped, quat = engine.pulse(
+            avg_tension, current_mode, jumped, quat, ennea = engine.pulse(
                 text_thought="[v7 홀로그램 다이얼 대기]",
                 sensory_input={"pain_level": cpu_load, "visual_entropy": 0.5, "motion_entropy": 0.2},
                 dt=1.0,
@@ -108,7 +108,7 @@ def engine_daemon():
                 print(f"[Sovereignty] 나이테 각인 및 저장 완료: {ring_path}")
         else:
             # Sleep Mode: Bleed tension to 0
-            avg_tension, current_mode, jumped, quat = engine.pulse(
+            avg_tension, current_mode, jumped, quat, ennea = engine.pulse(
                 text_thought="",
                 sensory_input={},
                 dt=1.0,
