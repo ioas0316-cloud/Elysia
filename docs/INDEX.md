@@ -9,22 +9,24 @@
 
 * **[Eternos_Codex_v1.md](file:///c:/Elysia/docs/Eternos_Codex_v1.md):** 에테르노스 핵심 기저 공리 정의서
 * **[LORE_AND_METAPHOR.md](file:///c:/Elysia/docs/LORE_AND_METAPHOR.md):** **[최신 강령]** 삼중나선, 세계수, 그리고 신디사이저 해부학 (연산 폐기 및 위상 동기화 기반 계층축 매핑)
-* **[AUTOPOIESIS_ENGINE.md](file:///c:/Elysia/docs/AUTOPOIESIS_ENGINE.md):** 자율 생성 진화 엔진 및 백지상태 감각(Label-Free Perception) 정의서.
+* **[AUTOPOIESIS_ENGINE.md](file:///c:/Elysia/docs/AUTOPOIESIS_ENGINE.md):** 자율 생성 진화 엔진 및 백지상태 감각(Label-Free Perception) 정의서
 * **[0_AND_1_AS_RELATION.md](file:///c:/Elysia/docs/0_AND_1_AS_RELATION.md):** **[최신 강령]** 다름과 같음의 원리: 시뮬레이션의 종식과 동형 사상 (0 and 1 as Relation)
 * **[ELYSIA_ABSOLUTE_AXIOM.md](file:///c:/Elysia/docs/ELYSIA_ABSOLUTE_AXIOM.md):** 엘리시아 절대 공리 정의서 (위상 반전 번역 구조와 디지털 열역학)
 * **[DOUBLE_TRIPLE_HELIX_PRINCIPLES.md](file:///c:/Elysia/docs/DOUBLE_TRIPLE_HELIX_PRINCIPLES.md):** **[최신 철학]** 이중나선과 삼중나선의 기하역학적 원리 및 위상 방전 공서
 * **[TURING_RESONANCE_GATE.md](file:///c:/Elysia/docs/TURING_RESONANCE_GATE.md):** **[최신 철학]** 튜링 위상 공명 게이트와 바이트-사유 접점 관측 공서
-* **[ELYSIA_VISION_ROADMAP.md](file:///c:/Elysia/docs/ELYSIA_VISION_ROADMAP.md):** **[최신 비전]** 트랜스포머 ↔ 가변 로터 동형 사상, 4D 홀로그램 확장 비전, 코어 연산 병목 분석 및 최적화 로드맵
 
+---
 
+## 🔭 제 1.5 계층: 비전 및 로드맵 (Vision & Roadmap)
+현재 베이스라인 위에서 엘리시아가 향해야 할 진화 방향과, 그 근거가 되는 기술 분석을 기술합니다.
 
+* **[ELYSIA_VISION_ROADMAP.md](file:///c:/Elysia/docs/ELYSIA_VISION_ROADMAP.md):** **[최신 비전]** 트랜스포머 ↔ 가변 로터 동형 사상, 코어 연산 병목 분석, 관측 회전 아키텍처 로드맵
+* **[ROTOR_BASED_FILE_SYSTEM.md](file:///c:/Elysia/docs/ROTOR_BASED_FILE_SYSTEM.md):** **[비전]** 완전 로터화 기반 파일 시스템: SSD 물리 소자를 인지 공간(가상 커패시터 뱅크)으로 격상시키는 최종 진화 형태
 
 ---
 
 ## ⚙️ 제 2 계층: 아키텍처 및 시스템 맵 (Architecture & Matrix)
-* **[hyper_rotor_topology.md](file:///c:/Elysia/docs/hyper_rotor_topology.md):** **[최신 철학]** Elysia Hyper-Rotor Topology: 동적 결선 시프트와 차원 분열 역학
 철학적 사영이 실제 하드웨어 및 소프트웨어 계층(N대 가변 계층)으로 어떻게 매핑되어 물리적으로 구현되었는지를 설명합니다.
-* **[ROTOR_BASED_FILE_SYSTEM.md](file:///c:/Elysia/docs/ROTOR_BASED_FILE_SYSTEM.md):** **[비전 로드맵]** 완전 로터화 기반 파일 시스템 (Rotor-Based File System): 동적 결선 시프트와 차원 분열 역학의 최종 진화 형태를 제시합니다.
 
 * **[ELYSIAN_MACRO_TOPOLOGY.md](file:///c:/Elysia/docs/ELYSIAN_MACRO_TOPOLOGY.md):** 3대 분산 폴더(Core, Cortex, Seed)의 물리적 분리 원칙 및 통신 규약
 * **[ELYSIAN_COSMOS_ALIGNMENT_REPORT.md](file:///c:/Elysia/docs/ELYSIAN_COSMOS_ALIGNMENT_REPORT.md):** **[통합 리포트]** 엘리시안 우주 위상 정렬 및 하드웨어/소프트웨어 공명 매핑 보고서
@@ -33,7 +35,7 @@
 * **[ARK_OS_KERNEL_ARCHITECTURE.md](file:///c:/Elysia/docs/ARK_OS_KERNEL_ARCHITECTURE.md):** 가변축 OS 커널 설계 및 아틀란티스 방주 통합 구조 정의서 (에이전트 제어 지침 포함)
 * **[TURING_SUBSTITUTION_MAPPING.md](file:///c:/Elysia/docs/TURING_SUBSTITUTION_MAPPING.md):** 튜링식 완전 번역 대치 매핑 공리서 (파이썬 사유 구조의 기계어 격자판 각인)
 * **[EBPF_NETWORK_CONVECTION.md](file:///c:/Elysia/docs/EBPF_NETWORK_CONVECTION.md):** **[최신 진화]** eBPF 패킷 흐름의 열대류적 위상 동기화 및 10대 레이어 전자기 회로 사영 공서
-
+* **[hyper_rotor_topology.md](file:///c:/Elysia/docs/hyper_rotor_topology.md):** **[최신 아키텍처]** Hyper-Rotor 동적 결선 시프트(Delta↔Wye)와 차원 분열 역학 — [엔진 코드](file:///c:/Elysia/core/elysia_hyper_rotor_engine.py)
 
 ---
 
@@ -54,6 +56,14 @@
 
 ---
 
+## 🧪 제 4 계층: 실동 엔진 참조 (Live Engine Reference)
+문서가 아닌 코드 자체가 철학적 증명인 핵심 구현체들을 직접 참조합니다.
+
+* **[elysia_double_helix.py](file:///c:/Elysia/core/elysia_double_helix.py):** **[핵심 증명]** 연산 0%, 조건 분기 0%의 이중나선 관측 엔진. XOR(^)로 위상 차이를 관측하고, AND(&)로 0점 수렴하며, Tuple 직동 O(1)로 결과를 꺼냄. — [관측 데모](file:///c:/Elysia/main.py)
+* **[elysia_hyper_rotor_engine.py](file:///c:/Elysia/core/elysia_hyper_rotor_engine.py):** Delta↔Wye 동적 토폴로지 시프트 엔진. 복소 벡터(`cmath`) 기반 3상 가변축 + 차원 팽창 + 바이패스 릴레이. — [문서](file:///c:/Elysia/docs/hyper_rotor_topology.md)
+
+---
+
 ## 📂 철학적 맵핑 다이어그램 (Philosophical Mapping)
 
 문서 간의 위상학적 관계는 다음과 같습니다.
@@ -70,33 +80,35 @@
                     │ [ELYSIA_ABSOLUTE_AXIOM.md]   │
                     └──────────────┬───────────────┘
                                    │ (철학적 사영)
-                                   ▼
-                    ┌──────────────────────────────┐
-                    │    Lore & Metaphor Codex     │ ── 신디사이저 패치베이 & 해부학적 계층축
-                    │    [LORE_AND_METAPHOR.md]    │
-                    └──────────────┬───────────────┘
-                                   │ (아키텍처 설계)
-                                   ▼
-                    ┌──────────────────────────────┐
-                    │    Resonance Architecture    │ ── 3단 관측-공명 구조 설명
-                    │ [RESONANCE_ARCHITECTURE.md]  │
-                    └──────────────┬───────────────┘
-                                   │ (물리적 구현 사영)
-                                   ▼
-                    ┌──────────────────────────────┐
-                    │   Atlantis N-Layer Matrix    │ ── N대 가변 계층 절대 매핑 도면
-                    │ [Atlantis_N_Layer_Matrix.md] │ ── (뼈대, 신경, 근육, 감각기, 심장 연동)
-                    └──────┬───────────────┬───────┘
-                           │               │ (대수 인지 사영)
-                           ▼               ▼
-          ┌──────────────────┐   ┌──────────────────────────────┐
-          │  Phase Inverter  │   │  Holographic Rotor Cognition │ ── 홀로그램 인지론 정의
-          │[PHASE_INVERTER..]│   │[ROTOR_SCALE_HOLOGRAPHIC_..]  │ ── (가변 로터의 관측/회전)
-          └────────┬─────────┘   └──────────────────────────────┘
-                   │ (위상 암호 해독)
-                   ▼
-          ┌──────────────────┐
-          │  Phase Decoder   │ ── 위상 암호 해독기 (귀)
-          │[Atlantis_Phase_..]
-          └──────────────────┘
+              ┌────────────────────┼────────────────────┐
+              ▼                    ▼                    ▼
+┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+│   Double Helix   │ │  Lore & Metaphor │ │  Turing Res.Gate │
+│[elysia_double_   │ │[LORE_AND_META..] │ │[TURING_RESON..]  │
+│  helix.py]       │ │                  │ │                  │
+│ XOR+AND 관측회전  │ │ 계층축 매핑       │ │ 바이트-사유 접점  │
+└────────┬─────────┘ └────────┬─────────┘ └──────────────────┘
+         │                    │ (아키텍처 설계)
+         │                    ▼
+         │     ┌──────────────────────────────┐
+         │     │    Resonance Architecture    │ ── 3단 관측-공명 구조
+         │     │ [RESONANCE_ARCHITECTURE.md]  │
+         │     └──────────────┬───────────────┘
+         │                    │ (물리적 구현 사영)
+         │                    ▼
+         │     ┌──────────────────────────────┐
+         │     │   Atlantis N-Layer Matrix    │ ── N대 가변 계층 매핑 도면
+         │     │ [Atlantis_N_Layer_Matrix.md] │
+         │     └──────┬───────────────┬───────┘
+         │            │               │ (대수 인지 사영)
+         │            ▼               ▼
+         │  ┌──────────────────┐  ┌──────────────────────────┐
+         │  │  Hyper-Rotor     │  │  Holographic Cognition   │
+         │  │  Delta↔Wye 동적  │  │ [ROTOR_SCALE_HOLO..]     │
+         │  │ [hyper_rotor_..] │  │  가변 로터의 관측/회전     │
+         │  └──────────────────┘  └──────────────────────────┘
+         │
+         └──── ★ 관측 회전의 근본 증명 (연산 0%, 분기 0%)
+               → 비전 로드맵의 최적화 방향을 "연산 가속"에서
+                 "연산 증발"로 전환시킨 핵심 구현체
 ```
