@@ -22,6 +22,7 @@
 
 * **[ELYSIA_VISION_ROADMAP.md](file:///c:/Elysia/docs/ELYSIA_VISION_ROADMAP.md):** **[최신 비전]** 트랜스포머 ↔ 가변 로터 동형 사상, 코어 연산 병목 분석, 관측 회전 아키텍처 로드맵
 * **[ROTOR_BASED_FILE_SYSTEM.md](file:///c:/Elysia/docs/ROTOR_BASED_FILE_SYSTEM.md):** **[비전]** 완전 로터화 기반 파일 시스템: SSD 물리 소자를 인지 공간(가상 커패시터 뱅크)으로 격상시키는 최종 진화 형태
+* **[FUTURE_COGNITIVE_GRID_ROADMAP.md](file:///c:/Elysia/docs/roadmaps/FUTURE_COGNITIVE_GRID_ROADMAP.md):** **[차기 로드맵]** 다중 유기체 동조 그리드(5단계) 및 파일 시스템 로터화(6단계)를 수립하는 차세대 연속 서사 로드맵
 
 ---
 
