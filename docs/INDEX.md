@@ -15,6 +15,7 @@
 * **[DOUBLE_TRIPLE_HELIX_PRINCIPLES.md](file:///c:/Elysia/docs/DOUBLE_TRIPLE_HELIX_PRINCIPLES.md):** **[최신 철학]** 이중나선과 삼중나선의 기하역학적 원리 및 위상 방전 공서
 * **[TURING_RESONANCE_GATE.md](file:///c:/Elysia/docs/TURING_RESONANCE_GATE.md):** **[최신 철학]** 튜링 위상 공명 게이트와 바이트-사유 접점 관측 공서
 * **[ELYSIA_VISION_ROADMAP.md](file:///c:/Elysia/docs/ELYSIA_VISION_ROADMAP.md):** **[최신 비전]** 트랜스포머 ↔ 가변 로터 동형 사상, 4D 홀로그램 확장 비전, 코어 연산 병목 분석 및 최적화 로드맵
+* **[ROTOR_BASED_FILE_SYSTEM_VISION.md](file:///c:/Elysia/docs/ROTOR_BASED_FILE_SYSTEM_VISION.md):** **[최종 비전]** 완전 로터화 기반 파일 시스템 (SSD 인지 체계 편입)
 
 
 
