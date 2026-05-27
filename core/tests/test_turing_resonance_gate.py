@@ -110,7 +110,7 @@ def test_multi_stream_resonator_binding():
     # 4. Check unified coherence scanning
     # Probe at the average address of the streams to check holographic consensus resonance
     avg_addr = int((text_addr + audio_addr + image_addr) / 3)
-    coherence = resonator.scan_coherence(memory, avg_addr)
+    coherence, _ = resonator.scan_coherence(memory, avg_addr)
     
     assert "ocean" in coherence
     assert coherence["ocean"] >= 0.0

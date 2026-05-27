@@ -28,10 +28,11 @@ def test_somatosensory_ingester():
     assert all(isinstance(x, float) for x in audio_wave)
     
     # 2. Capture video
-    video_pixels = ingester.capture_video(width=8, height=8)
-    assert isinstance(video_pixels, list)
-    assert len(video_pixels) == 64
-    assert all(0.0 <= x <= 1.0 for x in video_pixels)
+    video_pixels = ingester.capture_video()
+    import numpy as np
+    assert isinstance(video_pixels, np.ndarray)
+    assert video_pixels.ndim == 2
+    assert np.all(video_pixels >= 0.0) and np.all(video_pixels <= 1.0)
 
 def test_multi_stream_resonance_consensus():
     """Verify projection and holographic consensus resonance scoring."""

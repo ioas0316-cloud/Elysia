@@ -1,12 +1,14 @@
 :root {
-    --bg-dark: #070714;
-    --glass-bg: rgba(20, 20, 40, 0.4);
-    --glass-border: rgba(255, 255, 255, 0.08);
+    --bg-dark: #050510;
+    --glass-bg: rgba(12, 12, 28, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.06);
     --neon-blue: #00f3ff;
     --neon-pink: #ff00ff;
+    --neon-purple: #a855f7;
     --neon-green: #00ff88;
-    --text-main: #e2e8f0;
-    --text-dim: #94a3b8;
+    --text-main: #f1f5f9;
+    --text-dim: #64748b;
+    --terminal-bg: rgba(5, 5, 12, 0.7);
 }
 
 * {
@@ -44,17 +46,17 @@ body {
 .twinkling {
     background: transparent url('https://raw.githubusercontent.com/danielstuart14/CSS_Fills/master/twinkling.png') repeat top center;
     animation: move-twink-back 200s linear infinite;
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .header {
     text-align: center;
-    padding: 40px 0 20px 0;
+    padding: 30px 0 15px 0;
     animation: fadeInDown 1s ease-out;
 }
 
 .header h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 800;
     letter-spacing: 2px;
     margin-bottom: 5px;
@@ -65,147 +67,304 @@ body {
 
 .header h1 span {
     font-weight: 300;
-    color: var(--neon-pink);
-    -webkit-text-fill-color: var(--neon-pink);
-    text-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
+    color: var(--neon-purple);
+    -webkit-text-fill-color: var(--neon-purple);
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
 }
 
 .subtitle {
-    font-size: 1.2rem;
+    font-size: 0.95rem;
     color: var(--text-dim);
     letter-spacing: 4px;
     text-transform: uppercase;
 }
 
-.dashboard {
+/* 3-Column Cockpit Layout */
+.dashboard-container {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1.15fr 1.3fr 1.15fr;
     gap: 25px;
-    padding: 30px 50px;
-    max-width: 1600px;
+    padding: 0 40px 40px 40px;
+    max-width: 1800px;
     margin: 0 auto;
+    align-items: start;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
 /* Glassmorphism Panel */
 .glass {
     background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 22px;
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .glass:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px 0 rgba(0, 243, 255, 0.15);
-    border-color: rgba(0, 243, 255, 0.3);
-}
-
-.dashboard {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: min-content;
-    gap: 25px;
-    padding: 30px 50px;
-    max-width: 1600px;
-    margin: 0 auto;
-}
-
-.matrix-panel {
-    grid-column: span 2;
-}
-
-/* EMP Visualizer */
-#emp-visual {
-    margin-top: 20px;
-    padding: 15px;
-    text-align: center;
-    font-weight: 800;
-    letter-spacing: 2px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.emp-static {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-dim);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.emp-dynamic {
-    background: rgba(255, 0, 255, 0.2);
-    color: #fff;
-    border: 1px solid var(--neon-pink);
-    box-shadow: 0 0 20px var(--neon-pink), inset 0 0 10px var(--neon-pink);
-    animation: empPulse 0.5s infinite alternate;
-}
-
-@keyframes empPulse {
-    0% { transform: scale(1); box-shadow: 0 0 20px var(--neon-pink); }
-    100% { transform: scale(1.02); box-shadow: 0 0 40px var(--neon-pink), 0 0 20px #fff; }
-}
-
-#sovereign-visual {
-    margin-top: 15px;
-    padding: 10px;
-    text-align: center;
-    font-weight: 800;
-    letter-spacing: 2px;
-    border-radius: 10px;
-    transition: all 0.5s ease;
-}
-
-.sovereign-hidden {
-    opacity: 0;
-    height: 0;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.sovereign-active {
-    opacity: 1;
-    height: auto;
-    background: rgba(255, 215, 0, 0.2);
-    color: #ffd700;
-    border: 1px solid #ffd700;
-    box-shadow: 0 0 20px #ffd700, inset 0 0 10px #ffd700;
-    animation: sovereignPulse 0.5s infinite alternate;
-}
-
-@keyframes sovereignPulse {
-    0% { transform: scale(1); box-shadow: 0 0 20px #ffd700; }
-    100% { transform: scale(1.02); box-shadow: 0 0 40px #ffd700, 0 0 20px #fff; }
+    transform: translateY(-3px);
+    box-shadow: 0 15px 45px 0 rgba(168, 85, 247, 0.08);
+    border-color: rgba(168, 85, 247, 0.2);
 }
 
 h2 {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 25px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
     color: var(--neon-blue);
-    text-shadow: 0 0 5px rgba(0, 243, 255, 0.3);
+    text-shadow: 0 0 5px rgba(0, 243, 255, 0.25);
 }
 
+/* ----------------------------------
+   CENTER COLUMN: Thought Hub
+---------------------------------- */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    background: var(--terminal-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    padding: 10px 14px;
+    border-radius: 12px;
+    max-width: 85%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-break: break-all;
+    animation: messageFadeIn 0.3s ease-out;
+}
+
+.message .msg-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-right: 5px;
+}
+
+.message .msg-sender {
+    font-weight: 700;
+    margin-right: 6px;
+}
+
+.user-msg {
+    align-self: flex-end;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #f3e8ff;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.1);
+}
+
+.system-msg {
+    align-self: flex-start;
+    background: rgba(0, 243, 255, 0.08);
+    border: 1px solid rgba(0, 243, 255, 0.25);
+    color: #e0f2fe;
+}
+
+.error-msg {
+    align-self: flex-start;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fee2e2;
+}
+
+.chat-input-row {
+    display: flex;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 10px;
+}
+
+.chat-input-row input {
+    flex-grow: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text-main);
+    outline: none;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.chat-input-row input:focus {
+    border-color: var(--neon-purple);
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.25);
+}
+
+.chat-input-row button {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-blue));
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 0 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.chat-input-row button:hover {
+    opacity: 0.9;
+}
+
+/* Oscillo Canvas */
+.wave-visualizer-container {
+    background: var(--terminal-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    padding: 15px;
+}
+
+.wave-visualizer-container h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#wave-canvas {
+    width: 100%;
+    height: 120px;
+    background: #020208;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 255, 0.08);
+}
+
+/* ----------------------------------
+   RIGHT COLUMN: Wedge Forge Chamber
+---------------------------------- */
+.section-desc {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(20, 20, 35, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: none;
+    padding: 8px 14px;
+    border-radius: 8px 8px 0 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+}
+
+.editor-header .filename {
+    color: #e2e8f0;
+}
+
+.status-indicator {
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+}
+
+.status-indicator.forged {
+    background: rgba(168, 85, 247, 0.15);
+    color: var(--neon-purple);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+    animation: statusBlink 1.5s infinite alternate;
+}
+
+@keyframes statusBlink {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.code-editor {
+    background: var(--terminal-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 14px 14px;
+    padding: 15px;
+    height: 250px;
+    overflow: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #a78bfa;
+}
+
+.code-editor code {
+    white-space: pre;
+    color: #d8b4fe;
+}
+
+/* Logs Container */
+.logs-container {
+    background: var(--terminal-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    padding: 12px;
+    height: 240px;
+    overflow-y: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.log-entry {
+    line-height: 1.4;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    padding-bottom: 4px;
+}
+
+/* ----------------------------------
+   LEFT COLUMN & Core Metrics
+---------------------------------- */
 .data-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 15px;
     font-family: 'JetBrains Mono', monospace;
 }
 
 .data-row .label {
     color: var(--text-dim);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 
 .data-row .value {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
 }
 
 .highlight {
@@ -213,20 +372,19 @@ h2 {
     text-shadow: 0 0 8px rgba(255, 0, 255, 0.4);
 }
 
-/* Progress Bars for HW Tension */
 .progress-bar {
     flex-grow: 1;
     margin: 0 15px;
-    height: 8px;
+    height: 6px;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
+    border-radius: 3px;
     overflow: hidden;
 }
 
 .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #ff416c, #ff4b2b);
-    border-radius: 4px;
+    border-radius: 3px;
     transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -238,21 +396,20 @@ h2 {
 .layers-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
 .layer-row {
     display: grid;
-    grid-template-columns: 30px 200px 1fr 60px;
+    grid-template-columns: 24px 160px 1fr 50px;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     font-family: 'JetBrains Mono', monospace;
 }
 
-/* Circuit Visualizer */
 .circuit-node {
     position: relative;
-    width: 30px;
+    width: 24px;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -260,9 +417,9 @@ h2 {
 }
 
 .node-dot {
-    width: 10px;
-    height: 10px;
-    background: #333;
+    width: 8px;
+    height: 8px;
+    background: #222;
     border-radius: 50%;
     z-index: 2;
     transition: all 0.2s ease;
@@ -270,9 +427,9 @@ h2 {
 
 .circuit-wire {
     position: absolute;
-    width: 2px;
+    width: 1px;
     height: 100%;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.06);
     z-index: 1;
 }
 
@@ -280,7 +437,7 @@ h2 {
 .circuit-wire.bottom { bottom: 50%; height: 50%; }
 
 .layer-name {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: #cbd5e1;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -288,23 +445,23 @@ h2 {
 
 .layer-bar-container {
     width: 100%;
-    height: 12px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 6px;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255,255,255,0.03);
+    border-radius: 5px;
     position: relative;
     overflow: hidden;
 }
 
 .layer-bar-ghost {
     height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 5px;
     position: absolute;
     top: 0;
     left: 0;
     width: 0%;
-    transition: width 0.1s ease, background 0.3s ease;
+    transition: width 0.1s ease;
     z-index: 1;
 }
 
@@ -312,8 +469,8 @@ h2 {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, #11998e, #38ef7d);
-    transition: width 0.15s linear, background 0.3s ease;
-    border-radius: 6px;
+    transition: width 0.15s linear;
+    border-radius: 5px;
     position: absolute;
     top: 0;
     left: 0;
@@ -321,18 +478,60 @@ h2 {
 }
 
 .layer-val {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-align: right;
     color: var(--neon-blue);
 }
 
+/* Animations */
 @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
+    from { opacity: 0; transform: translateY(-15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 1200px) {
-    .dashboard {
+@keyframes messageFadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 1400px) {
+    .dashboard-container {
+        grid-template-columns: 1.2fr 1.5fr;
+    }
+    .right-col {
+        grid-column: span 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 950px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+    .right-col {
+        grid-column: span 1;
         grid-template-columns: 1fr;
     }
 }

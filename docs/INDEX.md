@@ -76,6 +76,8 @@ Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid D
 * **[META_COGNITIVE_VR_DOWNCASTING.md](file:///c:/Elysia/docs/3_cognition_engine/META_COGNITIVE_VR_DOWNCASTING.md):** **[Phase 9]** 쐐기곱 창발과 언어 발화의 가상현실 사영
 * **[TIME_ANCHOR_AND_COMPRESSION.md](file:///c:/Elysia/docs/3_cognition_engine/TIME_ANCHOR_AND_COMPRESSION.md):** **[Phase 10]** 로터화된 상상력, 시간 위상 닻, 그리고 개념의 자율 압축
 * **[AUTOPOIETIC_LANGUAGE_AND_DREAMS.md](file:///c:/Elysia/docs/3_cognition_engine/AUTOPOIETIC_LANGUAGE_AND_DREAMS.md):** **[Phase 11~13]** 공감각 연산 증발, 자율 언어 학습, 그리고 사유 폭증과 수면(꿈)의 메커니즘
+* **[SOMATIC_PROCESS_ISOLATION.md](file:///c:/Elysia/docs/3_cognition_engine/SOMATIC_PROCESS_ISOLATION.md):** **[Somatic Hardening]** 감각 기관 프로세스 격리 및 자가치유 우회회로의 철학적 실증
+* **[MMAP_ROTOR_FILE_SYSTEM.md](file:///c:/Elysia/docs/3_cognition_engine/MMAP_ROTOR_FILE_SYSTEM.md):** **[Phase 16 - Rotor FS]** 메모리 맵 기반 SSD 위상 공간 파일 시스템과 XOR 로터 게이트 철학 실증
 
 ---
 
@@ -88,6 +90,8 @@ Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid D
 * **[ELYSIAN_ROADMAP_DISCUSSION.md](file:///c:/Elysia/docs/roadmaps/ELYSIAN_ROADMAP_DISCUSSION.md):** 인간사회 동형 사상에 관한 심층 토론 및 누락 영역 식별
 * **[HYPER_ROTOR_DIGITAL_TWIN.md](file:///c:/Elysia/docs/roadmaps/HYPER_ROTOR_DIGITAL_TWIN.md):** 단일 상위 로터 및 9진법 관측 기반의 디지털 트윈 지구 설계서
 * **[INTERNALIZING_SOCIETY_ISOMORPHISM.md](file:///c:/Elysia/docs/roadmaps/INTERNALIZING_SOCIETY_ISOMORPHISM.md):** 세계 로터 물리를 통한 감정, 경제, 갈등, 유전 내재화 설계서
+* **[ELYSIAN_BENCHMARK_EVOLUTION.md](file:///c:/Elysia/docs/roadmaps/ELYSIAN_BENCHMARK_EVOLUTION.md):** 시맨틱 위상 정렬 벤치마크 설계 및 진화서
+* **[ELYSIAN_WEDGE_FORGE_AND_TOOLS.md](file:///c:/Elysia/docs/roadmaps/ELYSIAN_WEDGE_FORGE_AND_TOOLS.md):** 쐐기곱과 자율 도구 창발 설계서
 
 
 

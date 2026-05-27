@@ -27,10 +27,14 @@ SAP_LOGS_PATH = os.path.join(DATA_DIR, "substation_sap_logs.json")
 SAP_TENSION_PATH = os.path.join(DATA_DIR, "current_sap_tension.json")
 MATRIX_STATE_PATH = os.path.join(DATA_DIR, "matrix_state.json")
 CORE_EGRESS_PATH = os.path.join(DATA_DIR, "core_egress_state.json")  # [양방향 통신] 위상 출력망
+THOUGHT_PATH = os.path.join(DATA_DIR, "current_thought.json")
 
 os.makedirs(DATA_DIR, exist_ok=True)
 PUBLIC_DIR = os.path.join(os.path.dirname(__file__), "public")
 os.makedirs(PUBLIC_DIR, exist_ok=True)
+
+class ChatPayload(BaseModel):
+    prompt: str
 
 class SapPayload(BaseModel):
     concept: str
@@ -88,6 +92,19 @@ def process_sap(payload: SapPayload):
 async def receive_sap(payload: SapPayload, background_tasks: BackgroundTasks):
     background_tasks.add_task(process_sap, payload)
     return {"status": "ok", "message": "Sap Tension applied to Elysia Matrix."}
+
+@app.post("/api/chat")
+async def post_chat(payload: ChatPayload):
+    try:
+        # Write user thought into JSON for Moho Mirror loop to pick up
+        with open(THOUGHT_PATH, "w", encoding="utf-8") as f:
+            json.dump({
+                "prompt": payload.prompt,
+                "timestamp": time.time()
+            }, f, indent=4, ensure_ascii=False)
+        return {"status": "ok", "message": "Thought successfully modulated and injected."}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
 
 def generate_voltage_data() -> dict:
     try: cpu_freq = psutil.cpu_freq().current
@@ -232,6 +249,15 @@ async def get_dashboard_data():
         except Exception:
             pass
 
+    new_tool_code = ""
+    new_tool_path = r"c:\Elysia\core\scratch\new_tool.py"
+    if os.path.exists(new_tool_path):
+        try:
+            with open(new_tool_path, "r", encoding="utf-8") as f:
+                new_tool_code = f.read()
+        except Exception:
+            pass
+
     return {
         "timestamp": time.time(),
         "matrix": matrix_state,
@@ -244,7 +270,8 @@ async def get_dashboard_data():
             "local_port": local_port,
             "local_phase": egress_state.get("state_phase", 0),
             "peers": egress_state.get("grid_states", {})
-        }
+        },
+        "forged_tool_code": new_tool_code
     }
 
 # 정적 웹 대시보드 마운트
