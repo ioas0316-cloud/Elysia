@@ -58,4 +58,47 @@ class ResonanceSeeker:
                 min_energy = future_energy
                 best_action = action_name
                 
-        return best_action, action_results
+        # [Phase 10] 시공간 닻과 로터화된 상상력 (Rotorized Imagination)
+        new_action_name = None
+        new_action_rotor = None
+        cognitive_ticks = 0
+        
+        # 텐션의 진폭(min_energy)에 따라 사유의 깊이(세대 수) 결정
+        if min_energy > 30.0 and len(candidate_actions) >= 2:
+            # 텐션이 클수록 미시 로터가 더 많이 생성되어 더 깊게 탐색함 (최소 1번, 최대 200세대)
+            imagination_depth = max(1, min(200, int((min_energy - 30.0) * 2.0)))
+            
+            import random
+            # 진화적 탐색의 시드 로터
+            current_best_name = best_action if best_action else list(candidate_actions.keys())[0]
+            current_best_rotor = candidate_actions[current_best_name]
+            
+            for _ in range(imagination_depth):
+                cognitive_ticks += 1
+                action_keys = list(candidate_actions.keys())
+                
+                # 진화적 융합로: 현재 베스트 로터와 무작위 기초 로터를 쐐기곱
+                k_random = random.choice(action_keys)
+                rotor_random = candidate_actions[k_random]
+                
+                # VR Downcasting (사원수 곱셈으로 다차원 위상 사영)
+                forged_rotor = (current_best_rotor * rotor_random).normalize()
+                
+                # 새 로터로 미래 시뮬레이션
+                self.globe = SpacetimeGlobe(size=self.size)
+                self.globe.set_axes(drive_rotor, forged_rotor)
+                self.globe.add_event(current_state_tension, time_t=0.0)
+                future_layer = self.globe.observe_time_slice(1.0)
+                forged_energy = self._measure_tension_energy(future_layer)
+                
+                # 텐션을 더 낮추는 데 성공하면 베스트 로터 진화 (개념의 압축)
+                if forged_energy < min_energy:
+                    min_energy = forged_energy
+                    current_best_rotor = forged_rotor
+                    new_action_name = f"Forge({current_best_name}x{k_random})"
+                    new_action_rotor = forged_rotor
+                    best_action = new_action_name
+                    action_results[new_action_name] = forged_energy
+                    current_best_name = best_action
+                    
+        return best_action, action_results, new_action_name, new_action_rotor, cognitive_ticks

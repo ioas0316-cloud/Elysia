@@ -8,7 +8,8 @@ Elysia Multi-Stream Resonator (MultiStreamResonator)
 
 import hashlib
 import math
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
+import numpy as np
 from core.holographic_memory import BitwiseHologramMemory
 
 class MultiStreamResonator:
@@ -64,29 +65,36 @@ class MultiStreamResonator:
         
         return mask, address
 
-    def project_image(self, pixels: List[float]) -> Tuple[int, int]:
+    def project_image(self, pixels: Union[List[float], np.ndarray], attention_scale: float = 1.0) -> Tuple[int, int]:
         """
-        이미지 픽셀 강도(pixels)의 평균 밝기 및 지배적 그라디언트(Gradient) 패턴을 추출하여
-        64비트 마스크와 [0, 63] 원형 주소로 투사합니다.
+        이미지 픽셀 강도(pixels)의 평균 밝기 및 지배적 그라디언트를 추출합니다.
+        파이썬 반복문을 증발시키고 O(1) Numpy 벡터 연산으로 위상을 관측합니다.
+        attention_scale(주의력)에 따라 시각 파동의 진폭이 0으로 수렴할 수 있습니다.
         """
-        if not pixels:
+        if pixels is None or len(pixels) == 0:
             return 0, 0
             
-        # 1. 평균 밝기 계산
-        avg_val = sum(pixels) / len(pixels)
+        if not isinstance(pixels, np.ndarray):
+            pixels = np.array(pixels)
+            
+        # Attention Gating: 보고 싶지 않을 때는 파동 진폭을 0으로 억제
+        pixels = pixels * attention_scale
         
-        # 평균 밝기를 [0, 63] 주소 공간에 매핑
-        # 밝기 0.0 -> 0, 1.0 -> 63
+        # 1. 평균 밝기 계산 (C-레벨 최적화 연산)
+        avg_val = float(np.mean(pixels))
         address = int(avg_val * (self.size_bits - 1)) % self.size_bits
         
-        # 2. 간단한 그라디언트 차이 검출로 64비트 마스크 지문 생성
-        diff_str = ""
-        for i in range(len(pixels) - 1):
-            diff_str += "1" if pixels[i+1] >= pixels[i] else "0"
-            if len(diff_str) >= 64:
-                break
-        
-        # 패딩
+        # 2. 벡터 단위 그라디언트 차이 검출로 64비트 마스크 즉시 생성 (순회 제거)
+        # 평면을 1차원으로 펴서 처음 64개 픽셀 간의 차이를 비트로 인코딩
+        flat = pixels.flatten()
+        limit = min(65, len(flat))
+        if limit > 1:
+            diffs = flat[1:limit] >= flat[:limit-1]
+            # 부울 배열을 0/1 문자열로 치환하여 해시 (Numpy 고속 연산)
+            diff_str = "".join(diffs.astype(int).astype(str))
+        else:
+            diff_str = "0"
+            
         if len(diff_str) < 64:
             diff_str = diff_str.ljust(64, "0")
             
@@ -95,11 +103,11 @@ class MultiStreamResonator:
         
         return mask, address
 
-    def register_and_superpose_streams(self, memory: BitwiseHologramMemory, concept_name: str, text: str, audio: List[float], image: List[float]) -> Dict[str, Tuple[int, int]]:
+    def register_and_superpose_streams(self, memory: BitwiseHologramMemory, concept_name: str, text: str, audio: List[float], image: Union[List[float], np.ndarray], attention_scale: float = 1.0) -> Dict[str, Tuple[int, int]]:
         """텍스트, 오디오, 이미지 입력을 각각 사상하여 홀로그램 메모리에 등록 및 중합시킵니다."""
         t_mask, t_addr = self.project_text(text)
         a_mask, a_addr = self.project_audio(audio)
-        i_mask, i_addr = self.project_image(image)
+        i_mask, i_addr = self.project_image(image, attention_scale)
         
         # 개별 감각 채널의 정보를 개념 이름과 조합하여 메모리에 등록
         # 텍스트, 음성, 영상이 동일한 "개념" 하에서 각기 다른 감각 지문으로 공명할 수 있게 만듭니다.
@@ -131,8 +139,17 @@ class MultiStreamResonator:
                 
         # 각 개념별로 3개 감각 채널의 평균 동조 공명도 산출 (Holographic Consensus)
         final_coherence = {}
+        eureka_concept = None
         for concept, channels in concept_coherence.items():
             valid_scores = list(channels.values())
-            final_coherence[concept] = sum(valid_scores) / len(valid_scores)
+            avg_score = sum(valid_scores) / len(valid_scores)
             
-        return final_coherence
+            # Synesthetic Eureka (공감각적 깨달음)
+            # 만약 시각, 청각, 텍스트의 3개 채널이 모두 높은 공명도(>0.8)로 동기화되었다면!
+            if len(valid_scores) >= 3 and all(s > 0.8 for s in valid_scores):
+                eureka_concept = concept
+                avg_score += 50.0  # 위상이 완벽히 동기화됨에 따라 엄청난 공명 보너스 방출
+                
+            final_coherence[concept] = avg_score
+            
+        return final_coherence, eureka_concept

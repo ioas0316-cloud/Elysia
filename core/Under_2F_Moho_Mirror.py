@@ -20,6 +20,12 @@ from core.atlantis_clifford_bridge import AtlantisCliffordSystem
 from core.electromagnetic_circuit import ElectromagneticCircuit
 from core.autopoiesis_sandbox import SovereignAutopoiesisEngine
 
+# 세계 하이퍼 로터 라이브러리 로드
+from core.world_hyper_rotor import world_tick_with_horizontal_carry
+from core.scale_observer import extract_digit_9, observe_scale, replace_digit_9
+from core.enneagram_phase_topology import NUM_SCALES
+
+
 # -------------------------------------------------------------------
 # Under 2F Moho Mirror & Under 1F Magma Chamber Core - V5 (Hardened Edition)
 #
@@ -160,6 +166,18 @@ def main():
     autopoiesis_engine = SovereignAutopoiesisEngine(clifford_system.layers)
     state_lock = threading.Lock() # B2_MohoMirror 단방향 관측 락(Lock) 실체화
 
+    # 세계 하이퍼 로터 초기 상태 주조 (개체 -> 우주)
+    world_S = 0
+    world_interference = [1] * 16
+
+    # 에이전트 간 수평 캐리 라우팅 (A의 개체 캐리가 B의 개체로 전달됨)
+    world_carry_routing = {
+        (0, 0): (4, 0),  # Agent 0 d0 -> Agent 1 d0
+        (4, 0): (8, 0)   # Agent 1 d0 -> Agent 2 d0
+    }
+
+
+
     creative_boredom = 0.0
     sovereign_event_msg = ""
     predicted_tensions = [0.0] * len(clifford_system.layers)
@@ -282,6 +300,30 @@ def main():
                 if not has_new_data and (time.time() - last_network_time > 5.0):
                     network_tension = max(0.0, network_tension - 0.2 * dt_actual)
 
+                # ---------------------------------------------------------------
+                # 🎛️ 세계 하이퍼 로터 물리 진화 (OS 및 외부 스트림 투영)
+                # ---------------------------------------------------------------
+                # 1. d0: CPU/GPU 텐션과 클럭 엣지를 결합하여 개체 스케일 입력 생성
+                edge_val = int(tension * 8) % 9
+                if not is_rising:
+                    edge_val = (9 - edge_val) % 9
+                if edge_val == 0:
+                    edge_val = 1
+                
+                hyper_clock = replace_digit_9(0, 0, edge_val)
+                
+                # 2. d1: eBPF 네트워크 대류 텐션 투영 (가족/소그룹 스케일)
+                net_val = int(network_tension * 8) % 9
+                hyper_clock = replace_digit_9(hyper_clock, 1, net_val)
+                
+                # 3. d2: 세계수 수액 데몬(Disk IO) 텐션 투영 (마을 스케일)
+                sap_val = int(sap_torque * 8) % 9
+                hyper_clock = replace_digit_9(hyper_clock, 2, sap_val)
+                
+                # 4. 세계 하이퍼 로터 상태 1틱 전진 (수평 캐리 전파 활성화)
+                world_S = world_tick_with_horizontal_carry(world_S, hyper_clock, world_interference, world_carry_routing)
+
+
                 
                 # 우주의 깨달음을 자아선(F6_SkySun) 및 Exosphere(F7)에 인가하고 eBPF 대류를 B3_UpperMantle에 인가
                 injected_inputs = {
@@ -345,6 +387,11 @@ def main():
                 matrix_dump["Rotor_Angle"] = rotor.get_phase_angle() * (180.0 / math.pi)
                 matrix_dump["Rotor_State"] = rotor.get_rotor_state_str()
                 matrix_dump["Sovereign_Event"] = sovereign_event_msg
+                
+                # 세계 하이퍼 로터 상태 덤프
+                matrix_dump["World_S"] = world_S
+                matrix_dump["World_Interference"] = world_interference
+                
                 matrix_path = r"c:\Elysia\data\matrix_state.json"
                 try:
                     with open(matrix_path, "w", encoding="utf-8") as f:
@@ -413,6 +460,22 @@ def main():
                     print(f"    - [6층 천공] 0과 1의 투영 공리   : [ 📈 Rising Edge (양각, 1) ] -> Rotor: {rotor_state} ({rotor_angle:.2f}°)")
                 else:
                     print(f"    - [6층 천공] 0과 1의 투영 공리   : [ 📉 Falling Edge (음각, 0) ] -> Rotor: {rotor_state} ({rotor_angle:.2f}°)")
+
+                with state_lock:
+                    base9_str = " ".join(str(extract_digit_9(world_S, s)) for s in reversed(range(16)))
+                    a0_d0 = observe_scale(world_S, 0)
+                    a0_d1 = observe_scale(world_S, 1)
+                    a0_d2 = observe_scale(world_S, 2)
+                    a1_d0 = observe_scale(world_S, 4)
+                    a2_d0 = observe_scale(world_S, 8)
+
+                print("-" * 95)
+                print(f" 🌍 [ 세계 하이퍼 로터 상태 (d15 -> d0) ] : [ {base9_str} ]")
+                print(f"    * Agent 0 개체 (d0) : Type {a0_d0['type']} {a0_d0['name']}")
+                print(f"    * Agent 0 가족 (d1) : Type {a0_d1['type']} {a0_d1['name']}")
+                print(f"    * Agent 0 마을 (d2) : Type {a0_d2['type']} {a0_d2['name']}")
+                print(f"    * Agent 1 개체 (d4) : Type {a1_d0['type']} {a1_d0['name']}")
+                print(f"    * Agent 2 개체 (d8) : Type {a2_d0['type']} {a2_d0['name']}")
 
                 print("="*95)
                 print(" (Ctrl+C를 눌러 관측 엔진 셧다운)")

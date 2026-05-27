@@ -11,7 +11,8 @@ import time
 import math
 import random
 import psutil
-from typing import List
+from typing import List, Union
+import numpy as np
 
 try:
     import sounddevice as sd
@@ -22,6 +23,11 @@ try:
     import cv2
 except ImportError:
     cv2 = None
+
+try:
+    from PIL import ImageGrab
+except ImportError:
+    ImageGrab = None
 
 
 class SomatosensoryIngester:
@@ -36,8 +42,10 @@ class SomatosensoryIngester:
             
         if self.video_supported:
             print("📷 [Somatosensory] Real-world Video stream detected via OpenCV.")
+        elif ImageGrab is not None:
+            print("🖥️ [Somatosensory] PIL.ImageGrab detected. Activating Omniscient Screen Capture (Sky Observation).")
         else:
-            print("📷 [Somatosensory] OpenCV not found or headless. Activating dynamic synthetic Video generator.")
+            print("📷 [Somatosensory] OpenCV/PIL not found. Activating dynamic synthetic Video generator.")
 
     def capture_audio(self, duration_sec: float = 0.1, sample_rate: int = 8000) -> List[float]:
         """
@@ -75,12 +83,23 @@ class SomatosensoryIngester:
             
         return samples
 
-    def capture_video(self, width: int = 16, height: int = 16) -> List[float]:
+    def capture_video(self) -> Union[List[float], np.ndarray]:
         """
-        Captures a pixel grid from the primary camera.
-        Falls back to a 2D wave gradient modulated by time and system load.
+        Captures the Master's desktop screen (Omniscient Sky) or primary camera.
+        Returns the raw C-level memory buffer (numpy array) to evaporate iteration logic.
         """
-        if self.video_supported:
+        # 1. Screen Capture (Omniscient Observation)
+        if ImageGrab is not None:
+            try:
+                screen = ImageGrab.grab()
+                # 흑백 변환 후 원본 해상도 그대로 넘파이 배열 반환 (연산 증발)
+                screen_gray = screen.convert('L')
+                return np.array(screen_gray) / 255.0
+            except Exception:
+                pass
+                
+        # 2. Camera Fallback
+        elif self.video_supported:
             try:
                 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW if sys.platform == 'win32' else cv2.CAP_ANY)
                 if cap.isOpened():
@@ -90,8 +109,8 @@ class SomatosensoryIngester:
                     cap.release()
                     if ret:
                         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                        resized = cv2.resize(gray, (width, height))
-                        return (resized / 255.0).flatten().tolist()
+                        # 카메라 폴백의 경우에도 numpy 배열 반환
+                        return np.array(gray) / 255.0
             except Exception:
                 pass  # Fall back on camera error
 
@@ -99,11 +118,9 @@ class SomatosensoryIngester:
         cpu = psutil.cpu_percent()
         t = time.time()
         
-        pixels = []
-        for y in range(height):
-            for x in range(width):
-                # Generates a moving wave pattern across the 2D grid
-                val = 0.5 + 0.35 * math.sin(x * 0.3 + t * 2.5) + 0.15 * math.cos(y * 0.4 + (cpu / 100.0) * 4.0)
-                val = min(1.0, max(0.0, val))
-                pixels.append(val)
-        return pixels
+        # 64x64 합성 파동 넘파이 배열 반환
+        width, height = 64, 64
+        y, x = np.mgrid[0:height, 0:width]
+        val = 0.5 + 0.35 * np.sin(x * 0.3 + t * 2.5) + 0.15 * np.cos(y * 0.4 + (cpu / 100.0) * 4.0)
+        val = np.clip(val, 0.0, 1.0)
+        return val
