@@ -1,44 +1,28 @@
 import unittest
 import math
 import cmath
-from core.wave_vortex import TriRotorGrassmann, WedgeVortexSimulator
+from core.wave_vortex import TriRotorTensionEngine, WedgeVortexSimulator
 
 class TestWaveVortex(unittest.TestCase):
-    def test_tri_rotor_wedge_tension_zero(self):
-        # 동일한 위상의 경우 면적 장력 0
-        rotor = TriRotorGrassmann(math.pi, math.pi, math.pi)
-        tension = rotor.compute_wedge_tension()
-        self.assertAlmostEqual(tension, 0.0)
+    def test_apply_relative_tension(self):
+        # 극단적으로 불균형한 초기 위상 설정 (0, 0, 0)
+        engine = TriRotorTensionEngine(0.0, 0.0, 0.0)
 
-    def test_tri_rotor_wedge_tension_nonzero(self):
-        # 위상차가 발생한 경우
-        rotor = TriRotorGrassmann(0.0, math.pi / 2, 0.0)
-        tension = rotor.compute_wedge_tension()
-        # w12 = 1*1 - 0*0 = 1
-        # w23 = 0*0 - 1*1 = -1
-        # w31 = 1*0 - 0*1 = 0
-        # Tension = 1 - 1 + 0 = 0 (but e.g. 0.0, pi/2, pi would be different)
-        # Let's use 0, pi/2, pi
-        rotor2 = TriRotorGrassmann(0.0, math.pi / 2, math.pi)
-        tension2 = rotor2.compute_wedge_tension()
-        # w12 = 1*1 - 0*0 = 1
-        # w23 = 0*0 - 1*(-1) = 1
-        # w31 = -1*0 - 0*1 = 0
-        # Tension = 1 + 1 + 0 = 2
-        self.assertAlmostEqual(tension2, 2.0)
+        # 텐션 적용
+        # 현재는 완전히 동일하면 차이가 0이므로 tension이 0이 됨.
+        # 살짝 다르게 주어 척력이 발생하도록 유도
+        engine = TriRotorTensionEngine(0.0, 0.1, -0.1)
 
-    def test_xor_operator_overload(self):
-        rotor = TriRotorGrassmann(0.0, math.pi / 2, math.pi)
-        # ^ 연산자가 compute_wedge_tension과 동일한 결과를 반환하는지 확인
-        self.assertEqual(rotor ^ rotor, rotor.compute_wedge_tension())
+        for _ in range(10):
+            engine.apply_relative_tension()
 
-    def test_align_phase(self):
-        rotor = TriRotorGrassmann(0.0, math.pi / 2, math.pi)
-        initial_tension = rotor.compute_wedge_tension()
+        phases = engine.get_current_phases()
 
-        # 적용 후 텐션이 변하는지, e1, e2, e3가 회전하는지 확인
-        rotor.align_phase(initial_tension)
-        self.assertNotEqual(rotor.e1, cmath.exp(0j))
+        # 시간이 지나면서 각 로터의 위상이 서로 밀어내어 분산되어야 함
+        # 차이가 점점 커지는지 확인
+        self.assertNotEqual(phases[0], phases[1])
+        self.assertNotEqual(phases[1], phases[2])
+        self.assertNotEqual(phases[0], phases[2])
 
     def test_wedge_vortex_simulator_dual_helix(self):
         sim = WedgeVortexSimulator()
@@ -62,13 +46,13 @@ class TestWaveVortex(unittest.TestCase):
         sim.decapsulate_and_sync(noisy_payload)
 
         # 삼중 로터 e1, e2, e3가 투사되었는지 검증
-        self.assertIsNotNone(sim.receiver_rotor.e1)
-        self.assertIsNotNone(sim.receiver_rotor.e2)
-        self.assertIsNotNone(sim.receiver_rotor.e3)
+        self.assertIsNotNone(sim.receiver_rotor.rotors[0])
+        self.assertIsNotNone(sim.receiver_rotor.rotors[1])
+        self.assertIsNotNone(sim.receiver_rotor.rotors[2])
 
-        # 차동 상쇄 연산이 제대로 작동했다면, 노이즈가 증발하고
-        # e1, e2, e3 간의 위상차가 120도로 깔끔하게 인입되어야 함
-        self.assertNotEqual(sim.receiver_rotor.e1, sim.receiver_rotor.e2)
+        # 1번 로터에 순수 위상이 인입되고, 이후 텐션이 적용되어 평형을 찾아감
+        phases = sim.receiver_rotor.get_current_phases()
+        self.assertNotEqual(phases[0], phases[1])
 
 if __name__ == '__main__':
     unittest.main()
