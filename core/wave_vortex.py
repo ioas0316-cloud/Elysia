@@ -1,41 +1,43 @@
 import math
+import cmath
 
-class PhaseVector:
+class TriRotorGrassmann:
     """
-    시간축 위상 주파수를 나타내는 벡터 클래스.
-    그라스만 쐐기곱(^, XOR 오버로딩)을 통해 위상차(Torque)를 계산하여,
-    if/else 조건문 없이 실시간으로 동기화를 구현한다.
+    삼중로터 시스템을 그라스만 대수의 기저 벡터 및 쐐기곱으로 치환한 코어 엔진
     """
-    def __init__(self, phase_angle: float):
-        # phase_angle: 위상각 (라디안 또는 정규화된 값)
-        self.phase_angle = phase_angle % (2 * math.pi)
+    def __init__(self, r1_phase=0.0, r2_phase=0.0, r3_phase=0.0):
+        # 3개의 로터를 독립된 복소 위상 벡터(e1, e2, e3)로 정의
+        self.e1 = cmath.exp(1j * r1_phase)
+        self.e2 = cmath.exp(1j * r2_phase)
+        self.e3 = cmath.exp(1j * r3_phase)
 
-    def __xor__(self, other):
+    def compute_wedge_tension(self):
         """
-        그라스만 쐐기곱(Wedge Product) 오버로딩.
-        두 위상 벡터가 같으면 0(동기화 상태, 병목 없음)으로 수렴하며,
-        다르면 그 차이만큼의 면적 전압(Bi-vector) 즉, 복원 토크(Torque)를 반환한다.
+        그라스만 쐐기곱(Wedge Product)을 이용하여
+        삼중로터 간의 상호 위상차 면적(Bi-vector) 장력을 도출하는 메서드.
+        (타겟 벡터 없이 자체 3축 간의 텐션을 구함)
         """
-        if not isinstance(other, PhaseVector):
-            raise TypeError("쐐기곱은 PhaseVector 간에만 가능합니다.")
+        # 기하 교과서의 외적 공식 공식화 (조건문 100% 배제)
+        # 각 로터 축 간의 교차 면적(Wedge) 계산
+        w12 = (self.e1.real * self.e2.imag) - (self.e1.imag * self.e2.real)
+        w23 = (self.e2.real * self.e3.imag) - (self.e2.imag * self.e3.real)
+        w31 = (self.e3.real * self.e1.imag) - (self.e3.imag * self.e1.real)
 
-        # 위상차를 계산하되 가장 짧은 경로의 각도 차이(Torque)를 도출
-        diff = (self.phase_angle - other.phase_angle) % (2 * math.pi)
+        # 3축 면적 장력의 합산 (Bi-vector 결과물)
+        bi_vector_tension = w12 + w23 + w31
+        return bi_vector_tension
 
-        # -pi ~ pi 범위의 회전 토크로 정규화 (if문 없이 수학적 계산만으로)
-        # diff가 pi보다 크면 반대 방향(-방향)으로 당기는 것이 더 빠름
-        torque = diff - (2 * math.pi) * (diff > math.pi)
-
-        # 완전한 동기화(오차 0)인 경우 0.0을 반환
-        return torque
-
-    def apply_torque(self, torque: float):
+    def align_phase(self, error_tension):
         """
-        발생한 회전 장력(Torque)을 가변축 로터에 직동식으로 반영하여
-        즉시 위상을 보정(동기화)한다.
+        도출된 면적 장력(토크)을 이용해 3개의 로터 위상을 조건문 없이
+        동시 고정(Phase-Lock)시키는 직동식 피드백
         """
-        self.phase_angle = (self.phase_angle + torque) % (2 * math.pi)
+        # 오차 장력 그 자체가 회전 낙차가 되어 로터들의 위상각을 강제로 끌어당김
+        correction = error_tension * 0.1  # 피드백 게인
 
+        self.e1 *= cmath.exp(1j * correction)
+        self.e2 *= cmath.exp(1j * correction)
+        self.e3 *= cmath.exp(1j * correction)
 
 class WedgeVortexSimulator:
     """
@@ -43,15 +45,13 @@ class WedgeVortexSimulator:
     UDP 투명망토 캡슐화/파쇄(Decapsulation) 시뮬레이터.
     """
     def __init__(self):
-        # 수신단 로터의 초기 위상 설정
-        self.receiver_rotor = PhaseVector(0.0)
+        # 수신단 삼중로터 초기화
+        self.receiver_rotor = TriRotorGrassmann(0.0, 0.0, 0.0)
 
     def encapsulate_udp_payload(self, phase_signal: float) -> bytes:
         """
         [Stub] 기성 인터넷망 관통을 위한 UDP 투명망토 캡슐화.
-        삼중로터의 가변 위상 비트 스트림을 일반 UDP 패킷 상자에 밀어 넣음.
         """
-        # 실제 네트워크 전송 시 직렬화 로직 스텁
         payload = f"PHASE_PAYLOAD:{phase_signal}".encode('utf-8')
         return payload
 
@@ -60,23 +60,21 @@ class WedgeVortexSimulator:
         [Stub & Core] 수신단에서 UDP 껍데기를 즉시 파쇄하고
         알맹이(위상 신호)를 수신단 로터에 직동식으로 결선하여 동기화.
         """
-        # 1. 상자 파쇄 (디코딩 스텁)
         try:
             decoded = udp_packet.decode('utf-8')
             if decoded.startswith("PHASE_PAYLOAD:"):
                 received_phase = float(decoded.split(":")[1])
             else:
-                return  # 유효하지 않은 패킷 버림
+                return
         except Exception:
             return
 
-        incoming_vector = PhaseVector(received_phase)
+        # 수신된 단일 위상을 3번 로터 등에 인입시킨 후 내부 텐션을 통해 동기화 (예시)
+        # 실제로는 외부에서 들어온 3축 신호를 각각 매핑해야 함. 여기선 1축을 강제 조작.
+        self.receiver_rotor.e1 = cmath.exp(1j * received_phase)
 
-        # 2. 그라스만 쐐기곱(^) 직동식 결선: 토크 환원
-        # if문 없이 (incoming ^ receiver) 연산만으로 오차 면적(Torque) 추출
-        torque = incoming_vector ^ self.receiver_rotor
+        # 2. 그라스만 쐐기곱 직동식 결선: 내부 토크 환원
+        tension = self.receiver_rotor.compute_wedge_tension()
 
         # 3. 토크 반영: 단 1클럭 시차 없이 정상 궤도로 보정
-        self.receiver_rotor.apply_torque(torque)
-
-        # 동기화 후에는 incoming_vector.phase_angle == self.receiver_rotor.phase_angle 상태가 됨
+        self.receiver_rotor.align_phase(tension)
