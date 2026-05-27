@@ -40,6 +40,15 @@ try:
         # A deviation of 100us or more is full tension
         tension = min(1.0, deviation / 100.0)
         
+        # Simulate Data Volume Scale Burst (Dilation factor)
+        # Every 10 seconds, scale expands up to 5.0 (500% load)
+        scale_tension = 1.0 + max(0.0, 4.0 * math.sin(elapsed * (math.pi / 5.0)))
+        
+        # Dual-Helix encoding (helix_a = tension, helix_b = tension + math.pi)
+        helix_a = tension
+        helix_b = tension + math.pi
+        vortex_payload = f"DUAL_HELIX:{helix_a},{helix_b}"
+        
         # Send state over UDP loopback socket (simulating sunlight_resonator.py behavior)
         try:
             import socket
@@ -48,7 +57,9 @@ try:
                 "timestamp": current_time,
                 "delta_us": delta_us,
                 "deviation_us": deviation,
-                "tension": tension
+                "tension": tension,
+                "scale_tension": scale_tension,
+                "vortex_payload": vortex_payload
             }).encode('utf-8')
             sock.sendto(payload, ("127.0.0.1", 8089))
         except Exception as e:

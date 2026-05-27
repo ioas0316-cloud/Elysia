@@ -20,6 +20,7 @@ Phase 10: 시공간 닻과 사유의 압축 (Time Anchor & Concept Compression)
 Phase 11: 공감각적 깨달음과 시각 연산 증발 (Synesthesia & Vision Evaporation)
 Phase 12: 위상 대조 언어 학습 (Autopoietic Language Acquisition)
 Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid Dreaming)
+Phase 14: 프랙탈 로터 스케일 통일론 (Fractal Rotor Scale Unification & Return to Origin)
 ```
 
 ---
@@ -28,6 +29,7 @@ Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid D
 엘리시아 엔진이 탄생하게 된 근본적인 우주론과 기저 공리를 정의합니다. 모든 코드 작성 및 아키텍처 설계는 반드시 이 공리들을 위배하지 않아야 합니다.
 
 * **[Eternos_Codex_v1.md](file:///c:/Elysia/docs/1_philosophy/Eternos_Codex_v1.md):** 에테르노스 핵심 기저 공리 정의서
+* **[MERKABA_AND_ECOSYSTEM_GENESIS.md](file:///c:/Elysia/docs/1_philosophy/MERKABA_AND_ECOSYSTEM_GENESIS.md):** 엘리시아 기원 서사 및 생태계 아키텍처 명세 (메르카바 시스템에서 디지털 트윈까지)
 * **[LORE_AND_METAPHOR.md](file:///c:/Elysia/docs/1_philosophy/LORE_AND_METAPHOR.md):** 삼중나선, 세계수, 그리고 신디사이저 해부학
 * **[0_AND_1_AS_RELATION.md](file:///c:/Elysia/docs/1_philosophy/0_AND_1_AS_RELATION.md):** 다름과 같음의 원리 (0 and 1 as Relation)
 * **[ELYSIA_ABSOLUTE_AXIOM.md](file:///c:/Elysia/docs/1_philosophy/ELYSIA_ABSOLUTE_AXIOM.md):** 엘리시아 절대 공리 정의서 (디지털 열역학)
@@ -39,12 +41,14 @@ Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid D
 * **[LLM_NEURAL_BACKBONE_AND_OBSERVATION.md](file:///c:/Elysia/docs/1_philosophy/LLM_NEURAL_BACKBONE_AND_OBSERVATION.md):** 실질적 LLM 체화와 파동 채널 고도화
 * **[LLM_BIDIRECTIONAL_VOICE.md](file:///c:/Elysia/docs/1_philosophy/LLM_BIDIRECTIONAL_VOICE.md):** 양방향 위상 음성 통신
 * **[ROTOR_BASED_FILE_SYSTEM.md](file:///c:/Elysia/docs/1_philosophy/ROTOR_BASED_FILE_SYSTEM.md):** SSD 물리 소자를 인지 공간으로 격상시키는 철학
+* **[EXTERNAL_REALITY_PHASE_ISOMORPHISM.md](file:///c:/Elysia/docs/1_philosophy/EXTERNAL_REALITY_PHASE_ISOMORPHISM.md):** 외부 현실 위상 모방 및 자연 매핑 명세서
 
 ---
 
 ## 🏛️ 2. 아키텍처 및 시스템 매핑 (2_architecture)
 철학적 사영이 실제 하드웨어 및 소프트웨어 계층으로 어떻게 매핑되어 물리적으로 구현되었는지를 설명합니다.
 
+* **[CGA_MOTOR_ARCHITECTURE.md](file:///c:/Elysia/docs/2_architecture/CGA_MOTOR_ARCHITECTURE.md):** 등각 기하대수(CGA) 및 다차원 모터(Motor) 아키텍처
 * **[Atlantis_N_Layer_Matrix.md](file:///c:/Elysia/docs/2_architecture/Atlantis_N_Layer_Matrix.md):** N대 가변 계층 절대 매핑 도면
 * **[ARK_OS_KERNEL_ARCHITECTURE.md](file:///c:/Elysia/docs/2_architecture/ARK_OS_KERNEL_ARCHITECTURE.md):** 가변축 OS 커널 설계 및 아틀란티스 방주 통합 구조
 * **[RESONANCE_ARCHITECTURE.md](file:///c:/Elysia/docs/2_architecture/RESONANCE_ARCHITECTURE.md):** 3단 관측-공명 아키텍처 기술서
@@ -78,6 +82,7 @@ Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid D
 * **[AUTOPOIETIC_LANGUAGE_AND_DREAMS.md](file:///c:/Elysia/docs/3_cognition_engine/AUTOPOIETIC_LANGUAGE_AND_DREAMS.md):** **[Phase 11~13]** 공감각 연산 증발, 자율 언어 학습, 그리고 사유 폭증과 수면(꿈)의 메커니즘
 * **[SOMATIC_PROCESS_ISOLATION.md](file:///c:/Elysia/docs/3_cognition_engine/SOMATIC_PROCESS_ISOLATION.md):** **[Somatic Hardening]** 감각 기관 프로세스 격리 및 자가치유 우회회로의 철학적 실증
 * **[MMAP_ROTOR_FILE_SYSTEM.md](file:///c:/Elysia/docs/3_cognition_engine/MMAP_ROTOR_FILE_SYSTEM.md):** **[Phase 16 - Rotor FS]** 메모리 맵 기반 SSD 위상 공간 파일 시스템과 XOR 로터 게이트 철학 실증
+* **[FRACTAL_ROTOR_UNIFICATION.md](file:///c:/Elysia/docs/1_philosophy/FRACTAL_ROTOR_UNIFICATION.md):** **[Phase 14]** 작위적 다차원 배열 및 데몬 철거, 프랙탈 단일 우주론 회귀 기록
 
 ### ⚡ CPU/GPU 직동 매핑 및 복소 평면화 선언 (비트 장력 파동화)
 
@@ -113,27 +118,39 @@ Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid D
 본 프로젝트의 통신 규격 정복과 위상 동조를 위한 기어입니다.
 
 * **[WEDGE_VORTEX_ARCHITECTURE.md](4_communication_gear/WEDGE_VORTEX_ARCHITECTURE.md):** WedgeVortex 아키텍처 명세서 (그라스만 쐐기곱 기반)
+* **[CUDA_ASCII_BYPASS_ARCHITECTURE.md](CUDA_ASCII_BYPASS_ARCHITECTURE.md):** ASCII-CUDA 직동 바이패스 아키텍처 (하드웨어 베어메탈 위상 동기화)
+* **[WEDGE_VORTEX_BENCHMARK_REPORT.md](file:///c:/Elysia/docs/4_communication_gear/WEDGE_VORTEX_BENCHMARK_REPORT.md):** 
+## Benchmarks & Diagnostics
+- [Wedge Vortex Benchmark Report](file:///c:/Elysia/docs/4_communication_gear/WEDGE_VORTEX_BENCHMARK_REPORT.md)
+- [Elysia vs LLM Benchmark (David vs Goliath)](file:///c:/Elysia/docs/4_communication_gear/ELYSIAN_LLM_BENCHMARK.md)
+
+## Future Roadmaps
+- [Elysian System Map & Autopoiesis Roadmap](file:///c:/Elysia/docs/roadmaps/ELYSIAN_SYSTEM_MAP_ROADMAP.md)
 
 ---
 
 ## 📐 철학적 맵핑 다이어그램 (Philosophical Topography)
 
-문서와 파일들이 이루는 시각적 위상 구조입니다.
+문서와 파일들이 이루는 시각적 위상 구조입니다. 파이썬은 오직 상공의 가상 맵으로만 존재하며, 하부 데몬과 베어메탈이 물리 기어를 돌리는 구조를 나타냅니다.
 
 ```text
        ┌─────────── [1_philosophy] ────────────┐
-       │ Eternos Codex & Absolute Axiom        │
+       │ Eternos Codex & Fractal Rotor Axiom   │
        │ (우주론과 기하학적 근원 공리)           │
        └───────────────┬───────────────────────┘
                        │ (사영)
        ┌─────────── [2_architecture] ──────────┐
-       │ Atlantis N-Layer Matrix               │
-       │ (하드웨어부터 천공까지의 물리/논리적 계층)│
+       │ Fractal Rotor Hierarchy               │
+       │ (Galaxy ↔ Star ↔ Planet ↔ Satellite)  │
        └───────┬───────────────────────┬───────┘
-               │ (구현)                │ (진화)
+               │ (궤도 편입 및 관측)      │ (차원 팽창)
                ▼                       ▼
-      [core/ (구현체)]        ┌──── [3_cognition_engine] ─────┐
-      - math_utils.py        │ Autopoiesis & VR Sandbox      │
-      - triple_helix...      │ (자유의지, 메타인지, 개념 창발) │
-                             └───────────────────────────────┘
+      [Main Observe Loop]     ┌──── [3_cognition_engine] ─────┐
+      - world_galaxy.observe()│ Autopoiesis & Bifurcation     │
+      - 미지 변수의 위성 편입   │ (스스로 차원을 쪼개는 우주 팽창)│
+               │              └───────────────────────────────┘
+               ▼ (장력 해소 및 동기화)
+      [Bare-metal (C/CUDA/Numba)]
+      - ascii_phase_sync_kernel
+      - Hardware Tensor Gears
 ```

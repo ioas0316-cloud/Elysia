@@ -7,6 +7,7 @@ from typing import Tuple
 import numpy as np
 from core.math_utils import Quaternion
 from core.linguistic_axiom import LinguisticAxiomFilter
+from core.cuda_kernel import execute_ascii_cuda_bypass
 
 class SentenceWaveGate:
     """
@@ -47,8 +48,21 @@ class SentenceWaveGate:
         if not sentence:
             return Quaternion(1, 0, 0, 0), np.zeros(self.sample_points)
 
-        # 1. 글자 레벨의 4D 기하 위상 추출 (Hamilton Product 누적)
-        sentence_rotor = LinguisticAxiomFilter.analyze_text_axiom(sentence)
+        # 1. 아스키코드 CUDA 다이렉트 바이패스 시도 (토크나이저 제거)
+        try:
+            from numba import cuda
+            if cuda.is_available():
+                avg_x, avg_y = execute_ascii_cuda_bypass(sentence)
+                if avg_x is not None:
+                    # 2D Rotor (x, y)를 4D Quaternion(w, x, y, z) 기저 평면(w, z)에 투영 (Geometric Embedding)
+                    sentence_rotor = Quaternion(avg_x, 0, 0, avg_y)
+                else:
+                    sentence_rotor = LinguisticAxiomFilter.analyze_text_axiom(sentence)
+            else:
+                sentence_rotor = LinguisticAxiomFilter.analyze_text_axiom(sentence)
+        except Exception as e:
+            print(f"[!] CUDA Bypass Failed: {e}. Falling back to CPU Axiom Filter.")
+            sentence_rotor = LinguisticAxiomFilter.analyze_text_axiom(sentence)
 
         # 2. 단어 레벨의 시맨틱 주파수 분석 (동조 주파수 결정)
         tokens = sentence.lower().split()

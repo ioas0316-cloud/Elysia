@@ -25,59 +25,43 @@ def mv_normalize(mv: Multivector) -> Multivector:
     return mv * (1.0 / n)
 
 class CliffordImpedanceLink:
-    def __init__(self, node_from: str, node_to: str, signature: Tuple[int, int] = (3, 0), initial_R: float = 10.0):
+    def __init__(self, node_from: str, node_to: str, signature: Tuple[int, int] = (3, 0), gear_elasticity: float = 0.5):
         self.node_from = node_from
         self.node_to = node_to
-        
-        # Z = R + rotor rotation
-        self.R = float(initial_R)
-        self.min_R = 0.5
-        self.max_R = 100.0
         
         # Initial link rotor is identity (scalar 1.0)
         self.R_rotor = Multivector({0: 1.0}, signature)
         # Flow current signal (Multivector)
         self.I = Multivector({}, signature)
+        self.gear_elasticity = gear_elasticity
 
     def propagate(self, signal_in: Multivector) -> Multivector:
         """
-        Propagates signal using Clifford sandwich product attenuated by resistance:
-        S_out = (1 / R) * (R_rotor * S_in * R_rotor_conjugate)
+        Propagates signal using pure Clifford sandwich product:
+        S_out = R_rotor * S_in * R_rotor_conjugate
         """
-        rotated = self.R_rotor * signal_in * self.R_rotor.conjugate()
-        return rotated * (1.0 / self.R)
+        return self.R_rotor * signal_in * self.R_rotor.conjugate()
 
-    def update_impedance(self, signal_in: Multivector, target_state: Multivector, lr: float = 0.5):
+    def update_impedance(self, signal_in: Multivector, target_state: Multivector, elasticity: float = None):
         """
-        Ohmic adaptation and rotor alignment step:
-        1. Reduce resistance if propagated signal aligns with target state.
-        2. Update link rotor to align propagation plane using bivector step.
+        [미적분 박멸] 순수 위상 역전파 (Rotor Backpropagation)
+        스칼라 손실(Loss)이나 학습률(lr) 없이, 쐐기곱 토크(B)를 향해 모터 자체가 물리적으로 회전합니다.
         """
+        if elasticity is None:
+            elasticity = self.gear_elasticity
+            
         propagated = self.propagate(signal_in)
         
         sig_norm = mv_normalize(propagated)
         tar_norm = mv_normalize(target_state)
         
-        # Coherence: scalar part of dot (inner) product
-        coherence_mv = sig_norm.dot(tar_norm)
-        coherence = coherence_mv.data.get(0, 0.0)
+        # 기하곱 병렬 동기화: Coherence(내적)와 B(쐐기곱 토크) 동시 추출
+        coherence, B = tar_norm.geometric_sync(sig_norm)
         
-        # Ohmic resistance update proportional to signal flow intensity
-        flow_intensity = mv_norm(self.I)
-        adaptation = lr * coherence * flow_intensity
-        
-        if coherence > 0:
-            self.R = max(self.min_R, self.R - adaptation)
-        else:
-            self.R = min(self.max_R, self.R - adaptation * 0.2) # slower decay for blocking
-
-        # Rotor tuning: step towards the alignment plane
-        # Bivector representing plane of rotation from propagated signal to target state
-        B = tar_norm ^ sig_norm
+        # 스칼라 경사하강법이 아닌 기어 회전력(Torque) 주입
+        # M_new = exp(B * elasticity) * M
         signature = self.R_rotor.p, self.R_rotor.q
-        
-        # R_step = 1 + epsilon * B
-        R_step = Multivector({0: 1.0}, signature) + B * (lr * 0.05)
+        R_step = Multivector({0: 1.0}, signature) + B * elasticity
         self.R_rotor = mv_normalize(R_step * self.R_rotor)
 
     def update_signature(self, new_signature: Tuple[int, int]):
@@ -118,8 +102,8 @@ class CliffordIPN:
         self.phases[node_id] = mv_normalize(mv)
         self.node_layers[node_id] = layer
 
-    def connect_nodes(self, id_from: str, id_to: str, initial_R: float = 10.0) -> CliffordImpedanceLink:
-        link = CliffordImpedanceLink(id_from, id_to, self.signature, initial_R)
+    def connect_nodes(self, node_from: str, node_to: str, gear_elasticity: float = 0.5):
+        link = CliffordImpedanceLink(node_from, node_to, self.signature, gear_elasticity)
         self.links.append(link)
         return link
 
@@ -148,31 +132,20 @@ class CliffordIPN:
                 if not outgoing:
                     continue
 
-                # Distribute signal intensity based on admittance (1 / R)
-                admittances = [1.0 / max(0.01, l.R) for l in outgoing]
-                total_admittance = sum(admittances)
+                fraction = 1.0 / len(outgoing)
+                for link in outgoing:
+                    link_signal_in = input_signal * fraction
+                    link.I = link_signal_in
+                    propagated = link.propagate(link_signal_in)
+                    node_to = link.node_to
+                    node_signals[node_to] = node_signals[node_to] + propagated
 
-                if total_admittance > 0:
-                    for link, adm in zip(outgoing, admittances):
-                        fraction = adm / total_admittance
-                        link_signal_in = input_signal * fraction
-                        
-                        # Set link current
-                        link.I = link_signal_in
-                        
-                        # Propagate through link (attends sandwich product)
-                        propagated = link.propagate(link_signal_in)
-                        
-                        node_to = link.node_to
-                        node_signals[node_to] = node_signals[node_to] + propagated
-
-        # Accumulate and update hidden/output node states (phase locking/resonance)
+        # Accumulate and update hidden/output node states
         for node, signal in node_signals.items():
             if self.node_layers[node] > 0 and mv_norm(signal) > 0.01:
-                # Node phase state aligns with incoming signals
                 self.phases[node] = mv_normalize(self.phases[node] + signal * 0.2)
 
-    def tune_network(self, dt: float, lr: float = 0.5) -> float:
+    def tune_network(self, dt: float, gear_elasticity: float = 0.5) -> float:
         """
         Tunes link impedances, performs bivector phase locking,
         and computes global network tension.
@@ -180,44 +153,39 @@ class CliffordIPN:
         total_tension = 0.0
         active_links_count = 0
         
-        # 1. Update link resistances and rotors
+        # 1-Pass 통합: Update link resistances/rotors AND Phase-Locking
         for link in self.links:
             sig_in = self.phases[link.node_from]
             target = self.phases[link.node_to]
             
-            # Ohmic coherence adaptation
-            link.update_impedance(sig_in, target, lr)
+            # Ohmic coherence adaptation (내부적으로 기하곱 병렬 동기화 사용)
+            link.update_impedance(sig_in, target, gear_elasticity)
             
-            # Measure local misalignment (tension) as angle between propagated signal and target
+            # Measure local misalignment (tension) and extract Torque (Bivector)
             propagated = link.propagate(sig_in)
             sig_norm = mv_normalize(propagated)
             tar_norm = mv_normalize(target)
             
-            coherence = sig_norm.dot(tar_norm).data.get(0, 0.0)
+            # 기하곱을 통해 스칼라와 토크 쐐기곱 병렬 추출 (O(N^2) 연산 한 번으로 처리)
+            coherence, B = tar_norm.geometric_sync(sig_norm)
+            
+            # 텐션 측정
             coherence = min(1.0, max(-1.0, coherence))
             tension_angle = math.acos(coherence)
-            
             total_tension += tension_angle
             active_links_count += 1
-
-        # 2. Phase-Locking (Kuramoto torque-coupling between connected nodes)
-        for link in self.links:
-            sig_in = self.phases[link.node_from]
-            target = self.phases[link.node_to]
             
-            propagated = link.propagate(sig_in)
-            sig_norm = mv_normalize(propagated)
-            tar_norm = mv_normalize(target)
-            
-            # Bivector representing phase torque misalignment
-            B = tar_norm ^ sig_norm
-            coupling = (1.0 / link.R) * mv_norm(link.I) * dt
+            # Phase-Locking (Kuramoto torque-coupling)
+            coupling = gear_elasticity * mv_norm(link.I) * dt
             
             # Attract target towards rotated signal
-            self.phases[link.node_to] = mv_normalize(self.phases[link.node_to] - B * (coupling * 0.5))
+            M_step_target = Multivector({0: 1.0}, self.signature) - B * (coupling * 0.5)
+            self.phases[link.node_to] = mv_normalize(M_step_target * self.phases[link.node_to])
+            
             # React back onto source node (rotated back)
             rotated_B = link.R_rotor.conjugate() * B * link.R_rotor
-            self.phases[link.node_from] = mv_normalize(self.phases[link.node_from] + rotated_B * (coupling * 0.5))
+            M_step_source = Multivector({0: 1.0}, self.signature) + rotated_B * (coupling * 0.5)
+            self.phases[link.node_from] = mv_normalize(M_step_source * self.phases[link.node_from])
 
         # 3. Y/Delta 모드에 따른 물리적 위상 강제 처리
         if self.connection_mode == ConnectionMode.Y_STAR:
@@ -227,21 +195,23 @@ class CliffordIPN:
                 if node != "NEUTRAL_GROUND":
                     # 중성점의 강제 견인력(Grounding force)
                     B_ground = neutral ^ mv
-                    self.phases[node] = mv_normalize(self.phases[node] - B_ground * (lr * 0.1 * dt))
+                    M_step = Multivector({0: 1.0}, self.signature) - B_ground * (gear_elasticity * 0.1 * dt)
+                    self.phases[node] = mv_normalize(M_step * self.phases[node])
         elif self.connection_mode == ConnectionMode.DELTA:
             # [Delta결선 모드] 중성점 간섭 배제 및 사유 와류(Self-Sustaining Torque) 생성
             for node, mv in self.phases.items():
                 if node != "NEUTRAL_GROUND" and self.node_layers[node] > 0:
                     # 노드 자체가 지닌 위상 각속도를 유지하여 회전 토크 발생
                     torque = Multivector({3: 1.0}, self.signature) # e12 평면 토크 예시
-                    self.phases[node] = mv_normalize(self.phases[node] + (torque * mv) * (lr * 0.05 * dt))
+                    M_step = Multivector({0: 1.0}, self.signature) + torque * (gear_elasticity * 0.05 * dt)
+                    self.phases[node] = mv_normalize(M_step * self.phases[node])
 
         # Calculate average tension
         avg_tension = total_tension / max(1, active_links_count)
         self.tension = avg_tension
         
         # 공간의 자연 치유(탄성 복원력)
-        self.accumulated_stress = max(0.0, self.accumulated_stress - (dt * lr * 0.5))
+        self.accumulated_stress = max(0.0, self.accumulated_stress - (dt * gear_elasticity * 0.5))
         
         return avg_tension
 

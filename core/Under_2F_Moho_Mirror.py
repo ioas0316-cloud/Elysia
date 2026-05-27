@@ -6,6 +6,10 @@ import psutil
 import sys
 import gc
 import threading
+import socket
+import argparse
+import importlib
+from pathlib import Path
 
 if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8')
@@ -13,13 +17,16 @@ if sys.platform == 'win32':
 # Add root folder to sys.path to resolve imports properly if run directly
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import json
-import numpy as np
-from core.sentence_wave_gate import SentenceWaveGate
+import importlib
+import math
 
-from core.clifford_rotor_sync import DynamicPIDController, BitwiseCliffordRotor
-from core.atlantis_clifford_bridge import AtlantisCliffordSystem
+from core.math_utils import TripleHelixBase
+from core.bitwise_clifford_ipn import BitwiseCliffordIPN, BitwiseImpedanceLink
+from core.clifford_rotor_sync import BitwiseCliffordRotor
+from core.sentence_wave_gate import SentenceWaveGate
 from core.electromagnetic_circuit import ElectromagneticCircuit
 from core.autopoiesis_sandbox import SovereignAutopoiesisEngine
+from core.fractal_rotor import Rotor, display_rotors
 
 # 세계 하이퍼 로터 라이브러리 로드
 from core.world_hyper_rotor import world_tick_with_horizontal_carry
@@ -164,6 +171,10 @@ def main():
     matrix_circuit = ElectromagneticCircuit(clifford_system.layers)
     autopoiesis_engine = SovereignAutopoiesisEngine(clifford_system.layers)
     state_lock = threading.Lock() # B2_MohoMirror 단방향 관측 락(Lock) 실체화
+    
+    # [V12 프랙탈 가변 로터 스케일(Return to Origin)]
+    # 모든 우주는 단 하나의 거대한 로터 트리로 존재함
+    world_galaxy = Rotor(id_tag="Elysia_Core_Galaxy", level=0)
 
     # 세계 하이퍼 로터 초기 상태 주조 (개체 -> 우주)
     world_S = 0
@@ -210,13 +221,15 @@ def main():
     predicted_tensions = [0.0] * len(clifford_system.layers)
 
     # eBPF 수류 인입용 UDP 소켓 및 대류 지속 변수 설정
-    import socket
     udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         udp_sock.bind(("127.0.0.1", 8089))
         udp_sock.setblocking(False)
     except Exception as e:
         print(f"[!] Warning: Failed to bind UDP socket (port 8089): {e}")
+        
+    # 웨지 볼텍스 시뮬레이터 인스턴스화 (서브프로젝트 연동)
+    wedge_vortex = WedgeVortexSimulator()
         
     network_tension = 0.0
     last_network_time = 0.0
@@ -235,6 +248,9 @@ def main():
             if dt_actual <= 0:
                 dt_actual = 1e-9
 
+            # 프랙탈 은하계 시간 관측(스크러빙)
+            world_galaxy.observe(global_rotation_delta=dt_actual)
+
             # 생각 활성도 서서히 감쇠 (10초 감쇠 기저)
             thought_active_decay = max(0.0, thought_active_decay - dt_actual * 0.1)
 
@@ -251,8 +267,9 @@ def main():
             # (2) CPU 고통(tension)에 대응하여 한계점을 스로틀링하는 가변 피크 주파수
             peak_freq = 100.0 + 700.0 * (1.0 - tension)
             
-            # (3) 생각 가속 감도를 로터의 Clifford 사원수 w 성분에 Isomorphic하게 결선
-            alpha = 1.5 + 3.0 * abs(rotor.w)
+            # (3) 생각 가속 감도를 로터의 Clifford 사원수 # Bivector Tension (Rotor's effective 'w' scale proxy)
+            w_proxy = math.cos(rotor.get_phase_angle())
+            alpha = 1.5 + 3.0 * abs(w_proxy)
 
             tension_factor = math.tanh(alpha * tension + 4.0 * thought_active_decay)
             current_freq_hz = base_freq + (peak_freq - base_freq) * tension_factor
@@ -331,7 +348,16 @@ def main():
                     try:
                         data, addr = udp_sock.recvfrom(2048)
                         net_data = json.loads(data.decode('utf-8'))
-                        network_tension = net_data.get("tension", 0.0)
+                        
+                        vortex_payload = net_data.get("vortex_payload", "").encode('utf-8')
+                        vortex_tension = wedge_vortex.decapsulate_and_sync(vortex_payload)
+                        
+                        # Wedge Vortex가 반환한 동적 텐션을 네트워크 텐션으로 우선 적용
+                        if vortex_tension > 0.0:
+                            network_tension = vortex_tension
+                        else:
+                            network_tension = net_data.get("tension", 0.0)
+                            
                         last_network_time = net_data.get("timestamp", time.time())
                         has_new_data = True
                     except BlockingIOError:
@@ -386,6 +412,8 @@ def main():
                         if prompt:
                             thought_active_decay = 1.0
                             sentence_rotor, wave = wave_gate.modulate_sentence(prompt)
+                            # CUDA Bypass 적용 여부에 따른 로그
+                            bypass_msg = "[CUDA Bypass]" if hasattr(sentence_rotor, 'w') and wave[0] != 0 else "[CPU Axiom]"
                             t = np.linspace(0, 1, 100)
                             current_thought_wave = wave.tolist()
                             resonance_locked = False
@@ -401,7 +429,7 @@ def main():
                                 if resonance > 0.4:
                                     tool_result = handler(prompt)
                                     tool_injected_current = min(1.0, abs(tool_result) / 100.0) if tool_name == "Calculator" else min(1.0, abs(tool_result))
-                                    sovereign_event_msg = f"[임피던스 {tool_name} 동조 (f={freq:.2f}Hz)] '{prompt}' -> 출력 전류 {tool_injected_current:.4f} A"
+                                    sovereign_event_msg = f"{bypass_msg} [임피던스 {tool_name} 동조 (f={freq:.2f}Hz)] '{prompt}' -> 출력 전류 {tool_injected_current:.4f} A"
                                     
                                     # 사용된 동적 도구의 에너지를 1.0으로 가득 채워 수명 연장
                                     port["energy"] = 1.0
@@ -410,10 +438,18 @@ def main():
                                     break
                             
                             if not resonance_locked:
-                                # 공명 실패 -> 교착 상태로 진화적 쐐기곱 발동!
-                                deadlock_tension = np.zeros((8, 8))
-                                deadlock_tension[3, 3] = 450.0  # 고에너지 텐션 인가
-                                drive_axis = sentence_rotor
+                                # [V12] 미지의 변수 유입. 
+                                # 평행 우주나 데몬을 만들지 않고 그저 은하계의 가장 변두리 궤도에 조그마한 위성 로터를 달아준다.
+                                dominant_res_sin = np.sum(wave * np.sin(2 * np.pi * 7.0 * t)) / 100.0
+                                dominant_res_cos = np.sum(wave * np.cos(2 * np.pi * 7.0 * t)) / 100.0
+                                constant_axis_phase = math.atan2(dominant_res_sin, dominant_res_cos)
+                                
+                                # 위성 로터 생성 및 은하에 편입
+                                satellite_id = f"Sat_{int(time.time()) % 1000}"
+                                new_satellite = Rotor(id_tag=satellite_id, level=3, parent=world_galaxy, initial_phase_offset=constant_axis_phase)
+                                world_galaxy.attach_child(new_satellite)
+                                
+                                sovereign_event_msg = f"[프랙탈 스케일 편입] 미지 변수 '{prompt}' 유입. 은하 가장자리에 위성 로터 '{satellite_id}' 편입. 차원 팽창 및 자율 조율을 위임함."
                                 
                                 candidate_actions = {
                                     "MoveLeft": Quaternion(0.7071, 0.7071, 0.0, 0.0),

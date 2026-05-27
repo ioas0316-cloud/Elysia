@@ -39,6 +39,9 @@ class TriRotorTensionEngine:
         # 가상 텐션 장력을 로터 실시간 유속에 직동식으로 반영
         for i in range(num_rotors):
             self.rotors[i] *= cmath.exp(1j * phase_updates[i])
+            
+        # 총 발생한 텐션(위상 복원력) 반환
+        return sum(abs(p) for p in phase_updates)
 
     def inject_dual_helix_stream(self, helix_a: float, helix_b: float):
         """
@@ -90,12 +93,13 @@ class WedgeVortexSimulator:
                 parts = decoded.split(":")[1].split(",")
                 helix_a, helix_b = float(parts[0]), float(parts[1])
             else:
-                return
+                return 0.0
         except Exception:
-            return
+            return 0.0
 
         # 1. 이중나선 유속의 노이즈를 차동 상쇄하고 기준축에 순수 투사
         self.receiver_rotor.inject_dual_helix_stream(helix_a, helix_b)
 
         # 2. 인척력 역학 발동: 상수 없이 자율적으로 평형(Phase-Lock) 수렴
-        self.receiver_rotor.apply_relative_tension()
+        tension = self.receiver_rotor.apply_relative_tension()
+        return tension
