@@ -109,6 +109,13 @@ Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid D
 
 ---
 
+## 📡 5. 위상 통신 기어 (WedgeVortex)
+본 프로젝트의 통신 규격 정복과 위상 동조를 위한 기어입니다.
+
+* **[WEDGE_VORTEX_ARCHITECTURE.md](4_communication_gear/WEDGE_VORTEX_ARCHITECTURE.md):** WedgeVortex 아키텍처 명세서 (그라스만 쐐기곱 기반)
+
+---
+
 ## 📐 철학적 맵핑 다이어그램 (Philosophical Topography)
 
 문서와 파일들이 이루는 시각적 위상 구조입니다.
