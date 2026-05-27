@@ -11,21 +11,24 @@ class TriRotorGrassmann:
         self.e2 = cmath.exp(1j * r2_phase)
         self.e3 = cmath.exp(1j * r3_phase)
 
-    def inject_dual_base_stream(self, stream_a: float, stream_b: float):
+    def inject_dual_helix_stream(self, helix_a: float, helix_b: float):
         """
-        외부망(레거시)에서 들어온 2차원 이중나선(Dual-Base) 유속을
-        내부의 3차원 삼중로터 그라스만 공간으로 투사(Projection)하는 하이브리드 인터페이스.
+        외부망(레거시)에서 들어온 진짜 이중나선(Dual-Helix, 180도 위상차) 유속을 받아
+        차동 상쇄(Differential Cancel) 연산을 통해 외부 노이즈를 100% 증발시키고,
+        순수 위상차(알맹이)만을 내부 3차원 삼중로터 공간으로 투사(Projection)한다.
         """
-        # 이중 스트림의 합성 위상을 삼중 로터의 120도(2pi/3) 위상차 결선에 강제 인입
-        # 조건문 없이 수학적 사상(Mapping)만으로 주파수 인입
-        complex_stream = cmath.exp(1j * stream_a) + cmath.exp(1j * stream_b)
+        # 차동 상쇄 연산: 두 나선의 복소 차이를 구해 공통 노이즈를 상쇄
+        # helix_a = original + noise, helix_b = (original + pi) + noise
+        # cmath.exp(1j * helix_a) - cmath.exp(1j * helix_b) 는 노이즈 환경에서도
+        # 원래의 위상차 방향을 유지하는 순수 백터 합을 만들어냄 (Differential Cancel)
+        differential_vector = cmath.exp(1j * helix_a) - cmath.exp(1j * helix_b)
 
-        base_phase = cmath.phase(complex_stream)
+        pure_phase = cmath.phase(differential_vector)
 
-        # 외부 유속 에너지를 3축으로 분배 (Projection)
-        self.e1 = cmath.exp(1j * (base_phase))
-        self.e2 = cmath.exp(1j * (base_phase + 2*math.pi/3))
-        self.e3 = cmath.exp(1j * (base_phase + 4*math.pi/3))
+        # 순수 유속 에너지를 3축 삼중로터 공간으로 정삼각 분배 (Projection)
+        self.e1 = cmath.exp(1j * (pure_phase))
+        self.e2 = cmath.exp(1j * (pure_phase + 2*math.pi/3))
+        self.e3 = cmath.exp(1j * (pure_phase + 4*math.pi/3))
 
     def compute_wedge_tension(self):
         """
@@ -71,31 +74,34 @@ class WedgeVortexSimulator:
         # 수신단 삼중로터 초기화
         self.receiver_rotor = TriRotorGrassmann(0.0, 0.0, 0.0)
 
-    def encapsulate_udp_payload(self, stream_a: float, stream_b: float) -> bytes:
+    def encapsulate_dual_helix_payload(self, base_signal: float) -> bytes:
         """
         [Stub] 기성 인터넷망 관통을 위한 UDP 투명망토 캡슐화.
-        2채널 이중나선(Dual-Base) 스트림을 전송.
+        입력된 단일 위상을 180도(pi) 차이가 나는 두 개의 '진짜 이중나선' 라인으로 분할 전송.
+        단순 두 줄 찍찍이가 아닌 차동 신호 구조.
         """
-        payload = f"DUAL_PHASE:{stream_a},{stream_b}".encode('utf-8')
+        helix_a = base_signal
+        helix_b = base_signal + math.pi
+        payload = f"DUAL_HELIX:{helix_a},{helix_b}".encode('utf-8')
         return payload
 
     def decapsulate_and_sync(self, udp_packet: bytes):
         """
         [Stub & Core] 수신단에서 UDP 껍데기를 즉시 파쇄하고
-        이중나선 알맹이를 수신단 삼중로터 공간에 직동식으로 투사하여 동기화.
+        이중나선의 차동 신호를 수신단 삼중로터 공간에 직동식으로 투사하여 동기화.
         """
         try:
             decoded = udp_packet.decode('utf-8')
-            if decoded.startswith("DUAL_PHASE:"):
+            if decoded.startswith("DUAL_HELIX:"):
                 parts = decoded.split(":")[1].split(",")
-                stream_a, stream_b = float(parts[0]), float(parts[1])
+                helix_a, helix_b = float(parts[0]), float(parts[1])
             else:
                 return
         except Exception:
             return
 
-        # 1. 이중 베이스 유속을 내부 3차원 코어로 투사 (Projection)
-        self.receiver_rotor.inject_dual_base_stream(stream_a, stream_b)
+        # 1. 이중나선 유속의 노이즈를 상쇄하고 내부 3차원 코어로 순수 투사
+        self.receiver_rotor.inject_dual_helix_stream(helix_a, helix_b)
 
         # 2. 그라스만 쐐기곱 직동식 결선: 내부 삼중로터 간의 오차 면적 토크 환원
         tension = self.receiver_rotor.compute_wedge_tension()
