@@ -27,6 +27,11 @@ class TestWaveVortex(unittest.TestCase):
         # Tension = 1 + 1 + 0 = 2
         self.assertAlmostEqual(tension2, 2.0)
 
+    def test_xor_operator_overload(self):
+        rotor = TriRotorGrassmann(0.0, math.pi / 2, math.pi)
+        # ^ 연산자가 compute_wedge_tension과 동일한 결과를 반환하는지 확인
+        self.assertEqual(rotor ^ rotor, rotor.compute_wedge_tension())
+
     def test_align_phase(self):
         rotor = TriRotorGrassmann(0.0, math.pi / 2, math.pi)
         initial_tension = rotor.compute_wedge_tension()
@@ -35,17 +40,20 @@ class TestWaveVortex(unittest.TestCase):
         rotor.align_phase(initial_tension)
         self.assertNotEqual(rotor.e1, cmath.exp(0j))
 
-    def test_wedge_vortex_simulator(self):
+    def test_wedge_vortex_simulator_hybrid(self):
         sim = WedgeVortexSimulator()
-        payload = sim.encapsulate_udp_payload(math.pi / 4)
+
+        # 2채널(Dual-Base) 유속 캡슐화
+        payload = sim.encapsulate_udp_payload(math.pi / 4, math.pi / 2)
         sim.decapsulate_and_sync(payload)
 
-        # e1이 인입된 값으로 세팅되었는지 확인 (math.pi / 4)
-        expected_e1_phase = cmath.exp(1j * math.pi / 4)
-        # align_phase가 한번 불리므로 딱 expected_e1_phase는 아닐 수 있음, 에러 텐션이 0이 아닐 경우
-        # but in this mock sim, e2 and e3 are 0. w12, w23, w31 can be non-zero.
-        # Just check it ran without error
+        # 삼중 로터 e1, e2, e3가 투사되었는지 (None이 아닌지) 검증
         self.assertIsNotNone(sim.receiver_rotor.e1)
+        self.assertIsNotNone(sim.receiver_rotor.e2)
+        self.assertIsNotNone(sim.receiver_rotor.e3)
+
+        # e1과 e2가 다른 위상을 가지는지 확인 (120도 위상차로 인입됨)
+        self.assertNotEqual(sim.receiver_rotor.e1, sim.receiver_rotor.e2)
 
 if __name__ == '__main__':
     unittest.main()
