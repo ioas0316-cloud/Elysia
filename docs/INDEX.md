@@ -126,6 +126,7 @@ Phase 16: 가변적 중력 시냅스와 항상성 가소성 (Rotor Coupling Plas
 * **[CUDA_ASCII_BYPASS_ARCHITECTURE.md](CUDA_ASCII_BYPASS_ARCHITECTURE.md):** ASCII-CUDA 직동 바이패스 아키텍처 (하드웨어 베어메탈 위상 동기화)
 * **[WEDGE_VORTEX_BENCHMARK_REPORT.md](file:///c:/Elysia/docs/4_communication_gear/WEDGE_VORTEX_BENCHMARK_REPORT.md):** 
 ## Benchmarks & Diagnostics
+- [Elysia Engine 아키텍처 청문회 백서 (Evaluation Report)](evaluation_report.md)
 - [Wedge Vortex Benchmark Report](file:///c:/Elysia/docs/4_communication_gear/WEDGE_VORTEX_BENCHMARK_REPORT.md)
 - [Elysia vs LLM Benchmark (David vs Goliath)](file:///c:/Elysia/docs/4_communication_gear/ELYSIAN_LLM_BENCHMARK.md)
 - [Elysia Causal Reel Official Benchmark Report](file:///c:/Elysia/docs/ELYSIAN_BENCHMARK_REPORT.md)
