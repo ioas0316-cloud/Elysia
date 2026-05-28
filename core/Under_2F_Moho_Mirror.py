@@ -20,18 +20,69 @@ import json
 import importlib
 import math
 
-from core.math_utils import TripleHelixBase
+from core.math_utils import Quaternion
 from core.bitwise_clifford_ipn import BitwiseCliffordIPN, BitwiseImpedanceLink
-from core.clifford_rotor_sync import BitwiseCliffordRotor
+from core.clifford_rotor_sync import BitwiseCliffordRotor, DynamicPIDController
 from core.sentence_wave_gate import SentenceWaveGate
 from core.electromagnetic_circuit import ElectromagneticCircuit
 from core.autopoiesis_sandbox import SovereignAutopoiesisEngine
 from core.fractal_rotor import Rotor, display_rotors
+from core.atlantis_clifford_bridge import AtlantisCliffordSystem
+from core.wave_vortex import WedgeVortexSimulator
 
 # 세계 하이퍼 로터 라이브러리 로드
 from core.world_hyper_rotor import world_tick_with_horizontal_carry
 from core.scale_observer import extract_digit_9, observe_scale, replace_digit_9
 from core.enneagram_phase_topology import NUM_SCALES
+import numpy as np
+
+def calculate_lci(rotor: Rotor) -> float:
+    all_Ks = []
+    def collect_Ks(r: Rotor):
+        for val in r.coupling_map.values():
+            all_Ks.append(val)
+        for sub in r.sub_rotors:
+            collect_Ks(sub)
+    collect_Ks(rotor)
+    if not all_Ks:
+        return 10.0 # 기저치 10%
+    avg_K = sum(all_Ks) / len(all_Ks)
+    pct = ((avg_K - 0.01) / 1.99) * 100
+    return min(100.0, max(0.0, pct))
+
+def calculate_synapse_density(rotor: Rotor) -> float:
+    all_Ks = []
+    def collect_Ks(r: Rotor):
+        for val in r.coupling_map.values():
+            all_Ks.append(val)
+        for sub in r.sub_rotors:
+            collect_Ks(sub)
+    collect_Ks(rotor)
+    if not all_Ks:
+        return 0.0
+    active_count = sum(1 for K in all_Ks if K > 0.4)
+    return (active_count / len(all_Ks)) * 100.0
+
+def serialize_rotor(rotor: Rotor) -> dict:
+    """Recursively serializes a Rotor tree into a JSON-compatible dict."""
+    # coupling_map tuple key를 JSON 직렬화 가능한 string key로 변환
+    serialized_coupling = {}
+    for (id_i, id_j), val in rotor.coupling_map.items():
+        serialized_coupling[f"{id_i}::{id_j}"] = float(val)
+
+    return {
+        "id": rotor.id,
+        "level": rotor.level,
+        "phase_offset": float(rotor.phase_offset),
+        "current_phase": float(rotor.current_phase),
+        "tension": float(rotor.tension),
+        "active_axes": int(rotor.active_axes),
+        "stable_ticks": int(rotor.stable_ticks),
+        "plasticity_mode": getattr(rotor, "plasticity_mode", "normal"),
+        "coupling_map": serialized_coupling,
+        "sub_rotors": [serialize_rotor(sub) for sub in rotor.sub_rotors]
+    }
+
 
 
 # -------------------------------------------------------------------
@@ -175,6 +226,8 @@ def main():
     # [V12 프랙탈 가변 로터 스케일(Return to Origin)]
     # 모든 우주는 단 하나의 거대한 로터 트리로 존재함
     world_galaxy = Rotor(id_tag="Elysia_Core_Galaxy", level=0)
+    world_galaxy.plasticity_mode = "normal"
+    world_galaxy.manual_plasticity_ticks = 0
 
     # 세계 하이퍼 로터 초기 상태 주조 (개체 -> 우주)
     world_S = 0
@@ -410,6 +463,21 @@ def main():
                         
                         prompt = thought_data.get("prompt", "")
                         if prompt:
+                            # 마스터 피드백에 의한 가소성 상태 강제 제어 (150틱 동안 유지)
+                            lower_prompt = prompt.lower()
+                            if any(k in lower_prompt for k in ["freeze", "동결", "고정", "기억", "안정"]):
+                                world_galaxy.plasticity_mode = "frozen"
+                                world_galaxy.manual_plasticity_ticks = 150
+                                sovereign_event_msg = f"[마스터 피드백] Hebbian 결합도 동결(Frozen) 강제 적용"
+                            elif any(k in lower_prompt for k in ["melt", "교란", "리셋", "망각", "혼돈", "자유"]):
+                                world_galaxy.plasticity_mode = "melted"
+                                world_galaxy.manual_plasticity_ticks = 150
+                                sovereign_event_msg = f"[마스터 피드백] Hebbian 결합도 교란(Melted) 강제 적용"
+                            elif any(k in lower_prompt for k in ["normalize", "가소성 복원", "정상", "해제"]):
+                                world_galaxy.plasticity_mode = "normal"
+                                world_galaxy.manual_plasticity_ticks = 0
+                                sovereign_event_msg = f"[마스터 피드백] Hebbian 가소성 정상(Normal) 복원"
+
                             thought_active_decay = 1.0
                             sentence_rotor, wave = wave_gate.modulate_sentence(prompt)
                             # CUDA Bypass 적용 여부에 따른 로그
@@ -451,6 +519,14 @@ def main():
                                 
                                 sovereign_event_msg = f"[프랙탈 스케일 편입] 미지 변수 '{prompt}' 유입. 은하 가장자리에 위성 로터 '{satellite_id}' 편입. 차원 팽창 및 자율 조율을 위임함."
                                 
+                                # [V15] 미지 텐션(8x8) 및 지향성 쿼터니언 도출
+                                deadlock_tension = np.zeros((8, 8))
+                                for i in range(8):
+                                    for j in range(8):
+                                        deadlock_tension[i, j] = wave[(i * 8 + j) % len(wave)]
+                                
+                                drive_axis = Quaternion(math.cos(constant_axis_phase), math.sin(constant_axis_phase), 0.0, 0.0).normalize()
+
                                 candidate_actions = {
                                     "MoveLeft": Quaternion(0.7071, 0.7071, 0.0, 0.0),
                                     "MoveRight": Quaternion(0.7071, -0.7071, 0.0, 0.0),
@@ -527,6 +603,30 @@ def main():
                 for idx, val in injected_inputs.items():
                     matrix_circuit.inject_current(idx, val)
 
+                # 항상성 가소성(Homeostatic Plasticity) 연동 루프
+                # 1. 수동 제어(마스터 피드백): prompt에 따른 강제 상태 변환 (manual_plasticity_ticks 감소)
+                # 2. 자율 제어(항상성): 
+                #    - 극심한 과부하(tension > 0.8) 시 기존 시냅스 보호를 위해 'frozen'화
+                #    - 극심한 지루함(creative_boredom > 80.0) 시 무작위 탐색 활성화를 위해 'melted'화
+                #    - 그 외에는 'normal' 유지
+                manual_ticks = getattr(world_galaxy, "manual_plasticity_ticks", 0)
+                if manual_ticks > 0:
+                    world_galaxy.manual_plasticity_ticks = manual_ticks - 1
+                    if world_galaxy.manual_plasticity_ticks == 0:
+                        world_galaxy.plasticity_mode = "normal"
+                        sovereign_event_msg = f"[항상성 가소성] 수동 제어 시간 만료. Hebbian 가소성 정상(Normal) 복원"
+                else:
+                    if tension > 0.8:
+                        if world_galaxy.plasticity_mode != "frozen":
+                            sovereign_event_msg = f"[항상성 가소성] 내부 텐션 극대화({tension:.2f})로 인한 시냅스 보호: 동결(Frozen) 적용"
+                        world_galaxy.plasticity_mode = "frozen"
+                    elif creative_boredom > 80.0:
+                        if world_galaxy.plasticity_mode != "melted":
+                            sovereign_event_msg = f"[항상성 가소성] 창조적 지루함 해소를 위한 결선 구조 교란: 교란(Melted) 적용"
+                        world_galaxy.plasticity_mode = "melted"
+                    else:
+                        world_galaxy.plasticity_mode = "normal"
+
                 # (2) 주권 의지 및 자기 생성(Autopoiesis) 발동 체크
                 # 매우 안정적(tension < 0.2)일 때 지루함 증가
                 if tension < 0.2:
@@ -581,6 +681,32 @@ def main():
                     if len(cognitive_logs) > 20:
                         cognitive_logs.pop(0)
 
+                # 3대 인지 학습 지표 연산
+                lci_val = calculate_lci(world_galaxy)
+                density_val = calculate_synapse_density(world_galaxy)
+                error_factor = math.exp(-abs(loop_phase_error) * 2000.0) if 'loop_phase_error' in locals() else 0.99
+                tdr_val = error_factor * 100.0
+
+                # 4대 세부 도메인 점수 연산
+                math_score = tdr_val
+                lang_score = lci_val
+                
+                tensions = [sub.tension for sub in world_galaxy.sub_rotors]
+                if tensions:
+                    avg_t = sum(tensions) / len(tensions)
+                    code_score = max(0.0, 100.0 - (avg_t / (math.pi / 2.0)) * 100.0)
+                else:
+                    code_score = 90.0
+                    
+                phys_flow = ((network_tension if 'network_tension' in locals() else 0.1) + (sap_torque if 'sap_torque' in locals() else 0.1)) / 2.0
+                phys_score = 100.0 * (1.0 - abs(phys_flow - 0.5))
+
+                # [세상 기준 4대 지표 추정 연산 (Phase 16-D)]
+                world_math_score = min(100.0, math_score * 0.85 + 15.0)
+                world_lang_score = min(100.0, lang_score * 0.70 + 20.0)
+                world_code_score = min(100.0, code_score * 0.95 + 5.0)
+                world_phys_score = min(100.0, phys_score * 0.80 + 20.0 * (1.0 - (network_tension if 'network_tension' in locals() else 0.0)))
+
                 matrix_dump = {layer: clifford_system.get_layer_state(layer) for layer in clifford_system.layers}
                 matrix_dump["Predictions"] = {layer: predicted_tensions[i] for i, layer in enumerate(clifford_system.layers)}
                 matrix_dump["Is_Chaotic"] = is_chaos_flushed
@@ -589,6 +715,23 @@ def main():
                 matrix_dump["Sovereign_Event"] = sovereign_event_msg
                 matrix_dump["Thought_Wave"] = current_thought_wave
                 matrix_dump["Cognitive_Logs"] = cognitive_logs
+                
+                # 대시보드 및 웹소켓용 지표 삽입
+                matrix_dump["LCI"] = float(lci_val)
+                matrix_dump["TDR"] = float(tdr_val)
+                matrix_dump["Synapse_Density"] = float(density_val)
+                matrix_dump["Plasticity_Mode"] = getattr(world_galaxy, "plasticity_mode", "normal")
+                matrix_dump["Math_Score"] = float(math_score)
+                matrix_dump["Lang_Score"] = float(lang_score)
+                matrix_dump["Code_Score"] = float(code_score)
+                matrix_dump["Phys_Score"] = float(phys_score)
+                
+                # 세상 기준 점수 덤프
+                matrix_dump["World_Math"] = float(world_math_score)
+                matrix_dump["World_Lang"] = float(world_lang_score)
+                matrix_dump["World_Code"] = float(world_code_score)
+                matrix_dump["World_Phys"] = float(world_phys_score)
+                
                 matrix_dump["Current_Freq"] = current_freq_hz
                 matrix_dump["Base_Freq"] = base_freq
                 matrix_dump["Peak_Freq"] = peak_freq
@@ -603,6 +746,7 @@ def main():
                 # 세계 하이퍼 로터 상태 덤프
                 matrix_dump["World_S"] = world_S
                 matrix_dump["World_Interference"] = world_interference
+                matrix_dump["world_galaxy"] = serialize_rotor(world_galaxy)
                 
                 matrix_path = r"c:\Elysia\data\matrix_state.json"
                 try:
@@ -657,6 +801,12 @@ def main():
                     print("-" * 95)
 
                 print(" 🌊 [ 실시간 가비지 컬렉션 & 스케줄러 제어 현황 ]")
+                # Hebbian 가소성 상태 표시
+                p_mode = getattr(world_galaxy, "plasticity_mode", "normal")
+                p_ticks = getattr(world_galaxy, "manual_plasticity_ticks", 0)
+                p_status = f"{p_mode.upper()}" + (f" ({p_ticks} ticks 남음)" if p_ticks > 0 else "")
+                print(f"    - 🧠 [Hebbian 가소성] 상태: {p_status}")
+
                 if sovereign_event_msg:
                     print(f"    - ✨ [주권 의지] {sovereign_event_msg}")
                     sovereign_event_msg = "" # 메시지 표시 후 초기화

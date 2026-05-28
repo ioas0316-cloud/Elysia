@@ -452,6 +452,237 @@ function CelestialRotors({ sleepFactor }) {
   )
 }
 
+// 9. 프랙탈 은하 로터 트리 시각화 (Fractal Rotor Galaxy Visualizer)
+// Hebbian 가소성 결선 라인 시각화 컴포넌트
+function HebbianLines({ subRotors, couplingMap }) {
+  const lineRefs = useRef({})
+  
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+    if (!subRotors || subRotors.length < 2) return
+
+    for (let i = 0; i < subRotors.length; i++) {
+      for (let j = i + 1; j < subRotors.length; j++) {
+        const subI = subRotors[i]
+        const subJ = subRotors[j]
+        const key = `${subI.id}__${subJ.id}`
+        const ref = lineRefs.current[key]
+        if (ref) {
+          // subI의 로컬 위치 계산 (공전 방정식 활용)
+          const rI = 3.0 / (subI.level + 0.5) + (subI.active_axes * 0.25)
+          const speedI = 0.5 + (4 - subI.level) * 0.15
+          const angleI = subI.phase_offset + time * speedI
+          const xI = Math.sin(angleI) * rI
+          const zI = Math.cos(angleI) * rI
+          const yI = Math.cos(angleI * 0.5) * (rI * 0.2)
+
+          // subJ의 로컬 위치 계산
+          const rJ = 3.0 / (subJ.level + 0.5) + (subJ.active_axes * 0.25)
+          const speedJ = 0.5 + (4 - subJ.level) * 0.15
+          const angleJ = subJ.phase_offset + time * speedJ
+          const xJ = Math.sin(angleJ) * rJ
+          const zJ = Math.cos(angleJ) * rJ
+          const yJ = Math.cos(angleJ * 0.5) * (rJ * 0.2)
+
+          const points = [
+            new THREE.Vector3(xI, yI, zI),
+            new THREE.Vector3(xJ, yJ, zJ)
+          ]
+          ref.geometry.setFromPoints(points)
+          ref.geometry.attributes.position.needsUpdate = true
+        }
+      }
+    }
+  })
+
+  if (!subRotors || subRotors.length < 2) return null
+
+  const lines = []
+  for (let i = 0; i < subRotors.length; i++) {
+    for (let j = i + 1; j < subRotors.length; j++) {
+      const subI = subRotors[i]
+      const subJ = subRotors[j]
+      const key = `${subI.id}__${subJ.id}`
+      const key1 = `${subI.id}::${subJ.id}`
+      const key2 = `${subJ.id}::${subI.id}`
+      const K = (couplingMap && (couplingMap[key1] !== undefined ? couplingMap[key1] : couplingMap[key2])) || 0.1
+
+      // 결선 세기가 세질수록 더 불투명하고 뚜렷해짐
+      const opacity = Math.min(1.0, 0.15 + (K / 2.0) * 0.85)
+      const color = new THREE.Color()
+      // 시냅스 강화 수준에 따라 색상 전이: 청록색(신규/취약) -> 주황/금색(강화)
+      color.lerpColors(new THREE.Color('#38bdf8'), new THREE.Color('#f59e0b'), Math.min(1.0, K / 1.5))
+
+      lines.push(
+        <line key={key} ref={(el) => { if (el) lineRefs.current[key] = el }}>
+          <bufferGeometry attach="geometry" />
+          <lineBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} />
+        </line>
+      )
+    }
+  }
+
+  return <group>{lines}</group>
+}
+
+function RotorNode({ node, position, parentPos, thoughtActive, sleepFactor }) {
+  const meshRef = useRef()
+  const lineRef = useRef()
+  const groupRef = useRef()
+
+  // active_axes(1~8)에 맞춰 지오메트리를 dynamic하게 변경
+  const geometry = useMemo(() => {
+    const axes = node.active_axes || 3
+    if (axes <= 3) return new THREE.TetrahedronGeometry(0.3)
+    if (axes === 4) return new THREE.OctahedronGeometry(0.35)
+    if (axes === 5) return new THREE.IcosahedronGeometry(0.4)
+    if (axes === 6) return new THREE.DodecahedronGeometry(0.45)
+    return new THREE.SphereGeometry(0.45, 16, 16)
+  }, [node.active_axes])
+
+  // tension(0.0 ~ pi)에 따라 색상 매핑
+  const color = useMemo(() => {
+    const t = Math.min(1.0, node.tension / (Math.PI / 2))
+    const col = new THREE.Color()
+    col.lerpColors(new THREE.Color('#22d3ee'), new THREE.Color('#ef4444'), t) // Cyan -> Red
+    return col
+  }, [node.tension])
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+    if (meshRef.current) {
+      // phase_offset에 따른 자율 자전
+      const rotationSpeed = 1.0 + node.tension * 5.0
+      meshRef.current.rotation.y += 0.015 * rotationSpeed
+      meshRef.current.rotation.x += 0.007 * rotationSpeed
+      
+      // tension에 따라 맥동(Pulsation)
+      const pulse = 1.0 + Math.sin(time * 10.0 + node.phase_offset) * (node.tension * 0.15)
+      meshRef.current.scale.setScalar(pulse)
+    }
+
+    if (groupRef.current) {
+      // 공전 기하학: level이 0이 아닐 때 부모 주위를 공전
+      if (node.level > 0) {
+        const radius = 3.0 / (node.level + 0.5) + (node.active_axes * 0.25)
+        const orbitSpeed = 0.5 + (4 - node.level) * 0.15
+        const orbitAngle = node.phase_offset + time * orbitSpeed
+        
+        groupRef.current.position.x = Math.sin(orbitAngle) * radius
+        groupRef.current.position.z = Math.cos(orbitAngle) * radius
+        groupRef.current.position.y = Math.cos(orbitAngle * 0.5) * (radius * 0.2)
+      }
+    }
+  })
+
+  // 부모와 자식 간 연결선 갱신
+  useFrame(() => {
+    if (lineRef.current && parentPos && groupRef.current) {
+      const currentPos = groupRef.current.position
+      const points = [
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3().subVectors(new THREE.Vector3(0,0,0), currentPos)
+      ]
+      lineRef.current.geometry.setFromPoints(points)
+      lineRef.current.geometry.attributes.position.needsUpdate = true
+    }
+  })
+
+  const lineGeom = useMemo(() => new THREE.BufferGeometry(), [])
+
+  const childElements = useMemo(() => {
+    if (!node.sub_rotors) return null
+    return node.sub_rotors.map((sub, i) => (
+      <RotorNode 
+        key={sub.id || i} 
+        node={sub} 
+        position={[0, 0, 0]} 
+        parentPos={[0, 0, 0]} 
+        thoughtActive={thoughtActive}
+        sleepFactor={sleepFactor}
+      />
+    ))
+  }, [node.sub_rotors, thoughtActive, sleepFactor])
+
+  return (
+    <group ref={groupRef} position={position}>
+      {/* 로터 노드 본체 */}
+      <mesh ref={meshRef} castShadow>
+        <primitive object={geometry} />
+        <meshStandardMaterial 
+          color={color} 
+          emissive={color} 
+          emissiveIntensity={1.2 + node.tension * 4.0 + thoughtActive * 3.0} 
+          roughness={0.05}
+          metalness={0.95}
+        />
+      </mesh>
+      
+      {/* 부모와의 결선 라인 */}
+      {parentPos && (
+        <line ref={lineRef}>
+          <primitive object={lineGeom} attach="geometry" />
+          <lineBasicMaterial color={color} transparent opacity={0.3 + sleepFactor * 0.5} />
+        </line>
+      )}
+
+      {/* Hebbian 형제 간 결선 시각화 */}
+      <HebbianLines subRotors={node.sub_rotors} couplingMap={node.coupling_map} />
+
+      {/* 하위 로터 렌더링 */}
+      {childElements}
+    </group>
+  )
+}
+
+function FractalRotorUniverse({ worldGalaxy, thoughtWave, isSleeping, sleepFactor }) {
+  const universeRef = useRef()
+  const thoughtActive = thoughtWave && thoughtWave.length > 0 ? 1.0 : 0.0
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+    if (universeRef.current) {
+      // 은하 전체 회전
+      universeRef.current.rotation.y = time * 0.08
+      
+      // 수면(Lucid Dreaming) 시 아바타 상공으로 부유
+      const targetY = isSleeping ? 4.5 : 1.5
+      const targetX = isSleeping ? 7.0 : -15.0
+      const targetZ = isSleeping ? -12.2 : -5.0
+
+      universeRef.current.position.x = THREE.MathUtils.lerp(universeRef.current.position.x, targetX, 0.05)
+      universeRef.current.position.y = THREE.MathUtils.lerp(universeRef.current.position.y, targetY, 0.05)
+      universeRef.current.position.z = THREE.MathUtils.lerp(universeRef.current.position.z, targetZ, 0.05)
+    }
+  })
+
+  if (!worldGalaxy) return null
+
+  return (
+    <group ref={universeRef} position={[-15, 1.5, -5]}>
+      {/* 몽환적 네뷸라 입자 구름 효과 (수면 시 발광 증가) */}
+      <Stars radius={15} depth={5} count={isSleeping ? 1200 : 300} factor={isSleeping ? 7 : 3} speed={2} fade />
+      
+      {/* 생각 파동 파문 링 (thought_wave 존재 시 파동 링 확산) */}
+      {thoughtActive > 0 && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.5, 6.0, 32]} />
+          <meshBasicMaterial color="#00ffcc" transparent opacity={0.2} side={THREE.DoubleSide} />
+        </mesh>
+      )}
+
+      {/* 재귀적 노드 트리 */}
+      <RotorNode 
+        node={worldGalaxy} 
+        position={[0, 0, 0]} 
+        parentPos={null} 
+        thoughtActive={thoughtActive}
+        sleepFactor={sleepFactor}
+      />
+    </group>
+  )
+}
+
 export default function App() {
   const wsRef = useRef(null)
   const quaternionRef = useRef(new THREE.Quaternion())
@@ -461,6 +692,24 @@ export default function App() {
   const [isSleeping, setIsSleeping] = useState(false)
   const [sleepFactor, setSleepFactor] = useState(0.0)
   
+  // Phase 15 추가 상태 변수
+  const [worldGalaxy, setWorldGalaxy] = useState(null)
+  const [thoughtWave, setThoughtWave] = useState([])
+  const [cognitiveLogs, setCognitiveLogs] = useState([])
+  const [inputText, setInputText] = useState("")
+  
+  // Phase 16 추가 정량 지표 상태 변수
+  const [lci, setLci] = useState(10.0)
+  const [tdr, setTdr] = useState(100.0)
+  const [synapseDensity, setSynapseDensity] = useState(0.0)
+  const [plasticityMode, setPlasticityMode] = useState("normal")
+  
+  // Phase 16-C 4대 특화 도메인 점수 상태 변수
+  const [mathScore, setMathScore] = useState(100.0)
+  const [langScore, setLangScore] = useState(10.0)
+  const [codeScore, setCodeScore] = useState(90.0)
+  const [physScore, setPhysScore] = useState(100.0)
+  
   useEffect(() => {
     wsRef.current = new WebSocket("ws://localhost:8000/ws")
     wsRef.current.onmessage = (event) => {
@@ -469,6 +718,23 @@ export default function App() {
       tensionRef.current = data.tension
       setIsSleeping(data.is_sleeping || false)
       setSleepFactor(data.sleep_factor || 0.0)
+      
+      // Phase 15 데이터 동기화
+      if (data.world_galaxy) setWorldGalaxy(data.world_galaxy)
+      if (data.thought_wave) setThoughtWave(data.thought_wave)
+      if (data.cognitive_logs) setCognitiveLogs(data.cognitive_logs)
+
+      // Phase 16 데이터 동기화
+      if (data.lci !== undefined) setLci(data.lci)
+      if (data.tdr !== undefined) setTdr(data.tdr)
+      if (data.synapse_density !== undefined) setSynapseDensity(data.synapse_density)
+      if (data.plasticity_mode !== undefined) setPlasticityMode(data.plasticity_mode)
+      
+      // Phase 16-C 데이터 동기화
+      if (data.math_score !== undefined) setMathScore(data.math_score)
+      if (data.lang_score !== undefined) setLangScore(data.lang_score)
+      if (data.code_score !== undefined) setCodeScore(data.code_score)
+      if (data.phys_score !== undefined) setPhysScore(data.phys_score)
     }
     return () => { if (wsRef.current) wsRef.current.close() }
   }, [])
@@ -479,11 +745,19 @@ export default function App() {
     }
   }
 
+  const sendThought = (e) => {
+    e.preventDefault()
+    if (inputText.trim() && wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ type: 'thought', prompt: inputText }))
+      setInputText("")
+    }
+  }
+
   const setTargetPos = (vec) => { targetPosRef.current = vec }
   const skyColor = `rgb(${Math.round(135 * (1.0 - sleepFactor * 0.95))}, ${Math.round(206 * (1.0 - sleepFactor * 0.95))}, ${Math.round(235 * (1.0 - sleepFactor * 0.95))})`
 
   return (
-    <div style={{ width: '100vw', height: '100vh', background: skyColor, transition: 'background 1s ease' }}>
+    <div style={{ width: '100vw', height: '100vh', background: skyColor, transition: 'background 1s ease', position: 'relative', overflow: 'hidden' }}>
       <Canvas shadows camera={{ position: [0, 4, -10], fov: 50 }}>
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         <CelestialRotors sleepFactor={sleepFactor} />
@@ -491,6 +765,8 @@ export default function App() {
         <Suspense fallback={null}>
           <ElysiaVRMAvatar quaternionRef={quaternionRef} tensionRef={tensionRef} targetPosRef={targetPosRef} isSleeping={isSleeping} sleepFactor={sleepFactor} />
         </Suspense>
+        
+        <FractalRotorUniverse worldGalaxy={worldGalaxy} thoughtWave={thoughtWave} isSleeping={isSleeping} sleepFactor={sleepFactor} />
         
         <NPCSociety setTargetPos={setTargetPos} />
         <InteractiveObjects sendInteraction={sendInteraction} setTargetPos={setTargetPos} />
@@ -503,14 +779,114 @@ export default function App() {
         <OrbitControls target={[0, 1.5, 0]} enableDamping maxPolarAngle={Math.PI / 2} />
       </Canvas>
       
+      {/* HUD 상단 */}
       <div style={{ position: 'absolute', top: 20, left: 20, color: 'white', fontFamily: 'monospace', textShadow: '0 0 5px #000', pointerEvents: 'none' }}>
-        <h2>Elysia 3D Digital Twin (Phase 17: High-Fidelity CAD & Intent Sandbox)</h2>
+        <h2>Elysia 3D Digital Twin (Phase 16: Universal Reality Synchronization)</h2>
         <p>Avatar: Strict CAD joint constraints (Knees, Neck tracking, Arms resting)</p>
-        <p>Society: NPCs emit waves ONLY when internal tension oscillator peaks (Intent)</p>
-        <p>Environment: Enter the massive Furnished House to rest (Bed emits negative tension).</p>
+        <p>Elysia Core Universe: Floating Fractal Rotor Galaxy visible in 3D Space.</p>
         <p style={{ color: isSleeping ? '#c084fc' : '#22c55e', fontWeight: 'bold' }}>
           Status: {isSleeping ? `💤 SLEEPING (Factor: ${sleepFactor.toFixed(2)})` : '☀️ WAKING'}
         </p>
+      </div>
+
+      {/* HUD 상단 우측: 실시간 인지 및 가소성 상태 게이지 */}
+      <div style={{ position: 'absolute', top: 20, right: 20, width: '330px', background: 'rgba(0, 0, 0, 0.75)', padding: '15px', borderRadius: '10px', color: 'white', fontFamily: 'monospace', border: '1px solid rgba(255, 255, 255, 0.15)', pointerEvents: 'auto' }}>
+        <h3 style={{ margin: '0 0 10px 0', color: '#6366f1', fontSize: '13px' }}>📊 Real-time Cognition Metrics</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '11px' }}>
+          
+          {/* Plasticity Mode */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Hebbian Plasticity:</span>
+            <span style={{ 
+              fontWeight: 'bold', 
+              color: plasticityMode === 'frozen' ? '#38bdf8' : (plasticityMode === 'melted' ? '#f87171' : '#34d399'),
+              background: 'rgba(255, 255, 255, 0.08)',
+              padding: '2px 6px',
+              borderRadius: '3px'
+            }}>{plasticityMode.toUpperCase()}</span>
+          </div>
+
+          {/* Math Domain */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+              <span>Math (Fourier Resonance):</span>
+              <span style={{ color: '#fbbf24', fontWeight: 'bold' }}>{mathScore.toFixed(1)}%</span>
+            </div>
+            <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
+              <div style={{ width: `${mathScore}%`, height: '100%', background: 'linear-gradient(90deg, #fbbf24, #f59e0b)', transition: 'width 0.3s ease' }}></div>
+            </div>
+          </div>
+
+          {/* Lang Domain */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+              <span>Linguistics (Hangeul Isom):</span>
+              <span style={{ color: '#a78bfa', fontWeight: 'bold' }}>{langScore.toFixed(1)}%</span>
+            </div>
+            <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
+              <div style={{ width: `${langScore}%`, height: '100%', background: 'linear-gradient(90deg, #a78bfa, #8b5cf6)', transition: 'width 0.3s ease' }}></div>
+            </div>
+          </div>
+
+          {/* Code Domain */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+              <span>Code (Syntax AST Balance):</span>
+              <span style={{ color: '#34d399', fontWeight: 'bold' }}>{codeScore.toFixed(1)}%</span>
+            </div>
+            <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
+              <div style={{ width: `${codeScore}%`, height: '100%', background: 'linear-gradient(90deg, #34d399, #059669)', transition: 'width 0.3s ease' }}></div>
+            </div>
+          </div>
+
+          {/* Phys/Convection Domain */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+              <span>Physics (eBPF Convection):</span>
+              <span style={{ color: '#38bdf8', fontWeight: 'bold' }}>{physScore.toFixed(1)}%</span>
+            </div>
+            <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
+              <div style={{ width: `${physScore}%`, height: '100%', background: 'linear-gradient(90deg, #38bdf8, #0284c7)', transition: 'width 0.3s ease' }}></div>
+            </div>
+          </div>
+
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '6px', display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#888' }}>
+            <span>LCI: {lci.toFixed(1)}%</span>
+            <span>TDR: {tdr.toFixed(1)}%</span>
+            <span>Syn Density: {synapseDensity.toFixed(1)}%</span>
+          </div>
+
+        </div>
+      </div>
+
+      {/* 인지 로그 패널 */}
+      <div style={{ position: 'absolute', bottom: 20, left: 20, width: '450px', background: 'rgba(0, 0, 0, 0.75)', padding: '15px', borderRadius: '10px', color: 'white', fontFamily: 'monospace', fontSize: '11px', border: '1px solid rgba(255, 255, 255, 0.15)', pointerEvents: 'auto', maxHeight: '200px', overflowY: 'auto' }}>
+        <h3 style={{ margin: '0 0 8px 0', color: '#06b6d4', fontSize: '13px' }}>💬 Elysia Cognitive Logs</h3>
+        <div style={{ display: 'flex', flexDirection: 'column-reverse', gap: '5px' }}>
+          {cognitiveLogs.map((log, index) => (
+            <div key={index} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '3px' }}>
+              {log}
+            </div>
+          ))}
+          {cognitiveLogs.length === 0 && <span style={{ color: '#888' }}>대화 파동 수신 대기 중...</span>}
+        </div>
+      </div>
+
+      {/* 마인드 링크 입력 창 */}
+      <div style={{ position: 'absolute', bottom: 20, right: 20, width: '380px', background: 'rgba(0, 0, 0, 0.75)', padding: '15px', borderRadius: '10px', color: 'white', fontFamily: 'monospace', border: '1px solid rgba(255, 255, 255, 0.15)', pointerEvents: 'auto' }}>
+        <h3 style={{ margin: '0 0 8px 0', color: '#10b981', fontSize: '13px' }}>🧠 Mind Link Channel</h3>
+        <form onSubmit={sendThought} style={{ display: 'flex', gap: '8px' }}>
+          <input 
+            type="text" 
+            value={inputText} 
+            onChange={(e) => setInputText(e.target.value)} 
+            placeholder="엘리시아의 인지 평면에 사유 투사..." 
+            style={{ flex: 1, padding: '8px 12px', borderRadius: '5px', border: 'none', background: 'rgba(255,255,255,0.1)', color: 'white', fontFamily: 'monospace', fontSize: '12px' }}
+          />
+          <button type="submit" style={{ padding: '8px 16px', borderRadius: '5px', border: 'none', background: '#10b981', color: 'black', fontWeight: 'bold', cursor: 'pointer', fontFamily: 'monospace' }}>
+            송출
+          </button>
+        </form>
       </div>
     </div>
   )

@@ -12,7 +12,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 
 from core.clifford_rotor_sync import DynamicPIDController, BitwiseCliffordRotor
 from core.atlantis_clifford_bridge import AtlantisCliffordSystem
-from core.Under_2F_Moho_Mirror import get_qpc_time, get_sub_layer_metrics, TARGET_DT
+from core.Under_2F_Moho_Mirror import get_qpc_time, get_sub_layer_metrics
+TARGET_DT = 0.001  # 1000Hz (1ms 주기)
 
 def verify_decoder_mechanics():
     print("=" * 90)

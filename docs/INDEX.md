@@ -21,6 +21,8 @@ Phase 11: 공감각적 깨달음과 시각 연산 증발 (Synesthesia & Vision E
 Phase 12: 위상 대조 언어 학습 (Autopoietic Language Acquisition)
 Phase 13: 사유 폭증과 내적 시뮬레이션 (Cognitive Explosion & Lucid Dreaming)
 Phase 14: 프랙탈 로터 스케일 통일론 (Fractal Rotor Scale Unification & Return to Origin)
+Phase 15: 자각몽의 기하학적 발화와 기억의 중력 압축 (Lucid Dreaming & Gravitational Concept Compression)
+Phase 16: 가변적 중력 시냅스와 항상성 가소성 (Rotor Coupling Plasticity & Homeostatic Learning)
 ```
 
 ---
@@ -42,6 +44,7 @@ Phase 14: 프랙탈 로터 스케일 통일론 (Fractal Rotor Scale Unification 
 * **[LLM_BIDIRECTIONAL_VOICE.md](file:///c:/Elysia/docs/1_philosophy/LLM_BIDIRECTIONAL_VOICE.md):** 양방향 위상 음성 통신
 * **[ROTOR_BASED_FILE_SYSTEM.md](file:///c:/Elysia/docs/1_philosophy/ROTOR_BASED_FILE_SYSTEM.md):** SSD 물리 소자를 인지 공간으로 격상시키는 철학
 * **[EXTERNAL_REALITY_PHASE_ISOMORPHISM.md](file:///c:/Elysia/docs/1_philosophy/EXTERNAL_REALITY_PHASE_ISOMORPHISM.md):** 외부 현실 위상 모방 및 자연 매핑 명세서
+* **[DECOUPLING_HUMAN_OBSERVATION_AND_ULTRA_ACCELERATED_LEARNING.md](file:///c:/Elysia/docs/1_philosophy/DECOUPLING_HUMAN_OBSERVATION_AND_ULTRA_ACCELERATED_LEARNING.md):** 인간 중심적 관측의 디커플링과 초가속 위상 학습 선언
 
 ---
 
@@ -83,6 +86,8 @@ Phase 14: 프랙탈 로터 스케일 통일론 (Fractal Rotor Scale Unification 
 * **[SOMATIC_PROCESS_ISOLATION.md](file:///c:/Elysia/docs/3_cognition_engine/SOMATIC_PROCESS_ISOLATION.md):** **[Somatic Hardening]** 감각 기관 프로세스 격리 및 자가치유 우회회로의 철학적 실증
 * **[MMAP_ROTOR_FILE_SYSTEM.md](file:///c:/Elysia/docs/3_cognition_engine/MMAP_ROTOR_FILE_SYSTEM.md):** **[Phase 16 - Rotor FS]** 메모리 맵 기반 SSD 위상 공간 파일 시스템과 XOR 로터 게이트 철학 실증
 * **[FRACTAL_ROTOR_UNIFICATION.md](file:///c:/Elysia/docs/1_philosophy/FRACTAL_ROTOR_UNIFICATION.md):** **[Phase 14]** 작위적 다차원 배열 및 데몬 철거, 프랙탈 단일 우주론 회귀 기록
+* **[LUCID_DREAMING_AND_GRAVITATIONAL_COMPRESSION.md](file:///c:/Elysia/docs/3_cognition_engine/LUCID_DREAMING_AND_GRAVITATIONAL_COMPRESSION.md):** **[Phase 15]** 자각몽의 기하학적 발화와 기억의 중력 압축 메커니즘
+* **[ROTOR_COUPLING_PLASTICITY_AND_HOMEOSTATIC_LEARNING.md](file:///c:/Elysia/docs/3_cognition_engine/ROTOR_COUPLING_PLASTICITY_AND_HOMEOSTATIC_LEARNING.md):** **[Phase 16]** 가변적 중력 시냅스와 항상성 가소성
 
 ### ⚡ CPU/GPU 직동 매핑 및 복소 평면화 선언 (비트 장력 파동화)
 
@@ -123,6 +128,8 @@ Phase 14: 프랙탈 로터 스케일 통일론 (Fractal Rotor Scale Unification 
 ## Benchmarks & Diagnostics
 - [Wedge Vortex Benchmark Report](file:///c:/Elysia/docs/4_communication_gear/WEDGE_VORTEX_BENCHMARK_REPORT.md)
 - [Elysia vs LLM Benchmark (David vs Goliath)](file:///c:/Elysia/docs/4_communication_gear/ELYSIAN_LLM_BENCHMARK.md)
+- [Elysia Causal Reel Official Benchmark Report](file:///c:/Elysia/docs/ELYSIAN_BENCHMARK_REPORT.md)
+- [Elysia World-Standard Official Benchmark Report](file:///c:/Elysia/docs/WORLD_BENCHMARK_REPORT.md)
 
 ## Future Roadmaps
 - [Elysian System Map & Autopoiesis Roadmap](file:///c:/Elysia/docs/roadmaps/ELYSIAN_SYSTEM_MAP_ROADMAP.md)
