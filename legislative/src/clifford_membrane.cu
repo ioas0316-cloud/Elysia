@@ -1,17 +1,16 @@
-// [입법부] 순수 CUDA 면/유속 연산 커널 (삼진법 위상 장력 매핑)
-// 마스터의 철학: 삼상(-1, 0, 1) 장력 차이를 이용한 O(1) 매핑
+// [입법부] 순수 CUDA 면/유속 연산 커널 (단일 전자기 회로망 위상 매핑)
+// 주의: 외부 라이브러리(#include) 배제, if문 판단을 배제한 연속 텐서망 직동
 
-#include <cuda_runtime.h>
-#include <iostream>
+// <cuda_runtime.h> 는 GPU 진입점/컴파일러 훅으로서 허용되지만,
+// 그 외의 std:: 기능이나 외부 C/C++ 라이브러리는 일절 금지.
 
-__global__ void calculate_ternary_tension_divergence(int* ternary_field, float* membrane_tension, int N) {
+__global__ void circulate_continuous_electromagnetic_circuit(int* ternary_field, float* unified_membrane_tension, int N) {
+    // 런타임에 외부 함수나 모듈을 호출(import)하지 않는 순수 폐회로
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < N) {
-        // 2진법 계산이나 if 문(조건 분기) 없이 삼진법 위상 전압차로 직접 매핑
-        // 예: 입력이 -1, 0, 1 일때 이를 위상각(Phase angle) 텐션으로 전환하는 로직
-        float phase_diff = (float)ternary_field[idx] * 2.09439f; // 120 degrees in radians (2pi/3)
 
-        // 영점 필드와의 장력 차이 저장
-        membrane_tension[idx] = phase_diff * phase_diff;
-    }
+    // 조건 분기 배제, 수학 기반 연속 매핑
+    float phase_diff = (float)ternary_field[idx] * 2.09439f;
+
+    // 전체 망의 장력 텐서에 에너지를 흘려보냄
+    unified_membrane_tension[idx] += phase_diff * phase_diff;
 }
