@@ -239,3 +239,4 @@ data/network_convection.json
 data/
 
 executive/*.so
+lib/phase_kernel.so

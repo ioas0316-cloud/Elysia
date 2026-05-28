@@ -58,3 +58,12 @@ build_executive: compile_cuda
 clean:
 	rm -rf $(BIN_DIR)/* $(TARGET)
 	@echo "🧹 클린 완료."
+
+# Phase Inverter Target
+build_phase_inverter:
+	@echo "🔨 [입법부/행정부] Phase Inverter Native Kernel 컴파일 시작..."
+	@mkdir -p lib
+	$(CXX) -O3 -shared -fPIC src/phase_kernel.cpp -o lib/phase_kernel.so
+	@echo "✅ Phase Inverter 빌드 완료: lib/phase_kernel.so"
+
+all: ensure_dirs check_judiciary build_executive build_phase_inverter
