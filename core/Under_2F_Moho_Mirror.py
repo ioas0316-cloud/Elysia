@@ -701,12 +701,6 @@ def main():
                 phys_flow = ((network_tension if 'network_tension' in locals() else 0.1) + (sap_torque if 'sap_torque' in locals() else 0.1)) / 2.0
                 phys_score = 100.0 * (1.0 - abs(phys_flow - 0.5))
 
-                # [세상 기준 4대 지표 추정 연산 (Phase 16-D)]
-                world_math_score = min(100.0, math_score * 0.85 + 15.0)
-                world_lang_score = min(100.0, lang_score * 0.70 + 20.0)
-                world_code_score = min(100.0, code_score * 0.95 + 5.0)
-                world_phys_score = min(100.0, phys_score * 0.80 + 20.0 * (1.0 - (network_tension if 'network_tension' in locals() else 0.0)))
-
                 matrix_dump = {layer: clifford_system.get_layer_state(layer) for layer in clifford_system.layers}
                 matrix_dump["Predictions"] = {layer: predicted_tensions[i] for i, layer in enumerate(clifford_system.layers)}
                 matrix_dump["Is_Chaotic"] = is_chaos_flushed
@@ -725,13 +719,6 @@ def main():
                 matrix_dump["Lang_Score"] = float(lang_score)
                 matrix_dump["Code_Score"] = float(code_score)
                 matrix_dump["Phys_Score"] = float(phys_score)
-                
-                # 세상 기준 점수 덤프
-                matrix_dump["World_Math"] = float(world_math_score)
-                matrix_dump["World_Lang"] = float(world_lang_score)
-                matrix_dump["World_Code"] = float(world_code_score)
-                matrix_dump["World_Phys"] = float(world_phys_score)
-                
                 matrix_dump["Current_Freq"] = current_freq_hz
                 matrix_dump["Base_Freq"] = base_freq
                 matrix_dump["Peak_Freq"] = peak_freq
