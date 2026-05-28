@@ -10,6 +10,13 @@ class PacketFlux(ctypes.Structure):
         ("mirror_y", ctypes.c_float)
     ]
 
+class TrajectoryRotor(ctypes.Structure):
+    _fields_ = [
+        ("past_momentum", ctypes.c_float),
+        ("present_phase", ctypes.c_float),
+        ("future_gravity", ctypes.c_float)
+    ]
+
 class PhaseInverterGate:
     """
     [Phase Inverter Gate - Pure C++ Native Binding]
@@ -38,6 +45,13 @@ class PhaseInverterGate:
             ctypes.POINTER(ctypes.c_float) # out_tensor_3d array pointer
         ]
         self.lib.transform_address_to_rotor.restype = None
+
+        # Causal Trajectory Rotor Matrix
+        self.lib.calculate_trajectory_vortex.argtypes = [ctypes.c_uint64, ctypes.c_float, ctypes.c_float]
+        self.lib.calculate_trajectory_vortex.restype = TrajectoryRotor
+
+        self.lib.synchronize_holographic_orbit.argtypes = [ctypes.POINTER(TrajectoryRotor), TrajectoryRotor]
+        self.lib.synchronize_holographic_orbit.restype = ctypes.c_bool
 
         # Static Pinned Memory Pool for GTX 1060 3GB limits
         # Using 512MB as the dynamic flux boundary to avoid driver querying
@@ -79,3 +93,11 @@ class PhaseInverterGate:
     def release_memory_tension(self, payload_mass: float):
         """Restores free VRAM dynamic tracker when data exits the system."""
         self.current_free_vram = min(float(self.static_vram_bound), self.current_free_vram + payload_mass)
+
+    def calculate_trajectory(self, virtual_address_ptr: int, payload_mass: float) -> TrajectoryRotor:
+        """Warp the temporal axes into a topological orbit."""
+        return self.lib.calculate_trajectory_vortex(virtual_address_ptr, payload_mass, self.static_vram_bound)
+
+    def synchronize_orbit(self, internal_rotor: TrajectoryRotor, incoming_flux: TrajectoryRotor) -> bool:
+        """Resonate holographic interference to repair missing states."""
+        return self.lib.synchronize_holographic_orbit(ctypes.byref(internal_rotor), incoming_flux)

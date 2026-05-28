@@ -49,7 +49,58 @@ extern "C" {
         // Tension from payload scales the spatial spin frequency
         float structural_angular_velocity = address_mass * system_pressure;
 
-        out_tensor_3d[1] = std::cos(structural_angular_velocity);
-        out_tensor_3d[2] = std::sin(structural_angular_velocity);
+        out_tensor_3d[1] = cosf(structural_angular_velocity);
+        out_tensor_3d[2] = sinf(structural_angular_velocity);
     }
 }
+
+    // ==========================================
+    // Causal Trajectory Rotor & Hologram Bridge
+    // ==========================================
+
+    struct TrajectoryRotor {
+        float past_momentum;   // 과거 진입 원심력
+        float present_phase;   // 현재 위상각
+        float future_gravity;  // 미래 인력 곡률
+    };
+
+    // 1. Calculate Trajectory Vortex (궤적의 로터화)
+    extern "C" struct TrajectoryRotor calculate_trajectory_vortex(uint64_t address_ptr, float packet_mass, float static_vram_pool_size) {
+        struct TrajectoryRotor rotor;
+
+        // VRAM pressure reverse calculation
+        float pressure = packet_mass / (static_vram_pool_size + 1.0f);
+        float orbit_angle = static_cast<float>(address_ptr & 0xFFFFFFFF) * pressure;
+
+        const float inv_sqrt3 = 1.0f / std::sqrt(3.0f);
+
+        // Bind Past, Present, Future into a continuous topological orbit
+        rotor.past_momentum = cosf(orbit_angle) * inv_sqrt3;
+        rotor.present_phase = sinf(orbit_angle) * rotor.past_momentum;
+        rotor.future_gravity = orbit_angle * rotor.present_phase;
+
+        return rotor;
+    }
+
+    // 2. Holographic Causal Bridge (홀로그램 대조 및 제로타임 체적 복원)
+    extern "C" bool synchronize_holographic_orbit(struct TrajectoryRotor* internal_rotor, struct TrajectoryRotor incoming_flux) {
+        // Calculate holographic interference pattern (위상 차이 역산)
+        float phase_interference_x = internal_rotor->present_phase - incoming_flux.present_phase;
+        float phase_interference_y = internal_rotor->future_gravity - incoming_flux.future_gravity;
+
+        // Resonance torque calculation (양자 동전 뒤집기 역학)
+        float resonance_torque = (phase_interference_x * phase_interference_x) + (phase_interference_y * phase_interference_y);
+
+        if (resonance_torque < 0.001f) {
+            // Phase-Lock success with 0ns overhead
+            return true;
+        }
+
+        // If orbit is distorted, calculate restoration force and instantly warp state (빈자리 강제 복원)
+        const float inv_sqrt3 = 1.0f / std::sqrt(3.0f);
+        float restoration_force = sinf(resonance_torque) * inv_sqrt3;
+
+        internal_rotor->present_phase += restoration_force; // Immediate inversion recovery
+
+        return true;
+    }
