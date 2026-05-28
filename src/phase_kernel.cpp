@@ -104,3 +104,23 @@ extern "C" {
 
         return true;
     }
+
+
+    // ==========================================
+    // ASCII-CUDA Resonance Wave Direct Mapping
+    // ==========================================
+
+    // Transforms raw ASCII character arrays directly into Float Phase Tensors.
+    // Bypasses String parsing and perfectly aligns with GPU Float arithmetic physiology.
+    extern "C" void ascii_to_phase_wave(const char* ascii_str, int length, float system_pressure, float* out_phase_tensors) {
+        // Master's Axiom: The byte value itself becomes the structural energy (phase angle).
+        for (int i = 0; i < length; ++i) {
+            float ascii_val = static_cast<float>(ascii_str[i]);
+            // Convert byte mass directly to angular momentum (hardware resonance wave)
+            float angular_momentum = ascii_val * system_pressure;
+
+            // X (Cosine alignment), Y (Sine tension) - GPU native operations
+            out_phase_tensors[i * 2] = cosf(angular_momentum);
+            out_phase_tensors[i * 2 + 1] = sinf(angular_momentum);
+        }
+    }

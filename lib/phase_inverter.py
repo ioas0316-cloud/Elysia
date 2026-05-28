@@ -53,6 +53,15 @@ class PhaseInverterGate:
         self.lib.synchronize_holographic_orbit.argtypes = [ctypes.POINTER(TrajectoryRotor), TrajectoryRotor]
         self.lib.synchronize_holographic_orbit.restype = ctypes.c_bool
 
+        # ASCII to Hardware Wave Tensor Resonance
+        self.lib.ascii_to_phase_wave.argtypes = [
+            ctypes.c_char_p,               # ascii_str
+            ctypes.c_int,                  # length
+            ctypes.c_float,                # system_pressure
+            ctypes.POINTER(ctypes.c_float) # out_phase_tensors
+        ]
+        self.lib.ascii_to_phase_wave.restype = None
+
         # Static Pinned Memory Pool for GTX 1060 3GB limits
         # Using 512MB as the dynamic flux boundary to avoid driver querying
         self.static_vram_bound = 512 * 1024 * 1024  # 512MB
@@ -101,3 +110,22 @@ class PhaseInverterGate:
     def synchronize_orbit(self, internal_rotor: TrajectoryRotor, incoming_flux: TrajectoryRotor) -> bool:
         """Resonate holographic interference to repair missing states."""
         return self.lib.synchronize_holographic_orbit(ctypes.byref(internal_rotor), incoming_flux)
+
+    def ascii_to_wave(self, ascii_string: str, system_pressure: float) -> list:
+        """
+        [Hardware-Data Alignment]
+        Convert ASCII text directly into GPU-compatible Float Angular Momentum Tensors.
+        """
+        byte_data = ascii_string.encode('ascii', errors='ignore')
+        length = len(byte_data)
+        out_tensor = (ctypes.c_float * (length * 2))()
+
+        self.lib.ascii_to_phase_wave(
+            byte_data,
+            length,
+            system_pressure,
+            out_tensor
+        )
+
+        # Return as hardware wave structural mapping: [(cos, sin), (cos, sin)...]
+        return [(out_tensor[i*2], out_tensor[i*2 + 1]) for i in range(length)]
