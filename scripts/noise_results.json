@@ -8,86 +8,86 @@
     },
     {
         "noise_magnitude": 0.1,
-        "avg_tension": 0.12238049134356631,
-        "avg_phase_diff": 0.14623127680443526,
+        "avg_tension": 0.11171570031398716,
+        "avg_phase_diff": 0.15383083238417292,
         "bifurcations": 0,
         "collapses": 0
     },
     {
         "noise_magnitude": 0.2,
-        "avg_tension": 0.18654998684314855,
-        "avg_phase_diff": 0.2247089809215625,
+        "avg_tension": 0.17665214116120703,
+        "avg_phase_diff": 0.17743878021886675,
         "bifurcations": 0,
         "collapses": 0
     },
     {
         "noise_magnitude": 0.3,
-        "avg_tension": 0.22198763408106537,
-        "avg_phase_diff": 0.16723806311900022,
+        "avg_tension": 0.2339541690423919,
+        "avg_phase_diff": 0.23828744973557556,
         "bifurcations": 0,
         "collapses": 0
     },
     {
         "noise_magnitude": 0.4,
-        "avg_tension": 0.35515458161293534,
-        "avg_phase_diff": 0.2878606482876374,
-        "bifurcations": 2,
+        "avg_tension": 0.36426076655446427,
+        "avg_phase_diff": 0.4003234222564959,
+        "bifurcations": 3,
         "collapses": 0
     },
     {
         "noise_magnitude": 0.5,
-        "avg_tension": 0.3485184040025661,
-        "avg_phase_diff": 0.3337267229264775,
+        "avg_tension": 0.40800152584557364,
+        "avg_phase_diff": 0.41814775630918094,
         "bifurcations": 6,
         "collapses": 0
     },
     {
         "noise_magnitude": 0.6,
-        "avg_tension": 0.3865299965819927,
-        "avg_phase_diff": 0.34273252256990056,
-        "bifurcations": 8,
+        "avg_tension": 0.4034056455825279,
+        "avg_phase_diff": 0.3396687535534904,
+        "bifurcations": 10,
         "collapses": 0
     },
     {
         "noise_magnitude": 0.7,
-        "avg_tension": 0.42850752688606397,
-        "avg_phase_diff": 0.4167607816649022,
+        "avg_tension": 0.4242644387449144,
+        "avg_phase_diff": 0.4220074788735243,
         "bifurcations": 9,
-        "collapses": 1
-    },
-    {
-        "noise_magnitude": 0.8,
-        "avg_tension": 0.42396008352102527,
-        "avg_phase_diff": 0.3773250458257018,
-        "bifurcations": 11,
         "collapses": 0
     },
     {
+        "noise_magnitude": 0.8,
+        "avg_tension": 0.4395469013446481,
+        "avg_phase_diff": 0.4547241382595316,
+        "bifurcations": 8,
+        "collapses": 1
+    },
+    {
         "noise_magnitude": 0.9,
-        "avg_tension": 0.41252232061389676,
-        "avg_phase_diff": 0.38461423493425356,
-        "bifurcations": 10,
+        "avg_tension": 0.42747128897675696,
+        "avg_phase_diff": 0.46823732611803154,
+        "bifurcations": 9,
         "collapses": 3
     },
     {
         "noise_magnitude": 1.0,
-        "avg_tension": 0.3275976786876752,
-        "avg_phase_diff": 2.357797698870385,
+        "avg_tension": 0.28307971922427577,
+        "avg_phase_diff": 2.0995760882530687,
         "bifurcations": 9,
-        "collapses": 20
+        "collapses": 29
     },
     {
         "noise_magnitude": 1.5,
-        "avg_tension": 0.09625981693390932,
-        "avg_phase_diff": 0.13677718990588936,
+        "avg_tension": 0.21501321885069957,
+        "avg_phase_diff": 1.205727097643419,
         "bifurcations": 8,
-        "collapses": 85
+        "collapses": 51
     },
     {
         "noise_magnitude": 2.0,
-        "avg_tension": 0.2245477948890408,
-        "avg_phase_diff": 1.1394069306149979,
+        "avg_tension": 0.17748622683448442,
+        "avg_phase_diff": 1.615106855713863,
         "bifurcations": 8,
-        "collapses": 55
+        "collapses": 61
     }
 ]

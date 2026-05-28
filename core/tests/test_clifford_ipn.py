@@ -20,13 +20,13 @@ def test_multivector_sandwich_propagation():
     """Verify that a CliffordImpedanceLink rotates and attenuates the signal correctly."""
     sig = (3, 0)
     # 1. Initialize link with R = 5.0
-    link = CliffordImpedanceLink("A", "B", signature=sig, gear_elasticity=5.0)
+    link = CliffordImpedanceLink("A", "B", signature=sig, initial_R=5.0)
     
     # 2. Define a 90-degree rotation rotor in the e12 plane (mask 3 is e12)
     # R_rotor = cos(pi/4) - sin(pi/4) * e12
     cos_val = math.cos(math.pi / 4.0)
     sin_val = math.sin(math.pi / 4.0)
-    link.gear_elasticity_rotor = Multivector({0: cos_val, 3: -sin_val}, sig)
+    link.R_rotor = Multivector({0: cos_val, 3: -sin_val}, sig)
     
     # 3. Propagate a vector signal pointing in +e1 (mask 1)
     signal_in = Multivector({1: 1.0}, sig)
@@ -50,30 +50,30 @@ def test_clifford_ipn_ohmic_learning():
     net.add_node("H2", layer=1, initial_vector={2: 1.0})   # Dissonant e2 (orthogonal)
     net.add_node("OUT", layer=2, initial_vector={0: 1.0})
     
-    link_h1 = net.connect_nodes("IN", "H1", gear_elasticity=10.0)
-    link_h2 = net.connect_nodes("IN", "H2", gear_elasticity=10.0)
+    link_h1 = net.connect_nodes("IN", "H1", initial_R=10.0)
+    link_h2 = net.connect_nodes("IN", "H2", initial_R=10.0)
     
     # Run a few propagation and tuning cycles
     inputs = {"IN": Multivector({1: 1.0}, sig)}
     
     for _ in range(15):
         net.forward_propagate(inputs)
-        net.tune_network(dt=0.1, )
+        net.tune_network(dt=0.1, lr=1.0)
         
     # Link H1 (coherent) resistance should decrease below 10.0
     # Link H2 (orthogonal / dissonant) resistance should remain high or increase
-    print(f"H1 Link Resistance: {link_h1.gear_elasticity:.4f}")
-    print(f"H2 Link Resistance: {link_h2.gear_elasticity:.4f}")
+    print(f"H1 Link Resistance: {link_h1.R:.4f}")
+    print(f"H2 Link Resistance: {link_h2.R:.4f}")
     
-    assert link_h1.gear_elasticity < 3.0
-    assert link_h2.gear_elasticity > link_h1.gear_elasticity + 3.0
+    assert link_h1.R < 3.0
+    assert link_h2.R > link_h1.R + 3.0
     print("[SUCCESS] Ohmic coherence adaptation verified.")
 
 def test_dynamic_bifurcation_and_compression():
     """Verify that signature shifts update multivector signatures and add perturbations."""
     net = CliffordIPN(initial_dims=3)
     net.add_node("IN", layer=0, initial_vector={1: 1.0})
-    net.connect_nodes("IN", "OUT", gear_elasticity=10.0)
+    net.connect_nodes("IN", "OUT", initial_R=10.0)
     
     assert net.signature == (3, 0)
     assert net.phases["IN"].p == 3
