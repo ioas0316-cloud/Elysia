@@ -57,16 +57,16 @@ def test_coordination_impedance_learning():
     engine = TripleHelixEngine()
     
     # Capture initial resistances
-    r_wasd_init = engine.link_ego_wasd.R
-    r_pain_init = engine.link_pain_h1.R
+    r_wasd_init = engine.link_ego_wasd.gear_elasticity
+    r_pain_init = engine.link_pain_h1.gear_elasticity
     
     # Pulse repeatedly with identical thought and sensory states to build coherence
     sensory = {"motion_entropy": 0.5, "pain_level": 0.5}
     for _ in range(10):
         engine.pulse("동일한 맥락의 평온한 생각의 반복", sensory)
         
-    r_wasd_final = engine.link_ego_wasd.R
-    r_pain_final = engine.link_pain_h1.R
+    r_wasd_final = engine.link_ego_wasd.gear_elasticity
+    r_pain_final = engine.link_pain_h1.gear_elasticity
     
     print(f"WASD Link Resistance: {r_wasd_init:.4f} -> {r_wasd_final:.4f}")
     print(f"Pain Link Resistance: {r_pain_init:.4f} -> {r_pain_final:.4f}")

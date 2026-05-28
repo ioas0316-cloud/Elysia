@@ -47,11 +47,11 @@ class CliffordThoughtAlignerEngine:
         for i in range(1, 9):
             for j in range(1, 5):
                 # Connect input i to hidden j
-                self.net.connect_nodes(f"IN_{i}", f"H_{j}", initial_R=10.0)
+                self.net.connect_nodes(f"IN_{i}", f"H_{j}", gear_elasticity=10.0)
                 
         for j in range(1, 5):
             # Connect hidden j to OUT
-            self.net.connect_nodes(f"H_{j}", "OUT", initial_R=5.0)
+            self.net.connect_nodes(f"H_{j}", "OUT", gear_elasticity=5.0)
 
     def get_text_density(self, text: str) -> float:
         """Determines scalar w coefficient based on text density."""

@@ -1,0 +1,93 @@
+[
+    {
+        "noise_magnitude": 0.0,
+        "avg_tension": 0.0,
+        "avg_phase_diff": 0.0,
+        "bifurcations": 0,
+        "collapses": 0
+    },
+    {
+        "noise_magnitude": 0.1,
+        "avg_tension": 0.12238049134356631,
+        "avg_phase_diff": 0.14623127680443526,
+        "bifurcations": 0,
+        "collapses": 0
+    },
+    {
+        "noise_magnitude": 0.2,
+        "avg_tension": 0.18654998684314855,
+        "avg_phase_diff": 0.2247089809215625,
+        "bifurcations": 0,
+        "collapses": 0
+    },
+    {
+        "noise_magnitude": 0.3,
+        "avg_tension": 0.22198763408106537,
+        "avg_phase_diff": 0.16723806311900022,
+        "bifurcations": 0,
+        "collapses": 0
+    },
+    {
+        "noise_magnitude": 0.4,
+        "avg_tension": 0.35515458161293534,
+        "avg_phase_diff": 0.2878606482876374,
+        "bifurcations": 2,
+        "collapses": 0
+    },
+    {
+        "noise_magnitude": 0.5,
+        "avg_tension": 0.3485184040025661,
+        "avg_phase_diff": 0.3337267229264775,
+        "bifurcations": 6,
+        "collapses": 0
+    },
+    {
+        "noise_magnitude": 0.6,
+        "avg_tension": 0.3865299965819927,
+        "avg_phase_diff": 0.34273252256990056,
+        "bifurcations": 8,
+        "collapses": 0
+    },
+    {
+        "noise_magnitude": 0.7,
+        "avg_tension": 0.42850752688606397,
+        "avg_phase_diff": 0.4167607816649022,
+        "bifurcations": 9,
+        "collapses": 1
+    },
+    {
+        "noise_magnitude": 0.8,
+        "avg_tension": 0.42396008352102527,
+        "avg_phase_diff": 0.3773250458257018,
+        "bifurcations": 11,
+        "collapses": 0
+    },
+    {
+        "noise_magnitude": 0.9,
+        "avg_tension": 0.41252232061389676,
+        "avg_phase_diff": 0.38461423493425356,
+        "bifurcations": 10,
+        "collapses": 3
+    },
+    {
+        "noise_magnitude": 1.0,
+        "avg_tension": 0.3275976786876752,
+        "avg_phase_diff": 2.357797698870385,
+        "bifurcations": 9,
+        "collapses": 20
+    },
+    {
+        "noise_magnitude": 1.5,
+        "avg_tension": 0.09625981693390932,
+        "avg_phase_diff": 0.13677718990588936,
+        "bifurcations": 8,
+        "collapses": 85
+    },
+    {
+        "noise_magnitude": 2.0,
+        "avg_tension": 0.2245477948890408,
+        "avg_phase_diff": 1.1394069306149979,
+        "bifurcations": 8,
+        "collapses": 55
+    }
+]

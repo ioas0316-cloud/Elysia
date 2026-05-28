@@ -1,0 +1,150 @@
+{
+    "scaling_benchmark": [
+        {
+            "depth": 1,
+            "breadth": 2,
+            "total_nodes": 3,
+            "avg_time_per_tick_sec": 1.566400000001522e-05,
+            "time_per_node_ms": 0.005221333333338406,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 1,
+            "breadth": 3,
+            "total_nodes": 4,
+            "avg_time_per_tick_sec": 3.9807799998925476e-05,
+            "time_per_node_ms": 0.009951949999731369,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 1,
+            "breadth": 5,
+            "total_nodes": 6,
+            "avg_time_per_tick_sec": 0.00021107599999368177,
+            "time_per_node_ms": 0.035179333332280294,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 2,
+            "breadth": 2,
+            "total_nodes": 7,
+            "avg_time_per_tick_sec": 3.4800499997800215e-05,
+            "time_per_node_ms": 0.004971499999685745,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 2,
+            "breadth": 3,
+            "total_nodes": 13,
+            "avg_time_per_tick_sec": 0.00010171829999308101,
+            "time_per_node_ms": 0.007824484614852386,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 2,
+            "breadth": 5,
+            "total_nodes": 31,
+            "avg_time_per_tick_sec": 0.00042602140000553846,
+            "time_per_node_ms": 0.013742625806630273,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 3,
+            "breadth": 2,
+            "total_nodes": 15,
+            "avg_time_per_tick_sec": 7.957330000181173e-05,
+            "time_per_node_ms": 0.005304886666787449,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 3,
+            "breadth": 3,
+            "total_nodes": 40,
+            "avg_time_per_tick_sec": 0.0003698794000001726,
+            "time_per_node_ms": 0.009246985000004315,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 3,
+            "breadth": 5,
+            "total_nodes": 156,
+            "avg_time_per_tick_sec": 0.002572630999998182,
+            "time_per_node_ms": 0.016491224358962706,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 4,
+            "breadth": 2,
+            "total_nodes": 31,
+            "avg_time_per_tick_sec": 0.00019221580000703398,
+            "time_per_node_ms": 0.0062005096776462576,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 4,
+            "breadth": 3,
+            "total_nodes": 121,
+            "avg_time_per_tick_sec": 0.001270704899991415,
+            "time_per_node_ms": 0.010501693388358801,
+            "memory_added_mb": 0.0
+        },
+        {
+            "depth": 4,
+            "breadth": 5,
+            "total_nodes": 781,
+            "avg_time_per_tick_sec": 0.014804152800002158,
+            "time_per_node_ms": 0.01895538130602069,
+            "memory_added_mb": 0.25
+        }
+    ],
+    "noise_benchmark": [
+        {
+            "noise_magnitude": 0.0,
+            "avg_tension": 0.0,
+            "max_tension": 0.0,
+            "divergence": false
+        },
+        {
+            "noise_magnitude": 0.1,
+            "avg_tension": 0.0,
+            "max_tension": 0.0,
+            "divergence": false
+        },
+        {
+            "noise_magnitude": 0.5,
+            "avg_tension": 0.0,
+            "max_tension": 0.0,
+            "divergence": false
+        },
+        {
+            "noise_magnitude": 1.0,
+            "avg_tension": 0.0,
+            "max_tension": 0.0,
+            "divergence": false
+        },
+        {
+            "noise_magnitude": 1.5,
+            "avg_tension": 0.0,
+            "max_tension": 0.0,
+            "divergence": false
+        },
+        {
+            "noise_magnitude": 2.0,
+            "avg_tension": 0.0,
+            "max_tension": 0.0,
+            "divergence": false
+        },
+        {
+            "noise_magnitude": 3.0,
+            "avg_tension": 0.0,
+            "max_tension": 0.0,
+            "divergence": false
+        },
+        {
+            "noise_magnitude": 5.0,
+            "avg_tension": 0.0,
+            "max_tension": 0.0,
+            "divergence": false
+        }
+    ]
+}
