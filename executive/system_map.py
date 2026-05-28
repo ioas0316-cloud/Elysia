@@ -3,6 +3,11 @@
 
 import numpy as np
 
+try:
+    import elysia_core # pybind11 모듈
+except ImportError:
+    print("⚠️ elysia_core 바인딩 모듈 로드 실패 (아직 빌드되지 않았거나 경로 문제)")
+
 class TopologicalAbstractionTower:
     def __init__(self, field_size):
         self.field_size = field_size
@@ -19,13 +24,11 @@ class TopologicalAbstractionTower:
         """
         print(f"🎬 [제어탑] 하부 전자기장막(크기: {self.field_size}) 관조 중...")
 
-        # 실제 구현에서는 pybind11 모듈(elysia_core.launch_membrane)이
-        # self.interference_pattern 에 $O(1)$ 속도로 파동 간섭 무늬를 덮어씀.
-        # elysia_core.launch_membrane(self.vortex_steering_vector, self.interference_pattern)
+        try:
+            elysia_core.launch_membrane(self.vortex_steering_vector, self.interference_pattern)
+        except NameError:
+            pass
 
-        # 파이썬(상위 레이어)은 데이터를 세거나(Count) 쪼개지(Split) 않음.
-        # 단지 간섭 무늬 배열 전체에 위상 벡터를 곱하는 방향 전환만 수행.
-        # O(1) Vector Steering:
         steered_flow = self.interference_pattern * self.vortex_steering_vector
 
         print("🎬 [제어탑] 판단/파싱 없는 방향타(Vortex Vector) 적용 완료. 계가 무너지지 않습니다.")

@@ -23,10 +23,16 @@ public:
     }
 
     void route_stream_through_gates(int ternary_data) {
-        // 데이터(-1, 0, 1) 자체를 인덱스(0, 1, 2)로 변환
-        int gate_index = ternary_data + 1;
+        // 수학적 바운더리 클램핑 (수치적 제한을 걸어 OOB 방지, if문 배제)
+        // ternary_data가 -1, 0, 1의 범위를 벗어나지 않도록 모듈러 또는 클램핑 수식 적용
+        // 극단적인 안전을 위해 삼진법 위상으로 캐스팅
+        // (x > 0) - (x < 0) 를 통해 어떤 값이 들어오든 -1, 0, 1 로 고정
+        int safe_ternary = (ternary_data > 0) - (ternary_data < 0);
 
-        // 조건문 분기 예측 실패 원천 소멸. 인덱스로 수문 즉시 개방 및 물리 토크 가동.
+        // 안전한 인덱스 변환
+        int gate_index = safe_ternary + 1;
+
+        // 인덱스로 수문 즉시 개방 및 물리 토크 가동.
         circuit_buffer.shared_phase_tension = phase_gates[gate_index](circuit_buffer.shared_phase_tension);
     }
 

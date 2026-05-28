@@ -238,3 +238,4 @@ data/matrix_state.json
 data/network_convection.json
 data/
 
+executive/*.so
