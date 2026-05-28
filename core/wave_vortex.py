@@ -1,5 +1,16 @@
 import math
 import cmath
+import sys
+import os
+
+# C++ Native Binding (행정부) 로드
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "executive")))
+try:
+    import elysia_core
+    HAS_NATIVE_CORE = True
+except ImportError:
+    HAS_NATIVE_CORE = False
+
 
 class TriRotorTensionEngine:
     """
@@ -19,29 +30,48 @@ class TriRotorTensionEngine:
         """
         로터 상호 간의 거리에 따른 인척력 장력을 계산하여
         조건문 없이 실시간으로 위상을 자율 조정하는 메서드
+        C++ Native Core가 존재하면 Python 오버헤드를 우회하여 0ns 영역으로 바이패스
         """
         num_rotors = len(self.rotors)
-        phase_updates = [0.0] * num_rotors
 
-        for i in range(num_rotors):
-            for j in range(num_rotors):
-                if i == j:
-                    continue
+        if HAS_NATIVE_CORE:
+            import numpy as np
+            # 0ns C++ Native Bypass: Pass arrays to be updated in-place
+            real_parts = np.array([r.real for r in self.rotors], dtype=np.float32)
+            imag_parts = np.array([r.imag for r in self.rotors], dtype=np.float32)
 
-                # 두 로터 간의 위상차 거리 도출
-                angle_diff = cmath.phase(self.rotors[i] / self.rotors[j])
+            # C++ Core computes total tension AND updates phases in-place
+            total_tension = elysia_core.apply_relative_tension_native(real_parts, imag_parts)
 
-                # 인척력 역학: 멀어지면 당기고 가까워지면 밀어내는 복원 장력
-                # 이 복원 토크의 흐름이 스스로 120도 대칭 평형을 찾아가게 만듦
-                tension_force = -self.k * angle_diff
-                phase_updates[i] += tension_force
+            # Reconstruct complex rotors from updated native arrays
+            for i in range(num_rotors):
+                self.rotors[i] = complex(real_parts[i], imag_parts[i])
 
-        # 가상 텐션 장력을 로터 실시간 유속에 직동식으로 반영
-        for i in range(num_rotors):
-            self.rotors[i] *= cmath.exp(1j * phase_updates[i])
-            
-        # 총 발생한 텐션(위상 복원력) 반환
-        return sum(abs(p) for p in phase_updates)
+            return total_tension
+
+        else:
+            # Legacy Python Logic (Fallback)
+            phase_updates = [0.0] * num_rotors
+
+            for i in range(num_rotors):
+                for j in range(num_rotors):
+                    if i == j:
+                        continue
+
+                    # 두 로터 간의 위상차 거리 도출
+                    angle_diff = cmath.phase(self.rotors[i] / self.rotors[j])
+
+                    # 인척력 역학: 멀어지면 당기고 가까워지면 밀어내는 복원 장력
+                    # 이 복원 토크의 흐름이 스스로 120도 대칭 평형을 찾아가게 만듦
+                    tension_force = -self.k * angle_diff
+                    phase_updates[i] += tension_force
+
+            # 가상 텐션 장력을 로터 실시간 유속에 직동식으로 반영
+            for i in range(num_rotors):
+                self.rotors[i] *= cmath.exp(1j * phase_updates[i])
+
+            # 총 발생한 텐션(위상 복원력) 반환
+            return sum(abs(p) for p in phase_updates)
 
     def inject_dual_helix_stream(self, helix_a: float, helix_b: float):
         """
