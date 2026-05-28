@@ -1,150 +1,22 @@
 {
-    "scaling_benchmark": [
+    "spatial_field_throughput": [
         {
-            "depth": 1,
-            "breadth": 2,
-            "total_nodes": 3,
-            "avg_time_per_tick_sec": 1.488819998485269e-05,
-            "time_per_node_ms": 0.00496273332828423,
-            "memory_added_mb": 0.0
+            "stream_volume": 1000,
+            "dimensions": 8,
+            "time_ms": 85.61585500001456,
+            "memory_added_mb": 0.125
         },
         {
-            "depth": 1,
-            "breadth": 3,
-            "total_nodes": 4,
-            "avg_time_per_tick_sec": 2.3052400001688512e-05,
-            "time_per_node_ms": 0.005763100000422128,
-            "memory_added_mb": 0.0
+            "stream_volume": 10000,
+            "dimensions": 8,
+            "time_ms": 91.69022800006132,
+            "memory_added_mb": 0.125
         },
         {
-            "depth": 1,
-            "breadth": 5,
-            "total_nodes": 6,
-            "avg_time_per_tick_sec": 6.975570001941379e-05,
-            "time_per_node_ms": 0.01162595000323563,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 2,
-            "breadth": 2,
-            "total_nodes": 7,
-            "avg_time_per_tick_sec": 4.50152999974307e-05,
-            "time_per_node_ms": 0.0064307571424901,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 2,
-            "breadth": 3,
-            "total_nodes": 13,
-            "avg_time_per_tick_sec": 0.00010245789999316913,
-            "time_per_node_ms": 0.00788137692255147,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 2,
-            "breadth": 5,
-            "total_nodes": 31,
-            "avg_time_per_tick_sec": 0.00041563629999927796,
-            "time_per_node_ms": 0.01340762258062187,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 3,
-            "breadth": 2,
-            "total_nodes": 15,
-            "avg_time_per_tick_sec": 9.313339999152958e-05,
-            "time_per_node_ms": 0.006208893332768639,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 3,
-            "breadth": 3,
-            "total_nodes": 40,
-            "avg_time_per_tick_sec": 0.0003873576999922079,
-            "time_per_node_ms": 0.009683942499805198,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 3,
-            "breadth": 5,
-            "total_nodes": 156,
-            "avg_time_per_tick_sec": 0.0025625063999996202,
-            "time_per_node_ms": 0.016426323076920643,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 4,
-            "breadth": 2,
-            "total_nodes": 31,
-            "avg_time_per_tick_sec": 0.00020202299999709793,
-            "time_per_node_ms": 0.00651687096764832,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 4,
-            "breadth": 3,
-            "total_nodes": 121,
-            "avg_time_per_tick_sec": 0.0012674153000034494,
-            "time_per_node_ms": 0.010474506611598756,
-            "memory_added_mb": 0.0
-        },
-        {
-            "depth": 4,
-            "breadth": 5,
-            "total_nodes": 781,
-            "avg_time_per_tick_sec": 0.014951374800011763,
-            "time_per_node_ms": 0.019143885787467046,
-            "memory_added_mb": 0.5
-        }
-    ],
-    "noise_benchmark": [
-        {
-            "noise_magnitude": 0.0,
-            "avg_tension": 0.0,
-            "max_tension": 0.0,
-            "divergence": false
-        },
-        {
-            "noise_magnitude": 0.1,
-            "avg_tension": 0.0,
-            "max_tension": 0.0,
-            "divergence": false
-        },
-        {
-            "noise_magnitude": 0.5,
-            "avg_tension": 0.0,
-            "max_tension": 0.0,
-            "divergence": false
-        },
-        {
-            "noise_magnitude": 1.0,
-            "avg_tension": 0.0,
-            "max_tension": 0.0,
-            "divergence": false
-        },
-        {
-            "noise_magnitude": 1.5,
-            "avg_tension": 0.0,
-            "max_tension": 0.0,
-            "divergence": false
-        },
-        {
-            "noise_magnitude": 2.0,
-            "avg_tension": 0.0,
-            "max_tension": 0.0,
-            "divergence": false
-        },
-        {
-            "noise_magnitude": 3.0,
-            "avg_tension": 0.0,
-            "max_tension": 0.0,
-            "divergence": false
-        },
-        {
-            "noise_magnitude": 5.0,
-            "avg_tension": 0.0,
-            "max_tension": 0.0,
-            "divergence": false
+            "stream_volume": 100000,
+            "dimensions": 8,
+            "time_ms": 91.11510200000339,
+            "memory_added_mb": 0.125
         }
     ]
 }
