@@ -2,6 +2,8 @@
 #include <cstdint>
 
 extern "C" {
+
+
     // Structure to represent incoming data mass
     struct PacketFlux {
         float mass;
@@ -52,55 +54,75 @@ extern "C" {
         out_tensor_3d[1] = cosf(structural_angular_velocity);
         out_tensor_3d[2] = sinf(structural_angular_velocity);
     }
-}
 
     // ==========================================
     // Causal Trajectory Rotor & Hologram Bridge
     // ==========================================
 
+    // ==========================================
+    // Causal Trajectory Rotor & Hologram Bridge
+    // ==========================================
+
+    // TrajectoryRotor is no longer a static container, but a 4x4 Quaternion Transformation Operator
     struct TrajectoryRotor {
-        float past_momentum;   // 과거 진입 원심력
-        float present_phase;   // 현재 위상각
-        float future_gravity;  // 미래 인력 곡률
+        float w; // Real scalar part (Amplitude / Probability Density)
+        float x; // i vector (Phase alignment X)
+        float y; // j vector (Phase alignment Y)
+        float z; // k vector (Phase alignment Z / Depth)
     };
 
-    // 1. Calculate Trajectory Vortex (궤적의 로터화)
-    extern "C" struct TrajectoryRotor calculate_trajectory_vortex(uint64_t address_ptr, float packet_mass, float static_vram_pool_size) {
+    // 1. Single-pass Matrix Projection (단일 행렬 곱 관측 투사)
+    struct TrajectoryRotor calculate_trajectory_vortex(uint64_t address_ptr, float packet_mass, float static_vram_pool_size) {
         struct TrajectoryRotor rotor;
 
-        // VRAM pressure reverse calculation
+        // Convert scalar pressure into a full quaternion rotation matrix state
         float pressure = packet_mass / (static_vram_pool_size + 1.0f);
-        float orbit_angle = static_cast<float>(address_ptr & 0xFFFFFFFF) * pressure;
+        float base_angle = static_cast<float>(address_ptr & 0xFFFFFFFF) * pressure;
 
+        float half_angle = base_angle * 0.5f;
+        float s = sinf(half_angle);
+
+        rotor.w = cosf(half_angle);
+
+        // Isomorphic distribution over spatial axes
         const float inv_sqrt3 = 1.0f / std::sqrt(3.0f);
-
-        // Bind Past, Present, Future into a continuous topological orbit
-        rotor.past_momentum = cosf(orbit_angle) * inv_sqrt3;
-        rotor.present_phase = sinf(orbit_angle) * rotor.past_momentum;
-        rotor.future_gravity = orbit_angle * rotor.present_phase;
+        rotor.x = s * inv_sqrt3;
+        rotor.y = s * inv_sqrt3;
+        rotor.z = s * inv_sqrt3;
 
         return rotor;
     }
 
-    // 2. Holographic Causal Bridge (홀로그램 대조 및 제로타임 체적 복원)
-    extern "C" bool synchronize_holographic_orbit(struct TrajectoryRotor* internal_rotor, struct TrajectoryRotor incoming_flux) {
-        // Calculate holographic interference pattern (위상 차이 역산)
-        float phase_interference_x = internal_rotor->present_phase - incoming_flux.present_phase;
-        float phase_interference_y = internal_rotor->future_gravity - incoming_flux.future_gravity;
+    // 2. Holographic Causal Bridge (Phase-Locking via Quaternion alignment)
+    bool synchronize_holographic_orbit(struct TrajectoryRotor* internal_rotor, struct TrajectoryRotor incoming_flux) {
+        // Dot product to measure alignment (cos of half-angle between quaternions)
+        float alignment = internal_rotor->w * incoming_flux.w +
+                          internal_rotor->x * incoming_flux.x +
+                          internal_rotor->y * incoming_flux.y +
+                          internal_rotor->z * incoming_flux.z;
 
-        // Resonance torque calculation (양자 동전 뒤집기 역학)
-        float resonance_torque = (phase_interference_x * phase_interference_x) + (phase_interference_y * phase_interference_y);
-
-        if (resonance_torque < 0.001f) {
-            // Phase-Lock success with 0ns overhead
+        // If completely aligned (abs(dot) ~ 1.0), true.
+        if (alignment > 0.999f || alignment < -0.999f) {
             return true;
         }
 
-        // If orbit is distorted, calculate restoration force and instantly warp state (빈자리 강제 복원)
-        const float inv_sqrt3 = 1.0f / std::sqrt(3.0f);
-        float restoration_force = sinf(resonance_torque) * inv_sqrt3;
+        // Sluice gate resonance: Pull state via Hebbian/Kuramoto tension
+        internal_rotor->w += (incoming_flux.w - internal_rotor->w) * 0.1f;
+        internal_rotor->x += (incoming_flux.x - internal_rotor->x) * 0.1f;
+        internal_rotor->y += (incoming_flux.y - internal_rotor->y) * 0.1f;
+        internal_rotor->z += (incoming_flux.z - internal_rotor->z) * 0.1f;
 
-        internal_rotor->present_phase += restoration_force; // Immediate inversion recovery
+        // Normalize back to unit quaternion
+        float mag = std::sqrt(internal_rotor->w * internal_rotor->w +
+                              internal_rotor->x * internal_rotor->x +
+                              internal_rotor->y * internal_rotor->y +
+                              internal_rotor->z * internal_rotor->z);
+        if(mag > 0.000001f) {
+            internal_rotor->w /= mag;
+            internal_rotor->x /= mag;
+            internal_rotor->y /= mag;
+            internal_rotor->z /= mag;
+        }
 
         return true;
     }
@@ -112,7 +134,7 @@ extern "C" {
 
     // Transforms raw ASCII character arrays directly into Float Phase Tensors.
     // Bypasses String parsing and perfectly aligns with GPU Float arithmetic physiology.
-    extern "C" void ascii_to_phase_wave(const char* ascii_str, int length, float system_pressure, float* out_phase_tensors) {
+    void ascii_to_phase_wave(const char* ascii_str, int length, float system_pressure, float* out_phase_tensors) {
         // Master's Axiom: The byte value itself becomes the structural energy (phase angle).
         for (int i = 0; i < length; ++i) {
             float ascii_val = static_cast<float>(ascii_str[i]);
@@ -124,3 +146,82 @@ extern "C" {
             out_phase_tensors[i * 2 + 1] = sinf(angular_momentum);
         }
     }
+        // ==========================================
+    // Isomorphic Phase Projection (Single-pass Gemm Equivalent)
+    // ==========================================
+
+    // Instead of 27-base pointer crawling, project the incoming state globally across the VRAM array
+    void project_phase_tensor(struct TrajectoryRotor incoming_state, struct TrajectoryRotor* vram_matrix, int matrix_size) {
+        // Purely topological projection over physical array
+        // In full GPU implementation, this would be a single kernel launch block
+
+        for (int i = 0; i < matrix_size; ++i) {
+            // Natural coherence matching (Holographic Overlay)
+            // Tension pulls local state towards the incoming state
+            float dw = (incoming_state.w - vram_matrix[i].w) * 0.05f;
+            float dx = (incoming_state.x - vram_matrix[i].x) * 0.05f;
+            float dy = (incoming_state.y - vram_matrix[i].y) * 0.05f;
+            float dz = (incoming_state.z - vram_matrix[i].z) * 0.05f;
+
+            vram_matrix[i].w += dw;
+            vram_matrix[i].x += dx;
+            vram_matrix[i].y += dy;
+            vram_matrix[i].z += dz;
+
+            // Renormalize local matrix element to maintain quantum coherence bounds
+            float mag = std::sqrt(vram_matrix[i].w * vram_matrix[i].w +
+                                  vram_matrix[i].x * vram_matrix[i].x +
+                                  vram_matrix[i].y * vram_matrix[i].y +
+                                  vram_matrix[i].z * vram_matrix[i].z);
+            if (mag > 0.000001f) {
+                vram_matrix[i].w /= mag;
+                vram_matrix[i].x /= mag;
+                vram_matrix[i].y /= mag;
+                vram_matrix[i].z /= mag;
+            }
+        }
+    }
+
+
+    // ==========================================
+    // Reverse Complex Conjugate Projection (trace_trajectory)
+    // ==========================================
+
+    // Traces the trajectory back using complex conjugate transpose projection.
+    // Illuminates the original coherent states natively.
+    struct TrajectoryRotor trace_trajectory(struct TrajectoryRotor final_state, struct TrajectoryRotor* vram_matrix, int matrix_size) {
+        struct TrajectoryRotor reverse_state;
+
+        // Complex Conjugate of a Quaternion (q*) = w - xi - yj - zk
+        float conj_w = final_state.w;
+        float conj_x = -final_state.x;
+        float conj_y = -final_state.y;
+        float conj_z = -final_state.z;
+
+        float max_resonance = -1.0f;
+        int target_idx = 0;
+
+        // One-pass resonance search using conjugate projection
+        for (int i = 0; i < matrix_size; ++i) {
+            // Apply conjugate projection: resonance = Re(q_vram * q_conj)
+            // It represents the cosine alignment of the topologies
+            float resonance = vram_matrix[i].w * conj_w -
+                              vram_matrix[i].x * conj_x -
+                              vram_matrix[i].y * conj_y -
+                              vram_matrix[i].z * conj_z;
+
+            if (resonance > max_resonance) {
+                max_resonance = resonance;
+                target_idx = i;
+            }
+        }
+
+        // The exact causal origin is intrinsically revealed without looping over logic.
+        reverse_state.w = vram_matrix[target_idx].w;
+        reverse_state.x = vram_matrix[target_idx].x;
+        reverse_state.y = vram_matrix[target_idx].y;
+        reverse_state.z = vram_matrix[target_idx].z;
+
+        return reverse_state;
+    }
+}

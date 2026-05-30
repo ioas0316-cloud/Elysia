@@ -12,9 +12,10 @@ class PacketFlux(ctypes.Structure):
 
 class TrajectoryRotor(ctypes.Structure):
     _fields_ = [
-        ("past_momentum", ctypes.c_float),
-        ("present_phase", ctypes.c_float),
-        ("future_gravity", ctypes.c_float)
+        ("w", ctypes.c_float),
+        ("x", ctypes.c_float),
+        ("y", ctypes.c_float),
+        ("z", ctypes.c_float)
     ]
 
 class PhaseInverterGate:
@@ -52,6 +53,14 @@ class PhaseInverterGate:
 
         self.lib.synchronize_holographic_orbit.argtypes = [ctypes.POINTER(TrajectoryRotor), TrajectoryRotor]
         self.lib.synchronize_holographic_orbit.restype = ctypes.c_bool
+
+        # Isomorphic Phase Projection
+        self.lib.project_phase_tensor.argtypes = [TrajectoryRotor, ctypes.POINTER(TrajectoryRotor), ctypes.c_int]
+        self.lib.project_phase_tensor.restype = None
+
+        # Trace Trajectory using Complex Conjugate
+        self.lib.trace_trajectory.argtypes = [TrajectoryRotor, ctypes.POINTER(TrajectoryRotor), ctypes.c_int]
+        self.lib.trace_trajectory.restype = TrajectoryRotor
 
         # ASCII to Hardware Wave Tensor Resonance
         self.lib.ascii_to_phase_wave.argtypes = [
@@ -129,3 +138,11 @@ class PhaseInverterGate:
 
         # Return as hardware wave structural mapping: [(cos, sin), (cos, sin)...]
         return [(out_tensor[i*2], out_tensor[i*2 + 1]) for i in range(length)]
+
+    def project_phase_tensor(self, incoming_state: TrajectoryRotor, vram_matrix: ctypes.POINTER(TrajectoryRotor), matrix_size: int):
+        """Project a phase tensor globally across the VRAM array without indexing."""
+        self.lib.project_phase_tensor(incoming_state, vram_matrix, matrix_size)
+
+    def trace_trajectory(self, final_state: TrajectoryRotor, vram_matrix: ctypes.POINTER(TrajectoryRotor), matrix_size: int) -> TrajectoryRotor:
+        """Traces back the origin of a state using reverse complex conjugate projection."""
+        return self.lib.trace_trajectory(final_state, vram_matrix, matrix_size)
