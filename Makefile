@@ -2,7 +2,7 @@
 # 이 파일은 6월 2일 락 해제 시 즉시 가동되는 빌드 파이프라인의 뼈대입니다.
 
 CXX = g++
-NVCC = nvcc
+NVCC ?= nvcc
 PYTHON = python3
 
 # Python bind11 경로 설정

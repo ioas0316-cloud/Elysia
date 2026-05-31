@@ -177,7 +177,7 @@ extern "C" {
             // Alignment = 0 (Resistance Zero) -> Perfect match, no kinetic force needed, flat and stable.
             // Change = 1 (Resistance Max) -> Complete mismatch, needs massive kinetic twist to realign.
 
-            float resistance_sensor = 1.0f - abs(alignment); // 0 when fully aligned (abs(dot)=1), 1 when orthogonal (dot=0)
+            float resistance_sensor = 1.0f - fabsf(alignment); // 0 when fully aligned (abs(dot)=1), 1 when orthogonal (dot=0)
 
             // The kinetic force applied to twist the spin is directly proportional to the resistance (change state)
             float kinetic_twist_force = 0.0f;
@@ -219,34 +219,38 @@ extern "C" {
         }
     }
 
-    // Host function to launch the __global__ kernel
-    extern "C" void launch_project_phase_tensor(struct TrajectoryRotor incoming_state, struct TrajectoryRotor* h_vram_matrix, int matrix_size) {
-        // Allocate Device Memory (The Magnetic Lattice on GPU)
-        struct TrajectoryRotor* d_vram_matrix;
-        size_t bytes = matrix_size * sizeof(struct TrajectoryRotor);
-        cudaMalloc(&d_vram_matrix, bytes);
+    // ==========================================
+    // 5. Static VRAM Ring Buffer Allocations
+    // ==========================================
+    static struct TrajectoryRotor* d_vram_matrix = nullptr;
+    static int current_matrix_size = 0;
 
-        // Copy current unaligned/semi-aligned state from Host to Device
-        cudaMemcpy(d_vram_matrix, h_vram_matrix, bytes, cudaMemcpyHostToDevice);
-
-        // Launch Kernel (Apply External Magnetic Field for Phase Alignment)
-        int threadsPerBlock = 256;
-        int blocksPerGrid = (matrix_size + threadsPerBlock - 1) / threadsPerBlock;
-
-        project_phase_tensor_kernel<<<blocksPerGrid, threadsPerBlock>>>(incoming_state, d_vram_matrix, matrix_size);
-
-        // Wait for all GPU threads to finish weaving
-        cudaDeviceSynchronize();
-
-        // Copy the freshly aligned Magnetic Tapestry back to the Host (Observation / Zero-resistance Retrieval)
-        cudaMemcpy(h_vram_matrix, d_vram_matrix, bytes, cudaMemcpyDeviceToHost);
-
-        // Free Device Memory
-        cudaFree(d_vram_matrix);
-        cudaError_t err = cudaGetLastError();
-        if (err != cudaSuccess) {
-            printf("CUDA Error: %s\n", cudaGetErrorString(err));
+    extern "C" void allocate_vram_tapestry(int matrix_size) {
+        if (d_vram_matrix == nullptr) {
+            cudaMalloc(&d_vram_matrix, matrix_size * sizeof(struct TrajectoryRotor));
+            cudaMemset(d_vram_matrix, 0, matrix_size * sizeof(struct TrajectoryRotor));
+            current_matrix_size = matrix_size;
         }
+    }
+
+    extern "C" void free_vram_tapestry() {
+        if (d_vram_matrix != nullptr) {
+            cudaFree(d_vram_matrix);
+            d_vram_matrix = nullptr;
+            current_matrix_size = 0;
+        }
+    }
+
+    // New Launch Wrapper (No cudaMalloc/Memcpy internally, directly acts on the static lattice)
+    extern "C" void launch_project_phase_tensor(struct TrajectoryRotor incoming_state) {
+        if (d_vram_matrix == nullptr || current_matrix_size <= 0) return;
+
+        int threadsPerBlock = 256;
+        int blocksPerGrid = (current_matrix_size + threadsPerBlock - 1) / threadsPerBlock;
+
+        project_phase_tensor_kernel<<<blocksPerGrid, threadsPerBlock>>>(incoming_state, d_vram_matrix, current_matrix_size);
+
+        cudaDeviceSynchronize();
     }
 
 
@@ -257,26 +261,32 @@ extern "C" {
 
     // Traces the trajectory back using complex conjugate transpose projection.
     // Illuminates the original coherent states natively.
-    struct TrajectoryRotor trace_trajectory(struct TrajectoryRotor final_state, struct TrajectoryRotor* vram_matrix, int matrix_size) {
-        struct TrajectoryRotor reverse_state;
 
-        // Complex Conjugate of a Quaternion (q*) = w - xi - yj - zk
+
+    // CUDA kernel to trace maximum resonance in VRAM
+
+    extern "C" struct TrajectoryRotor trace_trajectory(struct TrajectoryRotor final_state) {
+        struct TrajectoryRotor reverse_state = {0.0f, 0.0f, 0.0f, 0.0f};
+        if (d_vram_matrix == nullptr || current_matrix_size <= 0) return reverse_state;
+
+        // Pull the entire tapestry back to the host for observation to avoid GPU spinlock deadlocks.
+        // This is safe and allows the C++ CPU code to find the exact max resonance natively.
+        struct TrajectoryRotor* h_matrix = (struct TrajectoryRotor*)malloc(current_matrix_size * sizeof(struct TrajectoryRotor));
+        cudaMemcpy(h_matrix, d_vram_matrix, current_matrix_size * sizeof(struct TrajectoryRotor), cudaMemcpyDeviceToHost);
+
         float conj_w = final_state.w;
         float conj_x = -final_state.x;
         float conj_y = -final_state.y;
         float conj_z = -final_state.z;
 
-        float max_resonance = -1.0f;
+        float max_resonance = -1000.0f;
         int target_idx = 0;
 
-        // One-pass resonance search using conjugate projection
-        for (int i = 0; i < matrix_size; ++i) {
-            // Apply conjugate projection: resonance = Re(q_vram * q_conj)
-            // It represents the cosine alignment of the topologies
-            float resonance = vram_matrix[i].w * conj_w -
-                              vram_matrix[i].x * conj_x -
-                              vram_matrix[i].y * conj_y -
-                              vram_matrix[i].z * conj_z;
+        for (int i = 0; i < current_matrix_size; ++i) {
+            float resonance = h_matrix[i].w * conj_w -
+                              h_matrix[i].x * conj_x -
+                              h_matrix[i].y * conj_y -
+                              h_matrix[i].z * conj_z;
 
             if (resonance > max_resonance) {
                 max_resonance = resonance;
@@ -284,12 +294,13 @@ extern "C" {
             }
         }
 
-        // The exact causal origin is intrinsically revealed without looping over logic.
-        reverse_state.w = vram_matrix[target_idx].w;
-        reverse_state.x = vram_matrix[target_idx].x;
-        reverse_state.y = vram_matrix[target_idx].y;
-        reverse_state.z = vram_matrix[target_idx].z;
+        reverse_state.w = h_matrix[target_idx].w;
+        reverse_state.x = h_matrix[target_idx].x;
+        reverse_state.y = h_matrix[target_idx].y;
+        reverse_state.z = h_matrix[target_idx].z;
 
+        free(h_matrix);
         return reverse_state;
     }
+
 }
