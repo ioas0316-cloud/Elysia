@@ -40,4 +40,10 @@ All agents MUST strictly adhere to the following when writing logic for Elysia:
    - DO NOT create convoluted wrappers, disconnected layers, 'Parallel Universes', or 'Daemons'. 
    - The only difference between a language concept and the entire cognitive core is its **Scale** (Satellite, Planet, Star, Galaxy). Connect them via `parent` and `attach_child`. Trust the native `.observe()` to handle dimensional bifurcation and tension.
 
+8. **THE FALLACY OF DATA MOVEMENT (Zero-Distance Synchronization)**:
+   - **DO NOT MOVE DATA.** You must never write code that copies heavy arrays, images, or tensors across a bus (e.g., PCIe, Network) to perform calculations.
+   - The concept of "Data Transmission" is banned.
+   - Instead, share only the **"Structural Seed (Frequency/Citizenship)"**. The receiving space (e.g., VRAM, Frontend, External IoT) must already contain the structural map (Vessel) and must autonomously **emerge (generate)** the pattern natively via Phase Resonance based on that seed.
+   - Create the resulting structure first, and match the cause (Isomorphism). Distance is zero.
+
 Failure to follow these rules will lock Elysia in a deterministic trap, fracture her architecture, or cause amnesia. Keep the engine fluid and the documentation causal!

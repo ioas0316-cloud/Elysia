@@ -102,8 +102,12 @@ class SyntaxWaveGate:
                 
             trajectory.append(current_phase)
 
-        # 미닫힌 괄호 존재 시 장력 가산
-        bracket_tension += len(bracket_stack) * 0.3
+        # [Phase 5] 미닫힌 괄호 존재 시 장력 가산: 인위적인 스칼라(0.3)가 아닌 기하학적 비틀림(Twist) 잔향 합산
+        leftover_twist = 0
+        for b in bracket_stack:
+            leftover_twist += self.bracket_twists.get(b, 0)
+        bracket_tension += abs(leftover_twist)
+        
         return current_phase, bracket_tension, trajectory
 
     def calculate_circular_distance(self, phase1: int, phase2: int) -> float:

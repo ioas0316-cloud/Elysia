@@ -5,14 +5,15 @@ from numba import cuda
 BLOCK_SIZE = 256
 
 @cuda.jit
-def ascii_phase_sync_kernel(ascii_vals, phases_x, phases_y, gear_elasticity, iterations, coherence):
+def semantic_phase_sync_kernel(semantic_vals, phases_x, phases_y, gear_elasticity, iterations, coherence):
     idx = cuda.grid(1)
-    if idx >= ascii_vals.size:
+    if idx >= semantic_vals.size:
         return
         
-    val = ascii_vals[idx]
-    # ASCII to Phase (Initial)
-    theta = (val / 255.0) * 2.0 * math.pi
+    val = semantic_vals[idx]
+    # Semantic Seed to Phase (Initial)
+    # 64비트 시민권 값을 65536으로 모듈러 연산하여 0~2PI 사이의 위상각으로 변조
+    theta = (val % 65536) / 65536.0 * 2.0 * math.pi
     px = math.cos(theta)
     py = math.sin(theta)
     
@@ -32,16 +33,17 @@ def ascii_phase_sync_kernel(ascii_vals, phases_x, phases_y, gear_elasticity, ite
     phases_y[idx] = py
     coherence[idx] = 1.0  # 더미 코히어런스
 
-def execute_ascii_cuda_bypass(text: str, iterations: int = 500, gear_elasticity: float = 0.500):
+def execute_semantic_cuda_bypass(text: str, iterations: int = 500, gear_elasticity: float = 0.500):
     if not cuda.is_available():
         return None, None
     if not text:
         return 1.0, 0.0
     
-    ascii_array = np.array([ord(c) for c in text], dtype=np.uint8)
-    data_size = ascii_array.size
+    # ASCII 8-bit 제약을 파괴하고 64-bit 구조 원리(시민권) 부여
+    semantic_array = np.array([ord(c) for c in text], dtype=np.uint64)
+    data_size = semantic_array.size
     
-    d_ascii = cuda.to_device(ascii_array)
+    d_semantic = cuda.to_device(semantic_array)
     d_phases_x = cuda.device_array(data_size, dtype=np.float32)
     d_phases_y = cuda.device_array(data_size, dtype=np.float32)
     d_coherence = cuda.device_array(data_size, dtype=np.float32)
@@ -49,8 +51,8 @@ def execute_ascii_cuda_bypass(text: str, iterations: int = 500, gear_elasticity:
     threads_per_block = BLOCK_SIZE
     blocks_per_grid = (data_size + (threads_per_block - 1)) // threads_per_block
     
-    ascii_phase_sync_kernel[blocks_per_grid, threads_per_block](
-        d_ascii, d_phases_x, d_phases_y, gear_elasticity, iterations, d_coherence
+    semantic_phase_sync_kernel[blocks_per_grid, threads_per_block](
+        d_semantic, d_phases_x, d_phases_y, gear_elasticity, iterations, d_coherence
     )
     cuda.synchronize()
     

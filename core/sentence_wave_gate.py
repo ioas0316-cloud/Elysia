@@ -7,7 +7,7 @@ from typing import Tuple
 import numpy as np
 from core.math_utils import Quaternion
 from core.linguistic_axiom import LinguisticAxiomFilter
-from core.cuda_kernel import execute_ascii_cuda_bypass
+from core.cuda_kernel import execute_semantic_cuda_bypass
 
 class SentenceWaveGate:
     """
@@ -48,11 +48,11 @@ class SentenceWaveGate:
         if not sentence:
             return Quaternion(1, 0, 0, 0), np.zeros(self.sample_points)
 
-        # 1. 아스키코드 CUDA 다이렉트 바이패스 시도 (토크나이저 제거)
+        # 1. 시맨틱 CUDA 다이렉트 바이패스 시도 (64-bit 지원)
         try:
             from numba import cuda
             if cuda.is_available():
-                avg_x, avg_y = execute_ascii_cuda_bypass(sentence)
+                avg_x, avg_y = execute_semantic_cuda_bypass(sentence)
                 if avg_x is not None:
                     # 2D Rotor (x, y)를 4D Quaternion(w, x, y, z) 기저 평면(w, z)에 투영 (Geometric Embedding)
                     sentence_rotor = Quaternion(avg_x, 0, 0, avg_y)

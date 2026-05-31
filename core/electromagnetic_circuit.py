@@ -20,6 +20,7 @@ class ElectromagneticCircuit:
         self.is_constant = [False] * self.num_nodes  # 주권 의지: 가변/상수 역전 플래그
         self.couplings = [0.3] * self.num_nodes      # 노드별 파동 전파 결합력
         self.dampings = [0.05] * self.num_nodes      # 노드별 감쇠율(저항)
+        self.momentum = [0.0] * self.num_nodes       # [Phase 5] 과거 파동 잔향 (시간적 서사 관성)
         
         self.last_update = time.time()
 
@@ -50,7 +51,7 @@ class ElectromagneticCircuit:
         current_time = time.time()
         if dt is None:
             dt = current_time - self.last_update
-            if dt <= 0: dt = 0.01
+            if dt < 0.05: dt = 0.05 # 최소 물리 연산 틱 보장 (빠른 루프 방어)
 
         new_tensions = list(self.tensions)
 
@@ -72,10 +73,15 @@ class ElectromagneticCircuit:
                 coupling = (self.couplings[i] + self.couplings[i+1]) / 2.0
                 right_pull = (self.tensions[i+1] - self.tensions[i]) * coupling
                 
-            # 에너지 보존 법칙 및 고유 감쇠(Damping) 적용
-            net_force = left_pull + right_pull - (self.tensions[i] * self.dampings[i])
+            # 에너지 보존 법칙 및 고유 감쇠(Damping): Ground(index 5)는 0(방전), 나머지는 0.5(평형) 지향
+            eq_target = 0.0 if i == 5 else 0.5
+            net_force = left_pull + right_pull - ((self.tensions[i] - eq_target) * self.dampings[i] * 15.0)
             
-            new_tensions[i] += net_force * dt * 50.0 # 스피드 보정
+            # [Phase 5] Predictive Damping: 찰나의 미분이 아닌, 과거의 관성(Momentum)과 융합
+            acceleration = net_force * 150.0
+            self.momentum[i] = self.momentum[i] * 0.85 + acceleration * dt
+            
+            new_tensions[i] += self.momentum[i] * dt
 
         # 2. 값의 정상 상태(0~1) 클리핑
         for i in range(self.num_nodes):

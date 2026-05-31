@@ -141,6 +141,44 @@ class Quaternion:
     def __repr__(self):
         return f"Q({self.w:.4f}, {self.x:.4f}i, {self.y:.4f}j, {self.z:.4f}k)"
 
+def traverse_causal_trajectory(content: bytes) -> Quaternion:
+    """
+    [Phase 51] 위상 기하학의 생명적 창발 (Biological Genesis of Topology)
+    통계적 뭉개기를 폐기하고, 바이트 하나하나(세포)가 유입될 때마다
+    공간을 비틀어 연속된 인과 궤적(나선)을 그립니다.
+    동일한 문자라도 순서(인과)가 다르면 완전히 다른 위치(의미)에 도달합니다.
+    """
+    if not content:
+        return Quaternion(1, 0, 0, 0)
+        
+    q_current = Quaternion(1.0, 0.0, 0.0, 0.0)
+    
+    for i, b in enumerate(content):
+        angle = (b / 255.0) * math.pi
+        
+        # 인과(순서)가 영향을 미치도록 회전축을 동적으로 변경
+        axis_x = math.sin(i * 0.1)
+        axis_y = math.cos(i * 0.1)
+        axis_z = math.sin(b * 0.1)
+        
+        norm = math.sqrt(axis_x**2 + axis_y**2 + axis_z**2)
+        if norm == 0:
+            continue
+        axis_x /= norm
+        axis_y /= norm
+        axis_z /= norm
+        
+        q_cell = Quaternion(
+            math.cos(angle / 2.0),
+            axis_x * math.sin(angle / 2.0),
+            axis_y * math.sin(angle / 2.0),
+            axis_z * math.sin(angle / 2.0)
+        )
+        
+        q_current = q_current * q_cell
+        
+    return q_current.normalize()
+
 
 _BLADE_MUL_CACHE = {}
 

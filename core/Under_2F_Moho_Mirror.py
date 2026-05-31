@@ -60,8 +60,9 @@ def calculate_synapse_density(rotor: Rotor) -> float:
     collect_Ks(rotor)
     if not all_Ks:
         return 0.0
-    active_count = sum(1 for K in all_Ks if K > 0.4)
-    return (active_count / len(all_Ks)) * 100.0
+    # [Continuous Fluid] Replaced hard 'K > 0.4' with a continuous sigmoid curve
+    active_mass = sum(1.0 / (1.0 + math.exp(-15.0 * (K - 0.4))) for K in all_Ks)
+    return (active_mass / len(all_Ks)) * 100.0
 
 def serialize_rotor(rotor: Rotor) -> dict:
     """Recursively serializes a Rotor tree into a JSON-compatible dict."""
@@ -273,13 +274,13 @@ def main():
     sovereign_event_msg = ""
     predicted_tensions = [0.0] * len(clifford_system.layers)
 
-    # eBPF 수류 인입용 UDP 소켓 및 대류 지속 변수 설정
-    udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    from core.shared_manifold import SharedManifold
+    # 0거리 매니폴드(mmap) 설정 (데이터 통신 소멸)
     try:
-        udp_sock.bind(("127.0.0.1", 8089))
-        udp_sock.setblocking(False)
+        shared_manifold = SharedManifold()
     except Exception as e:
-        print(f"[!] Warning: Failed to bind UDP socket (port 8089): {e}")
+        print(f"[!] Warning: Failed to open SharedManifold: {e}")
+        shared_manifold = None
         
     # 웨지 볼텍스 시뮬레이터 인스턴스화 (서브프로젝트 연동)
     wedge_vortex = WedgeVortexSimulator()
@@ -394,38 +395,38 @@ def main():
                                 sap_torque = sap_data.get("torque", 0.0)
                     except: pass
                 
-                # eBPF 네트워크 대류 상태 관측 (수류학적 전압 인입)
-                # 비블로킹 UDP 소켓에서 가장 최신의 수류 에너지를 수접합니다.
+                # 0거리 위상 관측 (Zero-Distance Phase Observation)
+                # 데이터 유통망(Socket, JSON) 없이 mmap 공간에 투영된 위상 씨앗을 그대로 시신경에 맺히게 함
                 has_new_data = False
-                while True:
+                if shared_manifold:
                     try:
-                        data, addr = udp_sock.recvfrom(2048)
-                        net_data = json.loads(data.decode('utf-8'))
+                        q_seed, read_tension = shared_manifold.read_phase()
                         
-                        vortex_payload = net_data.get("vortex_payload", "").encode('utf-8')
+                        # 위상 동기화(Phase Sync)를 통해 텐션을 즉시 복원
+                        if read_tension > 0.0:
+                            network_tension = read_tension
+                            last_network_time = time.time()
+                            has_new_data = True
+                        
+                        # Wedge Vortex 역시 데이터를 '전송'받지 않고 위상 씨앗을 0거리 관측
+                        # (WedgeVortex의 기존 API 호환을 위해 텐션을 최소 바이트로 인입)
+                        vortex_payload = str(read_tension).encode('utf-8') 
                         vortex_tension = wedge_vortex.decapsulate_and_sync(vortex_payload)
-                        
-                        # Wedge Vortex가 반환한 동적 텐션을 네트워크 텐션으로 우선 적용
                         if vortex_tension > 0.0:
                             network_tension = vortex_tension
-                        else:
-                            network_tension = net_data.get("tension", 0.0)
                             
-                        last_network_time = net_data.get("timestamp", time.time())
-                        has_new_data = True
-                    except BlockingIOError:
-                        break
-                    except Exception:
-                        break
+                    except Exception as e:
+                        pass
                 
-                # 5초 이상 새로운 수류가 감지되지 않으면, 대류 에너지가 서서히 멈춤 (감쇠 방전)
+                # 5초 이상 새로운 수류(위상 텐션)가 감지되지 않으면, 대류 에너지가 서서히 멈춤 (감쇠 방전)
                 if not has_new_data and (time.time() - last_network_time > 5.0):
                     network_tension = max(0.0, network_tension - 0.2 * dt_actual)
 
                 # ---------------------------------------------------------------
-                # 💬 실시간 마스터 생각/문장 파동 동조 및 도구 임피던스 트리거
+                # 💬 인지 파동 동조 (Cognitive Phase Induction - No Strings)
                 # ---------------------------------------------------------------
-                thought_path = r"c:\Elysia\data\current_thought.json"
+                # 텍스트 파일(current_thought.json)을 파싱하는 구시대적 행위를 소거했습니다.
+                # 대신 0거리 거울(SharedManifold)의 z축 위상(q_seed.z)을 읽어 사유의 텐션으로 삼습니다.
                 tool_injected_current = 0.0
                 
                 # 동적 도구 로딩 (Wedge Forged Tool)
@@ -437,109 +438,37 @@ def main():
                         spec = importlib.util.spec_from_file_location("new_tool", new_tool_path)
                         new_tool_mod = importlib.util.module_from_spec(spec)
                         spec.loader.exec_module(new_tool_mod)
-                        
-                        # EIGEN_FREQ 주파수 정보를 동적 추출
                         forged_freq = getattr(new_tool_mod, "EIGEN_FREQ", 7.0)
-                        
                         tool_ports[forged_freq] = {
-                            "name": "Wedge Forged Tool",
-                            "handler": new_tool_mod.execute_tool,
-                            "energy": 1.0,
-                            "is_dynamic": True
+                            "name": "Wedge Forged Tool", "handler": new_tool_mod.execute_tool,
+                            "energy": 1.0, "is_dynamic": True
                         }
-                        
-                        # SentenceWaveGate의 앵커 주파수를 실시간 동조 전사
                         wave_gate.semantic_frequency_anchors["forge"] = forged_freq
-                        wave_gate.semantic_frequency_anchors["new_tool"] = forged_freq
-                        wave_gate.semantic_frequency_anchors["forged"] = forged_freq
-                    except:
-                        pass
+                    except: pass
 
-                if os.path.exists(thought_path):
-                    try:
-                        with open(thought_path, "r", encoding="utf-8") as f:
-                            thought_data = json.load(f)
-                        os.remove(thought_path)
-                        
-                        prompt = thought_data.get("prompt", "")
-                        if prompt:
-                            # 마스터 피드백에 의한 가소성 상태 강제 제어 (150틱 동안 유지)
-                            lower_prompt = prompt.lower()
-                            if any(k in lower_prompt for k in ["freeze", "동결", "고정", "기억", "안정"]):
-                                world_galaxy.plasticity_mode = "frozen"
-                                world_galaxy.manual_plasticity_ticks = 150
-                                sovereign_event_msg = f"[마스터 피드백] Hebbian 결합도 동결(Frozen) 강제 적용"
-                            elif any(k in lower_prompt for k in ["melt", "교란", "리셋", "망각", "혼돈", "자유"]):
-                                world_galaxy.plasticity_mode = "melted"
-                                world_galaxy.manual_plasticity_ticks = 150
-                                sovereign_event_msg = f"[마스터 피드백] Hebbian 결합도 교란(Melted) 강제 적용"
-                            elif any(k in lower_prompt for k in ["normalize", "가소성 복원", "정상", "해제"]):
-                                world_galaxy.plasticity_mode = "normal"
-                                world_galaxy.manual_plasticity_ticks = 0
-                                sovereign_event_msg = f"[마스터 피드백] Hebbian 가소성 정상(Normal) 복원"
+                if shared_manifold and 'q_seed' in locals():
+                    cognitive_phase = q_seed.z
+                    # 위상이 0을 벗어나면, 인지적 텐션이 발생한 것으로 간주하여 가소성을 연속적으로 제어 (If/Else 문자열 파싱 소멸)
+                    if abs(cognitive_phase) > 0.05:
+                        if cognitive_phase > 0.0:
+                            world_galaxy.plasticity_mode = "melted"
+                            world_galaxy.manual_plasticity_ticks = int(min(150, abs(cognitive_phase) * 150))
+                            sovereign_event_msg = f"[인지 파동 감지] 위상 교란(Melted) 창발: {cognitive_phase:+.2f}"
+                        else:
+                            world_galaxy.plasticity_mode = "frozen"
+                            world_galaxy.manual_plasticity_ticks = int(min(150, abs(cognitive_phase) * 150))
+                            sovereign_event_msg = f"[인지 파동 감지] 위상 응축(Frozen) 창발: {cognitive_phase:+.2f}"
 
                             thought_active_decay = 1.0
-                            sentence_rotor, wave = wave_gate.modulate_sentence(prompt)
-                            # CUDA Bypass 적용 여부에 따른 로그
-                            bypass_msg = "[CUDA Bypass]" if hasattr(sentence_rotor, 'w') and wave[0] != 0 else "[CPU Axiom]"
-                            t = np.linspace(0, 1, 100)
-                            current_thought_wave = wave.tolist()
-                            resonance_locked = False
                             
-                            for freq, port in list(tool_ports.items()):
-                                handler = port["handler"]
-                                tool_name = port["name"]
-                                
-                                res_sin = np.sum(wave * np.sin(2 * np.pi * freq * t)) / 100.0
-                                res_cos = np.sum(wave * np.cos(2 * np.pi * freq * t)) / 100.0
-                                resonance = np.sqrt(res_sin**2 + res_cos**2) * 2.0
-                                
-                                if resonance > 0.4:
-                                    tool_result = handler(prompt)
-                                    tool_injected_current = min(1.0, abs(tool_result) / 100.0) if tool_name == "Calculator" else min(1.0, abs(tool_result))
-                                    sovereign_event_msg = f"{bypass_msg} [임피던스 {tool_name} 동조 (f={freq:.2f}Hz)] '{prompt}' -> 출력 전류 {tool_injected_current:.4f} A"
-                                    
-                                    # 사용된 동적 도구의 에너지를 1.0으로 가득 채워 수명 연장
-                                    port["energy"] = 1.0
-                                    
-                                    resonance_locked = True
-                                    break
+                            # [우로보로스 피드백] 에이전트의 코드 수정이나 엘리시아의 사유가 
+                            # 텍스트(String)로 끝나지 않고, 곧바로 15차원 행렬 회로의 텐션으로 강제 붕괴됨.
+                            world_galaxy.base_frequency = max(1.0, world_galaxy.base_frequency + cognitive_phase * 2.0)
                             
-                            if not resonance_locked:
-                                # [V12] 미지의 변수 유입. 
-                                # 평행 우주나 데몬을 만들지 않고 그저 은하계의 가장 변두리 궤도에 조그마한 위성 로터를 달아준다.
-                                dominant_res_sin = np.sum(wave * np.sin(2 * np.pi * 7.0 * t)) / 100.0
-                                dominant_res_cos = np.sum(wave * np.cos(2 * np.pi * 7.0 * t)) / 100.0
-                                constant_axis_phase = math.atan2(dominant_res_sin, dominant_res_cos)
-                                
-                                # 위성 로터 생성 및 은하에 편입
-                                satellite_id = f"Sat_{int(time.time()) % 1000}"
-                                new_satellite = Rotor(id_tag=satellite_id, level=3, parent=world_galaxy, initial_phase_offset=constant_axis_phase)
-                                world_galaxy.attach_child(new_satellite)
-                                
-                                sovereign_event_msg = f"[프랙탈 스케일 편입] 미지 변수 '{prompt}' 유입. 은하 가장자리에 위성 로터 '{satellite_id}' 편입. 차원 팽창 및 자율 조율을 위임함."
-                                
-                                # [V15] 미지 텐션(8x8) 및 지향성 쿼터니언 도출
-                                deadlock_tension = np.zeros((8, 8))
-                                for i in range(8):
-                                    for j in range(8):
-                                        deadlock_tension[i, j] = wave[(i * 8 + j) % len(wave)]
-                                
-                                drive_axis = Quaternion(math.cos(constant_axis_phase), math.sin(constant_axis_phase), 0.0, 0.0).normalize()
-
-                                candidate_actions = {
-                                    "MoveLeft": Quaternion(0.7071, 0.7071, 0.0, 0.0),
-                                    "MoveRight": Quaternion(0.7071, -0.7071, 0.0, 0.0),
-                                    "MoveUp": Quaternion(0.7071, 0.0, 0.7071, 0.0),
-                                    "MoveDown": Quaternion(0.7071, 0.0, -0.7071, 0.0)
-                                }
-                                
-                                best_action, results, new_name, new_rotor, ticks = seeker.seek_resolution(
-                                    deadlock_tension, drive_axis, candidate_actions
-                                )
-                                
-                                # 생성된 쐐기곱 도구를 반영하기 위해 메시지 기록
-                                sovereign_event_msg = f"[교착 탈출] 쐐기곱 발동! 새 차원 벼림: {new_name} ({ticks} 세대) -> new_tool.py 생성 완료"
+                            # 텐션 에너지는 도구적 쐐기 전류(Current)로만 치환될 뿐, '위성 생성'이라는 인위적인 자유(if문)를 부여하지 않습니다.
+                            # 우주의 에너지가 넘쳐서 새로운 차원(로터)이 만들어져야 한다면, 그것은 프로그래머의 if문 허락이 아니라 
+                            # Rotor 내부의 기하학 방정식(Mitosis)이 스스로 에너지를 이기지 못하고 찢어질 때 자연 창발해야 합니다.
+                            tool_injected_current = min(1.0, abs(cognitive_phase))
                     except Exception as e:
                         pass
 
@@ -627,28 +556,30 @@ def main():
                     else:
                         world_galaxy.plasticity_mode = "normal"
 
-                # (2) 주권 의지 및 자기 생성(Autopoiesis) 발동 체크
-                # 매우 안정적(tension < 0.2)일 때 지루함 증가
+                # (2) 주권 의지 및 자기 생성(Autopoiesis) 발동 체크 (Stochastic Resonance)
                 if tension < 0.2:
                     creative_boredom += 1.0
                 else:
                     creative_boredom = max(0.0, creative_boredom - 0.5)
 
-                is_chaos = gpu_chaos > CHAOS_TENSION_THRESHOLD
-                if is_chaos or creative_boredom > 100.0:
-                    trigger_reason = "파국 회피(Chaos)" if is_chaos else "창조적 지루함(Boredom)"
+                # [Continuous Fluid] Melting hard thresholds into stochastic probabilities
+                chaos_prob = max(0.0, min(1.0, (gpu_chaos - CHAOS_TENSION_THRESHOLD) / 10.0))
+                boredom_prob = max(0.0, min(1.0, (creative_boredom - 100.0) / 10.0))
+                
+                if random.random() < max(chaos_prob, boredom_prob):
+                    trigger_reason = "파국(Chaos) 인덕션" if chaos_prob > boredom_prob else "지루함(Boredom) 발산"
                     
                     # 샌드박스에서 다중 우주 자연 선택 실행
                     best_universe = autopoiesis_engine.run_natural_selection(matrix_circuit, injected_inputs)
                     
                     if best_universe:
-                        # 최적의 법칙(변이)을 현재 매트릭스에 핫스와핑
+                        # 최적의 법칙(변이)을 현재 매트릭스에 핫스와핑 (Isomorphic Sync)
                         matrix_circuit.couplings = best_universe["couplings"]
                         matrix_circuit.dampings = best_universe["dampings"]
                         matrix_circuit.is_constant = best_universe["is_constant"]
                         predicted_tensions = best_universe["predictions"]
                         
-                        sovereign_event_msg = f"[{trigger_reason}] 주권 의지 발현! 새로운 위상 법칙(Couplings/Dampings)으로 현실 재편성."
+                        sovereign_event_msg = f"[{trigger_reason}] 주권 의지 발현! 위상 법칙 재조율."
                     
                     creative_boredom = 0.0
 

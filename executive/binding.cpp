@@ -11,6 +11,31 @@ namespace py = pybind11;
 extern void project_dimension_scaling(int* raw_data_points, float* topological_space_matrix, int N);
 extern void circulate_memory_membrane(float* dma_vram_buffer_in, float* dma_vram_buffer_out, int N);
 
+extern "C" {
+    void launch_add_memory_cuda(double* matrix_ptr, int size, double k_x, double k_y, double k_z, uint64_t structural_seed);
+    void launch_project_2d_layer_cuda(const double* matrix_ptr, int size, double k_x, double k_y, double k_z, double* projection_ptr);
+    void launch_project_3d_sphere_cuda(const double* matrix_ptr, int size, double k_x, double k_y, double k_z, double* sphere_ptr);
+}
+
+// ---------------------------------------------------------
+// CPU-Native Fallbacks (Linker safe if CUDA fails)
+// ---------------------------------------------------------
+#pragma weak launch_add_memory_cuda
+void launch_add_memory_cuda(double*, int, double, double, double, uint64_t) {
+    throw std::runtime_error("CUDA kernel not linked. Fallback to NumPy required.");
+}
+
+#pragma weak launch_project_2d_layer_cuda
+void launch_project_2d_layer_cuda(const double*, int, double, double, double, double*) {
+    throw std::runtime_error("CUDA kernel not linked. Fallback to NumPy required.");
+}
+
+#pragma weak launch_project_3d_sphere_cuda
+void launch_project_3d_sphere_cuda(const double*, int, double, double, double, double*) {
+    throw std::runtime_error("CUDA kernel not linked. Fallback to NumPy required.");
+}
+// ---------------------------------------------------------
+
 // Python 바인딩 함수
 void launch_membrane_calculation(py::array_t<float> input_array, py::array_t<float> output_array) {
     py::buffer_info buf_in = input_array.request();
@@ -110,9 +135,51 @@ float apply_relative_tension_native(py::array_t<float> rotors_real, py::array_t<
     return total_tension;
 }
 
+// ------------------------------------------------------------------
+// [Phase 2] C/CUDA Bare-Metal Holographic Manifold Tensors
+// ------------------------------------------------------------------
+#include <complex>
+
+void add_memory_native(py::array_t<std::complex<double>> matrix, double k_x, double k_y, double k_z, uint64_t structural_seed) {
+    py::buffer_info buf_mat = matrix.request();
+
+    int size = buf_mat.shape[0]; 
+    double* ptr_mat = static_cast<double*>(buf_mat.ptr); 
+
+    launch_add_memory_cuda(ptr_mat, size, k_x, k_y, k_z, structural_seed);
+}
+
+void project_2d_layer_native(py::array_t<std::complex<double>> matrix, double k_x, double k_y, double k_z, py::array_t<double> projection) {
+    py::buffer_info buf_mat = matrix.request();
+    py::buffer_info buf_proj = projection.request();
+
+    int size = buf_mat.shape[0];
+    double* ptr_mat = static_cast<double*>(buf_mat.ptr);
+    double* ptr_proj = static_cast<double*>(buf_proj.ptr);
+
+    launch_project_2d_layer_cuda(ptr_mat, size, k_x, k_y, k_z, ptr_proj);
+}
+
+void project_3d_sphere_native(py::array_t<std::complex<double>> matrix, double k_x, double k_y, double k_z, py::array_t<double> sphere) {
+    py::buffer_info buf_mat = matrix.request();
+    py::buffer_info buf_sph = sphere.request();
+
+    int size = buf_mat.shape[0];
+    double* ptr_mat = static_cast<double*>(buf_mat.ptr);
+    double* ptr_sph = static_cast<double*>(buf_sph.ptr);
+
+    launch_project_3d_sphere_cuda(ptr_mat, size, k_x, k_y, k_z, ptr_sph);
+}
+// ------------------------------------------------------------------
+
 
 PYBIND11_MODULE(elysia_core, m) {
     m.doc() = "Elysia Core PyBind11 Plugin";
     m.def("launch_membrane", &launch_membrane_calculation, "A function that runs physical kernel directly");
     m.def("apply_relative_tension_native", &apply_relative_tension_native, "0ns Native Tension Calculator for WedgeVortex Bypass");
+    
+    // Holographic Native Bindings
+    m.def("add_memory_native", &add_memory_native, "CUDA Native: Superimpose 2D tension into 3D phase space");
+    m.def("project_2d_layer_native", &project_2d_layer_native, "CUDA Native: Fold 3D phase space to 2D layer via phase cancellation");
+    m.def("project_3d_sphere_native", &project_3d_sphere_native, "CUDA Native: Fold 3D phase space to 3D spherical shell");
 }

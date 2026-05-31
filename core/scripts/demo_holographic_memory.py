@@ -30,27 +30,21 @@ def run_holographic_demo():
     # 1. 16x16 크기의 메모리 매트릭스 생성
     memory = HolographicMemoryMatrix(size=16)
     
-    # 2. 저장할 두 개의 상이한 데이터(이미지) 생성
-    data_A = np.zeros((16, 16))
-    data_B = np.zeros((16, 16))
-    
-    # Data A: 사각형 (Square)
-    data_A[4:12, 4:12] = 1.0
-    
-    # Data B: 십자가 (Cross)
-    data_B[2:14, 7:9] = 1.0
-    data_B[7:9, 2:14] = 1.0
+    # 2. 저장할 두 개의 데이터 시민권(Seed/Hash) 생성
+    # 데이터를 배열(Array)로 옮기지 않고, 그저 뼈대(구조 원리)만 넘김
+    concept_A = hash("SQUARE_CONCEPT") & 0xFFFFFFFFFFFFFFFF
+    concept_B = hash("CROSS_CONCEPT") & 0xFFFFFFFFFFFFFFFF
     
     print("[1] 두 개의 서로 다른 차원 축(Rotor) 정의")
     # 서로 직교하는 위상 주파수를 가져야 간섭이 캔슬됨
     rotor_A = Quaternion(1.0, 1.0, 0.0, 0.0).normalize() # X축 기반 파동
     rotor_B = Quaternion(1.0, 0.0, 1.0, 0.0).normalize() # Y축 기반 파동
     
-    print("[2] 메모리 공간에 파동으로 치환하여 중첩(Superposition) 저장")
-    memory.add_memory(data_A, rotor_A)
-    memory.add_memory(data_B, rotor_B)
+    print("[2] VRAM 내부에 파동으로 치환하여 중첩(Superposition) 창발 (데이터 이동 없음)")
+    memory.add_memory(concept_A, rotor_A)
+    memory.add_memory(concept_B, rotor_B)
     
-    print("\n=> 데이터 A(사각형)와 B(십자가)가 동일한 3D 복소수 공간에 중첩되었습니다.")
+    print("\n=> 데이터 A와 B의 구조 원리가 동일한 3D 복소수 공간에 중첩 창발되었습니다.")
     # 내부 공간의 중심 단면(z=8) 실수부 출력 (알아볼 수 없는 노이즈 상태 확인)
     print("=> 렌즈 없이 본 메모리의 날것(Raw) 상태 (알아볼 수 없는 간섭무늬):")
     raw_slice = memory.matrix[8, :, :].real

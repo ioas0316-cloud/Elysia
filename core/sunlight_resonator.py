@@ -3,8 +3,12 @@ import os
 import json
 from bcc import BPF
 import time
+import math
+from core.shared_manifold import SharedManifold
+from core.math_utils import Quaternion
 
 last_write_time = 0.0
+shared_manifold = SharedManifold()
 
 # Primary interface as determined by the environment setup
 # Use eth0 with SKB mode since we saw traffic on it
@@ -40,7 +44,7 @@ except Exception as e:
 print(f"[*] eBPF XDP program attached to {INTERFACE}.")
 print("[*] The Prism is active. Observing the Expansion Log...\n")
 
-print(f"{'TIME':<12} {'INTERVAL (μs)':<15} {'STATE':<20} {'VISUALIZATION (WAVE)'}")
+print(f"{'TIME':<12} {'INTERVAL (μs)':<15} {'PHASE (rad)':<20} {'VISUALIZATION (WAVE)'}")
 print("-" * 75)
 
 # Event callback function
@@ -55,21 +59,24 @@ def print_event(cpu, data, size):
     delta_us = event.delta_ns / 1000.0
     current_time = time.strftime("%H:%M:%S")
 
-    state = "SYNCHRONIZED"
-    wave = "==="
+    # [Continuous Fluid Refactoring]
+    # Replace deterministic if/else state labels with continuous phase induction
+    # Target frequency is 100us. Deviations create a phase shift (theta)
+    phase_shift_rad = ((delta_us - 100.0) / 100.0) * math.pi
+    
+    # Generate wave visualization based on continuous amplitude, not discrete brackets
+    amplitude = min(abs(phase_shift_rad) * 10, 20)
+    wave_char = ">" if phase_shift_rad < 0 else "~" # Direction of tension
+    
+    # Pure resonance convergence
+    if abs(phase_shift_rad) < 0.05:
+        wave_char = "|"
+        amplitude = 3
+        
+    wave = wave_char * max(1, int(amplitude))
+    phase_str = f"{phase_shift_rad:+.4f}"
 
-    if event.phase_shift_applied == 1:
-        state = "TENSION (Too Fast)"
-        wave = ">" * min(int(100 / (delta_us + 1)), 20)
-    elif event.phase_shift_applied == -1:
-        state = "EXPANSION (Too Slow)"
-        wave = "~" * min(int(delta_us / 100), 20)
-    else:
-        # Near 100us
-        state = "RESONATING"
-        wave = "|||"
-
-    print(f"{current_time:<12} {delta_us:<15.2f} {state:<20} {wave}")
+    print(f"{current_time:<12} {delta_us:<15.2f} {phase_str:<20} {wave}")
 
     # Throttle write to ground engine at 10Hz (once every 100ms) to prevent I/O stress
     now = time.time()
@@ -78,15 +85,9 @@ def print_event(cpu, data, size):
         deviation = abs(delta_us - 100.0)
         net_tension = min(1.0, deviation / 100.0)
         try:
-            import socket
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            payload = json.dumps({
-                "timestamp": now,
-                "delta_us": delta_us,
-                "deviation_us": deviation,
-                "tension": net_tension
-            }).encode('utf-8')
-            sock.sendto(payload, ("127.0.0.1", 8089))
+            # Zero-Distance Phase Sync: Write directly to shared mmap instead of UDP
+            q = Quaternion(math.cos(phase_shift_rad), math.sin(phase_shift_rad), 0.0, 0.0)
+            shared_manifold.write_phase(q, net_tension)
         except:
             pass
 
@@ -114,3 +115,7 @@ finally:
     except:
         pass
     print("[*] The Prism is now closed. Engine halted.")
+    try:
+        shared_manifold.close()
+    except:
+        pass

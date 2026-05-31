@@ -16,13 +16,13 @@ JUDGE_DIR = judiciary
 BIN_DIR = bin
 
 # 입법부 C/CUDA 파일
-CU_SRCS = $(LEG_DIR)/src/topology_projector.cu $(LEG_DIR)/src/circular_memory_backbone.cu $(LEG_DIR)/src/clifford_membrane.cu
+CU_SRCS = $(LEG_DIR)/src/topology_projector.cu $(LEG_DIR)/src/circular_memory_backbone.cu $(LEG_DIR)/src/clifford_membrane.cu $(LEG_DIR)/src/holographic_manifold_kernel.cu
 CPP_SRCS = $(LEG_DIR)/src/fractal_rotor.cpp $(LEG_DIR)/src/qpc_clock_lock.cpp $(LEG_DIR)/src/continuous_twin_sensing.cpp
 BIND_SRCS = $(EXEC_DIR)/binding.cpp
 
 # 출력 파일
 TARGET = $(EXEC_DIR)/elysia_core$(PYTHON_EXT_SUFFIX)
-CU_OBJS = $(BIN_DIR)/topology_projector.o $(BIN_DIR)/circular_memory_backbone.o $(BIN_DIR)/clifford_membrane.o
+CU_OBJS = $(BIN_DIR)/topology_projector.o $(BIN_DIR)/circular_memory_backbone.o $(BIN_DIR)/clifford_membrane.o $(BIN_DIR)/holographic_manifold_kernel.o
 
 all: ensure_dirs check_judiciary build_executive
 
@@ -41,6 +41,7 @@ compile_cuda:
 		$(NVCC) -c -O3 -Xcompiler -fPIC $(LEG_DIR)/src/topology_projector.cu -o $(BIN_DIR)/topology_projector.o; \
 		$(NVCC) -c -O3 -Xcompiler -fPIC $(LEG_DIR)/src/circular_memory_backbone.cu -o $(BIN_DIR)/circular_memory_backbone.o; \
 		$(NVCC) -c -O3 -Xcompiler -fPIC $(LEG_DIR)/src/clifford_membrane.cu -o $(BIN_DIR)/clifford_membrane.o; \
+		$(NVCC) -c -O3 -Xcompiler -fPIC $(LEG_DIR)/src/holographic_manifold_kernel.cu -o $(BIN_DIR)/holographic_manifold_kernel.o; \
 	else \
 		echo "⚠️ NVCC not found. Skipping CUDA compilation to avoid linker errors."; \
 	fi

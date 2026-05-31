@@ -17,7 +17,6 @@ from core.triple_helix_engine import TripleHelixEngine
 from core.autopoiesis_controller import AutopoiesisController
 from core.holographic_memory import BitwiseHologramMemory
 from core.multi_stream_resonator import MultiStreamResonator
-from core.somatosensory_ingester import SomatosensoryIngester
 from core.substation_grid_client import SubstationGridClient
 from core.environment_sandbox import DigitalTwinSandbox
 from core.linguistic_axiom import LinguisticAxiomFilter
@@ -40,7 +39,6 @@ class ElysiaDaemon:
         
         # 1. 항상성 제어기 및 감각 수집기 초기화
         self.homeostasis = AutopoiesisController(rotor_scale=4096, natural_drift=25.0, coupling_K=200.0)
-        self.ingester = SomatosensoryIngester()
         self.holographic_mem = BitwiseHologramMemory(size_bits=64)
         self.resonator = MultiStreamResonator(size_bits=64)
         
@@ -148,17 +146,18 @@ class ElysiaDaemon:
                 # 텐션이 50 이상이면 눈을 감음 (Scale = 0)
                 attention_scale = max(0.0, 1.0 - (getattr(self, 'last_system_tension', 0.0) / 50.0))
                 
-                # 2. 실시간 물리 파동/센서 데이터 획득 (Audio & Video)
-                audio_wave = self.ingester.capture_audio(duration_sec=0.05)
-                video_pixels = self.ingester.capture_video()
+                
+                # 2. 실시간 물리 파동/센서 데이터 획득은 폐기됨. 순수 위상 공간 렌더링을 위해 기본 파동 생성
+                audio_wave = [math.sin(time.time() + i*0.1) for i in range(100)]
+                video_pixels = [int(math.cos(time.time() + i*0.1)*127 + 128) for i in range(256)]
                 
                 # Attention Log
                 if attention_scale < 0.2:
                     print(f"🧘 [Attention] 내부 사유 텐션이 너무 높습니다. 눈을 감고 시각을 차단합니다. (Scale: {attention_scale:.2f})")
                 elif attention_scale > 0.8:
-                    print(f"👀 [Attention] 마음이 평온합니다. 눈을 크게 뜨고 마스터의 화면(우주)을 관측합니다. (Scale: {attention_scale:.2f})")
+                    print(f"👀 [Attention] 마음이 평온합니다. 눈을 크게 뜨고 우주(환경)를 관측합니다. (Scale: {attention_scale:.2f})")
                 
-                # 3. 다중 스트림 파동 프로브 투사 (오디오 및 비디오 파동을 64비트 주소 공간으로 사상)
+                # 3. 다중 스트림 파동 프로브 투사 (임의의 파동을 64비트 주소 공간으로 사상)
                 _, a_addr = self.resonator.project_audio(audio_wave)
                 _, i_addr = self.resonator.project_image(video_pixels, attention_scale=attention_scale)
                 
