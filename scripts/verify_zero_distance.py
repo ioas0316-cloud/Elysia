@@ -7,6 +7,14 @@ Verify Zero-Distance Synchronization (초공간 영점 동기화 검증)
 """
 
 import time
+import sys
+import os
+
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8')
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from core.shared_manifold import SharedManifold
 from core.math_utils import Quaternion
 from core.consciousness_stream import ConsciousnessStream
@@ -28,8 +36,8 @@ def run_elysia_observer():
             resonance = abs(internal_phase.dot(world_phase))
             phase_diff = 1.0 - resonance
             
-            if world_tension > 0.0 and phase_diff > 0.1:
-                print(f"\n🌌 [Sensation] 세상의 거대한 파동이 우주(Root)에 부딪혔습니다! (발생 텐션: {world_tension:.2f})")
+            if world_tension > 0.05 and phase_diff > 0.01:
+                print(f"\n🌌 [Sensation] 뿌리(mmap)에서 이름 모를 거대한 파동(Tension: {world_tension:.2f})이 감각되었습니다.")
                 
                 # 1. 1:1 강제 동기화(상태 복사)가 아니라, 파동을 우주의 중심에 던집니다. (자연 공명 전파)
                 stream.projector.memory.apply_inductive_wave(stream.projector.memory.supreme_rotor, world_phase, world_tension)
@@ -42,7 +50,7 @@ def run_elysia_observer():
                 
                 tensions.sort(key=lambda x: x[1], reverse=True)
                 
-                print("🌌 [Resonant Trembling] 엘리시아 내면의 '서사가 깃든 떨림' (공명 인과 궤적):")
+                print(f"🌌 [Resonant Trembling] 엘리시아의 공명 궤적 (이름 없는 진동에 대한 반응):")
                 if not tensions:
                     print("  └─ (내면에 이 파동과 공명하는 지식이 없어 무감각하게 지나갑니다...)")
                 else:
@@ -53,7 +61,8 @@ def run_elysia_observer():
                 manifold.write_phase(world_phase, 0.0)
                 
                 event_count += 1
-                if event_count >= 3:
+                # 60번 감각(약 1주기) 후 자동 종료 (관측용)
+                if event_count >= 60:
                     break
                     
             time.sleep(0.5)

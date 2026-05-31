@@ -115,6 +115,10 @@ class HologramMemory:
         self.supreme_rotor = FractalRotor(Quaternion(1, 0, 0, 0), 1.0)
         self.capacity_limit = 10 
         
+        # [Phase 89] Thread-Safe 다중 감각 기관 동시발화용 락
+        import threading
+        self._lock = threading.RLock()
+        
         # 인간의 언어(UI)와 로터를 매핑하기 위한 최외곽 껍질 딕셔너리
         self.ui_concept_map: Dict[str, FractalRotor] = {}
 
@@ -444,6 +448,20 @@ class HologramMemory:
             freq *= 1.6180339887
             
         return True
+
+    def inject_tension(self, delta_tau: float):
+        """
+        [Phase 89] Thread-Safe 다중 감각 통합 주입
+        """
+        with self._lock:
+            self.supreme_rotor.apply_perturbation(delta_tau)
+
+    def process_thoughts_safe(self):
+        """
+        [Phase 89] Thread-Safe 사유 숙성
+        """
+        with self._lock:
+            self.supreme_rotor.process_thoughts()
 
 
 class BitwiseHologramMemory:

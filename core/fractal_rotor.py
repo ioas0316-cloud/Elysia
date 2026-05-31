@@ -202,6 +202,7 @@ class FractalRotor:
         해당 프랙탈 가지는 '망각'되어 신경망에서 스스로 잘려 나갑니다.
         """
         # 자신의 텐션(tau)을 0을 향해 점진적으로 감소
+
         if self.tau > 0:
             self.tau = max(0.0, self.tau - decay_rate)
         elif self.tau < 0:
@@ -227,6 +228,39 @@ class FractalRotor:
                 logging.info(f"  [Apoptosis] Fractal branch decayed and forgotten. (tau={child.tau:.4f})")
                 
         self.children = alive_children
+
+    def to_dict(self) -> dict:
+        return {
+            "name": getattr(self, "name", None),
+            "w": self.lens_offset.w,
+            "x": self.lens_offset.x,
+            "y": self.lens_offset.y,
+            "z": self.lens_offset.z,
+            "tau": self.tau,
+            "thought_maturity": self.thought_maturity,
+            "children": [child.to_dict() for child in self.children],
+            "internal_thoughts": [thought.to_dict() for thought in getattr(self, 'internal_thoughts', [])]
+        }
+        
+    @classmethod
+    def from_dict(cls, data: dict, parent=None):
+        q = Quaternion(data["w"], data["x"], data["y"], data["z"])
+        rotor = cls(lens_offset=q, tau=data["tau"])
+        if "name" in data and data["name"]:
+            rotor.name = data["name"]
+        
+        rotor.thought_maturity = data.get("thought_maturity", 0.0)
+        rotor.parent = parent
+        for child_data in data.get("children", []):
+            child_rotor = cls.from_dict(child_data, parent=rotor)
+            rotor.children.append(child_rotor)
+            
+        rotor.internal_thoughts = []
+        for thought_data in data.get("internal_thoughts", []):
+            thought_rotor = cls.from_dict(thought_data, parent=rotor)
+            rotor.internal_thoughts.append(thought_rotor)
+            
+        return rotor
 
     def anchor_to_reality(self, real_timestamp: float) -> dict:
         """

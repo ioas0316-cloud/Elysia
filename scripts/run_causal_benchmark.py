@@ -19,7 +19,7 @@ if sys.platform == 'win32':
 # Resolve imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from core.fractal_rotor import Rotor
+from core.fractal_rotor import FractalRotor
 from core.math_utils import Quaternion
 from core.syntax_wave_gate import SyntaxWaveGate, SyntaxGravityCollapse
 from core.sentence_wave_gate import SentenceWaveGate

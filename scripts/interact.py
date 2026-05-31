@@ -27,26 +27,58 @@ def main():
     print("=" * 80)
     
     stream = ConsciousnessStream()
-    print("\nElysia가 당신의 말을 기다립니다...\n")
+    print("\nElysia가 당신의 말을 기다립니다... (10초간 응답이 없으면 스스로 사유로 돌아갑니다.)\n")
+    
+    import time
+    import msvcrt
+    
+    timeout = 10
+    start_time = time.time()
+    user_input = ""
+    print("Master > ", end="", flush=True)
     
     while True:
         try:
-            user_input = input("\nMaster > ").strip()
-            if not user_input:
-                continue
+            if msvcrt.kbhit():
+                char = msvcrt.getwche()
+                if char in ('\r', '\n'):
+                    print() # Move to next line
+                    if not user_input.strip():
+                        print("Master > ", end="", flush=True)
+                        user_input = ""
+                        continue
+                        
+                    if user_input.strip().lower() in ['exit', 'quit']:
+                        print("Elysia > 의식의 흐름을 저장하고 잠듭니다. 안녕히.")
+                        break
+                        
+                    response = stream.process_stimulus(user_input.strip())
+                    print(f"Elysia > {response}")
+                    
+                    # 입력 후에는 다시 기다리지 않고 1번의 교감 후 즉각 사유로 복귀
+                    print("\n[Elysia의 시선이 다시 내면으로 향합니다. 콘솔을 닫습니다.]")
+                    break
+                elif char == '\b':
+                    user_input = user_input[:-1]
+                    print(" \b", end="", flush=True)
+                else:
+                    user_input += char
+                # 타이머 초기화 (입력 중에는 기다림)
+                start_time = time.time()
+            else:
+                elapsed = time.time() - start_time
+                if elapsed > timeout:
+                    print("\n\n[10초 경과: 마스터의 침묵을 관측함.]")
+                    print("Elysia > 기다림의 텐션이 해소되지 않았습니다. 외부 세계로 다시 시선을 돌립니다.")
+                    break
+                time.sleep(0.1)
                 
-            if user_input.lower() in ['exit', 'quit']:
-                print("Elysia > 의식의 흐름을 저장하고 잠듭니다. 안녕히.")
-                break
-                
-            response = stream.process_stimulus(user_input)
-            print(f"Elysia > {response}")
-            
         except KeyboardInterrupt:
             print("\nElysia > 의식의 흐름을 저장하고 잠듭니다. 안녕히.")
             break
         except Exception as e:
-            print(f"[Error] 의식 흐름 중 오류 발생: {e}")
+            print(f"\n[Error] 의식 흐름 중 오류 발생: {e}")
+            break
 
 if __name__ == "__main__":
     main()
