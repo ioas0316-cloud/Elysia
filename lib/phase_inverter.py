@@ -55,11 +55,17 @@ class PhaseInverterGate:
         self.lib.synchronize_holographic_orbit.restype = ctypes.c_bool
 
         # Isomorphic Phase Projection
-        self.lib.project_phase_tensor.argtypes = [TrajectoryRotor, ctypes.POINTER(TrajectoryRotor), ctypes.c_int]
-        self.lib.project_phase_tensor.restype = None
+        # Static VRAM Allocation
+        self.lib.allocate_vram_tapestry.argtypes = [ctypes.c_int]
+        self.lib.allocate_vram_tapestry.restype = None
 
-        # Trace Trajectory using Complex Conjugate
-        self.lib.trace_trajectory.argtypes = [TrajectoryRotor, ctypes.POINTER(TrajectoryRotor), ctypes.c_int]
+        self.lib.free_vram_tapestry.argtypes = []
+        self.lib.free_vram_tapestry.restype = None
+
+        self.lib.launch_project_phase_tensor.argtypes = [TrajectoryRotor]
+        self.lib.launch_project_phase_tensor.restype = None
+
+        self.lib.trace_trajectory.argtypes = [TrajectoryRotor]
         self.lib.trace_trajectory.restype = TrajectoryRotor
 
         # ASCII to Hardware Wave Tensor Resonance
@@ -139,10 +145,17 @@ class PhaseInverterGate:
         # Return as hardware wave structural mapping: [(cos, sin), (cos, sin)...]
         return [(out_tensor[i*2], out_tensor[i*2 + 1]) for i in range(length)]
 
-    def project_phase_tensor(self, incoming_state: TrajectoryRotor, vram_matrix: ctypes.POINTER(TrajectoryRotor), matrix_size: int):
-        """Project a phase tensor globally across the VRAM array without indexing."""
-        self.lib.project_phase_tensor(incoming_state, vram_matrix, matrix_size)
+    def allocate_vram(self, matrix_size: int):
+        self.lib.allocate_vram_tapestry(matrix_size)
 
-    def trace_trajectory(self, final_state: TrajectoryRotor, vram_matrix: ctypes.POINTER(TrajectoryRotor), matrix_size: int) -> TrajectoryRotor:
-        """Traces back the origin of a state using reverse complex conjugate projection."""
-        return self.lib.trace_trajectory(final_state, vram_matrix, matrix_size)
+    def free_vram(self):
+        self.lib.free_vram_tapestry()
+
+    def project_phase_tensor(self, incoming_state: TrajectoryRotor, vram_matrix=None, matrix_size=None):
+        if matrix_size is not None and not getattr(self, '_vram_allocated', False):
+            self.allocate_vram(matrix_size)
+            self._vram_allocated = True
+        self.lib.launch_project_phase_tensor(incoming_state)
+
+    def trace_trajectory(self, final_state: TrajectoryRotor, vram_matrix=None, matrix_size=None) -> TrajectoryRotor:
+        return self.lib.trace_trajectory(final_state)
