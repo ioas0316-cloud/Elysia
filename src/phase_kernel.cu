@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <cmath>
 #include <cstdint>
 
@@ -151,36 +152,103 @@ extern "C" {
     // ==========================================
 
     // Instead of 27-base pointer crawling, project the incoming state globally across the VRAM array
-    void project_phase_tensor(struct TrajectoryRotor incoming_state, struct TrajectoryRotor* vram_matrix, int matrix_size) {
-        // Purely topological projection over physical array
-        // In full GPU implementation, this would be a single kernel launch block
 
-        for (int i = 0; i < matrix_size; ++i) {
-            // Natural coherence matching (Holographic Overlay)
-            // Tension pulls local state towards the incoming state
-            float dw = (incoming_state.w - vram_matrix[i].w) * 0.05f;
-            float dx = (incoming_state.x - vram_matrix[i].x) * 0.05f;
-            float dy = (incoming_state.y - vram_matrix[i].y) * 0.05f;
-            float dz = (incoming_state.z - vram_matrix[i].z) * 0.05f;
+    // ==========================================
+    // 3. Electromagnetic Cognitive Field (Field Physics)
+    // 4. Magnetic Imprint Layer (MTJ/SOT)
+    // ==========================================
 
-            vram_matrix[i].w += dw;
-            vram_matrix[i].x += dx;
-            vram_matrix[i].y += dy;
-            vram_matrix[i].z += dz;
+    // Native CUDA Kernel: Single-pass GEMM equivalent Weaver (Weft threads over Warp Tensor)
+    __global__ void project_phase_tensor_kernel(struct TrajectoryRotor incoming_state, struct TrajectoryRotor* vram_matrix, int matrix_size) {
+        int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
-            // Renormalize local matrix element to maintain quantum coherence bounds
-            float mag = std::sqrt(vram_matrix[i].w * vram_matrix[i].w +
-                                  vram_matrix[i].x * vram_matrix[i].x +
-                                  vram_matrix[i].y * vram_matrix[i].y +
-                                  vram_matrix[i].z * vram_matrix[i].z);
+        if (idx < matrix_size) {
+            // Field Physics: Attraction & Repulsion
+            // Calculate Phase Alignment (Dot Product between the Spin Rotors)
+            float alignment = incoming_state.w * vram_matrix[idx].w +
+                              incoming_state.x * vram_matrix[idx].x +
+                              incoming_state.y * vram_matrix[idx].y +
+                              incoming_state.z * vram_matrix[idx].z;
+
+            // Electromagnetic Field Kinetic Momentum
+            // If alignment is positive and high -> Strong Attraction (Synchronize)
+            // If alignment is negative or low -> Repulsion (Push away, decouple)
+            // Quantum Sensor Logic (Spintronics / MTJ Model)
+            // Alignment = 0 (Resistance Zero) -> Perfect match, no kinetic force needed, flat and stable.
+            // Change = 1 (Resistance Max) -> Complete mismatch, needs massive kinetic twist to realign.
+
+            float resistance_sensor = 1.0f - abs(alignment); // 0 when fully aligned (abs(dot)=1), 1 when orthogonal (dot=0)
+
+            // The kinetic force applied to twist the spin is directly proportional to the resistance (change state)
+            float kinetic_twist_force = 0.0f;
+
+            if (resistance_sensor < 0.01f) {
+                // State = 0 (Perfect Alignment): No change, system rests at 0 resistance
+                kinetic_twist_force = 0.0f;
+            } else if (resistance_sensor > 0.5f) {
+                // State = 1 (High Resistance / Change): Apply strong repulsive/attractive kinetic twist
+                kinetic_twist_force = 0.5f * resistance_sensor; // Higher multiplier to see effect in test
+            } else {
+                // Partial interference
+                kinetic_twist_force = 0.1f * resistance_sensor;
+            }
+
+            // Apply Kinetic Momentum to Local VRAM Rotor (The Tapestry)
+            float dw = (incoming_state.w - vram_matrix[idx].w) * kinetic_twist_force;
+            float dx = (incoming_state.x - vram_matrix[idx].x) * kinetic_twist_force;
+            float dy = (incoming_state.y - vram_matrix[idx].y) * kinetic_twist_force;
+            float dz = (incoming_state.z - vram_matrix[idx].z) * kinetic_twist_force;
+
+            vram_matrix[idx].w += dw;
+            vram_matrix[idx].x += dx;
+            vram_matrix[idx].y += dy;
+            vram_matrix[idx].z += dz;
+
+            // Renormalize to maintain Quaternionic Spin Boundary (Magnetic State)
+            float mag = sqrtf(vram_matrix[idx].w * vram_matrix[idx].w +
+                              vram_matrix[idx].x * vram_matrix[idx].x +
+                              vram_matrix[idx].y * vram_matrix[idx].y +
+                              vram_matrix[idx].z * vram_matrix[idx].z);
+
             if (mag > 0.000001f) {
-                vram_matrix[i].w /= mag;
-                vram_matrix[i].x /= mag;
-                vram_matrix[i].y /= mag;
-                vram_matrix[i].z /= mag;
+                vram_matrix[idx].w /= mag;
+                vram_matrix[idx].x /= mag;
+                vram_matrix[idx].y /= mag;
+                vram_matrix[idx].z /= mag;
             }
         }
     }
+
+    // Host function to launch the __global__ kernel
+    extern "C" void launch_project_phase_tensor(struct TrajectoryRotor incoming_state, struct TrajectoryRotor* h_vram_matrix, int matrix_size) {
+        // Allocate Device Memory (The Magnetic Lattice on GPU)
+        struct TrajectoryRotor* d_vram_matrix;
+        size_t bytes = matrix_size * sizeof(struct TrajectoryRotor);
+        cudaMalloc(&d_vram_matrix, bytes);
+
+        // Copy current unaligned/semi-aligned state from Host to Device
+        cudaMemcpy(d_vram_matrix, h_vram_matrix, bytes, cudaMemcpyHostToDevice);
+
+        // Launch Kernel (Apply External Magnetic Field for Phase Alignment)
+        int threadsPerBlock = 256;
+        int blocksPerGrid = (matrix_size + threadsPerBlock - 1) / threadsPerBlock;
+
+        project_phase_tensor_kernel<<<blocksPerGrid, threadsPerBlock>>>(incoming_state, d_vram_matrix, matrix_size);
+
+        // Wait for all GPU threads to finish weaving
+        cudaDeviceSynchronize();
+
+        // Copy the freshly aligned Magnetic Tapestry back to the Host (Observation / Zero-resistance Retrieval)
+        cudaMemcpy(h_vram_matrix, d_vram_matrix, bytes, cudaMemcpyDeviceToHost);
+
+        // Free Device Memory
+        cudaFree(d_vram_matrix);
+        cudaError_t err = cudaGetLastError();
+        if (err != cudaSuccess) {
+            printf("CUDA Error: %s\n", cudaGetErrorString(err));
+        }
+    }
+
 
 
     // ==========================================

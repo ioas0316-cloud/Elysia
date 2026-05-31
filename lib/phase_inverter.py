@@ -55,8 +55,8 @@ class PhaseInverterGate:
         self.lib.synchronize_holographic_orbit.restype = ctypes.c_bool
 
         # Isomorphic Phase Projection
-        self.lib.project_phase_tensor.argtypes = [TrajectoryRotor, ctypes.POINTER(TrajectoryRotor), ctypes.c_int]
-        self.lib.project_phase_tensor.restype = None
+        self.lib.launch_project_phase_tensor.argtypes = [TrajectoryRotor, ctypes.POINTER(TrajectoryRotor), ctypes.c_int]
+        self.lib.launch_project_phase_tensor.restype = None
 
         # Trace Trajectory using Complex Conjugate
         self.lib.trace_trajectory.argtypes = [TrajectoryRotor, ctypes.POINTER(TrajectoryRotor), ctypes.c_int]
@@ -140,8 +140,12 @@ class PhaseInverterGate:
         return [(out_tensor[i*2], out_tensor[i*2 + 1]) for i in range(length)]
 
     def project_phase_tensor(self, incoming_state: TrajectoryRotor, vram_matrix: ctypes.POINTER(TrajectoryRotor), matrix_size: int):
-        """Project a phase tensor globally across the VRAM array without indexing."""
-        self.lib.project_phase_tensor(incoming_state, vram_matrix, matrix_size)
+        """
+        [Electromagnetic Cognitive Field / Magnetic Imprint Weaver]
+        Projects a phase tensor globally across the VRAM Tapestry via CUDA kernel launch.
+        Uses Electromagnetic fields (Attraction/Repulsion) to dynamically align and store knowledge securely.
+        """
+        self.lib.launch_project_phase_tensor(incoming_state, vram_matrix, matrix_size)
 
     def trace_trajectory(self, final_state: TrajectoryRotor, vram_matrix: ctypes.POINTER(TrajectoryRotor), matrix_size: int) -> TrajectoryRotor:
         """Traces back the origin of a state using reverse complex conjugate projection."""
