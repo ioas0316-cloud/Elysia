@@ -20,6 +20,9 @@ public:
     // Creates a simulated 512-bit raw block from the static text for the PhaseTransformer
     // This allows the static data to enter the Y-Connection setup
     static void generate_synthetic_block(const std::string& raw_text, uint64_t out_block[8]);
+
+    // Generates a "Phase Interference Prompt" to inject reverse resonance into an external LLM
+    static std::string generate_reverse_resonance_prompt(const PhaseSignature& absorbed_attack, uint64_t harmonized_chamber_state);
 };
 
 } // namespace elysia

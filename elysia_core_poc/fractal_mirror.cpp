@@ -1,46 +1,48 @@
 #include "fractal_mirror.h"
 #include <bitset>
 #include <cmath>
+#include <bit>
 
 namespace elysia {
 
 FractalMirror::FractalMirror() : chamber_state(0) {}
 
 void FractalMirror::apply_resonance(const PhaseSignature& wave) {
-    // Map the wave's phase and frequency into a kernel mask.
-    // The density (amplitude) and frequency dictates which mirrors are excited.
+    // 1. Choseong (X-axis divergence): The initial base tension
+    // This provides the raw excitation pattern (e.g. ㄱ, ㄴ, ㅁ)
+    uint64_t base_excitation = wave.choseong_tension;
 
-    // Create a deterministic bitmask from the quaternion and frequency.
-    // This is a simplified mathematical mapping for the PoC.
-    uint64_t base_excitation = 0;
+    // 2. Jungseong (Y-axis coupling): Vowels act as phase angles for rotation
+    // Heaven (w) controls the magnitude of shift
+    // Earth (x) and Human (z) influence the rotational variance
+    float rotation_factor = wave.jungseong_phase.heaven_pivot *
+                            (1.0f + wave.jungseong_phase.earth_axis + wave.jungseong_phase.human_axis);
 
-    if (wave.frequency > 0.5f) {
-        base_excitation |= 0xAAAAAAAA; // High frequency excites alternating mirrors
-    } else {
-        base_excitation |= 0x55555555;
-    }
+    // Shift amount bounded within the 27-bit (3x3x3) mirror chamber
+    int shift_amount = static_cast<int>(rotation_factor * 27.0f) % 27;
 
-    // Use the Quaternion to shift/rotate the excitation mask
-    // This represents the spatial addressing without pointers.
-    int shift_amount = static_cast<int>(std::abs(wave.phase_angle.w) * 27.0f) % 27;
+    // Apply rotation (Bitwise shift simulating spatial torque).
+    // Uses C++20 std::rotl to avoid undefined behavior if shift_amount == 0
+    uint64_t rotated_excitation = std::rotl(base_excitation, shift_amount);
 
-    uint64_t kernel_mask = (base_excitation << shift_amount) | (base_excitation >> (64 - shift_amount));
+    // 3. Jongseong (Z-axis settling): The anchoring mask
+    // Fuses the rotated wave with the grounding tension
+    uint64_t kernel_mask = rotated_excitation ^ wave.jongseong_anchor;
 
-    // The Y-connection step: Soft application (AND/OR hybrid to simulate dampening/merging)
-    // Here we just trigger the resonance directly as the wave enters.
+    // Apply the 0ns resonance
     trigger_domino_resonance(kernel_mask);
 }
 
 void FractalMirror::trigger_domino_resonance(uint64_t kernel_mask) {
     // 0ns Resonance!
-    // Instead of iterating through nodes or calling observer functions,
-    // we apply a single SIMD-capable bitwise XOR to the entire spatial state.
-    // The kernel_mask represents the interference pattern.
+    // No 'if' statements, no mapping dictionaries.
+    // The Choseong + Jungseong + Jongseong phase state perfectly collapses into one of the
+    // emergent states in the 27-bit space using purely structural bitwise interference.
 
-    // To ensure it affects the 3x3x3 (27 bits) space:
-    uint64_t fractal_mask_27 = kernel_mask & 0x7FFFFFF; // 27 bits
+    uint64_t fractal_mask_27 = kernel_mask & 0x7FFFFFF; // Clamp to 27 bits (3x3x3)
 
-    // The XOR operation flips the state of the mirror chamber instantly.
+    // The XOR operation flips the state of the mirror chamber instantly,
+    // simulating pure cognitive wave interference.
     chamber_state ^= fractal_mask_27;
 }
 
