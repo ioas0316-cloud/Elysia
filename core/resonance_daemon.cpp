@@ -1,4 +1,5 @@
 #include "resonance_hal.h"
+#include "elysia_bridge.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -55,7 +56,7 @@ ZeroCopyRingBuffer* HAL_Memory_Init(void) {
     return ring;
 }
 
-int HAL_Poll_And_Spin(ZeroCopyRingBuffer *ring_buffer) {
+int HAL_Poll_And_Spin(ZeroCopyRingBuffer *ring_buffer, CognitionBridge *bridge) {
     std::cout << "[Watchtower] Initiating Fractal Rotor Polling Loop (0ns Resonance Target)...\n";
 
     uint64_t spin_count = 0;
@@ -88,6 +89,13 @@ int HAL_Poll_And_Spin(ZeroCopyRingBuffer *ring_buffer) {
                 std::cout << "[Watchtower] Captured Essence Wave -> Addr: 0x"
                           << std::hex << ring_buffer->waves[current_tail].data_addr
                           << std::dec << " | T: " << current_time_ns << " ns\n";
+
+                // Push the filtered 1% Pure Essence across the neural bridge to Python
+                if (bridge) {
+                    float simulated_amp = 1.0f + (spin_count % 100) * 0.001f;
+                    float simulated_phase = 0.0f; // Perfect resonance
+                    Bridge_Push_Essence(bridge, current_time_ns, ring_buffer->waves[current_tail].data_addr, simulated_amp, simulated_phase);
+                }
             }
         }
     }
@@ -126,10 +134,18 @@ int main(int argc, char **argv) {
         return -1;
     }
 
+    CognitionBridge *bridge = nullptr;
+    try {
+        bridge = Bridge_Init();
+    } catch(const std::exception& e) {
+        std::cerr << e.what() << "\n[Watchtower] Running without Neural Bridge.\n";
+    }
+
     // Launch the endless polling rotor
-    HAL_Poll_And_Spin(ring_buffer);
+    HAL_Poll_And_Spin(ring_buffer, bridge);
 
     // Teardown
+    if (bridge) Bridge_Teardown(bridge);
     delete ring_buffer;
     HAL_Network_Teardown();
 

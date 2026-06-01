@@ -6,4 +6,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(core)
 
-add_executable(elysia_core core/resonance_daemon.cpp) # Just linking it as the core executable for now as PoC
+add_executable(elysia_core core/resonance_daemon.cpp core/elysia_bridge.cpp)
+target_link_libraries(elysia_core rt) # For shm_open
