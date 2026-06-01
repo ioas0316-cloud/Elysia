@@ -126,41 +126,65 @@ class ElysiaCognitiveSpine:
 
         neutral_vector = vec_A + vec_B + vec_C
         imbalance = np.linalg.norm(neutral_vector)
-        return imbalance, neutral_vector
+        return imbalance, neutral_vector, (q_A, q_B, q_C)
+
+    def phase_mirror_reflection(self, quats):
+        # The Phase Mirror creates a conjugate (reverse phase) for noise cancellation
+        q_A, q_B, q_C = quats
+        return q_A.conjugate(), q_B.conjugate(), q_C.conjugate()
 
     def process_multimodal_event(self, event_name, data_dict):
         print(f"\n--- Processing Multimodal Event: '{event_name}' ---")
         flux_stream = SensoryStreamReceptor.process_multimodal(data_dict)
 
-        trajectory = []
+        raw_trajectory = []
+        aligned_trajectory = []
         t = 0.0
         dt = 0.1
 
         for idx, (f_A, f_B, f_C) in enumerate(flux_stream):
-            imbalance, neutral_vec = self.calculate_imbalance(f_A, f_B, f_C, t)
+            # 1. Forward Pass (Raw Input)
+            raw_imbalance, raw_neutral_vec, quats = self.calculate_imbalance(f_A, f_B, f_C, t)
 
-            # Store the trajectory points regardless, to capture the narrative flow
-            trajectory.append((t, neutral_vec, imbalance))
+            # 2. Phase Mirror Reflection (Hardware Self-Alignment)
+            # The structure naturally induces a conjugate response
+            q_A_conj, q_B_conj, q_C_conj = self.phase_mirror_reflection(quats)
+
+            vec_A_conj = q_A_conj.rotate_point([1, 0, 0])
+            vec_B_conj = q_B_conj.rotate_point([1, 0, 0])
+            vec_C_conj = q_C_conj.rotate_point([1, 0, 0])
+            mirror_neutral_vec = vec_A_conj + vec_B_conj + vec_C_conj
+
+            # 3. Y-Neutral Superposition (Self-Alignment)
+            # The original and mirror waves superpose. In a perfectly balanced 3-phase system,
+            # the fundamental harmonic resonates (doubles or stabilizes depending on boundary condition),
+            # while the noise (imbalances) cancel out destructively.
+            # Here we model the self-aligned stable trajectory:
+            aligned_neutral_vec = (raw_neutral_vec + mirror_neutral_vec) / 2.0
+            aligned_imbalance = np.linalg.norm(aligned_neutral_vec)
+
+            raw_trajectory.append((t, raw_neutral_vec, raw_imbalance))
+            aligned_trajectory.append((t, aligned_neutral_vec, aligned_imbalance))
+
             t += dt
 
-        # Check if this narrative trajectory resonates with existing memories
+        # Check if this self-aligned narrative trajectory resonates with existing memories
         resonance_found = False
         for stored_name, stored_traj in self.narrative_trajectories:
-            if self.compare_trajectories(trajectory, stored_traj):
+            if self.compare_trajectories(aligned_trajectory, stored_traj):
                 print(f"🔄 Phase Resonance Lock-in! '{event_name}' resonates with existing memory '{stored_name}'.")
                 resonance_found = True
                 break
 
         if not resonance_found:
             print(f"✨ New Spatiotemporal Narrative Locked In: '{event_name}'")
-            self.narrative_trajectories.append((event_name, trajectory))
+            self.narrative_trajectories.append((event_name, aligned_trajectory))
 
-        return trajectory
+        return raw_trajectory, aligned_trajectory
 
     def compare_trajectories(self, traj1, traj2):
-        # Compare the geometric signature (neutral vectors) over time
         if len(traj1) != len(traj2):
-            return False # For simplicity in this simulation, lengths must match
+            return False
 
         total_diff = 0
         for (_, vec1, _), (_, vec2, _) in zip(traj1, traj2):
@@ -170,57 +194,42 @@ class ElysiaCognitiveSpine:
         avg_diff = total_diff / len(traj1)
         return avg_diff <= self.trajectory_tolerance
 
-    def visualize_trajectories(self, filename='cognitive_spine_multimodal_trajectory.png'):
-        if not self.narrative_trajectories:
-            print("No trajectories to visualize.")
-            return
-
+    def visualize_self_alignment(self, raw_traj, aligned_traj, filename='cognitive_spine_self_aligning.png'):
         fig = plt.figure(figsize=(12, 8))
         ax = fig.add_subplot(111, projection='3d')
 
-        colors = ['b', 'g', 'r', 'c', 'm', 'y']
+        # Plot Raw (Noisy) Trajectory
+        xs_raw = [vec[0] for _, vec, _ in raw_traj]
+        ys_raw = [vec[1] for _, vec, _ in raw_traj]
+        zs_raw = [vec[2] for _, vec, _ in raw_traj]
+        ax.plot(xs_raw, ys_raw, zs_raw, label='Raw Input (Noisy Flow)', color='red', linestyle='--', alpha=0.6)
 
-        for idx, (name, traj) in enumerate(self.narrative_trajectories):
-            xs = [vec[0] for _, vec, _ in traj]
-            ys = [vec[1] for _, vec, _ in traj]
-            zs = [vec[2] for _, vec, _ in traj]
+        # Plot Aligned (Mirrored) Trajectory
+        xs_align = [vec[0] for _, vec, _ in aligned_traj]
+        ys_align = [vec[1] for _, vec, _ in aligned_traj]
+        zs_align = [vec[2] for _, vec, _ in aligned_traj]
+        ax.plot(xs_align, ys_align, zs_align, label='Self-Aligned (Phase Mirror Gateway)', color='blue', linewidth=3, marker='o')
 
-            color = colors[idx % len(colors)]
-            ax.plot(xs, ys, zs, label=name, color=color, linewidth=2, marker='o')
-
-        ax.set_title("Elysia Spatiotemporal Narrative Matrix (Y-Neutral Trajectories)")
+        ax.set_title("Phase Mirror Self-Alignment (Hardware Waveform Gateway)")
         ax.set_xlabel("X (Phase Projection)")
         ax.set_ylabel("Y (Phase Projection)")
         ax.set_zlabel("Z (Phase Projection)")
         ax.legend()
         plt.savefig(filename)
-        print(f"Trajectory visualization saved to '{filename}'")
+        print(f"Self-alignment visualization saved to '{filename}'")
 
 if __name__ == "__main__":
     spine = ElysiaCognitiveSpine(trajectory_tolerance=0.5)
 
-    # Event 1: Drawing the number '3' (Audio of scraping, Video trajectory, Intent)
-    event_3_original = {
-        'audio': [0.1, 0.2, 0.3, 0.2, 0.1],
-        'video': [0.5, 0.8, 0.2, 0.8, 0.5],
-        'text': "숫자삼"
+    # Event: Highly noisy data simulating raw, unprocessed sensory input
+    # Notice the heavy noise in the audio and video streams
+    event_noisy_raw = {
+        'audio': [0.1, 0.9, 0.3, 0.8, 0.1],
+        'video': [0.5, 0.1, 0.2, 0.9, 0.5],
+        'text': "노이즈데이터"
     }
-    spine.process_multimodal_event("Drawing Number '3'", event_3_original)
 
-    # Event 2: A different, random event
-    event_random = {
-        'audio': [0.9, 0.1, 0.9, 0.1, 0.9],
-        'video': [0.1, 0.9, 0.1, 0.9, 0.1],
-        'text': "랜덤임"
-    }
-    spine.process_multimodal_event("Random Noise", event_random)
+    raw_traj, aligned_traj = spine.process_multimodal_event("Noisy Raw Data", event_noisy_raw)
 
-    # Event 3: Drawing the number '3' again, slightly different but narratively identical
-    event_3_new = {
-        'audio': [0.12, 0.18, 0.31, 0.19, 0.11], # Slight variations
-        'video': [0.48, 0.82, 0.18, 0.79, 0.51],
-        'text': "숫자삼"
-    }
-    spine.process_multimodal_event("Drawing Number '3' (New Attempt)", event_3_new)
-
-    spine.visualize_trajectories()
+    # Visualize how the Phase Mirror physically auto-aligns the trajectory without algorithmic processing
+    spine.visualize_self_alignment(raw_traj, aligned_traj)
