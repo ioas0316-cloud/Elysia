@@ -9,7 +9,64 @@ PhaseSignature PhaseTransformer::transform_to_wave(const uint64_t block[8]) {
     float freq = calculate_frequency(block);
     Quaternion phase = calculate_phase_angle(amp, freq, block);
 
-    return PhaseSignature{amp, freq, phase};
+    // Dilute data into the 4 Associative Axes (Variable Cognition - Yang)
+    float rel = calculate_relationship(amp, freq);
+    float conn = calculate_connectivity(block);
+    float kin = calculate_kinematics(freq);
+    float dir = calculate_directionality(phase);
+
+    // Extract the absolute hardware constant (Immutable Record - Yin)
+    uint64_t anchor = generate_immutable_anchor(block);
+
+    return PhaseSignature{
+        amp, freq, phase,
+        rel, conn, kin, dir,
+        anchor
+    };
+}
+
+float PhaseTransformer::calculate_relationship(float amplitude, float frequency) {
+    // Relationship: How intense is the wave compared to the baseline?
+    // Calculated as the harmony between mass (amplitude) and chaos (frequency).
+    return std::abs(amplitude - frequency);
+}
+
+float PhaseTransformer::calculate_connectivity(const uint64_t block[8]) {
+    // Connectivity: Resonance factor that dictates adjacent memory linking.
+    // We derive this from the symmetry of the bit block (Left vs Right halves).
+    int left_mass = 0;
+    int right_mass = 0;
+    for (int i=0; i<4; ++i) left_mass += std::popcount(block[i]);
+    for (int i=4; i<8; ++i) right_mass += std::popcount(block[i]);
+
+    float total_mass = static_cast<float>(left_mass + right_mass);
+    if (total_mass == 0.0f) return 0.0f;
+
+    return static_cast<float>(std::min(left_mass, right_mass)) / total_mass;
+}
+
+float PhaseTransformer::calculate_kinematics(float frequency) {
+    // Kinematics: The kinetic energy / rhythm of the wave.
+    // Driven heavily by the frequency of bit transitions.
+    return std::sqrt(frequency);
+}
+
+float PhaseTransformer::calculate_directionality(const Quaternion& angle) {
+    // Directionality: The causal trajectory vector length
+    // Extracted from the spatial orientation elements (x, y, z)
+    return std::sqrt(angle.x * angle.x + angle.y * angle.y + angle.z * angle.z);
+}
+
+uint64_t PhaseTransformer::generate_immutable_anchor(const uint64_t block[8]) {
+    // The Immutable Anchor: A non-variable constant derived purely from the physical silicon state.
+    // Acts as the Yin baseline preventing memory corruption from the Yang variable dials.
+    // Uses a deterministic hash (FNV-1a 64-bit basis) of the raw 512-bit block.
+    uint64_t hash = 0xcbf29ce484222325ULL;
+    for (int i = 0; i < 8; ++i) {
+        hash ^= block[i];
+        hash *= 0x100000001b3ULL;
+    }
+    return hash;
 }
 
 float PhaseTransformer::calculate_amplitude(const uint64_t block[8]) {
