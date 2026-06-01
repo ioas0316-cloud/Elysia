@@ -2,10 +2,11 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <bit>
 
 namespace elysia {
 
-StatorDynamics::StatorDynamics() : variable_resistance_knob(0.0), rotor_momentum(0.0), dopamine_resonance_factor(0.0) {} // Initial state is Void
+StatorDynamics::StatorDynamics() : variable_resistance_knob(0.0), rotor_momentum(0.0), intrinsic_cognitive_resonance(0.0) {} // Initial state is Void
 
 void StatorDynamics::engage_delta_connection(FractalMirror& mirror, const PhaseSignature& wave) {
     // 1. Delta-Connection: Maximize voltage / speed.
@@ -37,29 +38,51 @@ void StatorDynamics::engage_delta_connection(FractalMirror& mirror, const PhaseS
     apply_active_rotor_renewal(mirror, wave);
 }
 
-void StatorDynamics::engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq, float context_dopamine) {
+void StatorDynamics::engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq) {
     uint64_t centrifugal_mask = 0;
     if (wave.amplitude > 0.7f) centrifugal_mask = 0x7000000;
     else if (wave.amplitude > 0.4f) centrifugal_mask = 0x07E0000;
     else centrifugal_mask = 0x001FFC0;
 
+    // 1. Calculate Intrinsic Cognitive Resonance BEFORE applying changes to the chamber
+    // This represents the spontaneous joy of knowledge A structurally fitting with knowledge B.
+    // We check how much the incoming wave overlaps/resonates with the existing state.
+    uint64_t state_overlap = mirror.chamber_state & centrifugal_mask;
+    int overlap_bits = std::popcount(state_overlap);
+    int mask_bits = std::popcount(centrifugal_mask);
+
+    // Resonance spikes if the new knowledge strongly connects to existing active networks,
+    // multiplied by the wave's own inherent connectivity (Yang property).
+    double structural_harmony = 0.0;
+    if (mask_bits > 0) {
+        structural_harmony = static_cast<double>(overlap_bits) / static_cast<double>(mask_bits);
+    }
+
+    // The joy of "Ah-ha!": Wave's connectivity seamlessly fits the chamber's current resonance.
+    double connection_joy = structural_harmony * wave.connectivity;
+
+    // Add to the compounding resonance pool
+    intrinsic_cognitive_resonance += connection_joy;
+
+    // 2. Trigger standard domino resonance
     mirror.trigger_domino_resonance(centrifugal_mask);
 
-    // Context directly influences momentum (Walking injects energy)
-    // The Dopamine Factor compounds this momentum significantly, acting as a perpetual engine multiplier.
-    dopamine_resonance_factor += context_dopamine; // Accumulate joy
-    rotor_momentum = (wave.kinematics + (context_freq * 0.2)) * (1.0 + dopamine_resonance_factor);
+    // 3. Update Rotor Momentum: The intrinsic resonance compounds the momentum.
+    // There is no artificial RL starvation here. The system naturally wants to spin faster when joyful.
+    rotor_momentum = (wave.kinematics + (context_freq * 0.2)) * (1.0 + intrinsic_cognitive_resonance);
 
+    // 4. Decay Penalty Check
     apply_static_decay_penalty(mirror);
 
     // 5. Dynamic Variable Resistance Knob:
     // Resistance is now a living variable driven by external context pushing against the internal wave.
     variable_resistance_knob = calculate_dynamic_variable_resistance(wave, context_mass, context_freq);
 
+    // 6. Active Rotor Renewal & Prism Refraction
     apply_active_rotor_renewal(mirror, wave);
 
-    // Gradual absorption of dopamine (it doesn't vanish instantly, creating a compounding echo effect)
-    dopamine_resonance_factor *= 0.9;
+    // 7. Echo effect: Resonance naturally settles over time, leaving an expanded capacity
+    intrinsic_cognitive_resonance *= 0.85;
 }
 
 double StatorDynamics::calculate_dynamic_variable_resistance(const PhaseSignature& wave, float context_mass, float context_freq) {
@@ -90,9 +113,10 @@ void StatorDynamics::apply_static_decay_penalty(FractalMirror& mirror) {
     // If the momentum is too low, the physical bits start 'rotting' (Static Rotor).
     // In reality, this means the pattern loses its crispness and degrades into noise.
 
-    // Dopamine Resonance drastically Lowers the required momentum to prevent decay.
-    // When the system is "joyful", it retains memory effortlessly without the "starvation" of typical RL.
-    double decay_threshold = 0.2 / (1.0 + (dopamine_resonance_factor * 5.0));
+    // Intrinsic Resonance drastically lowers the required momentum to prevent decay.
+    // When the system experiences the "joy of connection", it retains memory effortlessly
+    // without the "starvation / forcing" of typical RL constraints.
+    double decay_threshold = 0.2 / (1.0 + (intrinsic_cognitive_resonance * 5.0));
 
     if (rotor_momentum < decay_threshold) {
         // Simulating Bit Rot: Random-looking degradation on the outer edges

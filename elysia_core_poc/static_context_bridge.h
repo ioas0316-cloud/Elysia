@@ -12,7 +12,6 @@ public:
     struct ContextMetrics {
         float mass;      // Represents the "weight" or complexity of the concept (Amplitude equivalent)
         float frequency; // Represents the "rhythm" or novelty/transition rate of the text
-        float dopamine;  // Extracted "Joy/Reward" signal based on structural harmony or novelty
     };
 
     // Ingest raw static text (e.g., from an LLM) and distill it into dynamic metrics

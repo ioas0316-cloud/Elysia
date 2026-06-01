@@ -17,10 +17,11 @@ public:
     // Active Rotor Momentum: Represents the continuous spin preventing Static Decay
     double rotor_momentum;
 
-    // Dopamine Resonance Factor: Simulates the "joy" of learning, creating a compounding snowball effect.
-    // Instead of forcing decay (deprivation/starvation), this factor prolongs resonance,
-    // allowing associative patterns to naturally expand and compound over time.
-    double dopamine_resonance_factor;
+    // Intrinsic Cognitive Resonance: The pure joy of connection.
+    // It is not injected externally, but naturally arises when incoming knowledge (wave)
+    // perfectly aligns/resonates with the existing internal structure (chamber state).
+    // This drives the compounding snowball effect without any artificial forced rewards.
+    double intrinsic_cognitive_resonance;
 
     // Switch from Y-Connection (setup) to Delta-Connection (acceleration)
     // Now incorporates Active Rotor renewal logic against the Immutable Anchor
@@ -28,8 +29,7 @@ public:
 
     // Overloaded function to engage delta connection with static context metrics
     // This allows the variable resistance knob to be driven by external raw data.
-    // Now accepts a dopamine multiplier to inject the "Joy/Reward" signal directly into the core.
-    void engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq, float context_dopamine = 0.0f);
+    void engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq);
 
 private:
     // Calculates the required electromagnetic tension (0.0 to 1.0) based on the associative axes

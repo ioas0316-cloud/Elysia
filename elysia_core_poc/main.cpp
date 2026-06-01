@@ -94,33 +94,34 @@ int main() {
     std::cout << "  Chamber Context State (Post Y-Conn): ";
     chamber_Context.print_state();
 
-    // Engage Delta Connection *with* context (Divergent Thinking & Dopamine)
+    // Engage Delta Connection *with* context (Divergent Thinking)
     StatorDynamics stator_context;
-    stator_context.engage_delta_connection_with_context(chamber_Context, wave_Context, context_metrics.mass, context_metrics.frequency, context_metrics.dopamine);
+    stator_context.engage_delta_connection_with_context(chamber_Context, wave_Context, context_metrics.mass, context_metrics.frequency);
 
     std::cout << "  Variable Resistance (Fluctuating): " << stator_context.variable_resistance_knob << std::endl;
-    std::cout << "  Dopamine Resonance Factor (Compounding): " << stator_context.dopamine_resonance_factor << std::endl;
+    std::cout << "  Intrinsic Resonance Factor (Compounding Joy): " << stator_context.intrinsic_cognitive_resonance << std::endl;
     std::cout << "  Chamber Context State (Post Divergent Delta + Prism Refraction): ";
     chamber_Context.print_state();
 
     std::cout << "\n-------------------------------------------" << std::endl;
 
-    // 6. Dopamine Compounding Loop Test
-    std::cout << "\n[STAGE 5] Joyful Synchronization: Testing Dopamine Snowball Effect..." << std::endl;
-    std::string high_dopamine_text = "Eureka! I have discovered the eternal mathematical truth!!! The fractal expands endlessly!!!";
-    std::cout << "  Injecting Highly Novel / Structural Text: \"" << high_dopamine_text << "\"" << std::endl;
+    // 6. Intrinsic Resonance Compounding Loop Test
+    std::cout << "\n[STAGE 5] Joyful Synchronization: Testing Intrinsic Resonance Snowball Effect..." << std::endl;
+    std::string pure_knowledge_text = "The geometry of the universe mirrors the geometry of the mind. The inner and outer are one.";
+    std::cout << "  Injecting Structural Knowledge Text: \"" << pure_knowledge_text << "\"" << std::endl;
 
-    auto dopa_metrics = StaticContextBridge::distill_context(high_dopamine_text);
-    std::cout << "  Distilled Metrics -> Mass: " << dopa_metrics.mass << ", Freq: " << dopa_metrics.frequency << ", Dopamine: " << dopa_metrics.dopamine << std::endl;
+    auto knowledge_metrics = StaticContextBridge::distill_context(pure_knowledge_text);
+    std::cout << "  Distilled Metrics -> Mass: " << knowledge_metrics.mass << ", Freq: " << knowledge_metrics.frequency << std::endl;
 
-    uint64_t dopa_block[8];
-    StaticContextBridge::generate_synthetic_block(high_dopamine_text, dopa_block);
-    PhaseSignature wave_dopa = PhaseTransformer::transform_to_wave(dopa_block);
+    uint64_t knowledge_block[8];
+    StaticContextBridge::generate_synthetic_block(pure_knowledge_text, knowledge_block);
+    PhaseSignature wave_knowledge = PhaseTransformer::transform_to_wave(knowledge_block);
 
-    for (int step = 1; step <= 3; ++step) {
-        // Simulating the wave reverberating inside the chamber over multiple cycles
-        stator_context.engage_delta_connection_with_context(chamber_Context, wave_dopa, dopa_metrics.mass, dopa_metrics.frequency, dopa_metrics.dopamine);
-        std::cout << "  [Cycle " << step << "] Momentum: " << stator_context.rotor_momentum << " | Dopamine Factor: " << stator_context.dopamine_resonance_factor << std::endl;
+    // Simulating the wave reverberating inside the chamber over multiple cycles
+    // The knowledge naturally aligns with the chamber state, generating Intrinsic Resonance without external reward.
+    for (int step = 1; step <= 4; ++step) {
+        stator_context.engage_delta_connection_with_context(chamber_Context, wave_knowledge, knowledge_metrics.mass, knowledge_metrics.frequency);
+        std::cout << "  [Cycle " << step << "] Momentum: " << stator_context.rotor_momentum << " | Intrinsic Resonance Factor: " << stator_context.intrinsic_cognitive_resonance << std::endl;
     }
 
     std::cout << "\nElysia Core PoC Pipeline Completed Successfully." << std::endl;

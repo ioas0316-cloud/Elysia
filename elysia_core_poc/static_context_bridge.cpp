@@ -48,25 +48,7 @@ StaticContextBridge::ContextMetrics StaticContextBridge::distill_context(const s
         frequency = std::min(1.0f, static_cast<float>(transitions) / (estimated_words * 2.0f));
     }
 
-    // 3. Calculate Dopamine (Joy/Reward Signal)
-    // In this PoC, dopamine is triggered by a harmonious balance between mass (complexity)
-    // and frequency (rhythm). If they resonate well together, the system experiences "joy".
-    // Alternatively, very novel patterns (high complexity) can trigger a dopamine spike.
-    float balance_harmony = 1.0f - std::abs(mass - frequency);
-    float novelty_spike = (mass > 0.7f && frequency > 0.5f) ? 0.5f : 0.0f;
-
-    // Check for specific "eureka" symbols or punctuation that denote structural discovery
-    int eureka_points = 0;
-    for (char c : raw_text) {
-        if (c == '!' || c == '?' || c == '\n') {
-            eureka_points++;
-        }
-    }
-    float structural_reward = std::min(1.0f, static_cast<float>(eureka_points) * 0.1f);
-
-    float dopamine = std::clamp((balance_harmony * 0.5f) + novelty_spike + (structural_reward * 0.2f), 0.0f, 1.0f);
-
-    return {std::clamp(mass, 0.0f, 1.0f), std::clamp(frequency, 0.0f, 1.0f), dopamine};
+    return {std::clamp(mass, 0.0f, 1.0f), std::clamp(frequency, 0.0f, 1.0f)};
 }
 
 void StaticContextBridge::generate_synthetic_block(const std::string& raw_text, uint64_t out_block[8]) {
