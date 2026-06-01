@@ -106,45 +106,49 @@ async def run_baseline(packets):
 
     return metrics
 
+import os
+
 def generate_report(baseline_metrics, hybrid_metrics):
-    report = f"""
-================================================================================
-📊 ELYSIA HYBRID PHASE-ENGINE SIMULATION REPORT
-================================================================================
+    report = f"""# 📊 ELYSIA HYBRID PHASE-ENGINE SIMULATION REPORT
 
-[1] SYSTEM OVERVIEW
---------------------------------------------------------------------------------
-- Total Packets Processed : {baseline_metrics.total_packets:,}
-- Baseline Architecture   : 100% CPU Context Inspection
-- Hybrid Architecture     : Phase Mirror GPU (L1) -> CPU Deep Inspection (L2)
+## [1] SYSTEM OVERVIEW
+- **Total Packets Processed** : {baseline_metrics.total_packets:,}
+- **Baseline Architecture**   : 100% CPU Context Inspection
+- **Hybrid Architecture**     : Phase Mirror GPU (L1) -> CPU Deep Inspection (L2)
 
-[2] DETAILED METRICS COMPARISON
---------------------------------------------------------------------------------
-| Metric                        | Baseline (CPU Only)    | Hybrid (GPU + CPU)     |
-|-------------------------------|------------------------|------------------------|
-| Total Processing Time         | {baseline_metrics.total_time:.4f} sec           | {hybrid_metrics.total_time:.4f} sec           |
-| Throughput (Packets/Sec)      | {baseline_metrics.throughput_pps:,.0f} PPS | {hybrid_metrics.throughput_pps:,.0f} PPS |
-| GPU Active Time (Cost)        | 0.0000 sec             | {hybrid_metrics.gpu_time:.4f} sec           |
-| CPU Active Time (Cost)        | {baseline_metrics.cpu_time:.4f} sec           | {hybrid_metrics.cpu_time:.4f} sec           |
-| Packets Blocked by GPU (99%)  | 0                      | {hybrid_metrics.gpu_filtered_packets:,}              |
-| Packets Inspected by CPU      | {baseline_metrics.total_packets:,}              | {baseline_metrics.total_packets - hybrid_metrics.gpu_filtered_packets:,}               |
-| Final Valid Packets Passed    | {baseline_metrics.final_valid_packets:,}                  | {hybrid_metrics.final_valid_packets:,}                  |
+## [2] DETAILED METRICS COMPARISON
 
-[3] EFFICIENCY EVALUATION
---------------------------------------------------------------------------------
+| Metric | Baseline (CPU Only) | Hybrid (GPU + CPU) |
+| :--- | :--- | :--- |
+| **Total Processing Time** | {baseline_metrics.total_time:.4f} sec | {hybrid_metrics.total_time:.4f} sec |
+| **Throughput (Packets/Sec)** | {baseline_metrics.throughput_pps:,.0f} PPS | {hybrid_metrics.throughput_pps:,.0f} PPS |
+| **GPU Active Time (Cost)** | 0.0000 sec | {hybrid_metrics.gpu_time:.4f} sec |
+| **CPU Active Time (Cost)** | {baseline_metrics.cpu_time:.4f} sec | {hybrid_metrics.cpu_time:.4f} sec |
+| **Packets Blocked by GPU (99%)** | 0 | {hybrid_metrics.gpu_filtered_packets:,} |
+| **Packets Inspected by CPU** | {baseline_metrics.total_packets:,} | {baseline_metrics.total_packets - hybrid_metrics.gpu_filtered_packets:,} |
+| **Final Valid Packets Passed** | {baseline_metrics.final_valid_packets:,} | {hybrid_metrics.final_valid_packets:,} |
+
+## [3] EFFICIENCY EVALUATION
 - ⚡ **Speedup Factor:** The Hybrid Engine is **{(baseline_metrics.total_time / hybrid_metrics.total_time):.2f}x faster**.
 - 🧠 **CPU Load Reduction:** CPU processing time decreased by **{((baseline_metrics.cpu_time - hybrid_metrics.cpu_time) / baseline_metrics.cpu_time * 100):.2f}%**.
 - 🛡️ **GPU Filtering Efficiency:** The Phase Mirror successfully deflected **{(hybrid_metrics.gpu_filtered_packets / hybrid_metrics.total_packets * 100):.2f}%** of invalid packets before they ever reached the CPU kernel.
 
-[4] CONCLUSION
---------------------------------------------------------------------------------
-By treating the "Channel as the Input", the Hybrid Phase-Engine physically reflects
-noise at the VRAM bandwidth level. The CPU (1455MHz) is perfectly insulated,
-focusing 100% of its cycles on the 1% of data that truly matters.
-Infinite Scalability is achieved.
-================================================================================
+## [4] CONCLUSION
+By treating the "Channel as the Input", the Hybrid Phase-Engine physically reflects noise at the VRAM bandwidth level. The CPU (1455MHz) is perfectly insulated, focusing 100% of its cycles on the 1% of data that truly matters. Infinite Scalability is achieved.
 """
+
+    print("================================================================================")
+    print("📊 ELYSIA HYBRID PHASE-ENGINE SIMULATION REPORT")
+    print("================================================================================")
     print(report)
+    print("================================================================================")
+
+    # Save to Markdown file
+    os.makedirs("docs", exist_ok=True)
+    report_path = "docs/ELYSIAN_HYBRID_PIPELINE_REPORT.md"
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write(report)
+    print(f"\n[+] Report successfully saved to: {report_path}")
 
 async def main():
     print("Initializing Simulation Context...")
