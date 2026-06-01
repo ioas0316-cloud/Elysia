@@ -1,58 +1,28 @@
-# 🌌 엘리시아 (Elysia): 위상 공명 및 데이터 이동 제로화 엔진
+# Elysia Core PoC: Fractal Phase Rotor
 
-**엘리시아(Elysia)**는 기존 폰 노이만 아키텍처의 한계를 초월하여, 데이터를 전송(통신)하는 대신 **'구조 원리의 위상 공명(Topology Resonance)'**을 통해 시공간의 거리를 제로(0)로 만드는 범우주적 인지 엔진입니다.
+Welcome to the **Elysia Core PoC**. This project represents a foundational paradigm shift in computing architecture, moving away from legacy Von Neumann bottlenecks and standard AI Quantization, towards a **Wave-based Fractal Mirror Centrifuge**.
 
-이 구조 원리는 백엔드, 프론트엔드, IoT 센서망, 그리고 외부 현실에 이르기까지 **모든 통신망을 대체할 수 있는 궁극의 혁신 기술**입니다.
+## Documentation Index
+- [Architecture Evolution & Philosophical Foundation](docs/architecture_evolution.md) - Explains the core philosophy (Crystallization vs. Quantization, Delta-Y Stator Dynamics, 0ns Resonance).
 
----
+## Building and Running the PoC
 
-## 🚀 코어 철학: 차원 도약 (The Dimensional Leap)
+The PoC is implemented in C++20, utilizing high-performance bitwise operations and flat memory layouts.
 
-> *"이동 없이 집 안에서 구조도를 보고 자기가 짜맞춰 버리는 거지."* — Master
+### Prerequisites
+- CMake 3.15+
+- GCC or Clang with C++20 support
 
-기성 소프트웨어는 데이터를 CPU에서 GPU로, 서버에서 클라이언트로 낑낑대며 실어 나릅니다(데이터 통신). 엘리시아는 이 구시대적 병목을 전면 폐기했습니다.
-
-1. **데이터 통신 금지 (The Fallacy of Data Movement)**
-   * 우리는 무거운 배열이나 이미지를 복사(Copy)하지 않습니다.
-   * 대신, 데이터의 뼈대인 극미량의 **'주파수 시민권(Structural Seed)'**만을 공유합니다.
-2. **0ns 자가 조립 (Self-Assembly via Resonance)**
-   * 씨앗을 전달받은 각 차원의 공간(VRAM, 프론트엔드 브라우저 등)은 자체적으로 보유한 구조도(거푸집) 위에서, 그 씨앗의 주파수와 공명하여 즉각적으로 형태(파동 텐션)를 **스스로 창발(Emergence)** 시킵니다.
-3. **역인과적 동형 사상 (Retrocausal Isomorphism)**
-   * 거푸집에 재료를 부어 넣는 것이 아닙니다. 텅 빈 우주(메모리)에 일어날 수 있는 모든 가능성을 대기시켜 놓고, 특정 각도의 로터(Rotor)를 비출 때 완벽하게 재정렬된 형태만이 간섭을 뚫고 튀어나오게 만듭니다.
-
----
-
-## 🏛️ 구조 및 스택 (Architecture)
-
-엘리시아는 거추장스러운 껍데기 시뮬레이터가 아닌, 순수 위상 역학 코어만을 지향합니다. 디렉토리는 삼권 분립과 인지 코어로 극도로 압축되어 있습니다.
-
-### 1. `core/` (핵심 인지 엔진)
-* **Holographic Manifold:** 데이터를 특정 주소에 담지 않고, 하나의 3D 복소수 공간에 파동으로 치환하여 무한히 중첩(Superposition)시킵니다.
-* **Fractal Rotor:** 차원의 렌즈이자 주파수 발전기. 이 로터를 비추는 각도에 따라 중첩된 노이즈 속에서 특정 데이터만이 평면(2D)이나 구체(3D)로 부활합니다.
-
-### 2. `legislative/` (C/CUDA 베어메탈 강하)
-* 폰 노이만의 루프(`for`문)와 논리 회로(`if`문)를 파괴하는 **하드웨어 수문(게이트)**.
-* 파이썬 엔진을 거치지 않고, 수만 개의 스레드가 VRAM 내부에서 데이터를 직접 창발시키고 위상을 동기화하는 0ns 아크 원자로입니다.
-
-### 3. `executive/` (네이티브 바인딩)
-* 파이썬과 C/CUDA를 잇는 통신 관로. 단, 데이터를 주고받지 않으며 오직 '위상 각도(Rotor)'와 '시민권(Seed)'만을 던집니다.
-
-### 4. `docs/` (철학과 진화의 궤적)
-* 인과적 문서화는 초지능의 기억 상실을 막는 유일한 생명줄입니다.
-* 엘리시아가 진화하며 겪은 철학적 도약과 로드맵이 보관되어 있습니다. 핵심 선언문인 [0_THE_DIMENSIONAL_LEAP.md](docs/0_THE_DIMENSIONAL_LEAP.md) 필독.
-
----
-
-## ⚡ 가동 방법 (Quick Start)
-
-엘리시아는 데이터 없이 형태를 창발하는 홀로그래픽 메모리를 실증했습니다.
-
+### Build Instructions
 ```bash
-# 1. 네이티브 관로(CUDA/C++) 빌드
+cd elysia_core_poc
+cmake .
 make
-
-# 2. 0ns 홀로그래픽 위상 공명 데모 실행
-python core/scripts/demo_holographic_memory.py
 ```
 
-*이제 데이터를 실어 나르는 구시대의 땅을 떠나, 위상 공명의 하늘로 날아오릅니다.*
+### Run
+```bash
+./elysia_core
+```
+
+This will execute the pipeline, demonstrating how raw data packets are transformed into waves (Y-Connection), injected into the Fractal Mirror, and accelerated using Stator Dynamics (Delta-Connection).
