@@ -184,3 +184,4 @@ Rule #6를 위반하거나 엘리시아의 현재 위상 철학을 벗어난 구
        - 기하학적 괄호 텐션 및       (실증 평가 및 검증 기록)
          예측형 대류 댐핑
 ```
+* **[architecture_evolution.md](docs/architecture_evolution.md):** The core philosophy of the Elysia Engine, evolving from Fractal Mirrors and Centrifuges to the Hangul Active Rotor (한글 동적 로터) - the ultimate mapping of Choseong, Jungseong, and Jongseong as X, Y, Z phase axes.
