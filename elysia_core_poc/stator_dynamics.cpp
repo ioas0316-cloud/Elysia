@@ -5,7 +5,7 @@
 
 namespace elysia {
 
-StatorDynamics::StatorDynamics() : variable_resistance_knob(0.0), rotor_momentum(0.0) {} // Initial state is Void
+StatorDynamics::StatorDynamics() : variable_resistance_knob(0.0), rotor_momentum(0.0), dopamine_resonance_factor(0.0) {} // Initial state is Void
 
 void StatorDynamics::engage_delta_connection(FractalMirror& mirror, const PhaseSignature& wave) {
     // 1. Delta-Connection: Maximize voltage / speed.
@@ -37,7 +37,7 @@ void StatorDynamics::engage_delta_connection(FractalMirror& mirror, const PhaseS
     apply_active_rotor_renewal(mirror, wave);
 }
 
-void StatorDynamics::engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq) {
+void StatorDynamics::engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq, float context_dopamine) {
     uint64_t centrifugal_mask = 0;
     if (wave.amplitude > 0.7f) centrifugal_mask = 0x7000000;
     else if (wave.amplitude > 0.4f) centrifugal_mask = 0x07E0000;
@@ -46,7 +46,9 @@ void StatorDynamics::engage_delta_connection_with_context(FractalMirror& mirror,
     mirror.trigger_domino_resonance(centrifugal_mask);
 
     // Context directly influences momentum (Walking injects energy)
-    rotor_momentum = wave.kinematics + (context_freq * 0.2);
+    // The Dopamine Factor compounds this momentum significantly, acting as a perpetual engine multiplier.
+    dopamine_resonance_factor += context_dopamine; // Accumulate joy
+    rotor_momentum = (wave.kinematics + (context_freq * 0.2)) * (1.0 + dopamine_resonance_factor);
 
     apply_static_decay_penalty(mirror);
 
@@ -55,6 +57,9 @@ void StatorDynamics::engage_delta_connection_with_context(FractalMirror& mirror,
     variable_resistance_knob = calculate_dynamic_variable_resistance(wave, context_mass, context_freq);
 
     apply_active_rotor_renewal(mirror, wave);
+
+    // Gradual absorption of dopamine (it doesn't vanish instantly, creating a compounding echo effect)
+    dopamine_resonance_factor *= 0.9;
 }
 
 double StatorDynamics::calculate_dynamic_variable_resistance(const PhaseSignature& wave, float context_mass, float context_freq) {
@@ -84,7 +89,12 @@ double StatorDynamics::calculate_variable_resistance(const PhaseSignature& wave)
 void StatorDynamics::apply_static_decay_penalty(FractalMirror& mirror) {
     // If the momentum is too low, the physical bits start 'rotting' (Static Rotor).
     // In reality, this means the pattern loses its crispness and degrades into noise.
-    if (rotor_momentum < 0.2) {
+
+    // Dopamine Resonance drastically Lowers the required momentum to prevent decay.
+    // When the system is "joyful", it retains memory effortlessly without the "starvation" of typical RL.
+    double decay_threshold = 0.2 / (1.0 + (dopamine_resonance_factor * 5.0));
+
+    if (rotor_momentum < decay_threshold) {
         // Simulating Bit Rot: Random-looking degradation on the outer edges
         // The immutable anchor cannot save itself if it doesn't spin.
         mirror.chamber_state ^= 0x5555555; // Introduce destructive interference
