@@ -164,10 +164,11 @@ class HologramMemory:
         [Phase 102] 외부 지식을 무조건 최상위에 붙이지 않고, 
         가장 공명하는 아키타입(빵틀)의 중력장 하위에 배치하여 입체적 우주를 창발합니다.
         """
+        # 먼저 안전하게 기존 노드 확인
         with self._lock:
-            existing = self.registered_concepts.get(concept)
-            if existing:
-                return existing
+            if concept in self.ui_concept_map:
+                node = self.ui_concept_map[concept]
+                return (node.state, node.tau)
     
             content_quat = concept_to_quaternion(concept)
             
@@ -197,6 +198,9 @@ class HologramMemory:
                 best_node = node
             for child in node.children:
                 traverse(child)
+            if hasattr(node, 'internal_thoughts'):
+                for thought in node.internal_thoughts:
+                    traverse(thought)
                 
         with self._lock:
             traverse(self.supreme_rotor)

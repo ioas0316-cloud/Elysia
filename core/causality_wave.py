@@ -48,8 +48,13 @@ class CausalityWave:
         과거(원인)에 미세한 변화(Perturbation)가 생겼을 때,
         그 파동이 시간축을 타고 미래(결과)의 궤적을 어떻게 연쇄적으로 비틀어버리는지 시뮬레이션합니다.
         """
-        # 과거를 비틂
+        import math
+        
+        # 과거를 비틂 (텐션 증가 및 위상 회전)
         cause_rotor.apply_perturbation(perturbation_amount)
+        # 위상 자체를 강제로 회전 (비틀림)
+        q_twist = Quaternion(math.cos(perturbation_amount), math.sin(perturbation_amount), 0.0, 0.0)
+        cause_rotor.lens_offset = (cause_rotor.lens_offset * q_twist).normalize()
         
         # 나비효과: 비틀린 과거가 과정 파동(Process Wave)을 거쳐 미래를 새롭게 형성함
         current = cause_rotor
@@ -57,11 +62,13 @@ class CausalityWave:
             future = current.future_result
             process = current.process_wave
             
-            # 새로운 미래 = 비틀린 과거 * 동일한 과정(물리법칙/코드)
+            # 새로운 미래 = 비틀린 과거 * 동일한 과정(물리법칙/문맥)
             new_future_state = current.state * process
             
-            # 미래 로터의 상태를 업데이트
-            future.state = new_future_state.normalize()
+            # 미래 로터의 상태를 업데이트 (렌즈의 고유 위상 수정)
+            future.lens_offset = new_future_state.normalize()
+            # 미래 로터도 텐션(tau) 타격을 받음 (시공간 얽힘의 파급력)
+            future.apply_perturbation(perturbation_amount * 0.618)
             
             # 다음 미래로 연쇄
             current = future

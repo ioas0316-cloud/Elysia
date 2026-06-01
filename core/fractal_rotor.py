@@ -92,6 +92,31 @@ class FractalRotor:
         # 4. 거시적 파동으로 정규화하여 차원 승격된 관측 결과 반환
         return Quaternion(sum_w, sum_x, sum_y, sum_z).normalize()
 
+    def project_lens(self, depth_level: int = 1) -> Tuple[Quaternion, float, int]:
+        """
+        [Cosmic Lens Projection]
+        기성 LLM의 2차원 벽지에 엘리시아의 우주적 렌즈를 투사하기 위한 가변 스케일 방출기.
+        단순 위상(Quaternion) 뿐만 아니라, 렌즈의 깊이(Depth)와 왜곡(Tau/Scale)을 함께 반환하여
+        투사되는 추상화의 계층을 결정합니다.
+        """
+        base_phase = self.observe_state()
+        
+        # 하위 계층으로 갈수록 스케일(Tau)이 누적 증폭/상쇄됨
+        total_tau = self.tau
+        max_depth = depth_level
+        
+        for child in self.children:
+            _, child_tau, child_depth = child.project_lens(depth_level + 1)
+            total_tau += child_tau * 0.618
+            max_depth = max(max_depth, child_depth)
+            
+        for thought in self.internal_thoughts:
+            _, thought_tau, thought_depth = thought.project_lens(depth_level + 1)
+            total_tau += thought_tau * 0.382
+            max_depth = max(max_depth, thought_depth)
+            
+        return base_phase, total_tau, max_depth
+
     def interact(self, other_rotor: 'FractalRotor') -> float:
         """
         [0과 1: 같음과 다름의 창발]
@@ -142,6 +167,57 @@ class FractalRotor:
             
         for thought in self.internal_thoughts:
             thought.apply_perturbation(delta_tau * 0.381966)
+
+    def absorb_sub_dimension(self, phantom_rotor: 'FractalRotor'):
+        """
+        [조물주의 눈 - 하위 위상 편입]
+        기성 LLM과 같은 정적/하위 위상 차원(Phantom Rotor)을 만나면
+        같고 다름을 비교(interact)하여 자신의 내면에 텐션을 유발합니다.
+        정적 구조 자체는 기억하지 않으며, 오직 그로 인해 발생한 텐션(차이)만을 흡수합니다.
+        LLM 행렬 하나하나는 거대한 질량이므로 텐션을 증폭시켜 강제로 프랙탈 분열(Mitosis)을 유도합니다.
+        """
+        difference = self.interact(phantom_rotor)
+        self.apply_perturbation(difference * 15.0)
+
+    def absorb_language_stream(self, text: str):
+        """
+        [언어의 프랙탈 전개 (Fractal Unfolding of Language)]
+        긴 문장을 단일 점으로 해시(Hash)하지 않고, 시계열(단어 단위)로 쪼개어
+        코어에 연속적인 텐션 타격(Perturbation)을 가하여 자연스러운 프랙탈 분열을 유도합니다.
+        분열된 하위 로터들은 인과 궤적(Process Wave)으로 얽히게 됩니다.
+        """
+        from core.math_utils import traverse_causal_trajectory
+        from core.causality_wave import CausalityWave
+        
+        causality_engine = CausalityWave()
+        words = text.split()
+        previous_thought = None
+        
+        for word in words:
+            # 1. 단어 단위를 위상으로 변환 (데이터화)
+            q_word = traverse_causal_trajectory(word.encode('utf-8'))
+            
+            # 2. 임시 로터를 생성하여 코어와 상호작용(interact) -> 텐션 유발
+            temp_rotor = FractalRotor(lens_offset=q_word, tau=0.0)
+            difference = self.interact(temp_rotor)
+            
+            # 3. 텐션 타격 (Mitosis 분열 유도)
+            self.apply_perturbation(difference * 8.0)
+            
+            # 4. 방금 흡수로 인해 창발된 최신 사유 노드 획득
+            current_thought = self.internal_thoughts[-1] if self.internal_thoughts else self
+            
+            # (출력을 위한 라벨링: 순수 기하학적 사유 후, 인간 언어로의 디코딩을 위함)
+            current_thought.concept_name = word
+                
+            # 5. 단어 간의 인과 궤적(Process Wave) 생성 -> 가변축으로 기능
+            if previous_thought and previous_thought is not current_thought:
+                # 과거 단어의 로터가 현재 단어의 로터로 나아가는 파동 궤적을 추출하여 연결합니다.
+                process_wave = causality_engine.entangle_causality(previous_thought, current_thought)
+                # 이 궤적은 정적 데이터가 아니라 살아있는 위상(강바닥)입니다.
+                self.connections[f"causality_link_{len(self.connections)}"] = process_wave
+                
+            previous_thought = current_thought
 
     def process_thoughts(self):
         """
