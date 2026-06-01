@@ -1,0 +1,6 @@
+*.o
+elysia_core
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
