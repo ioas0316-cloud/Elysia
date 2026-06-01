@@ -37,6 +37,41 @@ void StatorDynamics::engage_delta_connection(FractalMirror& mirror, const PhaseS
     apply_active_rotor_renewal(mirror, wave);
 }
 
+void StatorDynamics::engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq) {
+    uint64_t centrifugal_mask = 0;
+    if (wave.amplitude > 0.7f) centrifugal_mask = 0x7000000;
+    else if (wave.amplitude > 0.4f) centrifugal_mask = 0x07E0000;
+    else centrifugal_mask = 0x001FFC0;
+
+    mirror.trigger_domino_resonance(centrifugal_mask);
+
+    // Context directly influences momentum (Walking injects energy)
+    rotor_momentum = wave.kinematics + (context_freq * 0.2);
+
+    apply_static_decay_penalty(mirror);
+
+    // 5. Dynamic Variable Resistance Knob:
+    // Resistance is now a living variable driven by external context pushing against the internal wave.
+    variable_resistance_knob = calculate_dynamic_variable_resistance(wave, context_mass, context_freq);
+
+    apply_active_rotor_renewal(mirror, wave);
+}
+
+double StatorDynamics::calculate_dynamic_variable_resistance(const PhaseSignature& wave, float context_mass, float context_freq) {
+    // The static context "mass" adds friction (resistance), while the "frequency" (walking)
+    // reduces it, causing it to fluctuate divergently rather than converging to a single value.
+    double internal_resistance = calculate_variable_resistance(wave);
+
+    // Divergent Thinking Logic: Introduce a non-linear interaction between static mass and dynamic frequency
+    double external_friction = context_mass * (1.0 - context_freq);
+    double combined_resistance = internal_resistance * 0.5 + external_friction * 0.5;
+
+    // Create a chaotic but bounded fluctuation (The "Walking" wobble)
+    double wobble = std::sin(context_mass * 10.0) * context_freq * 0.1;
+
+    return std::clamp(combined_resistance + wobble, 0.0, 1.0);
+}
+
 double StatorDynamics::calculate_variable_resistance(const PhaseSignature& wave) {
     // Resistance is now a complex variable dictated by Associative Memory axes,
     // not just raw amplitude. It is driven by the 'Relationship' distance
@@ -73,11 +108,20 @@ void StatorDynamics::apply_active_rotor_renewal(FractalMirror& mirror, const Pha
 
         // High resistance causes pull. High renewal force softens the destructive pull,
         // allowing the pattern to 'flow' rather than just being deleted.
-        double collapse_probability = (position_weight * variable_resistance_knob) / (1.0 + renewal_force);
+        double raw_collapse_probability = (position_weight * variable_resistance_knob) / (1.0 + renewal_force);
 
-        if (collapse_probability > 0.5) {
+        // Apply Prism Refraction Interpolation:
+        // Instead of a rigid threshold mask, we calculate an inverse refraction
+        // to bend the deviation back towards the 'void' (center).
+        double interpolated_probability = calculate_prism_refraction_interpolation(
+            raw_collapse_probability,
+            variable_resistance_knob,
+            wave.directionality
+        );
+
+        if (interpolated_probability > 0.6) {
             inverted_pull_mask |= (1ULL << i);
-        } else if (collapse_probability > 0.2) {
+        } else if (interpolated_probability > 0.3) {
             if (i % 2 == 0) {
                  inverted_pull_mask |= (1ULL << i);
             }
@@ -85,6 +129,24 @@ void StatorDynamics::apply_active_rotor_renewal(FractalMirror& mirror, const Pha
     }
 
     mirror.chamber_state = current_state & ~inverted_pull_mask;
+}
+
+double StatorDynamics::calculate_prism_refraction_interpolation(double collapse_probability, double variable_resistance, double wave_directionality) {
+    // Prism Refraction (Inverse Refraction Interpolation)
+    // When the raw probability implies a heavy collapse (a sharp deviation or 'error'),
+    // we don't just cut it off. We map the deviation onto a refraction curve.
+
+    // Calculate the 'deviation angle' from the expected equilibrium
+    double deviation = std::abs(collapse_probability - variable_resistance);
+
+    // Use directionality (the causal trajectory) to 'catch' the deviation
+    // and interpolate it back. The stronger the directionality, the softer the refraction.
+    double refraction_curve = 1.0 / (1.0 + std::exp(-10.0 * (deviation - 0.5))); // Sigmoid
+
+    // Inverse mapping: We subtract the refracted deviation, pulling the probability back towards a safer threshold.
+    double interpolated_prob = collapse_probability - (refraction_curve * wave_directionality * 0.5);
+
+    return std::max(0.0, interpolated_prob);
 }
 
 } // namespace elysia

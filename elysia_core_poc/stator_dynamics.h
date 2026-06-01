@@ -21,15 +21,26 @@ public:
     // Now incorporates Active Rotor renewal logic against the Immutable Anchor
     void engage_delta_connection(FractalMirror& mirror, const PhaseSignature& wave);
 
+    // Overloaded function to engage delta connection with static context metrics
+    // This allows the variable resistance knob to be driven by external raw data.
+    void engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq);
+
 private:
     // Calculates the required electromagnetic tension (0.0 to 1.0) based on the associative axes
     double calculate_variable_resistance(const PhaseSignature& wave);
+
+    // Dynamically calculate resistance using both internal wave state and external static context
+    double calculate_dynamic_variable_resistance(const PhaseSignature& wave, float context_mass, float context_freq);
 
     // Simulates the physical decay of the Immutable Anchor if the Rotor stops spinning
     void apply_static_decay_penalty(FractalMirror& mirror);
 
     // Applies Inverse Refraction and Active Rotor renewal to smoothly interpolate back to equilibrium
     void apply_active_rotor_renewal(FractalMirror& mirror, const PhaseSignature& wave);
+
+    // Calculates the degree of deviation and applies inverse mapping to interpolate back to center
+    // This softens the destructive pull when the LLM data causes a sharp non-axiomatic deviation
+    double calculate_prism_refraction_interpolation(double collapse_probability, double variable_resistance, double wave_directionality);
 };
 
 } // namespace elysia
