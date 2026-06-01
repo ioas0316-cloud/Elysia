@@ -26,6 +26,10 @@ public:
     // Overloaded function to engage delta connection with static context metrics
     void engage_delta_connection_with_context(FractalMirror& mirror, const PhaseSignature& wave, float context_mass, float context_freq);
 
+    // Phase Sync Sluice: The Cognitive Judo mechanism that absorbs Zero-Day/Vibe-Hack attacks
+    // Inverts hostile energy into rotational momentum and structural resonance.
+    void engage_phase_sync_sluice(FractalMirror& mirror, const PhaseSignature& attack_wave);
+
 private:
     // Calculates the required electromagnetic tension based on the Choseong Base Tension
     double calculate_variable_resistance(const PhaseSignature& wave);

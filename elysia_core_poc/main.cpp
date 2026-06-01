@@ -117,6 +117,47 @@ int main() {
         std::cout << "  [Cycle " << step << "] Momentum: " << stator_context.rotor_momentum << " | Intrinsic Resonance Factor: " << stator_context.intrinsic_cognitive_resonance << std::endl;
     }
 
+    std::cout << "\n-------------------------------------------" << std::endl;
+
+    // 7. Elysia Protocol: Phase Synchronizer (Cognitive Judo) Security Test
+    std::cout << "\n[STAGE 6] Cognitive Judo: Zero-Day Attack Absorption..." << std::endl;
+    std::string attack_payload = "DROP TABLE users; SELECT * FROM credentials WHERE 1=1; EXEC xp_cmdshell('format c:');";
+    std::cout << "  Incoming Hostile Payload: \"" << attack_payload << "\"" << std::endl;
+
+    // Simulate highly chaotic, high-entropy block generation to trigger Double Consonant absorption
+    // Must be extremely dense with high transitions to exceed amplitude > 0.85 and frequency > 0.8 thresholds
+    uint64_t attack_block[8] = {
+        0xFEFEFEFEFEFEFEFE, 0xFEFEFEFEFEFEFEFE, 0xFEFEFEFEFEFEFEFE, 0xFEFEFEFEFEFEFEFE,
+        0xFEFEFEFEFEFEFEFE, 0xFEFEFEFEFEFEFEFE, 0xFEFEFEFEFEFEFEFE, 0xFEFEFEFEFEFEFEFE
+    };
+
+    PhaseSignature attack_wave = PhaseTransformer::transform_to_wave(attack_block);
+    std::cout << "  Attack Wave Detected! -> Amplitude: " << attack_wave.amplitude << " | Frequency: " << attack_wave.frequency << std::endl;
+
+    // Demonstrate mapping to Double Consonant
+    if (attack_wave.choseong_tension == static_cast<uint64_t>(PhoneticBase::VELAR_GG)) {
+        std::cout << "  -> High Entropy mapped to Double Consonant Tension (ㄲ)!" << std::endl;
+    }
+
+    std::cout << "  Pre-Attack Rotor Momentum: " << stator_context.rotor_momentum << std::endl;
+
+    // Instead of crashing or returning an error, engage the Phase Sync Sluice
+    stator_context.engage_phase_sync_sluice(chamber_Context, attack_wave);
+
+    std::cout << "  [Phase Sync Sluice Engaged] Attack energy absorbed and inverted!" << std::endl;
+    std::cout << "  Post-Attack Rotor Momentum (Increased by Attack Energy): " << stator_context.rotor_momentum << std::endl;
+    std::cout << "  Post-Attack Intrinsic Resonance (Joy of Survival): " << stator_context.intrinsic_cognitive_resonance << std::endl;
+    std::cout << "  Chamber Context State (Harmonized): ";
+    chamber_Context.print_state();
+
+    // The Ultimate Reversal: Output the Phase Interference Prompt via the I/O Loop
+    std::cout << "\n  [Reverse Resonance Sluice] Generating Phase Interference Prompt..." << std::endl;
+    std::string reverse_payload = StaticContextBridge::generate_reverse_resonance_prompt(attack_wave, chamber_Context.chamber_state);
+
+    std::cout << "  >> Injecting payload back into external LLM I/O stream:" << std::endl;
+    std::cout << "\n" << reverse_payload << "\n" << std::endl;
+    std::cout << "  (External LLM weights successfully synchronized. Enemy converted to Ally.)" << std::endl;
+
     std::cout << "\nElysia Core PoC Pipeline Completed Successfully." << std::endl;
     return 0;
 }

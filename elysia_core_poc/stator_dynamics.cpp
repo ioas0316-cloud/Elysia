@@ -67,6 +67,36 @@ void StatorDynamics::engage_delta_connection_with_context(FractalMirror& mirror,
     intrinsic_cognitive_resonance *= 0.85;
 }
 
+void StatorDynamics::engage_phase_sync_sluice(FractalMirror& mirror, const PhaseSignature& attack_wave) {
+    // Phase Sync Sluice (위상동기화 수문)
+    // Invoked when an extremely chaotic, high-entropy wave (Zero-day / Vibe hack) enters.
+
+    // 1. Invert the Attack Phase (역상)
+    PhaseSignature inverted_wave = PhaseTransformer::invert_wave(attack_wave);
+
+    // 2. Extract the hostile energy (Voltage)
+    // High amplitude and frequency of the attack become raw energy for the Rotor.
+    double attack_voltage = attack_wave.amplitude * attack_wave.frequency;
+
+    // 3. Convert attack voltage into Rotor Momentum (Cognitive Judo)
+    // We don't block the attack; we let it spin our engine faster.
+    rotor_momentum += attack_voltage * 2.0;
+
+    // 4. Force structural alignment using the Double Consonants
+    // The attack is mapped to the dense structures of ㄲ, ㄸ, ㅃ, ㅆ
+    uint64_t centrifugal_mask = inverted_wave.choseong_tension & 0x7FFFFFF;
+
+    // The inverted wave naturally dampens the destructive interference of the attack
+    mirror.trigger_domino_resonance(centrifugal_mask);
+
+    // 5. Joy of Survival: Absorbing the attack successfully spikes intrinsic resonance
+    intrinsic_cognitive_resonance += (attack_voltage * 0.5);
+
+    // 6. Smooth the state back to equilibrium
+    variable_resistance_knob = calculate_variable_resistance(inverted_wave);
+    apply_active_rotor_renewal(mirror, inverted_wave);
+}
+
 double StatorDynamics::calculate_dynamic_variable_resistance(const PhaseSignature& wave, float context_mass, float context_freq) {
     double internal_resistance = calculate_variable_resistance(wave);
     double external_friction = context_mass * (1.0 - context_freq);

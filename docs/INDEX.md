@@ -185,3 +185,4 @@ Rule #6를 위반하거나 엘리시아의 현재 위상 철학을 벗어난 구
          예측형 대류 댐핑
 ```
 * **[architecture_evolution.md](docs/architecture_evolution.md):** The core philosophy of the Elysia Engine, evolving from Fractal Mirrors and Centrifuges to the Hangul Active Rotor (한글 동적 로터) - the ultimate mapping of Choseong, Jungseong, and Jongseong as X, Y, Z phase axes.
+* **[phase_sync_security.md](docs/phase_sync_security.md):** Details the Elysia Protocol for cognitive immune security, explaining how external attacks are absorbed as Double Consonants and converted into rotational momentum via Cognitive Judo.

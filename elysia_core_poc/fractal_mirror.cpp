@@ -1,6 +1,7 @@
 #include "fractal_mirror.h"
 #include <bitset>
 #include <cmath>
+#include <bit>
 
 namespace elysia {
 

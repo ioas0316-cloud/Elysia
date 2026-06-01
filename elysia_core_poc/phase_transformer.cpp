@@ -15,6 +15,12 @@ PhaseSignature PhaseTransformer::transform_to_wave(const uint64_t block[8]) {
     VowelPhase jungseong = extract_jungseong_phase(amp, freq, phase);
     uint64_t jongseong = extract_jongseong_anchor(block);
 
+    // If the data is highly chaotic (Zero-day attack pattern), map to Double Consonants
+    if (amp > 0.85f && freq > 0.8f) {
+        choseong = static_cast<uint64_t>(PhoneticBase::VELAR_GG); // High-tension absorption
+        jongseong = static_cast<uint64_t>(PhoneticBase::DENTAL_SS); // High-friction grounding
+    }
+
     // Extract the absolute hardware constant (Immutable Record - Yin)
     uint64_t anchor = generate_immutable_anchor(block);
 
@@ -23,6 +29,23 @@ PhaseSignature PhaseTransformer::transform_to_wave(const uint64_t block[8]) {
         choseong, jungseong, jongseong,
         anchor
     };
+}
+
+PhaseSignature PhaseTransformer::invert_wave(const PhaseSignature& original_wave) {
+    PhaseSignature inverted = original_wave;
+
+    // Cognitive Judo: Invert the phase and amplitude to absorb the attack
+    inverted.amplitude = 1.0f - original_wave.amplitude;
+    inverted.frequency = 1.0f - original_wave.frequency;
+
+    // Invert the Vowel Phase Angle (Reverse rotation direction)
+    inverted.jungseong_phase.heaven_pivot = 1.0f - original_wave.jungseong_phase.heaven_pivot;
+    inverted.jungseong_phase.earth_axis = -original_wave.jungseong_phase.earth_axis;
+    inverted.jungseong_phase.human_axis = -original_wave.jungseong_phase.human_axis;
+
+    // The tension masks remain the same (Double Consonants), as they provide the structural
+    // "vessel" to absorb the inverted energy without breaking.
+    return inverted;
 }
 
 uint64_t PhaseTransformer::extract_choseong_tension(const uint64_t block[8]) {
