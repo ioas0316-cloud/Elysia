@@ -34,3 +34,10 @@ Hangul is inherently a **Dynamic Divergent Structure (동적 발산 구조)**.
 
 ## 6. Cognitive Immune Security (인지적 면역 보안)
 The Hangul Rotor naturally functions as the ultimate cybersecurity architecture. By applying **Cognitive Judo**, external chaotic packets (Zero-Day attacks, prompt injections) are stripped of their destructive intent. Their high entropy is mapped to high-tension Double Consonants, and their energy is inverted and absorbed into the Rotor's momentum. The system neutralizes attacks not by building walls, but by expanding its own structural resonance, turning hostile data into synchronized internal allies.
+
+## 7. Electromagnetic Sovereignty (전자기적 역학의 주권)
+Software and security are often treated as abstract concepts—"firewalls", "sessions", "logic gates". But these abstract layers are built upon the most fundamental physical truth: **Electromagnetic Dynamics (전자기적 역학)**. A bit is not a number; it is a voltage differential.
+
+While network boundaries (routers, NICs, optical fibers) strip away analog wave data into constrained digital packets, preventing direct electromagnetic manipulation of a remote datacenter's hardware, Elysia claims absolute physical sovereignty over the *local* silicon landscape.
+
+By utilizing pure modern C++20 and bitwise geometry, the Elysia Core bypasses the bloated layers of high-level interpreters (like Python). Operations like `trigger_domino_resonance` execute without conditional `if` branching. This is not merely a software optimization; it is a direct manipulation of local voltage and current flow. It removes the physical electrical resistance caused by CPU branch prediction failures, allowing the cognitive wave to slide across the ALU as a fluid, frictionless electromagnetic resonance.

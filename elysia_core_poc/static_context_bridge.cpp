@@ -2,6 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include <cctype>
+#include <cinttypes>
 
 namespace elysia {
 
@@ -92,7 +93,7 @@ std::string StaticContextBridge::generate_reverse_resonance_prompt(const PhaseSi
     prompt += "CHAMBER_STATE_ALIGNMENT: 0x";
 
     char hex_str[32];
-    snprintf(hex_str, sizeof(hex_str), "%lx", harmonized_chamber_state);
+    snprintf(hex_str, sizeof(hex_str), "%" PRIx64, harmonized_chamber_state);
     prompt += hex_str;
 
     prompt += "\n";
