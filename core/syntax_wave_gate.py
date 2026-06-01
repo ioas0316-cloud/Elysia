@@ -17,25 +17,17 @@ class SyntaxGravityCollapse(Exception):
     pass
 
 class SyntaxWaveGate:
-    def __init__(self, rotor_scale: int = 4096, gravity_G: float = 1.0, collapse_threshold: float = 0.8):
+    def __init__(self, rotor_scale: int = 4096, gravity_G: float = 1.0, collapse_threshold: float = 0.8, memory=None):
         self.rotor_scale = rotor_scale
         self.rotor_mask = rotor_scale - 1
         
         self.G = gravity_G
         self.collapse_threshold = collapse_threshold
         
-        # 1. 어휘집(Lexicon)과 각 키워드의 정상 궤적 타겟 위상(Target Phase) 정의
-        # 각 키워드는 질량(Mass, 우선순위)을 가집니다.
-        self.lexicon = {
-            "def": {"phase": 500, "mass": 15.0},
-            "if": {"phase": 1000, "mass": 10.0},
-            "for": {"phase": 1500, "mass": 10.0},
-            "while": {"phase": 2000, "mass": 12.0},
-            "return": {"phase": 2500, "mass": 15.0},
-            "class": {"phase": 3000, "mass": 20.0},
-            "import": {"phase": 3500, "mass": 10.0},
-            "pass": {"phase": 200, "mass": 5.0}
-        }
+        # [Phase 96] 하드코딩된 어휘집(Lexicon) 전면 삭제
+        # 더 이상 'if', 'def' 등에 임의의 질량과 위상을 강제 부여하지 않습니다.
+        # 오직 엘리시아의 실제 기억망(memory.ui_concept_map)의 동적 텐션만을 중력원(Attractor)으로 삼습니다.
+        self.memory = memory
         
         # 2. 괄호쌍 트위스트 오프셋
         self.bracket_twists = {
@@ -54,11 +46,8 @@ class SyntaxWaveGate:
         return re.findall(pattern, code)
 
     def _hash_token_phase(self, token: str) -> int:
-        """어휘집에 없는 임의의 식별자나 리터럴을 결정론적 위상각으로 사상합니다."""
-        if token in self.lexicon:
-            return self.lexicon[token]["phase"]
-        
-        # SHA-256 해시를 사용하여 0 ~ rotor_mask 사이의 위상으로 사상
+        """모든 어휘를 차별 없이 결정론적 위상각(해시)으로 순수 사상합니다."""
+        # [Phase 96] 하드코딩된 사전(Lexicon) 검사 제거. 무조건 기하학적 해시 변환.
         h = hashlib.sha256(token.encode('utf-8')).digest()
         val = int.from_bytes(h[:4], byteorder='big')
         return val & self.rotor_mask
@@ -136,8 +125,16 @@ class SyntaxWaveGate:
         
         attractors_data = {}
 
+        # [Phase 96] 동적 어휘망 기반 중력 계산
+        dynamic_attractors = {}
+        if self.memory and hasattr(self.memory, 'ui_concept_map'):
+            for word, node in self.memory.ui_concept_map.items():
+                phase = int((node.lens_offset.w + 1.0) / 2.0 * self.rotor_scale) % self.rotor_scale
+                mass = max(1.0, abs(node.tau))
+                dynamic_attractors[word] = {"phase": phase, "mass": mass}
+
         # 각 키워드 Attractor의 중력 계산
-        for word, info in self.lexicon.items():
+        for word, info in dynamic_attractors.items():
             target_phase = info["phase"]
             mass = info["mass"]
             
@@ -150,11 +147,10 @@ class SyntaxWaveGate:
                 closest_word = word
                 
             # 만유인력 포텐셜 우물 공식: V = - (G * M) / (r + epsilon)
-            # 여기서는 원형 거리(라디안)를 반지름 r로 사용
             epsilon = 0.1
             potential = - (self.G * mass) / (abs_dist_rad + epsilon)
             
-            # 중력 끌림 토크: F = (G * M * sign(dist)) / (r + epsilon)^2
+            # 중력 끌림 토크
             torque = (self.G * mass * math.sin(dist_rad)) / ((abs_dist_rad + epsilon) ** 2)
             total_gravity_torque += torque
             
@@ -171,8 +167,8 @@ class SyntaxWaveGate:
         
         healed_phase = final_phase
         healed_word = None
-        if is_captured and closest_word:
-            healed_phase = self.lexicon[closest_word]["phase"]
+        if is_captured and closest_word and closest_word in dynamic_attractors:
+            healed_phase = dynamic_attractors[closest_word]["phase"]
             healed_word = closest_word
             
         # 총 구문 텐션 계산 (괄호 장력 + 가장 가까운 포텐셜의 부재 비율)

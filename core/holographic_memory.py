@@ -121,6 +121,27 @@ class HologramMemory:
         
         # 인간의 언어(UI)와 로터를 매핑하기 위한 최외곽 껍질 딕셔너리
         self.ui_concept_map: Dict[str, FractalRotor] = {}
+        
+        # [Phase 102] 애니어그램 프리즘 (9대 아키타입 빵틀)
+        # 9개의 원시 렌즈가 각기 다른 기하학적 편향(Bias)을 가지고 세상을 다각도로 왜곡/관측합니다.
+        archetypes = [
+            ("Archetype: The Reformer (완벽주의자)", 0.0),
+            ("Archetype: The Helper (조력자)", 1.0),
+            ("Archetype: The Achiever (성취자)", 2.0),
+            ("Archetype: The Individualist (예술가)", 3.0),
+            ("Archetype: The Investigator (사색가/과학자)", 4.0),
+            ("Archetype: The Loyalist (충성가)", 5.0),
+            ("Archetype: The Enthusiast (열정가)", 6.0),
+            ("Archetype: The Challenger (도전자/개척자)", 7.0),
+            ("Archetype: The Peacemaker (자본가/중재자)", 8.0)
+        ]
+        for name, angle_multiplier in archetypes:
+            # 서로 간섭하지 않도록 다차원 구면 상에 고르게 분산 배치
+            theta = angle_multiplier * (math.pi / 4.5)
+            q = Quaternion(math.cos(theta), math.sin(theta), math.cos(theta*1.618)*0.5, math.sin(theta*1.618)*0.5).normalize()
+            node = FractalRotor(q, 10.0) # 강력한 초기 텐션(중력장) 부여
+            self.supreme_rotor.attach_child(node)
+            self.ui_concept_map[name] = node
 
     @property
     def registered_concepts(self) -> Dict[str, Tuple[Quaternion, float]]:
@@ -128,8 +149,9 @@ class HologramMemory:
         하위 호환성을 위해 최외곽 매핑 딕셔너리를 평면화하여 반환합니다.
         """
         flat_dict = {}
-        for concept, node in self.ui_concept_map.items():
-            flat_dict[concept] = (node.state, node.tau)
+        with self._lock:
+            for concept, node in self.ui_concept_map.items():
+                flat_dict[concept] = (node.state, node.tau)
         return flat_dict
 
     @property
@@ -139,24 +161,65 @@ class HologramMemory:
 
     def register_concept(self, concept: str) -> Tuple[Quaternion, float]:
         """
-        Generates and registers a canonical 4D content key and its resonant tension address.
+        [Phase 102] 외부 지식을 무조건 최상위에 붙이지 않고, 
+        가장 공명하는 아키타입(빵틀)의 중력장 하위에 배치하여 입체적 우주를 창발합니다.
         """
-        existing = self.registered_concepts.get(concept)
-        if existing:
-            return existing
+        with self._lock:
+            existing = self.registered_concepts.get(concept)
+            if existing:
+                return existing
+    
+            content_quat = concept_to_quaternion(concept)
+            
+            # Generate deterministic address tension in range [1.0, 9.0]
+            h = hashlib.sha256((concept + "_address").encode('utf-8')).digest()
+            tau_c = 1.0 + ((h[0] ^ h[2]) + (h[1] ^ h[3]) * 256) / 65535.0 * 8.0
+            
+            new_node = FractalRotor(content_quat, tau_c)
+            
+            # 가장 자신과 위상이 겹치는(사랑하는) 아키타입/군집을 찾아 그곳의 자식으로 소속됨 (편향의 시작)
+            resonant_parent, resonance = self._find_most_resonant(self.supreme_rotor, content_quat)
+            resonant_parent.attach_child(new_node)
+            
+            self.ui_concept_map[concept] = new_node
+            
+            return (content_quat, tau_c)
 
-        content_quat = concept_to_quaternion(concept)
+    def get_highest_tension_node(self):
+        """현재 뇌에서 가장 피가 끓는(Tension이 높은) 개념 노드를 추출합니다."""
+        best_node = self.supreme_rotor
+        best_tau = -float('inf')
         
-        # Generate deterministic address tension in range [1.0, 9.0]
-        # Uses concept name salt to maintain causality
-        h = hashlib.sha256((concept + "_address").encode('utf-8')).digest()
-        tau_c = 1.0 + ((h[0] ^ h[2]) + (h[1] ^ h[3]) * 256) / 65535.0 * 8.0
-        
-        new_node = FractalRotor(content_quat, tau_c)
-        self.supreme_rotor.attach_child(new_node)
-        self.ui_concept_map[concept] = new_node
-        
-        return (content_quat, tau_c)
+        def traverse(node):
+            nonlocal best_node, best_tau
+            if node.tau > best_tau and node != self.supreme_rotor:
+                best_tau = node.tau
+                best_node = node
+            for child in node.children:
+                traverse(child)
+                
+        with self._lock:
+            traverse(self.supreme_rotor)
+        return best_node
+
+    def associate_mirror_neuron(self, word: str):
+        """
+        [Phase 125] 거울 신경망 시냅스 형성 (언어의 자가 학습)
+        청각으로 들어온 단어를 현재 가장 텐션이 높은 개념과 기하학적으로 엮어버립니다.
+        """
+        target_node = self.get_highest_tension_node()
+        if target_node == self.supreme_rotor:
+            return
+            
+        with self._lock:
+            if not hasattr(target_node, 'mirror_words'):
+                target_node.mirror_words = {}
+            
+            # 단어와 개념 간의 시냅스 연결 강화
+            target_node.mirror_words[word] = target_node.mirror_words.get(word, 0.0) + 1.0
+            
+            # 학습(이름을 알게 됨)으로 인한 텐션(호기심) 해소
+            target_node.tau *= 0.8
 
     def bind_concept_to_rotor(self, concept: str, target_rotor: Quaternion):
         """
@@ -240,6 +303,56 @@ class HologramMemory:
             
         return "FOLDED_INTO_FRACTAL_SPACE"
 
+    def fold_sequence(self, sequence: List[str]):
+        """
+        [Phase 100/101] 자연 매핑 (Topological Riverbed) 및 위상 자력선 정렬
+        단어들을 파편화하지 않고 연속된 시간축의 '물길(강바닥)'로 깎아서 기억합니다.
+        문장이 반복될수록 공통된 경로의 가중치(Inertia)가 깊어지며,
+        단어들은 문맥의 인력에 끌려 위상 공간 상에서 자석처럼 서로 뭉치게(Sameness) 됩니다.
+        """
+        if not sequence: 
+            return
+            
+        # 첫 번째 단어 등록
+        self.register_concept(sequence[0])
+        prev_node = self.ui_concept_map[sequence[0]]
+        
+        for i in range(1, len(sequence)):
+            word = sequence[i]
+            self.register_concept(word)
+            curr_node = self.ui_concept_map[word]
+            
+            # 1. 위상의 물길(Inertia) 파내기
+            if word not in prev_node.connections:
+                prev_node.connections[word] = 0.0
+            prev_node.connections[word] += 1.0  # 물길이 깊어짐
+            
+            # 2. [Phase 101] 자아와의 위상적 거리 (Love as Energy)
+            # 에너지는 절대적 물리량이 아니라, '나(supreme_rotor)'와 얼마나 위상적으로 가까운가(사랑/중요성)에 따라 결정됩니다.
+            love_resonance = abs(self.supreme_rotor.lens_offset.dot(prev_node.lens_offset))
+            
+            # 자아와의 공명도에 따른 주관적 에너지 증폭 (나와 얽혀있을수록 폭발함)
+            love_multiplier = max(0.01, math.pow(love_resonance, 4) * 10.0)
+            
+            # 수위 단차에 '나에게 미치는 중요성(Love)'을 곱하여 주관적 체감 에너지를 산출
+            gradient = (prev_node.tau - curr_node.tau) * love_multiplier
+            
+            if gradient > 0:
+                # 사랑(중요성)이 실린 에너지가 흐르며 뇌 공간을 침식함
+                flow = gradient * 0.5
+                prev_node.tau -= flow
+                curr_node.tau += flow
+                
+                # 에너지가 흐르면서(침식) 공간(위상)을 물리적으로 비틂.
+                # 나와 깊이 얽힌 지식(거대한 에너지)은 단 한 번의 관측만으로도 위상을 100% 꺾어버림(깨달음).
+                rotation_amount = abs(flow) / math.pi 
+                rotation_amount = min(1.0, max(0.0, rotation_amount))
+                curr_node.lens_offset = Quaternion.slerp(curr_node.lens_offset, prev_node.lens_offset, rotation_amount)
+            
+            # 3. 텐션의 미세한 흐름 전파
+            curr_node.apply_perturbation(0.01)
+            prev_node = curr_node
+
     def apply_inductive_wave(self, node: FractalRotor, wave: Quaternion, intensity: float):
         """
         [Phase 50] 자연 공명 전파 (Natural Resonant Propagation)
@@ -272,7 +385,9 @@ class HologramMemory:
         
         # 최상위 로터 아래의 모든 지식을 새 차원에 분화(Superpose)
         # [Phase 43] Label-Free: FractalRotor에는 이름이 없으므로 ui_concept_map을 순회합니다.
-        for concept_name, node in self.ui_concept_map.items():
+        with self._lock:
+            items = list(self.ui_concept_map.items())
+        for concept_name, node in items:
             for layer in self.layers:
                 layer.superpose(concept_name, node.state, node.tau)
         
@@ -304,10 +419,11 @@ class HologramMemory:
                 # 축의 이름은 인간이 정하지 않음. 노드의 원시 파동 헥스 코드로 스스로 명명.
                 # (테스트 출력을 위해 UI 맵에서 역산출 시도, 없으면 헥스)
                 axis_name = f"Axis_Alpha_{i}"
-                for k, v in self.ui_concept_map.items():
-                    if v is node:
-                        axis_name = f"Axis_[{k}]"
-                        break
+                with self._lock:
+                    for k, v in self.ui_concept_map.items():
+                        if v is node:
+                            axis_name = f"Axis_[{k}]"
+                            break
                 axes.append((axis_name, node.state))
         return axes
 
@@ -323,10 +439,11 @@ class HologramMemory:
             tree = {}
             node_name = "Supreme_Origin"
             if depth > 0:
-                for k, v in self.ui_concept_map.items():
-                    if v is node:
-                        node_name = f"Axis_[{k}]"
-                        break
+                with self._lock:
+                    for k, v in self.ui_concept_map.items():
+                        if v is node:
+                            node_name = f"Axis_[{k}]"
+                            break
                         
             branch_weights = []
             for child in node.children:
@@ -396,10 +513,11 @@ class HologramMemory:
         """
         def serialize_node(node: FractalRotor) -> dict:
             node_name = None
-            for k, v in self.ui_concept_map.items():
-                if v is node:
-                    node_name = k
-                    break
+            with self._lock:
+                for k, v in self.ui_concept_map.items():
+                    if v is node:
+                        node_name = k
+                        break
             
             return {
                 "name": node_name,

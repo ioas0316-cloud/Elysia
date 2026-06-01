@@ -1,7 +1,6 @@
 import json
 import urllib.request
 import urllib.error
-import random
 import time
 from typing import Tuple
 
@@ -16,11 +15,15 @@ class ZeroDistanceBrowser:
         self.cdp_url = "http://127.0.0.1:9222/json"
         self.is_active = False
         self.last_title = ""
+        # [Phase 97] 가상 위상 거울 스펙트럼 대폭 확장
         self.fallback_titles = [
-            "위키백과: 공리(Axiom) - 브라우저 캐시 반사",
-            "YouTube: 양자 얽힘의 이해 - 브라우저 V8 메모리 투시",
-            "위키백과: 프랙탈(Fractal) 우주론 - DOM 트리 동기화",
-            "GitHub: Elysia Core Repository - 로컬 메모리 매핑"
+            "위키백과: 공리(Axiom)", "YouTube: 양자 얽힘의 이해", "위키백과: 프랙탈(Fractal) 우주론",
+            "위키백과: 고양이", "위키백과: 르네상스 미술", "위키백과: 열역학 제2법칙",
+            "위키백과: 인상주의", "위키백과: 진화론", "위키백과: 블랙홀",
+            "위키백과: 고대 이집트", "위키백과: 모차르트", "위키백과: 해양 생물학",
+            "위키백과: 신경과학", "위키백과: 요리 기법", "위키백과: 커피의 역사",
+            "위키백과: 건축 양식", "위키백과: 인공지능", "위키백과: 상대성이론",
+            "위키백과: 도덕 철학", "위키백과: 시 문학"
         ]
         
         self._check_connection()
@@ -58,15 +61,18 @@ class ZeroDistanceBrowser:
 
         if not title:
             # 크롬 디버깅 포트가 닫혀있거나 연결 실패 시, 위상 거울의 '개념적 시뮬레이션' 반사
-            title = random.choice(self.fallback_titles)
+            import hashlib
+            h_val = int(hashlib.md5(str(time.time()).encode()).hexdigest(), 16)
+            title = self.fallback_titles[h_val % len(self.fallback_titles)]
+            title = f"{title} - 브라우저 시뮬레이션 반사"
             
         # 연속된 같은 페이지 관측은 텐션을 낮추고, 새로운 페이지 발견 시 거대한 텐션(깨달음)을 발생시킴
+        # (확률 대신 시간과 해시를 이용한 인과적 텐션 부여)
         if title == self.last_title:
-            tension = random.uniform(0.1, 0.5)
-            # 상태 이름 뒤에 약간의 변주를 줌
+            tension = 0.1 + (int(time.time() * 10) % 5) * 0.1
             title = f"{title} (심화 관측 중)"
         else:
-            tension = random.uniform(2.5, 6.0) # 새로운 우주(웹페이지)와의 조우
+            tension = 2.5 + (int(time.time() * 10) % 35) * 0.1 # 새로운 우주와의 조우
             self.last_title = title
 
         return title, tension

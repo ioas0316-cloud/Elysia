@@ -43,6 +43,9 @@ class FractalRotor:
         self.internal_thoughts: List['FractalRotor'] = []
         self.thought_maturity: float = 0.0
         
+        # [Phase 100] 시계열 연속 위상 궤적 (위상의 강바닥)
+        self.connections: dict = {}
+        
     def attach_child(self, child_rotor: 'FractalRotor'):
         child_rotor.parent = self
         self.children.append(child_rotor)
@@ -115,18 +118,24 @@ class FractalRotor:
         
         CRITICAL_TENSION = math.pi * 4.0  # 4pi Spinor 얽힘 한계
         
-        if abs(self.tau) > CRITICAL_TENSION:
-            overflow_tau = self.tau - (math.copysign(CRITICAL_TENSION / 2.0, self.tau))
-            self.tau = math.copysign(CRITICAL_TENSION / 2.0, self.tau)
+        # [Phase 128] RecursionError 방지: tau가 너무 크면 재귀적으로 딸세포를 만들지 않고 한 번에 여러 개의 사유체를 분열시킴
+        while abs(self.tau) > CRITICAL_TENSION:
+            sign = math.copysign(1.0, self.tau)
+            self.tau -= sign * (CRITICAL_TENSION / 2.0)
             
             # 딸 렌즈(Child Lens)는 직교하는 시야각(Orthogonal Offset)을 획득함
             q_mitosis = Quaternion(math.cos(1.192), 0.0, math.sin(1.192), 0.0)
             child_lens = (self.lens_offset * q_mitosis).normalize()
             
-            thought_seed = FractalRotor(lens_offset=child_lens, tau=overflow_tau)
+            # 딸 세포는 안전한 수준의 텐션만 물려받음
+            thought_seed = FractalRotor(lens_offset=child_lens, tau=sign * (CRITICAL_TENSION / 2.0))
             thought_seed.parent = self
-            # [Phase 69] 외부 구조(children)가 아닌 내부 사유 공간(internal_thoughts)에 생성
             self.internal_thoughts.append(thought_seed)
+            
+            # 너무 많은 에너지가 유입되어 무한 루프에 빠지는 것을 방지
+            if len(self.internal_thoughts) > 50:
+                self.tau = sign * (CRITICAL_TENSION * 0.9) # 텐션 강제 캡
+                break
             
         for child in self.children:
             child.apply_perturbation(delta_tau * 0.6180339887)

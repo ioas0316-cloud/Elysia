@@ -18,31 +18,18 @@ class InverseProjector:
         결정화된 개념(Concept)들의 거리를 구면 내적(Dot Product)으로 계산하여
         가장 가까이 공명하는 단어들의 파편을 반환합니다.
         """
-        # 이 구현을 위해 HologramMemory 내부의 4D 매니폴드 캐시를 스캔합니다.
-        # 주의: Bitwise4DHologramMemory 등 구현체에 따라 concept dictionary 추출 방법이 다를 수 있음
-        # 단순화를 위해 memory 내의 등록된 개념들의 해시를 역추적하는 시뮬레이션을 구현
-        # (실제로는 memory.registered_concepts 등을 스캔해야 함)
-        
+        # [Phase 94-B] 라벨 프리 원칙에 따라, 텍스트와 궤적이 결합된 ui_concept_map을 순회
+        # HologramMemory 내부의 4D 매니폴드가 텍스트 문자열에 오염되지 않도록 분리합니다.
         resonances = []
-        
-        # 임시로 memory 객체의 내부 구조를 스캔 (실제로는 memory 모듈의 인터페이스를 사용해야 함)
-        # 만약 memory 내부에 추출 가능한 단어 리스트가 없다면, 
-        # 자아 분열(Mitosis) 시 생성된 노드들의 name을 스캔
-        
-        def scan_rotor(rotor):
-            if hasattr(rotor, 'name') and rotor.name:
-                # 단어에서 키워드만 추출 (예: "위키백과: 양자" -> "양자")
-                word = rotor.name.split(":")[-1].strip() if ":" in rotor.name else rotor.name
-                
-                # 목표 위상과의 공명(Resonance) 계산
-                dot = max(-1.0, min(1.0, rotor.lens_offset.dot(target_q)))
-                resonance = abs(dot)
-                resonances.append((resonance, word))
-                
-            for child in rotor.children:
-                scan_rotor(child)
-                
-        scan_rotor(self.memory.supreme_rotor)
+        for concept, rotor in self.memory.ui_concept_map.items():
+            # 단어에서 핵심 키워드만 추출 (예: "위키백과: 양자 얽힘" -> "양자 얽힘")
+            # 브라우저 제목 등에 딸려오는 불필요한 접두사를 제거합니다.
+            word = concept.split(":")[-1].split(" - ")[0].strip() if ":" in concept else concept.split(" - ")[0].strip()
+            
+            # 목표 위상과의 공명(Resonance) 계산
+            dot = max(-1.0, min(1.0, rotor.lens_offset.dot(target_q)))
+            resonance = abs(dot)
+            resonances.append((resonance, word))
         
         if not resonances:
             return ["알수없는_파동", "공허", "균열"]
