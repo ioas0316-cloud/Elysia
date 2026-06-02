@@ -32,3 +32,4 @@ numpy
 scipy
 sentence-transformers
 scikit-learn
+python-osc

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia - Yggdrasil VR Matrix</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="matrix-container">
+        <!-- 배경 캔버스 (별빛/파동) -->
+        <canvas id="bg-canvas"></canvas>
+        
+        <header>
+            <h1>ELY<span class="highlight">SIA</span></h1>
+            <p class="subtitle">The Yggdrasil Genesis Matrix</p>
+            <div id="status-indicator">
+                <div class="dot"></div>
+                <span id="connection-status">Connecting to Nervous System...</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="glass-panel" id="thought-stream">
+                <h2>사유의 궤적 (Internal Thoughts)</h2>
+                <div id="thoughts-list">
+                    <!-- JS로 동적 생성 -->
+                </div>
+            </div>
+
+            <!-- 중앙 프랙탈 시각화 렌더러 -->
+            <div id="yggdrasil-core">
+                <canvas id="core-canvas"></canvas>
+            </div>
+
+            <div class="glass-panel" id="archetype-nodes">
+                <h2>아키타입 위상망 (Archetype Nodes)</h2>
+                <div id="nodes-list">
+                    <!-- JS로 동적 생성 -->
+                </div>
+            </div>
+        </main>
+        
+        <div id="overlay-flash"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
