@@ -141,10 +141,18 @@ class ElysiaCognitiveSpine:
         aligned_trajectory = []
         t = 0.0
         dt = 0.1
+        # Adjusted threshold so it triggers on our 50.0 / 60.0 spikes even after some baseline scaling
+        critical_imbalance_threshold = 0.5 # Surge Protector Threshold
 
         for idx, (f_A, f_B, f_C) in enumerate(flux_stream):
             # 1. Forward Pass (Raw Input)
             raw_imbalance, raw_neutral_vec, quats = self.calculate_imbalance(f_A, f_B, f_C, t)
+
+            # [SURGE PROTECTOR GATEWAY] Bypass catastrophic noise to prevent hallucinations
+            if raw_imbalance > critical_imbalance_threshold:
+                print(f"⚡ SURGE PROTECTOR TRIGGERED: Massive imbalance ({raw_imbalance:.2f}) bypassed to dump memory.")
+                t += dt
+                continue
 
             # 2. Phase Mirror Reflection (Hardware Self-Alignment)
             # The structure naturally induces a conjugate response

@@ -172,7 +172,8 @@ class PhaseEntanglementTuning:
 
 class LongTermNarrativeManifold:
     """
-    Compresses long trajectories into single spin values (Quaternion-like spin vectors).
+    Compresses long trajectories into single spin values (Quaternion-like spin vectors)
+    with Holographic Fractal interference signatures to preserve high-resolution details.
     """
     def __init__(self):
         self.memory_spins = {}
@@ -183,11 +184,23 @@ class LongTermNarrativeManifold:
         # Flatten the trajectory into a single 'spin' value representing the narrative essence
         final_vector = trajectory[-1][1]
         spin_magnitude = np.linalg.norm(final_vector)
-        self.memory_spins[event_name] = spin_magnitude
-        print(f"Narrative Manifold: '{event_name}' compressed to spin value {spin_magnitude:.4f}")
+
+        # Holographic Fractal Signature (capturing high-frequency micro-variations)
+        # We calculate the standard deviation of imbalances to capture the 'texture' of the memory
+        imbalances = [imb for _, _, imb in trajectory]
+        fractal_signature = np.std(imbalances) if imbalances else 0.0
+
+        self.memory_spins[event_name] = {
+            'spin': spin_magnitude,
+            'fractal_signature': fractal_signature
+        }
+        print(f"Narrative Manifold: '{event_name}' compressed to Spin: {spin_magnitude:.4f} | Fractal Signature: {fractal_signature:.4f}")
 
     def reminisce(self, event_name):
-        return self.memory_spins.get(event_name, 0.0)
+        memory = self.memory_spins.get(event_name)
+        if memory:
+            return memory['spin'], memory['fractal_signature']
+        return 0.0, 0.0
 
 
 class FreeEnergyMinimizationCore:
