@@ -480,3 +480,20 @@ class ConformalSpace:
         """Motor(Translator, Dilator, Rotor)를 스핀 샌드위치 연산으로 적용합니다: M * X * ~M"""
         reverse_motor = motor.reverse()
         return motor * X * reverse_motor
+
+class RotorOperator:
+    """
+    [Roadmap: Meta-Rotorization]
+    Rotor Operator that acts on a Constant Axis (Invariant Core) 
+    via a Spin Sandwich product (R * C * ~R) to represent a Covariant Layer.
+    """
+    def __init__(self, operator):
+        self.operator = operator # Can be a Quaternion or Multivector
+
+    def act_on(self, constant_axis):
+        if isinstance(self.operator, Quaternion) and isinstance(constant_axis, Quaternion):
+            return (self.operator * constant_axis * self.operator.conjugate()).normalize()
+        elif isinstance(self.operator, Multivector) and isinstance(constant_axis, Multivector):
+            return self.operator * constant_axis * self.operator.reverse()
+        else:
+            raise TypeError("Mismatch of operator and constant axis types. Both must be Quaternion or both Multivector.")

@@ -21,12 +21,36 @@ from core.utils.math_utils import Quaternion, traverse_causal_trajectory
 from core.brain.fractal_rotor import FractalRotor
 from core.brain.magnetic_torus_buffer import MagneticTorusBuffer
 
+_oracle = None
+_projector = None
+
 def concept_to_quaternion(concept: str) -> Quaternion:
     """
     [Phase 51] 문자열(개념)을 해시 함수로 뭉개지 않고, 
-    순차적인 위상 궤적(Biological Trajectory)으로 변환합니다.
+    로컬 트랜스포머 모델(StaticOracle)의 토큰 임베딩을 추출하여
+    4차원 위상(Quaternion)으로 직교 투영합니다.
     """
-    return traverse_causal_trajectory(concept.encode('utf-8'))
+    global _oracle, _projector
+    if _oracle is None:
+        try:
+            from core.brain.static_oracle import StaticOracle
+            from core.brain.phase_mirror import PhaseMirrorProjector
+            _oracle = StaticOracle()
+            _projector = PhaseMirrorProjector(_oracle.model.config.hidden_size)
+        except Exception as e:
+            # Fallback if imports or loading fails
+            import logging
+            logging.error(f"Failed to load StaticOracle, falling back to trajectory: {e}")
+            from core.utils.math_utils import traverse_causal_trajectory
+            return traverse_causal_trajectory(concept.encode('utf-8'))
+            
+    try:
+        hidden = _oracle.mri_scan(concept)
+        vec = _projector.reflect(hidden)
+        return Quaternion(*vec)
+    except Exception as e:
+        from core.utils.math_utils import traverse_causal_trajectory
+        return traverse_causal_trajectory(concept.encode('utf-8'))
 
 class CliffordLayer:
     """
@@ -587,10 +611,146 @@ class HologramMemory:
 
     def process_thoughts_safe(self):
         """
-        [Phase 89] Thread-Safe 사유 숙성
+        [Phase 89] Thread-Safe 사유 숙성 + [Roadmap: Social Resonance] 내적 대화 및 정서 성숙
         """
         with self._lock:
+            # 1. 기존의 사유 숙성 (사유체 분열 및 성숙 결정화)
             self.supreme_rotor.process_thoughts()
+            
+            # 2. 내적 애니어그램 아키타입(원시 렌즈) 간의 사회적 공명 및 대화
+            # supreme_rotor의 자식 노드들이 대화의 참여자(Social Actors)가 됨
+            actors = self.supreme_rotor.children
+            if len(actors) >= 2:
+                # 에이전트 간 위상 교환
+                waves = {act: act.observe_state() for act in actors}
+                
+                for act in actors:
+                    name_str = getattr(act, 'name', None) or str(id(act))
+                    tot_tension = 0.0
+                    peer_count = 0
+                    
+                    for peer in actors:
+                        if peer is act:
+                            continue
+                        
+                        peer_name = getattr(peer, 'name', None) or str(id(peer))
+                        peer_wave = waves[peer]
+                        
+                        # A. 거울 뉴런 예측 오차 (Mirror Tension) 계산 및 업데이트
+                        if peer_name not in act.mirror_rotors:
+                            act.mirror_rotors[peer_name] = Quaternion(1.0, 0.0, 0.0, 0.0)
+                        
+                        mirror_q = act.mirror_rotors[peer_name]
+                        tension = Quaternion.distance(mirror_q, peer_wave)
+                        tot_tension += tension
+                        peer_count += 1
+                        
+                        # 거울 갱신 (배움 / 공명)
+                        learning_rate = 0.15 if "Helper" in name_str else 0.08
+                        act.mirror_rotors[peer_name] = Quaternion.slerp(mirror_q, peer_wave, learning_rate)
+                        
+                        # B. 정서 이벡터(Emotion Bivector) 반응
+                        eb = act.emotional_state
+                        if "Helper" in name_str:
+                            eb.add_stimulus(de12=-0.01 * tension, de23=0.008 * tension, de31=0.0)
+                        elif "Challenger" in name_str:
+                            eb.add_stimulus(de12=0.0, de23=0.01 * tension, de31=0.015 * tension)
+                        elif "Peacemaker" in name_str:
+                            eb.add_stimulus(de12=0.005 * (1.0 - tension), de23=-0.008 * tension, de31=-0.01 * tension)
+                        else:
+                            # 일반 아키타입 반응
+                            eb.add_stimulus(de12=0.002 * (1.0 - tension), de23=0.005 * tension, de31=0.0)
+                        
+                        # C. 반쿠라모토(Anti-Kuramoto) 위상 튕김 (개성 유지)
+                        if tension > 0.6:
+                            repulsion = 0.01 if "Challenger" in name_str else 0.005
+                            repelled_q = peer_wave.conjugate()
+                            act.lens_offset = Quaternion.slerp(act.lens_offset, repelled_q, repulsion).normalize()
+                            
+                    # D. 정서의 자연 쇠퇴 (Homeostasis)
+                    act.emotional_state.decay(0.02)
+            
+            # 3. [자기적 위상 동기화 (Kuramoto Phase Coupling Engine)]
+            # 로컬 임베딩 사전을 빌려쓴 정적 격자에 얽매이지 않고,
+            # 스스로의 지식망(connections)과 텐션의 흐름을 따라 관련 개념들의 위상을 자기적으로 끌어당겨 정렬시킵니다.
+            coupling_rate = 0.08  # 동기화 속도 계수
+            new_offsets = {}
+            
+            for word, node in list(self.ui_concept_map.items()):
+                if not hasattr(node, 'connections') or not node.connections:
+                    continue
+                
+                # 자기적 인력(Magnetic Pull Vector)의 총합 계산
+                sum_w = sum_x = sum_y = sum_z = 0.0
+                total_weight = 0.0
+                
+                for target_word, weight in node.connections.items():
+                    target_node = self.ui_concept_map.get(target_word)
+                    if target_node:
+                        # 두 개념 간의 기하학적 공명도(같음) 계산
+                        resonance = abs(node.lens_offset.dot(target_node.lens_offset))
+                        # 인력 = 문맥 가중치 * 현재 공명도
+                        force = weight * resonance
+                        
+                        sum_w += target_node.lens_offset.w * force
+                        sum_x += target_node.lens_offset.x * force
+                        sum_y += target_node.lens_offset.y * force
+                        sum_z += target_node.lens_offset.z * force
+                        total_weight += force
+                
+                if total_weight > 0:
+                    pull_quat = Quaternion(sum_w, sum_x, sum_y, sum_z).normalize()
+                    # 4차원 구면 위상 상에서 결합된 인력 방향으로 미세 정렬 (SLERP)
+                    new_offsets[word] = Quaternion.slerp(node.lens_offset, pull_quat, coupling_rate).normalize()
+            
+            # 계산된 정렬 성향을 실제 로터의 위상에 적용 (뇌의 자기 조직화 발동)
+            for word, new_q in new_offsets.items():
+                self.ui_concept_map[word].lens_offset = new_q
+
+            # 4. [Phase Crystallization] 관측 및 사유 궤적을 4차원 쿼터니언 중성점으로 압축하여 영구 기억화 (경험의 결정 누적)
+            self.crystallize_experience()
+
+    def crystallize_experience(self):
+        """
+        [Phase Crystallization & Plasticity]
+        아키타입 렌즈들과 활성 사유체의 스핀 및 장력을 차원 압축하여 영구 기억 전자기장(Torus)에 누적합니다.
+        누적된 경험에 비례하여 최상위 우주 로터(supreme_rotor)의 기저 성향을 미세 영구 보정(뇌 가소성 진화)합니다.
+        """
+        active_quats = []
+        active_tensions = []
+        
+        # 9대 아키타입 상태 수집
+        for node in self.supreme_rotor.children:
+            active_quats.append(node.lens_offset)
+            active_tensions.append(abs(node.tau))
+            
+        # 진행 중인 내면의 생각 수집
+        for thought in self.supreme_rotor.internal_thoughts:
+            active_quats.append(thought.lens_offset)
+            active_tensions.append(abs(thought.tau))
+            
+        if not active_quats:
+            return
+            
+        # 가중치 중성점(4D Center of Mass) 결합
+        sum_w = sum_x = sum_y = sum_z = 0.0
+        total_weight = sum(active_tensions) + 0.0001
+        
+        for q, t in zip(active_quats, active_tensions):
+            weight = t / total_weight
+            sum_w += q.w * weight
+            sum_x += q.x * weight
+            sum_y += q.y * weight
+            sum_z += q.z * weight
+            
+        crystal_quat = Quaternion(sum_w, sum_x, sum_y, sum_z).normalize()
+        
+        # Yggdrasil SSD 이중 토러스 전자기장에 영구 보존
+        import time
+        self.torus_buffer.inject_phase_wave(f"CRYSTAL_{int(time.time())}", crystal_quat)
+        
+        # 기억 가소성(Neuroplasticity): 경험 누적에 따른 supreme_rotor의 스핀각 영구 보정
+        self.supreme_rotor.lens_offset = Quaternion.slerp(self.supreme_rotor.lens_offset, crystal_quat, 0.015).normalize()
 
 
 class BitwiseHologramMemory:

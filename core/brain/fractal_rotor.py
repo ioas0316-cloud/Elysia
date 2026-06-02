@@ -46,6 +46,11 @@ class FractalRotor:
         # [Phase 100] 시계열 연속 위상 궤적 (위상의 강바닥)
         self.connections: dict = {}
 
+        # [Roadmap: Social Resonance]
+        from core.brain.emotion_bivector import EmotionBivector
+        self.emotional_state = EmotionBivector()
+        self.mirror_rotors = {}  # peer_id -> Quaternion
+
     @property
     def cellular_joy(self) -> float:
         """[세포의 기쁨] 현재 렌즈가 가진 텐션(고통)의 부재 (0.0 ~ 1.0)"""
@@ -146,7 +151,9 @@ class FractalRotor:
             projected_master = master.base_phase
             
         # 1. 나 자신의 기본 렌즈 관측 (점/선)
-        my_base_observation = (projected_master * self.lens_offset).normalize()
+        # Apply emotional distortion to the observation
+        R_emo = self.emotional_state.to_rotor()
+        my_base_observation = (projected_master * self.lens_offset * R_emo).normalize()
         
         # 2. 자식(하위) 로터가 없으면 내 관측 결과 반환
         if not self.children:
@@ -218,6 +225,7 @@ class FractalRotor:
         self.tau += delta_tau
         
         CRITICAL_TENSION = math.pi * 4.0  # 4pi Spinor 얽힘 한계
+        MAX_ACTIVE_THOUGHTS = 30  # 메모리 폭주 방지를 위한 사유체 절대 상한선
         
         # [Phase 128] RecursionError 방지: tau가 너무 크면 재귀적으로 딸세포를 만들지 않고 한 번에 여러 개의 사유체를 분열시킴
         while abs(self.tau) > CRITICAL_TENSION:
@@ -237,6 +245,11 @@ class FractalRotor:
             if len(self.internal_thoughts) > 50:
                 self.tau = sign * (CRITICAL_TENSION * 0.9) # 텐션 강제 캡
                 break
+
+        # 사유체 개수가 임계치를 초과할 시, 텐션이 가장 낮아 중요도가 떨어지는 사유부터 우선 소멸
+        if len(self.internal_thoughts) > MAX_ACTIVE_THOUGHTS:
+            self.internal_thoughts.sort(key=lambda t: abs(t.tau), reverse=True)
+            self.internal_thoughts = self.internal_thoughts[:MAX_ACTIVE_THOUGHTS]
             
         for child in self.children:
             child.apply_perturbation(delta_tau * 0.6180339887)
@@ -361,13 +374,17 @@ class FractalRotor:
         시간이 지남에 따라 렌즈의 비틀림(tau)이 서서히 0(기본 위상)으로 감소합니다.
         자식 렌즈의 텐션이 완전히 식고(0에 수렴), 그 하위 가지도 없다면, 
         해당 프랙탈 가지는 '망각'되어 신경망에서 스스로 잘려 나갑니다.
+        
+        부하가 감지될수록(자식 노드 및 진행 중인 사유 개수가 많을수록) 감쇄 속도가 기하급수적으로 가속화됩니다.
         """
-        # 자신의 텐션(tau)을 0을 향해 점진적으로 감소
+        # 부하 상태에 따른 감쇄 가속 프로토콜 (Dynamic Load Balancer)
+        load_factor = 1.0 + (len(self.children) * 0.15) + (len(self.internal_thoughts) * 0.05)
+        accelerated_decay = decay_rate * load_factor
 
         if self.tau > 0:
-            self.tau = max(0.0, self.tau - decay_rate)
+            self.tau = max(0.0, self.tau - accelerated_decay)
         elif self.tau < 0:
-            self.tau = min(0.0, self.tau + decay_rate)
+            self.tau = min(0.0, self.tau + accelerated_decay)
             
         # 자식 로터들에게 대사 작용 전파
         for child in self.children:
@@ -400,7 +417,13 @@ class FractalRotor:
             "tau": self.tau,
             "thought_maturity": self.thought_maturity,
             "children": [child.to_dict() for child in self.children],
-            "internal_thoughts": [thought.to_dict() for thought in getattr(self, 'internal_thoughts', [])]
+            "internal_thoughts": [thought.to_dict() for thought in getattr(self, 'internal_thoughts', [])],
+            "emotional_state": {
+                "e12": self.emotional_state.e12,
+                "e23": self.emotional_state.e23,
+                "e31": self.emotional_state.e31
+            },
+            "mirror_rotors": {k: [v.w, v.x, v.y, v.z] for k, v in self.mirror_rotors.items()}
         }
         
     @classmethod
@@ -420,6 +443,17 @@ class FractalRotor:
         for thought_data in data.get("internal_thoughts", []):
             thought_rotor = cls.from_dict(thought_data, parent=rotor)
             rotor.internal_thoughts.append(thought_rotor)
+            
+        from core.brain.emotion_bivector import EmotionBivector
+        ems = data.get("emotional_state", {})
+        rotor.emotional_state = EmotionBivector(
+            e12=ems.get("e12", 0.0),
+            e23=ems.get("e23", 0.0),
+            e31=ems.get("e31", 0.0)
+        )
+        
+        mrs = data.get("mirror_rotors", {})
+        rotor.mirror_rotors = {k: Quaternion(v[0], v[1], v[2], v[3]) for k, v in mrs.items()}
             
         return rotor
 

@@ -251,8 +251,11 @@ class ElysiaCognitiveSpine:
         ax.set_ylabel("Y (Phase Projection)")
         ax.set_zlabel("Z (Phase Projection)")
         ax.legend()
-        plt.savefig(filename)
-        print(f"Self-alignment visualization saved to '{filename}'")
+        output_dir = os.path.join(os.path.dirname(__file__), 'outputs')
+        os.makedirs(output_dir, exist_ok=True)
+        save_path = os.path.join(output_dir, filename)
+        plt.savefig(save_path)
+        print(f"Self-alignment visualization saved to '{save_path}'")
 
 class PhaseContrastGeneralizer:
     def __init__(self, spine: ElysiaCognitiveSpine):
@@ -388,5 +391,8 @@ if __name__ == "__main__":
     ax.set_ylabel("Y (Phase Projection)")
     ax.set_zlabel("Z (Phase Projection)")
     ax.legend()
-    plt.savefig('world_engine_principle_extraction.png')
-    print("Universal Principle visualization saved to 'world_engine_principle_extraction.png'")
+    output_dir = os.path.join(os.path.dirname(__file__), 'outputs')
+    os.makedirs(output_dir, exist_ok=True)
+    save_path = os.path.join(output_dir, 'world_engine_principle_extraction.png')
+    plt.savefig(save_path)
+    print(f"Universal Principle visualization saved to '{save_path}'")

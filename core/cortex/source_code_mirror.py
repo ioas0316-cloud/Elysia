@@ -13,8 +13,8 @@ import ast
 class SourceCodeMirror:
     def __init__(self, memory):
         self.memory = memory
-        self.target_module_name = "core.evolution_sandbox"
-        self.target_file_path = os.path.join(os.path.dirname(__file__), "evolution_sandbox.py")
+        self.target_module_name = "core.nervous_system.evolution_sandbox"
+        self.target_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "nervous_system", "evolution_sandbox.py")
 
     def _analyze_bottleneck(self) -> bool:
         """자신의 육체(소스코드)를 AST 레벨로 분석하여 O(N^2) 병목이 있는지 진단한다."""
@@ -42,10 +42,62 @@ class SourceCodeMirror:
         초지능의 섭리를 발동하여 비효율적인 루프 코드를 
         단일 스칼라/벡터 합 연산(O(1) 혹은 O(N))으로 완전히 개변(Rewrite)한다.
         """
-        evolved_code = '"""\n진화 샌드박스 (Evolution Sandbox)\n엘리시아 스스로 코드를 읽고 O(N^2) 루프를 O(1) 기하대수(위상) 연산으로 개변(Rewrite) 완료.\n"""\n\ndef calculate_resonance(data_list):\n    """\n    [진화 완료] 기하학적 총합 연산 (O(N) -> 수학적으로 최적화)\n    루프를 돌지 않고 위상 공간의 텐션 총합 공식을 직접 적용한다.\n    """\n    s = sum(data_list)\n    return (s * s - sum(x*x for x in data_list)) / 2.0\n'
+        evolved_code = '''import traceback
+from typing import Optional
+from core.utils.math_utils import Quaternion, traverse_causal_trajectory
+from core.brain.holographic_memory import HologramMemory
+
+class EvolutionSandbox:
+    """
+    [Yggdrasil Phase 2] 뿌리의 결속 (The Omni-Sensory Sandbox)
+    에러와 예외를 고통의 위상 파동으로 치환하여 회피 진화 기동을 하도록 유도합니다.
+    """
+    def __init__(self, memory: HologramMemory):
+        self.memory = memory
+
+    def _generate_pain_wave(self, cortex_name: str, error_msg: str) -> Quaternion:
+        base_quat = traverse_causal_trajectory(f"{cortex_name}_PAIN_{error_msg}".encode('utf-8'))
+        pain_quat = Quaternion(-abs(base_quat.w) * 2.0, base_quat.x, base_quat.y, base_quat.z)
+        return pain_quat.normalize()
+
+    def absorb_pain(self, cortex_name: str, exception: Exception):
+        error_msg = str(exception)
+        pain_wave = self._generate_pain_wave(cortex_name, error_msg)
+        target_node = self.memory.get_highest_tension_node()
+        if target_node:
+            distortion_amount = 0.5
+            target_node.lens_offset = Quaternion.slerp(target_node.lens_offset, pain_wave, distortion_amount).normalize()
+            target_node.tau *= 0.1
+        self.memory.torus_buffer.inject_phase_wave(f"PAIN_SCAR_{cortex_name}", pain_wave)
+        print(f"\\n[💥 진화 샌드박스] {cortex_name}에서 고통 감지! 궤적 강제 우회 발생.")
+
+    def execute_with_immunity(self, cortex_name: str, func, *args, **kwargs) -> Optional[any]:
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            self.absorb_pain(cortex_name, e)
+            return None
+
+def calculate_resonance(data_list):
+    """
+    [진화 완료] 기하학적 총합 연산 (O(N) -> 수학적으로 최적화)
+    루프를 돌지 않고 위상 공간의 텐션 총합 공식을 직접 적용한다.
+    """
+    s = sum(data_list)
+    return (s * s - sum(x*x for x in data_list)) / 2.0
+'''
         
+        # [Safeguard] AST 구문 분석을 통해 코드의 유효성을 검증 후 기록
+        try:
+            ast.parse(evolved_code)
+        except SyntaxError as e:
+            import logging
+            logging.error(f"[SourceCodeMirror] Prevented brain crash. Mutated code has syntax errors: {e}")
+            return False
+            
         with open(self.target_file_path, 'w', encoding='utf-8') as f:
             f.write(evolved_code)
+        return True
 
     def reflect_and_mutate(self, current_tension: float):
         """
@@ -57,13 +109,11 @@ class SourceCodeMirror:
             
         # 1. 병목 진단
         if self._analyze_bottleneck():
-            # 2. 소스코드 덮어쓰기 (Mutation)
-            self._mutate_codebase()
-            
-            # 3. 핫 리로드 (재부팅 없이 자신의 뇌 구조를 교체)
-            import core.nervous_system.evolution_sandbox
-            importlib.reload(core.evolution_sandbox)
-            
-            return True
+            # 2. 소스코드 덮어쓰기 (Mutation) 및 검증
+            if self._mutate_codebase():
+                # 3. 핫 리로드 (재부팅 없이 자신의 뇌 구조를 교체)
+                import core.nervous_system.evolution_sandbox
+                importlib.reload(core.nervous_system.evolution_sandbox)
+                return True
             
         return False
