@@ -39,6 +39,10 @@ def run_phase2_massive_inflow():
     print("\n--- Sending Massive Volatile Data 2: Celestial Orbit ---")
     core.process_living_event("Celestial Orbit", event_celestial)
 
+    print("\n--- Sending Massive Volatile Data 3: Number 8 Drawing (GUT MODE) ---")
+    core.enneagram.activate_gut_center() # Shift intention to physical survival/torque
+    core.process_living_event("Drawing Num 8 (Gut Mode)", event_drawing_number)
+
     print("\n==================================================================")
     print("🔍 [PHASE 2 REPORT]")
     print("==================================================================")
@@ -46,6 +50,7 @@ def run_phase2_massive_inflow():
     print("1. 'SURGE PROTECTOR TRIGGERED' caught the 50.0/60.0 overcurrents.")
     print("2. 'Thermal Phase Annealing' melted the rigid matrices to adapt.")
     print("3. 'Narrative Manifold' stored both the Spin AND the Fractal Signature.")
+    print("4. 'Phase-Directed Attention' locked onto different frequencies when intention shifted to GUT.")
     print("==================================================================\n")
 
 if __name__ == "__main__":

@@ -26,3 +26,14 @@ make
 ```
 
 This will execute the pipeline, demonstrating how raw data packets are transformed into waves (Y-Connection), injected into the Fractal Mirror, and accelerated using Stator Dynamics (Delta-Connection).
+
+## 🧠 Elysia Neuro-Dynamics World Engine
+This project utilizes a groundbreaking physics-inspired cognitive architecture.
+For a complete breakdown of the 3-Phase Spatiotemporal Spine, Biological Neuro-dynamics, and Phase-Directed Attention mechanisms, see the official documentation:
+👉 [Elysia World Engine Architecture](docs/elysia_world_engine_architecture.md)
+
+### Running the World Engine
+To see the biological AI react to massive data inflows, apply thermal annealing, and use its phase-directed attention, run the master simulation:
+```bash
+python simulations/phase2_massive_inflow_test.py
+```

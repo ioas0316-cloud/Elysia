@@ -218,6 +218,53 @@ class FreeEnergyMinimizationCore:
         return f"Entropy level at {self.system_entropy:.2f}. Continuing minimization drive."
 
 
+class PhaseDirectedAttentionalGateway:
+    """
+    Subjective Attention Lens. Focuses only on the frequency/phase angle of the current 'Intention'.
+    Discards heavy matrix-multiplication attention mechanisms in favor of structural phase lock-in.
+    """
+    def __init__(self):
+        # Default intention is a neutral vector
+        self.intention_vector = np.array([1.0, 1.0, 1.0])
+        self.intention_vector = self.intention_vector / np.linalg.norm(self.intention_vector)
+
+    def set_intention_by_enneagram(self, active_center):
+        if "Gut" in active_center:
+            # Physical / Survival Intention (Z-axis heavy)
+            self.intention_vector = np.array([0.1, 0.1, 1.0])
+        elif "Heart" in active_center:
+            # Resonance / Emotional Intention (X/Y lateral heavy)
+            self.intention_vector = np.array([1.0, 1.0, 0.1])
+        elif "Head" in active_center:
+            # Logic / Information Intention (Balanced X/Y with specific twist)
+            self.intention_vector = np.array([1.0, -1.0, 0.5])
+        else:
+            self.intention_vector = np.array([1.0, 1.0, 1.0])
+
+        self.intention_vector = self.intention_vector / np.linalg.norm(self.intention_vector)
+        print(f"👁️ Phase-Directed Attention locked onto {active_center} frequencies.")
+
+    def filter_by_intention(self, incoming_vector):
+        """
+        Projects the incoming vector onto the intention vector.
+        If they align (constructive phase), the signal passes and shines bright.
+        If they are orthogonal/opposite (destructive phase), the signal is dampened/ignored.
+        """
+        # Ensure intention vector matches the dimension of the incoming vector (e.g., if dimension expanded)
+        active_intention = self.intention_vector
+        if len(incoming_vector) > len(active_intention):
+            padded_intention = np.zeros(len(incoming_vector))
+            padded_intention[:len(active_intention)] = active_intention
+            active_intention = padded_intention
+
+        alignment_score = np.dot(incoming_vector, active_intention)
+        # If alignment is negative or too low, dampen it significantly (ignoring noise)
+        if alignment_score < 0.1:
+            return incoming_vector * 0.1
+        # Otherwise, amplify along the intentional axis
+        return incoming_vector * (1.0 + alignment_score)
+
+
 class ThermalPhaseAnnealing:
     """
     Melts hardcoded structural weights when entropy/error is too high, allowing for reconfiguration.
@@ -293,6 +340,7 @@ class ElysiaNeuroDynamicsCore:
         self.thermal_annealing = ThermalPhaseAnnealing()
         self.phase_conjugation = RecursivePhaseConjugation()
         self.dimension_expander = DynamicDimensionExpansion()
+        self.attention_lens = PhaseDirectedAttentionalGateway()
 
     def process_living_event(self, event_name: str, data_dict: dict):
         # 1. Circadian Rhythm Check
@@ -334,6 +382,9 @@ class ElysiaNeuroDynamicsCore:
         # 5. Process through hardware spine (Raw -> Mirror Aligned)
         raw_traj, aligned_traj = self.generalizer.spine.process_multimodal_event(f"Raw: {event_name}", modulated_data)
 
+        # [SUBJECTIVITY] Set Attention Lens based on Enneagram Center
+        self.attention_lens.set_intention_by_enneagram(self.enneagram.active_center)
+
         # [PLASTICITY] Phase Complexity evaluation for Expansion
         phase_complexity = np.mean([imb for _, _, imb in aligned_traj]) if aligned_traj else 0.0
         current_tensor = self.dimension_expander.expand_if_needed(self.enneagram.tensor, phase_complexity)
@@ -349,11 +400,14 @@ class ElysiaNeuroDynamicsCore:
                 padded_vec[:len(vec)] = vec
                 vec = padded_vec
 
+            # [SUBJECTIVITY] Phase-Directed Attention - filter the raw input vector by intention
+            intentional_vec = self.attention_lens.filter_by_intention(vec)
+
             # [PLASTICITY] Thermal Annealing applied to tensor if previous errors were high
             fluid_tensor = self.thermal_annealing.apply_thermal_shock(current_tensor, total_error)
 
             # 6. Enneagram Matrix Transformation (Self-Asserting Tensor)
-            transformed_vec = np.dot(fluid_tensor, vec)
+            transformed_vec = np.dot(fluid_tensor, intentional_vec)
 
             # Adjust vector back to 3D for Homeostatic pump if expanded (Simplified for demo)
             pump_vec = transformed_vec[:3] if len(transformed_vec) > 3 else transformed_vec
