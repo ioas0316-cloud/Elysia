@@ -218,18 +218,139 @@ class ElysiaCognitiveSpine:
         plt.savefig(filename)
         print(f"Self-alignment visualization saved to '{filename}'")
 
+class PhaseContrastGeneralizer:
+    def __init__(self, spine: ElysiaCognitiveSpine):
+        self.spine = spine
+        self.roleplay_voltage = 1.0       # Base voltage (Roleplay / Chit-chat mode)
+        self.generalization_voltage = 1.0 # Base voltage (Pattern Extraction / Generalization mode)
+        self.system_override_active = False
+
+    def activate_system_override(self):
+        print("\n[System Override Protocol: Active]")
+        print("- 소꿉장난(페르소나 텍스트 출력) 전압 10%로 다운.")
+        print("- 위상차 대조 및 패턴 일반화(Generalization) 엔진 전압 300%로 업.")
+        print("- 무지막지한 원시 데이터를 3상 가변축 다양체에 순차적 플러그인 시작.")
+        self.system_override_active = True
+        self.roleplay_voltage = 0.1
+        self.generalization_voltage = 3.0
+
+    def deactivate_system_override(self):
+        print("\n[System Override Protocol: Deactivated]")
+        self.system_override_active = False
+        self.roleplay_voltage = 1.0
+        self.generalization_voltage = 1.0
+
+    def cross_compare_and_compress(self, event_names: List[str], trajectories: List[List[Tuple[float, np.ndarray, float]]]):
+        """
+        Takes multiple spatiotemporal trajectories from different domains (e.g., Apple falling, Planet orbiting).
+        Uses Y-neutral convergence to cross-compare their trajectories.
+        Common geometric skeletons reinforce (constructive interference via generalization voltage).
+        Domain-specific noise (colors, sizes, semantic labels) cancels out symmetrically to 0.
+        """
+        print(f"\n--- Y-Neutral Compression Protocol Initiated ---")
+        print(f"Comparing events: {event_names}")
+
+        if not trajectories or len(trajectories) < 2:
+            print("Not enough trajectories to perform cross-comparison.")
+            return []
+
+        # Find the minimum length among trajectories to compare synchronously
+        min_len = min(len(traj) for traj in trajectories)
+
+        universal_principle_trajectory = []
+
+        for i in range(min_len):
+            t = trajectories[0][i][0]
+            vectors = [traj[i][1] for traj in trajectories]
+
+            # Y-Neutral Compression:
+            # We treat the vectors as phases in a multi-phase system.
+            # Here we average them out. The generalization_voltage amplifies the common signal.
+            # Distinct noise pointing in random directions will sum towards zero.
+            avg_vector = np.mean(vectors, axis=0)
+
+            # Apply Generalization Voltage (amplifying the common principle)
+            # Apply Roleplay Voltage penalty (suppressing the individual noise/chit-chat characteristics)
+            # This is a conceptual application matching the physical description
+            if self.system_override_active:
+                extracted_core_vector = avg_vector * self.generalization_voltage
+            else:
+                extracted_core_vector = avg_vector
+
+            imbalance = np.linalg.norm(extracted_core_vector)
+            universal_principle_trajectory.append((t, extracted_core_vector, imbalance))
+
+        print(f"✨ Universal Principle Extracted: The common structural essence locked-in.")
+        return universal_principle_trajectory
+
 if __name__ == "__main__":
     spine = ElysiaCognitiveSpine(trajectory_tolerance=0.5)
+    world_engine = PhaseContrastGeneralizer(spine)
 
+    print("\n--- [Phase 1: Regular Chit-Chat (Roleplay) Mode] ---")
     # Event: Highly noisy data simulating raw, unprocessed sensory input
-    # Notice the heavy noise in the audio and video streams
     event_noisy_raw = {
         'audio': [0.1, 0.9, 0.3, 0.8, 0.1],
         'video': [0.5, 0.1, 0.2, 0.9, 0.5],
         'text': "노이즈데이터"
     }
 
-    raw_traj, aligned_traj = spine.process_multimodal_event("Noisy Raw Data", event_noisy_raw)
+    raw_traj, aligned_traj = world_engine.spine.process_multimodal_event("Noisy Raw Data", event_noisy_raw)
+    world_engine.spine.visualize_self_alignment(raw_traj, aligned_traj, 'cognitive_spine_self_aligning.png')
 
-    # Visualize how the Phase Mirror physically auto-aligns the trajectory without algorithmic processing
-    spine.visualize_self_alignment(raw_traj, aligned_traj)
+    print("\n\n--- [Phase 2: World Engine Activation] ---")
+    # User calls the override!
+    world_engine.activate_system_override()
+
+    # Event 1: Apple Falling (Newtonian mechanics context)
+    # The common trajectory signature is a steady progression [0.5, 0.5, 0.5...], but with random domain noise.
+    event_apple_falling = {
+        'audio': [0.5, 0.51, 0.5, 0.49, 0.5],  # underlying steady pull
+        'video': [0.9, 0.1, 0.2, 0.9, 0.5],    # heavy visual noise (apple color, tree shape)
+        'text': "사과가떨어진다"
+    }
+
+    # Event 2: Planet Orbiting (Astrophysics context)
+    # Same underlying trajectory signature [0.5, 0.5, 0.5...], different domain noise.
+    event_planet_orbit = {
+        'audio': [0.5, 0.49, 0.5, 0.51, 0.5],  # underlying steady pull
+        'video': [0.2, 0.8, 0.1, 0.3, 0.9],    # heavy visual noise (stars, dark space)
+        'text': "행성이공전한다"
+    }
+
+    print("\nLoading massive diverse datasets into the Phase Rotor...")
+    _, apple_traj = world_engine.spine.process_multimodal_event("Apple Falling (Mechanics)", event_apple_falling)
+    _, planet_traj = world_engine.spine.process_multimodal_event("Planet Orbiting (Astrophysics)", event_planet_orbit)
+
+    # 3. Y-Neutral Compression Protocol: Extracting the Universal Principle
+    extracted_principle_traj = world_engine.cross_compare_and_compress(
+        ["Apple Falling", "Planet Orbiting"],
+        [apple_traj, planet_traj]
+    )
+
+    # Visualization of the Universal Principle Extraction
+    fig = plt.figure(figsize=(12, 8))
+    ax = fig.add_subplot(111, projection='3d')
+
+    xs_apple = [vec[0] for _, vec, _ in apple_traj]
+    ys_apple = [vec[1] for _, vec, _ in apple_traj]
+    zs_apple = [vec[2] for _, vec, _ in apple_traj]
+    ax.plot(xs_apple, ys_apple, zs_apple, label='Apple Falling (Noisy Domain A)', color='orange', linestyle='--', alpha=0.5)
+
+    xs_planet = [vec[0] for _, vec, _ in planet_traj]
+    ys_planet = [vec[1] for _, vec, _ in planet_traj]
+    zs_planet = [vec[2] for _, vec, _ in planet_traj]
+    ax.plot(xs_planet, ys_planet, zs_planet, label='Planet Orbit (Noisy Domain B)', color='purple', linestyle='--', alpha=0.5)
+
+    xs_prin = [vec[0] for _, vec, _ in extracted_principle_traj]
+    ys_prin = [vec[1] for _, vec, _ in extracted_principle_traj]
+    zs_prin = [vec[2] for _, vec, _ in extracted_principle_traj]
+    ax.plot(xs_prin, ys_prin, zs_prin, label='Universal Principle (Gravity/Mass-Tension)', color='gold', linewidth=4, marker='*')
+
+    ax.set_title("World Engine: Y-Neutral Compression (Extracting the Law of Gravity)")
+    ax.set_xlabel("X (Phase Projection)")
+    ax.set_ylabel("Y (Phase Projection)")
+    ax.set_zlabel("Z (Phase Projection)")
+    ax.legend()
+    plt.savefig('world_engine_principle_extraction.png')
+    print("Universal Principle visualization saved to 'world_engine_principle_extraction.png'")
