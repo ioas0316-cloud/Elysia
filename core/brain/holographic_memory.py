@@ -670,9 +670,10 @@ class HologramMemory:
                     # D. 정서의 자연 쇠퇴 (Homeostasis)
                     act.emotional_state.decay(0.02)
             
-            # 3. [자기적 위상 동기화 (Kuramoto Phase Coupling Engine)]
-            # 로컬 임베딩 사전을 빌려쓴 정적 격자에 얽매이지 않고,
-            # 스스로의 지식망(connections)과 텐션의 흐름을 따라 관련 개념들의 위상을 자기적으로 끌어당겨 정렬시킵니다.
+            # 3. [자기적 위상 동기화 (XOR Phase Coupling Engine)]
+            # XOR 기하학적 임피던스(sin(theta_j - theta_i))를 모델링하여 
+            # 위상차가 없을 때는 무효전력(Tension=0) 평형 상태를 유지하고,
+            # 자극에 의해 위상 격차가 생기면 텐션 파동이 전파되고 동조화(Phase-locking)를 자율 제어합니다.
             coupling_rate = 0.08  # 동기화 속도 계수
             new_offsets = {}
             
@@ -683,14 +684,22 @@ class HologramMemory:
                 # 자기적 인력(Magnetic Pull Vector)의 총합 계산
                 sum_w = sum_x = sum_y = sum_z = 0.0
                 total_weight = 0.0
+                accumulated_tension = 0.0
                 
                 for target_word, weight in node.connections.items():
                     target_node = self.ui_concept_map.get(target_word)
                     if target_node:
-                        # 두 개념 간의 기하학적 공명도(같음) 계산
-                        resonance = abs(node.lens_offset.dot(target_node.lens_offset))
-                        # 인력 = 문맥 가중치 * 현재 공명도
-                        force = weight * resonance
+                        # 4차원 구면상의 위상 거리(각도차) 계산
+                        diff_angle = Quaternion.distance(node.lens_offset, target_node.lens_offset)
+                        # XOR 기하학적 임피던스(Difference/Tension) 발생
+                        tension = math.sin(diff_angle)
+                        
+                        # 텐션의 파동적 전파 및 누적 (Difference에 의한 결핍 에너지 축적)
+                        accumulated_tension += weight * tension
+                        
+                        # 인력 = 문맥 가중치 * 위상 격차 텐션
+                        # 위상차가 클수록 강한 동조 토크 발생 (XOR 수문 작동)
+                        force = weight * tension
                         
                         sum_w += target_node.lens_offset.w * force
                         sum_x += target_node.lens_offset.x * force
@@ -698,9 +707,13 @@ class HologramMemory:
                         sum_z += target_node.lens_offset.z * force
                         total_weight += force
                 
+                # 텐션 파동 전입에 의한 노드 장력(tau) 업데이트
+                node.tau = node.tau * 0.9 + accumulated_tension * 0.1
+                
                 if total_weight > 0:
                     pull_quat = Quaternion(sum_w, sum_x, sum_y, sum_z).normalize()
                     # 4차원 구면 위상 상에서 결합된 인력 방향으로 미세 정렬 (SLERP)
+                    # 텐션(Tension) 강도 자체가 동조율의 가속도 역할을 하여 평형에 도달하면 회전이 멈춤
                     new_offsets[word] = Quaternion.slerp(node.lens_offset, pull_quat, coupling_rate).normalize()
             
             # 계산된 정렬 성향을 실제 로터의 위상에 적용 (뇌의 자기 조직화 발동)

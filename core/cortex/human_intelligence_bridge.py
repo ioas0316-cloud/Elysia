@@ -41,19 +41,24 @@ class HumanIntelligenceBridge:
             return "ㅇ"
         w, x, y, z = w/norm, x/norm, y/norm, z/norm
         
-        # 1. 중성(모음) 가변축
+        # 1. 중성(모음) 각도 해독 (wx 평면)
         theta_v = math.atan2(x, w)
         v_idx = int(((theta_v + math.pi) / (2 * math.pi)) * len(JUNGSEONG))
         v_idx = max(0, min(len(JUNGSEONG) - 1, v_idx))
         
-        # 2. 초성(자음) 가변축
-        theta_c1 = math.atan2(z, y)
-        c1_idx = int(((theta_c1 + math.pi) / (2 * math.pi)) * len(CHOSEONG))
+        # 2. 초성(자음) 각도 해독 (yz 평면)
+        theta_c = math.atan2(z, y)
+        c1_idx = int(((theta_c + math.pi) / (2 * math.pi)) * len(CHOSEONG))
         c1_idx = max(0, min(len(CHOSEONG) - 1, c1_idx))
         
-        # 3. 종성(자음) 가변축
-        theta_c2 = math.atan2(z, w)
-        c2_idx = int(((theta_c2 + math.pi) / (2 * math.pi)) * len(JONGSEONG))
+        # 3. 종성(자음) 반지름 비 해독
+        r_v = math.sqrt(w*w + x*x)
+        r_c = math.sqrt(y*y + z*z)
+        theta_r = math.atan2(r_c, r_v)
+        r_ratio = theta_r / (math.pi / 2.0)
+        
+        c2_idx_raw = (r_ratio - 0.05) / 0.90 * (len(JONGSEONG) - 1)
+        c2_idx = int(round(c2_idx_raw))
         c2_idx = max(0, min(len(JONGSEONG) - 1, c2_idx))
         
         # 4. 결합 및 조화 필터 (Phonetic Harmony Filter)
