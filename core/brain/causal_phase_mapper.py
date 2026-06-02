@@ -17,17 +17,23 @@ class CausalPhaseMapper:
     def text_to_phase(self, text):
         """단어의 기하학적 구조를 4D 홉프 토러스 직교 분리 파동으로 변환 (인과율 보존)"""
         if not text:
-            return torch.tensor([1.0, 0.0, 0.0, 0.0], dtype=torch.float32, device=self.device)
+            # 기본 궤적은 최소 1개의 텐서로 이루어짐
+            return torch.tensor([[1.0, 0.0, 0.0, 0.0]], dtype=torch.float32, device=self.device)
             
-        w_sum, x_sum, y_sum, z_sum = 0.0, 0.0, 0.0, 0.0
-        valid_chars = 0
+        trajectory = []
         
+        # 순서의 공간화(Sequential Phase Shift) 상수: 황금비 각도 (Golden Ratio Angle)
+        delta_theta = 2.39996
+
         # 상수 사전 길이 정의
         len_choseong = 19
         len_jungseong = 21
         len_jongseong = 28
 
-        for char in text:
+        for i, char in enumerate(text):
+            # 순서에 따른 누적 위상 시프트
+            seq_shift = i * delta_theta
+
             code = ord(char)
             if 0xAC00 <= code <= 0xD7A3:
                 base = code - 0xAC00
@@ -35,10 +41,10 @@ class CausalPhaseMapper:
                 jung = ((base - jong) // 28) % 21
                 cho = (((base - jong) // 28) - jung) // 21
                 
-                # 1. 중성(모음) 각도
-                theta_v = ((jung + 0.5) / len_jungseong) * 2 * math.pi - math.pi
-                # 2. 초성(자음) 각도
-                theta_c = ((cho + 0.5) / len_choseong) * 2 * math.pi - math.pi
+                # 1. 중성(모음) 각도 + 순차 위상 시프트
+                theta_v = ((jung + 0.5) / len_jungseong) * 2 * math.pi - math.pi + seq_shift
+                # 2. 초성(자음) 각도 + 순차 위상 시프트
+                theta_c = ((cho + 0.5) / len_choseong) * 2 * math.pi - math.pi + seq_shift
                 # 3. 종성(자음) 반지름 비 분배
                 r_ratio = 0.05 + 0.90 * (jong / (len_jongseong - 1))
                 theta_r = r_ratio * (math.pi / 2.0)
@@ -49,32 +55,28 @@ class CausalPhaseMapper:
                 y = math.sin(theta_r) * math.cos(theta_c)
                 z = math.sin(theta_r) * math.sin(theta_c)
                 
-                w_sum += w; x_sum += x; y_sum += y; z_sum += z
-                valid_chars += 1
             else:
                 val = (code % 256) / 128.0 - 1.0
-                # 비한글 특수 처리를 위한 기본 홉프 형태 유지
-                theta_v = val * math.pi
-                theta_c = val * math.pi
+                # 비한글 특수 처리를 위한 기본 홉프 형태 유지 + 순차 위상 시프트
+                theta_v = val * math.pi + seq_shift
+                theta_c = val * math.pi + seq_shift
                 theta_r = 0.5 * (math.pi / 2.0)
                 
-                w_sum += math.cos(theta_r) * math.cos(theta_v)
-                x_sum += math.cos(theta_r) * math.sin(theta_v)
-                y_sum += math.sin(theta_r) * math.cos(theta_c)
-                z_sum += math.sin(theta_r) * math.sin(theta_c)
-                valid_chars += 1
+                w = math.cos(theta_r) * math.cos(theta_v)
+                x = math.cos(theta_r) * math.sin(theta_v)
+                y = math.sin(theta_r) * math.cos(theta_c)
+                z = math.sin(theta_r) * math.sin(theta_c)
+
+            norm = (w**2 + x**2 + y**2 + z**2)**0.5
+            if norm > 0:
+                trajectory.append([w/norm, x/norm, y/norm, z/norm])
+            else:
+                trajectory.append([1.0, 0.0, 0.0, 0.0])
                 
-        if valid_chars > 0:
-            w_sum /= valid_chars
-            x_sum /= valid_chars
-            y_sum /= valid_chars
-            z_sum /= valid_chars
-            
-        norm = (w_sum**2 + x_sum**2 + y_sum**2 + z_sum**2)**0.5
-        if norm > 0:
-            return torch.tensor([w_sum/norm, x_sum/norm, y_sum/norm, z_sum/norm], 
-                              dtype=torch.float32, device=self.device)
-        return torch.tensor([1.0, 0.0, 0.0, 0.0], dtype=torch.float32, device=self.device)
+        if len(trajectory) > 0:
+            return torch.tensor(trajectory, dtype=torch.float32, device=self.device)
+
+        return torch.tensor([[1.0, 0.0, 0.0, 0.0]], dtype=torch.float32, device=self.device)
 
     def color_to_phase(self, r: int, g: int, b: int):
         """색상 RGB 값을 색조(Hue)와 채도(Sat) 주파수로 환산하여 4D 쿼터니언 위상으로 사영합니다."""
