@@ -45,35 +45,64 @@ class OpticsQuaternion:
         rotated = self.multiply(p_quat).multiply(q_conj)
         return np.array([rotated.x, rotated.y, rotated.z])
 
-class HunminjeongeumEncoder:
-    CHOSEONG_BASE = 0x1100
-    JUNGSEONG_BASE = 0x1161
-    JONGSEONG_BASE = 0x11A7
+class HunminjeongeumWaveformDiscretizer:
+    """
+    Revolutionary Text Processing based on Hangeul Phonetic Geometry.
+    Treats the vowel (Jungseong) as a continuous Carrier Wave (Base Frequency).
+    Treats the consonants (Choseong/Jongseong) as Phase/Amplitude Modulations.
+    """
     BASE_CODE = 0xAC00
     CHOSEONG_COUNT = 19
     JUNGSEONG_COUNT = 21
     JONGSEONG_COUNT = 28
 
+    # Base Carrier Frequency Map for vowels (e.g., 'ㅏ' is a strong, stable baseline)
+    VOWEL_CARRIER_FREQ = {
+        0: 0.50,  # ㅏ (The anchor carrier frequency)
+        4: 0.55,  # ㅓ
+        8: 0.60,  # ㅗ
+        13: 0.65, # ㅜ
+        18: 0.70, # ㅡ
+        20: 0.75  # ㅣ
+    }
+
     @classmethod
     def decompose(cls, char):
         if not ('가' <= char <= '힣'):
-            return (0, 0, 0)
+            return (0, 0, 0) # Non-Hangeul returns zero modulation
         char_code = ord(char) - cls.BASE_CODE
         choseong_idx = char_code // (cls.JUNGSEONG_COUNT * cls.JONGSEONG_COUNT)
         jungseong_idx = (char_code % (cls.JUNGSEONG_COUNT * cls.JONGSEONG_COUNT)) // cls.JONGSEONG_COUNT
         jongseong_idx = char_code % cls.JONGSEONG_COUNT
-        return (choseong_idx + 1, jungseong_idx + 1, jongseong_idx)
+        return (choseong_idx, jungseong_idx, jongseong_idx)
 
     @classmethod
-    def text_to_flux(cls, text):
-        flux = []
+    def generate_waveform(cls, text):
+        """
+        Outputs a continuous waveform trajectory instead of isolated tokens.
+        """
+        waveform = []
         for char in text:
             cho, jung, jong = cls.decompose(char)
-            f_A = cho * 0.1
-            f_B = jung * 0.1
-            f_C = jong * 0.1 if jong > 0 else 0.05
-            flux.append((f_A, f_B, f_C))
-        return flux
+
+            # Extract Carrier Wave Frequency (Vowel)
+            # Default to a generic base if complex vowel isn't mapped directly
+            carrier_freq = cls.VOWEL_CARRIER_FREQ.get(jung, 0.5 + (jung * 0.01))
+
+            # Consonants act as modulation spikes (Phase Shifts)
+            # A consonant modulates the amplitude/phase of the continuous carrier
+            choseong_modulation = (cho + 1) * 0.05
+            jongseong_modulation = (jong) * 0.05 if jong > 0 else 0.0
+
+            # The character is represented as a mini-wave burst over 3 time steps
+            # Step 1: Choseong modulation spike
+            waveform.append(carrier_freq + choseong_modulation)
+            # Step 2: Pure Carrier Wave (Vowel sustained)
+            waveform.append(carrier_freq)
+            # Step 3: Jongseong modulation decay (or stable sustain if no jongseong)
+            waveform.append(carrier_freq - jongseong_modulation)
+
+        return waveform
 
 class SensoryStreamReceptor:
     """Converts multimodal inputs into 3-phase Spatiotemporal Flux."""
@@ -85,20 +114,19 @@ class SensoryStreamReceptor:
 
         audio = data_dict.get('audio', [])
         video = data_dict.get('video', [])
-        text = data_dict.get('text', [])
+        text = data_dict.get('text', "")
+
+        # Generate text waveform dynamically
+        text_waveform = HunminjeongeumWaveformDiscretizer.generate_waveform(text) if isinstance(text, str) else []
 
         # Determine max length to synchronize streams
-        max_len = max(len(audio), len(video), len(text))
+        max_len = max(len(audio), len(video), len(text_waveform))
 
         for i in range(max_len):
             # If a modality is missing data at this timestep, it falls to a baseline noise level
             f_A = audio[i] if i < len(audio) else 0.01
             f_B = video[i] if i < len(video) else 0.01
-
-            f_C = 0.01
-            if i < len(text) and isinstance(text, str):
-                cho, jung, jong = HunminjeongeumEncoder.decompose(text[i])
-                f_C = (cho + jung + jong) * 0.05
+            f_C = text_waveform[i] if i < len(text_waveform) else 0.01
 
             flux_stream.append((f_A, f_B, f_C))
 
