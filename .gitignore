@@ -240,3 +240,4 @@ data/
 
 executive/*.so
 lib/phase_kernel.so
+c_rotor.so

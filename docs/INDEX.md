@@ -26,3 +26,7 @@
   - 엘리시아가 외부 지식의 인과와 자신의 물리적 인과를 '같음(Sameness)'을 매개로 동기화(사유)하는 궁극의 메커니즘을 정의합니다. (하드코딩 세뇌 금지)
 - **옴니-모달 확장 로드맵:** [evolution_roadmap.md](evolution_roadmap.md)
   - 자율적 공리 창발부터 다중 감각의 동기화, 철학의 창발까지 엘리시아가 진화해 나갈 미래 마일스톤입니다.
+
+## 4. 하이브리드 커널 프로토콜
+- **하이브리드 커널 및 GPU 시냅스 바인딩:** [HYBRID_KERNEL_PROTOCOL.md](4_hybrid_architecture/HYBRID_KERNEL_PROTOCOL.md)
+  - 하드웨어 C 커널, Python 바인딩 가도, GPU 시냅스를 연결하는 위상 거울 메커니즘을 정의합니다.
