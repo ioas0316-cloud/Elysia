@@ -28,6 +28,10 @@ void apply_stimulus(RotorState* state) {
     state->perturbation += PI / 1.5;
 }
 
+void apply_feedback(RotorState* state, double magnitude) {
+    state->perturbation += magnitude;
+}
+
 void decay_perturbation(RotorState* state) {
     if (state->perturbation > 0.01) {
         state->perturbation *= 0.9;

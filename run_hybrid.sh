@@ -11,4 +11,5 @@ echo "Compilation successful. Launching Hybrid Daemon Pipeline..."
 echo "---------------------------------------------------------"
 
 # Run pipeline with unbuffered Python execution
-python -u hybrid_daemon.py | python -u gpu_synapse.py
+# hybrid_daemon.py now launches gpu_synapse.py itself for bidirectional communication.
+python -u hybrid_daemon.py
