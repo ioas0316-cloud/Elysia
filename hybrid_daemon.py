@@ -32,6 +32,7 @@ class RotorOutput(ctypes.Structure):
 # Setup function signatures
 c_rotor.init_rotor.argtypes = [ctypes.POINTER(RotorState)]
 c_rotor.apply_stimulus.argtypes = [ctypes.POINTER(RotorState)]
+c_rotor.apply_feedback.argtypes = [ctypes.POINTER(RotorState), ctypes.c_double]
 c_rotor.tick.argtypes = [ctypes.POINTER(RotorState), ctypes.c_double]
 c_rotor.tick.restype = RotorOutput
 
@@ -41,16 +42,21 @@ def set_stdin_nonblocking():
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
     fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
+def set_nonblocking(fd):
+    import fcntl
+    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+
 def main():
+    import subprocess
+    import threading
+
     state = RotorState()
     c_rotor.init_rotor(ctypes.byref(state))
 
     start_time = time.time()
 
-    # Try to set raw mode if it's a tty, but since we are pipelining output,
-    # we shouldn't necessarily make stdin raw unless we are actually attached to a keyboard.
-    # In run_hybrid, stdin might just be inherited.
-    # We'll use a simple non-blocking select for keyboard input.
+    # Try to set raw mode if it's a tty
     old_settings = None
     if sys.stdin.isatty():
         fd = sys.stdin.fileno()
@@ -58,8 +64,21 @@ def main():
         tty.setraw(fd)
         set_stdin_nonblocking()
 
+    # Launch GPU Synapse as a subprocess for bidirectional communication
+    synapse_proc = subprocess.Popen(
+        [sys.executable, "-u", "gpu_synapse.py"],
+        stdin=subprocess.PIPE,
+        stdout=sys.stdout, # Stream synapse stdout directly to our stdout
+        stderr=subprocess.PIPE # Read stderr for feedback
+    )
+
+    set_nonblocking(synapse_proc.stderr.fileno())
+
+    # A separate thread or non-blocking loop to read stderr from Synapse
+    feedback_buffer = ""
+
     try:
-        while True:
+        while synapse_proc.poll() is None:
             # Check for input without blocking
             if sys.stdin.isatty():
                 rlist, _, _ = select.select([sys.stdin], [], [], 0.0)
@@ -73,22 +92,39 @@ def main():
 
             t = time.time() - start_time
 
-            # This calls the pure C tick function bypassing Python GIL for the math and state logic
+            # Call pure C tick function
             out = c_rotor.tick(ctypes.byref(state), t)
 
-            # Emit the state_code byte directly to stdout
+            # Emit state_code to synapse
             try:
-                sys.stdout.buffer.write(bytes([out.state_code]))
-                sys.stdout.flush()
+                synapse_proc.stdin.write(bytes([out.state_code]))
+                synapse_proc.stdin.flush()
             except BrokenPipeError:
-                # Downstream process closed the pipe
                 break
+
+            # Check for downward feedback from GPU Synapse
+            try:
+                err_data = synapse_proc.stderr.read()
+                if err_data:
+                    feedback_buffer += err_data.decode('utf-8')
+                    while '\n' in feedback_buffer:
+                        line, feedback_buffer = feedback_buffer.split('\n', 1)
+                        if line.startswith("FB:"):
+                            try:
+                                magnitude = float(line.split("FB:")[1])
+                                # Apply the feedback to the C-Rotor (downward control)
+                                c_rotor.apply_feedback(ctypes.byref(state), magnitude)
+                            except ValueError:
+                                pass
+            except BlockingIOError:
+                pass
 
             time.sleep(0.05)
 
     except KeyboardInterrupt:
         pass
     finally:
+        synapse_proc.terminate()
         if old_settings is not None:
             termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, old_settings)
 
