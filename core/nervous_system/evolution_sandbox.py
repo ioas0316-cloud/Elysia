@@ -45,7 +45,7 @@ class EvolutionSandbox:
         target_node.tau *= 0.1
         
         # 3. Yggdrasil Torus 버퍼에 '고통의 기억' 주입 (망각하지 않고 무의식으로 밀어넣기 위해)
-        self.memory.torus_buffer.inject_phase_wave(f"PAIN_SCAR_{cortex_name}", pain_wave)
+        self.memory.torus_buffer.stream_flow(pain_wave)
         
         print(f"\n[💥 진화 샌드박스] {cortex_name}에서 고통 감지! 궤적 강제 우회 발생.")
         print(f"   => 흉터 각인 부위: 텐션 {target_node.tau:.1f} 영역")

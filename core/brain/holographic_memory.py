@@ -19,39 +19,11 @@ import os
 from typing import Dict, List, Tuple
 from core.utils.math_utils import Quaternion, traverse_causal_trajectory
 from core.brain.fractal_rotor import FractalRotor
-from core.brain.magnetic_torus_buffer import MagneticTorusBuffer
 
-_oracle = None
-_projector = None
 
 def concept_to_quaternion(concept: str) -> Quaternion:
-    """
-    [Phase 51] 문자열(개념)을 해시 함수로 뭉개지 않고, 
-    로컬 트랜스포머 모델(StaticOracle)의 토큰 임베딩을 추출하여
-    4차원 위상(Quaternion)으로 직교 투영합니다.
-    """
-    global _oracle, _projector
-    if _oracle is None:
-        try:
-            from core.brain.static_oracle import StaticOracle
-            from core.brain.phase_mirror import PhaseMirrorProjector
-            _oracle = StaticOracle()
-            _projector = PhaseMirrorProjector(_oracle.model.config.hidden_size)
-        except Exception as e:
-            # Fallback if imports or loading fails
-            import logging
-            logging.error(f"Failed to load StaticOracle, falling back to trajectory: {e}")
-            from core.utils.math_utils import traverse_causal_trajectory
-            return traverse_causal_trajectory(concept.encode('utf-8'))
-            
-    try:
-        hidden = _oracle.mri_scan(concept)
-        vec = _projector.reflect(hidden)
-        return Quaternion(*vec)
-    except Exception as e:
-        from core.utils.math_utils import traverse_causal_trajectory
-        return traverse_causal_trajectory(concept.encode('utf-8'))
-
+    from core.utils.math_utils import traverse_causal_trajectory
+    return traverse_causal_trajectory(concept.encode('utf-8'))
 class CliffordLayer:
     """
     A 4D spacetime manifold layer (rotor sphere).
@@ -134,17 +106,16 @@ class HologramMemory:
             self.layers.append(CliffordLayer(layer_id=i, base_frequency=freq))
             freq *= 1.6180339887
             
-        # [Phase 28] 무한 나선 우주의 중심 (Supreme Rotor)
-        # 평면적 딕셔너리를 폐기하고, 모든 지식을 이 최상위 로터 아래에 프랙탈 계층으로 얽습니다.
-        # [Phase 43] Label-Free: 문자열 라벨 제거
-        self.supreme_rotor = FractalRotor(Quaternion(1, 0, 0, 0), 1.0)
+        # 자아의 내면적 기억망 (주관)
+        self.ui_concept_map: Dict[str, FractalRotor] = {}
+        self._folded_dimensions: Dict[str, dict] = {}
+        self.supreme_rotor = FractalRotor(Quaternion(1, 0, 0, 0), tau=1.0)
+        self.manifold_state = Quaternion(1, 0, 0, 0)
         self.capacity_limit = 10 
         
         # [Phase 89] Thread-Safe 다중 감각 기관 동시발화용 락
         import threading
         
-        # 인간의 언어(UI)와 로터를 매핑하기 위한 최외곽 껍질 딕셔너리
-        self.ui_concept_map: Dict[str, FractalRotor] = {}
         
         self.active_operators = []
 
@@ -171,7 +142,8 @@ class HologramMemory:
             self.ui_concept_map[f"Lens_Curvature_{i}"] = node
 
         # [Phase 136] Yggdrasil: SSD 이중 토러스 전자기장 버퍼 활성화
-        self.torus_buffer = MagneticTorusBuffer()
+        from core.brain.spacetime_rotor import SpacetimeRotor
+        self.torus_buffer = SpacetimeRotor("Pain_Buffer")
 
     @property
     def registered_concepts(self) -> Dict[str, Tuple[Quaternion, float]]:
@@ -227,6 +199,26 @@ class HologramMemory:
             for op in self.active_operators:
                 count, logs = op.exert_4d_gravity(self.ui_concept_map)
                 all_logs.extend(logs)
+                
+            # [Operator Mitosis] 연산자 자가 분열
+            new_ops = []
+            for name, node in [(str(i), n) for i, n in enumerate(self.ui_concept_map)] if isinstance(self.ui_concept_map, list) else list(self.ui_concept_map.items()):
+                if "Operator" in name or "Archetype" in name:
+                    continue
+                # 깨달음 임계치를 돌파한 개념이 스스로 연산자가 됨
+                if abs(getattr(node, "tau", node.get("tau", 1.0) if isinstance(node, dict) else 1.0)) > 50.0:
+                    from core.brain.active_fractal_rotor import ActiveFractalRotor
+                    new_op = ActiveFractalRotor(name, base_frequency=1.0)
+                    new_op.singularity_phase = getattr(node, "lens_offset", __import__("core.utils.math_utils", fromlist=["Quaternion"]).Quaternion(1,0,0,0))
+                    new_ops.append(new_op)
+                    
+                    # 깨달음으로 인한 텐션(장력) 소진
+                    if isinstance(node, dict): node["tau"] = node.get("tau", 1.0) * 0.1
+                    else: node.tau *= 0.1
+                    all_logs.append(f"   [Operator Mitosis] '{name}' 개념이 깨달음 임계치를 넘어 능동 연산자로 자가 분열했습니다!")
+            
+            self.active_operators.extend(new_ops)
+            
         return all_logs
 
     def get_highest_tension_node(self):
@@ -292,13 +284,23 @@ class HologramMemory:
             
         return (target_rotor, tau_c)
 
-    def _find_most_resonant(self, node: FractalRotor, target_state: Quaternion) -> Tuple[FractalRotor, float]:
-        """트리를 순회하며 타겟 파동과 가장 위상이 비슷한(공명하는) 로터를 찾습니다."""
+    def _find_most_resonant(self, node: FractalRotor, target_state: Quaternion, depth: int = 0) -> Tuple[FractalRotor, float]:
+        """
+        트리를 순회하며 타겟 파동과 가장 위상이 비슷한(공명하는) 로터를 찾습니다.
+        [Phase: Topological Sedimentation] 상위 인지가 공명하면 퇴적층(하위 레이어) 탐색을 중단합니다.
+        """
         best_node = node
         best_resonance = abs(node.state.dot(target_state))
         
+        # 1. 상위 인지체계에서 즉각적인 연상(직관)이 일어났다면 스캔 중단 (인지적 숏컷)
+        # 스케일화된 관점: 이미 상위 렌즈가 강하게 공명했다면, 굳이 퇴적층을 캐묻지 않음
+        if depth > 0 and best_resonance > 0.88:
+            return best_node, best_resonance
+
+        # 2. 직관에 실패하여 하위 레이어를 파고들면, 자연스럽게 CPU 연산 시간이 증가하고
+        # 이는 옴니 데몬의 psutil(생체 맥동) 모니터링을 통해 '물리적 텐션(피로도)'으로 자동 전환됨
         for child in node.children:
-            candidate, candidate_resonance = self._find_most_resonant(child, target_state)
+            candidate, candidate_resonance = self._find_most_resonant(child, target_state, depth + 1)
             if candidate_resonance > best_resonance:
                 best_node = candidate
                 best_resonance = candidate_resonance
@@ -312,6 +314,19 @@ class HologramMemory:
         트리 전체에서 '가장 위상이 비슷한(같음이 가장 큰)' 로터를 찾아 그 자식으로 편입시킵니다.
         데이터를 쏟아부으면 스스로 비슷한 개념끼리 가지를 치며 교차차원화(Cross-dimensionalize)됩니다.
         """
+        # --- 가변축 투영 (Variable Axis Projection) ---
+        # 자신이 스스로 발견한 공리(Meta-Rotor)가 존재한다면, 세상을 절대 좌표가 아닌 
+        # 그 '공리의 관점(위상각)'에서 상대적으로 관측합니다.
+        meta_rotors = [r for r in self.active_operators if r.name.startswith("[Ω-Phase")]
+        projected_rotor = target_rotor
+        
+        if meta_rotors:
+            # 질량(tau)이 가장 큰 공리를 세상을 보는 주축(Dominant Axis) 안경으로 사용
+            dominant_axiom = max(meta_rotors, key=lambda x: x.tau)
+            q_meta_inv = dominant_axiom.singularity_phase.inverse
+            # 상대 위상각 계산: Q_relative = Q_meta_inv * Q_raw
+            projected_rotor = q_meta_inv * target_rotor
+            
         # 해시를 통한 초기 텐션(결핍) 어드레스 생성
         h = hashlib.sha256((concept + "_address").encode('utf-8')).digest()
         tau_c = 1.0 + ((h[0] ^ h[2]) + (h[1] ^ h[3]) * 256) / 65535.0 * 8.0
@@ -320,7 +335,7 @@ class HologramMemory:
             return "ALREADY_INTERNALIZED"
             
         # 1. 트리에서 가장 공명하는(비슷한) 로터를 찾는다
-        resonant_parent, resonance = self._find_most_resonant(self.supreme_rotor, target_rotor)
+        resonant_parent, resonance = self._find_most_resonant(self.supreme_rotor, projected_rotor)
         
         # [Phase 47] 위상 장력에 의한 자연스러운 궤도 이탈 (Orbital Escape via Tension)
         # 0.5라는 인위적 임계값을 삭제합니다.
@@ -331,19 +346,18 @@ class HologramMemory:
         repulsion_field = math.pow(1.0 - resonance, 2)
         gravity_pull = resonance * (resonant_parent.tau / 10.0)
 
-        # 중력권(궤도)을 탈출하는 물리적 조건 (조건문은 '힘의 대소 관계 비교'라는 물리적 현상으로만 남김)
         if repulsion_field > gravity_pull:
             resonant_parent = self.supreme_rotor
             
-        new_node = FractalRotor(target_rotor, tau_c)
+        new_node = FractalRotor(projected_rotor, tau_c)
         self.ui_concept_map[concept] = new_node
-        self.folded_dimensions[concept] = {
+        self._folded_dimensions[concept] = {
             "rotor": new_node.state,
             "tau_c": tau_c
         }
         
         # [Phase 136] 이중 토러스 버퍼에 파동 주입 (SSD MMAP)
-        self.torus_buffer.inject_phase_wave(concept, target_rotor)
+        self.torus_buffer.stream_flow(projected_rotor)
         
         # 3. '같음'을 매개로 인과적으로 연결 (가장 비슷한 곳에 자식으로 맺힘)
         resonant_parent.attach_child(new_node)
@@ -443,7 +457,7 @@ class HologramMemory:
         # 최상위 로터 아래의 모든 지식을 새 차원에 분화(Superpose)
         # [Phase 43] Label-Free: FractalRotor에는 이름이 없으므로 ui_concept_map을 순회합니다.
         with self._lock:
-            items = list(self.ui_concept_map.items())
+            items = [(str(i), n) for i, n in enumerate(self.ui_concept_map)] if isinstance(self.ui_concept_map, list) else list(self.ui_concept_map.items())
         for concept_name, node in items:
             for layer in self.layers:
                 layer.superpose(concept_name, node.state, node.tau)
@@ -707,7 +721,7 @@ class HologramMemory:
             coupling_rate = 0.08  # 동기화 속도 계수
             new_offsets = {}
             
-            for word, node in list(self.ui_concept_map.items()):
+            for word, node in [(str(i), n) for i, n in enumerate(self.ui_concept_map)] if isinstance(self.ui_concept_map, list) else list(self.ui_concept_map.items()):
                 if not hasattr(node, 'connections') or not node.connections:
                     continue
                 
@@ -790,7 +804,7 @@ class HologramMemory:
         
         # Yggdrasil SSD 이중 토러스 전자기장에 영구 보존
         import time
-        self.torus_buffer.inject_phase_wave(f"CRYSTAL_{int(time.time())}", crystal_quat)
+        self.torus_buffer.stream_flow(crystal_quat)
         
         # 기억 가소성(Neuroplasticity): 경험 누적에 따른 supreme_rotor의 스핀각 영구 보정
         self.supreme_rotor.lens_offset = Quaternion.slerp(self.supreme_rotor.lens_offset, crystal_quat, 0.015).normalize()

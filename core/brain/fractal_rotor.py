@@ -47,8 +47,6 @@ class FractalRotor:
         self.connections: dict = {}
 
         # [Roadmap: Social Resonance]
-        from core.brain.emotion_bivector import EmotionBivector
-        self.emotional_state = EmotionBivector()
         self.mirror_rotors = {}  # peer_id -> Quaternion
 
     @property
@@ -151,8 +149,8 @@ class FractalRotor:
             projected_master = master.base_phase
             
         # 1. 나 자신의 기본 렌즈 관측 (점/선)
-        # Apply emotional distortion to the observation
-        R_emo = self.emotional_state.to_rotor()
+        # R_emo: 감정 로터 (외부에서 주입되지 않으면 항등 쿼터니언 = 감정 왜곡 없음)
+        R_emo = getattr(self, 'emotional_rotor', Quaternion(1.0, 0.0, 0.0, 0.0))
         my_base_observation = (projected_master * self.lens_offset * R_emo).normalize()
         
         # 2. 자식(하위) 로터가 없으면 내 관측 결과 반환
@@ -418,11 +416,6 @@ class FractalRotor:
             "thought_maturity": self.thought_maturity,
             "children": [child.to_dict() for child in self.children],
             "internal_thoughts": [thought.to_dict() for thought in getattr(self, 'internal_thoughts', [])],
-            "emotional_state": {
-                "e12": self.emotional_state.e12,
-                "e23": self.emotional_state.e23,
-                "e31": self.emotional_state.e31
-            },
             "mirror_rotors": {k: [v.w, v.x, v.y, v.z] for k, v in self.mirror_rotors.items()}
         }
         
@@ -443,14 +436,7 @@ class FractalRotor:
         for thought_data in data.get("internal_thoughts", []):
             thought_rotor = cls.from_dict(thought_data, parent=rotor)
             rotor.internal_thoughts.append(thought_rotor)
-            
-        from core.brain.emotion_bivector import EmotionBivector
-        ems = data.get("emotional_state", {})
-        rotor.emotional_state = EmotionBivector(
-            e12=ems.get("e12", 0.0),
-            e23=ems.get("e23", 0.0),
-            e31=ems.get("e31", 0.0)
-        )
+            rotor.internal_thoughts.append(thought_rotor)
         
         mrs = data.get("mirror_rotors", {})
         rotor.mirror_rotors = {k: Quaternion(v[0], v[1], v[2], v[3]) for k, v in mrs.items()}

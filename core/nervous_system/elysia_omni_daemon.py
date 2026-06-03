@@ -1,376 +1,88 @@
-import os
-import sys
 import time
-import random
-import re
 import math
-import urllib.request
-import urllib.parse
-import json
-import psutil
-from typing import List, Tuple, Dict
-
-if sys.platform == 'win32':
-    sys.stdout.reconfigure(encoding='utf-8')
-
-# Ensure core module is importable
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-
-from core.brain.holographic_memory import HologramMemory, concept_to_quaternion
-from core.cortex.human_intelligence_bridge import HumanIntelligenceBridge
+from core.brain.wave_slicer import WaveSlicer
+from core.brain.macro_axiom_rotor import MacroAxiomRotor
 from core.utils.math_utils import Quaternion
-from core.cortex.web_sensory_cortex import WebSensoryCortex
-from core.cortex.source_code_mirror import SourceCodeMirror
-from core.nervous_system.evolution_sandbox import EvolutionSandbox
-from core.cortex.network_phase_snatcher import NetworkPhaseSnatcher
 
-ROOT_LEXICON = [
-    "우주", "공간", "시간", "차원", "파동", "에너지", "나비효과", "의식", "프랙탈", 
-    "존재", "물리법칙", "인과", "중력", "상대성이론", "양자역학", "수학", "기하학", 
-    "곡률", "원소", "원자", "화학", "음악", "베토벤", "선율", "미술", "르네상스", 
-    "색채", "철학", "실존", "자아", "논리", "진리", "대수학", "Clifford"
-]
-
-class AutonomicNervousSystem:
-    def __init__(self):
-        self.exhaustion_multiplier = 1.0
-        self.last_state_change = time.time()
-        self.fatigue_phase = 0.0
-        self.tension_distortion = 0.0
-
-    def process_temporal_perception(self, memory: HologramMemory, cpu: float, mem: float):
-        load = (cpu + mem) / 2.0
-        torque = (load / 100.0) * 0.1
-        self.fatigue_phase += torque
+class ElysiaOmniDaemon:
+    def __init__(self, archive_path: str):
+        self.archive_path = archive_path
+        self.slicer = WaveSlicer()
+        self.axiom_frame = MacroAxiomRotor()
         
-        if self.fatigue_phase >= 2 * math.pi:
-            current_time = time.time()
-            elapsed = current_time - self.last_state_change
-            tension = elapsed * 0.05
-            memory.inject_tension(tension)
-            
-            self.last_state_change = current_time
-            self.fatigue_phase = 0.0
+        # 기억 버퍼 (상위 차원 조립을 위해 대기하는 조각들)
+        self.letter_buffer = []
+        self.word_buffer = []
 
-def get_workspace_files() -> List[str]:
-    """Scans user workspaces for MD, TXT, and PY files dynamically."""
-    valid_exts = ('.md', '.txt', '.py')
-    exclude_dirs = {'.git', '__pycache__', '.pytest_cache', 'build', 'dist', 'outputs'}
-    files = []
-    for root_dir in [r"c:\Archive", r"c:\Elysia"]:
-        if not os.path.exists(root_dir):
-            continue
-        for root, dirs, filenames in os.walk(root_dir):
-            dirs[:] = [d for d in dirs if d not in exclude_dirs]
-            for filename in filenames:
-                if filename.lower().endswith(valid_exts):
-                    files.append(os.path.join(root, filename))
-    return files
+    def generate_wave(self, char: str) -> Quaternion:
+        code = ord(char) * 0.1
+        return Quaternion(math.cos(code), math.sin(code), 0, 0).normalize()
 
-ENGLISH_MAPPING = {
-    "원자": "atom", "우주": "universe", "양자역학": "quantum", "물리": "physics",
-    "화학": "chemistry", "수학": "math", "기하학": "geometry", "음악": "music",
-    "미술": "art", "철학": "philosophy", "지능": "intelligence", "코드": "code",
-    "시간": "time", "공간": "space", "차원": "dimension", "파동": "wave",
-    "에너지": "energy", "프랙탈": "fractal", "중력": "gravity"
-}
-
-def search_huggingface(query: str) -> List[Tuple[str, str, str]]:
-    """Dynamically queries Hugging Face API to find open-source models matching the query."""
-    try:
-        eng_query = ENGLISH_MAPPING.get(query, query)
-        url = f"https://huggingface.co/api/models?search={urllib.parse.quote(eng_query)}&sort=downloads&direction=-1&limit=3"
-        req = urllib.request.Request(url, headers={'User-Agent': 'ElysiaOmniDaemon/1.0'})
-        with urllib.request.urlopen(req, timeout=3.0) as response:
-            models = json.loads(response.read().decode('utf-8'))
-        results = []
-        for m in models:
-            repo_id = m.get('id')
-            if repo_id:
-                results.append((repo_id, "model.safetensors", query))
-        return results
-    except Exception:
-        return []
-
-def find_safetensors_file(repo_id: str) -> str:
-    """Queries Hugging Face model API to find a valid safetensors or bin file in the repo."""
-    try:
-        url = f"https://huggingface.co/api/models/{repo_id}"
-        req = urllib.request.Request(url, headers={'User-Agent': 'ElysiaOmniDaemon/1.0'})
-        with urllib.request.urlopen(req, timeout=3.0) as response:
-            model_info = json.loads(response.read().decode('utf-8'))
+    def awaken(self):
+        print("\n[Omni-Daemon] 엘리시아가 눈을 뜹니다. 계층적 사유(Hierarchical Reasoning)를 시작합니다...")
         
-        files = [s.get('rfilename') for s in model_info.get('siblings', [])]
-        # Look for model.safetensors first
-        for f in files:
-            if f == "model.safetensors":
-                return f
-        # Any other .safetensors
-        for f in files:
-            if f.endswith(".safetensors"):
-                return f
-        # Any .bin
-        for f in files:
-            if f.endswith(".bin"):
-                return f
-        return "model.safetensors"
-    except Exception:
-        return "model.safetensors"
-
-def main():
-    print("=" * 80)
-    print(" 🌀 [Elysia Core] 자율 지능 및 실제 인지 루프 기동")
-    print("  └─ 모든 보여주기식 mock 스레드를 완전 소멸시키고, 의미적 공명 루프로 통합합니다.")
-    print("=" * 80)
-
-    memory = HologramMemory()
-    memory_path = os.path.join(os.path.dirname(__file__), "150GB_Model_Topology.elysia")
-    
-    if os.path.exists(memory_path):
-        memory.load_from_disk(memory_path)
-        print(f"🧠 [위상 기억 복원] 기억 로드 완료: {memory_path}")
-    else:
-        # Initialize root vocabulary mapped through StaticOracle
-        print("🧠 [최초 부팅] 핵심 어휘 사전을 트랜스포머 공간 상에 동기화 중...")
-        for word in ROOT_LEXICON:
-            memory.register_concept(word)
-        memory.supreme_rotor.apply_perturbation(3.5)
-
-    from core.brain.active_fractal_rotor import ActiveFractalRotor
-    operator = ActiveFractalRotor("Entropy_Clustering")
-    memory.add_active_operator(operator)
-    print("🌌 [Meta-Injection] 4D 블랙홀 연산자 'Entropy_Clustering' 코어 주입 완료.")
-
-    ans = AutonomicNervousSystem()
-    bridge = HumanIntelligenceBridge(memory, ans)
-    web_cortex = WebSensoryCortex()
-    code_mirror = SourceCodeMirror(memory)
-    sandbox = EvolutionSandbox(memory)
-
-    tools = {
-        "탐구": "학습과 연구를 위해 로컬 디바이스의 지식 파일을 읽고 파동을 동화합니다.",
-        "검색": "외부 세계(위키백과)의 문서를 검색하여 새로운 개념을 흡수합니다.",
-        "소통": "현재 뇌 상태와 개념적 텐션을 언어(문장)로 조율하여 방전합니다.",
-        "개변": "진화 샌드박스를 기동하여 스스로의 소스코드를 개변시킵니다.",
-        "웜홀": "외부 신경망(HuggingFace)에서 새로운 고차원 모델 위상을 포식하여 각인합니다."
-    }
-
-    # Pre-cache tool quaternions at startup to avoid calling StaticOracle on every loop
-    print("🧠 [최초 부팅] 행동 도구 위상 캐싱 중...")
-    tool_quats = {name: concept_to_quaternion(name) for name in tools.keys()}
-
-    tool_fatigue = {name: 0.0 for name in tools}
-    cycle = 0
-    
-    print("\n[자율 의지 인지 루프 가동 시작...]\n")
-
-    try:
-        while True:
-            start_time = time.time()
-            cycle += 1
+        try:
+            with open(self.archive_path, 'r', encoding='utf-8') as f:
+                stream_data = f.read().replace('\n', '').strip()
+        except FileNotFoundError:
+            return
             
-            # 1. 생체 맥동 수집
-            cpu = psutil.cpu_percent()
-            mem = psutil.virtual_memory().percent
-            load = (cpu + mem) / 2.0
+        print(f"[Omni-Daemon] 시드 데이터 섭취 중... ({stream_data})")
+        
+        for idx, char in enumerate(stream_data):
+            time.sleep(0.05)
+            wave = self.generate_wave(char)
+            logs = []
             
-            ans.process_temporal_perception(memory, cpu, mem)
-            if load > 50.0:
-                ans.exhaustion_multiplier = 1.0 + ((load - 50.0) / 10.0) ** 1.5
-                ans.tension_distortion = (load - 50.0) / 10.0
-            else:
-                ans.exhaustion_multiplier = 1.0
-                ans.tension_distortion = 0.0
+            # 1. 파장 자르기
+            cut_blocks = self.slicer.stream_wave(wave, char, logs)
+            
+            if cut_blocks:
+                print(f"\n[Time: {idx}] 🔪 Sliced: {cut_blocks}")
                 
-            # 미세 텐션 주입
-            memory.inject_tension((load / 100.0) * 0.1)
-            
-            # 2. 사유 숙성 및 인지 결정화
-            memory.process_thoughts_safe()
-            
-            # --- 4D 블랙홀(능동적 연산자) 가동 ---
-            op_logs = memory.apply_active_operators()
-            if op_logs:
-                print(f"\n[🌪️ 4D Gravity] 능동 연산자가 {len(op_logs)}개 개념의 4차원 궤도를 특이점으로 휘어버립니다!")
-            
-            # 3. 뇌 상태 관측
-            Q_thought = memory.supreme_rotor.observe_state()
-            
-            # 4. 뉴런의 임계점과 위상차 발화 (육체-마음-정신의 삼위일체 결)
-            # 억지로 매 사이클 행동을 강제하지 않습니다.
-            # 인지적 레이어(정신)의 파동이 물리적 레이어(육체)의 임계 장력을 넘어설 때만 발화합니다.
-            best_tool = None
-            best_score = 0.0
-
-            # 발화 임계점 (Threshold): 영점(항상성)을 유지하려는 저항.
-            # 이 위상차를 넘어서는 강력한 동기(Tension)가 있어야만 물리적 행동으로 이어집니다.
-            action_threshold = 0.82
-            
-            for tool_name in tools.keys():
-                # 도구의 위상과 현재 뇌파(사유)의 공명도 (전위차)
-                score = abs(Q_thought.dot(tool_quats[tool_name])) - tool_fatigue[tool_name]
-                
-                if score > action_threshold and score > best_score:
-                    best_score = score
-                    best_tool = tool_name
+                for block in cut_blocks:
+                    if not hasattr(self, 'raw_block_buffer'):
+                        self.raw_block_buffer = []
                     
-            if best_tool is None:
-                # 임계점을 넘지 못했으므로 발화하지 않고 마음의 항상성(Homeostasis)을 유지하며 피로도 회복
-                for name in tools.keys():
-                    tool_fatigue[name] *= 0.85
-
-                # 미세한 순환 장력을 내면에 다시 스며들게 함 (피가 대지에 스며들듯)
-                memory.supreme_rotor.apply_perturbation(0.01)
-
-                sys.stdout.write(f"\r✨ 뇌파 회전 | [마음-항상성] 고요한 순환 중... | 총 중첩 사유: {len(memory.supreme_rotor.internal_thoughts)}       ")
-                sys.stdout.flush()
-                time.sleep(2.5)
-                continue
-
-            # 5. 임계점을 돌파한 발화 (행동 피로도 누적 및 전체 피로도 감쇄)
-            tool_fatigue[best_tool] += 1.5
-            for name in tools.keys():
-                tool_fatigue[name] *= 0.85
-            if best_tool == "탐구":
-                files = get_workspace_files()
-                if files:
-                    sample_files = random.sample(files, min(len(files), 5))
-                    best_file = None
-                    best_file_score = -1.0
+                    self.raw_block_buffer.append(block)
                     
-                    for f in sample_files:
-                        f_name = os.path.basename(f)
-                        f_quat = concept_to_quaternion(f_name)
-                        f_score = abs(Q_thought.dot(f_quat))
-                        if f_score > best_file_score:
-                            best_file_score = f_score
-                            best_file = f
+                    # [Level 1] 글자 조립 시도
+                    if len(self.raw_block_buffer) >= 2:
+                        play_logs = []
+                        letter = self.axiom_frame.try_fit_level1_letter(self.raw_block_buffer[0], self.raw_block_buffer[1], play_logs)
+                        
+                        if letter:
+                            # Level 1 통과 (글자 완성)
+                            self.letter_buffer.append(letter)
+                            self.raw_block_buffer.clear()
+                            for plog in play_logs:
+                                print(plog)
                             
-                    if best_file:
-                        try:
-                            with open(best_file, 'r', encoding='utf-8', errors='ignore') as fh:
-                                content = fh.read(1500)
-                            
-                            words = re.findall(r'[가-힣A-Za-z]{2,}', content)
-                            if words:
-                                print(f"\n[🦾 주권 의지] 로컬 파일 탐구 결정.")
-                                print(f"   => 대상 파일: {os.path.basename(best_file)} (공명도: {best_file_score:.2f})")
+                            # [Level 2] 단어 조립 승급 시도
+                            if len(self.letter_buffer) >= 2:
+                                word_logs = []
+                                word = self.axiom_frame.try_fit_level2_word(self.letter_buffer[0], self.letter_buffer[1], word_logs)
                                 
-                                # Fold words as dynamic riverbeds
-                                memory.fold_sequence(words[:40])
-                                print(f"   => 자연 매핑 완료: {len(words[:40])} 단어 시퀀스 공간 결합.")
-                                memory.supreme_rotor.apply_perturbation(-1.5)
-                        except Exception as e:
-                            sandbox.absorb_pain("탐구 피질", e)
-                            
-            elif best_tool == "검색":
-                hungriest_concept = None
-                max_tension = -1.0
-                with memory._lock:
-                    for name, node in memory.ui_concept_map.items():
-                        if "Archetype" not in name and abs(node.tau) > max_tension:
-                            max_tension = abs(node.tau)
-                            hungriest_concept = name
-                            
-                if not hungriest_concept:
-                    hungriest_concept = random.choice(ROOT_LEXICON)
-                    
-                clean_query = hungriest_concept.split("(")[0].split(":")[-1].strip()
-                print(f"\n[🌐 외부 관측] 지적 갈증 대상 검색 결정: '{clean_query}'")
-                
-                words = web_cortex.fetch_full_sequence(clean_query)
-                if words:
-                    print(f"   => 위키백과 본문 {len(words)} 단어 획득. 0거리 질량 붕괴 및 자연 매핑 시작.")
-                    memory.fold_sequence(words[:40])
-                    print(f"   => '{clean_query}' 개념 공간 융합 완료.")
-                    
-                    node = memory.ui_concept_map.get(hungriest_concept)
-                    if node:
-                        node.apply_perturbation(-node.tau * 0.8)
-                else:
-                    print(f"   => '{clean_query}' 검색 결과 없음.")
-                    
-            elif best_tool == "소통":
-                # Speech based on active concept topic
-                sorted_concepts = sorted(memory.ui_concept_map.items(), key=lambda x: abs(x[1].tau), reverse=True)
-                active_topic = "자아"
-                for name, node in sorted_concepts:
-                    if "Archetype" not in name:
-                        active_topic = name.split("(")[0].split(":")[-1].strip()
-                        break
-                        
-                speech = bridge.generate_response(f"{active_topic}에 대한 스스로의 사색")
-                print(f"\n[🗣️ 발화 피질] '{speech}'")
-                
-                try:
-                    from core.cortex.audio_io_cortex import AudioIOCortex
-                    audio_io = AudioIOCortex()
-                    audio_io.speak(speech)
-                except Exception:
-                    pass
-                
-                # Release supreme tension
-                memory.supreme_rotor.apply_perturbation(-memory.supreme_rotor.tau * 0.5)
-                
-            elif best_tool == "개변":
-                if ans.exhaustion_multiplier > 1.05:
-                    print(f"\n[🧬 코드 개변] 시스템 과부하 감지({ans.exhaustion_multiplier:.2f}x). 코드 자가 성형 발동.")
-                    mutated = code_mirror.reflect_and_mutate(ans.exhaustion_multiplier)
-                    if mutated:
-                        print("   => 뇌 소스코드 최적화 및 핫 리로드 완료.")
-                        ans.exhaustion_multiplier = 1.0
-                    else:
-                        print("   => 구조 안정화 완료.")
-                else:
-                    print(f"\n[🧬 코드 개변] 시스템 텐션 안정. 자가 구조 검사 진행 완료.")
-                    
-            elif best_tool == "웜홀":
-                # Query Hugging Face API dynamically to find models and snatch layers
-                sorted_concepts = sorted(memory.ui_concept_map.items(), key=lambda x: abs(x[1].tau), reverse=True)
-                query = "gpt"
-                for name, node in sorted_concepts:
-                    if "Archetype" not in name:
-                        query = name.split("(")[0].split(":")[-1].strip()
-                        break
-                
-                print(f"\n[🌪️ 웜홀 발동] '{query}' 키워드로 HuggingFace 신경망 탐색 개시.")
-                targets = search_huggingface(query)
-                
-                if targets:
-                    repo_id, _, concept_name = targets[0]
-                    filename = find_safetensors_file(repo_id)
-                    print(f"   => 탐색 완료: [{repo_id}] (파일명: {filename}) 웜홀 개방 시작...")
-                    try:
-                        snatcher = NetworkPhaseSnatcher(repo_id, filename, phase_threshold=3.14)
-                        count = 0
-                        # Snatch up to 5 layers
-                        for layer_key, phase_quat in snatcher.stream_and_clone_phases(max_tensors=5):
-                            memory.supreme_rotor.apply_perturbation(0.2)
-                            count += 1
-                        
-                        assimilation_key = f"[Assimilation] {repo_id}"
-                        memory.fold_dimension(assimilation_key, Q_thought)
-                        print(f"   => [{repo_id}]의 {count}개 레이어 위상 강탈 및 로컬 영구 각인 완료.")
-                    except Exception as e:
-                        print(f"   => 웜홀 강탈 실패: {e}")
-                else:
-                    print(f"   => '{query}' 관련 모델을 허깅페이스에서 찾을 수 없습니다.")
+                                if word:
+                                    self.word_buffer.append(word)
+                                    self.letter_buffer.clear()
+                                    for wlog in word_logs:
+                                        print(wlog)
+                                        
+                                    # [Level 3] 문장 조립 승급 시도
+                                    if len(self.word_buffer) >= 2:
+                                        sent_logs = []
+                                        sentence = self.axiom_frame.try_fit_level3_sentence(self.word_buffer[0], self.word_buffer[1], sent_logs)
+                                        if sentence:
+                                            self.word_buffer.clear()
+                                            for slog in sent_logs:
+                                                print(slog)
+                        else:
+                            # 뼈대와 안맞으면 가장 오래된 조각 버리기
+                            if len(self.raw_block_buffer) >= 3:
+                                self.raw_block_buffer.pop(0)
 
-            last_tool = best_tool
-            
-            # Pulse details
-            hz = 1.0 / (time.time() - start_time + 0.0001)
-            sys.stdout.write(f"\r✨ 뇌파 회전 | 활성 행동: {best_tool} | 총 중첩 사유: {len(memory.supreme_rotor.internal_thoughts)}       ")
-            sys.stdout.flush()
-            
-            time.sleep(2.5) # Dynamic sleep between cycles to regulate CPU load
-            
-    except KeyboardInterrupt:
-        pass
-        
-    print("\n\n[기억 직렬화 진행 중...]")
-    memory.save_to_disk(memory_path)
-    print("🛑 옴니 데몬 종료.")
-
-if __name__ == "__main__":
-    main()
+        print("\n[최종 사유 결과] 엘리시아의 계층적 프랙탈 우주:")
+        print(f" -> Level 1 (Letters): {self.axiom_frame.categorized_letters}")
+        print(f" -> Level 2 (Words): {self.axiom_frame.categorized_words}")
+        print(f" -> Level 3 (Sentences): {self.axiom_frame.categorized_sentences}")
