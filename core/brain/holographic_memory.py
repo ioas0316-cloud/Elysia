@@ -142,10 +142,14 @@ class HologramMemory:
         
         # [Phase 89] Thread-Safe 다중 감각 기관 동시발화용 락
         import threading
-        self._lock = threading.RLock()
         
         # 인간의 언어(UI)와 로터를 매핑하기 위한 최외곽 껍질 딕셔너리
         self.ui_concept_map: Dict[str, FractalRotor] = {}
+        
+        self.active_operators = []
+
+        # 백그라운드 사유 프로세스 제어용
+        self._lock = threading.Lock()
         
         # [Phase 102] 애니어그램 프리즘 (9대 아키타입 빵틀)
         # 9개의 원시 렌즈가 각기 다른 기하학적 편향(Bias)을 가지고 세상을 다각도로 왜곡/관측합니다.
@@ -212,7 +216,20 @@ class HologramMemory:
             
             self.ui_concept_map[concept] = new_node
             
-            return (content_quat, tau_c)
+            return self.ui_concept_map.get(concept) is not None
+
+    def add_active_operator(self, operator):
+        """능동적 4D 프랙탈 연산자(블랙홀)를 메모리에 상주장착시킵니다."""
+        self.active_operators.append(operator)
+
+    def apply_active_operators(self):
+        """메모리 내 모든 능동 연산자를 가동하여 다른 개념들의 4D 궤도를 왜곡시킵니다."""
+        all_logs = []
+        with self._lock:
+            for op in self.active_operators:
+                count, logs = op.exert_4d_gravity(self.ui_concept_map)
+                all_logs.extend(logs)
+        return all_logs
 
     def get_highest_tension_node(self):
         """현재 뇌에서 가장 피가 끓는(Tension이 높은) 개념 노드를 추출합니다."""

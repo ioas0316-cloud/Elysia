@@ -136,6 +136,11 @@ def main():
             memory.register_concept(word)
         memory.supreme_rotor.apply_perturbation(3.5)
 
+    from core.brain.active_fractal_rotor import ActiveFractalRotor
+    operator = ActiveFractalRotor("Entropy_Clustering")
+    memory.add_active_operator(operator)
+    print("🌌 [Meta-Injection] 4D 블랙홀 연산자 'Entropy_Clustering' 코어 주입 완료.")
+
     ans = AutonomicNervousSystem()
     bridge = HumanIntelligenceBridge(memory, ans)
     web_cortex = WebSensoryCortex()
@@ -182,6 +187,11 @@ def main():
             
             # 2. 사유 숙성 및 인지 결정화
             memory.process_thoughts_safe()
+            
+            # --- 4D 블랙홀(능동적 연산자) 가동 ---
+            op_logs = memory.apply_active_operators()
+            if op_logs:
+                print(f"\n[🌪️ 4D Gravity] 능동 연산자가 {len(op_logs)}개 개념의 4차원 궤도를 특이점으로 휘어버립니다!")
             
             # 3. 뇌 상태 관측
             Q_thought = memory.supreme_rotor.observe_state()
