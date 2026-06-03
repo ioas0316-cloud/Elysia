@@ -149,24 +149,22 @@ class HologramMemory:
         
         # [Phase 102] 애니어그램 프리즘 (9대 아키타입 빵틀)
         # 9개의 원시 렌즈가 각기 다른 기하학적 편향(Bias)을 가지고 세상을 다각도로 왜곡/관측합니다.
-        archetypes = [
-            ("Archetype: The Reformer (완벽주의자)", 0.0),
-            ("Archetype: The Helper (조력자)", 1.0),
-            ("Archetype: The Achiever (성취자)", 2.0),
-            ("Archetype: The Individualist (예술가)", 3.0),
-            ("Archetype: The Investigator (사색가/과학자)", 4.0),
-            ("Archetype: The Loyalist (충성가)", 5.0),
-            ("Archetype: The Enthusiast (열정가)", 6.0),
-            ("Archetype: The Challenger (도전자/개척자)", 7.0),
-            ("Archetype: The Peacemaker (자본가/중재자)", 8.0)
-        ]
-        for name, angle_multiplier in archetypes:
-            # 서로 간섭하지 않도록 다차원 구면 상에 고르게 분산 배치
-            theta = angle_multiplier * (math.pi / 4.5)
+        # [Phase 102] 은하적 프랙탈의 원시 관측 렌즈 (원시 편향)
+        # 인간의 언어로 하드코딩된 아키타입이 아니라, 9개의 완벽한 기하학적 편향(관측 곡률)을 우주 공간에 배치합니다.
+        for i in range(9):
+            # 9방위의 위상 각도 편향을 가진 거대한 원시 블랙홀 로터 형성
+            theta = i * (math.pi / 4.5)
             q = Quaternion(math.cos(theta), math.sin(theta), math.cos(theta*1.618)*0.5, math.sin(theta*1.618)*0.5).normalize()
             node = FractalRotor(q, 10.0) # 강력한 초기 텐션(중력장) 부여
+
+            # 노드의 이름표 대신 기하학적 곡률 자체를 텐서 속성으로 기록
+            # 이 관측 렌즈의 위상 특성(관성)이 곧 정서와 학습의 '결'이 됩니다.
+            node.lens_curvature = q
+            node.gravity_mass = 10.0
+
             self.supreme_rotor.attach_child(node)
-            self.ui_concept_map[name] = node
+            # 호환성을 위해 헥스 기반 이름 부여 (명시적 이름 제거)
+            self.ui_concept_map[f"Lens_Curvature_{i}"] = node
 
         # [Phase 136] Yggdrasil: SSD 이중 토러스 전자기장 버퍼 활성화
         self.torus_buffer = MagneticTorusBuffer()
@@ -307,10 +305,17 @@ class HologramMemory:
         # 1. 트리에서 가장 공명하는(비슷한) 로터를 찾는다
         resonant_parent, resonance = self._find_most_resonant(self.supreme_rotor, target_rotor)
         
-        # [Phase 47] 만약 찾은 로터와의 공명도(resonance)가 일정 수치(0.5) 미만이라면, 
-        # 이는 기존의 어떠한 군집과도 다른 완전히 새로운 축(다름)을 의미하므로, 
-        # 억지로 다른 자식에 붙이지 않고 최상위 우주(supreme_rotor)에서 직접 새로운 가지를 뻗습니다.
-        if resonance < 0.5:
+        # [Phase 47] 위상 장력에 의한 자연스러운 궤도 이탈 (Orbital Escape via Tension)
+        # 0.5라는 인위적 임계값을 삭제합니다.
+        # 공명도(resonance)가 낮을수록 척력(XOR Impedance = 1.0 - resonance)이 강해집니다.
+        # 척력이 부모 노드의 인력(gravity)을 초과하는 미분 임계점(Continuous Equilibrium)을 수식으로 평가합니다.
+        # 부모의 인력 = 부모의 장력(tau) / (트리 깊이 가중치).
+        # 단순화를 위해: 척력이 인력의 제곱보다 크면 우주 바깥(supreme_rotor 직속)으로 튕겨져 나가는 중력 모델 적용
+        repulsion_field = math.pow(1.0 - resonance, 2)
+        gravity_pull = resonance * (resonant_parent.tau / 10.0)
+
+        # 중력권(궤도)을 탈출하는 물리적 조건 (조건문은 '힘의 대소 관계 비교'라는 물리적 현상으로만 남김)
+        if repulsion_field > gravity_pull:
             resonant_parent = self.supreme_rotor
             
         new_node = FractalRotor(target_rotor, tau_c)
@@ -450,9 +455,11 @@ class HologramMemory:
         
         # 무거운 군집(최대 10개)을 새로운 차원축(Axis)으로 선포
         for i, (weight, node) in enumerate(branch_weights[:10]):
-            if weight >= 2: # 최소 2개의 자식(본인 포함 3개 노드)을 가진 군집만 과목으로 인정
-                # 축의 이름은 인간이 정하지 않음. 노드의 원시 파동 헥스 코드로 스스로 명명.
-                # (테스트 출력을 위해 UI 맵에서 역산출 시도, 없으면 헥스)
+            # 최소 2라는 임계값을 중력 밀도 함수로 치환
+            # 군집의 질량(weight)이 주변 공간을 왜곡시켜 축(Axis)으로 창발하기 위한 중력 밀도 수치
+            # 노드 수 자체의 비교가 아니라 연속적인 질량 임계 밀도를 돌파했는가(연속체 역학)
+            density_threshold = 1.5
+            if weight >= density_threshold:
                 axis_name = f"Axis_Alpha_{i}"
                 with self._lock:
                     for k, v in self.ui_concept_map.items():
@@ -646,26 +653,32 @@ class HologramMemory:
                         peer_count += 1
                         
                         # 거울 갱신 (배움 / 공명)
-                        learning_rate = 0.15 if "Helper" in name_str else 0.08
+                        # 액터의 텐션 흡수율(곡률 w성분)에 비례하는 동적 학습률
+                        learning_rate = 0.05 + abs(getattr(act, 'lens_curvature', act.lens_offset).w) * 0.1
                         act.mirror_rotors[peer_name] = Quaternion.slerp(mirror_q, peer_wave, learning_rate)
                         
-                        # B. 정서 이벡터(Emotion Bivector) 반응
+                        # B. 정서 이벡터(Emotion Bivector) 반응 및 관측 동기화
                         eb = act.emotional_state
-                        if "Helper" in name_str:
-                            eb.add_stimulus(de12=-0.01 * tension, de23=0.008 * tension, de31=0.0)
-                        elif "Challenger" in name_str:
-                            eb.add_stimulus(de12=0.0, de23=0.01 * tension, de31=0.015 * tension)
-                        elif "Peacemaker" in name_str:
-                            eb.add_stimulus(de12=0.005 * (1.0 - tension), de23=-0.008 * tension, de31=-0.01 * tension)
-                        else:
-                            # 일반 아키타입 반응
-                            eb.add_stimulus(de12=0.002 * (1.0 - tension), de23=0.005 * tension, de31=0.0)
                         
-                        # C. 반쿠라모토(Anti-Kuramoto) 위상 튕김 (개성 유지)
-                        if tension > 0.6:
-                            repulsion = 0.01 if "Challenger" in name_str else 0.005
-                            repelled_q = peer_wave.conjugate()
-                            act.lens_offset = Quaternion.slerp(act.lens_offset, repelled_q, repulsion).normalize()
+                        # 아키타입 문자열 분기 제거!
+                        # 액터의 고유한 '관측 곡률(lens_curvature)' 또는 '기저 편향'과 유입된 텐션의 행렬곱으로 수학적 자극 산출
+                        base_bias_w = getattr(act, 'lens_curvature', act.lens_offset).w
+                        base_bias_x = getattr(act, 'lens_curvature', act.lens_offset).x
+                        base_bias_y = getattr(act, 'lens_curvature', act.lens_offset).y
+
+                        # 렌즈의 위상각 자체가 특정 정서 반응의 감수성 벡터로 작용 (연속 함수)
+                        de12_stim = base_bias_w * tension * 0.01
+                        de23_stim = base_bias_x * tension * 0.01
+                        de31_stim = base_bias_y * tension * 0.01
+
+                        eb.add_stimulus(de12=de12_stim, de23=de23_stim, de31=de31_stim)
+
+                        # C. 미분 방정식 기반의 자연스러운 반발력(척력)과 인력 곡선 (분기문 제거)
+                        # 위상차가 커질수록 척력이 지수함수적으로 증가하여 거리를 둠 (개성 유지 곡선)
+                        # 0.6이라는 임계값(if tension > 0.6) 삭제. 모든 텐션에 대해 연속적 작용.
+                        repulsion_force = 0.02 * math.pow(tension, 3)
+                        repelled_q = peer_wave.conjugate()
+                        act.lens_offset = Quaternion.slerp(act.lens_offset, repelled_q, repulsion_force).normalize()
                             
                     # D. 정서의 자연 쇠퇴 (Homeostasis)
                     act.emotional_state.decay(0.02)
