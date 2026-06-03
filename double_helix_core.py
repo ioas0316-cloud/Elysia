@@ -15,9 +15,10 @@ WIDTH = 60
 CENTER = WIDTH // 2
 
 class DoubleHelixDaemon:
-    def __init__(self):
+    def __init__(self, raw_stream=False):
         self.running = True
         self.start_time = time.time()
+        self.raw_stream = raw_stream
 
         # Rotors configuration
         # Rotor 0: Convergence, Suppression (slower, deep)
@@ -86,12 +87,22 @@ class DoubleHelixDaemon:
 
         helix_str = "".join(line)
 
-        # formatting string
-        stimulus_marker = "!!!" if self.perturbation > 0.1 else "   "
+        if self.raw_stream:
+            # Emit raw byte stream (interference_xor)
+            # You can combine or structure this differently if you need both i_and and i_xor.
+            # But dumping the single XOR mask byte is perfectly aligned with the PoC.
+            try:
+                sys.stdout.buffer.write(bytes([i_xor]))
+                sys.stdout.flush()
+            except BrokenPipeError:
+                self.running = False
+        else:
+            # formatting string
+            stimulus_marker = "!!!" if self.perturbation > 0.1 else "   "
 
-        output = f"{helix_str} | State: {state:<30} | MASK(&/^) {i_and:03d}/{i_xor:03d} {stimulus_marker}"
-        # Use carriage return to handle raw terminal mode gracefully
-        print(output + '\r')
+            output = f"{helix_str} | State: {state:<30} | MASK(&/^) {i_and:03d}/{i_xor:03d} {stimulus_marker}"
+            # Use carriage return to handle raw terminal mode gracefully
+            print(output + '\r')
 
     def apply_stimulus(self):
         # Add a sudden burst of phase shift
@@ -119,17 +130,20 @@ async def keyboard_listener(daemon):
             old_settings = None
 
         while daemon.running:
-            # Check if there is input waiting
-            rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
-            if rlist:
-                ch = sys.stdin.read(1)
-                if not ch: # EOF
-                    daemon.running = False
-                elif ch.lower() == 'q':
-                    daemon.running = False
-                elif ch == ' ':
-                    # Spacebar acts as stimulus
-                    daemon.apply_stimulus()
+            # If stdin is not a tty (like when piped), we shouldn't continuously read from it
+            # if it causes EOF loops or blocks. Just sleep instead.
+            if sys.stdin.isatty():
+                # Check if there is input waiting
+                rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+                if rlist:
+                    ch = sys.stdin.read(1)
+                    if not ch: # EOF
+                        daemon.running = False
+                    elif ch.lower() == 'q':
+                        daemon.running = False
+                    elif ch == ' ':
+                        # Spacebar acts as stimulus
+                        daemon.apply_stimulus()
             await asyncio.sleep(0.01)
     except Exception as e:
         print(f"Keyboard listener error: {e}")
@@ -142,10 +156,11 @@ async def heart_beat(daemon):
     Main daemon loop that updates the topology and prints the frame.
     """
     try:
-        # Clear screen initially
-        print("\033[2J\033[H", end="\r")
-        print("Starting Double Helix Rotor Daemon...\r")
-        print("Press SPACE to inject stimulus. Press 'q' to quit.\r\n")
+        if not daemon.raw_stream:
+            # Clear screen initially
+            print("\033[2J\033[H", end="\r")
+            print("Starting Double Helix Rotor Daemon...\r")
+            print("Press SPACE to inject stimulus. Press 'q' to quit.\r\n")
 
         while daemon.running:
             t = time.time() - daemon.start_time
@@ -168,7 +183,8 @@ async def heart_beat(daemon):
         print(f"Daemon crashed: {e}")
 
 async def main():
-    daemon = DoubleHelixDaemon()
+    raw_stream_mode = '--raw-stream' in sys.argv
+    daemon = DoubleHelixDaemon(raw_stream=raw_stream_mode)
 
     # Run both the heart beat and the keyboard listener concurrently
     await asyncio.gather(
