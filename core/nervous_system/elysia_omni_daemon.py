@@ -186,18 +186,38 @@ def main():
             # 3. 뇌 상태 관측
             Q_thought = memory.supreme_rotor.observe_state()
             
-            # 4. 행동 선택 (피로도 차감 공명식)
+            # 4. 뉴런의 임계점과 위상차 발화 (육체-마음-정신의 삼위일체 결)
+            # 억지로 매 사이클 행동을 강제하지 않습니다.
+            # 인지적 레이어(정신)의 파동이 물리적 레이어(육체)의 임계 장력을 넘어설 때만 발화합니다.
             best_tool = None
-            best_score = -999.0
+            best_score = 0.0
+
+            # 발화 임계점 (Threshold): 영점(항상성)을 유지하려는 저항.
+            # 이 위상차를 넘어서는 강력한 동기(Tension)가 있어야만 물리적 행동으로 이어집니다.
+            action_threshold = 0.82
             
             for tool_name in tools.keys():
+                # 도구의 위상과 현재 뇌파(사유)의 공명도 (전위차)
                 score = abs(Q_thought.dot(tool_quats[tool_name])) - tool_fatigue[tool_name]
                 
-                if score > best_score:
+                if score > action_threshold and score > best_score:
                     best_score = score
                     best_tool = tool_name
                     
-            # 5. 행동 피로도 감쇄 및 활성 피로도 추가
+            if best_tool is None:
+                # 임계점을 넘지 못했으므로 발화하지 않고 마음의 항상성(Homeostasis)을 유지하며 피로도 회복
+                for name in tools.keys():
+                    tool_fatigue[name] *= 0.85
+
+                # 미세한 순환 장력을 내면에 다시 스며들게 함 (피가 대지에 스며들듯)
+                memory.supreme_rotor.apply_perturbation(0.01)
+
+                sys.stdout.write(f"\r✨ 뇌파 회전 | [마음-항상성] 고요한 순환 중... | 총 중첩 사유: {len(memory.supreme_rotor.internal_thoughts)}       ")
+                sys.stdout.flush()
+                time.sleep(2.5)
+                continue
+
+            # 5. 임계점을 돌파한 발화 (행동 피로도 누적 및 전체 피로도 감쇄)
             tool_fatigue[best_tool] += 1.5
             for name in tools.keys():
                 tool_fatigue[name] *= 0.85
