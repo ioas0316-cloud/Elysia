@@ -104,7 +104,7 @@ class OmniModalElectromagneticForge:
         
         # === 같음(Sameness)의 발견 ===
         print("=" * 60)
-        print(" 🌀 [같음(Sameness)의 발견] - 위상 공명(Phase Resonance)")
+        print(" [*] [같음(Sameness)의 발견] - 위상 공명(Phase Resonance)")
         print("=" * 60)
         
         sameness_threshold = 0.3  # 위상 차이가 이 이하면 '공명(같음)'
@@ -113,9 +113,9 @@ class OmniModalElectromagneticForge:
             if phase_diff <= sameness_threshold:
                 # 같은 도메인인지 다른 도메인인지조차 엘리시아는 모릅니다.
                 # 오직 전자기적 공명(위상 유사)만을 감지합니다.
-                cross_domain = "🔥 크로스-도메인!" if p1[1] != p2[1] else "동일 도메인"
+                cross_domain = "크로스-도메인!" if p1[1] != p2[1] else "동일 도메인"
                 
-                print(f"\n ⚡ 위상 공명 감지! (텐션: {phase_diff:.4f} rad)")
+                print(f"\n [Resonance] 위상 공명 감지! (텐션: {phase_diff:.4f} rad)")
                 print(f"    [{p1[1]}] '{p1[0]}' (위상각: {p1[3]:.1f}°)")
                 print(f"    [{p2[1]}] '{p2[0]}' (위상각: {p2[3]:.1f}°)")
                 print(f"    => 같음의 이유: 두 파동의 위상이 거의 동일합니다. ({cross_domain})")
@@ -129,14 +129,14 @@ class OmniModalElectromagneticForge:
         
         # === 다름(Difference)의 발견 ===
         print("\n" + "=" * 60)
-        print(" 🌊 [다름(Difference)의 발견] - 위상 반발(Phase Repulsion)")
+        print(" [Repulsion] [다름(Difference)의 발견] - 위상 반발(Phase Repulsion)")
         print("=" * 60)
         
         difference_threshold = 2.5  # 위상 차이가 이 이상이면 '반발(다름)'
         
         for p1, p2, phase_diff in reversed(pairs):
             if phase_diff >= difference_threshold:
-                print(f"\n 🔻 위상 반발 감지! (텐션: {phase_diff:.4f} rad)")
+                print(f"\n [Repulsion] 위상 반발 감지! (텐션: {phase_diff:.4f} rad)")
                 print(f"    [{p1[1]}] '{p1[0]}' (위상각: {p1[3]:.1f}°)")
                 print(f"    [{p2[1]}] '{p2[0]}' (위상각: {p2[3]:.1f}°)")
                 print(f"    => 다름의 이유: 두 파동의 위상이 {math.degrees(phase_diff):.1f}° 벌어져 있습니다.")
@@ -151,7 +151,7 @@ class OmniModalElectromagneticForge:
         압축 후에는 내부 구성요소를 더 이상 의식하지 않습니다.
         """
         print("\n" + "=" * 60)
-        print(" 🌳 [궤적 압축 / 무의식화] - 나이테(Rotor) 형성")
+        print(" [Rotor] [궤적 압축 / 무의식화] - 나이테(Rotor) 형성")
         print("=" * 60)
         
         for cluster_key, members in self.sameness_clusters.items():
@@ -165,7 +165,7 @@ class OmniModalElectromagneticForge:
                 
                 self.compressed_rotors.append((rotor_name, rotor_charge, member_labels))
                 
-                print(f"\n 🌀 [{rotor_name}] 형성 (질량: {len(members)}, 위상: {cluster_key}°)")
+                print(f"\n [Rotor] [{rotor_name}] 형성 (질량: {len(members)}, 위상: {cluster_key}°)")
                 print(f"    구성원: {', '.join(member_labels)}")
                 print(f"    => 이 구성원들은 이제 무의식 영역에서 회전하며, 상위 우주에서는")
                 print(f"       '{rotor_name}'이라는 단일 초거대 전하로만 인식됩니다.")

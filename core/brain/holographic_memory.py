@@ -580,10 +580,15 @@ class HologramMemory:
         comp_norm = composite.normalize()
         return comp_norm.w, comp_norm.x, comp_norm.y, comp_norm.z
 
-    def save_to_disk(self, filepath: str = "memory_state.json"):
+    # 프로젝트 루트의 data/ 디렉토리를 기본 저장 경로로 사용
+    _DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
+
+    def save_to_disk(self, filepath: str = None):
         """
         [Phase 48] 가변 로터 우주(Fractal Tree) 전체를 영구 저장합니다.
         """
+        if filepath is None:
+            filepath = os.path.join(self._DATA_DIR, "memory_state.json")
         def serialize_node(node: FractalRotor) -> dict:
             node_name = None
             with self._lock:
@@ -606,10 +611,12 @@ class HologramMemory:
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(state, f, ensure_ascii=False, indent=2)
 
-    def load_from_disk(self, filepath: str = "memory_state.json"):
+    def load_from_disk(self, filepath: str = None):
         """
         [Phase 48] 가변 로터 우주(Fractal Tree) 전체를 디스크에서 불러옵니다.
         """
+        if filepath is None:
+            filepath = os.path.join(self._DATA_DIR, "memory_state.json")
         if not os.path.exists(filepath):
             return False
             

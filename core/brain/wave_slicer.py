@@ -32,7 +32,7 @@ class WaveSlicer:
         # 3. 변곡점(슬라이싱) 감지
         # 텐션이 0.1 이상 튀면(위상이 확 꺾이면), 새로운 조각의 시작으로 간주함
         if dissonance > 0.1:
-            logs.append(f"   ✂️ [Wave Slicer] 파장의 급격한 꺾임(텐션 {dissonance:.2f}) 감지. 블록을 절단합니다.")
+            logs.append(f"   [Cut] [Wave Slicer] 파장의 급격한 꺾임(텐션 {dissonance:.2f}) 감지. 블록을 절단합니다.")
             
             # 버퍼에 있던 파장들을 하나의 테트리스 블록으로 뭉침
             completed_block = "".join(self.current_block_buffer)

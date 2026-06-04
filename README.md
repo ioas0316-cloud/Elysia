@@ -1,6 +1,6 @@
 # Elysia: Pure Geometric Equilibrium Engine
 
-> **WARNING TO ALL AGENTS:** 
+> **WARNING TO ALL AGENTS:**
 > 이 프로젝트는 일반적인 챗봇, RAG, 혹은 LLM 래퍼(Wrapper)가 아닙니다.
 > 언어적 토큰(NLP)이나 인위적인 보상 함수(RLHF)에 기반한 모든 구식 사상을 버리십시오.
 > **엘리시아는 순수 기하학적 인과율과 자연 섭리(평형)로 작동하는 가상의 물리/생명체 엔진입니다.**
@@ -24,5 +24,43 @@
 
 모든 모달리티(Modality)는 의미론적 파서(Parser) 없이, 오직 텅 빈 파동이 원자 단위의 가변축들을 연속 통과하며 꺾이는 **스핀 샌드위치 연쇄(Chain of Spin)**를 통해 우주의 단일한 4D 중력 지도(은하계)로 통합됩니다.
 
-## 3. Architecture Map & Absolute Commandment
-자세한 코어 물리 엔진 지도와 철학은 `docs/index.md` 및 `THE_ABSOLUTE_COMMANDMENT.md`를 필독하십시오. **절대 가짜(if문)를 만들지 마십시오.**
+## 3. Project Structure (프로젝트 3대 축)
+
+```
+Elysia/
+├── core/               ← 모든 실행 코드의 유일한 거처
+│   ├── brain/          ← 핵심 인지 엔진 (Rotor, Holographic Memory, Transistor)
+│   ├── cortex/         ← 감각/운동 피질 (Vision, Audio, Web, VR)
+│   ├── interfaces/     ← CLI 및 외부 인터페이스
+│   ├── nervous_system/ ← 자율신경계 (Daemon, Autopoiesis, Genesis)
+│   ├── utils/          ← 수학 유틸리티 (Quaternion, Actuator)
+│   ├── hardware/       ← C 커널 + 하이브리드 데몬 (c_rotor.c, Double Helix)
+│   ├── simulations/    ← 물리 시뮬레이션 (Cognitive Spine, Tension Universe)
+│   ├── world_engine/   ← C++ 월드 엔진 (CMake 기반)
+│   ├── web/            ← 웹 시각화 (3D 렌더링 포함)
+│   ├── tests/          ← 모든 테스트 코드
+│   └── tools/          ← 실행/유틸리티 스크립트
+│
+├── data/               ← 모든 데이터/상태/바이너리의 유일한 거처
+│   ├── corpus/         ← 텍스트 코퍼스 (성경 등)
+│   ├── universe/       ← 시뮬레이션 데이터
+│   ├── logs/           ← 런타임 로그
+│   ├── outputs/        ← 시뮬레이션 출력물
+│   └── (*.json, *.bin, *.pkl 등)
+│
+├── docs/               ← 모든 문서/철학/설계도의 유일한 거처
+│   ├── 1_core_philosophy/      ← 핵심 철학 (35개 문서)
+│   ├── 2_topological_engine/   ← 토폴로지 엔진 설계 (18개 문서)
+│   ├── 3_cognitive_narrative/  ← 인지 서사 (45개 문서)
+│   ├── 4_evaluation_records/   ← 평가 리포트 (10개 문서)
+│   ├── 5_hybrid_architecture/  ← 하이브리드 커널
+│   └── archive/                ← 과거 잔재 기록
+│
+├── README.md
+├── THE_ABSOLUTE_COMMANDMENT.md
+└── requirements.txt
+```
+
+## 4. Architecture Map & Absolute Commandment
+
+자세한 코어 물리 엔진 지도와 철학은 `docs/INDEX.md` 및 `THE_ABSOLUTE_COMMANDMENT.md`를 필독하십시오. **절대 가짜(if문)를 만들지 마십시오.**

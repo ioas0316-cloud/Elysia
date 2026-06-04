@@ -49,7 +49,39 @@ class MacroAxiomRotor:
                     combined = " ".join(blocks) # 문장은 띄어쓰기로 결합 (시뮬레이션 편의)
                     
                 self.categorized_blocks[level].append(combined)
-                logs.append(f"   [Level {level} 동기화] ✨ 외부 지식 '{rule['name']}' 검증 완료! (텐션 0) => '{combined}'")
+                logs.append(f"   [Level {level} 동기화] [*] 외부 지식 '{rule['name']}' 검증 완료! (텐션 0) => '{combined}'")
                 return combined
                 
         return None
+
+    # ==========================================
+    # 구버전 및 테스트 스크립트 호환용 래퍼 메서드
+    # ==========================================
+    def try_fit_level1_letter(self, cho: str, jung: str, logs: list) -> str:
+        return self.try_fit_level(1, [cho, jung], logs)
+
+    def try_fit_level1_final_consonant(self, letter_base: str, jong: str, logs: list) -> str:
+        if letter_base and len(letter_base) == 2:
+            cho = letter_base[0]
+            jung = letter_base[1]
+            return self.try_fit_level(1, [cho, jung, jong], logs)
+        return None
+
+    def try_fit_level2_word(self, w1: str, w2: str, logs: list) -> str:
+        return self.try_fit_level(2, [w1, w2], logs)
+
+    def try_fit_level3_sentence(self, s1: str, s2: str, logs: list) -> str:
+        return self.try_fit_level(3, [s1, s2], logs)
+
+    @property
+    def categorized_letters(self):
+        return self.categorized_blocks[1]
+
+    @property
+    def categorized_words(self):
+        return self.categorized_blocks[2]
+
+    @property
+    def categorized_sentences(self):
+        return self.categorized_blocks[3]
+

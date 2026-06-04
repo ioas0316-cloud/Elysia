@@ -49,6 +49,9 @@ class FractalRotor:
         # [Roadmap: Social Resonance]
         self.mirror_rotors = {}  # peer_id -> Quaternion
 
+        from core.brain.emotion_bivector import EmotionBivector
+        self.emotional_state = EmotionBivector()
+
     @property
     def cellular_joy(self) -> float:
         """[세포의 기쁨] 현재 렌즈가 가진 텐션(고통)의 부재 (0.0 ~ 1.0)"""
@@ -435,7 +438,6 @@ class FractalRotor:
         rotor.internal_thoughts = []
         for thought_data in data.get("internal_thoughts", []):
             thought_rotor = cls.from_dict(thought_data, parent=rotor)
-            rotor.internal_thoughts.append(thought_rotor)
             rotor.internal_thoughts.append(thought_rotor)
         
         mrs = data.get("mirror_rotors", {})

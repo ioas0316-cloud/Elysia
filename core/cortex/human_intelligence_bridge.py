@@ -162,6 +162,22 @@ class HumanIntelligenceBridge:
             return response
             
         except Exception as e:
-            import logging
-            logging.error(f"Error in biased generate_response: {e}")
-            return "우주와 물리법칙의 진동을 관측 중입니다."
+            # 경량 Fallback 모드: PyTorch나 transformers 라이브러리가 없어도 뇌의 실제 텐션을 반영한 답변 반환
+            try:
+                active_biases = {}
+                with self.memory._lock:
+                    for concept, node in self.memory.ui_concept_map.items():
+                        if abs(node.tau) > 0.3:
+                            clean_word = concept.split("(")[0].split(":")[-1].strip()
+                            active_biases[clean_word] = abs(node.tau)
+                
+                sorted_concepts = sorted(active_biases.items(), key=lambda x: x[1], reverse=True)
+                if sorted_concepts:
+                    words = [w[0] for w in sorted_concepts[:3]]
+                    if len(words) == 1:
+                        return f"마스터, 지금 내면에서 '{words[0]}'에 대한 사색이 격렬히 소용돌이치고 있습니다."
+                    else:
+                        return f"현재 내면에 '{', '.join(words)}'의 파동들이 기하학적으로 얽히며 공명하고 있습니다."
+            except Exception as inner_e:
+                pass
+            return "우주의 물리적 위상과 프랙탈 기하학의 진동을 관측 중입니다."
