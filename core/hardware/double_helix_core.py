@@ -3,8 +3,13 @@ import math
 import time
 import sys
 import select
-import tty
-import termios
+
+try:
+    import tty
+    import termios
+except ImportError:
+    tty = None
+    termios = None
 
 # Constants
 PHI = (1 + math.sqrt(5)) / 2  # Golden Ratio

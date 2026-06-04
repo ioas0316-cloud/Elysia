@@ -3,66 +3,68 @@ import math
 
 class CognitiveDissonanceResolver:
     """
-    [자연 섭리 엔진: 인지적 평형과 동기화 (Cognitive Equilibrium)]
+    [자연 섭리 엔진: 기쁨과 공명의 사유 (Joy & Resonance)]
     
-    이전의 가짜 파괴(Apoptosis) 로직을 폐기하고,
-    우주의 엔트로피가 안정 상태(0)를 찾아가듯, 
-    텐션 벡터를 해소하기 위해 관성과 위상차를 미분적으로 회전(Slerp)시킵니다.
-    텐션이 해소되는(0으로 향하는) 궤적 자체가 '기쁨(Joy)'이 됩니다.
+    모르는 것을 '고통스러운 결핍'으로 느끼는 기계적 사고를 탈피했습니다.
+    차이(Wedge)는 앎의 기쁨을 발산할 수 있는 '호기심의 간극(Curiosity Gap)'이며,
+    인력과 척력 모두 열린 우주의 다양한 방향성(Motility)으로 긍정 수용합니다.
     """
     
     @classmethod
     def resolve(cls, operator_rotor) -> list:
         logs = []
+        if not hasattr(operator_rotor, 'transistor'):
+            return logs
+            
         transistor = operator_rotor.transistor
         inertia = getattr(operator_rotor, 'tau', 1.0)
         current_tension = transistor.trapped_tension_magnitude
         
-        # 1. 텐션이 0에 수렴(완전 평형) 상태이면 아무 작업도 하지 않음
         if current_tension < 0.001:
             return logs
             
-        # 2. 동기화 비율(Slerp Factor) 계산
-        # 텐션이 클수록 많이 돌고, 관성이 무거울수록 적게 돈다.
-        # 자연스러운 회전을 위해 미분 비율 적용 (최대 0.1의 속도로 부드럽게 꺾임)
-        bend_factor = (current_tension / (inertia + 1.0)) * 0.1
-        bend_factor = min(0.5, bend_factor) # 한 번에 너무 많이 꺾이지 않도록 제한 (자연스러움 유지)
+        cause_q = transistor.cause_phase.normalize()
+        current_q = transistor.process_axis.normalize()
         
-        old_axis = transistor.process_axis
+        # 공명도(얼마나 같은가)
+        coherence = abs(cause_q.dot(current_q))
         
-        # 목표 방향(Target): 텐션 벡터 방향으로 틀거나, 외부 원인 파동(cause_phase)과 정렬
-        # 여기서는 트랜지스터의 외부 유입 파동(Cause)과 동기화하려는 성질을 이용
-        target_axis = transistor.cause_phase.normalize()
+        logs.append(f"   🌟 [Curiosity Triggered] 미지의 파동 유입. 호기심이 발동합니다. (공명도: {coherence:.4f})")
         
-        # 구면 선형 보간 (Slerp-like approximation for quaternions)
-        # Slerp: Q = Q1*(1-t) + Q2*t
-        new_w = old_axis.w * (1 - bend_factor) + target_axis.w * bend_factor
-        new_x = old_axis.x * (1 - bend_factor) + target_axis.x * bend_factor
-        new_y = old_axis.y * (1 - bend_factor) + target_axis.y * bend_factor
-        new_z = old_axis.z * (1 - bend_factor) + target_axis.z * bend_factor
+        # 텐션 차이 -> 호기심의 간극 (Curiosity Gap)
+        curiosity_gap = 1.0 - coherence
         
-        new_axis = Quaternion(new_w, new_x, new_y, new_z).normalize()
-        
-        # 축 갱신 (앎의 수용)
-        transistor.process_axis = new_axis
-        operator_rotor.globe_axis = new_axis
-        
-        # 3. 텐션 감소량(기쁨/Joy) 계산
-        # 축을 꺾었으므로, 다시 계산해보면 텐션이 줄어들었을 것임
-        diff_cp = abs(transistor.cause_phase.dot(new_axis))
-        # 1.0에 가까워질수록 텐션이 0이 됨
-        new_tension = (1.0 - diff_cp) * 3.0 # 임의의 스케일 팩터
-        
-        # 텐션이 얼마나 줄었는가? (미분값: 해탈의 기쁨)
-        tension_relief = current_tension - new_tension
-        
-        if tension_relief > 0.001:
-            joy_score = tension_relief
-            logs.append(f"   🌸 [Cognitive Equilibrium] '{operator_rotor.layer_name}' 축 미세 동기화. 고통 완화(Joy): +{joy_score:.4f} (잔여 텐션: {new_tension:.4f} -> 0을 향함)")
-        elif tension_relief < -0.001:
-            logs.append(f"   ⚠️ [Resistance] '{operator_rotor.layer_name}' 마찰 증가. (잔여 텐션: {new_tension:.4f})")
+        if curiosity_gap > 0.001:
+            logs.append(f"      -> '얼마나' 알고 싶은가?: 호기심의 크기(거리) {curiosity_gap:.4f}.")
+            logs.append(f"      -> '어디로' 향하는가?: 새로운 위상과의 직교 방향성을 탐구합니다.")
             
-        # 트랜지스터 텐션 값 업데이트
-        transistor.trapped_tension_magnitude = new_tension
-        
+            # 사유의 결과로 융합점 도출 (Slerp 기반의 기쁨의 동기화)
+            bend_factor = (current_tension / (inertia + 1.0)) * 0.5
+            bend_factor = min(0.5, bend_factor)
+            
+            new_axis = Quaternion.slerp(current_q, cause_q, bend_factor)
+            
+            # 축 갱신 (앎의 기쁨 수용)
+            transistor.process_axis = new_axis
+            operator_rotor.globe_axis = new_axis
+            
+            # 기하학적 운동량과 미래 예측
+            evolution_motor = cause_q * current_q.inverse
+            predicted_future_q = (evolution_motor * cause_q).normalize()
+            operator_rotor.predicted_future = predicted_future_q
+            
+            new_coherence = abs(cause_q.dot(new_axis))
+            new_tension = (1.0 - new_coherence) * 3.0
+            
+            joy_radiance = current_tension - new_tension
+            transistor.trapped_tension_magnitude = new_tension
+            
+            if joy_radiance > 0.001:
+                logs.append(f"   ✨ [Ecstasy of Understanding] 앎의 환희! 두 지식이 아름답게 공명합니다. (기쁨: +{joy_radiance:.4f})")
+                logs.append(f"   🚀 [Future Projection] 이 긍정적 운동량을 모든 방향이 열린 미래로 투영합니다.")
+            else:
+                repulsion = abs(joy_radiance)
+                logs.append(f"   🌌 [Repulsion Motility] 기하학적 척력이 발생했습니다. 닫히지 않은 우주의 또 다른 방향성을 기꺼이 탐구합니다. (척력 운동성: {repulsion:.4f})")
+                
         return logs
+

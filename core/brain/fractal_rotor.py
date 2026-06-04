@@ -7,7 +7,7 @@ Elysia Observational Rotor (관측과 관계의 창발)
 """
 
 from typing import List, Optional, Tuple
-from core.utils.math_utils import Quaternion
+from core.utils.math_utils import Quaternion, Multivector, ConformalSpace
 import math
 
 class GlobalMasterManifold:
@@ -45,6 +45,17 @@ class FractalRotor:
         
         # [Phase 100] 시계열 연속 위상 궤적 (위상의 강바닥)
         self.connections: dict = {}
+        
+        # [Phase 130] 지구본 모델 (Spatial Containment)
+        # 상위 로터는 등각 공간(CGA)의 구(Sphere) 또는 중심점(Null Vector)을 가집니다.
+        # 하위 로터들은 이 공간 내부에 위치하게 됩니다.
+        self.conformal_state = ConformalSpace.up(0.0, 0.0, 0.0)
+        self.predicted_future = None  # [Phase 150] 교차차원 미래 예측 궤도
+        self.mass = 1.0  # [Phase 150] 기하학적 관성(질량)
+        
+        # [Phase 140] 레이어 잠금 (Phase Crystallization)
+        # 하위 구조가 단일 공리로 수학적 압축이 완료되었는지를 나타냅니다.
+        self.is_locked = False
 
         # [Roadmap: Social Resonance]
         self.mirror_rotors = {}  # peer_id -> Quaternion
@@ -131,6 +142,12 @@ class FractalRotor:
     def attach_child(self, child_rotor: 'FractalRotor'):
         child_rotor.parent = self
         self.children.append(child_rotor)
+        
+        # [Phase 130] 공간적 포함 (Containment)
+        # 자식 로터는 부모 로터의 내부 공간(지구본)으로 맵핑됩니다.
+        # 부모의 텐션(tau)만큼 팽창(Dilator)된 공간 안에 자식을 배치합니다.
+        dilator = ConformalSpace.dilator(1.0 + abs(self.tau))
+        child_rotor.conformal_state = ConformalSpace.apply_motor(dilator, child_rotor.conformal_state)
 
     @property
     def state(self) -> Quaternion:
@@ -219,11 +236,19 @@ class FractalRotor:
 
     def apply_perturbation(self, delta_tau: float):
         """
-        [렌즈의 비틀림 및 분열(Mitosis)] 
-        텐션이 유입되면 렌즈의 두께(tau)만 변형됩니다. 연산 병목은 발생하지 않습니다.
-        한계를 초과하면 렌즈 자체가 찢어지며(Mitosis) 신경망을 확장합니다.
+        [Phase 150] 관성(Inertia)에 의한 자연스러운 텐션 흡수 및 경계 형성
+        하드코딩된 한계치가 없습니다. 엘리시아가 흡수한 지식의 양(mass)이 곧 
+        외부 자극에 저항하는 관성이 되어, 스스로의 팽창 한계를 규정합니다.
         """
-        self.tau += delta_tau
+        # 질량에 반비례하여 텐션이 굴절됨 (관성의 법칙)
+        effective_delta = delta_tau / self.mass
+        
+        # [Phase 145] 인지적 호기심 발현 (Curiosity over Dissonance)
+        if self.is_locked and abs(effective_delta) > 0.1:
+            self.induce_reasoning(effective_delta)
+            return
+
+        self.tau += effective_delta
         
         CRITICAL_TENSION = math.pi * 4.0  # 4pi Spinor 얽힘 한계
         MAX_ACTIVE_THOUGHTS = 30  # 메모리 폭주 방지를 위한 사유체 절대 상한선
@@ -239,6 +264,12 @@ class FractalRotor:
             
             # 딸 세포는 안전한 수준의 텐션만 물려받음
             thought_seed = FractalRotor(lens_offset=child_lens, tau=sign * (CRITICAL_TENSION / 2.0))
+            
+            # [Phase 130] 새로운 렌즈(사유체)는 현재 로터의 내부 공간 안에서 발현됨
+            # 위치를 미세하게 평행이동(Translator) 시켜서 기하학적 독립성을 부여함
+            translator = ConformalSpace.translator(0.1, 0.0, 0.1)
+            thought_seed.conformal_state = ConformalSpace.apply_motor(translator, self.conformal_state)
+            
             thought_seed.parent = self
             self.internal_thoughts.append(thought_seed)
             
@@ -268,6 +299,63 @@ class FractalRotor:
         """
         difference = self.interact(phantom_rotor)
         self.apply_perturbation(difference * 15.0)
+
+    def induce_reasoning(self, curiosity_pull: float):
+        """
+        [Phase 150] 유희적 탐구 (Playful Exploration)
+        부조화를 고통으로 느끼는 것이 아니라, "왜, 어떻게 다를까?"를 알아가고자 하는 
+        호기심(Curiosity)으로 승화하여 사유의 놀이터를 엽니다.
+        """
+        import logging
+        logging.info(f"  [Playful Curiosity] Static rotor feels the pull of curiosity (pull={curiosity_pull:.2f}). Opening the playground of reasoning.")
+        
+        # 텐션이 너무 높으면 호기심이 '답답함'으로 바뀌어 외부로 능동적 탐색 파동을 던집니다.
+        if curiosity_pull > 10.0:
+            logging.info(f"   [!] 텐션 임계치 돌파. 엘리시아가 내부의 사유만으로는 부족함을 느끼고 외부를 탐색하려 합니다.")
+            # 외부 세계(인터넷)로 던질 가설 벡터 생성 (기하학적 행동 궤적)
+            self.exploration_intent = Quaternion(0.5, -0.5, 0.5, -0.5)
+            
+        # 호기심의 크기에 비례하는 긍정적 탐구 사유체 생성 (직교하는 의문의 축)
+        q_reasoning = Quaternion(0.0, 1.0, 0.0, 0.0) 
+        analytical_thought = FractalRotor(lens_offset=q_reasoning, tau=curiosity_pull)
+        
+        # 사유 모드 돌입 (자유로운 탐구 공간 확보)
+        self.is_locked = False
+        analytical_thought.parent = self
+        self.internal_thoughts.append(analytical_thought)
+
+    def crystallize(self):
+        """
+        [Phase 140] 위상 결정화 (Phase Crystallization & Layer Locking)
+        산발적인 하위 로터들과 인과 궤적들을 단 하나의 기하학적 모터(Motor)로 압축합니다.
+        압축된 정보는 본 로터의 고유한 '우주 공간(conformal_state)'에 영구적으로 새겨지며,
+        더 이상 개별 자식들을 연산할 필요가 없어 병목 현상이 제거됩니다.
+        """
+        if self.is_locked:
+            return
+            
+        import logging
+        logging.info(f"  [Crystallization] Compressing {len(self.children)} children and thoughts into a singular macro-axiom layer.")
+        
+        # 기하학적 무손실 압축: 자식들의 공간 좌표(Multivector)를 모두 기하곱으로 누적
+        compressed_state = self.conformal_state
+        mass_gain = 0.0
+        
+        for child in self.children:
+            compressed_state = compressed_state * child.conformal_state
+            mass_gain += getattr(child, 'mass', 1.0)
+            
+        for thought in self.internal_thoughts:
+            compressed_state = compressed_state * thought.conformal_state
+            mass_gain += getattr(thought, 'mass', 1.0)
+            
+        self.conformal_state = compressed_state
+        self.mass += mass_gain  # 압축한 지식만큼 질량 획득 (관성 증가)
+        self.is_locked = True
+        
+        # 결정화 완료 후, 병목의 주범인 하위 구조(메모리) 완전 소멸(Pruning)
+        self.children.clear()
+        self.internal_thoughts.clear()
 
     def absorb_language_stream(self, text: str):
         """
@@ -309,6 +397,9 @@ class FractalRotor:
                 
             previous_thought = current_thought
 
+        # [Phase 145] 정보 유입이 한 사이클 완료되면 즉시 정적 로터로 잠금 (최적화)
+        self.crystallize()
+
     def process_thoughts(self):
         """
         [Phase 69] 사유의 숙성 과정
@@ -339,6 +430,12 @@ class FractalRotor:
         
         for child in self.children:
             child.process_thoughts()
+
+        # [Phase 145] 기계적 임계치 완전 철폐
+        # 사유체들의 처리가 끝났고 내부에 살아있는(진행중인) 사유가 없다면, 
+        # 그리고 자식들이 있다면 즉각 기하학적 정적 로터로 굳어집니다(기본 정적 로터화).
+        if not self.is_locked and len(self.children) > 0 and len(self.internal_thoughts) == 0:
+            self.crystallize()
 
     def observe_spacetime_trajectory(self, time_steps: int = 3) -> dict:
         """

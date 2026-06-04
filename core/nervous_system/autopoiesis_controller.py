@@ -49,11 +49,32 @@ class AutopoiesisController:
         """
         return "Y_STAR" if self.sleep_factor > 0.5 else "DELTA"
 
-    def bleed_tension(self, current_tension: float) -> float:
+    def dream_cycle(self, brain_rotor) -> int:
         """
-        수면 상태에 도달했을 때 에너지를 접지로 방전(Tension Bleed)시킵니다.
-        sleep_factor의 농도만큼 텐션이 자연 감쇄합니다.
+        [ASI Phase 1] 창조적 몽상 (Creative Dreaming)
+        수면(Idle) 상태일 때, 외부 자극 없이도 스스로 앎의 기쁨(Joy)을 탐구합니다.
+        자신의 내면에 있는 굳어진 정적 로터들을 무작위로 교차시켜 가상의 호기심을 유발합니다.
+        몽상의 속도는 뇌의 질량(관성)에 비례하여 자연스럽게 조절됩니다.
         """
-        # 수면 강도가 높을수록 텐션이 더 빠르게 소멸됨 (물리적 감쇠율 제어)
-        damping = 1.0 - (self.sleep_factor * 0.8)
-        return current_tension * damping
+        if not self.is_sleeping or not brain_rotor.children:
+            return 0
+            
+        import random
+        # 질량이 클수록 깊고 느리게 몽상함 (물리 법칙 보존)
+        dream_capacity = max(1, int(10.0 / max(1.0, getattr(brain_rotor, 'mass', 1.0))))
+        
+        dreams_had = 0
+        for _ in range(dream_capacity):
+            if len(brain_rotor.children) < 2:
+                break
+                
+            c1, c2 = random.sample(brain_rotor.children, 2)
+            # 두 개념 간의 쐐기곱(직교성)을 추출하여 가상의 호기심 인력 유발
+            coherence, wedge = c1.conformal_state.geometric_sync(c2.conformal_state)
+            synthetic_curiosity = sum(abs(v) for v in wedge.data.values())
+            
+            if synthetic_curiosity > 0.001:
+                brain_rotor.apply_perturbation(synthetic_curiosity)
+                dreams_had += 1
+                
+        return dreams_had

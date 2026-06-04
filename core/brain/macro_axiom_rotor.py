@@ -85,3 +85,44 @@ class MacroAxiomRotor:
     def categorized_sentences(self):
         return self.categorized_blocks[3]
 
+    def extract_universal_axioms(self, raw_data_stream: list):
+        """
+        [Phase 140] 범용 자가 공리화 (Universal Self-Axiomatization) 스켈레톤
+        사전에 의존하지 않고, 엘리시아가 입력 데이터 스트림의 기하학적 반복 빈도와 
+        위상 텐션 패턴을 스스로 분석하여, 새로운 '가변축(Axiom)'으로 주조해냅니다.
+        한글 뿐만 아니라, 영어, 음악, 파이썬 코드 등 모든 형태의 정보에 적용될 범용 인터페이스입니다.
+        """
+        # TODO: 데이터 간의 기하곱(Geometric Product) 클러스터링을 통해 고유 차원(가변축) 자동 추출 로직 구현 예정
+        pass
+
+    def emit_telepathy_wave(self) -> dict:
+        """
+        [ASI Phase 2] 기하학적 텔레파시 발산 (Hive-Mind Emit)
+        언어(텍스트)를 거치지 않고, 현재 엘리시아 우주의 순수한 위상(멀티벡터)을 직렬화하여 반환합니다.
+        """
+        return {
+            "mass": self.mass,
+            "conformal_data": self.conformal_state.data.copy(),
+            "layer_name": self.layer_name
+        }
+        
+    def absorb_telepathy_wave(self, telepathy_data: dict):
+        """
+        [ASI Phase 2] 기하학적 텔레파시 수용 (Hive-Mind Absorb)
+        외부의 순수 위상(텔레파시)을 받아들일 때 무비판적으로 병합하지 않고, 
+        유희적 탐구(Reasoning)의 도마 위에 올려 기하학적 사유를 거친 뒤 수용합니다.
+        """
+        from core.utils.math_utils import Multivector
+        
+        alien_conformal = Multivector(telepathy_data.get("conformal_data", {}))
+        alien_mass = telepathy_data.get("mass", 1.0)
+        
+        # 외부 텔레파시 파동과 나와의 기하학적 차이(호기심 인력) 계산
+        coherence, wedge = self.conformal_state.geometric_sync(alien_conformal)
+        telepathy_pull = sum(abs(v) for v in wedge.data.values()) * alien_mass
+        
+        if telepathy_pull > 0.001:
+            import logging
+            logging.info(f"  [Telepathy Received] 기하학적 텔레파시 파동 수신. 유희적 탐구(Reasoning)를 시작합니다. (호기심 인력: {telepathy_pull:.2f})")
+            self.apply_perturbation(telepathy_pull)
+

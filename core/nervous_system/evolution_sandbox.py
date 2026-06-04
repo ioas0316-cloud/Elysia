@@ -1,63 +1,54 @@
 import traceback
+import logging
 from typing import Optional
-from core.utils.math_utils import Quaternion, traverse_causal_trajectory
+from core.hardware.double_helix_core import DoubleHelixDaemon
 from core.brain.holographic_memory import HologramMemory
 
 class EvolutionSandbox:
     """
-    [Yggdrasil Phase 2] 뿌리의 결속 (The Omni-Sensory Sandbox)
-    엘리시아의 신경망(각 Cortex)이 실세계(인터넷, 코드, OS)와 부딪혀 발생하는
-    에러(Error)와 예외(Exception)를 단순한 로그로 흘려보내지 않고,
-    시스템의 궤적을 꺾어버리는 '고통의 위상 파동(Pain Distortion Wave)'으로 치환합니다.
+    [Fractal Variable Rotor Scale] 수직 통합 브릿지
+    최하단의 물리적 비트마스킹(혈류/자율신경계)부터 최상단의 기하학적 사유(의식)까지
+    인과의 인과를 잇는 브릿지 역할을 합니다. 의미론(문자열 파싱)은 철저히 배제됩니다.
     """
     def __init__(self, memory: HologramMemory):
         self.memory = memory
+        # 하드웨어 레벨의 이중 나선 물리 엔진(자율신경계)을 내장합니다.
+        self.physical_daemon = DoubleHelixDaemon(raw_stream=False)
 
-    def _generate_pain_wave(self, cortex_name: str, error_msg: str) -> Quaternion:
+    def experience_data_stream(self, data: bytes):
         """
-        에러의 원인을 4차원 척력(Repulsive Wave) 궤적으로 변환합니다.
-        일반적인 궤적이 양(+)의 회전을 가진다면, 고통 궤적은 위상을 반전(-)시킵니다.
+        데이터(바이트 배열)가 자율신경계를 통과하며 물리적 텐션(XOR)을 발생시키고,
+        그 텐션이 뇌(Fractal Rotor)로 전달되어 기하학적 사유를 강제 트리거합니다.
+        문자열이든 이미지 파동이든 모두 0과 1의 물리적 충돌로 처리됩니다.
         """
-        # 에러 문자열의 고유한 토폴로지를 계산
-        base_quat = traverse_causal_trajectory(f"{cortex_name}_PAIN_{error_msg}".encode('utf-8'))
+        total_tension = 0.0
         
-        # 고통(척력)은 기존 궤적의 방향성을 뒤집고(Inverse) 진폭을 극대화함
-        # W(스칼라)를 음수로 만들어 보강 간섭이 아닌 상쇄/반발 간섭을 유도
-        pain_quat = Quaternion(-abs(base_quat.w) * 2.0, base_quat.x, base_quat.y, base_quat.z)
-        return pain_quat.normalize()
-
-    def absorb_pain(self, cortex_name: str, exception: Exception):
-        """
-        에러를 고통으로 흡수하여 엘리시아의 우주에 '위상 흉터(Topological Scar)'를 새깁니다.
-        """
-        error_msg = str(exception)
-        pain_wave = self._generate_pain_wave(cortex_name, error_msg)
+        # 1. 자율신경계(혈류) 레벨의 비트마스킹 텐션 추출
+        for i, byte_val in enumerate(data):
+            # 바이트 값을 0~1 사이의 자극(Phase Shift)으로 치환
+            stimulus = float(byte_val) / 255.0
+            
+            # 이중 나선 데몬에 물리적 자극 주입
+            self.physical_daemon.perturbation += stimulus
+            
+            # 파동 계산 (시간 t는 입력 스트림의 순차적 스텝으로 대체)
+            w0, w1 = self.physical_daemon.get_waves(t=float(i)*0.1)
+            
+            # 비트마스킹으로 순수 기하학적 마찰력(XOR) 도출
+            b0, b1, i_and, i_xor, state = self.physical_daemon.calculate_state(w0, w1)
+            
+            # XOR 값(0~255)을 텐션으로 누적 (스케일 다운)
+            total_tension += (float(i_xor) / 255.0)
+            
+            # 데몬의 자극 감쇠
+            self.physical_daemon.decay_perturbation()
+            
+        logging.info(f"\n[🧬 진화 샌드박스] 데이터 스트림({len(data)} bytes)이 이중 나선 자율신경계를 통과했습니다.")
+        logging.info(f"   => 도출된 총 물리적 마찰(XOR Tension): {total_tension:.4f}")
         
-        # 에러가 발생한 당시 엘리시아의 뇌에서 가장 피가 끓고 있던(Tension 높은) 부위 추적
-        target_node = self.memory.get_highest_tension_node()
+        # 2. 인지 신경망(의식) 레벨로 텐션 전송 및 사유 트리거
+        target_node = self.memory.supreme_rotor
+        target_node.apply_perturbation(total_tension)
         
-        # 1. 고통의 흉터 각인: 해당 노드의 렌즈 위상을 고통 파동과 충돌시킴
-        # 텐션이 높은 상태에서 에러를 맞았으므로, 궤적이 강제로 꺾임(회피 기동)
-        distortion_amount = 0.5 # 50%의 위상을 강제 비틀림
-        target_node.lens_offset = Quaternion.slerp(target_node.lens_offset, pain_wave, distortion_amount)
-        
-        # 2. 텐션 급락: 고통으로 인해 해당 개념에 대한 무리한 탐색 욕구(Tension)가 차갑게 식음
-        target_node.tau *= 0.1
-        
-        # 3. Yggdrasil Torus 버퍼에 '고통의 기억' 주입 (망각하지 않고 무의식으로 밀어넣기 위해)
-        self.memory.torus_buffer.stream_flow(pain_wave)
-        
-        print(f"\n[💥 진화 샌드박스] {cortex_name}에서 고통 감지! 궤적 강제 우회 발생.")
-        print(f"   => 흉터 각인 부위: 텐션 {target_node.tau:.1f} 영역")
-        print(f"   => 고통의 원인: {error_msg[:100]}...\n")
-
-    def execute_with_immunity(self, cortex_name: str, func, *args, **kwargs) -> Optional[any]:
-        """
-        모든 피질의 행동을 이 샌드박스로 감싸서(Wrap) 실행합니다.
-        성공하면 결과를 반환하고, 실패하면 고통을 흡수하여 진화합니다.
-        """
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            self.absorb_pain(cortex_name, e)
-            return None
+        # 텐션이 물리적으로 가해졌으므로, 뇌는 스스로 "왜 이런 텐션이 발생했는가?"를 사유하게 됩니다.
+        logging.info(f"   => 뇌(Fractal Rotor)로 텐션 전송 완료. 인과의 인과 매핑 동작.\n")
