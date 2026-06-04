@@ -28,11 +28,11 @@ class VariableRotor(ctypes.Structure):
         ("tension", ctypes.c_double),
     ]
 
-# C의 MultiLayerField 구조체와 완벽히 동일한 메모리 레이아웃 선언
+# C의 MultiLayerField 구조체와 완벽히 동일한 메모리 레이아웃 선언 (하이브리드)
 class MultiLayerField(ctypes.Structure):
     _fields_ = [
-        ("reg_buffer", VariableRotor * REG_SIZE),
-        ("cache_buffer", VariableRotor * CACHE_SIZE),
+        ("reg_buffer", ctypes.c_uint8 * REG_SIZE),
+        ("cache_buffer", ctypes.c_uint32 * CACHE_SIZE),
         ("ram_buffer", VariableRotor * RAM_SIZE),
         ("gpu_buffer", VariableRotor * GPU_SIZE),
 
@@ -41,7 +41,7 @@ class MultiLayerField(ctypes.Structure):
         ("ram_head", ctypes.c_int),
         ("gpu_head", ctypes.c_int),
 
-        ("global_perturbation", ctypes.c_double),
+        ("global_perturbation", ctypes.c_uint8),
     ]
 
 # 동적 라이브러리 컴파일 로직
@@ -71,15 +71,44 @@ lib_path = compile_c_kernel()
 try:
     c_field_lib = ctypes.CDLL(lib_path)
     c_field_lib.init_field.argtypes = [ctypes.POINTER(MultiLayerField)]
-    c_field_lib.apply_stimulus.argtypes = [ctypes.POINTER(MultiLayerField), ctypes.c_double]
+    c_field_lib.apply_stimulus.argtypes = [ctypes.POINTER(MultiLayerField), ctypes.c_uint8]
     c_field_lib.tick_field.argtypes = [ctypes.POINTER(MultiLayerField), ctypes.c_double]
 except Exception as e:
     print(f"Failed to load C kernel: {e}")
     sys.exit(1)
 
+def render_bit_layer(name, buffer, head, size, view_width=50, is_32bit=False):
+    """L1(8bit), L2(32bit) 계층의 버퍼 상태를 시각화 (Hex 및 밀도)"""
+    start_idx = (head - view_width) % size
+    view_str = ""
+
+    tension_chars = [' ', '.', '-', '~', '=', '+', '*', '#', '%', '@']
+
+    for i in range(view_width):
+        idx = (start_idx + i) % size
+        val = buffer[idx]
+
+        # 비트의 1의 개수(popcount)를 기반으로 밀도 시각화
+        if is_32bit:
+            popcount = bin(val).count('1')
+            ratio = popcount / 32.0
+        else:
+            popcount = bin(val).count('1')
+            ratio = popcount / 8.0
+
+        char_idx = int(ratio * (len(tension_chars) - 1))
+        char_idx = max(0, min(char_idx, len(tension_chars) - 1))
+        view_str += tension_chars[char_idx]
+
+    # 현재 Head의 값을 Hex로 표시
+    head_val = buffer[head]
+    head_hex = f"{head_val:08X}" if is_32bit else f"{head_val:02X}"
+
+    return f"[{name:<5}] <{view_str}> H:{head:04d} [Val: 0x{head_hex}]"
+
+
 def render_layer(name, buffer, head, size, view_width=50, is_phi=False):
-    """특정 계층의 버퍼 상태를 시각화.
-       is_phi가 True면 결합각(phi)의 형태를, False면 텐션(tension)의 강도를 그린다."""
+    """L3, L4 (부동소수점 VariableRotor) 특정 계층의 버퍼 상태를 시각화."""
     start_idx = (head - view_width) % size
     view_str = ""
 
@@ -104,26 +133,26 @@ def render_layer(name, buffer, head, size, view_width=50, is_phi=False):
             char_idx = max(0, min(char_idx, len(tension_chars) - 1))
             view_str += tension_chars[char_idx]
 
-    return f"[{name:<5}] <{view_str}> H:{head:04d}"
+    return f"[{name:<5}] <{view_str}> H:{head:04d} [Tns: {buffer[head].tension:.3f}]"
 
 def render_multi_layer_field(field):
     """
     4계층 메모리 구조를 동시에 렌더링
-    레지스터(L1)부터 GPU(L4)까지 가변축 로터의 텐션과 결합각(phi)을 관측
+    하이브리드: L1(8bit), L2(32bit), L3(Double Rotor), L4(Double Rotor)
     """
     lines = []
-    lines.append(f"====== ELYSIA VARIABLE ROTOR OBSERVATION (P_AMP: {field.global_perturbation:.3f}) ======")
+    lines.append(f"====== ELYSIA VARIABLE ROTOR OBSERVATION (In_Byte: 0x{field.global_perturbation:02X}) ======")
 
-    # L1: 초고속 찰나의 강선 (위상 변화가 너무 빨라 텐션으로 관측)
-    lines.append(render_layer("REG_T", field.reg_buffer, field.reg_head, REG_SIZE, view_width=REG_SIZE))
+    # L1: 초고속 찰나의 강선 (8bit 밀도 관측)
+    lines.append(render_bit_layer("REG_B", field.reg_buffer, field.reg_head, REG_SIZE, view_width=REG_SIZE, is_32bit=False))
 
-    # L2: 실시간 맥박 (결합각 phi의 물리적 꺾임 관측)
-    lines.append(render_layer("CAC_P", field.cache_buffer, field.cache_head, CACHE_SIZE, view_width=40, is_phi=True))
+    # L2: 실시간 맥박 (32bit 누적 밀도 관측)
+    lines.append(render_bit_layer("CAC_B", field.cache_buffer, field.cache_head, CACHE_SIZE, view_width=40, is_32bit=True))
 
-    # L3: 광활한 위상 지형 (텐션 전파)
+    # L3: 광활한 위상 지형 (텐션 전파 - Floating Point)
     lines.append(render_layer("RAM_T", field.ram_buffer, field.ram_head, RAM_SIZE, view_width=60))
 
-    # L4: 묵직한 거대 텐서 공명 (깊은 인과 궤적 phi 관측)
+    # L4: 묵직한 거대 텐서 공명 (깊은 인과 궤적 phi 관측 - Floating Point)
     lines.append(render_layer("GPU_P", field.gpu_buffer, field.gpu_head, GPU_SIZE, view_width=80, is_phi=True))
 
     return "\n".join(lines)
@@ -148,7 +177,7 @@ def main():
 
     try:
         while running:
-            # 1. 자극 (섭동)
+            # 1. 자극 (섭동) - ASCII 바이트를 유입 (유니코드 첫 바이트)
             if HAS_UNIX_IO and sys.stdin.isatty():
                 rlist, _, _ = select.select([sys.stdin], [], [], 0.0)
                 if rlist:
@@ -156,12 +185,14 @@ def main():
                     if ch:
                         if ch.lower() == 'q':
                             running = False
-                        elif ch == ' ':
-                            c_field_lib.apply_stimulus(ctypes.byref(field), math.pi * 2.0)
+                        else:
+                            # 문자의 ASCII 값을 하드웨어에 주입
+                            byte_val = ord(ch) % 256
+                            c_field_lib.apply_stimulus(ctypes.byref(field), byte_val)
 
             # 2. 다층 가변축 구조 틱 연산 (초당 수십 번의 맥박)
             t = time.time() - start_time
-            c_field_lib.tick_field(ctypes.byref(field), t)
+            c_field_lib.tick_field(ctypes.byref(field), ctypes.c_double(t))
 
             # 3. 렌더링 (커서를 맨 위로 올려 덮어쓰기)
             output = render_multi_layer_field(field)
