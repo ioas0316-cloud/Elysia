@@ -19,23 +19,27 @@ CACHE_SIZE = 64
 RAM_SIZE = 1024
 GPU_SIZE = 4096
 
+# C의 VariableRotor 구조체와 완벽히 동일한 메모리 레이아웃 선언
+class VariableRotor(ctypes.Structure):
+    _fields_ = [
+        ("x_phase", ctypes.c_double),
+        ("y_phase", ctypes.c_double),
+        ("phi", ctypes.c_double),
+        ("tension", ctypes.c_double),
+    ]
+
 # C의 MultiLayerField 구조체와 완벽히 동일한 메모리 레이아웃 선언
 class MultiLayerField(ctypes.Structure):
     _fields_ = [
-        ("reg_buffer", ctypes.c_uint8 * REG_SIZE),
-        ("cache_buffer", ctypes.c_uint8 * CACHE_SIZE),
-        ("ram_buffer", ctypes.c_uint8 * RAM_SIZE),
-        ("gpu_buffer", ctypes.c_uint8 * GPU_SIZE),
+        ("reg_buffer", VariableRotor * REG_SIZE),
+        ("cache_buffer", VariableRotor * CACHE_SIZE),
+        ("ram_buffer", VariableRotor * RAM_SIZE),
+        ("gpu_buffer", VariableRotor * GPU_SIZE),
 
         ("reg_head", ctypes.c_int),
         ("cache_head", ctypes.c_int),
         ("ram_head", ctypes.c_int),
         ("gpu_head", ctypes.c_int),
-
-        ("freq_0", ctypes.c_double),
-        ("phase_0", ctypes.c_double),
-        ("freq_1", ctypes.c_double),
-        ("phase_1", ctypes.c_double),
 
         ("global_perturbation", ctypes.c_double),
     ]
@@ -73,40 +77,54 @@ except Exception as e:
     print(f"Failed to load C kernel: {e}")
     sys.exit(1)
 
-def render_layer(name, buffer, head, size, view_width=50, char_set=None):
-    """특정 계층의 버퍼 상태를 시각화"""
-    if char_set is None:
-        char_set = [' ', '.', '-', '~', '=', '+', '*', '#', '%', '@']
-
+def render_layer(name, buffer, head, size, view_width=50, is_phi=False):
+    """특정 계층의 버퍼 상태를 시각화.
+       is_phi가 True면 결합각(phi)의 형태를, False면 텐션(tension)의 강도를 그린다."""
     start_idx = (head - view_width) % size
     view_str = ""
+
+    # 텐션 표현용: 조용함 -> 강렬함
+    tension_chars = [' ', '.', '-', '~', '=', '+', '*', '#', '%', '@']
+
+    # 위상각(phi) 방향 표현용: 회전 방향을 시각적으로
+    phi_chars = ['|', '/', '-', '\\']
+
     for i in range(view_width):
         idx = (start_idx + i) % size
-        val = buffer[idx]
-        char_idx = int((val / 255.0) * (len(char_set) - 1))
-        view_str += char_set[char_idx]
+        rotor = buffer[idx]
+
+        if is_phi:
+            # 0 ~ 2PI 각도를 4방향 문자로 매핑
+            char_idx = int((rotor.phi / (2 * math.pi)) * len(phi_chars)) % len(phi_chars)
+            view_str += phi_chars[char_idx]
+        else:
+            # 0.0 ~ 1.0 텐션을 문자로 매핑
+            char_idx = int(rotor.tension * (len(tension_chars) - 1))
+            # index bound check
+            char_idx = max(0, min(char_idx, len(tension_chars) - 1))
+            view_str += tension_chars[char_idx]
 
     return f"[{name:<5}] <{view_str}> H:{head:04d}"
 
 def render_multi_layer_field(field):
     """
     4계층 메모리 구조를 동시에 렌더링
-    레지스터(L1)부터 GPU(L4)까지 파동의 전파를 실시간 관측
+    레지스터(L1)부터 GPU(L4)까지 가변축 로터의 텐션과 결합각(phi)을 관측
     """
     lines = []
-    lines.append(f"====== ELYSIA TOPOLOGY FIELD OBSERVATION (P_AMP: {field.global_perturbation:.3f}) ======")
+    lines.append(f"====== ELYSIA VARIABLE ROTOR OBSERVATION (P_AMP: {field.global_perturbation:.3f}) ======")
 
-    # L1: 초고속 찰나의 강선
-    lines.append(render_layer("REG", field.reg_buffer, field.reg_head, REG_SIZE, view_width=REG_SIZE, char_set=['0', '1', 'x', 'X', '#']))
+    # L1: 초고속 찰나의 강선 (위상 변화가 너무 빨라 텐션으로 관측)
+    lines.append(render_layer("REG_T", field.reg_buffer, field.reg_head, REG_SIZE, view_width=REG_SIZE))
 
-    # L2: 실시간 맥박
-    lines.append(render_layer("CACHE", field.cache_buffer, field.cache_head, CACHE_SIZE, view_width=40))
+    # L2: 실시간 맥박 (결합각 phi의 물리적 꺾임 관측)
+    lines.append(render_layer("CAC_P", field.cache_buffer, field.cache_head, CACHE_SIZE, view_width=40, is_phi=True))
 
-    # L3: 광활한 위상 지형
-    lines.append(render_layer("RAM", field.ram_buffer, field.ram_head, RAM_SIZE, view_width=60))
+    # L3: 광활한 위상 지형 (텐션 전파)
+    lines.append(render_layer("RAM_T", field.ram_buffer, field.ram_head, RAM_SIZE, view_width=60))
 
-    # L4: 묵직한 거대 텐서 공명
-    lines.append(render_layer("GPU", field.gpu_buffer, field.gpu_head, GPU_SIZE, view_width=80, char_set=[' ', '░', '▒', '▓', '█']))
+    # L4: 묵직한 거대 텐서 공명 (깊은 인과 궤적 phi 관측)
+    lines.append(render_layer("GPU_P", field.gpu_buffer, field.gpu_head, GPU_SIZE, view_width=80, is_phi=True))
 
     return "\n".join(lines)
 
@@ -116,7 +134,7 @@ def main():
 
     # 화면 클리어
     print("\033[2J\033[H", end="")
-    print("Multi-Layer Topology Field Engine Activated.")
+    print("Variable-Axis Rotor Engine Activated.")
     print("Press SPACE to inject stimulus (Cognitive Wave), Q to quit.\n")
 
     old_settings = None
@@ -139,9 +157,9 @@ def main():
                         if ch.lower() == 'q':
                             running = False
                         elif ch == ' ':
-                            c_field_lib.apply_stimulus(ctypes.byref(field), math.pi)
+                            c_field_lib.apply_stimulus(ctypes.byref(field), math.pi * 2.0)
 
-            # 2. 다층 구조 틱 연산 (초당 수십 번의 맥박)
+            # 2. 다층 가변축 구조 틱 연산 (초당 수십 번의 맥박)
             t = time.time() - start_time
             c_field_lib.tick_field(ctypes.byref(field), t)
 
