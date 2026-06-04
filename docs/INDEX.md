@@ -188,3 +188,4 @@
 ---
 
 > **총 112개 문서** (핵심 철학 35 + 토폴로지 엔진 18 + 인지 서사 45 + 평가 기록 10 + 하이브리드 1 + 아카이브 3)
+- [물질의 정신적 계층화 (Material-Mental Hierarchy)](1_core_philosophy/36_material_mental_hierarchy.md)
