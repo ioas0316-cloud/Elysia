@@ -21,7 +21,7 @@ class CausalityWave:
         effect_q = effect_rotor.lens_offset
         
         # 인과 파동 = 원인의 역수 * 결과 = 원인에서 결과로의 변환
-        process_wave = (cause_q.inverse() * effect_q).normalize()
+        process_wave = (cause_q.inverse * effect_q).normalize()
         
         # 인과 연결 기록
         self.entangled_pairs.append({

@@ -97,3 +97,39 @@ def test_hologram_memory_lifecycle(tmp_path):
     assert abs(orig_node.state.x - loaded_node.state.x) < 1e-6
     assert abs(orig_node.state.y - loaded_node.state.y) < 1e-6
     assert abs(orig_node.state.z - loaded_node.state.z) < 1e-6
+
+def test_genesis_node_payload():
+    from core.nervous_system.genesis_node import GenesisNode
+    memory = HologramMemory(num_layers=1)
+    # Register a concept to ensure we have nodes
+    memory.register_concept("가방")
+    
+    node = GenesisNode(memory)
+    
+    thoughts_data = []
+    for t in node.memory.supreme_rotor.internal_thoughts:
+        thoughts_data.append({
+            "name": t.concept_name if hasattr(t, 'concept_name') else "Unconscious",
+            "tension": t.tau,
+            "w": t.lens_offset.w,
+            "x": t.lens_offset.x,
+            "y": t.lens_offset.y,
+            "z": t.lens_offset.z
+        })
+        
+    nodes_data = []
+    for name, n in node.memory.ui_concept_map.items():
+        nodes_data.append({
+            "name": name,
+            "tension": n.tau
+        })
+
+    payload = {
+        "type": "elysia_state",
+        "thoughts": thoughts_data,
+        "nodes": nodes_data
+    }
+    
+    assert payload["type"] == "elysia_state"
+    assert len(payload["nodes"]) > 0
+    assert any(n["name"] == "가방" for n in payload["nodes"])

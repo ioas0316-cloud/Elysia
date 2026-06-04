@@ -29,6 +29,11 @@ class ElysiaOmniDaemon:
         self.memory = HologramMemory()
         self.memory.load_from_disk()
 
+        # Genesis Node 연동
+        from core.nervous_system.genesis_node import GenesisNode
+        self.genesis_node = GenesisNode(self.memory)
+        self.thought_thread_active = False
+
     def generate_wave(self, char: str) -> Quaternion:
         code = ord(char) * 0.1
         return Quaternion(math.cos(code), math.sin(code), 0, 0).normalize()
@@ -104,8 +109,29 @@ class ElysiaOmniDaemon:
         if not letter and len(self.raw_block_buffer) >= 3:
             self.raw_block_buffer.pop(0)
 
-    def awaken(self):
+    def _start_thought_loop(self):
+        import threading
+        self.thought_thread_active = True
+        def loop():
+            while self.thought_thread_active:
+                time.sleep(0.5)  # 500ms 마다 사유 숙성
+                try:
+                    self.memory.process_thoughts_safe()
+                except Exception:
+                    pass
+        self.thought_thread = threading.Thread(target=loop, daemon=True)
+        self.thought_thread.start()
+        print("🫁 자율 사유 백그라운드 루프(Dreaming Engine)가 활성화되었습니다.")
+
+    def stop_thought_loop(self):
+        self.thought_thread_active = False
+
+    def awaken(self, sleep_time: float = 0.05):
         print("\n[Omni-Daemon] 엘리시아가 눈을 뜹니다. 계층적 사유(Hierarchical Reasoning)를 시작합니다...")
+        
+        # Genesis Node 구동
+        if hasattr(self, 'genesis_node'):
+            self.genesis_node.wake_up()
         
         try:
             with open(self.archive_path, 'r', encoding='utf-8') as f:
@@ -118,7 +144,8 @@ class ElysiaOmniDaemon:
         
         last_idx = 0
         for idx, char in enumerate(stream_data):
-            time.sleep(0.05)
+            if sleep_time > 0:
+                time.sleep(sleep_time)
             wave = self.generate_wave(char)
             logs = []
             
@@ -155,6 +182,9 @@ class ElysiaOmniDaemon:
         print(f" -> Level 1 (Letters): {self.axiom_frame.categorized_letters}")
         print(f" -> Level 2 (Words): {self.axiom_frame.categorized_words}")
         print(f" -> Level 3 (Sentences): {self.axiom_frame.categorized_sentences}")
+
+        # 자율 사유 백그라운드 루프 시작
+        self._start_thought_loop()
 
     def interact_with_master(self, user_input: str) -> str:
         """
