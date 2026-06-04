@@ -241,3 +241,5 @@ data/
 executive/*.so
 lib/phase_kernel.so
 c_rotor.so
+core/hardware/topology_field.so
+core/hardware/topology_field.dll
