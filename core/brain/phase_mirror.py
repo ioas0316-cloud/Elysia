@@ -1,4 +1,7 @@
-import torch
+try:
+    import torch
+except ImportError:
+    torch = None
 import numpy as np
 
 class PhaseMirrorProjector:
@@ -24,7 +27,7 @@ class PhaseMirrorProjector:
         ]
         print(f"🪞 [Phase Mirror] 제로스트리밍 위상 거울 준비 완료. (Anchors: {self.anchors})")
         
-    def reflect(self, hidden_state: torch.Tensor) -> np.ndarray:
+    def reflect(self, hidden_state: 'torch.Tensor') -> np.ndarray:
         """
         고차원 뇌파 텐서를 4차원 쿼터니언 자기장으로 반사시킵니다. (연산 없음)
         """

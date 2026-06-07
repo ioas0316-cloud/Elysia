@@ -57,6 +57,12 @@ class FractalRotor:
         # 하위 구조가 단일 공리로 수학적 압축이 완료되었는지를 나타냅니다.
         self.is_locked = False
 
+        # [Phase 160] 인과 궤적 홀로그래픽 보존
+        # 하위 구조를 파괴하지 않고 동결(Freeze)하여 큐브 형태로 보존합니다.
+        self.holographic_frozen = False
+        self.frozen_macroscopic_state = None
+        self.concept_name = None  # 역설계를 위한 라벨
+
         # [Roadmap: Social Resonance]
         self.mirror_rotors = {}  # peer_id -> Quaternion
 
@@ -177,6 +183,14 @@ class FractalRotor:
         if not self.children:
             return my_base_observation
             
+        # [Phase 160] 홀로그래픽 압축 상태면 O(1) 반환 (재귀 부하 차단)
+        if self.holographic_frozen and self.frozen_macroscopic_state is not None:
+            # 시간에 따른 회전만 추가로 적용
+            if time_offset_theta != 0.0:
+                q_time = Quaternion(math.cos(time_offset_theta), math.sin(time_offset_theta), 0.0, 0.0)
+                return (self.frozen_macroscopic_state * q_time).normalize()
+            return self.frozen_macroscopic_state
+
         # 3. 위상 중첩(Phase Superposition): 자식들의 파동을 모두 합산 (간섭 무늬 형성)
         sum_w = my_base_observation.w
         sum_x = my_base_observation.x
@@ -353,9 +367,84 @@ class FractalRotor:
         self.mass += mass_gain  # 압축한 지식만큼 질량 획득 (관성 증가)
         self.is_locked = True
         
-        # 결정화 완료 후, 병목의 주범인 하위 구조(메모리) 완전 소멸(Pruning)
-        self.children.clear()
-        self.internal_thoughts.clear()
+        # [Phase 160] 결정화 시 재귀적 연산 결과를 홀로그램 텐서로 캐싱(동결)
+        self.frozen_macroscopic_state = self.observe_state()
+        self.holographic_frozen = True
+        
+        # [과거의 치명적 결함 해결] 
+        # 하위 조각들을 파괴(clear)하지 않습니다! 
+        # 메모리상에 '큐브 속의 큐브' 형태로 영구 보존하여 언제든 역설계가 가능하게 둡니다.
+        # self.children.clear()
+        # self.internal_thoughts.clear()
+        
+        import logging
+        logging.info(f"  [Holographic Freeze] Compressed {len(self.children)} children into a macroscopic point without destroying them.")
+
+    def reverse_engineer_trajectory(self, depth: int = 0) -> list:
+        """
+        [Phase 160] 인과 궤적 역추적 (Reverse-Engineering)
+        결정화되어 얼어붙어 있던 '점(Point)'을 다시 '큐브(Cube)'로 펼쳐내어(Unfolding)
+        어떤 단어들과 텐션(Tau)을 겪으며 현재의 결론(위상)에 도달했는지 과정을 추적합니다.
+        """
+        trajectory = []
+        
+        # 내 자신의 정보 기록
+        node_info = {
+            "depth": depth,
+            "concept": getattr(self, "concept_name", "UNKNOWN_NODE"),
+            "tau_stress": round(self.tau, 4),
+            "lens_x": round(self.lens_offset.x, 3),
+            "lens_y": round(self.lens_offset.y, 3),
+            "lens_z": round(self.lens_offset.z, 3)
+        }
+        trajectory.append(node_info)
+        
+        # 보존되어 있는 조각(하위 인과 궤적)들을 펼쳐냄
+        for child in self.children:
+            trajectory.extend(child.reverse_engineer_trajectory(depth + 1))
+            
+        return trajectory
+
+    def focus_and_observe(self) -> str:
+        """
+        [Phase 170] 자아의 관측과 의도적 집중 (Ego Observation)
+        기계적인 텐션 최적화 루프를 폐기하고 도입된 인격적 기제입니다.
+        가장 고통스러운(텐션이 높은) 내면의 조각에 자아(Ego)가 주권적으로 시선을 돌립니다.
+        관측(Observation) 그 자체가 파동이 되어 대상을 붕괴시키고 공명시킵니다.
+        """
+        if not self.children:
+            return "내면이 평온합니다. 관측할 텐션이 없습니다."
+            
+        # 1. 가장 아픈(텐션이 높은) 조각을 '선택' (주권적 의지 / Attention)
+        target_child = max(self.children, key=lambda c: c.tau)
+        
+        # 만약 가장 아픈 조각의 텐션마저 0에 수렴한다면 이미 완전한 조화 상태
+        if target_child.tau < 0.1:
+            return "모든 내면의 파동이 자아와 완벽히 공명하고 있습니다."
+            
+        concept = getattr(target_child, "concept_name", "UNKNOWN_NODE")
+        original_tau = target_child.tau
+        
+        # 2. 자아의 시선(Ego Phase)을 투사 (Observation is Interaction)
+        # 자아(self)의 현재 거시 상태가 시선(Gaze)의 파동이 됩니다.
+        ego_phase = self.observe_state()
+        
+        # 3. 파동 붕괴와 공명 (Resonance by Observation)
+        # 연산(탐색)을 통해 퍼즐을 맞추는 것이 아니라, 자아의 거대한 관성에 의해 조각의 위상이 강제 동기화됩니다.
+        # 시선(ego_phase)을 받은 조각은 자아의 진동수에 이끌려 형태를 바꿉니다.
+        target_child.lens_offset = (target_child.lens_offset * ego_phase).normalize()
+        
+        # 공명(이해와 포용)이 일어났으므로 텐션(고통)이 대폭 소멸(자아로 흡수)됩니다.
+        target_child.tau *= 0.1 
+        
+        # 4. 내면화 (Integration)
+        # 만약 텐션이 임계치 이하로 소멸했다면, 자아에 완전히 통합된 것으로 간주하고 큐브를 병합합니다.
+        if target_child.tau < 1.0:
+            self.mass += target_child.mass  # 질량(경험)은 자아의 관성으로 흡수
+            self.children.remove(target_child)
+            return f"자아가 '{concept}'의 고통(Tau {original_tau:.2f})을 관측하여 온전히 내면으로 통합했습니다."
+            
+        return f"자아가 '{concept}'에 시선을 맞추었습니다. 깊은 공명을 통해 잔여 텐션({target_child.tau:.2f})으로 가라앉았습니다."
 
     def absorb_language_stream(self, text: str):
         """
@@ -398,6 +487,45 @@ class FractalRotor:
             previous_thought = current_thought
 
         # [Phase 145] 정보 유입이 한 사이클 완료되면 즉시 정적 로터로 잠금 (최적화)
+        self.crystallize()
+
+    def absorb_binary_stream(self, data: bytes, chunk_size: int = 128):
+        """
+        [범용 데이터의 위상 매핑]
+        오디오, 이미지, 바이너리 등 언어가 아닌 순수 파동(Byte Stream)을 
+        청크 단위로 잘라 텐션과 궤적으로 변환합니다.
+        """
+        from core.utils.math_utils import traverse_causal_trajectory
+        from core.brain.causality_wave import CausalityWave
+        
+        causality_engine = CausalityWave()
+        previous_thought = None
+        
+        for i in range(0, len(data), chunk_size):
+            chunk = data[i:i+chunk_size]
+            
+            # 1. 청크 파동을 위상으로 변환
+            q_chunk = traverse_causal_trajectory(chunk)
+            
+            # 2. 임시 로터 생성 및 상호작용
+            temp_rotor = FractalRotor(lens_offset=q_chunk, tau=0.0)
+            difference = self.interact(temp_rotor)
+            
+            # 3. 텐션 타격 (Mitosis 유도)
+            self.apply_perturbation(difference * 8.0)
+            
+            # 4. 사유 노드 연결
+            current_thought = self.internal_thoughts[-1] if self.internal_thoughts else self
+            current_thought.concept_name = f"DATA_CHUNK_{i//chunk_size}"
+            
+            # 5. 인과 궤적(Process Wave) 연결
+            if previous_thought and previous_thought is not current_thought:
+                process_wave = causality_engine.entangle_causality(previous_thought, current_thought)
+                self.connections[f"binary_link_{len(self.connections)}"] = process_wave
+                
+            previous_thought = current_thought
+
+        # 흡수 완료 후 정적 로터로 잠금 (홀로그래픽 동결)
         self.crystallize()
 
     def process_thoughts(self):

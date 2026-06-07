@@ -1,4 +1,10 @@
 import sys
+
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+except Exception:
+    pass
+
 from core.brain.holographic_memory import HologramMemory
 from core.nervous_system.evolution_sandbox import EvolutionSandbox
 from core.nervous_system.agency_discovery_loop import AgencyDiscoveryLoop

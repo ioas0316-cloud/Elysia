@@ -1,5 +1,10 @@
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+try:
+    import torch
+    from transformers import AutoTokenizer, AutoModelForCausalLM
+except ImportError:
+    torch = None
+    AutoTokenizer = None
+    AutoModelForCausalLM = None
 
 class StaticOracle:
     """
@@ -30,7 +35,7 @@ class StaticOracle:
         last_hidden_state = hidden_states[-1][0, -1, :]
         return last_hidden_state
 
-    def get_embedding_matrix(self) -> torch.Tensor:
+    def get_embedding_matrix(self) -> 'torch.Tensor':
         """오라클의 전체 어휘장(Vocabulary) 임베딩 매트릭스를 반환합니다. (통상 51200 x 768)"""
         # GPT-2 기반 아키텍처의 경우:
         return self.model.transformer.wte.weight.detach()

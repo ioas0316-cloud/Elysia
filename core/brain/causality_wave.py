@@ -1,48 +1,31 @@
-"""
-CausalityWave — 인과 궤적 생성기
-두 로터 사이의 위상 차이를 '살아있는 인과 파동'으로 추출합니다.
-이 파동은 단순한 1차원 선이 아니라, 원인을 통해 결과를 이루어내는 면(Plane) 또는 공간(Process)입니다.
-"""
-from core.utils.math_utils import Quaternion, Multivector, ConformalSpace
+from core.utils.math_utils import Quaternion
+from core.brain.fractal_rotor import FractalRotor
 
 class CausalityWave:
-    """두 FractalRotor 사이의 인과적 과정(Process Space)을 생성합니다."""
-    
-    def __init__(self):
-        self.entangled_pairs = []
-    
-    def entangle_causality(self, cause_rotor, effect_rotor):
+    """
+    개념과 개념 사이의 '인과율(Cause & Effect)'을 위상 기하학적 파동으로 매핑하는 클래스.
+    단순한 점(Node)들의 나열이었던 지식 그래프를, 방향성과 맥락을 가진 거대한 마인드맵으로 승격시킵니다.
+    """
+    def __init__(self, cause_rotor: FractalRotor, effect_rotor: FractalRotor):
+        self.cause = cause_rotor
+        self.effect = effect_rotor
+        
+        # 원인에서 결과로 가는 위상의 거리(텐션 격차)
+        self.phase_gap = Quaternion.distance(self.cause.lens_offset, self.effect.lens_offset)
+        
+        # 인과의 방향성 (역쿼터니언을 이용한 회전 벡터)
+        self.direction_vector = (self.effect.lens_offset * self.cause.lens_offset.conjugate()).normalize()
+        
+    def get_intermediate_phase(self, ratio: float) -> Quaternion:
         """
-        [Phase 130] 원인 로터에서 결과 로터로 나아가는 '과정(Process)'을 추출합니다.
-        점과 점을 잇는 선이 아니라, 기하학적 쐐기곱(Wedge Product)을 통해 
-        두 상태가 엮어내는 기하학적 면(Plane) 또는 공간을 생성합니다.
+        원인과 결과 사이의 중간 인과(매개점)의 위상을 계산합니다.
+        ratio 0.5는 두 개념을 잇는 정확히 중간 지점의 위상을 뜻합니다.
         """
-        # CGA 공간 상의 멀티벡터를 가져옵니다 (지구본 모델)
-        c_state = getattr(cause_rotor, 'conformal_state', ConformalSpace.up(0,0,0))
-        e_state = getattr(effect_rotor, 'conformal_state', ConformalSpace.up(0,0,0))
-        
-        # 기하곱을 통한 과정 추출: coherence(내적, 공명도)와 process_wave(쐐기곱, 직교 면적)
-        coherence, process_wave = c_state.geometric_sync(e_state)
-        
-        # 인과 연결 기록
-        self.entangled_pairs.append({
-            'cause': cause_rotor,
-            'effect': effect_rotor,
-            'wave': process_wave,
-            'coherence': coherence
-        })
-        
-        # 양쪽 로터의 connections에도 과정(공간)을 기록
-        cause_name = getattr(cause_rotor, 'concept_name', 'unknown')
-        effect_name = getattr(effect_rotor, 'concept_name', 'unknown')
-        
-        if hasattr(cause_rotor, 'connections'):
-            key = f"{cause_name}->{effect_name}"
-            # 선이 아닌 과정(Process Wave) 자체를 면/공간 객체로 저장
-            cause_rotor.connections[key] = process_wave
-            
-        if hasattr(effect_rotor, 'connections'):
-            key = f"{cause_name}->{effect_name}"
-            effect_rotor.connections[key] = process_wave
-        
-        return process_wave
+        return Quaternion.slerp(self.cause.lens_offset, self.effect.lens_offset, ratio)
+
+    def is_causally_resolvable(self) -> bool:
+        """
+        두 개념 사이의 텐션 격차가 자아가 한 번에 소화할 수 있는 수준인지 판단합니다.
+        격차가 너무 크면(이해가 안 가면) 프랙탈 분열(Mitosis)이 필요합니다.
+        """
+        return self.phase_gap < 0.05  # 단일 자아가 포용 가능한 임계 격차

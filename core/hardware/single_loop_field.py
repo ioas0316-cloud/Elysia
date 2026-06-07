@@ -13,6 +13,12 @@ try:
 except ImportError:
     HAS_UNIX_IO = False
 
+try:
+    import msvcrt
+    HAS_WINDOWS_IO = True
+except ImportError:
+    HAS_WINDOWS_IO = False
+
 # C 커널의 계층 크기 상수
 REG_SIZE = 8
 CACHE_SIZE = 64
@@ -178,7 +184,16 @@ def main():
     try:
         while running:
             # 1. 자극 (섭동) - ASCII 바이트를 유입 (유니코드 첫 바이트)
-            if HAS_UNIX_IO and sys.stdin.isatty():
+            if os.name == 'nt' and HAS_WINDOWS_IO:
+                if msvcrt.kbhit():
+                    ch = msvcrt.getch().decode('utf-8', 'ignore')
+                    if ch:
+                        if ch.lower() == 'q':
+                            running = False
+                        else:
+                            byte_val = ord(ch) % 256
+                            c_field_lib.apply_stimulus(ctypes.byref(field), byte_val)
+            elif HAS_UNIX_IO and sys.stdin.isatty():
                 rlist, _, _ = select.select([sys.stdin], [], [], 0.0)
                 if rlist:
                     ch = sys.stdin.read(1)

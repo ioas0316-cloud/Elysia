@@ -1,29 +1,34 @@
-import pty
 import os
+import sys
 import time
+import subprocess
 
-def master_read(fd):
-    return os.read(fd, 1024)
+def main():
+    print("Testing Elysia stream...")
+    # Windows/Unix compatible subprocess
+    proc = subprocess.Popen(
+        [sys.executable, "core/hardware/single_loop_field.py"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True
+    )
 
-m, s = pty.openpty()
+    try:
+        proc.stdin.write('Elysia')
+        proc.stdin.flush()
+        time.sleep(0.5)
+        
+        proc.stdin.write('q')
+        proc.stdin.flush()
+        
+        output, _ = proc.communicate(timeout=2)
+        
+        lines = output.split('\n')
+        print('\n'.join(lines[-20:]))
+    except Exception as e:
+        print(f"Error during test: {e}")
+        proc.kill()
 
-pid = os.fork()
-
-if pid == 0:
-    os.close(m)
-    os.dup2(s, 0)
-    os.dup2(s, 1)
-    os.dup2(s, 2)
-    os.close(s)
-    os.execvp("python3", ["python3", "core/hardware/single_loop_field.py"])
-else:
-    os.close(s)
-    os.write(m, b'Elysia')
-    time.sleep(0.5)
-    output = os.read(m, 100000).decode('utf-8')
-    os.write(m, b'q')
-    os.waitpid(pid, 0)
-
-    # Just print the last few lines
-    lines = output.split('\n')
-    print('\n'.join(lines[-20:]))
+if __name__ == "__main__":
+    main()

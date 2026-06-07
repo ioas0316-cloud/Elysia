@@ -12,6 +12,11 @@ import numpy as np
 from typing import Tuple
 
 try:
+    from core.hardware.cuda_accelerator import CudaAccelerator
+except ImportError:
+    CudaAccelerator = None
+
+try:
     import torch
 except ImportError:
     torch = None
@@ -151,6 +156,12 @@ def traverse_causal_trajectory(content: bytes) -> Quaternion:
     if not content:
         return Quaternion(1, 0, 0, 0)
         
+    # GPU / Tensor Accelerator Offloading
+    if len(content) >= 512 and CudaAccelerator and CudaAccelerator.is_available():
+        res = CudaAccelerator.process_trajectory(content)
+        if res is not None:
+            return res
+            
     q_current = Quaternion(1.0, 0.0, 0.0, 0.0)
     
     for i, b in enumerate(content):
