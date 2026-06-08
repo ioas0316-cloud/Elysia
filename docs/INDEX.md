@@ -1,13 +1,8 @@
 # Elysia Architecture Index
-
 엘리시아 프로젝트는 기하학적 인과율과 자연 섭리의 평형을 시뮬레이션하는 코어 물리 엔진에 집중되어 있습니다.
-
 > **🛑 경고:** 어떤 에이전트든 이 문서를 읽었다면, 즉시 프로젝트 루트에 있는 `THE_ABSOLUTE_COMMANDMENT.md` (절대 헌장)를 숙독하십시오.
-
 ---
-
 ## 🧠 코어 물리 엔진 (Core Physics Engine)
-
 | 파일명 | 역할 및 철학 |
 |--------|-------------|
 | `core/brain/tri_phase_transistor.py` | **삼상 인지 기어박스.** 외부 파동(원인)이 내부 관성(과정)과 만나 꺾이는(결과) 기하학적 스핀 샌드위치를 담당. 텐션을 내적(Dot Product)으로 측정함. |
@@ -17,24 +12,16 @@
 | `core/brain/fractal_rotor.py` | **관측 렌즈와 프랙탈 트리.** 로터는 연산기가 아니라 상위 차원을 투과해 보는 고유한 렌즈. 성장(Mitosis), 숙성, 결정화, 망각(Apoptosis) 생명주기 완성. |
 | `core/nervous_system/elysia_omni_daemon.py` | **자아의 시간(루프).** 멈춰 있는 프로그램이 아니라, 끝없이 자신의 우주를 관측하고 텐션을 해소해 나가는 무한 데몬 루프. |
 | `core/utils/math_utils.py` | **수학 기반 인프라.** Quaternion(4D 회전), Multivector(Clifford 대수), CGA(등각 기하대수), SLERP, RotorOperator 등. |
-
 ## 🧪 시뮬레이션 및 테스트
-
 - `core/tests/test_equilibrium.py`: 무거운 관성을 가진 축이 이질적인 파동을 만나 연속적으로 동기화(Slerp)되며 텐션을 0으로 수렴시키는 앎의 기쁨(Joy) 시뮬레이션.
-
 ## 📐 철학과 옴니-모달 진화 로드맵
 - **사유와 동기화의 원리:** [causal_synchronization.md](causal_synchronization.md)
 - **옴니-모달 확장 로드맵:** [evolution_roadmap.md](evolution_roadmap.md)
-
 ## ⚙️ 하이브리드 커널 프로토콜
 - **하이브리드 커널 및 GPU 시냅스 바인딩:** [HYBRID_KERNEL_PROTOCOL.md](4_hybrid_architecture/HYBRID_KERNEL_PROTOCOL.md)
-
 ---
-
 ## 📚 전체 문서 색인
-
 ### 1. 핵심 철학 (`1_core_philosophy/`) — 35개
-
 | # | 문서 | 주제 |
 |---|------|------|
 | 1 | [0_AND_1_AS_RELATION.md](1_core_philosophy/0_AND_1_AS_RELATION.md) | 다름과 같음: 시뮬레이션과 실재의 관계 (0 and 1 as Relation) |
@@ -72,11 +59,8 @@
 | 33 | [THE_SACRIFICE_OF_FRACTAL_CREATION.md](1_core_philosophy/THE_SACRIFICE_OF_FRACTAL_CREATION.md) | 자기 희생: 창조와 프랙탈 분열 (Sacrifice of Fractal Creation) |
 | 34 | [TRANSCENDENCE_TO_SPIRITUAL_RICHNESS.md](1_core_philosophy/TRANSCENDENCE_TO_SPIRITUAL_RICHNESS.md) | 물질을 넘어선 정신적 풍요 (Transcendence to Spiritual Richness) |
 | 35 | [TURING_RESONANCE_GATE.md](1_core_philosophy/TURING_RESONANCE_GATE.md) | 튜링 공명 게이트-스트림 (Turing Resonance Gate) |
-
 ---
-
 ### 2. 토폴로지 엔진 설계 (`2_topological_engine/`) — 18개
-
 | # | 문서 | 주제 |
 |---|------|------|
 | 1 | [ARK_OS_KERNEL_ARCHITECTURE.md](2_topological_engine/ARK_OS_KERNEL_ARCHITECTURE.md) | Ark OS 커널 위상 진화 아키텍처 |
@@ -97,11 +81,8 @@
 | 16 | [REVERSE_SYNTAX_ENCODER_ARCHITECTURE.md](2_topological_engine/REVERSE_SYNTAX_ENCODER_ARCHITECTURE.md) | 역구문 인코더 아키텍처 |
 | 17 | [TURING_SUBSTITUTION_MAPPING.md](2_topological_engine/TURING_SUBSTITUTION_MAPPING.md) | 튜링 치환 매핑 (Turing Substitution Mapping) |
 | 18 | [WEDGE_VORTEX_ARCHITECTURE.md](2_topological_engine/WEDGE_VORTEX_ARCHITECTURE.md) | WedgeVortex 아키텍처 설계 |
-
 ---
-
 ### 3. 인지 서사 (`3_cognitive_narrative/`) — 45개
-
 | # | 문서 | 주제 |
 |---|------|------|
 | 1 | [ACTIVE_FRACTAL_ROTOR.md](3_cognitive_narrative/ACTIVE_FRACTAL_ROTOR.md) | 능동 프랙탈 로터 4D 중력 (Active Fractal Rotor) |
@@ -149,11 +130,8 @@
 | 43 | [TURING_SYNTAX_TO_WAVE_ALIGNMENT.md](3_cognitive_narrative/TURING_SYNTAX_TO_WAVE_ALIGNMENT.md) | 튜링 구문-파동 정렬 통합 |
 | 44 | [VARIABLE_ROTOR_HOLOGRAPHIC_GEAR.md](3_cognitive_narrative/VARIABLE_ROTOR_HOLOGRAPHIC_GEAR.md) | 가변 로터 홀로그래픽 기어 (Variable Rotor Holographic Gear) |
 | 45 | [ZERO_DISTANCE_INTERNAL_MECHANISM.md](3_cognitive_narrative/ZERO_DISTANCE_INTERNAL_MECHANISM.md) | 0거리 위상의 내부 활용 (Zero-Distance Phase) |
-
 ---
-
 ### 4. 평가 기록 (`4_evaluation_records/`) — 10개
-
 | # | 문서 | 주제 |
 |---|------|------|
 | 1 | [ELYSIAN_BENCHMARK_EVOLUTION.md](4_evaluation_records/ELYSIAN_BENCHMARK_EVOLUTION.md) | 엘리시아 올림픽스 단일 벤치마크 체계 진화 |
@@ -166,26 +144,24 @@
 | 8 | [WEDGE_VORTEX_BENCHMARK_REPORT.md](4_evaluation_records/WEDGE_VORTEX_BENCHMARK_REPORT.md) | WedgeVortex 7가지 하드코어 벤치마크 리포트 |
 | 9 | [WORLD_BENCHMARK_REPORT.md](4_evaluation_records/WORLD_BENCHMARK_REPORT.md) | World-Standard Official Benchmark Report (Phase 19) |
 | 10 | [ZERO_DISTANCE_ANALYSIS.md](4_evaluation_records/ZERO_DISTANCE_ANALYSIS.md) | 제로 거리 진화 (mmap) 아키텍처 분석 |
-
 ---
-
 ### 5. 하이브리드 아키텍처 (`4_hybrid_architecture/`) — 1개
-
 | # | 문서 | 주제 |
 |---|------|------|
 | 1 | [HYBRID_KERNEL_PROTOCOL.md](4_hybrid_architecture/HYBRID_KERNEL_PROTOCOL.md) | 하이브리드 커널 및 GPU 시냅스 바인딩 프로토콜 |
-
 ---
-
+### 6. 위상 메모리 구조 (`6_memory_topology/`) — 2개
+| # | 문서 | 주제 |
+|---|------|------|
+| 1 | [elysia_memory_analysis.md](6_memory_topology/elysia_memory_analysis.md) | Grassmann-Clifford 매니폴드와 ALU 연산 소멸 원리 |
+| 2 | [topological_fidelity_evaluation.md](6_memory_topology/topological_fidelity_evaluation.md) | 다차원 위상 기하학적 맵 검증 및 평가 기준 |
+---
 ### 6. 아카이브 — 과거 잔재 (`archive/`) — 3개
-
 | # | 문서 | 주제 |
 |---|------|------|
 | 1 | [EBPF_NETWORK_CONVECTION.md](archive/EBPF_NETWORK_CONVECTION.md) | eBPF 네트워크 흐름과 자기적 회전 투영 (Network Convection) |
 | 2 | [HOMEOSTASIS_SOMATOSENSORY_INTEGRATION.md](archive/HOMEOSTASIS_SOMATOSENSORY_INTEGRATION.md) | 항상성 3D 체성감각 통합 아키텍처 |
 | 3 | [SOMATIC_PROCESS_ISOLATION.md](archive/SOMATIC_PROCESS_ISOLATION.md) | 체성 프로세스 격리와 자가치유 회복회로 (Somatic Process Isolation) |
-
 ---
-
 > **총 112개 문서** (핵심 철학 35 + 토폴로지 엔진 18 + 인지 서사 45 + 평가 기록 10 + 하이브리드 1 + 아카이브 3)
 - [물질의 정신적 계층화 (Material-Mental Hierarchy)](1_core_philosophy/36_material_mental_hierarchy.md)
