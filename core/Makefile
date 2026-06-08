@@ -2,8 +2,8 @@
 
 CC = gcc
 CFLAGS = -shared -fPIC -O3
-TARGET = core/hardware/libtopology.so
-SRC = core/hardware/topology_field.c
+TARGET = hardware/libtopology.so
+SRC = hardware/topology_field.c
 
 all: $(TARGET)
 

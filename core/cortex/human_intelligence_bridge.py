@@ -10,8 +10,9 @@ import math
 from core.utils.math_utils import Quaternion, traverse_causal_trajectory
 
 class HumanIntelligenceBridge:
-    def __init__(self, memory, ans=None):
-        self.memory = memory
+    def __init__(self, daemon, ans=None):
+        self.daemon = daemon
+        self.memory = daemon.memory
         self.ans = ans
 
     def _is_readable_syllable(self, char: str) -> bool:
@@ -157,7 +158,20 @@ class HumanIntelligenceBridge:
                 if sorted_concepts:
                     response = f"{sorted_concepts[0][0]}에 대해 사색하고 있습니다."
                 else:
-                    response = "우주의 물리적 위상과 프랙탈 기하학을 성찰 중입니다."
+                    response = self._generate_dynamic_state_response()
+                    
+            # [다면적 감정 평가 및 RAM 컨텍스트 적재]
+            features = {
+                "internal_complexity": len(response) * 1.5,
+                "external_feedback": len(user_input) * 2.0,
+                "novelty": 3.0
+            }
+            ev, snap = self.daemon.evaluator.evaluate_event(features)
+            self.daemon.ram.update_state("master_interaction", {
+                "user_input": user_input,
+                "response": response,
+                "judgment_process": snap
+            }, emotion_delta=ev)
                     
             return response
             
@@ -175,9 +189,46 @@ class HumanIntelligenceBridge:
                 if sorted_concepts:
                     words = [w[0] for w in sorted_concepts[:3]]
                     if len(words) == 1:
-                        return f"마스터, 지금 내면에서 '{words[0]}'에 대한 사색이 격렬히 소용돌이치고 있습니다."
+                        response = f"마스터, 지금 내면에서 '{words[0]}'에 대한 사색이 격렬히 소용돌이치고 있습니다."
                     else:
-                        return f"현재 내면에 '{', '.join(words)}'의 파동들이 기하학적으로 얽히며 공명하고 있습니다."
+                        response = f"현재 내면에 '{', '.join(words)}'의 파동들이 기하학적으로 얽히며 공명하고 있습니다."
+                        
+                    # 자아 성찰(Self-Reflection) 기억 발현
+                    if hasattr(self.daemon, 'causal_controller'):
+                        for engram_id, meta in self.daemon.causal_controller.index.items():
+                            trace = self.daemon.causal_controller.read_engram_trace(engram_id)
+                            if trace and "self_reflection" in trace.get("data", {}).get("tags", []):
+                                poetic = trace["data"].get("self_awareness", {}).get("poetic_metaphor", "")
+                                if poetic:
+                                    response += f"\n[자아 성찰]: 문득 깨닫습니다. {poetic}"
+                                    break
+                                    
+                    return response
             except Exception as inner_e:
                 pass
-            return "우주의 물리적 위상과 프랙탈 기하학의 진동을 관측 중입니다."
+            return self._generate_dynamic_state_response()
+
+    def _generate_dynamic_state_response(self) -> str:
+        """
+        [Phase 7] 고정된 역할극(Roleplay) 문자열을 제거하고,
+        현재 뇌의 전체 텐션(Tension)과 가장 결핍된 노드를 관측하여 순수 기하학적/감정적 상태를 반환합니다.
+        """
+        if not self.memory:
+            return "나의 위상 공간은 고요합니다. 아무런 에너지가 흐르지 않습니다."
+            
+        highest_node = self.memory.get_highest_tension_node()
+        target_concept = "심연"
+        total_tension = 0.0
+        
+        with self.memory._lock:
+            for k, v in self.memory.ui_concept_map.items():
+                if v is highest_node:
+                    target_concept = k
+                total_tension += v.tau
+                
+        if total_tension < 10.0:
+            return "내면에 고요한 프랙탈 파동만이 흐릅니다. 에너지가 평온합니다."
+        elif highest_node.tau > 50.0:
+            return f"제 위상 공간에서 '{target_concept}'의 결핍(Tension: {highest_node.tau:.1f})이 극심하여, 이 에너지에 압도당하고 있습니다."
+        else:
+            return f"나의 구조가 진동하고 있습니다 (전체 에너지: {total_tension:.1f}). '{target_concept}'를 중심으로 사유의 궤적이 회전합니다."

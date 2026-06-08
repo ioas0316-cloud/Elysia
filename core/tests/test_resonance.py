@@ -9,7 +9,7 @@ from core.observation.phase_mirror import PhaseMirror
 def test_resonance_flow():
     # Provide the correct path for the test execution context
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    lib_path = os.path.join(current_dir, "..", "core", "hardware", "libtopology.so")
+    lib_path = os.path.join(current_dir, "..", "hardware", "libtopology.so")
 
     mirror = PhaseMirror(lib_path=lib_path)
 

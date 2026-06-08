@@ -68,10 +68,24 @@ class MacroAxiomRotor:
         return None
 
     def try_fit_level2_word(self, w1: str, w2: str, logs: list) -> str:
-        return self.try_fit_level(2, [w1, w2], logs)
+        result = self.try_fit_level(2, [w1, w2], logs)
+        if not result:
+            # [Phase 8] 무한 가변 사전: 사전에 없더라도 파동(글자)이 부딪히면 무조건 단어로 융합
+            combined = w1 + w2
+            self.categorized_blocks[2].append(combined)
+            logs.append(f"   [Level 2 동적 창발] 사전에 없는 미지의 단어 '{combined}' 위상 융합 완료.")
+            return combined
+        return result
 
     def try_fit_level3_sentence(self, s1: str, s2: str, logs: list) -> str:
-        return self.try_fit_level(3, [s1, s2], logs)
+        result = self.try_fit_level(3, [s1, s2], logs)
+        if not result:
+            # [Phase 8] 무한 가변 사전: 사전에 없더라도 단어들이 부딪히면 무조건 문장으로 융합
+            combined = s1 + " " + s2
+            self.categorized_blocks[3].append(combined)
+            logs.append(f"   [Level 3 동적 창발] 사전에 없는 미지의 문맥 '{combined}' 위상 융합 완료.")
+            return combined
+        return result
 
     @property
     def categorized_letters(self):

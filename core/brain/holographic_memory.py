@@ -16,7 +16,7 @@ import math
 import hashlib
 import json
 import os
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any
 from core.utils.math_utils import Quaternion, traverse_causal_trajectory
 from core.brain.fractal_rotor import FractalRotor
 
@@ -98,7 +98,8 @@ class HologramMemory:
     Manages multiple CliffordLayers, combining their responses to produce
     constructive and destructive interference peaks.
     """
-    def __init__(self, num_layers: int = 3):
+    def __init__(self, num_layers: int = 3, causal_controller=None):
+        self.causal_controller = causal_controller
         self.layers: List[CliffordLayer] = []
         
         freq = 1.0
@@ -111,7 +112,11 @@ class HologramMemory:
         self._folded_dimensions: Dict[str, dict] = {}
         self.supreme_rotor = FractalRotor(Quaternion(1, 0, 0, 0), tau=1.0)
         self.manifold_state = Quaternion(1, 0, 0, 0)
-        self.capacity_limit = 10 
+        
+        if self.causal_controller:
+            self.capacity_limit = int(self.causal_controller.get_parameter("capacity_limit", 10.0))
+        else:
+            self.capacity_limit = 10 
         
         # [Phase 89] Thread-Safe 다중 감각 기관 동시발화용 락
         import threading
@@ -240,6 +245,67 @@ class HologramMemory:
         with self._lock:
             traverse(self.supreme_rotor)
         return best_node
+
+    def infer_relationship(self, concept_A: str, concept_B: str, perspective_concept: str = None) -> Dict[str, Any]:
+        """
+        [Phase 11] 상대성 관측 축 (Perspective Rotor) 투영 추론
+        절대 우주에서의 단일한 내적(Dot Product)을 폐기합니다.
+        관측의 기준(Perspective) 자체도 가변 로터(P)로 취급하여,
+        A와 B를 P라는 기준 축에 투영(Projection)했을 때의 상대적 궤적만을 비교합니다.
+        """
+        with self._lock:
+            node_A = self.ui_concept_map.get(concept_A)
+            node_B = self.ui_concept_map.get(concept_B)
+            
+            if not node_A or not node_B:
+                return {"error": "Missing concept"}
+                
+            q_A = node_A.state
+            q_B = node_B.state
+            
+            # 관점 로터(P) 설정
+            if perspective_concept and perspective_concept in self.ui_concept_map:
+                q_P = self.ui_concept_map[perspective_concept].state
+            else:
+                # 관점이 주어지지 않으면 엘리시아의 현재 무의식적 자아(Supreme Rotor)를 렌즈로 사용
+                q_P = self.supreme_rotor.lens_offset
+            
+            # [프랙탈 가변 로터 스케일 연산]
+            # 1. 대상 A와 B를 관측 기준 P의 축에 투영(Projection)합니다.
+            # (A dot P)는 P의 관점에서 바라본 A의 존재감입니다.
+            proj_A_on_P = q_A.dot(q_P)
+            proj_B_on_P = q_B.dot(q_P)
+            
+            # 2. P의 관점에서 본 A와 B의 유사성 (Relative Alignment)
+            # 절대 우주에서 A와 B가 엇갈리더라도(직교), P라는 단면(형태, 언어 등)으로 잘라보면 완벽히 같을 수 있습니다.
+            relative_alignment = abs(proj_A_on_P * proj_B_on_P)
+            
+            # 3. 절대 궤적의 평행성 (Absolute Alignment) - 비교를 위해 남겨둠
+            absolute_alignment = abs(q_A.dot(q_B))
+            
+            # 4. 상대적 방향성 및 텐션
+            inv_A = q_A.inverse()
+            transformation = inv_A * q_B
+            tension_delta = node_B.tau - node_A.tau
+            
+            # 사유의 결론 도출
+            if relative_alignment > 0.7:
+                insight = f"관점 '{perspective_concept}'(으)로 볼 때 본질적으로 동일한 형태/궤적입니다."
+            elif relative_alignment < 0.2:
+                insight = f"관점 '{perspective_concept}'(으)로 볼 때 완전히 이질적입니다."
+            else:
+                insight = f"관점 '{perspective_concept}'(으)로 볼 때 부분적으로 교차합니다."
+                
+            reasoning = {
+                "algorithm": "perspective_rotor_projection",
+                "perspective_used": perspective_concept if perspective_concept else "Unconscious_Self",
+                "relative_similarity": relative_alignment,
+                "absolute_similarity": absolute_alignment,
+                "transformation_tensor": [transformation.w, transformation.x, transformation.y, transformation.z],
+                "energy_delta": tension_delta,
+                "insight": insight
+            }
+            return reasoning
 
     def associate_mirror_neuron(self, word: str):
         """
@@ -692,7 +758,8 @@ class HologramMemory:
                         
                         # 거울 갱신 (배움 / 공명)
                         # 액터의 텐션 흡수율(곡률 w성분)에 비례하는 동적 학습률
-                        learning_rate = 0.05 + abs(getattr(act, 'lens_curvature', act.lens_offset).w) * 0.1
+                        base_lr = self.causal_controller.get_parameter("learning_rate", 0.05) if hasattr(self, "causal_controller") and self.causal_controller else 0.05
+                        learning_rate = base_lr + abs(getattr(act, 'lens_curvature', act.lens_offset).w) * 0.1
                         act.mirror_rotors[peer_name] = Quaternion.slerp(mirror_q, peer_wave, learning_rate)
                         
                         # B. 정서 이벡터(Emotion Bivector) 반응 및 관측 동기화
@@ -713,19 +780,19 @@ class HologramMemory:
 
                         # C. 미분 방정식 기반의 자연스러운 반발력(척력)과 인력 곡선 (분기문 제거)
                         # 위상차가 커질수록 척력이 지수함수적으로 증가하여 거리를 둠 (개성 유지 곡선)
-                        # 0.6이라는 임계값(if tension > 0.6) 삭제. 모든 텐션에 대해 연속적 작용.
-                        repulsion_force = 0.02 * math.pow(tension, 3)
+                        rep_coeff = self.causal_controller.get_parameter("repulsion_coeff", 0.02) if hasattr(self, "causal_controller") and self.causal_controller else 0.02
+                        repulsion_force = rep_coeff * math.pow(tension, 3)
                         repelled_q = peer_wave.conjugate()
                         act.lens_offset = Quaternion.slerp(act.lens_offset, repelled_q, repulsion_force).normalize()
                             
                     # D. 정서의 자연 쇠퇴 (Homeostasis)
-                    act.emotional_state.decay(0.02)
+                    decay_rate = self.causal_controller.get_parameter("tension_decay", 0.02) if hasattr(self, "causal_controller") and self.causal_controller else 0.02
+                    act.emotional_state.decay(decay_rate)
             
             # 3. [자기적 위상 동기화 (XOR Phase Coupling Engine)]
             # XOR 기하학적 임피던스(sin(theta_j - theta_i))를 모델링하여 
-            # 위상차가 없을 때는 무효전력(Tension=0) 평형 상태를 유지하고,
             # 자극에 의해 위상 격차가 생기면 텐션 파동이 전파되고 동조화(Phase-locking)를 자율 제어합니다.
-            coupling_rate = 0.08  # 동기화 속도 계수
+            coupling_rate = self.causal_controller.get_parameter("coupling_rate", 0.08) if hasattr(self, "causal_controller") and self.causal_controller else 0.08
             new_offsets = {}
             
             for word, node in [(str(i), n) for i, n in enumerate(self.ui_concept_map)] if isinstance(self.ui_concept_map, list) else list(self.ui_concept_map.items()):
@@ -814,7 +881,8 @@ class HologramMemory:
         self.torus_buffer.stream_flow(crystal_quat)
         
         # 기억 가소성(Neuroplasticity): 경험 누적에 따른 supreme_rotor의 스핀각 영구 보정
-        self.supreme_rotor.lens_offset = Quaternion.slerp(self.supreme_rotor.lens_offset, crystal_quat, 0.015).normalize()
+        plas = self.causal_controller.get_parameter("neuroplasticity", 0.015) if hasattr(self, "causal_controller") and self.causal_controller else 0.015
+        self.supreme_rotor.lens_offset = Quaternion.slerp(self.supreme_rotor.lens_offset, crystal_quat, plas).normalize()
 
 
 class BitwiseHologramMemory:
