@@ -35,6 +35,9 @@ class FractalRotor:
         self.lens_offset = lens_offset.normalize()
         self.tau = tau  # 렌즈의 스트레스(비틀림)
         
+        # [Phase 144] 하드웨어 바이패스용 32비트 위상 캐시 (BitmaskRotorGate 연동)
+        self._cached_bitmask_phase = None
+        
         # 상하 계층 (공간적 프랙탈)
         self.parent = None
         self.children: List['FractalRotor'] = []
@@ -68,6 +71,18 @@ class FractalRotor:
 
         from core.brain.emotion_bivector import EmotionBivector
         self.emotional_state = EmotionBivector()
+
+    @property
+    def bitmask_phase(self) -> int:
+        """[Phase 144] O(1) 바이패스 수문을 통과하기 위한 32비트 위상(Phase) 마스크"""
+        import numpy as np
+        if self._cached_bitmask_phase is None:
+            self._cached_bitmask_phase = np.uint32(int(abs(self.tau) * 1000) % 0xFFFFFFFF)
+        return self._cached_bitmask_phase
+        
+    @bitmask_phase.setter
+    def bitmask_phase(self, value):
+        self._cached_bitmask_phase = value
 
     @property
     def cellular_joy(self) -> float:

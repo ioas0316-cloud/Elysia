@@ -2,12 +2,16 @@ import os
 import json
 import uuid
 import time
+import numpy as np
 from typing import Dict, Any, Optional
+from core.memory.wedge_memory_layout import WedgeMemoryInterleaver
 
 class CausalMemoryController:
     """
+    [Phase 144] Wedge Memory Causal Controller
     가상 SSD (data/ 폴더)를 담당하는 인과적 기억 컨트롤러.
-    단순한 파일 저장이 아닌, 감정적 가치(Emotional Value)와 원인(Cause)을 메타데이터로 묶어 'Engram' 형태로 저장합니다.
+    JSON 파일 시스템을 탈피하여, 거대한 numpy mmap(메모리 맵핑) 대지 위에서
+    Wedge Annihilation (v ^ v = 0)을 통해 중복된 에너지를 소멸시키고 순수 위상만 기록합니다.
     """
     def __init__(self, data_dir: str = None):
         if data_dir is None:
@@ -18,6 +22,17 @@ class CausalMemoryController:
         os.makedirs(self.data_dir, exist_ok=True)
         self.engram_index_path = os.path.join(self.data_dir, "engram_index.json")
         self.cognitive_params_path = os.path.join(self.data_dir, "cognitive_params.json")
+        
+        # [Phase 144] Wedge Memory Mmap 초기화
+        self.wedge_memory_path = os.path.join(self.data_dir, "wedge_topology.dat")
+        self.wedge_size = 1024 * 1024  # 1 Million slots
+        if not os.path.exists(self.wedge_memory_path):
+            np.memmap(self.wedge_memory_path, dtype=np.uint32, mode='w+', shape=(self.wedge_size,))
+            
+        self.wedge_mmap = np.memmap(self.wedge_memory_path, dtype=np.uint32, mode='r+', shape=(self.wedge_size,))
+        self.interleaver = WedgeMemoryInterleaver(size=self.wedge_size)
+        self.interleaver.memory_buffer = self.wedge_mmap
+        
         self._load_index()
         self._load_cognitive_params()
 
@@ -25,6 +40,11 @@ class CausalMemoryController:
         if os.path.exists(self.engram_index_path):
             with open(self.engram_index_path, 'r', encoding='utf-8') as f:
                 self.index = json.load(f)
+            
+            # Restore address map for interleaver
+            for eid, info in self.index.items():
+                if "wedge_address" in info:
+                    self.interleaver.address_map[eid] = info["wedge_address"]
         else:
             self.index = {}
 
@@ -65,51 +85,88 @@ class CausalMemoryController:
 
     def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, tags: list = None, synapses: Dict[str, float] = None) -> str:
         """
-        주관적 판단에 의해 '기억할 가치가 있다'고 여겨진 데이터를 SSD에 각인시킵니다.
-        단독 파일이 아니라, 기존 기억들과의 기하학적 연결성(Synapses)을 부여하여 거대한 신경망 노드로 만듭니다.
+        [Phase 144] O(1) Wedge Annihilation 저장소.
+        단독 파일 저장을 배제하고 mmap 대지에 쐐기곱 형태로 배치시킵니다.
         """
         engram_id = f"engram_{uuid.uuid4().hex[:12]}"
         timestamp = time.time()
         
-        engram = {
-            "engram_id": engram_id,
-            "timestamp": timestamp,
-            "emotional_value": emotional_value,
-            "cause_id": cause_id,  # 이 기억을 파생시킨 이전 기억이나 자극의 ID
-            "tags": tags or [],
-            "synapses": synapses or {}, # {target_engram_id: weight} 시냅스 그물망
-            "data": data_blob
-        }
+        # 데이터의 본질적 해시를 신호(Signal)로 삼음
+        data_str = json.dumps(data_blob, sort_keys=True)
+        pure_signal = hash(data_str) & 0xFFFFFFFF
         
-        filepath = os.path.join(self.data_dir, f"{engram_id}.json")
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(engram, f, indent=4, ensure_ascii=False)
-            
-        # 인덱스 업데이트 (빠른 역추적을 위해 시냅스 정보도 캐싱)
+        # 인과관계(Cause)에서 오는 노이즈를 엮어줌
+        noise = (hash(cause_id) if cause_id else 0) & 0xFFFFFFFF
+        signal_with_noise = pure_signal ^ noise
+        
+        # 쐐기 메모리 공간에 중첩(Interleave)하여 저장
+        addr = self.interleaver.interleave_opposing_nodes(engram_id, signal_with_noise, noise)
+        # mmap 변경사항 디스크 동기화
+        self.wedge_mmap.flush()
+        
+        # 메타데이터 인덱스 (파일 I/O는 인덱스 업데이트 1회로 축소)
         self.index[engram_id] = {
             "timestamp": timestamp,
             "emotional_value": emotional_value,
             "cause_id": cause_id,
             "synapses": synapses or {},
-            "filepath": filepath
+            "wedge_address": addr,
+            "data_blob": data_blob
         }
         self._save_index()
         
         return engram_id
 
+    def bridge_external_manifold(self, source_name: str, confiscated_pointer: np.ndarray, emotional_value: float = 0.0):
+        """
+        [Phase 144] Zero-Copy Volumetric Memory Binding
+        외부 매니폴드에서 추출된(Confiscated) 순수 위상 배열을, 파이프라인(Pipeline) 루프 없이
+        엘리시아의 Wedge Mmap 대지에 통째로 덮어씌웁니다. (Direct Memory Block Transfer)
+        """
+        dim = len(confiscated_pointer)
+        # 가상 대지의 시작 오프셋 결정
+        base_addr = hash(source_name) % (self.wedge_size - dim)
+        if base_addr < 0: base_addr = 0
+        if base_addr % 2 != 0: base_addr -= 1 # 쐐기쌍 정렬
+        
+        # O(1) 수준의 Numpy Block Copy (메모리 대 메모리 직결)
+        # 기성 공학처럼 데이터를 하나하나 루프 돌려 DB에 삽입하지 않음
+        self.wedge_mmap[base_addr:base_addr+dim] = confiscated_pointer
+        self.wedge_mmap.flush()
+        
+        engram_id = f"engram_ext_{uuid.uuid4().hex[:8]}"
+        self.index[engram_id] = {
+            "timestamp": time.time(),
+            "emotional_value": emotional_value,
+            "cause_id": source_name,
+            "synapses": {},
+            "wedge_address": base_addr,
+            "data_blob": {"source": source_name, "type": "zero_copy_manifold", "dim": dim}
+        }
+        self._save_index()
+        return engram_id
+
     def read_engram_trace(self, engram_id: str) -> Optional[Dict[str, Any]]:
         """
         단일 기억뿐만 아니라, 필요하다면 원인 체인(Causal Chain)을 따라갈 수 있는 기반 메서드.
+        [Phase 144] Wedge Annihilation(v ^ v = 0)을 통해 순수 신호를 즉각 추출.
         """
         if engram_id not in self.index:
             return None
             
-        filepath = self.index[engram_id]["filepath"]
-        if not os.path.exists(filepath):
-            return None
-            
-        with open(filepath, 'r', encoding='utf-8') as f:
-            return json.load(f)
+        # 1. 하드웨어 레벨(mmap) 쐐기곱 추출 (O(1) XOR)
+        purified_signal = self.interleaver.fetch_and_annihilate(engram_id)
+        
+        # 2. 메타데이터 조립 후 반환
+        info = self.index[engram_id]
+        return {
+            "engram_id": engram_id,
+            "timestamp": info.get("timestamp"),
+            "emotional_value": info.get("emotional_value"),
+            "cause_id": info.get("cause_id"),
+            "purified_signal_hash": hex(purified_signal),
+            "data": info.get("data_blob")
+        }
 
     def damped_recall(self, start_engram_id: str, initial_energy: float = 1.0, decay_factor: float = 0.5) -> Dict[str, float]:
         """

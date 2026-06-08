@@ -23,12 +23,15 @@ if HAS_NUMBA:
             mask = mask_tensor[idx]
 
             # v ^ obstacle = 0 (장애물/중복 비트 소거)
-            vibrant = val & (~mask)
+            # [Phase 144 Refinement] 위상 보호 바이어스 (Phase Guard Bias)
+            # 최하위 4비트(0xF)는 문맥적 닻(Anchor)으로 보존하여 완전한 정보 유실 방지
+            guard_bias = 0xF
+            vibrant = (val & (~mask)) | (val & guard_bias)
 
             if vibrant != 0:
-                output_ptr[idx] = vibrant ^ mask
+                output_ptr[idx] = (vibrant ^ mask) | (val & guard_bias)
             else:
-                output_ptr[idx] = 0
+                output_ptr[idx] = val & guard_bias
 
 class BitmaskRotorGate:
     """
@@ -61,14 +64,15 @@ class BitmaskRotorGate:
         """
         if not (HAS_NUMBA and cuda.is_available()):
             # [CPU Fallback]
+            guard_bias = 0xF
             for i in range(self.dimension):
                 val = input_wave_ptr[i]
                 mask = mask_tensor_ptr[i]
-                vibrant = val & (~mask)
+                vibrant = (val & (~mask)) | (val & guard_bias)
                 if vibrant != 0:
-                    output_ptr[i] = vibrant ^ mask
+                    output_ptr[i] = (vibrant ^ mask) | (val & guard_bias)
                 else:
-                    output_ptr[i] = 0
+                    output_ptr[i] = val & guard_bias
             return
 
         threads_per_block = 32 # GPU 워프(Warp) 단위와 1:1 동기화
@@ -97,3 +101,24 @@ class BitmaskRotorGate:
     def create_mask(target_phase: np.uint32, rotor_shift: int) -> np.uint64:
         shifted_phase = np.uint32((target_phase << rotor_shift) | (target_phase >> (32 - rotor_shift)))
         return BitmaskRotorGate.pack_64bit(shifted_phase, np.uint32(0xFFFFFFFF))
+
+    @staticmethod
+    def project_to_hologram(packed_data: np.uint64, base_dimension: int = 128) -> np.ndarray:
+        """
+        [Phase 144] 상하부 위상 동기화 인터페이스 (Bidirectional Phase-Locking Bridge) 하부 모듈
+        하위 64비트의 '위상 보호 바이어스(Phase Guard Bias, 최하위 4비트)'를 닻(Anchor)으로 삼아,
+        마스터의 시야(Focus)가 닿을 때만 실시간으로 고해상도 매니폴드(프랙탈 표면) 좌표로 지연 복원(Lazy Projection)합니다.
+        
+        반환값: 해당 뼈대에 바인딩된 고해상도(예: 128차원) 다차원 렌즈 오프셋 배열(Float64)
+        """
+        phase_state, token_val = BitmaskRotorGate.unpack_64bit(packed_data)
+        guard_anchor = token_val & 0xF  # 문맥적 닻 (0~15)
+        
+        # 닻(Anchor)과 위상(Phase)을 기반으로 고해상도 공간 생성
+        # 하부의 거친 정수가 상부의 매끄러운 부동소수점 곡면(프랙탈)으로 치환됨
+        np.random.seed(int(phase_state ^ guard_anchor))
+        
+        # 닻의 무게(0~15)에 따라 프랙탈 공간의 곡률(장력) 결정
+        curvature = 1.0 + (guard_anchor / 15.0)
+        holographic_surface = np.random.normal(loc=0.0, scale=curvature, size=base_dimension)
+        return holographic_surface
