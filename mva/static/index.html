@@ -45,8 +45,18 @@
         </div>
         <div id="equation-display">수식: 대기 중...</div>
 
-        <div class="control-panel">
-            <h3>조이스틱 (관측축 제어)</h3>
+
+        <div class="control-panel" style="background: rgba(0, 50, 0, 0.8); border: 1px solid #0f0;">
+            <h3>엘리시아 자율 관측 (Sovereign Mode)</h3>
+            <div class="control-group">
+                <label style="width:100px;">Auto-Observe</label>
+                <input type="checkbox" id="autoObserveToggle" style="transform: scale(1.5);">
+            </div>
+            <div style="font-size: 0.8em; color: #aaa;">켜지면 인간의 조작을 무시하고 엔진이 스스로 우주적 텐션을 감지해 시선을 이동합니다.</div>
+        </div>
+
+        <div class="control-panel" id="joystickPanel">
+            <h3>조이스틱 (수동 제어)</h3>
             <div class="control-group">
                 <label>Q_x</label>
                 <input type="range" id="qxSlider" min="-1" max="1" step="0.01" value="0">

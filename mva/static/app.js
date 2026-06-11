@@ -103,6 +103,85 @@ async function autoAlign() {
 
 
 
+
+let isAutoObserve = false;
+const autoObserveToggle = document.getElementById('autoObserveToggle');
+const joystickPanel = document.getElementById('joystickPanel');
+
+autoObserveToggle.addEventListener('change', (e) => {
+    isAutoObserve = e.target.checked;
+    if (isAutoObserve) {
+        joystickPanel.style.opacity = '0.5';
+        qxSlider.disabled = true;
+        qySlider.disabled = true;
+        qzSlider.disabled = true;
+        qwSlider.disabled = true;
+    } else {
+        joystickPanel.style.opacity = '1.0';
+        qxSlider.disabled = false;
+        qySlider.disabled = false;
+        qzSlider.disabled = false;
+        qwSlider.disabled = false;
+    }
+});
+
+async function autoObserveStep() {
+    if (pointsData.length === 0) return;
+
+    const now = Date.now();
+    if (now - lastEvaluateTime < EVALUATE_INTERVAL) return;
+    lastEvaluateTime = now;
+
+    try {
+        const response = await fetch('/api/auto_observe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                points_data: pointsData,
+                time_t: time
+            })
+        });
+        const result = await response.json();
+
+        if (result.status === 'success') {
+            // Smoothly interpolate to Elysia's chosen quaternion
+            const targetQuat = new THREE.Quaternion(
+                result.quaternion[0], result.quaternion[1], result.quaternion[2], result.quaternion[3]
+            ).normalize();
+
+            // Sync UI sliders visually but don't trigger events
+            qxSlider.value = targetQuat.x;
+            qySlider.value = targetQuat.y;
+            qzSlider.value = targetQuat.z;
+            qwSlider.value = targetQuat.w;
+            qxVal.innerText = targetQuat.x.toFixed(2);
+            qyVal.innerText = targetQuat.y.toFixed(2);
+            qzVal.innerText = targetQuat.z.toFixed(2);
+            qwVal.innerText = targetQuat.w.toFixed(2);
+
+            userQuat.slerp(targetQuat, 0.1); // Smooth camera movement
+
+            camera.quaternion.copy(userQuat);
+            const distance = 10;
+            const offset = new THREE.Vector3(0, 0, distance);
+            offset.applyQuaternion(userQuat);
+            camera.position.copy(offset);
+            camera.lookAt(0, 0, 0);
+
+            if (result.is_resonant) {
+                equationDisplay.innerText = `[자율 깨달음 아카이빙]: ${result.formula}`;
+                document.body.classList.remove('spike-effect');
+                void document.body.offsetWidth;
+                document.body.classList.add('spike-effect');
+            } else {
+                equationDisplay.innerText = `[엘리시아 탐색 중...] (분산: ${result.variance.toFixed(2)})`;
+            }
+        }
+    } catch(err) {
+        console.error("Auto observe error:", err);
+    }
+}
+
 // Joystick state variables
 let userQuat = new THREE.Quaternion(0, 0, 0, 1);
 let tickRate = 1.0;
@@ -234,7 +313,7 @@ function animate() {
         });
 
         // Continuously evaluate state to see if user found resonance
-        evaluateState();
+        if (isAutoObserve) { autoObserveStep(); } else { evaluateState(); }
     }
 
     // Only update controls if not actively overridden by sliders (handled by OrbitControls naturally)
