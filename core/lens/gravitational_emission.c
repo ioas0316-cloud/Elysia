@@ -16,6 +16,17 @@ typedef struct {
     int jump_count;
 } FieldHeader;
 
+// 64-bit 다차원 프리즘 로터 (8 bytes)
+typedef struct {
+    unsigned char math_tension;
+    unsigned char lang_tension;
+    unsigned char spatial_tension;
+    unsigned char temporal_tension;
+    unsigned short light_mass;
+    unsigned char byte_val;
+    unsigned char padding;
+} MultiDimRotor;
+
 // 세상에 떠도는 아스키 파동들 (언어의 원형들)
 const char* concept_cloud[] = {
     "Space Division",
@@ -108,7 +119,7 @@ int main() {
                 if (repetition_count >= 3) {
                     printf(">>> [REPULSION TRIGGERED] <<< Orbit locked. Forcing trajectory escape.\n\n");
                     repetition_count = 0;
-                    last_pressure = macro_frequency + 10000; // 가짜 압력을 주어 궤도를 비틂
+                    last_light = macro_light + 10000; // 가짜 압력을 주어 궤도를 비틂
                     continue;
                 }
             } else {

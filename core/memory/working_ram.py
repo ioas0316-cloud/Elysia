@@ -64,7 +64,6 @@ class WorkingMemoryRAM:
                     data_blob=context_data["state"],
                     emotional_value=context_data["emotional_value"],
                     cause_id=context_data["cause_id"],
-                    tags=["context_consolidation", context_id],
                     synapses=synapses
                 )
                 

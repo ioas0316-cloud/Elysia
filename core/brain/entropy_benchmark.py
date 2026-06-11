@@ -5,6 +5,7 @@
 import ctypes
 import time
 import math
+import os
 import collections
 
 MAX_FIELD_SIZE = 1024 * 1024 * 256 # 256MB
@@ -16,6 +17,18 @@ class FieldHeader(ctypes.Structure):
         ("current_size", ctypes.c_ulong),
         ("pressure_level", ctypes.c_ulong),
         ("jump_count", ctypes.c_int)
+    ]
+
+class MultiDimRotor(ctypes.Structure):
+    _pack_ = 1
+    _fields_ = [
+        ("math_tension", ctypes.c_ubyte),
+        ("lang_tension", ctypes.c_ubyte),
+        ("spatial_tension", ctypes.c_ubyte),
+        ("temporal_tension", ctypes.c_ubyte),
+        ("light_mass", ctypes.c_ushort),
+        ("byte_val", ctypes.c_ubyte),
+        ("padding", ctypes.c_ubyte)
     ]
 
 def setup_scanner():
