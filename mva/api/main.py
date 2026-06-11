@@ -4,7 +4,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import os
 from fractal import map_to_movement_field
-from engine import find_resonance_angle, generate_symbolic_regression
+from engine import find_resonance_angle, generate_symbolic_regression, evaluate_current_state, elysia_auto_observe_step
 
 app = FastAPI(title="Cognitive CAD MVA")
 
@@ -38,6 +38,49 @@ def auto_align_field(request_data: AlignRequest):
         "status": "success",
         "quaternion": best_quat,
         "variance": min_var,
+        "formula": formula
+    }
+
+
+class EvaluateRequest(BaseModel):
+    points_data: list
+    time_t: float
+    quaternion: list
+
+@app.post("/api/evaluate_state")
+def evaluate_state(request_data: EvaluateRequest):
+    """현재 사용자의 조이스틱(쿼터니언)과 시간 상태를 바탕으로 공명 여부 평가"""
+    variance, is_resonant, formula = evaluate_current_state(
+        request_data.points_data,
+        request_data.quaternion,
+        request_data.time_t
+    )
+
+    return {
+        "status": "success",
+        "variance": variance,
+        "is_resonant": is_resonant,
+        "formula": formula
+    }
+
+
+class AutoObserveRequest(BaseModel):
+    points_data: list
+    time_t: float
+
+@app.post("/api/auto_observe")
+def auto_observe(request_data: AutoObserveRequest):
+    """엘리시아가 스스로 쿼터니언을 조절하며 공명을 찾는 자율 관측 스텝"""
+    next_quat, variance, is_resonant, formula = elysia_auto_observe_step(
+        request_data.points_data,
+        request_data.time_t
+    )
+
+    return {
+        "status": "success",
+        "quaternion": next_quat,
+        "variance": variance,
+        "is_resonant": is_resonant,
         "formula": formula
     }
 

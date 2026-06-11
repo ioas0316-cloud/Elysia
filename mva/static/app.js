@@ -94,29 +94,200 @@ async function autoAlign() {
     const result = await response.json();
 
     if (result.status === 'success') {
-        // 카메라 시점 이동 (관측점 이동)
-        // MVA에서는 카메라의 위치/회전을 쿼터니언에 맞춰 부드럽게(혹은 즉시) 이동시킵니다.
-        const targetQuat = new THREE.Quaternion(
-            result.quaternion[0],
-            result.quaternion[1],
-            result.quaternion[2],
-            result.quaternion[3]
-        );
-
-        // 카메라를 타겟 쿼터니언으로 회전
-        camera.quaternion.copy(targetQuat);
-        // 원점에서 일정 거리 떨어진 곳에 카메라 위치
-        const distance = 10;
-        const offset = new THREE.Vector3(0, 0, distance);
-        offset.applyQuaternion(targetQuat);
-        camera.position.copy(offset);
-
-        // LookAt 원점
-        camera.lookAt(0, 0, 0);
-        controls.update();
+        syncSlidersToQuat(result.quaternion);
 
         document.getElementById('equation-display').innerText = `수식(역기록): ${result.formula}`;
         console.log("Resonance Variance:", result.variance);
+    }
+}
+
+
+
+
+let isAutoObserve = false;
+const autoObserveToggle = document.getElementById('autoObserveToggle');
+const joystickPanel = document.getElementById('joystickPanel');
+
+autoObserveToggle.addEventListener('change', (e) => {
+    isAutoObserve = e.target.checked;
+    if (isAutoObserve) {
+        joystickPanel.style.opacity = '0.5';
+        qxSlider.disabled = true;
+        qySlider.disabled = true;
+        qzSlider.disabled = true;
+        qwSlider.disabled = true;
+    } else {
+        joystickPanel.style.opacity = '1.0';
+        qxSlider.disabled = false;
+        qySlider.disabled = false;
+        qzSlider.disabled = false;
+        qwSlider.disabled = false;
+    }
+});
+
+async function autoObserveStep() {
+    if (pointsData.length === 0) return;
+
+    const now = Date.now();
+    if (now - lastEvaluateTime < EVALUATE_INTERVAL) return;
+    lastEvaluateTime = now;
+
+    try {
+        const response = await fetch('/api/auto_observe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                points_data: pointsData,
+                time_t: time
+            })
+        });
+        const result = await response.json();
+
+        if (result.status === 'success') {
+            // Smoothly interpolate to Elysia's chosen quaternion
+            const targetQuat = new THREE.Quaternion(
+                result.quaternion[0], result.quaternion[1], result.quaternion[2], result.quaternion[3]
+            ).normalize();
+
+            // Sync UI sliders visually but don't trigger events
+            qxSlider.value = targetQuat.x;
+            qySlider.value = targetQuat.y;
+            qzSlider.value = targetQuat.z;
+            qwSlider.value = targetQuat.w;
+            qxVal.innerText = targetQuat.x.toFixed(2);
+            qyVal.innerText = targetQuat.y.toFixed(2);
+            qzVal.innerText = targetQuat.z.toFixed(2);
+            qwVal.innerText = targetQuat.w.toFixed(2);
+
+            userQuat.slerp(targetQuat, 0.1); // Smooth camera movement
+
+            camera.quaternion.copy(userQuat);
+            const distance = 10;
+            const offset = new THREE.Vector3(0, 0, distance);
+            offset.applyQuaternion(userQuat);
+            camera.position.copy(offset);
+            camera.lookAt(0, 0, 0);
+
+            if (result.is_resonant) {
+                equationDisplay.innerText = `[자율 깨달음 아카이빙]: ${result.formula}`;
+                document.body.classList.remove('spike-effect');
+                void document.body.offsetWidth;
+                document.body.classList.add('spike-effect');
+            } else {
+                equationDisplay.innerText = `[엘리시아 탐색 중...] (분산: ${result.variance.toFixed(2)})`;
+            }
+        }
+    } catch(err) {
+        console.error("Auto observe error:", err);
+    }
+}
+
+// Joystick state variables
+let userQuat = new THREE.Quaternion(0, 0, 0, 1);
+let tickRate = 1.0;
+let isManualTime = false;
+let lastEvaluateTime = 0;
+const EVALUATE_INTERVAL = 200; // debounce requests to backend
+
+// UI bindings
+const qxSlider = document.getElementById('qxSlider');
+const qySlider = document.getElementById('qySlider');
+const qzSlider = document.getElementById('qzSlider');
+const qwSlider = document.getElementById('qwSlider');
+const qxVal = document.getElementById('qxVal');
+const qyVal = document.getElementById('qyVal');
+const qzVal = document.getElementById('qzVal');
+const qwVal = document.getElementById('qwVal');
+
+const tickRateSlider = document.getElementById('tickRateSlider');
+const tickRateVal = document.getElementById('tickRateVal');
+const manualTimeSlider = document.getElementById('manualTimeSlider');
+const manualTimeVal = document.getElementById('manualTimeVal');
+const equationDisplay = document.getElementById('equation-display');
+
+function updateQuatFromUI() {
+    let qx = parseFloat(qxSlider.value);
+    let qy = parseFloat(qySlider.value);
+    let qz = parseFloat(qzSlider.value);
+    let qw = parseFloat(qwSlider.value);
+
+    qxVal.innerText = qx.toFixed(2);
+    qyVal.innerText = qy.toFixed(2);
+    qzVal.innerText = qz.toFixed(2);
+    qwVal.innerText = qw.toFixed(2);
+
+    userQuat.set(qx, qy, qz, qw).normalize();
+
+    // Update camera based on joystick
+    camera.quaternion.copy(userQuat);
+    const distance = 10;
+    const offset = new THREE.Vector3(0, 0, distance);
+    offset.applyQuaternion(userQuat);
+    camera.position.copy(offset);
+    camera.lookAt(0, 0, 0);
+    controls.update();
+}
+
+qxSlider.addEventListener('input', updateQuatFromUI);
+qySlider.addEventListener('input', updateQuatFromUI);
+qzSlider.addEventListener('input', updateQuatFromUI);
+qwSlider.addEventListener('input', updateQuatFromUI);
+
+tickRateSlider.addEventListener('input', (e) => {
+    tickRate = parseFloat(e.target.value);
+    tickRateVal.innerText = tickRate.toFixed(1);
+    isManualTime = false; // Using tick rate restores auto time flow
+});
+
+manualTimeSlider.addEventListener('input', (e) => {
+    time = parseFloat(e.target.value);
+    manualTimeVal.innerText = time.toFixed(1);
+    isManualTime = true; // Stop auto time flow
+});
+
+// Sync UI sliders with auto align quaternion result
+function syncSlidersToQuat(quatArray) {
+    qxSlider.value = quatArray[0];
+    qySlider.value = quatArray[1];
+    qzSlider.value = quatArray[2];
+    qwSlider.value = quatArray[3];
+    updateQuatFromUI();
+}
+
+async function evaluateState() {
+    if (pointsData.length === 0) return;
+
+    const now = Date.now();
+    if (now - lastEvaluateTime < EVALUATE_INTERVAL) return;
+    lastEvaluateTime = now;
+
+    const currentQuatArray = [userQuat.x, userQuat.y, userQuat.z, userQuat.w];
+
+    try {
+        const response = await fetch('/api/evaluate_state', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                points_data: pointsData,
+                time_t: time,
+                quaternion: currentQuatArray
+            })
+        });
+        const result = await response.json();
+
+        if (result.status === 'success') {
+            if (result.is_resonant) {
+                equationDisplay.innerText = `수식(역기록): ${result.formula}`;
+                // Trigger line clear effect (flash background)
+                document.body.classList.remove('spike-effect');
+                void document.body.offsetWidth; // trigger reflow
+                document.body.classList.add('spike-effect');
+            } else {
+                equationDisplay.innerText = `수식: 위상 정렬 대기 중... (분산: ${result.variance.toFixed(2)})`;
+            }
+        }
+    } catch(err) {
+        console.error("Evaluate error:", err);
     }
 }
 
@@ -125,20 +296,27 @@ function animate() {
     requestAnimationFrame(animate);
 
     if (isAnimating && pointObjects.length > 0) {
-        time += 0.05;
+        if (!isManualTime) {
+            time += 0.05 * tickRate;
+            manualTimeSlider.value = time % 100; // loop visual
+            manualTimeVal.innerText = time.toFixed(1);
+        }
+
         // Simple spiral trajectory update based on velocity and phase
         pointObjects.forEach((obj) => {
-            // Very basic movement for MVA visualizing "Velocity/Wave"
-            // x = base_x + vx * t + sin(phase + t)
             const newX = obj.basePos[0] + Math.sin(time + obj.phase) * 0.5 + obj.vel[0] * time * 0.1;
             const newY = obj.basePos[1] + Math.cos(time + obj.phase) * 0.5 + obj.vel[1] * time * 0.1;
-            const newZ = obj.basePos[2] + obj.vel[2] * time; // Z moves according to jongsung tension
+            const newZ = obj.basePos[2] + obj.vel[2] * time;
 
             // Map to Three.js coordinates (X, Z, Y)
             obj.mesh.position.set(newX, newZ, newY);
         });
+
+        // Continuously evaluate state to see if user found resonance
+        if (isAutoObserve) { autoObserveStep(); } else { evaluateState(); }
     }
 
+    // Only update controls if not actively overridden by sliders (handled by OrbitControls naturally)
     controls.update();
     renderer.render(scene, camera);
 }

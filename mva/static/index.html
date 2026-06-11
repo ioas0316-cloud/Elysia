@@ -12,7 +12,26 @@
         button { background: #555; color: white; border: none; padding: 5px 10px; cursor: pointer; }
         button:hover { background: #777; }
         #equation-display { margin-top: 10px; font-family: monospace; color: #0f0; }
-    </style>
+
+        .control-panel {
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            margin-top: 15px;
+            width: 250px;
+        }
+        .control-group { margin-bottom: 10px; }
+        .control-group label { display: inline-block; width: 60px; color: #aaa; font-size: 0.9em; }
+        .control-group input[type="range"] { width: 120px; vertical-align: middle; }
+        .control-group span { display: inline-block; width: 40px; text-align: right; font-family: monospace; color: #fff; font-size: 0.9em; }
+        h3 { margin-top: 0; color: #0f0; font-size: 1.1em; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .spike-effect { animation: flash 0.5s; }
+        @keyframes flash {
+            0% { background-color: rgba(0, 255, 0, 0.5); }
+            100% { background-color: transparent; }
+        }
+</style>
 </head>
 <body>
     <div id="ui-container">
@@ -25,6 +44,55 @@
             <button onclick="autoAlign()">자동 공명 찾기 (Auto Align)</button>
         </div>
         <div id="equation-display">수식: 대기 중...</div>
+
+
+        <div class="control-panel" style="background: rgba(0, 50, 0, 0.8); border: 1px solid #0f0;">
+            <h3>엘리시아 자율 관측 (Sovereign Mode)</h3>
+            <div class="control-group">
+                <label style="width:100px;">Auto-Observe</label>
+                <input type="checkbox" id="autoObserveToggle" style="transform: scale(1.5);">
+            </div>
+            <div style="font-size: 0.8em; color: #aaa;">켜지면 인간의 조작을 무시하고 엔진이 스스로 우주적 텐션을 감지해 시선을 이동합니다.</div>
+        </div>
+
+        <div class="control-panel" id="joystickPanel">
+            <h3>조이스틱 (수동 제어)</h3>
+            <div class="control-group">
+                <label>Q_x</label>
+                <input type="range" id="qxSlider" min="-1" max="1" step="0.01" value="0">
+                <span id="qxVal">0.00</span>
+            </div>
+            <div class="control-group">
+                <label>Q_y</label>
+                <input type="range" id="qySlider" min="-1" max="1" step="0.01" value="0">
+                <span id="qyVal">0.00</span>
+            </div>
+            <div class="control-group">
+                <label>Q_z</label>
+                <input type="range" id="qzSlider" min="-1" max="1" step="0.01" value="0">
+                <span id="qzVal">0.00</span>
+            </div>
+            <div class="control-group">
+                <label>Q_w</label>
+                <input type="range" id="qwSlider" min="-1" max="1" step="0.01" value="1">
+                <span id="qwVal">1.00</span>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h3>시간축 제어 (틱레이트)</h3>
+            <div class="control-group">
+                <label>속도</label>
+                <input type="range" id="tickRateSlider" min="-1" max="3" step="0.1" value="1">
+                <span id="tickRateVal">1.0</span>
+            </div>
+            <div class="control-group">
+                <label>수동 시간</label>
+                <input type="range" id="manualTimeSlider" min="0" max="100" step="0.1" value="0">
+                <span id="manualTimeVal">0.0</span>
+            </div>
+        </div>
+
         <div style="margin-top: 20px;">
             <a href="/static/roadmap.html" style="color: #0ff; text-decoration: underline; font-size: 0.9em;">[로드맵 및 통합 전략 문서 보기]</a>
         </div>
