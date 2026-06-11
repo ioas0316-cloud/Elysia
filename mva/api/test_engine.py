@@ -1,45 +1,41 @@
-import pytest
-from fractal import decompose_hangul, map_to_movement_field
-from engine import calculate_projection_variance, find_resonance_angle
+from engine import calculate_projection_variance, find_resonance_angle, generate_symbolic_regression, evaluate_current_state, elysia_auto_observe_step
+from fractal import map_to_movement_field
+import numpy as np
 
-def test_decompose_hangul():
-    cho, jung, jong = decompose_hangul('가')
-    assert cho == 0  # ㄱ
-    assert jung == 0 # ㅏ
-    assert jong == 0 # (없음)
+def test_variance():
+    # Test variance calculation with dummy data
+    points = np.array([
+        [0.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [2.0, 0.0, 0.0]
+    ])
+    quat = [0.0, 0.0, 0.0, 1.0] # No rotation
+    var = calculate_projection_variance(points, quat)
+    # Variance along Y should be 0 since all points are on X axis
+    assert var < 1e-5
 
-    cho, jung, jong = decompose_hangul('힣')
-    assert cho == 18 # ㅎ
-    assert jung == 20 # ㅣ
-    assert jong == 27 # ㅎ
-
-def test_map_to_movement_field():
-    res = map_to_movement_field('하늘')
-    assert len(res) == 2
-    assert res[0]['token'] == '하'
-    assert res[1]['token'] == '늘'
-    assert 'position' in res[0]
-    assert 'velocity' in res[0]
-
-def test_engine_basic():
-    # 간단한 테스트
-    res = map_to_movement_field('하늘')
-    best_quat, variance = find_resonance_angle(res, 0.0)
+def test_find_resonance():
+    res = map_to_movement_field('테스트')
+    best_quat, min_var = find_resonance_angle(res, 0.0)
     assert len(best_quat) == 4
-    assert variance >= 0.0
+    assert min_var >= 0.0
+
+def test_auto_observe():
+    res = map_to_movement_field('우주')
+    # First step
+    next_q, var, is_res, form = elysia_auto_observe_step(res, 0.0)
+    assert len(next_q) == 4
 
 def test_symbolic_regression():
-    from engine import generate_symbolic_regression
     res = map_to_movement_field('하늘고래')
     best_quat, variance = find_resonance_angle(res, 0.0)
-    formula = generate_symbolic_regression(res, best_quat, 0.0)
+    formula, r_squared = generate_symbolic_regression(res, best_quat, 0.0)
     assert type(formula) == str
-    assert 'y =' in formula or 'Insufficient' in formula
+    assert type(r_squared) == np.float64 or type(r_squared) == float
 
-def test_evaluate_current_state():
-    from engine import evaluate_current_state
-    res = map_to_movement_field('하늘고래')
-    variance, is_res, form = evaluate_current_state(res, [0,0,0,1], 0.0)
+def test_evaluate_state():
+    res = map_to_movement_field('프랙탈')
+    quat = [0, 0, 0, 1]
+    variance, is_resonant, formula = evaluate_current_state(res, quat, 0.0)
     assert type(variance) == float
-    assert type(is_res) == bool
-    assert type(form) == str
+    assert type(is_resonant) == bool

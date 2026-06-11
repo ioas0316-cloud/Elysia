@@ -32,13 +32,14 @@ class AlignRequest(BaseModel):
 def auto_align_field(request_data: AlignRequest):
     """현재 점들의 상태를 바탕으로 공명 각도를 찾고 수식을 반환"""
     best_quat, min_var = find_resonance_angle(request_data.points_data, request_data.time_t)
-    formula = generate_symbolic_regression(request_data.points_data, best_quat, request_data.time_t)
+    formula, r_squared = generate_symbolic_regression(request_data.points_data, best_quat, request_data.time_t)
 
     return {
         "status": "success",
         "quaternion": best_quat,
         "variance": min_var,
-        "formula": formula
+        "formula": formula,
+        "r_squared": r_squared
     }
 
 
