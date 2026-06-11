@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive CAD MVA</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; color: #fff; font-family: sans-serif; }
+        #canvas-container { width: 100vw; height: 100vh; display: block; }
+        #ui-container { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.7); padding: 10px; border-radius: 5px; }
+        input[type="text"] { background: #333; border: 1px solid #555; color: white; padding: 5px; }
+        button { background: #555; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        button:hover { background: #777; }
+        #equation-display { margin-top: 10px; font-family: monospace; color: #0f0; }
+    </style>
+</head>
+<body>
+    <div id="ui-container">
+        <h2>Cognitive CAD</h2>
+        <div>
+            <input type="text" id="wordInput" placeholder="단어 입력 (예: 하늘, 바다, 고래)" style="width: 200px;">
+            <button onclick="submitWords()">입력/투영</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <button onclick="autoAlign()">자동 공명 찾기 (Auto Align)</button>
+        </div>
+        <div id="equation-display">수식: 대기 중...</div>
+    </div>
+    <div id="canvas-container"></div>
+
+    <!-- Three.js (via CDN for MVA) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
