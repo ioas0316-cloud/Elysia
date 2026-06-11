@@ -35,3 +35,11 @@ def test_symbolic_regression():
     formula = generate_symbolic_regression(res, best_quat, 0.0)
     assert type(formula) == str
     assert 'y =' in formula or 'Insufficient' in formula
+
+def test_evaluate_current_state():
+    from engine import evaluate_current_state
+    res = map_to_movement_field('하늘고래')
+    variance, is_res, form = evaluate_current_state(res, [0,0,0,1], 0.0)
+    assert type(variance) == float
+    assert type(is_res) == bool
+    assert type(form) == str

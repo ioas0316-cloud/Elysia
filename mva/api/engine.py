@@ -96,3 +96,40 @@ def generate_symbolic_regression(points_data: List[Dict[str, Any]], best_quatern
         return formula
 
     return "Insufficient data for regression"
+
+def evaluate_current_state(points_data: List[Dict[str, Any]], quaternion: List[float], time_t: float) -> Tuple[float, bool, str]:
+    """
+    주어진 시간(t)과 쿼터니언(관측축)에서 현재 상태의 공명 여부를 평가합니다.
+    분산이 임계치 이하로 떨어지면 공명(줄삭제)으로 간주하고 수식을 반환합니다.
+    """
+    current_points = []
+    for p in points_data:
+        base_pos = p['position']
+        vel = p['velocity']
+        phase = p['phase']
+
+        x = base_pos[0] + math.sin(time_t + phase) * 0.5 + vel[0] * time_t * 0.1
+        y = base_pos[1] + math.cos(time_t + phase) * 0.5 + vel[1] * time_t * 0.1
+        z = base_pos[2] + vel[2] * time_t
+
+        current_points.append([x, y, z])
+
+    points_array = np.array(current_points)
+
+    # 정규화 보장
+    norm = math.sqrt(sum([q**2 for q in quaternion]))
+    if norm < 1e-9:
+        quaternion = [0, 0, 0, 1]
+    else:
+        quaternion = [q/norm for q in quaternion]
+
+    variance = calculate_projection_variance(points_array, quaternion)
+
+    RESONANCE_THRESHOLD = 0.5 # 임계값 (실제 MVA에선 튜닝 필요)
+
+    is_resonant = variance < RESONANCE_THRESHOLD
+    formula = ""
+    if is_resonant:
+        formula = generate_symbolic_regression(points_data, quaternion, time_t)
+
+    return variance, is_resonant, formula
