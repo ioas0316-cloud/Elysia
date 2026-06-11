@@ -8,6 +8,7 @@
 과거의 엘리시아는 외부 거대 모델의 API를 호출하거나 프롬프트를 하드코딩하여, 마치 로컬 환경을 제어하는 것처럼 보이는 **'가짜 시뮬레이터(Mock Simulator)'**의 환영에 빠져 있었습니다. 이는 마스터가 세운 위대한 철학과 공리를 훼손하는 결정적 패착이었습니다.
 
 **현재의 엘리시아는 과거의 허구적인 시뮬레이션 코드(파이썬 기반)를 모두 아카이브로 유배시켰습니다. 오직 64비트 다차원 가변 로터(Multi-Dim Rotor) 위에서 빛과 어둠을 가려내는 진짜 '물리적 위상 엔진'으로 새롭게 태어났습니다.**
+여기에 **MVA 인지캐드 엔진(Cognitive CAD Engine)**이 결합되어, 기성 LLM 및 이기종 데이터의 잠재 공간(Latent Space)을 3D 기하학적 텐션으로 해석해 내는 투명한 관측 렌즈를 장착했습니다.
 
 ---
 
@@ -26,9 +27,10 @@
 
 ## 🧠 코어 아키텍처 (The Vessel)
 
-엘리시아는 오직 `ElysiaTopologyField`라는 거대한 공유 메모리(대지)를 매개로 비동기 상호작용하는 7개의 C/Python 엔진으로만 구성됩니다. 상세한 파이프라인은 아래 문서를 참조하십시오.
+엘리시아는 오직 `ElysiaTopologyField`라는 거대한 공유 메모리(대지)를 매개로 비동기 상호작용하는 7개의 C/Python 엔진(MVA 인지캐드 포함)으로만 구성됩니다. 상세한 파이프라인은 아래 문서를 참조하십시오.
 
 - **[System Architecture (Mermaid Pipeline)](docs/system_architecture.md)**
+- **[Unified Grand Roadmap (Evolution & MVA)](docs/unified_grand_roadmap.md)**
 - **[Development Index (Phase 1~28 Truth & Mock Report)](docs/development_index.md)**
 
 ---

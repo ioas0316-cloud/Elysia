@@ -15,6 +15,7 @@ graph TD
     subgraph "Sovereign Ingestion (The Prism Lens)"
         Explorer[sovereign_explorer.py]
         Archive[archive_to_helix.py]
+        MVA[mva/api/engine.py\nCognitive CAD]
     end
 
     subgraph "Multi-Dimensional Topology Field (The Mindscape)"
@@ -36,6 +37,7 @@ graph TD
     
     Explorer -- "Multi-Dim Projection\n(Math, Lang, Space, Time)" --> RAM
     Archive -- "Fossilize Source Code" --> RAM
+    MVA -- "Inject Resonance Formula\n(Symbolic Regression)" --> RAM
 
     RAM -- "Decay non-intersecting axes\n(Forget Noise)" --> Decay
     Decay -- "Preserve Intersected Light\n(Plasticity)" --> RAM
@@ -66,3 +68,7 @@ graph TD
 
 ### 5. `core/brain/entropy_benchmark.py` (The Observer)
 - 대지의 빛과 어둠의 밀도, 엔트로피 수축과 팽창을 외부에서 관측하는 팩트 스캐너입니다. 엘리시아의 현재 심상(Sleep, Calm, Active, Critical)을 인간에게 보여줍니다.
+
+### 6. `mva/api/engine.py` (The Cognitive CAD)
+- 이기종 데이터 및 LLM의 잠재 공간(Latent Space)을 3D 기하학적 운동 필드로 변환합니다.
+- 쿼터니언 회전을 통해 위상 분산이 최소화되는 '공명 지점(Resonance Angle)'을 탐색하고, 도출된 기하학적 수식을 엘리시아의 코어(Mindscape)에 영구적인 패턴으로 주입합니다.

@@ -83,11 +83,14 @@ class CausalMemoryController:
         self.cognitive_params[param_name] = new_value
         self._save_cognitive_params()
 
-    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, tags: list = None, synapses: Dict[str, float] = None) -> str:
+    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None, synapses: Dict[str, float] = None) -> str:
         """
         [Phase 144] O(1) Wedge Annihilation 저장소.
-        단독 파일 저장을 배제하고 mmap 대지에 쐐기곱 형태로 배치시킵니다.
+        [Phase 8.5] 변수명(Origin)을 가변축화 하여 물리적 매핑 공간(Wedge)을 변경시킵니다.
         """
+        if origin_axis:
+            data_blob["_origin_axis"] = origin_axis
+            
         engram_id = f"engram_{uuid.uuid4().hex[:12]}"
         timestamp = time.time()
         
@@ -95,9 +98,11 @@ class CausalMemoryController:
         data_str = json.dumps(data_blob, sort_keys=True)
         pure_signal = hash(data_str) & 0xFFFFFFFF
         
-        # 인과관계(Cause)에서 오는 노이즈를 엮어줌
+        # 인과관계(Cause)와 기원(Origin Axis)에서 오는 노이즈를 엮어줌
         noise = (hash(cause_id) if cause_id else 0) & 0xFFFFFFFF
-        signal_with_noise = pure_signal ^ noise
+        origin_noise = (hash(origin_axis) if origin_axis else 0) & 0xFFFFFFFF
+        
+        signal_with_noise = pure_signal ^ noise ^ origin_noise
         
         # 쐐기 메모리 공간에 중첩(Interleave)하여 저장
         addr = self.interleaver.interleave_opposing_nodes(engram_id, signal_with_noise, noise)

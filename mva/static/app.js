@@ -24,37 +24,161 @@ let isAnimating = true;
 
 // Material for points
 const pointMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const imagePointMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff }); // 시각 데이터는 파란색
 const sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+
+// Material for continuous trajectory lines (역인과 구조의 선)
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0088ff, transparent: true, opacity: 0.5 });
+let trajectoryLines = null;
 
 // Function to handle input
 async function submitWords() {
     const text = document.getElementById('wordInput').value;
     if (!text) return;
 
-    const response = await fetch('/api/init_field', {
+    await fetch('/api/init_field', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: text })
     });
-    const result = await response.json();
+    console.log("Text dropped into ingest folder.");
+}
 
-    if (result.status === 'success') {
-        initializeField(result.data);
+async function submitImage() {
+    const fileInput = document.getElementById('imageInput');
+    if (fileInput.files.length === 0) return;
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = async function(event) {
+        const base64Str = event.target.result;
+        
+        await fetch('/api/init_image_field', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image_base64: base64Str })
+        });
+        console.log("Image dropped into ingest folder.");
+    };
+    reader.readAsDataURL(file);
+}
+
+// 주기적으로 공유 메모리의 텐션을 직접 관측합니다.
+async function observeMemoryField() {
+    try {
+        const response = await fetch('/api/observe_field');
+        const result = await response.json();
+        if (result.status === 'success') {
+            renderObservedField(result.data);
+        }
+    } catch(e) {
+        // 서버 다운 시 조용히 넘어감
     }
 }
 
-function initializeField(data) {
+function renderObservedField(data) {
     // Clear previous objects
-    pointObjects.forEach(obj => scene.remove(obj));
+    pointObjects.forEach(obj => scene.remove(obj.mesh));
+    if (trajectoryLines) {
+        scene.remove(trajectoryLines);
+        trajectoryLines.geometry.dispose();
+        trajectoryLines = null;
+    }
+
     pointObjects = [];
-    pointsData = data;
-    time = 0;
+    pointsData = data; 
+    
+    const linePoints = [];
 
     data.forEach(item => {
-        const mesh = new THREE.Mesh(sphereGeometry, pointMaterial);
+        // 텐션 값이 높을수록 다른 색으로 표현 (예: 공간 텐션이 높으면 시안, 언어 텐션이 높으면 그린)
+        const isVisual = item.position[2] > item.position[1]; 
+        const mat = isVisual ? imagePointMaterial : pointMaterial;
+        const mesh = new THREE.Mesh(sphereGeometry, mat);
+        
+        // 순수한 텐션값(X=math, Y=lang, Z=spatial)을 그대로 위치로 사용합니다! (자연 매핑)
+        mesh.position.set(item.position[0], item.position[2], item.position[1]); 
+        scene.add(mesh);
+        
+        linePoints.push(new THREE.Vector3(item.position[0], item.position[2], item.position[1]));
+
+        // Add text label
+        const canvas = document.createElement('canvas');
+        canvas.width = 64; canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'white';
+        ctx.font = '32px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(item.token, 32, 40);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        const spriteMat = new THREE.SpriteMaterial({ map: texture });
+        const sprite = new THREE.Sprite(spriteMat);
+        sprite.position.set(0, 0.3, 0); 
+        sprite.scale.set(0.5, 0.5, 0.5);
+        mesh.add(sprite);
+
+        pointObjects.push({ mesh: mesh });
+    });
+
+    if (linePoints.length > 1) {
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(linePoints);
+        trajectoryLines = new THREE.Line(lineGeo, lineMaterial);
+        scene.add(trajectoryLines);
+    }
+}
+
+async function submitImage() {
+    const fileInput = document.getElementById('imageInput');
+    if (fileInput.files.length === 0) return;
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = async function(event) {
+        const base64Str = event.target.result;
+        
+        const response = await fetch('/api/init_image_field', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image_base64: base64Str })
+        });
+        const result = await response.json();
+
+        if (result.status === 'success') {
+            initializeField(result.data, true); // true = image
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+function initializeField(data, isImage) {
+    // Clear previous objects
+    pointObjects.forEach(obj => scene.remove(obj.mesh));
+    if (trajectoryLines) {
+        scene.remove(trajectoryLines);
+        trajectoryLines.geometry.dispose();
+        trajectoryLines = null;
+    }
+
+    pointObjects = [];
+    pointsData = isImage ? [...pointsData, ...data] : data; // 이미지는 기존 텍스트(우주) 위에 중첩
+    time = 0;
+
+    // 연속성의 선(궤적)을 그리기 위한 배열
+    const linePoints = [];
+
+    const targetData = isImage ? data : pointsData;
+
+    targetData.forEach(item => {
+        const mat = isImage ? imagePointMaterial : pointMaterial;
+        const mesh = new THREE.Mesh(sphereGeometry, mat);
         // Set initial position
         mesh.position.set(item.position[0], item.position[2], item.position[1]); // Swap Y/Z for Three.js
         scene.add(mesh);
+        
+        linePoints.push(new THREE.Vector3(item.position[0], item.position[2], item.position[1]));
 
         // Add text label (simple sprite for MVA)
         const canvas = document.createElement('canvas');
@@ -76,9 +200,17 @@ function initializeField(data) {
             mesh: mesh,
             basePos: [...item.position],
             vel: [...item.velocity],
-            phase: item.phase
+            phase: item.phase,
+            isImage: isImage
         });
     });
+
+    // 점과 점을 이은 선 (연속성 궤적)
+    if (linePoints.length > 1) {
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(linePoints);
+        trajectoryLines = new THREE.Line(lineGeo, lineMaterial);
+        scene.add(trajectoryLines);
+    }
 }
 
 async function autoAlign() {
@@ -296,30 +428,17 @@ function animate() {
     requestAnimationFrame(animate);
 
     if (isAnimating && pointObjects.length > 0) {
-        if (!isManualTime) {
-            time += 0.05 * tickRate;
-            manualTimeSlider.value = time % 100; // loop visual
-            manualTimeVal.innerText = time.toFixed(1);
-        }
-
-        // Simple spiral trajectory update based on velocity and phase
-        pointObjects.forEach((obj) => {
-            const newX = obj.basePos[0] + Math.sin(time + obj.phase) * 0.5 + obj.vel[0] * time * 0.1;
-            const newY = obj.basePos[1] + Math.cos(time + obj.phase) * 0.5 + obj.vel[1] * time * 0.1;
-            const newZ = obj.basePos[2] + obj.vel[2] * time;
-
-            // Map to Three.js coordinates (X, Z, Y)
-            obj.mesh.position.set(newX, newZ, newY);
-        });
-
-        // Continuously evaluate state to see if user found resonance
+        // 인위적인 math.sin() 애니메이션(trajectory update)이 모두 제거되었습니다.
+        // 점들은 오직 C 메모리 텐션값의 실시간 변화에 의해서만 움직입니다.
         if (isAutoObserve) { autoObserveStep(); } else { evaluateState(); }
     }
 
-    // Only update controls if not actively overridden by sliders (handled by OrbitControls naturally)
     controls.update();
     renderer.render(scene, camera);
 }
+
+// 1초마다 메모리를 순수 관측합니다.
+setInterval(observeMemoryField, 1000);
 
 // Handle window resize
 window.addEventListener('resize', onWindowResize, false);

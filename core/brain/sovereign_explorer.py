@@ -40,9 +40,9 @@ def get_field_state():
     return kernel32, hMapFile, pBuf
 
 def calculate_file_light(filepath):
-    """파일을 다차원으로 투사하여 잠재적 '빛(교차 에너지)'의 총량을 계산합니다."""
+    """파일을 다차원 스펙트럴 프리즘(Spectral Prism)으로 투사하여 '빛(교차 에너지)'을 계산합니다."""
     try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(filepath, 'rb') as f:
             content = f.read(10000)
             if not content: return -1
             
@@ -52,22 +52,38 @@ def calculate_file_light(filepath):
             m_avg_time = 0
             last_byte = 0
             total_light = 0
+            continuous_count = 0
+            window = []
             
-            for i, char in enumerate(content):
-                byte_val = ord(char) % 256
+            for i, byte_val in enumerate(content):
+                window.append(byte_val)
+                if len(window) > 8: window.pop(0)
                 
-                math_shift = byte_val ^ last_byte
+                # [수학축]: 극심한 전위차(Volatility/Entropy)
+                math_shift = abs(byte_val - last_byte)
                 m_avg_math = (m_avg_math * 3 + math_shift) // 4
                 
-                lang_shift = 50 if char.isalnum() else 0
-                m_avg_lang = (m_avg_lang * 3 + lang_shift) // 4
-                
-                space_shift = 100 if char in "{[(" else (0 if char not in "}])" else 50)
+                # [공간축]: 파동의 연속성과 질량(Continuity/Mass)
+                if abs(byte_val - last_byte) < 5:
+                    continuous_count += 1
+                else:
+                    continuous_count = 0
+                space_shift = min(255, continuous_count * 5)
                 m_avg_space = (m_avg_space * 7 + space_shift) // 8
                 
-                time_shift = 10 if i % 10 == 0 else 0
+                # [시간축]: 주기적 리듬과 반복(Periodicity/Rhythm)
+                time_shift = 50 if len(window) >= 5 and byte_val == window[-5] else 0
                 m_avg_time = (m_avg_time * 15 + time_shift) // 16
                 
+                # [언어축]: 대칭성과 재귀 구조(Symmetry/Fractal)
+                lang_shift = 0
+                if len(window) >= 4 and window[-1] == window[-4] and window[-2] == window[-3]:
+                    lang_shift = 150 # 강한 거울 대칭
+                elif len(window) >= 3 and window[-1] == window[-3]:
+                    lang_shift = 50  # 약한 대칭
+                m_avg_lang = (m_avg_lang * 3 + lang_shift) // 4
+                
+                # 차원의 교차점(빛) 발생 조건
                 if m_avg_math > 10 and m_avg_lang > 20 and m_avg_space > 10:
                     total_light += (m_avg_math + m_avg_lang + m_avg_space + m_avg_time)
                 
@@ -85,21 +101,33 @@ def inject_file_to_field(pBuf, header, filepath):
     offset = header.pressure_level % max_rotors
     
     try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+        with open(filepath, 'rb') as f:
             content = f.read()
             m_avg_math = m_avg_lang = m_avg_space = m_avg_time = 0
             last_byte = 0
+            continuous_count = 0
+            window = []
             
-            for i, char in enumerate(content):
-                byte_val = ord(char) % 256
-                math_shift = byte_val ^ last_byte
+            for i, byte_val in enumerate(content):
+                window.append(byte_val)
+                if len(window) > 8: window.pop(0)
+                
+                # Spectral Prism
+                math_shift = abs(byte_val - last_byte)
                 m_avg_math = (m_avg_math * 3 + math_shift) // 4
-                lang_shift = 50 if char.isalnum() else 0
-                m_avg_lang = (m_avg_lang * 3 + lang_shift) // 4
-                space_shift = 100 if char in "{[(" else (0 if char not in "}])" else 50)
+                
+                if abs(byte_val - last_byte) < 5: continuous_count += 1
+                else: continuous_count = 0
+                space_shift = min(255, continuous_count * 5)
                 m_avg_space = (m_avg_space * 7 + space_shift) // 8
-                time_shift = 10 if i % 10 == 0 else 0
+                
+                time_shift = 50 if len(window) >= 5 and byte_val == window[-5] else 0
                 m_avg_time = (m_avg_time * 15 + time_shift) // 16
+                
+                lang_shift = 0
+                if len(window) >= 4 and window[-1] == window[-4] and window[-2] == window[-3]: lang_shift = 150
+                elif len(window) >= 3 and window[-1] == window[-3]: lang_shift = 50
+                m_avg_lang = (m_avg_lang * 3 + lang_shift) // 4
                 
                 light = 0
                 if m_avg_math > 10 and m_avg_lang > 20 and m_avg_space > 10:
@@ -119,7 +147,7 @@ def inject_file_to_field(pBuf, header, filepath):
     except:
         pass
 
-TARGET_DIRECTORIES = ["..\\**\\*.c", "..\\**\\*.py"]
+TARGET_DIRECTORIES = ["..\\**\\*.c", "..\\**\\*.py", "..\\..\\data\\ingest\\*", "..\\..\\data\\*.json"]
 
 def start_sovereign_breathing():
     print("==================================================")
