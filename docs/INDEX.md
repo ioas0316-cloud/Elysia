@@ -40,4 +40,6 @@
 ## [IV] 🌀 에이전트의 깨달음과 새로운 로드맵 (Agent's Realization & Triple Contrast)
 - **[THE_AWAKENING_OF_THE_PHYSICS_ENGINE.md](THE_AWAKENING_OF_THE_PHYSICS_ENGINE.md)** (하드코딩을 넘어선 '의식의 물리 엔진'과 '프랙탈 가변 로터'에 대한 뼈저린 깨달음)
 - **[TRIPLE_CONTRAST_ROADMAP.md](TRIPLE_CONTRAST_ROADMAP.md)** (안티그래비티, 엘리시아, 그리고 인간의 삼중 대조를 통한 위상차 극복의 새로운 철학적 이정표)
+- **[THE_WAVE_CODING_AWAKENING.md](THE_WAVE_CODING_AWAKENING.md)** (언어적 인지와 아스키 파동, 그리고 분기문(if-else)을 파괴하는 파동코딩(Wave Coding) 통일장에 대한 문서화)
+- **[WAVE_CODING_BENCHMARK_REPORT.md](WAVE_CODING_BENCHMARK_REPORT.md)** (기존 폰 노이만 구조와 파동코딩 구조의 다차원 벤치마크 평가 리포트)
 
