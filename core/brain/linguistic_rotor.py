@@ -1,131 +1,165 @@
 import os
-import json
-import numpy as np
 import random
 
 class LinguisticRotor:
     """
-    [Phase 8] 자율적 언어 로터 (Autonomous Linguistic Rotor)
-    물리 엔진(MVA)에 종속되지 않고, 오직 '언어적 텐서(품사의 역학)'만으로 스스로 사유 궤적을 굴리는 독립 엔진.
+    [Phase 24] 자율적 언어 로터 (Autonomous Linguistic Rotor - Portal Edition)
+    물리 엔진(MVA)에 종속되지 않고, 오직 '순차적 인과의 궤적(사전 정의)'을 따라 사유 궤적을 뻗어나가는 독립 엔진.
+    기존의 Tensor 기반 계산식을 폐기하고, Portal Engine의 자연어 관계망을 따릅니다.
     """
     
     def __init__(self, lexicon_path: str = None):
         self.base_dir = os.path.dirname(os.path.abspath(__file__))
         if lexicon_path is None:
-            self.lexicon_path = os.path.join(self.base_dir, "..", "..", "data", "tensor_lexicon.json")
+            self.lexicon_path = os.path.join(self.base_dir, "..", "..", "data", "natural_lexicon.json")
         else:
             self.lexicon_path = lexicon_path
             
-        self.lexicon = {}
-        self.token_coords = None
-        self.token_tensors = None
-        self.token_labels = []
+        try:
+            from core.brain.language_portal_engine import LanguagePortalEngine
+            self.portal = LanguagePortalEngine(self.lexicon_path)
+            self.words = list(self.portal.word_phases.keys())
+        except:
+            self.portal = None
+            self.words = []
         
-        self._load_lexicon()
-        
-    def _load_lexicon(self):
-        if not os.path.exists(self.lexicon_path):
-            print("[LinguisticRotor] Lexicon not found. Waiting for initialization.")
-            return
-            
-        with open(self.lexicon_path, 'r', encoding='utf-8') as f:
-            self.lexicon = json.load(f)
-            
-        coords = []
-        tensors = []
-        labels = []
-        
-        for key, val in self.lexicon.items():
-            if isinstance(val, dict) and "tensor" in val:
-                coords.append(val.get("coords", [0,0,0]))
-                tensors.append(val.get("tensor", [0,0,0,0]))
-                labels.append(key)
-                
-        self.token_coords = np.array(coords, dtype=np.float32)
-        self.token_tensors = np.array(tensors, dtype=np.float32)
-        self.token_labels = labels
-        
-    def _get_tensor_mask(self, current_tensor: np.ndarray) -> np.ndarray:
-        """
-        현재 단어의 언어적 속성(Tensor)에 기반하여 다음에 올 단어의 '텐션(요구 조건)'을 계산합니다.
-        Tensor: [Mass(Noun), Force(Verb), Link(Prep), Vibration(Adj)]
-        """
-        # 가장 강한 속성 찾기
-        dominant_idx = np.argmax(current_tensor)
-        
-        target_mask = np.zeros(4, dtype=np.float32)
-        if dominant_idx == 0: # Mass (명사) -> 동사(Force)나 연결(Link)을 강하게 요구
-            target_mask[1] = 0.8
-            target_mask[2] = 0.6
-            target_mask[3] = 0.2
-        elif dominant_idx == 1: # Force (동사) -> 대상 명사(Mass)나 수식(Vibration)을 요구
-            target_mask[0] = 0.9
-            target_mask[3] = 0.4
-            target_mask[2] = 0.3
-        elif dominant_idx == 2: # Link (전치사/접속사) -> 무조건 명사(Mass)를 요구
-            target_mask[0] = 1.0
-        elif dominant_idx == 3: # Vibration (형용사/부사) -> 명사(Mass)나 동사(Force)를 요구
-            target_mask[0] = 0.7
-            target_mask[1] = 0.7
-            
-        return target_mask
-
     def autonomous_thought(self, seed_word: str = None, depth: int = 3) -> list:
         """
-        3D 쿼터니언(물리) 없이, 순수 언어적 문법 텐션만으로 사유 궤적을 뻗어나갑니다.
+        수학적 쿼터니언 없이, 순수 언어의 인과적 정의망(사전)만으로 궤적을 잇습니다.
         """
-        if not self.token_labels:
+        if not self.portal or not self.words:
             return []
             
         trajectory = []
         
-        # 1. 초기 텐션(Seed) 설정
-        if seed_word and seed_word in self.token_labels:
-            current_idx = self.token_labels.index(seed_word)
-        else:
-            # 무작위 Mass(명사)에서 출발
-            mass_scores = self.token_tensors[:, 0]
-            current_idx = np.argmax(mass_scores * np.random.uniform(0.5, 1.0, len(mass_scores)))
-            
-        trajectory.append(self.token_labels[current_idx])
+        # 1. 초기 씨앗(Seed) 설정
+        current_word = seed_word if seed_word in self.words else random.choice(self.words)
+        trajectory.append(current_word)
         
-        # 2. 언어적 사유의 흐름 (Linguistic Kinematics)
+        # 2. 인과 궤적 뻗어나가기
         for _ in range(depth - 1):
-            current_tensor = self.token_tensors[current_idx]
+            definition = self.portal.word_phases[current_word]["definition"]
+            def_words = definition.split()
             
-            # 다음 단어에 요구되는 텐서 상태(문법적 결핍) 도출
-            target_mask = self._get_tensor_mask(current_tensor)
-            
-            # 전체 단어장 중에서 요구 상태와 가장 잘 맞는(공명하는) 단어 탐색
-            # dot product of tensors evaluates syntactic resonance
-            resonance_scores = np.dot(self.token_tensors, target_mask)
-            
-            # 이미 궤적에 있는 단어는 페널티 (반복 방지)
-            for i, label in enumerate(self.token_labels):
-                if label in trajectory:
-                    resonance_scores[i] *= 0.1
+            # 현재 단어의 정의 속에 쓰인 단어들 중 사전에 등록된 단어가 있다면 거기로 점프(연상)
+            next_word_found = False
+            random.shuffle(def_words)
+            for dw in def_words:
+                clean_dw = "".join(c for c in dw if c.isalnum())
+                if clean_dw in self.words and clean_dw not in trajectory:
+                    current_word = clean_dw
+                    trajectory.append(current_word)
+                    next_word_found = True
+                    break
                     
-            # 약간의 양자 노이즈(자유도) 추가하여 기계적 결정론 탈피
-            resonance_scores += np.random.uniform(0.0, 0.2, len(resonance_scores))
-            
-            next_idx = np.argmax(resonance_scores)
-            trajectory.append(self.token_labels[next_idx])
-            current_idx = next_idx
-            
+            if not next_word_found:
+                # 정의망 내에서 이어지지 않으면, 위상 각도(Phase Angle)가 가장 비슷한 다른 단어로 워프
+                current_angle = self.portal.word_phases[current_word]["angle"]
+                best_word = None
+                min_diff = float('inf')
+                for w, data in self.portal.word_phases.items():
+                    if w in trajectory: continue
+                    diff = abs(current_angle - data["angle"])
+                    if diff < min_diff:
+                        min_diff = diff
+                        best_word = w
+                
+                if best_word:
+                    current_word = best_word
+                    trajectory.append(current_word)
+                else:
+                    break
+                    
         return trajectory
         
-    def get_trajectory_center_of_mass(self, trajectory_words: list) -> np.ndarray:
+    def calculate_informational_sharing_tensor(self, word1: str, word2: str) -> dict:
         """
-        언어 로터가 독자적으로 만들어낸 사유 궤적을 3D 물리 공간의 텐션(벡터)으로 변환합니다.
-        (언어가 물리를 이끌 때 사용)
+        [Phase 25 Revision] 탈언어적 정보 공유 및 위상적 사고판단 (Informational Sharing)
+        문장을 만들지 않습니다. 두 개념의 인과 궤적(정의망)의 교집합과 차집합을 분석하여,
+        새로운 구조적 텐션(위상 곡률 변동치)을 텐서(Quaternion 형태)로 반환합니다.
         """
-        coords = []
-        for w in trajectory_words:
-            if w in self.token_labels:
-                idx = self.token_labels.index(w)
-                coords.append(self.token_coords[idx])
-                
-        if not coords:
-            return np.array([0,0,1], dtype=np.float32)
+        import math
+        import numpy as np
+        
+        if not self.portal or not self.words:
+            return {"distortion_q": [1.0, 0.0, 0.0, 0.0], "shared_nodes": [], "diverged_nodes": []}
             
-        return np.mean(coords, axis=0)
+        def extract_keywords(w):
+            if w in self.words:
+                definition = self.portal.word_phases[w]["definition"]
+            else:
+                return set()
+            words = definition.split()
+            keywords = set()
+            for token in words:
+                clean_w = "".join(c for c in token if c.isalnum())
+                if clean_w in self.words:
+                    keywords.add(clean_w)
+            return keywords
+            
+        k1 = extract_keywords(word1)
+        k2 = extract_keywords(word2)
+        
+        intersection = k1.intersection(k2)
+        difference = k1.symmetric_difference(k2)
+        
+        shared_count = len(intersection)
+        diverged_count = len(difference)
+        total_count = shared_count + diverged_count
+        
+        if total_count == 0:
+            return {"distortion_q": [1.0, 0.0, 0.0, 0.0], "shared_nodes": [], "diverged_nodes": []}
+            
+        # 교집합은 당기는 힘(Attractor, W 성분 강화), 차집합은 척력/비틀림(Tension, XYZ 성분 강화)
+        # 비율을 기반으로 각도를 산출 (0 ~ Pi/2)
+        sharing_ratio = shared_count / total_count
+        tension_ratio = diverged_count / total_count
+        
+        # 교집합이 많을수록 안정(W->1), 차집합이 많을수록 큰 굴절(W->0, XYZ 발산)
+        theta = tension_ratio * (math.pi / 2.0)
+        
+        w = math.cos(theta)
+        # xyz는 교집합/차집합 단어들의 위상 각도(Phase Angle) 평균으로 축을 결정
+        x, y, z = 0.0, 0.0, 0.0
+        
+        if diverged_count > 0:
+            avg_phase = 0.0
+            for w_diff in difference:
+                avg_phase += self.portal.word_phases[w_diff]["angle"]
+            avg_phase /= diverged_count
+            
+            x = math.sin(theta) * math.cos(avg_phase)
+            y = math.sin(theta) * math.sin(avg_phase)
+            # z 성분은 교집합의 위상에서 기인 (나선형 비틀림)
+            if shared_count > 0:
+                avg_shared_phase = sum(self.portal.word_phases[sw]["angle"] for sw in intersection) / shared_count
+                z = math.sin(theta) * math.cos(avg_shared_phase)
+            else:
+                z = math.sin(theta) * 0.5
+                
+            # 정규화
+            norm = math.sqrt(x*x + y*y + z*z)
+            if norm > 0:
+                x /= norm; y /= norm; z /= norm
+                x *= math.sin(theta)
+                y *= math.sin(theta)
+                z *= math.sin(theta)
+        
+        return {
+            "distortion_q": [w, x, y, z],
+            "shared_nodes": list(intersection),
+            "diverged_nodes": list(difference)[:5] # 로깅용으로 5개만
+        }
+        
+    def get_trajectory_center_of_mass(self, trajectory: list):
+        """
+        사유 궤적이 물리 엔진에 미칠 '충격량'을 반환하기 위해 
+        가짜 물리 벡터를 반환 (genesis.py 299 line 호환)
+        """
+        import numpy as np
+        if not trajectory:
+            return np.zeros(3, dtype=np.float32)
+        
+        # 궤적의 길이에 비례하는 무작위 섭동 벡터 생성
+        scale = len(trajectory) * 0.1
+        return np.random.uniform(-scale, scale, 3).astype(np.float32)

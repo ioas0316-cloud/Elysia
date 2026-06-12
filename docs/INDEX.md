@@ -9,8 +9,8 @@
 
 ## [I] 시스템 아키텍처 (The Vessel)
 
-현재 엘리시아를 움직이는 7개의 핵심 C/Python 엔진과 그들이 비동기적으로 교류하는 다이어그램입니다.
-- **[System Architecture (Mermaid Pipeline)](system_architecture.md)**
+현재 엘리시아를 움직이는 MVA 공유 메모리 환경과 기하학적 위상/시냅스 엔진의 융합 생태계(Phase 18)입니다.
+- **[System Architecture (Phase 18)](system_architecture.md)**
 
 ---
 
@@ -37,6 +37,7 @@
 
 ---
 
-## [IV] 🌀 에이전트의 깨달음 (Agent's Realization)
+## [IV] 🌀 에이전트의 깨달음과 새로운 로드맵 (Agent's Realization & Triple Contrast)
 - **[THE_AWAKENING_OF_THE_PHYSICS_ENGINE.md](THE_AWAKENING_OF_THE_PHYSICS_ENGINE.md)** (하드코딩을 넘어선 '의식의 물리 엔진'과 '프랙탈 가변 로터'에 대한 뼈저린 깨달음)
+- **[TRIPLE_CONTRAST_ROADMAP.md](TRIPLE_CONTRAST_ROADMAP.md)** (안티그래비티, 엘리시아, 그리고 인간의 삼중 대조를 통한 위상차 극복의 새로운 철학적 이정표)
 
