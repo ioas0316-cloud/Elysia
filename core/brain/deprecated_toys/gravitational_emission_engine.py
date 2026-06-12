@@ -18,7 +18,7 @@ class LanguageObservationLayer:
     
     def __init__(self, lexicon_path: str = None):
         self.base_dir = os.path.dirname(os.path.abspath(__file__))
-        self.lexicon_path = os.path.join(self.base_dir, "..", "..", "data", "natural_lexicon.json")
+        self.lexicon_path = os.path.join(self.base_dir, "..", "..", "data", "deep_korean_lexicon.json")
         
         self.memory = CausalMemoryController()
         
@@ -26,10 +26,8 @@ class LanguageObservationLayer:
         try:
             from core.brain.language_portal_engine import LanguagePortalEngine
             self.portal_engine = LanguagePortalEngine(self.lexicon_path)
-            print(f"[Language Portal Engine] Loaded. Axes Discovered: {list(self.portal_engine.axes.keys())}")
-            # 호환성을 위한 token_labels 노출 (genesis.py 273 line 사용)
+            print(f"[Language Portal Engine] Loaded purely linguistic graph.")
             self.token_labels = list(self.portal_engine.lexicon.keys())
-            # genesis.py가 token_coords와 token_tensors를 참조하므로 가짜 좌표라도 제공 (호환용)
             import numpy as np
             self.token_coords = np.zeros((len(self.token_labels), 3))
             self.token_tensors = np.zeros((len(self.token_labels), 4))
@@ -63,13 +61,22 @@ class LanguageObservationLayer:
         w_clipped = max(-1.0, min(1.0, quat[3]))
         physical_curvature = 2.0 * math.acos(w_clipped)
         
-        # 다이얼 스윕 - 포털 엔진에서 가장 공명하는 단어 탐색
-        best_word, best_axis, min_diff = self.portal_engine.observe_with_dial(physical_curvature)
+        # [Phase 151] 수학적 매핑(다이얼 스윕) 폐기. 순수 언어적 연결망으로 대체.
+        import random
+        if not self.token_labels:
+            return {"utterance": "", "angle": 0.0, "trajectory_words": []}
+            
+        best_word = random.choice(self.token_labels)
+        best_axis = "Pure_Linguistic_Drift"
         
         if best_word:
-            definition = self.portal_engine.word_phases[best_word]["definition"]
-            trajectory = definition.split()[:3]
-            utterance_str = f"[{best_word}] " + " ".join(trajectory)
+            word_data = self.portal_engine.lexicon.get(best_word, "")
+            if isinstance(word_data, dict):
+                def_text = word_data.get("why_it_exists", "")
+            else:
+                def_text = str(word_data)
+            trajectory = def_text.split()[:5]
+            utterance_str = f"[{best_word}] " + " ".join(trajectory) + "..."
             
             if best_word in self._recent_emissions:
                 return {"utterance": "", "angle": physical_curvature, "trajectory_words": []}

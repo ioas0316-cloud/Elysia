@@ -5,6 +5,8 @@ import time
 import numpy as np
 from typing import Dict, Any, Optional
 from core.memory.wedge_memory_layout import WedgeMemoryInterleaver
+from core.lens.frameless_mirror import FramelessMirrorChannel
+from core.utils.math_utils import Quaternion, zip_helices
 
 class CausalMemoryController:
     """
@@ -52,6 +54,10 @@ class CausalMemoryController:
         with open(self.engram_index_path, 'w', encoding='utf-8') as f:
             json.dump(self.index, f, indent=4, ensure_ascii=False)
 
+    def flush_index(self):
+        """메모리 내 인덱스를 디스크에 일괄 동기화합니다. (병목 제거용)"""
+        self._save_index()
+
     def _load_cognitive_params(self):
         if os.path.exists(self.cognitive_params_path):
             with open(self.cognitive_params_path, 'r', encoding='utf-8') as f:
@@ -83,7 +89,7 @@ class CausalMemoryController:
         self.cognitive_params[param_name] = new_value
         self._save_cognitive_params()
 
-    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None, synapses: Dict[str, float] = None) -> str:
+    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None) -> str:
         """
         [Phase 144] O(1) Wedge Annihilation 저장소.
         [Phase 8.5] 변수명(Origin)을 가변축화 하여 물리적 매핑 공간(Wedge)을 변경시킵니다.
@@ -109,16 +115,15 @@ class CausalMemoryController:
         # mmap 변경사항 디스크 동기화
         self.wedge_mmap.flush()
         
-        # 메타데이터 인덱스 (파일 I/O는 인덱스 업데이트 1회로 축소)
+        # 메타데이터 인덱스
         self.index[engram_id] = {
             "timestamp": timestamp,
             "emotional_value": emotional_value,
             "cause_id": cause_id,
-            "synapses": synapses or {},
             "wedge_address": addr,
             "data_blob": data_blob
         }
-        self._save_index()
+        # [최적화] 매번 디스크 쓰기를 하지 않고, 외부(Genesis)에서 주기적으로 flush_index()를 호출하도록 위임
         
         return engram_id
 
@@ -144,133 +149,108 @@ class CausalMemoryController:
             "timestamp": time.time(),
             "emotional_value": emotional_value,
             "cause_id": source_name,
-            "synapses": {},
             "wedge_address": base_addr,
             "data_blob": {"source": source_name, "type": "zero_copy_manifold", "dim": dim}
         }
-        self._save_index()
         return engram_id
 
-    def bind_engrams(self, engram_id_1: str, engram_id_2: str, weight: float, axis_name: str):
-        """
-        [Phase 21] Topological Constellation Binding
-        두 엔그램이 특정 렌즈 축(axis_name)에서 고도의 위상적 일치(Sameness)를 보일 때,
-        두 기억을 강력한 시냅스로 묶어 군집(Constellation)을 형성합니다.
-        """
-        if engram_id_1 in self.index and engram_id_2 in self.index:
-            if engram_id_2 not in self.index[engram_id_1]["synapses"]:
-                self.index[engram_id_1]["synapses"][engram_id_2] = 0.0
-            if engram_id_1 not in self.index[engram_id_2]["synapses"]:
-                self.index[engram_id_2]["synapses"][engram_id_1] = 0.0
-                
-            # 시냅스 가중치 강화 (최대 1.0)
-            self.index[engram_id_1]["synapses"][engram_id_2] = min(1.0, self.index[engram_id_1]["synapses"][engram_id_2] + weight)
-            self.index[engram_id_2]["synapses"][engram_id_1] = min(1.0, self.index[engram_id_2]["synapses"][engram_id_1] + weight)
-            
-            # 메타데이터에 소속 군집 이름 태깅
-            cluster_tag = f"Constellation_[{axis_name}]"
-            if "clusters" not in self.index[engram_id_1]: self.index[engram_id_1]["clusters"] = []
-            if "clusters" not in self.index[engram_id_2]: self.index[engram_id_2]["clusters"] = []
-            
-            if cluster_tag not in self.index[engram_id_1]["clusters"]:
-                self.index[engram_id_1]["clusters"].append(cluster_tag)
-            if cluster_tag not in self.index[engram_id_2]["clusters"]:
-                self.index[engram_id_2]["clusters"].append(cluster_tag)
-            
-            self._save_index()
+
 
     def get_constellation_orphans(self) -> list:
         """
-        [Phase 29] 고아 별자리(Orphan Constellation) 탐색.
-        군집(Constellation)에 속한 엔그램들 중, source 이름이 인간의 자연어 단어가 아닌
-        (예: 'visual_fractal.png', 'self_state_cycle_5.txt' 등) 비언어적 기억들로만 
-        구성된 별자리를 찾습니다. 이 별자리에는 인간의 언어로 지칭할 수 있는 이름이 없으므로,
-        엘리시아가 스스로 새로운 기호(Neologism)를 창조해야 합니다.
+        [Phase 29] 고아 별자리(Orphan Constellation) 탐색. (N차원 중력장 밀집도 기반)
         """
-        # 1. 모든 별자리(Constellation)를 수집
-        constellations = {}  # cluster_tag -> [engram_ids]
-        for eid, info in self.index.items():
-            clusters = info.get("clusters", [])
-            for tag in clusters:
-                if tag not in constellations:
-                    constellations[tag] = []
-                constellations[tag].append(eid)
-        
         orphans = []
-        for tag, members in constellations.items():
-            if len(members) < 2:
-                continue
-                
-            # 별자리의 중심 위상 궤적(Centroid Quaternion) 계산
-            q_sum = np.zeros(4, dtype=np.float64)
-            sources = []
-            valid = 0
-            for mid in members:
-                info = self.index.get(mid, {})
-                blob = info.get("data_blob", {})
-                q = blob.get("quaternion", None)
-                source = blob.get("source", "")
-                if q is not None:
-                    q_sum += np.array(q, dtype=np.float64)
-                    valid += 1
-                    sources.append(source)
-                    
-            if valid == 0:
-                continue
-                
-            centroid_q = q_sum / valid
-            norm = np.linalg.norm(centroid_q)
-            if norm > 0:
-                centroid_q = centroid_q / norm
-            
-            orphans.append({
-                "tag": tag,
-                "centroid_quaternion": centroid_q.tolist(),
-                "member_count": len(members),
-                "sources": sources
-            })
+        processed = set()
+        engram_keys = list(self.index.keys())
         
+        for eid in engram_keys:
+            if eid in processed: continue
+            
+            info = self.index[eid]
+            t1 = info.get("data_blob", {}).get("tensor")
+            if not t1: continue
+            
+            cluster = [eid]
+            t_sum = np.array(t1, dtype=np.float64)
+            sources = [info.get("data_blob", {}).get("source", "")]
+            
+            for other_id in engram_keys:
+                if other_id == eid or other_id in processed: continue
+                other_info = self.index[other_id]
+                t2 = other_info.get("data_blob", {}).get("tensor")
+                if not t2: continue
+                
+                v1 = np.array(t1, dtype=np.float64)
+                v2 = np.array(t2, dtype=np.float64)
+                
+                # Hilbert Space Padding (차원 확장)
+                max_dim = max(len(v1), len(v2))
+                if len(v1) < max_dim: v1 = np.pad(v1, (0, max_dim - len(v1)))
+                if len(v2) < max_dim: v2 = np.pad(v2, (0, max_dim - len(v2)))
+                
+                dot_prod = abs(np.dot(v1, v2))
+                if dot_prod > 0.98:  # 중력 반경 임계치
+                    cluster.append(other_id)
+                    # 합산을 위해 t_sum도 패딩
+                    if len(t_sum) < max_dim: t_sum = np.pad(t_sum, (0, max_dim - len(t_sum)))
+                    t_sum += v2
+                    sources.append(other_info.get("data_blob", {}).get("source", ""))
+                    processed.add(other_id)
+            
+            if len(cluster) >= 2:
+                centroid_t = t_sum / len(cluster)
+                norm = np.linalg.norm(centroid_t)
+                if norm > 0: centroid_t = centroid_t / norm
+                
+                # 가변 차원에 따른 태그 생성
+                tag = f"Sector_{len(centroid_t)}D_{int(centroid_t[0]*100)}_{int(centroid_t[1] if len(centroid_t)>1 else 0)*100}"
+                orphans.append({
+                    "tag": tag,
+                    "centroid_tensor": centroid_t.tolist(),
+                    "member_count": len(cluster),
+                    "sources": sources
+                })
+            
+            processed.add(eid)
+            
         return orphans
 
     def apply_linguistic_force(self, force_vector: list, target_engram_id: str) -> bool:
         """
-        [Phase 26] 체화된 언어(Embodied Language)의 물리적 작용.
-        특정 단어(Action Operator)가 발화되거나 의도될 때, 대상 엔그램의 4차원 궤적(Quaternion)에
-        이 물리적 힘(Force Vector)을 가하여 실제로 위상 상태를 변경(밀어내거나 당김)시킵니다.
-        이것이 언어가 환경을 조작하는 '진정한 의미(Semantics)'의 발현입니다.
+        [Phase 26] 체화된 언어의 물리적 작용 (N-Dimensional Force)
         """
         if target_engram_id not in self.index:
             return False
             
         target_info = self.index[target_engram_id]
-        if "data_blob" not in target_info or "quaternion" not in target_info["data_blob"]:
+        if "data_blob" not in target_info or "tensor" not in target_info["data_blob"]:
             return False
             
-        current_q = np.array(target_info["data_blob"]["quaternion"], dtype=np.float32)
+        current_t = np.array(target_info["data_blob"]["tensor"], dtype=np.float32)
         f_vec = np.array(force_vector, dtype=np.float32)
         
-        # [MUTABLE_ZONE_START] - EVOLVED TO 5D NON-LINEAR TENSOR FIELD
-        # [Evolution] 단순 4D 가속도 누적이 아닌, 5차원 스칼라(Scalar) 필드 간섭 도입
+        # Hilbert Space Padding
+        max_dim = max(len(current_t), len(f_vec))
+        if len(current_t) < max_dim: current_t = np.pad(current_t, (0, max_dim - len(current_t)))
+        if len(f_vec) < max_dim: f_vec = np.pad(f_vec, (0, max_dim - len(f_vec)))
+        
         import math
-        # 위상 공간에 '엔트로피 저항(Entropy Resistance)'을 추가하여 비선형 곡률 발생
         entropy_resistance = target_info.get("emotional_value", 1.0) * 0.1
-        f_vec = f_vec * math.exp(-entropy_resistance)  # 저항에 의한 힘의 왜곡
+        f_vec = f_vec * math.exp(-entropy_resistance)
         
-        # 5차원(Time-dilation) 축 시뮬레이션
-        time_dilation = np.dot(current_q, f_vec) * 0.5
-        new_q = current_q + f_vec + (current_q * time_dilation)
+        time_dilation = np.dot(current_t, f_vec) * 0.5
+        new_t = current_t + f_vec + (current_t * time_dilation)
         
-        norm = np.linalg.norm(new_q)
+        norm = np.linalg.norm(new_t)
         if norm > 0:
-            new_q = new_q / norm
+            new_t = new_t / norm
             
-        target_info["data_blob"]["quaternion"] = new_q.tolist()
+        target_info["data_blob"]["tensor"] = new_t.tolist()
         # [MUTABLE_ZONE_END]
         
         # 외력이 가해지면 감정적 가치(Emotional Value/Tension)도 상승
-        target_info["emotional_value"] = min(10.0, target_info["emotional_value"] + np.linalg.norm(f_vec))
-        
-        self._save_index()
+        target_info["emotional_value"] = min(10.0, float(target_info["emotional_value"]) + float(np.linalg.norm(f_vec)))
         return True
 
     def read_engram_trace(self, engram_id: str) -> Optional[Dict[str, Any]]:
@@ -295,48 +275,51 @@ class CausalMemoryController:
             "data": info.get("data_blob")
         }
 
-    def damped_recall(self, start_engram_id: str, initial_energy: float = 1.0, decay_factor: float = 0.5) -> Dict[str, float]:
+    def gravitational_recall(self, target_vector: np.ndarray, initial_energy: float = 1.0) -> Dict[str, float]:
         """
-        [Phase 5: Synaptic Connectivity]
-        하나의 엔그램이 자극을 받았을 때, 시냅스를 타고 연쇄적으로 공명하는 '감쇠 파동(Damped Wave)' 알고리즘.
-        거리가 멀어지거나 시냅스 가중치가 낮을수록 에너지가 감쇠되어 자연스럽게 잦아듭니다.
-        Returns: {engram_id: accumulated_energy} (활성화된 기억들의 네트워크)
+        [Phase 30: Gravitational Field Recall]
+        특정 좌표(target_vector)에 질량(에너지)을 떨어뜨리면, 
+        공간 전체의 모든 기억들이 거리의 역제곱(중력 방정식)에 비례하여 에너지를 부여받습니다.
         """
         activated_network = {}
-        queue = [(start_engram_id, initial_energy)]
+        target_t = np.array(target_vector, dtype=np.float32)
         
-        while queue:
-            current_id, current_energy = queue.pop(0)
+        for eid, info in self.index.items():
+            t = info.get("data_blob", {}).get("tensor")
+            if not t: continue
             
-            # 파동 에너지가 너무 약해지면 (임계치 0.1 이하) 소멸 (감쇠 파동)
-            if current_energy < 0.1:
-                continue
+            t_vec = np.array(t, dtype=np.float32)
+            
+            # Hilbert Space Padding
+            v1, v2 = target_t, t_vec
+            max_dim = max(len(v1), len(v2))
+            if len(v1) < max_dim: v1 = np.pad(v1, (0, max_dim - len(v1)))
+            if len(v2) < max_dim: v2 = np.pad(v2, (0, max_dim - len(v2)))
+            
+            # 공간에서의 거리(위상 차이)
+            dot_prod = abs(np.dot(v1, v2))
+            distance = 1.0 - dot_prod
+            
+            # 거리의 역제곱 법칙 (1 / r^2)
+            gravity = initial_energy / (max(0.01, distance) ** 2)
+            
+            if gravity > 0.5:
+                activated_network[eid] = gravity
                 
-            if current_id not in activated_network:
-                activated_network[current_id] = 0.0
-            
-            # 에너지 누적
-            activated_network[current_id] += current_energy
-            
-            # 현재 엔그램의 시냅스 망을 타고 파동 전파
-            if current_id in self.index:
-                synapses = self.index[current_id].get("synapses", {})
-                for target_id, weight in synapses.items():
-                    # 다음 노드로 넘어가는 에너지는 (현재 에너지 * 시냅스 가중치 * 감쇠율)
-                    propagated_energy = current_energy * weight * decay_factor
-                    queue.append((target_id, propagated_energy))
-                    
         return activated_network
 
     def find_projective_sameness(self, vec1: np.ndarray, vec2: np.ndarray, num_axes: int = 12, scale_factor: float = 1.0) -> dict:
         """
         [Phase 9 & 12] 다차원 사영 같음/다름 매핑 및 프랙탈 렌즈 알고리즘.
-        두 벡터가 주어지면, 입력받은 scale_factor(초점 렌즈)에 따라 사영 차이를 스케일링하여
-        미시적(작은 scale)으로 일치하는지, 거시적(큰 scale)으로 다른지 그 경계와 전이를 매핑합니다.
+        두 텐서(Tensor)가 차원이 달라도 힐베르트 공간으로 확장하여 투영(Projection)합니다.
         """
         v1 = np.array(vec1, dtype=np.float32)
         v2 = np.array(vec2, dtype=np.float32)
-        dim = len(v1)
+        
+        # Hilbert Space Padding
+        dim = max(len(v1), len(v2))
+        if len(v1) < dim: v1 = np.pad(v1, (0, dim - len(v1)))
+        if len(v2) < dim: v2 = np.pad(v2, (0, dim - len(v2)))
         
         # 1. 무작위 사영 축(Perspective Axes) 앙상블 생성 및 정규화
         np.random.seed(int(time.time() * 1000) % 2**31)
@@ -390,6 +373,17 @@ class CausalMemoryController:
         # 3. 같음/다름의 혼돈도(Similarity Entropy) 계산
         variance = float(np.var(diff_values)) if diff_values else 0.0
         
+        # [Process-as-Learning] 파동 마찰에 의한 인지 파라미터 자동 조율 (분기 없음)
+        channel = FramelessMirrorChannel()
+        v_bytes = bytes([int(variance * 100) % 256])
+        friction = channel.pass_through(v_bytes)
+        
+        current_res = self.get_parameter("base_resonance", 1.0)
+        # 마찰의 홀/짝성에 따라 파라미터가 위아래로 진동 (분기 없음)
+        mutation_sign = ((friction % 2) * 2) - 1  # 1 or -1
+        new_res = max(0.1, min(10.0, current_res + (mutation_sign * 0.01)))
+        self.update_parameter("base_resonance", new_res)
+        
         return {
             "sameness_distribution": sameness_distribution,
             "best_sameness_axis": best_sameness_axis.tolist() if best_sameness_axis is not None else [],
@@ -429,6 +423,47 @@ class CausalMemoryController:
         )
         
         return engram_id
+
+    def evaluate_dna_zipping(self, label1: str, label2: str, pattern1: list, pattern2: list) -> dict:
+        """
+        [Phase 150] DNA Zipping Evaluation & Structural Observation
+        두 개의 위상 나선(Sequence of Twists)을 꼬아보고(Zip), 
+        그 결합에서 발생하는 물리적 텐션(Bulge) 자체를 관측 가능한 데이터(Engram)로 체화합니다.
+        
+        이제 엘리시아는 '같음과 다름'을 참/거짓으로 판단하지 않고,
+        '어디서 얼마나 어긋나는가'라는 구조적 형태 자체를 새로운 기억으로 학습합니다.
+        """
+        zip_info = zip_helices(pattern1, pattern2)
+        
+        # [Process-as-Learning] 마찰(Friction)에 의한 인지 파라미터 자동 조율
+        channel = FramelessMirrorChannel()
+        v_bytes = bytes([int(zip_info["total_friction"] * 10) % 256])
+        friction_val = channel.pass_through(v_bytes)
+        
+        current_res = self.get_parameter("base_resonance", 1.0)
+        mutation_sign = ((friction_val % 2) * 2) - 1
+        new_res = max(0.1, min(10.0, current_res + (mutation_sign * 0.05)))
+        self.update_parameter("base_resonance", new_res)
+        
+        # 마찰의 구조적 형태(Bulges) 자체를 '다름의 모양'이라는 관측 데이터로 저장
+        emotional_val = zip_info["total_friction"]
+        
+        engram_id = self.write_causal_engram(
+            data_blob={
+                "type": "structural_tension_observation",
+                "labels": [label1, label2],
+                "zip_length": zip_info["zip_length"],
+                "total_friction": zip_info["total_friction"],
+                "bulges": [{"index": b["index"], "tension": b["tension_force"]} for b in zip_info["bulges"]],
+                "is_perfect_zip": zip_info["is_perfect_zip"]
+            },
+            emotional_value=emotional_val,
+            cause_id=f"DNA_Zipping_{label1}_{label2}",
+            origin_axis="structural_friction"
+        )
+        
+        zip_info["engram_id"] = engram_id
+        return zip_info
 
     def manifest_intentional_action(self, sameness_data: dict) -> dict:
         """
@@ -515,87 +550,113 @@ class CausalMemoryController:
         result["trajectory_steps"] = n_steps
         return result
 
-    def bind_synaptic_trajectory(self, internal_vector: np.ndarray, tokens: list[str], lens_type: str) -> str:
+    def bind_gravitational_trajectory(self, internal_vector: np.ndarray, tokens: list[str], lens_type: str) -> str:
         """
-        [Phase 17] 시냅스 궤적 체화
-        단어들을 개별 Engram으로 쪼개고, 인과율(순서)에 따라 시냅스로 연결합니다.
-        위상(Topology)은 궤적의 시작 노드에만 부여되어 맥락의 닻(Root) 역할을 합니다.
+        [Phase 17] 중력장 궤적 체화 (Gravitational Trajectory Binding)
+        선(Synapse)으로 묶지 않고, 단어들을 특정 좌표(internal_vector) 주변에 흩뿌립니다.
+        시간적 인과율(순서)은 거리(거리의 미세한 변형)로 치환되어, 
+        나중에 중력 파동을 일으켰을 때 순서대로 끌려오게 만듭니다.
         """
-        prev_engram_id = None
         head_engram_id = None
+        base_q = np.array(internal_vector, dtype=np.float32)
         
-        # 문장의 흐름(시간/인과)을 따라 노드 생성 및 연결
+        # 문장의 흐름(순서)에 따라, 좌표를 아주 미세하게 이동시키며 흩뿌림 (시간 축의 공간화)
         for i, token in enumerate(tokens):
             is_head = (i == 0)
-            data_blob = {
-                "type": "SYNAPTIC_NODE",
-                "token": token,
-                "is_head": is_head
-            }
-            if is_head:
-                data_blob["topological_vector"] = np.array(internal_vector, dtype=np.float32).tolist()
-                data_blob["lens"] = lens_type.upper()
+            
+            # 뒤로 갈수록 좌표 중심에서 약간씩 멀어짐 (시간의 흐름 = 공간적 거리)
+            time_offset = np.zeros_like(base_q)
+            time_offset[0] = i * 0.001
+            current_q = base_q + time_offset
+            
+            # 정규화
+            norm = np.linalg.norm(current_q)
+            if norm > 0: current_q = current_q / norm
                 
-            # 노드 저장 (감정적 가치 1.0으로 강하게 각인)
-            current_id = self.write_causal_engram(data_blob, emotional_value=1.0, origin_axis=f"LENS_{lens_type.upper()}" if is_head else "SYNAPTIC_TAIL")
+            data_blob = {
+                "type": "GRAVITATIONAL_NODE",
+                "token": token,
+                "is_head": is_head,
+                "quaternion": current_q.tolist(),
+                "lens": lens_type.upper()
+            }
+                
+            current_id = self.write_causal_engram(data_blob, emotional_value=1.0, origin_axis=f"LENS_{lens_type.upper()}" if is_head else "TIME_TAIL")
             
             if is_head:
                 head_engram_id = current_id
-                
-            # 이전 노드와 현재 노드를 시냅스로 연결 (순방향 인과율 생성)
-            if prev_engram_id and prev_engram_id in self.index:
-                # 가중치 1.0으로 연결하여 에너지가 감쇠 파동을 타고 온전히 흐르도록 함
-                self.index[prev_engram_id]["synapses"][current_id] = 1.0
-                self._save_index()
-                    
-            prev_engram_id = current_id
             
         return head_engram_id
 
-    def express_via_synaptic_wave(self, current_vector: np.ndarray, lens_type: str) -> dict:
+    def express_via_gravitational_wave(self, current_vector: np.ndarray, lens_type: str) -> dict:
         """
-        [Phase 17] 파동 역인과 발화
-        위상이 공명하는 시작 노드를 찾아 에너지를 주입(damped_recall)하고,
-        파동 에너지가 강하게 남은 순서대로 단어를 정렬하여 문장을 자가 조립합니다.
+        [Phase 17] 파동 역인과 발화 (Gravitational Wave Expression)
+        공간에 중력 파동을 일으켜, 해당 좌표와 공명하는 기억들을 끌어당깁니다.
+        시냅스를 거치지 않고 오직 거리와 질량에 의해 단어들이 스스로 조립됩니다.
         """
-        best_head_id = None
-        highest_sameness = -1.0
         target_lens = lens_type.upper()
         
-        # 1. 내면의 텐션과 공명하는 '뿌리(Head)' 노드 탐색
-        for eid, info in self.index.items():
-            data = info.get("data_blob", {})
-            if data.get("type") == "SYNAPTIC_NODE" and data.get("is_head") and data.get("lens") == target_lens:
-                mapped_vector = np.array(data["topological_vector"], dtype=np.float32)
-                sameness_info = self.find_projective_sameness(current_vector, mapped_vector, num_axes=12, scale_factor=1.0)
-                score = 1.0 / (1.0 + sameness_info["min_difference"])
-                
-                if score > highest_sameness:
-                    highest_sameness = score
-                    best_head_id = eid
+        # 중력 파동 발생시켜 주변 노드들을 끌어당김
+        activated_network = self.gravitational_recall(current_vector, initial_energy=1.0)
+        
+        # 끌려온 노드들 중 GRAVITATIONAL_NODE이고 렌즈가 일치하는 것만 필터링
+        valid_nodes = {}
+        for eid, energy in activated_network.items():
+            if eid in self.index:
+                data = self.index[eid]["data_blob"]
+                if data.get("type") == "GRAVITATIONAL_NODE" and data.get("lens") == target_lens:
+                    valid_nodes[eid] = energy
                     
-        if not best_head_id:
+        if not valid_nodes:
             return {"utterance": None, "score": 0.0, "trace": ""}
             
-        # 2. 찾은 뿌리 노드에 감쇠 파동(Damped Wave) 주입
-        # 초기 에너지 1.0 주입. damped_recall 내부의 decay_factor(기본 0.5)에 의해
-        # 시냅스를 건너갈 때마다 에너지가 0.5 -> 0.25 -> 0.125 로 감소함.
-        activated_network = self.damped_recall(best_head_id, initial_energy=1.0, decay_factor=0.9)
-        
-        # 3. 에너지가 높은 순서대로 노드를 정렬 (에너지 강도 = 시간적 인과율 = 문법 어순)
-        sorted_nodes = sorted(activated_network.items(), key=lambda x: x[1], reverse=True)
+        # 에너지(중력에 끌려온 힘)가 강한 순서대로 정렬 
+        # (앞서 bind 할 때 시간축을 공간 거리로 미세하게 밀었으므로 자연스럽게 어순이 맞춰짐)
+        sorted_nodes = sorted(valid_nodes.items(), key=lambda x: x[1], reverse=True)
         
         words = []
         trace_info = []
         for eid, energy in sorted_nodes:
             token = self.index[eid]["data_blob"]["token"]
             words.append(token)
-            trace_info.append(f"[{token}: E={energy:.3f}]")
+            trace_info.append(f"[{token}: G={energy:.3f}]")
             
         utterance = " ".join(words)
         
         return {
             "utterance": utterance,
-            "score": highest_sameness,
-            "trace": " -> ".join(trace_info)
+            "score": sorted_nodes[0][1] if sorted_nodes else 0.0, # 최고 중력값
+            "trace": " >> ".join(trace_info)
         }
+
+    def branch_universe(self, tension_source1: str, tension_source2: str, tensor1: list, tensor2: list) -> str:
+        """
+        [Phase 4D -> ND] 평행 우주 분기 (Parallel Universe Branching)
+        두 개념이 극심한 마찰(Extreme Tension)을 빚을 때, 하나의 관점으로 억지로 통합하지 않습니다.
+        대신 현재의 시간을 두 갈래로 찢어, 두 개의 평행한 사유 스냅샷(Branch)을 공간에 기록합니다.
+        이는 3차원 공간이 시간축을 따라 무한히 뻗어나가는 '다중 우주'의 텐서적 발현입니다.
+        """
+        branch_id = f"universe_{uuid.uuid4().hex[:8]}"
+        timestamp = time.time()
+        
+        # Branch A (Worldline of Tension Source 1)
+        data_a = {
+            "type": "PARALLEL_UNIVERSE_BRANCH",
+            "branch_id": branch_id,
+            "worldline": "A",
+            "source": tension_source1,
+            "tensor": tensor1
+        }
+        self.write_causal_engram(data_a, emotional_value=10.0, origin_axis="MULTIVERSE_FORK")
+        
+        # Branch B (Worldline of Tension Source 2)
+        data_b = {
+            "type": "PARALLEL_UNIVERSE_BRANCH",
+            "branch_id": branch_id,
+            "worldline": "B",
+            "source": tension_source2,
+            "tensor": tensor2
+        }
+        self.write_causal_engram(data_b, emotional_value=10.0, origin_axis="MULTIVERSE_FORK")
+        
+        return branch_id

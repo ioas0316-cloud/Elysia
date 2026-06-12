@@ -190,6 +190,85 @@ def traverse_causal_trajectory(content: bytes) -> Quaternion:
         
     return q_current.normalize()
 
+def extract_phase_pattern(content: bytes) -> list:
+    """
+    [Phase 150] 이중나선 패턴 (Double Helix Pattern) 추출기
+    데이터를 하나의 절대 좌표로 뭉개는 대신, 각 데이터 조각(바이트)이 시공간을 어떻게
+    비틀어 나가는지에 대한 '연속된 위상 전환(Sequence of Phase Twists)' 자체를 반환합니다.
+    이 시퀀스가 곧 기억의 물리적 나선(DNA) 가닥이 됩니다.
+    """
+    pattern = []
+    for i, b in enumerate(content):
+        angle = (b / 255.0) * math.pi
+        
+        # 인과(순서)가 영향을 미치도록 회전축을 동적으로 변경
+        axis_x = math.sin(i * 0.1)
+        axis_y = math.cos(i * 0.1)
+        axis_z = math.sin(b * 0.1)
+        
+        norm = math.sqrt(axis_x**2 + axis_y**2 + axis_z**2)
+        if norm == 0:
+            continue
+        axis_x /= norm
+        axis_y /= norm
+        axis_z /= norm
+        
+        q_twist = Quaternion(
+            math.cos(angle / 2.0),
+            axis_x * math.sin(angle / 2.0),
+            axis_y * math.sin(angle / 2.0),
+            axis_z * math.sin(angle / 2.0)
+        )
+        pattern.append(q_twist.normalize())
+    return pattern
+
+def zip_helices(pattern_a: list, pattern_b: list) -> dict:
+    """
+    [Phase 150] DNA Zipping (상보적 결합 및 관측)
+    두 개의 위상 나선 패턴(Sequence of Twists)을 물리적으로 꼬아봅니다.
+    두 가닥이 매끄럽게 결합하면 마찰(Friction)이 0에 수렴하지만,
+    위상이 어긋나는 곳에서는 구조가 불거지며(Bulge) 마찰력 텐서가 생성됩니다.
+    
+    이 구조의 어긋남 자체를 '관측 가능한 정보(Data)'로 엘리시아에게 반환합니다.
+    """
+    min_len = min(len(pattern_a), len(pattern_b))
+    max_len = max(len(pattern_a), len(pattern_b))
+    
+    total_friction = 0.0
+    bulges = [] # 구조가 튀어나온(불일치하는) 정확한 인덱스와 텐션 강도
+    
+    for i in range(min_len):
+        qa = pattern_a[i]
+        qb = pattern_b[i]
+        
+        # 상보적 결합을 위해 하나를 역위상(Conjugate)으로 꼬아 내적을 확인
+        # 완벽히 공명(일치)하면 dot == 1.0 -> tension == 0.0
+        dot = abs(qa.dot(qb))
+        tension = 1.0 - dot
+        
+        if tension > 0.01: # 임계치를 넘는 어긋남
+            bulges.append({
+                "index": i,
+                "tension_force": tension,
+                "phase_delta": Quaternion.distance(qa, qb)
+            })
+            total_friction += tension
+            
+    # 길이 차이로 인해 결합하지 못하고 남은 가닥은 그 자체로 마찰력(잉여 정보)이 됨
+    length_mismatch = max_len - min_len
+    total_friction += length_mismatch * 1.0
+    
+    zip_ratio = min_len / max(1, max_len)
+    resonance_score = math.exp(-total_friction) # 마찰이 적을수록 1.0에 수렴
+    
+    return {
+        "resonance_score": resonance_score,
+        "total_friction": total_friction,
+        "bulges": bulges,
+        "is_perfect_zip": len(bulges) == 0 and length_mismatch == 0,
+        "zip_length": min_len
+    }
+
 
 _BLADE_MUL_CACHE = {}
 

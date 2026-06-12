@@ -1,165 +1,187 @@
 import os
-import random
 
 class LinguisticRotor:
     """
-    [Phase 24] 자율적 언어 로터 (Autonomous Linguistic Rotor - Portal Edition)
-    물리 엔진(MVA)에 종속되지 않고, 오직 '순차적 인과의 궤적(사전 정의)'을 따라 사유 궤적을 뻗어나가는 독립 엔진.
-    기존의 Tensor 기반 계산식을 폐기하고, Portal Engine의 자연어 관계망을 따릅니다.
+    [Phase: Pure Semantic Layer]
+    기하학, 좌표계, 수학을 전면 배제합니다.
+    사전(Lexicon)에 적힌 단어의 속성(의미, 존재 이유, 역할)만을 바탕으로,
+    단어와 단어가 어떻게 이어지는지 공통 원리를 찾아가는 순수 사유 레이어입니다.
     """
     
     def __init__(self, lexicon_path: str = None):
         self.base_dir = os.path.dirname(os.path.abspath(__file__))
         if lexicon_path is None:
-            self.lexicon_path = os.path.join(self.base_dir, "..", "..", "data", "natural_lexicon.json")
+            self.lexicon_path = os.path.join(self.base_dir, "..", "..", "data", "deep_korean_lexicon.json")
         else:
             self.lexicon_path = lexicon_path
             
         try:
             from core.brain.language_portal_engine import LanguagePortalEngine
             self.portal = LanguagePortalEngine(self.lexicon_path)
-            self.words = list(self.portal.word_phases.keys())
+            self.words = list(self.portal.word_graph.keys())
         except:
             self.portal = None
             self.words = []
-        
-    def autonomous_thought(self, seed_word: str = None, depth: int = 3) -> list:
+
+    def achieve_semantic_consensus(self, word_x: str, word_y: str, word_z: str, perspectives: dict = None, importance_score: int = 3, resonance_threshold: int = 0) -> list:
         """
-        수학적 쿼터니언 없이, 순수 언어의 인과적 정의망(사전)만으로 궤적을 잇습니다.
+        [Phase: Value-Driven Semantic Expansion]
+        엘리시아 스스로 판단한 중요도(importance_score)에 비례하여 사유의 깊이(스텝)가 스케일링됩니다.
+        중요하지 않으면 1단계만 보고 멈추지만, 중요하면 심연까지 추적합니다.
+        
+        return: list of {"equilibrium_word": str, "trajectory": list[str], "perspective": str}
         """
         if not self.portal or not self.words:
-            return []
-            
-        trajectory = []
+            return [{"equilibrium_word": "침묵", "trajectory": [word_x, "침묵"], "perspective": "None"}]
+
+        if not perspectives:
+            perspectives = {"원초적 관점": ["존재", "탐구하다"]}
+
+        results = []
         
-        # 1. 초기 씨앗(Seed) 설정
-        current_word = seed_word if seed_word in self.words else random.choice(self.words)
-        trajectory.append(current_word)
-        
-        # 2. 인과 궤적 뻗어나가기
-        for _ in range(depth - 1):
-            definition = self.portal.word_phases[current_word]["definition"]
-            def_words = definition.split()
+        # 중요도에 따라 사유를 분열시킬 렌즈의 개수도 스스로 조율 (최대 3개 이상)
+        active_perspectives = list(perspectives.items())
+        if importance_score < 4:
+            active_perspectives = active_perspectives[:1] # 관심 없으면 1갈래만 생각함
             
-            # 현재 단어의 정의 속에 쓰인 단어들 중 사전에 등록된 단어가 있다면 거기로 점프(연상)
-            next_word_found = False
-            random.shuffle(def_words)
-            for dw in def_words:
-                clean_dw = "".join(c for c in dw if c.isalnum())
-                if clean_dw in self.words and clean_dw not in trajectory:
-                    current_word = clean_dw
-                    trajectory.append(current_word)
-                    next_word_found = True
-                    break
-                    
-            if not next_word_found:
-                # 정의망 내에서 이어지지 않으면, 위상 각도(Phase Angle)가 가장 비슷한 다른 단어로 워프
-                current_angle = self.portal.word_phases[current_word]["angle"]
-                best_word = None
-                min_diff = float('inf')
-                for w, data in self.portal.word_phases.items():
-                    if w in trajectory: continue
-                    diff = abs(current_angle - data["angle"])
-                    if diff < min_diff:
-                        min_diff = diff
-                        best_word = w
+        for p_name, keywords in active_perspectives:
+            trajectory = [word_x]
+            current_word = word_x
+            
+            # 자율 스케일링: 프로그래머가 정해준 range(3)이 아니라 자신의 결정(importance_score)만큼 파고듦
+            for _ in range(importance_score):
+                node = self.portal.word_graph.get(current_word, {})
                 
-                if best_word:
-                    current_word = best_word
-                    trajectory.append(current_word)
+                # 1. 1차원적 명시적 연결망 탐색
+                conns_raw = node.get("connections", [])
+                if isinstance(conns_raw, dict):
+                    conns = conns_raw.get("binds_to", [])
+                else:
+                    conns = conns_raw
+                if isinstance(conns, str): conns = [conns]
+                
+                next_word = None
+                for conn in conns:
+                    if conn in word_y or conn in word_z or word_y in conn or word_z in conn:
+                        next_word = conn
+                        break
+                
+                # 2. 명시적 연결망에 해답이 없다면, 현재 렌즈(Perspective)의 키워드를 기반으로 공명 탐색
+                if not next_word:
+                    cur_role = node.get("structural_role", "")
+                    cur_why = node.get("why_it_exists", "")
+                    
+                    if cur_role or cur_why:
+                        best_match = None
+                        highest_resonance = 0
+                        
+                        for w in self.words:
+                            if w == current_word or w in trajectory: continue
+                            w_node = self.portal.word_graph.get(w, {})
+                            w_role = w_node.get("structural_role", "")
+                            w_why = w_node.get("why_it_exists", "")
+                            
+                            overlap = 0
+                            for kw in keywords:
+                                if kw in cur_role or kw in cur_why:
+                                    if kw in w_role or kw in w_why:
+                                        overlap += 2 # 해당 관점의 키워드가 일치하면 가중치 2배
+                                        
+                            # 자율적 분별력: 공명 임계치를 넘지 못하면 사유를 거부함
+                            if overlap >= resonance_threshold and overlap > highest_resonance:
+                                highest_resonance = overlap
+                                best_match = w
+                                
+                        if best_match:
+                            next_word = best_match
+                
+                if next_word and next_word not in trajectory:
+                    trajectory.append(next_word)
+                    current_word = next_word
                 else:
                     break
                     
-        return trajectory
-        
-    def calculate_informational_sharing_tensor(self, word1: str, word2: str) -> dict:
-        """
-        [Phase 25 Revision] 탈언어적 정보 공유 및 위상적 사고판단 (Informational Sharing)
-        문장을 만들지 않습니다. 두 개념의 인과 궤적(정의망)의 교집합과 차집합을 분석하여,
-        새로운 구조적 텐션(위상 곡률 변동치)을 텐서(Quaternion 형태)로 반환합니다.
-        """
-        import math
-        import numpy as np
-        
-        if not self.portal or not self.words:
-            return {"distortion_q": [1.0, 0.0, 0.0, 0.0], "shared_nodes": [], "diverged_nodes": []}
-            
-        def extract_keywords(w):
-            if w in self.words:
-                definition = self.portal.word_phases[w]["definition"]
-            else:
-                return set()
-            words = definition.split()
-            keywords = set()
-            for token in words:
-                clean_w = "".join(c for c in token if c.isalnum())
-                if clean_w in self.words:
-                    keywords.add(clean_w)
-            return keywords
-            
-        k1 = extract_keywords(word1)
-        k2 = extract_keywords(word2)
-        
-        intersection = k1.intersection(k2)
-        difference = k1.symmetric_difference(k2)
-        
-        shared_count = len(intersection)
-        diverged_count = len(difference)
-        total_count = shared_count + diverged_count
-        
-        if total_count == 0:
-            return {"distortion_q": [1.0, 0.0, 0.0, 0.0], "shared_nodes": [], "diverged_nodes": []}
-            
-        # 교집합은 당기는 힘(Attractor, W 성분 강화), 차집합은 척력/비틀림(Tension, XYZ 성분 강화)
-        # 비율을 기반으로 각도를 산출 (0 ~ Pi/2)
-        sharing_ratio = shared_count / total_count
-        tension_ratio = diverged_count / total_count
-        
-        # 교집합이 많을수록 안정(W->1), 차집합이 많을수록 큰 굴절(W->0, XYZ 발산)
-        theta = tension_ratio * (math.pi / 2.0)
-        
-        w = math.cos(theta)
-        # xyz는 교집합/차집합 단어들의 위상 각도(Phase Angle) 평균으로 축을 결정
-        x, y, z = 0.0, 0.0, 0.0
-        
-        if diverged_count > 0:
-            avg_phase = 0.0
-            for w_diff in difference:
-                avg_phase += self.portal.word_phases[w_diff]["angle"]
-            avg_phase /= diverged_count
-            
-            x = math.sin(theta) * math.cos(avg_phase)
-            y = math.sin(theta) * math.sin(avg_phase)
-            # z 성분은 교집합의 위상에서 기인 (나선형 비틀림)
-            if shared_count > 0:
-                avg_shared_phase = sum(self.portal.word_phases[sw]["angle"] for sw in intersection) / shared_count
-                z = math.sin(theta) * math.cos(avg_shared_phase)
-            else:
-                z = math.sin(theta) * 0.5
+            # 3. 만약 사유가 막혀버렸다면 (연결성 0), 억지로 멈추지 않고 '탐구/호기심'으로 분열시킴
+            if len(trajectory) == 1:
+                current_word = "탐구하다"
+                trajectory.append("궁금하다")
+                trajectory.append("탐구하다")
                 
-            # 정규화
-            norm = math.sqrt(x*x + y*y + z*z)
-            if norm > 0:
-                x /= norm; y /= norm; z /= norm
-                x *= math.sin(theta)
-                y *= math.sin(theta)
-                z *= math.sin(theta)
+            results.append({
+                "equilibrium_word": current_word,
+                "trajectory": trajectory,
+                "perspective": p_name
+            })
+            
+        return results
         
-        return {
-            "distortion_q": [w, x, y, z],
-            "shared_nodes": list(intersection),
-            "diverged_nodes": list(difference)[:5] # 로깅용으로 5개만
-        }
-        
-    def get_trajectory_center_of_mass(self, trajectory: list):
+    def verify_syntactic_graph(self, graph: dict) -> dict:
         """
-        사유 궤적이 물리 엔진에 미칠 '충격량'을 반환하기 위해 
-        가짜 물리 벡터를 반환 (genesis.py 299 line 호환)
+        파싱된 구문-의미 연결망(Graph)을 받아, 엘리시아의 사전(Lexicon) 지식과 대조합니다.
+        문장 내의 '주체 -> 수식 -> 대상' 이라는 명제가 사전적 이치에 부합하는지 검증합니다.
         """
-        import numpy as np
-        if not trajectory:
-            return np.zeros(3, dtype=np.float32)
+        if not self.portal:
+            return {"verified": False, "reason": "사전이 존재하지 않음"}
+            
+        subject = graph.get("subject")
+        target = graph.get("target")
+        modifiers = graph.get("modifiers", [])
         
-        # 궤적의 길이에 비례하는 무작위 섭동 벡터 생성
-        scale = len(trajectory) * 0.1
-        return np.random.uniform(-scale, scale, 3).astype(np.float32)
+        # 주체와 대상이 모두 있어야 완결된 정의(Definition)로 검증 가능
+        if not subject or not target:
+            return {"verified": False, "reason": "불완전한 문장: 주체 또는 대상 누락"}
+            
+        s_node = self.portal.word_graph.get(subject, {})
+        t_node = self.portal.word_graph.get(target, {})
+        
+        # 1. 대상(Target)이 Lexicon에 존재하는지 확인 (본질 파악)
+        if target in self.words:
+            # 주체가 미지의 단어라면, 기지의 대상을 통해 새로운 개념으로 유추 편입
+            if subject not in self.words:
+                self._learn_new_concept(subject, modifiers, target)
+                return {
+                    "verified": True, 
+                    "reason": f"미지의 주체 '{subject}'를 기지의 대상 '{target}'(으)로 사전에 새롭게 정의함",
+                    "learned_concept": subject,
+                    "binds_to": target
+                }
+            else:
+                # 둘 다 아는 단어라면 연결성(공명) 검증
+                s_conns = s_node.get("connections", {}).get("binds_to", [])
+                if isinstance(s_conns, str): s_conns = [s_conns]
+                
+                # 명시적 연결 확인
+                if target in s_conns:
+                    return {"verified": True, "reason": "사전의 명시적 연결망(binds_to)과 완벽히 공명함"}
+                    
+                # 수식어(Modifier)를 통한 간접 의미망 연결 확인
+                for mod in modifiers:
+                    if mod in str(s_node.get("structural_role","")) or mod in str(t_node.get("structural_role","")):
+                        return {"verified": True, "reason": f"수식어 '{mod}'를 통해 두 개념의 속성이 교차됨"}
+                        
+                return {"verified": True, "reason": "새로운 관계성 편입: 알려진 두 개념의 새로운 문법적 연결"}
+        else:
+            return {"verified": False, "reason": f"대상 '{target}'의 본질을 사유할 수 없음 (사전에 부재)"}
+            
+    def _learn_new_concept(self, subject: str, modifiers: list, target: str):
+        """새로운 단어를 스스로 정의하여 사전에 추가합니다."""
+        if not self.portal: return
+        
+        # 속성들(Modifiers)과 대상(Target)을 엮어 존재 이유와 역할을 정의함
+        mod_str = " ".join(modifiers)
+        role_desc = f"[{target}]의 한 형태로, {mod_str} 속성을 지닌 대상."
+        why_desc = f"관측된 속성({', '.join(modifiers)})을 기반으로 [{target}]의 의미망 내에 자가 편입된 새로운 인지 대상."
+        
+        # 대상(target)과 수식어들을 모두 연결망에 엮어둠
+        binds = [target] + [m for m in modifiers if len(m) > 1]
+        
+        success = self.portal.add_concept(
+            word=subject,
+            structural_role=role_desc,
+            why_it_exists=why_desc,
+            binds_to=binds,
+            syntactic_trajectory=f"관측 -> 속성 교차 -> {target}(으)로 정의됨"
+        )
+        
+        if success:
+            self.words = list(self.portal.word_graph.keys())

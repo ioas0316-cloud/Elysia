@@ -54,19 +54,27 @@ class NeologismEngine:
         with open(self.lexicon_path, "w", encoding="utf-8") as f:
             json.dump(self.alien_lexicon, f, ensure_ascii=False, indent=2)
     
-    def synthesize_neologism(self, orphan_quaternion: list, member_sources: list) -> dict:
+    def synthesize_neologism(self, orphan_tensor: list, member_sources: list) -> dict:
         """
-        고아 별자리의 위상 궤적(Quaternion)으로부터
+        고아 별자리의 위상 궤적(Tensor)으로부터
         완전히 새로운 기호(Glyph) + 음절(Phoneme) + 의미(Semantic Tensor)를 합성합니다.
         
         Args:
-            orphan_quaternion: [w, x, y, z] — 별자리의 중심 위상 궤적
+            orphan_tensor: [t0, t1, t2...] — 별자리의 중심 위상 궤적 텐서
             member_sources: 이 별자리에 속한 엔그램들의 source 이름 리스트
             
         Returns:
-            dict with keys: glyph, phoneme, full_name, quaternion, members
+            dict with keys: glyph, phoneme, full_name, tensor, members
         """
-        w, x, y, z = orphan_quaternion
+        import numpy as np
+        t_arr = np.array(orphan_tensor, dtype=np.float32)
+        norm = np.linalg.norm(t_arr)
+        t_arr = t_arr / norm if norm > 0 else t_arr
+        
+        w = t_arr[0] if len(t_arr) > 0 else 1.0
+        x = t_arr[1] if len(t_arr) > 1 else 0.0
+        y = t_arr[2] if len(t_arr) > 2 else 0.0
+        z = t_arr[3] if len(t_arr) > 3 else 0.0
         
         # 1. 기호(Glyph) 결정 — 위상 각도(Angle)로 팔레트 인덱싱
         angle = 2.0 * math.acos(max(-1.0, min(1.0, w)))
@@ -82,7 +90,7 @@ class NeologismEngine:
         syllable1 = self.ONSET[onset_idx] + self.NUCLEUS[nucleus_idx] + self.CODA[coda_idx]
         
         # 두 번째 음절: 해시 기반으로 결정론적 확장
-        q_hash = hashlib.md5(str(orphan_quaternion).encode()).hexdigest()
+        q_hash = hashlib.md5(str(orphan_tensor).encode()).hexdigest()
         onset2 = self.ONSET[int(q_hash[:2], 16) % len(self.ONSET)]
         nucleus2 = self.NUCLEUS[int(q_hash[2:4], 16) % len(self.NUCLEUS)]
         coda2 = self.CODA[int(q_hash[4:6], 16) % len(self.CODA)]
@@ -99,7 +107,7 @@ class NeologismEngine:
             "glyph": glyph,
             "phoneme": phoneme,
             "full_name": full_name,
-            "quaternion": orphan_quaternion,
+            "tensor": orphan_tensor,
             "angle": angle,
             "members": member_sources[:10],  # 최대 10개 소스
             "birth_cycle": None  # genesis.py에서 채워줌
