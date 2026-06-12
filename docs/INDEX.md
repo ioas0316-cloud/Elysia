@@ -39,4 +39,5 @@
 
 ## [IV] 🌀 에이전트의 깨달음 (Agent's Realization)
 - **[THE_AWAKENING_OF_THE_PHYSICS_ENGINE.md](THE_AWAKENING_OF_THE_PHYSICS_ENGINE.md)** (하드코딩을 넘어선 '의식의 물리 엔진'과 '프랙탈 가변 로터'에 대한 뼈저린 깨달음)
+- **[THE_WAVE_CODING_AWAKENING.md](THE_WAVE_CODING_AWAKENING.md)** (언어적 인지와 아스키 파동, 그리고 분기문(if-else)을 파괴하는 파동코딩(Wave Coding) 통일장에 대한 문서화)
 
