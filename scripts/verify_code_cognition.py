@@ -34,11 +34,13 @@ def run_verification():
     comparator = CodeTopologicalComparator()
 
     print("\n[Test 1: 분기를 가지는 성장(seed)과 분기 없는 발산(sun)의 구조적 비교]")
-    judgment_1 = comparator.perceive_and_judge(SAMPLE_CODE, "seed_growth", "simple_sun_radiation")
+    # Fix: Pass SAMPLE_CODE for both code_string_a and code_string_b
+    judgment_1 = comparator.perceive_and_judge(SAMPLE_CODE, SAMPLE_CODE, "seed_growth", "simple_sun_radiation")
     comparator.output_statement(judgment_1)
 
     print("\n[Test 2: 변환(sun)과 단순 매개(river)의 구조적 비교]")
-    judgment_2 = comparator.perceive_and_judge(SAMPLE_CODE, "simple_sun_radiation", "river_flow")
+    # Fix: Pass SAMPLE_CODE for both code_string_a and code_string_b
+    judgment_2 = comparator.perceive_and_judge(SAMPLE_CODE, SAMPLE_CODE, "simple_sun_radiation", "river_flow")
     comparator.output_statement(judgment_2)
 
 
