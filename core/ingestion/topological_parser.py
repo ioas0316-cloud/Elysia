@@ -21,35 +21,37 @@ class TopologicalCorpusParser:
     def parse_mock_corpus(self) -> List[CausalTrajectory]:
         """
         초기 테스트를 위한 작은 사전 데이터를 파싱합니다.
-        추후 실제 KENGDIC과 같은 대규모 코퍼스를 연동할 수 있도록 설계되었습니다.
+        그래프의 연결성을 부여하기 위해 인과가 꼬리를 무는 데이터로 구성했습니다.
         """
-        # Mock 사전 데이터 (단어와 그 뜻풀이를 단순화한 형태)
+        # Mock 사전 데이터 (그래프적 연결성이 드러나도록 엮음)
         mock_data = [
             {"word": "증발", "definition": "물이 열을 받아 하늘로 올라간다"},
-            {"word": "성장", "definition": "씨앗이 물을 먹고 나무로 자라난다"},
-            {"word": "비춘다", "definition": "태양이 에너지를 방사하여 세상을 밝힌다"},
-            {"word": "중력", "definition": "질량이 주변의 시공간을 끌어당긴다"},
-            {"word": "배고픔", "definition": "에너지가 고갈되어 채우기를 원한다"}
+            {"word": "비", "definition": "하늘이 물을 품어 대지로 내린다"},
+            {"word": "성장", "definition": "대지가 품은 씨앗이 나무로 자라난다"},
+            {"word": "숲", "definition": "나무가 모여 거대한 숲을 이룬다"},
+            {"word": "불", "definition": "숲이 열을 만나면 불로 변한다"},
+            {"word": "재", "definition": "불이 꺼지고 나면 대지로 돌아간다"}
         ]
 
         for item in mock_data:
             word = item["word"]
             desc = item["definition"]
 
-            # 극도로 단순화된 자연어 인과 추출 로직 (Phase 19 시뮬레이션용)
-            # 향후 실제 NLP 모듈이나 규칙 기반 형태소 분석기를 통해 고도화해야 함.
+            # 인과 추출 로직 (그래프 형성을 위한 의도적 연결)
             if "물" in desc and "하늘" in desc:
                 self.trajectories.append(CausalTrajectory(source="물", target="하늘", action="올라간다"))
-            if "씨앗" in desc and "나무" in desc:
-                self.trajectories.append(CausalTrajectory(source="씨앗", target="나무", action="자라난다"))
-            if "태양" in desc and "세상" in desc:
-                self.trajectories.append(CausalTrajectory(source="태양", target="세상", action="밝힌다"))
-            if "질량" in desc and "시공간" in desc:
-                self.trajectories.append(CausalTrajectory(source="질량", target="시공간", action="끌어당긴다"))
-            if "에너지" in desc and "고갈" in desc:
-                self.trajectories.append(CausalTrajectory(source="생명", target="에너지", action="원한다")) # 주체를 유추
+            if "하늘" in desc and "대지" in desc:
+                self.trajectories.append(CausalTrajectory(source="하늘", target="대지", action="내린다"))
+            if "대지" in desc and "나무" in desc:
+                self.trajectories.append(CausalTrajectory(source="대지", target="나무", action="자라난다"))
+            if "나무" in desc and "숲" in desc:
+                self.trajectories.append(CausalTrajectory(source="나무", target="숲", action="이룬다"))
+            if "숲" in desc and "불" in desc:
+                self.trajectories.append(CausalTrajectory(source="숲", target="불", action="변한다"))
+            if "불" in desc and "대지" in desc:
+                self.trajectories.append(CausalTrajectory(source="불", target="대지", action="돌아간다"))
 
-        print(f"[Topological Parser] {len(self.trajectories)} 개의 인과 궤적 추출 완료.")
+        print(f"[Topological Parser] {len(self.trajectories)} 개의 인과 궤적 추출 완료 (의미망 형성).")
         return self.trajectories
 
 if __name__ == "__main__":

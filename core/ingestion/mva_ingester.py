@@ -39,14 +39,21 @@ class MvaIngester:
             else:
                 quat = [qx/norm, qy/norm, qz/norm, qw/norm]
 
-            # 주입할 축 결정 (가장 높은 텐션을 가진 축으로 타게팅)
+            # 주입할 축 결정 (의미망의 다양성을 위해 약간의 확률 요소 또는 2번째로 높은 텐션 반영)
             axes_scores = {
                 'math': tension.math,
                 'lang': tension.lang,
                 'spatial': tension.spatial,
                 'temporal': tension.temporal
             }
+            # 단순히 max만 잡으면 math_t가 1.0으로 고정되는 현상 방지. 실제 텐션 분포를 따름
             primary_axis = max(axes_scores, key=axes_scores.get)
+            if axes_scores[primary_axis] >= 1.0:
+                # 1.0인 축이 있으면 다음으로 높은 의미있는 축을 관측
+                sorted_axes = sorted(axes_scores.items(), key=lambda item: item[1], reverse=True)
+                if sorted_axes[1][1] > 0.4:
+                    primary_axis = sorted_axes[1][0]
+
 
             # 분산(Variance)은 텐션이 높을수록(공명에 가까울수록) 0에 가깝게 설정
             variance = 1.0 - (max(axes_scores.values()) / 1.0)
