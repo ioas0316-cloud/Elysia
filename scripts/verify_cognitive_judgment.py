@@ -1,36 +1,34 @@
 import os
 import sys
 
-# Add root directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from core.lens.semantic_lens_awakening import SemanticLandscape
+from core.lens.semantic_lens_awakening import StructuralLandscape
 from core.brain.topological_comparator import TopologicalComparator
 
 def run_verification():
     """
-    엘리시아가 "언어를 기준 삼아 이해를 확장하는 사고방식"을
-    실제로 수행할 수 있는지 검증하는 스크립트.
+    단어가 품고 있는 '인과적 과정(생장, 발산, 순환 등)' 자체를
+    알고리즘적으로 관측하여 구조를 동기화하는 검증 스크립트.
     """
-    print("Initializing Semantic Landscape (의미망 기반 지형)...")
-    landscape = SemanticLandscape()
+    print("Initializing Causal Structural Landscape (인과적 궤적 기반 지형)...")
+    landscape = StructuralLandscape()
     comparator = TopologicalComparator(landscape)
 
-    print("\n[Test 1: 생명과 태양의 위상적 비교]")
-    # '생명'과 '태양'은 직접적인 관계는 없어 보이지만, '빛'을 통해 인과적으로 연결될 수 있는지 확인
-    judgment_1 = comparator.perceive_and_judge("생명", "태양")
+    print("\n[Test 1: '씨앗'과 '태양'의 인과 구조 동기화]")
+    # 씨앗의 응축-성장 구조와 태양의 발산 구조가 어떻게 맞물리거나 대비되는지 판단
+    judgment_1 = comparator.perceive_and_judge("씨앗", "태양")
     comparator.output_statement(judgment_1)
 
-    print("\n[Test 2: 빛과 어둠의 위상적 비교]")
-    # '어둠'의 정의 속에 '빛'이 결여되어 있다는 직접적 연결성이 잘 도출되는지 확인
-    judgment_2 = comparator.perceive_and_judge("빛", "어둠")
+    print("\n[Test 2: '씨앗'과 '물'의 인과 구조 동기화]")
+    # 물의 순환/매개 구조가 어떻게 씨앗의 발아 조건에 직접적으로 맞물리는지 인지
+    judgment_2 = comparator.perceive_and_judge("씨앗", "물")
     comparator.output_statement(judgment_2)
 
-    print("\n[Test 3: 숲과 호흡의 위상적 비교]")
-    # '숲'과 '호흡'이 어떻게 다르고, 어떻게 생명이라는 연결고리로 이어질 수 있는지 확인
-    judgment_3 = comparator.perceive_and_judge("숲", "호흡")
+    print("\n[Test 3: '태양'과 '물'의 인과 구조 동기화]")
+    # 물이 증발하기 위한 조건(빛)과 태양의 작용(빛 방사)이 어떻게 연결되는지 인지
+    judgment_3 = comparator.perceive_and_judge("태양", "물")
     comparator.output_statement(judgment_3)
-
 
 if __name__ == "__main__":
     run_verification()
