@@ -53,6 +53,40 @@ class TopologicalCompiler:
         self.graph = SemanticTopologyGraph()
         self.lens_forge = LensForge()
 
+    def derive_embodied_tension(self, physical_state: dict, lens: MetaLens = None) -> TensionVector:
+        """
+        [Phase 2 & 3: Embodied & Meta-Perspective Grounding]
+        물리 감각 수용체가 감지한 순수 물리량을 원초적 텐션 벡터로 변환한 뒤,
+        현재 엘리시아가 끼고 있는 렌즈(MetaLens)를 통해 텐션을 '굴절'시킵니다.
+        """
+        mass = physical_state.get("mass", 0.0)
+        cohesion = physical_state.get("cohesion", 0.0)
+        entropy = physical_state.get("entropy", 0.0)
+        light_abs = physical_state.get("light", 0.0)
+        
+        # 1. 물리 법칙에 기반한 원초적 기하학적 치환
+        raw_tensions = {
+            "math": 1.0 - entropy,
+            "lang": cohesion,
+            "spatial": mass,
+            "temporal": entropy,
+            "light_mass": 1.0 - light_abs
+        }
+        
+        # 2. 다원적 렌즈를 통한 굴절 (Pluralistic Refraction)
+        if lens is None:
+            lens = self.lens_forge.get_lens("PURE_PHYSICS")
+            
+        refracted = lens.apply_refraction(raw_tensions)
+        
+        return TensionVector(
+            math=refracted.get("math", 0.0), 
+            lang=refracted.get("lang", 0.0), 
+            spatial=refracted.get("spatial", 0.0), 
+            temporal=refracted.get("temporal", 0.0), 
+            light_mass=refracted.get("light_mass", 0.0)
+        )
+
     def _derive_semantic_tension(self, traj: CausalTrajectory, lens: MetaLens) -> TensionVector:
         """
         단어 간의 관계망(Topology)에서 기본 물리적 텐션을 도출한 뒤,
@@ -101,7 +135,7 @@ class TopologicalCompiler:
 
         self.graph.build(unique_trajectories)
         active_lens = self.lens_forge.get_lens(lens_name)
-        print(f"\n[Topological Compiler] 🔭 장착된 관점(Lens): <{active_lens.name}> - {active_lens.description}")
+        print(f"\n[Topological Compiler] 장착된 관점(Lens): <{active_lens.name}> - {active_lens.description}")
 
         compiled_data = []
         for traj in unique_trajectories:
@@ -110,6 +144,44 @@ class TopologicalCompiler:
 
         print(f"[Topological Compiler] {len(compiled_data)} 개의 궤적 재관측 및 텐션 창발 완료.")
         return compiled_data
+
+    def derive_standalone_tension(self, trajectories: List[CausalTrajectory], lens_name: str = "PURE_PHYSICS", portal=None) -> TensionVector:
+        """
+        [Helper] 특정 단어나 함수가 가진 여러 궤적들을 종합하여, 단일한 대표 TensionVector를 추출합니다.
+        만약 portal(LanguagePortalEngine)이 주어졌다면, 거대 위상망에서 
+        해당 개념의 심층 연결망(Deep Sub-Graph)을 통째로 뜯어와서 진짜 텐션을 계산합니다.
+        """
+        if not trajectories:
+            return TensionVector(0.1, 0.1, 0.1, 0.1, 0.1)
+            
+        expanded_trajectories = []
+        
+        # 만약 portal이 주어졌고 자연어 단일 궤적이라면 거대 위상망 추출
+        if portal and len(trajectories) == 1:
+            word = trajectories[0].source
+            deep_subgraph = portal.get_deep_subgraph(word, depth=2)
+            expanded_trajectories.extend(deep_subgraph)
+        else:
+            for t in trajectories:
+                expanded_trajectories.append(t)
+                # 긴 자연어 문장이 단일 액션으로 들어왔을 경우, 내부 복잡도(방사성)를 위상망으로 임의 전개
+                words = t.action.split()
+                if len(words) > 3:
+                    for i in range(len(words)-1):
+                        expanded_trajectories.append(CausalTrajectory(source=words[i], target=words[i+1], action="이어짐"))
+                    
+        compiled = self.compile(expanded_trajectories, lens_name)
+        if not compiled:
+            return TensionVector(0.1, 0.1, 0.1, 0.1, 0.1)
+            
+        # 평균 텐션 계산
+        avg_math = sum(t.math for _, t in compiled) / len(compiled)
+        avg_lang = sum(t.lang for _, t in compiled) / len(compiled)
+        avg_space = sum(t.spatial for _, t in compiled) / len(compiled)
+        avg_time = sum(t.temporal for _, t in compiled) / len(compiled)
+        avg_light = sum(t.light_mass for _, t in compiled) / len(compiled)
+        
+        return TensionVector(avg_math, avg_lang, avg_space, avg_time, avg_light)
 
 if __name__ == "__main__":
     from core.ingestion.topological_parser import TopologicalCorpusParser

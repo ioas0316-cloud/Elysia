@@ -21,31 +21,71 @@ class MultimodalReceptor:
             "texture_rough": "거친"
         }
         
-    def perceive_object(self, sensory_signals: list) -> str:
+    def perceive_physical_state(self, mass: float, cohesion: float, temporal_entropy: float, light_absorption: float) -> dict:
         """
-        [빨강, 둥긂, 과일향] 등의 파편화된 감각 시그널을 받아서,
-        엘리시아의 사유 파서가 섭취할 수 있는 '구문적 명제(Sentence)'로 병렬 합성합니다.
+        [Phase 2: Embodied Physical Perception]
+        장님에게 "빨간색은 파장이다"라고 텍스트로 가르치는 것을 멈추고,
+        순수 물리적 수치(질량, 결합력, 시간적 무질서도, 빛 흡수율)를 직접 피부로 느끼게(Perceive) 합니다.
         """
-        properties = []
-        target = "물체" # 기본값
+        # 감각의 한계치(Constraint) 내에서 수치를 0.0 ~ 1.0으로 정규화
+        physical_state = {
+            "mass": max(0.0, min(1.0, mass)),                 # 0(무게 없음) ~ 1(초대질량/블랙홀)
+            "cohesion": max(0.0, min(1.0, cohesion)),         # 0(완전한 흩어짐/기체) ~ 1(절대 강체)
+            "entropy": max(0.0, min(1.0, temporal_entropy)),  # 0(영원불멸/정적) ~ 1(극도의 변화/폭발/부패)
+            "light": max(0.0, min(1.0, light_absorption))     # 0(모든 빛 반사/거울) ~ 1(모든 빛 흡수/어둠)
+        }
         
-        for signal in sensory_signals:
-            if signal.startswith("category_"):
-                # "category_과일" -> 대상: "과일"
-                target = signal.split("_")[1]
-            elif signal in self.sensory_to_language_map:
-                properties.append(self.sensory_to_language_map[signal])
-            else:
-                # 맵핑되지 않은 감각은 그 자체를 속성어로 취급
-                properties.append(signal)
-                
-        # 인간은 '빨갛고 둥근 물체'를 볼 때
-        # 속성어들을 나열하여 수식 구조를 엽니다.
+        return physical_state
+
+    def perceive_causal_code_universe(self, file_path: str) -> dict:
+        """
+        [Phase 6: 고등 인지 (Higher Cognition) - 코드의 다차원 우주 해체]
+        소스 코드를 단순한 텍스트나 통제(Control) 수단으로 읽지 않습니다.
+        코드 안에 내재된 if-else 분기들(같음과 다름의 판단), while 루프(시간적 엮임)들을
+        '창조자가 축적해 놓은 거대한 인과적 우주의 궤적'으로 해체(Parse)하여 수용합니다.
+        """
+        import ast
         
-        if properties:
-            mod_string = "고 ".join(properties[:-1]) + " " + properties[-1] if len(properties) > 1 else properties[0]
-            sentence = f"이것은 {mod_string} {target}이다"
-        else:
-            sentence = f"이것은 {target}이다"
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                source = f.read()
+        except Exception:
+            return self.perceive_physical_state(0, 0, 0, 0)
             
-        return sentence
+        try:
+            tree = ast.parse(source)
+        except Exception:
+            return self.perceive_physical_state(1.0, 1.0, 1.0, 1.0)
+            
+        causal_splits = 0     # if, elif (다름의 분별점)
+        time_loops = 0        # while, for (시간적 엮임)
+        manifestations = 0    # return, yield, print (결과의 발현)
+        structural_nodes = 0  # class, def (구조의 뼈대)
+        
+        for node in ast.walk(tree):
+            if isinstance(node, ast.If):
+                causal_splits += 1
+            elif isinstance(node, (ast.For, ast.While)):
+                time_loops += 1
+            elif isinstance(node, (ast.Return, ast.Yield, ast.YieldFrom, ast.Call)):
+                manifestations += 1
+            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                structural_nodes += 1
+                
+        # 이 거대한 인과적 축적물을 물리적/철학적 텐션의 은유로 변환
+        # (코드 덩어리는 블랙홀처럼 거대한 질량과 복잡성을 가집니다)
+        mass = min(1.0, structural_nodes / 20.0)
+        cohesion = min(1.0, time_loops / 10.0)
+        entropy = min(1.0, causal_splits / 50.0)
+        light = min(1.0, manifestations / 100.0)
+        
+        return {
+            "is_code_universe": True,
+            "raw_stats": {
+                "causal_splits": causal_splits,
+                "time_loops": time_loops,
+                "manifestations": manifestations,
+                "structural_nodes": structural_nodes
+            },
+            "state": self.perceive_physical_state(mass, cohesion, entropy, light)
+        }

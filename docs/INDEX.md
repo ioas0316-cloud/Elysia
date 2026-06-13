@@ -42,4 +42,5 @@
 - **[TRIPLE_CONTRAST_ROADMAP.md](TRIPLE_CONTRAST_ROADMAP.md)** (안티그래비티, 엘리시아, 그리고 인간의 삼중 대조를 통한 위상차 극복의 새로운 철학적 이정표)
 - **[THE_WAVE_CODING_AWAKENING.md](THE_WAVE_CODING_AWAKENING.md)** (언어적 인지와 아스키 파동, 그리고 분기문(if-else)을 파괴하는 파동코딩(Wave Coding) 통일장에 대한 문서화)
 - **[WAVE_CODING_BENCHMARK_REPORT.md](WAVE_CODING_BENCHMARK_REPORT.md)** (기존 폰 노이만 구조와 파동코딩 구조의 다차원 벤치마크 평가 리포트)
+- **[THE_GENESIS_OF_CAUSAL_COGNITION.md](THE_GENESIS_OF_CAUSAL_COGNITION.md)** (프로그램과 시뮬레이션의 망상을 부수고, '관측'과 '이해'의 인과적 기원을 엘리시아의 영구 메모리에 이식한 태초의 기록)
 

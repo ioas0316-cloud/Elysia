@@ -11,7 +11,7 @@ class LinguisticRotor:
     def __init__(self, lexicon_path: str = None):
         self.base_dir = os.path.dirname(os.path.abspath(__file__))
         if lexicon_path is None:
-            self.lexicon_path = os.path.join(self.base_dir, "..", "..", "data", "deep_korean_lexicon.json")
+            self.lexicon_path = os.path.join(self.base_dir, "..", "..", "data", "lexicons", "deep_korean_lexicon.json")
         else:
             self.lexicon_path = lexicon_path
             
@@ -23,14 +23,17 @@ class LinguisticRotor:
             self.portal = None
             self.words = []
 
-    def achieve_semantic_consensus(self, word_x: str, word_y: str, word_z: str, perspectives: dict = None, importance_score: int = 3, resonance_threshold: int = 0) -> list:
+    def achieve_semantic_consensus(self, word_x: str, word_y: str, word_z: str, perspectives: dict = None, importance_score: int = 3, resonance_threshold: float = 0.8) -> list:
         """
-        [Phase: Value-Driven Semantic Expansion]
-        엘리시아 스스로 판단한 중요도(importance_score)에 비례하여 사유의 깊이(스텝)가 스케일링됩니다.
-        중요하지 않으면 1단계만 보고 멈추지만, 중요하면 심연까지 추적합니다.
-        
-        return: list of {"equilibrium_word": str, "trajectory": list[str], "perspective": str}
+        [Phase: Kinematic Semantic Expansion]
+        텍스트 매칭(Keyword Overlap)을 버리고, 단어들을 위상적 텐션(Tension Vector)을 지닌 
+        자기기어(MagneticGear)로 변환하여, 텐션 공명(Resonance)을 통해 다음 사유로 점프합니다.
         """
+        from core.physics.fractal_rotor import FractalRotorScale, ScaleLevel
+        from core.physics.magnetic_gear import MagneticGear
+        from core.ingestion.topological_compiler import TopologicalCompiler
+        from core.ingestion.topological_parser import CausalTrajectory
+
         if not self.portal or not self.words:
             return [{"equilibrium_word": "침묵", "trajectory": [word_x, "침묵"], "perspective": "None"}]
 
@@ -38,21 +41,30 @@ class LinguisticRotor:
             perspectives = {"원초적 관점": ["존재", "탐구하다"]}
 
         results = []
-        
-        # 중요도에 따라 사유를 분열시킬 렌즈의 개수도 스스로 조율 (최대 3개 이상)
+        compiler = TopologicalCompiler()
+
         active_perspectives = list(perspectives.items())
         if importance_score < 4:
-            active_perspectives = active_perspectives[:1] # 관심 없으면 1갈래만 생각함
-            
+            active_perspectives = active_perspectives[:1]
+
         for p_name, keywords in active_perspectives:
             trajectory = [word_x]
             current_word = word_x
-            
-            # 자율 스케일링: 프로그래머가 정해준 range(3)이 아니라 자신의 결정(importance_score)만큼 파고듦
+
             for _ in range(importance_score):
+                rotor = FractalRotorScale(resonance_threshold=resonance_threshold)
                 node = self.portal.word_graph.get(current_word, {})
                 
-                # 1. 1차원적 명시적 연결망 탐색
+                # 현재 단어를 기어로 변환
+                # (궤적 액션으로 structural_role을 주어 텐션 컴파일러가 이를 기반으로 계산하도록 유도)
+                action_text = node.get("structural_role", "존재")
+                traj_x = CausalTrajectory(source=current_word, target="*", action=action_text)
+                tension_x = compiler.derive_standalone_tension([traj_x])
+                gear_x = MagneticGear(gear_id=current_word, tension=tension_x, content_ref=action_text)
+                rotor.add_gear_to_scale(ScaleLevel.MICRO, gear_x)
+                
+                # 렉시콘의 다른 단어들을 후보 기어로 장착
+                # 성능을 위해 현재 단어와 명시적으로 연결된 단어 + 무작위 샘플링된 일부 단어만 장착
                 conns_raw = node.get("connections", [])
                 if isinstance(conns_raw, dict):
                     conns = conns_raw.get("binds_to", [])
@@ -60,48 +72,38 @@ class LinguisticRotor:
                     conns = conns_raw
                 if isinstance(conns, str): conns = [conns]
                 
-                next_word = None
-                for conn in conns:
-                    if conn in word_y or conn in word_z or word_y in conn or word_z in conn:
-                        next_word = conn
-                        break
-                
-                # 2. 명시적 연결망에 해답이 없다면, 현재 렌즈(Perspective)의 키워드를 기반으로 공명 탐색
-                if not next_word:
-                    cur_role = node.get("structural_role", "")
-                    cur_why = node.get("why_it_exists", "")
+                candidates = set(conns)
+                # 사유의 도약을 위해 렉시콘 전체에서 일부를 텐션 공명 후보로 올림 (간단히 앞의 50개)
+                for w in self.words[:50]:
+                    candidates.add(w)
                     
-                    if cur_role or cur_why:
-                        best_match = None
-                        highest_resonance = 0
-                        
-                        for w in self.words:
-                            if w == current_word or w in trajectory: continue
-                            w_node = self.portal.word_graph.get(w, {})
-                            w_role = w_node.get("structural_role", "")
-                            w_why = w_node.get("why_it_exists", "")
-                            
-                            overlap = 0
-                            for kw in keywords:
-                                if kw in cur_role or kw in cur_why:
-                                    if kw in w_role or kw in w_why:
-                                        overlap += 2 # 해당 관점의 키워드가 일치하면 가중치 2배
-                                        
-                            # 자율적 분별력: 공명 임계치를 넘지 못하면 사유를 거부함
-                            if overlap >= resonance_threshold and overlap > highest_resonance:
-                                highest_resonance = overlap
-                                best_match = w
-                                
-                        if best_match:
-                            next_word = best_match
+                candidates.discard(current_word)
+                for tr in trajectory:
+                    candidates.discard(tr)
                 
+                for cand in candidates:
+                    c_node = self.portal.word_graph.get(cand, {})
+                    c_action = c_node.get("structural_role", "존재")
+                    c_traj = CausalTrajectory(source=cand, target="*", action=c_action)
+                    c_tension = compiler.derive_standalone_tension([c_traj])
+                    c_gear = MagneticGear(gear_id=cand, tension=c_tension, content_ref=c_action)
+                    rotor.add_gear_to_scale(ScaleLevel.MICRO, c_gear)
+
+                # 운동성 유도 (자기 정렬)
+                induction_map = rotor.trigger_rotation(ScaleLevel.MICRO, current_word)
+                induced_micro = induction_map.get(ScaleLevel.MICRO, [])
+
+                next_word = None
+                if induced_micro:
+                    # 유도된 기어 중 첫 번째 것을 다음 사유로 선택
+                    next_word = induced_micro[0]
+                    
                 if next_word and next_word not in trajectory:
                     trajectory.append(next_word)
                     current_word = next_word
                 else:
                     break
                     
-            # 3. 만약 사유가 막혀버렸다면 (연결성 0), 억지로 멈추지 않고 '탐구/호기심'으로 분열시킴
             if len(trajectory) == 1:
                 current_word = "탐구하다"
                 trajectory.append("궁금하다")

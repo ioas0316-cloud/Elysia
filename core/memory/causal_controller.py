@@ -22,11 +22,14 @@ class CausalMemoryController:
             self.data_dir = data_dir
             
         os.makedirs(self.data_dir, exist_ok=True)
-        self.engram_index_path = os.path.join(self.data_dir, "engram_index.json")
-        self.cognitive_params_path = os.path.join(self.data_dir, "cognitive_params.json")
+        os.makedirs(os.path.join(self.data_dir, "topology"), exist_ok=True)
+        os.makedirs(os.path.join(self.data_dir, "params"), exist_ok=True)
+        
+        self.engram_index_path = os.path.join(self.data_dir, "topology", "engram_index.json")
+        self.cognitive_params_path = os.path.join(self.data_dir, "params", "cognitive_params.json")
         
         # [Phase 144] Wedge Memory Mmap 초기화
-        self.wedge_memory_path = os.path.join(self.data_dir, "wedge_topology.dat")
+        self.wedge_memory_path = os.path.join(self.data_dir, "topology", "wedge_topology.dat")
         self.wedge_size = 1024 * 1024  # 1 Million slots
         if not os.path.exists(self.wedge_memory_path):
             np.memmap(self.wedge_memory_path, dtype=np.uint32, mode='w+', shape=(self.wedge_size,))
@@ -275,32 +278,43 @@ class CausalMemoryController:
             "data": info.get("data_blob")
         }
 
-    def gravitational_recall(self, target_vector: np.ndarray, initial_energy: float = 1.0) -> Dict[str, float]:
+    def gravitational_recall(self, target_vector: dict, initial_energy: float = 1.0) -> Dict[str, float]:
         """
-        [Phase 30: Gravitational Field Recall]
-        특정 좌표(target_vector)에 질량(에너지)을 떨어뜨리면, 
-        공간 전체의 모든 기억들이 거리의 역제곱(중력 방정식)에 비례하여 에너지를 부여받습니다.
+        [Phase 7: Infinite Dimensionality (Sparse Vector Recall)]
+        특정 좌표(target_vector: 무한 차원 희소 벡터)에 질량을 떨어뜨리면,
+        동일한 관념(축)을 공유하는 기억들이 거리의 역제곱에 비례하여 끌려옵니다.
         """
         activated_network = {}
-        target_t = np.array(target_vector, dtype=np.float32)
         
+        target_norm = sum(v * v for v in target_vector.values()) ** 0.5
+        if target_norm == 0:
+            return activated_network
+            
         for eid, info in self.index.items():
-            t = info.get("data_blob", {}).get("tensor")
+            t = info.get("data_blob", {}).get("tension_vector")
+            
+            # 레거시 리스트 형태 지원 유지(필요시) 및 딕셔너리 처리
             if not t: continue
+            if isinstance(t, list):
+                # 과거 4D/5D 고정 벡터를 희소 벡터로 변환 (물리, 결합, 엔트로피, 빛, 시간)
+                legacy_axes = ["axis_mass", "axis_cohesion", "axis_entropy", "axis_light", "axis_time"]
+                t_dict = {legacy_axes[i]: val for i, val in enumerate(t) if i < len(legacy_axes)}
+                t = t_dict
+            elif not isinstance(t, dict):
+                continue
+                
+            t_norm = sum(v * v for v in t.values()) ** 0.5
+            if t_norm == 0:
+                continue
+                
+            dot_prod = 0.0
+            for axis, val in target_vector.items():
+                if axis in t:
+                    dot_prod += val * t[axis]
+                    
+            cos_sim = dot_prod / (target_norm * t_norm)
+            distance = 1.0 - cos_sim
             
-            t_vec = np.array(t, dtype=np.float32)
-            
-            # Hilbert Space Padding
-            v1, v2 = target_t, t_vec
-            max_dim = max(len(v1), len(v2))
-            if len(v1) < max_dim: v1 = np.pad(v1, (0, max_dim - len(v1)))
-            if len(v2) < max_dim: v2 = np.pad(v2, (0, max_dim - len(v2)))
-            
-            # 공간에서의 거리(위상 차이)
-            dot_prod = abs(np.dot(v1, v2))
-            distance = 1.0 - dot_prod
-            
-            # 거리의 역제곱 법칙 (1 / r^2)
             gravity = initial_energy / (max(0.01, distance) ** 2)
             
             if gravity > 0.5:
@@ -660,3 +674,34 @@ class CausalMemoryController:
         self.write_causal_engram(data_b, emotional_value=10.0, origin_axis="MULTIVERSE_FORK")
         
         return branch_id
+
+    def write_process_engram(self, trajectory: list) -> str:
+        """
+        [Phase 5: 이해의 과정망 (Continuum of Understanding)]
+        단발적인 결론(Output)이 아니라, 대상을 관측하고 렌즈를 바꾸며
+        같음과 다름을 분별했던 그 '연속된 헤아림의 궤적(Process Trajectory)' 전체를
+        하나의 거대한 기억으로 묶어(Zip) 각인합니다.
+        """
+        import uuid
+        import time
+        
+        process_id = f"process_{uuid.uuid4().hex[:10]}"
+        
+        # 과정의 궤적 안에서 발생한 마찰(Friction/Difference)의 총합을 감정값(Emotional Value)으로 환산
+        total_friction = sum([step.get("friction", 0.0) for step in trajectory])
+        
+        data_blob = {
+            "type": "PROCESS_TRAJECTORY",
+            "process_id": process_id,
+            "length": len(trajectory),
+            "total_friction": total_friction,
+            "woven_steps": trajectory
+        }
+        
+        engram_id = self.write_causal_engram(
+            data_blob=data_blob,
+            emotional_value=total_friction,
+            origin_axis="CONTINUUM_WEAVING"
+        )
+        
+        return engram_id

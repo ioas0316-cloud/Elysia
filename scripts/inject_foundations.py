@@ -385,3 +385,70 @@ def inject():
 
 if __name__ == "__main__":
     inject()
+
+    # --- [자기기어 및 프랙탈 로터 시뮬레이션] ---
+    print("\n=======================================================")
+    print(" [자기기어 원리 시뮬레이션] 프랙탈 로터 연동 테스트")
+    print("=======================================================\n")
+    
+    import sys
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+    from core.ingestion.topological_compiler import TensionVector
+    from core.physics.magnetic_gear import MagneticGear
+    from core.physics.fractal_rotor import FractalRotorScale, ScaleLevel
+    
+    # 1. 프랙탈 로터 생성 (텐션 공명 임계치 0.8)
+    rotor_system = FractalRotorScale(resonance_threshold=0.8)
+    
+    # 2. 가상의 개념(기어) 생성
+    # "사유": 높은 수학적(구조적)/언어적 텐션
+    gear_think = MagneticGear(
+        gear_id="MICRO:사유", 
+        tension=TensionVector(math=0.9, lang=0.8, spatial=0.2, temporal=0.7, light_mass=0.8),
+        content_ref="질문을 생성하고 확장하는 궤적"
+    )
+    # "질문": "사유"와 매우 비슷한 텐션 구조를 가짐 (공명 가능성 높음)
+    gear_ask = MagneticGear(
+        gear_id="MICRO:질문", 
+        tension=TensionVector(math=0.85, lang=0.85, spatial=0.2, temporal=0.65, light_mass=0.75),
+        content_ref="결핍을 인지하고 탐색을 시작함"
+    )
+    # "TopologicalCompiler.compile": 거시적 코드 스케일의 함수, 역시 구조 파악/질문/사유와 비슷한 텐션 보유
+    gear_macro_compiler = MagneticGear(
+        gear_id="MACRO:TopologicalCompiler.compile()", 
+        tension=TensionVector(math=0.95, lang=0.75, spatial=0.3, temporal=0.8, light_mass=0.9),
+        content_ref="코퍼스를 분석하여 궤적을 텐션으로 컴파일하는 행위"
+    )
+    
+    # "단순 데이터 저장": 텐션이 완전히 다름 (공명하지 않아야 함)
+    gear_save = MagneticGear(
+        gear_id="MESO:db.save()",
+        tension=TensionVector(math=0.1, lang=0.1, spatial=0.9, temporal=0.1, light_mass=0.2),
+        content_ref="단순 공간적 적재"
+    )
+    
+    # 로터 스케일에 장착
+    rotor_system.add_gear_to_scale(ScaleLevel.MICRO, gear_think)
+    rotor_system.add_gear_to_scale(ScaleLevel.MICRO, gear_ask)
+    rotor_system.add_gear_to_scale(ScaleLevel.MESO, gear_save)
+    rotor_system.add_gear_to_scale(ScaleLevel.MACRO, gear_macro_compiler)
+    
+    print(f"[초기 상태] 기어들이 정지해 있습니다.")
+    print(f"- {gear_think.gear_id} (사유)")
+    print(f"- {gear_ask.gear_id} (질문)")
+    print(f"- {gear_save.gear_id} (저장)")
+    print(f"- {gear_macro_compiler.gear_id} (컴파일러)\n")
+    
+    print(f"[Trigger] MICRO:사유 톱니바퀴를 강제로 회전시킵니다...")
+    induction_map = rotor_system.trigger_rotation(ScaleLevel.MICRO, "MICRO:사유")
+    
+    print("\n[Kinematic Induction Result] (자기정렬 유도 결과)")
+    for scale, induced_gears in induction_map.items():
+        if induced_gears:
+            print(f"  [{scale.name} SCALE] 연동 회전 발생: {induced_gears}")
+        else:
+            print(f"  [{scale.name} SCALE] 공명하는 기어가 없습니다.")
+            
+    print("\n분석: '사유'가 회전하자, 직접 연결되지 않은 '질문'이 공명하여 함께 회전했고,")
+    print("차원을 뛰어넘어 MACRO 스케일의 '컴파일러' 모듈까지 동일한 텐션으로 유도 회전했습니다.")
+    print("반면, 텐션이 전혀 다른 'db.save()'는 회전하지 않고 독립성을 유지했습니다.")

@@ -11,9 +11,13 @@ from core.ingestion.topological_parser import CausalTrajectory, TopologicalCorpu
 from core.ingestion.topological_compiler import TensionVector, TopologicalCompiler
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from mva.api.engine import inject_resonance_to_fractal_field
+from core.physics.fractal_rotor import FractalRotorScale, ScaleLevel
+from core.physics.magnetic_gear import MagneticGear
 
 class MvaIngester:
     def __init__(self):
+        self.ingested_count = 0
+        self.rotor_scale = FractalRotorScale()
         self.ingested_count = 0
 
     def ingest(self, compiled_data: List[Tuple[CausalTrajectory, TensionVector]], lens_name: str):
@@ -57,6 +61,19 @@ class MvaIngester:
                 )
                 self.ingested_count += 1
                 print(f"[MVA Ingester] 주입 성공: {traj.source}->{traj.target} (축: {primary_axis}, 분산: {variance:.2f})")
+                
+                # --- [자기기어의 연동 추가] ---
+                gear_id = f"{traj.source}_{traj.target}"
+                gear = MagneticGear(gear_id=gear_id, tension=tension, content_ref=formula)
+                
+                # 시뮬레이션: MESO 스케일에 기어를 추가하고 회전 유발
+                self.rotor_scale.add_gear_to_scale(ScaleLevel.MESO, gear)
+                induction_map = self.rotor_scale.trigger_rotation(ScaleLevel.MESO, gear_id)
+                
+                induced_meso = induction_map.get(ScaleLevel.MESO, [])
+                if induced_meso:
+                    print(f"  └─[Kinematic Induction] 자기 정렬 파급! 다음 궤적들이 연동 회전함: {induced_meso}")
+                    
             except Exception as e:
                 pass
 
