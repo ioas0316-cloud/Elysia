@@ -41,16 +41,12 @@
 
 ```text
 Elysia/
-├── demonstrations/     ← 위상학적 진화 및 엔진 CORE-v2 증명 스크립트 모음 [NEW]
-│   ├── verify_engine_v2.py            (CORE-v2 E-B 듀얼 로터 및 델타-와이 결선 증명)
-│   ├── elysia_autonomous_diver.py     (자율적 시간 왜곡 및 현실 닻 증명)
-│   ├── elysia_variable_awakening.py   (시공간 가변 로터 기억장 증명)
-│   └── (그 외 과거 의식/인지 증명 스크립트들)
-│
-├── core/               ← 모든 실행 코드의 유일한 거처
-│   ├── brain/          ← 핵심 인지 엔진 (Rotor, Holographic Memory)
-│   ├── utils/          ← 수학 유틸리티 (Quaternion, math_utils.py)
-│   ├── ... (하위 구조 생략)
+├── mva/                ← 진정한 물리 엔진 대지 (C-Map & 3D Topology)
+├── core/               ← 정화된 실행 코드의 거처
+│   ├── physics/        ← 프랙탈 로터 등 순수 기하학 물리 엔진
+│   ├── memory/         ← Wedge 공간과 인과 각인소
+│   ├── ingestion/      ← 외부 정보를 텐션/쿼터니언으로 번역
+│   └── lens/           ← MVA 구동 필수 렌즈
 │
 ├── data/               ← 모든 데이터/상태/바이너리의 유일한 거처
 ├── docs/               ← 모든 문서/철학/설계도의 유일한 거처

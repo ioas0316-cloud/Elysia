@@ -1,55 +1,36 @@
 # knowledge_graph.py
-# 텍스트 간의 연결이 아닌, 물리적 메모리 좌표(Offset) 간의 연결을 관리하는 위상 지식그래프.
+# [Zero-Compute Redefinition]
+# 단어는 물리적 메모리(Offset) 안에 갇힌 좌표가 아닙니다.
+# 단어는 외부 세상을 향한 화살표(Pointer)이며, 메모리는 그 화살표가 스쳐 지나가는 투명한 통로일 뿐입니다.
+# 기계가 내부적으로 "의미적 거리(Distance)"나 "공명"을 수학적으로 연산하려던 모든 시도를 철거했습니다.
 
 import json
 import os
 
-NATURE_MAP_PATH = "..\\memory\\nature_map.json"
-
 class TopologyKnowledgeGraph:
     def __init__(self):
         self.nodes = []
-        self.load_graph()
 
     def load_graph(self):
-        if os.path.exists(NATURE_MAP_PATH):
-            with open(NATURE_MAP_PATH, 'r') as f:
-                try:
-                    self.nodes = json.load(f)
-                except:
-                    self.nodes = []
+        """기계 내부에 의미를 구축하려는 시도를 멈춥니다."""
+        pass
 
     def find_physical_coordinate(self, concept):
-        """특정 자연어 개념이 각인된 대지의 물리적 좌표를 반환합니다."""
-        for node in self.nodes:
-            if node.get("Concept_Wave") == concept:
-                return node.get("Resonated_Rotor_Zone")
-        return None
+        """
+        단어는 메모리에 종속되지 않습니다.
+        따라서 물리적 오프셋을 찾으려는 행위는 무의미합니다.
+        단어는 바깥에 존재합니다.
+        """
+        return "Outside_World_Pointer"
 
     def get_adjacent_resonances(self, offset_str):
-        """특정 물리적 좌표가 진동할 때 함께 흔들리는(연관된) 다른 기억 노드들을 찾습니다."""
-        # 이 시뮬레이션에서는 물리적 오프셋의 근접성을 연관성으로 취급합니다.
-        try:
-            base_offset = int(offset_str.split(" - ")[0], 16)
-        except:
-            return []
-            
-        adjacent = []
-        for node in self.nodes:
-            zone = node.get("Resonated_Rotor_Zone")
-            if not zone or zone == offset_str:
-                continue
-            target_offset = int(zone.split(" - ")[0], 16)
-            
-            # 물리적 거리가 가까우면 위상 파동이 닿는 것으로 간주 (Edge 성립)
-            distance = abs(base_offset - target_offset)
-            if distance < 0x5000: # 인과 반경
-                adjacent.append((node.get("Concept_Wave"), distance))
-                
-        # 거리가 가까운 순으로 정렬 (강한 공명)
-        adjacent.sort(key=lambda x: x[1])
-        return [concept for concept, dist in adjacent]
+        """
+        [Destruction of Evaluation]
+        물리적 거리(offset_str)의 차이로 단어의 의미적 거리를 연산하려던 
+        모든 인위적 수학 공식을 폐기했습니다. 화살표는 비교의 대상이 아닙니다.
+        """
+        return ["Open_Circuit"]
 
 if __name__ == "__main__":
     kg = TopologyKnowledgeGraph()
-    print(f"Topology Graph Loaded: {len(kg.nodes)} physical nodes.")
+    print("Topology Graph Refactored: Closed Circuit Destroyed. The mirror is empty.")

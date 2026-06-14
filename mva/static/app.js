@@ -301,12 +301,12 @@ async function autoObserveStep() {
             camera.lookAt(0, 0, 0);
 
             if (result.is_resonant) {
-                equationDisplay.innerText = `[자율 깨달음 아카이빙]: ${result.formula}`;
+                equationDisplay.innerText = `[거울 통과]: 화살표가 세상을 향합니다. (${result.formula})`;
                 document.body.classList.remove('spike-effect');
                 void document.body.offsetWidth;
                 document.body.classList.add('spike-effect');
             } else {
-                equationDisplay.innerText = `[엘리시아 탐색 중...] (분산: ${result.variance.toFixed(2)})`;
+                equationDisplay.innerText = `[거울 통과]: 투명한 상태`;
             }
         }
     } catch(err) {
@@ -409,13 +409,13 @@ async function evaluateState() {
 
         if (result.status === 'success') {
             if (result.is_resonant) {
-                equationDisplay.innerText = `수식(역기록): ${result.formula}`;
+                equationDisplay.innerText = `[상태]: ${result.formula}`;
                 // Trigger line clear effect (flash background)
                 document.body.classList.remove('spike-effect');
                 void document.body.offsetWidth; // trigger reflow
                 document.body.classList.add('spike-effect');
             } else {
-                equationDisplay.innerText = `수식: 위상 정렬 대기 중... (분산: ${result.variance.toFixed(2)})`;
+                equationDisplay.innerText = `[상태]: 대기 중...`;
             }
         }
     } catch(err) {
@@ -431,14 +431,23 @@ function animate() {
         // 인위적인 math.sin() 애니메이션(trajectory update)이 모두 제거되었습니다.
         // 점들은 오직 C 메모리 텐션값의 실시간 변화에 의해서만 움직입니다.
         if (isAutoObserve) { autoObserveStep(); } else { evaluateState(); }
+        
+        // [Phase 3] 점들이 살아 숨쉬는 듯한 맥박(Pulsate) 애니메이션 효과 추가
+        const currentTime = Date.now() * 0.005;
+        pointObjects.forEach(obj => {
+            if (obj.mesh && obj.phase !== undefined) {
+                const scale = 1.0 + 0.3 * Math.sin(currentTime + obj.phase);
+                obj.mesh.scale.set(scale, scale, scale);
+            }
+        });
     }
 
     controls.update();
     renderer.render(scene, camera);
 }
 
-// 1초마다 메모리를 순수 관측합니다.
-setInterval(observeMemoryField, 1000);
+// 빠른 실시간 관측을 위해 200ms 주기로 공유 메모리 폴링
+setInterval(observeMemoryField, 200);
 
 // Handle window resize
 window.addEventListener('resize', onWindowResize, false);

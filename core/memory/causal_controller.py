@@ -115,8 +115,11 @@ class CausalMemoryController:
         
         # 쐐기 메모리 공간에 중첩(Interleave)하여 저장
         addr = self.interleaver.interleave_opposing_nodes(engram_id, signal_with_noise, noise)
-        # mmap 변경사항 디스크 동기화
-        self.wedge_mmap.flush()
+        # mmap 변경사항 디스크 동기화 (예외 처리 추가)
+        try:
+            self.wedge_mmap.flush()
+        except OSError as e:
+            print(f"[Warning] Mmap flush error (write_causal_engram): {e}")
         
         # 메타데이터 인덱스
         self.index[engram_id] = {
@@ -145,7 +148,10 @@ class CausalMemoryController:
         # O(1) 수준의 Numpy Block Copy (메모리 대 메모리 직결)
         # 기성 공학처럼 데이터를 하나하나 루프 돌려 DB에 삽입하지 않음
         self.wedge_mmap[base_addr:base_addr+dim] = confiscated_pointer
-        self.wedge_mmap.flush()
+        try:
+            self.wedge_mmap.flush()
+        except OSError as e:
+            print(f"[Warning] Mmap flush error (bridge_external_manifold): {e}")
         
         engram_id = f"engram_ext_{uuid.uuid4().hex[:8]}"
         self.index[engram_id] = {

@@ -7,7 +7,7 @@ import os
 import mmap
 import struct
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from core.memory.causal_controller import CausalMemoryController
 
 memory_controller = CausalMemoryController()
