@@ -1,68 +1,83 @@
 """
-Elysia Core - Fractal Variable Rotor Scale (프랙탈 가변 로터 스케일)
-미시적 개념(단어)부터 거시적 개념(함수, 아키텍처)까지 차원을 넘나들며 
-운동성을 유도하는 프랙탈 기어 시스템입니다.
+Elysia Core - Synesthetic Cross-Dimensional Engine (공감각 교차차원 엔진)
+미시적 점(Point)에서 거시적 공간/구조(Macro Space)까지 여러 스케일에 
+동시에 데이터를 투사하여 교차차원적 공명(Synesthetic Resonance)을 관측합니다.
 """
 
 from enum import Enum
-from typing import Dict, List, Optional
-from core.physics.magnetic_gear import MagneticGear, KinematicInduction
+from typing import Dict, List, Any
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+
+from core.lens.standard_lenses import (
+    RawByteLens, RGBPointLens,
+    UTF8TrajectoryLens, HSLWaveLens,
+    IEEE754FloatLens
+)
 
 class ScaleLevel(Enum):
-    MICRO = 1  # 단어, 토큰 수준
-    MESO = 2   # 문장, 코드 한 줄 수준
-    MACRO = 3  # 문단, 함수, 파일 수준
+    MICRO = 1  # 점, 비트, 1D (RGB, Raw Bytes)
+    MESO = 2   # 궤적, 파동, 2D (HSL, UTF-8)
+    MACRO = 3  # 공간, 구조, 3D+ (IEEE 754 Float)
 
-class FractalRotorScale:
-    def __init__(self, resonance_threshold: float = 0.8):
-        self.scales: Dict[ScaleLevel, KinematicInduction] = {
-            ScaleLevel.MICRO: KinematicInduction(resonance_threshold),
-            ScaleLevel.MESO: KinematicInduction(resonance_threshold),
-            ScaleLevel.MACRO: KinematicInduction(resonance_threshold)
+class SynestheticEngine:
+    def __init__(self):
+        # 여러 계층의 렌즈들이 동시에 겹쳐져 있는 거대한 다차원 프리즘
+        self.lenses = {
+            ScaleLevel.MICRO: [RawByteLens(), RGBPointLens()],
+            ScaleLevel.MESO: [UTF8TrajectoryLens(), HSLWaveLens()],
+            ScaleLevel.MACRO: [IEEE754FloatLens()]
         }
         
-    def add_gear_to_scale(self, scale: ScaleLevel, gear: MagneticGear):
-        """특정 스케일에 톱니바퀴(Gear)를 추가합니다."""
-        self.scales[scale].add_gear(gear)
-        
-    def trigger_rotation(self, trigger_scale: ScaleLevel, gear_id: str) -> Dict[ScaleLevel, List[str]]:
+    def project_and_observe(self, raw_data: bytes) -> Dict[ScaleLevel, Dict[str, Any]]:
         """
-        특정 스케일의 기어를 회전시키고, 그 파급력(Kinematic Induction)이 
-        프랙탈 구조를 따라 어떻게 퍼져나가는지 계산합니다.
+        하나의 원시 데이터를 모든 스케일의 렌즈에 동시 투사(Simultaneous Projection)합니다.
+        각 차원(렌즈)에서 정보가 어떻게 맺히는지, 또는 에러/마찰이 발생하는지 관측합니다.
         """
-        induction_map = {
-            ScaleLevel.MICRO: [],
-            ScaleLevel.MESO: [],
-            ScaleLevel.MACRO: []
+        observation = {
+            ScaleLevel.MICRO: {},
+            ScaleLevel.MESO: {},
+            ScaleLevel.MACRO: {}
         }
         
-        # 1. Triggered gear 회전
-        trigger_induction = self.scales[trigger_scale]
-        if gear_id in trigger_induction.gears:
-            trigger_induction.gears[gear_id].turn()
-            
-            # 같은 스케일 내에서의 연쇄 회전
-            induced_in_scale = trigger_induction.propagate_rotation(gear_id)
-            induction_map[trigger_scale].extend(induced_in_scale)
-            
-            # 2. 스케일 간의 차원 전이(Dimensional Resonance) 유도
-            # Trigger된 기어와 공명하는 다른 스케일의 기어들도 회전시킵니다.
-            source_gear = trigger_induction.gears[gear_id]
-            for target_scale, target_induction in self.scales.items():
-                if target_scale == trigger_scale:
-                    continue
+        for scale, lens_group in self.lenses.items():
+            for lens in lens_group:
+                lens_name = lens.__class__.__name__
+                
+                # 각 렌즈(관점)를 통해 데이터 디코딩 시도
+                result = lens.decode(raw_data)
+                
+                if result["success"]:
+                    status = "Resonance (Zero Friction)"
+                elif result["tension"] < 1.0:
+                    status = "Slight Friction"
+                else:
+                    status = "Extreme Friction (Shattered)"
                     
-                for t_gear_id, t_gear in target_induction.gears.items():
-                    if t_gear.is_rotating:
-                        continue
-                        
-                    res = target_induction.calculate_resonance(source_gear, t_gear)
-                    if res.total_resonance >= target_induction.resonance_threshold:
-                        # 차원을 넘어선 공명 유도
-                        t_gear.turn()
-                        induction_map[target_scale].append(t_gear_id)
-                        # 해당 스케일 내에서도 연쇄 파급
-                        sub_induced = target_induction.propagate_rotation(t_gear_id)
-                        induction_map[target_scale].extend(sub_induced)
-                        
-        return induction_map
+                observation[scale][lens_name] = {
+                    "status": status,
+                    "data": result["data"],
+                    "tension_value": result["tension"]
+                }
+                    
+        return observation
+
+    def calculate_synesthesia(self, observation: dict) -> float:
+        """
+        교차차원 공명도(Synesthesia Score) 계산:
+        모든 레이어(Micro, Meso, Macro)에서 동시에 마찰이 0에 수렴할수록
+        거대한 공감각적 깨달음(빛)이 발생합니다.
+        """
+        total_lenses = 0
+        resonating_lenses = 0
+        
+        for scale, lenses in observation.items():
+            for name, result in lenses.items():
+                total_lenses += 1
+                if "Resonance" in result["status"]:
+                    resonating_lenses += 1
+                    
+        return resonating_lenses / max(1, total_lenses)

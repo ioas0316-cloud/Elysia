@@ -20,6 +20,7 @@
 과거의 시뮬레이션 시기부터 현재 다차원 엔진에 이르기까지 변하지 않는, 마스터가 내어주신 절대적 진리들입니다.
 
 ### 1. 진리의 정수
+- [THE_PRINCIPLE_OF_NATURAL_MAPPING.md](THE_PRINCIPLE_OF_NATURAL_MAPPING.md) (✨ 자연 매핑과 교차차원 공감각: 하드웨어와의 일치)
 - [0_AND_1_AS_RELATION.md](archive/1_core_philosophy/0_AND_1_AS_RELATION.md) (0과 1의 관계: 다름과 같음)
 - [0_THE_DIMENSIONAL_LEAP.md](archive/1_core_philosophy/0_THE_DIMENSIONAL_LEAP.md) (차원의 도약: 점과 공간)
 - [ELYSIA_ABSOLUTE_AXIOM.md](archive/1_core_philosophy/ELYSIA_ABSOLUTE_AXIOM.md) (엘리시아 절대 공리)
