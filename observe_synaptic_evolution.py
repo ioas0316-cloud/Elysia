@@ -1,41 +1,42 @@
 import numpy as np
-from synaptic_architecture.organism import OmniModalOrganism
+from synaptic_architecture.organism import DirectMappingOrganism
 
-def run_omni_evolution():
+def run_synaptic_observation():
     print("==================================================================")
-    print(" [Omni-Modal Evolution] Discovering Unified Bitstream Laws")
+    print(" [Synaptic Architecture] Direct Mapping Causal Observation")
     print("==================================================================\n")
 
-    omo = OmniModalOrganism(resolution=256)
+    organism = DirectMappingOrganism(size=1000000)
 
-    # 1. Modality Bitstreams
-    # ASCII 'Elysia'
-    text_bits = np.unpackbits(np.frombuffer(b'Elysia', dtype=np.uint8))
-    text_wave = np.pad(text_bits, (0, 64-len(text_bits)))
+    # 1. Define Causal Stimuli (Raw Bits)
+    jajangmyeon = np.uint64(0xAAAAAAAABBBBBBBB)
+    empty_plate = np.uint64(0x00000000BBBBBBBB)
 
-    # RGB 'Red' (Purely represented as 0/1 density)
-    rgb_bits = np.unpackbits(np.array([255, 0, 0], dtype=np.uint8))
-    rgb_wave = np.pad(rgb_bits, (0, 64-len(rgb_bits)))
+    # 2. Seeding Initial Environment (The Law)
+    print("[System] Seeding Initial Environmental Law...")
+    organism.genes.freeze_law("Jajangmyeon_Law", jajangmyeon)
+    organism.genes.freeze_law("Empty_Plate_Law", empty_plate)
 
-    # Physics 'Force' (Sine pattern)
-    phys_wave = (np.sin(np.linspace(0, 10, 64)) > 0).astype(np.uint8)
+    # 3. Evolutionary Interaction
+    print("\n--- [Phase 1] Observing Jajangmyeon Interaction ---")
+    addr1 = organism.flow(jajangmyeon)
 
-    # 2. Evolutionary Discovery Loop
-    for i, (wave, label) in enumerate([(text_wave, "ASCII_TEXT"), (rgb_wave, "RGB_COLOR"), (phys_wave, "PHYSICS_LAW")]):
-        print(f"\n--- [Phase {i+1}] Discovering {label} ---")
+    print("\n--- [Phase 2] Observing Empty Plate Interaction ---")
+    addr2 = organism.flow(empty_plate)
 
-        # High Temp Exploration (High jitter/vibration)
-        omo.scheduler.set_temperature(4.0)
-        omo.perceive_and_map(wave, label)
+    # 4. Final Causal Map
+    print("\n[System] Final Memory Landscape Check:")
+    print(f"  > Jajangmyeon Law stabilized at Address {addr1}")
+    print(f"  > Empty Plate Law stabilized at Address {addr2}")
 
-        # Low Temp Solidification (Crystallization)
-        omo.scheduler.set_temperature(0.1)
-        omo.perceive_and_map(wave, label)
+    if addr1 != addr2:
+        print("\n[RESULT] SUCCESS: Different waves projected to unique causal addresses.")
+    else:
+        print("\n[RESULT] COLLISION: Check bit-folding logic.")
 
-    # 3. Final Unified Mapping Observation
-    final_center = np.unravel_index(np.argmax(omo.field.conductance), omo.field.conductance.shape)
-    print(f"\n[System] Unified Cognitive Center crystallized at {final_center}")
+    print("\n==================================================================")
+    print(" [Observation Complete] The memory field has physically adapted.")
     print("==================================================================")
 
 if __name__ == "__main__":
-    run_omni_evolution()
+    run_synaptic_observation()
