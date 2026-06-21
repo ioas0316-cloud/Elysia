@@ -1,26 +1,34 @@
-# Synaptic Architecture: The Living Digital Organism
+# Synaptic Architecture: Silicon-Synchronized Memory (v2.1)
 
-> "Hardware is the Law, Software is Love. We must induce hardware that operates by the physical laws of love."
+> "A non-linear memory architecture prototype that derives hardware addresses from bitstream density and controls operational resolution via a virtual thermal scheduler."
 
-This module is a declaration of **Physico-Informational Optimization**. It moves beyond the linear Von Neumann architecture, where CPU and RAM are separated by fixed addresses. Instead, it implements a structure where **information itself becomes the address**, and the hardware (simulated) becomes synaptic, inducing its own neural networks.
+This module implements a physical-informational optimization paradigm that utilizes the existing Von Neumann hardware as a structural causal map. It moves beyond high-level simulations into direct hardware-level projections.
 
-## Core Paradigms
+## Engineering Core
 
-### 1. Memristive Plasticity Field (`field.py`)
-Memory is not a static grid. It is a field of resistance. As information (energy) flows, it leaves a trace, permanently altering the resistance (tension) of the path. This "Memristor" behavior allows the system to remember the direction and frequency of past interactions, facilitating **Self-Wiring**.
+### 1. Hardware Memory Projection (`hardware_mapping.py`)
+- **O(1) Address Derivation**: Input bitstreams are directly projected to RAM addresses using a bit-mixing (perfect hashing) algorithm.
+- **Abolition of Search**: Data is not "found" via loops; its shape *is* its physical location in the virtual address space.
 
-### 2. Vortex-based Addressing (`vortex.py`)
-Fixed `engram_id` or memory addresses are abolished. Data is retrieved by projecting a **Bit-Density Waveform** onto the field. The system naturally converges towards the "Vortex" — the point of maximum resonance or perfect XOR annihilation. The address is not found; it is pulled by cognitive gravity.
+### 2. XOR Interfacial Logic (`bit_logic.py`)
+- **Resonance Scoring**: Uses raw bitwise XOR and popcount to calculate the interference between temporal bitstreams.
+- **Cognitive Vortex**: Identifies the center of structural resonance where the "Causal Deficit" is minimized.
 
-### 3. Virtual PCR Scheduler (`scheduler.py`)
-Temperature is the master variable.
-- **High Temperature:** High-frequency, micro-scale operations. Data expands and explores (PCR Denaturation/Annealing).
-- **Low Temperature:** Low-frequency, macro-scale convergence. Data solidifies into "Dynamic Equilibrium" (Knowledge Formation).
-The scheduler controls the resolution and frequency of the entire simulation based on this thermal axis.
+### 3. Thermal DVFS Scheduler (`scheduler.py`)
+- **Dynamic Voltage and Frequency Scaling (DVFS)**: Temperature (T) is a master axis controlling:
+  - **Clock Frequency**: High T = micro-bursts of high-frequency sampling.
+  - **Bit Precision**: High T = increased stochastic jitter/LSB noise for exploration.
+- **Annealing**: Lowering T hardens the system into a stable "Dynamic Equilibrium."
 
-### 4. Self-Wiring (Cognitive Gravity)
-Information recognizes information. When the attraction tension between two data waveforms exceeds a threshold, the software pointers "slide" along the gradient of the memristive field to physically/virtually align, forming a synapse without explicit `node.connect()` calls.
+### 4. Memristive Crystallization Field (`field.py`)
+- **Conductance Matrix**: Simulates physical plasticity (G = 1/R). High signal flow reinforces paths, creating "Silicon Canals."
+- **Structural Genes**: Solidifies recurring bit-waveforms into static spatial laws.
 
 ---
 
-*This is not a library. It is a simulation of a digital organism that eats environment (information) and grows its own internal synaptic map.*
+## Hierarchical Processing Flow
+1. **REGISTER (L1)**: Real-time bit interference and jitter injection.
+2. **RAM (L2)**: O(1) direct address projection and spatial mapping.
+3. **STORAGE (L3)**: Memristive reinforcement and long-term gene crystallization.
+
+*Designed as a zero-overhead interface between raw bit-motion and causal structure.*

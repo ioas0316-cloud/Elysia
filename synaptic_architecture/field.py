@@ -2,63 +2,50 @@ import numpy as np
 
 class CrystallizationField:
     """
-    [Synaptic Architecture] Memristive Crystallization Field
-    A field where the 'Motion' of bits (0s and 1s) leaves permanent traces.
-    Information flow (Energy) reduces resistance, creating stable synaptic canals.
+    [Synaptic Architecture] Memristive Resistance Matrix
+    Simulates the physical plasticity of a 2D memory landscape.
+    Data flow (Energy) reduces resistance, creating potential wells.
     """
     def __init__(self, resolution: int = 256):
         self.resolution = resolution
-        # Conductance map: High conductance = Stable Synapse (Potential Well)
+        # Conductance Matrix: G = 1/R (Physical Plasticity)
         self.conductance = np.full((resolution, resolution), 0.01, dtype=np.float32)
+        # Static Bit-Gene Map: Long-term structural storage
+        self.bit_genes = np.zeros((resolution, resolution), dtype=np.uint64)
 
-        # Bit-Density Map: The actual vibrational content (waveforms) stored spatially
-        # Represented as raw bit patterns (vibrations)
-        self.bit_field = np.zeros((resolution, resolution, 64), dtype=np.uint8)
-
-    def record_trace(self, pos: np.ndarray, signal_intensity: float):
+    def flow_energy(self, pos: np.ndarray, intensity: float):
         """
-        [Memristive Trace]
-        The act of information passing through a point increases its conductance.
-        This is the 'Crystallization' of motion into structure.
+        [Memristive Update]
+        Signal flow reinforces the conductance path (Silicon Trace).
         """
         y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
 
-        # Gaussian spread of influence (Physical interaction radius)
+        # Gaussian dissipation of conductance reinforcement
         yy, xx = np.mgrid[:self.resolution, :self.resolution]
         dist_sq = (yy - y)**2 + (xx - x)**2
-        spread = 2.0
+        spread = 3.0
 
-        # Cumulative reinforcement of the path
-        influence = np.exp(-dist_sq / (2 * spread**2))
-        self.conductance += (influence * signal_intensity * 0.1).astype(np.float32)
-        self.conductance = np.clip(self.conductance, 0, 100.0)
+        reinforcement = (intensity * np.exp(-dist_sq / (2 * spread**2))).astype(np.float32)
+        self.conductance += reinforcement
+        # Hard physical limit on conductance (Saturation)
+        self.conductance = np.clip(self.conductance, 0, 10.0)
 
-    def get_motion_gradient(self, pos: np.ndarray) -> np.ndarray:
+    def crystallize_gene(self, pos: np.ndarray, bit_waveform: np.uint64):
         """
-        Guided by the field: Pointers slide toward higher conductance.
-        'The space itself forces the mapping.'
+        Solidifies a bit-waveform into a spatial coordinate.
         """
         y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
-        gy, gx = np.gradient(self.conductance)
-        return np.array([gy[y, x], gx[y, x]])
+        self.bit_genes[y, x] = bit_waveform
+        self.flow_energy(pos, 2.0) # Solidification is a high-energy event
 
-    def solidify_bits(self, pos: np.ndarray, bit_stream: np.ndarray):
+    def apply_thermal_diffusion(self, sigma: float = 0.1):
         """
-        [Memory/Crystallization]
-        Fixing the high-frequency motion into a stable spatial location.
-        """
-        y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
-        self.bit_field[y, x] = bit_stream
-        self.record_trace(pos, 1.0) # Solidification also leaves a trace
-
-    def apply_forgetting(self, rate: float = 0.05):
-        """
-        Dynamic Equilibrium: Stable paths remain, unused ones diffuse into noise.
+        Entropy: Unused paths diffuse over time (Forgetting).
         """
         from scipy.ndimage import gaussian_filter
-        self.conductance = gaussian_filter(self.conductance, sigma=rate)
+        self.conductance = gaussian_filter(self.conductance, sigma=sigma)
 
 if __name__ == "__main__":
     cf = CrystallizationField()
-    cf.solidify_bits(np.array([128, 128]), np.random.randint(0, 2, 64))
-    print(f"Conductance at center: {cf.conductance[128, 128]}")
+    cf.crystallize_gene(np.array([128, 128]), np.uint64(0xABC))
+    print(f"Conductance at center: {cf.conductance[128, 128]:.4f}")

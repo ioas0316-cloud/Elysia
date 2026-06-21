@@ -1,26 +1,50 @@
 import numpy as np
 
 class HardwareMemoryMap:
-    def __init__(self, space_size: int = 1000000):
-        self.size = space_size
-        self.ram = np.zeros(space_size, dtype=np.uint64)
-        self.conductance = np.zeros(space_size, dtype=np.float32)
+    """
+    [Synaptic Architecture] Refined Hardware-Level Memory Mapping
+    Uses perfect bit-folding (hashing) to map bitstreams to O(1) addresses.
+    Simulates a direct hardware pointer interface.
+    """
+    def __init__(self, size: int = 1048576): # 1MB Simulator
+        self.size = size
+        # Dry RAM buffer for solidified data
+        self.ram = np.zeros(size, dtype=np.uint64)
+        # Conductance Matrix: Physical plasticity of the memory path
+        self.conductance = np.zeros(size, dtype=np.float32)
 
     def derive_address(self, bitstream: np.uint64) -> int:
         """
-        [O(1) Projection]
-        Improved folding to reduce collisions in small address spaces.
+        [Perfect Hashing / Bit-Folding]
+        Derives the RAM address from the bitstream shape itself.
+        Abolishes search algorithms.
         """
-        # Using a simple hash-like fold
-        x = bitstream
-        x = (x ^ (x >> np.uint64(30))) * np.uint64(0xbf58476d1ce4e5b9)
-        x = (x ^ (x >> np.uint64(27))) * np.uint64(0x94d049bb133111eb)
-        x = x ^ (x >> np.uint64(31))
+        x = np.uint64(bitstream)
+        # Murmur-style bit-mixing for uniform distribution over the silicon space
+        x ^= (x >> np.uint64(33))
+        x *= np.uint64(0xff51afd7ed558ccd)
+        x ^= (x >> np.uint64(33))
+        x *= np.uint64(0xc4ceb9fe1a85ec53)
+        x ^= (x >> np.uint64(33))
+
         return int(x % np.uint64(self.size))
 
-    def read_direct(self, address: int) -> np.uint64:
-        return self.ram[address]
+    def write_bus(self, bitstream: np.uint64):
+        """
+        Project data onto the memory bus.
+        """
+        addr = self.derive_address(bitstream)
+        self.ram[addr] = bitstream
+        # Physical trace: signal flow increases conductance
+        self.conductance[addr] += 1.0
+        return addr
 
-    def write_direct(self, address: int, data: np.uint64):
-        self.ram[address] = data
-        self.conductance[address] += 1.0
+    def read_bus(self, addr: int) -> np.uint64:
+        return self.ram[addr]
+
+if __name__ == "__main__":
+    hmm = HardwareMemoryMap()
+    test_val = np.uint64(0xFEEDFACEBEEFCAFE)
+    addr = hmm.write_bus(test_val)
+    print(f"Projected {hex(test_val)} to Address: {addr}")
+    print(f"Verified Read: {hex(hmm.read_bus(addr))}")

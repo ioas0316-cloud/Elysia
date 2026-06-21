@@ -1,42 +1,38 @@
 import numpy as np
 from synaptic_architecture.organism import DirectMappingOrganism
 
-def run_synaptic_observation():
+def run_hierarchical_observation():
     print("==================================================================")
-    print(" [Synaptic Architecture] Direct Mapping Causal Observation")
+    print(" [Synaptic Architecture] Hierarchical Silicon-Mapping Observer")
     print("==================================================================\n")
 
-    organism = DirectMappingOrganism(size=1000000)
+    organism = DirectMappingOrganism(resolution=256)
 
-    # 1. Define Causal Stimuli (Raw Bits)
+    # 1. Define Causal Waveforms
     jajangmyeon = np.uint64(0xAAAAAAAABBBBBBBB)
     empty_plate = np.uint64(0x00000000BBBBBBBB)
 
-    # 2. Seeding Initial Environment (The Law)
-    print("[System] Seeding Initial Environmental Law...")
-    organism.genes.freeze_law("Jajangmyeon_Law", jajangmyeon)
-    organism.genes.freeze_law("Empty_Plate_Law", empty_plate)
+    # 2. Phase 1: High Temperature (Exploration/Sampling)
+    print("--- [Phase 1] High Temperature Exploration (T=3.0) ---")
+    organism.scheduler.set_temperature(3.0)
+    for _ in range(3):
+        organism.flow(jajangmyeon)
 
-    # 3. Evolutionary Interaction
-    print("\n--- [Phase 1] Observing Jajangmyeon Interaction ---")
-    addr1 = organism.flow(jajangmyeon)
+    # 3. Phase 2: Low Temperature (Stabilization/Crystallization)
+    print("\n--- [Phase 2] Low Temperature Stabilization (T=0.1) ---")
+    organism.scheduler.set_temperature(0.1)
+    for _ in range(3):
+        organism.flow(jajangmyeon)
+        organism.flow(empty_plate)
 
-    print("\n--- [Phase 2] Observing Empty Plate Interaction ---")
-    addr2 = organism.flow(empty_plate)
-
-    # 4. Final Causal Map
-    print("\n[System] Final Memory Landscape Check:")
-    print(f"  > Jajangmyeon Law stabilized at Address {addr1}")
-    print(f"  > Empty Plate Law stabilized at Address {addr2}")
-
-    if addr1 != addr2:
-        print("\n[RESULT] SUCCESS: Different waves projected to unique causal addresses.")
-    else:
-        print("\n[RESULT] COLLISION: Check bit-folding logic.")
+    # 4. Final System State Observation
+    max_conductance_pos = np.unravel_index(np.argmax(organism.field.conductance), organism.field.conductance.shape)
+    print(f"\n[System] Final Cognitive Equilibrium center: {max_conductance_pos}")
+    print(f"  > Conductance at peak: {organism.field.conductance[max_conductance_pos]:.4f}")
 
     print("\n==================================================================")
-    print(" [Observation Complete] The memory field has physically adapted.")
+    print(" [Observation Complete] Hierarchy successfully Synchronized.")
     print("==================================================================")
 
 if __name__ == "__main__":
-    run_synaptic_observation()
+    run_hierarchical_observation()

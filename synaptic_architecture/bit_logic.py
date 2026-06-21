@@ -1,41 +1,42 @@
 import numpy as np
-from .raw_field import RawBitField
 
 class BitInterference:
-    def __init__(self, field: RawBitField):
-        self.field = field
+    """
+    [Synaptic Architecture] Bitstream XOR Interfacial Logic
+    Calculates resonance and interference on the temporal axis.
+    """
+    @staticmethod
+    def interference_score(wave_a: np.uint64, wave_b: np.uint64) -> float:
+        """
+        v ^ v = 0 -> Zero interference (Perfect Resonance).
+        Calculates the percentage of matching bits.
+        """
+        # XOR to find differences
+        deficit = wave_a ^ wave_b
+        # Fast bit counting (Python's bit_count is O(1) conceptually for fixed bit-width)
+        diff_bits = bin(deficit).count('1')
+        match_score = (64 - diff_bits) / 64.0
+        return match_score
 
-    def get_resonance(self, input_bits: np.uint64, field_bits: np.uint64) -> float:
-        # bitwise count
-        v = input_bits ^ field_bits
-        # count 0s as matches
-        count = 64 - bin(v).count('1')
-        return count / 64.0
+    @staticmethod
+    def vortex_pull(target_wave: np.uint64, candidate_waves: np.ndarray) -> int:
+        """
+        Identifies the index of the highest resonance in a set of waves.
+        Used for converging toward a cognitive vortex in a spatial grid.
+        """
+        best_idx = 0
+        max_res = -1.0
 
-    def slide_to_vortex(self, input_bits: np.uint64, start_index: int) -> int:
-        current_idx = start_index
+        for i, wave in enumerate(candidate_waves):
+            res = BitInterference.interference_score(target_wave, wave)
+            if res > max_res:
+                max_res = res
+                best_idx = i
 
-        # SLIDE LOOP
-        for i in range(1000): # More steps
-            idx = int(np.clip(current_idx, 1, self.field.size - 2))
+        return best_idx
 
-            c_grad = self.field.get_local_gradient(idx)
-
-            # Resonance Gradient (Check a small window)
-            # To make it 'slide' better, we scan a tiny neighborhood
-            best_res = -1.0
-            best_move = 0
-            for move in [-1, 0, 1]:
-                res = self.get_resonance(input_bits, self.field.data[idx + move])
-                if res > best_res:
-                    best_res = res
-                    best_move = move
-
-            total_move = c_grad if c_grad != 0 else best_move
-
-            if total_move == 0:
-                break
-
-            current_idx += total_move
-
-        return int(current_idx)
+if __name__ == "__main__":
+    bi = BitInterference()
+    w1 = np.uint64(0xAAAAAAAAAAAAAAAA)
+    w2 = np.uint64(0xAAAAAAAAAAAAAAAF) # 4 bit difference
+    print(f"Resonance Score: {bi.interference_score(w1, w2):.4f}")

@@ -2,58 +2,61 @@ import time
 import numpy as np
 from typing import Callable
 
-class BitMotionScheduler:
+class PCRVirtualScheduler:
     """
-    [Synaptic Architecture] Time-Axis Motion Scheduler
-    Temperature (T) controls the vibration/jitter of bits on the time axis.
-    High T = High-frequency motion, random exploration.
-    Low T = Low-frequency stability, structural crystallization.
+    [Synaptic Architecture] DVFS-inspired Thermal Scheduler
+    Temperature (T) controls:
+    1. Operational Frequency (Clock Cycle)
+    2. Sampling Resolution (Bit Precision)
     """
-    def __init__(self, base_freq: float = 10.0):
+    def __init__(self, base_clock: float = 20.0):
         self.temperature = 1.0
-        self.base_freq = base_freq
+        self.base_clock = base_clock # Base frequency in Hz
 
     def set_temperature(self, t: float):
         self.temperature = max(0.01, t)
 
-    def get_motion_params(self):
+    def get_clock_params(self):
         """
-        Derive the physical constraints of the bitstream motion.
+        Derive hardware clock parameters from thermal axis.
         """
-        # Frequency (f): T governs the 'refresh rate' of cognitive motion
-        freq = self.base_freq * (self.temperature ** 0.5)
+        # Clock Frequency (f): High T = High Clock micro-bursts
+        freq = self.base_clock * (self.temperature ** 0.5)
         dt = 1.0 / freq
 
-        # Jitter (η): T governs the stochasticity of the bitstream
-        # High T = more micro-fluctuations (Exploring potential states)
-        jitter = 0.2 * self.temperature
+        # Sampling Resolution (Bit Jitter): High T = Microscopic stochasticity
+        jitter_mask = 0
+        if self.temperature > 2.0:
+            jitter_mask = 0x000000000000000F # LSB noise
+        elif self.temperature > 5.0:
+            jitter_mask = 0x00000000000000FF # Strong noise
 
         return {
             "dt": dt,
             "frequency": freq,
-            "jitter": jitter,
+            "jitter_mask": np.uint64(jitter_mask),
             "temperature": self.temperature
         }
 
-    def flow_time(self, duration: float, step_func: Callable[[float, dict], None]):
+    def run_clock(self, duration: float, step_func: Callable[[float, dict], None]):
         """
-        Let the time axis flow and the bits vibrate.
+        Execute the cognitive loop driven by the thermal clock.
         """
         start_time = time.time()
         elapsed = 0
 
         while elapsed < duration:
-            params = self.get_motion_params()
+            params = self.get_clock_params()
             step_func(elapsed, params)
 
-            # Simulated physical delay
-            time.sleep(params["dt"] * 0.1)
+            # Simulated hardware delay
+            time.sleep(params["dt"] * 0.1) # Scaled for simulation visibility
             elapsed = time.time() - start_time
 
 if __name__ == "__main__":
-    bms = BitMotionScheduler()
-    def step(t, p):
-        print(f"Time={t:.2f}, Freq={p['frequency']:.1f}Hz, Jitter={p['jitter']:.2f}")
+    pcr = PCRVirtualScheduler()
+    def example(t, p):
+        print(f"[t={t:.2f}] Clock: {p['frequency']:.1f}Hz, Mask: {hex(p['jitter_mask'])}")
 
-    bms.set_temperature(3.0)
-    bms.flow_time(0.5, step)
+    pcr.set_temperature(3.0)
+    pcr.run_clock(0.5, example)
