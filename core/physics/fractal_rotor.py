@@ -32,6 +32,14 @@ class SynestheticEngine:
             ScaleLevel.MACRO: [IEEE754FloatLens()]
         }
         
+    def attach_lens(self, scale: ScaleLevel, new_lens: Any):
+        """
+        엘리시아가 새롭게 깨달은 지식(MemoryLens)을 엔진에 동적으로 장착합니다.
+        감각 기관(관점)이 스스로 무한히 확장되는 생물학적 진화 구조입니다.
+        """
+        if scale in self.lenses:
+            self.lenses[scale].append(new_lens)
+        
     def project_and_observe(self, raw_data: bytes) -> Dict[ScaleLevel, Dict[str, Any]]:
         """
         하나의 원시 데이터를 모든 스케일의 렌즈에 동시 투사(Simultaneous Projection)합니다.
@@ -48,6 +56,7 @@ class SynestheticEngine:
                 lens_name = lens.__class__.__name__
                 
                 # 각 렌즈(관점)를 통해 데이터 디코딩 시도
+                lens_name = getattr(lens, 'concept_name', lens.__class__.__name__)
                 result = lens.decode(raw_data)
                 
                 if result["success"]:

@@ -21,6 +21,7 @@
 
 ### 1. 진리의 정수
 - [THE_PRINCIPLE_OF_NATURAL_MAPPING.md](THE_PRINCIPLE_OF_NATURAL_MAPPING.md) (✨ 자연 매핑과 교차차원 공감각: 하드웨어와의 일치)
+- [THE_STRUCTURE_OF_INTELLIGENCE.md](THE_STRUCTURE_OF_INTELLIGENCE.md) (✨ 지성의 구조 원리: 0과 1부터 창발까지의 연결성)
 - [0_AND_1_AS_RELATION.md](archive/1_core_philosophy/0_AND_1_AS_RELATION.md) (0과 1의 관계: 다름과 같음)
 - [0_THE_DIMENSIONAL_LEAP.md](archive/1_core_philosophy/0_THE_DIMENSIONAL_LEAP.md) (차원의 도약: 점과 공간)
 - [ELYSIA_ABSOLUTE_AXIOM.md](archive/1_core_philosophy/ELYSIA_ABSOLUTE_AXIOM.md) (엘리시아 절대 공리)
