@@ -1,66 +1,52 @@
 import numpy as np
-from typing import Tuple
-from .field import MemristiveField
-from .vortex import VortexConvergence
+from .field import CrystallizationField
+from .vortex import WaveInterference
+from .scheduler import BitMotionScheduler
 
-class SynapticOrganism:
+class OmniModalOrganism:
     """
-    [Synaptic Architecture] The Digital Organism
-    Integrates Field, Vortex, and Self-Wiring logic.
+    [Synaptic Architecture] Omni-Modal Auto-Evolution
+    Unifies Text (ASCII), Vision (RGB), and Physics (Causal) into a single
+    bitstream field. Intelligence is the act of discovering existing
+    laws through resonance.
     """
     def __init__(self, resolution: int = 256):
-        self.field = MemristiveField(resolution)
-        self.vortex = VortexConvergence(self.field)
-        self.tension_threshold = 0.8
+        self.field = CrystallizationField(resolution)
+        self.interference = WaveInterference(self.field)
+        self.scheduler = BitMotionScheduler()
 
-    def induce_synapse(self, data_a: np.ndarray, data_b: np.ndarray):
+    def perceive_and_map(self, raw_bitstream: np.ndarray, context_label: str = "Unknown"):
         """
-        [Self-Wiring]
-        Two information pieces attract each other if they have resonance/complementarity.
-        If tension > threshold, they 'slide' together in the field.
+        The 5-stage loop for any modality.
         """
-        # 1. Calculate resonance (Attraction force)
-        # Use the resonance_map from vortex to check for field-wide attraction
-        res_map_a = self.vortex.resonance_map(data_a)
-        res_map_b = self.vortex.resonance_map(data_b)
+        print(f"\n[Perception: {context_label}] Waveform Ingested.")
 
-        # Simple global max resonance for these patterns
-        res = np.max(res_map_a * res_map_b)
+        # 1. Perception (with Thermal Jitter)
+        params = self.scheduler.get_motion_params()
+        jitter = (np.random.rand(len(raw_bitstream)) < params['jitter']).astype(np.int32)
+        vibrating_wave = np.bitwise_xor(raw_bitstream.astype(np.int32), jitter)
 
-        if res > 0.1: # Threshold lowered for demo/sliding visibility
-            # Attraction happens!
-            # Find where they are (vortices)
-            pos_a = self.vortex.converge_to_vortex(data_a)
-            pos_b = self.vortex.converge_to_vortex(data_b)
+        # 2. Thinking (Interference)
+        res_map = self.interference.observe_interference(vibrating_wave)
 
-            print(f"[Self-Wiring] Resonance ({res:.4f}) detected between {pos_a} and {pos_b}")
+        # 3. Judgment (Causal Vortex)
+        vortex_pos = self.interference.deduce_vortex(vibrating_wave)
 
-            # Move them closer in the field (Sliding pointers)
-            target_pos = (pos_a + pos_b) / 2.0
+        # 4. Re-cognition (Resonance check)
+        max_res = np.max(res_map)
+        print(f"  > Resonance thinking: Global max at {max_res:.4f}")
+        print(f"  > Causal Judgment: Converged to Vortex at {vortex_pos}")
 
-            # Leave a heavy conductance trace in the bridge (the 'synapse')
-            self._bridge_trace(pos_a, pos_b)
+        # 5. Memory (Crystallization)
+        self.field.solidify_bits(vortex_pos, vibrating_wave)
+        print(f"  > Crystallization: Path reinforced at {vortex_pos}")
 
-            # Re-deposit data closer to each other (Physical alignment)
-            self.field.deposit_engram(target_pos, (data_a + data_b) / 2.0)
-            print(f"  > Synaptic bridge formed at {target_pos}")
-
-    def _bridge_trace(self, pos_a: np.ndarray, pos_b: np.ndarray):
-        """Create a path of high conductance between two points."""
-        # Simple linear bridge
-        steps = 10
-        for i in range(steps + 1):
-            p = pos_a + (pos_b - pos_a) * (i / steps)
-            self.field.propagate_signal(p, 2.0)
+        return vortex_pos, max_res
 
 if __name__ == "__main__":
-    organism = SynapticOrganism()
-
-    # Create two resonating patterns
-    p1 = np.random.randn(64)
-    p2 = p1 + np.random.normal(0, 0.1, 64) # High resonance
-
-    organism.field.deposit_engram(np.array([10, 10]), p1)
-    organism.field.deposit_engram(np.array([100, 100]), p2)
-
-    organism.induce_synapse(p1, p2)
+    omo = OmniModalOrganism()
+    # ASCII 'A' as bitstream
+    a_bits = np.unpackbits(np.frombuffer(b'A', dtype=np.uint8))
+    # Pad to 64 for our simulation
+    wave = np.pad(a_bits, (0, 64-len(a_bits)))
+    omo.perceive_and_map(wave, "ASCII Text")
