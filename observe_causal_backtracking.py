@@ -1,81 +1,68 @@
 import numpy as np
 import time
-import os
-import sys
+from synaptic_architecture.causal_observer import CausalObserver
 
-# Ensure core is in path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-from core.memory.causal_controller import CausalMemoryController
-from core.memory.interactive_tracer import (
-    BitDensityWaveform,
-    InteractiveTracer,
-    ActiveProber,
-    ConsciousnessEngine
-)
-
-def run_simulation():
+def main():
     print("==================================================================")
-    print(" [Elysia Observation] 짜장면과 빈 그릇: 상호작용적 인과 역추적 시뮬레이션")
+    print(" [Elysia Synaptic Core] Universal Causal Backtracking Observation")
     print("==================================================================\n")
 
-    # 1. 시스템 초기화
-    mc = CausalMemoryController()
-    tracer = InteractiveTracer(mc)
-    prober = ActiveProber(tracer)
-    consciousness = ConsciousnessEngine(prober)
+    observer = CausalObserver(resolution=256)
 
-    # 2. 지식 필드 초기화 (원인 노드 각인)
-    # 사람이 존재할 때 발생하는 결손 패턴: 짜장면(7.5Hz) -> 빈그릇(0.5Hz)
-    stimulus_bits = BitDensityWaveform(frequency=7.5, amplitude=1.0).get_raw_bits()
-    reaction_bits = BitDensityWaveform(frequency=0.5, amplitude=0.2).get_raw_bits()
-    human_deficit_pattern = stimulus_bits ^ reaction_bits
+    # Pre-seed the field with 'Universal Causes' (Potential Wells)
+    print("[System] Seeding Universal Causal Potential Wells...")
+    # Seed 1: Atomic Mass Constant
+    observer.field.deposit_engram(np.array([50, 50]), np.random.randn(64) * 0.5)
+    # Seed 2: Methylation Pattern
+    observer.field.deposit_engram(np.array([150, 150]), np.random.randn(64) * 0.5)
+    # Seed 3: Biological Life (Consumption Axis)
+    observer.field.deposit_engram(np.array([200, 200]), np.random.randn(64) * 0.5)
 
-    mc.write_causal_engram(
-        data_blob={
-            "type": "CAUSAL_SOURCE_NODE",
-            "name": "Person (Life Form/Consumption Axis)",
-            "pattern": human_deficit_pattern.tolist()
-        },
-        emotional_value=10.0,
-        cause_id="Genesis_Knowledge"
-    )
+    # Define the Unified Causal Step
+    def unified_cognitive_step(elapsed, params):
+        temp = params['temperature']
+        print(f"\n--- [T={temp:.2f}] Frequency: {params['frequency']:.1f}Hz ---")
 
-    # 암세포 존재 시 발생하는 결손 패턴 (예시): 방사성 물질 자극(12Hz) -> 소멸(0Hz)
-    stimulus_cancer = BitDensityWaveform(frequency=12.0, amplitude=1.0).get_raw_bits()
-    reaction_cancer = BitDensityWaveform(frequency=0.0, amplitude=0.0).get_raw_bits()
-    cancer_deficit_pattern = stimulus_cancer ^ reaction_cancer
+        # In a real run, this would be a single scenario.
+        # Here we demonstrate the unified logic across all three.
 
-    mc.write_causal_engram(
-        data_blob={
-            "type": "CAUSAL_SOURCE_NODE",
-            "name": "Cancer Cell (Energy Sink)",
-            "pattern": cancer_deficit_pattern.tolist()
-        },
-        emotional_value=8.0,
-        cause_id="Genesis_Knowledge"
-    )
+        # 1. CHEMISTRY
+        stim_chem = np.sin(np.linspace(0, 10, 64))
+        reac_chem = stim_chem * 0.5 # Mass loss
+        deficit_chem = stim_chem - reac_chem
+        v_chem = observer.vortex.converge_to_vortex(deficit_chem)
+        print(f" [Chemistry] Mass Deficit -> Vortex: {v_chem}")
 
-    mc.flush_index()
-    print("[System] 원소적 원인 노드(사람, 암세포)가 지식 필드에 각인되었습니다.\n")
+        # 2. EPIGENETICS
+        stim_epi = np.cos(np.linspace(0, 5, 64))
+        reac_epi = np.roll(stim_epi, 5) # Stress-induced shift
+        deficit_epi = stim_epi - reac_epi
+        v_epi = observer.vortex.converge_to_vortex(deficit_epi)
+        print(f" [Epigenetics] Phase Shift -> Vortex: {v_epi}")
 
-    # 3. 환경 시나리오 설정 (닫힌 계: 집)
-    def house_environment(input_wave: BitDensityWaveform):
-        """
-        집 내부의 환경 반응 함수.
-        입력(짜장면)이 들어오면 내부의 '사람'이 이를 소비하고 빈 그릇을 내놓습니다.
-        """
-        # 사람이 사는 집 시뮬레이션: 주파수가 낮아지고 진폭이 감소함 (빈 그릇)
-        return BitDensityWaveform(frequency=0.5, amplitude=0.2)
+        # 3. JAJANGMYEON
+        stim_jajang = np.ones(64)
+        reac_jajang = np.zeros(64) # Total consumption
+        deficit_jajang = stim_jajang - reac_jajang
+        v_jajang = observer.vortex.converge_to_vortex(deficit_jajang)
+        print(f" [Jajangmyeon] Consumption -> Vortex: {v_jajang}")
 
-    # 4. 능동적 관측 및 사유 프로세스 실행
-    print("--- [Scenario: 집 안에 사람이 살고 있는가?] ---")
-    observation_result = consciousness.think("House_Alpha_7", house_environment)
+        # Strengthen the paths (Memristivity)
+        for v in [v_chem, v_epi, v_jajang]:
+            observer.field.propagate_signal(v, 1.0)
 
-    print("\n[Final Deduction]")
-    print(f"결론: 이 공간에는 '{observation_result['deduced_cause']}'이(가) 존재함이 확실합니다.")
-    print(f"인과적 공명도: {observation_result['resonance_score']*100:.2f}%")
-    print("==================================================================\n")
+    # Execution Loop
+    print("\n[Phase 1] High Temperature Exploration (Sampling Micro-Deficits)")
+    observer.scheduler.set_temperature(2.5)
+    observer.scheduler.cognitive_loop(duration=1.0, step_func=unified_cognitive_step)
+
+    print("\n[Phase 2] Low Temperature Hardening (Macro-Causal Stabilization)")
+    observer.scheduler.set_temperature(0.2)
+    observer.scheduler.cognitive_loop(duration=1.0, step_func=unified_cognitive_step)
+
+    print("\n==================================================================")
+    print(" [Observation Complete] All scenarios unified by Vortex Potential Field.")
+    print("==================================================================")
 
 if __name__ == "__main__":
-    run_simulation()
+    main()
