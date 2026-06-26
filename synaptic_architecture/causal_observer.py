@@ -1,5 +1,5 @@
 import numpy as np
-from .field import MemristiveField
+from .field import CrystallizationField
 from .vortex import VortexConvergence
 from .scheduler import PCRVirtualScheduler
 
@@ -10,7 +10,7 @@ class CausalObserver:
     a single potential-field-based causal engine.
     """
     def __init__(self, resolution: int = 256):
-        self.field = MemristiveField(resolution)
+        self.field = CrystallizationField(resolution)
         self.vortex = VortexConvergence(self.field)
         self.scheduler = PCRVirtualScheduler(base_res=resolution)
 
