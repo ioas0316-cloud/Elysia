@@ -75,7 +75,12 @@ class CausalMemoryController:
                 # 다각적 관점 가중치 (Perspective Weights)
                 "weight_internal_complexity": 0.5,
                 "weight_external_feedback": 0.5,
-                "weight_novelty": 0.8
+                "weight_novelty": 0.8,
+                # [Phase: Cognitive Foundation] 감정과 위상차의 매핑
+                "mappings": {
+                    "resonance": {"emotion": "Joy", "state": "Stability", "value": 1.0},
+                    "dissonance": {"emotion": "Pain", "state": "Imbalance", "value": 0.0}
+                }
             }
             self._save_cognitive_params()
 
@@ -92,10 +97,11 @@ class CausalMemoryController:
         self.cognitive_params[param_name] = new_value
         self._save_cognitive_params()
 
-    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None) -> str:
+    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None, is_constant: bool = False) -> str:
         """
         [Phase 144] O(1) Wedge Annihilation 저장소.
         [Phase 8.5] 변수명(Origin)을 가변축화 하여 물리적 매핑 공간(Wedge)을 변경시킵니다.
+        [Phase: Cognitive Foundation] 상수(Constant)와 변수(Variable)의 구분 추가.
         """
         if origin_axis:
             data_blob["_origin_axis"] = origin_axis
@@ -127,7 +133,8 @@ class CausalMemoryController:
             "emotional_value": emotional_value,
             "cause_id": cause_id,
             "wedge_address": addr,
-            "data_blob": data_blob
+            "data_blob": data_blob,
+            "is_constant": is_constant # 인지적 고정점(상수) 여부
         }
         # [최적화] 매번 디스크 쓰기를 하지 않고, 외부(Genesis)에서 주기적으로 flush_index()를 호출하도록 위임
         
@@ -696,17 +703,27 @@ class CausalMemoryController:
         # 과정의 궤적 안에서 발생한 마찰(Friction/Difference)의 총합을 감정값(Emotional Value)으로 환산
         total_friction = sum([step.get("friction", 0.0) for step in trajectory])
         
+        # [Phase: Cognitive Foundation] 감정 매핑 추출
+        mappings = self.cognitive_params.get("mappings", {})
+
+        # 텐션이 0에 가까울수록 '기쁨(Joy)', 높을수록 '고통(Pain/Noise)'
+        if total_friction < 0.2:
+            emotion_state = mappings.get("resonance", {}).get("emotion", "Joy")
+        else:
+            emotion_state = mappings.get("dissonance", {}).get("emotion", "Pain")
+
         data_blob = {
             "type": "PROCESS_TRAJECTORY",
             "process_id": process_id,
             "length": len(trajectory),
             "total_friction": total_friction,
+            "emotion_state": emotion_state,
             "woven_steps": trajectory
         }
         
         engram_id = self.write_causal_engram(
             data_blob=data_blob,
-            emotional_value=total_friction,
+            emotional_value=max(0.0, 10.0 - total_friction),
             origin_axis="CONTINUUM_WEAVING"
         )
         
