@@ -49,11 +49,13 @@ class CausalReassembler:
         """
         Attempts to reassemble the primitives into a coherent structure.
         The goal is to find the 'Order' and 'Relation' that minimizes total tension.
-        [Phase: Layered Inquiry] Maintains a resonance spectrum across modalities.
+        [Phase: Meta-Stable Rotors] Triggers a 'Structural Shift' if resonance fails.
         """
         reassembly_log = []
         modality_resonance = {} # Resonance spectrum
         total_friction = 0.0
+
+        meta_shift_triggered = False
 
         # In this simulation, 'solving' means finding the sequence that matches a
         # predefined (or background) symmetry.
@@ -108,6 +110,16 @@ class CausalReassembler:
 
         # 3. Final Evaluation
         final_resonance_score = np.exp(-total_friction)
+
+        # [Phase: Meta-Stable Rotors] 만약 공명에 실패하면, '상수(Constant)'의 문제로 판단하고 구조적 전환 시도
+        if final_resonance_score < 0.8:
+            meta_shift_triggered = True
+            reassembly_log.append({
+                "step": "Greater Imbalance Detected",
+                "friction": total_friction,
+                "status": "Structural_Crisis"
+            })
+
         is_resonant = final_resonance_score > 0.7
 
         # 4. Record the 'Process-as-Result'
@@ -141,9 +153,38 @@ class CausalReassembler:
             "entity": entity_name,
             "resonance_score": final_resonance_score,
             "is_resonant": is_resonant,
+            "meta_shift_triggered": meta_shift_triggered,
             "process_id": process_eid,
             "total_steps": len(ordered_parts)
         }
+
+    def trigger_structural_shift(self, anchor_constant_id: str, conflicting_trajectory: Quaternion):
+        """
+        [Phase: Meta-Stable Rotors] 정적 로터(상수)를 회전시켜 새로운 평형을 찾습니다.
+        거대한 불일치가 발생했을 때, 기존의 '기준(Lens)' 자체를 가변화하여 진화합니다.
+        """
+        trace = self.memory.read_engram_trace(anchor_constant_id)
+        if not trace: return False
+
+        # 기존 상수의 위상
+        current_q_elements = trace["data"].get("quaternion", [1,0,0,0])
+        current_q = Quaternion(*current_q_elements)
+
+        # 새로운 정보(conflicting_trajectory)와의 SLERP (진화적 회전)
+        # 안정성(Stability)이 낮을수록 더 크게 회전합니다.
+        stability = self.memory.index[anchor_constant_id].get("stability", 1.0)
+        shift_amount = 0.5 * (1.0 - stability + 0.1)
+
+        evolved_q = Quaternion.slerp(current_q, conflicting_trajectory, amount=shift_amount)
+
+        # 상수 업데이트 (정적 로터의 회전)
+        self.memory.update_engram_data(
+            anchor_constant_id,
+            {"quaternion": evolved_q.elements, "evolution_event": "Structural_Shift"},
+            emotional_impact=1.0 - stability
+        )
+
+        return True
 
 if __name__ == "__main__":
     from core.memory.causal_controller import CausalMemoryController
