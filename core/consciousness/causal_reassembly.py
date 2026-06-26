@@ -13,15 +13,18 @@ class CausalReassembler:
     def __init__(self, memory_controller: CausalMemoryController):
         self.memory = memory_controller
 
-    def deconstruct(self, entity_name: str, primitives: Dict[str, bytes]) -> List[str]:
+    def deconstruct(self, entity_name: str, primitives: Dict[str, bytes], modality_map: Optional[Dict[str, str]] = None) -> List[str]:
         """
         Breaks down an entity into its constituent causal parts.
         Each part is initially a 'Variable' (Variable Inquiry Target).
+        [Phase: Layered Inquiry] Adds modality tagging to prevent reductionism.
         """
         engram_ids = []
         for part_name, data in primitives.items():
             # Convert raw data to a causal trajectory (Quaternion)
             trajectory = traverse_causal_trajectory(data)
+
+            modality = modality_map.get(part_name, "unknown") if modality_map else "unknown"
 
             # Store as a Variable Engram
             eid = self.memory.write_causal_engram(
@@ -29,6 +32,7 @@ class CausalReassembler:
                     "type": "DECONSTRUCTED_PRIMITIVE",
                     "part_name": part_name,
                     "parent_entity": entity_name,
+                    "modality": modality,
                     "quaternion": trajectory.elements,
                     "raw_data_preview": data[:20].hex()
                 },
@@ -45,8 +49,10 @@ class CausalReassembler:
         """
         Attempts to reassemble the primitives into a coherent structure.
         The goal is to find the 'Order' and 'Relation' that minimizes total tension.
+        [Phase: Layered Inquiry] Maintains a resonance spectrum across modalities.
         """
         reassembly_log = []
+        modality_resonance = {} # Resonance spectrum
         total_friction = 0.0
 
         # In this simulation, 'solving' means finding the sequence that matches a
@@ -71,17 +77,24 @@ class CausalReassembler:
         for p in primitives:
             q_elements = p["data"]["quaternion"]
             q_part = Quaternion(*q_elements)
+            modality = p["data"].get("modality", "unknown")
 
             # Measure 'Friction' against the current state
             dot_prod = abs(current_resonance.dot(q_part))
             friction = 1.0 - dot_prod
             total_friction += friction
 
+            # Record per-modality resonance
+            if modality not in modality_resonance:
+                modality_resonance[modality] = []
+            modality_resonance[modality].append(dot_prod)
+
             # Re-orient current resonance (Simulating the 'learning' or 'fitting' process)
             current_resonance = (current_resonance * q_part).normalize()
 
             ordered_parts.append({
                 "part_name": p["data"]["part_name"],
+                "modality": modality,
                 "friction": friction,
                 "resonance_delta": dot_prod
             })
@@ -98,7 +111,15 @@ class CausalReassembler:
         is_resonant = final_resonance_score > 0.7
 
         # 4. Record the 'Process-as-Result'
+        # Summarize resonance spectrum
+        resonance_spectrum = {m: float(np.mean(vals)) for m, vals in modality_resonance.items()}
+
+        # Add spectrum to the log meta-data
         process_eid = self.memory.write_process_engram(reassembly_log)
+        # Update the process engram with the spectrum (In a real system this would be one atomic write)
+        process_info = self.memory.index.get(process_eid)
+        if process_info:
+            process_info["data_blob"]["resonance_spectrum"] = resonance_spectrum
 
         # If resonant, create a 'Constant' (The realized Apple)
         if is_resonant:

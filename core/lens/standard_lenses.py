@@ -8,19 +8,32 @@ Elysia Core - Standard Computer Encodings as Lenses (표준 관점 렌즈)
 import struct
 
 class BaseLens:
+    modality = "unknown"
+
     def decode(self, raw_bytes: bytes) -> dict:
         raise NotImplementedError
+
+    def get_contextual_principle(self) -> str:
+        """이 관점이 따르는 근원적 시스템의 원리(공리)를 반환합니다."""
+        return "Generic Observation"
 
 # --- MICRO SCALE LENSES (Points and Raw Structures) ---
 
 class RawByteLens(BaseLens):
     """0과 1을 가장 원초적인 1차원 점(스칼라)으로 바라보는 관점"""
+    modality = "binary"
+
     def decode(self, raw_bytes: bytes) -> dict:
         data = list(raw_bytes)
         return {"success": True, "tension": 0, "data": data[:5]}
 
+    def get_contextual_principle(self) -> str:
+        return "Minimal Discrete Energy (Bits)"
+
 class RGBPointLens(BaseLens):
     """0과 1을 색상의 점(RGB 픽셀)으로 묶어서 바라보는 관점"""
+    modality = "visual_static"
+
     def decode(self, raw_bytes: bytes) -> dict:
         pixels = []
         friction = 0
@@ -39,6 +52,8 @@ class RGBPointLens(BaseLens):
 
 class UTF8TrajectoryLens(BaseLens):
     """바이트들을 연결하여 언어적 궤적(문맥)으로 바라보는 관점"""
+    modality = "linguistic"
+
     def decode(self, raw_bytes: bytes) -> dict:
         try:
             text = raw_bytes.decode('utf-8')
@@ -47,8 +62,13 @@ class UTF8TrajectoryLens(BaseLens):
             # 해독할 수 없는 바이트는 곧 위상의 어긋남(극심한 언어적 마찰)입니다.
             return {"success": False, "tension": 1.0, "data": f"Noise at index {e.start}"}
 
+    def get_contextual_principle(self) -> str:
+        return "Linguistic Causal Narrative (Context)"
+
 class HSLWaveLens(BaseLens):
     """색상을 정지된 점(RGB)이 아닌 위상 각도(Hue)와 파동(SL)으로 바라보는 관점"""
+    modality = "visual_dynamic"
+
     def decode(self, raw_bytes: bytes) -> dict:
         waves = []
         friction = 0
@@ -70,6 +90,8 @@ class HSLWaveLens(BaseLens):
 
 class IEEE754FloatLens(BaseLens):
     """바이트들을 거대한 소수점 공간(3D, 4D 수학적 스케일)으로 바라보는 관점"""
+    modality = "mathematical"
+
     def decode(self, raw_bytes: bytes) -> dict:
         floats = []
         friction = 0
