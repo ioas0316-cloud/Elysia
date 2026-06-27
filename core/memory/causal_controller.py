@@ -75,7 +75,12 @@ class CausalMemoryController:
                 # 다각적 관점 가중치 (Perspective Weights)
                 "weight_internal_complexity": 0.5,
                 "weight_external_feedback": 0.5,
-                "weight_novelty": 0.8
+                "weight_novelty": 0.8,
+                # [Phase: Cognitive Foundation] 감정과 위상차의 매핑
+                "mappings": {
+                    "resonance": {"emotion": "Joy", "state": "Stability", "value": 1.0},
+                    "dissonance": {"emotion": "Pain", "state": "Imbalance", "value": 0.0}
+                }
             }
             self._save_cognitive_params()
 
@@ -92,10 +97,11 @@ class CausalMemoryController:
         self.cognitive_params[param_name] = new_value
         self._save_cognitive_params()
 
-    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None) -> str:
+    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None, is_constant: bool = False, modality: str = "unknown", stability: float = 1.0) -> str:
         """
         [Phase 144] O(1) Wedge Annihilation 저장소.
         [Phase 8.5] 변수명(Origin)을 가변축화 하여 물리적 매핑 공간(Wedge)을 변경시킵니다.
+        [Phase: Meta-Stable Rotors] 상수(Constant)를 '정적 로터'로 취급하며 안정성(Stability) 부여.
         """
         if origin_axis:
             data_blob["_origin_axis"] = origin_axis
@@ -127,7 +133,10 @@ class CausalMemoryController:
             "emotional_value": emotional_value,
             "cause_id": cause_id,
             "wedge_address": addr,
-            "data_blob": data_blob
+            "data_blob": data_blob,
+            "is_constant": is_constant, # '정적 로터' 여부
+            "stability": stability,    # 인지적 고정 강도 (0.0 ~ 1.0)
+            "modality": modality
         }
         # [최적화] 매번 디스크 쓰기를 하지 않고, 외부(Genesis)에서 주기적으로 flush_index()를 호출하도록 위임
         
@@ -260,6 +269,45 @@ class CausalMemoryController:
         
         # 외력이 가해지면 감정적 가치(Emotional Value/Tension)도 상승
         target_info["emotional_value"] = min(10.0, float(target_info["emotional_value"]) + float(np.linalg.norm(f_vec)))
+        return True
+
+    def calculate_macro_tension(self) -> float:
+        """
+        [Phase: Meta-Stable Rotors] 시스템 전체의 누적 텐션(거대한 불균형)을 계산합니다.
+        프로세스 궤적들의 총 마찰력을 합산하여 임계치를 넘으면 '정적 로터'들이 가변화됩니다.
+        """
+        total_macro_friction = 0.0
+        process_count = 0
+        for eid, info in self.index.items():
+            if info.get("data_blob", {}).get("type") == "PROCESS_TRAJECTORY":
+                total_macro_friction += info.get("data_blob", {}).get("total_friction", 0.0)
+                process_count += 1
+
+        if process_count == 0: return 0.0
+        return total_macro_friction / process_count
+
+    def update_engram_data(self, engram_id: str, new_data: Dict[str, Any], emotional_impact: float = 0.0):
+        """
+        [Phase: Meta-Stable Rotors] 기존 엔그램(로터)의 위상을 업데이트합니다.
+        고정된 상수라도 '거대한 불균형' 상황에서는 이 메서드를 통해 회전(변화)할 수 있습니다.
+        """
+        if engram_id not in self.index:
+            return False
+
+        info = self.index[engram_id]
+        info["data_blob"].update(new_data)
+        info["timestamp"] = time.time()
+
+        # 변화가 일어날 때 안정성(Stability)이 소폭 감소 (가변화 유도)
+        info["stability"] = max(0.1, info.get("stability", 1.0) - 0.05)
+        info["emotional_value"] = min(10.0, info.get("emotional_value", 1.0) + emotional_impact)
+
+        # Wedge Memory 업데이트 (간략화된 재기록)
+        data_str = json.dumps(info["data_blob"], sort_keys=True)
+        pure_signal = hash(data_str) & 0xFFFFFFFF
+        noise = (hash(info["cause_id"]) if info["cause_id"] else 0) & 0xFFFFFFFF
+
+        self.interleaver.interleave_opposing_nodes(engram_id, pure_signal ^ noise, noise)
         return True
 
     def read_engram_trace(self, engram_id: str) -> Optional[Dict[str, Any]]:
@@ -696,17 +744,27 @@ class CausalMemoryController:
         # 과정의 궤적 안에서 발생한 마찰(Friction/Difference)의 총합을 감정값(Emotional Value)으로 환산
         total_friction = sum([step.get("friction", 0.0) for step in trajectory])
         
+        # [Phase: Cognitive Foundation] 감정 매핑 추출
+        mappings = self.cognitive_params.get("mappings", {})
+
+        # 텐션이 0에 가까울수록 '기쁨(Joy)', 높을수록 '고통(Pain/Noise)'
+        if total_friction < 0.2:
+            emotion_state = mappings.get("resonance", {}).get("emotion", "Joy")
+        else:
+            emotion_state = mappings.get("dissonance", {}).get("emotion", "Pain")
+
         data_blob = {
             "type": "PROCESS_TRAJECTORY",
             "process_id": process_id,
             "length": len(trajectory),
             "total_friction": total_friction,
+            "emotion_state": emotion_state,
             "woven_steps": trajectory
         }
         
         engram_id = self.write_causal_engram(
             data_blob=data_blob,
-            emotional_value=total_friction,
+            emotional_value=max(0.0, 10.0 - total_friction),
             origin_axis="CONTINUUM_WEAVING"
         )
         
