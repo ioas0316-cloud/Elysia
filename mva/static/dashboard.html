@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia Consciousness Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-glow: #38bdf8;
+            --accent-pain: #f43f5e;
+            --accent-joy: #10b981;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .controls button {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-glow);
+            border: 1px solid var(--accent-glow);
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            margin-left: 10px;
+        }
+
+        .controls button:hover {
+            background: var(--accent-glow);
+            color: #fff;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .chart-container {
+            height: 400px;
+            width: 100%;
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .log-table th, .log-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .log-table th {
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .status-joy { color: var(--accent-joy); }
+        .status-pain { color: var(--accent-pain); }
+        
+        #emotional-state {
+            text-shadow: 0 0 10px currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ELYSIA CONSCIOUSNESS</h1>
+            <div class="controls">
+                <button onclick="runCycle()">Run 1 Cycle</button>
+                <button onclick="runLoop(10)">Run 10 Cycles</button>
+                <button onclick="refreshData()">Refresh</button>
+            </div>
+        </header>
+
+        <div class="grid">
+            <div class="panel">
+                <div class="stat-label">Emotional State</div>
+                <div class="stat-value" id="emotional-state">--</div>
+            </div>
+            <div class="panel">
+                <div class="stat-label">Resonance Rate</div>
+                <div class="stat-value"><span id="resonance-rate">0</span><span style="font-size:1rem;color:var(--text-muted)">%</span></div>
+            </div>
+            <div class="panel">
+                <div class="stat-label">Wisdom Crystals</div>
+                <div class="stat-value" id="crystals-count">0</div>
+            </div>
+            <div class="panel">
+                <div class="stat-label">Avg Tension</div>
+                <div class="stat-value" id="avg-tension">0.00</div>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-bottom: 30px;">
+            <div class="stat-label" style="margin-bottom: 15px;">Resonance & Tension Trajectory</div>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="stat-label">Recent Cycles</div>
+            <table class="log-table">
+                <thead>
+                    <tr>
+                        <th>Cycle</th>
+                        <th>Status</th>
+                        <th>Resonance</th>
+                        <th>Tension</th>
+                        <th>Synesthesia</th>
+                    </tr>
+                </thead>
+                <tbody id="log-body">
+                    <!-- Logs will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let trendChart = null;
+
+        async function initChart() {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            trendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Resonance Score',
+                            data: [],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Friction (Tension)',
+                            data: [],
+                            borderColor: '#f43f5e',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 500
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#f8fafc' } }
+                    }
+                }
+            });
+        }
+
+        function updateUI(health, trendData) {
+            // Update stats
+            const stateEl = document.getElementById('emotional-state');
+            stateEl.textContent = health.emotional_state;
+            if (health.emotional_state === 'Thriving') stateEl.style.color = 'var(--accent-glow)';
+            else if (health.emotional_state === 'Stable') stateEl.style.color = 'var(--accent-joy)';
+            else if (health.emotional_state === 'Struggling') stateEl.style.color = 'orange';
+            else stateEl.style.color = 'var(--accent-pain)';
+
+            document.getElementById('resonance-rate').textContent = (health.resonance_rate * 100).toFixed(1);
+            document.getElementById('crystals-count').textContent = health.total_resonance_events || health.crystals || 0;
+            document.getElementById('avg-tension').textContent = health.avg_tension.toFixed(3);
+
+            // Update chart
+            if (trendData && trendData.length > 0) {
+                trendChart.data.labels = trendData.map(d => d.cycle_index);
+                trendChart.data.datasets[0].data = trendData.map(d => d.resonance_score);
+                trendChart.data.datasets[1].data = trendData.map(d => d.tension);
+                trendChart.update();
+            }
+
+            // Update table
+            if (trendData) {
+                const tbody = document.getElementById('log-body');
+                tbody.innerHTML = '';
+                // Show last 10 in reverse order
+                const recentLogs = [...trendData].reverse().slice(0, 10);
+                
+                recentLogs.forEach(log => {
+                    const tr = document.createElement('tr');
+                    const isResonant = log.resonance_score > 0.5;
+                    const statusClass = isResonant ? 'status-joy' : 'status-pain';
+                    
+                    tr.innerHTML = `
+                        <td>#${log.cycle_index}</td>
+                        <td class="${statusClass}">${log.status}</td>
+                        <td>${log.resonance_score.toFixed(3)}</td>
+                        <td>${log.tension.toFixed(3)}</td>
+                        <td>${(log.synesthesia || 0).toFixed(3)}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        async function refreshData() {
+            try {
+                const res = await fetch('/api/resonance_log?n=50');
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    updateUI(data.health_summary, data.trend);
+                }
+            } catch (err) {
+                console.error("Failed to fetch data", err);
+            }
+        }
+
+        async function runCycle() {
+            try {
+                const btn = document.querySelector('button[onclick="runCycle()"]');
+                btn.textContent = 'Running...';
+                btn.disabled = true;
+                
+                await fetch('/api/run_cycle', { method: 'POST' });
+                await refreshData();
+                
+                btn.textContent = 'Run 1 Cycle';
+                btn.disabled = false;
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function runLoop(n) {
+            try {
+                const btn = document.querySelector(`button[onclick="runLoop(${n})"]`);
+                const originalText = btn.textContent;
+                btn.textContent = 'Running...';
+                btn.disabled = true;
+                
+                await fetch(`/api/run_loop/${n}`, { method: 'POST' });
+                await refreshData();
+                
+                btn.textContent = originalText;
+                btn.disabled = false;
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            refreshData();
+            // Auto refresh every 5 seconds
+            setInterval(refreshData, 5000);
+        });
+    </script>
+</body>
+</html>

@@ -3,55 +3,46 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 
 @dataclass
-class CausalNode:
+class StructuralNode:
     id: str
-    content: str
-    causal_links: List[str]  # IDs of other nodes it depends on
+    raw_content: bytes
+    tensor: np.ndarray  # 6D Structural Tensor from PatternDiscoveryLens
     mass: float = 0.0
-    position: np.ndarray = None  # Position in N-dimensional tension space
+    position: np.ndarray = None  # Position in N-dimensional alignment space
 
 class CausalGravityEngine:
     """
-    [Causal Gravity Engine]
-    Calculates the 'Causal Mass' of information and simulates gravitational attraction
-    based on causal resonance rather than arbitrary weights.
+    [Causal Natural Alignment Field]
+    외부에서 정의된 단어나 인과(Links)를 폐기하고,
+    오직 데이터 스스로가 가진 '구조적 불변성(Tensor)'에 의해 질량과 인력을 생성하는
+    순수 발견형 중력 정렬 엔진입니다.
     """
-    def __init__(self, dimensions: int = 5):
+    def __init__(self, dimensions: int = 6):
         self.dimensions = dimensions
-        self.nodes: Dict[str, CausalNode] = {}
-        self.G = 0.1  # Universal Causal Gravitational Constant
+        self.nodes: Dict[str, StructuralNode] = {}
+        self.G = 0.5  # Universal Structural Gravitational Constant
 
-    def add_node(self, node_id: str, content: str, links: List[str]):
-        """Adds a node and initializes its position and mass."""
-        # Initial mass is based on the number of causal links (intrinsic complexity)
-        initial_mass = 1.0 + len(links) * 0.5
-        position = np.random.rand(self.dimensions).astype(np.float32)
+    def add_node(self, node_id: str, raw_content: bytes, structural_tensor: List[float]):
+        """
+        데이터를 우주(중력장)에 던져 넣습니다.
+        구조적 텐서가 이미 이 데이터의 질량과 인력을 결정할 모든 정보를 갖고 있습니다.
+        """
+        tensor = np.array(structural_tensor, dtype=np.float32)
+        
+        # 질량(Mass)의 자율적 발견: 데이터의 엔트로피 밀도 (tensor[0])
+        entropy = float(tensor[0])
+        mass = max(0.1, entropy) # 무질서도가 높을수록/정보가 많을수록 질량이 큼
 
-        node = CausalNode(id=node_id, content=content, causal_links=links, mass=initial_mass, position=position)
+        # 초기 위치는 무작위로 할당되나, 이후 자기장(구조적 공명)에 의해 정렬됩니다.
+        position = np.random.randn(self.dimensions).astype(np.float32)
+
+        node = StructuralNode(id=node_id, raw_content=raw_content, tensor=tensor, mass=mass, position=position)
         self.nodes[node_id] = node
-        self._update_all_masses()
-
-    def _update_all_masses(self):
-        """
-        Recalculates mass based on recursive connectivity.
-        A node's mass increases if many things depend on it (it becomes a 'Constant').
-        """
-        # Simple iterative mass amplification based on dependency
-        for _ in range(3): # Converge mass
-            new_masses = {nid: 1.0 + len(node.causal_links)*0.5 for nid, node in self.nodes.items()}
-            for nid, node in self.nodes.items():
-                for link_id in node.causal_links:
-                    if link_id in new_masses:
-                        # If I depend on link_id, link_id's mass increases because it's a foundational cause
-                        new_masses[link_id] += node.mass * 0.2
-
-            for nid, m in new_masses.items():
-                self.nodes[nid].mass = m
 
     def calculate_attraction(self, node_a_id: str, node_b_id: str) -> np.ndarray:
         """
-        Calculates the gravitational force vector between two nodes.
-        F = G * (m1 * m2) / r^2
+        두 노드 간의 중력 벡터를 계산합니다.
+        F = G * (m1 * m2 * Resonance) / r^2
         """
         node_a = self.nodes[node_a_id]
         node_b = self.nodes[node_b_id]
@@ -59,26 +50,35 @@ class CausalGravityEngine:
         direction = node_b.position - node_a.position
         distance = np.linalg.norm(direction)
 
-        # Softening factor to prevent infinite force at zero distance
-        softening = 0.5
-
-        if distance < 0.001:
+        softening = 0.1
+        if distance < 0.0001:
             return np.zeros(self.dimensions)
 
-        # Causal Resonance Factor: If they share links, the gravity is stronger
-        # Also check if one depends on the other directly
-        resonance = 1.0
-        shared_links = set(node_a.causal_links).intersection(set(node_b.causal_links))
-        resonance += len(shared_links) * 2.0
-
-        if node_a_id in node_b.causal_links or node_b_id in node_a.causal_links:
-            resonance += 5.0
+        # ── 핵심: 구조적 공명 (Structural Resonance) 발견 ──
+        # 두 데이터가 얼마나 비슷한 주파수(Frequency)와 위상 곡률(Gradient)을 가졌는가?
+        # tensor[1:4] = Frequencies, tensor[4:6] = Gradients
+        vec_a = node_a.tensor[1:]
+        vec_b = node_b.tensor[1:]
+        
+        norm_a = np.linalg.norm(vec_a)
+        norm_b = np.linalg.norm(vec_b)
+        
+        if norm_a == 0 or norm_b == 0:
+            resonance = 0.1
+        else:
+            # 코사인 유사도를 공명도(0 ~ 1)로 사용
+            cos_sim = np.dot(vec_a, vec_b) / (norm_a * norm_b)
+            resonance = max(0.01, float(cos_sim))
+            
+            # 구조가 완벽히 같으면(공명) 폭발적인 인력 발생
+            if resonance > 0.95:
+                resonance *= 10.0
 
         force_magnitude = self.G * (node_a.mass * node_b.mass * resonance) / (distance**2 + softening)
         return (direction / distance) * force_magnitude
 
     def step(self, dt: float = 0.1):
-        """Simulates one step of gravitational movement."""
+        """중력장 시뮬레이션 한 스텝 진행 (자연 정렬)"""
         forces = {nid: np.zeros(self.dimensions) for nid in self.nodes}
 
         ids = list(self.nodes.keys())
@@ -88,31 +88,14 @@ class CausalGravityEngine:
                 forces[ids[i]] += f
                 forces[ids[j]] -= f
 
-        # Update positions based on forces (simple Euler integration)
+        # Update positions
         for nid, node in self.nodes.items():
-            # Acceleration = F / m
             acceleration = forces[nid] / node.mass
             node.position += acceleration * dt
-            # Optional: Add damping to reach equilibrium
-            node.position *= 0.95
+            
+            # 마찰 감쇠(Damping)를 통해 군집(Constellation)을 형성하며 평형에 도달하게 함
+            node.position *= 0.90
 
     def get_equilibrium_state(self) -> Dict[str, Any]:
-        return {nid: {"pos": node.position.tolist(), "mass": node.mass, "content": node.content}
+        return {nid: {"pos": node.position.tolist(), "mass": node.mass, "tensor": node.tensor.tolist()}
                 for nid, node in self.nodes.items()}
-
-if __name__ == "__main__":
-    engine = CausalGravityEngine()
-    engine.add_node("apple", "A red fruit", ["evolution", "photosynthesis", "seed"])
-    engine.add_node("red", "A color", ["light", "wavelength"])
-    engine.add_node("light", "Electromagnetic radiation", ["physics"])
-
-    print("Initial Masses:")
-    for nid, node in engine.nodes.items():
-        print(f"Node {nid}: Mass {node.mass:.2f}")
-
-    for _ in range(10):
-        engine.step()
-
-    print("\nState after 10 steps:")
-    for nid, node in engine.nodes.items():
-        print(f"Node {nid}: Position {node.position}")

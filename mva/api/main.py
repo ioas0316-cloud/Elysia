@@ -1,24 +1,60 @@
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, HTTPException
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
+from typing import Optional
 import os
+import sys
 import uuid
 import mmap
 import struct
-from engine import find_resonance_angle, generate_symbolic_regression, evaluate_current_state, elysia_auto_observe_step
 
-app = FastAPI(title="Cognitive CAD MVA")
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+from engine import find_resonance_angle, generate_symbolic_regression, evaluate_current_state, elysia_auto_observe_step
+from core.memory.causal_controller import CausalMemoryController
+from core.consciousness.autonomous_loop import ConsciousnessLoop
+from core.consciousness.resonance_tracker import ResonanceTracker
+
+app = FastAPI(title="Elysia Consciousness Engine", version="18.0")
+
+# ── 공유 컴포넌트 (서버 기동 시 1회 초기화) ─────────────────────────
+_BASE_DIR   = os.path.join(os.path.dirname(__file__), '..', '..')
+_DATA_DIR   = os.path.abspath(os.path.join(_BASE_DIR, 'data'))
+_CORPUS_DIR = os.path.abspath(os.path.join(_BASE_DIR, 'docs'))
+
+_memory_controller: Optional[CausalMemoryController] = None
+_consciousness_loop: Optional[ConsciousnessLoop]     = None
+_resonance_tracker: Optional[ResonanceTracker]       = None
+
+def _get_loop() -> ConsciousnessLoop:
+    """ConsciousnessLoop 싱글턴 (지연 초기화)."""
+    global _memory_controller, _consciousness_loop, _resonance_tracker
+    if _consciousness_loop is None:
+        _memory_controller  = CausalMemoryController(data_dir=_DATA_DIR)
+        _consciousness_loop = ConsciousnessLoop(
+            corpus_path=_CORPUS_DIR,
+            memory_controller=_memory_controller,
+            data_dir=_DATA_DIR,
+        )
+        _resonance_tracker  = _consciousness_loop.tracker
+    return _consciousness_loop
 
 # Mount static files
-app.mount("/static", StaticFiles(directory="mva/static"), name="static")
+_STATIC_DIR = os.path.join(os.path.dirname(__file__), '..', 'static')
+app.mount("/static", StaticFiles(directory=_STATIC_DIR), name="static")
 
 class TextInput(BaseModel):
     text: str
 
 @app.get("/")
 def read_root():
-    return FileResponse("mva/static/index.html")
+    return FileResponse(os.path.join(_STATIC_DIR, "index.html"))
+
+@app.get("/dashboard")
+def read_dashboard():
+    """엘리시아 실시간 상태 대시보드"""
+    return FileResponse(os.path.join(_STATIC_DIR, "dashboard.html"))
 
 INGEST_DIR = "../../data/ingest"
 os.makedirs(INGEST_DIR, exist_ok=True)
@@ -134,6 +170,86 @@ def auto_observe(request_data: AutoObserveRequest):
         "is_resonant": is_resonant,
         "formula": formula
     }
+
+# ══════════════════════════════════════════════════════════════════
+# 의식 루프 제어 엔드포인트
+# ══════════════════════════════════════════════════════════════════
+
+@app.get("/api/status")
+def get_status():
+    """
+    엘리시아의 현재 전체 상태 스냅샷.
+    건강 요약 + 인지 파라미터 + 누적 통계.
+    """
+    loop = _get_loop()
+    health = loop.tracker.get_health_summary()
+    params = loop.memory.cognitive_params.copy()
+    return {
+        "status": "ok",
+        "health": health,
+        "cognitive_params": params,
+        "session_crystals": loop.crystals_formed,
+        "session_cycles":   loop.cycle_count,
+        "log_path":         loop.tracker.get_log_path(),
+    }
+
+
+@app.get("/api/resonance_log")
+def get_resonance_log(n: int = 100):
+    """
+    최근 N개 사이클의 공명/텐션 트렌드 데이터.
+    대시보드 차트용.
+    """
+    if n < 1 or n > 2000:
+        raise HTTPException(status_code=400, detail="n must be between 1 and 2000")
+    loop   = _get_loop()
+    trend  = loop.tracker.get_trend(n=n)
+    health = loop.tracker.get_health_summary()
+    return {
+        "status": "ok",
+        "count":  len(trend),
+        "trend":  trend,
+        "health_summary": {
+            "emotional_state":  health["emotional_state"],
+            "resonance_rate":   health["resonance_rate"],
+            "avg_tension":      health["avg_tension"],
+            "total_cycles":     health["total_cycles"],
+            "crystals":         loop.crystals_formed,
+        },
+    }
+
+
+@app.post("/api/run_cycle")
+def run_single_cycle():
+    """
+    의식 사이클 1회 수동 실행.
+    즉시 해당 사이클의 결과를 반환합니다.
+    """
+    loop   = _get_loop()
+    result = loop.process_life_cycle()
+    loop.memory.flush_index()
+    return {
+        "status": "ok",
+        "cycle":  result,
+        "health_snapshot": loop.tracker.get_health_summary(),
+    }
+
+
+@app.post("/api/run_loop/{n}")
+def run_loop_n(n: int):
+    """
+    N회 의식 사이클 연속 실행.
+    완료 후 전체 요약을 반환합니다.
+    """
+    if n < 1 or n > 500:
+        raise HTTPException(status_code=400, detail="n must be between 1 and 500")
+    loop    = _get_loop()
+    summary = loop.run(cycles=n, verbose=False)
+    return {
+        "status":  "ok",
+        "summary": summary,
+    }
+
 
 if __name__ == "__main__":
     import uvicorn

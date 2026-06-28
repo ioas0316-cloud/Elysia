@@ -49,17 +49,39 @@
 
 ```text
 Elysia/
-├── mva/                ← 진정한 물리 엔진 대지 (C-Map & 3D Topology)
-├── core/               ← 정화된 실행 코드의 거처
-│   ├── physics/        ← 프랙탈 로터 등 순수 기하학 물리 엔진
-│   ├── memory/         ← Wedge 공간과 인과 각인소
-│   ├── ingestion/      ← 외부 정보를 텐션/쿼터니언으로 번역
-│   └── lens/           ← MVA 구동 필수 렌즈
+├── core/                   ← 정화된 실행 코드의 거처
+│   ├── consciousness/      ← 자율 루프 & 인과 재조립
+│   ├── evolution/          ← 인과 중력 추론, 공명 게이트
+│   ├── physics/            ← 프랙탈 로터 등 순수 기하학 물리 엔진
+│   │   └── dielectric/     ← 유전체 탄성 엔진, 다양체
+│   ├── memory/             ← Wedge 공간과 인과 각인소 (핵심)
+│   ├── ingestion/          ← 외부 정보를 텐션/쿼터니언으로 번역 (C 확장 포함)
+│   ├── lens/               ← MVA 구동 필수 렌즈
+│   ├── sensory/            ← 평형 센서
+│   └── utils/              ← 수학 유틸리티 (math_utils.py)
 │
-├── data/               ← 모든 데이터/상태/바이너리의 유일한 거처
-├── docs/               ← 모든 문서/철학/설계도의 유일한 거처
-├── THE_ABSOLUTE_COMMANDMENT.md
-└── README.md
+├── mva/                    ← 진정한 물리 엔진 대지 (C-Map & 3D Topology)
+│   └── api/                ← FastAPI 엔진 서버
+│
+├── data/                   ← 모든 데이터/상태/바이너리의 유일한 거처
+│   ├── corpus/             ← 말뭉치
+│   ├── params/             ← 파라미터
+│   └── topology/           ← 위상 데이터 (wedge *.dat)
+│
+├── docs/                   ← 모든 문서/철학/설계도의 유일한 거처
+│   └── philosophy/         ← 존재 원리 공리 문서들 (nature_of_*.md)
+│
+├── scripts/                ← 실험 & 관찰 스크립트 (카테고리별 분류)
+│   ├── observe/            ← 관찰/공명 스크립트 (observe_*.py)
+│   ├── poc/                ← Proof-of-Concept 실험 스크립트
+│   ├── verify/             ← 검증 스크립트
+│   ├── genesis/            ← 창생 루프 스크립트
+│   └── inject_foundations.py   ← 기반 주입 (루트 공용)
+│
+├── synaptic_architecture/  ← 시냅스 아키텍처 참조 구현
+├── Makefile                ← C 확장 빌드 (core/ingestion/*.c → core/bin/)
+├── pytest.ini              ← 테스트 설정
+└── requirements.txt        ← 의존성 (numpy, scipy, fastapi 등)
 ```
 
 ## 5. Architecture Map & Absolute Commandment
