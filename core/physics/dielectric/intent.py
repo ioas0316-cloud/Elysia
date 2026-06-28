@@ -13,8 +13,9 @@ class IntentField:
         self.vector = np.random.rand(dimensions)
         self.vector /= np.linalg.norm(self.vector)
 
-        # Stability: How resistant the ego is to change
-        self.stability = 0.8
+        # [Sovereign Ego] Stability: Resistance to external phase-shifting.
+        # Higher stability ensures the 'Eigen-frequency' remains the center.
+        self.stability = 0.95
 
         # Historical memory of intentions
         self.history = [self.vector.copy()]

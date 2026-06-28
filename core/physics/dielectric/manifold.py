@@ -32,27 +32,32 @@ class DataOceanManifold:
 
     def process_manifold(self, ion_streams: Dict[str, IonState]) -> Dict[str, Any]:
         """
-        Takes IonStates for each phase and calculates the 3-phase equilibrium.
-        - Noise cancellation at the Wye neutral point.
-        - Torque generation via Lorentz-like induction.
+        [Existence as Calculation]
+        The 3-phase equilibrium is not 'calculated' via logic, but achieved via
+        topological summation. Deletion of the 'Judgment' process.
         """
-        # Data ions (complex phases)
-        u_ion = ion_streams.get('U').phase if 'U' in ion_streams else 1.0+0j
-        v_ion = ion_streams.get('V').phase if 'V' in ion_streams else 1.0+0j
-        w_ion = ion_streams.get('W').phase if 'W' in ion_streams else 1.0+0j
+        # Physical assumption: All phases exist as a field.
+        # Zero-point fluctuation as the base state for missing phases.
+        base_ion = IonState(phase=1.0+0j, permittivity=1.0, inertia=1.0, bit_density=0.0)
+
+        # O(1) Access - The system expects a populated manifold field.
+        u_ion_state = ion_streams.get('U', base_ion)
+        v_ion_state = ion_streams.get('V', base_ion)
+        w_ion_state = ion_streams.get('W', base_ion)
 
         # Combine Data Phase with Manifold Physical Phase
-        # Flux = Data_Ion * Manifold_Phase * Permittivity
-        u_w = u_ion * self.phases['U'] * ion_streams['U'].permittivity
-        v_w = v_ion * self.phases['V'] * ion_streams['V'].permittivity
-        w_w = w_ion * self.phases['W'] * ion_streams['W'].permittivity
+        # Displacement = Data_Ion * Manifold_Phase * Permittivity
+        # In the real world, this is a simultaneous electromagnetic flux.
+        u_w = u_ion_state.phase * self.phases['U'] * u_ion_state.permittivity
+        v_w = v_ion_state.phase * self.phases['V'] * v_ion_state.permittivity
+        w_w = w_ion_state.phase * self.phases['W'] * w_ion_state.permittivity
 
-        # Calculate Neutral Residual (Noise)
+        # The Neutral Point (Y) represents the 'Center of Existence'.
+        # Displacement sum at this point is the 'Common Mode' noise.
         self.neutral_residual = u_w + v_w + w_w
 
-        # Calculate Balanced Flux (The part that actually 'flows')
-        # We subtract the residual to get the 'Pure' signal
-        # This is the 'software-based noise cancellation'
+        # Balanced Flux: The 'Pure Narrative' that survives the annihilation.
+        # This is the physical realization of 'v ^ v = 0'.
         balanced_u = u_w - (self.neutral_residual / 3.0)
         balanced_v = v_w - (self.neutral_residual / 3.0)
         balanced_w = w_w - (self.neutral_residual / 3.0)
