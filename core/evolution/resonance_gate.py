@@ -1,77 +1,107 @@
 import numpy as np
-from typing import List, Callable, Any, Dict
+from typing import List, Callable, Any, Dict, Union
 
-class ResonanceGate:
+class TrajectoryResonanceGate:
     """
-    [Phase: Grand Leap] Non-linear Resonance Gate
-    Replaces static if-else branches with 'Resonance-based Flow Selection'.
-    Execution paths are chosen based on which logic 'resonates' most with the
-    current system state (Organism Tensor).
+    [Phase: Grand Leap - Field Evolution] Trajectory Resonance Gate
+    Replaces point-based signatures with 'Causal Trajectories' (Lines/Planes).
+    Resonance is achieved when the organism's movement through state-space
+    aligns with the structural 'Flow' of a logic path.
     """
-    def __init__(self):
-        # paths: list of { "id": str, "logic": function, "vibration_signature": np.ndarray }
+    def __init__(self, controller=None):
         self.paths = []
+        self.controller = controller
+        # Circular buffer for organism state history [N_steps, Dim]
+        self.history_limit = 10
+        self.state_history = []
 
-    def register_path(self, path_id: str, logic_func: Callable, signature: np.ndarray):
+    def register_path(self, path_id: str, logic_func: Callable, trajectory_signature: np.ndarray):
         """
-        Registers a potential execution path with its unique 'vibration signature'.
+        Registers a path with a 'Trajectory Signature' (Sequence of states).
         """
         self.paths.append({
             "id": path_id,
             "logic": logic_func,
-            "signature": signature
+            "trajectory": trajectory_signature
         })
 
-    def execute_with_resonance(self, organism_tensor: np.ndarray, input_data: Any) -> Dict[str, Any]:
-        """
-        Selects the execution path that has the highest resonance (lowest variance)
-        with the current organism tensor.
-        """
-        if not self.paths:
-            return {"error": "No paths registered"}
+    def update_history(self, current_tensor: np.ndarray):
+        self.state_history.append(current_tensor)
+        if len(self.state_history) > self.history_limit:
+            self.state_history.pop(0)
+
+    def execute_with_field_resonance(self, input_data: Any) -> Dict[str, Any]:
+        if not self.paths or len(self.state_history) < 2:
+            return {"error": "Insufficient history or no paths"}
+
+        current_trajectory = np.array(self.state_history)
 
         best_path = None
         max_resonance = -1.0
-
-        # Calculate resonance scores
         scores = []
+
         for p in self.paths:
-            # Resonance = 1.0 / (1.0 + distance)
-            # We compare the organism's current 'shape' with the path's 'signature'
-            dist = np.linalg.norm(organism_tensor - p["signature"])
-            resonance = 1.0 / (1.0 + dist)
-            scores.append((p["id"], resonance))
+            # Field Resonance: Use Trajectory Sameness (Gram Matrix comparison)
+            # if we have a controller, use its advanced comparison logic
+            if self.controller:
+                # find_trajectory_sameness expects lists/arrays
+                res = self.controller.find_trajectory_sameness(
+                    p["trajectory"],
+                    current_trajectory,
+                    scale_factor=1.0
+                )
+                # Use the variance and min_difference to calculate a resonance score
+                # Low variance and low min_diff = High resonance
+                sameness = max([d['sameness_score'] for d in res['sameness_distribution']])
+                resonance = sameness
+            else:
+                # Fallback to simple MSE between trajectories (padded)
+                t1 = p["trajectory"]
+                t2 = current_trajectory
+                # Simple alignment
+                min_len = min(len(t1), len(t2))
+                dist = np.linalg.norm(t1[-min_len:] - t2[-min_len:])
+                resonance = 1.0 / (1.0 + dist)
+
+            scores.append((p["id"], float(resonance)))
 
             if resonance > max_resonance:
                 max_resonance = resonance
                 best_path = p
 
-        print(f"[ResonanceGate] Path Selection Scores: {scores}")
-        print(f"[ResonanceGate] Winner: {best_path['id']} (Resonance: {max_resonance:.4f})")
+        print(f"[FieldResonance] Flow Selection Scores: {scores}")
 
-        # Execute the chosen path
+        # Execute the winner
         result = best_path["logic"](input_data)
 
         return {
             "selected_path": best_path["id"],
             "resonance": max_resonance,
-            "result": result
+            "result": result,
+            "scores": scores
         }
 
 if __name__ == "__main__":
-    gate = ResonanceGate()
+    # Mock test
+    gate = TrajectoryResonanceGate()
 
-    # Path A: Stable path
-    gate.register_path("STABLE_SYNC", lambda x: f"Stable Process: {x}", np.array([0, 0, 1, 0, 0, 0]))
-    # Path B: High Tension path (Crisis response)
-    gate.register_path("CRISIS_MUTATION", lambda x: f"Mutation Process: {x}", np.array([5, 0, 0, 0, 0, 0]))
+    # Path: Growth Flow
+    gate.register_path(
+        "GROWTH_SPIRAL",
+        lambda x: "Growing...",
+        np.array([[0,0], [1,1], [2,2]])
+    )
 
-    # Test 1: Stable system
-    print("Test 1: Stable System")
-    stable_tensor = np.array([0.1, 0.1, 1.0, 0.5, 0.2, 0.05])
-    print(gate.execute_with_resonance(stable_tensor, "Data_A"))
+    # Path: Decay Flow
+    gate.register_path(
+        "DECAY_STASIS",
+        lambda x: "Decaying...",
+        np.array([[2,2], [1,1], [0,0]])
+    )
 
-    # Test 2: High tension system
-    print("\nTest 2: High Tension System")
-    tension_tensor = np.array([4.8, 0.2, 0.5, 2.5, 0.8, 0.9])
-    print(gate.execute_with_resonance(tension_tensor, "Data_B"))
+    # Simulate history
+    gate.update_history(np.array([0.1, 0.1]))
+    gate.update_history(np.array([1.1, 1.1]))
+    gate.update_history(np.array([1.9, 2.0]))
+
+    print(gate.execute_with_field_resonance("Data"))
