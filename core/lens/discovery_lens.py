@@ -76,6 +76,8 @@ class OntologicalDiscoveryLens(BaseLens):
             return {"id": 1.0, "name": "Symbolic_Logic", "logic": "Sequential_Flow"}
         elif space_ratio > 0.1 or (np.mean(arr) > 32 and np.mean(arr) < 127):
             return {"id": 2.0, "name": "Natural_Language", "logic": "Associative_Meaning"}
+        elif len(data) > 1000: # 대용량 데이터는 주로 영상/이미지 파동
+            return {"id": 4.0, "name": "Visual_Pattern", "logic": "Spatial_Resonance"}
         else:
             return {"id": 3.0, "name": "Structural_Pattern", "logic": "Relational_Mapping"}
 

@@ -2,12 +2,51 @@ import numpy as np
 from typing import Dict, Any, List
 from .field import CrystallizationField
 
+class CognitiveMirror:
+    """
+    [Synaptic Architecture] The Mirror of Self & World
+    Distinguishes between 'Self' (Crystallized Knowledge) and 'Other' (External Signals).
+    Analyzes the gap between what is known, what is said, and what is seen.
+    """
+    def __init__(self, field: CrystallizationField):
+        self.field = field
+
+    def observe_distinction(self, external_wave: np.uint64) -> Dict[str, Any]:
+        """
+        Compare external input with internal 'Self' (Conductance/Genes).
+        [Identity Perception]
+        """
+        # 1. External Perception
+        # (This would use the Vortex logic, simplified here)
+
+        # 2. Internal Self-Scan
+        # Find the gene that resonates most with the self's stable structure
+        # (Using a small epsilon and filtering zero genes to find the real self)
+        valid_indices = np.where(self.field.bit_genes != 0)
+        if len(valid_indices[0]) > 0:
+            # Get the point with maximum conductance among non-zero genes
+            valid_conductance = self.field.conductance[valid_indices]
+            max_idx = np.argmax(valid_conductance)
+            y = valid_indices[0][max_idx]
+            x = valid_indices[1][max_idx]
+            internal_gene = self.field.bit_genes[y, x]
+        else:
+            internal_gene = np.uint64(0)
+            y, x = 0, 0
+
+        # 3. Gap Analysis (Self vs World)
+        deficit = external_wave ^ internal_gene
+        resonance = 1.0 - (bin(deficit).count('1') / 64.0)
+
+        return {
+            "self_concept": hex(internal_gene),
+            "external_signal": hex(external_wave),
+            "resonance_with_self": float(resonance),
+            "distinction": "Internalized" if resonance > 0.9 else "Alien/New_Experience",
+            "is_contradiction": resonance < 0.3 and self.field.conductance[y, x] > 5.0
+        }
+
 class VortexObserver:
-    """
-    [Synaptic Architecture] The Lens of Enlightenment
-    Translates the raw topological state of the field (Energy, Conductance)
-    into a structured "Observation Report" for the Master.
-    """
     def __init__(self, field: CrystallizationField):
         self.field = field
 
