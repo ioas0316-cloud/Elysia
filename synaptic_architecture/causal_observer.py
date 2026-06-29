@@ -30,7 +30,8 @@ class VortexObserver:
             "total_activation": float(total_energy),
             "average_plasticity": float(avg_conductance),
             "detected_vortices": vortices,
-            "topological_summary": self._generate_summary(vortices, avg_conductance)
+            "topological_summary": self._generate_summary(vortices, avg_conductance),
+            "reflection_depth": self._calculate_reflection_depth(vortices)
         }
         return report
 
@@ -57,6 +58,21 @@ class VortexObserver:
                 "resonant_gene": gene
             })
         return vortices
+
+    def _calculate_reflection_depth(self, vortices: list) -> float:
+        """
+        [Reflection] Measures how well the current thought (Vortex)
+        resonates with previously crystallized laws (Conductance/Genes).
+        """
+        if not vortices: return 0.0
+
+        main_vortex = vortices[0]
+        y, x = main_vortex['coordinate']
+
+        # Reflection is the resonance between current energy and established paths
+        # High conductance + High activation = Deep reflection/Confirmation
+        reflection = (self.field.conductance[y, x] / 10.0) * (main_vortex['intensity'] / 100.0)
+        return float(np.clip(reflection, 0, 1.0))
 
     def _generate_summary(self, vortices: list, avg_cond: float) -> str:
         if not vortices:
