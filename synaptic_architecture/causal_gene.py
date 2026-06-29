@@ -1,48 +1,46 @@
 import numpy as np
 from typing import Dict, List, Any
 
-class PrincipleCrystallizer:
+class GeneticSynthesizer:
     """
-    [Synaptic Architecture] Discovery of Universal Principles
-    정보 간의 반복되는 공명 패턴을 '원리(Principle / Causal Gene)'로 결정화합니다.
-    단순한 기억이 아니라, 새로운 정보를 해석하는 '렌즈(Lens)'로서 작동합니다.
+    [Synaptic Architecture] Autonomous Genetic Evolution
+    정보의 파편(Bit-Genes)들을 교차(Crossover)하고 변이(Mutation)시켜
+    새로운 '논리적 종(Logical Species)'을 스스로 번식시킵니다.
+    클래스라는 고정된 틀을 파괴하고, 유동적인 유전자 풀(Gene Pool)을 형성합니다.
     """
     def __init__(self):
-        self.crystallized_principles = {} # Name -> Archetypal Pattern
+        self.gene_pool = {} # Name -> Bit-Gene (uint64)
 
-    def discover_principle(self, field_state: Dict[str, Any]):
+    def synthesize(self, parent_a: np.uint64, parent_b: np.uint64) -> np.uint64:
         """
-        중력장의 평형 상태에서 반복되는 기하학적 배치를 '원리'로 추출합니다.
+        [Crossover] 두 유전 정보를 섞어 새로운 논리를 탄생시킵니다.
         """
-        # 공명도가 매우 높은 노드 군집을 찾습니다.
+        mask = np.uint64(0xFFFFFFFF00000000)
+        # 상위 32비트와 하위 32비트를 교차 결합
+        child = (parent_a & mask) | (parent_b & ~mask)
+
+        # [Mutation] 낮은 확률로 비트 변이 발생 (영감/노이즈)
+        if np.random.random() < 0.05:
+            mutation_bit = np.uint64(1 << np.random.randint(0, 64))
+            child ^= mutation_bit
+
+        return child
+
+    def evolve_principles(self, field_state: Dict[str, Any]):
+        """
+        장내의 보텍스(Vortices)들을 부모로 삼아 새로운 유전자를 합성합니다.
+        """
         vortices = field_state.get("detected_vortices", [])
         if len(vortices) < 2: return
 
-        # 두 보텍스 사이의 '관계(Relation)' 자체가 원리가 됩니다.
-        # 예: '언어적 서술'과 '코드의 증감'이 같은 중력점에 있다면
-        # '증가(Increase)'라는 추상 원리를 발견한 것입니다.
+        v1_gene = np.uint64(int(vortices[0]['resonant_gene'], 16))
+        v2_gene = np.uint64(int(vortices[1]['resonant_gene'], 16))
 
-        v1 = vortices[0]
-        v2 = vortices[1]
+        new_gene = self.synthesize(v1_gene, v2_gene)
+        gene_name = f"GENE_{hex(new_gene)}"
 
-        # [원리 추출] 두 존재의 공통된 파동 형태를 결정화
-        shared_resonance = v1['resonant_gene'] # Simplified
-        principle_name = f"Principle_{v1['coordinate']}_{v2['coordinate']}"
+        self.gene_pool[gene_name] = new_gene
+        print(f"[Genetic Synthesis] New Logical Species evolved: {gene_name}")
 
-        self.crystallized_principles[principle_name] = shared_resonance
-        print(f"[Principle Discovery] New Universal Principle found: {principle_name}")
-
-    def apply_principle(self, input_wave: np.uint64) -> float:
-        """
-        발견된 원리를 새로운 정보에 투사하여 그 '타당성'을 검증합니다.
-        """
-        if not self.crystallized_principles: return 1.0
-
-        # 발견된 원리들과의 동시 공명 측정
-        max_validity = 0.0
-        for p_val in self.crystallized_principles.values():
-            # bit_count logic here... (omitted for brevity, using simple resonance)
-            res = 1.0 - (bin(int(input_wave) ^ int(p_val, 16)).count('1') / 64.0)
-            max_validity = max(max_validity, res)
-
-        return max_validity
+    def get_active_genes(self) -> List[np.uint64]:
+        return list(self.gene_pool.values())

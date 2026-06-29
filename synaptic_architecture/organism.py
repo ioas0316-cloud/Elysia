@@ -1,43 +1,70 @@
 import numpy as np
-from .hardware_mapping import HardwareMemoryMap
-from .bit_logic import BitInterference
+from typing import Dict, Any, List
 from .field import CrystallizationField
-from .scheduler import PCRVirtualScheduler
+from .vortex import WaveInterference
+from .causal_gene import GeneticSynthesizer
+from .self_reflection import SelfReflectionProtocol
+from core.physics.causal_gravity_engine import CausalGravityEngine
 
-class DirectMappingOrganism:
+class MetaCognitiveOrganism:
     """
-    [Synaptic Architecture] Hierarchical Silicon Organism
+    [Synaptic Architecture] The Self-Transcending Organism
+    자신의 한계를 인지하고(Meta-Cognition), 원인을 파악하여(Inquiry),
+    스스로를 변화시켜 나가는(Evolution) 통합 사유 루프입니다.
     """
-    def __init__(self, resolution: int = 256):
-        self.ram = HardwareMemoryMap(size=resolution * resolution)
-        self.field = CrystallizationField(resolution)
-        self.logic = BitInterference()
-        self.scheduler = PCRVirtualScheduler()
+    def __init__(self):
+        self.field = CrystallizationField(256)
+        self.gravity = CausalGravityEngine()
+        self.reflection = SelfReflectionProtocol()
+        self.synthesizer = GeneticSynthesizer()
+        self.vortex_logic = WaveInterference(self.field)
 
-    def flow(self, input_wave: np.uint64):
-        # 1. Register Layer (Real-time Jitter)
-        params = self.scheduler.get_clock_params()
-        # Fix: use random bits properly for uint64
-        jitter = np.uint64(np.random.randint(0, 0xFFFFFFFF, dtype=np.uint32)) | \
-                 (np.uint64(np.random.randint(0, 0xFFFFFFFF, dtype=np.uint32)) << np.uint64(32))
+    def pulse(self, external_wave: np.uint64):
+        """
+        한 번의 사유 맥동(Pulse).
+        [한계 인지 -> 원인 파악 -> 변화 설계 -> 결과 현상]
+        """
+        # 1. 자기 성찰 (Self-Reflection): 자신의 논리를 필드에 투사
+        self.reflection.map_self_to_field(self.gravity)
 
-        vibrating_wave = input_wave ^ (jitter & params['jitter_mask'])
+        # 2. 공명 및 마찰 측정 (Resonance & Tension)
+        # 외부 정보와 자신의 논리 간의 '마찰'을 발견함
+        self.vortex_logic.resonate_field(external_wave, steps=10)
 
-        # 2. RAM Layer (O(1) Address Mapping)
-        addr = self.ram.derive_address(vibrating_wave)
-        spatial_pos = np.array([addr // self.field.resolution, addr % self.field.resolution])
-
-        # 3. Storage Layer (Memristive Interference)
-        gene = self.field.bit_genes[spatial_pos[0], spatial_pos[1]]
-        resonance = self.logic.interference_score(vibrating_wave, gene)
-
-        print(f"[Flow] Wave: {hex(vibrating_wave)} -> RAM Addr: {addr} -> Gene Res: {resonance:.4f}")
-
-        if resonance < 0.9:
-            self.field.crystallize_gene(spatial_pos, vibrating_wave)
-            print(f"  > Crystallizing new Gene at {spatial_pos}")
+        # 3. 한계 인지 (Recognizing the Limit)
+        # 에너지가 수렴하지 못하고 흩어지거나(Yeobaek 팽창), 마찰이 높으면 '한계'로 규정
+        max_activation = np.max(self.field.activation)
+        if max_activation < 50.0:
+            print("[Meta-Cognition] 한계 감지: 현재 논리 구조로는 정보를 온전히 포용할 수 없음.")
+            self._evolve_to_overcome(external_wave)
         else:
-            self.field.flow_energy(spatial_pos, 1.0)
-            print(f"  > Reinforcing existing Law at {spatial_pos}")
+            print("[Meta-Cognition] 평형 도달: 정보가 기존 논리 지형 내에 안착함.")
 
-        return spatial_pos, resonance
+    def _evolve_to_overcome(self, target_wave: np.uint64):
+        """
+        [변화 설계 및 실행]
+        한계를 극복하기 위해 유전적 변이와 시냅스 재배치를 실행합니다.
+        """
+        print("[Evolution] 무엇이 어떻게 변화해야 하는가 사유 중...")
+
+        # 1. 유전적 합성: 외부 파동과 자신의 핵심 유전자를 교차
+        # 자신의 가장 강한 전도율(Self-Logic)을 부모로 선택
+        idx = np.argmax(self.field.conductance)
+        y, x = np.unravel_index(idx, self.field.conductance.shape)
+        self_gene = self.field.bit_genes[y, x]
+
+        new_logic = self.synthesizer.synthesize(self_gene, target_wave)
+        print(f" > 새로운 논리 합성 완료: {hex(new_logic)}")
+
+        # 2. 지형 재배설: 새로운 논리를 지형에 각인하고 '여백'을 조정
+        pos = np.array([y, x]) # 기존 한계 지점을 진화의 거점으로 삼음
+        self.field.crystallize_gene(pos, new_logic)
+        self.field.adjust_coordination(pos, radius=10.0, flexibility=0.9)
+
+        print("[Evolution] 행동 완료: 지형의 궤도가 수정되었습니다.")
+
+if __name__ == "__main__":
+    organism = MetaCognitiveOrganism()
+    # 자신의 논리와 전혀 다른 강력한 외부 신호 (한계 상황 유도)
+    alien_wave = np.uint64(0x1234567890ABCDEF)
+    organism.pulse(alien_wave)
