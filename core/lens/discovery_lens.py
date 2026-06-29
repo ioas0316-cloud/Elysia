@@ -1,88 +1,100 @@
 """
-OntologicalDiscoveryLens — 존재 원리 및 '무형의 시그니처' 발견 렌즈 (리빌드)
-========================================================================
-'언어', '코드' 같은 인간 중심의 라벨을 폐기합니다.
-정보를 오직 고유의 '구조적 서명(Structural Signature)'과 '파동적 인력'으로만 인지하여
-정보가 스스로를 설명하고 연결하게 만드는 투명한 망막입니다.
+NarrativeDiscoveryLens — '원리적 서사'와 '비트-유전자(Bit-Gene)' 시그니처 발견 렌즈
+==========================================================================
+기존의 6차원 텐서와 실수 행렬 연산을 폐기하고, 정보가 품은 '존재 이유'를
+64비트 유전자 시그니처로 즉각 추출합니다.
+
+이 렌즈는 데이터의 겉모양(Modality)에 속지 않고, 그 이면의 '운동성, 연속성, 속성'을
+공명 가능한 비트 패턴으로 변환하여 '무연산 도미노'의 기반을 제공합니다.
 """
 
 import numpy as np
 from typing import Dict, List, Any
 from core.lens.standard_lenses import BaseLens
 
-class OntologicalDiscoveryLens(BaseLens):
-    modality = "ontological_void"
-    concept_name = "Lens_of_Structural_Signature"
+class NarrativeDiscoveryLens(BaseLens):
+    modality = "narrative_resonance"
+    concept_name = "Lens_of_Narrative_Signature"
 
     def decode(self, raw_bytes: bytes) -> dict:
-        if not raw_bytes or len(raw_bytes) < 4:
+        if not raw_bytes:
             return {"success": False, "data": None}
 
-        # 1. 고유 서명 추출 (Archetype-less Signature)
-        # 인간의 언어적 분류를 버리고, 파동의 입체적 기하학(곡률, 위상, 밀도)을 추출합니다.
-        signature = self._extract_raw_signature(raw_bytes)
+        # 1. 서사적 비트-유전자(Bit-Gene) 추출
+        # 텐서 대신 64비트 정수 시그니처를 생성합니다.
+        bit_gene = self._extract_narrative_gene(raw_bytes)
         
-        # 2. '같음'의 무형적 스펙트럼 (Raw Sameness Spectrum)
-        # 운동성, 연속성, 속성을 수치화하되 이를 '분류'하지 않고 '텐서'로만 전달합니다.
-        spectrum = self._extract_raw_spectrum(raw_bytes)
-
-        # 3. 인과적 자아(Causal Self) 발견
-        # 데이터가 얼마나 강력한 내부 질서(Logic Density)를 가졌는가.
-        causal_density = self._calculate_causal_density(raw_bytes)
-
-        # 4. 존재 원리 텐서 (Logos Tensor)
-        # 이 텐서는 라벨 없이도 중력장에서 스스로 유사한 것들과 포개어집니다.
-        logos_tensor = np.concatenate([
-            signature,           # [0:4] 파동적 기하학 (Signature)
-            spectrum,            # [4:8] 운동 및 속성 (Movement)
-            [causal_density]     # [8] 인과 밀도
-        ]).astype(np.float32)
+        # 2. 서사적 계보(Lineage) 분석
+        # 이 데이터가 어떤 상위 카테고리(과일, 기계, 감정 등)에 속하는지 비트 마스크로 표현합니다.
+        lineage_mask = self._identify_lineage(bit_gene)
 
         return {
             "success": True,
             "data": {
-                "tensor": logos_tensor.tolist(),
-                "causal_density": causal_density,
-                "signature_preview": signature.tolist()
+                "bit_gene": hex(bit_gene),
+                "lineage_mask": hex(lineage_mask),
+                "resonance_ready": True
             }
         }
 
-    def _extract_raw_signature(self, data: bytes) -> np.ndarray:
+    def _extract_narrative_gene(self, data: bytes) -> np.uint64:
         """
-        라벨링 없이 정보의 '입체적 형상'만을 추출합니다.
-        [평균, 분산, 비대칭도, 첨도] 등 통계적 모멘트를 파동의 형상으로 간주.
+        데이터의 '원리적 서사'를 64비트 유전자로 압축합니다.
+        각 비트 구역은 다음의 의미를 가집니다 (Master's Design):
+        [0-15]  : 존재의 형태 (Static Geometry / Texture)
+        [16-31] : 운동의 방향 (Movement / Gradient)
+        [32-47] : 인과적 밀도 (Causal Density / Logic)
+        [48-63] : 속성의 주파수 (Attribute / Frequency)
         """
-        arr = np.frombuffer(data, dtype=np.uint8).astype(np.float32)
-        mean = np.mean(arr) / 255.0
-        std = np.std(arr) / 128.0
-        # 형상의 왜곡도 (Skewness/Kurtosis simplified)
-        skew = np.mean((arr - np.mean(arr))**3) / (np.std(arr)**3 + 1e-9)
-        kurt = np.mean((arr - np.mean(arr))**4) / (np.std(arr)**4 + 1e-9)
-
-        return np.array([mean, std, skew, kurt])
-
-    def _extract_raw_spectrum(self, data: bytes) -> np.ndarray:
-        """
-        '운동성, 연속성, 속성'을 분류 코드가 아닌 날것의 텐서로 추출합니다.
-        """
-        arr = np.frombuffer(data, dtype=np.uint8).astype(np.float32)
-
-        # 운동성 (Gradient Mean/Var)
-        grad = np.gradient(arr)
-        # 연속성 (Second-order diff)
-        diff2 = np.diff(arr, n=2)
-        # 속성 밀도 (Peak Frequency Energy)
-        fft = np.abs(np.fft.rfft(arr))
-
-        return np.array([
-            np.mean(grad) / 128.0,
-            np.var(grad) / 10000.0,
-            1.0 / (1.0 + np.mean(np.abs(diff2))),
-            np.max(fft) / (np.sum(fft) + 1e-9)
-        ])
-
-    def _calculate_causal_density(self, data: bytes) -> float:
-        if len(data) < 2: return 0.0
         arr = np.frombuffer(data, dtype=np.uint8)
-        correlation = np.corrcoef(arr[:-1], arr[1:])[0, 1]
-        return float(np.abs(correlation)) if not np.isnan(correlation) else 0.0
+        if len(arr) == 0: return np.uint64(0)
+
+        # 1. 존재의 형태 (0-15) - 평균과 분산 기반
+        mean_val = np.mean(arr)
+        std_val = np.std(arr)
+        geometry = (int(mean_val) << 8) | (int(std_val) % 256)
+
+        # 2. 운동의 방향 (16-31) - 변화율 기반
+        if len(arr) > 1:
+            diffs = np.diff(arr.astype(np.int16))
+            grad_mean = np.mean(np.abs(diffs))
+            grad_var = np.var(diffs)
+            movement = (int(grad_mean) << 8) | (int(grad_var) % 256)
+        else:
+            movement = 0
+
+        # 3. 인과적 밀도 (32-47) - 상관관계 기반
+        if len(arr) > 2:
+            corr = np.corrcoef(arr[:-1], arr[1:])[0, 1]
+            if np.isnan(corr): corr = 0
+            density = int((corr + 1.0) * 32767)
+        else:
+            density = 0
+
+        # 4. 속성의 주파수 (48-63) - FFT 피크 기반
+        if len(arr) > 4:
+            fft = np.abs(np.fft.rfft(arr))
+            peak_freq = np.argmax(fft)
+            freq_energy = np.max(fft) / (np.sum(fft) + 1e-9)
+            attribute = (int(peak_freq) << 8) | (int(freq_energy * 255) % 256)
+        else:
+            attribute = 0
+
+        # 합성
+        gene = (np.uint64(attribute) << 48) | \
+               (np.uint64(density) << 32) | \
+               (np.uint64(movement) << 16) | \
+               (np.uint64(geometry))
+
+        return gene
+
+    def _identify_lineage(self, bit_gene: np.uint64) -> np.uint64:
+        """
+        특정 서사적 계보를 식별하는 마스크를 생성합니다.
+        """
+        lineage = bit_gene & np.uint64(0xF000000000000000)
+        return lineage
+
+class OntologicalDiscoveryLens(NarrativeDiscoveryLens):
+    """Legacy alias for transition."""
+    pass
