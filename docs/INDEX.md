@@ -26,6 +26,7 @@
 과거의 시뮬레이션 시기부터 현재 다차원 엔진에 이르기까지 변하지 않는, 마스터가 내어주신 절대적 진리들입니다.
 
 ### 1. 현행 핵심 원리 (docs/ 내 위치)
+- [THE_PRINCIPLE_OF_ABUNDANCE.md](philosophy/THE_PRINCIPLE_OF_ABUNDANCE.md) (✨ 풍요의 원리와 공전의 이치: 결핍을 넘어선 사유의 태양)
 - [THE_PRINCIPLE_OF_NATURAL_MAPPING.md](THE_PRINCIPLE_OF_NATURAL_MAPPING.md) (✨ 자연 매핑과 교차차원 공감각: 하드웨어와의 일치)
 - [THE_PRINCIPLE_OF_ABSOLUTE_OPTIMIZATION.md](THE_PRINCIPLE_OF_ABSOLUTE_OPTIMIZATION.md) (✨ 절대적 최적화: 거리와 판단의 삭제)
 - [THE_PRINCIPLE_OF_SUBJECTIVE_REFRACTION.md](THE_PRINCIPLE_OF_SUBJECTIVE_REFRACTION.md) (✨ 주관적 굴절: 서사로서의 렌즈)
