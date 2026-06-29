@@ -27,6 +27,20 @@ class CrystallizationField:
         # Represents the potential for re-interpretation and relational flexibility.
         self.coordination_margin = np.full((resolution, resolution), 0.5, dtype=np.float32)
 
+        # Self-Awareness Map (The Mirror)
+        self.self_awareness = np.zeros((resolution, resolution), dtype=np.float32)
+
+    def reflect_self_logic(self, pos: np.ndarray, intensity: float):
+        """
+        [Neural Synapse Field]
+        시스템의 자체 코드가 지형에 미치는 영향을 각인합니다.
+        자신의 논리가 곧 지형의 일부가 됩니다.
+        """
+        y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
+        self.self_awareness[y, x] += intensity
+        # 자신의 논리가 있는 곳은 전도율(확신)이 높아짐
+        self.flow_energy(pos, intensity * 2.0)
+
     def adjust_coordination(self, pos: np.ndarray, radius: float, flexibility: float):
         """
         [Master's Instruction]

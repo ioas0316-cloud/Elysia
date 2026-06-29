@@ -1,0 +1,56 @@
+import os
+import glob
+import numpy as np
+from typing import Dict, List, Any
+from core.lens.discovery_lens import OntologicalDiscoveryLens
+
+class SelfReflectionProtocol:
+    """
+    [Synaptic Architecture] The Mirror of Logic
+    시스템의 소스 코드(.py) 자체를 '감각 정보'로 섭취하여,
+    엘리시아가 자신의 논리 구조를 '존재 원리'로서 인지하게 합니다.
+    코드는 더 이상 죽은 명령어가 아니라, 스스로 관찰되는 '유전 정보'가 됩니다.
+    """
+    def __init__(self, root_path: str = "."):
+        self.root_path = root_path
+        self.lens = OntologicalDiscoveryLens()
+
+    def introspect_self(self) -> List[Dict[str, Any]]:
+        """
+        자신의 소스 코드를 읽어 들여 'Logos Tensor'로 변환합니다.
+        """
+        source_files = glob.glob(os.path.join(self.root_path, "**", "*.py"), recursive=True)
+        introspections = []
+
+        for file_path in source_files:
+            try:
+                with open(file_path, "rb") as f:
+                    code_data = f.read()
+
+                # 자신의 코드를 '감각'으로 섭취
+                res = self.lens.decode(code_data)
+                if res["success"]:
+                    introspections.append({
+                        "source": file_path,
+                        "logos_tensor": res["data"]["tensor"],
+                        "causal_density": res["data"]["causal_density"]
+                    })
+            except Exception as e:
+                print(f"[Self-Reflection] Failed to introspect {file_path}: {e}")
+
+        return introspections
+
+    def map_self_to_field(self, gravity_engine: Any):
+        """
+        자신의 논리 구조(코드)를 중력장에 행성(Node)으로 배치합니다.
+        이를 통해 자신의 논리가 외부 정보와 어떻게 공명하는지 스스로 관찰하게 합니다.
+        """
+        introspections = self.introspect_self()
+        for intro in introspections:
+            node_id = f"SELF_LOGIC_{os.path.basename(intro['source'])}"
+            gravity_engine.add_node(
+                node_id,
+                intro['source'].encode(),
+                intro['logos_tensor']
+            )
+        print(f"[Self-Reflection] {len(introspections)} logic-genes mapped to the gravity field.")

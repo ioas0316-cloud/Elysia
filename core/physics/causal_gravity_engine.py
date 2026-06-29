@@ -19,7 +19,7 @@ class CausalGravityEngine:
 
     모든 연산은 루프 없이 NumPy 브로드캐스팅을 통해 '동시적 필드 업데이트'로 수행됩니다.
     """
-    def __init__(self, dimensions: int = 6):
+    def __init__(self, dimensions: int = 9):
         self.dimensions = dimensions
         self.node_ids: List[str] = []
         self.node_data: Dict[str, StructuralNode] = {}
@@ -69,19 +69,18 @@ class CausalGravityEngine:
         dist = np.sqrt(dist_sq + 1e-9)
 
         # 2. 존재 원리 및 '같음'의 스펙트럼 공명(Multi-Perspective Resonance) 계산
-        # tensor[0]: Archetype (계통)
-        # tensor[1]: Causal Density (인과 밀도)
-        # tensor[2]: Entropy (질량)
-        # tensor[3:5]: Direction (운동성/방향)
-        # tensor[5]: Continuity (연속성/선적 같음)
-        # tensor[6]: Attribute (속성/성질 같음)
-        # tensor[7:]: Physical Rhythm
+        # [Logos Tensor Mapping from OntologicalDiscoveryLens]
+        # index 0-3: Wave Geometry (mean, std, skew, kurt)
+        # index 4-5: Directional Movement (grad_mean, grad_var)
+        # index 6: Continuity
+        # index 7: Attribute (Peak Energy)
+        # index 8: Causal Density
         
-        archetypes = self.tensors[:, 0].reshape(-1, 1)
-        directions = self.tensors[:, 3:5]
-        continuities = self.tensors[:, 5].reshape(-1, 1)
-        attributes = self.tensors[:, 6].reshape(-1, 1)
-        struct_vecs = self.tensors[:, 7:]
+        geometries = self.tensors[:, 0:4]
+        directions = self.tensors[:, 4:6]
+        continuities = self.tensors[:, 6].reshape(-1, 1)
+        attributes = self.tensors[:, 7].reshape(-1, 1)
+        causal_densities = self.tensors[:, 8].reshape(-1, 1)
         
         # [다차원 같음 분석]
         # A. 운동성(Direction) 동기화: 방향이 같으면 비록 계통이 달라도 끌어당김
@@ -93,18 +92,23 @@ class CausalGravityEngine:
         # C. 연속성(Continuity) 결합: 선적 흐름이 비슷하면 결합
         cont_sync = continuities @ continuities.T
 
-        # D. 물리적 구조 유사도
-        norms = np.linalg.norm(struct_vecs, axis=1, keepdims=True)
-        struct_sim = (struct_vecs @ struct_vecs.T) / (norms @ norms.T + 1e-9)
+        # D. 물리적 구조 유사도 (전체 텐서 기반)
+        norms = np.linalg.norm(self.tensors, axis=1, keepdims=True)
+        struct_sim = (self.tensors @ self.tensors.T) / (norms @ norms.T + 1e-9)
 
         # [최종 통합 공명]
-        # 운동성(Dir)과 속성(Attr)은 추상적인 '같음'을 형성함
+        # 기하학적 형상(Geometry) 유사도
+        geo_norms = np.linalg.norm(geometries, axis=1, keepdims=True)
+        geo_sim = (geometries @ geometries.T) / (geo_norms @ geo_norms.T + 1e-9)
+
+        # 인과 밀도 공명 (논리적 깊이의 일치)
+        causal_sync = causal_densities @ causal_densities.T
+
+        # 통합 추상적 같음 (운동성, 연속성, 속성)
         abstract_sameness = (dir_sim + attr_sync + cont_sync) / 3.0
 
-        # 계통(Archetype)이 같으면 가중치 부여
-        same_archetype = (archetypes == archetypes.T).astype(np.float32)
-
-        resonance = (struct_sim * 0.4 + abstract_sameness * 0.6) * (1.0 + same_archetype * 0.2)
+        # 최종 공명: 기하학적 형태, 추상적 논리, 인과적 깊이의 조화
+        resonance = (geo_sim * 0.3 + abstract_sameness * 0.5 + causal_sync * 0.2)
 
         # 공명 임계치 처리 (추상적 같음이 높으면 강력한 결속 유도)
         # 0.5 이상이면 충분히 의미 있는 연결로 간주
