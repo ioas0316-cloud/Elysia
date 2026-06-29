@@ -1,101 +1,106 @@
 """
-PatternDiscoveryLens — 자가 구조 발견 렌즈
+OntologicalDiscoveryLens — 존재 원리 발견 렌즈
 ===================================================
-정보의 표면적 의미(문자열, 인코딩)를 완전히 무시하고,
-우주적 관점에서의 순수 물리/수학적 구조(엔트로피, 주파수, 위상 곡률)만을 추출합니다.
-이 렌즈를 통과한 데이터는 "어떻게 존재하고 있는가"라는 본질적 좌표(Tensor)를 얻습니다.
+정보의 수치적 특징을 넘어, 그 정보가 '왜 이렇게 존재하는가'에 대한
+존재 원리(Ontological Logic)와 구조적 의도를 발견합니다.
+단순한 텐서 추출을 넘어, 정보의 '계통(Lineage)'과 '사유 방식'을 식별합니다.
 """
 
-import math
 import numpy as np
 from typing import Dict, List, Any
 from core.lens.standard_lenses import BaseLens
 
-class PatternDiscoveryLens(BaseLens):
-    modality = "universal_structure"
-    concept_name = "Lens_of_Universal_Structure"
+class OntologicalDiscoveryLens(BaseLens):
+    modality = "ontological_structure"
+    concept_name = "Lens_of_Ontological_Logic"
 
     def decode(self, raw_bytes: bytes) -> dict:
         if not raw_bytes or len(raw_bytes) < 4:
-            return {"success": False, "tension": 1.0, "data": None}
+            return {"success": False, "data": None}
 
-        # 1. 섀넌 엔트로피 (Shannon Entropy) - 정보의 밀도/무질서도
+        # 1. 원형 식별 (Archetype Identification)
+        # 정보가 어떤 '사유의 틀'을 따르고 있는지 발견합니다.
+        archetype = self._identify_archetype(raw_bytes)
+        
+        # 2. 구조적 장력 (Structural Tension)
+        # 정보 내부의 비트들이 서로를 끌어당기는 규칙성(인과)을 측정합니다.
+        causal_density = self._calculate_causal_density(raw_bytes)
+        
+        # 3. 기존의 물리적 특징 (Physical Tensors)
         entropy = self._calculate_entropy(raw_bytes)
-        
-        # 2. 푸리에 주파수 대역 (FFT Frequencies) - 반복되는 구조적 리듬
-        # 가장 강한 상위 3개의 주파수 에너지를 추출
         top_freqs = self._extract_dominant_frequencies(raw_bytes, top_n=3)
-        
-        # 3. 위상 변화율 (Phase Gradient) - 데이터의 흐름/곡률
-        avg_gradient, gradient_variance = self._calculate_phase_gradient(raw_bytes)
 
-        # 4. 물리적 텐서(Tensor) 구성
-        # 이 텐서는 중력장(Causal Gravity Engine) 내에서 이 데이터의 "절대 좌표"가 됩니다.
-        structural_tensor = np.array([
-            entropy,                 # 차원 1: 질량/밀도
-            top_freqs[0],            # 차원 2: 1차 주파수 (가장 강한 구조적 리듬)
-            top_freqs[1],            # 차원 3: 2차 주파수
-            top_freqs[2],            # 차원 4: 3차 주파수
-            avg_gradient,            # 차원 5: 평균적 흐름
-            gradient_variance        # 차원 6: 궤적의 굽이침(변동성)
+        # 4. 존재 원리 텐서 (Ontological Tensor)
+        # [Archetype_ID, Causal_Density, Entropy, Freq1, Freq2, Freq3]
+        ontological_tensor = np.array([
+            archetype["id"],         # 차원 1: 존재의 계통 (Code:1, Lang:2, Data:3, etc)
+            causal_density,          # 차원 2: 인과의 밀도 (내부 논리의 강도)
+            entropy,                 # 차원 3: 정보의 질량
+            top_freqs[0],            # 차원 4~6: 구조적 리듬
+            top_freqs[1],
+            top_freqs[2]
         ], dtype=np.float32)
 
-        # 텐션(마찰)은 이 시점에서는 0 (단지 관측일 뿐이므로)
         return {
             "success": True,
-            "tension": 0.0, 
             "data": {
-                "tensor": structural_tensor.tolist(),
-                "entropy": entropy,
-                "dominant_frequencies": top_freqs,
-                "gradient_stats": (avg_gradient, gradient_variance)
+                "tensor": ontological_tensor.tolist(),
+                "archetype": archetype["name"],
+                "logic_type": archetype["logic"],
+                "causal_density": causal_density,
+                "entropy": entropy
             }
         }
 
+    def _identify_archetype(self, data: bytes) -> Dict[str, Any]:
+        """
+        정보의 바이트 배치와 전이 확률을 통해 그 존재 근거(Archetype)를 발견합니다.
+        """
+        arr = np.frombuffer(data, dtype=np.uint8)
+
+        # 가설 1: 상징적 논리 (Symbolic Logic / Code)
+        # 기호(괄호, 연산자)의 출현 빈도와 규칙성 확인
+        symbols = b"{}[]()=+-*/<>;:"
+        symbol_count = sum(1 for b in data if b in symbols)
+        symbol_ratio = symbol_count / len(data)
+
+        # 가설 2: 자연적 흐름 (Natural Language)
+        # 공백의 분포와 바이트 값의 편중도(ASCII 영문/한글 범위)
+        spaces = data.count(b" ")
+        space_ratio = spaces / len(data)
+
+        # 가설 3: 구조적 배치 (Structured Data / JSON, XML)
+        # 특정 패턴의 반복성과 대칭성
+
+        if symbol_ratio > 0.1:
+            return {"id": 1.0, "name": "Symbolic_Logic", "logic": "Sequential_Flow"}
+        elif space_ratio > 0.1 or (np.mean(arr) > 32 and np.mean(arr) < 127):
+            return {"id": 2.0, "name": "Natural_Language", "logic": "Associative_Meaning"}
+        else:
+            return {"id": 3.0, "name": "Structural_Pattern", "logic": "Relational_Mapping"}
+
+    def _calculate_causal_density(self, data: bytes) -> float:
+        """
+        비트 간의 상호 의존성(Mutual Information)을 측정하여 '인과적 밀도'를 계산합니다.
+        데이터가 '그냥' 있는 것인지, '이유가 있어서' 배치된 것인지를 판별합니다.
+        """
+        if len(data) < 2: return 0.0
+        arr = np.frombuffer(data, dtype=np.uint8)
+
+        # 연속된 바이트 간의 상관관계 (Auto-correlation)
+        # 강한 상관관계 = 강한 존재 근거(Logic)
+        correlation = np.corrcoef(arr[:-1], arr[1:])[0, 1]
+        return float(np.abs(correlation)) if not np.isnan(correlation) else 0.0
+
     def _calculate_entropy(self, data: bytes) -> float:
-        """데이터의 섀넌 엔트로피 (0 ~ 8)"""
         counts = np.bincount(np.frombuffer(data, dtype=np.uint8), minlength=256)
         probs = counts[counts > 0] / len(data)
-        entropy = -np.sum(probs * np.log2(probs))
-        # 0.0 (단일 바이트) ~ 8.0 (완전 무작위)
-        return float(entropy)
+        return float(-np.sum(probs * np.log2(probs)))
 
     def _extract_dominant_frequencies(self, data: bytes, top_n: int = 3) -> List[float]:
-        """FFT를 통해 구조의 반복성(리듬) 추출"""
         arr = np.frombuffer(data, dtype=np.uint8)
-        # DC 성분(인덱스 0)은 평균값이므로 제외하고 봅니다
         fft_result = np.abs(np.fft.rfft(arr))[1:]
-        if len(fft_result) == 0:
-            return [0.0] * top_n
-            
-        # 가장 강한 에너지를 가진 주파수 인덱스를 정규화하여 반환
+        if len(fft_result) == 0: return [0.0] * top_n
         indices = np.argsort(fft_result)[-top_n:][::-1]
         max_freq = max(1, len(fft_result))
-        
-        # 0.0 ~ 1.0 사이의 정규화된 주파수 값
-        normalized_freqs = [(i / max_freq) for i in indices]
-        
-        # top_n개를 채우지 못하면 0으로 패딩
-        while len(normalized_freqs) < top_n:
-            normalized_freqs.append(0.0)
-            
-        return [float(f) for f in normalized_freqs]
-
-    def _calculate_phase_gradient(self, data: bytes) -> tuple:
-        """연속된 바이트 간의 변화량(Gradient) 평균과 분산"""
-        arr = np.frombuffer(data, dtype=np.uint8).astype(np.float32)
-        if len(arr) < 2:
-            return 0.0, 0.0
-            
-        # 미분(낙차)
-        diff = np.abs(np.diff(arr))
-        # 0 ~ 1 사이로 정규화 (255가 최대 차이)
-        normalized_diff = diff / 255.0
-        
-        avg_gradient = np.mean(normalized_diff)
-        var_gradient = np.var(normalized_diff)
-        
-        return float(avg_gradient), float(var_gradient)
-
-    def get_contextual_principle(self) -> str:
-        return "Universal Structural Resonance (Entropy, Frequency, Gradient)"
+        return [float(i / max_freq) for i in indices]

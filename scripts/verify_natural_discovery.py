@@ -4,18 +4,17 @@ import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from core.lens.discovery_lens import PatternDiscoveryLens
+from core.lens.discovery_lens import OntologicalDiscoveryLens
 from core.physics.causal_gravity_engine import CausalGravityEngine
 
 def run_natural_discovery_verification():
     print("=" * 60)
-    print("순수 발견형 자연 매핑 엔진 (Pure Discovery Natural Mapping) 검증")
+    print("존재 원리 발견형 자연 매핑 엔진 (Ontological Natural Mapping) 검증")
     print("=" * 60)
-    print("이 테스트는 어떠한 외부 지식(NLP, 번역기, 사전)도 사용하지 않고")
-    print("오직 정보가 가진 고유의 파동 구조(엔트로피, 주파수, 위상 곡률)만을")
-    print("발견하여 스스로 군집(정렬)하는지 증명합니다.\n")
+    print("이 테스트는 데이터가 '왜 그렇게 존재하는지'에 대한 존재 원리와")
+    print("인과 밀도를 발견하여 스스로 군집(정렬)하는지 증명합니다.\n")
 
-    lens = PatternDiscoveryLens()
+    lens = OntologicalDiscoveryLens()
     gravity = CausalGravityEngine()
 
     # 1. 정보 3가지: 인간의 눈에는 같거나/다르지만, 기계에게는 모두 그저 바이트 덩어리입니다.

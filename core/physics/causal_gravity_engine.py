@@ -16,86 +16,105 @@ class CausalGravityEngine:
     외부에서 정의된 단어나 인과(Links)를 폐기하고,
     오직 데이터 스스로가 가진 '구조적 불변성(Tensor)'에 의해 질량과 인력을 생성하는
     순수 발견형 중력 정렬 엔진입니다.
+
+    모든 연산은 루프 없이 NumPy 브로드캐스팅을 통해 '동시적 필드 업데이트'로 수행됩니다.
     """
     def __init__(self, dimensions: int = 6):
         self.dimensions = dimensions
-        self.nodes: Dict[str, StructuralNode] = {}
+        self.node_ids: List[str] = []
+        self.node_data: Dict[str, StructuralNode] = {}
+
+        # 필드 상태 (Vectorized State)
+        self.masses = np.array([], dtype=np.float32)
+        self.positions = np.empty((0, dimensions), dtype=np.float32)
+        self.tensors = np.empty((0, dimensions), dtype=np.float32)
+
         self.G = 0.5  # Universal Structural Gravitational Constant
+        self.softening = 0.1
+        self.damping = 0.90
 
     def add_node(self, node_id: str, raw_content: bytes, structural_tensor: List[float]):
-        """
-        데이터를 우주(중력장)에 던져 넣습니다.
-        구조적 텐서가 이미 이 데이터의 질량과 인력을 결정할 모든 정보를 갖고 있습니다.
-        """
+        """데이터를 중력장에 주입하고 필드를 재구성합니다."""
         tensor = np.array(structural_tensor, dtype=np.float32)
-        
-        # 질량(Mass)의 자율적 발견: 데이터의 엔트로피 밀도 (tensor[0])
         entropy = float(tensor[0])
-        mass = max(0.1, entropy) # 무질서도가 높을수록/정보가 많을수록 질량이 큼
-
-        # 초기 위치는 무작위로 할당되나, 이후 자기장(구조적 공명)에 의해 정렬됩니다.
+        mass = max(0.1, entropy)
         position = np.random.randn(self.dimensions).astype(np.float32)
 
         node = StructuralNode(id=node_id, raw_content=raw_content, tensor=tensor, mass=mass, position=position)
-        self.nodes[node_id] = node
+        self.node_data[node_id] = node
+        self.node_ids.append(node_id)
 
-    def calculate_attraction(self, node_a_id: str, node_b_id: str) -> np.ndarray:
-        """
-        두 노드 간의 중력 벡터를 계산합니다.
-        F = G * (m1 * m2 * Resonance) / r^2
-        """
-        node_a = self.nodes[node_a_id]
-        node_b = self.nodes[node_b_id]
+        # 필드 동기화
+        self._synchronize_field()
 
-        direction = node_b.position - node_a.position
-        distance = np.linalg.norm(direction)
-
-        softening = 0.1
-        if distance < 0.0001:
-            return np.zeros(self.dimensions)
-
-        # ── 핵심: 구조적 공명 (Structural Resonance) 발견 ──
-        # 두 데이터가 얼마나 비슷한 주파수(Frequency)와 위상 곡률(Gradient)을 가졌는가?
-        # tensor[1:4] = Frequencies, tensor[4:6] = Gradients
-        vec_a = node_a.tensor[1:]
-        vec_b = node_b.tensor[1:]
-        
-        norm_a = np.linalg.norm(vec_a)
-        norm_b = np.linalg.norm(vec_b)
-        
-        if norm_a == 0 or norm_b == 0:
-            resonance = 0.1
-        else:
-            # 코사인 유사도를 공명도(0 ~ 1)로 사용
-            cos_sim = np.dot(vec_a, vec_b) / (norm_a * norm_b)
-            resonance = max(0.01, float(cos_sim))
-            
-            # 구조가 완벽히 같으면(공명) 폭발적인 인력 발생
-            if resonance > 0.95:
-                resonance *= 10.0
-
-        force_magnitude = self.G * (node_a.mass * node_b.mass * resonance) / (distance**2 + softening)
-        return (direction / distance) * force_magnitude
+    def _synchronize_field(self):
+        """개별 노드 데이터를 고속 연산을 위한 행렬 필드로 동기화합니다."""
+        n = len(self.node_ids)
+        self.masses = np.array([self.node_data[nid].mass for nid in self.node_ids], dtype=np.float32).reshape(-1, 1)
+        self.positions = np.array([self.node_data[nid].position for nid in self.node_ids], dtype=np.float32)
+        self.tensors = np.array([self.node_data[nid].tensor for nid in self.node_ids], dtype=np.float32)
 
     def step(self, dt: float = 0.1):
-        """중력장 시뮬레이션 한 스텝 진행 (자연 정렬)"""
-        forces = {nid: np.zeros(self.dimensions) for nid in self.nodes}
+        """
+        [Field Simultaneous Update]
+        모든 노드 간의 상호작용을 단 한 번의 텐서 연산으로 해결합니다.
+        """
+        if len(self.node_ids) < 2:
+            return
 
-        ids = list(self.nodes.keys())
-        for i in range(len(ids)):
-            for j in range(i + 1, len(ids)):
-                f = self.calculate_attraction(ids[i], ids[j])
-                forces[ids[i]] += f
-                forces[ids[j]] -= f
+        # 1. 위치 차이 및 거리 계산 (N, N, D)
+        # diffs[i, j] = pos[j] - pos[i] (j가 i를 끌어당기는 방향)
+        diffs = self.positions[np.newaxis, :, :] - self.positions[:, np.newaxis, :]
+        dist_sq = np.sum(diffs**2, axis=-1)
+        dist = np.sqrt(dist_sq + 1e-9)
 
-        # Update positions
-        for nid, node in self.nodes.items():
-            acceleration = forces[nid] / node.mass
-            node.position += acceleration * dt
-            
-            # 마찰 감쇠(Damping)를 통해 군집(Constellation)을 형성하며 평형에 도달하게 함
-            node.position *= 0.90
+        # 2. 존재 원리 기반 공명(Ontological Resonance) 계산
+        # tensor[0]: Archetype ID (계통)
+        # tensor[1]: Causal Density (인과 밀도)
+        # tensor[2:]: Physical Structure
+        
+        archetypes = self.tensors[:, 0].reshape(-1, 1)
+        causal_densities = self.tensors[:, 1].reshape(-1, 1)
+        struct_vecs = self.tensors[:, 2:]
+        
+        # 같은 계통(Archetype)끼리는 더 강력하게 공명함 (유유상종)
+        same_archetype = (archetypes == archetypes.T).astype(np.float32)
+
+        # 물리적 구조 유사도
+        norms = np.linalg.norm(struct_vecs, axis=1, keepdims=True)
+        struct_sim = (struct_vecs @ struct_vecs.T) / (norms @ norms.T + 1e-9)
+
+        # [핵심] 인과 밀도 공명: 인과가 빽빽한(논리적인) 데이터끼리는 더 깊은 '이해(Resonance)'를 형성
+        causal_sync = causal_densities @ causal_densities.T
+
+        # 최종 존재 원리 공명도
+        resonance = struct_sim * (1.0 + same_archetype * 0.5) * (1.0 + causal_sync)
+
+        # 공명 임계치 처리
+        resonance = np.where(resonance > 1.5, resonance * 5.0, np.maximum(0.01, resonance))
+
+        # 3. 중력 법칙 적용: F = G * (m1 * m2 * res) / (r^2 + softening)
+        # force_mag[i, j] 는 j가 i에 가하는 힘의 크기
+        force_mag = self.G * ((self.masses @ self.masses.T) * resonance) / (dist_sq + self.softening)
+
+        # 4. 벡터 힘 계산 및 합산
+        # (N, N, 1) * (N, N, D) -> (N, N, D)
+        force_vecs = force_mag[:, :, np.newaxis] * (diffs / dist[:, :, np.newaxis])
+        total_forces = np.sum(force_vecs, axis=1) # i에 가해지는 모든 j의 힘 합산
+
+        # 5. 가속도 및 위치 업데이트
+        acceleration = total_forces / self.masses
+        self.positions += acceleration * dt
+
+        # 6. 마찰 감쇠 (Damping) - 지형적 평형 유도
+        self.positions *= self.damping
+
+        # 7. 상태 백업 (node_data 업데이트)
+        for i, nid in enumerate(self.node_ids):
+            self.node_data[nid].position = self.positions[i]
 
     def get_equilibrium_state(self) -> Dict[str, Any]:
-        return {nid: {"pos": node.position.tolist(), "mass": node.mass, "tensor": node.tensor.tolist()}
-                for nid, node in self.nodes.items()}
+        return {nid: {"pos": self.node_data[nid].position.tolist(),
+                      "mass": self.node_data[nid].mass,
+                      "tensor": self.node_data[nid].tensor.tolist()}
+                for nid in self.node_ids}
