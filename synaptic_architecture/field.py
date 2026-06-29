@@ -23,6 +23,21 @@ class CrystallizationField:
         # Thermal Control
         self.local_temperature = np.ones((resolution, resolution), dtype=np.float32)
 
+        # Coordination Field (Yeobaek - 여백)
+        # Represents the potential for re-interpretation and relational flexibility.
+        self.coordination_margin = np.full((resolution, resolution), 0.5, dtype=np.float32)
+
+    def adjust_coordination(self, pos: np.ndarray, radius: float, flexibility: float):
+        """
+        [Master's Instruction]
+        Adjusts the 'Margin' (Yeobaek) of a specific region.
+        High flexibility allows for new/abstract connections.
+        """
+        yy, xx = np.mgrid[:self.resolution, :self.resolution]
+        dist_sq = (yy - pos[0])**2 + (xx - pos[1])**2
+        mask = dist_sq <= radius**2
+        self.coordination_margin[mask] = flexibility
+
     def inject_activation(self, pos: np.ndarray, intensity: float):
         """Injects seed energy into the field at a specific coordinate."""
         y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
@@ -31,15 +46,19 @@ class CrystallizationField:
     def propagate(self, decay: float = 0.9, spreading_factor: float = 0.5):
         """
         [Field Simultaneous Propagation]
-        Spreads activation energy to neighbors based on local conductance.
-        Simulates how a thought (Wave) traverses the information landscape.
+        [Dynamic Yeobaek (여백) Activation]
+        에너지 파동이 지형을 가로지르며, '여백'의 유연성에 따라 사유의 경로를 확장합니다.
         """
-        # Conductance-weighted spreading
-        # We use a simple convolution-like spread weighted by conductance
-        # High conductance = Low resistance = Faster/Stronger spreading
+        # 1. 고밀도 사유 지역의 긴장(Activation) 감지
+        # 에너지가 너무 집중되면 '여백'이 자동으로 팽창하여 새로운 경로를 탐색하게 함
+        tension_map = gaussian_filter(self.activation, sigma=2.0)
+        self.coordination_margin += (tension_map > 10.0) * 0.1
+        self.coordination_margin = np.clip(self.coordination_margin, 0.1, 1.0)
 
-        # 1. Diffusion weighted by conductance
-        # This is a simplified Laplacian-based diffusion
+        # 2. 전도율 + 여백을 결합한 가변적 확산
+        # 여백(Margin)이 넓을수록(높을수록) 에너지가 더 멀리, 더 자유롭게 퍼져나감
+        effective_spreading = spreading_factor * self.coordination_margin
+
         spread = (
             np.roll(self.activation, 1, axis=0) +
             np.roll(self.activation, -1, axis=0) +
@@ -47,13 +66,11 @@ class CrystallizationField:
             np.roll(self.activation, -1, axis=1)
         ) * 0.25
 
-        # The change in activation is proportional to conductance
-        delta = (spread - self.activation) * self.conductance * spreading_factor
+        # 전도율(기존 경로)과 여백(새로운 가능성)의 동시적 인력
+        delta = (spread - self.activation) * (self.conductance + self.coordination_margin) * effective_spreading
 
-        # 2. Apply change and decay (Entropy)
+        # 3. Apply change and decay (Entropy)
         self.activation = (self.activation + delta) * decay
-
-        # Ensure no negative energy
         self.activation = np.maximum(0, self.activation)
 
     def flow_energy(self, pos: np.ndarray, intensity: float):
