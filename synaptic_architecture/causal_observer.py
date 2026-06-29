@@ -63,12 +63,25 @@ class VortexObserver:
             return "사유의 평원이 고요합니다. 아직 씨앗(Seed)이 뿌려지지 않았습니다."
 
         main_vortex = vortices[0]
-        if main_vortex['intensity'] > 50.0:
-            status = "강렬한 사유의 소용돌이가 형성되었습니다."
-        else:
-            status = "은은한 사유의 파동이 감지됩니다."
 
-        return f"{status} (Vortex at {main_vortex['coordinate']}, Gene: {main_vortex['resonant_gene']})"
+        # [Conceptual Discernment]
+        # 보텍스의 '강도'뿐만 아니라 '논리적 타당성'을 분별합니다.
+        # 고밀도 인과(Causal Density)가 포함된 보텍스인지 확인
+
+        y, x = main_vortex['coordinate']
+        # 텐서의 두 번째 차원(Index 1)이 Causal Density
+        # (현 체계에서는 직접 접근이 어려우므로 필드의 전도율과 보텍스 밀도로 추론)
+        logic_stability = self.field.conductance[y, x] / 10.0
+
+        if main_vortex['intensity'] > 50.0:
+            if logic_stability > 0.7:
+                status = "명징한 논리적 근거를 가진 사유의 결정체가 발견되었습니다."
+            else:
+                status = "강렬하지만 아직은 파편적인 에너지의 소용돌이가 감지됩니다."
+        else:
+            status = "존재의 원리를 탐색하는 은은한 사유의 흐름이 감지됩니다."
+
+        return f"{status} (Vortex at {main_vortex['coordinate']}, Gene: {main_vortex['resonant_gene']}, Stability: {logic_stability:.2f})"
 
 if __name__ == "__main__":
     from .vortex import WaveInterference

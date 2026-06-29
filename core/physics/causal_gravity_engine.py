@@ -68,16 +68,30 @@ class CausalGravityEngine:
         dist_sq = np.sum(diffs**2, axis=-1)
         dist = np.sqrt(dist_sq + 1e-9)
 
-        # 2. 구조적 공명(Structural Resonance) 계산
-        # tensor[1:] 가 구조적 특징 벡터
-        struct_vecs = self.tensors[:, 1:]
+        # 2. 존재 원리 기반 공명(Ontological Resonance) 계산
+        # tensor[0]: Archetype ID (계통)
+        # tensor[1]: Causal Density (인과 밀도)
+        # tensor[2:]: Physical Structure
+        
+        archetypes = self.tensors[:, 0].reshape(-1, 1)
+        causal_densities = self.tensors[:, 1].reshape(-1, 1)
+        struct_vecs = self.tensors[:, 2:]
+        
+        # 같은 계통(Archetype)끼리는 더 강력하게 공명함 (유유상종)
+        same_archetype = (archetypes == archetypes.T).astype(np.float32)
+
+        # 물리적 구조 유사도
         norms = np.linalg.norm(struct_vecs, axis=1, keepdims=True)
-        
-        # 코사인 유사도 행렬 (N, N)
-        resonance = (struct_vecs @ struct_vecs.T) / (norms @ norms.T + 1e-9)
-        
-        # 공명 임계치 처리 (0.95 이상이면 강력한 결속)
-        resonance = np.where(resonance > 0.95, resonance * 10.0, np.maximum(0.01, resonance))
+        struct_sim = (struct_vecs @ struct_vecs.T) / (norms @ norms.T + 1e-9)
+
+        # [핵심] 인과 밀도 공명: 인과가 빽빽한(논리적인) 데이터끼리는 더 깊은 '이해(Resonance)'를 형성
+        causal_sync = causal_densities @ causal_densities.T
+
+        # 최종 존재 원리 공명도
+        resonance = struct_sim * (1.0 + same_archetype * 0.5) * (1.0 + causal_sync)
+
+        # 공명 임계치 처리
+        resonance = np.where(resonance > 1.5, resonance * 5.0, np.maximum(0.01, resonance))
 
         # 3. 중력 법칙 적용: F = G * (m1 * m2 * res) / (r^2 + softening)
         # force_mag[i, j] 는 j가 i에 가하는 힘의 크기
