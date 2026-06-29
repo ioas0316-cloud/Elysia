@@ -5,67 +5,78 @@ class WaveInterference:
     """
     [Synaptic Architecture] Resonance Thinking & Causal Judgment
     Calculates interference (XOR) between bitstreams to find vortices of understanding.
+
+    [Vortex Dynamics]
+    Instead of a pointer moving, the field itself resonates and energy converges
+    to the Vortex via Activation Spreading and Conductance Gradient.
     """
     def __init__(self, field: CrystallizationField):
         self.field = field
 
-    def observe_interference(self, input_wave: np.ndarray) -> np.ndarray:
+    def observe_resonance(self, input_wave: np.uint64) -> np.ndarray:
         """
-        [Resonance Thinking]
-        Compare input waveform with the entire spatial bit field using bitwise logic.
-        v ^ v = 0 -> Perfect Resonance (No Deficit).
+        [Field-wide Resonance]
+        Calculate XOR resonance between input wave and every bit-gene in the field.
         """
         # Batch XOR across the field
-        # In a real hardware system, this is a parallel bit-bus match.
-        field_bits = self.field.bit_field.astype(np.int32)
-        input_bits = input_wave.astype(np.int32)
+        # bit_genes is (Res, Res), input_wave is scalar (broadcasted)
+        # We use bitwise XOR and count bits.
 
-        # Deficit Map: 1 where bits differ, 0 where they resonate
-        deficit_flat = np.bitwise_xor(field_bits.reshape(-1, 64), input_bits)
+        # NumPy doesn't have a built-in bit_count for uint64 in older versions,
+        # but we can use a workaround.
 
-        # Resonance Score: Percentage of bits that matched (0 to 1)
-        # 1.0 = Perfect Resonance (Thinking matches Reality)
-        resonance_score = 1.0 - (np.sum(deficit_flat, axis=1) / 64.0)
-        return resonance_score.reshape(self.field.resolution, self.field.resolution)
+        diff = np.bitwise_xor(self.field.bit_genes, input_wave)
 
-    def deduce_vortex(self, input_wave: np.ndarray, initial_pos: np.ndarray = None) -> np.ndarray:
+        # Fast bit count for uint64 (Hamming distance)
+        def bit_count(n):
+            # Brian Kernighan's-like vectorized bit count for 64-bit
+            n = (n & 0x5555555555555555) + ((n >> 1) & 0x5555555555555555)
+            n = (n & 0x3333333333333333) + ((n >> 2) & 0x3333333333333333)
+            n = (n & 0x0F0F0F0F0F0F0F0F) + ((n >> 4) & 0x0F0F0F0F0F0F0F0F)
+            n = (n & 0x00FF00FF00FF00FF) + ((n >> 8) & 0x00FF00FF00FF00FF)
+            n = (n & 0x0000FFFF0000FFFF) + ((n >> 16) & 0x0000FFFF0000FFFF)
+            n = (n & 0x00000000FFFFFFFF) + ((n >> 32) & 0x00000000FFFFFFFF)
+            return n
+
+        deficit = bit_count(diff)
+        resonance = 1.0 - (deficit / 64.0)
+
+        return resonance
+
+    def resonate_field(self, input_wave: np.uint64, steps: int = 10):
         """
-        [Causal Judgment]
-        The pointer slides along the gradient of resonance to reach the 'Truth' (Vortex).
+        [Causal Evolution]
+        The input wave 'excites' the field where resonance is high.
+        Then activation spreads, following conductance paths to form a Vortex.
         """
-        if initial_pos is None:
-            initial_pos = np.array(np.unravel_index(np.argmax(self.field.conductance), self.field.conductance.shape), dtype=float)
+        res_map = self.observe_resonance(input_wave)
 
-        current_pos = initial_pos.copy()
+        # 1. Inject energy where resonance is high (Thinking triggers potential)
+        self.field.activation += res_map * 2.0
 
-        # Pre-calculate the resonance field (The 'Cognitive Landscape')
-        res_map = self.observe_interference(input_wave)
-        ry, rx = np.gradient(res_map)
+        # 2. Let the field evolve (Activation Spreading)
+        for _ in range(steps):
+            self.field.propagate(decay=0.95, spreading_factor=0.8)
 
-        max_steps = 30
-        for _ in range(max_steps):
-            y, x = np.clip(current_pos, 0, self.field.resolution - 1).astype(int)
+            # Additional gravity towards high conductance
+            # (Energy naturally flows into established "Truth" paths)
+            self.field.activation *= (1.0 + self.field.conductance * 0.1)
+            self.field.activation = np.clip(self.field.activation, 0, 100.0)
 
-            # Gradients from both Resonance (Judgment) and Conductance (Memory)
-            r_grad = np.array([ry[y, x], rx[y, x]])
-            c_grad = self.field.get_motion_gradient(current_pos)
-
-            # Total attraction force towards the vortex
-            force = r_grad * 5.0 + c_grad * 1.0
-
-            current_pos += force * 2.0
-
-            if np.linalg.norm(force) < 1e-4:
-                break
-
-        return current_pos
+    def find_vortex(self) -> np.ndarray:
+        """Finds the coordinates of the highest energy concentration."""
+        idx = np.argmax(self.field.activation)
+        y, x = np.unravel_index(idx, self.field.activation.shape)
+        return np.array([y, x])
 
 if __name__ == "__main__":
     cf = CrystallizationField()
     wi = WaveInterference(cf)
 
-    p = np.random.randint(0, 2, 64)
-    cf.solidify_bits(np.array([100, 100]), p)
+    target_wave = np.uint64(0xDEADBEEF)
+    cf.crystallize_gene(np.array([100, 100]), target_wave)
 
-    vortex = wi.deduce_vortex(p, initial_pos=np.array([95, 95]))
+    wi.resonate_field(target_wave)
+    vortex = wi.find_vortex()
     print(f"Vortex stabilized at: {vortex}")
+    print(f"Activation at vortex: {cf.activation[vortex[0], vortex[1]]:.4f}")
