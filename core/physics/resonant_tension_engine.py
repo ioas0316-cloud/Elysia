@@ -1,88 +1,81 @@
 import numpy as np
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from core.utils.math_utils import popcount_vectorized
 
 @dataclass
-class NarrativeNode:
+class HierarchicalNode:
     id: str
-    bit_gene: np.uint64
-    mass: float = 1.0
+    genes: Dict[str, np.uint64] # micro, meso, macro
+    scale: str
     position: np.ndarray = None
+    mass: float = 1.0
 
 class ResonantTensionEngine:
     """
-    [Resonant Tension Engine]
-    '숫자의 감옥'인 텐서 중력을 폐기하고,
-    '서사적 공명'에 의한 긴장(Tension)과 인력으로 공간을 재구성합니다.
+    [Hierarchical Resonant Engine]
+    '비트' 하나에만 매몰되지 않고, 바이트, KB, MB 단위의 거시적 서사들이
+    동시에 공명하며 서로를 정렬하는 다층적 중력장입니다.
 
-    데이터 간의 거리는 수만 번의 행렬 곱셈이 아니라,
-    XOR 비트 거리에 따른 '즉각적 도미노'로 결정됩니다.
+    상위 스케일(MACRO)의 공명은 하위 스케일(MESO, MICRO)에 '서사적 장력'을 부여하여
+    하위의 미세한 불일치가 있더라도 거시적 흐름 안으로 끌어당깁니다.
     """
     def __init__(self, dimensions: int = 2):
         self.dimensions = dimensions
-        self.nodes: Dict[str, NarrativeNode] = {}
-        self.positions = np.empty((0, dimensions), dtype=np.float32)
-        self.genes = np.empty((0,), dtype=np.uint64)
+        self.nodes: Dict[str, HierarchicalNode] = {}
 
-    def add_node(self, node_id: str, bit_gene: np.uint64):
+    def add_node(self, node_id: str, genes: Dict[str, np.uint64], scale: str):
         pos = np.random.randn(self.dimensions).astype(np.float32)
-        node = NarrativeNode(id=node_id, bit_gene=bit_gene, position=pos)
-        self.nodes[node_id] = node
-        self._sync()
+        # 스케일에 따른 질량 부여 (거시적일수록 무거움)
+        mass_map = {"MICRO": 1.0, "MESO": 10.0, "MACRO": 100.0}
+        mass = mass_map.get(scale, 1.0)
 
-    def _sync(self):
-        self.positions = np.array([n.position for n in self.nodes.values()], dtype=np.float32)
-        self.genes = np.array([n.bit_gene for n in self.nodes.values()], dtype=np.uint64)
+        node = HierarchicalNode(id=node_id, genes=genes, scale=scale, position=pos, mass=mass)
+        self.nodes[node_id] = node
 
     def step(self, dt: float = 0.1):
-        """
-        [Resonant Alignment Step]
-        공명하는 노드들끼리 서로를 끌어당깁니다.
-        이때 '계산'은 최소화되고 비트 거리(Hamming Distance)가 인력의 세기를 결정합니다.
-        """
         if len(self.nodes) < 2: return
 
-        n = len(self.nodes)
-        # 1. 비트 공명 행렬 (N, N)
-        # Vectorized bit-wise XOR
-        gene_a = self.genes[:, np.newaxis]
-        gene_b = self.genes[np.newaxis, :]
-        diff = np.bitwise_xor(gene_a, gene_b)
+        node_list = list(self.nodes.values())
+        n = len(node_list)
+        positions = np.array([node.position for node in node_list], dtype=np.float32)
+        masses = np.array([node.mass for node in node_list], dtype=np.float32).reshape(-1, 1)
 
-        # Fast bit count for resonance
-        def bit_count_vec(n_arr):
-            # 64-bit vectorized bit count
-            c = (n_arr & 0x5555555555555555) + ((n_arr >> 1) & 0x5555555555555555)
-            c = (c & 0x3333333333333333) + ((c >> 2) & 0x3333333333333333)
-            c = (c & 0x0F0F0F0F0F0F0F0F) + ((c >> 4) & 0x0F0F0F0F0F0F0F0F)
-            c = (c & 0x00FF00FF00FF00FF) + ((c >> 8) & 0x00FF00FF00FF00FF)
-            c = (c & 0x0000FFFF0000FFFF) + ((c >> 16) & 0x0000FFFF0000FFFF)
-            c = (c & 0x00000000FFFFFFFF) + ((c >> 32) & 0x00000000FFFFFFFF)
-            return c
+        # 1. 다층적 공명 계산 (Multi-Scale Resonance)
+        def get_res_matrix(scale_key: str):
+            genes = np.array([node.genes[scale_key] for node in node_list], dtype=np.uint64)
+            diff = np.bitwise_xor(genes[:, np.newaxis], genes[np.newaxis, :])
+            deficit = popcount_vectorized(diff)
+            return 1.0 - (deficit / 64.0)
 
-        deficit = bit_count_vec(diff)
-        resonance = 1.0 - (deficit / 64.0)
+        res_micro = get_res_matrix("micro")
+        res_meso = get_res_matrix("meso")
+        res_macro = get_res_matrix("macro")
 
-        # 2. 물리적 거리 및 인력 계산
-        diff_pos = self.positions[np.newaxis, :, :] - self.positions[:, np.newaxis, :]
+        # [거시적 인도의 법칙]
+        # 상위 차원의 공명이 높으면, 하위 차원의 차이는 무시될 수 있음
+        total_resonance = (res_macro * 0.6 + res_meso * 0.3 + res_micro * 0.1)
+
+        # 2. 물리적 변위 계산
+        diff_pos = positions[np.newaxis, :, :] - positions[:, np.newaxis, :]
         dist_sq = np.sum(diff_pos**2, axis=-1)
         dist = np.sqrt(dist_sq + 1e-9)
 
-        # 공명도가 높을수록(서사가 비슷할수록) 강력하게 끌어당김
-        # resonance > 0.8 이면 '이미 같은 것'으로 간주하여 급격히 거리를 좁힘
-        force_mag = (resonance**4) / (dist + 0.1)
+        # 질량과 공명에 따른 인력
+        force_mag = (masses @ masses.T) * (total_resonance**2) / (dist + 0.1)
 
         force_vec = force_mag[:, :, np.newaxis] * (diff_pos / (dist[:, :, np.newaxis] + 0.1))
         total_force = np.sum(force_vec, axis=1)
 
         # 3. 위치 업데이트
-        self.positions += total_force * dt
-        self.positions *= 0.95 # Damping
+        new_positions = positions + (total_force / masses) * dt
+        new_positions *= 0.9 # 강력한 댐핑으로 평형 유도
 
-        # Sync back
-        for i, node in enumerate(self.nodes.values()):
-            node.position = self.positions[i]
+        for i, node in enumerate(node_list):
+            node.position = new_positions[i]
 
     def get_state(self):
-        return {nid: {"pos": n.position.tolist(), "gene": hex(n.bit_gene)}
-                for nid, n in self.nodes.items()}
+        return {nid: {"pos": n.position.tolist(), "scale": n.scale} for nid, n in self.nodes.items()}
+
+# HierarchicalResonantEngine alias for compatibility
+HierarchicalResonantEngine = ResonantTensionEngine
