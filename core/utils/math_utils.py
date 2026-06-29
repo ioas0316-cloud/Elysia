@@ -190,6 +190,28 @@ def traverse_causal_trajectory(content: bytes) -> Quaternion:
         
     return q_current.normalize()
 
+def popcount(n: int) -> int:
+    """
+    Counts the number of set bits (1s) in an integer.
+    Uses the built-in bit_count() for Python 3.10+, or a fallback.
+    """
+    if hasattr(n, "bit_count"):
+        return n.bit_count()
+    return bin(n).count('1')
+
+def popcount_vectorized(n_arr: np.ndarray) -> np.ndarray:
+    """
+    Vectorized bit count for uint64 NumPy arrays.
+    """
+    # Brian Kernighan's-like vectorized bit count for 64-bit
+    c = (n_arr & 0x5555555555555555) + ((n_arr >> 1) & 0x5555555555555555)
+    c = (c & 0x3333333333333333) + ((c >> 2) & 0x3333333333333333)
+    c = (c & 0x0F0F0F0F0F0F0F0F) + ((c >> 4) & 0x0F0F0F0F0F0F0F0F)
+    c = (c & 0x00FF00FF00FF00FF) + ((c >> 8) & 0x00FF00FF00FF00FF)
+    c = (c & 0x0000FFFF0000FFFF) + ((c >> 16) & 0x0000FFFF0000FFFF)
+    c = (c & 0x00000000FFFFFFFF) + ((c >> 32) & 0x00000000FFFFFFFF)
+    return c
+
 def extract_phase_pattern(content: bytes) -> list:
     """
     [Phase 150] 이중나선 패턴 (Double Helix Pattern) 추출기

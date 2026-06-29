@@ -1,6 +1,7 @@
 import numpy as np
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from .resonant_tension_engine import ResonantTensionEngine
 
 @dataclass
 class StructuralNode:

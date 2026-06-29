@@ -1,88 +1,102 @@
 """
-OntologicalDiscoveryLens — 존재 원리 및 '무형의 시그니처' 발견 렌즈 (리빌드)
-========================================================================
-'언어', '코드' 같은 인간 중심의 라벨을 폐기합니다.
-정보를 오직 고유의 '구조적 서명(Structural Signature)'과 '파동적 인력'으로만 인지하여
-정보가 스스로를 설명하고 연결하게 만드는 투명한 망막입니다.
+NarrativeDiscoveryLens (v2.0) — 거시적 계층(Scale)을 포함한 서사적 프리즘
+=======================================================================
+단순한 비트 비교를 넘어, 바이트, 킬로바이트(KB), 메가바이트(MB) 단위의
+계층적 서사를 동시에 추출합니다.
+
+- MICRO (Bit/Byte): 원초적 속성 (색상, 기호)
+- MESO (KB/Object): 구체적 객체의 서사 (사과, 바나나)
+- MACRO (MB/Field): 거시적 지형과 시스템 (과수원, 생태계)
 """
 
 import numpy as np
+from enum import Enum
 from typing import Dict, List, Any
 from core.lens.standard_lenses import BaseLens
 
-class OntologicalDiscoveryLens(BaseLens):
-    modality = "ontological_void"
-    concept_name = "Lens_of_Structural_Signature"
+class ScaleLevel(Enum):
+    MICRO = 1  # 1B - 256B: 원초적 입자
+    MESO = 2   # 256B - 64KB: 구체적 객체
+    MACRO = 3  # 64KB+: 거시적 필드
+
+class NarrativeDiscoveryLens(BaseLens):
+    modality = "multi_scale_narrative"
+    concept_name = "Hierarchical_Narrative_Lens"
 
     def decode(self, raw_bytes: bytes) -> dict:
-        if not raw_bytes or len(raw_bytes) < 4:
+        if not raw_bytes:
             return {"success": False, "data": None}
 
-        # 1. 고유 서명 추출 (Archetype-less Signature)
-        # 인간의 언어적 분류를 버리고, 파동의 입체적 기하학(곡률, 위상, 밀도)을 추출합니다.
-        signature = self._extract_raw_signature(raw_bytes)
+        data_size = len(raw_bytes)
         
-        # 2. '같음'의 무형적 스펙트럼 (Raw Sameness Spectrum)
-        # 운동성, 연속성, 속성을 수치화하되 이를 '분류'하지 않고 '텐서'로만 전달합니다.
-        spectrum = self._extract_raw_spectrum(raw_bytes)
+        # 1. 스케일 결정
+        if data_size < 256:
+            scale = ScaleLevel.MICRO
+        elif data_size < 65536:
+            scale = ScaleLevel.MESO
+        else:
+            scale = ScaleLevel.MACRO
 
-        # 3. 인과적 자아(Causal Self) 발견
-        # 데이터가 얼마나 강력한 내부 질서(Logic Density)를 가졌는가.
-        causal_density = self._calculate_causal_density(raw_bytes)
-
-        # 4. 존재 원리 텐서 (Logos Tensor)
-        # 이 텐서는 라벨 없이도 중력장에서 스스로 유사한 것들과 포개어집니다.
-        logos_tensor = np.concatenate([
-            signature,           # [0:4] 파동적 기하학 (Signature)
-            spectrum,            # [4:8] 운동 및 속성 (Movement)
-            [causal_density]     # [8] 인과 밀도
-        ]).astype(np.float32)
+        # 2. 계층적 유전자(Hierarchical Genes) 추출
+        # 모든 데이터는 각 스케일에서의 시그니처를 가집니다.
+        # 작은 데이터도 거시적 관점(추측)을 가질 수 있고, 큰 데이터도 미시적 정보를 품고 있습니다.
+        genes = {
+            "micro": self._extract_micro_gene(raw_bytes),
+            "meso": self._extract_meso_gene(raw_bytes),
+            "macro": self._extract_macro_gene(raw_bytes)
+        }
 
         return {
             "success": True,
             "data": {
-                "tensor": logos_tensor.tolist(),
-                "causal_density": causal_density,
-                "signature_preview": signature.tolist()
+                "current_scale": scale.name,
+                "genes": {k: hex(v) for k, v in genes.items()},
+                "size": data_size
             }
         }
 
-    def _extract_raw_signature(self, data: bytes) -> np.ndarray:
-        """
-        라벨링 없이 정보의 '입체적 형상'만을 추출합니다.
-        [평균, 분산, 비대칭도, 첨도] 등 통계적 모멘트를 파동의 형상으로 간주.
-        """
-        arr = np.frombuffer(data, dtype=np.uint8).astype(np.float32)
-        mean = np.mean(arr) / 255.0
-        std = np.std(arr) / 128.0
-        # 형상의 왜곡도 (Skewness/Kurtosis simplified)
-        skew = np.mean((arr - np.mean(arr))**3) / (np.std(arr)**3 + 1e-9)
-        kurt = np.mean((arr - np.mean(arr))**4) / (np.std(arr)**4 + 1e-9)
+    def _extract_micro_gene(self, data: bytes) -> np.uint64:
+        """미시적 입자의 '속성' (색상, 값의 분포)"""
+        arr = np.frombuffer(data[:256], dtype=np.uint8)
+        if len(arr) == 0: return np.uint64(0)
 
-        return np.array([mean, std, skew, kurt])
+        # 입자의 거칠기(Std)와 광택(Mean)
+        mean_val = np.mean(arr)
+        std_val = np.std(arr)
+        return (np.uint64(int(mean_val)) << 32) | np.uint64(int(std_val))
 
-    def _extract_raw_spectrum(self, data: bytes) -> np.ndarray:
-        """
-        '운동성, 연속성, 속성'을 분류 코드가 아닌 날것의 텐서로 추출합니다.
-        """
-        arr = np.frombuffer(data, dtype=np.uint8).astype(np.float32)
+    def _extract_meso_gene(self, data: bytes) -> np.uint64:
+        """구체적 객체의 '서사' (구조적 상관관계, 인과)"""
+        if len(data) < 4: return np.uint64(0)
+        # 샘플링 (전체 데이터의 구조적 특징 추출)
+        step = max(1, len(data) // 1024)
+        arr = np.frombuffer(data[::step], dtype=np.uint8)
 
-        # 운동성 (Gradient Mean/Var)
-        grad = np.gradient(arr)
-        # 연속성 (Second-order diff)
-        diff2 = np.diff(arr, n=2)
-        # 속성 밀도 (Peak Frequency Energy)
+        corr = np.corrcoef(arr[:-1], arr[1:])[0, 1] if len(arr) > 1 else 0
+        if np.isnan(corr): corr = 0
+
+        # 객체의 밀도(Correlation)와 복잡성(Entropy)
+        density = int((corr + 1.0) * 32767)
+        complexity = len(set(arr))
+        return (np.uint64(density) << 32) | np.uint64(complexity)
+
+    def _extract_macro_gene(self, data: bytes) -> np.uint64:
+        """거시적 지형의 '흐름' (거대한 패턴, 주파수 분포)"""
+        if len(data) < 16: return np.uint64(0)
+        # 거시적 패턴은 데이터의 전체적인 주파수 에너지 분포로 파악
+        step = max(1, len(data) // 4096)
+        arr = np.frombuffer(data[::step], dtype=np.uint8).astype(np.float32)
+
         fft = np.abs(np.fft.rfft(arr))
+        # 저주파(거시적 형태)와 고주파(미시적 노이즈)의 비율
+        low_energy = np.sum(fft[:len(fft)//10])
+        high_energy = np.sum(fft[len(fft)//10:])
 
-        return np.array([
-            np.mean(grad) / 128.0,
-            np.var(grad) / 10000.0,
-            1.0 / (1.0 + np.mean(np.abs(diff2))),
-            np.max(fft) / (np.sum(fft) + 1e-9)
-        ])
+        ratio = low_energy / (high_energy + 1e-9)
+        # 지형의 광활함(Ratio)과 리듬(Peak Frequency)
+        rhythm = np.argmax(fft)
+        return (np.uint64(int(min(ratio, 0xFFFFFFFF))) << 32) | np.uint64(rhythm)
 
-    def _calculate_causal_density(self, data: bytes) -> float:
-        if len(data) < 2: return 0.0
-        arr = np.frombuffer(data, dtype=np.uint8)
-        correlation = np.corrcoef(arr[:-1], arr[1:])[0, 1]
-        return float(np.abs(correlation)) if not np.isnan(correlation) else 0.0
+class OntologicalDiscoveryLens(NarrativeDiscoveryLens):
+    """Legacy alias."""
+    pass
