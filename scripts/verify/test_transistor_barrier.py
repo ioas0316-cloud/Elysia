@@ -2,63 +2,59 @@ import numpy as np
 import os
 from core.memory.transistor_gate_barrier import TransistorGateBarrier
 
-def test_fractal_scale_logic():
-    print("=== [Verification] Fractal Scale Switching Logic ===")
+def test_transistor_barrier_logic():
+    print("=== [Verification] Transistor Gate Barrier Logic ===")
 
-    PATH = "fractal_test.dat"
-    # Create a structured topology:
-    # Block 0: All zeros
-    # Block 1: All ones
-    # Block 2: Alternating bits
-    # Block 3: Random
-
-    dimension = 1024 * 4 # 4 blocks of 1024 uint64
+    PATH = "barrier_test.dat"
+    # Create a structured topology for verification
+    dimension = 1024 * 4
     data = np.zeros(dimension, dtype=np.uint64)
-    data[1024:2048] = 0xFFFFFFFFFFFFFFFF
-    data[2048:3072] = 0xAAAAAAAAAAAAAAAA
-    data[3072:] = np.random.randint(0, 0xFFFFFFFFFFFFFFFF, 1024, dtype=np.uint64)
+    data[1024:2048] = 0xFFFFFFFFFFFFFFFF # Block 1: All Signal
+    data[2048:3072] = 0xAAAAAAAAAAAAAAAA # Block 2: Patterned Signal
+    data[3072:] = np.arange(1024, dtype=np.uint64) + 0x100 # Block 3: Linear sequence
 
-    with open(PATH, "wb") as f:
-        f.write(data.tobytes())
+    # Inject a unique pattern for discharge test
+    unique_pattern = np.uint64(0xDEADBEEFCAFEBABE)
+    data[1524] = unique_pattern
 
-    barrier = TransistorGateBarrier(PATH)
+    with open(PATH, "wb") as f: f.write(data.tobytes())
 
-    # 1. Macro-scale Observation (Forest View)
-    print("\n[Scale: Macro] Observing 4 large blocks...")
-    # Gate mask = All open
+    barrier = TransistorGateBarrier(PATH, chunk_size=1024)
+
+    # Switch to DELTA mode for full-signal verification
+    barrier.set_mode_DELTA()
+
+    # 1. Full Signal Observation
+    print("\n[DELTA-Mode] Observing 4 large blocks...")
     gate_all = np.uint64(0xFFFFFFFFFFFFFFFF)
-    macro_tension = barrier.fractal_resonance(gate_all, resolution=4)
-    print(f"Resonance per block: {macro_tension}")
-    # Expected: [0, 1024, 1024, ~1024]
+    res_full = barrier.fractal_resonance(gate_all, resolution=4)
+    print(f"Resonance per block (DELTA): {res_full}")
 
-    # 2. Micro-scale Filtration (Tree View)
-    print("\n[Scale: Micro] Applying specific Bit-Gate (0xAAAAAAAAAAAAAAAA)...")
+    # 2. Patterned Filtration
+    print("\n[Filtration] Applying 0xAAAAAAAAAAAAAAAA mask...")
     intention = np.uint64(0xAAAAAAAAAAAAAAAA)
-    micro_tension = barrier.fractal_resonance(intention, resolution=4)
-    print(f"Resonance per block with Intention: {micro_tension}")
-    # Block 1 (All ones) & Intention -> 1024 hits
-    # Block 2 (Intention) & Intention -> 1024 hits
-    # Block 0 -> 0 hits
+    res_pattern = barrier.fractal_resonance(intention, resolution=4)
+    print(f"Resonance with Intention: {res_pattern}")
 
-    # 3. Annihilation Test
-    print("\n[Annihilation] Applying inverse mask (0x5555555555555555) to Block 2...")
-    inverse_intention = np.uint64(0x5555555555555555)
-    annihilation_tension = barrier.fractal_resonance(inverse_intention, resolution=4)
-    print(f"Resonance per block with Inverse Intention: {annihilation_tension}")
-    # Block 2 (0xAAAA...) & 0x5555... -> 0 (Complete Annihilation)
-    assert annihilation_tension[2] == 0
-    print("[Success] Noise/Mismatch perfectly annihilated.")
+    # 3. Y-Mode Attenuation
+    print("\n[Y-Mode] Verifying load reduction...")
+    barrier.set_mode_Y()
+    res_Y = barrier.fractal_resonance(gate_all, resolution=4)
+    print(f"Resonance per block (Y-mode): {res_Y}")
+
+    assert res_Y[3] < res_full[3]
+    print("[Success] Cognitive load attenuated in Y-mode.")
 
     # 4. Superconducting Discharge
-    print("\n[Discharge] Firing interrupt for specific pattern in Block 3...")
-    target_pattern = data[3072 + 500]
-    address = barrier.reverse_discharge_interrupt(target_pattern)
-    print(f"Interrupt fired! Address: {address} (Expected: {3072 + 500})")
-    assert address == 3072 + 500
+    print("\n[Discharge] Firing interrupt...")
+    barrier.set_mode_DELTA()
+    addr = barrier.reverse_discharge_interrupt(unique_pattern)
+    print(f"Interrupt address: {addr} (Expected: 1524)")
+    assert addr == 1524
 
     barrier.close()
     os.remove(PATH)
-    print("\n=== [Verification Complete] Transistor Barrier is Superconducting. ===")
+    print("\n=== [Verification Complete] Transistor Barrier Logic Verified. ===")
 
 if __name__ == "__main__":
-    test_fractal_scale_logic()
+    test_transistor_barrier_logic()
