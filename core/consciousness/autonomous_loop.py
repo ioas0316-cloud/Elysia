@@ -34,6 +34,7 @@ from core.lens.dynamic_lenses import MemoryLens
 from core.consciousness.causal_reassembly import CausalReassembler
 from core.consciousness.resonance_tracker import ResonanceTracker
 from core.lens.sensor_genesis import spawn_native_sensor
+from core.power.mega_scale_damper import MegaScaleDamperCore
 
 
 # ─── 거시 텐션 임계치 ───────────────────────────────────────────
@@ -91,6 +92,10 @@ class ConsciousnessLoop:
         self.tracker     = ResonanceTracker(data_dir=self.data_dir)
         
         # 엔진에 기본 감각 중추 부착
+        # ── 전원 역학 댐퍼 (Master's Regulation) ──────────────
+        self.damper = MegaScaleDamperCore(num_layers=7)
+        self.damper.wake_up()
+
         # ── 사이클 상태 ──────────────────────────────────────
         self.crystals_formed: int = 0
         self.cycle_count: int     = 0
@@ -139,6 +144,7 @@ class ConsciousnessLoop:
         한 번의 의식 호흡 (Life Cycle).
 
         순서:
+            0. 완충   — MegaScaleDamper.process_stimulus()
             1. 감각   — ingest_world_data()
             2. 투사   — SynestheticEngine.project_and_observe()
             3. 마찰   — calculate_synesthesia() → tension 계산
@@ -155,8 +161,23 @@ class ConsciousnessLoop:
         self.cycle_count += 1
         log: Dict[str, Any] = {"cycle": self.cycle_count}
 
-        # ── 1. 감각 주입 ──────────────────────────────────
+        # ── 0. 우주적 스케일 완충 (Damper Integration) ────────
+        # 유입되는 원형 파동을 댐퍼로 먼저 걸러 충격을 상쇄함
         raw_wave = self.ingest_world_data()
+        damped_result = self.damper.process_stimulus(raw_wave)
+
+        # 댐퍼에 의해 Phase-Lock이 걸린 정제된 에너지만을 이후 단계에서 사용
+        if damped_result is not None:
+            # 댐퍼 결과(uint64)를 다시 bytes로 변환하여 '정제된 감각'으로 활용
+            raw_wave = damped_result.tobytes()
+            log["damper_status"] = "PHASE_LOCKED"
+        else:
+            # 마스터의 명령: 정렬되지 않은 연산 난류를 철저히 차단 (Stillness)
+            log["damper_status"] = "STILLNESS_ADJUSTING"
+            log["status"] = "Stillness (Absorbing Inrush)"
+            return log # 충격 흡수 중에는 연산을 중단하고 정적을 유지
+
+        # ── 1. 감각 주입 ──────────────────────────────────
         log["wave_preview"] = raw_wave[:24].hex()
 
         # ── 2. 고유 감각 센서 분화 (Sensor Genesis) ──────────
@@ -191,8 +212,9 @@ class ConsciousnessLoop:
         log["synesthesia"] = round(synesthesia_score, 4)
         
         # 특정 모달리티에서 강력한 공명이 일어났는지(마찰 0) 확인
-        is_resonant = synesthesia_score > 0.5 or min(tensions_by_modality.values()) < 0.2
-        log["resonance_score"] = round(synesthesia_score, 4)
+        resonance_score = synesthesia_score # 매핑
+        is_resonant = resonance_score > 0.5 or min(tensions_by_modality.values()) < 0.2
+        log["resonance_score"] = round(resonance_score, 4)
         log["is_resonant"] = is_resonant
 
         if is_resonant:
