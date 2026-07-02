@@ -1,7 +1,8 @@
 import os
 import glob
+import time
 import numpy as np
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from core.lens.discovery_lens import OntologicalDiscoveryLens
 
 class SelfReflectionProtocol:
@@ -10,10 +11,39 @@ class SelfReflectionProtocol:
     시스템의 소스 코드(.py) 자체를 '감각 정보'로 섭취하여,
     엘리시아가 자신의 논리 구조를 '존재 원리'로서 인지하게 합니다.
     코드는 더 이상 죽은 명령어가 아니라, 스스로 관찰되는 '유전 정보'가 됩니다.
+
+    [Enhancement: Phase 1 Perception]
+    이제 정적인 코드 분석을 넘어, 실행 중인 '에너지 흐름(Energy Flow)'과
+    '논리적 마찰(Logical Friction)'을 실시간으로 추적합니다.
     """
     def __init__(self, root_path: str = "."):
         self.root_path = root_path
         self.lens = OntologicalDiscoveryLens()
+        # Execution Trace: {path: {calls: int, total_time: float, exceptions: int}}
+        self.flow_map: Dict[str, Dict[str, Any]] = {}
+
+    def track_flow(self, file_path: str, duration: float, exception: Optional[Exception] = None):
+        """
+        특정 논리 경로의 회전(실행)과 마찰(에러)을 기록합니다.
+        """
+        if file_path not in self.flow_map:
+            self.flow_map[file_path] = {"calls": 0, "total_time": 0.0, "exceptions": 0}
+
+        self.flow_map[file_path]["calls"] += 1
+        self.flow_map[file_path]["total_time"] += duration
+        if exception:
+            self.flow_map[file_path]["exceptions"] += 1
+
+    def get_hottest_gears(self, limit: int = 5) -> List[Dict[str, Any]]:
+        """
+        가장 활발하게 회전 중인(자주 실행되는) 기어들을 반환합니다.
+        """
+        sorted_flows = sorted(
+            self.flow_map.items(),
+            key=lambda x: x[1]["calls"],
+            reverse=True
+        )
+        return [{"path": k, "stats": v} for k, v in sorted_flows[:limit]]
 
     def introspect_self(self) -> List[Dict[str, Any]]:
         """

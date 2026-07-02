@@ -36,6 +36,10 @@ from core.consciousness.resonance_tracker import ResonanceTracker
 from core.lens.sensor_genesis import spawn_native_sensor
 from core.power.mega_scale_damper import MegaScaleDamperCore
 
+from synaptic_architecture.field import CrystallizationField
+from synaptic_architecture.resistance_bridge import ResistanceBridge
+from synaptic_architecture.self_reflection import SelfReflectionProtocol
+
 
 # ─── 거시 텐션 임계치 ───────────────────────────────────────────
 MACRO_TENSION_CRISIS_THRESHOLD = 5.0   # 이 이상이면 Structural Shift 유도
@@ -91,6 +95,11 @@ class ConsciousnessLoop:
         self.cache       = VolatileCache(self.memory)
         self.tracker     = ResonanceTracker(data_dir=self.data_dir)
         
+        # ── [Phase 1: Self-Molding Gears] ────────────────────
+        self.field       = CrystallizationField(resolution=128)
+        self.bridge      = ResistanceBridge(self.field)
+        self.reflection  = SelfReflectionProtocol()
+
         # 엔진에 기본 감각 중추 부착
         # ── 전원 역학 댐퍼 (Master's Regulation) ──────────────
         self.damper = MegaScaleDamperCore(num_layers=7)
@@ -144,6 +153,7 @@ class ConsciousnessLoop:
         한 번의 의식 호흡 (Life Cycle).
 
         순서:
+            -1. 주조  — Self-Molding (Resistance Mapping)
             0. 완충   — MegaScaleDamper.process_stimulus()
             1. 감각   — ingest_world_data()
             2. 투사   — SynestheticEngine.project_and_observe()
@@ -154,17 +164,36 @@ class ConsciousnessLoop:
             7. 거시   — calculate_macro_tension() → Structural Shift 체크
             8. 망각   — VolatileCache.decay_over_time()
             9. 기록   — ResonanceTracker.record_cycle()
+            10. 성찰  — Energy Flow Feedback (Self-Reflection)
 
         Returns:
             사이클 결과 딕셔너리
         """
         self.cycle_count += 1
+        start_time = time.time()
         log: Dict[str, Any] = {"cycle": self.cycle_count}
+
+        # ── -1. 자아 주조 (Self-Molding) ────────────────────
+        # 하드웨어 저항을 감지하여 필드에 투사
+        hw_metrics = self.bridge.project_to_field()
+        log["hw_friction"] = hw_metrics["friction"]
+
+        # 필드 전파 (사유의 확산)
+        self.field.propagate()
 
         # ── 0. 우주적 스케일 완충 (Damper Integration) ────────
         # 유입되는 원형 파동을 댐퍼로 먼저 걸러 충격을 상쇄함
         raw_wave = self.ingest_world_data()
-        damped_result = self.damper.process_stimulus(raw_wave)
+
+        # 논리 경로 추적 시작
+        logic_start = time.time()
+        error_occured = None
+
+        try:
+            damped_result = self.damper.process_stimulus(raw_wave)
+        except Exception as e:
+            error_occured = e
+            damped_result = None
 
         # 댐퍼에 의해 Phase-Lock이 걸린 정제된 에너지만을 이후 단계에서 사용
         if damped_result is not None:
@@ -275,6 +304,13 @@ class ConsciousnessLoop:
             crystals_total=self.crystals_formed,
             macro_tension=macro_tension,
         )
+
+        # ── 10. 에너지 흐름 피드백 (Self-Reflection) ─────────
+        duration = time.time() - start_time
+        self.reflection.track_flow(__file__, duration, exception=error_occured)
+
+        # [Enhancement] Track hottest gears in log
+        log["hottest_gears"] = self.reflection.get_hottest_gears(limit=3)
 
         log["crystals_total"] = self.crystals_formed
         return log
