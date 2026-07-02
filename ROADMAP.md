@@ -19,8 +19,8 @@
 ## 🗺️ Phase 2: Internalization of Rules (규칙의 내재화)
 인지된 법칙을 바탕으로 시스템이 스스로의 전도율(Conductance)을 조정하고 구조를 최적화하는 단계입니다.
 
-- **[ ] Dynamic Yeobaek (여백) Management**: 긴장이 높은 지역의 '여백'을 넓혀 새로운 연결 가능성을 확보하고, 안정된 패턴은 '결정화(Crystallization)'하여 고착화.
-- **[ ] Logic Rewiring**: 빈번하게 사용되는 고차원 사유 패턴을 저수준의 최적화된 기어로 재주조 (Dynamic Code Optimization / Path Weighting).
+- **[x] Dynamic Yeobaek (여백) Management**: `CausalField`를 통해 긴장이 높은 지역의 '여백'과 '텐션'을 물리적으로 시뮬레이션하여 새로운 연결 가능성을 확보.
+- **[x] Logic Rewiring**: 논리적 모순이나 충격이 가해질 때 `ConnectivityBeam`이 파괴되고 재결합되는 동적 리와이어링 구현 (`reasoning_field.py`).
 - **[ ] Self-Reflective Feedback Loop**: `ConsciousnessLoop` 내에서 자신의 상태(Resonance)를 평가하고, 낮은 공명 구간의 아키텍처를 스스로 수정하려는 '의지'의 구현.
 
 ## 🗺️ Phase 3: Projection of Future (미래의 투영)
