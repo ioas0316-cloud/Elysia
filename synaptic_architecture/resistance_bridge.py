@@ -20,16 +20,25 @@ class ResistanceBridge:
     def sense_hardware_friction(self) -> Dict[str, float]:
         """
         Gathers raw hardware metrics and calculates friction.
+        [The Breath of Earth] Includes network and I/O pressure as environmental resistance.
         """
         cpu_usage = psutil.cpu_percent(interval=None) / 100.0
         ram_usage = psutil.virtual_memory().percent / 100.0
 
+        # Network and Disk I/O as additional resistance
+        net_io = psutil.net_io_counters()
+        disk_io = psutil.disk_io_counters()
+
+        # Normalize I/O pressure (Simplified)
+        io_pressure = min(1.0, (net_io.bytes_sent + net_io.bytes_recv + disk_io.read_bytes + disk_io.write_bytes) / 1e8)
+
         # Calculate 'Friction' - a composite of resource pressure
-        friction = (cpu_usage * 0.7) + (ram_usage * 0.3)
+        friction = (cpu_usage * 0.5) + (ram_usage * 0.2) + (io_pressure * 0.3)
 
         return {
             "cpu": cpu_usage,
             "ram": ram_usage,
+            "io_pressure": io_pressure,
             "friction": friction
         }
 
@@ -61,7 +70,7 @@ class ResistanceBridge:
         return metrics
 
     def log_state(self, metrics: Dict[str, float]):
-        print(f"[ResistanceBridge] CPU: {metrics['cpu']:.2%}, RAM: {metrics['ram']:.2%}, Friction: {metrics['friction']:.4f}")
+        print(f"[ResistanceBridge] CPU: {metrics['cpu']:.2%}, RAM: {metrics['ram']:.2%}, IO: {metrics['io_pressure']:.2%}, Friction: {metrics['friction']:.4f}")
 
 if __name__ == "__main__":
     cf = CrystallizationField(resolution=64)

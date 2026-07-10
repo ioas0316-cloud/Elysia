@@ -22,6 +22,7 @@ import sys
 import glob
 import random
 import time
+import numpy as np
 from typing import Optional, Dict, Any
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
@@ -37,8 +38,12 @@ from core.lens.sensor_genesis import spawn_native_sensor
 from core.power.mega_scale_damper import MegaScaleDamperCore
 
 from synaptic_architecture.field import CrystallizationField
+from synaptic_architecture.colony import ResonantColony
+from synaptic_architecture.causal_gene import GeneticSynthesizer
 from synaptic_architecture.resistance_bridge import ResistanceBridge
 from synaptic_architecture.self_reflection import SelfReflectionProtocol
+from core.ingestion.realtime_harvester import RealTimeHarvester
+import asyncio
 
 
 # ─── 거시 텐션 임계치 ───────────────────────────────────────────
@@ -96,9 +101,13 @@ class ConsciousnessLoop:
         self.tracker     = ResonanceTracker(data_dir=self.data_dir)
         
         # ── [Phase 1: Self-Molding Gears] ────────────────────
-        self.field       = CrystallizationField(resolution=128)
+        self.colony      = ResonantColony(num_initial_cells=4, resolution=128)
+        # Primary cell for legacy bridge compatibility
+        self.field       = self.colony.cells["cell_0"]
         self.bridge      = ResistanceBridge(self.field)
         self.reflection  = SelfReflectionProtocol()
+        self.synthesizer = GeneticSynthesizer()
+        self.harvester_ocean = RealTimeHarvester()
 
         # 엔진에 기본 감각 중추 부착
         # ── 전원 역학 댐퍼 (Master's Regulation) ──────────────
@@ -115,26 +124,28 @@ class ConsciousnessLoop:
 
     def ingest_world_data(self) -> bytes:
         """
-        세상의 데이터(코퍼스 파편 + 외부 노이즈)를 끌어옵니다.
-        캐시에 이미 있으면 캐시에서 꺼냅니다 (단기 기억 재사용).
+        세상의 데이터(코퍼스 파편 + 외부 데이터 스트림 + 외부 노이즈)를 끌어옵니다.
         """
         cache_key = f"wave_{self.cycle_count % 20}"
         cached = self.cache.access(cache_key)
         if cached is not None:
             return cached
 
-        # 코퍼스에서 랜덤 파편 추출
-        if self.corpus_files:
-            target_file = random.choice(self.corpus_files)
-            try:
-                with open(target_file, 'r', encoding='utf-8', errors='ignore') as f:
-                    content = f.read()
-                start_idx = random.randint(0, max(0, len(content) - 100))
-                chunk = content[start_idx:start_idx + 60]
-            except OSError:
+        # [The Ocean] 실시간 데이터 우선 시도
+        chunk = self.harvester_ocean.get_next_chunk()
+
+        if not chunk:
+            if self.corpus_files:
+                target_file = random.choice(self.corpus_files)
+                try:
+                    with open(target_file, 'r', encoding='utf-8', errors='ignore') as f:
+                        content = f.read()
+                    start_idx = random.randint(0, max(0, len(content) - 100))
+                    chunk = content[start_idx:start_idx + 60]
+                except OSError:
+                    chunk = "Empty resonance field..."
+            else:
                 chunk = "Empty resonance field..."
-        else:
-            chunk = "Empty resonance field..."
 
         # 의도적 노이즈 주입 (세상의 풍파 — 결핍/진공 생성)
         noise = os.urandom(4)
@@ -174,12 +185,21 @@ class ConsciousnessLoop:
         log: Dict[str, Any] = {"cycle": self.cycle_count}
 
         # ── -1. 자아 주조 (Self-Molding) ────────────────────
-        # 하드웨어 저항을 감지하여 필드에 투사
-        hw_metrics = self.bridge.project_to_field()
+        # 하드웨어 저항을 감지하여 군집의 모든 필드에 투사
+        hw_metrics = self.bridge.sense_hardware_friction()
         log["hw_friction"] = hw_metrics["friction"]
 
-        # 필드 전파 (사유의 확산)
-        self.field.propagate()
+        # 저항을 군집 전체의 전도율과 온도로 치환
+        for cell in self.colony.cells.values():
+            self.bridge.field = cell
+            self.bridge.project_to_field()
+
+        # [Bridge Restoration] Restore primary cell for main logic
+        self.bridge.field = self.field
+
+        # 군집 맥동 및 공명 진화
+        self.colony.pulse_colony({})
+        self.colony.evolve_topology()
 
         # ── 0. 우주적 스케일 완충 (Damper Integration) ────────
         # 유입되는 원형 파동을 댐퍼로 먼저 걸러 충격을 상쇄함
@@ -309,6 +329,22 @@ class ConsciousnessLoop:
         duration = time.time() - start_time
         self.reflection.track_flow(__file__, duration, exception=error_occured)
 
+        # [Least Action Principle] 가치 발견 및 유전적 진화
+        # 에너지가 가장 잘 순환하는 지점을 발견하고 새로운 논리로 승격
+        field_state = {
+            "cell_id": "cell_0",
+            "resonance_score": resonance_score,
+            "detected_vortices": [] # Placeholder for actual vortex detection
+        }
+        # 간단한 보텍스 추출 (에너지가 높은 지점)
+        idx = np.argmax(self.field.activation)
+        y, x = np.unravel_index(idx, self.field.activation.shape)
+        if self.field.activation[y, x] > 5.0:
+            gene = self.field.bit_genes[y, x]
+            field_state["detected_vortices"].append({"resonant_gene": hex(gene)})
+
+        self.synthesizer.evolve_principles(field_state, colony=self.colony)
+
         # [Enhancement] Track hottest gears in log
         log["hottest_gears"] = self.reflection.get_hottest_gears(limit=3)
 
@@ -322,10 +358,13 @@ class ConsciousnessLoop:
     def run(self, cycles: int = 10, verbose: bool = True) -> Dict[str, Any]:
         """
         N회 의식 사이클을 연속 실행합니다.
-
-        Returns:
-            실행 요약 딕셔너리
         """
+        # [The Ocean] 데이터 수집 시작
+        try:
+            asyncio.run(self.harvester_ocean.harvest_all())
+        except Exception as e:
+            print(f"[The Ocean] Initial harvest failed: {e}")
+
         results = []
         for i in range(cycles):
             result = self.process_life_cycle()
