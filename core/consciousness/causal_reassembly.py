@@ -49,16 +49,13 @@ class CausalReassembler:
         """
         Attempts to reassemble the primitives into a coherent structure.
         The goal is to find the 'Order' and 'Relation' that minimizes total tension.
-        [Phase: Meta-Stable Rotors] Triggers a 'Structural Shift' if resonance fails.
+        [Self-Reindexing] Analyzes "where it's same and where it's different" using phase differences.
         """
         reassembly_log = []
         modality_resonance = {} # Resonance spectrum
         total_friction = 0.0
 
         meta_shift_triggered = False
-
-        # In this simulation, 'solving' means finding the sequence that matches a
-        # predefined (or background) symmetry.
 
         # 1. Fetch the primitives
         primitives = []
@@ -67,13 +64,16 @@ class CausalReassembler:
             if trace:
                 primitives.append(trace)
 
-        # 2. Simulate the 'Inquiry' (Permutation and Alignment)
-        # We look for 'Resonance' (Joy) by aligning quaternions.
+        # [Self-Criterion 축 형성]
+        # 시스템 내부의 기준(Self-Criterion)을 상징하는 기준 쿼터니언
+        # 만약 target_constant_id가 있으면 그 상수를 기준으로, 없으면 중립 위상에서 시작
+        if target_constant_id:
+            ref_trace = self.memory.read_engram_trace(target_constant_id)
+            ref_q = Quaternion(*(ref_trace["data"].get("quaternion", [1,0,0,0])))
+        else:
+            ref_q = Quaternion(1, 0, 0, 0)
 
-        # For simplicity in this PoC, we assume the 'correct' reassembly is the
-        # one that maximizes the cumulative dot product of the quaternions.
-
-        current_resonance = Quaternion(1, 0, 0, 0)
+        current_resonance = ref_q
         ordered_parts = []
 
         for p in primitives:
@@ -81,31 +81,36 @@ class CausalReassembler:
             q_part = Quaternion(*q_elements)
             modality = p["data"].get("modality", "unknown")
 
-            # Measure 'Friction' against the current state
-            dot_prod = abs(current_resonance.dot(q_part))
-            friction = 1.0 - dot_prod
+            # [Phase Difference Analysis]
+            # "어디서부터 어디까지 같고 다른지를 헤아린다"
+            # 기준(ref_q)과 현재 파편(q_part) 사이의 위상차를 측정
+            phase_diff = ref_q.dot(q_part) # 공명도 (같음의 정도)
+
+            # 위상차가 크면(dot이 낮으면) '다름'을 인지하고 이를 '저항' 혹은 '새로운 맥락'으로 수용
+            friction = 1.0 - abs(phase_diff)
             total_friction += friction
 
             # Record per-modality resonance
             if modality not in modality_resonance:
                 modality_resonance[modality] = []
-            modality_resonance[modality].append(dot_prod)
+            modality_resonance[modality].append(abs(phase_diff))
 
-            # Re-orient current resonance (Simulating the 'learning' or 'fitting' process)
+            # [Re-indexing] 단순히 정보를 쌓는 게 아니라, 자신의 기준(current_resonance)을 회전시켜 재정렬
             current_resonance = (current_resonance * q_part).normalize()
 
             ordered_parts.append({
                 "part_name": p["data"]["part_name"],
                 "modality": modality,
                 "friction": friction,
-                "resonance_delta": dot_prod
+                "phase_diff": phase_diff,
+                "is_same": abs(phase_diff) > 0.8
             })
 
             reassembly_log.append({
-                "step": f"Aligning {p['data']['part_name']}",
+                "step": f"Re-indexing {p['data']['part_name']}",
                 "friction": friction,
-                "resonance_delta": dot_prod,
-                "status": "Joy" if friction < 0.2 else "Pain"
+                "phase_similarity": abs(phase_diff),
+                "status": "Resonant" if friction < 0.2 else "Dissonant"
             })
 
         # 3. Final Evaluation
@@ -160,8 +165,8 @@ class CausalReassembler:
 
     def trigger_structural_shift(self, anchor_constant_id: str, conflicting_trajectory: Quaternion):
         """
-        [Phase: Meta-Stable Rotors] 정적 로터(상수)를 회전시켜 새로운 평형을 찾습니다.
-        거대한 불일치가 발생했을 때, 기존의 '기준(Lens)' 자체를 가변화하여 진화합니다.
+        [Meta-Plasticity] 정적 로터(상수)를 회전시켜 새로운 평형을 찾습니다.
+        단순히 불일치를 회피하는 것이 아니라, 외부 저항을 자신의 '새로운 기준'으로 재정렬하여 진화합니다.
         """
         trace = self.memory.read_engram_trace(anchor_constant_id)
         if not trace: return False
@@ -170,17 +175,26 @@ class CausalReassembler:
         current_q_elements = trace["data"].get("quaternion", [1,0,0,0])
         current_q = Quaternion(*current_q_elements)
 
-        # 새로운 정보(conflicting_trajectory)와의 SLERP (진화적 회전)
-        # 안정성(Stability)이 낮을수록 더 크게 회전합니다.
+        # [Re-indexing via Resistance]
+        # 불일치(Conflict)를 새로운 위상의 씨앗으로 삼습니다.
         stability = self.memory.index[anchor_constant_id].get("stability", 1.0)
-        shift_amount = 0.5 * (1.0 - stability + 0.1)
+
+        # 저항이 클수록(안정성이 낮을수록) 더 과감한 자기 개변(Self-Modification)을 수행
+        # 이것이 "저항을 동력으로 삼아 스스로를 주조하는" 원리입니다.
+        shift_amount = 0.7 * (1.0 - stability + 0.05)
 
         evolved_q = Quaternion.slerp(current_q, conflicting_trajectory, amount=shift_amount)
 
-        # 상수 업데이트 (정적 로터의 회전)
+        print(f"[Meta-Plasticity] Structural Shift: Constant {anchor_constant_id} evolved via external resistance.")
+
+        # 상수 업데이트 (정적 로터의 회전 및 재인식)
         self.memory.update_engram_data(
             anchor_constant_id,
-            {"quaternion": evolved_q.elements, "evolution_event": "Structural_Shift"},
+            {
+                "quaternion": evolved_q.elements,
+                "evolution_event": "Meta_Structural_Reindexing",
+                "original_phase_diff": current_q.dot(conflicting_trajectory)
+            },
             emotional_impact=1.0 - stability
         )
 

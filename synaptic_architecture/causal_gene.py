@@ -26,21 +26,33 @@ class GeneticSynthesizer:
 
         return child
 
-    def evolve_principles(self, field_state: Dict[str, Any]):
+    def evolve_principles(self, field_state: Dict[str, Any], colony=None):
         """
         장내의 보텍스(Vortices)들을 부모로 삼아 새로운 유전자를 합성합니다.
+        [Structural Birth] 공명도가 높을 경우, 새로운 사유 세포(Field)의 분화를 유도합니다.
         """
         vortices = field_state.get("detected_vortices", [])
-        if len(vortices) < 2: return
+        resonance_score = field_state.get("resonance_score", 0.0)
 
-        v1_gene = np.uint64(int(vortices[0]['resonant_gene'], 16))
-        v2_gene = np.uint64(int(vortices[1]['resonant_gene'], 16))
+        if len(vortices) < 2:
+            # 보텍스가 부족하면 무작위 변이를 통한 새로운 씨앗 생성
+            if resonance_score > 0.7:
+                new_gene = np.uint64(np.random.randint(0, 2**64, dtype=np.uint64))
+            else:
+                return
+        else:
+            v1_gene = np.uint64(int(vortices[0]['resonant_gene'], 16))
+            v2_gene = np.uint64(int(vortices[1]['resonant_gene'], 16))
+            new_gene = self.synthesize(v1_gene, v2_gene)
 
-        new_gene = self.synthesize(v1_gene, v2_gene)
         gene_name = f"GENE_{hex(new_gene)}"
-
         self.gene_pool[gene_name] = new_gene
         print(f"[Genetic Synthesis] New Logical Species evolved: {gene_name}")
+
+        # [Structural Birth] 강력한 공명이 발생하면 새로운 사유 세포를 분화
+        if resonance_score > 0.8 and colony is not None:
+            print(f"[Structural Birth] High resonance ({resonance_score:.2f}) detected. Triggering Cell Division.")
+            colony.add_cell(parent_id=field_state.get("cell_id"))
 
     def get_active_genes(self) -> List[np.uint64]:
         return list(self.gene_pool.values())
