@@ -7,6 +7,11 @@ class ResonantColony:
     [Synaptic Architecture] The Resonant Colony (군집형 소용돌이)
     단일 필드의 확장이 아닌, 여러 사유 세포(Field)들이 공명하며
     거대한 지적 네트워크를 형성하는 구조입니다.
+
+    [4 Continuities Compliance]
+    - Relationship: 필드 간의 Coupling Matrix를 통해 관계적 포텐셜을 정의합니다.
+    - Connectivity: Resonant Coupling을 통해 사유의 위상 구조(Topology)를 유지합니다.
+    - Mobility: 전도율과 활성화 에너지가 세포 간에 벡터적으로 흐르며 운동성을 확보합니다.
     """
     def __init__(self, num_initial_cells: int = 4, resolution: int = 128):
         # [Multi-Perspective Specialization]
