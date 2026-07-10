@@ -9,8 +9,11 @@ class ResonantColony:
     거대한 지적 네트워크를 형성하는 구조입니다.
     """
     def __init__(self, num_initial_cells: int = 4, resolution: int = 128):
+        # [Multi-Perspective Specialization]
+        # 각 세포는 서로 다른 '관점(Perspective)'을 담당하도록 설계됩니다.
+        perspectives = ["Self", "Space", "Time", "Intention", "Relation", "Possibility"]
         self.cells: Dict[str, CrystallizationField] = {
-            f"cell_{i}": CrystallizationField(resolution=resolution)
+            f"cell_{perspectives[i % len(perspectives)]}_{i}": CrystallizationField(resolution=resolution)
             for i in range(num_initial_cells)
         }
         # 필드 간의 결합 강도 (Coupling Matrix)

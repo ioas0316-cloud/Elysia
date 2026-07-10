@@ -102,8 +102,8 @@ class ConsciousnessLoop:
         
         # ── [Phase 1: Self-Molding Gears] ────────────────────
         self.colony      = ResonantColony(num_initial_cells=4, resolution=128)
-        # Primary cell for legacy bridge compatibility
-        self.field       = self.colony.cells["cell_0"]
+        # Primary cell for legacy bridge compatibility (Selecting the 'Self' perspective cell)
+        self.field       = self.colony.cells[self.colony.cell_ids[0]]
         self.bridge      = ResistanceBridge(self.field)
         self.reflection  = SelfReflectionProtocol()
         self.synthesizer = GeneticSynthesizer()
