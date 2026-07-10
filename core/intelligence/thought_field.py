@@ -59,6 +59,7 @@ class ThoughtField:
         """
         Simultaneous energy distribution across the field.
         Solves I = GV (roughly: Flow = Conductance * Potential)
+        Includes Homeostatic Regulation to prevent runaway energy.
         """
         if self.needs_rebuild:
             self._rebuild_matrix()
@@ -72,18 +73,21 @@ class ThoughtField:
             if eid in self.matrix_indices:
                 I[self.matrix_indices[eid]] += energy
 
+        # [Homeostasis] Regulate input intensity based on current total field energy
+        total_field_energy = sum(e.energy for e in self.elements.values())
+        regulation_factor = 1.0 / (1.0 + total_field_energy * 0.05)
+        regulated_I = I * regulation_factor
+
         # Solve for Voltage (V = G^-1 * I)
-        # In a real circuit, G might be singular if poorly connected, so we use pseudo-inverse
         try:
-            V = np.linalg.pinv(self.G_matrix) @ I
+            V = np.linalg.pinv(self.G_matrix) @ regulated_I
         except np.linalg.LinAlgError:
-            V = I # Fallback to local injection if matrix is unsolvable
+            V = regulated_I # Fallback
 
         # Distribute energy based on calculated potentials (V)
         for i, potential in enumerate(V):
             eid = self.index_to_id[i]
             if potential > 1e-6:
-                # Potential distribution from the field (No single source for V)
                 self.elements[eid].inject_energy(potential, source_id="field_gradient")
 
     def step(self):
@@ -131,6 +135,12 @@ class ThoughtField:
             if element.growth_potential > 5.0:
                 self._mitotic_growth(element)
 
+            # [Apoptosis] Remove dead cells
+            if element.health <= 0.0:
+                print(f"[Apoptosis] Cell death: {eid}")
+                self._remove_element(eid)
+                self.needs_rebuild = True
+
         self.needs_rebuild = True
         self._detect_organs()
         return results
@@ -166,6 +176,25 @@ class ThoughtField:
 
             if len(cluster) >= 3: # Minimum size for an organ
                 self.organs.append(cluster)
+
+    def _remove_element(self, eid: str):
+        """Cleans up all connections and removes the element from the field."""
+        if eid not in self.elements: return
+        element = self.elements[eid]
+
+        # Remove from collectors of emitters
+        for em_id in element.emitters:
+            if em_id in self.elements:
+                if eid in self.elements[em_id].collectors:
+                    self.elements[em_id].collectors.remove(eid)
+
+        # Remove from emitters of collectors
+        for col_id in element.collectors:
+            if col_id in self.elements:
+                if eid in self.elements[col_id].emitters:
+                    self.elements[col_id].emitters.remove(eid)
+
+        del self.elements[eid]
 
     def _mitotic_growth(self, parent: ThoughtTransistor):
         """

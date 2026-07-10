@@ -28,6 +28,8 @@ class ThoughtTransistor:
         self.trace_history: List[Dict[str, Any]] = [] # Memory of recent energy flow events
         self.growth_potential = 0.0 # Accumulator for mitotic expansion
         self.remanence_factor = 0.2 # How much energy remains after firing
+        self.health = 1.0            # Vitality (0.0 means cell death)
+        self.metabolic_rate = 0.02   # Constant energy drain for maintenance
 
     def inject_energy(self, amount: float, source_id: Optional[str] = None):
         """Accumulate energy from emitters."""
@@ -45,6 +47,16 @@ class ThoughtTransistor:
         Determines if the transistor 'turns on' (conducts).
         Returns the amount of energy to be passed to collectors.
         """
+        # [Metabolism] Constant drain on health and energy
+        self.energy -= self.metabolic_rate
+        self.energy = max(0, self.energy)
+
+        if self.energy < 0.01: # Chronic lack of energy leads to decay
+            self.health -= 0.01
+        else:
+            self.health += 0.005 # Energy flow restores health
+        self.health = np.clip(self.health, 0.0, 1.0)
+
         # [Lens Mechanism] The base threshold is refracted by the context_bias
         effective_threshold = max(0.1, self.base_threshold - context_bias)
 
