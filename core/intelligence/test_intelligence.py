@@ -10,7 +10,8 @@ def test_thought_transistor_activation():
     output = t.process()
     assert output > 0
     assert t.is_active is True
-    assert t.energy == 0 # Discharged
+    # Remanence: Energy should not be zero
+    assert t.energy > 0
 
 def test_thought_transistor_lens_effect():
     concept = np.array([1.0, 0.0])

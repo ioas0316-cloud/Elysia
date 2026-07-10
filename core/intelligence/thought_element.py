@@ -26,6 +26,8 @@ class ThoughtTransistor:
 
         self.is_active = False
         self.trace_history: List[Dict[str, Any]] = [] # Memory of recent energy flow events
+        self.growth_potential = 0.0 # Accumulator for mitotic expansion
+        self.remanence_factor = 0.2 # How much energy remains after firing
 
     def inject_energy(self, amount: float, source_id: Optional[str] = None):
         """Accumulate energy from emitters."""
@@ -49,9 +51,13 @@ class ThoughtTransistor:
         if self.energy >= effective_threshold:
             self.is_active = True
             # Output energy is proportional to internal conductance
-            # Using tanh to saturate output and prevent runaway feedback
             output_energy = np.tanh(self.energy * self.conductance) * 2.0
-            self.energy = 0.0 # Discharge after firing
+
+            # [Organic Growth] Energy flow increases growth potential
+            self.growth_potential += output_energy * 0.5 # Faster growth for demo
+
+            # [Cognitive Remanence] Instead of 0, keep a fraction of energy
+            self.energy = self.energy * self.remanence_factor
             return output_energy
         else:
             self.is_active = False
@@ -64,7 +70,7 @@ class ThoughtTransistor:
         [Plasticity]
         Higher flow reinforces the path (Memristive property).
         """
-        self.conductance += flow * 0.1
+        self.conductance += flow * 0.5 # Increased reinforcement speed
         self.conductance = np.clip(self.conductance, 0.1, 10.0)
         # Natural decay of conductance if not used
         self.conductance -= decay

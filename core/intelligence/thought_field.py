@@ -90,16 +90,26 @@ class ThoughtField:
         """Individual element processing and plasticity update."""
         results = {}
 
-        # [Information Lens] Pre-calculate contextual biases based on active neighbors
-        # One transistor's state refracts the 'Base' threshold of connected neighbors.
+        # [Information Lens & Radiative Sensation]
+        # One transistor's state refracts the 'Base' threshold of others.
+        # Now includes "Radiative" influence: even unconnected nodes sense nearby high-energy nodes in semantic space.
         context_biases = {eid: 0.0 for eid in self.elements}
-        for eid, element in self.elements.items():
-            if element.energy > 0.1: # Significant potential exists
-                for target_id in element.collectors:
-                    if target_id in context_biases:
-                        # Neighbor's energy lowers my threshold (Excitatory lens)
-                        resonance = np.dot(element.concept, self.elements[target_id].concept)
-                        context_biases[target_id] += element.energy * resonance * 0.2
+        active_nodes = [(eid, e) for eid, e in self.elements.items() if e.energy > 0.1]
+
+        for eid, target in self.elements.items():
+            for source_id, source in active_nodes:
+                if source_id == eid: continue
+
+                # Semantic proximity (Resonance)
+                resonance = np.dot(source.concept, target.concept)
+
+                # Excitatory bias: closer in semantic space = more influence
+                influence = source.energy * resonance * 0.1
+
+                if target.id in source.collectors: # Direct connectivity has higher weight
+                    influence *= 2.0
+
+                context_biases[eid] += influence
 
         for eid, element in list(self.elements.items()):
             bias = context_biases.get(eid, 0.0)
@@ -117,8 +127,66 @@ class ThoughtField:
             # Dynamic Rewiring: Break links if resistance is too high or mismatch occurs
             self._handle_rewiring(element)
 
+            # [Mitotic Expansion] If growth potential is high, create a "Bud"
+            if element.growth_potential > 5.0:
+                self._mitotic_growth(element)
+
         self.needs_rebuild = True
+        self._detect_organs()
         return results
+
+    def _detect_organs(self):
+        """
+        [Differentiation] Identifies high-conductance clusters as "Functional Organs".
+        Organs represent stable subsystems of intelligence.
+        """
+        self.organs = []
+        visited = set()
+
+        for eid, element in self.elements.items():
+            if eid in visited: continue
+
+            # Use simple BFS to find strong-connected components (G > threshold)
+            cluster = []
+            queue = [eid]
+            visited.add(eid)
+
+            while queue:
+                curr_id = queue.pop(0)
+                cluster.append(curr_id)
+
+                curr = self.elements[curr_id]
+                for neighbor_id in curr.collectors + curr.emitters:
+                    if neighbor_id not in visited and neighbor_id in self.elements:
+                        neighbor = self.elements[neighbor_id]
+                        # Only consider strong bonds as part of an organ
+                        if neighbor.conductance > 2.0:
+                            visited.add(neighbor_id)
+                            queue.append(neighbor_id)
+
+            if len(cluster) >= 3: # Minimum size for an organ
+                self.organs.append(cluster)
+
+    def _mitotic_growth(self, parent: ThoughtTransistor):
+        """
+        [Mitosis] Creates a new ThoughtTransistor as a functional expansion of the parent.
+        The new 'Bud' specializes by slightly mutating the concept tensor.
+        """
+        child_id = f"{parent.id}_bud_{len(self.elements)}"
+        # Mutate the concept tensor slightly (Specialization)
+        mutation = (np.random.randn(*parent.concept.shape) * 0.1).astype(np.float32)
+        child_concept = parent.concept + mutation
+
+        child = ThoughtTransistor(child_id, child_concept)
+        self.add_element(child)
+
+        # Connect Parent to Child (Forward expansion)
+        self.connect(parent.id, child_id)
+        # Child also connects back to Parent (Feedback loop)
+        self.connect(child_id, parent.id)
+
+        parent.growth_potential = 0.0 # Reset potential after growth
+        print(f"[Mitosis] Organic Expansion: {parent.id} spawned {child_id}")
 
     def _handle_rewiring(self, element: ThoughtTransistor):
         """
