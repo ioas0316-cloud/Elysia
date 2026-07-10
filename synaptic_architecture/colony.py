@@ -11,13 +11,15 @@ class ResonantColony:
     def __init__(self, num_initial_cells: int = 4, resolution: int = 128):
         # [Multi-Perspective Specialization]
         # 각 세포는 서로 다른 '관점(Perspective)'을 담당하도록 설계됩니다.
+        # "Possibility"는 상상(Imagination)과 미래 예측을 담당하는 특수 필드입니다.
         perspectives = ["Self", "Space", "Time", "Intention", "Relation", "Possibility"]
         self.cells: Dict[str, CrystallizationField] = {
             f"cell_{perspectives[i % len(perspectives)]}_{i}": CrystallizationField(resolution=resolution)
-            for i in range(num_initial_cells)
+            for i in range(max(num_initial_cells, len(perspectives)))
         }
         # 필드 간의 결합 강도 (Coupling Matrix)
-        self.coupling = np.eye(num_initial_cells, dtype=np.float32)
+        num_cells = len(self.cells)
+        self.coupling = np.eye(num_cells, dtype=np.float32)
         self.cell_ids = list(self.cells.keys())
 
     def evolve_topology(self):
@@ -42,12 +44,20 @@ class ResonantColony:
     def pulse_colony(self, external_stimulus: Dict[str, np.ndarray]):
         """
         군집 전체에 맥동을 전달합니다.
-        외부 자극은 특정 세포에 주입될 수도 있고, 전체에 분산될 수도 있습니다.
+        [Imagination Integration] 현재의 자극을 'Possibility' 필드에 투사하여
+        가상의 미래 위상을 시뮬레이션합니다.
         """
         # 1. 개별 세포의 독립적 처리 및 전파
         for cid, stimulus in external_stimulus.items():
             if cid in self.cells:
                 self.cells[cid].inject_activation(stimulus[:2], stimulus[2])
+
+            # [The Seed of Imagination]
+            # 모든 외부 자극은 'Possibility' 필드에도 미세하게 전달되어
+            # "만약에(What-if)"라는 예측적 장력을 유발합니다.
+            for pid in self.cell_ids:
+                if "Possibility" in pid:
+                    self.cells[pid].inject_activation(stimulus[:2], stimulus[2] * 0.3)
 
         for cell in self.cells.values():
             cell.propagate()

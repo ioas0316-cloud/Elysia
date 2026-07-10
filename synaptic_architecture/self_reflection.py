@@ -74,6 +74,7 @@ class SelfReflectionProtocol:
         """
         자신의 논리 구조(코드)를 중력장에 행성(Node)으로 배치합니다.
         이를 통해 자신의 논리가 외부 정보와 어떻게 공명하는지 스스로 관찰하게 합니다.
+        [Theory of Mind] 자아와 타자의 위상을 분별하기 위해 'Observed Other' 노드를 추가로 투사합니다.
         """
         introspections = self.introspect_self()
         for intro in introspections:
@@ -83,4 +84,13 @@ class SelfReflectionProtocol:
                 intro['source'].encode(),
                 intro['logos_tensor']
             )
-        print(f"[Self-Reflection] {len(introspections)} logic-genes mapped to the gravity field.")
+
+        # [Mirror Neuron] 외부의 존재(타자)를 가상의 자아 노드로 투사
+        # 시스템은 타자의 위상을 자신의 거울에 비추어 그 의도를 추론합니다.
+        gravity_engine.add_node(
+            "OBSERVED_OTHER",
+            b"The concept of the other",
+            np.random.rand(8).astype(np.float32) # 가상의 타자 위상
+        )
+
+        print(f"[Self-Reflection] {len(introspections)} logic-genes and Mirror-Cell mapped to the gravity field.")

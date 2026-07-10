@@ -40,9 +40,11 @@ from core.power.mega_scale_damper import MegaScaleDamperCore
 from synaptic_architecture.field import CrystallizationField
 from synaptic_architecture.colony import ResonantColony
 from synaptic_architecture.causal_gene import GeneticSynthesizer
+from synaptic_architecture.narrative_domino import NarrativeDominoKernel
 from synaptic_architecture.resistance_bridge import ResistanceBridge
 from synaptic_architecture.self_reflection import SelfReflectionProtocol
 from core.ingestion.realtime_harvester import RealTimeHarvester
+from core.intelligence.entelechy import EntelechyEngine
 import asyncio
 
 
@@ -108,6 +110,8 @@ class ConsciousnessLoop:
         self.reflection  = SelfReflectionProtocol()
         self.synthesizer = GeneticSynthesizer()
         self.harvester_ocean = RealTimeHarvester()
+        self.entelechy   = EntelechyEngine(num_perspectives=len(self.colony.cells))
+        self.narrative   = NarrativeDominoKernel(self.field)
 
         # 엔진에 기본 감각 중추 부착
         # ── 전원 역학 댐퍼 (Master's Regulation) ──────────────
@@ -196,6 +200,11 @@ class ConsciousnessLoop:
 
         # [Bridge Restoration] Restore primary cell for main logic
         self.bridge.field = self.field
+
+        # [Entelechy] 내적 동기에 따른 가소성 조절
+        # 이전 사이클의 공명도를 바탕으로 결핍을 느끼고 의도를 생성
+        # (첫 사이클은 중립)
+        self.entelechy.drive_field_modification(list(self.colony.cells.values()))
 
         # 군집 맥동 및 공명 진화
         self.colony.pulse_colony({})
@@ -328,6 +337,19 @@ class ConsciousnessLoop:
         # ── 10. 에너지 흐름 피드백 (Self-Reflection) ─────────
         duration = time.time() - start_time
         self.reflection.track_flow(__file__, duration, exception=error_occured)
+
+        # [Narrative Domino] 서사적 통합 집행
+        # 공명이 발생한 경우 이를 서사적 도미노로 필드 전체에 확산
+        if is_resonant:
+            idx = np.argmax(self.field.activation)
+            y, x = np.unravel_index(idx, self.field.activation.shape)
+            gene = self.field.bit_genes[y, x]
+            self.narrative.trigger_hierarchical_domino({"macro": gene, "micro": gene}, np.array([y, x]))
+
+        # [Entelechy Update] 현재의 공명도를 엔진에 피드백
+        # 각 필드의 최대 활성도를 공명 대용치로 사용
+        cell_activations = np.array([np.max(c.activation) for c in self.colony.cells.values()])
+        self.entelechy.feel_deficiency(cell_activations / (np.max(cell_activations) + 1e-9))
 
         # [Least Action Principle] 가치 발견 및 유전적 진화
         # 에너지가 가장 잘 순환하는 지점을 발견하고 새로운 논리로 승격
