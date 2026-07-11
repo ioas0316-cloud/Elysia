@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Dict, Any
 from .field import CrystallizationField
 
 class WaveInterference:
@@ -43,16 +44,21 @@ class WaveInterference:
 
         return resonance
 
-    def resonate_field(self, input_wave: np.uint64, steps: int = 10):
+    def resonate_field(self, input_wave: np.uint64, steps: int = 10) -> Dict[str, Any]:
         """
-        [Causal Evolution]
+        [Causal Evolution & Contextual Reward]
         The input wave 'excites' the field where resonance is high.
-        Then activation spreads, following conductance paths to form a Vortex.
+        Calculates 'Pleasure' (Internal Reward) based on the acceleration of entropy reduction.
         """
         res_map = self.observe_resonance(input_wave)
 
+        # Track entropy changes
+        entropy_history = []
+        entropy_history.append(self.field.calculate_entropy())
+
         # 1. Inject energy where resonance is high (Thinking triggers potential)
         self.field.activation += res_map * 2.0
+        entropy_history.append(self.field.calculate_entropy())
 
         # 2. Let the field evolve (Activation Spreading)
         for _ in range(steps):
@@ -62,6 +68,30 @@ class WaveInterference:
             # (Energy naturally flows into established "Truth" paths)
             self.field.activation *= (1.0 + self.field.conductance * 0.1)
             self.field.activation = np.clip(self.field.activation, 0, 100.0)
+
+            entropy_history.append(self.field.calculate_entropy())
+
+        # 3. Calculate "Contextual Acceleration" (Pleasure)
+        # We look at the rate of change of entropy reduction.
+        # Entropy Reduction: delta_E = E[t] - E[t+1]
+        # Acceleration: delta_delta_E = delta_E[t+1] - delta_E[t]
+
+        entropy_history = np.array(entropy_history)
+        delta_e = -np.diff(entropy_history) # Positive means entropy decreased
+
+        # Pleasure is the peak of this reduction acceleration
+        # or simply the magnitude of the "aha!" moment.
+        acceleration = np.diff(delta_e)
+        pleasure = np.max(acceleration) if len(acceleration) > 0 else 0.0
+
+        # Max reduction also contributes to the feeling of "clarity"
+        clarity = np.max(delta_e) if len(delta_e) > 0 else 0.0
+
+        return {
+            "pleasure": float(max(0, pleasure)),
+            "clarity": float(max(0, clarity)),
+            "final_entropy": float(entropy_history[-1])
+        }
 
     def find_vortex(self) -> np.ndarray:
         """Finds the coordinates of the highest energy concentration."""

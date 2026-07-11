@@ -27,6 +27,8 @@ class NarrativeDiscoveryLens(BaseLens):
         if not raw_bytes:
             return {"success": False, "data": None}
 
+        # Handle the case where we might be decoding something for CausalGravityEngine
+        # which expects a 'tensor' key in the data dict.
         data_size = len(raw_bytes)
         
         # 1. 스케일 결정
@@ -46,12 +48,27 @@ class NarrativeDiscoveryLens(BaseLens):
             "macro": self._extract_macro_gene(raw_bytes)
         }
 
+        # Create a 9D tensor for CausalGravityEngine integration
+        # [micro_high, micro_low, meso_high, meso_low, macro_high, macro_low, 0, 0, causal_density]
+        tensor = [
+            float((genes["micro"] >> 32) & 0xFFFFFFFF) / 0xFFFFFFFF,
+            float(genes["micro"] & 0xFFFFFFFF) / 0xFFFFFFFF,
+            float((genes["meso"] >> 32) & 0xFFFFFFFF) / 0xFFFFFFFF,
+            float(genes["meso"] & 0xFFFFFFFF) / 0xFFFFFFFF,
+            float((genes["macro"] >> 32) & 0xFFFFFFFF) / 0xFFFFFFFF,
+            float(genes["macro"] & 0xFFFFFFFF) / 0xFFFFFFFF,
+            0.5, 0.5, # Placeholders for Continuity/Attribute
+            float(data_size) / 1024.0 # Causal density based on size
+        ]
+
         return {
             "success": True,
             "data": {
                 "current_scale": scale.name,
                 "genes": {k: hex(v) for k, v in genes.items()},
-                "size": data_size
+                "size": data_size,
+                "tensor": tensor,
+                "causal_density": tensor[8]
             }
         }
 

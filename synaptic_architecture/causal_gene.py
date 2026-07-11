@@ -29,14 +29,16 @@ class GeneticSynthesizer:
     def evolve_principles(self, field_state: Dict[str, Any], colony=None):
         """
         장내의 보텍스(Vortices)들을 부모로 삼아 새로운 유전자를 합성합니다.
-        [Structural Birth] 공명도가 높을 경우, 새로운 사유 세포(Field)의 분화를 유도합니다.
+        [Contextual Evolution] 외부의 고정 점수가 아닌, 내부의 '고양감(Pleasure)'을 동력으로 삼습니다.
         """
         vortices = field_state.get("detected_vortices", [])
-        resonance_score = field_state.get("resonance_score", 0.0)
+        pleasure = field_state.get("pleasure", 0.0)
+        clarity = field_state.get("clarity", 0.0)
 
+        # 고정 임계값(0.7) 제거: 상대적인 고양감이 존재하면 진화 시도
         if len(vortices) < 2:
-            # 보텍스가 부족하면 무작위 변이를 통한 새로운 씨앗 생성
-            if resonance_score > 0.7:
+            # 고양감이 높으면(새로운 연결의 쾌락) 무작위 변이를 통한 새로운 씨앗 생성
+            if pleasure > 0.01 or clarity > 0.1:
                 new_gene = np.uint64(np.random.randint(0, 2**64, dtype=np.uint64))
             else:
                 return
@@ -47,11 +49,11 @@ class GeneticSynthesizer:
 
         gene_name = f"GENE_{hex(new_gene)}"
         self.gene_pool[gene_name] = new_gene
-        print(f"[Genetic Synthesis] New Logical Species evolved: {gene_name}")
+        print(f"[Genetic Synthesis] New Logical Species evolved through internal pleasure ({pleasure:.4f}): {gene_name}")
 
-        # [Structural Birth] 강력한 공명이 발생하면 새로운 사유 세포를 분화
-        if resonance_score > 0.8 and colony is not None:
-            print(f"[Structural Birth] High resonance ({resonance_score:.2f}) detected. Triggering Cell Division.")
+        # [Structural Birth] 강력한 내부적 정렬(Clarity)이 발생하면 새로운 사유 세포를 분화
+        if clarity > 0.5 and colony is not None:
+            print(f"[Structural Birth] High clarity ({clarity:.2f}) detected. Triggering Cell Division.")
             colony.add_cell(parent_id=field_state.get("cell_id"))
 
     def get_active_genes(self) -> List[np.uint64]:

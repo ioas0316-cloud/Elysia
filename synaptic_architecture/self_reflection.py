@@ -21,6 +21,36 @@ class SelfReflectionProtocol:
         self.lens = OntologicalDiscoveryLens()
         # Execution Trace: {path: {calls: int, total_time: float, exceptions: int}}
         self.flow_map: Dict[str, Dict[str, Any]] = {}
+        # Aha Moment History: List of {timestamp, pleasure, logic_path}
+        self.pleasure_history: List[Dict[str, Any]] = []
+
+    def record_pleasure(self, pleasure: float, clarity: float, context: str):
+        """
+        [Meta-Cognitive Reward]
+        Records an 'Aha!' moment. This acts as internal 'Voltage' that
+        reinforces certain thinking patterns.
+        """
+        self.pleasure_history.append({
+            "timestamp": time.time(),
+            "pleasure": pleasure,
+            "clarity": clarity,
+            "context": context
+        })
+        print(f"[Self-Reflection] Recorded Internal Pleasure: {pleasure:.4f} (Clarity: {clarity:.4f})")
+
+    def get_internal_voltage(self) -> float:
+        """
+        Returns the accumulated 'intellectual momentum' or 'hunger' based on history.
+        """
+        if not self.pleasure_history:
+            return 0.0
+        # Decay the impact of old pleasure
+        now = time.time()
+        recent_pleasure = sum(
+            p["pleasure"] * np.exp(-(now - p["timestamp"]) / 60.0) # 1-minute half-life
+            for p in self.pleasure_history
+        )
+        return float(recent_pleasure)
 
     def track_flow(self, file_path: str, duration: float, exception: Optional[Exception] = None):
         """

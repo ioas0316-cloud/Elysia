@@ -30,6 +30,37 @@ class CrystallizationField:
         # Self-Awareness Map (The Mirror)
         self.self_awareness = np.zeros((resolution, resolution), dtype=np.float32)
 
+    def calculate_entropy(self) -> float:
+        """
+        [Cognitive Entropy]
+        Measures the dispersion of energy and the structural resistance of the field.
+        Low Entropy = High Alignment (Vortex formed + High Conductance).
+        """
+        # 1. Activation Entropy (Shannon-like)
+        # Normalize activation to a probability distribution
+        total_act = np.sum(self.activation)
+        if total_act > 1e-9:
+            p = self.activation / total_act
+            # Use a small epsilon to avoid log(0)
+            act_entropy = -np.sum(p * np.log2(p + 1e-12))
+        else:
+            # Maximum entropy when there is no activation (no focus)
+            act_entropy = np.log2(self.resolution * self.resolution)
+
+        # 2. Structural Resistance (Inverse of Conductance)
+        # Higher conductance (G) means lower resistance (R).
+        # We take the mean of 1/G to represent the field's friction.
+        # But since G is [0, 10], we can use a normalized version.
+        avg_conductance = np.mean(self.conductance)
+        resistance_factor = 1.0 / (1.0 + avg_conductance)
+
+        # 3. Combined Entropy
+        # The goal is to reach a state where energy is focused (Low act_entropy)
+        # and paths are well-worn (Low resistance).
+        # We use addition so that resistance still matters even if activation is perfectly focused.
+        combined = act_entropy + (resistance_factor * 2.0) # Scale resistance impact
+        return float(combined)
+
     def reflect_self_logic(self, pos: np.ndarray, intensity: float):
         """
         [Neural Synapse Field]
