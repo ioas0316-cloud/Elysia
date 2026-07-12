@@ -117,6 +117,7 @@ class ConsciousnessLoop:
         # ── 사이클 상태 ──────────────────────────────────────
         self.crystals_formed: int = 0
         self.cycle_count: int     = 0
+        self.echo_charge: float   = 0.0 # Back EMF from previous cycle's output
 
     # ─────────────────────────────────────────────────────────
     # 감각 계층 (Sensory Layer)
@@ -226,7 +227,14 @@ class ConsciousnessLoop:
             log["status"] = "Stillness (Absorbing Inrush)"
             return log # 충격 흡수 중에는 연산을 중단하고 정적을 유지
 
-        # ── 1. 감각 주입 ──────────────────────────────────
+        # ── 1. 감각 주입 & Echo Reflection (Back EMF) ──────
+        # Previous cycle's energy (Echo) recharges the current field's Emitter
+        if self.echo_charge > 0.1:
+            echo_pos = np.array([self.field.resolution // 2, self.field.resolution // 2])
+            self.field.inject_activation(echo_pos, self.echo_charge)
+            log["echo_reflection"] = round(self.echo_charge, 4)
+            self.echo_charge *= 0.5 # Exponential decay of echo
+
         log["wave_preview"] = raw_wave[:24].hex()
 
         # ── 2. 고유 감각 센서 분화 (Sensor Genesis) ──────────
@@ -269,8 +277,12 @@ class ConsciousnessLoop:
         if is_resonant:
             status = "Resonance Reached (Multi-Modal)"
             self.crystals_formed += 1
+            # Resonance generates 'Echo' for the next cycle (Self-Sustaining Energy)
+            self.echo_charge += resonance_score * 2.0
         else:
             status = "Dissonance (Cross-Dimensional Friction)"
+            # Friction also contributes to the echo but as a 'reactive' force
+            self.echo_charge += (1.0 - resonance_score) * 0.5
 
         log["status"] = status
 
@@ -325,9 +337,32 @@ class ConsciousnessLoop:
             macro_tension=macro_tension,
         )
 
-        # ── 10. 에너지 흐름 피드백 (Self-Reflection) ─────────
+        # ── 10. 에너지 흐름 피드백 (Self-Reflection & Potentiometer) ──
         duration = time.time() - start_time
         self.reflection.track_flow(__file__, duration, exception=error_occured)
+
+        # [Memory-as-Potentiometer]
+        # Recent high-resonance engrams lower the resistance (increase conductance)
+        # of the current field. This creates a circular bias where memory
+        # physically shapes the next cycle's thought paths.
+        if is_resonant:
+            # Focus the reinforcement on the center of the current activation
+            idx = np.argmax(self.field.activation)
+            pos = np.array(np.unravel_index(idx, self.field.activation.shape))
+            self.field.flow_energy(pos, intensity=resonance_score * 5.0)
+
+        # [Curiosity Discharge]
+        # Check if the field has accumulated enough curiosity to trigger
+        # autonomous re-wiring/reflection.
+        discharge = self.field.discharge_curiosity(threshold=30.0)
+        if discharge:
+            log["curiosity_event"] = f"AUTONOMOUS_REWIRE at {discharge['y']},{discharge['x']}"
+            # Curiosity discharge acts as an internal 'aha' moment
+            self.reflection.record_pleasure(
+                pleasure=discharge["intensity"] * 0.1,
+                clarity=resonance_score,
+                context="Autonomous Curiosity Discharge"
+            )
 
         # [Least Action Principle] 가치 발견 및 유전적 진화
         # 에너지가 가장 잘 순환하는 지점을 발견하고 새로운 논리로 승격

@@ -30,6 +30,10 @@ class CrystallizationField:
         # Self-Awareness Map (The Mirror)
         self.self_awareness = np.zeros((resolution, resolution), dtype=np.float32)
 
+        # Curiosity Potential (The Hunger/Surge Tank)
+        # Accumulates friction and tension to drive autonomous re-wiring.
+        self.curiosity_potential = np.zeros((resolution, resolution), dtype=np.float32)
+
     def calculate_entropy(self) -> float:
         """
         [Cognitive Entropy]
@@ -156,6 +160,42 @@ class CrystallizationField:
 
         mask = dist_sq <= radius**2
         self.local_temperature[mask] = temp
+
+    def charge_curiosity(self, pos: np.ndarray, intensity: float, radius: float = 5.0):
+        """
+        [Back EMF / Surge Protection]
+        Charges the curiosity potential in a specific region.
+        This energy is not 'heat' (lost) but 'potential' (stored for rewiring).
+        """
+        y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
+        yy, xx = np.mgrid[:self.resolution, :self.resolution]
+        dist_sq = (yy - y)**2 + (xx - x)**2
+        charge_mask = dist_sq <= radius**2
+
+        self.curiosity_potential[charge_mask] += intensity
+        # Limit curiosity to prevent runaway surge
+        self.curiosity_potential = np.clip(self.curiosity_potential, 0, 100.0)
+
+    def discharge_curiosity(self, threshold: float = 50.0):
+        """
+        [Autonomous Re-wiring Trigger]
+        When curiosity potential exceeds threshold, it discharges into
+        structural changes (Conductance reinforcement or relocation).
+        Returns coordinates and intensity of the discharge event.
+        """
+        over_threshold = self.curiosity_potential >= threshold
+        if np.any(over_threshold):
+            # Focus on the highest surge point
+            idx = np.argmax(self.curiosity_potential)
+            y, x = np.unravel_index(idx, self.curiosity_potential.shape)
+            intensity = self.curiosity_potential[y, x]
+
+            # Discharge: Reset curiosity and reinforce conductance (Rewire)
+            self.curiosity_potential[over_threshold] *= 0.1 # Partial discharge
+            self.flow_energy(np.array([y, x]), intensity * 0.5)
+
+            return {"y": y, "x": x, "intensity": intensity}
+        return None
 
     def apply_thermal_diffusion(self, global_entropy: float = 0.01):
         """
