@@ -8,6 +8,7 @@ def test_colony_init():
 
 def test_colony_pulse():
     colony = ResonantColony(num_initial_cells=2, resolution=16)
-    stim = {'cell_0': np.array([8, 8, 1.0])}
+    cell_id = colony.cell_ids[0]
+    stim = {cell_id: np.array([8, 8, 1.0])}
     colony.pulse_colony(stim)
-    assert colony.cells['cell_0'].activation[8, 8] > 0
+    assert colony.cells[cell_id].activation[8, 8] > 0

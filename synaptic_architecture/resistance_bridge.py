@@ -61,7 +61,12 @@ class ResistanceBridge:
         center = np.array([self.field.resolution // 2, self.field.resolution // 2])
         self.field.set_local_temperature(center, radius=self.field.resolution, temp=base_temp)
 
-        # 2. Conductance Resistance (Anti-Flow)
+        # 2. Curiosity Potential Charging (Recycling Friction)
+        # Instead of just losing friction as heat, we store it as a 'Surge' in the field.
+        # This energy will later drive autonomous rewiring (Dynamic Rewiring).
+        self.field.charge_curiosity(center, intensity=friction * 10.0, radius=self.field.resolution // 4)
+
+        # 3. Conductance Resistance (Anti-Flow)
         # If friction is extreme, we inject 'Negative Activation' or decay conductance
         if friction > 0.8:
             # Bottleneck: High stress decays existing paths (Overload degradation)
