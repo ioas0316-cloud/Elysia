@@ -70,6 +70,8 @@ class ResonanceTracker:
         status: str,
         crystals_total: int,
         macro_tension: float = 0.0,
+        chromatic_vector: Optional[List[float]] = None,
+        chromatic_awareness: Optional[str] = None,
         extra: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """
@@ -101,6 +103,8 @@ class ResonanceTracker:
             "status": status,
             "crystals_total": crystals_total,
             "macro_tension": round(macro_tension, 6),
+            "chromatic_vector": chromatic_vector,
+            "chromatic_awareness": chromatic_awareness,
         }
         if extra:
             entry["extra"] = extra
