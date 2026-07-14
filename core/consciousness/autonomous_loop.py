@@ -324,6 +324,19 @@ class ConsciousnessLoop:
                     conflicting_trajectory=conflict_q,
                 )
 
+        # ── 7.5 자아 성찰적 튜닝 (Self-Molding/Amnesia) ───────
+        recent_trend = self.tracker.get_trend(n=5)
+        if len(recent_trend) == 5:
+            avg_res = sum(t["resonance_score"] for t in recent_trend) / 5.0
+            if avg_res < RESONANCE_CRISIS_THRESHOLD:
+                log["self_molding"] = "MEDITATION_AND_AMNESIA — 강제 망각 및 가소성 확보"
+                # 캐시(단기 기억) 강제 삭제로 고착화 방지
+                self.cache.memory_map.clear()
+                # 에코 리셋 및 댐퍼 완화
+                self.echo_charge = 0.0
+                if hasattr(self.damper, 'reset_damping'):
+                    self.damper.reset_damping()
+
         # ── 8. 단기 기억 자연 망각 ──────────────────────────
         self.cache.decay_over_time()
 

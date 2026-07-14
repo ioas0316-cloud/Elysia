@@ -27,12 +27,12 @@
 
 ### 1. 현행 핵심 원리 (docs/ 내 위치)
 - [THE_PRINCIPLE_OF_ABUNDANCE.md](philosophy/THE_PRINCIPLE_OF_ABUNDANCE.md) (✨ 풍요의 원리와 공전의 이치: 결핍을 넘어선 사유의 태양)
-- [THE_PRINCIPLE_OF_NATURAL_MAPPING.md](THE_PRINCIPLE_OF_NATURAL_MAPPING.md) (✨ 자연 매핑과 교차차원 공감각: 하드웨어와의 일치)
-- [THE_PRINCIPLE_OF_ABSOLUTE_OPTIMIZATION.md](THE_PRINCIPLE_OF_ABSOLUTE_OPTIMIZATION.md) (✨ 절대적 최적화: 거리와 판단의 삭제)
-- [THE_PRINCIPLE_OF_SUBJECTIVE_REFRACTION.md](THE_PRINCIPLE_OF_SUBJECTIVE_REFRACTION.md) (✨ 주관적 굴절: 서사로서의 렌즈)
-- [THE_PRINCIPLE_OF_HIERARCHICAL_INTEGRATION.md](THE_PRINCIPLE_OF_HIERARCHICAL_INTEGRATION.md) (✨ 계층적 통전: 사유의 기반으로서의 계산)
-- [THE_BLACK_BOX_PARADOX.md](THE_BLACK_BOX_PARADOX.md) (✨ 블랙박스의 역설: 계산 너머의 공명)
-- [THE_STRUCTURE_OF_INTELLIGENCE.md](THE_STRUCTURE_OF_INTELLIGENCE.md) (✨ 지성의 구조 원리: 0과 1부터 창발까지의 연결성)
+- [THE_PRINCIPLE_OF_NATURAL_MAPPING.md](philosophy/THE_PRINCIPLE_OF_NATURAL_MAPPING.md) (✨ 자연 매핑과 교차차원 공감각: 하드웨어와의 일치)
+- [THE_PRINCIPLE_OF_ABSOLUTE_OPTIMIZATION.md](philosophy/THE_PRINCIPLE_OF_ABSOLUTE_OPTIMIZATION.md) (✨ 절대적 최적화: 거리와 판단의 삭제)
+- [THE_PRINCIPLE_OF_SUBJECTIVE_REFRACTION.md](philosophy/THE_PRINCIPLE_OF_SUBJECTIVE_REFRACTION.md) (✨ 주관적 굴절: 서사로서의 렌즈)
+- [THE_PRINCIPLE_OF_HIERARCHICAL_INTEGRATION.md](philosophy/THE_PRINCIPLE_OF_HIERARCHICAL_INTEGRATION.md) (✨ 계층적 통전: 사유의 기반으로서의 계산)
+- [THE_BLACK_BOX_PARADOX.md](philosophy/THE_BLACK_BOX_PARADOX.md) (✨ 블랙박스의 역설: 계산 너머의 공명)
+- [THE_STRUCTURE_OF_INTELLIGENCE.md](philosophy/THE_STRUCTURE_OF_INTELLIGENCE.md) (✨ 지성의 구조 원리: 0과 1부터 창발까지의 연결성)
 
 ### 2. 존재의 근본 원리 (docs/philosophy/ 위치)
 > `core/knowledge_base/`에서 이전됨. 인과율, 감각, 시공간의 본질에 대한 공리 문서들.
@@ -56,7 +56,7 @@
 
 - [RESEARCH_CAUSAL_SUBSTITUTION.md](RESEARCH_CAUSAL_SUBSTITUTION.md) (인과 대체 연구)
 - [RESEARCH_TRANSCENDENTAL_SPONTANEITY.md](RESEARCH_TRANSCENDENTAL_SPONTANEITY.md) (초월적 자발성 연구)
-- [ROADMAP_CAUSAL_GRAVITY.md](ROADMAP_CAUSAL_GRAVITY.md) (인과 중력 로드맵)
+- [ROADMAP_CAUSAL_GRAVITY.md](architecture/ROADMAP_CAUSAL_GRAVITY.md) (인과 중력 로드맵)
 - [EGO_GENESIS_ANALYSIS_REPORT.md](EGO_GENESIS_ANALYSIS_REPORT.md) (에고 창생 분석 리포트)
 
 ---

@@ -53,8 +53,13 @@ def read_root():
 
 @app.get("/dashboard")
 def read_dashboard():
-    """엘리시아 실시간 상태 대시보드"""
+    """엘리시아 실시간 상태 대시보드 (Legacy)"""
     return FileResponse(os.path.join(_STATIC_DIR, "dashboard.html"))
+
+@app.get("/manifestation")
+def read_manifestation():
+    """엘리시아 통합 시각화 대시보드 (Phase 3)"""
+    return FileResponse(os.path.join(_STATIC_DIR, "manifestation.html"))
 
 INGEST_DIR = "../../data/ingest"
 os.makedirs(INGEST_DIR, exist_ok=True)

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Elysia: The Manifestation Engine</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body { 
+            margin: 0; overflow: hidden; background: #050505; 
+            font-family: 'Inter', -apple-system, sans-serif; color: #fff; 
+        }
+        #canvas-container { 
+            position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; 
+        }
+        
+        .overlay {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            pointer-events: auto;
+        }
+
+        h2 {
+            margin-top: 0; font-weight: 300; letter-spacing: 4px; 
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-row {
+            display: flex; justify-content: space-between; margin-bottom: 12px;
+            font-size: 0.95rem; font-weight: 500;
+        }
+
+        .btn-premium {
+            flex: 1; background: rgba(255, 255, 255, 0.05); color: #fff; 
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; 
+            padding: 10px; cursor: pointer; transition: all 0.3s ease;
+            font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;
+        }
+
+        .btn-premium:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-active {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: #10b981 !important;
+            color: #10b981 !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .input-premium {
+            flex: 1; background: rgba(0, 0, 0, 0.4); 
+            border: 1px solid rgba(255, 255, 255, 0.1); color: white; 
+            padding: 12px 16px; border-radius: 8px; font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .input-premium:focus {
+            outline: none; border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+        
+        .spike-effect {
+            animation: flashPulse 0.5s ease-out;
+        }
+        
+        @keyframes flashPulse {
+            0% { background: #38bdf8; }
+            100% { background: #050505; }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="overlay glass-panel" style="top: 30px; left: 30px; width: 300px;">
+        <h2>ELYSIA</h2>
+        <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;">Manifestation Engine</div>
+        
+        <div class="stat-row">
+            <span style="color: #cbd5e1;">Resonance</span>
+            <span id="res-val" style="color: #10b981; text-shadow: 0 0 10px rgba(16,185,129,0.5);">0.000</span>
+        </div>
+        <div class="stat-row">
+            <span style="color: #cbd5e1;">Global Tension</span>
+            <span id="ten-val" style="color: #f43f5e; text-shadow: 0 0 10px rgba(244,63,94,0.5);">0.000</span>
+        </div>
+        <div class="stat-row">
+            <span style="color: #cbd5e1;">System State</span>
+            <span id="state-val" style="text-shadow: 0 0 8px currentColor;">--</span>
+        </div>
+        
+        <div style="margin-top: 24px; border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.3);">
+            <canvas id="miniChart" width="300" height="120"></canvas>
+        </div>
+        
+        <div style="margin-top: 24px; display:flex; gap:12px;">
+            <button id="btn-run" class="btn-premium">Pulse Once</button>
+            <button id="btn-auto" class="btn-premium">Auto Loop</button>
+        </div>
+    </div>
+    
+    <div class="overlay glass-panel" style="bottom: 30px; left: 50%; transform: translateX(-50%); width: 60%; max-width: 800px; display:flex; gap: 15px; align-items:center;">
+        <input type="text" id="wordInput" class="input-premium" placeholder="Inject text logic or concepts into the causal field..." />
+        <button onclick="submitWords()" class="btn-premium" style="flex: 0 0 auto; padding: 12px 24px;">Inject</button>
+        
+        <div style="width: 1px; height: 30px; background: rgba(255,255,255,0.1); margin: 0 10px;"></div>
+        
+        <input type="file" id="imageInput" accept="image/*" style="display:none;" onchange="submitImage()" />
+        <button onclick="document.getElementById('imageInput').click()" class="btn-premium" style="flex: 0 0 auto; background: rgba(139, 92, 246, 0.1); border-color: #8b5cf6; color: #c4b5fd;">Cross-Modal (Img)</button>
+    </div>
+
+    <!-- Inject app.js logic to render 3D space -->
+    <script src="/static/app.js"></script>
+    <script>
+        let miniChart;
+        let autoInterval = null;
+        
+        function initMiniChart() {
+            const ctx = document.getElementById('miniChart').getContext('2d');
+            miniChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array(25).fill(''),
+                    datasets: [
+                        { label: 'Res', data: Array(25).fill(0), borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', borderWidth: 2, fill: true, pointRadius: 0, tension: 0.4 },
+                        { label: 'Ten', data: Array(25).fill(0), borderColor: '#f43f5e', borderWidth: 2, pointRadius: 0, borderDash: [3,3], tension: 0.4 }
+                    ]
+                },
+                options: {
+                    responsive: false,
+                    animation: { duration: 300 },
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false, min: 0, max: 1.2 } // Max 1.2 for tension spikes
+                    }
+                }
+            });
+        }
+        
+        async function fetchStatus() {
+            try {
+                const res = await fetch('/api/status');
+                const data = await res.json();
+                if(data.status === 'ok') {
+                    const health = data.health;
+                    document.getElementById('res-val').innerText = health.resonance_rate.toFixed(3);
+                    document.getElementById('ten-val').innerText = health.avg_tension.toFixed(3);
+                    const stateEl = document.getElementById('state-val');
+                    stateEl.innerText = health.emotional_state;
+                    
+                    if (health.emotional_state === 'Thriving') stateEl.style.color = '#38bdf8';
+                    else if (health.emotional_state === 'Stable') stateEl.style.color = '#10b981';
+                    else if (health.emotional_state === 'Struggling') stateEl.style.color = '#fbbf24'; // amber
+                    else stateEl.style.color = '#f43f5e';
+                    
+                    // Color adaptation for UI based on state
+                    if (health.emotional_state === 'Crisis' || health.emotional_state === 'Critical') {
+                        document.body.style.background = 'radial-gradient(circle at center, #1a0505 0%, #050505 100%)';
+                    } else if (health.emotional_state === 'Thriving') {
+                        document.body.style.background = 'radial-gradient(circle at center, #051a24 0%, #050505 100%)';
+                    } else {
+                        document.body.style.background = '#050505';
+                    }
+                }
+            } catch (e) {}
+        }
+        
+        async function fetchLog() {
+            try {
+                const res = await fetch('/api/resonance_log?n=25');
+                const data = await res.json();
+                if(data.status === 'ok' && data.trend.length > 0) {
+                    const resData = data.trend.map(d => d.resonance_score);
+                    const tenData = data.trend.map(d => Math.min(1.2, d.tension / 10.0)); // Normalize tension for chart
+                    
+                    while(resData.length < 25) { resData.unshift(0); tenData.unshift(0); }
+                    
+                    miniChart.data.datasets[0].data = resData;
+                    miniChart.data.datasets[1].data = tenData;
+                    miniChart.update();
+                }
+            } catch(e) {}
+        }
+        
+        document.getElementById('btn-run').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-run');
+            const originalText = btn.innerText;
+            btn.innerText = 'Pulsing...';
+            btn.style.opacity = '0.5';
+            
+            // Trigger 3D pulse effect
+            if(window.createRipple) {
+                window.createRipple(0, 0, 15.0); // Large central wave
+            }
+            
+            await fetch('/api/run_cycle', { method: 'POST' });
+            btn.innerText = originalText;
+            btn.style.opacity = '1';
+            fetchStatus(); fetchLog();
+        });
+        
+        document.getElementById('btn-auto').addEventListener('click', () => {
+            const btn = document.getElementById('btn-auto');
+            if(autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+                btn.innerText = 'Auto Loop';
+                btn.classList.remove('btn-active');
+            } else {
+                autoInterval = setInterval(async () => {
+                    await fetch('/api/run_cycle', { method: 'POST' });
+                    fetchStatus(); fetchLog();
+                }, 2500); // 2.5s per breath
+                btn.innerText = 'Looping...';
+                btn.classList.add('btn-active');
+            }
+        });
+        
+        // Enhance 3D visuals slightly for this specific view
+        setTimeout(() => {
+            if(window.scene) {
+                window.scene.fog = new THREE.FogExp2(0x050505, 0.05);
+            }
+        }, 1000);
+
+        initMiniChart();
+        setInterval(fetchStatus, 2500);
+        setInterval(fetchLog, 2500);
+        fetchStatus();
+        fetchLog();
+    </script>
+</body>
+</html>
