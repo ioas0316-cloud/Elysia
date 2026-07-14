@@ -8,6 +8,7 @@ from enum import Enum
 from typing import Dict, List, Any
 import sys
 import os
+import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
@@ -90,3 +91,49 @@ class SynestheticEngine:
                     resonating_lenses += 1
                     
         return resonating_lenses / max(1, total_lenses)
+
+    def extract_chromatic_vector(self, observation: dict) -> np.ndarray:
+        """
+        [Chromatic Recognition]
+        모든 관측 결과(마찰, 데이터 밀도, 변동성)를 종합하여
+        시스템의 현재 '사유의 색'을 추출합니다.
+
+        - Red (Flux): 전체적인 활동성 및 데이터 관통력
+        - Blue (Order): 렌즈간의 일관성 및 논리적 안정도
+        - Yellow (Entropy): 마찰의 불규칙성 및 새로운 패턴의 출현
+        """
+        total_tension = 0.0
+        total_lenses = 0
+        resonance = self.calculate_synesthesia(observation)
+
+        for scale, lenses in observation.items():
+            for name, res in lenses.items():
+                total_tension += res.get("tension_value", 0.0)
+                total_lenses += 1
+
+        avg_tension = total_tension / max(1, total_lenses)
+
+        # Red: High resonance + High energy (low tension in specific drive lenses)
+        red = resonance * (1.0 - avg_tension)
+
+        # Blue: High consistency (low tension across the board)
+        blue = 1.0 - avg_tension
+
+        # Yellow: Friction variance (Entropy)
+        # 만약 어떤 렌즈는 공명하고 어떤 렌즈는 심하게 마찰을 겪는다면 변동성이 높은 것
+        tensions = []
+        for scale, lenses in observation.items():
+            for name, res in lenses.items():
+                tensions.append(res.get("tension_value", 0.0))
+
+        yellow = np.std(tensions) if len(tensions) > 1 else 0.0
+
+        # L1 Normalize
+        vec = np.array([red, blue, yellow], dtype=np.float32)
+        norm = np.linalg.norm(vec, ord=1)
+        if norm > 0:
+            vec /= norm
+        else:
+            vec = np.array([0.33, 0.33, 0.34], dtype=np.float32)
+
+        return vec

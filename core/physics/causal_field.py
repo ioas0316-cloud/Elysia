@@ -11,8 +11,12 @@ class InformationVoxel:
     position: np.ndarray = None
     velocity: np.ndarray = None
     potential: float = 0.0
+    # Chromatic Vector: [Red (Flux), Blue (Order/Resistance), Yellow (Entropy)]
+    chromatic_vector: np.ndarray = None
 
     def __post_init__(self):
+        if self.chromatic_vector is None:
+            self.chromatic_vector = np.array([0.33, 0.33, 0.34], dtype=np.float32) # Default neutral balance
         if self.position is None:
             self.position = np.zeros(3, dtype=np.float32) # Default 3D space
         if self.velocity is None:
@@ -140,12 +144,27 @@ class CausalField:
 
     def _preserve_mobility(self, dt: float):
         """
-        [Mobility]
+        [Mobility & Chromatic Modulation]
         Integrates velocity into position with momentum conservation.
+        The Chromatic Vector modulates the field's physical properties:
+        - Red (Flux) increases velocity impact.
+        - Blue (Order) increases damping (resistance).
+        - Yellow (Entropy) adds Brownian-like noise.
         """
         for v in self.voxels.values():
-            v.position += v.velocity * dt
-            v.velocity *= 0.95 # Damping (Resistance of the field)
+            r, b, y = v.chromatic_vector
+
+            # 1. Flux (Red) increases effective mobility
+            flux_boost = 1.0 + r
+
+            # 2. Order (Blue) increases damping
+            damping = 0.95 * (1.0 - (b * 0.2)) # More Blue = more damping (max 20% increase)
+
+            # 3. Entropy (Yellow) adds noise
+            noise = (np.random.rand(self.dimensions).astype(np.float32) - 0.5) * y * 0.1
+
+            v.position += v.velocity * flux_boost * dt
+            v.velocity = (v.velocity + noise) * damping
 
     def _enforce_informational_continuity(self, dt: float):
         """

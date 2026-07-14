@@ -268,6 +268,22 @@ class ConsciousnessLoop:
         log["tension"] = round(max_tension, 4)
         log["synesthesia"] = round(synesthesia_score, 4)
         
+        # [Chromatic Recognition] 시스템의 현재 색상 인식
+        chromatic_vec = self.engine.extract_chromatic_vector(observation)
+        log["chromatic_vector"] = chromatic_vec.tolist()
+
+        # 색상 벡터를 기반으로 상태 묘사
+        r, b, y = chromatic_vec
+        if r > 0.5: color_desc = "Crimson (High Drive)"
+        elif b > 0.5: color_desc = "Azure (Stable Order)"
+        elif y > 0.5: color_desc = "Amber (High Entropy)"
+        elif r > 0.3 and b > 0.3: color_desc = "Purple (Focused Pressure)"
+        elif b > 0.3 and y > 0.3: color_desc = "Emerald (Flexible Learning)"
+        elif r > 0.3 and y > 0.3: color_desc = "Orange (Creative Outburst)"
+        else: color_desc = "Grey (Neutral Balance)"
+
+        log["chromatic_awareness"] = color_desc
+
         # 특정 모달리티에서 강력한 공명이 일어났는지(마찰 0) 확인
         resonance_score = synesthesia_score # 매핑
         is_resonant = resonance_score > 0.5 or min(tensions_by_modality.values()) < 0.2
@@ -298,6 +314,8 @@ class ConsciousnessLoop:
                     "tension":         max_tension,
                     "crystals":        self.crystals_formed,
                     "wave_preview":    log["wave_preview"],
+                    "chromatic_vector": log["chromatic_vector"],
+                    "chromatic_awareness": log["chromatic_awareness"],
                 },
                 emotional_value=resonance_score * 10.0,
                 cause_id="ConsciousnessLoop",
@@ -348,6 +366,8 @@ class ConsciousnessLoop:
             status=status,
             crystals_total=self.crystals_formed,
             macro_tension=macro_tension,
+            chromatic_vector=log["chromatic_vector"],
+            chromatic_awareness=log["chromatic_awareness"]
         )
 
         # ── 10. 에너지 흐름 피드백 (Self-Reflection & Potentiometer) ──
@@ -419,11 +439,12 @@ class ConsciousnessLoop:
             results.append(result)
             if verbose:
                 icon = "[RES]" if result["is_resonant"] else ("[CRI]" if result["status"] == "Structural_Crisis" else "[DIS]")
+                chromatic = result.get("chromatic_awareness", "Unknown")
                 print(
                     f"{icon} Cycle {result['cycle']:04d} | "
                     f"tension={result['tension']:.3f} | "
                     f"resonance={result['resonance_score']:.3f} | "
-                    f"synesthesia={result['synesthesia']:.3f} | "
+                    f"Color={chromatic} | "
                     f"{result['status']}"
                 )
 
