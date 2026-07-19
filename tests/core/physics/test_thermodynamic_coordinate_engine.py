@@ -31,6 +31,7 @@ def test_atom_initialization_and_properties():
     assert atom.mass > 0.0
     assert atom.frequency == 2.5
     assert not atom.is_bound
+    assert len(atom.causal_line) == 1
 
     # Test copy
     atom_copy = atom.copy()
@@ -40,6 +41,7 @@ def test_atom_initialization_and_properties():
     assert atom_copy.P == atom.P
     assert atom_copy.E == atom.E
     assert atom_copy.frequency == atom.frequency
+    assert len(atom_copy.causal_line) == len(atom.causal_line)
 
 
 def test_molecular_synthesis_and_bonding():
@@ -199,20 +201,47 @@ def test_causal_curvature_warping():
     # Setup environment
     env = ThermodynamicEnvironment(size=8)
 
-    # Heavy concept node at T=5.0, P=5.0, E=5.0 with mass = 20.0 (simulated via atom)
+    # Heavy concept node at T=5.0, P=5.0, E=5.0 with mass = 20.0
     heavy_node = ThermodynamicAtom(id="heavy", content="universe", tensor=np.zeros(9), T=5.0, P=5.0, E=5.0, entropy=0.01)
     heavy_node.mass = 20.0
 
     env.inject_atom(heavy_node)
 
-    # Before step, check the center of P_field
     tx = int(5.0 * 7 / 10.0)
     px = int(5.0 * 7 / 10.0)
     initial_P = env.P_field[tx, px]
 
-    # Step the ecosystem
     env.step(dt=0.1)
 
-    # High-mass node must warp (increase) the pressure of its local region
     warped_P = env.P_field[tx, px]
     assert warped_P > initial_P
+
+
+def test_dimensional_expansion_line_plane_world():
+    # Setup environment
+    env = ThermodynamicEnvironment(size=8)
+
+    # 1. Dot & Line tests
+    atom_a = ThermodynamicAtom(id="dot_a", content="A", tensor=np.zeros(9), T=2.0, P=2.0, E=1.0)
+    atom_b = ThermodynamicAtom(id="dot_b", content="B", tensor=np.zeros(9), T=2.1, P=2.1, E=1.1)
+
+    env.inject_atom(atom_a)
+    env.inject_atom(atom_b)
+
+    # Initial trajectory has length 1 (post_init)
+    assert len(atom_a.causal_line) == 1
+
+    # Step ecosystem multiple times to record paths (Line)
+    for _ in range(5):
+        env.step(dt=0.1)
+
+    # Line should be tracked/recorded
+    assert len(atom_a.causal_line) > 1
+
+    # 2. Plane/Space test: line crossing/closeness heats/compresses the field
+    # Since they are close (dist < 2.5), they should trigger trajectory interference
+    # Let's verify that local region of the fields has been stimulated above baseline
+    tx = int(2.0 * 7 / 10.0)
+    px = int(2.0 * 7 / 10.0)
+    assert env.T_field[tx, px] > 1.0  # Locally heated
+    assert env.P_field[tx, px] > 1.0  # Locally compressed
