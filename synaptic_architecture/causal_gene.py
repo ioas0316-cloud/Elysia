@@ -1,60 +1,68 @@
 import numpy as np
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
+from core.physics.causal_field import CausalField
 
-class GeneticSynthesizer:
+class CausalGeneSynthesizer:
     """
-    [Synaptic Architecture] Autonomous Genetic Evolution
-    정보의 파편(Bit-Genes)들을 교차(Crossover)하고 변이(Mutation)시켜
-    새로운 '논리적 종(Logical Species)'을 스스로 번식시킵니다.
-    클래스라는 고정된 틀을 파괴하고, 유동적인 유전자 풀(Gene Pool)을 형성합니다.
+    정보의 유전적 합성 — 난수가 아니라 간섭에서 태어남.
+    두 텐서가 충돌할 때 그 간섭 패턴이 새로운 구조를 만든다.
     """
     def __init__(self):
-        self.gene_pool = {} # Name -> Bit-Gene (uint64)
-
-    def synthesize(self, parent_a: np.uint64, parent_b: np.uint64) -> np.uint64:
+        self.lineage: List[np.ndarray] = []  # 텐서 계보 (dict 대신 구조)
+    
+    def synthesize(self, tensor_a: np.ndarray, tensor_b: np.ndarray) -> np.ndarray:
         """
-        [Crossover] 두 유전 정보를 섞어 새로운 논리를 탄생시킵니다.
+        두 정보 텐서의 간섭 패턴으로 새로운 텐서를 합성.
+        교차(Crossover) = 기하학적 중첩, 변이(Mutation) = 직교 성분
         """
-        mask = np.uint64(0xFFFFFFFF00000000)
-        # 상위 32비트와 하위 32비트를 교차 결합
-        child = (parent_a & mask) | (parent_b & ~mask)
-
-        # [Mutation] 낮은 확률로 비트 변이 발생 (영감/노이즈)
-        if np.random.random() < 0.05:
-            mutation_bit = np.uint64(1 << np.random.randint(0, 64))
-            child ^= mutation_bit
-
+        # 공명 성분: 두 텐서가 같은 방향을 향하는 부분
+        resonance = np.dot(tensor_a, tensor_b) / (np.linalg.norm(tensor_a) * np.linalg.norm(tensor_b) + 1e-9)
+        
+        # 간섭 패턴: 합과 차의 조합
+        constructive = (tensor_a + tensor_b) * 0.5           # 보강 간섭
+        destructive = np.abs(tensor_a - tensor_b) * 0.5      # 상쇄 간섭
+        
+        # 새 텐서 = 공명이 강하면 보강이 지배, 약하면 상쇄가 지배
+        blend = np.clip(resonance, 0, 1)
+        child = constructive * blend + destructive * (1.0 - blend)
+        
+        # 직교 성분 (기존에 없던 차원) = 자연스러운 "변이"
+        # RNG가 아니라 두 부모 텐서의 외적에서 나옴
+        if len(tensor_a) >= 3 and len(tensor_b) >= 3:
+            orthogonal = np.cross(tensor_a[:3], tensor_b[:3])
+            orth_magnitude = np.linalg.norm(orthogonal)
+            if orth_magnitude > 1e-6:
+                # pad or truncate orthogonal to match child length if needed, assuming 3D for now
+                if len(child) > 3:
+                    orth_padded = np.zeros_like(child)
+                    orth_padded[:3] = orthogonal
+                    child += orth_padded / orth_magnitude * 0.1
+                else:
+                    child[:3] += orthogonal[:len(child)] / orth_magnitude * 0.1  # 미세한 직교 편향
+        
+        child = child / (np.linalg.norm(child) + 1e-9)  # 정규화
+        self.lineage.append(child)
         return child
-
-    def evolve_principles(self, field_state: Dict[str, Any], colony=None):
+    
+    def evolve_from_field(self, field: CausalField) -> Optional[np.ndarray]:
         """
-        장내의 보텍스(Vortices)들을 부모로 삼아 새로운 유전자를 합성합니다.
-        [Contextual Evolution] 외부의 고정 점수가 아닌, 내부의 '고양감(Pleasure)'을 동력으로 삼습니다.
+        장의 위상으로부터 진화를 관찰한다.
+        높은 텐션의 빔 양쪽 복셀이 부모가 된다 — 갈등이 가장 큰 곳에서 새로운 것이 태어남.
         """
-        vortices = field_state.get("detected_vortices", [])
-        pleasure = field_state.get("pleasure", 0.0)
-        clarity = field_state.get("clarity", 0.0)
-
-        # 고정 임계값(0.7) 제거: 상대적인 고양감이 존재하면 진화 시도
-        if len(vortices) < 2:
-            # 고양감이 높으면(새로운 연결의 쾌락) 무작위 변이를 통한 새로운 씨앗 생성
-            if pleasure > 0.01 or clarity > 0.1:
-                new_gene = np.uint64(np.random.randint(0, 2**64, dtype=np.uint64))
-            else:
-                return
-        else:
-            v1_gene = np.uint64(int(vortices[0]['resonant_gene'], 16))
-            v2_gene = np.uint64(int(vortices[1]['resonant_gene'], 16))
-            new_gene = self.synthesize(v1_gene, v2_gene)
-
-        gene_name = f"GENE_{hex(new_gene)}"
-        self.gene_pool[gene_name] = new_gene
-        print(f"[Genetic Synthesis] New Logical Species evolved through internal pleasure ({pleasure:.4f}): {gene_name}")
-
-        # [Structural Birth] 강력한 내부적 정렬(Clarity)이 발생하면 새로운 사유 세포를 분화
-        if clarity > 0.5 and colony is not None:
-            print(f"[Structural Birth] High clarity ({clarity:.2f}) detected. Triggering Cell Division.")
-            colony.add_cell(parent_id=field_state.get("cell_id"))
-
-    def get_active_genes(self) -> List[np.uint64]:
-        return list(self.gene_pool.values())
+        # 가장 높은 텐션의 빔을 찾는다
+        max_beam = None
+        max_tension = 0.0
+        for beam in field.beams:
+            if not beam.is_broken and beam.current_tension > max_tension:
+                max_tension = beam.current_tension
+                max_beam = beam
+        
+        if max_beam is None:
+            return None  # 텐션이 없으면 진화할 이유도 없다
+        
+        parent_a = field.voxels[max_beam.source_id]
+        parent_b = field.voxels[max_beam.target_id]
+        
+        new_tensor = self.synthesize(parent_a.tensor, parent_b.tensor)
+        print(f"[Genetic Synthesis] New Logical Species evolved from structural tension ({max_tension:.4f})")
+        return new_tensor

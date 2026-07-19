@@ -172,8 +172,43 @@ class CausalField:
         Interpolates/Predicts states to bridge discrete calculation gaps.
         If a voxel is moving fast, we 'smear' its influence.
         """
-        # This can be implemented as a sub-step or a trajectory projection.
-        pass
+        for voxel in self.voxels.values():
+            speed = np.linalg.norm(voxel.velocity)
+            displacement = speed * dt
+            
+            if displacement < 0.01:
+                continue
+            
+            projected_pos = voxel.position + voxel.velocity * dt
+            
+            for beam in self.beams:
+                if beam.is_broken:
+                    continue
+                
+                partner_id = None
+                if beam.source_id == voxel.id:
+                    partner_id = beam.target_id
+                elif beam.target_id == voxel.id:
+                    partner_id = beam.source_id
+                
+                if partner_id is None:
+                    continue
+                
+                partner = self.voxels[partner_id]
+                projected_dist = float(np.linalg.norm(projected_pos - partner.position))
+                
+                adaptation_rate = float(min(0.3, displacement * 0.1))
+                beam.rest_length += (projected_dist - beam.rest_length) * adaptation_rate
+            
+            trail_strength = float(min(1.0, displacement * 0.5))
+            voxel.potential += trail_strength
+            
+            flux_injection = float(min(0.1, displacement * 0.05))
+            voxel.chromatic_vector[0] = min(1.0, voxel.chromatic_vector[0] + flux_injection)
+            
+            total = float(np.sum(voxel.chromatic_vector))
+            if total > 0:
+                voxel.chromatic_vector /= total
 
     def get_topology(self) -> Dict[str, Any]:
         return {

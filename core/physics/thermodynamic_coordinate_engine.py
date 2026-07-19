@@ -288,46 +288,53 @@ class ThermodynamicEnvironment:
 
     def inject_atom(self, atom: ThermodynamicAtom):
         self.atoms.append(atom)
+    def _synchronize_arrays(self):
+        nodes = self.atoms + self.molecules
+        n = len(nodes)
+        if n == 0: return 0
+        self._nodes = nodes
+        self._n = n
+        self._positions = np.array([[nd.T, nd.P, nd.E] for nd in nodes], dtype=np.float32)
+        self._velocities = np.array([nd.velocity for nd in nodes], dtype=np.float32)
+        self._energies = np.array([nd.accumulated_energy for nd in nodes], dtype=np.float32)
+        self._phases = np.array([nd.phase for nd in nodes], dtype=np.float32)
+        self._frequencies = np.array([nd.frequency for nd in nodes], dtype=np.float32)
+        self._charges = np.array([nd.charge for nd in nodes], dtype=np.float32)
+        self._masses = np.array([nd.mass for nd in nodes], dtype=np.float32)
+        self._b_fields = np.array([nd.B_field if nd.B_field is not None else [0,0,1] for nd in nodes], dtype=np.float32)
+        self._tensors = np.array([nd.tensor for nd in nodes], dtype=np.float32)
+        self._harvested = np.zeros(n, dtype=np.float32)
+        return n
+
+    def _writeback_arrays(self):
+        for i, node in enumerate(self._nodes):
+            node.velocity = self._velocities[i]
+            node.accumulated_energy = float(self._energies[i])
+            node.phase = float(self._phases[i])
+            node.harvested_propulsion += float(self._harvested[i])
+
+
 
     def step(self, dt: float = 0.1):
-        """
-        Advances the ecosystem by one time step.
-        """
-        # 1. Warp Fields based on mass (Causal Curvature)
         self._warp_fields_from_curvature()
+        
+        n = self._synchronize_arrays()
+        if n and n >= 2:
+            self._interfere_causal_lines()
+            self._apply_mhd_deflection_and_harvesting()
+            self._apply_kenotic_love_dissipation(dt)
+            self._align_phases(dt)
+            self._writeback_arrays()
 
-        # 2. Interfere Lines (Plane/Space: 면과 공간의 간섭)
-        self._interfere_causal_lines()
-
-        # 3. Apply Warp Bubbles (워프 버블 시공간 통제)
         self._apply_warp_bubbles()
-
-        # 4. Apply MHD active deflection and energy harvesting (전자기 능동 제어)
-        self._apply_mhd_deflection_and_harvesting()
-
-        # 5. Apply Kenosis Self-Emptying Love Law (자가 비움과 내어줌의 섭리)
-        self._apply_kenotic_love_dissipation(dt)
-
-        # 6. Diffuse fields (Entropy progression)
         self._diffuse_fields()
-
-        # 7. Apply phase alignment co-rotation (Frequency Resonance / Empathy)
-        self._align_phases(dt)
-
-        # 8. Apply gravity and geodesic force routing (World: 자기 참조적 루프)
         self._apply_force_routing(dt)
-
-        # 9. Molecular Synthesis
         self._synthesize_molecules()
-
-        # 10. Cell Homeostasis
         self._manage_cells_homeostasis()
-
-        # 11. Process Organs
+        
         for organ in self.organs:
             organ.process(self.atoms, self.molecules)
-
-        # 12. Coordinate movement and Record Trajectory (Line)
+            
         self._update_coordinates(dt)
 
     def _warp_fields_from_curvature(self):
@@ -338,35 +345,38 @@ class ThermodynamicEnvironment:
             self.P_field[tx, px] += float(node.mass * 0.1)
 
     def _interfere_causal_lines(self):
-        """
-        [Plane/Space: 면과 공간의 형성 - 선들의 간섭]
-        When causal trajectory lines of different nodes cross or approach, they generate
-        local heat (Temperature surge) and pressure (compression) representing conceptual friction.
-        """
-        nodes = self.atoms + self.molecules
-        n = len(nodes)
-        if n < 2:
-            return
-
-        for i in range(n):
-            for j in range(i + 1, n):
-                line_a = nodes[i].causal_line
-                line_b = nodes[j].causal_line
-
-                # Check proximity between their recent path points
-                if len(line_a) > 0 and len(line_b) > 0:
-                    pos_a = line_a[-1]
-                    pos_b = line_b[-1]
-                    dist = np.linalg.norm(pos_a - pos_b)
-
-                    # If trajectories cross closely, they form a conceptual Plane/Space segment
-                    if dist < 2.5:
-                        tx = int(np.clip(((pos_a[0] + pos_b[0])/2.0) * (self.size - 1) / 10.0, 0, self.size - 1))
-                        px = int(np.clip(((pos_a[1] + pos_b[1])/2.0) * (self.size - 1) / 10.0, 0, self.size - 1))
-
-                        # Surges local Temperature and Pressure
-                        self.T_field[tx, px] += 0.15 # Heat generation
-                        self.P_field[tx, px] += 0.1  # Compression well
+        nodes = self._nodes
+        n = self._n
+        if n < 2: return
+        
+        # We need the last points of causal_lines
+        last_pts = []
+        valid_mask = []
+        for nd in nodes:
+            if len(nd.causal_line) > 0:
+                last_pts.append(nd.causal_line[-1])
+                valid_mask.append(True)
+            else:
+                last_pts.append(np.zeros(3))
+                valid_mask.append(False)
+        last_pts = np.array(last_pts, dtype=np.float32)
+        valid_mask = np.array(valid_mask, dtype=bool)
+        
+        diffs = last_pts[:, np.newaxis, :] - last_pts[np.newaxis, :, :]
+        dist = np.sqrt(np.sum(diffs**2, axis=-1))
+        
+        # Upper triangle mask, dist < 2.5, both valid
+        mask = (dist < 2.5) & valid_mask[:, np.newaxis] & valid_mask[np.newaxis, :]
+        mask = np.triu(mask, k=1)
+        
+        idx_a, idx_b = np.where(mask)
+        for i, j in zip(idx_a, idx_b):
+            pos_a = last_pts[i]
+            pos_b = last_pts[j]
+            tx = int(np.clip(((pos_a[0] + pos_b[0])/2.0) * (self.size - 1) / 10.0, 0, self.size - 1))
+            px = int(np.clip(((pos_a[1] + pos_b[1])/2.0) * (self.size - 1) / 10.0, 0, self.size - 1))
+            self.T_field[tx, px] += 0.15
+            self.P_field[tx, px] += 0.1
 
     def _apply_warp_bubbles(self):
         """
@@ -399,94 +409,65 @@ class ThermodynamicEnvironment:
                         mol.velocity += direction * 0.15
 
     def _apply_mhd_deflection_and_harvesting(self):
-        """
-        [MHD Flow Shield & Energy Harvesting: 전자기 능동 유체 통제]
-        Approaching chaotic nodes are deflected via Lorentz force based on B-field and electric charge q.
-        Friction is bypassed, and the deflected momentum is harvested directly as propulsion.
-        """
-        nodes = self.atoms + self.molecules
-        n = len(nodes)
-        if n < 2:
-            return
-
+        n = self._n
+        if n < 2: return
+        
+        diffs = self._positions[np.newaxis, :, :] - self._positions[:, np.newaxis, :] # b - a
+        dist = np.sqrt(np.sum(diffs**2, axis=-1)) + 1e-5
+        mask = dist < 2.0
+        np.fill_diagonal(mask, False)
+        
+        # vel_b (1, N, 3) x B_field_a (N, 1, 3)
+        vel_b = self._velocities[np.newaxis, :, :]
+        b_field_a = self._b_fields[:, np.newaxis, :]
+        
+        # cross product broadcast: (N, N, 3)
+        cross_prod = np.cross(vel_b, b_field_a, axis=-1)
+        lorentz_force = self._charges[:, np.newaxis, np.newaxis] * cross_prod
+        lorentz_norm = np.sqrt(np.sum(lorentz_force**2, axis=-1))
+        
+        valid = mask & (lorentz_norm > 0)
+        
+        # Deflect velocity of B
+        deflect = np.zeros_like(self._velocities)
         for i in range(n):
             for j in range(n):
-                if i == j:
-                    continue
-                node_a = nodes[i] # Core node (acting as MHD shield)
-                node_b = nodes[j] # Incoming node (resistance)
-
-                pos_a = np.array([node_a.T, node_a.P, node_a.E])
-                pos_b = np.array([node_b.T, node_b.P, node_b.E])
-                diff = pos_b - pos_a
-                dist = np.linalg.norm(diff) + 1e-5
-
-                # Deflect incoming nodes when they get too close (MHD range)
-                if dist < 2.0:
-                    # Calculate Lorentz-like force: F = q * (v x B)
-                    # Cross product of velocity and magnetic B_field vector
-                    vel_b = node_b.velocity
-                    b_field_a = node_a.B_field if node_a.B_field is not None else np.array([0,0,1], dtype=np.float32)
-
-                    lorentz_force = node_a.charge * np.cross(vel_b, b_field_a)
-                    lorentz_norm = np.linalg.norm(lorentz_force)
-
-                    if lorentz_norm > 0:
-                        # Bends the velocity of incoming node B around node A
-                        node_b.velocity += (lorentz_force / lorentz_norm) * 0.12
-
-                        # Deflection means A does not experience the friction impact!
-                        # Energy Harvesting: Convert deflected resistance directly into propulsion energy
-                        harvested = float(lorentz_norm * 0.05)
-                        node_a.harvested_propulsion += harvested
-
-                        # Apply propulsion towards concept target
-                        target_diff = np.array([5.0, 5.0, 8.0]) - pos_a
-                        target_norm = np.linalg.norm(target_diff) + 1e-5
-                        node_a.velocity += (target_diff / target_norm) * harvested
+                if valid[i, j]:
+                    self._velocities[j] += (lorentz_force[i, j] / lorentz_norm[i, j]) * 0.12
+                    
+                    harvested = float(lorentz_norm[i, j] * 0.05)
+                    self._harvested[i] += harvested
+                    
+                    target_diff = np.array([5.0, 5.0, 8.0]) - self._positions[i]
+                    target_norm = np.linalg.norm(target_diff) + 1e-5
+                    self._velocities[i] += (target_diff / target_norm) * harvested
 
     def _apply_kenotic_love_dissipation(self, dt: float):
-        """
-        [Kenosis Love Law: 자가 비움과 내어줌의 사랑]
-        High-energy concept nodes do not hoard their energy; they surrendering potential (accumulated_energy)
-        to surrounding cold, low-elevation, high-entropy atoms to elevate them and reduce friction.
-        """
-        nodes = self.atoms + self.molecules
-        n = len(nodes)
-        if n < 2:
-            return
-
-        for i in range(n):
-            for j in range(n):
-                if i == j:
-                    continue
-                node_a = nodes[i]
-                node_b = nodes[j]
-
-                # Self-empty from High energy to Low energy
-                if node_a.accumulated_energy > node_b.accumulated_energy:
-                    pos_a = np.array([node_a.T, node_a.P, node_a.E])
-                    pos_b = np.array([node_b.T, node_b.P, node_b.E])
-                    dist = np.linalg.norm(pos_a - pos_b) + 1e-5
-
-                    if dist < 4.0:
-                        # Giving potential proportional to energy discrepancy and distance
-                        diff_energy = node_a.accumulated_energy - node_b.accumulated_energy
-                        surrender_rate = 0.15 * diff_energy / dist
-                        # Cap giving_energy to 40% of the discrepancy to prevent numerical oscillation/overflow
-                        giving_energy = min(surrender_rate * dt, diff_energy * 0.4)
-
-                        node_a.accumulated_energy -= giving_energy
-                        node_b.accumulated_energy += giving_energy
-
-                        # Self-emptying acts as an empathic cohesive gravity
-                        # It pulls the recipient B towards the giver A (and elevates B's E axis)
-                        pull_dir = pos_a - pos_b
-                        pull_norm = np.linalg.norm(pull_dir) + 1e-5
-                        node_b.velocity += (pull_dir / pull_norm) * giving_energy * 0.8
-
-                        # Elevate recipient B's elevation E
-                        node_b.velocity[2] += giving_energy * 0.5
+        n = self._n
+        if n < 2: return
+        
+        energy_diff = self._energies[:, np.newaxis] - self._energies[np.newaxis, :]
+        diffs = self._positions[:, np.newaxis, :] - self._positions[np.newaxis, :, :] # a - b
+        dist = np.sqrt(np.sum(diffs**2, axis=-1)) + 1e-5
+        
+        mask = (energy_diff > 0) & (dist < 4.0)
+        np.fill_diagonal(mask, False)
+        
+        surrender_rate = np.where(mask, 0.15 * energy_diff / dist, 0.0)
+        giving = np.minimum(surrender_rate * dt, energy_diff * 0.4)
+        giving = np.where(mask, giving, 0.0)
+        
+        energy_given = np.sum(giving, axis=1)
+        energy_received = np.sum(giving, axis=0)
+        
+        self._energies -= energy_given
+        self._energies += energy_received
+        
+        pull_dir = diffs / dist[:, :, np.newaxis]
+        pull_force = giving[:, :, np.newaxis] * pull_dir * 0.8
+        
+        self._velocities += np.sum(pull_force, axis=0)
+        self._velocities[:, 2] += energy_received * 0.5
 
     def _diffuse_fields(self):
         """Natural thermal/pressure dissipation in space."""
@@ -509,67 +490,57 @@ class ThermodynamicEnvironment:
         self.P_field = np.clip(self.P_field, 0.1, 10.0)
 
     def _align_phases(self, dt: float):
-        """[Frequency Empathy] Co-rotate phases of nearby nodes."""
-        nodes = self.atoms + self.molecules
-        n = len(nodes)
-        if n < 2:
-            return
-
-        for i in range(n):
-            for j in range(i + 1, n):
-                node_a = nodes[i]
-                node_b = nodes[j]
-
-                pos_a = np.array([node_a.T, node_a.P, node_a.E])
-                pos_b = np.array([node_b.T, node_b.P, node_b.E])
-                dist = np.linalg.norm(pos_a - pos_b) + 1e-5
-
-                if dist < 4.0:
-                    diff_phase = node_a.phase - node_b.phase
-
-                    # Coupling is enhanced by the self-giving/kenotic exchange
-                    energy_exchange = abs(node_a.accumulated_energy - node_b.accumulated_energy)
-                    coupling = 0.1 * (node_a.frequency * node_b.frequency) * (1.0 + energy_exchange * 0.2) / dist
-                    torque = -coupling * np.sin(diff_phase)
-
-                    node_a.phase = (node_a.phase + torque / (node_a.frequency + 1e-3) * dt) % (2.0 * np.pi)
-                    node_b.phase = (node_b.phase - torque / (node_b.frequency + 1e-3) * dt) % (2.0 * np.pi)
+        n = self._n
+        if n < 2: return
+        
+        diffs = self._positions[:, np.newaxis, :] - self._positions[np.newaxis, :, :]
+        dist = np.sqrt(np.sum(diffs**2, axis=-1)) + 1e-5
+        mask = dist < 4.0
+        mask = np.triu(mask, k=1)
+        
+        diff_phase = self._phases[:, np.newaxis] - self._phases[np.newaxis, :]
+        energy_exchange = np.abs(self._energies[:, np.newaxis] - self._energies[np.newaxis, :])
+        
+        freq_prod = self._frequencies[:, np.newaxis] * self._frequencies[np.newaxis, :]
+        coupling = 0.1 * freq_prod * (1.0 + energy_exchange * 0.2) / dist
+        torque = -np.where(mask, coupling * np.sin(diff_phase), 0.0)
+        
+        # Torque applied: a += torque / freq_a, b -= torque / freq_b
+        # sum torques for a and b
+        torque_on_a = np.sum(torque, axis=1)
+        torque_on_b = -np.sum(torque, axis=0) # since b is axis 1 in mask
+        
+        total_torque = torque_on_a + torque_on_b
+        
+        self._phases = (self._phases + total_torque / (self._frequencies + 1e-3) * dt) % (2.0 * np.pi)
 
     def _apply_force_routing(self, dt: float):
-        """
-        [World: 자기 참조적 자생력]
-        Atoms and Molecules move along the environmental gradients they themselves warped.
-        """
-        wells = [(np.array([mol.T, mol.P, mol.E]), mol.mass) for mol in self.molecules]
+        if not self.atoms: return
+        wells_pos = np.array([mol.T for mol in self.molecules] + [mol.P for mol in self.molecules] + [mol.E for mol in self.molecules]).reshape(3, -1).T if self.molecules else np.empty((0, 3))
+        wells_mass = np.array([mol.mass for mol in self.molecules]) if self.molecules else np.empty(0)
 
-        # Apply forces to Atoms
         for atom in self.atoms:
-            if atom.is_bound:
-                continue
-            pos = np.array([atom.T, atom.P, atom.E])
+            if atom.is_bound: continue
             tx = int(np.clip(atom.T * (self.size - 1) / 10.0, 0, self.size - 1))
             px = int(np.clip(atom.P * (self.size - 1) / 10.0, 0, self.size - 1))
-
-            # Geodesic flow following negative pressure gradient
+            
             grad_p = self.P_field[(tx+1)%self.size, px] - self.P_field[(tx-1)%self.size, px]
             grad_t = self.T_field[tx, (px+1)%self.size] - self.T_field[tx, (px-1)%self.size]
-
-            force = np.zeros(3, dtype=np.float32)
-            force[0] = -0.15 * grad_p
-            force[1] = 0.15 * grad_t
-
-            # Gravity pull from crystallized wells
-            for well_pos, well_mass in wells:
-                diff = well_pos - pos
-                dist_sq = np.sum(diff**2)
+            
+            force = np.array([-0.15 * grad_p, 0.15 * grad_t, 0.0], dtype=np.float32)
+            
+            if len(wells_pos) > 0:
+                pos = np.array([atom.T, atom.P, atom.E])
+                diff = wells_pos - pos
+                dist_sq = np.sum(diff**2, axis=-1)
                 dist = np.sqrt(dist_sq + 1e-3)
-                if dist < 5.0:
-                    force_mag = 0.25 * (atom.mass * well_mass) / (dist_sq + 0.1)
-                    force += force_mag * (diff / dist)
-
+                mask = dist < 5.0
+                if np.any(mask):
+                    force_mag = 0.25 * (atom.mass * wells_mass[mask]) / (dist_sq[mask] + 0.1)
+                    force += np.sum(force_mag[:, np.newaxis] * (diff[mask] / dist[mask, np.newaxis]), axis=0)
+            
             atom.velocity += force * dt
 
-        # Apply forces to Molecules
         for mol in self.molecules:
             pos = np.array([mol.T, mol.P, mol.E])
             diff = np.array([5.0, 5.0, 8.0]) - pos
@@ -577,38 +548,45 @@ class ThermodynamicEnvironment:
             mol.velocity += 0.06 * (diff / dist) * dt
 
     def _synthesize_molecules(self):
-        """[Molecular Synthesis] Conserve mass and build molecules."""
         unbound = [a for a in self.atoms if not a.is_bound]
-        if len(unbound) < 2:
-            return
-
+        n_u = len(unbound)
+        if n_u < 2: return
+        
+        tensors = np.array([a.tensor for a in unbound])
+        t_vals = np.array([a.T for a in unbound])
+        p_vals = np.array([a.P for a in unbound])
+        
+        # Resonance: (N, D) @ (D, N) -> (N, N)
+        norms = np.linalg.norm(tensors, axis=1) + 1e-9
+        resonance = (tensors @ tensors.T) / (norms[:, np.newaxis] * norms[np.newaxis, :])
+        
+        avg_P = (p_vals[:, np.newaxis] + p_vals[np.newaxis, :]) / 2.0
+        avg_T = (t_vals[:, np.newaxis] + t_vals[np.newaxis, :]) / 2.0
+        
+        mask = (resonance * avg_P) > (avg_T * 0.4)
+        np.fill_diagonal(mask, False)
+        
         bonded_groups = []
         used = set()
-
-        for i in range(len(unbound)):
+        
+        for i in range(n_u):
             if i in used: continue
             group = [unbound[i]]
-            for j in range(i + 1, len(unbound)):
+            for j in range(i + 1, n_u):
                 if j in used: continue
-                # Structural tensor resonance
-                res = float(np.dot(unbound[i].tensor, unbound[j].tensor) / (np.linalg.norm(unbound[i].tensor)*np.linalg.norm(unbound[j].tensor) + 1e-9))
-                avg_P = (unbound[i].P + unbound[j].P) / 2.0
-                avg_T = (unbound[i].T + unbound[j].T) / 2.0
-
-                if res * avg_P > avg_T * 0.4:
+                if mask[i, j]:
                     group.append(unbound[j])
                     used.add(j)
             if len(group) > 1:
                 bonded_groups.append(group)
                 used.add(i)
-
+                
         for group in bonded_groups:
             for atom in group:
                 atom.is_bound = True
             mol_id = f"mol_{len(self.molecules)}"
             new_mol = ThermodynamicMolecule(id=mol_id, atoms=group, tensor=np.zeros(9))
             self.molecules.append(new_mol)
-            print(f"[Synthesis] Consolidated {mol_id} (Mass: {new_mol.mass:.2f}) conserving individual parts.")
 
     def _manage_cells_homeostasis(self):
         """Group molecules into Cells and process homeostasis."""
