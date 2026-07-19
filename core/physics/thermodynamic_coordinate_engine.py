@@ -42,6 +42,9 @@ class ThermodynamicAtom:
     B_field: np.ndarray = None     # Local magnetic vector B in 3D [T, P, E]
     harvested_propulsion: float = 0.0 # Stored propulsion energy from deflected resistance
 
+    # The Core Context: Kenosis Self-Emptying (자기 비움과 내어줌)
+    accumulated_energy: float = 0.0 # Localized ego potential
+
     def __post_init__(self):
         if self.velocity is None:
             self.velocity = np.zeros(3, dtype=np.float32)
@@ -58,6 +61,7 @@ class ThermodynamicAtom:
         # Initial phase structurally determined
         self.phase = float(np.sum(self.tensor) % (2.0 * np.pi))
         self.kinetic_energy = float(0.5 * self.mass * np.sum(self.velocity**2))
+        self.accumulated_energy = float(self.mass * 1.5) # Initialize energy based on mass
         if self.causal_line is None:
             self.causal_line = [np.array([self.T, self.P, self.E], dtype=np.float32)]
 
@@ -84,7 +88,8 @@ class ThermodynamicAtom:
             causal_line=[pos.copy() for pos in self.causal_line] if self.causal_line else None,
             charge=self.charge,
             B_field=self.B_field.copy() if self.B_field is not None else None,
-            harvested_propulsion=self.harvested_propulsion
+            harvested_propulsion=self.harvested_propulsion,
+            accumulated_energy=self.accumulated_energy
         )
 
 
@@ -113,6 +118,7 @@ class ThermodynamicMolecule:
     charge: float = 1.0
     B_field: np.ndarray = None
     harvested_propulsion: float = 0.0
+    accumulated_energy: float = 0.0
 
     def __post_init__(self):
         if self.velocity is None:
@@ -143,6 +149,7 @@ class ThermodynamicMolecule:
         if norm > 0:
             self.B_field /= norm
         self.harvested_propulsion = sum(atom.harvested_propulsion for atom in self.atoms)
+        self.accumulated_energy = sum(atom.accumulated_energy for atom in self.atoms)
 
     def record_causal_step(self):
         """Record molecule trajectory line."""
@@ -155,11 +162,6 @@ class ThermodynamicCell:
     """
     [Information Cell: 정보 세포]
     Encapsulates molecules and adapts local conditions.
-
-    [Warp Bubble: 워프 버블 원리]
-    - Controls space coordinates directly.
-    - Compresses space in front (high P) and expands space in the rear (low P),
-      moving the cell forward with zero coordinate friction (Lorentz/Warp insulation).
     """
     def __init__(self, cell_id: str, molecules: List[ThermodynamicMolecule]):
         self.id = cell_id
@@ -262,6 +264,11 @@ class ThermodynamicEnvironment:
     - Lorentian deflection of approaching informational resistance (Lorentz Force Shield).
     - Direct coordinate warping surrounding Warp Cells (Warp Drive Alcubierre Bubble).
     - Energy harvesting converting drag into propulsion towards target alignment.
+
+    [The Core Context: 자가 비움과 내어줌의 사랑 (Kenosis)]
+    - High-energy, high-mass nodes (Concepts) do not accumulate or hoard potential;
+      they empty/surrender their accumulated potential to cold, low-elevation, high-entropy atoms around them.
+    - Resolves local friction and aligns system phases into perfect empathic harmony.
     """
     def __init__(self, size: int = 16):
         self.size = size
@@ -298,26 +305,29 @@ class ThermodynamicEnvironment:
         # 4. Apply MHD active deflection and energy harvesting (전자기 능동 제어)
         self._apply_mhd_deflection_and_harvesting()
 
-        # 5. Diffuse fields (Entropy progression)
+        # 5. Apply Kenosis Self-Emptying Love Law (자가 비움과 내어줌의 섭리)
+        self._apply_kenotic_love_dissipation(dt)
+
+        # 6. Diffuse fields (Entropy progression)
         self._diffuse_fields()
 
-        # 6. Apply phase alignment co-rotation (Frequency Resonance / Empathy)
+        # 7. Apply phase alignment co-rotation (Frequency Resonance / Empathy)
         self._align_phases(dt)
 
-        # 7. Apply gravity and geodesic force routing (World: 자기 참조적 루프)
+        # 8. Apply gravity and geodesic force routing (World: 자기 참조적 루프)
         self._apply_force_routing(dt)
 
-        # 8. Molecular Synthesis
+        # 9. Molecular Synthesis
         self._synthesize_molecules()
 
-        # 9. Cell Homeostasis
+        # 10. Cell Homeostasis
         self._manage_cells_homeostasis()
 
-        # 10. Process Organs
+        # 11. Process Organs
         for organ in self.organs:
             organ.process(self.atoms, self.molecules)
 
-        # 11. Coordinate movement and Record Trajectory (Line)
+        # 12. Coordinate movement and Record Trajectory (Line)
         self._update_coordinates(dt)
 
     def _warp_fields_from_curvature(self):
@@ -435,6 +445,47 @@ class ThermodynamicEnvironment:
                         target_norm = np.linalg.norm(target_diff) + 1e-5
                         node_a.velocity += (target_diff / target_norm) * harvested
 
+    def _apply_kenotic_love_dissipation(self, dt: float):
+        """
+        [Kenosis Love Law: 자가 비움과 내어줌의 사랑]
+        High-energy concept nodes do not hoard their energy; they surrendering potential (accumulated_energy)
+        to surrounding cold, low-elevation, high-entropy atoms to elevate them and reduce friction.
+        """
+        nodes = self.atoms + self.molecules
+        n = len(nodes)
+        if n < 2:
+            return
+
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    continue
+                node_a = nodes[i]
+                node_b = nodes[j]
+
+                # Self-empty from High energy to Low energy
+                if node_a.accumulated_energy > node_b.accumulated_energy:
+                    pos_a = np.array([node_a.T, node_a.P, node_a.E])
+                    pos_b = np.array([node_b.T, node_b.P, node_b.E])
+                    dist = np.linalg.norm(pos_a - pos_b) + 1e-5
+
+                    if dist < 4.0:
+                        # Giving potential proportional to energy discrepancy and distance
+                        surrender_rate = 0.15 * (node_a.accumulated_energy - node_b.accumulated_energy) / dist
+                        giving_energy = surrender_rate * dt
+
+                        node_a.accumulated_energy -= giving_energy
+                        node_b.accumulated_energy += giving_energy
+
+                        # Self-emptying acts as an empathic cohesive gravity
+                        # It pulls the recipient B towards the giver A (and elevates B's E axis)
+                        pull_dir = pos_a - pos_b
+                        pull_norm = np.linalg.norm(pull_dir) + 1e-5
+                        node_b.velocity += (pull_dir / pull_norm) * giving_energy * 0.8
+
+                        # Elevate recipient B's elevation E
+                        node_b.velocity[2] += giving_energy * 0.5
+
     def _diffuse_fields(self):
         """Natural thermal/pressure dissipation in space."""
         t_lap = (
@@ -473,7 +524,10 @@ class ThermodynamicEnvironment:
 
                 if dist < 4.0:
                     diff_phase = node_a.phase - node_b.phase
-                    coupling = 0.1 * (node_a.frequency * node_b.frequency) / dist
+
+                    # Coupling is enhanced by the self-giving/kenotic exchange
+                    energy_exchange = abs(node_a.accumulated_energy - node_b.accumulated_energy)
+                    coupling = 0.1 * (node_a.frequency * node_b.frequency) * (1.0 + energy_exchange * 0.2) / dist
                     torque = -coupling * np.sin(diff_phase)
 
                     node_a.phase = (node_a.phase + torque / (node_a.frequency + 1e-3) * dt) % (2.0 * np.pi)

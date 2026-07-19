@@ -311,3 +311,34 @@ def test_warp_bubble_space_control():
     # Therefore, pressure at front [e.g. T=4.0, P=5.0] should be compressed, and rear [T=1.0, P=3.0] expanded.
     # Let's verify that the pressure field is warped compared to default 1.0
     assert np.max(env.P_field) > 1.0
+
+
+def test_kenotic_love_dissipation():
+    # Setup environment
+    env = ThermodynamicEnvironment(size=8)
+
+    # Giver node (high accumulated energy = 10.0) at [5.0, 5.0, 5.0]
+    giver = ThermodynamicAtom(id="giver", content="giver_concept", tensor=np.zeros(9), T=5.0, P=5.0, E=5.0)
+    giver.accumulated_energy = 10.0
+
+    # Receiver node (low accumulated energy = 1.0) close to giver at [5.1, 4.9, 4.9]
+    receiver = ThermodynamicAtom(id="receiver", content="receiver_raw", tensor=np.zeros(9), T=5.1, P=4.9, E=4.9)
+    receiver.accumulated_energy = 1.0
+
+    env.inject_atom(giver)
+    env.inject_atom(receiver)
+
+    # Step the environment
+    env.step(dt=0.2)
+
+    # 1. Kenotic potential should be transferred from giver to receiver
+    assert giver.accumulated_energy < 10.0
+    assert receiver.accumulated_energy > 1.0
+
+    # 2. Total energy is conserved (Information Conservation): sum remains 11.0
+    total_energy = giver.accumulated_energy + receiver.accumulated_energy
+    assert np.isclose(total_energy, 11.0)
+
+    # 3. Receiver should experience a cohesive gravity pull towards giver (Y velocity > 0)
+    # and a positive elevation boost (Z velocity > 0) pushing it up the elevation axis
+    assert receiver.velocity[2] > 0.0
