@@ -471,8 +471,10 @@ class ThermodynamicEnvironment:
 
                     if dist < 4.0:
                         # Giving potential proportional to energy discrepancy and distance
-                        surrender_rate = 0.15 * (node_a.accumulated_energy - node_b.accumulated_energy) / dist
-                        giving_energy = surrender_rate * dt
+                        diff_energy = node_a.accumulated_energy - node_b.accumulated_energy
+                        surrender_rate = 0.15 * diff_energy / dist
+                        # Cap giving_energy to 40% of the discrepancy to prevent numerical oscillation/overflow
+                        giving_energy = min(surrender_rate * dt, diff_energy * 0.4)
 
                         node_a.accumulated_energy -= giving_energy
                         node_b.accumulated_energy += giving_energy

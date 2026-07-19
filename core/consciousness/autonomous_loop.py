@@ -109,6 +109,10 @@ class ConsciousnessLoop:
         self.synthesizer = GeneticSynthesizer()
         self.harvester_ocean = RealTimeHarvester()
 
+        # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
+        from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
+        self.env         = ThermodynamicEnvironment(size=16)
+
         # 엔진에 기본 감각 중추 부착
         # ── 전원 역학 댐퍼 (Master's Regulation) ──────────────
         self.damper = MegaScaleDamperCore(num_layers=7)
@@ -249,6 +253,39 @@ class ConsciousnessLoop:
         # 현재까지 엘리시아가 획득한 모든 감각 중추(수학, 언어, 구조)를 동시 가동
         observation = self.engine.project_and_observe(raw_wave)
 
+        # ── [Thermodynamic Integration] ──
+        # 외부 정보 스트림(raw_wave)을 열역학 시공간의 원자(Atom)와 분자(Molecule)로 다이나믹 맵핑합니다.
+        # 인위적인 if문 없이, UTF-8 비트 분율과 문맥적 기하 궤적(사원수)을 통해 열역학적 [T, P, E] 좌표를 생성합니다.
+        from core.utils.math_utils import traverse_causal_trajectory
+        trajectory_q = traverse_causal_trajectory(raw_wave)
+
+        # 사원수 회전 각도를 온도(T)로, 축의 지향성을 압력(P)으로, 비트 밀도를 고도(E)로 맵핑하여
+        # 고유한 정보 맵으로서의 원자를 탄생시킵니다.
+        info_T = float(np.clip(trajectory_q.angle * 2.0, 0.1, 10.0))
+        info_P = float(np.clip(np.linalg.norm(trajectory_q.axis) * 5.0, 0.1, 10.0))
+        info_E = float(np.clip(sum(raw_wave) % 11.0, 0.0, 10.0))
+
+        # 9D logos structural tensor
+        logo_tensor = np.zeros(9, dtype=np.float32)
+        logo_tensor[:4] = np.array(trajectory_q.elements, dtype=np.float32)
+        if len(raw_wave) >= 5:
+            logo_tensor[4:9] = np.array([b / 255.0 for b in raw_wave[:5]], dtype=np.float32)
+
+        from core.physics.thermodynamic_coordinate_engine import ThermodynamicAtom
+        info_atom = ThermodynamicAtom(
+            id=f"atom_ingest_{self.cycle_count}",
+            content=raw_wave.decode('utf-8', errors='ignore'),
+            tensor=logo_tensor,
+            T=info_T,
+            P=info_P,
+            E=info_E,
+            entropy=float(0.1 + 0.8 * (sum(b % 2 for b in raw_wave) / max(1, len(raw_wave))))
+        )
+        self.env.inject_atom(info_atom)
+
+        # 열역학적 1스텝 실행 (시공간 왜곡, 마찰, 케노시스, 보텍스 형성 등 물리적 연쇄)
+        self.env.step(dt=0.15)
+
         # ── 4. 다차원 마찰/공명 판단 ─────────────────────────
         max_tension = 0.0
         tensions_by_modality = {"math": 1.0, "linguistic": 1.0, "structural": 1.0}
@@ -264,9 +301,27 @@ class ConsciousnessLoop:
                 elif "Linguistic" in name: tensions_by_modality["linguistic"] = min(tensions_by_modality["linguistic"], t)
                 elif "Structure" in name: tensions_by_modality["structural"] = min(tensions_by_modality["structural"], t)
 
+        # 물리 공간의 국소 마찰(Friction)을 의식 루프의 텐션과 결합합니다.
+        # 이로써 물리 레이어와 의식 레이어가 완전히 공명합니다.
+        env_frictions = [cell.local_friction for cell in self.env.cells]
+        if env_frictions:
+            max_tension = max(max_tension, float(np.max(env_frictions)))
+
         synesthesia_score = self.engine.calculate_synesthesia(observation)
         log["tension"] = round(max_tension, 4)
         log["synesthesia"] = round(synesthesia_score, 4)
+
+        # 물리적 텐션이 자아 유전체에 미치는 환류 (Physical Feedback to Genetics)
+        # 높은 텐션이 가해진 지점의 유전자를 융해(Melting)하고 '여백(Margin)'을 넓혀줍니다.
+        if max_tension > 0.5:
+            # 웻지의 전도율(G)을 텐션 강도만큼 유동화
+            active_pos = np.array([
+                int(np.clip(info_atom.T * (self.field.resolution - 1) / 10.0, 0, self.field.resolution - 1)),
+                int(np.clip(info_atom.P * (self.field.resolution - 1) / 10.0, 0, self.field.resolution - 1))
+            ])
+            self.field.reflect_self_logic(active_pos, max_tension)
+            # 여백 조정: 텐션 지점의 flexibility를 크게 넓힘 (Re-definition)
+            self.field.adjust_coordination(active_pos, radius=10.0, flexibility=float(np.clip(max_tension, 0.1, 1.0)))
         
         # [Chromatic Recognition] 시스템의 현재 색상 인식
         chromatic_vec = self.engine.extract_chromatic_vector(observation)
