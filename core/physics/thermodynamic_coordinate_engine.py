@@ -12,6 +12,11 @@ class ThermodynamicAtom:
     [The Dimension Expansion Specifications]
     1. Dot (점): A stationary gravity source of condensed meaning.
     2. Line (선): Trajectory of temporal causal flows connecting different states.
+
+    [MHD & Warp Drive Specifications: 전자기 유체 역학 및 워프 버블]
+    - Magnetic B-Field Vector and Electric Charge (q).
+    - Undergoes Lorentz force routing to deflect informational resistance.
+    - Energy harvesting: Converts deflected friction into propulsion momentum.
     """
     id: str
     content: Any
@@ -32,11 +37,22 @@ class ThermodynamicAtom:
     # The Second Standard: Causal Line (선: 인과의 흐름)
     causal_line: List[np.ndarray] = None # Trajectory list of [T, P, E] coords over time
 
+    # MHD Electromagnetics (전자기 유체 제어)
+    charge: float = 1.0            # Electric charge q
+    B_field: np.ndarray = None     # Local magnetic vector B in 3D [T, P, E]
+    harvested_propulsion: float = 0.0 # Stored propulsion energy from deflected resistance
+
     def __post_init__(self):
         if self.velocity is None:
             self.velocity = np.zeros(3, dtype=np.float32)
         if self.tensor is None:
             self.tensor = np.zeros(9, dtype=np.float32)
+        if self.B_field is None:
+            # Magnetic field vector derived from the first three structural invariants
+            self.B_field = np.array([self.tensor[0], self.tensor[1], self.tensor[2]], dtype=np.float32)
+            norm = np.linalg.norm(self.B_field)
+            if norm > 0:
+                self.B_field /= norm
         # Mass is proportional to structural density
         self.mass = max(0.1, 1.0 / (self.entropy + 1e-5))
         # Initial phase structurally determined
@@ -65,7 +81,10 @@ class ThermodynamicAtom:
             frequency=self.frequency,
             phase=self.phase,
             kinetic_energy=self.kinetic_energy,
-            causal_line=[pos.copy() for pos in self.causal_line] if self.causal_line else None
+            causal_line=[pos.copy() for pos in self.causal_line] if self.causal_line else None,
+            charge=self.charge,
+            B_field=self.B_field.copy() if self.B_field is not None else None,
+            harvested_propulsion=self.harvested_propulsion
         )
 
 
@@ -90,6 +109,11 @@ class ThermodynamicMolecule:
     phase: float = 0.0
     causal_line: List[np.ndarray] = None
 
+    # MHD parameters aggregated
+    charge: float = 1.0
+    B_field: np.ndarray = None
+    harvested_propulsion: float = 0.0
+
     def __post_init__(self):
         if self.velocity is None:
             self.velocity = np.zeros(3, dtype=np.float32)
@@ -112,6 +136,14 @@ class ThermodynamicMolecule:
         self.frequency = sum(atom.frequency * atom.mass for atom in self.atoms) / (total_mass + 1e-9)
         self.phase = float(np.mean([atom.phase for atom in self.atoms]) % (2.0 * np.pi))
 
+        # Integrate B-field and charges
+        self.charge = sum(atom.charge for atom in self.atoms)
+        self.B_field = np.mean([atom.B_field for atom in self.atoms], axis=0)
+        norm = np.linalg.norm(self.B_field)
+        if norm > 0:
+            self.B_field /= norm
+        self.harvested_propulsion = sum(atom.harvested_propulsion for atom in self.atoms)
+
     def record_causal_step(self):
         """Record molecule trajectory line."""
         self.causal_line.append(np.array([self.T, self.P, self.E], dtype=np.float32))
@@ -122,15 +154,22 @@ class ThermodynamicMolecule:
 class ThermodynamicCell:
     """
     [Information Cell: 정보 세포]
-    Encapsulates molecules and adapts local conditions based on tension.
+    Encapsulates molecules and adapts local conditions.
+
+    [Warp Bubble: 워프 버블 원리]
+    - Controls space coordinates directly.
+    - Compresses space in front (high P) and expands space in the rear (low P),
+      moving the cell forward with zero coordinate friction (Lorentz/Warp insulation).
     """
     def __init__(self, cell_id: str, molecules: List[ThermodynamicMolecule]):
         self.id = cell_id
         self.molecules = molecules
         self.local_friction = 0.0
+        self.warp_bubble_active = False
+        self.warp_velocity = np.zeros(3, dtype=np.float32)
 
     def compute_local_tension(self) -> float:
-        """[Structural Tension] Measures the misalignment between molecules."""
+        """[Structural Tension] Measures misalignment."""
         if len(self.molecules) < 2:
             return 0.0
         tensors = np.array([m.tensor for m in self.molecules])
@@ -139,13 +178,22 @@ class ThermodynamicCell:
         return self.local_friction
 
     def apply_homeostasis(self):
-        """[Homeostatic Feedback] Adaptive T and P based on local tension."""
+        """[Homeostatic Feedback] Adaptive conditions and Warp Bubble triggers."""
         friction = self.compute_local_tension()
+
+        # If friction is low, but we need high-speed alignment, trigger Warp Bubble!
+        if friction < 0.2:
+            self.warp_bubble_active = True
+        else:
+            self.warp_bubble_active = False
+
         for mol in self.molecules:
             if friction > 0.6:
+                # Sadness: cool down & compress
                 mol.T = max(0.1, mol.T * 0.8)
                 mol.P = min(10.0, mol.P + 0.5)
             elif friction < 0.1 and np.linalg.norm(mol.velocity) < 0.1:
+                # Boredom: warm up & expand
                 mol.T = min(10.0, mol.T + 0.4)
                 mol.P = max(0.1, mol.P * 0.9)
 
@@ -209,6 +257,11 @@ class ThermodynamicEnvironment:
     2. Line (선: 인과의 흐름): Historical trajectory splines of coordinates.
     3. Plane/Space (면과 공간: 상호 간섭과 기압): Trajectory line intersections heating and squeezing the field.
     4. World (세계: 자기 참조적 자생력): Unified closed feedback where warped fields guide node movement.
+
+    [MHD Electromagnetics & Warp Bubble]
+    - Lorentian deflection of approaching informational resistance (Lorentz Force Shield).
+    - Direct coordinate warping surrounding Warp Cells (Warp Drive Alcubierre Bubble).
+    - Energy harvesting converting drag into propulsion towards target alignment.
     """
     def __init__(self, size: int = 16):
         self.size = size
@@ -239,26 +292,32 @@ class ThermodynamicEnvironment:
         # 2. Interfere Lines (Plane/Space: 면과 공간의 간섭)
         self._interfere_causal_lines()
 
-        # 3. Diffuse fields (Entropy progression)
+        # 3. Apply Warp Bubbles (워프 버블 시공간 통제)
+        self._apply_warp_bubbles()
+
+        # 4. Apply MHD active deflection and energy harvesting (전자기 능동 제어)
+        self._apply_mhd_deflection_and_harvesting()
+
+        # 5. Diffuse fields (Entropy progression)
         self._diffuse_fields()
 
-        # 4. Apply phase alignment co-rotation (Frequency Resonance / Empathy)
+        # 6. Apply phase alignment co-rotation (Frequency Resonance / Empathy)
         self._align_phases(dt)
 
-        # 5. Apply gravity and geodesic force routing (World: 자기 참조적 루프)
+        # 7. Apply gravity and geodesic force routing (World: 자기 참조적 루프)
         self._apply_force_routing(dt)
 
-        # 6. Molecular Synthesis
+        # 8. Molecular Synthesis
         self._synthesize_molecules()
 
-        # 7. Cell Homeostasis
+        # 9. Cell Homeostasis
         self._manage_cells_homeostasis()
 
-        # 8. Process Organs
+        # 10. Process Organs
         for organ in self.organs:
             organ.process(self.atoms, self.molecules)
 
-        # 9. Coordinate movement and Record Trajectory (Line)
+        # 11. Coordinate movement and Record Trajectory (Line)
         self._update_coordinates(dt)
 
     def _warp_fields_from_curvature(self):
@@ -298,6 +357,83 @@ class ThermodynamicEnvironment:
                         # Surges local Temperature and Pressure
                         self.T_field[tx, px] += 0.15 # Heat generation
                         self.P_field[tx, px] += 0.1  # Compression well
+
+    def _apply_warp_bubbles(self):
+        """
+        [Warp Bubble: 워프 버블 시공간 왜곡 제어]
+        Warp cells manipulate space: compress space in front (+P) and expand behind (-P)
+        along their target trajectory, causing coordinates to glide without friction.
+        """
+        for cell in self.cells:
+            if cell.warp_bubble_active:
+                for mol in cell.molecules:
+                    # Find trajectory direction towards concept alignment [5.0, 5.0, 8.0]
+                    direction = np.array([5.0 - mol.T, 5.0 - mol.P, 8.0 - mol.E])
+                    norm = np.linalg.norm(direction)
+                    if norm > 0:
+                        direction /= norm
+
+                        # Compress in front of molecule: inject pressure in grid
+                        front_pos = np.array([mol.T, mol.P]) + direction[:2] * 1.5
+                        fx = int(np.clip(front_pos[0] * (self.size - 1) / 10.0, 0, self.size - 1))
+                        fy = int(np.clip(front_pos[1] * (self.size - 1) / 10.0, 0, self.size - 1))
+                        self.P_field[fx, fy] = min(10.0, self.P_field[fx, fy] + 1.2) # Compress front
+
+                        # Expand behind molecule: reduce pressure behind
+                        rear_pos = np.array([mol.T, mol.P]) - direction[:2] * 1.5
+                        rx = int(np.clip(rear_pos[0] * (self.size - 1) / 10.0, 0, self.size - 1))
+                        ry = int(np.clip(rear_pos[1] * (self.size - 1) / 10.0, 0, self.size - 1))
+                        self.P_field[rx, ry] = max(0.1, self.P_field[rx, ry] - 0.8)  # Expand rear
+
+                        # Zero out internal drag/friction inside the bubble
+                        mol.velocity += direction * 0.15
+
+    def _apply_mhd_deflection_and_harvesting(self):
+        """
+        [MHD Flow Shield & Energy Harvesting: 전자기 능동 유체 통제]
+        Approaching chaotic nodes are deflected via Lorentz force based on B-field and electric charge q.
+        Friction is bypassed, and the deflected momentum is harvested directly as propulsion.
+        """
+        nodes = self.atoms + self.molecules
+        n = len(nodes)
+        if n < 2:
+            return
+
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    continue
+                node_a = nodes[i] # Core node (acting as MHD shield)
+                node_b = nodes[j] # Incoming node (resistance)
+
+                pos_a = np.array([node_a.T, node_a.P, node_a.E])
+                pos_b = np.array([node_b.T, node_b.P, node_b.E])
+                diff = pos_b - pos_a
+                dist = np.linalg.norm(diff) + 1e-5
+
+                # Deflect incoming nodes when they get too close (MHD range)
+                if dist < 2.0:
+                    # Calculate Lorentz-like force: F = q * (v x B)
+                    # Cross product of velocity and magnetic B_field vector
+                    vel_b = node_b.velocity
+                    b_field_a = node_a.B_field if node_a.B_field is not None else np.array([0,0,1], dtype=np.float32)
+
+                    lorentz_force = node_a.charge * np.cross(vel_b, b_field_a)
+                    lorentz_norm = np.linalg.norm(lorentz_force)
+
+                    if lorentz_norm > 0:
+                        # Bends the velocity of incoming node B around node A
+                        node_b.velocity += (lorentz_force / lorentz_norm) * 0.12
+
+                        # Deflection means A does not experience the friction impact!
+                        # Energy Harvesting: Convert deflected resistance directly into propulsion energy
+                        harvested = float(lorentz_norm * 0.05)
+                        node_a.harvested_propulsion += harvested
+
+                        # Apply propulsion towards concept target
+                        target_diff = np.array([5.0, 5.0, 8.0]) - pos_a
+                        target_norm = np.linalg.norm(target_diff) + 1e-5
+                        node_a.velocity += (target_diff / target_norm) * harvested
 
     def _diffuse_fields(self):
         """Natural thermal/pressure dissipation in space."""

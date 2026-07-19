@@ -239,9 +239,75 @@ def test_dimensional_expansion_line_plane_world():
     assert len(atom_a.causal_line) > 1
 
     # 2. Plane/Space test: line crossing/closeness heats/compresses the field
-    # Since they are close (dist < 2.5), they should trigger trajectory interference
-    # Let's verify that local region of the fields has been stimulated above baseline
     tx = int(2.0 * 7 / 10.0)
     px = int(2.0 * 7 / 10.0)
     assert env.T_field[tx, px] > 1.0  # Locally heated
     assert env.P_field[tx, px] > 1.0  # Locally compressed
+
+
+def test_mhd_lorentz_deflection_and_harvesting():
+    # Fix the numpy random seed to ensure 100% deterministic deflection behavior
+    np.random.seed(42)
+
+    # Setup environment
+    env = ThermodynamicEnvironment(size=8)
+
+    # Core node A with strong charge and defined B_field
+    node_a = ThermodynamicAtom(id="mhd_core", content="A", tensor=np.array([1, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float32), T=3.0, P=3.0, E=3.0, frequency=1.0)
+    node_a.charge = 5.0
+    node_a.B_field = np.array([0, 0, 1.0], dtype=np.float32) # Directed along Z axis
+
+    # Incoming noise node B close to A, moving fast along X axis [5.0, 0.0, 0.0]
+    node_b = ThermodynamicAtom(id="noise", content="B", tensor=np.zeros(9), T=3.1, P=2.9, E=3.1)
+    node_b.velocity = np.array([5.0, 0.0, 0.0], dtype=np.float32)
+
+    env.inject_atom(node_a)
+    env.inject_atom(node_b)
+
+    # Step to trigger MHD interaction
+    env.step(dt=0.1)
+
+    # Lorentz Force F = q * (v x B) should have deflected node B
+    # Since velocity is along X [5.0, 0.0, 0.0] and B_field along Z [0.0, 0.0, 1.0]:
+    # v x B should have a strong non-zero component along -Y axis [0.0, -5.0, 0.0]
+    # Thus B's velocity should have gained a Y component
+    assert abs(node_b.velocity[1]) > 0.01
+
+    # Core node A must have harvested the deflection energy as propulsion
+    assert node_a.harvested_propulsion > 0.0
+    # Core node A should gain propulsion towards target concept alignment [5, 5, 8]
+    assert np.linalg.norm(node_a.velocity) > 0.0
+
+
+def test_warp_bubble_space_control():
+    # Setup environment
+    env = ThermodynamicEnvironment(size=8)
+
+    # Create two molecules close to each other in a cell to activate Warp Bubble
+    tensor_a = np.array([1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], dtype=np.float32)
+    atom1 = ThermodynamicAtom(id="wa1", content="wa1", tensor=tensor_a, T=2.0, P=4.0, E=4.0, is_bound=True)
+    atom2 = ThermodynamicAtom(id="wa2", content="wa2", tensor=tensor_a, T=2.0, P=4.0, E=4.1, is_bound=True)
+    mol1 = ThermodynamicMolecule(id="m1", atoms=[atom1, atom2], tensor=tensor_a.copy(), T=2.0, P=4.0, E=4.0)
+
+    atom3 = ThermodynamicAtom(id="wa3", content="wa3", tensor=tensor_a, T=2.0, P=4.0, E=4.0, is_bound=True)
+    atom4 = ThermodynamicAtom(id="wa4", content="wa4", tensor=tensor_a, T=2.0, P=4.0, E=4.1, is_bound=True)
+    mol2 = ThermodynamicMolecule(id="m2", atoms=[atom3, atom4], tensor=tensor_a.copy(), T=2.0, P=4.0, E=4.05)
+
+    env.molecules.extend([mol1, mol2])
+
+    # Run a step to differentiate cell
+    env.step(dt=0.1)
+    assert len(env.cells) == 1
+
+    cell = env.cells[0]
+    # Under low friction, homeostasis triggers warp bubble
+    cell.warp_bubble_active = True
+
+    # Record pressure field before warp bubble executes
+    env.step(dt=0.1)
+
+    # Warp bubble must warp space: compress front (+P) and expand rear (-P)
+    # Target alignment is [5.0, 5.0, 8.0]. From [2.0, 4.0, 4.0], the front direction is positive along T and P.
+    # Therefore, pressure at front [e.g. T=4.0, P=5.0] should be compressed, and rear [T=1.0, P=3.0] expanded.
+    # Let's verify that the pressure field is warped compared to default 1.0
+    assert np.max(env.P_field) > 1.0
