@@ -19,6 +19,10 @@ class ElysiaCognitiveEngine:
         self.field = CrystallizationField(resolution)
         self.synthesizer = CausalGeneSynthesizer()
 
+        # Quantum Stat Field Integration
+        from core.physics.quantum_stat_field import QuantumStatField
+        self.stat_field = QuantumStatField()
+
         # 2. O(1) Perspective Shift & Rotor Angle (관점의 위상각)
         # 0.0 ~ 2*pi 사이의 위상각. 이 각도가 회전함에 따라 동일한 데이터(Data)가
         # 상이한 정보(Information)적 파동으로 가공되어 투사/해석됩니다.
@@ -153,6 +157,31 @@ class ElysiaCognitiveEngine:
             "collapse_position": win_pos
         }
 
+    def step_stat_field(self, dt: float = 0.1, external_stats: Optional[Dict[str, float]] = None):
+        """
+        [Physical-Cognitive Feedback Loop]
+        Steps the underlying physical Quantum Stat Field.
+        Translates physical tension states (collapse, resonance) into cognitive meaning.
+        """
+        if external_stats:
+            self.stat_field.update_base_stats(external_stats)
+
+        # Run physical step simulation
+        self.stat_field.step(dt)
+
+        catastrophe = self.stat_field.get_catastrophe_vector()
+        if catastrophe.is_collapsed:
+            center = self.resolution // 2
+            self.field.charge_curiosity(np.array([center, center]), intensity=catastrophe.magnitude * 5.0, radius=self.resolution // 4)
+            self._record_meta("STAT_FIELD_COLLAPSE", f"물리 스탯 붕괴 자각 ({catastrophe.type}, 강도: {catastrophe.magnitude:.4f}). 인지 필드에 역류 긴장 에너지가 주입되었습니다.")
+
+        resonances = self.stat_field.evaluate_resonance()
+        for res in resonances:
+            center = self.resolution // 2
+            self.field.adjust_coordination(np.array([center, center]), radius=self.resolution // 3, flexibility=0.8)
+            self.field.inject_activation(np.array([center, center]), intensity=10.0)
+            self._record_meta("STAT_FIELD_RESONANCE", f"스탯 상보적 도약({res['name']}) 활성화! 인지 여백과 전도 활성화가 극대화되었습니다.")
+
     def evaluate_holistic_fit(self) -> Dict[str, Any]:
         """
         [Yeobaek-based Holistic Fit Function]
@@ -183,13 +212,26 @@ class ElysiaCognitiveEngine:
         elif cognitive_entropy > 15.0:
             state = "COGNITIVE_LIMIT (인지적 한계/긴장 상태)"
 
-        self._record_meta("HOLISTIC_EVALUATION", f"사유 지형 평가 완료: 전체 조화도={holistic_score:.4f}, 엔트로피={cognitive_entropy:.2f}, 상태={state}")
+        # Integrate with Quantum Stat Field
+        catastrophe = self.stat_field.get_catastrophe_vector()
+        resonances = self.stat_field.evaluate_resonance()
+
+        if catastrophe.is_collapsed:
+            holistic_score = max(0.0, holistic_score - catastrophe.magnitude)
+            state = f"STAT_COLLAPSE_NEAR_DEATH ({catastrophe.type})"
+
+        if resonances:
+            holistic_score += len(resonances) * 2.0
+            state = f"STAT_RESONANCE_ELEVATION ({resonances[0]['name']})"
+
+        self._record_meta("HOLISTIC_EVALUATION", f"사유 및 스탯 통합 지형 평가 완료: 전체 조화도={holistic_score:.4f}, 엔트로피={cognitive_entropy:.2f}, 상태={state}")
 
         return {
             "holistic_score": holistic_score,
             "cognitive_entropy": float(cognitive_entropy),
             "average_yeobaek": float(avg_yeobaek),
-            "state_description": state
+            "state_description": state,
+            "stat_field_topology": self.stat_field.get_topology()
         }
 
     def _record_meta(self, action: str, description: str):
