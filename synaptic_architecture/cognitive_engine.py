@@ -38,6 +38,18 @@ class ElysiaCognitiveEngine:
         # 시스템 스스로 "내가 지금 어떻게 인지하고 규칙을 조율하고 있는가"에 대한 메타정보
         self.meta_history: List[Dict[str, Any]] = []
 
+        # Crystallized Thoughts Registry (Non-computational flow map)
+        self.crystallized_thoughts: Dict[np.uint64, Dict[str, Any]] = {}
+
+    def crystallize_thought(self, stimulus_wave: np.uint64, resolved_solution: Dict[str, Any]):
+        """
+        [Crystallized Thought Axis]
+        Crystallizes a resolved cognitive solution for a stimulus.
+        Bypasses active WFC collapse computation entirely when encountered again.
+        """
+        self.crystallized_thoughts[stimulus_wave] = resolved_solution
+        self._record_meta("THOUGHT_CRYSTALLIZATION", f"사유 결합이 영구 결정화되어 축으로 완성되었습니다. 자극({hex(stimulus_wave)})은 이제 연산 없이 흐릅니다.")
+
     def set_perspective(self, name: str, angle: float):
         """
         [O(1) Perspective Shift / Rotor Rotation]
@@ -103,7 +115,15 @@ class ElysiaCognitiveEngine:
         if-else 분기를 배제하고, 입력 자극(Stimulus)과 환경적 구속조건(Constraint Field)이
         만드는 중첩 가능성의 장을 계산한 뒤, 위상 정합성(Resonance)이 가장 극대화되는
         단 하나의 합당한 DNA로 자율 수렴(Collapse)하게 만듭니다.
+
+        [Non-Computational Flow Bypass]
+        If the thought is already crystallized, we bypass the WFC computation loop entirely.
         """
+        if stimulus_wave in self.crystallized_thoughts:
+            solution = self.crystallized_thoughts[stimulus_wave]
+            self._record_meta("CRYSTALLIZED_BYPASS", f"이미 결정화된 사유 축이 자각되었습니다. 자극({hex(stimulus_wave)})에 대해 연산 없이 $O(1)$ 즉시 수렴합니다.")
+            return solution
+
         if not candidate_dnas:
             raise ValueError("[WFC Collapse] 수렴시킬 후보 DNA 군집이 존재하지 않습니다.")
 

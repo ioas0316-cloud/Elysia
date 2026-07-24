@@ -18,12 +18,23 @@ class CatastropheVector:
     magnitude: float   # Severity
     description: str
 
+@dataclass
+class CrystallizedAxis:
+    name: str
+    base_stats_signature: Dict[str, float]  # Normalized base stats
+    node_positions: Dict[str, np.ndarray]    # Stored positions
+
 class QuantumStatField:
     """
     [Quantum Stat Field: 5D Tensegrity Engine]
     Represents player stats not as static values, but as a dynamic tension field.
     The five core stats act as physical nodes in a 3D space interacting via
     Hookean springs, gravitational anchors, and exponential barrier repulsions.
+
+    [Non-Computational Flow]
+    Once a dynamic equilibrium or resonance is achieved and crystallized,
+    future identical configurations bypass the active physics simulation loop
+    and resolve instantly via memory crystallization, embodying "Do not calculate, let it flow."
     """
     def __init__(self, base_stats: Dict[str, float] = None):
         if base_stats is None:
@@ -37,6 +48,8 @@ class QuantumStatField:
 
         self.base_stats = base_stats
         self.nodes: Dict[str, StatNode] = {}
+        self.crystallized_axes: Dict[str, CrystallizedAxis] = {}
+        self.active_axis: Optional[str] = None
 
         # Spring links defining the pentagram + cross-link (Force - Mind)
         # Symmetrical connection pairs
@@ -103,8 +116,59 @@ class QuantumStatField:
                 self.nodes[name].base_value = val
                 self.nodes[name].mass = max(0.1, float(val))
 
+    def crystallize_axis(self, name: str):
+        """
+        Freezes and crystallizes the current dynamic equilibrium of base stats and node positions.
+        Once crystallized, this configuration is retrieved instantly without numerical spring-mass solver.
+        """
+        total_stats = sum(node.base_value for node in self.nodes.values())
+        if total_stats == 0:
+            total_stats = 1e-9
+
+        signature = {k: v / total_stats for k, v in self.base_stats.items()}
+        positions = {k: node.position.copy() for k, node in self.nodes.items()}
+
+        self.crystallized_axes[name] = CrystallizedAxis(
+            name=name,
+            base_stats_signature=signature,
+            node_positions=positions
+        )
+
+    def _find_matching_crystallized_axis(self) -> Optional[str]:
+        """Checks if current base stats match any crystallized axis signature within 1% tolerance."""
+        total_stats = sum(self.base_stats.values())
+        if total_stats == 0:
+            total_stats = 1e-9
+
+        current_sig = {k: v / total_stats for k, v in self.base_stats.items()}
+
+        for name, axis in self.crystallized_axes.items():
+            match = True
+            for k, val in current_sig.items():
+                ref_val = axis.base_stats_signature.get(k, 0.0)
+                if abs(val - ref_val) > 0.01:
+                    match = False
+                    break
+            if match:
+                return name
+        return None
+
     def step(self, dt: float = 0.1):
-        """Runs one step of the physical tensegrity simulation."""
+        """Runs one step of the physical tensegrity simulation, bypassing if crystallized axis matched."""
+        # Check if we can bypass active computation using Crystallized Axis
+        matched_axis_name = self._find_matching_crystallized_axis()
+        if matched_axis_name:
+            self.active_axis = matched_axis_name
+            axis = self.crystallized_axes[matched_axis_name]
+            # Zero out forces and velocities, and snap positions instantly (Do not calculate, let it flow)
+            for name, node in self.nodes.items():
+                node.position = axis.node_positions[name].copy()
+                node.velocity.fill(0.0)
+                node.force.fill(0.0)
+            return
+
+        self.active_axis = None
+
         # Reset forces
         for node in self.nodes.values():
             node.force.fill(0.0)
@@ -341,5 +405,6 @@ class QuantumStatField:
                 } for name, node in self.nodes.items()
             },
             "catastrophe": self.get_catastrophe_vector().__dict__,
-            "resonance": self.evaluate_resonance()
+            "resonance": self.evaluate_resonance(),
+            "active_axis": self.active_axis
         }
