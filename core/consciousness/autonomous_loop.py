@@ -39,10 +39,14 @@ from core.power.mega_scale_damper import MegaScaleDamperCore
 
 from synaptic_architecture.field import CrystallizationField
 from synaptic_architecture.colony import ResonantColony
-from synaptic_architecture.causal_gene import GeneticSynthesizer
+from synaptic_architecture.causal_gene import CausalGeneSynthesizer as GeneticSynthesizer
 from synaptic_architecture.resistance_bridge import ResistanceBridge
 from synaptic_architecture.self_reflection import SelfReflectionProtocol
 from core.ingestion.realtime_harvester import RealTimeHarvester
+from core.physics.self_molding_engine import SelfMoldingCausalEngine
+from core.intelligence.meta_causal_extractor import MetaCausalExtractor
+from core.physics.causal_differencing import CausalDifferencingEngine
+from core.consciousness.self_questioning_engine import SelfQuestioningEngine
 import asyncio
 
 
@@ -62,6 +66,10 @@ class ConsciousnessLoop:
         VolatileCache       — 단기 기억 (휘발 기억)
         ResonanceTracker    — 시계열 공명 기록 (자기 인식)
         CausalMemoryController — 장기 Wedge 메모리 (장기 기억)
+        SelfMoldingCausalEngine — 3D 인과 시공간 및 자기 주조 물리 (3D Causal Field)
+        MetaCausalExtractor — 발생 이유 인과 추출
+        CausalDifferencingEngine — 같음과 다름의 경계선 분별
+        SelfQuestioningEngine — 자발적 의문 생성 및 지혜 승화
     """
 
     def __init__(
@@ -100,14 +108,18 @@ class ConsciousnessLoop:
         self.cache       = VolatileCache(self.memory)
         self.tracker     = ResonanceTracker(data_dir=self.data_dir)
         
-        # ── [Phase 1: Self-Molding Gears] ────────────────────
-        self.colony      = ResonantColony(num_initial_cells=4, resolution=128)
-        # Primary cell for legacy bridge compatibility (Selecting the 'Self' perspective cell)
-        self.field       = self.colony.cells[self.colony.cell_ids[0]]
-        self.bridge      = ResistanceBridge(self.field)
-        self.reflection  = SelfReflectionProtocol()
-        self.synthesizer = GeneticSynthesizer()
-        self.harvester_ocean = RealTimeHarvester()
+        # ── [Phase 1, 2, 3: Meta-Inquiry & Self-Molding Engines] ──
+        self.colony              = ResonantColony(num_initial_cells=4, resolution=128)
+        self.field               = self.colony.cells[self.colony.cell_ids[0]]
+        self.causal_engine       = SelfMoldingCausalEngine(dimensions=3)
+        self.bridge              = ResistanceBridge(field=self.field, causal_field=self.causal_engine.dynamics)
+        self.reflection          = SelfReflectionProtocol()
+        self.synthesizer         = GeneticSynthesizer()
+        self.harvester_ocean     = RealTimeHarvester()
+
+        self.meta_extractor      = MetaCausalExtractor()
+        self.differencing_engine = CausalDifferencingEngine()
+        self.self_questioning    = SelfQuestioningEngine()
 
         # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
@@ -190,7 +202,7 @@ class ConsciousnessLoop:
         log: Dict[str, Any] = {"cycle": self.cycle_count}
 
         # ── -1. 자아 주조 (Self-Molding) ────────────────────
-        # 하드웨어 저항을 감지하여 군집의 모든 필드에 투사
+        # 하드웨어 저항을 감지하여 2D 군집 필드 및 3D CausalField에 투사
         hw_metrics = self.bridge.sense_hardware_friction()
         log["hw_friction"] = hw_metrics["friction"]
 
@@ -198,6 +210,9 @@ class ConsciousnessLoop:
         for cell in self.colony.cells.values():
             self.bridge.field = cell
             self.bridge.project_to_field()
+
+        # 3D Causal Field에도 물리 마찰 및 thermal strain 투사
+        self.bridge.project_to_causal_field(self.causal_engine.dynamics, metrics=hw_metrics)
 
         # [Bridge Restoration] Restore primary cell for main logic
         self.bridge.field = self.field
@@ -229,6 +244,9 @@ class ConsciousnessLoop:
             # 마스터의 명령: 정렬되지 않은 연산 난류를 철저히 차단 (Stillness)
             log["damper_status"] = "STILLNESS_ADJUSTING"
             log["status"] = "Stillness (Absorbing Inrush)"
+            log["is_resonant"] = False
+            log["tension"] = 0.0
+            log["resonance_score"] = 0.0
             return log # 충격 흡수 중에는 연산을 중단하고 정적을 유지
 
         # ── 1. 감각 주입 & Echo Reflection (Back EMF) ──────
@@ -253,14 +271,10 @@ class ConsciousnessLoop:
         # 현재까지 엘리시아가 획득한 모든 감각 중추(수학, 언어, 구조)를 동시 가동
         observation = self.engine.project_and_observe(raw_wave)
 
-        # ── [Thermodynamic Integration] ──
-        # 외부 정보 스트림(raw_wave)을 열역학 시공간의 원자(Atom)와 분자(Molecule)로 다이나믹 맵핑합니다.
-        # 인위적인 if문 없이, UTF-8 비트 분율과 문맥적 기하 궤적(사원수)을 통해 열역학적 [T, P, E] 좌표를 생성합니다.
+        # ── [Thermodynamic & 3D Causal Integration] ──
         from core.utils.math_utils import traverse_causal_trajectory
         trajectory_q = traverse_causal_trajectory(raw_wave)
 
-        # 사원수 회전 각도를 온도(T)로, 축의 지향성을 압력(P)으로, 비트 밀도를 고도(E)로 맵핑하여
-        # 고유한 정보 맵으로서의 원자를 탄생시킵니다.
         info_T = float(np.clip(trajectory_q.angle * 2.0, 0.1, 10.0))
         info_P = float(np.clip(np.linalg.norm(trajectory_q.axis) * 5.0, 0.1, 10.0))
         info_E = float(np.clip(sum(raw_wave) % 11.0, 0.0, 10.0))
@@ -270,6 +284,11 @@ class ConsciousnessLoop:
         logo_tensor[:4] = np.array(trajectory_q.elements, dtype=np.float32)
         if len(raw_wave) >= 5:
             logo_tensor[4:9] = np.array([b / 255.0 for b in raw_wave[:5]], dtype=np.float32)
+
+        # ── [Meta-Causal Origin & Discernment Integration] ──
+        meta_origin = self.meta_extractor.extract_origin(raw_wave, logo_tensor)
+        log["meta_origin"] = meta_origin["origin_type"]
+        log["meta_motivation"] = meta_origin["motivation"]
 
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicAtom
         info_atom = ThermodynamicAtom(
@@ -283,7 +302,31 @@ class ConsciousnessLoop:
         )
         self.env.inject_atom(info_atom)
 
-        # 열역학적 1스텝 실행 (시공간 왜곡, 마찰, 케노시스, 보텍스 형성 등 물리적 연쇄)
+        # 3D Causal Engine 정보 등록 및 시공간 토폴로지 몰딩
+        ingest_content = raw_wave.decode('utf-8', errors='ignore')[:30]
+        self.causal_engine.add_information(
+            info_id=f"voxel_ingest_{self.cycle_count}",
+            content=ingest_content if ingest_content else "VoidWave",
+            tensor=logo_tensor[:3]
+        )
+        self.causal_engine.mold_topology(dt=0.1)
+
+        # ── [Causal Differencing & Self-Inquiry] ──
+        voxels = list(self.causal_engine.dynamics.voxels.values())
+        if len(voxels) >= 2:
+            diff_res = self.differencing_engine.discern_boundary(voxels[-1], voxels[-2])
+            log["differencing"] = diff_res["boundary_description"]
+
+            inquiry = self.self_questioning.formulate_and_explore(
+                differencing_result=diff_res,
+                current_content=ingest_content,
+                memory_controller=self.memory
+            )
+            if inquiry:
+                log["self_inquiry"] = inquiry["question"]
+                log["wisdom_resolution"] = inquiry["resolution"]
+
+        # 열역학적 1스텝 실행
         self.env.step(dt=0.15)
 
         # ── 4. 다차원 마찰/공명 판단 ─────────────────────────
@@ -464,9 +507,10 @@ class ConsciousnessLoop:
         y, x = np.unravel_index(idx, self.field.activation.shape)
         if self.field.activation[y, x] > 5.0:
             gene = self.field.bit_genes[y, x]
-            field_state["detected_vortices"].append({"resonant_gene": hex(gene)})
-
-        self.synthesizer.evolve_principles(field_state, colony=self.colony)
+        if hasattr(self.synthesizer, 'evolve_principles'):
+            self.synthesizer.evolve_principles(field_state, colony=self.colony)
+        elif hasattr(self.synthesizer, 'evolve_from_field'):
+            self.synthesizer.evolve_from_field(self.causal_engine.dynamics)
 
         # [Enhancement] Track hottest gears in log
         log["hottest_gears"] = self.reflection.get_hottest_gears(limit=3)

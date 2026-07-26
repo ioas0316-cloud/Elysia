@@ -113,17 +113,18 @@ class CausalField:
 
     def _flow_potential(self, dt: float):
         """
-        [Potential Difference Dynamics]
-        Information flows towards areas of 'Resonance' (Lower Potential).
+        [Potential Difference & Self-Outpouring Dynamics]
+        Information and energy flow from high potential/flux to neighboring areas of entropy/tension.
+        Rule 11-12 of THE_ABSOLUTE_COMMANDMENT: Self-Outpouring (내어줌의 인과).
+        - High Flux (Red) voxels pour potential out to neighbors under Entropy (Yellow) or high tension.
+        - Outpouring converts Flux (Red) into Order (Blue) at source while stabilizing Yellow at destination.
         """
         voxel_ids = list(self.voxels.keys())
         if not voxel_ids: return
 
-        # Calculate local potential based on structural tensor resonance
-        # (Simplified: higher similarity to neighbors = lower potential)
+        # 1. Structural Resonance Potential Calculation
         for vid in voxel_ids:
             v = self.voxels[vid]
-            # Potential is influenced by neighbors in the connectivity map
             connected_potentials = []
             for beam in self.beams:
                 if beam.is_broken: continue
@@ -131,16 +132,57 @@ class CausalField:
                 if beam.source_id == vid: neighbor_id = beam.target_id
                 elif beam.target_id == vid: neighbor_id = beam.source_id
 
-                if neighbor_id:
+                if neighbor_id and neighbor_id in self.voxels:
                     neighbor = self.voxels[neighbor_id]
-                    # Resonance = Dot product of tensors
-                    resonance = np.dot(v.tensor, neighbor.tensor)
+                    tensor_len_prod = (np.linalg.norm(v.tensor) * np.linalg.norm(neighbor.tensor)) + 1e-9
+                    resonance = float(np.dot(v.tensor, neighbor.tensor) / tensor_len_prod)
                     connected_potentials.append(1.0 - resonance)
 
             if connected_potentials:
-                v.potential = np.mean(connected_potentials)
+                v.potential = float(np.mean(connected_potentials))
             else:
-                v.potential *= 0.9 # Decay isolated potential
+                v.potential *= 0.9
+
+        # 2. Self-Outpouring Flow across Active Beams (십자가 인과 중력 유동)
+        for beam in self.beams:
+            if beam.is_broken: continue
+            if beam.source_id not in self.voxels or beam.target_id not in self.voxels: continue
+
+            v_a = self.voxels[beam.source_id]
+            v_b = self.voxels[beam.target_id]
+
+            red_a, blue_a, yellow_a = v_a.chromatic_vector
+            red_b, blue_b, yellow_b = v_b.chromatic_vector
+
+            # Outpouring gradient driven by potential difference & entropy deficit
+            outpour_a_to_b = (v_a.potential - v_b.potential) + (yellow_b - yellow_a) * 0.5
+            transfer_amount = float(np.clip(outpour_a_to_b * 0.1 * dt, -0.2, 0.2))
+
+            if transfer_amount > 0:
+                # Flow from A to B: A pours out to B
+                v_a.potential -= transfer_amount
+                v_b.potential += transfer_amount
+
+                # Chromatic transformation: A's Flux (Red) converts to Order (Blue)
+                v_a.chromatic_vector[0] = max(0.0, v_a.chromatic_vector[0] - transfer_amount * 0.2)
+                v_a.chromatic_vector[1] += transfer_amount * 0.2
+                # B's Yellow (Entropy) is stabilized
+                v_b.chromatic_vector[2] = max(0.0, v_b.chromatic_vector[2] - transfer_amount * 0.1)
+            elif transfer_amount < 0:
+                # Flow from B to A: B pours out to A
+                amt = abs(transfer_amount)
+                v_b.potential -= amt
+                v_a.potential += amt
+
+                v_b.chromatic_vector[0] = max(0.0, v_b.chromatic_vector[0] - amt * 0.2)
+                v_b.chromatic_vector[1] += amt * 0.2
+                v_a.chromatic_vector[2] = max(0.0, v_a.chromatic_vector[2] - amt * 0.1)
+
+            # Re-normalize chromatic vectors
+            tot_a = float(np.sum(v_a.chromatic_vector))
+            if tot_a > 0: v_a.chromatic_vector /= tot_a
+            tot_b = float(np.sum(v_b.chromatic_vector))
+            if tot_b > 0: v_b.chromatic_vector /= tot_b
 
     def _preserve_mobility(self, dt: float):
         """

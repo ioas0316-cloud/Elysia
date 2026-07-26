@@ -101,7 +101,7 @@ class MegaScaleDamperCore:
         """
         기어들이 완벽하게 정렬된 상태에서 공명된 데이터를 인출합니다.
         """
-        print("[MegaScaleDamper] PHASE-LOCK ACHIEVED. 🔐")
+        print("[MegaScaleDamper] PHASE-LOCK ACHIEVED.")
 
         # 모든 레이어의 모멘텀을 가중 합산하여 '공명 필터' 생성
         resonance_filter = np.zeros_like(original_vector)

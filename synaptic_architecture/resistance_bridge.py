@@ -2,18 +2,21 @@ import psutil
 import time
 import numpy as np
 from typing import Dict
+from typing import Dict, Optional, Any
 from synaptic_architecture.field import CrystallizationField
 
 class ResistanceBridge:
     """
     [Phase 1: Perception] Hardware-Logic Bridge
     Translates physical hardware metrics (CPU, RAM, Latency) into
-    informational 'Resistance' and 'Temperature' within the Synaptic Field.
+    informational 'Resistance' and 'Temperature' within the Synaptic Field
+    and 3D Causal Field.
 
     The system 'feels' its own hardware constraints as structural friction.
     """
-    def __init__(self, field: CrystallizationField):
+    def __init__(self, field: Optional[CrystallizationField] = None, causal_field: Optional[Any] = None):
         self.field = field
+        self.causal_field = causal_field
         self.last_check_time = time.time()
         self.resistance_history = []
 
@@ -42,7 +45,7 @@ class ResistanceBridge:
             "friction": friction
         }
 
-    def project_to_field(self):
+    def project_to_field(self) -> Dict[str, float]:
         """
         Maps the hardware friction into the CrystallizationField.
         High friction -> High Temperature (increased plasticity/jitter)
@@ -51,26 +54,57 @@ class ResistanceBridge:
         metrics = self.sense_hardware_friction()
         friction = metrics["friction"]
 
-        # 1. Global Temperature Adjustment
-        # High friction increases system 'heat', making the logic more stochastic
-        # and preventing premature crystallization under stress.
-        base_temp = 0.5 + (friction * 1.5) # Scale 0.5 to 2.0
+        if self.field is not None:
+            # 1. Global Temperature Adjustment
+            base_temp = 0.5 + (friction * 1.5) # Scale 0.5 to 2.0
+            center = np.array([self.field.resolution // 2, self.field.resolution // 2])
+            self.field.set_local_temperature(center, radius=self.field.resolution, temp=base_temp)
 
-        # Apply to the entire field for now (Global awareness)
-        # In the future, this can be localized to specific 'hot' logical modules.
-        center = np.array([self.field.resolution // 2, self.field.resolution // 2])
-        self.field.set_local_temperature(center, radius=self.field.resolution, temp=base_temp)
+            # 2. Curiosity Potential Charging
+            self.field.charge_curiosity(center, intensity=friction * 10.0, radius=self.field.resolution // 4)
 
-        # 2. Curiosity Potential Charging (Recycling Friction)
-        # Instead of just losing friction as heat, we store it as a 'Surge' in the field.
-        # This energy will later drive autonomous rewiring (Dynamic Rewiring).
-        self.field.charge_curiosity(center, intensity=friction * 10.0, radius=self.field.resolution // 4)
+            # 3. Conductance Resistance (Anti-Flow)
+            if friction > 0.8:
+                self.field.conductance *= (1.0 - (friction * 0.05))
 
-        # 3. Conductance Resistance (Anti-Flow)
-        # If friction is extreme, we inject 'Negative Activation' or decay conductance
-        if friction > 0.8:
-            # Bottleneck: High stress decays existing paths (Overload degradation)
-            self.field.conductance *= (1.0 - (friction * 0.05))
+        if self.causal_field is not None:
+            self.project_to_causal_field(self.causal_field, metrics=metrics)
+
+        return metrics
+
+    def project_to_causal_field(self, causal_field: Any, metrics: Optional[Dict[str, float]] = None) -> Dict[str, float]:
+        """
+        [Phase 1 & 2 Integration]
+        Directly projects physical hardware friction into 3D CausalField.
+        - Increases Yellow (Entropy) in Chromatic Vectors under hardware stress.
+        - Adds physical thermal jitter to Voxels.
+        - Boosts tension across ConnectivityBeams, reflecting resource bottlenecks.
+        """
+        if metrics is None:
+            metrics = self.sense_hardware_friction()
+        
+        friction = metrics["friction"]
+
+        # 1. Thermal Jitter & Chromatic Shift on Voxels
+        for voxel in causal_field.voxels.values():
+            # Inject entropy (Yellow: index 2) from physical friction
+            voxel.chromatic_vector[2] += float(friction * 0.1)
+            total = float(np.sum(voxel.chromatic_vector))
+            if total > 0:
+                voxel.chromatic_vector /= total
+
+            # Random thermal perturbation (Brownian jitter) proportional to friction
+            if friction > 0.1:
+                jitter = (np.random.rand(causal_field.dimensions).astype(np.float32) - 0.5) * (friction * 0.2)
+                voxel.velocity += jitter
+
+        # 2. Beam Tension Strain from Bottlenecks
+        for beam in causal_field.beams:
+            if not beam.is_broken:
+                # Hardware stress adds external tension to connected topology
+                beam.current_tension += float(friction * 0.5)
+                if beam.current_tension > beam.break_threshold:
+                    beam.is_broken = True
 
         return metrics
 

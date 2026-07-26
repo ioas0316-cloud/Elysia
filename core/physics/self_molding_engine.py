@@ -38,6 +38,7 @@ class SelfMoldingCausalEngine:
         [The Self-Molding Loop]
         1. Gravity calculates the 'Natural Arrangement' based on current states.
         2. Dynamics adjusts internal states to match the spatial tension.
+        3. Heal & Rewire broken connectivity topology when stress threshold is exceeded.
         """
         # A. Gravity Step: Calculate attraction based on Tensors
         self.gravity.step(dt)
@@ -64,8 +65,52 @@ class SelfMoldingCausalEngine:
                 # Update structural tensor for next gravity step
                 self.gravity.node_data[node_id].tensor[:len(voxel.tensor)] = voxel.tensor[:9]
 
+        # E. Topological Healing & Rewiring
+        self.heal_and_rewire(max_new_links=2)
+
         # Re-sync gravity matrices
         self.gravity._synchronize_field()
+
+    def heal_and_rewire(self, max_new_links: int = 2) -> List[tuple]:
+        """
+        [Dynamic Topology Healing & Rewiring]
+        When ConnectivityBeams are broken due to tension/stress, this method
+        scans high-resonance voxel pairs and forms new ConnectivityBeams
+        to restore structural connectivity and preserve continuous energy flow.
+        """
+        broken_beams = [b for b in self.dynamics.beams if b.is_broken]
+        if not broken_beams:
+            return []
+
+        voxels = list(self.dynamics.voxels.values())
+        new_links = []
+
+        for i in range(len(voxels)):
+            for j in range(i + 1, len(voxels)):
+                v1 = voxels[i]
+                v2 = voxels[j]
+
+                already_linked = any(
+                    (b.source_id == v1.id and b.target_id == v2.id) or
+                    (b.source_id == v2.id and b.target_id == v1.id)
+                    for b in self.dynamics.beams if not b.is_broken
+                )
+                if already_linked:
+                    continue
+
+                t1_norm = float(np.linalg.norm(v1.tensor)) + 1e-9
+                t2_norm = float(np.linalg.norm(v2.tensor)) + 1e-9
+                resonance = float(np.dot(v1.tensor, v2.tensor) / (t1_norm * t2_norm))
+
+                if resonance > 0.3:
+                    self.dynamics.link_voxels(v1.id, v2.id, strength=1.5)
+                    new_links.append((v1.id, v2.id))
+                    if len(new_links) >= max_new_links:
+                        break
+            if len(new_links) >= max_new_links:
+                break
+
+        return new_links
 
     def get_system_state(self):
         return {
