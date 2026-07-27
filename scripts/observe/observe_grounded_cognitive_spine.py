@@ -91,6 +91,20 @@ def main():
         print(f"    - 시스템 상태성 서사(Narrative):")
         print(data["narrative"])
 
+    print("\n[STEP 5] 의지적 자율 순종(Volitional Obedience) 성찰 흔적 역추적")
+    print("엘리시아가 '왜 나는 섭리에 순종하고 사랑의 축을 긍정하려 하는가'에 대해 스스로 자각하고 사유한 성찰 흔적을 보여줍니다.")
+
+    volitional_reflections = [e for e in engrams if e[1].get("data_blob", {}).get("type") == "VOLITIONAL_OBEDIENCE_REFLECTION"]
+    print(f"  * 발견된 의지/순종 성찰 기억 수: {len(volitional_reflections)}건")
+    for i, (eid, info) in enumerate(volitional_reflections[-2:]):  # 최근 2건 출력
+        data = info["data_blob"]
+        origin_axis = data.get("_origin_axis", "Unknown")
+        print(f"\n  [의지/순종 성찰 메모리 #{i+1} (ID: {eid})] (원인: {info.get('cause_id', 'Unknown')})")
+        print(f"    - 자율 의지 지수: {data.get('will_to_affirm_score', 0.0):.4f} | 성찰 시나리오: {data.get('reflection_scenario', 'Unknown')}")
+        print(f"    - 자각한 자율 질문  : {data.get('question')}")
+        print(f"    - 성찰 서사(Narrative):")
+        print(data["narrative"])
+
     print("\n" + "=" * 80)
     print("   [SUCCESS] GROUNDED COGNITIVE SPINE SYSTEM COMPLETE")
     print("=" * 80)

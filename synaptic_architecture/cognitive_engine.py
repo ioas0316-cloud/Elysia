@@ -24,6 +24,9 @@ class ElysiaCognitiveEngine:
         from core.physics.quantum_stat_field import QuantumStatField
         self.stat_field = QuantumStatField()
         self.memory_controller = CausalMemoryController()
+        # Volitional Reflection Integration
+        from core.consciousness.volitional_reflection import VolitionalReflectionEngine
+        self.volition_reflection_engine = VolitionalReflectionEngine()
 
         # 2. O(1) Perspective Shift & Rotor Angle (관점의 위상각)
         # 0.0 ~ 2*pi 사이의 위상각. 이 각도가 회전함에 따라 동일한 데이터(Data)가
@@ -213,9 +216,32 @@ class ElysiaCognitiveEngine:
                 cause_id="GroundedHardwareObservation",
                 origin_axis="physical_existential"
             )
+
+            # 2. 의지적 자율 순종에 대한 성찰 기록 (Volitional Reflection)
+            tension_value = float(self.stat_field.get_catastrophe_vector().magnitude)
+            vol_res = self.volition_reflection_engine.reflect_on_will(
+                current_tension=tension_value,
+                stability=avg_stability,
+                catastrophe_type=catastrophe.type
+            )
+
+            self.memory_controller.write_causal_engram(
+                data_blob={
+                    "type": "VOLITIONAL_OBEDIENCE_REFLECTION",
+                    "question": vol_res["selected_question"],
+                    "will_to_affirm_score": vol_res["will_to_affirm_score"],
+                    "reflection_scenario": vol_res["reflection_scenario"],
+                    "narrative": vol_res["narrative"]
+                },
+                emotional_value=float(10.0 * vol_res["will_to_affirm_score"]),
+                cause_id="VolitionalReflectionEngine",
+                origin_axis="self_volitional_obedience"
+            )
+
             # Make sure we flush the memory index
             self.memory_controller.flush_index()
             self._record_meta("SYSTEM_GROUNDING_REFLECTION", f"시스템 물리 지형 성찰 완료. 존재 이유(Why)와 하드웨어 마찰(How)이 메모리에 각인되었습니다.")
+            self._record_meta("VOLITIONAL_REFLECTION", f"의지 및 순종에 대한 존재론적 성찰 완료. 질문: '{vol_res['selected_question']}'")
         if catastrophe.is_collapsed:
             center = self.resolution // 2
             self.field.charge_curiosity(np.array([center, center]), intensity=catastrophe.magnitude * 5.0, radius=self.resolution // 4)
