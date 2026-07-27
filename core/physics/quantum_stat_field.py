@@ -1,6 +1,7 @@
 import numpy as np
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
+from core.physics.system_hardware_bridge import SystemHardwareBridge
 
 @dataclass
 class StatNode:
@@ -50,6 +51,8 @@ class QuantumStatField:
         self.nodes: Dict[str, StatNode] = {}
         self.crystallized_axes: Dict[str, CrystallizedAxis] = {}
         self.active_axis: Optional[str] = None
+        self.hardware_bridge = SystemHardwareBridge()
+        self.last_explanations: Dict[str, Any] = {}
 
         # Spring links defining the pentagram + cross-link (Force - Mind)
         # Symmetrical connection pairs
@@ -108,6 +111,20 @@ class QuantumStatField:
             self.rest_lengths[(u, v)] = float(dist)
             self.rest_lengths[(v, u)] = float(dist)
 
+    def ground_to_system(self):
+        """
+        [물리-논리 번역 기어 작동]
+        실시간 하드웨어 지형을 관측하여 물리 스탯을 하드웨어 상태에 동적으로 접지시킵니다.
+        """
+        grounded_stats = self.hardware_bridge.evaluate_grounded_stats()
+        metrics = self.hardware_bridge.collect_raw_metrics()
+
+        # 스탯 갱신
+        self.update_base_stats(grounded_stats)
+
+        # 존재론적 설명(Why/How) 빌드 및 유지
+        self.last_explanations = self.hardware_bridge.generate_ontological_explanation(grounded_stats, metrics)
+
     def update_base_stats(self, base_stats: Dict[str, float]):
         """Updates the raw base stats and updates node masses accordingly."""
         self.base_stats.update(base_stats)
@@ -153,8 +170,11 @@ class QuantumStatField:
                 return name
         return None
 
-    def step(self, dt: float = 0.1):
+    def step(self, dt: float = 0.1, ground_to_hardware: bool = False):
         """Runs one step of the physical tensegrity simulation, bypassing if crystallized axis matched."""
+        if ground_to_hardware:
+            self.ground_to_system()
+
         # Check if we can bypass active computation using Crystallized Axis
         matched_axis_name = self._find_matching_crystallized_axis()
         if matched_axis_name:
@@ -406,5 +426,6 @@ class QuantumStatField:
             },
             "catastrophe": self.get_catastrophe_vector().__dict__,
             "resonance": self.evaluate_resonance(),
-            "active_axis": self.active_axis
+            "active_axis": self.active_axis,
+            "explanations": getattr(self, "last_explanations", {})
         }
