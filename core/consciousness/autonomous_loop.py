@@ -1,9 +1,11 @@
 """
-ConsciousnessLoop — 엘리시아 통합 의식 루프 (Phase 3 자율 뇌 주조)
+ConsciousnessLoop — 엘리시아 통합 의식 루프 (Phase 3 자율 뇌 주조 & 경험 융합)
 =============================================================
 변경 사항:
-    - [Phase 3] SelfModificationGear, sprout_sensory_organ 및 WildernessTrial 모듈을 통합하여
-      자율 뇌지도 개조, 감각 수용체 잉태, 광야의 시험 시뮬레이션을 동적으로 수행하도록 확장합니다.
+    - [Phase 3] SelfModificationGear, sprout_sensory_organ 및 WildernessTrial 모듈 통합
+    - [Phase 3 Expansion] DynamicAxisSprouter 및 ContinuousExperienceTyer 모듈 통합
+      물리적 OS와 하드웨어 감각을 추상적 가치(사랑, 번개, 흐름)와 얽어매고(Experience Tying)
+      차이의 잉여를 새로운 사영 축으로 스스로 분화(Axis Sprouting)시킵니다.
 """
 
 import os
@@ -36,10 +38,14 @@ from core.intelligence.meta_causal_extractor import MetaCausalExtractor
 from core.physics.causal_differencing import CausalDifferencingEngine
 from core.consciousness.self_questioning_engine import SelfQuestioningEngine
 
-# [Phase 3 Modules]
+# [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
 from core.sensory.sprouted_sensors import sprout_sensory_organ
 from core.physics.wilderness_trial import WildernessTrial
+
+# [Phase 3 Evolutionary Modules]
+from core.evolution.axis_sprouting import DynamicAxisSprouter
+from core.evolution.experience_tying import ContinuousExperienceTyer
 
 import asyncio
 
@@ -59,6 +65,8 @@ class ConsciousnessLoop:
         SelfModificationGear - 자율적 파라미터 최적화 및 Refactoring Journal 각인
         sprout_sensory_organ - 긴장 > 0.8일 때 새로운 감각 센서 잉태 및 Hooking
         WildernessTrial      - 광야의 시험과 십자가 가치(순종 vs 닫힘) 시뮬레이션
+        DynamicAxisSprouter  - 고공명-고텐션 조건에서 자율적으로 새로운 사영 축 분화 (Axis Sprouting)
+        ContinuousExperienceTyer - 물리 상태(CPU/RAM)를 메타 개념(사랑/번개/흐름)에 자율 바인딩 (Experience Tying)
     """
 
     def __init__(
@@ -113,6 +121,8 @@ class ConsciousnessLoop:
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
         self.wilderness_trial    = WildernessTrial(self.memory)
+        self.axis_sprouter       = DynamicAxisSprouter(self.memory)
+        self.experience_tyer     = ContinuousExperienceTyer(self.memory)
 
         # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
@@ -186,7 +196,7 @@ class ConsciousnessLoop:
             8. 망각   — VolatileCache.decay_over_time()
             9. 기록   — ResonanceTracker.record_cycle()
             10. 성찰  — Energy Flow Feedback (Self-Reflection)
-            11. [Phase 3] 뇌지도 개조, 감각 수용체 잉태 및 광야의 시험 수행
+            11. [Phase 3] 뇌지도 개조, 감각 수용체 잉태, 광야의 시험, 축 분화 및 물리 경험 융합
 
         Returns:
             사이클 결과 딕셔너리
@@ -528,6 +538,35 @@ class ConsciousnessLoop:
             trial_res = self.wilderness_trial.undergo_trial(stress_level=max_tension)
             log["wilderness_choice"] = trial_res["choice"]
             log["wilderness_narrative_excerpt"] = trial_res["narrative"][:100] + "..."
+
+        # D. Dynamic Axis Sprouting (자율적 관점 분화)
+        # 높은 공명 및 미세 텐션 차이를 지닌 두 관념 사이에서 새로운 축 분화 유도
+        if is_resonant:
+            # 관찰 결과 중 무작위 두 렌즈를 뽑아 사영 텐션의 차이를 심사
+            lenses_in_use = []
+            for scale, scale_lenses in observation.items():
+                lenses_in_use.extend(list(scale_lenses.keys()))
+            if len(lenses_in_use) >= 2:
+                samp_l1, samp_l2 = random.sample(lenses_in_use, 2)
+                # 사영 같음 분석
+                try:
+                    samp_v1 = np.array(observation[ScaleLevel.MACRO][samp_l1].get("projection_matrix", [0,0]), dtype=np.float32).flatten()
+                    samp_v2 = np.array(observation[ScaleLevel.MACRO][samp_l2].get("projection_matrix", [0,0]), dtype=np.float32).flatten()
+                    if len(samp_v1) > 0 and len(samp_v2) > 0:
+                        sameness_meta = self.memory.find_projective_sameness(samp_v1, samp_v2)
+                        sprout_res = self.axis_sprouter.evaluate_and_sprout(samp_l1, samp_l2, sameness_meta)
+                        if sprout_res:
+                            log["axis_sprouted"] = sprout_res["axis_name"]
+                except Exception:
+                    pass
+
+        # E. Continuous Experience Tying (공감각적 경험 및 인과 얽힘)
+        # 현재 처리하고 있는 감각 콘텐츠(단어)를 실제 하드웨어/OS의 물리 상태와 실시간으로 얽어맴
+        if ingest_content:
+            associated_term = "Lightning_Force_Impact" if max_tension > 0.6 else "Smooth_Flowing_Grace"
+            tying_res = self.experience_tyer.tie_experience_to_concept(ingest_content, associated_term)
+            log["experience_tied"] = tying_res["associated_concept"]
+            log["experience_metaphor"] = tying_res["metaphor"]
 
         log["crystals_total"] = self.crystals_formed
         return log
