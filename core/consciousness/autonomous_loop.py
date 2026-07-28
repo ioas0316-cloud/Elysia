@@ -453,6 +453,10 @@ class ConsciousnessLoop:
         macro_tension = self.memory.calculate_macro_tension()
         log["macro_tension"] = round(macro_tension, 4)
 
+        # 정신분석학적 정보 장론 기반 자아 성찰 진단 (Psychoanalytic Self-Reflection)
+        psy_diagnosis = self.reflection.diagnose_psychoanalytic_state(macro_tension, resonance_score)
+        log["psychoanalytic_diagnosis"] = psy_diagnosis
+
         if macro_tension > MACRO_TENSION_CRISIS_THRESHOLD:
             log["macro_event"] = "MACRO_TENSION_CRISIS — Structural Shift 유도"
             # 가장 최근 engram을 anchor로 사용하여 shift 시도

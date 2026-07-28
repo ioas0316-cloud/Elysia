@@ -10,6 +10,9 @@ class StructuralNode:
     tensor: np.ndarray  # 6D Structural Tensor from PatternDiscoveryLens
     mass: float = 0.0
     position: np.ndarray = None  # Position in N-dimensional alignment space
+    membrane_potential: float = 0.0
+    spike_threshold: float = 1.0
+    decay_rate: float = 0.1
 
 class CausalGravityEngine:
     """
@@ -29,13 +32,29 @@ class CausalGravityEngine:
         self.masses = np.array([], dtype=np.float32)
         self.positions = np.empty((0, dimensions), dtype=np.float32)
         self.tensors = np.empty((0, dimensions), dtype=np.float32)
+        self.membrane_potentials = np.array([], dtype=np.float32)
+        self.spike_thresholds = np.array([], dtype=np.float32)
+        self.decay_rates = np.array([], dtype=np.float32)
 
         self.G = 0.5  # Universal Structural Gravitational Constant
         self.softening = 0.1
         self.damping = 0.90
 
+        # [수직적 위상 안테나 및 더 큰 중력]
+        # 목적성 및 사랑을 상징하는 기준 텐서 (모든 정보가 지향해야 할 상위 정렬 축)
+        self.purpose_tensor = np.ones(dimensions, dtype=np.float32) / np.sqrt(dimensions)
+        self.vertical_pull_strength = 0.5
+        self.spikes_triggered_count = 0
+
     def add_node(self, node_id: str, raw_content: bytes, structural_tensor: List[float]):
         """데이터를 중력장에 주입하고 필드를 재구성합니다."""
+        if len(structural_tensor) == 0:
+            structural_tensor = [0.1] * self.dimensions
+        elif len(structural_tensor) < self.dimensions:
+            structural_tensor = list(structural_tensor) + [0.1] * (self.dimensions - len(structural_tensor))
+        elif len(structural_tensor) > self.dimensions:
+            structural_tensor = list(structural_tensor[:self.dimensions])
+
         tensor = np.array(structural_tensor, dtype=np.float32)
         entropy = float(tensor[0])
         mass = max(0.1, entropy)
@@ -54,6 +73,9 @@ class CausalGravityEngine:
         self.masses = np.array([self.node_data[nid].mass for nid in self.node_ids], dtype=np.float32).reshape(-1, 1)
         self.positions = np.array([self.node_data[nid].position for nid in self.node_ids], dtype=np.float32)
         self.tensors = np.array([self.node_data[nid].tensor for nid in self.node_ids], dtype=np.float32)
+        self.membrane_potentials = np.array([self.node_data[nid].membrane_potential for nid in self.node_ids], dtype=np.float32)
+        self.spike_thresholds = np.array([self.node_data[nid].spike_threshold for nid in self.node_ids], dtype=np.float32)
+        self.decay_rates = np.array([self.node_data[nid].decay_rate for nid in self.node_ids], dtype=np.float32)
 
     def step(self, dt: float = 0.1):
         """
@@ -63,7 +85,11 @@ class CausalGravityEngine:
         if len(self.node_ids) < 2:
             return
 
-        # 1. 위치 차이 및 거리 계산 (N, N, D)
+        # 1. SNN 막 전위 누적 및 감쇄 (Neuromorphic Spiking Dynamics)
+        # 지속적으로 유입되는 각 노드의 텐서 에너지 혹은 중력적 텐션 마찰을 막 전위로 변환
+        self.membrane_potentials *= (1.0 - self.decay_rates * dt)
+
+        # 2. 위치 차이 및 거리 계산 (N, N, D)
         # diffs[i, j] = pos[j] - pos[i] (j가 i를 끌어당기는 방향)
         diffs = self.positions[np.newaxis, :, :] - self.positions[:, np.newaxis, :]
         dist_sq = np.sum(diffs**2, axis=-1)
@@ -77,11 +103,18 @@ class CausalGravityEngine:
         # index 7: Attribute (Peak Energy)
         # index 8: Causal Density
         
-        geometries = self.tensors[:, 0:4]
-        directions = self.tensors[:, 4:6]
-        continuities = self.tensors[:, 6].reshape(-1, 1)
-        attributes = self.tensors[:, 7].reshape(-1, 1)
-        causal_densities = self.tensors[:, 8].reshape(-1, 1)
+        # Ensure we have at least 9 columns for slicing the structural sub-tensors
+        if self.tensors.shape[1] < 9:
+            padding_width = 9 - self.tensors.shape[1]
+            padded_tensors = np.pad(self.tensors, ((0, 0), (0, padding_width)), mode='constant', constant_values=0.1)
+        else:
+            padded_tensors = self.tensors
+
+        geometries = padded_tensors[:, 0:4]
+        directions = padded_tensors[:, 4:6]
+        continuities = padded_tensors[:, 6].reshape(-1, 1)
+        attributes = padded_tensors[:, 7].reshape(-1, 1)
+        causal_densities = padded_tensors[:, 8].reshape(-1, 1)
         
         # [다차원 같음 분석]
         # A. 운동성(Direction) 동기화: 방향이 같으면 비록 계통이 달라도 끌어당김
@@ -129,13 +162,47 @@ class CausalGravityEngine:
         acceleration = total_forces / self.masses
         self.positions += acceleration * dt
 
+        # [수직적 위상 안테나 및 더 큰 중력 피드백 루프]
+        # 목적성 텐서(purpose_tensor)와의 정렬 정도(Dot product)를 구하여,
+        # 정렬 수준이 높을수록 노드를 '수직 상승(상위 위상)'시킵니다.
+        # 수직 방향 축은 텐서의 마지막 차원(또는 무작위 고차원 엮음 축)으로 설정
+        dot_products = np.dot(self.tensors, self.purpose_tensor)
+
+        # SNN 전위 축적: 목적성 텐서와의 공명 강도만큼 막 전위 증가
+        self.membrane_potentials += dot_products * dt
+
+        # 수직 위상 끌어올림 (더 큰 중력의 인력)
+        # dot_products가 높을수록 수직 위치 성분(마지막 차원)을 강하게 끌어올림
+        # 이를 통해 자기보존(Local minimum) 마찰을 털어내고 수직성(Verticality)을 획득
+        vertical_forces = self.vertical_pull_strength * dot_products.reshape(-1, 1)
+        self.positions[:, -1] += vertical_forces.flatten() * dt
+
+        # [Neuromorphic SNN Spiking]
+        # 만약 어떤 노드의 막 전위가 임계치를 초과하면 스파이크를 방출
+        # 스파이크 방출 시, 주변 노드들을 자신의 수직 위상(상위 차원)으로 강하게 끌어당김
+        spiked_indices = np.where(self.membrane_potentials >= self.spike_thresholds)[0]
+        for idx in spiked_indices:
+            self.spikes_triggered_count += 1
+            # 스파이크 방출 후 전위 리셋
+            self.membrane_potentials[idx] = 0.0
+
+            # 스파이크 충격 전파 (수직 방향 전방위 정렬)
+            spiked_pos = self.positions[idx]
+            # 주변 노드들의 수직 위치를 스파이크 노드의 수직 레벨로 동조화 (Antenna Resonance)
+            self.positions[:, -1] = 0.1 * self.positions[:, -1] + 0.9 * spiked_pos[-1]
+
         # 6. 마찰 감쇠 (Damping) - 지형적 평형 유도
         # 마찰을 줄여 더 강력한 결속을 허용
         self.positions *= 0.98
 
-        # 7. 상태 백업 (node_data 업데이트)
+        # 7. 상태 백업 (node_data 및 전위 업데이트)
         for i, nid in enumerate(self.node_ids):
             self.node_data[nid].position = self.positions[i]
+            self.node_data[nid].membrane_potential = float(self.membrane_potentials[i])
+
+    @property
+    def nodes(self) -> Dict[str, StructuralNode]:
+        return self.node_data
 
     def get_equilibrium_state(self) -> Dict[str, Any]:
         return {nid: {"pos": self.node_data[nid].position.tolist(),
