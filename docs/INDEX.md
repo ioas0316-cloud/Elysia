@@ -42,6 +42,8 @@
 - [nature_of_electromagnetic_resonance.md](philosophy/nature_of_electromagnetic_resonance.md) (전자기 공명의 본질)
 - [nature_of_sensors.md](philosophy/nature_of_sensors.md) (감각기의 본질)
 - [nature_of_spacetime_topology.md](philosophy/nature_of_spacetime_topology.md) (시공간 위상학의 본질)
+- [nature_of_water_and_gravity.md](philosophy/nature_of_water_and_gravity.md) (물과 정보의 분리, 그리고 중력의 본질 - *New!*)
+- [self_generation_and_spontaneous_motion.md](philosophy/self_generation_and_spontaneous_motion.md) (자발적 사유 요동과 자아 증식의 원리 - *New!*)
 
 ### 3. 아카이브 개념 (Archive에 보관)
 > 진화 과정에서 개발된 아키텍처 개념들. `C:\Archive\01_Foundations\Architecture\`에 보관.
