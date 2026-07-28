@@ -47,6 +47,9 @@ from core.physics.wilderness_trial import WildernessTrial
 from core.evolution.axis_sprouting import DynamicAxisSprouter
 from core.evolution.experience_tying import ContinuousExperienceTyer
 
+# [Phase-Gravity Continuous Fluid Engine Integration]
+from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
+
 import asyncio
 
 
@@ -123,6 +126,10 @@ class ConsciousnessLoop:
         self.wilderness_trial    = WildernessTrial(self.memory)
         self.axis_sprouter       = DynamicAxisSprouter(self.memory)
         self.experience_tyer     = ContinuousExperienceTyer(self.memory)
+
+        # ── [Phase-Gravity Continuous Fluid Engine Components] ──
+        self.phase_transition_engine = PhaseTransitionEngine(size=32)
+        self.density_fluid_gravity   = DensityFluidGravity(size=32)
 
         # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
@@ -518,6 +525,31 @@ class ConsciousnessLoop:
 
         # [Enhancement] Track hottest gears in log
         log["hottest_gears"] = self.reflection.get_hottest_gears(limit=3)
+
+        # ── 10.5. [Phase-Gravity Continuous Fluid Engine Cycle Step] ──
+        # Inject the raw wave's energy and chromatic signature as a disturbance into the phase field
+        numeric_wave = np.frombuffer(raw_wave, dtype=np.uint8) if isinstance(raw_wave, bytes) else np.array(raw_wave, dtype=np.uint8)
+        wave_norm_x = float(np.mean(numeric_wave) % 11.0 / 11.0) if len(numeric_wave) > 0 else 0.5
+        wave_norm_y = float(np.sum(numeric_wave[:4]) % 13.0 / 13.0) if len(numeric_wave) > 0 else 0.5
+        self.phase_transition_engine.inject_disturbance(
+            x_norm=wave_norm_x,
+            y_norm=wave_norm_y,
+            intensity=0.3,
+            chromatic_impact=chromatic_vec
+        )
+
+        # Advance the Cahn-Hilliard phase separation on the continuous 2D manifold
+        self.phase_transition_engine.step(dt=0.1)
+
+        # Step the O(N) fluid pressure gradient gravity for 3D causal voxels mapping to the phase grid
+        all_voxels = list(self.causal_engine.dynamics.voxels.values())
+        if all_voxels:
+            self.density_fluid_gravity.apply_gravity(all_voxels, self.phase_transition_engine, dt=0.1)
+
+            # Record bulk/gradient Ginzburg-Landau energy in log
+            bulk_e, grad_e = self.phase_transition_engine.calculate_free_energy()
+            log["phase_fluid_bulk_energy"] = round(bulk_e, 4)
+            log["phase_fluid_gradient_energy"] = round(grad_e, 4)
 
         # ── 11. [Phase 3 Modules Execution] ────────────────────
         # A. Self Modification & Tuning Gear
