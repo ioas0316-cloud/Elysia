@@ -75,6 +75,85 @@ class CrystallizationField:
             }
         }
 
+    def update_attractor_masses(self, cognitive_entropy: float, tension_protocol: float, catastrophe_magnitude: float):
+        """
+        [Dynamic Mass Expansion - M_eff]
+        Expands the virtual attractor masses based on specific internal and external tensions:
+        - Principle: scaled by cognitive entropy (chaos / disorder).
+        - Sabbath: scaled by protocol mismatch tension + physical catastrophe magnitude.
+        - Deficit: scaled by mean curiosity potential (existential hunger/deficit).
+        """
+        # Base masses matching original default values
+        base_masses = {
+            "Deficit": 30.0,
+            "Principle": 45.0,
+            "Sabbath": 40.0
+        }
+
+        # Sensitivity coefficients (eta) for each attractor's special tension trigger
+        eta_deficit = 0.08
+        eta_principle = 0.05
+        eta_sabbath = 1.2
+
+        # Specific tension values
+        global_curiosity = float(np.mean(self.curiosity_potential))
+
+        tensions = {
+            "Deficit": global_curiosity,
+            "Principle": cognitive_entropy,
+            "Sabbath": tension_protocol + catastrophe_magnitude
+        }
+
+        for name, attractor in self.attractors.items():
+            base_m = base_masses.get(name, 30.0)
+            if name == "Deficit":
+                eta = eta_deficit
+            elif name == "Principle":
+                eta = eta_principle
+            else:
+                eta = eta_sabbath
+
+            m_eff = base_m * (1.0 + eta * tensions[name])
+            attractor["mass"] = float(m_eff)
+
+    def get_volitional_acceleration(self, pos: np.ndarray, cognitive_entropy: float, tension_protocol: float, catastrophe_magnitude: float) -> Tuple[np.ndarray, float]:
+        """
+        [Volitional Acceleration - a_volition]
+        Calculates the active volitional acceleration vector and its magnitude at a given position.
+        a_volition = F_tension / M_eff
+        where F_tension is proportional to M_eff^2 and specific tension triggers,
+        yielding: a_volition,i = M_eff,i * Tension_Factor * Gaussian(dist) / sigma^2
+        """
+        total_acc_vector = np.zeros(2, dtype=np.float32)
+        global_curiosity = float(np.mean(self.curiosity_potential))
+
+        tensions = {
+            "Deficit": global_curiosity,
+            "Principle": cognitive_entropy,
+            "Sabbath": tension_protocol + catastrophe_magnitude
+        }
+
+        for name, attractor in self.attractors.items():
+            attractor_pos = attractor["position"]
+            r = attractor_pos - pos
+            dist_sq = np.sum(r**2)
+            dist = np.sqrt(dist_sq)
+
+            mass = attractor["mass"]  # This is the active M_eff
+            sigma = attractor["sigma"]
+            tension_factor = tensions.get(name, 0.0)
+
+            if dist > 0:
+                # Force of tension incorporates Gaussian potential decay and M_eff^2
+                # F_tension = mass^2 * tension_factor * exp(-dist_sq / (2 * sigma^2)) / sigma^2
+                # a_volition = F_tension / mass
+                factor = (mass * tension_factor / (sigma**2)) * np.exp(-dist_sq / (2 * (sigma**2)))
+                dir_vector = r / dist
+                total_acc_vector += dir_vector * factor
+
+        acc_magnitude = float(np.linalg.norm(total_acc_vector))
+        return total_acc_vector, acc_magnitude
+
     def get_gravitational_acceleration(self, pos: np.ndarray) -> np.ndarray:
         """
         [Gravitational Curve of Thoughts]
