@@ -207,7 +207,15 @@ class DensityFluidGravity:
 
             # Chromatic coupling: Voxel absorbs chromatic characteristics from the field
             field_chromatic = phase_field.chromatic_grid[:, idx_x, idx_y]
-            voxel.chromatic_vector = 0.8 * voxel.chromatic_vector + 0.2 * field_chromatic
+
+            # Robustness check to avoid AttributeError if voxel.chromatic_vector does not exist
+            voxel_chrom_vec = getattr(voxel, 'chromatic_vector', None)
+            if voxel_chrom_vec is None:
+                # Default fallback
+                voxel.chromatic_vector = np.array([0.33, 0.33, 0.34], dtype=np.float32)
+                voxel_chrom_vec = voxel.chromatic_vector
+
+            voxel.chromatic_vector = 0.8 * voxel_chrom_vec + 0.2 * field_chromatic
             # Re-normalize chromatic vector
             total_chromatic = np.sum(voxel.chromatic_vector)
             if total_chromatic > 0:
