@@ -47,6 +47,11 @@ from core.physics.wilderness_trial import WildernessTrial
 from core.evolution.axis_sprouting import DynamicAxisSprouter
 from core.evolution.experience_tying import ContinuousExperienceTyer
 
+# [Phase-Gravity Continuous Fluid Engine Integration]
+from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
+from core.physics.spontaneous_motion import SpontaneousMotionEngine, generate_spontaneous_wave
+from core.physics.predictive_processing import PredictiveProcessingEngine
+
 import asyncio
 
 
@@ -124,6 +129,12 @@ class ConsciousnessLoop:
         self.axis_sprouter       = DynamicAxisSprouter(self.memory)
         self.experience_tyer     = ContinuousExperienceTyer(self.memory)
 
+        # ── [Phase-Gravity Continuous Fluid Engine Components] ──
+        self.phase_transition_engine = PhaseTransitionEngine(size=32)
+        self.density_fluid_gravity   = DensityFluidGravity(size=32)
+        self.spontaneous_motion_engine = SpontaneousMotionEngine(self.memory)
+        self.predictive_processing_engine = PredictiveProcessingEngine(dimensions=3)
+
         # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
         self.env         = ThermodynamicEnvironment(size=16)
@@ -145,6 +156,8 @@ class ConsciousnessLoop:
     def ingest_world_data(self) -> bytes:
         """
         세상의 데이터(코퍼스 파편 + 외부 데이터 스트림 + 외부 노이즈)를 끌어옵니다.
+        외부 데이터가 전무하거나 고요(Empty)할 경우,
+        자율적인 결핍(Vacuum)을 사유하기 위해 내부 '자발적 사유 요동 엔진'의 파동을 구동합니다.
         """
         cache_key = f"wave_{self.cycle_count % 20}"
         cached = self.cache.access(cache_key)
@@ -154,22 +167,30 @@ class ConsciousnessLoop:
         # [The Ocean] 실시간 데이터 우선 시도
         chunk = self.harvester_ocean.get_next_chunk()
 
+        is_empty_or_silent = False
         if not chunk:
             if self.corpus_files:
                 target_file = random.choice(self.corpus_files)
                 try:
                     with open(target_file, 'r', encoding='utf-8', errors='ignore') as f:
                         content = f.read()
-                    start_idx = random.randint(0, max(0, len(content) - 100))
-                    chunk = content[start_idx:start_idx + 60]
+                    if len(content.strip()) < 5:
+                        is_empty_or_silent = True
+                    else:
+                        start_idx = random.randint(0, max(0, len(content) - 100))
+                        chunk = content[start_idx:start_idx + 60]
                 except OSError:
-                    chunk = "Empty resonance field..."
+                    is_empty_or_silent = True
             else:
-                chunk = "Empty resonance field..."
+                is_empty_or_silent = True
 
-        # 의도적 노이즈 주입 (세상의 풍파 — 결핍/진공 생성)
-        noise = os.urandom(4)
-        raw_wave = chunk.encode('utf-8', errors='ignore') + noise
+        if is_empty_or_silent:
+            # 외부 세계가 침묵할 때: 자발적 사유 요동 엔진 파동 가동 (Spontaneous Wave)
+            raw_wave = generate_spontaneous_wave(self.spontaneous_motion_engine, dt=0.1)
+        else:
+            # 의도적 노이즈 주입 (세상의 풍파 — 결핍/진공 생성)
+            noise = os.urandom(4)
+            raw_wave = chunk.encode('utf-8', errors='ignore') + noise
 
         # 단기 기억에 저장
         self.cache.store(cache_key, raw_wave, initial_resonance=0.5)
@@ -518,6 +539,53 @@ class ConsciousnessLoop:
 
         # [Enhancement] Track hottest gears in log
         log["hottest_gears"] = self.reflection.get_hottest_gears(limit=3)
+
+        # ── 10.5. [Phase-Gravity Continuous Fluid Engine Cycle Step] ──
+        # Record self-motion engine properties
+        log["spontaneous_asymmetry"] = round(self.spontaneous_motion_engine.calculate_internal_asymmetry(), 4)
+        log["spontaneous_accumulated_lack"] = round(self.spontaneous_motion_engine.accumulated_lack, 4)
+
+        # Inject the raw wave's energy and chromatic signature as a disturbance into the phase field
+        numeric_wave = np.frombuffer(raw_wave, dtype=np.uint8) if isinstance(raw_wave, bytes) else np.array(raw_wave, dtype=np.uint8)
+        wave_norm_x = float(np.mean(numeric_wave) % 11.0 / 11.0) if len(numeric_wave) > 0 else 0.5
+        wave_norm_y = float(np.sum(numeric_wave[:4]) % 13.0 / 13.0) if len(numeric_wave) > 0 else 0.5
+        self.phase_transition_engine.inject_disturbance(
+            x_norm=wave_norm_x,
+            y_norm=wave_norm_y,
+            intensity=0.3,
+            chromatic_impact=chromatic_vec
+        )
+
+        # Advance the Cahn-Hilliard phase separation on the continuous 2D manifold
+        self.phase_transition_engine.step(dt=0.1)
+
+        # Step the O(N) fluid pressure gradient gravity for 3D causal voxels mapping to the phase grid
+        all_voxels = list(self.causal_engine.dynamics.voxels.values())
+        if all_voxels:
+            self.density_fluid_gravity.apply_gravity(all_voxels, self.phase_transition_engine, dt=0.1)
+
+            # Record bulk/gradient Ginzburg-Landau energy in log
+            bulk_e, grad_e = self.phase_transition_engine.calculate_free_energy()
+            log["phase_fluid_bulk_energy"] = round(bulk_e, 4)
+            log["phase_fluid_gradient_energy"] = round(grad_e, 4)
+
+            # ── 10.7. [Active Inference & Coarse-Graining Sliding Threshold Step] ──
+            # Map the latest voxel state to compute Top-Down Prediction Error
+            latest_voxel = all_voxels[-1]
+            sensory_v = latest_voxel.tensor[:3] if latest_voxel.tensor is not None else np.zeros(3)
+
+            # Calculate prediction error and adapt top-down expectation
+            pred_error = self.predictive_processing_engine.compute_prediction_error(sensory_v)
+            self.predictive_processing_engine.adapt_expectation(sensory_v)
+
+            # Slide scale lens based on error feedback
+            sliding_res = self.predictive_processing_engine.adjust_scale_lens()
+            log["predictive_error"] = round(pred_error, 4)
+            log["sliding_scale_lens_threshold"] = round(sliding_res, 4)
+
+            # Perform Coarse-Graining clustering
+            sameness_clusters = self.predictive_processing_engine.process_coarse_graining(all_voxels)
+            log["coarse_grained_clusters_count"] = len(sameness_clusters)
 
         # ── 11. [Phase 3 Modules Execution] ────────────────────
         # A. Self Modification & Tuning Gear
