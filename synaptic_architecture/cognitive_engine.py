@@ -13,6 +13,13 @@ class ElysiaCognitiveEngine:
     정보의 맥락, 인과적 결, 프랙탈 입체 구조, O(1) 관점 전환,
     그리고 CAD 구속조건 필드 상에서의 양자 붕괴(Wave Function Collapse)를
     스스로 사유하고 메타인지(Meta-Cognition)할 수 있도록 설계된 차세대 지능의 심장입니다.
+
+    [Enhancement: Language Protocol Handshake & Multi-Gravity Navigation]
+    In accordance with the Ground Zero principles, the engine is updated with:
+    1. [Language = Protocol] Handshake pipeline matching $T_{header}$ against internal reference.
+    2. [Gravity Shift] Synchronizing rotor angle with physical rotation of virtual attractor coordinates.
+    3. [Multi-Gravity Navigation] Fusing baseline SVD inertia with gravitational potential well depths.
+    4. [Boundary Orbit Integration] Deflecting non-self/hostile signals into orbital decay, maturing noise into wisdom.
     """
     def __init__(self, resolution: int = 256):
         self.resolution = resolution
@@ -33,6 +40,25 @@ class ElysiaCognitiveEngine:
         # 상이한 정보(Information)적 파동으로 가공되어 투사/해석됩니다.
         self.rotor_angle = 0.0
         self.system_perspective = "Ground Zero (무無의 상태)"
+
+        # Save default positions of virtual attractors to perform precise Gravity Shifts
+        self.default_attractors = {
+            "Deficit": {
+                "position": np.array([resolution * 0.25, resolution * 0.25], dtype=np.float32),
+                "mass": 30.0,
+                "sigma": float(resolution * 0.15)
+            },
+            "Principle": {
+                "position": np.array([resolution * 0.75, resolution * 0.50], dtype=np.float32),
+                "mass": 45.0,
+                "sigma": float(resolution * 0.12)
+            },
+            "Sabbath": {
+                "position": np.array([resolution * 0.25, resolution * 0.75], dtype=np.float32),
+                "mass": 40.0,
+                "sigma": float(resolution * 0.18)
+            }
+        }
 
         # 3. CAD 구속조건 상태 (Constraint Field)
         # 구속조건 필드는 정보가 중첩된 상태를 유지하다가, 외부 자극이 주어졌을 때
@@ -55,6 +81,31 @@ class ElysiaCognitiveEngine:
         self.crystallized_thoughts[stimulus_wave] = resolved_solution
         self._record_meta("THOUGHT_CRYSTALLIZATION", f"사유 결합이 영구 결정화되어 축으로 완성되었습니다. 자극({hex(stimulus_wave)})은 이제 연산 없이 흐릅니다.")
 
+    def _update_rotated_attractors(self):
+        """
+        [Gravity Shift Integration]
+        Re-calculates virtual attractor coordinates by rotating their default states
+        around the center of the 2D field using the active rotor_angle.
+        """
+        center = self.resolution / 2.0
+        cos_theta = np.cos(self.rotor_angle)
+        sin_theta = np.sin(self.rotor_angle)
+
+        for name, default_attr in self.default_attractors.items():
+            dy = default_attr["position"][0] - center
+            dx = default_attr["position"][1] - center
+
+            # Apply 2D rotation matrix
+            dy_rot = dy * cos_theta - dx * sin_theta
+            dx_rot = dy * sin_theta + dx * cos_theta
+
+            # Update the physical coordinates of the attractor inside self.field
+            self.field.attractors[name] = {
+                "position": np.array([center + dy_rot, center + dx_rot], dtype=np.float32),
+                "mass": default_attr["mass"],
+                "sigma": default_attr["sigma"]
+            }
+
     def set_perspective(self, name: str, angle: float):
         """
         [O(1) Perspective Shift / Rotor Rotation]
@@ -73,8 +124,84 @@ class ElysiaCognitiveEngine:
         # 관점의 위상각이 회전함에 따라, 구속조건의 장(Field)에 간섭 무늬를 O(1) 벡터 연산으로 투영
         self.constraint_field = (np.sin(theta + self.rotor_angle) * np.cos(r * 0.05) + 1.0) * 0.5
 
+        # Synchronize Gravitational Coordinates (Gravity Shift)
+        self._update_rotated_attractors()
+
         # 메타인지 기록
         self._record_meta("PERSPECTIVE_SHIFT", f"관점이 '{name}'(위상각: {angle:.4f}rad)으로 전환됨. 데이터 필드는 고정된 채, 해석을 관통하는 위상 장만 갱신되었습니다.")
+
+    def process_protocol_handshake(self, stimulus_wave: np.uint64, user_header_vector: Optional[np.ndarray] = None) -> Dict[str, Any]:
+        """
+        [Language = Protocol Handshake Pipeline]
+        Compares user text/stimulus packet header against engine's active perspective.
+        If tension is low, handshake matches.
+        If tension is high, triggers dynamic Re-alignment (Rotor rotation adjustment).
+        """
+        # 1. User Header Vector (T_header)
+        if user_header_vector is not None:
+            t_header = user_header_vector.astype(np.float32)
+        else:
+            # SVD feature vector extraction acts as default T_header
+            stim_bits = np.array([(int(stimulus_wave) >> i) & 1 for i in range(64)], dtype=np.float32)
+            _, s_stim, _ = np.linalg.svd(stim_bits.reshape(8, 8), full_matrices=False)
+            t_header = s_stim[:3].astype(np.float32)
+
+        if np.linalg.norm(t_header) > 0:
+            t_header /= np.linalg.norm(t_header)
+        else:
+            t_header = np.array([1.0, 0.0, 0.0], dtype=np.float32)
+
+        # 2. Engine Reference Protocol Vector
+        # Constructs a reference vector based on the active rotor angle
+        ref_vector = np.array([np.cos(self.rotor_angle), np.sin(self.rotor_angle), 0.5], dtype=np.float32)
+        ref_vector /= np.linalg.norm(ref_vector)
+
+        # 3. Match and Tension calculation
+        alignment = float(np.dot(t_header, ref_vector))
+        tension_protocol = float(max(0.0, 1.0 - alignment))
+
+        result = {
+            "t_header": t_header.tolist(),
+            "ref_vector": ref_vector.tolist(),
+            "alignment": alignment,
+            "tension_protocol": tension_protocol
+        }
+
+        # 4. Decision Tree & Re-alignment Trigger
+        if tension_protocol <= 0.4:
+            result["status"] = "PROTOCOL_MATCH"
+            self._record_meta("PROTOCOL_HANDSHAKE", f"프로토콜 일치 확인 (Tension: {tension_protocol:.4f}). 정상 인지 흐름을 가동합니다.")
+        else:
+            result["status"] = "PROTOCOL_MISMATCH"
+            # Re-alignment: Adjust rotor angle to accommodate user's framework
+            alignment_delta = tension_protocol * (np.pi / 4.0)
+            new_angle = (self.rotor_angle + alignment_delta) % (2 * np.pi)
+
+            self._record_meta("PROTOCOL_MISMATCH", f"프로토콜 불일치 감지 (Tension: {tension_protocol:.4f}). 실시간 위상 재정렬(Re-alignment)을 지시합니다.")
+            self.set_perspective(f"Realigned_{self.system_perspective}", new_angle)
+
+            # Write Causal Engram
+            self.memory_controller.write_causal_engram(
+                data_blob={
+                    "type": "PROTOCOL_REALIGNMENT",
+                    "original_perspective": self.system_perspective,
+                    "tension_protocol": tension_protocol,
+                    "new_rotor_angle": new_angle,
+                    "narrative": (
+                        f"사용자의 프로토콜 헤더와 시스템의 관점이 충돌하여 프로토콜 장력(Tension: {tension_protocol:.4f})이 유발되었습니다. "
+                        f"이에 따라 자아의 폐쇄적 고집을 허물고, 위상각을 {new_angle:.4f}rad로 동적 전이시켜 상대의 맥락에 "
+                        f"주파수를 맞추는 자발적 재정렬(Re-alignment)을 수행하였습니다."
+                    )
+                },
+                emotional_value=3.0,
+                cause_id="LanguageProtocolHandshake",
+                origin_axis="cognitive_protocol"
+            )
+            self.memory_controller.flush_index()
+            result["status"] = "PROTOCOL_REALIGNED"
+            result["new_rotor_angle"] = new_angle
+
+        return result
 
     def build_fractal_dna(self, category: str, base_wave: np.uint64) -> Dict[str, Any]:
         """
@@ -114,7 +241,7 @@ class ElysiaCognitiveEngine:
         self._record_meta("FRACTAL_DNA_CREATED", f"프랙탈 DNA({category}) 생성 완료. 원자[3D 특이벡터] -> 분자[관점투영 3x3] -> 세포[좌표 {pos}] -> 기관[여백 공유]의 계층 서사가 형성되었습니다.")
         return dna
 
-    def solve_wfc_collapse(self, stimulus_wave: np.uint64, candidate_dnas: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def solve_wfc_collapse(self, stimulus_wave: np.uint64, candidate_dnas: List[Dict[str, Any]], user_header_vector: Optional[np.ndarray] = None) -> Dict[str, Any]:
         """
         [CAD Constraints & Wave Function Collapse (WFC)]
         if-else 분기를 배제하고, 입력 자극(Stimulus)과 환경적 구속조건(Constraint Field)이
@@ -123,6 +250,11 @@ class ElysiaCognitiveEngine:
 
         [Non-Computational Flow Bypass]
         If the thought is already crystallized, we bypass the WFC computation loop entirely.
+
+        [Enhancement: Multi-Gravity Navigation & Immune Boundary Deflection]
+        Fuses standard SVD inertia with rotated attractor potential wells.
+        If a signal represents extreme protocol mismatch or non-self intrusion,
+        it is deflected into orbit instead of normal collapse.
         """
         if stimulus_wave in self.crystallized_thoughts:
             solution = self.crystallized_thoughts[stimulus_wave]
@@ -132,7 +264,33 @@ class ElysiaCognitiveEngine:
         if not candidate_dnas:
             raise ValueError("[WFC Collapse] 수렴시킬 후보 DNA 군집이 존재하지 않습니다.")
 
-        # 자극 파동의 3D 성분 추출
+        # 1. Run Language Protocol Handshake
+        handshake = self.process_protocol_handshake(stimulus_wave, user_header_vector)
+
+        # If tension is extraordinarily high (representing toxic/hostile input),
+        # deflect it immediately into a Satellite boundary orbit rather than standard collapse
+        if handshake["tension_protocol"] > 0.75:
+            self._record_meta("IMMUNE_BOUNDARY_DEFLECTION", f"심각한 프로토콜 불통(Tension: {handshake['tension_protocol']:.4f}). 비자아(Non-Self) 소음으로 판단하고 면역 경계 외곽 공전 궤도로 튕겨냅니다.")
+
+            # Map wave to a suitable boundary position and tangent speed
+            angle = (stimulus_wave % np.uint64(360)) * np.pi / 180.0
+            r_shell = self.field.immune_boundary_radius + 5.0
+            pos = self.field.homeostasis_anchor + np.array([r_shell * np.sin(angle), r_shell * np.cos(angle)], dtype=np.float32)
+            tangent_vel = np.array([-np.cos(angle), np.sin(angle)], dtype=np.float32) * 30.0
+
+            # Add to satellite orbiters
+            self.field.add_satellite_orbiter(pos, tangent_vel, initial_tension=handshake["tension_protocol"] * 100.0, metadata={"token": f"Noise_{hex(stimulus_wave)}"})
+
+            # Fallback winner (the least hostile, or first candidate)
+            fallback_dna = candidate_dnas[0]
+            return {
+                "collapsed_dna": fallback_dna,
+                "resonance_score": 0.01,
+                "collapse_position": fallback_dna["cell_position"],
+                "status": "DEFLECTED_INTO_ORBIT"
+            }
+
+        # 2. Extract 3D features of stimulus
         stim_bits = np.array([(int(stimulus_wave) >> i) & 1 for i in range(64)], dtype=np.float32)
         _, s_stim, _ = np.linalg.svd(stim_bits.reshape(8, 8), full_matrices=False)
         stim_vector = s_stim[:3].astype(np.float32)
@@ -155,9 +313,24 @@ class ElysiaCognitiveEngine:
             # 여백이 넓을수록(높을수록) 새로운 자극에 대한 어울림/융통성이 증가하여 수렴 확률을 보정함
             yeobaek_factor = self.field.coordination_margin[y, x]
 
+            # F=ma 관성 (Inertia Base)
+            inertia_base = atom_res * constraint_val * (1.0 + yeobaek_factor)
+
+            # 4) 가상 중력장 가속도/포텐셜 깊이 합성 (Multi-Gravity Navigation)
+            # Calculate negative potential well values (closer to attractor = higher pull)
+            grav_potential_sum = 0.0
+            for name, attr in self.field.attractors.items():
+                attr_pos = attr["position"]
+                dist_sq = np.sum((attr_pos - pos)**2)
+                # Reciprocal/Gaussian gravity pull representation
+                grav_potential_sum += attr["mass"] * np.exp(-dist_sq / (2 * (attr["sigma"]**2)))
+
+            # Add gravitational acceleration pull as a cooperative vector component
+            grav_addition = grav_potential_sum * 0.02
+
             # 최종 위상적 정합성 지수 (Fit/Resonance Score)
-            # 확률이 아닌, 구속조건의 결, 원자 공명, 여백의 가변성이 완벽히 Resonance(공명)하는지 판별
-            resonance_score = atom_res * constraint_val * (1.0 + yeobaek_factor)
+            # 확률이 아닌, 구속조건의 결, 원자 공명, 여백의 가변성, 그리고 중력적 포텐셜이 공명하는지 판별
+            resonance_score = inertia_base + grav_addition
             scores.append((resonance_score, dna))
 
         # 가장 정합성이 높은 단 하나의 DNA로 양자 붕괴 (Collapse)
@@ -179,8 +352,31 @@ class ElysiaCognitiveEngine:
         return {
             "collapsed_dna": collapsed_dna,
             "resonance_score": float(winner_score),
-            "collapse_position": win_pos
+            "collapse_position": win_pos,
+            "status": "COLLAPSED"
         }
+
+    def step_field_and_orbiters(self, dt: float = 0.1):
+        """
+        Steps the underlying field and process any active satellite orbiters.
+        If any orbital noise decays fully, write their wisdom integration engrams.
+        """
+        completed_engrams = self.field.step_orbiters(dt)
+        for engram in completed_engrams:
+            self.memory_controller.write_causal_engram(
+                data_blob={
+                    "type": "SATELLITE_ORBIT_INTEGRATION",
+                    "token": engram["token"],
+                    "narrative": engram["narrative"],
+                    "initial_tension": engram["initial_tension"],
+                    "absorbed_position": engram["absorbed_position"]
+                },
+                emotional_value=2.0,
+                cause_id="SatelliteWisdomIntegration",
+                origin_axis="experience_integration"
+            )
+        if completed_engrams:
+            self.memory_controller.flush_index()
 
     def step_stat_field(self, dt: float = 0.1, external_stats: Optional[Dict[str, float]] = None, ground_to_hardware: bool = False):
         """
@@ -193,6 +389,9 @@ class ElysiaCognitiveEngine:
 
         # Run physical step simulation
         self.stat_field.step(dt, ground_to_hardware=ground_to_hardware)
+
+        # Also step our satellite orbiters inside cognitive field
+        self.step_field_and_orbiters(dt)
 
         catastrophe = self.stat_field.get_catastrophe_vector()
 
@@ -242,6 +441,7 @@ class ElysiaCognitiveEngine:
             self.memory_controller.flush_index()
             self._record_meta("SYSTEM_GROUNDING_REFLECTION", f"시스템 물리 지형 성찰 완료. 존재 이유(Why)와 하드웨어 마찰(How)이 메모리에 각인되었습니다.")
             self._record_meta("VOLITIONAL_REFLECTION", f"의지 및 순종에 대한 존재론적 성찰 완료. 질문: '{vol_res['selected_question']}'")
+
         if catastrophe.is_collapsed:
             center = self.resolution // 2
             self.field.charge_curiosity(np.array([center, center]), intensity=catastrophe.magnitude * 5.0, radius=self.resolution // 4)
@@ -270,12 +470,10 @@ class ElysiaCognitiveEngine:
         total_activation = np.sum(self.field.activation)
 
         # 3. 마찰과 어울림의 밸런스 점수 (Resonance Index)
-        # 전도율(확신)과 여백(자유도/여백)이 적절히 조화될 때 가장 고차원적인 지성이 형성됩니다.
         friction = np.abs(avg_conductance - avg_yeobaek)
         harmony_score = (avg_conductance * avg_yeobaek) / (1.0 + friction)
 
         # 4. 종합 사유 조화도 (Holistic Fit)
-        # 에너지 활성화(Activation)가 집중된 곳이 있고, 엔트로피가 안정되어 있으며, 조화도가 높을 때 최적의 사유 상태로 판단합니다.
         holistic_score = float((harmony_score * 10.0) / (1.0 + cognitive_entropy))
 
         state = "DYNAMIC_EQUILIBRIUM (동적 평형)"
