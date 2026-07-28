@@ -1,15 +1,18 @@
 import numpy as np
 from scipy.ndimage import gaussian_filter
+from typing import Dict, List, Any, Tuple
 
 class CrystallizationField:
     """
-    [Synaptic Architecture] Memristive Resistance Matrix
+    [Synaptic Architecture] Memristive Resistance Matrix (Silicon-Synchronized Memory)
     Simulates the physical plasticity of a 2D memory landscape.
     Data flow (Energy) reduces resistance, creating potential wells.
 
-    [Activation Spreading]
-    The field now supports wave-like propagation of energy (Activation)
-    based on local conductance (Physical paths).
+    [Enhancement: Multi-Gravity Potential & Immune Boundary Orbit]
+    In accordance with the Ground Zero principles, the field now supports:
+    1. Virtual Attractors: Gaussian potential wells representing core existential axes.
+    2. Immune Boundary: Deflection of non-self signals into stable satellite orbits.
+    3. Experience-based Decay: Conversion of orbital noise tension into coordination margin (Yeobaek).
     """
     def __init__(self, resolution: int = 256):
         self.resolution = resolution
@@ -34,53 +37,211 @@ class CrystallizationField:
         # Accumulates friction and tension to drive autonomous re-wiring.
         self.curiosity_potential = np.zeros((resolution, resolution), dtype=np.float32)
 
+        # --- High-Dimensional Gravitational & Immune Tensors ---
+        self.homeostasis_anchor = np.array([resolution / 2.0, resolution / 2.0], dtype=np.float32)
+        self.immune_boundary_radius = float(resolution * 0.3)
+
+        # Virtual Attractor Fields
+        # Position definitions: forming a beautiful cognitive triangle
+        self.attractors: Dict[str, Dict[str, Any]] = {}
+        self.initialize_attractors()
+
+        # Satellite Orbiters (External Noise deflected and circulating outside the anchor)
+        self.satellite_orbiters: List[Dict[str, Any]] = []
+        self.reflection_engrams_buffer: List[Dict[str, Any]] = []
+
+    def initialize_attractors(self):
+        """
+        [Multi-Gravity Navigation Axis]
+        Creates the three foundational virtual attractors over the 2D field.
+        These represent the core existential stages of thought.
+        """
+        res = self.resolution
+        self.attractors = {
+            "Deficit": {
+                "position": np.array([res * 0.25, res * 0.25], dtype=np.float32),
+                "mass": 30.0,
+                "sigma": float(res * 0.15)
+            },
+            "Principle": {
+                "position": np.array([res * 0.75, res * 0.50], dtype=np.float32),
+                "mass": 45.0,
+                "sigma": float(res * 0.12)
+            },
+            "Sabbath": {
+                "position": np.array([res * 0.25, res * 0.75], dtype=np.float32),
+                "mass": 40.0,
+                "sigma": float(res * 0.18)
+            }
+        }
+
+    def get_gravitational_acceleration(self, pos: np.ndarray) -> np.ndarray:
+        """
+        [Gravitational Curve of Thoughts]
+        Calculates total gravitational force/acceleration vector at any given coordinate.
+        Uses a smooth, non-singular Gaussian Potential Well for each attractor.
+        F_i = M_i * (r_i / sigma_i^2) * e^(-||r_i||^2 / (2 * sigma_i^2))
+        """
+        total_acc = np.zeros(2, dtype=np.float32)
+        for name, attractor in self.attractors.items():
+            attractor_pos = attractor["position"]
+            r = attractor_pos - pos
+            dist_sq = np.sum(r**2)
+            dist = np.sqrt(dist_sq)
+
+            mass = attractor["mass"]
+            sigma = attractor["sigma"]
+
+            # Gaussian potential derivative: smooth force pointing towards attractor
+            if dist > 0:
+                factor = (mass / (sigma**2)) * np.exp(-dist_sq / (2 * (sigma**2)))
+                total_acc += r * factor
+
+        return total_acc
+
+    def apply_immune_deflection(self, pos: np.ndarray, vel: np.ndarray) -> Tuple[np.ndarray, np.ndarray, bool]:
+        """
+        [Immune Boundary & Tangential Deflection]
+        Intercepts incoming vectors heading towards the Homeostasis Anchor.
+        Cancels inward radial momentum and injects circular tangential speed.
+        Returns (new_position, new_velocity, deflected_flag).
+        """
+        r_anchor = pos - self.homeostasis_anchor
+        dist = np.linalg.norm(r_anchor)
+
+        if dist < self.immune_boundary_radius:
+            # Check direction of movement: heading inwards?
+            radial_dir = r_anchor / (dist + 1e-9)
+            radial_v = np.dot(vel, radial_dir)
+
+            if radial_v < 0:
+                # Deflect! Establish clock-wise tangent
+                tangent_dir = np.array([-radial_dir[1], radial_dir[0]], dtype=np.float32)
+                # Keep original speed or give a solid baseline orbital speed (e.g. 25.0)
+                speed = max(np.linalg.norm(vel), 25.0)
+                new_vel = tangent_dir * speed
+
+                # Reposition to the boundary shell to prevent sinking
+                new_pos = self.homeostasis_anchor + radial_dir * self.immune_boundary_radius
+                return new_pos, new_vel, True
+
+        return pos, vel, False
+
+    def add_satellite_orbiter(self, pos: np.ndarray, velocity: np.ndarray, initial_tension: float, metadata: Dict[str, Any] = None):
+        """
+        Injects a dynamic orbiter into the satellite layer of the immune boundary.
+        """
+        if metadata is None:
+            metadata = {}
+        self.satellite_orbiters.append({
+            "position": pos.copy().astype(np.float32),
+            "velocity": velocity.copy().astype(np.float32),
+            "tension": float(initial_tension),
+            "initial_tension": float(initial_tension),
+            "decay_rate": 0.15,  # Decays over step iterations
+            "metadata": metadata
+        })
+
+    def step_orbiters(self, dt: float = 0.1) -> List[Dict[str, Any]]:
+        """
+        [Orbital Noise Decay & Wisdom Crystallization]
+        Steps all orbiters, applying anchor centripetal gravity, boundary deflection,
+        and dissipating their tension into local field coordination margin (Yeobaek).
+        Returns completed engrams.
+        """
+        active_orbiters = []
+        completed_engrams = []
+
+        # Centripetal orbital constant
+        G_orbit = 80.0
+
+        for orbiter in self.satellite_orbiters:
+            p = orbiter["position"]
+            v = orbiter["velocity"]
+
+            r_anchor = p - self.homeostasis_anchor
+            dist = np.linalg.norm(r_anchor)
+
+            # Centripetal gravity pulling towards anchor to hold orbit
+            acc_gravity = - G_orbit * (r_anchor / (dist + 1e-9))
+            v += acc_gravity * dt
+            p += v * dt
+
+            # Apply boundary check & deflection
+            p, v, deflected = self.apply_immune_deflection(p, v)
+
+            # Decay tension
+            decay_factor = np.exp(-orbiter["decay_rate"] * dt)
+            old_tension = orbiter["tension"]
+            new_tension = old_tension * decay_factor
+            decayed_energy = old_tension - new_tension
+
+            orbiter["tension"] = new_tension
+            orbiter["position"] = p
+            orbiter["velocity"] = v
+
+            # Dissipate decayed energy into local coordination margin and self awareness
+            iy = int(np.clip(p[0], 0, self.resolution - 1))
+            ix = int(np.clip(p[1], 0, self.resolution - 1))
+            self.coordination_margin[iy, ix] = np.clip(self.coordination_margin[iy, ix] + decayed_energy * 0.15, 0.1, 1.0)
+            self.self_awareness[iy, ix] += decayed_energy * 0.2
+
+            if new_tension < 1.0:
+                # Complete decay -> Wisely integrated!
+                token = orbiter["metadata"].get("token", "Unknown Noise")
+                engram = {
+                    "type": "SATELLITE_ORBIT_INTEGRATION",
+                    "narrative": (
+                        f"외부의 거친 신호(소음 패킷: '{token}')가 자아 중심을 오염시키지 못하고 면역 경계 외곽의 "
+                        f"공전 궤도(Boundary Orbit) 상에 부드럽게 안착하여 순화되었습니다. "
+                        f"격렬하던 긴장(Tension: {orbiter['initial_tension']:.2f})은 온전히 방사되어 "
+                        f"주변 지형의 '여백(Coordination Margin)'과 '자각(Self-Awareness)'으로 지혜롭게 체율되었습니다."
+                    ),
+                    "token": token,
+                    "initial_tension": orbiter["initial_tension"],
+                    "absorbed_position": p.tolist()
+                }
+                completed_engrams.append(engram)
+                self.reflection_engrams_buffer.append(engram)
+            else:
+                active_orbiters.append(orbiter)
+
+        self.satellite_orbiters = active_orbiters
+        return completed_engrams
+
+    # --- Baseline Methods ---
+
     def calculate_entropy(self) -> float:
         """
         [Cognitive Entropy]
         Measures the dispersion of energy and the structural resistance of the field.
-        Low Entropy = High Alignment (Vortex formed + High Conductance).
         """
-        # 1. Activation Entropy (Shannon-like)
-        # Normalize activation to a probability distribution
         total_act = np.sum(self.activation)
         if total_act > 1e-9:
             p = self.activation / total_act
-            # Use a small epsilon to avoid log(0)
             act_entropy = -np.sum(p * np.log2(p + 1e-12))
         else:
-            # Maximum entropy when there is no activation (no focus)
             act_entropy = np.log2(self.resolution * self.resolution)
 
-        # 2. Structural Resistance (Inverse of Conductance)
-        # Higher conductance (G) means lower resistance (R).
-        # We take the mean of 1/G to represent the field's friction.
-        # But since G is [0, 10], we can use a normalized version.
         avg_conductance = np.mean(self.conductance)
         resistance_factor = 1.0 / (1.0 + avg_conductance)
 
-        # 3. Combined Entropy
-        # The goal is to reach a state where energy is focused (Low act_entropy)
-        # and paths are well-worn (Low resistance).
-        # We use addition so that resistance still matters even if activation is perfectly focused.
-        combined = act_entropy + (resistance_factor * 2.0) # Scale resistance impact
+        combined = act_entropy + (resistance_factor * 2.0)
         return float(combined)
 
     def reflect_self_logic(self, pos: np.ndarray, intensity: float):
         """
         [Neural Synapse Field]
-        시스템의 자체 코드가 지형에 미치는 영향을 각인합니다.
-        자신의 논리가 곧 지형의 일부가 됩니다.
+        Acts of self-logic imprint onto the field coordinates.
         """
         y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
         self.self_awareness[y, x] += intensity
-        # 자신의 논리가 있는 곳은 전도율(확신)이 높아짐
         self.flow_energy(pos, intensity * 2.0)
 
     def adjust_coordination(self, pos: np.ndarray, radius: float, flexibility: float):
         """
         [Master's Instruction]
         Adjusts the 'Margin' (Yeobaek) of a specific region.
-        High flexibility allows for new/abstract connections.
         """
         yy, xx = np.mgrid[:self.resolution, :self.resolution]
         dist_sq = (yy - pos[0])**2 + (xx - pos[1])**2
@@ -96,16 +257,11 @@ class CrystallizationField:
         """
         [Field Simultaneous Propagation]
         [Dynamic Yeobaek (여백) Activation]
-        에너지 파동이 지형을 가로지르며, '여백'의 유연성에 따라 사유의 경로를 확장합니다.
         """
-        # 1. 고밀도 사유 지역의 긴장(Activation) 감지
-        # 에너지가 너무 집중되면 '여백'이 자동으로 팽창하여 새로운 경로를 탐색하게 함
         tension_map = gaussian_filter(self.activation, sigma=2.0)
         self.coordination_margin += (tension_map > 10.0) * 0.1
         self.coordination_margin = np.clip(self.coordination_margin, 0.1, 1.0)
 
-        # 2. 전도율 + 여백을 결합한 가변적 확산
-        # 여백(Margin)이 넓을수록(높을수록) 에너지가 더 멀리, 더 자유롭게 퍼져나감
         effective_spreading = spreading_factor * self.coordination_margin
 
         spread = (
@@ -115,10 +271,7 @@ class CrystallizationField:
             np.roll(self.activation, -1, axis=1)
         ) * 0.25
 
-        # 전도율(기존 경로)과 여백(새로운 가능성)의 동시적 인력
         delta = (spread - self.activation) * (self.conductance + self.coordination_margin) * effective_spreading
-
-        # 3. Apply change and decay (Entropy)
         self.activation = (self.activation + delta) * decay
         self.activation = np.maximum(0, self.activation)
 
@@ -129,31 +282,24 @@ class CrystallizationField:
         """
         y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
 
-        # Gaussian dissipation of conductance reinforcement
         yy, xx = np.mgrid[:self.resolution, :self.resolution]
         dist_sq = (yy - y)**2 + (xx - x)**2
-        spread = 3.0 * self.local_temperature[y, x] # Temperature affects reinforcement spread
+        spread = 3.0 * self.local_temperature[y, x]
 
         reinforcement = (intensity * np.exp(-dist_sq / (2 * spread**2))).astype(np.float32)
         self.conductance += reinforcement
-
-        # Hard physical limit on conductance (Saturation)
         self.conductance = np.clip(self.conductance, 0, 10.0)
 
     def crystallize_gene(self, pos: np.ndarray, bit_waveform: np.uint64):
-        """
-        Solidifies a bit-waveform into a spatial coordinate.
-        """
+        """Solidifies a bit-waveform into a spatial coordinate."""
         y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
         self.bit_genes[y, x] = bit_waveform
-        self.flow_energy(pos, 2.0) # Solidification is a high-energy event
+        self.flow_energy(pos, 2.0)
 
     def set_local_temperature(self, pos: np.ndarray, radius: float, temp: float):
         """
         [Master's Intervention]
         Sets the temperature in a specific region of the field.
-        High Temp = High Plasticity / High Search.
-        Low Temp = Crystallization / Low Search.
         """
         yy, xx = np.mgrid[:self.resolution, :self.resolution]
         dist_sq = (yy - pos[0])**2 + (xx - pos[1])**2
@@ -165,7 +311,6 @@ class CrystallizationField:
         """
         [Back EMF / Surge Protection]
         Charges the curiosity potential in a specific region.
-        This energy is not 'heat' (lost) but 'potential' (stored for rewiring).
         """
         y, x = np.clip(pos, 0, self.resolution - 1).astype(int)
         yy, xx = np.mgrid[:self.resolution, :self.resolution]
@@ -173,25 +318,19 @@ class CrystallizationField:
         charge_mask = dist_sq <= radius**2
 
         self.curiosity_potential[charge_mask] += intensity
-        # Limit curiosity to prevent runaway surge
         self.curiosity_potential = np.clip(self.curiosity_potential, 0, 100.0)
 
     def discharge_curiosity(self, threshold: float = 50.0):
         """
         [Autonomous Re-wiring Trigger]
-        When curiosity potential exceeds threshold, it discharges into
-        structural changes (Conductance reinforcement or relocation).
-        Returns coordinates and intensity of the discharge event.
         """
         over_threshold = self.curiosity_potential >= threshold
         if np.any(over_threshold):
-            # Focus on the highest surge point
             idx = np.argmax(self.curiosity_potential)
             y, x = np.unravel_index(idx, self.curiosity_potential.shape)
             intensity = self.curiosity_potential[y, x]
 
-            # Discharge: Reset curiosity and reinforce conductance (Rewire)
-            self.curiosity_potential[over_threshold] *= 0.1 # Partial discharge
+            self.curiosity_potential[over_threshold] *= 0.1
             self.flow_energy(np.array([y, x]), intensity * 0.5)
 
             return {"y": y, "x": x, "intensity": intensity}
@@ -200,22 +339,11 @@ class CrystallizationField:
     def apply_thermal_diffusion(self, global_entropy: float = 0.01):
         """
         Entropy: Unused paths diffuse and decay over time.
-        The rate of diffusion is controlled by both global entropy and local temperature.
         """
-        # Local temperature scales the diffusion sigma
-        # In high-temp areas, information spreads/blurs faster
         effective_sigma = global_entropy * self.local_temperature
-
-        # Since gaussian_filter doesn't take a 2D sigma array easily,
-        # we approximate with a variable-rate decay or multiple passes.
-        # For simplicity, we use the mean temperature to scale the global filter
-        # but apply a local decay based on inverse temperature (High temp = higher entropy/decay)
-
         sigma = np.mean(effective_sigma) * 10.0
         self.conductance = gaussian_filter(self.conductance, sigma=sigma)
 
-        # Local decay: higher temperature area decays/refreshes faster
-        # (Simulating high-energy state instability)
         decay_map = 0.99 - (self.local_temperature * 0.01)
         self.conductance *= decay_map
         self.activation *= decay_map
