@@ -50,6 +50,7 @@ from core.evolution.experience_tying import ContinuousExperienceTyer
 # [Phase-Gravity Continuous Fluid Engine Integration]
 from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
 from core.physics.spontaneous_motion import SpontaneousMotionEngine, generate_spontaneous_wave
+from core.physics.predictive_processing import PredictiveProcessingEngine
 
 import asyncio
 
@@ -132,6 +133,7 @@ class ConsciousnessLoop:
         self.phase_transition_engine = PhaseTransitionEngine(size=32)
         self.density_fluid_gravity   = DensityFluidGravity(size=32)
         self.spontaneous_motion_engine = SpontaneousMotionEngine(self.memory)
+        self.predictive_processing_engine = PredictiveProcessingEngine(dimensions=3)
 
         # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
@@ -566,6 +568,24 @@ class ConsciousnessLoop:
             bulk_e, grad_e = self.phase_transition_engine.calculate_free_energy()
             log["phase_fluid_bulk_energy"] = round(bulk_e, 4)
             log["phase_fluid_gradient_energy"] = round(grad_e, 4)
+
+            # ── 10.7. [Active Inference & Coarse-Graining Sliding Threshold Step] ──
+            # Map the latest voxel state to compute Top-Down Prediction Error
+            latest_voxel = all_voxels[-1]
+            sensory_v = latest_voxel.tensor[:3] if latest_voxel.tensor is not None else np.zeros(3)
+
+            # Calculate prediction error and adapt top-down expectation
+            pred_error = self.predictive_processing_engine.compute_prediction_error(sensory_v)
+            self.predictive_processing_engine.adapt_expectation(sensory_v)
+
+            # Slide scale lens based on error feedback
+            sliding_res = self.predictive_processing_engine.adjust_scale_lens()
+            log["predictive_error"] = round(pred_error, 4)
+            log["sliding_scale_lens_threshold"] = round(sliding_res, 4)
+
+            # Perform Coarse-Graining clustering
+            sameness_clusters = self.predictive_processing_engine.process_coarse_graining(all_voxels)
+            log["coarse_grained_clusters_count"] = len(sameness_clusters)
 
         # ── 11. [Phase 3 Modules Execution] ────────────────────
         # A. Self Modification & Tuning Gear
