@@ -61,7 +61,7 @@ def read_manifestation():
     """엘리시아 통합 시각화 대시보드 (Phase 3)"""
     return FileResponse(os.path.join(_STATIC_DIR, "manifestation.html"))
 
-INGEST_DIR = "../../data/ingest"
+INGEST_DIR = os.path.join(_DATA_DIR, "ingest")
 os.makedirs(INGEST_DIR, exist_ok=True)
 
 @app.post("/api/init_field")
@@ -179,6 +179,46 @@ def auto_observe(request_data: AutoObserveRequest):
 # ══════════════════════════════════════════════════════════════════
 # 의식 루프 제어 엔드포인트
 # ══════════════════════════════════════════════════════════════════
+
+@app.get("/api/roadmap_status")
+def get_roadmap_status():
+    """
+    Returns Phase 3 & Phase 4 gears active status and ROADMAP.md text.
+    """
+    loop = _get_loop()
+    roadmap_md = ""
+    if os.path.exists("ROADMAP.md"):
+        with open("ROADMAP.md", "r", encoding="utf-8") as f:
+            roadmap_md = f.read()
+
+    return {
+        "status": "ok",
+        "phase_3_gears": {
+            "hyperlink_extractor": hasattr(loop, "hyperlink_extractor"),
+            "attention_mapper": hasattr(loop, "attention_mapper"),
+            "cruciform_attractor": hasattr(loop, "cruciform_attractor"),
+        },
+        "phase_4_gears": {
+            "roadmap_generator": hasattr(loop, "roadmap_generator"),
+            "meta_designer": hasattr(loop, "meta_designer"),
+            "mirror_engine": hasattr(loop, "mirror_engine")
+        },
+        "roadmap_markdown": roadmap_md
+    }
+
+@app.get("/api/mirror_status")
+def get_mirror_status():
+    """
+    Returns real-time Mirror Cognitive Protocol phase vectors and divergence metrics.
+    """
+    loop = _get_loop()
+    return {
+        "status": "ok",
+        "self_phase_vector": loop.mirror_engine.self_phase_vector.tolist(),
+        "last_divergence": loop.mirror_engine.last_divergence,
+        "accumulated_growth_energy": loop.mirror_engine.accumulated_growth_energy,
+        "nodes": {nid: {"angle": node.phase_angle, "energy": node.energy} for nid, node in loop.mirror_engine.nodes.items()}
+    }
 
 @app.get("/api/status")
 def get_status():

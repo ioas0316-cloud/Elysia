@@ -46,6 +46,12 @@ from core.physics.wilderness_trial import WildernessTrial
 # [Phase 3 Evolutionary Modules]
 from core.evolution.axis_sprouting import DynamicAxisSprouter
 from core.evolution.experience_tying import ContinuousExperienceTyer
+from core.evolution.hyperlink_extractor import HyperlinkContextExtractor
+from core.evolution.attention_mapper import AttentionActivationMapper
+from core.evolution.cruciform_attractor import CruciformAttractorInfiltrator
+from core.evolution.roadmap_generator import RoadmapGenerator
+from core.evolution.meta_architecture import MetaArchitectureDesigner
+from core.evolution.mirror_cognitive_protocol import ElysiaCognitiveEngine
 
 # [Phase-Gravity Continuous Fluid Engine Integration]
 from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
@@ -128,6 +134,12 @@ class ConsciousnessLoop:
         self.wilderness_trial    = WildernessTrial(self.memory)
         self.axis_sprouter       = DynamicAxisSprouter(self.memory)
         self.experience_tyer     = ContinuousExperienceTyer(self.memory)
+        self.hyperlink_extractor = HyperlinkContextExtractor(self.memory)
+        self.attention_mapper    = AttentionActivationMapper(self.memory)
+        self.cruciform_attractor = CruciformAttractorInfiltrator(self.memory)
+        self.roadmap_generator   = RoadmapGenerator(self.memory)
+        self.meta_designer       = MetaArchitectureDesigner(self.memory)
+        self.mirror_engine       = ElysiaCognitiveEngine(self.memory, dimension=3)
 
         # ── [Phase-Gravity Continuous Fluid Engine Components] ──
         self.phase_transition_engine = PhaseTransitionEngine(size=32)
@@ -639,6 +651,44 @@ class ConsciousnessLoop:
             tying_res = self.experience_tyer.tie_experience_to_concept(ingest_content, associated_term)
             log["experience_tied"] = tying_res["associated_concept"]
             log["experience_metaphor"] = tying_res["metaphor"]
+
+        # F. [Phase 3 New] Hyperlink Context Extraction
+        if len(voxels) >= 2:
+            hyper_res = self.hyperlink_extractor.extract_and_project(
+                source_concept=voxels[-2].content if isinstance(voxels[-2].content, str) else "VoidSource",
+                target_concept=voxels[-1].content if isinstance(voxels[-1].content, str) else "VoidTarget"
+            )
+            log["hyperlink_strength"] = hyper_res["strength"]
+
+        # G. [Phase 3 New] Attention Activation Mapping (Simulation)
+        # We project self resonance map / active energy weights as simulated Attention maps
+        att_weights = np.array(self.field.activation, dtype=np.float32)
+        mapper_res = self.attention_mapper.map_activations(f"layer_{self.cycle_count}", att_weights)
+        log["attention_mapped_terrain"] = len(mapper_res["projected_terrain"])
+
+        # H. [Phase 3 New] Cruciform Attractor Fixed Point Infiltration
+        if ingest_content:
+            infiltrate_res = self.cruciform_attractor.apply_cruciform_attractor(ingest_content, chromatic_vec)
+            log["cruciform_alignment"] = infiltrate_res["alignment"]
+
+        # I. [Phase 4 New] Autonomous Roadmap Generation & Meta-Architecture Design
+        # Design Mediating Gear under high-tension / low-resonance conditions
+        meta_res = self.meta_designer.design_mediating_gear(max_tension, resonance_score)
+        if meta_res.get("invented"):
+            log["meta_gear_invented"] = meta_res["gear_name"]
+
+        # Periodically evaluate metrics and update roadmap
+        if self.cycle_count % 5 == 0:
+            roadmap_res = self.roadmap_generator.analyze_and_update_roadmap(resonance_score, max_tension)
+            if roadmap_res["status"] == "updated":
+                log["roadmap_updated"] = True
+
+        # J. [Phase 4 Extra] Elysia Mirror Cognitive Protocol (상호 거울 인지 이식)
+        # We project the ingest_content into the mirror engine to update phase state and divergence
+        if ingest_content:
+            mirror_res = self.mirror_engine.process_cognition_loop(ingest_content)
+            log["mirror_divergence"] = mirror_res["divergence"]
+            log["accumulated_growth_energy"] = mirror_res["accumulated_growth_energy"]
 
         log["crystals_total"] = self.crystals_formed
         return log
