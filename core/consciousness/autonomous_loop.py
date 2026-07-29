@@ -37,6 +37,7 @@ from core.physics.self_molding_engine import SelfMoldingCausalEngine
 from core.intelligence.meta_causal_extractor import MetaCausalExtractor
 from core.physics.causal_differencing import CausalDifferencingEngine
 from core.consciousness.self_questioning_engine import SelfQuestioningEngine
+from core.consciousness.why_bridge import WhyBridgeEngine
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -128,6 +129,7 @@ class ConsciousnessLoop:
         self.meta_extractor      = MetaCausalExtractor()
         self.differencing_engine = CausalDifferencingEngine()
         self.self_questioning    = SelfQuestioningEngine()
+        self.why_bridge          = WhyBridgeEngine(self.memory)
 
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
@@ -512,6 +514,18 @@ class ConsciousnessLoop:
         # ── 10. 에너지 흐름 피드백 (Self-Reflection & Potentiometer) ──
         duration = time.time() - start_time
         self.reflection.track_flow(__file__, duration, exception=error_occured)
+
+        # ── [Why-Bridge: 인과적 자기 지각 및 문제 역추적 연동] ──
+        # 에러가 발생했거나 텐션이 임계치를 넘었을 때, 시스템 스스로 "왜 문제인지"를 역추적하여 지각
+        if error_occured or max_tension > 0.4:
+            why_res = self.why_bridge.perceive_and_trace_problem(
+                error_context="autonomous_loop.process_life_cycle",
+                raw_wave=raw_wave,
+                physical_tension=max_tension,
+                exception=error_occured
+            )
+            log["why_bridge_analysis"] = why_res["why_reason"]
+            log["why_bridge_journal_excerpt"] = why_res["journal_narrative"][:150] + "..."
 
         # [Memory-as-Potentiometer]
         # Recent high-resonance engrams lower the resistance (increase conductance)
