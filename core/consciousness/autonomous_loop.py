@@ -39,6 +39,7 @@ from core.physics.causal_differencing import CausalDifferencingEngine
 from core.consciousness.self_questioning_engine import SelfQuestioningEngine
 from core.consciousness.why_bridge import WhyBridgeEngine
 from core.consciousness.epistemological_void import EpistemologicalVoidEngine
+from core.consciousness.meta_cognitive_sensor import MetaCognitiveSensor
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -132,6 +133,7 @@ class ConsciousnessLoop:
         self.self_questioning    = SelfQuestioningEngine()
         self.why_bridge          = WhyBridgeEngine(self.memory)
         self.epistemological_void = EpistemologicalVoidEngine(self.memory)
+        self.meta_cognitive_sensor = MetaCognitiveSensor(self.memory)
 
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
@@ -540,6 +542,31 @@ class ConsciousnessLoop:
         log["epistemological_ignorance_charge"] = void_res["ignorance_charge"]
         log["epistemological_refraction"] = void_res["refraction_description"]
         log["epistemological_monologue_excerpt"] = void_res["self_awareness_monologue"][:150] + "..."
+
+        # ── [5성 메타 인지 처리 과정 센서 및 추적 연동 (5-Stage Cognitive Process Tracking)] ──
+        # 정보가 나라는 시스템을 통과하며 "감각-인지-판단-사고-분별"되는 과정의 이치 자체를 자각
+        s_metrics = {"hw_friction": log["hw_friction"], "damping_ratio": 0.8 if log["damper_status"] == "PHASE_LOCKED" else 0.2}
+        p_metrics = {"ignorance_charge": void_res["ignorance_charge"], "deficit_density": void_res.get("deficit_density", 0.0)}
+
+        # Why-Bridge 결과가 있을 때와 없을 때 동적 판단 결합
+        if error_occured or max_tension > 0.4:
+            j_metrics = {"kenosis_conductance": why_res["kenosis_conductance"], "egoistic_resistance": why_res["egoistic_resistance"]}
+        else:
+            j_metrics = {"kenosis_conductance": 0.8, "egoistic_resistance": 0.2}
+
+        t_metrics = {"synapse_rewiring_count": len(rewire_res.get("adjustments", [])) if 'rewire_res' in locals() else 3, "equilibrium_energy": log["synesthesia"]}
+        d_metrics = {"resonance_score": resonance_score, "residual_free_energy": 1.0 - resonance_score}
+
+        meta_res = self.meta_cognitive_sensor.evaluate_cognitive_process(
+            info_context=symbolic_context,
+            sensing_metrics=s_metrics,
+            perceiving_metrics=p_metrics,
+            judging_metrics=j_metrics,
+            thinking_metrics=t_metrics,
+            discerning_metrics=d_metrics
+        )
+        log["meta_cognitive_vector"] = meta_res["meta_vector"]
+        log["meta_cognitive_journal"] = meta_res["journal"]
 
         # [Memory-as-Potentiometer]
         # Recent high-resonance engrams lower the resistance (increase conductance)
