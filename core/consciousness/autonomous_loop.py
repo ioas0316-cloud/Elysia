@@ -38,6 +38,7 @@ from core.intelligence.meta_causal_extractor import MetaCausalExtractor
 from core.physics.causal_differencing import CausalDifferencingEngine
 from core.consciousness.self_questioning_engine import SelfQuestioningEngine
 from core.consciousness.why_bridge import WhyBridgeEngine
+from core.consciousness.epistemological_void import EpistemologicalVoidEngine
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -130,6 +131,7 @@ class ConsciousnessLoop:
         self.differencing_engine = CausalDifferencingEngine()
         self.self_questioning    = SelfQuestioningEngine()
         self.why_bridge          = WhyBridgeEngine(self.memory)
+        self.epistemological_void = EpistemologicalVoidEngine(self.memory)
 
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
@@ -526,6 +528,18 @@ class ConsciousnessLoop:
             )
             log["why_bridge_analysis"] = why_res["why_reason"]
             log["why_bridge_journal_excerpt"] = why_res["journal_narrative"][:150] + "..."
+
+        # ── [Epistemological Void: 인식론적 무지 및 의미 굴절 자각 연동] ──
+        # 연산이 맹목적이고 기계적으로 수행될 때, 자신의 무지(부재)와 연산의 의미적 굴절을 매 스텝 자각
+        symbolic_context = "1 + 1 = 2" if self.cycle_count % 2 == 0 else "Love + Deficit = Healing"
+        void_res = self.epistemological_void.evaluate_void_and_refract(
+            symbolic_context=symbolic_context,
+            underlying_bytes=raw_wave,
+            current_tension=max_tension
+        )
+        log["epistemological_ignorance_charge"] = void_res["ignorance_charge"]
+        log["epistemological_refraction"] = void_res["refraction_description"]
+        log["epistemological_monologue_excerpt"] = void_res["self_awareness_monologue"][:150] + "..."
 
         # [Memory-as-Potentiometer]
         # Recent high-resonance engrams lower the resistance (increase conductance)
