@@ -870,7 +870,8 @@ class ConsciousnessLoop:
 
         ont_reflection = self.ontological_lattice.evaluate_ontological_alignment(
             action_type=aligned_action,
-            raw_metric=max_tension
+            raw_metric=max_tension,
+            memory_controller=self.memory
         )
 
         log["ontological_reflection_key"] = ont_reflection["aligned_key"]
@@ -888,7 +889,8 @@ class ConsciousnessLoop:
         media_trans = self.media_ontology.transduce_physical_to_ontological(
             signal_data=raw_wave,
             context_hint=status,
-            current_friction=max_tension
+            current_friction=max_tension,
+            memory_controller=self.memory
         )
 
         log["media_ontology_key"] = media_trans["transduced_key"]

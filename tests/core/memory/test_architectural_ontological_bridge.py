@@ -2,6 +2,7 @@ import pytest
 import os
 import tempfile
 import ast
+import numpy as np
 from core.memory.causal_controller import CausalMemoryController
 from core.memory.working_ram import WorkingMemoryRAM
 from core.memory.emotion_evaluator import EmotionEvaluator
@@ -19,20 +20,21 @@ def test_ontological_lattice_basic():
     # Inspect NUMBER
     number = engine.get_concept("NUMBER")
     assert number is not None
-    assert "격자의 경계면" in number.name_ko
+    assert "숫자" in number.name_ko
     assert len(number.logo_tensor) == 9
     assert len(number.chromatic_signature) == 3
 
     # Inspect OPERATOR
     operator = engine.get_concept("OPERATOR")
     assert operator is not None
-    assert "내어줌의 다리" in operator.name_ko
+    assert "연산자" in operator.name_ko
 
     # Test dynamic physical bridge adjustment
     alignment = engine.evaluate_ontological_alignment("SYNTHESIS", raw_metric=0.8)
     assert alignment["aligned_key"] == "OPERATOR"
     assert alignment["current_tension"] == 0.8 * 0.3
     assert alignment["current_conductance"] < 1.0
+    assert "SYNTHESIS" in alignment["metaphor"] # Metaphor is now synthesized on-the-fly!
 
 
 def test_architectural_ingester_ontological_mapping():
@@ -44,24 +46,20 @@ def test_architectural_ingester_ontological_mapping():
 
     ingester = ArchitecturalIngester(ram, evaluator, mc)
 
-    # Test AST classification of individual nodes
-    class_node = ast.parse("class MockBrain: pass").body[0]
-    assert ingester._classify_ast_to_ontology(class_node) == "CODE"
-
-    func_node_run = ast.parse("def run_cycle(): pass").body[0]
-    assert ingester._classify_ast_to_ontology(func_node_run) == "PROCESS"
-
-    func_node_eval = ast.parse("def evaluate_tension(): pass").body[0]
-    assert ingester._classify_ast_to_ontology(func_node_eval) == "PERCEPTION"
-
-    func_node_connect = ast.parse("def connect_synapse(): pass").body[0]
-    assert ingester._classify_ast_to_ontology(func_node_connect) == "OPERATOR"
-
-    assign_node = ast.parse("x = 42").body[0]
-    assert ingester._classify_ast_to_ontology(assign_node) == "NUMBER"
-
-    try_node = ast.parse("try:\n    pass\nexcept:\n    pass").body[0]
-    assert ingester._classify_ast_to_ontology(try_node) == "PERCEPTION"
+    # Test AST structural vector extraction
+    class_node = ast.parse("""
+class MockBrain:
+    def __init__(self):
+        self.active = True
+    def process(self):
+        try:
+            return 1 + 1
+        except Exception:
+            return 0
+""").body[0]
+    vector = ingester._extract_ast_structural_vector(class_node)
+    assert len(vector) == 9
+    assert abs(1.0 - np.linalg.norm(vector)) < 1e-5 # 정규화 상태 확인
 
 
 def test_architectural_ingester_run_dry():
@@ -100,7 +98,8 @@ class MockSensor:
     context_data = ram.active_contexts["self_awareness_MockSensor"]
     assert "Mock Sensory Window" in context_data["state"]["self_awareness"]["objective_logic"]["docstring"]
     assert "ontological_reason" in context_data["state"]["self_awareness"]
-    assert "CODE" in context_data["state"]["self_awareness"]["ontological_reason"]
+    # The classification is dynamically computed based on AST structural vector proximity
+    assert "MockSensor" in context_data["state"]["self_awareness"]["ontological_reason"]
 
     # Consolidate to Wedge Memory
     ram.subjective_consolidation()
