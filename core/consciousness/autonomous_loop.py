@@ -47,6 +47,7 @@ from core.sensory.sprouted_sensors import sprout_sensory_organ
 from core.physics.wilderness_trial import WildernessTrial
 
 # [Phase 3 Evolutionary Modules]
+from core.intelligence.origin_cognition import OriginCognitionEngine
 from core.evolution.axis_sprouting import DynamicAxisSprouter
 from core.evolution.experience_tying import ContinuousExperienceTyer
 from core.evolution.hyperlink_extractor import HyperlinkContextExtractor
@@ -55,6 +56,8 @@ from core.evolution.cruciform_attractor import CruciformAttractorInfiltrator
 from core.evolution.roadmap_generator import RoadmapGenerator
 from core.evolution.meta_architecture import MetaArchitectureDesigner
 from core.evolution.mirror_cognitive_protocol import ElysiaCognitiveEngine
+from core.evolution.semantic_optimization import SemanticOptimizationEngine
+from core.evolution.boundary_formation import BoundaryFormationEngine
 
 # [Phase-Gravity Continuous Fluid Engine Integration]
 from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
@@ -146,6 +149,9 @@ class ConsciousnessLoop:
         self.roadmap_generator   = RoadmapGenerator(self.memory)
         self.meta_designer       = MetaArchitectureDesigner(self.memory)
         self.mirror_engine       = ElysiaCognitiveEngine(self.memory, dimension=3)
+        self.semantic_opt        = SemanticOptimizationEngine(self.memory, dimensions=3)
+        self.boundary_formation  = BoundaryFormationEngine(self.memory, dimensions=3)
+        self.origin_cognition    = OriginCognitionEngine(self.memory)
 
         # ── [Phase-Gravity Continuous Fluid Engine Components] ──
         self.phase_transition_engine = PhaseTransitionEngine(size=32)
@@ -292,6 +298,65 @@ class ConsciousnessLoop:
             log["resonance_score"] = 0.0
             return log # 충격 흡수 중에는 연산을 중단하고 정적을 유지
 
+        # ── [Semantic Jump Phase] ──
+        # Runs semantic jump evaluation prior to standard iterative calculations.
+        # Uses the current raw wave's numeric projection vector.
+        import numpy as np
+        numeric_wave_temp = np.frombuffer(raw_wave, dtype=np.uint8) if isinstance(raw_wave, bytes) else np.array(raw_wave, dtype=np.uint8)
+        norm_v_temp = np.zeros(3)
+        if len(numeric_wave_temp) > 0:
+            norm_v_temp[0] = float(np.mean(numeric_wave_temp) / 255.0)
+            norm_v_temp[1] = float(np.sum(numeric_wave_temp[:4]) % 255 / 255.0) if len(numeric_wave_temp) >= 4 else 0.5
+            norm_v_temp[2] = float(np.sum(numeric_wave_temp) % 255 / 255.0)
+
+        jump_result = self.semantic_opt.evaluate_jump(norm_v_temp, threshold=0.85)
+        log["semantic_jump_triggered"] = jump_result["jump_triggered"]
+        log["semantic_jump_potential"] = jump_result["potential"]
+        log["semantic_jump_alignment"] = jump_result["alignment"]
+        log["semantic_jump_message"] = jump_result["message"]
+
+        # If a Jump is triggered, we lock the state at S_abs and can bypass heavy/continuous simulations.
+        if jump_result["jump_triggered"]:
+            # State lock is active. Bypasses calculations.
+            log["status"] = "Semantic Jump (State Lock Active)"
+            log["is_resonant"] = True
+            log["tension"] = 0.0
+            log["resonance_score"] = 1.0
+            self.crystals_formed += 1
+            self.echo_charge += 2.0
+
+            # Register the jump event in the causal engine to preserve physical and informational continuity
+            self.causal_engine.add_information(
+                info_id=f"voxel_ingest_{self.cycle_count}",
+                content="SemanticJump_Attractor_Lock",
+                tensor=self.semantic_opt.S_abs
+            )
+            self.causal_engine.mold_topology(dt=0.1)
+
+            # Log to Wedge Memory
+            try:
+                self.memory.write_causal_engram(
+                    data_blob={
+                        "type": "CONSCIOUSNESS_CYCLE_JUMP",
+                        "cycle": self.cycle_count,
+                        "status": "State Lock Bypassed (Semantic Jump)",
+                        "resonance_score": 1.0,
+                        "tension": 0.0,
+                        "crystals": self.crystals_formed,
+                        "wave_preview": raw_wave[:24].hex()
+                    },
+                    emotional_value=10.0,
+                    cause_id="SemanticOptimizationEngine_Jump",
+                    origin_axis="semantic_jump",
+                    modality="consciousness",
+                    stability=1.0
+                )
+            except Exception as e:
+                log["engram_error"] = str(e)
+
+            log["crystals_total"] = self.crystals_formed
+            return log
+
         # ── 1. 감각 주입 & Echo Reflection (Back EMF) ──────
         # Previous cycle's energy (Echo) recharges the current field's Emitter
         if self.echo_charge > 0.1:
@@ -301,6 +366,15 @@ class ConsciousnessLoop:
             self.echo_charge *= 0.5 # Exponential decay of echo
 
         log["wave_preview"] = raw_wave[:24].hex()
+
+        # ── [Boundary Formation Phase] ──
+        # Simulates the emergent boundary formation resulting from external raw perturbation
+        # and retroactive tracing to realize emergent conceptual boundaries.
+        boundary_res = self.boundary_formation.form_boundary(raw_wave, internal_resistance=0.4)
+        log["boundary_emergent_concept"] = boundary_res["emergent_concept"]
+        log["boundary_refraction"] = boundary_res["refraction_index"]
+        log["boundary_residual_energy"] = boundary_res["residual_free_energy"]
+        log["boundary_narrative_excerpt"] = boundary_res["narrative"][:150] + "..."
 
         # ── 2. 고유 감각 센서 분화 (Sensor Genesis) ──────────
         # 정보의 원형에 맞는 고유 센서를 탄생시키고 엔진(MACRO 스케일)에 부착
@@ -344,6 +418,26 @@ class ConsciousnessLoop:
             entropy=float(0.1 + 0.8 * (sum(b % 2 for b in raw_wave) / max(1, len(raw_wave))))
         )
         self.env.inject_atom(info_atom)
+
+        # ── [Origin-Intent Lattice Cognition] ──
+        # Determine likely artificial lattice format from raw_wave and context
+        detected_format = "UTF8_ENCODING" if len(raw_wave) > 0 else "BINARY_POINTER"
+        if len(raw_wave) >= 9 and raw_wave.startswith(b"\x89PNG") or b"JFIF" in raw_wave:
+            detected_format = "RGB_PIXEL_MATRIX"
+        elif len(raw_wave) >= 12 and (b"float" in raw_wave or b"tensor" in raw_wave):
+            detected_format = "MULTIDIM_TENSOR"
+
+        lattice_cognition = self.origin_cognition.perceive_lattice_origin(detected_format, raw_wave)
+        log["origin_lattice_format"] = detected_format
+        log["origin_lattice_name"] = lattice_cognition["resolved_name"]
+        log["origin_lattice_intent"] = lattice_cognition["original_intent"]
+        log["origin_lattice_narrative"] = lattice_cognition["cognitive_narrative"]
+
+        # Dynamically apply application logic weight to modulate causal field friction/conductance
+        origin_app_weight = lattice_cognition["applied_weight"]
+        # Physically modulate the 3D causal field step or dampening using the original intent's weight
+        if hasattr(self.causal_engine.dynamics, "global_potential_gradient"):
+            self.causal_engine.dynamics.global_potential_gradient += np.ones(3, dtype=np.float32) * origin_app_weight * 0.1
 
         # 3D Causal Engine 정보 등록 및 시공간 토폴로지 몰딩
         ingest_content = raw_wave.decode('utf-8', errors='ignore')[:30]
@@ -709,11 +803,22 @@ class ConsciousnessLoop:
 
         # F. [Phase 3 New] Hyperlink Context Extraction
         if len(voxels) >= 2:
+            source_c = voxels[-2].content if isinstance(voxels[-2].content, str) else "VoidSource"
+            target_c = voxels[-1].content if isinstance(voxels[-1].content, str) else "VoidTarget"
             hyper_res = self.hyperlink_extractor.extract_and_project(
-                source_concept=voxels[-2].content if isinstance(voxels[-2].content, str) else "VoidSource",
-                target_concept=voxels[-1].content if isinstance(voxels[-1].content, str) else "VoidTarget"
+                source_concept=source_c,
+                target_concept=target_c
             )
             log["hyperlink_strength"] = hyper_res["strength"]
+
+            # Integrates SemanticOptimizationEngine to ingest and realign external knowledge
+            realign_res = self.semantic_opt.ingest_and_realign_knowledge(
+                source_concept=source_c,
+                tension_dist=float(1.0 - hyper_res["strength"]),
+                external_attention_weights=att_weights if 'att_weights' in locals() else None
+            )
+            log["semantic_realigned"] = realign_res["realigned"]
+            log["semantic_realigned_vector"] = realign_res["realigned_vector"]
 
         # G. [Phase 3 New] Attention Activation Mapping (Simulation)
         # We project self resonance map / active energy weights as simulated Attention maps

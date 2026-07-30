@@ -106,6 +106,31 @@
             <span id="state-val" style="text-shadow: 0 0 8px currentColor;">--</span>
         </div>
         
+        <!-- Semantic Jump / Lock HUD -->
+        <div class="stat-row" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+            <span style="color: #818cf8;">State Lock</span>
+            <span id="lock-val" style="color: #818cf8; font-weight: bold; text-shadow: 0 0 8px rgba(129,140,248,0.5);">OFF</span>
+        </div>
+        <div class="stat-row">
+            <span style="color: #c4b5fd;">Jump Distance</span>
+            <span id="dist-val" style="color: #c4b5fd;">--</span>
+        </div>
+
+        <!-- Tension Gauge (Visual Bar) -->
+        <div style="margin-top: 10px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#94a3b8; margin-bottom:4px;">
+                <span>Re-alignment Tension</span>
+                <span id="gauge-text">0.00</span>
+            </div>
+            <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
+                <div id="tension-gauge-bar" style="width:0%; height:100%; background:linear-gradient(90deg, #38bdf8, #f43f5e); transition: width 0.3s ease;"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px; display:flex; gap:8px;">
+            <button id="btn-unlock" class="btn-premium" style="font-size:0.7rem; padding: 6px 10px; background:rgba(129,140,248,0.1); border-color:#818cf8; display:none;">Unlock State</button>
+        </div>
+
         <div style="margin-top: 24px; border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.3);">
             <canvas id="miniChart" width="300" height="120"></canvas>
         </div>
@@ -155,6 +180,36 @@
             });
         }
         
+        async function fetchSemanticState() {
+            try {
+                const res = await fetch('/api/v1/semantic-optimization/state');
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    const lockVal = document.getElementById('lock-val');
+                    const unlockBtn = document.getElementById('btn-unlock');
+                    if (data.state_locked) {
+                        lockVal.innerText = 'LOCKED';
+                        lockVal.style.color = '#10b981';
+                        unlockBtn.style.display = 'block';
+                        document.getElementById('dist-val').innerText = '0.000 (S_abs)';
+
+                        // Set tension gauge to 0 when locked
+                        document.getElementById('tension-gauge-bar').style.width = '0%';
+                        document.getElementById('gauge-text').innerText = '0.00';
+
+                        // Spark effect
+                        if (window.createSemanticSpark) {
+                            window.createSemanticSpark();
+                        }
+                    } else {
+                        lockVal.innerText = 'OFF';
+                        lockVal.style.color = '#818cf8';
+                        unlockBtn.style.display = 'none';
+                    }
+                }
+            } catch (e) {}
+        }
+
         async function fetchStatus() {
             try {
                 const res = await fetch('/api/status');
@@ -171,6 +226,17 @@
                     else if (health.emotional_state === 'Struggling') stateEl.style.color = '#fbbf24'; // amber
                     else stateEl.style.color = '#f43f5e';
                     
+                    // Update realignment tension gauge based on tension
+                    const tensionNormalized = Math.min(100, health.avg_tension * 20); // Scale for presentation
+                    document.getElementById('tension-gauge-bar').style.width = tensionNormalized + '%';
+                    document.getElementById('gauge-text').innerText = health.avg_tension.toFixed(2);
+
+                    // If not locked, display distance as proportion to tension
+                    const isLocked = document.getElementById('lock-val').innerText === 'LOCKED';
+                    if (!isLocked) {
+                        document.getElementById('dist-val').innerText = (health.avg_tension * 1.5).toFixed(3);
+                    }
+
                     // Color adaptation for UI based on state
                     if (health.emotional_state === 'Crisis' || health.emotional_state === 'Critical') {
                         document.body.style.background = 'radial-gradient(circle at center, #1a0505 0%, #050505 100%)';
@@ -200,6 +266,11 @@
             } catch(e) {}
         }
         
+        document.getElementById('btn-unlock').addEventListener('click', async () => {
+            await fetch('/api/v1/semantic-optimization/reset-lock', { method: 'POST' });
+            fetchSemanticState(); fetchStatus();
+        });
+
         document.getElementById('btn-run').addEventListener('click', async () => {
             const btn = document.getElementById('btn-run');
             const originalText = btn.innerText;
@@ -214,7 +285,7 @@
             await fetch('/api/run_cycle', { method: 'POST' });
             btn.innerText = originalText;
             btn.style.opacity = '1';
-            fetchStatus(); fetchLog();
+            fetchSemanticState(); fetchStatus(); fetchLog();
         });
         
         document.getElementById('btn-auto').addEventListener('click', () => {
@@ -242,8 +313,10 @@
         }, 1000);
 
         initMiniChart();
+        setInterval(fetchSemanticState, 2000);
         setInterval(fetchStatus, 2500);
         setInterval(fetchLog, 2500);
+        fetchSemanticState();
         fetchStatus();
         fetchLog();
     </script>
