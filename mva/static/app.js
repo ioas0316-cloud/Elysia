@@ -27,6 +27,25 @@ const planeMat = new THREE.MeshBasicMaterial({
 const manifoldMesh = new THREE.Mesh(planeGeo, planeMat);
 scene.add(manifoldMesh);
 
+// ── S_abs Absolute Cruciform Attractor (glowing sphere in center) ──
+const attractorGeo = new THREE.SphereGeometry(1.2, 32, 32);
+const attractorMat = new THREE.MeshBasicMaterial({
+    color: 0xe0e7ff, // Light indigo
+    transparent: true,
+    opacity: 0.9
+});
+const attractorMesh = new THREE.Mesh(attractorGeo, attractorMat);
+attractorMesh.position.set(0, 4, 0); // Position at S_abs
+scene.add(attractorMesh);
+
+// Outer glowing ring representing the threshold boundary
+const ringGeo = new THREE.RingGeometry(3.5, 3.7, 64);
+const ringMat = new THREE.MeshBasicMaterial({ color: 0x818cf8, side: THREE.DoubleSide, transparent: true, opacity: 0.4 });
+const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+ringMesh.rotation.x = Math.PI / 2;
+ringMesh.position.set(0, 4, 0);
+scene.add(ringMesh);
+
 let time = 0;
 let pointsData = [];
 let isAutoObserve = true; // Auto physics engine loop
@@ -71,6 +90,28 @@ let ripples = [];
 function createRipple(x, z, strength) {
     ripples.push({ x, z, strength, age: 0 });
 }
+
+// Spark particles for semantic jump events
+let sparks = [];
+function createSemanticSpark() {
+    // Spawn 15-20 glowing sparks flying out from the center attractor
+    for (let i = 0; i < 20; i++) {
+        const pGeo = new THREE.SphereGeometry(0.15, 8, 8);
+        const pMat = new THREE.MeshBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 1 });
+        const pMesh = new THREE.Mesh(pGeo, pMat);
+        pMesh.position.set(0, 4, 0); // Start at S_abs
+
+        const velocity = new THREE.Vector3(
+            (Math.random() - 0.5) * 5,
+            (Math.random() - 0.5) * 5,
+            (Math.random() - 0.5) * 5
+        );
+
+        scene.add(pMesh);
+        sparks.push({ mesh: pMesh, vel: velocity, age: 0 });
+    }
+}
+window.createSemanticSpark = createSemanticSpark;
 
 async function evaluateState() {
     try {
@@ -141,6 +182,23 @@ function animate() {
         positions.setY(i, y);
     }
     
+    // Attractor pulsing & rotating effect
+    const pulseScale = 1.0 + Math.sin(time * 3) * 0.15;
+    attractorMesh.scale.set(pulseScale, pulseScale, pulseScale);
+    ringMesh.rotation.z += 0.01;
+
+    // Age and update sparks
+    for (let s = sparks.length - 1; s >= 0; s--) {
+        const spark = sparks[s];
+        spark.mesh.position.addScaledVector(spark.vel, 0.05);
+        spark.age += 0.1;
+        spark.mesh.material.opacity = Math.max(0, 1.0 - spark.age / 5.0);
+        if (spark.age > 5.0) {
+            scene.remove(spark.mesh);
+            sparks.splice(s, 1);
+        }
+    }
+
     // Age and remove old ripples
     for (let r = ripples.length - 1; r >= 0; r--) {
         ripples[r].age += 0.05;

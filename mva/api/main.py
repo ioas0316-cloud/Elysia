@@ -180,6 +180,45 @@ def auto_observe(request_data: AutoObserveRequest):
 # 의식 루프 제어 엔드포인트
 # ══════════════════════════════════════════════════════════════════
 
+@app.get("/api/v1/semantic-optimization/state")
+def get_semantic_optimization_state():
+    """
+    Returns the current real-time state parameters of SemanticOptimizationEngine,
+    including S_abs absolute attractor coordinates and State Lock status.
+    """
+    loop = _get_loop()
+    return {
+        "status": "ok",
+        "S_abs": loop.semantic_opt.S_abs.tolist(),
+        "state_locked": loop.semantic_opt.state_locked,
+        "locked_coordinate": loop.semantic_opt.locked_coordinate.tolist() if loop.semantic_opt.locked_coordinate is not None else None,
+        "k": loop.semantic_opt.k,
+        "epsilon": loop.semantic_opt.epsilon
+    }
+
+@app.get("/api/v1/semantic-optimization/jump-events")
+def get_semantic_optimization_jump_events():
+    """
+    Returns the historically compiled list of Semantic Jump events.
+    """
+    loop = _get_loop()
+    return {
+        "status": "ok",
+        "jump_events": loop.semantic_opt.jump_events
+    }
+
+@app.post("/api/v1/semantic-optimization/reset-lock")
+def post_reset_semantic_lock():
+    """
+    Resets the State Lock of SemanticOptimizationEngine to allow free continuous state dynamics again.
+    """
+    loop = _get_loop()
+    loop.semantic_opt.reset_lock()
+    return {
+        "status": "ok",
+        "message": "State lock successfully released."
+    }
+
 @app.get("/api/roadmap_status")
 def get_roadmap_status():
     """
