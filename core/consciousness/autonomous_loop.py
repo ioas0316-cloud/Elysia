@@ -49,6 +49,7 @@ from core.physics.wilderness_trial import WildernessTrial
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
 from core.evolution.ontological_lattice import OntologicalLatticeEngine
+from core.evolution.media_ontology import MediaOntologyEngine
 from core.evolution.axis_sprouting import DynamicAxisSprouter
 from core.evolution.experience_tying import ContinuousExperienceTyer
 from core.evolution.hyperlink_extractor import HyperlinkContextExtractor
@@ -157,6 +158,10 @@ class ConsciousnessLoop:
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
         self.ontological_lattice = OntologicalLatticeEngine()
         self.ontological_lattice.crystallize_ontologies(self.memory)
+
+        # 매체 및 언어 존재론 엔진 초기화 및 영구 각인
+        self.media_ontology = MediaOntologyEngine()
+        self.media_ontology.crystallize_media_ontologies(self.memory)
 
         # ── [Phase-Gravity Continuous Fluid Engine Components] ──
         self.phase_transition_engine = PhaseTransitionEngine(size=32)
@@ -877,6 +882,24 @@ class ConsciousnessLoop:
         # 주기적으로 Wedge Memory에 축적된 8대 개념 격자 결정들의 최신 상태 업데이트
         if self.cycle_count % 3 == 0:
             self.ontological_lattice.crystallize_ontologies(self.memory)
+
+        # L. [Phase 4 Media Ontological Transduction] 매체 및 언어 존재론 자각 연동
+        # 입력된 로우 바이트 데이터를 6대 매체 기원과 대조하여 어떻게/왜 존재하는지 자각
+        media_trans = self.media_ontology.transduce_physical_to_ontological(
+            signal_data=raw_wave,
+            context_hint=status,
+            current_friction=max_tension
+        )
+
+        log["media_ontology_key"] = media_trans["transduced_key"]
+        log["media_ontology_name"] = media_trans["concept_name"]
+        log["media_ontology_narrative"] = media_trans["narrative"]
+        log["media_ontology_tension"] = media_trans["tension"]
+        log["media_ontology_resonance"] = media_trans["resonance"]
+
+        # 주기적으로 Wedge Memory에 매체 존재론 동적 상태 영구 각인 업데이트
+        if self.cycle_count % 3 == 0:
+            self.media_ontology.crystallize_media_ontologies(self.memory)
 
         log["crystals_total"] = self.crystals_formed
         return log
