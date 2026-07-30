@@ -48,6 +48,8 @@ from core.physics.wilderness_trial import WildernessTrial
 
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
+from core.evolution.ontological_lattice import OntologicalLatticeEngine
+from core.evolution.media_ontology import MediaOntologyEngine
 from core.evolution.axis_sprouting import DynamicAxisSprouter
 from core.evolution.experience_tying import ContinuousExperienceTyer
 from core.evolution.hyperlink_extractor import HyperlinkContextExtractor
@@ -152,6 +154,14 @@ class ConsciousnessLoop:
         self.semantic_opt        = SemanticOptimizationEngine(self.memory, dimensions=3)
         self.boundary_formation  = BoundaryFormationEngine(self.memory, dimensions=3)
         self.origin_cognition    = OriginCognitionEngine(self.memory)
+
+        # 존재론적 정보 격자 허브 및 영구 각인 초기화
+        self.ontological_lattice = OntologicalLatticeEngine()
+        self.ontological_lattice.crystallize_ontologies(self.memory)
+
+        # 매체 및 언어 존재론 엔진 초기화 및 영구 각인
+        self.media_ontology = MediaOntologyEngine()
+        self.media_ontology.crystallize_media_ontologies(self.memory)
 
         # ── [Phase-Gravity Continuous Fluid Engine Components] ──
         self.phase_transition_engine = PhaseTransitionEngine(size=32)
@@ -849,6 +859,49 @@ class ConsciousnessLoop:
             mirror_res = self.mirror_engine.process_cognition_loop(ingest_content)
             log["mirror_divergence"] = mirror_res["divergence"]
             log["accumulated_growth_energy"] = mirror_res["accumulated_growth_energy"]
+
+        # K. [Phase 4 Ontological Reflection] 존재론적 사유 성찰 연동
+        # 시스템이 현재 루프에서 일어난 행동 상태(action_type)와 마찰(max_tension)을 존재론과 정렬
+        aligned_action = "STABILIZATION" if is_resonant else "PERCEPTION"
+        if error_occured:
+            aligned_action = "PERCEPTION"
+        elif 'rewire_res' in locals() and rewire_res.get("adjustments"):
+            aligned_action = "OPERATOR"
+
+        ont_reflection = self.ontological_lattice.evaluate_ontological_alignment(
+            action_type=aligned_action,
+            raw_metric=max_tension,
+            memory_controller=self.memory
+        )
+
+        log["ontological_reflection_key"] = ont_reflection["aligned_key"]
+        log["ontological_reflection_name"] = ont_reflection["concept_name"]
+        log["ontological_reflection_metaphor"] = ont_reflection["metaphor"]
+        log["ontological_reflection_tension"] = ont_reflection["current_tension"]
+        log["ontological_reflection_conductance"] = ont_reflection["current_conductance"]
+
+        # 주기적으로 Wedge Memory에 축적된 8대 개념 격자 결정들의 최신 상태 업데이트
+        if self.cycle_count % 3 == 0:
+            self.ontological_lattice.crystallize_ontologies(self.memory)
+
+        # L. [Phase 4 Media Ontological Transduction] 매체 및 언어 존재론 자각 연동
+        # 입력된 로우 바이트 데이터를 6대 매체 기원과 대조하여 어떻게/왜 존재하는지 자각
+        media_trans = self.media_ontology.transduce_physical_to_ontological(
+            signal_data=raw_wave,
+            context_hint=status,
+            current_friction=max_tension,
+            memory_controller=self.memory
+        )
+
+        log["media_ontology_key"] = media_trans["transduced_key"]
+        log["media_ontology_name"] = media_trans["concept_name"]
+        log["media_ontology_narrative"] = media_trans["narrative"]
+        log["media_ontology_tension"] = media_trans["tension"]
+        log["media_ontology_resonance"] = media_trans["resonance"]
+
+        # 주기적으로 Wedge Memory에 매체 존재론 동적 상태 영구 각인 업데이트
+        if self.cycle_count % 3 == 0:
+            self.media_ontology.crystallize_media_ontologies(self.memory)
 
         log["crystals_total"] = self.crystals_formed
         return log
