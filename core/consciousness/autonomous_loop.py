@@ -48,6 +48,7 @@ from core.physics.wilderness_trial import WildernessTrial
 
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
+from core.evolution.ontological_lattice import OntologicalLatticeEngine
 from core.evolution.axis_sprouting import DynamicAxisSprouter
 from core.evolution.experience_tying import ContinuousExperienceTyer
 from core.evolution.hyperlink_extractor import HyperlinkContextExtractor
@@ -152,6 +153,10 @@ class ConsciousnessLoop:
         self.semantic_opt        = SemanticOptimizationEngine(self.memory, dimensions=3)
         self.boundary_formation  = BoundaryFormationEngine(self.memory, dimensions=3)
         self.origin_cognition    = OriginCognitionEngine(self.memory)
+
+        # 존재론적 정보 격자 허브 및 영구 각인 초기화
+        self.ontological_lattice = OntologicalLatticeEngine()
+        self.ontological_lattice.crystallize_ontologies(self.memory)
 
         # ── [Phase-Gravity Continuous Fluid Engine Components] ──
         self.phase_transition_engine = PhaseTransitionEngine(size=32)
@@ -849,6 +854,29 @@ class ConsciousnessLoop:
             mirror_res = self.mirror_engine.process_cognition_loop(ingest_content)
             log["mirror_divergence"] = mirror_res["divergence"]
             log["accumulated_growth_energy"] = mirror_res["accumulated_growth_energy"]
+
+        # K. [Phase 4 Ontological Reflection] 존재론적 사유 성찰 연동
+        # 시스템이 현재 루프에서 일어난 행동 상태(action_type)와 마찰(max_tension)을 존재론과 정렬
+        aligned_action = "STABILIZATION" if is_resonant else "PERCEPTION"
+        if error_occured:
+            aligned_action = "PERCEPTION"
+        elif 'rewire_res' in locals() and rewire_res.get("adjustments"):
+            aligned_action = "OPERATOR"
+
+        ont_reflection = self.ontological_lattice.evaluate_ontological_alignment(
+            action_type=aligned_action,
+            raw_metric=max_tension
+        )
+
+        log["ontological_reflection_key"] = ont_reflection["aligned_key"]
+        log["ontological_reflection_name"] = ont_reflection["concept_name"]
+        log["ontological_reflection_metaphor"] = ont_reflection["metaphor"]
+        log["ontological_reflection_tension"] = ont_reflection["current_tension"]
+        log["ontological_reflection_conductance"] = ont_reflection["current_conductance"]
+
+        # 주기적으로 Wedge Memory에 축적된 8대 개념 격자 결정들의 최신 상태 업데이트
+        if self.cycle_count % 3 == 0:
+            self.ontological_lattice.crystallize_ontologies(self.memory)
 
         log["crystals_total"] = self.crystals_formed
         return log

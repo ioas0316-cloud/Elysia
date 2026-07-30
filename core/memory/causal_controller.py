@@ -97,7 +97,7 @@ class CausalMemoryController:
         self.cognitive_params[param_name] = new_value
         self._save_cognitive_params()
 
-    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None, is_constant: bool = False, modality: str = "unknown", stability: float = 1.0) -> str:
+    def write_causal_engram(self, data_blob: Dict[str, Any], emotional_value: float, cause_id: Optional[str] = None, origin_axis: Optional[str] = None, is_constant: bool = False, modality: str = "unknown", stability: float = 1.0, synapses: Optional[Dict[str, float]] = None) -> str:
         """
         [Phase 144] O(1) Wedge Annihilation 저장소.
         [Phase 8.5] 변수명(Origin)을 가변축화 하여 물리적 매핑 공간(Wedge)을 변경시킵니다.
@@ -136,7 +136,8 @@ class CausalMemoryController:
             "data_blob": data_blob,
             "is_constant": is_constant, # '정적 로터' 여부
             "stability": stability,    # 인지적 고정 강도 (0.0 ~ 1.0)
-            "modality": modality
+            "modality": modality,
+            "synapses": synapses or {}
         }
         # [최적화] 매번 디스크 쓰기를 하지 않고, 외부(Genesis)에서 주기적으로 flush_index()를 호출하도록 위임
         
