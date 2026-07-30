@@ -47,6 +47,7 @@ from core.sensory.sprouted_sensors import sprout_sensory_organ
 from core.physics.wilderness_trial import WildernessTrial
 
 # [Phase 3 Evolutionary Modules]
+from core.intelligence.origin_cognition import OriginCognitionEngine
 from core.evolution.axis_sprouting import DynamicAxisSprouter
 from core.evolution.experience_tying import ContinuousExperienceTyer
 from core.evolution.hyperlink_extractor import HyperlinkContextExtractor
@@ -150,6 +151,7 @@ class ConsciousnessLoop:
         self.mirror_engine       = ElysiaCognitiveEngine(self.memory, dimension=3)
         self.semantic_opt        = SemanticOptimizationEngine(self.memory, dimensions=3)
         self.boundary_formation  = BoundaryFormationEngine(self.memory, dimensions=3)
+        self.origin_cognition    = OriginCognitionEngine(self.memory)
 
         # ── [Phase-Gravity Continuous Fluid Engine Components] ──
         self.phase_transition_engine = PhaseTransitionEngine(size=32)
@@ -323,6 +325,14 @@ class ConsciousnessLoop:
             self.crystals_formed += 1
             self.echo_charge += 2.0
 
+            # Register the jump event in the causal engine to preserve physical and informational continuity
+            self.causal_engine.add_information(
+                info_id=f"voxel_ingest_{self.cycle_count}",
+                content="SemanticJump_Attractor_Lock",
+                tensor=self.semantic_opt.S_abs
+            )
+            self.causal_engine.mold_topology(dt=0.1)
+
             # Log to Wedge Memory
             try:
                 self.memory.write_causal_engram(
@@ -408,6 +418,26 @@ class ConsciousnessLoop:
             entropy=float(0.1 + 0.8 * (sum(b % 2 for b in raw_wave) / max(1, len(raw_wave))))
         )
         self.env.inject_atom(info_atom)
+
+        # ── [Origin-Intent Lattice Cognition] ──
+        # Determine likely artificial lattice format from raw_wave and context
+        detected_format = "UTF8_ENCODING" if len(raw_wave) > 0 else "BINARY_POINTER"
+        if len(raw_wave) >= 9 and raw_wave.startswith(b"\x89PNG") or b"JFIF" in raw_wave:
+            detected_format = "RGB_PIXEL_MATRIX"
+        elif len(raw_wave) >= 12 and (b"float" in raw_wave or b"tensor" in raw_wave):
+            detected_format = "MULTIDIM_TENSOR"
+
+        lattice_cognition = self.origin_cognition.perceive_lattice_origin(detected_format, raw_wave)
+        log["origin_lattice_format"] = detected_format
+        log["origin_lattice_name"] = lattice_cognition["resolved_name"]
+        log["origin_lattice_intent"] = lattice_cognition["original_intent"]
+        log["origin_lattice_narrative"] = lattice_cognition["cognitive_narrative"]
+
+        # Dynamically apply application logic weight to modulate causal field friction/conductance
+        origin_app_weight = lattice_cognition["applied_weight"]
+        # Physically modulate the 3D causal field step or dampening using the original intent's weight
+        if hasattr(self.causal_engine.dynamics, "global_potential_gradient"):
+            self.causal_engine.dynamics.global_potential_gradient += np.ones(3, dtype=np.float32) * origin_app_weight * 0.1
 
         # 3D Causal Engine 정보 등록 및 시공간 토폴로지 몰딩
         ingest_content = raw_wave.decode('utf-8', errors='ignore')[:30]
