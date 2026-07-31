@@ -60,6 +60,7 @@ from core.evolution.meta_architecture import MetaArchitectureDesigner
 from core.evolution.mirror_cognitive_protocol import ElysiaCognitiveEngine
 from core.evolution.semantic_optimization import SemanticOptimizationEngine
 from core.evolution.boundary_formation import BoundaryFormationEngine
+from core.evolution.moulting_plasticity import MoultingPlasticityEngine
 
 # [Phase-Gravity Continuous Fluid Engine Integration]
 from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
@@ -154,6 +155,7 @@ class ConsciousnessLoop:
         self.semantic_opt        = SemanticOptimizationEngine(self.memory, dimensions=3)
         self.boundary_formation  = BoundaryFormationEngine(self.memory, dimensions=3)
         self.origin_cognition    = OriginCognitionEngine(self.memory)
+        self.moulting_plasticity = MoultingPlasticityEngine(self.memory, dimensions=3)
 
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
         self.ontological_lattice = OntologicalLatticeEngine()
@@ -902,6 +904,18 @@ class ConsciousnessLoop:
         # 주기적으로 Wedge Memory에 매체 존재론 동적 상태 영구 각인 업데이트
         if self.cycle_count % 3 == 0:
             self.media_ontology.crystallize_media_ontologies(self.memory)
+
+        # M. [Phase 4 Moulting & Receiver's Plasticity] 인지적 탈피 및 수신자 가소성 연동
+        # 정적 입력 규격을 타파하고, 입력 바이트가 지닌 텐션 벡터를 수용하며 역사적 나이테를 축적합니다.
+        moulting_res = self.moulting_plasticity.receive_and_shape(
+            raw_input=raw_wave,
+            modality_hint="autonomous_breath"
+        )
+        log["moulting_triggered"] = moulting_res["moulting_triggered"]
+        log["moulting_count"] = moulting_res["moulting_count"]
+        log["moulting_narrative"] = moulting_res["narrative"]
+        log["moulting_friction"] = moulting_res["friction"]
+        log["annual_rings_snapshot"] = moulting_res["annual_rings_snapshot"]
 
         log["crystals_total"] = self.crystals_formed
         return log
