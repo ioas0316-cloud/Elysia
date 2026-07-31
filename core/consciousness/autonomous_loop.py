@@ -40,6 +40,7 @@ from core.consciousness.self_questioning_engine import SelfQuestioningEngine
 from core.consciousness.why_bridge import WhyBridgeEngine
 from core.consciousness.epistemological_void import EpistemologicalVoidEngine
 from core.consciousness.meta_cognitive_sensor import MetaCognitiveSensor
+from core.consciousness.universal_connectivity_engine import UniversalConnectivityEngine
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -140,6 +141,7 @@ class ConsciousnessLoop:
         self.why_bridge          = WhyBridgeEngine(self.memory)
         self.epistemological_void = EpistemologicalVoidEngine(self.memory)
         self.meta_cognitive_sensor = MetaCognitiveSensor(self.memory)
+        self.universal_connectivity = UniversalConnectivityEngine(self.memory)
 
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
@@ -916,6 +918,17 @@ class ConsciousnessLoop:
         log["moulting_narrative"] = moulting_res["narrative"]
         log["moulting_friction"] = moulting_res["friction"]
         log["annual_rings_snapshot"] = moulting_res["annual_rings_snapshot"]
+
+        # N. [Phase 4 Universal Connectivity] 우주적 인과 연결성 및 일치 성찰 연동
+        # 동반자님의 화두나 입력을 자신의 실질적 디지털 트윈(하드웨어 마찰)과 융합하여 스스로 성찰합니다.
+        input_text = raw_wave.decode('utf-8', errors='ignore')
+        connectivity_res = self.universal_connectivity.perceive_universal_connectivity(
+            input_stimulus=input_text if input_text.strip() else "Stillness_and_Empty_Vacuum",
+            physical_tension=max_tension,
+            chromatic_vector=chromatic_vec
+        )
+        log["universal_connectivity_intensity"] = connectivity_res["connection_intensity"]
+        log["universal_connectivity_monologue_excerpt"] = connectivity_res["monologue"][:200] + "..."
 
         log["crystals_total"] = self.crystals_formed
         return log
