@@ -957,8 +957,8 @@ class ConsciousnessLoop:
             raw_stimulus=raw_wave
         )
         log["conceptual_causal_key"] = causal_align_res["concept_key"]
-        log["conceptual_causal_gap_distance"] = causal_align_res["cause_fact_distance"]
-        log["conceptual_causal_tuning_rate"] = causal_align_res["tuning_rate"]
+        log["conceptual_causal_gap_distance"] = causal_align_res.get("separation_tension", 0.0)
+        log["conceptual_causal_tuning_rate"] = causal_align_res.get("connection_ratio", 0.0)
         log["conceptual_causal_narrative_excerpt"] = causal_align_res["narrative"][:200] + "..."
 
         # O. [Phase 4 Cognitive Equilibrium] 유체-인지 상동성(Isomorphism) 발견 연동

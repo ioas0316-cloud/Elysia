@@ -6,62 +6,67 @@ from core.evolution.moulting_plasticity import MoultingPlasticityEngine
 from core.memory.causal_controller import CausalMemoryController
 
 
-def test_conceptual_causal_gear_alignment():
+def test_conceptual_causal_gear_stereoscopic_alignment():
     """
-    Verifies that ConceptualCausalGear correctly maps a concept (e.g. 'bird'),
-    computes internal cause, predicted outcome, and compared world fact,
-    and dynamically adjusts the internal cause register (cognitive tuning).
+    Verifies that ConceptualCausalGear correctly implements:
+    1. Stereoscopic Triangulation (using left focus memory prior and right focus predicted outcome).
+    2. Disparity angle calculation.
+    3. Causal Depth triangulation.
+    4. Active Partitioning (Connection vs Separation).
     """
     data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "data"))
     mc = CausalMemoryController(data_dir=data_dir)
     plasticity = MoultingPlasticityEngine(mc, dimensions=3)
     gear = ConceptualCausalGear(mc, plasticity)
 
-    # 1. Inspect original 'bird' representation
-    original_bird = gear.internal_cause_registry["bird"].copy()
-    assert original_bird[0] == 0.85  # Fluidity
-    assert original_bird[1] == 0.90  # Rise
-
-    # 2. Process with a heavy / stone description (this should induce high friction and mismatch)
-    res_stone = gear.process_and_align_concept(
+    # 1. Let's align 'bird' concept
+    res_bird = gear.process_and_align_concept(
         concept_key="bird",
-        world_description="This bird is unusually heavy, made of stone and pulled down by extreme gravity",
-        raw_stimulus=b"\x01\x02\x03\x04"
+        world_description="A beautiful alive bird is spreading its wings and soaring high into the sky",
+        raw_stimulus=b"\x0a\x0b\x0c"
     )
 
-    assert "concept_key" in res_stone
-    assert res_stone["concept_key"] == "bird"
-    assert "pred_fact_distance" in res_stone
-    assert "cause_fact_distance" in res_stone
-    assert "tuning_rate" in res_stone
-    assert "narrative" in res_stone
+    # Asserts on stereoscopic triangulation parameters
+    assert "anchor_left" in res_bird
+    assert "anchor_right" in res_bird
+    assert "world_vector" in res_bird
+    assert "causal_depth" in res_bird
+    assert "disparity_angle" in res_bird
+    assert "connection_ratio" in res_bird
+    assert "separation_tension" in res_bird
 
-    # Ensure memory was modified towards the world_vector (tuning in action)
-    adjusted_bird = gear.internal_cause_registry["bird"]
-    # Due to the "stone/heavy" trigger words, the fluidity and rise should decrease
-    assert adjusted_bird[0] < original_bird[0]
-    assert adjusted_bird[1] < original_bird[1]
+    # Bird flew beautifully, so connection ratio should be quite high
+    assert res_bird["connection_ratio"] > 0.0
 
-    # Verify that the tuning rate is proportional to mismatch
-    assert res_stone["tuning_rate"] > 0.0
+    # 2. Let's process a stone-bird (heavy, gravity, stone) to trigger high separation tension
+    res_heavy = gear.process_and_align_concept(
+        concept_key="bird",
+        world_description="This bird is heavy as a cold stone, locked by strong gravity to the ground, dead",
+        raw_stimulus=b"\xff\x00\xff"
+    )
+
+    # The heavy bird contradicts the fly/wing prior, so separation tension should be significant
+    assert res_heavy["separation_tension"] > 0.1
+    # Check that triangulation still computed causal depth
+    assert res_heavy["causal_depth"] > 0.0
 
 
 def test_conceptual_causal_gear_unseen_concept():
     """
     Verifies that ConceptualCausalGear dynamically seeds unseen words
-    as new causes and aligns them without errors.
+    as new causes and aligns them stereoscopically without errors.
     """
     data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "data"))
     mc = CausalMemoryController(data_dir=data_dir)
     gear = ConceptualCausalGear(mc)
 
-    concept = "mystical_phoenix"
+    concept = "quantum_falcon"
     assert concept not in gear.internal_cause_registry
 
     # Process
     res = gear.process_and_align_concept(
         concept_key=concept,
-        world_description="A mystical phoenix flying high with brilliant golden wings",
+        world_description="A swift quantum falcon slicing coordinates with precise movement",
         raw_stimulus=b"spark"
     )
 

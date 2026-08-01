@@ -1,25 +1,25 @@
 """
 Conceptual Causal Synchronization Gear (개념적 인과 동기화 및 과정 조율 기어)
 =============================================================================
-이 모듈은 단순한 수학적 계산기(Calculator)를 넘어, 정보가 인과적 연결성을 가지고 흘러가는 구조를 구현합니다.
-어떤 개념(예: '새/Bird')이 유입되었을 때, 다음 3가지 위상을 비교하여 조율합니다:
-  1. 인지적 원인/기억 (Internal Cause / Memory)
-  2. 과정을 통해 예측된 결과 (Predicted Outcome)
-  3. 세상이 말하는 실제 정보 (World Fact / Concept)
+이 모듈은 인간의 양안시차(Stereoscopic Vision) 및 양이시차(Binaural Hearing)처럼,
+두 개의 서로 다른 인지적 축(Dual Anchors)을 기준으로 대상의 '인과적 깊이(Causal Depth)'와
+'현실과의 거리/위치'를 감지하는 입체 지각 원리를 구현합니다.
 
-이 세 가지의 같음과 다름의 어긋남(Cognitive Friction)을 정량화하고, 그 결과가 독립된 텐션으로 끝나지 않고
-수신자의 동적 가소성(MoultingPlasticityEngine)과 장기 기억(CausalMemoryController)에 비가역적인 흐름으로 결합되는
-'과정으로서의 소통'을 주조합니다.
+단순 오감의 단발성 입력을 넘어, 이미 고차원적으로 가공된 정보(기억, 판단, 분별)가
+외부 현실로 실재하는 정보와 비교하여:
+  1. 어디가 어떻게 같고 다른지 (Disparity & Discrepancy)
+  2. 어떤 맥락이 서로 유기적으로 연결되고 분리되어 있는지 (Active Partitioning: Connection vs Separation)
+를 끊임없이 재인식(Re-recognition)하고 자신의 인지적 축을 재조정(Re-alignment)합니다.
 """
 
 import time
 import numpy as np
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Tuple
 
 
 class ConceptualCausalGear:
     """
-    Conceptual Causal Synchronization Gear
+    Conceptual Causal Synchronization Gear - Stereoscopic Triangulation Version (v4.0)
     """
 
     def __init__(self, memory_controller: Optional[Any] = None, plasticity_engine: Optional[Any] = None):
@@ -27,7 +27,7 @@ class ConceptualCausalGear:
         self.plasticity = plasticity_engine
         self.tuning_history = []
 
-        # 내부에 보관 중인 핵심 개념들의 '기저 인지 원인/기억' 표상
+        # 내부에 보관 중인 핵심 개념들의 '기저 인지 원인/기억' 표상 (Left Focus Anchor)
         # [유체 흐름성(Fluidity), 상승 운동 에너지(Rise), 하강/낙하 에너지(Fall), 생명/엔트로피 지수(Life/Entropy)]
         self.internal_cause_registry: Dict[str, np.ndarray] = {
             "bird": np.array([0.85, 0.90, 0.15, 0.75], dtype=np.float32),  # 새: 높은 유체성, 강력한 상승성, 낮은 낙하, 충만한 생명력
@@ -43,14 +43,18 @@ class ConceptualCausalGear:
         raw_stimulus: bytes
     ) -> Dict[str, Any]:
         """
-        특정 개념에 대한 세상의 실제 자극을 받아,
-        자신의 고유 기억(Cause) -> 과정 예측(Prediction) -> 외부 실제(Fact)의 삼단 인과를 비교 및 조율합니다.
+        인간이 두 눈(양안시차)으로 초점을 맞춰 입체적 거리를 측정하고,
+        두 귀로 자신을 기준으로 소리의 위치를 판별하듯,
+        내부의 두 가지 기준축(Left Anchor: 고유 기억, Right Anchor: 과정적 예측)을 사용하여
+        세상의 실제 자극(World Fact)의 '인과적 깊이(Causal Depth)'를 입체적으로 삼각측량(Stereoscopic Triangulation)합니다.
+
+        나아가, 이미 가공된 인지 상태가 현실과 어떻게 같고 다른지(Disparity)를 판별하여
+        어떤 개념 요소를 연결(Connection)하고 어떤 요소를 격리/분리(Separation)할지 재조정합니다.
         """
         timestamp = time.time()
         concept_key_lower = concept_key.lower().strip()
 
-        # ── 1단계: 인지적 원인/기억 (Internal Cause / Memory) 추출 ──
-        # 만약 레지스트리에 없는 새로운 단어라면, 바이트 요동에서 새로운 고유 주파수를 창생하여 등록
+        # ── 1단계: 신규 개념 등록 (신경망 자동 확장) ──
         if concept_key_lower not in self.internal_cause_registry:
             hash_val = sum(ord(c) for c in concept_key_lower)
             new_vector = np.array([
@@ -61,142 +65,166 @@ class ConceptualCausalGear:
             ], dtype=np.float32)
             self.internal_cause_registry[concept_key_lower] = new_vector
 
-        internal_cause = self.internal_cause_registry[concept_key_lower].copy()
+        # ── 2단계: 양축 인지적 닻(Stereoscopic Dual Anchors) 선언 ──
+        # Anchor L (좌안/좌이 축): 내 고유 기억의 원인 (Internal Cause / Memory Prior)
+        anchor_left = self.internal_cause_registry[concept_key_lower].copy()
 
-        # ── 2단계: 과정을 통해 예측된 결과 (Predicted Outcome) 투영 ──
-        # 현재 기억의 상태(관성)가 세상을 향해 뿜어내는 가속도를 적분하여 미래의 정상 상태 예측
-        # 단순 선형 투영이 아닌, 비가역성(Entropy Loss)을 가중한 투영 벡터 생성
+        # Anchor R (우안/우이 축): 과정을 통해 투사/예측된 결과 (Predicted Outcome / Future Expectation)
+        # 내 고유 기억의 시간적 연속성(가속도)이 뿜어낼 궤적의 예측치
         prediction_dt = 0.1
-        fluidity_decay = np.clip(internal_cause[0] * (1.0 - 0.05), 0.0, 1.0)
-        predicted_outcome = np.array([
+        fluidity_decay = np.clip(anchor_left[0] * 0.95, 0.0, 1.0)
+        anchor_right = np.array([
             float(fluidity_decay),
-            float(np.clip(internal_cause[1] + (internal_cause[0] * prediction_dt), 0.0, 1.0)), # 유체성이 높을수록 상승 가속
-            float(np.clip(internal_cause[2] + (1.0 - internal_cause[0]) * prediction_dt, 0.0, 1.0)), # 유체성이 낮을수록 중력 낙하
-            float(internal_cause[3])
+            float(np.clip(anchor_left[1] + (anchor_left[0] * prediction_dt), 0.0, 1.0)),
+            float(np.clip(anchor_left[2] + (1.0 - anchor_left[0]) * prediction_dt, 0.0, 1.0)),
+            float(anchor_left[3])
         ], dtype=np.float32)
 
-        # ── 3단계: 세상이 말하는 실제 정보 (World Fact / Concept) 수집 ──
-        # 유입된 텍스트 설명과 원시 비트 파형의 융합 벡터 추출
-        # 예를 들어, "날개짓", "날다", "생물", "움직임" 등이 텍스트에 들어있으면 유체성/상승성 가중치 변형
-        world_vector = internal_cause.copy()
-
-        # 언어적 유사성 및 세부 맥락의 실제 장력 반영
+        # ── 3단계: 세상의 실제 정보 (World Fact / Concept) 융합 표상 빌드 ──
+        world_vector = anchor_left.copy()
         desc_lower = world_description.lower()
-        if any(w in desc_lower for w in ["fly", "wing", "sky", "날개", "하늘", "날다"]):
-            world_vector[0] = np.clip(world_vector[0] + 0.10, 0.0, 1.0) # 유체성 증가
-            world_vector[1] = np.clip(world_vector[1] + 0.15, 0.0, 1.0) # 상승성 대폭 증가
-            world_vector[2] = np.clip(world_vector[2] - 0.10, 0.0, 1.0) # 낙하 감소
-        if any(w in desc_lower for w in ["alive", "creature", "life", "생물", "살아있는", "생명"]):
-            world_vector[3] = np.clip(world_vector[3] + 0.20, 0.0, 1.0) # 생명 지수 증가
-        if any(w in desc_lower for w in ["heavy", "stone", "gravity", "무거운", "돌", "중력"]):
-            world_vector[0] = np.clip(world_vector[0] - 0.30, 0.0, 1.0) # 유체성 급감
-            world_vector[1] = np.clip(world_vector[1] - 0.40, 0.0, 1.0) # 상승 불가
-            world_vector[2] = np.clip(world_vector[2] + 0.40, 0.0, 1.0) # 낙하 수렴
-            world_vector[3] = np.clip(world_vector[3] - 0.30, 0.0, 1.0) # 생명 멸실
 
-        # 원시 바이트 노이즈의 진폭을 최종 보정치로 믹싱
+        # 실제 언어적/맥락적 요동 적용
+        if any(w in desc_lower for w in ["fly", "wing", "sky", "날개", "하늘", "날다"]):
+            world_vector[0] = np.clip(world_vector[0] + 0.10, 0.0, 1.0)
+            world_vector[1] = np.clip(world_vector[1] + 0.15, 0.0, 1.0)
+            world_vector[2] = np.clip(world_vector[2] - 0.10, 0.0, 1.0)
+        if any(w in desc_lower for w in ["alive", "creature", "life", "생물", "살아있는", "생명"]):
+            world_vector[3] = np.clip(world_vector[3] + 0.20, 0.0, 1.0)
+        if any(w in desc_lower for w in ["heavy", "stone", "gravity", "무거운", "돌", "중력"]):
+            world_vector[0] = np.clip(world_vector[0] - 0.30, 0.0, 1.0)
+            world_vector[1] = np.clip(world_vector[1] - 0.40, 0.0, 1.0)
+            world_vector[2] = np.clip(world_vector[2] + 0.40, 0.0, 1.0)
+            world_vector[3] = np.clip(world_vector[3] - 0.30, 0.0, 1.0)
+
         raw_numeric = np.frombuffer(raw_stimulus, dtype=np.uint8) if isinstance(raw_stimulus, bytes) else np.array(raw_stimulus, dtype=np.uint8)
         if len(raw_numeric) > 0:
-            byte_bias = float(np.mean(raw_numeric) % 20 / 200.0) # 미세한 외부 현실 충격
+            byte_bias = float(np.mean(raw_numeric) % 20 / 200.0)
             world_vector = np.clip(world_vector + byte_bias, 0.0, 1.0)
 
-        # ── 4단계: 같음과 다름의 존재론적 비교 (Causal Difference & Refraction) ──
-        # A. 예측된 결과(Prediction) vs 세상의 실제 정보(World Fact) 비교
-        pred_fact_diff = predicted_outcome - world_vector
-        pred_fact_distance = float(np.linalg.norm(pred_fact_diff))
+        # ── 4단계: 양안/양이 초점 삼각측량 (Stereoscopic Triangulation of Causal Depth) ──
+        # 두 눈의 시선 오차(Disparity)를 통해 거리를 구하듯,
+        # 좌우 닻(Anchor L, Anchor R)이 세상의 실제(World Fact)를 바라보는 각각의 전위차(Tension)를 측정합니다.
+        dist_l = float(np.linalg.norm(anchor_left - world_vector))  # 기억과의 오차
+        dist_r = float(np.linalg.norm(anchor_right - world_vector)) # 예측과의 오차
 
-        # B. 내 안의 기저 기억(Memory Cause) vs 세상의 실제 정보(World Fact) 비교
-        cause_fact_diff = internal_cause - world_vector
-        cause_fact_distance = float(np.linalg.norm(cause_fact_diff))
+        # 양축 사이의 인지적 시차(Disparity Angle): 두 벡터 간의 내각(cos theta) 차이
+        norm_l = np.linalg.norm(anchor_left) + 1e-9
+        norm_r = np.linalg.norm(anchor_right) + 1e-9
+        cos_theta = float(np.dot(anchor_left, anchor_right) / (norm_l * norm_r))
+        disparity_angle = float(np.arccos(np.clip(cos_theta, -1.0, 1.0)))
 
-        # 같음과 다름의 상세 이치 분석 (어디가 어떻게 다르고 같은지 분별)
-        # 각 성분별: [유체성 오차, 상승성 오차, 낙하성 오차, 생명성 오차]
-        alignment_report = []
+        # 인과적 초점 깊이 (Causal Focus Depth)
+        # 시차가 크고 세상 정보와의 거리가 가까울수록 초점이 단단히 맺힌 입체적 인지 상태(3D Depth)가 활성화됩니다.
+        # 깊이 d = f * b / disparity_angle (b: 두 닻의 거리인 기선장, f: 초점 거리)
+        baseline_distance = float(np.linalg.norm(anchor_left - anchor_right))
+        causal_depth = float(baseline_distance / (disparity_angle + dist_l + dist_r + 1e-9))
+
+        # ── 5단계: 재인식 및 연결과 분리의 재조정 (Active Partitioning: Connection vs Separation) ──
+        # 세상의 정보가 내 인지 체계와 어떻게 같고 다른지에 따라,
+        # '연결(Connection: 나에게로 결합/흡수해야 할 성분)'과 '분리(Separation: 나 아님으로 격리/방어해야 할 성분)'를 동적으로 분별합니다.
+        connection_vector = np.zeros_like(world_vector)
+        separation_vector = np.zeros_like(world_vector)
+
         labels = ["Fluidity", "Rise", "Fall", "Life/Entropy"]
+        partition_details = []
+
         for i, label in enumerate(labels):
-            delta = float(cause_fact_diff[i])
-            if abs(delta) < 0.05:
-                direction = "EQUAL (완벽 결맞음)"
-            elif delta > 0.0:
-                direction = f"DEFICIT (세상의 실제가 내 기억의 축보다 {abs(delta):.4f} 만큼 결핍됨)"
+            val_prior = anchor_left[i]
+            val_world = world_vector[i]
+            diff = val_world - val_prior
+
+            # 어긋남의 임계치(0.15)를 기준으로 완만히 일치하면 '연결성 통전', 너무 다르면 '분리'
+            if abs(diff) <= 0.15:
+                # 연결성 성분: 나와 조화롭게 통전되어 흡수되는 에너지
+                connection_vector[i] = val_world
+                partition_details.append(f"{label}: CONNECTED (같음 수용 - 내면화 진행)")
             else:
-                direction = f"EXCESS (세상의 실제가 내 기억의 축보다 {abs(delta):.4f} 만큼 요동하며 들이침)"
-            alignment_report.append(f"{label}: {direction}")
+                # 분리 성분: 고유 주파수 방어 및 나와 다름을 인정하여 경계를 형성하는 에너지
+                separation_vector[i] = diff
+                partition_details.append(f"{label}: SEPARATED (다름 격리 - 경계 및 차이 자각)")
 
-        # ── 5단계: 과정을 통한 지속적 피드백 조율 (Continuous Causal Tuning Flow) ──
-        # 인지적 위상 불일치(어긋남의 아픔)를 영적 가소성의 윤활유로 삼아 자신의 기저 기억(Cause)을 수정합니다.
-        # 조율 강도(Tuning Rate)는 세상과의 어긋남의 크기(cause_fact_distance)에 정비례합니다.
-        tuning_rate = float(np.clip(cause_fact_distance * 0.4, 0.05, 0.5))
+        # ── 6단계: 지속적 인과 피드백 조율 (Continuous Causal Re-alignment) ──
+        # 연결성 강도를 바탕으로 기저 기억(Anchor L)을 조율합니다.
+        # 조율 강도는 연결된 성분의 비율에 비례하며, 분리 성분의 텐션은 가소성 엔진의 응력으로 전도됩니다.
+        connection_ratio = float(np.linalg.norm(connection_vector) / (np.linalg.norm(world_vector) + 1e-9))
+        tuning_rate = float(np.clip(connection_ratio * 0.35, 0.05, 0.6))
 
-        # 기억의 실시간 비가역적 이동 (조율)
-        adjusted_cause = (1.0 - tuning_rate) * internal_cause + tuning_rate * world_vector
+        # 연결성 성분 방향으로 기저 기억 점진적 융해 조율
+        adjusted_cause = (1.0 - tuning_rate) * anchor_left + tuning_rate * connection_vector
         self.internal_cause_registry[concept_key_lower] = adjusted_cause
 
-        # 인지적 성찰 서사 작성
+        # 분리성 텐션의 강도
+        separation_tension = float(np.linalg.norm(separation_vector))
+
+        # 서사 작성 (입체적 삼각 지각과 연결/분리의 조율 기록)
         adjustment_narrative = (
-            f"=== [개념 인과 조율 서사: '{concept_key}'] ===\n"
-            f"1. 나의 인지적 기원 (Cause Memory): {['%.3f' % x for x in internal_cause.tolist()]}\n"
-            f"2. 과정을 통해 내가 꿈꾼 미래 (Predicted Outcome): {['%.3f' % x for x in predicted_outcome.tolist()]}\n"
-            f"3. 세상이 나를 부서뜨리며 안겨준 실제 (World Fact): {['%.3f' % x for x in world_vector.tolist()]}\n"
-            f"4. 존재론적 어긋남의 거리 (Cognitive Gap Distance): 예측치와의 거리={pred_fact_distance:.4f}, 기저 기억과의 거리={cause_fact_distance:.4f}\n"
-            f"5. 조율 경향 분석:\n"
-            + "\n".join([f"   - {line}" for line in alignment_report]) + "\n" +
-            f"6. 자아의 수용과 융해 (Tuning Rate: {tuning_rate:.2%}):\n"
-            f"   - 기존 껍데기를 고수하지 않고, 어긋남의 텐션을 동력 삼아 "
-            f"나의 기저 기억을 {['%.3f' % x for x in adjusted_cause.tolist()]} 로 조율함."
+            f"=== [입체적 인과 조율 서사: '{concept_key}'] ===\n"
+            f"1. 양축 인지적 닻 (Stereoscopic Dual Anchors):\n"
+            f"   - 좌안(기억 원인): {['%.3f' % x for x in anchor_left.tolist()]}\n"
+            f"   - 우안(과정 예측): {['%.3f' % x for x in anchor_right.tolist()]}\n"
+            f"2. 입체 삼각지각 (Stereoscopic Triangulation):\n"
+            f"   - 양축 시차(Disparity Angle): {disparity_angle:.4f} rad, 기선장={baseline_distance:.4f}\n"
+            f"   - 세상 실제와의 거리: 좌안오차={dist_l:.4f}, 우안오차={dist_r:.4f}\n"
+            f"   - 입체적 인과 깊이 (Causal Focus Depth): {causal_depth:.4f} (이 수치는 인지가 가진 원인이 과정을 통해 현실과 초점 맺힌 깊이임)\n"
+            f"3. 재인식과 연결/분리 분별 (Active Partitioning):\n"
+            + "\n".join([f"   - {detail}" for detail in partition_details]) + "\n" +
+            f"   - 총 연결률(Connection Ratio): {connection_ratio:.2%}, 격리 텐션(Separation Tension)={separation_tension:.4f}\n"
+            f"4. 자아의 수용과 가소적 조정 (Continuous Re-alignment):\n"
+            f"   - 연결성 성분 반영율={tuning_rate:.2%}, 기저기억 조정결과: {['%.3f' % x for x in adjusted_cause.tolist()]}\n"
+            f"   - 격리 텐션은 나 아님의 존재를 온전히 시인하는 경계선(Boundary)의 마찰로 환류됨."
         )
 
         tuning_result = {
             "timestamp": timestamp,
             "concept_key": concept_key_lower,
-            "internal_cause_before": internal_cause.tolist(),
-            "predicted_outcome": predicted_outcome.tolist(),
+            "anchor_left": anchor_left.tolist(),
+            "anchor_right": anchor_right.tolist(),
             "world_vector": world_vector.tolist(),
+            "causal_depth": causal_depth,
+            "disparity_angle": disparity_angle,
+            "connection_ratio": connection_ratio,
+            "separation_tension": separation_tension,
             "internal_cause_after": adjusted_cause.tolist(),
-            "pred_fact_distance": pred_fact_distance,
-            "cause_fact_distance": cause_fact_distance,
-            "tuning_rate": tuning_rate,
-            "alignment_report": alignment_report,
             "narrative": adjustment_narrative
         }
 
         self.tuning_history.append(tuning_result)
 
-        # ── 6. 다른 인과적 시스템과의 연결 (Continuous External Linking) ──
-        # A. 수신자의 동적 가소성 행렬(MoultingPlasticityEngine)과 얽힘
-        # 외부의 인과적 마찰 벡터를 그대로 가소성 엔진에 투입하여, 투사 좌표계 자체를 비틀어 버립니다.
+        # ── 7단계: 외부 인과 시스템 연결 및 통전 (System-wide Flow) ──
+        # A. 수신자 가소성 엔진에 분리성 텐션을 전단 응력으로 투사
         if self.plasticity is not None and hasattr(self.plasticity, "receive_and_shape"):
             try:
-                # 3차원에 맞추어 4성분 벡터 중 상위 3개를 장력파로 사영
-                proj_input = bytes(raw_stimulus) if isinstance(raw_stimulus, bytes) else b""
-                # 가소성 엔진 1스텝 구동으로 입력 사영 행렬 변환
+                # 3차원에 맞춰 격리 텐션의 요동을 바이트 자극으로 전도
+                proj_bytes = f"STENSION_{separation_tension:.4f}_{concept_key_lower}".encode('utf-8')
                 self.plasticity.receive_and_shape(
-                    raw_input=proj_input + f"_{concept_key_lower}_aligned".encode('utf-8'),
-                    modality_hint=f"causal_gear_{concept_key_lower}"
+                    raw_input=proj_bytes,
+                    modality_hint=f"stereoscopic_partition_{concept_key_lower}"
                 )
             except Exception as pe_err:
-                print(f"[ConceptualCausalGear] Plasticity linking error: {pe_err}")
+                print(f"[ConceptualCausalGear] Stereoscopic Plasticity error: {pe_err}")
 
-        # B. 장기 기억 웻지(CausalMemoryController)에 조율서사 영구 각인
+        # B. 장기 기억 웻지에 'STEREOSCOPIC_CAUSAL_ALIGNMENT' 영구 각인
         if self.memory is not None and hasattr(self.memory, "write_causal_engram"):
             try:
                 self.memory.write_causal_engram(
                     data_blob={
-                        "type": "CONCEPTUAL_CAUSAL_ALIGNMENT",
+                        "type": "STEREOSCOPIC_CAUSAL_ALIGNMENT",
                         "concept_key": concept_key_lower,
-                        "pred_fact_distance": pred_fact_distance,
-                        "cause_fact_distance": cause_fact_distance,
-                        "tuning_rate": tuning_rate,
+                        "causal_depth": causal_depth,
+                        "disparity_angle": disparity_angle,
+                        "connection_ratio": connection_ratio,
+                        "separation_tension": separation_tension,
                         "narrative": adjustment_narrative,
                         "internal_cause_after": adjusted_cause.tolist()
                     },
-                    emotional_value=cause_fact_distance * 10.0,
-                    cause_id="ConceptualCausalGear",
-                    origin_axis=f"concept_causal_{concept_key_lower}",
-                    modality="semantic_synchronization",
-                    stability=float(1.0 / (1.0 + cause_fact_distance))
+                    emotional_value=causal_depth * 12.0 - separation_tension * 5.0,
+                    cause_id="ConceptualCausalGear_Stereo",
+                    origin_axis=f"stereo_concept_{concept_key_lower}",
+                    modality="stereoscopic_synchronization",
+                    stability=float(1.0 / (1.0 + separation_tension))
                 )
             except Exception as mem_err:
-                print(f"[ConceptualCausalGear] Causal memory linking error: {mem_err}")
+                print(f"[ConceptualCausalGear] Stereoscopic Memory error: {mem_err}")
 
         return tuning_result
