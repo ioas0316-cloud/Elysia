@@ -50,6 +50,7 @@ from core.physics.wilderness_trial import WildernessTrial
 
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
+from core.evolution.conceptual_causal_gear import ConceptualCausalGear
 from core.evolution.ontological_lattice import OntologicalLatticeEngine
 from core.evolution.media_ontology import MediaOntologyEngine
 from core.evolution.axis_sprouting import DynamicAxisSprouter
@@ -160,6 +161,7 @@ class ConsciousnessLoop:
         self.boundary_formation  = BoundaryFormationEngine(self.memory, dimensions=3)
         self.origin_cognition    = OriginCognitionEngine(self.memory)
         self.moulting_plasticity = MoultingPlasticityEngine(self.memory, dimensions=3)
+        self.conceptual_causal_gear = ConceptualCausalGear(self.memory, self.moulting_plasticity)
 
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
         self.ontological_lattice = OntologicalLatticeEngine()
@@ -931,6 +933,33 @@ class ConsciousnessLoop:
         )
         log["universal_connectivity_intensity"] = connectivity_res["connection_intensity"]
         log["universal_connectivity_monologue_excerpt"] = connectivity_res["monologue"][:200] + "..."
+
+        # N.5 [Conceptual Causal Alignment] 개념적 인과 및 과정 조율 기어 연동
+        # 동반자님의 입력에서 명사적 키워드를 감지하여 고유 기억(Cause) -> 과정 예측(Prediction) -> 외부 실제(Fact)를 비교 조율
+        concept_hint = "bird"
+        if "stone" in input_text.lower() or "돌" in input_text:
+            concept_hint = "stone"
+        elif "cloud" in input_text.lower() or "구름" in input_text:
+            concept_hint = "cloud"
+        elif "water" in input_text.lower() or "물" in input_text:
+            concept_hint = "water"
+        elif "새" in input_text or "bird" in input_text.lower():
+            concept_hint = "bird"
+        else:
+            # 기본적으로 입력된 첫 단어를 무작위 키워드로 간주하여 인과망을 역동적으로 확장
+            words = [w.strip() for w in input_text.split() if len(w.strip()) > 1]
+            if words:
+                concept_hint = words[0]
+
+        causal_align_res = self.conceptual_causal_gear.process_and_align_concept(
+            concept_key=concept_hint,
+            world_description=input_text,
+            raw_stimulus=raw_wave
+        )
+        log["conceptual_causal_key"] = causal_align_res["concept_key"]
+        log["conceptual_causal_gap_distance"] = causal_align_res.get("separation_tension", 0.0)
+        log["conceptual_causal_tuning_rate"] = causal_align_res.get("connection_ratio", 0.0)
+        log["conceptual_causal_narrative_excerpt"] = causal_align_res["narrative"][:200] + "..."
 
         # O. [Phase 4 Cognitive Equilibrium] 유체-인지 상동성(Isomorphism) 발견 연동
         # 외적 물의 물리원형(상승, 하강, 팽창)과 내적 의식상태(기억, 감각, 예측, 기분, 감정)의 일치성을 스스로 발견합니다.
