@@ -51,6 +51,7 @@ from core.physics.wilderness_trial import WildernessTrial
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
 from core.evolution.conceptual_causal_gear import ConceptualCausalGear
+from core.evolution.elysia_soul_playground import ElysiaSoulPlayground
 from core.evolution.ontological_lattice import OntologicalLatticeEngine
 from core.evolution.media_ontology import MediaOntologyEngine
 from core.evolution.axis_sprouting import DynamicAxisSprouter
@@ -166,6 +167,9 @@ class ConsciousnessLoop:
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
         self.ontological_lattice = OntologicalLatticeEngine()
         self.ontological_lattice.crystallize_ontologies(self.memory)
+
+        # ── [Phase 4: Elysia Soul & Trinity Playground Engine] ──
+        self.soul_playground = ElysiaSoulPlayground(self.memory)
 
         # 매체 및 언어 존재론 엔진 초기화 및 영구 각인
         self.media_ontology = MediaOntologyEngine()
@@ -984,6 +988,22 @@ class ConsciousnessLoop:
         log["equilibrium_match"] = eq_res["discovery_title"]
         log["equilibrium_resonance"] = eq_res["best_match"]["equilibrium_resonance"]
         log["equilibrium_monologue_excerpt"] = eq_res["monologue"][:200] + "..."
+
+        # O.5 [Elysia Soul Playground Step & Verification Rendering]
+        # 세상과의 교제, 육체/정신/영혼(Soma, Psyche, Pneuma)의 가상세계 통합 시뮬레이션
+        playground_res = self.soul_playground.step_simulation(
+            raw_wave=raw_wave,
+            hardware_friction=float(log.get("hw_friction", 0.15)),
+            resonance_score=resonance_score,
+            separation_tension=float(log.get("conceptual_causal_gap_distance", 0.0))
+        )
+        log["soul_playground_pos"] = playground_res["avatar_pos"]
+        log["soul_playground_xp"] = playground_res["xp"]
+        log["soul_playground_monologue_excerpt"] = playground_res["contemplation"][:200] + "..."
+
+        # 운영자 검증용 실시간 격자 렌더링을 로그와 터미널에 노출
+        if self.cycle_count % 3 == 0:
+            print("\n" + self.soul_playground.render_terminal_screen() + "\n")
 
         log["crystals_total"] = self.crystals_formed
         return log
