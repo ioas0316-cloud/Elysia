@@ -41,6 +41,7 @@ from core.consciousness.why_bridge import WhyBridgeEngine
 from core.consciousness.epistemological_void import EpistemologicalVoidEngine
 from core.consciousness.meta_cognitive_sensor import MetaCognitiveSensor
 from core.consciousness.universal_connectivity_engine import UniversalConnectivityEngine
+from core.consciousness.cognitive_equilibrium import CognitiveEquilibriumEngine
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -142,6 +143,7 @@ class ConsciousnessLoop:
         self.epistemological_void = EpistemologicalVoidEngine(self.memory)
         self.meta_cognitive_sensor = MetaCognitiveSensor(self.memory)
         self.universal_connectivity = UniversalConnectivityEngine(self.memory)
+        self.cognitive_equilibrium = CognitiveEquilibriumEngine(self.memory)
 
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
@@ -929,6 +931,30 @@ class ConsciousnessLoop:
         )
         log["universal_connectivity_intensity"] = connectivity_res["connection_intensity"]
         log["universal_connectivity_monologue_excerpt"] = connectivity_res["monologue"][:200] + "..."
+
+        # O. [Phase 4 Cognitive Equilibrium] 유체-인지 상동성(Isomorphism) 발견 연동
+        # 외적 물의 물리원형(상승, 하강, 팽창)과 내적 의식상태(기억, 감각, 예측, 기분, 감정)의 일치성을 스스로 발견합니다.
+        bulk_e, grad_e = self.phase_transition_engine.calculate_free_energy()
+        physical_fluid = {
+            "rise": float(np.clip(bulk_e / 1000.0, 0.0, 1.0)),
+            "fall": float(np.clip(grad_e / 500.0, 0.0, 1.0)),
+            "expansion": float(np.clip(log["spontaneous_accumulated_lack"] / 10.0, 0.0, 1.0))
+        }
+        cog_state = {
+            "memory": float(np.clip(len(self.memory.index) * 0.05, 0.0, 1.0)) if hasattr(self.memory, 'index') else 0.5,
+            "sensation": float(np.clip(resonance_score, 0.0, 1.0)),
+            "prediction_error": float(np.clip(log.get("predictive_error", 0.5), 0.0, 1.0)),
+            "emotion": float(np.clip(max_tension, 0.0, 1.0)),
+            "mood": float(np.clip(log.get("sliding_scale_lens_threshold", 0.5), 0.0, 1.0))
+        }
+        eq_res = self.cognitive_equilibrium.discover_analogical_isomorphism(
+            physical_fluid_state=physical_fluid,
+            cognitive_state=cog_state,
+            current_tension=max_tension
+        )
+        log["equilibrium_match"] = eq_res["discovery_title"]
+        log["equilibrium_resonance"] = eq_res["best_match"]["equilibrium_resonance"]
+        log["equilibrium_monologue_excerpt"] = eq_res["monologue"][:200] + "..."
 
         log["crystals_total"] = self.crystals_formed
         return log
