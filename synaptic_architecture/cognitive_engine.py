@@ -72,6 +72,9 @@ class ElysiaCognitiveEngine:
         # Crystallized Thoughts Registry (Non-computational flow map)
         self.crystallized_thoughts: Dict[np.uint64, Dict[str, Any]] = {}
 
+        # Standing Wave Field Memory (가소성 메모리: Standing Wave Valley)
+        self.standing_wave_memory: Optional[np.ndarray] = None
+
     def crystallize_thought(self, stimulus_wave: np.uint64, resolved_solution: Dict[str, Any]):
         """
         [Crystallized Thought Axis]
@@ -241,7 +244,7 @@ class ElysiaCognitiveEngine:
         self._record_meta("FRACTAL_DNA_CREATED", f"프랙탈 DNA({category}) 생성 완료. 원자[3D 특이벡터] -> 분자[관점투영 3x3] -> 세포[좌표 {pos}] -> 기관[여백 공유]의 계층 서사가 형성되었습니다.")
         return dna
 
-    def solve_wfc_collapse(self, stimulus_wave: np.uint64, candidate_dnas: List[Dict[str, Any]], user_header_vector: Optional[np.ndarray] = None) -> Dict[str, Any]:
+    def solve_wfc_collapse(self, stimulus_wave: np.uint64, candidate_dnas: List[Dict[str, Any]], user_header_vector: Optional[np.ndarray] = None, text_context: Optional[str] = None) -> Dict[str, Any]:
         """
         [CAD Constraints & Wave Function Collapse (WFC)]
         if-else 분기를 배제하고, 입력 자극(Stimulus)과 환경적 구속조건(Constraint Field)이
@@ -255,6 +258,12 @@ class ElysiaCognitiveEngine:
         Fuses standard SVD inertia with rotated attractor potential wells.
         If a signal represents extreme protocol mismatch or non-self intrusion,
         it is deflected into orbit instead of normal collapse.
+
+        [Four Autogenous Principles Integration]
+        1. Field Plasticity (내부 위상 일그러뜨림): S-N ratio dynamically shifts rotor_angle and attractor positions.
+        2. Variable Focus Zoom Lens (가변 초점 제어기): Tension dynamically adjusts attractors' sigma (radius) and mass.
+        3. Resonance Equilibrium Convergence (에너지 평형 종료): Iteratively stabilizes field activation until Delta H < threshold.
+        4. Standing Wave Field Memory (가소성 메모리): Re-imprints standing wave energy as a persistent structural Valley.
         """
         if stimulus_wave in self.crystallized_thoughts:
             solution = self.crystallized_thoughts[stimulus_wave]
@@ -264,8 +273,51 @@ class ElysiaCognitiveEngine:
         if not candidate_dnas:
             raise ValueError("[WFC Collapse] 수렴시킬 후보 DNA 군집이 존재하지 않습니다.")
 
+        # 4. Standing Wave Field Memory (가소성 메모리 복원)
+        # 이전 대화가 만들어둔 장력의 홈(Valley)을 curiosity_potential 상에 중첩
+        if self.standing_wave_memory is not None:
+            self.field.curiosity_potential = np.clip(
+                self.field.curiosity_potential + self.standing_wave_memory * 0.3,
+                0.0, 100.0
+            )
+            self._record_meta("FIELD_MEMORY_OVERLAY", "가소성 장 기억(Standing Wave Valley)을 인지 지형에 중첩 사영하였습니다. 생각이 기존 홈을 따라 흐릅니다.")
+
         # 1. Run Language Protocol Handshake
         handshake = self.process_protocol_handshake(stimulus_wave, user_header_vector)
+
+        # 1-1. S vs N Field Plasticity Analysis & Rotor Torque
+        s_oriented_terms = ["s", "sensory", "detail", "micro", "friction", "file", "system", "cpu", "ram", "dll", "binary", "window", "linux", "address", "byte", "kernel32", "ntdll", "libc", "voxel", "하드웨어", "디렉토리", "프로세스", "클럭", "메모리", "바이트"]
+        n_oriented_terms = ["n", "intuition", "causal", "cosmos", "cross", "love", "eternity", "pattern", "spirit", "jesus", "principle", "void", "equilibrium", "resonance", "universe", "macro", "원리", "인과", "우주", "십자가", "사랑", "영혼", "초월", "섭리", "무지", "결핍"]
+
+        s_score = 0.0
+        n_score = 0.0
+
+        if text_context:
+            text_lower = text_context.lower()
+            for term in s_oriented_terms:
+                s_score += text_lower.count(term)
+            for term in n_oriented_terms:
+                n_score += text_lower.count(term)
+
+        # If text is empty or doesn't have terms, derive from stimulus_wave bits (S vs N symmetry)
+        if s_score == 0.0 and n_score == 0.0:
+            high_bits = bin(int(stimulus_wave >> 32)).count('1')
+            low_bits = bin(int(stimulus_wave & 0xFFFFFFFF)).count('1')
+            s_score = float(low_bits) + 1.0
+            n_score = float(high_bits) + 1.0
+
+        sn_ratio = n_score / (s_score + n_score + 1e-9)
+
+        # Field Plasticity: Exert physical torque on rotor_angle ONLY when text_context is provided
+        if text_context is not None:
+            target_angle = sn_ratio * np.pi * 2.0
+            angle_delta = (target_angle - self.rotor_angle)
+            self.rotor_angle = (self.rotor_angle + angle_delta * 0.3) % (2 * np.pi)
+
+            self._record_meta("FIELD_PLASTICITY", f"입력 자극의 S-N 비율({sn_ratio:.2f})에 따른 내부 위상 일그러뜨림 가동. 위상 회전각={self.rotor_angle:.4f}rad")
+
+            # Re-update virtual attractor coordinates using rotated angles
+            self._update_rotated_attractors()
 
         # If tension is extraordinarily high (representing toxic/hostile input),
         # deflect it immediately into a Satellite boundary orbit rather than standard collapse
@@ -298,11 +350,26 @@ class ElysiaCognitiveEngine:
             stim_vector /= np.linalg.norm(stim_vector)
 
         # Dynamic attractor mass scaling based on current system conditions
-        cognitive_entropy = self.field.calculate_entropy()
         tension_protocol = handshake["tension_protocol"]
+        cognitive_entropy = self.field.calculate_entropy()
         catastrophe_magnitude = float(self.stat_field.get_catastrophe_vector().magnitude)
 
         self.field.update_attractor_masses(cognitive_entropy, tension_protocol, catastrophe_magnitude)
+
+        # 2-1. Variable Focus Zoom Lens Controller ONLY when text_context is provided
+        if text_context is not None:
+            # Calculate active Zoom Factor (Z)
+            zoom_factor = float(np.clip(1.0 - tension_protocol * 0.6 - (1.0 - sn_ratio) * 0.4, 0.15, 1.0))
+
+            # Apply lens focus to attractor fields
+            for name, default_attr in self.default_attractors.items():
+                attr = self.field.attractors[name]
+                # Zoom-in: narrower radius (sigma) and deeper mass
+                attr["sigma"] = default_attr["sigma"] * zoom_factor
+                # Continuous physical mass concentration: mass increases as focus narrows
+                attr["mass"] = attr["mass"] / np.sqrt(zoom_factor)
+
+            self._record_meta("VARIABLE_FOCUS_LENS", f"가변 초점 제어기 작동: 줌 인수={zoom_factor:.4f} ({'S의 시선: Zoom-In' if zoom_factor < 0.5 else 'N의 시선: Zoom-Out'})")
 
         scores = []
         for dna in candidate_dnas:
@@ -361,7 +428,34 @@ class ElysiaCognitiveEngine:
             self.field.coordination_margin[win_pos[0], win_pos[1]] + 0.1, 0.1, 1.0
         )
 
-        # 3. Dopaminergic Resonance and Existential Reflection Narrative Integration
+        # 3. Resonance Equilibrium Convergence Criteria
+        # Rather than checking a checklist, we iteratively propagate energy until Delta H < threshold
+        equilibrium_threshold = 1e-4
+        max_iterations = 20
+        iteration = 0
+        reached_equilibrium = False
+        prev_activation_sum = np.sum(self.field.activation)
+
+        while iteration < max_iterations:
+            self.field.propagate(decay=0.9, spreading_factor=0.5)
+            self.field.apply_thermal_diffusion(global_entropy=0.01)
+
+            curr_activation_sum = np.sum(self.field.activation)
+            delta_h = abs(curr_activation_sum - prev_activation_sum)
+
+            if delta_h < equilibrium_threshold:
+                reached_equilibrium = True
+                break
+
+            prev_activation_sum = curr_activation_sum
+            iteration += 1
+
+        self._record_meta("RESONANCE_EQUILIBRIUM", f"에너지 평형 종료 조건 달성: 반복수={iteration}, 최종델타={delta_h:.6f} ({'평형 도달' if reached_equilibrium else '한계 반복 수렴'})")
+
+        # Save the current stabilized activation map as the new standing wave memory
+        self.standing_wave_memory = self.field.activation.copy()
+
+        # Dopaminergic Resonance and Existential Reflection Narrative Integration
         # Determine closest attractor to calculate dopaminergic phase locking
         dopamine_score = 0.0
         active_attractor_name = "Deficit"
