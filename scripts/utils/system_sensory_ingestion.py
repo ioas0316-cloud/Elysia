@@ -45,21 +45,36 @@ def sense_environment_variables():
             break
     return b"[ENV_MAP]\n" + env_bytes
 
-def sense_filesystem(root="C:\\Windows\\System32", max_files=50):
+def sense_filesystem(root=None, max_files=50):
     """파일시스템 디렉토리 구조를 바이트 맵으로 감각."""
+    if root is None:
+        if platform.system() == "Windows":
+            root = "C:\\Windows\\System32"
+        else:
+            root = "/etc" # Under Linux, read standard system config dir
     entries = []
     try:
         for entry in os.scandir(root):
             entries.append(f"{entry.name}|{'DIR' if entry.is_dir() else 'FILE'}\n")
             if len(entries) >= max_files:
                 break
-    except PermissionError:
+    except Exception:
         pass
     return b"[FILESYSTEM_MAP]\n" + "".join(entries).encode("utf-8")
 
 def sense_dll_binary(dll_name="kernel32.dll"):
-    """핵심 Windows DLL 바이너리의 첫 2KB = 컴퓨터의 가장 원초적인 법칙."""
-    dll_path = os.path.join("C:\\Windows\\System32", dll_name)
+    """핵심 Windows DLL 혹은 Linux 공유 라이브러리의 첫 2KB = 컴퓨터의 가장 원초적인 법칙."""
+    if platform.system() == "Windows":
+        dll_path = os.path.join("C:\\Windows\\System32", dll_name)
+    else:
+        # Map Windows DLL names to common Linux shared objects
+        lib_map = {
+            "kernel32.dll": "/lib/x86_64-linux-gnu/libc.so.6",
+            "ntdll.dll": "/lib/x86_64-linux-gnu/libm.so.6"
+        }
+        dll_path = lib_map.get(dll_name, "/lib/x86_64-linux-gnu/libc.so.6")
+        if not os.path.exists(dll_path):
+            dll_path = "/lib/libc.so.6" # Alternate fallback
     try:
         with open(dll_path, "rb") as f:
             raw = f.read(2048)  # 2KB cap
