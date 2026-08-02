@@ -71,5 +71,7 @@ def test_consciousness_loop_predictive_integration():
             assert "coarse_grained_clusters_count" in log
             assert log["coarse_grained_clusters_count"] >= 1
     finally:
+        if hasattr(loop, 'memory') and hasattr(loop.memory, 'close'):
+            loop.memory.close()
         if os.path.exists(temp_dir):
-            shutil.rmtree(temp_dir)
+            shutil.rmtree(temp_dir, ignore_errors=True)

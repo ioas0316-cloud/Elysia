@@ -61,6 +61,23 @@ class CausalMemoryController:
         """메모리 내 인덱스를 디스크에 일괄 동기화합니다. (병목 제거용)"""
         self._save_index()
 
+    def close(self):
+        """Flushes index and closes the mmap file handles for clean shutdown on Windows."""
+        try:
+            self.flush_index()
+        except Exception:
+            pass
+        if hasattr(self, 'wedge_mmap') and self.wedge_mmap is not None:
+            try:
+                if hasattr(self.wedge_mmap, '_mmap') and self.wedge_mmap._mmap is not None:
+                    self.wedge_mmap._mmap.close()
+            except Exception:
+                pass
+            self.wedge_mmap = None
+
+    def __del__(self):
+        self.close()
+
     def _load_cognitive_params(self):
         if os.path.exists(self.cognitive_params_path):
             with open(self.cognitive_params_path, 'r', encoding='utf-8') as f:

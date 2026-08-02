@@ -98,5 +98,7 @@ def test_consciousness_loop_fluid_integration():
             assert loop.phase_transition_engine.density.shape == (32, 32)
     finally:
         # Cleanup temporary files
+        if hasattr(loop, 'memory') and hasattr(loop.memory, 'close'):
+            loop.memory.close()
         if os.path.exists(temp_dir):
-            shutil.rmtree(temp_dir)
+            shutil.rmtree(temp_dir, ignore_errors=True)

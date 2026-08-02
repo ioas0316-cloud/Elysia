@@ -9,10 +9,44 @@ import os
 from typing import List, Tuple
 from core.ingestion.topological_parser import CausalTrajectory, TopologicalCorpusParser
 from core.ingestion.topological_compiler import TensionVector, TopologicalCompiler
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from mva.api.engine import inject_resonance_to_fractal_field
+import mmap
+import struct
 from core.physics.fractal_rotor import FractalRotorScale, ScaleLevel
 from core.physics.magnetic_gear import MagneticGear
+
+def inject_resonance_to_fractal_field(formula: str = "", variance: float = 0.0, quaternion: List[float] = None, observation_axis: str = 'spatial'):
+    """
+    Directly write continuous tension / resonance to the shared memory field.
+    """
+    try:
+        shm = mmap.mmap(0, 1024 * 1024 * 16, tagname="Local\\ElysiaTopologyField", access=mmap.ACCESS_WRITE)
+        base_tension = int(min(255, max(0.0, (1.0 - variance) * 10.0)))
+        
+        header_size = 12
+        num_rotors = (1024 * 1024 * 16 - header_size) // 8
+        
+        idx = num_rotors // 2
+        offset = header_size + (idx * 8)
+        
+        shm.seek(offset)
+        rotor_data = shm.read(8)
+        if len(rotor_data) == 8:
+            math_t, lang_t, spatial_t, temporal_t, light_mass, byte_val, pad = struct.unpack('<BBBBHBB', rotor_data)
+            
+            if observation_axis == 'math': math_t = base_tension
+            elif observation_axis == 'lang': lang_t = base_tension
+            elif observation_axis == 'spatial': spatial_t = base_tension
+            elif observation_axis == 'temporal': temporal_t = base_tension
+                
+            if base_tension < 10: 
+                light_mass = min(65535, light_mass + 1)
+                
+            shm.seek(offset)
+            shm.write(struct.pack('<BBBBHBB', math_t, lang_t, spatial_t, temporal_t, light_mass, byte_val, pad))
+            
+        shm.close()
+    except Exception:
+        pass
 
 class MvaIngester:
     def __init__(self):

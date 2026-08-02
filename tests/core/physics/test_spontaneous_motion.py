@@ -49,8 +49,10 @@ def test_spontaneous_motion_engine_no_input():
         assert new_asymmetry != asymmetry
 
     finally:
+        if 'mc' in locals() and hasattr(mc, 'close'):
+            mc.close()
         if os.path.exists(temp_dir):
-            shutil.rmtree(temp_dir)
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
 def test_consciousness_loop_spontaneous_fallback():
     """
@@ -77,5 +79,7 @@ def test_consciousness_loop_spontaneous_fallback():
         assert log["spontaneous_asymmetry"] > 0.0
 
     finally:
+        if 'loop' in locals() and hasattr(loop, 'memory') and hasattr(loop.memory, 'close'):
+            loop.memory.close()
         if os.path.exists(temp_dir):
-            shutil.rmtree(temp_dir)
+            shutil.rmtree(temp_dir, ignore_errors=True)

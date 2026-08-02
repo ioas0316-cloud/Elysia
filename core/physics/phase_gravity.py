@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from core.physics.causal_field import InformationVoxel
 
 class PhaseTransitionEngine:
-    """
+    r"""
     [Phase Transition Engine: Ginzburg-Landau & Cahn-Hilliard Dynamics]
     Simulates a continuous 2D information density field.
     Allows a uniform or perturbed field of information to separate under the
@@ -69,7 +69,7 @@ class PhaseTransitionEngine:
         return bulk_energy, gradient_energy
 
     def step(self, dt: float = 0.1):
-        """
+        r"""
         Advances Cahn-Hilliard-like phase separation.
         Chemical Potential: \mu = df/d_rho - \gamma * \nabla^2 \rho
         Conservation law: d_rho/dt = M * \nabla^2 \mu
