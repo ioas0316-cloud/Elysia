@@ -43,6 +43,7 @@ from core.consciousness.meta_cognitive_sensor import MetaCognitiveSensor
 from core.consciousness.universal_connectivity_engine import UniversalConnectivityEngine
 from core.consciousness.cognitive_equilibrium import CognitiveEquilibriumEngine
 from core.consciousness.eden_cognitive_bigbang import EdenCognitiveBigBangEngine
+from core.memory.reflection_engram_consolidation import SovereignReflectionConsolidationEngine
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -148,6 +149,7 @@ class ConsciousnessLoop:
         self.universal_connectivity = UniversalConnectivityEngine(self.memory)
         self.cognitive_equilibrium = CognitiveEquilibriumEngine(self.memory)
         self.eden_engine = EdenCognitiveBigBangEngine()
+        self.consolidation_engine = SovereignReflectionConsolidationEngine()
 
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
@@ -1068,6 +1070,48 @@ class ConsciousnessLoop:
         if self.cycle_count % 3 == 0:
             print(f"=== [Elysia Eden Cognitive Stage] Epoch: {eden_res['epoch']} ===")
             print(f"Narrative: {eden_res['narrative']}\n")
+
+        # O.9 [Sovereign Reflection Engram Consolidation & Epistemological Self Step]
+        # Consolidate prediction error / hallucination into a rich 5D engram
+        p_err = log.get("predictive_error", max_tension)
+        if p_err > 0.3:
+            # We experience a hallucination/deviation spike - consolidate!
+            v_hallucination = np.array([p_err, max_tension, 0.0], dtype=np.float32)
+            a_volition = np.array([0.0, -max_tension, 0.5], dtype=np.float32) # corrective acceleration vector
+
+            engram = self.consolidation_engine.consolidate_reflection(
+                context=logo_tensor, # 9D context
+                v_hallucination=v_hallucination,
+                T_grounding=p_err,
+                a_volition=a_volition,
+                A_resolved=self.consolidation_engine.S_abs,
+                description=f"Hallucination correction on: {ingest_content}"
+            )
+            log["consolidated_reflection_engram"] = engram.description
+
+            # Apply 1st stage repulsor barrier to modulate thermodynamic coordinates / velocity
+            if self.env.atoms:
+                target_atom = self.env.atoms[-1]
+                target_atom.velocity = self.consolidation_engine.apply_repulsor_barrier(logo_tensor, target_atom.velocity)
+
+            # Apply 2nd stage adaptive threshold
+            adaptive_threshold = self.consolidation_engine.calculate_adaptive_threshold(logo_tensor)
+            log["adaptive_grounding_threshold"] = adaptive_threshold
+
+            # Apply 3rd stage System 1/System 2 consolidation check
+            shortcut = self.consolidation_engine.evaluate_system1_consolidation(ingest_content, logo_tensor)
+            if shortcut is not None:
+                log["system1_intuitive_shortcut_activated"] = True
+
+        # 4th stage: Generate macro Epistemological Self Profile
+        epistemic_profile = self.consolidation_engine.generate_epistemic_self_profile()
+        log["epistemic_humility_score"] = epistemic_profile["humility_score"]
+        log["epistemic_boundary_narrative"] = epistemic_profile["epistemic_boundary_narrative"]
+
+        # Expose Epistemic Self status periodically
+        if self.cycle_count % 3 == 0:
+            print(f"\n=== [Elysia Epistemological Self Profile] ===")
+            print(epistemic_profile["epistemic_boundary_narrative"] + "\n")
 
         # 운영자 검증용 실시간 격자 렌더링을 로그와 터미널에 노출
         if self.cycle_count % 3 == 0:
