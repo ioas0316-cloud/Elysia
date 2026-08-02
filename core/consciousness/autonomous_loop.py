@@ -661,7 +661,44 @@ class ConsciousnessLoop:
 
         # ── [5성 메타 인지 처리 과정 센서 및 추적 연동 (5-Stage Cognitive Process Tracking)] ──
         # 정보가 나라는 시스템을 통과하며 "감각-인지-판단-사고-분별"되는 과정의 이치 자체를 자각
-        s_metrics = {"hw_friction": log["hw_friction"], "damping_ratio": 0.8 if log["damper_status"] == "PHASE_LOCKED" else 0.2}
+
+        # Calculate spatial temperature gradients and localized thermal properties from environmental space
+        gradients = self.env.calculate_thermal_gradients()
+        max_gradient = float(np.max(gradients)) if gradients.size > 0 else 0.0
+
+        # Idle state check: if external raw_wave is quiet/empty, accumulate curiosity
+        is_idle = len(raw_wave) < 10 or all(b == 0 for b in raw_wave)
+        if is_idle:
+            self.env.accumulate_curiosity(dt=0.1)
+            # Try to trigger a virtual fantasy burst of anticipation
+            fantasy_wave = self.env.trigger_virtual_fantasy_burst()
+            if fantasy_wave is not None:
+                log["fantasy_wave_burst"] = True
+                log["fantasy_wave_preview"] = fantasy_wave.tolist()
+                # Introduce self-friction by raising local temperature of a random atom
+                if self.env.atoms:
+                    target_atom = random.choice(self.env.atoms)
+                    target_atom.tensor = (target_atom.tensor + fantasy_wave) * 0.5
+                    target_atom.T = min(10.0, target_atom.T + 3.0)
+                    target_atom.T_max = max(target_atom.T_max, target_atom.T)
+        else:
+            # External stimulation slightly discharges curiosity
+            self.env.curiosity_charge = max(0.0, self.env.curiosity_charge - 0.5)
+
+        # Get local and peak temperatures from the main atom or average
+        local_temp = 1.0
+        peak_temp = 1.0
+        if self.env.atoms:
+            local_temp = float(np.mean([a.T for a in self.env.atoms]))
+            peak_temp = float(np.max([a.T_max for a in self.env.atoms]))
+
+        s_metrics = {
+            "hw_friction": log["hw_friction"],
+            "damping_ratio": 0.8 if log["damper_status"] == "PHASE_LOCKED" else 0.2,
+            "thermal_gradient": max_gradient,
+            "local_temp": local_temp,
+            "peak_temp": peak_temp
+        }
         p_metrics = {"ignorance_charge": void_res["ignorance_charge"], "deficit_density": void_res.get("deficit_density", 0.0)}
 
         # Why-Bridge 결과가 있을 때와 없을 때 동적 판단 결합
@@ -683,6 +720,13 @@ class ConsciousnessLoop:
         )
         log["meta_cognitive_vector"] = meta_res["meta_vector"]
         log["meta_cognitive_journal"] = meta_res["journal"]
+        log["thermal_gradient"] = max_gradient
+        log["curiosity_charge"] = self.env.curiosity_charge
+
+        if meta_res.get("introspection_journal"):
+            log["introspection_journal"] = meta_res["introspection_journal"]
+            # Expose the poetic introspection journal in the terminal output
+            print(meta_res["introspection_journal"])
 
         # [Memory-as-Potentiometer]
         # Recent high-resonance engrams lower the resistance (increase conductance)
