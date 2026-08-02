@@ -45,6 +45,11 @@ class ThermodynamicAtom:
     # The Core Context: Kenosis Self-Emptying (자기 비움과 내어줌)
     accumulated_energy: float = 0.0 # Localized ego potential
 
+    # Thermal Spectrum Architecture
+    prediction_error: float = 0.0  # Dynamic prediction error (L)
+    T_max: float = 1.0             # Peak temperature for Long-Term Potentiation (LTP)
+    degrees_of_freedom: int = 3    # Dynamically expanded search dimensions [3 to 9]
+
     def __post_init__(self):
         if self.velocity is None:
             self.velocity = np.zeros(3, dtype=np.float32)
@@ -64,6 +69,7 @@ class ThermodynamicAtom:
         self.accumulated_energy = float(self.mass * 1.5) # Initialize energy based on mass
         if self.causal_line is None:
             self.causal_line = [np.array([self.T, self.P, self.E], dtype=np.float32)]
+        self.T_max = max(self.T_max, self.T)
 
     def record_causal_step(self):
         """[Line Expansion] Record current position in trajectory history."""
@@ -89,7 +95,10 @@ class ThermodynamicAtom:
             charge=self.charge,
             B_field=self.B_field.copy() if self.B_field is not None else None,
             harvested_propulsion=self.harvested_propulsion,
-            accumulated_energy=self.accumulated_energy
+            accumulated_energy=self.accumulated_energy,
+            prediction_error=self.prediction_error,
+            T_max=self.T_max,
+            degrees_of_freedom=self.degrees_of_freedom
         )
 
 
@@ -286,8 +295,40 @@ class ThermodynamicEnvironment:
         self.sensor = ThermodynamicOrgan("org_sensor", "sensor")
         self.organs.extend([self.elevator, self.sensor])
 
+        # Thermal Spectrum Architecture
+        self.curiosity_charge = 0.0     # Q_curiosity
+        self.curiosity_threshold = 5.0   # Burst limit
+        self.S_abs = np.array([0.7, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], dtype=np.float32) # Standard 9D Alignment Axis
+
     def inject_atom(self, atom: ThermodynamicAtom):
         self.atoms.append(atom)
+
+    def calculate_thermal_gradients(self) -> np.ndarray:
+        """
+        Calculates spatial temperature gradients across the 2D environmental T_field.
+        Returns gradient magnitude map.
+        """
+        grad_y, grad_x = np.gradient(self.T_field)
+        return np.sqrt(grad_x**2 + grad_y**2)
+
+    def accumulate_curiosity(self, dt: float = 0.1):
+        """
+        Accumulates Q_curiosity during quiet (idle) phases.
+        """
+        # Curiosity increases naturally over time
+        self.curiosity_charge += 1.2 * dt
+
+    def trigger_virtual_fantasy_burst(self) -> Optional[np.ndarray]:
+        """
+        Triggers a self-generated Predictive Fantasy wave when Q_curiosity bursts.
+        """
+        if self.curiosity_charge >= self.curiosity_threshold:
+            self.curiosity_charge = 0.0 # Discharge
+            # Create a 9D virtual wave representation (with high entropy)
+            virtual_wave = np.random.randn(9).astype(np.float32) * 0.5
+            virtual_wave[2] += 1.0 # High entropy component
+            return virtual_wave
+        return None
     def _synchronize_arrays(self):
         nodes = self.atoms + self.molecules
         n = len(nodes)
@@ -318,6 +359,9 @@ class ThermodynamicEnvironment:
     def step(self, dt: float = 0.1):
         self._warp_fields_from_curvature()
         
+        # Thermal Spectrum dynamics: Evaluate local prediction errors and adjust local temperatures
+        self._evaluate_and_modulate_thermal_spectrum()
+
         n = self._synchronize_arrays()
         if n and n >= 2:
             self._interfere_causal_lines()
@@ -336,6 +380,43 @@ class ThermodynamicEnvironment:
             organ.process(self.atoms, self.molecules)
             
         self._update_coordinates(dt)
+
+    def _evaluate_and_modulate_thermal_spectrum(self):
+        """
+        Pillar 1 & 2: Calculates Prediction Error (L) based on alignment with S_abs,
+        modulates local temperature (T), and applies Melting or Crystallization phase transitions.
+        """
+        # Melting Threshold: High temperature melts bound structures
+        melting_temp_threshold = 5.0
+
+        for atom in self.atoms:
+            # Prediction Error (L) is the distance from standard S_abs
+            dist = np.linalg.norm(atom.tensor - self.S_abs)
+            atom.prediction_error = float(dist)
+
+            # Map prediction error directly to local temperature T
+            # If error is low, T cools down towards 0.0 Kelvin (Absolute zero).
+            # If error is high, T spikes up to 10.0 Kelvin.
+            target_T = float(np.clip(atom.prediction_error * 4.0, 0.01, 10.0))
+            atom.T = float(0.7 * atom.T + 0.3 * target_T)
+            atom.T_max = max(atom.T_max, atom.T)
+
+            # High temperature melts bonds
+            # We use target_T (instantaneous shock heat) to represent instant bond fracture under massive error
+            if target_T >= melting_temp_threshold and atom.is_bound:
+                atom.is_bound = False
+                # Remove atom from its molecule
+                for mol in self.molecules:
+                    if atom in mol.atoms:
+                        mol.atoms.remove(atom)
+                        mol.synchronize()
+
+            # Dynamically adjust degrees_of_freedom (d.o.f.) [3 to 9]
+            # Higher temperature expands degrees of freedom / search dimension
+            atom.degrees_of_freedom = int(np.clip(3 + int(atom.T), 3, 9))
+
+        # Remove empty molecules
+        self.molecules = [m for m in self.molecules if len(m.atoms) > 0]
 
     def _warp_fields_from_curvature(self):
         """[Causal Curvature] Mass warps the Environmental pressure field."""
@@ -563,6 +644,8 @@ class ThermodynamicEnvironment:
         avg_P = (p_vals[:, np.newaxis] + p_vals[np.newaxis, :]) / 2.0
         avg_T = (t_vals[:, np.newaxis] + t_vals[np.newaxis, :]) / 2.0
         
+        # As temperature cools down (and alignment resonance is high under pressure), molecules synthesize.
+        # This matches Pillar 2 (Melting -> Cooling -> Crystallization)
         mask = (resonance * avg_P) > (avg_T * 0.4)
         np.fill_diagonal(mask, False)
         
@@ -582,10 +665,22 @@ class ThermodynamicEnvironment:
                 used.add(i)
                 
         for group in bonded_groups:
+            # When crystallization occurs, scale mass and bond strength based on T_max experienced
+            # Representing LTP (Long-Term Potentiation) proportional to the peak excitation heat
+            max_T_max = max(atom.T_max for atom in group)
+
             for atom in group:
                 atom.is_bound = True
+                # Scale mass proportional to peak excitation temperature
+                atom.mass = float(atom.mass * (1.0 + max_T_max * 0.5))
+
             mol_id = f"mol_{len(self.molecules)}"
-            new_mol = ThermodynamicMolecule(id=mol_id, atoms=group, tensor=np.zeros(9))
+            new_mol = ThermodynamicMolecule(
+                id=mol_id,
+                atoms=group,
+                tensor=np.zeros(9),
+                bond_strength=float(1.0 + max_T_max * 0.8) # Stronger bond strength for higher peak temperature
+            )
             self.molecules.append(new_mol)
 
     def _manage_cells_homeostasis(self):
@@ -616,7 +711,14 @@ class ThermodynamicEnvironment:
         for atom in self.atoms:
             if atom.is_bound:
                 continue
-            noise = np.random.randn(3).astype(np.float32) * np.sqrt(atom.T) * 0.05
+
+            # Stochastic Jitter is proportional to temperature (Pillar 1: high T = strong vibration/jitter)
+            noise_amplitude = float(np.sqrt(atom.T) * 0.05)
+            # Higher temperature expands space variance / degrees of freedom
+            if atom.T > 2.0:
+                noise_amplitude *= float(1.0 + (atom.T - 2.0) * 0.3)
+
+            noise = np.random.randn(3).astype(np.float32) * noise_amplitude
             atom.velocity += noise
 
             damping = 0.95 * (1.0 - (atom.P * 0.02))

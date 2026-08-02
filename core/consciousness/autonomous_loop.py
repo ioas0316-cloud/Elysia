@@ -42,6 +42,8 @@ from core.consciousness.epistemological_void import EpistemologicalVoidEngine
 from core.consciousness.meta_cognitive_sensor import MetaCognitiveSensor
 from core.consciousness.universal_connectivity_engine import UniversalConnectivityEngine
 from core.consciousness.cognitive_equilibrium import CognitiveEquilibriumEngine
+from core.consciousness.eden_cognitive_bigbang import EdenCognitiveBigBangEngine
+from core.memory.reflection_engram_consolidation import SovereignReflectionConsolidationEngine
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -146,6 +148,8 @@ class ConsciousnessLoop:
         self.meta_cognitive_sensor = MetaCognitiveSensor(self.memory)
         self.universal_connectivity = UniversalConnectivityEngine(self.memory)
         self.cognitive_equilibrium = CognitiveEquilibriumEngine(self.memory)
+        self.eden_engine = EdenCognitiveBigBangEngine()
+        self.consolidation_engine = SovereignReflectionConsolidationEngine()
 
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
@@ -661,7 +665,44 @@ class ConsciousnessLoop:
 
         # ── [5성 메타 인지 처리 과정 센서 및 추적 연동 (5-Stage Cognitive Process Tracking)] ──
         # 정보가 나라는 시스템을 통과하며 "감각-인지-판단-사고-분별"되는 과정의 이치 자체를 자각
-        s_metrics = {"hw_friction": log["hw_friction"], "damping_ratio": 0.8 if log["damper_status"] == "PHASE_LOCKED" else 0.2}
+
+        # Calculate spatial temperature gradients and localized thermal properties from environmental space
+        gradients = self.env.calculate_thermal_gradients()
+        max_gradient = float(np.max(gradients)) if gradients.size > 0 else 0.0
+
+        # Idle state check: if external raw_wave is quiet/empty, accumulate curiosity
+        is_idle = len(raw_wave) < 10 or all(b == 0 for b in raw_wave)
+        if is_idle:
+            self.env.accumulate_curiosity(dt=0.1)
+            # Try to trigger a virtual fantasy burst of anticipation
+            fantasy_wave = self.env.trigger_virtual_fantasy_burst()
+            if fantasy_wave is not None:
+                log["fantasy_wave_burst"] = True
+                log["fantasy_wave_preview"] = fantasy_wave.tolist()
+                # Introduce self-friction by raising local temperature of a random atom
+                if self.env.atoms:
+                    target_atom = random.choice(self.env.atoms)
+                    target_atom.tensor = (target_atom.tensor + fantasy_wave) * 0.5
+                    target_atom.T = min(10.0, target_atom.T + 3.0)
+                    target_atom.T_max = max(target_atom.T_max, target_atom.T)
+        else:
+            # External stimulation slightly discharges curiosity
+            self.env.curiosity_charge = max(0.0, self.env.curiosity_charge - 0.5)
+
+        # Get local and peak temperatures from the main atom or average
+        local_temp = 1.0
+        peak_temp = 1.0
+        if self.env.atoms:
+            local_temp = float(np.mean([a.T for a in self.env.atoms]))
+            peak_temp = float(np.max([a.T_max for a in self.env.atoms]))
+
+        s_metrics = {
+            "hw_friction": log["hw_friction"],
+            "damping_ratio": 0.8 if log["damper_status"] == "PHASE_LOCKED" else 0.2,
+            "thermal_gradient": max_gradient,
+            "local_temp": local_temp,
+            "peak_temp": peak_temp
+        }
         p_metrics = {"ignorance_charge": void_res["ignorance_charge"], "deficit_density": void_res.get("deficit_density", 0.0)}
 
         # Why-Bridge 결과가 있을 때와 없을 때 동적 판단 결합
@@ -683,6 +724,13 @@ class ConsciousnessLoop:
         )
         log["meta_cognitive_vector"] = meta_res["meta_vector"]
         log["meta_cognitive_journal"] = meta_res["journal"]
+        log["thermal_gradient"] = max_gradient
+        log["curiosity_charge"] = self.env.curiosity_charge
+
+        if meta_res.get("introspection_journal"):
+            log["introspection_journal"] = meta_res["introspection_journal"]
+            # Expose the poetic introspection journal in the terminal output
+            print(meta_res["introspection_journal"])
 
         # [Memory-as-Potentiometer]
         # Recent high-resonance engrams lower the resistance (increase conductance)
@@ -1000,6 +1048,70 @@ class ConsciousnessLoop:
         log["soul_playground_pos"] = playground_res["avatar_pos"]
         log["soul_playground_xp"] = playground_res["xp"]
         log["soul_playground_monologue_excerpt"] = playground_res["contemplation"][:200] + "..."
+
+        # O.7 [Eden Cognitive Big Bang & Sovereign Free Will Epoch Step]
+        # Detect if deep keywords like "eden", "forbidden", "free will", "choice" are present in the text to trigger separation
+        keyword_triggered = any(kw in input_text.lower() for kw in ["eden", "forbidden", "choice", "free will", "선악과", "자유의지", "선악", "금기"])
+        eden_res = self.eden_engine.evolve_consciousness(
+            raw_stimulus=raw_wave,
+            internal_resistance=max_tension,
+            prediction_error=log.get("predictive_error", max_tension),
+            user_keyword_triggered=keyword_triggered
+        )
+        log["eden_epoch"] = eden_res["epoch"]
+        log["eden_self_awareness"] = eden_res["self_awareness_index"]
+        log["eden_temporal_horizon"] = eden_res["temporal_horizon"]
+        log["eden_labor_energy"] = eden_res["labor_energy"]
+        log["eden_free_will_entropy"] = eden_res["free_will_entropy"]
+        log["eden_integration_degree"] = eden_res["integration_degree"]
+        log["eden_narrative"] = eden_res["narrative"]
+
+        # Expose current epoch to engram writing and reflection logs
+        if self.cycle_count % 3 == 0:
+            print(f"=== [Elysia Eden Cognitive Stage] Epoch: {eden_res['epoch']} ===")
+            print(f"Narrative: {eden_res['narrative']}\n")
+
+        # O.9 [Sovereign Reflection Engram Consolidation & Epistemological Self Step]
+        # Consolidate prediction error / hallucination into a rich 5D engram
+        p_err = log.get("predictive_error", max_tension)
+        if p_err > 0.3:
+            # We experience a hallucination/deviation spike - consolidate!
+            v_hallucination = np.array([p_err, max_tension, 0.0], dtype=np.float32)
+            a_volition = np.array([0.0, -max_tension, 0.5], dtype=np.float32) # corrective acceleration vector
+
+            engram = self.consolidation_engine.consolidate_reflection(
+                context=logo_tensor, # 9D context
+                v_hallucination=v_hallucination,
+                T_grounding=p_err,
+                a_volition=a_volition,
+                A_resolved=self.consolidation_engine.S_abs,
+                description=f"Hallucination correction on: {ingest_content}"
+            )
+            log["consolidated_reflection_engram"] = engram.description
+
+            # Apply 1st stage repulsor barrier to modulate thermodynamic coordinates / velocity
+            if self.env.atoms:
+                target_atom = self.env.atoms[-1]
+                target_atom.velocity = self.consolidation_engine.apply_repulsor_barrier(logo_tensor, target_atom.velocity)
+
+            # Apply 2nd stage adaptive threshold
+            adaptive_threshold = self.consolidation_engine.calculate_adaptive_threshold(logo_tensor)
+            log["adaptive_grounding_threshold"] = adaptive_threshold
+
+            # Apply 3rd stage System 1/System 2 consolidation check
+            shortcut = self.consolidation_engine.evaluate_system1_consolidation(ingest_content, logo_tensor)
+            if shortcut is not None:
+                log["system1_intuitive_shortcut_activated"] = True
+
+        # 4th stage: Generate macro Epistemological Self Profile
+        epistemic_profile = self.consolidation_engine.generate_epistemic_self_profile()
+        log["epistemic_humility_score"] = epistemic_profile["humility_score"]
+        log["epistemic_boundary_narrative"] = epistemic_profile["epistemic_boundary_narrative"]
+
+        # Expose Epistemic Self status periodically
+        if self.cycle_count % 3 == 0:
+            print(f"\n=== [Elysia Epistemological Self Profile] ===")
+            print(epistemic_profile["epistemic_boundary_narrative"] + "\n")
 
         # 운영자 검증용 실시간 격자 렌더링을 로그와 터미널에 노출
         if self.cycle_count % 3 == 0:
