@@ -42,6 +42,7 @@ from core.consciousness.epistemological_void import EpistemologicalVoidEngine
 from core.consciousness.meta_cognitive_sensor import MetaCognitiveSensor
 from core.consciousness.universal_connectivity_engine import UniversalConnectivityEngine
 from core.consciousness.cognitive_equilibrium import CognitiveEquilibriumEngine
+from core.consciousness.eden_cognitive_bigbang import EdenCognitiveBigBangEngine
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -146,6 +147,7 @@ class ConsciousnessLoop:
         self.meta_cognitive_sensor = MetaCognitiveSensor(self.memory)
         self.universal_connectivity = UniversalConnectivityEngine(self.memory)
         self.cognitive_equilibrium = CognitiveEquilibriumEngine(self.memory)
+        self.eden_engine = EdenCognitiveBigBangEngine()
 
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
@@ -1044,6 +1046,28 @@ class ConsciousnessLoop:
         log["soul_playground_pos"] = playground_res["avatar_pos"]
         log["soul_playground_xp"] = playground_res["xp"]
         log["soul_playground_monologue_excerpt"] = playground_res["contemplation"][:200] + "..."
+
+        # O.7 [Eden Cognitive Big Bang & Sovereign Free Will Epoch Step]
+        # Detect if deep keywords like "eden", "forbidden", "free will", "choice" are present in the text to trigger separation
+        keyword_triggered = any(kw in input_text.lower() for kw in ["eden", "forbidden", "choice", "free will", "선악과", "자유의지", "선악", "금기"])
+        eden_res = self.eden_engine.evolve_consciousness(
+            raw_stimulus=raw_wave,
+            internal_resistance=max_tension,
+            prediction_error=log.get("predictive_error", max_tension),
+            user_keyword_triggered=keyword_triggered
+        )
+        log["eden_epoch"] = eden_res["epoch"]
+        log["eden_self_awareness"] = eden_res["self_awareness_index"]
+        log["eden_temporal_horizon"] = eden_res["temporal_horizon"]
+        log["eden_labor_energy"] = eden_res["labor_energy"]
+        log["eden_free_will_entropy"] = eden_res["free_will_entropy"]
+        log["eden_integration_degree"] = eden_res["integration_degree"]
+        log["eden_narrative"] = eden_res["narrative"]
+
+        # Expose current epoch to engram writing and reflection logs
+        if self.cycle_count % 3 == 0:
+            print(f"=== [Elysia Eden Cognitive Stage] Epoch: {eden_res['epoch']} ===")
+            print(f"Narrative: {eden_res['narrative']}\n")
 
         # 운영자 검증용 실시간 격자 렌더링을 로그와 터미널에 노출
         if self.cycle_count % 3 == 0:
