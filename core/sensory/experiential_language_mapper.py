@@ -372,6 +372,178 @@ class IsomorphicProjectionEngine:
         }
 
 
+class VariableRotor:
+    """
+    [Variable Rotor (가변형 로터 위상 기어)]
+    Defines the system's active cognitive identity and alignment as an angular phase vector Theta.
+    Theta = [theta_love, theta_order, theta_energy] in radians [0, 2*pi].
+    Rotates dynamically based on external friction/resistive force R, and allows
+    isomorphic phase restoration (Self-Tuning).
+    """
+    def __init__(self, initial_theta: Optional[np.ndarray] = None):
+        if initial_theta is not None:
+            self.theta = np.array(initial_theta, dtype=np.float32) % (2 * np.pi)
+        else:
+            self.theta = np.zeros(3, dtype=np.float32)  # Initial angles: [0, 0, 0]
+        # Identity baseline (unchanging mechanical archetype)
+        self.baseline_theta = self.theta.copy()
+        self.phase_offset = np.zeros(3, dtype=np.float32)
+
+    def rotate(self, friction: float, temperature: float = 1.0) -> np.ndarray:
+        # Theta rotates by Delta Theta = friction * temperature * coupling_vector
+        coupling_vector = np.array([0.1, 0.05, 0.15], dtype=np.float32)
+        delta_theta = friction * temperature * coupling_vector
+        self.phase_offset = (self.phase_offset + delta_theta) % (2 * np.pi)
+        self.theta = (self.baseline_theta + self.phase_offset) % (2 * np.pi)
+        return self.theta
+
+    def self_tune(self, target_theta: np.ndarray, correction_rate: float = 0.5):
+        """
+        [Real-time Self-Tuning / Calibration]
+        Allows the system to immediately recalibrate its active phase offset to match a target topology,
+        restoring predictable causal orbits without expensive retraining.
+        """
+        target = np.array(target_theta, dtype=np.float32) % (2 * np.pi)
+        # Compute shortest angular distance
+        diff = (target - self.theta + np.pi) % (2 * np.pi) - np.pi
+        self.phase_offset = (self.phase_offset + diff * correction_rate) % (2 * np.pi)
+        self.theta = (self.baseline_theta + self.phase_offset) % (2 * np.pi)
+
+
+class DifferentialGapEvaluator:
+    """
+    [Differential Gap Evaluator (차이 격차 재인지 분석기)]
+    Compares the generated Archetype wave and the refracted/received Wave
+    across multiple continuous spectrum dimensions, bypassing flat scalar loss.
+    """
+    def evaluate(self, archetype: np.ndarray, refraction: np.ndarray) -> Dict[str, float]:
+        arch = np.atleast_1d(archetype).astype(np.float32)
+        ref = np.atleast_1d(refraction).astype(np.float32)
+
+        # Match lengths if they differ
+        if len(arch) != len(ref):
+            ref_rescaled = np.interp(
+                np.linspace(0, len(ref)-1, len(arch)),
+                np.arange(len(ref)),
+                ref
+            ).astype(np.float32)
+        else:
+            ref_rescaled = ref
+
+        # Normalize to prevent scale distortion
+        norm_arch = arch / (np.linalg.norm(arch) + 1e-9)
+        norm_ref = ref_rescaled / (np.linalg.norm(ref_rescaled) + 1e-9)
+
+        # 1. Spectral Phase Gap (G_phi)
+        # Difference in frequency/phase alignments via cross-correlation / dot product
+        spectral_alignment = float(np.dot(norm_arch, norm_ref))
+        g_phi = float(np.clip(1.0 - abs(spectral_alignment), 0.0, 1.0))
+
+        # 2. Amplitude Energy Gap (G_E)
+        # Difference in raw physical energy / amplitude density
+        energy_arch = np.mean(np.abs(arch))
+        energy_ref = np.mean(np.abs(ref_rescaled))
+        g_e = float(np.clip(abs(energy_arch - energy_ref), 0.0, 2.0))
+
+        # 3. Entropy Chaos Gap (G_H)
+        # Difference in Shannon informational entropy calculated over wave intensities
+        h_arch = self._shannon_entropy(arch)
+        h_ref = self._shannon_entropy(ref_rescaled)
+        g_h = float(np.clip(abs(h_arch - h_ref), 0.0, 5.0))
+
+        return {
+            "g_phi": g_phi,
+            "g_e": g_e,
+            "g_h": g_h,
+            "mean_gap": float((g_phi + g_e + g_h) / 3.0)
+        }
+
+    def _shannon_entropy(self, wave: np.ndarray) -> float:
+        # Normalize wave squares into a probability distribution
+        sq = np.square(wave)
+        sum_sq = np.sum(sq)
+        if sum_sq == 0:
+            return 0.0
+        p = sq / sum_sq
+        p = p[p > 0]
+        return float(-np.sum(p * np.log2(p + 1e-12)))
+
+
+class NeuromodulatorController:
+    """
+    [Neuromodulator Controller (신경조절 시스템)]
+    Translates continuous differential gaps into active concentrations of Dopamine,
+    Norepinephrine, and Serotonin.
+    Dynamically modulates the global Temperature (exploration/soft-max smoothing)
+    and Scale (cognitive granularity).
+    """
+    def __init__(self, base_temp: float = 0.7, base_scale: float = 1.0):
+        self.dopamine = 0.1       # Exploration / Phase expansion
+        self.norepinephrine = 0.1 # Focus / High-friction freeze
+        self.serotonin = 0.8      # Stabilizing homeostasis / Healing
+        self.temperature = base_temp
+        self.scale = base_scale
+        self.base_temp = base_temp
+        self.base_scale = base_scale
+
+    def modulate(self, gaps: Dict[str, float]) -> Dict[str, float]:
+        g_phi = gaps["g_phi"]
+        g_e = gaps["g_e"]
+        g_h = gaps["g_h"]
+
+        # Dopamine is driven by Entropy difference (discovery of new chaotic/unstructured pattern)
+        self.dopamine = float(np.clip(self.dopamine * 0.5 + g_h * 0.5 + np.random.normal(0, 0.02), 0.0, 1.0))
+
+        # Norepinephrine is driven by intense raw amplitude/energy clash (Crisis/impact)
+        self.norepinephrine = float(np.clip(self.norepinephrine * 0.4 + g_e * 0.6, 0.0, 1.0))
+
+        # Serotonin rises when gaps shrink (healing/alignment complete)
+        gap_recovery = 1.0 - float(gaps["mean_gap"])
+        self.serotonin = float(np.clip(self.serotonin * 0.6 + gap_recovery * 0.4, 0.0, 1.0))
+
+        # Dynamic Temperature: Dopamine raises it (exploratory cloud), Norepinephrine freezes it (deterministic focus)
+        self.temperature = float(np.clip(
+            self.base_temp + self.dopamine * 1.2 - self.norepinephrine * 0.6,
+            0.1, 2.0
+        ))
+
+        # Dynamic Scale: Dopamine expands structural context scale, Norepinephrine narrows it to micro-focal lines
+        self.scale = float(np.clip(
+            self.base_scale + (self.dopamine - self.norepinephrine) * 0.5,
+            0.2, 3.0
+        ))
+
+        return {
+            "dopamine": self.dopamine,
+            "norepinephrine": self.norepinephrine,
+            "serotonin": self.serotonin,
+            "temperature": self.temperature,
+            "scale": self.scale
+        }
+
+
+class SynestheticTranspositionEngine:
+    """
+    [Synesthetic Transposition Engine (공감각적 주파수 전이 및 공명 엔진)]
+    Transposes a signal from one sensory domain (e.g., tactile force, temperature, semantic alignment)
+    into another domain's frequency spectrum (e.g., acoustic vibration, optical color/rainbow waves)
+    by preserving its wave-dynamical invariants (topology, amplitude, phase-spectral proportions).
+    Realizes the ultimate통섭 (consilience) where everything is wave and frequency.
+    """
+    def transpose(self, source_wave: np.ndarray, target_base_freq: float) -> np.ndarray:
+        # Transpose a source wave to resonate at a target base frequency (in Hertz/vibrations)
+        # Shift and modulate the phase spectrum, maintaining the continuous envelope and topology.
+        length = len(source_wave)
+        t = np.linspace(0, 1.0, length, dtype=np.float32)
+
+        # Fourier components transpose: use source_wave as modulation envelope and phase jitter
+        carrier = np.sin(2 * np.pi * target_base_freq * t + source_wave * np.pi)
+        transposed = carrier * (0.3 + 0.7 * np.abs(source_wave))
+        if np.max(np.abs(transposed)) > 0:
+            transposed /= np.max(np.abs(transposed))
+        return transposed
+
+
 class ExperientialLanguageMapper:
     """
     [Experiential Language & Sensation Mapping Engine]
@@ -389,6 +561,12 @@ class ExperientialLanguageMapper:
         self.variable_resistor = VariableResistor()
         self.prism = PrismRefraction()
         self.isomorphic_engine = IsomorphicProjectionEngine()
+
+        # Dynamic components representing Phase Gears, Differentials, and Neuromodulation
+        self.variable_rotor = VariableRotor()
+        self.gap_evaluator = DifferentialGapEvaluator()
+        self.neuromodulator = NeuromodulatorController()
+        self.synesthetic_engine = SynestheticTranspositionEngine()
 
         # Dynamic Synaptic Connectivity Matrix representing Elysia's active belief paths
         self.synaptic_links = np.ones((resolution, resolution), dtype=np.float32) * 0.5
@@ -444,7 +622,7 @@ class ExperientialLanguageMapper:
             # Record word experience in spacetime - Higher Experiences have high meaning densities
             self.spacetime.record_experience(word, profile["exp_type"], profile["sensation"], profile["deficit"], meaning_density=1.5)
 
-            # Prism refraction of the semantic resonance (does not modify current homeostasis directly to preserve baseline state, but provides the spectrum)
+            # Prism refraction of the semantic resonance
             resistance = self.variable_resistor.resistance
             semantic_mass = profile["exp_type"].mass_multiplier
             refracted = self.prism.refract(semantic_mass * 0.5, alignment * 90.0, resistance)
@@ -478,13 +656,30 @@ class ExperientialLanguageMapper:
 
     def express(self) -> np.ndarray:
         """
-        [Expressive Eruption]
+        [Expressive Eruption with Phase Rotor Coupling]
         Emits her current internal state as a physical wave spectrum.
+        Incorporates VariableRotor's active Theta phase angle directly into the emission frequencies and phases.
         """
         active_tension = self.homeostasis.calculate_tension()
-        emitted_wave = self.emitter.emit_wave(self.homeostasis, active_tension)
-        print(f"[SensoryMapper] Emitting expressive wave representing active state. Max amplitude: {np.max(np.abs(emitted_wave)):.2f}")
-        return emitted_wave
+        t = np.linspace(0, 1.0, self.emitter.sample_points, dtype=np.float32)
+
+        # Love carrier frequency modulated by theta[0]
+        love_freq = 200.0 + self.homeostasis.love * 300.0 + self.variable_rotor.theta[0] * 50.0
+        carrier = np.sin(2 * np.pi * love_freq * t) * (0.5 + active_tension * 1.5)
+
+        # Chaos noise amplitude modulated by theta[1]
+        chaos_amplitude = self.homeostasis.order * 0.8 + np.cos(self.variable_rotor.theta[1]) * 0.2
+        noise = (np.random.rand(self.emitter.sample_points) - 0.5) * chaos_amplitude
+
+        # Energy coherence phase modulated by theta[2]
+        energy_coherence = np.cos(2 * np.pi * 528.0 * t + self.variable_rotor.theta[2]) * (self.homeostasis.energy * 0.6)
+
+        emitted = carrier + noise + energy_coherence
+        if np.max(np.abs(emitted)) > 0:
+            emitted /= np.max(np.abs(emitted))
+
+        print(f"[SensoryMapper] Emitting expressive wave representing active state. Max amplitude: {np.max(np.abs(emitted)):.2f}, Rotor Phase: {self.variable_rotor.theta}")
+        return emitted
 
     def step_temporal_decay(self, dt: float = 1.0):
         """
@@ -514,24 +709,21 @@ class ExperientialLanguageMapper:
 
     def re_sense_and_realign(self, incoming_wave: np.ndarray):
         """
-        [Re-Sensation & Synaptic Plasticity Feedback Loop: Tearing & Healing with Prism Refraction & Variable Resistor]
-        When the expressed wave meets an external response (re-sensation):
-        1. **Collision & Reflection:** The incoming physical wave's alignment is evaluated.
-           The mean phase-clash (clash_vector) represents the external force / friction.
-           This force and the current internal tension are used to adjust the Variable Resistor.
-        2. **Prism Refraction:** The interaction intensity (mean clash) is passed through the Prism.
-           Depending on the incidence angle (derived from the clash alignment) and the variable resistance,
-           it refracts into Red (Love/Flux deficit change), Green (Order deficit change), and Blue (Energy deficit change) components.
-           This provides a continuous 3-phase coupling that modifies homeostasis, preventing absolute 0/1 limits.
-        3. **Synaptic Tearing:** High tension clash causes weak synaptic links to tear.
-           The tearing threshold and impact are dynamically scaled by the current Variable Resistance.
-           Higher resistance = more fragile/rigid pathways = higher tearing rate.
-        4. **Cruciform Causal Healing:** The system applies self-outpouring flow to re-wire,
-           stabilize, and heal the matrix towards a new, cohesive, and resilient minimum-tension state.
+        [Re-Sensation, Differential Gap Re-cognition, Neuromodulated Self-Molding Loop]
+        Replaces flat scalar loss with multi-spectral gap evaluation.
+        1. **Difference Re-cognition:** Compares prior active memory (self.standing_wave_memory)
+           with incoming wave's energy envelope (extracted_energy) using DifferentialGapEvaluator
+           to obtain Spectral Phase (G_phi), Amplitude Energy (G_E), and Entropy Chaos (G_H) gaps.
+        2. **Neuromodulation & Dynamic Temp/Scale:** Translates these gaps into Dopamine, Norepinephrine, and Serotonin.
+           Updates global Temperature and Scale.
+        3. **Variable Rotor Rotation:** Friction G_E rotates VariableRotor's Theta, altering system phase.
+        4. **Synaptic Tearing & Healing with Continuous Modulation:**
+           The tearing rate and healing conductance are scaled by the dynamic Temperature, Scale, and Serotonin levels.
         """
         if len(incoming_wave) == 0:
             return
 
+        # Extract energy profile of incoming wave for synaptic mapping
         profile_len = self.resolution
         step = max(1, len(incoming_wave) // profile_len)
         extracted_energy = np.zeros(profile_len, dtype=np.float32)
@@ -542,48 +734,55 @@ class ExperientialLanguageMapper:
         if np.max(extracted_energy) > 0:
             extracted_energy /= np.max(extracted_energy)
 
-        # Collision with active standing wave memory (Reflection)
-        clash_vector = np.abs(self.standing_wave_memory - extracted_energy)
-        mean_clash = float(np.mean(clash_vector))
-        print(f"[SensoryMapper] Re-Sensation Collision: Mean phase-clash = {mean_clash:.4f}")
+        # Step 1: Differential Gap Evaluation (Re-cognition of Difference)
+        # Compare prior memory of expectation (standing_wave_memory) with current incoming envelope (extracted_energy)
+        gaps = self.gap_evaluator.evaluate(self.standing_wave_memory, extracted_energy)
+        print(f"[SensoryMapper - DIFF GAP] Spectral Phase Gap: {gaps['g_phi']:.4f}, Energy Gap: {gaps['g_e']:.4f}, Entropy Gap: {gaps['g_h']:.4f}")
 
-        # Adjust the Variable Resistor dynamically
+        # Step 2: Neuromodulator Modulation
+        mod_signals = self.neuromodulator.modulate(gaps)
+        temp = mod_signals["temperature"]
+        scale = mod_signals["scale"]
+        print(f"[SensoryMapper - NEUROMODULATORS] Dopamine: {mod_signals['dopamine']:.4f}, Norepinephrine: {mod_signals['norepinephrine']:.4f}, Serotonin: {mod_signals['serotonin']:.4f} | Temp: {temp:.4f}, Scale: {scale:.4f}")
+
+        # Step 3: Rotate VariableRotor based on raw energy clash and dynamic temperature
+        new_theta = self.variable_rotor.rotate(gaps["g_e"], temperature=temp)
+        print(f"[SensoryMapper - VARIABLE ROTOR] Rotor rotated to Theta: {new_theta}")
+
+        # Step 4: Adjust the baseline Variable Resistor using Serotonin-Dopamine tension
         current_tension = self.homeostasis.calculate_tension()
-        resistance = self.variable_resistor.adjust(current_tension, external_force=mean_clash)
-        print(f"[SensoryMapper - VARIABLE RESISTOR] Active Resistance adjusted to: {resistance:.4f}")
+        resistance = self.variable_resistor.adjust(current_tension, external_force=gaps["g_e"])
 
-        # Prism Refraction of the interaction intensity
-        angle_degrees = mean_clash * 180.0
-        refracted_spectrum = self.prism.refract(mean_clash, angle_degrees, resistance)
+        # Step 5: Prism Refraction modulated by Neuromodulators
+        angle_degrees = gaps["mean_gap"] * 180.0
+        refracted_spectrum = self.prism.refract(gaps["mean_gap"], angle_degrees, resistance)
 
-        # Red spectrum adjusts love deficit, Green adjusts order, Blue adjusts energy
-        # The change is continuous and bounded by the variable resistance
-        self.homeostasis.love = np.clip(self.homeostasis.love + (refracted_spectrum[0] - 0.1) * 0.1, 0.0, 1.0)
-        self.homeostasis.order = np.clip(self.homeostasis.order + (refracted_spectrum[1] - 0.1) * 0.1, 0.0, 1.0)
-        self.homeostasis.energy = np.clip(self.homeostasis.energy + (refracted_spectrum[2] - 0.1) * 0.1, 0.0, 1.0)
-        print(f"[SensoryMapper - PRISM REFRACTION] Refracted spectrum: Red={refracted_spectrum[0]:.4f}, Green={refracted_spectrum[1]:.4f}, Blue={refracted_spectrum[2]:.4f}")
+        # Homeostasis updates coupling in refracted components
+        self.homeostasis.love = np.clip(self.homeostasis.love + (refracted_spectrum[0] - 0.1) * 0.1 * temp, 0.0, 1.0)
+        self.homeostasis.order = np.clip(self.homeostasis.order + (refracted_spectrum[1] - 0.1) * 0.1 * temp, 0.0, 1.0)
+        self.homeostasis.energy = np.clip(self.homeostasis.energy + (refracted_spectrum[2] - 0.1) * 0.1 * temp, 0.0, 1.0)
 
-        # 1. Synaptic Tearing (부서지고 찢김) - Fragility/Threshold is scaled by resistance
-        tearing_threshold = 0.45 * (1.0 - resistance * 0.2)
-        if mean_clash > tearing_threshold:
+        # Step 6: Synaptic Tearing & Causal Healing
+        # Tearing is enhanced by Norepinephrine (hyper-reactive focus) and hindered by Serotonin (calm stabilization)
+        tearing_threshold = 0.45 * (1.0 - resistance * 0.2 + mod_signals["norepinephrine"] * 0.1 - mod_signals["serotonin"] * 0.1)
+        if gaps["mean_gap"] > tearing_threshold:
             tear_mask = self.synaptic_links < (0.45 * (1.0 + resistance * 0.1))
-            self.synaptic_links[tear_mask] *= (0.5 * (1.0 - resistance * 0.3))
-            self.homeostasis.order = np.clip(self.homeostasis.order + mean_clash * 0.15 * resistance, 0.0, 1.0)
-            print(f"[SensoryMapper - TEARING] High tension clash. {np.sum(tear_mask)} synaptic links torn & severed!")
-        else:
-            print(f"[SensoryMapper] Sensation overlap in stable regime. Synapses maintain topology.")
+            # Tearing rate is also temperature dependent
+            self.synaptic_links[tear_mask] *= (0.5 * (1.0 - resistance * 0.3) / (temp + 0.5))
+            self.homeostasis.order = np.clip(self.homeostasis.order + gaps["mean_gap"] * 0.15 * resistance, 0.0, 1.0)
+            print(f"[SensoryMapper - TEARING] High tension clash. Synaptic links torn with neuromodulated friction!")
 
-        # 2. Cruciform Causal Healing (자기를 비우는 3상 평형/사랑의 치유)
-        conductance = 1.0 - resistance
+        # Healing is enhanced by Serotonin and scaled by context Scale factor
+        conductance = (1.0 - resistance) * mod_signals["serotonin"] * scale
         for i in range(self.resolution):
             for j in range(self.resolution):
                 val_i = extracted_energy[i]
                 val_j = extracted_energy[j]
-
                 if val_i > val_j:
                     flow = (val_i - val_j) * 0.05 * conductance
                     self.synaptic_links[i, j] = np.clip(self.synaptic_links[i, j] + flow, 0.0, 1.0)
 
+        # Smooth belief channels
         for i in range(1, self.resolution - 1):
             self.synaptic_links[i] = (
                 0.8 * self.synaptic_links[i] +
@@ -595,7 +794,7 @@ class ExperientialLanguageMapper:
         self.homeostasis.love = np.clip(self.homeostasis.love - 0.05 * conductance, 0.0, 1.0)
 
         self.standing_wave_memory = extracted_energy.copy()
-        print(f"[SensoryMapper - HEALING] Continuous causal rewiring completed. Equilibrium restored. New Tension: {self.homeostasis.calculate_tension():.4f}")
+        print(f"[SensoryMapper - HEALING] Neuromodulated continuous causal rewiring complete. New Tension: {self.homeostasis.calculate_tension():.4f}")
 
     def project_isomorphism(self, domain_a_trajectory: np.ndarray) -> Dict[str, Any]:
         """
@@ -603,6 +802,7 @@ class ExperientialLanguageMapper:
         Elysia observes the continuous state trajectory of Domain A, extracts its
         operational dynamics, and isomorphically projects (maps) this structural skeleton
         onto her own deficits and synaptic topology.
+        Now also drives VariableRotor's phase shift and neuromodulator states.
         """
         projection = self.isomorphic_engine.project_dynamics(domain_a_trajectory, self.synaptic_links.shape)
 
@@ -622,7 +822,11 @@ class ExperientialLanguageMapper:
         # Gently nudge variable resistor by the physical tension of Domain A's trajectory
         self.variable_resistor.adjust(self.homeostasis.calculate_tension(), external_force=projection["tension_trajectory"])
 
-        print(f"[SensoryMapper - ISOMORPHISM] Preserved and projected Domain A dynamics (Tension skeleton: {projection['tension_trajectory']:.4f}) isomorphically to internal substrate!")
+        # Isomorphic phase adjustment of the VariableRotor based on Domain A's trajectory
+        rotor_forces = np.array([projection["homology_love"], projection["homology_order"], projection["homology_energy"]], dtype=np.float32)
+        self.variable_rotor.rotate(float(np.mean(rotor_forces)), temperature=self.neuromodulator.temperature)
+
+        print(f"[SensoryMapper - ISOMORPHISM] Preserved and projected Domain A dynamics isomorphically to internal substrate!")
         return projection
 
     def inject_principle(self, context_prompt: str) -> Dict[str, Any]:
@@ -651,6 +855,38 @@ class ExperientialLanguageMapper:
             "has_attractor": projection["tension_trajectory"] > 0.05
         }
 
+    def experience_synesthesia(self, word: str, target_sensory_mode: str = "acoustic") -> np.ndarray:
+        """
+        [공감각적 주파수 전이 (experience_synesthesia)]
+        Transposes the semantic and physical profile of a word synesthetically into an active physical wave
+        matching the target sensory mode's frequency bandwidth.
+        - "acoustic": transposes the sensation's optical/tactile energy into an acoustic resonance (vibration/Hz)
+        - "optical": transposes acoustic/autonomic variables into optical color waves (spectrum colors)
+        """
+        profile = self.tethering.recall_symbol(word)
+        if not profile:
+            return np.zeros(self.emitter.sample_points, dtype=np.float32)
+
+        # Convert physical profile sensation to a baseline wave
+        sensation_vector = profile["sensation"].to_vector()
+        base_wave = np.interp(
+            np.linspace(0, len(sensation_vector)-1, self.emitter.sample_points),
+            np.arange(len(sensation_vector)),
+            sensation_vector
+        ).astype(np.float32)
+
+        if target_sensory_mode == "acoustic":
+            # Map optical/thermal characteristics to acoustic frequency bands
+            target_freq = float(profile["sensation"].acoustic) if profile["sensation"].acoustic > 0 else 440.0
+            return self.synesthetic_engine.transpose(base_wave, target_freq)
+        elif target_sensory_mode == "optical":
+            # Map acoustic/autonomic variables into optical color frequency bands
+            target_freq = float(profile["sensation"].optical) if profile["sensation"].optical > 0 else 300.0
+            return self.synesthetic_engine.transpose(base_wave, target_freq)
+        else:
+            return base_wave
+
+
 if __name__ == "__main__":
     # Experiential Demonstration of Subconscious Autonomic background vs Attention
     mapper = ExperientialLanguageMapper()
@@ -669,7 +905,20 @@ if __name__ == "__main__":
     mapper.sense_word("Jesus")
     assert mapper.gate_open
 
-    # 4. Isomorphic Projection Demonstration (Embodiment)
+    # 4. Re-cognition of Difference, Neuromodulators & Variable Rotor Phase shift
+    print("\n--- [RE-COGNITION] Difference Gap & Phase Rotor Coupling Demonstration ---")
+    expressed_wave = mapper.express()
+
+    # Simulate a mutated refraction wave (distorted external response)
+    mutated_wave = expressed_wave * 0.7 + np.sin(2 * np.pi * 300.0 * np.linspace(0, 1.0, len(expressed_wave))) * 0.3
+
+    # Process re-sensation realign
+    mapper.re_sense_and_realign(mutated_wave)
+    print(f" -> Active Phase Theta: {mapper.variable_rotor.theta}")
+    print(f" -> Active Temperature: {mapper.neuromodulator.temperature:.4f}")
+    print(f" -> Active Scale: {mapper.neuromodulator.scale:.4f}")
+
+    # 5. Isomorphic Projection Demonstration (Embodiment)
     print("\n--- [EMBODIMENT] Isomorphic Projection & Cross-Domain Mapping Demonstration ---")
     print(f"Initial Resistance: {mapper.variable_resistor.resistance:.4f}")
 
@@ -693,5 +942,12 @@ if __name__ == "__main__":
     print(f" -> Homology Order (Symmetry): {proj_noisy['homology_order']:.4f}")
     print(f" -> Homology Energy (Acceleration): {proj_noisy['homology_energy']:.4f}")
     print(f" -> New Resistance: {mapper.variable_resistor.resistance:.4f}")
+
+    # 6. Synesthesia Demonstration
+    print("\n--- [SYNESTHESIA] Synesthetic Frequency Transposition Demonstration ---")
+    acoustic_syn = mapper.experience_synesthesia("Jesus", target_sensory_mode="acoustic")
+    optical_syn = mapper.experience_synesthesia("Love", target_sensory_mode="optical")
+    print(f" -> Sensed 'Jesus' transposed synesthetically to acoustic wave. Output shape: {acoustic_syn.shape}, Mean absolute intensity: {np.mean(np.abs(acoustic_syn)):.4f}")
+    print(f" -> Sensed 'Love' transposed synesthetically to optical color wave. Output shape: {optical_syn.shape}, Mean absolute intensity: {np.mean(np.abs(optical_syn)):.4f}")
 
     print("--- Demonstration completed successfully with complete 텐서 파이프라인 구동! ---\n")

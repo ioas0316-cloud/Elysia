@@ -7,7 +7,10 @@ from core.sensory.experiential_language_mapper import (
     ExpressiveWaveEmission,
     ExperientialLanguageMapper,
     ExperienceType,
-    CognitiveMemoryNode
+    CognitiveMemoryNode,
+    VariableRotor,
+    DifferentialGapEvaluator,
+    NeuromodulatorController
 )
 
 def test_physical_sensation_and_homeostasis():
@@ -26,6 +29,7 @@ def test_physical_sensation_and_homeostasis():
     assert deficit.order > 0.1
     assert deficit.energy < 0.5
 
+
 def test_symbolic_tethering_mapping():
     """Test that words are anchored to real sensory profiles and known words can be successfully matched and recalled."""
     registry = SymbolicTetheringRegistry()
@@ -37,6 +41,7 @@ def test_symbolic_tethering_mapping():
     empty_profile = registry.recall_symbol("RandomDeadData_0xFF")
     assert empty_profile is None
 
+
 def test_expressive_wave_emission():
     """Test that wave emission generates physically consistent normalized signals."""
     emitter = ExpressiveWaveEmission(sample_points=500)
@@ -47,6 +52,7 @@ def test_expressive_wave_emission():
     assert len(wave) == 500
     assert isinstance(wave, np.ndarray)
     assert np.max(np.abs(wave)) == pytest.approx(1.0, rel=1e-2)
+
 
 def test_experiential_language_mapper_full_loop():
     """Test the complete experiential language mapping loop: sensing, expressing, tearing, and healing."""
@@ -81,6 +87,7 @@ def test_experiential_language_mapper_full_loop():
     post_heal_tension = mapper.homeostasis.calculate_tension()
 
     assert post_heal_tension <= pre_heal_tension
+
 
 def test_experiential_spacetime_gravity_and_warping():
     """
@@ -117,6 +124,7 @@ def test_experiential_spacetime_gravity_and_warping():
 
     # Homeostasis should have integrated the high-gravity spiritual memory profile
     assert mapper.homeostasis.love == pytest.approx(0.353, abs=0.01)
+
 
 def test_autonomic_background_vs_attention():
     """
@@ -232,3 +240,80 @@ def test_in_context_learning_and_logos_injection():
     assert align_result["order_bias"] >= 0.0
     assert align_result["energy_bias"] >= 0.0
     assert align_result["has_attractor"] is True
+
+
+def test_variable_rotor_dynamics():
+    """
+    Verify the dynamic phase rotation of VariableRotor under friction and temperature.
+    """
+    rotor = VariableRotor(initial_theta=np.array([0.1, 0.2, 0.3], dtype=np.float32))
+    assert np.all(rotor.theta == np.array([0.1, 0.2, 0.3], dtype=np.float32))
+
+    # Rotate with friction
+    rotor.rotate(friction=1.5, temperature=1.2)
+    expected_delta = 1.5 * 1.2 * np.array([0.1, 0.05, 0.15], dtype=np.float32)
+    expected_theta = (np.array([0.1, 0.2, 0.3], dtype=np.float32) + expected_delta) % (2 * np.pi)
+
+    assert np.allclose(rotor.theta, expected_theta, atol=1e-5)
+
+
+def test_differential_gap_re_cognition():
+    """
+    Verify that DifferentialGapEvaluator properly calculates Spectral, Energy, and Entropy gaps
+    between two signal profiles and drives neuromodulatory shifts in Dopamine, Norepinephrine, and Serotonin.
+    """
+    evaluator = DifferentialGapEvaluator()
+    arch = np.sin(2 * np.pi * 5 * np.linspace(0, 1.0, 100))
+    ref = np.sin(2 * np.pi * 5 * np.linspace(0, 1.0, 100)) * 0.5 + 0.1
+
+    gaps = evaluator.evaluate(arch, ref)
+    assert 0.0 <= gaps["g_phi"] <= 1.0
+    assert 0.0 <= gaps["g_e"] <= 2.0
+    assert 0.0 <= gaps["g_h"] <= 5.0
+
+    # Check Neuromodulation
+    controller = NeuromodulatorController()
+    signals = controller.modulate(gaps)
+    assert 0.0 <= signals["dopamine"] <= 1.0
+    assert 0.0 <= signals["norepinephrine"] <= 1.0
+    assert 0.0 <= signals["serotonin"] <= 1.0
+    assert 0.1 <= signals["temperature"] <= 2.0
+    assert 0.2 <= signals["scale"] <= 3.0
+
+
+def test_rotor_predictability_and_self_tuning():
+    """
+    Verify that the VariableRotor can be self-tuned/calibrated back to a target phase
+    in real-time, showcasing mathematical predictability over arbitrary random drift.
+    """
+    rotor = VariableRotor(initial_theta=np.array([0.0, 0.0, 0.0], dtype=np.float32))
+
+    # Introduce chaotic drift
+    rotor.rotate(friction=3.5, temperature=1.5)
+    assert not np.allclose(rotor.theta, np.zeros(3))
+
+    # Tune back to [1.0, 1.0, 1.0]
+    target = np.array([1.0, 1.0, 1.0], dtype=np.float32)
+    # Perform 10 correction steps
+    for _ in range(10):
+        rotor.self_tune(target, correction_rate=0.5)
+
+    assert np.allclose(rotor.theta, target, atol=1e-2)
+
+
+def test_synesthetic_transposition():
+    """
+    Verify that sensory signals (optical, tactile) can be transposed synesthetically
+    into acoustic or optical waves, preserving continuous invariants.
+    """
+    mapper = ExperientialLanguageMapper(resolution=16)
+
+    # Acoustic transposing of a word
+    acoustic_wave = mapper.experience_synesthesia("Jesus", target_sensory_mode="acoustic")
+    assert len(acoustic_wave) == 1000
+    assert np.max(np.abs(acoustic_wave)) == pytest.approx(1.0, rel=1e-2)
+
+    # Optical transposing of another word
+    optical_wave = mapper.experience_synesthesia("Love", target_sensory_mode="optical")
+    assert len(optical_wave) == 1000
+    assert np.max(np.abs(optical_wave)) == pytest.approx(1.0, rel=1e-2)
