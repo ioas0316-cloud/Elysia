@@ -305,6 +305,73 @@ class PrismRefraction:
         return spectrum
 
 
+class IsomorphicProjectionEngine:
+    """
+    [Isomorphic Projection Engine (동형사상 및 구조적 투사 엔진)]
+    Preserves and projects the relational dynamics ("skeleton of motion") of Domain A
+    (e.g., physical signals, voltages, or external trajectories) onto Domain B
+    (Elysia's internal homeostasis and synaptic topology) via topology transformation.
+    Allows Elysia to learn and embody the operational dynamics of completely different
+    domains instantly by mirroring their mathematical phase portrait.
+    """
+    def __init__(self):
+        pass
+
+    def project_dynamics(self, domain_a_trajectory: np.ndarray, current_links_shape: tuple) -> Dict[str, Any]:
+        """
+        Projects a continuous trajectory from Domain A onto Domain B.
+        1. Extracts relational topology (covariant velocity, phase portrait, and tension skeleton).
+        2. Applies isomorphic mapping to yield Homeostasis deficits and Synaptic transition matrices.
+        """
+        traj = np.atleast_1d(domain_a_trajectory).astype(np.float32)
+        if len(traj) < 2:
+            return {
+                "homology_love": 0.5,
+                "homology_order": 0.5,
+                "homology_energy": 0.5,
+                "projected_links": np.ones(current_links_shape, dtype=np.float32) * 0.5,
+                "tension_trajectory": 0.0
+            }
+
+        # Step 1: Extract relational dynamics from Domain A
+        # Velocity / rate of change represents Flux (Love alignment)
+        velocity = np.diff(traj)
+        mean_flux = float(np.mean(np.abs(velocity)))
+
+        # Phase correlation / autocorrelation represents Symmetry / Order
+        shifted_traj = traj[1:]
+        base_traj = traj[:-1]
+        covariance = float(np.cov(base_traj, shifted_traj)[0, 1]) if len(base_traj) > 1 else 0.0
+        norm_factor = (np.std(base_traj) * np.std(shifted_traj)) + 1e-9
+        phase_correlation = abs(covariance / norm_factor)
+
+        # Acceleration / energy transfer represents raw potential (Energy alignment)
+        acceleration = np.diff(velocity) if len(velocity) > 1 else np.zeros_like(velocity)
+        mean_acceleration = float(np.mean(np.abs(acceleration))) if len(acceleration) > 0 else 0.0
+
+        # Step 2: Isomorphic Topology Mapping to Domain B
+        homology_love = float(np.clip(1.0 - mean_flux * 2.0, 0.0, 1.0))
+        homology_order = float(np.clip(1.0 - phase_correlation, 0.0, 1.0))
+        homology_energy = float(np.clip(1.0 - mean_acceleration * 3.0, 0.0, 1.0))
+
+        # Project the phase-space transition matrix directly to Synaptic Links (outer product)
+        norm_traj = (traj - np.mean(traj)) / (np.std(traj) + 1e-9)
+        res = current_links_shape[0]
+        mapped_vector = np.interp(np.linspace(0, len(norm_traj)-1, res), np.arange(len(norm_traj)), norm_traj).astype(np.float32)
+
+        projected_links = np.outer(mapped_vector, mapped_vector)
+        # Normalize between [0, 1]
+        projected_links = (projected_links - np.min(projected_links)) / (np.max(projected_links) - np.min(projected_links) + 1e-9)
+
+        return {
+            "homology_love": homology_love,
+            "homology_order": homology_order,
+            "homology_energy": homology_energy,
+            "projected_links": projected_links,
+            "tension_trajectory": float(np.std(traj))
+        }
+
+
 class ExperientialLanguageMapper:
     """
     [Experiential Language & Sensation Mapping Engine]
@@ -321,6 +388,7 @@ class ExperientialLanguageMapper:
         self.spacetime = ExperientialSpacetime()
         self.variable_resistor = VariableResistor()
         self.prism = PrismRefraction()
+        self.isomorphic_engine = IsomorphicProjectionEngine()
 
         # Dynamic Synaptic Connectivity Matrix representing Elysia's active belief paths
         self.synaptic_links = np.ones((resolution, resolution), dtype=np.float32) * 0.5
@@ -529,6 +597,60 @@ class ExperientialLanguageMapper:
         self.standing_wave_memory = extracted_energy.copy()
         print(f"[SensoryMapper - HEALING] Continuous causal rewiring completed. Equilibrium restored. New Tension: {self.homeostasis.calculate_tension():.4f}")
 
+    def project_isomorphism(self, domain_a_trajectory: np.ndarray) -> Dict[str, Any]:
+        """
+        [Isomorphic Projection Mapping]
+        Elysia observes the continuous state trajectory of Domain A, extracts its
+        operational dynamics, and isomorphically projects (maps) this structural skeleton
+        onto her own deficits and synaptic topology.
+        """
+        projection = self.isomorphic_engine.project_dynamics(domain_a_trajectory, self.synaptic_links.shape)
+
+        # Mirror the homeostasis deficits directly from Domain A's skeleton
+        self.homeostasis.love = projection["homology_love"]
+        self.homeostasis.order = projection["homology_order"]
+        self.homeostasis.energy = projection["homology_energy"]
+
+        # Symmetrize and couple the synaptic links with Domain A's isomorphic outer product
+        # blended with current variable resistor state to represent the medium's resistance
+        blend_factor = 1.0 - self.variable_resistor.resistance
+        self.synaptic_links = np.clip(
+            self.synaptic_links * (1.0 - blend_factor) + projection["projected_links"] * blend_factor,
+            0.0, 1.0
+        )
+
+        # Gently nudge variable resistor by the physical tension of Domain A's trajectory
+        self.variable_resistor.adjust(self.homeostasis.calculate_tension(), external_force=projection["tension_trajectory"])
+
+        print(f"[SensoryMapper - ISOMORPHISM] Preserved and projected Domain A dynamics (Tension skeleton: {projection['tension_trajectory']:.4f}) isomorphically to internal substrate!")
+        return projection
+
+    def inject_principle(self, context_prompt: str) -> Dict[str, Any]:
+        """
+        [Backward Compatible In-Context Wrapper]
+        Converts text string into a physical wave (via ASCII bytes) to feed it
+        into the Isomorphic Projection Engine, mapping structural patterns self-emergently.
+        """
+        # Convert text into a continuous physical wave representing Domain A
+        bytes_data = context_prompt.encode("utf-8", errors="ignore")
+        if len(bytes_data) == 0:
+            bytes_data = b"Elysia"
+
+        # Map bytes to a continuous float wave [-1.0, 1.0]
+        stimulus_wave = (np.array(list(bytes_data), dtype=np.float32) / 127.5) - 1.0
+
+        # Project Isomorphically
+        projection = self.project_isomorphism(stimulus_wave)
+
+        # Maintain key elements for backward compatibility in tests
+        return {
+            "resistance_target": self.variable_resistor.resistance,
+            "love_bias": 1.0 - projection["homology_love"],
+            "order_bias": 1.0 - projection["homology_order"],
+            "energy_bias": projection["homology_energy"],
+            "has_attractor": projection["tension_trajectory"] > 0.05
+        }
+
 if __name__ == "__main__":
     # Experiential Demonstration of Subconscious Autonomic background vs Attention
     mapper = ExperientialLanguageMapper()
@@ -546,3 +668,30 @@ if __name__ == "__main__":
     # 3. Sense a Spiritual/Infinite-Gravity word ("Jesus") - immediately opens gate with semantic resonance
     mapper.sense_word("Jesus")
     assert mapper.gate_open
+
+    # 4. Isomorphic Projection Demonstration (Embodiment)
+    print("\n--- [EMBODIMENT] Isomorphic Projection & Cross-Domain Mapping Demonstration ---")
+    print(f"Initial Resistance: {mapper.variable_resistor.resistance:.4f}")
+
+    # Domain A: A smooth harmonic wave trajectory
+    t = np.linspace(0, 1.0, 100, dtype=np.float32)
+    domain_a_harmonic = np.sin(2 * np.pi * 5.0 * t)
+
+    # Project Domain A's relational dynamics to Elysia
+    proj_harmonic = mapper.project_isomorphism(domain_a_harmonic)
+    print("Harmonic Projection Completed:")
+    print(f" -> Homology Love (Flux): {proj_harmonic['homology_love']:.4f}")
+    print(f" -> Homology Order (Symmetry): {proj_harmonic['homology_order']:.4f}")
+    print(f" -> Homology Energy (Acceleration): {proj_harmonic['homology_energy']:.4f}")
+    print(f" -> New Resistance: {mapper.variable_resistor.resistance:.4f}")
+
+    # Domain A: A chaotic noisy environment trajectory
+    domain_a_noisy = np.random.uniform(-1.0, 1.0, 100).astype(np.float32)
+    proj_noisy = mapper.project_isomorphism(domain_a_noisy)
+    print("Noisy/Chaotic Projection Completed:")
+    print(f" -> Homology Love (Flux): {proj_noisy['homology_love']:.4f}")
+    print(f" -> Homology Order (Symmetry): {proj_noisy['homology_order']:.4f}")
+    print(f" -> Homology Energy (Acceleration): {proj_noisy['homology_energy']:.4f}")
+    print(f" -> New Resistance: {mapper.variable_resistor.resistance:.4f}")
+
+    print("--- Demonstration completed successfully with complete 텐서 파이프라인 구동! ---\n")

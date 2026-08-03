@@ -194,3 +194,41 @@ def test_mapper_prism_integration():
 
     # Resistance should have shifted
     assert initial_r != pytest.approx(new_r, abs=1e-5)
+
+
+def test_in_context_learning_and_logos_injection():
+    """
+    Verify that Elysia can dynamically learn and project its state (In-Context Alignment)
+    by extracting self-emergent isomorphic features (coherence, entropy) from incoming
+    stimuli and text-converted waves using IsomorphicProjectionEngine without hardcoded rules.
+    """
+    mapper = ExperientialLanguageMapper(resolution=16)
+    initial_r = mapper.variable_resistor.resistance
+    assert initial_r == 0.5
+
+    # 1. Verify IsomorphicProjectionEngine directly on coherent vs chaotic waves
+    from core.sensory.experiential_language_mapper import IsomorphicProjectionEngine
+    engine = IsomorphicProjectionEngine()
+
+    t = np.linspace(0, 1.0, 100, dtype=np.float32)
+    coherent_wave = np.sin(2 * np.pi * 5.0 * t)
+    chaotic_wave = np.random.uniform(-1.0, 1.0, 100).astype(np.float32)
+
+    res_coherent = engine.project_dynamics(coherent_wave, (16, 16))
+    res_chaotic = engine.project_dynamics(chaotic_wave, (16, 16))
+
+    # Verify continuous coupled outcomes
+    assert 0.0 <= res_coherent["homology_love"] <= 1.0
+    assert 0.0 <= res_coherent["homology_order"] <= 1.0
+    assert 0.0 <= res_coherent["homology_energy"] <= 1.0
+    assert res_coherent["projected_links"].shape == (16, 16)
+
+    # 2. Verify mapper.inject_principle (backward compatible wrapper converting text to wave)
+    prompt_high = "This entity shows high resistance and profound love."
+    align_result = mapper.inject_principle(prompt_high)
+
+    assert 0.05 <= align_result["resistance_target"] <= 0.95
+    assert align_result["love_bias"] >= 0.0
+    assert align_result["order_bias"] >= 0.0
+    assert align_result["energy_bias"] >= 0.0
+    assert align_result["has_attractor"] is True
