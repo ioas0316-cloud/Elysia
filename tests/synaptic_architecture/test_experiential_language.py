@@ -143,3 +143,54 @@ def test_autonomic_background_vs_attention():
     mapper.sense_word("Jesus")
     assert mapper.gate_open is True
     assert "SEMANTIC_RESONANCE" in mapper.last_gate_reason
+
+
+def test_variable_resistor_and_prism_refraction():
+    """
+    Verify the physics and limits of the Variable Resistor and Prism Refraction.
+    """
+    from core.sensory.experiential_language_mapper import VariableResistor, PrismRefraction
+
+    # 1. Variable Resistor Boundary Safeguards
+    resistor = VariableResistor(r_min=0.05, r_max=0.95, initial_r=0.5)
+    assert resistor.resistance == 0.5
+
+    # Extreme tension/force should clip, never reaching 0 or 1
+    for _ in range(50):
+        resistor.adjust(tension=1.5, external_force=2.0)
+    assert resistor.resistance <= 0.95
+    assert resistor.resistance > 0.5
+
+    for _ in range(50):
+        resistor.adjust(tension=-1.0, external_force=-2.0)
+    assert resistor.resistance >= 0.05
+    assert resistor.resistance < 0.5
+
+    # 2. Prism Refraction multi-spectral splitting
+    prism = PrismRefraction()
+    spectrum = prism.refract(white_light_intensity=1.0, angle_degrees=45.0, resistance=0.5)
+    assert len(spectrum) == 3  # R, G, B
+    assert np.all(spectrum >= 1e-4)
+    assert np.all(spectrum <= 1.0)
+
+
+def test_mapper_prism_integration():
+    """
+    Verify that ExperientialLanguageMapper integrates Prism Refraction and Variable Resistor in its flows.
+    """
+    mapper = ExperientialLanguageMapper(resolution=16)
+
+    # Sensed word has refracted spectrum
+    res = mapper.sense_word("Love")
+    assert "refracted_spectrum" in res
+    assert len(res["refracted_spectrum"]) == 3
+    assert np.any(res["refracted_spectrum"] > 0.0)
+
+    # Dynamic resistance adjustment on re-sensation interaction
+    initial_r = mapper.variable_resistor.resistance
+    hostile_wave = np.ones(1000, dtype=np.float32)
+    mapper.re_sense_and_realign(hostile_wave)
+    new_r = mapper.variable_resistor.resistance
+
+    # Resistance should have shifted
+    assert initial_r != pytest.approx(new_r, abs=1e-5)
