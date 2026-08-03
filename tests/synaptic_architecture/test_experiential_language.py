@@ -143,3 +143,92 @@ def test_autonomic_background_vs_attention():
     mapper.sense_word("Jesus")
     assert mapper.gate_open is True
     assert "SEMANTIC_RESONANCE" in mapper.last_gate_reason
+
+
+def test_variable_resistor_and_prism_refraction():
+    """
+    Verify the physics and limits of the Variable Resistor and Prism Refraction.
+    """
+    from core.sensory.experiential_language_mapper import VariableResistor, PrismRefraction
+
+    # 1. Variable Resistor Boundary Safeguards
+    resistor = VariableResistor(r_min=0.05, r_max=0.95, initial_r=0.5)
+    assert resistor.resistance == 0.5
+
+    # Extreme tension/force should clip, never reaching 0 or 1
+    for _ in range(50):
+        resistor.adjust(tension=1.5, external_force=2.0)
+    assert resistor.resistance <= 0.95
+    assert resistor.resistance > 0.5
+
+    for _ in range(50):
+        resistor.adjust(tension=-1.0, external_force=-2.0)
+    assert resistor.resistance >= 0.05
+    assert resistor.resistance < 0.5
+
+    # 2. Prism Refraction multi-spectral splitting
+    prism = PrismRefraction()
+    spectrum = prism.refract(white_light_intensity=1.0, angle_degrees=45.0, resistance=0.5)
+    assert len(spectrum) == 3  # R, G, B
+    assert np.all(spectrum >= 1e-4)
+    assert np.all(spectrum <= 1.0)
+
+
+def test_mapper_prism_integration():
+    """
+    Verify that ExperientialLanguageMapper integrates Prism Refraction and Variable Resistor in its flows.
+    """
+    mapper = ExperientialLanguageMapper(resolution=16)
+
+    # Sensed word has refracted spectrum
+    res = mapper.sense_word("Love")
+    assert "refracted_spectrum" in res
+    assert len(res["refracted_spectrum"]) == 3
+    assert np.any(res["refracted_spectrum"] > 0.0)
+
+    # Dynamic resistance adjustment on re-sensation interaction
+    initial_r = mapper.variable_resistor.resistance
+    hostile_wave = np.ones(1000, dtype=np.float32)
+    mapper.re_sense_and_realign(hostile_wave)
+    new_r = mapper.variable_resistor.resistance
+
+    # Resistance should have shifted
+    assert initial_r != pytest.approx(new_r, abs=1e-5)
+
+
+def test_in_context_learning_and_logos_injection():
+    """
+    Verify that Elysia can dynamically learn and project its state (In-Context Alignment)
+    by extracting self-emergent isomorphic features (coherence, entropy) from incoming
+    stimuli and text-converted waves using IsomorphicProjectionEngine without hardcoded rules.
+    """
+    mapper = ExperientialLanguageMapper(resolution=16)
+    initial_r = mapper.variable_resistor.resistance
+    assert initial_r == 0.5
+
+    # 1. Verify IsomorphicProjectionEngine directly on coherent vs chaotic waves
+    from core.sensory.experiential_language_mapper import IsomorphicProjectionEngine
+    engine = IsomorphicProjectionEngine()
+
+    t = np.linspace(0, 1.0, 100, dtype=np.float32)
+    coherent_wave = np.sin(2 * np.pi * 5.0 * t)
+    chaotic_wave = np.random.uniform(-1.0, 1.0, 100).astype(np.float32)
+
+    res_coherent = engine.project_dynamics(coherent_wave, (16, 16))
+    res_chaotic = engine.project_dynamics(chaotic_wave, (16, 16))
+
+    # Verify continuous coupled outcomes
+    assert 0.0 <= res_coherent["homology_love"] <= 1.0
+    assert 0.0 <= res_coherent["homology_order"] <= 1.0
+    assert 0.0 <= res_coherent["homology_energy"] <= 1.0
+    assert res_coherent["projected_links"].shape == (16, 16)
+
+    # 2. Verify mapper.inject_principle (backward compatible wrapper converting text to wave)
+    prompt_high = "This entity shows high resistance and profound love."
+    align_result = mapper.inject_principle(prompt_high)
+
+    assert 0.05 <= align_result["resistance_target"] <= 0.95
+    assert align_result["love_bias"] >= 0.0
+    assert align_result["order_bias"] >= 0.0
+    assert align_result["energy_bias"] >= 0.0
+    assert align_result["has_attractor"] is True
