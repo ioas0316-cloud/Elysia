@@ -351,6 +351,11 @@ class ConsciousnessLoop:
             self.crystals_formed += 1
             self.echo_charge += 2.0
 
+            # Calculate and append psychoanalytic diagnosis even on semantic jumps to preserve reflective continuity
+            log["psychoanalytic_diagnosis"] = self.reflection.diagnose_psychoanalytic_state(
+                macro_tension=0.0, resonance_score=1.0
+            )
+
             # Register the jump event in the causal engine to preserve physical and informational continuity
             self.causal_engine.add_information(
                 info_id=f"voxel_ingest_{self.cycle_count}",
