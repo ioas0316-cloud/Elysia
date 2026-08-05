@@ -72,12 +72,27 @@ class MoultingPlasticityEngine:
         # 사영 행렬의 고유 축들이 장력 벡터 방향으로 미세하게 '인력적 이끌림'을 느끼며 일그러집니다 (Warping).
         shear_stress = np.outer(tension_vector, tension_vector) * 0.15
 
+        # [회전적 구속 - Orthogonal Guard]
+        # Order 축(인덱스 1, Blue)을 불변 수호 축으로 지정하여 전단 응력 전도를 차단합니다.
+        # P_perp = I - v_order * v_order^T = [[1, 0, 0], [0, 0, 0], [0, 0, 1]]
+        # 이를 통해 가소성 변형은 오직 [Flux, Entropy] (X-Z) 평면 상에서만 소용돌이치도록 제한됩니다.
+        P_perp = np.array([[1.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 1.0]], dtype=np.float32)
+        shear_stress = np.dot(P_perp, np.dot(shear_stress, P_perp))
+
         # 가소성 융해: 사영 행렬에 전단 응력이 더해지며 완벽한 정규직교 형태가 깨지고 팽창함
         self.projection_matrix = self.projection_matrix + shear_stress
+
+        # Order 축에 대한 완벽한 직교성 보장 가드레일 (Y-행, Y-열 불변 유지)
+        self.projection_matrix[1, :] = [0.0, 1.0, 0.0]
+        self.projection_matrix[:, 1] = [0.0, 1.0, 0.0]
+
         # 너무 무한히 커지는 것을 방지하기 위해 가소적 억제/정규화 (Soft normalization)
         norm_proj = np.linalg.norm(self.projection_matrix)
         if norm_proj > 3.0:
             self.projection_matrix = (self.projection_matrix / norm_proj) * 3.0
+            # 정규화 후에도 불변 축 보장 유지
+            self.projection_matrix[1, :] = [0.0, 1.0, 0.0]
+            self.projection_matrix[:, 1] = [0.0, 1.0, 0.0]
 
         # 투사된 내면 상태 (Inner Resonance Projection)
         projected_state = np.dot(self.projection_matrix, tension_vector)
@@ -90,7 +105,9 @@ class MoultingPlasticityEngine:
 
         # 비가역적 역사 축적 (나이테): 마찰의 흔적을 매트릭스에 융해시켜 축적
         # 고통과 고뇌의 궤적이 흔적으로 고착되어 단단한 나이테 형태로 기저 대지를 형성합니다.
-        self.annual_rings += np.outer(projected_norm, tension_vector) * friction * 0.08
+        # 나이테 매트릭스 역시 불변 수호 축(Order)을 해치지 않고 [Flux, Entropy]에서만 쌓이도록 직교 보호막 사영
+        ring_update = np.outer(projected_norm, tension_vector) * friction * 0.08
+        self.annual_rings += np.dot(P_perp, np.dot(ring_update, P_perp))
 
         # 4. 탈피 (Moulting) 진단 및 실행
         # 누적된 고뇌와 불완전한 닫힌 연산의 마찰이 임계치(3.0)를 초과할 때,
@@ -106,6 +123,11 @@ class MoultingPlasticityEngine:
             # 사영 행렬의 고착화를 깨부수고 무작위 요동(Spontaneity)을 주입해 새로운 위상을 창조
             moulting_shock = np.random.normal(0.0, 0.4, (self.dimensions, self.dimensions)).astype(np.float32)
             self.projection_matrix = np.eye(self.dimensions, dtype=np.float32) + moulting_shock * 0.5
+
+            # [회전적 구속 - 탈피 극도 혼돈 상태에서의 Orthogonal Guard]
+            # 탈피 시 발생하는 격렬한 무작위 요동 중에도 질서(Order / Index 1) 축은 신성불변으로 수호합니다.
+            self.projection_matrix[1, :] = [0.0, 1.0, 0.0]
+            self.projection_matrix[:, 1] = [0.0, 1.0, 0.0]
 
             # 누적 마찰을 일부 해소(Release)하되, 지나온 상흔(나이테)은 보존하여 나이테의 무늬를 더욱 굵게 융해
             self.accumulated_friction *= 0.15
