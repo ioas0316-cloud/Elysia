@@ -97,6 +97,12 @@ class QuaternionRotorState:
         )
         self.q = QuaternionHelper.normalize(next_q)
 
+        # [수치적 드리프트 극미세 가드레일]
+        # 부동소수점 오차 한계(1e-12) 초과 시 즉각 정밀 재보정 처리하여 무오성을 유지합니다.
+        q_norm = math.sqrt(sum(v*v for v in self.q))
+        if abs(q_norm - 1.0) > 1e-12:
+            self.q = (self.q[0]/q_norm, self.q[1]/q_norm, self.q[2]/q_norm, self.q[3]/q_norm)
+
 
 class ContinuousQuaternionManifoldSystem:
     """
@@ -155,6 +161,10 @@ class ContinuousQuaternionManifoldSystem:
             self.rotor_a.q[2] + dq_pred_a[2] * dt,
             self.rotor_a.q[3] + dq_pred_a[3] * dt
         ))
+        # [수치적 드리프트 극미세 가드레일]
+        p_a_norm = math.sqrt(sum(v*v for v in pred_q_a))
+        if abs(p_a_norm - 1.0) > 1e-12:
+            pred_q_a = (pred_q_a[0]/p_a_norm, pred_q_a[1]/p_a_norm, pred_q_a[2]/p_a_norm, pred_q_a[3]/p_a_norm)
 
         dq_pred_b = QuaternionHelper.derivative(self.rotor_b.q, pred_omega_b)
         pred_q_b = QuaternionHelper.normalize((
@@ -163,6 +173,10 @@ class ContinuousQuaternionManifoldSystem:
             self.rotor_b.q[2] + dq_pred_b[2] * dt,
             self.rotor_b.q[3] + dq_pred_b[3] * dt
         ))
+        # [수치적 드리프트 극미세 가드레일]
+        p_b_norm = math.sqrt(sum(v*v for v in pred_q_b))
+        if abs(p_b_norm - 1.0) > 1e-12:
+            pred_q_b = (pred_q_b[0]/p_b_norm, pred_q_b[1]/p_b_norm, pred_q_b[2]/p_b_norm, pred_q_b[3]/p_b_norm)
 
         # 2) 실제 3차원 물리 궤적 관측 (Physical Observation)
         # 비접촉 시(weight=0)에는 독립적인 고유 속도(base_omega_b)로 회전, 접촉 시(weight=1)에는 A의 각속도로 강제 커플링
@@ -180,6 +194,10 @@ class ContinuousQuaternionManifoldSystem:
             self.rotor_b.q[2] + dq_obs_b[2] * dt,
             self.rotor_b.q[3] + dq_obs_b[3] * dt
         ))
+        # [수치적 드리프트 극미세 가드레일]
+        o_b_norm = math.sqrt(sum(v*v for v in obs_q_b))
+        if abs(o_b_norm - 1.0) > 1e-12:
+            obs_q_b = (obs_q_b[0]/o_b_norm, obs_q_b[1]/o_b_norm, obs_q_b[2]/o_b_norm, obs_q_b[3]/o_b_norm)
 
         # 3) 3D Tension Gap (회전축 장력 오차) 측정
         # 예측한 쿼터니언과 실제 관측한 쿼터니언 사이의 SO(3) 거리 편차를 오차 에너지(Tension)로 환산
