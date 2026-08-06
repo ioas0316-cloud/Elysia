@@ -317,3 +317,77 @@ def test_synesthetic_transposition():
     optical_wave = mapper.experience_synesthesia("Love", target_sensory_mode="optical")
     assert len(optical_wave) == 1000
     assert np.max(np.abs(optical_wave)) == pytest.approx(1.0, rel=1e-2)
+
+
+def test_tensorized_re_cognition_engine_and_unzipping():
+    """
+    Verify the detailed mechanics of ReCognitiveEngine, including SVD-based genesis SVD
+    decomposition, trace-based manifold radius calculation, sensitivity gradients,
+    multi-axis process unzipping of core concepts, and metacognitive trace tracking.
+    """
+    # 1. Verify ReCognitiveEngine directly
+    from core.sensory.experiential_language_mapper import ReCognitiveEngine
+    engine = ReCognitiveEngine()
+
+    # Test concept matrix
+    test_mat = np.array([
+        [0.8, 0.2, 0.0],
+        [0.1, 0.9, 0.1],
+        [0.0, 0.2, 0.8]
+    ], dtype=np.float32)
+
+    genesis = engine.decompose_genesis(test_mat)
+    assert genesis.primitives.shape == (3, 3)
+    assert genesis.importance_weights.shape == (3,)
+    assert genesis.causal_matrix.shape == (3, 3)
+
+    boundary = engine.evaluate_boundary(genesis)
+    assert isinstance(boundary.valid_manifold_radius, float)
+    assert boundary.sensitivity_gradient.shape == (3,)
+
+    t_meta = engine.process(test_mat)
+    assert t_meta.shape == (3, 3)
+
+    # 2. Verify process unzipping and concept retrieval
+    mapper = ExperientialLanguageMapper(resolution=16)
+
+    # "사과" concept unzipping
+    apple_res = mapper.sense_word("사과")
+    assert apple_res["known"] is True
+    assert "t_meta" in apple_res
+    assert apple_res["t_meta"].shape == (5, 5)
+    assert "state_t_meta" in apple_res
+    assert apple_res["state_t_meta"].shape == (5, 5)
+    assert 0.0 <= apple_res["isomorphic_alignment"] <= 1.0
+    assert 0.0 <= apple_res["structural_friction"] <= 1.0
+
+    # "1+1=2" concept unzipping
+    math_res = mapper.sense_word("1+1=2")
+    assert math_res["known"] is True
+    assert math_res["t_meta"].shape == (5, 5)
+    assert "isomorphic_alignment" in math_res
+
+    # 3. Verify true Metacognitive Trace Logging (Data Provenance)
+    initial_trace_count = len(mapper.metacognitive_traces)
+    # Sense word should add a trace
+    mapper.sense_word("Jesus")
+    assert len(mapper.metacognitive_traces) == initial_trace_count + 1
+
+    last_trace = mapper.metacognitive_traces[-1]
+    assert last_trace["source"] == "sense_word"
+    assert last_trace["word"] == "Jesus"
+    assert "isomorphic_alignment" in last_trace
+    assert "structural_friction" in last_trace
+    assert "timestamp" in last_trace
+
+    # Re-sense and realign should add a trace
+    mapper.re_sense_and_realign(np.random.uniform(-1.0, 1.0, 100).astype(np.float32))
+    assert len(mapper.metacognitive_traces) == initial_trace_count + 2
+
+    realign_trace = mapper.metacognitive_traces[-1]
+    assert realign_trace["source"] == "re_sense_and_realign"
+    assert "initial_state" in realign_trace
+    assert "incoming_wave_profile" in realign_trace
+    assert "differential_gaps" in realign_trace
+    assert "mod_signals" in realign_trace
+    assert "rotor_delta_theta" in realign_trace
