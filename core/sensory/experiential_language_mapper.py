@@ -224,6 +224,38 @@ class SymbolicTetheringRegistry:
         """
         return self.tether_map.get(symbol.lower(), None)
 
+    def acquire_word_step(self, symbol: str, active_sensation: PhysicalSensationProfile, active_deficit: HomeostasisDeficit, exp_type: ExperienceType, learning_rate: float):
+        """
+        [Hebbian Language Acquisition Step]
+        Algorithmic Hebbian learning over cycles.
+        Learns unknown symbols dynamically, adjusting their physical profiles toward active states:
+        Tether_new = Tether_old + alpha * (Active_Physical_State - Tether_old)
+        """
+        sym_key = symbol.lower()
+        if sym_key not in self.tether_map:
+            # Initialize with quiet baseline if unknown
+            self.tether_map[sym_key] = {
+                "sensation": PhysicalSensationProfile(0.0, 0.0, 0.0, 0.0, 0.0),
+                "deficit": HomeostasisDeficit(0.5, 0.5, 0.5),
+                "exp_type": exp_type
+            }
+
+        tethered = self.tether_map[sym_key]
+        sens = tethered["sensation"]
+        defic = tethered["deficit"]
+
+        # Adjust Physical Sensation profile towards active sensation
+        sens.optical = float(np.clip(sens.optical + learning_rate * (active_sensation.optical - sens.optical), 0.0, 100000.0))
+        sens.acoustic = float(np.clip(sens.acoustic + learning_rate * (active_sensation.acoustic - sens.acoustic), 0.0, 20000.0))
+        sens.tactile = float(np.clip(sens.tactile + learning_rate * (active_sensation.tactile - sens.tactile), 0.0, 50.0))
+        sens.thermal = float(np.clip(sens.thermal + learning_rate * (active_sensation.thermal - sens.thermal), 0.0, 1000.0))
+        sens.autonomic_pulse = float(np.clip(sens.autonomic_pulse + learning_rate * (active_sensation.autonomic_pulse - sens.autonomic_pulse), 0.0, 1.0))
+
+        # Adjust Homeostasis Deficits
+        defic.love = float(np.clip(defic.love + learning_rate * (active_deficit.love - defic.love), 0.0, 1.0))
+        defic.order = float(np.clip(defic.order + learning_rate * (active_deficit.order - defic.order), 0.0, 1.0))
+        defic.energy = float(np.clip(defic.energy + learning_rate * (active_deficit.energy - defic.energy), 0.0, 1.0))
+
 
 class ExpressiveWaveEmission:
     """
@@ -601,6 +633,12 @@ class ExperientialLanguageMapper:
             self.gate_open = False
             self.last_gate_reason = "Peaceful Subconscious Autonomy"
             print(f"[SensoryMapper - AUTONOMIC] Sensation handled silently by Autonomic Background. Higher attention undisturbed.")
+
+    def acquire_word_step(self, symbol: str, active_sensation: PhysicalSensationProfile, active_deficit: HomeostasisDeficit, exp_type: ExperienceType, learning_rate: float):
+        """
+        Delegates the Hebbian word acquisition step to the underlying SymbolicTetheringRegistry.
+        """
+        self.tethering.acquire_word_step(symbol, active_sensation, active_deficit, exp_type, learning_rate)
 
     def sense_word(self, word: str) -> Dict[str, Any]:
         """

@@ -3,6 +3,7 @@ import os
 import numpy as np
 from core.memory.causal_controller import CausalMemoryController
 from core.consciousness.linguistic_tethering import LinguisticExperientialTetheringEngine, ChineseRoomLimitationTracer
+from core.sensory.experiential_language_mapper import ExperientialLanguageMapper, PhysicalSensationProfile, HomeostasisDeficit, ExperienceType
 
 
 def test_chinese_room_limitation_tracer():
@@ -56,3 +57,48 @@ def test_linguistic_experiential_tethering_engine():
     assert latest_engram["data_blob"]["type"] == "CHINESE_ROOM_NUMERIC_EXPOSURE"
     assert latest_engram["data_blob"]["input_text_length"] == len("1 + 1 = 2")
     assert "deception_rate" in latest_engram["data_blob"]
+
+
+def test_hebbian_language_acquisition_convergence():
+    """
+    Verifies that the ExperientialLanguageMapper's Hebbian learning step
+    correctly drives an unknown symbol's tethered profile closer to the
+    active sensory and homeostatic deficits over cycles.
+    """
+    mapper = ExperientialLanguageMapper()
+    symbol = "apple_concept"
+
+    active_sensation = PhysicalSensationProfile(optical=800.0, acoustic=150.0, tactile=5.0, thermal=298.0)
+    active_deficit = HomeostasisDeficit(love=0.1, order=0.9, energy=0.2)
+
+    # Initial state should be None or newly initialized at baseline
+    assert mapper.tethering.recall_symbol(symbol) is None
+
+    # Step 1: Initial acquisition step
+    mapper.acquire_word_step(
+        symbol=symbol,
+        active_sensation=active_sensation,
+        active_deficit=active_deficit,
+        exp_type=ExperienceType.LINGUISTIC,
+        learning_rate=0.5
+    )
+
+    tethered = mapper.tethering.recall_symbol(symbol)
+    assert tethered is not None
+    assert abs(tethered["sensation"].optical - 400.0) < 1.0  # (0.0 + 0.5 * (800.0 - 0.0))
+    assert abs(tethered["deficit"].order - 0.7) < 0.01      # (0.5 + 0.5 * (0.9 - 0.5))
+
+    # Step 2: Multi-step convergence
+    for _ in range(10):
+        mapper.acquire_word_step(
+            symbol=symbol,
+            active_sensation=active_sensation,
+            active_deficit=active_deficit,
+            exp_type=ExperienceType.LINGUISTIC,
+            learning_rate=0.5
+        )
+
+    converged = mapper.tethering.recall_symbol(symbol)
+    # Ensure it converges close to target profiles
+    assert abs(converged["sensation"].optical - 800.0) < 5.0
+    assert abs(converged["deficit"].order - 0.9) < 0.02

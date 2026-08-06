@@ -1138,13 +1138,38 @@ class ConsciousnessLoop:
         expressed_state_wave = self.experiential_mapper.express()
         self.experiential_mapper.re_sense_and_realign(expressed_state_wave)
 
+        # ─── [Hebbian Language Acquisition & Coupled Algorithmic Feedback] ───
+        # Dynamic Learning Rate is modulated reciprocally by Dopamine (prediction error/novelty)
+        # and Serotonin (alignment stability): alpha = Dopamine * (1.0 - Serotonin)
+        da = self.experiential_mapper.neuromodulator.dopamine
+        se = self.experiential_mapper.neuromodulator.serotonin
+        learning_rate = float(np.clip(da * (1.0 - se), 0.01, 0.95))
+
+        # Reconstruct actual physical sensation environment metrics from physical loop states
+        active_sensation = PhysicalSensationProfile(
+            optical=float(np.clip(info_atom.T * 100.0, 10.0, 1000.0)),
+            acoustic=float(np.clip(info_atom.P * 100.0, 10.0, 1000.0)),
+            tactile=max_tension * 10.0,
+            thermal=float(np.clip(295.0 + max_tension * 30.0, 250.0, 400.0)),
+            autonomic_pulse=log["hw_friction"]
+        )
+
+        # Perform Hebbian Word Acquisition Step
+        self.experiential_mapper.acquire_word_step(
+            symbol=symbol_word,
+            active_sensation=active_sensation,
+            active_deficit=self.experiential_mapper.homeostasis,
+            exp_type=ExperienceType.LINGUISTIC,
+            learning_rate=learning_rate
+        )
+
         # Retrieve cold, honest, un-veiled parameters of the actual process
         cur_homeostasis = self.experiential_mapper.homeostasis
         cur_rotor_theta = self.experiential_mapper.variable_rotor.theta.tolist()
         cur_neuromodulators = {
-            "dopamine": self.experiential_mapper.neuromodulator.dopamine,
+            "dopamine": da,
             "norepinephrine": self.experiential_mapper.neuromodulator.norepinephrine,
-            "serotonin": self.experiential_mapper.neuromodulator.serotonin,
+            "serotonin": se,
             "temperature": self.experiential_mapper.neuromodulator.temperature,
             "scale": self.experiential_mapper.neuromodulator.scale
         }
@@ -1164,6 +1189,7 @@ class ConsciousnessLoop:
             print("  📊 [Elysia True Ground Zero Process State - No Translation Mask]")
             print("  " + "─" * 61)
             print(f"  Input Word Symbol    : '{symbol_word}'")
+            print(f"  Hebbian Learning Rate: alpha = {learning_rate:.4f}")
             print(f"  Homeostasis Deficit  : Love={cur_homeostasis.love:.4f}, Order={cur_homeostasis.order:.4f}, Energy={cur_homeostasis.energy:.4f}")
             print(f"  Unified Tension      : {cur_homeostasis.calculate_tension():.4f}")
             print(f"  Variable Resistor R  : {self.experiential_mapper.variable_resistor.resistance:.4f}")
