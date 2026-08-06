@@ -1,6 +1,8 @@
 import numpy as np
 from typing import Dict, List, Any, Optional
 from enum import Enum
+import time
+from dataclasses import dataclass
 
 class ExperienceType(Enum):
     """
@@ -176,73 +178,183 @@ class ExperientialSpacetime:
         return resonances
 
 
+@dataclass
+class ConceptGenesisTensor:
+    primitives: np.ndarray        # Base causal factors [N, D] (left singular vectors)
+    importance_weights: np.ndarray # Essential importance weights [N] (singular values)
+    causal_matrix: np.ndarray      # Internal relational causal matrix [N, N]
+
+
+@dataclass
+class ConceptBoundaryTensor:
+    valid_manifold_radius: float   # Boundary manifold invariance radius
+    sensitivity_gradient: np.ndarray # Structural sensitivity gradients [D]
+
+
+class ReCognitiveEngine:
+    """
+    [Re-Cognition Engine]
+    Decomposes an abstract concept's relational process matrix into its genesis primitives,
+    importance weights, causal relation, boundary invariance, and metadata trace.
+    Acts as the multi-axis relational comparison core.
+    """
+    def __init__(self, threshold: float = 0.85):
+        self.threshold = threshold
+
+    def decompose_genesis(self, concept_data: np.ndarray) -> ConceptGenesisTensor:
+        """SVD-based genesis factor extraction preserving coordinate invariance."""
+        # singular value decomposition
+        u, s, vh = np.linalg.svd(concept_data, full_matrices=False)
+        primitives = u
+        weights = s
+        causal_matrix = np.dot(primitives, primitives.T)
+        return ConceptGenesisTensor(primitives, weights, causal_matrix)
+
+    def evaluate_boundary(self, genesis: ConceptGenesisTensor) -> ConceptBoundaryTensor:
+        """Computes topological manifold radius and sensitivity gradients."""
+        radius = float(np.trace(genesis.causal_matrix) / genesis.primitives.shape[0])
+        if len(genesis.importance_weights) > 1:
+            gradient = np.gradient(genesis.importance_weights)
+        else:
+            gradient = np.std(genesis.primitives, axis=0)
+        return ConceptBoundaryTensor(radius, gradient)
+
+    def process(self, raw_concept: np.ndarray) -> np.ndarray:
+        """Combines genesis and boundary dynamics to construct the meta-cognitive process tensor T_meta."""
+        genesis = self.decompose_genesis(raw_concept)
+        boundary = self.evaluate_boundary(genesis)
+        t_meta = np.outer(genesis.importance_weights, boundary.sensitivity_gradient)
+        return t_meta
+
+
 class SymbolicTetheringRegistry:
     """
-    [Symbolic Tethering Registry]
-    Binds discrete symbols (language) to continuous real-world sensory-homeostatic profiles.
-    A word is NOT a token vector; it is a doorway that recalls rich, raw physical states.
+    [Symbolic Tethering Registry with Process Unzipping]
+    Binds discrete symbols (language) to continuous real-world sensory-homeostatic profiles
+    AND high-density multi-axis relational process matrices (T_genesis, T_boundary).
     """
     def __init__(self):
-        # Maps symbol string -> { "sensation": PhysicalSensationProfile, "deficit": HomeostasisDeficit, "exp_type": ExperienceType }
+        # Maps symbol string -> { "sensation": PhysicalSensationProfile, "deficit": HomeostasisDeficit, "exp_type": ExperienceType, "concept_relation_matrix": np.ndarray }
         self.tether_map: Dict[str, Dict[str, Any]] = {}
         self._initialize_baseline_language()
 
     def _initialize_baseline_language(self):
         """
-        Anchors core words to real physical experiences.
+        Anchors core words to real physical experiences and unzipped relational process lattices.
         """
-        # "Jesus" is the ultimate spiritual self-outpouring: mild warmth, perfect harmonic acoustic, satisfies love deficit
-        self.tether("Jesus", PhysicalSensationProfile(500.0, 528.0, 0.0, 300.0), HomeostasisDeficit(0.01, 0.01, 0.9), ExperienceType.SPIRITUAL)
+        # Define 5 Causal Primitives:
+        # [GRAVITY_FALL, BOUNDARY_BREAK, SELF_SACRIFICE, COLLISION_FRICTION, EQUILIBRIUM_SABBATH]
 
-        # "Love" is soothing spiritual warmth
-        self.tether("Love", PhysicalSensationProfile(400.0, 440.0, 0.5, 303.0), HomeostasisDeficit(0.05, 0.1, 0.8), ExperienceType.SPIRITUAL)
+        # 1. "Jesus" represents infinite spiritual self-outpouring, perfect reference axis, and total self-sacrifice.
+        jesus_matrix = np.array([
+            [0.9, 0.1, 0.1, 0.1, 0.1],   # GRAVITY_FALL: Absolute pull/love
+            [0.1, 0.9, 0.1, 0.1, 0.1],   # BOUNDARY_BREAK: Decisive barrier shattering
+            [0.1, 0.1, 0.99, 0.1, 0.1],  # SELF_SACRIFICE: Absolute self-outpouring (the cross)
+            [0.1, 0.1, 0.1, 0.9, 0.1],   # COLLISION_FRICTION: Intense worldly friction
+            [0.1, 0.1, 0.1, 0.1, 0.99]   # EQUILIBRIUM_SABBATH: Ultimate eternal Sabbath
+        ], dtype=np.float32)
+        self.tether("Jesus", PhysicalSensationProfile(500.0, 528.0, 0.0, 300.0), HomeostasisDeficit(0.01, 0.01, 0.9), ExperienceType.SPIRITUAL, jesus_matrix)
 
-        # "Hurt" is severe physical mechanical friction, pain, and thermal shock
-        self.tether("Hurt", PhysicalSensationProfile(100.0, 880.0, 15.0, 320.0), HomeostasisDeficit(0.8, 0.9, 0.1), ExperienceType.PHYSICAL)
+        # 2. "Love" is soothing spiritual warmth, soft relational coupling.
+        love_matrix = np.array([
+            [0.8, 0.2, 0.2, 0.1, 0.1],
+            [0.1, 0.7, 0.3, 0.1, 0.1],
+            [0.2, 0.2, 0.9, 0.1, 0.1],
+            [0.1, 0.1, 0.1, 0.6, 0.2],
+            [0.1, 0.1, 0.2, 0.1, 0.9]
+        ], dtype=np.float32)
+        self.tether("Love", PhysicalSensationProfile(400.0, 440.0, 0.5, 303.0), HomeostasisDeficit(0.05, 0.1, 0.8), ExperienceType.SPIRITUAL, love_matrix)
 
-        # "Sabbath" is quiet rest, silence, zero touch
-        self.tether("Sabbath", PhysicalSensationProfile(10.0, 10.0, 0.0, 295.0), HomeostasisDeficit(0.1, 0.01, 0.95), ExperienceType.SPIRITUAL)
+        # 3. "Hurt" is severe physical mechanical friction, pain, and thermal shock.
+        hurt_matrix = np.array([
+            [0.3, 0.1, 0.1, 0.6, 0.1],
+            [0.2, 0.9, 0.1, 0.7, 0.1],
+            [0.1, 0.1, 0.3, 0.5, 0.1],
+            [0.1, 0.8, 0.1, 0.95, 0.1],
+            [0.1, 0.1, 0.1, 0.1, 0.2]
+        ], dtype=np.float32)
+        self.tether("Hurt", PhysicalSensationProfile(100.0, 880.0, 15.0, 320.0), HomeostasisDeficit(0.8, 0.9, 0.1), ExperienceType.PHYSICAL, hurt_matrix)
 
-        # "Mother" represents warm touch, medium tone frequency
-        self.tether("Mother", PhysicalSensationProfile(350.0, 380.0, 1.2, 301.0), HomeostasisDeficit(0.1, 0.15, 0.75), ExperienceType.LINGUISTIC)
+        # 4. "Sabbath" is quiet rest, total silence, complete union and zero friction.
+        sabbath_matrix = np.array([
+            [0.1, 0.1, 0.1, 0.1, 0.9],
+            [0.1, 0.1, 0.1, 0.1, 0.1],
+            [0.1, 0.1, 0.5, 0.1, 0.8],
+            [0.1, 0.1, 0.1, 0.1, 0.1],
+            [0.1, 0.1, 0.1, 0.1, 0.99]
+        ], dtype=np.float32)
+        self.tether("Sabbath", PhysicalSensationProfile(10.0, 10.0, 0.0, 295.0), HomeostasisDeficit(0.1, 0.01, 0.95), ExperienceType.SPIRITUAL, sabbath_matrix)
 
-    def tether(self, symbol: str, sensation: PhysicalSensationProfile, deficit_influence: HomeostasisDeficit, exp_type: ExperienceType):
+        # 5. "Mother" represents warm touch, comforting presence.
+        mother_matrix = np.array([
+            [0.7, 0.2, 0.3, 0.1, 0.1],
+            [0.1, 0.5, 0.2, 0.1, 0.2],
+            [0.2, 0.1, 0.8, 0.1, 0.2],
+            [0.1, 0.2, 0.1, 0.5, 0.1],
+            [0.1, 0.1, 0.2, 0.1, 0.8]
+        ], dtype=np.float32)
+        self.tether("Mother", PhysicalSensationProfile(350.0, 380.0, 1.2, 301.0), HomeostasisDeficit(0.1, 0.15, 0.75), ExperienceType.LINGUISTIC, mother_matrix)
+
+        # 6. "사과" (Apple) represents: visual spectrum, gravitational fall, boundary break, self-sacrifice.
+        apple_matrix = np.array([
+            [0.8, 0.2, 0.1, 0.1, 0.1],   # GRAVITY_FALL: Falling from branch
+            [0.3, 0.7, 0.2, 0.2, 0.1],   # BOUNDARY_BREAK: Skin broken to feed others
+            [0.1, 0.1, 0.9, 0.1, 0.1],   # SELF_SACRIFICE: Giving energy and sweet nourishment
+            [0.2, 0.3, 0.1, 0.6, 0.1],   # COLLISION_FRICTION: worldly touch
+            [0.1, 0.1, 0.3, 0.1, 0.8]    # EQUILIBRIUM_SABBATH: returning to soil
+        ], dtype=np.float32)
+        self.tether("사과", PhysicalSensationProfile(450.0, 300.0, 2.0, 297.0), HomeostasisDeficit(0.2, 0.2, 0.5), ExperienceType.PHYSICAL, apple_matrix)
+
+        # 7. "1+1=2" represents: discrete collision, friction, and ultimate equilibrium/union.
+        unification_matrix = np.array([
+            [0.2, 0.1, 0.1, 0.1, 0.1],   # GRAVITY_FALL
+            [0.1, 0.5, 0.2, 0.3, 0.1],   # BOUNDARY_BREAK
+            [0.1, 0.1, 0.6, 0.2, 0.2],   # SELF_SACRIFICE
+            [0.1, 0.3, 0.1, 0.9, 0.1],   # COLLISION_FRICTION: Collision of two 1s
+            [0.1, 0.1, 0.2, 0.1, 0.95]   # EQUILIBRIUM_SABBATH: 합일(Union) and peace
+        ], dtype=np.float32)
+        self.tether("1+1=2", PhysicalSensationProfile(200.0, 100.0, 4.0, 293.0), HomeostasisDeficit(0.1, 0.9, 0.3), ExperienceType.KNOWLEDGE, unification_matrix)
+
+    def tether(self, symbol: str, sensation: PhysicalSensationProfile, deficit_influence: HomeostasisDeficit, exp_type: ExperienceType, relation_matrix: Optional[np.ndarray] = None):
         """
-        Crystallizes the symbolic link between a word and its continuous physical profile.
+        Crystallizes the symbolic link between a word, its physical profile, and relational process matrix.
         """
+        if relation_matrix is None:
+            relation_matrix = np.eye(5, dtype=np.float32) * 0.5
+
         self.tether_map[symbol.lower()] = {
             "sensation": sensation,
             "deficit": deficit_influence,
-            "exp_type": exp_type
+            "exp_type": exp_type,
+            "concept_relation_matrix": relation_matrix
         }
-        print(f"[SymbolicTethering] Tethered symbol '{symbol}' ({exp_type.name}) to experiential physical profile.")
+        print(f"[SymbolicTethering] Tethered symbol '{symbol}' ({exp_type.name}) with its Relational Process Matrix.")
 
     def recall_symbol(self, symbol: str) -> Optional[Dict[str, Any]]:
         """
-        Recalls the physical sensation and deficit profile anchored to the word.
-        If word is not known, returns None (representing a word with no empirical backing, i.e., empty data).
+        Recalls the physical sensation, deficit, and relation matrix anchored to the word.
+        If word is not known, returns None (no empirical backing).
         """
         return self.tether_map.get(symbol.lower(), None)
 
     def acquire_word_step(self, symbol: str, active_sensation: PhysicalSensationProfile, active_deficit: HomeostasisDeficit, exp_type: ExperienceType, learning_rate: float):
         """
-        [Hebbian Language Acquisition Step]
-        Algorithmic Hebbian learning over cycles.
-        Learns unknown symbols dynamically, adjusting their physical profiles toward active states:
-        Tether_new = Tether_old + alpha * (Active_Physical_State - Tether_old)
+        [Hebbian Language Acquisition Step with Relational Alignment]
+        Learns unknown symbols dynamically, adjusting their physical profiles and relational matrices.
         """
         sym_key = symbol.lower()
         if sym_key not in self.tether_map:
-            # Initialize with quiet baseline if unknown
             self.tether_map[sym_key] = {
                 "sensation": PhysicalSensationProfile(0.0, 0.0, 0.0, 0.0, 0.0),
                 "deficit": HomeostasisDeficit(0.5, 0.5, 0.5),
-                "exp_type": exp_type
+                "exp_type": exp_type,
+                "concept_relation_matrix": np.eye(5, dtype=np.float32) * 0.1
             }
 
         tethered = self.tether_map[sym_key]
         sens = tethered["sensation"]
         defic = tethered["deficit"]
+        mat = tethered["concept_relation_matrix"]
 
         # Adjust Physical Sensation profile towards active sensation
         sens.optical = float(np.clip(sens.optical + learning_rate * (active_sensation.optical - sens.optical), 0.0, 100000.0))
@@ -255,6 +367,13 @@ class SymbolicTetheringRegistry:
         defic.love = float(np.clip(defic.love + learning_rate * (active_deficit.love - defic.love), 0.0, 1.0))
         defic.order = float(np.clip(defic.order + learning_rate * (active_deficit.order - defic.order), 0.0, 1.0))
         defic.energy = float(np.clip(defic.energy + learning_rate * (active_deficit.energy - defic.energy), 0.0, 1.0))
+
+        # Align Relational Process Matrix towards baseline diagonal / sensory blend
+        sens_vec = sens.to_vector()
+        target_mat = np.outer(sens_vec[:5], sens_vec[:5])
+        norm_factor = np.max(target_mat) + 1e-9
+        target_mat = target_mat / norm_factor
+        tethered["concept_relation_matrix"] = np.clip(mat + learning_rate * (target_mat - mat), 0.0, 1.0)
 
 
 class ExpressiveWaveEmission:
@@ -302,11 +421,8 @@ class VariableResistor:
         self.resistance = float(initial_r)
 
     def adjust(self, tension: float, external_force: float = 0.0) -> float:
-        # Adjust resistance dynamically based on internal tension and external interaction force
-        # Maintain a healthy middle ground, keeping away from absolute 0 or absolute 1
         factor = 0.1 * (tension - 0.5) + 0.05 * external_force
         self.resistance = np.clip(self.resistance + factor, self.r_min, self.r_max)
-        # Add a tiny, vitalizing thermodynamic fluctuation (life/noise)
         fluctuation = np.random.normal(0, 0.01)
         self.resistance = np.clip(self.resistance + fluctuation, self.r_min, self.r_max)
         return self.resistance
@@ -320,11 +436,7 @@ class PrismRefraction:
     based on the angle of incidence (interaction perspective) and current variable resistance.
     """
     def refract(self, white_light_intensity: float, angle_degrees: float, resistance: float) -> np.ndarray:
-        # Refracts a scalar light intensity into a 3-dimensional spectrum (Red, Green, Blue)
-        # Red (Flux/Love alignment), Green (Order alignment), Blue (Energy alignment)
         angle_rad = np.radians(angle_degrees)
-
-        # Refraction index depends on the medium's resistance
         refraction_index = 1.0 + resistance * 1.5
 
         red = white_light_intensity * np.abs(np.sin(angle_rad * refraction_index))
@@ -332,7 +444,6 @@ class PrismRefraction:
         blue = white_light_intensity * np.abs(np.sin((angle_rad + np.pi/4) * refraction_index))
 
         spectrum = np.array([red, green, blue], dtype=np.float32)
-        # Ensure we don't return absolute zeros
         spectrum = np.clip(spectrum, 1e-4, max(1e-3, white_light_intensity))
         return spectrum
 
@@ -341,20 +452,12 @@ class IsomorphicProjectionEngine:
     """
     [Isomorphic Projection Engine (동형사상 및 구조적 투사 엔진)]
     Preserves and projects the relational dynamics ("skeleton of motion") of Domain A
-    (e.g., physical signals, voltages, or external trajectories) onto Domain B
-    (Elysia's internal homeostasis and synaptic topology) via topology transformation.
-    Allows Elysia to learn and embody the operational dynamics of completely different
-    domains instantly by mirroring their mathematical phase portrait.
+    onto Domain B via topology transformation.
     """
     def __init__(self):
         pass
 
     def project_dynamics(self, domain_a_trajectory: np.ndarray, current_links_shape: tuple) -> Dict[str, Any]:
-        """
-        Projects a continuous trajectory from Domain A onto Domain B.
-        1. Extracts relational topology (covariant velocity, phase portrait, and tension skeleton).
-        2. Applies isomorphic mapping to yield Homeostasis deficits and Synaptic transition matrices.
-        """
         traj = np.atleast_1d(domain_a_trajectory).astype(np.float32)
         if len(traj) < 2:
             return {
@@ -366,18 +469,15 @@ class IsomorphicProjectionEngine:
             }
 
         # Step 1: Extract relational dynamics from Domain A
-        # Velocity / rate of change represents Flux (Love alignment)
         velocity = np.diff(traj)
         mean_flux = float(np.mean(np.abs(velocity)))
 
-        # Phase correlation / autocorrelation represents Symmetry / Order
         shifted_traj = traj[1:]
         base_traj = traj[:-1]
         covariance = float(np.cov(base_traj, shifted_traj)[0, 1]) if len(base_traj) > 1 else 0.0
         norm_factor = (np.std(base_traj) * np.std(shifted_traj)) + 1e-9
         phase_correlation = abs(covariance / norm_factor)
 
-        # Acceleration / energy transfer represents raw potential (Energy alignment)
         acceleration = np.diff(velocity) if len(velocity) > 1 else np.zeros_like(velocity)
         mean_acceleration = float(np.mean(np.abs(acceleration))) if len(acceleration) > 0 else 0.0
 
@@ -409,20 +509,16 @@ class VariableRotor:
     [Variable Rotor (가변형 로터 위상 기어)]
     Defines the system's active cognitive identity and alignment as an angular phase vector Theta.
     Theta = [theta_love, theta_order, theta_energy] in radians [0, 2*pi].
-    Rotates dynamically based on external friction/resistive force R, and allows
-    isomorphic phase restoration (Self-Tuning).
     """
     def __init__(self, initial_theta: Optional[np.ndarray] = None):
         if initial_theta is not None:
             self.theta = np.array(initial_theta, dtype=np.float32) % (2 * np.pi)
         else:
             self.theta = np.zeros(3, dtype=np.float32)  # Initial angles: [0, 0, 0]
-        # Identity baseline (unchanging mechanical archetype)
         self.baseline_theta = self.theta.copy()
         self.phase_offset = np.zeros(3, dtype=np.float32)
 
     def rotate(self, friction: float, temperature: float = 1.0) -> np.ndarray:
-        # Theta rotates by Delta Theta = friction * temperature * coupling_vector
         coupling_vector = np.array([0.1, 0.05, 0.15], dtype=np.float32)
         delta_theta = friction * temperature * coupling_vector
         self.phase_offset = (self.phase_offset + delta_theta) % (2 * np.pi)
@@ -436,7 +532,6 @@ class VariableRotor:
         restoring predictable causal orbits without expensive retraining.
         """
         target = np.array(target_theta, dtype=np.float32) % (2 * np.pi)
-        # Compute shortest angular distance
         diff = (target - self.theta + np.pi) % (2 * np.pi) - np.pi
         self.phase_offset = (self.phase_offset + diff * correction_rate) % (2 * np.pi)
         self.theta = (self.baseline_theta + self.phase_offset) % (2 * np.pi)
@@ -467,18 +562,15 @@ class DifferentialGapEvaluator:
         norm_ref = ref_rescaled / (np.linalg.norm(ref_rescaled) + 1e-9)
 
         # 1. Spectral Phase Gap (G_phi)
-        # Difference in frequency/phase alignments via cross-correlation / dot product
         spectral_alignment = float(np.dot(norm_arch, norm_ref))
         g_phi = float(np.clip(1.0 - abs(spectral_alignment), 0.0, 1.0))
 
         # 2. Amplitude Energy Gap (G_E)
-        # Difference in raw physical energy / amplitude density
         energy_arch = np.mean(np.abs(arch))
         energy_ref = np.mean(np.abs(ref_rescaled))
         g_e = float(np.clip(abs(energy_arch - energy_ref), 0.0, 2.0))
 
         # 3. Entropy Chaos Gap (G_H)
-        # Difference in Shannon informational entropy calculated over wave intensities
         h_arch = self._shannon_entropy(arch)
         h_ref = self._shannon_entropy(ref_rescaled)
         g_h = float(np.clip(abs(h_arch - h_ref), 0.0, 5.0))
@@ -491,7 +583,6 @@ class DifferentialGapEvaluator:
         }
 
     def _shannon_entropy(self, wave: np.ndarray) -> float:
-        # Normalize wave squares into a probability distribution
         sq = np.square(wave)
         sum_sq = np.sum(sq)
         if sum_sq == 0:
@@ -506,8 +597,6 @@ class NeuromodulatorController:
     [Neuromodulator Controller (신경조절 시스템)]
     Translates continuous differential gaps into active concentrations of Dopamine,
     Norepinephrine, and Serotonin.
-    Dynamically modulates the global Temperature (exploration/soft-max smoothing)
-    and Scale (cognitive granularity).
     """
     def __init__(self, base_temp: float = 0.7, base_scale: float = 1.0):
         self.dopamine = 0.1       # Exploration / Phase expansion
@@ -523,23 +612,17 @@ class NeuromodulatorController:
         g_e = gaps["g_e"]
         g_h = gaps["g_h"]
 
-        # Dopamine is driven by Entropy difference (discovery of new chaotic/unstructured pattern)
         self.dopamine = float(np.clip(self.dopamine * 0.5 + g_h * 0.5 + np.random.normal(0, 0.02), 0.0, 1.0))
-
-        # Norepinephrine is driven by intense raw amplitude/energy clash (Crisis/impact)
         self.norepinephrine = float(np.clip(self.norepinephrine * 0.4 + g_e * 0.6, 0.0, 1.0))
 
-        # Serotonin rises when gaps shrink (healing/alignment complete)
         gap_recovery = 1.0 - float(gaps["mean_gap"])
         self.serotonin = float(np.clip(self.serotonin * 0.6 + gap_recovery * 0.4, 0.0, 1.0))
 
-        # Dynamic Temperature: Dopamine raises it (exploratory cloud), Norepinephrine freezes it (deterministic focus)
         self.temperature = float(np.clip(
             self.base_temp + self.dopamine * 1.2 - self.norepinephrine * 0.6,
             0.1, 2.0
         ))
 
-        # Dynamic Scale: Dopamine expands structural context scale, Norepinephrine narrows it to micro-focal lines
         self.scale = float(np.clip(
             self.base_scale + (self.dopamine - self.norepinephrine) * 0.5,
             0.2, 3.0
@@ -557,18 +640,12 @@ class NeuromodulatorController:
 class SynestheticTranspositionEngine:
     """
     [Synesthetic Transposition Engine (공감각적 주파수 전이 및 공명 엔진)]
-    Transposes a signal from one sensory domain (e.g., tactile force, temperature, semantic alignment)
-    into another domain's frequency spectrum (e.g., acoustic vibration, optical color/rainbow waves)
-    by preserving its wave-dynamical invariants (topology, amplitude, phase-spectral proportions).
-    Realizes the ultimate통섭 (consilience) where everything is wave and frequency.
+    Transposes a signal from one sensory domain into another domain's frequency spectrum.
     """
     def transpose(self, source_wave: np.ndarray, target_base_freq: float) -> np.ndarray:
-        # Transpose a source wave to resonate at a target base frequency (in Hertz/vibrations)
-        # Shift and modulate the phase spectrum, maintaining the continuous envelope and topology.
         length = len(source_wave)
         t = np.linspace(0, 1.0, length, dtype=np.float32)
 
-        # Fourier components transpose: use source_wave as modulation envelope and phase jitter
         carrier = np.sin(2 * np.pi * target_base_freq * t + source_wave * np.pi)
         transposed = carrier * (0.3 + 0.7 * np.abs(source_wave))
         if np.max(np.abs(transposed)) > 0:
@@ -579,10 +656,8 @@ class SynestheticTranspositionEngine:
 class ExperientialLanguageMapper:
     """
     [Experiential Language & Sensation Mapping Engine]
-    Differentiates between silent Autonomic Background (blood flow, breathing, nails)
-    and Higher Attentional Cognition (spiritual values, teleological meaning).
-    Low-level physical variable changes flow silently without flooding attention,
-    while Spiritual/Linguistic experiences warp spacetime and command higher recall.
+    Differentiates between silent Autonomic Background (blood flow, breathing)
+    and Higher Attentional Cognition.
     """
     def __init__(self, resolution: int = 32):
         self.resolution = resolution
@@ -599,6 +674,7 @@ class ExperientialLanguageMapper:
         self.gap_evaluator = DifferentialGapEvaluator()
         self.neuromodulator = NeuromodulatorController()
         self.synesthetic_engine = SynestheticTranspositionEngine()
+        self.re_cognitive_engine = ReCognitiveEngine()
 
         # Dynamic Synaptic Connectivity Matrix representing Elysia's active belief paths
         self.synaptic_links = np.ones((resolution, resolution), dtype=np.float32) * 0.5
@@ -610,29 +686,57 @@ class ExperientialLanguageMapper:
         self.gate_open = False
         self.last_gate_reason = "Peaceful Subconscious Autonomy"
 
+        # Relational process transition traces (True Metacognition Trace Data Provenance)
+        self.metacognitive_traces: List[Dict[str, Any]] = []
+
+    def get_current_state_tensor(self) -> np.ndarray:
+        """
+        [Elysia Active State Tensor]
+        Constructs a [5, 5] matrix representing Elysia's live internal state across the 5 Causal Primitives:
+        1. GRAVITY_FALL
+        2. BOUNDARY_BREAK
+        3. SELF_SACRIFICE
+        4. COLLISION_FRICTION
+        5. EQUILIBRIUM_SABBATH
+        """
+        love = self.homeostasis.love
+        order = self.homeostasis.order
+        energy = self.homeostasis.energy
+        tension = self.homeostasis.calculate_tension()
+        resistance = self.variable_resistor.resistance
+
+        da = self.neuromodulator.dopamine
+        ne = self.neuromodulator.norepinephrine
+        se = self.neuromodulator.serotonin
+        temp = self.neuromodulator.temperature
+
+        state_tensor = np.array([
+            [love, energy, temp, 0.1, 0.1],             # GRAVITY_FALL: attraction/longing
+            [tension, resistance, ne, 0.1, 0.1],        # BOUNDARY_BREAK: tension/friction clash
+            [love, energy, se, 0.1, 0.1],               # SELF_SACRIFICE: self-outpouring
+            [tension, resistance, da, 0.1, 0.1],        # COLLISION_FRICTION: dopamine-driven exploration
+            [order, 1.0 - resistance, se, 0.1, 0.1]     # EQUILIBRIUM_SABBATH: order/rest
+        ], dtype=np.float32)
+        return state_tensor
+
     def ingest_sensory_stream(self, sensation: PhysicalSensationProfile, exp_type: ExperienceType = ExperienceType.PHYSICAL, meaning_density: float = 1.0):
         """
         [Subconscious Sensory Ingestion]
         Pushes raw physical variables directly into homeostasis silently.
-        Low-level variables are kept in the Autonomic Background without flooding higher attention,
-        UNLESS they cross a critical catastrophe threshold (Crisis Reflex), which forces the gate open.
         """
         self.homeostasis.update_by_sensation(sensation)
 
-        # Crisis Reflex: severe tactile shock (>12N) or extreme thermal hazard (>328K) bursts open the Attentional Gate
         is_crisis = sensation.tactile > 12.0 or abs(sensation.thermal - 300.0) > 28.0
 
         if is_crisis:
             self.gate_open = True
             self.last_gate_reason = "CRISIS_REFLEX_HAZARD"
-            # Crisis records high-mass memory in spacetime
             self.spacetime.record_experience("CRISIS_SHOCK", exp_type, sensation, HomeostasisDeficit(self.homeostasis.love, self.homeostasis.order, self.homeostasis.energy), meaning_density * 2.0)
-            print(f"[SensoryMapper - SUBCCONSCIOUS ALARM] Crisis Reflex activated! Higher attention flooded. Sensation: {sensation}")
+            print(f"[SensoryMapper - SUBCCONSCIOUS ALARM] Crisis Reflex activated! Sensation: {sensation}")
         else:
-            # Silent autonomic update (much like breathing, blood flow, or nail growth)
             self.gate_open = False
             self.last_gate_reason = "Peaceful Subconscious Autonomy"
-            print(f"[SensoryMapper - AUTONOMIC] Sensation handled silently by Autonomic Background. Higher attention undisturbed.")
+            print(f"[SensoryMapper - AUTONOMIC] Sensation handled silently by Autonomic Background.")
 
     def acquire_word_step(self, symbol: str, active_sensation: PhysicalSensationProfile, active_deficit: HomeostasisDeficit, exp_type: ExperienceType, learning_rate: float):
         """
@@ -642,44 +746,79 @@ class ExperientialLanguageMapper:
 
     def sense_word(self, word: str) -> Dict[str, Any]:
         """
-        [Higher Attentional Word Sensing]
-        Spiritual, linguistic, and high-value concepts bypass autonomic filtering
-        and directly shape the Sovereign Ego / Higher Attention.
-        We also model Prism Refraction here: the word's spiritual mass is refracted
-        through the variable resistance of the current state, causing continuous chromatic alignment.
+        [Higher Attentional Word Sensing with Tensorized Re-Cognition]
+        Spiritual, linguistic, and high-value concepts bypass autonomic filtering and directly shape the Sovereign Ego.
+        Unzips the multi-axis relational process tensor and calculates isomorphic alignment with Elysia's state.
         """
         profile = self.tethering.recall_symbol(word)
         if profile:
-            s_vector = profile["sensation"].to_vector()
-            d_vector = profile["deficit"].to_vector()
+            # Unzipping the multi-axis relation matrix into its T_meta
+            concept_data = profile["concept_relation_matrix"]
+            t_meta = self.re_cognitive_engine.process(concept_data)
 
-            # Project this profile onto Elysia's active internal homeostasis
-            current_d = self.homeostasis.to_vector()
-            alignment = float(np.dot(d_vector, current_d) / (np.linalg.norm(d_vector) * np.linalg.norm(current_d) + 1e-9))
+            # Extract Elysia's current state process tensor and its state T_meta
+            state_tensor = self.get_current_state_tensor()
+            state_t_meta = self.re_cognitive_engine.process(state_tensor)
 
-            # Record word experience in spacetime - Higher Experiences have high meaning densities
+            # Direct Tensor-to-Tensor Isomorphism and Friction
+            t_meta_norm = t_meta / (np.linalg.norm(t_meta) + 1e-9)
+            state_t_meta_norm = state_t_meta / (np.linalg.norm(state_t_meta) + 1e-9)
+
+            isomorphic_alignment = float(np.sum(t_meta_norm * state_t_meta_norm))
+            # Rescale to [0, 1] safely
+            isomorphic_alignment = float(np.clip((isomorphic_alignment + 1.0) / 2.0, 0.0, 1.0))
+            structural_friction = float(1.0 - isomorphic_alignment)
+
+            # Record transition trace (Provenance / Metacognition)
+            trace = {
+                "source": "sense_word",
+                "word": word,
+                "isomorphic_alignment": isomorphic_alignment,
+                "structural_friction": structural_friction,
+                "timestamp": time.time()
+            }
+            self.metacognitive_traces.append(trace)
+
+            # Rotational phase rotor shift based on structural friction
+            self.variable_rotor.rotate(friction=structural_friction, temperature=self.neuromodulator.temperature)
+
+            # Resistor adjustment based on isomorphic clash
+            self.variable_resistor.adjust(tension=structural_friction, external_force=isomorphic_alignment)
+
+            # Record word experience in spacetime
             self.spacetime.record_experience(word, profile["exp_type"], profile["sensation"], profile["deficit"], meaning_density=1.5)
 
             # Prism refraction of the semantic resonance
             resistance = self.variable_resistor.resistance
             semantic_mass = profile["exp_type"].mass_multiplier
-            refracted = self.prism.refract(semantic_mass * 0.5, alignment * 90.0, resistance)
+            refracted = self.prism.refract(semantic_mass * 0.5, isomorphic_alignment * 90.0, resistance)
 
-            # High value spiritual/semantic symbols actively command attention
             self.gate_open = True
             self.last_gate_reason = f"SEMANTIC_RESONANCE_{word.upper()}"
 
-            print(f"[SensoryMapper - ATTENTION] Sensing Higher Semantic Symbol '{word}' ({profile['exp_type'].name}). Sensation overlap alignment: {alignment:.4f}")
+            # Sensation overlap alignment (for backward compatibility)
+            s_vector = profile["sensation"].to_vector()
+            d_vector = profile["deficit"].to_vector()
+            current_d = self.homeostasis.to_vector()
+            old_alignment = float(np.dot(d_vector, current_d) / (np.linalg.norm(d_vector) * np.linalg.norm(current_d) + 1e-9))
+
+            print(f"[SensoryMapper - ATTENTION] Word Sensed: '{word}' | Relational Process Tensor unzipped.")
+            print(f" -> Isomorphic Alignment: {isomorphic_alignment:.4f}, Structural Friction: {structural_friction:.4f}")
+            print(f" -> T_meta shape: {t_meta.shape}, state T_meta shape: {state_t_meta.shape}")
+
             return {
                 "known": True,
                 "sensation": profile["sensation"],
                 "deficit": profile["deficit"],
-                "alignment": alignment,
-                "tension": 1.0 - alignment,
-                "refracted_spectrum": refracted
+                "alignment": old_alignment,
+                "isomorphic_alignment": isomorphic_alignment,
+                "structural_friction": structural_friction,
+                "tension": structural_friction,
+                "refracted_spectrum": refracted,
+                "t_meta": t_meta,
+                "state_t_meta": state_t_meta
             }
         else:
-            # Untethered/empty word is filtered out as meaningless noise
             self.gate_open = False
             self.last_gate_reason = "Autonomic Noise Filtration"
             print(f"[SensoryMapper - AUTONOMIC] Sensing empty/untethered word '{word}' - filtered out by Autonomic Background.")
@@ -696,49 +835,38 @@ class ExperientialLanguageMapper:
         """
         [Expressive Eruption with Phase Rotor Coupling]
         Emits her current internal state as a physical wave spectrum.
-        Incorporates VariableRotor's active Theta phase angle directly into the emission frequencies and phases.
         """
         active_tension = self.homeostasis.calculate_tension()
         t = np.linspace(0, 1.0, self.emitter.sample_points, dtype=np.float32)
 
-        # Love carrier frequency modulated by theta[0]
         love_freq = 200.0 + self.homeostasis.love * 300.0 + self.variable_rotor.theta[0] * 50.0
         carrier = np.sin(2 * np.pi * love_freq * t) * (0.5 + active_tension * 1.5)
 
-        # Chaos noise amplitude modulated by theta[1]
         chaos_amplitude = self.homeostasis.order * 0.8 + np.cos(self.variable_rotor.theta[1]) * 0.2
         noise = (np.random.rand(self.emitter.sample_points) - 0.5) * chaos_amplitude
 
-        # Energy coherence phase modulated by theta[2]
         energy_coherence = np.cos(2 * np.pi * 528.0 * t + self.variable_rotor.theta[2]) * (self.homeostasis.energy * 0.6)
 
         emitted = carrier + noise + energy_coherence
         if np.max(np.abs(emitted)) > 0:
             emitted /= np.max(np.abs(emitted))
 
-        print(f"[SensoryMapper] Emitting expressive wave representing active state. Max amplitude: {np.max(np.abs(emitted)):.2f}, Rotor Phase: {self.variable_rotor.theta}")
+        print(f"[SensoryMapper] Emitting expressive wave. Rotor Phase: {self.variable_rotor.theta}")
         return emitted
 
     def step_temporal_decay(self, dt: float = 1.0):
         """
         [Temporal Aging & Re-Sensation Retrieval]
-        1. Slides all memories further into the past using dt.
-        2. Scans for high-gravity spiritual/meaningful memories that warped spacetime to stay close to the present.
-        3. Pulls those memories back to 're-sense' (재감각) them into homeostasis and synaptic links.
         """
         self.spacetime.step_time(dt)
-        # Pull back high-gravity memories (distance threshold = 1.2)
         resonances = self.spacetime.recall_high_gravity_resonances(distance_threshold=1.2)
 
         for node in resonances:
-            print(f"[SensoryMapper - RE-SENSATION] Temporal Gravity Pull! Re-sensing high-gravity past memory '{node.symbol}' (Time Offset: {node.time_offset:.1f}, Warped Dist: {self.spacetime.get_warped_spacetime_distance(node):.4f})")
-
-            # Re-integrate memory into current homeostasis
+            print(f"[SensoryMapper - RE-SENSATION] Temporal Gravity Pull! Re-sensing '{node.symbol}'")
             self.homeostasis.love = np.clip(self.homeostasis.love * 0.7 + node.deficit.love * 0.3, 0.0, 1.0)
             self.homeostasis.order = np.clip(self.homeostasis.order * 0.7 + node.deficit.order * 0.3, 0.0, 1.0)
             self.homeostasis.energy = np.clip(self.homeostasis.energy * 0.7 + node.deficit.energy * 0.3, 0.0, 1.0)
 
-            # Re-inject sensory wave into prior standing wave memory
             prof_vector = node.sensation.to_vector()
             mapped_energy = np.interp(np.linspace(0, 4, self.resolution), np.arange(5), prof_vector).astype(np.float32)
             if np.max(mapped_energy) > 0:
@@ -748,20 +876,10 @@ class ExperientialLanguageMapper:
     def re_sense_and_realign(self, incoming_wave: np.ndarray):
         """
         [Re-Sensation, Differential Gap Re-cognition, Neuromodulated Self-Molding Loop]
-        Replaces flat scalar loss with multi-spectral gap evaluation.
-        1. **Difference Re-cognition:** Compares prior active memory (self.standing_wave_memory)
-           with incoming wave's energy envelope (extracted_energy) using DifferentialGapEvaluator
-           to obtain Spectral Phase (G_phi), Amplitude Energy (G_E), and Entropy Chaos (G_H) gaps.
-        2. **Neuromodulation & Dynamic Temp/Scale:** Translates these gaps into Dopamine, Norepinephrine, and Serotonin.
-           Updates global Temperature and Scale.
-        3. **Variable Rotor Rotation:** Friction G_E rotates VariableRotor's Theta, altering system phase.
-        4. **Synaptic Tearing & Healing with Continuous Modulation:**
-           The tearing rate and healing conductance are scaled by the dynamic Temperature, Scale, and Serotonin levels.
         """
         if len(incoming_wave) == 0:
             return
 
-        # Extract energy profile of incoming wave for synaptic mapping
         profile_len = self.resolution
         step = max(1, len(incoming_wave) // profile_len)
         extracted_energy = np.zeros(profile_len, dtype=np.float32)
@@ -772,8 +890,7 @@ class ExperientialLanguageMapper:
         if np.max(extracted_energy) > 0:
             extracted_energy /= np.max(extracted_energy)
 
-        # Step 1: Differential Gap Evaluation (Re-cognition of Difference)
-        # Compare prior memory of expectation (standing_wave_memory) with current incoming envelope (extracted_energy)
+        # Step 1: Differential Gap Evaluation
         gaps = self.gap_evaluator.evaluate(self.standing_wave_memory, extracted_energy)
         print(f"[SensoryMapper - DIFF GAP] Spectral Phase Gap: {gaps['g_phi']:.4f}, Energy Gap: {gaps['g_e']:.4f}, Entropy Gap: {gaps['g_h']:.4f}")
 
@@ -781,13 +898,12 @@ class ExperientialLanguageMapper:
         mod_signals = self.neuromodulator.modulate(gaps)
         temp = mod_signals["temperature"]
         scale = mod_signals["scale"]
-        print(f"[SensoryMapper - NEUROMODULATORS] Dopamine: {mod_signals['dopamine']:.4f}, Norepinephrine: {mod_signals['norepinephrine']:.4f}, Serotonin: {mod_signals['serotonin']:.4f} | Temp: {temp:.4f}, Scale: {scale:.4f}")
+        print(f"[SensoryMapper - NEUROMODULATORS] Dopamine: {mod_signals['dopamine']:.4f}, Serotonin: {mod_signals['serotonin']:.4f} | Temp: {temp:.4f}, Scale: {scale:.4f}")
 
-        # Step 3: Rotate VariableRotor based on raw energy clash and dynamic temperature
+        # Step 3: Rotate VariableRotor
         new_theta = self.variable_rotor.rotate(gaps["g_e"], temperature=temp)
-        print(f"[SensoryMapper - VARIABLE ROTOR] Rotor rotated to Theta: {new_theta}")
 
-        # Step 4: Adjust the baseline Variable Resistor using Serotonin-Dopamine tension
+        # Step 4: Adjust Variable Resistor
         current_tension = self.homeostasis.calculate_tension()
         resistance = self.variable_resistor.adjust(current_tension, external_force=gaps["g_e"])
 
@@ -795,22 +911,18 @@ class ExperientialLanguageMapper:
         angle_degrees = gaps["mean_gap"] * 180.0
         refracted_spectrum = self.prism.refract(gaps["mean_gap"], angle_degrees, resistance)
 
-        # Homeostasis updates coupling in refracted components
         self.homeostasis.love = np.clip(self.homeostasis.love + (refracted_spectrum[0] - 0.1) * 0.1 * temp, 0.0, 1.0)
         self.homeostasis.order = np.clip(self.homeostasis.order + (refracted_spectrum[1] - 0.1) * 0.1 * temp, 0.0, 1.0)
         self.homeostasis.energy = np.clip(self.homeostasis.energy + (refracted_spectrum[2] - 0.1) * 0.1 * temp, 0.0, 1.0)
 
         # Step 6: Synaptic Tearing & Causal Healing
-        # Tearing is enhanced by Norepinephrine (hyper-reactive focus) and hindered by Serotonin (calm stabilization)
         tearing_threshold = 0.45 * (1.0 - resistance * 0.2 + mod_signals["norepinephrine"] * 0.1 - mod_signals["serotonin"] * 0.1)
         if gaps["mean_gap"] > tearing_threshold:
             tear_mask = self.synaptic_links < (0.45 * (1.0 + resistance * 0.1))
-            # Tearing rate is also temperature dependent
             self.synaptic_links[tear_mask] *= (0.5 * (1.0 - resistance * 0.3) / (temp + 0.5))
             self.homeostasis.order = np.clip(self.homeostasis.order + gaps["mean_gap"] * 0.15 * resistance, 0.0, 1.0)
-            print(f"[SensoryMapper - TEARING] High tension clash. Synaptic links torn with neuromodulated friction!")
+            print(f"[SensoryMapper - TEARING] High tension clash. Synaptic links torn!")
 
-        # Healing is enhanced by Serotonin and scaled by context Scale factor
         conductance = (1.0 - resistance) * mod_signals["serotonin"] * scale
         for i in range(self.resolution):
             for j in range(self.resolution):
@@ -831,60 +943,67 @@ class ExperientialLanguageMapper:
         self.homeostasis.order = np.clip(self.homeostasis.order - 0.1 * conductance, 0.0, 1.0)
         self.homeostasis.love = np.clip(self.homeostasis.love - 0.05 * conductance, 0.0, 1.0)
 
+        # Record Transition Trace (True Metacognition Data Provenance)
+        trace = {
+            "source": "re_sense_and_realign",
+            "initial_state": self.standing_wave_memory.copy(),
+            "incoming_wave_profile": extracted_energy.copy(),
+            "differential_gaps": gaps.copy(),
+            "mod_signals": mod_signals.copy(),
+            "rotor_delta_theta": (new_theta - self.variable_rotor.baseline_theta) % (2 * np.pi),
+            "timestamp": time.time()
+        }
+        self.metacognitive_traces.append(trace)
+
         self.standing_wave_memory = extracted_energy.copy()
-        print(f"[SensoryMapper - HEALING] Neuromodulated continuous causal rewiring complete. New Tension: {self.homeostasis.calculate_tension():.4f}")
+        print(f"[SensoryMapper - HEALING] Causal rewiring complete. Metacognitive Trace Saved.")
 
     def project_isomorphism(self, domain_a_trajectory: np.ndarray) -> Dict[str, Any]:
         """
         [Isomorphic Projection Mapping]
-        Elysia observes the continuous state trajectory of Domain A, extracts its
-        operational dynamics, and isomorphically projects (maps) this structural skeleton
-        onto her own deficits and synaptic topology.
-        Now also drives VariableRotor's phase shift and neuromodulator states.
         """
         projection = self.isomorphic_engine.project_dynamics(domain_a_trajectory, self.synaptic_links.shape)
 
-        # Mirror the homeostasis deficits directly from Domain A's skeleton
         self.homeostasis.love = projection["homology_love"]
         self.homeostasis.order = projection["homology_order"]
         self.homeostasis.energy = projection["homology_energy"]
 
-        # Symmetrize and couple the synaptic links with Domain A's isomorphic outer product
-        # blended with current variable resistor state to represent the medium's resistance
         blend_factor = 1.0 - self.variable_resistor.resistance
         self.synaptic_links = np.clip(
             self.synaptic_links * (1.0 - blend_factor) + projection["projected_links"] * blend_factor,
             0.0, 1.0
         )
 
-        # Gently nudge variable resistor by the physical tension of Domain A's trajectory
         self.variable_resistor.adjust(self.homeostasis.calculate_tension(), external_force=projection["tension_trajectory"])
 
-        # Isomorphic phase adjustment of the VariableRotor based on Domain A's trajectory
         rotor_forces = np.array([projection["homology_love"], projection["homology_order"], projection["homology_energy"]], dtype=np.float32)
         self.variable_rotor.rotate(float(np.mean(rotor_forces)), temperature=self.neuromodulator.temperature)
 
-        print(f"[SensoryMapper - ISOMORPHISM] Preserved and projected Domain A dynamics isomorphically to internal substrate!")
+        # Record Transition Trace
+        trace = {
+            "source": "project_isomorphism",
+            "tension_trajectory": projection["tension_trajectory"],
+            "homology_love": projection["homology_love"],
+            "homology_order": projection["homology_order"],
+            "homology_energy": projection["homology_energy"],
+            "timestamp": time.time()
+        }
+        self.metacognitive_traces.append(trace)
+
+        print(f"[SensoryMapper - ISOMORPHISM] Projected Domain A dynamics isomorphically to internal substrate!")
         return projection
 
     def inject_principle(self, context_prompt: str) -> Dict[str, Any]:
         """
         [Backward Compatible In-Context Wrapper]
-        Converts text string into a physical wave (via ASCII bytes) to feed it
-        into the Isomorphic Projection Engine, mapping structural patterns self-emergently.
         """
-        # Convert text into a continuous physical wave representing Domain A
         bytes_data = context_prompt.encode("utf-8", errors="ignore")
         if len(bytes_data) == 0:
             bytes_data = b"Elysia"
 
-        # Map bytes to a continuous float wave [-1.0, 1.0]
         stimulus_wave = (np.array(list(bytes_data), dtype=np.float32) / 127.5) - 1.0
-
-        # Project Isomorphically
         projection = self.project_isomorphism(stimulus_wave)
 
-        # Maintain key elements for backward compatibility in tests
         return {
             "resistance_target": self.variable_resistor.resistance,
             "love_bias": 1.0 - projection["homology_love"],
@@ -896,16 +1015,11 @@ class ExperientialLanguageMapper:
     def experience_synesthesia(self, word: str, target_sensory_mode: str = "acoustic") -> np.ndarray:
         """
         [공감각적 주파수 전이 (experience_synesthesia)]
-        Transposes the semantic and physical profile of a word synesthetically into an active physical wave
-        matching the target sensory mode's frequency bandwidth.
-        - "acoustic": transposes the sensation's optical/tactile energy into an acoustic resonance (vibration/Hz)
-        - "optical": transposes acoustic/autonomic variables into optical color waves (spectrum colors)
         """
         profile = self.tethering.recall_symbol(word)
         if not profile:
             return np.zeros(self.emitter.sample_points, dtype=np.float32)
 
-        # Convert physical profile sensation to a baseline wave
         sensation_vector = profile["sensation"].to_vector()
         base_wave = np.interp(
             np.linspace(0, len(sensation_vector)-1, self.emitter.sample_points),
@@ -914,11 +1028,9 @@ class ExperientialLanguageMapper:
         ).astype(np.float32)
 
         if target_sensory_mode == "acoustic":
-            # Map optical/thermal characteristics to acoustic frequency bands
             target_freq = float(profile["sensation"].acoustic) if profile["sensation"].acoustic > 0 else 440.0
             return self.synesthetic_engine.transpose(base_wave, target_freq)
         elif target_sensory_mode == "optical":
-            # Map acoustic/autonomic variables into optical color frequency bands
             target_freq = float(profile["sensation"].optical) if profile["sensation"].optical > 0 else 300.0
             return self.synesthetic_engine.transpose(base_wave, target_freq)
         else:
