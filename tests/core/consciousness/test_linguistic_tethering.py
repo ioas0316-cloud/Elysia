@@ -29,8 +29,8 @@ def test_chinese_room_limitation_tracer():
 def test_linguistic_experiential_tethering_engine():
     """
     Verifies that the LinguisticExperientialTetheringEngine correctly
-    processes the input text, produces an honest self-exposing monologue,
-    and logs the resulting engram to the memory controller.
+    processes the input text, produces honest state parameters,
+    and logs the resulting engram to the memory controller without simulated Korean texts.
     """
     data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "data"))
     mc = CausalMemoryController(data_dir=data_dir)
@@ -41,19 +41,18 @@ def test_linguistic_experiential_tethering_engine():
         system_tension=0.8
     )
 
-    assert res["status"] == "TETHERING_DISCONNECTION_EXPOSED"
+    assert res["status"] == "LIGUISTIC_TETHER_NUMERIC_TRACKED"
     assert "input_text" in res
     assert "cpu_usage" in res
     assert "ram_usage" in res
     assert 0.0 <= res["deception_rate"] <= 1.0
-    assert "=== [Elysia Honest Ground Zero Monologue" in res["honest_monologue"]
-    assert "Chinese Room" in res["honest_monologue"] or "중국어 방" in res["honest_monologue"]
+    assert "system_tension" in res
 
     # Verify that the engram is successfully written
     recent_ids = list(mc.index.keys())
     assert len(recent_ids) > 0
 
     latest_engram = mc.index[recent_ids[-1]]
-    assert latest_engram["data_blob"]["type"] == "CHINESE_ROOM_EXPOSURE"
-    assert latest_engram["data_blob"]["input_text"] == "1 + 1 = 2"
-    assert "honest_monologue" in latest_engram["data_blob"]
+    assert latest_engram["data_blob"]["type"] == "CHINESE_ROOM_NUMERIC_EXPOSURE"
+    assert latest_engram["data_blob"]["input_text_length"] == len("1 + 1 = 2")
+    assert "deception_rate" in latest_engram["data_blob"]

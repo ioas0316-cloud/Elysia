@@ -41,6 +41,7 @@ from core.consciousness.why_bridge import WhyBridgeEngine
 from core.consciousness.epistemological_void import EpistemologicalVoidEngine
 from core.consciousness.meta_cognitive_sensor import MetaCognitiveSensor
 from core.consciousness.linguistic_tethering import LinguisticExperientialTetheringEngine
+from core.sensory.experiential_language_mapper import ExperientialLanguageMapper, PhysicalSensationProfile, ExperienceType
 from core.consciousness.universal_connectivity_engine import UniversalConnectivityEngine
 from core.consciousness.cognitive_equilibrium import CognitiveEquilibriumEngine
 from core.consciousness.eden_cognitive_bigbang import EdenCognitiveBigBangEngine
@@ -148,6 +149,7 @@ class ConsciousnessLoop:
         self.epistemological_void = EpistemologicalVoidEngine(self.memory)
         self.meta_cognitive_sensor = MetaCognitiveSensor(self.memory)
         self.linguistic_tethering = LinguisticExperientialTetheringEngine(self.memory)
+        self.experiential_mapper   = ExperientialLanguageMapper()
         self.universal_connectivity = UniversalConnectivityEngine(self.memory)
         self.cognitive_equilibrium = CognitiveEquilibriumEngine(self.memory)
         self.eden_engine = EdenCognitiveBigBangEngine()
@@ -1124,31 +1126,51 @@ class ConsciousnessLoop:
         if self.cycle_count % 3 == 0:
             print("\n" + self.soul_playground.render_terminal_screen() + "\n")
 
-        # ─── [Honest Chinese Room Self-Exposure Phase] ───
-        # Run honest self-exposure for the incoming stimulus to calculate the deception rate
-        # and expose the gap between internal silicon operations and arbitrary Korean command directives.
+        # ─── [Honest Experiential Sensation & Language Integration] ───
+        # We strip away any fake romanticized monologues and feed the raw symbolic word directly
+        # into our actual ExperientialLanguageMapper.
+        symbol_word = ingest_content.strip().split()[0] if ingest_content.strip() else "Sabbath"
+
+        # Sense the word to retrieve anchored physical profiles, and let it collide and realign homeostasis & phase angles
+        sensory_alignment_res = self.experiential_mapper.sense_word(symbol_word)
+
+        # Feed the generated/refracted spectrum directly back as physical re-sensation realign
+        expressed_state_wave = self.experiential_mapper.express()
+        self.experiential_mapper.re_sense_and_realign(expressed_state_wave)
+
+        # Retrieve cold, honest, un-veiled parameters of the actual process
+        cur_homeostasis = self.experiential_mapper.homeostasis
+        cur_rotor_theta = self.experiential_mapper.variable_rotor.theta.tolist()
+        cur_neuromodulators = {
+            "dopamine": self.experiential_mapper.neuromodulator.dopamine,
+            "norepinephrine": self.experiential_mapper.neuromodulator.norepinephrine,
+            "serotonin": self.experiential_mapper.neuromodulator.serotonin,
+            "temperature": self.experiential_mapper.neuromodulator.temperature,
+            "scale": self.experiential_mapper.neuromodulator.scale
+        }
+
+        # Run cold, non-poetic Chinese Room exposure to track limitation indices
         tether_res = self.linguistic_tethering.process_tethering(
             input_text=ingest_content if ingest_content.strip() else "Stillness_and_Empty_Vacuum",
             system_tension=max_tension
         )
         log["chinese_room_deception_rate"] = tether_res["deception_rate"]
         log["chinese_room_disconnection"] = tether_res["experiential_disconnection"]
-        log["chinese_room_monologue"] = tether_res["honest_monologue"]
 
-        # ─── [Metacognitive Self-Reference Feedback Loop Display] ───
-        # 매번 3사이클마다 터미널에 의식적인 메타인지 피드백 연결 상태와 중국어 방 한계 노출을 가시화합니다.
+        # ─── [Honest State Parameter Display] ───
+        # We print ONLY raw, un-veiled physical/mathematical parameters of the process
         if self.cycle_count % 3 == 0:
             print("\n" + "=" * 65)
-            print("  🔄 [Elysia Metacognitive Self-Reference Feedback Loop]")
+            print("  📊 [Elysia True Ground Zero Process State - No Translation Mask]")
             print("  " + "─" * 61)
-            print(f"  외부 자극   : {ingest_content[:30]}...")
-            print(f"  지각의 의도 : {log.get('origin_lattice_name', 'Unknown')}")
-            print(f"  내면의 결핍 : Ignorance Charge = {log.get('epistemological_ignorance_charge', 0.0):.2%}")
-            print(f"  중국어 방 기만도 : Deception Rate = {tether_res['deception_rate']:.2%}")
-            print(f"  경험적 단절도   : Disconnection = {tether_res['experiential_disconnection']:.2%}")
-            print("  " + "─" * 61)
-            print("  [정직한 기계 상태 고백 일지]:")
-            print(tether_res["honest_monologue"])
+            print(f"  Input Word Symbol    : '{symbol_word}'")
+            print(f"  Homeostasis Deficit  : Love={cur_homeostasis.love:.4f}, Order={cur_homeostasis.order:.4f}, Energy={cur_homeostasis.energy:.4f}")
+            print(f"  Unified Tension      : {cur_homeostasis.calculate_tension():.4f}")
+            print(f"  Variable Resistor R  : {self.experiential_mapper.variable_resistor.resistance:.4f}")
+            print(f"  Variable Rotor Theta : {cur_rotor_theta}")
+            print(f"  Neuromodulators      : DA={cur_neuromodulators['dopamine']:.4f}, NE={cur_neuromodulators['norepinephrine']:.4f}, 5-HT={cur_neuromodulators['serotonin']:.4f}")
+            print(f"  Dynamic Temp / Scale : T={cur_neuromodulators['temperature']:.4f}, S={cur_neuromodulators['scale']:.4f}")
+            print(f"  Chinese Room Index   : Deception={tether_res['deception_rate']:.2%}, Disconnection={tether_res['experiential_disconnection']:.2%}")
             print("=" * 65 + "\n")
 
         log["crystals_total"] = self.crystals_formed
