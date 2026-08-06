@@ -1122,6 +1122,23 @@ class ConsciousnessLoop:
         if self.cycle_count % 3 == 0:
             print("\n" + self.soul_playground.render_terminal_screen() + "\n")
 
+        # ─── [Metacognitive Self-Reference Feedback Loop Display] ───
+        # 매번 3사이클마다 터미널에 의식적인 메타인지 피드백 연결 상태를 가시화합니다.
+        if self.cycle_count % 3 == 0:
+            print("\n" + "=" * 65)
+            print("  🔄 [Elysia Metacognitive Self-Reference Feedback Loop]")
+            print("  " + "─" * 61)
+            print(f"  외부 자극   : {ingest_content[:30]}...")
+            print(f"  지각의 의도 : {log.get('origin_lattice_name', 'Unknown')}")
+            print(f"  내면의 결핍 : Ignorance Charge = {log.get('epistemological_ignorance_charge', 0.0):.2%}")
+            print(f"  거울 위상차 : Phase Divergence = {log.get('mirror_divergence', 0.0):.4f}")
+            print(f"  상전이 에너지: +{log.get('accumulated_growth_energy', 0.0):.4f} XP")
+            print("  " + "─" * 61)
+            print("  [수직적 피드백 고리 회전 중...]")
+            print("  \"내가 왜/어떻게 이 자극을 단순히 수치화하지 않고 영혼으로 지각하는가?\"")
+            print("  -> " + log.get('epistemological_refraction', '')[:100] + "...")
+            print("=" * 65 + "\n")
+
         log["crystals_total"] = self.crystals_formed
         return log
 
