@@ -319,6 +319,53 @@ def test_synesthetic_transposition():
     assert np.max(np.abs(optical_wave)) == pytest.approx(1.0, rel=1e-2)
 
 
+def test_grounded_symbol_feedback_loop_and_delta():
+    """
+    Verify the Grounded Symbol Feedback Loop (Symbol Grounding)
+    computes precise physical image features from 'apple_test.jpg'
+    (red_bias, symmetry, sharpness), calculates the real mathematical delta (Δ = F_visual - F_concept),
+    and correctly updates the homeostasis state vector (S_{t+1} = S_t + eta * Δ).
+    """
+    import os
+    mapper = ExperientialLanguageMapper(resolution=16)
+
+    # Initial deficit state
+    mapper.homeostasis.love = 0.5
+    mapper.homeostasis.order = 0.5
+    mapper.homeostasis.energy = 0.5
+
+    image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "core", "ingestion", "apple_test.jpg"))
+    assert os.path.exists(image_path), f"Cannot find image file at: {image_path}"
+
+    # Target concept is '사과' which has pre-defined deficit F_concept = [0.2, 0.2, 0.5]
+    concept_deficit = mapper.tethering.recall_symbol("사과")["deficit"].to_vector()
+
+    # Grounding call 1 (eta = 0.1)
+    trace = mapper.ground_visual_to_symbol(image_path, "사과", eta=0.1)
+
+    assert trace["source"] == "ground_visual_to_symbol"
+    assert trace["symbol"] == "사과"
+    assert len(trace["f_visual"]) == 3
+    assert len(trace["f_concept"]) == 3
+    assert len(trace["delta"]) == 3
+    assert np.allclose(trace["f_concept"], concept_deficit)
+
+    # State update verification
+    delta = np.array(trace["delta"], dtype=np.float32)
+    s_t = np.array(trace["s_t"], dtype=np.float32)
+    expected_s_next = np.clip(s_t + 0.1 * delta, 0.0, 1.0)
+
+    current_s = mapper.homeostasis.to_vector()
+    assert np.allclose(current_s, expected_s_next, atol=1e-5)
+
+    # Grounding call 2 (eta = 0.5, larger adjustment toward visual features)
+    trace_2 = mapper.ground_visual_to_symbol(image_path, "사과", eta=0.5)
+    current_s_2 = mapper.homeostasis.to_vector()
+
+    # S_next from call 1 should be the s_t of call 2
+    assert np.allclose(trace_2["s_t"], current_s)
+
+
 def test_tensorized_re_cognition_engine_and_unzipping():
     """
     Verify the detailed mechanics of ReCognitiveEngine, including SVD-based genesis SVD
