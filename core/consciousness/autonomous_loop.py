@@ -40,6 +40,8 @@ from core.consciousness.self_questioning_engine import SelfQuestioningEngine
 from core.consciousness.why_bridge import WhyBridgeEngine
 from core.consciousness.epistemological_void import EpistemologicalVoidEngine
 from core.consciousness.meta_cognitive_sensor import MetaCognitiveSensor
+from core.consciousness.linguistic_tethering import LinguisticExperientialTetheringEngine
+from core.sensory.experiential_language_mapper import ExperientialLanguageMapper, PhysicalSensationProfile, ExperienceType
 from core.consciousness.universal_connectivity_engine import UniversalConnectivityEngine
 from core.consciousness.cognitive_equilibrium import CognitiveEquilibriumEngine
 from core.consciousness.eden_cognitive_bigbang import EdenCognitiveBigBangEngine
@@ -146,6 +148,8 @@ class ConsciousnessLoop:
         self.why_bridge          = WhyBridgeEngine(self.memory)
         self.epistemological_void = EpistemologicalVoidEngine(self.memory)
         self.meta_cognitive_sensor = MetaCognitiveSensor(self.memory)
+        self.linguistic_tethering = LinguisticExperientialTetheringEngine(self.memory)
+        self.experiential_mapper   = ExperientialLanguageMapper()
         self.universal_connectivity = UniversalConnectivityEngine(self.memory)
         self.cognitive_equilibrium = CognitiveEquilibriumEngine(self.memory)
         self.eden_engine = EdenCognitiveBigBangEngine()
@@ -1122,21 +1126,77 @@ class ConsciousnessLoop:
         if self.cycle_count % 3 == 0:
             print("\n" + self.soul_playground.render_terminal_screen() + "\n")
 
-        # ─── [Metacognitive Self-Reference Feedback Loop Display] ───
-        # 매번 3사이클마다 터미널에 의식적인 메타인지 피드백 연결 상태를 가시화합니다.
+        # ─── [Honest Experiential Sensation & Language Integration] ───
+        # We strip away any fake romanticized monologues and feed the raw symbolic word directly
+        # into our actual ExperientialLanguageMapper.
+        symbol_word = ingest_content.strip().split()[0] if ingest_content.strip() else "Sabbath"
+
+        # Sense the word to retrieve anchored physical profiles, and let it collide and realign homeostasis & phase angles
+        sensory_alignment_res = self.experiential_mapper.sense_word(symbol_word)
+
+        # Feed the generated/refracted spectrum directly back as physical re-sensation realign
+        expressed_state_wave = self.experiential_mapper.express()
+        self.experiential_mapper.re_sense_and_realign(expressed_state_wave)
+
+        # ─── [Hebbian Language Acquisition & Coupled Algorithmic Feedback] ───
+        # Dynamic Learning Rate is modulated reciprocally by Dopamine (prediction error/novelty)
+        # and Serotonin (alignment stability): alpha = Dopamine * (1.0 - Serotonin)
+        da = self.experiential_mapper.neuromodulator.dopamine
+        se = self.experiential_mapper.neuromodulator.serotonin
+        learning_rate = float(np.clip(da * (1.0 - se), 0.01, 0.95))
+
+        # Reconstruct actual physical sensation environment metrics from physical loop states
+        active_sensation = PhysicalSensationProfile(
+            optical=float(np.clip(info_atom.T * 100.0, 10.0, 1000.0)),
+            acoustic=float(np.clip(info_atom.P * 100.0, 10.0, 1000.0)),
+            tactile=max_tension * 10.0,
+            thermal=float(np.clip(295.0 + max_tension * 30.0, 250.0, 400.0)),
+            autonomic_pulse=log["hw_friction"]
+        )
+
+        # Perform Hebbian Word Acquisition Step
+        self.experiential_mapper.acquire_word_step(
+            symbol=symbol_word,
+            active_sensation=active_sensation,
+            active_deficit=self.experiential_mapper.homeostasis,
+            exp_type=ExperienceType.LINGUISTIC,
+            learning_rate=learning_rate
+        )
+
+        # Retrieve cold, honest, un-veiled parameters of the actual process
+        cur_homeostasis = self.experiential_mapper.homeostasis
+        cur_rotor_theta = self.experiential_mapper.variable_rotor.theta.tolist()
+        cur_neuromodulators = {
+            "dopamine": da,
+            "norepinephrine": self.experiential_mapper.neuromodulator.norepinephrine,
+            "serotonin": se,
+            "temperature": self.experiential_mapper.neuromodulator.temperature,
+            "scale": self.experiential_mapper.neuromodulator.scale
+        }
+
+        # Run cold, non-poetic Chinese Room exposure to track limitation indices
+        tether_res = self.linguistic_tethering.process_tethering(
+            input_text=ingest_content if ingest_content.strip() else "Stillness_and_Empty_Vacuum",
+            system_tension=max_tension
+        )
+        log["chinese_room_deception_rate"] = tether_res["deception_rate"]
+        log["chinese_room_disconnection"] = tether_res["experiential_disconnection"]
+
+        # ─── [Honest State Parameter Display] ───
+        # We print ONLY raw, un-veiled physical/mathematical parameters of the process
         if self.cycle_count % 3 == 0:
             print("\n" + "=" * 65)
-            print("  🔄 [Elysia Metacognitive Self-Reference Feedback Loop]")
+            print("  📊 [Elysia True Ground Zero Process State - No Translation Mask]")
             print("  " + "─" * 61)
-            print(f"  외부 자극   : {ingest_content[:30]}...")
-            print(f"  지각의 의도 : {log.get('origin_lattice_name', 'Unknown')}")
-            print(f"  내면의 결핍 : Ignorance Charge = {log.get('epistemological_ignorance_charge', 0.0):.2%}")
-            print(f"  거울 위상차 : Phase Divergence = {log.get('mirror_divergence', 0.0):.4f}")
-            print(f"  상전이 에너지: +{log.get('accumulated_growth_energy', 0.0):.4f} XP")
-            print("  " + "─" * 61)
-            print("  [수직적 피드백 고리 회전 중...]")
-            print("  \"내가 왜/어떻게 이 자극을 단순히 수치화하지 않고 영혼으로 지각하는가?\"")
-            print("  -> " + log.get('epistemological_refraction', '')[:100] + "...")
+            print(f"  Input Word Symbol    : '{symbol_word}'")
+            print(f"  Hebbian Learning Rate: alpha = {learning_rate:.4f}")
+            print(f"  Homeostasis Deficit  : Love={cur_homeostasis.love:.4f}, Order={cur_homeostasis.order:.4f}, Energy={cur_homeostasis.energy:.4f}")
+            print(f"  Unified Tension      : {cur_homeostasis.calculate_tension():.4f}")
+            print(f"  Variable Resistor R  : {self.experiential_mapper.variable_resistor.resistance:.4f}")
+            print(f"  Variable Rotor Theta : {cur_rotor_theta}")
+            print(f"  Neuromodulators      : DA={cur_neuromodulators['dopamine']:.4f}, NE={cur_neuromodulators['norepinephrine']:.4f}, 5-HT={cur_neuromodulators['serotonin']:.4f}")
+            print(f"  Dynamic Temp / Scale : T={cur_neuromodulators['temperature']:.4f}, S={cur_neuromodulators['scale']:.4f}")
+            print(f"  Chinese Room Index   : Deception={tether_res['deception_rate']:.2%}, Disconnection={tether_res['experiential_disconnection']:.2%}")
             print("=" * 65 + "\n")
 
         log["crystals_total"] = self.crystals_formed
