@@ -75,6 +75,9 @@ from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravit
 from core.physics.spontaneous_motion import SpontaneousMotionEngine, generate_spontaneous_wave
 from core.physics.predictive_processing import PredictiveProcessingEngine
 
+# [Phase 4: Embodied Dreaming World Model]
+from core.consciousness.dreaming_world_model import DreamingWorldModel
+
 import asyncio
 
 
@@ -188,6 +191,10 @@ class ConsciousnessLoop:
         self.density_fluid_gravity   = DensityFluidGravity(size=32)
         self.spontaneous_motion_engine = SpontaneousMotionEngine(self.memory)
         self.predictive_processing_engine = PredictiveProcessingEngine(dimensions=3)
+
+        # ── [Phase 4: Embodied Dreaming World Model Engine] ──
+        self.dreaming_model = DreamingWorldModel(memory_controller=self.memory, size=16)
+        self.last_dream_res = None
 
         # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
@@ -476,6 +483,11 @@ class ConsciousnessLoop:
 
         # 3D Causal Engine 정보 등록 및 시공간 토폴로지 몰딩
         ingest_content = raw_wave.decode('utf-8', errors='ignore')[:30]
+
+        # ── [Phase 4 Dreaming World Model Step] ──
+        self.last_dream_res = self.dreaming_model.process_cycle(ingest_content, dt=0.1)
+        log["dream_state"] = self.last_dream_res
+
         self.causal_engine.add_information(
             info_id=f"voxel_ingest_{self.cycle_count}",
             content=ingest_content if ingest_content else "VoidWave",
@@ -1184,7 +1196,10 @@ class ConsciousnessLoop:
 
         # ─── [Honest State Parameter Display] ───
         # We print ONLY raw, un-veiled physical/mathematical parameters of the process
-        if self.cycle_count % 3 == 0:
+        if self.cycle_count % 3 == 0 and self.last_dream_res is not None:
+            # Print Embodied Sensory Map ascii map
+            print("\n" + self.last_dream_res["ascii_map"] + "\n")
+
             print("\n" + "=" * 65)
             print("  📊 [Elysia True Ground Zero Process State - No Translation Mask]")
             print("  " + "─" * 61)
