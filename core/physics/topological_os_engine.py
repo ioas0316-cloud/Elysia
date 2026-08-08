@@ -4,13 +4,17 @@ from core.physics.rns_multi_scale_field import ResidueNumberSystem
 
 class TopologicalOSEngine:
     """
-    [Topological & Thermodynamic OS Emulator Engine]
+    [Topological & Thermodynamic OS Emulator Engine] (Enhanced v2.0 with Annual Rings)
 
     A spatial, multi-scale computational manifold governed by:
     1. Toroidal Memory Geometry (via prime modular RNS distances).
     2. Phase Perturbation (Impulse Injection modifying potential energy landscape).
     3. Thermodynamic Relaxation (Langevin Dynamics with thermal fluctuations dW_t).
-    4. Active Discernment:
+    4. Persistent Annual Ring Matrix (Conductance Matrix):
+       - Tracks non-volatile structural memories of past friction, energy dissipation, and self-correction.
+       - Gradually increases local conductance (allowing faster future convergence/lower friction)
+         or acts as a permanent trace.
+    5. Active Discernment:
        - Damping: Physical noise filtering and self-refusal.
        - Gradient: Natural prioritizing by potential well steepness.
        - Resonance: Task matching with existing spatial wave configurations.
@@ -31,6 +35,12 @@ class TopologicalOSEngine:
         self.energy = np.zeros(grid_shape, dtype=np.float32)
         self.friction = np.ones(grid_shape, dtype=np.float32)
 
+        # --- PERSISTENT ANNUAL RING MATRIX (Conductance Matrix) ---
+        # Representing "나이테". Higher conductance means lower resistance and faster relaxation.
+        # It starts at a base level of 1.0 (undifferentiated, uniform medium).
+        # Over time, energy dissipation acts as a heat/current writing onto this matrix.
+        self.conductance_matrix = np.ones(grid_shape, dtype=np.float32)
+
         # Thermodynamics
         self.temperature = initial_temp
         self.cooling_rate = cooling_rate
@@ -38,7 +48,6 @@ class TopologicalOSEngine:
         self.diffusion_coef = diffusion_coef
 
         # Internal wave characteristics for Resonance matching
-        # 2D phase wave representing internal state configurations (e.g. cosine/sine wave signatures)
         self.phase_waves = np.zeros(grid_shape, dtype=np.float32)
         self._init_internal_resonance_waves()
 
@@ -103,22 +112,23 @@ class TopologicalOSEngine:
     def step(self, dt: float = 0.1):
         """
         Advances the 위상·열역학 OS by one physical time step.
-        Implements Langevin dynamics, active discernment (Damping, Gradient, Resonance), and RNS relaxation.
+        Implements Langevin dynamics, persistent conductance engraving (Annual Rings), and RNS relaxation.
         """
         h, w = self.shape
         V = self.get_potential()
 
         # --- Active Discernment: Resonance Routing & Filtering (Vectorized) ---
-        # Calculate spatial resonance with phase waves. If there's low resonance or chaotic noise,
-        # apply higher damping to absorb/dissipate the energy.
-        # Resonance is represented by the local gradient alignment of V and phase waves.
         mean_v = np.mean(V)
         local_resonance = np.abs(self.phase_waves * (V - mean_v))
         damping_mask = (V > 1.0) & (local_resonance < 0.1)
 
         # Apply intense Damping to absorb/quench noise where resonance is too low
         self.energy = np.where(damping_mask, self.energy * (1.0 - self.damping_factor * 2.0), self.energy)
-        self.friction = np.where(damping_mask, 5.0, 1.0)
+
+        # Base friction is modified by the inverse of local conductance (나이테 효과)
+        # Higher conductance = lower resistance/friction = faster, smoother relaxation
+        local_friction = 1.0 / np.clip(self.conductance_matrix, 0.1, 10.0)
+        self.friction = np.where(damping_mask, 5.0 * local_friction, 1.0 * local_friction)
 
         # --- Langevin Dynamics (Thermodynamic Relaxation Engine) ---
         # 1. Gradient of potential field: -nabla V
@@ -136,17 +146,21 @@ class TopologicalOSEngine:
         self.energy += flow
 
         # 2. Langevin thermal fluctuation term: sqrt(2 * D * k_B * T * dt) * eta
-        # Where eta is a standard normal distribution.
-        # This thermal noise helps the system escape local minima and explore the global manifold.
         if self.temperature > 1e-4:
             thermal_coeff = np.sqrt(2.0 * self.diffusion_coef * self.temperature * dt)
             noise = np.random.normal(0, 1, size=self.shape) * thermal_coeff
             self.energy += noise
-            # Clip energy to be non-negative
             self.energy = np.clip(self.energy, 0.0, None)
 
+        # --- PERSISTENT ANNUAL RING ACCUMULATION (Conductance Writing) ---
+        # As energy dissipates and flows through the grid, it permanently "etches" the medium.
+        # The heat/dissipation trace is proportional to the local kinetic energy, local potential,
+        # and the rate of relaxation.
+        # Limit conductance to prevent singularity/runaway feedback.
+        dissipation_heat = np.abs(self.energy * V * dt * 0.02)
+        self.conductance_matrix = np.clip(self.conductance_matrix + dissipation_heat, 1.0, 5.0)
+
         # --- RNS Physical Relaxation ---
-        # Residues step modularly closer to ground state 1
         p_broadcast = np.broadcast_to(self.primes, self.residues.shape)
         mask_not_1 = (self.residues != 1)
         cw = (self.residues - 1) % p_broadcast
@@ -169,5 +183,6 @@ class TopologicalOSEngine:
             "energy": self.energy.tolist(),
             "potential": self.get_potential().tolist(),
             "temperature": self.temperature,
-            "resonance_profile": self.phase_waves.tolist()
+            "resonance_profile": self.phase_waves.tolist(),
+            "conductance_matrix": self.conductance_matrix.tolist()
         }

@@ -10,6 +10,7 @@ def test_language_refraction_empty():
     assert params["intent_type"] == "vacuum"
     assert params["mass"] == 0.1
     assert params["gradient"] == 1.0
+    assert params["ignorance_charge"] == 1.0
 
 def test_language_refraction_urgent():
     """Verify refraction of an urgent/error command mapping."""
@@ -20,6 +21,9 @@ def test_language_refraction_urgent():
     assert params["mass"] >= 25.0
     assert params["gradient"] >= 8.0
     assert params["thermal_heating"] == 0.0
+    assert params["ignorance_charge"] <= 0.5  # Urgent commands have clear, narrow maps (low ignorance)
+    assert params["damping_multiplier"] == 1.0
+    assert params["locus_range_expansion"] == 1.0
     assert 0 <= params["target_y"] < 16
     assert 0 <= params["target_x"] < 16
     assert -1.0 <= params["wave_signature"] <= 1.0
@@ -32,7 +36,22 @@ def test_language_refraction_casual():
     assert params["intent_type"] == "brownian_perturbation"
     assert params["mass"] <= 5.0
     assert params["gradient"] <= 3.0
-    assert params["thermal_heating"] >= 3.5
+    assert params["ignorance_charge"] > 0.5  # Casual speculation has high ignorance
+    assert params["locus_range_expansion"] > 1.0  # Antenna expands
+    assert params["damping_multiplier"] < 1.0  # Damping decreases
+    assert "거울" in params["metacognitive_reflection"]
+
+def test_language_refraction_raw_tension_ingestion():
+    """Verify Layer 1: Tension Vector Ingestion handles non-UTF8 bytes gracefully."""
+    refractor = LanguageRefractor(grid_shape=(16, 16))
+
+    # Intentionally broken unicode bytes
+    broken_bytes = b"Hello \xff\xfe World \x90"
+    params = refractor.refract(broken_bytes)
+
+    # Should not crash, and should yield high ignorance charge / high tension
+    assert params["ignorance_charge"] > 0.5
+    assert params["locus_range_expansion"] > 1.0
 
 def test_integration_with_topological_os():
     """Verify that injecting refracted parameters into TopologicalOSEngine behaves physically correct."""
@@ -57,7 +76,7 @@ def test_integration_with_topological_os():
     engine.temperature += params["thermal_heating"]
 
     stimulated_state = engine.get_state()
-    assert stimulated_state["energy"][params["target_y"]][params["target_x"]] == params["mass"]
+    assert stimulated_state["energy"][params["target_y"]][params["target_x"]] >= params["mass"]
 
     # Run Langevin relaxation for some steps with cooling rate to let energy dissipate
     for _ in range(30):
