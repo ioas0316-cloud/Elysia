@@ -4,6 +4,8 @@ import numpy as np
 from core.memory.causal_controller import CausalMemoryController
 from core.evolution.moulting_plasticity import MoultingPlasticityEngine
 from core.evolution.developmental_individuation import WildernessFrictionStream, DevelopmentalIndividuationEngine
+from synaptic_architecture.field import CrystallizationField
+from synaptic_architecture.causal_observer import CognitiveMirror
 
 
 @pytest.fixture
@@ -16,7 +18,7 @@ def test_dirs():
 def test_wilderness_friction_stream(test_dirs):
     """
     Verify WildernessFrictionStream correctly parses real hardware/byte inputs
-    to generate continuous 3D friction vectors and force values.
+    to generate continuous 3D friction vectors, force values, and physical temperatures.
     """
     stream = WildernessFrictionStream(data_dir=test_dirs)
     raw_input = b"Generative_Wilderness_Noise"
@@ -33,6 +35,10 @@ def test_wilderness_friction_stream(test_dirs):
     assert res["f_system"] > 0.0
     assert res["f_semantic"] == 0.8
     assert res["f_entropy"] > 0.0
+    assert "T_ext" in res
+    assert "T_int" in res
+    assert res["T_ext"] > 0.0
+    assert res["T_int"] > 0.0
 
 
 def test_developmental_stages_and_Sself_genesis(test_dirs):
@@ -88,3 +94,39 @@ def test_developmental_stages_and_Sself_genesis(test_dirs):
     # The parent reference axis (S_abs) must still remain as a minimum anchor (>= 20%)
     assert res3["w_imitation"] >= 0.20
     assert np.allclose(np.linalg.norm(res3["S_active"]), 1.0)
+
+    # ── Verify high-order relational geometry parameters ──
+    assert "topological_tension" in res3
+    assert "rotational_angle" in res3
+    assert "curvature" in res3
+    assert "attractor_pull_force" in res3
+    assert "geometry_matrix" in res3
+    assert res3["topological_tension"] >= 0.0
+    assert res3["rotational_angle"] >= 0.0
+    assert res3["curvature"] >= 0.0
+    assert len(res3["geometry_matrix"]) == 2
+    assert len(res3["geometry_matrix"][0]) == 2
+
+
+def test_cognitive_mirror_relational_sensation():
+    """
+    Verify CognitiveMirror maps temperatures to fuzzy-smooth states and beautiful monologues.
+    """
+    field = CrystallizationField()
+    mirror = CognitiveMirror(field)
+
+    # Scenario A: Resonant Equilibrium (시원함) - Delta T is around 1.5
+    res_cool = mirror.observe_relational_sensation(T_ext=2.0, T_int=3.5, dev_stage="STAGE_2_FRICTION_VOID")
+    assert res_cool["dominant_state"] == "resonant_equilibrium"
+    assert "시원함" in res_cool["monologue"]
+    assert res_cool["W_cool"] > res_cool["W_pain"]
+
+    # Scenario B: Divergent Shock (차가운 통증) - Extreme delta T
+    res_pain = mirror.observe_relational_sensation(T_ext=0.1, T_int=5.0, dev_stage="STAGE_2_FRICTION_VOID")
+    assert res_pain["dominant_state"] == "divergent_shock"
+    assert "통증" in res_pain["monologue"]
+
+    # Scenario C: Crystallized Rest (열적 안식) - Balanced Delta T or STAGE_3
+    res_rest = mirror.observe_relational_sensation(T_ext=4.0, T_int=4.0, dev_stage="STAGE_3_INDIVIDUATION")
+    assert res_rest["dominant_state"] == "crystallized_rest"
+    assert "안식" in res_rest["monologue"]
