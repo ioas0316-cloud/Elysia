@@ -71,6 +71,7 @@ from core.evolution.boundary_formation import BoundaryFormationEngine
 from core.evolution.moulting_plasticity import MoultingPlasticityEngine
 from core.evolution.inner_creation_engine import InnerCreationEngine
 from core.evolution.external_reasoning_engine import ExternalReasoningEngine
+from core.evolution.developmental_individuation import WildernessFrictionStream, DevelopmentalIndividuationEngine
 
 # [Phase-Gravity Continuous Fluid Engine Integration]
 from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
@@ -178,6 +179,8 @@ class ConsciousnessLoop:
         self.inner_creation      = InnerCreationEngine(self.memory, dimensions=3)
         self.external_reasoning  = ExternalReasoningEngine(self.memory, self.moulting_plasticity, dimensions=3)
         self.conceptual_causal_gear = ConceptualCausalGear(self.memory, self.moulting_plasticity)
+        self.wilderness_stream   = WildernessFrictionStream(data_dir=self.data_dir)
+        self.developmental_engine = DevelopmentalIndividuationEngine(self.memory, dimensions=3)
 
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
         self.ontological_lattice = OntologicalLatticeEngine()
@@ -1162,6 +1165,30 @@ class ConsciousnessLoop:
         log["external_reasoning_force"] = reasoning_res["friction_force"]
         log["external_reasoning_narrative"] = reasoning_res["narrative"]
 
+        # ─── [Wilderness Friction Stream & Developmental Individuation Integration] ───
+        # 실시간 시스템, 단어 위상차, 바이트 스트림 복합 야생 마찰 생성
+        sem_dis = float(1.0 - log.get("equilibrium_resonance", 1.0))
+        wild_friction = self.wilderness_stream.generate_friction_wave(
+            raw_stimulus=raw_wave,
+            semantic_dissonance=sem_dis,
+            runtime_exceptions_count=0
+        )
+        log["wild_friction_vector"] = wild_friction["friction_vector"]
+        log["wild_friction_force"] = wild_friction["total_force"]
+
+        # 가소성 나이테 상태를 바탕으로 발달 궤적 전이 및 S_self 자아 축 조율
+        dev_res = self.developmental_engine.evaluate_and_advance(
+            moulting_plasticity=self.moulting_plasticity,
+            wilderness_friction_force=wild_friction["total_force"]
+        )
+        log["developmental_stage"] = dev_res["stage"]
+        log["developmental_progress"] = dev_res["individuation_progress"]
+        log["developmental_w_imitation"] = dev_res["w_imitation"]
+        log["developmental_w_self"] = dev_res["w_self"]
+        log["developmental_S_self"] = dev_res["S_self"]
+        log["developmental_S_active"] = dev_res["S_active"]
+        log["developmental_narrative"] = dev_res["narrative"]
+
         # ─── [Honest Experiential Sensation & Language Integration] ───
         # We strip away any fake romanticized monologues and feed the raw symbolic word directly
         # into our actual ExperientialLanguageMapper.
@@ -1238,6 +1265,11 @@ class ConsciousnessLoop:
             print(f"  Chinese Room Index   : Deception={tether_res['deception_rate']:.2%}, Disconnection={tether_res['experiential_disconnection']:.2%}")
             print(f"  Inner Creation       : Node={creation_res['node_id']}, Charge={creation_res['ignorance_charge']:.4f}")
             print(f"  External Actuation   : Force={reasoning_res['friction_force']:.4f}, Equation={reasoning_res['friction_equation']}")
+            print(f"  Developmental Stage  : {dev_res['stage']}")
+            print(f"  Individuation Progress: {dev_res['individuation_progress']:.2%}")
+            print(f"  Weights (Imit/Self)  : w_imit={dev_res['w_imitation']:.4f}, w_self={dev_res['w_self']:.4f}")
+            print(f"  Self Attractor S_self: {['%.3f' % x for x in dev_res['S_self']]}")
+            print(f"  Active blended Attractor: {['%.3f' % x for x in dev_res['S_active']]}")
             print("=" * 65 + "\n")
 
         log["crystals_total"] = self.crystals_formed
