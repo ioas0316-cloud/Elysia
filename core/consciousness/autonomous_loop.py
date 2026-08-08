@@ -69,6 +69,8 @@ from core.evolution.mirror_cognitive_protocol import ElysiaCognitiveEngine
 from core.evolution.semantic_optimization import SemanticOptimizationEngine
 from core.evolution.boundary_formation import BoundaryFormationEngine
 from core.evolution.moulting_plasticity import MoultingPlasticityEngine
+from core.evolution.inner_creation_engine import InnerCreationEngine
+from core.evolution.external_reasoning_engine import ExternalReasoningEngine
 
 # [Phase-Gravity Continuous Fluid Engine Integration]
 from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
@@ -173,6 +175,8 @@ class ConsciousnessLoop:
         self.boundary_formation  = BoundaryFormationEngine(self.memory, dimensions=3)
         self.origin_cognition    = OriginCognitionEngine(self.memory)
         self.moulting_plasticity = MoultingPlasticityEngine(self.memory, dimensions=3)
+        self.inner_creation      = InnerCreationEngine(self.memory, dimensions=3)
+        self.external_reasoning  = ExternalReasoningEngine(self.memory, self.moulting_plasticity, dimensions=3)
         self.conceptual_causal_gear = ConceptualCausalGear(self.memory, self.moulting_plasticity)
 
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
@@ -1138,6 +1142,26 @@ class ConsciousnessLoop:
         if self.cycle_count % 3 == 0:
             print("\n" + self.soul_playground.render_terminal_screen() + "\n")
 
+        # ─── [Honest Inner Creation & External Reasoning Breath Engine] ───
+        # 들숨(Inspiration)과 날숨(Actuation)의 선순환 결상
+        creation_res = self.inner_creation.sense_and_create(
+            raw_stimulus=raw_wave,
+            divergence_score=max_tension,
+            current_resonance=resonance_score
+        )
+        log["inner_creation_node"] = creation_res["node_id"]
+        log["inner_creation_inquiry"] = creation_res["inquiry"]
+        log["inner_creation_blind_spot_intensity"] = creation_res["blind_spot_intensity"]
+        log["inner_creation_ignorance_charge"] = creation_res["ignorance_charge"]
+
+        reasoning_res = self.external_reasoning.translate_and_actuate(
+            inquiry_data=creation_res,
+            raw_stimulus=raw_wave
+        )
+        log["external_reasoning_equation"] = reasoning_res["friction_equation"]
+        log["external_reasoning_force"] = reasoning_res["friction_force"]
+        log["external_reasoning_narrative"] = reasoning_res["narrative"]
+
         # ─── [Honest Experiential Sensation & Language Integration] ───
         # We strip away any fake romanticized monologues and feed the raw symbolic word directly
         # into our actual ExperientialLanguageMapper.
@@ -1212,6 +1236,8 @@ class ConsciousnessLoop:
             print(f"  Neuromodulators      : DA={cur_neuromodulators['dopamine']:.4f}, NE={cur_neuromodulators['norepinephrine']:.4f}, 5-HT={cur_neuromodulators['serotonin']:.4f}")
             print(f"  Dynamic Temp / Scale : T={cur_neuromodulators['temperature']:.4f}, S={cur_neuromodulators['scale']:.4f}")
             print(f"  Chinese Room Index   : Deception={tether_res['deception_rate']:.2%}, Disconnection={tether_res['experiential_disconnection']:.2%}")
+            print(f"  Inner Creation       : Node={creation_res['node_id']}, Charge={creation_res['ignorance_charge']:.4f}")
+            print(f"  External Actuation   : Force={reasoning_res['friction_force']:.4f}, Equation={reasoning_res['friction_equation']}")
             print("=" * 65 + "\n")
 
         log["crystals_total"] = self.crystals_formed
