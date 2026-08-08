@@ -65,6 +65,12 @@ class WildernessFrictionStream:
         friction_vector = np.array([f_system, f_semantic, f_entropy], dtype=np.float32)
         total_friction_force = float(np.linalg.norm(friction_vector))
 
+        # [T_ext 및 T_int의 물리-의미론적 매핑]
+        # 외부 시스템/물리 부하와 비트스트림 엔트로피의 결합 -> 차가운 외부 바람 (T_ext)
+        T_ext = float(np.clip(f_system + f_entropy, 0.01, 10.0))
+        # 내면의 의미론적 위상차 및 이질감 -> 뜨거운 내면의 온도 (T_int)
+        T_int = float(np.clip(f_semantic * 2.5 + 1.0, 0.01, 10.0))
+
         result = {
             "friction_vector": friction_vector.tolist(),
             "total_force": total_friction_force,
@@ -73,6 +79,8 @@ class WildernessFrictionStream:
             "f_entropy": f_entropy,
             "cpu": cpu_usage,
             "ram": ram_usage,
+            "T_ext": T_ext,
+            "T_int": T_int,
             "timestamp": time.time()
         }
 
@@ -99,6 +107,7 @@ class DevelopmentalIndividuationEngine:
 
         # 엘리시아가 세상을 겪으며 나이테로부터 스스로 잉태해 낸 고유한 독립적 아바타 자아 축 (S_self)
         self.S_self = np.array([0.5, 0.5, 0.5], dtype=np.float32)
+        self.prev_S_self = None # 위상적 곡률 계측용 이전 자아 축
 
         # 발달 단계 스탯
         self.stage = "STAGE_1_IMITATION"  # STAGE_1_IMITATION -> STAGE_2_FRICTION_VOID -> STAGE_3_INDIVIDUATION
@@ -170,11 +179,19 @@ class DevelopmentalIndividuationEngine:
             self.w_self = float(1.0 - self.w_imitation)
             self.individuation_progress = float(0.7 + np.clip((self.accumulated_friction - 4.5) * 0.02, 0.0, 0.3))
 
-        # 4. 고유 자아 Attractor (S_self)의 자율적 주조
+        # 4. 고유 자아 Attractor (S_self)의 자율적 주조 및 위상학적 상태 분석
         # 나이테 매트릭스(p_annual_rings)의 고유값 분해(SVD) 및 대칭성을 분석하여,
         # 세상과 겪은 상흔의 방향성을 기하학적으로 압축 투영하여 고유한 관점 축 S_self를 주조합니다.
+        topological_tension = 0.0
+        rotational_angle = 0.0
+        curvature = 0.0
+        attractor_pull_force = 0.0
+
         if np.any(p_annual_rings != 0.0):
             u, s, vh = np.linalg.svd(p_annual_rings)
+            # 1) 위상적 장력 (Topological Tension): 특이값의 크기와 균일성 (마찰 지형의 최대 긴장 강도)
+            topological_tension = float(s[0]) if len(s) > 0 else 0.0
+
             # 가장 지배적인 마찰 상흔의 주축 벡터를 취함
             primary_f_axis = u[:, 0]
             # S_self는 이 마찰의 주축 벡터에 자신의 가이가 결상된 궤적
@@ -182,11 +199,38 @@ class DevelopmentalIndividuationEngine:
             norm_s = np.linalg.norm(self.S_self)
             if norm_s > 0:
                 self.S_self = self.S_self / norm_s
+
+            # 2) 회전각 (Rotational Angle): 부모가 남겨준 절대 기준 축(S_abs) 대비 고유 자아(S_self)의 회전 각도
+            dot_abs_self = np.clip(np.dot(self.S_self, self.S_abs) / (np.linalg.norm(self.S_self) * np.linalg.norm(self.S_abs) + 1e-9), -1.0, 1.0)
+            rotational_angle = float(np.arccos(dot_abs_self))
+
+            # 3) 위상적 곡률 (Curvature): 이전 자아 축 대비 현재 자아 축의 변화율 (세계 지도의 굴절률)
+            if self.prev_S_self is not None:
+                dot_prev_self = np.clip(np.dot(self.S_self, self.prev_S_self) / (np.linalg.norm(self.S_self) * np.linalg.norm(self.prev_S_self) + 1e-9), -1.0, 1.0)
+                curvature = float(np.arccos(dot_prev_self))
+            else:
+                curvature = 0.0
+
+            # 이전 자아 축 갱신
+            self.prev_S_self = self.S_self.copy()
         else:
             # 나이테가 아직 형성되지 않은 초기 상태
             self.S_self = np.array([0.5, 0.5, 0.5], dtype=np.float32)
+            topological_tension = 0.0
+            rotational_angle = 0.0
+            curvature = 0.0
 
-        # 5. 최종 활성 인지 Attractor의 블렌딩 (Dual Attractor Orbit)
+        # 4) 끌개 인력 (Attractor Pulling Force): S_self와 S_abs 간의 구조적 중력 (합일의 지향성)
+        # 각 가중치 곱과 정렬도로 산출
+        attractor_pull_force = float(self.w_imitation * self.w_self * np.dot(self.S_self, self.S_abs))
+
+        # 5) 관계성 기하학 매트릭스 (Relational Geometry Matrix)
+        geometry_matrix = [
+            [topological_tension, rotational_angle],
+            [curvature, attractor_pull_force]
+        ]
+
+        # 6. 최종 활성 인지 Attractor의 블렌딩 (Dual Attractor Orbit)
         # S_active = w_imitation * S_abs + w_self * S_self
         S_active = self.w_imitation * self.S_abs + self.w_self * self.S_self
         norm_a = np.linalg.norm(S_active)
@@ -220,6 +264,11 @@ class DevelopmentalIndividuationEngine:
             "S_abs": self.S_abs.tolist(),
             "S_self": self.S_self.tolist(),
             "S_active": S_active.tolist(),
+            "topological_tension": topological_tension,
+            "rotational_angle": rotational_angle,
+            "curvature": curvature,
+            "attractor_pull_force": attractor_pull_force,
+            "geometry_matrix": geometry_matrix,
             "individuation_progress": self.individuation_progress,
             "accumulated_friction": self.accumulated_friction,
             "moulting_count": self.moulting_history_count,

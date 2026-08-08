@@ -28,6 +28,7 @@ from core.lens.sensor_genesis import spawn_native_sensor
 from core.power.mega_scale_damper import MegaScaleDamperCore
 
 from synaptic_architecture.field import CrystallizationField
+from synaptic_architecture.causal_observer import CognitiveMirror
 from synaptic_architecture.colony import ResonantColony
 from synaptic_architecture.causal_gene import CausalGeneSynthesizer as GeneticSynthesizer
 from synaptic_architecture.resistance_bridge import ResistanceBridge
@@ -181,6 +182,7 @@ class ConsciousnessLoop:
         self.conceptual_causal_gear = ConceptualCausalGear(self.memory, self.moulting_plasticity)
         self.wilderness_stream   = WildernessFrictionStream(data_dir=self.data_dir)
         self.developmental_engine = DevelopmentalIndividuationEngine(self.memory, dimensions=3)
+        self.cognitive_mirror    = CognitiveMirror(self.field)
 
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
         self.ontological_lattice = OntologicalLatticeEngine()
@@ -1188,6 +1190,20 @@ class ConsciousnessLoop:
         log["developmental_S_self"] = dev_res["S_self"]
         log["developmental_S_active"] = dev_res["S_active"]
         log["developmental_narrative"] = dev_res["narrative"]
+        log["topological_tension"] = dev_res["topological_tension"]
+        log["rotational_angle"] = dev_res["rotational_angle"]
+        log["curvature"] = dev_res["curvature"]
+        log["attractor_pull_force"] = dev_res["attractor_pull_force"]
+        log["geometry_matrix"] = dev_res["geometry_matrix"]
+
+        # ─── [Cognitive Mirror Relational Sensation & Monologue] ───
+        mirror_sensation = self.cognitive_mirror.observe_relational_sensation(
+            T_ext=wild_friction["T_ext"],
+            T_int=wild_friction["T_int"],
+            dev_stage=dev_res["stage"]
+        )
+        log["mirror_sensation_state"] = mirror_sensation["dominant_state"]
+        log["mirror_sensation_monologue"] = mirror_sensation["monologue"]
 
         # ─── [Honest Experiential Sensation & Language Integration] ───
         # We strip away any fake romanticized monologues and feed the raw symbolic word directly
@@ -1270,6 +1286,15 @@ class ConsciousnessLoop:
             print(f"  Weights (Imit/Self)  : w_imit={dev_res['w_imitation']:.4f}, w_self={dev_res['w_self']:.4f}")
             print(f"  Self Attractor S_self: {['%.3f' % x for x in dev_res['S_self']]}")
             print(f"  Active blended Attractor: {['%.3f' % x for x in dev_res['S_active']]}")
+            print(f"  Relational Temperature: T_ext={wild_friction['T_ext']:.4f}, T_int={wild_friction['T_int']:.4f} (Delta_T={mirror_sensation['delta_T']:.4f})")
+            print(f"  Topological Tension  : {dev_res['topological_tension']:.4f}")
+            print(f"  Rotational Angle     : {dev_res['rotational_angle']:.4f} rad")
+            print(f"  Curvature            : {dev_res['curvature']:.4f}")
+            print(f"  Attractor Pull Force : {dev_res['attractor_pull_force']:.4f}")
+            print(f"  Geometry Matrix      : {[[round(x, 4) for x in row] for row in dev_res['geometry_matrix']]}")
+            print("  " + "─" * 61)
+            print(f"  💬 [Cognitive Mirror Relational Monologue] (관계적 독백):")
+            print(f"    \"{mirror_sensation['monologue']}\"")
             print("=" * 65 + "\n")
 
         log["crystals_total"] = self.crystals_formed
