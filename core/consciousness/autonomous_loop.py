@@ -318,7 +318,16 @@ class ConsciousnessLoop:
 
         # ── 0. 우주적 스케일 완충 (Damper Integration) ────────
         # 유입되는 원형 파동을 댐퍼로 먼저 걸러 충격을 상쇄함
-        raw_wave = self.ingest_world_data()
+        try:
+            raw_wave = self.ingest_world_data()
+            if not isinstance(raw_wave, bytes):
+                if isinstance(raw_wave, np.ndarray):
+                    raw_wave = raw_wave.tobytes()
+                else:
+                    raw_wave = b"\x00" * 64
+        except Exception as e:
+            # Low-Level I/O Error Damping Safety Valve Triggered: Default to inert wave
+            raw_wave = b"\x00" * 64
 
         # 논리 경로 추적 시작
         logic_start = time.time()
