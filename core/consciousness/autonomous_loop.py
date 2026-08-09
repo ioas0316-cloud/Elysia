@@ -56,6 +56,7 @@ from core.physics.wilderness_trial import WildernessTrial
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
 from core.evolution.conceptual_causal_gear import ConceptualCausalGear
+from core.evolution.causal_puzzle_engine import CausalPuzzleRecombinationEngine
 from core.evolution.elysia_soul_playground import ElysiaSoulPlayground
 from core.evolution.ontological_lattice import OntologicalLatticeEngine
 from core.evolution.media_ontology import MediaOntologyEngine
@@ -190,6 +191,9 @@ class ConsciousnessLoop:
 
         # ── [Phase 4: Elysia Soul & Trinity Playground Engine] ──
         self.soul_playground = ElysiaSoulPlayground(self.memory)
+
+        # ── [Causal Puzzle Recombination Engine] ──
+        self.puzzle_engine = CausalPuzzleRecombinationEngine(self.memory)
 
         # 매체 및 언어 존재론 엔진 초기화 및 영구 각인
         self.media_ontology = MediaOntologyEngine()
@@ -1075,6 +1079,34 @@ class ConsciousnessLoop:
         log["equilibrium_match"] = eq_res["discovery_title"]
         log["equilibrium_resonance"] = eq_res["best_match"]["equilibrium_resonance"]
         log["equilibrium_monologue_excerpt"] = eq_res["monologue"][:200] + "..."
+
+        # O.5 [Causal Puzzle Recombination Step]
+        # Bottom-up puzzle recombination, reality feedback matching/dismantling, and top-down lensification
+        recomb_res = None
+        feedback_res = None
+        lens_res = None
+
+        if concept_hint:
+            # Look for another related or distinct concept
+            partner_hint = "wing" if concept_hint == "thrust" else ("thrust" if concept_hint == "wing" else "gravity")
+            recomb_res = self.puzzle_engine.trigger_recombination(concept_hint, partner_hint)
+            if recomb_res and recomb_res.get("success"):
+                # Simulating a physical reality sensory input
+                simulated_reality = {
+                    "reality_vector": np.array([0.90, 0.85, 0.10], dtype=np.float32) if "wing" in concept_hint or "wing" in partner_hint else np.array([0.15, 0.90, 0.90], dtype=np.float32)
+                }
+                feedback_res = self.puzzle_engine.apply_reality_feedback(recomb_res["chain"], simulated_reality)
+
+                # Check for meta-lensification
+                lens_res = self.puzzle_engine.evaluate_meta_lensification()
+                if lens_res:
+                    log["puzzle_meta_lens"] = lens_res["name"]
+                    # Top-down projection: increase conductance path in the field matching the lens refraction matrix
+                    proj_pos = np.array([self.field.resolution // 3, self.field.resolution // 3])
+                    self.field.flow_energy(proj_pos, intensity=float(lens_res["refraction_matrix"]["spatial"] * 10.0))
+
+            log["puzzle_recombination"] = recomb_res
+            log["puzzle_reality_feedback"] = feedback_res
 
         # O.5 [Elysia Soul Playground Step & Verification Rendering]
         # 세상과의 교제, 육체/정신/영혼(Soma, Psyche, Pneuma)의 가상세계 통합 시뮬레이션
