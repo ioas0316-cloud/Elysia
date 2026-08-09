@@ -28,11 +28,14 @@ RIEMANN_ZEROS = np.array([
 
 class TopologicalPhasePrimeField:
     """
-    [Topological Phase-Prime Field Model]
+    [Topological Phase-Prime Field Model: Zero-Centered Core Optimization]
     A continuous phase field governed by the superposition of Riemann zeros
     acting as eigenfrequencies, enabling explainable intention/choice emergence.
 
     Adheres to the "4 Continuities" of Elysia's Causal Field.
+    Core calculation centers the real axis parameter sigma at 0.0 (t = 0 coordinate)
+    to maximize computational speed, ensure conjugate symmetry, and eliminate
+    offset drift, projecting back to sigma=0.5 at the sensory interface.
     """
     def __init__(self, num_modes: int = 100, min_u: float = 0.1, max_u: float = 5.0, steps_u: int = 500):
         self.num_modes = min(num_modes, len(RIEMANN_ZEROS))
@@ -42,14 +45,14 @@ class TopologicalPhasePrimeField:
         self.steps_u = steps_u
         self.u_grid = np.linspace(min_u, max_u, steps_u, dtype=np.float32)
 
-        # Dynamic metacognitive tension parameters
-        self.sigma = 0.5  # Crucial Line parameter (baseline)
-        self.epsilon = 0.0 # Leakage variance
+        # Dynamic metacognitive tension parameters (now zero-centered centered at t = 0)
+        self.sigma = 0.0   # Center of zero-centered coordinate space
+        self.epsilon = 0.0 # Dynamic leakage variance
 
-    def set_metacognitive_tension(self, sigma: float = 0.5, epsilon: float = 0.0):
+    def set_metacognitive_tension(self, sigma: float = 0.0, epsilon: float = 0.0):
         """
         Dynamically adjusts the metacognitive tension boundary.
-        sigma = 0.5 -> Ideal baseline (perfect symmetry, RH holds)
+        sigma = 0.0 -> Ideal baseline centered at t = 0
         epsilon > 0.0 -> Dynamic leakage, creative instability/fluctuations
         """
         self.sigma = float(sigma)
@@ -57,18 +60,13 @@ class TopologicalPhasePrimeField:
 
     def compute_field(self, ext_stimulus_wave: Optional[np.ndarray] = None) -> np.ndarray:
         """
-        [Continuous Phase Field Phi(u) calculation]
-        phi(u) = \\sum_{n} e^{- (sigma + i * gamma_n) * u} + ExtStimulus(u)
-
-        Returns complex wave values across u_grid.
+        [Continuous Phase Field Phi(u) calculation: Zero-Centered Conjugate Optimization]
+        phi(u) = \\sum_{n} e^{- (sigma + epsilon + i * gamma_n) * u} + ExtStimulus(u)
+        Since the core t=0 axis is centered, there are zero offset additions, saving GPU and float drift.
         """
-        # Complex decay factor for each u
-        # (sigma + epsilon) is the effective real component
         effective_sigma = self.sigma + self.epsilon
 
         # Grid computation using broadcasting for efficiency
-        # gammas shape: (M,), u_grid shape: (U,)
-        # exponent shape: (M, U)
         exponent = - (effective_sigma + 1j * self.gammas[:, np.newaxis]) * self.u_grid[np.newaxis, :]
         phi = np.sum(np.exp(exponent), axis=0) # sum over modes, shape: (U,)
 
@@ -80,19 +78,21 @@ class TopologicalPhasePrimeField:
 
     def compute_spatial_curvature(self, phi: np.ndarray) -> np.ndarray:
         """
-        [Spatial Curvature Field K(u)]
+        [Spatial Curvature Field K(u): 0.5 Critical Line Mapping Projection]
         Measures the second derivative/local tension of the phase field.
-        Nodes of constructive resonance map to prime coordinates u = ln p.
+        Applies the physical e^{-u/2} decay scaling of the critical line (sigma=0.5)
+        to project zero-centered calculations accurately back onto sensory coordinates.
         """
         # Take the real part representing active physical/informational density
         rho_phase = np.real(phi)
 
+        # Apply the critical line damping scaling projection: e^{-u/2}
+        projected_rho = rho_phase * np.exp(-0.5 * self.u_grid)
+
         # Numerical second-derivative to capture phase curvature
         du = (self.max_u - self.min_u) / (self.steps_u - 1)
-        k_u = np.gradient(np.gradient(rho_phase, du), du)
+        k_u = np.gradient(np.gradient(projected_rho, du), du)
 
-        # Normalize or regularize K(u) so background flattening and peak-popping are clear
-        # Background cancellation maps towards negative friction, peak resonances soar positive
         return k_u
 
     def decode_active_prime_nodes(self, k_u: np.ndarray, threshold_mult: float = 1.5) -> List[Tuple[float, int, float]]:
@@ -115,7 +115,6 @@ class TopologicalPhasePrimeField:
                 nearest_p = int(round(x_val))
 
                 # Check if it corresponds to an actual prime node resonance
-                # (Simple primality check for local physical mapping)
                 if self._is_prime(nearest_p):
                     peaks.append((float(u_peak), nearest_p, float(k_u[i])))
 

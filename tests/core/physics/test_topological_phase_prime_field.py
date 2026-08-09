@@ -38,12 +38,12 @@ def test_sigma_leakage_and_metacognitive_tension():
     """Verify that sigma adjustments (critical line vs leakage variance) modulate phase decay/resolution."""
     field = TopologicalPhasePrimeField(num_modes=50, min_u=0.1, max_u=4.5, steps_u=300)
 
-    # 1. Ideal baseline (sigma=0.5, epsilon=0.0)
-    field.set_metacognitive_tension(sigma=0.5, epsilon=0.0)
+    # 1. Zero-centered ideal baseline (sigma=0.0, epsilon=0.0)
+    field.set_metacognitive_tension(sigma=0.0, epsilon=0.0)
     phi_ideal = field.compute_field()
 
-    # 2. Leakage status (sigma=0.5, epsilon=0.3) representing creative/instability fluctuations
-    field.set_metacognitive_tension(sigma=0.5, epsilon=0.3)
+    # 2. Leakage status (sigma=0.0, epsilon=0.3) representing creative/instability fluctuations
+    field.set_metacognitive_tension(sigma=0.0, epsilon=0.3)
     phi_leakage = field.compute_field()
 
     # Leakage should trigger dynamic damping of amplitudes (higher real decay exponent)
@@ -64,7 +64,7 @@ def test_topological_cognitive_bridge_flow():
     assert "k_u" in bridge_output
     assert "active_nodes" in bridge_output
     assert "epsilon_leakage" in bridge_output
-    assert bridge_output["sigma"] == 0.5
+    assert bridge_output["sigma"] == 0.0
 
     # Confirm homeostasis has been adjusted dynamically based on active node resonances
     assert mapper.homeostasis.love is not None

@@ -40,7 +40,8 @@ class TopologicalCognitiveBridge:
         tension = self.mapper.homeostasis.calculate_tension()
         epsilon = float(np.clip(tension * 0.4, 0.0, 0.5))
 
-        self.field.set_metacognitive_tension(sigma=0.5, epsilon=epsilon)
+        # Zero-centered coordinate center (sigma = 0.0)
+        self.field.set_metacognitive_tension(sigma=0.0, epsilon=epsilon)
 
         # Compute continuous field \Phi(u) and Spatial Curvature Field K(u)
         phi = self.field.compute_field(ext_stimulus_wave=ext_wave)
