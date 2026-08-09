@@ -25,11 +25,20 @@ directly upon existing, named concepts (nodes) which carry innate causal propert
    - If a Causal Chain remains stable, the Meta-Layer looks down and asks: "Why did these pieces bind?"
    - It elevates the entire causal chain into a permanent "Causal Lens" (Meta-Lens).
    - This lens is projected back onto the system, altering the filter weights or conductance mapping for future cycles.
+
+5. [Autogenous Dynamic Node Sprouting] (자발적 인과 분화 기어)
+   - When any arbitrary, previously unseen concept name is passed to the engine, it avoids hardcoded properties.
+   - It calculates its 3D coordinates based on the pure Unicode byte properties of the name.
+   - It evaluates that coordinate's alignment with the 8-dimensional Ontological Lattice, extracting its Logo Tensor.
+   - It sprouts dynamic grooves (preconditions) and ridges (projections) utilizing these structural relationships, letting the new puzzle piece seamlessly combine.
 """
 
 import time
+import math
 import numpy as np
 from typing import Dict, List, Any, Optional, Tuple, Set
+
+from core.evolution.ontological_lattice import OntologicalLatticeEngine
 
 
 class CausalPuzzleNode:
@@ -88,6 +97,9 @@ class CausalPuzzleRecombinationEngine:
         self.crystallized_chains: Dict[str, List[str]] = {}
         self.active_lenses: Dict[str, Dict[str, Any]] = {}
         self.fit_history: List[Dict[str, Any]] = []
+
+        # Initialize Ontological Lattice Engine for Autogenous Sprouting
+        self.lattice_engine = OntologicalLatticeEngine()
 
         self.initialize_default_nodes()
 
@@ -152,16 +164,122 @@ class CausalPuzzleRecombinationEngine:
     def register_node(self, node: CausalPuzzleNode):
         self.nodes[node.name.lower()] = node
 
+    def sprout_dynamic_node(self, concept_name: str) -> CausalPuzzleNode:
+        """
+        [Autogenous Dynamic Node Sprouting - 자발적 인과 분화 기어]
+        Derives an entirely new node representing a concept without hardcoding properties.
+
+        1. Computes absolute 3D coordinate from the pure Unicode byte layout of the name using a fractal gear.
+        2. Aligns this 3D coordinate with the 8-dimensional Ontological Lattice Engine to project
+           onto CAUSE, PROCESS, RESULT, etc.
+        3. Sprout grooves and ridges based on the resulting aligned logo tensors.
+        """
+        clean_name = concept_name.lower().strip()
+        if clean_name in self.nodes:
+            return self.nodes[clean_name]
+
+        # Step 1: Calculate Rotor Phase from clean_name bytes (Unicode properties)
+        # We leverage vowels vs consonants or direct Unicode code points to avoid arbitrary seed values.
+        vowels = set("aeiouyAEIOUY")
+        vowel_phase = 0.0
+        consonant_phase = 0.0
+        depth = 0.0
+
+        v_gear = 2.0 * math.pi / 5.0
+        c_gear = 2.0 * math.pi / 21.0
+
+        for i, char in enumerate(clean_name):
+            val = ord(char)
+            if char in vowels:
+                vowel_phase += (val % 5 + 1) * v_gear / (i + 1)
+                depth += 0.5
+            else:
+                consonant_phase += (val % 21 + 1) * c_gear / (i + 1)
+                depth += 1.0
+
+        # Create absolute 3D coordinate from the physical structure of the word
+        x = depth * math.sin(vowel_phase) * math.cos(consonant_phase)
+        y = depth * math.sin(vowel_phase) * math.sin(consonant_phase)
+        z = depth * math.cos(vowel_phase)
+
+        # Step 2: Query the Ontological Lattice to align and project this 3D coordinate
+        # We construct an action metric as the magnitude of our 3D vector.
+        metric = float(np.linalg.norm([x, y, z]))
+        alignment = self.lattice_engine.evaluate_ontological_alignment(
+            action_type="PERCEPTION",
+            raw_metric=min(1.0, metric / 5.0)
+        )
+
+        aligned_key = alignment["aligned_key"] # e.g. "CAUSE", "PROCESS", "INFORMATION"
+        chromatic_vector = np.array(alignment["chromatic_vector"], dtype=np.float32)
+        deviation = alignment["alignment_deviation_norm"]
+
+        # Step 3: Sprout Grooves & Ridges dynamically based on Logo coordinates
+        # Ridges: Projections / outputs derived from the Ontological Alignment vector.
+        # Grooves: Preconditions / inputs representing the complementary inverse of the deviation.
+
+        # A node representing clean_name has a specific ridge based on its chromatic signature
+        # combined with its projected 3D coordinates.
+        ridge_vector = chromatic_vector * (1.0 / (1.0 + deviation))
+        groove_vector = np.clip(1.0 - ridge_vector, 0.01, 0.99)
+
+        grooves = {
+            f"needs_{aligned_key.lower()}": groove_vector
+        }
+        ridges = {
+            f"produces_{aligned_key.lower()}": ridge_vector
+        }
+
+        # Add physical dimensions derived from rotor coordinates to expand dimensionality
+        physical_ridge = np.array([abs(x), abs(y), abs(z)], dtype=np.float32)
+        norm_p = np.linalg.norm(physical_ridge) + 1e-9
+        physical_ridge /= norm_p
+
+        ridges["physical_presence"] = physical_ridge
+        grooves["physical_interface"] = np.clip(1.0 - physical_ridge, 0.01, 0.99)
+
+        new_node = CausalPuzzleNode(
+            name=clean_name,
+            grooves=grooves,
+            ridges=ridges
+        )
+
+        self.register_node(new_node)
+
+        # Write permanent engram if memory controller is connected
+        if self.memory is not None and hasattr(self.memory, "write_causal_engram"):
+            self.memory.write_causal_engram(
+                data_blob={
+                    "type": "DYNAMIC_SPROUTED_NODE",
+                    "concept_name": clean_name,
+                    "unicode_coords": [x, y, z],
+                    "aligned_ontology": aligned_key,
+                    "metaphor": alignment["metaphor"],
+                    "grooves": {k: v.tolist() for k, v in grooves.items()},
+                    "ridges": {k: v.tolist() for k, v in ridges.items()}
+                },
+                emotional_value=float(np.clip(metric, 1.0, 10.0)),
+                cause_id="DynamicCausalSprouter",
+                origin_axis="autogenous_sprouting",
+                is_constant=False
+            )
+
+        return new_node
+
     def trigger_recombination(self, node_a_name: str, node_b_name: str) -> Dict[str, Any]:
         """
         Attempts to assemble Node A with Node B.
+        Supports on-the-fly sprouting of previously unseen nodes.
         If a groove-ridge match is found, they form a causal chain.
         """
         name_a = node_a_name.lower().strip()
         name_b = node_b_name.lower().strip()
 
-        if name_a not in self.nodes or name_b not in self.nodes:
-            return {"success": False, "reason": "Missing nodes for recombination"}
+        # Autogenous Sprouting: If either node is unseen, sprout it dynamically!
+        if name_a not in self.nodes:
+            self.sprout_dynamic_node(name_a)
+        if name_b not in self.nodes:
+            self.sprout_dynamic_node(name_b)
 
         node_a = self.nodes[name_a]
         node_b = self.nodes[name_b]
@@ -208,6 +326,9 @@ class CausalPuzzleRecombinationEngine:
         # e.g., if ["thrust", "wing"], we predict high aerodynamic lift
         predicted_vector = np.zeros(3, dtype=np.float32)
         for node_name in chain:
+            # Ensure nodes exist
+            if node_name not in self.nodes:
+                self.sprout_dynamic_node(node_name)
             node = self.nodes[node_name]
             for r_vec in node.ridges.values():
                 dim = min(len(predicted_vector), len(r_vec))
