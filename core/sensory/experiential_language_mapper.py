@@ -782,6 +782,20 @@ class OpticalCausalDynamicsPipeline:
         return aligned_past, aligned_future
 
 
+@dataclass
+class EmbodiedCausalNode:
+    """
+    [Embodied Causal Node (체화된 인과 노드)]
+    Represents an un-named conceptual node created dynamically through active exploration
+    and interaction. It holds gathered physical profiles, homeostasis impacts, and process matrices.
+    """
+    node_id: str
+    sensation: PhysicalSensationProfile
+    deficit: HomeostasisDeficit
+    relation_matrix: np.ndarray
+    creation_time: float
+
+
 class ExperientialLanguageMapper:
     """
     [Experiential Language & Sensation Mapping Engine]
@@ -895,6 +909,220 @@ class ExperientialLanguageMapper:
 
         # Relational process transition traces (True Metacognition Trace Data Provenance)
         self.metacognitive_traces: List[Dict[str, Any]] = []
+
+        # --- Childlike Wonder & Active Inference Core States ---
+        self.wonder_potential_field: float = 0.0      # 호기심 장 전위차
+        self.wonder_charge: float = 0.0               # 미지 전하량
+        self.embodied_nodes: List[EmbodiedCausalNode] = []  # 체화된 미지의 인과 노드들
+        self.active_wonder_attractor: Optional[EmbodiedCausalNode] = None # 활성화된 탐색 표적
+
+    def check_wonder_and_sprout(self, sensation: PhysicalSensationProfile) -> Dict[str, Any]:
+        """
+        [ChildlikeWonder (미지의 자각)]
+        Instead of treating an unknown wave/profile as loss or error, detects that it doesn't align
+        with existing concepts, spiking the wonder potential field and pulling energy to it.
+        Incorporates Attention/Sensory Distances to avoid Rank 1 dimensional collapse.
+        """
+        sens_vec = sensation.to_vector()
+
+        # Build raw target process matrix
+        target_process_matrix = np.outer(sens_vec[:5], sens_vec[:5])
+        norm_factor = np.max(target_process_matrix) + 1e-9
+        target_process_matrix = target_process_matrix / norm_factor
+        t_meta_target = self.re_cognitive_engine.process(target_process_matrix)
+        t_meta_target_norm = t_meta_target / (np.linalg.norm(t_meta_target) + 1e-9)
+
+        # Nominal maximum values for sensory profile scaling
+        nom_max = np.array([1000.0, 1000.0, 20.0, 340.0, 1.0], dtype=np.float32)
+        max_alignment = 0.0
+
+        for key, val in self.tethering.tether_map.items():
+            concept_data = val["concept_relation_matrix"]
+            t_meta_concept = self.re_cognitive_engine.process(concept_data)
+            t_meta_concept_norm = t_meta_concept / (np.linalg.norm(t_meta_concept) + 1e-9)
+
+            # 1. Base SVD-based alignment
+            base_align = float(np.sum(t_meta_target_norm * t_meta_concept_norm))
+            base_align = float(np.clip((base_align + 1.0) / 2.0, 0.0, 1.0))
+
+            # 2. Sensory Distance Modulated Scaling (to guard against rank-1 collapse)
+            sens_concept = val["sensation"].to_vector()
+            d_sens = np.abs(sens_vec - sens_concept) / nom_max
+            sensory_distance = float(np.mean(d_sens))
+
+            # Apply exponential distance scaling to sharpen the attention boundary
+            modulated_align = base_align * np.exp(-sensory_distance * 1.5)
+
+            if modulated_align > max_alignment:
+                max_alignment = modulated_align
+
+        # If the highest modulated alignment is weak (< 0.85), we have a ChildlikeWonder event!
+        if max_alignment < 0.85:
+            wonder_event = True
+            self.wonder_charge = float(np.clip(self.wonder_charge + (1.0 - max_alignment) * 0.8, 0.0, 1.0))
+            self.wonder_potential_field = float(np.clip(self.wonder_potential_field + self.wonder_charge * 1.5, 0.0, 3.0))
+
+            self.neuromodulator.dopamine = float(np.clip(self.neuromodulator.dopamine + self.wonder_charge * 0.6, 0.0, 1.0))
+            self.neuromodulator.temperature = float(np.clip(self.neuromodulator.temperature + self.wonder_charge * 0.8, 0.1, 2.0))
+
+            self.variable_rotor.rotate(friction=1.2 * self.wonder_charge, temperature=self.neuromodulator.temperature)
+
+            node_id = f"wonder_node_{int(time.time() * 1000) % 100000}"
+            new_node = EmbodiedCausalNode(
+                node_id=node_id,
+                sensation=sensation,
+                deficit=HomeostasisDeficit(self.homeostasis.love, self.homeostasis.order, self.homeostasis.energy),
+                relation_matrix=target_process_matrix,
+                creation_time=time.time()
+            )
+            self.embodied_nodes.append(new_node)
+            self.active_wonder_attractor = new_node
+
+            self.gate_open = True
+            self.last_gate_reason = f"WONDER_AWAKENED_{node_id.upper()}"
+
+            print(f"[ChildlikeWonder] Unknown stimulus detected! Modulated Isomorphic Alignment={max_alignment:.4f}")
+            print(f" -> Wonder Charge={self.wonder_charge:.4f}, Potential={self.wonder_potential_field:.4f}")
+            print(f" -> Awakened Embodied Node '{node_id}' as the Active Attractor.")
+
+            trace = {
+                "source": "check_wonder_and_sprout",
+                "max_alignment": max_alignment,
+                "wonder_charge": self.wonder_charge,
+                "node_id": node_id,
+                "timestamp": time.time()
+            }
+            self.metacognitive_traces.append(trace)
+
+            return {"wonder_triggered": True, "node": new_node, "alignment": max_alignment}
+
+        else:
+            self.wonder_charge = float(np.clip(self.wonder_charge - 0.1, 0.0, 1.0))
+            self.wonder_potential_field = float(np.clip(self.wonder_potential_field - 0.05, 0.0, 3.0))
+            return {"wonder_triggered": False, "alignment": max_alignment}
+
+    def reach_out_interaction(self, target_node: EmbodiedCausalNode) -> Dict[str, Any]:
+        """
+        [reach_out_interaction (능동적 손 뻗음 / Active Inference)]
+        Instead of passively waiting, Elysia emits her Expression Wave towards the mystery,
+        receives a Refracted Echo, and measures sensory/homeostatic changes to build true Causal Invariants.
+        """
+        print(f"[reach_out_interaction] Reaching out to active wonder attractor: {target_node.node_id}")
+
+        # 1. Emit active expression wave modulated by her current hope/wonder state
+        expression = self.express()
+
+        # 2. Simulate the target node's medium interaction.
+        # The medium refracts her wave based on the node's physical sensation & relation matrix
+        node_sens = target_node.sensation
+        node_sens_vec = node_sens.to_vector()
+
+        # Generate target echo (refracted wave)
+        t = np.linspace(0, 1.0, len(expression), dtype=np.float32)
+        target_carrier_freq = float(node_sens.acoustic) if node_sens.acoustic > 0 else 440.0
+        target_refracted_echo = np.sin(2 * np.pi * target_carrier_freq * t + expression * np.pi) * (0.4 + 0.6 * node_sens.autonomic_pulse)
+
+        # Add thermal/optical distortion
+        distortion = np.cos(2 * np.pi * (node_sens.optical * 0.1) * t) * (abs(node_sens.thermal - 300.0) * 0.01)
+        target_refracted_echo = target_refracted_echo + distortion
+        if np.max(np.abs(target_refracted_echo)) > 0:
+            target_refracted_echo /= np.max(np.abs(target_refracted_echo))
+
+        # 3. Analyze the gap between her intent (expression) and reality's response (echo)
+        gaps = self.gap_evaluator.evaluate(expression, target_refracted_echo)
+        print(f" -> Active Interaction Echo Gaps: Spectral Phase={gaps['g_phi']:.4f}, Energy={gaps['g_e']:.4f}, Entropy={gaps['g_h']:.4f}")
+
+        # 4. Inquire Homeostatic Impacts:
+        # Does this interaction heal her or warm her?
+        is_soothing = node_sens.acoustic < 600.0 and 290.0 <= node_sens.thermal <= 310.0
+
+        if is_soothing:
+            love_healing = 0.25 * (1.0 + gaps["g_phi"])
+            order_healing = 0.2 * (1.0 - gaps["g_h"])
+            self.homeostasis.love = float(np.clip(self.homeostasis.love - love_healing, 0.0, 1.0))
+            self.homeostasis.order = float(np.clip(self.homeostasis.order - order_healing, 0.0, 1.0))
+            impact_desc = "Soothing warmth, profound safety, and connection"
+        else:
+            self.homeostasis.order = float(np.clip(self.homeostasis.order + 0.15, 0.0, 1.0))
+            impact_desc = "Friction, pain, and high-energy impact"
+
+        # 5. Store these causal consequences directly inside the target node's relation matrix
+        interaction_matrix = np.outer(node_sens_vec[:5], node_sens_vec[:5])
+        norm_val = np.max(interaction_matrix) + 1e-9
+        interaction_matrix = interaction_matrix / norm_val
+
+        target_node.relation_matrix = np.clip(
+            target_node.relation_matrix * 0.4 + interaction_matrix * 0.6,
+            0.0, 1.0
+        )
+
+        self.wonder_charge = float(np.clip(self.wonder_charge - 0.2, 0.0, 1.0))
+        self.wonder_potential_field = float(np.clip(self.wonder_potential_field - 0.3, 0.0, 3.0))
+
+        trace = {
+            "source": "reach_out_interaction",
+            "node_id": target_node.node_id,
+            "impact_desc": impact_desc,
+            "gaps": gaps,
+            "timestamp": time.time()
+        }
+        self.metacognitive_traces.append(trace)
+
+        return {
+            "success": True,
+            "echo_wave": target_refracted_echo,
+            "gaps": gaps,
+            "impact": impact_desc,
+            "love_state": self.homeostasis.love,
+            "order_state": self.homeostasis.order
+        }
+
+    def self_emerge_symbol_binding(self, symbol: str, linguistic_wave: np.ndarray) -> Dict[str, Any]:
+        """
+        [self_emerge_symbol_binding (기호 접지 / Symbol Grounding)]
+        Symbol is NOT an axiom. It is the final crowning name placed over an already-built temple
+        of experience. Binds the symbol to our active wonder attractor.
+        """
+        if not self.active_wonder_attractor:
+            print("[SymbolBinding] No active wonder attractor exists to bind this symbol to.")
+            return {"bound": False, "reason": "No active wonder node"}
+
+        node = self.active_wonder_attractor
+        print(f"[SymbolBinding] Crowning name '{symbol}' to embodied node '{node.node_id}'!")
+
+        love_relief = float(node.deficit.love - self.homeostasis.love)
+        if love_relief > 0.35:
+            exp_type = ExperienceType.SPIRITUAL
+        else:
+            exp_type = ExperienceType.PHYSICAL
+
+        self.tethering.tether(
+            symbol=symbol,
+            sensation=node.sensation,
+            deficit_influence=node.deficit,
+            exp_type=exp_type,
+            relation_matrix=node.relation_matrix
+        )
+
+        self.active_wonder_attractor = None
+        self.wonder_charge = 0.0
+        self.wonder_potential_field = 0.0
+
+        trace = {
+            "source": "self_emerge_symbol_binding",
+            "symbol": symbol,
+            "node_id": node.node_id,
+            "exp_type": exp_type.name,
+            "timestamp": time.time()
+        }
+        self.metacognitive_traces.append(trace)
+
+        return {
+            "bound": True,
+            "symbol": symbol,
+            "node_id": node.node_id,
+            "assigned_experience_type": exp_type
+        }
 
     def get_current_state_tensor(self) -> np.ndarray:
         """
@@ -1208,8 +1436,8 @@ class ExperientialLanguageMapper:
         if len(bytes_data) == 0:
             bytes_data = b"Elysia"
 
-        stimulus_wave = (np.array(list(bytes_data), dtype=np.float32) / 127.5) - 1.0
-        projection = self.project_isomorphism(stimulus_wave)
+        text_wave = (np.array(list(bytes_data), dtype=np.float32) / 127.5) - 1.0
+        projection = self.project_isomorphism(text_wave)
 
         return {
             "resistance_target": self.variable_resistor.resistance,
