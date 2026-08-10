@@ -278,5 +278,95 @@ class BranchlessResonanceScheduler:
             "mental_positions": [a.mental_position.tolist() for a in self.agents],
             "refraction_index": refraction_index,
             "rotors": rotors.tolist(),
-            "chromatics": chromatics.tolist()
+            "chromatics": chromatics.tolist(),
+            "mean_velocity_norm": float(np.mean(np.linalg.norm(np.array([a.velocity for a in self.agents]), axis=1))) if num_agents > 0 else 0.0
+        }
+
+
+class CausalDirectorOrchestrator:
+    """
+    [Causal Director Orchestrator]
+    물리/정신 텐서 흐름과 크로매틱(RGB) 에너지를 실시간 연출 지시문으로 변환하는 오케스트레이터.
+    - "Do not calculate, let it flow." 철학을 극대화하여 조건문(if-else) 없이 순수 대수적 수식(Branchless)으로 작동합니다.
+    - 샌드박스의 위상, 공명, 맥동 엔트로피를 실시간 렌더링/연출 파라미터 JSON 구조로 무분기 변환해 냅니다.
+    """
+    def __init__(self):
+        pass
+
+    def orchestrate(self, report: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        샌드박스 리포트 데이터를 실시간 연출 파라미터 구조로 대수 변환합니다.
+
+        대수적 변환 규칙:
+        - camera.shake_intensity: max_tension_gap에 비례하여 부드럽게 Sigmoid 및 1.0 클리핑
+        - camera.field_of_view: mean_velocity_norm(평균 속력)에 따라 기본값 60도에서 45도(Zoom-in)까지 비선형적으로 굴절
+        - camera.color_tint: chromatics의 평균 RGB 값에서 Red(Flux) 성분에 따라 붉은 화면 톤 보간
+        - vfx.particle_emission_rate: max_tension_gap에 비례하여 기본 1.0배에서 최대 10.0배까지 지수적으로 폭발
+        - vfx.shader_distortion: max_tension_gap에 비례하여 최대 1.0까지 선형 보간
+        - audio.low_pass_cutoff: Entropy(Yellow) 고조 시 저음역 필터 컷오프 (5000Hz -> 300Hz로 깎임)
+        - audio.reverb_decay: Entropy / Tension 에 비례하여 잔향 지속 시간 (1.0초 -> 6.0초)
+        """
+        # 입력 파라미터 추출
+        tension = float(report.get("max_tension_gap", 0.0))
+        resonance = float(report.get("mean_resonance", 1.0))
+        refraction = float(report.get("refraction_index", 0.0))
+        velocity_norm = float(report.get("mean_velocity_norm", 0.0))
+
+        chromatics_list = report.get("chromatics", [[0.33, 0.33, 0.34]])
+        chromatics_arr = np.array(chromatics_list, dtype=np.float32)
+        mean_chromatic = np.mean(chromatics_arr, axis=0) if len(chromatics_arr) > 0 else np.array([0.33, 0.33, 0.34], dtype=np.float32)
+
+        r_flux, b_order, y_entropy = mean_chromatic[0], mean_chromatic[1], mean_chromatic[2]
+
+        # 1. camera.shake_intensity
+        # Sigmoid-like mapping: tanh to smoothly scale tension to [0, 1.0]
+        shake_intensity = float(math.tanh(tension * 1.5))
+
+        # 2. camera.field_of_view
+        # Base FOV: 60 degrees. High velocity zooms in down to 45.
+        # Use exponential decay: 45.0 + 15.0 * exp(-velocity_norm * 0.5)
+        field_of_view = float(45.0 + 15.0 * math.exp(-velocity_norm * 0.3))
+
+        # 3. camera.color_tint
+        # Base color is [1.0, 1.0, 1.0]. Red tint increases with r_flux.
+        # Blue tint decreases, Green tint decreases slightly as Red increases.
+        # Branchless interpolation:
+        color_tint = [
+            float(0.8 + 0.2 * r_flux),
+            float(0.8 * (1.0 - 0.5 * r_flux)),
+            float(0.8 * (1.0 - 0.7 * r_flux))
+        ]
+
+        # 4. vfx.particle_emission_rate
+        # Exponential explosion based on tension: 1.0 + 9.0 * (1.0 - exp(-tension * 2.0))
+        particle_emission_rate = float(1.0 + 9.0 * (1.0 - math.exp(-tension * 1.5)))
+
+        # 5. vfx.shader_distortion
+        # Pure linear mapping capped at 1.0: min(1.0, tension)
+        shader_distortion = float(min(1.0, tension))
+
+        # 6. audio.low_pass_cutoff
+        # High Entropy (y_entropy) lowers the cutoff from 5000Hz down to 300Hz.
+        # Formula: 300.0 + 4700.0 * exp(-y_entropy * 3.0)
+        low_pass_cutoff = float(300.0 + 4700.0 * math.exp(-y_entropy * 2.5))
+
+        # 7. audio.reverb_decay
+        # Decay time scales from 1.0s to 6.0s based on entropy and tension.
+        # Decay = 1.0 + 5.0 * tanh(y_entropy * 1.5 + tension * 0.5)
+        reverb_decay = float(1.0 + 5.0 * math.tanh(y_entropy * 1.2 + tension * 0.4))
+
+        return {
+            "camera": {
+                "shake_intensity": round(shake_intensity, 4),
+                "field_of_view": round(field_of_view, 4),
+                "color_tint": [round(c, 4) for c in color_tint]
+            },
+            "vfx": {
+                "particle_emission_rate": round(particle_emission_rate, 4),
+                "shader_distortion": round(shader_distortion, 4)
+            },
+            "audio": {
+                "low_pass_cutoff": round(low_pass_cutoff, 4),
+                "reverb_decay": round(reverb_decay, 4)
+            }
         }

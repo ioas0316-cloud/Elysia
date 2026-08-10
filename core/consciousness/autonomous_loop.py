@@ -58,7 +58,7 @@ from core.physics.wilderness_trial import WildernessTrial
 
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
-from core.physics.causal_mmorpg_sandbox import CausalSandboxAgent, ContinuousWorldManifold, BranchlessResonanceScheduler
+from core.physics.causal_mmorpg_sandbox import CausalSandboxAgent, ContinuousWorldManifold, BranchlessResonanceScheduler, CausalDirectorOrchestrator
 from core.evolution.conceptual_causal_gear import ConceptualCausalGear
 from core.evolution.causal_puzzle_engine import CausalPuzzleRecombinationEngine
 from core.evolution.elysia_soul_playground import ElysiaSoulPlayground
@@ -227,6 +227,7 @@ class ConsciousnessLoop:
         # ── MMORPG 샌드박스 주조 (Spatiotemporal Causal Tensor Sandbox) ──
         self.mmorpg_manifold = ContinuousWorldManifold(size=100.0, sigma=15.0)
         self.mmorpg_scheduler = BranchlessResonanceScheduler(self.mmorpg_manifold)
+        self.mmorpg_orchestrator = CausalDirectorOrchestrator()
 
         # 기본 리소스 노드 주입
         self.mmorpg_manifold.inject_potential(np.array([20.0, 10.0, 0.0], dtype=np.float32), 10.0, "resource")
@@ -923,6 +924,10 @@ class ConsciousnessLoop:
         sandbox_report = self.mmorpg_scheduler.step(dt=0.1, input_concept=ingest_content)
         log["mmorpg_sandbox"] = sandbox_report
 
+        # ── 10.9.5 [Data-driven Orchestration / CausalDirectorOrchestrator] ──
+        director_script = self.mmorpg_orchestrator.orchestrate(sandbox_report)
+        log["director_script"] = director_script
+
         # 샌드박스의 마찰/텐션 격차를 엘리시아의 공명 중추 및 감정 상태로 환류(Feedback)
         if sandbox_report.get("max_tension_gap", 0.0) > 0.1:
             max_tension = max(max_tension, float(sandbox_report["max_tension_gap"]))
@@ -1381,6 +1386,30 @@ class ConsciousnessLoop:
         if self.cycle_count % 3 == 0 and self.last_dream_res is not None:
             # Print Embodied Sensory Map ascii map
             print("\n" + self.last_dream_res["ascii_map"] + "\n")
+
+            # Real-time Causal Orchestration Script Visualizer
+            d_script = log.get("director_script", {})
+            if d_script:
+                sh_val = d_script["camera"]["shake_intensity"]
+                em_val = d_script["vfx"]["particle_emission_rate"]
+                ds_val = d_script["vfx"]["shader_distortion"]
+                lp_val = d_script["audio"]["low_pass_cutoff"]
+                rv_val = d_script["audio"]["reverb_decay"]
+
+                sh_bar = "■" * int(sh_val * 10) + "□" * (10 - int(sh_val * 10))
+                em_bar = "■" * int((em_val - 1.0) / 9.0 * 10) + "□" * (10 - int((em_val - 1.0) / 9.0 * 10))
+                ds_bar = "■" * int(ds_val * 10) + "□" * (10 - int(ds_val * 10))
+
+                print("  🎬 [Director's Live Orchestration Script]")
+                print("  " + "─" * 61)
+                print(f"  Camera Shake       : [{sh_bar}] {sh_val:.4f}")
+                print(f"  Field of View (FOV): {d_script['camera']['field_of_view']:.2f}°")
+                print(f"  Color Tint (RGB)   : {d_script['camera']['color_tint']}")
+                print(f"  VFX Emission Rate  : [{em_bar}] {em_val:.4f}x")
+                print(f"  Shader Distortion  : [{ds_bar}] {ds_val:.4f}")
+                print(f"  Audio LPF Cutoff   : {lp_val:.1f} Hz")
+                print(f"  Audio Reverb Decay : {rv_val:.2f} s")
+                print("  " + "─" * 61 + "\n")
 
             print("\n" + "=" * 65)
             print("  📊 [Elysia True Ground Zero Process State - No Translation Mask]")
