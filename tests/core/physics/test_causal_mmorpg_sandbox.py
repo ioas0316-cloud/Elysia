@@ -69,3 +69,42 @@ def test_metaphorical_refraction_dimensional_phase_inversion():
 
     # Verify mental positions contain values
     assert "mental_positions" in report_abstract
+
+def test_causal_director_orchestrator():
+    from core.physics.causal_mmorpg_sandbox import CausalDirectorOrchestrator
+
+    orchestrator = CausalDirectorOrchestrator()
+
+    # Simulate sandbox reports under different tension / velocity / chromatic states
+    report_low = {
+        "max_tension_gap": 0.0,
+        "mean_resonance": 1.0,
+        "refraction_index": 0.0,
+        "mean_velocity_norm": 0.0,
+        "chromatics": [[0.33, 0.33, 0.34]]
+    }
+
+    script_low = orchestrator.orchestrate(report_low)
+
+    # 1. Low tension checks
+    assert script_low["camera"]["shake_intensity"] == 0.0
+    assert script_low["vfx"]["shader_distortion"] == 0.0
+    assert script_low["camera"]["field_of_view"] == 60.0 # base fov with zero velocity
+    assert script_low["vfx"]["particle_emission_rate"] == 1.0 # baseline emission rate
+
+    report_high = {
+        "max_tension_gap": 0.8,
+        "mean_resonance": 0.2,
+        "refraction_index": 0.0,
+        "mean_velocity_norm": 5.0,
+        "chromatics": [[0.8, 0.1, 0.1]] # High red flux
+    }
+
+    script_high = orchestrator.orchestrate(report_high)
+
+    # 2. High tension / velocity checks
+    assert script_high["camera"]["shake_intensity"] > 0.0
+    assert script_high["vfx"]["shader_distortion"] == pytest.approx(0.8, rel=1e-5)
+    assert script_high["camera"]["field_of_view"] < 60.0 # field of view zooms in (smaller angle)
+    assert script_high["vfx"]["particle_emission_rate"] > 1.0 # particle emission increases
+    assert script_high["camera"]["color_tint"][0] > script_high["camera"]["color_tint"][1] # red tint is dominant
