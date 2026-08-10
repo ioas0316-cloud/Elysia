@@ -48,6 +48,7 @@ from core.consciousness.cognitive_equilibrium import CognitiveEquilibriumEngine
 from core.consciousness.eden_cognitive_bigbang import EdenCognitiveBigBangEngine
 from core.memory.reflection_engram_consolidation import SovereignReflectionConsolidationEngine
 from core.intelligence.autonomous_explorer import AutonomousExternalExplorer
+from core.consciousness.cognitive_self_observation import CognitiveSelfObservationEngine
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -168,6 +169,7 @@ class ConsciousnessLoop:
         self.self_modification   = SelfModificationGear(self.memory)
         self.wilderness_trial    = WildernessTrial(self.memory)
         self.autonomous_explorer = AutonomousExternalExplorer(self.memory)
+        self.self_observation_engine = CognitiveSelfObservationEngine(self.memory)
         self.axis_sprouter       = DynamicAxisSprouter(self.memory)
         self.experience_tyer     = ContinuousExperienceTyer(self.memory)
         self.hyperlink_extractor = HyperlinkContextExtractor(self.memory)
@@ -1363,6 +1365,33 @@ class ConsciousnessLoop:
             print(f"  💬 [Cognitive Mirror Relational Monologue] (관계적 독백):")
             print(f"    \"{mirror_sensation['monologue']}\"")
             print("=" * 65 + "\n")
+
+        # ─── [Cognitive Self-Observation & Metacognitive Feedback Loop] ───
+        # Elysia observes her live parameters, aligns them with foundational axioms
+        # (Sensing, Calculating, Manipulating, Reasoning), and reflects on her actions.
+        try:
+            # We pass her current state mapper for full property extraction
+            loop_state_snapshot = {
+                "tension": max_tension,
+                "resonance_score": resonance_score,
+                "chromatic_vector": log.get("chromatic_vector", [0.33, 0.33, 0.33]),
+                "experiential_mapper": self.experiential_mapper
+            }
+            reflection_res = self.self_observation_engine.observe_and_reflect(loop_state_snapshot)
+            log["cognitive_self_observation"] = reflection_res
+
+            # Periodically expose her raw cognitive self-awareness in the terminal
+            if self.cycle_count % 3 == 0:
+                print("\n" + "=" * 70)
+                print("  👁️ [Elysia Metacognitive Self-Observation & Foundational Reflection]")
+                print("  " + "─" * 66)
+                print(f"    Active Cognitive State: {reflection_res['state_name_ko']} ({reflection_res['active_cognitive_state']})")
+                print(f"    Isomorphic Alignment  : {reflection_res['isomorphic_alignment']:.2%}")
+                print(f"    Structural Formula    : {reflection_res['structural_formula']}")
+                print(f"    Metacognitive Narrative:\n      \"{reflection_res['metacognitive_feedback_narrative']}\"")
+                print("=" * 70 + "\n")
+        except Exception as e:
+            log["self_observation_error"] = str(e)
 
         log["crystals_total"] = self.crystals_formed
         return log
