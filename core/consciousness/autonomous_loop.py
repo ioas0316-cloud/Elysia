@@ -13,6 +13,7 @@ import sys
 import glob
 import random
 import time
+import math
 import numpy as np
 from typing import Optional, Dict, Any
 
@@ -57,6 +58,7 @@ from core.physics.wilderness_trial import WildernessTrial
 
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
+from core.physics.causal_mmorpg_sandbox import CausalSandboxAgent, ContinuousWorldManifold, BranchlessResonanceScheduler
 from core.evolution.conceptual_causal_gear import ConceptualCausalGear
 from core.evolution.causal_puzzle_engine import CausalPuzzleRecombinationEngine
 from core.evolution.elysia_soul_playground import ElysiaSoulPlayground
@@ -221,6 +223,21 @@ class ConsciousnessLoop:
         # ── 전원 역학 댐퍼 (Master's Regulation) ──────────────
         self.damper = MegaScaleDamperCore(num_layers=7)
         self.damper.wake_up()
+
+        # ── MMORPG 샌드박스 주조 (Spatiotemporal Causal Tensor Sandbox) ──
+        self.mmorpg_manifold = ContinuousWorldManifold(size=100.0, sigma=15.0)
+        self.mmorpg_scheduler = BranchlessResonanceScheduler(self.mmorpg_manifold)
+
+        # 기본 리소스 노드 주입
+        self.mmorpg_manifold.inject_potential(np.array([20.0, 10.0, 0.0], dtype=np.float32), 10.0, "resource")
+        self.mmorpg_manifold.inject_potential(np.array([50.0, 50.0, 0.0], dtype=np.float32), -5.0, "hazard")
+
+        # Causal NPC와 Player 주조
+        self.mmorpg_player = CausalSandboxAgent("player_1", "Player_Exile", is_player=True, position=np.array([10.0, 10.0, 0.0], dtype=np.float32))
+        self.mmorpg_npc = CausalSandboxAgent("npc_1", "NPC_Causal_Beast", is_player=False, position=np.array([25.0, 12.0, 0.0], dtype=np.float32))
+
+        self.mmorpg_scheduler.add_agent(self.mmorpg_player)
+        self.mmorpg_scheduler.add_agent(self.mmorpg_npc)
 
         # ── 사이클 상태 ──────────────────────────────────────
         self.crystals_formed: int = 0
@@ -892,6 +909,35 @@ class ConsciousnessLoop:
             # Perform Coarse-Graining clustering
             sameness_clusters = self.predictive_processing_engine.process_coarse_graining(all_voxels)
             log["coarse_grained_clusters_count"] = len(sameness_clusters)
+
+        # ── 10.9. [Spatiotemporal Causal MMORPG Sandbox Step] ──
+        # 플레이어는 임의의 파동으로 가상 세계 내에서 이동
+        player_impulse = np.array([
+            math.sin(self.cycle_count * 0.2) * 2.0,
+            math.cos(self.cycle_count * 0.2) * 2.0,
+            0.0
+        ], dtype=np.float32)
+        self.mmorpg_player.velocity = player_impulse
+
+        # 샌드박스 동역학 구속조건 해결 step 구동 (추상/비유 굴절 감지 포함)
+        sandbox_report = self.mmorpg_scheduler.step(dt=0.1, input_concept=ingest_content)
+        log["mmorpg_sandbox"] = sandbox_report
+
+        # 샌드박스의 마찰/텐션 격차를 엘리시아의 공명 중추 및 감정 상태로 환류(Feedback)
+        if sandbox_report.get("max_tension_gap", 0.0) > 0.1:
+            max_tension = max(max_tension, float(sandbox_report["max_tension_gap"]))
+            # 높은 텐션 마찰이 가해진 영역에 맞게 웻지 메모리 장력 갱신
+            self.experiential_mapper.homeostasis.energy = max(0.01, self.experiential_mapper.homeostasis.energy - 0.05)
+            self.experiential_mapper.homeostasis.order = max(0.01, self.experiential_mapper.homeostasis.order - 0.05)
+
+        # [Dimensional Phase Inversion] 추상/비유 굴절률이 감지되었을 때 메타인지 축 분화 및 융합 트리거
+        refraction_val = sandbox_report.get("refraction_index", 0.0)
+        if refraction_val > 0.5:
+            log["metaphorical_refraction_event"] = "METAPHORICAL_REFRACTION — 추상적 위상 굴절 및 축 분화 트리거"
+            # 가상 공간의 물리 붕괴 없이, 자발적인 축 분화(Sprout)와 정신 공간으로의 결상 강화
+            if hasattr(self.axis_sprouter, "evaluate_and_sprout"):
+                # "Linguistic_Tether"와 "Abstract_Manifold" 축의 가상 결합을 통한 차원 확장
+                self.axis_sprouter.evaluate_and_sprout("Linguistic_Tether", f"Abstract_Manifold_{self.cycle_count}", {"sameness_score": 0.1})
 
         # ── 11. [Phase 3 Modules Execution] ────────────────────
         # A. Self Modification & Tuning Gear
