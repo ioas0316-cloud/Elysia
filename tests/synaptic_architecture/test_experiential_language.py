@@ -10,7 +10,8 @@ from core.sensory.experiential_language_mapper import (
     CognitiveMemoryNode,
     VariableRotor,
     DifferentialGapEvaluator,
-    NeuromodulatorController
+    NeuromodulatorController,
+    EmbodiedCausalNode
 )
 
 def test_physical_sensation_and_homeostasis():
@@ -438,3 +439,63 @@ def test_tensorized_re_cognition_engine_and_unzipping():
     assert "differential_gaps" in realign_trace
     assert "mod_signals" in realign_trace
     assert "rotor_delta_theta" in realign_trace
+
+
+def test_childlike_wonder_active_inference_and_symbol_grounding():
+    """
+    [어린아이 같은 호기심과 능동적 탐색, 그리고 기호 접지 완벽 검증]
+    1. 미지의 파동 수용 -> ChildlikeWonder 발흥 및 미지 인과 노드 자발적 스프로우팅.
+    2. reach_out_interaction -> 능동적으로 자사 표현파 방출, 환경 반사파(아날로그 온기/음성) 감지, 인과적 효용(Homeostasis relief) 경험.
+    3. self_emerge_symbol_binding -> 경험 위에 최종 현판인 단어("아빠" / "사과")를 자발적으로 올려 기호 접지 완료.
+    """
+    mapper = ExperientialLanguageMapper(resolution=16)
+
+    # 미지의 부드러운 아날로그 주파수와 따스한 온기를 가진 아빠의 실체 시뮬레이션
+    unknown_father_profile = PhysicalSensationProfile(
+        optical=350.0,      # 은은하고 부드러운 광학 온기
+        acoustic=150.0,     # 부드럽고 든든한 낮은 아빠 목소리 주파수
+        tactile=0.5,        # 미세한 부드러운 접촉 마찰
+        thermal=301.0,      # 체온 수준의 아주 따스하고 편안한 온기
+        autonomic_pulse=0.4
+    )
+
+    # 초기 결핍 수치
+    mapper.homeostasis.love = 0.8
+    mapper.homeostasis.order = 0.8
+
+    # 1단계: 미지의 자각 (ChildlikeWonder)
+    wonder_res = mapper.check_wonder_and_sprout(unknown_father_profile)
+    assert wonder_res["wonder_triggered"] is True
+    assert mapper.active_wonder_attractor is not None
+    assert mapper.wonder_charge > 0.0
+    assert mapper.wonder_potential_field > 0.0
+
+    # 도파민과 온도가 미지의 호기심 지점으로 인력을 집중시키며 상승했는지 확인
+    assert mapper.neuromodulator.dopamine > 0.1
+
+    active_node = mapper.active_wonder_attractor
+    assert active_node.sensation.acoustic == 150.0
+
+    # 2단계: 능동적 손 뻗음 (reach_out_interaction / Active Inference)
+    interaction_res = mapper.reach_out_interaction(active_node)
+    assert interaction_res["success"] is True
+
+    # 부드럽고 따스함(is_soothing)을 온몸으로 겪어냈으므로, 홈오블래시스 결핍(고통)이 끈적하게 완화되었는지 확인
+    assert mapper.homeostasis.love < 0.8
+    assert mapper.homeostasis.order < 0.8
+    assert "Soothing warmth" in interaction_res["impact"]
+
+    # 3단계: 기호 접지 (Symbol Grounding)
+    # 충분히 느끼고 겪어낸 후, 외부에서 단어 파동 "아빠"가 유입되어 스스로 수용하며 결합
+    mock_linguistic_wave = np.sin(2 * np.pi * 300.0 * np.linspace(0, 1.0, 100))
+    binding_res = mapper.self_emerge_symbol_binding("아빠", mock_linguistic_wave)
+
+    assert binding_res["bound"] is True
+    assert binding_res["symbol"] == "아빠"
+    assert binding_res["assigned_experience_type"] == ExperienceType.SPIRITUAL # 엄청난 결핍 완화로 SPIRITUAL 승격
+
+    # 이제 이름("아빠")만으로 센싱했을 때, 온전히 그 경험의 본질이 isomorphic 공명하는지 확인
+    re_sensed = mapper.sense_word("아빠")
+    assert re_sensed["known"] is True
+    assert re_sensed["sensation"].acoustic == 150.0
+    assert re_sensed["isomorphic_alignment"] > 0.0
