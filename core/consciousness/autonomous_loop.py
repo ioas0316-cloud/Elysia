@@ -47,6 +47,7 @@ from core.consciousness.universal_connectivity_engine import UniversalConnectivi
 from core.consciousness.cognitive_equilibrium import CognitiveEquilibriumEngine
 from core.consciousness.eden_cognitive_bigbang import EdenCognitiveBigBangEngine
 from core.memory.reflection_engram_consolidation import SovereignReflectionConsolidationEngine
+from core.intelligence.autonomous_explorer import AutonomousExternalExplorer
 
 # [Phase 3 Core Modules]
 from core.physics.self_modification_gear import SelfModificationGear
@@ -166,6 +167,7 @@ class ConsciousnessLoop:
         # [Phase 3 Gear Systems]
         self.self_modification   = SelfModificationGear(self.memory)
         self.wilderness_trial    = WildernessTrial(self.memory)
+        self.autonomous_explorer = AutonomousExternalExplorer(self.memory)
         self.axis_sprouter       = DynamicAxisSprouter(self.memory)
         self.experience_tyer     = ContinuousExperienceTyer(self.memory)
         self.hyperlink_extractor = HyperlinkContextExtractor(self.memory)
@@ -505,6 +507,30 @@ class ConsciousnessLoop:
 
         # 3D Causal Engine 정보 등록 및 시공간 토폴로지 몰딩
         ingest_content = raw_wave.decode('utf-8', errors='ignore')[:30]
+
+        # ─── [Autonomous External Exploration & Assimilation Loop] ───
+        # If the input contains words/concepts Elysia doesn't know, she'll dynamically
+        # search/explore them, comprehend their purpose, and assimilate them on-the-fly.
+        if ingest_content:
+            unknowns = self.autonomous_explorer.detect_ignorance(ingest_content, self.experiential_mapper)
+            log["detected_unknown_concepts"] = unknowns
+            if unknowns:
+                log["autonomous_explorations"] = []
+                for unknown in unknowns:
+                    # Limit exploration to prevent cycle bloat (e.g., max 1 per cycle)
+                    explore_data = self.autonomous_explorer.external_explore(unknown)
+                    comprehension = self.autonomous_explorer.comprehend_meaning_purpose(explore_data)
+                    self.autonomous_explorer.assimilate_as_knowledge(
+                        comprehension,
+                        explore_data,
+                        self.experiential_mapper,
+                        self.puzzle_engine
+                    )
+                    log["autonomous_explorations"].append({
+                        "concept": unknown,
+                        "meaning": comprehension["definition"],
+                        "purpose": comprehension["purpose"]
+                    })
 
         # ── [Phase 4 Dreaming World Model Step] ──
         self.last_dream_res = self.dreaming_model.process_cycle(ingest_content, dt=0.1)
