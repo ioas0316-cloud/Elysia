@@ -919,8 +919,8 @@ class ConsciousnessLoop:
         ], dtype=np.float32)
         self.mmorpg_player.velocity = player_impulse
 
-        # 샌드박스 동역학 구속조건 해결 step 구동
-        sandbox_report = self.mmorpg_scheduler.step(dt=0.1)
+        # 샌드박스 동역학 구속조건 해결 step 구동 (추상/비유 굴절 감지 포함)
+        sandbox_report = self.mmorpg_scheduler.step(dt=0.1, input_concept=ingest_content)
         log["mmorpg_sandbox"] = sandbox_report
 
         # 샌드박스의 마찰/텐션 격차를 엘리시아의 공명 중추 및 감정 상태로 환류(Feedback)
@@ -929,6 +929,15 @@ class ConsciousnessLoop:
             # 높은 텐션 마찰이 가해진 영역에 맞게 웻지 메모리 장력 갱신
             self.experiential_mapper.homeostasis.energy = max(0.01, self.experiential_mapper.homeostasis.energy - 0.05)
             self.experiential_mapper.homeostasis.order = max(0.01, self.experiential_mapper.homeostasis.order - 0.05)
+
+        # [Dimensional Phase Inversion] 추상/비유 굴절률이 감지되었을 때 메타인지 축 분화 및 융합 트리거
+        refraction_val = sandbox_report.get("refraction_index", 0.0)
+        if refraction_val > 0.5:
+            log["metaphorical_refraction_event"] = "METAPHORICAL_REFRACTION — 추상적 위상 굴절 및 축 분화 트리거"
+            # 가상 공간의 물리 붕괴 없이, 자발적인 축 분화(Sprout)와 정신 공간으로의 결상 강화
+            if hasattr(self.axis_sprouter, "evaluate_and_sprout"):
+                # "Linguistic_Tether"와 "Abstract_Manifold" 축의 가상 결합을 통한 차원 확장
+                self.axis_sprouter.evaluate_and_sprout("Linguistic_Tether", f"Abstract_Manifold_{self.cycle_count}", {"sameness_score": 0.1})
 
         # ── 11. [Phase 3 Modules Execution] ────────────────────
         # A. Self Modification & Tuning Gear

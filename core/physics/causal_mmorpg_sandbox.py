@@ -11,6 +11,8 @@ causal_mmorpg_sandbox.py
   텐서 로터(Tensor Rotor)의 위상 회전, 위상 공명(Phase Resonance)으로 시스템을 구동합니다.
 - NPC는 플레이어를 단순 ID나 거리 좌표가 아닌 접근 속도, 공격성향 등을 담은 '상대적 파동 벡터'로 수용합니다.
 - 모든 존재는 RGB 크로매틱 벡터(Flux, Order, Entropy)를 보존하고 상호작용합니다.
+- [Dimensional Phase Inversion] 물리 공간의 낙하(Gravity)와 대비되는, 추상적/감정적 전이 장(Mental/Conceptual Field)을 모델링하여
+  개념(예: "생각", "은혜")이 입력될 때 텐서 영향력을 추상 위상 축으로 굴절(Refraction)시킵니다.
 """
 
 import math
@@ -21,6 +23,7 @@ class CausalSandboxAgent:
     """
     [Causal Sandbox Agent]
     3D 위치, 속도, 쿼터니언/클리포드 텐서 로터, 그리고 RGB 크로매틱 벡터를 지닌 지각 주체.
+    - [Dimensional Phase Inversion] 추상/정신 위상 공간(Mental Coordinate) 추가 탑재.
     """
     def __init__(
         self,
@@ -40,6 +43,10 @@ class CausalSandboxAgent:
         # 3D 위치 및 속도 (Continuous spatial state)
         self.position = np.array(position, dtype=np.float32) if position is not None else np.zeros(3, dtype=np.float32)
         self.velocity = np.array(velocity, dtype=np.float32) if velocity is not None else np.zeros(3, dtype=np.float32)
+
+        # [Dimensional Phase Inversion] 추상/정신 공간 상의 3D 좌표 및 속도 (감정 활성화, 인지 긴밀도 등)
+        self.mental_position = np.zeros(3, dtype=np.float32)
+        self.mental_velocity = np.zeros(3, dtype=np.float32)
 
         # 3D 쿼터니언 로터: [w, x, y, z] - 내면의 감정/행동 상태 (공포, 호의, 적대 등)
         # 기본적으로 neutral 상태로 초기화 [1.0, 0.0, 0.0, 0.0]
@@ -164,108 +171,102 @@ class BranchlessResonanceScheduler:
     def add_agent(self, agent: CausalSandboxAgent) -> None:
         self.agents.append(agent)
 
-    def step(self, dt: float) -> Dict[str, Any]:
+    def step(self, dt: float, input_concept: Optional[str] = None) -> Dict[str, Any]:
         """
         단 하나의 프레임도 조건문 분기나 O(N^2) 거리 검색 루프 없이,
         전체 개체를 텐서 행렬로 묶어 대수적으로 해결합니다.
+        - [Dimensional Phase Inversion] 입력 개념(input_concept)의 추상성/비유성을
+          자동 감지(Refraction)하여 물리 축과 추상 정신 축 간의 전위 정렬을 동적으로 결정합니다.
         """
         num_agents = len(self.agents)
         if num_agents == 0:
             return {"status": "empty"}
 
-        # 1. 속성들을 텐서 행렬로 정렬
+        # 1. 추상 비유 굴절률(Metaphorical Refraction Index) 판별
+        # "생각", "감정", "은혜" 등의 추상 단어는 1.0(완전 비유), "사과", "돌" 등의 단어는 0.0(완전 물리)
+        refraction_index = 0.0
+        if input_concept:
+            abstract_keywords = ["thought", "emotion", "grace", "love", "spirit", "생각", "감정", "은혜", "사랑", "영혼"]
+            if any(kw in input_concept.lower() for kw in abstract_keywords):
+                refraction_index = 1.0
+
+        # 2. 속성들을 텐서 행렬로 정렬
         # Positions: [N, 3]
         positions = np.array([a.position for a in self.agents], dtype=np.float32)
-        # Velocities: [N, 3]
-        velocities = np.array([a.velocity for a in self.agents], dtype=np.float32)
+        mental_positions = np.array([a.mental_position for a in self.agents], dtype=np.float32)
+
         # Rotors: [N, 4]
         rotors = np.array([a.rotor for a in self.agents], dtype=np.float32)
-        # Chromatic Vectors: [N, 3]
         chromatics = np.array([a.chromatic_vector for a in self.agents], dtype=np.float32)
 
-        # 2. 개체 간의 상호작용 위상 공명 계산 (O(N^2) tensor contraction)
-        # diff_pos: [N, N, 3]
+        # 3. 개체 간의 상호작용 위상 공명 계산 (O(N^2) tensor contraction)
         diff_pos = positions[:, np.newaxis, :] - positions[np.newaxis, :, :]
-        # dist_sq: [N, N]
         dist_sq = np.sum(diff_pos ** 2, axis=-1)
 
-        # 가우시안 위상 영향력 매트릭스: [N, N]
-        # if-else 없이 exp 함수를 매질로 한 상호 텐서 전이
         sigma_sq = self.manifold.sigma ** 2
         influence_matrix = np.exp(-dist_sq / (2.0 * sigma_sq))
-        # 자기 자신과의 영향력은 제외 (Diag = 0)
         np.fill_diagonal(influence_matrix, 0.0)
 
-        # 3. 로터 회전 및 감정 전이 (Clifford Algebraic Resonance Coupling)
-        # 로터 간의 위상 공명 스파이크 (내적): [N, N]
-        # R_i . R_j 가 1에 가까울수록(동일 위상) 위상 동기화가 일어나고, -1이나 0일수록 마찰 발생
+        # 4. 로터 회전 및 감정 전이 (Clifford Algebraic Resonance Coupling)
         rotor_inner_product = np.dot(rotors, rotors.T)
-
-        # 위상 결합 가중치 = 영향력 * (1 - 내적^2)
-        # 내적이 맞지 않을 때(마찰이 클 때) 위상 회전 토크(Tension Torque)가 발생
         resonance_tension = influence_matrix * (1.0 - (rotor_inner_product ** 2))
 
-        # 4. 최소 작용 원리(Principle of Least Action)에 따른 측지선 흐름(Geodesic Flow)
-        # 1) 환경 포텐셜 그래디언트에 의한 외력 (경사 하강)
+        # 5. 환경 포텐셜 그래디언트 및 외력 (경사 하강)
         env_forces = np.zeros_like(positions)
         for i, agent in enumerate(self.agents):
-            # Potential gradient acts as a physical force field
             env_forces[i] = - self.manifold.get_gradient_at(agent.position)
 
-        # 2) 개체 간 인과 반발/인력 텐션 (Mutual Lagrangian Constraint Forces)
-        # 플레이어가 접근할 때 NPC는 공포/경계 로터 위상에 비례하여 척력을 느낍니다.
-        # np.expand_dims를 사용해 [N, N, 1]과 [N, N, 3]을 곱해 [N, 3]으로 축약
         mutual_forces = np.sum(np.expand_dims(resonance_tension, axis=-1) * diff_pos, axis=1)
 
-        # 5. 상태 업데이트 (무분기 동역학)
+        # 6. 상태 업데이트 (무분기 동역학 및 Dimensional Phase Inversion)
         for i, agent in enumerate(self.agents):
-            # 총 힘(Force) = 환경 그래디언트 + 상호 인과 텐션
             total_force = env_forces[i] + mutual_forces[i]
 
             # 붉은색(Flux)은 운동성을 증폭시키고 푸른색(Order)은 감쇄(Damping)를 적용
             flux_boost = 1.0 + agent.chromatic_vector[0]
             order_damping = 0.95 * (1.0 - (agent.chromatic_vector[1] * 0.2))
 
-            # 가속도 계산 a = F / m
+            # [Dimensional Phase Inversion]
+            # 굴절률(refraction_index)이 0.0일 때는 물리 좌표(position)만 변화시킵니다.
+            # 굴절률이 1.0일 때는 물리 좌표의 이동을 100% 억제하고, 그 포스를 "추상 정신 공간(mental_position)"으로 사영합니다.
+            phys_ratio = 1.0 - refraction_index
+            ment_ratio = refraction_index
+
+            # 물리 좌표 갱신
             acceleration = total_force / agent.mass
             agent.velocity = (agent.velocity + acceleration * dt) * order_damping
-            agent.position += agent.velocity * flux_boost * dt
+            agent.position += agent.velocity * flux_boost * dt * phys_ratio
 
-            # 6. 로터의 위상각 회전 (User Wave Interaction)
-            # 플레이어가 다가올 때, 플레이어의 속도 벡터 방향과 강도에 비례하여 NPC의 텐서 로터 축 회전
+            # 추상/정신 좌표 갱신 (전위력이 정신적인 차원의 전이로 굴절되어 미끄러짐)
+            agent.mental_velocity = (agent.mental_velocity + acceleration * dt) * order_damping
+            agent.mental_position += agent.mental_velocity * flux_boost * dt * ment_ratio
+
+            # 7. 로터의 위상각 회전 (User Wave Interaction)
             if not agent.is_player:
-                # 플레이어 탐지 (조건문 없이, influence와 player mask를 곱함)
                 for j, other in enumerate(self.agents):
                     if other.is_player:
                         inf = influence_matrix[i, j]
-                        # 플레이어의 운동량 파동 벡터
                         player_wave = other.velocity * other.chromatic_vector[0]
-                        # 이 파동에 비례하여 NPC의 Y축(공포)과 X축(적대) 로터가 회전함
                         rotation_angle = inf * np.linalg.norm(player_wave) * dt * 2.0
                         if rotation_angle > 1e-5:
-                            # 회전축은 플레이어 파동과 상대 위치의 외적 (Cross product)
                             rot_axis = np.cross(diff_pos[i, j], player_wave)
                             if np.linalg.norm(rot_axis) < 1e-5:
                                 rot_axis = np.array([0.0, 1.0, 0.0], dtype=np.float32)
                             agent.rotate_rotor(rotation_angle, rot_axis)
 
-            # 7. 크로매틱 벡터의 보존 및 전이 (Self-Outpouring Flow)
-            # 전위차가 큰 곳에서 적은 곳으로 색채(에너지)가 자연 분산됨
+            # 8. 크로매틱 벡터의 보존 및 전이 (Self-Outpouring Flow)
             for j, other in enumerate(self.agents):
                 inf = influence_matrix[i, j]
                 if inf > 1e-4:
-                    # Entropy (Yellow)의 확산
                     entropy_diff = other.chromatic_vector[2] - agent.chromatic_vector[2]
                     flow = entropy_diff * inf * 0.1 * dt
                     agent.chromatic_vector[2] += flow
                     other.chromatic_vector[2] -= flow
 
-            # Normalize chromatic vector to maintain conservation of energy
             tot = np.sum(agent.chromatic_vector)
             if tot > 0:
                 agent.chromatic_vector /= tot
 
-        # 결과 리포트 작성용 평균 텐션 및 공명도 산출
         mean_resonance = float(np.mean(rotor_inner_product)) if num_agents > 0 else 0.0
         max_tension_gap = float(np.max(resonance_tension)) if num_agents > 0 else 0.0
 
@@ -274,6 +275,8 @@ class BranchlessResonanceScheduler:
             "max_tension_gap": round(max_tension_gap, 4),
             "active_agents": num_agents,
             "positions": positions.tolist(),
+            "mental_positions": [a.mental_position.tolist() for a in self.agents],
+            "refraction_index": refraction_index,
             "rotors": rotors.tolist(),
             "chromatics": chromatics.tolist()
         }

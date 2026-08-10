@@ -47,3 +47,25 @@ def test_branchless_resonance_scheduler_relaxation():
     assert report["active_agents"] == 2
     assert "mean_resonance" in report
     assert "max_tension_gap" in report
+
+def test_metaphorical_refraction_dimensional_phase_inversion():
+    manifold = ContinuousWorldManifold(size=100.0, sigma=15.0)
+    scheduler = BranchlessResonanceScheduler(manifold)
+
+    player = CausalSandboxAgent("player", "Player", is_player=True, position=np.array([0.0, 0.0, 0.0]))
+    npc = CausalSandboxAgent("npc", "NPC", is_player=False, position=np.array([5.0, 0.0, 0.0]))
+
+    scheduler.add_agent(player)
+    scheduler.add_agent(npc)
+
+    # Ingress of literal word (refraction should be 0.0)
+    report_literal = scheduler.step(dt=0.1, input_concept="apple")
+    assert report_literal["refraction_index"] == 0.0
+
+    # Ingress of abstract/metaphorical word (refraction should be 1.0)
+    # The forces will be projected to mental_positions instead of positions.
+    report_abstract = scheduler.step(dt=0.1, input_concept="grace of love")
+    assert report_abstract["refraction_index"] == 1.0
+
+    # Verify mental positions contain values
+    assert "mental_positions" in report_abstract
