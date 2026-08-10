@@ -1,6 +1,11 @@
 import pytest
 import numpy as np
-from core.physics.causal_mmorpg_sandbox import CausalSandboxAgent, ContinuousWorldManifold, BranchlessResonanceScheduler
+from core.physics.causal_mmorpg_sandbox import (
+    CausalSandboxAgent,
+    ContinuousWorldManifold,
+    BranchlessResonanceScheduler,
+    CausalDirectorOrchestrator
+)
 
 def test_causal_sandbox_agent_rotor_rotation():
     agent = CausalSandboxAgent("agent_1", "TestNPC")
@@ -69,3 +74,25 @@ def test_metaphorical_refraction_dimensional_phase_inversion():
 
     # Verify mental positions contain values
     assert "mental_positions" in report_abstract
+
+
+def test_causal_director_orchestration():
+    orchestrator = CausalDirectorOrchestrator(base_fov=60.0)
+
+    dummy_report = {
+        "max_tension_gap": 0.5,
+        "mean_resonance": 0.8,
+        "refraction_index": 0.0,
+        "chromatics": [[0.5, 0.2, 0.3], [0.4, 0.3, 0.3]]
+    }
+
+    script = orchestrator.orchestrate(dummy_report)
+
+    # Validate Camera FOV, Shake, and low pass cutoff
+    assert "camera" in script
+    assert "vfx" in script
+    assert "audio" in script
+
+    assert script["camera"]["field_of_view"] < 60.0 # Zoom-in due to high resonance
+    assert script["vfx"]["particle_emission_rate"] > 1.0
+    assert script["audio"]["low_pass_cutoff"] < 20000.0

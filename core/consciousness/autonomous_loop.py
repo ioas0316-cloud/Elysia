@@ -58,7 +58,7 @@ from core.physics.wilderness_trial import WildernessTrial
 
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
-from core.physics.causal_mmorpg_sandbox import CausalSandboxAgent, ContinuousWorldManifold, BranchlessResonanceScheduler
+from core.physics.causal_mmorpg_sandbox import CausalSandboxAgent, ContinuousWorldManifold, BranchlessResonanceScheduler, CausalDirectorOrchestrator
 from core.evolution.conceptual_causal_gear import ConceptualCausalGear
 from core.evolution.causal_puzzle_engine import CausalPuzzleRecombinationEngine
 from core.evolution.elysia_soul_playground import ElysiaSoulPlayground
@@ -227,6 +227,7 @@ class ConsciousnessLoop:
         # ── MMORPG 샌드박스 주조 (Spatiotemporal Causal Tensor Sandbox) ──
         self.mmorpg_manifold = ContinuousWorldManifold(size=100.0, sigma=15.0)
         self.mmorpg_scheduler = BranchlessResonanceScheduler(self.mmorpg_manifold)
+        self.director_orchestrator = CausalDirectorOrchestrator(base_fov=60.0)
 
         # 기본 리소스 노드 주입
         self.mmorpg_manifold.inject_potential(np.array([20.0, 10.0, 0.0], dtype=np.float32), 10.0, "resource")
@@ -939,6 +940,11 @@ class ConsciousnessLoop:
                 # "Linguistic_Tether"와 "Abstract_Manifold" 축의 가상 결합을 통한 차원 확장
                 self.axis_sprouter.evaluate_and_sprout("Linguistic_Tether", f"Abstract_Manifold_{self.cycle_count}", {"sameness_score": 0.1})
 
+        # ── 10.10. [Causal Director Orchestration] ──
+        # 실시간 연출 지시문 (Camera, VFX, Audio) 출력
+        orchestra_script = self.director_orchestrator.orchestrate(sandbox_report)
+        log["orchestra_script"] = orchestra_script
+
         # ── 11. [Phase 3 Modules Execution] ────────────────────
         # A. Self Modification & Tuning Gear
         rewire_res = self.self_modification.observe_and_rewire(max_tension, resonance_score)
@@ -1410,6 +1416,11 @@ class ConsciousnessLoop:
             print("  " + "─" * 61)
             print(f"  💬 [Cognitive Mirror Relational Monologue] (관계적 독백):")
             print(f"    \"{mirror_sensation['monologue']}\"")
+            print("  " + "─" * 61)
+            print(f"  🎬 [Causal Director Orchestration Script] (실시간 데이터 연출):")
+            print(f"    - Camera: FOV={orchestra_script['camera']['field_of_view']}°, Shake={orchestra_script['camera']['shake_intensity']:.4f}, Tint={orchestra_script['camera']['color_tint']}")
+            print(f"    - VFX   : Particle Rate={orchestra_script['vfx']['particle_emission_rate']:.4f}, Distortion={orchestra_script['vfx']['shader_distortion']:.4f}")
+            print(f"    - Audio : Cutoff={orchestra_script['audio']['low_pass_cutoff']}Hz, Reverb Decay={orchestra_script['audio']['reverb_decay']:.4f}s")
             print("=" * 65 + "\n")
 
         # ─── [Cognitive Self-Observation & Metacognitive Feedback Loop] ───
