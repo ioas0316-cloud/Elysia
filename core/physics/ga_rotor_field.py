@@ -10,10 +10,14 @@ ga_rotor_field.py
   리 대수(Lie Algebra) 상의 바이벡터(Bivector) 가중 선형 중첩을 사용해 다자간 구속조건을 완벽히 충족하는 연속체 유체 흐름을 형성.
 - SoA(Struct of Arrays) 메모리 레이아웃 및 핑퐁 더블 버퍼링(Ping-Pong Double Buffering) 모사를 통해 초병렬 하드웨어 호환성 확보.
 - 사고 잠재 공간(Cognitive Latent Space) 상에서 논리적 모순/환각 영역(SDF Obstacle)을 유연하게 우회하는 Thought Trajectory 지원.
+- Clifford Rotor Sandwich ($R v R^\\dagger$) 모듈을 통합하여 다차원 공간 상의 미분 가능한 연속 흐름 역학계 완비.
 """
 
 import numpy as np
+import torch
+import math
 from typing import Dict, List, Tuple, Any, Optional
+from core.physics.rotor_extension.rotor_layer import apply_rotor_sandwich
 
 class GARotorFieldSystem:
     """
@@ -536,5 +540,85 @@ class CognitiveThoughtTrajectory:
 
             curr += v_next * dt
             trajectory.append(curr.copy())
+
+        return trajectory
+
+    def navigate_thought_differentiable(
+        self,
+        start_emb: torch.Tensor,
+        goal_emb: torch.Tensor,
+        steps: int = 50,
+        dt: float = 0.05
+    ) -> List[torch.Tensor]:
+        """
+        [Clifford Rotor Sandwich 통합: 미분 가능한 잠재 공간 사고 궤적 생성]
+        순전파와 역전파가 완전히 연계되는 미분 경로로, PyTorch Autograd와 그라디언트 학습에 직접 연동됩니다.
+        """
+        curr = start_emb.clone()
+        goal = goal_emb.clone()
+        trajectory = [curr]
+        epsilon = 1e-9
+
+        for _ in range(steps):
+            v_goal = goal - curr
+            dist_to_goal = torch.norm(v_goal)
+            if dist_to_goal < 0.02:
+                break
+
+            v_dir = v_goal / (dist_to_goal + epsilon)
+            v_next = v_dir.clone()
+
+            omega_sum = torch.zeros_like(curr)
+            weight_sum = 0.0
+
+            for center, radius in self.contradictions:
+                # Convert list tuples contradictions center into torch tensors
+                center_t = torch.tensor(center, dtype=curr.dtype, device=curr.device)
+                r_obs = curr - center_t
+                dist_to_obs = torch.norm(r_obs)
+                effective_dist = torch.clamp(dist_to_obs - radius, min=1e-5)
+
+                if effective_dist < self.threshold:
+                    weight = 1.0 / (effective_dist ** 2)
+
+                    # Orthonormal projection vectors for the rotation plane
+                    u1 = r_obs / (dist_to_obs + epsilon)
+                    proj = torch.sum(v_dir * u1) * u1
+                    u2 = v_dir - proj
+                    u2_norm = torch.norm(u2)
+
+                    if u2_norm < 1e-6:
+                        # Symmetry-breaking orthogonal dimension
+                        u2 = torch.zeros_like(v_dir)
+                        min_idx = torch.argmin(torch.abs(u1))
+                        u2[min_idx] = 1.0
+                        u2 = u2 - torch.sum(u2 * u1) * u1
+                        u2_norm = torch.norm(u2)
+
+                    if u2_norm > 1e-6:
+                        u2 = u2 / u2_norm
+                        # Dynamic rotation angle theta
+                        theta = (math.pi / 2.0) * torch.exp(-effective_dist / 0.5)
+
+                        # Wrap in batch dimension for apply_rotor_sandwich: [1, D]
+                        v_in = v_dir.unsqueeze(0)
+                        u_in = u1.unsqueeze(0)
+                        w_in = u2.unsqueeze(0)
+                        theta_in = theta.unsqueeze(0).unsqueeze(0) # [1, 1]
+
+                        # Apply fully differentiable Clifford Rotor Sandwich operation
+                        rot_v = apply_rotor_sandwich(v_in, u_in, w_in, theta_in).squeeze(0)
+
+                        omega_sum = omega_sum + weight * rot_v
+                        weight_sum = weight_sum + weight
+
+            if weight_sum > 0:
+                v_next = omega_sum / weight_sum
+                v_next_norm = torch.norm(v_next)
+                if v_next_norm > 1e-6:
+                    v_next = v_next / v_next_norm
+
+            curr = curr + v_next * dt
+            trajectory.append(curr)
 
         return trajectory
