@@ -52,6 +52,16 @@ class TopologicalReductionEngine:
         # Metacognitive trace memory to record physical-informational transitions (Data Provenance)
         self.metacognitive_traces: List[Dict[str, Any]] = []
 
+        # [Persistent Substrate]
+        # Persistent node potentials carrying temporal narratives and causal momentum
+        self.persistent_potentials = np.zeros(num_nodes, dtype=np.float32)
+        self.decay_factor = 0.95
+
+        # [Scalable Lens & Associative Memory]
+        self.associative_memory: List[Dict[str, Any]] = []
+        self.max_memory_size = 100
+        self.last_input_features: Optional[np.ndarray] = None
+
     def _initialize_undifferentiated_substrate(self):
         """Initializes the network with a random, connected, symmetric conductance topology."""
         for i in range(self.num_nodes):
@@ -139,15 +149,93 @@ class TopologicalReductionEngine:
 
         return G_reduced, R_eq
 
+    def decay_substrate(self, decay_factor: Optional[float] = None):
+        """
+        Decays the persistent potential field over time, representing
+        natural temporal memory decay on the substrate.
+        """
+        factor = decay_factor if decay_factor is not None else self.decay_factor
+        self.persistent_potentials *= factor
+
+    def _extract_input_features(self, modality_data: Dict[str, Any]) -> np.ndarray:
+        """
+        Extracts a continuous 5-dimensional feature vector representing:
+        0: Language length (normalized)
+        1: Language character-based hash (normalized)
+        2: Visual red value
+        3: Visual green value
+        4: Physical cpu/ram composite friction
+        """
+        features = np.zeros(5, dtype=np.float32)
+
+        # 0 & 1: Language features
+        if "language" in modality_data:
+            text = str(modality_data["language"])
+            features[0] = float(len(text)) / 100.0
+            features[1] = float(hash(text) % 100) / 100.0
+
+        # 2 & 3: Visual features
+        if "visual" in modality_data:
+            vis = modality_data["visual"]
+            features[2] = float(vis.get("red", 0.5))
+            features[3] = float(vis.get("green", 0.5))
+
+        # 4: Physical features
+        if "physical" in modality_data:
+            phys = modality_data["physical"]
+            cpu = float(phys.get("cpu", 0.5))
+            ram = float(phys.get("ram", 0.5))
+            features[4] = (cpu * 0.6) + (ram * 0.4)
+        else:
+            features[4] = self.variable_resistor.resistance
+
+        return features
+
     def map_multimodal_to_network(self, modality_data: Dict[str, Any]):
         """
-        [Modality-Agnostic Projection Map]
+        [Modality-Agnostic Projection Map & Scalable Lens]
         Translates raw multi-modal inputs into internal network conductances and boundary currents.
 
-        - "language": string or token list. Word length and character hashes shape internal paths.
-        - "visual": RGB values or features. Color intensity scales path resistance.
-        - "physical": Autonomic metrics (CPU, Memory, IO). High hardware pressure adjusts the variable resistor.
+        Now features the Scalable Lens O(1) Reflex Lookup Bypass:
+        If the current input features closely match a previously recorded state in Associative Memory,
+        we completely bypass O(N^3) global computation and restore the mapped resonant state.
         """
+        # 1. Extract features and check for resonant memory match (Scalable Lens)
+        features = self._extract_input_features(modality_data)
+        self.last_input_features = features.copy()
+
+        best_match = None
+        min_dist = float('inf')
+
+        for entry in self.associative_memory:
+            dist = np.linalg.norm(features - entry["features"])
+            if dist < min_dist:
+                min_dist = dist
+                best_match = entry
+
+        # Reflex Level (O(1) Resonant Lookup Bypass)
+        # If input has extremely low entropy/difference from memory, bypass completely
+        if best_match is not None and min_dist < 0.02:
+            self.conductance_matrix = best_match["conductance_matrix"].copy()
+            self.memristor_states = best_match["memristor_states"].copy()
+            self.persistent_potentials = best_match["potentials"].copy()
+            self._rebuild_laplacian_diagonals()
+
+            self.metacognitive_traces.append({
+                "source": "scalable_lens_bypass",
+                "message": f"O(1) Resonant Lookup Reflex triggered (Distance: {min_dist:.4f}). Global matrix inversion bypassed.",
+                "distance": float(min_dist),
+                "timestamp": time.time()
+            })
+            return
+
+        # Warm Start support (Moderate match)
+        if best_match is not None and min_dist < 0.3:
+            # Seed persistent potentials and blend conductance towards the best match to accelerate settling
+            self.persistent_potentials = 0.7 * best_match["potentials"] + 0.3 * self.persistent_potentials
+            self.conductance_matrix = 0.5 * best_match["conductance_matrix"] + 0.5 * self.conductance_matrix
+
+        # 2. Reflection Level (Standard Full Mapping)
         # 1. Physical autonomic metrics modulate the base global variable resistor
         if "physical" in modality_data:
             phys = modality_data["physical"]
@@ -196,18 +284,25 @@ class TopologicalReductionEngine:
 
         self._rebuild_laplacian_diagonals()
 
-    def diffuse(self, latent_potential: float) -> np.ndarray:
+    def diffuse(self, latent_potential: float, use_continuous: bool = False, num_steps: int = 50, dt: float = 0.05) -> np.ndarray:
         """
         [Generative Decanter / Diffusion]
         Symmetric inverse operation: diffuses a single 1D latent equivalent potential back into
-        the high-dimensional state vector of all network nodes by solving the nodal voltage equation.
+        the high-dimensional state vector of all network nodes.
 
-        We fix boundary potentials: V[0] = latent_potential, V[1] = 0.0, and solve G_II * V_I = -G_IB * V_B
+        Supports both analytical O(N^3) solve and Continuous-Time local relaxation ODE Solver.
         """
+        if use_continuous:
+            return self.diffuse_continuous(latent_potential, num_steps=num_steps, dt=dt)
+
         self._rebuild_laplacian_diagonals()
 
         # Potentials vector (V)
         V = np.zeros(self.num_nodes, dtype=np.float32)
+        # Mix with decayed persistent potentials for Warm Start/Momentum
+        if hasattr(self, 'persistent_potentials'):
+            V += self.persistent_potentials * 0.1
+
         V[0] = latent_potential
         V[1] = 0.0 # ground
 
@@ -230,9 +325,46 @@ class TopologicalReductionEngine:
         except np.linalg.LinAlgError:
             V[I] = 0.0
 
+        # Preserve the settled state in our persistent substrate
+        self.persistent_potentials = V.copy()
         return V
 
-    def run_self_refinement_loop(self, target_potential: float, max_steps: int = 15, lr: float = 0.2) -> Dict[str, Any]:
+    def diffuse_continuous(self, latent_potential: float, num_steps: int = 50, dt: float = 0.05) -> np.ndarray:
+        """
+        [Continuous local relaxation ODE Solver]
+        Diffuses the latent potential using local differential relations:
+        dV_i/dt = sum_{j} G_ij * (V_j - V_i) for internal nodes.
+        Fixes V[0] = latent_potential and V[1] = 0.0.
+        """
+        self._rebuild_laplacian_diagonals()
+
+        # Warm start from persistent potentials
+        V = self.persistent_potentials.copy()
+
+        # Enforce boundary potentials
+        V[0] = latent_potential
+        V[1] = 0.0
+
+        for _ in range(num_steps):
+            dV = np.zeros_like(V)
+            for i in self.internal_nodes:
+                flow = 0.0
+                for j in range(self.num_nodes):
+                    if i != j:
+                        g = self.conductance_matrix[i, j]
+                        flow += g * (V[j] - V[i])
+                dV[i] = flow
+
+            # Update internal potentials using the ODE step
+            V[self.internal_nodes] += dV[self.internal_nodes] * dt
+            # Clip potentials to prevent numerical instability/explosion
+            V = np.clip(V, -10.0, 10.0)
+
+        # Store in persistent potentials
+        self.persistent_potentials = V.copy()
+        return V
+
+    def run_self_refinement_loop(self, target_potential: float, max_steps: int = 15, lr: float = 0.2, use_continuous: bool = False) -> Dict[str, Any]:
         """
         [Closed-Loop Self-Correction Feedback]
         Elysia diffuses her internal intent (target potential), evaluates the resulting
@@ -245,9 +377,12 @@ class TopologicalReductionEngine:
 
         print(f"[Self-Refinement] Starting closed-loop alignment for Target Attractor Potential: {target_potential:.4f}")
 
+        # Substrate potential decay at the start of loop step representing temporal flow
+        self.decay_substrate()
+
         for step in range(max_steps):
             # 1. Inverse Diffusion: Generate the high-dimensional node potentials from current intent
-            node_potentials = self.diffuse(target_potential)
+            node_potentials = self.diffuse(target_potential, use_continuous=use_continuous)
 
             # 2. Forward Compression: Condense the current network state to find the actual equivalent resistance & potential
             G_red, R_eq = self.compress()
@@ -262,17 +397,13 @@ class TopologicalReductionEngine:
             history_residuals.append(float(residual))
 
             # 4. Self-Correcting Hebbian Update with Memristive Non-linear dynamics:
-            # Tune the internal conductances based on local node potential differences and global residual
-            # Delta G_ij = lr * residual * (V_i - V_j)^2 * MemristorState_ij
             for i in range(self.num_nodes):
                 for j in range(i + 1, self.num_nodes):
                     if self.conductance_matrix[i, j] > 0.0: # Only adapt existing paths
                         v_diff = node_potentials[i] - node_potentials[j]
                         v_diff_sq = v_diff ** 2
 
-                        # Memristor State update (non-linear resistance changes depending on current/voltage history)
-                        # High potential difference drives non-linear state changes (plasticity/annual rings)
-                        # Symmetric non-linear state change based on magnitude of potential difference to ensure index invariance.
+                        # Memristor State update
                         self.memristor_states[i, j] = np.clip(
                             self.memristor_states[i, j] + self.plasticity_rate * v_diff_sq,
                             0.05, 1.95
@@ -282,7 +413,6 @@ class TopologicalReductionEngine:
                         # Conductance adaptation modulated by the memristive state
                         memristive_modulation = self.memristor_states[i, j]
                         adjustment = lr * residual * v_diff_sq * memristive_modulation
-                        # Clip adjustment to prevent numerical overshoot/instability
                         adjustment = np.clip(adjustment, -0.1, 0.1)
                         self.conductance_matrix[i, j] = np.clip(self.conductance_matrix[i, j] + adjustment, 0.01, 10.0)
                         self.conductance_matrix[j, i] = self.conductance_matrix[i, j]
@@ -295,6 +425,11 @@ class TopologicalReductionEngine:
                 break
 
         final_G_red, final_R_eq = self.compress()
+
+        # [Save state to Associative Memory]
+        if self.last_input_features is not None:
+            # Save the fully converged/adapted state
+            self.save_to_associative_memory(self.last_input_features, node_potentials, final_R_eq)
 
         trace = {
             "source": "run_self_refinement_loop",
@@ -313,6 +448,22 @@ class TopologicalReductionEngine:
             "final_equivalent_resistance": final_R_eq,
             "final_node_potentials": node_potentials.tolist()
         }
+
+    def save_to_associative_memory(self, features: np.ndarray, potentials: np.ndarray, r_eq: float):
+        """
+        Saves the current network state to Associative Memory for O(1) Scalable Lens lookup.
+        """
+        # Evict oldest entry if memory is full
+        if len(self.associative_memory) >= self.max_memory_size:
+            self.associative_memory.pop(0)
+
+        self.associative_memory.append({
+            "features": features.copy(),
+            "conductance_matrix": self.conductance_matrix.copy(),
+            "memristor_states": self.memristor_states.copy(),
+            "potentials": potentials.copy(),
+            "R_eq": r_eq
+        })
 
     def cross_modal_translate(self, source_modality: Dict[str, Any], target_key: str) -> Dict[str, Any]:
         """
