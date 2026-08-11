@@ -23,7 +23,7 @@ minimal_closed_loop.py
 """
 
 import numpy as np
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 
 class MinimalClosedLoopSystem:
@@ -118,7 +118,6 @@ class MinimalClosedLoopSystem:
         friction = self.calculate_friction()
 
         # 2. 인과 구조 역추적 장 (Causal Back-tracing Field)
-        # 마찰 F의 S 좌표에 대한 편미분 gradient를 구합니다.
         # dF/ds_i = ∑_j W_{ij} * (||s_i - s_j|| - L_{ij}) * (s_i - s_j) / (||s_i - s_j|| + ε)
         grad_S = np.zeros_like(self.S)
         epsilon = 1e-9
@@ -181,6 +180,253 @@ class MinimalClosedLoopSystem:
             "weight_matrix": self.W.copy(),
             "state_matrix": self.S.copy(),
             "invariant_matrix": self.L.copy()
+        }
+
+
+class GroundedSensoryClosedLoop:
+    """
+    [양방향 인과 매니폴드 시스템 (Grounded Sensory Closed Loop)]
+    원인, 과정, 결과가 동일한 위상 공간 위에서 상호 구속되는 에너지 평형 방정식 Ф(C, P, E) = 0을 만족하는,
+    시각(Visual), 열역학(Thermal), 공간(Spatial) 3대 하부 감각 필드와 Coupled Complex Wave-Void Oscillator 기반의
+    무분기 자율 물리 이완 폐회로 Substrate.
+    """
+    def __init__(
+        self,
+        temperature: float = 1.0,
+        cooling_rate: float = 0.95,
+        coordinate_relaxation_rate: float = 0.2,
+        thermal_adaptation_rate: float = 0.1,
+        phase_synchronization_rate: float = 0.15,
+        weight_mutation_rate: float = 0.05,
+        consolidation_rate: float = 0.01,
+        weight_damping: float = 0.99,
+        coupling_beta: float = 0.1,
+        coupling_gamma: float = 0.1
+    ):
+        self.node_names = ["Sun", "Cold", "Ice", "Fire"]
+        self.num_nodes = len(self.node_names)
+        self.name_to_index = {name: idx for idx, name in enumerate(self.node_names)}
+
+        # 1. Spatial Field (S): N x 2 coordinates (originally in a circle)
+        angles = np.linspace(0, 2 * np.pi, self.num_nodes, endpoint=False)
+        self.S = np.stack([np.cos(angles), np.sin(angles)], axis=1).astype(np.float32)
+        self.S -= np.mean(self.S, axis=0) # Center of mass conservation
+
+        # 2. Thermal Field (T): Intrinsic heat charge per node
+        # Sun (+2.0), Cold (-2.0), Ice (-1.5), Fire (+1.8)
+        self.T = np.array([2.0, -2.0, -1.5, 1.8], dtype=np.float32)
+
+        # 3. Visual Field (V): [Flux, Order, Entropy] chromatic signature (Red, Blue, Yellow)
+        self.V = np.array([
+            [0.9, 0.1, 0.2],  # Sun: Highly flux (Red)
+            [0.1, 0.9, 0.2],  # Cold: Highly order (Blue)
+            [0.1, 0.8, 0.5],  # Ice: High order, medium entropy (Yellow)
+            [0.9, 0.1, 0.6]   # Fire: High flux, medium entropy
+        ], dtype=np.float32)
+
+        # 4. Phase Field (theta) & Wave-Void: Coupled rotors
+        # Complex state z = A * e^{i * theta}
+        self.theta = np.array([0.0, np.pi, np.pi * 0.8, 0.2], dtype=np.float32)
+        self.amplitude = np.array([1.0, 1.0, 1.0, 1.0], dtype=np.float32)
+
+        # 5. Connectivity Matrix (W): Coupled weights
+        self.W = np.ones((self.num_nodes, self.num_nodes), dtype=np.float32) * 0.5
+        np.fill_diagonal(self.W, 0.0)
+        self.initial_W = self.W.copy()
+
+        # 6. Target Invariants (L, H, Psi) representing Rest State constraints
+        self.L = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float32)
+        self.H = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float32)
+        self.Psi = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float32)
+        self._recalculate_target_invariants()
+
+        # Thermodynamic Temperature Phase Transition variables
+        self.temperature = temperature
+        self.cooling_rate = cooling_rate
+
+        # Adaptation and relaxation rates
+        self.eta_s = coordinate_relaxation_rate
+        self.eta_t = thermal_adaptation_rate
+        self.eta_theta = phase_synchronization_rate
+        self.eta_w = weight_mutation_rate
+        self.eta_l = consolidation_rate
+        self.weight_damping = weight_damping
+
+        # Cross-field coupling coefficients
+        self.beta = coupling_beta
+        self.gamma = coupling_gamma
+
+        # Hysteresis memory: tracking energy dissipation
+        self.dissipated_energy_history = []
+
+    def _recalculate_target_invariants(self) -> None:
+        """현재 상태를 바탕으로 위상 불변량 L, H, Psi를 갱신합니다."""
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                self.L[i, j] = np.linalg.norm(self.S[i] - self.S[j])
+                self.H[i, j] = self.T[i] - self.T[j]
+                self.Psi[i, j] = self.theta[i] - self.theta[j]
+
+    @property
+    def presence_field(self) -> np.ndarray:
+        """The 'Presence' manifest state wave: A * e^{i * theta}."""
+        return self.amplitude * np.exp(1j * self.theta)
+
+    @property
+    def void_field(self) -> np.ndarray:
+        """The 'Void' complementary vacuum state wave: A * e^{i * (theta + pi)}."""
+        return self.amplitude * np.exp(1j * (self.theta + np.pi))
+
+    def project_stimulus(self, target_concept: str, sensory_impulses: dict) -> None:
+        """
+        [1. 자극의 위상 수용 (Stimulus Projection)]
+        외부 자극을 기호나 데이터로 파싱하지 않고, 지정된 타겟 개념의 각 하부 감각 필드에 대한 물리적 변위로 직접 투사합니다.
+        """
+        if target_concept not in self.name_to_index:
+            return
+        idx = self.name_to_index[target_concept]
+
+        if "thermal" in sensory_impulses:
+            self.T[idx] += float(sensory_impulses["thermal"])
+
+        if "spatial" in sensory_impulses:
+            self.S[idx] += np.array(sensory_impulses["spatial"], dtype=np.float32)
+            self.S -= np.mean(self.S, axis=0)
+
+        if "phase" in sensory_impulses:
+            self.theta[idx] += float(sensory_impulses["phase"])
+            self.theta[idx] = (self.theta[idx] + np.pi) % (2 * np.pi) - np.pi
+
+    def calculate_friction(self) -> float:
+        """
+        [2. 상태 마찰 감지 (Friction Detection)]
+        각 필드(공간, 열역학, 위상 파동)의 불일치 장력의 합을 마찰 F로 산출합니다.
+        이때 공간적 평형 거리는 열역학 및 위상 불일치에 의해 유동적으로 변하는 유효 평형 거리 tilde_L을 따릅니다.
+        """
+        total_friction = 0.0
+
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                w = self.W[i, j]
+                if w > 0:
+                    dist = np.linalg.norm(self.S[i] - self.S[j])
+                    # Effective target length coupled with Thermal and Phase domains
+                    tilde_L = self.L[i, j] + self.beta * ((self.T[i] - self.T[j]) ** 2) + self.gamma * (1.0 - np.cos(self.theta[i] - self.theta[j]))
+
+                    diff_s = dist - tilde_L
+                    diff_t = (self.T[i] - self.T[j]) - self.H[i, j]
+                    diff_p = self.theta[i] - self.theta[j] - self.Psi[i, j]
+
+                    total_friction += w * (diff_s ** 2 + diff_t ** 2 + (1.0 - np.cos(diff_p)))
+
+        return float(0.5 * total_friction)
+
+    def step(self, dt: float = 0.1) -> Dict[str, Any]:
+        """
+        [자율 물리 이완 단계 (Let it flow!)]
+        Langevin thermal noise가 가미된 물리-인지 쌍대 장의 5단계 자율 이완 루프.
+        """
+        # 1. 마찰 감지
+        friction = self.calculate_friction()
+        self.dissipated_energy_history.append(friction)
+
+        # 2. 인과 구조 역추적 (Causal Back-tracing via Gradients of coupled potential)
+        grad_S = np.zeros_like(self.S)
+        grad_T = np.zeros_like(self.T)
+        grad_theta = np.zeros_like(self.theta)
+        epsilon = 1e-9
+
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                w_ij = self.W[i, j]
+                w_ji = self.W[j, i]
+
+                if w_ij > 0:
+                    dist = np.linalg.norm(self.S[i] - self.S[j])
+                    tilde_L = self.L[i, j] + self.beta * ((self.T[i] - self.T[j]) ** 2) + self.gamma * (1.0 - np.cos(self.theta[i] - self.theta[j]))
+                    strain = dist - tilde_L
+
+                    # Spatial gradient component
+                    diff_vec = self.S[i] - self.S[j]
+                    direction = diff_vec / (dist + epsilon)
+                    grad_S[i] += w_ij * strain * direction
+
+                    # Thermal gradient component (Piezoelectric-like coupling)
+                    term_t = (self.T[i] - self.T[j]) - self.H[i, j]
+                    # Derivative of F_elastic w.r.t T_i is -w_ij * strain * 2 * beta * (T_i - T_j)
+                    grad_T[i] += w_ij * (term_t - 2.0 * self.beta * strain * (self.T[i] - self.T[j]))
+
+                    # Phase gradient component
+                    term_p = self.theta[i] - self.theta[j] - self.Psi[i, j]
+                    # Derivative of F_elastic w.r.t theta_i is -w_ij * strain * gamma * sin(theta_i - theta_j)
+                    grad_theta[i] += w_ij * (0.5 * np.sin(term_p) - self.gamma * strain * np.sin(self.theta[i] - self.theta[j]))
+
+        # 3. 국소 위상 변이 및 이완 (Topological Mutation & Relaxation with Langevin Noise)
+        # Langevin thermal fluctuations
+        noise_scale = np.sqrt(self.temperature) if self.temperature > 0 else 0.0
+
+        # Spatial relaxation & noise
+        s_noise = np.random.normal(0, 0.05 * noise_scale, size=self.S.shape) if noise_scale > 0 else 0.0
+        self.S -= (self.eta_s * grad_S * dt - s_noise)
+        self.S -= np.mean(self.S, axis=0) # 무게중심 보존
+
+        # Thermal relaxation & noise
+        t_noise = np.random.normal(0, 0.05 * noise_scale, size=self.T.shape) if noise_scale > 0 else 0.0
+        self.T -= (self.eta_t * grad_T * dt - t_noise)
+
+        # Phase relaxation & noise
+        theta_noise = np.random.normal(0, 0.05 * noise_scale, size=self.theta.shape) if noise_scale > 0 else 0.0
+        self.theta -= (self.eta_theta * grad_theta * dt - theta_noise)
+        self.theta = (self.theta + np.pi) % (2 * np.pi) - np.pi
+
+        # 4. 연결 강도/위상 변이 (Weight Mutation)
+        grad_W = np.zeros_like(self.W)
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                if self.initial_W[i, j] > 0:
+                    dist = np.linalg.norm(self.S[i] - self.S[j])
+                    tilde_L = self.L[i, j] + self.beta * ((self.T[i] - self.T[j]) ** 2) + self.gamma * (1.0 - np.cos(self.theta[i] - self.theta[j]))
+                    diff_s = dist - tilde_L
+                    diff_t = (self.T[i] - self.T[j]) - self.H[i, j]
+                    diff_p = self.theta[i] - self.theta[j] - self.Psi[i, j]
+                    grad_W[i, j] = 0.5 * ((diff_s ** 2) + (diff_t ** 2) + (1.0 - np.cos(diff_p)))
+
+        self.W -= self.eta_w * grad_W * dt
+        self.W = np.clip(self.W * self.weight_damping, 0.05, 5.0)
+        self.W[self.initial_W == 0] = 0.0
+
+        # 5. 불변량 고정 및 루프 폐쇄 (Consolidation of L, H, Psi)
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                if self.initial_W[i, j] > 0:
+                    # Spatial consolidation
+                    dist = np.linalg.norm(self.S[i] - self.S[j])
+                    self.L[i, j] += self.eta_l * (dist - self.L[i, j]) * dt
+
+                    # Thermal consolidation
+                    self.H[i, j] += self.eta_l * ((self.T[i] - self.T[j]) - self.H[i, j]) * dt
+
+                    # Phase consolidation
+                    diff_p = self.theta[i] - self.theta[j]
+                    phase_diff_error = (diff_p - self.Psi[i, j] + np.pi) % (2 * np.pi) - np.pi
+                    self.Psi[i, j] += self.eta_l * phase_diff_error * dt
+                    self.Psi[i, j] = (self.Psi[i, j] + np.pi) % (2 * np.pi) - np.pi
+
+        # Cooling down (Thermodynamic Phase Transition)
+        self.temperature *= (1.0 - (1.0 - self.cooling_rate) * dt)
+
+        # 새로운 상태 마찰 재측정
+        new_friction = self.calculate_friction()
+
+        return {
+            "friction_before": friction,
+            "friction_after": new_friction,
+            "local_friction_index": (np.linalg.norm(grad_S, axis=1) + np.abs(grad_T) + np.abs(grad_theta)).tolist(),
+            "grad_S_magnitude": float(np.linalg.norm(grad_S)),
+            "weight_matrix": self.W.copy(),
+            "state_matrix": self.S.copy(),
+            "invariant_matrix": self.L.copy(),
+            "temperature": self.temperature
         }
 
 
