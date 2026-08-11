@@ -113,3 +113,81 @@ def test_state_update_without_code_generation():
     # "사과" - "과일" 에지의 가중치(연결 전위)가 Hebbian 가소성에 의해 동적으로 갱신되었음을 검증
     edge_after = next(e.weight for e in kg.edges if e.source_id == "사과" and e.target_id == "과일")
     assert edge_after != edge_before
+
+
+def test_lazy_evaluation_and_entrainment_scaling():
+    """
+    5. 상위 위상 장(Field)에 귀속된 하위 노드들의 동적 유도(Entrainment/Lazy Evaluation) 검증.
+    """
+    kg = TopologyKnowledgeGraph()
+    apple_node = kg.nodes["사과"]
+
+    # 사과 노드는 생명순환_서사 공간에 소속됨
+    assert apple_node.parent_narrative_id == "생명순환_서사"
+    assert apple_node.parent_field_id == "소비보존_평형면"
+
+    # 최초 오프셋 전위 주입
+    apple_node.inject_energy(2.0)
+    assert apple_node.potential == 2.0
+
+
+def test_rete_algebraic_state_transition():
+    """
+    6. RETE-like 패턴 매칭 기반 대수적 상태 이행 검증.
+       '사과를 먹는 이벤트'가 유입되었을 때, 대상 노드의 attributes 속성(훼손도, 포만감)이
+       포인터 단위로 실시간 수정되는지 검증.
+    """
+    kg = TopologyKnowledgeGraph()
+
+    # 이행 전 상태
+    assert kg.nodes["사과"].attributes["state"] == "Intact"
+    assert kg.nodes["사과"].attributes["consumed_ratio"] == 0.0
+    assert kg.nodes["인간"].attributes["satiety"] == 0.0
+
+    # "인간", "사과", "먹다" 자극 주입으로 상태 이행 유발
+    res = kg.inject_stimulus(["인간", "먹다", "사과"])
+
+    # 사과와 인간의 상태가 직접 업데이트되었는지 검증
+    assert kg.nodes["사과"].attributes["state"] == "Consumed"
+    assert kg.nodes["사과"].attributes["consumed_ratio"] == 1.0
+    assert kg.nodes["인간"].attributes["satiety"] == 1.0
+
+
+def test_reactive_working_memory_and_decay():
+    """
+    7. 반응형 작업 메모리(LRU Active Node Cache) 및 k-hop Ripple Propagation 검증.
+    """
+    kg = TopologyKnowledgeGraph()
+
+    # "얼음" 자극 주입 시, 반응형 LRU 캐시에 얼음 및 인접 H2O 노드들(물, 수증기)이 로드되는지 확인
+    kg.inject_stimulus(["얼음"])
+
+    assert "얼음" in kg.active_subgraph_nodes
+    # 1-hop 혹은 co-resonance를 통해 "물" 역시 활성화되어 캐시에 적재되었음을 확인
+    assert "물" in kg.active_subgraph_nodes
+
+
+def test_topological_contradiction_and_local_refit():
+    """
+    8. 위상적 모순 감지 및 자동 우회(Local Refit) 검증.
+       이미 소비된 사과를 다시 먹으려는 모순 이벤트 유입 시,
+       시스템이 오류를 내거나 강제 실행을 멈추고 동일 평형면의 대체제('배')로 '자율 우회(Local Refit)'를 실행하는지 검증.
+    """
+    kg = TopologyKnowledgeGraph()
+
+    # 1. 첫 번째 소비 완료
+    kg.inject_stimulus(["인간", "먹다", "사과"])
+    assert kg.nodes["사과"].attributes["state"] == "Consumed"
+    assert kg.nodes["배"].attributes["state"] == "Intact"
+
+    # 2. 이미 소비된 사과에 대해 다시 먹는 행위 시도 -> 모순 감지 후 '배'로 자율 우회(Local Refit)
+    res = kg.inject_stimulus(["인간", "먹다", "사과"])
+
+    assert res["refitted"] is True
+    assert res["original_target_failed"] == "사과"
+    assert res["refitted_target"] == "배"
+
+    # 배가 먹힌 상태로 정상 이행 완료되었음을 검증
+    assert kg.nodes["배"].attributes["state"] == "Consumed"
+    assert kg.nodes["배"].attributes["consumed_ratio"] == 1.0
+    assert kg.nodes["인간"].attributes["satiety"] == 1.0
