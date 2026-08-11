@@ -1,7 +1,7 @@
 """
 minimal_closed_loop.py
 ======================
-최소 인과 루프 (Minimal Closed Loop) - 무분기 물리-대수적 및 의미론적 모델.
+최소 인과 루프 (Minimal Closed Loop) - 무분기 물리-대수적, 의미론적 및 감각적 접지 모델.
 
 핵심 철학 (From THE_ABSOLUTE_COMMANDMENT.md & ROADMAP.md):
 - "자율적으로 움직이라"고 명시(Specification)하거나 규칙(If-Else)을 주입하는 순간, 지능은 대본 연극으로 변질됩니다.
@@ -212,7 +212,6 @@ class SemanticClosedLoopSystem:
         self.S -= np.mean(self.S, axis=0)  # 무게중심 보존
 
         # 3. 초기 논리적 인과 연결 (W): 개념들 간의 유사도 기반 연결망 구축
-        # 예: 코사인 유사도가 0.3 이상인 것들만 엣지로 연결
         self.W = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float32)
         for i in range(self.num_nodes):
             for j in range(self.num_nodes):
@@ -227,7 +226,6 @@ class SemanticClosedLoopSystem:
         self.initial_W = self.W.copy()
 
         # 4. 불변량 (I): 개념 간의 논리적 거리(Logical Consistencies)
-        # 원래 의미 특징 상의 실제 유클리드 거리를 보존해야 할 불변량 거리 L로 수용
         self.L = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float32)
         for i in range(self.num_nodes):
             for j in range(self.num_nodes):
@@ -249,27 +247,22 @@ class SemanticClosedLoopSystem:
         idx_a = self.label_to_index[concept_a]
         idx_b = self.label_to_index[concept_b]
 
-        # 1. 불변량(L)을 강제 변형하여 모순/위상차를 지형에 주입
         self.L[idx_a, idx_b] = force_distance
         self.L[idx_b, idx_a] = force_distance
 
-        # 2. 강제 엣지 연결 활성화 (기존에 연결이 없었더라도 자극에 의해 새로운 인과 통로 W 형성)
         self.W[idx_a, idx_b] = 1.0
         self.W[idx_b, idx_a] = 1.0
         self.initial_W[idx_a, idx_b] = 1.0
         self.initial_W[idx_b, idx_a] = 1.0
 
-        # 3. 물리적 기하 변위: 두 노드를 강제로 조금 가깝거나 멀게 충격(Impulse) 부여
         diff_vec = self.S[idx_a] - self.S[idx_b]
         curr_dist = np.linalg.norm(diff_vec) + 1e-9
         direction = diff_vec / curr_dist
 
-        # 타겟 거리 대비 변위 산출 후 강제 이동
         displacement = 0.5 * (curr_dist - force_distance) * direction
         self.S[idx_a] -= displacement
         self.S[idx_b] += displacement
 
-        # 무게중심 보존 법칙 강제적 프로젝션
         self.S -= np.mean(self.S, axis=0)
 
         return idx_a, idx_b
@@ -277,8 +270,7 @@ class SemanticClosedLoopSystem:
     def calculate_friction(self) -> float:
         """
         [2. 상태 마찰 감지 (Friction Detection)]
-        모순된 의미 자극에 의해, 개념들이 맺고 있던 기존 논리적 지층(W)과
-        새로 규정된 보존 법칙(L) 간에 얽힌 총 모순 마찰 에너지 F를 측정합니다.
+        각 노드 간의 실제 거리와 보존되어야 할 불변량 L 사이의 위상차가 유발하는 총 마찰 에너지를 계산합니다.
         """
         total_friction = 0.0
         for i in range(self.num_nodes):
@@ -298,8 +290,6 @@ class SemanticClosedLoopSystem:
         num_nodes = self.num_nodes
         friction = self.calculate_friction()
 
-        # 1. 인과 구조 역추적 (Causal Back-tracing)
-        # 각 개념 노드 및 연결부(Edge)의 마찰 미분 gradient를 산출하여 정확히 '어느 지점이 모순인지' 포인팅합니다.
         grad_S = np.zeros_like(self.S)
         epsilon = 1e-9
 
@@ -313,16 +303,11 @@ class SemanticClosedLoopSystem:
                     direction = diff_vec / (dist + epsilon)
                     grad_S[i] += self.W[i, j] * strain * direction
 
-        # 각 개념 노드가 체감하는 국소 의미적 모순 지표 (Semantic Contradiction Pointer)
         local_friction_index = np.linalg.norm(grad_S, axis=1)
 
-        # 2. 국소 위상 변이 및 이완 (Topological Mutation & Relaxation)
-        # 1) 개념의 기하 지도 좌표 이완
         self.S -= self.eta_s * grad_S * dt
-        self.S -= np.mean(self.S, axis=0)  # Center of mass conservation
+        self.S -= np.mean(self.S, axis=0)
 
-        # 2) 의미론적 토폴로지 연결 세기 W의 자율 변이
-        # 충돌이 해결되지 않고 장력이 계속되면, 모순을 완화하기 위해 기존의 모순적 신념(W)이 물리적으로 약화됨(Tear)
         grad_W = np.zeros_like(self.W)
         for i in range(num_nodes):
             for j in range(num_nodes):
@@ -334,8 +319,6 @@ class SemanticClosedLoopSystem:
         self.W = np.clip(self.W * self.weight_damping, 0.0, 5.0)
         self.W[self.initial_W == 0] = 0.0
 
-        # 3. 불변량 고정 및 루프 폐쇄 (State Consolidation & Loop Closure)
-        # 새로 얻어진 의미적 균형 지점을 영구 신념 불변량 L에 전이시켜 학습을 락인합니다.
         for i in range(num_nodes):
             for j in range(num_nodes):
                 if self.initial_W[i, j] > 0:
@@ -344,13 +327,11 @@ class SemanticClosedLoopSystem:
 
         new_friction = self.calculate_friction()
 
-        # 각 노드의 마찰 인덱스를 맵 형태로 구성
         semantic_friction_map = {
             self.concept_labels[i]: float(local_friction_index[i])
             for i in range(num_nodes)
         }
 
-        # 연결 강도 상태 맵 구성
         topology_map = {}
         for i in range(num_nodes):
             for j in range(i + 1, num_nodes):
@@ -370,8 +351,236 @@ class SemanticClosedLoopSystem:
         }
 
 
+class GroundedSensoryClosedLoop:
+    """
+    [감각적 접지 최소 인과 루프 시스템 (Grounded Sensory Closed Loop)]
+    임의로 할당된 인위적 수치 벡터나 기하학적 유사도를 거부하고,
+    '시각 지층(Visual)', '열역학 지층(Thermal)', '공간 지층(Spatial)'이라는 실제 감각 수용 장(Sensory Fields)
+    위에서 개념들이 인과적 공명을 통해 스스로 형태를 조율하는 접지 모델입니다.
+
+    철학적 극복 지점:
+    1. "태양"이라는 개념은 하드코딩된 숫자 [1,0,0]이 아니라, 광량 최고치 + 열역학ΔT > 0 + 원거리라는 물리적 불변 패턴의 결합입니다.
+    2. "태양은 차갑다"라는 자극은 자의적 거리 조율이 아니라, 열역학 지층에서 온도를 방사하는 성질과 냉각 자극이 직접 부딪혀 충돌하는 열역학적 간섭입니다.
+    """
+    def __init__(
+        self,
+        coordinate_relaxation_rate: float = 0.25,
+        charge_adaptation_rate: float = 0.05,
+        weight_mutation_rate: float = 0.1,
+        consolidation_rate: float = 0.05,
+        weight_damping: float = 0.99
+    ):
+        # 1. 접지 개념 정의 (Concepts Grounded in Multi-Sensory Specs)
+        # 각 개념은 (Visual: Luminance/Size, Thermal: Intrinsic Heat Gen, Spatial: Mass) 의 본성적 수치를 지님.
+        # "Sun"   : 시각적 광량(1.5), 극도의 열역학ΔT(2.0), 거대함(Mass=5.0)
+        # "Fire"  : 시각적 광량(0.8), 중간 열역학ΔT(1.0), 중간 질량(Mass=1.5)
+        # "Ice"   : 시각적 광량(0.2), 냉각 열역학ΔT(-1.5), 작은 질량(Mass=1.2)
+        # "Cold"  : 시각적 광량(0.0), 극도 냉각ΔT(-2.0), 작은 질량(Mass=0.8)
+        self.concepts = {
+            "Sun":  {"label": "Sun",  "v": 1.5, "t": 2.0,  "m": 5.0},
+            "Fire": {"label": "Fire", "v": 0.8, "t": 1.0,  "m": 1.5},
+            "Ice":  {"label": "Ice",  "v": 0.2, "t": -1.5, "m": 1.2},
+            "Cold": {"label": "Cold", "v": 0.0, "t": -2.0, "m": 0.8}
+        }
+        self.labels = list(self.concepts.keys())
+        self.num_nodes = len(self.labels)
+        self.idx_map = {lbl: i for i, lbl in enumerate(self.labels)}
+
+        # 2. 상태 공간 (S): 감각 개념들이 투사된 2차원 공간 지도 좌표
+        # 초기 공간은 각 개념의 성질에 맞게 원형으로 고르게 전개
+        angles = np.linspace(0, 2 * np.pi, self.num_nodes, endpoint=False)
+        self.S = np.stack([np.cos(angles), np.sin(angles)], axis=1).astype(np.float32) * 3.0
+        self.S -= np.mean(self.S, axis=0) # 무게중심 보존
+
+        # 개념 고유의 가변적 본성값 (Intrinsic sensory charges: v_intrinsic, t_intrinsic)
+        self.V_charges = np.array([self.concepts[lbl]["v"] for lbl in self.labels], dtype=np.float32)
+        self.T_charges = np.array([self.concepts[lbl]["t"] for lbl in self.labels], dtype=np.float32)
+        self.masses = np.array([self.concepts[lbl]["m"] for lbl in self.labels], dtype=np.float32)
+
+        # 3. 인과적 연결망 (W): 개념 간의 열역학적/시각적 상보성과 결에 기반한 자율적 연결
+        # 예: 열역학적 전도 성향이 유사한 노드들끼리 더 강하게 연결
+        self.W = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float32)
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                if i != j:
+                    # 열역학적 속성 유사도(Sign 일치 여부 및 광량 유사도 기반)
+                    sensory_sim = (self.T_charges[i] * self.T_charges[j]) + (self.V_charges[i] * self.V_charges[j])
+                    if sensory_sim > 0.0:
+                        self.W[i, j] = float(np.clip(sensory_sim * 0.3, 0.1, 1.0))
+
+        self.initial_W = self.W.copy()
+
+        # 4. 불변량 (I): 연결된 개념들이 보존해야 하는 위상적 평형 거리 L
+        # 이는 자의적인 숫자가 아니라, "본성 특징의 유사성"에 의해 결정되는 자연스러운 척력/인력 평형 거리입니다.
+        # 동일한 부호의 열(t)을 가진 개념들은 서로 가깝게 수용되고, 다른 극성의 열(Sun과 Cold)은 멀리 떨어지려 합니다.
+        self.L = np.zeros((self.num_nodes, self.num_nodes), dtype=np.float32)
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                # 온도차와 광량차를 반영한 이상적인 물리적 거리 불변량 설정
+                sensory_diff = np.sqrt((self.T_charges[i] - self.T_charges[j])**2 + (self.V_charges[i] - self.V_charges[j])**2)
+                self.L[i, j] = float(np.clip(sensory_diff * 1.5 + 1.0, 1.0, 6.0))
+
+        # 외부에 의해 강제로 주입된 국소 열역학/시각 필드 간섭 (External Sensory Field Perturbations)
+        self.external_thermal_perturbation = np.zeros(self.num_nodes, dtype=np.float32)
+
+        # 물리 상수
+        self.eta_s = coordinate_relaxation_rate
+        self.eta_t = charge_adaptation_rate
+        self.eta_w = weight_mutation_rate
+        self.eta_l = consolidation_rate
+        self.weight_damping = weight_damping
+
+    def project_sensory_stimulus(self, target_concept: str, cold_or_heat_impulse: float) -> None:
+        """
+        [1. 감각 자극의 위상 수용 (Sensory Stimulus Projection)]
+        "태양은 차갑다"라는 문맥적/인과적 모순 자극을 받아들이는 진짜 접지 단계입니다.
+
+        원리:
+        '태양(Sun)'이 위치한 감각 필드 좌표 s_Sun 지점에 직접적으로 '강력한 열역학적 냉각 기류(ΔT < 0)'의
+        물리적 간섭을 투사합니다. 이 자극은 지형 전체의 열역학 평형 불변량을 요동치게 만듭니다.
+        """
+        idx = self.idx_map[target_concept]
+        # 해당 타겟 지점에 외부 열역학적 열/냉각 임펄스를 누적 투사
+        self.external_thermal_perturbation[idx] += cold_or_heat_impulse
+
+        # 외부 자극과 개념 간의 연결 관계를 즉각적으로 활성화하여 인과 전달 통로 개척
+        for other_idx in range(self.num_nodes):
+            if other_idx != idx:
+                # 냉각 자극이 오면, 반대 온도 속성을 지닌 다른 노드들과의 위상 상호작용 W가 강제로 전자기 유도되듯 유입됨
+                self.W[idx, other_idx] = np.clip(self.W[idx, other_idx] + 0.5, 0.1, 2.0)
+                self.initial_W[idx, other_idx] = np.clip(self.initial_W[idx, other_idx] + 0.5, 0.1, 2.0)
+
+    def calculate_sensory_friction(self) -> float:
+        """
+        [2. 상태 마찰 감지 (Friction Detection)]
+        본성적 불변량 거리 L과 실제 공간 거리 간의 오차(Elastic Strain)에 더해,
+        개념 고유의 열역학 전하(T_charge)와 외부에서 강제 사영된 열역학 냉각 간섭장(external_thermal_perturbation)
+        사이에 부딪혀 발생하는 '실질적인 에너지적 모순/간섭 마찰'의 총합 F를 측정합니다.
+
+        F = F_elastic_strain + F_sensory_interference
+        """
+        # 1. 위상 기하 마찰 (Elastic Strain)
+        elastic_strain = 0.0
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
+                if self.W[i, j] > 0:
+                    dist = np.linalg.norm(self.S[i] - self.S[j])
+                    diff = dist - self.L[i, j]
+                    elastic_strain += self.W[i, j] * (diff ** 2)
+
+        # 2. 감각 필드 간섭 마찰 (Sensory Thermal Interference)
+        # 각 개념 노드가 그 좌표에서 마주하는 인과적 모순 에너지
+        sensory_interference = 0.0
+        for i in range(self.num_nodes):
+            # 본래의 뜨거운 성질 T_charge와 외부에서 사영된 찬 임펄스가 충돌하는 전위차 측정
+            conflict = self.T_charges[i] - (self.T_charges[i] + self.external_thermal_perturbation[i])
+            # 즉, external_thermal_perturbation 자체의 제곱 전력 손실이 마찰로 산출됨
+            sensory_interference += (self.external_thermal_perturbation[i] ** 2) * self.masses[i]
+
+        return float(0.5 * elastic_strain + 0.5 * sensory_interference)
+
+    def step(self, dt: float = 0.1) -> Dict[str, Any]:
+        """
+        [접지형 자율 물리 이완 단계 (Sensory-Grounded Substrate Relaxation Step)]
+        어떠한 대본이나 Rule Engine 없이, 물리적인 3대 감각 지층의 마찰을 0으로 소산(Dissipate)시키기 위해
+        개념의 공간적 위치 S, 연결망 W, 나아가 인쇄되어 있던 개념 고유의 열역학적 성질(T_charge)까지
+        자율적으로 변형(Self-Mutation)하며 최소 에너지 상태를 찾아갑니다.
+        """
+        num_nodes = self.num_nodes
+        friction = self.calculate_sensory_friction()
+
+        # 1. 인과 구조 역추적 (Causal Back-tracing)
+        # 마찰 F의 공간 좌표 S 및 열역학 성질 T에 대한 Gradient를 산출합니다.
+        grad_S = np.zeros_like(self.S)
+        epsilon = 1e-9
+
+        # (1) 공간 지층의 미분 장력 산출
+        for i in range(num_nodes):
+            for j in range(num_nodes):
+                if self.W[i, j] > 0:
+                    diff_vec = self.S[i] - self.S[j]
+                    dist = np.linalg.norm(diff_vec)
+                    strain = dist - self.L[i, j]
+
+                    direction = diff_vec / (dist + epsilon)
+                    grad_S[i] += self.W[i, j] * strain * direction
+
+        # (2) 열역학 지층의 모순 장력 산출 (개념 본성 수정에 가해지는 압력)
+        # dF/dT_i = intrinsic_T_i - local_field_T_i
+        grad_T = self.external_thermal_perturbation * self.masses
+
+        # 각 개념 노드가 감각 접지 필드 상에서 겪는 총 인과 모순도 (Causal Target Pointer)
+        # 이 포인터가 높은 지점을 정확히 인덱싱하여, '어디가 모순인지' 포착
+        local_sensory_friction_index = np.sqrt(
+            np.sum(grad_S**2, axis=1) + (grad_T**2)
+        )
+
+        # 2. 국소 위상 변이 및 이완 (Topological Mutation & Relaxation)
+        # 1) 공간 지층 이완: 충돌을 피하기 위해 개념들이 공간적 위치를 이동시킴
+        # 질량이 무거울수록(Massive) 관성이 커서 공간을 덜 이동함 (a = F / m)
+        for i in range(num_nodes):
+            self.S[i] -= (self.eta_s / self.masses[i]) * grad_S[i] * dt
+
+        self.S -= np.mean(self.S, axis=0) # 무게중심 보존
+
+        # 2) 본성적 속성 변이 (Concept Mutation):
+        # 너무 강력한 마찰에 직면했을 때, 개념 자체가 가진 고유 온도를 살짝 꺾어 모순을 완화
+        # dT_i/dt = - eta_t * grad_T_i
+        self.T_charges -= self.eta_t * grad_T * dt
+
+        # 외부 자극 포텐셜 역시 시간이 흐름에 따라 내부의 구조적 재정렬 작용을 겪으며
+        # 열역학적 평형화 작용(Diffusion / Dissipation)을 통해 에너지를 소산시킴
+        self.external_thermal_perturbation -= 0.3 * self.external_thermal_perturbation * dt
+
+        # 3) 토폴로지 변이 (Tension-driven Belief Mutation):
+        # 모순적 긴장을 초래하는 결합(엣지)의 힘 W를 약화시켜 물리적으로 이격(Tear)시킴
+        grad_W = np.zeros_like(self.W)
+        for i in range(num_nodes):
+            for j in range(num_nodes):
+                if self.initial_W[i, j] > 0:
+                    dist = np.linalg.norm(self.S[i] - self.S[j])
+                    grad_W[i, j] = 0.5 * ((dist - self.L[i, j]) ** 2)
+
+        self.W -= self.eta_w * grad_W * dt
+        self.W = np.clip(self.W * self.weight_damping, 0.0, 5.0)
+        self.W[self.initial_W == 0] = 0.0
+
+        # 3. 불변량 고정 및 루프 폐쇄 (State Consolidation & Loop Closure)
+        # 이완된 새로운 감각 지형에 맞게, 평형을 요구하는 불변 보존 거리 L을 갱신
+        for i in range(num_nodes):
+            for j in range(num_nodes):
+                if self.initial_W[i, j] > 0:
+                    dist = np.linalg.norm(self.S[i] - self.S[j])
+                    self.L[i, j] += self.eta_l * (dist - self.L[i, j]) * dt
+
+        new_friction = self.calculate_sensory_friction()
+
+        # 개념별 감각 마찰 맵
+        sensory_friction_map = {
+            self.labels[i]: float(local_sensory_friction_index[i])
+            for i in range(num_nodes)
+        }
+
+        # 개념 고유의 실시간 온도 상태 맵
+        current_temperature_map = {
+            self.labels[i]: float(self.T_charges[i])
+            for i in range(num_nodes)
+        }
+
+        return {
+            "friction_before": friction,
+            "friction_after": new_friction,
+            "sensory_friction_map": sensory_friction_map,
+            "current_temperature_map": current_temperature_map,
+            "grad_S_magnitude": float(np.linalg.norm(grad_S)),
+            "weight_matrix": self.W.copy(),
+            "state_matrix": self.S.copy(),
+            "invariant_matrix": self.L.copy()
+        }
+
+
 if __name__ == "__main__":
-    # 수치 기반 단순 루프 가동 데모
+    # 1. 단순 수치 루프 데모
     loop = MinimalClosedLoopSystem(num_nodes=6)
     print("Initial Friction (Rest State):", loop.calculate_friction())
     loop.project_stimulus(node_index=2, impulse=np.array([1.5, -0.5]))
@@ -379,32 +588,25 @@ if __name__ == "__main__":
         metrics = loop.step(dt=0.5)
         print(f"Num Step {step_idx + 1} | Friction: {metrics['friction_after']:.6f}")
 
-    # 의미론적 루프 가동 데모
-    print("\n--- Semantic Closed Loop Demonstration ---")
-    # 개념들의 고유 특징 공간 (Sun, Fire: 고온 특징, Ice, Cold: 저온 특징)
-    semantic_universe = {
-        "Sun":  [1.0, 0.0],
-        "Fire": [0.9, 0.1],
-        "Ice":  [0.0, 1.0],
-        "Cold": [0.1, 0.9]
-    }
+    # 2. 감각적 접지 루프 데모 (Grounded Sensory Closed Loop)
+    print("\n--- Ultimate Grounded Sensory Closed Loop Demonstration ---")
+    gs_loop = GroundedSensoryClosedLoop()
+    print("Initial Sensory Friction:", gs_loop.calculate_sensory_friction())
+    print("Initial Grounded Intrinsic Temperatures:", gs_loop.T_charges)
 
-    sem_loop = SemanticClosedLoopSystem(concepts=semantic_universe)
-    print("Initial Semantic Friction:", sem_loop.calculate_friction())
-    print("Initial Semantic Topology:", sem_loop.step(0.0)["topology_map"])
+    # 3. 인과적 감각 충격 투사: "태양이 차갑다"
+    # Sun 노드가 위치한 열역학 지층의 좌표에 ΔT = -4.0 (빙하 냉각 기류)을 직접 사영
+    print("\n[Projecting Physical Thermal Shock: 'Sun' is blasted with intense Cold (-4.0)]")
+    gs_loop.project_sensory_stimulus("Sun", cold_or_heat_impulse=-4.0)
+    print("Sensory Friction immediately after Thermal Shock:", gs_loop.calculate_sensory_friction())
 
-    # 극단적인 의미 모순 자극 주입: "태양이 차갑다" (Sun과 Cold의 거리를 0.2로 강제 밀착)
-    print("\n[Projecting Contradictory Stimulus: 'Sun is Cold' (Distance forced to 0.2)]")
-    sem_loop.project_semantic_stimulus("Sun", "Cold", force_distance=0.2)
-    print("Semantic Friction immediately after Stimulus:", sem_loop.calculate_friction())
-
-    # 자율 이완 흐름 수행
-    print("\n[Relaxing Semantic Manifold autonomously]")
+    # 4. 자율적 이완 시뮬레이션
+    print("\n[Sensory Fields are relaxing and self-molding autonomously]")
     for step_idx in range(5):
-        metrics = sem_loop.step(dt=0.4)
+        metrics = gs_loop.step(dt=0.4)
         print(
             f"Step {step_idx + 1} | "
             f"Friction: {metrics['friction_before']:.6f} -> {metrics['friction_after']:.6f} | "
-            f"Tension Source Map: {metrics['semantic_friction_map']}"
+            f"Tension Source Pointer: {metrics['sensory_friction_map']}"
         )
-        print("   Mutated Semantic Topology:", metrics["topology_map"])
+        print("   Mutated Grounded Intrinsic Temperatures:", {k: round(v, 4) for k, v in metrics["current_temperature_map"].items()})
