@@ -37,6 +37,12 @@ class TopologicalReductionEngine:
         # G[i, j] represents the conductance (1 / resistance) between node i and node j.
         # It starts as an undifferentiated uniform substrate with a base level.
         self.conductance_matrix = np.zeros((num_nodes, num_nodes), dtype=np.float32)
+
+        # Non-linear Memristive State variables: tracks the history of current/charge flow
+        # to implement synaptic plasticity directly within the topology.
+        self.memristor_states = np.ones((num_nodes, num_nodes), dtype=np.float32) * 0.5
+        self.plasticity_rate = 0.05
+
         self._initialize_undifferentiated_substrate()
 
         # Internal variable resistors matching THE_ABSOLUTE_COMMANDMENT.md and ExperientialLanguageMapper
@@ -255,16 +261,27 @@ class TopologicalReductionEngine:
             history_potentials.append(float(reconstructed_potential))
             history_residuals.append(float(residual))
 
-            # 4. Self-Correcting Hebbian Update:
+            # 4. Self-Correcting Hebbian Update with Memristive Non-linear dynamics:
             # Tune the internal conductances based on local node potential differences and global residual
-            # Delta G_ij = lr * residual * (V_i - V_j)^2
-            # This pushes paths with active current flow to adapt until the equivalent resistance equals 1.0 (R_eq -> 1.0, reconstructed -> target)
+            # Delta G_ij = lr * residual * (V_i - V_j)^2 * MemristorState_ij
             for i in range(self.num_nodes):
                 for j in range(i + 1, self.num_nodes):
                     if self.conductance_matrix[i, j] > 0.0: # Only adapt existing paths
-                        v_diff_sq = (node_potentials[i] - node_potentials[j]) ** 2
-                        # Conductance adaptation
-                        adjustment = lr * residual * v_diff_sq
+                        v_diff = node_potentials[i] - node_potentials[j]
+                        v_diff_sq = v_diff ** 2
+
+                        # Memristor State update (non-linear resistance changes depending on current/voltage history)
+                        # High potential difference drives non-linear state changes (plasticity/annual rings)
+                        # Symmetric non-linear state change based on magnitude of potential difference to ensure index invariance.
+                        self.memristor_states[i, j] = np.clip(
+                            self.memristor_states[i, j] + self.plasticity_rate * v_diff_sq,
+                            0.05, 1.95
+                        )
+                        self.memristor_states[j, i] = self.memristor_states[i, j]
+
+                        # Conductance adaptation modulated by the memristive state
+                        memristive_modulation = self.memristor_states[i, j]
+                        adjustment = lr * residual * v_diff_sq * memristive_modulation
                         # Clip adjustment to prevent numerical overshoot/instability
                         adjustment = np.clip(adjustment, -0.1, 0.1)
                         self.conductance_matrix[i, j] = np.clip(self.conductance_matrix[i, j] + adjustment, 0.01, 10.0)
