@@ -33,12 +33,14 @@ class CausalSandboxAgent:
         position: Optional[np.ndarray] = None,
         velocity: Optional[np.ndarray] = None,
         chromatic_vector: Optional[np.ndarray] = None,
-        mass: float = 1.0
+        mass: float = 1.0,
+        perspective: str = "Neutral"
     ):
         self.id = agent_id
         self.name = name
         self.is_player = is_player
         self.mass = mass
+        self.perspective = perspective
 
         # 3D 위치 및 속도 (Continuous spatial state)
         self.position = np.array(position, dtype=np.float32) if position is not None else np.zeros(3, dtype=np.float32)
@@ -210,6 +212,7 @@ class BranchlessResonanceScheduler:
         # 4. 로터 회전 및 감정 전이 (Clifford Algebraic Resonance Coupling)
         rotor_inner_product = np.dot(rotors, rotors.T)
         resonance_tension = influence_matrix * (1.0 - (rotor_inner_product ** 2))
+        max_tension_gap = float(np.max(resonance_tension)) if num_agents > 0 else 0.0
 
         # 5. 환경 포텐셜 그래디언트 및 외력 (경사 하강)
         env_forces = np.zeros_like(positions)
@@ -231,6 +234,19 @@ class BranchlessResonanceScheduler:
             # 굴절률이 1.0일 때는 물리 좌표의 이동을 100% 억제하고, 그 포스를 "추상 정신 공간(mental_position)"으로 사영합니다.
             phys_ratio = 1.0 - refraction_index
             ment_ratio = refraction_index
+
+            # Perspective-based action adaptation
+            if hasattr(agent, "perspective"):
+                if agent.perspective == "Causalist":
+                    # Causalist: Direct sequentials -> High Aggressiveness / Force reaction
+                    # Tilt rotor towards AGGRESSIVE [w, x, y, z] by rotating around Y axis
+                    if max_tension_gap > 0.1:
+                        agent.rotate_rotor(0.3, np.array([0.0, 1.0, 0.0], dtype=np.float32))
+                elif agent.perspective == "Structuralist":
+                    # Structuralist: Topology balance -> Cooperative / Compromise reaction
+                    # Tilt rotor towards COOPERATIVE by rotating around Z axis
+                    if max_tension_gap > 0.1:
+                        agent.rotate_rotor(0.3, np.array([0.0, 0.0, 1.0], dtype=np.float32))
 
             # 물리 좌표 갱신
             acceleration = total_force / agent.mass
