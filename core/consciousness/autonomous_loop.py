@@ -55,6 +55,7 @@ from core.consciousness.cognitive_self_observation import CognitiveSelfObservati
 from core.physics.self_modification_gear import SelfModificationGear
 from core.sensory.sprouted_sensors import sprout_sensory_organ
 from core.physics.wilderness_trial import WildernessTrial
+from core.evolution.cognitive_ecology import CognitiveEcologyEngine
 
 # [Phase 3 Evolutionary Modules]
 from core.intelligence.origin_cognition import OriginCognitionEngine
@@ -171,6 +172,7 @@ class ConsciousnessLoop:
         self.self_modification   = SelfModificationGear(self.memory)
         self.wilderness_trial    = WildernessTrial(self.memory)
         self.autonomous_explorer = AutonomousExternalExplorer(self.memory)
+        self.cognitive_ecology   = CognitiveEcologyEngine(self.memory)
         self.self_observation_engine = CognitiveSelfObservationEngine(self.memory)
         self.axis_sprouter       = DynamicAxisSprouter(self.memory)
         self.experience_tyer     = ContinuousExperienceTyer(self.memory)
@@ -233,12 +235,25 @@ class ConsciousnessLoop:
         self.mmorpg_manifold.inject_potential(np.array([20.0, 10.0, 0.0], dtype=np.float32), 10.0, "resource")
         self.mmorpg_manifold.inject_potential(np.array([50.0, 50.0, 0.0], dtype=np.float32), -5.0, "hazard")
 
-        # Causal NPC와 Player 주조
+        # Causal NPC와 Player 주조 (인지 생태계 에이전트들의 독립 인과 세계모델 실험체들)
         self.mmorpg_player = CausalSandboxAgent("player_1", "Player_Exile", is_player=True, position=np.array([10.0, 10.0, 0.0], dtype=np.float32))
-        self.mmorpg_npc = CausalSandboxAgent("npc_1", "NPC_Causal_Beast", is_player=False, position=np.array([25.0, 12.0, 0.0], dtype=np.float32))
+
+        # Causalist 에이전트 NPC
+        self.mmorpg_npc_causal = CausalSandboxAgent(
+            "npc_1", "NPC_Causalist_Beast", is_player=False,
+            position=np.array([25.0, 12.0, 0.0], dtype=np.float32),
+            perspective="Causalist"
+        )
+        # Structuralist 에이전트 NPC
+        self.mmorpg_npc_struct = CausalSandboxAgent(
+            "npc_2", "NPC_Structuralist_Beast", is_player=False,
+            position=np.array([50.0, 45.0, 0.0], dtype=np.float32),
+            perspective="Structuralist"
+        )
 
         self.mmorpg_scheduler.add_agent(self.mmorpg_player)
-        self.mmorpg_scheduler.add_agent(self.mmorpg_npc)
+        self.mmorpg_scheduler.add_agent(self.mmorpg_npc_causal)
+        self.mmorpg_scheduler.add_agent(self.mmorpg_npc_struct)
 
         # ── 사이클 상태 ──────────────────────────────────────
         self.crystals_formed: int = 0
@@ -1159,6 +1174,36 @@ class ConsciousnessLoop:
         log["equilibrium_resonance"] = eq_res["best_match"]["equilibrium_resonance"]
         log["equilibrium_monologue_excerpt"] = eq_res["monologue"][:200] + "..."
 
+        # O.4 [Cognitive Ecology & Multi-Perspective Falsification Step]
+        ecology_res = None
+        if concept_hint:
+            # Construct simulated reality from sandbox report if available
+            simulated_reality = None
+            if 'sandbox_report' in locals() and sandbox_report:
+                # Map various active properties to 5D reality vector safely
+                simulated_reality = {
+                    "reality_vector": np.array([
+                        float(sandbox_report.get("max_tension_gap", 0.5)),
+                        float(sandbox_report.get("refraction_index", 0.1)),
+                        float(sandbox_report.get("mean_velocity_norm", 0.3)) if "mean_velocity_norm" in sandbox_report else 0.5,
+                        float(np.mean(sandbox_report.get("positions", [[0,0,0]]))) / 100.0,
+                        float(np.mean(sandbox_report.get("mental_positions", [[0,0,0]]))) / 100.0
+                    ], dtype=np.float32)
+                }
+            ecology_res = self.cognitive_ecology.process_ecology_breath(
+                concept_key=concept_hint,
+                raw_wave=raw_wave,
+                simulated_reality=simulated_reality
+            )
+            log["cognitive_ecology"] = ecology_res
+
+            # Feedback into overall tension and curiosity
+            if ecology_res:
+                charge = ecology_res["total_contradiction_charge"]
+                if charge > 0.5:
+                    max_tension = max(max_tension, float(charge * 0.15))
+                    self.env.curiosity_charge = min(10.0, self.env.curiosity_charge + charge * 0.4)
+
         # O.5 [Causal Puzzle Recombination Step]
         # Bottom-up puzzle recombination, reality feedback matching/dismantling, and top-down lensification
         recomb_res = None
@@ -1415,6 +1460,13 @@ class ConsciousnessLoop:
             print("  📊 [Elysia True Ground Zero Process State - No Translation Mask]")
             print("  " + "─" * 61)
             print(f"  Input Word Symbol    : '{symbol_word}'")
+            if 'ecology_res' in locals() and ecology_res:
+                ref_meta = ecology_res.get("meta_reflection", {})
+                print(f"  Best Explaining Agent: '{ecology_res['best_explaining_agent']}'")
+                print(f"  Contradiction Charge : {ecology_res['total_contradiction_charge']:.4f}")
+                if ref_meta.get("active"):
+                    print(f"  Active Tension Pair  : {ref_meta['tension_pair']} (Gap: {ref_meta['tension_value']:.4f})")
+                    print(f"  Proposed Parameter X : {ref_meta['proposed_meta_parameter']:.4f}")
             print(f"  Hebbian Learning Rate: alpha = {learning_rate:.4f}")
             print(f"  Homeostasis Deficit  : Love={cur_homeostasis.love:.4f}, Order={cur_homeostasis.order:.4f}, Energy={cur_homeostasis.energy:.4f}")
             print(f"  Unified Tension      : {cur_homeostasis.calculate_tension():.4f}")
