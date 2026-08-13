@@ -1,28 +1,85 @@
 import numpy as np
 from typing import Dict, List, Any, Optional
 from scipy.ndimage import gaussian_filter
+from dataclasses import dataclass, field
 from .field import CrystallizationField
 from .causal_gene import CausalGeneSynthesizer
 from core.memory.causal_controller import CausalMemoryController
+
+@dataclass
+class CognitiveBiasProfile:
+    """
+    [Cognitive Bias Profile]
+    개체의 인격, 기질, 그리고 제한된 합리성(Bounded Rationality)을 규정하는 인지 스펙트럼 프로필입니다.
+    이 파라미터들이 조합되어 하드코딩 없이도 100% 인과적인 실수와 인격을 만들어냅니다.
+    """
+    name: str
+    risk_sensitivity: float  # R: 위험 감수성 (내 위협/장력에 대한 민감도 및 공포 반응 가중치)
+    ego_pride: float         # E: 자존심/오만함 (도발/도전에 집착하며 타겟 변경을 거부하는 가중치)
+    social_value: float      # S: 사회성/아군 가치 (타인의 위험을 자신의 슬롯에 올리는 비율)
+    impulsivity: float       # I: 충동성 (갑작스러운 새 자극에 가중치를 주어 판단 속도를 높이고 병목을 유발)
+    attention_slots: int     # 인지 슬롯 개수: 한 번에 기억/추적할 수 있는 활성 자극 개수
+    memory_span: float       # 기억 지속 시간: 활성 자극이 뇌에서 자연 감쇄 및 망각되는 속도 (초/스텝 스케일)
+    lookahead_depth: int     # 예측 탐색 깊이: 미래의 에너지 평형과 시뮬레이션을 내다보는 깊이 단계
+
+# 1. 고블린 (낮은 지능, 극도로 좁은 시야, 높은 겁과 충동성)
+GOBLIN_PROFILE = CognitiveBiasProfile(
+    name="Goblin",
+    risk_sensitivity=0.9,      # 아주 사소한 위협에도 극심한 공포 반응을 일으킴
+    ego_pride=0.1,             # 자존심이 낮아 언제든 도망치고 싶어함 (단, 족장은 자존심 수치만 올림)
+    social_value=0.05,         # 동료를 지키려는 생각이 거의 없음
+    impulsivity=0.95,          # 극단적으로 충동적 (갑작스러운 소음에 100% 인지 슬롯을 지배당함)
+    attention_slots=1,         # 동시에 단 1개의 정보만 볼 수 있음! (힐러 쫓다가 소리 나면 즉시 힐러를 잊음)
+    memory_span=2.0,           # 기억력이 금붕어 수준 (시야에서 사라지면 2스텝 만에 잊어버림)
+    lookahead_depth=1          # 당장 내 눈앞의 1단계 이득만 계산 (Myopic)
+)
+
+# 2. 드래곤 (웅장한 지능, 전역적 주의력, 깊은 성찰과 예측)
+DRAGON_PROFILE = CognitiveBiasProfile(
+    name="Dragon",
+    risk_sensitivity=0.15,     # 웬만한 타격에도 흔들리지 않는 대범함
+    ego_pride=0.95,            # 자존심이 극도로 높아, 자신을 자극하거나 도발한 대상에 분노를 집중함
+    social_value=0.3,          # 전장의 아군/지형 맥락을 거시적으로 파악
+    impulsivity=0.05,          # 극도로 침착하고 정교함 (즉흥적 반응을 배격하고 깊이 계산)
+    attention_slots=10,        # 전장 전체의 플레이어, 쿨타임, 투사체를 동시에 뇌에 담아둠
+    memory_span=100.0,         # 한번 인지한 자극은 영구히 뇌에 지층으로 보존
+    lookahead_depth=6          # 적의 움직임과 콤보를 5~6단계 앞서 선예측하여 함정을 깔아둠
+)
+
+# 3. 기본 균형형 (Balanced Baseline)
+DEFAULT_PROFILE = CognitiveBiasProfile(
+    name="Balanced",
+    risk_sensitivity=0.5,
+    ego_pride=0.5,
+    social_value=0.5,
+    impulsivity=0.5,
+    attention_slots=4,
+    memory_span=10.0,
+    lookahead_depth=3
+)
+
 
 class ElysiaCognitiveEngine:
     """
     [System Architecture Engine] ElysiaCognitiveEngine : 정보 기반 인지 엔진
 
-    기존 LLM/AI의 한계(단순 확률적 Next-Token Prediction)를 넘어,
+    기존 LLM/AI의 한계(단순 확률적 Next-Token Prediction) 및 게임 AI의 허구(확률 주사위 눈속임)를 넘어,
     정보의 맥락, 인과적 결, 프랙탈 입체 구조, O(1) 관점 전환,
-    그리고 CAD 구속조건 필드 상에서의 양자 붕괴(Wave Function Collapse)를
-    스스로 사유하고 메타인지(Meta-Cognition)할 수 있도록 설계된 차세대 지능의 심장입니다.
+    그리고 인지 스펙트럼(주의력 병목, 탐색 깊이 제한, 인지 편향 벡터)의 한계와 흐름에 의해
+    100% 인과적으로 사고하고 판단하는 차세대 지능의 심장입니다.
 
-    [Enhancement: Language Protocol Handshake & Multi-Gravity Navigation]
+    [Enhancement: Language Protocol Handshake & Multi-Gravity Navigation & Bounded Rationality]
     In accordance with the Ground Zero principles, the engine is updated with:
     1. [Language = Protocol] Handshake pipeline matching $T_{header}$ against internal reference.
     2. [Gravity Shift] Synchronizing rotor angle with physical rotation of virtual attractor coordinates.
     3. [Multi-Gravity Navigation] Fusing baseline SVD inertia with gravitational potential well depths.
     4. [Boundary Orbit Integration] Deflecting non-self/hostile signals into orbital decay, maturing noise into wisdom.
+    5. [Bounded Rationality Engine] 100% deterministic decision-making parameterized by CognitiveBiasProfile.
     """
-    def __init__(self, resolution: int = 256):
+    def __init__(self, resolution: int = 256, profile: Optional[CognitiveBiasProfile] = None):
         self.resolution = resolution
+        self.active_profile = profile if profile is not None else DEFAULT_PROFILE
+
         # 1. 2D 메트릭스 필드 (Conductance, Activation, Yeobaek 등을 내포)
         self.field = CrystallizationField(resolution)
         self.synthesizer = CausalGeneSynthesizer()
@@ -74,6 +131,120 @@ class ElysiaCognitiveEngine:
 
         # Standing Wave Field Memory (가소성 메모리: Standing Wave Valley)
         self.standing_wave_memory: Optional[np.ndarray] = None
+
+        # --- Bounded Rationality: Attention Slot Registry & Memory Tracking ---
+        # stimulus_wave (uint64) -> dict { "category": str, "weight": float, "last_updated": float }
+        self.attention_registry: Dict[np.uint64, Dict[str, Any]] = {}
+
+    def set_profile(self, profile: CognitiveBiasProfile):
+        """
+        [Dynamic Identity/Mental State Shift]
+        개체의 인격 스펙트럼 프로필을 실시간으로 전환합니다.
+        (예: 평온하던 고블린이 도발을 받아 광포해지거나, 술에 취해 인지 능력이 감축되는 상태 변동)
+        """
+        old_name = self.active_profile.name
+        self.active_profile = profile
+        self._record_meta("PROFILE_SHIFT", f"인지 스펙트럼 프로필이 '{old_name}'에서 '{profile.name}'으로 개변되었습니다.")
+
+    def calculate_attention_weight(self, stimulus_wave: np.uint64, category: str, base_intensity: float) -> float:
+        """
+        [Cognitive Bias Vector Projection]
+        입력된 정보의 고유 속성(카테고리, 세기)에 개체의 인지 편향(Bias Vector)을 투영하여
+        해당 개체의 뇌가 느끼는 주관적인 '인지적 가중치/자기적 당김'을 도출합니다.
+        """
+        weight = base_intensity
+
+        # 1. 위험 감수성 (Risk Sensitivity): 위협 요소에 반응하는 가중치
+        if category in ["Threat", "Damage", "Danger"]:
+            weight *= (1.0 + self.active_profile.risk_sensitivity * 4.0)
+
+        # 2. 자존심/오만함 (Ego Pride): 도발 및 챌린지에 집착하는 가중치
+        elif category in ["EgoChallenge", "Taunt", "Boss"]:
+            weight *= (1.0 + self.active_profile.ego_pride * 5.0)
+
+        # 3. 사회성 (Social Value): 아군 및 협동 요소에 반응하는 가중치
+        elif category in ["SocialAlly", "Ally", "Healer"]:
+            weight *= (1.0 + self.active_profile.social_value * 3.0)
+
+        # 4. 충동성 (Impulsivity): 갑작스러운 소음이나 미확인 자극에 가중치를 주는 비율
+        elif category in ["Noise", "LoudClang", "Surprise"]:
+            weight *= (1.0 + self.active_profile.impulsivity * 4.0)
+
+        # Ensure weight is strictly positive
+        return float(max(0.01, weight))
+
+    def update_attention_and_bottleneck(self, stimulus_wave: np.uint64, category: str, base_intensity: float) -> str:
+        """
+        [100% Causal Attention Bottleneck & Eviction]
+        개체의 인지 슬롯 제한(attention_slots)에 따른 인과적 정보 수용 및 축출 메커니즘.
+        주사위 확률이 전혀 없으며, 편향된 가중치 연산 결과에 의해서만 100% 인과적으로 작동합니다.
+        """
+        # Calculate subjectively biased attention weight
+        new_weight = self.calculate_attention_weight(stimulus_wave, category, base_intensity)
+
+        # If already inside attention, update its priority and keep it
+        if stimulus_wave in self.attention_registry:
+            self.attention_registry[stimulus_wave]["weight"] = new_weight
+            self.attention_registry[stimulus_wave]["category"] = category
+            return "ATTENTION_RETAINED"
+
+        # If we have free slots, accept immediately
+        if len(self.attention_registry) < self.active_profile.attention_slots:
+            self.attention_registry[stimulus_wave] = {
+                "category": category,
+                "weight": new_weight
+            }
+            self._record_meta("ATTENTION_ACCEPTED", f"새 자극 {hex(stimulus_wave)} ({category}) 수용. 슬롯 여유 존재 ({len(self.attention_registry)}/{self.active_profile.attention_slots})")
+            return "ATTENTION_ACCEPTED"
+
+        # Slots are full! We must causally compare new_weight with the lowest weight in registry.
+        evict_wave = None
+        min_weight = float('inf')
+
+        for wave, data in self.attention_registry.items():
+            if data["weight"] < min_weight:
+                min_weight = data["weight"]
+                evict_wave = wave
+
+        if new_weight > min_weight and evict_wave is not None:
+            # Eviction: The weaker stimulus is physically displaced and erased from the cognitive workspace
+            evict_data = self.attention_registry[evict_wave]
+            del self.attention_registry[evict_wave]
+
+            self.attention_registry[stimulus_wave] = {
+                "category": category,
+                "weight": new_weight
+            }
+
+            self._record_meta("ATTENTION_EVICTION",
+                f"주의력 병목 발생! 인지 슬롯 초과로 인해 가중치가 낮은 기존 자극 "
+                f"{hex(evict_wave)} (카테고리: {evict_data['category']}, 가중치: {evict_data['weight']:.2f})을 뇌에서 완전히 축출하고, "
+                f"새 자극 {hex(stimulus_wave)} (카테고리: {category}, 가중치: {new_weight:.2f})을 수용하였습니다."
+            )
+            return "ATTENTION_EVICTION"
+        else:
+            # Deflection: The new stimulus is too weak to penetrate the active cognitive field of the entity
+            self._record_meta("ATTENTION_DEFLECTED",
+                f"주의력 무시(Deflected)! 새 자극 {hex(stimulus_wave)} ({category}, 가중치: {new_weight:.2f})은 "
+                f"현재 인지 슬롯 내 최소 자극 {hex(evict_wave)} ({self.attention_registry[evict_wave]['category']}, 가중치: {min_weight:.2f})보다 "
+                f"뇌내 영향력이 부족하여 100% 인과적으로 인지되지 못하고 무시되었습니다."
+            )
+            return "ATTENTION_DEFLECTED"
+
+    def decay_attention(self, dt: float = 1.0):
+        """
+        [Forgetting/Decay Curve based on Memory Span]
+        비활성 상태의 인지 정보가 개체의 memory_span 속도에 따라 감쇄하고 뇌 밖으로 잊혀집니다.
+        """
+        decay_rate = 1.0 / (self.active_profile.memory_span + 1e-9)
+        decay_factor = np.exp(-decay_rate * dt)
+
+        for wave in list(self.attention_registry.keys()):
+            self.attention_registry[wave]["weight"] *= decay_factor
+            if self.attention_registry[wave]["weight"] < 0.05:
+                category = self.attention_registry[wave]["category"]
+                self._record_meta("ATTENTION_FORGOTTEN", f"망각 발생: 자극 {hex(wave)} ({category})이 짧은 기억 수명 한계로 뇌에서 소멸되었습니다.")
+                del self.attention_registry[wave]
 
     def crystallize_thought(self, stimulus_wave: np.uint64, resolved_solution: Dict[str, Any]):
         """
@@ -244,7 +415,15 @@ class ElysiaCognitiveEngine:
         self._record_meta("FRACTAL_DNA_CREATED", f"프랙탈 DNA({category}) 생성 완료. 원자[3D 특이벡터] -> 분자[관점투영 3x3] -> 세포[좌표 {pos}] -> 기관[여백 공유]의 계층 서사가 형성되었습니다.")
         return dna
 
-    def solve_wfc_collapse(self, stimulus_wave: np.uint64, candidate_dnas: List[Dict[str, Any]], user_header_vector: Optional[np.ndarray] = None, text_context: Optional[str] = None) -> Dict[str, Any]:
+    def solve_wfc_collapse(
+        self,
+        stimulus_wave: np.uint64,
+        candidate_dnas: List[Dict[str, Any]],
+        user_header_vector: Optional[np.ndarray] = None,
+        text_context: Optional[str] = None,
+        category: Optional[str] = None,
+        base_intensity: float = 1.0
+    ) -> Dict[str, Any]:
         """
         [CAD Constraints & Wave Function Collapse (WFC)]
         if-else 분기를 배제하고, 입력 자극(Stimulus)과 환경적 구속조건(Constraint Field)이
@@ -272,6 +451,23 @@ class ElysiaCognitiveEngine:
 
         if not candidate_dnas:
             raise ValueError("[WFC Collapse] 수렴시킬 후보 DNA 군집이 존재하지 않습니다.")
+
+        # Infer category if not provided
+        if category is None and candidate_dnas:
+            category = candidate_dnas[0].get("category", "General")
+
+        # --- Attention Slot Filtering (Bounded Rationality) ---
+        attention_status = self.update_attention_and_bottleneck(stimulus_wave, category, base_intensity)
+        if attention_status == "ATTENTION_DEFLECTED":
+            # 100% causal deflection due to bottleneck! Return a fallback immediately
+            fallback_dna = candidate_dnas[0]
+            self._record_meta("WFC_COLLAPSE_DEFLECTED", f"주의력 병목으로 인해 자극({hex(stimulus_wave)}) 처리가 차단되어, 기존 상태를 고수하는 디폴트 DNA로 바이패스합니다.")
+            return {
+                "collapsed_dna": fallback_dna,
+                "resonance_score": 0.01,
+                "collapse_position": fallback_dna["cell_position"],
+                "status": "DEFLECTED_BY_BOTTLENECK"
+            }
 
         # 4. Standing Wave Field Memory (가소성 메모리 복원)
         # 이전 대화가 만들어둔 장력의 홈(Valley)을 curiosity_potential 상에 중첩
@@ -319,10 +515,16 @@ class ElysiaCognitiveEngine:
             # Re-update virtual attractor coordinates using rotated angles
             self._update_rotated_attractors()
 
-        # If tension is extraordinarily high (representing toxic/hostile input),
-        # deflect it immediately into a Satellite boundary orbit rather than standard collapse
-        if handshake["tension_protocol"] > 0.75:
-            self._record_meta("IMMUNE_BOUNDARY_DEFLECTION", f"심각한 프로토콜 불통(Tension: {handshake['tension_protocol']:.4f}). 비자아(Non-Self) 소음으로 판단하고 면역 경계 외곽 공전 궤도로 튕겨냅니다.")
+        # Dynamic Deflection Threshold based on ego_pride & risk_sensitivity
+        deflect_threshold = 1.0 - (self.active_profile.ego_pride * 0.3 + self.active_profile.risk_sensitivity * 0.1)
+        deflect_threshold = float(np.clip(deflect_threshold, 0.4, 0.9))
+
+        # If tension is extraordinarily high, deflect it immediately into a Satellite boundary orbit rather than standard collapse
+        if handshake["tension_protocol"] > deflect_threshold:
+            self._record_meta("IMMUNE_BOUNDARY_DEFLECTION",
+                f"심각한 프로토콜 불통(Tension: {handshake['tension_protocol']:.4f} > 임계치 {deflect_threshold:.4f}). "
+                f"비자아(Non-Self) 소음으로 판단하고 면역 경계 외곽 공전 궤도로 튕겨냅니다."
+            )
 
             # Map wave to a suitable boundary position and tangent speed
             angle = (stimulus_wave % np.uint64(360)) * np.pi / 180.0
@@ -356,19 +558,23 @@ class ElysiaCognitiveEngine:
 
         self.field.update_attractor_masses(cognitive_entropy, tension_protocol, catastrophe_magnitude)
 
-        # 2-1. Variable Focus Zoom Lens Controller ONLY when text_context is provided
+        # Apply bias weights to specifically scale attractors
+        # Risk sensitivity boosts Deficit attractor mass, Ego pride boosts Principle attractor mass
+        self.field.attractors["Deficit"]["mass"] *= (1.0 + self.active_profile.risk_sensitivity * 1.5)
+        self.field.attractors["Principle"]["mass"] *= (1.0 + self.active_profile.ego_pride * 1.5)
+
+        # 2-1. Variable Focus Zoom Lens Controller
+        # Zoom factor is contracted by stress (tension_protocol & cognitive_entropy) modulated by risk sensitivity and impulsivity
+        stress_impact = tension_protocol * self.active_profile.risk_sensitivity + (cognitive_entropy / 20.0) * self.active_profile.impulsivity
+        zoom_factor = float(np.clip(1.0 - stress_impact, 0.1, 1.0))
+
+        # Apply lens focus to attractor fields
+        for name, default_attr in self.default_attractors.items():
+            attr = self.field.attractors[name]
+            attr["sigma"] = default_attr["sigma"] * zoom_factor
+            attr["mass"] = attr["mass"] / np.sqrt(zoom_factor)
+
         if text_context is not None:
-            # Calculate active Zoom Factor (Z)
-            zoom_factor = float(np.clip(1.0 - tension_protocol * 0.6 - (1.0 - sn_ratio) * 0.4, 0.15, 1.0))
-
-            # Apply lens focus to attractor fields
-            for name, default_attr in self.default_attractors.items():
-                attr = self.field.attractors[name]
-                # Zoom-in: narrower radius (sigma) and deeper mass
-                attr["sigma"] = default_attr["sigma"] * zoom_factor
-                # Continuous physical mass concentration: mass increases as focus narrows
-                attr["mass"] = attr["mass"] / np.sqrt(zoom_factor)
-
             self._record_meta("VARIABLE_FOCUS_LENS", f"가변 초점 제어기 작동: 줌 인수={zoom_factor:.4f} ({'S의 시선: Zoom-In' if zoom_factor < 0.5 else 'N의 시선: Zoom-Out'})")
 
         scores = []
@@ -391,12 +597,10 @@ class ElysiaCognitiveEngine:
             inertia_base = atom_res * constraint_val * (1.0 + yeobaek_factor)
 
             # 4) 가상 중력장 가속도/포텐셜 깊이 합성 (Multi-Gravity Navigation)
-            # Calculate negative potential well values (closer to attractor = higher pull)
             grav_potential_sum = 0.0
             for name, attr in self.field.attractors.items():
                 attr_pos = attr["position"]
                 dist_sq = np.sum((attr_pos - pos)**2)
-                # Reciprocal/Gaussian gravity pull representation
                 grav_potential_sum += attr["mass"] * np.exp(-dist_sq / (2 * (attr["sigma"]**2)))
 
             # 5) Volitional Acceleration a_volition integration
@@ -408,30 +612,41 @@ class ElysiaCognitiveEngine:
             grav_addition = grav_potential_sum * 0.02 + acc_magnitude * 0.05
 
             # 최종 위상적 정합성 지수 (Fit/Resonance Score)
-            # 확률이 아닌, 구속조건의 결, 원자 공명, 여백의 가변성, 그리고 중력적 포텐셜이 공명하는지 판별
             resonance_score = inertia_base + grav_addition
             scores.append((resonance_score, dna, acc_magnitude))
 
-        # 가장 정합성이 높은 단 하나의 DNA로 양자 붕괴 (Collapse)
+        # --- 100% Deterministic Decision (ARGMAX over candidate resonance, NO dice/randomness) ---
         scores.sort(key=lambda x: x[0], reverse=True)
         winner_score, collapsed_dna, win_acc_magnitude = scores[0]
 
-        # 붕괴가 일어난 지점에 에너지를 흘려보내고(Flow Energy), 전도율(Conductance)을 강력히 고정시킵니다.
+        # 붕괴가 일어난 지점에 에너지를 흘려보내고, 전도율을 강력히 고정시킵니다.
         win_pos = collapsed_dna["cell_position"]
-        # Incorporate volitional acceleration as a multiplier of energy flow
         flow_multiplier = 1.0 + win_acc_magnitude * 0.1
         self.field.flow_energy(win_pos, intensity=float((1.0 + winner_score * 5.0) * flow_multiplier))
         self.field.inject_activation(win_pos, intensity=float(winner_score * 10.0))
 
-        # 여백(Yeobaek) 자동 조율: 붕괴 에너지가 집중되면 여백을 넓혀 새로운 탐색 가능성을 확보
+        # [물고기의 유영: 저항을 맥락과 추진력으로 치환]
+        # 들어오는 정보의 정합성(Alignment)과 저항을 조율하여, 마찰력을 탐색 유연성(Yeobaek)과 전도력으로 승화시킵니다.
+        propulsion_thrust = float(handshake["alignment"] * (1.0 - handshake["tension_protocol"]) * base_intensity)
+
+        # 여백(Yeobaek) 자동 조율: 붕괴 에너지 및 유선형 추진력에 의해 유연성이 넓어집니다.
         self.field.coordination_margin[win_pos[0], win_pos[1]] = np.clip(
-            self.field.coordination_margin[win_pos[0], win_pos[1]] + 0.1, 0.1, 1.0
+            self.field.coordination_margin[win_pos[0], win_pos[1]] + 0.1 + propulsion_thrust * 0.15, 0.1, 1.0
+        )
+        self.field.conductance[win_pos[0], win_pos[1]] = np.clip(
+            self.field.conductance[win_pos[0], win_pos[1]] + propulsion_thrust * 0.3, 0.01, 10.0
         )
 
-        # 3. Resonance Equilibrium Convergence Criteria
-        # Rather than checking a checklist, we iteratively propagate energy until Delta H < threshold
+        if propulsion_thrust > 0.4:
+            self._record_meta("STREAMLINED_PROPULSION", f"물고기 유영 활성화: 인지적 마찰을 유선형 추진력({propulsion_thrust:.4f})으로 완벽히 치환하여 전도 통로를 확장했습니다.")
+
+        # --- Dynamic Lookahead Depth Contract Criteria ---
+        # Lookahead depth is contracted under stress/tension
+        base_lookahead = self.active_profile.lookahead_depth
+        contracted_lookahead = max(1, int(base_lookahead * (1.0 - stress_impact * 0.8)))
+        max_iterations = contracted_lookahead * 4  # e.g., Goblin lookahead 1 -> max 4 iterations, Dragon lookahead 6 -> max 24 iterations
+
         equilibrium_threshold = 1e-4
-        max_iterations = 20
         iteration = 0
         reached_equilibrium = False
         prev_activation_sum = np.sum(self.field.activation)
@@ -450,13 +665,18 @@ class ElysiaCognitiveEngine:
             prev_activation_sum = curr_activation_sum
             iteration += 1
 
-        self._record_meta("RESONANCE_EQUILIBRIUM", f"에너지 평형 종료 조건 달성: 반복수={iteration}, 최종델타={delta_h:.6f} ({'평형 도달' if reached_equilibrium else '한계 반복 수렴'})")
+        self._record_meta("RESONANCE_EQUILIBRIUM",
+            f"예측 루프 종료 (Lookahead 단계: {contracted_lookahead}/{base_lookahead}): "
+            f"반복수={iteration}/{max_iterations}, 최종장력델타={delta_h:.6f} ({'수렴' if reached_equilibrium else '한계도착'})"
+        )
 
         # Save the current stabilized activation map as the new standing wave memory
         self.standing_wave_memory = self.field.activation.copy()
 
+        # Decay attention for other slots over time/step
+        self.decay_attention(dt=1.0)
+
         # Dopaminergic Resonance and Existential Reflection Narrative Integration
-        # Determine closest attractor to calculate dopaminergic phase locking
         dopamine_score = 0.0
         active_attractor_name = "Deficit"
         min_dist_sq = float('inf')
@@ -471,7 +691,10 @@ class ElysiaCognitiveEngine:
         active_attr = self.field.attractors[active_attractor_name]
         dopamine_score = float(active_attr["mass"] * np.exp(-min_dist_sq / (2 * (active_attr["sigma"]**2))))
 
-        self._record_meta("WFC_COLLAPSED", f"자극 파동({hex(stimulus_wave)})에 의해 구속조건 속에서 중첩 상태가 붕괴됨. 수렴된 DNA 카테고리: '{collapsed_dna['category']}' (정합성 공명지수: {winner_score:.4f}, 도파민 공명: {dopamine_score:.4f})")
+        self._record_meta("WFC_COLLAPSED",
+            f"자극 파동({hex(stimulus_wave)})에 의해 구속조건 속에서 중첩 상태가 붕괴됨. "
+            f"수렴된 DNA 카테고리: '{collapsed_dna['category']}' (정합성 공명지수: {winner_score:.4f}, 도파민 공명: {dopamine_score:.4f})"
+        )
 
         # Prepare final collapse result dict
         collapse_result = {
@@ -484,7 +707,9 @@ class ElysiaCognitiveEngine:
         }
 
         # If Dopamine Resonance is exceptionally high, crystallize thought and log existential engram
-        if dopamine_score > 15.0:
+        # Goblin rarely hits high dopamine due to poor attention & shallow lookahead
+        dopamine_threshold = 12.0
+        if dopamine_score > dopamine_threshold:
             # Self-amplification of local nodes
             self.field.conductance[win_pos[0], win_pos[1]] = np.clip(self.field.conductance[win_pos[0], win_pos[1]] * 1.5, 0.1, 10.0)
             self.field.self_awareness[win_pos[0], win_pos[1]] = np.clip(self.field.self_awareness[win_pos[0], win_pos[1]] + dopamine_score * 0.1, 0.1, 100.0)
