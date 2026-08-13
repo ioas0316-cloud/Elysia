@@ -88,6 +88,9 @@ from core.physics.predictive_processing import PredictiveProcessingEngine
 # [Phase 4: Embodied Dreaming World Model]
 from core.consciousness.dreaming_world_model import DreamingWorldModel
 
+# [Phase 3.5 Falsification Paradigm Engine]
+from core.consciousness.axiom_discovery import CausalSpine, AxiomDiscoveryEngine
+
 import asyncio
 
 
@@ -216,6 +219,10 @@ class ConsciousnessLoop:
         # ── [Phase 4: Embodied Dreaming World Model Engine] ──
         self.dreaming_model = DreamingWorldModel(memory_controller=self.memory, size=16)
         self.last_dream_res = None
+
+        # ── [Phase 3.5: Causal Spine & Axiom Discovery Engine] ──
+        self.causal_spine = CausalSpine(dimensions=3, learning_rate=0.1)
+        self.axiom_discovery = AxiomDiscoveryEngine(correlation_threshold=0.85, window_size=10, falsification_threshold=0.3)
 
         # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
@@ -942,6 +949,68 @@ class ConsciousnessLoop:
         # ── 10.9.5 [Data-driven Orchestration / CausalDirectorOrchestrator] ──
         director_script = self.mmorpg_orchestrator.orchestrate(sandbox_report)
         log["director_script"] = director_script
+
+        # ── [Phase 3.5 Causal Spine & Axiom Discovery Step] ──
+        # Gather live continuous variables to feed into Layer B (Causal Spine) & Layer C (Axiom Discovery)
+        # S_self or belief state mapped continuously
+        self.causal_spine.predict()
+
+        # Continuous observation vector constructed from active neuromodulator / tension / homeostasis metrics
+        da = self.experiential_mapper.neuromodulator.dopamine
+        se = self.experiential_mapper.neuromodulator.serotonin
+        local_learning_rate = float(np.clip(da * (1.0 - se), 0.01, 0.95))
+        cur_homeostasis = self.experiential_mapper.homeostasis
+        actual_obs = np.array([da, max_tension, cur_homeostasis.calculate_tension()], dtype=np.float32)
+
+        pred_err = self.causal_spine.compute_prediction_error(actual_obs)
+        self.causal_spine.update_belief(actual_obs, neuromodulator_alpha=local_learning_rate)
+        act_vector = self.causal_spine.actuate()
+
+        # Log Causal Spine properties
+        log["causal_spine_prediction_error"] = pred_err
+        log["causal_spine_belief"] = self.causal_spine.belief_state.tolist()
+        log["causal_spine_action"] = act_vector.tolist()
+
+        # Layer C: Track continuous variables and discover/falsify invariants
+        live_variables = {
+            "dopamine": float(da),
+            "serotonin": float(se),
+            "tension": float(max_tension),
+            "homeostasis_tension": float(cur_homeostasis.calculate_tension()),
+            "resonance_score": float(resonance_score),
+            "macro_tension": float(macro_tension),
+            "hw_friction": float(log["hw_friction"]),
+            "belief_0": float(self.causal_spine.belief_state[0]),
+            "belief_1": float(self.causal_spine.belief_state[1]),
+            "belief_2": float(self.causal_spine.belief_state[2])
+        }
+        self.axiom_discovery.record_variables(live_variables)
+
+        # Pack loop parameters to checkpoint if needed
+        loop_state_snap = {
+            "learning_rate": local_learning_rate,
+            "resonance_score": resonance_score,
+            "max_tension": max_tension,
+            "belief_state_0": float(self.causal_spine.belief_state[0]),
+            "belief_state_1": float(self.causal_spine.belief_state[1]),
+            "belief_state_2": float(self.causal_spine.belief_state[2])
+        }
+        axiom_logs = self.axiom_discovery.evaluate_and_discover(self.cycle_count, loop_state_snap)
+        log["axiom_discovery_logs"] = axiom_logs
+
+        if self.axiom_discovery.rollback_triggered:
+            # Revert states to stable checkpoint
+            checkpoint = self.axiom_discovery.last_rollback_checkpoint or {}
+            self.causal_spine.rollback_state(checkpoint)
+
+            # Rollback experiential mapper homeostatic values
+            if "tension" in checkpoint:
+                self.experiential_mapper.homeostasis.love = checkpoint.get("homeostasis_tension", 0.5)
+                self.experiential_mapper.homeostasis.order = checkpoint.get("homeostasis_tension", 0.5)
+
+            log["status"] = "Falsified - State Rollback Triggered"
+            log["resonance_score"] = 0.0
+            log["is_resonant"] = False
 
         # 샌드박스의 마찰/텐션 격차를 엘리시아의 공명 중추 및 감정 상태로 환류(Feedback)
         if sandbox_report.get("max_tension_gap", 0.0) > 0.1:
