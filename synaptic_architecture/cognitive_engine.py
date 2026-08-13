@@ -59,6 +59,15 @@ DEFAULT_PROFILE = CognitiveBiasProfile(
 )
 
 
+from synaptic_architecture.cognitive_field_adapter import (
+    CharacterStats,
+    FieldParameters,
+    CognitiveFieldAdapter,
+    JobAttentionMask,
+    ClassAdvancementPhaseTransition,
+    CommanderAuraField
+)
+
 class ElysiaCognitiveEngine:
     """
     [System Architecture Engine] ElysiaCognitiveEngine : 정보 기반 인지 엔진
@@ -79,6 +88,9 @@ class ElysiaCognitiveEngine:
     def __init__(self, resolution: int = 256, profile: Optional[CognitiveBiasProfile] = None):
         self.resolution = resolution
         self.active_profile = profile if profile is not None else DEFAULT_PROFILE
+        self.field_adapter = CognitiveFieldAdapter()
+        self.active_job_mask: Optional[JobAttentionMask] = None
+        self.class_transition = ClassAdvancementPhaseTransition("Novice")
 
         # 1. 2D 메트릭스 필드 (Conductance, Activation, Yeobaek 등을 내포)
         self.field = CrystallizationField(resolution)
@@ -135,6 +147,29 @@ class ElysiaCognitiveEngine:
         # --- Bounded Rationality: Attention Slot Registry & Memory Tracking ---
         # stimulus_wave (uint64) -> dict { "category": str, "weight": float, "last_updated": float }
         self.attention_registry: Dict[np.uint64, Dict[str, Any]] = {}
+
+    def apply_character_stats(self, stats: CharacterStats):
+        """
+        [Character Stats-to-Profile Dynamic Mapping]
+        캐릭터의 5대 RPG 스탯 및 평판 스탯을 변환 어댑터를 거쳐
+        실시간으로 인지 엔진의 Bounded Rationality Profile(주의력 슬롯, 탐색 깊이 등)로 투영합니다.
+        """
+        params = self.field_adapter.transform(stats)
+
+        # 스탯에 의거한 인격/스펙트럼 실시간 재구성
+        self.active_profile.attention_slots = params.attention_slots
+        self.active_profile.lookahead_depth = params.lookahead_depth
+
+        # 어트랙터들의 가속도/기본 크기 및 마찰력 동적 매핑
+        self.field.attractors["Deficit"]["mass"] = float(params.attractor_mass)
+        self.field.attractors["Deficit"]["sigma"] = float(params.field_sigma * (self.resolution * 0.15))
+
+        self._record_meta("STATS_APPLIED",
+            f"RPG 스탯이 인지 필드 파라미터로 동적 투영되었습니다. "
+            f"슬롯: {params.attention_slots}, 깊이: {params.lookahead_depth}, "
+            f"시야 시그마 배율: {params.field_sigma}, 어트랙터 질량: {params.attractor_mass}, "
+            f"사회적 중력: {params.social_gravity}"
+        )
 
     def set_profile(self, profile: CognitiveBiasProfile):
         """
@@ -613,6 +648,18 @@ class ElysiaCognitiveEngine:
 
             # 최종 위상적 정합성 지수 (Fit/Resonance Score)
             resonance_score = inertia_base + grav_addition
+
+            # 직업 마스크 (M_Job) 필터 가중치 적용
+            if self.active_job_mask is not None:
+                # category 또는 attractor 정보 매핑
+                category_mapping = dna.get("category", "General")
+                resonance_score = self.active_job_mask.apply(category_mapping, resonance_score)
+                # Deficit attractor 인접 가치 필터 적용
+                if "Deficit" in self.field.attractors:
+                    dist_to_deficit = np.linalg.norm(self.field.attractors["Deficit"]["position"] - pos)
+                    if dist_to_deficit < self.field.attractors["Deficit"]["sigma"] * 1.5:
+                        resonance_score = self.active_job_mask.apply("Deficit", resonance_score)
+
             scores.append((resonance_score, dna, acc_magnitude))
 
         # --- 100% Deterministic Decision (ARGMAX over candidate resonance, NO dice/randomness) ---
