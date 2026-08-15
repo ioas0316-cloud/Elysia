@@ -13,6 +13,8 @@ References:
 
 from enum import Enum
 from typing import Dict, List, Optional, Set, Tuple, Union, Any
+import numpy as np
+from core.physics.topological_field_dynamics import TopologicalWaveField
 
 
 class Polarity(Enum):
@@ -367,12 +369,18 @@ class MGRISInferenceEngine:
 
     def _execute_2morphism_operator(self, graph: MolecularGraph, op_node_id: int, target_node_id: int) -> None:
         """
-        2-Morphism Meta-Rewriting:
-        Concept operator node modifies the target node's binding rules (sticky end inversion).
+        2-Morphism Meta-Rewriting & Isomorphic Circuit Reconfiguration:
+        Concept operator node modifies the target node's binding rules (sticky end inversion)
+        and projects phase shifts directly into the continuous wave field.
         """
         target_node = graph.nodes.get(target_node_id)
         if target_node:
             target_node.invert_sticky_ends()
+            # Physical Reconfiguration: Project Sticky End Inversion into continuous wave field
+            wave_field = TopologicalWaveField()
+            for se in target_node.sticky_ends:
+                wave_field.inject_pattern(se.pattern, amplitude=1.0, phase_shift=np.pi)
+            wave_field.relax_to_equilibrium()
 
     def _extract_narrative(self, graph: MolecularGraph) -> List[str]:
         narrative = []

@@ -1,6 +1,7 @@
 import numpy as np
 import os
 from .hardware_mapping import HardwareMemoryMap
+from core.physics.topological_field_dynamics import TopologicalWaveField
 
 class DynamicHardwareMap(HardwareMemoryMap):
     """
@@ -12,6 +13,7 @@ class DynamicHardwareMap(HardwareMemoryMap):
         super().__init__(size)
         self.tension_refraction = 0.0 # 0.0 means normal mapping
         self.dynamic_mask = np.uint64(0)
+        self.topological_field = TopologicalWaveField(grid_size=128)
 
     def set_structural_tension(self, tension: float):
         """
@@ -26,15 +28,20 @@ class DynamicHardwareMap(HardwareMemoryMap):
 
     def derive_address(self, bitstream: np.uint64) -> int:
         """
-        [Architecture Bending]
-        Address derivation is no longer a static constant;
-        it is refracted by the current 'Total Tension' of the organism.
+        [Architecture Bending & Continuous Wave Field Isomorphism]
+        Address derivation is no longer a static constant or discrete hash;
+        it is refracted by the continuous wave field state and topological relaxation.
         """
-        # Original bit-mixing
-        x = np.uint64(bitstream)
+        # Inject bitstream into continuous topological wave field
+        self.topological_field.inject_pattern(int(bitstream), amplitude=1.0)
+        self.topological_field.relax_step(dt=0.01)
+
+        # Extract emergent mask from wave field
+        emergent_mask = self.topological_field.extract_emergent_bitmask()
+
+        x = np.uint64(bitstream) ^ np.uint64(emergent_mask)
 
         # Apply Structural Refraction (The Bending)
-        # The bitmask tilts the input before hashing
         x ^= self.dynamic_mask
 
         x ^= (x >> np.uint64(33))
