@@ -1,9 +1,11 @@
-from .causal_controller import CausalMemoryController
-from .volatile_cache import VolatileCache
-from .working_ram import WorkingMemoryRAM
+from core.memory.state_dag import PhysicalStateSlabPool, StateNode, StateDAGManager
+from core.memory.causal_gc import CausalAwareGC
+from core.memory.causal_controller import CausalMemoryController
 
 __all__ = [
-    "CausalMemoryController",
-    "VolatileCache",
-    "WorkingMemoryRAM"
+    "PhysicalStateSlabPool",
+    "StateNode",
+    "StateDAGManager",
+    "CausalAwareGC",
+    "CausalMemoryController"
 ]
