@@ -165,3 +165,42 @@ class InformationTopology:
         ]
         cloned.boundary_tension = self.boundary_tension
         return cloned
+
+    def to_executable_scm(self) -> 'StructuralCausalModel':
+        """
+        InformationTopology 다양체를 실행 가능한 StructuralCausalModel(SCM)로 변환
+        """
+        from core.topology.executable_causal_topology import StructuralCausalModel, ExecutableDAGNode, NodeType, OpCode
+
+        scm = StructuralCausalModel(name=self.name)
+
+        # 1. CausalNumber -> Value Nodes
+        for num_id, num_obj in self.numbers.items():
+            node = ExecutableDAGNode(
+                id=num_id,
+                node_type=NodeType.VALUE,
+                op=OpCode.CONSTANT,
+                default_value=num_obj.value
+            )
+            scm.add_node(node)
+
+        # 2. TopologyLinks -> Compute/Relational Edges
+        parent_map: Dict[str, List[str]] = {}
+        for link in self.links:
+            if link.target_id not in parent_map:
+                parent_map[link.target_id] = []
+            if link.source_id not in parent_map[link.target_id]:
+                parent_map[link.target_id].append(link.source_id)
+
+        # 3. Connect parents or add downstream compute nodes
+        for target_id, parents in parent_map.items():
+            if target_id in scm.nodes:
+                target_node = scm.nodes[target_id]
+                target_node.input_ids = parents
+                target_node.op = OpCode.ADD if len(parents) >= 1 else OpCode.CONSTANT
+                target_node.node_type = NodeType.COMPUTE
+                for p_id in parents:
+                    if p_id in scm.nodes and target_id not in scm.nodes[p_id].output_ids:
+                        scm.nodes[p_id].output_ids.append(target_id)
+
+        return scm
