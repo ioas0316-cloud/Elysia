@@ -5,6 +5,12 @@ import numpy as np
 from typing import Dict, Any, Optional, List, Set, Tuple, Union
 from copy import deepcopy
 
+from core.memory.delta_superposition import (
+    DeltaSuperpositionEngine,
+    ObserverView,
+    ImmutableBaseSlab
+)
+
 class PhysicalStateSlabPool:
     """
     [Physical Data Continuity Layer]
@@ -95,6 +101,7 @@ class StateNode:
     """
     [Informational Framing Layer]
     불변(Immutable) Virtual Observation View Node.
+    Delta Superposition ObserverView를 소유하여 Zero-Copy 상태 복원을 지원합니다.
     """
     def __init__(
         self,
@@ -102,7 +109,8 @@ class StateNode:
         parent: Optional['StateNode'] = None,
         delta_dict: Optional[Dict[str, Any]] = None,
         bitmask: int = 0xFFFFFFFFFFFFFFFF,
-        intervention_meta: Optional[str] = None
+        intervention_meta: Optional[str] = None,
+        observer_view: Optional[ObserverView] = None
     ):
         self.id = str(uuid.uuid4())[:8]
         self.slab_offset = slab_offset
@@ -110,14 +118,20 @@ class StateNode:
         self.delta_dict = delta_dict if delta_dict is not None else {}
         self.bitmask = bitmask
         self.intervention_meta = intervention_meta
+        self.observer_view = observer_view
         self.children: Set['StateNode'] = set()
         self._lock = threading.RLock()
 
         if parent:
             parent.children.add(self)
 
-    def get_state_chain(self) -> List[Dict[str, Any]]:
+    def get_state_chain(self) -> Dict[str, Any]:
         with self._lock:
+            if self.observer_view is not None:
+                observed = self.observer_view.observe()
+                if isinstance(observed, dict):
+                    return observed
+
             chain = []
             curr = self
             while curr:
@@ -145,12 +159,13 @@ class StateNode:
 class StateDAGManager:
     """
     [Physical Continuity + Informational Framing Unified Manager]
-    고정 변수-차원 맵(Variable Dimension Mapping)을 유지하여
-    차원 왜곡 없이 상태 벡터 및 델타 슬래브를 관리합니다.
+    고정 변수-차원 맵(Variable Dimension Mapping) 및 Delta Superposition Engine을 내장하여
+    차원 왜곡 없이 Zero-Copy 변위 중첩 상태 합성 및 DAG 관리를 제어합니다.
     """
-    def __init__(self, initial_state_dict: Dict[str, Any], state_dim: int = 64):
+    def __init__(self, initial_state_dict: Dict[str, Any], state_dim: int = 64, ring_capacity: int = 10000):
         self.state_dim = state_dim
         self.slab_pool = PhysicalStateSlabPool(capacity=10000, dimension=state_dim)
+        self.superposition_engine = DeltaSuperpositionEngine(initial_state_dict, ring_capacity=ring_capacity)
         self._lock = threading.RLock()
 
         # 변수명 -> 차원 오프셋 고정 매핑 테이블
@@ -161,12 +176,15 @@ class StateDAGManager:
         init_vec, mask = self._dict_to_vec_and_mask(initial_state_dict)
         root_offset = self.slab_pool.allocate_slab(init_vec, bitmask=mask, parent_offset=-1)
 
+        root_view = self.superposition_engine.create_root_view()
+
         with self._lock:
             self.root = StateNode(
                 slab_offset=root_offset,
                 parent=None,
                 delta_dict=deepcopy(initial_state_dict),
-                bitmask=mask
+                bitmask=mask,
+                observer_view=root_view
             )
             self.current_node = self.root
             self.nodes: Dict[str, StateNode] = {self.root.id: self.root}
@@ -200,11 +218,17 @@ class StateDAGManager:
 
             new_offset = self.slab_pool.allocate_slab(delta_vec, bitmask=bitmask, parent_offset=parent_offset)
 
+            # Build zero-copy observer view by applying deltas sequentially
+            curr_view = self.current_node.observer_view or self.superposition_engine.create_root_view()
+            for k, v in transition_delta.items():
+                curr_view = curr_view.branch_and_apply_kv(k, v)
+
             new_node = StateNode(
                 slab_offset=new_offset,
                 parent=self.current_node,
                 delta_dict=transition_delta,
-                bitmask=bitmask
+                bitmask=bitmask,
+                observer_view=curr_view
             )
             self.nodes[new_node.id] = new_node
             self.current_node = new_node
@@ -230,12 +254,16 @@ class StateDAGManager:
                 parent_offset=parent_offset
             )
 
+            curr_view = self.current_node.observer_view or self.superposition_engine.create_root_view()
+            new_view = curr_view.branch_and_apply_kv(variable, value)
+
             intervened_node = StateNode(
                 slab_offset=new_offset,
                 parent=self.current_node,
                 delta_dict=intervention_delta,
                 bitmask=bitmask,
-                intervention_meta=f"do({variable}={value})"
+                intervention_meta=f"do({variable}={value})",
+                observer_view=new_view
             )
             self.nodes[intervened_node.id] = intervened_node
             self.current_node = intervened_node

@@ -7,6 +7,8 @@ from core.memory.state_dag import StateDAGManager, StateNode
 class CausalAwareGC:
     """
     [Causal-Aware Garbage Collection (CGC) & Job System Dispatcher]
+    self-guided analog GC 및 Delta Superposition 링 버퍼 회전에 따른
+    자연 사멸(Self-Pruning / Entropy Expiry) 분기 회수를 지원합니다.
     """
     def __init__(
         self,
@@ -59,6 +61,46 @@ class CausalAwareGC:
             depth += 1
 
         return score
+
+    def prune_expired_superposition_nodes(self) -> int:
+        """
+        [Self-Guided Ring Buffer Expiry GC]
+        링 버퍼 회전(Wrap-Around)에 의해 델타 파형이 Overwrite/소멸된 분기 노드를
+        별도의 비트마스크 순회 비용 없이 자연스럽게 정리합니다.
+        """
+        pruned_count = 0
+        ring_buffer = self.dag_manager.superposition_engine.ring_buffer
+
+        with self.dag_manager._lock:
+            protected_node_ids = set()
+            curr = self.dag_manager.current_node
+            while curr:
+                protected_node_ids.add(curr.id)
+                curr = curr.parent
+
+            nodes_list = list(self.dag_manager.nodes.values())
+            for node in nodes_list:
+                if node.id in protected_node_ids or node.id == self.dag_manager.root.id:
+                    continue
+
+                if node.observer_view is not None and node.observer_view.active_indices:
+                    # Check if all active wave indices of this node's view have expired in the ring buffer
+                    active_indices = node.observer_view.active_indices
+                    has_valid = False
+                    for idx in active_indices:
+                        if ring_buffer.get_kv_delta(idx) is not None or ring_buffer.get_vector_delta(idx) is not None:
+                            has_valid = True
+                            break
+
+                    # If none of its active delta waves remain valid in the ring buffer, prune node
+                    if not has_valid and not node.children:
+                        if node.parent and node in node.parent.children:
+                            node.parent.children.remove(node)
+                        if node.id in self.dag_manager.nodes:
+                            del self.dag_manager.nodes[node.id]
+                        pruned_count += 1
+
+        return pruned_count
 
     def collapse_isomorphic_nodes(self) -> int:
         """
@@ -115,9 +157,10 @@ class CausalAwareGC:
                 protected_node_ids.add(curr.id)
                 curr = curr.parent
 
+            expired_pruned = self.prune_expired_superposition_nodes()
             self.collapse_isomorphic_nodes()
 
-            pruned_count = 0
+            pruned_count = expired_pruned
 
             def prune_subtree(node: StateNode):
                 nonlocal pruned_count
