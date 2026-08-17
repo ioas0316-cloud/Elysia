@@ -1,10 +1,11 @@
 """
 Unit tests for synaptic_architecture/causal_geodesic_engine.py
 Verifies:
-1. Heterogeneous Memory Manager (System RAM & VRAM Ring Buffer Eviction).
+1. Heterogeneous Memory Manager (System RAM & VRAM Ring Buffer Eviction with 2.0GB VRAM Limit).
 2. Potential Tension Field τ & Chromatic Order/Entropy calculations.
-3. 4-Stage Causal Geodesic Convergence (Initial convergence, Singularity trigger, LCA backtracking, Reframing I_meta -> I'_meta, and Final resolution).
-4. Inverse Mechanism Extraction (Θ) upon geodesic convergence.
+3. 4-Stage Causal Geodesic Convergence (Initial convergence, Singularity trigger, LCA backtracking, Reframing I_meta -> I'_meta with failure curvature absorption, and Final resolution).
+4. Cascading Relaxation & Complete Raw Tensor Purge (Zero residual tensor footprint).
+5. Inverse Mechanism Extraction (Θ) upon geodesic convergence.
 """
 
 import pytest
@@ -22,7 +23,7 @@ from synaptic_architecture.causal_geodesic_engine import (
 
 
 def test_heterogeneous_memory_manager():
-    mgr = HeterogeneousMemoryManager(vram_ring_buffer_capacity=2)
+    mgr = HeterogeneousMemoryManager(vram_ring_buffer_capacity=2, max_vram_bytes=1000)
     lineage1 = CausalLineage(node_id="node1")
     lineage2 = CausalLineage(node_id="node2")
     lineage3 = CausalLineage(node_id="node3")
@@ -44,13 +45,14 @@ def test_heterogeneous_memory_manager():
     assert len(mgr.vram_active_buffer) == 2
     assert mgr.system_ram_dag["node1"].is_vram_resident
 
-    # Dispatch node3 -> should trigger eviction of oldest node (node1)
+    # Dispatch node3 -> should trigger eviction & complete purge of oldest node (node1)
     mgr.register_node("node3", tensor3, lineage3)
     mgr.dispatch_to_vram("node3")
 
     assert len(mgr.vram_active_buffer) == 2
     assert "node1" not in mgr.vram_active_buffer
-    assert mgr.system_ram_dag["node1"].relaxed_status == "Relaxed"
+    assert mgr.system_ram_dag["node1"].relaxed_status == "Relaxed_Purged"
+    assert mgr.system_ram_dag["node1"].raw_tensor_host is None
 
 
 def test_chromatic_entropy_tension():
@@ -97,5 +99,30 @@ def test_causal_geodesic_convergence_full_flow():
     assert result["reframed"] is True
     assert result["lca_branch_id"] == "Root_LCA"
     assert result["final_tau"] < result["initial_tau"] or result["final_tau"] <= 0.5
-    assert result["memory_status"] == "Relaxed"
+    assert result["memory_status"] == "Relaxed_Purged"
+    assert result["raw_tensor_purged"] is True
+    assert result["failure_curvature_count"] > 0
     assert result["extracted_mechanism"] is not None
+
+
+def test_cascading_relaxation_and_failure_curvature():
+    boundary = MetaInvariantBoundary(boundary_id="Curvature_Test_Boundary")
+    engine = CausalGeodesicEngine(meta_boundary=boundary)
+
+    # Large tensor to test cascading relaxation
+    large_tensor = torch.randn(100000)
+    target_invariant = TopologicalInvariant(name="Zero_Target", target_value=0.0)
+    lineage = CausalLineage(node_id="Large_Node")
+    boundary_cond = BoundaryCondition(condition_id="Env_Large")
+
+    result = engine.execute_geodesic_convergence(
+        node_start_id="Large_Node",
+        tensor_start=large_tensor,
+        lineage_start=lineage,
+        target_invariant=target_invariant,
+        boundary_cond=boundary_cond,
+        max_steps=5
+    )
+
+    assert result["memory_status"] == "Relaxed_Purged"
+    assert result["raw_tensor_purged"] is True

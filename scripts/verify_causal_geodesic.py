@@ -4,9 +4,9 @@
 Demonstrates the complete 4-Stage Causal Geodesic process on Elysia's potential field:
 1. Initial Convergence (Start lineage S_start -> S_target)
 2. Singularity Trigger (Tension spike τ -> ∞)
-3. LCA Backtracking & Reframing (I_meta -> I'_meta elevation)
+3. LCA Backtracking & Reframing with Failure Curvature Absorption (I_meta -> I'_meta elevation)
 4. Geodesic Path Resolution (Equilibrium convergence τ <= ε and Generating Mechanism Θ extraction)
-5. Heterogeneous Memory Lifecycle (System RAM DAG <-> VRAM Ring Buffer Eviction)
+5. Heterogeneous Memory Lifecycle (System RAM DAG <-> VRAM 2.0GB Ring Buffer Hard Limit & Tensor Purge)
 """
 
 import sys
@@ -29,13 +29,17 @@ def main():
     print("  [Elysia Engine] Causal & Variational Geodesic Convergence Verification")
     print("=" * 80)
 
-    # 1. Initialize Causal Geodesic Engine with Meta-Invariant Boundary
+    # 1. Initialize Causal Geodesic Engine with Meta-Invariant Boundary & 2.0GB VRAM Hard Limit
     i_meta = MetaInvariantBoundary(
         boundary_id="Spacetime_Symmetry_I_meta",
         target_symmetries=["Flux_Conservation", "Phase_Continuity"],
         max_allowed_tension=12.0
     )
-    geodesic_engine = CausalGeodesicEngine(meta_boundary=i_meta, singularity_threshold=12.0)
+    geodesic_engine = CausalGeodesicEngine(
+        meta_boundary=i_meta,
+        singularity_threshold=12.0,
+        max_vram_bytes=2 * 1024 * 1024 * 1024  # 2.0GB VRAM Limit
+    )
 
     # 2. Setup Lineage Trajectories & Initial Target
     lineage_start = CausalLineage(
@@ -77,16 +81,18 @@ def main():
         max_steps=15
     )
 
-    print("\n[Stage 2 & 3: Impasse Singularity & LCA Backtracking]")
+    print("\n[Stage 2 & 3: Impasse Singularity, LCA Backtracking & Failure Curvature Absorption]")
     print(f" - Singularity Triggered: {result['singularity_detected']}")
     print(f" - LCA Backtrack Branch ID: {result['lca_branch_id']}")
     print(f" - Reframed Boundary: {result['reframed']}")
+    print(f" - Failure Curvature Trajectories Absorbed in I_meta: {result['failure_curvature_count']}")
     print(f" - Reframed Boundary Dimensional Scale: {result['meta_boundary_scale']:.4f}")
 
-    print("\n[Stage 4: Geodesic Path Resolution & Inverse Mechanism Extraction]")
+    print("\n[Stage 4: Geodesic Path Resolution & Heterogeneous Memory Purge]")
     print(f" - Initial Potential Tension (τ_0): {result['initial_tau']:.4f}")
     print(f" - Final Geodesic Tension (τ_final): {result['final_tau']:.4f}")
-    print(f" - Memory Status in System RAM: {result['memory_status']}")
+    print(f" - System RAM DAG Node Status: {result['memory_status']}")
+    print(f" - Physical Tensor Purged (Zero Residual Footprint): {result['raw_tensor_purged']}")
 
     mechanism = result['extracted_mechanism']
     print(f"\n[Generating Mechanism (Θ) Extracted]")
