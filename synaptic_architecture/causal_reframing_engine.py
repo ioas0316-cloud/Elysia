@@ -30,6 +30,12 @@ from synaptic_architecture.topological_axiomatic_engine import (
     MetaMechanismSignature,
     TopologicalAxiomaticEngine,
 )
+from synaptic_architecture.meta_axiomatic_evaluator import (
+    MetaAxiomaticEvaluator,
+    ExternalAxiomBlackBox,
+    IntentInvariant,
+    FrictionWeightConfig,
+)
 
 
 @dataclass
@@ -328,6 +334,60 @@ class CausalReframingEngine:
             "zero_token_generation": True,
             "zero_bypass_execution_ns": elapsed_ns,
             "summary": f"O(1) Symbolic context discernment completed for {entity_name} on {context_axis} axis without token/tensor bloat."
+        }
+
+    def evaluate_and_reframe_axioms(
+        self,
+        internal_axiom: ExternalAxiomBlackBox,
+        external_axiom: ExternalAxiomBlackBox,
+        evaluator: MetaAxiomaticEvaluator,
+        sample_intents: List[Any],
+        target_domain: str = "Reframed_Meta_Domain"
+    ) -> Dict[str, Any]:
+        """
+        [Meta-Axiomatic Evaluation & Autonomous Reframing]
+        내부/외부 공리의 경계 마찰을 MetaAxiomaticEvaluator로 대조한 후,
+        외부 공리의 마찰이 낮아 adopt_external=True 판정이 내려지면
+        상위 메타 경계를 자율 재구획(Topological Reframing)하고
+        TopologicalAxiomaticEngine에 새로운 메카니즘 서명으로 Re-bind 합니다.
+        """
+        decision = evaluator.compare_and_decide(
+            internal_axiom=internal_axiom,
+            external_axiom=external_axiom,
+            sample_intents=sample_intents
+        )
+
+        reframed_signature_id = None
+        bypassed = False
+
+        if decision["adopt_external"]:
+            # 자율적 공리 이식 및 재구조화 (Topological Reframing)
+            reframed_signature_id = f"reframed_{external_axiom.axiom_signature}_{target_domain}"
+
+            # TopologicalAxiomaticEngine에 우월한 외부 공리를 정적 서명으로 Re-bind
+            transitions = [("Meta_Input_Boundary", "Meta_Response_State")]
+            dag = {"Meta_Input_Boundary": ["Meta_Response_State"]}
+
+            rebound_sig = self.axiomatics_engine.extract_meta_signature_from_axioms(
+                signature_id=reframed_signature_id,
+                symmetry_group="SU(1)_Reframed_Group",
+                axioms=[f"I_adopted_external_{external_axiom.axiom_signature}"],
+                dag=dag,
+                transitions=transitions
+            )
+
+            # Re-bound 메커니즘에 대해 StaticBypassManager로 O(1) Zero Bypass 검증
+            proof, bypassed = self.axiomatics_engine.verify_and_resolve_isomorphic_state(
+                signature_id=rebound_sig.signature_id,
+                current_transition=("Meta_Input_Boundary", "Meta_Response_State"),
+                tension_magnitude=0.0
+            )
+
+        return {
+            "evaluation_decision": decision,
+            "reframed": decision["adopt_external"],
+            "reframed_signature_id": reframed_signature_id,
+            "zero_bypass_achieved": bypassed
         }
 
     def _get_deconstructed_structure(self, deconstructed_id: str) -> DeconstructedCausalStructure:
