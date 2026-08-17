@@ -16,6 +16,7 @@ As an agent working on Elysia, you must adhere to the **4 Continuities** of the 
 - **Voxel-Beam Structure:** Treat complex data as `InformationVoxel` clusters bound by `ConnectivityBeam` structures.
 - **Chromatic Dynamics:** Every `InformationVoxel` must have a chromatic vector that influences its physical properties (conductance, mass, potential).
 - **Resonance over Logic:** Favor structural resonance (tensor dot products) over symbolic logic (if A then B).
+- **Inverse Mechanism Generation:** Do not fit surface data patterns or result trajectories directly. Treat output data collections as inputs to extract underlying generating parameters ($\Theta$), topological invariants, and boundary conditions ($\Delta$). Always enforce geometric/logical reducibility (MDL principle) to avoid overfitting.
 
 ### 3. Coding Standards
 - Maintain high performance using vectorized NumPy operations.
