@@ -135,3 +135,84 @@ def test_topological_balance_solver_equivalence():
     assert result["solution"] == 6.0
     assert len(result["reduction_steps"]) == 4
     assert result["method"] == "TOPOLOGICAL_EQUIVALENCE_SIMPLIFICATION"
+
+
+def test_space_state_graph_and_cognitive_time_transition():
+    from core.topology.relational_semantic_tensor import SpaceStateNode, SpaceStateGraph
+
+    graph = SpaceStateGraph(name="TestCognitiveTime")
+
+    node_0 = SpaceStateNode(
+        state_id="space_s0",
+        tensor_snapshot_name="InitialUnbalancedTensor",
+        active_axioms={"conservation_law", "symmetry_rule"},
+        disparity_entropy=0.8
+    )
+    node_1 = SpaceStateNode(
+        state_id="space_s1",
+        tensor_snapshot_name="EquilibratedTensor",
+        active_axioms={"conservation_law", "symmetry_rule", "context_refraction"},
+        disparity_entropy=0.1
+    )
+
+    graph.add_space_state(node_0)
+    edge = graph.transition(node_1, operator_used="EQUILIBRIUM_REACTION", invariant_preservation_ratio=1.0)
+
+    assert edge.source_state_id == "space_s0"
+    assert edge.target_state_id == "space_s1"
+    assert edge.disparity_reduction == pytest.approx(0.7)
+    assert len(graph.get_trajectory_history()) == 1
+
+
+def test_invariant_trace_tensor():
+    from core.topology.relational_semantic_tensor import InvariantTraceTensor
+
+    trace = InvariantTraceTensor()
+    trace.register_invariant("conservation_law")
+    trace.register_invariant("causal_continuity")
+
+    source_axioms = {"conservation_law", "causal_continuity", "temp_axiom_a"}
+    target_axioms = {"conservation_law", "causal_continuity", "temp_axiom_b"}
+
+    ratio = trace.compute_preservation_ratio(source_axioms, target_axioms)
+    assert ratio == 1.0
+
+
+def test_cognitive_vector_field_convergence():
+    from core.topology.relational_semantic_tensor import CognitiveVectorField
+
+    field = CognitiveVectorField(target_equilibrium_disparity=0.0)
+    res = field.calculate_convergence_vector(current_disparity=0.5, structural_friction=0.1)
+
+    assert res["disparity_gap"] == 0.5
+    assert res["restoring_force"] == pytest.approx(0.4)
+    assert res["net_convergence_velocity"] == pytest.approx(0.38)
+    assert res["is_equilibrated"] is False
+
+
+def test_higher_dimensional_meta_observer():
+    from core.topology.relational_semantic_tensor import (
+        SpaceStateNode,
+        SpaceStateGraph,
+        HigherDimensionalMetaObserver
+    )
+
+    graph = SpaceStateGraph(name="SubspaceGraph")
+
+    n0 = SpaceStateNode("state_0", "snap0", {"ax1"}, disparity_entropy=0.9)
+    n1 = SpaceStateNode("state_1", "snap1", {"ax1"}, disparity_entropy=0.2)
+    n2 = SpaceStateNode("state_2", "snap2", {"ax1"}, disparity_entropy=0.95)
+
+    graph.add_space_state(n0)
+    graph.transition(n1, operator_used="OPERATOR_GOOD", invariant_preservation_ratio=1.0)
+    graph.transition(n2, operator_used="OPERATOR_BAD", invariant_preservation_ratio=0.5)
+
+    observer = HigherDimensionalMetaObserver(observer_id="MetaObserver_Alpha")
+    observer.attach_graph("subgraph_1", graph)
+
+    res = observer.overview_and_prune_graph("subgraph_1", max_disparity_threshold=0.5)
+
+    assert res["total_edges_observed"] == 2
+    assert res["valid_edges_retained"] == 1
+    assert res["pruned_unstable_edges"] == 1
+    assert res["overview_effect"] == "HIGH_DIMENSIONAL_RESTRUCTURE_COMPLETE"
