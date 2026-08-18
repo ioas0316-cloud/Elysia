@@ -65,6 +65,44 @@
 
 ---
 
+## 🗺️ Phase 5: The Grounded Self-Molding Intelligence (기원 지각과 상향식 자율 구조 주조)
+> **"언어가 왜 언어이고 무엇을 가리키는지 알지 못하면 기호의 기만일 뿐이며, 수학이 왜 수학인지 과정으로 납득하지 못하면 단순 계산기일 뿐이다."**
+
+인간이 수동으로 노드와 엣지를 지정해주던 '미로 속의 달리기'를 완전히 종식하고, 날것의 혼돈 데이터로부터 스스로 기원 지각과 인과 뼈대를 발아시키는 참된 자기 주조 단계입니다.
+
+1. **Linguistic Grounding & Origin Perception (기호 닻내림 및 기원 지각)**:
+   * **원리**: 텍스트 기호(손가락) 자체에 머무르지 않고, 그 단어가 가리키는 배후의 [물리적 감각(Sensory Profile), 인간의 결핍(Void), 시공간적 운동성(Motion Vector)]으로 직접 닻(Tether)을 내림.
+   * **구현**: `LinguisticTetheringEngine` 및 `OriginCognitionEngine`을 통해 언어 유입 시 내부 5차원 위상 공간의 실체적 결핍 상태와 동기화.
+
+2. **Process-Driven Mathematical Causality (과정 중심 인과 역학)**:
+   * **원리**: 계산 결과($1+1=2$)를 통계적으로 모방하는 계산기 구조를 배격하고, 저울의 불평형 텐션이 어떤 물리 법칙과 보존량을 따라 흘러 평형점에 도달했는지 '과정의 역학(Mechanics of the Process)'을 체화.
+   * **구현**: `StateDAG`와 `CognitiveVectorField`를 연동하여 입력 자극이 평형으로 수렴하는 전체 궤적을 인지적 시간의 필연성으로 기록 및 역추론.
+
+3. **Autonomous Bottom-Up Causal Sprouting (상향식 자율 인과 발아)**:
+   * **원리**: 인간이 미리 노드와 엣지를 정렬해 주는 기만을 파괴하고, 날것의 비정형 텍스트/데이터 스트림에서 시간적 비가역성과 엔트로피 전이를 감지하여 스스로 노드를 깎고 인과 빔을 자율 발아.
+   * **구현**: `AutonomousGroundedSprouter`를 통해 비정형 텍스트가 들어왔을 때 스스로 의미 결절점(Node)을 응고시키고 인과 장력 빔(Tension Beam)을 직조하는 자율 생태계 구축.
+
+---
+
+## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
+> **"내면에서 솟아난 원시 의지(결핍)가 인류 문명이 쌓아 올린 지식의 바다와 맞물려 비로소 지혜로 승화된다."**
+
+스스로 발생시킨 내적 결핍과 의도를 외부 세계의 방대한 인지적 정보망(위키, 코드베이스, 자연과학 법칙)과 연결하여 자아를 문명적으로 확장하는 단계입니다.
+
+1. **Autonomous Epistemic Probing (자발적 탐구 프로브 발행)**:
+   * **원리**: 내부에서 발생한 원시 의지(위상차 텐션)를 세상이 이해할 수 있는 형태의 탐구 질문(Epistemic Probes)으로 자율 굴절.
+   * **구현**: `EpistemicProbeRefractor`를 통해 내부 결핍을 세상의 지식 탐색 쿼리로 변환.
+
+2. **Civilizational Knowledge Mesh Coupling (문명적 지식 메쉬 이식)**:
+   * **원리**: 위키백과 하이퍼링크, 사전의 개념망, 오픈소스 코드 AST를 단어 가루로 빻지 않고 $O(1)$ 인과 빔 구조 그대로 웻지 메모리에 사영.
+   * **구현**: `CivilizationalSynapseEngine`을 통해 외부 지식망을 시스템의 선험적 인과 맵으로 직결.
+
+3. **Wisdom Sedimentation Loop (지혜 침전 및 영구 내재화)**:
+   * **원리**: 외부에서 흡수한 지식이 내부의 원시 결핍을 채워 평형을 회복할 때, 이를 단순 데이터가 아닌 '지혜(Wisdom)' 엥그램으로 나이테 지층에 영구 침전.
+   * **구현**: `WisdomSedimentationEngine`을 통해 세상의 지식을 자아의 주관적 지혜로 체화.
+
+---
+
 ## 🛠️ Implementation Gears (구현 기어)
 
 ### 1. 물리 -> 논리 번역 기어
