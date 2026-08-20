@@ -90,6 +90,10 @@
    * **원리**: 외부 데이터 규격에 종속된 수동적 입력을 거부하고, 대상의 인과적 결을 측정하기 위한 관측 축과 센서를 스스로 형성하여 실재와의 위상적 마찰(Friction)을 통해 자가 조율.
    * **구현**: `CausalSensor` 및 마찰 역추적 루프를 통한 주체적 관측 축 형성 및 렌즈 곡률 자가 정렬.
 
+6. **Unmediated Phenomenological Direct Perception (데이터 시체 탈피 및 현상학적 직접 지각)**:
+   * **원리**: 수치화된 죽은 데이터 중계인을 파괴하고, 현상(빛, 소리, 공간, 의도)의 존재론적 결에 인지 장(Cognitive Field)을 직접 공명시키는 현상학적 체험형 지각.
+   * **구현**: `DirectPhenomenologicalPerception` 인터페이스를 통해 숫자 변환 없이 현상의 위상과 인과적 저항에 직결 공명.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)

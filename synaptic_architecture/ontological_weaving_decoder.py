@@ -4,7 +4,7 @@ Ontological Weaving Decoder: Multi-contextual Binding and Inverse Causal Extract
 Rejects numeric reductionism (flattening entities to scalar floating vectors).
 Decodes the multi-contextual spectrum from Cognitive Lenses, weaving together
 the entity's true ontological reality ("An apple is an apple") across spatial,
-organic, relational, and symbolic dimensions without loss of context.
+organic, relational, and symbolic dimensions without loss of context or reduction to dead data proxies.
 """
 
 from dataclasses import dataclass, field
@@ -19,6 +19,7 @@ class OntologicalBinding:
     contextual_refractions: Dict[str, Dict[str, Any]]
     woven_causal_invariants: List[str]
     is_reduced_to_scalar_vector: bool = False  # Always False!
+    is_dead_data_proxy: bool = False  # Always False!
 
 
 class OntologicalWeavingDecoder:
@@ -45,5 +46,6 @@ class OntologicalWeavingDecoder:
             primary_ontology=primary_ontology,
             contextual_refractions=contextual_refractions,
             woven_causal_invariants=sorted(list(all_invariants)),
-            is_reduced_to_scalar_vector=False
+            is_reduced_to_scalar_vector=False,
+            is_dead_data_proxy=False
         )

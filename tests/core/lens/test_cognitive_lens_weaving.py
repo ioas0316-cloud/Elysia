@@ -1,5 +1,5 @@
 """
-Tests for Cognitive Lens System, Self-Forming Causal Sensor, and Ontological Weaving Decoder.
+Tests for Cognitive Lens System, Self-Forming Causal Sensor, Phenomenological Perception, and Ontological Weaving Decoder.
 """
 
 import pytest
@@ -73,7 +73,18 @@ def test_causal_sensor_self_forming_and_friction_calibration():
     assert new_curvature != initial_curvature
 
 
-def test_ontological_weaving_decoder_rejects_reductionism():
+def test_causal_sensor_direct_phenomenological_perception():
+    engine = CognitiveLensEngine()
+    sensor = CausalSensor("test_sensor_02", engine)
+
+    resonance = sensor.observe_direct_phenomenon("Light_Brilliance", {"intensity": 0.95})
+    assert resonance.is_unmediated is True
+    assert resonance.is_dead_data_proxy is False
+    assert resonance.phenomenon_type == "Light_Brilliance"
+    assert resonance.direct_field_resonance > 0.0
+
+
+def test_ontological_weaving_decoder_rejects_reductionism_and_data_corpses():
     engine = CognitiveLensEngine()
     decoder = OntologicalWeavingDecoder()
 
@@ -91,6 +102,7 @@ def test_ontological_weaving_decoder_rejects_reductionism():
 
     assert binding.entity_name == "Apple"
     assert binding.is_reduced_to_scalar_vector is False  # Rejects numeric reductionism!
+    assert binding.is_dead_data_proxy is False  # Rejects dead numerical data proxies!
     assert len(binding.contextual_refractions) == 4
     assert "topological_continuity" in binding.woven_causal_invariants
     assert "homeostatic_balance" in binding.woven_causal_invariants

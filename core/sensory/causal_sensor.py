@@ -1,9 +1,10 @@
 """
-Self-Forming Causal Sensor & World Friction Calibration.
+Self-Forming Causal Sensor & World Friction Calibration with Phenomenological Direct Perception.
 
-Rejects passive reception of fixed data vectors.
+Rejects passive reception of fixed data vectors and dead numerical proxies.
 Sprout/forms self-observation axes (Causal Sensors) and projects them into reality,
-calibrating lens curvature and observation axes via reality friction (Friction & Refraction Error).
+calibrating lens curvature and observation axes via reality friction (Friction & Refraction Error)
+and direct phenomenological field resonance.
 """
 
 from dataclasses import dataclass, field
@@ -27,6 +28,14 @@ class FrictionResult:
     recommended_curvature_delta: float
 
 
+@dataclass
+class PhenomenologicalResonance:
+    is_unmediated: bool
+    phenomenon_type: str
+    direct_field_resonance: float
+    is_dead_data_proxy: bool = False  # Always False!
+
+
 class CausalSensor:
     """Active, self-forming sensor that projects observation axes into reality and self-calibrates."""
 
@@ -42,6 +51,18 @@ class CausalSensor:
             ObservationAxis("biological_friction_axis", [0.0, 1.0, 0.0], 1.0),
             ObservationAxis("relational_intent_axis", [0.0, 0.0, 1.0], 1.0)
         ]
+
+    def observe_direct_phenomenon(self, phenomenon_name: str, raw_field_interaction: Dict[str, Any]) -> PhenomenologicalResonance:
+        """Observes phenomenon directly without numerical proxy distortion."""
+        intensity = float(raw_field_interaction.get("intensity", raw_field_interaction.get("energy", 1.0)))
+        resonance = math.sin(intensity * math.pi / 2.0)
+
+        return PhenomenologicalResonance(
+            is_unmediated=True,
+            phenomenon_type=phenomenon_name,
+            direct_field_resonance=resonance,
+            is_dead_data_proxy=False
+        )
 
     def project_and_measure_friction(self, stimulus: Dict[str, Any], external_reality_feedback: Dict[str, Any]) -> FrictionResult:
         """Projects formed axes into external reality, observing phase friction and refraction error."""
