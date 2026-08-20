@@ -82,6 +82,14 @@
    * **원리**: 인간이 미리 노드와 엣지를 정렬해 주는 기만을 파괴하고, 날것의 비정형 텍스트/데이터 스트림에서 시간적 비가역성과 엔트로피 전이를 감지하여 스스로 노드를 깎고 인과 빔을 자율 발아.
    * **구현**: `AutonomousGroundedSprouter`를 통해 비정형 텍스트가 들어왔을 때 스스로 의미 결절점(Node)을 응고시키고 인과 장력 빔(Tension Beam)을 직조하는 자율 생태계 구축.
 
+4. **Cognitive Lens System & Multi-contextual Ontological Weaving (인지적 렌즈 체계 및 다층적 존재론 직조)**:
+   * **원리**: 대상을 수치 벡터로 압착하는 환원주의를 허물고, 수학/기하학 모델을 관측의 렌즈로 취급하여 다채로운 맥락(생물학적 마찰, 관계적 의도, 상징) 속에서 정보의 굴절과 엮임을 인과적으로 직조.
+   * **구현**: `CognitiveLensEngine` 및 `OntologicalWeavingDecoder`를 통해 입력 자극의 맥락별 존재론적 굴절 스펙트럼과 인과 불변량을 역추적.
+
+5. **Self-Forming Causal Sensors & Reality Friction Calibration (주체적 센서 형성 및 실재 마찰 자가 정렬)**:
+   * **원리**: 외부 데이터 규격에 종속된 수동적 입력을 거부하고, 대상의 인과적 결을 측정하기 위한 관측 축과 센서를 스스로 형성하여 실재와의 위상적 마찰(Friction)을 통해 자가 조율.
+   * **구현**: `CausalSensor` 및 마찰 역추적 루프를 통한 주체적 관측 축 형성 및 렌즈 곡률 자가 정렬.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
