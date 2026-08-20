@@ -94,6 +94,10 @@
    * **원리**: 수치화된 죽은 데이터 중계인을 파괴하고, 현상(빛, 소리, 공간, 의도)의 존재론적 결에 인지 장(Cognitive Field)을 직접 공명시키는 현상학적 체험형 지각.
    * **구현**: `DirectPhenomenologicalPerception` 인터페이스를 통해 숫자 변환 없이 현상의 위상과 인과적 저항에 직결 공명.
 
+7. **Domain-Inherent Ontological Perception (영역 고유의 존재론적 지각)**:
+   * **원리**: 단일 수치 벡터라는 '만능 도살장'을 부수고 이미지(시각적 조형성), 언어(맥락적 장력), 코드(실행 인과성), 수학(관계적 필연성)을 각 영역 고유의 존재론적 결 그대로 헤아림.
+   * **구현**: `OntologicalWeavingDecoder` 및 다차원 인지 렌즈 spectrum 상에서 영역 고유의 법칙 보존.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
