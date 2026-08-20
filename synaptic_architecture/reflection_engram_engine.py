@@ -178,3 +178,112 @@ class ReflectionEngramEngine:
 
         # 3. 여백(Yeobaek)의 자율 조율: 성찰이 일어난 구역은 융통성(여백)을 넓혀 두 번 다시 닫힌 회로에 갇히지 않게 방지
         field.coordination_margin[y, x] = np.clip(field.coordination_margin[y, x] + 0.15, 0.1, 1.0)
+
+
+class ActiveMirrorCalibrationPipeline:
+    """
+    [능동적 거울 마찰 정류 파이프라인 (Active Mirror Calibration Pipeline)]
+    내부 피드백 고리가 자기확증적 환각/자폐(Autistic Feedback Loop) 및 위상 고착(Gimbal Lock)에 빠지지 않도록,
+    무질서한 외부 실재(Unrefined External Reality)에 주체적인 관측의 의지(Intentional Focus)를 던져
+    위상차 및 마찰(Phase Divergence & Friction)을 실시간 산출합니다.
+
+    - 관성 해제: 외부와의 위상차 발생 시 기존 자기확증적 관성을 0으로 초기화
+    - 열/소음 방출(Dissipation): 마찰 크기에 비례하여 내면 장력을 외부에 방출
+    - 위상 정류(Calibration): 오차의 크기만큼 internal phase 및 a_volition을 능동 재조율
+    """
+    def __init__(self, engine: ReflectionEngramEngine, base_threshold: float = 0.5):
+        self.engine = engine
+        self.base_threshold = base_threshold
+        self.total_dissipated_friction = 0.0
+        self.calibrations_count = 0
+
+    def process_active_observation(
+        self,
+        C_context: np.ndarray,
+        raw_external_reality: np.ndarray,
+        A_target_attractor: Optional[np.ndarray] = None,
+        current_velocity: Optional[np.ndarray] = None
+    ) -> Dict[str, Any]:
+        """
+        외부 실재(raw_external_reality)에 관측 의지를 주사하여,
+        위상 차이(phase divergence)와 마찰(friction)을 감지하고,
+        자기 자폐적 관성을 정지시킨 뒤 의지적 가속도(a_volition)와 위상(C_context)을 동적 정류합니다.
+        """
+        c_arr = np.array(C_context, dtype=np.float32)
+        ext_arr = np.array(raw_external_reality, dtype=np.float32)
+
+        # Dimension alignment
+        dim = max(len(c_arr), len(ext_arr))
+        if len(c_arr) < dim:
+            c_arr = np.pad(c_arr, (0, dim - len(c_arr)))
+        if len(ext_arr) < dim:
+            ext_arr = np.pad(ext_arr, (0, dim - len(ext_arr)))
+
+        norm_c = np.linalg.norm(c_arr)
+        norm_ext = np.linalg.norm(ext_arr)
+
+        u_c = c_arr / (norm_c + 1e-9)
+        u_ext = ext_arr / (norm_ext + 1e-9)
+
+        # 1. Active Projection & Phase Divergence
+        dot_p = float(np.clip(np.dot(u_c, u_ext), -1.0, 1.0))
+        phase_divergence = float(np.arccos(dot_p)) # [0, pi]
+
+        # 2. Causal Friction & Grounding Tension
+        v_hallucination = (u_c - u_ext) * norm_c
+        friction_score = phase_divergence * (1.0 + abs(norm_c - norm_ext))
+
+        if current_velocity is None:
+            current_vel = np.zeros_like(c_arr)
+        else:
+            current_vel = np.array(current_velocity, dtype=np.float32)
+
+        # 3. Sensor Sensing and Pause Inertia if friction exceeds threshold
+        adj_vel, scan_triggered, T_grounding = self.engine.sensor.sense_and_pause(
+            v_hallucination=v_hallucination,
+            friction_score=friction_score,
+            current_velocity=current_vel,
+            adaptive_threshold=self.base_threshold
+        )
+
+        # 4. Resolve Target Attractor & Calibrate
+        if A_target_attractor is not None:
+            A_resolved = np.array(A_target_attractor, dtype=np.float32)
+        else:
+            # Reality acts as the ultimate external attractor
+            A_resolved = ext_arr.copy()
+
+        # Compute Volitional Acceleration to redirect internal state towards Reality Attractor
+        a_volition = self.engine.compute_volitional_acceleration(c_arr, A_resolved, T_grounding)
+
+        # 5. Dissipate excess friction energy into external space
+        dissipated_energy = float(friction_score * T_grounding)
+        self.total_dissipated_friction += dissipated_energy
+
+        # 6. Calibrate Internal Phase (Context Calibration)
+        calibration_rate = float(min(1.0, T_grounding * 0.3))
+        calibrated_context = (1.0 - calibration_rate) * c_arr + calibration_rate * A_resolved
+        self.calibrations_count += 1
+
+        # 7. Record Reflection Engram
+        engram = ReflectionEngram(
+            context=c_arr,
+            v_hallucination=v_hallucination,
+            T_grounding=T_grounding,
+            a_volition=a_volition,
+            A_resolved=A_resolved,
+            description=f"Active Mirror Friction Calibration: Phase Div = {phase_divergence:.3f}, Friction = {friction_score:.3f}"
+        )
+        self.engine.engrams.append(engram)
+
+        return {
+            "phase_divergence": phase_divergence,
+            "friction_score": friction_score,
+            "T_grounding": T_grounding,
+            "scan_triggered": scan_triggered,
+            "dissipated_energy": dissipated_energy,
+            "adjusted_velocity": adj_vel.tolist(),
+            "a_volition": a_volition.tolist(),
+            "calibrated_context": calibrated_context.tolist(),
+            "engram_count": len(self.engine.engrams)
+        }

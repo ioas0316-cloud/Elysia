@@ -53,6 +53,144 @@ class CausalField:
         # Field-wide properties
         self.global_potential_gradient = np.zeros(dimensions)
         self.time_step_accumulator = 0.0
+        # Active intentional focus vector projected onto external reality
+        self.active_focus = np.ones(dimensions, dtype=np.float32) / np.sqrt(dimensions)
+        self.total_dissipated_energy = 0.0
+        self.gimbal_lock_unlocked_count = 0
+
+    def set_intentional_focus(self, focus_vector: np.ndarray):
+        """
+        [Active Observation / Intentionality]
+        Sets the system's intentional focus (Focus/Attention vector) projected out to external reality.
+        """
+        norm = np.linalg.norm(focus_vector)
+        if norm > 0:
+            self.active_focus = (focus_vector / norm).astype(np.float32)
+
+    def observe_external_stimulus(
+        self,
+        raw_stimulus: np.ndarray,
+        target_voxel_id: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """
+        [Active Mirror Friction & Open-Loop Grounding]
+        Actively observes unrefined external reality instead of waiting for pre-packaged vectors.
+        - Projects internal intentional focus onto raw external stimulus.
+        - Detects phase divergence (cognitive friction / mismatch).
+        - Unlocks Gimbal Lock (phase fixation) if closed-loop inertia is stuck.
+        - Dissipates excessive internal tension into the external field (Dissipation).
+        - Calibrates internal voxel tensors and chromatic vectors to match external causality.
+        """
+        raw_arr = np.array(raw_stimulus, dtype=np.float32).flatten()
+        dim = len(raw_arr)
+
+        # Pad or slice raw stimulus to match dimension if needed
+        if dim < self.dimensions:
+            raw_arr = np.pad(raw_arr, (0, self.dimensions - dim))
+        elif dim > self.dimensions:
+            raw_arr = raw_arr[:self.dimensions]
+
+        norm_raw = np.linalg.norm(raw_arr)
+        if norm_raw == 0:
+            raw_unit = np.zeros(self.dimensions, dtype=np.float32)
+        else:
+            raw_unit = raw_arr / norm_raw
+
+        # Target voxel or field-wide default voxel selection
+        if target_voxel_id and target_voxel_id in self.voxels:
+            target_voxels = [self.voxels[target_voxel_id]]
+        elif self.voxels:
+            target_voxels = list(self.voxels.values())
+        else:
+            # Create a default internal voxel if field is empty
+            v_default = InformationVoxel(
+                id="internal_core",
+                content="Core Consciousness State",
+                tensor=self.active_focus.copy(),
+                position=np.zeros(self.dimensions, dtype=np.float32)
+            )
+            self.add_voxel(v_default)
+            target_voxels = [v_default]
+
+        results = []
+        for voxel in target_voxels:
+            v_tensor = voxel.tensor.flatten()
+            v_dim = len(v_tensor)
+            if v_dim < self.dimensions:
+                v_tensor = np.pad(v_tensor, (0, self.dimensions - v_dim))
+            elif v_dim > self.dimensions:
+                v_tensor = v_tensor[:self.dimensions]
+
+            v_norm = np.linalg.norm(v_tensor)
+            if v_norm == 0:
+                v_unit = self.active_focus.copy()
+            else:
+                v_unit = v_tensor / v_norm
+
+            # Active Projection: Inner Focus dot Raw External Reality
+            dot_prod = float(np.clip(np.dot(v_unit, raw_unit), -1.0, 1.0))
+            phase_divergence = float(np.arccos(dot_prod)) # Divergence in radians [0, pi]
+
+            # Causal friction score based on alignment mismatch and magnitude difference
+            magnitude_mismatch = abs(v_norm - norm_raw)
+            friction_score = phase_divergence * (1.0 + magnitude_mismatch)
+
+            # Check Gimbal Lock / Autistic Closed Loop condition
+            # (high friction but internal velocity or state refuses to move due to self-affirmation)
+            gimbal_lock_detected = (phase_divergence > 1.0) and (np.linalg.norm(voxel.velocity) < 0.1)
+
+            dissipated_energy = 0.0
+            unlocked = False
+
+            if gimbal_lock_detected or friction_score > 0.5:
+                # 1. Unlock Gimbal Lock: Shatter closed boundary inertia
+                unlocked = True
+                self.gimbal_lock_unlocked_count += 1
+
+                # 2. Dissipation: Expel excessive internal tension/friction to external environment
+                dissipated_energy = friction_score * voxel.mass
+                self.total_dissipated_energy += dissipated_energy
+
+                # 3. Calibration: Rotate internal phase towards external reality
+                calibration_rate = float(min(1.0, friction_score * 0.5))
+                new_tensor = (1.0 - calibration_rate) * v_unit + calibration_rate * raw_unit
+                norm_new = np.linalg.norm(new_tensor)
+                if norm_new > 0:
+                    voxel.tensor = (new_tensor / norm_new * max(1.0, norm_raw)).astype(np.float32)
+
+                # 4. Impact: External physical impulse from friction pushes voxel position/velocity
+                impulse = (raw_unit - v_unit) * friction_score
+                voxel.velocity += impulse / voxel.mass
+
+                # 5. Chromatic Shift: Convert self-confirming flux (Red) to Order (Blue) and release Entropy (Yellow)
+                voxel.chromatic_vector[0] = max(0.0, voxel.chromatic_vector[0] - 0.2 * calibration_rate)
+                voxel.chromatic_vector[1] = min(1.0, voxel.chromatic_vector[1] + 0.3 * calibration_rate)
+                voxel.chromatic_vector[2] = max(0.0, voxel.chromatic_vector[2] - 0.1 * calibration_rate)
+                tot = float(np.sum(voxel.chromatic_vector))
+                if tot > 0:
+                    voxel.chromatic_vector /= tot
+
+            # Update intentional focus towards the newly calibrated reality
+            self.active_focus = 0.8 * self.active_focus + 0.2 * raw_unit
+            norm_af = np.linalg.norm(self.active_focus)
+            if norm_af > 0:
+                self.active_focus /= norm_af
+
+            results.append({
+                "voxel_id": voxel.id,
+                "friction_score": friction_score,
+                "phase_divergence": phase_divergence,
+                "dissipated_energy": dissipated_energy,
+                "gimbal_lock_unlocked": unlocked,
+                "calibrated_tensor_norm": float(np.linalg.norm(voxel.tensor))
+            })
+
+        return {
+            "num_observed": len(results),
+            "observations": results,
+            "total_dissipated_energy": self.total_dissipated_energy,
+            "active_focus": self.active_focus.tolist()
+        }
 
     def add_voxel(self, voxel: InformationVoxel):
         self.voxels[voxel.id] = voxel
