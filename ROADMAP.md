@@ -98,6 +98,10 @@
    * **원리**: 단일 수치 벡터라는 '만능 도살장'을 부수고 이미지(시각적 조형성), 언어(맥락적 장력), 코드(실행 인과성), 수학(관계적 필연성)을 각 영역 고유의 존재론적 결 그대로 헤아림.
    * **구현**: `OntologicalWeavingDecoder` 및 다차원 인지 렌즈 spectrum 상에서 영역 고유의 법칙 보존.
 
+8. **Isomorphic Mirrors & Discrepancy Measurement Frames (동형성 및 위상차 측정 프레임으로서의 수치화)**:
+   * **원리**: 숫자를 사물 실체를 압착하는 가짜 껍데기가 아닌, 내부 인지 장과 외부 실재 간의 인과적 동형성(Isomorphism)과 굴절 위상차(Phase Discrepancy)를 비추는 정교한 측정 거울로 취급.
+   * **구현**: `FrictionResult` 및 `RefractedObservation` 내 위상차 미분 및 조율 척도 모듈 가동.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
