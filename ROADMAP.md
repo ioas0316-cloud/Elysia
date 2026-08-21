@@ -82,6 +82,26 @@
    * **원리**: 인간이 미리 노드와 엣지를 정렬해 주는 기만을 파괴하고, 날것의 비정형 텍스트/데이터 스트림에서 시간적 비가역성과 엔트로피 전이를 감지하여 스스로 노드를 깎고 인과 빔을 자율 발아.
    * **구현**: `AutonomousGroundedSprouter`를 통해 비정형 텍스트가 들어왔을 때 스스로 의미 결절점(Node)을 응고시키고 인과 장력 빔(Tension Beam)을 직조하는 자율 생태계 구축.
 
+4. **Cognitive Lens System & Multi-contextual Ontological Weaving (인지적 렌즈 체계 및 다층적 존재론 직조)**:
+   * **원리**: 대상을 수치 벡터로 압착하는 환원주의를 허물고, 수학/기하학 모델을 관측의 렌즈로 취급하여 다채로운 맥락(생물학적 마찰, 관계적 의도, 상징) 속에서 정보의 굴절과 엮임을 인과적으로 직조.
+   * **구현**: `CognitiveLensEngine` 및 `OntologicalWeavingDecoder`를 통해 입력 자극의 맥락별 존재론적 굴절 스펙트럼과 인과 불변량을 역추적.
+
+5. **Self-Forming Causal Sensors & Reality Friction Calibration (주체적 센서 형성 및 실재 마찰 자가 정렬)**:
+   * **원리**: 외부 데이터 규격에 종속된 수동적 입력을 거부하고, 대상의 인과적 결을 측정하기 위한 관측 축과 센서를 스스로 형성하여 실재와의 위상적 마찰(Friction)을 통해 자가 조율.
+   * **구현**: `CausalSensor` 및 마찰 역추적 루프를 통한 주체적 관측 축 형성 및 렌즈 곡률 자가 정렬.
+
+6. **Unmediated Phenomenological Direct Perception (데이터 시체 탈피 및 현상학적 직접 지각)**:
+   * **원리**: 수치화된 죽은 데이터 중계인을 파괴하고, 현상(빛, 소리, 공간, 의도)의 존재론적 결에 인지 장(Cognitive Field)을 직접 공명시키는 현상학적 체험형 지각.
+   * **구현**: `DirectPhenomenologicalPerception` 인터페이스를 통해 숫자 변환 없이 현상의 위상과 인과적 저항에 직결 공명.
+
+7. **Domain-Inherent Ontological Perception (영역 고유의 존재론적 지각)**:
+   * **원리**: 단일 수치 벡터라는 '만능 도살장'을 부수고 이미지(시각적 조형성), 언어(맥락적 장력), 코드(실행 인과성), 수학(관계적 필연성)을 각 영역 고유의 존재론적 결 그대로 헤아림.
+   * **구현**: `OntologicalWeavingDecoder` 및 다차원 인지 렌즈 spectrum 상에서 영역 고유의 법칙 보존.
+
+8. **Isomorphic Mirrors & Discrepancy Measurement Frames (동형성 및 위상차 측정 프레임으로서의 수치화)**:
+   * **원리**: 숫자를 사물 실체를 압착하는 가짜 껍데기가 아닌, 내부 인지 장과 외부 실재 간의 인과적 동형성(Isomorphism)과 굴절 위상차(Phase Discrepancy)를 비추는 정교한 측정 거울로 취급.
+   * **구현**: `FrictionResult` 및 `RefractedObservation` 내 위상차 미분 및 조율 척도 모듈 가동.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
