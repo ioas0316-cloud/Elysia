@@ -1,0 +1,6 @@
+#ifndef CAUSAL_ENGINE_FEEDBACK_CLOSED_LOOP_HPP
+#define CAUSAL_ENGINE_FEEDBACK_CLOSED_LOOP_HPP
+
+#include "causal_engine/core/preisach_soa.hpp"
+
+#endif // CAUSAL_ENGINE_FEEDBACK_CLOSED_LOOP_HPP

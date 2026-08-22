@@ -1,0 +1,6 @@
+#ifndef CAUSAL_ENGINE_CORE_PREISACH_SOA_HPP
+#define CAUSAL_ENGINE_CORE_PREISACH_SOA_HPP
+
+#include "causal_engine/core/types.hpp"
+
+#endif // CAUSAL_ENGINE_CORE_PREISACH_SOA_HPP
