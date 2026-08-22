@@ -6,7 +6,7 @@
 CC      = gcc
 CXX     = g++
 CFLAGS  = -O3 -Wall -shared -fPIC
-CXXFLAGS = -O3 -Wall -std=c++17 -fopenmp
+CXXFLAGS = -O3 -Wall -std=c++17 -fopenmp -Iinclude -Imodules/causal_topology
 OUTDIR  = core/bin
 
 # ── 공유 라이브러리 및 C++ 테스트 타겟 ──────────────────────────────
@@ -15,8 +15,8 @@ BYTE_TARGET     = $(OUTDIR)/byte_streamer.so
 CONCEPT_TARGET  = $(OUTDIR)/concept_streamer.so
 TEST_PREISACH   = $(OUTDIR)/test_preisach_tensor_field
 
-all: $(OUTDIR) $(HELIX_TARGET) $(BYTE_TARGET) $(CONCEPT_TARGET) $(TEST_PREISACH)
-	@echo "[BUILD] All C extensions and C++ tests compiled to $(OUTDIR)/"
+all: $(OUTDIR) $(HELIX_TARGET) $(BYTE_TARGET) $(CONCEPT_TARGET) $(TEST_PREISACH) python_bindings
+	@echo "[BUILD] All C extensions, C++ tests, and Python bindings compiled successfully!"
 
 $(OUTDIR):
 	mkdir -p $(OUTDIR)
@@ -33,10 +33,13 @@ $(CONCEPT_TARGET): core/ingestion/concept_streamer.c | $(OUTDIR)
 $(TEST_PREISACH): tests/cpp/test_preisach_tensor_field.cpp modules/causal_topology/preisach_tensor_field.h | $(OUTDIR)
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
+python_bindings:
+	python3 setup.py build_ext --inplace
+
 test_preisach: $(TEST_PREISACH)
 	./$(TEST_PREISACH)
 
 clean:
-	rm -rf $(OUTDIR)
+	rm -rf $(OUTDIR) *.so build/ *.egg-info
 
-.PHONY: all clean test_preisach
+.PHONY: all clean test_preisach python_bindings
