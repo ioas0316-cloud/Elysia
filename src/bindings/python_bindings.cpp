@@ -7,8 +7,10 @@
 #include "causal_engine/extraction/attractor_layer.hpp"
 #include "causal_engine/reasoning/backtracer.hpp"
 #include "causal_engine/feedback/closed_loop.hpp"
+#include "causal_engine/feedback/causal_impedance.hpp"
 
 namespace py = pybind11;
+using namespace causal_engine;
 
 PYBIND11_MODULE(causal_engine, m) {
     m.doc() = "C++ High-Performance Bi-directional Causal Engine Python Binding";
@@ -34,6 +36,9 @@ PYBIND11_MODULE(causal_engine, m) {
         .def(py::init<size_t, size_t>(), py::arg("num_nodes") = 64, py::arg("hysterons_per_dim") = 8)
         .def_readwrite("num_nodes", &PreisachTensorFieldSoA::num_nodes)
         .def_readwrite("num_hysterons", &PreisachTensorFieldSoA::num_hysterons)
+        .def_readwrite("density_weights", &PreisachTensorFieldSoA::density_weights)
+        .def_readwrite("alpha_grid", &PreisachTensorFieldSoA::alpha_grid)
+        .def_readwrite("beta_grid", &PreisachTensorFieldSoA::beta_grid)
         // Zero-Copy / Fast Injection of input signals
         .def("set_input_signals_from_numpy", [](PreisachTensorFieldSoA& self, py::array_t<float, py::array::c_style | py::array::forcecast> input_array) {
             py::buffer_info buf = input_array.request();
@@ -85,4 +90,38 @@ PYBIND11_MODULE(causal_engine, m) {
             py::gil_scoped_release release;
             return self.ExecuteAndAdaptTrajectory(trajectory, nodes, field, threshold);
         }, py::arg("trajectory"), py::arg("nodes"), py::arg("field"), py::arg("threshold") = 0.2f);
+
+    // 6. Impedance Evaluation & Meta-Constraint Binding
+    py::class_<ImpedanceResult>(m, "ImpedanceResult")
+        .def(py::init<>())
+        .def_readwrite("trajectory_curvature", &ImpedanceResult::trajectory_curvature)
+        .def_readwrite("topological_phase_diff", &ImpedanceResult::topological_phase_diff)
+        .def_readwrite("latency_damped_friction", &ImpedanceResult::latency_damped_friction)
+        .def_readwrite("resonance_score", &ImpedanceResult::resonance_score)
+        .def_readwrite("requires_rule_mutation", &ImpedanceResult::requires_rule_mutation);
+
+    py::class_<CausalImpedanceEvaluator>(m, "CausalImpedanceEvaluator")
+        .def_static("compute_curvature", &CausalImpedanceEvaluator::ComputeTrajectoryCurvature)
+        .def_static("compute_phase_diff", &CausalImpedanceEvaluator::ComputeTopologicalPhaseDiscrepancy)
+        .def_static("evaluate_impedance", &CausalImpedanceEvaluator::EvaluateImpedance,
+                    py::arg("nodes"), py::arg("candidate_trajectory"), py::arg("target_trajectory"),
+                    py::arg("gamma_curvature") = 0.3f, py::arg("latency_damping") = 0.2f, py::arg("friction_threshold") = 0.45f);
+
+    py::class_<MetaConstraintRule>(m, "MetaConstraintRule")
+        .def(py::init<>())
+        .def_readwrite("max_reluctance_threshold", &MetaConstraintRule::max_reluctance_threshold)
+        .def_readwrite("min_rigidity_threshold", &MetaConstraintRule::min_rigidity_threshold)
+        .def_readwrite("alpha_boundary_min", &MetaConstraintRule::alpha_boundary_min)
+        .def_readwrite("alpha_boundary_max", &MetaConstraintRule::alpha_boundary_max)
+        .def_readwrite("beta_boundary_min", &MetaConstraintRule::beta_boundary_min)
+        .def_readwrite("beta_boundary_max", &MetaConstraintRule::beta_boundary_max)
+        .def_readwrite("curvature_penalty_weight", &MetaConstraintRule::curvature_penalty_weight);
+
+    py::class_<MetaConstraintMutator>(m, "MetaConstraintMutator")
+        .def(py::init<>())
+        .def("get_current_rule", &MetaConstraintMutator::GetCurrentRule)
+        .def("get_mutation_count", &MetaConstraintMutator::GetMutationCount)
+        .def("mutate_rule", &MetaConstraintMutator::MutateRule)
+        .def("filter_nodes", &MetaConstraintMutator::FilterNodes)
+        .def("filter_edges", &MetaConstraintMutator::FilterEdges);
 }
