@@ -26,6 +26,7 @@ import math
 import numpy as np
 from typing import Dict, List, Tuple, Any, Optional
 from dataclasses import dataclass, field
+from core.physics.clifford_fourier_mellin_engine import CliffordFourierMellinEngine, Multivector
 
 @dataclass
 class CausalClashLog:
@@ -112,6 +113,9 @@ class SangsaengSanggeukField:
         # Void Tension Energy & Abductive Invariant State
         self.void_tension_energy: float = 0.0
         self.abductive_invariant: Optional[np.ndarray] = None
+
+        # Clifford Fourier-Mellin Engine Instance
+        self.cfm_engine = CliffordFourierMellinEngine(dim=dimensions, num_scale_bins=num_scale_bins, num_phase_bins=16)
 
         # Static Equilibrium flag (True until user or external disturbance throws a stone)
         self.static_equilibrium: bool = True
@@ -475,10 +479,21 @@ class SangsaengSanggeukField:
             avg_phase = float(np.mean([e.phase for e in entities_list]))
             self.abductive_invariant = avg_mantissa * math.cos(avg_phase)
 
+        # 5. Integrated Clifford Fourier-Mellin Phase-Noise Filtering & Vortex Ring Crystallization
+        num_phase_bins = 16
+        spatial_grid = np.zeros((self.num_scale_bins, num_phase_bins), dtype=np.complex64)
+        for e in entities_list:
+            s_idx = int(np.clip(math.floor(e.scale_exponent) % self.num_scale_bins, 0, self.num_scale_bins - 1))
+            p_idx = int(np.clip(math.floor((e.phase / (2.0 * math.pi)) * num_phase_bins) % num_phase_bins, 0, num_phase_bins - 1))
+            spatial_grid[s_idx, p_idx] += e.amplitude * np.exp(1j * e.phase)
+
+        cfm_report = self.cfm_engine.execute_full_wave_void_relaxation(spatial_grid)
+
         return {
             "void_energy": round(total_void_energy, 4),
             "converged": is_converged,
-            "abductive_invariant": self.abductive_invariant.tolist() if self.abductive_invariant is not None else None
+            "abductive_invariant": self.abductive_invariant.tolist() if self.abductive_invariant is not None else None,
+            "clifford_fourier_mellin": cfm_report
         }
 
     def step(self, dt: float = 0.1) -> Dict[str, Any]:
