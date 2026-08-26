@@ -108,3 +108,44 @@ def test_causal_director_orchestrator():
     assert script_high["camera"]["field_of_view"] < 60.0 # field of view zooms in (smaller angle)
     assert script_high["vfx"]["particle_emission_rate"] > 1.0 # particle emission increases
     assert script_high["camera"]["color_tint"][0] > script_high["camera"]["color_tint"][1] # red tint is dominant
+
+def test_fractal_invariance_four_causal_forces():
+    manifold = ContinuousWorldManifold(size=100.0, sigma=15.0)
+    scheduler = BranchlessResonanceScheduler(manifold)
+
+    # Agent A: High authenticity player, complementary void
+    agent_a = CausalSandboxAgent(
+        "agent_a", "Hero", is_player=True,
+        position=np.array([0.0, 0.0, 0.0]),
+        velocity=np.array([2.0, 0.0, 0.0]),
+        chromatic_vector=np.array([0.6, 0.3, 0.1]),
+        void_vector=np.array([0.0, 1.0, 0.0]),
+        authenticity=2.5
+    )
+
+    # Agent B: Follower NPC with complementary chromatic vector
+    agent_b = CausalSandboxAgent(
+        "agent_b", "Follower", is_player=False,
+        position=np.array([2.0, 0.0, 0.0]),
+        velocity=np.array([1.5, 0.0, 0.0]),
+        chromatic_vector=np.array([0.1, 0.8, 0.1]),
+        void_vector=np.array([1.0, 0.0, 0.0]),
+        authenticity=1.0
+    )
+
+    scheduler.add_agent(agent_a)
+    scheduler.add_agent(agent_b)
+
+    report = scheduler.step(dt=0.1)
+
+    # 1. Attraction & Magnetism check: magnetic moment should be calculated
+    assert agent_a.magnetic_moment > agent_b.magnetic_moment
+
+    # 2. Tension & Vibration transfer
+    assert "mean_vibration" in report
+    assert agent_a.tension_vibration >= 0.0
+    assert agent_b.tension_vibration >= 0.0
+
+    # 3. Torque & Interference (Constructive alignment with macro flow)
+    assert "mean_interference" in report
+    assert report["mean_interference"] > 0.0 # Parallel motion creates constructive interference

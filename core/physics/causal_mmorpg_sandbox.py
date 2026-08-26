@@ -23,7 +23,8 @@ class CausalSandboxAgent:
     """
     [Causal Sandbox Agent]
     3D 위치, 속도, 쿼터니언/클리포드 텐서 로터, 그리고 RGB 크로매틱 벡터를 지닌 지각 주체.
-    - [Dimensional Phase Inversion] 추상/정신 위상 공간(Mental Coordinate) 추가 탑재.
+    - [Dimensional Phase Inversion] 추상/정신 위상 공간(Mental Coordinate) 탑재.
+    - [Fractal Invariance Forces] 결핍(Void), 진정성(Authenticity), 자성(Magnetism), 장력 진동(Vibration) 탑재.
     """
     def __init__(
         self,
@@ -34,7 +35,9 @@ class CausalSandboxAgent:
         velocity: Optional[np.ndarray] = None,
         chromatic_vector: Optional[np.ndarray] = None,
         mass: float = 1.0,
-        perspective: str = "Neutral"
+        perspective: str = "Neutral",
+        void_vector: Optional[np.ndarray] = None,
+        authenticity: float = 1.0
     ):
         self.id = agent_id
         self.name = name
@@ -57,8 +60,24 @@ class CausalSandboxAgent:
         # RGB 크로매틱 벡터: [Red (Flux), Blue (Order/Resistance), Yellow (Entropy)]
         self.chromatic_vector = np.array(chromatic_vector, dtype=np.float32) if chromatic_vector is not None else np.array([0.33, 0.33, 0.34], dtype=np.float32)
 
+        # [Fractal Invariance] 개체의 결핍(Void) 3D 벡터: 상대방이 메워줄 때 상생(인력) 발현
+        self.void_vector = np.array(void_vector, dtype=np.float32) if void_vector is not None else np.zeros(3, dtype=np.float32)
+
+        # [Fractal Invariance] 개체의 진정성 및 명예/역사 가중치 (자성장 형성 모멘트)
+        self.authenticity = float(authenticity)
+
+        # 관계의 실(Tension)에서 전달되는 미세 진동 에너지
+        self.tension_vibration = 0.0
+
         # 시스템 완충을 위한 임피던스
         self.impedance = 0.1
+
+    @property
+    def magnetic_moment(self) -> float:
+        """
+        자성장 형성 모멘트 = mass * authenticity * (1.0 + chromatic_vector[1] Order) * ||rotor||
+        """
+        return self.mass * self.authenticity * (1.0 + self.chromatic_vector[1])
 
     def rotate_rotor(self, angle: float, axis: np.ndarray) -> None:
         """
@@ -209,21 +228,89 @@ class BranchlessResonanceScheduler:
         influence_matrix = np.exp(-dist_sq / (2.0 * sigma_sq))
         np.fill_diagonal(influence_matrix, 0.0)
 
-        # 4. 로터 회전 및 감정 전이 (Clifford Algebraic Resonance Coupling)
+        # 4. 로터 내적 및 위상차 계산 (Resonance vs Mismatch)
         rotor_inner_product = np.dot(rotors, rotors.T)
         resonance_tension = influence_matrix * (1.0 - (rotor_inner_product ** 2))
         max_tension_gap = float(np.max(resonance_tension)) if num_agents > 0 else 0.0
+
+        # ---------------------------------------------------------------------
+        # [Fractal Invariance 4 Causal Force Field Dynamics]
+        # ---------------------------------------------------------------------
+        # 1) 상생(상충 결핍 메움)과 상극(척력 및 마찰/열 생성)
+        #    - 상생(인력 F_attraction): 상대방의 chromatic / rotor가 내 void_vector를 충족할 때 발생
+        #    - 상극(척력 F_repulsion & Friction Heat): 방향성 및 결핍의 거부/충돌 시 발생
+        void_vectors = np.array([a.void_vector for a in self.agents], dtype=np.float32) # [N, 3]
+        magnetic_moments = np.array([a.magnetic_moment for a in self.agents], dtype=np.float32) # [N]
+
+        # Void alignment dot product: [N, N]
+        # j가 i의 void_vector 방향과 정렬된 방향성을 제공할 때 (Void Resonance)
+        void_complementarity = np.dot(void_vectors, chromatics.T) # [N, N]
+
+        # 인력-척력 계수 M_ij:
+        # rotor_inner_product > 0 이고 void_complementarity > 0 일수록 인력(Attraction, 상생)
+        # rotor_inner_product < 0 이거나 세력 충돌 시 척력(Repulsion, 상극)
+        attraction_repulsion_scalar = (rotor_inner_product + void_complementarity) - (1.0 - rotor_inner_product)
+
+        # distance unit vectors: [N, N, 3]
+        dists = np.sqrt(dist_sq + 1e-6)
+        dir_unit = diff_pos / np.expand_dims(dists, axis=-1) # direction from j to i
+
+        # F_att_rep = M_ij * influence_matrix * dir_unit
+        attraction_repulsion_forces = np.sum(
+            np.expand_dims(attraction_repulsion_scalar * influence_matrix, axis=-1) * dir_unit,
+            axis=1
+        ) # [N, 3]
+
+        # 2) 장력(Tension)과 파동(Vibration) 전파
+        #    상생과 상극이 동시 상충할 때 관계의 실(Tension) 형성.
+        #    장력 T_ij = influence_matrix * |rotor_inner_product| * (1.0 + |attraction_repulsion_scalar|)
+        #    파동 전파: 미세 자극(max_tension_gap) 시 네트워크 전체로 진동 전파
+        tension_matrix = influence_matrix * np.abs(rotor_inner_product) * (1.0 + np.abs(attraction_repulsion_scalar))
+        vibration_transfer = np.sum(tension_matrix * max_tension_gap, axis=1)
+
+        # 3) 자성(Magnetism) 궤정 인력 (Magnetic Alignment & Gravitational Pull)
+        #    F_mag_ij = (m_i * m_j) / (dist^2 + sigma) * dir_unit
+        mag_matrix = (magnetic_moments[:, np.newaxis] * magnetic_moments[np.newaxis, :]) / (dist_sq + 10.0)
+        np.fill_diagonal(mag_matrix, 0.0)
+        magnetic_forces = np.sum(np.expand_dims(mag_matrix, axis=-1) * dir_unit, axis=1) # [N, 3]
+
+        # 4) 회전력(Torque) & 공명/상쇄 (Constructive / Destructive Interference)
+        #    의도 벡터와 거시적 시스템 파동(mean_velocity)의 외적 및 내적
+        velocities = np.array([a.velocity for a in self.agents], dtype=np.float32)
+        macro_flow = np.mean(velocities, axis=0) if num_agents > 0 else np.zeros(3, dtype=np.float32)
+        macro_flow_norm = np.linalg.norm(macro_flow)
+
+        torques = np.zeros((num_agents, 3), dtype=np.float32)
+        interference_scores = np.zeros(num_agents, dtype=np.float32)
+
+        if macro_flow_norm > 1e-5:
+            macro_unit = macro_flow / macro_flow_norm
+            for i, agent in enumerate(self.agents):
+                agent_intent_vec = agent.velocity * agent.chromatic_vector[0] + agent.rotor[1:]
+                intent_norm = np.linalg.norm(agent_intent_vec)
+                if intent_norm > 1e-5:
+                    intent_unit = agent_intent_vec / intent_norm
+                    # Torque = intent x macro_flow
+                    torques[i] = np.cross(intent_unit, macro_unit) * agent.magnetic_moment
+                    # Constructive (> 0) vs Destructive (< 0) Interference = intent . macro_flow
+                    interference_scores[i] = float(np.dot(intent_unit, macro_unit))
 
         # 5. 환경 포텐셜 그래디언트 및 외력 (경사 하강)
         env_forces = np.zeros_like(positions)
         for i, agent in enumerate(self.agents):
             env_forces[i] = - self.manifold.get_gradient_at(agent.position)
 
-        mutual_forces = np.sum(np.expand_dims(resonance_tension, axis=-1) * diff_pos, axis=1)
+        mutual_forces = attraction_repulsion_forces + magnetic_forces
 
         # 6. 상태 업데이트 (무분기 동역학 및 Dimensional Phase Inversion)
         for i, agent in enumerate(self.agents):
             total_force = env_forces[i] + mutual_forces[i]
+            agent.tension_vibration = float(vibration_transfer[i])
+
+            # Apply torque to agent rotor (Quaternion rotational acceleration)
+            torque_mag = np.linalg.norm(torques[i])
+            if torque_mag > 1e-5:
+                agent.rotate_rotor(torque_mag * dt * 0.1, torques[i])
 
             # 붉은색(Flux)은 운동성을 증폭시키고 푸른색(Order)은 감쇄(Damping)를 적용
             flux_boost = 1.0 + agent.chromatic_vector[0]
@@ -286,9 +373,14 @@ class BranchlessResonanceScheduler:
         mean_resonance = float(np.mean(rotor_inner_product)) if num_agents > 0 else 0.0
         max_tension_gap = float(np.max(resonance_tension)) if num_agents > 0 else 0.0
 
+        mean_vibration = float(np.mean(vibration_transfer)) if num_agents > 0 else 0.0
+        mean_interference = float(np.mean(interference_scores)) if num_agents > 0 else 0.0
+
         return {
             "mean_resonance": round(mean_resonance, 4),
             "max_tension_gap": round(max_tension_gap, 4),
+            "mean_vibration": round(mean_vibration, 4),
+            "mean_interference": round(mean_interference, 4),
             "active_agents": num_agents,
             "positions": positions.tolist(),
             "mental_positions": [a.mental_position.tolist() for a in self.agents],
