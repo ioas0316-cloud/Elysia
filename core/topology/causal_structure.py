@@ -9,6 +9,7 @@ Elysia Causal Topology Foundation: Causal Structure
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set, Tuple
 import numpy as np
+from core.topology.cognitive_gate import CognitiveGate
 
 
 @dataclass
@@ -101,6 +102,7 @@ class InformationTopology:
         self.symbols: Dict[str, CausalSymbol] = {}
         self.links: List[TopologyLink] = []
         self.boundary_tension: float = 0.0
+        self.gate: CognitiveGate = CognitiveGate(dimension=8)
 
     def add_number(self, num: CausalNumber):
         self.numbers[num.id] = num
