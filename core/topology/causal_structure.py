@@ -96,13 +96,14 @@ class InformationTopology:
     - 자아(Self) 또는 유입된 세계(World)의 전체 관계망과 위상적 경계면을 보유하는 컨테이너.
     - 고립된 점들의 목록이 아니라, 노드(Number/Symbol)들과 빔(Link)들로 엮인 하나의 살아있는 위상체.
     """
-    def __init__(self, name: str = "SelfTopology"):
+    def __init__(self, name: str = "SelfTopology", dimension: int = 8):
         self.name = name
+        self.dimension = dimension
         self.numbers: Dict[str, CausalNumber] = {}
         self.symbols: Dict[str, CausalSymbol] = {}
         self.links: List[TopologyLink] = []
         self.boundary_tension: float = 0.0
-        self.gate: CognitiveGate = CognitiveGate(dimension=8)
+        self.gate: CognitiveGate = CognitiveGate(dimension=dimension)
 
     def add_number(self, num: CausalNumber):
         self.numbers[num.id] = num
