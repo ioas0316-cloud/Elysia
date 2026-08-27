@@ -8,6 +8,12 @@
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
 import math
+from core.topology.structural_connectivity_engine import (
+    StructuralConnectivityEngine,
+    BranchingPoint,
+    GenerativePrinciple,
+    StructuralResonance
+)
 
 @dataclass
 class BoundaryCondition:
@@ -63,6 +69,30 @@ class InverseMechanismEngine:
     def __init__(self, mdl_penalty_weight: float = 0.1):
         self.mdl_penalty_weight = mdl_penalty_weight
         self.extracted_mechanisms: Dict[str, GeneratingMechanism] = {}
+        self.structural_engine = StructuralConnectivityEngine(mdl_threshold=mdl_penalty_weight)
+
+    def extract_generative_principle_from_trajectories(
+        self,
+        principle_id: str,
+        observations: List[ObservedTrajectory],
+        context_domain: str = "observed_causal_field"
+    ) -> GenerativePrinciple:
+        """
+        [구조적 연결성 엔진 통합 인터페이스]
+        관측된 결과 궤적들을 BranchingPoint(분기점)들로 변환하여
+        상위 생성 원리(GenerativePrinciple)와 위상 불변량을 자율 추출합니다.
+        """
+        branches = []
+        for obs in observations:
+            bp = BranchingPoint(
+                branch_id=obs.trajectory_id,
+                context_domain=context_domain,
+                observed_states=obs.states,
+                metadata={"intent_tag": obs.intent_tag, "boundary_id": obs.boundary_id}
+            )
+            branches.append(bp)
+
+        return self.structural_engine.extract_generative_principle(principle_id, branches)
 
     def compute_differential_delta(
         self,
