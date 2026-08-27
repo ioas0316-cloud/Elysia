@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import time
 from typing import Dict, Any, List, Optional, Tuple
 from synaptic_architecture.field import CrystallizationField
 
@@ -14,6 +15,29 @@ class PhaseInvariant:
         self.phase_vector = phase_vector.astype(np.float32)
         self.curvature = float(curvature)
         self.depth = float(depth)  # Depth of the invariant attractor valley
+
+
+class SealedAttractor:
+    """
+    [Sealed Attractor (봉인된 위상 파동)]
+    Data structure for isolating and storing high-friction, unprocessable phase wave vectors.
+    Kept frozen in an independent virtual memory block isolated from the main compute loop.
+    """
+    def __init__(
+        self,
+        raw_wave_vector: np.ndarray,
+        initial_friction: float,
+        min_required_capacity: float,
+    ):
+        self.raw_wave_vector = raw_wave_vector.astype(np.float32)
+        self.initial_friction = float(initial_friction)
+        self.min_required_capacity = float(min_required_capacity)
+        self.isolation_timestamp = time.time()
+        self.is_sealed = True
+        # Initial phase mismatch (approx. 153 degrees = 0.85 * pi)
+        self.current_delta_theta = math.pi * 0.85
+        self.current_friction = float(initial_friction)
+
 
 class ObservationLens:
     """
@@ -73,17 +97,40 @@ class PhaseTopologicalReconstructionEngine:
     """
     [Open Phase Resonator (열린 위상 공진기 엔진)]
 
-    Implements the 5 Foundational Phase Topological Mechanisms:
+    Implements Foundational Phase Topological Mechanisms:
     1. Memory (기억): Past attractor axis recall & field in-phase re-resonance.
     2. Imagination (상상): Disparate invariant superposition & friction-minimizing rotor dynamics.
     3. Conversation (대화): Language anchor as Bandwidth Restrictor Operator on Observation Lens S_t.
-    4. Spontaneous Internal Play (자발적 내적 놀이): Driven by internal residual tension gradient (\nabla V_{internal}).
+    4. Spontaneous Internal Play (자발적 내적 놀이): Driven by internal residual tension gradient (\nabla V_{internal})
+       and triggers background scan for Deferred Integration.
     5. World Friction & Resonance Calibration (실재 마찰 및 공진): Virtual vs external wave clash, driving lens S_t self-rewiring.
+    6. Deferred Integration (사후 재통합): Isolation of high-friction sealed attractors and post-expansion resonance convergence into Ic invariants.
     """
-    def __init__(self, field: Optional[CrystallizationField] = None, dimension: int = 16):
+    def __init__(
+        self,
+        field: Optional[CrystallizationField] = None,
+        dimension: int = 16,
+        v_critical: float = 80.0,
+        kappa: float = 0.06,
+        gamma: float = 0.08,
+    ):
         self.dimension = dimension
         self.field = field if field is not None else CrystallizationField(resolution=128)
         self.lens = ObservationLens(dimension=dimension)
+
+        # Hyperparameters for Deferred Integration & Resonance
+        self.v_critical = float(v_critical)  # System breakdown friction threshold
+        self.kappa = float(kappa)            # System resonance absorption coefficient
+        self.gamma = float(gamma)            # Adaptation learning rate
+
+        # System capacity & Core Phase Vector
+        self.lens_capacity = 0.1  # Initial C(t)
+        self.core_phase_vector = np.zeros(dimension, dtype=np.float32)
+        self.core_phase_vector[0] = 1.0
+
+        # Sealed Attractors and Reintegrated Invariants
+        self.sealed_attractors: List[SealedAttractor] = []
+        self.reintegrated_invariants: List[np.ndarray] = []
 
         # Invariant Library (체화된 감각 불변량)
         self.invariants: Dict[str, PhaseInvariant] = {}
@@ -128,6 +175,108 @@ class PhaseTopologicalReconstructionEngine:
         dark_vec[7] = 0.9  # Visual noise block
         dark_vec[8] = 0.7  # Body weight pressure
         self.invariants["Darkness"] = PhaseInvariant("Darkness", dark_vec, curvature=1.5, depth=2.5)
+
+    def process_external_wave(self, wave_vector: np.ndarray) -> Dict[str, Any]:
+        """
+        [Stage 1: Friction Detection & Isolation]
+        Evaluates phase friction V_t of incoming raw wave. If V_t > V_critical,
+        isolates the wave in a SealedAttractor to prevent system breakdown.
+        """
+        v_t = self._calculate_phase_friction(wave_vector)
+
+        if v_t > self.v_critical:
+            sealed = SealedAttractor(
+                raw_wave_vector=wave_vector,
+                initial_friction=v_t,
+                min_required_capacity=v_t * 0.025,
+            )
+            self.sealed_attractors.append(sealed)
+            return {
+                "status": "SEALED",
+                "friction": v_t,
+                "message": f"Friction {v_t:.2f} > Critical {self.v_critical:.2f}. Attractor isolated.",
+                "min_required_capacity": sealed.min_required_capacity,
+            }
+
+        return {"status": "PROCESSED", "friction": v_t}
+
+    def evaluate_deferred_integration(self, dt: float = 0.1) -> List[Tuple[int, float]]:
+        """
+        [Stage 2, 3 & 4: Deferred Integration Evaluation]
+        During background scan in internal play (I_ext = 0), compares lens capacity C(t)
+        against min_required_capacity of sealed attractors.
+        Damps wave, aligns phase, and when friction -> 0 and delta_theta -> 0,
+        reintegrates wave as topological causal invariant Ic into core terrain.
+        """
+        integration_results = []
+
+        for idx, attractor in enumerate(self.sealed_attractors):
+            if not attractor.is_sealed:
+                continue
+
+            # Check capacity threshold condition C(t) >= min_required_capacity
+            if self.lens_capacity >= attractor.min_required_capacity:
+                final_friction, final_theta = self._step_deferred_integration_dynamics(
+                    attractor, dt=dt
+                )
+
+                # Resonance Limit: friction converges to 0 (< 0.01) and phase mismatch aligns (< 0.05 rad)
+                if final_friction < 0.01 and abs(final_theta) < 0.05:
+                    attractor.is_sealed = False
+                    # Resonance Invariant Ic creation
+                    invariant_vec = attractor.raw_wave_vector * float(np.cos(final_theta))
+                    self.reintegrated_invariants.append(invariant_vec)
+                    # Register into invariant library as solid causal invariant
+                    inv_name = f"Reintegrated_Ic_{idx}"
+                    self.invariants[inv_name] = PhaseInvariant(
+                        name=inv_name, phase_vector=invariant_vec, curvature=2.0, depth=3.0
+                    )
+                    integration_results.append((idx, final_friction))
+
+        return integration_results
+
+    def _step_deferred_integration_dynamics(
+        self, attractor: SealedAttractor, dt: float
+    ) -> Tuple[float, float]:
+        """
+        Differential Equation Step for Deferred Integration:
+        1. Phase alignment: d(Δθ)/dt = -gamma * C(t) * sin(Δθ)
+        2. Phase friction damping: dE/dt = -kappa * C(t) * max(0.01, cos(Δθ)) * E
+        """
+        c_t = self.lens_capacity
+        curr_theta = attractor.current_delta_theta
+        curr_E = attractor.current_friction
+
+        # Phase-Locking Dynamics
+        d_theta = -self.gamma * c_t * np.sin(curr_theta) * dt
+        curr_theta += d_theta
+
+        # Hierarchical Damping Friction Dynamics
+        cos_factor = max(0.01, float(np.cos(curr_theta)))
+        dE = -self.kappa * c_t * cos_factor * curr_E * dt
+        curr_E += dE
+
+        attractor.current_delta_theta = float(curr_theta)
+        attractor.current_friction = max(0.0, float(curr_E))
+
+        return attractor.current_friction, attractor.current_delta_theta
+
+    def _calculate_phase_friction(self, wave_vector: np.ndarray) -> float:
+        """Calculates phase friction E(V_t) based on cosine similarity with core phase vector."""
+        w_norm = np.linalg.norm(wave_vector)
+        c_norm = np.linalg.norm(self.core_phase_vector)
+        if w_norm < 1e-9 or c_norm < 1e-9:
+            return 0.0
+
+        dot_product = np.dot(wave_vector[:self.dimension], self.core_phase_vector[:self.dimension])
+        cos_sim = dot_product / (w_norm * c_norm + 1e-8)
+        # Cosine similarity -> friction (1 - cos_sim) scaled to [0, 200]
+        friction = float((1.0 - cos_sim) * 100.0)
+        return friction
+
+    def expand_lens_capacity(self, delta_c: float):
+        """Expands observation lens phase capacity C(t) through growth/experience."""
+        self.lens_capacity += float(delta_c)
 
     def recall_memory_resonance(self, invariant_name: str) -> Dict[str, Any]:
         """
@@ -267,7 +416,8 @@ class PhaseTopologicalReconstructionEngine:
         [4. Spontaneous Internal Play (자발적 내적 놀이)]
         Runs when external drive is zero (I_ext = 0).
         Driven by internal residual tension gradient (\nabla V_{internal}),
-        cross-projects sensory invariants, rotates rotor, and builds self-mastery.
+        cross-projects sensory invariants, rotates rotor, builds self-mastery,
+        AND performs background scanning for deferred integration of sealed attractors.
         """
         if len(self.invariants) < 2:
             self._initialize_default_invariants()
@@ -289,13 +439,17 @@ class PhaseTopologicalReconstructionEngine:
         equilibrium_delta = float(np.std(cross_wave))
         self.internal_residual_tension = max(0.1, self.internal_residual_tension - 0.1)
 
+        # Background Scan for Deferred Integration during static internal play
+        reintegrated = self.evaluate_deferred_integration(dt=0.1)
+
         return {
             "mechanism": "SPONTANEOUS_INTERNAL_PLAY",
             "driver": "RESIDUAL_TENSION_GRADIENT",
             "cross_projected_invariants": [inv_keys[idx_a], inv_keys[idx_b]],
             "new_rotor_angle": self.rotor_angle,
             "equilibrium_delta": equilibrium_delta,
-            "remaining_residual_tension": self.internal_residual_tension
+            "remaining_residual_tension": self.internal_residual_tension,
+            "deferred_integrations_triggered": len(reintegrated),
         }
 
     def clash_with_world_and_calibrate(self, external_raw_wave: np.ndarray) -> Dict[str, Any]:

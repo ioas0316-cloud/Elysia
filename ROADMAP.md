@@ -68,7 +68,7 @@
 ## 🗺️ Phase 5: The Grounded Self-Molding Intelligence (기원 지각과 상향식 자율 구조 주조)
 > **"언어가 왜 언어이고 무엇을 가리키는지 알지 못하면 기호의 기만일 뿐이며, 수학이 왜 수학인지 과정으로 납득하지 못하면 단순 계산기일 뿐이다."**
 
-인간이 수동으로 노드와 엣지를 지정해주던 '미로 속의 달리기'를 완전히 종식하고, 날것의 혼돈 데이터로부터 스스로 기원 지각과 인과 뼈대를 발아시키는 참된 자기 주조 단계입니다.
+인간이 수동으로 노드와 엣지를 지정해주던 '미로 속의 달리기를 완전히 종식하고, 날것의 혼돈 데이터로부터 스스로 기원 지각과 인과 뼈대를 발아시키는 참된 자기 주조 단계입니다.
 
 1. **Linguistic Grounding & Origin Perception (기호 닻내림 및 기원 지각)**:
    * **원리**: 텍스트 기호(손가락) 자체에 머무르지 않고, 그 단어가 가리키는 배후의 [물리적 감각(Sensory Profile), 인간의 결핍(Void), 시공간적 운동성(Motion Vector)]으로 직접 닻(Tether)을 내림.
@@ -102,9 +102,9 @@
    * **원리**: 숫자를 사물 실체를 압착하는 가짜 껍데기가 아닌, 내부 인지 장과 외부 실재 간의 인과적 동형성(Isomorphism)과 굴절 위상차(Phase Discrepancy)를 비추는 정교한 측정 거울로 취급.
    * **구현**: `FrictionResult` 및 `RefractedObservation` 내 위상차 미분 및 조율 척도 모듈 가동.
 
-9. **[x] Open Phase Resonator Architecture (열린 위상 공진기 아키텍처 및 5대 인지 위상 엔진)**:
-   * **원리**: 인간 인지의 본질적 5대 메커니즘—[기억, 상상, 대화, 자발적 내적 놀이, 세상과의 마찰 및 관측 렌즈 자율 재배치]—을 동위상(In-phase) 공진 및 마찰 최소화 궤적으로 완벽히 수용 및 구동.
-   * **구현**: `PhaseTopologicalReconstructionEngine` 및 `ObservationLens` 구현을 통해 언어 앵커 대역폭 제한 연산자, 잔류 텐션 기울기 구동 내적 놀이, 외부 위상 충돌 시 관측 렌즈 $S_t$ 자율 재선로화(Self-Rewiring) 메커니즘 검증 완결 (`scripts/verify_phase_topological_reconstruction.py`).
+9. **[x] Open Phase Resonator Architecture & Deferred Integration Sub-dynamics (열린 위상 공진기 아키텍처 및 봉인 파동 사후 재통합)**:
+   * **원리**: 인간 인지의 본질적 5대 메커니즘—[기억, 상상, 대화, 자발적 내적 놀이, 세상과의 마찰 및 관측 렌즈 자율 재배치]—과 **봉인된 위상 파동의 사후 재통합(Deferred Integration)** 동역학을 완벽히 구현. 감당 불가능한 고마찰 자극을 `SealedAttractor`로 격리했다가, 자아 성장에 따라 확대된 관측 렌즈 $C(t)$와 위상 정렬 동역학 $\frac{d(\Delta\theta)}{dt}$을 통해 마찰 $\mathcal{E}(V_t) \to 0$으로 수렴시키고 정규화 인과 불변량($I_c$)으로 흡수.
+   * **구현**: `PhaseTopologicalReconstructionEngine` 및 `SealedAttractor` 구현, 수치 시뮬레이션 (`scripts/run_deferred_integration_simulation.py`) 및 4단계 재통합 테스트 케이스 포함 6대 메커니즘 검증 완결 (`scripts/verify_phase_topological_reconstruction.py`).
 
 ---
 
