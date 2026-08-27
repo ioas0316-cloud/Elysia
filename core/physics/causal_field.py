@@ -13,6 +13,21 @@ class InformationVoxel:
     potential: float = 0.0
     # Chromatic Vector: [Red (Flux), Blue (Order/Resistance), Yellow (Entropy)]
     chromatic_vector: np.ndarray = None
+    # --- Unified Substrate Extensions ---
+    # Absorbed from CrystallizationField: memristive conductance G = 1/R
+    conductance: float = 0.01
+    # Absorbed from ThermodynamicCoordinateEngine: local temperature
+    temperature: float = 1.0
+    # Absorbed from ClockworkPrimeRotor: rotor phase angle theta ∈ [0, 2π)
+    phase_angle: float = 0.0
+    # Absorbed from CrystallizationField: coordination margin (여백/Yeobaek)
+    coordination_margin: float = 0.5
+    # Absorbed from EpistemologicalVoidEngine: curiosity/hunger charge
+    curiosity_charge: float = 0.0
+    # 2D projection coordinate for CrystallizationField lens
+    projection_2d: np.ndarray = None
+    # Observation scale level
+    scale_level: float = 1.0
 
     def __post_init__(self):
         if self.chromatic_vector is None:
@@ -25,6 +40,10 @@ class InformationVoxel:
             self.position = np.array(self.position, dtype=np.float32)
         if not isinstance(self.velocity, np.ndarray):
             self.velocity = np.array(self.velocity, dtype=np.float32)
+        if self.projection_2d is None:
+            self.projection_2d = np.zeros(2, dtype=np.float32)
+        if not isinstance(self.projection_2d, np.ndarray):
+            self.projection_2d = np.array(self.projection_2d, dtype=np.float32)
 
 @dataclass
 class ConnectivityBeam:
@@ -35,6 +54,13 @@ class ConnectivityBeam:
     current_tension: float = 0.0
     break_threshold: float = 5.0 # Max tension before 'tearing'
     is_broken: bool = False
+    # --- Unified Substrate Extensions ---
+    # Frequency of information flow through this beam (resonance carrier)
+    frequency: float = 1.0
+    # Bandwidth: how many chromatic channels this beam can carry simultaneously
+    bandwidth: float = 1.0
+    # Hysteresis remanence: non-volatile causal memory of past tensions
+    remanence: float = 0.0
 
 class CausalField:
     """
