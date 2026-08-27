@@ -1,6 +1,12 @@
 import numpy as np
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
+from core.topology.structural_connectivity_engine import (
+    StructuralConnectivityEngine,
+    BranchingPoint,
+    GenerativePrinciple,
+    StructuralResonance
+)
 
 @dataclass
 class InformationVoxel:
@@ -83,6 +89,34 @@ class CausalField:
         self.active_focus = np.ones(dimensions, dtype=np.float32) / np.sqrt(dimensions)
         self.total_dissipated_energy = 0.0
         self.gimbal_lock_unlocked_count = 0
+        self.structural_connectivity_engine = StructuralConnectivityEngine()
+
+    def resonate_field_structure(
+        self,
+        principle: GenerativePrinciple,
+        source_branch: BranchingPoint,
+        target_context: str = "causal_field_wave"
+    ) -> StructuralResonance:
+        """
+        [구조적 필드 공명 (O(1) Field Resonance)]
+        미시적 입자/픽셀 계산 없이, 생성 원리의 위상 불변량을
+        인과 장(Causal Field)의 보점들로 직접 O(1) 사영 공명시킵니다.
+        """
+        resonance = self.structural_connectivity_engine.resonate_field(
+            principle=principle,
+            source_branch=source_branch,
+            target_context=target_context,
+            steps=len(source_branch.observed_states)
+        )
+
+        # 공명 궤적의 위상 불변량으로 Voxels의 potential 및 tensor를 즉시 정류
+        for idx, (vid, voxel) in enumerate(self.voxels.items()):
+            if idx < len(resonance.resonated_invariants):
+                target_val = resonance.resonated_invariants[idx % len(resonance.resonated_invariants)]
+                voxel.potential = 0.8 * voxel.potential + 0.2 * abs(target_val)
+                voxel.tensor = 0.9 * voxel.tensor + 0.1 * np.full_like(voxel.tensor, target_val, dtype=np.float32)
+
+        return resonance
 
     def set_intentional_focus(self, focus_vector: np.ndarray):
         """
