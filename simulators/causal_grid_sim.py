@@ -175,16 +175,18 @@ class CausalTilemapSimulator:
         # Check obstacle collision (Rock Barrier at Route 2: [0.0, 14.0])
         dist_to_obstacle = np.linalg.norm((current_pos + step_dir * 1.0) - self.obstacle_pos)
         obstacle_hit = False
+        was_bypass_active = self.field.engrams["bypass_rock"].active
+
         if dist_to_obstacle < 1.2:
             obstacle_hit = True
             # Report resistance to C_micro tier -> Escalates to C_meso if repeated
             feedback = self.shell.report_resistance("micro", resistance=1.0)
-            # Immediately activate bypass engram upon obstacle feedback or escalation
+            # Activate bypass engram upon obstacle feedback
             self.field.set_engram_active("bypass_rock", True)
 
-        # Update Agent Position (deflect if obstacle hit and bypass not active)
-        if obstacle_hit and not self.field.engrams["bypass_rock"].active:
-            # Blocked: remain in position and report physical resistance
+        # Update Agent Position (deflect if obstacle hit and bypass was not active prior to step)
+        if obstacle_hit and not was_bypass_active:
+            # Blocked: remain in position on first hit and report physical resistance
             new_pos = current_pos
         else:
             new_pos = current_pos + step_dir * 1.0

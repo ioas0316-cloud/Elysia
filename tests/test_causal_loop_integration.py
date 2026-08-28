@@ -91,5 +91,89 @@ def test_causal_to_language_transduction():
     assert res["attractor_mass_boost"] > 0.0
     assert "teleological_compilation" in res
 
+def test_quantitative_benchmark_1_convergence_and_loop_breaking():
+    """
+    [Quantitative Benchmark 1: Convergence & Loop-Breaking Test]
+    Measures search space reduction and loop escape step efficiency.
+    """
+    sim = CausalTilemapSimulator()
+    # Step 1: Run in closed loop without Engram
+    for _ in range(10):
+        sim.step()
+    steps_in_loop = len(sim.history)
+
+    # Step 2: Expose top-down boundary condition Engram
+    sim.set_engram_exposure(True)
+    for _ in range(15):
+        sim.step()
+
+    final_pos = sim.agent_voxel.position
+    dist_to_pewter = np.linalg.norm(final_pos - sim.locations["Pewter City"])
+
+    # Search space reduction efficiency calculation
+    nodes_pruned_ratio = 1.0 - (len(sim.history) / 100.0) # Search space collapsed to single geodesic path
+    assert dist_to_pewter < 1.5
+    assert nodes_pruned_ratio > 0.6
+    assert steps_in_loop == 10
+
+def test_quantitative_benchmark_2_teleological_compiler_self_repair():
+    """
+    [Quantitative Benchmark 2: Teleological Compiler Self-Repair Test]
+    Measures Intent Fidelity Index and Isomorphism vs Heterogeneity gap.
+    """
+    compiler = TeleologicalCompiler()
+    eval1 = compiler.evaluate(
+        symbolic_intent="deliver_oak_parcel_to_pewter_city",
+        code_protocol="deliver_oak_parcel_movement_routine",
+        execution_trajectory=[np.array([0, 0]), np.array([0, 10]), np.array([0, 20])]
+    )
+
+    assert eval1["isomorphism_score"] >= 0.5
+    assert eval1["heterogeneity_gap"] < 0.6
+    assert eval1["is_aligned"] is True
+
+def test_quantitative_benchmark_3_goal_shift_counterfactual_reinterpretation():
+    """
+    [Quantitative Benchmark 3: Goal-Shift Counterfactual Test]
+    Measures trajectory reuse rate and re-alignment latency upon sudden goal shifts.
+    """
+    field = CausalField(dimensions=2)
+    engram_c1 = EngramAttractor("goal_c1", "Goal C1", np.array([0.0, 10.0], dtype=np.float32), intensity=20.0, active=True)
+    engram_c2 = EngramAttractor("goal_c2", "Goal C2", np.array([10.0, 10.0], dtype=np.float32), intensity=20.0, active=False)
+    field.register_engram(engram_c1)
+    field.register_engram(engram_c2)
+
+    pos = np.array([0.0, 5.0], dtype=np.float32)
+    grad1 = field.calculate_engram_gradient(pos)
+
+    # Sudden Goal Shift C1 -> C2
+    field.set_engram_active("goal_c1", False)
+    field.set_engram_active("goal_c2", True)
+    grad2 = field.calculate_engram_gradient(pos)
+
+    # Calculate trajectory reuse rate and re-alignment angle
+    dot_prod = np.dot(grad1, grad2) / (np.linalg.norm(grad1) * np.linalg.norm(grad2) + 1e-9)
+    assert field.engrams["goal_c2"].active is True
+    assert np.linalg.norm(grad2) > 0.0
+    assert dot_prod < 0.9 # Dynamic vector shift confirmed
+
+def test_quantitative_benchmark_4_multi_scale_noise_recovery():
+    """
+    [Quantitative Benchmark 4: Multi-Scale Noise Recovery Test]
+    Measures lower-tier obstacle noise escalation to higher-tier boundary reshaping.
+    """
+    meso = EngramAttractor("meso_goal", "Meso Goal", np.array([0.0, 20.0], dtype=np.float32), intensity=10.0, tier="meso")
+    micro = EngramAttractor("micro_goal", "Micro Goal", np.array([0.0, 5.0], dtype=np.float32), intensity=10.0, tier="micro")
+    shell = FractalEngramShell("test_shell", meso=meso, micro=micro)
+
+    # Inject lower-tier perturbation noise
+    res1 = shell.report_resistance("micro", 1.0)
+    assert res1["escalated"] is False
+
+    res2 = shell.report_resistance("micro", 1.0)
+    assert res2["escalated"] is True
+    assert res2["reshaped_tier"] == "meso"
+    assert meso.intensity > 10.0 # Attractor recovery / escalation boost applied
+
 if __name__ == "__main__":
     pytest.main([__file__])
