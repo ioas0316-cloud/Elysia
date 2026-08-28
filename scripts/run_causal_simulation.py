@@ -17,13 +17,14 @@ from simulators.causal_grid_sim import CausalTilemapSimulator
 
 def run_simulation_demo():
     print("=" * 70)
-    print("      ELYSIUS CAUSAL FIELD SIMULATION DEMONSTRATION")
-    print("   [Integrating High-Level Intent & Lower Physical Feedback Loop]")
+    print("      ELYSIUS MULTI-TIER FRACTAL TELEOLOGY SIMULATION DEMO")
+    print("   [4-Tier Boundary Shell, Recursive Feedback & Teleological Compilation]")
     print("=" * 70)
     print("\nLandmarks:")
     print("  - Pallet Town: (0.0, 0.0)")
     print("  - Viridian City: (0.0, 10.0)")
     print("  - Pewter City: (0.0, 20.0)")
+    print("  - Obstacle (Rock): (0.0, 14.0)")
     print("-" * 70)
 
     sim = CausalTilemapSimulator()
@@ -48,7 +49,8 @@ def run_simulation_demo():
         log = sim.step()
         pos_str = f"({log['position'][0]:5.2f}, {log['position'][1]:5.2f})"
         encounter_str = f" | {log['encounter']}" if log['encounter'] else ""
-        print(f"Step {log['step']:02d} | Pos: {pos_str} | Landmark: {log['landmark']:13s} | Engram Force: {log['engram_force_norm']:.2f}{encounter_str}")
+        mem_str = f" | {log['memory_transduction']['inner_monologue']}" if log.get('memory_transduction') else ""
+        print(f"Step {log['step']:02d} | Pos: {pos_str} | Landmark: {log['landmark']:13s} | Engram Force: {log['engram_force_norm']:.2f}{encounter_str}{mem_str}")
 
     print("\n" + "=" * 70)
     print("                     SIMULATION SUMMARY")
@@ -57,6 +59,10 @@ def run_simulation_demo():
     print(f"Final Agent Position : ({sim.agent_voxel.position[0]:.2f}, {sim.agent_voxel.position[1]:.2f})")
     print(f"Reached Pewter City  : {np.linalg.norm(sim.agent_voxel.position - sim.locations['Pewter City']) < 1.5}")
     print(f"Total Encounters     : {len(sim.encounter_events)}")
+    if sim.cognitive_engine.inner_monologue_history:
+        print("\n[Inner Monologue Transduced]:")
+        for monologue in sim.cognitive_engine.inner_monologue_history:
+            print(f"  {monologue}")
     print("=" * 70)
 
 if __name__ == "__main__":
