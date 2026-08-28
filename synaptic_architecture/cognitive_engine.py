@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from .field import CrystallizationField
 from .causal_gene import CausalGeneSynthesizer
 from core.memory.causal_controller import CausalMemoryController
+from core.physics.causal_field import TeleologicalCompiler
 
 @dataclass
 class CognitiveBiasProfile:
@@ -147,6 +148,89 @@ class ElysiaCognitiveEngine:
         # --- Bounded Rationality: Attention Slot Registry & Memory Tracking ---
         # stimulus_wave (uint64) -> dict { "category": str, "weight": float, "last_updated": float }
         self.attention_registry: Dict[np.uint64, Dict[str, Any]] = {}
+
+        # Teleological Compiler Instance for Isomorphism/Heterogeneity Verification
+        self.teleological_compiler = TeleologicalCompiler()
+        self.inner_monologue_history: List[str] = []
+
+    def generate_inner_monologue(self, goal_name: str, status: str, causal_fact: str) -> str:
+        """
+        [Causal-to-Language Transduction: Inner Monologue Generation]
+        Compresses lower physical field trajectories, loop breaks, and obstacles
+        into a high-level symbolic monologue ('Why-Information').
+        """
+        monologue = f"[Inner Monologue] Goal '{goal_name}' under status '{status}': {causal_fact}"
+        self.inner_monologue_history.append(monologue)
+        self._record_meta("INNER_MONOLOGUE_GENERATED", monologue)
+        return monologue
+
+    def transduce_causal_feedback_to_memory(
+        self,
+        goal_id: str,
+        goal_name: str,
+        trajectory: List[np.ndarray],
+        loop_escaped: bool = False,
+        symbolic_intent: str = ""
+    ) -> Dict[str, Any]:
+        """
+        [Upward Epistemic Fact Extraction & Memory Mass Consolidation]
+        Converts lower physical execution paths into an Epistemic Fact ('Why-Information'),
+        logs inner monologue, and crystallizes Engram Attractor Mass (M_attractor) into CausalMemoryController.
+        Also runs Teleological Compiler check against execution protocol.
+        """
+        num_steps = len(trajectory)
+        trajectory_length = sum(float(np.linalg.norm(trajectory[i] - trajectory[i-1])) for i in range(1, num_steps)) if num_steps > 1 else 0.0
+
+        if loop_escaped:
+            causal_fact = f"Bypassed local habit loop via top-down Engram attraction after {num_steps} steps (trajectory length: {trajectory_length:.2f})."
+            status = "LOOP_BREAK_SUCCESS"
+        else:
+            causal_fact = f"Converged along geodesic trajectory to destination in {num_steps} steps (length: {trajectory_length:.2f})."
+            status = "CONVERGENCE_SUCCESS"
+
+        monologue = self.generate_inner_monologue(goal_name, status, causal_fact)
+
+        # Teleological Compiler Verification (Isomorphism vs Heterogeneity)
+        code_protocol = f"execute_path_movement_step_count_{num_steps}"
+        compilation = self.teleological_compiler.evaluate(
+            symbolic_intent=symbolic_intent if symbolic_intent else goal_name,
+            code_protocol=code_protocol,
+            execution_trajectory=trajectory
+        )
+
+        # Calculate Engram Mass boost based on Epistemic Fact value
+        attractor_mass_boost = float(15.0 + (num_steps * 0.5) + (10.0 if loop_escaped else 0.0))
+
+        # Write Epistemic Memory Engram
+        self.memory_controller.write_causal_engram(
+            data_blob={
+                "type": "EPISTEMIC_FACT_REFRAMING",
+                "goal_id": goal_id,
+                "goal_name": goal_name,
+                "status": status,
+                "causal_fact": causal_fact,
+                "inner_monologue": monologue,
+                "attractor_mass_boost": attractor_mass_boost,
+                "teleological_compilation": compilation
+            },
+            emotional_value=8.0 if loop_escaped else 5.0,
+            cause_id="EpistemicFactTransduction",
+            origin_axis="fractal_teleology"
+        )
+        self.memory_controller.flush_index()
+
+        self._record_meta(
+            "EPISTEMIC_MEMORY_CONSOLIDATED",
+            f"Epistemic Fact logged for '{goal_name}'. Mass boost: {attractor_mass_boost:.2f}. "
+            f"Teleological Isomorphism: {compilation['is_aligned']} (Gap: {compilation['heterogeneity_gap']:.3f})"
+        )
+
+        return {
+            "causal_fact": causal_fact,
+            "inner_monologue": monologue,
+            "attractor_mass_boost": attractor_mass_boost,
+            "teleological_compilation": compilation
+        }
 
     def apply_character_stats(self, stats: CharacterStats):
         """
