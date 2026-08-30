@@ -42,10 +42,11 @@ class EcologyAgent:
         # Local concept structures: concept_key -> local adjacency matrix representation
         self.local_belief_graphs: Dict[str, np.ndarray] = {}
 
-    def project(self, x: np.ndarray) -> np.ndarray:
+    def project(self, x: np.ndarray, base_axiom_tensor: Optional[np.ndarray] = None) -> np.ndarray:
         """
-        [Perspective Projection Matrix P_k]
-        Transforms high-dimensional input vector 'x' to highlight the agent's unique focal dimension.
+        [Perspective Projection Matrix P_k constrained by 1-Layer Base Axiom]
+        Transforms high-dimensional input vector 'x' to highlight the agent's unique focal dimension,
+        while strictly bounded by the 1-Layer Base Axiom invariant tensor (Downward Projection).
         """
         x = np.array(x, dtype=np.float32)
         n = len(x)
@@ -79,6 +80,13 @@ class EcologyAgent:
             # Focuses on boundary thresholds
             for i in range(n):
                 P[i, i] = 1.3 if (i % 3) == 1 else 0.3
+
+        # Downward Projection: Bounding P_k using 1-Layer Base Axiom invariant tensor
+        if base_axiom_tensor is not None:
+            mat_b = np.array(base_axiom_tensor, dtype=np.float32)
+            min_dim = min(n, mat_b.shape[0])
+            # Base Axiom acts as unyielding structural constraint (Bone/Spine)
+            P[:min_dim, :min_dim] = P[:min_dim, :min_dim] * 0.6 + mat_b[:min_dim, :min_dim] * 0.4
 
         return P @ x
 
@@ -250,12 +258,15 @@ class DisagreementPreservingMemoryNode:
 class CognitiveEcologyEngine:
     """
     Cognitive Ecology & Multi-Perspective Falsification Engine (인지 생태계 및 상호 검증 엔진)
+    Fully integrated with 1-Layer CausalSpine Base Axiom Grounding and Vertical Reciprocal Feedback Loop.
     """
-    def __init__(self, memory_controller: Optional[Any] = None):
+    def __init__(self, memory_controller: Optional[Any] = None, causal_spine: Optional[Any] = None):
         self.memory = memory_controller
+        self.causal_spine = causal_spine
         self.agents: Dict[str, EcologyAgent] = {}
         self.disagreement_processor = MetaDisagreementProcessor(self.memory)
         self.preserved_nodes: Dict[str, DisagreementPreservingMemoryNode] = {}
+        self.grounded_axioms_log: List[Dict[str, Any]] = []
 
         self._initialize_ecology_agents()
 
@@ -332,6 +343,13 @@ class CognitiveEcologyEngine:
 
         node = self.preserved_nodes[concept_key]
 
+        # 0. Check for 1-Layer Base Axiom Grounded in CausalSpine
+        base_axiom_tensor = None
+        if self.causal_spine is not None and hasattr(self.causal_spine, "get_base_axiom"):
+            base_axiom = self.causal_spine.get_base_axiom(concept_key)
+            if base_axiom is not None:
+                base_axiom_tensor = base_axiom.invariant_matrix
+
         # 1. Fetch beliefs and map projections
         agent_beliefs = {}
         wave_numeric = np.frombuffer(raw_wave, dtype=np.uint8) if isinstance(raw_wave, bytes) else np.array(raw_wave, dtype=np.uint8)
@@ -362,8 +380,8 @@ class CognitiveEcologyEngine:
         falsification_errors = {}
         for a_key, agent in self.agents.items():
             belief_mat = agent_beliefs[a_key]
-            # Prediction: P_k @ current_wave projected onto the belief matrix
-            projected_x = agent.project(vector_x)
+            # Downward Projection: Bounded by 1-Layer Base Axiom if present
+            projected_x = agent.project(vector_x, base_axiom_tensor=base_axiom_tensor)
             prediction = np.tanh(belief_mat @ projected_x)
 
             # Error Residual
@@ -390,6 +408,27 @@ class CognitiveEcologyEngine:
             agents=self.agents
         )
 
+        # 6. Upward Grounding: If high tension & falsification proof met, crystallize Base Axiom into CausalSpine
+        grounded_axiom_info = None
+        min_falsification_err = min(falsification_errors.values())
+        if meta_res.get("active") and meta_res.get("tension_value", 0.0) > 0.3 and min_falsification_err < 1.5:
+            if self.causal_spine is not None and hasattr(self.causal_spine, "ground_base_axiom"):
+                cand_matrix = meta_res["candidate_principle_matrix"]
+                grounded_axiom = self.causal_spine.ground_base_axiom(
+                    concept_key=concept_key,
+                    invariant_matrix=cand_matrix,
+                    strength=float(meta_res["tension_value"]),
+                    current_cycle=int(time.time()),
+                    origin_pair=meta_res["tension_pair"]
+                )
+                grounded_axiom_info = {
+                    "axiom_id": grounded_axiom.axiom_id,
+                    "concept_key": concept_key,
+                    "strength": grounded_axiom.strength,
+                    "origin_pair": grounded_axiom.origin_pair
+                }
+                self.grounded_axioms_log.append(grounded_axiom_info)
+
         # Log details to history
         report = {
             "timestamp": time.time(),
@@ -399,6 +438,8 @@ class CognitiveEcologyEngine:
             "total_contradiction_charge": node.total_contradiction_charge,
             "unresolved_gaps_count": len(gaps),
             "meta_reflection": meta_res,
+            "grounded_base_axiom": grounded_axiom_info,
+            "base_axiom_applied": base_axiom_tensor is not None,
             "active_resistances": {a_key: agent.resistance for a_key, agent in self.agents.items()}
         }
 

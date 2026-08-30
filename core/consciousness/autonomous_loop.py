@@ -223,6 +223,7 @@ class ConsciousnessLoop:
         # ── [Phase 3.5: Causal Spine & Axiom Discovery Engine] ──
         self.causal_spine = CausalSpine(dimensions=3, learning_rate=0.1)
         self.axiom_discovery = AxiomDiscoveryEngine(correlation_threshold=0.85, window_size=10, falsification_threshold=0.3)
+        self.cognitive_ecology   = CognitiveEcologyEngine(self.memory, causal_spine=self.causal_spine)
 
         # ── [Phase 2: Thermodynamic Spacetime Environment Integration] ──
         from core.physics.thermodynamic_coordinate_engine import ThermodynamicEnvironment
