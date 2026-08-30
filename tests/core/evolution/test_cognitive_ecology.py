@@ -6,6 +6,7 @@ from core.evolution.cognitive_ecology import (
     DisagreementPreservingMemoryNode,
     CognitiveEcologyEngine
 )
+from core.consciousness.axiom_discovery import CausalSpine
 from core.memory.causal_controller import CausalMemoryController
 
 def test_ecology_agent_projection():
@@ -105,3 +106,55 @@ def test_cognitive_ecology_engine_cycle():
     best_agent_key = report["best_explaining_agent"]
     best_agent = engine.agents[best_agent_key]
     assert best_agent.resistance < 0.5
+
+def test_vertical_reciprocal_loop_grounding_and_downward_projection():
+    """
+    Tests 4-Stage Vertical Reciprocal Architecture:
+    1. Multi-Agent Disagreement & Potential Difference (Tension Generation).
+    2. Emergence of Hidden Axiom / Candidate Principle without aggregate voting.
+    3. Falsification & Upward Grounding into CausalSpine 1-Layer Base Axiom invariant tensor.
+    4. Downward Feedback: Grounded Base Axiom constrains EcologyAgent initial projections (P_k).
+    """
+    mc = CausalMemoryController(data_dir="data")
+    causal_spine = CausalSpine(dimensions=5, learning_rate=0.1)
+    engine = CognitiveEcologyEngine(memory_controller=mc, causal_spine=causal_spine)
+
+    raw_wave = b"Tesla Causal Vector Information Flow"
+    concept = "PredatorAvoidance"
+
+    simulated_reality = {
+        "reality_vector": np.array([0.8, 0.2, 0.9, 0.1, 0.5], dtype=np.float32)
+    }
+
+    # First cycle: No Base Axiom grounded yet
+    report_1 = engine.process_ecology_breath(
+        concept_key=concept,
+        raw_wave=raw_wave,
+        simulated_reality=simulated_reality
+    )
+
+    assert report_1["meta_reflection"]["active"] is True
+    assert report_1["grounded_base_axiom"] is not None
+    assert report_1["base_axiom_applied"] is False  # Was not applied in cycle 1 before grounding
+
+    # Verify that CausalSpine now has the Base Axiom grounded
+    grounded_axiom = causal_spine.get_base_axiom(concept)
+    assert grounded_axiom is not None
+    assert grounded_axiom.concept_key == concept
+
+    # Second cycle: Base Axiom is now present in CausalSpine and must constrain agent projections (Downward Projection)
+    report_2 = engine.process_ecology_breath(
+        concept_key=concept,
+        raw_wave=raw_wave,
+        simulated_reality=simulated_reality
+    )
+
+    assert report_2["base_axiom_applied"] is True
+
+    # Check projection of an agent directly to confirm Base Axiom tensor constraint
+    x = np.array([1.0, 1.0, 1.0, 1.0, 1.0], dtype=np.float32)
+    unconstrained_proj = engine.agents["Causalist"].project(x, base_axiom_tensor=None)
+    constrained_proj = engine.agents["Causalist"].project(x, base_axiom_tensor=grounded_axiom.invariant_matrix)
+
+    # Constrained projection must differ from unconstrained projection as it includes Base Axiom structural constraints
+    assert not np.allclose(unconstrained_proj, constrained_proj)

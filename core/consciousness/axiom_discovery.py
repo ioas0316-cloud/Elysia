@@ -13,6 +13,20 @@ from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
 
 @dataclass
+class BaseAxiom:
+    """
+    [Layer 1 Base Axiom Invariant Tensor]
+    Represents an immutable/grounded axiom tensor in CausalSpine derived from ecological tension
+    and falsification testing. Constrains downstream agent projections (P_k).
+    """
+    axiom_id: str
+    concept_key: str
+    invariant_matrix: np.ndarray # High-confidence matrix representing grounded invariant boundary
+    strength: float = 1.0
+    grounded_at_cycle: int = 0
+    origin_pair: Optional[Tuple[str, str]] = None
+
+@dataclass
 class CandidatePrinciple:
     id: str
     name: str
@@ -211,6 +225,45 @@ class CausalSpine:
         # Latest calculated values
         self.latest_prediction_error: float = 0.0
         self.latest_action: np.ndarray = np.zeros(dimensions, dtype=np.float32)
+
+        # Grounded Base Axiom Tensors (1-Layer Axioms)
+        # concept_key -> BaseAxiom
+        self.base_axioms: Dict[str, BaseAxiom] = {}
+
+    def ground_base_axiom(
+        self,
+        concept_key: str,
+        invariant_matrix: np.ndarray,
+        strength: float = 1.0,
+        current_cycle: int = 0,
+        origin_pair: Optional[Tuple[str, str]] = None
+    ) -> BaseAxiom:
+        """
+        Crystallizes and grounds an ecological candidate principle into an unyielding 1-Layer Base Axiom.
+        This invariant tensor will constrain all downstream agent projections P_k.
+        """
+        axiom_id = f"axiom_{concept_key}_{current_cycle}"
+        inv_mat = np.array(invariant_matrix, dtype=np.float32)
+        base_axiom = BaseAxiom(
+            axiom_id=axiom_id,
+            concept_key=concept_key,
+            invariant_matrix=inv_mat,
+            strength=strength,
+            grounded_at_cycle=current_cycle,
+            origin_pair=origin_pair
+        )
+        self.base_axioms[concept_key] = base_axiom
+
+        # Modulate internal transition matrix with the newly grounded invariant tensor
+        min_dim = min(self.dimensions, inv_mat.shape[0])
+        self.transition_matrix[:min_dim, :min_dim] = (
+            self.transition_matrix[:min_dim, :min_dim] * 0.7 + inv_mat[:min_dim, :min_dim] * 0.3
+        )
+        return base_axiom
+
+    def get_base_axiom(self, concept_key: str) -> Optional[BaseAxiom]:
+        """Returns the grounded BaseAxiom for a concept if present."""
+        return self.base_axioms.get(concept_key)
 
     def predict(self) -> np.ndarray:
         """Generates Top-Down expectation based on current beliefs."""
