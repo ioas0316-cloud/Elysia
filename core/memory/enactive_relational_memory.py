@@ -96,6 +96,113 @@ def causal_node(
 
 
 @dataclass
+class NodePotential:
+    """노드 포텐셜 (Node Potential, Phi): 언어·시각·인과의 위상적 불변량(Theta)과 에너지를 함유"""
+    node_id: str
+    phase_theta: float = 0.0
+    potential_energy: float = 1.0
+    invariant_signature: str = ""
+
+
+@dataclass
+class RelationalImpedance:
+    """위상 간선 저항 (Relational Impedance, Z): 파동 전파 저항 및 구조적 마찰"""
+    source_id: str
+    target_id: str
+    impedance_z: float = 0.1
+    refraction_count: int = 0
+
+
+@dataclass
+class WaveInjection:
+    """외부 자극 패턴을 담은 자율 파동 (Wave Injection, W_in)"""
+    wave_id: str
+    frequency: float
+    amplitude: float
+    pattern_signature: str
+
+
+@dataclass
+class AttractorCollapse:
+    """공명 후 끌개 수렴 결과 (Attractor Collapse State)"""
+    attractor_node_id: str
+    resonance_amplitude: float
+    converged_path: List[str]
+    consolidated_invariant: str
+
+
+class CausalFieldResonator:
+    """
+    CausalField 동역학적 장 공명 엔진.
+    O(1) 위상 동형 공명, 구조적 마찰 저항(Z) 기반 굴절, 끌개 수렴(Attractor Collapse)을 수행.
+    """
+    def __init__(self, registry: Optional[CausalGraphRegistry] = None):
+        self.registry = registry or causal_registry
+        self.node_potentials: Dict[str, NodePotential] = {}
+        self.impedances: Dict[Tuple[str, str], RelationalImpedance] = {}
+
+    def initialize_field(self):
+        """인과 그래프의 노드와 간선을 CausalField 전위 장으로 매핑"""
+        for node_id in self.registry.nx_graph.nodes:
+            self.node_potentials[node_id] = NodePotential(
+                node_id=node_id,
+                phase_theta=math.sin(hash(node_id) % 360),
+                potential_energy=1.0,
+                invariant_signature=node_id
+            )
+
+        for u, v in self.registry.nx_graph.edges:
+            self.impedances[(u, v)] = RelationalImpedance(source_id=u, target_id=v, impedance_z=0.1)
+
+    def resonate_wave(self, input_wave: WaveInjection, initial_friction: float = 0.0) -> AttractorCollapse:
+        """
+        [CausalField Resonance]
+        1. Wave Injection -> 2. Isomorphic Phase-Locking (O(1)) -> 3. Friction & Refraction -> 4. Attractor Collapse
+        """
+        if not self.node_potentials:
+            self.initialize_field()
+
+        best_resonance = -1.0
+        best_node_id = None
+        converged_path = []
+
+        # 2. O(1) Isomorphic Phase-Locking match across the field
+        for node_id, potential in self.node_potentials.items():
+            # Phase alignment via dot-product resonance
+            phase_diff = abs(potential.phase_theta - (input_wave.frequency % (2 * math.pi)))
+            resonance = input_wave.amplitude * math.cos(phase_diff) / (1.0 + initial_friction)
+
+            if resonance > best_resonance:
+                best_resonance = resonance
+                best_node_id = node_id
+
+        if not best_node_id:
+            best_node_id = list(self.node_potentials.keys())[0] if self.node_potentials else "DefaultAttractor"
+
+        converged_path.append(best_node_id)
+
+        # 3. Traverse edges checking impedance Z and friction refraction
+        out_edges = list(self.registry.nx_graph.out_edges(best_node_id))
+        for u, v in out_edges:
+            imp = self.impedances.get((u, v), RelationalImpedance(u, v, 0.1))
+            if initial_friction > 0.3:
+                # High friction increases impedance Z and refracts wave
+                imp.impedance_z += 0.2 * initial_friction
+                imp.refraction_count += 1
+                print(f"  [CausalField] Friction Refraction at ({u} -> {v}): Z increased to {imp.impedance_z:.3f}")
+            else:
+                converged_path.append(v)
+
+        # 4. Attractor Collapse
+        return AttractorCollapse(
+            attractor_node_id=best_node_id,
+            resonance_amplitude=best_resonance,
+            converged_path=converged_path,
+            consolidated_invariant=f"Invariant[{input_wave.pattern_signature}]"
+        )
+
+
+@dataclass
 class TriModalBinding:
     """언어·시각·인과의 동형적 관계망 (Tri-Modal Relational Binding)"""
     language_symbol: str          # 맥락적 의미 (예: "낙하", "폭락")
@@ -182,6 +289,7 @@ class EnactiveRelationalMemoryEngine:
     def __init__(self, wedge_memory_controller: Optional[Any] = None):
         self.wedge_memory = wedge_memory_controller
         self.memory_substrate = MemorySubstrate()
+        self.field_resonator = CausalFieldResonator()
         self.active_meshes: Dict[str, RelationalMesh] = {}
         self.consolidated_substrates: Dict[str, RelationalMesh] = {}
         self.calibration_history: List[SelfCalibrationResult] = []

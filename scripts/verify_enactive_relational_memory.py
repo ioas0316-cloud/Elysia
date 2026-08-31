@@ -24,7 +24,10 @@ from core.memory.enactive_relational_memory import (
     SelfCalibrationResult,
     CausalGraphRegistry,
     causal_node,
-    causal_registry
+    causal_registry,
+    CausalFieldResonator,
+    WaveInjection,
+    AttractorCollapse
 )
 from core.lens.cognitive_lens_engine import CognitiveLensEngine
 from core.sensory.causal_sensor import CausalSensor
@@ -70,6 +73,30 @@ def test_topological_causal_graph_flow():
     assert final_ctx["memory_state"] == "CONSOLIDATED"
 
     print("✔ NetworkX Topological Causal Graph Execution PASSED!")
+
+
+def test_causal_field_resonance():
+    print("\n--- 0.1 Testing CausalField Wave Resonance & Attractor Collapse ---")
+    resonator = CausalFieldResonator()
+    resonator.initialize_field()
+
+    wave = WaveInjection(
+        wave_id="falling_stimulus_wave",
+        frequency=1.57,  # pi / 2
+        amplitude=1.0,
+        pattern_signature="downward_kinematic_descent"
+    )
+
+    collapse = resonator.resonate_wave(wave, initial_friction=0.1)
+
+    assert collapse.attractor_node_id is not None
+    assert collapse.resonance_amplitude > 0.0
+    assert len(collapse.converged_path) >= 1
+
+    print(f"✔ Wave Injection [{wave.wave_id}] resonated across CausalField.")
+    print(f"✔ Attractor collapsed to node: [{collapse.attractor_node_id}] (Resonance Amplitude: {collapse.resonance_amplitude:.3f})")
+    print(f"✔ Converged Path: {collapse.converged_path}")
+    print("✔ CausalField Wave Resonance & Attractor Collapse PASSED!")
 
 
 def test_cross_modal_relational_mapping():
@@ -201,6 +228,7 @@ if __name__ == "__main__":
     print(" Verifying Enactive Relational Memory Engine & Persistent Substrate ")
     print("==========================================================================")
     test_topological_causal_graph_flow()
+    test_causal_field_resonance()
     test_cross_modal_relational_mapping()
     test_enactive_self_calibration()
     test_memory_substrate_consolidation_and_warm_start()
