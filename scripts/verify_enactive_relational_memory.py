@@ -21,10 +21,55 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from core.memory.enactive_relational_memory import (
     EnactiveRelationalMemoryEngine,
     RelationalMesh,
-    SelfCalibrationResult
+    SelfCalibrationResult,
+    CausalGraphRegistry,
+    causal_node,
+    causal_registry
 )
 from core.lens.cognitive_lens_engine import CognitiveLensEngine
 from core.sensory.causal_sensor import CausalSensor
+
+
+def test_topological_causal_graph_flow():
+    print("\n--- 0. Testing Topological Causal Graph Execution Flow ---")
+
+    @causal_node(
+        name="TriModalBindingNode",
+        causes="EnactiveCalibrationNode",
+        relation="GENERATES_INVARIANTS",
+        node_type="MAPPING"
+    )
+    def step_binding(ctx):
+        ctx["invariants"] = {"topology": "downward_trajectory"}
+        return ctx
+
+    @causal_node(
+        name="EnactiveCalibrationNode",
+        causes="ConsolidateSubstrateNode",
+        relation="RECALIBRATES_UPON_FRICTION",
+        node_type="CALIBRATION"
+    )
+    def step_calibration(ctx):
+        ctx["calibrated"] = True
+        return ctx
+
+    @causal_node(
+        name="ConsolidateSubstrateNode",
+        causes=None,
+        node_type="MEMORY"
+    )
+    def step_consolidation(ctx):
+        ctx["memory_state"] = "CONSOLIDATED"
+        return ctx
+
+    initial_ctx = {"raw_trace": "falling_apple"}
+    final_ctx = causal_registry.execute_flow("TriModalBindingNode", initial_ctx)
+
+    assert final_ctx["invariants"]["topology"] == "downward_trajectory"
+    assert final_ctx["calibrated"] is True
+    assert final_ctx["memory_state"] == "CONSOLIDATED"
+
+    print("✔ NetworkX Topological Causal Graph Execution PASSED!")
 
 
 def test_cross_modal_relational_mapping():
@@ -155,6 +200,7 @@ if __name__ == "__main__":
     print("==========================================================================")
     print(" Verifying Enactive Relational Memory Engine & Persistent Substrate ")
     print("==========================================================================")
+    test_topological_causal_graph_flow()
     test_cross_modal_relational_mapping()
     test_enactive_self_calibration()
     test_memory_substrate_consolidation_and_warm_start()

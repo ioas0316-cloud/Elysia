@@ -20,10 +20,79 @@ Key Mechanics:
    this persistent foundation rather than starting from zero (statelessness).
 """
 
-from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional, Set, Tuple
-import time
+import functools
 import math
+import time
+from dataclasses import dataclass, field
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+import networkx as nx
+
+
+class CausalGraphRegistry:
+    """NetworkX 기반의 위상적 인과 그래프 레지스트리"""
+
+    def __init__(self):
+        self.nx_graph = nx.DiGraph()
+        self._node_functions: Dict[str, Callable] = {}
+
+    def register_node(self, name: str, func: Callable, meta: Dict[str, Any]):
+        self.nx_graph.add_node(name, **meta)
+        self._node_functions[name] = func
+
+    def register_edge(self, source: str, target: str, relation: str):
+        self.nx_graph.add_edge(source, target, relation=relation)
+
+    def execute_flow(self, start_node: str, context: Dict[str, Any]) -> Dict[str, Any]:
+        """텍스트 코드가 아닌 NetworkX 위상 경로를 따라 파동식 실행"""
+        current_node = start_node
+        visited = set()
+
+        while current_node and current_node not in visited:
+            visited.add(current_node)
+            func = self._node_functions[current_node]
+            node_data = self.nx_graph.nodes[current_node]
+
+            print(f"[Graph Flow] Node Execution: '{current_node}' (Type: {node_data.get('node_type')})")
+            context = func(context)
+
+            out_edges = list(self.nx_graph.out_edges(current_node, data=True))
+            if not out_edges:
+                break
+
+            next_edge = out_edges[0]
+            edge_relation = next_edge[2].get('relation', 'CAUSES')
+            print(f"  └─ ({edge_relation}) ──> Next: '{next_edge[1]}'")
+            current_node = next_edge[1]
+
+        return context
+
+
+causal_registry = CausalGraphRegistry()
+
+
+def causal_node(
+    name: str,
+    causes: Optional[str] = None,
+    relation: str = "CAUSES",
+    node_type: str = "TRANSFORMATION"
+):
+    """코드 정의 시점에 NetworkX 노드와 인과 간선을 자동으로 빌드하는 데코레이터"""
+    def decorator(func: Callable):
+        causal_registry.register_node(
+            name=name,
+            func=func,
+            meta={"node_type": node_type, "doc": func.__doc__}
+        )
+        if causes:
+            causal_registry.register_edge(source=name, target=causes, relation=relation)
+
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+
+        wrapper.node_name = name
+        return wrapper
+    return decorator
 
 
 @dataclass
