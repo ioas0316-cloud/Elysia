@@ -11,6 +11,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional
 import math
 from core.lens.cognitive_lens_engine import CognitiveLensEngine, ContextualDimension, RefractedObservation
+from core.memory.enactive_relational_memory import EnactiveRelationalMemoryEngine
 
 
 @dataclass
@@ -39,9 +40,10 @@ class PhenomenologicalResonance:
 class CausalSensor:
     """Active, self-forming sensor that projects observation axes into reality and self-calibrates."""
 
-    def __init__(self, sensor_id: str, lens_engine: CognitiveLensEngine):
+    def __init__(self, sensor_id: str, lens_engine: CognitiveLensEngine, relational_memory: Optional[EnactiveRelationalMemoryEngine] = None):
         self.sensor_id = sensor_id
         self.lens_engine = lens_engine
+        self.relational_memory = relational_memory
         self.axes: List[ObservationAxis] = self._form_initial_axes()
 
     def _form_initial_axes(self) -> List[ObservationAxis]:
@@ -88,9 +90,16 @@ class CausalSensor:
             recommended_curvature_delta=curvature_delta
         )
 
-    def self_calibrate(self, friction_result: FrictionResult):
+    def self_calibrate(self, friction_result: FrictionResult, entity_id: Optional[str] = None):
         """Calibrates lens engine curvatures based on reality friction feedback."""
         for dim in ContextualDimension:
             current_curvature = self.lens_engine.lenses[dim].curvature
             new_curvature = max(0.1, current_curvature + friction_result.recommended_curvature_delta)
             self.lens_engine.adjust_lens_curvature(dim, new_curvature)
+
+        if entity_id and self.relational_memory and entity_id in self.relational_memory.active_meshes:
+            self.relational_memory.enact_self_calibration(
+                entity_id=entity_id,
+                external_reality_feedback={"world_friction": friction_result.friction_magnitude}
+            )
+            self.relational_memory.consolidate_to_substrate(entity_id=entity_id)
