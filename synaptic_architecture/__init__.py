@@ -32,3 +32,12 @@ from .causal_reframing_engine import (
     DeconstructedCausalStructure,
     CausalReframingEngine
 )
+
+from .topological_volumetric_architecture import (
+    VolumetricPolytope,
+    TopologicalSpaceEngine,
+    SpacetimeTensorLayer4D,
+    DynamicTopologicalRelaxationEngine,
+    benchmark_flash_attention,
+    benchmark_4d_spacetime_tensor
+)
