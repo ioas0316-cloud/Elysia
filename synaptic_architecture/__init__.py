@@ -41,3 +41,16 @@ from .topological_volumetric_architecture import (
     benchmark_flash_attention,
     benchmark_4d_spacetime_tensor
 )
+
+from .topological_rk4_autograd import (
+    TopologicalRK4Function,
+    TopologicalRK4Layer
+)
+
+from .predictive_coding import (
+    PredictiveCodingNet
+)
+
+from .continuous_attractor_field import (
+    ContinuousAttractorField
+)
