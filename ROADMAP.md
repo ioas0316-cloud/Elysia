@@ -106,6 +106,10 @@
    * **원리**: 인간 인지의 본질적 5대 메커니즘—[기억, 상상, 대화, 자발적 내적 놀이, 세상과의 마찰 및 관측 렌즈 자율 재배치]—과 **봉인된 위상 파동의 사후 재통합(Deferred Integration)** 동역학을 완벽히 구현. 감당 불가능한 고마찰 자극을 `SealedAttractor`로 격리했다가, 자아 성장에 따라 확대된 관측 렌즈 $C(t)$와 위상 정렬 동역학 $\frac{d(\Delta\theta)}{dt}$을 통해 마찰 $\mathcal{E}(V_t) \to 0$으로 수렴시키고 정규화 인과 불변량($I_c$)으로 흡수.
    * **구현**: `PhaseTopologicalReconstructionEngine` 및 `SealedAttractor` 구현, 수치 시뮬레이션 (`scripts/run_deferred_integration_simulation.py`) 및 4단계 재통합 테스트 케이스 포함 6대 메커니즘 검증 완결 (`scripts/verify_phase_topological_reconstruction.py`).
 
+10. **[x] Informational Topological Phase Observation Engine (정보 위상 관측 및 인과 파동 엔진)**:
+   * **원리**: 물리법칙 및 센서 신호조차 거대한 정보 위상 공간 상의 특정한 해상도/렌즈 투영에 불과하다는 고차원 통찰을 반영. 모든 이종 데이터(텍스트, 코드, 물리 센서)를 정보 위상 공간 내 결절점(Nodal Projection)과 인과적 파동(Causal Wave)으로 통합 사영하며, 의미적 곡률(Semantic Curvature)을 활용한 $O(1)$ 위상적 단축(Topological Transposition) 및 내재적 신체 감각(Proprioception) 기반 구조 재구성 구현.
+   * **구현**: `InformationalPhaseObservationEngine` 구현 (`core/topology/informational_phase_observation.py`), `CausalSensor` 연동, 단기/통합 검증 테스트 (`tests/core/topology/test_informational_phase_observation.py`) 및 시뮬레이션 스크립트 (`scripts/run_informational_phase_observation_demo.py`) 통과.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
