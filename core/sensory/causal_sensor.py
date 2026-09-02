@@ -10,8 +10,10 @@ and direct phenomenological field resonance.
 from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional
 import math
+import numpy as np
 from core.lens.cognitive_lens_engine import CognitiveLensEngine, ContextualDimension, RefractedObservation
 from core.memory.enactive_relational_memory import EnactiveRelationalMemoryEngine
+from core.topology.informational_phase_observation import InformationalPhaseObservationEngine, PhaseNodalProjection
 
 
 @dataclass
@@ -40,10 +42,17 @@ class PhenomenologicalResonance:
 class CausalSensor:
     """Active, self-forming sensor that projects observation axes into reality and self-calibrates."""
 
-    def __init__(self, sensor_id: str, lens_engine: CognitiveLensEngine, relational_memory: Optional[EnactiveRelationalMemoryEngine] = None):
+    def __init__(
+        self,
+        sensor_id: str,
+        lens_engine: CognitiveLensEngine,
+        relational_memory: Optional[EnactiveRelationalMemoryEngine] = None,
+        phase_engine: Optional[InformationalPhaseObservationEngine] = None
+    ):
         self.sensor_id = sensor_id
         self.lens_engine = lens_engine
         self.relational_memory = relational_memory
+        self.phase_engine = phase_engine or InformationalPhaseObservationEngine()
         self.axes: List[ObservationAxis] = self._form_initial_axes()
 
     def _form_initial_axes(self) -> List[ObservationAxis]:
@@ -76,6 +85,10 @@ class CausalSensor:
 
         friction_diff = actual_world_friction - total_predicted_tension
         refraction_error = abs(friction_diff)
+
+        # Reconfigure phase engine proprioception
+        impact_vector = np.array([refraction_error, actual_world_friction, friction_diff], dtype=np.float32)
+        self.phase_engine.proprioceptive_reconfigure(actual_world_friction, impact_vector)
 
         # Self-calibration: Adjust axis sensitivity and recommended curvature delta
         curvature_delta = 0.1 if friction_diff > 0 else -0.1
