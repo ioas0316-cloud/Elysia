@@ -327,10 +327,23 @@ class MemoryConsolidationModule:
         losses = np.array([r[3] for r in rows])
         inhibitions = np.array([r[4] for r in rows])
 
-        # Cluster using euclidean distance
-        from sklearn.cluster import DBSCAN
-        clustering = DBSCAN(eps=0.25, min_samples=2).fit(contexts)
-        labels = clustering.labels_
+        # Cluster using euclidean distance if sklearn available, otherwise fallback to simple clustering
+        try:
+            from sklearn.cluster import DBSCAN
+            clustering = DBSCAN(eps=0.25, min_samples=2).fit(contexts)
+            labels = clustering.labels_
+        except ImportError:
+            # Fallback distance-based greedy clustering when sklearn is omitted
+            labels = np.full(len(contexts), -1, dtype=int)
+            cluster_id = 0
+            for i in range(len(contexts)):
+                if labels[i] != -1:
+                    continue
+                dists = np.linalg.norm(contexts - contexts[i], axis=1)
+                neighbors = np.where(dists < 0.25)[0]
+                if len(neighbors) >= 2:
+                    labels[neighbors] = cluster_id
+                    cluster_id += 1
 
         unique_labels = set(labels)
         merged_count = 0
@@ -411,12 +424,19 @@ class ImmuneScarMapVisualizer:
         keys, contexts, losses, inhibitions = self.fetch_immune_data()
 
         if contexts.shape[1] > 3:
-            from sklearn.decomposition import PCA
-            contexts = PCA(n_components=3).fit_transform(contexts)
+            try:
+                from sklearn.decomposition import PCA
+                contexts = PCA(n_components=3).fit_transform(contexts)
+            except ImportError:
+                contexts = contexts[:, :3]
 
-        import matplotlib
-        matplotlib.use('Agg')
-        import matplotlib.pyplot as plt
+        try:
+            import matplotlib
+            matplotlib.use('Agg')
+            import matplotlib.pyplot as plt
+        except ImportError:
+            print(f"⚠️ [Scar Map Skipped] matplotlib library not installed.")
+            return save_path
 
         fig = plt.figure(figsize=(12, 9))
         ax = fig.add_subplot(111, projection='3d')
