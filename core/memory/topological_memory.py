@@ -66,7 +66,9 @@ class TopologicalMemory:
         """
         기존 인과 축 및 노드 분포로부터 역사적 참조면(Reference Plane Lens S) 반환
         """
-        return self.gate.S.copy()
+        # gate.S is shape (dimension, subspace_dim), e.g. (8, 4)
+        # historical reference plane lens is reconstructed as full subspace projection matrix S @ S.T: (dimension, dimension)
+        return self.gate.S @ self.gate.S.T
 
     def process_and_rewire(
         self,
