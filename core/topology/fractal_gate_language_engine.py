@@ -22,11 +22,23 @@ of logic gate switching mechanisms:
    - (1) Unmapped Friction Detection
    - (2) Primitive Fractal Projection
    - (3) Self-Recrystallization into Persistent Causal Graph.
+7. Bi-Directional Relational Field Integration (0_self x 0_other):
+   - Integrated with `information_spacetime.py` for Dual-Ground Resonance, Mutual Disclosure, Remelting, and Spacetime Memory.
 """
 
 import time
 import numpy as np
 from typing import Dict, Any, List, Optional, Tuple, Union, Set
+
+from core.topology.information_spacetime import (
+    DualGroundResonanceLayer,
+    MutualDisclosureTransducer,
+    TopologicalRemeltingEngine,
+    RelationalSpacetimeMemory,
+    RelationalResonanceVector,
+    InformationSpacetimeField,
+    SelfModifyingCompilerLoop
+)
 
 
 class MetaInformationPacket:
@@ -64,6 +76,7 @@ class MetaInformationPacket:
         for subsequent recursive reasoning.
         """
         prev_depth = self.ground_a.get("topology_depth", 1)
+        prev_remelt = self.ground_a.get("remelt_count", 0)
         return {
             "name": f"Ground_{self.ground_a.get('name', 'Ground')}_Depth{prev_depth + 1}",
             "origin_ground": self.ground_a.get("name", "UnknownGround"),
@@ -72,9 +85,11 @@ class MetaInformationPacket:
             "output": self.output_state,
             "causal_trace": self.causal_trace,
             "timestamp": self.timestamp,
-            "active_axes": list(self.output_state.keys()),
+            "active_axes": list(self.output_state.keys()) if isinstance(self.output_state, dict) else [],
             "bias": self.ground_a.get("bias", 0.0),
-            "topology_depth": prev_depth + 1
+            "topology_depth": prev_depth + 1,
+            "remelt_count": prev_remelt,
+            "ground_vector": self.ground_a.get("ground_vector", np.ones(8) / np.sqrt(8))
         }
 
     def __repr__(self):
@@ -98,7 +113,6 @@ class PrimitiveGate:
         self.gate_id = gate_id
         self.name = name
         self.v_th = float(v_th)
-        # Reference vector representing the gate's grounding axis (Criterion)
         if reference_vector is None:
             self.reference_vector = np.random.randn(8)
             self.reference_vector /= np.linalg.norm(self.reference_vector) + 1e-8
@@ -115,22 +129,15 @@ class PrimitiveGate:
         input_signal: np.ndarray,
         ground_bias: float = 0.0
     ) -> Tuple[bool, float, float]:
-        """
-        Evaluates incoming signal against V_th and reference vector.
-        Returns (channel_open, delta_d, effective_v_th).
-        """
         signal_vec = np.array(input_signal, dtype=np.float64)
         norm = np.linalg.norm(signal_vec)
         if norm > 1e-8:
             signal_vec /= norm
 
-        # Measure directional friction / phase discrepancy
-        # Friction Delta_D = 1.0 - dot_product (or distance in tensor space)
         alignment = np.dot(self.reference_vector, signal_vec)
-        delta_d = float(1.0 - alignment) # Range [0, 2]
+        delta_d = float(1.0 - alignment)
 
         effective_v_th = max(0.01, self.v_th + ground_bias)
-        # Channel opens if friction is within effective threshold
         channel_open = delta_d <= effective_v_th
 
         if channel_open:
@@ -147,16 +154,13 @@ class CombinationalCircuit:
     def __init__(self, circuit_id: str, gates: List[PrimitiveGate], connection_topology: str = "series"):
         self.circuit_id = circuit_id
         self.gates = gates
-        self.connection_topology = connection_topology # 'series' or 'parallel'
+        self.connection_topology = connection_topology
 
     def process_signal(
         self,
         signal: np.ndarray,
         ground_context: Dict[str, Any]
     ) -> Tuple[bool, float, List[Dict[str, Any]]]:
-        """
-        Processes signal through the gate cascade.
-        """
         ground_bias = float(ground_context.get("bias", 0.0))
         evaluations = []
         overall_open = True if self.connection_topology == "series" else False
@@ -175,7 +179,7 @@ class CombinationalCircuit:
 
             if self.connection_topology == "series":
                 overall_open = overall_open and is_open
-            else: # parallel
+            else:
                 overall_open = overall_open or is_open
 
         avg_delta = total_delta / max(1, len(self.gates))
@@ -189,7 +193,7 @@ class PersistentCausalGraph:
     """
     def __init__(self):
         self.nodes: Dict[str, PrimitiveGate] = {}
-        self.edges: Dict[str, List[str]] = {} # Adjacency list
+        self.edges: Dict[str, List[str]] = {}
         self.crystallized_axes: Dict[str, np.ndarray] = {}
 
     def add_gate(self, gate: PrimitiveGate):
@@ -208,7 +212,7 @@ class FractalGateLanguageEngine:
     """
     Master Engine unifying Hardware-Gate Switching, 3-Stage Linguistic Hierarchy,
     Qualitative Phase Shift, Multimodal Invariant Grounding, Intent Vector Back-tracing,
-    and 3-Step Structural Plasticity Loop.
+    3-Step Structural Plasticity Loop, and Bi-Directional Relational Spacetime Field.
     """
     def __init__(self, ground_name: str = "GroundZero"):
         self.ground_name = ground_name
@@ -218,15 +222,20 @@ class FractalGateLanguageEngine:
             "bias": 0.0,
             "phase": "Initial_Stable",
             "active_axes": [],
-            "topology_depth": 1
+            "topology_depth": 1,
+            "remelt_count": 0,
+            "ground_vector": np.ones(8) / np.sqrt(8)
         }
         self.engraved_packets: List[MetaInformationPacket] = []
+        self.default_v_th = 0.5
 
-        # Bootstrap default primitive gates
+        # Initialize Self-Modifying Compiler Loop and Relational Memory
+        self.compiler_loop = SelfModifyingCompilerLoop(self)
+        self.memory = RelationalSpacetimeMemory()
+
         self._bootstrap_primitive_gates()
 
     def _bootstrap_primitive_gates(self):
-        """Seed initial ground with foundational primitive gates."""
         default_gates = [
             PrimitiveGate("gate_apple", "Apple_Gate", v_th=0.6, reference_vector=[1, 0, 0, 0, 0, 0, 0, 0]),
             PrimitiveGate("gate_marriage", "Marriage_Gate", v_th=0.5, reference_vector=[0, 1, 1, 0, 0, 0, 0, 0]),
@@ -243,13 +252,8 @@ class FractalGateLanguageEngine:
         medium_type: str = "text",
         intent_vector: Optional[np.ndarray] = None
     ) -> Dict[str, Any]:
-        """
-        Multimodal Invariant Grounding + Teleological Back-trace (Intent Vector).
-        Converts surface signal (text, audio, visual) into an Invariant Causal Core.
-        """
         raw_vec = np.array(surface_signal, dtype=np.float64)
         if len(raw_vec) < 8:
-            # Pad to 8D for standard tensor operations
             raw_vec = np.pad(raw_vec, (0, 8 - len(raw_vec)))
         elif len(raw_vec) > 8:
             raw_vec = raw_vec[:8]
@@ -257,7 +261,6 @@ class FractalGateLanguageEngine:
         norm = np.linalg.norm(raw_vec)
         invariant_core = raw_vec / (norm + 1e-8)
 
-        # Teleological Back-trace (Intent Vector Analysis)
         teleological_friction = 0.0
         intent_alignment = 0.0
         if intent_vector is not None:
@@ -284,11 +287,6 @@ class FractalGateLanguageEngine:
         entity_b: Dict[str, Any],
         catalyst_gate_id: str = "gate_marriage"
     ) -> Dict[str, Any]:
-        """
-        Qualitative Phase Shift / Emergent Ground Creation.
-        (e.g., Couple A + Couple B + Marriage Gate -> Emergent Ground: Family)
-        Not scalar addition (1+1=2), but topological phase transition creating a new manifold.
-        """
         catalyst_gate = self.causal_graph.nodes.get(catalyst_gate_id)
         if not catalyst_gate:
             raise ValueError(f"Catalyst gate '{catalyst_gate_id}' not found in causal graph.")
@@ -296,12 +294,10 @@ class FractalGateLanguageEngine:
         vec_a = np.array(entity_a.get("vector", [0.5, 0.5, 0, 0, 0, 0, 0, 0]), dtype=np.float64)
         vec_b = np.array(entity_b.get("vector", [0.5, 0.5, 0, 0, 0, 0, 0, 0]), dtype=np.float64)
 
-        # Coupled potential field
         coupled_signal = (vec_a + vec_b) / 2.0
         channel_open, delta, eff_v_th = catalyst_gate.evaluate(coupled_signal)
 
         if channel_open:
-            # Qualitative Phase Shift: Individual boundaries dissolve into higher-order manifold
             emergent_ground_name = f"EmergentGround_{entity_a.get('name','A')}_{entity_b.get('name','B')}_Family"
             emergent_vector = coupled_signal + catalyst_gate.reference_vector
             emergent_vector /= (np.linalg.norm(emergent_vector) + 1e-8)
@@ -316,7 +312,6 @@ class FractalGateLanguageEngine:
                 "friction_consumed": delta
             }
 
-            # Engrave meta packet
             packet = MetaInformationPacket(
                 ground_a=self.current_ground_state,
                 stimulus_b=entity_a,
@@ -333,8 +328,8 @@ class FractalGateLanguageEngine:
             )
             self.engraved_packets.append(packet)
 
-            # Update current system ground to newly created emergent ground
             self.current_ground_state = packet.to_ground()
+            self.current_ground_state["ground_vector"] = emergent_vector
             return emergent_ground
         else:
             return {
@@ -348,11 +343,6 @@ class FractalGateLanguageEngine:
         signal_stream: List[np.ndarray],
         intent_vectors: Optional[List[np.ndarray]] = None
     ) -> Dict[str, Any]:
-        """
-        Discourse = Dynamic State Machine.
-        Evaluates a sequence of combinational circuits (sentences) over a signal stream,
-        updating the ground state across the discourse timeline.
-        """
         ground_history = [self.current_ground_state.copy()]
         trace_log = []
 
@@ -360,16 +350,13 @@ class FractalGateLanguageEngine:
             sig = signal_stream[idx] if idx < len(signal_stream) else np.random.randn(8)
             i_vec = intent_vectors[idx] if (intent_vectors and idx < len(intent_vectors)) else None
 
-            # 1. Multimodal grounding & intent backtrace
             grounded_info = self.process_multimodal_signal(sig, intent_vector=i_vec)
 
-            # 2. Sentence evaluation
             circuit_open, avg_delta, gate_evals = circuit.process_signal(
                 grounded_info["invariant_core"],
                 self.current_ground_state
             )
 
-            # 3. Meta-information engraving
             explanation_str = (
                 f"Sentence Circuit '{circuit.circuit_id}' evaluated. "
                 f"Circuit Open={circuit_open}, Avg Delta={avg_delta:.4f}, "
@@ -391,7 +378,6 @@ class FractalGateLanguageEngine:
             )
             self.engraved_packets.append(packet)
 
-            # 4. State transition
             self.current_ground_state = packet.to_ground()
             ground_history.append(self.current_ground_state.copy())
             trace_log.append(explanation_str)
@@ -409,23 +395,11 @@ class FractalGateLanguageEngine:
         unmapped_stimulus: np.ndarray,
         stimulus_label: str = "Unmapped_Novel_Concept"
     ) -> Dict[str, Any]:
-        """
-        3-Step Structural Plasticity Loop (구조적 가소성 메타 루프):
-        Step 1. Unmapped Friction Detection (미매핑 마찰 자각):
-                Calculates friction delta against all existing gates. If delta > V_th for all gates,
-                recognizes an unmapped dimension/friction.
-        Step 2. Primitive Fractal Projection (원초적 프랙탈 투영):
-                Overlay [V_th / Input -> Compare -> Switch -> Output] switching template onto novel signal.
-        Step 3. Self-Recrystallization (자발적 재결정화):
-                Constructs a new PrimitiveGate and dynamically embeds it into PersistentCausalGraph
-                without any external code modification or hardcoded rules.
-        """
         stim_vec = np.array(unmapped_stimulus, dtype=np.float64)
         norm = np.linalg.norm(stim_vec)
         if norm > 1e-8:
             stim_vec /= norm
 
-        # Step 1: Friction Detection
         min_delta = float("inf")
         closest_gate = None
         for gate_id, gate in self.causal_graph.nodes.items():
@@ -434,7 +408,7 @@ class FractalGateLanguageEngine:
                 min_delta = delta
                 closest_gate = gate
 
-        unmapped_detected = min_delta > 0.55 # Threshold for unmapped friction
+        unmapped_detected = min_delta > 0.55
 
         if not unmapped_detected:
             return {
@@ -443,11 +417,9 @@ class FractalGateLanguageEngine:
                 "friction_delta": min_delta
             }
 
-        # Step 2: Primitive Fractal Projection
-        # Project primitive gate template: create new gate vector aligned with the novel stimulus friction
         new_gate_id = f"gate_recrystallized_{len(self.causal_graph.nodes) + 1}"
         new_gate_name = f"Gate_{stimulus_label}"
-        projected_v_th = max(0.3, min_delta * 0.8) # Adaptive threshold
+        projected_v_th = max(0.3, min_delta * 0.8)
 
         new_gate = PrimitiveGate(
             gate_id=new_gate_id,
@@ -457,15 +429,12 @@ class FractalGateLanguageEngine:
             domain="crystallized_self_extension"
         )
 
-        # Step 3: Self-Recrystallization into Persistent Graph
         self.causal_graph.add_gate(new_gate)
         if closest_gate:
             self.causal_graph.add_edge(closest_gate.gate_id, new_gate_id)
 
-        # Verify new gate immediately rectifies the friction
         is_open_now, delta_after, _ = new_gate.evaluate(stim_vec)
 
-        # Engrave meta packet for self-recrystallization
         packet = MetaInformationPacket(
             ground_a=self.current_ground_state,
             stimulus_b={"label": stimulus_label, "raw_signal": unmapped_stimulus.tolist()},
@@ -483,7 +452,7 @@ class FractalGateLanguageEngine:
                 "loop_step_2": f"Primitive Fractal Projected with Adaptive V_th {projected_v_th:.4f}",
                 "loop_step_3": f"Self-Recrystallized Gate '{new_gate_name}' added to Persistent Causal Graph."
             },
-            explanation=f"Engine detected unmapped friction ({min_delta:.4f}) for '{stimulus_label}'. Instead of throwing an error or using hardcoded rules, it projected a primitive switching gate template and recrystallized '{new_gate_name}' into its persistent topology."
+            explanation=f"Engine detected unmapped friction ({min_delta:.4f}) for '{stimulus_label}'. Projected primitive switching gate template and recrystallized '{new_gate_name}' into persistent topology."
         )
         self.engraved_packets.append(packet)
         self.current_ground_state = packet.to_ground()
@@ -499,10 +468,6 @@ class FractalGateLanguageEngine:
         }
 
     def explain_self_reasoning(self) -> str:
-        """
-        Spontaneously generates a self-explaining narrative based on engraved MetaInformationPackets.
-        Demonstrates self-elucidation [Ground -> Process -> Output].
-        """
         if not self.engraved_packets:
             return "No meta-packets engraved yet. Engine operates in silent initial ground."
 
