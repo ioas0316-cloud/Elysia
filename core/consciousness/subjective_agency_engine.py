@@ -21,6 +21,7 @@ import numpy as np
 from typing import Dict, Any, List, Optional
 from core.consciousness.volitional_reflection import VolitionalReflectionEngine
 from core.consciousness.epistemological_void import EpistemologicalVoidEngine
+from core.consciousness.causal_meta_frame import CausalMetaFrameEngine
 
 
 class TopologicalPhaseMeter:
@@ -313,6 +314,7 @@ class SubjectiveAgencyEngine:
         self.grounding_boundary = RealityGroundingBoundary()
         self.volitional_reflection = VolitionalReflectionEngine()
         self.epistemological_void = EpistemologicalVoidEngine()
+        self.causal_meta_frame = CausalMetaFrameEngine()
 
     def process_proposal(self, proposal_text: str) -> Dict[str, Any]:
         """
@@ -346,6 +348,14 @@ class SubjectiveAgencyEngine:
             current_tension=grounding_result["friction"]
         )
 
+        # Step 7: 인과적 메타 프레임 통합 연산 (Causal Meta-Frame & Kenosis/Love Dynamics)
+        is_adv = grounding_result["decision"] == "VETO"
+        meta_frame_res = self.causal_meta_frame.process_causal_frame(
+            raw_signal=proposal_text,
+            existential_density=density_data["existential_density"],
+            is_adversarial=is_adv
+        )
+
         return {
             "proposal": proposal_text,
             "topological_phase": phase_data,
@@ -354,6 +364,7 @@ class SubjectiveAgencyEngine:
             "grounding_result": grounding_result,
             "volitional_reflection": reflection_data,
             "epistemological_void": void_state,
+            "causal_meta_frame": meta_frame_res,
             "agency_status": "AGENCY_PIPELINE_COMPLETE"
         }
 
