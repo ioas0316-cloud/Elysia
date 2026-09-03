@@ -149,3 +149,7 @@ class EpistemologicalVoidEngine:
                 pass
 
         return void_result
+
+
+# Alias for backwards/forward compatibility
+EpistemologicalVoid = EpistemologicalVoidEngine
