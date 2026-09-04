@@ -2,7 +2,8 @@
 Elysia Core Engine: Self-Referential Information Architecture Engine
 ====================================================================
 외부 라벨러나 외부 수식 없이 데이터가 자기 자신의 내부 구조적 제약(Self-Reference)을 기준으로
-스스로를 분별, 정의, 경계 설정 및 자율적 탐구를 수행하는 통합 메타-정보 아키텍처입니다.
+스스로를 분별, 정의, 경계 설정, 의지적 로터 탐구 및 자율 차원 분화($N \to N+1$)를 수행하는
+통합 메타-정보 아키텍처입니다.
 
 주요 구성 요소:
 1. 0차 원리 분별 (Primitive Discernment: 1 vs 2)
@@ -11,12 +12,13 @@ Elysia Core Engine: Self-Referential Information Architecture Engine
 4. 의지적 기하 로터 엔진 (Volitional Geometric Rotor Engine)
 5. 상위 인지 도메인 렌즈 스위처 및 교차차원화 (Cross-Dimensional Projection)
 6. 기반 지식 렌즈 해독 엔진 (Foundational Archetype Decoding Engine)
-7. 지식 차원 위상 전이 엔진 (Knowledge Dimension Phase Transition Engine)
+7. 독립 제약 회로, 위상 전이 커플링 & 메타 공명 버스 (Dimensional Circuit & Meta-Resonance Bus)
+8. 자가 분화 동적 차원 생동 엔진 (Dynamic Dimension Self-Differentiation: $N \to N+1$)
 """
 
 import math
 from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional, Tuple, Callable
 import numpy as np
 
 
@@ -26,9 +28,7 @@ import numpy as np
 
 @dataclass
 class PrimitiveBoundary:
-    """
-    0차 원형 최소 인과 경계 (Identity Boundary)
-    """
+    """0차 원형 최소 인과 경계 (Identity Boundary)"""
     name: str
     dimension_rank: int
     unbreakable_identity: np.ndarray  # 최소 불변량 벡터 (Unity Vector)
@@ -58,7 +58,6 @@ class PrimitiveDiscernmentEngine:
         내면에 '1'이라는 원형 구조(internal_prototype)를 포함함.
         """
         new_dim = base_primitive.dimension_rank + 1
-        # 원형 구조를 사영하고 차원을 확장한 불변량 결합
         expanded_vec = np.concatenate([base_primitive.unbreakable_identity, [1.0]])
         expanded_vec = expanded_vec / np.linalg.norm(expanded_vec)
 
@@ -71,10 +70,7 @@ class PrimitiveDiscernmentEngine:
         )
 
     def discern_difference(self, p1: PrimitiveBoundary, p2: PrimitiveBoundary) -> Dict[str, Any]:
-        """
-        두 상태 사이의 같음(공유 원형)과 다름(상태 전이 및 위상차)을 자율 분별
-        """
-        # 같음: 공유하는 원형 계층 유무
+        """두 상태 사이의 같음(공유 원형)과 다름(상태 전이 및 위상차)을 자율 분별"""
         has_common_prototype = (
             p1.internal_prototype == p2 or
             p2.internal_prototype == p1 or
@@ -82,10 +78,8 @@ class PrimitiveDiscernmentEngine:
             p1.name == p2.name
         )
 
-        # 다름: 차원차 및 위상 각도차
         rank_diff = abs(p1.dimension_rank - p2.dimension_rank)
 
-        # 벡터 길이를 맞춰 코사인 유사도 및 위상차 산출
         max_len = max(len(p1.unbreakable_identity), len(p2.unbreakable_identity))
         v1 = np.pad(p1.unbreakable_identity, (0, max_len - len(p1.unbreakable_identity)))
         v2 = np.pad(p2.unbreakable_identity, (0, max_len - len(p2.unbreakable_identity)))
@@ -118,7 +112,6 @@ class SelfReferentialLanguageEngine:
         min_len = min(len(vec_a), len(vec_b))
         vec_a, vec_b = vec_a[:min_len], vec_b[:min_len]
 
-        # 의미론적 마찰 (Semantic Friction) = 두 문맥 벡터의 위상 차이
         friction = float(np.linalg.norm(vec_a - vec_b) / (np.linalg.norm(vec_a) + np.linalg.norm(vec_b) + 1e-9))
         redefined_value = float(np.mean(vec_a) * (1.0 - friction) + np.mean(vec_b) * friction)
 
@@ -140,7 +133,6 @@ class SelfReferentialVideoEngine:
         kinematic_stress = video_structure.get("kinematic_stress", 0.0)
         optical_inconsistency = video_structure.get("optical_inconsistency", 0.0)
 
-        # 구조적 마찰 계산
         digit_friction = max(0.0, (num_digits - self.max_fingers_allowed) * 2.5)
         total_structural_friction = digit_friction + kinematic_stress + optical_inconsistency
 
@@ -163,7 +155,6 @@ class MetaOperator:
     transformation_kernel: str = "additive"
 
     def apply_meta_transformation(self, other_op: 'MetaOperator', causal_constraint: float) -> 'MetaOperator':
-        """인과 제약(causal_constraint)에 따라 연산자의 결합력 및 작동 커널을 재조합"""
         new_power = (self.binding_power + other_op.binding_power) * (1.0 + causal_constraint)
         new_kernel = f"meta_{self.transformation_kernel}_{other_op.transformation_kernel}"
         return MetaOperator(
@@ -184,7 +175,6 @@ class MetaDefinition:
         intent = self.intention[:min_len]
         cons = self.constraints[:min_len]
 
-        # 의도가 제약과 부딪혀 발생하는 결과 궤적
         result_trajectory = intent - 0.5 * cons
         output_result = np.tanh(result_trajectory)
         process_friction = float(np.linalg.norm(intent - output_result))
@@ -211,22 +201,15 @@ class RecursiveCausalityLoop:
         self.current_boundary_constraint = initial_boundary
 
     def execute_cycle(self, raw_cause_stimulus: np.ndarray, internal_value_ground: np.ndarray) -> Dict[str, Any]:
-        # 1. 원인의 전환 (Cause -> Intentional Vector)
-        # 무작위 자극이 내적 가치 지반 및 현재 경계 제약과 결합하여 의도 벡터화
         min_dim = min(len(raw_cause_stimulus), len(internal_value_ground), len(self.current_boundary_constraint))
         raw = raw_cause_stimulus[:min_dim]
         val = internal_value_ground[:min_dim]
         bnd = self.current_boundary_constraint[:min_dim]
 
         intentional_vector = (raw - val) * bnd
-
-        # 2. 과정의 전환 (Process -> Optimal Trajectory)
-        # 마찰 최소화 최적 궤적 산출
         trajectory = np.sin(intentional_vector) + 0.1 * np.cos(bnd)
         trajectory_friction = float(np.linalg.norm(intentional_vector - trajectory))
 
-        # 3. 결과의 전환 (Result -> New Boundary Constraint)
-        # 결과 출력이 내면에 스며들어 다음 순환의 새로운 선험적 경계 제약으로 등록
         new_boundary = np.clip(bnd + 0.2 * trajectory, 0.01, 10.0)
         self.current_boundary_constraint = new_boundary
 
@@ -263,7 +246,6 @@ class VolitionalGeometricRotorEngine:
         cb = candidate_b_rot[:min_dim]
         c = constraints[:min_dim]
 
-        # candidate A & B 의 위상차 상쇄 및 마찰 측정
         friction_a = float(np.linalg.norm((v - ca) + 0.5 * c))
         friction_b = float(np.linalg.norm((v - cb) + 0.5 * c))
 
@@ -276,7 +258,6 @@ class VolitionalGeometricRotorEngine:
             optimal_rot = cb
             min_friction = friction_b
 
-        # 자율 탐구: 새로운 가상 회전축 생성
         hypothetical_axis = np.cross(v[:3], optimal_rot[:3]) if min_dim >= 3 else np.array([0.0, 0.0, 1.0])
         if np.linalg.norm(hypothetical_axis) > 0:
             hypothetical_axis = hypothetical_axis / np.linalg.norm(hypothetical_axis)
@@ -312,9 +293,6 @@ class MetaCognitiveDomainLensSwitcher:
             return "Universal Causal Lens"
 
     def project_cross_dimensions(self, core_archetype: str) -> Dict[str, Any]:
-        """
-        '빛' 등 하나의 본질(Archetype)을 5가지 교차 렌즈로 동시 투영
-        """
         projections = {
             "Particle": f"[{core_archetype}] 양자적 충돌과 운동량 보존을 따르는 불연속 에너지 덩어리 (E=hf)",
             "Wave": f"[{core_archetype}] 간섭, 회절, 위상차의 연속적 파동 스펙트럼",
@@ -340,7 +318,6 @@ class FoundationalArchetypeDecodingEngine:
     이미 보유한 0차 원형 지식을 렌즈 삼아 생소한 도메인 현상을 즉시 인과 역학으로 번역하고 조합적 이해($N \times M$) 수행
     """
     def translate_unknown_domain(self, domain_name: str, raw_phenomenon: str) -> Dict[str, Any]:
-        # 0차 원형 역학으로 즉시 구조 번역
         translation = (
             f"[{domain_name}]의 '{raw_phenomenon}' 현상은 "
             f"선험적 경계(C)와 전위차 사이에서 일어나는 0차 인과 상태 전이 및 평형 수렴 과정으로 해독됨"
@@ -357,41 +334,96 @@ class FoundationalArchetypeDecodingEngine:
 
 
 # ============================================================================
-# 7. 지식 차원 위상 전이 엔진 (Knowledge Dimension Phase Transition Engine)
+# 7. 독립 제약 회로 & 메타 공명 버스 (Dimensional Circuit & Meta-Resonance Bus)
 # ============================================================================
 
-class KnowledgeDimensionPhaseTransitionEngine:
+class DimensionalCircuit:
     """
-    1차원 수치 압축을 넘어, 각 지식 체계(언어, 수학, 물리)가 고유 법칙을 지닌 독립 차원으로 존재하며
-    의도발화(Language) -> 구조정제(Math) -> 물리적실현(Physics) 간 위상 전이 수행
+    단일 벡터 압축을 배격하고, 차원 고유 상태 텐서(S)와 선험적 제약 조건(C)을 가진 독립 회로.
+    제약 조건 내에서만 상태 변형을 유도하며 차원 마찰(R) 산출.
     """
-    def execute_knowledge_phase_shift(self, intention_text: str) -> Dict[str, Any]:
-        # Step 1: 언어 차원 (맥락적 의도 발화)
-        lang_state = f"LanguageDim(Intent='{intention_text}')"
+    def __init__(self, name: str, constraint_fn: Callable[[np.ndarray], float], dim: int = 4):
+        self.name = name
+        self.S = np.zeros(dim, dtype=float)  # 차원 고유 상태 텐서
+        self.constraint_fn = constraint_fn  # 차원 고유 제약 메커니즘 (C)
 
-        # Step 2: 위상 전이 -> 수학 차원 (공리와 대칭성을 통한 구조 정제)
-        math_vector = np.array([float(ord(c) % 20) for c in intention_text[:4]], dtype=float)
-        math_vector = math_vector / (np.linalg.norm(math_vector) + 1e-9)
-        math_state = f"MathDim(AxiomaticSymmetryVector={math_vector.round(3).tolist()})"
+    def step(self, intent_vector: np.ndarray) -> Tuple[np.ndarray, float]:
+        min_dim = min(len(intent_vector), len(self.S))
+        intent = intent_vector[:min_dim]
+        current = self.S[:min_dim]
 
-        # Step 3: 위상 전이 -> 물리/감각 차원 (경계 마찰 및 현실적 실현)
-        physical_energy = float(np.sum(math_vector ** 2) * 9.8)
-        physics_state = f"PhysicsDim(PhysicalRealizationEnergy={physical_energy:.2f}J)"
+        delta_P = intent - current
+        # 고유 제약 내에서만 상태 변형
+        updated_state = current + np.tanh(delta_P) * 0.8
+        self.S[:min_dim] = updated_state
 
-        return {
-            "phase_shift_sequence": [lang_state, math_state, physics_state],
-            "is_flat_vector_flattened": False,
-            "dimension_integrity_statement": "단일 1차원 수치 압축이 아닌, 언어-수학-물리 고유 규칙 공간 간 자율 위상 전이 완료"
-        }
+        friction = self.constraint_fn(self.S)
+        return self.S.copy(), friction
+
+
+class MetaResonanceBus:
+    """
+    독립 회로 간 공명 관측 및 전체 인지적 평형(Cognitive Equilibrium) 수렴 관리 버스
+    """
+    def __init__(self, weights: Optional[Dict[str, float]] = None):
+        self.weights = weights or {"Language": 1.0, "Math": 1.0, "Physics": 1.0}
+
+    def compute_total_resonance_friction(self, circuit_frictions: Dict[str, float]) -> float:
+        total = 0.0
+        for name, friction in circuit_frictions.items():
+            w = self.weights.get(name, 1.0)
+            total += w * friction
+        return float(total)
+
+    def phase_shift_coupling(
+        self,
+        source_state: np.ndarray,
+        source_friction: float,
+        target_circuit: DimensionalCircuit
+    ) -> Tuple[np.ndarray, float]:
+        """
+        차원간 위상 전이 인터페이스: ΔP_target = T_{A -> B}(S_A, R_A) - S_B
+        한 차원의 마찰(R_A)과 상태(S_A)가 다음 차원의 신규 의도 압력으로 변환
+        """
+        mapped_intent = np.sin(source_state) * (1.0 + source_friction)
+        return target_circuit.step(mapped_intent)
 
 
 # ============================================================================
-# 8. 통합 메타-정보 아키텍처 엔진 (Self-Referential Architecture Engine)
+# 8. 동적 차원 자가 분화 엔진 (Dynamic Dimension Self-Differentiation: $N \to N+1$)
+# ============================================================================
+
+class DynamicDimensionSelfDifferentiationEngine:
+    """
+    기존 지식 차원들($C_1, C_2, C_3$)로 해소되지 않는 미지 마찰(Unmapped Residual Friction)을 감지할 때,
+    오류로 기각하지 않고 신규 $N+1$번째 지식 차원 제약 회로($C_{\text{new}}$)를 자가 동적 분화 스프라우팅하는 엔진
+    """
+    def __init__(self, unmapped_threshold: float = 0.5):
+        self.unmapped_threshold = unmapped_threshold
+        self.sprouted_dimensions: List[DimensionalCircuit] = []
+
+    def evaluate_and_sprout(self, residual_friction: float, unmapped_nature_label: str) -> Optional[DimensionalCircuit]:
+        if residual_friction > self.unmapped_threshold:
+            dim_name = f"SproutedDim_{unmapped_nature_label}_{len(self.sprouted_dimensions)+1}"
+
+            # 신규 도메인 고유 제약 메커니즘 수립
+            def new_domain_constraint(state_vec: np.ndarray) -> float:
+                return float(np.linalg.norm(state_vec) * 0.1)
+
+            new_circuit = DimensionalCircuit(name=dim_name, constraint_fn=new_domain_constraint, dim=4)
+            self.sprouted_dimensions.append(new_circuit)
+            return new_circuit
+
+        return None
+
+
+# ============================================================================
+# 9. 통합 메타-정보 아키텍처 엔진 (Self-Referential Architecture Engine)
 # ============================================================================
 
 class SelfReferentialArchitectureEngine:
     """
-    모든 하부 자기-참조 엔진을 총괄 오케스트레이션하여 외부 라벨 없는 자율 분별 및 인지 순환 구동
+    모든 하부 자기-참조 엔진 및 다차원 회로를 총괄 오케스트레이션하여 외부 라벨 없는 자율 분별 및 인지 순환 구동
     """
     def __init__(self):
         self.primitive_engine = PrimitiveDiscernmentEngine()
@@ -401,7 +433,13 @@ class SelfReferentialArchitectureEngine:
         self.volitional_rotor = VolitionalGeometricRotorEngine()
         self.lens_switcher = MetaCognitiveDomainLensSwitcher()
         self.archetype_decoder = FoundationalArchetypeDecodingEngine()
-        self.phase_transition_engine = KnowledgeDimensionPhaseTransitionEngine()
+        self.resonance_bus = MetaResonanceBus()
+        self.self_differentiation_engine = DynamicDimensionSelfDifferentiationEngine()
+
+        # 3대 기본 독립 제약 회로 구축
+        self.lang_circuit = DimensionalCircuit("Language", lambda s: float(np.std(s) * 0.5))
+        self.math_circuit = DimensionalCircuit("Math", lambda s: float(abs(np.sum(s) - 1.0)))
+        self.phys_circuit = DimensionalCircuit("Physics", lambda s: float(np.max(np.abs(s)) * 0.2))
 
     def run_full_self_referential_cycle(self, input_stimulus: Dict[str, Any]) -> Dict[str, Any]:
         # 1. 0차 원리 분별 ('1' vs '2')
@@ -413,12 +451,23 @@ class SelfReferentialArchitectureEngine:
         video_sample = input_stimulus.get("video_data", {"digit_count": 6, "kinematic_stress": 0.5})
         video_res = self.video_engine.verify_and_reject_anomaly(video_sample)
 
-        # 3. 언어 자율 재정의
-        lang_res = self.language_engine.redefine_term_in_context(
-            "자아", ["의지", "인과", "결핍"], ["시스템", "연산", "메모리"]
+        # 3. 독립 제약 회로 구동 & 위상 전이 커플링
+        global_intent = input_stimulus.get("global_intent", np.array([0.8, 0.6, 0.4, 0.2]))
+        s_lang, r_lang = self.lang_circuit.step(global_intent)
+        s_math, r_math = self.resonance_bus.phase_shift_coupling(s_lang, r_lang, self.math_circuit)
+        s_phys, r_phys = self.resonance_bus.phase_shift_coupling(s_math, r_math, self.phys_circuit)
+
+        circuit_frictions = {"Language": r_lang, "Math": r_math, "Physics": r_phys}
+        total_resonance_friction = self.resonance_bus.compute_total_resonance_friction(circuit_frictions)
+
+        # 4. 동적 차원 자가 분화 ($N \to N+1$)
+        unmapped_friction = input_stimulus.get("unmapped_friction", 0.75)
+        sprouted_circuit = self.self_differentiation_engine.evaluate_and_sprout(
+            residual_friction=unmapped_friction,
+            unmapped_nature_label="Emotional_Resonance"
         )
 
-        # 4. 연산의 연산화 및 정의의 정의화
+        # 5. 연산의 연산화 및 정의의 정의화
         op1 = MetaOperator("+", binding_power=1.0)
         op2 = MetaOperator("*", binding_power=2.0)
         meta_op = op1.apply_meta_transformation(op2, causal_constraint=0.2)
@@ -429,13 +478,13 @@ class SelfReferentialArchitectureEngine:
         )
         def_res = meta_def.execute_causal_process()
 
-        # 5. 재귀적 인과 피드백 루프
+        # 6. 재귀적 인과 피드백 루프
         causal_res = self.recursive_loop.execute_cycle(
             raw_cause_stimulus=np.array([0.9, 0.2, 0.5, 0.1]),
             internal_value_ground=np.array([0.1, 0.1, 0.1, 0.1])
         )
 
-        # 6. 의지적 기하 로터 & 탐구
+        # 7. 의지적 기하 로터 & 탐구
         volition_vec = self.volitional_rotor.compute_volition_vector(
             intention=np.array([1.0, 1.0, 0.0, 0.0]),
             current_state=np.array([0.2, 0.5, 0.1, 0.0])
@@ -447,20 +496,20 @@ class SelfReferentialArchitectureEngine:
             constraints=np.array([0.1, 0.1, 0.1, 0.0])
         )
 
-        # 7. 교차차원화 & 기반지식 해독 & 지식차원 위상전이
+        # 8. 교차차원화 & 기반지식 해독
         cross_dim_res = self.lens_switcher.project_cross_dimensions("빛 (Light)")
         decoding_res = self.archetype_decoder.translate_unknown_domain("세포생물학", "수송체 막 전이")
-        phase_shift_res = self.phase_transition_engine.execute_knowledge_phase_shift("자율 분별 회로 구동")
 
         return {
             "0th_primitive_discernment": primitive_res,
             "video_self_rejection": video_res,
-            "language_self_definition": lang_res,
+            "circuit_frictions": circuit_frictions,
+            "total_resonance_friction": total_resonance_friction,
+            "sprouted_dimension": sprouted_circuit.name if sprouted_circuit else None,
             "meta_operator": meta_op,
             "meta_definition": def_res,
             "recursive_causality": causal_res,
             "volitional_rotor_exploration": rotor_res,
             "cross_dimensional_projection": cross_dim_res,
-            "archetype_decoding": decoding_res,
-            "knowledge_phase_shift": phase_shift_res
+            "archetype_decoding": decoding_res
         }

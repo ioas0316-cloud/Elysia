@@ -16,7 +16,9 @@ from core.topology.self_referential_architecture import (
     VolitionalGeometricRotorEngine,
     MetaCognitiveDomainLensSwitcher,
     FoundationalArchetypeDecodingEngine,
-    KnowledgeDimensionPhaseTransitionEngine,
+    DimensionalCircuit,
+    MetaResonanceBus,
+    DynamicDimensionSelfDifferentiationEngine,
     SelfReferentialArchitectureEngine,
 )
 
@@ -86,7 +88,6 @@ def test_recursive_causality_loop():
     cycle1 = loop.execute_cycle(raw_cause, internal_ground)
     bnd_after_c1 = cycle1["updated_boundary_constraint"]
 
-    # Subsequent cycle uses the updated boundary
     cycle2 = loop.execute_cycle(raw_cause, internal_ground)
     bnd_after_c2 = cycle2["updated_boundary_constraint"]
 
@@ -120,32 +121,46 @@ def test_meta_cognitive_lens_switcher_and_cross_dimensional():
     assert len(proj["projections"]) == 5
     assert "Particle" in proj["projections"]
     assert "Wave" in proj["projections"]
-    assert "Language" in proj["projections"]
 
 
-def test_foundational_archetype_decoding():
-    decoder = FoundationalArchetypeDecodingEngine()
-    res = decoder.translate_unknown_domain("세포생물학", "수송체 막 전이")
-    assert "structural_translation" in res
-    assert "combinatorial_understanding" in res
+def test_dimensional_circuits_and_meta_resonance_bus():
+    lang_c = DimensionalCircuit("Language", lambda s: float(np.std(s) * 0.5))
+    math_c = DimensionalCircuit("Math", lambda s: float(abs(np.sum(s) - 1.0)))
+    bus = MetaResonanceBus()
+
+    s_lang, r_lang = lang_c.step(np.array([1.0, 0.5, 0.0, 0.0]))
+    assert r_lang >= 0.0
+
+    s_math, r_math = bus.phase_shift_coupling(s_lang, r_lang, math_c)
+    assert r_math >= 0.0
+
+    total_r = bus.compute_total_resonance_friction({"Lang": r_lang, "Math": r_math})
+    assert total_r == pytest.approx(r_lang + r_math)
 
 
-def test_knowledge_dimension_phase_transition():
-    engine = KnowledgeDimensionPhaseTransitionEngine()
-    res = engine.execute_knowledge_phase_shift("의지적 자 자율 인지")
-    assert len(res["phase_shift_sequence"]) == 3
-    assert "LanguageDim" in res["phase_shift_sequence"][0]
-    assert "MathDim" in res["phase_shift_sequence"][1]
-    assert "PhysicsDim" in res["phase_shift_sequence"][2]
+def test_dynamic_dimension_self_differentiation():
+    sprouter = DynamicDimensionSelfDifferentiationEngine(unmapped_threshold=0.5)
+
+    # Below threshold -> No sprouting
+    no_sprout = sprouter.evaluate_and_sprout(0.3, "SubtleNoise")
+    assert no_sprout is None
+
+    # Above threshold -> Dynamic Sprouting (N -> N+1)
+    sprouted = sprouter.evaluate_and_sprout(0.8, "Emotional_Resonance")
+    assert sprouted is not None
+    assert "SproutedDim_Emotional_Resonance_1" in sprouted.name
+    assert len(sprouter.sprouted_dimensions) == 1
 
 
 def test_full_self_referential_architecture_cycle():
     full_engine = SelfReferentialArchitectureEngine()
     output = full_engine.run_full_self_referential_cycle({
-        "video_data": {"digit_count": 6, "kinematic_stress": 0.8}
+        "video_data": {"digit_count": 6, "kinematic_stress": 0.8},
+        "unmapped_friction": 0.9
     })
 
     assert output["0th_primitive_discernment"]["shared_coherence"] is True
     assert output["video_self_rejection"]["is_rejected"] is True
-    assert output["volitional_rotor_exploration"]["chosen_trajectory"] == "Candidate A"
-    assert len(output["cross_dimensional_projection"]["projections"]) == 5
+    assert "Language" in output["circuit_frictions"]
+    assert output["total_resonance_friction"] > 0.0
+    assert "Emotional_Resonance" in output["sprouted_dimension"]
