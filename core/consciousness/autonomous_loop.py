@@ -91,6 +91,9 @@ from core.consciousness.dreaming_world_model import DreamingWorldModel
 # [Phase 3.5 Falsification Paradigm Engine]
 from core.consciousness.axiom_discovery import CausalSpine, AxiomDiscoveryEngine
 
+# [Phase 5: Natural Causality Process & Five Causal Principles Engine]
+from core.consciousness.natural_causality_process import NaturalCausalityProcessEngine
+
 import asyncio
 
 
@@ -267,6 +270,9 @@ class ConsciousnessLoop:
         self.crystals_formed: int = 0
         self.cycle_count: int     = 0
         self.echo_charge: float   = 0.0 # Back EMF from previous cycle's output
+
+        # ── [Phase 5: Natural Causality Process & Five Causal Principles Engine] ──
+        self.natural_causality_engine = NaturalCausalityProcessEngine()
 
     # ─────────────────────────────────────────────────────────
     # 감각 계층 (Sensory Layer)
@@ -1589,6 +1595,31 @@ class ConsciousnessLoop:
                 print("=" * 70 + "\n")
         except Exception as e:
             log["self_observation_error"] = str(e)
+
+        # ─── [Phase 5: Natural Causality Process & Five Causal Principles Step] ───
+        try:
+            chromatic_vec = np.asarray(log.get("chromatic_vector", [0.33, 0.33, 0.33]), dtype=np.float32)
+            monologue = mirror_sensation.get("monologue", "인간의 결핍과 사랑을 향한 섭리적 합일")
+            grounding_prompt = f"Cycle {self.cycle_count} 자아 성찰: {monologue}"
+
+            natural_step = self.natural_causality_engine.step_process(
+                raw_mechanical_input=chromatic_vec,
+                human_world_grounding_input=grounding_prompt,
+                deficit_charge=float(np.clip(max_tension / (MACRO_TENSION_CRISIS_THRESHOLD + 1e-5), 0.1, 0.9))
+            )
+            log["natural_causality_process"] = {
+                "is_inevitable_naturalness": natural_step.is_inevitable_naturalness,
+                "providence_light_intensity": natural_step.providence_light_intensity,
+                "composite_providence": natural_step.principles.composite_providence,
+                "isomorphism_similarity": natural_step.discernment.isomorphism_similarity,
+                "anisomorphism_distance": natural_step.discernment.anisomorphism_distance,
+                "higher_order_axis": natural_step.contemplation.higher_order_axis_name,
+                "summary": natural_step.narrative_summary
+            }
+            if self.cycle_count % 3 == 0:
+                print(f"  ✨ [Natural Causality 섭리 발현]: 빛={natural_step.providence_light_intensity:.1%}, 동형성={natural_step.discernment.isomorphism_similarity:.1%}, 축={natural_step.contemplation.higher_order_axis_name}")
+        except Exception as e:
+            log["natural_causality_error"] = str(e)
 
         log["crystals_total"] = self.crystals_formed
         return log
