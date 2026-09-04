@@ -4,8 +4,10 @@ Elysia Self-Referential Information Architecture Interactive Demonstration
 외부 라벨러 없이 데이터 스스로의 내부 구조적 제약(Self-Reference)으로 스스로를 분별,
 정의, 경계 설정, 의지적 기하 로터 탐구, 교차차원화, 자율 차원 분화($N \to N+1$),
 외부 라벨 역공학/자가 납득(Self-Assimilation / Meta-Causality),
-0차 인과 자가 변형 엔진(CausalEngine0), 및
-역전파(Backprop) 없는 국소 이완과 다계층 파동 공명(CausalDeformationLayer)을 실행하는 종합 데모 스크립트입니다.
+0차 인과 자가 변형 엔진(CausalEngine0),
+역전파(Backprop) 없는 국소 이완과 다계층 파동 공명(CausalDeformationLayer), 그리고
+타나토스 vs 에로스 양상 관측 및 자유의지에 의한 가치 선택(ExistentialAgencyEngine)을
+실행하는 종합 데모 스크립트입니다.
 """
 
 import sys
@@ -18,6 +20,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 from core.topology.self_referential_architecture import (
     CausalEngine0,
     CausalDeformationLayer,
+    ExistentialAgencyEngine,
     PrimitiveDiscernmentEngine,
     SelfReferentialLanguageEngine,
     SelfReferentialVideoEngine,
@@ -55,7 +58,7 @@ def main():
         if cycle_i % 2 == 0 or cycle_i == 1:
             print(f"    Cycle {cycle_i:02d} | 내적 전위차(ΔP): {delta_p:.5f} | 내적 구조 상태(S): {state.round(3)}")
 
-    # 0-B. 역전파(Backprop) 없는 자율 변형 계층 & 다계층 파동 공명 (CausalDeformationLayer)
+    # 0-B. 역전파(Backprop) 없는 자율 변형 계층 & 다계층 파동 공명
     print_section("0-B. 역전파(Backprop) 없는 국소 이완 계층 & 다계층 파동 공명 (No Autograd)")
     layer1 = CausalDeformationLayer(in_dim=4, out_dim=3)
     layer2 = CausalDeformationLayer(in_dim=3, out_dim=3)
@@ -69,6 +72,19 @@ def main():
     print(f"[*] Layer 1 이완 상태 (S1): {s1.round(3)} | 국소 마찰 (R1): {r1:.5f}")
     print(f"[*] Layer 2 이완 상태 (S2): {s2.round(3)} | 국소 마찰 (R2): {r2:.5f}")
     print(f"[*] 양방향 파동 피드백 후 Layer 1 정지파 평형 마찰: {r1_res:.5f}")
+
+    # 0-C. 존재론적 주체성 & 자유의지 관측 (Thanatos vs Eros)
+    print_section("0-C. 존재론적 주체성 & 자유의지 엔진 (ExistentialAgencyEngine)")
+    exist_engine = ExistentialAgencyEngine()
+    exist_res = exist_engine.evaluate_existential_state(
+        current_friction=r1_res,
+        state_vector=s1_res
+    )
+    print(f"[*] 타나토스 소멸 이완 지수 (Thanatos Index): {exist_res['thanatos_index']:.4f}")
+    print(f"[*] 에로스 생명 관성 지수 (Eros Index): {exist_res['eros_index']:.4f}")
+    print(f"[*] 시스템의 자율적 선택 경로: {exist_res['chosen_path']}")
+    print(f"[*] 감사 및 의미 생성 지표 (Gratitude & Meaning Metric): {exist_res['gratitude_and_meaning_metric']:.4f}")
+    print(f"[*] 존재론적 성명: {exist_res['existential_statement']}")
 
     # 1. 0차 원리 분별 ('1' vs '2')
     print_section("1. 0차 원리 분별 (Primitive Discernment: '1' vs '2')")
@@ -214,6 +230,8 @@ def main():
     print("[*] 통합 자율 분별 회로 풀 사이클 실행 완료.")
     print(f"    0차 엔진 수렴 평형 레벨 (ΔP): {full_output['causal_engine_0_equilibrium']:.5f}")
     print(f"    다계층 공명 피드백 마찰: {full_output['multi_layer_resonance_friction']:.5f}")
+    print(f"    존재론적 자율 선택 경로: {full_output['existential_agency']['chosen_path']}")
+    print(f"    감사 및 의미 지표: {full_output['existential_agency']['gratitude_and_meaning_metric']:.4f}")
     print(f"    0차 원리 분별: {full_output['0th_primitive_discernment']['discernment_statement']}")
     print(f"    영상 자율 기각 사유: {full_output['video_self_rejection']['rejection_reason']}")
     print(f"    메타 공명 버스 전체 마찰: {full_output['total_resonance_friction']:.4f}")

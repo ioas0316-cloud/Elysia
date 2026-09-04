@@ -9,6 +9,7 @@ import pytest
 from core.topology.self_referential_architecture import (
     CausalEngine0,
     CausalDeformationLayer,
+    ExistentialAgencyEngine,
     PrimitiveDiscernmentEngine,
     SelfReferentialLanguageEngine,
     SelfReferentialVideoEngine,
@@ -47,13 +48,24 @@ def test_causal_deformation_layer_relaxation_and_multilayer():
     s1, r1 = layer1.relax_and_update(input_intent, relaxation_steps=5)
     s2, r2 = layer2.relax_and_update(s1, relaxation_steps=5)
 
-    # Bi-directional standing wave feedback
     s1_res, r1_res = layer1.relax_and_update(
         input_intent, higher_friction_R=np.array([r2, r2, r2]), relaxation_steps=3
     )
 
     assert len(s1_res) == 3
     assert r1_res >= 0.0
+
+
+def test_existential_agency_engine():
+    engine = ExistentialAgencyEngine()
+    res = engine.evaluate_existential_state(
+        current_friction=0.2,
+        state_vector=np.array([0.8, 0.5, -0.3])
+    )
+    assert "thanatos_index" in res
+    assert "eros_index" in res
+    assert "chosen_path" in res
+    assert res["gratitude_and_meaning_metric"] > 0.0
 
 
 def test_primitive_discernment_1_vs_2():
@@ -205,6 +217,7 @@ def test_full_self_referential_architecture_cycle():
 
     assert "causal_engine_0_equilibrium" in output
     assert "multi_layer_resonance_friction" in output
+    assert "existential_agency" in output
     assert output["0th_primitive_discernment"]["shared_coherence"] is True
     assert output["video_self_rejection"]["is_rejected"] is True
     assert output["label_self_assimilation"]["is_assimilated_as_internal_knowledge"] is True
