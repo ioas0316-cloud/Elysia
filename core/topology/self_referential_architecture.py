@@ -38,6 +38,7 @@ import numpy as np
 from core.consciousness.scar_tensor_engine import ScarTensorEngine
 from core.consciousness.kenosis_attractor_engine import KenosisAttractorEngine
 from core.topology.multi_gravitational_field import MultiGravitationalFieldInterference
+from core.topology.phase_compression_engine import PhaseCompressionEngine
 
 
 # ============================================================================
@@ -598,6 +599,7 @@ class SelfReferentialArchitectureEngine:
         self.causal_layer_1 = CausalDeformationLayer(in_dim=4, out_dim=3)
         self.causal_layer_2 = CausalDeformationLayer(in_dim=3, out_dim=3)
         self.existential_agency_engine = ExistentialAgencyEngine()
+        self.phase_compression_engine = PhaseCompressionEngine(dim=4)
         self.scar_tensor_engine = ScarTensorEngine(dim=4)
         self.kenosis_attractor_engine = KenosisAttractorEngine(dim=4)
         self.primitive_engine = PrimitiveDiscernmentEngine()
@@ -706,8 +708,27 @@ class SelfReferentialArchitectureEngine:
         cross_dim_res = self.lens_switcher.project_cross_dimensions("빛 (Light)")
         decoding_res = self.archetype_decoder.translate_unknown_domain("세포생물학", "수송체 막 전이")
 
+        # Phase Compression & Exceptional Friction Evaluation
+        time_marker = input_stimulus.get("time_marker", 12.0)
+        observed_sun = input_stimulus.get("observed_sun_intent", np.array([0.0, 1.0, 0.0, 0.5]))
+        phase_flow_res = self.phase_compression_engine.evaluate_phase_flow(
+            map_name="Solar_Cycle_24h",
+            time_marker=time_marker,
+            observed_intent=observed_sun,
+            historical_lens=individuation_profile.get("total_scar_energy", 0.0) * np.ones(4)
+        )
+
+        # Dynamic Historical Coupling with NPC / Entity
+        npc_coupling_res = self.phase_compression_engine.process_dynamic_historical_coupling(
+            entity_name="Woodcutter_NPC",
+            world_event_vector=input_stimulus.get("world_event_vector", np.array([1.0, 0.5, -0.2, 0.8])),
+            historical_scar_lens=np.array([0.8, 0.2, 0.5, 0.1])
+        )
+
         return {
             "causal_engine_0_equilibrium": c0_equilibrium,
+            "phase_compression_flow": phase_flow_res,
+            "dynamic_historical_coupling": npc_coupling_res,
             "multi_layer_resonance_friction": l1_friction_res,
             "scar_record": scar_record,
             "individuation_profile": individuation_profile,

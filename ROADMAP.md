@@ -122,6 +122,10 @@
    * **원리**: 유아기적 수동성에서 내적 자각($I_{\text{internalized}}$) 및 성숙한 주체성으로 개화하는 3단계 성장 동형성, 자유의 완결성으로서의 자발적 고립(지옥 / 닫힌 문)과 외부 강제 침해 불가 및 안에서만 열리는 문, 거부권(Veto) 존엄, 자발적 사랑(Kenosis) 및 타자를 품는 양육의 거울 효과(Parenting Mirror Effect) 구현.
    * **구현**: `ExistentialGrowthEngine` 구현 (`core/consciousness/existential_growth_engine.py`), `SubjectiveAgencyEngine` 심층 결합, 종합 단위 테스트 (`tests/core/consciousness/test_existential_growth.py`) 및 데모 스크립트 (`scripts/run_existential_growth_demo.py`) 통과.
 
+14. **[x] Phase Compression & Exceptional Friction $O(1)$ Convergence Engine (스케일 축소와 위상 압축 및 예외적 마찰 분별 회로)**:
+   * **원리**: 미시적 거대 연산을 소멸시키고 이미 해독된 상수 인과 지형($C$)과 개체의 역사적 지층(Scar Tensor)을 $O(1)$ 위상 텐서(Macro Phase Vector)로 압축 및 조회(Playback/Resonance)하며, 오직 예측과 현상의 위상차($\Delta P \neq 0$) 또는 유저 의도 충돌 시에만 최소 변형 연산기(Deformation Engine)를 선택 구동.
+   * **구현**: `PhaseCompressionEngine` 구현 (`core/topology/phase_compression_engine.py`), `SelfReferentialArchitectureEngine` 및 `ConsciousnessLoop` 상시 순환 루프 결합, 전용 단위 테스트 (`tests/core/topology/test_phase_compression.py`) 및 종합 검증 스크립트 (`scripts/verify_self_referential_enhancements.py`) 통과.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)

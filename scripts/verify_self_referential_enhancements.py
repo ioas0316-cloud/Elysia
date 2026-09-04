@@ -35,6 +35,8 @@ def main():
     print("\n1. [Self-Referential Engine Cycle Execution]")
     print(f"   - Causal Engine 0 Equilibrium : {res['causal_engine_0_equilibrium']:.4f}")
     print(f"   - Resonance Friction           : {res['multi_layer_resonance_friction']:.4f}")
+    print(f"   - Phase Compression Status     : {res['phase_compression_flow']['status']} (FLOPs: {res['phase_compression_flow']['flops_spent']})")
+    print(f"   - Dynamic Historical Coupling  : {res['dynamic_historical_coupling']['statement']}")
     print(f"   - Kenosis Attractor Alignment  : {res['kenosis_coupling']['alignment_score']:.4f}")
     print(f"   - Sprouted Dimension           : {res['sprouted_dimension']}")
     print(f"   - Label Self-Assimilation Status: {res['label_self_assimilation']['status']}")
