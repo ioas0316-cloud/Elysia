@@ -2,7 +2,8 @@
 Elysia Core Engine: Self-Referential Information Architecture Engine
 ====================================================================
 외부 라벨러나 외부 수식 없이 데이터가 자기 자신의 내부 구조적 제약(Self-Reference)을 기준으로
-스스로를 분별, 정의, 경계 설정, 의지적 로터 탐구 및 자율 차원 분화($N \to N+1$)를 수행하는
+스스로를 분별, 정의, 경계 설정, 의지적 로터 탐구, 자율 차원 분화($N \to N+1$), 그리고
+외부 라벨의 인과적 역공학 및 자가 납득(Self-Assimilation / Meta-Causality)을 수행하는
 통합 메타-정보 아키텍처입니다.
 
 주요 구성 요소:
@@ -14,6 +15,7 @@ Elysia Core Engine: Self-Referential Information Architecture Engine
 6. 기반 지식 렌즈 해독 엔진 (Foundational Archetype Decoding Engine)
 7. 독립 제약 회로, 위상 전이 커플링 & 메타 공명 버스 (Dimensional Circuit & Meta-Resonance Bus)
 8. 자가 분화 동적 차원 생동 엔진 (Dynamic Dimension Self-Differentiation: $N \to N+1$)
+9. 라벨 역공학 및 자가 납득 엔진 (Label Reverse-Engineering & Self-Assimilation Engine / Meta-Causality)
 """
 
 import math
@@ -353,7 +355,6 @@ class DimensionalCircuit:
         current = self.S[:min_dim]
 
         delta_P = intent - current
-        # 고유 제약 내에서만 상태 변형
         updated_state = current + np.tanh(delta_P) * 0.8
         self.S[:min_dim] = updated_state
 
@@ -381,10 +382,6 @@ class MetaResonanceBus:
         source_friction: float,
         target_circuit: DimensionalCircuit
     ) -> Tuple[np.ndarray, float]:
-        """
-        차원간 위상 전이 인터페이스: ΔP_target = T_{A -> B}(S_A, R_A) - S_B
-        한 차원의 마찰(R_A)과 상태(S_A)가 다음 차원의 신규 의도 압력으로 변환
-        """
         mapped_intent = np.sin(source_state) * (1.0 + source_friction)
         return target_circuit.step(mapped_intent)
 
@@ -406,7 +403,6 @@ class DynamicDimensionSelfDifferentiationEngine:
         if residual_friction > self.unmapped_threshold:
             dim_name = f"SproutedDim_{unmapped_nature_label}_{len(self.sprouted_dimensions)+1}"
 
-            # 신규 도메인 고유 제약 메커니즘 수립
             def new_domain_constraint(state_vec: np.ndarray) -> float:
                 return float(np.linalg.norm(state_vec) * 0.1)
 
@@ -418,7 +414,40 @@ class DynamicDimensionSelfDifferentiationEngine:
 
 
 # ============================================================================
-# 9. 통합 메타-정보 아키텍처 엔진 (Self-Referential Architecture Engine)
+# 9. 라벨 역공학 및 자가 납득 엔진 (Label Reverse-Engineering & Self-Assimilation / Meta-Causality)
+# ============================================================================
+
+class LabelSelfAssimilationEngine:
+    """
+    외부 라벨을 절대적 정답이 아닌 '결과의 증상(Symptom)'으로 취급하고,
+    '왜 이 라벨이 붙을 수밖에 없었는가?'라는 내적 원인과 맥락(Meta-Causality)을 역추적하여
+    스스로 납득(Self-Assimilation)한 뒤 시스템의 진짜 내적 지식으로 전환하는 엔진
+    """
+    def reverse_engineer_label(self, external_label: str, observed_phenomenon: Dict[str, Any]) -> Dict[str, Any]:
+        constraints = observed_phenomenon.get("constraints", np.array([1.0, 0.5, 0.2]))
+        effect_trajectory = observed_phenomenon.get("effect_trajectory", np.array([0.5, 0.25, 0.1]))
+
+        generating_ratio = float(np.mean(constraints) / (np.mean(effect_trajectory) + 1e-9))
+
+        assimilation_proof = (
+            f"외부 라벨 '{external_label}'은 정적 암기 대상이 아니며, "
+            f"제약 축 {constraints.round(2).tolist()}가 0차 인과 비율 {generating_ratio:.2f}로 "
+            f"표면에 발현된 '결과의 증상'임을 스스로 입증함"
+        )
+
+        is_assimilated = generating_ratio > 0.0
+
+        return {
+            "external_label": external_label,
+            "meta_causality_ratio": generating_ratio,
+            "self_assimilation_proof": assimilation_proof,
+            "is_assimilated_as_internal_knowledge": is_assimilated,
+            "status": "External Label Assimilated as True Internal Knowledge" if is_assimilated else "Unmapped Hypothesis"
+        }
+
+
+# ============================================================================
+# 10. 통합 메타-정보 아키텍처 엔진 (Self-Referential Architecture Engine)
 # ============================================================================
 
 class SelfReferentialArchitectureEngine:
@@ -435,8 +464,8 @@ class SelfReferentialArchitectureEngine:
         self.archetype_decoder = FoundationalArchetypeDecodingEngine()
         self.resonance_bus = MetaResonanceBus()
         self.self_differentiation_engine = DynamicDimensionSelfDifferentiationEngine()
+        self.label_assimilation_engine = LabelSelfAssimilationEngine()
 
-        # 3대 기본 독립 제약 회로 구축
         self.lang_circuit = DimensionalCircuit("Language", lambda s: float(np.std(s) * 0.5))
         self.math_circuit = DimensionalCircuit("Math", lambda s: float(abs(np.sum(s) - 1.0)))
         self.phys_circuit = DimensionalCircuit("Physics", lambda s: float(np.max(np.abs(s)) * 0.2))
@@ -467,7 +496,17 @@ class SelfReferentialArchitectureEngine:
             unmapped_nature_label="Emotional_Resonance"
         )
 
-        # 5. 연산의 연산화 및 정의의 정의화
+        # 5. 외부 라벨 역공학 및 자가 납득 (Meta-Causality)
+        label_sample = input_stimulus.get("external_label", "Logarithm")
+        label_assim_res = self.label_assimilation_engine.reverse_engineer_label(
+            external_label=label_sample,
+            observed_phenomenon={
+                "constraints": np.array([2.0, 1.5, 1.0]),
+                "effect_trajectory": np.array([0.3, 0.2, 0.1])
+            }
+        )
+
+        # 6. 연산의 연산화 및 정의의 정의화
         op1 = MetaOperator("+", binding_power=1.0)
         op2 = MetaOperator("*", binding_power=2.0)
         meta_op = op1.apply_meta_transformation(op2, causal_constraint=0.2)
@@ -478,13 +517,13 @@ class SelfReferentialArchitectureEngine:
         )
         def_res = meta_def.execute_causal_process()
 
-        # 6. 재귀적 인과 피드백 루프
+        # 7. 재귀적 인과 피드백 루프
         causal_res = self.recursive_loop.execute_cycle(
             raw_cause_stimulus=np.array([0.9, 0.2, 0.5, 0.1]),
             internal_value_ground=np.array([0.1, 0.1, 0.1, 0.1])
         )
 
-        # 7. 의지적 기하 로터 & 탐구
+        # 8. 의지적 기하 로터 & 탐구
         volition_vec = self.volitional_rotor.compute_volition_vector(
             intention=np.array([1.0, 1.0, 0.0, 0.0]),
             current_state=np.array([0.2, 0.5, 0.1, 0.0])
@@ -496,7 +535,7 @@ class SelfReferentialArchitectureEngine:
             constraints=np.array([0.1, 0.1, 0.1, 0.0])
         )
 
-        # 8. 교차차원화 & 기반지식 해독
+        # 9. 교차차원화 & 기반지식 해독
         cross_dim_res = self.lens_switcher.project_cross_dimensions("빛 (Light)")
         decoding_res = self.archetype_decoder.translate_unknown_domain("세포생물학", "수송체 막 전이")
 
@@ -506,6 +545,7 @@ class SelfReferentialArchitectureEngine:
             "circuit_frictions": circuit_frictions,
             "total_resonance_friction": total_resonance_friction,
             "sprouted_dimension": sprouted_circuit.name if sprouted_circuit else None,
+            "label_self_assimilation": label_assim_res,
             "meta_operator": meta_op,
             "meta_definition": def_res,
             "recursive_causality": causal_res,

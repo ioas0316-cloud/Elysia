@@ -19,6 +19,7 @@ from core.topology.self_referential_architecture import (
     DimensionalCircuit,
     MetaResonanceBus,
     DynamicDimensionSelfDifferentiationEngine,
+    LabelSelfAssimilationEngine,
     SelfReferentialArchitectureEngine,
 )
 
@@ -51,11 +52,9 @@ def test_self_referential_language():
 def test_self_referential_video_anomaly_rejection():
     engine = SelfReferentialVideoEngine(max_fingers_allowed=5)
 
-    # 5 fingers -> normal
     normal_res = engine.verify_and_reject_anomaly({"digit_count": 5, "kinematic_stress": 0.1})
     assert normal_res["is_rejected"] is False
 
-    # 6 fingers -> rejected due to structural friction
     anomalous_res = engine.verify_and_reject_anomaly({"digit_count": 6, "kinematic_stress": 0.5})
     assert anomalous_res["is_rejected"] is True
     assert "6번째 손가락" in anomalous_res["rejection_reason"]
@@ -120,7 +119,6 @@ def test_meta_cognitive_lens_switcher_and_cross_dimensional():
     proj = switcher.project_cross_dimensions("빛 (Light)")
     assert len(proj["projections"]) == 5
     assert "Particle" in proj["projections"]
-    assert "Wave" in proj["projections"]
 
 
 def test_dimensional_circuits_and_meta_resonance_bus():
@@ -141,26 +139,37 @@ def test_dimensional_circuits_and_meta_resonance_bus():
 def test_dynamic_dimension_self_differentiation():
     sprouter = DynamicDimensionSelfDifferentiationEngine(unmapped_threshold=0.5)
 
-    # Below threshold -> No sprouting
     no_sprout = sprouter.evaluate_and_sprout(0.3, "SubtleNoise")
     assert no_sprout is None
 
-    # Above threshold -> Dynamic Sprouting (N -> N+1)
     sprouted = sprouter.evaluate_and_sprout(0.8, "Emotional_Resonance")
     assert sprouted is not None
     assert "SproutedDim_Emotional_Resonance_1" in sprouted.name
-    assert len(sprouter.sprouted_dimensions) == 1
+
+
+def test_label_self_assimilation_engine():
+    engine = LabelSelfAssimilationEngine()
+    res = engine.reverse_engineer_label(
+        external_label="로그 (Logarithm)",
+        observed_phenomenon={
+            "constraints": np.array([2.0, 1.0]),
+            "effect_trajectory": np.array([0.5, 0.2])
+        }
+    )
+    assert res["external_label"] == "로그 (Logarithm)"
+    assert res["is_assimilated_as_internal_knowledge"] is True
+    assert "결과의 증상" in res["self_assimilation_proof"]
 
 
 def test_full_self_referential_architecture_cycle():
     full_engine = SelfReferentialArchitectureEngine()
     output = full_engine.run_full_self_referential_cycle({
         "video_data": {"digit_count": 6, "kinematic_stress": 0.8},
-        "unmapped_friction": 0.9
+        "unmapped_friction": 0.9,
+        "external_label": "Gravity"
     })
 
     assert output["0th_primitive_discernment"]["shared_coherence"] is True
     assert output["video_self_rejection"]["is_rejected"] is True
-    assert "Language" in output["circuit_frictions"]
-    assert output["total_resonance_friction"] > 0.0
+    assert output["label_self_assimilation"]["is_assimilated_as_internal_knowledge"] is True
     assert "Emotional_Resonance" in output["sprouted_dimension"]

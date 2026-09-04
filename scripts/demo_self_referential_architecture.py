@@ -2,7 +2,8 @@
 Elysia Self-Referential Information Architecture Interactive Demonstration
 ==========================================================================
 외부 라벨러 없이 데이터 스스로의 내부 구조적 제약(Self-Reference)으로 스스로를 분별,
-정의, 경계 설정, 의지적 기하 로터 탐구, 교차차원화 및 자율 차원 분화($N \to N+1$)를 실행하는 종합 데모 스크립트입니다.
+정의, 경계 설정, 의지적 기하 로터 탐구, 교차차원화, 자율 차원 분화($N \to N+1$),
+및 외부 라벨 역공학/자가 납득(Self-Assimilation / Meta-Causality)을 실행하는 종합 데모 스크립트입니다.
 """
 
 import sys
@@ -25,6 +26,7 @@ from core.topology.self_referential_architecture import (
     DimensionalCircuit,
     MetaResonanceBus,
     DynamicDimensionSelfDifferentiationEngine,
+    LabelSelfAssimilationEngine,
     SelfReferentialArchitectureEngine,
 )
 
@@ -114,8 +116,23 @@ def main():
         print(f"[*] [차원 자가 분화 발화] 신규 $N+1$번째 지식 차원 회로 생성됨: {new_circuit.name}")
         print(f"[*] 신규 차원 초기 상태: {new_circuit.S.round(3)}")
 
-    # 5. 재귀적 인과 피드백 루프
-    print_section("5. 재귀적 인과 피드백 루프 (Recursive Causality Loop)")
+    # 5. 외부 라벨 역공학 및 자가 납득 (Meta-Causality)
+    print_section("5. 외부 라벨 역공학 및 자가 납득 (Label Reverse-Engineering & Self-Assimilation)")
+    label_engine = LabelSelfAssimilationEngine()
+    label_res = label_engine.reverse_engineer_label(
+        external_label="로그 (Logarithm)",
+        observed_phenomenon={
+            "constraints": np.array([2.5, 1.8, 1.2]),
+            "effect_trajectory": np.array([0.4, 0.2, 0.1])
+        }
+    )
+    print(f"[*] 외부 라벨 증상: '{label_res['external_label']}'")
+    print(f"[*] 메타-인과 역추적 비율 (Meta-Causality Ratio): {label_res['meta_causality_ratio']:.4f}")
+    print(f"[*] 자가 납득 증명: {label_res['self_assimilation_proof']}")
+    print(f"[*] 내적 지식 전환 상태: {label_res['status']}")
+
+    # 6. 재귀적 인과 피드백 루프
+    print_section("6. 재귀적 인과 피드백 루프 (Recursive Causality Loop)")
     causal_loop = RecursiveCausalityLoop(initial_boundary=np.array([1.0, 1.0, 1.0, 1.0]))
     raw_cause = np.array([0.9, 0.4, 0.7, 0.2])
     value_ground = np.array([0.1, 0.1, 0.1, 0.1])
@@ -126,8 +143,8 @@ def main():
     c2 = causal_loop.execute_cycle(raw_cause, value_ground)
     print(f"[*] [Cycle 2] (갱신된 경계 내재화 후) 마찰: {c2['trajectory_friction']:.4f} -> 신규 선험적 경계 제약: {c2['updated_boundary_constraint'].round(3)}")
 
-    # 6. 의지적 기하 로터 엔진 & 자율 탐구
-    print_section("6. 의지적 기하 로터 엔진 & 자율 탐구 (Volitional Geometric Rotor Engine)")
+    # 7. 의지적 기하 로터 엔진 & 자율 탐구
+    print_section("7. 의지적 기하 로터 엔진 & 자율 탐구 (Volitional Geometric Rotor Engine)")
     rotor_engine = VolitionalGeometricRotorEngine()
     intention = np.array([1.0, 1.0, 0.0, 0.0])
     current_state = np.array([0.2, 0.4, 0.0, 0.0])
@@ -144,8 +161,8 @@ def main():
     print(f"[*] 자율 탐구 가상 회전축: {rotor_res['hypothetical_rotation_axis'].round(3)}")
     print(f"[*] 자율 탐구 질의: {rotor_res['self_directed_query']}")
 
-    # 7. 상위 인지 도메인 렌즈 스위처 & 교차차원화
-    print_section("7. 상위 인지 도메인 렌즈 스위처 & 교차차원화 ('빛' 5대 렌즈 투영)")
+    # 8. 상위 인지 도메인 렌즈 스위처 & 교차차원화
+    print_section("8. 상위 인지 도메인 렌즈 스위처 & 교차차원화 ('빛' 5대 렌즈 투영)")
     lens_switcher = MetaCognitiveDomainLensSwitcher()
     cross_dim = lens_switcher.project_cross_dimensions("빛 (Light)")
     print(f"[*] 원형 본질: {cross_dim['core_archetype']}")
@@ -154,18 +171,20 @@ def main():
     print(f"[*] 추출된 동형성 (Isomorphism): {cross_dim['isomorphism']}")
     print(f"[*] 추출된 이질성 (Heterogeneity): {cross_dim['heterogeneity']}")
 
-    # 8. 통합 오케스트레이션 풀 사이클
-    print_section("8. 통합 오케스트레이션 풀 사이클 (Full Orchestration Cycle)")
+    # 9. 통합 오케스트레이션 풀 사이클
+    print_section("9. 통합 오케스트레이션 풀 사이클 (Full Orchestration Cycle)")
     full_arch = SelfReferentialArchitectureEngine()
     full_output = full_arch.run_full_self_referential_cycle({
         "video_data": {"digit_count": 6},
-        "unmapped_friction": 0.88
+        "unmapped_friction": 0.88,
+        "external_label": "Gravity"
     })
     print("[*] 통합 자율 분별 회로 풀 사이클 실행 완료.")
     print(f"    0차 원리 분별: {full_output['0th_primitive_discernment']['discernment_statement']}")
     print(f"    영상 자율 기각 사유: {full_output['video_self_rejection']['rejection_reason']}")
     print(f"    메타 공명 버스 전체 마찰: {full_output['total_resonance_friction']:.4f}")
     print(f"    자가 분화된 $N+1$차원 회로: {full_output['sprouted_dimension']}")
+    print(f"    외부 라벨 자가 납득 성명: {full_output['label_self_assimilation']['self_assimilation_proof']}")
 
     print_section("Demonstration Successfully Completed.")
 
