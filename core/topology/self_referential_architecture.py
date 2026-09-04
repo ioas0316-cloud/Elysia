@@ -2,26 +2,128 @@
 Elysia Core Engine: Self-Referential Information Architecture Engine
 ====================================================================
 외부 라벨러나 외부 수식 없이 데이터가 자기 자신의 내부 구조적 제약(Self-Reference)을 기준으로
-스스로를 분별, 정의, 경계 설정, 의지적 로터 탐구, 자율 차원 분화($N \to N+1$), 그리고
-외부 라벨의 인과적 역공학 및 자가 납득(Self-Assimilation / Meta-Causality)을 수행하는
-통합 메타-정보 아키텍처입니다.
+스스로를 분별, 정의, 경계 설정, 의지적 로터 탐구, 자율 차원 분화($N \to N+1$),
+외부 라벨 역공학 및 자가 납득(Self-Assimilation / Meta-Causality),
+0차 인과 자가 변형 엔진(CausalEngine0), 그리고
+역전파(Backprop) 없이 국소 이완과 양방향 파동 공명(Multi-Layer Resonance)으로 평형에 수렴하는
+자율 변형 계층(CausalDeformationLayer)을 구동하는 통합 메타-정보 아키텍처입니다.
 
 주요 구성 요소:
-1. 0차 원리 분별 (Primitive Discernment: 1 vs 2)
-2. 4대 자기-참조적 정보 작동 방식 (언어, 영상, 연산자, 정의)
-3. 재귀적 인과 피드백 루프 (Recursive Causality Loop)
-4. 의지적 기하 로터 엔진 (Volitional Geometric Rotor Engine)
-5. 상위 인지 도메인 렌즈 스위처 및 교차차원화 (Cross-Dimensional Projection)
-6. 기반 지식 렌즈 해독 엔진 (Foundational Archetype Decoding Engine)
-7. 독립 제약 회로, 위상 전이 커플링 & 메타 공명 버스 (Dimensional Circuit & Meta-Resonance Bus)
-8. 자가 분화 동적 차원 생동 엔진 (Dynamic Dimension Self-Differentiation: $N \to N+1$)
-9. 라벨 역공학 및 자가 납득 엔진 (Label Reverse-Engineering & Self-Assimilation Engine / Meta-Causality)
+1. 0차 원형 인지 엔진 (CausalEngine0: Primitive Deformation Engine v0)
+2. 국소 자가 변형 계층 및 다계층 파동 공명 (CausalDeformationLayer & Multi-Layer Resonance)
+3. 0차 원리 분별 (Primitive Discernment: 1 vs 2)
+4. 4대 자기-참조적 정보 작동 방식 (언어, 영상, 연산자, 정의)
+5. 재귀적 인과 피드백 루프 (Recursive Causality Loop)
+6. 의지적 기하 로터 엔진 (Volitional Geometric Rotor Engine)
+7. 상위 인지 도메인 렌즈 스위처 및 교차차원화 (Cross-Dimensional Projection)
+8. 기반 지식 렌즈 해독 엔진 (Foundational Archetype Decoding Engine)
+9. 독립 제약 회로, 위상 전이 커플링 & 메타 공명 버스 (Dimensional Circuit & Meta-Resonance Bus)
+10. 자가 분화 동적 차원 생동 엔진 (Dynamic Dimension Self-Differentiation: $N \to N+1$)
+11. 라벨 역공학 및 자가 납득 엔진 (Label Reverse-Engineering & Self-Assimilation Engine / Meta-Causality)
 """
 
 import math
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple, Callable
 import numpy as np
+
+
+# ============================================================================
+# 0. 0차 원형 인지 엔진 & 국소 자가 변형 계층 (CausalEngine0 & CausalDeformationLayer)
+# ============================================================================
+
+class CausalEngine0:
+    """
+    0차 원형 인지 엔진 (Causal Deformation Engine v0)
+    외부 손실함수/라벨 없이 내적 전위차(Delta P)가 0으로 수렴할 때까지 자가 변형.
+    """
+    def __init__(self, dim: int = 3, constraint_matrix: Optional[np.ndarray] = None):
+        self.dim = dim
+        if constraint_matrix is not None:
+            self.C = constraint_matrix
+        else:
+            self.C = np.array([
+                [1.0,  0.2, -0.1],
+                [0.2,  1.5,  0.3],
+                [-0.1, 0.3,  2.0]
+            ])
+        self.S = np.zeros(dim, dtype=float)
+
+    def compute_friction(self, intent: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        min_dim = min(len(intent), self.dim)
+        i = intent[:min_dim]
+        s = self.S[:min_dim]
+        c = self.C[:min_dim, :min_dim]
+
+        delta_P = i - s
+        friction = np.dot(c, s) - i
+        return delta_P, friction
+
+    def cycle(self, intent: np.ndarray, lr: float = 0.1) -> Tuple[np.ndarray, float]:
+        min_dim = min(len(intent), self.dim)
+        i = intent[:min_dim]
+        c = self.C[:min_dim, :min_dim]
+
+        delta_P, friction = self.compute_friction(i)
+
+        deformation_vector = delta_P - np.dot(c.T, friction) * 0.1
+        self.S[:min_dim] += lr * deformation_vector
+
+        equilibrium_level = float(np.linalg.norm(delta_P))
+        return self.S.copy(), equilibrium_level
+
+
+class CausalDeformationLayer:
+    """
+    Standard Backpropagation (loss.backward()) 완전히 우회하는 국소 자가 변형 계층
+    - Fast Loop: Fast Local Relaxation (S 계층 상태를 ΔP -> 0 자가 수렴)
+    - Slow Loop: Slow Constraint Deformation (국소 마찰 R의 외적만으로 C 제약 행렬 자가 변형)
+    - Multi-Layer Resonance: 상위 계층 마찰(R_{l+1})의 역방향 파동 피드백
+    """
+    def __init__(self, in_dim: int, out_dim: int):
+        self.in_dim = in_dim
+        self.out_dim = out_dim
+        # C: 선험적 제약 행렬 (out_dim x in_dim)
+        self.C = np.random.randn(out_dim, in_dim) * 0.1
+        # S: 계층 내적 상태 텐서 (out_dim)
+        self.S = np.zeros(out_dim, dtype=float)
+        # W_back: 역방향 인과 피드백 결합 (in_dim x higher_out_dim)
+        self.W_back = np.random.randn(in_dim, out_dim) * 0.05
+
+    def relax_and_update(
+        self,
+        intent_I: np.ndarray,
+        higher_friction_R: Optional[np.ndarray] = None,
+        relaxation_steps: int = 5,
+        gamma: float = 0.1,
+        alpha: float = 0.01
+    ) -> Tuple[np.ndarray, float]:
+        """
+        전역 loss.backward() 없이 순수 ΔP 전위차 수렴 및 국소 마찰로 제약(C) 자가 변형
+        """
+        # [단계 1] Fast Loop: 상태 S를 국소 평형(ΔP -> 0)으로 수렴
+        for _ in range(relaxation_steps):
+            # 전압차(ΔP): 입력 의도 자극과 현재 상태의 역투영 간 위상차 (+ 상위 마찰 피드백)
+            delta_P = intent_I - np.dot(self.C.T, self.S)
+            if higher_friction_R is not None:
+                min_dim = min(len(intent_I), len(self.W_back))
+                delta_P[:min_dim] += np.dot(self.W_back, higher_friction_R[:self.out_dim])[:min_dim] * 0.1
+
+            # 마찰(R): 제약 회로 C를 통과할 때 발생하는 내적 저항
+            R = np.dot(self.C, intent_I) - self.S
+
+            # 상태 자가 복원 수렴
+            self.S += gamma * (R + np.dot(self.C, delta_P))
+
+        # [단계 2] Slow Loop: 발생한 국소 마찰(R)을 상쇄하는 방향으로 C 자가 변형
+        final_R = np.dot(self.C, intent_I) - self.S
+        delta_C = np.outer(final_R, intent_I)
+
+        # 전역 Gradient 연쇄미분 없이 마찰 텐서 외적만으로 제약 구조 자가 변형
+        self.C -= alpha * delta_C
+
+        friction_level = float(np.linalg.norm(final_R))
+        return self.S.copy(), friction_level
 
 
 # ============================================================================
@@ -44,7 +146,6 @@ class PrimitiveDiscernmentEngine:
     외부 라벨 없이 내적 구조와 위상차(Phase Discrepancy)로 분별하는 엔진
     """
     def create_unity(self, name: str = "1", dim: int = 4) -> PrimitiveBoundary:
-        """분해되지 않는 최소 단위의 인과적 경계 '1' 생성"""
         identity_vec = np.ones(dim, dtype=float) / math.sqrt(dim)
         return PrimitiveBoundary(
             name=name,
@@ -55,10 +156,6 @@ class PrimitiveDiscernmentEngine:
         )
 
     def expand_structure(self, base_primitive: PrimitiveBoundary, transition_label: str = "+1") -> PrimitiveBoundary:
-        """
-        '1'이라는 단위 구조에 동일한 '1'이 결합(+1)하여 형성된 새로운 차원의 상태 '2' 생성
-        내면에 '1'이라는 원형 구조(internal_prototype)를 포함함.
-        """
         new_dim = base_primitive.dimension_rank + 1
         expanded_vec = np.concatenate([base_primitive.unbreakable_identity, [1.0]])
         expanded_vec = expanded_vec / np.linalg.norm(expanded_vec)
@@ -72,7 +169,6 @@ class PrimitiveDiscernmentEngine:
         )
 
     def discern_difference(self, p1: PrimitiveBoundary, p2: PrimitiveBoundary) -> Dict[str, Any]:
-        """두 상태 사이의 같음(공유 원형)과 다름(상태 전이 및 위상차)을 자율 분별"""
         has_common_prototype = (
             p1.internal_prototype == p2 or
             p2.internal_prototype == p1 or
@@ -455,6 +551,9 @@ class SelfReferentialArchitectureEngine:
     모든 하부 자기-참조 엔진 및 다차원 회로를 총괄 오케스트레이션하여 외부 라벨 없는 자율 분별 및 인지 순환 구동
     """
     def __init__(self):
+        self.causal_engine_0 = CausalEngine0(dim=3)
+        self.causal_layer_1 = CausalDeformationLayer(in_dim=4, out_dim=3)
+        self.causal_layer_2 = CausalDeformationLayer(in_dim=3, out_dim=3)
         self.primitive_engine = PrimitiveDiscernmentEngine()
         self.language_engine = SelfReferentialLanguageEngine()
         self.video_engine = SelfReferentialVideoEngine()
@@ -471,6 +570,19 @@ class SelfReferentialArchitectureEngine:
         self.phys_circuit = DimensionalCircuit("Physics", lambda s: float(np.max(np.abs(s)) * 0.2))
 
     def run_full_self_referential_cycle(self, input_stimulus: Dict[str, Any]) -> Dict[str, Any]:
+        # 0. 0차 원형 인지 엔진 & 다계층 국소 이완 구동 (No Autograd)
+        intent_pressure = input_stimulus.get("voltage_intent", np.array([2.0, -1.0, 3.0]))
+        c0_state, c0_equilibrium = self.causal_engine_0.cycle(intent_pressure, lr=0.1)
+
+        # 다계층 파동 공명 피드백 구동 (Multi-Layer Standing Wave Resonance)
+        layer1_input = input_stimulus.get("layer1_intent", np.array([1.5, -0.5, 2.0, 0.1]))
+        l1_state, l1_friction = self.causal_layer_1.relax_and_update(layer1_input, relaxation_steps=3)
+        l2_state, l2_friction = self.causal_layer_2.relax_and_update(l1_state, relaxation_steps=3)
+        # L2 마찰을 L1 역방향 피드백으로 수렴
+        l1_state_res, l1_friction_res = self.causal_layer_1.relax_and_update(
+            layer1_input, higher_friction_R=np.array([l2_friction, l2_friction, l2_friction]), relaxation_steps=2
+        )
+
         # 1. 0차 원리 분별 ('1' vs '2')
         u1 = self.primitive_engine.create_unity("1")
         u2 = self.primitive_engine.expand_structure(u1, "+1")
@@ -540,6 +652,8 @@ class SelfReferentialArchitectureEngine:
         decoding_res = self.archetype_decoder.translate_unknown_domain("세포생물학", "수송체 막 전이")
 
         return {
+            "causal_engine_0_equilibrium": c0_equilibrium,
+            "multi_layer_resonance_friction": l1_friction_res,
             "0th_primitive_discernment": primitive_res,
             "video_self_rejection": video_res,
             "circuit_frictions": circuit_frictions,

@@ -3,7 +3,9 @@ Elysia Self-Referential Information Architecture Interactive Demonstration
 ==========================================================================
 외부 라벨러 없이 데이터 스스로의 내부 구조적 제약(Self-Reference)으로 스스로를 분별,
 정의, 경계 설정, 의지적 기하 로터 탐구, 교차차원화, 자율 차원 분화($N \to N+1$),
-및 외부 라벨 역공학/자가 납득(Self-Assimilation / Meta-Causality)을 실행하는 종합 데모 스크립트입니다.
+외부 라벨 역공학/자가 납득(Self-Assimilation / Meta-Causality),
+0차 인과 자가 변형 엔진(CausalEngine0), 및
+역전파(Backprop) 없는 국소 이완과 다계층 파동 공명(CausalDeformationLayer)을 실행하는 종합 데모 스크립트입니다.
 """
 
 import sys
@@ -14,6 +16,8 @@ import numpy as np
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from core.topology.self_referential_architecture import (
+    CausalEngine0,
+    CausalDeformationLayer,
     PrimitiveDiscernmentEngine,
     SelfReferentialLanguageEngine,
     SelfReferentialVideoEngine,
@@ -39,6 +43,32 @@ def print_section(title: str):
 
 def main():
     print_section("Elysia Self-Referential Information Architecture Engine Demonstration")
+
+    # 0. 0차 원형 인지 엔진 자가 변형 수렴 (CausalEngine0)
+    print_section("0. 0차 원형 인지 엔진 자가 변형 수렴 (CausalEngine0: Zero-Loss / Zero-Label)")
+    c0_engine = CausalEngine0(dim=3)
+    voltage_intent = np.array([2.0, -1.0, 3.0])
+    print(f"[*] 가해진 내적 의도 압력 (Voltage Intent I): {voltage_intent}")
+    print("[*] 0차 자가 변형 순환 구동 (Delta P -> 0 수렴):")
+    for cycle_i in range(1, 11):
+        state, delta_p = c0_engine.cycle(voltage_intent, lr=0.1)
+        if cycle_i % 2 == 0 or cycle_i == 1:
+            print(f"    Cycle {cycle_i:02d} | 내적 전위차(ΔP): {delta_p:.5f} | 내적 구조 상태(S): {state.round(3)}")
+
+    # 0-B. 역전파(Backprop) 없는 자율 변형 계층 & 다계층 파동 공명 (CausalDeformationLayer)
+    print_section("0-B. 역전파(Backprop) 없는 국소 이완 계층 & 다계층 파동 공명 (No Autograd)")
+    layer1 = CausalDeformationLayer(in_dim=4, out_dim=3)
+    layer2 = CausalDeformationLayer(in_dim=3, out_dim=3)
+    input_intent = np.array([1.5, -0.5, 2.0, 0.1])
+    print(f"[*] 하위 계층 입력 의도 자극: {input_intent}")
+    s1, r1 = layer1.relax_and_update(input_intent, relaxation_steps=5)
+    s2, r2 = layer2.relax_and_update(s1, relaxation_steps=5)
+    s1_res, r1_res = layer1.relax_and_update(
+        input_intent, higher_friction_R=np.array([r2, r2, r2]), relaxation_steps=3
+    )
+    print(f"[*] Layer 1 이완 상태 (S1): {s1.round(3)} | 국소 마찰 (R1): {r1:.5f}")
+    print(f"[*] Layer 2 이완 상태 (S2): {s2.round(3)} | 국소 마찰 (R2): {r2:.5f}")
+    print(f"[*] 양방향 파동 피드백 후 Layer 1 정지파 평형 마찰: {r1_res:.5f}")
 
     # 1. 0차 원리 분별 ('1' vs '2')
     print_section("1. 0차 원리 분별 (Primitive Discernment: '1' vs '2')")
@@ -177,9 +207,13 @@ def main():
     full_output = full_arch.run_full_self_referential_cycle({
         "video_data": {"digit_count": 6},
         "unmapped_friction": 0.88,
-        "external_label": "Gravity"
+        "external_label": "Gravity",
+        "voltage_intent": np.array([2.0, -1.0, 3.0]),
+        "layer1_intent": np.array([1.5, -0.5, 2.0, 0.1])
     })
     print("[*] 통합 자율 분별 회로 풀 사이클 실행 완료.")
+    print(f"    0차 엔진 수렴 평형 레벨 (ΔP): {full_output['causal_engine_0_equilibrium']:.5f}")
+    print(f"    다계층 공명 피드백 마찰: {full_output['multi_layer_resonance_friction']:.5f}")
     print(f"    0차 원리 분별: {full_output['0th_primitive_discernment']['discernment_statement']}")
     print(f"    영상 자율 기각 사유: {full_output['video_self_rejection']['rejection_reason']}")
     print(f"    메타 공명 버스 전체 마찰: {full_output['total_resonance_friction']:.4f}")

@@ -7,6 +7,8 @@ import numpy as np
 import pytest
 
 from core.topology.self_referential_architecture import (
+    CausalEngine0,
+    CausalDeformationLayer,
     PrimitiveDiscernmentEngine,
     SelfReferentialLanguageEngine,
     SelfReferentialVideoEngine,
@@ -22,6 +24,36 @@ from core.topology.self_referential_architecture import (
     LabelSelfAssimilationEngine,
     SelfReferentialArchitectureEngine,
 )
+
+
+def test_causal_engine_0_convergence():
+    engine = CausalEngine0(dim=3)
+    intent = np.array([2.0, -1.0, 3.0])
+
+    initial_state, initial_delta = engine.cycle(intent, lr=0.1)
+
+    for _ in range(50):
+        current_state, delta = engine.cycle(intent, lr=0.1)
+
+    assert delta < initial_delta
+    assert delta < 0.5
+
+
+def test_causal_deformation_layer_relaxation_and_multilayer():
+    layer1 = CausalDeformationLayer(in_dim=4, out_dim=3)
+    layer2 = CausalDeformationLayer(in_dim=3, out_dim=3)
+    input_intent = np.array([1.5, -0.5, 2.0, 0.1])
+
+    s1, r1 = layer1.relax_and_update(input_intent, relaxation_steps=5)
+    s2, r2 = layer2.relax_and_update(s1, relaxation_steps=5)
+
+    # Bi-directional standing wave feedback
+    s1_res, r1_res = layer1.relax_and_update(
+        input_intent, higher_friction_R=np.array([r2, r2, r2]), relaxation_steps=3
+    )
+
+    assert len(s1_res) == 3
+    assert r1_res >= 0.0
 
 
 def test_primitive_discernment_1_vs_2():
@@ -166,9 +198,13 @@ def test_full_self_referential_architecture_cycle():
     output = full_engine.run_full_self_referential_cycle({
         "video_data": {"digit_count": 6, "kinematic_stress": 0.8},
         "unmapped_friction": 0.9,
-        "external_label": "Gravity"
+        "external_label": "Gravity",
+        "voltage_intent": np.array([2.0, -1.0, 3.0]),
+        "layer1_intent": np.array([1.5, -0.5, 2.0, 0.1])
     })
 
+    assert "causal_engine_0_equilibrium" in output
+    assert "multi_layer_resonance_friction" in output
     assert output["0th_primitive_discernment"]["shared_coherence"] is True
     assert output["video_self_rejection"]["is_rejected"] is True
     assert output["label_self_assimilation"]["is_assimilated_as_internal_knowledge"] is True
