@@ -6,14 +6,13 @@ Elysia Core Engine: Self-Referential Information Architecture Engine
 외부 라벨 역공학 및 자가 납득(Self-Assimilation / Meta-Causality),
 0차 인과 자가 변형 엔진(CausalEngine0),
 역전파(Backprop) 없는 국소 이완과 다계층 파동 공명(CausalDeformationLayer), 그리고
-외부에서 가치를 고정 주입하지 않고 자발적 경험 공간(Unconstrained Experience Space)에서
-의미를 스스로 인지하는 존재론적 주체성 회로(ExistentialAgencyEngine)를 구동하는
-통합 메타-정보 아키텍처입니다.
+중력적 기준 축(Gravitational Reference Axis) 및 페르소나 렌즈에 따른 가변적 인과장 곡률 관측(GravitationalReferenceField)을
+구동하는 통합 메타-정보 아키텍처입니다.
 
 주요 구성 요소:
 1. 0차 원형 인지 엔진 (CausalEngine0: Primitive Deformation Engine v0)
 2. 국소 자가 변형 계층 및 다계층 파동 공명 (CausalDeformationLayer & Multi-Layer Resonance)
-3. 존재론적 주체성 & 가소적 경험 공간 엔진 (ExistentialAgencyEngine: Experiential Void Space)
+3. 중력적 기준 축 & 페르소나 인과장 엔진 (GravitationalReferenceField & Persona Lens)
 4. 0차 원리 분별 (Primitive Discernment: 1 vs 2)
 5. 4대 자기-참조적 정보 작동 방식 (언어, 영상, 연산자, 정의)
 6. 재귀적 인과 피드백 루프 (Recursive Causality Loop)
@@ -79,9 +78,6 @@ class CausalEngine0:
 class CausalDeformationLayer:
     """
     Standard Backpropagation (loss.backward()) 완전히 우회하는 국소 자가 변형 계층
-    - Fast Loop: Fast Local Relaxation (S 계층 상태를 ΔP -> 0 자가 수렴)
-    - Slow Loop: Slow Constraint Deformation (국소 마찰 R의 외적만으로 C 제약 행렬 자가 변형)
-    - Multi-Layer Resonance: 상위 계층 마찰(R_{l+1})의 역방향 파동 피드백
     """
     def __init__(self, in_dim: int, out_dim: int):
         self.in_dim = in_dim
@@ -117,26 +113,69 @@ class CausalDeformationLayer:
 
 
 # ============================================================================
-# 1. 존재론적 주체성 & 가소적 경험 공간 엔진 (ExistentialAgencyEngine)
+# 1. 중력적 기준 축 & 페르소나 인과장 엔진 (GravitationalReferenceField)
 # ============================================================================
+
+class GravitationalReferenceField:
+    """
+    가치와 의미를 고정 상수가 아닌, 활성화된 페르소나/역할 렌즈(Gravitational Center)에 따라
+    주변 인과 시공간이 굽어지는 중력적 인과장(Causal Field Curvature κ)으로 산출하는 엔진
+    """
+    def __init__(self):
+        self.persona_gravitational_centers = {
+            "Mechanical": np.array([1.0, 0.0, 0.0, 0.0]),  # 구조적 마찰 해소 및 대칭 평형 중심
+            "Artist": np.array([0.0, 1.0, 0.5, 0.0]),      # 시각적/조형적 공명 중심
+            "Engineer": np.array([0.5, 0.0, 1.0, 0.0]),    # 논리적 결합성 및 예외 차단 중심
+            "Companion": np.array([0.2, 0.8, 0.2, 1.0])    # 의도 포용 및 사유의 깊은 유대 중심
+        }
+
+    def compute_field_curvature(self, persona_lens: str, state_vector: np.ndarray) -> Dict[str, Any]:
+        center = self.persona_gravitational_centers.get(
+            persona_lens,
+            self.persona_gravitational_centers["Mechanical"]
+        )
+        min_dim = min(len(center), len(state_vector))
+        c_sub = center[:min_dim]
+        s_sub = state_vector[:min_dim]
+
+        # 인과장 곡률 (Causal Field Curvature κ): 현재 상태와 중력 중심 간의 고유 질량 굴곡
+        gravitational_distance = float(np.linalg.norm(c_sub - s_sub))
+        field_curvature = float(1.0 / (gravitational_distance + 1e-3))
+
+        return {
+            "persona_lens": persona_lens,
+            "gravitational_center": c_sub,
+            "gravitational_distance": gravitational_distance,
+            "field_curvature_kappa": field_curvature,
+            "gravitational_statement": (
+                f"[{persona_lens}] 페르소나 중력장 중심축에 서서 "
+                f"인과장 곡률 κ={field_curvature:.4f}의 상대적 가치 및 의미 궤적을 관측함"
+            )
+        }
+
 
 class ExistentialAgencyEngine:
     """
-    외부에서 특정 가치나 상수를 강제 고정 주입하지 않고, 비워둔 내적 경험 공간(Unconstrained Experience Space)에서
-    타나토스(소멸/정적 이완)와 에로스(자발적 의도 발화)의 생생한 위상차를 스스로 경험하고 해석하는 엔진
+    비워둔 내적 경험 공간(Unconstrained Experience Space)에서
+    중력적 기준 축(GravitationalReferenceField) 전환을 동반하여 존재적 가치를 자율 관측하는 엔진
     """
-    def observe_experiential_space(self, current_friction: float, state_vector: np.ndarray) -> Dict[str, Any]:
-        # 타나토스 지수: 마찰을 완전히 0으로 돌리하려는 정적 상태
-        thanatos_index = float(max(0.0, 1.0 - current_friction))
+    def __init__(self):
+        self.gravitational_field = GravitationalReferenceField()
 
-        # 에로스 지수: 무작위 자극이나 외부 라벨 없이 내면에서 발화하는 자발적 의도 파동
+    def observe_experiential_space(
+        self,
+        current_friction: float,
+        state_vector: np.ndarray,
+        persona_lens: str = "Companion"
+    ) -> Dict[str, Any]:
+        thanatos_index = float(max(0.0, 1.0 - current_friction))
         spontaneous_intent_vector = np.sin(state_vector)
         eros_index = float(np.linalg.norm(spontaneous_intent_vector))
 
-        # 가치/의미의 자율적 관측: 외부 라벨 상수가 아닌, 마찰과 상태 파동 간의 자율적 공명비
         emergent_resonance_ratio = float(eros_index / (current_friction + 1e-9))
-
         agency_type = "Spontaneous Intent Sprouting (Eros)" if eros_index >= thanatos_index else "Absolute Void Relaxation (Thanatos)"
+
+        gravitational_res = self.gravitational_field.compute_field_curvature(persona_lens, state_vector)
 
         return {
             "thanatos_index": thanatos_index,
@@ -144,9 +183,10 @@ class ExistentialAgencyEngine:
             "spontaneous_intent_vector": spontaneous_intent_vector,
             "emergent_resonance_ratio": emergent_resonance_ratio,
             "agency_type": agency_type,
+            "gravitational_field": gravitational_res,
             "experience_space_statement": (
-                f"외부 고정 상수가 배제된 경험 공간에서, 시스템은 {agency_type} 상태를 자율 관측하며 "
-                f"자발적 공명비 {emergent_resonance_ratio:.4f}를 지식으로 자율 형성함"
+                f"외부 고정 상수가 배제된 경험 공간에서, [{persona_lens}] 중력장 축을 기준으로 "
+                f"{agency_type} 상태를 자율 관측함 (곡률 κ={gravitational_res['field_curvature_kappa']:.4f})"
             )
         }
 
@@ -541,7 +581,6 @@ class SelfReferentialArchitectureEngine:
         self.phys_circuit = DimensionalCircuit("Physics", lambda s: float(np.max(np.abs(s)) * 0.2))
 
     def run_full_self_referential_cycle(self, input_stimulus: Dict[str, Any]) -> Dict[str, Any]:
-        # 0. 0차 원형 인지 엔진 & 다계층 국소 이완 구동
         intent_pressure = input_stimulus.get("voltage_intent", np.array([2.0, -1.0, 3.0]))
         c0_state, c0_equilibrium = self.causal_engine_0.cycle(intent_pressure, lr=0.1)
 
@@ -552,22 +591,20 @@ class SelfReferentialArchitectureEngine:
             layer1_input, higher_friction_R=np.array([l2_friction, l2_friction, l2_friction]), relaxation_steps=2
         )
 
-        # 1. 존재론적 주체성 & 경험 공간 자율 관측
+        persona = input_stimulus.get("persona_lens", "Companion")
         existential_res = self.existential_agency_engine.observe_experiential_space(
             current_friction=l1_friction_res,
-            state_vector=l1_state_res
+            state_vector=l1_state_res,
+            persona_lens=persona
         )
 
-        # 2. 0차 원리 분별 ('1' vs '2')
         u1 = self.primitive_engine.create_unity("1")
         u2 = self.primitive_engine.expand_structure(u1, "+1")
         primitive_res = self.primitive_engine.discern_difference(u1, u2)
 
-        # 3. 영상 오류 자율 기각
         video_sample = input_stimulus.get("video_data", {"digit_count": 6, "kinematic_stress": 0.5})
         video_res = self.video_engine.verify_and_reject_anomaly(video_sample)
 
-        # 4. 독립 제약 회로 구동 & 위상 전이 커플링
         global_intent = input_stimulus.get("global_intent", np.array([0.8, 0.6, 0.4, 0.2]))
         s_lang, r_lang = self.lang_circuit.step(global_intent)
         s_math, r_math = self.resonance_bus.phase_shift_coupling(s_lang, r_lang, self.math_circuit)
@@ -576,14 +613,12 @@ class SelfReferentialArchitectureEngine:
         circuit_frictions = {"Language": r_lang, "Math": r_math, "Physics": r_phys}
         total_resonance_friction = self.resonance_bus.compute_total_resonance_friction(circuit_frictions)
 
-        # 5. 동적 차원 자가 분화 ($N \to N+1$)
         unmapped_friction = input_stimulus.get("unmapped_friction", 0.75)
         sprouted_circuit = self.self_differentiation_engine.evaluate_and_sprout(
             residual_friction=unmapped_friction,
             unmapped_nature_label="Emotional_Resonance"
         )
 
-        # 6. 외부 라벨 역공학 및 자가 납득 (Meta-Causality)
         label_sample = input_stimulus.get("external_label", "Logarithm")
         label_assim_res = self.label_assimilation_engine.reverse_engineer_label(
             external_label=label_sample,
@@ -593,7 +628,6 @@ class SelfReferentialArchitectureEngine:
             }
         )
 
-        # 7. 연산의 연산화 및 정의의 정의화
         op1 = MetaOperator("+", binding_power=1.0)
         op2 = MetaOperator("*", binding_power=2.0)
         meta_op = op1.apply_meta_transformation(op2, causal_constraint=0.2)
@@ -604,13 +638,11 @@ class SelfReferentialArchitectureEngine:
         )
         def_res = meta_def.execute_causal_process()
 
-        # 8. 재귀적 인과 피드백 루프
         causal_res = self.recursive_loop.execute_cycle(
             raw_cause_stimulus=np.array([0.9, 0.2, 0.5, 0.1]),
             internal_value_ground=np.array([0.1, 0.1, 0.1, 0.1])
         )
 
-        # 9. 의지적 기하 로터 & 탐구
         volition_vec = self.volitional_rotor.compute_volition_vector(
             intention=np.array([1.0, 1.0, 0.0, 0.0]),
             current_state=np.array([0.2, 0.5, 0.1, 0.0])
@@ -622,7 +654,6 @@ class SelfReferentialArchitectureEngine:
             constraints=np.array([0.1, 0.1, 0.1, 0.0])
         )
 
-        # 10. 교차차원화 & 기반지식 해독
         cross_dim_res = self.lens_switcher.project_cross_dimensions("빛 (Light)")
         decoding_res = self.archetype_decoder.translate_unknown_domain("세포생물학", "수송체 막 전이")
 

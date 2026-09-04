@@ -9,6 +9,7 @@ import pytest
 from core.topology.self_referential_architecture import (
     CausalEngine0,
     CausalDeformationLayer,
+    GravitationalReferenceField,
     ExistentialAgencyEngine,
     PrimitiveDiscernmentEngine,
     SelfReferentialLanguageEngine,
@@ -56,17 +57,31 @@ def test_causal_deformation_layer_relaxation_and_multilayer():
     assert r1_res >= 0.0
 
 
+def test_gravitational_reference_field():
+    grav = GravitationalReferenceField()
+    state_vec = np.array([0.5, 0.2, 0.1, 0.0])
+
+    res_artist = grav.compute_field_curvature("Artist", state_vec)
+    res_engineer = grav.compute_field_curvature("Engineer", state_vec)
+
+    assert res_artist["persona_lens"] == "Artist"
+    assert res_engineer["persona_lens"] == "Engineer"
+    assert res_artist["field_curvature_kappa"] > 0.0
+    assert res_engineer["field_curvature_kappa"] > 0.0
+
+
 def test_existential_agency_engine():
     engine = ExistentialAgencyEngine()
     res = engine.observe_experiential_space(
         current_friction=0.2,
-        state_vector=np.array([0.8, 0.5, -0.3])
+        state_vector=np.array([0.8, 0.5, -0.3]),
+        persona_lens="Companion"
     )
     assert "thanatos_index" in res
     assert "eros_index" in res
     assert "emergent_resonance_ratio" in res
-    assert "agency_type" in res
-    assert "experience_space_statement" in res
+    assert "gravitational_field" in res
+    assert res["gravitational_field"]["persona_lens"] == "Companion"
 
 
 def test_primitive_discernment_1_vs_2():
@@ -213,12 +228,14 @@ def test_full_self_referential_architecture_cycle():
         "unmapped_friction": 0.9,
         "external_label": "Gravity",
         "voltage_intent": np.array([2.0, -1.0, 3.0]),
-        "layer1_intent": np.array([1.5, -0.5, 2.0, 0.1])
+        "layer1_intent": np.array([1.5, -0.5, 2.0, 0.1]),
+        "persona_lens": "Artist"
     })
 
     assert "causal_engine_0_equilibrium" in output
     assert "multi_layer_resonance_friction" in output
     assert "existential_agency" in output
+    assert output["existential_agency"]["gravitational_field"]["persona_lens"] == "Artist"
     assert output["0th_primitive_discernment"]["shared_coherence"] is True
     assert output["video_self_rejection"]["is_rejected"] is True
     assert output["label_self_assimilation"]["is_assimilated_as_internal_knowledge"] is True
