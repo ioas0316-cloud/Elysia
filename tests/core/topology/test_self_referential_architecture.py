@@ -58,14 +58,15 @@ def test_causal_deformation_layer_relaxation_and_multilayer():
 
 def test_existential_agency_engine():
     engine = ExistentialAgencyEngine()
-    res = engine.evaluate_existential_state(
+    res = engine.observe_experiential_space(
         current_friction=0.2,
         state_vector=np.array([0.8, 0.5, -0.3])
     )
     assert "thanatos_index" in res
     assert "eros_index" in res
-    assert "chosen_path" in res
-    assert res["gratitude_and_meaning_metric"] > 0.0
+    assert "emergent_resonance_ratio" in res
+    assert "agency_type" in res
+    assert "experience_space_statement" in res
 
 
 def test_primitive_discernment_1_vs_2():

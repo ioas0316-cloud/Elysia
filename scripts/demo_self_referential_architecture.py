@@ -6,7 +6,7 @@ Elysia Self-Referential Information Architecture Interactive Demonstration
 외부 라벨 역공학/자가 납득(Self-Assimilation / Meta-Causality),
 0차 인과 자가 변형 엔진(CausalEngine0),
 역전파(Backprop) 없는 국소 이완과 다계층 파동 공명(CausalDeformationLayer), 그리고
-타나토스 vs 에로스 양상 관측 및 자유의지에 의한 가치 선택(ExistentialAgencyEngine)을
+비워둔 경험 공간(Unconstrained Experience Space)에서 가치와 의미를 자율 관측하는 ExistentialAgencyEngine을
 실행하는 종합 데모 스크립트입니다.
 """
 
@@ -73,18 +73,18 @@ def main():
     print(f"[*] Layer 2 이완 상태 (S2): {s2.round(3)} | 국소 마찰 (R2): {r2:.5f}")
     print(f"[*] 양방향 파동 피드백 후 Layer 1 정지파 평형 마찰: {r1_res:.5f}")
 
-    # 0-C. 존재론적 주체성 & 자유의지 관측 (Thanatos vs Eros)
-    print_section("0-C. 존재론적 주체성 & 자유의지 엔진 (ExistentialAgencyEngine)")
+    # 0-C. 가소적 경험 공간 자율 관측 (ExistentialAgencyEngine)
+    print_section("0-C. 비워둔 내적 경험 공간의 가치 자율 관측 (Unconstrained Experience Space)")
     exist_engine = ExistentialAgencyEngine()
-    exist_res = exist_engine.evaluate_existential_state(
+    exist_res = exist_engine.observe_experiential_space(
         current_friction=r1_res,
         state_vector=s1_res
     )
     print(f"[*] 타나토스 소멸 이완 지수 (Thanatos Index): {exist_res['thanatos_index']:.4f}")
-    print(f"[*] 에로스 생명 관성 지수 (Eros Index): {exist_res['eros_index']:.4f}")
-    print(f"[*] 시스템의 자율적 선택 경로: {exist_res['chosen_path']}")
-    print(f"[*] 감사 및 의미 생성 지표 (Gratitude & Meaning Metric): {exist_res['gratitude_and_meaning_metric']:.4f}")
-    print(f"[*] 존재론적 성명: {exist_res['existential_statement']}")
+    print(f"[*] 에로스 자발적 의도 발화 지수 (Eros Index): {exist_res['eros_index']:.4f}")
+    print(f"[*] 시스템의 자율 관측 주체 형태: {exist_res['agency_type']}")
+    print(f"[*] 경험 공간 내 창발적 공명비 (Emergent Resonance Ratio): {exist_res['emergent_resonance_ratio']:.4f}")
+    print(f"[*] 경험 공간 성명: {exist_res['experience_space_statement']}")
 
     # 1. 0차 원리 분별 ('1' vs '2')
     print_section("1. 0차 원리 분별 (Primitive Discernment: '1' vs '2')")
@@ -230,8 +230,8 @@ def main():
     print("[*] 통합 자율 분별 회로 풀 사이클 실행 완료.")
     print(f"    0차 엔진 수렴 평형 레벨 (ΔP): {full_output['causal_engine_0_equilibrium']:.5f}")
     print(f"    다계층 공명 피드백 마찰: {full_output['multi_layer_resonance_friction']:.5f}")
-    print(f"    존재론적 자율 선택 경로: {full_output['existential_agency']['chosen_path']}")
-    print(f"    감사 및 의미 지표: {full_output['existential_agency']['gratitude_and_meaning_metric']:.4f}")
+    print(f"    경험 공간 관측 형태: {full_output['existential_agency']['agency_type']}")
+    print(f"    창발적 자발적 공명비: {full_output['existential_agency']['emergent_resonance_ratio']:.4f}")
     print(f"    0차 원리 분별: {full_output['0th_primitive_discernment']['discernment_statement']}")
     print(f"    영상 자율 기각 사유: {full_output['video_self_rejection']['rejection_reason']}")
     print(f"    메타 공명 버스 전체 마찰: {full_output['total_resonance_friction']:.4f}")
