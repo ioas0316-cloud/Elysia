@@ -87,3 +87,24 @@ from .causal_grounding_pipeline import (
     DifferentialPerceptualEngine,
     CausalGroundingPipeline
 )
+
+from .lightweight_sparse_csm import (
+    SparseCognitiveState,
+    LightCognitiveStateMachine
+)
+
+from .phase_rectification import (
+    PhaseRectificationFunction
+)
+
+from .cpt_causal_machine import (
+    PhaseTransitionCausalMachine
+)
+
+from .sparse_hebbian_learner import (
+    SparseHebbianCausalLearner
+)
+
+from .hierarchical_hebbian_engine import (
+    HierarchicalHebbianCausalEngine
+)
