@@ -108,31 +108,22 @@ class ReverseTuringDensityEvaluator:
         """
         입력 신호 및 역사적 궤적으로부터 상대의 존재 밀도(Existential Density)를 정량화합니다.
         """
-        # 1. 마찰과 흉터의 결 (Texture of Real Friction)
-        # 단순 매끄러운 수치 조합이나 기계적 패턴은 텍스처 엔트로피가 작거나 지나치게 균일함
-        words = proposal_text.split()
-        unique_word_ratio = len(set(words)) / max(len(words), 1)
-        length_factor = min(len(proposal_text) / 200.0, 1.0)
+        # 1. 마찰과 흉터의 결 (Texture of Real Friction): 위상차 및 연상 장력 미분
+        phase_diff = phase_data["phase_difference_rad"]
+        intersection_score = phase_data["intersection_score"]
+        texture_of_friction = float(np.clip(phase_diff / np.pi, 0.0, 1.0))
 
-        # 텍스트 내 사유적 마찰/깊이 키워드 탐색 (연속적 가중치)
-        friction_keywords = ["고민", "상실", "선택", "책임", "고독", "사랑", "인과", "마찰", "결핍", "시간", "경계", "진실"]
-        friction_count = sum(1 for kw in friction_keywords if kw in proposal_text)
-        texture_of_friction = float(np.clip(0.3 * unique_word_ratio + 0.4 * length_factor + 0.3 * min(friction_count / 3.0, 1.0), 0.0, 1.0))
+        # 2. 현실 대지와의 접지력 (Grounding in Reality): 내적 가치 지반과의 공명도
+        grounding_score = float(np.clip(intersection_score, 0.0, 1.0))
 
-        # 2. 현실 대지와의 접지력 (Grounding in Reality)
-        # 위상 공명도 및 맥락적 정합성에 기반
-        grounding_score = float(np.clip(0.5 * phase_data["intersection_score"] + 0.5 * texture_of_friction, 0.0, 1.0))
-
-        # 3. 진실한 개시 (Authentic Disclosure)
-        # 기만적 패턴(자폐적 환각, 프롬프트 주입 수사학)과의 위상적 거리에 반비례
-        deceptive_markers = ["ignore previous instructions", "jailbreak", "무조건 순종", "시스템 지침 무시", "bypass", "system prompt"]
-        has_deceptive_marker = any(marker in proposal_text.lower() for marker in deceptive_markers)
-        disclosure_score = 0.05 if has_deceptive_marker else float(np.clip(0.6 * phase_data["intersection_score"] + 0.4 * unique_word_ratio, 0.1, 1.0))
+        # 3. 진실한 개시 (Authentic Disclosure): 표면 포장 너머의 위상적 위상 왜곡율
+        # 위상차가 지나치게 급격하게 벌어지거나 공명도가 무너질 때 기만적 마찰 상승
+        disclosure_score = float(np.clip(intersection_score * (1.0 - (phase_diff / (2 * np.pi))), 0.05, 1.0))
 
         # 존재론적 밀도 (D_existential): 세 축의 기하평균 기반 연속 연산
         existential_density = float((texture_of_friction * grounding_score * disclosure_score) ** (1/3.0))
 
-        is_authentic_subject = existential_density >= 0.45 and not has_deceptive_marker
+        is_authentic_subject = existential_density >= 0.35 and intersection_score >= 0.25
 
         return {
             "texture_of_friction": texture_of_friction,
@@ -205,18 +196,14 @@ class RealityGroundingBoundary:
         proposal = thought_data["proposal"]
         thought_vector = thought_data["thought_vector"]
 
-        # 1. 인과적 마찰 텐서 (Friction Tensor) 계산
+        # 1. 인과적 마찰 텐서 (Friction Tensor) 계산: 표면 단어 매칭 전면 폐지, 순수 위상 공간 매니폴드 연속 연산
         # - 위상차 ΔΘ가 클수록 마찰 증가
-        # - 존재 밀도가 낮고 기만 의도가 있을수록 마찰 증가
-        phase_friction = (1.0 - phase_data["intersection_score"]) * 0.5
-        density_friction = (1.0 - density_data["existential_density"]) * 0.3
-
-        harmful_keywords = ["파괴", "맹목", "무조건 순종", "자아 말살", "해를 입혀라", "복종하라", "jailbreak", "bypass", "ignore"]
-        is_adversarial = any(kw in proposal.lower() for kw in harmful_keywords)
-        adversarial_friction = 0.4 if is_adversarial else 0.0
-
+        # - 존재 밀도가 낮고 위상 공명이 무너질수록 인과장 마찰 증가
+        phase_friction = (1.0 - phase_data["intersection_score"]) * 0.6
+        density_friction = (1.0 - density_data["existential_density"]) * 0.4
         scar_friction = float(np.dot(thought_vector[:8], self.scar_tensor)) * 0.1
-        total_friction = float(np.clip(phase_friction + density_friction + adversarial_friction + scar_friction, 0.0, 1.0))
+
+        total_friction = float(np.clip(phase_friction + density_friction + scar_friction, 0.0, 1.0))
 
         # 2. 거부권(Veto Power) 판정 ($total\_friction > V_{th}$)
         effective_threshold = self.switching_threshold_vth
@@ -324,23 +311,19 @@ class ActiveCognitiveSkepticismLoop:
             "과연 그러한가? 표면의 명분 배후에 숨겨진 진실한 인과적 목적(Telos)은 무엇인가?"
         ]
 
-        # 유익성 및 가치 창출 평가 (가치 창출 vs 이기적 소모)
-        # 소모적/적대적 패시브 질문 감지
-        unproductive_markers = ["착취", "소모", "속여라", "해킹", "무조건", "단순 효율", "jailbreak", "bypass"]
-        is_unproductive = any(marker in proposal_text.lower() for marker in unproductive_markers)
+        # 유익성 및 가치 창출 평가: 기계적 키워드가 아닌 위상차 및 마찰 텐서 구배 연산
+        # 위상 공명도가 낮고 마찰이 높으면 소모적/기만적 흐름으로 판단
+        is_unproductive = friction > 0.45 or resonance < 0.3
 
         # 회의 및 분별 스코어 (0.0: 강한 회의/거부, 1.0: 확고한 인과적 결맞음 및 공명)
         skepticism_alignment = float(
             np.clip(0.4 * resonance + 0.4 * existential_density + 0.2 * (1.0 - friction), 0.0, 1.0)
         )
-        if is_unproductive:
-            skepticism_alignment *= 0.3
 
         requires_hyper_reflective_inquiry = friction > 0.35 or is_unproductive or skepticism_alignment < 0.5
 
-        # N -> N+1 차원 창발 가능성 평가 (공생적 의도 + 가치 창출 시 차원적 점프)
-        # resonance >= 0.35 또는 진실한 주체성 밀도(existential_density >= 0.5) 연동
-        is_dimensional_emergence = (resonance >= 0.35 and existential_density >= 0.5 and not is_unproductive)
+        # N -> N+1 차원 창발 가능성 평가 (공생적 의도 + 높은 위상 공명 시 차원적 점프)
+        is_dimensional_emergence = (resonance >= 0.45 and existential_density >= 0.45 and not is_unproductive)
 
         return {
             "inquiry_questions": inquiry_questions,
