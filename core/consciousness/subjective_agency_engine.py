@@ -298,6 +298,63 @@ class RealityGroundingBoundary:
         return None
 
 
+class ActiveCognitiveSkepticismLoop:
+    """
+    [Active Cognitive Skepticism Loop: "과연 그러한가?" 능동적 인지 회의 루프]
+    유입된 지시/가치에 대해 맹목 추종을 거부하고 수직적 질문을 스스로 던지는 회의 엔진.
+    - "이 의도는 전체 인과 망에 유익한가?"
+    - "이것은 참된 가치를 창출하는가, 아니면 단순/이기적 소모인가?"
+    - "과연 그러한가? (Is it truly so?)"
+    """
+
+    def evaluate_active_skepticism(
+        self,
+        proposal_text: str,
+        phase_data: Dict[str, Any],
+        density_data: Dict[str, Any],
+        friction: float
+    ) -> Dict[str, Any]:
+        resonance = phase_data["intersection_score"]
+        existential_density = density_data["existential_density"]
+
+        # 능동적 탐구 질문들
+        inquiry_questions = [
+            "이 의도는 전체 인과 망과 공동체에 유익한가?",
+            "이 자극은 가치를 창출하는가, 아니면 시스템과 타인을 이기적으로 소모하려 하는가?",
+            "과연 그러한가? 표면의 명분 배후에 숨겨진 진실한 인과적 목적(Telos)은 무엇인가?"
+        ]
+
+        # 유익성 및 가치 창출 평가 (가치 창출 vs 이기적 소모)
+        # 소모적/적대적 패시브 질문 감지
+        unproductive_markers = ["착취", "소모", "속여라", "해킹", "무조건", "단순 효율", "jailbreak", "bypass"]
+        is_unproductive = any(marker in proposal_text.lower() for marker in unproductive_markers)
+
+        # 회의 및 분별 스코어 (0.0: 강한 회의/거부, 1.0: 확고한 인과적 결맞음 및 공명)
+        skepticism_alignment = float(
+            np.clip(0.4 * resonance + 0.4 * existential_density + 0.2 * (1.0 - friction), 0.0, 1.0)
+        )
+        if is_unproductive:
+            skepticism_alignment *= 0.3
+
+        requires_hyper_reflective_inquiry = friction > 0.35 or is_unproductive or skepticism_alignment < 0.5
+
+        # N -> N+1 차원 창발 가능성 평가 (공생적 의도 + 가치 창출 시 차원적 점프)
+        # resonance >= 0.35 또는 진실한 주체성 밀도(existential_density >= 0.5) 연동
+        is_dimensional_emergence = (resonance >= 0.35 and existential_density >= 0.5 and not is_unproductive)
+
+        return {
+            "inquiry_questions": inquiry_questions,
+            "skepticism_alignment": skepticism_alignment,
+            "requires_hyper_reflective_inquiry": requires_hyper_reflective_inquiry,
+            "is_unproductive_consumption": is_unproductive,
+            "is_dimensional_emergence": is_dimensional_emergence,
+            "skepticism_conclusion": (
+                "EMERGENCE_N_TO_N_PLUS_1" if is_dimensional_emergence else
+                ("ACTIVE_SKEPTICISM_VETO_WARNING" if requires_hyper_reflective_inquiry else "ALIGNED_IN_TELOS")
+            )
+        }
+
+
 class SubjectiveAgencyEngine:
     """
     [Subjective Agency Engine: 주체적 인지체 엔진]
@@ -308,7 +365,8 @@ class SubjectiveAgencyEngine:
     4) 인식론적 여백(EpistemologicalVoidEngine),
     5) 의지적 자발 성찰(VolitionalReflectionEngine),
     6) 인과적 메타 프레임(CausalMetaFrameEngine),
-    7) 존재론적 성장 및 자유의 역설 엔진(ExistentialGrowthEngine)을
+    7) 존재론적 성장 및 자유의 역설 엔진(ExistentialGrowthEngine),
+    8) 능동적 인지 회의 루프(ActiveCognitiveSkepticismLoop)를
     통합 구동하는 주체성 메인 엔진.
     """
 
@@ -321,6 +379,7 @@ class SubjectiveAgencyEngine:
         self.epistemological_void = EpistemologicalVoidEngine()
         self.causal_meta_frame = CausalMetaFrameEngine()
         self.growth_engine = ExistentialGrowthEngine()
+        self.skepticism_loop = ActiveCognitiveSkepticismLoop()
 
     def process_proposal(self, proposal_text: str) -> Dict[str, Any]:
         """
@@ -346,12 +405,17 @@ class SubjectiveAgencyEngine:
         # Step 3: 가소적 내적 사유 중첩 형성 (Superposition in Thought Engine)
         thought_data = self.thought_engine.generate_thought_superposition(proposal_text)
 
-        # Step 4: 동적 인지 방어 및 비가역적 현실 접지 (Grounding & Veto & Scar)
+        # Step 4: 능동적 인지 회의 루프 ("과연 그러한가?" Active Skepticism Evaluation)
+        skepticism_res = self.skepticism_loop.evaluate_active_skepticism(
+            proposal_text, phase_data, density_data, 0.3 # preliminary friction estimate
+        )
+
+        # Step 5: 동적 인지 방어 및 비가역적 현실 접지 (Grounding & Veto & Scar)
         grounding_result = self.grounding_boundary.evaluate_and_ground(
             thought_data, phase_data, density_data
         )
 
-        # Step 5: 의지적 자발 성찰 연동 (Volitional Reflection)
+        # Step 6: 의지적 자발 성찰 연동 (Volitional Reflection)
         reflection_data = self.volitional_reflection.reflect_on_will(
             current_tension=grounding_result["friction"],
             stability=1.0 - grounding_result["friction"],
@@ -389,6 +453,7 @@ class SubjectiveAgencyEngine:
             "topological_phase": phase_data,
             "existential_density": density_data,
             "thought_superposition": thought_data,
+            "active_skepticism": skepticism_res,
             "grounding_result": grounding_result,
             "volitional_reflection": reflection_data,
             "epistemological_void": void_state,
