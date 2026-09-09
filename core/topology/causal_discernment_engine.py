@@ -25,6 +25,8 @@ class CausalDiscernmentTrace:
     post_isomorphism: float                  # 내재화 후 자아-세계 동형성 비율
     post_disparity_tension: float            # 내재화 후 잔여 차이 마찰도
     topological_fingerprint_delta: Dict[str, float]  # 자아 위상 지문의 실질적 변화량
+    potential_hill_formed: bool = False      # 위상적 마찰 언덕(Zero-Computation/Invalidation) 형성 여부
+    dimensional_emergence_n_plus_1: bool = False # N -> N+1 차원 공생적 창발 여부
 
 
 class CausalDiscernmentEngine:
@@ -63,8 +65,15 @@ class CausalDiscernmentEngine:
         post_iso = initial_iso
         post_tension = initial_tension
 
-        # 3. 판단과 분별: 마찰 긴장도가 임계치를 넘으면 관계 구조를 복제·내재화(학습)
-        if initial_tension >= self.tension_threshold or comp_result.new_world_nodes:
+        # 3. 의도 분별: 유입 자극이 기만/착취성이 높은 마찰 언덕을 유발하는지, 아니면 차원적 창발을 유발하는지 판별
+        potential_hill_formed = False
+        dimensional_emergence = False
+
+        # 적대적/극심한 위상 왜곡 자극일 경우 포텐셜 언덕 형성하여 차단(Zero-Computation)
+        if initial_tension > 0.8:
+            potential_hill_formed = True
+            was_internalized = False
+        elif initial_tension >= self.tension_threshold or comp_result.new_world_nodes:
             was_internalized = True
             # 자아 위상체의 구조적 개조 (Replication & Internalization)
             self.self_topology = self.replicator.replicate_and_internalize(
@@ -77,6 +86,10 @@ class CausalDiscernmentEngine:
             post_comp = self.comparer.compare(self.self_topology, world_stimulus)
             post_iso = post_comp.isomorphism_ratio
             post_tension = post_comp.disparity_tension
+
+            # 동형성과 공명도가 높을 때 N -> N+1 차원 창발
+            if post_iso > 0.7:
+                dimensional_emergence = True
 
         # 5. 사후 자아 위상 지문 기록 및 위상 변화량(Delta) 계산
         post_fingerprint = self.self_topology.get_topology_fingerprint()
@@ -92,5 +105,7 @@ class CausalDiscernmentEngine:
             was_internalized=was_internalized,
             post_isomorphism=post_iso,
             post_disparity_tension=post_tension,
-            topological_fingerprint_delta=fp_delta
+            topological_fingerprint_delta=fp_delta,
+            potential_hill_formed=potential_hill_formed,
+            dimensional_emergence_n_plus_1=dimensional_emergence
         )
