@@ -4,6 +4,8 @@
 
 #include "causal_engine/core/types.hpp"
 #include "causal_engine/core/preisach_soa.hpp"
+#include "causal_engine/core/superconducting_soa.hpp"
+#include "causal_engine/core/topological_field_2d.hpp"
 #include "causal_engine/extraction/attractor_layer.hpp"
 #include "causal_engine/reasoning/backtracer.hpp"
 #include "causal_engine/feedback/closed_loop.hpp"
@@ -64,7 +66,69 @@ PYBIND11_MODULE(causal_engine, m) {
         UpdatePreisachTensorField(field);
     }, "Execute OpenMP/SIMD update on Preisach Tensor Field");
 
-    // 3. AttractorExtractionLayer Binding
+    // 3. SuperconductingSoAField Binding
+    py::class_<SuperconductingSoAField>(m, "SuperconductingSoAField")
+        .def(py::init<>())
+        .def(py::init<size_t>(), py::arg("n"))
+        .def("resize", &SuperconductingSoAField::resize, py::arg("n"))
+        .def_readwrite("num_cells", &SuperconductingSoAField::num_cells)
+        .def_readwrite("lattice_phase", &SuperconductingSoAField::lattice_phase)
+        .def_readwrite("lattice_freq", &SuperconductingSoAField::lattice_freq)
+        .def_readwrite("signal_phase", &SuperconductingSoAField::signal_phase)
+        .def_readwrite("signal_amplitude", &SuperconductingSoAField::signal_amplitude)
+        .def_readwrite("phase_difference", &SuperconductingSoAField::phase_difference)
+        .def_readwrite("coherence_gate", &SuperconductingSoAField::coherence_gate)
+        .def_readwrite("demarcation_wall", &SuperconductingSoAField::demarcation_wall)
+        .def_readwrite("gradient_telos", &SuperconductingSoAField::gradient_telos)
+        .def_readwrite("macro_potential", &SuperconductingSoAField::macro_potential)
+        .def_readwrite("micro_velocity", &SuperconductingSoAField::micro_velocity)
+        .def_readwrite("execution_friction", &SuperconductingSoAField::execution_friction);
+
+    m.def("step_superconducting_transport", [](
+        SuperconductingSoAField& field,
+        float normal_damping_rate,
+        float phase_lock_threshold,
+        float hysteresis_rate,
+        float feedback_strength,
+        float dt
+    ) {
+        py::gil_scoped_release release;
+        step_superconducting_transport(field, normal_damping_rate, phase_lock_threshold, hysteresis_rate, feedback_strength, dt);
+    }, py::arg("field"),
+       py::arg("normal_damping_rate") = 0.1f,
+       py::arg("phase_lock_threshold") = 0.05f,
+       py::arg("hysteresis_rate") = 0.02f,
+       py::arg("feedback_strength") = 0.05f,
+       py::arg("dt") = 0.1f,
+       "Step superconducting phase-locking zero-scattering transport");
+
+    // 4. TopologicalField2D Binding
+    py::class_<TopologicalField2D>(m, "TopologicalField2D")
+        .def(py::init<>())
+        .def(py::init<size_t, size_t>(), py::arg("width"), py::arg("height"))
+        .def("resize", &TopologicalField2D::resize, py::arg("width"), py::arg("height"))
+        .def_readwrite("width", &TopologicalField2D::width)
+        .def_readwrite("height", &TopologicalField2D::height)
+        .def_readwrite("phase", &TopologicalField2D::phase)
+        .def_readwrite("amplitude", &TopologicalField2D::amplitude)
+        .def_readwrite("grad_x", &TopologicalField2D::grad_x)
+        .def_readwrite("grad_y", &TopologicalField2D::grad_y)
+        .def_readwrite("coherence_gate", &TopologicalField2D::coherence_gate)
+        .def_readwrite("vorticity", &TopologicalField2D::vorticity);
+
+    m.def("step_multidim_topological_transport", [](
+        TopologicalField2D& field,
+        float phase_lock_thresh,
+        float dt
+    ) {
+        py::gil_scoped_release release;
+        step_multidim_topological_transport(field, phase_lock_thresh, dt);
+    }, py::arg("field"),
+       py::arg("phase_lock_thresh") = 0.1f,
+       py::arg("dt") = 0.1f,
+       "Step multi-dimensional topological phase field dynamics");
+
+    // 5. AttractorExtractionLayer Binding
     py::class_<AttractorExtractionLayer>(m, "AttractorExtractionLayer")
         .def(py::init<>())
         .def("extract_causal_graph", [](AttractorExtractionLayer& self, const PreisachTensorFieldSoA& field, float threshold) {
@@ -74,7 +138,7 @@ PYBIND11_MODULE(causal_engine, m) {
             return py::make_tuple(nodes, edges);
         }, py::arg("field"), py::arg("threshold") = 0.4f);
 
-    // 4. Enhanced CausalBacktracer Binding
+    // 6. Enhanced CausalBacktracer Binding
     py::class_<EnhancedCausalBacktracer>(m, "CausalBacktracer")
         .def(py::init<>())
         .def("trace_minimal_impedance_path", &EnhancedCausalBacktracer::TraceMinimalImpedancePath,
@@ -83,7 +147,7 @@ PYBIND11_MODULE(causal_engine, m) {
              py::arg("goal_node_id"), py::arg("start_node_id"), py::arg("nodes"), py::arg("edges"),
              py::arg("gamma_curvature") = 0.2f, py::arg("latency_damping") = 0.1f);
 
-    // 5. ClosedLoopCausalEngine Binding
+    // 7. ClosedLoopCausalEngine Binding
     py::class_<ClosedLoopCausalEngine>(m, "ClosedLoopCausalEngine")
         .def(py::init<>())
         .def("execute_and_adapt", [](ClosedLoopCausalEngine& self, const std::vector<uint32_t>& trajectory, const std::vector<MacroSymbolNode>& nodes, PreisachTensorFieldSoA& field, float threshold) {
@@ -91,7 +155,7 @@ PYBIND11_MODULE(causal_engine, m) {
             return self.ExecuteAndAdaptTrajectory(trajectory, nodes, field, threshold);
         }, py::arg("trajectory"), py::arg("nodes"), py::arg("field"), py::arg("threshold") = 0.2f);
 
-    // 6. Impedance Evaluation & Meta-Constraint Binding
+    // 8. Impedance Evaluation & Meta-Constraint Binding
     py::class_<ImpedanceResult>(m, "ImpedanceResult")
         .def(py::init<>())
         .def_readwrite("trajectory_curvature", &ImpedanceResult::trajectory_curvature)
