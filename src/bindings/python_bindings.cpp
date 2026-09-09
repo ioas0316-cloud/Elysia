@@ -1,11 +1,15 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/stl_bind.h>
 #include <pybind11/numpy.h>
 
 #include "causal_engine/core/types.hpp"
 #include "causal_engine/core/preisach_soa.hpp"
 #include "causal_engine/core/superconducting_soa.hpp"
 #include "causal_engine/core/topological_field_2d.hpp"
+#include "causal_engine/core/collective_manifold.hpp"
+
+PYBIND11_MAKE_OPAQUE(std::vector<causal_engine::SymbioticProtocell>);
 #include "causal_engine/extraction/attractor_layer.hpp"
 #include "causal_engine/reasoning/backtracer.hpp"
 #include "causal_engine/feedback/closed_loop.hpp"
@@ -128,7 +132,46 @@ PYBIND11_MODULE(causal_engine, m) {
        py::arg("dt") = 0.1f,
        "Step multi-dimensional topological phase field dynamics");
 
-    // 5. AttractorExtractionLayer Binding
+    // 5. Collective Manifold & Symbiotic Protocell Binding
+    py::bind_vector<std::vector<SymbioticProtocell>>(m, "SymbioticProtocellVector", py::module_local());
+
+    py::class_<SymbioticProtocell>(m, "SymbioticProtocell")
+        .def(py::init<>())
+        .def(py::init<size_t, size_t>(), py::arg("cell_id"), py::arg("field_size"))
+        .def_readwrite("id", &SymbioticProtocell::id)
+        .def_readwrite("field", &SymbioticProtocell::field)
+        .def_readwrite("internal_energy", &SymbioticProtocell::internal_energy)
+        .def_readwrite("causal_deficit", &SymbioticProtocell::causal_deficit)
+        .def_readwrite("self_identity_phase", &SymbioticProtocell::self_identity_phase)
+        .def_readwrite("symbiotic_coupling", &SymbioticProtocell::symbiotic_coupling);
+
+    py::class_<CollectiveManifold>(m, "CollectiveManifold")
+        .def(py::init<>())
+        .def(py::init<size_t, size_t>(), py::arg("num_protocells"), py::arg("cells_per_protocell"))
+        .def("add_protocell", &CollectiveManifold::add_protocell, py::arg("field_size"))
+        .def_readwrite("protocells", &CollectiveManifold::protocells)
+        .def_readwrite("system_dimension", &CollectiveManifold::system_dimension)
+        .def_readwrite("collective_phase", &CollectiveManifold::collective_phase)
+        .def_readwrite("collective_coherence", &CollectiveManifold::collective_coherence)
+        .def_readwrite("collective_macro_potential", &CollectiveManifold::collective_macro_potential)
+        .def_readwrite("topological_volume", &CollectiveManifold::topological_volume)
+        .def_readwrite("dimension_spawned", &CollectiveManifold::dimension_spawned);
+
+    m.def("step_collective_manifold_dynamics", [](
+        CollectiveManifold& manifold,
+        float coupling_rate,
+        float deficit_threshold,
+        float dt
+    ) {
+        py::gil_scoped_release release;
+        step_collective_manifold_dynamics(manifold, coupling_rate, deficit_threshold, dt);
+    }, py::arg("manifold"),
+       py::arg("coupling_rate") = 0.2f,
+       py::arg("deficit_threshold") = 0.05f,
+       py::arg("dt") = 0.1f,
+       "Step collective manifold & symbiotic alignment dynamics");
+
+    // 6. AttractorExtractionLayer Binding
     py::class_<AttractorExtractionLayer>(m, "AttractorExtractionLayer")
         .def(py::init<>())
         .def("extract_causal_graph", [](AttractorExtractionLayer& self, const PreisachTensorFieldSoA& field, float threshold) {
