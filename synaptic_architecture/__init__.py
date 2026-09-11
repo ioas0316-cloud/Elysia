@@ -108,3 +108,14 @@ from .sparse_hebbian_learner import (
 from .hierarchical_hebbian_engine import (
     HierarchicalHebbianCausalEngine
 )
+
+from .plasticity_memory_architecture import (
+    CausalNode,
+    CausalEdge,
+    MetaCognitiveObservation,
+    FrictionSensor,
+    NodeAutopoiesis,
+    GraphMutator,
+    ConsolidationLoop,
+    PlasticityMemoryArchitecture
+)
