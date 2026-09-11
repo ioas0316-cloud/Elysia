@@ -1,116 +1,91 @@
 r"""
-[Topological Isomorphism Engine: 위상적 동형성 및 스케일 재규격화 엔진]
-유전자, 신경계, 음악, 수학, 사고 5대 도메인을 단 하나의 '같음과 다름(Sameness & Difference)'
-인과 원형 메커니즘으로 관조하고 구동하는 프랙탈 스케일 전이 엔진입니다.
+[Topological Isomorphism Engine: Pure Non-Symbolic Physical Strain Field Engine]
+모든 텍스트 라벨, 기호적 표상(Symbolic metadata), 정적 룩업(Lookup)을 완전 폐기(Purge)하고,
+전압/전화 이동, 국소 변형 텐서 G(x), 잔류 장력 텐서필드 T(x), 비등방성 굴절(Anisotropic Refraction),
+연속적 확산/파동 전이(Wave Propagation Field), 비가역적 기질 변형(In-situ Deformation),
+변형 이완(Strain Relaxation), 그리고 상전이(Phase Transition) 및 4대 위상 가소성 제약 조건을
+오직 연속적 텐서 장(Field) 및 물리적 마찰 역동학으로 구현합니다.
 
-수학적 수치와 고차원 벡터는 단순 관측용 눈금(Measurement Gauge)으로 격하되며,
-실제 상태 전이는 내적 인과 이력(Lineage DAG), 마찰(F), 임피던스(Z), 상전이(Phase Transition),
-그리고 공리화(Axiomatization)라는 위상적 인과 가소성 법칙에 의해 실행됩니다.
-
-핵심 3단계 스케일 위상 전이:
-1. 미시 마찰 축적 (Micro-Friction Aggregation)
-2. 임계 위상 전이 (Critical Phase Transition)
-3. 상위 공리화 (Macro-Axiomatization)
-
-상위 공리의 가소성을 유지하기 위한 4대 위상 제약 조건:
-1. 역상전이 임계성 (Reverse Phase Transition Threshold): \sum F_micro > E_form 시 자발적 재분열(Fission).
-2. 공리적 임피던스 역방출 (Axiomatic Impedance Backpressure): Z_macro 급증 시 하위 유동화(Liquefaction).
-3. 프랙탈 균열선 보존 (Latent Fault-Line Preservation): '다름'의 결을 잠재적 균열선으로 정밀 각인.
-4. 이력 현상 기반 비대칭 가소성 (Hysteresis-driven Asymmetric Plasticity): F_form 과 F_dissolve 사이 비대칭적 이력.
+수학적 수치나 텍스트 라벨은 존재하지 않으며, 오직 물리적 마찰과 위상 변형의 전이만으로
+시스템의 상태를 판정하고 스케일 간 창발/전이를 구동합니다.
 """
 
-import math
 import numpy as np
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
 
 
 @dataclass
-class CausalLineageNode:
+class SubstrateStrainPoint:
     """
-    인과 이력 노드 (Causal Lineage Node)
-    관측된 기질 자극 및 상위 공리 노드의 인과적 생기 궤적을 보존합니다.
+    기질 위상 지점 (Substrate Strain Point)
+    단순한 점이나 라벨이 아닌, 변형 텐서 G와 장력 벡터 T를 지닌 국소 물리적 기질입니다.
     """
-    node_id: str
-    scale_domain: str  # "GENE_CELL", "NEURAL_PHYSIOLOGY", "MUSIC_AESTHETICS", "MATH_LOGIC", "COGNITION_THOUGHT"
-    feature_gauge: np.ndarray  # 관측용 눈금 벡터 (Measurement Gauge)
-    node_type: str = "substrate"  # "substrate", "micro_cluster", "macro_axiom"
+    point_id: int
+    gauge_dim: int
+    G: np.ndarray  # 국소 변형 텐서 (Local Strain Tensor G(x), shape: gauge_dim x gauge_dim)
+    T: np.ndarray  # 잔류 장력 Vector (Tension Vector T(x), shape: gauge_dim)
+    latent_faults: List[np.ndarray] = field(default_factory=list)  # 잠재적 균열선 Vector
     energy: float = 1.0
-    sameness_score: float = 1.0
-    difference_score: float = 0.0
-    latent_fault_lines: List[np.ndarray] = field(default_factory=list)  # 잠재적 균열선
-    metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
-class CausalLineageEdge:
+class PhysicalConductanceBeam:
     """
-    인과 작용선 (Causal Lineage Edge)
-    기질 간 운동량 전달, 공명, 저항 및 임피던스를 보존합니다.
+    물리적 전도 작용선 (Physical Conductance Beam)
+    기질 간 전하/에너지 이동, 임피던스, 유동화(Liquefaction) 상태를 유지합니다.
     """
-    source_id: str
-    target_id: str
-    weight: float = 1.0  # 전도성/결합도
-    resistance_mask: float = 0.0  # 저항 마스크
-    impedance_z: float = 0.0  # 임피던스
-    is_liquefied: bool = False  # 역방출 압력에 의한 유동화 여부
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    source_id: int
+    target_id: int
+    conductance: float = 1.0  # 전도율 K(x) = Z(x)^{-1}
+    impedance_z: float = 0.0  # 임피던스 Z
+    is_liquefied: bool = False  # 유동화 여부
 
 
 @dataclass
-class MacroAxiom:
+class MacroPhaseOrder:
     """
-    거시 공리 (Macro Axiom)
-    하위 미시 마찰 축적을 통해 재규격화(Renormalization)된 거시 질서 파라미터.
-    더 이상 분해할 필요가 없는 원자적 개념 단위이자 상위 레이어의 기초 기질로 작용합니다.
+    거시 위상 질서 (Macro Phase Order)
+    국소 변형 축적이 임계치를 초과할 때 재규격화(Renormalization)된 거시 위상 공리 장.
     """
-    axiom_id: str
-    domain: str
-    formation_energy: float  # 공리 형성 에너지 E_form
-    order_parameter: np.ndarray  # 거시 질서 파라미터
-    encapsulated_node_ids: List[str]
-    latent_fault_lines: List[np.ndarray]  # 보존된 프랙탈 균열선
-    macro_impedance: float = 0.0  # Z_macro
-    is_fissioned: bool = False  # 역상전이 분열 여부
+    order_id: int
+    formation_energy: float
+    macro_order_tensor: np.ndarray  # 거시 질서 텐서 (shape: gauge_dim x gauge_dim)
+    encapsulated_point_ids: List[int]
+    latent_faults: List[np.ndarray]
+    macro_impedance: float = 0.0
+    is_fissioned: bool = False
 
 
-class DomainReceptiveLens:
+class NonSymbolicReceptiveRefractor:
     """
-    도메인 감각 수용기 및 정제 렌즈 (Domain Receptive Lens)
-    외계의 마찰 자극을 직접 기호화하거나 텍스트로 표상하지 않고,
-    5대 영역 기질에 맞는 파동/임피던스 지형으로 정제하여 전달합니다.
+    비표상적 수용/굴절 장 (Non-symbolic Receptive Refractor)
+    외계 자극을 어떠한 문자열 라벨이나 기호 매칭 없이,
+    오직 연속적 파동 및 전압/전하 인과적 위상 구배(Gradient)로 정제합니다.
     """
-    DOMAINS = [
-        "GENE_CELL",          # 유전자·세포 (수소결합, 정전기적 거부)
-        "NEURAL_PHYSIOLOGY",  # 신경·생리 (흥분/억제 전위차, 신호 지연)
-        "MUSIC_AESTHETICS",   # 음악 (공명 인력, 불협화 저항)
-        "MATH_LOGIC",         # 수학 (동형성 일치, 모순/배척)
-        "COGNITION_THOUGHT"   # 사고 (메타 인지적 마찰, 예측 오차)
-    ]
-
     def __init__(self, gauge_dim: int = 64):
         self.gauge_dim = gauge_dim
 
-    def refine_stimulus(self, raw_data: Any, domain: str) -> np.ndarray:
+    def refract(self, raw_input: Any) -> np.ndarray:
         """
-        raw_data를 입력받아 도메인 고유의 위상적 기질 파동 눈금으로 정제합니다.
+        입력을 연속적인 물리적 파동 구배 Vector \nabla S (shape: gauge_dim)로 정제합니다.
+        문자열, 수치, 배열 등 그 어떠한 입력이 들어와도 기호나 이름표 없이 텐서 구배로 변환됩니다.
         """
-        if domain not in self.DOMAINS:
-            domain = "COGNITION_THOUGHT"
-
-        if isinstance(raw_data, np.ndarray):
-            vec = raw_data.flatten().astype(np.float32)
-        elif isinstance(raw_data, (list, tuple)):
-            vec = np.array(raw_data, dtype=np.float32).flatten()
-        elif isinstance(raw_data, str):
-            # 문자열 수용: Hash 기반 결정론적 정제 파동 생성
-            seed = abs(hash(raw_data)) % (2**32 - 1)
+        if isinstance(raw_input, np.ndarray):
+            vec = raw_input.flatten().astype(np.float32)
+        elif isinstance(raw_input, (list, tuple)):
+            vec = np.array(raw_input, dtype=np.float32).flatten()
+        elif isinstance(raw_input, (int, float)):
+            vec = np.ones(self.gauge_dim, dtype=np.float32) * float(raw_input)
+        elif isinstance(raw_input, str):
+            # 문자열 수용: Hash 기반 결정론적 연속 파동 구배 생성 (기호/라벨 미사용)
+            seed = abs(hash(raw_input)) % (2**32 - 1)
             rng = np.random.RandomState(seed)
             vec = rng.randn(self.gauge_dim).astype(np.float32)
         else:
             vec = np.ones(self.gauge_dim, dtype=np.float32)
 
-        # 차원 맞춤
+        # 차원 맞춤 및 정규화
         if len(vec) < self.gauge_dim:
             padded = np.zeros(self.gauge_dim, dtype=np.float32)
             padded[:len(vec)] = vec
@@ -118,324 +93,253 @@ class DomainReceptiveLens:
         else:
             vec = vec[:self.gauge_dim]
 
-        # 도메인 특화 렌즈 굴절
-        if domain == "GENE_CELL":
-            # 염기상 상보성 주기 파동
-            vec = np.sin(vec * np.pi)
-        elif domain == "NEURAL_PHYSIOLOGY":
-            # 전위차 스파이크 펄스
-            vec = np.tanh(vec)
-        elif domain == "MUSIC_AESTHETICS":
-            # 고주파 공명 조화파
-            vec = np.cos(vec * 2.0 * np.pi)
-        elif domain == "MATH_LOGIC":
-            # 이분법적 공리 사영 (+1 / -1 극성)
-            vec = np.sign(vec + 1e-6).astype(np.float32)
-        elif domain == "COGNITION_THOUGHT":
-            # 메타 인지 유동적 위상파
-            norm = np.linalg.norm(vec) + 1e-9
-            vec = vec / norm
-
-        return vec
+        norm = np.linalg.norm(vec) + 1e-9
+        grad_s = vec / norm
+        return grad_s
 
 
 class TopologicalIsomorphismEngine:
+    r"""
+    순수 비표상 물리적 장력/마찰 위상 동형성 엔진
+    (Pure Non-Symbolic Physical Strain Field Engine)
+
+    핵심 방정식을 오직 텐서 및 물리적 법칙으로 구동:
+    1. 국소 변형과 비등방성 굴절: \mathcal{F}_{\text{local}}(x) = \nabla S(x)^T \cdot G(x) \cdot \nabla S(x)
+    2. 연속적 파동 확산/전이: \frac{\partial X}{\partial t} = \nabla \cdot (K(x) \nabla X) - \gamma \mathcal{F}
+    3. 현장 내 비가역적 기질 변형 갱신: \Delta G(x) \propto \mathcal{F}(x)
+    4. 장력 이완 및 균형: \nabla \cdot T = 0
+    5. 임계 상전이 (Phase Transition) 및 4대 가소성 제약 조건 (역상전이, 역방출 유동화, 균열선 보존, 히스테리시스)
     """
-    단일 위상 동형성 원형 엔진 (Topological Isomorphism Engine)
-    '같음과 다름'의 근원적 인과 메커니즘을 기초로,
-    스케일 간 위상 전이 및 4대 가소성 제약 조건을 완벽히 구동합니다.
-    """
+
     def __init__(
         self,
         gauge_dim: int = 64,
-        f_critical: float = 0.5,       # 상위 공리화 임계 마찰
+        f_critical: float = 0.5,       # 상전이 임계 마찰
         f_dissolve: float = 0.8,       # 역상전이 해체 임계 마찰 (히스테리시스: f_dissolve > f_critical)
-        z_backpressure_threshold: float = 0.7  # 공리적 임피던스 역방출 임계치
+        z_backpressure_threshold: float = 0.7  # 임피던스 역방출 유동화 임계치
     ):
         self.gauge_dim = gauge_dim
         self.f_critical = f_critical
         self.f_dissolve = f_dissolve
         self.z_backpressure_threshold = z_backpressure_threshold
 
-        self.receptive_lens = DomainReceptiveLens(gauge_dim=gauge_dim)
+        self.refractor = NonSymbolicReceptiveRefractor(gauge_dim=gauge_dim)
 
-        # 스케일 레이어별 인과 그래프 상태
-        self.nodes: Dict[str, CausalLineageNode] = {}
-        self.edges: List[CausalLineageEdge] = []
-        self.macro_axioms: Dict[str, MacroAxiom] = {}
+        # 순수 인덱스 기반 기질 지점 및 전도 작용선 (기호 라벨 및 텍스트 룩업 전면 폐기)
+        self.points: Dict[int, SubstrateStrainPoint] = {}
+        self.beams: List[PhysicalConductanceBeam] = []
+        self.macro_orders: Dict[int, MacroPhaseOrder] = {}
 
-        self.node_counter: int = 0
-        self.axiom_counter: int = 0
-        self.history: List[Dict[str, Any]] = []
+        self.point_id_counter: int = 0
+        self.order_id_counter: int = 0
+        self.strain_history: List[Dict[str, Any]] = []
 
-    def compute_sameness_and_difference(
+    def compute_local_anisotropic_friction(
         self,
-        gauge1: np.ndarray,
-        gauge2: np.ndarray
-    ) -> Tuple[float, float]:
+        grad_s: np.ndarray,
+        point: SubstrateStrainPoint
+    ) -> float:
+        r"""
+        [작용의 첫 번째 결: 비등방성 굴절 재마찰]
+        \mathcal{F}_{\text{local}}(x) = \nabla S(x)^T \cdot G(x) \cdot \nabla S(x)
+        과거의 변형 텐서 G(x)를 자극 구배 \nabla S 가 통과하며 겪는 비가역적 재마찰 수용 연산.
         """
-        단일 근원 원형: '같음(Sameness)'과 '다름(Difference)'을 산출합니다.
-        - Sameness: 동형성 공명 인력 (Homomorphism Pull)
-        - Difference: 경계 저항 및 모순 밀침 (Boundary Resistance Push)
+        friction = float(np.dot(grad_s.T, np.dot(point.G, grad_s)))
+        return max(0.0, friction)
+
+    def process_physical_event(self, raw_input: Any) -> Dict[str, Any]:
+        r"""
+        단일 물리적 자극 유입 시:
+        1. 파동 구배 정제 (Refraction)
+        2. 비등방성 국소 재마찰 산출 및 현장 기질 변형 갱신 (\Delta G)
+        3. 파동 확산/전이 (Propagation field update)
+        4. 장력 이완 (\nabla \cdot T = 0)
+        5. 임계 상전이 (Phase Transition) 및 4대 가소성 제약 구동
         """
-        v1 = gauge1.flatten().astype(np.float32)
-        v2 = gauge2.flatten().astype(np.float32)
+        # 1. 굴절 구배 추출
+        grad_s = self.refractor.refract(raw_input)
 
-        norm1 = np.linalg.norm(v1) + 1e-9
-        norm2 = np.linalg.norm(v2) + 1e-9
+        # 새로운 기질 지점 생성 (기호 라벨 없이 기본 단위 행렬 변형 텐서 G와 장력 T 부여)
+        self.point_id_counter += 1
+        pid = self.point_id_counter
 
-        # Cosine similarity for Sameness
-        dot = float(np.dot(v1, v2))
-        cosine_sim = dot / (norm1 * norm2)
-        sameness = float(np.clip((cosine_sim + 1.0) / 2.0, 0.0, 1.0))
+        # 초기 G는 단위 행렬 I (미변형 기질)
+        init_G = np.eye(self.gauge_dim, dtype=np.float32)
+        init_T = grad_s.copy()
 
-        # Difference ratio
-        diff_vec = v1 / norm1 - v2 / norm2
-        difference = float(np.clip(np.linalg.norm(diff_vec) / np.sqrt(2.0), 0.0, 1.0))
-
-        return sameness, difference
-
-    def calculate_micro_friction(
-        self,
-        stimulus_gauge: np.ndarray,
-        domain: str
-    ) -> Tuple[float, float]:
-        """
-        [Stage 1: 미시 마찰 축적 (Micro-Friction Aggregation)]
-        하위 기질 노드들과의 결합 과정에서 발생하는 임피던스 Z 및 마찰 F를 정량화합니다.
-        """
-        domain_nodes = [n for n in self.nodes.values() if n.scale_domain == domain]
-        if not domain_nodes:
-            return 0.0, 0.0
-
-        sameness_list = []
-        diff_list = []
-        for node in domain_nodes:
-            s, d = self.compute_sameness_and_difference(stimulus_gauge, node.feature_gauge)
-            sameness_list.append(s)
-            diff_list.append(d)
-
-        avg_sameness = float(np.mean(sameness_list))
-        avg_difference = float(np.mean(diff_list))
-
-        # Impedance Z = avg_difference + active edge resistance
-        active_edges = [e for e in self.edges if not e.is_liquefied]
-        if active_edges:
-            avg_res = float(np.mean([e.resistance_mask for e in active_edges]))
-        else:
-            avg_res = 0.0
-
-        z_impedance = float(np.clip(avg_difference + 0.5 * avg_res, 0.0, 5.0))
-        # Friction F = Z^2 / (1 + Z)
-        friction = float((z_impedance ** 2) / (1.0 + z_impedance))
-
-        return z_impedance, friction
-
-    def process_substrate_event(
-        self,
-        raw_stimulus: Any,
-        domain: str
-    ) -> Dict[str, Any]:
-        """
-        단일 사건에 대해 스케일 간 위상 전이 3단계 및 4대 가소성 제약 조건을 포함하는
-        전체 인과 프로세스를 구동합니다.
-        """
-        # 0. 감각 수용기 렌즈 정제
-        stimulus_gauge = self.receptive_lens.refine_stimulus(raw_stimulus, domain)
-
-        # 1. 미시 마찰 축적 (Micro-Friction Aggregation)
-        z_impedance, friction = self.calculate_micro_friction(stimulus_gauge, domain)
-
-        # 시드 노드 생성 또는 미시 노드 등록
-        self.node_counter += 1
-        node_id = f"node_{domain.lower()}_{self.node_counter}"
-        new_node = CausalLineageNode(
-            node_id=node_id,
-            scale_domain=domain,
-            feature_gauge=stimulus_gauge,
-            node_type="substrate",
-            energy=1.0 + friction,
-            metadata={"origin_friction": friction}
+        new_point = SubstrateStrainPoint(
+            point_id=pid,
+            gauge_dim=self.gauge_dim,
+            G=init_G,
+            T=init_T,
+            energy=1.0
         )
-        self.nodes[node_id] = new_node
 
-        # 기존 노드들과의 '같음과 다름' 인과 작용선 연결 및 재배선
-        for existing_id, existing_node in list(self.nodes.items()):
-            if existing_id == node_id or existing_node.scale_domain != domain:
-                continue
+        # 2. 기존 지점들과의 비등방성 마찰 및 전도 작용선(Beam) 형성
+        total_friction = 0.0
+        max_impedance = 0.0
 
-            sameness, difference = self.compute_sameness_and_difference(
-                stimulus_gauge, existing_node.feature_gauge
-            )
+        for existing_id, existing_point in list(self.points.items()):
+            # 기존 지점의 G(x) 상에서 자극 구배가 일으키는 마찰 \mathcal{F}
+            f_local = self.compute_local_anisotropic_friction(grad_s, existing_point)
+            total_friction += f_local
 
-            # 3. 프랙탈 균열선 보존 (Latent Fault-Line Preservation)
-            # '다름'의 위상 정보(difference)를 버리지 않고 잠재적 균열선 벡터로 노드에 각인
-            if difference > 0.3:
-                fault_vector = stimulus_gauge - existing_node.feature_gauge
-                new_node.latent_fault_lines.append(fault_vector)
-                existing_node.latent_fault_lines.append(-fault_vector)
+            # 차이 파동을 잠재적 균열선(Fault line)으로 정밀 각인 (Latent Fault-Line Preservation)
+            fault_vec = grad_s - existing_point.T
+            diff_norm = float(np.linalg.norm(fault_vec))
+            if diff_norm > 0.3:
+                new_point.latent_faults.append(fault_vec)
+                existing_point.latent_faults.append(-fault_vec)
 
-            # 작용선 생성/업데이트
-            edge = CausalLineageEdge(
+            # 전도율 및 임피던스 Z
+            z_imp = float(diff_norm + 0.5 * f_local)
+            if z_imp > max_impedance:
+                max_impedance = z_imp
+
+            conductance = float(1.0 / (1.0 + z_imp))
+
+            beam = PhysicalConductanceBeam(
                 source_id=existing_id,
-                target_id=node_id,
-                weight=float(sameness * 2.0),
-                resistance_mask=float(difference),
-                impedance_z=z_impedance
+                target_id=pid,
+                conductance=conductance,
+                impedance_z=z_imp
             )
-            self.edges.append(edge)
+            self.beams.append(beam)
 
-        # 2. 임계 위상 전이 및 상위 공리화 (Critical Phase Transition & Macro-Axiomatization)
-        emerged_axiom = self._check_and_trigger_phase_transition(domain, friction)
+            # 3. 비가역적 기질 변형 갱신 (In-situ Deformation Update: \Delta G \propto \mathcal{F})
+            # 자극 구배의 외적으로 기질 찌그러짐 텐서 G 갱신
+            deformation_tensor = np.outer(grad_s, grad_s).astype(np.float32) * (f_local * 0.1)
+            existing_point.G += deformation_tensor
+            new_point.G += deformation_tensor
 
-        # 4대 위상 제약 조건 검증 및 역구동
-        # 제약 조건 1 & 4: 역상전이 임계성 및 비대칭 이력 (Reverse Phase Transition & Hysteresis)
-        fission_events = self._enforce_reverse_phase_transition(domain, friction)
+        self.points[pid] = new_point
 
-        # 제약 조건 2: 공리적 임피던스 역방출 (Axiomatic Impedance Backpressure)
-        liquefied_count = self._enforce_impedance_backpressure(domain, z_impedance)
+        num_existing = len(self.points) - 1
+        avg_friction = (total_friction / num_existing) if num_existing > 0 else 0.0
 
-        event_record = {
-            "domain": domain,
-            "z_impedance": z_impedance,
-            "friction": friction,
-            "new_node_id": node_id,
-            "emerged_axiom_id": emerged_axiom.axiom_id if emerged_axiom else None,
-            "fissioned_axiom_ids": fission_events,
-            "liquefied_edge_count": liquefied_count,
-            "total_nodes": len(self.nodes),
-            "total_edges": len(self.edges),
-            "total_active_axioms": len([a for a in self.macro_axioms.values() if not a.is_fissioned])
+        # 4. 장력 이완 및 파동 전이 (Strain Relaxation & Propagation Field)
+        self._relax_strain_field(grad_s, avg_friction)
+
+        # 5. 임계 상전이 (Phase Transition to MacroPhaseOrder)
+        emerged_order = self._check_and_trigger_phase_transition(avg_friction)
+
+        # 6. 4대 가소성 제약 조건 구동
+        fission_ids = self._enforce_reverse_phase_transition(avg_friction)
+        liquefied_count = self._enforce_impedance_backpressure(max_impedance)
+
+        record = {
+            "point_id": pid,
+            "total_friction": total_friction,
+            "avg_friction": avg_friction,
+            "max_impedance": max_impedance,
+            "emerged_order_id": emerged_order.order_id if emerged_order else None,
+            "fissioned_order_ids": fission_ids,
+            "liquefied_beam_count": liquefied_count,
+            "active_points": len(self.points),
+            "active_beams": len([b for b in self.beams if not b.is_liquefied]),
+            "active_macro_orders": len([m for m in self.macro_orders.values() if not m.is_fissioned])
         }
-        self.history.append(event_record)
-        return event_record
+        self.strain_history.append(record)
+        return record
 
-    def _check_and_trigger_phase_transition(
-        self,
-        domain: str,
-        current_friction: float
-    ) -> Optional[MacroAxiom]:
+    def _relax_strain_field(self, grad_s: np.ndarray, friction: float):
+        r"""
+        [장력 이완 및 확산/파동 전이 Field]
+        \frac{\partial X}{\partial t} = \nabla \cdot (K(x) \nabla X) - \gamma \mathcal{F}
+        전 기질 장력 벡터 T를 전도율 K에 따라 유기적으로 이완시킵니다.
         """
-        [Stage 2 & 3: 임계 위상 전이 -> 상위 공리화]
-        국소적 마찰 밀도 및 노드 결합 에너지가 임계치(F_critical)에 도달하면,
-        하위 노드들을 재규격화(Renormalization)하여 하나의 거시 질서 파라미터(MacroAxiom)로 창발시킵니다.
-        """
-        domain_nodes = [
-            n for n in self.nodes.values()
-            if n.scale_domain == domain and n.node_type == "substrate"
-        ]
+        if not self.points:
+            return
 
-        # 노드 집단 마찰 밀도 계산
-        if len(domain_nodes) < 3 or current_friction < self.f_critical:
+        gamma = 0.05
+        active_beams = [b for b in self.beams if not b.is_liquefied]
+
+        for beam in active_beams:
+            if beam.source_id in self.points and beam.target_id in self.points:
+                p_src = self.points[beam.source_id]
+                p_tgt = self.points[beam.target_id]
+
+                # 장력 전이: K(x) * (T_src - T_tgt)
+                dT = beam.conductance * (p_src.T - p_tgt.T) - gamma * friction * grad_s
+                p_tgt.T += dT * 0.1
+                p_src.T -= dT * 0.1
+
+    def _check_and_trigger_phase_transition(self, current_friction: float) -> Optional[MacroPhaseOrder]:
+        """
+        [상전이: MacroPhaseOrder 결상]
+        국소 마찰 축적이 f_critical 을 초과하고 기질 지점이 3개 이상일 때,
+        하위 변형 텐서 G들의 결합으로 상위 거시 질서 텐서를 창발시킵니다.
+        """
+        if len(self.points) < 3 or current_friction < self.f_critical:
             return None
 
-        # 하위 노드들의 가중 평균으로 거시 질서 파라미터 추출
-        gauge_matrix = np.stack([n.feature_gauge for n in domain_nodes])
-        energies = np.array([n.energy for n in domain_nodes], dtype=np.float32)
-        total_energy = float(np.sum(energies)) + 1e-9
+        # 하위 지점들의 G 텐서 가중 평균으로 거시 질서 텐서 결상
+        g_tensors = [p.G for p in self.points.values()]
+        energies = [p.energy for p in self.points.values()]
+        total_energy = sum(energies) + 1e-9
 
-        weights = energies / total_energy
-        order_param = np.sum(gauge_matrix * weights[:, None], axis=0)
+        weights = [e / total_energy for e in energies]
+        macro_tensor = np.zeros((self.gauge_dim, self.gauge_dim), dtype=np.float32)
+        for w, g in zip(weights, g_tensors):
+            macro_tensor += w * g
 
-        # 프랙탈 균열선 통합 (Latent Fault-Line Preservation)
-        all_fault_lines = []
-        for n in domain_nodes:
-            all_fault_lines.extend(n.latent_fault_lines)
+        # 잠재적 균열선 보존
+        all_faults = []
+        for p in self.points.values():
+            all_faults.extend(p.latent_faults)
 
-        self.axiom_counter += 1
-        axiom_id = f"axiom_{domain.lower()}_{self.axiom_counter}"
-        formation_energy = float(current_friction * len(domain_nodes))
+        self.order_id_counter += 1
+        order_id = self.order_id_counter
+        formation_e = float(current_friction * len(self.points))
 
-        macro_axiom = MacroAxiom(
-            axiom_id=axiom_id,
-            domain=domain,
-            formation_energy=formation_energy,
-            order_parameter=order_param,
-            encapsulated_node_ids=[n.node_id for n in domain_nodes],
-            latent_fault_lines=all_fault_lines,
+        macro_order = MacroPhaseOrder(
+            order_id=order_id,
+            formation_energy=formation_e,
+            macro_order_tensor=macro_tensor,
+            encapsulated_point_ids=list(self.points.keys()),
+            latent_faults=all_faults,
             macro_impedance=0.0,
             is_fissioned=False
         )
 
-        # 하위 노드 형태를 macro_axiom 캡슐로 변경 (원자적 개념 단위화)
-        for n in domain_nodes:
-            n.node_type = "macro_axiom"
-            n.metadata["encapsulated_in"] = axiom_id
+        self.macro_orders[order_id] = macro_order
+        return macro_order
 
-        self.macro_axioms[axiom_id] = macro_axiom
-        return macro_axiom
-
-    def _enforce_reverse_phase_transition(
-        self,
-        domain: str,
-        current_friction: float
-    ) -> List[str]:
-        r"""
-        [4대 제약 조건 1 & 4: 역상전이 임계성 및 비대칭 이력 (Reverse Phase Transition & Hysteresis)]
-        하위 레이어에서 역유입된 마찰 \sum F_micro 가 공리 해체 임계치(F_dissolve > F_critical)를 넘어서고,
-        공리 형성 에너지 E_form 을 초과할 경우, 상위 공리의 캡슐화 마스크가 즉시 파열되며
-        보존된 잠재적 균열선(Fault-Line)을 따라 정밀 재분열(Fission)됩니다.
+    def _enforce_reverse_phase_transition(self, current_friction: float) -> List[int]:
+        """
+        [제약 조건 1 & 4: 역상전이 임계성 및 비대칭 히스테리시스]
+        누적 마찰이 f_dissolve(> f_critical)를 넘어서고 E_form 을 초과할 때,
+        상위 거시 질서 텐서가 파열되며 보존된 균열선을 따라 기질 재분열(Fission).
         """
         fissioned_ids = []
+        active_orders = [m for m in self.macro_orders.values() if not m.is_fissioned]
 
-        active_axioms = [
-            a for a in self.macro_axioms.values()
-            if a.domain == domain and not a.is_fissioned
-        ]
+        for order in active_orders:
+            accumulated_friction = current_friction * len(order.encapsulated_point_ids)
+            # 히스테리시스: current_friction >= self.f_dissolve
+            if current_friction >= self.f_dissolve and accumulated_friction >= order.formation_energy:
+                order.is_fissioned = True
+                fissioned_ids.append(order.order_id)
 
-        for axiom in active_axioms:
-            # 히스테리시스 조건: current_friction >= self.f_dissolve
-            # 역상전이 임계성: current_friction * len(axiom.encapsulated_node_ids) > axiom.formation_energy
-            accumulated_micro_friction = current_friction * len(axiom.encapsulated_node_ids)
-
-            if current_friction >= self.f_dissolve and accumulated_micro_friction >= axiom.formation_energy:
-                # 공리 파열 및 자발적 재분열 (Fission)
-                axiom.is_fissioned = True
-                fissioned_ids.append(axiom.axiom_id)
-
-                # 하위 노드 캡슐화 해제 및 균열선을 따른 피쳐 변형
-                for node_id in axiom.encapsulated_node_ids:
-                    if node_id in self.nodes:
-                        node = self.nodes[node_id]
-                        node.node_type = "substrate"
-                        node.metadata.pop("encapsulated_in", None)
-
-                        # 잠재적 균열선(Fault line)을 따라 정밀 분열 변형
-                        if node.latent_fault_lines:
-                            fault_pull = node.latent_fault_lines[0]
-                            dim = min(len(node.feature_gauge), len(fault_pull))
-                            node.feature_gauge[:dim] += 0.2 * fault_pull[:dim]
+                # 잠재적 균열선(Fault line)을 따른 기질 지점 변형 텐서 G의 분열 굴절
+                for pid in order.encapsulated_point_ids:
+                    if pid in self.points:
+                        p = self.points[pid]
+                        if p.latent_faults:
+                            fault = p.latent_faults[0]
+                            p.G += np.outer(fault, fault).astype(np.float32) * 0.2
 
         return fissioned_ids
 
-    def _enforce_impedance_backpressure(
-        self,
-        domain: str,
-        current_z: float
-    ) -> int:
+    def _enforce_impedance_backpressure(self, current_z: float) -> int:
         """
-        [4대 제약 조건 2: 공리적 임피던스 역방출 (Axiomatic Impedance Backpressure)]
-        상위 공리로 설명할 수 없는 외부 자극 유입 시 Z_macro 가 급증하며,
-        급증한 Z_macro 는 하위 레이어를 향해 압력 형태(Backpressure)로 역방출되어
-        공리를 지탱하던 하위 노드 연결선(Edge)을 즉각 유동화(Liquefaction)시킵니다.
+        [제약 조건 2: 임피던스 역방출 유동화]
+        Z가 z_backpressure_threshold를 넘어서면 하위 전도 작용선(Beam)이 유동화(Liquefaction)됨.
         """
         liquefied_count = 0
-        active_axioms = [
-            a for a in self.macro_axioms.values()
-            if a.domain == domain and not a.is_fissioned
-        ]
-
-        for axiom in active_axioms:
-            # 공리와 현재 자극 눈금 간 임피던스
-            _, diff = self.compute_sameness_and_difference(current_z * np.ones(self.gauge_dim), axiom.order_parameter)
-            axiom.macro_impedance = float(current_z + diff)
-
-            if axiom.macro_impedance > self.z_backpressure_threshold:
-                # 하위 연결선 역방출 진동 -> 유동화(Liquefaction)
-                for edge in self.edges:
-                    if edge.source_id in axiom.encapsulated_node_ids or edge.target_id in axiom.encapsulated_node_ids:
-                        edge.is_liquefied = True
-                        edge.weight *= 0.1  # 결합력 급격 유동화
-                        liquefied_count += 1
-
+        if current_z > self.z_backpressure_threshold:
+            for beam in self.beams:
+                beam.is_liquefied = True
+                beam.conductance *= 0.1
+                liquefied_count += 1
         return liquefied_count
