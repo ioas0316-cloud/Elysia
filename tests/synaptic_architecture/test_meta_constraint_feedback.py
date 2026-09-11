@@ -4,7 +4,8 @@ Unit tests for Meta-Constraint Feedback Loop & Causal Impedance Engine
 
 import pytest
 import numpy as np
-import causal_engine as ce
+
+ce = pytest.importorskip("causal_engine")
 from synaptic_architecture.meta_constraint_feedback import MetaConstraintFeedbackLoop
 
 

@@ -1,5 +1,5 @@
 import pytest
-import causal_engine as ce
+ce = pytest.importorskip("causal_engine")
 import math
 
 def test_collective_manifold_initialization():

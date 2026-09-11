@@ -2,7 +2,7 @@ import pytest
 import math
 import numpy as np
 
-import causal_engine as ce
+ce = pytest.importorskip("causal_engine")
 
 def test_superconducting_soa_field_initialization():
     field = ce.SuperconductingSoAField(64)

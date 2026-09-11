@@ -6,9 +6,15 @@ measures structural impedance (trajectory curvature, topological phase discrepan
 and performs Rule Mutation on the state-space constraints.
 """
 
+from __future__ import annotations
 from typing import List, Dict, Tuple, Optional, Any
 import numpy as np
-import causal_engine as ce
+
+try:
+    import causal_engine as ce
+except ImportError:
+    ce = None
+
 from core.physics.causal_engine import CausalEngine, CausalNode, TransitionRule, CausalState, StateDelta, AtomicAction
 
 
@@ -29,6 +35,11 @@ class MetaConstraintFeedbackLoop:
         latency_damping: float = 0.2,
         friction_threshold: float = 0.45,
     ):
+        if ce is None:
+            raise ImportError(
+                "The C++ extension 'causal_engine' is not available. "
+                "Please build the C++ extension module first."
+            )
         self.field = ce.PreisachTensorFieldSoA(num_field_nodes, hysterons_per_dim)
         self.extractor = ce.AttractorExtractionLayer()
         self.backtracer = ce.CausalBacktracer()
