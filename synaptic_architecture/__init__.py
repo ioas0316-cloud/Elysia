@@ -119,3 +119,11 @@ from .plasticity_memory_architecture import (
     ConsolidationLoop,
     PlasticityMemoryArchitecture
 )
+
+from .topological_isomorphism_engine import (
+    CausalLineageNode,
+    CausalLineageEdge,
+    MacroAxiom,
+    DomainReceptiveLens,
+    TopologicalIsomorphismEngine
+)
