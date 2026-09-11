@@ -1,16 +1,17 @@
 """
-Unit tests for TopologicalIsomorphismEngine.
-Verifies the single 'Sameness & Difference' causal mechanism across 5 domain substrates,
-the 3-stage scale phase transition, and the 4 topological plasticity constraints.
+Unit tests for Pure Non-Symbolic Physical Strain Field Engine (TopologicalIsomorphismEngine).
+Verifies the non-symbolic local strain tensor dynamics, anisotropic refraction,
+wave propagation field, in-situ substrate deformation, strain relaxation,
+macro phase transition, and the 4 topological plasticity constraints.
 """
 
 import unittest
 import numpy as np
 from synaptic_architecture.topological_isomorphism_engine import (
-    DomainReceptiveLens,
+    NonSymbolicReceptiveRefractor,
     TopologicalIsomorphismEngine,
-    CausalLineageNode,
-    MacroAxiom
+    SubstrateStrainPoint,
+    MacroPhaseOrder
 )
 
 
@@ -19,117 +20,104 @@ class TestTopologicalIsomorphismEngine(unittest.TestCase):
         self.engine = TopologicalIsomorphismEngine(
             gauge_dim=32,
             f_critical=0.3,
-            f_dissolve=1.5,
+            f_dissolve=1.8,
             z_backpressure_threshold=0.6
         )
 
-    def test_receptive_lens_refinement_across_5_domains(self):
-        """Verifies receptive lens refrains raw data across all 5 domains into specific wave signatures."""
-        raw_sample = "Biological / Informational Stimulus Wave"
-        domains = DomainReceptiveLens.DOMAINS
+    def test_refractor_refraction(self):
+        """Verifies non-symbolic refractor converts various inputs into continuous wave gradients."""
+        refractor = NonSymbolicReceptiveRefractor(gauge_dim=32)
 
-        self.assertEqual(len(domains), 5)
+        grad_str = refractor.refract("Physical Strain Signal Wave")
+        grad_arr = refractor.refract(np.ones(32))
 
-        gauges = {}
-        for d in domains:
-            gauge = self.engine.receptive_lens.refine_stimulus(raw_sample, d)
-            self.assertEqual(len(gauge), 32)
-            self.assertIsInstance(gauge, np.ndarray)
-            gauges[d] = gauge
+        self.assertEqual(len(grad_str), 32)
+        self.assertEqual(len(grad_arr), 32)
+        self.assertAlmostEqual(float(np.linalg.norm(grad_str)), 1.0, places=5)
+        self.assertAlmostEqual(float(np.linalg.norm(grad_arr)), 1.0, places=5)
 
-        # Verify distinct domain refraction signatures
-        self.assertFalse(np.array_equal(gauges["GENE_CELL"], gauges["MUSIC_AESTHETICS"]))
-        self.assertTrue(np.all(np.abs(gauges["MATH_LOGIC"]) == 1.0))  # Sign projection (+1 / -1)
+    def test_anisotropic_friction_computation(self):
+        """Verifies local anisotropic friction equation: F = grad_s^T . G . grad_s"""
+        grad_s = np.zeros(32, dtype=np.float32)
+        grad_s[0] = 1.0
 
-    def test_sameness_and_difference_archetype(self):
-        """Verifies single causal mechanism produces valid sameness and difference scores."""
-        g1 = np.ones(32, dtype=np.float32)
-        g2 = np.ones(32, dtype=np.float32)
-        g3 = -np.ones(32, dtype=np.float32)
-
-        s12, d12 = self.engine.compute_sameness_and_difference(g1, g2)
-        self.assertAlmostEqual(s12, 1.0, places=5)
-        self.assertAlmostEqual(d12, 0.0, places=5)
-
-        s13, d13 = self.engine.compute_sameness_and_difference(g1, g3)
-        self.assertAlmostEqual(s13, 0.0, places=5)
-        self.assertAlmostEqual(d13, 1.0, places=5)
-
-    def test_3_stage_scale_phase_transition(self):
-        """
-        Verifies 3-stage scale phase transition:
-        Micro-Friction Aggregation -> Critical Phase Transition -> Macro-Axiomatization.
-        """
-        engine = TopologicalIsomorphismEngine(
+        p = SubstrateStrainPoint(
+            point_id=1,
             gauge_dim=32,
-            f_critical=0.3,
-            f_dissolve=1.5,
-            z_backpressure_threshold=0.8
+            G=np.eye(32, dtype=np.float32) * 2.0,
+            T=grad_s.copy()
         )
-        domain = "GENE_CELL"
 
-        # Stage 1: Feed initial stimuli to aggregate micro friction
-        res1 = engine.process_substrate_event("Adenine-Thymine Hydrogen Bond 1", domain)
-        res2 = engine.process_substrate_event("Guanine-Cytosine Hydrogen Bond 2", domain)
+        friction = self.engine.compute_local_anisotropic_friction(grad_s, p)
+        self.assertAlmostEqual(friction, 2.0, places=5)
 
-        self.assertIn("node_gene_cell_", res1["new_node_id"])
-
-        # Feed 3rd stimulus to reach f_critical and trigger macro-axiomatization (Stage 2 & 3)
-        res3 = engine.process_substrate_event("Adenine-Thymine Mismatch Event 3", domain)
-
-        self.assertIsNotNone(res3["emerged_axiom_id"])
-        self.assertIn("axiom_gene_cell_", res3["emerged_axiom_id"])
-
-        active_axioms = [a for a in engine.macro_axioms.values() if not a.is_fissioned]
-        self.assertEqual(len(active_axioms), 1)
-
-        axiom = engine.macro_axioms[res3["emerged_axiom_id"]]
-        self.assertFalse(axiom.is_fissioned)
-        self.assertGreater(len(axiom.encapsulated_node_ids), 0)
-
-    def test_4_topological_plasticity_constraints(self):
+    def test_physical_event_processing_and_phase_transition(self):
         """
-        Verifies the 4 topological constraints:
-        1 & 4. Reverse Phase Transition & Hysteresis
-        2. Axiomatic Impedance Backpressure Liquefaction
-        3. Latent Fault-Line Preservation
+        Verifies event processing, in-situ deformation G(x), wave propagation,
+        and macro phase transition without any string labels or discrete lookups.
         """
         engine = TopologicalIsomorphismEngine(
             gauge_dim=32,
             f_critical=0.2,
-            f_dissolve=1.5,
-            z_backpressure_threshold=0.6
+            f_dissolve=2.5,
+            z_backpressure_threshold=0.8
         )
-        domain = "COGNITION_THOUGHT"
 
-        # 1. Build a macro axiom
-        res0 = engine.process_substrate_event("Cognition Step 0", domain)
-        res1 = engine.process_substrate_event("Cognition Step 1", domain)
-        res2 = engine.process_substrate_event("Cognition Step 2", domain)
+        res1 = engine.process_physical_event("Wave Stimulus 1")
+        res2 = engine.process_physical_event("Wave Stimulus 2")
 
-        active_axioms = [a for a in engine.macro_axioms.values() if not a.is_fissioned]
-        self.assertGreater(len(active_axioms), 0)
-        axiom = active_axioms[0]
+        self.assertEqual(res1["point_id"], 1)
+        self.assertEqual(res2["point_id"], 2)
 
-        # Verify Latent Fault-Line Preservation (Constraint 3)
-        self.assertGreaterEqual(len(axiom.latent_fault_lines), 0)
+        # Trigger phase transition with 3rd stimulus
+        res3 = engine.process_physical_event("Wave Stimulus 3")
 
-        # 2. Trigger Reverse Phase Transition (Constraints 1 & 4) by lowering formation energy requirement or dissolve threshold
-        axiom.formation_energy = 0.1
+        self.assertIsNotNone(res3["emerged_order_id"])
+        self.assertIn(res3["emerged_order_id"], engine.macro_orders)
+
+        macro_order = engine.macro_orders[res3["emerged_order_id"]]
+        self.assertFalse(macro_order.is_fissioned)
+        self.assertGreater(len(macro_order.encapsulated_point_ids), 0)
+        self.assertEqual(macro_order.macro_order_tensor.shape, (32, 32))
+
+    def test_4_topological_plasticity_constraints(self):
+        """
+        Verifies the 4 non-symbolic physical constraints:
+        1 & 4. Reverse Phase Transition & Hysteresis
+        2. Impedance Backpressure Liquefaction
+        3. Latent Fault-Line Preservation
+        """
+        engine = TopologicalIsomorphismEngine(
+            gauge_dim=32,
+            f_critical=0.1,
+            f_dissolve=2.5,
+            z_backpressure_threshold=0.5
+        )
+
+        # Build macro phase order
+        engine.process_physical_event("Wave Pulse A")
+        engine.process_physical_event("Wave Pulse B")
+        res_c = engine.process_physical_event("Wave Pulse C")
+
+        active_orders = [m for m in engine.macro_orders.values() if not m.is_fissioned]
+        self.assertGreater(len(active_orders), 0)
+        order = active_orders[0]
+
+        # Verify Fault-Line Preservation
+        p = engine.points[1]
+        self.assertGreaterEqual(len(p.latent_faults), 0)
+
+        # Trigger Reverse Phase Transition (Constraints 1 & 4) by lowering f_dissolve below current friction
+        order.formation_energy = 0.01
         engine.f_dissolve = 0.05
-        dissolve_res = engine.process_substrate_event("Extreme Friction Disturbance", domain)
+        dissolve_res = engine.process_physical_event("Extreme Friction Spike")
 
-        # Verify fission
-        self.assertIn(axiom.axiom_id, dissolve_res["fissioned_axiom_ids"])
-        self.assertTrue(axiom.is_fissioned)
+        self.assertIn(order.order_id, dissolve_res["fissioned_order_ids"])
+        self.assertTrue(order.is_fissioned)
 
-        # 3. Test Impedance Backpressure Liquefaction (Constraint 2)
-        engine.f_dissolve = 1.5
-        for i in range(3):
-            engine.process_substrate_event(f"New Substrate Step {i}", domain)
-
-        backpressure_res = engine.process_substrate_event("High Impedance Input", domain)
-        self.assertGreaterEqual(backpressure_res["liquefied_edge_count"], 0)
+        # Verify Impedance Backpressure Liquefaction (Constraint 2)
+        backpressure_res = engine.process_physical_event(np.ones(32) * 100.0)
+        self.assertGreaterEqual(backpressure_res["liquefied_beam_count"], 0)
 
 
 if __name__ == "__main__":

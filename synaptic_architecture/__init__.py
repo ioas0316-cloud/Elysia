@@ -121,9 +121,14 @@ from .plasticity_memory_architecture import (
 )
 
 from .topological_isomorphism_engine import (
-    CausalLineageNode,
-    CausalLineageEdge,
-    MacroAxiom,
-    DomainReceptiveLens,
-    TopologicalIsomorphismEngine
+    SubstrateStrainPoint,
+    PhysicalConductanceBeam,
+    MacroPhaseOrder,
+    NonSymbolicReceptiveRefractor,
+    TopologicalIsomorphismEngine,
+    # Aliases for backwards compatibility where needed
+    SubstrateStrainPoint as CausalLineageNode,
+    PhysicalConductanceBeam as CausalLineageEdge,
+    MacroPhaseOrder as MacroAxiom,
+    NonSymbolicReceptiveRefractor as DomainReceptiveLens,
 )
