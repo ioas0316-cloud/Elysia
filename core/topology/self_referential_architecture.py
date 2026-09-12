@@ -28,6 +28,9 @@ Elysia Core Engine: Self-Referential Information Architecture Engine
 13. 독립 제약 회로, 위상 전이 커플링 & 메타 공명 버스 (Dimensional Circuit & Meta-Resonance Bus)
 14. 자가 분화 동적 차원 생동 엔진 (Dynamic Dimension Self-Differentiation: $N \to N+1$)
 15. 라벨 역공학 및 자가 납득 엔진 (Label Reverse-Engineering & Self-Assimilation Engine / Meta-Causality)
+16. 비트 매핑 트리거 기저층 (Bit-Mapped Trigger Substrate)
+17. 관계론적 결절점 & 삼위일체 (Relational Nexus Node & Informational Trinity)
+18. 위상적 자율 상전이 엔진 (Topological Phase Transition Engine & Invariant Verification)
 """
 
 import math
@@ -39,6 +42,9 @@ from core.consciousness.scar_tensor_engine import ScarTensorEngine
 from core.consciousness.kenosis_attractor_engine import KenosisAttractorEngine
 from core.topology.multi_gravitational_field import MultiGravitationalFieldInterference
 from core.topology.phase_compression_engine import PhaseCompressionEngine
+from core.memory.bit_mapped_trigger_substrate import BitMappedTriggerSubstrate
+from core.topology.relational_nexus_node import RelationalNexusNode
+from core.topology.topological_phase_transition import TopologicalPhaseTransitionEngine
 
 
 # ============================================================================
@@ -595,6 +601,9 @@ class SelfReferentialArchitectureEngine:
     모든 하부 자기-참조 엔진 및 존재론적 경험 공간 회로를 총괄 오케스트레이션하여 자율 분별 및 인지 순환 구동
     """
     def __init__(self):
+        self.bit_substrate = BitMappedTriggerSubstrate(num_banks=4, bank_size=64)
+        self.phase_transition_engine = TopologicalPhaseTransitionEngine(lambda_coef=0.5)
+
         self.causal_engine_0 = CausalEngine0(dim=3)
         self.causal_layer_1 = CausalDeformationLayer(in_dim=4, out_dim=3)
         self.causal_layer_2 = CausalDeformationLayer(in_dim=3, out_dim=3)
@@ -617,7 +626,53 @@ class SelfReferentialArchitectureEngine:
         self.math_circuit = DimensionalCircuit("Math", lambda s: float(abs(np.sum(s) - 1.0)))
         self.phys_circuit = DimensionalCircuit("Physics", lambda s: float(np.max(np.abs(s)) * 0.2))
 
+        # Relational Nexus Network Initialization
+        self.nexus_nodes: List[RelationalNexusNode] = [
+            RelationalNexusNode(
+                node_id="Node_Alpha",
+                payload={"value": 1.5, "temperature": 85.0},
+                self_schema={"dimension": 3, "stress_limit": 1.0},
+                in_causal_vectors={"Node_Beta": 0.8},
+                out_causal_vectors={"Node_Gamma": 0.5},
+                bit_substrate=self.bit_substrate
+            ),
+            RelationalNexusNode(
+                node_id="Node_Beta",
+                payload={"value": 0.9, "temperature": 40.0},
+                self_schema={"dimension": 3, "stress_limit": 1.2},
+                in_causal_vectors={"Node_Gamma": 0.3},
+                out_causal_vectors={"Node_Alpha": 0.8},
+                bit_substrate=self.bit_substrate
+            ),
+            RelationalNexusNode(
+                node_id="Node_Gamma",
+                payload={"value": 2.1, "temperature": 92.0},
+                self_schema={"dimension": 3, "stress_limit": 0.8},
+                in_causal_vectors={"Node_Alpha": 0.5},
+                out_causal_vectors={"Node_Beta": 0.3},
+                bit_substrate=self.bit_substrate
+            )
+        ]
+        self.adjacency_matrix = np.array([
+            [0.0, 0.8, 0.5],
+            [0.8, 0.0, 0.3],
+            [0.5, 0.3, 0.0]
+        ])
+
     def run_full_self_referential_cycle(self, input_stimulus: Dict[str, Any]) -> Dict[str, Any]:
+        # 1. Low-level Bit-Mapped Substrate Execution
+        bit_payload = input_stimulus.get("bit_payload", np.ones(16, dtype=np.uint8))
+        bit_write_res = self.bit_substrate.write_payload(0, bit_payload)
+        bit_yield_res = self.bit_substrate.evaluate_bit_remapped_yield([bit_payload])
+        bit_dissipation_res = self.bit_substrate.evaluate_bank_dissipation_rate(bit_payload)
+        bit_restoration_res = self.bit_substrate.evaluate_state_restoration_index(0)
+
+        # 2. Relational Nexus Network Stress & Phase Transition Evaluation
+        phase_transition_res = self.phase_transition_engine.execute_phase_transition_or_rollback(
+            nodes=self.nexus_nodes,
+            adjacency_matrix=self.adjacency_matrix
+        )
+
         intent_pressure = input_stimulus.get("voltage_intent", np.array([2.0, -1.0, 3.0]))
         c0_state, c0_equilibrium = self.causal_engine_0.cycle(intent_pressure, lr=0.1)
 
@@ -726,6 +781,11 @@ class SelfReferentialArchitectureEngine:
         )
 
         return {
+            "bit_write_result": bit_write_res,
+            "bit_remapped_yield": bit_yield_res,
+            "bank_dissipation_rate": bit_dissipation_res,
+            "state_restoration_index": bit_restoration_res,
+            "relational_phase_transition": phase_transition_res,
             "causal_engine_0_equilibrium": c0_equilibrium,
             "phase_compression_flow": phase_flow_res,
             "dynamic_historical_coupling": npc_coupling_res,
