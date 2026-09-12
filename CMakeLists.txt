@@ -11,12 +11,24 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/modules/causal_topology
 )
 
+# Core C++ Causal Nexus Library
+add_library(nexus_core STATIC
+    src/nexus_betti.cpp
+)
+target_link_libraries(nexus_core PRIVATE OpenMP::OpenMP_CXX)
+
 # Core test binaries
 add_executable(test_preisach_tensor_field tests/cpp/test_preisach_tensor_field.cpp)
 target_link_libraries(test_preisach_tensor_field PRIVATE OpenMP::OpenMP_CXX)
 
 add_executable(test_superconducting_kernel tests/cpp/test_superconducting_kernel.cpp)
 target_link_libraries(test_superconducting_kernel PRIVATE OpenMP::OpenMP_CXX)
+
+add_executable(test_nexus_causal_engine tests/cpp/test_nexus_causal_engine.cpp)
+target_link_libraries(test_nexus_causal_engine PRIVATE nexus_core OpenMP::OpenMP_CXX)
+
+add_executable(nexus_shared_memory_bench src/nexus_shared_memory_bench.cpp)
+target_link_libraries(nexus_shared_memory_bench PRIVATE OpenMP::OpenMP_CXX)
 
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)
