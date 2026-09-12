@@ -30,6 +30,9 @@ target_link_libraries(test_nexus_causal_engine PRIVATE nexus_core OpenMP::OpenMP
 add_executable(nexus_shared_memory_bench src/nexus_shared_memory_bench.cpp)
 target_link_libraries(nexus_shared_memory_bench PRIVATE OpenMP::OpenMP_CXX)
 
+add_executable(test_hyper_pixel_engine tests/cpp/test_hyper_pixel_engine.cpp)
+target_link_libraries(test_hyper_pixel_engine PRIVATE nexus_core OpenMP::OpenMP_CXX)
+
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)
 if (NOT pybind11_FOUND)
