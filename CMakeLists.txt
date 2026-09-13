@@ -37,6 +37,9 @@ target_link_libraries(test_hyper_pixel_engine PRIVATE nexus_core OpenMP::OpenMP_
 add_executable(test_3dgs_sh_eval tests/cpp/test_3dgs_sh_eval.cpp)
 target_link_libraries(test_3dgs_sh_eval PRIVATE nexus_core OpenMP::OpenMP_CXX)
 
+add_executable(test_causal_field_accelerator tests/cpp/test_causal_field_accelerator.cpp)
+target_link_libraries(test_causal_field_accelerator PRIVATE OpenMP::OpenMP_CXX)
+
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)
 if (NOT pybind11_FOUND)
