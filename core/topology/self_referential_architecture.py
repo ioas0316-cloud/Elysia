@@ -47,6 +47,7 @@ from core.topology.relational_nexus_node import RelationalNexusNode
 from core.topology.topological_phase_transition import TopologicalPhaseTransitionEngine
 from core.topology.system_structural_introspection import SystemStructuralIntrospectionEngine
 from core.topology.universal_causal_web import UniversalCausalWeb, SelfObservationalDifferentialLens
+from core.topology.archetypal_identity_boundary import ArchetypalIdentityBoundary, QualitativePhaseTransitionEngine
 
 
 # ============================================================================
@@ -607,6 +608,8 @@ class SelfReferentialArchitectureEngine:
         self.phase_transition_engine = TopologicalPhaseTransitionEngine(lambda_coef=0.5)
         self.introspection_engine = SystemStructuralIntrospectionEngine(friction_threshold=0.5)
         self.differential_lens = SelfObservationalDifferentialLens(doubt_threshold=0.3)
+        self.archetypal_identity_boundary = ArchetypalIdentityBoundary()
+        self.qualitative_phase_engine = QualitativePhaseTransitionEngine(transition_threshold=0.35)
 
         self.causal_engine_0 = CausalEngine0(dim=3)
         self.causal_layer_1 = CausalDeformationLayer(in_dim=4, out_dim=3)
@@ -790,8 +793,14 @@ class SelfReferentialArchitectureEngine:
             historical_scar_lens=np.array([0.8, 0.2, 0.5, 0.1])
         )
 
-        # Dialectical Comparison (Self-Observational Differential Lens & Universal Causal Web)
+        # Heterogeneous Dimensional Wave & Qualitative Phase Transition Evaluation
         external_world_signal = input_stimulus.get("external_world_signal", np.array([1.2, 0.8, 0.2, 0.9]))
+        qualitative_phase_res = self.qualitative_phase_engine.process_heterogeneous_wave(
+            external_wave=external_world_signal,
+            internal_void_context=isomorphic_mapping_res
+        )
+
+        # Dialectical Comparison (Self-Observational Differential Lens & Universal Causal Web)
         dialectical_comparison_res = self.differential_lens.dialectical_compare(
             introspection_data=isomorphic_mapping_res,
             external_world_signal=external_world_signal,
@@ -799,6 +808,7 @@ class SelfReferentialArchitectureEngine:
         )
 
         return {
+            "qualitative_phase_transition": qualitative_phase_res,
             "dialectical_comparison": dialectical_comparison_res,
             "introspection_scan": introspection_scan_res,
             "isomorphic_mapping": isomorphic_mapping_res,
