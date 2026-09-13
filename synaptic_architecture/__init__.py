@@ -132,3 +132,10 @@ from .topological_isomorphism_engine import (
     MacroPhaseOrder as MacroAxiom,
     NonSymbolicReceptiveRefractor as DomainReceptiveLens,
 )
+
+from .continuous_causal_graph import (
+    CausalControlPoint,
+    ContinuousCausalGraph,
+    PerceptualTransitionSimulator,
+    PhaseTransitionModule,
+)

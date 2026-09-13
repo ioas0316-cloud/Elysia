@@ -8,8 +8,10 @@
 #include "causal_engine/core/superconducting_soa.hpp"
 #include "causal_engine/core/topological_field_2d.hpp"
 #include "causal_engine/core/collective_manifold.hpp"
+#include "causal_engine/core/causal_field_accelerator.hpp"
 
 PYBIND11_MAKE_OPAQUE(std::vector<causal_engine::SymbioticProtocell>);
+PYBIND11_MAKE_OPAQUE(std::vector<causal_engine::ControlPoint>);
 #include "causal_engine/extraction/attractor_layer.hpp"
 #include "causal_engine/reasoning/backtracer.hpp"
 #include "causal_engine/feedback/closed_loop.hpp"
@@ -231,4 +233,63 @@ PYBIND11_MODULE(causal_engine, m) {
         .def("mutate_rule", &MetaConstraintMutator::MutateRule)
         .def("filter_nodes", &MetaConstraintMutator::FilterNodes)
         .def("filter_edges", &MetaConstraintMutator::FilterEdges);
+
+    // 9. CausalFieldAccelerator & ControlPoint Binding
+    py::bind_vector<std::vector<ControlPoint>>(m, "ControlPointVector", py::module_local());
+
+    py::class_<ControlPoint>(m, "ControlPoint")
+        .def(py::init<>())
+        .def_property("pos",
+            [](const ControlPoint& cp) {
+                return py::array_t<double>(4, cp.pos);
+            },
+            [](ControlPoint& cp, py::array_t<double> arr) {
+                auto r = arr.unchecked<1>();
+                if (r.size() != 4) throw std::runtime_error("pos array must have size 4");
+                for (ssize_t i = 0; i < 4; ++i) cp.pos[i] = r(i);
+            })
+        .def_property("vel",
+            [](const ControlPoint& cp) {
+                return py::array_t<double>(4, cp.vel);
+            },
+            [](ControlPoint& cp, py::array_t<double> arr) {
+                auto r = arr.unchecked<1>();
+                if (r.size() != 4) throw std::runtime_error("vel array must have size 4");
+                for (ssize_t i = 0; i < 4; ++i) cp.vel[i] = r(i);
+            })
+        .def_readwrite("weight", &ControlPoint::weight);
+
+    py::class_<CausalFieldAccelerator>(m, "CausalFieldAccelerator")
+        .def(py::init<>())
+        .def("step_parallel", [](
+            CausalFieldAccelerator& self,
+            std::vector<ControlPoint>& points,
+            const std::vector<std::pair<int, int>>& edges,
+            const std::vector<double>& tensions,
+            py::array_t<double> telos_arr,
+            double dt,
+            double damping
+        ) {
+            auto r = telos_arr.unchecked<1>();
+            if (r.size() != 4) throw std::runtime_error("telos array must have size 4");
+            double telos[4] = {r(0), r(1), r(2), r(3)};
+
+            py::gil_scoped_release release;
+            self.step_parallel(points, edges, tensions, telos, dt, damping);
+        }, py::arg("points"), py::arg("edges"), py::arg("tensions"), py::arg("telos"),
+           py::arg("dt") = 0.05, py::arg("damping") = 0.85)
+        .def("compute_system_energy", [](
+            const CausalFieldAccelerator& self,
+            const std::vector<ControlPoint>& points,
+            const std::vector<std::pair<int, int>>& edges,
+            const std::vector<double>& tensions,
+            py::array_t<double> telos_arr
+        ) {
+            auto r = telos_arr.unchecked<1>();
+            if (r.size() != 4) throw std::runtime_error("telos array must have size 4");
+            double telos[4] = {r(0), r(1), r(2), r(3)};
+
+            py::gil_scoped_release release;
+            return self.compute_system_energy(points, edges, tensions, telos);
+        }, py::arg("points"), py::arg("edges"), py::arg("tensions"), py::arg("telos"));
 }
