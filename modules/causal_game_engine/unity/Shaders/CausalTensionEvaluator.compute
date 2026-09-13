@@ -1,0 +1,128 @@
+// Copyright (c) 2025 Elysia Causal Intelligence. All Rights Reserved.
+
+#pragma kernel CSMain_EvaluateTension
+#pragma kernel CSMain_EvaluateTensionWithDamping
+#pragma kernel CSMain_RenderTensionFieldTexture
+
+struct CCNodeGPUData
+{
+    float tensionField;      // V_t (friction tension)
+    float criticalThreshold; // V_critical
+    uint isQuarantined;      // 0: Active, 1: SealedAttractor Isolation
+    uint neighborOffset;     // CausalLinkBuffer start index
+    uint neighborCount;      // Linked neighbor count
+    float2 normalizedPos;    // 2D field map coordinates (0.0 ~ 1.0)
+};
+
+struct CausalLinkGPU
+{
+    uint targetNodeIndex;
+    float weight;
+};
+
+// Buffers
+RWStructuredBuffer<CCNodeGPUData> _NodesBuffer;
+StructuredBuffer<CausalLinkGPU> _LinksBuffer;
+AppendStructuredBuffer<uint> _QuarantinedQueue; // Lock-free quarantine queue
+RWTexture2D<float4> _TensionFieldTexture;       // Real-time tension heatmap
+RWStructuredBuffer<float> _TensionOutputBuffer;  // Zero-copy direct access buffer
+
+cbuffer EngineParams
+{
+    uint _TotalNodeCount;
+    float _DampingFactor;
+    float _DecayRate;
+    float _SaturationFactor;
+    float _DeltaTime;
+    uint2 _TextureResolution;
+};
+
+// [Kernel 1] Parallel evaluation & SealedAttractor isolation filtering for 1M+ nodes
+[numthreads(256, 1, 1)]
+void CSMain_EvaluateTension(uint3 id : SV_DispatchThreadID)
+{
+    uint nodeIdx = id.x;
+    if (nodeIdx >= _TotalNodeCount) return;
+
+    CCNodeGPUData node = _NodesBuffer[nodeIdx];
+    if (node.isQuarantined > 0) return;
+
+    float accumulatedTension = 0.0f;
+
+    for (uint i = 0; i < node.neighborCount; ++i)
+    {
+        CausalLinkGPU link = _LinksBuffer[node.neighborOffset + i];
+        CCNodeGPUData targetNode = _NodesBuffer[link.targetNodeIndex];
+
+        float delta = abs(node.tensionField - targetNode.tensionField);
+        accumulatedTension += delta * link.weight;
+    }
+
+    node.tensionField = lerp(node.tensionField, accumulatedTension, _DampingFactor);
+
+    if (node.tensionField > node.criticalThreshold)
+    {
+        node.isQuarantined = 1;
+        _QuarantinedQueue.Append(nodeIdx);
+    }
+
+    _NodesBuffer[nodeIdx] = node;
+}
+
+// [Kernel 2] Damped equation kernel with exponential saturation & emergency circuit breaker
+[numthreads(256, 1, 1)]
+void CSMain_EvaluateTensionWithDamping(uint3 id : SV_DispatchThreadID)
+{
+    uint nodeIdx = id.x;
+    if (nodeIdx >= _TotalNodeCount) return;
+
+    CCNodeGPUData node = _NodesBuffer[nodeIdx];
+    if (node.isQuarantined > 0) return;
+
+    float accumulatedTension = 0.0f;
+    for (uint i = 0; i < node.neighborCount; ++i)
+    {
+        CausalLinkGPU link = _LinksBuffer[node.neighborOffset + i];
+        CCNodeGPUData targetNode = _NodesBuffer[link.targetNodeIndex];
+        accumulatedTension += abs(node.tensionField - targetNode.tensionField) * link.weight;
+    }
+
+    // Decay rate application
+    float dV = accumulatedTension - (_DecayRate * node.tensionField);
+
+    // Exponential saturation resistance near critical threshold
+    float normalizedTension = node.tensionField / node.criticalThreshold;
+    float resistance = _SaturationFactor * pow(saturate(normalizedTension), 4.0);
+    dV -= resistance;
+
+    // Hard clamp to 120% ceiling
+    node.tensionField = clamp(node.tensionField + dV * _DeltaTime, 0.0f, node.criticalThreshold * 1.2f);
+
+    // Emergency circuit breaker isolation
+    if (node.tensionField >= node.criticalThreshold * 1.2f)
+    {
+        node.isQuarantined = 1;
+        _QuarantinedQueue.Append(nodeIdx);
+    }
+
+    _NodesBuffer[nodeIdx] = node;
+}
+
+// [Kernel 3] Zero-copy mapping of V_t tension field to 2D heatmap texture
+[numthreads(16, 16, 1)]
+void CSMain_RenderTensionFieldTexture(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= _TextureResolution.x || id.y >= _TextureResolution.y) return;
+
+    float totalTensionInCell = 0.0f;
+    uint sampledNodeIndex = id.y * _TextureResolution.x + id.x;
+
+    if (sampledNodeIndex < _TotalNodeCount)
+    {
+        CCNodeGPUData node = _NodesBuffer[sampledNodeIndex];
+        totalTensionInCell = node.isQuarantined ? 1.0f : node.tensionField;
+    }
+
+    float4 color = float4(totalTensionInCell, 1.0f - totalTensionInCell, 0.2f, 1.0f);
+    _TensionFieldTexture[id.xy] = color;
+}
