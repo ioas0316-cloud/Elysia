@@ -57,3 +57,29 @@ class CausalCompilerEngine:
             "friction_reduction": max(0.0, friction_reduction),
             "if_branch_evaluations": 0  # Zero IF branch evaluations during compilation!
         }
+
+    def trigger_phase_transition(self, external_friction: float, threshold: float = 5.0) -> Dict[str, Any]:
+        """
+        [Spontaneous Phase Transition (상전이) Engine]
+
+        When external friction/contradiction exceeds the critical threshold,
+        the system refuses to remain trapped in existing logic rules.
+        It spontaneously restructures its operator topology and field curvature.
+        """
+        if external_friction > threshold:
+            transition_occurred = True
+            # Restructure field curvature by inverting and scaling tension
+            new_curvature = np.eye(self.state_dim, dtype=np.float64) * (1.0 + external_friction / threshold)
+            self.telos_field.curvature_matrix = new_curvature
+            transition_energy = float(external_friction * 0.5)
+        else:
+            transition_occurred = False
+            transition_energy = 0.0
+
+        return {
+            "phase_transition_triggered": transition_occurred,
+            "external_friction": float(external_friction),
+            "threshold": float(threshold),
+            "transition_energy": transition_energy,
+            "operator_reconfigured": transition_occurred
+        }

@@ -34,6 +34,51 @@ class TelosAttractorField:
         if curvature is not None:
             self.curvature_matrix = np.array(curvature, dtype=np.float64)
 
+    def receive_intent_wave(self,
+                            intent_vector: np.ndarray,
+                            amplitude: float = 1.0,
+                            chromatic_bias: Optional[np.ndarray] = None) -> Dict[str, Any]:
+        """
+        [Dynamic Intent Wave Reception]
+        Receives human value/intent waves and dynamically realigns the Telos attractor center
+        and the potential energy landscape gradient grad(E_Telos).
+
+        Modulates field curvature based on intent magnitude and chromatic spectrum (Flux, Order, Entropy).
+        """
+        intent = np.array(intent_vector, dtype=np.float64)
+        if intent.shape[0] != self.dim:
+            # Resize or truncate if dimension mismatch
+            if intent.shape[0] < self.dim:
+                intent = np.pad(intent, (0, self.dim - intent.shape[0]))
+            else:
+                intent = intent[:self.dim]
+
+        # Shift Telos center dynamically towards intent vector weighted by amplitude
+        shift_vector = (intent - self.telos_center) * np.clip(amplitude, 0.0, 1.0)
+        self.telos_center += shift_vector
+
+        # Realignment of curvature based on chromatic spectrum or intent strength
+        if chromatic_bias is not None and len(chromatic_bias) >= 3:
+            flux, order, entropy = chromatic_bias[:3]
+            # Order tightens curvature (higher mass factor), Flux flattens landscape for mobility
+            scale = max(0.1, (order + 0.5) / (flux + 0.5))
+            self.curvature_matrix = np.eye(self.dim, dtype=np.float64) * (self.mass_factor * scale)
+
+        return {
+            "new_telos_center": self.telos_center,
+            "shift_magnitude": float(np.linalg.norm(shift_vector)),
+            "curvature_trace": float(np.trace(self.curvature_matrix))
+        }
+
+    def realign_potential_landscape(self, tension: float) -> float:
+        """
+        Adjusts potential landscape steepness dynamically based on systemic tension/friction.
+        High tension steepens gradient to accelerate geodesic flow toward convergence.
+        """
+        adaptation_factor = 1.0 + np.tanh(tension)
+        self.curvature_matrix *= adaptation_factor
+        return float(np.trace(self.curvature_matrix))
+
     def compute_potential(self, state: np.ndarray) -> float:
         """
         Computes potential energy E_Telos for a given state point:

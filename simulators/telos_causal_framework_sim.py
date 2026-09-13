@@ -7,6 +7,7 @@ from core.physics.causal_memory_topology import CausalMemoryTopology
 from core.physics.causal_rendering_engine import CausalRenderingEngine
 from core.physics.causal_pim_dataflow import CausalPIMDataflow
 from core.physics.topological_loom_os import TopologicalLoomOS
+from core.physics.spectral_spectrum_tuner import SpectralSpectrumTuner
 
 class TelosCausalFrameworkSimulator:
     """
@@ -28,6 +29,7 @@ class TelosCausalFrameworkSimulator:
         self.renderer = CausalRenderingEngine(observer_pos=[0, 0, 0], observer_sight_axis=[0, 0, 1])
         self.pim = CausalPIMDataflow(num_cells=32, cell_dim=dim)
         self.loom_os = TopologicalLoomOS(fabric_shape=(16, 16))
+        self.spectral_tuner = SpectralSpectrumTuner(dim=dim)
 
     def run_von_neumann_benchmark(self) -> Dict[str, Any]:
         """Simulates metrics for traditional Von Neumann architecture."""
@@ -64,6 +66,17 @@ class TelosCausalFrameworkSimulator:
         self.loom_os.inject_weft_data(col=0, potential_pattern=np.cos(np.linspace(0, np.pi, 16)))
         loom_res = self.loom_os.weave_step()
 
+        # 6. Intent Wave & Spectral Spectrum Tuning & Spontaneous Phase Transition
+        intent_wave = np.random.uniform(-1.0, 1.0, size=self.dim)
+        self.telos_field.receive_intent_wave(intent_wave, amplitude=0.8, chromatic_bias=np.array([0.5, 0.8, 0.1]))
+
+        stimulus = np.random.uniform(-2.0, 2.0, size=self.dim)
+        expected_harmony = np.zeros(self.dim, dtype=np.float64)
+        tuner_res = self.spectral_tuner.evaluate_external_stimulus(stimulus, expected_harmony)
+
+        phase_res = self.compiler.trigger_phase_transition(tuner_res["friction"], threshold=1.0)
+        os_phase_res = self.loom_os.adapt_topological_mesh(friction_threshold=0.5)
+
         return {
             "if_branch_evaluations": comp_res["if_branch_evaluations"],
             "pointer_chase_latency": mem_res["pointer_chase_latency"],
@@ -71,7 +84,10 @@ class TelosCausalFrameworkSimulator:
             "rendering_overdraw": render_res["overdraw_ratio"],
             "bus_bytes_transferred": pim_res["bus_bytes_transferred"],
             "context_switches": loom_res["context_switches"],
-            "mutex_lock_overhead": loom_res["mutex_lock_overhead"]
+            "mutex_lock_overhead": loom_res["mutex_lock_overhead"],
+            "autonomy_level": tuner_res["autonomy_level"],
+            "phase_transition_triggered": phase_res["phase_transition_triggered"],
+            "mesh_reconfigured": os_phase_res["mesh_reconfigured"]
         }
 
     def compare_frameworks(self) -> Dict[str, Any]:
