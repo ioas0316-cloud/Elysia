@@ -45,6 +45,7 @@ from core.topology.phase_compression_engine import PhaseCompressionEngine
 from core.memory.bit_mapped_trigger_substrate import BitMappedTriggerSubstrate
 from core.topology.relational_nexus_node import RelationalNexusNode
 from core.topology.topological_phase_transition import TopologicalPhaseTransitionEngine
+from core.topology.system_structural_introspection import SystemStructuralIntrospectionEngine
 
 
 # ============================================================================
@@ -603,6 +604,7 @@ class SelfReferentialArchitectureEngine:
     def __init__(self):
         self.bit_substrate = BitMappedTriggerSubstrate(num_banks=4, bank_size=64)
         self.phase_transition_engine = TopologicalPhaseTransitionEngine(lambda_coef=0.5)
+        self.introspection_engine = SystemStructuralIntrospectionEngine(friction_threshold=0.5)
 
         self.causal_engine_0 = CausalEngine0(dim=3)
         self.causal_layer_1 = CausalDeformationLayer(in_dim=4, out_dim=3)
@@ -660,6 +662,12 @@ class SelfReferentialArchitectureEngine:
         ])
 
     def run_full_self_referential_cycle(self, input_stimulus: Dict[str, Any]) -> Dict[str, Any]:
+        # 0. Global System Structural Introspection & Feedback Loop Integration
+        introspection_depth = input_stimulus.get("introspection_depth", 1)
+        introspection_scan_res = self.introspection_engine.scan_codebase_ast()
+        isomorphic_mapping_res = self.introspection_engine.generate_isomorphic_nexus_nodes(depth=introspection_depth)
+        causal_feedback_res = self.introspection_engine.compute_system_causal_field_feedback()
+
         # 1. Low-level Bit-Mapped Substrate Execution
         bit_payload = input_stimulus.get("bit_payload", np.ones(16, dtype=np.uint8))
         bit_write_res = self.bit_substrate.write_payload(0, bit_payload)
@@ -781,6 +789,9 @@ class SelfReferentialArchitectureEngine:
         )
 
         return {
+            "introspection_scan": introspection_scan_res,
+            "isomorphic_mapping": isomorphic_mapping_res,
+            "causal_structural_feedback": causal_feedback_res,
             "bit_write_result": bit_write_res,
             "bit_remapped_yield": bit_yield_res,
             "bank_dissipation_rate": bit_dissipation_res,
