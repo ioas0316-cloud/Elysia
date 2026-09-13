@@ -46,6 +46,7 @@ from core.memory.bit_mapped_trigger_substrate import BitMappedTriggerSubstrate
 from core.topology.relational_nexus_node import RelationalNexusNode
 from core.topology.topological_phase_transition import TopologicalPhaseTransitionEngine
 from core.topology.system_structural_introspection import SystemStructuralIntrospectionEngine
+from core.topology.universal_causal_web import UniversalCausalWeb, SelfObservationalDifferentialLens
 
 
 # ============================================================================
@@ -605,6 +606,7 @@ class SelfReferentialArchitectureEngine:
         self.bit_substrate = BitMappedTriggerSubstrate(num_banks=4, bank_size=64)
         self.phase_transition_engine = TopologicalPhaseTransitionEngine(lambda_coef=0.5)
         self.introspection_engine = SystemStructuralIntrospectionEngine(friction_threshold=0.5)
+        self.differential_lens = SelfObservationalDifferentialLens(doubt_threshold=0.3)
 
         self.causal_engine_0 = CausalEngine0(dim=3)
         self.causal_layer_1 = CausalDeformationLayer(in_dim=4, out_dim=3)
@@ -788,7 +790,16 @@ class SelfReferentialArchitectureEngine:
             historical_scar_lens=np.array([0.8, 0.2, 0.5, 0.1])
         )
 
+        # Dialectical Comparison (Self-Observational Differential Lens & Universal Causal Web)
+        external_world_signal = input_stimulus.get("external_world_signal", np.array([1.2, 0.8, 0.2, 0.9]))
+        dialectical_comparison_res = self.differential_lens.dialectical_compare(
+            introspection_data=isomorphic_mapping_res,
+            external_world_signal=external_world_signal,
+            persona_lens=persona
+        )
+
         return {
+            "dialectical_comparison": dialectical_comparison_res,
             "introspection_scan": introspection_scan_res,
             "isomorphic_mapping": isomorphic_mapping_res,
             "causal_structural_feedback": causal_feedback_res,
