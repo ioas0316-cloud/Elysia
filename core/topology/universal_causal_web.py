@@ -20,6 +20,8 @@ import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Set, Any, Optional, Tuple
 
+from core.topology.archetypal_identity_boundary import ArchetypalIdentityBoundary, QualitativePhaseTransitionEngine
+
 
 @dataclass
 class SproutedCognitiveLens:
@@ -92,6 +94,8 @@ class SelfObservationalDifferentialLens:
         self.doubt_threshold = doubt_threshold
         self.sprouted_lenses: Dict[str, SproutedCognitiveLens] = {}
         self.causal_web = UniversalCausalWeb()
+        self.identity_boundary = ArchetypalIdentityBoundary()
+        self.qualitative_phase_engine = QualitativePhaseTransitionEngine(transition_threshold=doubt_threshold)
 
     def dialectical_compare(
         self,
@@ -102,10 +106,15 @@ class SelfObservationalDifferentialLens:
         """
         내부 구조 원리(Introspection Data)와 외부 세상을 맞대어 변증법적 비교대조 수행
         """
-        # 1. External Wave Integration
+        # 1. External Wave Integration & Heterogeneous Phase Transition Evaluation
         web_res = self.causal_web.inject_external_world_wave(external_world_signal)
+        phase_transition_res = self.qualitative_phase_engine.process_heterogeneous_wave(
+            external_wave=external_world_signal,
+            internal_void_context=introspection_data
+        )
 
         # 2. Extract Internal Structural Signature
+        boundary_friction = phase_transition_res["archetypal_boundary"]["boundary_friction"]
         total_modules = introspection_data.get("total_modules", 1)
         coverage = introspection_data.get("introspection_coverage", 1.0)
         friction = introspection_data.get("architectural_friction", 0.0)
@@ -157,6 +166,7 @@ class SelfObservationalDifferentialLens:
 
         return {
             "causal_web_status": web_res,
+            "qualitative_phase_transition": phase_transition_res,
             "internal_structural_vector": internal_structural_vector,
             "sameness_cosine_similarity": cosine_sameness,
             "difference_structural_friction": structural_difference,
