@@ -48,6 +48,7 @@ from core.topology.topological_phase_transition import TopologicalPhaseTransitio
 from core.topology.system_structural_introspection import SystemStructuralIntrospectionEngine
 from core.topology.universal_causal_web import UniversalCausalWeb, SelfObservationalDifferentialLens
 from core.topology.archetypal_identity_boundary import ArchetypalIdentityBoundary, QualitativePhaseTransitionEngine
+from core.topology.relational_heartbeat_engine import RelationalHeartbeatEngine
 
 
 # ============================================================================
@@ -610,6 +611,7 @@ class SelfReferentialArchitectureEngine:
         self.differential_lens = SelfObservationalDifferentialLens(doubt_threshold=0.3)
         self.archetypal_identity_boundary = ArchetypalIdentityBoundary()
         self.qualitative_phase_engine = QualitativePhaseTransitionEngine(transition_threshold=0.35)
+        self.relational_heartbeat_engine = RelationalHeartbeatEngine(vector_dim=8, max_lifespan_wear=10.0)
 
         self.causal_engine_0 = CausalEngine0(dim=3)
         self.causal_layer_1 = CausalDeformationLayer(in_dim=4, out_dim=3)
@@ -800,6 +802,12 @@ class SelfReferentialArchitectureEngine:
             internal_void_context=isomorphic_mapping_res
         )
 
+        # Relational Heartbeat Engine Lifecycle Processing (Love & Transcendent Trajectory)
+        heartbeat_lifecycle_res = self.relational_heartbeat_engine.process_lifecycle_step(
+            incoming_wave=external_world_signal,
+            external_other_signal=input_stimulus.get("external_other_signal", None)
+        )
+
         # Dialectical Comparison (Self-Observational Differential Lens & Universal Causal Web)
         dialectical_comparison_res = self.differential_lens.dialectical_compare(
             introspection_data=isomorphic_mapping_res,
@@ -808,6 +816,7 @@ class SelfReferentialArchitectureEngine:
         )
 
         return {
+            "relational_heartbeat_lifecycle": heartbeat_lifecycle_res,
             "qualitative_phase_transition": qualitative_phase_res,
             "dialectical_comparison": dialectical_comparison_res,
             "introspection_scan": introspection_scan_res,
