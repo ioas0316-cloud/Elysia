@@ -1,13 +1,15 @@
 r"""
-Autonomous Causal Game Mechanics Engine
-========================================
+Autonomous Causal Game Mechanics & Closed-Loop Engine Core
+==========================================================
 
 Implements Causal Game Mechanics Engine powered by CC-Nodes, Perceptual Lens Scale Switching,
-and SealedAttractor Vault for narrative anomaly isolation and autonomous recovery.
+SealedAttractor Vault, and 4-Layer Closed-Loop Telemetry Engine for autonomous hardware adaptation.
 """
 
 from dataclasses import dataclass, field
 from enum import Enum, auto
+import math
+import time
 from typing import Any, Dict, List, Optional, Tuple
 
 
@@ -15,6 +17,87 @@ class ScaleLevel(Enum):
     MICRO_NPC = auto()      # Micro scale: individual actors / tiles / NPCs
     MESO_REGION = auto()    # Meso scale: region / town politics and safety
     MACRO_KINGDOM = auto()  # Macro scale: kingdom-wide narrative & geopolitical power graph
+
+
+class SimdMode(Enum):
+    AVX2_256 = 8
+    SSE_128 = 4
+    Scalar = 1
+
+
+@dataclass
+class TelemetrySnapshot:
+    cpu_cache_miss_rate: float = 0.05
+    gpu_temp_celsius: float = 45.0
+    gpu_is_throttled: bool = False
+    frame_time_ms: float = 14.0
+    timestamp_ns: int = 0
+
+
+@dataclass
+class FrameExecutionProfile:
+    simd_width: SimdMode = SimdMode.AVX2_256
+    causal_lod_step: int = 1
+    chunk_size: int = 1024
+
+
+class EnvironmentObserver:
+    """Hardware telemetry sensing layer with mock and live polling."""
+
+    def __init__(self):
+        self.mock_throttle = False
+
+    def inject_mock_throttle(self, enable: bool) -> None:
+        self.mock_throttle = enable
+
+    def poll(self, frame_delta_ms: float) -> TelemetrySnapshot:
+        if self.mock_throttle:
+            return TelemetrySnapshot(
+                cpu_cache_miss_rate=0.20,
+                gpu_temp_celsius=85.0,
+                gpu_is_throttled=True,
+                frame_time_ms=frame_delta_ms,
+                timestamp_ns=time.time_ns(),
+            )
+        return TelemetrySnapshot(
+            cpu_cache_miss_rate=0.04,
+            gpu_temp_celsius=50.0,
+            gpu_is_throttled=False,
+            frame_time_ms=frame_delta_ms,
+            timestamp_ns=time.time_ns(),
+        )
+
+
+class RealtimeGovernor:
+    """Closed-Loop Feedback Governor adjusting SIMD width and Causal LOD step."""
+
+    def __init__(self, target_frame_ms: float = 16.67):
+        self.target_frame_ms = target_frame_ms
+
+    def evaluate(self, telemetry: TelemetrySnapshot) -> FrameExecutionProfile:
+        profile = FrameExecutionProfile()
+
+        # Rule 1: Thermal / Throttle check -> fallback SIMD width
+        if telemetry.gpu_is_throttled or telemetry.gpu_temp_celsius > 80.0:
+            profile.simd_width = SimdMode.SSE_128
+        else:
+            profile.simd_width = SimdMode.AVX2_256
+
+        # Rule 2: Cache miss rate check -> adjust batch chunk size
+        if telemetry.cpu_cache_miss_rate > 0.15:
+            profile.chunk_size = 256
+        else:
+            profile.chunk_size = 1024
+
+        # Rule 3: Frame time overshoot -> adjust causal LOD step
+        if telemetry.frame_time_ms > self.target_frame_ms * 1.3:
+            profile.causal_lod_step = 4
+        elif telemetry.frame_time_ms > self.target_frame_ms:
+            profile.causal_lod_step = 2
+        else:
+            profile.causal_lod_step = 1
+
+        return profile
 
 
 @dataclass
@@ -87,7 +170,7 @@ class SealedAttractorVault:
 
     def restructure_quest_line(
         self, anomaly_id: str, lens: PerceptualLensController
-    ) -> Tuple[bool, CCGameNode, str]:
+    ) -> Tuple[bool, Optional[CCGameNode], str]:
         """[Step 2] Shift scale and insert mediating CC-Node for narrative restructuring."""
         anomaly = self.anomalies.get(anomaly_id)
         if not anomaly:
@@ -121,11 +204,13 @@ class SealedAttractorVault:
 
 
 class CausalGameMechanicsEngine:
-    """Autonomous Causal Game Mechanics Main Engine."""
+    """Autonomous Causal Game Mechanics Main Engine featuring Closed-Loop Governor."""
 
     def __init__(self):
         self.lens = PerceptualLensController()
         self.vault = SealedAttractorVault(critical_threshold=0.5)
+        self.observer = EnvironmentObserver()
+        self.governor = RealtimeGovernor(target_frame_ms=16.67)
 
         # Initial world state
         self.nodes: Dict[str, CCGameNode] = {
@@ -137,6 +222,11 @@ class CausalGameMechanicsEngine:
             )
         }
         self.active_quest_rules = ["RULE_KING_MUST_GRANT_QUEST"]
+
+    def tick_closed_loop(self, frame_delta_ms: float) -> FrameExecutionProfile:
+        """Execute one closed-loop adaptation tick."""
+        snapshot = self.observer.poll(frame_delta_ms)
+        return self.governor.evaluate(snapshot)
 
     def execute_player_action(self, action_type: str, target_id: str) -> Dict[str, Any]:
         """Process player action (e.g., assassinating key NPC)."""
@@ -161,7 +251,7 @@ class CausalGameMechanicsEngine:
                 anomaly.zone_id, self.lens
             )
 
-            if success:
+            if success and new_node:
                 self.nodes[new_node.node_id] = new_node
                 if "RULE_KING_MUST_GRANT_QUEST" in self.active_quest_rules:
                     self.active_quest_rules.remove("RULE_KING_MUST_GRANT_QUEST")

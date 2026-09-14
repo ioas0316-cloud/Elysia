@@ -3,6 +3,12 @@
 import os
 import math
 import pytest
+from synaptic_architecture.causal_game_engine import (
+    CausalGameMechanicsEngine,
+    EnvironmentObserver,
+    RealtimeGovernor,
+    SimdMode,
+)
 
 def test_causal_game_engine_files_exist():
     expected_files = [
@@ -32,6 +38,26 @@ def test_causal_game_engine_files_exist():
     for filepath in expected_files:
         assert os.path.isfile(filepath), f"Missing file: {filepath}"
 
+def test_closed_loop_governor_python():
+    engine = CausalGameMechanicsEngine()
+
+    # Normal tick
+    profile_normal = engine.tick_closed_loop(14.0)
+    assert profile_normal.simd_width == SimdMode.AVX2_256
+    assert profile_normal.causal_lod_step == 1
+
+    # Inject mock throttling & frame overshoot
+    engine.observer.inject_mock_throttle(True)
+    profile_throttled = engine.tick_closed_loop(25.0)
+    assert profile_throttled.simd_width == SimdMode.SSE_128
+    assert profile_throttled.causal_lod_step == 4
+
+    # Recovery
+    engine.observer.inject_mock_throttle(False)
+    profile_recovered = engine.tick_closed_loop(14.0)
+    assert profile_recovered.simd_width == SimdMode.AVX2_256
+    assert profile_recovered.causal_lod_step == 1
+
 def test_damped_tension_equation():
     # Simulate dV = accumulated - decay*V - saturation * (V / V_critical)^4
     v_t = 0.8
@@ -51,7 +77,6 @@ def test_damped_tension_equation():
     assert new_v_t <= v_critical * 1.2
 
 def test_phase_space_potential_well():
-    # E(p) = depth * (V_t - center)^2 - (0.2 * grad + 0.1 * internal_drive) - hysteresis
     basins = [
         {"type": "Equilibrium", "center": 0.15, "depth": 10.0, "hysteresis": 0.05},
         {"type": "Defensive", "center": 0.45, "depth": 8.0, "hysteresis": 0.08},
@@ -78,7 +103,6 @@ def test_phase_space_potential_well():
             min_energy = energy
             best_basin = b["type"]
 
-    # For V_t = 0.5, Defensive (center 0.45) should yield lower potential energy than Equilibrium (center 0.15)
     assert best_basin == "Defensive"
 
 def test_homeostasis_governor_clamping():

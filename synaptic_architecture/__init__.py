@@ -78,64 +78,94 @@ from .self_codification_engine import (
     SelfCodificationEngine
 )
 
-from .causal_boundary_tensor import CausalBoundaryTensor
+try:
+    from .causal_boundary_tensor import CausalBoundaryTensor
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .causal_grounding_pipeline import (
-    MinimalCausalEngine,
-    ArchetypalCognitionEngine,
-    SensoryInvariantModeling,
-    DifferentialPerceptualEngine,
-    CausalGroundingPipeline
-)
+try:
+    from .causal_grounding_pipeline import (
+        MinimalCausalEngine,
+        ArchetypalCognitionEngine,
+        SensoryInvariantModeling,
+        DifferentialPerceptualEngine,
+        CausalGroundingPipeline
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .lightweight_sparse_csm import (
-    SparseCognitiveState,
-    LightCognitiveStateMachine
-)
+try:
+    from .lightweight_sparse_csm import (
+        SparseCognitiveState,
+        LightCognitiveStateMachine
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .phase_rectification import (
-    PhaseRectificationFunction
-)
+try:
+    from .phase_rectification import (
+        PhaseRectificationFunction
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .cpt_causal_machine import (
-    PhaseTransitionCausalMachine
-)
+try:
+    from .cpt_causal_machine import (
+        PhaseTransitionCausalMachine
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .sparse_hebbian_learner import (
-    SparseHebbianCausalLearner
-)
+try:
+    from .sparse_hebbian_learner import (
+        SparseHebbianCausalLearner
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .hierarchical_hebbian_engine import (
-    HierarchicalHebbianCausalEngine
-)
+try:
+    from .hierarchical_hebbian_engine import (
+        HierarchicalHebbianCausalEngine
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .plasticity_memory_architecture import (
-    CausalNode,
-    CausalEdge,
-    MetaCognitiveObservation,
-    FrictionSensor,
-    NodeAutopoiesis,
-    GraphMutator,
-    ConsolidationLoop,
-    PlasticityMemoryArchitecture
-)
+try:
+    from .plasticity_memory_architecture import (
+        CausalNode,
+        CausalEdge,
+        MetaCognitiveObservation,
+        FrictionSensor,
+        NodeAutopoiesis,
+        GraphMutator,
+        ConsolidationLoop,
+        PlasticityMemoryArchitecture
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .topological_isomorphism_engine import (
-    SubstrateStrainPoint,
-    PhysicalConductanceBeam,
-    MacroPhaseOrder,
-    NonSymbolicReceptiveRefractor,
-    TopologicalIsomorphismEngine,
-    # Aliases for backwards compatibility where needed
-    SubstrateStrainPoint as CausalLineageNode,
-    PhysicalConductanceBeam as CausalLineageEdge,
-    MacroPhaseOrder as MacroAxiom,
-    NonSymbolicReceptiveRefractor as DomainReceptiveLens,
-)
+try:
+    from .topological_isomorphism_engine import (
+        SubstrateStrainPoint,
+        PhysicalConductanceBeam,
+        MacroPhaseOrder,
+        NonSymbolicReceptiveRefractor,
+        TopologicalIsomorphismEngine,
+        # Aliases for backwards compatibility where needed
+        SubstrateStrainPoint as CausalLineageNode,
+        PhysicalConductanceBeam as CausalLineageEdge,
+        MacroPhaseOrder as MacroAxiom,
+        NonSymbolicReceptiveRefractor as DomainReceptiveLens,
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
-from .continuous_causal_graph import (
-    CausalControlPoint,
-    ContinuousCausalGraph,
-    PerceptualTransitionSimulator,
-    PhaseTransitionModule,
-)
+try:
+    from .continuous_causal_graph import (
+        CausalControlPoint,
+        ContinuousCausalGraph,
+        PerceptualTransitionSimulator,
+        PhaseTransitionModule,
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
