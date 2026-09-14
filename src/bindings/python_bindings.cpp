@@ -9,6 +9,7 @@
 #include "causal_engine/core/topological_field_2d.hpp"
 #include "causal_engine/core/collective_manifold.hpp"
 #include "causal_engine/core/causal_field_accelerator.hpp"
+#include "causal_engine/core/meta_causal_map.hpp"
 
 PYBIND11_MAKE_OPAQUE(std::vector<causal_engine::SymbioticProtocell>);
 PYBIND11_MAKE_OPAQUE(std::vector<causal_engine::ControlPoint>);
@@ -292,4 +293,39 @@ PYBIND11_MODULE(causal_engine, m) {
             py::gil_scoped_release release;
             return self.compute_system_energy(points, edges, tensions, telos);
         }, py::arg("points"), py::arg("edges"), py::arg("tensions"), py::arg("telos"));
+
+    // 10. MetaCausalEngine Binding
+    py::class_<MechanismNode, std::shared_ptr<MechanismNode>>(m, "MechanismNode")
+        .def_readwrite("id", &MechanismNode::id)
+        .def_readwrite("type_name", &MechanismNode::type_name)
+        .def_readwrite("state", &MechanismNode::state)
+        .def_readwrite("parameters", &MechanismNode::parameters)
+        .def_readwrite("residual_energy", &MechanismNode::residual_energy)
+        .def("evaluate_residual", &MechanismNode::evaluate_residual)
+        .def("project_structural_relaxation", &MechanismNode::project_structural_relaxation)
+        .def("execute_dynamics", &MechanismNode::execute_dynamics);
+
+    py::class_<DifferentialBoundMechanism, MechanismNode, std::shared_ptr<DifferentialBoundMechanism>>(m, "DifferentialBoundMechanism")
+        .def(py::init<std::string, float>(), py::arg("node_id"), py::arg("max_diff"))
+        .def_readwrite("target_max_diff", &DifferentialBoundMechanism::target_max_diff);
+
+    py::class_<HarmonicConservationMechanism, MechanismNode, std::shared_ptr<HarmonicConservationMechanism>>(m, "HarmonicConservationMechanism")
+        .def(py::init<std::string, float>(), py::arg("node_id"), py::arg("target_sum"));
+
+    py::class_<CausalBinding>(m, "CausalBinding")
+        .def(py::init<>())
+        .def_readwrite("source_id", &CausalBinding::source_id)
+        .def_readwrite("target_id", &CausalBinding::target_id)
+        .def_readwrite("coupling_weight", &CausalBinding::coupling_weight);
+
+    py::class_<MetaCausalEngine>(m, "MetaCausalEngine")
+        .def(py::init<>())
+        .def("add_mechanism", &MetaCausalEngine::add_mechanism)
+        .def("get_mechanism", &MetaCausalEngine::get_mechanism)
+        .def("add_binding", py::overload_cast<const std::string&, const std::string&, float>(&MetaCausalEngine::add_binding),
+             py::arg("source_id"), py::arg("target_id"), py::arg("coupling_weight") = 1.0f)
+        .def("compute_total_residual", &MetaCausalEngine::compute_total_residual)
+        .def("step_convergence", &MetaCausalEngine::step_convergence,
+             py::arg("max_iterations") = 50, py::arg("tolerance") = 0.0001f, py::arg("learning_rate") = 0.5f)
+        .def("introspect_causal_contributions", &MetaCausalEngine::introspect_causal_contributions);
 }
