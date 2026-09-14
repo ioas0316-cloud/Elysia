@@ -11,22 +11,126 @@
 
 using namespace causal_engine;
 
+void test_protocol_boundary_and_fracture_diagnostics() {
+    std::cout << "\n=== Running Protocol Boundary & Structural Fracture Diagnostics Test ===\n";
+
+    core::ProtocolBoundaryLedger boundary_ledger;
+
+    // Register Protocol A (CPU Event Ingestion) & Protocol B (GPU Compute Buffer)
+    core::ProtocolBoundary proto_a;
+    proto_a.protocol_id = "PROTO_CPU_EVENT_INGEST";
+    proto_a.min_state_bound = 0.0f;
+    proto_a.max_state_bound = 50.0f;
+    proto_a.max_latency_ms = 16.67f;
+
+    core::ProtocolBoundary proto_b;
+    proto_b.protocol_id = "PROTO_GPU_COLLAPSE_BUFFER";
+    proto_b.min_state_bound = 0.0f;
+    proto_b.max_state_bound = 100.0f;
+    proto_b.max_latency_ms = 10.0f;
+
+    boundary_ledger.register_protocol_boundary(proto_a);
+    boundary_ledger.register_protocol_boundary(proto_b);
+
+    // Test Case 1: Normal aligned boundaries
+    auto diag_normal = boundary_ledger.diagnose_boundary_collision(
+        "PROTO_CPU_EVENT_INGEST", 25.0f,
+        "PROTO_GPU_COLLAPSE_BUFFER", 25.0f,
+        12.0f);
+    assert(!diag_normal.fracture_detected);
+    std::cout << "  - Normal Alignment: " << diag_normal.cause_description << "\n";
+
+    // Test Case 2: Value domain boundary overflow
+    auto diag_overflow = boundary_ledger.diagnose_boundary_collision(
+        "PROTO_CPU_EVENT_INGEST", 75.0f, // > max_state_bound 50.0
+        "PROTO_GPU_COLLAPSE_BUFFER", 25.0f,
+        12.0f);
+    assert(diag_overflow.fracture_detected);
+    std::cout << "  - State Boundary Fracture: " << diag_overflow.cause_description << "\n";
+
+    // Test Case 3: Time latency boundary fracture
+    auto diag_latency = boundary_ledger.diagnose_boundary_collision(
+        "PROTO_CPU_EVENT_INGEST", 25.0f,
+        "PROTO_GPU_COLLAPSE_BUFFER", 25.0f,
+        22.0f); // > max_latency_ms 16.67
+    assert(diag_latency.fracture_detected);
+    std::cout << "  - Time Boundary Fracture: " << diag_latency.cause_description << "\n";
+}
+
+void test_structural_causal_model_and_counterfactuals() {
+    std::cout << "\n=== Running Structural Causal Model (SCM) & Counterfactual Test ===\n";
+
+    core::StructuralCausalModel scm;
+
+    // Build SCM DAG: Node 0 -> Node 1 -> Node 2
+    scm.add_node(0, 0.0f, 0.0f, 0.0f, [](const std::vector<float>& parents, float noise) {
+        (void)parents;
+        return 1.0f + noise; // Base cause state = 1.0
+    });
+
+    scm.add_node(1, 1.0f, 0.0f, 0.0f, [](const std::vector<float>& parents, float noise) {
+        float cause = parents.empty() ? 0.0f : parents[0];
+        return cause * 2.0f + noise; // Intermediate node = 2 * Cause
+    });
+
+    scm.add_node(2, 2.0f, 0.0f, 0.0f, [](const std::vector<float>& parents, float noise) {
+        float inter = parents.empty() ? 0.0f : parents[0];
+        return inter + 5.0f + noise; // Effect node = Inter + 5
+    });
+
+    bool edge1 = scm.add_causal_edge(0, 1);
+    bool edge2 = scm.add_causal_edge(1, 2);
+    assert(edge1 && edge2);
+
+    // Verify cycle prevention
+    bool cycle_edge = scm.add_causal_edge(2, 0);
+    assert(!cycle_edge && "SCM DAG should reject cycle 2 -> 0!");
+
+    // Factual propagation
+    scm.propagate_factual_states();
+    assert(scm.get_node(0)->factual_state == 1.0f);
+    assert(scm.get_node(1)->factual_state == 2.0f);
+    assert(scm.get_node(2)->factual_state == 7.0f);
+
+    std::cout << "  - Factual States: Node 0 = " << scm.get_node(0)->factual_state
+              << " | Node 1 = " << scm.get_node(1)->factual_state
+              << " | Node 2 = " << scm.get_node(2)->factual_state << "\n";
+
+    // Perform do(X = 5.0) intervention on Node 0
+    auto traces = core::CounterfactualObserver::evaluate_intervention_impact(scm, 0, 5.0f);
+
+    // Counterfactual propagation: Node 0 = 5.0, Node 1 = 10.0, Node 2 = 15.0
+    assert(scm.get_node(0)->counterfactual_state == 5.0f);
+    assert(scm.get_node(1)->counterfactual_state == 10.0f);
+    assert(scm.get_node(2)->counterfactual_state == 15.0f);
+
+    std::cout << "  - Counterfactual do(Node 0 = 5.0) States: Node 0 = " << scm.get_node(0)->counterfactual_state
+              << " | Node 1 = " << scm.get_node(1)->counterfactual_state
+              << " | Node 2 = " << scm.get_node(2)->counterfactual_state << "\n";
+
+    // Counterfactual variance
+    assert(traces[0].variance == 4.0f || traces[1].variance == 8.0f || traces[2].variance == 8.0f);
+
+    // Relationship-based Causal Collapse
+    core::CausalCollapseEngine collapse_engine(0.5f);
+    size_t collapsed = collapse_engine.execute_relationship_collapse(scm, traces);
+
+    assert(collapsed == 3 && "All nodes experiencing causal variance > 0.5 should manifest!");
+    std::cout << "  - Causal Collapse: " << collapsed << " nodes manifested based on relational variance.\n";
+}
+
 void test_4_layer_closed_loop_pipeline() {
     std::cout << "=== Running 4-Layer Closed-Loop Causal Engine Pipeline Test ===\n";
 
     // 1. Initialize Layer 2 CPU Core & Ring Buffer
-    core::CausalGraphManager graph;
+    core::StructuralCausalModel graph;
     core::LockFreeEventRingBuffer<128> event_ring;
-    core::LazyEvaluationLedger ledger;
 
     for (uint32_t i = 0; i < 100; ++i) {
         graph.add_node(i, static_cast<float>(i), 0.0f, 0.0f);
     }
-    graph.add_edge(0, 1);
-    graph.add_edge(1, 2);
-    // Cycle check: adding edge 2 -> 0 should fail
-    bool cycle_added = graph.add_edge(2, 0);
-    assert(!cycle_added && "Graph manager should detect cycle!");
+    graph.add_causal_edge(0, 1);
+    graph.add_causal_edge(1, 2);
 
     // Enqueue an event
     core::CausalSignal signal;
@@ -37,11 +141,10 @@ void test_4_layer_closed_loop_pipeline() {
     bool enqueued = event_ring.enqueue(signal);
     assert(enqueued && "Signal enqueued successfully");
 
-    // Dequeue signal and record deferred computation in ledger
+    // Dequeue signal
     core::CausalSignal popped_signal;
     bool dequeued = event_ring.dequeue(popped_signal);
     assert(dequeued && popped_signal.signal_id == 1);
-    ledger.record_deferred_computation(1, 1, popped_signal.magnitude);
 
     // 2. Initialize Layer 3 HAL SoA Memory Pool & Zero-Copy Interop
     hal::SoAMemoryPool<64> memory_pool(100);
@@ -76,8 +179,6 @@ void test_4_layer_closed_loop_pipeline() {
     assert(profile1.simd_width == feedback::SimdMode::AVX2_256);
     assert(profile1.causal_lod_step == 1);
 
-    // Resolve deferred computation and run compute kernel
-    ledger.resolve_pending(graph, 1, profile1.causal_lod_step);
     compute::CausalComputeEngine::execute_state_collapse(memory_pool, tlas_instances, profile1, 0.016f);
     vulkan_rt.perform_tlas_refit(tlas_instances);
 
@@ -126,6 +227,8 @@ void test_4_layer_closed_loop_pipeline() {
 }
 
 int main() {
+    test_protocol_boundary_and_fracture_diagnostics();
+    test_structural_causal_model_and_counterfactuals();
     test_4_layer_closed_loop_pipeline();
     return 0;
 }
