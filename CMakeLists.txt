@@ -43,6 +43,9 @@ target_link_libraries(test_causal_field_accelerator PRIVATE OpenMP::OpenMP_CXX)
 add_executable(test_closed_loop_governor tests/cpp/test_closed_loop_governor.cpp)
 target_link_libraries(test_closed_loop_governor PRIVATE OpenMP::OpenMP_CXX)
 
+add_executable(test_meta_causal_map tests/cpp/test_meta_causal_map.cpp)
+target_link_libraries(test_meta_causal_map PRIVATE OpenMP::OpenMP_CXX)
+
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)
 if (NOT pybind11_FOUND)
