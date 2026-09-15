@@ -164,12 +164,28 @@ class CognitiveLensEngine:
             ContextualDimension.RELATIONAL_INTENT: RelationalIntentLens(),
             ContextualDimension.SYMBOLIC_REPRESENTATION: SymbolicContextLens()
         }
+        from core.consciousness.protocol_divergence_engine import ProtocolDivergenceEngine
+        self.protocol_engine = ProtocolDivergenceEngine()
 
     def observe_spectrum(self, stimulus: Dict[str, Any]) -> Dict[ContextualDimension, RefractedObservation]:
         """Passes stimulus through all cognitive lenses, generating a spectrum of observations."""
         spectrum = {}
         for dim, lens in self.lenses.items():
             spectrum[dim] = lens.refract(stimulus)
+
+        # Integrate Protocol Divergence Engine if alien topology or symbol exists in stimulus
+        if "alien_topology" in stimulus:
+            context_vec = stimulus.get("context_vector")
+            if context_vec is None:
+                import numpy as np
+                context_vec = np.array([1.0, 0.5, 0.0, 0.2], dtype=np.float32)
+            divergence_report = self.protocol_engine.process_alien_interaction(
+                stimulus["alien_topology"],
+                context_vec
+            )
+            # Attach protocol divergence report to spectrum
+            stimulus["protocol_divergence_report"] = divergence_report
+
         return spectrum
 
     def adjust_lens_curvature(self, dimension: ContextualDimension, curvature: float):
