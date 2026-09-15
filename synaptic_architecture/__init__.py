@@ -55,6 +55,12 @@ except ModuleNotFoundError:
     pass
 
 try:
+    from .phase_space_node import PhaseSpaceNode
+    from .open_valence_field import OpenValenceField
+except (ModuleNotFoundError, ImportError):
+    pass
+
+try:
     from .continuous_attractor_field import (
         ContinuousAttractorField
     )

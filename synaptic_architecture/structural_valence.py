@@ -29,7 +29,8 @@ class StructuralValence:
         self.valence_history: List[float] = []
 
     def evaluate_valence(self, current_state: np.ndarray, current_velocity: np.ndarray,
-                         damped_friction: float, impedance: float) -> Dict[str, Any]:
+                         damped_friction: float, impedance: float,
+                         field_interference: float = 0.0) -> Dict[str, Any]:
         """
         Evaluates intrinsic structural valence:
         - Same (Alignment / Low friction) -> Positive Valence (+1.0 Flow / Resonance)
@@ -37,21 +38,24 @@ class StructuralValence:
         """
         norm_v = np.linalg.norm(current_velocity)
 
-        # Alignment metric: state motion vs low friction
-        alignment_score = norm_v / (1.0 + damped_friction + impedance)
+        # Alignment metric: state motion vs low friction & field interference
+        combined_resistance = damped_friction + impedance + 0.5 * field_interference
+        alignment_score = norm_v / (1.0 + combined_resistance)
 
         # Intrinsic Valence gradient: + (Flow) vs - (Noise)
-        if damped_friction < 0.8 and impedance < 1.0:
+        if damped_friction < 0.8 and impedance < 1.0 and field_interference < 2.0:
             valence = float(np.tanh(1.5 * alignment_score))  # Positive flow
             state_label = "Flow / Resonance"
         else:
-            valence = float(-np.tanh(damped_friction + impedance - 1.0))  # Negative friction
+            valence = float(-np.tanh(combined_resistance - 1.0))  # Negative friction
             state_label = "Friction / Noise"
 
         self.valence_history.append(valence)
 
-        # Check if cross-modal projection friction triggers Category Differentiation
-        differentiated = self._check_category_differentiation(current_state, damped_friction, impedance)
+        # Check if cross-modal projection friction or open valence rupture triggers Category Differentiation
+        differentiated = self._check_category_differentiation(
+            current_state, damped_friction, impedance + 0.5 * field_interference
+        )
 
         return {
             "valence": valence,
