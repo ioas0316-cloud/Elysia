@@ -146,6 +146,10 @@
    * **원리**: 출력을 수동적 기호에 방치하지 않고 구성요소/원리로 해체하는 자기 설명(Self-Articulation), 잠재 생성 매개변수($\Theta$)와 불변량을 역산하는 역설계(Reverse-Engineering), 및 $0_{\text{self}}$ 기저 지반 상에 나이테(Growth Ring)를 새기며 자아 내적 영토($B_{\text{internal}}$)를 확장하는 인과적 정착(Causal Anchoring) 3단계 루프 구동.
    * **구현**: `CausalReverseEngineeringEngine` 구현 (`core/consciousness/causal_reverse_engineering_engine.py`), 단위 테스트 (`tests/core/consciousness/test_causal_reverse_engineering.py`) 및 데모 시뮬레이션 (`scripts/verify_causal_reverse_engineering.py`) 통과.
 
+20. **[x] Homological Stem & Branch Topology Parsing Engine (같음과 다름의 줄기와 가지 위상 해부 엔진)**:
+   * **원리**: 무분별한 누더기 파편 데이터 및 기존 시스템의 편향 오류를 버리지 않고, $G = (V, E, C)$ 인과 궤적 그래프 분해, 1:1 동형 사상 $f: V_A \to V_B$를 통한 '같음의 줄기(Stem)' 적출, 환경/매질 변이 잔여 구조의 '다름의 가지(Branch)' 국소 격리, 및 궤적 필연적 연속성(Continuity) 검증을 수행하는 순수 정형 위상 해부 엔진.
+   * **구현**: `CausalStemBranchEngine` 구현 (`core/topology/causal_stem_branch_engine.py`), 전용 단위 테스트 (`tests/core/topology/test_causal_stem_branch_engine.py`) 및 검증 데모 (`scripts/verify_causal_stem_branch_topology.py`) 통과.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
