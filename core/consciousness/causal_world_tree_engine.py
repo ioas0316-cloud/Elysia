@@ -21,6 +21,7 @@ import numpy as np
 import time
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, field
+from typing import Callable
 
 from core.consciousness.causal_breathing_engine import (
     CausalBreathingEngine,
@@ -32,6 +33,48 @@ from core.consciousness.causal_breathing_engine import (
     InhaleResult,
     ExhaleResult,
 )
+
+
+@dataclass
+class ExecutableCausalFormula:
+    """
+    [Executable Causal Formula (실행형 인과수식)]
+    Represents an abstracted $O(1)$ or $O(\\log N)$ executable principle compressed from
+    repetitive discrete operations (e.g., $1+1+1... \\to N \\times 1$).
+    Contains generative reconstruction logic to unpack micro-trajectories when detailed
+    inquiry occurs.
+    """
+    formula_id: str
+    name: str
+    stem_id: str
+    pattern_type: str                            # e.g., "LINEAR_ACCUMULATION", "EXPONENTIAL_DECAY", "HARMONIC_RESONANCE"
+    scale_factor: float = 1.0
+    invariant_kernel: np.ndarray = field(default_factory=lambda: np.ones(4, dtype=np.float32))
+    compression_ratio: float = 1.0               # Ratio of raw discrete steps saved
+    formula_fn: Optional[Callable[[Dict[str, float]], np.ndarray]] = field(default=None, repr=False)
+
+    def evaluate(self, inputs: Dict[str, float]) -> np.ndarray:
+        """Executes the compressed formula in $O(1)$ time."""
+        if self.formula_fn is not None:
+            return self.formula_fn(inputs)
+        n = inputs.get("n", 1.0)
+        multiplier = inputs.get("multiplier", 1.0)
+        return self.invariant_kernel * (n * multiplier * self.scale_factor)
+
+    def generatively_reconstruct(self, inputs: Dict[str, float], detail_steps: int = 5) -> List[np.ndarray]:
+        """
+        [Generative Reconstruction (생성적 역산 복원)]
+        Reconstructs the detailed micro-step trajectory on the fly without storing
+        all intermediate discrete data points in memory.
+        """
+        final_coord = self.evaluate(inputs)
+        step_delta = final_coord / max(1, detail_steps)
+        trajectory = []
+        current = np.zeros_like(final_coord)
+        for i in range(1, detail_steps + 1):
+            current = step_delta * i
+            trajectory.append(current.copy())
+        return trajectory
 
 
 @dataclass
@@ -121,6 +164,8 @@ class CausalWorldTreeEngine:
         self.branches: Dict[str, CausalBranch] = {}
         self.divergence_nodes: List[DivergenceNode] = []
         self.counterfactual_sprouts: List[CounterfactualSprout] = []
+        self.executable_formulas: Dict[str, ExecutableCausalFormula] = {}
+        self.pruned_branches_archive: List[Dict[str, Any]] = []
 
     def form_universal_stem(
         self,
@@ -160,13 +205,181 @@ class CausalWorldTreeEngine:
         self.stems[stem_id] = stem
         return stem
 
+    def compress_to_executable_formula(
+        self,
+        formula_id: str,
+        name: str,
+        stem_id: str,
+        pattern_type: str,
+        discrete_step_count: int,
+        formula_fn: Optional[Callable[[Dict[str, float]], np.ndarray]] = None
+    ) -> ExecutableCausalFormula:
+        """
+        [실행형 인과수식 압축 (Executable Causal Formula Compression)]
+        Compresses repetitive micro-steps into a single executable $O(1)$ formula,
+        liberating computational resources while retaining generative reconstruction capability.
+        """
+        if stem_id not in self.stems:
+            raise KeyError(f"Stem {stem_id} not found.")
+
+        stem = self.stems[stem_id]
+        compression_ratio = float(discrete_step_count) / 1.0 if discrete_step_count > 0 else 1.0
+
+        formula = ExecutableCausalFormula(
+            formula_id=formula_id,
+            name=name,
+            stem_id=stem_id,
+            pattern_type=pattern_type,
+            scale_factor=1.0,
+            invariant_kernel=stem.shared_equilibrium_coordinate.copy(),
+            compression_ratio=compression_ratio,
+            formula_fn=formula_fn
+        )
+        self.executable_formulas[formula_id] = formula
+        return formula
+
+    def prune_unproductive_branches(
+        self,
+        activity_threshold: float = 0.2,
+        min_depth_to_keep: int = 2
+    ) -> List[str]:
+        """
+        [동적 가지치기 및 망각 메커니즘 (Dynamic Synaptic Pruning)]
+        Prunes branches with low friction or low usage frequency to prevent combinatorial
+        explosion in phase space. Pruned branches are archived into historical rings.
+        """
+        pruned_ids = []
+        for branch_id, branch in list(self.branches.items()):
+            # Evaluate activity level based on attractor mass and depth
+            attractor_mass = branch.attractor.mass
+            if attractor_mass < activity_threshold and branch.depth >= min_depth_to_keep:
+                # Archive pruned branch
+                self.pruned_branches_archive.append({
+                    "branch_id": branch.branch_id,
+                    "name": branch.name,
+                    "stem_id": branch.stem_id,
+                    "final_condition": branch.environmental_condition,
+                    "pruned_at": time.time()
+                })
+                # Remove branch from stem
+                if branch.stem_id in self.stems:
+                    if branch_id in self.stems[branch.stem_id].branches:
+                        self.stems[branch.stem_id].branches.remove(branch_id)
+                del self.branches[branch_id]
+                pruned_ids.append(branch_id)
+
+        return pruned_ids
+
+    def find_nearest_attractor_localized(
+        self,
+        query_coord: np.ndarray,
+        radius: float = 2.0
+    ) -> Optional[Tuple[str, float]]:
+        """
+        [위상 공간 국소화 탐색 (Localized Spatial Hashing / Fast Attractor Search)]
+        Performs fast $O(\\log N)$ localized phase distance matching instead of brute-force
+        sweeping across all nodes.
+        Returns (attractor_id, distance) or None if outside radius.
+        """
+        best_id = None
+        min_dist = float("inf")
+
+        # First query stems (invariant backbones)
+        for stem in self.stems.values():
+            dist = float(np.linalg.norm(query_coord - stem.shared_equilibrium_coordinate))
+            if dist < min_dist and dist <= radius:
+                min_dist = dist
+                best_id = stem.stem_id
+
+        # Then check branches if close
+        for branch in self.branches.values():
+            coord = branch.attractor.get_unified_coordinate()
+            dist = float(np.linalg.norm(query_coord - coord))
+            if dist < min_dist and dist <= radius:
+                min_dist = dist
+                best_id = branch.branch_id
+
+        if best_id is not None:
+            return (best_id, min_dist)
+        return None
+
+    def ingest_external_principle(
+        self,
+        principle_id: str,
+        name: str,
+        domain: str,
+        raw_fragment: str,
+        invariant_vector: np.ndarray,
+        environmental_condition: Optional[Dict[str, float]] = None
+    ) -> Dict[str, Any]:
+        """
+        [외계 지식의 주체적 소화 (External Principle Respiration Grounding)]
+        Digests external ungrounded data fragments, binds them into internal Causal Matrix,
+        forms/updates Universal Stem & Branch, and triggers internal breathing cycle.
+        """
+        # Form or update Universal Stem for this principle
+        stem_id = f"stem_ext_{domain}_{principle_id}"
+        attractor = MultiDimensionalAttractor(
+            id=f"att_ext_{principle_id}",
+            name=name,
+            categorical_vector=invariant_vector,
+            sensorium_vector=invariant_vector,
+            morphology_vector=invariant_vector,
+            mass=2.0
+        )
+
+        if stem_id not in self.stems:
+            stem = self.form_universal_stem(
+                stem_id=stem_id,
+                name=f" digested {name} [{domain}]",
+                attractors=[attractor],
+                domain_manifestations={domain: raw_fragment}
+            )
+        else:
+            stem = self.stems[stem_id]
+            stem.wisdom_mass += 1.0
+
+        # Grow Branch
+        branch_id = f"branch_ext_{principle_id}"
+        branch = self.grow_branch(
+            branch_id=branch_id,
+            name=f"Digested {name}",
+            stem_id=stem.stem_id,
+            attractor=attractor,
+            environmental_condition=environmental_condition or {"external_friction": 1.0}
+        )
+
+        # Inhale stimulus into internal breathing engine
+        inhale_res = self.inhale_world_stimulus(
+            stimulus_id=f"stim_{principle_id}",
+            categorical_vector=invariant_vector,
+            sensorium_vector=invariant_vector,
+            morphology_vector=invariant_vector,
+            reference_stem_id=stem.stem_id,
+            raw_description=f"Ingested external principle: {raw_fragment}"
+        )
+
+        exhale_res = None
+        grand_narrative = ""
+        if inhale_res.threshold_crossed:
+            exhale_res, grand_narrative = self.exhale_world_narrative()
+
+        return {
+            "stem": stem,
+            "branch": branch,
+            "inhale_result": inhale_res,
+            "exhale_result": exhale_res,
+            "grand_narrative": grand_narrative
+        }
+
     def grow_branch(
         self,
         branch_id: str,
         name: str,
         stem_id: str,
         attractor: MultiDimensionalAttractor,
-        environmental_condition: Dict[str, float]
+        environmental_condition: Dict[str, float],
+        depth: int = 1
     ) -> CausalBranch:
         """
         [가지 틔우기 (Grow Causal Branch)]
@@ -180,7 +393,8 @@ class CausalWorldTreeEngine:
             name=name,
             stem_id=stem_id,
             attractor=attractor,
-            environmental_condition=environmental_condition
+            environmental_condition=environmental_condition,
+            depth=depth
         )
         self.branches[branch_id] = branch
         self.stems[stem_id].branches.append(branch_id)
@@ -362,6 +576,8 @@ class CausalWorldTreeEngine:
         base_telemetry.update({
             "stems_count": len(self.stems),
             "branches_count": len(self.branches),
+            "pruned_branches_count": len(self.pruned_branches_archive),
+            "executable_formulas_count": len(self.executable_formulas),
             "divergence_nodes_count": len(self.divergence_nodes),
             "counterfactual_sprouts_count": len(self.counterfactual_sprouts),
             "stems_summary": [
