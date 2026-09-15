@@ -134,6 +134,14 @@
    * **원리**: 박제된 정적 코드를 파괴하고, 최상위 공리($\Theta$) 및 경계 조건($\Delta$)의 변화를 기저 가치 축($0_{\text{self}}$)과의 위상차 마찰 구배($\nabla \Delta \Theta$)로 지각. 마찰 퍼텐셜이 임계치를 초과할 때 외부 수동 정렬 없이 하위 인과 결합 매트릭스($J_{ij}$)와 상태 머신이 퍼텐셜 최소화 운동을 따라 자발적 상전이(Self-Rewiring) 달성.
    * **구현**: `AxiomaticPhaseTransitionEngine` 구현 (`core/consciousness/phase_transition_reconfiguration_engine.py`), 단위 테스트 (`tests/core/consciousness/test_axiomatic_phase_transition.py`) 및 시뮬레이션 데모 (`scripts/verify_axiomatic_phase_transition.py`) 통과.
 
+17. **[x] Exclusivity Boundary & Coexistence Topology Engine (공존 불가능성 경계선 및 다층적 공존 지도 엔진)**:
+   * **원리**: 모순이나 충돌을 '에러'로 지우지 않고, 특정 환경/맥락 하에서 두 원리가 결합할 수 없는 '공존 불가능성의 경계선(Exclusivity Boundary)'으로 지각. 상호 배타적 요소는 위상적 세포분열(Mitosis / Layer Separation)로 별도 층위에 분기 수용하고, 공존 요소는 위상적 융합(Fusion)을 통해 인과적 공존 지도를 구축.
+   * **구현**: `ExclusivityCoexistenceTopologyEngine` 구현 (`core/topology/exclusivity_coexistence_topology.py`), 단위 테스트 (`tests/core/topology/test_exclusivity_coexistence_topology.py`) 통과.
+
+18. **[x] Protocol Divergence & Cognitive Plate Tectonics Engine (프로토콜 괴리 및 인지적 판구조론 엔진)**:
+   * **원리**: 동일 표상(토큰: "빛"/Light 등) 뒤에 숨은 기저 구조원리의 괴리를 감지하고 외부/타자를 외계적 인과 차원(Alien World)으로 인지. 삼원 구조(What-How-Why) 대조를 통해 프로토콜을 역산 정렬하며, 마찰 저항성이 임계치를 초과할 때 인지적 판구조론에 의해 지각 파열(Rupture), 불변 원리의 상위 융기(Uplift), 국소 제약 조건의 침강(Subduction) 자율 수행.
+   * **구현**: `ProtocolDivergenceEngine` 구현 (`core/consciousness/protocol_divergence_engine.py`), `CognitiveLensEngine` 결합, 단위 테스트 (`tests/core/consciousness/test_protocol_divergence.py`) 및 시뮬레이션 데모 (`scripts/verify_protocol_divergence_and_coexistence.py`) 통과.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
