@@ -214,3 +214,100 @@ def test_spatiotemporal_growth_and_telemetry():
     assert telemetry["weekly_attractors_count"] == 4
     assert telemetry["monthly_rings_count"] == 1
     assert len(telemetry["stems_summary"]) == 1
+
+
+def test_executable_causal_formula_compression_and_reconstruction():
+    engine = CausalWorldTreeEngine()
+
+    attractor = MultiDimensionalAttractor(
+        id="att_acc",
+        name="Accumulation Invariant",
+        categorical_vector=np.array([1.0, 1.0, 1.0, 1.0]),
+        sensorium_vector=np.array([1.0, 1.0, 1.0, 1.0]),
+        morphology_vector=np.array([1.0, 1.0, 1.0, 1.0]),
+        mass=2.0
+    )
+    engine.form_universal_stem("stem_acc", "Accumulation Stem", [attractor])
+
+    formula = engine.compress_to_executable_formula(
+        formula_id="formula_mult_1",
+        name="Repetitive Addition to Multiplication",
+        stem_id="stem_acc",
+        pattern_type="LINEAR_ACCUMULATION",
+        discrete_step_count=10000
+    )
+
+    assert formula.compression_ratio == 10000.0
+    res = formula.evaluate({"n": 50.0, "multiplier": 2.0})
+    np.testing.assert_allclose(res, np.array([100.0, 100.0, 100.0, 100.0]))
+
+    trajectory = formula.generatively_reconstruct({"n": 50.0, "multiplier": 2.0}, detail_steps=5)
+    assert len(trajectory) == 5
+    np.testing.assert_allclose(trajectory[-1], res)
+
+
+def test_dynamic_synaptic_pruning():
+    engine = CausalWorldTreeEngine()
+
+    attractor_stem = MultiDimensionalAttractor(
+        id="att_stem",
+        name="Stem Base",
+        categorical_vector=np.array([1.0, 0.0, 0.0, 0.0]),
+        sensorium_vector=np.array([1.0, 0.0, 0.0, 0.0]),
+        morphology_vector=np.array([1.0, 0.0, 0.0, 0.0]),
+        mass=5.0
+    )
+    engine.form_universal_stem("stem_1", "Main Stem", [attractor_stem])
+
+    # Branch 1: High activity (mass = 2.0)
+    att_active = MultiDimensionalAttractor(
+        id="att_act",
+        name="Active Branch Attractor",
+        categorical_vector=np.array([1.0, 0.2, 0.0, 0.0]),
+        sensorium_vector=np.array([1.0, 0.2, 0.0, 0.0]),
+        morphology_vector=np.array([1.0, 0.2, 0.0, 0.0]),
+        mass=2.0
+    )
+    b_act = engine.grow_branch("branch_act", "Active Branch", "stem_1", att_active, {}, depth=2)
+
+    # Branch 2: Low activity (mass = 0.05), depth = 2
+    att_obsolete = MultiDimensionalAttractor(
+        id="att_obs",
+        name="Obsolete Branch Attractor",
+        categorical_vector=np.array([1.0, 0.9, 0.0, 0.0]),
+        sensorium_vector=np.array([1.0, 0.9, 0.0, 0.0]),
+        morphology_vector=np.array([1.0, 0.9, 0.0, 0.0]),
+        mass=0.05
+    )
+    b_obs = engine.grow_branch("branch_obs", "Obsolete Branch", "stem_1", att_obsolete, {}, depth=2)
+
+    assert len(engine.branches) == 2
+
+    pruned = engine.prune_unproductive_branches(activity_threshold=0.1, min_depth_to_keep=2)
+
+    assert "branch_obs" in pruned
+    assert "branch_obs" not in engine.branches
+    assert "branch_act" in engine.branches
+    assert len(engine.pruned_branches_archive) == 1
+
+
+def test_localized_spatial_hashing_and_external_digestion():
+    engine = CausalWorldTreeEngine(critical_tension_threshold=1.0)
+
+    # Digestion test
+    result = engine.ingest_external_principle(
+        principle_id="grav_1",
+        name="Newtonian Gravity",
+        domain="physics",
+        raw_fragment="F = G * (m1 * m2) / r^2",
+        invariant_vector=np.array([0.5, 0.5, 0.5, 0.5])
+    )
+
+    assert result["stem"] is not None
+    assert result["branch"] is not None
+
+    # Localized fast lookup
+    found = engine.find_nearest_attractor_localized(np.array([0.5, 0.5, 0.5, 0.5]), radius=0.5)
+    assert found is not None
+    matched_id, dist = found
+    assert dist < 0.1
