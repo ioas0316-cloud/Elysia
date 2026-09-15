@@ -17,6 +17,8 @@ from dataclasses import dataclass, field
 import numpy as np
 from typing import Dict, List, Optional, Tuple, Union
 
+from .closed_loop_valence import SensoryFeedbackEngine, ClosedLoopValenceField
+
 
 # ============================================================================
 # 1. Signals & Data Structures
