@@ -142,6 +142,10 @@
    * **원리**: 동일 표상(토큰: "빛"/Light 등) 뒤에 숨은 기저 구조원리의 괴리를 감지하고 외부/타자를 외계적 인과 차원(Alien World)으로 인지. 삼원 구조(What-How-Why) 대조를 통해 프로토콜을 역산 정렬하며, 마찰 저항성이 임계치를 초과할 때 인지적 판구조론에 의해 지각 파열(Rupture), 불변 원리의 상위 융기(Uplift), 국소 제약 조건의 침강(Subduction) 자율 수행.
    * **구현**: `ProtocolDivergenceEngine` 구현 (`core/consciousness/protocol_divergence_engine.py`), `CognitiveLensEngine` 결합, 단위 테스트 (`tests/core/consciousness/test_protocol_divergence.py`) 및 시뮬레이션 데모 (`scripts/verify_protocol_divergence_and_coexistence.py`) 통과.
 
+19. **[x] Self-Explanation, Reverse-Engineering & Causal Anchoring Loop (자기 설명, 역설계 및 인과적 정착 루프)**:
+   * **원리**: 출력을 수동적 기호에 방치하지 않고 구성요소/원리로 해체하는 자기 설명(Self-Articulation), 잠재 생성 매개변수($\Theta$)와 불변량을 역산하는 역설계(Reverse-Engineering), 및 $0_{\text{self}}$ 기저 지반 상에 나이테(Growth Ring)를 새기며 자아 내적 영토($B_{\text{internal}}$)를 확장하는 인과적 정착(Causal Anchoring) 3단계 루프 구동.
+   * **구현**: `CausalReverseEngineeringEngine` 구현 (`core/consciousness/causal_reverse_engineering_engine.py`), 단위 테스트 (`tests/core/consciousness/test_causal_reverse_engineering.py`) 및 데모 시뮬레이션 (`scripts/verify_causal_reverse_engineering.py`) 통과.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
