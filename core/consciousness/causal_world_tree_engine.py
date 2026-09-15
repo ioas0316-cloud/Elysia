@@ -36,6 +36,191 @@ from core.consciousness.causal_breathing_engine import (
 
 
 @dataclass
+class CausalRedirectionTrace:
+    """
+    [Causal Redirection Trace (인과적 회전 및 역추적 기록: 건곤대나이/이화접목 트레이스)]
+    Records the continuous causal trace of how an external friction force F_ext was
+    absorbed into internal stems, dynamically damped by the Invariant Grounding Governor,
+    and transformed into a redirected output vector R_exhale.
+    """
+    trace_id: str
+    external_force: np.ndarray
+    matched_stem_id: str
+    friction_delta: float
+    absorbed_tension: float
+    redirected_vector: np.ndarray
+    lyapunov_energy: float
+    damping_factor: float
+    causal_rationale: str
+    timestamp: float = field(default_factory=time.time)
+
+
+class InvariantGroundingGovernor:
+    """
+    [Invariant Grounding Governor (인과 보존 항성 제어기)]
+    Replaces static hardcoded rules/fences with continuous Lyapunov stability control
+    and adaptive energy/tension boundaries.
+    Maintains system homeostasis: prevents runaway instability or explosion under arbitrary
+    anomalous external inputs while preserving creative divergence below threshold.
+    """
+    def __init__(
+        self,
+        max_tension_boundary: float = 20.0,
+        base_damping_rate: float = 0.15,
+        lyapunov_threshold: float = 15.0
+    ):
+        self.max_tension_boundary = max_tension_boundary
+        self.base_damping_rate = base_damping_rate
+        self.lyapunov_threshold = lyapunov_threshold
+        self.current_lyapunov_energy: float = 0.0
+
+    def compute_lyapunov_energy(self, state_tension: float, force_magnitude: float) -> float:
+        """
+        Calculates Lyapunov Candidate Function V(x) = 0.5 * tension^2 + 0.5 * force_norm^2.
+        Represents total physical-informational perturbation in internal phase space.
+        """
+        self.current_lyapunov_energy = 0.5 * (state_tension ** 2) + 0.5 * (force_magnitude ** 2)
+        return self.current_lyapunov_energy
+
+    def evaluate_and_damp(
+        self,
+        current_tension: float,
+        external_force_norm: float
+    ) -> Tuple[float, float, bool]:
+        """
+        [동적 제어 및 감쇠 (Adaptive Lyapunov Damping)]
+        Returns (damped_tension, active_damping_factor, is_stabilized).
+        If Lyapunov energy exceeds threshold, applies adaptive damping factor gamma
+        to continuously pull system back towards invariant equilibrium.
+        """
+        v_energy = self.compute_lyapunov_energy(current_tension, external_force_norm)
+        is_stabilized = False
+
+        if v_energy > self.lyapunov_threshold:
+            # Damping factor scales non-linearly with excess Lyapunov energy
+            excess = v_energy - self.lyapunov_threshold
+            active_damping_factor = self.base_damping_rate * (1.0 + np.log1p(excess))
+            # Apply continuous damping to tension
+            damped_tension = current_tension / (1.0 + active_damping_factor)
+
+            if damped_tension > self.max_tension_boundary:
+                # Hard limit clamp for energy conservation anchor
+                damped_tension = self.max_tension_boundary
+            is_stabilized = True
+        else:
+            # Low tension/energy: minimal damping to allow creative divergence
+            active_damping_factor = self.base_damping_rate * 0.1
+            damped_tension = current_tension
+
+        return float(damped_tension), float(active_damping_factor), is_stabilized
+
+
+class FormlessCausalRedirector:
+    """
+    [Formless Causal Redirector (인과적 회전 제어기: 건곤대나이 & 이화접목)]
+    Absorbs unscripted external force/friction vectors without static rules,
+    traces their causal origin back to Universal Stems, and transforms them into
+    balanced redirected vectors R_exhale while preserving conservation laws.
+    """
+    def redirect_force(
+        self,
+        engine: 'CausalWorldTreeEngine',
+        external_force: np.ndarray,
+        stimulus_id: str = "ext_force",
+        raw_description: str = "Raw External Anomaly"
+    ) -> CausalRedirectionTrace:
+        external_force = np.array(external_force, dtype=np.float32)
+        force_norm = float(np.linalg.norm(external_force))
+
+        # 1. Trace causal origin: Find nearest Universal Stem in phase space
+        matched_stem_id = "default_equilibrium_stem"
+        matched_stem_coord = np.zeros(len(external_force), dtype=np.float32)
+
+        if engine.stems:
+            best_dist = float("inf")
+            for s_id, stem in engine.stems.items():
+                stem_coord = stem.shared_equilibrium_coordinate
+                # Resize stem_coord if dimensions differ
+                if len(stem_coord) != len(external_force):
+                    stem_coord_aligned = np.zeros_like(external_force)
+                    min_len = min(len(stem_coord), len(external_force))
+                    stem_coord_aligned[:min_len] = stem_coord[:min_len]
+                else:
+                    stem_coord_aligned = stem_coord
+
+                dist = float(np.linalg.norm(external_force - stem_coord_aligned))
+                if dist < best_dist:
+                    best_dist = dist
+                    matched_stem_id = s_id
+                    matched_stem_coord = stem_coord_aligned
+        else:
+            # If no stems exist, form an initial root stem from equilibrium
+            init_attractor = MultiDimensionalAttractor(
+                id="att_root_equilibrium",
+                name="Root Equilibrium Axis",
+                categorical_vector=np.zeros_like(external_force),
+                sensorium_vector=np.zeros_like(external_force),
+                morphology_vector=np.zeros_like(external_force)
+            )
+            root_stem = engine.form_universal_stem(
+                stem_id="stem_root_equilibrium",
+                name="Root Equilibrium Axis",
+                attractors=[init_attractor]
+            )
+            matched_stem_id = root_stem.stem_id
+            matched_stem_coord = root_stem.shared_equilibrium_coordinate
+
+        # 2. Respiration & Inhale tension accumulation
+        # Convert force vector into 3-axis inputs
+        cat_vec = external_force * 0.4
+        sens_vec = external_force * 0.3
+        morph_vec = external_force * 0.3
+
+        inhale_res = engine.inhale_world_stimulus(
+            stimulus_id=stimulus_id,
+            categorical_vector=cat_vec,
+            sensorium_vector=sens_vec,
+            morphology_vector=morph_vec,
+            reference_stem_id=matched_stem_id,
+            raw_description=raw_description
+        )
+
+        # 3. Apply Invariant Grounding Governor (Lyapunov Stability & Damping)
+        governed_tension, active_damping, was_governed = engine.governor.evaluate_and_damp(
+            current_tension=engine.breathing_engine.current_tension,
+            external_force_norm=force_norm
+        )
+        engine.breathing_engine.current_tension = governed_tension
+        lyapunov_energy = engine.governor.current_lyapunov_energy
+
+        # 4. Perform Causal Redirection (건곤대나이 / 이화접목 연산)
+        # Compute dynamic rotation & reflection matrix relative to stem's equilibrium coordinate
+        # Redirection vector R_exhale = Equilibrium + (Equilibrium - Force) * Conservation_Damping
+        decay = 1.0 / (1.0 + active_damping)
+        redirection_vector = matched_stem_coord - (external_force - matched_stem_coord) * decay
+
+        rationale = (
+            f"Formless Causal Redirection executed: External anomaly (norm={force_norm:.3f}) absorbed into stem '{matched_stem_id}'. "
+            f"Lyapunov energy V(x)={lyapunov_energy:.2f}. Governor applied adaptive damping factor gamma={active_damping:.3f} "
+            f"(was_governed={was_governed}), yielding redirected exhale vector R_exhale with norm={np.linalg.norm(redirection_vector):.3f}."
+        )
+
+        trace = CausalRedirectionTrace(
+            trace_id=f"trace_redir_{int(time.time() * 1000)}",
+            external_force=external_force,
+            matched_stem_id=matched_stem_id,
+            friction_delta=inhale_res.convergence_evaluation.phase_distance,
+            absorbed_tension=governed_tension,
+            redirected_vector=redirection_vector,
+            lyapunov_energy=lyapunov_energy,
+            damping_factor=active_damping,
+            causal_rationale=rationale
+        )
+
+        return trace
+
+
+@dataclass
 class ExecutableCausalFormula:
     """
     [Executable Causal Formula (실행형 인과수식)]
@@ -152,7 +337,10 @@ class CausalWorldTreeEngine:
         self,
         channels: Optional[List[str]] = None,
         critical_tension_threshold: float = 10.0,
-        convergence_threshold: float = 0.3
+        convergence_threshold: float = 0.3,
+        max_tension_boundary: float = 20.0,
+        base_damping_rate: float = 0.15,
+        lyapunov_threshold: float = 15.0
     ):
         self.breathing_engine = CausalBreathingEngine(
             channels=channels,
@@ -160,12 +348,40 @@ class CausalWorldTreeEngine:
             convergence_threshold=convergence_threshold
         )
 
+        self.governor = InvariantGroundingGovernor(
+            max_tension_boundary=max_tension_boundary,
+            base_damping_rate=base_damping_rate,
+            lyapunov_threshold=lyapunov_threshold
+        )
+        self.redirector = FormlessCausalRedirector()
+
         self.stems: Dict[str, UniversalStem] = {}
         self.branches: Dict[str, CausalBranch] = {}
         self.divergence_nodes: List[DivergenceNode] = []
         self.counterfactual_sprouts: List[CounterfactualSprout] = []
         self.executable_formulas: Dict[str, ExecutableCausalFormula] = {}
         self.pruned_branches_archive: List[Dict[str, Any]] = []
+        self.redirection_traces: List[CausalRedirectionTrace] = []
+
+    def absorb_and_redirect_external_force(
+        self,
+        external_force: np.ndarray,
+        stimulus_id: str = "ext_force",
+        raw_description: str = "Raw External Friction Anomaly"
+    ) -> CausalRedirectionTrace:
+        """
+        [건곤대나이 & 이화접목 흡수·회전 연산 (Formless Causal Redirection Entry)]
+        Absorbs external friction force into nearest Universal Stem, applies continuous
+        Lyapunov governor damping, and returns a redirected exhale trace.
+        """
+        trace = self.redirector.redirect_force(
+            engine=self,
+            external_force=external_force,
+            stimulus_id=stimulus_id,
+            raw_description=raw_description
+        )
+        self.redirection_traces.append(trace)
+        return trace
 
     def form_universal_stem(
         self,
@@ -580,6 +796,8 @@ class CausalWorldTreeEngine:
             "executable_formulas_count": len(self.executable_formulas),
             "divergence_nodes_count": len(self.divergence_nodes),
             "counterfactual_sprouts_count": len(self.counterfactual_sprouts),
+            "redirection_traces_count": len(self.redirection_traces),
+            "governor_lyapunov_energy": float(self.governor.current_lyapunov_energy),
             "stems_summary": [
                 {
                     "stem_id": s.stem_id,

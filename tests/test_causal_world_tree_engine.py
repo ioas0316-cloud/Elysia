@@ -311,3 +311,66 @@ def test_localized_spatial_hashing_and_external_digestion():
     assert found is not None
     matched_id, dist = found
     assert dist < 0.1
+
+
+def test_invariant_grounding_governor_lyapunov_stability():
+    engine = CausalWorldTreeEngine(
+        critical_tension_threshold=10.0,
+        max_tension_boundary=15.0,
+        base_damping_rate=0.2,
+        lyapunov_threshold=10.0
+    )
+
+    # 1. Low energy force (below Lyapunov threshold = 10.0)
+    low_force = np.array([1.0, 1.0, 0.0, 0.0], dtype=np.float32)
+    trace_low = engine.absorb_and_redirect_external_force(
+        low_force,
+        stimulus_id="stim_low",
+        raw_description="Low friction force"
+    )
+
+    assert trace_low.lyapunov_energy <= 10.0
+    assert trace_low.damping_factor < 0.1
+
+    # 2. High anomalous force (exceeding Lyapunov threshold, triggering adaptive damping)
+    high_force = np.array([10.0, 10.0, 5.0, 2.0], dtype=np.float32)
+    trace_high = engine.absorb_and_redirect_external_force(
+        high_force,
+        stimulus_id="stim_high",
+        raw_description="High anomalous friction force"
+    )
+
+    assert trace_high.lyapunov_energy > 10.0
+    assert trace_high.damping_factor > 0.2
+    assert trace_high.absorbed_tension <= 15.0  # Max tension boundary enforced
+    assert len(trace_high.redirected_vector) == 4
+    assert len(engine.redirection_traces) == 2
+
+
+def test_formless_causal_redirector_traceability():
+    engine = CausalWorldTreeEngine()
+
+    attractor = MultiDimensionalAttractor(
+        id="att_stem_main",
+        name="Main Axial Equilibrium",
+        categorical_vector=np.array([2.0, 2.0, 2.0, 2.0]),
+        sensorium_vector=np.array([2.0, 2.0, 2.0, 2.0]),
+        morphology_vector=np.array([2.0, 2.0, 2.0, 2.0]),
+        mass=5.0
+    )
+    engine.form_universal_stem("stem_main", "Main Axial Equilibrium", [attractor])
+
+    anomaly_force = np.array([5.0, -3.0, 8.0, 1.0], dtype=np.float32)
+    trace = engine.absorb_and_redirect_external_force(
+        anomaly_force,
+        stimulus_id="unreal_mcp_unscripted_anomaly",
+        raw_description="Unscripted UMG Particle Emitter Collision"
+    )
+
+    assert trace.matched_stem_id == "stem_main"
+    assert "Formless Causal Redirection executed" in trace.causal_rationale
+    assert trace.redirected_vector is not None
+
+    telemetry = engine.get_world_tree_telemetry()
+    assert telemetry["redirection_traces_count"] == 1
+    assert telemetry["governor_lyapunov_energy"] > 0.0
