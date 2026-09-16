@@ -71,10 +71,8 @@ class CompoundLatticeNode(CausalNode):
 class HierarchicalBinaryLattice:
     """
     프랙탈 계층형 인과 격자 (Hierarchical Binary Lattice).
-    - Level 0: 8-bit/16-bit 원자 단위
-    - Level 1: 4KB 페이지/블록
-    - Level 2: 1MB 섹터/청크
-    - Level 3: 전체 월드/바이너리 엔벨로프
+    실제 지연 전개(Lazy Materialization)를 적용하여 초기 할당 시 노드를 생성하지 않고
+    오프셋 접근 시 필요 노드만 온디맨드로 생성합니다.
     """
 
     def __init__(self, total_size_bytes: int, block_size: int = 4096, chunk_size: int = 65536):
@@ -95,60 +93,52 @@ class HierarchicalBinaryLattice:
         self.compound_nodes: Dict[str, CompoundLatticeNode] = {}
         self.dirty_nodes: Set[str] = set()
 
-        self._build_top_levels()
+    def get_or_create_chunk_node(self, chunk_idx: int) -> CompoundLatticeNode:
+        """지연 전개(Lazy Materialization): 청크 요청 시 노드 생성"""
+        chunk_id = f"CHUNK_{chunk_idx}"
+        if chunk_id in self.compound_nodes:
+            return self.compound_nodes[chunk_id]
 
-    def _build_top_levels(self):
-        """청크(Level 2) 및 블록(Level 1)의 계층적 뼈대(Skeleton)를 제로-카피로 사전 구축"""
-        chunk_count = max(1, math.ceil(self.total_size / self.chunk_size))
+        c_start = chunk_idx * self.chunk_size
+        c_end = min(self.total_size, (chunk_idx + 1) * self.chunk_size)
 
-        for c_idx in range(chunk_count):
-            c_start = c_idx * self.chunk_size
-            c_end = min(self.total_size, (c_idx + 1) * self.chunk_size)
-            chunk_id = f"CHUNK_{c_idx}"
+        chunk_node = CompoundLatticeNode(
+            node_id=chunk_id,
+            level=HierarchicalLevel.CHUNK,
+            offset_range=(c_start, c_end),
+            summary_signature="INVARIANT_MEM_CHUNK"
+        )
+        self.compound_nodes[chunk_id] = chunk_node
+        self.graph.add_node(chunk_node)
+        return chunk_node
 
-            chunk_node = CompoundLatticeNode(
-                node_id=chunk_id,
-                level=HierarchicalLevel.CHUNK,
-                offset_range=(c_start, c_end),
-                summary_signature="INVARIANT_MEM_CHUNK"
-            )
-            self.compound_nodes[chunk_id] = chunk_node
-            self.graph.add_node(chunk_node)
+    def get_or_create_block_node(self, chunk_idx: int, block_idx: int) -> CompoundLatticeNode:
+        """지연 전개(Lazy Materialization): 블록 요청 시 노드 생성"""
+        block_id = f"BLOCK_{chunk_idx}_{block_idx}"
+        if block_id in self.compound_nodes:
+            return self.compound_nodes[block_id]
 
-            # 청크 내 블록(Level 1) 구성
-            block_count = math.ceil((c_end - c_start) / self.block_size)
-            last_block_id: Optional[str] = None
+        chunk_node = self.get_or_create_chunk_node(chunk_idx)
+        c_start, c_end = chunk_node.offset_range
 
-            for b_idx in range(block_count):
-                b_start = c_start + (b_idx * self.block_size)
-                b_end = min(c_end, b_start + self.block_size)
-                block_id = f"BLOCK_{c_idx}_{b_idx}"
+        b_start = c_start + (block_idx * self.block_size)
+        b_end = min(c_end, b_start + self.block_size)
 
-                block_node = CompoundLatticeNode(
-                    node_id=block_id,
-                    level=HierarchicalLevel.BLOCK,
-                    offset_range=(b_start, b_end),
-                    summary_signature=INVARIANT_MEM_BLOCK,
-                    parent_id=chunk_id
-                )
-                self.compound_nodes[block_id] = block_node
-                self.graph.add_node(block_node)
-                chunk_node.child_node_ids.append(block_id)
-
-                # 블록 간 연속성 엣지
-                if last_block_id:
-                    self.graph.add_edge(CausalEdge(
-                        source_id=last_block_id,
-                        target_id=block_id,
-                        precondition=f"page_stride:+{self.block_size}",
-                        is_necessary=True
-                    ))
-                last_block_id = block_id
+        block_node = CompoundLatticeNode(
+            node_id=block_id,
+            level=HierarchicalLevel.BLOCK,
+            offset_range=(b_start, b_end),
+            summary_signature=INVARIANT_MEM_BLOCK,
+            parent_id=chunk_node.node_id
+        )
+        self.compound_nodes[block_id] = block_node
+        self.graph.add_node(block_node)
+        chunk_node.child_node_ids.append(block_id)
+        return block_node
 
     def perturb_offset(self, offset: int, new_value_payload: Any) -> List[str]:
         """
-        특정 메모리 오프셋에 입력/변위(Perturbation)가 일어났을 때,
-        전체 세계를 탐색하지 않고 해당 계층 경로(Chunk -> Block -> Unit)만 핀포인트로 Dirty 마킹.
+        지연 전개 구조로 특정 오프셋에 변위 발생 시 필요 청크 및 블록 노드만 동적 실체화
         """
         if offset < 0 or offset >= self.total_size:
             raise ValueError(f"Offset {offset} is out of bounds [0, {self.total_size})")
@@ -156,25 +146,20 @@ class HierarchicalBinaryLattice:
         c_idx = offset // self.chunk_size
         b_idx = (offset % self.chunk_size) // self.block_size
 
-        chunk_id = f"CHUNK_{c_idx}"
-        block_id = f"BLOCK_{c_idx}_{b_idx}"
+        chunk_node = self.get_or_create_chunk_node(c_idx)
+        block_node = self.get_or_create_block_node(c_idx, b_idx)
 
-        affected_path = [chunk_id, block_id]
+        chunk_node.mark_dirty(True)
+        self.dirty_nodes.add(chunk_node.node_id)
 
-        # Dirty Flag 활성화
-        if chunk_id in self.compound_nodes:
-            self.compound_nodes[chunk_id].mark_dirty(True)
-            self.dirty_nodes.add(chunk_id)
+        block_node.mark_dirty(True)
+        block_node.payload["last_value"] = new_value_payload
+        self.dirty_nodes.add(block_node.node_id)
 
-        if block_id in self.compound_nodes:
-            self.compound_nodes[block_id].mark_dirty(True)
-            self.compound_nodes[block_id].payload["last_value"] = new_value_payload
-            self.dirty_nodes.add(block_id)
-
-        return affected_path
+        return [chunk_node.node_id, block_node.node_id]
 
     def consume_dirty_deltas(self) -> List[CompoundLatticeNode]:
-        """변경된 인과 노드들만 회수하고 Dirty 상태를 소진 (동영상 P-Frame 디코딩 준비)"""
+        """변경된 인과 노드들만 회수하고 Dirty 상태 소진"""
         deltas = [self.compound_nodes[nid] for nid in self.dirty_nodes if nid in self.compound_nodes]
         for node in deltas:
             node.mark_dirty(False)
