@@ -24,6 +24,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 
 from core.physics.semantic_mass_engine import RawPerturbationImpulse, SemanticMassEngine, WhiteTensorField
+from core.ingestion.raw_byte_causal_sensor import TransformationProvenanceLog, ByteStructuralGrounding, StructuralViolationError
 
 
 @dataclass
@@ -32,16 +33,18 @@ class StructuralProvenanceTrace:
     [Structural Provenance Trace (구조적 계보 추적기)]
     Maintains the complete causal ancestry and trajectory of how a memory unit was born:
     - initial_tension_state: White Tensor Field state prior to collision.
-    - raw_perturbation_impulse: Raw unvectorized friction impulse (event/sound/wave).
+    - raw_perturbation_impulse: Raw unvectorized friction impulse (event/sound/wave/bytes).
     - refraction_delta_vector: Post-hoc derived vector (\Delta) arising from friction collision.
     - causal_antecedent_ids: Ancestry chain of preceding memory unit IDs.
     - contrast_resonance_matrix: Dynamic resonance contrast tensor.
+    - transformation_provenance_log: Low-level byte transformation provenance log.
     """
     initial_tension_state: np.ndarray
     raw_perturbation_impulse: Any
     refraction_delta_vector: np.ndarray
     causal_antecedent_ids: List[str] = field(default_factory=list)
     contrast_resonance_matrix: Optional[np.ndarray] = None
+    transformation_provenance_log: Optional[TransformationProvenanceLog] = None
     creation_timestamp: float = field(default_factory=time.time)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -51,6 +54,7 @@ class StructuralProvenanceTrace:
             "refraction_delta_vector": self.refraction_delta_vector.tolist(),
             "causal_antecedent_ids": list(self.causal_antecedent_ids),
             "contrast_resonance_matrix": self.contrast_resonance_matrix.tolist() if self.contrast_resonance_matrix is not None else None,
+            "transformation_provenance": self.transformation_provenance_log.to_dict() if self.transformation_provenance_log else None,
             "creation_timestamp": self.creation_timestamp,
         }
 
@@ -145,17 +149,35 @@ class DynamicDeconstructionEngine:
         self,
         unit_id: str,
         label: str,
-        raw_friction: Union[RawPerturbationImpulse, np.ndarray, str, dict, Any],
+        raw_friction: Union[RawPerturbationImpulse, np.ndarray, bytes, bytearray, str, dict, Any],
         semantic_engine: SemanticMassEngine,
         causal_antecedent_ids: Optional[List[str]] = None,
         trinitarian_contrast: float = 1.0,
+        expected_format: Optional[str] = None,
+        enforce_strict_byte_spec: bool = True,
     ) -> GenealogicalMemoryUnit:
         """
-        Processes raw friction through SemanticMassEngine to produce a post-hoc self-derived vector
-        and instantiates a new GenealogicalMemoryUnit with full provenance and justification.
+        Processes raw friction (including raw byte buffers) through ByteStructuralGrounding and
+        SemanticMassEngine to produce a post-hoc self-derived vector and instantiates a
+        new GenealogicalMemoryUnit with full low-level byte provenance and justification.
         """
+        transformation_log = None
+        friction_to_process = raw_friction
+
+        # If raw_friction is bytes or bytearray, run through ByteStructuralGrounding first
+        if isinstance(raw_friction, (bytes, bytearray)):
+            grounder = ByteStructuralGrounding()
+            transformation_log, grounding_payload = grounder.process_and_ground_bytes(
+                raw_bytes=raw_friction,
+                provenance_id=f"ByteProv_{unit_id}",
+                expected_format=expected_format,
+                enforce_strict=enforce_strict_byte_spec,
+            )
+            # Use the wave spectrum as impulse wave for semantic engine
+            friction_to_process = grounding_payload["wave_spectrum"]
+
         res = semantic_engine.process_interaction(
-            external_friction=raw_friction,
+            external_friction=friction_to_process,
             trinitarian_contrast=trinitarian_contrast,
             causal_antecedent_ids=causal_antecedent_ids,
         )
@@ -170,6 +192,7 @@ class DynamicDeconstructionEngine:
             refraction_delta_vector=derived_vec,
             causal_antecedent_ids=list(causal_antecedent_ids or []),
             contrast_resonance_matrix=contrast_mat,
+            transformation_provenance_log=transformation_log,
         )
 
         # Calculate justification tensor parameters
