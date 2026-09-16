@@ -1,6 +1,7 @@
 import pytest
 import numpy as np
 from core.physics.semantic_mass_engine import (
+    RawPerturbationImpulse,
     WhiteTensorField,
     SemanticMassOperator,
     CausalGravityField,
@@ -28,6 +29,22 @@ def test_white_tensor_field_initialization_and_bending():
     assert pytest.approx(np.linalg.norm(bent_vec), 1e-4) == 1.0
     assert len(alignments) == len(wtf.compass_vectors)
     assert pytest.approx(sum(alignments.values()), 1e-4) == 1.0
+
+def test_raw_perturbation_vector_derivation():
+    wtf = WhiteTensorField(dimensions=16)
+    impulse = RawPerturbationImpulse(
+        impulse_id="imp_01",
+        raw_signal={"event": "Acoustic Collision Wave", "frequency": 440},
+        intensity=1.8
+    )
+
+    derived_vec, raw_wave, friction_mag, tension_before, contrast_mat = wtf.derive_vector_from_perturbation(impulse)
+
+    assert derived_vec.shape == (16,)
+    assert len(raw_wave) == 16
+    assert friction_mag > 0.0
+    assert tension_before.shape == (16,)
+    assert contrast_mat.shape == (4, 4)
 
 def test_semantic_mass_operator():
     smo = SemanticMassOperator(base_density=2.0)
