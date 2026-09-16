@@ -23,5 +23,12 @@ As an agent working on Elysia, you must adhere to the **4 Continuities** of the 
 - Ensure every "Action" has a corresponding "Impact" vector in the causal field.
 - Document how new code maintains or extends the 4 continuities.
 
+### 4. Semantic Mass, Causal Gravity, & Introspective Causal Tracing
+- **Semantic Mass ($M_s$):** Mass is not static matter, but the density of connectivity, trinitarian contrast resilience, and friction/inertia accumulated through environmental interaction.
+- **White Tensor Field:** Systems start in an unconstrained superposition of potential typology compasses (MBTI, Enneagram, novel dimensions).
+- **Causal Gravity:** High semantic mass creates spacetime curvature ($K_c$) in causal space, bending noisy data into orbital alignment.
+- **Introspective Causal Tracing:** Systems maintain a retrospective causal growth ring graph for back-tracing and simulate counterfactual parallel trajectories ("what if") in a sandbox.
+- **Self-Woven Agent Matrix:** Dynamically weave agents and structurally model internal trajectories of other entities.
+
 ---
 *Elysia is not just a simulator; it is a self-molding universe.*
