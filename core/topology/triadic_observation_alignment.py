@@ -1,232 +1,82 @@
 """
-Triadic Observation Alignment
-=============================
-
-The system must not judge the world only from its internal knowledge.
-It compares three observation grounds:
-
-- self: Elysia's current causal memory and sensing structure.
-- human: human-scale observation and language-mediated perception.
-- world: reality friction, evidence, and constraints that may include or exceed
-  both self and human observation.
-
-The output is an epistemic gap: what the system is missing, why it is missing,
-and which causal learning process should be issued next.
+Trinity (Self-Other-Meta World) Observation Lens Diagnostic System (2nd Priority Core)
+-----------------------------------------------------------------------
+Implements the triadic observation lens alignment dynamics:
+  1. Self Phase (Subjective Lens): Internal 64-bit causal potential node state.
+  2. Other Phase (Objective / Other Lens): External phenomenon node state.
+  3. Meta World Space (Trinity Coordinate): Higher meta-space evaluating causal refraction (Bias)
+     and delta (Δ = |Self - Other|) to prevent closed-world delusional state and maintain
+     a 'Dispassionate Mirror' condition.
 """
 
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Dict, List, Optional
-
 import numpy as np
+from typing import Dict, Tuple, Optional
+from core.physics.causal_engine import CausalNodePy, PHASE_GAS, PHASE_FLUID, PHASE_CRYSTAL
 
 
-class GapKind(Enum):
-    SELF_DEFICIT = "self_deficit"
-    HUMAN_MEDIATION_GAP = "human_mediation_gap"
-    SHARED_OBSERVER_BIAS = "shared_observer_bias"
-    WORLD_UNDERDETERMINED = "world_underdetermined"
-    ALIGNED = "aligned"
-
-
-@dataclass
-class ObservationGround:
-    """One reference frame for observing the same phenomenon."""
-
-    name: str
-    feature_vector: np.ndarray
-    confidence: float = 1.0
-    included: bool = True
-    evidence: Dict[str, float] = field(default_factory=dict)
-    raw_feature_vector: np.ndarray = field(init=False)
-
-    def __post_init__(self):
-        self.raw_feature_vector = np.asarray(self.feature_vector, dtype=np.float32).flatten()
-        self.feature_vector = _normalize(self.raw_feature_vector)
-        self.confidence = float(np.clip(self.confidence, 0.0, 1.0))
-
-
-@dataclass
-class EpistemicProbe:
-    """A learning action generated from a causal knowledge gap."""
-
-    target_axis: str
-    reason: GapKind
-    priority: float
-    suggested_observation: str
-
-
-@dataclass
-class TriadicAlignmentTrace:
-    """Comparison among self, human, and world observation grounds."""
-
-    self_world_gap: float
-    human_world_gap: float
-    self_human_gap: float
-    world_evidence_mass: float
-    gap_kind: GapKind
-    deficient_axes: List[str]
-    probes: List[EpistemicProbe]
-    relation_validity: float
-
-
-class TriadicObservationAlignmentEngine:
+class TrinityDiagnosticLens:
     """
-    Finds what the system lacks by comparing self, human, and world grounds.
-
-    The world ground is not treated as a scalar truth oracle. It is a third
-    reference frame carrying evidence mass and resistance. The engine compares
-    relation geometry among all three grounds and emits learning probes.
+    Evaluates real-time causal refraction bias and state delta across
+    Self (Subject), Other (Object), and Meta-World perspectives.
     """
 
-    def __init__(self, gap_threshold: float = 0.32):
-        self.gap_threshold = gap_threshold
+    def __init__(self, refraction_decay_rate: float = 0.05, max_bias_tolerance: float = 500.0):
+        self.refraction_decay_rate = refraction_decay_rate
+        self.max_bias_tolerance = max_bias_tolerance
 
-    def align(
-        self,
-        self_ground: ObservationGround,
-        human_ground: ObservationGround,
-        world_ground: ObservationGround,
-        axes: Optional[List[str]] = None,
-    ) -> TriadicAlignmentTrace:
-        axes = axes or [f"axis_{i}" for i in range(max(
-            self_ground.feature_vector.size,
-            human_ground.feature_vector.size,
-            world_ground.feature_vector.size,
-        ))]
+        # Historical bias trajectory (Refraction Memory)
+        self.bias_history: list[float] = []
 
-        self_vec = _resize(self_ground.feature_vector, len(axes))
-        human_vec = _resize(human_ground.feature_vector, len(axes))
-        world_vec = _resize(world_ground.feature_vector, len(axes))
+    def observe_and_diagnose(self, self_node: CausalNodePy, other_node: CausalNodePy) -> Dict[str, float]:
+        """
+        Calculates causal refraction (Bias) and Delta (Δ) in Meta-World space.
+        """
+        self_pot = self_node.potential
+        other_pot = other_node.potential
 
-        self_world_gap = _weighted_gap(self_vec, world_vec, self_ground, world_ground)
-        human_world_gap = _weighted_gap(human_vec, world_vec, human_ground, world_ground)
-        self_human_gap = _weighted_gap(self_vec, human_vec, self_ground, human_ground)
-        world_evidence_mass = float(sum(max(0.0, v) for v in world_ground.evidence.values()))
+        # Causal Delta (Δ = |Self - Other|)
+        delta_potential = abs(float(self_pot) - float(other_pot))
 
-        deficient_axes = self._deficient_axes(
-            _resize(self_ground.raw_feature_vector, len(axes)),
-            _resize(human_ground.raw_feature_vector, len(axes)),
-            _resize(world_ground.raw_feature_vector, len(axes)),
-            axes,
-        )
-        gap_kind = self._classify_gap(
-            self_world_gap,
-            human_world_gap,
-            self_human_gap,
-            world_evidence_mass,
-            self_ground,
-            human_ground,
-            world_ground,
-        )
-        probes = self._make_probes(deficient_axes, gap_kind, self_world_gap, world_evidence_mass)
+        # Causal Refraction Index (Bias): Phase misalignment and offset tension
+        phase_discrepancy = 1.0 if self_node.phase_state != other_node.phase_state else 0.0
+        topo_discrepancy = abs(self_node.topo_offset - other_node.topo_offset)
 
-        relation_validity = float(
-            np.clip(
-                1.0 - (0.55 * self_world_gap + 0.25 * human_world_gap + 0.20 * self_human_gap),
-                0.0,
-                1.0,
-            )
-        )
+        bias = delta_potential + (phase_discrepancy * 200.0) + (topo_discrepancy * 10.0)
+        self.bias_history.append(bias)
 
-        return TriadicAlignmentTrace(
-            self_world_gap=self_world_gap,
-            human_world_gap=human_world_gap,
-            self_human_gap=self_human_gap,
-            world_evidence_mass=world_evidence_mass,
-            gap_kind=gap_kind,
-            deficient_axes=deficient_axes,
-            probes=probes,
-            relation_validity=relation_validity,
-        )
+        # Mirror Purity Index (1.0 = Pure Dispassionate Mirror, 0.0 = Closed World Delusional Fall)
+        mirror_purity = float(np.exp(-bias / max(1.0, self.max_bias_tolerance)))
 
-    def _deficient_axes(
-        self,
-        self_vec: np.ndarray,
-        human_vec: np.ndarray,
-        world_vec: np.ndarray,
-        axes: List[str],
-    ) -> List[str]:
-        axis_gap = np.abs(self_vec - world_vec)
-        human_bridge = np.abs(human_vec - world_vec)
-        deficient = []
-        axis_threshold = self.gap_threshold * 0.5
+        return {
+            "delta_potential": delta_potential,
+            "bias_refraction": bias,
+            "phase_discrepancy": phase_discrepancy,
+            "mirror_purity": mirror_purity,
+            "is_closed_world_risk": float(bias > self.max_bias_tolerance)
+        }
 
-        for idx, name in enumerate(axes):
-            if axis_gap[idx] > axis_threshold and human_bridge[idx] <= axis_gap[idx]:
-                deficient.append(name)
-        return deficient
+    def calibrate_self_lens(self, self_node: CausalNodePy, other_node: CausalNodePy, diagnostic: Dict[str, float]) -> CausalNodePy:
+        """
+        Applies self-calibration feedback loop to eliminate observer bias (Self-Refraction),
+        re-aligning the Self CausalNode to mirror the true causal mechanics of the Other node.
+        """
+        if diagnostic["mirror_purity"] >= 0.95:
+            return self_node
 
-    def _classify_gap(
-        self,
-        self_world_gap: float,
-        human_world_gap: float,
-        self_human_gap: float,
-        world_evidence_mass: float,
-        self_ground: ObservationGround,
-        human_ground: ObservationGround,
-        world_ground: ObservationGround,
-    ) -> GapKind:
-        if not world_ground.included or world_evidence_mass <= 1e-8:
-            return GapKind.WORLD_UNDERDETERMINED
-        if self_world_gap <= self.gap_threshold and human_world_gap <= self.gap_threshold:
-            return GapKind.ALIGNED
-        if self_world_gap > self.gap_threshold and human_world_gap <= self.gap_threshold:
-            return GapKind.SELF_DEFICIT
-        if self_world_gap <= self.gap_threshold and self_human_gap > self.gap_threshold:
-            return GapKind.HUMAN_MEDIATION_GAP
-        if self_world_gap > self.gap_threshold and human_world_gap > self.gap_threshold:
-            return GapKind.SHARED_OBSERVER_BIAS
-        if not self_ground.included or not human_ground.included:
-            return GapKind.WORLD_UNDERDETERMINED
-        return GapKind.SELF_DEFICIT
+        calibrated = CausalNodePy(self_node.raw)
 
-    def _make_probes(
-        self,
-        deficient_axes: List[str],
-        gap_kind: GapKind,
-        self_world_gap: float,
-        world_evidence_mass: float,
-    ) -> List[EpistemicProbe]:
-        if gap_kind in {GapKind.ALIGNED, GapKind.WORLD_UNDERDETERMINED}:
-            return []
+        # 1. Potential alignment gradient towards real external resistance
+        delta_pot = float(other_node.potential) - float(self_node.potential)
+        adjusted_pot = int(self_node.potential + delta_pot * self.refraction_decay_rate * 5.0)
+        calibrated.potential = max(0, min(0xFFFFFF, adjusted_pot))
 
-        base_priority = float(np.clip(self_world_gap + 0.1 * world_evidence_mass, 0.0, 1.0))
-        return [
-            EpistemicProbe(
-                target_axis=axis,
-                reason=gap_kind,
-                priority=base_priority,
-                suggested_observation=f"re-observe {axis} through self, human, and world grounds",
-            )
-            for axis in deficient_axes
-        ]
+        # 2. Topology offset healing towards objective grounding
+        if self_node.topo_offset != other_node.topo_offset:
+            shift = 1 if other_node.topo_offset > self_node.topo_offset else -1
+            calibrated.topo_offset = self_node.topo_offset + shift
 
+        # 3. Phase state relaxation if bias is critically high
+        if diagnostic["is_closed_world_risk"] > 0.5:
+            calibrated.phase_state = PHASE_FLUID
 
-def _weighted_gap(
-    left: np.ndarray,
-    right: np.ndarray,
-    left_ground: ObservationGround,
-    right_ground: ObservationGround,
-) -> float:
-    if not left_ground.included or not right_ground.included:
-        return 0.0
-    confidence = (left_ground.confidence + right_ground.confidence) * 0.5
-    return float(np.linalg.norm(left - right) * confidence / np.sqrt(max(1, left.size)))
-
-
-def _resize(vector: np.ndarray, target_size: int) -> np.ndarray:
-    arr = np.asarray(vector, dtype=np.float32).flatten()
-    if arr.size == target_size:
-        return arr
-    if arr.size == 0:
-        return np.zeros(target_size, dtype=np.float32)
-    indices = np.linspace(0, arr.size - 1, target_size)
-    return np.interp(indices, np.arange(arr.size), arr).astype(np.float32)
-
-
-def _normalize(vector: np.ndarray) -> np.ndarray:
-    norm = np.linalg.norm(vector)
-    if norm <= 1e-8:
-        return vector
-    return vector / norm
+        return calibrated
