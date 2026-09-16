@@ -13,16 +13,24 @@ are unified into a continuous byte-phase stream across isomorphic topological di
 Core Principles Implemented:
 1. Primordial Potential Flow Gradient (Initial voltage/current vectors V_potential & I_flow).
 2. Continuous Byte-Phase Stream without destructive 1D flattening overhead.
-3. First Inflection Point Detection: Phase Derivative Asymmetry (grad^2 phi) and
+3. Lock-free Arena Memory & Direct Zero-Copy Buffer Interceptor integration (C++ Causal Engine Backend).
+4. First Inflection Point Detection: Phase Derivative Asymmetry (grad^2 phi) and
    Chromatic Entropy Perturbation (delta Y).
-4. Dynamic Impedance Damping Regulator: Auto-tunes resistance R(T) to converge
+5. Dynamic Impedance Damping Regulator: Auto-tunes resistance R(T) to converge
    causal tension T -> 0 (Principle of Least Action / Minimum Phase-Friction).
-5. Non-Invasive Phase Flow Observatory & Proprioceptive Self-Correction.
+6. Non-Invasive Phase Flow Observatory & Proprioceptive Self-Correction.
 """
 
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple, Union
+
+try:
+    import causal_engine as ce
+    HAS_CPP_CAUSAL_ENGINE = True
+except ImportError:
+    ce = None
+    HAS_CPP_CAUSAL_ENGINE = False
 
 
 @dataclass
@@ -77,9 +85,11 @@ class FlowInflectionMetrics:
 class ContinuousMemoryImpedanceStream:
     """
     Continuous Memory Stream & Dimensionally Isomorphic Spatiotemporal Engine.
+    Incorporates C++ Arena Memory Allocator and Zero-Copy Interceptor when available.
     """
 
-    def __init__(self, target_dimension: int = 8, initial_voltage: float = 1.0, initial_current: float = 1.0):
+    def __init__(self, target_dimension: int = 8, initial_voltage: float = 1.0, initial_current: float = 1.0,
+                 arena_capacity_bytes: int = 16 * 1024 * 1024):
         self.target_dimension = target_dimension
         self.v_potential = float(initial_voltage)
         self.i_flow = float(initial_current)
@@ -87,10 +97,40 @@ class ContinuousMemoryImpedanceStream:
         self.tension = 0.0    # Causal tension T
         self.phase_lock_axis = np.ones(self.target_dimension, dtype=np.float32) / np.sqrt(self.target_dimension)
 
+        # C++ Low-level Arena Memory & Interceptor
+        self.arena_capacity_bytes = arena_capacity_bytes
+        self.cpp_arena = None
+        self.cpp_interceptor = None
+
+        if HAS_CPP_CAUSAL_ENGINE:
+            try:
+                self.cpp_arena = ce.ArenaAllocator(arena_capacity_bytes)
+                self.cpp_interceptor = ce.ZeroCopyInterceptor(self.cpp_arena, slot_count=16, max_payload_bytes=1024 * 1024)
+            except Exception:
+                self.cpp_arena = None
+                self.cpp_interceptor = None
+
         # History for second derivative & entropy perturbation tracking
         self.phase_history: List[float] = []
         self.entropy_history: List[float] = []
         self.nodes: Dict[str, DimensionalIsomorphicNode] = {}
+
+    def push_zero_copy_stream(self, data: np.ndarray, frame_index: int = 0, channel_id: int = 0) -> bool:
+        """
+        Pushes array data directly into the C++ Arena Zero-Copy Interceptor buffer.
+        """
+        if self.cpp_interceptor is not None:
+            arr_float = np.asarray(data, dtype=np.float32)
+            return self.cpp_interceptor.push_float_stream(arr_float, frame_index, channel_id)
+        return False
+
+    def pop_zero_copy_stream(self, out_buffer: np.ndarray) -> Tuple[bool, int]:
+        """
+        Pops data directly from C++ Zero-Copy Interceptor into pre-allocated NumPy memory view.
+        """
+        if self.cpp_interceptor is not None:
+            return self.cpp_interceptor.pop_float_stream(out_buffer)
+        return (False, 0)
 
     def initialize_primordial_flow(self, voltage: float = 1.0, current: float = 1.0):
         """
