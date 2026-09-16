@@ -1,6 +1,20 @@
 import numpy as np
-from typing import Dict, List, Any, Optional, Tuple
+import hashlib
+from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
+
+@dataclass
+class RawPerturbationImpulse:
+    """
+    Raw external friction / perturbation energy wave entering the system.
+    Represents unvectorized, raw phenomena (vibrations, raw string/dict, impulse wave)
+    before being collided with internal White Tensor Field tension.
+    """
+    impulse_id: str
+    raw_signal: Any
+    intensity: float = 1.0
+    frequency_signature: Optional[np.ndarray] = None
+
 
 @dataclass
 class CausalTraceNode:
@@ -12,6 +26,12 @@ class CausalTraceNode:
     crystallized_state: np.ndarray
     semantic_mass: float
     timestamp_idx: int
+    initial_tension_state: Optional[np.ndarray] = None
+    raw_perturbation_impulse: Optional[Any] = None
+    refraction_delta_vector: Optional[np.ndarray] = None
+    causal_antecedent_ids: List[str] = field(default_factory=list)
+    contrast_resonance_matrix: Optional[np.ndarray] = None
+
 
 @dataclass
 class IdentityCrystal:
@@ -23,6 +43,7 @@ class IdentityCrystal:
     trinitarian_contrast: float
     dominant_compass: str
     causal_history: List[CausalTraceNode] = field(default_factory=list)
+
 
 class WhiteTensorField:
     """
@@ -59,6 +80,77 @@ class WhiteTensorField:
         for n in range(1, 6):
             v = np.random.randn(self.dimensions).astype(np.float32)
             self.compass_vectors[f"Novel_Dimension_{n}"] = v / (np.linalg.norm(v) + 1e-9)
+
+    def derive_vector_from_perturbation(
+        self, raw_input: Union[RawPerturbationImpulse, np.ndarray, str, dict, Any]
+    ) -> Tuple[np.ndarray, np.ndarray, float, np.ndarray, np.ndarray]:
+        r"""
+        Derives a post-hoc vector (Self-Derived Vector) by colliding an unvectorized
+        or raw perturbation impulse with the current internal White Tensor Field tension state.
+
+        Returns:
+            - self_derived_vector: Post-hoc calculated vector delta (\Delta)
+            - raw_wave: Raw energy/frequency wave
+            - friction_magnitude: Magnitude of structural resistance
+            - initial_tension_state: Tensor state before collision
+            - contrast_resonance_matrix: Dynamic resonance contrast tensor
+        """
+        initial_tension_state = self.field_tensor.copy()
+
+        # Parse raw perturbation input into a frequency spectrum / wave vector
+        if isinstance(raw_input, RawPerturbationImpulse):
+            intensity = raw_input.intensity
+            if raw_input.frequency_signature is not None:
+                raw_wave = raw_input.frequency_signature.copy()
+            else:
+                raw_wave = self._signal_to_wave(raw_input.raw_signal)
+        elif isinstance(raw_input, np.ndarray):
+            intensity = 1.0
+            raw_wave = raw_input.astype(np.float32)
+        else:
+            intensity = 1.0
+            raw_wave = self._signal_to_wave(raw_input)
+
+        raw_norm = float(np.linalg.norm(raw_wave) * intensity)
+
+        # Ensure correct dimension length
+        if len(raw_wave) < self.dimensions:
+            raw_wave = np.pad(raw_wave, (0, self.dimensions - len(raw_wave)))
+        elif len(raw_wave) > self.dimensions:
+            raw_wave = raw_wave[:self.dimensions]
+
+        norm_wave = raw_wave / (np.linalg.norm(raw_wave) + 1e-9)
+
+        # Clash raw perturbation wave against internal white tensor field tension
+        # Projection of raw wave onto internal field tension
+        projection = np.dot(initial_tension_state, norm_wave) * initial_tension_state
+        # Refraction delta (\Delta) = transverse resistance / orthogonal deviation
+        refraction_delta = norm_wave - projection
+        delta_norm = np.linalg.norm(refraction_delta)
+
+        if delta_norm < 1e-6:
+            # Parallel collision: pure compression impulse
+            self_derived_vector = norm_wave * intensity
+            friction_magnitude = max(0.1, raw_norm)
+        else:
+            self_derived_vector = (refraction_delta / delta_norm) * intensity
+            friction_magnitude = max(raw_norm, float(delta_norm * intensity))
+
+        # Compute dynamic contrast resonance matrix (\Delta \otimes Tension)
+        dim_sub = min(4, self.dimensions)
+        contrast_resonance_matrix = np.outer(initial_tension_state[:dim_sub], refraction_delta[:dim_sub])
+
+        return self_derived_vector, raw_wave, friction_magnitude, initial_tension_state, contrast_resonance_matrix
+
+    def _signal_to_wave(self, raw_signal: Any) -> np.ndarray:
+        """Helper to convert raw unvectorized signals into physical perturbation wave spectrum."""
+        wave = np.zeros(self.dimensions, dtype=np.float32)
+        sig_str = str(raw_signal)
+        digest = hashlib.sha256(sig_str.encode("utf-8")).digest()
+        for i in range(self.dimensions):
+            byte_val = digest[i % len(digest)]
+            wave[i] = (byte_val / 255.0) * 2.0 - 1.0
+        return wave / (np.linalg.norm(wave) + 1e-9)
 
     def project_and_bend(self, external_friction: np.ndarray, friction_strength: float) -> Tuple[np.ndarray, Dict[str, float]]:
         """
@@ -165,7 +257,7 @@ class EmergentIdentityCrystallizer:
     """
     [Emergent Identity Crystallizer]
     Triggers phase transitions when accumulated friction exceeds a critical threshold,
-    crystallizing an post-hoc Identity Crystal with inertia and gravity.
+    crystallizing a post-hoc Identity Crystal with inertia and gravity.
     """
     def __init__(self, phase_transition_threshold: float = 2.5):
         self.threshold = phase_transition_threshold
@@ -218,8 +310,13 @@ class IntrospectiveCausalTracer:
                     repulsion_vector: np.ndarray,
                     compass_alignment: Dict[str, float],
                     crystallized_state: np.ndarray,
-                    semantic_mass: float):
-        """Records a step into the retrospective causal trace history."""
+                    semantic_mass: float,
+                    initial_tension_state: Optional[np.ndarray] = None,
+                    raw_perturbation_impulse: Optional[Any] = None,
+                    refraction_delta_vector: Optional[np.ndarray] = None,
+                    causal_antecedent_ids: Optional[List[str]] = None,
+                    contrast_resonance_matrix: Optional[np.ndarray] = None):
+        """Records a step into the retrospective causal trace history with full genealogical fields."""
         self.step_counter += 1
         top_compass = max(compass_alignment.items(), key=lambda x: x[1])[0] if compass_alignment else "None"
         align_vec = compass_alignment.get(top_compass, 0.0)
@@ -231,7 +328,12 @@ class IntrospectiveCausalTracer:
             compass_alignment=np.array([align_vec], dtype=np.float32),
             crystallized_state=crystallized_state.copy(),
             semantic_mass=semantic_mass,
-            timestamp_idx=self.step_counter
+            timestamp_idx=self.step_counter,
+            initial_tension_state=initial_tension_state.copy() if initial_tension_state is not None else None,
+            raw_perturbation_impulse=raw_perturbation_impulse,
+            refraction_delta_vector=refraction_delta_vector.copy() if refraction_delta_vector is not None else None,
+            causal_antecedent_ids=list(causal_antecedent_ids or []),
+            contrast_resonance_matrix=contrast_resonance_matrix.copy() if contrast_resonance_matrix is not None else None
         )
         self.history.append(node)
 
@@ -367,10 +469,11 @@ class SelfWovenAgentMatrix:
 
 
 class SemanticMassEngine:
-    """
+    r"""
     [Integrated Semantic Mass & Introspective Causal Engine]
     Combines WhiteTensorField, SemanticMassOperator, CausalGravityField, EmergentIdentityCrystallizer,
     IntrospectiveCausalTracer, and SelfWovenAgentMatrix into a unified cognitive architecture.
+    Now accepts raw unvectorized perturbations and derives post-hoc friction vectors (\Delta) autonomously.
     """
     def __init__(self, dimensions: int = 16, phase_threshold: float = 2.5):
         self.dimensions = dimensions
@@ -385,44 +488,55 @@ class SemanticMassEngine:
         self.connectivity_matrix = np.eye(4, dtype=np.float32)
 
     def process_interaction(self,
-                            external_friction: np.ndarray,
-                            trinitarian_contrast: float = 1.0) -> Dict[str, Any]:
+                            external_friction: Union[np.ndarray, RawPerturbationImpulse, Dict[str, Any], str],
+                            trinitarian_contrast: float = 1.0,
+                            causal_antecedent_ids: Optional[List[str]] = None) -> Dict[str, Any]:
+        r"""
+        Executes one full cycle of interaction with external raw friction:
+        1. Derives post-hoc vector delta (\Delta) through collision with internal WhiteTensorField.
+        2. Bends WhiteTensorField based on self-derived vector.
+        3. Updates connectivity & calculates Semantic Mass.
+        4. Computes Causal Spacetime Curvature.
+        5. Records Retrospective Causal Genealogical History.
+        6. Checks Emergent Identity Crystallization.
         """
-        Executes one full cycle of interaction with external friction:
-        1. Bends WhiteTensorField.
-        2. Updates connectivity & calculates Semantic Mass.
-        3. Computes Causal Spacetime Curvature.
-        4. Checks Emergent Identity Crystallization.
-        5. Records Retrospective Causal History.
-        """
-        # 1. Project friction onto white tensor field
-        friction_mag = float(np.linalg.norm(external_friction))
-        bent_state, alignments = self.white_field.project_and_bend(external_friction, friction_strength=friction_mag)
+        # 1. Derive post-hoc vector (\Delta) from raw perturbation impulse
+        self_derived_vector, raw_wave, friction_mag, initial_tension_state, contrast_resonance_matrix = (
+            self.white_field.derive_vector_from_perturbation(external_friction)
+        )
 
-        # 2. Update connectivity matrix dynamically
+        # 2. Project derived vector onto white tensor field and bend
+        bent_state, alignments = self.white_field.project_and_bend(self_derived_vector, friction_strength=friction_mag)
+
+        # 3. Update connectivity matrix dynamically
         outer = np.outer(bent_state[:4], bent_state[:4])
         self.connectivity_matrix = 0.8 * self.connectivity_matrix + 0.2 * outer
 
-        # 3. Compute Semantic Mass
+        # 4. Compute Semantic Mass
         semantic_mass = self.mass_operator.compute_mass(
             connectivity_matrix=self.connectivity_matrix,
             trinitarian_contrast_score=trinitarian_contrast,
             friction_inertia=1.0 + self.crystallizer.accumulated_friction
         )
 
-        # 4. Compute Causal Curvature
+        # 5. Compute Causal Curvature
         curvature = self.gravity_field.compute_field_curvature(semantic_mass)
 
-        # 5. Record trace step
+        # 6. Record genealogical trace step
         self.tracer.record_step(
             friction_delta=friction_mag,
-            repulsion_vector=external_friction,
+            repulsion_vector=self_derived_vector,
             compass_alignment=alignments,
             crystallized_state=bent_state,
-            semantic_mass=semantic_mass
+            semantic_mass=semantic_mass,
+            initial_tension_state=initial_tension_state,
+            raw_perturbation_impulse=external_friction,
+            refraction_delta_vector=self_derived_vector,
+            causal_antecedent_ids=causal_antecedent_ids,
+            contrast_resonance_matrix=contrast_resonance_matrix
         )
 
-        # 6. Check Crystallization
+        # 7. Check Crystallization
         crystal = self.crystallizer.evaluate_crystallization(
             current_state=bent_state,
             friction_delta=friction_mag,
@@ -436,6 +550,10 @@ class SemanticMassEngine:
             self.crystals.append(crystal)
 
         return {
+            "self_derived_vector": self_derived_vector.tolist(),
+            "raw_wave": raw_wave.tolist(),
+            "initial_tension_state": initial_tension_state.tolist(),
+            "contrast_resonance_matrix": contrast_resonance_matrix.tolist(),
             "current_state": bent_state.tolist(),
             "semantic_mass": semantic_mass,
             "causal_curvature": curvature,
