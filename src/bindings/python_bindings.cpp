@@ -10,6 +10,8 @@
 #include "causal_engine/core/collective_manifold.hpp"
 #include "causal_engine/core/causal_field_accelerator.hpp"
 #include "causal_engine/core/meta_causal_map.hpp"
+#include "causal_engine/core/arena_allocator.hpp"
+#include "causal_engine/core/zero_copy_interceptor.hpp"
 
 PYBIND11_MAKE_OPAQUE(std::vector<causal_engine::SymbioticProtocell>);
 PYBIND11_MAKE_OPAQUE(std::vector<causal_engine::ControlPoint>);
@@ -328,4 +330,58 @@ PYBIND11_MODULE(causal_engine, m) {
         .def("step_convergence", &MetaCausalEngine::step_convergence,
              py::arg("max_iterations") = 50, py::arg("tolerance") = 0.0001f, py::arg("learning_rate") = 0.5f)
         .def("introspect_causal_contributions", &MetaCausalEngine::introspect_causal_contributions);
+
+    // 11. ArenaAllocator & ZeroCopyInterceptor Binding
+    py::class_<ArenaAllocator, std::shared_ptr<ArenaAllocator>>(m, "ArenaAllocator")
+        .def(py::init<size_t, size_t>(), py::arg("capacity_bytes"), py::arg("default_alignment") = 64)
+        .def("allocate", [](ArenaAllocator& self, size_t bytes, size_t alignment) {
+            uintptr_t ptr = reinterpret_cast<uintptr_t>(self.allocate(bytes, alignment));
+            return ptr;
+        }, py::arg("bytes"), py::arg("alignment") = 0)
+        .def("reset", &ArenaAllocator::reset)
+        .def("capacity", &ArenaAllocator::capacity)
+        .def("used", &ArenaAllocator::used)
+        .def("remaining", &ArenaAllocator::remaining)
+        .def("allocation_count", &ArenaAllocator::allocation_count);
+
+    py::class_<StreamFrameHeader>(m, "StreamFrameHeader")
+        .def(py::init<>())
+        .def_readwrite("frame_index", &StreamFrameHeader::frame_index)
+        .def_readwrite("timestamp_ns", &StreamFrameHeader::timestamp_ns)
+        .def_readwrite("payload_bytes", &StreamFrameHeader::payload_bytes)
+        .def_readwrite("channel_id", &StreamFrameHeader::channel_id)
+        .def_readwrite("flags", &StreamFrameHeader::flags)
+        .def_readwrite("checksum", &StreamFrameHeader::checksum);
+
+    py::class_<ZeroCopyInterceptor>(m, "ZeroCopyInterceptor")
+        .def(py::init<ArenaAllocator&, size_t, size_t>(),
+             py::arg("arena"), py::arg("slot_count") = 16, py::arg("max_payload_bytes") = 1024 * 1024)
+        .def("slot_count", &ZeroCopyInterceptor::slot_count)
+        .def("max_payload_bytes", &ZeroCopyInterceptor::max_payload_bytes)
+        .def("dropped_frames", &ZeroCopyInterceptor::dropped_frames)
+        .def("push_float_stream", [](ZeroCopyInterceptor& self, py::array_t<float, py::array::c_style | py::array::forcecast> float_array, uint64_t frame_index, uint32_t channel_id) {
+            py::buffer_info buf = float_array.request();
+            size_t bytes = buf.size * sizeof(float);
+            if (bytes > self.max_payload_bytes()) {
+                throw std::runtime_error("Stream array size exceeds max_payload_bytes!");
+            }
+
+            uint8_t* payload = nullptr;
+            StreamFrameHeader* header = nullptr;
+            if (!self.acquire_write_buffer(&payload, &header)) {
+                return false;
+            }
+
+            std::memcpy(payload, buf.ptr, bytes);
+            self.commit_write_buffer(bytes, frame_index, channel_id);
+            return true;
+        }, py::arg("float_array"), py::arg("frame_index") = 0, py::arg("channel_id") = 0)
+        .def("pop_float_stream", [](ZeroCopyInterceptor& self, py::array_t<float, py::array::c_style> out_array) {
+            py::buffer_info buf = out_array.request();
+            float* dest = static_cast<float*>(buf.ptr);
+            size_t max_floats = buf.size;
+            size_t copied = 0;
+            bool success = self.direct_copy_to_float_buffer(dest, max_floats, &copied);
+            return py::make_tuple(success, copied);
+        }, py::arg("out_array"));
 }
