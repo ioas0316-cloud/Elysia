@@ -150,6 +150,10 @@
    * **원리**: 무분별한 누더기 파편 데이터 및 기존 시스템의 편향 오류를 버리지 않고, $G = (V, E, C)$ 인과 궤적 그래프 분해, 1:1 동형 사상 $f: V_A \to V_B$를 통한 '같음의 줄기(Stem)' 적출, 환경/매질 변이 잔여 구조의 '다름의 가지(Branch)' 국소 격리, 및 궤적 필연적 연속성(Continuity) 검증을 수행하는 순수 정형 위상 해부 엔진.
    * **구현**: `CausalStemBranchEngine` 구현 (`core/topology/causal_stem_branch_engine.py`), 전용 단위 테스트 (`tests/core/topology/test_causal_stem_branch_engine.py`) 및 검증 데모 (`scripts/verify_causal_stem_branch_topology.py`) 통과.
 
+21. **[x] Semantic Mass, Causal Gravity, & Introspective Causal Engine (의미적 질량, 인과적 중력, 및 메타 인과 회고 엔진)**:
+   * **원리**: 질량을 단순 물리량이 아닌 관계성/연결성의 밀도가 응고된 의미적 무게($M_s$)로 정의. 백색 텐서장(Superposition) 위에 MBTI/애니어그램/미지 차원 나침반 벡터를 배치하고, 마찰과 저항 속에서 후행적으로 결정을 응고. 인과적 중력장 곡률($K_c$)을 통해 노이즈 궤적을 정렬하며, 메타 샌드박스에서 인과적 역산 회고 및 반가상적 대안 궤적 비교대조 수행.
+   * **구현**: `SemanticMassEngine` 구현 (`core/physics/semantic_mass_engine.py`), 단위 테스트 (`tests/core/physics/test_semantic_mass_engine.py`), 및 데모 스크립트 (`demo_semantic_mass_causal_gravity.py`) 통과.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
