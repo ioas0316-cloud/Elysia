@@ -8,6 +8,8 @@ from synaptic_architecture.cognitive_learning_engine import (
     CognitiveLearningConfig,
     PhaseMode,
     TransitionEvent,
+    InputDispatcher,
+    InputType,
 )
 
 
@@ -126,20 +128,82 @@ def test_dual_mode_forward_and_reverse():
     assert forecast[1][0] == "S_14.0"
 
     # 5.2 Reverse Abductive Goal Search
-    reverse_paths = engine.search_reverse_abduction(target_node="S_14.0")
-    assert len(reverse_paths) > 0
-    # One path should be ['S_10.0', 'S_12.0', 'S_14.0']
-    assert ["S_10.0", "S_12.0", "S_14.0"] in reverse_paths
+    reverse_res = engine.search_reverse_abduction(target_node="S_14.0")
+    retrace = reverse_res["historical_retrace_paths"]
+    assert len(retrace) > 0
+    assert ["S_10.0", "S_12.0", "S_14.0"] in retrace
 
 
-def test_holonic_meta_observation():
-    config = CognitiveLearningConfig(STABLE_UNIT_MIN_REPETITIONS=2)
+def test_input_dispatcher_and_multi_modal_encoding():
+    engine = CognitiveLearningEngine()
+
+    # Scalar input
+    evt1, t1 = engine.dispatch_and_record(15.5, timestamp=100.0)
+    assert t1 == InputType.SCALAR
+    assert engine.current_state_node == "S_15.5"
+
+    # Categorical input
+    evt2, t2 = engine.dispatch_and_record("STATE_OVERHEAT", timestamp=101.0)
+    assert t2 == InputType.CATEGORICAL
+    assert engine.current_state_node == "SYM_STATE_OVERHEAT"
+
+    # Vector input
+    evt3, t3 = engine.dispatch_and_record([1.0, 2.0, 3.0], timestamp=102.0)
+    assert t3 == InputType.VECTOR
+    assert engine.current_state_node == "GEN_[1.0, 2.0, 3.0]"
+
+
+def test_holonic_relative_selection_pressure():
+    config = CognitiveLearningConfig(STABLE_UNIT_MIN_REPETITIONS=2, STABLE_UNIT_RELATIVE_RATIO=0.4)
     engine = CognitiveLearningEngine(config=config)
 
-    # Produce transitions with positive velocity and high energy
-    engine.record_transition(10.0, timestamp=100.0)
-    for i in range(3):
-        engine.record_transition(10.0 + (i + 1) * 20.0, timestamp=100.1 + i * 0.1)
+    # Produce 80% (True, True) transitions and 20% (False, False)
+    engine.dispatch_and_record(10.0, timestamp=100.0)
+    # 8 High delta transitions -> (True, True)
+    for i in range(8):
+        engine.dispatch_and_record(10.0 + (i + 1) * 30.0, timestamp=100.1 + i * 0.1)
 
-    assert engine.holonic_matrix[(True, True)] >= 2
+    # 2 Low/negative delta transitions -> (False, False)
+    for i in range(2):
+        engine.dispatch_and_record(10.0 - (i + 1) * 0.01, timestamp=101.0 + i * 0.1)
+
+    # (True, True) ratio is 8/10 = 80% >= 40% -> Stable
     assert "UNIT_True_True" in engine.stable_units
+    # (False, False) count is 2 >= 2, but ratio is 2/10 = 20% < 40% -> Filtered out by selection pressure
+    assert "UNIT_False_False" not in engine.stable_units
+
+
+def test_novel_recombined_pathway_synthesis():
+    engine = CognitiveLearningEngine()
+
+    # Route A: S_10.0 -> S_12.0 with grounding label "lift"
+    engine.dispatch_and_record(10.0, timestamp=100.0)
+    engine.dispatch_and_record(12.0, timestamp=100.1, external_labels={"lift": 2.0})
+
+    # Route B: S_50.0 -> S_55.0 with grounding label "lift" (no direct edge to S_12.0)
+    engine.dispatch_and_record(50.0, timestamp=101.0)
+    engine.dispatch_and_record(55.0, timestamp=101.1, external_labels={"lift": 2.0})
+
+    reverse_res = engine.search_reverse_abduction(target_node="S_12.0")
+    novel = reverse_res["novel_recombined_pathways"]
+
+    assert len(novel) > 0
+    # S_50.0 -> S_55.0 should be discovered as a novel recombined pathway bridging via "lift"
+    found_bridge = any("lift" in n["shared_grounded_principles"] for n in novel)
+    assert found_bridge
+
+
+def test_axiom_4_label_un_grounding_decay():
+    config = CognitiveLearningConfig(GROUNDING_DECAY=0.1)
+    engine = CognitiveLearningEngine(config=config)
+
+    engine.dispatch_and_record(10.0, timestamp=100.0)
+    engine.dispatch_and_record(12.0, timestamp=100.1, external_labels={"fragile": 0.5})
+
+    edge = engine.network["S_10.0"]["S_12.0"]
+    assert "fragile" in edge.co_occurred_labels
+
+    # Advance time by 6 seconds without reinforcement -> 0.5 - 0.1 * 6 = -0.1 <= 0 -> removed (un-grounded)
+    engine.dispatch_and_record(14.0, timestamp=106.1)
+
+    assert "fragile" not in edge.co_occurred_labels

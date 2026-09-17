@@ -16,6 +16,7 @@ from synaptic_architecture.cognitive_learning_engine import (
     CognitiveLearningEngine,
     CognitiveLearningConfig,
     PhaseMode,
+    InputType,
 )
 
 
@@ -52,13 +53,20 @@ def run_demo():
 
     sim_time = 1000.0
 
+    print("\n--- PHASE 0: Input Dispatcher & Multi-modal Routing ---")
+    inputs_to_test = [10.5, "HEAT_HIGH", [1.0, 2.0, 3.0]]
+    for item in inputs_to_test:
+        sim_time += 0.05
+        evt, dtype = engine.dispatch_and_record(item, timestamp=sim_time)
+        print(f"Input: {str(item):15s} | Classified DType: {dtype.value:12s} | Node: {engine.current_state_node}")
+
     print("\n--- PHASE 1: Normal Cyclical Stream (ICE Phase & Path Density Emergence) ---")
     for i in range(15):
         sim_time += 0.05  # Short intervals so temporal decay doesn't wipe grounding
         val = env.step(action=0.0)
         # Add grounded sensory labels intermittently
         labels = {"texture_smooth": 0.8, "frequency_hertz": 50.0} if i % 2 == 0 else None
-        evt = engine.record_transition(val, timestamp=sim_time, external_labels=labels)
+        evt, _ = engine.dispatch_and_record(val, timestamp=sim_time, external_labels=labels)
         print(f"[Tick {i:02d}] Val: {val:5.2f} | Vel: {evt.velocity:6.2f} | Phase: {engine.current_phase} | Energy: {engine.accumulated_energy:5.2f}")
 
     print("\n--- PHASE 2: High Delta Disturbance Injection (Phase Shift ICE -> WATER -> GAS) ---")
@@ -67,7 +75,7 @@ def run_demo():
         # Inject large delta action
         disturbance = 5.0 if i % 2 == 0 else -4.0
         val = env.step(action=disturbance)
-        evt = engine.record_transition(val, timestamp=sim_time)
+        evt, _ = engine.dispatch_and_record(val, timestamp=sim_time)
         print(f"[Disturb {i:02d}] Val: {val:5.2f} | Vel: {evt.velocity:6.2f} | Phase: {engine.current_phase} | Energy: {engine.accumulated_energy:5.2f}")
 
     print("\n--- PHASE 3: Path Density & Axiom 3 Self-Modification Trigger ---")
@@ -75,20 +83,32 @@ def run_demo():
     for i in range(8):
         sim_time += 0.05
         val = 10.0 if i % 2 == 0 else 10.5
-        engine.record_transition(val, timestamp=sim_time)
+        engine.dispatch_and_record(val, timestamp=sim_time)
 
     print(f"Self-Modification Alerts Count: {len(engine.self_modification_alerts)}")
     for alert in engine.self_modification_alerts:
         print(f"  --> {alert['message']}")
 
-    print("\n--- PHASE 4: Axiom 4 Symbol Grounding Verification ---")
+    print("\n--- PHASE 4: Axiom 4 Symbol Grounding & Un-grounding (Decay to Deletion) ---")
     grounded_count = 0
     for source, targets in engine.network.items():
         for target, edge in targets.items():
             if edge.co_occurred_labels:
                 grounded_count += 1
-                print(f"Path [{source} -> {target}] Grounded Labels: {edge.co_occurred_labels}")
-    print(f"Total grounded path edges: {grounded_count}")
+                print(f"Path [{source} -> {target}] Grounded Labels BEFORE decay: {edge.co_occurred_labels}")
+
+    # Advance time significantly without label reinforcement to trigger un-grounding (decay deletion)
+    sim_time += 20.0
+    engine.dispatch_and_record(10.0, timestamp=sim_time)
+
+    print("\n  [Time Elapsed +20.0s -> Triggering Grounding Decay & Un-grounding]")
+    grounded_after = 0
+    for source, targets in engine.network.items():
+        for target, edge in targets.items():
+            if edge.co_occurred_labels:
+                grounded_after += 1
+                print(f"Path [{source} -> {target}] Grounded Labels AFTER decay: {edge.co_occurred_labels}")
+    print(f"Grounded edges active before: {grounded_count} | Grounded edges active after decay (un-grounded): {grounded_after}")
 
     print("\n--- PHASE 5: Forward Forecasting (5.1 Mode) ---")
     current_node = engine.current_state_node
@@ -96,17 +116,28 @@ def run_demo():
     print(f"Current State: {current_node}")
     print(f"Predicted Trajectory: {forecast}")
 
-    print("\n--- PHASE 6: Reverse Abductive Goal Search (5.2 Mode) ---")
+    print("\n--- PHASE 6: Reverse Abductive Goal Search (5.2 Mode — Historical vs Novel Recombination) ---")
     if engine.network:
-        # Search backward pathways to reach state S_10.5
-        target_candidate = "S_10.5"
-        reverse_paths = engine.search_reverse_abduction(target_node=target_candidate)
-        print(f"Target Goal Node: {target_candidate}")
-        print(f"Discovered Reverse Pathways: {reverse_paths}")
+        # Re-attach a shared label for bridge demonstration
+        sim_time += 0.05
+        engine.dispatch_and_record(10.0, timestamp=sim_time)
+        sim_time += 0.05
+        engine.dispatch_and_record(10.5, timestamp=sim_time, external_labels={"aerodynamic_lift": 2.0})
 
-    print("\n--- PHASE 7: Holonic Meta-Observation & Unitization ---")
+        sim_time += 0.05
+        engine.dispatch_and_record(30.0, timestamp=sim_time)
+        sim_time += 0.05
+        engine.dispatch_and_record(35.0, timestamp=sim_time, external_labels={"aerodynamic_lift": 1.5})
+
+        target_candidate = "S_10.5"
+        reverse_res = engine.search_reverse_abduction(target_node=target_candidate)
+        print(f"Target Goal Node: {target_candidate}")
+        print(f"1. Historical Retrace Pathways: {reverse_res['historical_retrace_paths']}")
+        print(f"2. Novel Recombined Pathways (Unseen Bridges): {reverse_res['novel_recombined_pathways']}")
+
+    print("\n--- PHASE 7: Holonic Meta-Observation & Selection Pressure ---")
     print(f"Holonic Matrix Counts: {engine.holonic_matrix}")
-    print(f"Stable Emergent Units: {engine.stable_units}")
+    print(f"Stable Emergent Units under Selection Pressure (Ratio >= {config.STABLE_UNIT_RELATIVE_RATIO * 100}%): {engine.stable_units}")
 
     print("\n" + "=" * 70)
     print("DEMO EXECUTED SUCCESSFULLY")
