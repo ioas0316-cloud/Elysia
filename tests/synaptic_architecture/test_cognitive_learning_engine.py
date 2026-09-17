@@ -207,3 +207,19 @@ def test_axiom_4_label_un_grounding_decay():
     engine.dispatch_and_record(14.0, timestamp=106.1)
 
     assert "fragile" not in edge.co_occurred_labels
+
+
+def test_axiom_3_dispatcher_rule_reevaluation_alert():
+    config = CognitiveLearningConfig(DISPATCHER_UNKNOWN_LIMIT=2)
+    engine = CognitiveLearningEngine(config=config)
+
+    class CustomObject:
+        pass
+
+    engine.dispatch_and_record(CustomObject(), timestamp=100.0)
+    assert not any(a.get("type") == "DISPATCHER_RULE_REEVALUATION" for a in engine.self_modification_alerts)
+
+    engine.dispatch_and_record(CustomObject(), timestamp=101.0)
+    alerts = [a for a in engine.self_modification_alerts if a.get("type") == "DISPATCHER_RULE_REEVALUATION"]
+    assert len(alerts) == 1
+    assert "Dispatcher classification rules require self-review" in alerts[0]["message"]

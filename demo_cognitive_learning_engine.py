@@ -53,12 +53,21 @@ def run_demo():
 
     sim_time = 1000.0
 
-    print("\n--- PHASE 0: Input Dispatcher & Multi-modal Routing ---")
+    print("\n--- PHASE 0: Input Dispatcher, Multi-modal Routing & Axiom 3 Dispatcher Self-Review ---")
     inputs_to_test = [10.5, "HEAT_HIGH", [1.0, 2.0, 3.0]]
     for item in inputs_to_test:
         sim_time += 0.05
         evt, dtype = engine.dispatch_and_record(item, timestamp=sim_time)
         print(f"Input: {str(item):15s} | Classified DType: {dtype.value:12s} | Node: {engine.current_state_node}")
+
+    # Inject unknown / unclassifiable custom objects to breach Axiom 3 Dispatcher classification limit
+    class UnknownCustomSensorData:
+        pass
+
+    print("\n  [Injecting anomalous unclassifiable inputs to test Axiom 3 Dispatcher rule re-evaluation trigger...]")
+    for _ in range(3):
+        sim_time += 0.05
+        engine.dispatch_and_record(UnknownCustomSensorData(), timestamp=sim_time)
 
     print("\n--- PHASE 1: Normal Cyclical Stream (ICE Phase & Path Density Emergence) ---")
     for i in range(15):

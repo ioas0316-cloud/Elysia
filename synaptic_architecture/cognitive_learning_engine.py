@@ -29,19 +29,33 @@ class InputDispatcher:
     """
     Classifies raw incoming input data type and structure before routing
     to the appropriate domain encoder.
+    Subject to Axiom 3: rule classification metrics are tracked so classifier
+    rules themselves can be flagged for re-evaluation when anomaly limits are breached.
     """
 
-    @staticmethod
-    def classify(data: Any) -> InputType:
+    def __init__(self):
+        self.classification_counts: Dict[InputType, int] = {
+            InputType.SCALAR: 0,
+            InputType.CATEGORICAL: 0,
+            InputType.VECTOR: 0,
+            InputType.UNKNOWN: 0,
+        }
+
+    def classify(self, data: Any) -> InputType:
         if isinstance(data, (int, float)) and not isinstance(data, bool):
-            return InputType.SCALAR
+            itype = InputType.SCALAR
         elif isinstance(data, str):
-            return InputType.CATEGORICAL
+            itype = InputType.CATEGORICAL
         elif isinstance(data, (list, tuple)):
             if all(isinstance(x, (int, float)) for x in data):
-                return InputType.VECTOR
-            return InputType.CATEGORICAL
-        return InputType.UNKNOWN
+                itype = InputType.VECTOR
+            else:
+                itype = InputType.CATEGORICAL
+        else:
+            itype = InputType.UNKNOWN
+
+        self.classification_counts[itype] += 1
+        return itype
 
 
 class ScalarEncoder:
@@ -101,6 +115,9 @@ class CognitiveLearningConfig:
     STABLE_UNIT_MIN_REPETITIONS: int = 3
     STABLE_UNIT_RELATIVE_RATIO: float = 0.35  # Require at least 35% relative frequency among all observed units
 
+    # Axiom 3 Dispatcher Self-Modification Threshold
+    DISPATCHER_UNKNOWN_LIMIT: int = 3  # Flag dispatcher rules for re-evaluation after N unknown/anomalous classifications
+
 
 @dataclass
 class TransitionEvent:
@@ -155,6 +172,9 @@ class CognitiveLearningEngine:
         self.accumulated_energy: float = 0.0
         self.current_phase: str = PhaseMode.ICE
 
+        # Input Dispatcher instance (tracks classification counts for Axiom 3 rule self-review)
+        self.dispatcher = InputDispatcher()
+
         # Axiom 3 self-modification alert count
         self.self_modification_alerts: List[Dict[str, Any]] = []
 
@@ -190,9 +210,10 @@ class CognitiveLearningEngine:
         """
         Dispatches raw input through the InputDispatcher to determine data type,
         encodes it via appropriate modal encoder, and records normalized transition.
+        Subject to Axiom 3 self-modification trigger on dispatcher classification anomalies.
         """
         now = timestamp if timestamp is not None else time.time()
-        input_type = InputDispatcher.classify(raw_data)
+        input_type = self.dispatcher.classify(raw_data)
 
         interval = 0.1
         if self.last_event_time is not None:
@@ -232,6 +253,7 @@ class CognitiveLearningEngine:
             self._apply_symbol_grounding(prev_ref, current_node, external_labels)
 
         self._check_axiom3_self_modification(prev_ref, current_node)
+        self._check_axiom3_dispatcher_modification(input_type)
         self._update_holonic_matrix(event)
 
         self.current_state_node = current_node
@@ -322,6 +344,24 @@ class CognitiveLearningEngine:
                 "message": f"Axiom 3 Triggered: Path {source}->{target} weight ({edge_weight:.2f}) exceeds {self.config.REEVAL_THRESHOLD_MULTIPLIER}x average density ({avg_density:.2f}). Rules need self-review."
             }
             self.self_modification_alerts.append(alert)
+
+    def _check_axiom3_dispatcher_modification(self, classified_type: InputType):
+        """
+        Axiom 3: Check if dispatcher classification rules are repeatedly producing
+        unknown or anomalous classifications, signaling that the classifier rules themselves
+        require self-review / restructuring.
+        """
+        unknown_count = self.dispatcher.classification_counts[InputType.UNKNOWN]
+        if classified_type == InputType.UNKNOWN and unknown_count >= self.config.DISPATCHER_UNKNOWN_LIMIT:
+            alert = {
+                "type": "DISPATCHER_RULE_REEVALUATION",
+                "unknown_count": unknown_count,
+                "timestamp": time.time(),
+                "message": f"Axiom 3 Triggered (Dispatcher): Unclassified/Anomalous inputs count ({unknown_count}) reached limit ({self.config.DISPATCHER_UNKNOWN_LIMIT}). Dispatcher classification rules require self-review & restructuring."
+            }
+            # Only record alert once per limit threshold breach
+            if not any(a.get("type") == "DISPATCHER_RULE_REEVALUATION" and a.get("unknown_count") == unknown_count for a in self.self_modification_alerts):
+                self.self_modification_alerts.append(alert)
 
     def _update_holonic_matrix(self, event: TransitionEvent):
         """
