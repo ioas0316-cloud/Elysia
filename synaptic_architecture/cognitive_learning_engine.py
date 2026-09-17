@@ -83,6 +83,21 @@ class CategoricalEncoder:
         return node_id, velocity
 
 
+class VectorEncoder:
+    """Encodes vector signals (lists/tuples of numeric values) into normalized state representation and velocity (L2 norm delta)."""
+    @staticmethod
+    def encode(val: Union[List[float], Tuple[float, ...]], last_val: Optional[Any], interval: float) -> Tuple[str, float]:
+        rounded = [round(float(x), 2) for x in val]
+        node_id = f"VEC_{rounded}"
+        if last_val is None or not isinstance(last_val, (list, tuple)) or len(last_val) != len(val):
+            velocity = 0.0
+        else:
+            # L2 norm delta velocity
+            diff_sq = sum((float(a) - float(b)) ** 2 for a, b in zip(val, last_val))
+            velocity = math.sqrt(diff_sq) / max(0.001, interval)
+        return node_id, velocity
+
+
 @dataclass
 class CognitiveLearningConfig:
     """
@@ -167,6 +182,7 @@ class CognitiveLearningEngine:
         self.current_state_node: Optional[str] = None
         self.last_event_time: Optional[float] = None
         self.last_scalar_value: Optional[float] = None
+        self.last_vector_value: Optional[List[float]] = None
 
         # Cumulative energy / delta for phase transition
         self.accumulated_energy: float = 0.0
@@ -222,11 +238,16 @@ class CognitiveLearningEngine:
         if input_type == InputType.SCALAR:
             val = float(raw_data)
             current_node, velocity = ScalarEncoder.encode(val, self.last_scalar_value, interval)
+            self.last_scalar_value = val
         elif input_type == InputType.CATEGORICAL:
             val = str(raw_data)
             current_node, velocity = CategoricalEncoder.encode(val, self.current_state_node, interval)
+        elif input_type == InputType.VECTOR:
+            vec_val = [float(x) for x in raw_data]
+            current_node, velocity = VectorEncoder.encode(vec_val, self.last_vector_value, interval)
+            self.last_vector_value = vec_val
         else:
-            # Fallback vector / string representation
+            # Fallback for unknown / unclassifiable custom objects
             val = str(raw_data)
             current_node = f"GEN_{val}"
             velocity = 0.0

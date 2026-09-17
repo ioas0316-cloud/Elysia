@@ -150,7 +150,14 @@ def test_input_dispatcher_and_multi_modal_encoding():
     # Vector input
     evt3, t3 = engine.dispatch_and_record([1.0, 2.0, 3.0], timestamp=102.0)
     assert t3 == InputType.VECTOR
-    assert engine.current_state_node == "GEN_[1.0, 2.0, 3.0]"
+    assert engine.current_state_node == "VEC_[1.0, 2.0, 3.0]"
+
+    # Second vector input (verifies VectorEncoder L2 norm velocity computation)
+    evt4, t4 = engine.dispatch_and_record([1.0, 5.0, 3.0], timestamp=104.0)
+    assert t4 == InputType.VECTOR
+    assert engine.current_state_node == "VEC_[1.0, 5.0, 3.0]"
+    assert abs(evt4.velocity - 1.5) < 1e-3  # sqrt((5-2)^2) / 2.0 = 3.0 / 2.0 = 1.5
+    assert "S_15.5" in engine.network or "SYM_STATE_OVERHEAT" in engine.network
 
 
 def test_holonic_relative_selection_pressure():
