@@ -13,8 +13,74 @@ Implementation based on Cognitive Learning Engine Design Principles:
 
 import time
 import math
-from typing import Dict, List, Tuple, Optional, Any, Set
+from typing import Dict, List, Tuple, Optional, Any, Set, Union
 from dataclasses import dataclass, field
+from enum import Enum
+
+
+class InputType(Enum):
+    SCALAR = "SCALAR"
+    CATEGORICAL = "CATEGORICAL"
+    VECTOR = "VECTOR"
+    UNKNOWN = "UNKNOWN"
+
+
+class InputDispatcher:
+    """
+    Classifies raw incoming input data type and structure before routing
+    to the appropriate domain encoder.
+    Subject to Axiom 3: rule classification metrics are tracked so classifier
+    rules themselves can be flagged for re-evaluation when anomaly limits are breached.
+    """
+
+    def __init__(self):
+        self.classification_counts: Dict[InputType, int] = {
+            InputType.SCALAR: 0,
+            InputType.CATEGORICAL: 0,
+            InputType.VECTOR: 0,
+            InputType.UNKNOWN: 0,
+        }
+
+    def classify(self, data: Any) -> InputType:
+        if isinstance(data, (int, float)) and not isinstance(data, bool):
+            itype = InputType.SCALAR
+        elif isinstance(data, str):
+            itype = InputType.CATEGORICAL
+        elif isinstance(data, (list, tuple)):
+            if all(isinstance(x, (int, float)) for x in data):
+                itype = InputType.VECTOR
+            else:
+                itype = InputType.CATEGORICAL
+        else:
+            itype = InputType.UNKNOWN
+
+        self.classification_counts[itype] += 1
+        return itype
+
+
+class ScalarEncoder:
+    """Encodes scalar signals into normalized state representation and velocity."""
+    @staticmethod
+    def encode(val: float, last_val: Optional[float], interval: float) -> Tuple[str, float]:
+        node_id = f"S_{round(val, 2)}"
+        if last_val is None:
+            velocity = 0.0
+        else:
+            velocity = (val - last_val) / interval
+        return node_id, velocity
+
+
+class CategoricalEncoder:
+    """Encodes categorical/symbolic signals into normalized state representation and transition delta."""
+    @staticmethod
+    def encode(val: str, last_val: Optional[Any], interval: float) -> Tuple[str, float]:
+        node_id = f"SYM_{val}"
+        if last_val is None or str(last_val) == node_id or str(last_val) == str(val):
+            velocity = 0.0
+        else:
+            # Shift in symbolic state represents a category transition step velocity
+            velocity = 1.0 / interval
+        return node_id, velocity
 
 
 @dataclass
@@ -47,6 +113,10 @@ class CognitiveLearningConfig:
 
     # Holonic Selection Pressure
     STABLE_UNIT_MIN_REPETITIONS: int = 3
+    STABLE_UNIT_RELATIVE_RATIO: float = 0.35  # Require at least 35% relative frequency among all observed units
+
+    # Axiom 3 Dispatcher Self-Modification Threshold
+    DISPATCHER_UNKNOWN_LIMIT: int = 3  # Flag dispatcher rules for re-evaluation after N unknown/anomalous classifications
 
 
 @dataclass
@@ -102,6 +172,9 @@ class CognitiveLearningEngine:
         self.accumulated_energy: float = 0.0
         self.current_phase: str = PhaseMode.ICE
 
+        # Input Dispatcher instance (tracks classification counts for Axiom 3 rule self-review)
+        self.dispatcher = InputDispatcher()
+
         # Axiom 3 self-modification alert count
         self.self_modification_alerts: List[Dict[str, Any]] = []
 
@@ -123,58 +196,72 @@ class CognitiveLearningEngine:
     ) -> TransitionEvent:
         """
         Record a new observation value adhering to Axiom 1.
-        Calculates interval and velocity, creates/reinforces path edges (Axiom 2),
-        updates phase transitions, and triggers Axiom 3/4 if thresholds met.
+        Delegates to dispatch_and_record for normalized multi-modal routing.
+        """
+        event, _ = self.dispatch_and_record(new_val, timestamp=timestamp, external_labels=external_labels)
+        return event
+
+    def dispatch_and_record(
+        self,
+        raw_data: Any,
+        timestamp: Optional[float] = None,
+        external_labels: Optional[Dict[str, float]] = None
+    ) -> Tuple[TransitionEvent, InputType]:
+        """
+        Dispatches raw input through the InputDispatcher to determine data type,
+        encodes it via appropriate modal encoder, and records normalized transition.
+        Subject to Axiom 3 self-modification trigger on dispatcher classification anomalies.
         """
         now = timestamp if timestamp is not None else time.time()
+        input_type = self.dispatcher.classify(raw_data)
 
-        if self.last_event_time is None or self.current_state_node is None:
-            # First observation: bootstrap node
-            prev_ref = None
-            interval = 0.1
-            velocity = 0.0
-            current_node = f"S_{round(new_val, 2)}"
-        else:
-            prev_ref = self.current_state_node
+        interval = 0.1
+        if self.last_event_time is not None:
             interval = max(0.001, now - self.last_event_time)
-            delta = new_val - (self.last_scalar_value if self.last_scalar_value is not None else new_val)
-            velocity = delta / interval
-            current_node = f"S_{round(new_val, 2)}"
 
+        if input_type == InputType.SCALAR:
+            val = float(raw_data)
+            current_node, velocity = ScalarEncoder.encode(val, self.last_scalar_value, interval)
+        elif input_type == InputType.CATEGORICAL:
+            val = str(raw_data)
+            current_node, velocity = CategoricalEncoder.encode(val, self.current_state_node, interval)
+        else:
+            # Fallback vector / string representation
+            val = str(raw_data)
+            current_node = f"GEN_{val}"
+            velocity = 0.0
+
+        prev_ref = self.current_state_node
         event = TransitionEvent(
             prev_state_ref=prev_ref,
-            current_val=new_val,
+            current_val=raw_data,
             interval_sec=interval,
             velocity=velocity,
-            timestamp=now
+            timestamp=now,
+            metadata={"input_type": input_type.value}
         )
 
-        # Axiom 2: Reinforce path if transition occurred
+        # Reinforce & decay
         if prev_ref is not None:
             self._reinforce_or_create_path(prev_ref, current_node, now)
-            # Energy accumulation based on velocity / delta
             energy_delta = abs(velocity) * interval
             self._update_energy_and_phase(energy_delta)
 
-        # Apply temporal decay to all paths in network
         self._decay_paths(now)
 
-        # Axiom 4: Symbol Grounding co-occurrence check
         if external_labels and prev_ref is not None:
             self._apply_symbol_grounding(prev_ref, current_node, external_labels)
 
-        # Axiom 3: Check density threshold for self-modification trigger
         self._check_axiom3_self_modification(prev_ref, current_node)
-
-        # Update holonic classification matrix
+        self._check_axiom3_dispatcher_modification(input_type)
         self._update_holonic_matrix(event)
 
-        # Advance state
         self.current_state_node = current_node
         self.last_event_time = now
-        self.last_scalar_value = new_val
+        if isinstance(raw_data, (int, float)):
+            self.last_scalar_value = float(raw_data)
 
-        return event
+        return event, input_type
 
     def _reinforce_or_create_path(self, source: str, target: str, now: float):
         if source not in self.network:
@@ -258,21 +345,46 @@ class CognitiveLearningEngine:
             }
             self.self_modification_alerts.append(alert)
 
+    def _check_axiom3_dispatcher_modification(self, classified_type: InputType):
+        """
+        Axiom 3: Check if dispatcher classification rules are repeatedly producing
+        unknown or anomalous classifications, signaling that the classifier rules themselves
+        require self-review / restructuring.
+        """
+        unknown_count = self.dispatcher.classification_counts[InputType.UNKNOWN]
+        if classified_type == InputType.UNKNOWN and unknown_count >= self.config.DISPATCHER_UNKNOWN_LIMIT:
+            alert = {
+                "type": "DISPATCHER_RULE_REEVALUATION",
+                "unknown_count": unknown_count,
+                "timestamp": time.time(),
+                "message": f"Axiom 3 Triggered (Dispatcher): Unclassified/Anomalous inputs count ({unknown_count}) reached limit ({self.config.DISPATCHER_UNKNOWN_LIMIT}). Dispatcher classification rules require self-review & restructuring."
+            }
+            # Only record alert once per limit threshold breach
+            if not any(a.get("type") == "DISPATCHER_RULE_REEVALUATION" and a.get("unknown_count") == unknown_count for a in self.self_modification_alerts):
+                self.self_modification_alerts.append(alert)
+
     def _update_holonic_matrix(self, event: TransitionEvent):
         """
         Holonic 4-fold classification:
         Evaluates binary condition of (is_positive_velocity, is_above_average_energy).
+        Selection pressure: Unitize ONLY if count >= STABLE_UNIT_MIN_REPETITIONS AND
+        relative frequency ratio >= STABLE_UNIT_RELATIVE_RATIO.
+        Unstable units that drop below the threshold are pruned.
         """
         cond_velocity = event.velocity > 0
         cond_energy = self.accumulated_energy > (self.config.ICE_TO_WATER_ENERGY / 2.0)
         pair = (cond_velocity, cond_energy)
 
         self.holonic_matrix[pair] += 1
+        total_observations = sum(self.holonic_matrix.values())
 
-        # Selection pressure: unitize if count >= STABLE_UNIT_MIN_REPETITIONS
-        unit_key = f"UNIT_{pair[0]}_{pair[1]}"
-        if self.holonic_matrix[pair] >= self.config.STABLE_UNIT_MIN_REPETITIONS:
-            self.stable_units.add(unit_key)
+        # Evaluate all 4 pairs with relative selection pressure
+        self.stable_units.clear()
+        for p, count in self.holonic_matrix.items():
+            rel_ratio = count / total_observations if total_observations > 0 else 0.0
+            if count >= self.config.STABLE_UNIT_MIN_REPETITIONS and rel_ratio >= self.config.STABLE_UNIT_RELATIVE_RATIO:
+                unit_key = f"UNIT_{p[0]}_{p[1]}"
+                self.stable_units.add(unit_key)
 
     def predict_forward(self, start_node: Optional[str] = None, steps: Optional[int] = None) -> List[Tuple[str, float]]:
         """
@@ -296,29 +408,28 @@ class CognitiveLearningEngine:
 
         return trajectory
 
-    def search_reverse_abduction(self, target_node: str) -> List[List[str]]:
+    def search_reverse_abduction(self, target_node: str) -> Dict[str, Any]:
         """
         5.2 Reverse Mode (Abduction / Design):
-        Backtraces from target node to discover potential causal predecessor pathways leading to target_node.
+        1. Backtraces existing historical paths from target node.
+        2. Synthesizes novel recombined pathways by connecting previously unlinked nodes
+           that share common grounded labels (shared principles/semantic grounding).
         """
-        paths = []
+        direct_paths = []
 
         def dfs(current: str, path: List[str], depth: int):
-            paths.append(list(path))
+            direct_paths.append(list(path))
             if depth >= self.config.MAX_COMBINATION_DEPTH:
                 return
 
-            # Find predecessor nodes `source` where `source -> current` exists
             for source, targets in self.network.items():
                 if current in targets and source not in path:
                     dfs(source, [source] + path, depth + 1)
 
-        # Search backward starting from direct predecessors of target_node
         for source, targets in self.network.items():
             if target_node in targets:
                 dfs(source, [source, target_node], 1)
 
-        # Sort paths by accumulated weight descending
         def path_score(p: List[str]) -> float:
             score = 0.0
             for i in range(len(p) - 1):
@@ -327,5 +438,32 @@ class CognitiveLearningEngine:
                     score += self.network[u][v].weight
             return score
 
-        paths.sort(key=path_score, reverse=True)
-        return paths[:self.config.MAX_COMBINATION_BEAM_WIDTH]
+        direct_paths.sort(key=path_score, reverse=True)
+        top_direct = direct_paths[:self.config.MAX_COMBINATION_BEAM_WIDTH]
+
+        # Novel Recombinations: find nodes not directly connected to target_node
+        # but sharing co-occurred grounded labels with edges leading to target_node or predecessor edges
+        target_predecessor_labels: Set[str] = set()
+        for source, targets in self.network.items():
+            if target_node in targets:
+                edge = targets[target_node]
+                target_predecessor_labels.update(edge.co_occurred_labels.keys())
+
+        novel_recombinations = []
+        if target_predecessor_labels:
+            for s1, targets1 in self.network.items():
+                for t1, edge1 in targets1.items():
+                    if t1 == target_node:
+                        continue  # skip already direct transitions
+                    shared = set(edge1.co_occurred_labels.keys()).intersection(target_predecessor_labels)
+                    if shared:
+                        novel_recombinations.append({
+                            "novel_pathway": [s1, t1, f"[Bridge via shared principle: {list(shared)}]", target_node],
+                            "shared_grounded_principles": list(shared),
+                            "origin_edge": f"{s1}->{t1}"
+                        })
+
+        return {
+            "historical_retrace_paths": top_direct,
+            "novel_recombined_pathways": novel_recombinations
+        }
