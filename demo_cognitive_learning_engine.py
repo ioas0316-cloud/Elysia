@@ -53,12 +53,19 @@ def run_demo():
 
     sim_time = 1000.0
 
-    print("\n--- PHASE 0: Input Dispatcher, Multi-modal Routing & Axiom 3 Dispatcher Self-Review ---")
-    inputs_to_test = [10.5, "HEAT_HIGH", [1.0, 2.0, 3.0]]
+    print("\n--- PHASE 0: Input Dispatcher, Multi-modal Routing (Volume Axiom 1.1) & Axiom 3 Self-Review ---")
+    inputs_to_test = [
+        10.5,
+        "HEAT_HIGH",
+        [1.0, 2.0, 3.0],
+        {"temp": 25.0, "pressure": 101.3, "status": "NOMINAL"}  # Axiom 1.1 Volume input
+    ]
     for item in inputs_to_test:
         sim_time += 0.05
         evt, dtype = engine.dispatch_and_record(item, timestamp=sim_time)
-        print(f"Input: {str(item):15s} | Classified DType: {dtype.value:12s} | Node: {engine.current_state_node}")
+        print(f"Input: {str(item):45s} | DType: {dtype.value:10s} | Node: {engine.current_state_node}")
+        if evt.element_velocities:
+            print(f"  --> Volume Element Velocities: {evt.element_velocities}")
 
     # Inject unknown / unclassifiable custom objects to breach Axiom 3 Dispatcher classification limit
     class UnknownCustomSensorData:
@@ -125,7 +132,7 @@ def run_demo():
     print(f"Current State: {current_node}")
     print(f"Predicted Trajectory: {forecast}")
 
-    print("\n--- PHASE 6: Reverse Abductive Goal Search (5.2 Mode — Historical vs Novel Recombination) ---")
+    print("\n--- PHASE 6: Reverse Abductive Goal Search (5.2 Mode — Combinatorial Design Hypotheses) ---")
     if engine.network:
         # Re-attach a shared label for bridge demonstration
         sim_time += 0.05
@@ -143,10 +150,34 @@ def run_demo():
         print(f"Target Goal Node: {target_candidate}")
         print(f"1. Historical Retrace Pathways: {reverse_res['historical_retrace_paths']}")
         print(f"2. Novel Recombined Pathways (Unseen Bridges): {reverse_res['novel_recombined_pathways']}")
+        print(f"3. Combinatorial Design Hypotheses (Roadmap 4단계): {reverse_res['combinatorial_design_hypotheses'][:2]}")
 
-    print("\n--- PHASE 7: Holonic Meta-Observation & Selection Pressure ---")
+    print("\n--- PHASE 7: Holonic Meta-Observation, Selection Pressure & Convergence/Divergence Branching ---")
     print(f"Holonic Matrix Counts: {engine.holonic_matrix}")
     print(f"Stable Emergent Units under Selection Pressure (Ratio >= {config.STABLE_UNIT_RELATIVE_RATIO * 100}%): {engine.stable_units}")
+
+    print("\n--- PHASE 8: Axiom 5 Phase Alignment & Section 10 Tiered Memory Promotion ---")
+    print(f"Transient Cache Units (Axiom 5): {len(engine.transient_cache)}")
+    print(f"Composite Nodes (Axiom 4.1 & 4.2 Multiplicative): {len(engine.composite_nodes)}")
+    for cid, cnode in list(engine.composite_nodes.items())[:3]:
+        print(f"  --> Composite [{cid}]: binding_strength={cnode.binding_strength:.3f}, exclusive={cnode.is_exclusive}")
+
+    print(f"Persistent SSD Seeds (Memory Tier Promotion): {len(engine.persistent_seeds)}")
+
+    print("\n--- PHASE 9: Section 7 Dual-Source Bootstrap & Seed Re-alignment ---")
+    engine.load_seed_priors({"optimal_flow": {"target_velocity": 1.0}})
+    print(f"Loaded Seed Prior: {engine.persistent_seeds.get('SEED_PRIOR_optimal_flow')}")
+
+    # Process experience contradicting seed
+    sim_time += 0.05
+    engine.process_dual_source_observation(raw_data=50.0, seed_prior_id="optimal_flow", expected_next_val=1.0, timestamp=sim_time)
+    sim_time += 0.05
+    engine.process_dual_source_observation(raw_data=50.0, seed_prior_id="optimal_flow", expected_next_val=1.0, timestamp=sim_time)
+    sim_time += 0.05
+    engine.process_dual_source_observation(raw_data=50.0, seed_prior_id="optimal_flow", expected_next_val=1.0, timestamp=sim_time)
+
+    realigned_seed = engine.persistent_seeds.get('SEED_PRIOR_optimal_flow')
+    print(f"Re-aligned Seed Prior after repeated experience delta: {realigned_seed}")
 
     print("\n" + "=" * 70)
     print("DEMO EXECUTED SUCCESSFULLY")
