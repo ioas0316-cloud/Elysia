@@ -9,6 +9,8 @@ find_package(OpenMP REQUIRED)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/modules/causal_topology
+    ${CMAKE_CURRENT_SOURCE_DIR}/emulation
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Core C++ Causal Nexus Library
@@ -17,6 +19,14 @@ add_library(nexus_core STATIC
     src/3dgs_sh_eval.cpp
 )
 target_link_libraries(nexus_core PRIVATE OpenMP::OpenMP_CXX)
+
+# Emulation Stage 2 Library
+add_library(emulation_stage2 STATIC
+    emulation/metric_field_engine.cpp
+    emulation/metric_field_engine_flux.cpp
+    emulation/atlas_manager.cpp
+    emulation/spatiotemporal_pipeline.cpp
+)
 
 # Core test binaries
 add_executable(test_preisach_tensor_field tests/cpp/test_preisach_tensor_field.cpp)
@@ -48,6 +58,9 @@ target_link_libraries(test_meta_causal_map PRIVATE OpenMP::OpenMP_CXX)
 
 add_executable(test_arena_zero_copy tests/cpp/test_arena_zero_copy.cpp)
 target_link_libraries(test_arena_zero_copy PRIVATE OpenMP::OpenMP_CXX)
+
+add_executable(test_spatiotemporal_pipeline tests/cpp/test_spatiotemporal_pipeline.cpp)
+target_link_libraries(test_spatiotemporal_pipeline PRIVATE emulation_stage2 OpenMP::OpenMP_CXX)
 
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)

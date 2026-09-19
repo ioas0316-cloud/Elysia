@@ -181,7 +181,8 @@ public:
 
     // Flux scaling extension
     std::vector<ChartScaleTrigger> evaluate_chart_bottlenecks(
-        const float* host_bottleneck_map, float split_threshold, float merge_threshold);
+        const float* host_bottleneck_map, float split_threshold, float merge_threshold,
+        size_t dim_x = 64, size_t dim_y = 64, size_t dim_z = 64);
     void subdivide_chart(uint32_t parent_chart_id);
     void merge_charts(uint32_t parent_chart_id);
 
@@ -192,7 +193,9 @@ private:
     std::unordered_map<uint32_t, ScaledLocalChartNode> chart_tree_;
 
     uint32_t generate_next_chart_id();
-    float compute_max_bottleneck_in_chart(const LocalChart& chart, const float* bottleneck_map);
+    float compute_max_bottleneck_in_chart(
+        const LocalChart& chart, const float* bottleneck_map,
+        size_t dim_x, size_t dim_y, size_t dim_z);
 };
 
 // ============================================================================
