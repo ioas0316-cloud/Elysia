@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia - NPC Constellation Alignment & Polytheistic Chessboard Demo</title>
+    <style>
+        :root {
+            --bg-dark: #080b12;
+            --panel-bg: rgba(15, 22, 38, 0.85);
+            --border-color: #2a3b5c;
+            --accent-cyan: #00f0ff;
+            --accent-gold: #ffd700;
+            --accent-purple: #b15eff;
+            --accent-red: #ff3366;
+            --text-main: #e0e8f5;
+            --text-dim: #7a8b9e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(90deg, #0f1626, #1a263e, #0f1626);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #fff;
+            background: linear-gradient(90deg, #00f0ff, #b15eff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .controls-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1e2d4a, #111a2e);
+            border: 1px solid var(--border-color);
+            color: var(--accent-cyan);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .btn-gold {
+            color: var(--accent-gold);
+        }
+
+        .btn-gold:hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .turn-badge {
+            background: #152238;
+            border: 1px solid var(--accent-purple);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--accent-purple);
+        }
+
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            grid-template-rows: 1fr 220px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 60px);
+        }
+
+        .viewport-panel {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas#tensorCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .side-panel {
+            grid-column: 2 / 3;
+            grid-row: 1 / 3;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .bottom-panel {
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .constellation-card {
+            background: rgba(21, 34, 56, 0.6);
+            border: 1px solid rgba(42, 59, 92, 0.6);
+            border-radius: 6px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .card-desc {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .card-stats {
+            font-size: 11px;
+            color: var(--accent-gold);
+            margin-top: 4px;
+        }
+
+        .hero-inspector {
+            background: rgba(25, 20, 45, 0.6);
+            border: 1px solid var(--accent-purple);
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        .log-container {
+            flex: 1;
+            background: rgba(8, 11, 18, 0.8);
+            border: 1px solid #1a263e;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .log-entry {
+            color: #d0e0f0;
+            line-height: 1.4;
+        }
+
+        .log-turn {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .log-event {
+            color: var(--accent-cyan);
+        }
+
+        .log-apostasy {
+            color: var(--accent-red);
+            font-weight: bold;
+        }
+
+        .overlay-legend {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(8, 11, 18, 0.85);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            pointer-events: none;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: #1e2d4a;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-group">
+            <div class="logo-title">ELYSIA CAUSAL ENGINE</div>
+            <div class="subtitle">2D Alignment Tensor Field & Polytheistic Chessboard Demo</div>
+        </div>
+        <div class="controls-group">
+            <div class="turn-badge" id="turnDisplay">TURN 01 / 10</div>
+            <button class="btn" id="btnNextTurn">Next Turn (다음 턴)</button>
+            <button class="btn btn-gold" id="btnAutoPlay">Auto Play (자동 재생)</button>
+            <button class="btn" id="btnReset">Reset (초기화)</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Viewport Panel: 2D Alignment Canvas -->
+        <div class="viewport-panel">
+            <canvas id="tensorCanvas"></canvas>
+            <div class="overlay-legend">
+                <div style="font-weight: bold; color: var(--accent-cyan); margin-bottom: 2px;">2D 가치관 텐서 필드 (Alignment Field)</div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #00f0ff;"></div>
+                    <span>철혈과 수호의 성좌 (Player - LG)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #00ff88;"></div>
+                    <span>자유와 각성의 성좌 (NPC - CG)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #b15eff;"></div>
+                    <span>심연과 계약의 성좌 (NPC - LE)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #ff3366;"></div>
+                    <span>광기 / 파멸의 성좌 (NPC - CE)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #ffd700;"></div>
+                    <span>영웅 좌표 & 가치관 표류 궤적 (Hero Drift)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Side Panel: Constellations & Heroes Inspector -->
+        <div class="side-panel">
+            <div class="panel-title">
+                <span>성좌 파벌 네트워크 (Constellations)</span>
+                <span class="status-badge">4 Factions Active</span>
+            </div>
+
+            <div class="constellation-card" style="border-left: 3px solid #00f0ff;">
+                <div class="card-header">
+                    <span style="color: #00f0ff;">[LG] 철혈과 수호의 성좌</span>
+                    <span style="color: var(--accent-gold);">Player</span>
+                </div>
+                <div class="card-desc">가문의 영속성, 성벽 사수, 희생, 제도적 번영</div>
+                <div class="card-stats">인과력: <span id="powerPlayer">100.0</span> CP | 좌표: (0.8, 0.8)</div>
+            </div>
+
+            <div class="constellation-card" style="border-left: 3px solid #00ff88;">
+                <div class="card-header">
+                    <span style="color: #00ff88;">[CG] 자유와 각성의 성좌</span>
+                    <span>NPC</span>
+                </div>
+                <div class="card-desc">영웅의 자유의지, 기적적 역전, 규범 파괴</div>
+                <div class="card-stats">인과력: <span id="powerCG">100.0</span> CP | 좌표: (-0.8, 0.7)</div>
+            </div>
+
+            <div class="constellation-card" style="border-left: 3px solid #b15eff;">
+                <div class="card-header">
+                    <span style="color: #b15eff;">[LE] 심연과 계약의 성좌</span>
+                    <span>NPC</span>
+                </div>
+                <div class="card-desc">지하 암시장, 착취적 물류, 비대칭 계약</div>
+                <div class="card-stats">인과력: <span id="powerLE">100.0</span> CP | 좌표: (0.7, -0.6)</div>
+            </div>
+
+            <div class="constellation-card" style="border-left: 3px solid #ff3366;">
+                <div class="card-header">
+                    <span style="color: #ff3366;">[CE] 광기 / 파멸의 성좌</span>
+                    <span>NPC</span>
+                </div>
+                <div class="card-desc">성채 붕괴, 광전사화, 엔트로피 극대화</div>
+                <div class="card-stats">인과력: <span id="powerCE">100.0</span> CP | 좌표: (-0.9, -0.8)</div>
+            </div>
+
+            <div class="panel-title" style="margin-top: 8px;">
+                <span>영웅 가치관 표류 (Hero Inspector)</span>
+            </div>
+
+            <div class="hero-inspector" id="heroInspector">
+                <div style="font-weight: bold; color: var(--accent-gold); font-size: 13px;" id="inspectName">Sir A (3성 수성대장)</div>
+                <div style="margin-top: 4px; color: var(--text-dim);" id="inspectAlign">가치관: (0.60, 0.70) | SPI: 70.0</div>
+                <div style="margin-top: 2px; color: var(--accent-cyan);" id="inspectBound">주 후원: 철혈과 수호의 성좌</div>
+                <div style="margin-top: 4px; font-size: 11px; color: #aaa;" id="inspectDesc">표류 미분: dH/dt = (+0.03, +0.02)</div>
+            </div>
+        </div>
+
+        <!-- Bottom Panel: Chronicle History Log -->
+        <div class="bottom-panel">
+            <div class="panel-title">
+                <span>사서 역사 기록 (Chronicle History Log)</span>
+                <span class="status-badge" style="background: var(--accent-purple);">Realtime Causal Feed</span>
+            </div>
+            <div class="log-container" id="logContainer">
+                <div class="log-entry"><span class="log-turn">[TURN 00]</span> Elysia Polytheistic Chessboard Simulation Initialized.</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Simulation State Engine
+        const state = {
+            turn: 1,
+            maxTurns: 10,
+            autoPlaying: false,
+            autoTimer: null,
+            constellations: {
+                player: { id: "player", name: "철혈과 수호의 성좌", x: 0.8, y: 0.8, color: "#00f0ff", power: 100.0 },
+                cg: { id: "cg", name: "자유와 각성의 성좌", x: -0.8, y: 0.7, color: "#00ff88", power: 100.0 },
+                le: { id: "le", name: "심연과 계약의 성좌", x: 0.7, y: -0.6, color: "#b15eff", power: 100.0 },
+                ce: { id: "ce", name: "광기 / 파멸의 성좌", x: -0.9, y: -0.8, color: "#ff3366", power: 100.0 }
+            },
+            heroes: [
+                { id: "hero_a", name: "Sir A (3성 수성대장)", x: 0.6, y: 0.7, spi: 70, bound: "철혈과 수호의 성좌", trail: [[0.6, 0.7]] },
+                { id: "hero_b", name: "Shadow Rogue B (3성 밀매자)", x: 0.2, y: -0.1, spi: 35, bound: "철혈과 수호의 성좌", trail: [[0.2, -0.1]] },
+                { id: "hero_c", name: "Anonymus Hero C (3성 추도자)", x: 0.02, y: -0.02, spi: 90, bound: "없음 (신살 후보)", trail: [[0.02, -0.02]], isDeicide: false }
+            ],
+            selectedHeroIdx: 0
+        };
+
+        const canvas = document.getElementById("tensorCanvas");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            drawCanvas();
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+
+        function coordToCanvas(x, y) {
+            const margin = 50;
+            const w = canvas.width - margin * 2;
+            const h = canvas.height - margin * 2;
+
+            const cx = margin + ((x + 1.0) / 2.0) * w;
+            const cy = margin + ((1.0 - y) / 2.0) * h; // Invert Y
+            return { x: cx, y: cy };
+        }
+
+        function drawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const margin = 50;
+            const w = canvas.width - margin * 2;
+            const h = canvas.height - margin * 2;
+
+            // Draw Background Phase Interference Heatmap
+            const gridCols = 30;
+            const gridRows = 30;
+            const cellW = w / gridCols;
+            const cellH = h / gridRows;
+
+            for (let i = 0; i < gridCols; i++) {
+                for (let j = 0; j < gridRows; j++) {
+                    const normX = (i / gridCols) * 2.0 - 1.0;
+                    const normY = 1.0 - (j / gridRows) * 2.0;
+
+                    // Calculate phase field energy from constellations
+                    let r = 0, g = 0, b = 0;
+                    for (const cKey in state.constellations) {
+                        const c = state.constellations[cKey];
+                        const dist = Math.hypot(normX - c.x, normY - c.y);
+                        const weight = Math.max(0, 1.0 - dist / 1.5);
+
+                        if (cKey === 'player') { b += weight * 120; g += weight * 80; }
+                        else if (cKey === 'cg') { g += weight * 120; }
+                        else if (cKey === 'le') { r += weight * 100; b += weight * 120; }
+                        else if (cKey === 'ce') { r += weight * 140; }
+                    }
+
+                    ctx.fillStyle = `rgba(${Math.min(255, r)}, ${Math.min(255, g)}, ${Math.min(255, b)}, 0.12)`;
+                    ctx.fillRect(margin + i * cellW, margin + j * cellH, cellW, cellH);
+                }
+            }
+
+            // Draw Axes
+            ctx.strokeStyle = "rgba(42, 59, 92, 0.8)";
+            ctx.lineWidth = 1.5;
+
+            // X axis (Law - Chaos)
+            ctx.beginPath();
+            ctx.moveTo(margin, canvas.height / 2);
+            ctx.lineTo(canvas.width - margin, canvas.height / 2);
+            ctx.stroke();
+
+            // Y axis (Good - Evil)
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, margin);
+            ctx.lineTo(canvas.width / 2, canvas.height - margin);
+            ctx.stroke();
+
+            // Axis Labels
+            ctx.fillStyle = "#7a8b9e";
+            ctx.font = "12px sans-serif";
+            ctx.fillText("혼돈 (Chaos -1.0)", margin + 10, canvas.height / 2 - 8);
+            ctx.fillText("질서 (Law +1.0)", canvas.width - margin - 90, canvas.height / 2 - 8);
+            ctx.fillText("선 (Good +1.0)", canvas.width / 2 + 10, margin + 20);
+            ctx.fillText("악 (Evil -1.0)", canvas.width / 2 + 10, canvas.height - margin - 10);
+
+            // Draw Constellation Nodes & Gravity Waves
+            for (const cKey in state.constellations) {
+                const c = state.constellations[cKey];
+                const pt = coordToCanvas(c.x, c.y);
+
+                // Waves
+                ctx.strokeStyle = c.color;
+                ctx.lineWidth = 1;
+                for (let r = 15; r <= 45; r += 15) {
+                    ctx.beginPath();
+                    ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+                    ctx.globalAlpha = 0.25;
+                    ctx.stroke();
+                }
+                ctx.globalAlpha = 1.0;
+
+                // Node Point
+                ctx.fillStyle = c.color;
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Name
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 11px sans-serif";
+                ctx.fillText(c.name, pt.x + 12, pt.y + 4);
+            }
+
+            // Draw Hero Particles & Trajectory Tails
+            state.heroes.forEach((h, idx) => {
+                // Tail
+                if (h.trail.length > 1) {
+                    ctx.strokeStyle = "rgba(255, 215, 0, 0.4)";
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    h.trail.forEach((t, i) => {
+                        const pt = coordToCanvas(t[0], t[1]);
+                        if (i === 0) ctx.moveTo(pt.x, pt.y);
+                        else ctx.lineTo(pt.x, pt.y);
+                    });
+                    ctx.stroke();
+                }
+
+                // Current Point
+                const pt = coordToCanvas(h.x, h.y);
+                ctx.fillStyle = h.isDeicide ? "#aaa" : "#ffd700";
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.strokeStyle = "#000";
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                ctx.fillStyle = "#ffd700";
+                ctx.font = "11px sans-serif";
+                ctx.fillText(h.name, pt.x + 10, pt.y - 6);
+            });
+        }
+
+        function updateUI() {
+            document.getElementById("turnDisplay").innerText = `TURN ${String(state.turn).padStart(2, '0')} / ${state.maxTurns}`;
+
+            // Update Constellation CP Stats
+            document.getElementById("powerPlayer").innerText = state.constellations.player.power.toFixed(1);
+            document.getElementById("powerCG").innerText = state.constellations.cg.power.toFixed(1);
+            document.getElementById("powerLE").innerText = state.constellations.le.power.toFixed(1);
+            document.getElementById("powerCE").innerText = state.constellations.ce.power.toFixed(1);
+
+            // Update Inspector
+            const h = state.heroes[state.selectedHeroIdx];
+            document.getElementById("inspectName").innerText = h.name;
+            document.getElementById("inspectAlign").innerText = `가치관: (${h.x.toFixed(2)}, ${h.y.toFixed(2)}) | SPI: ${h.spi}`;
+            document.getElementById("inspectBound").innerText = `주 후원: ${h.bound}`;
+
+            drawCanvas();
+        }
+
+        function addLog(msg, type = "event") {
+            const container = document.getElementById("logContainer");
+            const entry = document.createElement("div");
+            entry.className = "log-entry";
+
+            let classType = "log-event";
+            if (type === "apostasy") classType = "log-apostasy";
+
+            entry.innerHTML = `<span class="log-turn">[TURN ${String(state.turn).padStart(2, '0')}]</span> <span class="${classType}">${msg}</span>`;
+            container.appendChild(entry);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function stepTurn() {
+            if (state.turn > state.maxTurns) return;
+
+            // Turn 1: Drift
+            state.heroes.forEach(h => {
+                if (h.isDeicide) return;
+                // Drift towards bound constellation or field center
+                let targetX = 0, targetY = 0;
+                if (h.id === "hero_a") { targetX = 0.3; targetY = 0.4; }
+                else if (h.id === "hero_b") { targetX = 0.5; targetY = -0.5; }
+
+                h.x += (targetX - h.x) * 0.15;
+                h.y += (targetY - h.y) * 0.15;
+                h.trail.push([h.x, h.y]);
+            });
+
+            // Turn Specific Narrative Events
+            if (state.turn === 3) {
+                state.heroes[1].bound = "심연과 계약의 성좌 (NPC-LE)";
+                state.constellations.le.power += 30.0;
+                addLog("🔥 [REVELATION AUCTION] Shadow Rogue B가 식량 기근 시련 속에서 심연과 계약의 성좌(LE)로 배교(Apostasy)했습니다!", "apostasy");
+            } else if (state.turn === 5) {
+                addLog("🌀 [CAUSAL INTERFERENCE] Sir A에 대해 철혈(LG)과 광기(CE) 성좌가 동시 관측을 고정하여 '이단적 보구'가 연성되었습니다!");
+            } else if (state.turn === 7) {
+                state.constellations.player.power -= 20.0;
+                state.constellations.le.power += 20.0;
+                addLog("🤝 [DIVINE DIPLOMACY] 철혈의 성좌가 심연의 성좌에게 인과력 20.0 지불 후 <지하 밀매로 보호> 조약을 체결했습니다.");
+            } else {
+                addLog(`4대 성좌 파벌의 인과장 중력이 영웅들의 가치관 표류를 이끌고 있습니다.`);
+            }
+
+            updateUI();
+            if (state.turn < state.maxTurns) {
+                state.turn++;
+            } else {
+                if (state.autoPlaying) toggleAutoPlay();
+            }
+        }
+
+        function toggleAutoPlay() {
+            state.autoPlaying = !state.autoPlaying;
+            const btn = document.getElementById("btnAutoPlay");
+            if (state.autoPlaying) {
+                btn.innerText = "Pause (정지)";
+                state.autoTimer = setInterval(() => {
+                    if (state.turn <= state.maxTurns) stepTurn();
+                    else toggleAutoPlay();
+                }, 1200);
+            } else {
+                btn.innerText = "Auto Play (자동 재생)";
+                clearInterval(state.autoTimer);
+            }
+        }
+
+        function resetDemo() {
+            if (state.autoPlaying) toggleAutoPlay();
+            state.turn = 1;
+            state.constellations.player.power = 100.0;
+            state.constellations.cg.power = 100.0;
+            state.constellations.le.power = 100.0;
+            state.constellations.ce.power = 100.0;
+
+            state.heroes[0] = { id: "hero_a", name: "Sir A (3성 수성대장)", x: 0.6, y: 0.7, spi: 70, bound: "철혈과 수호의 성좌", trail: [[0.6, 0.7]] };
+            state.heroes[1] = { id: "hero_b", name: "Shadow Rogue B (3성 밀매자)", x: 0.2, y: -0.1, spi: 35, bound: "철혈과 수호의 성좌", trail: [[0.2, -0.1]] };
+            state.heroes[2] = { id: "hero_c", name: "Anonymus Hero C (3성 추도자)", x: 0.02, y: -0.02, spi: 90, bound: "없음 (신살 후보)", trail: [[0.02, -0.02]], isDeicide: false };
+
+            document.getElementById("logContainer").innerHTML = '<div class="log-entry"><span class="log-turn">[TURN 00]</span> Elysia Polytheistic Chessboard Simulation Initialized.</div>';
+            updateUI();
+        }
+
+        document.getElementById("btnNextTurn").addEventListener("click", stepTurn);
+        document.getElementById("btnAutoPlay").addEventListener("click", toggleAutoPlay);
+        document.getElementById("btnReset").addEventListener("click", resetDemo);
+
+        // Initial setup
+        setTimeout(() => {
+            resizeCanvas();
+            updateUI();
+        }, 100);
+    </script>
+</body>
+</html>
