@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스트롱홀드 x 영웅 인과 시뮬레이터 (Isometric Causal Dashboard)</title>
+    <style>
+        :root {
+            --bg-dark: #0f111a;
+            --panel-bg: rgba(22, 26, 42, 0.92);
+            --border-color: #2e3654;
+            --accent-gold: #e5b95c;
+            --accent-blue: #4d9fff;
+            --accent-red: #ff5252;
+            --accent-purple: #b366ff;
+            --text-main: #e0e6f8;
+            --text-dim: #8a96b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(90deg, #121626 0%, #1a2035 100%);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .title-group h1 {
+            font-size: 1.25rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .title-group p {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 20px;
+        }
+
+        .status-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .status-card .label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .status-card .val {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+        }
+
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 280px 1fr 340px;
+            gap: 12px;
+            padding: 12px;
+            height: calc(100vh - 65px);
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-body {
+            padding: 12px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Canvas Viewport */
+        .viewport-panel {
+            position: relative;
+            background: #080a10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #isometricCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            gap: 8px;
+            z-index: 5;
+        }
+
+        .btn {
+            background: linear-gradient(180deg, #2a3454 0%, #1a2238 100%);
+            border: 1px solid #3d4a75;
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-1px);
+        }
+
+        .btn-gold {
+            background: linear-gradient(180deg, #d49f30 0%, #9e7116 100%);
+            border-color: #f0c05a;
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            color: #fff;
+        }
+
+        /* Hero Cards & Inspector */
+        .hero-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .hero-card:hover, .hero-card.selected {
+            border-color: var(--accent-gold);
+            background: rgba(229, 185, 92, 0.08);
+        }
+
+        .hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .hero-name {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .star-badge {
+            background: rgba(229, 185, 92, 0.2);
+            color: var(--accent-gold);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .stat-bar-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #1a2238;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 2px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        /* Logistics Grid */
+        .logistics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .resource-item {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+
+        .resource-item .num {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        /* Chronicle Log */
+        .chronicle-box {
+            background: #090b12;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: #a0b0d8;
+            height: 180px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .log-entry {
+            border-left: 2px solid var(--accent-gold);
+            padding-left: 6px;
+        }
+
+        .log-entry.crucible {
+            border-left-color: var(--accent-red);
+            color: #ff9999;
+        }
+
+        .log-entry.ascension {
+            border-left-color: var(--accent-purple);
+            color: #d9b3ff;
+        }
+
+        /* Subterranean Shadow Market View */
+        .shadow-market-box {
+            background: rgba(18, 12, 28, 0.6);
+            border: 1px solid #4a2d6b;
+            padding: 10px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="title-group">
+            <h1>🏰 Stronghold x Subculture Hero Causal Simulator</h1>
+            <p>스트롱홀드 성채 물류 & 영웅 가치관 인과장 시뮬레이터 (Elysia Causal Substrate)</p>
+        </div>
+        <div class="status-bar">
+            <div class="status-card">
+                <div class="label">경과 연차</div>
+                <div class="val" id="turnDisplay">제 1 년차</div>
+            </div>
+            <div class="status-card">
+                <div class="label">민심 (Popularity)</div>
+                <div class="val" id="popDisplay" style="color: var(--accent-gold);">80.0</div>
+            </div>
+            <div class="status-card">
+                <div class="label">지하 공포지수</div>
+                <div class="val" id="detDisplay" style="color: var(--accent-purple);">10.0</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Left Panel: Logistics & Fortress Geometry -->
+        <div class="panel">
+            <div class="panel-header">🍞 영지 물류 & 성채 기하학</div>
+            <div class="panel-body">
+                <div class="logistics-grid">
+                    <div class="resource-item"><span>🍞 빵 (기본 식량)</span><span class="num" id="resBread">68.0</span></div>
+                    <div class="resource-item"><span>🌾 밀</span><span class="num" id="resWheat">118.0</span></div>
+                    <div class="resource-item"><span>⚔️ 정예 장비</span><span class="num" id="resArmor">7.0</span></div>
+                    <div class="resource-item"><span>🔮 마정석</span><span class="num" id="resMana">20.0</span></div>
+                    <div class="resource-item"><span>🍷 고급 포도주</span><span class="num" id="resWine">10.0</span></div>
+                    <div class="resource-item"><span>👘 비단 의복</span><span class="num" id="resSilk">10.0</span></div>
+                </div>
+
+                <div class="panel-header" style="margin-top: 8px; border: none; background: none; padding: 0;">🏰 공간 시너지 버프</div>
+                <div style="font-size: 0.78rem; display: flex; flex-direction: column; gap: 6px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px;">
+                    <div>• 성벽 방어력: <span id="buffWallDef" style="color: var(--accent-gold); font-weight: bold;">+254.6%</span></div>
+                    <div>• 발리스타 사거리: <span id="buffRange" style="color: var(--accent-blue); font-weight: bold;">+1.5</span></div>
+                    <div>• 기름 발화 범위: <span id="buffPitch" style="color: var(--accent-red); font-weight: bold;">3.0m</span></div>
+                    <div>• 마법 방어막 장력: <span id="buffBarrier" style="color: var(--accent-purple); font-weight: bold;">66.3 SHIELD</span></div>
+                </div>
+
+                <!-- Subterranean Market Operations -->
+                <div class="shadow-market-box">
+                    <div style="font-size: 0.8rem; font-weight: bold; color: var(--accent-purple);">🕶️ 지하 암시장 공작 (Shadow Market)</div>
+                    <button class="btn" onclick="executeSabotage('disrupt_enemy_supply')">🕵️ 적 보급선 차단 공작 (-10 공포)</button>
+                    <button class="btn" onclick="executeSabotage('smuggle_pitch_arrows')">🏹 수성 기름/화살 밀매 (-15 공포)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Viewport: Isometric Canvas -->
+        <div class="panel viewport-panel">
+            <div class="canvas-overlay">
+                <button class="btn btn-gold" onclick="nextTurn()">⏭️ 다음 턴 진행 (1 Year Step)</button>
+                <button class="btn" onclick="triggerCrucible('aria', 'wall_defense_miracle')">🔥 아리아: 성벽 절체절명 수성 시련</button>
+                <button class="btn" onclick="triggerCrucible('victoria', 'mentor_slain')">💔 빅토리아: 스승 전사 복수 시련</button>
+            </div>
+            <canvas id="isometricCanvas"></canvas>
+        </div>
+
+        <!-- Right Panel: Hero Inspector & Chronicle Log -->
+        <div class="panel">
+            <div class="panel-header">🦸 영웅 가치관 & 사서 (Chronicle)</div>
+            <div class="panel-body">
+
+                <!-- Hero Selector Cards -->
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="hero-card selected" id="heroCardAria" onclick="selectHero('aria')">
+                        <div class="hero-header">
+                            <span class="hero-name">아리아 (Aria)</span>
+                            <span class="star-badge">3성 (Crucible Seed)</span>
+                        </div>
+                        <div class="stat-row"><span id="ariaClass" style="color: var(--accent-gold);">성벽의 수호자</span><span>전투력: <b id="ariaPower">187.7</b></span></div>
+                        <div class="stat-row" style="color: var(--text-dim); margin-top: 4px;"><span id="ariaGarrison">주둔: 동문 방어선</span><span id="ariaAscension" style="color: var(--accent-purple);">미달성</span></div>
+                        <div class="progress-bar"><div class="progress-fill" id="ariaVetFill" style="width: 62%;"></div></div>
+                    </div>
+
+                    <div class="hero-card" id="heroCardVictoria" onclick="selectHero('victoria')">
+                        <div class="hero-header">
+                            <span class="hero-name">빅토리아 공주 (Victoria)</span>
+                            <span class="star-badge" style="background: rgba(179,102,255,0.2); color: var(--accent-purple);">6성 (Imperial)</span>
+                        </div>
+                        <div class="stat-row"><span id="vicClass" style="color: var(--accent-gold);">황가 후계자</span><span>전투력: <b id="vicPower">29.4</b></span></div>
+                        <div class="stat-row" style="color: var(--text-dim); margin-top: 4px;"><span id="vicGarrison">주둔: 대마탑</span><span id="vicAscension" style="color: var(--accent-purple);">미달성</span></div>
+                        <div class="progress-bar"><div class="progress-fill" id="vicVetFill" style="width: 6%; background: var(--accent-purple);"></div></div>
+                    </div>
+                </div>
+
+                <!-- Detailed Hero Inspector -->
+                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; font-size: 0.78rem;">
+                    <div style="font-weight: bold; color: var(--accent-gold); margin-bottom: 6px;" id="inspectName">아리아 - 상세 인과장</div>
+                    <div style="margin-bottom: 4px;">• 가치관 성향: <span id="inspectDominant" style="color: #fff;">CON 수호 중심</span></div>
+                    <div style="margin-bottom: 4px;">• 결정화 보구: <span id="inspectHeirloom" style="color: var(--accent-blue);">통곡의 낡은 방패</span></div>
+                    <div style="margin-bottom: 4px;">• 트라우마/왜곡: <span id="inspectTrauma" style="color: var(--accent-red);">0.0%</span></div>
+                    <div>• 획득 트레이트: <span id="inspectTraits" style="color: #fff;">불굴의 인과장</span></div>
+                </div>
+
+                <!-- Korean Chronicle Log -->
+                <div class="panel-header" style="border: none; background: none; padding: 0;">📜 성채 역사 사서 (Chronicle Log)</div>
+                <div class="chronicle-box" id="chronicleBox">
+                    <div class="log-entry">[제 1 년차 사서] 성채 시뮬레이션 인과장이 초기화되었습니다.</div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Frontend Simulation State
+        const state = {
+            turn: 1,
+            popularity: 80.0,
+            deterrence: 10.0,
+            selectedHero: 'aria',
+            logistics: {
+                bread: 68.0, wheat: 118.0, armor: 7.0, mana: 20.0, wine: 10.0, silk: 10.0
+            },
+            buffs: {
+                wallDef: 254.6, range: 1.5, pitch: 3.0, barrier: 66.3
+            },
+            heroes: {
+                aria: {
+                    name: "아리아", star: 3, class: "성벽의 수호자", power: 187.7, vet: 62,
+                    garrison: "동문 방어선", dominant: "CON (수호/인내) 중심 (33.0)",
+                    heirloom: "통곡의 낡은 방패 (아리아)", trauma: 0, ascension: "미달성",
+                    traits: ["불굴의 인과장"]
+                },
+                victoria: {
+                    name: "빅토리아 공주", star: 6, class: "황가 후계자 (미성숙)", power: 29.4, vet: 6,
+                    garrison: "대마탑", dominant: "INT (합리/인과) 중심 (30.0)",
+                    heirloom: "없음", trauma: 0, ascension: "미달성",
+                    traits: []
+                }
+            },
+            logs: [
+                "[제 1 년차 사서] 성채 시뮬레이션 인과장이 초기화되었습니다. 영지의 역사가 시작됩니다.",
+                "[제 1 년차 사서] 새로운 영웅 '아리아' (3성, 수성 대장장이 수습)이(가) 합류했습니다.",
+                "[제 1 년차 사서] 새로운 영웅 '빅토리아 공주' (6성, 황가 후계자)이(가) 합류했습니다."
+            ]
+        };
+
+        // Render Canvas Isometric View
+        const canvas = document.getElementById('isometricCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            drawIsometricMap();
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawIsometricMap() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2 + 30;
+            const tileW = 70;
+            const tileH = 35;
+
+            // Draw Isometric Grid Base
+            for (let r = -3; r <= 3; r++) {
+                for (let c = -3; c <= 3; c++) {
+                    const x = centerX + (c - r) * (tileW / 2);
+                    const y = centerY + (c + r) * (tileH / 2);
+
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + tileW / 2, y + tileH / 2);
+                    ctx.lineTo(x, y + tileH);
+                    ctx.lineTo(x - tileW / 2, y + tileH / 2);
+                    ctx.closePath();
+
+                    ctx.fillStyle = (r + c) % 2 === 0 ? '#121829' : '#182035';
+                    ctx.fill();
+                    ctx.strokeStyle = '#222d4a';
+                    ctx.stroke();
+                }
+            }
+
+            // Draw Nodes (East Gate, Wall Tower, Mage Tower, Armory, Shadow Market)
+            const nodes = [
+                { id: 'east_gate', name: '동문 방어선', grid: [2, 0], color: '#ff5252', hero: state.heroes.aria.garrison === '동문 방어선' ? state.heroes.aria : null },
+                { id: 'wall_tower', name: '중앙 성루', grid: [0, 0], color: '#e5b95c', hero: null },
+                { id: 'mage_tower', name: '대마탑', grid: [-2, 0], color: '#b366ff', hero: state.heroes.victoria.garrison === '대마탑' ? state.heroes.victoria : null },
+                { id: 'armory', name: '대장간 구역', grid: [0, 2], color: '#4d9fff', hero: null },
+                { id: 'subterranean_market', name: '지하 암시장', grid: [0, -2], color: '#800080', hero: null }
+            ];
+
+            // Causal Gravity Field Waves (Animation overlay)
+            const time = Date.now() * 0.002;
+            nodes.forEach(node => {
+                const x = centerX + (node.grid[1] - node.grid[0]) * (tileW / 2);
+                const y = centerY + (node.grid[1] + node.grid[0]) * (tileH / 2);
+
+                // Draw Structure Pillar
+                ctx.fillStyle = node.color;
+                ctx.beginPath();
+                ctx.arc(x, y, 12, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw Causal Field Wave Ring
+                const waveRadius = 20 + Math.sin(time + node.grid[0]) * 8;
+                ctx.strokeStyle = node.color;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.arc(x, y, waveRadius, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '11px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(node.name, x, y - 20);
+
+                // Draw Hero Marker if Garrisoned
+                if (node.hero) {
+                    ctx.fillStyle = '#ffeb3b';
+                    ctx.beginPath();
+                    ctx.arc(x, y - 32, 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#000';
+                    ctx.font = 'bold 9px sans-serif';
+                    ctx.fillText(node.hero.name[0], x, y - 29);
+                }
+            });
+
+            requestAnimationFrame(drawIsometricMap);
+        }
+
+        function updateUI() {
+            document.getElementById('turnDisplay').innerText = `제 ${state.turn} 년차`;
+            document.getElementById('popDisplay').innerText = state.popularity.toFixed(1);
+            document.getElementById('detDisplay').innerText = state.deterrence.toFixed(1);
+
+            document.getElementById('resBread').innerText = state.logistics.bread.toFixed(1);
+            document.getElementById('resWheat').innerText = state.logistics.wheat.toFixed(1);
+            document.getElementById('resArmor').innerText = state.logistics.armor.toFixed(1);
+            document.getElementById('resMana').innerText = state.logistics.mana.toFixed(1);
+            document.getElementById('resWine').innerText = state.logistics.wine.toFixed(1);
+            document.getElementById('resSilk').innerText = state.logistics.silk.toFixed(1);
+
+            document.getElementById('buffWallDef').innerText = `+${state.buffs.wallDef.toFixed(1)}%`;
+            document.getElementById('buffRange').innerText = `+${state.buffs.range.toFixed(1)}`;
+            document.getElementById('buffPitch').innerText = `${state.buffs.pitch.toFixed(1)}m`;
+            document.getElementById('buffBarrier').innerText = `${state.buffs.barrier.toFixed(1)} SHIELD`;
+
+            // Heroes UI
+            document.getElementById('ariaClass').innerText = state.heroes.aria.class;
+            document.getElementById('ariaPower').innerText = state.heroes.aria.power.toFixed(1);
+            document.getElementById('ariaVetFill').style.width = `${state.heroes.aria.vet}%`;
+            document.getElementById('ariaAscension').innerText = state.heroes.aria.ascension;
+
+            document.getElementById('vicClass').innerText = state.heroes.victoria.class;
+            document.getElementById('vicPower').innerText = state.heroes.victoria.power.toFixed(1);
+            document.getElementById('vicVetFill').style.width = `${state.heroes.victoria.vet}%`;
+            document.getElementById('vicAscension').innerText = state.heroes.victoria.ascension;
+
+            // Inspector
+            const h = state.heroes[state.selectedHero];
+            document.getElementById('inspectName').innerText = `${h.name} - 상세 인과장`;
+            document.getElementById('inspectDominant').innerText = h.dominant;
+            document.getElementById('inspectHeirloom').innerText = h.heirloom;
+            document.getElementById('inspectTrauma').innerText = `${h.trauma.toFixed(1)}%`;
+            document.getElementById('inspectTraits').innerText = h.traits.join(', ') || '없음';
+
+            // Logs
+            const logBox = document.getElementById('chronicleBox');
+            logBox.innerHTML = state.logs.map(log => {
+                let cls = 'log-entry';
+                if (log.includes('시련') || log.includes('기근')) cls += ' crucible';
+                if (log.includes('대도약') || log.includes('창시자')) cls += ' ascension';
+                return `<div class="${cls}">${log}</div>`;
+            }).join('');
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function nextTurn() {
+            state.turn++;
+            state.logistics.wheat += 15;
+            state.logistics.bread = Math.max(0, state.logistics.bread + 10 - 20);
+            state.logistics.armor += 2;
+            state.logistics.wine += 2;
+
+            if (state.logistics.bread > 0) {
+                state.popularity = Math.min(100, state.popularity + 2);
+            } else {
+                state.popularity = Math.max(0, state.popularity - 15);
+                state.logs.push(`[제 ${state.turn} 년차 사서] ⚠️ 영지에 식량이 부족하여 민심이 하락합니다!`);
+            }
+
+            state.heroes.aria.vet = Math.min(100, state.heroes.aria.vet + 3);
+            state.heroes.victoria.vet = Math.min(100, state.heroes.victoria.vet + 1);
+
+            // Trigger Ascension if condition met
+            if (state.heroes.aria.power > 180 && state.popularity > 80 && state.heroes.aria.ascension === '미달성') {
+                state.heroes.aria.ascension = "가문의 창시자 / 성주";
+                state.logs.push(`[제 ${state.turn} 년차 사서] 👑 [대도약!] 3성 출신 '아리아'가 영민들의 추대로 [신흥 가문의 창시자 / 성주]로 거듭납니다!`);
+            }
+
+            state.logs.push(`[제 ${state.turn} 년차 사서] 제 ${state.turn} 년차 영지 물류 및 인과 연산이 완료되었습니다.`);
+            updateUI();
+        }
+
+        function triggerCrucible(heroId, type) {
+            if (heroId === 'aria') {
+                state.heroes.aria.power += 80;
+                state.heroes.aria.vet = 100;
+                state.heroes.aria.class = "성벽의 수호자 (통곡의 기사)";
+                state.heroes.aria.traits.push("불굴의 인과장");
+                state.heroes.aria.heirloom = "통곡의 낡은 방패 (결정화)";
+                state.buffs.wallDef += 100;
+                state.logs.push(`[제 ${state.turn} 년차 사서] 🔥 [시련 극복!] 3성 영웅 '아리아'가 성벽을 사수하며 [성벽의 수호자]로 각성하고 보구를 결정화시켰습니다!`);
+            } else {
+                state.heroes.victoria.power += 120;
+                state.heroes.victoria.trauma += 35;
+                state.heroes.victoria.class = "혈염의 공성 광전사";
+                state.heroes.victoria.traits.push("복수심의 맹세");
+                state.logs.push(`[제 ${state.turn} 년차 사서] 💔 스승의 전사를 목격한 '빅토리아'의 정신이 꺾이며 [혈염의 공성 광전사]로 변화했습니다!`);
+            }
+            updateUI();
+        }
+
+        function executeSabotage(action) {
+            if (state.deterrence < 10) return;
+            state.deterrence -= 10;
+            if (action === 'disrupt_enemy_supply') {
+                state.logs.push(`[제 ${state.turn} 년차 사서] 🕵️‍♂️ [지하 공작] 적 대군의 보급 담당자를 매수하여 보급선을 차단했습니다!`);
+            } else {
+                state.logistics.armor += 10;
+                state.logs.push(`[제 ${state.turn} 년차 사서] 🏹 [지하 공작] 암시장 경로를 통해 정밀 수성 자재 10개를 몰래 입수했습니다!`);
+            }
+            updateUI();
+        }
+
+        function selectHero(heroId) {
+            state.selectedHero = heroId;
+            document.getElementById('heroCardAria').classList.toggle('selected', heroId === 'aria');
+            document.getElementById('heroCardVictoria').classList.toggle('selected', heroId === 'victoria');
+            updateUI();
+        }
+
+        // Initialize
+        resizeCanvas();
+        updateUI();
+    </script>
+</body>
+</html>
