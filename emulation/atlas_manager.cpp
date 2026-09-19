@@ -86,9 +86,11 @@ const std::vector<LocalChart>& AtlasManager::get_all_charts() const {
     return charts_;
 }
 
-float AtlasManager::compute_max_bottleneck_in_chart(const LocalChart& chart, const float* bottleneck_map) {
+float AtlasManager::compute_max_bottleneck_in_chart(
+    const LocalChart& chart, const float* bottleneck_map,
+    size_t dim_x, size_t dim_y, size_t dim_z) {
+
     float max_p = 0.0f;
-    size_t dim_x = 64, dim_y = 64, dim_z = 64;
 
     int min_x = std::max(0, static_cast<int>((chart.center[0] - chart.radius) * dim_x));
     int max_x = std::min(static_cast<int>(dim_x) - 1, static_cast<int>((chart.center[0] + chart.radius) * dim_x));
@@ -109,7 +111,8 @@ float AtlasManager::compute_max_bottleneck_in_chart(const LocalChart& chart, con
 }
 
 std::vector<AtlasManager::ChartScaleTrigger> AtlasManager::evaluate_chart_bottlenecks(
-    const float* host_bottleneck_map, float split_threshold, float merge_threshold) {
+    const float* host_bottleneck_map, float split_threshold, float merge_threshold,
+    size_t dim_x, size_t dim_y, size_t dim_z) {
 
     std::vector<ChartScaleTrigger> triggers;
     std::unordered_map<uint32_t, std::vector<uint32_t>> parent_to_children_map;
@@ -118,7 +121,8 @@ std::vector<AtlasManager::ChartScaleTrigger> AtlasManager::evaluate_chart_bottle
         const auto& node = pair.second;
         if (!node.chart_data.is_active || !node.is_leaf) continue;
 
-        float max_p = compute_max_bottleneck_in_chart(node.chart_data, host_bottleneck_map);
+        float max_p = compute_max_bottleneck_in_chart(
+            node.chart_data, host_bottleneck_map, dim_x, dim_y, dim_z);
 
         ChartScaleTrigger trigger;
         trigger.chart_id = node.chart_data.chart_id;
