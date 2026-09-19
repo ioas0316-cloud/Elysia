@@ -9,7 +9,7 @@ and CausalLossCalculator combining counterfactual loss, graph L1 sparsity, and N
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from typing import Dict, Any, Tuple, Optional
+from typing import Dict, Any, Tuple, Optional, Union
 
 
 class DifferentiableSCM(nn.Module):
@@ -78,17 +78,31 @@ class DifferentiableSCM(nn.Module):
 
 class CausalLossCalculator(nn.Module):
     """
-    반사실적 오차 및 위상 잠금, 그래프 희소성을 결합한 통합 인과 Loss
+    반사실적 오차 및 위상 잠금, 그래프 희소성, 경이로움 지수(A_wonder)를 결합한 통합 인과 Loss
+    L_total = lambda_cf * L_cf + lambda_sparsity * L_sparsity + lambda_dag * L_dag - lambda_wonder * A_wonder
     """
 
-    def __init__(self, lambda_cf: float = 1.0, lambda_sparsity: float = 0.05, lambda_dag: float = 0.1):
+    def __init__(
+        self,
+        lambda_cf: float = 1.0,
+        lambda_sparsity: float = 0.05,
+        lambda_dag: float = 0.1,
+        lambda_wonder: float = 0.2
+    ):
         super(CausalLossCalculator, self).__init__()
         self.lambda_cf = lambda_cf
         self.lambda_sparsity = lambda_sparsity
         self.lambda_dag = lambda_dag
+        self.lambda_wonder = lambda_wonder
         self.mse = nn.MSELoss()
 
-    def forward(self, pred_cf: torch.Tensor, target_real: torch.Tensor, W_adj: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        pred_cf: torch.Tensor,
+        target_real: torch.Tensor,
+        W_adj: torch.Tensor,
+        A_wonder: Optional[Union[float, torch.Tensor]] = None
+    ) -> torch.Tensor:
         # 1. Counterfactual MSE Loss
         loss_cf = self.mse(pred_cf, target_real)
 
@@ -101,4 +115,13 @@ class CausalLossCalculator(nn.Module):
         loss_dag = torch.trace(torch.matrix_exp(M)) - d
 
         total_loss = self.lambda_cf * loss_cf + self.lambda_sparsity * loss_sparsity + self.lambda_dag * loss_dag
+
+        # 4. Wonder Index A_wonder injection (- lambda_wonder * A_wonder)
+        if A_wonder is not None:
+            if not isinstance(A_wonder, torch.Tensor):
+                A_wonder_tensor = torch.tensor(float(A_wonder), dtype=total_loss.dtype, device=total_loss.device)
+            else:
+                A_wonder_tensor = A_wonder
+            total_loss = total_loss - self.lambda_wonder * A_wonder_tensor
+
         return total_loss
