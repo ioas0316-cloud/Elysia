@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Crystallizer (생각의 결정화) 3D Interactive Simulator</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        body {
+            background-color: #050811;
+            color: #d1dee8;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        /* Diegetic HUD & Controls Overlay */
+        #ui-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px;
+        }
+        .header-panel {
+            pointer-events: auto;
+            background: rgba(10, 16, 30, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 230, 255, 0.2);
+            border-radius: 12px;
+            padding: 18px 24px;
+            max-width: 540px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #00e6ff;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+        .header-desc {
+            font-size: 13px;
+            color: #8da4be;
+            line-height: 1.5;
+        }
+        .phase-stepper {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        .phase-btn {
+            flex: 1;
+            padding: 10px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            color: #a0b2c6;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+            pointer-events: auto;
+        }
+        .phase-btn:hover {
+            background: rgba(0, 230, 255, 0.15);
+            border-color: #00e6ff;
+            color: #ffffff;
+        }
+        .phase-btn.active {
+            background: linear-gradient(135deg, rgba(0, 230, 255, 0.3), rgba(0, 110, 255, 0.3));
+            border-color: #00e6ff;
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(0, 230, 255, 0.4);
+        }
+        /* Bottom Control Deck */
+        .control-deck {
+            pointer-events: auto;
+            background: rgba(10, 16, 30, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 230, 255, 0.2);
+            border-radius: 12px;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .control-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #00e6ff;
+            font-weight: 600;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .custom-slider {
+            -webkit-appearance: none;
+            width: 140px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            outline: none;
+        }
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #00e6ff;
+            cursor: pointer;
+            box-shadow: 0 0 8px #00e6ff;
+        }
+        .action-btn {
+            padding: 10px 18px;
+            background: rgba(0, 230, 255, 0.12);
+            border: 1px solid #00e6ff;
+            border-radius: 8px;
+            color: #00e6ff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            background: #00e6ff;
+            color: #050811;
+            box-shadow: 0 0 16px rgba(0, 230, 255, 0.6);
+        }
+        /* Right Side Telemetry Panel */
+        .telemetry-panel {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            pointer-events: auto;
+            background: rgba(10, 16, 30, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 230, 255, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+            width: 280px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            z-index: 11;
+        }
+        .telemetry-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .telemetry-val {
+            font-family: monospace;
+            font-weight: 700;
+            color: #00e6ff;
+        }
+        .bar-bg {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00e6ff, #0066ff);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        /* Diegetic Hover Tooltip */
+        #node-tooltip {
+            position: absolute;
+            padding: 8px 12px;
+            background: rgba(5, 12, 24, 0.9);
+            border: 1px solid #00e6ff;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #00e6ff;
+            pointer-events: none;
+            display: none;
+            z-index: 20;
+            box-shadow: 0 0 12px rgba(0, 230, 255, 0.4);
+        }
+    </style>
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div id="ui-overlay">
+        <!-- Header & Phase Selector -->
+        <div class="header-panel">
+            <div class="header-title">
+                <span>❖ COGNITIVE CRYSTALLIZER</span>
+            </div>
+            <div class="header-desc">
+                생각의 상전이 시뮬레이터: 무작위 아이디어(기체)에서 와류(액체)를 거쳐 논리 구조체(고체)로 결정화 및 전단 파쇄(Shear)를 실시간 조작합니다.
+            </div>
+            <div class="phase-stepper">
+                <button class="phase-btn active" id="btn-gas" onclick="setPhase('gas')">1. Gas Phase</button>
+                <button class="phase-btn" id="btn-liquid" onclick="setPhase('liquid')">2. Liquid Phase</button>
+                <button class="phase-btn" id="btn-solid" onclick="setPhase('solid')">3. Solid Phase</button>
+                <button class="phase-btn" id="btn-shear" onclick="setPhase('shear')">4. Shear Fracture</button>
+            </div>
+        </div>
+
+        <!-- Telemetry HUD -->
+        <div class="telemetry-panel">
+            <div class="control-label" style="margin-bottom: 12px;">Phase State Telemetry</div>
+
+            <div class="telemetry-row">
+                <span>Phase State:</span>
+                <span class="telemetry-val" id="tele-state">GAS (기체)</span>
+            </div>
+            <div class="telemetry-row">
+                <span>Coherence Index (Φ):</span>
+                <span class="telemetry-val" id="tele-phi">0.12</span>
+            </div>
+            <div class="bar-bg"><div class="bar-fill" id="bar-phi"></div></div>
+
+            <div class="telemetry-row">
+                <span>Macro-Node Count:</span>
+                <span class="telemetry-val" id="tele-macro">1</span>
+            </div>
+            <div class="telemetry-row">
+                <span>Time Dilation (γ):</span>
+                <span class="telemetry-val" id="tele-gamma">1.480</span>
+            </div>
+            <div class="telemetry-row">
+                <span>CSR Edges Active:</span>
+                <span class="telemetry-val" id="tele-edges">124</span>
+            </div>
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="control-deck">
+            <div class="control-group">
+                <div class="control-label">Entropy (Temperature) Dial</div>
+                <div class="slider-container">
+                    <input type="range" min="0.1" max="5.0" step="0.1" value="3.0" class="custom-slider" id="entropy-slider" oninput="onEntropyChange(this.value)">
+                    <span id="entropy-val" style="font-family: monospace; color: #00e6ff;">3.0</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">Diegetic Features</div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="action-btn" onclick="toggleXRay()">CSR X-Ray Toggle</button>
+                    <button class="action-btn" onclick="toggleAudio()">Spatial Audio On/Off</button>
+                </div>
+            </div>
+
+            <button class="action-btn" style="background: linear-gradient(135deg, #ff3366, #ff0055); border-color: #ff3366; color: white;" onclick="triggerShearAction()">
+                ⚡ Apply Shear Fracture
+            </button>
+        </div>
+    </div>
+
+    <!-- Node Hover Tooltip -->
+    <div id="node-tooltip"></div>
+
+    <script>
+        // --- Web Audio API Procedural Spatial Audio ---
+        let audioCtx = null;
+        let humOsc = null;
+        let noiseGain = null;
+        let audioEnabled = false;
+
+        function initAudio() {
+            if (audioCtx) return;
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext();
+
+            // Low frequency hum
+            humOsc = audioCtx.createOscillator();
+            humOsc.type = 'sine';
+            humOsc.frequency.setValueAtTime(60, audioCtx.currentTime);
+            const humGain = audioCtx.createGain();
+            humGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            humOsc.connect(humGain);
+            humGain.connect(audioCtx.destination);
+            humOsc.start();
+
+            // Noise buffer
+            const bufferSize = audioCtx.sampleRate * 2;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(300, audioCtx.currentTime);
+
+            noiseGain = audioCtx.createGain();
+            noiseGain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+
+            whiteNoise.connect(filter);
+            filter.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+            whiteNoise.start();
+        }
+
+        function toggleAudio() {
+            if (!audioCtx) initAudio();
+            audioEnabled = !audioEnabled;
+            if (audioCtx) {
+                if (audioEnabled) audioCtx.resume();
+                else audioCtx.suspend();
+            }
+        }
+
+        function playPhaseSound(phase) {
+            if (!audioCtx || !audioEnabled) return;
+            const now = audioCtx.currentTime;
+            if (phase === 'solid') {
+                // High frequency crystal click
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.exponentialRampToValueAtTime(1760, now + 0.1);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (phase === 'shear') {
+                // Harsh fracture shatter noise
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(55, now + 0.3);
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            }
+        }
+
+        // --- Three.js 3D Scene & Diegetic Framework ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050811, 0.03);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 5, 12);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x1a2b4c, 1.5);
+        scene.add(ambientLight);
+
+        const pointLight1 = new THREE.PointLight(0x00e6ff, 2, 30);
+        pointLight1.position.set(5, 8, 5);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0xff0066, 1.5, 30);
+        pointLight2.position.set(-5, -4, -5);
+        scene.add(pointLight2);
+
+        // --- Simulation State ---
+        const NUM_NODES = 80;
+        let currentPhase = 'gas'; // 'gas', 'liquid', 'solid', 'shear'
+        let entropy = 3.0;
+        let xRayEnabled = false;
+
+        const nodePositions = [];
+        const nodeVelocities = [];
+        const nodePhases = []; // 0 = Gas, 1 = Liquid, 2 = Solid
+
+        // Initialize Nodes
+        for (let i = 0; i < NUM_NODES; i++) {
+            nodePositions.push(new THREE.Vector3(
+                (Math.random() - 0.5) * 8,
+                (Math.random() - 0.5) * 8,
+                (Math.random() - 0.5) * 8
+            ));
+            nodeVelocities.push(new THREE.Vector3(
+                (Math.random() - 0.5) * 0.1,
+                (Math.random() - 0.5) * 0.1,
+                (Math.random() - 0.5) * 0.1
+            ));
+            nodePhases.push(0);
+        }
+
+        // --- Visual Objects ---
+        // 1. Particle Cloud (Gas Phase)
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(NUM_NODES * 3);
+        const particleColors = new Float32Array(NUM_NODES * 3);
+
+        for (let i = 0; i < NUM_NODES; i++) {
+            particlePositions[i * 3] = nodePositions[i].x;
+            particlePositions[i * 3 + 1] = nodePositions[i].y;
+            particlePositions[i * 3 + 2] = nodePositions[i].z;
+
+            particleColors[i * 3] = 0.0;
+            particleColors[i * 3 + 1] = 0.9;
+            particleColors[i * 3 + 2] = 1.0;
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+        particleGeo.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+        const particleMat = new THREE.PointsMaterial({
+            size: 0.25,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.85,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particleCloud = new THREE.Points(particleGeo, particleMat);
+        scene.add(particleCloud);
+
+        // 2. Dynamic Edges (CSR Topology)
+        const edgeGeo = new THREE.BufferGeometry();
+        const MAX_EDGES = NUM_NODES * NUM_NODES;
+        const edgePositions = new Float32Array(MAX_EDGES * 6);
+        edgeGeo.setAttribute('position', new THREE.BufferAttribute(edgePositions, 3));
+
+        const edgeMat = new THREE.LineBasicMaterial({
+            color: 0x00e6ff,
+            transparent: true,
+            opacity: 0.4,
+            blending: THREE.AdditiveBlending
+        });
+
+        const edgeLines = new THREE.LineSegments(edgeGeo, edgeMat);
+        scene.add(edgeLines);
+
+        // 3. Diegetic Phase State Ring (Hologram Ring)
+        const ringGeo = new THREE.TorusGeometry(3.5, 0.04, 16, 100);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0x00e6ff, wireframe: true, transparent: true, opacity: 0.6 });
+        const phaseRing = new THREE.Mesh(ringGeo, ringMat);
+        scene.add(phaseRing);
+
+        // 4. Diegetic Focus Vector Frustum
+        const frustumGeo = new THREE.ConeGeometry(2.5, 6, 16, 1, true);
+        const frustumMat = new THREE.MeshBasicMaterial({ color: 0x00e6ff, wireframe: true, transparent: true, opacity: 0.2 });
+        const focusFrustum = new THREE.Mesh(frustumGeo, frustumMat);
+        focusFrustum.rotation.x = Math.PI / 2;
+        scene.add(focusFrustum);
+
+        // 5. Solid SDF Crystal Surface Shell (Macro-Node)
+        const crystalGeo = new THREE.IcosahedronGeometry(2.8, 2);
+        const crystalMat = new THREE.MeshPhysicalMaterial({
+            color: 0x00e6ff,
+            emissive: 0x002244,
+            roughness: 0.1,
+            metalness: 0.1,
+            transmission: 0.8,
+            transparent: true,
+            opacity: 0.0, // Invisible until Solid state
+            wireframe: false
+        });
+        const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
+        scene.add(crystalMesh);
+
+        // 6. CSR Topology X-Ray Wireframe Shell
+        const xrayGeo = new THREE.IcosahedronGeometry(2.82, 1);
+        const xrayMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.0 });
+        const xrayMesh = new THREE.Mesh(xrayGeo, xrayMat);
+        scene.add(xrayMesh);
+
+        // --- Interaction & State Management ---
+        function setPhase(phase) {
+            currentPhase = phase;
+            document.querySelectorAll('.phase-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${phase}`).classList.add('active');
+
+            const teleState = document.getElementById('tele-state');
+            const slider = document.getElementById('entropy-slider');
+
+            if (phase === 'gas') {
+                entropy = 3.0;
+                teleState.innerText = 'GAS (기체)';
+                teleState.style.color = '#00e6ff';
+            } else if (phase === 'liquid') {
+                entropy = 1.0;
+                teleState.innerText = 'LIQUID (액체)';
+                teleState.style.color = '#ffcc00';
+            } else if (phase === 'solid') {
+                entropy = 0.1;
+                teleState.innerText = 'SOLID (고체 - Macro-Node)';
+                teleState.style.color = '#00ff99';
+                playPhaseSound('solid');
+            } else if (phase === 'shear') {
+                entropy = 4.5;
+                teleState.innerText = 'SHEAR (파쇄 재구성)';
+                teleState.style.color = '#ff3366';
+                triggerShearAction();
+            }
+
+            slider.value = entropy;
+            document.getElementById('entropy-val').innerText = entropy.toFixed(1);
+        }
+
+        function onEntropyChange(val) {
+            entropy = parseFloat(val);
+            document.getElementById('entropy-val').innerText = entropy.toFixed(1);
+        }
+
+        function toggleXRay() {
+            xRayEnabled = !xRayEnabled;
+        }
+
+        function triggerShearAction() {
+            playPhaseSound('shear');
+            // Apply turbulent shatter impulse
+            for (let i = 0; i < NUM_NODES; i++) {
+                nodeVelocities[i].set(
+                    (Math.random() - 0.5) * 1.5,
+                    (Math.random() - 0.5) * 1.5,
+                    (Math.random() - 0.5) * 1.5
+                );
+            }
+            crystalMat.opacity = 0.0;
+            xrayMat.opacity = 0.0;
+        }
+
+        // --- Raycasting for Diegetic Pointer Focus ---
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let targetFocusPoint = new THREE.Vector3(0, 0, 0);
+
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+            raycaster.ray.intersectPlane(plane, targetFocusPoint);
+
+            focusFrustum.position.lerp(targetFocusPoint, 0.1);
+        });
+
+        // Resize Listener
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- Main Simulation & Animation Loop ---
+        let clock = new THREE.Clock();
+        let frameCount = 0;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const dt = clock.getDelta();
+            frameCount++;
+
+            controls.update();
+
+            // 1. Update Physics Kinematics based on Phase & Entropy
+            let activeEdges = 0;
+            const posAttr = particleGeo.attributes.position;
+            const colAttr = particleGeo.attributes.color;
+            const edgePos = edgeGeo.attributes.position;
+
+            let avgPhi = 0.0;
+
+            for (let i = 0; i < NUM_NODES; i++) {
+                const pos = nodePositions[i];
+                const vel = nodeVelocities[i];
+
+                if (currentPhase === 'gas') {
+                    // Random Brownian floating + Focus Vector attraction
+                    vel.add(new THREE.Vector3(
+                        (Math.random() - 0.5) * entropy * 0.02,
+                        (Math.random() - 0.5) * entropy * 0.02,
+                        (Math.random() - 0.5) * entropy * 0.02
+                    ));
+                    // Attract towards focus frustum
+                    const dirToFocus = new THREE.Vector3().subVectors(targetFocusPoint, pos).multiplyScalar(0.005);
+                    vel.add(dirToFocus);
+                    vel.multiplyScalar(0.95);
+                } else if (currentPhase === 'liquid') {
+                    // Vortex Flow around Y axis
+                    const r = Math.sqrt(pos.x * pos.x + pos.z * pos.z) + 0.1;
+                    const vortexForce = new THREE.Vector3(-pos.z / r, (Math.random() - 0.5) * 0.2, pos.x / r).multiplyScalar(0.05);
+                    vel.lerp(vortexForce, 0.1);
+                } else if (currentPhase === 'solid') {
+                    // Pull strongly towards center of mass to lock crystal lattice
+                    vel.lerp(new THREE.Vector3(0, 0, 0), 0.1);
+                    pos.lerp(new THREE.Vector3(
+                        (pos.x > 0 ? 1 : -1) * 1.2,
+                        (pos.y > 0 ? 1 : -1) * 1.2,
+                        (pos.z > 0 ? 1 : -1) * 1.2
+                    ), 0.05);
+                } else if (currentPhase === 'shear') {
+                    // Scatter away
+                    vel.multiplyScalar(0.98);
+                }
+
+                pos.add(vel);
+
+                // Boundary bounce
+                if (pos.length() > 6.0) pos.multiplyScalar(0.95);
+
+                posAttr.setXYZ(i, pos.x, pos.y, pos.z);
+
+                // Update particle colors based on state
+                if (currentPhase === 'gas') colAttr.setXYZ(i, 0.0, 0.9, 1.0);
+                else if (currentPhase === 'liquid') colAttr.setXYZ(i, 1.0, 0.8, 0.0);
+                else if (currentPhase === 'solid') colAttr.setXYZ(i, 0.0, 1.0, 0.6);
+                else colAttr.setXYZ(i, 1.0, 0.2, 0.4);
+            }
+
+            // 2. Compute CSR Topology Edges
+            let edgeIdx = 0;
+            const linkDistSq = currentPhase === 'gas' ? 2.5 : (currentPhase === 'liquid' ? 6.0 : 12.0);
+
+            for (let i = 0; i < NUM_NODES; i++) {
+                for (let j = i + 1; j < NUM_NODES; j++) {
+                    const distSq = nodePositions[i].distanceToSquared(nodePositions[j]);
+                    if (distSq < linkDistSq) {
+                        edgePositions[edgeIdx * 6] = nodePositions[i].x;
+                        edgePositions[edgeIdx * 6 + 1] = nodePositions[i].y;
+                        edgePositions[edgeIdx * 6 + 2] = nodePositions[i].z;
+                        edgePositions[edgeIdx * 6 + 3] = nodePositions[j].x;
+                        edgePositions[edgeIdx * 6 + 4] = nodePositions[j].y;
+                        edgePositions[edgeIdx * 6 + 5] = nodePositions[j].z;
+                        edgeIdx++;
+                    }
+                }
+            }
+
+            edgeGeo.setDrawRange(0, edgeIdx * 2);
+            edgeGeo.attributes.position.needsUpdate = true;
+            posAttr.needsUpdate = true;
+            colAttr.needsUpdate = true;
+
+            // 3. Update Diegetic Hologram Ring & Surface Shells
+            phaseRing.rotation.y += 0.01;
+            phaseRing.rotation.z += 0.005;
+
+            if (currentPhase === 'solid') {
+                crystalMat.opacity = THREE.MathUtils.lerp(crystalMat.opacity, 0.75, 0.05);
+                xrayMat.opacity = xRayEnabled ? 0.9 : 0.0;
+                avgPhi = 4.85;
+            } else {
+                crystalMat.opacity = THREE.MathUtils.lerp(crystalMat.opacity, 0.0, 0.1);
+                xrayMat.opacity = 0.0;
+                avgPhi = currentPhase === 'gas' ? 0.15 : (currentPhase === 'liquid' ? 1.85 : 0.4);
+            }
+
+            crystalMesh.rotation.y += 0.005;
+            xrayMesh.rotation.y += 0.005;
+
+            // 4. Update HUD Telemetry
+            document.getElementById('tele-phi').innerText = avgPhi.toFixed(2);
+            document.getElementById('bar-phi').style.width = `${Math.min(100, (avgPhi / 5.0) * 100)}%`;
+            document.getElementById('tele-macro').innerText = currentPhase === 'solid' ? '1 (Macro-Node)' : NUM_NODES.toString();
+            document.getElementById('tele-edges').innerText = edgeIdx.toString();
+            const gamma = 1.0 + 0.5 * Math.pow(1.0 - Math.min(1.0, avgPhi / 5.0), 2);
+            document.getElementById('tele-gamma').innerText = gamma.toFixed(3);
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
