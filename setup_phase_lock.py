@@ -5,6 +5,7 @@ from torch.utils.cpp_extension import BuildExtension, CppExtension, CUDAExtensio
 
 sources = [
     'src/phase_lock_engine.cpp',
+    'src/sensory_phase_core.cpp',
     'src/bindings/pybind_phase_lock.cpp'
 ]
 
@@ -13,6 +14,7 @@ extra_compile_args = {'cxx': ['-O3', '-std=c++20']}
 
 if torch.cuda.is_available():
     sources.append('src/phase_lock_kernel.cu')
+    sources.append('src/sensory_phase_core_kernel.cu')
     extra_compile_args['cxx'].append('-DWITH_CUDA')
     extra_compile_args['nvcc'] = ['-O3', '-std=c++20']
     ext_modules = [
