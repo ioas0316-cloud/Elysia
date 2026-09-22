@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia - Topological Self-Organization & Epigenetic Imprinting Engine</title>
+    <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --card-bg: #131b2e;
+            --accent-cyan: #00f2fe;
+            --accent-blue: #4facfe;
+            --accent-magenta: #ff0844;
+            --accent-amber: #ffb199;
+            --text-light: #e0e6ed;
+            --text-muted: #8a99ad;
+            --border-glow: #1f2d4a;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #0d1527 0%, #17243e 100%);
+            border-radius: 16px;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.4rem;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-cyan);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            color: var(--accent-cyan);
+            border-bottom: 1px solid var(--border-glow);
+            padding-bottom: 10px;
+        }
+
+        .stat-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 6px 0;
+            border-bottom: 1px dashed #1c2b48;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-gut { background-color: rgba(255, 8, 68, 0.2); color: #ff0844; border: 1px solid #ff0844; }
+        .badge-heart { background-color: rgba(255, 177, 153, 0.2); color: #ffb199; border: 1px solid #ffb199; }
+        .badge-brain { background-color: rgba(0, 242, 254, 0.2); color: #00f2fe; border: 1px solid #00f2fe; }
+
+        canvas {
+            width: 100%;
+            height: 260px;
+            background-color: #0c1220;
+            border-radius: 8px;
+            border: 1px solid #1a2744;
+            margin-top: 12px;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #101c33 0%, #0d1629 100%);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 18px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-glow);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Elysia Topological Self-Organization Engine</h1>
+        <div class="subtitle">
+            Non-Backpropagation Causal Imprinting, Hebbian Phase Plasticity & Epigenetic Generational Inheritance
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <!-- Agent Alpha Profile -->
+        <div class="card">
+            <h2>Agent Alpha (Gen-1: Gut-Heavy) <span class="badge badge-gut">Challenger Type 8</span></h2>
+            <div class="stat-group">
+                <span class="stat-label">Gut-Brain-Heart Triad</span>
+                <span class="stat-value">50% / 25% / 25%</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Carved Attractor Valleys</span>
+                <span class="stat-value">45</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Metric Deformation Norm</span>
+                <span class="stat-value">26.210</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Gauge Field Energy</span>
+                <span class="stat-value">41.249</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Active Phase Lock Coherence</span>
+                <span class="stat-value">0.3435</span>
+            </div>
+        </div>
+
+        <!-- Agent Beta Profile -->
+        <div class="card">
+            <h2>Agent Beta (Gen-1: Heart-Heavy) <span class="badge badge-heart">Helper Type 2</span></h2>
+            <div class="stat-group">
+                <span class="stat-label">Gut-Brain-Heart Triad</span>
+                <span class="stat-value">20% / 20% / 60%</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Carved Attractor Valleys</span>
+                <span class="stat-value">45</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Metric Deformation Norm</span>
+                <span class="stat-value">27.425</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Gauge Field Energy</span>
+                <span class="stat-value">42.163</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Active Phase Lock Coherence</span>
+                <span class="stat-value">0.3304</span>
+            </div>
+        </div>
+
+        <!-- Agent Alpha Gen-2 Profile -->
+        <div class="card">
+            <h2>Agent Alpha (Gen-2 Inherited) <span class="badge badge-brain">Epigenetic Heir</span></h2>
+            <div class="stat-group">
+                <span class="stat-label">Inherited Primal Attractors</span>
+                <span class="stat-value">Epigenetically Compressed</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Carved Attractor Valleys</span>
+                <span class="stat-value">0</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Initial Metric Deformation</span>
+                <span class="stat-value">11.287</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Innate Temperament Triad</span>
+                <span class="stat-value">0.50 / 0.25 / 0.25</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Associative Recall Visualizations -->
+    <div class="grid-container">
+        <div class="card" style="grid-column: span 2;">
+            <h2>Associative Memory Domino Effect (Single Port Excitation -> Cascading Recall)</h2>
+            <canvas id="recallCanvas"></canvas>
+        </div>
+    </div>
+
+    <div class="summary-box">
+        <h3 style="margin-top:0; color:var(--accent-cyan);">Mechanism Verification Summary</h3>
+        <p>1. <strong>No Backpropagation / No Loss Minimization:</strong> Internal manifold metric h_ij and gauge field A_mu are continuously carved by real-time sensory wave resonance.</p>
+        <p>2. <strong>Spontaneous Geodesic Deflection:</strong> Trajectory velocity vectors naturally bend along Christoffel symbols upon field collisions.</p>
+        <p>3. <strong>Epigenetic Transmission:</strong> Lifetime experience carved into spatial metric h_ij is compressed into TopologicalDNA for instant instinctual inheritance in Gen-2.</p>
+    </div>
+
+    <script>
+        // Render Associative Recall Chart
+        const recallData = {"VISION": 0.8866046667098999, "AUDITION": 0.7070581912994385, "SOMATOSENSORY": 1.787915825843811, "OLFACTION": 0.0, "GUSTATION": 0.0};
+        const canvas = document.getElementById('recallCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawRecallChart() {
+            const width = canvas.width = canvas.clientWidth;
+            const height = canvas.height = canvas.clientHeight;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const ports = Object.keys(recallData);
+            const values = Object.values(recallData);
+            const maxVal = Math.max(...values, 1.0);
+
+            const barWidth = width / (ports.length * 2);
+            const colors = ['#00f2fe', '#4facfe', '#ff0844', '#ffb199', '#a8ff78'];
+
+            ports.forEach((port, idx) => {
+                const val = values[idx];
+                const barHeight = (val / maxVal) * (height - 80);
+                const x = 50 + idx * (barWidth + 40);
+                const y = height - 40 - barHeight;
+
+                // Bar fill
+                ctx.fillStyle = colors[idx % colors.length];
+                ctx.fillRect(x, y, barWidth, barHeight);
+
+                // Label
+                ctx.fillStyle = '#8a99ad';
+                ctx.font = '12px Segoe UI';
+                ctx.textAlign = 'center';
+                ctx.fillText(port, x + barWidth/2, height - 15);
+
+                // Value
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 12px Courier New';
+                ctx.fillText(val.toFixed(2), x + barWidth/2, y - 8);
+            });
+        }
+
+        window.onload = drawRecallChart;
+        window.onresize = drawRecallChart;
+    </script>
+
+    <footer>
+        Elysia Causal Intelligence Engine &bull; Topological Self-Organization & Epigenetic Imprinting Module
+    </footer>
+</body>
+</html>

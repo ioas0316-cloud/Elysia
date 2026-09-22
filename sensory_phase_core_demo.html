@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elysia - Pure Sensory-Phase Core & Cognitive Digital Twin 3D Inspector</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #05070a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e0e6ed;
+    }
+
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    #renderCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    #ui-overlay {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 10;
+      width: 360px;
+      background: rgba(10, 15, 25, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 200, 255, 0.25);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+    }
+
+    h1 {
+      font-size: 15px;
+      margin: 0 0 8px 0;
+      color: #00d2ff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: bold;
+      color: #7f8c8d;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 3px;
+    }
+
+    .control-group {
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    label {
+      font-size: 11px;
+      color: #a0aab5;
+    }
+
+    input[type="range"] {
+      width: 150px;
+      accent-color: #00d2ff;
+    }
+
+    .val-display {
+      font-size: 11px;
+      font-family: monospace;
+      color: #00ffcc;
+      width: 35px;
+      text-align: right;
+    }
+
+    #metrics-panel {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      z-index: 10;
+      width: 360px;
+      background: rgba(10, 15, 25, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 255, 200, 0.25);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .badge {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .badge-solid { background: rgba(0, 255, 150, 0.2); color: #00ff96; border: 1px solid #00ff96; }
+    .badge-liquid { background: rgba(0, 150, 255, 0.2); color: #00a0ff; border: 1px solid #00a0ff; }
+    .badge-gas { background: rgba(200, 200, 200, 0.2); color: #cccccc; border: 1px solid #cccccc; }
+    .badge-shear { background: rgba(255, 50, 100, 0.2); color: #ff3264; border: 1px solid #ff3264; }
+
+    .btn-group {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    button {
+      flex: 1;
+      background: rgba(0, 210, 255, 0.15);
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      color: #00d2ff;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: rgba(0, 210, 255, 0.3);
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container">
+    <canvas id="renderCanvas"></canvas>
+  </div>
+
+  <div id="ui-overlay">
+    <h1>Elysia Pure Sensory-Phase Core</h1>
+
+    <div class="section-title">Sensory Stream Inputs S_i(t)</div>
+
+    <div class="control-group">
+      <label>Intent Tension (τ)</label>
+      <input type="range" id="param-tau" min="0" max="1" step="0.01" value="0.6">
+      <span class="val-display" id="val-tau">0.60</span>
+    </div>
+
+    <div class="control-group">
+      <label>Tension Rate (dτ/dt)</label>
+      <input type="range" id="param-dtau" min="-3" max="3" step="0.1" value="0.0">
+      <span class="val-display" id="val-dtau">0.00</span>
+    </div>
+
+    <div class="control-group">
+      <label>Audio Bass (A_L)</label>
+      <input type="range" id="param-al" min="0" max="2" step="0.05" value="0.5">
+      <span class="val-display" id="val-al">0.50</span>
+    </div>
+
+    <div class="control-group">
+      <label>Audio Mid (A_M)</label>
+      <input type="range" id="param-am" min="0" max="2" step="0.05" value="0.7">
+      <span class="val-display" id="val-am">0.70</span>
+    </div>
+
+    <div class="control-group">
+      <label>Audio Treble High (A_H)</label>
+      <input type="range" id="param-ah" min="0" max="2" step="0.05" value="0.0">
+      <span class="val-display" id="val-ah">0.00</span>
+    </div>
+
+    <div class="control-group">
+      <label>Velocity Vector |v_i|</label>
+      <input type="range" id="param-velocity" min="0" max="3" step="0.1" value="1.2">
+      <span class="val-display" id="val-velocity">1.20</span>
+    </div>
+
+    <div class="section-title">Cognitive Digital Twin Anchors</div>
+    <div class="btn-group">
+      <button id="btn-anchor-chem">Chemistry (Solid Shell)</button>
+      <button id="btn-anchor-math">Math (Geodesic Proof)</button>
+    </div>
+    <div class="btn-group">
+      <button id="btn-anchor-music">Music (Resonance Wave)</button>
+      <button id="btn-anchor-lit">Literature (Curvature)</button>
+    </div>
+
+    <div class="section-title">Agent Mechanics Controls</div>
+    <div class="btn-group">
+      <button id="btn-trigger-jump">Trigger Phase Jump (Tunneling)</button>
+      <button id="btn-reset-agents">Reset Agents</button>
+    </div>
+  </div>
+
+  <div id="metrics-panel">
+    <div class="metric-row">
+      <span>Phase Coherence (Φ_i):</span>
+      <span id="metric-phase" style="color: #00ffcc;">1.00</span>
+    </div>
+    <div class="metric-row">
+      <span>Time Dilation Factor (γ_i):</span>
+      <span id="metric-gamma">1.00</span>
+    </div>
+    <div class="metric-row">
+      <span>Phase State:</span>
+      <span id="metric-state" class="badge badge-solid">SOLID (Lock)</span>
+    </div>
+    <div class="metric-row">
+      <span>Geodesic Divergence (GDI):</span>
+      <span id="metric-gdi" style="color: #ff9900;">-1.52 (Convergence)</span>
+    </div>
+    <div class="metric-row">
+      <span>Saddle Hessian Det(H):</span>
+      <span id="metric-hessian">-0.18 (Separatrix Active)</span>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('renderCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // UI Input Bindings
+    const inputs = {
+      tau: document.getElementById('param-tau'),
+      dtau: document.getElementById('param-dtau'),
+      al: document.getElementById('param-al'),
+      am: document.getElementById('param-am'),
+      ah: document.getElementById('param-ah'),
+      velocity: document.getElementById('param-velocity')
+    };
+
+    function updateParamLabels() {
+      document.getElementById('val-tau').innerText = parseFloat(inputs.tau.value).toFixed(2);
+      document.getElementById('val-dtau').innerText = parseFloat(inputs.dtau.value).toFixed(2);
+      document.getElementById('val-al').innerText = parseFloat(inputs.al.value).toFixed(2);
+      document.getElementById('val-am').innerText = parseFloat(inputs.am.value).toFixed(2);
+      document.getElementById('val-ah').innerText = parseFloat(inputs.ah.value).toFixed(2);
+      document.getElementById('val-velocity').innerText = parseFloat(inputs.velocity.value).toFixed(2);
+    }
+    Object.values(inputs).forEach(input => input.addEventListener('input', updateParamLabels));
+
+    // Digital Twin Anchors
+    let anchorWavePerturb = 0.0;
+    document.getElementById('btn-anchor-chem').addEventListener('click', () => {
+      inputs.al.value = 1.8;
+      inputs.tau.value = 0.9;
+      inputs.ah.value = 0.0;
+      anchorWavePerturb = 0.2;
+      updateParamLabels();
+    });
+    document.getElementById('btn-anchor-math').addEventListener('click', () => {
+      inputs.ah.value = 0.0;
+      inputs.dtau.value = 0.0;
+      anchorWavePerturb = -0.05;
+      updateParamLabels();
+    });
+    document.getElementById('btn-anchor-music').addEventListener('click', () => {
+      inputs.am.value = 1.9;
+      anchorWavePerturb = 0.4;
+      updateParamLabels();
+    });
+    document.getElementById('btn-anchor-lit').addEventListener('click', () => {
+      inputs.tau.value = 0.3;
+      anchorWavePerturb = 0.1;
+      updateParamLabels();
+    });
+
+    // Particle nodes for GDI visualization
+    const nodeCount = 180;
+    const nodes = [];
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
+        x: (Math.random() - 0.5) * 8.0,
+        y: (Math.random() - 0.5) * 5.0,
+        z: (Math.random() - 0.5) * 5.0,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5
+      });
+    }
+
+    // Agents
+    const agents = [];
+    for (let i = 0; i < 6; i++) {
+      agents.push({
+        x: -3.0 + (Math.random() - 0.5) * 0.5,
+        y: (Math.random() - 0.5) * 0.8,
+        vx: 1.2,
+        energy: 100.0
+      });
+    }
+
+    document.getElementById('btn-trigger-jump').addEventListener('click', () => {
+      agents.forEach(ag => {
+        ag.x += 1.8; // Phase Tunneling
+        ag.energy -= 25.0;
+      });
+    });
+
+    document.getElementById('btn-reset-agents').addEventListener('click', () => {
+      agents.forEach(ag => {
+        ag.x = -3.0 + (Math.random() - 0.5) * 0.5;
+        ag.y = (Math.random() - 0.5) * 0.8;
+        ag.vx = 1.2;
+      });
+    });
+
+    let startTime = Date.now();
+
+    function draw3DView() {
+      requestAnimationFrame(draw3DView);
+      const time = (Date.now() - startTime) * 0.001;
+
+      const tau = parseFloat(inputs.tau.value);
+      const dtau = parseFloat(inputs.dtau.value);
+      const AL = parseFloat(inputs.al.value);
+      const AM = parseFloat(inputs.am.value);
+      const AH = parseFloat(inputs.ah.value);
+      const velMag = parseFloat(inputs.velocity.value);
+
+      // 1. Calculate Phase Coherence Phi
+      const alignment = Math.pow(Math.cos(0.0), 2);
+      const tensionPenalty = Math.exp(-1.0 * Math.abs(dtau));
+      const hfPenalty = 1.0 - Math.tanh(0.5 * AH);
+      const phase = alignment * tensionPenalty * hfPenalty;
+
+      // 2. Time Dilation Gamma
+      const gamma = 1.0 + 3.0 * (1.0 - phase) * Math.tanh(velMag + Math.abs(dtau));
+
+      // Metrics UI Update
+      document.getElementById('metric-phase').innerText = phase.toFixed(2);
+      document.getElementById('metric-gamma').innerText = gamma.toFixed(2);
+
+      const stateBadge = document.getElementById('metric-state');
+      if (Math.abs(dtau) > 2.0) {
+        stateBadge.innerText = 'SHEAR (Breakdown)';
+        stateBadge.className = 'badge badge-shear';
+      } else if (phase >= 0.8) {
+        stateBadge.innerText = 'SOLID (Lock)';
+        stateBadge.className = 'badge badge-solid';
+      } else if (phase >= 0.4) {
+        stateBadge.innerText = 'LIQUID (Vortex)';
+        stateBadge.className = 'badge badge-liquid';
+      } else {
+        stateBadge.innerText = 'GAS (Diffusion)';
+        stateBadge.className = 'badge badge-gas';
+      }
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const scale = canvas.width / 8.0;
+
+      // Clear Canvas
+      ctx.fillStyle = '#05070a';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Grid / Spacetime Curvature Lines
+      ctx.strokeStyle = 'rgba(0, 150, 255, 0.08)';
+      ctx.lineWidth = 1;
+      for (let x = -4; x <= 4; x += 0.8) {
+        ctx.beginPath();
+        for (let z = -3; z <= 3; z += 0.2) {
+          let px = cx + (x + Math.sin(time + z) * 0.1 * (1.0 - phase)) * scale;
+          let py = cy + z * scale;
+          if (z === -3) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+
+      // Draw Separatrix Wall Surface (Raymarching Equipotential Level Set f(p) = 0)
+      ctx.save();
+      const wallX = cx + (0.0 + Math.sin(time * 1.5) * 0.1) * scale;
+      const gradient = ctx.createLinearGradient(wallX - 30, 0, wallX + 30, 0);
+      gradient.addColorStop(0, 'rgba(255, 200, 0, 0.0)');
+      gradient.addColorStop(0.5, `rgba(255, 210, 50, ${0.4 + phase * 0.4})`);
+      gradient.addColorStop(1, 'rgba(255, 200, 0, 0.0)');
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(wallX - 40, cy - scale * 2.5, 80, scale * 5.0);
+
+      // Separatrix Membrane Line
+      ctx.strokeStyle = `rgba(255, 220, 100, ${0.7 + phase * 0.3})`;
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#ffd700';
+      ctx.shadowBlur = 15;
+      ctx.beginPath();
+      for (let y = -2.5; y <= 2.5; y += 0.1) {
+        let wave = (0.1 + anchorWavePerturb) * Math.sin(4.0 * y + time * 2.0);
+        let px = cx + wave * scale;
+        let py = cy + y * scale;
+        if (y === -2.5) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Draw Attractor Basin Labels
+      ctx.font = '12px monospace';
+      ctx.fillStyle = '#00a0ff';
+      ctx.fillText('Attractor A: Consensus Well (GDI < 0)', cx - scale * 3.0, cy - scale * 2.0);
+      ctx.fillStyle = '#ff3264';
+      ctx.fillText('Attractor B: Divergence Saddle (GDI > 0)', cx + scale * 0.8, cy - scale * 2.0);
+
+      // Draw GDI Particles
+      nodes.forEach(nd => {
+        nd.x += nd.vx * 0.01;
+        if (nd.x > 4.0) nd.x = -4.0;
+        if (nd.x < -4.0) nd.x = 4.0;
+
+        let px = cx + nd.x * scale;
+        let py = cy + nd.y * scale;
+
+        let gdi = Math.sin(nd.x * 0.5) * Math.cos(nd.y * 0.5) * 3.0;
+
+        ctx.beginPath();
+        ctx.arc(px, py, phase >= 0.8 ? 4 : 2.5, 0, Math.PI * 2);
+        if (Math.abs(nd.x) < 0.3) {
+          ctx.fillStyle = '#ffd700'; // Separatrix Gold
+        } else if (gdi < 0) {
+          ctx.fillStyle = '#00a0ff'; // Cyan Convergence
+        } else {
+          ctx.fillStyle = '#ff3264'; // Red Divergence
+        }
+        ctx.fill();
+      });
+
+      // Draw Agents & Riemannian Mechanics
+      agents.forEach(ag => {
+        ag.x += ag.vx * 0.015;
+
+        // Separatrix Wall Repulsion
+        if (Math.abs(ag.x) < 0.35) {
+          ag.x -= Math.sign(ag.x) * 0.02; // Bounce away
+        }
+
+        if (ag.x > 3.8) ag.x = -3.8;
+
+        let px = cx + ag.x * scale;
+        let py = cy + ag.y * scale;
+
+        ctx.save();
+        ctx.shadowColor = '#00ffcc';
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.arc(px, py, 7, 0, Math.PI * 2);
+        ctx.fillStyle = '#00ffcc';
+        ctx.fill();
+
+        // Directional momentum vector
+        ctx.strokeStyle = '#00ffcc';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(px + 15, py);
+        ctx.stroke();
+        ctx.restore();
+      });
+    }
+
+    draw3DView();
+  </script>
+</body>
+</html>
