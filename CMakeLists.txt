@@ -20,6 +20,18 @@ add_library(nexus_core STATIC
 )
 target_link_libraries(nexus_core PRIVATE OpenMP::OpenMP_CXX)
 
+# SIMD GPU ECS Library
+add_library(simd_gpu_ecs STATIC
+    src/simd_gpu_ecs/simd_torque_transmission_system.cpp
+    src/simd_gpu_ecs/gpu_particle_frame_pipeline.cpp
+    src/simd_gpu_ecs/indirect_dispatch_pipeline.cpp
+)
+target_include_directories(simd_gpu_ecs PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(simd_gpu_ecs PRIVATE -mavx2 -mfma)
+endif()
+
 # Emulation Stage 2 Library
 add_library(emulation_stage2 STATIC
     emulation/metric_field_engine.cpp
@@ -61,6 +73,27 @@ target_link_libraries(test_arena_zero_copy PRIVATE OpenMP::OpenMP_CXX)
 
 add_executable(test_spatiotemporal_pipeline tests/cpp/test_spatiotemporal_pipeline.cpp)
 target_link_libraries(test_spatiotemporal_pipeline PRIVATE emulation_stage2 OpenMP::OpenMP_CXX)
+
+add_executable(test_simd_gpu_ecs tests/test_simd_gpu_ecs.cpp)
+target_link_libraries(test_simd_gpu_ecs PRIVATE simd_gpu_ecs)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(test_simd_gpu_ecs PRIVATE -mavx2 -mfma)
+endif()
+
+# CMake HLSL DXC Offline Compilation Automation Target
+find_program(DXC_EXECUTABLE dxc PATHS "$ENV{WindowsSDKDir}/bin/$ENV{WindowsSDKLibVersion}/x64" "/usr/bin" "/usr/local/bin")
+
+if(DXC_EXECUTABLE)
+    file(GLOB HLSL_SHADERS "${CMAKE_CURRENT_SOURCE_DIR}/shaders/simd_gpu_ecs/*.hlsl")
+    foreach(SHADER ${HLSL_SHADERS})
+        get_filename_component(FILE_NAME ${SHADER} NAME_WE)
+        add_custom_target(
+            Compile_${FILE_NAME} ALL
+            COMMAND ${DXC_EXECUTABLE} -E main -T cs_6_6 -Fo "${CMAKE_CURRENT_BINARY_DIR}/${FILE_NAME}.cso" "${SHADER}"
+            COMMENT "Compiling Shader: ${FILE_NAME}.hlsl"
+        )
+    endforeach()
+endif()
 
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)
