@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia: Morphological Causal Resonance & Phase Negotiation</title>
+    <style>
+        :root {
+            --bg-color: #0d0f18;
+            --panel-bg: #16192b;
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff007f;
+            --accent-gold: #ffb700;
+            --text-color: #e0e6ed;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--accent-cyan);
+            margin: 0 0 8px 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        p.subtitle {
+            margin: 0;
+            color: #8892b0;
+            font-size: 0.95rem;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .visualizer-card {
+            background-color: var(--panel-bg);
+            border: 1px solid #232946;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        canvas {
+            background-color: #080a10;
+            border-radius: 8px;
+            border: 1px solid #1f233a;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .controls-panel {
+            background-color: var(--panel-bg);
+            border: 1px solid #232946;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .section-title {
+            color: var(--accent-gold);
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-bottom: 1px solid #2a3052;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #1f2647, #2d386b);
+            border: 1px solid var(--accent-cyan);
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 12px rgba(0,240,255,0.4);
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            padding: 4px 0;
+            border-bottom: 1px dashed #232946;
+        }
+
+        .metric-value {
+            font-weight: bold;
+            color: var(--accent-cyan);
+        }
+
+        .bar-container {
+            width: 100%;
+            background-color: #0c0e17;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 2px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            transition: width 0.1s ease;
+        }
+
+        .anchor-badge {
+            display: inline-block;
+            background-color: #232946;
+            color: var(--accent-gold);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border: 1px solid var(--accent-gold);
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌌 ELYSIA: Morphological Causal Resonance Simulator</h1>
+        <p class="subtitle">Sensory Grounding (Phase Negotiation) & ICE DNA Anchor Crystallization</p>
+    </header>
+
+    <div class="main-container">
+        <!-- Visualizer Canvas -->
+        <div class="visualizer-card">
+            <canvas id="simCanvas" width="800" height="520"></canvas>
+        </div>
+
+        <!-- Controls & Metrics Panel -->
+        <div class="controls-panel">
+            <div class="section-title">🌊 환경 물리 압력 (Environment Stream)</div>
+            <div class="btn-group">
+                <button onclick="setEnvironment('fluid')">🐟 유체 저항 (Fluid)</button>
+                <button onclick="setEnvironment('airflow')">🦅 공기 양력 (Airflow)</button>
+                <button onclick="setEnvironment('hunger')">🖐️ 결핍/도구 (Hunger)</button>
+                <button onclick="setEnvironment('terrain')">🦵 지형 다리 (Terrain)</button>
+            </div>
+
+            <div class="section-title">⚡ 위상 협상 (Phase Negotiation)</div>
+            <div class="metric-row">
+                <span>위상 오차 (q_err):</span>
+                <span class="metric-value" id="val-qerr">0.000 rad</span>
+            </div>
+            <div class="metric-row">
+                <span>공명 효율 (Resonance):</span>
+                <span class="metric-value" id="val-resonance">0.00</span>
+            </div>
+            <div class="bar-container">
+                <div class="bar-fill" id="bar-resonance"></div>
+            </div>
+
+            <div class="section-title">🧬 형태학적 가소성 (Morphology)</div>
+            <div class="metric-row">
+                <span>유선형 저항계수 (Drag):</span>
+                <span class="metric-value" id="val-drag">0.500</span>
+            </div>
+            <div class="metric-row">
+                <span>날개 양력계수 (Lift):</span>
+                <span class="metric-value" id="val-lift">0.500</span>
+            </div>
+            <div class="metric-row">
+                <span>손/도구 관절도 (Grasp):</span>
+                <span class="metric-value" id="val-grasp">0.500</span>
+            </div>
+            <div class="metric-row">
+                <span>다리 지지력 (Rigidity):</span>
+                <span class="metric-value" id="val-rigidity">0.500</span>
+            </div>
+
+            <div class="section-title">❄️ 수렴중인 DNA 마스터 끌개</div>
+            <div id="anchor-status" class="anchor-badge">Undifferentiated Primal Lattice</div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // State Variables
+        let phaseInternal = 0.0;
+        let freqInternal = 1.0;
+        let phaseExternal = 0.0;
+        let freqExternal = 1.0;
+
+        let qErr = 0.0;
+        let resonance = 0.0;
+
+        let morph = {
+            drag: 0.50,
+            lift: 0.50,
+            grasp: 0.50,
+            rigidity: 0.50
+        };
+
+        let currentEnv = {
+            name: 'Fluid',
+            fluid_density: 3.0,
+            air_flow: 0.0,
+            resource_scarcity: 0.0,
+            terrain_roughness: 0.0,
+            targetAnchor: { drag: 0.08, lift: 0.10, grasp: 0.05, rigidity: 0.30, name: 'Streamlined Hydrodynamic Form' }
+        };
+
+        function setEnvironment(type) {
+            if (type === 'fluid') {
+                currentEnv = {
+                    name: 'Fluid Drag',
+                    fluid_density: 3.0, air_flow: 0.0, resource_scarcity: 0.0, terrain_roughness: 0.0,
+                    targetAnchor: { drag: 0.08, lift: 0.10, grasp: 0.05, rigidity: 0.30, name: 'Streamlined Hydrodynamic Form' }
+                };
+                freqExternal = 2.5;
+            } else if (type === 'airflow') {
+                currentEnv = {
+                    name: 'Airflow Lift',
+                    fluid_density: 0.0, air_flow: 6.0, resource_scarcity: 0.0, terrain_roughness: 0.0,
+                    targetAnchor: { drag: 0.18, lift: 0.92, grasp: 0.20, rigidity: 0.40, name: 'Aerodynamic Wing Structure' }
+                };
+                freqExternal = 4.2;
+            } else if (type === 'hunger') {
+                currentEnv = {
+                    name: 'Resource Scarcity',
+                    fluid_density: 0.0, air_flow: 0.0, resource_scarcity: 5.0, terrain_roughness: 0.0,
+                    targetAnchor: { drag: 0.45, lift: 0.15, grasp: 0.95, rigidity: 0.75, name: 'Articulated Manipulator Interface' }
+                };
+                freqExternal = 1.2;
+            } else if (type === 'terrain') {
+                currentEnv = {
+                    name: 'Terrain Friction',
+                    fluid_density: 0.0, air_flow: 0.0, resource_scarcity: 0.0, terrain_roughness: 4.5,
+                    targetAnchor: { drag: 0.50, lift: 0.05, grasp: 0.35, rigidity: 0.98, name: 'Terrestrial Pillar Support' }
+                };
+                freqExternal = 0.8;
+            }
+        }
+
+        function updatePhysics() {
+            const dt = 0.05;
+
+            // 1. External Phase Advance
+            phaseExternal = (phaseExternal + freqExternal * dt) % (Math.PI * 2);
+
+            // 2. Bidirectional Phase Negotiation
+            let diff = (phaseExternal - phaseInternal) % (Math.PI * 2);
+            if (diff > Math.PI) diff -= Math.PI * 2;
+            qErr = diff;
+
+            const coupling = 0.8;
+            freqInternal += (freqExternal - freqInternal) * 0.1;
+            phaseInternal += (freqInternal * dt + coupling * Math.sin(qErr));
+            phaseInternal %= (Math.PI * 2);
+
+            resonance = Math.max(0, Math.cos(qErr)) * Math.exp(-0.05 * Math.abs(qErr));
+
+            // 3. Morphological Plasticity Convergence towards Target DNA Anchor
+            const rate = 0.03 * (1 + Math.abs(Math.sin(qErr)));
+            const target = currentEnv.targetAnchor;
+
+            morph.drag += rate * (target.drag - morph.drag);
+            morph.lift += rate * (target.lift - morph.lift);
+            morph.grasp += rate * (target.grasp - morph.grasp);
+            morph.rigidity += rate * (target.rigidity - morph.rigidity);
+
+            // Update UI text
+            document.getElementById('val-qerr').innerText = qErr.toFixed(3) + ' rad';
+            document.getElementById('val-resonance').innerText = resonance.toFixed(2);
+            document.getElementById('bar-resonance').style.width = (resonance * 100) + '%';
+
+            document.getElementById('val-drag').innerText = morph.drag.toFixed(3);
+            document.getElementById('val-lift').innerText = morph.lift.toFixed(3);
+            document.getElementById('val-grasp').innerText = morph.grasp.toFixed(3);
+            document.getElementById('val-rigidity').innerText = morph.rigidity.toFixed(3);
+            document.getElementById('anchor-status').innerText = currentEnv.targetAnchor.name;
+        }
+
+        function drawSimulation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Background Waves (External Stream vs Internal Prediction)
+            ctx.lineWidth = 2;
+
+            // External Stream (Cyan)
+            ctx.strokeStyle = '#00f0ff';
+            ctx.beginPath();
+            for (let x = 0; x < canvas.width; x += 5) {
+                let y = 100 + Math.sin(x * 0.02 + phaseExternal) * 30;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Internal Prediction (Magenta)
+            ctx.strokeStyle = '#ff007f';
+            ctx.beginPath();
+            for (let x = 0; x < canvas.width; x += 5) {
+                let y = 100 + Math.sin(x * 0.02 + phaseInternal) * 30;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Wave Legend
+            ctx.font = '12px sans-serif';
+            ctx.fillStyle = '#00f0ff'; ctx.fillText('External Stream Wave (cyan)', 20, 30);
+            ctx.fillStyle = '#ff007f'; ctx.fillText('Internal Prediction Wave (magenta)', 220, 30);
+
+            // Draw Organism Morphological Structure in Center
+            const centerX = canvas.width / 2;
+            const centerY = 330;
+
+            ctx.save();
+            ctx.translate(centerX, centerY);
+
+            // Dynamic Mesh / Polygon representing Morphology
+            ctx.fillStyle = 'rgba(0, 240, 255, 0.15)';
+            ctx.strokeStyle = '#00f0ff';
+            ctx.lineWidth = 3;
+
+            ctx.beginPath();
+
+            // Streamlined Nose (Drag)
+            let noseX = 120 * (1.0 - morph.drag);
+            ctx.moveTo(noseX, 0);
+
+            // Wing Span (Lift)
+            let wingY = -100 * morph.lift;
+            ctx.quadraticCurveTo(20, wingY, -40, wingY);
+
+            // Grasp Articulation Fingers/Arms
+            let fingerX = -80 * (1.0 - morph.grasp);
+            ctx.lineTo(-80, 0);
+
+            // Leg Pillars (Rigidity)
+            let legY = 90 * morph.rigidity;
+            ctx.lineTo(-40, legY);
+            ctx.lineTo(20, legY);
+
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Core Energy Attractor Node
+            ctx.fillStyle = '#ffb700';
+            ctx.beginPath();
+            ctx.arc(0, 0, 12 + Math.sin(phaseInternal * 2) * 4, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function loop() {
+            updatePhysics();
+            drawSimulation();
+            requestAnimationFrame(loop);
+        }
+
+        // Initialize default environment
+        setEnvironment('fluid');
+        loop();
+    </script>
+</body>
+</html>
