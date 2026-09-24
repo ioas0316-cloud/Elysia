@@ -95,6 +95,30 @@ if(DXC_EXECUTABLE)
     endforeach()
 endif()
 
+# Elysia Dual Pillars Hardware Pipeline Library
+set(ELYSIA_HARDWARE_CU_SOURCES
+    src/phase_lock_evaluator.cu
+    src/sensory_tensor_encoder.cu
+    src/sensory_quantizer.cu
+    src/codebook_online_trainer.cu
+    src/multi_gpu_nvlink_router.cu
+)
+
+set_source_files_properties(${ELYSIA_HARDWARE_CU_SOURCES} PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++")
+
+add_library(elysia_hardware STATIC
+    src/d3d12_causal_page_allocator.cpp
+    src/d3d12_cuda_interop.cpp
+    src/d3d12_cuda_semaphore.cpp
+    src/causal_memory_cache_manager.cpp
+    src/elysian_engine_main_loop.cpp
+    ${ELYSIA_HARDWARE_CU_SOURCES}
+)
+target_include_directories(elysia_hardware PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_executable(test_elysian_hardware_pipeline tests/cpp/test_elysian_hardware_pipeline.cpp)
+target_link_libraries(test_elysian_hardware_pipeline PRIVATE elysia_hardware OpenMP::OpenMP_CXX)
+
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)
 if (NOT pybind11_FOUND)
