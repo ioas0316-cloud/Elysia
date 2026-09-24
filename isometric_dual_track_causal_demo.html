@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia: Dual-Track Causal Cognitive Engine Interactive Visualization</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: rgba(18, 26, 43, 0.85);
+            --border-color: #1e2d4a;
+            --accent-a: #00f0ff; /* Track A: Ground Latent VAT */
+            --accent-b: #ff0055; /* Track B: Dynamic CS Physics */
+            --accent-gold: #ffb700; /* Attractor Valley & Baked */
+            --text-color: #e2e8f0;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            flex: 1;
+            position: relative;
+            height: 100%;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #sidebar {
+            width: 380px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border-left: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffffff;
+            border-bottom: 2px solid var(--accent-a);
+            padding-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .metric-card {
+            background: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .metric-title {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .track-a-val { color: var(--accent-a); }
+        .track-b-val { color: var(--accent-b); }
+        .gold-val { color: var(--accent-gold); }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-a);
+        }
+
+        button {
+            background: linear-gradient(135deg, #00f0ff 0%, #0072ff 100%);
+            border: none;
+            color: #000;
+            font-weight: 700;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.4);
+        }
+
+        button.impulse-btn {
+            background: linear-gradient(135deg, #ff0055 0%, #ff5500 100%);
+            color: #fff;
+        }
+
+        button.impulse-btn:hover {
+            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .log-box {
+            background: #050811;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            height: 120px;
+            overflow-y: auto;
+            color: #a0aec0;
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+        }
+        .log-entry.bifurcation { color: var(--accent-gold); }
+        .log-entry.bake { color: var(--accent-a); }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container">
+        <canvas id="simCanvas"></canvas>
+    </div>
+
+    <div id="sidebar">
+        <h1>Dual-Track Causal Engine</h1>
+
+        <div class="metric-card">
+            <span class="metric-title">System Status</span>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <span class="metric-title">Track A (VAT):</span>
+                    <span id="trackA-count" class="metric-value track-a-val">1000</span>
+                </div>
+                <div>
+                    <span class="metric-title">Track B (Dynamic):</span>
+                    <span id="trackB-count" class="metric-value track-b-val">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <span class="metric-title">ALU Compute Reduction</span>
+            <span id="alu-reduction" class="metric-value track-a-val">100.0%</span>
+        </div>
+
+        <div class="metric-card">
+            <span class="metric-title">Baked Trajectory Pages (NVMe)</span>
+            <span id="baked-pages" class="metric-value gold-val">0</span>
+        </div>
+
+        <div class="control-group">
+            <button class="impulse-btn" onclick="injectImpulse()">Inject Local Energy Impulse (Track A → B)</button>
+            <button onclick="injectGlobalShock()">Inject Global Shockwave</button>
+        </div>
+
+        <div class="control-group">
+            <label>Breakout Energy Threshold ($E_{th}$) <span id="eth-val">1.0</span></label>
+            <input type="range" id="eth-slider" min="0.2" max="3.0" step="0.1" value="1.0" oninput="updateParams()">
+        </div>
+
+        <div class="control-group">
+            <label>3D Field Diffusion Rate ($\kappa$) <span id="diff-val">0.15</span></label>
+            <input type="range" id="diff-slider" min="0.01" max="0.5" step="0.01" value="0.15" oninput="updateParams()">
+        </div>
+
+        <div class="legend">
+            <span class="metric-title">Pipeline Architecture</span>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--accent-a);"></div>
+                <span>Track A: Ground Latent Trajectory (ALU ~ 0%)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--accent-b);"></div>
+                <span>Track B: Dynamic CS Physics (Resonance Active)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: var(--accent-gold);"></div>
+                <span>Attractor Valley (NVMe SSD Baked)</span>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <span class="metric-title">Causal Event Log</span>
+            <div id="logBox" class="log-box">
+                <div class="log-entry">[SYSTEM INITIALIZED] 1,000 Nodes loaded into Track A Latent Space.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Node Model
+        const NUM_NODES = 600;
+        let nodes = [];
+        let time = 0;
+        let bakedCount = 0;
+        let energyThreshold = 1.0;
+        let diffusionRate = 0.15;
+
+        class Node {
+            constructor(id) {
+                this.id = id;
+                this.gx = (Math.random() - 0.5) * canvas.width * 0.7 + canvas.width / 2;
+                this.gy = (Math.random() - 0.5) * canvas.height * 0.7 + canvas.height / 2;
+                this.dx = this.gx;
+                this.dy = this.gy;
+                this.vx = 0;
+                this.vy = 0;
+                this.phase = Math.random() * Math.PI * 2;
+                this.energy = 0;
+                this.activity = 0; // 0.0 (Track A) -> 1.0 (Track B)
+                this.isBaked = false;
+            }
+
+            update() {
+                // Track A: Harmonic Oscillation
+                this.gx += Math.sin(time + this.phase) * 0.5;
+                this.gy += Math.cos(time + this.phase) * 0.5;
+
+                // Track A -> B Breakout check
+                if (this.activity === 0 && this.energy >= energyThreshold) {
+                    this.activity = 0.01;
+                    this.dx = this.gx;
+                    this.dy = this.gy;
+                    addLog(`[BREAKOUT] Node #${this.id} triggered Track B Dynamic Physics!`, 'bifurcation');
+                }
+
+                // Track B Physics Execution
+                if (this.activity > 0) {
+                    this.activity = Math.min(1.0, this.activity + 0.05);
+                    this.vx += (Math.random() - 0.5) * 0.8;
+                    this.vy += (Math.random() - 0.5) * 0.8;
+                    this.dx += this.vx;
+                    this.dy += this.vy;
+
+                    this.vx *= 0.92;
+                    this.vy *= 0.92;
+                    this.energy = Math.max(0, this.energy - 0.02);
+
+                    // Attractor Capture / Decay
+                    if (this.energy < 0.2) {
+                        this.activity -= 0.02;
+                        if (this.activity <= 0) {
+                            this.activity = 0;
+                            if (!this.isBaked && Math.random() < 0.3) {
+                                this.isBaked = true;
+                                bakedCount++;
+                                addLog(`[BAKE] Node #${this.id} Trajectory Baked to NVMe SSD via DirectStorage.`, 'bake');
+                            }
+                        }
+                    }
+                }
+
+                // Hermite S-Curve Blending
+                let sWeight = 3 * Math.pow(this.activity, 2) - 2 * Math.pow(this.activity, 3);
+                this.x = (1 - sWeight) * this.gx + sWeight * this.dx;
+                this.y = (1 - sWeight) * this.gy + sWeight * this.dy;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.activity > 0 ? 5 : 3, 0, Math.PI * 2);
+                if (this.isBaked) {
+                    ctx.fillStyle = '#ffb700'; // Baked Attractor
+                } else if (this.activity > 0) {
+                    ctx.fillStyle = '#ff0055'; // Track B Dynamic
+                } else {
+                    ctx.fillStyle = '#00f0ff'; // Track A Ground
+                }
+                ctx.fill();
+
+                if (this.activity > 0) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 12 * this.activity, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(255, 0, 85, ${0.4 * this.activity})`;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Initialize Nodes
+        for (let i = 0; i < NUM_NODES; i++) {
+            nodes.push(new Node(i));
+        }
+
+        function updateParams() {
+            energyThreshold = parseFloat(document.getElementById('eth-slider').value);
+            document.getElementById('eth-val').innerText = energyThreshold.toFixed(1);
+
+            diffusionRate = parseFloat(document.getElementById('diff-slider').value);
+            document.getElementById('diff-val').innerText = diffusionRate.toFixed(2);
+        }
+
+        function injectImpulse() {
+            let target = nodes[Math.floor(Math.random() * nodes.length)];
+            target.energy += 2.5;
+            addLog(`[IMPULSE] Injected +2.5 Energy into Node #${target.id}`);
+        }
+
+        function injectGlobalShock() {
+            nodes.forEach(n => n.energy += Math.random() * 1.5);
+            addLog(`[SHOCKWAVE] Global Energy Impulse applied across all nodes.`);
+        }
+
+        function addLog(msg, type = '') {
+            const logBox = document.getElementById('logBox');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.innerText = msg;
+            logBox.appendChild(entry);
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function animate() {
+            time += 0.03;
+            ctx.fillStyle = 'rgba(11, 15, 25, 0.25)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            let trackBCount = 0;
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+                if (node.activity > 0) trackBCount++;
+            });
+
+            // Energy Diffusion between close nodes
+            for (let i = 0; i < nodes.length; i += 5) {
+                if (nodes[i].activity > 0) {
+                    for (let j = 0; j < nodes.length; j += 10) {
+                        let dist = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+                        if (dist < 60) {
+                            nodes[j].energy += nodes[i].energy * diffusionRate * 0.05;
+                            ctx.beginPath();
+                            ctx.moveTo(nodes[i].x, nodes[i].y);
+                            ctx.lineTo(nodes[j].x, nodes[j].y);
+                            ctx.strokeStyle = `rgba(0, 240, 255, ${0.2 * (1 - dist / 60)})`;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            // Update UI Metrics
+            let trackACount = NUM_NODES - trackBCount;
+            document.getElementById('trackA-count').innerText = trackACount;
+            document.getElementById('trackB-count').innerText = trackBCount;
+            document.getElementById('alu-reduction').innerText = ((trackACount / NUM_NODES) * 100).toFixed(1) + '%';
+            document.getElementById('baked-pages').innerText = bakedCount;
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
