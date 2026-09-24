@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia Causal Engine - 3D Attractor Terrain & Rotor Tensor Manifold</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #05070f;
+            color: #e0e6ed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        #overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 15, 30, 0.85);
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            color: #00d2ff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #a0aec0;
+            margin-bottom: 15px;
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #00d2ff;
+        }
+        .stat-card.locked {
+            border-left-color: #ffd700;
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            color: #718096;
+            text-transform: uppercase;
+        }
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        button {
+            background: linear-gradient(135deg, #00d2ff 0%, #0072ff 100%);
+            border: none;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div id="overlay">
+        <h1>Causal Rotor Dynamics</h1>
+        <p>인과 지식을 정적 DB 항목이 아닌 기어비(Gear Ratio)로 맞물린 동적 로터 메커니즘으로 운용합니다. 위상 고정(Phase-Lock) 상태의 Attractor Basin을 3D 지형으로 시각화합니다.</p>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Rotors</div>
+                <div class="stat-value" id="total-nodes">64</div>
+            </div>
+            <div class="stat-card locked">
+                <div class="stat-label">Phase-Locked</div>
+                <div class="stat-value" id="locked-nodes">0</div>
+            </div>
+        </div>
+
+        <button id="impulse-btn">Inject Energy Impulse</button>
+    </div>
+
+    <script>
+        // 3D Scene Initialization
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x05070f, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(20, 25, 30);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0x00d2ff, 0.8);
+        dirLight.position.set(20, 40, 20);
+        scene.add(dirLight);
+
+        const pointLight = new THREE.PointLight(0xffd700, 1.2, 50);
+        pointLight.position.set(0, 10, 0);
+        scene.add(pointLight);
+
+        // Simulation Rotor Nodes Setup
+        const gridSide = 4;
+        const spacing = 6;
+        const nodes = [];
+        const edges = [];
+
+        const rotorGeometry = new THREE.TorusGeometry(1.2, 0.25, 12, 24);
+        const gearTeethGeo = new THREE.BoxGeometry(0.3, 0.3, 0.8);
+
+        // Create Grid of Rotors
+        for (let x = 0; x < gridSide; x++) {
+            for (let y = 0; y < gridSide; y++) {
+                for (let z = 0; z < gridSide; z++) {
+                    const group = new THREE.Group();
+
+                    const material = new THREE.MeshStandardMaterial({
+                        color: 0x00aaff,
+                        metalness: 0.8,
+                        roughness: 0.2,
+                        wireframe: false
+                    });
+
+                    const torus = new THREE.Mesh(rotorGeometry, material);
+                    group.add(torus);
+
+                    // Add gear teeth around ring
+                    for (let t = 0; t < 8; t++) {
+                        const tooth = new THREE.Mesh(gearTeethGeo, material);
+                        const angle = (t / 8) * Math.PI * 2;
+                        tooth.position.set(Math.cos(angle) * 1.2, Math.sin(angle) * 1.2, 0);
+                        tooth.rotation.z = angle;
+                        group.add(tooth);
+                    }
+
+                    const posX = (x - (gridSide-1)/2) * spacing;
+                    const posY = (y - (gridSide-1)/2) * spacing;
+                    const posZ = (z - (gridSide-1)/2) * spacing;
+
+                    group.position.set(posX, posY, posZ);
+                    scene.add(group);
+
+                    nodes.push({
+                        mesh: group,
+                        material: material,
+                        quaternion: new THREE.Quaternion(),
+                        angularVelocity: new THREE.Vector3(
+                            (Math.random() - 0.5) * 0.5,
+                            (Math.random() - 0.5) * 0.5,
+                            (Math.random() - 0.5) * 0.5
+                        ),
+                        isAttractor: false,
+                        damping: 0.02
+                    });
+                }
+            }
+        }
+
+        // Add Coupling Edges Line Mesh
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00d2ff, transparent: true, opacity: 0.3 });
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const dist = nodes[i].mesh.position.distanceTo(nodes[j].mesh.position);
+                if (dist <= spacing + 0.1) {
+                    const geometry = new THREE.BufferGeometry().setFromPoints([
+                        nodes[i].mesh.position,
+                        nodes[j].mesh.position
+                    ]);
+                    const line = new THREE.Line(geometry, lineMaterial);
+                    scene.add(line);
+                    edges.push({ line, i, j });
+                }
+            }
+        }
+
+        // Impulse Trigger
+        document.getElementById('impulse-btn').addEventListener('click', () => {
+            nodes[0].angularVelocity.add(new THREE.Vector3(0, 5, 0));
+            nodes[nodes.length - 1].angularVelocity.add(new THREE.Vector3(3, 0, 3));
+        });
+
+        // Animation & Physical Integration Loop
+        const dt = 0.016;
+        function animate() {
+            requestAnimationFrame(animate);
+
+            let lockedCount = 0;
+
+            nodes.forEach((node, idx) => {
+                // Apply rotation delta from angular velocity
+                const omega = node.angularVelocity;
+                const dq = new THREE.Quaternion(omega.x * dt, omega.y * dt, omega.z * dt, 0);
+                node.quaternion.multiplyQuaternions(node.quaternion, dq).normalize();
+                node.mesh.quaternion.copy(node.quaternion);
+
+                // Damping
+                omega.multiplyScalar(1.0 - node.damping);
+
+                // Phase-Lock Convergence condition
+                const speed = omega.length();
+                if (speed < 0.1) {
+                    node.isAttractor = true;
+                    node.material.color.setHex(0xffd700); // Golden Attractor
+                    node.material.emissive.setHex(0x554000);
+                    lockedCount++;
+                } else {
+                    node.isAttractor = false;
+                    node.material.color.setHex(0x00aaff); // Active Blue
+                    node.material.emissive.setHex(0x002244);
+                }
+            });
+
+            document.getElementById('locked-nodes').innerText = lockedCount;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
