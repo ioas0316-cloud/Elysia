@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia: Neuro-Phase Grounding & Bidirectional Phase Coupling Visualization</title>
+    <style>
+        :root {
+            --bg: #090a10;
+            --panel-bg: rgba(20, 24, 38, 0.85);
+            --accent-gas: #ff0055;
+            --accent-liquid: #00ccff;
+            --accent-solid: #00ff88;
+            --text-main: #e0e6ed;
+            --border: #2a324b;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin: 10px 0 5px 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--accent-gas), var(--accent-liquid), var(--accent-solid));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            margin: 0 0 20px 0;
+            color: #8a99ad;
+            font-size: 0.95rem;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .canvas-card {
+            flex: 2;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .controls-card {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        canvas {
+            background: #05060a;
+            border-radius: 8px;
+            border: 1px solid #1a2236;
+            cursor: pointer;
+        }
+
+        .metric-group {
+            background: rgba(10, 14, 23, 0.6);
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 4px solid var(--accent-liquid);
+        }
+
+        .metric-title {
+            font-size: 0.8rem;
+            color: #7b8b9a;
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .badge-gas { background: rgba(255, 0, 85, 0.2); color: var(--accent-gas); border: 1px solid var(--accent-gas); }
+        .badge-liquid { background: rgba(0, 204, 255, 0.2); color: var(--accent-liquid); border: 1px solid var(--accent-liquid); }
+        .badge-solid { background: rgba(0, 255, 136, 0.2); color: var(--accent-solid); border: 1px solid var(--accent-solid); }
+
+        .btn {
+            background: linear-gradient(135deg, #1e2942, #111827);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            border-color: var(--accent-liquid);
+            box-shadow: 0 0 12px rgba(0, 204, 255, 0.3);
+        }
+
+        .btn-active {
+            background: linear-gradient(135deg, #005580, #00334d);
+            border-color: var(--accent-liquid);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Elysia Neuro-Phase Grounding & Resonance</h1>
+    <p class="subtitle">기호 상징 본질 문제(Symbol Grounding Problem) 해결: 외부 파동과 내부 격자의 쌍방향 위상 협상</p>
+
+    <div class="container">
+        <div class="canvas-card">
+            <canvas id="simCanvas" width="720" height="480"></canvas>
+        </div>
+
+        <div class="controls-card">
+            <div class="metric-group" id="stateGroup">
+                <div class="metric-title">Current Phase State (상태)</div>
+                <div style="margin-top: 8px;">
+                    <span id="phaseBadge" class="phase-badge badge-gas">GAS (기체/엔트로피)</span>
+                </div>
+            </div>
+
+            <div class="metric-group">
+                <div class="metric-title">Phase Error (위상 오차 q_err)</div>
+                <div class="metric-value" id="valQErr" style="color: #ff9900;">0.8542</div>
+            </div>
+
+            <div class="metric-group">
+                <div class="metric-title">Thermal Boundary Friction (열적 마찰력)</div>
+                <div class="metric-value" id="valFriction" style="color: var(--accent-gas);">2.1350</div>
+            </div>
+
+            <div class="metric-group">
+                <div class="metric-title">Kuramoto Order Parameter R (공명도)</div>
+                <div class="metric-value" id="valCoherence" style="color: var(--accent-solid);">0.1240</div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: auto;">
+                <div class="metric-title">Inject External Wave Modality</div>
+                <div class="btn btn-active" onclick="setModality('text', this)">Linguistic Text Impulse ("사과")</div>
+                <div class="btn" onclick="setModality('vision', this)">Visual Light Field (Apple 2D Matrix)</div>
+                <div class="btn" onclick="setModality('audio', this)">Acoustic Fourier Waveform</div>
+                <div class="btn" style="margin-top: 10px; background: #2d121e; border-color: #ff0055;" onclick="resetEngine()">Reset Lattice State</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Simulation parameters
+        let modality = 'text';
+        let state = 'GAS'; // GAS, LIQUID, SOLID
+        let systemTemp = 2.5;
+        let q_err = 0.85;
+        let coherence = 0.12;
+        let friction = 2.13;
+
+        // Rotor nodes (4x4 lattice)
+        const nodes = [];
+        const cols = 4, rows = 4;
+        const spacingX = 90, spacingY = 80;
+        const startX = 260, startY = 120;
+
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                nodes.push({
+                    x: startX + c * spacingX,
+                    y: startY + r * spacingY,
+                    phase: Math.random() * Math.PI * 2,
+                    freq: 2.0 + Math.random() * 0.5,
+                    energy: 1.0
+                });
+            }
+        }
+
+        function setModality(m, el) {
+            modality = m;
+            document.querySelectorAll('.controls-card .btn').forEach(b => b.classList.remove('btn-active'));
+            if (el) el.classList.add('btn-active');
+        }
+
+        function resetEngine() {
+            systemTemp = 2.5;
+            state = 'GAS';
+            q_err = 0.85;
+            nodes.forEach(n => {
+                n.phase = Math.random() * Math.PI * 2;
+                n.freq = 2.0 + Math.random() * 0.5;
+                n.energy = 1.0;
+            });
+        }
+
+        function updateSimulation() {
+            const targetPhase = modality === 'text' ? Math.PI / 4 : (modality === 'vision' ? Math.PI : Math.PI * 1.5);
+            let phaseSumX = 0, phaseSumY = 0;
+
+            nodes.forEach((n) => {
+                const deltaP = Math.sin(targetPhase - n.phase);
+                // Entrain phase and decay intrinsic frequency toward resonance
+                n.freq = n.freq * 0.95;
+                n.phase = (n.phase + n.freq * 0.01 + deltaP * 0.12) % (Math.PI * 2);
+
+                phaseSumX += Math.cos(n.phase);
+                phaseSumY += Math.sin(n.phase);
+            });
+
+            // Calculate Order Parameter R
+            coherence = Math.sqrt(phaseSumX * phaseSumX + phaseSumY * phaseSumY) / nodes.length;
+
+            // Compute q_err
+            let errSum = 0;
+            nodes.forEach(n => {
+                errSum += Math.abs(Math.sin((targetPhase - n.phase) / 2));
+            });
+            q_err = errSum / nodes.length;
+
+            // System cooling tied to alignment
+            if (q_err < 0.2) {
+                systemTemp = Math.max(0.05, systemTemp * 0.92);
+            } else if (q_err < 0.5) {
+                systemTemp = Math.max(0.05, systemTemp * 0.97);
+            }
+
+            friction = q_err * systemTemp;
+
+            // Update Phase State
+            if (systemTemp <= 0.2 || q_err <= 0.08) {
+                state = 'SOLID';
+            } else if (systemTemp > 2.0 && coherence < 0.5) {
+                state = 'GAS';
+            } else {
+                state = 'LIQUID';
+            }
+
+            // Update DOM
+            document.getElementById('valQErr').innerText = q_err.toFixed(4);
+            document.getElementById('valFriction').innerText = friction.toFixed(4);
+            document.getElementById('valCoherence').innerText = coherence.toFixed(4);
+
+            const badge = document.getElementById('phaseBadge');
+            badge.className = 'phase-badge ' + (state === 'GAS' ? 'badge-gas' : (state === 'LIQUID' ? 'badge-liquid' : 'badge-solid'));
+            badge.innerText = state === 'GAS' ? 'GAS (기체/엔트로피)' : (state === 'LIQUID' ? 'LIQUID (액체적 추론)' : 'SOLID (고체 결정화/ICE)');
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw External Wave Stream Inflow on the Left
+            ctx.fillStyle = '#8a99ad';
+            ctx.font = '12px Segoe UI';
+            ctx.fillText('EXTERNAL WAVE STREAM (외부 파동 유입)', 20, 30);
+
+            const waveColor = modality === 'text' ? '#ff0055' : (modality === 'vision' ? '#00ccff' : '#00ff88');
+            ctx.strokeStyle = waveColor;
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            const time = Date.now() * 0.003;
+            for (let y = 50; y < 430; y += 5) {
+                const x = 70 + Math.sin(y * 0.03 + time) * 20;
+                if (y === 50) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Draw Sensory Boundary (Markov Blanket Schnitt)
+            ctx.strokeStyle = '#2a324b';
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(160, 40);
+            ctx.lineTo(160, 440);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillText('MARKOV BLANKET SCHNITT', 115, 460);
+
+            // Draw Inter-rotor coupling beams
+            ctx.lineWidth = 1;
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dist = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+                    if (dist < 110) {
+                        const phaseDiff = Math.abs(Math.sin(nodes[i].phase - nodes[j].phase));
+                        const alpha = (1.0 - phaseDiff) * (state === 'SOLID' ? 0.8 : 0.2);
+                        ctx.strokeStyle = state === 'SOLID' ? `rgba(0, 255, 136, ${alpha})` : `rgba(0, 204, 255, ${alpha})`;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw Rotor Nodes
+            nodes.forEach(n => {
+                ctx.save();
+                ctx.translate(n.x, n.y);
+
+                // Node circle
+                ctx.fillStyle = state === 'GAS' ? 'rgba(255,0,85,0.2)' : (state === 'LIQUID' ? 'rgba(0,204,255,0.2)' : 'rgba(0,255,136,0.3)');
+                ctx.beginPath();
+                ctx.arc(0, 0, 22, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Phase Pointer Needle
+                ctx.strokeStyle = state === 'SOLID' ? '#00ff88' : (state === 'LIQUID' ? '#00ccff' : '#ff0055');
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(n.phase) * 18, Math.sin(n.phase) * 18);
+                ctx.stroke();
+
+                ctx.restore();
+            });
+
+            // Draw Internal Prediction Wave back-projection arrows
+            if (state !== 'SOLID') {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(220, 240);
+                ctx.lineTo(170, 240);
+                ctx.stroke();
+                ctx.fillText('Internal Prediction Wave', 175, 230);
+            }
+        }
+
+        function loop() {
+            updateSimulation();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        loop();
+    </script>
+</body>
+</html>
