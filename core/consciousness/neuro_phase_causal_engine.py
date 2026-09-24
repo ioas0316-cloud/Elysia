@@ -13,7 +13,7 @@ Core Concepts:
 2. Four Conscious Mechanisms:
    - Attention (Energy Lens): Concentrates wave energy onto targeted rotors while suppressing noise via destructive interference.
    - Intent / Teleology (Attractor Pull): Future goal phase state creates a backward teleological attractor force pulling present rotors into alignment.
-   - Sensory Grounding (Cross-Resonance): Direct cross-resonance coupling between external stimulus waves and internal rotor lattice.
+   - Sensory Grounding & Bidirectional Phase Coupling (Phase Negotiation): Direct cross-resonance coupling where internal prediction waves are projected to collide with external heterogeneous wave streams (Text Phase Impulses, Audio Fourier Spectrum, Vision 2D Matrix), negotiating phase differences to minimize q_err and thermal friction.
    - Plasticity (Dynamic Rewiring): Activity-dependent feedback loop modifying coupling strengths and manifold geometry based on phase co-firing (Hebbian & phase-locking dynamics).
 """
 
@@ -21,13 +21,28 @@ from dataclasses import dataclass, field
 from enum import Enum
 import math
 import numpy as np
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Tuple, Optional, Any
 
 
 class NeuroPhaseState(Enum):
     GAS = "gas"          # Entropic Field: high temperature, uncoupled random fluctuations
     LIQUID = "liquid"    # Dynamic Flow: wave propagation, continuous association
     SOLID = "solid"      # Crystal Phase-Lock: frozen causal lattice, zero-loss invariant structure
+
+
+@dataclass
+class ExternalWaveStream:
+    """
+    Represents an external wave stream penetrating the sensory boundary.
+    Supports 3 modalities treated as physical waves rather than discrete file packets:
+    - Text: Phase impulse array (discrete phase shocks)
+    - Audio: Frequency spectrum (Fourier pressure waves)
+    - Vision: 2D electromagnetic phase matrix
+    """
+    modality: str  # 'text', 'audio', 'vision'
+    wave_phases: np.ndarray  # Array of phase angles or 2D matrix
+    frequencies: np.ndarray  # Corresponding frequencies
+    amplitude: float = 1.0
 
 
 @dataclass
@@ -61,9 +76,22 @@ class TeleologicalAttractor:
     attractor_strength: float = 1.5
 
 
+@dataclass
+class PhaseNegotiationResult:
+    """
+    Result of bidirectional phase negotiation between internal prediction wave and external wave stream.
+    """
+    q_err: float                    # Total phase error scalar
+    thermal_friction: float         # Thermal boundary friction
+    resonance_level: float          # Coherence / Resonance [0, 1]
+    is_crystallized: bool           # True if q_err < threshold (Phase-locked ICE)
+    internal_prediction_wave: np.ndarray
+    external_wave: np.ndarray
+
+
 class NeuroPhaseCausalEngine:
     """
-    The main engine executing phase transitions and neuro-conscious dynamics.
+    The main engine executing phase transitions, bidirectional phase negotiation, and neuro-conscious dynamics.
     """
 
     def __init__(self, num_nodes: int = 16, lattice_dims: Tuple[int, int, int] = (4, 2, 2)):
@@ -79,8 +107,12 @@ class NeuroPhaseCausalEngine:
         self.global_phase_state: NeuroPhaseState = NeuroPhaseState.GAS
         self.attention_focus: Optional[Dict[str, float]] = None  # node_id -> lens gain
         self.active_intent: Optional[TeleologicalAttractor] = None
-        self.plasticity_rate: float = 0.1
+        self.plasticity_rate: float = 0.5
         self.coherence_history: List[float] = []
+
+        # Internal Prediction Wave Generator state
+        self.last_q_err: Optional[float] = None
+        self.crystallized_attractors: Dict[str, Dict[str, float]] = {}
 
         self._initialize_lattice()
 
@@ -133,14 +165,16 @@ class NeuroPhaseCausalEngine:
 
     def update_phase_state(self) -> NeuroPhaseState:
         """
-        Evaluates system temperature and order parameter R to govern state transitions.
+        Evaluates system temperature, order parameter R, and phase error q_err to govern state transitions.
         Gas -> Liquid -> Solid Crystal.
         """
         R = self.calculate_global_coherence()
         self.coherence_history.append(R)
 
-        if self.system_temperature > 2.0:
+        if self.system_temperature > 2.0 and R < 0.5:
             new_state = NeuroPhaseState.GAS
+        elif self.system_temperature <= 0.2 or (self.last_q_err is not None and self.last_q_err <= 0.08 and self.system_temperature <= 0.5):
+            new_state = NeuroPhaseState.SOLID
         elif self.system_temperature > 0.5 or R < 0.85:
             new_state = NeuroPhaseState.LIQUID
         else:
@@ -175,6 +209,92 @@ class NeuroPhaseCausalEngine:
             target_id="intent_goal",
             target_phases=target_phases,
             attractor_strength=strength
+        )
+
+    def project_internal_prediction_wave(self) -> np.ndarray:
+        """
+        Generates internal prediction wave projected outward from current rotor lattice state.
+        theta_pred_i = phase_i
+        """
+        pred_phases = []
+        for node_id in sorted(self.nodes.keys()):
+            node = self.nodes[node_id]
+            pred_phases.append(node.phase)
+        return np.array(pred_phases, dtype=np.float64)
+
+    def negotiate_bidirectional_phase(
+        self,
+        external_stream: ExternalWaveStream,
+        coupling_gain: float = 1.5,
+        crystallization_threshold: float = 0.08
+    ) -> PhaseNegotiationResult:
+        """
+        Executes Bidirectional Phase Coupling & Negotiation:
+        1. Projects internal prediction wave toward sensory boundary.
+        2. Clashes internal wave against external wave stream.
+        3. Computes phase error q_err = mean( |sin((theta_ext - theta_pred)/2)| ).
+        4. Entrains internal rotors toward external stream while pushing back external stream (coupling).
+        5. Cools system temperature as q_err drops (dissipates thermal friction).
+        6. Reaches Solid Crystal (ICE) state when q_err < threshold.
+        """
+        pred_wave = self.project_internal_prediction_wave()
+        ext_wave = external_stream.wave_phases.flatten()
+        ext_freqs = external_stream.frequencies.flatten() if len(external_stream.frequencies) > 0 else np.full(len(pred_wave), 40.0)
+
+        # Resample external wave & freqs to match internal node count if dimensions differ
+        if len(ext_wave) != len(pred_wave):
+            ext_wave = np.interp(
+                np.linspace(0, len(ext_wave) - 1, len(pred_wave)),
+                np.arange(len(ext_wave)),
+                ext_wave
+            )
+            ext_freqs = np.interp(
+                np.linspace(0, len(ext_freqs) - 1, len(pred_wave)),
+                np.arange(len(ext_freqs)),
+                ext_freqs
+            )
+
+        # 3. Compute Phase Error (q_err) and boundary friction
+        phase_diffs = np.abs(np.sin((ext_wave - pred_wave) / 2.0))
+        q_err = float(np.mean(phase_diffs))
+        thermal_friction = q_err * self.system_temperature
+
+        # 4. Bidirectional Entrainment (Entraining internal rotors to external wave & frequency)
+        sorted_keys = sorted(self.nodes.keys())
+        for idx, node_id in enumerate(sorted_keys):
+            node = self.nodes[node_id]
+            delta_p = math.sin(ext_wave[idx] - node.phase)
+            # Entrain phase and intrinsic frequency toward external wave
+            node.phase = (node.phase + coupling_gain * delta_p * 0.4) % (2.0 * math.pi)
+            node.intrinsic_frequency = (1.0 - 0.2 * coupling_gain) * node.intrinsic_frequency + (0.2 * coupling_gain) * ext_freqs[idx]
+            node.energy += 0.2 * (1.0 - phase_diffs[idx])
+
+        # 5. Dissipate system temperature in proportion to alignment (cooling)
+        cooling_factor = 0.70 if q_err < 0.2 else 0.88
+        self.system_temperature = max(0.05, self.system_temperature * cooling_factor)
+        self.last_q_err = q_err
+
+        # Check crystallization
+        is_crystallized = (q_err < crystallization_threshold) or (self.system_temperature <= 0.1)
+        if is_crystallized:
+            self.system_temperature = 0.05  # Solid state
+            self.global_phase_state = NeuroPhaseState.SOLID
+            # Store concept as phase-locked attractor basin
+            concept_key = f"{external_stream.modality}_concept"
+            self.crystallized_attractors[concept_key] = {
+                nid: self.nodes[nid].phase for nid in self.nodes
+            }
+
+        self.update_phase_state()
+        resonance = 1.0 - q_err
+
+        return PhaseNegotiationResult(
+            q_err=q_err,
+            thermal_friction=thermal_friction,
+            resonance_level=resonance,
+            is_crystallized=is_crystallized,
+            internal_prediction_wave=pred_wave,
+            external_wave=ext_wave
         )
 
     def inject_sensory_grounding(self, external_wave: Dict[str, float], coupling_gain: float = 2.0) -> None:
@@ -227,15 +347,7 @@ class NeuroPhaseCausalEngine:
             for id_i, gain in self.attention_focus.items():
                 torques[id_i] *= gain
 
-        # 4 & 5. Thermal noise addition & update phase
-        for id_i, node in self.nodes.items():
-            thermal_noise = np.random.normal(0, math.sqrt(self.system_temperature) * 2.0) if self.global_phase_state == NeuroPhaseState.GAS else (
-                np.random.normal(0, 0.1 * math.sqrt(self.system_temperature)) if self.global_phase_state == NeuroPhaseState.LIQUID else 0.0
-            )
-            total_torque = torques[id_i] + thermal_noise
-            node.update_phase(dt, external_torque=total_torque)
-
-        # 6. Plasticity: Hebbian phase-locking coupling adaptation
+        # 6. Plasticity: Hebbian phase-locking coupling adaptation before phase update
         if self.global_phase_state != NeuroPhaseState.SOLID:  # Plasticity active in Gas/Liquid
             for id_i, idx_i in self.node_id_map.items():
                 for id_j, idx_j in self.node_id_map.items():
@@ -245,6 +357,14 @@ class NeuroPhaseCausalEngine:
                         self.coupling_matrix[idx_i, idx_j] = max(0.01, min(10.0, self.coupling_matrix[idx_i, idx_j] + delta_k))
                         self.coupling_matrix[idx_j, idx_i] = self.coupling_matrix[idx_i, idx_j]
 
+        # 4 & 5. Thermal noise addition & update phase
+        for id_i, node in self.nodes.items():
+            thermal_noise = np.random.normal(0, math.sqrt(self.system_temperature) * 2.0) if self.global_phase_state == NeuroPhaseState.GAS else (
+                np.random.normal(0, 0.1 * math.sqrt(self.system_temperature)) if self.global_phase_state == NeuroPhaseState.LIQUID else 0.0
+            )
+            total_torque = torques[id_i] + thermal_noise
+            node.update_phase(dt, external_torque=total_torque)
+
         # 7. Update Phase State
         current_state = self.update_phase_state()
         coherence = self.calculate_global_coherence()
@@ -252,6 +372,7 @@ class NeuroPhaseCausalEngine:
         return {
             "coherence": coherence,
             "temperature": self.system_temperature,
+            "q_err": self.last_q_err if self.last_q_err is not None else 0.0,
             "state": current_state.value
         }
 

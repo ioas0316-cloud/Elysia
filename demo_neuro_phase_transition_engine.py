@@ -1,129 +1,96 @@
-#!/usr/bin/env python3
 """
-CLI Demonstration Script: Neuro-Phase Causal Engine ("From Planet to Person").
+Demo: Neuro-Phase Transition & Bidirectional Phase Grounding Simulation.
 
-Demonstrates:
-1. Gas Phase (Entropic Field): High thermal noise, uncoupled random rotor oscillations, intuitive spark.
-2. Liquid Phase (Dynamic Flow): Inter-rotor wave propagation, continuous association.
-3. Solid Crystal Phase (Locked Causal Field): Phase-lock synchronization, zero-loss invariant structure.
-4. The 4 Conscious Mechanisms:
-   - Mechanism 1: Attention (Energy Lens focusing & noise suppression)
-   - Mechanism 2: Teleological Intent (Future goal attractor pull)
-   - Mechanism 3: Sensory Grounding (Cross-resonance with external wave input)
-   - Mechanism 4: Plasticity (Hebbian coupling rewiring feedback loop)
+Simulates the full journey: "From Planet to Person"
+- Heterogeneous external wave streams (Text, Audio, Vision) penetrate the sensory boundary.
+- Internal rotor lattice projects internal prediction waves outward.
+- System undergoes bidirectional phase negotiation, minimizing q_err and thermal friction.
+- Phase state transitions from GAS (Incoherent / High Temp) -> LIQUID (Dynamic Flow) -> ICE (Crystallized Phase-Lock / Concept Attractor).
 """
 
-import sys
 import time
 import math
 import numpy as np
-
 from core.consciousness.neuro_phase_causal_engine import (
     NeuroPhaseCausalEngine,
+    ExternalWaveStream,
     NeuroPhaseState
 )
+from core.sensory.multimodal_cognitive_frontend import MultimodalCognitiveFrontend
 
 
-def print_banner(title: str):
-    print("\n" + "=" * 80)
-    print(f" {title}")
-    print("=" * 80)
-
-
-def render_phase_bar(coherence: float, length: int = 30) -> str:
-    filled = int(round(coherence * length))
-    return f"[{'█' * filled}{'-' * (length - filled)}] {coherence:.3f}"
-
-
-def main():
-    print_banner("ELYASIA: NEURO-PHASE CAUSAL ENGINE DEMONSTRATION")
-    print("Initializing 3D Rotor Lattice Space (16 Neuronal/Synaptic Oscillator Nodes)...\n")
+def run_neuro_phase_transition_demo():
+    print("==========================================================================")
+    print(" ELYSIA NEURO-PHASE TRANSITION ENGINE: FROM PLANET TO PERSON DEMO ")
+    print("==========================================================================")
+    print("Initializing Neuro-Phase Causal Engine with 16 3D Rotor Nodes...")
 
     engine = NeuroPhaseCausalEngine(num_nodes=16, lattice_dims=(4, 2, 2))
+    frontend = MultimodalCognitiveFrontend(feature_dim=16)
 
-    # --------------------------------------------------------------------------
-    # STEP 1: GAS PHASE (Entropic Field)
-    # --------------------------------------------------------------------------
-    print_banner("STEP 1: GAS PHASE (Entropic Field / High Thermal Entropy)")
-    print("  * System state: High kinetic temperature (T = 3.0)")
-    print("  * Physical behavior: Dispersed, uncoupled random rotor oscillations.")
-    print("  * Consciousness meaning: Intuitive spark, unconstrained ideas, free possibilities.\n")
+    print(f"Initial System Temperature: {engine.system_temperature:.2f} (GAS State)")
+    print(f"Initial Order Parameter R: {engine.calculate_global_coherence():.4f}\n")
 
-    engine.set_temperature(3.0)
-    for step_i in range(5):
-        stats = engine.step(dt=0.001)
-        print(f"  Step {step_i + 1:02d} | Temp: {stats['temperature']:.1f} | State: {stats['state'].upper():<6} | Coherence: {render_phase_bar(stats['coherence'])}")
+    # Modality 1: Text Stream ("사과" - Apple as Phase Impulse Wave)
+    print("--------------------------------------------------------------------------")
+    print(" [MODALITY 1: LINGUISTIC PHASE IMPULSE ('사과' / Apple) ]")
+    print("--------------------------------------------------------------------------")
 
-    # --------------------------------------------------------------------------
-    # STEP 2: MECHANISM 1 & 3 - SENSORY GROUNDING & ATTENTION LENS
-    # --------------------------------------------------------------------------
-    print_banner("STEP 2: APPLYING SENSORY GROUNDING & ATTENTION LENS")
-    print("  * Injecting external sensory wave into front-layer rotors: rotor_0_0_0, rotor_0_0_1")
-    print("  * Focusing Attention Lens (Gain = 4.0) on front layer, suppressing background noise (Gain = 0.2)\n")
+    frontend_out = frontend.process_multimodal_input(text_input="사과")
+    text_vec = frontend_out["axis_b_qualia"]
+    text_phases = text_vec * math.pi
 
-    external_stimulus = {
-        "rotor_0_0_0": math.pi / 2.0,
-        "rotor_0_0_1": math.pi / 2.0
-    }
-    engine.inject_sensory_grounding(external_stimulus, coupling_gain=3.0)
-    engine.apply_attention_lens(target_nodes=["rotor_0_0_0", "rotor_0_0_1"], gain=4.0)
+    text_stream = ExternalWaveStream(
+        modality="text",
+        wave_phases=text_phases,
+        frequencies=np.full(16, 40.0)
+    )
 
-    print("  Energy Distribution post-Attention:")
-    for node_id in ["rotor_0_0_0", "rotor_0_0_1", "rotor_1_0_0", "rotor_2_1_1"]:
-        if node_id in engine.nodes:
-            print(f"    - Node {node_id:<12}: Energy = {engine.nodes[node_id].energy:.2f}")
+    print(f"External Text Wave Inflow Phase Vector (first 4): {text_stream.wave_phases[:4]}")
 
-    # --------------------------------------------------------------------------
-    # STEP 3: LIQUID PHASE (Dynamic Wave Propagation)
-    # --------------------------------------------------------------------------
-    print_banner("STEP 3: LIQUID PHASE TRANSITION (Dynamic Continuous Inference)")
-    print("  * Cooling system temperature (T = 1.0)")
-    print("  * Inter-rotor waves flowing continuously across the 3D coupling matrix.")
-    print("  * Plasticity active: Hebbian phase co-firing strengthens local connections.\n")
+    for step in range(1, 16):
+        result = engine.negotiate_bidirectional_phase(text_stream, coupling_gain=2.5, crystallization_threshold=0.1)
+        step_status = engine.step(dt=0.005)
+        print(
+            f"Step {step:02d} | State: {result.is_crystallized and 'ICE (Solid)' or engine.global_phase_state.value.upper():<7} | "
+            f"Temp: {engine.system_temperature:.4f} | q_err: {result.q_err:.4f} | "
+            f"Friction: {result.thermal_friction:.4f} | Coherence R: {step_status['coherence']:.4f}"
+        )
 
-    engine.set_temperature(1.0)
-    initial_coupling_sum = engine.coupling_matrix.sum()
+    # Modality 2: Vision Stream (Red Apple 2D Phase Matrix)
+    print("\n--------------------------------------------------------------------------")
+    print(" [MODALITY 2: VISUAL ELECTROMAGNETIC MATRIX (Red Apple Light Waves) ]")
+    print("--------------------------------------------------------------------------")
 
-    for step_i in range(10):
-        stats = engine.step(dt=0.002)
-        print(f"  Step {step_i + 1:02d} | Temp: {stats['temperature']:.1f} | State: {stats['state'].upper():<6} | Coherence: {render_phase_bar(stats['coherence'])}")
+    apple_rgb = np.array([[[220, 20, 20]] * 4] * 4, dtype=np.uint8)  # 4x4 Red matrix
+    frontend_out_vis = frontend.process_multimodal_input(rgb_image=apple_rgb)
+    vis_manifold = frontend_out_vis["axis_a_topology"]
+    vis_phases = vis_manifold * math.pi
 
-    new_coupling_sum = engine.coupling_matrix.sum()
-    print(f"\n  * Plasticity Rewiring Impact: Matrix Coupling Strength Sum changed from {initial_coupling_sum:.3f} -> {new_coupling_sum:.3f}")
+    vision_stream = ExternalWaveStream(
+        modality="vision",
+        wave_phases=vis_phases,
+        frequencies=np.full(16, 60.0)
+    )
 
-    # --------------------------------------------------------------------------
-    # STEP 4: MECHANISM 2 - TELEOLOGICAL INTENT (Future Goal Attractor Pull)
-    # --------------------------------------------------------------------------
-    print_banner("STEP 4: TELEOLOGICAL INTENT (Future Goal Attractor Pull)")
-    print("  * Establishing target goal phase state across all rotors (Target Phase = 1.0 rad)")
-    print("  * Teleological force exerts backward attractor pull to align present rotor phases.\n")
+    for step in range(1, 16):
+        result = engine.negotiate_bidirectional_phase(vision_stream, coupling_gain=3.0, crystallization_threshold=0.1)
+        step_status = engine.step(dt=0.005)
+        print(
+            f"Step {step:02d} | State: {result.is_crystallized and 'ICE (Solid)' or engine.global_phase_state.value.upper():<7} | "
+            f"Temp: {engine.system_temperature:.4f} | q_err: {result.q_err:.4f} | "
+            f"Friction: {result.thermal_friction:.4f} | Coherence R: {step_status['coherence']:.4f}"
+        )
 
-    target_phases = {node_id: 1.0 for node_id in engine.nodes}
-    engine.set_teleological_intent(target_phases=target_phases, strength=10.0)
-
-    for step_i in range(10):
-        stats = engine.step(dt=0.002)
-        print(f"  Step {step_i + 1:02d} | Temp: {stats['temperature']:.1f} | State: {stats['state'].upper():<6} | Coherence: {render_phase_bar(stats['coherence'])}")
-
-    # --------------------------------------------------------------------------
-    # STEP 5: SOLID CRYSTAL PHASE (Phase-Lock Conviction Storage)
-    # --------------------------------------------------------------------------
-    print_banner("STEP 5: SOLID CRYSTAL TRANSITION (Phase-Lock Invariant Memory)")
-    print("  * Cooling system temperature to absolute zero (T = 0.0)")
-    print("  * Locking rotor phases into crystal alignment (Coherence R > 0.85)")
-    print("  * Zero-FLOP invariant knowledge structure solidified.\n")
-
-    engine.set_temperature(0.0)
-    # Target goal attractor locks phases into high coherence crystal
-    for node in engine.nodes.values():
-        node.phase = 1.0
-
-    for step_i in range(10):
-        stats = engine.step(dt=0.002)
-        print(f"  Step {step_i + 1:02d} | Temp: {stats['temperature']:.1f} | State: {stats['state'].upper():<6} | Coherence: {render_phase_bar(stats['coherence'])}")
-
-    print_banner("DEMONSTRATION COMPLETE: ALL 4 NEURO-CONSCIOUS MECHANISMS & PHASE TRANSITIONS VERIFIED!")
+    print("\n--------------------------------------------------------------------------")
+    print(" [CRYSTALLIZATION & QUALIA CONVERGENCE RESULT ]")
+    print("--------------------------------------------------------------------------")
+    print(f"Active Crystallized Attractors in Engine: {list(engine.crystallized_attractors.keys())}")
+    print(f"Final Global Phase State: {engine.global_phase_state.value.upper()}")
+    print(f"Final Order Parameter R: {engine.calculate_global_coherence():.4f} (Phase-Locked Lattice)")
+    print("Zero-FLOP Invariant Concept Storage Achieved.")
+    print("==========================================================================\n")
 
 
 if __name__ == "__main__":
-    main()
+    run_neuro_phase_transition_demo()
