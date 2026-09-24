@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro-Phase Causal Engine: Dual-Axis Boundary Phase Transition Visualizer</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: rgba(18, 26, 43, 0.85);
+            --border-color: rgba(64, 120, 190, 0.3);
+            --gas-color: #ff5533;
+            --liquid-color: #00d2ff;
+            --ice-color: #a0f0ff;
+            --text-main: #e2e8f0;
+            --accent-glow: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(90deg, #0f172a, #1e293b);
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            flex: 1;
+            position: relative;
+            background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .sidebar {
+            width: 380px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border-left: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .phase-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .phase-gas { background: rgba(255, 85, 51, 0.2); color: var(--gas-color); border: 1px solid var(--gas-color); }
+        .phase-liquid { background: rgba(0, 210, 255, 0.2); color: var(--liquid-color); border: 1px solid var(--liquid-color); }
+        .phase-ice { background: rgba(160, 240, 255, 0.2); color: var(--ice-color); border: 1px solid var(--ice-color); }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .control-label {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-glow);
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #334155, #475569);
+            border-color: #38bdf8;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+        }
+
+        .info-box {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            line-height: 1.4;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #38bdf8;
+        }
+
+        .overlay-instruction {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-color);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>Elysia Causal Engine: Boundary Phase Transition Dashboard</h1>
+            <div class="subtitle">Dual-Axis Causality: Invariant Anchor (A_inv) vs Environmental Pressure Tensor (P_env)</div>
+        </div>
+        <div id="phase-badge-header" class="phase-badge phase-gas">GAS (Entropic)</div>
+    </header>
+
+    <div class="main-container">
+        <div id="canvas-container">
+            <div class="overlay-instruction">
+                💡 <b>Canvas Interactive Boundary:</b> Drag mouse to inject directional wave flux ($J$) or click to shock system ($T$).
+            </div>
+            <canvas id="causal-canvas"></canvas>
+        </div>
+
+        <div class="sidebar">
+            <!-- Phase State & Metrics -->
+            <div class="card">
+                <div class="card-title">
+                    <span>Live Phase Metrics</span>
+                    <span id="state-text" style="font-size: 0.75rem; color: #94a3b8;">Order Parameter</span>
+                </div>
+                <div class="metric-row">
+                    <span>Order Parameter (&eta;):</span>
+                    <span id="val-eta" class="metric-value">0.120</span>
+                </div>
+                <div class="metric-row">
+                    <span>Environmental Pressure (P_env):</span>
+                    <span id="val-penv" class="metric-value">3.20</span>
+                </div>
+                <div class="metric-row">
+                    <span>Free Energy F(&eta;):</span>
+                    <span id="val-free-energy" class="metric-value">-12.45</span>
+                </div>
+                <div class="metric-row">
+                    <span>Boundary Error (q_err):</span>
+                    <span id="val-qerr" class="metric-value">0.450</span>
+                </div>
+            </div>
+
+            <!-- Variable Axis Controls -->
+            <div class="card">
+                <div class="card-title">Variable Axis: Environmental Pressure (P_env)</div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Thermal Noise / Temp (T)</span>
+                        <span id="label-temp">2.50</span>
+                    </div>
+                    <input type="range" id="slider-temp" min="0.05" max="4.0" step="0.05" value="2.50">
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Shear Stress (&tau;)</span>
+                        <span id="label-shear">0.00</span>
+                    </div>
+                    <input type="range" id="slider-shear" min="0.0" max="2.5" step="0.05" value="0.00">
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Directional Wave Flux (J_x)</span>
+                        <span id="label-flux">0.00</span>
+                    </div>
+                    <input type="range" id="slider-flux" min="-3.0" max="3.0" step="0.1" value="0.00">
+                </div>
+            </div>
+
+            <!-- Actions & Presets -->
+            <div class="card">
+                <div class="card-title">Phase Transition Triggers</div>
+                <div class="btn-grid">
+                    <button id="btn-gas">Heat to GAS</button>
+                    <button id="btn-liquid">Stream to LIQUID</button>
+                    <button id="btn-ice">Cool to ICE Crystal</button>
+                    <button id="btn-reset">Reset Anchor Coordinates</button>
+                </div>
+            </div>
+
+            <!-- Architectural Philosophy -->
+            <div class="info-box">
+                <b>Dual-Axis Causality Principle:</b><br>
+                1. <b>Fixed Axis (A_inv):</b> Core topological skeleton remains invariant despite deformation.<br>
+                2. <b>Variable Axis (P_env):</b> Environmental friction shifts system state between GAS (entropic exploration), LIQUID (morphological plasticity), and ICE (attractor crystallization).
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('causal-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        function resize() {
+            width = canvas.width = canvas.parentElement.clientWidth;
+            height = canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // System Parameters & State
+        const numNodes = 24;
+        let thermalTemp = 2.5;
+        let shearStress = 0.0;
+        let directionalFluxX = 0.0;
+        let qErr = 0.2;
+        let pCrit = 2.5;
+
+        // Invariant Anchor Coordinates (Skeleton)
+        const anchorSkeleton = [];
+        const currentNodes = [];
+
+        function initNodes() {
+            anchorSkeleton.length = 0;
+            currentNodes.length = 0;
+
+            const cols = 6;
+            const rows = 4;
+            const spacingX = 80;
+            const spacingY = 60;
+            const startX = width / 2 - (cols * spacingX) / 2 + spacingX / 2;
+            const startY = height / 2 - (rows * spacingY) / 2 + spacingY / 2;
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const sx = startX + c * spacingX;
+                    const sy = startY + r * spacingY;
+                    anchorSkeleton.push({ x: sx, y: sy });
+                    currentNodes.push({
+                        x: sx + (Math.random() - 0.5) * 40,
+                        y: sy + (Math.random() - 0.5) * 40,
+                        phase: Math.random() * Math.PI * 2,
+                        freq: 40 + (Math.random() - 0.5) * 2,
+                        vx: 0, vy: 0
+                    });
+                }
+            }
+        }
+        initNodes();
+
+        // Calculate Order Parameter eta = |1/N sum e^(i theta_j)|
+        function calculateOrderParameter() {
+            let sumReal = 0;
+            let sumImag = 0;
+            for (let node of currentNodes) {
+                sumReal += Math.cos(node.phase);
+                sumImag += Math.sin(node.phase);
+            }
+            return Math.sqrt(sumReal * sumReal + sumImag * sumImag) / numNodes;
+        }
+
+        // Calculate P_env magnitude
+        function getPressureMagnitude() {
+            return thermalTemp + shearStress + Math.abs(directionalFluxX) + (qErr * 2.0);
+        }
+
+        // Calculate Landau-Ginzburg Free Energy F
+        function calculateFreeEnergy(eta, pMag) {
+            return (1.0 * (pCrit - pMag) * Math.pow(eta, 2)) + Math.pow(eta, 4) - (0.8 * eta);
+        }
+
+        // Mouse interactions
+        let isDragging = false;
+        let lastMouseX = 0;
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            lastMouseX = e.clientX;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = (e.clientX - lastMouseX) * 0.05;
+                directionalFluxX = Math.max(-3.0, Math.min(3.0, directionalFluxX + deltaX));
+                document.getElementById('slider-flux').value = directionalFluxX;
+                document.getElementById('label-flux').innerText = directionalFluxX.toFixed(2);
+                lastMouseX = e.clientX;
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => isDragging = false);
+
+        canvas.addEventListener('click', (e) => {
+            // Thermal Shock injection
+            thermalTemp = Math.min(4.0, thermalTemp + 0.8);
+            document.getElementById('slider-temp').value = thermalTemp;
+            document.getElementById('label-temp').innerText = thermalTemp.toFixed(2);
+        });
+
+        // UI Event Listeners
+        document.getElementById('slider-temp').addEventListener('input', (e) => {
+            thermalTemp = parseFloat(e.target.value);
+            document.getElementById('label-temp').innerText = thermalTemp.toFixed(2);
+        });
+
+        document.getElementById('slider-shear').addEventListener('input', (e) => {
+            shearStress = parseFloat(e.target.value);
+            document.getElementById('label-shear').innerText = shearStress.toFixed(2);
+        });
+
+        document.getElementById('slider-flux').addEventListener('input', (e) => {
+            directionalFluxX = parseFloat(e.target.value);
+            document.getElementById('label-flux').innerText = directionalFluxX.toFixed(2);
+        });
+
+        document.getElementById('btn-gas').addEventListener('click', () => {
+            thermalTemp = 3.5;
+            shearStress = 1.2;
+            directionalFluxX = 0.0;
+            updateControlsUI();
+        });
+
+        document.getElementById('btn-liquid').addEventListener('click', () => {
+            thermalTemp = 1.2;
+            shearStress = 0.5;
+            directionalFluxX = 2.0;
+            updateControlsUI();
+        });
+
+        document.getElementById('btn-ice').addEventListener('click', () => {
+            thermalTemp = 0.1;
+            shearStress = 0.0;
+            directionalFluxX = 0.0;
+            qErr = 0.02;
+            // Align phases
+            for (let n of currentNodes) n.phase = Math.PI / 4;
+            updateControlsUI();
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            initNodes();
+        });
+
+        function updateControlsUI() {
+            document.getElementById('slider-temp').value = thermalTemp;
+            document.getElementById('label-temp').innerText = thermalTemp.toFixed(2);
+            document.getElementById('slider-shear').value = shearStress;
+            document.getElementById('label-shear').innerText = shearStress.toFixed(2);
+            document.getElementById('slider-flux').value = directionalFluxX;
+            document.getElementById('label-flux').innerText = directionalFluxX.toFixed(2);
+        }
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            const eta = calculateOrderParameter();
+            const pMag = getPressureMagnitude();
+            const freeEnergy = calculateFreeEnergy(eta, pMag);
+
+            // Determine Phase State
+            let phaseState = 'GAS';
+            if (pMag > pCrit && eta < 0.8) {
+                phaseState = 'GAS';
+            } else if (pMag <= 0.4 || eta >= 0.85) {
+                phaseState = 'ICE';
+            } else {
+                phaseState = 'LIQUID';
+            }
+
+            // Update UI Badges & Metrics
+            document.getElementById('val-eta').innerText = eta.toFixed(3);
+            document.getElementById('val-penv').innerText = pMag.toFixed(2);
+            document.getElementById('val-free-energy').innerText = freeEnergy.toFixed(3);
+            document.getElementById('val-qerr').innerText = qErr.toFixed(3);
+
+            const badgeHeader = document.getElementById('phase-badge-header');
+            badgeHeader.innerText = phaseState + " Phase";
+            badgeHeader.className = "phase-badge phase-" + phaseState.toLowerCase();
+
+            // Draw Invariant Anchor Skeleton (Fixed Axis)
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.setLineDash([4, 4]);
+            ctx.lineWidth = 1;
+
+            for (let i = 0; i < numNodes; i++) {
+                const s = anchorSkeleton[i];
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, 4, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Draw connectivity lines to neighbors in skeleton
+                if ((i + 1) % 6 !== 0 && i + 1 < numNodes) {
+                    ctx.beginPath();
+                    ctx.moveTo(s.x, s.y);
+                    ctx.lineTo(anchorSkeleton[i + 1].x, anchorSkeleton[i + 1].y);
+                    ctx.stroke();
+                }
+            }
+            ctx.setLineDash([]);
+
+            // Draw Environmental Directional Flux Vector Arrows
+            if (Math.abs(directionalFluxX) > 0.1) {
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+                ctx.lineWidth = 2;
+                const arrowY = height / 2;
+                const arrowStartX = width / 2 - 180;
+                const arrowEndX = arrowStartX + directionalFluxX * 60;
+
+                ctx.beginPath();
+                ctx.moveTo(arrowStartX, arrowY);
+                ctx.lineTo(arrowEndX, arrowY);
+                ctx.stroke();
+            }
+
+            // Node Dynamics & Morphological Plasticity Step
+            for (let i = 0; i < numNodes; i++) {
+                const node = currentNodes[i];
+                const anchor = anchorSkeleton[i];
+
+                // Advance phase angle theta
+                const KuramotoTorque = 0.5 * Math.sin(-node.phase); // Simple coupling to zero reference
+                node.phase += (node.freq * 0.001) + KuramotoTorque * 0.01;
+
+                if (phaseState === 'GAS') {
+                    // Thermal random motion
+                    node.x += (Math.random() - 0.5) * thermalTemp * 3;
+                    node.y += (Math.random() - 0.5) * thermalTemp * 3;
+                } else if (phaseState === 'LIQUID') {
+                    // Morphological Plasticity: Streamline drift along directional flux + anchor restoration
+                    const targetX = anchor.x + directionalFluxX * 30;
+                    const targetY = anchor.y + Math.sin(node.phase) * shearStress * 20;
+
+                    node.x += (targetX - node.x) * 0.05;
+                    node.y += (targetY - node.y) * 0.05;
+                } else { // ICE / SOLID
+                    // Phase-locked crystal anchor alignment
+                    node.x += (anchor.x - node.x) * 0.15;
+                    node.y += (anchor.y - node.y) * 0.15;
+                }
+
+                // Render Rotor Node Particle
+                let particleColor = '#ff5533'; // GAS
+                if (phaseState === 'LIQUID') particleColor = '#00d2ff';
+                if (phaseState === 'ICE') particleColor = '#a0f0ff';
+
+                // Node Body
+                ctx.fillStyle = particleColor;
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 6 + eta * 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Phase Vector Indicator Line
+                const vecLen = 14;
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(node.x, node.y);
+                ctx.lineTo(node.x + Math.cos(node.phase) * vecLen, node.y + Math.sin(node.phase) * vecLen);
+                ctx.stroke();
+            }
+
+            // Draw inter-rotor coupling beams in Liquid & ICE states
+            if (phaseState !== 'GAS') {
+                ctx.strokeStyle = phaseState === 'ICE' ? 'rgba(160, 240, 255, 0.6)' : 'rgba(0, 210, 255, 0.3)';
+                ctx.lineWidth = phaseState === 'ICE' ? 2 : 1;
+                for (let i = 0; i < numNodes; i++) {
+                    for (let j = i + 1; j < numNodes; j++) {
+                        const dist = Math.hypot(currentNodes[i].x - currentNodes[j].x, currentNodes[i].y - currentNodes[j].y);
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(currentNodes[i].x, currentNodes[i].y);
+                            ctx.lineTo(currentNodes[j].x, currentNodes[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
