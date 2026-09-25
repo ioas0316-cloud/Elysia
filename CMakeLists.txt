@@ -119,6 +119,9 @@ target_include_directories(elysia_hardware PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/in
 add_executable(test_elysian_hardware_pipeline tests/cpp/test_elysian_hardware_pipeline.cpp)
 target_link_libraries(test_elysian_hardware_pipeline PRIVATE elysia_hardware OpenMP::OpenMP_CXX)
 
+add_executable(test_elysia_relaxation_solver tests/cpp/test_elysia_relaxation_solver.cpp)
+target_link_libraries(test_elysia_relaxation_solver PRIVATE OpenMP::OpenMP_CXX)
+
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)
 if (NOT pybind11_FOUND)
