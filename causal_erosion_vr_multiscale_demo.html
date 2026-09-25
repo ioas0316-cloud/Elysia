@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia Engine: Causal Erosion & Multi-Scale VR Attractor Demo</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: rgba(18, 26, 42, 0.85);
+            --accent-cyan: #00f3ff;
+            --accent-magenta: #ff0055;
+            --accent-green: #00ff88;
+            --accent-gold: #ffaa00;
+            --text-color: #e0e6ed;
+            --border-color: rgba(0, 243, 255, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #canvas-container {
+            flex: 1;
+            position: relative;
+            background: radial-gradient(circle at center, #111a2e 0%, #070a10 100%);
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #sidebar {
+            width: 380px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border-left: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: #8a99ad;
+            margin-top: -10px;
+            margin-bottom: 5px;
+        }
+
+        .section-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-color);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .status-normal { background: rgba(0, 255, 136, 0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .status-berserk { background: rgba(255, 0, 85, 0.2); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); }
+        .status-denatured { background: rgba(255, 170, 0, 0.2); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        button {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 12px rgba(0, 243, 255, 0.6);
+        }
+
+        button.btn-danger {
+            background: rgba(255, 0, 85, 0.1);
+            border-color: var(--accent-magenta);
+            color: var(--accent-magenta);
+        }
+
+        button.btn-danger:hover {
+            background: var(--accent-magenta);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(255, 0, 85, 0.6);
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #a0aec0;
+        }
+
+        .metric-value {
+            color: #fff;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .slider-container label {
+            font-size: 0.75rem;
+            color: #8a99ad;
+        }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--accent-cyan);
+        }
+
+        #hud-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .hud-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .hud-card span {
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container">
+        <canvas id="simCanvas"></canvas>
+        <div id="hud-overlay">
+            <div class="hud-card">MODE: <span id="hudMode">1. CAUSAL EROSION LANDSCAPE</span></div>
+            <div class="hud-card">FPS: <span id="hudFps">120</span> | ERODED WELLS: <span id="hudWells">0</span></div>
+            <div class="hud-card">PHASE TRANSITION: <span id="hudPhase">O(N) DISCRETE WELLS</span></div>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <h1>ELYSIA ENGINE</h1>
+        <div class="subtitle">Multi-Scale Causal Erosion & VR Attractor Field</div>
+
+        <!-- Mode Select -->
+        <div class="section-box">
+            <div class="section-title">SIMULATION VIEW MODE</div>
+            <div class="btn-group">
+                <button id="btnViewErosion" onclick="switchView('erosion')">1. Causal Erosion</button>
+                <button id="btnViewMonster" onclick="switchView('monster')">2. VR Monster</button>
+            </div>
+            <div class="btn-group">
+                <button id="btnViewProtein" onclick="switchView('protein')">3. Micro Protein</button>
+                <button id="btnViewMulti" onclick="switchView('multiscale')">4. Multi-Scale Eco</button>
+            </div>
+        </div>
+
+        <!-- Causal Erosion Controls -->
+        <div class="section-box" id="panelErosion">
+            <div class="section-title">
+                CAUSAL EROSION GEODESICS
+                <span class="status-badge status-normal" id="badgeErosionPhase">O(N) DISCRETE</span>
+            </div>
+            <div class="metric-row">
+                <span>Eroded Wells (N):</span>
+                <span class="metric-value" id="valWells">0 / 100</span>
+            </div>
+            <div class="metric-row">
+                <span>Phase Threshold (N_c):</span>
+                <span class="metric-value">100 Wells</span>
+            </div>
+            <div class="btn-group">
+                <button onclick="triggerErosionTrajectory()">Drag & Erode Path</button>
+                <button onclick="triggerMemoryReplay()">Memory Replay</button>
+            </div>
+            <button class="btn-danger" onclick="resetErosionLandscape()">Reset Potential Landscape</button>
+        </div>
+
+        <!-- Macro VR Monster Controls -->
+        <div class="section-box" id="panelMonster">
+            <div class="section-title">
+                MACRO VR MONSTER BIFURCATION
+                <span class="status-badge status-normal" id="badgeMonsterMode">NORMAL</span>
+            </div>
+            <div class="metric-row">
+                <span>Accumulated Tension:</span>
+                <span class="metric-value" id="valMonsterTension">0.00 / 5.00</span>
+            </div>
+            <div class="btn-group">
+                <button class="btn-danger" onclick="hitVRMonster(2)">Hit Node 2 (Head)</button>
+                <button class="btn-danger" onclick="hitVRMonster(5)">Hit Node 5 (Torso)</button>
+            </div>
+            <button onclick="resetVRMonster()">Reset Monster State</button>
+        </div>
+
+        <!-- Micro Protein Controls -->
+        <div class="section-box" id="panelProtein">
+            <div class="section-title">
+                MICRO PROTEIN FOLDING
+                <span class="status-badge status-normal" id="badgeProteinState">NATIVE FOLD</span>
+            </div>
+            <div class="metric-row">
+                <span>Temperature (λ):</span>
+                <span class="metric-value" id="valProteinTemp">300.0 K</span>
+            </div>
+            <div class="slider-container">
+                <label>Thermal Stimulus (273K - 420K):</label>
+                <input type="range" id="sliderTemp" min="273" max="420" value="300" oninput="updateThermalStimulus(this.value)">
+            </div>
+            <div class="btn-group">
+                <button onclick="setProteinTemp(300)">300K (Native)</button>
+                <button class="btn-danger" onclick="setProteinTemp(380)">380K (Denature)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let currentView = 'erosion';
+
+        // 1. Causal Erosion Engine
+        let wellCenters = []; // [{x, y}]
+        let trajectoryPoints = [];
+        let particles = [];
+        let isPhaseTransformed = false;
+        const NC_THRESHOLD = 100;
+
+        for(let i=0; i<20; i++) {
+            particles.push({
+                x: (Math.random() - 0.5) * 400,
+                y: (Math.random() - 0.5) * 400,
+                vx: 0, vy: 0
+            });
+        }
+
+        // 2. VR Monster Engine
+        let monsterNodes = [];
+        let monsterNormalAttractor = [];
+        let monsterBerserkAttractor = [];
+        let monsterMode = 'normal';
+        let monsterTension = 0.0;
+
+        for(let i=0; i<12; i++) {
+            let angle = (i / 12) * Math.PI * 2;
+            let radius = 80 + (i % 3) * 20;
+            monsterNormalAttractor.push({ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius });
+            monsterBerserkAttractor.push({ x: Math.cos(angle) * radius * 2.2, y: Math.sin(angle) * radius * 2.2 });
+            monsterNodes.push({ x: Math.cos(angle) * radius, y: Math.sin(angle) * radius });
+        }
+
+        // 3. Micro Protein Engine
+        let proteinAtoms = [];
+        let proteinNativeFold = [];
+        let proteinUnfolded = [];
+        let proteinTemp = 300.0;
+        let isProteinDenatured = false;
+
+        for(let i=0; i<10; i++) {
+            let angle = (i / 10) * Math.PI * 2;
+            proteinNativeFold.push({ x: Math.cos(angle) * 40, y: Math.sin(angle) * 40 });
+            proteinUnfolded.push({ x: (i - 5) * 30, y: Math.sin(i) * 60 });
+            proteinAtoms.push({ x: Math.cos(angle) * 40, y: Math.sin(angle) * 40 });
+        }
+
+        // Mouse Drag to Erode
+        let isDragging = false;
+        canvas.addEventListener('mousedown', (e) => { isDragging = true; addErosionWell(e); });
+        canvas.addEventListener('mousemove', (e) => { if(isDragging) addErosionWell(e); });
+        canvas.addEventListener('mouseup', () => { isDragging = false; });
+
+        function addErosionWell(e) {
+            const rect = canvas.getBoundingClientRect();
+            const cx = e.clientX - rect.left - canvas.width / 2;
+            const cy = e.clientY - rect.top - canvas.height / 2;
+
+            wellCenters.push({ x: cx, y: cy });
+            if (!isPhaseTransformed && wellCenters.length >= NC_THRESHOLD) {
+                isPhaseTransformed = true;
+            }
+        }
+
+        function switchView(view) {
+            currentView = view;
+            document.getElementById('hudMode').innerText = view.toUpperCase() + ' MODE';
+        }
+
+        function triggerErosionTrajectory() {
+            for(let t=0; t<30; t++) {
+                let angle = (t / 30) * Math.PI * 2;
+                wellCenters.push({ x: Math.cos(angle) * 150, y: Math.sin(angle) * 150 });
+            }
+            if(wellCenters.length >= NC_THRESHOLD) isPhaseTransformed = true;
+        }
+
+        function triggerMemoryReplay() {
+            particles.forEach(p => {
+                p.x = (Math.random() - 0.5) * 350;
+                p.y = (Math.random() - 0.5) * 350;
+            });
+        }
+
+        function resetErosionLandscape() {
+            wellCenters = [];
+            isPhaseTransformed = false;
+        }
+
+        function hitVRMonster(nodeIndex) {
+            monsterNodes[nodeIndex].x += (Math.random() - 0.5) * 80;
+            monsterNodes[nodeIndex].y += (Math.random() - 0.5) * 80;
+            monsterTension += 2.5;
+
+            if(currentView === 'multiscale') {
+                proteinTemp += 25.0;
+            }
+        }
+
+        function resetVRMonster() {
+            monsterMode = 'normal';
+            monsterTension = 0.0;
+            for(let i=0; i<12; i++) {
+                monsterNodes[i].x = monsterNormalAttractor[i].x;
+                monsterNodes[i].y = monsterNormalAttractor[i].y;
+            }
+        }
+
+        function updateThermalStimulus(val) {
+            proteinTemp = parseFloat(val);
+        }
+
+        function setProteinTemp(val) {
+            proteinTemp = val;
+            document.getElementById('sliderTemp').value = val;
+        }
+
+        // Render Loop
+        let lastTime = performance.now();
+        let frameCount = 0;
+        let fps = 120;
+
+        function animate() {
+            const now = performance.now();
+            const dt = (now - lastTime) / 1000;
+            lastTime = now;
+
+            frameCount++;
+            if (frameCount % 30 === 0) {
+                fps = Math.round(1 / dt);
+                document.getElementById('hudFps').innerText = fps;
+            }
+
+            // 1. Causal Erosion Update
+            particles.forEach(p => {
+                let fx = -0.05 * p.x;
+                let fy = -0.05 * p.y;
+
+                wellCenters.forEach(w => {
+                    let dx = p.x - w.x;
+                    let dy = p.y - w.y;
+                    let distSq = dx*dx + dy*dy;
+                    let wellV = 0.25 * Math.exp(-distSq / 2000);
+                    fx += (wellV / 20) * dx;
+                    fy += (wellV / 20) * dy;
+                });
+
+                p.x += fx;
+                p.y += fy;
+            });
+
+            // 2. VR Monster Update
+            if (monsterTension > 5.0 && monsterMode === 'normal') {
+                monsterMode = 'berserk';
+            }
+            let activeAttractor = (monsterMode === 'normal') ? monsterNormalAttractor : monsterBerserkAttractor;
+            for(let i=0; i<12; i++) {
+                monsterNodes[i].x += 0.15 * (activeAttractor[i].x - monsterNodes[i].x);
+                monsterNodes[i].y += 0.15 * (activeAttractor[i].y - monsterNodes[i].y);
+            }
+            monsterTension *= 0.95;
+
+            // 3. Protein Update
+            isProteinDenatured = (proteinTemp >= 363.0);
+            let activeFold = isProteinDenatured ? proteinUnfolded : proteinNativeFold;
+            for(let i=0; i<10; i++) {
+                proteinAtoms[i].x += 0.2 * (activeFold[i].x - proteinAtoms[i].x);
+                proteinAtoms[i].y += 0.2 * (activeFold[i].y - proteinAtoms[i].y);
+            }
+
+            // Draw
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+
+            if (currentView === 'erosion' || currentView === 'multiscale') {
+                // Draw Wells
+                wellCenters.forEach(w => {
+                    ctx.beginPath();
+                    ctx.arc(w.x, w.y, 12, 0, Math.PI * 2);
+                    ctx.fillStyle = isPhaseTransformed ? 'rgba(0, 243, 255, 0.15)' : 'rgba(255, 170, 0, 0.15)';
+                    ctx.fill();
+                });
+
+                // Draw Geodesic Particles
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = '#00f3ff';
+                    ctx.shadowBlur = 8;
+                    ctx.shadowColor = '#00f3ff';
+                    ctx.fill();
+                });
+            }
+
+            if (currentView === 'monster' || currentView === 'multiscale') {
+                // Draw VR Monster Skeleton
+                ctx.beginPath();
+                for(let i=0; i<12; i++) {
+                    let next = (i + 1) % 12;
+                    ctx.moveTo(monsterNodes[i].x, monsterNodes[i].y);
+                    ctx.lineTo(monsterNodes[next].x, monsterNodes[next].y);
+                }
+                ctx.strokeStyle = (monsterMode === 'normal') ? '#00ff88' : '#ff0055';
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = ctx.strokeStyle;
+                ctx.stroke();
+
+                monsterNodes.forEach((n, idx) => {
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, 6, 0, Math.PI * 2);
+                    ctx.fillStyle = (idx === 2 || idx === 5) ? '#ff0055' : '#ffffff';
+                    ctx.fill();
+                });
+            }
+
+            if (currentView === 'protein' || currentView === 'multiscale') {
+                ctx.save();
+                if(currentView === 'multiscale') ctx.translate(0, -180);
+
+                ctx.beginPath();
+                for(let i=0; i<9; i++) {
+                    ctx.moveTo(proteinAtoms[i].x, proteinAtoms[i].y);
+                    ctx.lineTo(proteinAtoms[i+1].x, proteinAtoms[i+1].y);
+                }
+                ctx.strokeStyle = isProteinDenatured ? '#ffaa00' : '#00f3ff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                proteinAtoms.forEach(a => {
+                    ctx.beginPath();
+                    ctx.arc(a.x, a.y, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = isProteinDenatured ? '#ffaa00' : '#00f3ff';
+                    ctx.fill();
+                });
+                ctx.restore();
+            }
+
+            ctx.restore();
+
+            // UI HUD Refresh
+            document.getElementById('hudWells').innerText = wellCenters.length;
+            document.getElementById('hudPhase').innerText = isPhaseTransformed ? 'O(1) CONTINUOUS FIELD' : 'O(N) DISCRETE WELLS';
+            document.getElementById('valWells').innerText = wellCenters.length + ' / ' + NC_THRESHOLD;
+            document.getElementById('valMonsterTension').innerText = monsterTension.toFixed(2) + ' / 5.00';
+            document.getElementById('valProteinTemp').innerText = proteinTemp.toFixed(1) + ' K';
+
+            document.getElementById('badgeMonsterMode').innerText = monsterMode.toUpperCase();
+            document.getElementById('badgeMonsterMode').className = 'status-badge ' + (monsterMode === 'normal' ? 'status-normal' : 'status-berserk');
+
+            document.getElementById('badgeProteinState').innerText = isProteinDenatured ? 'DENATURED' : 'NATIVE FOLD';
+            document.getElementById('badgeProteinState').className = 'status-badge ' + (isProteinDenatured ? 'status-denatured' : 'status-normal');
+
+            document.getElementById('badgeErosionPhase').innerText = isPhaseTransformed ? 'O(1) CONTINUOUS' : 'O(N) DISCRETE';
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
