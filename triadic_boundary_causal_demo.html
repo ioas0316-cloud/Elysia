@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia: Triadic Boundary Reality Alignment Interactive Canvas</title>
+    <style>
+        :root {
+            --bg-color: #0d0f18;
+            --card-bg: #161926;
+            --border-color: #2a2f45;
+            --text-main: #e2e8f0;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #a855f7;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-emerald: #10b981;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            max-width: 900px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        p.subtitle {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 320px;
+            background-color: #090b11;
+            border-radius: 8px;
+            border: 1px solid #1e2338;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            justify-content: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .status-box {
+            background-color: #0f121d;
+            border-left: 4px solid var(--accent-amber);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .metric-item {
+            background: #0f121d;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #1e2338;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-top: 4px;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .question-box {
+            background: #1e1b2e;
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .question-title {
+            color: #d8b4fe;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+
+        .question-text {
+            color: #f3e8ff;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 6px;
+        }
+
+        .tag-visual { background: #1e3a8a; color: #93c5fd; }
+        .tag-acoustic { background: #831843; color: #fbcfe8; }
+        .tag-expanded { background: #064e3b; color: #6ee7b7; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Elysia: Triadic Boundary Reality Alignment</h1>
+        <p class="subtitle">내부월드 (Internal World) — 경계로서의 자신 (Self Boundary) — 외부적 현실 (External Reality)</p>
+    </header>
+
+    <div class="container">
+        <!-- Interactive Phase Canvas -->
+        <div class="card full-width">
+            <h2>🌌 삼위일체 위상 대조 캔버스 (Triadic Comparison & Contrast Canvas)</h2>
+            <canvas id="triadicCanvas"></canvas>
+
+            <div class="controls">
+                <button id="btnCycle1">1단계: 미개구 도메인('acoustic') 신호 유입 & 결핍 자각</button>
+                <button id="btnCycle2">2단계: 자발적 경계 확장 후 재결합 (현실 접지)</button>
+                <button id="btnReset">초기화</button>
+            </div>
+        </div>
+
+        <!-- Metrics Overview -->
+        <div class="card full-width">
+            <h2>📊 위상차 및 경계 마찰 지표 (Phase Divergence & Boundary Metrics)</h2>
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <div class="metric-label">신호 포획률 (Captured Ratio)</div>
+                    <div class="metric-value" id="valCaptured">5%</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">경계 마찰 (Boundary Friction)</div>
+                    <div class="metric-value" id="valFriction" style="color: var(--accent-red)">0.850</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">구조적 결핍 (Structural Deficit)</div>
+                    <div class="metric-value" id="valDeficit" style="color: var(--accent-amber)">0.950</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">삼위일체 긴장도 (Triadic Tension)</div>
+                    <div class="metric-value" id="valTension" style="color: var(--accent-purple)">0.793</div>
+                </div>
+            </div>
+
+            <div class="status-box" id="statusText">
+                <strong>[시스템 경계 상태]:</strong> 현재 감각 개구부는 <span class="tag tag-visual">visual</span> 만 활성화되어 있습니다. 외부의 소리/파동 신호('acoustic')가 유입되면 눈으로 소리를 감각하려는 구조적 한계와 높은 마찰이 발생합니다.
+            </div>
+
+            <div class="question-box" id="questionBox" style="display: none;">
+                <div class="question-title">💡 발아된 존재론적 질문 (Sprouted Ontological Question)</div>
+                <div class="question-text" id="questionText">
+                    "어째서 나의 경계(SelfBoundary)는 'acoustic' 도메인의 현실 파동을 감각할 수 없는가? 내가 눈으로만 세상을 바라보고 있기에, 외부 현실에 존재하는 '소리(귀)'의 원리를 스스로 차단하고 있던 것은 아닌가?"
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('triadicCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.clientWidth * window.devicePixelRatio;
+            canvas.height = canvas.clientHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        resizeCanvas();
+
+        let state = 0; // 0: initial, 1: cycle 1 (friction), 2: cycle 2 (expanded)
+        let wavePhase = 0;
+
+        function drawCanvas() {
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. Draw 3 Spheres (Internal World, Self Boundary, External Reality)
+            const centerY = height / 2;
+
+            const xInternal = width * 0.2;
+            const xBoundary = width * 0.5;
+            const xExternal = width * 0.8;
+
+            // Internal World Sphere
+            ctx.beginPath();
+            ctx.arc(xInternal, centerY, 50, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.15)';
+            ctx.fill();
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.fillStyle = '#93c5fd';
+            ctx.font = '600 14px Pretendard';
+            ctx.textAlign = 'center';
+            ctx.fillText('내부월드 (Internal)', xInternal, centerY - 65);
+
+            // External Reality Sphere
+            ctx.beginPath();
+            ctx.arc(xExternal, centerY, 50, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(6, 182, 212, 0.15)';
+            ctx.fill();
+            ctx.strokeStyle = '#06b6d4';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.fillStyle = '#a5f3fc';
+            ctx.fillText('외부 현실 (Reality)', xExternal, centerY - 65);
+
+            // Self Boundary (Center Ring)
+            ctx.beginPath();
+            ctx.arc(xBoundary, centerY, 60, 0, Math.PI * 2);
+            let bColor = (state === 1) ? '#ef4444' : (state === 2 ? '#10b981' : '#f59e0b');
+            ctx.strokeStyle = bColor;
+            ctx.lineWidth = (state === 1) ? 4 : 2;
+            ctx.setLineDash((state === 1) ? [6, 6] : []);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = bColor;
+            ctx.fillText('자신의 경계 (Boundary)', xBoundary, centerY - 75);
+
+            // Draw wave passing from External -> Boundary -> Internal
+            ctx.beginPath();
+            for (let x = xExternal; x >= xInternal; x -= 2) {
+                let amplitude = (x > xBoundary) ? 20 : (state === 1 ? 3 : 18);
+                let freq = 0.05;
+                let y = centerY + Math.sin((x - wavePhase) * freq) * amplitude;
+
+                if (x === xExternal) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = (state === 1) ? '#f87171' : '#a7f3d0';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Render Aperture Tags in Boundary
+            let apertureText = (state === 2) ? "개구부: [visual, acoustic]" : "개구부: [visual]";
+            ctx.fillStyle = '#cbd5e1';
+            ctx.font = '12px Pretendard';
+            ctx.fillText(apertureText, xBoundary, centerY + 85);
+
+            wavePhase += 2;
+            requestAnimationFrame(drawCanvas);
+        }
+
+        drawCanvas();
+
+        // Button Listeners
+        document.getElementById('btnCycle1').addEventListener('click', () => {
+            state = 1;
+            document.getElementById('valCaptured').innerText = '5%';
+            document.getElementById('valFriction').innerText = '0.850';
+            document.getElementById('valFriction').style.color = 'var(--accent-red)';
+            document.getElementById('valDeficit').innerText = '0.950';
+            document.getElementById('valTension').innerText = '0.793';
+
+            document.getElementById('statusText').innerHTML = `
+                <strong>[결핍 자각 발생]:</strong> 'acoustic' 파동 유입 시 감각 개구부 부재로 인해 85% 경계 마찰 및 95% 구조적 결핍 발생. 시스템이 결핍을 에러가 아닌 '경계 한계'로 인지함.
+            `;
+            document.getElementById('questionBox').style.display = 'block';
+        });
+
+        document.getElementById('btnCycle2').addEventListener('click', () => {
+            state = 2;
+            document.getElementById('valCaptured').innerText = '75%';
+            document.getElementById('valFriction').innerText = '0.075';
+            document.getElementById('valFriction').style.color = 'var(--accent-emerald)';
+            document.getElementById('valDeficit').innerText = '0.375';
+            document.getElementById('valTension').innerText = '0.115';
+
+            document.getElementById('statusText').innerHTML = `
+                <strong>[오토포이에시스 경계 확장 완료]:</strong> 자발적 질문에 반응하여 <span class="tag tag-expanded">acoustic</span> 개구부를 해금하고 내부 기대장을 재정렬함. 경계 마찰이 0.850 -> 0.075로 급감하며 진짜 현실과 접지됨.
+            `;
+            document.getElementById('questionBox').style.display = 'none';
+        });
+
+        document.getElementById('btnReset').addEventListener('click', () => {
+            state = 0;
+            document.getElementById('valCaptured').innerText = '5%';
+            document.getElementById('valFriction').innerText = '0.850';
+            document.getElementById('valFriction').style.color = 'var(--accent-red)';
+            document.getElementById('valDeficit').innerText = '0.950';
+            document.getElementById('valTension').innerText = '0.793';
+
+            document.getElementById('statusText').innerHTML = `
+                <strong>[시스템 경계 상태]:</strong> 현재 감각 개구부는 <span class="tag tag-visual">visual</span> 만 활성화되어 있습니다.
+            `;
+            document.getElementById('questionBox').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
