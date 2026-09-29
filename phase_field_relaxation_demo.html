@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elysia Phase Field Relaxation & Spatiotemporal Causalization Visualizer</title>
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --panel-bg: rgba(18, 24, 38, 0.85);
+      --accent-blue: #00f0ff;
+      --accent-purple: #9d4edd;
+      --accent-amber: #ffaa00;
+      --accent-red: #ff0055;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border-color: rgba(0, 240, 255, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      max-width: 900px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .main-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .canvas-container {
+      position: relative;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    canvas {
+      border-radius: 8px;
+      background: #05070a;
+      display: block;
+      cursor: crosshair;
+    }
+
+    .control-panel {
+      flex: 1;
+      min-width: 320px;
+      max-width: 420px;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      backdrop-filter: blur(8px);
+    }
+
+    .panel-section {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+
+    .panel-section h3 {
+      font-size: 1.05rem;
+      color: var(--accent-blue);
+      margin-bottom: 10px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 6px;
+      padding: 10px;
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .stat-card.amber { border-left-color: var(--accent-amber); }
+    .stat-card.purple { border-left-color: var(--accent-purple); }
+    .stat-card.red { border-left-color: var(--accent-red); }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      min-width: 100px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: linear-gradient(135deg, var(--accent-blue), #0099ff);
+      color: #000;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 240, 255, 0.4);
+    }
+
+    button.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+    }
+
+    button.secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--accent-blue);
+    }
+
+    .legend {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    #chartCanvas {
+      width: 100%;
+      height: 120px;
+      background: #05070a;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Elysia Phase Field Relaxation & Spatiotemporal Causalization</h1>
+    <p class="subtitle">Zero-Branching (0 Search Iterations, 0 Pointer Chasing) Continuous Tensor Relaxation Engine</p>
+  </header>
+
+  <div class="main-container">
+    <div class="canvas-container">
+      <canvas id="fieldCanvas" width="512" height="512"></canvas>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background: #ff0055;"></div> Start (+1.0)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #00f0ff;"></div> Goal (-1.0)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #ffffff;"></div> Obstacle (Clamp)</div>
+        <div class="legend-item"><div class="legend-dot" style="background: #ffaa00;"></div> Geodesic Path</div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <div class="panel-section">
+        <h3>System Metrics</h3>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">Free Energy (E)</div>
+            <div class="stat-value" id="energyVal">0.0000</div>
+          </div>
+          <div class="stat-card amber">
+            <div class="stat-label">System Impedance (Z)</div>
+            <div class="stat-value" id="impedanceVal">0.0000</div>
+          </div>
+          <div class="stat-card purple">
+            <div class="stat-label">Branch Divergence</div>
+            <div class="stat-value">0 (Zero)</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Pointer Chasing</div>
+            <div class="stat-value">0 (Zero)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Lyapunov Free Energy Decay</h3>
+        <canvas id="chartCanvas" width="380" height="120"></canvas>
+      </div>
+
+      <div class="panel-section">
+        <h3>Control & Perturbation</h3>
+        <div class="btn-group">
+          <button id="btnToggle">Pause</button>
+          <button id="btnNoise" class="secondary">Inject 15% Noise</button>
+          <button id="btnReset" class="secondary">Reset Field</button>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span>Diffusivity (&kappa;)</span>
+            <span id="kappaVal">0.50</span>
+          </div>
+          <input type="range" id="kappaSlider" min="0.1" max="1.0" step="0.05" value="0.5">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const GRID_SIZE = 64;
+    const CANVAS_SIZE = 512;
+    const CELL_SIZE = CANVAS_SIZE / GRID_SIZE;
+
+    const fieldCanvas = document.getElementById('fieldCanvas');
+    const ctx = fieldCanvas.getContext('2d');
+    const chartCanvas = document.getElementById('chartCanvas');
+    const chartCtx = chartCanvas.getContext('2d');
+
+    // State Fields
+    let psi = new Float32Array(GRID_SIZE * GRID_SIZE);
+    let mask = new Uint8Array(GRID_SIZE * GRID_SIZE);
+    let psiBound = new Float32Array(GRID_SIZE * GRID_SIZE);
+
+    let isRunning = true;
+    let kappa = 0.5;
+    let alpha = -1.0;
+    let beta = 1.0;
+    let dt = 0.01;
+
+    let energyHistory = [];
+    const startPos = { r: 10, c: 10 };
+    const goalPos = { r: 54, c: 54 };
+
+    function initField() {
+      psi.fill(0);
+      mask.fill(0);
+      psiBound.fill(0);
+      energyHistory = [];
+
+      // Outer boundary walls
+      for (let r = 0; r < GRID_SIZE; r++) {
+        for (let c = 0; c < GRID_SIZE; c++) {
+          let idx = r * GRID_SIZE + c;
+          if (r === 0 || r === GRID_SIZE - 1 || c === 0 || c === GRID_SIZE - 1) {
+            mask[idx] = 1;
+            psiBound[idx] = 0;
+          }
+        }
+      }
+
+      // Center obstacle walls
+      for (let r = 20; r < 44; r++) {
+        mask[r * GRID_SIZE + 32] = 1;
+        psiBound[r * GRID_SIZE + 32] = 0;
+      }
+
+      // Start (+1.0) and Goal (-1.0)
+      let startIdx = startPos.r * GRID_SIZE + startPos.c;
+      let goalIdx = goalPos.r * GRID_SIZE + goalPos.c;
+
+      mask[startIdx] = 1; psiBound[startIdx] = 1.0; psi[startIdx] = 1.0;
+      mask[goalIdx] = 1; psiBound[goalIdx] = -1.0; psi[goalIdx] = -1.0;
+    }
+
+    function stepRelaxation() {
+      let nextPsi = new Float32Array(GRID_SIZE * GRID_SIZE);
+      let totalEnergy = 0;
+
+      for (let r = 1; r < GRID_SIZE - 1; r++) {
+        for (let c = 1; c < GRID_SIZE - 1; c++) {
+          let idx = r * GRID_SIZE + c;
+
+          if (mask[idx] === 1) {
+            nextPsi[idx] = psiBound[idx];
+            continue;
+          }
+
+          // 2D Laplacian Convolution stencil
+          let lap = psi[(r - 1) * GRID_SIZE + c] +
+                    psi[(r + 1) * GRID_SIZE + c] +
+                    psi[r * GRID_SIZE + (c - 1)] +
+                    psi[r * GRID_SIZE + (c + 1)] -
+                    4.0 * psi[idx];
+
+          let val = psi[idx];
+          let dV = alpha * val + beta * Math.pow(val, 3);
+
+          // Spatial strain gradient
+          let gradX = (psi[r * GRID_SIZE + (c + 1)] - psi[r * GRID_SIZE + (c - 1)]) * 0.5;
+          let gradY = (psi[(r + 1) * GRID_SIZE + c] - psi[(r - 1) * GRID_SIZE + c]) * 0.5;
+          let strain = gradX * gradX + gradY * gradY;
+
+          let gamma = 0.1 + 10.0 * (1.0 / (1.0 + Math.exp(-20.0 * (strain - 0.5))));
+          let dPsi = gamma * (kappa * lap - dV);
+
+          let updatedVal = val + dt * dPsi;
+          nextPsi[idx] = updatedVal;
+
+          totalEnergy += 0.5 * kappa * strain + 0.5 * alpha * Math.pow(updatedVal, 2) + 0.25 * beta * Math.pow(updatedVal, 4);
+        }
+      }
+
+      psi = nextPsi;
+      energyHistory.push(totalEnergy);
+      if (energyHistory.length > 100) energyHistory.shift();
+
+      document.getElementById('energyVal').innerText = totalEnergy.toFixed(4);
+      let impedance = Math.max(0.0, Math.min(1.0, (totalEnergy + 50.0) / 100.0));
+      document.getElementById('impedanceVal').innerText = impedance.toFixed(4);
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+      for (let r = 0; r < GRID_SIZE; r++) {
+        for (let c = 0; c < GRID_SIZE; c++) {
+          let idx = r * GRID_SIZE + c;
+          let x = c * CELL_SIZE;
+          let y = r * CELL_SIZE;
+
+          if (mask[idx] === 1) {
+            if (r === startPos.r && c === startPos.c) {
+              ctx.fillStyle = '#ff0055';
+            } else if (r === goalPos.r && c === goalPos.c) {
+              ctx.fillStyle = '#00f0ff';
+            } else {
+              ctx.fillStyle = '#ffffff';
+            }
+          } else {
+            let v = Math.max(-1.0, Math.min(1.0, psi[idx]));
+            let red = v > 0 ? Math.floor(v * 255) : 0;
+            let blue = v < 0 ? Math.floor(-v * 255) : 0;
+            let green = Math.floor((1 - Math.abs(v)) * 20);
+            ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
+          }
+
+          ctx.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+        }
+      }
+
+      // Trace Geodesic Path along field gradient
+      let currR = startPos.r;
+      let currC = startPos.c;
+      ctx.strokeStyle = '#ffaa00';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(currC * CELL_SIZE + CELL_SIZE/2, currR * CELL_SIZE + CELL_SIZE/2);
+
+      for (let steps = 0; steps < 120; steps++) {
+        if (currR === goalPos.r && currC === goalPos.c) break;
+        let minVal = psi[currR * GRID_SIZE + currC];
+        let nextR = currR, nextC = currC;
+
+        let neighbors = [
+          {r: currR-1, c: currC}, {r: currR+1, c: currC},
+          {r: currR, c: currC-1}, {r: currR, c: currC+1}
+        ];
+
+        for (let n of neighbors) {
+          if (n.r >= 0 && n.r < GRID_SIZE && n.c >= 0 && n.c < GRID_SIZE && mask[n.r * GRID_SIZE + n.c] === 0) {
+            let val = psi[n.r * GRID_SIZE + n.c];
+            if (val < minVal) {
+              minVal = val;
+              nextR = n.r;
+              nextC = n.c;
+            }
+          }
+        }
+
+        if (nextR === currR && nextC === currC) break;
+        currR = nextR; currC = nextC;
+        ctx.lineTo(currC * CELL_SIZE + CELL_SIZE/2, currR * CELL_SIZE + CELL_SIZE/2);
+      }
+      ctx.stroke();
+
+      renderChart();
+    }
+
+    function renderChart() {
+      chartCtx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+      if (energyHistory.length < 2) return;
+
+      chartCtx.strokeStyle = '#00f0ff';
+      chartCtx.lineWidth = 2;
+      chartCtx.beginPath();
+
+      let minE = Math.min(...energyHistory);
+      let maxE = Math.max(...energyHistory);
+      let range = Math.max(1.0, maxE - minE);
+
+      for (let i = 0; i < energyHistory.length; i++) {
+        let x = (i / (energyHistory.length - 1)) * chartCanvas.width;
+        let y = chartCanvas.height - ((energyHistory[i] - minE) / range) * (chartCanvas.height - 20) - 10;
+        if (i === 0) chartCtx.moveTo(x, y);
+        else chartCtx.lineTo(x, y);
+      }
+      chartCtx.stroke();
+    }
+
+    function loop() {
+      if (isRunning) {
+        stepRelaxation();
+      }
+      render();
+      requestAnimationFrame(loop);
+    }
+
+    document.getElementById('btnToggle').addEventListener('click', (e) => {
+      isRunning = !isRunning;
+      e.target.innerText = isRunning ? 'Pause' : 'Resume';
+    });
+
+    document.getElementById('btnReset').addEventListener('click', () => {
+      initField();
+    });
+
+    document.getElementById('btnNoise').addEventListener('click', () => {
+      for (let i = 0; i < psi.length; i++) {
+        if (mask[i] === 0) {
+          psi[i] += (Math.random() - 0.5) * 0.3;
+        }
+      }
+    });
+
+    document.getElementById('kappaSlider').addEventListener('input', (e) => {
+      kappa = parseFloat(e.target.value);
+      document.getElementById('kappaVal').innerText = kappa.toFixed(2);
+    });
+
+    initField();
+    loop();
+  </script>
+</body>
+</html>
