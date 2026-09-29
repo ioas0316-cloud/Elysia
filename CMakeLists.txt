@@ -4,10 +4,13 @@ project(causal_engine_core LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(BUILD_D3D12_RENDERER "Build Direct3D12 Volume Raymarcher GUI Engine (Windows only)" OFF)
+
 find_package(OpenMP REQUIRED)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/isa_compiler
     ${CMAKE_CURRENT_SOURCE_DIR}/modules/causal_topology
     ${CMAKE_CURRENT_SOURCE_DIR}/emulation
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -17,8 +20,15 @@ include_directories(
 add_library(nexus_core STATIC
     src/nexus_betti.cpp
     src/3dgs_sh_eval.cpp
+    src/topir_runtime_engine.cpp
 )
 target_link_libraries(nexus_core PRIVATE OpenMP::OpenMP_CXX)
+
+# TopIR Runtime Engine Shared Library
+add_library(topir_runtime SHARED
+    src/topir_runtime_engine.cpp
+)
+target_link_libraries(topir_runtime PRIVATE OpenMP::OpenMP_CXX)
 
 # SIMD GPU ECS Library
 add_library(simd_gpu_ecs STATIC
@@ -80,19 +90,21 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang
     target_compile_options(test_simd_gpu_ecs PRIVATE -mavx2 -mfma)
 endif()
 
+# TopIR C++ Test Binary
+add_executable(test_topir_cpp_pipeline tests/cpp/test_topir_cpp_pipeline.cpp)
+target_link_libraries(test_topir_cpp_pipeline PRIVATE nexus_core OpenMP::OpenMP_CXX)
+
 # CMake HLSL DXC Offline Compilation Automation Target
 find_program(DXC_EXECUTABLE dxc PATHS "$ENV{WindowsSDKDir}/bin/$ENV{WindowsSDKLibVersion}/x64" "/usr/bin" "/usr/local/bin")
 
 if(DXC_EXECUTABLE)
-    file(GLOB HLSL_SHADERS "${CMAKE_CURRENT_SOURCE_DIR}/shaders/simd_gpu_ecs/*.hlsl")
-    foreach(SHADER ${HLSL_SHADERS})
-        get_filename_component(FILE_NAME ${SHADER} NAME_WE)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/shaders/ElysiaFusedKernel.hlsl")
         add_custom_target(
-            Compile_${FILE_NAME} ALL
-            COMMAND ${DXC_EXECUTABLE} -E main -T cs_6_6 -Fo "${CMAKE_CURRENT_BINARY_DIR}/${FILE_NAME}.cso" "${SHADER}"
-            COMMENT "Compiling Shader: ${FILE_NAME}.hlsl"
+            Compile_ElysiaFusedKernel ALL
+            COMMAND ${DXC_EXECUTABLE} -E CS_EvolveSystem -T cs_6_5 -Fo "${CMAKE_CURRENT_BINARY_DIR}/ElysiaFusedKernel.cso" "${CMAKE_CURRENT_SOURCE_DIR}/shaders/ElysiaFusedKernel.hlsl"
+            COMMENT "Compiling Shader: ElysiaFusedKernel.hlsl"
         )
-    endforeach()
+    endif()
 endif()
 
 # Elysia Dual Pillars Hardware Pipeline Library
@@ -121,6 +133,14 @@ target_link_libraries(test_elysian_hardware_pipeline PRIVATE elysia_hardware Ope
 
 add_executable(test_elysia_relaxation_solver tests/cpp/test_elysia_relaxation_solver.cpp)
 target_link_libraries(test_elysia_relaxation_solver PRIVATE OpenMP::OpenMP_CXX)
+
+# Optional Direct3D12 Renderer Target
+if (WIN32 AND BUILD_D3D12_RENDERER)
+    add_executable(ElysiaVolumeRaymarcher
+        src/elysia_d3d12_raymarcher.cpp
+    )
+    target_link_libraries(ElysiaVolumeRaymarcher PRIVATE d3d12.lib dxgi.lib d3dcompiler.lib nexus_core)
+endif()
 
 # pybind11 Python extension module
 find_package(pybind11 CONFIG QUIET)

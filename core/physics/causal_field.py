@@ -228,6 +228,57 @@ class CausalField:
         # Engram Topology Storage
         self.engrams: Dict[str, EngramAttractor] = {}
 
+        # TopIR Runtime Engine Binding
+        self._topir_engine = None
+        self._topir_graph = None
+        self._topir_compiled_code = {}
+
+    def compile_topir_pipeline(self, eol_source: str) -> Dict[str, str]:
+        """
+        [Topological Graph IR (TopIR) Compiler Pipeline Integration]
+        Parses EOL source code into TopIR graph, runs optimization passes
+        (Continuous Branch Neutralization & Algebraic Isomorphism Reduction),
+        and emits target backend code (HLSL, C++).
+        """
+        try:
+            from isa_compiler.topir_compiler import TopIRCompilerPython
+            compiler = TopIRCompilerPython()
+            self._topir_compiled_code = compiler.compile_eol(eol_source)
+            return self._topir_compiled_code
+        except Exception as e:
+            return {"error": str(e)}
+
+    def step_topir_runtime(self, grid_dim: int = 64, dt: float = 0.005, K_0: float = 10.0) -> Dict[str, Any]:
+        """
+        Runs one step of the TopIR Zero-Branch Continuous Langevin Integration engine.
+        """
+        try:
+            import ctypes
+            import os
+
+            if self._topir_engine is None:
+                lib_path = os.path.join(os.path.dirname(__file__), "../../build/libtopir_runtime.so")
+                if os.path.exists(lib_path):
+                    self._topir_lib = ctypes.CDLL(lib_path)
+                    self._topir_lib.elysia_topir_runtime_create.restype = ctypes.c_void_p
+                    self._topir_lib.elysia_topir_runtime_create.argtypes = [ctypes.c_int, ctypes.c_float, ctypes.c_float]
+                    self._topir_lib.elysia_topir_runtime_step.argtypes = [ctypes.c_void_p]
+                    self._topir_lib.elysia_topir_runtime_get_q_field.restype = ctypes.POINTER(ctypes.c_float)
+                    self._topir_lib.elysia_topir_runtime_get_q_field.argtypes = [ctypes.c_void_p]
+
+                    self._topir_engine = self._topir_lib.elysia_topir_runtime_create(grid_dim, dt, K_0)
+
+            if self._topir_engine:
+                self._topir_lib.elysia_topir_runtime_step(self._topir_engine)
+                q_ptr = self._topir_lib.elysia_topir_runtime_get_q_field(self._topir_engine)
+                # Sample first voxel rotor quaternion
+                q_sample = [q_ptr[0], q_ptr[1], q_ptr[2], q_ptr[3]]
+                return {"status": "success", "sample_q": q_sample, "grid_dim": grid_dim}
+            else:
+                return {"status": "fallback_python", "grid_dim": grid_dim}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+
     def register_engram(self, engram: EngramAttractor):
         """Registers a high-level goal/Engram attractor in the Causal Field."""
         if not isinstance(engram.position, np.ndarray):
