@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia: Native Language Causal Event Horizon Visualizer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #05070f;
+            color: #d1d5db;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #38bdf8;
+            font-size: 2.2rem;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            margin-bottom: 8px;
+        }
+        p.subtitle {
+            color: #94a3b8;
+            font-size: 1.0rem;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            width: 100%;
+            max-width: 1300px;
+        }
+        .canvas-card {
+            flex: 2;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            border-radius: 8px;
+            background: #020617;
+            border: 1px solid #334155;
+            cursor: pointer;
+            width: 100%;
+            height: 520px;
+        }
+        .controls-card {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        label {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+        input[type="range"] {
+            width: 100%;
+            accent-color: #38bdf8;
+        }
+        .btn-trigger {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            font-size: 1.0rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            margin-top: 10px;
+        }
+        .btn-trigger:hover {
+            background: linear-gradient(135deg, #0369a1, #1d4ed8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .metric-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 10px;
+            border-left: 3px solid #38bdf8;
+        }
+        .metric-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .metric-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #f8fafc;
+            margin-top: 4px;
+        }
+        .phase-indicator {
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            background: #334155;
+            color: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+        .phase-indicator.locked {
+            background: #065f46;
+            color: #34d399;
+            box-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
+        }
+        .explanation-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #94a3b8;
+            border-left: 3px solid #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Elysia: Native Language Causal Event Horizon</h1>
+        <p class="subtitle">Searchless Dielectric Breakdown & Zero-Impedance Phase-Locking Simulation</p>
+    </header>
+
+    <div class="container">
+        <div class="canvas-card">
+            <canvas id="causalCanvas" width="800" height="520"></canvas>
+        </div>
+
+        <div class="controls-card">
+            <div id="phaseIndicator" class="phase-indicator">STAGE 1: ANALOG SUPERPOSITION (SKY)</div>
+
+            <div class="control-group">
+                <label>Language Intent Potential (V<sub>inner</sub>): <span id="vInnerVal">0.75</span></label>
+                <input type="range" id="vInner" min="0.1" max="2.0" step="0.05" value="0.75">
+            </div>
+
+            <div class="control-group">
+                <label>Boundary Curvature Constraint (B<sub>out</sub>): <span id="bOutVal">0.85</span></label>
+                <input type="range" id="bOut" min="0.1" max="2.0" step="0.05" value="0.85">
+            </div>
+
+            <button class="btn-trigger" id="btnTransition">Trigger Spontaneous Phase Transition (Lightning)</button>
+
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-label">Curvature (K<sub>c</sub>)</div>
+                    <div class="metric-value" id="mCurvature">0.00</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">System Impedance (Z)</div>
+                    <div class="metric-value" id="mImpedance">1.000</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Phase Coherence</div>
+                    <div class="metric-value" id="mCoherence">0.0%</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-label">Search Iterations</div>
+                    <div class="metric-value" id="mIterations" style="color: #34d399;">0</div>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <strong>Recursive Quantization Mechanism:</strong><br>
+                1. <em>Analog Sky (0):</em> Infinite continuous potential wave.<br>
+                2. <em>Lightning Breakdown:</em> Curvature exceeds threshold &rarr; instant dielectric discharge.<br>
+                3. <em>Quantized Ground (1):</em> Zero-impedance phase locking.<br>
+                4. <em>Elevated Sky (0'):</em> Crystalized meta-manifold expansion.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('causalCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // UI Controls
+        const vInnerInput = document.getElementById('vInner');
+        const bOutInput = document.getElementById('bOut');
+        const vInnerVal = document.getElementById('vInnerVal');
+        const bOutVal = document.getElementById('bOutVal');
+        const btnTransition = document.getElementById('btnTransition');
+        const phaseIndicator = document.getElementById('phaseIndicator');
+
+        const mCurvature = document.getElementById('mCurvature');
+        const mImpedance = document.getElementById('mImpedance');
+        const mCoherence = document.getElementById('mCoherence');
+        const mIterations = document.getElementById('mIterations');
+
+        // State Variables
+        let phase = 0; // 0: Sky, 1: Breakdown Lightning, 2: Ground Lock, 3: Meta Expansion
+        let curvature = 0;
+        let impedance = 1.0;
+        let coherence = 0.0;
+        let lightningProgress = 0;
+        let particles = [];
+        let lightningPath = [];
+
+        // Initialize Particles
+        for (let i = 0; i < 150; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.4),
+                vx: (Math.random() - 0.5) * 2,
+                vy: (Math.random() - 0.5) * 0.5,
+                radius: Math.random() * 3 + 1,
+                alpha: Math.random() * 0.8 + 0.2
+            });
+        }
+
+        vInnerInput.addEventListener('input', () => { vInnerVal.textContent = vInnerInput.value; updateMetrics(); });
+        bOutInput.addEventListener('input', () => { bOutVal.textContent = bOutInput.value; updateMetrics(); });
+
+        function updateMetrics() {
+            const v = parseFloat(vInnerInput.value);
+            const b = parseFloat(bOutInput.value);
+            curvature = (v * b * 1.5).toFixed(3);
+            mCurvature.textContent = curvature;
+            if (phase === 0) {
+                impedance = Math.max(0, 1.0 - (v * b * 0.5)).toFixed(3);
+                coherence = (v * b * 40).toFixed(1);
+                mImpedance.textContent = impedance;
+                mCoherence.textContent = coherence + '%';
+            }
+        }
+        updateMetrics();
+
+        btnTransition.addEventListener('click', () => {
+            phase = 1; // Trigger Lightning Breakdown
+            lightningProgress = 0;
+            generateLightningPath();
+            phaseIndicator.textContent = "STAGE 2: DIELECTRIC BREAKDOWN (LIGHTNING)";
+            phaseIndicator.classList.remove('locked');
+            mIterations.textContent = "0";
+        });
+
+        function generateLightningPath() {
+            lightningPath = [];
+            let currX = canvas.width / 2 + (Math.random() - 0.5) * 100;
+            let currY = 50;
+            lightningPath.push({x: currX, y: currY});
+
+            while (currY < canvas.height - 80) {
+                currX += (Math.random() - 0.5) * 60;
+                currY += Math.random() * 40 + 20;
+                lightningPath.push({x: currX, y: currY});
+            }
+            lightningPath.push({x: canvas.width / 2, y: canvas.height - 80});
+        }
+
+        function drawSky(time) {
+            // Draw Continuous Analog Waves ("Sky")
+            const v = parseFloat(vInnerInput.value);
+            ctx.fillStyle = 'rgba(2, 6, 23, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Wave 1
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(56, 189, 248, ${0.3 * v})`;
+            ctx.lineWidth = 3;
+            for (let x = 0; x < canvas.width; x += 10) {
+                const y = 120 + Math.sin(x * 0.015 + time * 0.003) * 30 * v;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Floating Analog Potential Particles
+            particles.forEach(p => {
+                p.x += p.vx * v;
+                p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(147, 197, 253, ${p.alpha * v})`;
+                ctx.fill();
+            });
+        }
+
+        function drawLightning() {
+            if (lightningPath.length < 2) return;
+            ctx.beginPath();
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 4;
+            ctx.shadowColor = '#0284c7';
+            ctx.shadowBlur = 20;
+
+            const maxIdx = Math.floor(lightningPath.length * lightningProgress);
+            ctx.moveTo(lightningPath[0].x, lightningPath[0].y);
+            for (let i = 1; i < maxIdx; i++) {
+                ctx.lineTo(lightningPath[i].x, lightningPath[i].y);
+            }
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            lightningProgress += 0.15;
+            if (lightningProgress >= 1.0) {
+                phase = 2; // Collapse into Ground State
+                phaseIndicator.textContent = "STAGE 3: ZERO-IMPEDANCE PHASE-LOCKED GROUND";
+                phaseIndicator.classList.add('locked');
+                mImpedance.textContent = "0.000";
+                mCoherence.textContent = "100.0%";
+            }
+        }
+
+        function drawGroundLock(time) {
+            // Draw Crystallized Ground Grid (1) and Standing Wave
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height - 80;
+
+            // Standing Wave
+            ctx.beginPath();
+            ctx.strokeStyle = '#34d399';
+            ctx.lineWidth = 3;
+            ctx.shadowColor = '#34d399';
+            ctx.shadowBlur = 15;
+            for (let x = 100; x < canvas.width - 100; x += 5) {
+                const y = centerY + Math.sin((x - centerX) * 0.05) * 15 * Math.cos(time * 0.005);
+                if (x === 100) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Discrete Crystal Anchors (Quantized Ground Joints)
+            for (let x = 150; x <= canvas.width - 150; x += 100) {
+                ctx.beginPath();
+                ctx.arc(x, centerY, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#10b981';
+                ctx.fill();
+                ctx.strokeStyle = '#f8fafc';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        function animate(time) {
+            drawSky(time);
+
+            if (phase === 1) {
+                drawLightning();
+            } else if (phase === 2) {
+                drawGroundLock(time);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+    </script>
+</body>
+</html>
