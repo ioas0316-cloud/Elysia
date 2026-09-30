@@ -93,6 +93,15 @@ class HierarchicalBinaryLattice:
         self.compound_nodes: Dict[str, CompoundLatticeNode] = {}
         self.dirty_nodes: Set[str] = set()
 
+        # Initialize top-level chunk and block compound nodes
+        num_chunks = math.ceil(total_size_bytes / chunk_size) if chunk_size > 0 else 0
+        for c_idx in range(num_chunks):
+            c_node = self.get_or_create_chunk_node(c_idx)
+            c_size = c_node.offset_range[1] - c_node.offset_range[0]
+            num_blocks = math.ceil(c_size / block_size) if block_size > 0 else 0
+            for b_idx in range(num_blocks):
+                self.get_or_create_block_node(c_idx, b_idx)
+
     def get_or_create_chunk_node(self, chunk_idx: int) -> CompoundLatticeNode:
         """지연 전개(Lazy Materialization): 청크 요청 시 노드 생성"""
         chunk_id = f"CHUNK_{chunk_idx}"

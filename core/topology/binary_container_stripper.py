@@ -35,6 +35,78 @@ class PNGChunk:
         return struct.pack(">I", self.length) + self.chunk_type + self.data + struct.pack(">I", calculated_crc)
 
 
+from core.topology.causal_stem_branch_engine import (
+    CausalGraph, CausalNode, CausalEdge, NodeType, TrajectoryContext
+)
+
+
+class BinaryContainerStripper:
+    """
+    바이너리 컨테이너 껍데기를 박리하여 순수 인과 줄기(Stem) 노드 그래프로 변환하고
+    100% 무손실 재합성을 수행하는 박리 엔진.
+    """
+
+    def create_sample_container(self, payload: bytes) -> bytes:
+        crc = zlib.crc32(payload) & 0xffffffff
+        header = struct.pack(">4sI4sI", b"ELYS", 1, b"PAD\x00", crc)
+        return header + payload
+
+    def strip_and_parse(self, raw_binary: bytes) -> CausalGraph:
+        if len(raw_binary) < 16:
+            raise ValueError("Binary container too short for header")
+
+        magic, ver, _, stored_crc = struct.unpack(">4sI4sI", raw_binary[:16])
+        payload = raw_binary[16:]
+
+        graph = CausalGraph(
+            graph_id="binary_container_graph",
+            context=TrajectoryContext(
+                medium_type="elys_container",
+                environmental_constraints={
+                    "magic": magic.decode("latin1", errors="ignore").rstrip("\x00"),
+                    "version": ver,
+                    "stored_crc": stored_crc
+                }
+            )
+        )
+
+        for i, b in enumerate(payload):
+            node_id = f"BYTE_{i}"
+            node = CausalNode(
+                node_id=node_id,
+                node_type=NodeType.STEM,
+                invariant_signature="INVARIANT_BYTE_VAL",
+                payload={"val": b, "idx": i, "hex": hex(b)}
+            )
+            graph.add_node(node)
+            if i > 0:
+                prev_id = f"BYTE_{i-1}"
+                graph.add_edge(CausalEdge(
+                    source_id=prev_id,
+                    target_id=node_id,
+                    precondition="byte_sequence_continuity"
+                ))
+
+        return graph
+
+    def resynthesize(self, graph: CausalGraph) -> bytes:
+        byte_nodes = [
+            n for n in graph.nodes.values()
+            if n.node_id.startswith("BYTE_")
+        ]
+        byte_nodes.sort(key=lambda n: n.payload.get("idx", int(n.node_id.split("_")[1])))
+
+        payload_bytes = bytes([n.payload["val"] for n in byte_nodes])
+        crc = zlib.crc32(payload_bytes) & 0xffffffff
+
+        ver = graph.context.environmental_constraints.get("version", 1)
+        magic_str = graph.context.environmental_constraints.get("magic", "ELYS")
+        magic_bytes = magic_str.encode("latin1")[:4].ljust(4, b"\x00")
+
+        header = struct.pack(">4sI4sI", magic_bytes, ver, b"PAD\x00", crc)
+        return header + payload_bytes
+
+
 class PNGContainerStripper:
     """
     PNG 바이너리 청크 컨테이너를 완벽하게 파싱하여 구조화하고

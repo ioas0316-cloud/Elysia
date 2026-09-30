@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia - Decentralized Kuramoto Phase Synchronization Mesh</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: rgba(18, 25, 41, 0.85);
+            --border-color: #1e293b;
+            --accent-cyan: #38bdf8;
+            --accent-green: #34d399;
+            --accent-red: #f87171;
+            --accent-purple: #c084fc;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+        }
+
+        canvas {
+            width: 100%;
+            height: 480px;
+            border-radius: 8px;
+            background: #070a12;
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            background: #1e293b;
+            color: var(--text-main);
+            border: 1px solid var(--accent-cyan);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn:hover {
+            background: #334155;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-red {
+            border-color: var(--accent-red);
+        }
+        .btn-red:hover {
+            box-shadow: 0 0 12px rgba(248, 113, 113, 0.3);
+        }
+
+        .btn-green {
+            border-color: var(--accent-green);
+        }
+        .btn-green:hover {
+            box-shadow: 0 0 12px rgba(52, 211, 153, 0.3);
+        }
+
+        .metrics {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .metric-card {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--accent-cyan);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .event-log {
+            margin-top: 15px;
+            background: #070a12;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            height: 120px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+        }
+        .log-alert { color: var(--accent-red); }
+        .log-success { color: var(--accent-green); }
+        .log-info { color: var(--accent-cyan); }
+    </style>
+</head>
+<body>
+
+    <h1>Decentralized High-Dimensional Kuramoto Phase Synchronization</h1>
+    <div class="subtitle">Clifford Rotor Cl(3,0) P2P Torque Minimization & Autopoietic Fault Isolation</div>
+
+    <div class="dashboard">
+        <div class="panel">
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div class="panel controls">
+            <h3>Interactive Control Panel</h3>
+            <button class="btn btn-red" onclick="injectRogue()">
+                <span>Rogue Phase Attack (Node 2)</span>
+                <span>⚡</span>
+            </button>
+            <button class="btn btn-green" onclick="healRogue()">
+                <span>Meta-Rotor Self-Healing</span>
+                <span>🌀</span>
+            </button>
+            <button class="btn btn-red" onclick="crashNode()">
+                <span>Abrupt Node Crash (Node 0)</span>
+                <span>💥</span>
+            </button>
+            <button class="btn" onclick="ingestStream()">
+                <span>SPDK Stream Wave Ingestion O(t)</span>
+                <span>📡</span>
+            </button>
+            <button class="btn" onclick="togglePause()">
+                <span id="pause-text">Pause Simulation</span>
+                <span>⏯️</span>
+            </button>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value" id="z-val">0.0000</div>
+                    <div class="metric-label">Order Param ||Z(t)||</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="edge-val">10</div>
+                    <div class="metric-label">Active Edges</div>
+                </div>
+            </div>
+
+            <div class="event-log" id="event-log">
+                <div class="log-entry log-info">[System] Engine initialized. 5-node Clifford phase mesh running...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const zValEl = document.getElementById('z-val');
+        const edgeValEl = document.getElementById('edge-val');
+        const eventLogEl = document.getElementById('event-log');
+
+        function resizeCanvas() {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Simulation Parameters
+        const NUM_NODES = 5;
+        let couplingGain = 10.0;
+        let phiCrit = 0.85;
+        let gammaMeta = 2.0;
+        let dt = 0.02;
+        let isPaused = false;
+        let simTime = 0.0;
+
+        // Node Layout in 2D View
+        const nodePos = [
+            { x: 0.5, y: 0.2 },
+            { x: 0.8, y: 0.45 },
+            { x: 0.65, y: 0.85 },
+            { x: 0.35, y: 0.85 },
+            { x: 0.2, y: 0.45 }
+        ];
+
+        // 3D Phase Vectors on S^2 for 5 Nodes
+        let nodes = [];
+        for (let i = 0; i < NUM_NODES; i++) {
+            let theta = Math.random() * Math.PI * 2;
+            let phi = Math.random() * Math.PI;
+            nodes.push({
+                id: i,
+                x: Math.sin(phi) * Math.cos(theta),
+                y: Math.sin(phi) * Math.sin(theta),
+                z: Math.cos(phi),
+                isRogue: false,
+                isDead: false,
+                isIsolated: false
+            });
+        }
+
+        let adjMatrix = Array(NUM_NODES).fill(0).map((_, i) =>
+            Array(NUM_NODES).fill(0).map((_, j) => (i !== j ? 1.0 : 0.0))
+        );
+
+        function logEvent(msg, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.innerText = `[${simTime.toFixed(2)}s] ${msg}`;
+            eventLogEl.prepend(entry);
+        }
+
+        function wedgeProduct(a, b) {
+            return {
+                xy: a.x * b.y - a.y * b.x,
+                yz: a.y * b.z - a.z * b.y,
+                zx: a.z * b.x - a.x * b.z
+            };
+        }
+
+        function bivectorMag(b) {
+            return Math.sqrt(b.xy * b.xy + b.yz * b.yz + b.zx * b.zx);
+        }
+
+        function rotateVector(v, dB) {
+            let phi = bivectorMag(dB);
+            if (phi < 1e-12) return { ...v };
+            let halfAngle = 0.5 * phi;
+            let s = Math.cos(halfAngle);
+            let scale = -Math.sin(halfAngle) / phi;
+            let b = { xy: dB.xy * scale, yz: dB.yz * scale, zx: dB.zx * scale };
+
+            let qx = -b.yz, qy = -b.zx, qz = -b.xy;
+            let cx = qy * v.z - qz * v.y;
+            let cy = qz * v.x - qx * v.z;
+            let cz = qx * v.y - qy * v.x;
+
+            let ix = cx + s * v.x, iy = cy + s * v.y, iz = cz + s * v.z;
+            let ox = qy * iz - qz * iy;
+            let oy = qz * ix - qx * iz;
+            let oz = qx * iy - qy * ix;
+
+            let rx = v.x + 2.0 * ox, ry = v.y + 2.0 * oy, rz = v.z + 2.0 * oz;
+            let len = Math.sqrt(rx * rx + ry * ry + rz * rz);
+            return { x: rx / len, y: ry / len, z: rz / len };
+        }
+
+        function getGlobalCenter() {
+            let sx = 0, sy = 0, sz = 0, count = 0;
+            for (let n of nodes) {
+                if (!n.isDead && !n.isRogue) {
+                    sx += n.x; sy += n.y; sz += n.z; count++;
+                }
+            }
+            if (count === 0) return { x: 1, y: 0, z: 0 };
+            let len = Math.sqrt(sx * sx + sy * sy + sz * sz);
+            return { x: sx / len, y: sy / len, z: sz / len };
+        }
+
+        function computeZ() {
+            let sx = 0, sy = 0, sz = 0, count = 0;
+            for (let n of nodes) {
+                if (!n.isDead && !n.isRogue) {
+                    sx += n.x; sy += n.y; sz += n.z; count++;
+                }
+            }
+            return count > 0 ? (Math.sqrt(sx * sx + sy * sy + sz * sz) / count) : 0.0;
+        }
+
+        function stepSimulation() {
+            let zCenter = getGlobalCenter();
+            let nextStates = nodes.map(n => ({ x: n.x, y: n.y, z: n.z }));
+
+            for (let i = 0; i < NUM_NODES; i++) {
+                let node = nodes[i];
+                if (node.isDead) continue;
+
+                if (node.isRogue) {
+                    let rx = (Math.random() - 0.5) * 4;
+                    let ry = (Math.random() - 0.5) * 4;
+                    let rz = (Math.random() - 0.5) * 4;
+                    let len = Math.sqrt(rx * rx + ry * ry + rz * rz);
+                    nextStates[i] = { x: rx / len, y: ry / len, z: rz / len };
+                    continue;
+                }
+
+                let totalTorque = { xy: 0, yz: 0, zx: 0 };
+                let activeNeighbors = 0;
+
+                for (let j = 0; j < NUM_NODES; j++) {
+                    if (i === j || nodes[j].isDead || adjMatrix[i][j] <= 0) continue;
+
+                    let wedge = wedgeProduct(node, nodes[j]);
+                    let mismatch = bivectorMag(wedge);
+
+                    if (mismatch > phiCrit) {
+                        adjMatrix[i][j] = 0.0;
+                        adjMatrix[j][i] = 0.0;
+                        continue;
+                    }
+
+                    totalTorque.xy += adjMatrix[i][j] * wedge.xy;
+                    totalTorque.yz += adjMatrix[i][j] * wedge.yz;
+                    totalTorque.zx += adjMatrix[i][j] * wedge.zx;
+                    activeNeighbors += adjMatrix[i][j];
+                }
+
+                let metaWedge = wedgeProduct(node, zCenter);
+                let metaTorque = {
+                    xy: gammaMeta * metaWedge.xy,
+                    yz: gammaMeta * metaWedge.yz,
+                    zx: gammaMeta * metaWedge.zx
+                };
+
+                let tot;
+                if (activeNeighbors > 0) {
+                    node.isIsolated = false;
+                    tot = {
+                        xy: (couplingGain / activeNeighbors) * totalTorque.xy + metaTorque.xy,
+                        yz: (couplingGain / activeNeighbors) * totalTorque.yz + metaTorque.yz,
+                        zx: (couplingGain / activeNeighbors) * totalTorque.zx + metaTorque.zx
+                    };
+                } else {
+                    node.isIsolated = true;
+                    tot = metaTorque;
+                }
+
+                let dB = { xy: tot.xy * dt, yz: tot.yz * dt, zx: tot.zx * dt };
+                nextStates[i] = rotateVector(node, dB);
+
+                for (let j = 0; j < NUM_NODES; j++) {
+                    if (i !== j && !nodes[j].isDead && !nodes[j].isRogue) {
+                        let wCheck = wedgeProduct(node, nodes[j]);
+                        if (bivectorMag(wCheck) < phiCrit * 0.9) {
+                            adjMatrix[i][j] = 1.0;
+                            adjMatrix[j][i] = 1.0;
+                        }
+                    }
+                }
+            }
+
+            for (let i = 0; i < NUM_NODES; i++) {
+                if (!nodes[i].isDead) {
+                    nodes[i].x = nextStates[i].x;
+                    nodes[i].y = nextStates[i].y;
+                    nodes[i].z = nextStates[i].z;
+                }
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let w = canvas.width, h = canvas.height;
+
+            // Draw Edges
+            let edgeCount = 0;
+            for (let i = 0; i < NUM_NODES; i++) {
+                for (let j = i + 1; j < NUM_NODES; j++) {
+                    let p1 = { x: nodePos[i].x * w, y: nodePos[i].y * h };
+                    let p2 = { x: nodePos[j].x * w, y: nodePos[j].y * h };
+
+                    if (adjMatrix[i][j] > 0 && !nodes[i].isDead && !nodes[j].isDead) {
+                        edgeCount++;
+                        let wedge = wedgeProduct(nodes[i], nodes[j]);
+                        let mismatch = bivectorMag(wedge);
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.lineWidth = 3;
+                        ctx.strokeStyle = mismatch < 0.3 ? '#34d399' : '#f59e0b';
+                        ctx.stroke();
+                    } else if (!nodes[i].isDead && !nodes[j].isDead) {
+                        ctx.beginPath();
+                        ctx.setLineDash([5, 5]);
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.lineWidth = 1;
+                        ctx.strokeStyle = '#334155';
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                }
+            }
+
+            // Draw Nodes & Vector Wheels
+            for (let i = 0; i < NUM_NODES; i++) {
+                let n = nodes[i];
+                let px = nodePos[i].x * w;
+                let py = nodePos[i].y * h;
+
+                // Node Circle
+                ctx.beginPath();
+                ctx.arc(px, py, 28, 0, Math.PI * 2);
+                if (n.isDead) ctx.fillStyle = '#1e293b';
+                else if (n.isRogue) ctx.fillStyle = '#f87171';
+                else if (n.isIsolated) ctx.fillStyle = '#c084fc';
+                else ctx.fillStyle = '#38bdf8';
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#f8fafc';
+                ctx.stroke();
+
+                // Phase Vector Line inside Node Circle
+                if (!n.isDead) {
+                    let vx = px + n.x * 22;
+                    let vy = py + n.y * 22;
+                    ctx.beginPath();
+                    ctx.moveTo(px, py);
+                    ctx.lineTo(vx, vy);
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.stroke();
+                }
+
+                // Label
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(`Node ${i}`, px, py - 35);
+            }
+
+            // Update Metrics Display
+            let zVal = computeZ();
+            zValEl.innerText = zVal.toFixed(4);
+            edgeValEl.innerText = edgeCount;
+        }
+
+        function loop() {
+            if (!isPaused) {
+                stepSimulation();
+                simTime += dt;
+            }
+            draw();
+            requestAnimationFrame(loop);
+        }
+        loop();
+
+        // Control Actions
+        function injectRogue() {
+            nodes[2].isRogue = true;
+            logEvent("Rogue Phase Attack on Node 2! (Chaotic Phase Noise)", "alert");
+        }
+
+        function healRogue() {
+            nodes[2].isRogue = false;
+            logEvent("Node 2 Healed! Meta-Rotor Gravitational Self-Healing active", "success");
+        }
+
+        function crashNode() {
+            nodes[0].isDead = true;
+            for (let j = 0; j < NUM_NODES; j++) {
+                adjMatrix[0][j] = 0;
+                adjMatrix[j][0] = 0;
+            }
+            logEvent("Node 0 Crashed! Topology re-normalized", "alert");
+        }
+
+        function ingestStream() {
+            let oWave = { x: 0, y: 1, z: 0 };
+            let deltaB = wedgeProduct(nodes[1], oWave);
+            let dB = { xy: deltaB.xy * 0.5, yz: deltaB.yz * 0.5, zx: deltaB.zx * 0.5 };
+            nodes[1] = rotateVector(nodes[1], dB);
+            logEvent("SPDK Stream Wave O(t) Ingested to Node 1!", "info");
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            document.getElementById('pause-text').innerText = isPaused ? "Resume Simulation" : "Pause Simulation";
+        }
+    </script>
+</body>
+</html>

@@ -52,8 +52,10 @@ class DigitalTwinWorld:
             return True
         if (x, y) in self.obstacles:
             return True
-        # 잠긴 문일 경우 장애물로 판정
+        # 잠긴 문일 경우 장애물로 판정 (단, 열쇠 보유시 열수 있도록 디텍션 허용)
         if (x, y) == self.gate_pos and not self.gate_unlocked:
+            if self.observer and "key_card" in self.observer.assimilated_tools:
+                return False
             return True
         return False
 

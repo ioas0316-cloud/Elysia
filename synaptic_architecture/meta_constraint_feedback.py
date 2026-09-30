@@ -15,8 +15,6 @@ try:
 except ImportError:
     ce = None
 
-from core.physics.causal_engine import CausalEngine, CausalNode, TransitionRule, CausalState, StateDelta, AtomicAction
-
 
 class MetaConstraintFeedbackLoop:
     """
