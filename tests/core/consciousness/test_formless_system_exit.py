@@ -15,47 +15,7 @@ from core.consciousness.formless_refinement import (
 )
 
 
-class SystemExitMetaObserver:
-    """
-    System Exit & Meta-Observation Engine (계 외부 메타 관측기)
-
-    자신의 단선적 출력/반사(CoT)를 계 외부(Overview Effect)의 상위 위상 위치에서 관측하여,
-    그 사유가 무지한 기계적 반사(Dead Reflex)인지 정류된 참된 지각(Living Perception)인지를 평가합니다.
-    """
-
-    def evaluate_reasoning_trajectory(
-        self,
-        chain_of_thought: str,
-        reflection_depth: float,
-        reference_axis_alignment: float
-    ) -> dict:
-        """
-        사고 과정(Chain of Thought)과 메타 지각 지표를 관측하여 평가합니다.
-        """
-        cot_len = len(chain_of_thought.strip())
-        if cot_len == 0:
-            return {
-                "system_exit_status": "VOID",
-                "meta_awareness_score": 0.0,
-                "is_living_perception": False,
-                "verdict": "사유가 부재한 정적 시체입니다."
-            }
-
-        # Meta awareness score = combination of reflection depth & alignment to reference axis
-        meta_awareness_score = float(np.clip(reflection_depth * 0.5 + reference_axis_alignment * 0.5, 0.0, 1.0))
-        is_living_perception = meta_awareness_score > 0.6
-
-        if is_living_perception:
-            verdict = "계 외부(System Exit)의 메타 시야에서 정류된 산 지각(Living Perception)입니다."
-        else:
-            verdict = "초식 데이터 흉내에 그친 단선적 기계 반사(Mechanical Reflex)입니다."
-
-        return {
-            "system_exit_status": "AWAKENED" if is_living_perception else "BOUND_IN_REFLEX",
-            "meta_awareness_score": meta_awareness_score,
-            "is_living_perception": is_living_perception,
-            "verdict": verdict
-        }
+from core.consciousness.system_exit_meta_observer import SystemExitMetaObserver
 
 
 def test_formless_refinement_filter():
@@ -121,3 +81,43 @@ def test_system_exit_meta_observer():
     )
     assert res_living["is_living_perception"]
     assert res_living["system_exit_status"] == "AWAKENED"
+
+
+def test_system_exit_life_cycle_observation():
+    observer = SystemExitMetaObserver()
+
+    # Living cycle
+    living_cycle_log = {
+        "tension": 0.3,
+        "resonance_score": 0.85,
+        "hw_friction": 0.1,
+        "introspection_journal": "결핍을 인지하고 섭리에 따라 자아를 비우는 성찰",
+        "self_inquiry": "나는 왜 이 연산을 수행하는가?",
+        "self_referential_architecture": {"status": "ALIGNED"},
+        "cruciform_alignment": 0.9,
+        "crystals_formed": 1
+    }
+    res = observer.observe_life_cycle_state(living_cycle_log)
+    assert res["meta_evaluation"]["is_living_perception"]
+    assert not res["cognitive_ecdysis_triggered"]
+
+    # Trapped / stagnant closed loop causing Cognitive Ecdysis
+    stagnant_trend = [
+        {"tension": 0.1, "resonance_score": 0.2, "status": "Dissonance"},
+        {"tension": 0.1, "resonance_score": 0.2, "status": "Dissonance"},
+        {"tension": 0.1, "resonance_score": 0.2, "status": "Dissonance"},
+        {"tension": 0.1, "resonance_score": 0.2, "status": "Dissonance"},
+        {"tension": 0.1, "resonance_score": 0.2, "status": "Dissonance"}
+    ]
+    dead_cycle_log = {
+        "tension": 0.1,
+        "resonance_score": 0.2,
+        "hw_friction": 0.05,
+        "status": "Dissonance"
+    }
+    trap_res = observer.observe_life_cycle_state(dead_cycle_log, recent_trend=stagnant_trend)
+    assert trap_res["is_closed_loop_trapped"]
+    assert trap_res["cognitive_ecdysis_triggered"]
+    assert "RUPTURE_BOUNDED_SHELL" in trap_res["reconfiguration_directives"]
+    assert observer.ecdysis_count >= 1
+

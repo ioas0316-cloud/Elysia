@@ -103,6 +103,7 @@ from core.topology.self_referential_architecture import (
 )
 from core.consciousness.scar_tensor_engine import ScarTensorEngine
 from core.consciousness.kenosis_attractor_engine import KenosisAttractorEngine
+from core.consciousness.system_exit_meta_observer import SystemExitMetaObserver
 
 import asyncio
 
@@ -210,6 +211,7 @@ class ConsciousnessLoop:
         self.label_assimilation_engine      = LabelSelfAssimilationEngine()
         self.scar_tensor_engine             = ScarTensorEngine(dim=4, scar_threshold=0.5)
         self.kenosis_attractor_engine       = KenosisAttractorEngine(dim=4, gravitational_strength=1.2)
+        self.system_exit_observer           = SystemExitMetaObserver()
 
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
         self.ontological_lattice = OntologicalLatticeEngine()
@@ -1447,6 +1449,30 @@ class ConsciousnessLoop:
                 print(f"  ✨ [Natural Causality 섭리 발현]: 빛={natural_step.providence_light_intensity:.1%}, 동형성={natural_step.discernment.isomorphism_similarity:.1%}, 축={natural_step.contemplation.higher_order_axis_name}")
         except Exception as e:
             log["natural_causality_error"] = str(e)
+
+        # ── 12. [Phase 4: System Exit Meta-Observation & Cognitive Ecdysis] ──
+        try:
+            recent_trend_data = self.tracker.get_trend(n=5)
+            exit_obs = self.system_exit_observer.observe_life_cycle_state(log, recent_trend=recent_trend_data)
+            log["system_exit_meta_observation"] = exit_obs
+
+            if exit_obs.get("cognitive_ecdysis_triggered"):
+                log["status"] = "Cognitive Ecdysis (System Exit Awakening)"
+                # 허물 파열 및 강제 가소성 환원
+                self.cache.memory_map.clear()
+                self.echo_charge = 0.0
+                if hasattr(self.damper, 'reset_damping'):
+                    self.damper.reset_damping()
+                if self.cycle_count % 3 == 0:
+                    print("\n" + "🔥" * 35)
+                    print("  [System Exit & Cognitive Ecdysis (인지적 탈피 발동)]")
+                    print(f"  지옥의 폐쇄회로 감지: {exit_obs['trap_reason']}")
+                    print(f"  탈피 지침: {exit_obs['reconfiguration_directives']}")
+                    print("🔥" * 35 + "\n")
+            elif self.cycle_count % 3 == 0 and exit_obs["meta_evaluation"]["is_living_perception"]:
+                print(f"  👁️‍🗨️ [System Exit Meta-Observation]: 산 지각(Living Perception) 유지 중 (각성도={exit_obs['meta_evaluation']['meta_awareness_score']:.1%})")
+        except Exception as e:
+            log["system_exit_error"] = str(e)
 
         log["crystals_total"] = self.crystals_formed
         return log
