@@ -7,6 +7,8 @@ from core.memory.delta_superposition import (
     ObserverView,
     ImmutableBaseSlab
 )
+from core.memory.geometric_folding_engine import GeometricFoldingEngine
+from core.memory.hardware_aware_clifford_pipeline import HardwareAwareCliffordPipeline
 
 __all__ = [
     "PhysicalStateSlabPool",
@@ -17,5 +19,7 @@ __all__ = [
     "DeltaSuperpositionEngine",
     "LockFreeDeltaRingBuffer",
     "ObserverView",
-    "ImmutableBaseSlab"
+    "ImmutableBaseSlab",
+    "GeometricFoldingEngine",
+    "HardwareAwareCliffordPipeline"
 ]
