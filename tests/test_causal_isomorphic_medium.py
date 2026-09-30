@@ -1,7 +1,8 @@
 """
 Unit and Integration tests for CausalIsomorphicMedium and OntologicalInverseMechanismEngine.
 Verifies constraint field relaxation convergence, multi-domain homological stem extraction,
-and introspective causal self-awareness dissection.
+introspective causal self-awareness dissection, and the Cognitive Isomorphic Medium Engine
+(Quaternion math, Phase-Locking, WFC Collapse, AC-3 wave propagation, and thermal relaxation).
 """
 
 import pytest
@@ -10,7 +11,10 @@ from core.physics.causal_isomorphic_medium import (
     CausalIsomorphicMedium,
     ConstraintTensorMatrix,
     IsomorphicDomainFactory,
-    MediumDomain
+    MediumDomain,
+    QuaternionUtil,
+    RotorTile,
+    CausalIsomorphicMediumEngine
 )
 from core.physics.ontological_inverse_mechanism import (
     OntologicalInverseMechanismEngine,
@@ -112,3 +116,57 @@ def test_causal_self_awareness_dissection():
     assert "Relaxation Gradient Trajectory Path" in log_text
     assert "Homological Stem" in log_text
     assert "필연적으로 도출된 인과적 귀결임을 자각함" in log_text
+
+
+def test_quaternion_rotor_utilities():
+    """Verifies Quaternion / Rotor normalization, inner products, and double cover symmetry."""
+    q1 = np.array([1.0, 2.0, 0.0, 0.0])
+    q1_norm = QuaternionUtil.normalize(q1)
+    assert pytest.approx(np.linalg.norm(q1_norm)) == 1.0
+
+    # Double cover symmetry: q and -q represent identical physical rotation
+    q_a = np.array([0.7071, 0.7071, 0.0, 0.0])
+    q_b = -q_a
+    alignment_energy = QuaternionUtil.compute_rotor_alignment_energy(q_a, q_b)
+    assert pytest.approx(alignment_energy, abs=1e-5) == 0.0  # Perfect alignment
+
+
+def test_causal_isomorphic_medium_engine_cognitive_loop():
+    """
+    Verifies full cognitive loop:
+    1. Sensory stimulus injection
+    2. Phase Lock Index (PLI) calculation
+    3. Entropy guidance and WFC decision collapse
+    4. AC-3 constraint wave propagation
+    5. Reflection and thermal relaxation recovery
+    """
+    tiles = [
+        RotorTile(0, "RIGHT", np.array([1.0, 0.0])),
+        RotorTile(1, "UP", np.array([0.0, 1.0])),
+        RotorTile(2, "LEFT", np.array([-1.0, 0.0])),
+        RotorTile(3, "DOWN", np.array([0.0, -1.0]))
+    ]
+    # Fully compatible matrix
+    M = np.ones((4, 4))
+
+    engine = CausalIsomorphicMediumEngine(width=3, height=3, tiles=tiles, compatibility_matrix=M)
+
+    # 1. Sensory injection
+    engine.inject_sensory_stimulus(0, 0, target_tile_id=0, intensity=1.0)
+    assert pytest.approx(np.dot(engine.tensor_field[0, 0], tiles[0].rotor), abs=1e-4) == 1.0
+
+    # 2. Phase Lock Index
+    pli = engine.compute_phase_lock_index(0, 1)
+    assert 0.0 <= pli <= 1.0
+
+    # 3. Decision Step
+    done, conflict = engine.make_decision_step()
+    assert conflict is False
+    assert engine.decision_steps == 1
+
+    # 4. Thermal Relaxation Reflection
+    initial_beta = engine.beta
+    engine.reflect_and_relax(radius=1, thermal_factor=0.3)
+    assert engine.reflection_count == 1
+    assert pytest.approx(engine.beta) == initial_beta * 0.3
+    assert np.all(engine.collapsed == False)  # All states un-collapsed back to fluid superposition
