@@ -247,3 +247,16 @@ core/hardware/libtopology.so
 node_modules/
 mva/__pycache__
 mva/api/__pycache__
+
+# Compiled binary objects
+*.so
+*.dylib
+*.dll
+
+# 3D Mesh and Trajectory Exports
+*.obj
+*.csv
+memory_torus_manifold.obj
+geodesic_path.csv
+test_torus.obj
+test_path.csv

@@ -77,6 +77,34 @@ else:
         )
     )
 
+# Add Cl(3,1) STA Engine Extension
+cl31_compile_args = {'cxx': ['-O3', '-std=c++17', '-DELYSIA_WITH_TORCH']}
+if torch.cuda.is_available():
+    cl31_compile_args['cxx'].append('-DELYSIA_WITH_CUDA')
+    cl31_compile_args['nvcc'] = ['-O3', '-std=c++17']
+    ext_modules.append(
+        CUDAExtension(
+            name='elysia_cuda_engine',
+            sources=[
+                'src/bindings/cl31_pytorch_bindings.cpp',
+                'kernels/cl31_kernel.cu',
+            ],
+            include_dirs=[os.path.abspath('include')],
+            extra_compile_args=cl31_compile_args
+        )
+    )
+else:
+    ext_modules.append(
+        CppExtension(
+            name='elysia_cuda_engine',
+            sources=[
+                'src/bindings/cl31_pytorch_bindings.cpp',
+            ],
+            include_dirs=[os.path.abspath('include')],
+            extra_compile_args=cl31_compile_args
+        )
+    )
+
 setup(
     name="elysia_engine",
     version="0.1.0",
