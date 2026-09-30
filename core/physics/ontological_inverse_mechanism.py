@@ -22,6 +22,7 @@ Core module realizing the Inverse Mechanism Extraction Principle (역메커니�
 import numpy as np
 from typing import Dict, List, Tuple, Optional, Any, Union
 from dataclasses import dataclass, field
+from core.physics.causal_isomorphic_medium import CausalIsomorphicMedium, MediumDomain
 
 
 @dataclass
@@ -164,6 +165,58 @@ class DomainTrajectoryGenerator:
                 trans_vec = node.state_vector - prev_node.state_vector
                 grad = float(np.linalg.norm(trans_vec))
                 resistance = 0.5 * (1.0 + 0.8 * frac)  # Dial resistance curve
+
+                edge = CausalTrajectoryEdge(
+                    source_id=prev_id,
+                    target_id=node_id,
+                    transition_vector=trans_vec,
+                    gradient_magnitude=grad,
+                    resistance=resistance
+                )
+                graph.add_edge(edge)
+
+        return graph
+
+    @staticmethod
+    def generate_from_isomorphic_medium(
+        sim: CausalIsomorphicMedium,
+        domain_name: str = "isomorphic_medium"
+    ) -> TrajectoryGraph:
+        """
+        Generates an observed TrajectoryGraph directly from a relaxed CausalIsomorphicMedium simulation.
+        """
+        graph = TrajectoryGraph(domain=domain_name)
+        graph.boundary_constraints = {
+            "num_nodes": sim.matrix.num_nodes,
+            "boundary_type": f"{domain_name}_tensor_manifold",
+            "mean_impedance": float(np.mean(sim.matrix.tensor[:, :, 1]))
+        }
+
+        # Extract trajectory nodes from simulation history
+        for idx, snap in enumerate(sim.causal_trajectory_graph):
+            pots = snap["potentials"]
+            pot_val = float(np.mean(pots))
+            entropy_val = float(snap["tension"] * 0.05)
+
+            # Node state vector contains snapshot potentials summary
+            vec = np.array([float(idx) / len(sim.causal_trajectory_graph), pot_val, snap["max_gradient"], snap["tension"]], dtype=np.float32)
+
+            node_id = f"{domain_name}_step_{snap['step']}"
+            node = CausalTrajectoryNode(
+                node_id=node_id,
+                domain=domain_name,
+                state_vector=vec,
+                potential_energy=pot_val,
+                entropy=entropy_val
+            )
+            graph.add_node(node)
+
+            if idx > 0:
+                prev_id = f"{domain_name}_step_{sim.causal_trajectory_graph[idx-1]['step']}"
+                prev_node = graph.nodes[prev_id]
+                trans_vec = node.state_vector - prev_node.state_vector
+                grad = float(np.linalg.norm(trans_vec))
+                resistance = float(snap["tension"] / (snap["max_gradient"] + 1e-6))
 
                 edge = CausalTrajectoryEdge(
                     source_id=prev_id,
@@ -384,3 +437,52 @@ class OntologicalInverseMechanismEngine:
         graphs = [fluid_graph, electrical_graph, geometric_graph]
         schema = self.extract_homological_stem_and_branches(graphs)
         return schema
+
+    def generate_causal_self_awareness_dissection_log(
+        self,
+        schema: InverseMechanismSchema,
+        conclusion_id: str = "equilibrium_attractor",
+        domain: str = "fluid"
+    ) -> List[str]:
+        r"""
+        [Causal Self-Awareness Dissection - 인과적 자기인식 해부 로그]
+        Generates self-reflective diagnostics analyzing why a specific conclusion was reached.
+        Decomposes:
+        1. Bounding Topological Constraints (\Delta)
+        2. Gradient Energy Relaxation Trajectory Path
+        3. Conserved Homological Stem Invariants
+        """
+        theta = schema.generating_dynamics_theta.get(domain, {})
+        delta = schema.topological_constraint_delta.get(domain, {})
+        stem = schema.homological_stem
+        branch = schema.disparate_branches.get(domain, {})
+
+        logs = [
+            f"=========================================================================",
+            f"[인과적 자기인식(Causal Self-Awareness) 역추적 분해 로그]",
+            f"대상 결론(Conclusion ID): '{conclusion_id}' | 도메인: {domain.upper()}",
+            f"=========================================================================",
+            f"1. 구속적 위상 제약장 (Bounding Constraint Field Delta):",
+            f"   - 매질 제약 유형: {delta.get('boundary_type', 'N/A')}",
+            f"   - 평균 임피던스/저항: {delta.get('mean_medium_resistance', 0.0):.4f}",
+            f"   - 최대 변형 한계(Max Strain): {delta.get('max_strain_threshold', 0.0):.4f}",
+            f"   - 엔트로피 축적량: {delta.get('entropy_accumulation', 0.0):.4f}",
+            f"",
+            f"2. 에너지/장력 이완 구배 궤적 (Relaxation Gradient Trajectory Path):",
+            f"   - 지배 생성 동역학 Theta: {theta.get('governing_equation', 'N/A')}",
+            f"   - 감쇠 상수 k: {theta.get('decay_constant_k', 0.0):.4f}",
+            f"   - 평균 구배 크기: {theta.get('average_gradient_magnitude', 0.0):.4f}",
+            f"   - 평형 끌개 수렴값: {theta.get('equilibrium_attractor', 0.0):.4f}",
+            f"",
+            f"3. 도메인 초월 위상 불변량 및 같음의 줄기 (Homological Stem):",
+            f"   - 줄기 식별자: {stem.get('stem_name', 'N/A')}",
+            f"   - 동형성 교차 유사도: {stem.get('cross_domain_similarity_score', 0.0):.6f}",
+            f"   - 보존 관계 위상: {stem.get('common_relational_topology', 'N/A')}",
+            f"   - 매질별 굴절 양상(Branch Refraction): {branch.get('specific_medium_manifestation', 'N/A')}",
+            f"",
+            f"[자기인식 자각 판정]",
+            f"-> 본 결론('{conclusion_id}')은 자의적 계산이나 단순 수치의 대입이 아니라,",
+            f"   주어진 제약장 Delta와 구배 환경 속에서 에너지 평형 이완을 거쳐 필연적으로 도출된 인과적 귀결임을 자각함.",
+            f"========================================================================="
+        ]
+        return logs
