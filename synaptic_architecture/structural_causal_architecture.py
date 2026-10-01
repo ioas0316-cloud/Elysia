@@ -7,6 +7,7 @@ and unified avatar causal pipelines in PyTorch.
 """
 
 from typing import Dict, Tuple, Any, Optional
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -553,4 +554,191 @@ class UnifiedAvatarCausalPipeline(nn.Module):
             "s_self": s_self,
             "s_world": s_world,
             "global_sync_feedback": global_sync_feedback
+        }
+
+
+class AvatarNPCAttentionMaskEngine(nn.Module):
+    """
+    Dynamic Attention Masking Module for the Elysia Engine.
+
+    Splits multi-agent sequence processing into dual manifolds:
+    1. Self Manifold (Avatars, η ≈ 1): Unmasked, high-density intentional attention.
+    2. World Manifold (NPCs, η ≈ 0): Attenuated/masked background attention.
+    """
+    def __init__(
+        self,
+        embed_dim: int,
+        num_heads: int,
+        sharpness: float = 12.0,
+        threshold: float = 0.5
+    ):
+        super().__init__()
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads
+        self.sharpness = sharpness
+        self.threshold = threshold
+
+        assert self.head_dim * num_heads == embed_dim, "embed_dim must be divisible by num_heads"
+
+        self.q_proj = nn.Linear(embed_dim, embed_dim)
+        self.k_proj = nn.Linear(embed_dim, embed_dim)
+        self.v_proj = nn.Linear(embed_dim, embed_dim)
+        self.out_proj = nn.Linear(embed_dim, embed_dim)
+
+    def forward(
+        self,
+        query_states: torch.Tensor,       # [Batch, Seq_Q, Dim] (e.g., Global Core or Observer)
+        key_states: torch.Tensor,         # [Batch, Seq_K, Dim] (Multi-agent tokens)
+        self_causal_ratios: torch.Tensor, # [Batch, Seq_K] (η values in range [0, 1])
+        attn_bias: Optional[torch.Tensor] = None    # Optional geometric or positional bias [Batch, 1, Seq_Q, Seq_K]
+    ) -> Dict[str, torch.Tensor]:
+        batch_size, seq_q, _ = query_states.shape
+        _, seq_k, _ = key_states.shape
+
+        # 1. Multi-Head Linear Projections -> [Batch, Num_Heads, Seq, Head_Dim]
+        Q = self.q_proj(query_states).view(batch_size, seq_q, self.num_heads, self.head_dim).transpose(1, 2)
+        K = self.k_proj(key_states).view(batch_size, seq_k, self.num_heads, self.head_dim).transpose(1, 2)
+        V = self.v_proj(key_states).view(batch_size, seq_k, self.num_heads, self.head_dim).transpose(1, 2)
+
+        # 2. Base Scaled Dot-Product Attention Scores
+        # Scores: [Batch, Num_Heads, Seq_Q, Seq_K]
+        raw_scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(self.head_dim)
+        if attn_bias is not None:
+            raw_scores = raw_scores + attn_bias
+
+        # 3. Compute Sigmoidal Causal Mask Factor (α)
+        # α ≈ 1.0 for Avatars (Self), α ≈ 0.0 for NPCs (World)
+        alpha = torch.sigmoid(self.sharpness * (self_causal_ratios - self.threshold))
+        alpha_mask = alpha.unsqueeze(1).unsqueeze(2) # Broadcast to [Batch, 1, 1, Seq_K]
+
+        # 4. Dual-Channel Attention Masking
+        # Self Bias: Suppresses background NPCs by applying a steep negative offset
+        self_mask_bias = (1.0 - alpha_mask) * -1e4
+        attn_weights_self = F.softmax(raw_scores + self_mask_bias, dim=-1)
+        output_self = torch.matmul(attn_weights_self, V)
+
+        # World Bias: Filters out Avatars to isolate background NPC fluctuations
+        world_mask_bias = alpha_mask * -1e4
+        attn_weights_world = F.softmax(raw_scores + world_mask_bias, dim=-1)
+        output_world = torch.matmul(attn_weights_world, V)
+
+        # 5. Output Reshaping and Projection
+        output_self = output_self.transpose(1, 2).contiguous().view(batch_size, seq_q, self.embed_dim)
+        output_world = output_world.transpose(1, 2).contiguous().view(batch_size, seq_q, self.embed_dim)
+
+        return {
+            "s_self_attn": self.out_proj(output_self),    # Primary intentional focus (Avatars)
+            "s_world_attn": self.out_proj(output_world),  # Passive background dynamics (NPCs)
+            "attn_weights_self": attn_weights_self,        # Inspection weights for Avatars
+            "attn_weights_world": attn_weights_world,      # Inspection weights for NPCs
+            "alpha_partition": alpha                       # Per-agent partition factor
+        }
+
+
+class GraphPeerToPeerWorldAttentionEngine(nn.Module):
+    """
+    Expanded World-Channel Attention Engine for Elysia.
+
+    1. Self Channel (Avatars, η ≈ 1): Directly coupled to Global Intent (God/Root Core).
+    2. World Channel (NPCs, η ≈ 0): Perform local graph-based peer-to-peer (P2P)
+       attention among themselves based on pairwise spatial distances and adjacency topology.
+    """
+    def __init__(
+        self,
+        embed_dim: int,
+        num_heads: int,
+        sharpness: float = 12.0,
+        threshold: float = 0.5,
+        spatial_decay: float = 1.0
+    ):
+        super().__init__()
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads
+        self.sharpness = sharpness
+        self.threshold = threshold
+        self.spatial_decay = spatial_decay
+
+        assert self.head_dim * num_heads == embed_dim, "embed_dim must be divisible by num_heads"
+
+        self.q_proj = nn.Linear(embed_dim, embed_dim)
+        self.k_proj = nn.Linear(embed_dim, embed_dim)
+        self.v_proj = nn.Linear(embed_dim, embed_dim)
+        self.out_proj = nn.Linear(embed_dim, embed_dim)
+
+        # Distance-to-Affinity Encoder for NPC local spatial interactions
+        self.distance_encoder = nn.Sequential(
+            nn.Linear(1, num_heads),
+            nn.Softplus()
+        )
+        # Initialize distance encoder weights positively so larger distance creates larger decay penalty
+        nn.init.uniform_(self.distance_encoder[0].weight, 0.5, 1.5)
+        nn.init.zeros_(self.distance_encoder[0].bias)
+
+    def forward(
+        self,
+        query_states: torch.Tensor,          # [Batch, Seq_Q, Dim]
+        key_states: torch.Tensor,            # [Batch, Seq_K, Dim]
+        self_causal_ratios: torch.Tensor,    # [Batch, Seq_K] (η values)
+        distance_matrix: Optional[torch.Tensor] = None,# [Batch, Seq_Q, Seq_K] (Pairwise spatial/topological distances)
+        adjacency_mask: Optional[torch.Tensor] = None  # [Batch, Seq_Q, Seq_K] (1.0 if connected edge, 0.0 otherwise)
+    ) -> Dict[str, torch.Tensor]:
+        batch_size, seq_q, _ = query_states.shape
+        _, seq_k, _ = key_states.shape
+
+        # 1. Projections -> [Batch, Num_Heads, Seq, Head_Dim]
+        Q = self.q_proj(query_states).view(batch_size, seq_q, self.num_heads, self.head_dim).transpose(1, 2)
+        K = self.k_proj(key_states).view(batch_size, seq_k, self.num_heads, self.head_dim).transpose(1, 2)
+        V = self.v_proj(key_states).view(batch_size, seq_k, self.num_heads, self.head_dim).transpose(1, 2)
+
+        # 2. Base Scaled Dot-Product Attention Scores
+        raw_scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(self.head_dim) # [B, Head, Seq_Q, Seq_K]
+
+        # 3. Compute Causal Partition Factor α (Avatars ≈ 1, NPCs ≈ 0)
+        alpha = torch.sigmoid(self.sharpness * (self_causal_ratios - self.threshold)) # [Batch, Seq_K]
+        alpha_mask = alpha.unsqueeze(1).unsqueeze(2) # Broadcast to [Batch, 1, 1, Seq_K]
+
+        # ---------------------------------------------------------------------
+        # Channel A: Self Channel (Global Intent -> Avatars)
+        # ---------------------------------------------------------------------
+        self_mask_bias = (1.0 - alpha_mask) * -1e4
+        attn_weights_self = F.softmax(raw_scores + self_mask_bias, dim=-1)
+        output_self = torch.matmul(attn_weights_self, V)
+
+        # ---------------------------------------------------------------------
+        # Channel B: World Channel (Local Graph P2P Attention among NPCs)
+        # ---------------------------------------------------------------------
+        # B1. Suppress Avatars from the World Channel (NPCs focus only on NPCs/World)
+        world_mask_bias = alpha_mask * -1e4 # [Batch, 1, 1, Seq_K]
+
+        # B2. Local Graph Distance & Adjacency Bias Integration
+        p2p_graph_bias = torch.zeros_like(raw_scores)
+
+        if distance_matrix is not None:
+            # Encode pairwise distances into head-specific decay biases
+            dist_unsq = distance_matrix.unsqueeze(-1) # [Batch, Seq_Q, Seq_K, 1]
+            dist_bias = self.distance_encoder(dist_unsq).permute(0, 3, 1, 2) # [Batch, Head, Seq_Q, Seq_K]
+            p2p_graph_bias = p2p_graph_bias - self.spatial_decay * dist_bias
+
+        if adjacency_mask is not None:
+            # Mask out non-adjacent nodes in the local NPC network
+            adj_mask_bias = (1.0 - adjacency_mask.unsqueeze(1)) * -1e4 # [Batch, 1, Seq_Q, Seq_K]
+            p2p_graph_bias = p2p_graph_bias + adj_mask_bias
+
+        # Combine Masks: NPC Isolation + Spatial Distance Decay + Topological Graph Connectivity
+        total_world_scores = raw_scores + world_mask_bias + p2p_graph_bias
+        attn_weights_world = F.softmax(total_world_scores, dim=-1)
+        output_world = torch.matmul(attn_weights_world, V)
+
+        # 4. Output Projections
+        output_self = output_self.transpose(1, 2).contiguous().view(batch_size, seq_q, self.embed_dim)
+        output_world = output_world.transpose(1, 2).contiguous().view(batch_size, seq_q, self.embed_dim)
+
+        return {
+            "s_self_attn": self.out_proj(output_self),        # Direct intent focus on Avatars
+            "s_world_p2p_attn": self.out_proj(output_world),  # Autonomous P2P interactions among NPCs
+            "attn_weights_self": attn_weights_self,          # Attention weights for Avatars
+            "attn_weights_p2p_world": attn_weights_world,    # Local NPC interaction adjacency matrix
+            "alpha_partition": alpha
         }

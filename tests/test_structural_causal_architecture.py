@@ -16,7 +16,9 @@ from synaptic_architecture.structural_causal_architecture import (
     SheafGlobalSectionVerifier,
     EmbodimentLoopEngine,
     SelfWorldPartitionEngine,
-    UnifiedAvatarCausalPipeline
+    UnifiedAvatarCausalPipeline,
+    AvatarNPCAttentionMaskEngine,
+    GraphPeerToPeerWorldAttentionEngine
 )
 
 
@@ -251,6 +253,85 @@ class TestStructuralCausalArchitecture(unittest.TestCase):
         # Avatar eta ~ 0.98, NPC eta ~ 0.05
         self.assertAlmostEqual(out["self_causal_ratios"][0, 0, 0].item(), 0.98, places=2)
         self.assertAlmostEqual(out["self_causal_ratios"][0, 1, 0].item(), 0.05, places=2)
+
+    def test_avatar_npc_attention_mask_engine(self):
+        """
+        Tests AvatarNPCAttentionMaskEngine dual-manifold routing:
+        1. Self Channel focuses on Avatars (eta ~ 0.98) and suppresses NPCs.
+        2. World Channel focuses on background NPCs (eta ~ 0.05) and suppresses Avatars.
+        """
+        embed_dim = 16
+        num_heads = 2
+        batch_size = 2
+        num_agents = 4
+
+        engine = AvatarNPCAttentionMaskEngine(embed_dim, num_heads).to(device=self.device, dtype=self.dtype)
+
+        query_states = torch.randn(batch_size, 1, embed_dim, device=self.device, dtype=self.dtype)
+        key_states = torch.randn(batch_size, num_agents, embed_dim, device=self.device, dtype=self.dtype)
+        # Agent 0 is Avatar (0.98), Agents 1..3 are NPCs (0.05)
+        self_causal_ratios = torch.tensor([[0.98, 0.05, 0.05, 0.05],
+                                           [0.98, 0.05, 0.05, 0.05]], device=self.device, dtype=self.dtype)
+
+        out = engine(query_states, key_states, self_causal_ratios)
+
+        self.assertEqual(out["s_self_attn"].shape, (batch_size, 1, embed_dim))
+        self.assertEqual(out["s_world_attn"].shape, (batch_size, 1, embed_dim))
+        self.assertEqual(out["attn_weights_self"].shape, (batch_size, num_heads, 1, num_agents))
+        self.assertEqual(out["attn_weights_world"].shape, (batch_size, num_heads, 1, num_agents))
+
+        # In Self channel, attention weight for Avatar (index 0) should be ~1.0, and NPCs near 0
+        self_weights = out["attn_weights_self"][0, 0, 0] # [num_agents]
+        self.assertGreater(self_weights[0].item(), 0.9)
+        self.assertLess(self_weights[1].item(), 0.1)
+
+        # In World channel, attention weight for Avatar (index 0) should be near 0, and NPCs sum to ~1.0
+        world_weights = out["attn_weights_world"][0, 0, 0] # [num_agents]
+        self.assertLess(world_weights[0].item(), 0.01)
+        self.assertAlmostEqual(torch.sum(world_weights[1:]).item(), 1.0, places=3)
+
+    def test_graph_peer_to_peer_world_attention_engine(self):
+        """
+        Tests GraphPeerToPeerWorldAttentionEngine with spatial decay and adjacency mask.
+        """
+        embed_dim = 16
+        num_heads = 2
+        batch_size = 1
+        num_npcs = 4
+
+        engine = GraphPeerToPeerWorldAttentionEngine(embed_dim, num_heads, spatial_decay=0.5).to(device=self.device, dtype=self.dtype)
+
+        npc_states = torch.randn(batch_size, num_npcs, embed_dim, device=self.device, dtype=self.dtype)
+        eta_ratios = torch.full((batch_size, num_npcs), 0.05, device=self.device, dtype=self.dtype)
+
+        # Spatial distance matrix where NPC 0 and NPC 1 are close (d=1.0), NPC 2 is far (d=10.0), NPC 3 is isolated
+        dist_matrix = torch.tensor([[[0.0, 1.0, 10.0, 50.0],
+                                     [1.0, 0.0, 9.0, 50.0],
+                                     [10.0, 9.0, 0.0, 50.0],
+                                     [50.0, 50.0, 50.0, 0.0]]], device=self.device, dtype=self.dtype)
+
+        # Adjacency mask: NPC 0 connected to 0, 1, 2; NPC 3 isolated (only self)
+        adj_mask = torch.tensor([[[1.0, 1.0, 1.0, 0.0],
+                                  [1.0, 1.0, 1.0, 0.0],
+                                  [1.0, 1.0, 1.0, 0.0],
+                                  [0.0, 0.0, 0.0, 1.0]]], device=self.device, dtype=self.dtype)
+
+        out = engine(
+            query_states=npc_states,
+            key_states=npc_states,
+            self_causal_ratios=eta_ratios,
+            distance_matrix=dist_matrix,
+            adjacency_mask=adj_mask
+        )
+
+        self.assertEqual(out["s_world_p2p_attn"].shape, (batch_size, num_npcs, embed_dim))
+        p2p_weights = out["attn_weights_p2p_world"][0, 0] # [num_npcs, num_npcs]
+
+        # NPC 0 should not attend to NPC 3 due to adjacency mask (weight ~ 0.0)
+        self.assertLess(p2p_weights[0, 3].item(), 0.001)
+
+        # NPC 0 should attend more to NPC 1 (d=1.0) than NPC 2 (d=10.0) due to spatial decay
+        self.assertGreater(p2p_weights[0, 1].item(), p2p_weights[0, 2].item())
 
 
 if __name__ == "__main__":

@@ -111,6 +111,8 @@ from .structural_causal_architecture import (
     EmbodimentLoopEngine,
     SelfWorldPartitionEngine,
     UnifiedAvatarCausalPipeline,
+    AvatarNPCAttentionMaskEngine,
+    GraphPeerToPeerWorldAttentionEngine,
 )
 
 __all__ = [
@@ -124,6 +126,8 @@ __all__ = [
     "EmbodimentLoopEngine",
     "SelfWorldPartitionEngine",
     "UnifiedAvatarCausalPipeline",
+    "AvatarNPCAttentionMaskEngine",
+    "GraphPeerToPeerWorldAttentionEngine",
 ]
 
 try:
