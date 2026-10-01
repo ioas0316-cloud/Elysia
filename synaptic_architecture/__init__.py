@@ -101,6 +101,20 @@ except (ModuleNotFoundError, ImportError):
     pass
 
 try:
+    from .constructal_slaved_engine import (
+        ConstructalSlavedModule,
+        RealtimeSFALayer,
+        PredictiveCodingLayer,
+        NicheConstructionMemory,
+        MetaLens,
+        GenerativeSelfModel,
+        SecondOrderCyberneticsEngine,
+        ActiveInferenceNicheEngine,
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
+
+try:
     from .lightweight_sparse_csm import (
         SparseCognitiveState,
         LightCognitiveStateMachine
