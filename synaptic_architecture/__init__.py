@@ -100,6 +100,32 @@ try:
 except (ModuleNotFoundError, ImportError):
     pass
 
+from .structural_causal_architecture import (
+    HardConstraintProjectionLayer,
+    StructuralCausalEngine,
+    ProjectiveCognitiveStructure,
+    GaugeConnectionNetwork,
+    FiberBundleIntegrator,
+    HolonomicGaugeTrainer,
+    SheafGlobalSectionVerifier,
+    EmbodimentLoopEngine,
+    SelfWorldPartitionEngine,
+    UnifiedAvatarCausalPipeline,
+)
+
+__all__ = [
+    "HardConstraintProjectionLayer",
+    "StructuralCausalEngine",
+    "ProjectiveCognitiveStructure",
+    "GaugeConnectionNetwork",
+    "FiberBundleIntegrator",
+    "HolonomicGaugeTrainer",
+    "SheafGlobalSectionVerifier",
+    "EmbodimentLoopEngine",
+    "SelfWorldPartitionEngine",
+    "UnifiedAvatarCausalPipeline",
+]
+
 try:
     from .constructal_slaved_engine import (
         ConstructalSlavedModule,
