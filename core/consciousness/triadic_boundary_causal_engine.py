@@ -17,6 +17,7 @@ Core module realizing the Triadic Reality Alignment Principle:
 import time
 import numpy as np
 from typing import Dict, Any, List, Optional, Tuple
+from core.consciousness.phase_lock_rotor_engine import PredictiveResonanceGatedEngine, ElysiaRotorEngine
 
 
 class InternalWorld:
@@ -396,6 +397,14 @@ class TriadicBoundaryCausalEngine:
             internal_world=self.internal_world
         )
 
+        # Predictive Resonance Engine & 3D Rotor Engine integration
+        self.predictive_resonance_engine = PredictiveResonanceGatedEngine(
+            dim_feature=dimension,
+            tau_min=0.05,
+            c_max=0.35
+        )
+        self.rotor_engine_3d = ElysiaRotorEngine()
+
     def process_domain_interaction(self, domain_key: str, auto_expand: bool = True) -> Dict[str, Any]:
         """
         Executes full cycle of Triadic Boundary Reality Alignment:
@@ -414,9 +423,23 @@ class TriadicBoundaryCausalEngine:
         if question_entry is not None and auto_expand:
             expansion_record = self.boundary_expansion.adapt_and_expand(question_entry)
 
+        # Step 4: Run Predictive Resonance & Phase-Lock Recalibration
+        real_signal = self.external_reality.get_signal(domain_key)
+        exp_signal = self.internal_world.simulate_expectation(domain_key)
+
+        # Reshape to (1, dim) for tensor engine process
+        T_base = exp_signal.reshape(1, -1)
+        T_out = real_signal.reshape(1, -1)
+        resonance_result = self.predictive_resonance_engine.process(T_base, T_out)
+
+        # If phase transition internalization occurred, update internal world expectation
+        if resonance_result["internalized"]:
+            self.internal_world.set_expectation(domain_key, resonance_result["updated_T_base"].flatten())
+
         return {
             "domain_key": domain_key,
             "contrast_result": contrast_result,
+            "resonance_result": resonance_result,
             "question_entry": question_entry,
             "expansion_record": expansion_record,
             "active_apertures_after": list(self.self_boundary.active_apertures)
