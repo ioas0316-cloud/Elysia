@@ -153,6 +153,10 @@ target_link_libraries(test_elysian_hardware_pipeline PRIVATE elysia_hardware Ope
 add_executable(test_elysia_relaxation_solver tests/cpp/test_elysia_relaxation_solver.cpp)
 target_link_libraries(test_elysia_relaxation_solver PRIVATE OpenMP::OpenMP_CXX)
 
+add_executable(test_holographic_engine tests/cpp/test_holographic_engine.cpp)
+target_include_directories(test_holographic_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(test_holographic_engine PRIVATE OpenMP::OpenMP_CXX)
+
 # -----------------------------------------------------------------------------
 # Elysia Core Benchmarks & CUDA Targets
 # -----------------------------------------------------------------------------
@@ -204,6 +208,21 @@ if(CMAKE_CUDA_COMPILER)
             -Wall
         >
     )
+
+    add_executable(elysia_unified_hologram_engine src/elysia_unified_hologram_engine.cu)
+    target_include_directories(elysia_unified_hologram_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_compile_options(elysia_unified_hologram_engine PRIVATE
+        $<$<COMPILE_LANGUAGE:CUDA>:
+            -O3
+            --use_fast_math
+            --expt-relaxed-constexpr
+            -Xcompiler -O3,-Wall
+        >
+        $<$<COMPILE_LANGUAGE:CXX>:
+            -O3
+            -Wall
+        >
+    )
 else()
     # Host fallback executables compiled as C++ with host stub
     set_source_files_properties(src/elysia_core_loop.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
@@ -220,6 +239,10 @@ else()
 
     set_source_files_properties(src/elysia_integrated_bench.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
     add_executable(elysia_integrated_bench src/elysia_integrated_bench.cu)
+
+    set_source_files_properties(src/elysia_unified_hologram_engine.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
+    add_executable(elysia_unified_hologram_engine src/elysia_unified_hologram_engine.cu)
+    target_include_directories(elysia_unified_hologram_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 endif()
 
 # Optional Direct3D12 Renderer Target
