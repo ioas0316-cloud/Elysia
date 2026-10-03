@@ -253,6 +253,9 @@ mva/api/__pycache__
 *.dylib
 *.dll
 
+# Third party dependencies
+third_party/
+
 # 3D Mesh and Trajectory Exports
 *.obj
 *.csv
