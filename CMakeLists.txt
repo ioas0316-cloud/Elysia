@@ -1,12 +1,27 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.18)
 project(causal_engine_core LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Check for CUDA compiler
+include(CheckLanguage)
+check_language(CUDA)
+
+if(CMAKE_CUDA_COMPILER)
+    enable_language(CUDA)
+    set(CMAKE_CUDA_STANDARD 17)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+
+    if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+        set(CMAKE_CUDA_ARCHITECTURES 61 75 86)
+    endif()
+endif()
+
 option(BUILD_D3D12_RENDERER "Build Direct3D12 Volume Raymarcher GUI Engine (Windows only)" OFF)
 
 find_package(OpenMP REQUIRED)
+find_package(Eigen3 3.3 QUIET)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -15,6 +30,10 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/emulation
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+if(EIGEN3_FOUND)
+    include_directories(${EIGEN3_INCLUDE_DIR})
+endif()
 
 # Core C++ Causal Nexus Library
 add_library(nexus_core STATIC
@@ -133,6 +152,75 @@ target_link_libraries(test_elysian_hardware_pipeline PRIVATE elysia_hardware Ope
 
 add_executable(test_elysia_relaxation_solver tests/cpp/test_elysia_relaxation_solver.cpp)
 target_link_libraries(test_elysia_relaxation_solver PRIVATE OpenMP::OpenMP_CXX)
+
+# -----------------------------------------------------------------------------
+# Elysia Core Benchmarks & CUDA Targets
+# -----------------------------------------------------------------------------
+if(CMAKE_CUDA_COMPILER)
+    add_executable(elysia_core_bench src/elysia_core_loop.cu)
+    target_compile_options(elysia_core_bench PRIVATE
+        $<$<COMPILE_LANGUAGE:CUDA>:
+            -O3
+            --use_fast_math
+            --expt-relaxed-constexpr
+            -Xcompiler -O3,-Wall
+        >
+        $<$<COMPILE_LANGUAGE:CXX>:
+            -O3
+            -Wall
+        >
+    )
+    if(TARGET Eigen3::Eigen)
+        target_link_libraries(elysia_core_bench PRIVATE Eigen3::Eigen)
+    endif()
+
+    add_executable(elysia_pinned_async_stream src/elysia_pinned_async_stream.cu)
+    target_compile_options(elysia_pinned_async_stream PRIVATE
+        $<$<COMPILE_LANGUAGE:CUDA>:
+            -O3
+            --use_fast_math
+            --expt-relaxed-constexpr
+            -Xcompiler -O3,-Wall
+        >
+        $<$<COMPILE_LANGUAGE:CXX>:
+            -O3
+            -Wall
+        >
+    )
+    if(TARGET Eigen3::Eigen)
+        target_link_libraries(elysia_pinned_async_stream PRIVATE Eigen3::Eigen)
+    endif()
+
+    add_executable(elysia_integrated_bench src/elysia_integrated_bench.cu)
+    target_compile_options(elysia_integrated_bench PRIVATE
+        $<$<COMPILE_LANGUAGE:CUDA>:
+            -O3
+            --use_fast_math
+            --expt-relaxed-constexpr
+            -Xcompiler -O3,-Wall
+        >
+        $<$<COMPILE_LANGUAGE:CXX>:
+            -O3
+            -Wall
+        >
+    )
+else()
+    # Host fallback executables compiled as C++ with host stub
+    set_source_files_properties(src/elysia_core_loop.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
+    add_executable(elysia_core_bench src/elysia_core_loop.cu)
+    if(TARGET Eigen3::Eigen)
+        target_link_libraries(elysia_core_bench PRIVATE Eigen3::Eigen)
+    endif()
+
+    set_source_files_properties(src/elysia_pinned_async_stream.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
+    add_executable(elysia_pinned_async_stream src/elysia_pinned_async_stream.cu)
+    if(TARGET Eigen3::Eigen)
+        target_link_libraries(elysia_pinned_async_stream PRIVATE Eigen3::Eigen)
+    endif()
+
+    set_source_files_properties(src/elysia_integrated_bench.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
+    add_executable(elysia_integrated_bench src/elysia_integrated_bench.cu)
+endif()
 
 # Optional Direct3D12 Renderer Target
 if (WIN32 AND BUILD_D3D12_RENDERER)

@@ -1,0 +1,134 @@
+#ifndef ELYSIA_MINI_EIGEN_HPP
+#define ELYSIA_MINI_EIGEN_HPP
+
+#include <vector>
+#include <cmath>
+#include <iostream>
+#include <stdexcept>
+
+namespace Eigen {
+
+template<typename Scalar, int Rows, int Cols>
+class Matrix {
+private:
+    Scalar data_[Rows * Cols];
+
+public:
+    Matrix() {
+        for (int i = 0; i < Rows * Cols; ++i) data_[i] = Scalar(0);
+    }
+
+    static Matrix Zero() {
+        return Matrix();
+    }
+
+    void setRandom() {
+        for (int i = 0; i < Rows * Cols; ++i) {
+            data_[i] = static_cast<Scalar>(rand()) / static_cast<Scalar>(RAND_MAX);
+        }
+    }
+
+    Scalar& operator()(int r, int c) { return data_[r * Cols + c]; }
+    const Scalar& operator()(int r, int c) const { return data_[r * Cols + c]; }
+
+    Scalar& operator[](int idx) { return data_[idx]; }
+    const Scalar& operator[](int idx) const { return data_[idx]; }
+
+    Matrix<Scalar, Cols, Rows> transpose() const {
+        Matrix<Scalar, Cols, Rows> res;
+        for (int r = 0; r < Rows; ++r) {
+            for (int c = 0; c < Cols; ++c) {
+                res(c, r) = (*this)(r, c);
+            }
+        }
+        return res;
+    }
+
+    template<int OtherCols>
+    Matrix<Scalar, Rows, OtherCols> operator*(const Matrix<Scalar, Cols, OtherCols>& other) const {
+        Matrix<Scalar, Rows, OtherCols> res;
+        for (int r = 0; r < Rows; ++r) {
+            for (int c = 0; c < OtherCols; ++c) {
+                Scalar sum = Scalar(0);
+                for (int k = 0; k < Cols; ++k) {
+                    sum += (*this)(r, k) * other(k, c);
+                }
+                res(r, c) = sum;
+            }
+        }
+        return res;
+    }
+
+    Matrix operator*(Scalar s) const {
+        Matrix res;
+        for (int i = 0; i < Rows * Cols; ++i) res.data_[i] = data_[i] * s;
+        return res;
+    }
+
+    Matrix operator+(const Matrix& other) const {
+        Matrix res;
+        for (int i = 0; i < Rows * Cols; ++i) res.data_[i] = data_[i] + other.data_[i];
+        return res;
+    }
+
+    Matrix operator-(const Matrix& other) const {
+        Matrix res;
+        for (int i = 0; i < Rows * Cols; ++i) res.data_[i] = data_[i] - other.data_[i];
+        return res;
+    }
+
+    Matrix& operator+=(const Matrix& other) {
+        for (int i = 0; i < Rows * Cols; ++i) data_[i] += other.data_[i];
+        return *this;
+    }
+
+    Scalar norm() const {
+        Scalar sum = Scalar(0);
+        for (int i = 0; i < Rows * Cols; ++i) sum += data_[i] * data_[i];
+        return std::sqrt(sum);
+    }
+
+    Matrix normalized() const {
+        Scalar n = norm();
+        Matrix res = *this;
+        if (n > Scalar(1e-8)) {
+            for (int i = 0; i < Rows * Cols; ++i) res.data_[i] /= n;
+        }
+        return res;
+    }
+
+    Matrix inverse() const {
+        static_assert(Rows == Cols, "Inverse only supported for square matrices.");
+        if constexpr (Rows == 3) {
+            Matrix inv;
+            Scalar a = data_[0], b = data_[1], c = data_[2];
+            Scalar d = data_[3], e = data_[4], f = data_[5];
+            Scalar g = data_[6], h = data_[7], i = data_[8];
+
+            Scalar det = a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
+            if (std::abs(det) < Scalar(1e-8)) det = Scalar(1e-8);
+            Scalar invdet = Scalar(1) / det;
+
+            inv(0, 0) = (e * i - f * h) * invdet;
+            inv(0, 1) = (c * h - b * i) * invdet;
+            inv(0, 2) = (b * f - c * e) * invdet;
+            inv(1, 0) = (f * g - d * i) * invdet;
+            inv(1, 1) = (a * i - c * g) * invdet;
+            inv(1, 2) = (c * d - a * f) * invdet;
+            inv(2, 0) = (d * h - e * g) * invdet;
+            inv(2, 1) = (b * g - a * h) * invdet;
+            inv(2, 2) = (a * e - b * d) * invdet;
+
+            return inv;
+        }
+        return *this;
+    }
+};
+
+using Vector3f = Matrix<float, 3, 1>;
+using Matrix3f = Matrix<float, 3, 3>;
+using VectorXf = Matrix<float, 64, 1>;
+
+} // namespace Eigen
+
+#endif // ELYSIA_MINI_EIGEN_HPP
