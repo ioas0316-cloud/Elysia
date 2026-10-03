@@ -27,9 +27,26 @@ struct float3 {
     float x, y, z;
 };
 
+struct int2 {
+    int x, y;
+};
+
 struct int3 {
     int x, y, z;
 };
+
+struct uchar4 {
+    unsigned char x, y, z, w;
+};
+
+inline int2 make_int2(int x, int y) {
+    int2 v; v.x = x; v.y = y; return v;
+}
+
+inline uchar4 make_uchar4(unsigned char x, unsigned char y, unsigned char z, unsigned char w) {
+    uchar4 v; v.x = x; v.y = y; v.z = z; v.w = w; return v;
+}
+
 
 struct dim3 {
     unsigned int x, y, z;
