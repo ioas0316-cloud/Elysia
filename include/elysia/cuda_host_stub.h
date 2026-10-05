@@ -120,9 +120,24 @@ inline cudaError_t cudaMemcpyAsync(void* dst, const void* src, size_t count, cud
     return cudaSuccess;
 }
 
+inline cudaError_t cudaStreamCreate(cudaStream_t* pStream) {
+    if (pStream) *pStream = (cudaStream_t)1;
+    return cudaSuccess;
+}
+
 inline cudaError_t cudaStreamCreateWithFlags(cudaStream_t* pStream, unsigned int flags) {
     if (pStream) *pStream = (cudaStream_t)1;
     return cudaSuccess;
+}
+
+inline cudaError_t cudaMemGetInfo(size_t* free, size_t* total) {
+    if (free) *free = 2048ULL * 1024 * 1024;
+    if (total) *total = 3072ULL * 1024 * 1024;
+    return cudaSuccess;
+}
+
+inline const char* cudaGetErrorString(cudaError_t error) {
+    return "cudaSuccess";
 }
 
 inline cudaError_t cudaStreamDestroy(cudaStream_t stream) {
