@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>elysia_engine - 3D Causal Scale Visualizer</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #050508; color: #a0a0c0; font-family: monospace; }
+        #overlay { position: absolute; top: 15px; left: 15px; z-index: 100; pointer-events: none; }
+        .stat-card { background: rgba(10, 10, 20, 0.85); border: 1px solid #333355; padding: 12px; border-radius: 6px; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="overlay">
+        <div class="stat-card">
+            <h3 style="margin: 0 0 8px 0; color: #00ffcc;">ELYSIAN CAUSAL GRAPH</h3>
+            <div>Phase Space: <span id="val-space" style="color:#fff;">-</span></div>
+            <div>Fractal Coherence: <span id="val-coherence" style="color:#00ff88;">-</span></div>
+            <div>Active Nodes: <span id="val-nodes" style="color:#ffcc00;">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050508, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 20, 45);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        const ambientLight = new THREE.AmbientLight(0x404060, 2);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0x00e1ff, 3, 100);
+        scene.add(pointLight);
+
+        const graphGroup = new THREE.Group();
+        scene.add(graphGroup);
+
+        function renderCausalGraph(jsonGraph) {
+            while(graphGroup.children.length > 0) {
+                graphGroup.remove(graphGroup.children[0]);
+            }
+
+            document.getElementById('val-space').innerText = jsonGraph.meta.active_phase_space;
+            document.getElementById('val-coherence').innerText = jsonGraph.meta.systemic_coherence.toFixed(4);
+            document.getElementById('val-nodes').innerText = jsonGraph.nodes.length;
+
+            const nodePositions = new Map();
+
+            jsonGraph.nodes.forEach(node => {
+                const radius = (node.scale_level + 1) * 8.0;
+                const theta = node.rotor_angle;
+                const phi = Math.acos(Math.min(Math.max(node.rotor_cos, -1.0), 1.0));
+
+                const x = radius * Math.sin(phi) * Math.cos(theta);
+                const y = radius * Math.cos(phi);
+                const z = radius * Math.sin(phi) * Math.sin(theta);
+
+                nodePositions.set(node.id, new THREE.Vector3(x, y, z));
+
+                const geometry = new THREE.SphereGeometry(0.6 + node.coherence * 0.4, 16, 16);
+                const color = node.is_fused ? 0x00ff88 : (node.scale_level === 0 ? 0xff0055 : 0x00ccff);
+                const material = new THREE.MeshPhongMaterial({
+                    color: color,
+                    emissive: color,
+                    emissiveIntensity: 0.4,
+                    wireframe: false
+                });
+
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(x, y, z);
+                graphGroup.add(mesh);
+            });
+
+            jsonGraph.edges.forEach(edge => {
+                const srcPos = nodePositions.get(edge.source);
+                const tgtPos = nodePositions.get(edge.target);
+
+                if (srcPos && tgtPos) {
+                    const points = [srcPos, tgtPos];
+                    const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+                    const lineMat = new THREE.LineBasicMaterial({
+                        color: 0x3388ff,
+                        transparent: true,
+                        opacity: 0.6
+                    });
+                    const line = new THREE.Line(lineGeo, lineMat);
+                    graphGroup.add(line);
+                }
+            });
+        }
+
+        const sampleJson = {
+            "meta": { "active_phase_space": "Complex_2D (ℂ)", "systemic_coherence": 0.8842 },
+            "nodes": [
+                { "id": 0, "scale_level": 0, "parent_id": -1, "rotor_angle": 0.0, "rotor_cos": 1.0, "rotor_sin": 0.0, "coherence": 1.0, "is_fused": false },
+                { "id": 1, "scale_level": 1, "parent_id": 0, "rotor_angle": 0.7854, "rotor_cos": 0.7071, "rotor_sin": 0.7071, "coherence": 0.9, "is_fused": false },
+                { "id": 2, "scale_level": 1, "parent_id": 0, "rotor_angle": -0.7854, "rotor_cos": 0.7071, "rotor_sin": -0.7071, "coherence": 0.9, "is_fused": false }
+            ],
+            "edges": [
+                { "source": 0, "target": 1, "phase_shift": 0.7854 },
+                { "source": 0, "target": 2, "phase_shift": -0.7854 }
+            ]
+        };
+
+        renderCausalGraph(sampleJson);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            graphGroup.rotation.y += 0.002;
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

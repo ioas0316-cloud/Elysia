@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>elysia_engine - Causal Meaning Resolver</title>
+    <style>
+        body { background-color: #0b0c10; color: #c5c6c7; font-family: monospace; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #1f2833; padding: 25px; border-radius: 8px; border: 1px solid #45a29e; }
+        h2 { color: #66fcf1; border-bottom: 1px solid #45a29e; padding-bottom: 10px; margin-top: 0; }
+        .frame-card { background: #0b0c10; border-left: 4px solid #66fcf1; margin: 15px 0; padding: 15px; border-radius: 0 4px 4px 0; }
+        .bar-bg { background: #1f2833; height: 18px; border-radius: 9px; overflow: hidden; margin-top: 8px; }
+        .bar-fill { height: 100%; transition: width 0.6s ease-in-out; }
+        .status-crash { border-left-color: #ff3366; }
+        .status-crash .bar-fill { background: #ff3366; }
+        .status-valid .bar-fill { background: #66fcf1; }
+        .tag { font-weight: bold; padding: 2px 6px; border-radius: 3px; font-size: 0.85em; }
+        .tag-crash { background: rgba(255,51,102,0.2); color: #ff3366; }
+        .tag-valid { background: rgba(102,252,241,0.2); color: #66fcf1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>CAUSAL MEANING RESOLUTION DASHBOARD</h2>
+        <div id="meta-info" style="margin-bottom: 20px;">
+            Concept ID: <span id="concept-id" style="color:#66fcf1;">1004</span> |
+            Meaning Tag: <span id="meaning-tag" style="color:#fff;">Hypothesis_Singularity_Event</span>
+        </div>
+        <div id="resolution-cards"></div>
+    </div>
+
+    <script>
+        const evaluationData = [
+            {
+                frame_name: "Real 1D (ℝ)",
+                is_valid: false,
+                resolvable_degree: 0,
+                extracted_meaning: "[Crash] 1차원 선형 축에서는 데이터의 특이점을 포섭할 수 없어 파괴됨"
+            },
+            {
+                frame_name: "Complex 2D (ℂ)",
+                is_valid: true,
+                resolvable_degree: 66,
+                extracted_meaning: "[Orbital] 특이점을 회전 위상(e12)으로 우회하여 데이터의 주기성을 포섭함"
+            },
+            {
+                frame_name: "Clifford 3D (Cℓ₃,₀)",
+                is_valid: true,
+                resolvable_degree: 100,
+                extracted_meaning: "[Volumetric Spin] 특이점을 차원 상전이 마디로 받아들여, 데이터의 입체적 스케일 및 다차원 맥락을 완벽히 읽어냄"
+            }
+        ];
+
+        function renderDashboard(data) {
+            const container = document.getElementById('resolution-cards');
+            container.innerHTML = '';
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `frame-card ${item.is_valid ? 'status-valid' : 'status-crash'}`;
+
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="font-size:1.1em; color:#fff;">${item.frame_name}</strong>
+                        <span class="tag ${item.is_valid ? 'tag-valid' : 'tag-crash'}">
+                            ${item.is_valid ? 'READING VALID' : 'FRAME CRASH'}
+                        </span>
+                    </div>
+                    <div style="margin-top:8px; font-size:0.9em; color:#a0a0c0;">${item.extracted_meaning}</div>
+                    <div class="bar-bg">
+                        <div class="bar-fill" style="width: ${item.resolvable_degree}%;"></div>
+                    </div>
+                    <div style="text-align:right; font-size:0.8em; margin-top:4px; color:#66fcf1;">
+                        Causal Resolution: ${item.resolvable_degree}%
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        renderDashboard(evaluationData);
+    </script>
+</body>
+</html>

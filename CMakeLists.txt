@@ -157,6 +157,32 @@ add_executable(test_holographic_engine tests/cpp/test_holographic_engine.cpp)
 target_include_directories(test_holographic_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(test_holographic_engine PRIVATE OpenMP::OpenMP_CXX)
 
+# Elysia Autonomic Causal Architecture Targets (Host Fallback / C++)
+set(AUTONOMIC_CU_SOURCES
+    src/k_parasympathetic_consolidation.cu
+    src/k_singularity_rotor_bypass.cu
+    src/k_mitotic_tensor_branching.cu
+    src/k_parasympathetic_node_fusion.cu
+    src/k_mitotic_branching_fast.cu
+)
+set_source_files_properties(${AUTONOMIC_CU_SOURCES} PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
+
+set_source_files_properties(benchmarks/benchmark_parasympathetic.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
+
+add_executable(benchmark_parasympathetic
+    benchmarks/benchmark_parasympathetic.cu
+    ${AUTONOMIC_CU_SOURCES}
+)
+target_include_directories(benchmark_parasympathetic PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(benchmark_parasympathetic PRIVATE OpenMP::OpenMP_CXX)
+
+add_executable(test_elysia_autonomic_causal_pipeline
+    tests/cpp/test_elysia_autonomic_causal_pipeline.cpp
+    ${AUTONOMIC_CU_SOURCES}
+)
+target_include_directories(test_elysia_autonomic_causal_pipeline PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(test_elysia_autonomic_causal_pipeline PRIVATE OpenMP::OpenMP_CXX)
+
 # Elysia FOC & Clifford Wave Computing targets (Host Fallback / C++)
 set_source_files_properties(src/elysia_foc_kernel.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
 
