@@ -23,6 +23,14 @@ enum cudaMemcpyKind {
 typedef void* cudaStream_t;
 typedef void* cudaEvent_t;
 
+struct float2 {
+    float x, y;
+};
+
+inline float2 make_float2(float x, float y) {
+    float2 v; v.x = x; v.y = y; return v;
+}
+
 struct float3 {
     float x, y, z;
 };

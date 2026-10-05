@@ -159,18 +159,30 @@ target_link_libraries(test_holographic_engine PRIVATE OpenMP::OpenMP_CXX)
 
 # Elysia FOC & Clifford Wave Computing targets (Host Fallback / C++)
 set_source_files_properties(src/elysia_foc_kernel.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
+set_source_files_properties(src/elysia_autonomic_controller.cu PROPERTIES LANGUAGE CXX COMPILE_FLAGS "-x c++ -include elysia/cuda_host_stub.h")
 
 add_executable(test_elysia_foc_pipeline
     tests/cpp/test_elysia_foc_pipeline.cpp
     src/elysia_foc_kernel.cu
+    src/elysia_autonomic_controller.cu
     src/elysia_scheduler.cpp
 )
 target_include_directories(test_elysia_foc_pipeline PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(test_elysia_foc_pipeline PRIVATE OpenMP::OpenMP_CXX)
 
+add_executable(test_elysia_autonomic_consolidation
+    tests/cpp/test_elysia_autonomic_consolidation.cpp
+    src/elysia_autonomic_controller.cu
+    src/elysia_foc_kernel.cu
+    src/elysia_scheduler.cpp
+)
+target_include_directories(test_elysia_autonomic_consolidation PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_link_libraries(test_elysia_autonomic_consolidation PRIVATE OpenMP::OpenMP_CXX)
+
 add_executable(elysia_foc_main
     src/elysia_foc_main.cpp
     src/elysia_foc_kernel.cu
+    src/elysia_autonomic_controller.cu
     src/elysia_scheduler.cpp
 )
 target_include_directories(elysia_foc_main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
