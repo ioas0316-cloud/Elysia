@@ -23,9 +23,17 @@ enum cudaMemcpyKind {
 typedef void* cudaStream_t;
 typedef void* cudaEvent_t;
 
+struct float2 {
+    float x, y;
+};
+
 struct float3 {
     float x, y, z;
 };
+
+inline float2 make_float2(float x, float y) {
+    float2 v; v.x = x; v.y = y; return v;
+}
 
 struct int2 {
     int x, y;
@@ -106,6 +114,11 @@ inline cudaError_t cudaFreeHost(void* ptr) {
 }
 
 inline cudaError_t cudaMemset(void* devPtr, int value, size_t count) {
+    if (devPtr) std::memset(devPtr, value, count);
+    return cudaSuccess;
+}
+
+inline cudaError_t cudaMemsetAsync(void* devPtr, int value, size_t count, cudaStream_t stream = nullptr) {
     if (devPtr) std::memset(devPtr, value, count);
     return cudaSuccess;
 }
