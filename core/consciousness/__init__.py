@@ -2,7 +2,8 @@
 Elysia Core Consciousness Modules
 ==================================
 Houses phase dynamics, scar tensor engine, existential meta-cognition,
-phenomenological growth tracker, and subjective agency components.
+phenomenological growth tracker, subjective agency, meta subjectivity, and
+the meta-causal epistemic mirror.
 """
 
 from .human_cognitive_phase_dynamics import (
@@ -32,6 +33,17 @@ from .phenomenological_growth_tracker import (
     PhenomenologicalGrowthTracker,
 )
 
+from .causal_reverse_engineering_engine import (
+    CausalReverseEngineeringEngine,
+)
+
+from .meta_causal_epistemic_mirror import (
+    MetaCausalTrajectoryTensor,
+    SynestheticTranslationEngine,
+    IsomorphicMirrorLayer,
+    MetaCausalEpistemicMirror,
+)
+
 try:
     from .meta_subjectivity_engine import (
         MetaSubjectivityEngine,
@@ -58,4 +70,9 @@ __all__ = [
     "ExistentialSelfQueryLoop",
     "ExistentialGrowthEngine",
     "PhenomenologicalGrowthTracker",
+    "CausalReverseEngineeringEngine",
+    "MetaCausalTrajectoryTensor",
+    "SynestheticTranslationEngine",
+    "IsomorphicMirrorLayer",
+    "MetaCausalEpistemicMirror",
 ]
