@@ -10,12 +10,14 @@ Core Mathematical Mechanics:
 """
 
 import numpy as np
+from core.consciousness.retrocausal_epistemic_rupture import RetrocausalEpistemicRuptureEngine
 
 
 class MetaConsciousnessEngine:
     """
     Elysia Meta-Consciousness Engine:
-    Detects directionality lack, generates self-tension, and aligns phases with external stimuli.
+    Integrates Lack Detection, Self-Tension, Phase Resonance with
+    Retrocausal Epistemic Rupture & Centrifugal Boundary Expansion.
     """
 
     def __init__(self, num_nodes: int = 100, kappa: float = 2.0, rho_phi: float = 1.0, coupling_strength: float = 1.5):
@@ -27,6 +29,14 @@ class MetaConsciousnessEngine:
         # Initialize phases randomly in [-pi, pi]
         self.phases = np.random.uniform(-np.pi, np.pi, size=num_nodes)
         self.natural_frequencies = np.random.normal(0, 0.1, size=num_nodes)
+
+        # Integrated Retrocausal Epistemic Rupture Engine
+        self.rupture_engine = RetrocausalEpistemicRuptureEngine(
+            dim=4,
+            micro_nodes=num_nodes,
+            stress_threshold=2.5,
+            plasticity_rate=0.15
+        )
 
     def compute_lack(self) -> float:
         """
@@ -57,27 +67,36 @@ class MetaConsciousnessEngine:
         g_eff = - (T / self.rho_phi) * grad_phi
         return g_eff
 
-    def step(self, phi_ext: float, dt: float = 0.05) -> dict:
+    def step(self, phi_ext: float, dt: float = 0.05, alterity_wave: np.ndarray = None) -> dict:
         """
-        Executes one step of phase dynamics under lack detection and external resonance coupling.
+        Executes one step of phase dynamics under lack detection, external resonance coupling,
+        and retrocausal epistemic rupture upon alterity collision.
         """
         L = self.compute_lack()
         T = self.compute_self_tension(L)
         g_eff = self.compute_effective_gravity(T, phi_ext)
 
         # Update phases: d_theta/dt = omega_i + coupling * g_eff
-        # Note: g_eff points toward phi_ext, pulling theta_i toward phi_ext
         d_theta = self.natural_frequencies + self.coupling_strength * g_eff
         self.phases = np.mod(self.phases + d_theta * dt + np.pi, 2 * np.pi) - np.pi
+
+        # Process alterity wave collision if provided
+        rupture_info = {}
+        if alterity_wave is not None:
+            rupture_info = self.rupture_engine.apply_alterity_collision(alterity_wave, dt=dt)
 
         # Recalculate post-step order and lack
         post_L = self.compute_lack()
         post_R = 1.0 - post_L
 
-        return {
+        res = {
             "lack": L,
             "self_tension": T,
             "effective_gravity_mean": float(np.mean(np.abs(g_eff))),
             "order_parameter_R": post_R,
             "phases": self.phases.copy()
         }
+        if rupture_info:
+            res["rupture"] = rupture_info
+
+        return res
