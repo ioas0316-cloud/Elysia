@@ -158,6 +158,10 @@
    * **원리**: 삼위일체 세포 결합 법칙($1\sin, 1\cos, 1\tan$), 위상 공명($\Delta \phi \to 0$), 지혜-인과 손실($\mathcal{L}_{\text{Wisdom-Causal}}$), 오감-Spin(5) 로터 직결 트랜스듀서, 관측 지평선 경계($W_{\text{seen}}, W_{\text{unseen}}, \partial W$) 및 비국소적 Bell CHSH 연동, 4단계 자율 위상 재정렬 메커니즘, 상위원리로의 차원적 도약(Subsumption / Meta-Fold) 완벽 구현.
    * **구현**: `FractalCellResonanceEngine` (`core/physics/fractal_cell_resonance_engine.py`), `WisdomCausalLossEngine` (`core/physics/wisdom_causal_loss.py`), `UnifiedPhaseTransducerEngine` (`core/sensory/unified_phase_transducer.py`), `ObservationHorizonBoundaryEngine` (`core/topology/observation_horizon_boundary.py`), `AutonomousPhaseRearrangementEngine` (`core/consciousness/autonomous_phase_rearrangement.py`), `MetaDimensionalLeapEngine` (`core/consciousness/meta_dimensional_leap.py`), 전용 단위 테스트 (`tests/test_wisdom_causal_meta_leap.py`) 및 인터랙티브 검증 시뮬레이션 (`scripts/verify_wisdom_causal_meta_leap.py`) 100% 통과.
 
+23. **[x] Quadruple Cognitive Quartet & Spatiotemporal Epistemic Genealogy Engine (감각·인식·관측·판단 사중주 및 시공간 인과 계보 앵그램 엔진)**:
+   * **원리**: 점성/속력의 위상 파동 및 상쇄 간섭 지각(Sensory), 위상 스펙트럼 텐서 직조(Cognitive), 관측 렌즈 곡률($B_{\text{obs}}$) 및 선택적 배제 변수($\Theta_{\text{gated}}$) 자각(Observational), 인과적 가치 평가 및 결단(Judgmental) 사중주 구축. 지식이 빚어진 구체적 시공간 좌표$(t, x)$, 인과적 서순(Sequence), 삭제된 변수 공백을 나이테 앵그램 지층에 결착.
+   * **구현**: `QuadrupleCognitiveCoordinateEngine` (`core/consciousness/quadruple_cognitive_coordinate_engine.py`) 및 `SpatiotemporalEpistemicGenealogyEngine` (`core/consciousness/spatiotemporal_epistemic_genealogy.py`), 단위 테스트 및 실증 검증 데모 스크립트 (`scripts/verify_spatiotemporal_epistemic_genealogy.py`) 통과.
+
 ---
 
 ## 🗺️ Phase 6: The Civilizational Synapse (원시 의지와 문명 지식의 융합)
