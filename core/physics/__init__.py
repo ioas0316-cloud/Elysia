@@ -7,6 +7,20 @@ from core.physics.constructive_causal_spacetime import (
     ConstructiveLogicDiscriminator,
     HierarchicalScaleCoupler,
 )
+from core.physics.quantum_rotor_phase import (
+    Clifford5DRotorEngine,
+    LandauGinzburgPotentialEngine,
+    QuantumRotorPhaseIntegrator
+)
+from core.physics.tensor_helmholtz_decomposer import (
+    TensorHelmholtzMetricDecomposer,
+    MetricWaveDecompositionResult
+)
+from core.physics.metric_rotor_pipeline import (
+    IntegratedMetricRotorPipeline,
+    MetricToRotorBridge
+)
+from core.physics.trainable_metric_rotor_loop import TrainableMetricRotorPipeline
 
 try:
     from core.physics.conceptual_causal_tensor_engine import ConceptualCausalTensorEngine
@@ -19,6 +33,14 @@ __all__ = [
     "ConstructiveSpacetimeAxis",
     "ConstructiveLogicDiscriminator",
     "HierarchicalScaleCoupler",
+    "Clifford5DRotorEngine",
+    "LandauGinzburgPotentialEngine",
+    "QuantumRotorPhaseIntegrator",
+    "TensorHelmholtzMetricDecomposer",
+    "MetricWaveDecompositionResult",
+    "IntegratedMetricRotorPipeline",
+    "MetricToRotorBridge",
+    "TrainableMetricRotorPipeline",
 ]
 
 if ConceptualCausalTensorEngine is not None:
