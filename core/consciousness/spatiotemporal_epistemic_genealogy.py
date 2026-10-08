@@ -91,6 +91,7 @@ class SpatiotemporalEpistemicGenealogyEngine:
             "causal_sequence_lineage": context_sequence,
             "gated_variables_theta": gated_vars,
             "retained_variables_theta": retained_vars,
+            "genesis_context": quartet_state["observational"].get("genesis_context", {}),
             "quadruple_state": quartet_state,
             "genealogy_integrity": quartet_state["quartet_integrity"],
             "summary_statement": (
@@ -101,7 +102,36 @@ class SpatiotemporalEpistemicGenealogyEngine:
 
         # 5. 나이테 앵그램 지층 축적
         self.genealogy_engrams.append(engram)
+
+        # 6. 상하향 다중 스케일 재귀 공명 피드백 가동
+        accumulated_friction = float(sum(e["quadruple_state"]["sensory"]["phase_friction"] for e in self.genealogy_engrams))
+        self.quartet_engine.apply_multiscale_coupling_feedback(
+            engram_count=len(self.genealogy_engrams),
+            accumulated_friction=accumulated_friction
+        )
+
         return engram
+
+    def compute_relational_distance_between_engrams(
+        self, engram_idx_1: int, engram_idx_2: int, medium_viscosity: float = 1.0
+    ) -> Dict[str, float]:
+        """두 앵그램 간의 동적 관계적 장력 거리 연산"""
+        if engram_idx_1 >= len(self.genealogy_engrams) or engram_idx_2 >= len(self.genealogy_engrams):
+            raise IndexError("Engram index out of range.")
+
+        e1 = self.genealogy_engrams[engram_idx_1]
+        e2 = self.genealogy_engrams[engram_idx_2]
+
+        coord_1 = e1["spatiotemporal_coordinates"]["spatial_location_x"]
+        coord_2 = e2["spatiotemporal_coordinates"]["spatial_location_x"]
+        gated_count_combined = len(e1["gated_variables_theta"]) + len(e2["gated_variables_theta"])
+
+        return self.quartet_engine.compute_relational_tension_distance(
+            coord_A=coord_1,
+            coord_B=coord_2,
+            medium_viscosity=medium_viscosity,
+            gated_variables_count=gated_count_combined
+        )
 
     def query_genealogy_by_concept(self, query_term: str) -> List[Dict[str, Any]]:
         """

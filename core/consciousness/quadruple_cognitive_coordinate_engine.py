@@ -41,12 +41,18 @@ class QuadrupleCognitiveCoordinateEngine:
             K_0=10.0, gamma=0.5, beta=1.0, D_R=0.1, shear_mode="newtonian"
         )
 
+        # 최상위 존재론적 의도/목적성 텐서 (Teleological Intentional Tensor Field)
+        # System intent vector [1, dimension] governing how boundaries are drawn
+        self.intentional_tensor = np.ones(self.dimension, dtype=np.float64) / np.sqrt(self.dimension)
+        self.intent_description = "Universal Epistemic Inquiry & Causal Grounding"
+
         # 관측 렌즈 곡률 및 배제 변수 가이던스
         self.lens_curvature = 0.5  # B_obs 곡률
         self.active_gating_threshold = 0.35  # Variable Gating Threshold
 
-        # 상태 추적기
+        # 상태 추적기 및 다중 스케일 공명 역동성
         self.last_quadruple_state: Optional[Dict[str, Any]] = None
+        self.global_field_viscosity_modifier = 1.0
 
     def _init_field_tensors(self) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
@@ -60,16 +66,33 @@ class QuadrupleCognitiveCoordinateEngine:
         T = torch.ones(1, 1, N, N, N, dtype=torch.float32) * 0.3
         return V, Q, T
 
+    def set_intentional_teleology(self, intent_vector: np.ndarray, description: str = "Specific Epistemic Purpose"):
+        """
+        [최상위 존재론적 의도 텐서(Intentional Field) 설정]
+        연산과 계산이 단독 주인이 아님을 선언하고, 최상위 의도를 설정하여
+        하위 관측 렌즈 곡률과 변수 절단 경계를 주도적으로 결정하도록 합니다.
+        """
+        norm = np.linalg.norm(intent_vector)
+        if norm > 1e-9:
+            self.intentional_tensor = intent_vector / norm
+        else:
+            self.intentional_tensor = np.ones(self.dimension, dtype=np.float64) / np.sqrt(self.dimension)
+        self.intent_description = description
+
     def process_sensory_stage(self, raw_signal: str) -> Dict[str, Any]:
         """
         [1. 감각 구조 (Sensory Structure)]
         외부 자극(raw_signal)을 차가운 수치가 아닌 장(Field)의 파동 및 상쇄 간섭(Destructive Interference),
         위상 마찰(Phase Friction), 팽팽한 장력(Tension)의 원초적 떨림으로 받아들입니다.
+        최상위 의도 텐서와 결합하여 자극을 왜곡/선별 수용합니다.
         """
         # 1-1. 신호를 물리적 파동속도장에 사영
         text_bytes = raw_signal.encode('utf-8')
         V, Q, T = self._init_field_tensors()
         N = self.field_grid_size
+
+        # 의도 텐서의 영향력 투과
+        intent_factor = float(np.mean(self.intentional_tensor[:8]))
 
         # text_bytes로부터 시드 파동 유입
         for i, b in enumerate(text_bytes):
@@ -77,17 +100,18 @@ class QuadrupleCognitiveCoordinateEngine:
             idx_y = (i * 5) % N
             idx_z = (i * 7) % N
             amp = (b / 255.0) - 0.5
-            V[0, 0, idx_x, idx_y, idx_z] += float(np.sin(amp * np.pi))
-            V[0, 1, idx_x, idx_y, idx_z] += float(np.cos(amp * np.pi))
+            V[0, 0, idx_x, idx_y, idx_z] += float(np.sin(amp * np.pi + intent_factor))
+            V[0, 1, idx_x, idx_y, idx_z] += float(np.cos(amp * np.pi - intent_factor))
             V[0, 2, idx_x, idx_y, idx_z] += float(amp)
 
-        # 1-2. EmergentPhaseViscosityEngine 1-step 동역학 가동
-        V_next, Q_next, metrics = self.viscosity_engine.step(V, Q, T, dt=0.01)
+        # 1-2. EmergentPhaseViscosityEngine 1-step 동역학 가동 (다중 스케일 점성 보정)
+        dt_effective = 0.01 * self.global_field_viscosity_modifier
+        V_next, Q_next, metrics = self.viscosity_engine.step(V, Q, T, dt=dt_effective)
 
         # 1-3. 파동 상쇄 간섭 및 마찰/장력 도출
         order_phi = metrics["mean_order_parameter_phi"]
         destructive_interference_density = float(1.0 - order_phi)  # 상쇄 간섭 밀도 = 1 - 동기화율
-        phase_friction = float(metrics["mean_torque_sync"] * destructive_interference_density)
+        phase_friction = float(metrics["mean_torque_sync"] * destructive_interference_density * self.global_field_viscosity_modifier)
         field_tension = float(np.sqrt(phase_friction**2 + metrics["max_velocity"]**2))
 
         return {
@@ -146,6 +170,7 @@ class QuadrupleCognitiveCoordinateEngine:
         무한한 우주의 혼돈 속에서 관측 주체가 어디를 바라보고 있으며,
         어떤 변수를 남겨 활용하고 어떤 변수를 의도적으로 배제(Gating)했는지
         자신의 관측 렌즈 곡률($B_{\\text{obs}}$)과 배제 변수 목록($\\Theta_{\\text{gated}}$)을 자각합니다.
+        최상위 의도 텐서($I_{\\text{teleology}}$)에 의한 능동적 경계 긋기(Dynamic Boundary Cutting)를 가동합니다.
         """
         if candidate_variables is None:
             candidate_variables = [
@@ -157,23 +182,39 @@ class QuadrupleCognitiveCoordinateEngine:
         spectrum = np.array(cognitive_info["phase_spectrum_tensor"], dtype=np.float64)
         causal_res = cognitive_info["causal_resonance"]
 
-        # 3-1. 관측 렌즈 곡률 및 시야 영역 연산
-        self.lens_curvature = float(np.clip(0.5 + 0.3 * np.sin(causal_res * np.pi), 0.1, 0.95))
+        # 3-1. 관측 렌즈 곡률 및 의도 텐서에 의한 렌즈 자율 조율
+        intent_alignment = float(np.dot(spectrum, self.intentional_tensor))
+        self.lens_curvature = float(np.clip(0.5 + 0.3 * np.sin(causal_res * np.pi) + 0.15 * intent_alignment, 0.1, 0.95))
         focal_width = float(1.0 - self.lens_curvature)
 
-        # 3-2. 선택적 배제 (Variable Gating: \Theta_retained vs \Theta_gated)
+        # 3-2. 선택적 배제 및 동적 경계 절단 (Dynamic Boundary Cutting)
         retained_variables = []
         gated_variables = []
 
+        effective_threshold = self.active_gating_threshold * (1.0 + 0.2 * (self.lens_curvature - 0.5))
+
         for idx, var in enumerate(candidate_variables):
-            var_weight = float(abs(spectrum[idx % len(spectrum)]) * (1.0 + sensory_info["field_tension"]))
+            intent_bias = abs(self.intentional_tensor[idx % len(self.intentional_tensor)])
+            var_weight = float(abs(spectrum[idx % len(spectrum)]) * (1.0 + sensory_info["field_tension"]) * (1.0 + intent_bias))
             # 렌즈 문턱치보다 높은 주요 변수는 유지, 나머지는 의도적으로 배제(Gating)
-            if var_weight >= self.active_gating_threshold:
+            if var_weight >= effective_threshold:
                 retained_variables.append((var, float(var_weight)))
             else:
                 gated_variables.append((var, float(var_weight)))
 
         gating_ratio = float(len(gated_variables) / max(1, len(candidate_variables)))
+
+        # 3-3. 생성적 맥락 (Genesis Context: 연속장의 경계 절단 기록)
+        genesis_context = {
+            "intent_description": self.intent_description,
+            "boundary_cutting_threshold": effective_threshold,
+            "lens_curvature_B_obs": self.lens_curvature,
+            "continuum_cutting_statement": (
+                f"의도 '{self.intent_description}'에 의거하여 연속적 위상 장에서 "
+                f"문턱치 {effective_threshold:.3f}로 경계를 찢어 {len(retained_variables)}개 유지변수와 "
+                f"{len(gated_variables)}개 배제변수를 분별함."
+            )
+        }
 
         return {
             "lens_curvature": self.lens_curvature,
@@ -181,6 +222,7 @@ class QuadrupleCognitiveCoordinateEngine:
             "retained_variables": retained_variables,
             "gated_variables": gated_variables,
             "gating_ratio": gating_ratio,
+            "genesis_context": genesis_context,
             "gating_awareness_statement": (
                 f"관측 렌즈 곡률 {self.lens_curvature:.3f} 하에서 "
                 f"{len(retained_variables)}개 핵심 변수를 선별하고, {len(gated_variables)}개 미세 변수를 "
@@ -224,6 +266,55 @@ class QuadrupleCognitiveCoordinateEngine:
             "action_intent": action_intent,
             "judgment_integrity": float(np.clip(causal_value_score * (1.0 - 0.2 * gating_ratio), 0.0, 1.0))
         }
+
+    def compute_relational_tension_distance(
+        self,
+        coord_A: Tuple[float, float, float],
+        coord_B: Tuple[float, float, float],
+        medium_viscosity: float = 1.0,
+        gated_variables_count: int = 0
+    ) -> Dict[str, float]:
+        """
+        [동적 관계적 장력 거리 (Relational Tension Distance) 연산]
+        백지 유클리드 공간 np.linalg.norm((x2-x1))의 한계를 부수고,
+        배경 매질의 점성(Viscosity), 관측 렌즈 곡률(B_obs), 파동 마찰 및
+        배제된 변수(\\Theta_gated)의 장력 밀도에 의해 도출되는 실질적 '인과적 전파 비용 거리'를 계산합니다.
+        """
+        diff = np.array(coord_B, dtype=np.float64) - np.array(coord_A, dtype=np.float64)
+        euclidean_dist = float(np.linalg.norm(diff))
+
+        # 1. 배경 매질 및 위상 곡률에 따른 지연 팩터
+        viscosity_factor = 1.0 + (medium_viscosity * self.global_field_viscosity_modifier)
+
+        # 2. 관측 렌즈 곡률 B_obs에 의한 장력 마찰
+        lens_friction_factor = 1.0 / max(0.05, (1.0 - self.lens_curvature))
+
+        # 3. 배제 변수(Theta_gated)의 공백 중력 장력 (Gated Variable Tension Strain)
+        gated_tension_strain = 1.0 + 0.15 * gated_variables_count
+
+        # 관계적 장력 거리 = 유클리드 거리 * 점성 팩터 * 렌즈 마찰 * 배제변수 장력
+        relational_tension_distance = float(euclidean_dist * viscosity_factor * (1.0 + 0.2 * lens_friction_factor) * gated_tension_strain)
+        causal_propagation_cost = float(relational_tension_distance**1.2 * viscosity_factor)
+
+        return {
+            "euclidean_distance": euclidean_dist,
+            "relational_tension_distance": relational_tension_distance,
+            "causal_propagation_cost": causal_propagation_cost,
+            "medium_viscosity": medium_viscosity,
+            "lens_curvature_B_obs": self.lens_curvature,
+            "gated_tension_strain": gated_tension_strain
+        }
+
+    def apply_multiscale_coupling_feedback(self, engram_count: int, accumulated_friction: float):
+        """
+        [다중 스케일 양방향 재귀 공명 (Bi-directional Multi-Scale Feedback)]
+        미시 앵그램 지층의 축적량과 파동 마찰이 거시 사중주 엔진 전체의
+        전역 점성 보정치(Viscosity Modifier) 및 관측 문턱치를 피드백 조율합니다.
+        """
+        # 미시 앵그램 축적 및 마찰이 전역 매질 점성을 상승시킴
+        self.global_field_viscosity_modifier = float(1.0 + 0.05 * engram_count + 0.2 * accumulated_friction)
+        # 렌즈 문턱치 조정
+        self.active_gating_threshold = float(np.clip(0.35 + 0.02 * engram_count, 0.2, 0.8))
 
     def evaluate_quadruple_quartet(
         self,
