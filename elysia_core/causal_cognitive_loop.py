@@ -19,6 +19,10 @@ from elysia_core.unified_phase_space import (
     AXIS_SHORT_NAMES
 )
 
+from core.sensory.emergent_sensory_apparatus import EmergentSensoryApparatus
+from core.sensory.central_metacognitive_workspace import CentralMetacognitiveWorkspace
+from core.causal_world.internal_simulation_engine import InternalSimulationEngine
+
 
 class CausalCognitiveAgent(NPCEntity):
     """
@@ -47,6 +51,11 @@ class CausalCognitiveAgent(NPCEntity):
         self.last_perceived_env: np.ndarray = np.copy(self.S)
         self.last_dissonance: float = 0.0
         self.last_phase_shifted: bool = False
+
+        # Integrated Emergent Sensory Apparatus, CMW, and Internal Simulation Engine
+        self.sensory_apparatus = EmergentSensoryApparatus(dim=16)
+        self.cmw = CentralMetacognitiveWorkspace(dim=16)
+        self.simulation_engine = InternalSimulationEngine(state_dim=2)
 
     def _determine_archetype(self) -> str:
         """Determines agent's cognitive archetype based on current 5D phase vector position."""
@@ -137,6 +146,16 @@ class CausalCognitiveAgent(NPCEntity):
         """Executes full 4-Stage Cognitive Loop sequentially for this agent."""
         self.perceive_environment(env_vec)
         self.judge_dissonance()
+
+        # Integrated Sensory Apparatus, CMW, and Simulation Engine cycle
+        sensory_out = self.sensory_apparatus.process_raw_stream(env_vec)
+        sim_report = self.simulation_engine.tick(dt=0.05, external_wave=sensory_out["wave"])
+        cmw_out = self.cmw.process_cognition(
+            symbol_vec=self.S,
+            sensory_wave=sensory_out["wave"],
+            world_response=sensory_out["cpll_state"].q_axis_torque * np.ones(16, dtype=np.float32),
+        )
+
         self.reflect_and_adapt()
         delta_V = self.act_and_reverse_project()
         return delta_V
