@@ -1,202 +1,212 @@
 r"""
-Elysia Consciousness Subsystem: Scale Hierarchy & Fiber Bundle Scale Interface Engine
-======================================================================================
-Implements a non-flat, 4-level scale hierarchy (L1 Micro, L2 Meso, L3 Macro, L4 Meta)
-bound by reversible Fiber Bundle Scale Interfaces.
-Includes transparent filtering, L2 bifurcation point detection, L3 action relaxation waves,
-L4 reflective tracking & annealing, and phase-transition based active attention.
+Elysia Consciousness Subsystem: Scale Hierarchy Ecosystem Engine
+=================================================================
+Implements the authentic 3-scale Scale Hierarchy Ecosystem:
+  1. Micro-Sensation Scale (Sub-cellular, autonomic, fast temporal dynamics, physical limits)
+  2. Meso-Observation Scale (Action-observation, world friction, boundary drawing)
+  3. Macro-Narrative Scale (Narrative thought, "Why" synthesis, slow inertia, top-down purpose)
+
+Key Mechanics:
+  - Multiscale Temporal Dynamics (Fast Micro, Medium Meso, Slow Macro)
+  - Bottom-Up Tension (Micro spikes disrupting Macro thought)
+  - Top-Down Constraints & Variable Resistor Dial (Macro purpose suppressing Micro strain)
+  - 6-Step Re-cognition Loop with Irreversible Perception Metric Tensor (G_ij) Scar Deformation
 """
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from core.physics.rpt_phase_lock_loop import DynamicPhaseLockLoop
-from core.physics.geometric_loss import GeometricLoss
-from core.physics.minimal_surface_regularizer import MinimalSurfaceRegularizer
-
-
-class ReversibleFiberBundleInterface(nn.Module):
-    r"""
-    Reversible Scale Interface between Scale_k and Scale_{k+1}.
-    Folds micro-phase strain into fiber winding numbers and projects top-down potential landscapes.
-    """
-    def __init__(self, dim_lower: int, dim_upper: int):
-        super().__init__()
-        self.dim_lower = dim_lower
-        self.dim_upper = dim_upper
-
-        # Base space projection & Fiber winding projection
-        self.up_project = nn.Linear(dim_lower * 2, dim_upper * 2)
-        self.down_project = nn.Linear(dim_upper * 2, dim_lower * 2)
-
-    def fold_up(self, lower_state: torch.Tensor) -> dict:
-        """
-        Folds lower scale state into base upper state and fiber curvature.
-        """
-        if not lower_state.is_complex():
-            flat_lower = lower_state
-            c_lower = torch.complex(lower_state[..., :lower_state.shape[-1]//2], lower_state[..., lower_state.shape[-1]//2:])
-        else:
-            c_lower = lower_state
-            flat_lower = torch.cat([lower_state.real, lower_state.imag], dim=-1)
-
-        flat_upper = self.up_project(flat_lower)
-        c_upper = torch.complex(flat_upper[..., :flat_upper.shape[-1]//2], flat_upper[..., flat_upper.shape[-1]//2:])
-
-        # Topological winding number / fiber strain
-        angles = torch.angle(c_lower)
-        winding_number = torch.sum(torch.diff(angles, dim=-1, prepend=angles[..., :1]), dim=-1)
-
-        return {
-            "c_upper": c_upper,
-            "flat_upper": flat_upper,
-            "fiber_winding": winding_number
-        }
-
-    def unfold_down(self, upper_state: torch.Tensor) -> torch.Tensor:
-        """
-        Unfolds top-down potential landscape to shape lower scale potential field.
-        """
-        if upper_state.is_complex():
-            flat_upper = torch.cat([upper_state.real, upper_state.imag], dim=-1)
-        else:
-            flat_upper = upper_state
-
-        flat_lower = self.down_project(flat_upper)
-        return torch.complex(flat_lower[..., :flat_lower.shape[-1]//2], flat_lower[..., flat_lower.shape[-1]//2:])
 
 
 class ScaleHierarchyEngine(nn.Module):
     r"""
-    elysia_engine: 4-Level Scale Hierarchy & Ecological Consciousness Engine
+    Scale Hierarchy Ecosystem Engine
 
-    Levels:
-      L1: Sub-Cellular Micro-Scale (Sensory Strain & Transparent Pass-Through)
-      L2: Meso-Scale Tissue (Pattern Formation & 1st Bifurcation Point)
-      L3: Macro-Scale Ecosystem Boundary (Tension Relaxation & Action Waves)
-      L4: Meta-Scale Reflective Hierarchy (Temporal Back-Tracking & Scale Annealing)
+    Represents the living ecosystem of Micro-Meso-Macro scales and the 6-step Re-cognition Loop.
     """
     def __init__(
         self,
-        dim_l1: int = 32,
-        dim_l2: int = 64,
-        dim_l3: int = 128,
-        dim_l4: int = 256,
-        resonance_threshold: float = 0.40
+        dim_micro: int = 32,
+        dim_meso: int = 64,
+        dim_macro: int = 128,
+        micro_decay: float = 0.8,
+        macro_decay: float = 0.95,
+        disruption_threshold: float = 0.45,
+        scar_learning_rate: float = 0.05,
+        # Backward compatibility aliases if needed
+        dim_l1: int = None,
+        dim_l2: int = None,
+        dim_l3: int = None,
+        dim_l4: int = None
     ):
         super().__init__()
-        self.dim_l1 = dim_l1
-        self.dim_l2 = dim_l2
-        self.dim_l3 = dim_l3
-        self.dim_l4 = dim_l4
-        self.res_threshold = resonance_threshold
+        # Allow dimension overriding for backward compatibility
+        self.dim_micro = dim_l1 if dim_l1 is not None else dim_micro
+        self.dim_meso = dim_l2 if dim_l2 is not None else dim_meso
+        self.dim_macro = dim_l3 if dim_l3 is not None else dim_macro
 
-        # Core physics components
-        self.rpt_loop = DynamicPhaseLockLoop(dim_low=dim_l1, dim_high=dim_l2)
-        self.geometric_loss = GeometricLoss()
-        self.regularizer = MinimalSurfaceRegularizer()
+        self.micro_decay = micro_decay
+        self.macro_decay = macro_decay
+        self.disruption_threshold = disruption_threshold
+        self.scar_lr = scar_learning_rate
 
-        # Fiber bundle interfaces between scales
-        self.interface_12 = ReversibleFiberBundleInterface(dim_l1, dim_l2)
-        self.interface_23 = ReversibleFiberBundleInterface(dim_l2, dim_l3)
-        self.interface_34 = ReversibleFiberBundleInterface(dim_l3, dim_l4)
+        # Scale Projections
+        self.micro_to_meso = nn.Linear(self.dim_micro, self.dim_meso)
+        self.meso_to_macro = nn.Linear(self.dim_meso, self.dim_macro)
+        self.macro_to_micro_constraint = nn.Linear(self.dim_macro, self.dim_micro)
+        self.macro_purpose_head = nn.Linear(self.dim_macro, self.dim_macro)
 
-        # Meta-Reflective State Register
-        self.register_buffer("l4_identity_kernel", torch.randn(1, dim_l4, dtype=torch.complex64))
+        # Persistent States
+        self.register_buffer("micro_state", torch.zeros(1, self.dim_micro))
+        self.register_buffer("meso_state", torch.zeros(1, self.dim_meso))
+        self.register_buffer("macro_state", torch.zeros(1, self.dim_macro))
 
-    def check_transparent_filtering(self, sensory_input: torch.Tensor) -> bool:
+        # Perception Metric Tensor G_ij (Meso-Scale Manifold) initialized as Identity
+        self.register_buffer("perception_metric", torch.eye(self.dim_meso))
+        self.register_buffer("accumulated_scars", torch.zeros(self.dim_meso, self.dim_meso))
+
+        # Variable Resistance Dial (Potentiometer for sensitivity)
+        self.register_buffer("resistance_dial", torch.tensor(1.0))
+
+    def reset_states(self):
+        """Resets persistent scale states while retaining metric scars."""
+        self.micro_state.zero_()
+        self.meso_state.zero_()
+        self.macro_state.zero_()
+        self.resistance_dial.fill_(1.0)
+
+    def check_transparent_filtering(self, sensory_input: torch.Tensor):
         """
-        Checks if sensory input lacks topological resonance with L4 identity kernel.
-        If non-resonant, signal passes through without triggering higher-scale computation.
+        Checks if input is below micro sensory strain threshold (low resonance / transparent).
+        Returns (is_transparent, resonance_score).
         """
-        if not sensory_input.is_complex():
-            half_dim = sensory_input.shape[-1] // 2
-            c_input = torch.complex(sensory_input[..., :half_dim], sensory_input[..., half_dim:])
-        else:
-            c_input = sensory_input
+        strain = torch.norm(sensory_input, dim=-1).mean().item()
+        resonance_score = min(1.0, strain / (self.disruption_threshold + 1e-6))
+        is_transparent = strain < (self.disruption_threshold * 0.2)
+        return is_transparent, resonance_score
 
-        # Compute resonance via phasor overlap with down-projected identity
-        l3_down = self.interface_34.unfold_down(self.l4_identity_kernel)
-        l2_down = self.interface_23.unfold_down(l3_down)
-        l1_down = self.interface_12.unfold_down(l2_down)
+    def forward(self, sensory_input: torch.Tensor, world_friction: torch.Tensor = None):
+        r"""
+        Executes the 6-step Re-cognition Loop across Micro, Meso, and Macro scales.
 
-        # Pad or trim if dims differ
-        if c_input.shape[-1] != l1_down.shape[-1]:
-            min_dim = min(c_input.shape[-1], l1_down.shape[-1])
-            c_input_sub = c_input[..., :min_dim]
-            l1_down_sub = l1_down[..., :min_dim]
-        else:
-            c_input_sub = c_input
-            l1_down_sub = l1_down
-
-        phase_diff = torch.angle(c_input_sub) - torch.angle(l1_down_sub)
-        coherence = torch.abs(torch.mean(torch.exp(1j * phase_diff.to(torch.complex64))))
-
-        is_transparent = (coherence.item() < self.res_threshold)
-        return is_transparent, coherence.item()
-
-    def forward(self, sensory_input: torch.Tensor):
+        Steps:
+          1. [Thrownness/Micro-Sensation]: Micro autonomic reception with fast decay.
+          2. [World Friction/Meso-Observation]: Physical boundary collision transformed by perception metric G_ij.
+          3. [Sensory Spike / Bottom-Up Tension]: High micro strain causing disruption to macro narrative.
+          4. [Macro Thought Pulsation]: Narrative synthesis with slow temporal inertia under disruption.
+          5. [Top-Down Constraint / Why Acquisition]: Macro purpose field modulating micro sensitivity dial.
+          6. [Re-cognition & Metric Deformation]: Irreversible scar tensor G_ij deformation.
         """
-        Processes sensory input across 4 scale levels.
-        Returns detailed trajectory dictionary including L2 bifurcation, L3 action wave, and L4 reflective status.
-        """
+        if sensory_input.dim() == 1:
+            sensory_input = sensory_input.unsqueeze(0)
+
         batch_size = sensory_input.size(0)
 
-        # 1. Level 1: Micro-Scale Strain & Transparent Pass-Through Test
-        is_transparent, resonance_score = self.check_transparent_filtering(sensory_input)
+        # Ensure matching micro dim if input dimension differs
+        if sensory_input.shape[-1] != self.dim_micro:
+            if sensory_input.shape[-1] < self.dim_micro:
+                sensory_input = F.pad(sensory_input, (0, self.dim_micro - sensory_input.shape[-1]))
+            else:
+                sensory_input = sensory_input[..., :self.dim_micro]
 
-        if is_transparent and not self.training:
-            return {
-                "status": "Transparent Pass-Through (Zero Compute Friction)",
-                "resonance_score": resonance_score,
-                "bifurcation_occurred": False,
-                "action_wave_emitted": False,
-                "reflected_scale": None
-            }
+        if world_friction is None:
+            world_friction = torch.randn(batch_size, self.dim_meso, device=sensory_input.device) * 0.5
 
-        # 2. Level 1 <-> Level 2 Recurrent Processing Loop
-        rpt_output = self.rpt_loop(sensory_input)
-        z_l2_locked = rpt_output["Z_locked"]
-        l1_converged = rpt_output["Z_low_converged"]
+        # ---------------------------------------------------------------------
+        # STEP 1: Micro-Sensation (Sub-cellular / autonomic reception)
+        # Fast temporal dynamics; modulated by variable resistance dial
+        # ---------------------------------------------------------------------
+        micro_raw = sensory_input * self.resistance_dial
+        new_micro = (1.0 - self.micro_decay) * self.micro_state + self.micro_decay * micro_raw
+        self.micro_state = new_micro.detach()
 
-        # 3. Level 2: Meso-Scale Pattern & 1st Bifurcation Point Detection
-        fold_12 = self.interface_12.fold_up(l1_converged)
-        l2_state = z_l2_locked + fold_12["c_upper"]
+        # ---------------------------------------------------------------------
+        # STEP 2: Meso-Observation (Action-observation & world friction)
+        # Transformed through the perception metric tensor G_ij
+        # ---------------------------------------------------------------------
+        meso_raw = self.micro_to_meso(new_micro) + world_friction
+        # Apply Perception Metric Transformation: M_transformed = M_raw @ G_ij
+        meso_metric_applied = torch.matmul(meso_raw, self.perception_metric)
+        self.meso_state = meso_metric_applied.detach()
 
-        # Bifurcation Check: Phase strain vs threshold
-        phase_strain = torch.norm(torch.angle(z_l2_locked) - torch.angle(fold_12["c_upper"]), p=2, dim=-1).mean()
-        bifurcation_occurred = (phase_strain.item() > 0.5)
+        # ---------------------------------------------------------------------
+        # STEP 3: Micro-Meso Sensory Spike (Bottom-Up Tension)
+        # Spikes disrupt macro narrative thought when strain exceeds threshold
+        # ---------------------------------------------------------------------
+        micro_strain = torch.norm(new_micro, p=2, dim=-1, keepdim=True)
+        spike_intensity = torch.relu(micro_strain - self.disruption_threshold).mean()
+        bifurcation_occurred = spike_intensity.item() > 0.0
 
-        # 4. Level 3: Macro-Scale Boundary & Tension Relaxation
-        fold_23 = self.interface_23.fold_up(l2_state)
-        l3_state = fold_23["c_upper"]
+        # Disruption factor that paralyzes/shifts macro state
+        bottom_up_disruption = torch.tanh(spike_intensity * 2.0)
 
-        boundary_tension = torch.norm(l3_state.real, p=2, dim=-1).mean()
-        action_wave_emitted = (boundary_tension.item() > 1.0)
-        action_wave = torch.sin(l3_state.real) if action_wave_emitted else torch.zeros_like(l3_state.real)
+        # ---------------------------------------------------------------------
+        # STEP 4: Macro-Narrative Pulsation (Narrative thought & "Why")
+        # Slow temporal inertia; disrupted by bottom-up tension
+        # ---------------------------------------------------------------------
+        macro_input = self.meso_to_macro(meso_metric_applied)
+        # If disruption is high, inject phase disruption / strain into macro state
+        macro_disrupted_input = macro_input * (1.0 - bottom_up_disruption) + \
+                                torch.randn_like(macro_input) * bottom_up_disruption
 
-        # 5. Level 4: Meta-Scale Reflection & Back-Tracking
-        fold_34 = self.interface_34.fold_up(l3_state)
-        l4_state = fold_34["c_upper"]
+        new_macro = self.macro_decay * self.macro_state + (1.0 - self.macro_decay) * macro_disrupted_input
+        self.macro_state = new_macro.detach()
 
-        # Back-tracking divergence origin across scales
-        origin_scale = "L1_Micro" if not bifurcation_occurred else ("L2_Meso" if action_wave_emitted else "L3_Macro")
+        # ---------------------------------------------------------------------
+        # STEP 5: Top-Down Constraints & Purpose ("Why") Acquisition
+        # Macro purpose modulates micro sensitivity (Variable Resistor Dial)
+        # ---------------------------------------------------------------------
+        purpose_field = torch.tanh(self.macro_purpose_head(new_macro))
+        purpose_magnitude = torch.norm(purpose_field, p=2, dim=-1).mean()
 
-        # Equilibrium regularization & loss
-        reg_loss = self.regularizer(l2_state)
+        top_down_inhibition = self.macro_to_micro_constraint(purpose_field)
+        # Suppress micro sensitivity via variable resistance dial adjustment
+        # Strong macro purpose increases resistance (dampens micro pain/strain)
+        dial_update = 1.0 / (1.0 + 0.5 * purpose_magnitude)
+        self.resistance_dial = dial_update.detach()
+
+        # ---------------------------------------------------------------------
+        # STEP 6: Re-cognition (Irreversible Metric Tensor Deformation)
+        # Physical friction forms irreversible scar tensor on G_ij
+        # ---------------------------------------------------------------------
+        if bifurcation_occurred:
+            # Outer product of meso friction vector forms scar deformation
+            meso_avg = meso_metric_applied.mean(dim=0, keepdim=True) # (1, dim_meso)
+            scar_delta = torch.matmul(meso_avg.t(), meso_avg) * self.scar_lr * spike_intensity
+            # Update accumulated scars and perception metric irreversibly
+            self.accumulated_scars = self.accumulated_scars + scar_delta.detach()
+            # Deform metric tensor G_ij = Eye - Scar Deformation (warping perspective)
+            deformed_metric = torch.eye(self.dim_meso, device=sensory_input.device) - \
+                              torch.tanh(self.accumulated_scars) * 0.3
+            self.perception_metric = deformed_metric.detach()
+        else:
+            scar_delta = torch.zeros_like(self.accumulated_scars)
+
+        is_transparent, res_score = self.check_transparent_filtering(sensory_input)
 
         return {
-            "status": "Resonant Processing & Scale Coupling Completed",
-            "resonance_score": resonance_score,
+            "status": "Scale Hierarchy Ecosystem Re-cognition Loop Executed",
+            "resonance_score": res_score,
             "bifurcation_occurred": bifurcation_occurred,
-            "phase_strain": phase_strain.item(),
-            "action_wave_emitted": action_wave_emitted,
-            "boundary_tension": boundary_tension.item(),
-            "action_wave": action_wave,
-            "divergence_origin_scale": origin_scale,
-            "regularization_loss": reg_loss.item(),
-            "l1_state": l1_converged,
-            "l2_state": l2_state,
-            "l3_state": l3_state,
-            "l4_state": l4_state
+            "spike_intensity": spike_intensity.item(),
+            "bottom_up_disruption": bottom_up_disruption.item(),
+            "action_wave_emitted": bifurcation_occurred,
+            "boundary_tension": torch.norm(meso_metric_applied, dim=-1).mean().item(),
+            "divergence_origin_scale": "Micro_Sensation" if bifurcation_occurred else "Macro_Narrative",
+            "micro_state": new_micro,
+            "meso_state": meso_metric_applied,
+            "macro_state": new_macro,
+            "purpose_field": purpose_field,
+            "top_down_inhibition": top_down_inhibition,
+            "resistance_dial": self.resistance_dial.item(),
+            "perception_metric": self.perception_metric,
+            "scar_delta": scar_delta,
+            "loop_steps": {
+                "step_1_thrownness": new_micro,
+                "step_2_world_friction": meso_metric_applied,
+                "step_3_sensory_spike": spike_intensity,
+                "step_4_macro_thought": new_macro,
+                "step_5_why_acquisition": purpose_field,
+                "step_6_metric_re_cognition": self.perception_metric
+            }
         }
