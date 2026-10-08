@@ -100,6 +100,16 @@ try:
 except (ModuleNotFoundError, ImportError):
     pass
 
+try:
+    from .cosmic_void_relational_engine import (
+        CognitivePhase,
+        MultidimensionalLens,
+        RelationalEdge,
+        CosmicVoidRelationalEngine,
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
+
 from .structural_causal_architecture import (
     HardConstraintProjectionLayer,
     StructuralCausalEngine,
