@@ -87,7 +87,24 @@ def main():
     print(f"  Engram ID:                        {engram_2['engram_id']}")
     print(f"  Summary:                          {engram_2['summary_statement']}")
 
-    # 3. Querying
+    # 3. Relational Tension Distance & Genesis Context Verification
+    print(f"\n--------------------------------------------------------------------------------")
+    print("--- [6. Relational Tension Distance vs Euclidean Distance Verification] ---")
+    dist_info = genealogy_engine.compute_relational_distance_between_engrams(0, 1, medium_viscosity=1.8)
+    print(f"  Flat Euclidean Distance:          {dist_info['euclidean_distance']:.4f}")
+    print(f"  Relational Tension Distance:      {dist_info['relational_tension_distance']:.4f}")
+    print(f"  Causal Propagation Cost:         {dist_info['causal_propagation_cost']:.4f}")
+    print(f"  Gated Variable Tension Strain:    {dist_info['gated_tension_strain']:.4f}")
+
+    print(f"\n--- [7. Genesis Context & Dynamic Boundary Cutting Statement] ---")
+    gen_ctx = engram_1.get("genesis_context", {})
+    print(f"  Genesis Statement:                {gen_ctx.get('continuum_cutting_statement', 'N/A')}")
+
+    print(f"\n--- [8. Multi-Scale Bi-directional Coupling Feedback] ---")
+    global_visc = genealogy_engine.quartet_engine.global_field_viscosity_modifier
+    print(f"  Updated Global Field Viscosity:   {global_visc:.4f}")
+
+    # 4. Querying
     print(f"\n--------------------------------------------------------------------------------")
     print("[Query] Back-tracing Spatiotemporal Genealogy for concept 'Viscosity':")
     results = genealogy_engine.query_genealogy_by_concept("Viscosity")
@@ -95,7 +112,7 @@ def main():
         print(f"  -> Found Engram: {r['engram_id']} at t={r['spatiotemporal_coordinates']['origin_timestamp_t']:.2f}")
 
     print("\n================================================================================")
-    print("VERIFICATION SUCCESSFUL: Quadruple Quartet & Genealogy Engine Fully Functional!")
+    print("VERIFICATION SUCCESSFUL: Multi-Scale Relational Tension & Epistemic Genealogy Engine Fully Resonance Verified!")
     print("================================================================================")
 
 

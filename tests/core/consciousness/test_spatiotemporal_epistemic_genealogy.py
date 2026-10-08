@@ -82,3 +82,41 @@ def test_spatiotemporal_epistemic_genealogy_engine():
 
     all_engrams = genealogy_engine.get_all_engrams()
     assert len(all_engrams) == 1
+
+
+def test_relational_tension_and_teleology():
+    genealogy_engine = SpatiotemporalEpistemicGenealogyEngine(dimension=64)
+
+    # Set intentional teleology
+    intent_vec = np.random.randn(64)
+    genealogy_engine.quartet_engine.set_intentional_teleology(
+        intent_vec, description="Investigating Microscopic Fluid Dynamics"
+    )
+
+    # Record 2 engrams at different spatial coordinates
+    e1 = genealogy_engine.record_genealogy_engram(
+        raw_knowledge="Micro-rotor spin shear",
+        spatial_coord=(0.0, 0.0, 0.0),
+        candidate_variables=["micro_rotor", "spin", "shear", "viscosity"]
+    )
+
+    e2 = genealogy_engine.record_genealogy_engram(
+        raw_knowledge="Macroscopic laminar flow",
+        spatial_coord=(3.0, 4.0, 0.0), # Euclidean distance = 5.0
+        candidate_variables=["laminar_velocity", "pressure_gradient"]
+    )
+
+    # Compute relational tension distance
+    dist_info = genealogy_engine.compute_relational_distance_between_engrams(0, 1, medium_viscosity=1.5)
+
+    assert dist_info["euclidean_distance"] == pytest.approx(5.0)
+    # Relational distance should be larger than Euclidean due to medium viscosity and gated variables
+    assert dist_info["relational_tension_distance"] > 5.0
+    assert dist_info["causal_propagation_cost"] > dist_info["relational_tension_distance"]
+
+    # Verify genesis context
+    assert "genesis_context" in e1
+    assert e1["genesis_context"]["intent_description"] == "Investigating Microscopic Fluid Dynamics"
+
+    # Verify multi-scale feedback modified global viscosity
+    assert genealogy_engine.quartet_engine.global_field_viscosity_modifier > 1.0
