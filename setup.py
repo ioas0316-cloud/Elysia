@@ -21,18 +21,20 @@ INCLUDE_DIRS = [
     os.path.abspath("modules/causal_topology"),
 ]
 
-SOURCES_CPP = glob.glob("src/core/*.cpp")
+# Exclude autonomic_tension.cpp from cmplr extension sources
+ALL_SOURCES_CPP = glob.glob("src/core/*.cpp")
+SOURCES_CPP = [s for s in ALL_SOURCES_CPP if os.path.basename(s) != "autonomic_tension.cpp"]
 SOURCES_CUDA = glob.glob("src/core/*.cu")
 
 # Check CUDA availability
 CUDA_AVAILABLE = torch.cuda.is_available() and len(SOURCES_CUDA) > 0
 
 extra_compile_args = {
-    "cxx": ["-O3", "-std=c++17"],
+    "cxx": ["-O3", "-std=c++20"],
     "nvcc": [
         "-O3",
         "--use_fast_math",
-        "-std=c++17",
+        "-std=c++20",
         "-U__CUDA_NO_HALF_OPERATORS__",
         "-U__CUDA_NO_HALF_CONVERSIONS__",
         "-DWITH_CUDA",
@@ -43,15 +45,16 @@ ext_modules = [
     Extension(
         'causal_engine',
         sources=['src/bindings/python_bindings.cpp'],
-        include_dirs=[
-            get_pybind_include(),
-            get_pybind_include(user=True),
-            'include',
-            'modules/causal_topology',
-        ],
+        include_dirs=INCLUDE_DIRS,
         language='c++',
-        extra_compile_args=['-O3', '-std=c++17', '-fopenmp'],
+        extra_compile_args=['-O3', '-std=c++20', '-fopenmp'],
         extra_link_args=['-fopenmp'],
+    ),
+    CppExtension(
+        name='autonomic_tension_cpp',
+        sources=['src/core/autonomic_tension.cpp'],
+        include_dirs=INCLUDE_DIRS,
+        extra_compile_args={'cxx': ['-O3', '-std=c++20']},
     ),
 ]
 
@@ -78,10 +81,10 @@ else:
     )
 
 # Add Cl(3,1) STA Engine Extension
-cl31_compile_args = {'cxx': ['-O3', '-std=c++17', '-DELYSIA_WITH_TORCH']}
+cl31_compile_args = {'cxx': ['-O3', '-std=c++20', '-DELYSIA_WITH_TORCH']}
 if torch.cuda.is_available():
     cl31_compile_args['cxx'].append('-DELYSIA_WITH_CUDA')
-    cl31_compile_args['nvcc'] = ['-O3', '-std=c++17']
+    cl31_compile_args['nvcc'] = ['-O3', '-std=c++20']
     ext_modules.append(
         CUDAExtension(
             name='elysia_cuda_engine',
@@ -89,7 +92,7 @@ if torch.cuda.is_available():
                 'src/bindings/cl31_pytorch_bindings.cpp',
                 'kernels/cl31_kernel.cu',
             ],
-            include_dirs=[os.path.abspath('include')],
+            include_dirs=INCLUDE_DIRS,
             extra_compile_args=cl31_compile_args
         )
     )
@@ -100,7 +103,7 @@ else:
             sources=[
                 'src/bindings/cl31_pytorch_bindings.cpp',
             ],
-            include_dirs=[os.path.abspath('include')],
+            include_dirs=INCLUDE_DIRS,
             extra_compile_args=cl31_compile_args
         )
     )

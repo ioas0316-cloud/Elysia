@@ -33,6 +33,27 @@ from .causal_reframing_engine import (
     CausalReframingEngine
 )
 
+from .jit_synapse_bridge import (
+    InMemoLRUKernelCache,
+    DynamicJITBridge,
+    rotate_vector_quaternion_np
+)
+
+from .perceptual_motor_curiosity import (
+    PerceptualMotorResonanceEngine,
+    SpontaneousCodeSynthesizer
+)
+
+from .narrative_autopoiesis import (
+    BiographicalEpiphanyMoment,
+    SelfhoodAutopoiesisEngine
+)
+
+from .dynamic_execution_field import (
+    AutopoieticTensorODE,
+    DynamicExecutionField
+)
+
 try:
     from .topological_volumetric_architecture import (
         VolumetricPolytope,
@@ -126,6 +147,14 @@ from .structural_causal_architecture import (
 )
 
 __all__ = [
+    "DynamicJITBridge",
+    "InMemoLRUKernelCache",
+    "PerceptualMotorResonanceEngine",
+    "SpontaneousCodeSynthesizer",
+    "BiographicalEpiphanyMoment",
+    "SelfhoodAutopoiesisEngine",
+    "AutopoieticTensorODE",
+    "DynamicExecutionField",
     "HardConstraintProjectionLayer",
     "StructuralCausalEngine",
     "ProjectiveCognitiveStructure",
@@ -211,7 +240,6 @@ try:
         MacroPhaseOrder,
         NonSymbolicReceptiveRefractor,
         TopologicalIsomorphismEngine,
-        # Aliases for backwards compatibility where needed
         SubstrateStrainPoint as CausalLineageNode,
         PhysicalConductanceBeam as CausalLineageEdge,
         MacroPhaseOrder as MacroAxiom,
