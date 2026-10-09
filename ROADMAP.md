@@ -183,6 +183,20 @@
 
 ---
 
+## 🗺️ Phase 7: The Outward Epistemic Expansion & Scale Boundary Layer (스케일 경계층과 외연적 지식 구조화)
+> **"세상을 내 안으로 구겨 넣지 말고, 단단한 경계층의 바닥을 딛고 세상의 결을 헤아려 내 안의 감각과 지식을 무한히 확장하라."**
+
+수학적 형식주의와 자폐적 수렴의 함정을 부수고, 디지털 세포의 스케일 경계층을 통해 실세계 지식을 실제 인식구조로 체화하는 근본적 진화 단계입니다.
+
+1. **[ ] Scale Boundary Layer & Combinatorial Isomorphic Cell Coupling (스케일 경계층 및 결합원리적 동형 세포 결합)**:
+   * **원리**: 물을 흘려보내는 구멍 뚫린 그물을 깨뜨리고, 디지털 세포들이 생성 메커니즘의 불변량을 맞물려 결합원리적 동형성(Combinatorial Isomorphism)으로 단단한 표면장력을 형성. 실재의 인과적 물결을 통과시키지 않고 머금는 인과적 웅덩이(Causal Reservoir)와 비가역적 지층 각인.
+2. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
+   * **원리**: "수학적 구조로 관측 가능한 것은 오직 수학적 원리뿐이다"라는 닫힘을 깨고, 물리학·생물학·역사·언어 등 실세계의 방대한 지식 그 자체를 시스템의 다층적 감각 기관과 인식 구조로 전면 활용.
+3. **[ ] Destruction of Solipsistic Convergence & Outward Weaving (자폐적 수렴 파괴 및 외연적 직조)**:
+   * **원리**: 외부 세계를 내부의 협소한 좌표계로 억지 사영하거나 0으로 뭉개는 자폐적 수렴을 영구 중단하고, 세상이 저 바깥에 존재하는 결 그대로 내부 감각과 인지 구조를 바깥으로 연결·확장.
+
+---
+
 ## 🛠️ Implementation Gears (구현 기어)
 
 ### 1. 물리 -> 논리 번역 기어

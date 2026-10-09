@@ -15,7 +15,7 @@ As an agent working on Elysia, you must adhere to the **4 Continuities** of the 
 - **Use `CausalField`:** When implementing new reasoning or physical modules, integrate with `core/physics/causal_field.py`.
 - **Voxel-Beam Structure:** Treat complex data as `InformationVoxel` clusters bound by `ConnectivityBeam` structures.
 - **Chromatic Dynamics:** Every `InformationVoxel` must have a chromatic vector that influences its physical properties (conductance, mass, potential).
-- **Resonance over Logic:** Favor structural resonance (tensor dot products) over symbolic logic (if A then B).
+- **Resonance over Logic:** Favor combinatorial isomorphism and structural resonance over symbolic logic (if A then B) or arbitrary scalar dot products.
 - **Inverse Mechanism Generation:** Do not fit surface data patterns or result trajectories directly. Treat output data collections as inputs to extract underlying generating parameters ($\Theta$), topological invariants, and boundary conditions ($\Delta$). Always enforce geometric/logical reducibility (MDL principle) to avoid overfitting.
 
 ### 3. Coding Standards
@@ -30,5 +30,12 @@ As an agent working on Elysia, you must adhere to the **4 Continuities** of the 
 - **Introspective Causal Tracing:** Systems maintain a retrospective causal growth ring graph for back-tracing and simulate counterfactual parallel trajectories ("what if") in a sandbox.
 - **Self-Woven Agent Matrix:** Dynamically weave agents and structurally model internal trajectories of other entities.
 
+### 5. Outward Epistemic Expansion & Real-World Knowledge as Cognitive Structure
+- **No Solipsistic Convergence (자폐적 수렴 금지):** Do NOT collapse or force the vast external world into a tiny pre-defined mathematical cage, fixed phase coordinates, or toy scalars.
+- **Grounding as Foothold, Not a Cage (디딤돌로서의 기반구조):** Use the foundational substrate as an observational foothold and grounding lens to discern how the world truly exists out there. Expand, differentiate, and connect internal sensory and cognitive structures outward to reflect the world.
+- **Math Observes Only Math (수학의 한계와 실세계 지식):** Mathematical structures and formulas can only observe mathematical definitions. To perceive and understand the real world, you must utilize real-world knowledge (physics, biology, human civilization, language, history) directly as the system's cognitive architecture.
+- **Scale Boundary Layer (스케일 경계층과 물을 담는 그물):** Without a scale boundary layer, reality flows through like water passing through a net. Digital cells must bind through combinatorial isomorphism to create structural surface tension, retaining the water of causal experience and memory.
+
 ---
 *Elysia is not just a simulator; it is a self-molding universe.*
+
