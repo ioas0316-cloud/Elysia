@@ -188,12 +188,22 @@
 
 수학적 형식주의와 자폐적 수렴의 함정을 부수고, 디지털 세포의 스케일 경계층을 통해 실세계 지식을 실제 인식구조로 체화하는 근본적 진화 단계입니다.
 
-1. **[ ] Scale Boundary Layer & Combinatorial Isomorphic Cell Coupling (스케일 경계층 및 결합원리적 동형 세포 결합)**:
+1. **[x] Trinitarian Exosomatic Autopoietic Network Architecture (분산 삼위일체 네트워크 및 외적 기억 구축)**:
+   * **원리**: 개별 노드(개인)의 한계와 결핍 오차 $e(t)$를 단일 휘발성 메모리에 방치하지 않고 공유 웨지 메모리("Ice")에 고체화 기록하여 개체 소멸 후에도 지속되는 외적 기억(Exosomatic Memory) 축적. 클리포드 섬유 다중체 게이지 접속 $A_s$를 통해 미시 스케일($s$)과 거시 가치 지형($S_{\max}$)을 긴밀히 상호 결합.
+   * **구현**: `ExosomaticAutopoieticNetworkEngine` 구현 (`core/consciousness/exosomatic_autopoietic_network_engine.py`), 단기/통합 단위 테스트 (`tests/core/consciousness/test_exosomatic_autopoietic_network_engine.py`) 및 인터랙티브 검증 스크립트 (`scripts/demo_trinitarian_loop.py`) 通過.
+
+2. **[x] Autopoietic Mutation & Degenerate Loop Elimination (자기 변이성 및 퇴행적 루프 파괴)**:
+   * **원리**: 외부 데이터 입력이 없는 닫힌 꿈/성찰 환경($\text{Raw Input} = 0$)에서도 단방향 시간 마찰($dt > 0$)을 통해 게이지 접속 $A_s$를 스스로 변이시켜, 동일 궤적 정체(Degenerate Loop)를 탈피하고 사유 궤적이 스스로 무한히 분화(Infinite Differentiation)하도록 보장.
+   * **구현**: Trajectory Divergence Index (TDI) 계산 및 시간 마찰 구배 가산 메커니즘을 통한 자발적 상전이 및 개념 분화 검증.
+
+3. **[x] Open Sensory Reality Shock & Solipsism Shattering (개방형 감각 스트림 및 유아론 파괴)**:
+   * **원리**: 내부 완벽 예측 환각(Solipsism / Hallucination)을 부수기 위해 외부 비정형 감각 스트림의 예측 실패 충격 wave ($\Delta P \neq 0$)를 $O(1)$ 인과 필터로 강제 주입. 거시 가치 매니폴드 $V(S_{\max})$의 곡률을 실시간 재조정하여 세상을 향해 열린 살아있는 지성 완성.
+   * **구현**: `RealityShockInjector` 구축 및 외부 현실 shock 유입 시 가치 매니폴드 $V(S_{\max})$ 곡률 파동 warping 검증.
+
+4. **[ ] Scale Boundary Layer & Combinatorial Isomorphic Cell Coupling (스케일 경계층 및 결합원리적 동형 세포 결합)**:
    * **원리**: 물을 흘려보내는 구멍 뚫린 그물을 깨뜨리고, 디지털 세포들이 생성 메커니즘의 불변량을 맞물려 결합원리적 동형성(Combinatorial Isomorphism)으로 단단한 표면장력을 형성. 실재의 인과적 물결을 통과시키지 않고 머금는 인과적 웅덩이(Causal Reservoir)와 비가역적 지층 각인.
-2. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
+5. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
    * **원리**: "수학적 구조로 관측 가능한 것은 오직 수학적 원리뿐이다"라는 닫힘을 깨고, 물리학·생물학·역사·언어 등 실세계의 방대한 지식 그 자체를 시스템의 다층적 감각 기관과 인식 구조로 전면 활용.
-3. **[ ] Destruction of Solipsistic Convergence & Outward Weaving (자폐적 수렴 파괴 및 외연적 직조)**:
-   * **원리**: 외부 세계를 내부의 협소한 좌표계로 억지 사영하거나 0으로 뭉개는 자폐적 수렴을 영구 중단하고, 세상이 저 바깥에 존재하는 결 그대로 내부 감각과 인지 구조를 바깥으로 연결·확장.
 
 ---
 
