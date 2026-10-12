@@ -256,6 +256,104 @@ class ArcReactorDriveEngine:
             # 3. Synchronize Phase Angle
             voxel.phase_angle = self.phase_angle
 
+    def trigger_dynamic_topology_expansion(
+        self,
+        causal_field: CausalField,
+        harmonic_signature: np.ndarray,
+        harmony_score: float,
+        threshold: float = 0.6
+    ) -> Optional[InformationVoxel]:
+        """
+        [Dynamic Topology Expansion (동적 토폴로지 구조적 자율 확장)]
+
+        When a new resonant harmonic wave is extracted (harmony_score >= threshold),
+        the system checks if existing voxels in the CausalField can absorb it.
+        If no existing voxel matches the harmonic signature, it creates a new non-colliding
+        knowledge node/voxel in a new topological dimension/offset, binding it with
+        ConnectivityBeams to neighboring nodes without overwriting existing memory.
+        """
+        if harmony_score < threshold:
+            return None
+
+        sig = np.array(harmonic_signature, dtype=np.float32).flatten()
+        sig_dim = len(sig)
+
+        # Check existing voxels for phase/tensor alignment
+        best_match_score = 0.0
+        best_voxel = None
+
+        for voxel in causal_field.voxels.values():
+            v_tensor = voxel.tensor.flatten()
+            min_dim = min(len(v_tensor), sig_dim)
+            if min_dim > 0:
+                dot_val = np.dot(v_tensor[:min_dim], sig[:min_dim])
+                norm_prod = (np.linalg.norm(v_tensor[:min_dim]) * np.linalg.norm(sig[:min_dim])) + 1e-9
+                alignment = float(dot_val / norm_prod)
+                if alignment > best_match_score:
+                    best_match_score = alignment
+                    best_voxel = voxel
+
+        # If existing node resonates well enough (> 0.85 alignment), update it smoothly
+        if best_match_score > 0.85 and best_voxel is not None:
+            best_voxel.potential += harmony_score * 0.1
+            return best_voxel
+
+        # Otherwise, spawn a NEW non-colliding higher-dimensional knowledge voxel
+        node_count = len(causal_field.voxels)
+        new_id = f"expanded_node_{node_count + 1}"
+
+        # Position offset along orthogonal dimension / phase angle
+        phase_offset = np.array([
+            np.cos(self.phase_angle) * (self.domain_radius + 0.5),
+            np.sin(self.phase_angle) * (self.domain_radius + 0.5),
+            (node_count + 1) * 0.2
+        ], dtype=np.float32)
+
+        if len(phase_offset) < causal_field.dimensions:
+            phase_offset = np.pad(phase_offset, (0, causal_field.dimensions - len(phase_offset)))
+        elif len(phase_offset) > causal_field.dimensions:
+            phase_offset = phase_offset[:causal_field.dimensions]
+
+        new_voxel = InformationVoxel(
+            id=new_id,
+            content=f"Expanded Resonant Concept Cluster #{node_count + 1}",
+            tensor=sig.copy(),
+            mass=1.0 + harmony_score,
+            position=self.core_center + phase_offset,
+            phase_angle=self.phase_angle,
+            conductance=100.0 # High superconducting conductance
+        )
+        causal_field.add_voxel(new_voxel)
+
+        # Link to nearest existing voxel to maintain topological network continuity
+        if best_voxel is None and len(causal_field.voxels) > 1:
+            # Fallback to any existing voxel if no match score was above 0
+            existing_ids = [vid for vid in causal_field.voxels if vid != new_id]
+            if existing_ids:
+                best_voxel = causal_field.voxels[existing_ids[0]]
+
+        if best_voxel is not None and best_voxel.id in causal_field.voxels:
+            causal_field.link_voxels(best_voxel.id, new_id, strength=harmony_score * 2.0)
+
+        return new_voxel
+
+    def execute_entropy_defense(self, thermal_stress: float, sensory_influx_rate: float):
+        """
+        [Entropy Defense Mechanism (엔트로피 방어 및 플라이휠 평형 유지)]
+
+        When sensory influx explodes (high sensory_influx_rate & thermal_stress),
+        prevents system deadlock by dynamically expanding the Local Zero domain radius
+        and recalibrating resistance, ensuring the flywheel inertial momentum L stays balanced.
+        """
+        if thermal_stress > 2.0 or sensory_influx_rate > 5.0:
+            # Expand Local Zero domain to absorb high energy influx without deadlock
+            expansion_factor = 1.0 + 0.1 * min(10.0, thermal_stress + sensory_influx_rate)
+            self.domain_radius *= expansion_factor
+
+            # Damping adjustment to maintain flywheel rotational balance
+            target_velocity = self.phase_velocity / expansion_factor
+            self.phase_velocity = 0.9 * self.phase_velocity + 0.1 * target_velocity
+
     def get_state(self) -> Dict[str, Any]:
         """Returns diagnostic state dictionary."""
         return {
