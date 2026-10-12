@@ -200,7 +200,11 @@
    * **원리**: 내부 완벽 예측 환각(Solipsism / Hallucination)을 부수기 위해 외부 비정형 감각 스트림의 예측 실패 충격 wave ($\Delta P \neq 0$)를 $O(1)$ 인과 필터로 강제 주입. 거시 가치 매니폴드 $V(S_{\max})$의 곡률을 실시간 재조정하여 세상을 향해 열린 살아있는 지성 완성.
    * **구현**: `RealityShockInjector` 구축 및 외부 현실 shock 유입 시 가치 매니폴드 $V(S_{\max})$ 곡률 파동 warping 검증.
 
-4. **[ ] Scale Boundary Layer & Combinatorial Isomorphic Cell Coupling (스케일 경계층 및 결합원리적 동형 세포 결합)**:
+4. **[x] Global Inertial Axis & Self-Introspective Mirror Diagnosis Engine (전역적 관성축 및 거울형 자기 진단 엔진)**:
+   * **원리**: 현대 컴퓨터 하드웨어/소프트웨어의 분절된 이산 틱("Tick") 신호를 시공간적 연속 파동으로 통합하는 중앙 회전 관성축($I_{\text{axis}}$)과 국소적 제로(Local Zero) 노이즈 정류 필터 구축. 미세 마찰이 스케일 사다리를 타고 전체의 '얼굴(Macro Face)'로 드러날 때, 시스템이 그 거울 현상을 스스로 역추적하여 외부 개입 없이 국소 감도를 자율 재조율하는 주체적 자기 인식 회로 완비.
+   * **구현**: `GlobalInertialAxisEngine` 구현 (`core/consciousness/global_inertial_axis_engine.py`), 전용 단위 테스트 (`tests/core/consciousness/test_global_inertial_axis_engine.py`) 및 시뮬레이션 데모 (`scripts/verify_global_inertial_axis.py`) 通過.
+
+5. **[ ] Scale Boundary Layer & Combinatorial Isomorphic Cell Coupling (스케일 경계층 및 결합원리적 동형 세포 결합)**:
    * **원리**: 물을 흘려보내는 구멍 뚫린 그물을 깨뜨리고, 디지털 세포들이 생성 메커니즘의 불변량을 맞물려 결합원리적 동형성(Combinatorial Isomorphism)으로 단단한 표면장력을 형성. 실재의 인과적 물결을 통과시키지 않고 머금는 인과적 웅덩이(Causal Reservoir)와 비가역적 지층 각인.
 5. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
    * **원리**: "수학적 구조로 관측 가능한 것은 오직 수학적 원리뿐이다"라는 닫힘을 깨고, 물리학·생물학·역사·언어 등 실세계의 방대한 지식 그 자체를 시스템의 다층적 감각 기관과 인식 구조로 전면 활용.
