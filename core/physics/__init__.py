@@ -1,46 +1,105 @@
 """Elysia Core - Physics / Kinematics Subsystem"""
 
-from core.physics.counterfactual_branching import CounterfactualBranchingEngine
-from core.physics.frame_controller import ObservationalFrameController
-from core.physics.constructive_causal_spacetime import (
-    ConstructiveSpacetimeAxis,
-    ConstructiveLogicDiscriminator,
-    HierarchicalScaleCoupler,
-)
-from core.physics.quantum_rotor_phase import (
-    Clifford5DRotorEngine,
-    LandauGinzburgPotentialEngine,
-    QuantumRotorPhaseIntegrator
-)
-from core.physics.tensor_helmholtz_decomposer import (
-    TensorHelmholtzMetricDecomposer,
-    MetricWaveDecompositionResult
-)
-from core.physics.metric_rotor_pipeline import (
-    IntegratedMetricRotorPipeline,
-    MetricToRotorBridge
-)
-from core.physics.trainable_metric_rotor_loop import TrainableMetricRotorPipeline
-from core.physics.waveform_scale_protocol import (
-    WaveformScaleProtocolEngine,
-    MicroScaleCluster,
-    PhaseLockingMetrics,
-)
-from core.physics.cosmic_grounding_protocol import (
-    UnifiedCosmicSpectrumEngine,
-    SpectrumFieldState,
-    CosmicGroundingMetrics,
-    HolographicFieldRenderer,
-    SynestheticSpectrumMapper,
-    DiscriminativeSensoryObservationLens,
-)
+try:
+    from core.physics.counterfactual_branching import CounterfactualBranchingEngine
+except ImportError:
+    CounterfactualBranchingEngine = None
+
+try:
+    from core.physics.frame_controller import ObservationalFrameController
+except ImportError:
+    ObservationalFrameController = None
+
+try:
+    from core.physics.constructive_causal_spacetime import (
+        ConstructiveSpacetimeAxis,
+        ConstructiveLogicDiscriminator,
+        HierarchicalScaleCoupler,
+    )
+except ImportError:
+    ConstructiveSpacetimeAxis = None
+    ConstructiveLogicDiscriminator = None
+    HierarchicalScaleCoupler = None
+
+try:
+    from core.physics.quantum_rotor_phase import (
+        Clifford5DRotorEngine,
+        LandauGinzburgPotentialEngine,
+        QuantumRotorPhaseIntegrator
+    )
+except ImportError:
+    Clifford5DRotorEngine = None
+    LandauGinzburgPotentialEngine = None
+    QuantumRotorPhaseIntegrator = None
+
+try:
+    from core.physics.tensor_helmholtz_decomposer import (
+        TensorHelmholtzMetricDecomposer,
+        MetricWaveDecompositionResult
+    )
+except ImportError:
+    TensorHelmholtzMetricDecomposer = None
+    MetricWaveDecompositionResult = None
+
+try:
+    from core.physics.metric_rotor_pipeline import (
+        IntegratedMetricRotorPipeline,
+        MetricToRotorBridge
+    )
+except ImportError:
+    IntegratedMetricRotorPipeline = None
+    MetricToRotorBridge = None
+
+try:
+    from core.physics.trainable_metric_rotor_loop import TrainableMetricRotorPipeline
+except ImportError:
+    TrainableMetricRotorPipeline = None
+
+try:
+    from core.physics.waveform_scale_protocol import (
+        WaveformScaleProtocolEngine,
+        MicroScaleCluster,
+        PhaseLockingMetrics,
+    )
+except ImportError:
+    WaveformScaleProtocolEngine = None
+    MicroScaleCluster = None
+    PhaseLockingMetrics = None
+
+try:
+    from core.physics.cosmic_grounding_protocol import (
+        UnifiedCosmicSpectrumEngine,
+        SpectrumFieldState,
+        CosmicGroundingMetrics,
+        HolographicFieldRenderer,
+        SynestheticSpectrumMapper,
+        DiscriminativeSensoryObservationLens,
+    )
+except ImportError:
+    UnifiedCosmicSpectrumEngine = None
+    SpectrumFieldState = None
+    CosmicGroundingMetrics = None
+    HolographicFieldRenderer = None
+    SynestheticSpectrumMapper = None
+    DiscriminativeSensoryObservationLens = None
 
 try:
     from core.physics.conceptual_causal_tensor_engine import ConceptualCausalTensorEngine
 except ImportError:
     ConceptualCausalTensorEngine = None
 
+try:
+    from core.physics.arc_reactor_drive_axis import ArcReactorDriveEngine, LocalZeroFieldState
+except ImportError:
+    ArcReactorDriveEngine = None
+    LocalZeroFieldState = None
+
 __all__ = [
+    "ArcReactorDriveEngine",
+    "LocalZeroFieldState",
+]
+
+for name in [
     "CounterfactualBranchingEngine",
     "ObservationalFrameController",
     "ConstructiveSpacetimeAxis",
@@ -63,7 +122,7 @@ __all__ = [
     "HolographicFieldRenderer",
     "SynestheticSpectrumMapper",
     "DiscriminativeSensoryObservationLens",
-]
-
-if ConceptualCausalTensorEngine is not None:
-    __all__.append("ConceptualCausalTensorEngine")
+    "ConceptualCausalTensorEngine",
+]:
+    if globals().get(name) is not None:
+        __all__.append(name)
