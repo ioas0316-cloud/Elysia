@@ -21,6 +21,11 @@ from core.physics.metric_rotor_pipeline import (
     MetricToRotorBridge
 )
 from core.physics.trainable_metric_rotor_loop import TrainableMetricRotorPipeline
+from core.physics.waveform_scale_protocol import (
+    WaveformScaleProtocolEngine,
+    MicroScaleCluster,
+    PhaseLockingMetrics,
+)
 
 try:
     from core.physics.conceptual_causal_tensor_engine import ConceptualCausalTensorEngine
@@ -41,6 +46,9 @@ __all__ = [
     "IntegratedMetricRotorPipeline",
     "MetricToRotorBridge",
     "TrainableMetricRotorPipeline",
+    "WaveformScaleProtocolEngine",
+    "MicroScaleCluster",
+    "PhaseLockingMetrics",
 ]
 
 if ConceptualCausalTensorEngine is not None:
