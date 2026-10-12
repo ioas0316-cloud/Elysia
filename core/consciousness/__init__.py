@@ -37,12 +37,15 @@ from .causal_reverse_engineering_engine import (
     CausalReverseEngineeringEngine,
 )
 
-from .meta_causal_epistemic_mirror import (
-    MetaCausalTrajectoryTensor,
-    SynestheticTranslationEngine,
-    IsomorphicMirrorLayer,
-    MetaCausalEpistemicMirror,
-)
+try:
+    from .meta_causal_epistemic_mirror import (
+        MetaCausalTrajectoryTensor,
+        SynestheticTranslationEngine,
+        IsomorphicMirrorLayer,
+        MetaCausalEpistemicMirror,
+    )
+except ImportError:
+    pass
 
 try:
     from .meta_subjectivity_engine import (
