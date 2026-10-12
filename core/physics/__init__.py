@@ -26,6 +26,14 @@ from core.physics.waveform_scale_protocol import (
     MicroScaleCluster,
     PhaseLockingMetrics,
 )
+from core.physics.cosmic_grounding_protocol import (
+    UnifiedCosmicSpectrumEngine,
+    SpectrumFieldState,
+    CosmicGroundingMetrics,
+    HolographicFieldRenderer,
+    SynestheticSpectrumMapper,
+    DiscriminativeSensoryObservationLens,
+)
 
 try:
     from core.physics.conceptual_causal_tensor_engine import ConceptualCausalTensorEngine
@@ -49,6 +57,12 @@ __all__ = [
     "WaveformScaleProtocolEngine",
     "MicroScaleCluster",
     "PhaseLockingMetrics",
+    "UnifiedCosmicSpectrumEngine",
+    "SpectrumFieldState",
+    "CosmicGroundingMetrics",
+    "HolographicFieldRenderer",
+    "SynestheticSpectrumMapper",
+    "DiscriminativeSensoryObservationLens",
 ]
 
 if ConceptualCausalTensorEngine is not None:
