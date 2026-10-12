@@ -7,6 +7,9 @@ from core.topology.structural_connectivity_engine import (
     GenerativePrinciple,
     StructuralResonance
 )
+from core.physics.ontological_gravity_terrain_engine import (
+    OntologicalGravityTerrainEngine
+)
 
 @dataclass
 class InformationVoxel:
@@ -215,6 +218,9 @@ class CausalField:
         self.dimensions = dimensions
         self.voxels: Dict[str, InformationVoxel] = {}
         self.beams: List[ConnectivityBeam] = []
+
+        # Ontological Gravity Terrain Engine
+        self.gravity_terrain_engine = OntologicalGravityTerrainEngine(dimensions=dimensions)
 
         # Field-wide properties
         self.global_potential_gradient = np.zeros(dimensions)
@@ -520,12 +526,47 @@ class CausalField:
 
     def step(self, dt: float = 0.1):
         """
-        Advances the field using Continuous Causal Dynamics.
+        Advances the field using Continuous Causal Dynamics and Ontological Gravity Terrain.
         """
+        self._apply_ontological_gravity_terrain(dt)
         self._update_connectivity_and_tension(dt)
         self._flow_potential(dt)
         self._preserve_mobility(dt)
         self._enforce_informational_continuity(dt)
+
+    def _apply_ontological_gravity_terrain(self, dt: float):
+        """
+        Relaxes voxels naturally along the Ontological Gravity Terrain gradient towards Local Zero.
+        Handles dimension padding or truncating if voxel position dimension differs from terrain dimensions.
+        """
+        for voxel in self.voxels.values():
+            pos = voxel.position.astype(np.float32)
+            vel = voxel.velocity.astype(np.float32)
+
+            orig_len_pos = len(pos)
+            orig_len_vel = len(vel)
+
+            # Pad or truncate position and velocity to match terrain dimensions
+            if orig_len_pos < self.gravity_terrain_engine.dimensions:
+                pos = np.pad(pos, (0, self.gravity_terrain_engine.dimensions - orig_len_pos))
+            elif orig_len_pos > self.gravity_terrain_engine.dimensions:
+                pos = pos[:self.gravity_terrain_engine.dimensions]
+
+            if orig_len_vel < self.gravity_terrain_engine.dimensions:
+                vel = np.pad(vel, (0, self.gravity_terrain_engine.dimensions - orig_len_vel))
+            elif orig_len_vel > self.gravity_terrain_engine.dimensions:
+                vel = vel[:self.gravity_terrain_engine.dimensions]
+
+            new_pos, new_vel, pot_energy = self.gravity_terrain_engine.flow_step(
+                position=pos,
+                velocity=vel,
+                dt=dt
+            )
+
+            # Slice back to original voxel dimensions
+            voxel.position = new_pos[:orig_len_pos]
+            voxel.velocity = new_vel[:orig_len_vel]
+            voxel.potential += pot_energy * 0.1
 
     def _update_connectivity_and_tension(self, dt: float):
         """

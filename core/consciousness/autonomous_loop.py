@@ -80,10 +80,11 @@ from core.evolution.inner_creation_engine import InnerCreationEngine
 from core.evolution.external_reasoning_engine import ExternalReasoningEngine
 from core.evolution.developmental_individuation import WildernessFrictionStream, DevelopmentalIndividuationEngine
 
-# [Phase-Gravity Continuous Fluid Engine Integration]
+# [Phase-Gravity Continuous Fluid Engine Integration & Ontological Gravity Terrain]
 from core.physics.phase_gravity import PhaseTransitionEngine, DensityFluidGravity
 from core.physics.spontaneous_motion import SpontaneousMotionEngine, generate_spontaneous_wave
 from core.physics.predictive_processing import PredictiveProcessingEngine
+from core.physics.ontological_gravity_terrain_engine import OntologicalGravityTerrainEngine
 
 # [Phase 4: Embodied Dreaming World Model]
 from core.consciousness.dreaming_world_model import DreamingWorldModel
@@ -227,11 +228,12 @@ class ConsciousnessLoop:
         self.media_ontology = MediaOntologyEngine()
         self.media_ontology.crystallize_media_ontologies(self.memory)
 
-        # ── [Phase-Gravity Continuous Fluid Engine Components] ──
+        # ── [Phase-Gravity Continuous Fluid Engine & Ontological Gravity Terrain Components] ──
         self.phase_transition_engine = PhaseTransitionEngine(size=32)
         self.density_fluid_gravity   = DensityFluidGravity(size=32)
         self.spontaneous_motion_engine = SpontaneousMotionEngine(self.memory)
         self.predictive_processing_engine = PredictiveProcessingEngine(dimensions=3)
+        self.ontological_gravity_terrain = OntologicalGravityTerrainEngine(dimensions=3)
 
         # ── [Phase 4: Embodied Dreaming World Model Engine] ──
         self.dreaming_model = DreamingWorldModel(memory_controller=self.memory, size=16)
@@ -558,6 +560,16 @@ class ConsciousnessLoop:
             tensor=logo_tensor[:3]
         )
         self.causal_engine.mold_topology(dt=0.1)
+
+        # ── [Ontological Gravity Relaxation & Inner-Outer Discrepancy Calibration] ──
+        inner_sim_pos = logo_tensor[:3]
+        outer_obs_pos = np.array([info_T, info_P, info_E], dtype=np.float32) / 10.0
+        gravity_calib = self.ontological_gravity_terrain.sense_and_recalibrate_discrepancy(
+            inner_simulated_pos=inner_sim_pos,
+            outer_observed_pos=outer_obs_pos
+        )
+        log["ontological_gravity_discrepancy"] = gravity_calib["discrepancy_norm"]
+        log["ontological_gravity_stiffness"] = gravity_calib["new_stiffness"]
 
         voxels = list(self.causal_engine.dynamics.voxels.values())
         if len(voxels) >= 2:
