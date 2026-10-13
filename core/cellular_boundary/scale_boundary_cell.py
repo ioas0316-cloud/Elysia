@@ -24,12 +24,16 @@ class CausalEngram:
     """
     [인과적 각인 / 앵그램 (Causal Engram)]
     1차원 숫자가 아닌, 구조적 계층원리에 의한 다름의 위상적 결(StructuralDiscrepancy) 자체를 영구 침전시킴.
+    색채적 상호연결성: 각 앵그램은 R(Flux)/B(Order)/Y(Entropy) 색채 벡터를 보존한다.
     """
     engram_id: str
     timestamp_step: int
     source_flux_norm: float
     discrepancy: StructuralDiscrepancy
     surface_tension_at_creation: float
+    chromatic_vector: np.ndarray = field(
+        default_factory=lambda: np.array([0.33, 0.33, 0.34])
+    )  # [R(Flux), B(Order), Y(Entropy)] 색채 벡터
 
     @property
     def conformed_to_order(self) -> bool:

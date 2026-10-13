@@ -28,6 +28,7 @@ class GeneratingMechanism:
     """
     [잠재적 생성 메커니즘 (Generating Mechanism, \\Theta)]
     표면 데이터가 생성된 기저 원리수식, 불변량, 경계 조건을 나타냅니다.
+    색채적 상호연결성: 메커니즘의 R(Flux)/B(Order)/Y(Entropy) 색채 시그니처를 보존한다.
     """
     system_type: str  # 'HARMONIC_WAVE', 'SCALE_INTERVAL', 'POLYNOMIAL_DYNAMICS', 'EXPONENTIAL_GROWTH', 'GENERAL_NONLINEAR'
     parameters: Dict[str, float]  # \\Theta: 주파수, 성장률, 계수 등
@@ -35,6 +36,9 @@ class GeneratingMechanism:
     invariants: Dict[str, float]  # 에너지 보존량, 상대적 비유지율 등
     mdl_complexity: float  # 최소 설명 길이 (MDL) 스칼라
     equation_repr: str  # 수식 표현식
+    chromatic_signature: Dict[str, float] = field(
+        default_factory=lambda: {"R_flux": 0.33, "B_order": 0.33, "Y_entropy": 0.34}
+    )  # R(Flux)/B(Order)/Y(Entropy) 색채 시그니처
 
 
 @dataclass
