@@ -14,6 +14,7 @@ from elysia_core.unified_phase_space import (
     MonsterEntity,
     NPCEntity
 )
+from elysia_core import PrismaticAxisSpectrumEngine
 
 
 def main():
@@ -66,8 +67,21 @@ def main():
 
     # 5. Render Phase 2 One-Page Dashboard Report
     print(engine.render_one_page_dashboard(title_suffix="[PHASE 2: WAR]"))
+    print("\n")
+
+    # 6. Initialize and demonstrate Prismatic Axis Spectrum Engine
+    print(">>> [PRISMATIC COGNITION] Prismatic Axis Spectrum Engine Coupling... <<<\n")
+    spectrum_engine = PrismaticAxisSpectrumEngine(base_frequency=12.0)
+    print(f"  * Prismatic Spectrum Hierarchy Active: {len(spectrum_engine.nodes)} nodes across {spectrum_engine.num_levels} levels.")
+    print(f"  * Multi-Layered Wave Memory Stack: {len(spectrum_engine.memory_stack.layers)} chromatic layers initialized.")
+
+    # Execute sample phase resonance search
+    resonance_results = spectrum_engine.execute_phase_resonance_search(query_frequency=18.0, query_phase=0.0)
+    top_result = resonance_results[0]
+    print(f"  * Top Phase Resonance Search Result: Target Node '{top_result.target_node_id}' with Resonance Score {top_result.resonance_score:.4f}")
+
     print("\n" + "=" * 80)
-    print(" UNIFIED 5D PHASE SPACE DEMONSTRATION COMPLETE ")
+    print(" UNIFIED 5D PHASE SPACE & PRISMATIC SPECTRUM DEMONSTRATION COMPLETE ")
     print("=" * 80 + "\n")
 
 
