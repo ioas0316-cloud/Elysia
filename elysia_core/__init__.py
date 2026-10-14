@@ -10,8 +10,11 @@ from core.physics.trainable_metric_rotor_loop import TrainableMetricRotorPipelin
 from core.memory.scale_wave_tensor_memory import ScaleWaveTensorMemory
 from core.memory.scale_wave_autograd import TrainableScaleWaveMemory, ScaleWaveMemoryAutogradFunction
 from core.embodied.swarm_lift_field import SwarmLiftField, DroneAgentState
+from core.physics.prismatic_axis_spectrum import PrismaticAxisSpectrumEngine, MultiLayeredWaveMemoryStack
 
 __all__ = [
+    "PrismaticAxisSpectrumEngine",
+    "MultiLayeredWaveMemoryStack",
     "Clifford5DRotorEngine",
     "LandauGinzburgPotentialEngine",
     "QuantumRotorPhaseIntegrator",
