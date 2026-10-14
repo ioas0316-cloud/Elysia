@@ -7,10 +7,15 @@ from core.memory.delta_superposition import (
     ObserverView,
     ImmutableBaseSlab
 )
-from core.memory.geometric_folding_engine import GeometricFoldingEngine
-from core.memory.hardware_aware_clifford_pipeline import HardwareAwareCliffordPipeline
-from core.memory.scale_wave_tensor_memory import ScaleWaveTensorMemory
-from core.memory.scale_wave_autograd import TrainableScaleWaveMemory, ScaleWaveMemoryAutogradFunction
+from core.memory.fractal_cube_lattice_engine import FractalCubeLatticeEngine
+
+try:
+    from core.memory.hardware_aware_clifford_pipeline import HardwareAwareCliffordPipeline
+    from core.memory.geometric_folding_engine import GeometricFoldingEngine
+    from core.memory.scale_wave_tensor_memory import ScaleWaveTensorMemory
+    from core.memory.scale_wave_autograd import TrainableScaleWaveMemory, ScaleWaveMemoryAutogradFunction
+except (ModuleNotFoundError, ImportError):
+    pass
 
 __all__ = [
     "PhysicalStateSlabPool",
@@ -27,4 +32,5 @@ __all__ = [
     "ScaleWaveTensorMemory",
     "TrainableScaleWaveMemory",
     "ScaleWaveMemoryAutogradFunction",
+    "FractalCubeLatticeEngine",
 ]

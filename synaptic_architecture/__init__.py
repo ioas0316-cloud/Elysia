@@ -39,20 +39,23 @@ from .jit_synapse_bridge import (
     rotate_vector_quaternion_np
 )
 
-from .perceptual_motor_curiosity import (
-    PerceptualMotorResonanceEngine,
-    SpontaneousCodeSynthesizer
-)
+try:
+    from .perceptual_motor_curiosity import (
+        PerceptualMotorResonanceEngine,
+        SpontaneousCodeSynthesizer
+    )
 
-from .narrative_autopoiesis import (
-    BiographicalEpiphanyMoment,
-    SelfhoodAutopoiesisEngine
-)
+    from .narrative_autopoiesis import (
+        BiographicalEpiphanyMoment,
+        SelfhoodAutopoiesisEngine
+    )
 
-from .dynamic_execution_field import (
-    AutopoieticTensorODE,
-    DynamicExecutionField
-)
+    from .dynamic_execution_field import (
+        AutopoieticTensorODE,
+        DynamicExecutionField
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
 try:
     from .topological_volumetric_architecture import (
@@ -121,6 +124,8 @@ try:
 except (ModuleNotFoundError, ImportError):
     pass
 
+from .generative_molding_engine import GenerativeMoldingEngine
+
 try:
     from .cosmic_void_relational_engine import (
         CognitivePhase,
@@ -131,20 +136,23 @@ try:
 except (ModuleNotFoundError, ImportError):
     pass
 
-from .structural_causal_architecture import (
-    HardConstraintProjectionLayer,
-    StructuralCausalEngine,
-    ProjectiveCognitiveStructure,
-    GaugeConnectionNetwork,
-    FiberBundleIntegrator,
-    HolonomicGaugeTrainer,
-    SheafGlobalSectionVerifier,
-    EmbodimentLoopEngine,
-    SelfWorldPartitionEngine,
-    UnifiedAvatarCausalPipeline,
-    AvatarNPCAttentionMaskEngine,
-    GraphPeerToPeerWorldAttentionEngine,
-)
+try:
+    from .structural_causal_architecture import (
+        HardConstraintProjectionLayer,
+        StructuralCausalEngine,
+        ProjectiveCognitiveStructure,
+        GaugeConnectionNetwork,
+        FiberBundleIntegrator,
+        HolonomicGaugeTrainer,
+        SheafGlobalSectionVerifier,
+        EmbodimentLoopEngine,
+        SelfWorldPartitionEngine,
+        UnifiedAvatarCausalPipeline,
+        AvatarNPCAttentionMaskEngine,
+        GraphPeerToPeerWorldAttentionEngine,
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
 
 __all__ = [
     "DynamicJITBridge",
@@ -167,6 +175,7 @@ __all__ = [
     "UnifiedAvatarCausalPipeline",
     "AvatarNPCAttentionMaskEngine",
     "GraphPeerToPeerWorldAttentionEngine",
+    "GenerativeMoldingEngine",
 ]
 
 try:
