@@ -94,6 +94,17 @@ except ImportError:
     ArcReactorDriveEngine = None
     LocalZeroFieldState = None
 
+try:
+    from core.physics.isomorphic_phase_field import (
+        IsomorphicPhaseFieldSubstrate,
+        ModalitySignature,
+        ScaleBoundaryResult,
+    )
+except ImportError:
+    IsomorphicPhaseFieldSubstrate = None
+    ModalitySignature = None
+    ScaleBoundaryResult = None
+
 __all__ = [
     "ArcReactorDriveEngine",
     "LocalZeroFieldState",
@@ -123,6 +134,9 @@ for name in [
     "SynestheticSpectrumMapper",
     "DiscriminativeSensoryObservationLens",
     "ConceptualCausalTensorEngine",
+    "IsomorphicPhaseFieldSubstrate",
+    "ModalitySignature",
+    "ScaleBoundaryResult",
 ]:
     if globals().get(name) is not None:
         __all__.append(name)
