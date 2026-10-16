@@ -54,6 +54,10 @@ class ScaleBoundaryCellCouplingEngine(nn.Module):
         # Isomorphic coupling network across cells
         self.cell_isomorphism_gate = nn.Linear(self.dim_avatar, self.dim_avatar)
 
+        # --- Taiji-Hexagram Topology Engine Binding ---
+        from core.topology.taiji_hexagram_topology import TaijiHexagramTopologyEngine
+        self.taiji_engine = TaijiHexagramTopologyEngine(num_nodes=64)
+
         # --- Persistent State Buffers ---
         # 1. Avatar Boundary Surface Tension ($T_{\text{surf}}$)
         self.register_buffer("surface_tension", torch.tensor([1.0]))
@@ -277,7 +281,11 @@ class ScaleBoundaryCellCouplingEngine(nn.Module):
             macro_avatar_projection, self.macro_mother_manifold, dim=-1
         ).mean().item()
 
+        # Step Taiji Hexagram Macro-Micro Feedback Loop
+        taiji_report = self.taiji_engine.macro_micro_feedback_loop(dt=0.1)
+
         return {
+            "taiji_report": taiji_report,
             "status": "Scale Boundary Cell Coupling Cycle Executed",
             "surface_tension": surface_tension.item() if surface_tension.numel() == 1 else surface_tension.mean().item(),
             "friction_magnitude": friction_magnitude,

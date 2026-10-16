@@ -248,6 +248,13 @@ class CausalField:
         from core.physics.multiscale_volumetric_coupler import MultiScaleVolumetricPhaseCoupler
         self.volumetric_coupler = MultiScaleVolumetricPhaseCoupler(dim=dimensions)
 
+        # Taiji-Hexagram Cosmological Engines Binding
+        from core.physics.cyclic_vector_bit_engine import CyclicVectorBitEngine
+        from core.topology.taiji_hexagram_topology import TaijiHexagramTopologyEngine
+
+        self.cyclic_bit_engine = CyclicVectorBitEngine(num_bits=64)
+        self.taiji_hexagram_engine = TaijiHexagramTopologyEngine(num_nodes=64)
+
         # TopIR Runtime Engine Binding
         self._topir_engine = None
         self._topir_graph = None
@@ -540,7 +547,8 @@ class CausalField:
 
     def step(self, dt: float = 0.1):
         """
-        Advances the field using Continuous Causal Dynamics and Ontological Gravity Terrain.
+        Advances the field using Continuous Causal Dynamics, Ontological Gravity Terrain,
+        and Taiji-Hexagram Cosmological Feedback Loops.
         """
         self._apply_ontological_gravity_terrain(dt)
         self._update_connectivity_and_tension(dt)
@@ -548,6 +556,10 @@ class CausalField:
         self._preserve_mobility(dt)
         self._enforce_informational_continuity(dt)
         self._update_volumetric_s3_quaternions(dt)
+
+        # Step Cosmological Breathing & Micro-Macro Feedback Loops
+        self.cyclic_bit_engine.step_breathing_dynamics(dt=dt)
+        self.taiji_hexagram_engine.macro_micro_feedback_loop(dt=dt)
 
     def _update_volumetric_s3_quaternions(self, dt: float):
         """
