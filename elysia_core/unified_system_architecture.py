@@ -185,6 +185,10 @@ class MacroRotor:
         self.aggregated_phasor = aggregated_phasor
         self.constituent_count = constituent_count
         self.spatiotemporal_harmonics: List[float] = []
+        # Volumetric S^3 Quaternion Tensor extension: [q_r, q_i, q_j, q_k]
+        self.quaternion_q: np.ndarray = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float32)
+        # Solid Angle in Steradians [0, 4\pi]
+        self.solid_angle_sr: float = 4.0 * np.pi
 
     def add_harmonic_residual(self, harmonic_freq: float) -> None:
         self.spatiotemporal_harmonics.append(harmonic_freq)
@@ -207,6 +211,9 @@ class DynamicMacroRotorStack:
         # Layers map level -> list of MacroRotors
         self.layers: Dict[int, List[MacroRotor]] = {lvl: [] for lvl in range(max_layers)}
         self.field_residuals: List[PhasorField] = []
+
+        from core.physics.multiscale_volumetric_coupler import MultiScaleVolumetricPhaseCoupler
+        self.volumetric_coupler = MultiScaleVolumetricPhaseCoupler()
 
     def process_and_chunk(self, incoming_field: PhasorField) -> List[MacroRotor]:
         """
@@ -239,6 +246,16 @@ class DynamicMacroRotorStack:
             # Extract high-order harmonics
             harmonics = np.fft.fftfreq(incoming_field.field.size, d=1.0 / (mean_freq + 1e-5))
             macro_rotor.spatiotemporal_harmonics = list(np.abs(harmonics[:3]))
+
+            # S^3 Quaternion mapping from complex phase
+            phase = macro_phasor.phase
+            half_p = phase * 0.5
+            macro_rotor.quaternion_q = np.array([
+                np.cos(half_p),
+                np.sin(half_p) * 0.57735,
+                np.sin(half_p) * 0.57735,
+                np.sin(half_p) * 0.57735
+            ], dtype=np.float32)
 
             self.layers[1].append(macro_rotor)
             promoted_rotors.append(macro_rotor)

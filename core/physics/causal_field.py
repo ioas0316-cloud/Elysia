@@ -37,8 +37,18 @@ class InformationVoxel:
     projection_2d: np.ndarray = None
     # Observation scale level
     scale_level: float = 1.0
+    # S^3 Quaternion Orientation Tensor: [q_r, q_i, q_j, q_k] on S^3 manifold
+    quaternion_q: np.ndarray = None
+    # Solid Angle (Steradians, sr) subtended in volumetric space [0, 4\pi]
+    solid_angle_sr: float = 4.0 * np.pi
 
     def __post_init__(self):
+        if self.quaternion_q is None:
+            self.quaternion_q = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float32)
+        else:
+            norm = np.linalg.norm(self.quaternion_q)
+            if norm > 1e-12:
+                self.quaternion_q = (np.array(self.quaternion_q, dtype=np.float32) / norm)
         if self.chromatic_vector is None:
             self.chromatic_vector = np.array([0.33, 0.33, 0.34], dtype=np.float32) # Default neutral balance
         if self.position is None:
@@ -233,6 +243,10 @@ class CausalField:
 
         # Engram Topology Storage
         self.engrams: Dict[str, EngramAttractor] = {}
+
+        # Multi-Scale Volumetric Phase Coupler Binding
+        from core.physics.multiscale_volumetric_coupler import MultiScaleVolumetricPhaseCoupler
+        self.volumetric_coupler = MultiScaleVolumetricPhaseCoupler(dim=dimensions)
 
         # TopIR Runtime Engine Binding
         self._topir_engine = None
@@ -533,6 +547,53 @@ class CausalField:
         self._flow_potential(dt)
         self._preserve_mobility(dt)
         self._enforce_informational_continuity(dt)
+        self._update_volumetric_s3_quaternions(dt)
+
+    def _update_volumetric_s3_quaternions(self, dt: float):
+        """
+        [3D Volumetric S^3 Quaternion Phase Relaxation]
+        Updates $S^3$ unit quaternions and $4\pi\text{ sr}$ solid angles across all voxels
+        to maintain zero-branching rotational continuity and toroidal circulation.
+        """
+        for voxel in self.voxels.values():
+            # Toroidal velocity field calculation
+            v_toroidal = self.volumetric_coupler.calculate_toroidal_velocity(voxel.position, strength=1.0)
+
+            # Rotational angular velocity vector omega = v_toroidal x velocity
+            omega = np.cross(v_toroidal, voxel.velocity) if len(voxel.velocity) >= 3 else np.zeros(3)
+            omega_norm = np.linalg.norm(omega)
+
+            if omega_norm > 1e-6:
+                half_angle = 0.5 * omega_norm * dt
+                axis = omega / omega_norm
+                dq = np.array([
+                    np.cos(half_angle),
+                    axis[0] * np.sin(half_angle),
+                    axis[1] * np.sin(half_angle),
+                    axis[2] * np.sin(half_angle)
+                ], dtype=np.float32)
+
+                # Quaternion multiplication q_new = dq * q_old
+                q_old = voxel.quaternion_q
+                w1, x1, y1, z1 = dq
+                w2, x2, y2, z2 = q_old
+                q_new = np.array([
+                    w1*w2 - x1*x2 - y1*y2 - z1*z2,
+                    w1*x2 + x1*w2 + y1*z2 - z1*y2,
+                    w1*y2 - x1*z2 + y1*w2 + z1*x2,
+                    w1*z2 + x1*y2 - y1*x2 + z1*w2
+                ], dtype=np.float32)
+
+                q_norm = np.linalg.norm(q_new)
+                if q_norm > 1e-12:
+                    voxel.quaternion_q = q_new / q_norm
+
+            # Solid angle calculation subtended by voxel relative to field origin
+            voxel.solid_angle_sr = self.volumetric_coupler.calculate_solid_angle(
+                source_pos=np.zeros(3),
+                target_pos=voxel.position,
+                area=1.0
+            )
 
     def _apply_ontological_gravity_terrain(self, dt: float):
         """
