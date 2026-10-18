@@ -20,7 +20,7 @@ causal intelligence and narrative resonance in Elysia:
      that exceed cognitive binding energy (Escape Velocity V_esc).
 """
 
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Any
 import numpy as np
 
 
@@ -28,6 +28,7 @@ class BaseScaleLevel:
     """
     Base Scale Level: Sensory engrams, trauma roots, deficit amplitudes,
     and somatic baseline threat mode.
+    Tracks Self-Structural Transformation (자기구조의 변형) vs Static Data Accumulation.
     """
     def __init__(
         self,
@@ -47,9 +48,16 @@ class BaseScaleLevel:
         self.baseline_threat_pinning = float(baseline_threat_pinning)
         self.somatic_phase = float(self.trauma_engram[-1] if self.trauma_engram.shape[0] >= 4 else 0.0)
 
+        # Self-Structural Transformation metrics (자기구조의 변형)
+        self.accumulated_data_count = 0
+        self.structural_transformation_count = 0
+        self.last_structural_delta = 0.0
+        self.transformation_history: List[Dict[str, float]] = []
+
     def absorb_somatic_impact(self, sensory_wave: np.ndarray, intensity: float):
         """
-        Absorbs high-intensity sensory waves into somatic trauma engrams.
+        Absorbs sensory waves into somatic trauma engrams while driving
+        Self-Structural Transformation (자기구조의 변형) of somatic topology.
         """
         impact = np.array(sensory_wave, dtype=np.float64) * intensity
         if impact.shape[0] < self.dim:
@@ -57,11 +65,43 @@ class BaseScaleLevel:
         elif impact.shape[0] > self.dim:
             impact = impact[:self.dim]
 
-        # Phase pinning & engram updates
+        # Measure structural delta before and after transformation
+        prev_engram = self.trauma_engram.copy()
+
+        # Phase pinning & engram structural updates
         self.trauma_engram = 0.8 * self.trauma_engram + 0.2 * impact
-        self.deficit_amplitude = np.clip(self.deficit_amplitude + 0.15 * intensity, 0.0, 1.0)
-        self.baseline_threat_pinning = np.clip(self.baseline_threat_pinning + 0.2 * intensity, 0.0, 1.0)
-        self.somatic_phase = (self.somatic_phase + 0.1 * intensity) % (2.0 * np.pi)
+        self.deficit_amplitude = float(np.clip(self.deficit_amplitude + 0.15 * intensity, 0.0, 1.0))
+        self.baseline_threat_pinning = float(np.clip(self.baseline_threat_pinning + 0.2 * intensity, 0.0, 1.0))
+        self.somatic_phase = float((self.somatic_phase + 0.1 * intensity) % (2.0 * np.pi))
+
+        # Structural transformation evaluation
+        engram_delta = float(np.linalg.norm(self.trauma_engram - prev_engram))
+        self.last_structural_delta = engram_delta
+        self.accumulated_data_count += 1
+
+        if engram_delta > 0.01:
+            self.structural_transformation_count += 1
+            self.transformation_history.append({
+                "step": self.accumulated_data_count,
+                "engram_delta": engram_delta,
+                "deficit": self.deficit_amplitude,
+                "threat_pinning": self.baseline_threat_pinning
+            })
+
+    def evaluate_self_structural_transformation(self) -> Dict[str, float]:
+        """
+        Evaluates the ratio of genuine Self-Structural Transformation vs static data accumulation.
+        """
+        ratio = (
+            self.structural_transformation_count / max(1, self.accumulated_data_count)
+            if self.accumulated_data_count > 0 else 0.0
+        )
+        return {
+            "accumulated_data_count": self.accumulated_data_count,
+            "structural_transformation_count": self.structural_transformation_count,
+            "transformation_ratio": float(ratio),
+            "last_structural_delta": self.last_structural_delta
+        }
 
 
 class MidScaleLevel:
@@ -97,10 +137,25 @@ class MidScaleLevel:
         refraction[3, 3] = 1.0 + self.base_level.baseline_threat_pinning
         self.refraction_matrix = refraction
 
+    def detect_mechanism_boundary_limit(self, raw_input_vector: np.ndarray) -> Dict[str, Any]:
+        """
+        Detects if input signal breaches discrete scalar/representation mechanism limits
+        (e.g., discrete RGB 255 or scalar saturation) and flags mechanism boundary awareness.
+        """
+        inp = np.array(raw_input_vector, dtype=np.float64)
+        max_val = float(np.max(np.abs(inp))) if inp.size > 0 else 0.0
+        # Saturation boundary check (e.g. normalized scalar near or above 1.0)
+        limit_reached = max_val >= 0.95
+        return {
+            "mechanism_limit_reached": limit_reached,
+            "max_scalar_amplitude": max_val,
+            "boundary_type": "DISCRETE_REPRESENTATION_SATURATION" if limit_reached else "WITHIN_MECHANISM_BOUNDS"
+        }
+
     def warp_external_stimulus(self, raw_input_vector: np.ndarray) -> Tuple[np.ndarray, bool]:
         """
         Warps benign or external inputs through the cognitive gravity field.
-        Returns warped vector and boolean indicating if input breached the event horizon.
+        Checks mechanism boundary limits and returns warped vector and event horizon status.
         """
         self.update_gravity_field()
         inp = np.array(raw_input_vector, dtype=np.float64)
@@ -108,6 +163,9 @@ class MidScaleLevel:
             inp = np.pad(inp, (0, 4 - inp.shape[0]))
         elif inp.shape[0] > 4:
             inp = inp[:4]
+
+        # Mechanism boundary limit check
+        boundary_info = self.detect_mechanism_boundary_limit(inp)
 
         # Distance in cognitive space to trauma root
         distance_to_horizon = np.linalg.norm(inp[:3] - self.base_level.trauma_engram[:3])
@@ -122,6 +180,10 @@ class MidScaleLevel:
             warped[:3] += gravitational_pull * (self.base_level.trauma_engram[:3] - inp[:3])
             warped[2] += 0.5 * self.cognitive_gravity  # Massive entropy surge
             warped[3] = self.base_level.somatic_phase   # Force phase pinning
+
+        if boundary_info["mechanism_limit_reached"]:
+            # Shift phase when hitting discrete representation boundary limit
+            warped[3] = (warped[3] + np.pi / 4.0) % (2.0 * np.pi)
 
         return warped, breached
 
@@ -284,16 +346,33 @@ class SalvationDerailment:
         success = applied_energy >= escape_velocity
 
         if success:
-            # Derailment executed! Shatter closed-loop event horizon and restore baseline
+            # Derailment executed! Execute Self-Structural Transformation (자기구조의 변형)
+            prev_deficit = target.base.deficit_amplitude
+            prev_gravity = target.mid.cognitive_gravity
+
             target.base.deficit_amplitude = float(target.base.deficit_amplitude * 0.3)
             target.base.baseline_threat_pinning = float(target.base.baseline_threat_pinning * 0.2)
+            # Structurally transform somatic engram toward harmonic alignment
+            target.base.trauma_engram = 0.5 * target.base.trauma_engram + 0.5 * (interrupt[:4] if len(interrupt) >= 4 else np.array([0.1, 0.9, 0.0, np.pi/3]))
             target.top.is_closed_loop = False
             target.top.trajectory_vector = interrupt * 0.5
             target.mid.update_gravity_field()
-            outcome_message = "DERAILED_FROM_DESTRUCTIVE_ORBIT: Salvation Achieved"
+
+            # Increment structural transformation count
+            target.base.structural_transformation_count += 1
+            target.base.accumulated_data_count += 1
+            target.base.last_structural_delta = float(abs(prev_gravity - target.mid.cognitive_gravity))
+            target.base.transformation_history.append({
+                "type": "SALVATION_DERAILMENT_TRANSFORMATION",
+                "delta_deficit": float(prev_deficit - target.base.deficit_amplitude),
+                "delta_gravity": float(prev_gravity - target.mid.cognitive_gravity)
+            })
+
+            outcome_message = "DERAILED_FROM_DESTRUCTIVE_ORBIT: Salvation & Self-Structural Transformation Achieved"
         else:
             # Interruption absorbed into gravity field
             target.base.deficit_amplitude = float(min(1.0, target.base.deficit_amplitude + 0.05))
+            target.base.accumulated_data_count += 1
             outcome_message = "INTERRUPT_INSUFFICIENT: Absorbed by Cognitive Gravity"
 
         return {

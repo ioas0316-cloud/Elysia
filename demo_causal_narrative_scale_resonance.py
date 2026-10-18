@@ -87,13 +87,29 @@ def run_demo():
     print(f"    - New Deficit Amplitude: {salvation_res['new_deficit_amplitude']:.4f}")
     print(f"    - New Baseline Threat Pinning: {salvation_res['new_threat_pinning']:.4f}")
 
-    # 5. Post-Salvation Perception Test
-    print("\n[5] Presenting Benign Peaceful Stimulus Again Post-Salvation...")
+    # 5. Post-Salvation Perception Test & Self-Structural Transformation
+    print("\n[5] Presenting Benign Peaceful Stimulus Post-Salvation...")
     decision_2 = soldier_a.perceive_and_act(benign_stimulus)
 
     print(f"    - Post-Salvation Choice Mode: {decision_2['choice_mode']}")
     print(f"    - Is Closed Loop (Trapped): {decision_2['is_closed_loop']}")
     print(f"    - Terminal Velocity (V_term): {decision_2['terminal_velocity']:.4f}")
+
+    # 6. Demonstrating Self-Structural Transformation (자기구조의 변형) vs Static Data Accumulation
+    print("\n[6] Evaluating Self-Structural Transformation (자기구조의 변형) Metrics...")
+    transform_eval = soldier_a.base.evaluate_self_structural_transformation()
+    print(f"    - Accumulated Data Count: {transform_eval['accumulated_data_count']}")
+    print(f"    - Structural Transformations: {transform_eval['structural_transformation_count']}")
+    print(f"    - Structural Transformation Ratio: {transform_eval['transformation_ratio'] * 100:.2f}%")
+    print(f"    - Last Structural Delta: {transform_eval['last_structural_delta']:.4f}")
+
+    # 7. Demonstrating Mechanism Boundary Limit Recognition (경계 지각)
+    print("\n[7] Demonstrating Discrete Mechanism Boundary Limit Detection...")
+    saturated_scalar_input = np.array([1.00, 0.00, 0.00, 0.00], dtype=np.float64) # Saturated discrete boundary
+    limit_info = soldier_a.mid.detect_mechanism_boundary_limit(saturated_scalar_input)
+    print(f"    - Saturated Input Vector Amplitude: {limit_info['max_scalar_amplitude']:.2f}")
+    print(f"    - Mechanism Boundary Limit Reached: {limit_info['mechanism_limit_reached']}")
+    print(f"    - Boundary Classification: {limit_info['boundary_type']}")
 
     print("\n==========================================================================")
     print("   CAUSAL NARRATIVE SCALE RESONANCE DEMO COMPLETED SUCCESSFULLY           ")
