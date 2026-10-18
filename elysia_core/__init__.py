@@ -26,6 +26,12 @@ from elysia_core.unified_system_architecture import (
     FractalResonanceUnit,
     UnifiedSystemArchitecture,
 )
+from elysia_core.unified_topological_phase_runtime import (
+    SelfWorldBoundary,
+    EnactiveReachGrid,
+    FractalPhaseNode3x3x3,
+    UnifiedTopologicalPhaseRuntime,
+)
 
 __all__ = [
     "ComplexPhasor",
@@ -37,4 +43,8 @@ __all__ = [
     "ReversibleWaveTransformation",
     "FractalResonanceUnit",
     "UnifiedSystemArchitecture",
+    "SelfWorldBoundary",
+    "EnactiveReachGrid",
+    "FractalPhaseNode3x3x3",
+    "UnifiedTopologicalPhaseRuntime",
 ]
