@@ -88,6 +88,18 @@ def main():
     engine.step_cognitive_cycle()
     print(">>> [CYCLE 3: RE-STABILIZATION] 메타인지 이완 동역학에 의한 자가 반성 및 가치관 복원 진행 <<<")
     print(engine.render_cognitive_one_page_dashboard(title_suffix="[ERA 2: RELAXATION]"))
+    print("\n")
+
+    # 6. Cycle 4: Spatial Sensory Grounding & Hallucination Boundary Test
+    print(">>> [CYCLE 4: SPATIAL GROUNDING & REALITY VS SIMULATION BOUNDARY TEST] <<<")
+    print(">>> [STAGE 1: RAYCAST & FRICTION] 에이전트 공간 개입 도달거리(Reach Limit) 측정 진행 <<<\n")
+
+    agent_positions = {
+        "기사장 칼하인츠": (np.array([0.0, 0.0, 0.0]), np.array([1.2, 0.5, 0.0])),  # In reach (dist ~1.3 <= 3.0)
+        "원로학자 이소르": (np.array([0.0, 0.0, 0.0]), np.array([8.0, 6.0, 0.0]))   # Out of reach (dist 10.0 > 3.0) -> High Hallucination Risk!
+    }
+    engine.step_cognitive_cycle(agent_positions=agent_positions)
+    print(engine.render_cognitive_one_page_dashboard(title_suffix="[ERA 2: GROUNDING EVAL]"))
 
     print("\n" + "=" * 80)
     print(" 4-STAGE CAUSAL COGNITIVE LOOP DEMONSTRATION COMPLETE ")

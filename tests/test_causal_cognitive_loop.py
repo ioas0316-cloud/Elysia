@@ -124,3 +124,83 @@ def test_cognitive_one_page_dashboard_rendering():
     assert "대사제 엘리아스" in dashboard
     assert "성스러운 수정" in dashboard
     assert "성스러운 검" in dashboard
+
+
+def test_sensory_grounding_and_reach_limits():
+    from elysia_core.causal_cognitive_loop import GroundedSensoryApparatus
+
+    apparatus = GroundedSensoryApparatus(reach_distance=3.0)
+    env_vec = np.array([0.6, 0.4, -0.2, 0.1, 0.5])
+    agent_pos = np.array([0.0, 0.0, 0.0])
+
+    # Within reach (dist = 1.0 <= 3.0)
+    target_close = np.array([1.0, 0.0, 0.0])
+    obs_close = apparatus.probe_environment(env_vec, agent_pos=agent_pos, target_pos=target_close)
+
+    assert obs_close.is_grounded
+    assert obs_close.tactile_friction > 0.4
+    assert obs_close.grounding_index > 0.6
+
+    # Beyond reach (dist = 5.0 > 3.0)
+    target_far = np.array([5.0, 0.0, 0.0])
+    obs_far = apparatus.probe_environment(env_vec, agent_pos=agent_pos, target_pos=target_far)
+
+    assert not obs_far.is_grounded
+    assert obs_far.tactile_friction < 0.2
+    assert obs_far.grounding_index < 0.5
+
+
+def test_fractal_node_3x3x3_phase_locking():
+    from elysia_core.causal_cognitive_loop import FractalNode3x3x3
+
+    grid = FractalNode3x3x3(coupling_strength=0.8)
+    stimulus = np.array([0.5, 0.8, -0.2])
+
+    initial_coherence = grid.coherence
+    # Run multiple steps to allow phase locking
+    for _ in range(10):
+        coherence = grid.step_phase_locking(stimulus, dt=0.05)
+
+    assert 0.0 <= coherence <= 1.0
+
+
+def test_cognitive_grounding_boundary_and_hallucination_control():
+    from elysia_core.causal_cognitive_loop import GroundedSensoryApparatus, CognitiveGroundingBoundary
+
+    apparatus = GroundedSensoryApparatus(reach_distance=2.0)
+    boundary = CognitiveGroundingBoundary(hallucination_threshold=0.5)
+
+    env_vec = np.array([1.0, 1.0, -1.0, -1.0, 0.0])
+    internal_belief = np.array([0.0, 0.0, 0.0, 0.0, 0.0])
+    sim_hypothesis = np.array([-1.0, -1.0, 1.0, 1.0, 0.5])
+
+    # Case 1: Un-grounded (far target)
+    far_pos = np.array([10.0, 0.0, 0.0])
+    obs_far = apparatus.probe_environment(env_vec, agent_pos=np.array([0.0, 0.0, 0.0]), target_pos=far_pos)
+    eval_far = boundary.evaluate_grounding(obs_far, internal_belief, sim_hypothesis)
+
+    assert not eval_far["is_grounded"]
+    assert eval_far["hallucination_risk"] > 0.0
+
+    # Case 2: Grounded (close target)
+    close_pos = np.array([0.5, 0.0, 0.0])
+    obs_close = apparatus.probe_environment(env_vec, agent_pos=np.array([0.0, 0.0, 0.0]), target_pos=close_pos)
+    eval_close = boundary.evaluate_grounding(obs_close, internal_belief, sim_hypothesis)
+
+    assert eval_close["is_grounded"]
+
+
+def test_agent_spatial_cognitive_loop():
+    engine = CausalCognitiveEngine("스케일 공간 환경")
+    agent = CausalCognitiveAgent("탐험가 리안", np.array([0.1, 0.2, 0.5, 0.5, 0.1]), reach_distance=3.0)
+    engine.add_cognitive_agent(agent)
+
+    positions = {
+        "탐험가 리안": (np.array([0.0, 0.0, 0.0]), np.array([1.0, 0.0, 0.0]))
+    }
+
+    snapshot = engine.step_cognitive_cycle(agent_positions=positions)
+    agent_status = snapshot["cognitive_agents"][0]
+
+    assert agent_status["grounding_index"] > 0.5
+    assert "Causal Sense" in engine.render_cognitive_one_page_dashboard()
