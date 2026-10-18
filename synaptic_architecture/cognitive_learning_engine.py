@@ -896,3 +896,54 @@ class CognitiveLearningEngine:
             "novel_recombined_pathways": novel_recombinations,
             "combinatorial_design_hypotheses": combinatorial_hypotheses[:self.config.MAX_COMBINATION_BEAM_WIDTH]
         }
+
+    def evaluate_self_structural_transformation(self) -> Dict[str, Any]:
+        """
+        Evaluates Self-Structural Transformation (자기구조의 변형) vs static data accumulation.
+        Measures structural graph mutations, composite node emergence, and phase mode shifts.
+        """
+        num_edges = sum(len(targets) for targets in self.network.values())
+        num_composite = len(self.composite_nodes)
+        num_transient = len(self.transient_cache)
+        total_observed = sum(self.holonic_matrix.values())
+
+        # Structural density metric
+        structural_mutation_score = (num_edges * 1.0 + num_composite * 2.0 + num_transient * 0.5)
+        transformation_ratio = structural_mutation_score / max(1.0, float(total_observed))
+
+        return {
+            "total_observed_transitions": total_observed,
+            "network_edges_count": num_edges,
+            "composite_nodes_count": num_composite,
+            "transient_units_count": num_transient,
+            "current_phase_mode": self.current_phase,
+            "structural_mutation_score": float(structural_mutation_score),
+            "self_structural_transformation_ratio": float(transformation_ratio)
+        }
+
+    def detect_mechanism_boundary_limit(self, input_val: Any) -> Dict[str, Any]:
+        """
+        Detects if raw input signal breaches discrete scalar/vector quantization limits,
+        triggering mechanism boundary awareness and phase transition to GAS/WATER.
+        """
+        limit_reached = False
+        max_amplitude = 0.0
+
+        if isinstance(input_val, (int, float)):
+            max_amplitude = float(abs(input_val))
+            limit_reached = max_amplitude >= 100.0 or max_amplitude == 255.0  # RGB/scalar saturation limit
+        elif isinstance(input_val, (list, tuple)):
+            num_vals = [float(x) for x in input_val if isinstance(x, (int, float))]
+            if num_vals:
+                max_amplitude = float(max(abs(x) for x in num_vals))
+                limit_reached = max_amplitude >= 100.0 or max_amplitude == 255.0
+
+        if limit_reached:
+            # Shift phase mode to GAS/WATER upon hitting mechanism boundary limit
+            self._update_energy_and_phase(self.config.ICE_TO_WATER_ENERGY * 1.2)
+
+        return {
+            "mechanism_limit_reached": limit_reached,
+            "max_amplitude": max_amplitude,
+            "current_phase_post_check": self.current_phase
+        }

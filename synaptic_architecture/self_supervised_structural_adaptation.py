@@ -30,9 +30,14 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional, Any, Union
 
 import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
+try:
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+except ImportError:
+    torch = None
+    nn = None
+    F = None
 
 
 @dataclass
@@ -343,3 +348,40 @@ class SelfSupervisedStructuralAdaptationEngine:
                         })
 
         return carved_components
+
+    def evaluate_self_structural_transformation(self) -> Dict[str, Any]:
+        """
+        Evaluates Self-Structural Transformation (자기구조의 변형) of the internal Riemannian manifold metric tensor g_ij.
+        """
+        grid = self.grid_size
+        metric_deformations = []
+        for i in range(grid):
+            for j in range(grid):
+                g = self.manifold.metric_g[i, j]
+                # Deformation relative to Euclidean identity
+                deformation = np.linalg.norm(g - np.eye(2))
+                metric_deformations.append(deformation)
+
+        mean_deformation = float(np.mean(metric_deformations))
+        max_deformation = float(np.max(metric_deformations))
+
+        return {
+            "mean_metric_deformation": mean_deformation,
+            "max_metric_deformation": max_deformation,
+            "is_structurally_transformed": mean_deformation > 0.001,
+            "grid_size": grid
+        }
+
+    def detect_mechanism_boundary_limit(self, sensory_field: ContinuousSensoryField) -> Dict[str, Any]:
+        """
+        Detects if continuous sensory input breaches discrete quantization / representation limits.
+        """
+        max_amplitude = float(np.max(np.abs(sensory_field.field_matrix)))
+        limit_reached = max_amplitude >= 0.95 or max_amplitude == 255.0
+
+        return {
+            "mechanism_limit_reached": limit_reached,
+            "max_amplitude": max_amplitude,
+            "sensory_dim": sensory_field.spatial_dim,
+            "boundary_type": "QUANTIZATION_LIMIT_REACHED" if limit_reached else "CONTINUOUS_FIELD_BOUNDS"
+        }

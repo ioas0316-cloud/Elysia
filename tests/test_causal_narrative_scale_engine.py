@@ -94,3 +94,42 @@ def test_salvation_derailment_mechanism():
     assert strong_res["success"] is True
     assert target.base.deficit_amplitude < 0.5
     assert target.top.is_closed_loop is False
+
+
+def test_self_structural_transformation_metrics():
+    """
+    Tests that somatic impacts drive Self-Structural Transformation (자기구조의 변형)
+    rather than static data accumulation.
+    """
+    entity = NarrativeEntity(name="Entity_X", deficit_amplitude=0.5)
+
+    # Absorb somatic impact
+    sensory_wave = np.array([0.8, 0.2, 0.9, np.pi / 2], dtype=np.float64)
+    entity.base.absorb_somatic_impact(sensory_wave, intensity=0.8)
+
+    eval_res = entity.base.evaluate_self_structural_transformation()
+    assert eval_res["accumulated_data_count"] == 1
+    assert eval_res["structural_transformation_count"] >= 1
+    assert eval_res["transformation_ratio"] > 0.0
+    assert eval_res["last_structural_delta"] > 0.0
+
+
+def test_mechanism_boundary_limit_awareness():
+    """
+    Tests detection of discrete scalar mechanism limits (saturation / RGB bounds).
+    """
+    entity = NarrativeEntity(name="Entity_Y")
+
+    # Saturated scalar input
+    saturated_input = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
+    boundary_info = entity.mid.detect_mechanism_boundary_limit(saturated_input)
+
+    assert boundary_info["mechanism_limit_reached"] is True
+    assert boundary_info["boundary_type"] == "DISCRETE_REPRESENTATION_SATURATION"
+
+    # Normal input within bounds
+    normal_input = np.array([0.3, 0.4, 0.1, 0.0], dtype=np.float64)
+    normal_boundary_info = entity.mid.detect_mechanism_boundary_limit(normal_input)
+
+    assert normal_boundary_info["mechanism_limit_reached"] is False
+    assert normal_boundary_info["boundary_type"] == "WITHIN_MECHANISM_BOUNDS"
