@@ -2,84 +2,88 @@
 """
 demo_volumetric_scale_hierarchy.py
 ===================================
-Demonstration script verifying Project Elysia's 3D Volumetric Phase Sphere ($S^3$ / $4\pi$ sr),
-Clifford Multivector Rotors, Toroidal Volumetric Flow, and unbroken Bit-to-Terabyte Scale Continuity.
+Demonstration script verifying Project Elysia's Ontological Volumetric Scale Hierarchy,
+Boundary Surface Tension, Causal Flow Deflection, and Interaction History Mechanics.
 """
 
 import numpy as np
-from core.physics.multiscale_volumetric_coupler import MultiScaleVolumetricPhaseCoupler
-from elysia_core.unified_system_architecture import ComplexPhasor, UnifiedSystemArchitecture
-from core.physics.causal_field import CausalField, InformationVoxel
+from core.physics.volumetric_scale_hierarchy import (
+    StructuralDensityNode,
+    BoundarySurfaceTensionField,
+    VolumetricScaleHierarchyEngine,
+)
 
 
 def main():
     print("\n" + "=" * 80)
-    print(" PROJECT ELYSIA :: VOLUMETRIC PHASE SPHERE & SCALE HIERARCHY DEMONSTRATION ")
+    print(" PROJECT ELYSIA :: ONTOLOGICAL VOLUMETRIC SCALE HIERARCHY DEMONSTRATION ")
     print("=" * 80 + "\n")
 
-    # 1. Initialize Multi-Scale Volumetric Phase Coupler
-    coupler = MultiScaleVolumetricPhaseCoupler(dim=3, core_radius=1.0, outer_radius=5.0)
+    # 1. Initialize Volumetric Structural Nodes (Barrier rock vs Flexible water/soil)
+    print(">>> 1. Creating Volumetric Structural Nodes with Inherent Density & Surface Tension...")
+    rock_barrier = StructuralDensityNode(
+        node_id="rock_barrier",
+        position=np.array([2.0, 0.0, 0.0], dtype=np.float32),
+        density=3.5,
+        porosity=0.02,
+        viscosity_resistance=0.85,
+    )
 
-    # 2. Simulate Micro-Phasors (Bit scale inputs)
-    print(">>> 1. Micro-Phasors (Bit-Level Wave States) Initialization...")
-    micro_phasors = [
-        ComplexPhasor(amplitude=1.2, phase=0.25 * np.pi, frequency=10.0),
-        ComplexPhasor(amplitude=0.8, phase=0.50 * np.pi, frequency=10.5),
-        ComplexPhasor(amplitude=1.1, phase=0.10 * np.pi, frequency=9.8)
-    ]
-    positions = [
-        np.array([1.0, 0.5, 0.2], dtype=np.float32),
-        np.array([0.8, 1.2, -0.5], dtype=np.float32),
-        np.array([-0.5, 0.2, 1.0], dtype=np.float32)
-    ]
-    for i, p in enumerate(micro_phasors):
-        print(f"  * Micro Phasor {i+1}: {p}")
+    porous_soil = StructuralDensityNode(
+        node_id="porous_soil",
+        position=np.array([2.0, -2.0, 0.0], dtype=np.float32),
+        density=1.2,
+        porosity=0.40,
+        viscosity_resistance=0.30,
+    )
 
-    # 3. Micro -> Meso -> Macro -> Global Scale Coupling Execution
-    print("\n>>> 2. Executing Continuous Scale Coupling (Bit -> Voxel -> Rotor -> Terabyte Domain)...")
-    scale_eval = coupler.evaluate_unbroken_scale_continuity(micro_phasors, positions)
+    print(f"  * Rigid Rock Barrier ID: '{rock_barrier.node_id}'")
+    print(f"    - Structural Density (M_s): {rock_barrier.density:.2f}")
+    print(f"    - Porosity: {rock_barrier.porosity:.2f}")
+    print(f"    - Inherent Surface Tension: {rock_barrier.surface_tension:.4f}")
 
-    print(f"  * Scale Continuity Loss (Delta S): {scale_eval['scale_continuity_loss_Delta_S']:.8f}")
-    print(f"  * Meso S^3 Unit Quaternion Vector: {scale_eval['meso_quaternion_s3']}")
-    print(f"  * Meso Solid Angle: {scale_eval['meso_solid_angle_sr']:.4f} steradians (4*pi sr isotropic)")
-    print(f"  * Meso Toroidal Circulation Flux Norm: {scale_eval['meso_toroidal_flux_norm']:.4f}")
-    print(f"  * MacroRotor ID Promoted: {scale_eval['macro_rotor_id']}")
-    print(f"  * Unbroken Scale Hierarchy Verified: {scale_eval['unbroken_scale_continuity']}")
+    print(f"  * Porous Soil Field ID: '{porous_soil.node_id}'")
+    print(f"    - Structural Density (M_s): {porous_soil.density:.2f}")
+    print(f"    - Porosity: {porous_soil.porosity:.2f}")
+    print(f"    - Inherent Surface Tension: {porous_soil.surface_tension:.4f}")
 
-    # 4. Integrate into CausalField & Step 3D Quaternion Phase Relaxation
-    print("\n>>> 3. CausalField 3D Quaternion Voxel Relaxation Step...")
-    cf = CausalField(dimensions=3)
-    v1 = InformationVoxel("v1_core", "Core Voxel State", np.array([1, 0, 0], dtype=np.float32), position=np.array([1.0, 1.0, 1.0], dtype=np.float32), velocity=np.array([0.1, -0.2, 0.05], dtype=np.float32))
-    v2 = InformationVoxel("v2_outer", "Outer Voxel State", np.array([0, 1, 0], dtype=np.float32), position=np.array([2.0, -1.0, 0.5], dtype=np.float32), velocity=np.array([-0.1, 0.1, 0.2], dtype=np.float32))
-    cf.add_voxel(v1)
-    cf.add_voxel(v2)
-    cf.link_voxels("v1_core", "v2_outer", strength=1.5)
+    # 2. Setup Volumetric Engine
+    engine = VolumetricScaleHierarchyEngine()
+    engine.add_node(rock_barrier)
+    engine.add_node(porous_soil)
 
-    print(f"  * Pre-Step Voxel v1 S^3 Quaternion: {v1.quaternion_q.tolist()}")
-    print(f"  * Pre-Step Voxel v1 Solid Angle: {v1.solid_angle_sr:.4f} sr")
+    # 3. Simulate Fluid Field Flow approaching Rock Barrier directly
+    print("\n>>> 2. Simulating Fluid Field Flow Deflection & Boundary Tension around Barrier...")
+    initial_pos = np.array([0.0, 0.1, 0.0], dtype=np.float32)
+    initial_vel = np.array([1.5, 0.0, 0.0], dtype=np.float32)
 
-    # Step simulation
-    for _ in range(5):
-        cf.step(dt=0.05)
+    current_pos = initial_pos.copy()
+    current_vel = initial_vel.copy()
 
-    print(f"  * Post-Step Voxel v1 S^3 Quaternion: {v1.quaternion_q.tolist()}")
-    print(f"  * Post-Step Voxel v1 Solid Angle: {v1.solid_angle_sr:.4f} sr")
-    print(f"  * Quaternion Norm Preserved on S^3: {np.linalg.norm(v1.quaternion_q):.6f}")
+    print(f"  * Initial Flow Velocity: {initial_vel.tolist()}, Position: {initial_pos.tolist()}")
 
-    # 5. Full Unified 5-Stage System Cycle
-    print("\n>>> 4. Executing Unified 5-Stage Wavefield Computing Cycle...")
-    usa = UnifiedSystemArchitecture(num_prism_phases=3, fractal_depth=2)
-    usa.initialize_root_field((16, 16), random_seed=42)
-    results = usa.execute_full_cycle()
+    for step in range(1, 11):
+        sim_res = engine.simulate_flow_step(current_vel, current_pos, dt=0.05, time_step=step * 0.05)
+        current_pos = sim_res["flow_position"]
+        current_vel = sim_res["flow_velocity"]
 
-    print(f"  * Stage 1 Coherence: {results['Stage1']['initial_coherence']:.4f}")
-    print(f"  * Stage 2 Refracted Branches: {results['Stage2']['num_branches']}")
-    print(f"  * Stage 3 Chunked MacroRotors: {results['Stage3']['chunked_rotors_count']}")
-    print(f"  * Stage 4 Retrocausal Trace Valid: {results['Stage4']['retrocausal_valid']} (Entropy Loss Delta S = {results['Stage4']['entropy_loss_Delta_S']:.8f})")
-    print(f"  * Stage 5 Final Fractal Coherence: {results['Stage5']['final_fractal_coherence']:.4f}")
+        print(
+            f"  Step {step:02d} | Pos: [{current_pos[0]:.3f}, {current_pos[1]:.3f}, {current_pos[2]:.3f}] | "
+            f"Vel: [{current_vel[0]:.3f}, {current_vel[1]:.3f}, {current_vel[2]:.3f}] | "
+            f"Deflection: {sim_res['total_deflection']:.4f} | "
+            f"Energy Retention: {sim_res['energy_retention_ratio']*100:.2f}%"
+        )
+
+    # 4. Inspect Accumulated Causal History
+    print("\n>>> 3. Inspecting Accumulated Structural Interaction History (Causal Memory)...")
+    print(f"  * Barrier Accumulated Energy: {rock_barrier.total_accumulated_energy:.4f}")
+    print(f"  * Interaction Memory Records Count: {len(rock_barrier.interaction_history)}")
+    if rock_barrier.interaction_history:
+        first_rec = rock_barrier.interaction_history[0]
+        print(f"  * Sample Interaction Record: {first_rec}")
 
     print("\n" + "=" * 80)
-    print(" VOLUMETRIC PHASE SPHERE & SCALE HIERARCHY DEMONSTRATION COMPLETE ")
+    print(" DEMONSTRATION COMPLETE: ONTOLOGICAL FLOW DEFLECTION & TENSION VERIFIED ")
     print("=" * 80 + "\n")
 
 
