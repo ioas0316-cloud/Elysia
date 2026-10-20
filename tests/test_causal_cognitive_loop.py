@@ -70,7 +70,16 @@ def test_agent_reverse_projection():
     # Delta V should point in direction of agent's phase vector minus environment
     expected_delta = 0.1 * (agent.S - env_vec)
     np.testing.assert_array_almost_equal(delta_V, expected_delta)
+
+    # Evaluate outcome to complete the cycle and log into cognitive history & growth rings
+    record = agent.evaluate_result_and_reexamine_criteria(
+        prior_state=np.array([0.9, 0.8, -0.7, -0.6, 0.4]),
+        actual_resulting_env=env_vec + delta_V,
+        delta_V=delta_V,
+        context_name="Test Reverse Projection Context"
+    )
     assert len(agent.cognitive_history) == 1
+    assert len(agent.growth_rings) == 1
 
 
 def test_causal_cognitive_engine_full_loop():
@@ -98,9 +107,11 @@ def test_causal_cognitive_engine_full_loop():
     snapshot_war = engine.step_cognitive_cycle(macro_event_delta=war_shift)
 
     assert engine.total_cycles == 2
-    # Verify agent reacted to war shift
+    # Verify agent reacted to war shift, re-examined criteria, and logged growth ring
     agent_status = snapshot_war["cognitive_agents"][0]
     assert agent_status["dissonance"] > 0.0
+    assert agent_status["growth_rings_count"] == 2
+    assert agent_status["criteria_reexaminations"] >= 1
 
 
 def test_cognitive_one_page_dashboard_rendering():
