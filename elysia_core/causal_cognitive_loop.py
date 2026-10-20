@@ -37,6 +37,32 @@ class GroundedObservation:
     observed_vector: np.ndarray
 
 
+@dataclass
+class CausalExperienceRecord:
+    """
+    Non-destructive historical record of an experience (Growth Ring / Versioned Context).
+    Preserves original observation, initial goal/expectation, actual outcome,
+    dissonance/surprise, and resulting self-refinement of values and judgment criteria.
+    """
+    cycle: int
+    context_name: str
+    observed_vector: np.ndarray
+    prior_state: np.ndarray
+    expected_outcome: np.ndarray
+    actual_outcome: np.ndarray
+    dissonance: float
+    phase_shifted: bool
+    prior_dissonance_threshold: float
+    updated_dissonance_threshold: float
+    prior_relaxation_rate: float
+    updated_relaxation_rate: float
+    prior_archetype: str
+    updated_archetype: str
+    criteria_reexamined: bool
+    reexamination_reason: str
+    delta_v_projected: np.ndarray
+
+
 class GroundedSensoryApparatus:
     """
     Physical Grounded Sensory Apparatus with Raycast Reach Limits and Tactile Friction.
@@ -173,12 +199,14 @@ class CognitiveGroundingBoundary:
 
 class CausalCognitiveAgent(NPCEntity):
     """
-    Living Cognitive Agent operating within the 4-Stage Cognitive Loop:
-    1. Perception: Perceive macro Zeitgeist / environment potential shift V_Env(t) with Sensory Grounding.
-    2. Discrimination & Judgment: Calculate cognitive dissonance tension T_diss = ||S - V_Env||.
-       If T_diss exceeds threshold, trigger Quantum Phase Transition into a new potential well.
-    3. Cognition & Reflection: Apply relaxation dynamics dS/dt = -mu * grad(V) with 3x3x3 Fractal Nodal phase locking.
-    4. Action & Internalization: Manifest speech/actions and reverse-project impact onto macro era V_Era.
+    Living Cognitive Agent operating within the Complete 6-Stage Continuous Causal Loop:
+    1. Experience & Perception: Contact event V_Env(t) with physical grounding & 3x3x3 fractal nodes.
+    2. Meaning & Judgment: Dissonance & value/expectation comparison. Quantum Phase Transition if threshold breached.
+    3. Action & Intervention: Reverse projection & agency impact onto world.
+    4. Result & Outcome: Realized environment response vs internal expectation.
+    5. Principle & Value Re-examination: Re-evaluates judgment criteria (thresholds, relaxation rates, core goals)
+       when outcome deviates from expectation (fractal self-modification).
+    6. Non-Destructive Growth Ring Logging: Preserves history of experiences, original criteria, and evolution.
     """
 
     def __init__(
@@ -189,16 +217,25 @@ class CausalCognitiveAgent(NPCEntity):
         relaxation_rate: float = 0.2,
         reverse_projection_weight: float = 0.05,
         reach_distance: float = 3.0,
+        min_dissonance_threshold: float = 0.3,
+        max_dissonance_threshold: float = 1.5,
     ):
         super().__init__(name, base_S, relaxation_rate)
         self.dissonance_threshold = dissonance_threshold
+        self.min_dissonance_threshold = min_dissonance_threshold
+        self.max_dissonance_threshold = max_dissonance_threshold
         self.reverse_projection_weight = reverse_projection_weight
         self.cognitive_history: List[Dict[str, Any]] = []
+        self.growth_rings: List[CausalExperienceRecord] = []
         self.phase_transitions_count: int = 0
+        self.criteria_reexaminations_count: int = 0
         self.current_archetype: str = self._determine_archetype()
         self.last_perceived_env: np.ndarray = np.copy(self.S)
         self.last_dissonance: float = 0.0
         self.last_phase_shifted: bool = False
+
+        # Expected outcome predicted during perception/judgment
+        self.expected_outcome: np.ndarray = np.copy(self.S)
 
         # Integrated Sensory Apparatus, CMW, Simulation Engine, 3x3x3 Fractal Grid, & Grounding Boundary
         self.sensory_apparatus = EmergentSensoryApparatus(dim=16)
@@ -299,7 +336,7 @@ class CausalCognitiveAgent(NPCEntity):
         return self.S
 
     # ------------------------------------------------------------------
-    # Stage 4: Action & Internalizing Causality (행위와 인과 내재화)
+    # Stage 4: Action & Intervention (행위와 환경 조율)
     # ------------------------------------------------------------------
     def act_and_reverse_project(self) -> np.ndarray:
         """
@@ -308,6 +345,88 @@ class CausalCognitiveAgent(NPCEntity):
         """
         # Delta shift feedback onto macro environment: delta_V = beta * (S - V_Env)
         delta_V = self.reverse_projection_weight * (self.S - self.last_perceived_env)
+        return delta_V
+
+    # ------------------------------------------------------------------
+    # Stage 5 & 6: Result Evaluation, Criteria Re-examination & Growth Ring Preservation
+    # ------------------------------------------------------------------
+    def evaluate_result_and_reexamine_criteria(
+        self,
+        prior_state: np.ndarray,
+        actual_resulting_env: np.ndarray,
+        delta_V: np.ndarray,
+        context_name: str = "Standard Cycle",
+    ) -> CausalExperienceRecord:
+        """
+        Stage 5 & 6: Compares actual resulting environment against expected outcome.
+        If surprise/dissonance is high or unexpected collateral effect occurs,
+        the agent re-examines its OWN judgment criteria (dissonance_threshold, relaxation_rate),
+        modifying its value sensitivity rather than just adjusting immediate action.
+        Preserves non-destructive growth ring history.
+        """
+        prior_threshold = self.dissonance_threshold
+        prior_relaxation = self.relaxation_rate
+        prior_arch = self.current_archetype
+
+        # Calculate prediction error between expected outcome and actual resulting env
+        prediction_error = float(np.linalg.norm(actual_resulting_env - self.expected_outcome))
+
+        criteria_reexamined = False
+        reexamination_reason = "Expectations matched within tolerance."
+
+        # High unexpected environmental dissonance or extreme phase shift triggers criteria re-examination
+        if prediction_error > 0.5 or self.last_phase_shifted:
+            criteria_reexamined = True
+            self.criteria_reexaminations_count += 1
+
+            if self.last_phase_shifted:
+                # After phase shift, agent lowers dissonance threshold to become more vigilant to new era dynamics
+                self.dissonance_threshold = max(
+                    self.min_dissonance_threshold,
+                    self.dissonance_threshold * 0.85
+                )
+                # Increases relaxation rate to adapt faster to turbulent environment
+                self.relaxation_rate = min(0.6, self.relaxation_rate * 1.2)
+                reexamination_reason = (
+                    f"Quantum Phase Transition triggered. Heightened sensitivity: "
+                    f"Threshold lowered ({prior_threshold:.2f} -> {self.dissonance_threshold:.2f}), "
+                    f"Relaxation accelerated ({prior_relaxation:.2f} -> {self.relaxation_rate:.2f})."
+                )
+            else:
+                # Unexpected outcome without phase shift -> fine-tune sensitivity based on friction
+                self.dissonance_threshold = min(
+                    self.max_dissonance_threshold,
+                    self.dissonance_threshold * 1.10
+                )
+                reexamination_reason = (
+                    f"High prediction error ({prediction_error:.3f}). "
+                    f"Judgment threshold broadened ({prior_threshold:.2f} -> {self.dissonance_threshold:.2f}) "
+                    f"to accommodate environment volatility."
+                )
+
+        # Form non-destructive Causal Experience Record (Growth Ring)
+        obs_vec = self.last_observation.observed_vector if self.last_observation else self.last_perceived_env
+        record = CausalExperienceRecord(
+            cycle=len(self.growth_rings) + 1,
+            context_name=context_name,
+            observed_vector=np.copy(obs_vec),
+            prior_state=np.copy(prior_state),
+            expected_outcome=np.copy(self.expected_outcome),
+            actual_outcome=np.copy(actual_resulting_env),
+            dissonance=self.last_dissonance,
+            phase_shifted=self.last_phase_shifted,
+            prior_dissonance_threshold=prior_threshold,
+            updated_dissonance_threshold=self.dissonance_threshold,
+            prior_relaxation_rate=prior_relaxation,
+            updated_relaxation_rate=self.relaxation_rate,
+            prior_archetype=prior_arch,
+            updated_archetype=self.current_archetype,
+            criteria_reexamined=criteria_reexamined,
+            reexamination_reason=reexamination_reason,
+            delta_v_projected=np.copy(delta_V)
+        )
+
+        self.growth_rings.append(record)
 
         # Log cognitive cycle step
         grounding_idx = self.last_grounding_eval["grounding_index"] if self.last_grounding_eval else 1.0
@@ -322,10 +441,14 @@ class CausalCognitiveAgent(NPCEntity):
             "grounding_index": round(grounding_idx, 3),
             "hallucination_risk": round(halluc_risk, 3),
             "fractal_coherence": round(self.last_fractal_coherence, 3),
-            "delta_V_projected": np.round(delta_V, 3).tolist()
+            "delta_V_projected": np.round(delta_V, 3).tolist(),
+            "criteria_reexamined": criteria_reexamined,
+            "dissonance_threshold": round(self.dissonance_threshold, 3),
+            "relaxation_rate": round(self.relaxation_rate, 3),
+            "reexamination_reason": reexamination_reason
         })
 
-        return delta_V
+        return record
 
     def execute_cognitive_loop(
         self,
@@ -333,7 +456,11 @@ class CausalCognitiveAgent(NPCEntity):
         agent_pos: Optional[np.ndarray] = None,
         target_pos: Optional[np.ndarray] = None,
     ) -> np.ndarray:
-        """Executes full 4-Stage Cognitive Loop sequentially for this agent."""
+        """
+        Executes perception, judgment, reflection, and action projection.
+        Updates expected outcome based on internal belief state.
+        """
+        prior_state = np.copy(self.S)
         self.perceive_environment(env_vec, agent_pos=agent_pos, target_pos=target_pos)
         self.judge_dissonance()
 
@@ -347,6 +474,10 @@ class CausalCognitiveAgent(NPCEntity):
         )
 
         self.reflect_and_adapt()
+
+        # Formulate expected outcome: expected shift toward S
+        self.expected_outcome = clip_vector(self.S * 0.7 + self.last_perceived_env * 0.3)
+
         delta_V = self.act_and_reverse_project()
         return delta_V
 
@@ -357,10 +488,14 @@ class CausalCognitiveAgent(NPCEntity):
         status.update({
             "archetype": self.current_archetype,
             "phase_transitions": self.phase_transitions_count,
+            "criteria_reexaminations": self.criteria_reexaminations_count,
             "last_phase_shifted": self.last_phase_shifted,
+            "dissonance_threshold": round(self.dissonance_threshold, 3),
+            "relaxation_rate": round(self.relaxation_rate, 3),
             "grounding_index": round(grounding_idx, 3),
             "hallucination_risk": round(halluc_risk, 3),
             "fractal_coherence": round(self.last_fractal_coherence, 3),
+            "growth_rings_count": len(self.growth_rings),
             "history_length": len(self.cognitive_history)
         })
         return status
@@ -388,28 +523,36 @@ class CausalCognitiveEngine(ElysiaUnifiedEngine):
         agent_positions: Optional[Dict[str, Tuple[np.ndarray, np.ndarray]]] = None,
     ) -> Dict[str, Any]:
         """
-        Executes one complete 4-Stage Cognitive Loop across all registered agents and subsystems:
+        Executes one complete 6-Stage Continuous Causal Loop across all registered agents and subsystems:
         1. Apply macro event shift if any
         2. Agents perceive environment V_Env with sensory grounding & 3x3x3 fractal nodes
         3. Agents judge dissonance & undergo phase transitions if triggered
         4. Agents reflect and adapt
         5. Agents act and reverse-project impact back onto macro V_Env
-        6. Subsystems cascade relaxation
+        6. Environment updates from reverse projection and cascade relaxation
+        7. Agents evaluate actual result against expectation, re-examine judgment criteria, and log growth ring
         """
         self.total_cycles += 1
+
+        # Save prior environment & agent states for result evaluation
+        prior_env = np.copy(self.env.vector)
+        agent_priors = {agent.name: np.copy(agent.S) for agent in self.cognitive_agents}
 
         # Direct external macro event shift
         if macro_event_delta is not None:
             self.env.shift_zeitgeist(macro_event_delta)
 
         # Process cognitive agents loop & collect reverse projections
+        agent_deltas: Dict[str, np.ndarray] = {}
         total_reverse_delta = np.zeros(5, dtype=float)
+
         for agent in self.cognitive_agents:
             agent_pos, target_pos = (None, None)
             if agent_positions and agent.name in agent_positions:
                 agent_pos, target_pos = agent_positions[agent.name]
 
             delta_V = agent.execute_cognitive_loop(self.env.vector, agent_pos=agent_pos, target_pos=target_pos)
+            agent_deltas[agent.name] = delta_V
             total_reverse_delta += delta_V
 
         # Apply cumulative reverse projection from agents onto macro Zeitgeist V_Env
@@ -418,6 +561,16 @@ class CausalCognitiveEngine(ElysiaUnifiedEngine):
 
         # Subsystems (Resources, Monsters, Standard NPCs) cascade adaptation
         self.step_cascade()
+
+        # Outcome evaluation, value criteria re-examination, and non-destructive growth ring logging
+        actual_resulting_env = np.copy(self.env.vector)
+        for agent in self.cognitive_agents:
+            agent.evaluate_result_and_reexamine_criteria(
+                prior_state=agent_priors[agent.name],
+                actual_resulting_env=actual_resulting_env,
+                delta_V=agent_deltas[agent.name],
+                context_name=self.env.name
+            )
 
         return self.get_cognitive_snapshot()
 
@@ -446,15 +599,17 @@ class CausalCognitiveEngine(ElysiaUnifiedEngine):
         lines.append(f"│  5D Vector   : X1:{env_vec[0]:+0.2f} | X2:{env_vec[1]:+0.2f} | X3:{env_vec[2]:+0.2f} | X4:{env_vec[3]:+0.2f} | X5:{env_vec[4]:+0.2f}     │")
         lines.append(f"│  Total Loop Cycles Completed : {snapshot['total_cycles']:<44} │")
         lines.append("├──────────────────────────────────────────────────────────────────────────────┤")
-        lines.append("│ [2. COGNITIVE AGENTS (Perception ➔ Judgment ➔ Reflection ➔ Reverse Action)]  │")
+        lines.append("│ [2. COGNITIVE AGENTS (Perception ➔ Judgment ➔ Outcome ➔ Self-Refinement)]    │")
 
         if snapshot["cognitive_agents"]:
             for a in snapshot["cognitive_agents"]:
                 vec_str = ", ".join([f"{v:+0.2f}" for v in a["phase_vector"]])
                 shift_str = "⚡ [PHASE TRANSITION]" if a["last_phase_shifted"] else "✓ [STABLE]"
                 g_str = f"Grounding:{a['grounding_index']:0.2f} | 3x3x3 Coherence:{a['fractal_coherence']:0.2f} | Risk:{a['hallucination_risk']:0.2f}"
+                crit_str = f"Thresh:{a['dissonance_threshold']:0.2f} | Relax:{a['relaxation_rate']:0.2f} | Re-exams:{a['criteria_reexaminations']} | Rings:{a['growth_rings_count']}"
                 lines.append(f"│  • {a['name']:<18} | {a['archetype']:<28} | {shift_str:<20} │")
                 lines.append(f"│    └ Dissonance: {a['dissonance']:0.3f} | Phase Vector: [{vec_str}] │")
+                lines.append(f"│    └ Self Criteria: {crit_str:<57} │")
                 lines.append(f"│    └ Causal Sense: {g_str:<58} │")
                 lines.append(f"│    └ Speech Pattern: {a['speech_pattern']:<55} │")
         else:
