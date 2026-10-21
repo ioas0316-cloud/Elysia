@@ -1,6 +1,6 @@
 """
 elysia_core Package Initialization
-Re-exports primary interfaces from core/
+Re-exports primary interfaces from core/ and elysia_core/
 """
 
 try:
@@ -14,6 +14,13 @@ try:
     from core.physics.prismatic_axis_spectrum import PrismaticAxisSpectrumEngine, MultiLayeredWaveMemoryStack
 except ImportError:
     pass
+
+from core.knowledge_base.knowledge_bus_slot import KnowledgeBusSlot, KnowledgeChunk
+from elysia_core.dressmaker_phase_lock_runtime import (
+    DressmakerPhaseLockRuntime,
+    FabricWaveSpectrum,
+    CharacterBodyRotor,
+)
 
 from elysia_core.unified_system_architecture import (
     ComplexPhasor,
@@ -34,6 +41,11 @@ from elysia_core.unified_topological_phase_runtime import (
 )
 
 __all__ = [
+    "KnowledgeBusSlot",
+    "KnowledgeChunk",
+    "DressmakerPhaseLockRuntime",
+    "FabricWaveSpectrum",
+    "CharacterBodyRotor",
     "ComplexPhasor",
     "PhasorField",
     "PrismBifurcationOperator",
