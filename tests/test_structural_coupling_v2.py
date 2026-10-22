@@ -1,119 +1,125 @@
 """
-Tests for Structural Coupling Runtime v2 (구조결합 런타임 v2)
-============================================================
-Verifies:
-1. Resonant Attractor Coupling (conditionless attraction toward resonant frequency/phase basins)
-2. Meta-Plastic Prismatic Lens (dynamic refraction matrix updates via trajectory spectral feedback)
-3. Cross-Modal Manifold Projection (unified Clifford rotor manifold projection and cross-modal resonance)
-4. Invariant Core & System Stability under phase perturbations
+tests/test_structural_coupling_v2.py
+
+Comprehensive Unit and Integration Test Suite for Generative Mechanism Prismatic Differentiation,
+Cognitive Friction, Phase Torque, and Cellular Lens Bifurcation in ELYSIA's Structural Coupling Runtime.
 """
 
 import pytest
 import numpy as np
 from elysia_core.structural_coupling_runtime import (
-    ResonantAttractorCoupling,
-    MetaPlasticPrismaticLens,
-    CrossModalManifoldProjection,
     StructuralCouplingRuntime,
+    GenerativeMechanismSynthesizer,
+    MetaPlasticPrismaticLens,
+    ResonantAttractorCoupling,
+    CrossModalManifoldProjection
 )
 
 
-def test_resonant_attractor_coupling():
-    coupling = ResonantAttractorCoupling(dimension=5, num_basins=4)
-    assert coupling.num_basins == 4
-    assert coupling.dimension == 5
+def test_generative_mechanism_synthesizer():
+    """
+    Tests that GenerativeMechanismSynthesizer synthesizes distinct physical constraint
+    waveforms for identical surface yellow colors across Light, Crayon, and Pastel mechanisms.
+    """
+    surface_yellow = np.array([1.0, 1.0, 0.0])
 
-    # Input wave matching basin 0's natural frequency (~1.0)
-    input_wave_0 = np.array([1.0, 0.0, 0.5, 0.0, 0.2])
-    state_0, active_idx_0, resonance_0 = coupling.evaluate_resonance(input_wave_0, input_frequency=1.0)
+    light_prof = GenerativeMechanismSynthesizer.synthesize_waveform("light", surface_yellow)
+    crayon_prof = GenerativeMechanismSynthesizer.synthesize_waveform("crayon", surface_yellow)
+    pastel_prof = GenerativeMechanismSynthesizer.synthesize_waveform("pastel", surface_yellow)
 
-    assert isinstance(state_0, np.ndarray)
-    assert len(state_0) == 5
-    assert active_idx_0 == 0
-    assert resonance_0 > 0.0
+    # 1. Surface colors must be identical
+    np.testing.assert_array_equal(light_prof["surface_color"], surface_yellow)
+    np.testing.assert_array_equal(crayon_prof["surface_color"], surface_yellow)
+    np.testing.assert_array_equal(pastel_prof["surface_color"], surface_yellow)
 
-    # Input wave matching basin 3's natural frequency (~4.0)
-    input_wave_3 = np.array([0.0, 1.0, 0.0, 0.5, 0.1])
-    state_3, active_idx_3, resonance_3 = coupling.evaluate_resonance(input_wave_3, input_frequency=4.0)
+    # 2. Physical constraint profiles must differ decisively
+    assert light_prof["viscosity"] < crayon_prof["viscosity"]
+    assert pastel_prof["micro_roughness"] > light_prof["micro_roughness"]
+    assert pastel_prof["phase_jitter"] > crayon_prof["phase_jitter"]
 
-    assert active_idx_3 == 3
-    assert resonance_3 > 0.0
-
-
-def test_meta_plastic_prismatic_lens():
-    lens = MetaPlasticPrismaticLens(dimension=5, plasticity_rate=0.1)
-
-    initial_matrix = lens.prism_matrix.copy()
-    initial_ref_index = lens.refractive_index
-
-    # Pass an incoming wave through the prism
-    input_tensor = np.array([1.0, 0.5, -0.2, 0.0, 0.8])
-    refracted = lens.refract(input_tensor)
-    assert len(refracted) == 5
-
-    # Generate synthetic trajectory samples
-    t = np.linspace(0, 2 * np.pi, 20)
-    trajectory = np.column_stack([
-        np.sin(t),
-        np.cos(t),
-        np.sin(2 * t),
-        np.cos(2 * t),
-        np.ones_like(t) * 0.5
-    ])
-
-    # Adapt lens based on trajectory spectral power
-    lens.adapt_lens_from_trajectory(trajectory)
-
-    # Prism matrix should deform along principal trajectory frequency covariance
-    assert not np.array_equal(lens.prism_matrix, initial_matrix)
-    assert lens.refractive_index != initial_ref_index
-    assert len(lens.spectral_history) == 1
+    # 3. Waveforms must have distinct energy profiles
+    assert not np.array_equal(light_prof["waveform"], crayon_prof["waveform"])
+    assert not np.array_equal(crayon_prof["waveform"], pastel_prof["waveform"])
 
 
-def test_cross_modal_manifold_projection():
-    projection = CrossModalManifoldProjection(target_dim=5)
+def test_phase_torque_and_cognitive_friction_differentiation():
+    """
+    Tests that initial un-differentiated lens produces phase torque and cognitive friction
+    when encountering differing generative waveforms for identical surface colors.
+    """
+    lens = MetaPlasticPrismaticLens(dimension=5, friction_threshold=0.25)
+    obs_vec = np.array([0.8, 0.6, 0.4, 0.2, 0.1])
 
-    modal_inputs = {
-        "physical": np.array([0.5, 0.1, 0.0]),
-        "sensory": np.array([0.2, 0.8, 0.3, 0.1]),
-        "chromatic": np.array([0.33, 0.33, 0.34]),
-    }
+    light_prof = GenerativeMechanismSynthesizer.synthesize_waveform("light")
+    crayon_prof = GenerativeMechanismSynthesizer.synthesize_waveform("crayon")
+    pastel_prof = GenerativeMechanismSynthesizer.synthesize_waveform("pastel")
 
-    unified_field, coherence = projection.cross_resonate(modal_inputs)
+    tau_light, f_light = lens.compute_phase_torque_and_friction(light_prof, obs_vec)
+    tau_crayon, f_crayon = lens.compute_phase_torque_and_friction(crayon_prof, obs_vec)
+    tau_pastel, f_pastel = lens.compute_phase_torque_and_friction(pastel_prof, obs_vec)
 
-    assert len(unified_field) == 5
-    assert pytest.approx(np.linalg.norm(unified_field), abs=1e-5) == 1.0
-    assert -1.0 <= coherence <= 1.0
+    # Light emission has minimal friction; Crayon and Pastel have high cognitive friction
+    assert f_light < f_crayon
+    assert f_crayon > 0.5
+    assert f_pastel > 0.5
+    assert len(tau_crayon) == 5
 
 
-def test_structural_coupling_runtime_integrated_steps():
+def test_cellular_lens_bifurcation_and_friction_decay():
+    """
+    Tests that high cognitive friction triggers cellular lens bifurcation, and
+    re-encountering the same generative mechanism produces seamless zero friction (learning completion).
+    """
+    runtime = StructuralCouplingRuntime(target_dim=5, friction_threshold=0.25)
+
+    # Step 1: Perceive Light Yellow (minimal friction)
+    step_light_1 = runtime.perceive_generative_stimulus("light")
+    assert step_light_1["cognitive_friction"] < 0.1
+    assert step_light_1["bifurcated"] is False
+
+    # Step 2: Perceive Crayon Yellow (initial encounter -> high friction -> triggers bifurcation)
+    step_crayon_1 = runtime.perceive_generative_stimulus("crayon")
+    assert step_crayon_1["cognitive_friction"] > 0.5
+    assert step_crayon_1["bifurcated"] is True
+    assert "crayon" in runtime.prismatic_lens.bifurcated_cores
+
+    # Step 3: Re-perceive Crayon Yellow (aligned invariant core -> cognitive friction collapses to 0)
+    step_crayon_2 = runtime.perceive_generative_stimulus("crayon")
+    assert step_crayon_2["cognitive_friction"] < 0.05
+    assert step_crayon_2["bifurcated"] is False
+
+    # Step 4: Perceive Pastel Yellow (initial encounter -> high friction -> triggers second bifurcation)
+    step_pastel_1 = runtime.perceive_generative_stimulus("pastel")
+    assert step_pastel_1["cognitive_friction"] > 0.5
+    assert step_pastel_1["bifurcated"] is True
+    assert "pastel" in runtime.prismatic_lens.bifurcated_cores
+
+    # Step 5: Re-perceive Pastel Yellow (aligned invariant core -> friction collapses)
+    step_pastel_2 = runtime.perceive_generative_stimulus("pastel")
+    assert step_pastel_2["cognitive_friction"] < 0.05
+    assert step_pastel_2["bifurcated"] is False
+
+    # Total bifurcated invariant cores = 2 (crayon & pastel)
+    assert len(runtime.prismatic_lens.bifurcated_cores) == 2
+
+
+def test_runtime_cross_modal_and_attractor_coupling():
+    """
+    Tests that StructuralCouplingRuntime integrates cross-modal projection and resonant attractor coupling.
+    """
     runtime = StructuralCouplingRuntime(target_dim=5)
 
-    inputs = {
-        "physical": np.array([1.0, 0.0, 0.0]),
-        "sensory": np.array([0.0, 1.0, 0.0]),
-        "symbolic": np.array([0.5, 0.5, 0.0]),
-    }
+    # Multi-step cycle across various mechanisms
+    for _ in range(3):
+        runtime.perceive_generative_stimulus("light")
+        runtime.perceive_generative_stimulus("crayon")
+        runtime.perceive_generative_stimulus("pastel")
 
-    # Execute multiple steps to test trajectory buffer and lens adaptation
-    for step in range(1, 12):
-        record = runtime.process_step(
-            multimodal_inputs=inputs,
-            input_frequency=1.0 + (step * 0.2),
-            dt=0.1
-        )
-
-        assert record["step"] == step
-        assert "active_basin_idx" in record
-        assert "prism_refractive_index" in record
-        assert "macro_coherence_score" in record
-        assert "invariant_core_stability" in record
-        assert record["invariant_core_stability"] > 0.0
-
-    # Ensure lens adapted after multiple steps
+    assert runtime.step_count == 9
     assert len(runtime.trajectory_buffer) > 0
-    assert len(runtime.prismatic_lens.spectral_history) > 0
 
-
-if __name__ == "__main__":
-    pytest.main([__file__])
+    latest_episode = runtime.learning_episodes[-1]
+    assert "modal_coherence" in latest_episode
+    assert "active_basin_idx" in latest_episode
+    assert "invariant_core_stability" in latest_episode
+    assert latest_episode["invariant_core_stability"] > 0.0
