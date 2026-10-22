@@ -493,7 +493,8 @@ class CausalField:
 
                 # 4. Impact: External physical impulse from friction pushes voxel position/velocity
                 impulse = (raw_unit - v_unit) * friction_score
-                voxel.velocity += impulse / voxel.mass
+                v_len = len(voxel.velocity)
+                voxel.velocity += (impulse[:v_len] if len(impulse) > v_len else np.pad(impulse, (0, v_len - len(impulse)))) / voxel.mass
 
                 # 5. Chromatic Shift: Convert self-confirming flux (Red) to Order (Blue) and release Entropy (Yellow)
                 voxel.chromatic_vector[0] = max(0.0, voxel.chromatic_vector[0] - 0.2 * calibration_rate)

@@ -39,6 +39,13 @@ from elysia_core.unified_topological_phase_runtime import (
     FractalPhaseNode3x3x3,
     UnifiedTopologicalPhaseRuntime,
 )
+from elysia_core.perceptual_probe_skill import (
+    PerceptualProbeSkill,
+    RelationalVoidProbe,
+    SkillAdaptabilityMap,
+    PerceptualProbeEngine,
+    ProbeFeedback,
+)
 
 __all__ = [
     "KnowledgeBusSlot",
@@ -59,4 +66,9 @@ __all__ = [
     "EnactiveReachGrid",
     "FractalPhaseNode3x3x3",
     "UnifiedTopologicalPhaseRuntime",
+    "PerceptualProbeSkill",
+    "RelationalVoidProbe",
+    "SkillAdaptabilityMap",
+    "PerceptualProbeEngine",
+    "ProbeFeedback",
 ]
