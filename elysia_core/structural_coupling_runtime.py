@@ -120,6 +120,18 @@ class ResonantAttractorCoupling:
         self.active_basin_idx = 0
         self.coupling_strength = 0.8
 
+    def set_dimension(self, new_dimension: int):
+        if new_dimension == self.dimension:
+            return
+        old_dim = self.dimension
+        self.dimension = new_dimension
+        new_phases = np.zeros((self.num_basins, new_dimension))
+        for k in range(self.num_basins):
+            m_k = min(old_dim, len(self.basin_phases[k]))
+            new_phases[k, :m_k] = self.basin_phases[k][:m_k]
+        self.basin_phases = new_phases
+        self.current_state = np.pad(self.current_state, (0, max(0, new_dimension - len(self.current_state))))[:new_dimension]
+
     def evaluate_resonance(self, input_wave: np.ndarray, input_frequency: float) -> Tuple[np.ndarray, int, float]:
         """
         Calculates resonance energy between the incoming wave signal and each attractor basin.
@@ -179,6 +191,28 @@ class MetaPlasticPrismaticLens:
         self.bifurcated_cores: Dict[str, Dict[str, np.ndarray]] = {}
         self.bifurcation_count = 0
 
+    def set_dimension(self, new_dimension: int):
+        """
+        Adapts lens matrices and bifurcated core matrices to new dimension during horizon expansion.
+        """
+        if new_dimension == self.dimension:
+            return
+
+        old_dim = self.dimension
+        self.dimension = new_dimension
+
+        new_prism = np.eye(new_dimension, dtype=float)
+        new_prism[:old_dim, :old_dim] = self.prism_matrix[:old_dim, :old_dim]
+        self.prism_matrix = new_prism
+
+        for key, core in self.bifurcated_cores.items():
+            old_mat = core["prism_matrix"]
+            m_dim = old_mat.shape[0]
+            new_mat = np.eye(new_dimension, dtype=float)
+            new_mat[:m_dim, :m_dim] = old_mat
+            core["prism_matrix"] = new_mat
+            core["invariant_vector"] = np.pad(core["invariant_vector"], (0, max(0, new_dimension - len(core["invariant_vector"]))))[:new_dimension]
+
     def refract(self, incoming_tensor: np.ndarray, mechanism_hint: Optional[str] = None) -> np.ndarray:
         """
         Passes incoming tensor through the current Meta-Plastic Prism Lens or its bifurcated core.
@@ -189,6 +223,12 @@ class MetaPlasticPrismaticLens:
             matrix = self.bifurcated_cores[mechanism_hint]["prism_matrix"]
         else:
             matrix = self.prism_matrix
+
+        if matrix.shape[0] != self.dimension:
+            padded_matrix = np.eye(self.dimension, dtype=float)
+            m_dim = min(matrix.shape[0], self.dimension)
+            padded_matrix[:m_dim, :m_dim] = matrix[:m_dim, :m_dim]
+            matrix = padded_matrix
 
         refracted = np.dot(matrix, padded) / self.refractive_index
         return refracted
@@ -213,6 +253,7 @@ class MetaPlasticPrismaticLens:
         # If already bifurcated and aligned with mechanism, expectation matches reality
         if mechanism in self.bifurcated_cores:
             expected_core = self.bifurcated_cores[mechanism]["invariant_vector"]
+            expected_core = np.pad(expected_core, (0, max(0, self.dimension - len(expected_core))))[:self.dimension]
             phase_diff = padded_obs - expected_core
             phase_torque = np.cross(padded_obs[:3], expected_core[:3]) if self.dimension >= 3 else phase_diff[:3]
             torque_magnitude = float(np.linalg.norm(phase_torque)) + float(np.linalg.norm(phase_diff))
@@ -342,6 +383,11 @@ class CrossModalManifoldProjection:
             "symbolic": np.eye(target_dim),
         }
 
+    def set_dimension(self, new_dimension: int):
+        self.target_dim = new_dimension
+        for mod in list(self.projection_operators.keys()):
+            self.projection_operators[mod] = np.eye(new_dimension)
+
     def project_modality(self, raw_signal: np.ndarray, modality_type: str) -> np.ndarray:
         """
         Projects a raw modality tensor onto the target manifold dimension using the modal operator.
@@ -410,6 +456,16 @@ class StructuralCouplingRuntime:
         self.trajectory_buffer: List[np.ndarray] = []
         self.step_count = 0
         self.learning_episodes: List[Dict[str, Any]] = []
+
+    def set_dimension(self, new_dimension: int):
+        self.target_dim = new_dimension
+        self.attractor_coupling.set_dimension(new_dimension)
+        self.prismatic_lens.set_dimension(new_dimension)
+        self.cross_modal_projection.set_dimension(new_dimension)
+        self.trajectory_buffer = [
+            np.pad(vec, (0, max(0, new_dimension - len(vec))))[:new_dimension]
+            for vec in self.trajectory_buffer
+        ]
 
     def perceive_generative_stimulus(
         self,
