@@ -1,21 +1,10 @@
 """
-conftest.py — Scale Hierarchy sys.path 등록
-L0~L2 레이어 폴더를 sys.path에 추가하여 기존 import 경로 하위 호환 보장.
+conftest.py — Elysia 관계성 import 부트스트랩
+==============================================
+테스트 세션 시작 시 ElysiaRelationalFinder를 sys.meta_path에 설치합니다.
+이후 모든 테스트에서 개념 이름(core, elysia_core 등)으로 import 가능합니다.
+물리 레이어 경로(L0~L3)는 layer_registry.py 한 곳에서만 관리됩니다.
 """
-import sys
-import os
+import elysia_loader
 
-_ROOT = os.path.dirname(__file__)
-
-# Scale Hierarchy layers — 레이어 내부 모듈들을 루트처럼 접근 가능하게
-_LAYERS = [
-    "L0_substrate",
-    "L1_causal_field",
-    "L2_cognitive_engine",
-    "L3_interface",
-]
-
-for _layer in _LAYERS:
-    _path = os.path.join(_ROOT, _layer)
-    if _path not in sys.path:
-        sys.path.insert(0, _path)
+elysia_loader.install()
