@@ -63,8 +63,19 @@ def main():
           f"Order: {summary['mean_chromatic_order']:.4f} | "
           f"Entropy: {summary['mean_chromatic_entropy']:.4f}\n")
 
-    # 4. Phase 3: Achromatic White Tensor Zero-Point Reset
-    print(">>> [PHASE 3] Executing Achromatic White Tensor Zero-Point Reset...")
+    # 4. Phase 3: Phase-Change Memory & Teleological Prism Lens Re-alignment
+    print(">>> [PHASE 3] Phase-State Memory Transitions & Teleological Prism Alignment...")
+    runtime.set_teleological_purpose("diversity")
+    ice_state = runtime.transition_memory_state("ICE")
+    print(f"  * Teleological Lens: {runtime.teleological_purpose} | Memory Active Phase: {ice_state['active_phase']}")
+    print(f"  * Ice Lattice Norm: {ice_state['ice_norm']:.4f} | Total Memory Footprint: {ice_state['total_memory_bytes']} bytes")
+
+    gas_state = runtime.transition_memory_state("GAS")
+    print(f"  * Memory Active Phase Transition -> {gas_state['active_phase']}")
+    print(f"  * Gas Cloud Wavefield Norm: {gas_state['gas_norm']:.4f}")
+
+    # 5. Phase 4: Achromatic White Tensor Zero-Point Reset
+    print("\n>>> [PHASE 4] Executing Achromatic White Tensor Zero-Point Reset...")
     runtime.reset_achromatic_white_tensor()
     summary_post = runtime.get_system_state_summary()
     print(f"  * Reset Count: {summary_post['white_tensor_reset_count']}")

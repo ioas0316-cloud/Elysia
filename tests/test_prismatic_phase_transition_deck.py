@@ -16,7 +16,9 @@ from core.physics.prismatic_phase_transition_engine import (
     SubstrateLayer,
     PrismaticTransitionConstraint,
     MacroSpacetimeDeck,
-    MetaObserverInvariantCore
+    MetaObserverInvariantCore,
+    StaticRotorPrism,
+    MemoryPhaseMode
 )
 
 
@@ -81,6 +83,35 @@ def test_meta_observer_invariant_core_feedback():
     assert "constraint_stiffness" in feedback.feedback_adjustment
 
 
+def test_static_rotor_prism_refraction():
+    """Test static rotor prism non-sequential refraction and sine/cosine wave breakdown."""
+    prism = StaticRotorPrism(dimension=4, num_facets=8)
+    signal = np.array([0.1, 0.5, 0.9, 0.3])
+    refracted, s_wave, c_wave = prism.refract_signal(signal, teleological_mode="optimization")
+
+    assert s_wave.shape == (4,)
+    assert c_wave.shape == (4,)
+    assert np.allclose(s_wave**2 + c_wave**2, 1.0)
+    assert refracted.size > 0
+
+
+def test_phase_state_memory_transitions():
+    """Test phase-state memory transitions (Ice, Water, Gas) and footprint control."""
+    engine = PrismaticPhaseTransitionEngine(grid_shape=(8, 8))
+
+    # Initial state is WATER
+    assert engine.memory_map.active_phase == MemoryPhaseMode.WATER
+
+    # Transition to ICE
+    ice_map = engine.transition_memory_phase(MemoryPhaseMode.ICE)
+    assert ice_map.active_phase == MemoryPhaseMode.ICE
+
+    # Transition to GAS
+    gas_map = engine.transition_memory_phase(MemoryPhaseMode.GAS)
+    assert gas_map.active_phase == MemoryPhaseMode.GAS
+    assert gas_map.total_memory_bytes < 100 * 1024 * 1024  # < 100MB footprint
+
+
 def test_end_to_end_phase_transition_engine():
     """Test full multi-step execution and adaptive resilience under external noise."""
     engine = PrismaticPhaseTransitionEngine(grid_shape=(8, 8))
@@ -94,9 +125,15 @@ def test_end_to_end_phase_transition_engine():
     for step in range(10):
         noisy_input = np.random.randn(8, 8) if step % 3 == 0 else None
         scrub_delta = 0.5 if step == 5 else 0.0
-        st = engine.step(numerical_input=noisy_input, dt=0.1, roi_scrub_delta=scrub_delta)
+        st = engine.step(
+            numerical_input=noisy_input,
+            dt=0.1,
+            roi_scrub_delta=scrub_delta,
+            teleological_mode="diversity"
+        )
         states.append(st)
 
     assert len(states) == 10
     assert states[-1].step_count == 10
     assert states[-1].meta_feedback.invariant_intact is True
+    assert states[-1].memory_map is not None
