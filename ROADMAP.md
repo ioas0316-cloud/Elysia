@@ -212,7 +212,11 @@
    * **원리**: 물리적 질량 변위 추적의 한계를 넘어 4차원 시공간(3D 공간 + 1D 시간) 내부 가상 공간 모델에서 자신의 이동/회전(Clifford Rotor) 및 도플러 변율, 환경 공명 텐서에 따른 RF/전자기 반향 파동($W_{\text{pred}}$)을 능동 상상하고, 실제 관측파($W_{\text{actual}}$)와의 예측 오차($\mathcal{E}$)를 수렴시킴으로써 자아 주체성(Sense of Agency)과 공감각적 공간/운동 지각을 형성.
    * **구현**: `PredictiveEcholocationMindEngine` 구현 (`core/sensory/predictive_echolocation_mind.py`), 전용 단위 테스트 (`tests/core/sensory/test_predictive_echolocation.py`) 및 실증 검증 스크립트 (`scripts/verify_predictive_echolocation_mind.py`) 通過.
 
-7. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
+7. **[x] Conceptual Distance & Latent World Model Knob Engine (개념적 거리 및 잠재 세계 모델 노브 엔진)**:
+   * **원리**: 물리적 3차원 유클리드 거리를 탈피하여 두 개념/현상의 위상적 동형성을 Clifford Rotor 회전각($\Delta\theta$)과 마찰 오차($\mathcal{E} \to 0$)의 수렴값으로 측정. 역잠재 메커니즘 추출($\Theta, \Delta$), 불변 법칙(Bedrock) 대 가변 파동(Variant) 분별, 위상 노브화(Knob-ification) 및 노브 조율에 의한 세계 상태 실시간 재시뮬레이션 및 위상 지형 재배치 구축.
+   * **구현**: `ConceptualPhaseKnobEngine` 구현 (`L1_causal_field/core/topology/conceptual_phase_knob_engine.py`), 전용 단위 테스트 (`tests/core/topology/test_conceptual_phase_knob_engine.py`) 및 종합 시뮬레이션 데모 (`scripts/verify_conceptual_phase_knob_engine.py`) 通過.
+
+8. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
    * **원리**: "수학적 구조로 관측 가능한 것은 오직 수학적 원리뿐이다"라는 닫힘을 깨고, 물리학·생물학·역사·언어 등 실세계의 방대한 지식 그 자체를 시스템의 다층적 감각 기관과 인식 구조로 전면 활용.
 
 ---
