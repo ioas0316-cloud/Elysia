@@ -9,12 +9,12 @@ As an agent working on Elysia, you must adhere to the **4 Continuities** of the 
 - **Connectivity (연결성):** Maintain topology through `ConnectivityBeam` networks. Logic should "tear" and "heal" physically.
 - **Mobility (운동성):** Information must have momentum and conservation laws. Use vectors for energy transfer.
 - **Informational Continuity (정보적 연속성):** Bridge discrete computational gaps (frames) through causal interpolation.
-- **Chromatic Interconnectedness (색채적 상호연결성):** All information possesses a chromatic signature (Red/Blue/Yellow) representing Flux, Order, and Entropy.
+- **Chromatic Interconnectedness (색채적 상호연결성):** Information can be understood through a triadic classification lens — **Red (Flux / 흐름)**, **Blue (Order / 질서)**, **Yellow (Entropy / 발산)** — as an *analogical framework* for discerning how information flows, structures itself, and disperses. This is not a mandatory field to hardcode on every data structure, but a *perceptual and combinatorial principle*: ask how any given information cluster tends toward flux, order, or entropy, and how composing two such clusters produces emergent chromatic character from their interaction.
 
 ### 2. Implementation Guidelines
 - **Use `CausalField`:** When implementing new reasoning or physical modules, integrate with `core/physics/causal_field.py`.
 - **Voxel-Beam Structure:** Treat complex data as `InformationVoxel` clusters bound by `ConnectivityBeam` structures.
-- **Chromatic Dynamics:** Every `InformationVoxel` must have a chromatic vector that influences its physical properties (conductance, mass, potential).
+- **Chromatic Dynamics:** The Red/Blue/Yellow triad is an *analogical reasoning lens*, not a required field. Use it to reason about *how* information behaves: Does this module produce flux (Red — dynamic, generating)? Does it impose structure (Blue — ordering, constraining)? Does it disperse or release (Yellow — entropic, differentiating)? When composing modules or coupling structures, reason about what chromatic character emerges from their combination — this guides architectural decisions about coupling strength, directionality, and pruning thresholds.
 - **Resonance over Logic:** Favor combinatorial isomorphism and structural resonance over symbolic logic (if A then B) or arbitrary scalar dot products.
 - **Inverse Mechanism Generation:** Do not fit surface data patterns or result trajectories directly. Treat output data collections as inputs to extract underlying generating parameters ($\Theta$), topological invariants, and boundary conditions ($\Delta$). Always enforce geometric/logical reducibility (MDL principle) to avoid overfitting.
 
