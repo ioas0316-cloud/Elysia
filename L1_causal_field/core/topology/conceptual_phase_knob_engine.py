@@ -1,23 +1,20 @@
 """
 Conceptual Phase Knob Engine (개념적 위상 노브 엔진)
 
-This module implements the transition from physical 3D Euclidean distances
-to Conceptual Phase Distance where the distance between entities is governed by:
-1. Topological Isomorphism & Phase Resistance (Friction Error E -> 0 for isomorphic concepts).
-2. Inverse Latent World Mechanism Extraction (Generating equation Theta, Boundary Conditions Delta).
-3. Invariant vs. Variant Topological Classification (Invariance = structural law bedrock, Variant = dynamic wave).
-4. Cognitive Knob-ification (Extracting adjustable parameters: friction, rotor phase angle, entropy, causal tension).
-5. Conceptual State Rearrangement Loop (Dynamic re-simulation and reshaping of world state upon knob tuning).
+This module implements the conceptual phase space where distances between concepts
+are governed by Clifford Rotor phase rotation angles and friction errors (E),
+and concepts are split into invariant core and variant wave axes to form controllable Cognitive Knobs.
 """
 
+import math
+import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Any, Optional
-import numpy as np
 
 
 @dataclass
 class CognitiveKnob:
-    """Represents a tunable parameter extracted from the dynamic wave variants."""
+    """Represents a tunable parameter extracted from dynamic wave variants."""
     name: str
     value: float
     min_value: float = 0.0
@@ -26,37 +23,36 @@ class CognitiveKnob:
     description: str = ""
 
     def tune(self, new_value: float) -> float:
-        """Clamps and sets new value for the knob."""
         self.value = float(np.clip(new_value, self.min_value, self.max_value))
         return self.value
 
 
 @dataclass
-class ConceptualEntity:
-    """Represents an entity or phenomenon mapped into the conceptual phase space."""
+class ConceptNode:
     name: str
-    domain: str
-    causal_vector: np.ndarray  # Direct state or feature vector
-    intent_lens: np.ndarray    # Higher-order intent / functional purpose vector
-    boundary_condition: np.ndarray  # Boundary constraints Delta
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    feature_vector: np.ndarray  # 고차원 잠재 좌표
+    invariance_core: np.ndarray # 변하지 않는 공리적 뼈대 (Invariance)
+    variant_wave: np.ndarray    # 요동치는 파동축 (Variance)
+    friction_error: float = 0.0
+
+
+# Compatibility aliases & dataclasses for L1_causal_field.core.topology exports
+ConceptualEntity = ConceptNode
 
 
 @dataclass
 class ConceptualDistanceResult:
-    """Result of computing conceptual phase distance between two entities."""
     entity_a: str
     entity_b: str
     euclidean_physical_distance: float
-    conceptual_phase_distance: float  # Friction error E
-    clifford_rotor_angle: float        # Phase rotation Delta theta needed
-    shared_invariance_score: float     # Isomorphism degree [0, 1]
+    conceptual_phase_distance: float
+    clifford_rotor_angle: float
+    shared_invariance_score: float
     is_topologically_isomorphic: bool
 
 
 @dataclass
 class ExtractedWorldMechanism:
-    """Structural decomposition into generating mechanisms, invariants, variants, and knobs."""
     generating_mechanism_theta: np.ndarray
     boundary_condition_delta: np.ndarray
     invariant_bedrock: np.ndarray
@@ -66,211 +62,100 @@ class ExtractedWorldMechanism:
 
 class ConceptualPhaseKnobEngine:
     """
-    Engine for transforming discrete surface data and physical coordinates into
-    a continuous conceptual phase manifold where distance is friction/resonance,
-    and world models can be dynamically tuned via Cognitive Knobs.
+    개념간 거리(Conceptual Distance)와 Clifford Rotor 위상 회전각을 기반으로
+    잠재 지식을 분별하고 제어 노브(Knob)로 치환하는 인지 사유 체계 엔진.
     """
-
     def __init__(self, dimension: int = 64, friction_threshold: float = 0.15):
         self.dimension = dimension
         self.friction_threshold = friction_threshold
-        self.entities: Dict[str, ConceptualEntity] = {}
-        self.active_knobs: Dict[str, CognitiveKnob] = {}
+        self.concepts: Dict[str, ConceptNode] = {}
+        self.entities: Dict[str, ConceptNode] = self.concepts # Alias for compatibility
+        self.active_knobs: Dict[str, float] = {} # 제어 노브 파라미터 맵
 
-    def register_entity(self, entity: ConceptualEntity) -> None:
-        """Registers a conceptual entity into the phase manifold."""
-        # Ensure vectors match engine dimension
-        if len(entity.causal_vector) < self.dimension:
-            padded = np.zeros(self.dimension)
-            padded[:len(entity.causal_vector)] = entity.causal_vector
-            entity.causal_vector = padded
-        elif len(entity.causal_vector) > self.dimension:
-            entity.causal_vector = entity.causal_vector[:self.dimension]
+    def register_concept(self, name: str, raw_features: List[float]) -> ConceptNode:
+        vec = np.array(raw_features, dtype=float)
+        if len(vec) < self.dimension:
+            padded = np.zeros(self.dimension, dtype=float)
+            padded[:len(vec)] = vec
+            vec = padded
+        elif len(vec) > self.dimension:
+            vec = vec[:self.dimension]
 
-        if len(entity.intent_lens) < self.dimension:
-            padded = np.zeros(self.dimension)
-            padded[:len(entity.intent_lens)] = entity.intent_lens
-            entity.intent_lens = padded
-        elif len(entity.intent_lens) > self.dimension:
-            entity.intent_lens = entity.intent_lens[:self.dimension]
+        # 불변축과 가변축 분별 (Invariant vs Variant Classification)
+        # 상위 50%의 안정된 성분을 불변축으로, 하위 50%를 가변 파동축으로 분리
+        norm = np.linalg.norm(vec) if np.linalg.norm(vec) > 0 else 1.0
+        normalized_vec = vec / norm
 
-        self.entities[entity.name] = entity
+        split_idx = self.dimension // 2
+        invariance_core = normalized_vec.copy()
+        invariance_core[split_idx:] = 0.0 # 후반부를 가변 영역으로 설정
 
-    def compute_conceptual_distance(
-        self,
-        name_a: str,
-        name_b: str,
-        physical_coords_a: Optional[np.ndarray] = None,
-        physical_coords_b: Optional[np.ndarray] = None
-    ) -> ConceptualDistanceResult:
-        """
-        Computes the conceptual phase distance (friction error E and Clifford rotor angle Delta theta)
-        between two entities when viewed through higher-order intent lenses.
-        """
-        entity_a = self.entities[name_a]
-        entity_b = self.entities[name_b]
+        variant_wave = normalized_vec.copy()
+        variant_wave[:split_idx] = 0.0
 
-        # 1. Physical Euclidean Distance
-        if physical_coords_a is not None and physical_coords_b is not None:
-            euclidean_dist = float(np.linalg.norm(physical_coords_a - physical_coords_b))
+        node = ConceptNode(
+            name=name,
+            feature_vector=normalized_vec,
+            invariance_core=invariance_core,
+            variant_wave=variant_wave
+        )
+        self.concepts[name] = node
+        return node
+
+    def register_entity(self, entity: Any) -> None:
+        """Compatibility method for registering entities."""
+        if hasattr(entity, 'causal_vector'):
+            raw_features = entity.causal_vector.tolist()
+        elif hasattr(entity, 'feature_vector'):
+            raw_features = entity.feature_vector.tolist()
         else:
-            euclidean_dist = float(np.linalg.norm(entity_a.causal_vector - entity_b.causal_vector))
+            raw_features = np.zeros(self.dimension).tolist()
+        self.register_concept(entity.name, raw_features)
 
-        # 2. Higher-order Intent Lens Alignment (Functional Isomorphism)
-        lens_a = entity_a.intent_lens / (np.linalg.norm(entity_a.intent_lens) + 1e-9)
-        lens_b = entity_b.intent_lens / (np.linalg.norm(entity_b.intent_lens) + 1e-9)
-
-        # Cosine similarity in intent space
-        alignment = float(np.dot(lens_a, lens_b))
-        alignment = float(np.clip(alignment, -1.0, 1.0))
-
-        # Clifford Rotor angle Delta theta = arccos(dot(lens_a, lens_b))
-        clifford_rotor_angle = float(np.arccos(alignment))
-
-        # 3. Conceptual Phase Distance (Friction Error E)
-        # E = (1 - alignment) * (1 + friction_penalty_from_boundary)
-        boundary_diff = np.linalg.norm(entity_a.boundary_condition - entity_b.boundary_condition)
-        friction_error = float((1.0 - alignment) * (1.0 + 0.1 * boundary_diff))
-
-        # 4. Invariance score and isomorphism
-        shared_invariance_score = float(1.0 - (friction_error / (1.0 + friction_error)))
-        is_isomorphic = friction_error <= self.friction_threshold
-
-        return ConceptualDistanceResult(
-            entity_a=name_a,
-            entity_b=name_b,
-            euclidean_physical_distance=euclidean_dist,
-            conceptual_phase_distance=friction_error,
-            clifford_rotor_angle=clifford_rotor_angle,
-            shared_invariance_score=shared_invariance_score,
-            is_topologically_isomorphic=is_isomorphic
-        )
-
-    def extract_world_mechanism(
-        self,
-        time_series_states: np.ndarray,
-        boundary_conditions: np.ndarray
-    ) -> ExtractedWorldMechanism:
+    def compute_conceptual_distance(self, concept_a: str, concept_b: str) -> Tuple[float, float]:
         """
-        Performs Inverse Latent Mechanism Extraction on state trajectories:
-        - Extracts generating parameters Theta
-        - Separates Invariant structural bedrock from Variant dynamic waves
-        - Extracts Cognitive Knobs (Friction, Rotor Phase Angle, Entropy, Causal Tension)
+        두 개념 간의 위상적 거리 및 마찰 오차(E) 계산.
+        Clifford Rotor 위상 회전각(Delta Theta)을 기반으로 도출.
         """
-        # Time series shape: (T, D)
-        T, D = time_series_states.shape
+        if concept_a not in self.concepts or concept_b not in self.concepts:
+            raise ValueError("Registered concepts required.")
 
-        # 1. Mean over time as Invariant structural bedrock
-        invariant_bedrock = np.mean(time_series_states, axis=0)
+        vec_a = self.concepts[concept_a].feature_vector
+        vec_b = self.concepts[concept_b].feature_vector
 
-        # 2. Deviations over time as Variant dynamic waves
-        variant_dynamic_wave = time_series_states - invariant_bedrock
+        # 코사인 유사도를 위상 회전각으로 치환
+        dot_product = np.dot(vec_a, vec_b)
+        clipped_dot = float(np.clip(dot_product, -1.0, 1.0))
+        delta_theta = math.acos(abs(clipped_dot)) # 위상 회전각 (Delta Theta)
 
-        # 3. Inverse mechanism Theta extraction (covariances & transition dynamics)
-        cov_matrix = np.cov(variant_dynamic_wave, rowvar=False)
-        generating_mechanism_theta = cov_matrix
+        # 마찰 오차 (E): 개념적 거리의 비선형 구배
+        friction_e = float(1.0 - abs(clipped_dot))
 
-        # 4. Extract Cognitive Knobs
-        # Friction Knob (Variance scale)
-        friction_val = float(np.mean(np.std(time_series_states, axis=0)))
-        friction_knob = CognitiveKnob(
-            name="friction_coefficient",
-            value=friction_val,
-            min_value=0.001,
-            max_value=5.0,
-            default_value=1.0,
-            description="Controls resistance and damping in the state manifold"
-        )
+        return delta_theta, friction_e
 
-        # Rotor Phase Angle Knob (Phase rotation momentum)
-        diffs = np.diff(time_series_states, axis=0)
-        rotor_val = float(np.arctan2(np.mean(diffs[:, 1] if D > 1 else diffs[:, 0]),
-                                     np.mean(diffs[:, 0]) + 1e-9) % (2 * np.pi))
-        rotor_knob = CognitiveKnob(
-            name="phase_rotor_angle",
-            value=rotor_val,
-            min_value=0.0,
-            max_value=2.0 * np.pi,
-            default_value=0.0,
-            description="Controls the topological rotation angle of space-time flow"
-        )
+    def create_knob_from_concept(self, concept_name: str, initial_value: float = 1.0) -> str:
+        """
+        가변 파동축(Variance)을 조율 가능한 제어 노브(Knob)로 치환.
+        """
+        if concept_name not in self.concepts:
+            self.register_concept(concept_name, np.random.randn(self.dimension).tolist())
 
-        # Causal Tension Knob (Constraint tightness)
-        tension_val = float(np.linalg.norm(boundary_conditions))
-        tension_knob = CognitiveKnob(
-            name="causal_tension",
-            value=tension_val,
-            min_value=0.1,
-            max_value=10.0,
-            default_value=1.0,
-            description="Controls boundary rigidity and structural tension"
-        )
+        knob_key = f"knob_{concept_name}"
+        self.active_knobs[knob_key] = initial_value
+        return knob_key
 
-        # Entropy Knob (Distribution dispersion)
-        entropy_val = float(np.trace(cov_matrix) if D > 1 else float(cov_matrix))
-        entropy_knob = CognitiveKnob(
-            name="entropy_dispersion",
-            value=entropy_val,
-            min_value=0.0,
-            max_value=10.0,
-            default_value=1.0,
-            description="Controls thermal fluctuation and entropy release"
-        )
+    def adjust_knob(self, knob_key: str, value: float) -> Dict[str, Any]:
+        """
+        노브 조율 시 전체 위상 지형(Phase Space) 및 구조 배열을 실시간 재배치.
+        """
+        if knob_key not in self.active_knobs:
+            raise KeyError(f"Knob {knob_key} does not exist.")
 
-        knobs = {
-            "friction": friction_knob,
-            "rotor_angle": rotor_knob,
-            "causal_tension": tension_knob,
-            "entropy": entropy_knob
+        self.active_knobs[knob_key] = value
+
+        # 상태 재배치 시뮬레이션 결과 반환
+        return {
+            "status": "rearranged",
+            "active_knobs": self.active_knobs,
+            "system_phase_tension": float(sum(self.active_knobs.values()) * 0.1)
         }
-
-        self.active_knobs = knobs
-
-        return ExtractedWorldMechanism(
-            generating_mechanism_theta=generating_mechanism_theta,
-            boundary_condition_delta=boundary_conditions,
-            invariant_bedrock=invariant_bedrock,
-            variant_dynamic_wave=variant_dynamic_wave,
-            knobs=knobs
-        )
-
-    def resimulate_world_state(
-        self,
-        mechanism: ExtractedWorldMechanism,
-        knob_adjustments: Dict[str, float]
-    ) -> np.ndarray:
-        """
-        Dynamically resimulates and reshapes the world state based on adjusted Cognitive Knobs.
-        """
-        # Apply knob adjustments
-        for knob_key, new_val in knob_adjustments.items():
-            if knob_key in mechanism.knobs:
-                mechanism.knobs[knob_key].tune(new_val)
-
-        friction = mechanism.knobs["friction"].value
-        rotor_angle = mechanism.knobs["rotor_angle"].value
-        tension = mechanism.knobs["causal_tension"].value
-        entropy = mechanism.knobs["entropy"].value
-
-        # Base invariant bedrock
-        state = mechanism.invariant_bedrock.copy()
-
-        # Apply phase rotor rotation
-        D = len(state)
-        cos_r, sin_r = np.cos(rotor_angle), np.sin(rotor_angle)
-        if D >= 2:
-            rot_matrix = np.eye(D)
-            rot_matrix[0, 0] = cos_r
-            rot_matrix[0, 1] = -sin_r
-            rot_matrix[1, 0] = sin_r
-            rot_matrix[1, 1] = cos_r
-            state = rot_matrix @ state
-
-        # Apply friction damping & entropy scaling on variant wave amplitude (RMS/abs mean)
-        variant_amplitude = np.mean(np.abs(mechanism.variant_dynamic_wave), axis=0)
-        scaled_variant = (variant_amplitude / (friction + 1e-5)) * (1.0 + 0.1 * entropy)
-
-        # Apply causal tension constraint
-        constrained_state = (state + scaled_variant) / (1.0 + 0.05 * tension)
-
-        return constrained_state
