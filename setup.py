@@ -1,4 +1,4 @@
-import os
+﻿import os
 import glob
 from setuptools import setup, find_packages, Extension
 import torch
@@ -16,15 +16,15 @@ class get_pybind_include:
 INCLUDE_DIRS = [
     get_pybind_include(),
     get_pybind_include(user=True),
-    os.path.abspath("include"),
-    os.path.abspath("include/elysia/core"),
-    os.path.abspath("modules/causal_topology"),
+    os.path.abspath("L0_substrate/include"),
+    os.path.abspath("L0_substrate/include/elysia/core"),
+    os.path.abspath("L1_causal_field/modules/causal_topology"),
 ]
 
 # Exclude autonomic_tension.cpp from cmplr extension sources
-ALL_SOURCES_CPP = glob.glob("src/core/*.cpp")
+ALL_SOURCES_CPP = glob.glob("L0_substrate/src/core/*.cpp")
 SOURCES_CPP = [s for s in ALL_SOURCES_CPP if os.path.basename(s) != "autonomic_tension.cpp"]
-SOURCES_CUDA = glob.glob("src/core/*.cu")
+SOURCES_CUDA = glob.glob("L0_substrate/src/core/*.cu")
 
 # Check CUDA availability
 CUDA_AVAILABLE = torch.cuda.is_available() and len(SOURCES_CUDA) > 0
@@ -44,7 +44,7 @@ extra_compile_args = {
 ext_modules = [
     Extension(
         'causal_engine',
-        sources=['src/bindings/python_bindings.cpp'],
+        sources=['L0_substrate/src/bindings/python_bindings.cpp'],
         include_dirs=INCLUDE_DIRS,
         language='c++',
         extra_compile_args=['-O3', '-std=c++20', '-fopenmp'],
@@ -52,7 +52,7 @@ ext_modules = [
     ),
     CppExtension(
         name='autonomic_tension_cpp',
-        sources=['src/core/autonomic_tension.cpp'],
+        sources=['L0_substrate/src/core/autonomic_tension.cpp'],
         include_dirs=INCLUDE_DIRS,
         extra_compile_args={'cxx': ['-O3', '-std=c++20']},
     ),
@@ -89,8 +89,8 @@ if torch.cuda.is_available():
         CUDAExtension(
             name='elysia_cuda_engine',
             sources=[
-                'src/bindings/cl31_pytorch_bindings.cpp',
-                'kernels/cl31_kernel.cu',
+                'L0_substrate/src/bindings/cl31_pytorch_bindings.cpp',
+                'L0_substrate/kernels/cl31_kernel.cu',
             ],
             include_dirs=INCLUDE_DIRS,
             extra_compile_args=cl31_compile_args
@@ -101,7 +101,7 @@ else:
         CppExtension(
             name='elysia_cuda_engine',
             sources=[
-                'src/bindings/cl31_pytorch_bindings.cpp',
+                'L0_substrate/src/bindings/cl31_pytorch_bindings.cpp',
             ],
             include_dirs=INCLUDE_DIRS,
             extra_compile_args=cl31_compile_args
@@ -122,3 +122,4 @@ setup(
         "numpy",
     ],
 )
+
