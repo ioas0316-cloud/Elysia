@@ -12,6 +12,11 @@ A macro-topological execution environment embodying:
 import numpy as np
 from typing import Dict, List, Tuple, Optional, Any
 
+from L1_causal_field.core.physics.prismatic_phase_transition_engine import (
+    PrismaticPhaseTransitionEngine,
+    MemoryPhaseMode
+)
+
 
 class SelfWorldBoundary:
     """
@@ -136,6 +141,34 @@ class UnifiedTopologicalPhaseRuntime:
         self.backtrace_count = 0
         self.white_tensor_reset_count = 0
 
+        # Phase-Change Computing Engine
+        self.phase_change_engine = PrismaticPhaseTransitionEngine(grid_shape=(3, 3))
+        self.teleological_purpose = "optimization"
+
+    def set_teleological_purpose(self, purpose: str):
+        """
+        Sets the top-level teleological purpose (e.g., 'optimization', 'diversity', 'complexity')
+        which refractorily realigns the static rotor prism observation lens and memory dynamics.
+        """
+        self.teleological_purpose = purpose
+
+    def transition_memory_state(self, mode: str) -> Dict[str, Any]:
+        """
+        Transitions system memory state between Ice (past/facts), Water (present thought),
+        and Gas (future simulation) without low-level disk swapping.
+        """
+        mem_map = self.phase_change_engine.transition_memory_phase(
+            target_mode=mode,
+            teleological_purpose=self.teleological_purpose
+        )
+        return {
+            "active_phase": mem_map.active_phase,
+            "total_memory_bytes": mem_map.total_memory_bytes,
+            "ice_norm": float(np.linalg.norm(mem_map.ice_lattice)),
+            "water_norm": float(np.linalg.norm(mem_map.water_flow)),
+            "gas_norm": float(np.linalg.norm(mem_map.gas_cloud))
+        }
+
     def trigger_wave_propagation(self, external_trigger: np.ndarray, dt: float = 0.1) -> Dict[str, Any]:
         """
         Processes an external trigger through the Self-World Boundary, propagating
@@ -186,7 +219,14 @@ class UnifiedTopologicalPhaseRuntime:
             self._apply_causal_gravity()
             self._backtrace_and_correct()
 
-        # 6. Record State in History Ring
+        # 6. Step Phase-Change Computing Engine & Static Rotor Prism Refraction
+        phase_engine_state = self.phase_change_engine.step(
+            numerical_input=filtered_trigger,
+            dt=dt,
+            teleological_mode=self.teleological_purpose
+        )
+
+        # 7. Record State in History Ring
         step_record = {
             "boundary_tension": boundary_tension,
             "coherence_score": self.coherence_score,
@@ -194,6 +234,9 @@ class UnifiedTopologicalPhaseRuntime:
             "mean_phase_tension": mean_tension,
             "collapse_warning": collapse_warning,
             "center_phase": center_node.phase_vec.copy(),
+            "teleological_purpose": self.teleological_purpose,
+            "memory_active_phase": phase_engine_state.memory_map.active_phase if phase_engine_state.memory_map else "WATER",
+            "memory_bytes": phase_engine_state.memory_map.total_memory_bytes if phase_engine_state.memory_map else 0
         }
         self.history_ring.append(step_record)
         if len(self.history_ring) > 100:

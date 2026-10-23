@@ -51,6 +51,23 @@ class SpacetimeDeckState:
     waveform_tensor: SpectralWaveformTensor
 
 
+class MemoryPhaseMode:
+    """Phase-State Memory Classifications (Ice, Water, Gas)."""
+    ICE = "ICE"        # Solid crystalline lattice (immutable past facts / SSD storage)
+    WATER = "WATER"    # Fluid current thoughts / active interaction & reasoning
+    GAS = "GAS"        # Gas wavefield (future simulations / propagating possibilities)
+
+
+@dataclass
+class PhaseStateMemoryMap:
+    """Phase-State Memory Structure representing Ice, Water, and Gas states."""
+    ice_lattice: np.ndarray       # Rigid past facts (Frozen/Solid)
+    water_flow: np.ndarray        # Active present thought stream (Fluid)
+    gas_cloud: np.ndarray         # Probabilistic future wavefield (Dispersed)
+    active_phase: str = MemoryPhaseMode.WATER
+    total_memory_bytes: int = 0
+
+
 @dataclass
 class MetaObserverFeedback:
     """Stage 4: Metacognitive invariant core assessment and feedback."""
@@ -67,7 +84,56 @@ class PhaseTransitionState:
     substrate: SubstrateState
     prismatic: PrismaticSpectrumState
     deck: SpacetimeDeckState
-    meta_feedback: MetaObserverFeedback
+    memory_map: Optional[PhaseStateMemoryMap] = None
+    meta_feedback: Optional[MetaObserverFeedback] = None
+
+
+class StaticRotorPrism:
+    """
+    Static Rotor Prism Engine: Refracts input signals through static Clifford/Rotor geometry.
+    Instead of sequential looping, input signals refract through the static prism structure,
+    instantly decomposing into sine/cosine harmonics and objective-driven phase distributions
+    (Optimization: convergent, Diversity: expansive, Complexity: resonant).
+    """
+    def __init__(self, dimension: int = 4, num_facets: int = 8):
+        self.dimension = dimension
+        self.num_facets = num_facets
+        # Static rotor orientation angles (Prism Geometry)
+        self.static_angles = np.linspace(0, 2 * np.pi, num_facets, endpoint=False)
+        self.prism_matrix = np.vstack([np.sin(self.static_angles), np.cos(self.static_angles)]).T
+
+    def refract_signal(
+        self,
+        signal: np.ndarray,
+        teleological_mode: str = "optimization"
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Refracts 1D linear input or multi-D signal through static prism.
+        Returns:
+            refracted_spectrum: Refracted spectral field
+            sine_wave: Sine component of phase breakdown
+            cosine_wave: Cosine component of phase breakdown
+        """
+        flat_signal = signal.ravel()
+        # 1D linear to Rotor Circle transformation via phase angles
+        normalized_signal = (flat_signal - np.min(flat_signal)) / (np.ptp(flat_signal) + 1e-8)
+        phase_angles = normalized_signal * 2 * np.pi
+
+        sine_wave = np.sin(phase_angles)
+        cosine_wave = np.cos(phase_angles)
+
+        # Objective / Teleological lens adjustments
+        if teleological_mode == "optimization":
+            # Focus / Converge toward center axis
+            refracted = (sine_wave ** 2 + cosine_wave ** 2) * 0.5 + 0.5 * sine_wave
+        elif teleological_mode == "diversity":
+            # Expand / Distribute across chromatic channels
+            refracted = np.outer(sine_wave, cosine_wave)
+        else: # "complexity" or default
+            # Multidimensional orthogonal resonance
+            refracted = np.sin(np.outer(phase_angles, self.static_angles))
+
+        return refracted, sine_wave, cosine_wave
 
 
 class SubstrateLayer:
@@ -262,24 +328,86 @@ class MetaObserverInvariantCore:
 
 class PrismaticPhaseTransitionEngine:
     """
-    Main Orchestrator for the 4-Stage Prismatic Phase Transition Engine.
+    Main Orchestrator for the 4-Stage Prismatic Phase Transition Engine & Phase-State Computing.
     Executes the continuous phase transition pipeline from micro numerical substrate
-    to macro causal spacetime deck with meta-observation.
+    to macro causal spacetime deck, Phase-State Memory (Ice/Water/Gas), and Meta-Observer.
     """
     def __init__(self, grid_shape: Tuple[int, ...] = (8, 8)):
         self.grid_shape = grid_shape
         self.substrate = SubstrateLayer(grid_shape)
         self.prismatic = PrismaticTransitionConstraint(spectrum_depth=3)
+        self.static_prism = StaticRotorPrism(dimension=4, num_facets=8)
         self.deck = MacroSpacetimeDeck(grid_shape)
         self.meta_observer = MetaObserverInvariantCore(invariant_target_coherence=0.75)
         self.step_count = 0
         self.constraint_stiffness = 1.0
 
+        # Phase-State Memory (Ice, Water, Gas)
+        self.memory_map = PhaseStateMemoryMap(
+            ice_lattice=np.zeros(grid_shape, dtype=np.float64),
+            water_flow=np.zeros(grid_shape, dtype=np.float64),
+            gas_cloud=np.zeros(grid_shape, dtype=np.float64),
+            active_phase=MemoryPhaseMode.WATER,
+            total_memory_bytes=0
+        )
+
+    def transition_memory_phase(
+        self,
+        target_mode: str,
+        teleological_purpose: str = "optimization"
+    ) -> PhaseStateMemoryMap:
+        """
+        Executes physical-topological phase-state transition of internal memory blocks
+        between Ice (crystalline past), Water (fluid thought), and Gas (probabilistic future).
+        Controlled by top-level teleological purpose without disk swapping.
+        """
+        self.memory_map.active_phase = target_mode
+
+        if target_mode == MemoryPhaseMode.ICE:
+            # Crystallize water flow into rigid ice lattice
+            self.memory_map.ice_lattice = np.where(
+                np.abs(self.memory_map.water_flow) > 0.1,
+                np.sign(self.memory_map.water_flow) * 1.0,
+                self.memory_map.ice_lattice
+            )
+            # Damped flow
+            self.memory_map.water_flow *= 0.1
+            self.memory_map.gas_cloud *= 0.05
+
+        elif target_mode == MemoryPhaseMode.WATER:
+            # Melt ice or condense gas into active thought flow
+            refracted, s, c = self.static_prism.refract_signal(
+                self.memory_map.ice_lattice + self.memory_map.gas_cloud,
+                teleological_mode=teleological_purpose
+            )
+            if refracted.shape != self.grid_shape:
+                refracted = np.resize(refracted, self.grid_shape)
+            self.memory_map.water_flow = 0.5 * self.memory_map.water_flow + 0.5 * refracted
+
+        elif target_mode == MemoryPhaseMode.GAS:
+            # Evaporate active water flow into wide probabilistic future wavefield
+            laplacian = (
+                np.roll(self.memory_map.water_flow, 1, axis=0) + np.roll(self.memory_map.water_flow, -1, axis=0) +
+                np.roll(self.memory_map.water_flow, 1, axis=1) + np.roll(self.memory_map.water_flow, -1, axis=1) -
+                4 * self.memory_map.water_flow
+            )
+            self.memory_map.gas_cloud = np.abs(laplacian) * 2.0
+
+        # Estimate footprint in bytes (< 100MB footprint requirement)
+        bytes_used = (
+            self.memory_map.ice_lattice.nbytes +
+            self.memory_map.water_flow.nbytes +
+            self.memory_map.gas_cloud.nbytes
+        )
+        self.memory_map.total_memory_bytes = bytes_used
+        return self.memory_map
+
     def step(
         self,
         numerical_input: Optional[np.ndarray] = None,
         dt: float = 0.1,
-        roi_scrub_delta: float = 0.0
+        roi_scrub_delta: float = 0.0,
+        teleological_mode: str = "optimization"
     ) -> PhaseTransitionState:
         """
         Executes one full cycle of the 4-stage phase transition pipeline.
@@ -291,6 +419,19 @@ class PrismaticPhaseTransitionEngine:
             sub_state = self.substrate.inject_input(numerical_input)
         else:
             sub_state = self.substrate.propagate(dt=dt)
+
+        # Refract through Static Rotor Prism
+        refracted_signal, sine_w, cos_w = self.static_prism.refract_signal(
+            sub_state.raw_signal,
+            teleological_mode=teleological_mode
+        )
+
+        # Update Active Memory (Water state)
+        if refracted_signal.shape == self.grid_shape:
+            self.memory_map.water_flow = 0.8 * self.memory_map.water_flow + 0.2 * refracted_signal
+        else:
+            resized_refracted = np.resize(refracted_signal, self.grid_shape)
+            self.memory_map.water_flow = 0.8 * self.memory_map.water_flow + 0.2 * resized_refracted
 
         # Stage 2: Prismatic refraction & structural constraint
         prism_state = self.prismatic.refract_substrate(sub_state, constraint_stiffness=self.constraint_stiffness)
@@ -309,10 +450,14 @@ class PrismaticPhaseTransitionEngine:
             0.1, 5.0
         ))
 
+        # Memory footprint check
+        self.transition_memory_phase(self.memory_map.active_phase, teleological_purpose=teleological_mode)
+
         return PhaseTransitionState(
             step_count=self.step_count,
             substrate=sub_state,
             prismatic=prism_state,
             deck=deck_state,
+            memory_map=self.memory_map,
             meta_feedback=meta_feedback
         )
