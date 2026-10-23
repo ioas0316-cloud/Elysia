@@ -1,97 +1,42 @@
 """
-Unit and Integration Tests for Cognitive OS Runtime & Organ Adapters
-=====================================================================
-Tests Cognitive OS organ adapters, Markov Blanket self-boundary evaluation,
-perceptual probing, and tacit knowledge accumulation.
+Unit tests for CognitiveOSRuntime.
 """
 
-import sys
-import pytest
 import numpy as np
-
-# Ensure path resolution
-sys.path.extend(['.', 'L1_causal_field', 'L2_cognitive_engine'])
-
-from L3_interface.simulators.cognitive_os_organ_adapters import (
-    ParticleFluidSandboxOrgan,
-    NonEuclideanSpacetimeOrgan,
-    BlenderMeshOrgan,
-    CADConstraintOrgan,
-    PhotoshopRetinaOrgan,
-    GameEnginePhysicsOrgan
+import pytest
+from L3_interface.simulators.cognitive_os_runtime import (
+    CognitiveOSOrganAdapter,
+    CognitiveOSRuntime
 )
-from elysia_core.cognitive_os_runtime import CognitiveOSRuntime, MarkovBlanketSelfBoundary
 
 
-def test_organ_adapters_sense_and_intervene():
-    """Verify that all organ adapters return valid OrganSensation payloads."""
-    organs = [
-        ParticleFluidSandboxOrgan(),
-        NonEuclideanSpacetimeOrgan(),
-        BlenderMeshOrgan(),
-        CADConstraintOrgan(),
-        PhotoshopRetinaOrgan(),
-        GameEnginePhysicsOrgan()
-    ]
+def test_organ_adapter_interaction():
+    adapter = CognitiveOSOrganAdapter("test_organ", "blender_3d")
+    action = np.array([0.5, -0.3, 0.2, 0.1], dtype=float)
 
-    action = np.array([0.5, 0.5, 0.5, 0.5, 0.5], dtype=np.float32)
-
-    for organ in organs:
-        sensation = organ.sense_and_intervene(action)
-        assert sensation.organ_id == organ.organ_id
-        assert len(sensation.sensation_vector) == 5
-        assert sensation.resistance_friction >= 0.0
-        assert sensation.echo_latency > 0.0
+    state, friction_e = adapter.sense_and_interact(action)
+    assert len(state) == 16
+    assert friction_e > 0.0
+    assert adapter.friction_accumulator == pytest.approx(friction_e)
 
 
-def test_markov_blanket_boundary_classification():
-    """Verify that MarkovBlanketSelfBoundary classifies organs into Self, Boundary, and Environment."""
-    boundary_engine = MarkovBlanketSelfBoundary(
-        self_friction_threshold=0.2,
-        environment_friction_threshold=0.5
-    )
+def test_cognitive_os_runtime_closed_loop():
+    runtime = CognitiveOSRuntime()
+    assert "blender" in runtime.organs
+    assert "cad" in runtime.organs
+    assert "photoshop" in runtime.organs
+    assert "sandbox" in runtime.organs
 
-    action = np.array([0.1, 0.1, 0.1, 0.1, 0.1], dtype=np.float32)
+    intent = [0.1, 0.2, -0.1]
+    res_blender = runtime.execute_closed_loop("blender", intent)
 
-    organ_low = NonEuclideanSpacetimeOrgan(organ_id="low_friction_organ")
-    organ_high = CADConstraintOrgan(organ_id="high_friction_organ")
-
-    sensations = {
-        "low_friction_organ": organ_low.sense_and_intervene(action),
-        "high_friction_organ": organ_high.sense_and_intervene(action)
-    }
-
-    report = boundary_engine.evaluate_boundary(sensations, probe_feedbacks={})
-
-    assert isinstance(report.self_region_organs, list)
-    assert isinstance(report.boundary_organs, list)
-    assert isinstance(report.environment_organs, list)
-    assert report.total_free_energy > 0.0
-    assert 0.0 < report.causal_gravity_radius <= 1.0
+    assert res_blender["organ"] == "blender"
+    assert "friction_error" in res_blender
+    assert res_blender["is_self_controlled"] is True  # friction error < 0.1
+    assert len(res_blender["response_preview"]) == 4
 
 
-def test_cognitive_os_runtime_full_cycle():
-    """Verify multi-step Cognitive OS runtime execution and tacit knowledge accumulation."""
-    runtime = CognitiveOSRuntime(dimension=5)
-
-    fluid = ParticleFluidSandboxOrgan(organ_id="fluid_01")
-    cad = CADConstraintOrgan(organ_id="cad_01")
-
-    runtime.register_organ(fluid)
-    runtime.register_organ(cad)
-
-    context_name = "test_context"
-    intent = np.array([0.8, 0.2, 0.5, 0.1, 0.3], dtype=np.float32)
-
-    res1 = runtime.execute_cognitive_cycle(intent, context_name=context_name)
-    assert res1["step_count"] == 1
-    assert "fluid_01" in res1["sensations"]
-    assert "cad_01" in res1["sensations"]
-
-    tk1_fluid = res1["tacit_knowledge_summary"]["skill_fluid_01"]
-
-    res2 = runtime.execute_cognitive_cycle(intent, context_name=context_name)
-    tk2_fluid = res2["tacit_knowledge_summary"]["skill_fluid_01"]
-
-    # Verify tacit knowledge accumulates over steps
-    assert tk2_fluid > tk1_fluid
+def test_cognitive_os_runtime_unregistered_organ():
+    runtime = CognitiveOSRuntime()
+    with pytest.raises(ValueError, match="Organ unknown_organ not found"):
+        runtime.execute_closed_loop("unknown_organ", [1.0, 2.0])

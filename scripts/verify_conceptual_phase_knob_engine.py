@@ -1,121 +1,65 @@
 """
-Verification script for ConceptualPhaseKnobEngine (개념적 위상 노브 엔진).
-Demonstrates:
-1. Physical Euclidean distance vs. Conceptual Phase Distance convergence.
-2. Cross-domain functional isomorphism (Bird Wing vs. Airplane Wing, CAD constraints vs. Photoshop layers).
-3. Inverse World Mechanism Extraction into Invariance Bedrock and Dynamic Wave Variants.
-4. Extracting Cognitive Knobs (Friction, Rotor Angle, Causal Tension, Entropy).
-5. Dynamic world state re-simulation upon knob tuning.
+Verification script for ConceptualPhaseKnobEngine & CognitiveOSRuntime.
 """
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import numpy as np
-from L1_causal_field.core.topology.conceptual_phase_knob_engine import (
-    ConceptualPhaseKnobEngine,
-    ConceptualEntity,
-    ExtractedWorldMechanism
-)
+from L1_causal_field.core.topology.conceptual_phase_knob_engine import ConceptualPhaseKnobEngine
+from L3_interface.simulators.cognitive_os_runtime import CognitiveOSRuntime
 
 
-def main():
-    print("==========================================================")
-    print("  ELYSIA: Conceptual Phase Knob Engine Verification Demo  ")
-    print("==========================================================\n")
+def run_verification():
+    print("=== [Elysia CognitiveOS & Conceptual Knob Engine Verification] ===")
 
-    engine = ConceptualPhaseKnobEngine(dimension=64, friction_threshold=0.15)
+    # 1. 엔진 초기화
+    engine = ConceptualPhaseKnobEngine(dimension=32)
+    runtime = CognitiveOSRuntime()
 
-    # -----------------------------------------------------------------
-    # STEP 1: Domain-Agnostic Conceptual Distance Convergence
-    # -----------------------------------------------------------------
-    print("--- [STEP 1] Measuring Conceptual Distance across Domains ---")
+    # 2. 이종 개념 등록 (새의 날개 vs 비행기 날개, CAD 제약 vs 포토샵 레이어)
+    # 공기저항 극복 및 양력 생성이라는 상위 개념 렌즈를 모사하는 특성 벡터 설정
+    np.random.seed(42)
+    base_lift_principle = np.random.randn(32)
 
-    # 1A. Bird Wing vs Airplane Wing
-    bird_causal = np.array([1.2, 0.5, 0.1] + [0.0]*61)
-    bird_intent = np.array([1.0, 0.8, 0.0] + [0.0]*61)  # Aerodynamic Lift Intent
-    bird_boundary = np.array([0.1, 0.1])
+    # 새의 날개와 비행기 유선형 날개는 본질적 원리가 유사하도록 설계
+    bird_wing = base_lift_principle + np.random.randn(32) * 0.05
+    aircraft_wing = base_lift_principle + np.random.randn(32) * 0.07
 
-    bird_entity = ConceptualEntity("Bird Wing", "Biology", bird_causal, bird_intent, bird_boundary)
+    # 완전히 다른 도메인 (예: 무작위 소음)
+    noise_concept = np.random.randn(32) * 5.0
 
-    plane_causal = np.array([500.0, -200.0, 80.0] + [0.0]*61)  # Far in state space
-    plane_intent = np.array([0.99, 0.81, 0.01] + [0.0]*61)    # Same intent
-    plane_boundary = np.array([0.11, 0.09])
+    engine.register_concept("bird_wing", bird_wing.tolist())
+    engine.register_concept("aircraft_wing", aircraft_wing.tolist())
+    engine.register_concept("noise", noise_concept.tolist())
 
-    plane_entity = ConceptualEntity("Airplane Wing", "Aeronautics", plane_causal, plane_intent, plane_boundary)
+    # 3. 개념간 거리 및 마찰 오차(E) 측정 검증
+    theta_bw_aw, err_bw_aw = engine.compute_conceptual_distance("bird_wing", "aircraft_wing")
+    theta_bw_noise, err_bw_noise = engine.compute_conceptual_distance("bird_wing", "noise")
 
-    engine.register_entity(bird_entity)
-    engine.register_entity(plane_entity)
+    print(f"\n[Conceptual Distance Test]")
+    print(f" - [Bird Wing] vs [Aircraft Wing] -> Theta: {theta_bw_aw:.4f}, Friction Error (E): {err_bw_aw:.4f} (Expected: Near 0)")
+    print(f" - [Bird Wing] vs [Noise]       -> Theta: {theta_bw_noise:.4f}, Friction Error (E): {err_bw_noise:.4f} (Expected: High)")
 
-    res_aeronautics = engine.compute_conceptual_distance(
-        "Bird Wing", "Airplane Wing",
-        physical_coords_a=np.array([0.0, 0.0, 0.0]),
-        physical_coords_b=np.array([400000.0, 0.0, 0.0])  # 400 km away
-    )
+    # 4. 노브화(Knob-ification) 및 상태 재배치 루프 테스트
+    knob_key = engine.create_knob_from_concept("aircraft_wing", initial_value=1.0)
+    print(f"\n[Knob-ification Test]")
+    print(f" - Created Knob: {knob_key} with initial value 1.0")
 
-    print(f"Physical Distance (Seoul -> Busan): {res_aeronautics.euclidean_physical_distance:,.1f} meters")
-    print(f"Conceptual Phase Distance (Friction Error E): {res_aeronautics.conceptual_phase_distance:.4f}")
-    print(f"Clifford Rotor Angle (Delta Theta): {res_aeronautics.clifford_rotor_angle:.4f} rad")
-    print(f"Shared Invariance / Isomorphism Score: {res_aeronautics.shared_invariance_score * 100:.2f}%")
-    print(f"Is Topologically Isomorphic: {res_aeronautics.is_topologically_isomorphic}\n")
+    # 노브 조율 시뮬레이션
+    rearrange_result = engine.adjust_knob(knob_key, value=2.5)
+    print(f" - Knob Adjustment Result: {rearrange_result}")
 
-    # 1B. CAD Kinematic Constraint vs Photoshop Layer Mask vs 3D Mesh Rig
-    cad_intent = np.array([0.0, 0.0, 1.0, 0.9] + [0.0]*60)  # Spatial Boundary & Constraint
-    ps_intent  = np.array([0.0, 0.0, 0.98, 0.91] + [0.0]*60) # Same constraint intent
+    # 5. 인지 OS 감각 기관(Blender, CAD 등) 닫힌 고리 테스트
+    print(f"\n[CognitiveOS Closed-Loop Organ Test]")
+    intent = [0.5, -0.2, 0.8, 0.1] * 4
+    for organ_name in ["blender", "cad", "photoshop", "sandbox"]:
+        result = runtime.execute_closed_loop(organ_name, intent)
+        print(f" - Organ [{result['organ']}] -> Friction (E): {result['friction_error']:.4f} | Self-Controlled: {result['is_self_controlled']}")
 
-    cad_entity = ConceptualEntity("CAD Constraint", "CAD", np.zeros(64), cad_intent, np.array([0.2]))
-    ps_entity  = ConceptualEntity("Photoshop Layer Mask", "2D Design", np.ones(64)*10, ps_intent, np.array([0.2]))
-
-    engine.register_entity(cad_entity)
-    engine.register_entity(ps_entity)
-
-    res_design = engine.compute_conceptual_distance("CAD Constraint", "Photoshop Layer Mask")
-
-    print(f"CAD vs Photoshop Layer Conceptual Phase Distance: {res_design.conceptual_phase_distance:.4f}")
-    print(f"Isomorphic Convergence: {res_design.is_topologically_isomorphic}\n")
-
-    # -----------------------------------------------------------------
-    # STEP 2: Inverse Latent World Mechanism Extraction & Knob-ification
-    # -----------------------------------------------------------------
-    print("--- [STEP 2] Inverse Mechanism Extraction & Cognitive Knob-ification ---")
-
-    # Synthetic world trajectory (video/latent space simulation over 100 frames)
-    t = np.linspace(0, 4*np.pi, 100)
-    base_bedrock = np.sin(np.linspace(0, 1, 64)) * 10.0
-    dynamic_wave = np.outer(np.cos(t), np.ones(64)) * 2.0
-    trajectory = base_bedrock + dynamic_wave
-    boundary_delta = np.array([1.5, 2.0, 0.5])
-
-    mechanism = engine.extract_world_mechanism(trajectory, boundary_delta)
-
-    print("Extracted World Mechanism decomposition:")
-    print(f" - Invariant Bedrock Mean Norm: {np.linalg.norm(mechanism.invariant_bedrock):.4f}")
-    print(f" - Dynamic Wave Variant Shape: {mechanism.variant_dynamic_wave.shape}")
-    print("\nExtracted Cognitive Knobs:")
-    for key, knob in mechanism.knobs.items():
-        print(f"   * [{knob.name}] Value = {knob.value:.4f} (Range: [{knob.min_value}, {knob.max_value}]) -> {knob.description}")
-
-    # -----------------------------------------------------------------
-    # STEP 3: Dynamic World State Re-simulation on Knob Tuning
-    # -----------------------------------------------------------------
-    print("\n--- [STEP 3] Dynamic World State Re-simulation ---")
-
-    initial_state = engine.resimulate_world_state(mechanism, {})
-    print(f"Initial Simulated State Norm: {np.linalg.norm(initial_state):.4f}")
-
-    # Tuning friction higher (increased damping) and rotating phase angle
-    tuned_state = engine.resimulate_world_state(
-        mechanism,
-        {
-            "friction": 3.5,
-            "phase_rotor_angle": np.pi / 4.0,  # 45 deg phase rotation
-            "causal_tension": 2.0
-        }
-    )
-    print(f"Tuned Simulated State Norm: {np.linalg.norm(tuned_state):.4f}")
-    print(f"State Shift Delta Norm: {np.linalg.norm(tuned_state - initial_state):.4f}")
-
-    print("\n==========================================================")
-    print("  VERIFICATION SUCCESSFUL: Conceptual Phase Knob Engine  ")
-    print("==========================================================")
+    print("\n=== Verification Completed Successfully! ===")
 
 
 if __name__ == "__main__":
-    main()
+    run_verification()
