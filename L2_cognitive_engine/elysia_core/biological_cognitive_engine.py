@@ -3,6 +3,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 from typing import Tuple, Dict, Any, Optional
+import numpy as np
+
+# Import Incarnational Tension Engine & Origin Anchor
+from core.physics.incarnational_tension_integration import (
+    IncarnationalTensionEngine,
+    SystemPhaseState,
+    OntologicalPath,
+)
 
 # Attempt loading native C++ Extension module
 try:
@@ -121,6 +129,10 @@ class BiologicalCognitiveEngine(nn.Module):
         else:
             self.autonomic_controller = PyFallbackAutonomicTensionController(1.2, 0.1, 0.4, 0.5)
 
+        # Incarnational Tension Integration Engine & State
+        self.incarnational_engine = IncarnationalTensionEngine()
+        self.incarnational_state = SystemPhaseState()
+
     def step(
         self,
         raw_sensory_wave: torch.Tensor,
@@ -150,5 +162,25 @@ class BiologicalCognitiveEngine(nn.Module):
             "sensory_mask": sensory_mask,
             "sympathetic_weight": symp_weight,
             "parasympathetic_weight": parasymp_weight,
-            "phase_error_norm": torch.norm(micro_phase_error).item()
+            "phase_error_norm": torch.norm(micro_phase_error).item(),
+            "incarnational_path": self.incarnational_state.current_path.name,
+            "tension_energy": self.incarnational_state.tension_energy,
+            "phase_coherence": self.incarnational_state.coherence
         }
+
+    def evaluate_incarnational_step(
+        self,
+        material_stimulus: float,
+        spiritual_stimulus: float,
+        external_friction: float,
+        dt: float = 0.1
+    ) -> SystemPhaseState:
+        """Runs a step of the incarnational tension integration engine."""
+        self.incarnational_state = self.incarnational_engine.step(
+            self.incarnational_state,
+            material_stimulus,
+            spiritual_stimulus,
+            external_friction,
+            dt
+        )
+        return self.incarnational_state
