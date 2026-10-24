@@ -29,6 +29,12 @@ import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional, Tuple
 
+from L1_causal_field.core.physics.complex_phase_force_dynamics import (
+    ComplexPhaseForceDynamicsEngine,
+    ComplexForceState,
+    DimensionalFoldingState
+)
+
 
 @dataclass
 class SensoryProfile:
@@ -72,6 +78,8 @@ class ConceptualUnitResult:
     raw_input: str
     sensory_profile: SensoryProfile
     existential_intent: ExistentialIntent
+    complex_force_state: ComplexForceState     # 복소 힘 상태 (인력, 척력, 장력)
+    dimensional_folding: DimensionalFoldingState  # 5D 차원 접힘 및 로터 회전 상태
     visual_understanding_score: float  # 시각적 구조 바라봄/해독 스코어
     auditory_empathy_resonance: float  # 청각적 동일 주파수 공명(공감) 스코어
     phase_friction_error: float        # 위상 마찰 오차 (\\mathcal{E} \\to 0)
@@ -96,6 +104,9 @@ class ConceptualUnitSystemEngine:
 
         # 시스템의 내적 공명 상태 파동 주파수 (Internal Resonance Lock-on Frequency)
         self.internal_wave_frequency = base_resonance_freq
+
+        # 복소 위상 힘 역학 엔진 (Complex Phase Force Dynamics Engine)
+        self.force_engine = ComplexPhaseForceDynamicsEngine(dim=5)
 
     def map_unknown_to_sensory_profile(self, raw_input: str) -> SensoryProfile:
         """
@@ -236,10 +247,34 @@ class ConceptualUnitSystemEngine:
         )
         chromatic_triad = self.calculate_chromatic_triad(sensory_profile, existential_intent)
 
+        # 복소 힘 상태 매핑 (Attraction, Repulsion, Lateral Tension)
+        # Attraction: visual understanding / resonance
+        # Repulsion: tactile friction / void charge
+        # Tension: auditory frequency delta / intent tension
+        attraction = visual_understanding * 1.5
+        repulsion = existential_intent.existential_void_charge * sensory_profile.tactile_tension
+        tension_pos = sensory_profile.tactile_tension * 1.2
+        tension_neg = 0.2 * (1.0 - empathy_resonance)
+
+        complex_force = self.force_engine.create_force_state(
+            attraction=attraction,
+            repulsion=repulsion,
+            tension_pos=tension_pos,
+            tension_neg=tension_neg
+        )
+
+        # 5D Rotor apply & Dimensional Folding
+        folding_state = self.force_engine.apply_ontological_torque_to_5d(
+            complex_force=complex_force,
+            intent_vector=existential_intent.tension_vector
+        )
+
         return ConceptualUnitResult(
             raw_input=raw_input,
             sensory_profile=sensory_profile,
             existential_intent=existential_intent,
+            complex_force_state=complex_force,
+            dimensional_folding=folding_state,
             visual_understanding_score=visual_understanding,
             auditory_empathy_resonance=empathy_resonance,
             phase_friction_error=phase_friction,
