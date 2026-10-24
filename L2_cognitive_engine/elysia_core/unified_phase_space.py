@@ -12,6 +12,12 @@ generates unified One-Page Design dashboard reports.
 import numpy as np
 from typing import List, Dict, Any, Optional, Tuple
 
+from L1_causal_field.core.physics.complex_phase_force_dynamics import (
+    ComplexPhaseForceDynamicsEngine,
+    ComplexForceState,
+    DimensionalFoldingState
+)
+
 # =====================================================================
 # 1. 5D Phase Space Axis Definitions & Utilities
 # =====================================================================
@@ -228,7 +234,8 @@ class NPCEntity:
 class ElysiaUnifiedEngine:
     """
     Unified 5D Phase Space Engine coordinating Environment, Resources,
-    Crafted Items, Monsters, and NPCs in a cascading relaxation dynamics loop.
+    Crafted Items, Monsters, and NPCs in a cascading relaxation dynamics loop,
+    augmented by Complex Phase Force Dynamics & Dimensional Folding.
     """
     def __init__(self, env_name: str = "신정정치 평화기", env_base_vec: Optional[np.ndarray] = None):
         if env_base_vec is None:
@@ -238,6 +245,7 @@ class ElysiaUnifiedEngine:
         self.crafted_items: List[CraftedItemEntity] = []
         self.monsters: List[MonsterEntity] = []
         self.npcs: List[NPCEntity] = []
+        self.complex_force_engine = ComplexPhaseForceDynamicsEngine(dim=5)
 
     def add_resource(self, resource: ResourceEntity) -> None:
         self.resources.append(resource)
@@ -274,6 +282,23 @@ class ElysiaUnifiedEngine:
         # 4. NPC cognitive dissonance & relaxation
         for npc in self.npcs:
             npc.evaluate_dissonance(env_vec)
+
+        # 5. Complex Force Dynamics & Dimensional Folding step across environmental shift
+        attraction = float(np.mean([np.linalg.norm(r.current_R) for r in self.resources])) if self.resources else 0.5
+        repulsion = float(np.mean([n.dissonance for n in self.npcs])) if self.npcs else 0.2
+        tension_pos = float(np.std(env_vec)) * 1.5
+        tension_neg = 0.1
+
+        complex_force = self.complex_force_engine.create_force_state(
+            attraction=attraction,
+            repulsion=repulsion,
+            tension_pos=tension_pos,
+            tension_neg=tension_neg
+        )
+        self.complex_force_engine.apply_ontological_torque_to_5d(
+            complex_force=complex_force,
+            intent_vector=env_vec
+        )
 
         return self.get_system_snapshot()
 
