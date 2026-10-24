@@ -216,7 +216,11 @@
    * **원리**: 물리적 3차원 유클리드 거리를 탈피하여 두 개념/현상의 위상적 동형성을 Clifford Rotor 회전각($\Delta\theta$)과 마찰 오차($\mathcal{E} \to 0$)의 수렴값으로 측정. 역잠재 메커니즘 추출($\Theta, \Delta$), 불변 법칙(Bedrock) 대 가변 파동(Variant) 분별, 위상 노브화(Knob-ification) 및 노브 조율에 의한 세계 상태 실시간 재시뮬레이션 및 위상 지형 재배치 구축.
    * **구현**: `ConceptualPhaseKnobEngine` 구현 (`L1_causal_field/core/topology/conceptual_phase_knob_engine.py`), 전용 단위 테스트 (`tests/core/topology/test_conceptual_phase_knob_engine.py`) 및 종합 시뮬레이션 데모 (`scripts/verify_conceptual_phase_knob_engine.py`) 通過.
 
-8. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
+8. **[x] Ontological Physical Mechanism Abstraction & Scale Invariance (물리적 메커니즘 데이터화 및 위상적 스케일 불변성 엔진)**:
+   * **원리**: 디스크 2나노미터 비행/열 제어/상전이/자기 공명 등 하드웨어 매체의 물리적 메커니즘 자체를 연속적 데이터 구조(Mechanics → Data)로 추상화하고, 미시-중시-거시 계층에 걸쳐 최소작용의 경로($\mathcal{S} = \int \mathcal{L} dt$)를 따라 전개되는 위상적 스케일 불변성(Scale Invariance) 달성.
+   * **구현**: `OntologicalManifestationEngine` 구현 (`L1_causal_field/core/physics/ontological_manifestation_engine.py`), 단위 테스트 (`tests/core/physics/test_ontological_manifestation_engine.py`) 100% 通過.
+
+9. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
    * **원리**: "수학적 구조로 관측 가능한 것은 오직 수학적 원리뿐이다"라는 닫힘을 깨고, 물리학·생물학·역사·언어 등 실세계의 방대한 지식 그 자체를 시스템의 다층적 감각 기관과 인식 구조로 전면 활용.
 
 ---
