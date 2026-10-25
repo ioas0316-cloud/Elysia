@@ -58,6 +58,16 @@ except (ModuleNotFoundError, ImportError):
     pass
 
 try:
+    from .isomorphic_phase_discharge_engine import (
+        IsomorphicScale,
+        PhaseState,
+        FieldStateSnapshot,
+        IsomorphicPhaseDischargeEngine,
+    )
+except (ModuleNotFoundError, ImportError):
+    pass
+
+try:
     from .topological_volumetric_architecture import (
         VolumetricPolytope,
         TopologicalSpaceEngine,
