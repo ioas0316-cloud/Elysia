@@ -7,6 +7,17 @@ from .markov_blanket_interface import (
     MarkovBlanketInterface,
 )
 
+from .multi_scale_wave_sensorimotor import (
+    MultiScaleWaveSensorimotorEngine,
+    HelicalPhasePrismGate,
+    MesoScaleBridgingPLL,
+    MacroSensoryPrismTransducer,
+    MicroHelicalGateOutput,
+    MesoBandState,
+    MacroSensoryOutput,
+    SensorimotorLoopOutput,
+)
+
 __all__ = [
     "PhaseState",
     "DimensionType",
@@ -14,4 +25,12 @@ __all__ = [
     "NativeTopology",
     "LightSchnittResult",
     "MarkovBlanketInterface",
+    "MultiScaleWaveSensorimotorEngine",
+    "HelicalPhasePrismGate",
+    "MesoScaleBridgingPLL",
+    "MacroSensoryPrismTransducer",
+    "MicroHelicalGateOutput",
+    "MesoBandState",
+    "MacroSensoryOutput",
+    "SensorimotorLoopOutput",
 ]
