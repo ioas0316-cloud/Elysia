@@ -10,6 +10,11 @@ from core.topology.structural_connectivity_engine import (
 from core.physics.ontological_gravity_terrain_engine import (
     OntologicalGravityTerrainEngine
 )
+from core.topology.ecological_taxonomy_engine import (
+    EcologicalTaxonomyEngine,
+    SensoryModality,
+    SubstrateIdentity
+)
 
 @dataclass
 class InformationVoxel:
@@ -254,6 +259,9 @@ class CausalField:
 
         self.cyclic_bit_engine = CyclicVectorBitEngine(num_bits=64)
         self.taiji_hexagram_engine = TaijiHexagramTopologyEngine(num_nodes=64)
+
+        # Ecological Taxonomy & Scale Coupling Engine Binding
+        self.ecological_taxonomy_engine = EcologicalTaxonomyEngine(target_dimension=dimensions)
 
         # TopIR Runtime Engine Binding
         self._topir_engine = None
@@ -528,6 +536,49 @@ class CausalField:
 
     def add_voxel(self, voxel: InformationVoxel):
         self.voxels[voxel.id] = voxel
+
+    def process_ecological_stimulus(
+        self,
+        label: str,
+        modality: SensoryModality,
+        substrate: SubstrateIdentity,
+        energy: float,
+        friction: float,
+        scale_level: float = 0.5,
+        direct_core_damage: bool = False
+    ) -> Dict[str, Any]:
+        """
+        [Ecological Taxonomy & Scale Coupling Stimulus Ingestion]
+        Routes incoming physical/cognitive stimuli through the Ecological Taxonomy Tree
+        and Scale Coupling Cascade to evaluate local homeostasis vs. global core breaches.
+        """
+        node = self.ecological_taxonomy_engine.add_taxonomy_node(
+            label=label,
+            modality=modality,
+            substrate=substrate,
+            scale_level=scale_level
+        )
+
+        result = self.ecological_taxonomy_engine.process_incoming_stimulus(
+            target_node_id=node.node_id,
+            stimulus_energy=energy,
+            stimulus_friction=friction,
+            direct_core_damage=direct_core_damage
+        )
+
+        # Mirror ecological result onto an InformationVoxel in the CausalField
+        v_id = f"voxel_eco_{node.node_id}"
+        v = InformationVoxel(
+            id=v_id,
+            content=label,
+            tensor=node.phase_vector,
+            mass=max(0.1, energy),
+            position=np.zeros(self.dimensions, dtype=np.float32),
+            scale_level=scale_level
+        )
+        self.add_voxel(v)
+        result["voxel_id"] = v_id
+        return result
 
     def link_voxels(self, id_a: str, id_b: str, strength: float = 1.0):
         if id_a in self.voxels and id_b in self.voxels:
