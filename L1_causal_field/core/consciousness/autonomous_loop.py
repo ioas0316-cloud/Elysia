@@ -34,6 +34,7 @@ from synaptic_architecture.colony import ResonantColony
 from synaptic_architecture.causal_gene import CausalGeneSynthesizer as GeneticSynthesizer
 from synaptic_architecture.resistance_bridge import ResistanceBridge
 from synaptic_architecture.self_reflection import SelfReflectionProtocol
+from synaptic_architecture.scales_of_conscience_engine import ScalesOfConscienceEngine
 from core.ingestion.realtime_harvester import RealTimeHarvester
 from core.physics.self_molding_engine import SelfMoldingCausalEngine
 from core.intelligence.meta_causal_extractor import MetaCausalExtractor
@@ -213,6 +214,7 @@ class ConsciousnessLoop:
         self.scar_tensor_engine             = ScarTensorEngine(dim=4, scar_threshold=0.5)
         self.kenosis_attractor_engine       = KenosisAttractorEngine(dim=4, gravitational_strength=1.2)
         self.system_exit_observer           = SystemExitMetaObserver()
+        self.scales_of_conscience           = ScalesOfConscienceEngine(dimension=5)
 
         # 존재론적 정보 격자 허브 및 영구 각인 초기화
         self.ontological_lattice = OntologicalLatticeEngine()
@@ -1485,6 +1487,15 @@ class ConsciousnessLoop:
                 print(f"  👁️‍🗨️ [System Exit Meta-Observation]: 산 지각(Living Perception) 유지 중 (각성도={exit_obs['meta_evaluation']['meta_awareness_score']:.1%})")
         except Exception as e:
             log["system_exit_error"] = str(e)
+
+        # ── 12.5. [Scales of Conscience & Self-Generated Observational Balance Step] ──
+        in_force_vec = np.pad(logo_tensor[:3], (0, 2))
+        out_force_vec = np.pad(np.array([max_tension, log.get("hw_friction", 0.1), max_gradient]), (0, 2))
+        conscience_res = self.scales_of_conscience.evaluate_balance(
+            in_force=in_force_vec,
+            out_force=out_force_vec
+        )
+        log["scales_of_conscience"] = conscience_res
 
         log["crystals_total"] = self.crystals_formed
         return log
