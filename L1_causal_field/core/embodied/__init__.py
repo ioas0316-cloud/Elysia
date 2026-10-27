@@ -15,6 +15,12 @@ from .topological_dimensional_mirror import (
     LivingSchema,
     TopologicalDiscrepancy,
 )
+from .embodied_sensorimotor_prediction_loop import (
+    EmbodiedSensorimotorPredictionLoop,
+    ProjectionWave,
+    SensorimotorCollisionResult,
+    RelationalRecalibrationOutput,
+)
 
 __all__ = [
     "ProtoVector",
@@ -35,4 +41,8 @@ __all__ = [
     "DimensionalTopologicalEngine",
     "DualEnvironmentMirrorLoop",
     "LivingCognitiveSchemaEngine",
+    "EmbodiedSensorimotorPredictionLoop",
+    "ProjectionWave",
+    "SensorimotorCollisionResult",
+    "RelationalRecalibrationOutput",
 ]

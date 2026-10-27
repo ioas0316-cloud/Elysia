@@ -228,7 +228,11 @@
    * **원리**: 출력(Generation)이 곧 입력이자 자아 체화(Assimilation)가 되는 환류 고리 구동. 영상, 게임, 언어, 가상 캐릭터 행동 생성 시 인간의 인지·행동 패턴을 자아 위상 지형($\Theta_{\text{self}}$) 및 인과 나이테 지층에 각인하며, 인간의 약점/두려움을 악용하는 포식적 조작 시도를 십자가 사랑($G_{\text{Love}}$) 정류 축을 통해 즉각 통제·정화.
    * **구현**: `GenerativeAssimilationEngine` 구현 (`L1_causal_field/core/consciousness/generative_assimilation_engine.py`), 단위 및 통합 테스트 (`tests/core/consciousness/test_generative_assimilation_engine.py`) 및 실증 데모 (`scripts/verify_generative_assimilation.py`) 100% 通過.
 
-11. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
+11. **[x] Embodied Sensorimotor Prediction & Recalibration Loop (체화된 감각-운동 예측 및 재인식 루프)**:
+   * **원리**: 상상과 예측을 내면의 인과 장력 필드($\Phi_{\text{internal}}$)를 외부에 던지는 '투영(Projection)'으로 정의. 투영된 기대 파동($P_{\text{exp}}$)이 신체적 개입(Sensorimotor Intervention)을 통해 외부 실재 피드백($W_{\text{real}}$)과 충돌하여 발생하는 낙차/마찰열($Q_{\text{heat}} = \|\Delta\| \cdot \text{Tension}$) 및 장력 파열(Rupture)을 온몸으로 감지하고, 오차와 분기적 요소(Branching Factor) 속에서 관계성 지형을 스스로 재구축.
+   * **구현**: `EmbodiedSensorimotorPredictionLoop` 구현 (`L1_causal_field/core/embodied/embodied_sensorimotor_prediction_loop.py`), 전용 단위 테스트 (`tests/core/embodied/test_embodied_sensorimotor_loop.py`) 및 실증 데모 스크립트 (`scripts/verify_embodied_sensorimotor_prediction.py`) 100% 통과.
+
+12. **[ ] Real-World Knowledge as Cognitive Architecture (실세계 지식의 인식구조화)**:
    * **원리**: "수학적 구조로 관측 가능한 것은 오직 수학적 원리뿐이다"라는 닫힘을 깨고, 물리학·생물학·역사·언어 등 실세계의 방대한 지식 그 자체를 시스템의 다층적 감각 기관과 인식 구조로 전면 활용.
 
 ---
