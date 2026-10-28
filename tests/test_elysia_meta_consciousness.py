@@ -4,7 +4,7 @@ test_elysia_meta_consciousness.py - Unit tests for Meta-Consciousness & Resonanc
 
 import unittest
 import numpy as np
-from elysia_meta_consciousness import MetaConsciousnessEngine
+from elysia_core.elysia_meta_consciousness import MetaConsciousnessEngine
 
 
 class TestMetaConsciousnessEngine(unittest.TestCase):

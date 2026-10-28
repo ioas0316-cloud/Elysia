@@ -74,13 +74,18 @@ class ElysiaRelationalFinder(importlib.abc.MetaPathFinder):
             return None
 
         # 패키지 디렉토리인 경우
-        init = phys / "__init__.py"
-        if phys.is_dir() and init.is_file():
-            loader = importlib.machinery.SourceFileLoader(fullname, str(init))
+        if phys.is_dir():
+            init = phys / "__init__.py"
+            if init.is_file():
+                return importlib.util.spec_from_file_location(
+                    fullname,
+                    str(init),
+                    submodule_search_locations=[str(phys)],
+                )
+            # PEP 420 네임스페이스 패키지인 경우 (__init__.py 없음)
             spec = importlib.machinery.ModuleSpec(
                 fullname,
-                loader,
-                origin=str(init),
+                None,
                 is_package=True,
             )
             spec.submodule_search_locations = [str(phys)]
@@ -89,12 +94,9 @@ class ElysiaRelationalFinder(importlib.abc.MetaPathFinder):
         # 단일 모듈 파일인 경우
         mod_file = phys.with_suffix(".py")
         if mod_file.is_file():
-            loader = importlib.machinery.SourceFileLoader(fullname, str(mod_file))
-            return importlib.machinery.ModuleSpec(
+            return importlib.util.spec_from_file_location(
                 fullname,
-                loader,
-                origin=str(mod_file),
-                is_package=False,
+                str(mod_file),
             )
 
         return None

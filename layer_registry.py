@@ -44,6 +44,7 @@ NAMESPACE_MAP: dict[str, str] = {
     "emulation":              "L3_interface/emulation",
 
     # ── L0: Substrate (하드웨어 · 네이티브 빌드 산출물) ─────────────
+    "mva":                    "L0_substrate/mva",
     # Python 바인딩이 빌드된 후 sys.modules에 직접 올라오므로
     # 여기서는 경로 참조 불필요. 빌드 경로는 setup.py가 관리.
 }

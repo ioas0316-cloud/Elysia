@@ -7,7 +7,7 @@ Unit tests for Retrocausal Epistemic Rupture Engine & Integrated Meta-Consciousn
 import unittest
 import numpy as np
 from core.consciousness.retrocausal_epistemic_rupture import RetrocausalEpistemicRuptureEngine
-from elysia_meta_consciousness import MetaConsciousnessEngine
+from elysia_core.elysia_meta_consciousness import MetaConsciousnessEngine
 
 
 class TestRetrocausalEpistemicRupture(unittest.TestCase):

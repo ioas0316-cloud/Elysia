@@ -3,7 +3,8 @@ import unittest
 import numpy as np
 
 # Import custom modules
-import elysia_cl31_pybind
+import pytest
+elysia_cl31_pybind = pytest.importorskip('elysia_cl31_pybind')
 from elysia_engine.dynamic_metric_geodesic import DynamicMetricEnginePython, GeodesicIntegratorPython
 from elysia_engine.torus_exporter import TorusMeshExporterPython, TorusAttractorSimulatorPython
 

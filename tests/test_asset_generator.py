@@ -5,6 +5,7 @@ Unit and Integration Tests for Asset Generator Module.
 import os
 import pytest
 import numpy as np
+pytest.importorskip('trimesh')
 from modules.asset_generator.sheet_processor import SheetProcessor, generate_synthetic_sheet
 from modules.asset_generator.mesh_reconstructor import MeshReconstructor
 from modules.asset_generator.blender_auto_rig import BlenderAutoRigger

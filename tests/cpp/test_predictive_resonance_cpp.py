@@ -3,7 +3,8 @@ Unit test for C++ predictive resonance extension.
 """
 
 import torch
-import predictive_resonance_cpp
+import pytest
+predictive_resonance_cpp = pytest.importorskip('predictive_resonance_cpp')
 
 def test_predictive_resonance_cpp_extension():
     dim = 16

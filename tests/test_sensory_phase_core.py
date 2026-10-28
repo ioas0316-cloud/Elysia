@@ -1,7 +1,7 @@
 import pytest
 import math
 import torch
-import elysia_phase_lock_cuda as eplc
+eplc = pytest.importorskip('elysia_phase_lock_cuda')
 
 def test_sensory_phase_config_default():
     cfg = eplc.SensoryPhaseConfig()
