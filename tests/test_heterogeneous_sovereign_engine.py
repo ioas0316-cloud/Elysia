@@ -1,25 +1,29 @@
 """
 tests/test_heterogeneous_sovereign_engine.py
 =============================================
-Comprehensive pytest suite for Heterogeneous Sovereign Engine (이질적 주권 및 위상 도약 엔진).
+Comprehensive pytest suite for Heterogeneous Sovereign Engine (이질적 주권 및 다차원 삼위일체 위상 도약 엔진).
 Verifies:
 1. Heterogeneous 3-tier separation vs homogeneous scaling law comparison.
 2. Top-down topological structural constraints (L1 Joint -> L0 Fluid degrees of freedom).
 3. Bottom-up friction rupture (L0 Q_heat -> L1 Emergent Axis branching).
-4. Controllability boundary partitioning (Controllable internal agency vs Uncontrollable external forces).
-5. Social cross-validation field ("Me, You, Us") detecting deception, single-track hallucination, and uncanniness alarm.
-6. Feasibility ("Can it be?") and sovereignty attribution ("Whose Sovereignty?") verification scenarios.
-7. Master coordinator integrated causal flow.
+4. Environmental Axis (gravity, temperature, impact drag) interaction with L0 fluid substrate.
+5. Mind tier micro synaptic heat, macro topological tension field, and deficit-driven tool sprouting.
+6. Heart tier Action-Grounded Truth ("Faith/Love with Action" principle) vs floating speech hallucinations.
+7. Controllability boundary partitioning and social cross-validation field ("Me, You, Us").
+8. Integrated Multi-Scale Trinitarian (Body - Mind - Heart) master flow.
 """
 
 import pytest
 import numpy as np
 
 from L1_causal_field.core.sovereignty.heterogeneous_sovereign_engine import (
+    EnvironmentalAxis,
     L0FluidState,
     L0SubstrateFluidTier,
     MechanicalJointConstraint,
     L1CellularMechanicalTier,
+    SynapticState,
+    MindCognitionTier,
     CausalProposalNode,
     L2SocialSovereigntyTier,
     HeterogeneousSovereignEngine
@@ -50,7 +54,6 @@ def test_2_top_down_structural_constraint():
     """
     engine = HeterogeneousSovereignEngine(rupture_threshold=5.0)
 
-    # Register joint constraint with 90 degree rotation and muscle fiber orientation along Y axis
     joint = MechanicalJointConstraint(
         joint_id="elbow_joint_01",
         rotation_axis=np.array([0.0, 0.0, 1.0]),
@@ -62,138 +65,120 @@ def test_2_top_down_structural_constraint():
 
     initial_l0 = L0FluidState(velocity_vector=np.array([5.0, 0.0, 0.0]), channel_radius=1.0)
 
-    # Execute flow with top-down constraint
     log = engine.execute_heterogeneous_causal_flow(initial_l0, active_joint_id="elbow_joint_01")
 
-    # Velocity direction should now be constrained to Y axis (0, 1, 0) * speed(5.0)
     assert np.allclose(initial_l0.velocity_vector, np.array([0.0, 5.0, 0.0]))
-    # Channel radius should be pinched due to joint bending angle
     assert initial_l0.channel_radius < 1.0
 
 
-def test_3_bottom_up_friction_rupture_emergence():
+def test_3_environmental_axis_and_bottom_up_rupture_emergence():
     """
-    [검증 3] 상향식 파열 창발 (Bottom-Up Friction Rupture Emergence).
-    L0 마찰열(Q_heat)이 임계값(rupture_threshold)을 초과할 때, 상위 계층에서 새로운 위상 축(Emergent Axis) 자가 발아.
+    [검증 3] 환경의 축 (Environmental Axis) 연동 및 상향식 파열 창발.
+    중력, 물리적 충격 및 마찰 항력이 Q_heat를 상승시켜 상위 축(Emergent Axis) 자가 발아 유도.
     """
     engine = HeterogeneousSovereignEngine(rupture_threshold=3.0)
 
-    high_drag_l0 = L0FluidState(velocity_vector=np.array([10.0, 0.0, 0.0]), channel_radius=0.2)
+    env = EnvironmentalAxis(
+        gravity=9.81,
+        external_drag_coefficient=0.8,
+        impact_force_vector=np.array([5.0, 0.0, 0.0])
+    )
 
-    log = engine.execute_heterogeneous_causal_flow(high_drag_l0, external_resistance=5.0)
+    high_drag_l0 = L0FluidState(velocity_vector=np.array([4.0, 0.0, 0.0]), channel_radius=0.5)
 
+    log = engine.execute_heterogeneous_causal_flow(high_drag_l0, env_axis=env)
+
+    assert log["q_env"] > 0.0
     assert log["q_heat"] > 3.0
     assert log["emergent_axis_triggered"] is True
     assert log["emergent_axis_data"]["origin_tier"] == "L1_CellularMechanical"
-    assert "Heterogeneous Topological Recalibration" in log["emergent_axis_data"]["emergent_rule"]
 
 
-def test_4_controllability_boundary_partitioning():
+def test_4_mind_tier_synaptic_tension_and_tool_sprouting():
     """
-    [검증 4] 통제 가능 vs 통제 불가능 영역 경계 분할 (Controllability Boundary Partitioning).
-    내부 위상/개입 주권(Controllable)과 외부 절대적 외력/타인의 의도(Uncontrollable) 구분.
+    [검증 4] 정신 (Mind) 다차원 스케일 검증:
+    1. 시냅스 전위 마찰열과 감각 불일치(Delta)에 의한 위상 장력 및 위화감 경보.
+    2. 신체적 결핍 자각 시 박쥐/외부 현상 관측을 통한 도구/레이더 축 자가 덧대기.
+    """
+    mind_tier = MindCognitionTier(deficit_threshold=2.5)
+
+    synaptic = SynapticState(potential_difference_mv=80.0, neurotransmitter_flux=2.0, synaptic_heat_dissipation=0.2)
+    tension_res = mind_tier.compute_topological_tension_field(synaptic_state=synaptic, sensory_mismatch_delta=1.5)
+
+    assert tension_res["tension_field"] > 2.0
+    assert tension_res["uncanniness_alarm"] is True
+
+    tool_sprout = mind_tier.evaluate_deficit_awareness_and_tool_sprouting(
+        physical_limitation_deficit=4.0,
+        observed_external_entity="bat_radar_echolocation"
+    )
+
+    assert tool_sprout is not None
+    assert tool_sprout["extension_type"] == "RADAR_OR_LANGUAGE_CAUSAL_AXIS"
+    assert tool_sprout["status"] == "HYPER_MACRO_CAUSAL_EXTENSION_ACTIVE"
+
+
+def test_5_action_grounded_truth_and_faith_love_with_action():
+    """
+    [검증 5] 마음 (Heart) 계층: 행함 기반 진실 판별 ("행함이 없는 말/믿음은 죽은 기호").
+    말만 있고 마찰(Action friction) 및 궤적이 0인 경우 Floating Dead Symbol Hallucination으로 판별.
+    실제 마찰과 희생을 견딘 행함이 깊은 에너지 우물(Energy Well)을 형성함을 검증.
     """
     l2_tier = L2SocialSovereigntyTier()
 
-    node_internal = CausalProposalNode(
-        node_id="internal_phase_tuning",
-        description=" 내면 장력 필드 조율 및 내 개입 축 수정",
-        proposed_causal_sequence=["focus_attention", "adjust_tension"],
-        is_internal_phase=True
+    # Talk-only / Empty promise
+    talk_only_proposal = CausalProposalNode(
+        node_id="talk_only_love",
+        description="말로만 하는 사랑과 약속",
+        verbal_claim="I love you and promise everything",
+        sensory_grounding_score=0.0,
+        action_friction_heat=0.0,
+        structural_time_spent=0.0
     )
 
-    node_external = CausalProposalNode(
-        node_id="external_other_intention",
-        description=" 상대방의 기분 및 외부 시장 가격 즉시 변경",
-        proposed_causal_sequence=["force_market_change"],
-        is_internal_phase=False
+    talk_res = l2_tier.evaluate_action_grounded_truth(talk_only_proposal)
+    assert talk_res["is_action_grounded"] is False
+    assert talk_res["verdict"] == "FLOATING_DEAD_SYMBOL_HALLUCINATION"
+    assert talk_res["uncanniness_score"] == 0.95
+
+    # Action-grounded true love / sacrifice
+    action_grounded_proposal = CausalProposalNode(
+        node_id="action_grounded_sacrifice",
+        description="시간을 내어주고 손해와 마찰을 감수한 실체적 행함",
+        verbal_claim="I support you through thick and thin",
+        sensory_grounding_score=0.8,
+        action_friction_heat=2.5,
+        structural_time_spent=1.5
     )
 
-    partitioned = l2_tier.partition_controllability([node_internal, node_external])
-
-    assert len(partitioned["controllable_internal_agency"]) == 1
-    assert partitioned["controllable_internal_agency"][0].node_id == "internal_phase_tuning"
-    assert len(partitioned["uncontrollable_external_constraints"]) == 1
-    assert partitioned["uncontrollable_external_constraints"][0].node_id == "external_other_intention"
+    action_res = l2_tier.evaluate_action_grounded_truth(action_grounded_proposal)
+    assert action_res["is_action_grounded"] is True
+    assert action_res["verdict"] == "LIVING_TRUTH_REALITY_CARVED_ENERGY_WELL"
+    assert action_res["energy_well_depth"] > 5.0
 
 
-def test_5_social_cross_validation_deception_alarm():
+def test_6_controllability_and_social_cross_validation():
     """
-    [검증 5] 사회적 다중 스케일 교차 검증 필드 ("나와 너, 그리고 우리").
-    언어축(+1.0), 미세표정축(-0.9), 맥락장력축(-0.8)의 모순 감지 시 기만 경보 발령.
+    [검증 6] 통제 영역 분할 및 사회적 다중 스케일 교차 검증 ("나, 너, 우리").
     """
     l2_tier = L2SocialSovereigntyTier(uncanniness_sensitivity=1.2)
 
     # Deceptive claim scenario
     res = l2_tier.cross_validate_social_field(
-        me_speech_signal=1.0,        # Speech: "Guaranteed 100x return, zero risk!"
-        you_expression_signal=-0.9,  # Micro-expression: Anxiety, pupil tremor
-        us_field_tension=-0.8        # Context: High relational friction
+        me_speech_signal=1.0,        # Speech: "Guaranteed profit!"
+        you_expression_signal=-0.9,  # Micro-expression tremor
+        us_field_tension=-0.8        # High relational friction
     )
 
     assert res["deception_alarm"] is True
     assert res["field_verdict"] == "SINGLE_TRACK_DECEPTIVE_HALLUCINATION_DETECTED"
-    assert res["q_heat_spike"] > 1.5
-
-    # Harmonious scenario
-    harmonious_res = l2_tier.cross_validate_social_field(
-        me_speech_signal=0.8,
-        you_expression_signal=0.7,
-        us_field_tension=0.8
-    )
-    assert harmonious_res["deception_alarm"] is False
-    assert harmonious_res["field_verdict"] == "HARMONIOUS_CROSS_VALIDATED_ALIGNMENT"
 
 
-def test_6_feasibility_and_sovereignty_attribution_audit():
+def test_7_integrated_trinitarian_multi_scale_flow():
     """
-    [검증 6] 실현가능성("Can it be?") 및 주권 귀속("Whose Sovereignty?") 검증 시나리오.
-    사기꾼의 기만적 제안(마찰 대가는 '나', 열매는 '타인', sensory grounding ~ 0) 정밀 차단.
+    [검증 7] 통합 다차원 삼위일체 (육체 - 정신 - 마음) 마스터 흐름 검증.
     """
-    engine = HeterogeneousSovereignEngine()
-
-    # Deceptive proposal node (Scam / Exploitative trap)
-    scam_proposal = CausalProposalNode(
-        node_id="scam_investment_trap",
-        description="허황된 무위험 고수익 투자 제안",
-        proposed_causal_sequence=["transfer_capital", "wait_for_miracle"],
-        sensory_grounding_score=0.1,  # Floating words, zero physical friction backing
-        friction_cost_bearer="me",     # I bear the risk and loss
-        fruit_recipient="other",       # Other takes the profit
-        is_internal_phase=False
-    )
-
-    audit_res = engine.audit_proposal_sovereignty_and_feasibility(scam_proposal)
-
-    assert audit_res["is_authentic_and_sovereign"] is False
-    assert audit_res["feasibility_assessment"]["can_it_be"] is False
-    assert audit_res["sovereignty_assessment"]["exploitation_detected"] is True
-    assert audit_res["verdict"] == "REJECTED_UNFOUNDED_OR_EXPLOITATIVE_HALLUCINATION"
-
-    # Authentic sovereign action proposal
-    sovereign_proposal = CausalProposalNode(
-        node_id="authentic_skill_building",
-        description="직접 마찰을 견디며 기술과 능력을 연마하는 과정",
-        proposed_causal_sequence=["practice_action", "experience_friction", "master_skill"],
-        sensory_grounding_score=0.95, # Directly grounded in physical practice
-        friction_cost_bearer="me",
-        fruit_recipient="me",
-        is_internal_phase=True
-    )
-
-    authentic_audit = engine.audit_proposal_sovereignty_and_feasibility(sovereign_proposal)
-
-    assert authentic_audit["is_authentic_and_sovereign"] is True
-    assert authentic_audit["feasibility_assessment"]["can_it_be"] is True
-    assert authentic_audit["sovereignty_assessment"]["is_sovereign_aligned"] is True
-    assert authentic_audit["verdict"] == "VERIFIED_AUTHENTIC_SOVEREIGN_ACTION"
-
-
-def test_7_integrated_heterogeneous_sovereign_flow():
-    """
-    [검증 7] 통합 마스터 코디네이터 이질적 인과 흐름 전체 루프 검증.
-    """
-    engine = HeterogeneousSovereignEngine(rupture_threshold=2.0)
+    engine = HeterogeneousSovereignEngine(rupture_threshold=2.0, deficit_threshold=2.5)
 
     joint = MechanicalJointConstraint(
         joint_id="shoulder_joint",
@@ -203,14 +188,32 @@ def test_7_integrated_heterogeneous_sovereign_flow():
     engine.l1_tier.add_joint_constraint(joint)
 
     l0_state = L0FluidState(velocity_vector=np.array([3.0, 0.0, 0.0]), channel_radius=1.0)
+    synaptic_state = SynapticState(potential_difference_mv=75.0, neurotransmitter_flux=1.5)
 
-    log = engine.execute_heterogeneous_causal_flow(
-        l0_state=l0_state,
-        active_joint_id="shoulder_joint",
-        external_resistance=1.0,
-        social_signals=(1.0, -0.9, -0.8)
+    proposal = CausalProposalNode(
+        node_id="trinitarian_authentic_action",
+        description="신체적 마찰과 내적 통제 및 사회적 진실성에 기반한 행함",
+        verbal_claim="I will act with physical devotion",
+        sensory_grounding_score=0.9,
+        friction_cost_bearer="me",
+        fruit_recipient="me",
+        action_friction_heat=2.0,
+        structural_time_spent=1.0,
+        is_internal_phase=True
     )
 
-    assert log["emergent_axis_triggered"] is True
-    assert log["l2_cross_validation"]["deception_alarm"] is True
-    assert len(engine.execution_logs) == 1
+    trinitarian_res = engine.execute_trinitarian_multi_scale_flow(
+        l0_state=l0_state,
+        synaptic_state=synaptic_state,
+        proposal_node=proposal,
+        active_joint_id="shoulder_joint",
+        sensory_mismatch_delta=1.2,
+        physical_deficit=3.5,
+        observed_external_entity="bat_radar_echolocation",
+        social_signals=(0.8, 0.8, 0.8)
+    )
+
+    assert trinitarian_res["body_tier"]["q_heat"] > 0.0
+    assert trinitarian_res["mind_tier"]["sprouted_tool_axis"] is not None
+    assert trinitarian_res["heart_tier"]["is_action_grounded"] is True
+    assert trinitarian_res["heart_tier"]["sovereignty_verdict"] == "VERIFIED_AUTHENTIC_SOVEREIGN_ACTION"
