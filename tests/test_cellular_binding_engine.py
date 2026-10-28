@@ -11,6 +11,15 @@ Comprehensive test suite for the Cellular Binding Engine:
    - Tests unconstrained imagination (counterfactual re-binding of tiger core + wing spectrum).
    - Verifies causal sequence preservation ([PROJECTION -> INTERVENTION -> FRICTION -> RECOGNITION]).
    - Tests topological refinement of vague imaginations into vivid energy wells.
+4. "Dream & Relaxation State" Zero-Friction Topological Drift Mode:
+   - Verifies external friction resistance W_real = 0 and Q_heat = 0.
+   - Verifies zero-friction drift without structural rupture or errors.
+5. "Multi-Scale Coupled Variational System" Framework:
+   - Tests local Lagrangians (RBC, WBC, Eye, Brain) and coupling tensor Gamma_ij.
+   - Verifies S_total = sum(L_i) + sum(Gamma_ij * <phi_i, phi_j>).
+6. "Incongruity / Uncanniness Alarm (위화감 감지)":
+   - Tests multi-axis conflict (auditory positive vs visual tremor/anxiety vs context tension).
+   - Verifies Q_heat friction spike generation and dynamic spurring of "axis_incongruity_intuition".
 """
 
 import sys
@@ -27,9 +36,13 @@ from L1_causal_field.core.cellular_boundary.cellular_binding_engine import (
     AttributeAxis,
     DisentangledManifold,
     TensionFrictionTensorField,
+    CellularBindingNode,
     DynamicBranchingEngine,
     TopologicalRefinementEngine,
     TransjectiveVirtualSandbox,
+    DreamStateEngine,
+    CoupledMultiScaleVariationalSystem,
+    IncongruityDetector,
     CellularBindingEngine
 )
 
@@ -158,9 +171,96 @@ def test_transjective_virtual_sandbox_imagination():
     assert recog_step["final_vividness"] > proj_step["initial_vividness"]
 
 
+def test_dream_state_zero_friction_topological_drift():
+    """
+    [검증 4: 꿈 & 이완 표류 모드 (Dream State Zero-Friction Drift)]
+    - 외부 마찰 저항 W_real = 0, Q_heat = 0
+    - 세포 결합 노드 및 속성 축들이 저항 없이 자유 무중력 표류.
+    - 비합리적 변화가 발생해도 structural_rupture = False, error_rate = 0.0 보장.
+    """
+    engine = CellularBindingEngine()
+
+    core = InvariantCore("dreamer_core", 3, np.array([1.0, 1.0, 1.0]))
+    manifold = DisentangledManifold("dream_manifold", core)
+
+    flying_axis = AttributeAxis("flying_spectrum", "Levitation Axis", value=0.5, spectrum_range=(-10.0, 10.0))
+    face_axis = AttributeAxis("father_face_spectrum", "Father Face Shift", value=0.0, spectrum_range=(-5.0, 5.0))
+    manifold.add_attribute_axis(flying_axis)
+    manifold.add_attribute_axis(face_axis)
+
+    engine.register_manifold(manifold)
+
+    nodes = [CellularBindingNode(f"node_{i}", position=np.array([0.0, 0.0, 0.0])) for i in range(3)]
+
+    dream_res = engine.drift_in_dream_state("dream_manifold", steps=5, coupling_nodes=nodes)
+
+    assert dream_res["dream_mode"] is True
+    assert dream_res["external_friction"] == 0.0
+    assert dream_res["q_heat"] == 0.0
+    assert dream_res["structural_rupture"] is False
+    assert dream_res["error_rate"] == 0.0
+    assert len(dream_res["drift_history"]) == 5
+
+
+def test_multi_scale_coupled_variational_system():
+    """
+    [검증 5: 다중 스케일 결합 변분 원리 (Multi-Scale Coupled Variational System)]
+    - 각 국소 최소 작용 L_i (RBC, WBC, Eye, Brain) 계산
+    - 세포 결합 커플링 텐서 Gamma_ij 계산
+    - 전역 작용 S_total = sum(L_i) + sum(Gamma_ij * <phi_i, phi_j>) 검증
+    """
+    system = CoupledMultiScaleVariationalSystem()
+
+    module_states = {
+        "rbc_drag": np.array([1.2, 0.5, 0.8]),
+        "wbc_search": np.array([0.4, 1.5, 0.2]),
+        "eye_compression": np.array([2.0, 0.1, 1.1]),
+        "brain_free_energy": np.array([0.1, 0.2, 0.3])
+    }
+
+    res = system.compute_total_action(module_states)
+
+    assert "s_total" in res
+    assert "local_actions" in res
+    assert len(res["local_actions"]) == 4
+    assert res["coupling_energy"] > 0.0
+    assert res["s_total"] == res["sum_local_actions"] + res["coupling_energy"]
+
+
+def test_incongruity_uncanniness_detection_and_branching():
+    """
+    [검증 6: 위화감 (Incongruity / Uncanniness Alarm) 및 동적 축 발아]
+    - 청각(말: "괜찮아", +1.0) vs 시각(표정 떨림/불안, -0.9) vs 맥락 장력(-0.8) 충돌
+    - Q_heat 스파이크 발생 및 위화감 직관 축("axis_incongruity_intuition") 자가 발아.
+    """
+    engine = CellularBindingEngine()
+
+    core = InvariantCore("social_perception_core", 2, np.array([1.0, 1.0]))
+    manifold = DisentangledManifold("social_manifold", core)
+    engine.register_manifold(manifold)
+
+    auditory_val = 1.0   # "I'm fine" (Positive words)
+    visual_val = -0.9    # Micro-expression tremor (Anxiety)
+    context_val = -0.8   # Heavy atmosphere
+
+    inc_res = engine.detect_and_handle_incongruity(
+        manifold_id="social_manifold",
+        auditory_val=auditory_val,
+        visual_val=visual_val,
+        context_val=context_val
+    )
+
+    assert inc_res["incongruity_detected"] is True
+    assert inc_res["q_heat_spike"] > 1.0
+    assert inc_res["status"] == "UNCAUGHT_DECEPTIVE_INCONGRUITY_ALARM"
+    assert "spurred_axes" in inc_res
+    assert "axis_incongruity_intuition" in manifold.attribute_axes
+    assert "axis_deception_sensitivity" in manifold.attribute_axes
+
+
 def test_tension_friction_tensor_field_physics():
     """
-    [검증 4: 장력-마찰 텐서 필드 물리적 보존성]
+    [검증 7: 장력-마찰 텐서 필드 물리적 보존성]
     - 내면의 장력 텐서(Phi_internal) 및 누적 충격열(Q_heat) 보존 테스트.
     """
     field = TensionFrictionTensorField(dimension=3)
