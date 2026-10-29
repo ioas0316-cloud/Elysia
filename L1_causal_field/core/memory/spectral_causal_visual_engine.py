@@ -309,6 +309,204 @@ class ToroidalVortexVisualInterpolator:
         }
 
 
+class InvariantArchetypeBackbone:
+    """
+    [인과정보 불변 원형 뼈대 (Invariant Archetype Backbone)]
+    무(無) 위에서는 어떤 시공간 로터나 지구본도 회전할 수 없습니다.
+    본 클래스는 정적 파일 조회를 완제하고, 시스템 내면에 박혀있는 불변의 질서 원형(Archetype),
+    위상적 불변성 수식, 생성 파라미터(Theta) 및 경계 연산자(Delta)를 관리하는 기준계(Reference Frame) 역할을 합니다.
+    """
+    def __init__(
+        self,
+        archetype_name: str = "SpatiotemporalArchetype",
+        reference_dimension: Tuple[int, int] = (64, 64),
+        harmonic_frequencies: Optional[List[float]] = None,
+    ):
+        self.archetype_name = archetype_name
+        self.reference_dimension = reference_dimension
+        self.harmonic_frequencies = harmonic_frequencies or [1.0, 2.0, 3.0, 5.0]
+
+        # 불변 기하학적 뼈대 레퍼런스 위상 장 (Spherical Harmonic Reference Surface)
+        self.reference_manifold = self._generate_reference_archetype_surface()
+
+    def _generate_reference_archetype_surface(self) -> np.ndarray:
+        h, w = self.reference_dimension
+        lat = np.linspace(-np.pi / 2, np.pi / 2, h)
+        lon = np.linspace(-np.pi, np.pi, w)
+        lon_grid, lat_grid = np.meshgrid(lon, lat)
+
+        surface = np.zeros((h, w), dtype=np.float64)
+        for i, freq in enumerate(self.harmonic_frequencies):
+            weight = 1.0 / (i + 1)
+            surface += weight * np.sin(freq * lon_grid) * np.cos(freq * lat_grid)
+
+        # Normalize to [0, 1]
+        s_min, s_max = np.min(surface), np.max(surface)
+        if s_max > s_min:
+            surface = (surface - s_min) / (s_max - s_min)
+        return surface
+
+    def evaluate_structural_deviation(self, incoming_field: np.ndarray) -> Dict[str, Any]:
+        """
+        [기준계 대비 구조적 편차 및 마찰 평가]
+        입력된 파동 장과 불변 원형 뼈대 간의 위상적 편차, 마찰 및 불변율(Invariance Ratio) 계산.
+        """
+        field = np.asarray(incoming_field, dtype=np.float64)
+        if field.ndim == 3 and field.shape[-1] == 3:
+            spectral_transform = SpectralAxisTransform()
+            field = spectral_transform.project_to_spectral_axis(field)
+
+        # Bilinear scale matching to reference shape
+        h_ref, w_ref = self.reference_dimension
+        if field.shape != (h_ref, w_ref):
+            interpolator = ToroidalVortexVisualInterpolator()
+            scaled_field = interpolator._bilinear_upsample_2d(field, h_ref, w_ref)
+        else:
+            scaled_field = field
+
+        diff = scaled_field - self.reference_manifold
+        deviation_magnitude = float(np.mean(np.abs(diff)))
+        structural_alignment = max(0.0, 1.0 - deviation_magnitude)
+
+        # Gradient friction between field and archetype
+        grad_diff = np.gradient(diff)
+        grad_mag = np.sqrt(sum(g**2 for g in grad_diff))
+        archetype_friction_heat = float(np.sum(grad_mag ** 1.5))
+
+        return {
+            "archetype_name": self.archetype_name,
+            "deviation_magnitude": deviation_magnitude,
+            "structural_alignment": structural_alignment,
+            "archetype_friction_heat": archetype_friction_heat,
+            "reference_manifold_shape": self.reference_manifold.shape,
+        }
+
+    def synthesize_generative_waveform(
+        self,
+        rotation_angle: float = 0.0,
+        modulation_factor: float = 1.0,
+        output_shape: Optional[Tuple[int, int]] = None,
+    ) -> np.ndarray:
+        """
+        [동형적 파형 생리적 재조합 (Living Generative Reconstruction)]
+        SSD 파일 로딩 대신, 원형 뼈대 수식과 회전 각도를 바탕으로 실시간 파동을 직조.
+        """
+        h_out, w_out = output_shape if output_shape else self.reference_dimension
+        lat = np.linspace(-np.pi / 2, np.pi / 2, h_out)
+        lon = np.linspace(-np.pi, np.pi, w_out)
+        lon_grid, lat_grid = np.meshgrid(lon, lat)
+
+        # Apply spatiotemporal rotation angle shift
+        shifted_lon = lon_grid + rotation_angle
+        waveform = np.zeros((h_out, w_out), dtype=np.float64)
+
+        for i, freq in enumerate(self.harmonic_frequencies):
+            weight = 1.0 / (i + 1)
+            waveform += weight * np.sin(freq * shifted_lon) * np.cos(freq * lat_grid * modulation_factor)
+
+        w_min, w_max = np.min(waveform), np.max(waveform)
+        if w_max > w_min:
+            waveform = (waveform - w_min) / (w_max - w_min)
+        return waveform
+
+
+class SpatiotemporalGlobeRotorEngine:
+    """
+    [시공간 로터 및 지구본 위상 매니폴드 엔진 (Spatiotemporal Globe Rotor Engine)]
+    4K/8K 고해상도 이미지 또는 영상 프레임을 단순 2D 픽셀 슬라이스가 아닌,
+    회전하는 구면/토로이달 시공간 위상 매니폴드 Phi(theta, phi, t)로 다룹니다.
+    불변 원형 뼈대(InvariantArchetypeBackbone)를 기준계로 삼아 4K/8K 연속 스케일 회전 및 생리적 재조합 수행.
+    """
+    def __init__(
+        self,
+        archetype_backbone: Optional[InvariantArchetypeBackbone] = None,
+        base_angular_velocity: float = 1.0,
+        vorticity_strength: float = 1.5,
+    ):
+        self.archetype = archetype_backbone or InvariantArchetypeBackbone()
+        self.rotor = ToroidalVortexRotorEngine(
+            base_rotational_velocity=base_angular_velocity,
+            vorticity_strength=vorticity_strength,
+        )
+        self.spectral_transform = SpectralAxisTransform()
+        self.angular_position = 0.0  # theta / t accumulator
+
+    def map_high_res_to_spatiotemporal_manifold(
+        self,
+        high_res_tensor: np.ndarray,
+        target_globe_res: Tuple[int, int] = (128, 256),
+    ) -> Dict[str, Any]:
+        """
+        [4K/8K 고해상도 장 -> 구면/토로이달 시공간 위상 매니폴드 사상]
+        4K(3840x2160) / 8K(7680x4320) 고해상도 텐서를 이산적 픽셀 뭉치로 허비하지 않고
+        연속 위상 표면 Phi(theta, phi)와 마찰열 Q_heat = |∇Phi|^1.5 로 매핑합니다.
+        """
+        tensor = np.asarray(high_res_tensor, dtype=np.float64)
+
+        # Spectral axis projection
+        spectral_surface = self.spectral_transform.project_to_spectral_axis(tensor)
+        continuity = self.spectral_transform.classify_spectral_continuity(spectral_surface)
+
+        # Structural evaluation against invariant archetype backbone
+        backbone_eval = self.archetype.evaluate_structural_deviation(spectral_surface)
+
+        # Globe Spherical manifold projection (latitude/longitude mapping)
+        h_g, w_g = target_globe_res
+        interpolator = ToroidalVortexVisualInterpolator(rotor_engine=self.rotor)
+
+        if spectral_surface.ndim == 2:
+            globe_manifold = interpolator._bilinear_upsample_2d(spectral_surface, h_g, w_g)
+        else:
+            globe_manifold = np.resize(spectral_surface, (h_g, w_g))
+
+        # Recycle friction heat into rotor angular velocity
+        q_heat_total = continuity["total_friction_heat"] + backbone_eval["archetype_friction_heat"]
+        recycle_res = self.rotor.recycle_friction_and_mismatch(
+            q_heat=q_heat_total * 0.05,
+            sensory_mismatch_delta=backbone_eval["deviation_magnitude"],
+            chromatic_triad=continuity["chromatic_triad"],
+        )
+
+        return {
+            "high_res_shape": tensor.shape,
+            "globe_manifold": globe_manifold,
+            "q_heat_total": q_heat_total,
+            "continuity_info": continuity,
+            "backbone_evaluation": backbone_eval,
+            "new_angular_velocity": recycle_res["new_rotational_velocity"],
+            "vorticity_strength": recycle_res["new_vorticity_strength"],
+        }
+
+    def step_spatiotemporal_rotation(
+        self,
+        dt: float = 0.1,
+        modulation_factor: float = 1.0,
+        output_shape: Optional[Tuple[int, int]] = None,
+    ) -> Dict[str, Any]:
+        """
+        [시공간 로터 회전 및 파형 생성적 직조]
+        시간 프레임 축을 회전 각도로 치환하여 시공간 지구본 매니폴드를 각운동량으로 순환.
+        """
+        angular_step = self.rotor.rotational_velocity * dt
+        self.angular_position = (self.angular_position + angular_step) % (2.0 * np.pi)
+
+        synthesized_wave = self.archetype.synthesize_generative_waveform(
+            rotation_angle=self.angular_position,
+            modulation_factor=modulation_factor,
+            output_shape=output_shape,
+        )
+
+        continuity = self.spectral_transform.classify_spectral_continuity(synthesized_wave)
+
+        return {
+            "angular_position": self.angular_position,
+            "rotational_velocity": self.rotor.rotational_velocity,
+            "synthesized_manifold": synthesized_wave,
+            "friction_heat_q": continuity["total_friction_heat"],
+            "chromatic_triad": continuity["chromatic_triad"],
+        }
+
+
 class CausalVisualReconstructionPipeline:
     """
     [인과적 시공간 영상/그래픽 복원 파이프라인 (Causal Visual Reconstruction Pipeline)]
@@ -318,6 +516,12 @@ class CausalVisualReconstructionPipeline:
         self.injector = LowResFieldInjector()
         self.rotor = ToroidalVortexRotorEngine(base_rotational_velocity=2.0, vorticity_strength=2.0)
         self.interpolator = ToroidalVortexVisualInterpolator(rotor_engine=self.rotor)
+        self.archetype_backbone = InvariantArchetypeBackbone()
+        self.globe_rotor = SpatiotemporalGlobeRotorEngine(
+            archetype_backbone=self.archetype_backbone,
+            base_angular_velocity=2.0,
+            vorticity_strength=2.0,
+        )
 
     def run_causal_reconstruction_pipeline(
         self,

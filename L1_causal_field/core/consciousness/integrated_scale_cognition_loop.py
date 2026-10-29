@@ -50,7 +50,11 @@ from L1_causal_field.core.physics.scale_weaving_bridge import (
     ScaleWeavingBridge,
     ChromaticFieldPropagator,
 )
-from L1_causal_field.core.memory.spectral_causal_visual_engine import SpectralAxisTransform
+from L1_causal_field.core.memory.spectral_causal_visual_engine import (
+    SpectralAxisTransform,
+    InvariantArchetypeBackbone,
+    SpatiotemporalGlobeRotorEngine,
+)
 from L1_causal_field.core.sovereignty.toroidal_vortex_rotor import ToroidalVortexRotorEngine
 from L1_causal_field.core.consciousness.conceptual_unit_system_engine import (
     ConceptualUnitSystemEngine,
@@ -67,6 +71,9 @@ class IntegratedCognitionResult:
     # 1. 감각 해체 결과
     spectral_manifold: Optional[np.ndarray] = None
     audio_phase_field: Optional[np.ndarray] = None
+    spatiotemporal_globe_manifold: Optional[np.ndarray] = None
+    synthesized_generative_waveform: Optional[np.ndarray] = None
+    archetype_alignment: float = 1.0
 
     # 2. 파형 환원 결과
     unified_waveform_field: Optional[UnifiedWaveformField] = None
@@ -159,12 +166,15 @@ class IntegratedScaleCognitionLoop:
         # 6. 색채 전파기
         self.chromatic_propagator = ChromaticFieldPropagator()
 
-        # 7. 스펙트럼 축 변환기, 와류 로터, 개념단위체계 엔진
+        # 7. 스펙트럼 축 변환기, 불변 원형 뼈대, 시공간 지구본 로터, 개념단위체계 엔진
         self.spectral_transform = SpectralAxisTransform()
-        self.vortex_rotor = ToroidalVortexRotorEngine(
-            base_rotational_velocity=1.5,
-            vorticity_strength=1.5
+        self.archetype_backbone = InvariantArchetypeBackbone()
+        self.globe_rotor_engine = SpatiotemporalGlobeRotorEngine(
+            archetype_backbone=self.archetype_backbone,
+            base_angular_velocity=1.5,
+            vorticity_strength=1.5,
         )
+        self.vortex_rotor = self.globe_rotor_engine.rotor
         self.conceptual_engine = ConceptualUnitSystemEngine(dimension=dim_micro)
 
         # 내부 상태
@@ -232,6 +242,16 @@ class IntegratedScaleCognitionLoop:
             chromatic_triad = np.array([0.4, 0.4, 0.2])
 
         result.friction_heat_q = q_heat
+
+        # 시공간 로터 지구본 매니폴드 사상 및 생리적 파형 직조
+        if rgb_image is not None and rgb_image.ndim >= 2:
+            globe_res = self.globe_rotor_engine.map_high_res_to_spatiotemporal_manifold(rgb_image)
+            result.spatiotemporal_globe_manifold = globe_res["globe_manifold"]
+            result.archetype_alignment = globe_res["backbone_evaluation"]["structural_alignment"]
+            q_heat += globe_res["q_heat_total"] * 0.01
+
+        step_rotor_res = self.globe_rotor_engine.step_spatiotemporal_rotation(dt=0.1)
+        result.synthesized_generative_waveform = step_rotor_res["synthesized_manifold"]
 
         # 와류 로터 마찰열 및 색채 재흡수
         recycle_res = self.vortex_rotor.recycle_friction_and_mismatch(
