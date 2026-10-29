@@ -25,6 +25,11 @@ from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional, Tuple, Union
 import numpy as np
 
+from L1_causal_field.core.sovereignty.toroidal_vortex_rotor import (
+    ToroidalVortexRotorEngine,
+    CoherentActionVector
+)
+
 
 # ==============================================================================
 # 1. 육체 (Body) Dimension: Multi-Scale Fluid, Joint & Environmental Axis
@@ -445,6 +450,9 @@ class HeterogeneousSovereignEngine:
         # Heart / Sovereignty Tier
         self.l2_tier = L2SocialSovereigntyTier()
 
+        # Toroidal Vortex Rotor Tier (수많은 눈과 날개: 위상 방어 및 원심고리 와류)
+        self.vortex_rotor = ToroidalVortexRotorEngine()
+
         self.execution_logs: List[Dict[str, Any]] = []
 
     def execute_heterogeneous_causal_flow(
@@ -537,6 +545,32 @@ class HeterogeneousSovereignEngine:
         action_truth = self.l2_tier.evaluate_action_grounded_truth(proposal_node)
         sovereignty_audit = self.audit_proposal_sovereignty_and_feasibility(proposal_node)
 
+        # 4. Toroidal Vortex Rotor Routing & Boundary Defense Flow
+        # Recycle Q_heat and sensory mismatch into rotational momentum
+        rotor_recycle_res = self.vortex_rotor.recycle_friction_and_mismatch(
+            q_heat=body_log["q_heat"],
+            sensory_mismatch_delta=sensory_mismatch_delta
+        )
+
+        # Process external stimulus and evaluate boundary guard
+        raw_input_energy = body_log["q_heat"] * 0.5
+        vorticity_defense_res = self.vortex_rotor.process_and_defend_stimulus(
+            raw_input_energy=raw_input_energy,
+            noise_level=0.2 if not mind_tension["uncanniness_alarm"] else 0.8,
+            verbal_signal=1.0 if proposal_node.verbal_claim else 0.0,
+            physical_friction=proposal_node.action_friction_heat,
+            sensory_mismatch_delta=sensory_mismatch_delta
+        )
+
+        # Condense into Coherent Action Vector if sovereign alignment achieved
+        target_dir = l0_state.velocity_vector if np.linalg.norm(l0_state.velocity_vector) > 1e-5 else np.array([1.0, 0.0, 0.0])
+        sovereignty_score = 1.0 if sovereignty_audit["is_authentic_and_sovereign"] else 0.1
+        coherent_action = self.vortex_rotor.condense_coherent_action_vector(
+            target_direction=target_dir,
+            sovereignty_score=sovereignty_score,
+            base_magnitude=action_truth["energy_well_depth"]
+        )
+
         trinitarian_summary = {
             "engine_id": self.engine_id,
             "body_tier": {
@@ -554,6 +588,13 @@ class HeterogeneousSovereignEngine:
                 "is_action_grounded": action_truth["is_action_grounded"],
                 "action_truth_verdict": action_truth["verdict"],
                 "sovereignty_verdict": sovereignty_audit["verdict"]
+            },
+            "vortex_rotor_tier": {
+                "rotational_velocity": rotor_recycle_res["new_rotational_velocity"],
+                "vorticity_strength": rotor_recycle_res["new_vorticity_strength"],
+                "eye_assessment": vorticity_defense_res["eye_assessment"],
+                "guard_assessment": vorticity_defense_res["guard_assessment"],
+                "coherent_action_vector": coherent_action
             }
         }
         return trinitarian_summary

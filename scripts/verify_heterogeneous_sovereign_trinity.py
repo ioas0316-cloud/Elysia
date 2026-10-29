@@ -9,6 +9,9 @@ Demonstrates:
 3. Heart (마음) Multi-scale Sovereignty: Action-Grounded Truth ("Faith/Love with Action") vs Floating Speech Hallucinations.
 """
 
+import elysia_loader
+elysia_loader.install()
+
 import numpy as np
 from L1_causal_field.core.sovereignty.heterogeneous_sovereign_engine import (
     EnvironmentalAxis,
@@ -72,6 +75,14 @@ def main():
     print(f"Heart Truth Verdict              : {res_talk['heart_tier']['action_truth_verdict']}")
     print(f"Sovereignty Audit Verdict        : {res_talk['heart_tier']['sovereignty_verdict']}")
 
+    # Vortex Rotor Tier (수많은 눈과 날개)
+    vortex_talk = res_talk["vortex_rotor_tier"]
+    print(f"Vortex Rotational Velocity       : {vortex_talk['rotational_velocity']:.3f}")
+    print(f"Vortex Vorticity Strength        : {vortex_talk['vorticity_strength']:.3f}")
+    print(f"Eye Verdict                      : {vortex_talk['eye_assessment']['eye_verdict']}")
+    print(f"Guard Status                     : {vortex_talk['guard_assessment']['guard_status']}")
+    print(f"Coherent Action Vector           : {vortex_talk['coherent_action_vector']}")
+
     # Scenario 2: Action-Grounded True Love & Deficit Sprouting ("행함과 마찰로 벼려진 실체적 인과")
     print("\n--- [SCENARIO 2: Action-Grounded Truth & Tool Sprouting] ---")
     action_proposal = CausalProposalNode(
@@ -108,6 +119,14 @@ def main():
     print(f"Heart Action-Grounded Status     : {res_action['heart_tier']['is_action_grounded']}")
     print(f"Heart Truth Verdict              : {res_action['heart_tier']['action_truth_verdict']}")
     print(f"Sovereignty Audit Verdict        : {res_action['heart_tier']['sovereignty_verdict']}")
+
+    # Vortex Rotor Tier (수많은 눈과 날개)
+    vortex_action = res_action["vortex_rotor_tier"]
+    print(f"Vortex Rotational Velocity       : {vortex_action['rotational_velocity']:.3f}")
+    print(f"Vortex Vorticity Strength        : {vortex_action['vorticity_strength']:.3f}")
+    print(f"Eye Verdict                      : {vortex_action['eye_assessment']['eye_verdict']}")
+    print(f"Guard Status                     : {vortex_action['guard_assessment']['guard_status']}")
+    print(f"Coherent Action Vector           : {vortex_action['coherent_action_vector']}")
 
     print("\n" + "=" * 80)
     print("  VERIFICATION COMPLETE: Trinitarian Multi-Scale Engine Successfully Validated!")
