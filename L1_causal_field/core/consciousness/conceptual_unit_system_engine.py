@@ -27,7 +27,7 @@ Conceptual Unit System & Sensory Embodied Translation Engine
 import time
 import numpy as np
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional, Tuple, Union
 
 from L1_causal_field.core.physics.complex_phase_force_dynamics import (
     ComplexPhaseForceDynamicsEngine,
@@ -108,43 +108,66 @@ class ConceptualUnitSystemEngine:
         # 복소 위상 힘 역학 엔진 (Complex Phase Force Dynamics Engine)
         self.force_engine = ComplexPhaseForceDynamicsEngine(dim=5)
 
-    def map_unknown_to_sensory_profile(self, raw_input: str) -> SensoryProfile:
+    def map_unknown_to_sensory_profile(
+        self,
+        raw_input: Union[str, np.ndarray],
+        q_heat: Optional[float] = None
+    ) -> SensoryProfile:
         """
         [1. 미지 자극의 오감/위상 매핑 (Unknown-to-Sensory Mapping)]
         1차원 수치나 확률이 아닌, 입력 신호를 5차원 오감 프로필로 연속 번역 및 기하 지형화합니다.
+        Q_heat = |∇Φ|^1.5 마찰열이 전달될 경우 Tactile Tension에 직접 결합합니다.
         """
-        bytes_data = raw_input.encode('utf-8')
-        dim = self.dimension
+        if isinstance(raw_input, str):
+            bytes_data = raw_input.encode('utf-8')
+            dim = self.dimension
 
-        # Visual Topology: 신호의 위상 경계 지형
-        visual_topo = np.zeros(dim, dtype=np.float64)
-        for i, b in enumerate(bytes_data):
-            angle = (b * (i + 1) * 0.13) % (2 * np.pi)
-            visual_topo[i % dim] += np.sin(angle) + np.cos(angle * 0.5)
+            # Visual Topology: 신호의 위상 경계 지형
+            visual_topo = np.zeros(dim, dtype=np.float64)
+            for i, b in enumerate(bytes_data):
+                angle = (b * (i + 1) * 0.13) % (2 * np.pi)
+                visual_topo[i % dim] += np.sin(angle) + np.cos(angle * 0.5)
 
-        norm_v = np.linalg.norm(visual_topo)
-        if norm_v > 1e-9:
-            visual_topo /= norm_v
+            norm_v = np.linalg.norm(visual_topo)
+            if norm_v > 1e-9:
+                visual_topo /= norm_v
 
-        # Auditory Frequency: 신호의 인과적 파동 주파수 (Hz)
-        byte_sum = float(sum(bytes_data)) if bytes_data else 1.0
-        freq_offset = (byte_sum % 200) - 100
-        auditory_freq = self.base_resonance_freq + freq_offset
+            # Auditory Frequency: 신호의 인과적 파동 주파수 (Hz)
+            byte_sum = float(sum(bytes_data)) if bytes_data else 1.0
+            freq_offset = (byte_sum % 200) - 100
+            auditory_freq = self.base_resonance_freq + freq_offset
 
-        # Tactile Tension: 마찰 장력 스칼라 (0.0 ~ 1.0)
-        tactile_tens = float(np.clip(np.std([b for b in bytes_data]) / 128.0, 0.05, 0.95)) if bytes_data else 0.5
+            # Tactile Tension: 마찰열 Q_heat (|∇Φ|^1.5) 연동
+            if q_heat is not None:
+                tactile_tens = float(np.clip(q_heat / (q_heat + 10.0), 0.05, 0.95))
+            else:
+                tactile_tens = float(np.clip(np.std([b for b in bytes_data]) / 128.0, 0.05, 0.95)) if bytes_data else 0.5
 
-        # Olfactory Viscosity: 인과적 밀도/점성
-        olfactory_visc = float(np.clip(len(bytes_data) / 100.0, 0.1, 1.0))
+            # Olfactory Viscosity: 인과적 밀도/점성
+            olfactory_visc = float(np.clip(len(bytes_data) / 100.0, 0.1, 1.0))
 
-        # Proprioceptive Momentum: 신체 위치 및 운동성 벡터
-        proprio_vec = np.zeros(dim, dtype=np.float64)
-        for i, b in enumerate(bytes_data):
-            proprio_vec[(i * 7) % dim] += (b / 255.0) - 0.5
+            # Proprioceptive Momentum: 신체 위치 및 운동성 벡터
+            proprio_vec = np.zeros(dim, dtype=np.float64)
+            for i, b in enumerate(bytes_data):
+                proprio_vec[(i * 7) % dim] += (b / 255.0) - 0.5
 
-        norm_p = np.linalg.norm(proprio_vec)
-        if norm_p > 1e-9:
-            proprio_vec /= norm_p
+            norm_p = np.linalg.norm(proprio_vec)
+            if norm_p > 1e-9:
+                proprio_vec /= norm_p
+        else:
+            arr = np.asarray(raw_input, dtype=np.float64).ravel()
+            dim = self.dimension
+            visual_topo = np.zeros(dim, dtype=np.float64)
+            for i, val in enumerate(arr[:dim]):
+                visual_topo[i] = val
+            norm_v = np.linalg.norm(visual_topo)
+            if norm_v > 1e-9:
+                visual_topo /= norm_v
+
+            auditory_freq = self.base_resonance_freq + float(np.mean(arr) * 10.0)
+            tactile_tens = float(np.clip(q_heat / (q_heat + 10.0), 0.05, 0.95)) if q_heat is not None else float(np.clip(np.std(arr), 0.05, 0.95))
+            olfactory_visc = float(np.clip(len(arr) / 100.0, 0.1, 1.0))
+            proprio_vec = visual_topo.copy()
 
         return SensoryProfile(
             visual_topology=visual_topo,
@@ -216,14 +239,25 @@ class ConceptualUnitSystemEngine:
 
         return visual_understanding, empathy_resonance, phase_friction, is_peace_achieved
 
-    def calculate_chromatic_triad(self, sensory: SensoryProfile, intent: ExistentialIntent) -> Dict[str, float]:
+    def calculate_chromatic_triad(
+        self,
+        sensory: SensoryProfile,
+        intent: ExistentialIntent,
+        input_chromatic: Optional[np.ndarray] = None
+    ) -> Dict[str, float]:
         """
         [색채적 상호연결성 (Chromatic Triad) 계산]
         R (Red: Flux / 흐름과 의도), B (Blue: Order / 질서와 구조), Y (Yellow: Entropy / 결핍과 발산)
+        입력 스펙트럼 자가분류 신호(input_chromatic)가 전달되면 연속적으로 블렌딩됩니다.
         """
         r_flux = float(np.clip(np.linalg.norm(intent.tension_vector) * sensory.tactile_tension, 0.1, 1.0))
         b_order = float(np.clip(np.linalg.norm(sensory.visual_topology) * intent.intent_clarity_score, 0.1, 1.0))
         y_entropy = float(np.clip(intent.existential_void_charge * sensory.olfactory_viscosity, 0.1, 1.0))
+
+        if input_chromatic is not None and len(input_chromatic) >= 3:
+            r_flux = 0.5 * r_flux + 0.5 * float(input_chromatic[0])
+            b_order = 0.5 * b_order + 0.5 * float(input_chromatic[1])
+            y_entropy = 0.5 * y_entropy + 0.5 * float(input_chromatic[2])
 
         total = r_flux + b_order + y_entropy + 1e-9
         return {
@@ -232,20 +266,28 @@ class ConceptualUnitSystemEngine:
             "Y_entropy": float(y_entropy / total)
         }
 
-    def process_conceptual_unit(self, raw_input: str) -> ConceptualUnitResult:
+    def process_conceptual_unit(
+        self,
+        raw_input: Union[str, np.ndarray],
+        q_heat: Optional[float] = None,
+        input_chromatic: Optional[np.ndarray] = None
+    ) -> ConceptualUnitResult:
         """
         [개념단위체계 통합 파이프라인]
-        1. 오감 및 위상 지형 번역 (Sensory Profile Mapping)
+        1. 오감 및 위상 지형 번역 (Sensory Profile Mapping) - Q_heat 마찰열 반영
         2. 정신감각적 의도/결핍 추출 (Existential Intent Extraction)
         3. 시각적 구조 바라보기 & 청각적 파동 공명 동기화 (Visual Understanding & Auditory Empathy)
-        4. 평안 및 수렴 판정
+        4. 색채 스펙트럼 블렌딩 및 평안/수렴 판정
         """
-        sensory_profile = self.map_unknown_to_sensory_profile(raw_input)
-        existential_intent = self.extract_existential_intent(raw_input, sensory_profile)
+        sensory_profile = self.map_unknown_to_sensory_profile(raw_input, q_heat=q_heat)
+        str_repr = raw_input if isinstance(raw_input, str) else f"Array(shape={raw_input.shape})"
+        existential_intent = self.extract_existential_intent(str_repr, sensory_profile)
         visual_understanding, empathy_resonance, phase_friction, is_peace = self.synchronize_resonant_empathy(
             sensory_profile, existential_intent
         )
-        chromatic_triad = self.calculate_chromatic_triad(sensory_profile, existential_intent)
+        chromatic_triad = self.calculate_chromatic_triad(
+            sensory_profile, existential_intent, input_chromatic=input_chromatic
+        )
 
         # 복소 힘 상태 매핑 (Attraction, Repulsion, Lateral Tension)
         # Attraction: visual understanding / resonance
