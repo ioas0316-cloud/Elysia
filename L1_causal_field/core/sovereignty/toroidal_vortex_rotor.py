@@ -166,18 +166,25 @@ class ToroidalVortexRotorEngine:
     def recycle_friction_and_mismatch(
         self,
         q_heat: float,
-        sensory_mismatch_delta: float
+        sensory_mismatch_delta: float,
+        chromatic_triad: Optional[np.ndarray] = None
     ) -> Dict[str, Any]:
         """
-        [마찰열 및 괴리의 도넛형 회전 각운동량 재흡수 루프]
-        외부로 확산되던 Q_heat와 Delta를 회전 운동 에너지로 전환하여
+        [마찰열 Q_heat = |∇Φ|^1.5 및 색채 스펙트럼 재흡수 루프]
+        외부로 확산되던 Q_heat와 Delta, 그리고 삼원색 색채 흐름(Red/Blue/Yellow)을 회전 운동 에너지로 전환하여
         와류의 강도(Vorticity)와 회전 속도(Rotational Velocity)를 가속함.
         """
         recycled_delta = abs(sensory_mismatch_delta) * 0.5
         recycled_heat = q_heat * 0.8  # 80% heat energy recycled into rotational momentum
 
+        # 색채 삼원색 스펙트럼 영향 (Red: Flux 가속, Blue: Order 내적 집속, Yellow: Entropy 확산)
+        chromatic_gain = 1.0
+        if chromatic_triad is not None and len(chromatic_triad) >= 3:
+            red_flux, blue_order, yellow_entropy = chromatic_triad[:3]
+            chromatic_gain += float(red_flux * 0.3 - blue_order * 0.1 + yellow_entropy * 0.2)
+
         self.accumulated_recycled_heat += recycled_heat
-        acceleration = float(recycled_heat * 0.2 + recycled_delta * 0.3)
+        acceleration = float((recycled_heat * 0.2 + recycled_delta * 0.3) * chromatic_gain)
 
         self.rotational_velocity += acceleration
         self.vorticity_strength += float(acceleration * 0.5)
@@ -185,6 +192,7 @@ class ToroidalVortexRotorEngine:
         return {
             "recycled_heat": recycled_heat,
             "recycled_delta": recycled_delta,
+            "chromatic_gain": chromatic_gain,
             "acceleration": acceleration,
             "new_rotational_velocity": self.rotational_velocity,
             "new_vorticity_strength": self.vorticity_strength,

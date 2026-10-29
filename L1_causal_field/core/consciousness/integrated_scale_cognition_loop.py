@@ -36,19 +36,25 @@ from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
 
 # 내부 모듈 임포트
-from core.sensory.multimodal_cognitive_frontend import MultimodalCognitiveFrontend
-from core.sensory.waveform_scale_reduction_transducer import (
+from L1_causal_field.core.sensory.multimodal_cognitive_frontend import MultimodalCognitiveFrontend
+from L1_causal_field.core.sensory.waveform_scale_reduction_transducer import (
     WaveformScaleReductionTransducer,
     UnifiedWaveformField,
 )
-from core.consciousness.waveform_cognitive_feedback import (
+from L1_causal_field.core.consciousness.waveform_cognitive_feedback import (
     WaveformCognitiveFeedbackEngine,
     CognitiveFeedbackResult,
 )
-from core.consciousness.scale_hierarchy_engine import ScaleHierarchyEngine
-from core.physics.scale_weaving_bridge import (
+from L1_causal_field.core.consciousness.scale_hierarchy_engine import ScaleHierarchyEngine
+from L1_causal_field.core.physics.scale_weaving_bridge import (
     ScaleWeavingBridge,
     ChromaticFieldPropagator,
+)
+from L1_causal_field.core.memory.spectral_causal_visual_engine import SpectralAxisTransform
+from L1_causal_field.core.sovereignty.toroidal_vortex_rotor import ToroidalVortexRotorEngine
+from L1_causal_field.core.consciousness.conceptual_unit_system_engine import (
+    ConceptualUnitSystemEngine,
+    ConceptualUnitResult,
 )
 
 
@@ -84,7 +90,13 @@ class IntegratedCognitionResult:
     chromatic_spatial: Optional[np.ndarray] = None
     chromatic_temporal: Optional[np.ndarray] = None
 
-    # 6. 통합 메트릭
+    # 6. 개념단위체계 & 와류 로터 결과
+    conceptual_unit_result: Optional[ConceptualUnitResult] = None
+    friction_heat_q: float = 0.0
+    vortex_rotor_velocity: float = 1.0
+    vortex_rotor_vorticity: float = 1.0
+
+    # 7. 통합 메트릭
     overall_resonance: float = 0.0
     overall_homeostasis: bool = False
 
@@ -147,6 +159,14 @@ class IntegratedScaleCognitionLoop:
         # 6. 색채 전파기
         self.chromatic_propagator = ChromaticFieldPropagator()
 
+        # 7. 스펙트럼 축 변환기, 와류 로터, 개념단위체계 엔진
+        self.spectral_transform = SpectralAxisTransform()
+        self.vortex_rotor = ToroidalVortexRotorEngine(
+            base_rotational_velocity=1.5,
+            vorticity_strength=1.5
+        )
+        self.conceptual_engine = ConceptualUnitSystemEngine(dimension=dim_micro)
+
         # 내부 상태
         self._step_count = 0
         self._prev_unified_field: Optional[UnifiedWaveformField] = None
@@ -198,6 +218,39 @@ class IntegratedScaleCognitionLoop:
         result.spectral_manifold = frontend_output.get("spectral_manifold")
         result.audio_phase_field = frontend_output.get("audio_phase_field")
 
+        # 연속 스펙트럼 마찰열 Q_heat = |∇Φ|^1.5 및 색채 삼원 스펙트럼 산출
+        if result.spectral_manifold is not None:
+            continuity = self.spectral_transform.classify_spectral_continuity(result.spectral_manifold)
+            q_heat = continuity["total_friction_heat"]
+            chromatic_triad = continuity["chromatic_triad"]
+        elif rgb_image is not None:
+            continuity = self.spectral_transform.classify_spectral_continuity(rgb_image)
+            q_heat = continuity["total_friction_heat"]
+            chromatic_triad = continuity["chromatic_triad"]
+        else:
+            q_heat = 0.5
+            chromatic_triad = np.array([0.4, 0.4, 0.2])
+
+        result.friction_heat_q = q_heat
+
+        # 와류 로터 마찰열 및 색채 재흡수
+        recycle_res = self.vortex_rotor.recycle_friction_and_mismatch(
+            q_heat=q_heat,
+            sensory_mismatch_delta=0.1,
+            chromatic_triad=chromatic_triad
+        )
+        result.vortex_rotor_velocity = recycle_res["new_rotational_velocity"]
+        result.vortex_rotor_vorticity = recycle_res["new_vorticity_strength"]
+
+        # 개념단위체계(Conceptual Unit System)로 오감-인지 직조
+        input_for_conceptual = text_input or "SensoryWaveformInput"
+        conceptual_res = self.conceptual_engine.process_conceptual_unit(
+            raw_input=input_for_conceptual,
+            q_heat=q_heat,
+            input_chromatic=chromatic_triad
+        )
+        result.conceptual_unit_result = conceptual_res
+
         # ──────────────────────────────────────────────
         # STAGE 2: 파형 스케일 환원 (Waveform Scale Reduction)
         #   핵심: 모든 감각을 (ω, A, φ) 공통 좌표로 환원
@@ -222,9 +275,15 @@ class IntegratedScaleCognitionLoop:
         )
         sensory_tensor = torch.from_numpy(sensory_array.astype(np.float32)).unsqueeze(0)
 
+        # Q_heat 마찰열을 world_friction 텐서로 통합 반영
+        if world_friction is None:
+            world_friction_tensor = torch.tensor([q_heat * 0.1], dtype=torch.float32)
+        else:
+            world_friction_tensor = world_friction + q_heat * 0.1
+
         scale_output = self.scale_hierarchy(
             sensory_input=sensory_tensor,
-            world_friction=world_friction,
+            world_friction=world_friction_tensor,
         )
 
         result.scale_hierarchy_output = {

@@ -37,51 +37,86 @@ from L1_causal_field.core.sovereignty.toroidal_vortex_rotor import (
 class SpectralAxisTransform:
     """
     [스펙트럼 축 변환기 (Spectral Axis Transformer)]
-    수백만 개의 파편화된 RGB 픽셀 격자를 하나의 위상학적 스펙트럼 축(Spectral Manifold Axis)으로 압축 변환하고,
-    그 위에서 변화의 연속성(Smoothness)과 불연속 마찰점(Discontinuity Edge)을 구별.
+    미시적 픽셀/격자를 무미건조한 이산적 점으로 격리하지 않고,
+    연속적 파장 가중치 대칭성 투영을 통해 스케일 계층 전체를 연속적 위상 표면(Surface Field)으로 포섭합니다.
+    마찰열 Q_heat = |∇Φ|^1.5 방정식을 통해 경계 마찰과 연속성을 공존시킵니다.
     """
     def __init__(self, spectral_weights: Tuple[float, float, float] = (0.299, 0.587, 0.114)):
+        # 연속 파장 가중치: Red (Flux / 흐름 ~ 700nm), Green (Order / 질서 ~ 530nm), Blue (Entropy/Diffraction ~ 470nm)
         self.spectral_weights = np.array(spectral_weights, dtype=np.float64)
+        # 색채 삼원색(Red/Blue/Yellow) 투영 행렬
+        self.chromatic_projection_matrix = np.array([
+            [0.7, 0.2, 0.1],   # Red (Flux / 흐름)
+            [0.1, 0.8, 0.1],   # Blue (Order / 질서)
+            [0.2, 0.1, 0.7],   # Yellow (Entropy / 발산)
+        ], dtype=np.float64)
 
     def project_to_spectral_axis(self, field_tensor: np.ndarray) -> np.ndarray:
         """
-        [3차원 RGB/다채널 공간 -> 1차원/2차원 스펙트럼 위상 축 투영]
-        Input: (H, W, C) or (C, H, W) or (T, H, W, C)
-        Output: (H, W) or (T, H, W) continuous spectral coordinate field
+        [연속 파장 가중치 대칭성 투영]
+        Input: (H, W, C) or (C, H, W) or (T, H, W, C) or (N, C)
+        Output: (H, W) or (T, H, W) or (N,) continuous spectral coordinate field Φ(x, t)
         """
         tensor = np.asarray(field_tensor, dtype=np.float64)
         if tensor.ndim == 3 and tensor.shape[-1] == 3:
             return np.tensordot(tensor, self.spectral_weights, axes=(-1, 0))
         elif tensor.ndim == 4 and tensor.shape[-1] == 3:
             return np.tensordot(tensor, self.spectral_weights, axes=(-1, 0))
+        elif tensor.ndim == 3 and tensor.shape[0] == 3:
+            return np.tensordot(tensor, self.spectral_weights, axes=(0, 0))
         elif tensor.ndim == 2:
+            if tensor.shape[-1] == 3:
+                return np.dot(tensor, self.spectral_weights)
             return tensor
-        elif tensor.ndim == 3:
-            return np.mean(tensor, axis=0)
+        elif tensor.ndim == 1:
+            return tensor
         else:
             return np.squeeze(tensor)
+
+    def extract_chromatic_triad(self, field_tensor: np.ndarray) -> np.ndarray:
+        """
+        [색채 삼원색 스펙트럼(Red/Blue/Yellow) 자가분류]
+        입력 장 필드로부터 연속적 색채 성분 [Red_flux, Blue_order, Yellow_entropy] 벡터를 추출.
+        """
+        tensor = np.asarray(field_tensor, dtype=np.float64)
+        if tensor.ndim >= 2 and tensor.shape[-1] == 3:
+            flat_rgb = tensor.reshape(-1, 3)
+            chromatic_components = np.dot(flat_rgb, self.chromatic_projection_matrix.T)
+            mean_chromatic = np.mean(chromatic_components, axis=0)
+        else:
+            val = float(np.mean(np.abs(tensor)))
+            mean_chromatic = np.array([val * 0.5, val * 0.3, val * 0.2], dtype=np.float64)
+
+        norm = np.linalg.norm(mean_chromatic)
+        if norm > 1e-12:
+            mean_chromatic = mean_chromatic / norm
+        return mean_chromatic
 
     def classify_spectral_continuity(
         self,
         spectral_field: np.ndarray,
         friction_threshold: Optional[float] = None
-    ) -> Dict[str, np.ndarray]:
+    ) -> Dict[str, Any]:
         """
-        [위상 축 상에서의 연속성 / 불연속 마찰점 분류]
-        - 연속 구간 (Smooth Gradient): 픽셀 간 차이가 작은 유체 흐름 영역.
-        - 불연속 구간 (Discontinuity / Edge Friction): 마찰열 Q_heat가 분출하는 물체 경계면.
+        [연속장 마찰열 Q_heat = |∇Φ|^1.5 및 위상 경계 분류]
+        - 연속장 표면 Φ 상에서 다차원 경사도 ∇Φ를 구하고 마찰열 밀도 Q_heat = |∇Φ|^1.5 산출.
+        - 픽셀 격자를 깨부수지 않고 연속된 스케일 표면장력 경계로 포섭.
         """
         field = np.asarray(spectral_field, dtype=np.float64)
-        if field.ndim == 2:
-            grad_y, grad_x = np.gradient(field)
-            grad_mag = np.sqrt(grad_x ** 2 + grad_y ** 2)
+        if field.ndim == 1:
+            grad = np.gradient(field)
+            grad_mag = np.abs(grad)
+        elif field.ndim == 2:
+            grads = np.gradient(field)
+            grad_mag = np.sqrt(sum(g**2 for g in grads))
         elif field.ndim == 3:
-            grad_t, grad_y, grad_x = np.gradient(field)
-            grad_mag = np.sqrt(grad_x ** 2 + grad_y ** 2 + grad_t ** 2)
+            grads = np.gradient(field)
+            grad_mag = np.sqrt(sum(g**2 for g in grads))
         else:
-            grad_mag = np.abs(np.gradient(field))
+            grads = np.gradient(field)
+            grad_mag = np.sqrt(sum(g**2 for g in grads))
 
-        # Friction heat density (Q_heat) map at boundary discontinuities
+        # 마찰열 방정식: Q_heat = |∇Φ|^1.5 (연속장 경계 마찰 소산)
         q_heat_map = grad_mag ** 1.5
 
         if friction_threshold is None:
@@ -93,13 +128,17 @@ class SpectralAxisTransform:
         is_discontinuity = q_heat_map >= thresh
         is_smooth = ~is_discontinuity
 
+        chromatic_triad = self.extract_chromatic_triad(field)
+
         return {
             "spectral_field": field,
             "gradient_magnitude": grad_mag,
             "q_heat_map": q_heat_map,
             "is_discontinuity": is_discontinuity,
             "is_smooth": is_smooth,
-            "total_friction_heat": float(np.sum(q_heat_map))
+            "total_friction_heat": float(np.sum(q_heat_map)),
+            "mean_friction_heat": float(np.mean(q_heat_map)),
+            "chromatic_triad": chromatic_triad,
         }
 
 
