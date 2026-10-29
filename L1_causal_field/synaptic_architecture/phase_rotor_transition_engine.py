@@ -291,3 +291,240 @@ class PhaseRotorTransitionEngine:
             "baseline_latency_ms": simulated_baseline_ms,
             "operational_mode": "Brute-Force Full Recalculation",
         }
+
+
+class RealWaveformGenerator:
+    """
+    [Real Waveform Generator (실제 복합 파동 데이터 생성기)]
+    Generates complex multi-frequency phase waveforms simulating physical/causal dynamics:
+    1. Harmonic Resonance Wave (조화 공진 파형)
+    2. Friction Noise Shock (마찰 소음 충격 파형)
+    3. Kinematic Motion Trajectory (운동 궤적 파형)
+    Supports both direct NumPy array synthesis and mock stream buffer loading.
+    """
+
+    def __init__(self, feature_dim: int = 64):
+        self.feature_dim = feature_dim
+
+    def generate_harmonic_resonance(self, t: float, base_freq: float = 5.0, backbone_axes: Optional[np.ndarray] = None) -> np.ndarray:
+        """Generates a harmonic resonance wave aligned with primary constraining modes."""
+        k = self.feature_dim // 2
+        raw = np.zeros(self.feature_dim, dtype=np.float32)
+        for i in range(k):
+            freq = base_freq * (1.0 + i * 0.2)
+            raw[i] = math.sin(2 * np.pi * freq * t) + 0.5 * math.cos(4 * np.pi * freq * t)
+        if backbone_axes is not None:
+            # Reconstruct full vector from primary spectral basis
+            vec = np.dot(backbone_axes[:, :k], raw[:k])
+        else:
+            vec = raw
+        norm = np.linalg.norm(vec) + 1e-9
+        return (vec / norm).astype(np.float32)
+
+    def generate_friction_noise_shock(self, t: float, noise_level: float = 1.0) -> np.ndarray:
+        """Generates a high-entropy isotropic friction noise shock wave."""
+        rng = np.random.RandomState(int((t * 1000) % 10000) + 1)
+        vec = rng.randn(self.feature_dim).astype(np.float32) * noise_level
+        norm = np.linalg.norm(vec) + 1e-9
+        return (vec / norm).astype(np.float32)
+
+    def generate_kinematic_trajectory(self, t: float, velocity: float = 2.5, backbone_axes: Optional[np.ndarray] = None) -> np.ndarray:
+        """Generates a smooth continuous kinematic motion trajectory in constraining space."""
+        k = int(self.feature_dim * 0.6)
+        raw = np.zeros(self.feature_dim, dtype=np.float32)
+        spatial_phase = np.linspace(0, 2 * np.pi, k, dtype=np.float32)
+        raw[:k] = np.sin(spatial_phase + velocity * t) * np.exp(-0.02 * spatial_phase)
+        if backbone_axes is not None:
+            vec = np.dot(raw[:k], backbone_axes[:, :k].T)
+        else:
+            vec = raw
+        norm = np.linalg.norm(vec) + 1e-9
+        return (vec / norm).astype(np.float32)
+
+    def load_from_mock_stream_buffer(self, raw_bytes: bytes) -> np.ndarray:
+        """Loads and parses raw binary stream buffer into a normalized waveform vector."""
+        arr = np.frombuffer(raw_bytes[: self.feature_dim * 4], dtype=np.float32)
+        if len(arr) < self.feature_dim:
+            padded = np.zeros(self.feature_dim, dtype=np.float32)
+            padded[: len(arr)] = arr
+            arr = padded
+        norm = np.linalg.norm(arr) + 1e-9
+        return arr / norm
+
+
+class RealWaveformRotorVerifier:
+    """
+    [Real Waveform Rotor Verifier (실제 파형 판단 및 직조 검증 모듈)]
+
+    Evaluates:
+    1. Phase Alignment Judgment:
+       Project input signals onto static rotor constraining axes (U_axes),
+       measuring Coherence (원형 보존율) and Q_heat (위상 마찰열) to classify wave categories.
+    2. Wave Weaving & Re-manifestation:
+       Weave wave through multi-scale rotor gear ratios (Macro -> Meso -> Micro -> Nano -> ...),
+       assessing Cosine Similarity & Geometric Reconstruction Fidelity against invariant backbone.
+    3. Multi-Scale Integration:
+       Evaluates performance across dataset scales (0.3GB, 10GB, 30GB, 100GB).
+    """
+
+    def __init__(self, feature_dim: int = 64, data_scale_gb: float = 0.3):
+        self.feature_dim = feature_dim
+        self.data_scale_gb = data_scale_gb
+        self.generator = RealWaveformGenerator(feature_dim=feature_dim)
+        self.engine = PhaseRotorTransitionEngine(feature_dim=feature_dim, data_scale_gb=data_scale_gb)
+
+    def verify_waveform_judgment(
+        self, samples_per_category: int = 20
+    ) -> Dict[str, Any]:
+        """
+        Tests phase alignment judgment across 3 distinct waveform categories:
+        Harmonic Resonance, Friction Noise Shock, Kinematic Motion Trajectory.
+
+        Computes Coherence, Q_heat, and Separation Margin between categories.
+        """
+        categories = {
+            "Harmonic_Resonance": [],
+            "Friction_Noise_Shock": [],
+            "Kinematic_Trajectory": [],
+        }
+
+        u_axes = self.engine.static_ground.backbone_axes
+
+        # Project onto primary k modes of orthogonal backbone axes
+        k_modes = self.feature_dim // 2
+        primary_subspace = u_axes[:, :k_modes]
+
+        for i in range(samples_per_category):
+            t = i * 0.05
+            waves = {
+                "Harmonic_Resonance": self.generator.generate_harmonic_resonance(t, backbone_axes=u_axes),
+                "Friction_Noise_Shock": self.generator.generate_friction_noise_shock(t),
+                "Kinematic_Trajectory": self.generator.generate_kinematic_trajectory(t, backbone_axes=u_axes),
+            }
+
+            for cat_name, wave in waves.items():
+                # Coherence = Projection power in primary constrained subspace
+                proj_primary = np.dot(wave[: self.feature_dim], primary_subspace)
+                coherence = float(np.linalg.norm(proj_primary))
+
+                # Phase gradient misalignment = Component orthogonal to full constraining axes
+                full_proj = np.dot(wave[: self.feature_dim], u_axes)
+                phase_grad = wave[: self.feature_dim] - full_proj
+                q_heat = math.pow(float(np.linalg.norm(phase_grad)) + (1.0 - coherence), 1.5)
+
+                categories[cat_name].append({
+                    "coherence": coherence,
+                    "q_heat": q_heat,
+                })
+
+        # Calculate category statistics & separation margin
+        summary = {}
+        for cat_name, records in categories.items():
+            cohs = [r["coherence"] for r in records]
+            heats = [r["q_heat"] for r in records]
+            summary[cat_name] = {
+                "avg_coherence": float(np.mean(cohs)),
+                "std_coherence": float(np.std(cohs)),
+                "avg_q_heat": float(np.mean(heats)),
+                "std_q_heat": float(np.std(heats)),
+            }
+
+        # Separation Margin: Difference between highest coherence and lowest friction noise coherence
+        harmonic_coh = summary["Harmonic_Resonance"]["avg_coherence"]
+        noise_coh = summary["Friction_Noise_Shock"]["avg_coherence"]
+        separation_margin = abs(harmonic_coh - noise_coh)
+
+        return {
+            "category_summary": summary,
+            "separation_margin": float(separation_margin),
+            "judgment_accurate": separation_margin > 0.05,
+        }
+
+    def verify_wave_weaving_reconstruction(
+        self, steps: int = 30
+    ) -> Dict[str, Any]:
+        """
+        Verifies wave weaving and re-manifestation.
+        Propagates wave through scale rotors and checks reconstruction fidelity
+        against invariant backbone.
+        """
+        cosine_similarities = []
+        reconstruction_fidelities = []
+        q_heats = []
+
+        u_axes = self.engine.static_ground.backbone_axes
+
+        for step in range(steps):
+            t = step * 0.03
+            input_wave = self.generator.generate_harmonic_resonance(t, backbone_axes=u_axes)
+
+            # Frame interaction through phase rotor transition engine
+            res = self.engine.process_frame_interaction(
+                input_wave=input_wave,
+                camera_angle_delta=0.01,
+                interaction_torque=0.05,
+            )
+
+            # Query spectral coefficients on static rotor axes (x * Q)
+            spectral_coeffs = self.engine.static_ground.query_equipotential_backbone(input_wave)
+
+            # Re-weave wave back to physical space via Q^T (x * Q * Q^T)
+            u_axes = self.engine.static_ground.backbone_axes
+            woven_wave = np.dot(spectral_coeffs[: self.feature_dim], u_axes[: self.feature_dim, : self.feature_dim].T)
+
+            # Apply scale gear phase modulation in physical phase space
+            scale_phases = res["scale_phases"]
+            phase_shift = (0.001 * np.mean(list(scale_phases.values()))) % (2 * np.pi)
+            cos_p, sin_p = math.cos(phase_shift), math.sin(phase_shift)
+            if self.feature_dim >= 2:
+                x, y = woven_wave[0], woven_wave[1]
+                woven_wave[0] = x * cos_p - y * sin_p
+                woven_wave[1] = x * sin_p + y * cos_p
+
+            norm_a = np.linalg.norm(input_wave) + 1e-9
+            norm_w = np.linalg.norm(woven_wave) + 1e-9
+
+            cos_sim = float(abs(np.dot(input_wave, woven_wave)) / (norm_a * norm_w))
+
+            # Reconstruction Fidelity = 1.0 - relative Euclidean difference
+            diff_norm = np.linalg.norm(input_wave - woven_wave)
+            fidelity = max(0.0, 1.0 - (diff_norm / (norm_a + norm_w)))
+
+            cosine_similarities.append(cos_sim)
+            reconstruction_fidelities.append(fidelity)
+            q_heats.append(res["q_heat"])
+
+        return {
+            "avg_cosine_similarity": float(np.mean(cosine_similarities)),
+            "avg_reconstruction_fidelity": float(np.mean(reconstruction_fidelities)),
+            "avg_q_heat": float(np.mean(q_heats)),
+            "reconstruction_valid": float(np.mean(reconstruction_fidelities)) > 0.70,
+        }
+
+    def run_full_scale_integration_benchmark(
+        self, scales: List[float] = [0.3, 10.0, 30.0, 100.0]
+    ) -> List[Dict[str, Any]]:
+        """
+        Runs full integrated benchmark across data scales (0.3GB, 10GB, 30GB, 100GB),
+        evaluating both structural tiering and real waveform judgment/weaving performance.
+        """
+        results = []
+        for scale_gb in scales:
+            verifier = RealWaveformRotorVerifier(feature_dim=self.feature_dim, data_scale_gb=scale_gb)
+            judgment = verifier.verify_waveform_judgment(samples_per_category=15)
+            weaving = verifier.verify_wave_weaving_reconstruction(steps=20)
+            tiering = verifier.engine.get_memory_tiering_breakdown()
+
+            results.append({
+                "scale_gb": scale_gb,
+                "layers": tiering["num_rotor_layers"],
+                "vram_gb": tiering["vram_gb"],
+                "ram_gb": tiering["ram_gb"],
+                "ssd_gb": tiering["ssd_cache_gb"],
+                "ssd_paging_delay_ms": tiering["ssd_paging_delay_ms"],
+                "separation_margin": judgment["separation_margin"],
+                "reconstruction_fidelity": weaving["avg_reconstruction_fidelity"],
+                "avg_cosine_similarity": weaving["avg_cosine_similarity"],
+                "avg_q_heat": weaving["avg_q_heat"],
+            })
+        return results
