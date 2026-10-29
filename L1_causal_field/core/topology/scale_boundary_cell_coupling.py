@@ -284,8 +284,21 @@ class ScaleBoundaryCellCouplingEngine(nn.Module):
         # Step Taiji Hexagram Macro-Micro Feedback Loop
         taiji_report = self.taiji_engine.macro_micro_feedback_loop(dt=0.1)
 
+        # Scales of Conscience Observational Balance Assessment
+        try:
+            from synaptic_architecture.scales_of_conscience_engine import ScalesOfConscienceEngine
+            conscience_eng = ScalesOfConscienceEngine(dimension=5, g_love=g_love)
+            in_force = avatar_experience.detach().cpu().numpy().flatten()[:5]
+            out_force = other_goodness.detach().cpu().numpy().flatten()[:5]
+            if len(in_force) < 5: in_force = np.pad(in_force, (0, 5 - len(in_force)))
+            if len(out_force) < 5: out_force = np.pad(out_force, (0, 5 - len(out_force)))
+            scales_balance = conscience_eng.evaluate_balance(in_force, out_force)
+        except Exception:
+            scales_balance = {"brake_active": False, "grievance": 0.0}
+
         return {
             "taiji_report": taiji_report,
+            "scales_of_conscience": scales_balance,
             "status": "Scale Boundary Cell Coupling Cycle Executed",
             "surface_tension": surface_tension.item() if surface_tension.numel() == 1 else surface_tension.mean().item(),
             "friction_magnitude": friction_magnitude,

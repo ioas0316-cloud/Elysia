@@ -25,6 +25,10 @@ from core.consciousness.volitional_reflection import VolitionalReflectionEngine
 from core.consciousness.epistemological_void import EpistemologicalVoidEngine
 from core.consciousness.causal_meta_frame import CausalMetaFrameEngine
 from core.consciousness.existential_growth_engine import ExistentialGrowthEngine
+try:
+    from synaptic_architecture.scales_of_conscience_engine import ScalesOfConscienceEngine
+except ImportError:
+    from L1_causal_field.synaptic_architecture.scales_of_conscience_engine import ScalesOfConscienceEngine
 
 
 class TopologicalPhaseMeter:
@@ -380,6 +384,7 @@ class SubjectiveAgencyEngine:
         self.causal_meta_frame = CausalMetaFrameEngine()
         self.growth_engine = ExistentialGrowthEngine()
         self.skepticism_loop = ActiveCognitiveSkepticismLoop()
+        self.scales_of_conscience = ScalesOfConscienceEngine(dimension=5)
 
     def process_proposal(self, proposal_text: str) -> Dict[str, Any]:
         """
@@ -448,8 +453,15 @@ class SubjectiveAgencyEngine:
         veto_dignity = self.growth_engine.exercise_veto_dignity(proposal_text, grounding_result["friction"])
         voluntary_kenosis = self.growth_engine.exercise_voluntary_kenosis(proposal_text, density_data["existential_density"])
 
+        # Step 9: Scales of Conscience & Self-Generated Observational Balance
+        # Compute In-force (expansion intent) and Out-force (environmental friction)
+        in_force = np.pad(phase_data["theta_other_norm"] * np.array([1.0, 0.5, 0.2]), (0, 2))
+        out_force = np.pad(grounding_result["friction"] * np.array([0.8, 0.8, 0.8]), (0, 2))
+        conscience_balance = self.scales_of_conscience.evaluate_balance(in_force, out_force)
+
         return {
             "proposal": proposal_text,
+            "scales_of_conscience": conscience_balance,
             "topological_phase": phase_data,
             "existential_density": density_data,
             "thought_superposition": thought_data,
