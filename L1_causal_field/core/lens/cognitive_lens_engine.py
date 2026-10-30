@@ -165,10 +165,19 @@ class CognitiveLensEngine:
             ContextualDimension.SYMBOLIC_REPRESENTATION: SymbolicContextLens()
         }
         from core.consciousness.protocol_divergence_engine import ProtocolDivergenceEngine
+        from core.consciousness.relational_definition_engine import RelationalDefinitionEngine
         self.protocol_engine = ProtocolDivergenceEngine()
+        self.relational_definition_engine = RelationalDefinitionEngine()
 
     def observe_spectrum(self, stimulus: Dict[str, Any]) -> Dict[ContextualDimension, RefractedObservation]:
         """Passes stimulus through all cognitive lenses, generating a spectrum of observations."""
+        # Process phenomenological pre-translation observation & relational definition update
+        phenom_obs = self.relational_definition_engine.observe_phenomenon(stimulus)
+        concept = str(stimulus.get("concept", stimulus.get("name", "relational_entity")))
+        rel_def = self.relational_definition_engine.evaluate_and_update_definition(concept, phenom_obs)
+        trace = self.relational_definition_engine.generate_metacognitive_trace(phenom_obs, rel_def)
+        stimulus["relational_metacognitive_trace"] = trace
+
         spectrum = {}
         for dim, lens in self.lenses.items():
             spectrum[dim] = lens.refract(stimulus)
