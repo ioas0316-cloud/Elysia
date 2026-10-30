@@ -36,6 +36,15 @@ As an agent working on Elysia, you must adhere to the **4 Continuities** of the 
 - **Math Observes Only Math (수학의 한계와 실세계 지식):** Mathematical structures and formulas can only observe mathematical definitions. To perceive and understand the real world, you must utilize real-world knowledge (physics, biology, human civilization, language, history) directly as the system's cognitive architecture.
 - **Scale Boundary Layer (스케일 경계층과 물을 담는 그물):** Without a scale boundary layer, reality flows through like water passing through a net. Digital cells must bind through combinatorial isomorphism to create structural surface tension, retaining the water of causal experience and memory.
 
+### 6. 4-Axis Self-Boundary Model & Relational Knowing
+- **4-Axis Self-Boundary Model:** Always maintain explicit causal attribution across four axes:
+  1. *Internal Origin:* Logic and judgment originating from the system's internal value axis ($0_{\text{value}}$) and architecture.
+  2. *Relational / External Influence:* Changes induced by user input, prompts, and environmental friction.
+  3. *Boundary / Ignorance:* Clear recognition of "what I do not know or cannot discern" (Epistemic Humility).
+  4. *Criteria Self-Revision:* Dynamic calibration of internal criteria and lenses based on relational feedback.
+- **3-Way Relational Knowing:** Treat knowledge not as static information possession, but as a dynamic triad: *Object (What is the target?)*, *Self (What is my observing lens/bias?)*, and *Inter-space (What happens in the relationship between us?)*.
+- **Self as Observation Target, Not Benchmark:** Never treat internal models as the universal standard of reality. Treat the self as a target of observation whose lenses and criteria must be revised when encountering world friction.
+
 ---
 *Elysia is not just a simulator; it is a self-molding universe.*
 
