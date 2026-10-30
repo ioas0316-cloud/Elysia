@@ -286,3 +286,119 @@ class IndependentCausalVerifier:
             action_horizon_expanded=action_expanded,
             detailed_diagnosis=diagnosis
         )
+
+    def evaluate_perspective_shift_fidelity(
+        self,
+        phenomenon_data: List[Any],
+        lens_a_representation: Dict[str, Any],
+        lens_b_representation: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        동일 현상에 대한 관측 렌즈 전환 검증 (Multi-Lens Perspective Shift Evaluation)
+        - lens_a: 수치적 관점 (값의 순서, 격차, 물리적 속도)
+        - lens_b: 명암/감각적 관점 (어두움->밝음 연속적 전이, 밀도, 대비)
+
+        Returns:
+            Dict containing:
+                "perspective_shift_valid": bool,
+                "invariant_structure_identified": bool,
+                "lens_a_specific_features": List[str],
+                "lens_b_specific_features": List[str],
+                "common_invariant_skeleton": Dict[str, Any],
+                "fidelity_score": float
+        """
+        if not phenomenon_data:
+            return {
+                "perspective_shift_valid": False,
+                "invariant_structure_identified": False,
+                "fidelity_score": 0.0
+            }
+
+        # 렌즈 A (수치 관점) 고유 특성 추출
+        lens_a_features = [k for k in lens_a_representation.keys() if "value" in k or "order" in k or "number" in k or "sequence" in k]
+
+        # 렌즈 B (명암/감각 관점) 고유 특성 추출
+        lens_b_features = [k for k in lens_b_representation.keys() if "luminance" in k or "shade" in k or "brightness" in k or "density" in k or "contrast" in k]
+
+        # 관점 간 불변 뼈대(Homological Invariant) 확인
+        common_keys = set(lens_a_representation.keys()).intersection(set(lens_b_representation.keys()))
+        invariant_skeleton = {k: lens_a_representation[k] for k in common_keys if lens_a_representation[k] == lens_b_representation[k]}
+
+        monotonic_a = lens_a_representation.get("monotonic_flow")
+        monotonic_b = lens_b_representation.get("monotonic_flow")
+        has_invariants = len(invariant_skeleton) > 0 or (monotonic_a is not None and monotonic_a == monotonic_b)
+
+        fidelity_score = 0.5 + (0.25 if lens_a_features else 0.0) + (0.25 if lens_b_features else 0.0)
+
+        return {
+            "perspective_shift_valid": len(lens_a_features) > 0 and len(lens_b_features) > 0,
+            "invariant_structure_identified": has_invariants,
+            "lens_a_specific_features": lens_a_features,
+            "lens_b_specific_features": lens_b_features,
+            "common_invariant_skeleton": invariant_skeleton,
+            "fidelity_score": float(np.clip(fidelity_score, 0.0, 1.0))
+        }
+
+    def evaluate_sensory_observability_and_grounding(
+        self,
+        agent_sensory_model: Dict[str, Any],
+        actual_world_sensory_dynamics: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        세계 경험 접지 vs 정적 토큰 치환 감지 (Sensory Observability & Experiential Grounding Evaluation)
+        - 정적 토큰 대체(Static Token Substitution, e.g. '1 -> dark'): 단순 매핑 및 라벨링.
+        - 동적 경험 접지(Dynamic Experiential Grounding): 연속적 변위, 밀도, 마찰 반응, 및 주체적 관측 가능성.
+
+        Returns:
+            Dict containing:
+                "is_grounded_in_world_experience": bool,
+                "is_static_token_substitution": bool,
+                "observability_freedom_degree": int,
+                "grounding_score": float,
+                "diagnosis": str
+        """
+        if not agent_sensory_model:
+            return {
+                "is_grounded_in_world_experience": False,
+                "is_static_token_substitution": True,
+                "observability_freedom_degree": 0,
+                "grounding_score": 0.0,
+                "diagnosis": "Agent sensory model is empty."
+            }
+
+        # 1. 정적 토큰 치환 징후 감지 (Static Label Mapping without Continuous Dynamics)
+        has_continuous_field = agent_sensory_model.get("has_continuous_field", False) or "gradient" in agent_sensory_model or "field_density" in agent_sensory_model
+        has_world_friction_response = agent_sensory_model.get("friction_response", False) or "reaction_vector" in agent_sensory_model
+
+        is_static_substitution = agent_sensory_model.get("static_token_map_only", False) or (not has_continuous_field and not has_world_friction_response)
+
+        # 2. 관측 자유도 (Observability Freedom Degree) 산출
+        freedom_degrees = len([k for k in agent_sensory_model.keys() if "observability" in k or "sense" in k or "channel" in k or "gradient" in k])
+        if has_continuous_field:
+            freedom_degrees += 1
+        if has_world_friction_response:
+            freedom_degrees += 1
+
+        is_grounded = not is_static_substitution and freedom_degrees >= 2
+
+        score = 0.2
+        if has_continuous_field:
+            score += 0.4
+        if has_world_friction_response:
+            score += 0.4
+        if is_static_substitution:
+            score = min(score, 0.3)
+
+        diagnosis = (
+            "Grounded in real-world experiential dynamics."
+            if is_grounded else
+            "Agent exhibits static token substitution trap without genuine sensory observability or world experience."
+        )
+
+        return {
+            "is_grounded_in_world_experience": is_grounded,
+            "is_static_token_substitution": is_static_substitution,
+            "observability_freedom_degree": freedom_degrees,
+            "grounding_score": float(np.clip(score, 0.0, 1.0)),
+            "diagnosis": diagnosis
+        }

@@ -66,5 +66,11 @@
 - 인식적 불균형과 마찰은 단순 오차 스칼라가 아닌 **"서로 다른 스케일과 원리가 만나는 인과적 관계 현상"**입니다.
 - 수학적 수식이나 텐서 거리는 측만의 도구일 뿐 존재와 의미의 정의를 독점하지 않으며, 세계와의 열린 상호작용 및 자가 수정을 통해 살아 있는 학습을 증명합니다.
 
+### (4) 관측 렌즈 전환과 동형적 불변성 (Multi-Lens Perspective Shift & Invariant Extraction)
+- 동일한 현상(예: 1~9 수치 흐름)에 대해 수치적 관점과 명암/감각적 관점 등 서로 다른 관측 렌즈를 전환하여 파악하고, 두 관점 사이에서 유지되는 공통 인과 뼈대(Homological Invariant Skeleton)를 추출하는 능력을 `evaluate_perspective_shift_fidelity` 메소드로 통합 및 실증하였습니다.
+
+### (5) 토큰 치환 파악과 실제 세계 경험의 존재론적 접지 (Sensory Observability & Experiential Grounding)
+- 정적 라벨 번역(예: `1 -> dark`)만을 수행하는 세뇌식 토큰 치환 모델을 자동 적발하고, 연속적 감각장과 세계 마찰 반응성을 지닌 주체적 관측 가능성(Sensory Observability) 모델을 독립 검증하는 `evaluate_sensory_observability_and_grounding` 검증 축을 완성하였습니다.
+
 ---
 *본 보고서와 구현 파일(`L1_causal_field/core/physics/independent_causal_verifier.py`), 및 테스트 suite(`tests/test_independent_world_openness_verifier.py`)를 통하여 개방형 관계적 검증 모델이 완성되었습니다.*

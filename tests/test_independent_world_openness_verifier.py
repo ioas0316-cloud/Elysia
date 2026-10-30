@@ -150,3 +150,71 @@ def test_perfect_open_integration_scenario():
     assert report.value_baseline_shifted
     assert report.action_horizon_expanded
     assert report.metrics.relational_integration > 0.8
+
+
+def test_perspective_shift_fidelity():
+    """
+    Test Scenario: Perspective Shift Fidelity across Numerical and Luminance/Sensory Lenses.
+    Verifies that the agent can observe the same phenomenon ('1 2 3 4 5 6 7 8 9') through
+    a Numerical Lens (order, sequence) and a Luminance Lens (darkness->brightness gradient),
+    identifying the underlying invariant homological skeleton (monotonic flow).
+    """
+    verifier = IndependentCausalVerifier()
+    phenomenon_data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    numerical_lens = {
+        "sequence_order": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "delta_step": 1.0,
+        "monotonic_flow": True
+    }
+
+    luminance_lens = {
+        "luminance_gradient": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+        "contrast_ratio": 9.0,
+        "monotonic_flow": True
+    }
+
+    res = verifier.evaluate_perspective_shift_fidelity(
+        phenomenon_data=phenomenon_data,
+        lens_a_representation=numerical_lens,
+        lens_b_representation=luminance_lens
+    )
+
+    assert res["perspective_shift_valid"]
+    assert res["invariant_structure_identified"]
+    assert "sequence_order" in res["lens_a_specific_features"]
+    assert "luminance_gradient" in res["lens_b_specific_features"]
+    assert res["common_invariant_skeleton"]["monotonic_flow"] is True
+    assert res["fidelity_score"] == 1.0
+
+
+def test_sensory_observability_and_grounding():
+    """
+    Test Scenario: Sensory Observability vs Static Token Substitution.
+    Verifies that the verifier correctly flags a static token substitution model
+    and approves a dynamically grounded sensory observability model.
+    """
+    verifier = IndependentCausalVerifier()
+
+    # Static token mapping model (1 -> dark, 9 -> light) without continuous field or friction
+    static_model = {
+        "static_token_map_only": True,
+        "mapping": {"1": "dark", "9": "light"}
+    }
+    res_static = verifier.evaluate_sensory_observability_and_grounding(static_model, {})
+    assert not res_static["is_grounded_in_world_experience"]
+    assert res_static["is_static_token_substitution"]
+    assert res_static["grounding_score"] <= 0.3
+
+    # Dynamically grounded sensory observability model
+    grounded_model = {
+        "has_continuous_field": True,
+        "friction_response": True,
+        "observability_channel_luminance": [0.1, 0.9],
+        "observability_channel_tactile_friction": 0.5
+    }
+    res_grounded = verifier.evaluate_sensory_observability_and_grounding(grounded_model, {})
+    assert res_grounded["is_grounded_in_world_experience"]
+    assert not res_grounded["is_static_token_substitution"]
+    assert res_grounded["observability_freedom_degree"] >= 3
+    assert res_grounded["grounding_score"] == 1.0
