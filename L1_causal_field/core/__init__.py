@@ -6,8 +6,8 @@ Layer 3 Macro, and Orchestration) along with backward compatibility facades for 
 """
 
 # Export new Scale Principle Hierarchy Modules
-from core.layer_1_constraint.sensory_prismatic_gate import SensoryPrismaticGate, ContinuousWaveformLens
-from core.layer_2_resonant.surface_tension_attractor import SurfaceTensionAttractor, PhaseRelaxationEngine
+from L1_causal_field.core.layer_1_constraint.sensory_prismatic_gate import SensoryPrismaticGate, ContinuousWaveformLens
+from L1_causal_field.core.layer_2_resonant.surface_tension_attractor import SurfaceTensionAttractor, PhaseRelaxationEngine
 
 __all__ = [
     "SensoryPrismaticGate",
