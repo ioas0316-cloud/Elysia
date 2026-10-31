@@ -4,21 +4,20 @@ L2_cognitive_engine/elysia_engine/core/relational_spectrum_knob_engine.py
 Relational Spectrum Knob Engine: Beyond Discrete Pixels & Points
 ================================================================
 Implements computing where the primordial unit is not a discrete bit or pixel,
-but Coupled Phase Knobs and Relational Rotors.
+but Coupled Phase Knobs, Relational Rotors, and Wave Interference as Classification.
 
-Principles (from THE_ABSOLUTE_COMMANDMENT & Causal Field):
+Principles:
 1. No Hell of Dots:
    - Does not store or iterate over discrete pixel/voxel arrays.
    - Operates on continuous spectral relations, tension potentials, and phase bivectors.
-2. Coupled Relational Knobs (위상 기어 및 노브 결합):
-   - `ScaleKnob` (w): Continuous depth and scale transitions (Micro wavelet to Macro canopy).
-   - `PhaseTensionKnob` (θ, κ): Tension gradients governing physical state transition
-     (Ice / Solid / Past ↔ Water / Liquid / Present ↔ Gas / Vapor / Future).
-   - `ChromaticTriadKnob` (Red Flux, Blue Order, Yellow Entropy): Chromatic balance and spectral resonance.
-   - `ObservationalRotorKnob` (R_obs): Clifford Cl(4,0) bivectors governing perspective projection.
-3. Self-Organizing Field Dynamics:
-   - Turning any single knob ripples through the gear coupling matrix, inducing
-     self-organizing continuous reconfiguration across all relational fields.
+2. Wave Interference as Operational & Classification Principle:
+   - Constructive phase alignment (interference > 0, cos Δφ > 0) defines invariant structural order.
+   - Destructive / orthogonal phase shearing defines boundary differentiation and tension.
+   - Coupled Knob rotation directly modulates the physical medium (refractive index, medium tension,
+     phase rotor angular velocity) inducing continuous self-organizing phase transitions:
+     * SOLID_ICE_PAST: Crystallized phase-locked invariant structures (Mountain ridges & bedrock)
+     * LIQUID_WATER_PRESENT: Fluctuating turbulent discernment (Water reflections & kinematics)
+     * GAS_VAPOR_FUTURE: High-frequency diffusive causal projections (Atmospheric twilight & sky)
 """
 
 from dataclasses import dataclass, field, asdict
@@ -37,9 +36,9 @@ from elysia_engine.core.hyper_dimensional_blister_nebula import (
 
 class MaterialityPhase:
     """Continuous physical state representation."""
-    SOLID_ICE_PAST = "SOLID_ICE_PAST"       # Crystallized, fixed invariant relationships
+    SOLID_ICE_PAST = "SOLID_ICE_PAST"             # Crystallized, fixed invariant relationships
     LIQUID_WATER_PRESENT = "LIQUID_WATER_PRESENT" # Turbulent, fluctuating, real-time discernment
-    GAS_VAPOR_FUTURE = "GAS_VAPOR_FUTURE"   # Diffusive, fast wave causal projections
+    GAS_VAPOR_FUTURE = "GAS_VAPOR_FUTURE"         # Diffusive, fast wave causal projections
 
 
 @dataclass
@@ -67,7 +66,8 @@ class RelationalSpectrumProfile:
 
 class RelationalSpectrumKnobEngine:
     """
-    Core engine managing coupled phase knobs and continuous spectral relations.
+    Core engine managing coupled phase knobs, physical medium properties,
+    and wave-interference-driven self-organization.
     """
 
     def __init__(
@@ -115,6 +115,7 @@ class RelationalSpectrumKnobEngine:
             intent_potential=0.0
         )
         self.node_ice.rotor.bivectors = np.array([0.01, 0.0, 0.0, 0.01, 0.0, 0.0], dtype=np.float32)
+        setattr(self.node_ice, 'entity_tag', 'mountain_ridge_cliff')
 
         # Node 2: Liquid Water / Present (Active fluctuating tension - Lake & Characters)
         self.node_water = HyperDimensionalOpticalRotor(
@@ -126,6 +127,7 @@ class RelationalSpectrumKnobEngine:
             intent_potential=1.2
         )
         self.node_water.rotor.bivectors = np.array([0.05, -0.02, 0.01, 0.03, -0.01, 0.02], dtype=np.float32)
+        setattr(self.node_water, 'entity_tag', 'water_reflective_reservoir')
 
         # Node 3: Gas Vapor / Future (Diffusive causal anticipation - Atmospheric Sky & Sun Rays)
         self.node_vapor = HyperDimensionalOpticalRotor(
@@ -137,6 +139,7 @@ class RelationalSpectrumKnobEngine:
             intent_potential=0.4
         )
         self.node_vapor.rotor.bivectors = np.array([0.10, 0.08, 0.05, 0.05, 0.04, 0.02], dtype=np.float32)
+        setattr(self.node_vapor, 'entity_tag', 'sky_solar_field')
 
         self.engine.add_node(self.node_ice)
         self.engine.add_node(self.node_water)
@@ -147,7 +150,6 @@ class RelationalSpectrumKnobEngine:
         Dynamically loads decomposed rotors from a FieldSeed into the engine.
         Reconfigures engine nodes to reflect the decomposed scenery relations.
         """
-        # Clear existing nodes
         self.engine.nodes = []
         for r_desc in field_seed.rotors:
             node = HyperDimensionalOpticalRotor(
@@ -160,6 +162,7 @@ class RelationalSpectrumKnobEngine:
             )
             node.rotor.bivectors = np.array(r_desc.bivectors, dtype=np.float32)
             node.phase_theta = float(r_desc.phase_theta)
+            setattr(node, 'entity_tag', getattr(r_desc, 'entity_tag', 'generic'))
             self.engine.add_node(node)
 
     def rotate_knob(self, knob_name: str, delta: float) -> RelationalSpectrumProfile:
@@ -178,12 +181,10 @@ class RelationalSpectrumKnobEngine:
 
         k_idx, target_knob = knob_map[knob_name]
 
-        # Calculate coupled delta vector via coupling matrix
         input_deltas = np.zeros(4, dtype=np.float32)
         input_deltas[k_idx] = delta
         coupled_deltas = self.coupling_matrix @ input_deltas
 
-        # Apply updates to all coupled knobs
         self.scale_knob.value = float(np.clip(
             self.scale_knob.value + coupled_deltas[0],
             self.scale_knob.min_val, self.scale_knob.max_val
@@ -198,13 +199,12 @@ class RelationalSpectrumKnobEngine:
             self.observational_knob.min_val, self.observational_knob.max_val
         ))
 
-        # Reorganize continuous field in response to knob rotation
         return self._reorganize_field()
 
     def _reorganize_field(self) -> RelationalSpectrumProfile:
         """
         Self-organizes the continuous field according to the coupled knob states.
-        No raster calculations: directly modifies Clifford rotor bivectors and tension phases.
+        Directly alters Clifford rotor bivectors and tension phases.
         """
         theta = self.tension_knob.value
         w_val = self.scale_knob.value
@@ -217,12 +217,10 @@ class RelationalSpectrumKnobEngine:
 
         self.node_water.phase_theta = theta
         self.node_water.position[3] = 0.0 + w_val * 0.4
-        # Water velocity drifts with tension
         self.node_water.velocity[0] = float(math.sin(theta) * 0.4)
 
         self.node_vapor.phase_theta = theta * 1.8
         self.node_vapor.position[3] = 0.5 + w_val * 0.6
-        # Vapor bivector diffusion expands with tension
         self.node_vapor.rotor.bivectors[0] = float(0.10 + math.sin(theta) * 0.05)
 
         # Update observer rotor
@@ -233,7 +231,7 @@ class RelationalSpectrumKnobEngine:
         # Step continuous physics
         res = self.engine.step(dt=0.03)
 
-        # Determine Materiality Phase based on tension and scale
+        # Determine Materiality Phase based on tension
         if theta < math.pi * 0.66:
             mat_phase = MaterialityPhase.SOLID_ICE_PAST
         elif theta < math.pi * 1.33:
@@ -241,7 +239,6 @@ class RelationalSpectrumKnobEngine:
         else:
             mat_phase = MaterialityPhase.GAS_VAPOR_FUTURE
 
-        # Compute dynamic chromatic triad balance
         red = float(0.33 + (c_val - 0.5) * 0.4 + math.sin(theta) * 0.2)
         blue = float(0.33 - (c_val - 0.5) * 0.3 + math.cos(theta) * 0.2)
         yellow = float(max(0.05, 1.0 - (red + blue)))
@@ -250,7 +247,6 @@ class RelationalSpectrumKnobEngine:
         triad_norm = [t / triad_sum for t in triad_norm]
 
         dom_wl = float(460.0 * triad_norm[1] + 530.0 * triad_norm[2] + 650.0 * triad_norm[0])
-        # Compute kinetic/tension energy from node velocities and bivectors
         total_energy = sum([
             0.5 * float(np.sum(n.velocity**2) + np.sum(n.rotor.bivectors**2))
             for n in self.engine.nodes
@@ -277,27 +273,18 @@ class RelationalSpectrumKnobEngine:
         the Boundary Transducer Membrane without raster computing in the core.
         """
         slice_val = w_slice if w_slice is not None else self.scale_knob.value
-        slicer = OpticalHyperSlicer(resolution_3d=28, resolution_2d=max(resolution_wh))
-        vol = slicer.slice_4d_to_3d_volume(
-            self.engine.nodes,
-            self.engine.kernel,
-            w_slice=slice_val,
-            rotor_obs=self.engine.observer_rotor
+        from elysia_engine.core.field_seed_manifest import BoundaryTransducerMembrane
+        membrane = BoundaryTransducerMembrane()
+        fb = membrane.sample_to_discrete_framebuffer(
+            self.engine,
+            resolution_wh=resolution_wh,
+            w_slice=slice_val
         )
-        proj = slicer.project_to_2d_prism(vol)
-
-        rgb_float = proj["rgb_2d"]
-        rgb_uint8 = np.clip(rgb_float * 255.0, 0, 255).astype(np.uint8)
-
-        return {
-            "framebuffer_rgb": rgb_uint8,
-            "density_2d": proj["density_2d"],
-            "grad_mag": proj["grad_mag"],
-            "scale_w": slice_val,
-            "knob_states": {
-                "scale_w": self.scale_knob.value,
-                "phase_tension": self.tension_knob.value,
-                "chromatic_triad": self.chromatic_knob.value,
-                "rotor_obs": self.observational_knob.value
-            }
+        fb["scale_w"] = slice_val
+        fb["knob_states"] = {
+            "scale_w": self.scale_knob.value,
+            "phase_tension": self.tension_knob.value,
+            "chromatic_triad": self.chromatic_knob.value,
+            "rotor_obs": self.observational_knob.value
         }
+        return fb
