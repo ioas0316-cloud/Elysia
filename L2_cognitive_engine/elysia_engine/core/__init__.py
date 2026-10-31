@@ -25,6 +25,23 @@ from .hyper_dimensional_blister_nebula import (
     HyperDimensionalBlisterNebulaEngine
 )
 
+from .spectrum_field_container import (
+    ElysiaSpectrumFieldContainer,
+    ContainerHeader,
+    TrajectoryKeyframe,
+    EmbeddedTransducerRuntime
+)
+from .legacy_video_decomposer import (
+    LegacyVideoDecomposer,
+    VideoDecompositionReport
+)
+from .relational_spectrum_knob_engine import (
+    RelationalSpectrumKnobEngine,
+    MaterialityPhase,
+    RelationalSpectrumProfile,
+    KnobState
+)
+
 __all__ = [
     "ElysiaBivectorRelaxation",
     "GaugeCommutativeDiagramSolver",
@@ -42,4 +59,14 @@ __all__ = [
     "HyperDimensionalBlisterKernel",
     "OpticalHyperSlicer",
     "HyperDimensionalBlisterNebulaEngine",
+    "ElysiaSpectrumFieldContainer",
+    "ContainerHeader",
+    "TrajectoryKeyframe",
+    "EmbeddedTransducerRuntime",
+    "LegacyVideoDecomposer",
+    "VideoDecompositionReport",
+    "RelationalSpectrumKnobEngine",
+    "MaterialityPhase",
+    "RelationalSpectrumProfile",
+    "KnobState",
 ]
