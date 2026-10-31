@@ -221,14 +221,13 @@ class ShadowBlisterTensionKernel:
         # Stiction damping & Phase Synchronization:
         # Pulls phases together via Kuramoto-like coupling + stiction
         phase_coupling = 0.0
-        if is_blister_active:
-            phase_coupling = math.sin(delta_phi) * (self.kappa_0 + f_blister_snap)
-
-        # Stiction damping: When in blister zone and resonant, rapidly damp phase delta
-        dphi_dt = delta_phi / (dt + self.eps)
         stiction_torque = 0.0
         if is_blister_active and interference > 0.0:
-            stiction_torque = -self.gamma_stiction * (overlap ** 2) * dphi_dt + phase_coupling
+            # Positive coupling torque on node_i (+T) accelerates node_i toward node_j
+            phase_coupling = math.sin(delta_phi) * (self.kappa_0 + f_blister_snap)
+            # Stiction damping: actively contracts remaining phase gap without hunting overshoot
+            stiction_damping = self.gamma_stiction * (overlap ** 2) * math.sin(delta_phi)
+            stiction_torque = phase_coupling + stiction_damping
 
         phase_torque = f_total * b_cross + stiction_torque * bi
 
