@@ -71,4 +71,22 @@ __all__ = [
     "SkillAdaptabilityMap",
     "PerceptualProbeEngine",
     "ProbeFeedback",
+    "OpticalSpectrumState",
+    "OpticalSpectrumBivectorRotor",
+    "ShadowBlisterTensionKernel",
+    "MicroReflexBlisterNetwork",
+    "HierarchicalBlisterBridge",
+    "BridgePropagationReport",
 ]
+
+try:
+    from elysia_engine.core import (
+        OpticalSpectrumState,
+        OpticalSpectrumBivectorRotor,
+        ShadowBlisterTensionKernel,
+        MicroReflexBlisterNetwork,
+        HierarchicalBlisterBridge,
+        BridgePropagationReport,
+    )
+except ImportError:
+    pass
