@@ -7,16 +7,19 @@ from .markov_blanket_interface import (
     MarkovBlanketInterface,
 )
 
-from .multi_scale_wave_sensorimotor import (
-    MultiScaleWaveSensorimotorEngine,
-    HelicalPhasePrismGate,
-    MesoScaleBridgingPLL,
-    MacroSensoryPrismTransducer,
-    MicroHelicalGateOutput,
-    MesoBandState,
-    MacroSensoryOutput,
-    SensorimotorLoopOutput,
-)
+try:
+    from .multi_scale_wave_sensorimotor import (
+        MultiScaleWaveSensorimotorEngine,
+        HelicalPhasePrismGate,
+        MesoScaleBridgingPLL,
+        MacroSensoryPrismTransducer,
+        MicroHelicalGateOutput,
+        MesoBandState,
+        MacroSensoryOutput,
+        SensorimotorLoopOutput,
+    )
+except ImportError:
+    pass
 
 __all__ = [
     "PhaseState",
