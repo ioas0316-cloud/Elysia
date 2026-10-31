@@ -41,6 +41,11 @@ from .relational_spectrum_knob_engine import (
     RelationalSpectrumProfile,
     KnobState
 )
+from .micro_scale_spectral_transition_engine import (
+    MicroScaleSpectralTransitionEngine,
+    MicroTransitionLaw,
+    PhaseTransitionAssessment
+)
 
 __all__ = [
     "ElysiaBivectorRelaxation",
@@ -69,4 +74,7 @@ __all__ = [
     "MaterialityPhase",
     "RelationalSpectrumProfile",
     "KnobState",
+    "MicroScaleSpectralTransitionEngine",
+    "MicroTransitionLaw",
+    "PhaseTransitionAssessment",
 ]
