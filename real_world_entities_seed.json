@@ -1,0 +1,296 @@
+{
+  "seed_name": "real_world_entities_sector_alpha",
+  "version": "1.0.0",
+  "kernel_descriptor": {
+    "omega_c": 0.25,
+    "gamma_power": 2.5,
+    "kappa_0": 1.0,
+    "kappa_1": 16.0,
+    "gamma_stiction": 8.0
+  },
+  "rotors": [
+    {
+      "node_id": "building_pillar_0",
+      "wavelength_nm": 480.0,
+      "position_4d": [
+        0.8,
+        -0.6,
+        0.0,
+        0.2
+      ],
+      "triad_weights": [
+        0.1,
+        0.7,
+        0.2
+      ],
+      "bivectors": [
+        0.05,
+        0.0,
+        0.0,
+        0.02,
+        0.0,
+        0.0
+      ],
+      "intensity": 1.2,
+      "penumbra_scale": 1.1,
+      "intent_potential": 0.0,
+      "phase_theta": 0.0,
+      "entity_tag": "building"
+    },
+    {
+      "node_id": "building_pillar_1",
+      "wavelength_nm": 480.0,
+      "position_4d": [
+        0.8,
+        -0.2,
+        0.0,
+        0.2
+      ],
+      "triad_weights": [
+        0.1,
+        0.7,
+        0.2
+      ],
+      "bivectors": [
+        0.05,
+        0.0,
+        0.0,
+        0.02,
+        0.0,
+        0.0
+      ],
+      "intensity": 1.2,
+      "penumbra_scale": 1.1,
+      "intent_potential": 0.0,
+      "phase_theta": 0.0,
+      "entity_tag": "building"
+    },
+    {
+      "node_id": "building_pillar_2",
+      "wavelength_nm": 480.0,
+      "position_4d": [
+        0.8,
+        0.2,
+        0.0,
+        0.2
+      ],
+      "triad_weights": [
+        0.1,
+        0.7,
+        0.2
+      ],
+      "bivectors": [
+        0.05,
+        0.0,
+        0.0,
+        0.02,
+        0.0,
+        0.0
+      ],
+      "intensity": 1.2,
+      "penumbra_scale": 1.1,
+      "intent_potential": 0.0,
+      "phase_theta": 0.0,
+      "entity_tag": "building"
+    },
+    {
+      "node_id": "building_pillar_3",
+      "wavelength_nm": 480.0,
+      "position_4d": [
+        0.8,
+        0.6,
+        0.0,
+        0.2
+      ],
+      "triad_weights": [
+        0.1,
+        0.7,
+        0.2
+      ],
+      "bivectors": [
+        0.05,
+        0.0,
+        0.0,
+        0.02,
+        0.0,
+        0.0
+      ],
+      "intensity": 1.2,
+      "penumbra_scale": 1.1,
+      "intent_potential": 0.0,
+      "phase_theta": 0.0,
+      "entity_tag": "building"
+    },
+    {
+      "node_id": "person_agent",
+      "wavelength_nm": 630.0,
+      "position_4d": [
+        -0.8,
+        0.0,
+        0.0,
+        0.1
+      ],
+      "triad_weights": [
+        0.8,
+        0.1,
+        0.1
+      ],
+      "bivectors": [
+        0.1,
+        -0.1,
+        0.05,
+        0.05,
+        -0.05,
+        0.1
+      ],
+      "intensity": 1.5,
+      "penumbra_scale": 0.9,
+      "intent_potential": 1.5,
+      "phase_theta": 2.827433388230814,
+      "entity_tag": "person"
+    },
+    {
+      "node_id": "forest_micro_leaves_1",
+      "wavelength_nm": 510.0,
+      "position_4d": [
+        -0.4,
+        0.8,
+        0.0,
+        -0.6
+      ],
+      "triad_weights": [
+        0.1,
+        0.8,
+        0.1
+      ],
+      "bivectors": [
+        0.02,
+        0.04,
+        -0.01,
+        0.01,
+        0.02,
+        -0.01
+      ],
+      "intensity": 1.1,
+      "penumbra_scale": 1.0,
+      "intent_potential": 0.2,
+      "phase_theta": 0.2,
+      "entity_tag": "forest"
+    },
+    {
+      "node_id": "forest_micro_leaves_2",
+      "wavelength_nm": 520.0,
+      "position_4d": [
+        -0.2,
+        1.0,
+        0.0,
+        -0.4
+      ],
+      "triad_weights": [
+        0.1,
+        0.8,
+        0.1
+      ],
+      "bivectors": [
+        0.02,
+        0.04,
+        -0.01,
+        0.01,
+        0.02,
+        -0.01
+      ],
+      "intensity": 1.1,
+      "penumbra_scale": 1.0,
+      "intent_potential": 0.2,
+      "phase_theta": 0.2,
+      "entity_tag": "forest"
+    },
+    {
+      "node_id": "forest_transition_branch",
+      "wavelength_nm": 535.0,
+      "position_4d": [
+        -0.5,
+        0.7,
+        0.0,
+        0.0
+      ],
+      "triad_weights": [
+        0.1,
+        0.8,
+        0.1
+      ],
+      "bivectors": [
+        0.02,
+        0.04,
+        -0.01,
+        0.01,
+        0.02,
+        -0.01
+      ],
+      "intensity": 1.1,
+      "penumbra_scale": 1.0,
+      "intent_potential": 0.2,
+      "phase_theta": 0.2,
+      "entity_tag": "forest"
+    },
+    {
+      "node_id": "forest_macro_canopy",
+      "wavelength_nm": 550.0,
+      "position_4d": [
+        -0.3,
+        0.8,
+        0.0,
+        0.3
+      ],
+      "triad_weights": [
+        0.1,
+        0.8,
+        0.1
+      ],
+      "bivectors": [
+        0.02,
+        0.04,
+        -0.01,
+        0.01,
+        0.02,
+        -0.01
+      ],
+      "intensity": 1.1,
+      "penumbra_scale": 1.0,
+      "intent_potential": 0.2,
+      "phase_theta": 0.2,
+      "entity_tag": "forest"
+    },
+    {
+      "node_id": "light_source_sun",
+      "wavelength_nm": 580.0,
+      "position_4d": [
+        0.0,
+        -1.2,
+        0.0,
+        0.0
+      ],
+      "triad_weights": [
+        0.4,
+        0.5,
+        0.1
+      ],
+      "bivectors": [
+        0.2,
+        0.2,
+        0.2,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "intensity": 2.0,
+      "penumbra_scale": 1.5,
+      "intent_potential": 0.0,
+      "phase_theta": 0.0,
+      "entity_tag": "light_source"
+    }
+  ],
+  "metadata": {
+    "description": "Demonstrates Person, Building, Forest, and Light via 4D Causal Manifold"
+  }
+}
