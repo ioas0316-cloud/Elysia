@@ -277,6 +277,40 @@ class ElysiaSpectrumFieldContainer:
             frames.append(fb["framebuffer_rgb"])
         return frames
 
+    def verify_causal_flow_continuity(
+        self,
+        resolution_wh: Tuple[int, int] = (64, 64),
+        sample_steps: int = 4
+    ) -> Dict[str, Any]:
+        """
+        Evaluates the causal continuity and phase friction of the container playback.
+        Returns continuity metrics showing adherence to physical phase conservation.
+        """
+        from elysia_engine.core.micro_scale_spectral_transition_engine import (
+            MicroScaleSpectralTransitionEngine
+        )
+        transition_engine = MicroScaleSpectralTransitionEngine()
+        frames = self.render_sequence(num_frames=sample_steps, resolution_wh=resolution_wh)
+
+        total_friction = 0.0
+        total_ruptures = 0
+        all_natural = True
+
+        for i in range(len(frames) - 1):
+            assessment = transition_engine.assess_causal_continuity(frames[i], frames[i+1])
+            total_friction += assessment.mean_phase_friction
+            total_ruptures += assessment.phase_rupture_count
+            if not assessment.is_causally_natural:
+                all_natural = False
+
+        avg_friction = total_friction / max(1, len(frames) - 1)
+        return {
+            "all_transitions_natural": all_natural,
+            "average_phase_friction": float(avg_friction),
+            "total_phase_ruptures": total_ruptures,
+            "samples_evaluated": len(frames) - 1
+        }
+
     def get_container_footprint(self) -> Dict[str, Any]:
         """Calculates storage footprint metrics compared to legacy formats."""
         binary_bytes = len(self.pack())
