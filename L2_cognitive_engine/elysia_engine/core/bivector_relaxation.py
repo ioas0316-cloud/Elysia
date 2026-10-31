@@ -1,6 +1,18 @@
-import torch
-import torch.nn as nn
-from typing import Dict, Tuple, Optional
+from __future__ import annotations
+try:
+    import torch
+    import torch.nn as nn
+    _TORCH_AVAILABLE = True
+except ImportError:
+    torch = None
+    class _NN_Module:
+        pass
+    class _NN_Mock:
+        Module = _NN_Module
+    nn = _NN_Mock()
+    _TORCH_AVAILABLE = False
+
+from typing import Dict, Tuple, Optional, Any
 
 
 class ElysiaBivectorRelaxation(nn.Module):
