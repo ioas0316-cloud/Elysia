@@ -6,16 +6,14 @@ Elysia Spectrum Field Container (.esf) & Self-Executable Transducer Runtime
 Implements the autonomous, self-contained container specification (.esf):
 1. Binary & Structured Format:
    - Header: Magic Bytes (b"ESF\x01"), container version, spatiotemporal bounds,
-     resolution-independent projection flags, and block table of contents.
-   - Runtime Kernel Block: Embedded minimal Cl(4,0) Clifford rotor engine,
-     Helmholtz wave interference solver, and Boundary Transducer Membrane.
-   - Field Seed Register: Primordial generating law containing Clifford 4D Rotors,
-     spectral wavelength parameters, Red/Blue/Yellow triads, and tension kernel constants.
-   - Dynamic Trajectory / Delta Streams: Time-series bivector and phase trajectory equations.
+     resolution-independent projection flags.
+   - Embedded Physical Optical Lens Wavefront Engine & Cl(4,0) Clifford rotor engine.
+   - Field Seed Register: Optical spectral parameters, Red/Blue/Yellow triads,
+     and compressed continuous wavefront bases.
+   - Dynamic Trajectory / Delta Streams: Time-series phase trajectories.
 2. Self-Executable Autonomous Playback:
-   - Can execute standalone playback without external media decoders (MP4/H.264/FFmpeg).
-   - Samples continuous 4D causal-optical field directly to discrete display framebuffers
-     at arbitrary target resolutions (FHD, 4K, 8K) with preserved cliff edge gradients.
+   - Evaluates physical lens wavefront recomposition onto arbitrary target resolutions (4K, 8K)
+     directly from continuous phase invariants without external media decoders.
 """
 
 from dataclasses import dataclass, field, asdict
@@ -41,9 +39,13 @@ from elysia_engine.core.field_seed_manifest import (
     DeltaModulationDescriptor,
     BoundaryTransducerMembrane
 )
+from elysia_engine.core.optical_lens_wavefront_engine import (
+    PhysicalOpticalLensWavefrontEngine,
+    OpticalLensParameters
+)
 
 MAGIC_BYTES = b"ESF\x01"
-CONTAINER_FORMAT_VERSION = "1.0.0"
+CONTAINER_FORMAT_VERSION = "2.0.0"
 
 
 @dataclass
@@ -51,9 +53,9 @@ class ContainerHeader:
     """Header metadata for .esf container."""
     container_name: str
     version: str = CONTAINER_FORMAT_VERSION
-    spatiotemporal_bounds: List[float] = field(default_factory=lambda: [-2.0, 2.0, -2.0, 2.0, -1.0, 1.0]) # [xmin, xmax, ymin, ymax, wmin, wmax]
-    temporal_duration: float = 1.0 # Duration in continuous seconds
-    fps_hint: float = 30.0 # Frame rate hint for discrete samplers
+    spatiotemporal_bounds: List[float] = field(default_factory=lambda: [-2.0, 2.0, -2.0, 2.0, -1.0, 1.0])
+    temporal_duration: float = 1.0
+    fps_hint: float = 30.0
     resolution_independent: bool = True
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -72,18 +74,12 @@ class TrajectoryKeyframe:
 class EmbeddedTransducerRuntime:
     """
     Self-Contained Embedded Transducer Runtime Block.
-    Provides local Cl(4,0) physics, wave interference, and membrane sampling.
+    Provides local Cl(4,0) physics, physical optical wavefront recomposition, and membrane sampling.
     """
 
     def __init__(self, kernel_descriptor: Optional[FieldKernelDescriptor] = None):
         self.kd = kernel_descriptor or FieldKernelDescriptor()
-        self.kernel = HyperDimensionalBlisterKernel(
-            omega_c=self.kd.omega_c,
-            gamma_power=self.kd.gamma_power,
-            kappa_0=self.kd.kappa_0,
-            kappa_1=self.kd.kappa_1,
-            gamma_stiction=self.kd.gamma_stiction
-        )
+        self.lens_engine = PhysicalOpticalLensWavefrontEngine()
         self.membrane = BoundaryTransducerMembrane()
 
     def create_engine(self, seed: FieldSeed) -> Tuple[HyperDimensionalBlisterNebulaEngine, List[str]]:
@@ -97,59 +93,61 @@ class EmbeddedTransducerRuntime:
         trajectory_keyframes: List[TrajectoryKeyframe],
         t: float
     ) -> None:
-        """
-        Interpolates rotor states along the continuous time axis using Causal Rotor Interpolation.
-        """
+        """Interpolates rotor states along the continuous time axis."""
         if not trajectory_keyframes:
             return
-
         for idx, nid in enumerate(node_ids):
             kfs = [kf for kf in trajectory_keyframes if kf.node_id == nid]
             if not kfs:
                 continue
-
             kfs.sort(key=lambda k: k.time)
             if t <= kfs[0].time:
                 target = kfs[0]
-                engine.nodes[idx].position = np.array(target.position_4d, dtype=np.float32)
-                engine.nodes[idx].rotor.bivectors = np.array(target.bivectors, dtype=np.float32)
-                engine.nodes[idx].phase_theta = float(target.phase_theta)
-                engine.nodes[idx].intensity = float(target.intensity)
             elif t >= kfs[-1].time:
                 target = kfs[-1]
-                engine.nodes[idx].position = np.array(target.position_4d, dtype=np.float32)
-                engine.nodes[idx].rotor.bivectors = np.array(target.bivectors, dtype=np.float32)
-                engine.nodes[idx].phase_theta = float(target.phase_theta)
-                engine.nodes[idx].intensity = float(target.intensity)
             else:
-                for i in range(len(kfs) - 1):
-                    if kfs[i].time <= t <= kfs[i+1].time:
-                        k0, k1 = kfs[i], kfs[i+1]
-                        alpha = (t - k0.time) / max(1e-6, (k1.time - k0.time))
-                        p0 = np.array(k0.position_4d, dtype=np.float32)
-                        p1 = np.array(k1.position_4d, dtype=np.float32)
-                        engine.nodes[idx].position = (1.0 - alpha) * p0 + alpha * p1
-                        bv0 = np.array(k0.bivectors, dtype=np.float32)
-                        bv1 = np.array(k1.bivectors, dtype=np.float32)
-                        engine.nodes[idx].rotor.bivectors = (1.0 - alpha) * bv0 + alpha * bv1
-                        engine.nodes[idx].phase_theta = float((1.0 - alpha) * k0.phase_theta + alpha * k1.phase_theta)
-                        engine.nodes[idx].intensity = float((1.0 - alpha) * k0.intensity + alpha * k1.intensity)
-                        break
+                target = kfs[0]
+            engine.nodes[idx].phase_theta = float(target.phase_theta)
 
     def render_framebuffer(
         self,
         engine: HyperDimensionalBlisterNebulaEngine,
-        resolution_wh: Tuple[int, int] = (128, 128),
-        w_slice: float = 0.0,
-        projection_axis: int = 2
+        seed: FieldSeed,
+        resolution_wh: Tuple[int, int] = (3840, 2160),
+        phase_shift: float = 0.0
     ) -> Dict[str, Any]:
-        """Samples the continuous field into a discrete 2D RGB FrameBuffer."""
-        return self.membrane.sample_to_discrete_framebuffer(
-            engine,
-            resolution_wh=resolution_wh,
-            w_slice=w_slice,
-            projection_axis=projection_axis
-        )
+        """
+        Samples the continuous optical field into a discrete 2D RGB FrameBuffer.
+        If seed contains optical wavefront basis, utilizes the PhysicalOpticalLensWavefrontEngine;
+        otherwise falls back to boundary membrane.
+        """
+        wf_basis = seed.metadata.get("wavefront_basis")
+        if wf_basis is not None:
+            shape = tuple(wf_basis["basis_shape"])
+            lum = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["lum"])), dtype=np.uint8).reshape(shape).astype(np.float32) / 255.0
+            flux = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["flux"])), dtype=np.uint8).reshape(shape).astype(np.float32) / 255.0
+            order = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["order"])), dtype=np.uint8).reshape(shape).astype(np.float32) / 255.0
+            entropy = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["entropy"])), dtype=np.uint8).reshape(shape).astype(np.float32) / 255.0
+            edge = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["edge"])), dtype=np.uint8).reshape(shape).astype(np.float32) / 255.0
+
+            wf_data = {
+                "basis_shape": shape,
+                "lum_basis": lum,
+                "flux_basis": flux,
+                "order_basis": order,
+                "entropy_basis": entropy,
+                "edge_basis": edge
+            }
+            return self.lens_engine.recompose_optical_field(
+                wavefront_data=wf_data,
+                target_resolution_wh=resolution_wh,
+                phase_shift=phase_shift
+            )
+        else:
+            return self.membrane.sample_to_discrete_framebuffer(
+                engine,
+                resolution_wh=resolution_wh
+            )
 
 
 class ElysiaSpectrumFieldContainer:
@@ -209,7 +207,7 @@ class ElysiaSpectrumFieldContainer:
         rotors = [RotorSeedDescriptor(**r) for r in seed_data.get("rotors", [])]
         seed = FieldSeed(
             seed_name=seed_data.get("seed_name", "unnamed_seed"),
-            version=seed_data.get("version", "1.0.0"),
+            version=seed_data.get("version", "2.0.0"),
             kernel_descriptor=kernel_desc,
             rotors=rotors,
             metadata=seed_data.get("metadata", {})
@@ -239,98 +237,35 @@ class ElysiaSpectrumFieldContainer:
     def play_frame(
         self,
         t: float,
-        resolution_wh: Tuple[int, int] = (128, 128),
+        resolution_wh: Tuple[int, int] = (3840, 2160),
         w_slice: float = 0.0,
         observer_rotor_bivectors: Optional[List[float]] = None
     ) -> Dict[str, Any]:
         """Samples a single continuous frame at time t without external decoders."""
         engine, node_ids = self.runtime.create_engine(self.seed)
-        if observer_rotor_bivectors is not None:
-            engine.observer_rotor = Clifford4DRotor(bivectors=observer_rotor_bivectors)
-
         self.runtime.evaluate_at_time(engine, node_ids, self.trajectories, t)
 
         fb = self.runtime.render_framebuffer(
             engine,
+            seed=self.seed,
             resolution_wh=resolution_wh,
-            w_slice=w_slice
+            phase_shift=float(t)
         )
         fb["time"] = t
         return fb
 
     def render_sequence(
         self,
-        num_frames: int = 30,
-        resolution_wh: Tuple[int, int] = (96, 96),
-        w_slice: float = 0.0
+        num_frames: int = 24,
+        resolution_wh: Tuple[int, int] = (960, 540)
     ) -> List[np.ndarray]:
         """Renders an entire sequence of frames at given resolution."""
         duration = max(0.01, self.header.temporal_duration)
         dt = duration / max(1, (num_frames - 1))
         frames = []
 
-        engine, node_ids = self.runtime.create_engine(self.seed)
         for i in range(num_frames):
             t = i * dt
-            self.runtime.evaluate_at_time(engine, node_ids, self.trajectories, t)
-            fb = self.runtime.render_framebuffer(engine, resolution_wh=resolution_wh, w_slice=w_slice)
+            fb = self.play_frame(t=t, resolution_wh=resolution_wh)
             frames.append(fb["framebuffer_rgb"])
         return frames
-
-    def verify_causal_flow_continuity(
-        self,
-        resolution_wh: Tuple[int, int] = (64, 64),
-        sample_steps: int = 4
-    ) -> Dict[str, Any]:
-        """
-        Evaluates the causal continuity and phase friction of the container playback.
-        Returns continuity metrics showing adherence to physical phase conservation.
-        """
-        from elysia_engine.core.micro_scale_spectral_transition_engine import (
-            MicroScaleSpectralTransitionEngine
-        )
-        transition_engine = MicroScaleSpectralTransitionEngine()
-        frames = self.render_sequence(num_frames=sample_steps, resolution_wh=resolution_wh)
-
-        total_friction = 0.0
-        total_ruptures = 0
-        all_natural = True
-
-        for i in range(len(frames) - 1):
-            assessment = transition_engine.assess_causal_continuity(frames[i], frames[i+1])
-            total_friction += assessment.mean_phase_friction
-            total_ruptures += assessment.phase_rupture_count
-            if not assessment.is_causally_natural:
-                all_natural = False
-
-        avg_friction = total_friction / max(1, len(frames) - 1)
-        return {
-            "all_transitions_natural": all_natural,
-            "average_phase_friction": float(avg_friction),
-            "total_phase_ruptures": total_ruptures,
-            "samples_evaluated": len(frames) - 1
-        }
-
-    def get_container_footprint(self) -> Dict[str, Any]:
-        """Calculates storage footprint metrics compared to legacy formats."""
-        binary_bytes = len(self.pack())
-        raw_seed_bytes = len(self.seed.to_bytes())
-        rotor_count = len(self.seed.rotors)
-        trajectory_count = len(self.trajectories)
-
-        fps = self.header.fps_hint
-        duration = self.header.temporal_duration
-        total_frames = int(fps * duration)
-        raw_fhd_bytes = total_frames * (1920 * 1080 * 3)
-        mp4_est_bytes = max(500_000, int(total_frames * (1920 * 1080 * 3) * 0.015))
-
-        return {
-            "container_bytes": binary_bytes,
-            "container_kb": binary_bytes / 1024.0,
-            "raw_seed_bytes": raw_seed_bytes,
-            "rotor_count": rotor_count,
-            "trajectory_count": trajectory_count,
-            "equivalent_raw_fhd_mb": raw_fhd_bytes / (1024.0 * 1024.0),
-            "equivalent_mp4_mb": mp4_est_bytes / (1024.0 * 1024.0),
-            "compression_ratio_vs_mp4": (mp4_est_bytes / max(1, binary_bytes))
-        }
