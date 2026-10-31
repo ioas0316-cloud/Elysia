@@ -109,6 +109,7 @@ class LegacyVideoDecomposer:
         # Serialize continuous bases compactly for full resolution-independent field recomposition
         import zlib
         basis_dict = {
+            "rgb": zlib.compress((wf_data["rgb_basis"] * 255).astype(np.uint8).tobytes()).hex(),
             "lum": zlib.compress((wf_data["lum_basis"] * 255).astype(np.uint8).tobytes()).hex(),
             "flux": zlib.compress((wf_data["flux_basis"] * 255).astype(np.uint8).tobytes()).hex(),
             "order": zlib.compress((wf_data["order_basis"] * 255).astype(np.uint8).tobytes()).hex(),

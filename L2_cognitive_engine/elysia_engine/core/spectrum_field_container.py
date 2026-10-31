@@ -124,6 +124,11 @@ class EmbeddedTransducerRuntime:
         wf_basis = seed.metadata.get("wavefront_basis")
         if wf_basis is not None:
             shape = tuple(wf_basis["basis_shape"])
+            rgb = None
+            if "rgb" in wf_basis and wf_basis["rgb"] is not None:
+                rgb_shape = (shape[0], shape[1], 3)
+                rgb = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["rgb"])), dtype=np.uint8).reshape(rgb_shape).astype(np.float32) / 255.0
+
             lum = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["lum"])), dtype=np.uint8).reshape(shape).astype(np.float32) / 255.0
             flux = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["flux"])), dtype=np.uint8).reshape(shape).astype(np.float32) / 255.0
             order = np.frombuffer(zlib.decompress(bytes.fromhex(wf_basis["order"])), dtype=np.uint8).reshape(shape).astype(np.float32) / 255.0
@@ -132,6 +137,7 @@ class EmbeddedTransducerRuntime:
 
             wf_data = {
                 "basis_shape": shape,
+                "rgb_basis": rgb,
                 "lum_basis": lum,
                 "flux_basis": flux,
                 "order_basis": order,
