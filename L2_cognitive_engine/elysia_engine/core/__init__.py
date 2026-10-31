@@ -16,6 +16,14 @@ from .hierarchical_blister_bridge import (
     HierarchicalBlisterBridge,
     BridgePropagationReport
 )
+from .hyper_dimensional_blister_nebula import (
+    HyperDimensionalState,
+    Clifford4DRotor,
+    HyperDimensionalOpticalRotor,
+    HyperDimensionalBlisterKernel,
+    OpticalHyperSlicer,
+    HyperDimensionalBlisterNebulaEngine
+)
 
 __all__ = [
     "ElysiaBivectorRelaxation",
@@ -28,4 +36,10 @@ __all__ = [
     "MicroReflexBlisterNetwork",
     "HierarchicalBlisterBridge",
     "BridgePropagationReport",
+    "HyperDimensionalState",
+    "Clifford4DRotor",
+    "HyperDimensionalOpticalRotor",
+    "HyperDimensionalBlisterKernel",
+    "OpticalHyperSlicer",
+    "HyperDimensionalBlisterNebulaEngine",
 ]
