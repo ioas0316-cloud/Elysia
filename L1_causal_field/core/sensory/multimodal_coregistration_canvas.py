@@ -106,18 +106,18 @@ class TactileSomatosensoryApparatus:
 
         # 무게와 부피의 체감 밀도 판별
         if entity.mass_density_g_cm3 < 0.2:
-            density_feel = "Hollow_Weightless"
+            density_feel = "Hollow_Weightless (텅 빈 듯 가벼움)"
         elif entity.mass_density_g_cm3 > 1.0:
-            density_feel = "Dense_Rubbery"
+            density_feel = "Dense_Rubbery (단단하고 묵직한 고무질)"
         else:
-            density_feel = "Organic_Solid_Heavy"
+            density_feel = "Organic_Solid_Heavy (속이 꽉 찬 유기물 과육)"
 
         if entity.surface_waxy_friction > 0.6:
-            friction_feel = "Natural_Waxy_Skin"
+            friction_feel = "Natural_Waxy_Skin (자연스러운 왁스 껍질)"
         elif entity.synthetic_polymer_odor > 0.5:
-            friction_feel = "Cold_Rigid_Polymer"
+            friction_feel = "Cold_Rigid_Polymer (차갑고 매끄러운 플라스틱)"
         else:
-            friction_feel = "Elastic_Rubber"
+            friction_feel = "Elastic_Rubber (마찰이 강한 고무질)"
 
         estimated_mass = 220.0 * entity.mass_density_g_cm3
 
@@ -133,11 +133,11 @@ class ChemicalSomaticApparatus:
     """화학 분자 결합을 통해 생명적 본질을 감지하는 독립 후각/미각 관측기"""
     def observe(self, entity: WorldPhysicalEntity) -> ChemicalPercept:
         if entity.synthetic_polymer_odor > 0.6:
-            essence = "Inert_Synthetic_Plastic"
+            essence = "Inert_Synthetic_Plastic (인공 고분자 석유화학물)"
         elif entity.organic_moisture_ratio > 0.6:
-            essence = "Fresh_Organic_Fruity"
+            essence = "Fresh_Organic_Fruity (과즙과 유기산이 숨쉬는 생체)"
         else:
-            essence = "Volatile_Rubber"
+            essence = "Volatile_Rubber (가황 고무 탄화수소)"
 
         return ChemicalPercept(
             essence_type=essence,
@@ -205,13 +205,15 @@ class MultiModalCoRegistrationCanvas:
         frictions = []
 
         # 1. [형태 층위의 포개어봄]: 눈이 본 윤곽선과 사과 원형의 기하학 대조
-        form_matches = (visual.detected_contour == self.archetype.expected_contour)
+        # 감각기관이 돌려주는 질적 기술은 한글 설명을 포함할 수 있으므로
+        # 원형 키워드가 앞부분에 포함되는지로 포개어봄 (startswith — 등호의 연속적 탄성)
+        form_matches = visual.detected_contour.startswith(self.archetype.expected_contour)
         if not form_matches:
             frictions.append(f"형태적 불일치: 시각 윤곽({visual.detected_contour})이 사과의 유기적 곡률과 맞지 않음")
 
         # 2. [시각과 촉각의 교차 포개어봄]: 눈이 본 크기/질감과 손이 쥔 부피/저항감 대조
         # "눈으로 볼 때는 속이 꽉 찬 사과 크기인데, 손으로 쥐었을 때의 무게와 밀도가 겹쳐지는가?"
-        tactile_visual_matches = (tactile.measured_density_feel == self.archetype.expected_density_feel)
+        tactile_visual_matches = tactile.measured_density_feel.startswith(self.archetype.expected_density_feel)
         if not tactile_visual_matches:
             frictions.append(
                 f"시각-촉각 간 층위 파열: 눈은 사과 부피({visual.estimated_volume_cm3:.0f}cm³)를 보았으나, "
@@ -219,7 +221,7 @@ class MultiModalCoRegistrationCanvas:
             )
 
         # 3. [물성과 본질 층위의 포개어봄]: 냄새/화학 수용기와 사과 생체 본질의 대조
-        substance_matches = (chemical.essence_type == self.archetype.expected_essence)
+        substance_matches = chemical.essence_type.startswith(self.archetype.expected_essence)
         if not substance_matches:
             frictions.append(
                 f"물성적 본질 파열: 사과 과육의 생체 향이 아닌 {chemical.essence_type} 감지됨!"
@@ -241,18 +243,20 @@ class MultiModalCoRegistrationCanvas:
             judgment = "온전한 진짜 빨간 사과 (Authentic Red Apple)"
             qualia = "Harmonic Equilibrium (모든 감각 층위가 어긋남 없이 등호 '='를 이룸)"
 
-        elif form_matches and (not tactile_visual_matches or not substance_matches):
-            # 형태는 겹치는데 손의 감각과 물질이 찢어짐 -> 가짜 모형!
-            judgment = f"가짜 모형 사과 (Plastic Replica Apple) — 겉보기는 사과이나 물성이 플라스틱임"
-            qualia = "Cognitive Rupture (시각의 기대와 촉각의 실재가 어긋나는 강한 인지적 배신감/의심)"
-
         elif form_matches and tactile_visual_matches and substance_matches and (not chroma_matches):
-            # 물질, 형태, 촉감은 100% 사과인데 '색채만 초록색'으로 변위됨 -> 풋사과!
+            # 물질, 형태, 촉감은 100% 사과 — 색채만 초록색으로 변위됨 -> 풋사과!
+            # ★ 이 경로가 "플라스틱" 판정보다 먼저 와야 한다:
+            #   물성이 모두 맞는데 색채만 다른 것은 "파열"이 아닌 "지평 확장"이다
             judgment = "초록 사과 / 풋사과 (Green Apple) — 색채 스펙트럼만 변위된 온전한 사과"
             qualia = "Epistemic Expansion (불변량은 보존된 채 색채 축의 지평이 넓어지는 깨달음)"
             # 인과적 나이테: 사과 원형의 색채 허용 범위를 초록색까지 자율 확장!
             old_range = self.archetype.allowed_opponent_rg_range
             self.archetype.allowed_opponent_rg_range = (min(old_range[0], rg - 0.1), max(old_range[1], rg + 0.1))
+
+        elif form_matches and (not tactile_visual_matches or not substance_matches):
+            # 형태는 겹치는데 손의 감각/물질이 찢어짐 -> 가짜 모형!
+            judgment = f"가짜 모형 사과 (Plastic Replica Apple) — 겉보기는 사과이나 물성이 플라스틱임"
+            qualia = "Cognitive Rupture (시각의 기대와 촉각의 실재가 어긋나는 강한 인지적 배신감/의심)"
 
         else:
             # 형태도, 물성도 사과가 아님
