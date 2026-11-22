@@ -4,6 +4,10 @@
 
 ## 1. 인간형 인과 순환계 및 자율 주체성 (Human-like Closed-Loop Cognition)
 
+- [verify_imaginative_perceptual_recreator.py](file:///c:/Elysia/scripts/verify_imaginative_perceptual_recreator.py)
+- [verify_spacetime_structural_cinema.py](file:///c:/Elysia/scripts/verify_spacetime_structural_cinema.py)
+- [verify_grounded_rotor_and_reflection.py](file:///c:/Elysia/scripts/verify_grounded_rotor_and_reflection.py)
+- [verify_active_epistemic_explorer.py](file:///c:/Elysia/scripts/verify_active_epistemic_explorer.py)
 - [verify_human_like_causal_cognition_loop.py](file:///c:/Elysia/scripts/verify_human_like_causal_cognition_loop.py)
 - [verify_embodied_sensorimotor_prediction.py](file:///c:/Elysia/scripts/verify_embodied_sensorimotor_prediction.py)
 - [verify_subjective_agency.py](file:///c:/Elysia/scripts/verify_subjective_agency.py)
@@ -14,9 +18,12 @@
 - [verify_self_referential_enhancements.py](file:///c:/Elysia/scripts/verify_self_referential_enhancements.py)
 - [verify_enactive_relational_memory.py](file:///c:/Elysia/scripts/verify_enactive_relational_memory.py)
 - [verify_enactive_boundary_isomorphism.py](file:///c:/Elysia/scripts/verify_enactive_boundary_isomorphism.py)
+- [verify_unified_world_game_book_learning.py](file:///c:/Elysia/scripts/verify_unified_world_game_book_learning.py)
+- [verify_autopoietic_organ_and_tool_genesis.py](file:///c:/Elysia/scripts/verify_autopoietic_organ_and_tool_genesis.py)
 
 ## 2. 생체 거푸집 및 인과 불변량 추출 (Biological Molds & Invariants)
 
+- [verify_ocular_scale_organ.py](file:///c:/Elysia/scripts/verify_ocular_scale_organ.py)
 - [verify_causal_mold_field.py](file:///c:/Elysia/scripts/verify_causal_mold_field.py)
 - [verify_multimodal_coregistration_overlay.py](file:///c:/Elysia/scripts/verify_multimodal_coregistration_overlay.py)
 - [verify_autonomous_real_world_comparative_cognition.py](file:///c:/Elysia/scripts/verify_autonomous_real_world_comparative_cognition.py)
