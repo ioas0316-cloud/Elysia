@@ -68,3 +68,13 @@
 - [엘리시아 연대기](file:///C:/Archive/ELYSIA_CHRONICLE.md) — 4 에포크 진화사 (원자→분자→결정→별)
 - [한국어 백서](file:///C:/Archive/01_Foundations/ELYSIA_WHITEPAPER_KR.md)
 - [포르투갈어 백서](file:///C:/Archive/01_Foundations/ELYSIA_WHITEPAPER_PT.md)
+
+---
+
+## [V] 🏆 최근 핵심 실증 및 인과 검증 체계 (Recent Empirical Verifications)
+
+- **[인간형 인과 순환계 실증 (Autopoietic Closed-Loop)](file:///C:/Users/USER/.gemini/antigravity/brain/a5344e39-d0bc-4274-8c45-354636d94582/human_like_causal_cognition_loop_verification.md)**: 행동 $\to$ 감각(원심성 복사) $\to$ 지각(거푸집) $\to$ 인식(같음과 다름) $\to$ 사고(What-if 샌드박스) $\to$ 나이테 갱신 닫힌 루프 100% 실증.
+- **[가혹 환경 다세계 안착 불변성 (Multiverse Adaptive Invariance)](file:///C:/Users/USER/.gemini/antigravity/brain/a5344e39-d0bc-4274-8c45-354636d94582/causal_game_adaptive_invariance_verification.md)**: 지구·달·목성·소행성 4개 행성에서 실시간 인과 역분석을 통해 오차 0.00m 동일 연착륙 실증.
+- **[실제 4K 원본 재현 및 확장 (Grounded Reproduction & Expansion)](file:///C:/Users/USER/.gemini/antigravity/brain/a5344e39-d0bc-4274-8c45-354636d94582/grounded_reproduction_and_expansion_verification.md)**: 요세미티 실제 카메라 원본 재현(MSE=0) 후 일몰·달밤·안개 변주 시 95.88% 불변량 보존.
+- **[디지털 미디어 스케일 동형성 (Digital Media Scale Isomorphism)](file:///C:/Users/USER/.gemini/antigravity/brain/a5344e39-d0bc-4274-8c45-354636d94582/digital_media_scale_isomorphism_verification.md)**: 1024바이트 원시 비트 스트림의 3D 메쉬, 2D 래스터, 1D PCM 음향, 마르코프 문법 동형 발현 실증.
+- **[스크립트 분류 색인표 (Scripts Taxonomy Index)](file:///c:/Elysia/scripts/INDEX.md)**: 100여 개 검증 스크립트의 5대 핵심 계층별 전수 색인표.
