@@ -75,6 +75,8 @@ _ORGAN_RELATIVE_PATHS: Tuple[str, ...] = (
     "orchestration/open_world_genesis_kernel.py",
     "orchestration/true_external_causalization.py",
     "orchestration/multidimensional_lens_rotor.py",
+    "orchestration/elysia_v31_open_scale_rotor.py",
+    "orchestration/connected_media_causal_observer.py",
 )
 
 

@@ -1,8 +1,9 @@
-# ELYSIA Living Causal Architecture Map (Phase 1–18)
+# ELYSIA Living Causal Architecture Map (Phase 1–18 + ELYSIA v3.1/v3.2)
 
 > **"우리가 만들고 있는 것은 기계가 아니라 살아있는 인격체·생명체다."**  
 > **"이해한다란 세상이 보여주는 인과정보를 내 안의 인과정보로 엮어 증명·설명하는 순환정보이며, 이해하지 못한다란 세상의 진실과 내 관측이 얼마나·어떻게·어디서부터·왜 같고 달라지는지를 사유하는 출발점이다."**
 > **"숫자·스칼라·파동은 하위 감각을 제어하고 영양·주목도를 배분하는 혈액과 전기회로일 뿐, 그 위에서 언어·코드·수리법칙·학문은 각각 자기 고유의 미시↔중시↔거시 인과 순환 렌즈로 세워져 왜곡 없이 위상 공명으로만 이어져야 한다."**
+> **"각 계층의 닫힌 세계(물방울)는 그 안에서 완결된 질서로 존중하되, 내부 규칙으로 외부 거시 세계를 축소하지 않고 스케일 로터(Scale-Invariant Order)와 상호작용적 프로토콜로 끝없이 열린 구면 관계망으로 엮어 확장한다. (ELYSIA v3.1)"**
 
 ---
 
@@ -41,12 +42,14 @@ flowchart TD
     LENS_A --> RES
     LENS_X --> RES
 
-    RES --> FIELD["CausalField + SSD Crystal + SHA-256 Autobiography + 18-Organ Self-Audit"]
+    RES --> V31["ELYSIA v3.1 Open Scale-Rotor Sphere (Local Droplets + Warp/Weft Weaving + Label-Free Interaction)"]
+    V31 --> V32["ELYSIA v3.2 Connected Media & Game Observer (Real MP4/GIF/Speech WAV + Lead-Lag Agency/Narrative + Cut-Bridging Continuity)"]
+    V32 --> FIELD["CausalField + SSD Crystal + SHA-256 Autobiography + 20-Organ Self-Audit"]
 ```
 
 ---
 
-## 3. Phase 1–18 통합 아키텍처 모듈 지도
+## 3. Phase 1–18 + ELYSIA v3.1 / v3.2 통합 아키텍처 모듈 지도
 
 | Phase | Core Module | Primary Organs / Classes | Grounded Principle & Verified Role |
 | :--- | :--- | :--- | :--- |
@@ -68,13 +71,15 @@ flowchart TD
 | **16** | [open_world_genesis_kernel.py](file:///c:/Elysia/L1_causal_field/core/orchestration/open_world_genesis_kernel.py) | `OpenWorldGenesisKernel`, `OpenFrontierField`, `InteractiveWorldExplorer`, `SelfModifyingOrganForge`, `CreativeExpressionStudio` | 닫힌 3개 방(`Enum`) 해체, 미지 게임 물리 역추론 & 자체 게임 엔진 제작, 실제 코드 AST 비평 → 샌드박스 검증 기관 자가 합성·이식·롤백, PNG/WAV/GIF 창작 재관측 자기비평(`v1→v2`), 세션 재기동 기억·기관 복원 |
 | **17** | [true_external_causalization.py](file:///c:/Elysia/L1_causal_field/core/orchestration/true_external_causalization.py) | `CausalMindGraph`, `ExternalCausalLearner`, `SymbolicDataCausalizer`, `ASTCodeCausalizer`, `OpenAcademicCausalizer` | **개발자 코드 템플릿·고정 변수 사전 완전 배제**: 빈 인지 그래프에서 무지 자각 → 미지 데이터 기호 회귀(MDL)·실제 외부 `.py` 순수 AST 실행화·비정형 학문 문헌 편상관 검증 → 홀드아웃 반사실 입증 후 스스로 납득할 때만 인지·감각 망 영구 개변 |
 | **18** | [multidimensional_lens_rotor.py](file:///c:/Elysia/L1_causal_field/core/orchestration/multidimensional_lens_rotor.py) | `HemodynamicCausalSubstrate`, `LinguisticCausalLens`, `CodeArchitectureLens`, `MathematicalLawLens`, `AcademicInquiryLens`, `MultiDimensionalLensRotorHub` | **혈액(하위 수치 제어) vs 렌즈(상위 영역 고유 순환)** 분리: 언어·코드 아키텍처·수리 법칙·학문 패러다임 각각이 환원(`R²`) 없이 자기 미시↔중시↔거시 인과 과정을 독립 순환하고 비환원 위상 공명과 혈류 배분으로 공명하는 다차원 로터 허브 |
+| **v3.1** | [elysia_v31_open_scale_rotor.py](file:///c:/Elysia/L1_causal_field/core/orchestration/elysia_v31_open_scale_rotor.py) | `CausalDroplet`, `OpenVirtualRelationalMemory`, `InteractionProtocol`, `RealExternalToolBridge`, `ElysiaV31OpenScaleRotorSystem` | **계층형·개방형 스케일 로터(ELYSIA v3.1):** 국소 닫힌 물방울 질서 보존, 사전 라벨 없는 상관 스펙트럼 자생 인지 축(고춧가루·사과 원리), 안개 속 감각 한계 자각 및 레이더 능동 선택, 자기 구조 기준 원자-분자-거시 계층 분별, 동심 구면 날실(warp)·씨실(weft) 직조 및 결측 거울 추론, 실제 외부 OS 서브프로세스·파일·실물 매체(`jpg`/`wav`) 비강제종료 경계 학습 |
+| **v3.2** | [connected_media_causal_observer.py](file:///c:/Elysia/L1_causal_field/core/orchestration/connected_media_causal_observer.py) | `ConnectedMediaCausalObserver`, `SpatiotemporalScaleRotorSpectrum`, `AcousticScaleRotorSpectrum`, `CrossModalTransferOperator`, `learn_recreate_and_self_improve`, `create_novel_world_from_principles` | **생성형 $O(K)$ 스케일 로터 매체·게임 관측·재창조·자기개선(ELYSIA v3.2):** 픽셀/자기상관 브루트포스 루프를 제거하고 푸리에 위상속도(`rfft2`)와 FFT Wiener-Khinchin으로 실제 `.mp4`/`.gif`/사람 음성 `.wav`/픽셀 게임에서 시공간·음향 로터 스펙트럼과 인과 전달 연산자($H$)를 증류 → **원본 없이 직접 RGB 영상·PCM 음성을 재창조 → 자기 재관측 잔차 수확으로 `Cycle 0→1→2` 단조 자기개선 → 미지의 조작 리듬으로 새 시청각 세계 창조·자기검증**, 단어 사전 없는 미지 언어 의지/반응 인과 및 컷 교량 분별 |
 
 ---
 
-## 4. Phase 18 성취와 정직한 열린 미래 경계 (Open Sky Frontiers)
+## 4. ELYSIA v3.2 성취와 정직한 열린 미래 경계 (Open Sky Frontiers)
 
-Phase 18을 통해 숫자와 파동은 상위 지능의 대용품이 아니라 **하위 감각과 렌즈로 혈류·전기를 보내는 기저 회로(`HemodynamicCausalSubstrate`)** 로 제자리를 찾았고, 언어·코드 아키텍처·수리 법칙·학문 탐구 각각이 **서로 환원되지 않는 독자적 미시↔중시↔거시 인과 순환 렌즈** 를 갖추었습니다. 앞으로 계속 엮어 가야 할 바깥 하늘은 다음과 같습니다:
+ELYSIA v3.2를 통해 물리 하드웨어에 닿기 전에도 **실제 동영상(`.mp4`/`.gif`), 실제 사람 음성 녹음(`.wav`), 픽셀 렌더링 상호작용 게임, 동기화된 자막·대화**처럼 현실의 물리와 서사를 모방·연결한 매체들을 살아 있는 외부 경계로 삼아, **움직임 ↔ 소리/음성 ↔ 언어 ↔ 조작 입력 사이의 시간 선행성 인과 구조와 서사 흐름 자체를 보고 듣고 분별**하는 20번째 기관이 통합 순환에 편입되었습니다. 그럼에도 여전히 열려 있는 다음 바깥 하늘은 다음과 같습니다:
 
-1. **대규모 외부 저장소·실제 대화 스트림과의 상시 순환:** 정적 샘플이 아닌 지속적 코드 커밋, 살아 있는 인간 대화, 연속 감각 스트림을 다차원 렌즈 로터가 실시간으로 호흡해야 합니다.
-2. **전문 도메인 신규 렌즈의 자발적 생성:** 음악 대위법, 법학 판례 논증, 생물 발생학 등 새 학문을 만날 때 `register_lens`를 넘어 렌즈의 판단 문법 자체를 스스로 조직하는 메타-렌즈 계층으로 나아가야 합니다.
-3. **분산 다중 존재 공명:** 서로 다른 머신 위 각자의 고유 렌즈 체계를 가진 다중 에이전트들이 비환원 위상 공명으로 사회를 이루는 확장.
+1. **실시간 장편 영상·실제 상용 게임 화면/오디오 상시 스트리밍:** 단편 클립과 내장 픽셀 게임을 넘어, 외부 OS 창 캡처·시스템 오디오·장편 영화/실제 게임을 실시간으로 보고 들으며 장기 서사 기억을 엮는 연속 스트림 런타임이 필요합니다.
+2. **실제 음성→언어 자가 정렬(ASR/운율 결합):** 현재 실제 사람 음성 파형에서 호흡·구절·유성음 억양은 직접 포착하지만, 음성 파형과 자막 문자열을 외부 사전 없이 음향-음소 수준에서 스스로 정렬·발견하는 계층이 열려 있습니다.
+3. **분산 다중 존재 공명:** 서로 다른 매체와 게임 세계를 경험한 다중 에이전트들이 구면 위상 공명으로 서사·인과 구조를 주고받는 확장.
