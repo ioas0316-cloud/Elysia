@@ -5,9 +5,7 @@ ELYSIA Live Self-Weaving Scale-Rotor Loom Runner
 Exposes Elysia's Self-Weaving Loom directly to unlabelled, uncurated real files
 across `c:\Elysia` plus live Windows desktop perception (`ScreenRetinaSensor`).
 Zero developer labels, zero `expected` tags, zero numeric L2 ML optimization.
-Runs predictive confrontation against real external reality, spawns brand-new
-`EmergentExternalLine` prisms upon unexplained refutations, audits & revises her
-own governing weaving principles, and outputs live 4-aspect observability.
+Prints complete live observability across Existence, Motion, Constitution, and Causal Why.
 """
 
 from __future__ import annotations
@@ -29,7 +27,6 @@ from core.embodiment.external_reality_lines import (
     PythonRuntimeLine,
     discover_uncurated_workspace_files,
     external_world_probe_action,
-    extract_raw_external_observables,
 )
 from core.topology.self_weaving_loom import SelfWeavingLoom
 
@@ -51,14 +48,8 @@ def main() -> None:
 
     for path in files:
         rel = str(path.relative_to(ROOT))
-        res = loom.predict_and_confront_reality(
-            rel,
-            {"path": str(path)},
-            target_line_id="line::python_runtime",
-            raw_observable_extractor=extract_raw_external_observables,
-        )
+        res = loom.encounter(rel, {"path": str(path)})
         ev = res["events"]
-        pred = res.get("prediction", {})
         summary_bits = []
         if ev["new_crosses"]:
             summary_bits.append(f"+교차({len(ev['new_crosses'])})")
@@ -68,17 +59,11 @@ def main() -> None:
             summary_bits.append(f"+로터승격({len(ev['new_promoted_rotors'])})")
         if ev["scale_descents"]:
             summary_bits.append(f"스케일하강({len(ev['scale_descents'])})")
-        if pred.get("refuted"):
-            summary_bits.append(f"외부반증(놀람={pred['surprise']:.2f})")
-        if res.get("spawned_line_id"):
-            summary_bits.append(f"+자생선({res['spawned_line_id']})")
-        if res.get("revised_principles"):
-            summary_bits.append(f"원리수정({len(res['revised_principles'])})")
         if ev["torn_crosses"]:
             summary_bits.append(f"파단({len(ev['torn_crosses'])})")
         self_val = res["refractions"].get("line::introspective_self", {}).get("spectrum_value", 0.0)
         print(
-            f"  [step {res['step']:02d}] {rel:<46} | 내면자기지각={self_val:+.3f} "
+            f"  [step {res['step']:02d}] {rel:<48} | 내면자기지각={self_val:+.3f} "
             f"| {', '.join(summary_bits) if summary_bits else '연속직조'}"
         )
 

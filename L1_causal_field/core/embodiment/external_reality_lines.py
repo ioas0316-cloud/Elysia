@@ -433,55 +433,6 @@ def external_world_probe_action(
     return {"produced_new_evidence": False}
 
 
-def extract_raw_external_observables(raw_referent: Dict[str, Any]) -> Dict[str, float]:
-    """
-    Extracts purely unlabelled raw structural/physical observables from disk or raw text
-    (used by `SelfWeavingLoom` to birth new `EmergentExternalLine` prisms when external
-    refutation exposes a blind spot in existing lines).
-    """
-    text, path_obj, byte_len = _read_referent_text(raw_referent)
-    if not text and path_obj is None:
-        return {}
-
-    if len(text) > 120_000:
-        text = text[:120_000]
-
-    lines = text.splitlines()
-    n_lines = max(1, len(lines))
-    non_empty = [ln for ln in lines if ln.strip()]
-    n_non_empty = max(1, len(non_empty))
-    char_len = max(1, len(text))
-
-    triple_quote_hits = text.count('"""') + text.count("'''")
-    heading_lines = sum(1 for ln in non_empty if ln.lstrip().startswith("# "))
-    comment_lines = sum(
-        1 for ln in non_empty if ln.lstrip().startswith("#") and not ln.lstrip().startswith("# ")
-    )
-    colon_lines = sum(1 for ln in non_empty if ln.rstrip().endswith(":"))
-    brace_count = sum(1 for ch in text if ch in "{}")
-    bracket_count = sum(1 for ch in text if ch in "[]")
-    equals_count = text.count("=")
-    non_ascii_count = sum(1 for ch in text if ord(ch) > 127)
-    digit_count = sum(1 for ch in text if ch.isdigit())
-    blank_lines = sum(1 for ln in lines if not ln.strip())
-    max_indent = max((len(ln) - len(ln.lstrip(" \t")) for ln in non_empty), default=0)
-
-    return {
-        "triple_quote_ratio": round(min(1.0, float(triple_quote_hits * 3) / float(n_non_empty)), 5),
-        "heading_hash_ratio": round(float(heading_lines) / float(n_non_empty), 5),
-        "colon_line_ratio": round(float(colon_lines) / float(n_non_empty), 5),
-        "brace_density": round(min(1.0, float(brace_count) / float(char_len) * 20.0), 5),
-        "bracket_density": round(min(1.0, float(bracket_count) / float(char_len) * 20.0), 5),
-        "comment_line_ratio": round(float(comment_lines) / float(n_non_empty), 5),
-        "equals_density": round(min(1.0, float(equals_count) / float(char_len) * 25.0), 5),
-        "non_ascii_ratio": round(float(non_ascii_count) / float(char_len), 5),
-        "digit_density": round(min(1.0, float(digit_count) / float(char_len) * 10.0), 5),
-        "blank_line_ratio": round(float(blank_lines) / float(n_lines), 5),
-        "max_indent_depth": round(min(1.0, float(max_indent) / 24.0), 5),
-        "file_size_log": round(min(1.0, math.log1p(max(0, byte_len)) / 12.0), 5),
-    }
-
-
 def discover_uncurated_workspace_files(
     root: Path,
     limit: int = 12,

@@ -420,13 +420,28 @@ class ElysiaFloatingCompanionApp:
             self.canvas.create_polygon(cx - 24, cy - 16, cx - 34, cy - 36, cx - 12, cy - 24, fill="#38bdf8", outline=halo_col)
             self.canvas.create_polygon(cx + 24, cy - 16, cx + 34, cy - 36, cx + 12, cy - 24, fill="#38bdf8", outline=halo_col)
 
-            # Gaze directed toward highest-salience screen cell
-            sx, sy = self.mind.last_salient_xy
-            gx = (sx - 0.5) * 8.0
-            gy = (sy - 0.5) * 6.0
+            # Gaze directed toward live steered fovea coordinate (macro -> micro real screen correspondence)
+            sx, sy = getattr(self.mind, "last_gaze_xy", self.mind.last_salient_xy)
+            gx = (sx - 0.5) * 10.0
+            gy = (sy - 0.5) * 7.0
             for ex in (cx - 10, cx + 10):
                 self.canvas.create_oval(ex - 5, cy - 6, ex + 5, cy + 4, fill="#0f172a", outline="")
                 self.canvas.create_oval(ex - 2.5 + gx * 0.4, cy - 3.5 + gy * 0.4, ex + 2.5 + gx * 0.4, cy + 1.5 + gy * 0.4, fill=halo_col, outline="")
+
+            # Render persistent embodied arm/body posture synced to real screen target & OS resistance
+            body_pose = getattr(self.mind, "last_body_pose", None) or {}
+            if body_pose:
+                sh_rad = math.radians(float(body_pose.get("shoulder_deg", 20.0)))
+                el_rad = math.radians(float(body_pose.get("elbow_deg", 35.0)))
+                ax0, ay0 = cx + 32, cy + 10
+                ax1 = ax0 + 22 * math.cos(sh_rad - 0.6)
+                ay1 = ay0 - 22 * math.sin(sh_rad - 0.6)
+                ax2 = ax1 + 20 * math.cos(sh_rad + el_rad - 0.8)
+                ay2 = ay1 - 20 * math.sin(sh_rad + el_rad - 0.8)
+                res_val = float(body_pose.get("external_resistance", 0.0))
+                arm_col = "#fb7185" if res_val >= 0.5 else "#38bdf8"
+                self.canvas.create_line(ax0, ay0, ax1, ay1, ax2, ay2, fill=arm_col, width=3, smooth=True)
+                self.canvas.create_oval(ax2 - 3, ay2 - 3, ax2 + 3, ay2 + 3, fill=halo_col, outline="")
 
             # Affective expression
             dom = self.mind.last_feeling.dominant_state if self.mind.last_feeling else "joy_expansion"
@@ -469,8 +484,81 @@ class ElysiaFloatingCompanionApp:
         return 0
 
 
+class ElysiaUnifiedDesktopApp:
+    """Floating desktop companion powered directly by `UnifiedElysiaOrganism` (SSD<->RAM<->VRAM + GPU Rotor + 24L Rotor-Steered Qwen)."""
+
+    def __init__(self, state_dir: Path | str, use_pretrained: bool = True) -> None:
+        from core.topology.unified_elysia_organism import UnifiedElysiaOrganism
+
+        self.org = UnifiedElysiaOrganism(
+            state_dir,
+            use_pretrained=use_pretrained,
+            enable_llm=use_pretrained,
+        )
+        self.org.ingest_workspace_into_tiers(max_docs=120, max_code=120, max_images=32)
+        self.org.start_living_background(capture_screen=True, spin_rotor=True)
+
+        self.root = tk.Tk()
+        self.root.title("ELYSIA — Unified Hardware Scale-Rotor Organism")
+        self.root.attributes("-topmost", True)
+        self.root.configure(bg="#0b1120")
+        self.root.geometry("460x360+40+40")
+
+        self.status_var = tk.StringVar(value="SSD↔RAM↔VRAM 5스케일 로터 가동 중...")
+        self.bubble_var = tk.StringVar(value=self.org.last_utterance_ko)
+
+        tk.Label(self.root, textvariable=self.status_var, fg="#38bdf8", bg="#0b1120", font=("Malgun Gothic", 9, "bold"), justify="left").pack(fill="x", padx=12, pady=(10, 4))
+        tk.Label(self.root, textvariable=self.bubble_var, fg="#e2e8f0", bg="#111c33", wraplength=420, justify="left", padx=10, pady=10, font=("Malgun Gothic", 10)).pack(fill="both", expand=True, padx=12, pady=6)
+
+        row = tk.Frame(self.root, bg="#0b1120")
+        row.pack(fill="x", padx=12, pady=(4, 10))
+        self.entry = tk.Entry(row, bg="#1e293b", fg="#f8fafc", insertbackground="#38bdf8", font=("Malgun Gothic", 10))
+        self.entry.pack(side="left", fill="x", expand=True, padx=(0, 6))
+        self.entry.bind("<Return>", lambda _e: self._on_send())
+        tk.Button(row, text="대화", command=self._on_send, bg="#0284c7", fg="white", relief="flat", padx=10).pack(side="left", padx=(0, 4))
+        tk.Button(row, text="창작", command=self._on_create, bg="#7c3aed", fg="white", relief="flat", padx=10).pack(side="left")
+
+        self.root.protocol("WM_DELETE_WINDOW", self._on_close)
+        self._refresh_ui()
+
+    def _on_send(self) -> None:
+        txt = self.entry.get().strip()
+        if not txt:
+            return
+        self.entry.delete(0, "end")
+        self.bubble_var.set("로터 직결 Qwen 공명 생성 중...")
+        self.root.update_idletasks()
+        res = self.org.converse(txt)
+        self.bubble_var.set(res["reply_ko"])
+
+    def _on_create(self) -> None:
+        self.bubble_var.set("HTML5 파동 게임 + PNG 생성 및 CLIP 자가 관측 중...")
+        self.root.update_idletasks()
+        art = self.org.create_and_self_observe()
+        self.bubble_var.set(f"창작 완료: {Path(art['html_path']).name}\n{art['intent_note']}\n(CLIP 공명={art['visual_intent_resonance']:.3f})")
+
+    def _refresh_ui(self) -> None:
+        tel = self.org.telemetry()
+        tt = tel["tiers"]
+        self.status_var.set(
+            f"{tel['live_hz']:.0f}Hz | VRAM {tel['vram_allocated_mb']}MB | "
+            f"SSD {tt['ssd_macro_items']} ↔ RAM {tt['ram_meso_items']} ↔ VRAM {tt['vram_micro_items']} | "
+            f"Hooks {tel['llm_hook_injections']} | Screen {tel['screen_frames_encoded']}"
+        )
+        self.root.after(800, self._refresh_ui)
+
+    def _on_close(self) -> None:
+        self.org.close()
+        self.root.destroy()
+
+    def run(self) -> int:
+        self.root.mainloop()
+        return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="ELYSIA Floating Scale-Rotor Desktop Companion")
+    parser.add_argument("--organism", action="store_true", help="Launch Unified Organism (SSD<->RAM<->VRAM + 5-Scale GPU Rotor + 24L Rotor-Steered Qwen)")
     parser.add_argument(
         "--state-dir",
         type=str,
@@ -518,6 +606,9 @@ def main(argv: list[str] | None = None) -> int:
         help="Optional Korean utterance to test real-world situated dialogue response in headless mode",
     )
     args = parser.parse_args(argv)
+
+    if args.organism:
+        return ElysiaUnifiedDesktopApp(state_dir=args.state_dir).run()
 
     if args.headless_ticks > 0:
         return run_headless_ticks(

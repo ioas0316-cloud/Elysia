@@ -55,6 +55,8 @@ from core.embodiment.language_scale_rotor import (
 )
 from core.embodiment.pc_sensory_motor_body import (
     AgencyMode,
+    AudioSnapshot,
+    LiveAudioEarSensor,
     ScreenFrameSnapshot,
     ScreenRetinaSensor,
     UniversalMotorActuator,
@@ -79,6 +81,8 @@ from core.embodiment.world_expression_ingestor import (
 
 __all__ = [
     "AgencyMode",
+    "AudioSnapshot",
+    "LiveAudioEarSensor",
     "ScreenFrameSnapshot",
     "ScreenRetinaSensor",
     "UniversalMotorActuator",

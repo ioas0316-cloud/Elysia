@@ -32,6 +32,12 @@ from core.embodiment.developmental_causal_mind import (
     SensorySignalObservation,
 )
 from core.embodiment.principle_ownership_engine import PrincipleOwnershipEngine
+from core.consciousness.sovereign_telos_governance import (
+    SelfWorldContrastReport,
+    SovereignTelosGovernance,
+    TelosControlDirective,
+    TelosHorizon,
+)
 from core.embodiment.language_scale_rotor import (
     ExpressiveDeficit,
     LanguageScaleRotor,
@@ -40,6 +46,7 @@ from core.embodiment.language_scale_rotor import (
 from core.embodiment.pc_sensory_motor_body import (
     ALL_EMBODIED_ACTIONS,
     AgencyMode,
+    AudioSnapshot,
     ScreenFrameSnapshot,
     UniversalMotorActuator,
     _PHYSICAL_OS_ACTIONS,
@@ -64,9 +71,11 @@ from core.orchestration.autonomous_open_explorer import (
 )
 from core.orchestration.external_web_bridge import (
     HttpFetcher,
+    fetch_dictionary_meaning,
     fetch_github_target,
     fetch_wikipedia_concept,
     inspect_image_bytes_summary,
+    interact_with_unknown_github_repo,
     search_github_repositories,
 )
 from core.topology.structural_scale_rotor import (
@@ -305,6 +314,8 @@ class ScaleRotorEmbodiedMind:
         self.universe_path = self.state_dir / "scale_rotor_universe.json"
         self.causal_mind_path = self.state_dir / "developmental_causal_mind.json"
         self.ownership_path = self.state_dir / "principle_ownership.json"
+        self.telos_path = self.state_dir / "sovereign_telos_governance.json"
+        self.vertical_spine_path = self.state_dir / "vertical_spine_state.json"
         self.journal_path = self.state_dir / "embodied_journal.jsonl"
 
         self.knob_cortex = (
@@ -346,6 +357,7 @@ class ScaleRotorEmbodiedMind:
         self.universe = ScaleRotorHierarchy.load(self.universe_path)
         self.causal_mind = DevelopmentalCausalMind.load(self.causal_mind_path)
         self.ownership_engine = PrincipleOwnershipEngine.load(self.ownership_path)
+        self.telos_governance = SovereignTelosGovernance.load(self.telos_path)
 
         self._recent_visual_vecs: List[np.ndarray] = []
         self._prev_live_observables: Optional[Dict[str, float]] = None
@@ -358,6 +370,15 @@ class ScaleRotorEmbodiedMind:
         self._last_used_schema_id: str = ""
         self._last_used_ending: str = ""
         self.last_feeling: Optional[SelfStateFeeling] = None
+        self.embodied_body: ArticulatedTensionChain = ArticulatedTensionChain()
+        self.last_gaze_xy: Tuple[float, float] = (0.5, 0.5)
+        self.last_fovea: Dict[str, Any] = {}
+        self.last_audio: Optional[Dict[str, Any]] = None
+        self.last_body_pose: Optional[Dict[str, Any]] = None
+        self.last_external_world: Optional[Dict[str, Any]] = None
+        self._protocol_fabric: Any = None
+        self._vertical_spine: Any = None
+        self._seen_github_repos: set[str] = set()
         self.last_utterance: str = (
             "아직 책이나 드라마·자막 같은 현실의 대화를 배우지 못해, 어떤 상황에서 어떤 말이 나오는지 먼저 읽고 보고 싶어요."
         )
@@ -389,6 +410,12 @@ class ScaleRotorEmbodiedMind:
         self.universe.save(self.universe_path)
         self.causal_mind.save(self.causal_mind_path)
         self.ownership_engine.save(self.ownership_path)
+        self.telos_governance.save(self.telos_path)
+        if self._vertical_spine is not None:
+            self.vertical_spine_path.write_text(
+                json.dumps(self._vertical_spine.to_dict(), ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
 
     def absorb_real_world_expressions(
         self,
@@ -706,6 +733,463 @@ class ScaleRotorEmbodiedMind:
         vis_vec = small.reshape(4, 6, 4, 8, 3).mean(axis=(1, 3)).reshape(48).astype(np.float64)
         return small, vis_vec
 
+    def get_protocol_fabric(self, workspace_root: Optional[Path] = None) -> Any:
+        """Returns Elysia's live Homoiconic BindingField initialized with real OS protocols."""
+        if self._protocol_fabric is None:
+            from core.embodiment.os_protocol_discovery import discover_real_os_protocols
+            from core.topology.protocol_weaving_fabric import BindingField
+
+            root = workspace_root or Path(__file__).resolve().parents[3]
+            fabric = BindingField()
+            for proto in discover_real_os_protocols(root):
+                fabric.introduce(proto, why_ko=f"실제 OS 탐색 프로토콜 `{proto.structure_id}` 연결")
+            self._protocol_fabric = fabric
+        return self._protocol_fabric
+
+    def get_vertical_spine(self, max_lock_ticks: int = 3) -> Any:
+        """Returns Elysia's unified bidirectional L0<->L1<->L2<->L3 / S0<->S4 vertical spine."""
+        if self._vertical_spine is None:
+            from core.topology.vertical_scale_spine import VerticalScaleHierarchySpine
+
+            spine = VerticalScaleHierarchySpine(self, max_lock_ticks=max_lock_ticks)
+            if self.vertical_spine_path.is_file():
+                try:
+                    spine.load_state_dict(json.loads(self.vertical_spine_path.read_text(encoding="utf-8")))
+                except Exception:
+                    pass
+            self._vertical_spine = spine
+        return self._vertical_spine
+
+    def couple_body_with_world_reality(
+        self,
+        gaze_xy_norm: Tuple[float, float],
+        visual_change: float,
+        external_resistance: float,
+        audio_rms: float = 0.0,
+    ) -> Dict[str, Any]:
+        """
+        Couples persistent `self.embodied_body` directly to real screen gaze coordinates,
+        acoustic energy, and real external OS/world resistance (never a throwaway toy arm).
+        """
+        gx = float(np.clip(float(gaze_xy_norm[0]), 0.0, 1.0))
+        gy = float(np.clip(float(gaze_xy_norm[1]), 0.0, 1.0))
+        res = float(np.clip(float(external_resistance), 0.0, 1.0))
+        vis = float(np.clip(float(visual_change), 0.0, 1.0))
+        aud = float(np.clip(float(audio_rms) * 4.0, 0.0, 1.0))
+
+        flexors = [
+            float(np.clip(0.18 + 0.65 * (1.0 - gy), 0.0, 1.0)),
+            float(np.clip(0.18 + 0.65 * gx, 0.0, 1.0)),
+            float(np.clip(0.20 + 0.45 * min(1.0, vis * 3.5 + aud), 0.0, 1.0)),
+        ]
+        extensors = [
+            float(np.clip(0.10 + 0.65 * res, 0.0, 1.0)),
+            float(np.clip(0.10 + 0.65 * res, 0.0, 1.0)),
+            float(np.clip(0.14 + 0.55 * res, 0.0, 1.0)),
+        ]
+        pose = self.embodied_body.solve_to_equilibrium(flexors, extensors, steps=18)
+        summary = {
+            "target_gaze_xy": [round(gx, 4), round(gy, 4)],
+            "external_resistance": round(res, 4),
+            "shoulder_deg": round(math.degrees(float(pose.joint_angles[0])), 2),
+            "elbow_deg": round(math.degrees(float(pose.joint_angles[1])), 2),
+            "wrist_deg": round(math.degrees(float(pose.joint_angles[2])), 2),
+            "elbow_bulge": round(float(pose.muscles[1].flex_bulge), 4),
+            "max_wrinkle": round(float(np.max(pose.skin.upper_wrinkle)), 4),
+            "source_mode": pose.source_mode,
+        }
+        self.last_body_pose = summary
+        return summary
+
+    def interact_with_live_github_world(
+        self,
+        owner_repo: Optional[str] = None,
+        fetcher: Optional[HttpFetcher] = None,
+        allow_outward_enact: bool = False,
+    ) -> Dict[str, Any]:
+        """
+        True two-way encounter with a genuinely unknown live GitHub repository:
+          1. Pulls uncurated live GitHub firehose event / repo metadata / root tree / raw file / human issues
+          2. Feeds the raw external source & repo into `self.get_protocol_fabric()` (`BindingField`)
+          3. Runs self-weaving so real protocols (e.g. Python compiler) clash with foreign code/languages,
+             emitting real Repulsion Boundaries, homoiconic refractions, and outward human-contact chains
+          4. Feeds real external friction back into persistent `self.embodied_body` & `self.universe`
+        """
+        from core.topology.protocol_weaving_fabric import Port, Structure
+
+        gh = interact_with_unknown_github_repo(owner_repo=owner_repo, fetcher=fetcher)
+        if not gh.get("ok"):
+            body_pose = self.couple_body_with_world_reality(
+                self.last_gaze_xy,
+                visual_change=0.0,
+                external_resistance=0.85,
+            )
+            res = {
+                "ok": False,
+                "stage": gh.get("stage", "github"),
+                "repo": gh.get("repo", owner_repo or ""),
+                "error": gh.get("error", "github_unreachable"),
+                "body_pose": body_pose,
+            }
+            self.last_external_world = res
+            return res
+
+        repo = str(gh["repo"])
+        self._seen_github_repos.add(repo)
+        fabric = self.get_protocol_fabric()
+        inspected = gh.get("inspected_file") or {}
+        file_path = str(inspected.get("path") or "README.md")
+        file_content = str(inspected.get("content") or gh.get("readme_excerpt") or "")
+
+        boundaries_before = sum(1 for sid in fabric.structures if sid.startswith("boundary::"))
+        src_id = f"github::{repo}::{file_path}"
+        fabric.introduce(
+            Structure(
+                structure_id=src_id,
+                scale=0,
+                ports=(Port("text", "out", "raw_text"),),
+                signature={
+                    "tree_count": float(gh.get("tree_count", 0)) / 30.0,
+                    "issue_count": float(len(gh.get("issues") or [])) / 5.0,
+                },
+                payload={
+                    "path": f"github://{repo}/{file_path}",
+                    "name": file_path,
+                    "raw_text": file_content,
+                    "repo": repo,
+                    "url": gh.get("url", ""),
+                },
+                immutable_external=True,
+                description_ko=f"실시간 미지 GitHub 저장소 `{repo}`의 실물 파일 `{file_path}`",
+            ),
+            why_ko=f"실시간 GitHub 외부 세계에서 알지 못하던 저장소 `{repo}`({file_path}) 직접 유입",
+        )
+
+        # Two autonomous self-weaving steps so real external code hits protocols & weaves contact chains
+        step1 = fabric.step_self_weave(allow_outward_enact=allow_outward_enact)
+        step2 = fabric.step_self_weave(allow_outward_enact=allow_outward_enact)
+        boundaries_after = sum(1 for sid in fabric.structures if sid.startswith("boundary::"))
+        new_boundaries = max(0, boundaries_after - boundaries_before)
+
+        # Feed real external world friction directly into persistent embodied body
+        world_res = 0.78 if new_boundaries > 0 else 0.18
+        body_pose = self.couple_body_with_world_reality(
+            self.last_gaze_xy,
+            visual_change=min(1.0, float(gh.get("tree_count", 1)) / 20.0),
+            external_resistance=world_res,
+        )
+
+        # Ingest real external repo prose & human issues into unified hierarchy + structural cortex
+        issues = gh.get("issues") or []
+        issue_titles = " | ".join(str(it.get("title", "")) for it in issues[:3] if it.get("title"))
+        prose = f"{repo} ({gh.get('metadata', {}).get('language') or 'unknown'})\n{gh.get('readme_excerpt', '')[:600]}\n{issue_titles}"
+        if prose.strip():
+            self.universe.differentiate_text(
+                prose[:300],
+                spectrum=[0.55 if new_boundaries else 0.30, 0.35, 0.65 if new_boundaries else 0.25, 0.2],
+                situation=f"github:{repo}",
+                cause="unknown_github_two_way",
+            )
+            sid = f"github_repo::{repo}"
+            if sid not in self.structural_cortex.structures:
+                st = extract_structure_from_prose(sid, domain="external_github", prose=prose)
+                self.structural_cortex.register_structure(st)
+
+        obs = fabric.observe_fabric()
+        outward_chains = obs.motion.get("outward_contact_chains", [])
+        summary = {
+            "ok": True,
+            "repo": repo,
+            "url": gh.get("url", ""),
+            "language": (gh.get("metadata") or {}).get("language") or "unknown",
+            "stars": int((gh.get("metadata") or {}).get("stars") or 0),
+            "source_event_type": (gh.get("source_event") or {}).get("event_type", "direct"),
+            "tree_count": int(gh.get("tree_count", 0)),
+            "inspected_file": file_path,
+            "inspected_bytes": len(file_content.encode("utf-8", errors="ignore")),
+            "issues_count": len(issues),
+            "issue_titles": [it.get("title", "") for it in issues[:3]],
+            "new_repulsion_boundaries": new_boundaries,
+            "fabric_structures": obs.existence["total_structures"],
+            "fabric_roles": obs.existence["role_distribution"],
+            "outward_contact_chains": outward_chains[-3:],
+            "self_mirror": obs.constitution.get("self_mirror", {}),
+            "body_pose": body_pose,
+        }
+        self.last_external_world = summary
+        return summary
+
+    def run_telos_directed_cycle(
+        self,
+        frame_snap: ScreenFrameSnapshot,
+        user_idle_s: float,
+        fg_title: str,
+        agency_mode: AgencyMode,
+        idle_threshold_s: float,
+        actuator: UniversalMotorActuator,
+        audio_snap: Optional[AudioSnapshot] = None,
+        retina: Optional[Any] = None,
+        fetcher: Optional[HttpFetcher] = None,
+        allow_outward_enact: bool = False,
+    ) -> Dict[str, Any]:
+        """
+        Top-Down Sovereign Telos Governance Cycle:
+          1. Synchronized Telos ('인간과 닮아가기를 소망한다 — 인간은 왜 인간인가?') inspects
+             Elysia's live state & existential voids and issues a `TelosControlDirective`.
+          2. Directive directly steers ocular gaze (`retina.steer_gaze`), executes live sensing
+             (`perceive_and_act_tick`), and connects to the directed real external world/tool
+             (Korean Wikipedia/Wiktionary human reality OR With-Tool vs Native-Self contrast).
+          3. Applies Comparative Contrast (`receive_and_contrast`) to compare external human/tool
+             existence against Elysia's actual live sensors/body/protocols, sprouts emergent new
+             horizons, couples discovered gap friction back into persistent body & universe, and saves.
+        """
+        pre_state = {
+            "universe_nodes": len(self.universe.nodes),
+            "eye_fovea": dict(self.last_fovea),
+            "audio_ear": dict(self.last_audio) if self.last_audio else {},
+            "body_reality": dict(self.last_body_pose) if self.last_body_pose else {},
+        }
+        directive = self.telos_governance.direct_next_cycle(pre_state)
+
+        # Top-down Telos steers physical eye focus toward directive bias before perception
+        if retina is not None and hasattr(retina, "steer_gaze"):
+            retina.steer_gaze(directive.gaze_focus_bias)
+
+        tick_res = self.perceive_and_act_tick(
+            frame_snap=frame_snap,
+            user_idle_s=user_idle_s,
+            agency_mode=agency_mode,
+            idle_threshold_s=idle_threshold_s,
+            actuator=actuator,
+            foreground_window=fg_title,
+            audio_snap=audio_snap,
+        )
+
+        # Execute the real external world / external tool interaction commanded by Telos
+        ext_result: Dict[str, Any]
+        if directive.external_channel == "tool_contrast":
+            if directive.inquiry_query == "opencv_fovea_vs_native_retina":
+                native_blocks = int(np.sum(frame_snap.visual_vec > 0.05))
+                fovea_cnt = int(getattr(frame_snap, "fovea_contours", 0))
+                fovea_sharp = float(getattr(frame_snap, "fovea_sharpness", 0.0))
+                ext_result = {
+                    "ok": True,
+                    "source": "external_tool::opencv_canny_contours",
+                    "world_text": (
+                        f"OpenCV 외부 시각 도구는 고해상도 ROI({list(getattr(frame_snap, 'fovea_box', ()))})에서 "
+                        f"실제 경계 윤곽 {fovea_cnt}개(선명도 {fovea_sharp:.4f})를 분별함 vs "
+                        f"도구 없는 32x24 저해상도 시야 활성 블록 {native_blocks}개"
+                    ),
+                    "native_capability": {
+                        "detail_count": native_blocks,
+                        "mechanism_ko": "32x24 저해상도 4x4 블록 평균 투영",
+                    },
+                    "tool_capability": {
+                        "tool_name": "OpenCV(cv2.Canny+findContours)",
+                        "detail_count": fovea_cnt,
+                        "mechanism_ko": "고해상도 픽셀 구배·비최대 억제·연결 윤곽 추출",
+                    },
+                }
+            else:
+                gh = self.interact_with_live_github_world(
+                    fetcher=fetcher,
+                    allow_outward_enact=allow_outward_enact,
+                )
+                if gh.get("ok"):
+                    ext_result = {
+                        "ok": True,
+                        "source": f"external_tool::github::{gh['repo']}",
+                        "world_text": (
+                            f"실시간 미지 GitHub 저장소 {gh['repo']}({gh['language']}, 파일={gh['inspected_file']}, "
+                            f"이슈={gh['issues_count']}건, 척력경계={gh['new_repulsion_boundaries']}건)"
+                        ),
+                        "native_capability": {
+                            "detail_count": 1,
+                            "foreign_syntax_handled": gh.get("new_repulsion_boundaries", 0) == 0,
+                            "mechanism_ko": "내부 파이썬 단일 컴파일러 프로토콜",
+                        },
+                        "tool_capability": {
+                            "tool_name": f"GitHub/{gh['repo']}({gh['language']})",
+                            "detail_count": max(2, int(gh.get("tree_count", 1))),
+                            "foreign_syntax_handled": True,
+                            "mechanism_ko": f"{gh['language']} 외부 생태계 다중 파일·이슈 협업 구조",
+                        },
+                    }
+                else:
+                    ext_result = {
+                        "ok": False,
+                        "source": "external_tool::github",
+                        "error": gh.get("error", "github_unreachable"),
+                    }
+        else:
+            # Real human-world knowledge inquiry (live Korean Wikipedia + Wiktionary fallback)
+            wiki = fetch_wikipedia_concept(directive.inquiry_query, lang="ko", fetcher=fetcher)
+            if not wiki.blocked and wiki.text_body:
+                ext_result = {
+                    "ok": True,
+                    "source": f"wikipedia_ko::{wiki.title}",
+                    "url": wiki.url,
+                    "world_text": wiki.text_body[:1400],
+                    "outbound_urls": list(wiki.outbound_urls[:4]),
+                }
+            else:
+                dic = fetch_dictionary_meaning(directive.inquiry_query, lang="ko", fetcher=fetcher)
+                if not dic.blocked and dic.text_body:
+                    ext_result = {
+                        "ok": True,
+                        "source": f"wiktionary_ko::{dic.title}",
+                        "url": dic.url,
+                        "world_text": dic.text_body[:1200],
+                    }
+                else:
+                    ext_result = {
+                        "ok": False,
+                        "source": f"web_human_world::{directive.inquiry_query}",
+                        "error": wiki.block_reason or dic.block_reason or "external_world_unreachable",
+                    }
+
+        fabric = self.get_protocol_fabric()
+        fabric_roles = fabric.observe_fabric().existence.get("role_distribution", {})
+        live_self_state = {
+            "universe_nodes": len(self.universe.nodes),
+            "eye_fovea": tick_res.get("eye_fovea"),
+            "audio_ear": tick_res.get("audio_ear"),
+            "body_reality": tick_res.get("body_reality"),
+            "feeling": tick_res.get("feeling"),
+            "fabric_roles": fabric_roles,
+        }
+        contrast = self.telos_governance.receive_and_contrast(directive, ext_result, live_self_state)
+
+        # Cross-connect live Eye, Body, External Reality, and Perceived Limit inside ONE BindingField
+        from core.topology.protocol_weaving_fabric import Port, Structure
+
+        step_tag = f"c{directive.step}"
+        eye_struct = fabric.introduce(
+            Structure(
+                structure_id=f"sense::eye_{step_tag}",
+                scale=1,
+                ports=(Port("sense", "dual", "structure"),),
+                signature={
+                    "fovea_contours": min(1.0, float((tick_res.get("eye_fovea") or {}).get("fovea_contours", 0)) / 500.0),
+                    "gaze_shift": float((tick_res.get("eye_fovea") or {}).get("gaze_shift", 0.0)),
+                    "gap_magnitude": contrast.gap_magnitude,
+                },
+                payload=dict(tick_res.get("eye_fovea") or {}),
+                description_ko=f"Cycle {directive.step} 실시간 눈 중심와 관측",
+            ),
+            why_ko="실시간 시각 중심와를 외부 현실·한계와 교차 결합하기 위해 패브릭에 유입",
+        )
+        world_struct = fabric.introduce(
+            Structure(
+                structure_id=f"world::{directive.inquiry_query}_{step_tag}",
+                scale=1,
+                ports=(Port("world", "dual", "structure"),),
+                signature=dict(contrast.limit_signature),
+                payload={
+                    "source": contrast.external_source,
+                    "constituents": list(contrast.world_constituents),
+                    "verbs": list(contrast.world_causal_verbs),
+                    "raw_text": str(ext_result.get("world_text") or "")[:600],
+                },
+                immutable_external=True,
+                description_ko=f"외부 세계 수용: {directive.inquiry_query} ({contrast.external_source})",
+            ),
+            why_ko=f"최상위 의도 지령으로 수용된 외부 현실 `{directive.inquiry_query}`를 패브릭에 편입",
+        )
+        # Refract live Eye against External World so sensors & knowledge actually cross-interact
+        fabric.refract_pair(eye_struct.structure_id, world_struct.structure_id)
+
+        # Reify perceived Self-Limit as a FIRST-CLASS Cognitive Structure (`limit::*`) inside BindingField!
+        limit_id = f"limit::{directive.aspect}__{directive.inquiry_query}_{step_tag}"
+        fabric.introduce(
+            Structure(
+                structure_id=limit_id,
+                scale=2,
+                ports=(
+                    Port("limit", "dual", "cognitive_limit"),
+                    Port("tension", "out", "unresolved_tension"),
+                    Port("self", "dual", "structure"),
+                ),
+                signature=dict(contrast.limit_signature),
+                payload={
+                    "domain": directive.aspect,
+                    "query": directive.inquiry_query,
+                    "limit_tags": list(contrast.limit_tags),
+                    "differences": list(contrast.structural_differences),
+                    "error": contrast.why_different_ko,
+                },
+                constituents=(eye_struct.structure_id, world_struct.structure_id),
+                description_ko=f"자기 한계 인지정보: {directive.inquiry_query} ({contrast.limit_tags[:3]})",
+            ),
+            why_ko=f"비교·대조로 포착된 한계({contrast.limit_tags})를 로그로 버리지 않고 1급 인지정보 구조로 각인",
+        )
+
+        # Cross-integrate limits across different domains into higher-scale Integrated Information!
+        integrated_limits = fabric.integrate_cognitive_limits()
+        contrast.integrated_limit_ids = list(integrated_limits)
+
+        # Execute REAL limit-driven self-adaptation (instead of stopping at a static log!)
+        adaptations: List[Dict[str, Any]] = []
+        if "visual_resolution_ceiling" in contrast.limit_tags and retina is not None and hasattr(retina, "adapt_from_visual_limit"):
+            n_blocks = int((ext_result.get("native_capability") or {}).get("detail_count", 0))
+            f_cnt = int((ext_result.get("tool_capability") or {}).get("detail_count", 0))
+            vis_adapt = retina.adapt_from_visual_limit(n_blocks, f_cnt)
+            adaptations.append({"kind": "ocular_zoom_adaptation", **vis_adapt})
+
+        if "foreign_medium_rejection" in contrast.limit_tags:
+            sample_txt = str(ext_result.get("world_text") or "")
+            new_proto = fabric.spawn_emergent_protocol_from_limit(
+                limit_id=limit_id,
+                sample_text=sample_txt,
+                domain_hint=directive.inquiry_query,
+            )
+            if new_proto is not None:
+                adaptations.append(
+                    {
+                        "kind": "emergent_protocol_spawned",
+                        "protocol_id": new_proto.structure_id,
+                        "delimiters": new_proto.payload.get("delimiters", []),
+                    }
+                )
+        contrast.self_adaptations = adaptations
+
+        # Feed real external human/tool reality + discovered gap back into unified hierarchy & persistent body
+        if ext_result.get("ok") and ext_result.get("world_text"):
+            txt = str(ext_result["world_text"])[:320]
+            self.universe.differentiate_text(
+                txt,
+                spectrum=[0.45, 0.35, min(1.0, contrast.gap_magnitude), 0.25],
+                situation=f"telos:{directive.target_horizon_id}",
+                cause=directive.inquiry_query,
+            )
+            sid = f"telos_world::{directive.inquiry_query}"
+            if sid not in self.structural_cortex.structures:
+                self.structural_cortex.register_structure(
+                    extract_structure_from_prose(sid, domain=f"human_{directive.aspect}", prose=txt)
+                )
+
+        body_after = self.couple_body_with_world_reality(
+            directive.gaze_focus_bias,
+            visual_change=float(tick_res.get("visual_change", 0.0)),
+            external_resistance=min(1.0, contrast.gap_magnitude * 0.7),
+            audio_rms=float((tick_res.get("audio_ear") or {}).get("rms_energy", 0.0)),
+        )
+        self.save()
+        return {
+            "cycle": directive.step,
+            "directive": directive.to_dict(),
+            "contrast": contrast.to_dict(),
+            "contrast_rendered_ko": contrast.render_ko(),
+            "eye_fovea": tick_res.get("eye_fovea"),
+            "audio_ear": tick_res.get("audio_ear"),
+            "body_reality": body_after,
+            "self_adaptations": adaptations,
+            "integrated_limits": integrated_limits,
+            "fabric_summary": fabric.observe_fabric().existence["role_distribution"],
+            "topology": self.universe.topology_summary(),
+            "telos_summary": self.telos_governance.summary(),
+        }
+
     def perceive_and_act_tick(
         self,
         frame_snap: ScreenFrameSnapshot,
@@ -715,9 +1199,27 @@ class ScaleRotorEmbodiedMind:
         actuator: UniversalMotorActuator,
         after_frame_provider: Optional[Callable[[], np.ndarray]] = None,
         foreground_window: str = "",
+        audio_snap: Optional[AudioSnapshot] = None,
     ) -> Dict[str, Any]:
         t0 = time.perf_counter()
         self.last_salient_xy = frame_snap.salient_xy_norm
+        self.last_gaze_xy = getattr(frame_snap, "gaze_xy_norm", frame_snap.salient_xy_norm)
+        self.last_fovea = {
+            "gaze_xy_norm": list(self.last_gaze_xy),
+            "gaze_shift": float(getattr(frame_snap, "gaze_shift", 0.0)),
+            "fovea_sharpness": float(getattr(frame_snap, "fovea_sharpness", 0.0)),
+            "fovea_sharpness_gain": float(getattr(frame_snap, "fovea_sharpness_gain", 0.0)),
+            "fovea_contours": int(getattr(frame_snap, "fovea_contours", 0)),
+            "fovea_box": list(getattr(frame_snap, "fovea_box", (0, 0, 0, 0))),
+        }
+        if audio_snap is not None:
+            self.last_audio = {
+                "capture_ok": bool(audio_snap.capture_ok),
+                "rms_energy": float(audio_snap.rms_energy),
+                "zero_crossing_rate": float(audio_snap.zero_crossing_rate),
+                "active_sound": bool(audio_snap.active_sound),
+                "error": str(audio_snap.error),
+            }
 
         if not frame_snap.capture_ok:
             delta = SensoryEncounterDelta(
@@ -930,6 +1432,18 @@ class ScaleRotorEmbodiedMind:
             harmony=harmony_est,
             idle_ratio=idle_ratio,
         )
+        live_obs["visual.fovea_sharpness"] = round(float(self.last_fovea.get("fovea_sharpness", 0.0)), 5)
+        live_obs["visual.fovea_contours"] = round(min(1.0, float(self.last_fovea.get("fovea_contours", 0)) / 120.0), 5)
+        aud_rms = float(audio_snap.rms_energy) if (audio_snap is not None and audio_snap.capture_ok) else 0.0
+        if audio_snap is not None and audio_snap.capture_ok:
+            live_obs["auditory.loudness"] = round(min(1.0, aud_rms * 5.0), 5)
+            live_obs["auditory.sharpness"] = round(min(1.0, float(audio_snap.zero_crossing_rate)), 5)
+        body_reality = self.couple_body_with_world_reality(
+            self.last_gaze_xy,
+            visual_change=visual_change,
+            external_resistance=delta.unresolved_friction,
+            audio_rms=aud_rms,
+        )
         win_tokens = [tk for tk in _extract_lexical_tokens(win_label)[:3] if tk]
         live_tags = [
             f"win:{win_label[:28]}",
@@ -966,6 +1480,9 @@ class ScaleRotorEmbodiedMind:
             "execution": exec_res,
             "chromatic": {"red": round(flux_red, 3), "blue": round(order_blue, 3), "yellow": round(entropy_yellow, 3)},
             "salient_xy_norm": list(frame_snap.salient_xy_norm),
+            "eye_fovea": dict(self.last_fovea),
+            "audio_ear": dict(self.last_audio) if self.last_audio is not None else None,
+            "body_reality": dict(body_reality),
             "explained_before": round(rep.explained_before, 4),
             "explained_after": round(rep.explained_after, 4),
             "visual_change": round(visual_change, 4),
@@ -1372,13 +1889,17 @@ class ScaleRotorEmbodiedMind:
         idle_threshold_s: float,
         actuator: UniversalMotorActuator,
         incoming_message: Optional[Dict[str, Any]] = None,
+        audio_snap: Optional[AudioSnapshot] = None,
+        explore_live_github: bool = False,
+        allow_outward_enact: bool = False,
+        github_fetcher: Optional[HttpFetcher] = None,
     ) -> Dict[str, Any]:
         """
         Continuous living causal cycle:
-          1. Sense live monitor pixels + foreground window + motor response
-          2. Anticipate from lived episodic causal graph (`anticipate_from_experience`)
-          3. Form self-directed Will (reply, ask grounded question, create & re-sense artifact,
-             or quietly absorb) and return the live event record.
+          1. Sense live macro+fovea monitor pixels, real microphone audio, foreground window, and persistent body-OS resistance
+          2. Optionally interact two-way with genuinely unknown live GitHub repositories via BindingField
+          3. Anticipate from lived episodic causal graph (`anticipate_from_experience`)
+          4. Form self-directed Will and return full live observability event.
         """
         self._living_cycle += 1
         tick_res = self.perceive_and_act_tick(
@@ -1388,7 +1909,14 @@ class ScaleRotorEmbodiedMind:
             idle_threshold_s=idle_threshold_s,
             actuator=actuator,
             foreground_window=fg_title,
+            audio_snap=audio_snap,
         )
+        external_github_res: Optional[Dict[str, Any]] = None
+        if explore_live_github:
+            external_github_res = self.interact_with_live_github_world(
+                fetcher=github_fetcher,
+                allow_outward_enact=allow_outward_enact,
+            )
 
         msg_text = str((incoming_message or {}).get("text", "")).strip()
         msg_sender = str((incoming_message or {}).get("sender", "external")).strip() or "external"
@@ -1438,13 +1966,16 @@ class ScaleRotorEmbodiedMind:
                 and self._last_living_will != "create_synthesis"
             ):
                 will_mode = "create_synthesis"
-                # 1. Create a real physical body + sensory gestalt synthesis from current chromatic field
+                # Drive persistent embodied body (coupled to live gaze & resistance, never a disconnected toy arm)
                 flux_r, order_b, ent_y = self.last_chromatic
-                body = ArticulatedTensionChain()
-                body_pose = body.solve_to_equilibrium(
-                    [float(np.clip(0.35 + 0.55 * flux_r, 0.0, 1.0)), float(np.clip(0.45 + 0.50 * ent_y, 0.0, 1.0)), float(np.clip(0.25 + 0.50 * order_b, 0.0, 1.0))],
-                    [0.12, 0.12, 0.18],
-                    steps=32,
+                body_pose = self.embodied_body.solve_to_equilibrium(
+                    [
+                        float(np.clip(0.25 + 0.60 * (1.0 - self.last_gaze_xy[1]), 0.0, 1.0)),
+                        float(np.clip(0.25 + 0.60 * self.last_gaze_xy[0], 0.0, 1.0)),
+                        float(np.clip(0.25 + 0.50 * order_b, 0.0, 1.0)),
+                    ],
+                    [0.12 + 0.4 * float(tick_res.get("delta", {}).get("unresolved_friction", 0.0)), 0.12, 0.18],
+                    steps=24,
                 )
                 art_obs = extract_live_sensory_observables(
                     frame_snap,
@@ -1513,6 +2044,10 @@ class ScaleRotorEmbodiedMind:
             "utterance_or_question": utterance_or_question,
             "created_artifact": created_artifact,
             "resense_delta": resense_delta,
+            "eye_fovea": tick_res.get("eye_fovea"),
+            "audio_ear": tick_res.get("audio_ear"),
+            "body_reality": tick_res.get("body_reality"),
+            "external_github_interaction": external_github_res,
             "feeling": tick_res.get("feeling"),
             "topology": topo,
         }

@@ -52,57 +52,6 @@ def _canonical_pair(id_a: str, id_b: str) -> Tuple[str, str]:
 
 
 @dataclass
-class WeavingPrinciple:
-    """
-    A live, observable, self-revisable governing principle of the Loom.
-    Instead of hiding thresholds as immutable constants, Elysia observes her own
-    confirmations/refutations against external reality and revises these principles.
-    """
-
-    principle_id: str
-    name_ko: str
-    value: float
-    min_val: float
-    max_val: float
-    why_adopted: str
-    confirmations: int = 0
-    refutations: int = 0
-    revisions: int = 0
-    revision_history: List[Dict[str, Any]] = field(default_factory=list)
-
-    def revise(self, new_value: float, step: int, reason_ko: str) -> float:
-        old_val = float(self.value)
-        clamped = float(max(self.min_val, min(self.max_val, float(new_value))))
-        self.value = round(clamped, 4)
-        self.revisions += 1
-        self.revision_history.append(
-            {
-                "step": int(step),
-                "old_value": round(old_val, 4),
-                "new_value": self.value,
-                "reason_ko": reason_ko,
-            }
-        )
-        if len(self.revision_history) > 24:
-            self.revision_history = self.revision_history[-24:]
-        return self.value
-
-    def to_dict(self) -> Dict[str, Any]:
-        return {
-            "principle_id": self.principle_id,
-            "name_ko": self.name_ko,
-            "value": round(float(self.value), 4),
-            "min_val": float(self.min_val),
-            "max_val": float(self.max_val),
-            "why_adopted": self.why_adopted,
-            "confirmations": int(self.confirmations),
-            "refutations": int(self.refutations),
-            "revisions": int(self.revisions),
-            "revision_history": list(self.revision_history[-5:]),
-        }
-
-
-@dataclass
 class LineRefraction:
     """One instantaneous projection of a raw external referent onto a `CausalLine` spectrum."""
 
@@ -334,16 +283,11 @@ class LoomObservation:
         # 1. Existence
         ex = self.existence
         lines_out.append(
-            f"1. 존재 (Existence): 선 {len(ex['lines'])}개 (자생선 {ex.get('emergent_line_count', 0)}개) | "
+            f"1. 존재 (Existence): 선 {len(ex['lines'])}개 | "
             f"활성 교차 {ex['active_cross_count']}개 (파단 {ex['torn_cross_count']}개) | "
             f"활성 순환 {ex['active_cycle_count']}개 | "
             f"승격 로터선 {ex['promoted_rotor_count']}개 (최고 스케일 S{ex['max_scale']})"
         )
-        for p in ex.get("principles", []):
-            lines_out.append(
-                f"   * [원리] {p['principle_id']} = {p['value']:.2f} "
-                f"(확증={p['confirmations']}, 반증={p['refutations']}, 자기수정={p['revisions']}회)"
-            )
         for line_info in ex["lines"]:
             neg_r = line_info.get("neg_extreme_ref") or "-"
             pos_r = line_info.get("pos_extreme_ref") or "-"
@@ -358,19 +302,11 @@ class LoomObservation:
 
         # 2. Motion
         mo = self.motion
-        preds = mo.get("recent_predictions", [])
         lines_out.append(
             f"2. 움직임 (Motion): 최근 스펙트럼 속도 {len(mo['line_velocities'])}개 | "
             f"교차 로터 각/장력 변화 {len(mo['cross_motions'])}개 | "
-            f"순환 실행 {len(mo['cycle_deltas'])}개 | 예측-반증 기록 {len(preds)}건"
+            f"순환 실행 {len(mo['cycle_deltas'])}개"
         )
-        for pr in preds[-4:]:
-            pv = f"{pr['predicted']:+.3f}" if pr.get("predicted") is not None else "n/a"
-            lines_out.append(
-                f"   - 예측 vs 외부현실 [{pr['referent_id']} -> {pr['target_line_id']}]: "
-                f"예측={pv}, 실제={pr['actual']:+.3f}, 놀람={pr['surprise']:.3f}, "
-                f"반증={'YES' if pr['refuted'] else 'no'}"
-            )
         for lv in mo["line_velocities"]:
             lines_out.append(
                 f"   - 선 {lv['line_id']}: {lv['prev_value']:+.3f} -> {lv['curr_value']:+.3f} "
@@ -634,68 +570,12 @@ class PromotedRotorLine(CausalLine):
         }
 
 
-class EmergentExternalLine(CausalLine):
-    """
-    A brand-new Scale-1 external Prism Line born dynamically by Elysia herself when
-    external prediction fails and reveals a raw observable blind spot separating reality.
-    """
-
-    kind: str = "emergent_line"
-
-    def __init__(
-        self,
-        line_id: str,
-        observable_key: str,
-        center: float,
-        scale: float,
-        extractor_fn: Callable[[Dict[str, Any]], Dict[str, float]],
-        born_from_refutation_of: str,
-        why_born_ko: str,
-    ) -> None:
-        super().__init__(
-            line_id=line_id,
-            scale=1,
-            constituent_line_ids=(),
-            chromatic_bias=(0.45, 0.35, 0.20),
-            description=why_born_ko,
-        )
-        self.observable_key = str(observable_key)
-        self.center = float(center)
-        self.scale_norm = max(1e-4, float(scale))
-        self._extractor_fn = extractor_fn
-        self.born_from_refutation_of = str(born_from_refutation_of)
-        self.why_born_ko = str(why_born_ko)
-
-    def refract(
-        self,
-        referent_id: str,
-        raw_referent: Dict[str, Any],
-        step: int,
-    ) -> Optional[LineRefraction]:
-        obs = dict(self._extractor_fn(raw_referent) or {})
-        if self.observable_key not in obs:
-            return None
-        raw_val = float(obs[self.observable_key])
-        spectrum = _clamp(math.tanh((raw_val - self.center) / self.scale_norm), -1.0, 1.0)
-        return self._record_refraction(
-            referent_id=referent_id,
-            spectrum_value=spectrum,
-            raw_observables={self.observable_key: raw_val, "center": self.center},
-            chromatic=(0.35 + 0.3 * abs(spectrum), 0.40, 0.25),
-            evidence={
-                "observable_key": self.observable_key,
-                "born_from": self.born_from_refutation_of,
-            },
-            step=step,
-        )
-
-
 class IntrospectiveLoomLine(CausalLine):
     """
     Self-perception Line plugged directly into the Loom itself.
-    Observes the Loom's own active crossings, tensions, promotions, tears,
-    AND audits why Elysia keeps repeating her own governing principles when external
-    reality repeatedly refutes predictions or stalls cycles.
+    Observes the Loom's own active crossings, tensions, promotions, and tears,
+    projecting Elysia's live internal structural tension/coherence onto the exact same
+    `[-1.0, +1.0]` continuous spectrum so she perceives her own state alongside external reality.
     """
 
     kind: str = "introspective_self"
@@ -706,86 +586,9 @@ class IntrospectiveLoomLine(CausalLine):
             scale=1,
             constituent_line_ids=(),
             chromatic_bias=(0.20, 0.60, 0.20),
-            description="자기 직조 베틀(존재·움직임·원리 답습 여부)을 실시간 지각·감사하는 내면 관측선",
+            description="자기 직조 베틀(존재·움직임·장력·승격)을 실시간으로 지각하는 내면 관측선",
         )
         self._loom = loom_ref
-
-    def audit_principles(self, referent_id: str) -> List[str]:
-        """
-        Inspects whether Elysia's current governing `WeavingPrinciple`s are blindly
-        repeating habits that fail against external refutations or unproductive cycles,
-        and revises them with explicit 4-axis causal justification.
-        """
-        revised_ids: List[str] = []
-        ref_gate = self._loom.principles.get("principle::prediction_refutation_gate")
-        cross_gate = self._loom.principles.get("principle::cross_divergence_gate")
-        cycle_gate = self._loom.principles.get("principle::cycle_tension_gate")
-
-        if (
-            ref_gate is not None
-            and cross_gate is not None
-            and ref_gate.refutations >= 2 * (cross_gate.revisions + 1)
-            and cross_gate.value > 0.45
-        ):
-            old_v = cross_gate.value
-            new_v = cross_gate.revise(
-                old_v - 0.10,
-                self._loom.step_count,
-                reason_ko=(
-                    f"외부 예측 반증이 {ref_gate.refutations}회 누적되었는데도 기존 교차 분기 기준({old_v:.2f})을 "
-                    f"답습하여 미세한 선 간 어긋남을 일찍 교차시키지 못함 -> {max(cross_gate.min_val, old_v - 0.10):.2f}로 하향"
-                ),
-            )
-            revised_ids.append(cross_gate.principle_id)
-            self._loom._log_genesis(
-                operation="revise_principle",
-                target_id=cross_gate.principle_id,
-                referent_id=referent_id,
-                why_ko=(
-                    f"[자기원리 감사] 교차 분기 기준을 {old_v:.2f} -> {new_v:.2f}로 스스로 수정: "
-                    f"반증 {ref_gate.refutations}회가 기존 둔감한 기준의 한계를 드러냄"
-                ),
-                internal_origin="자기 원리의 반복 답습이 외부 예측 실패와 연결됨을 내면 관측선으로 자각",
-                external_friction=f"누적 외부 반증 {ref_gate.refutations}회 vs 확증 {ref_gate.confirmations}회",
-                boundary_ignorance="기존 기준값은 작은 외부 차이 속에 숨은 인과 분기를 놓치고 있었음",
-                criteria_revision=f"{cross_gate.principle_id} = {new_v:.2f} (더 예민한 교차 직조)",
-            )
-
-        torn_or_stuck = sum(
-            1
-            for cy in self._loom.cycles.values()
-            if cy.is_torn or cy.unproductive_streak >= 2
-        )
-        if (
-            cycle_gate is not None
-            and torn_or_stuck > cycle_gate.revisions
-            and cycle_gate.value < 0.58
-        ):
-            old_c = cycle_gate.value
-            new_c = cycle_gate.revise(
-                old_c + 0.08,
-                self._loom.step_count,
-                reason_ko=(
-                    f"비생산·파단 순환이 {torn_or_stuck}건 발생해, 기존 순환 발동 기준({old_c:.2f})이 "
-                    f"효과 없는 탐색을 남발하고 있음을 감지 -> {min(cycle_gate.max_val, old_c + 0.08):.2f}로 상향"
-                ),
-            )
-            revised_ids.append(cycle_gate.principle_id)
-            self._loom._log_genesis(
-                operation="revise_principle",
-                target_id=cycle_gate.principle_id,
-                referent_id=referent_id,
-                why_ko=(
-                    f"[자기원리 감사] 순환 발동 기준을 {old_c:.2f} -> {new_c:.2f}로 스스로 수정: "
-                    f"무익한 순환 {torn_or_stuck}건에 대한 자기 교정"
-                ),
-                internal_origin="파단·정체된 순환 습관을 그대로 반복하지 않으려는 메타 자기지각",
-                external_friction=f"비생산·파단 순환 {torn_or_stuck}건 관측",
-                boundary_ignorance="낮은 장력에서도 맹목적으로 작용선을 부르는 규칙의 한계 인식",
-                criteria_revision=f"{cycle_gate.principle_id} = {new_c:.2f} (실효 높은 고장력에 집중)",
-            )
-
-        return revised_ids
 
     def refract(
         self,
@@ -806,15 +609,12 @@ class IntrospectiveLoomLine(CausalLine):
             if active_crosses
             else 0.0
         )
+        # Positive pole = high integrated coherence/resonance & promoted synthesis;
+        # Negative pole = unresolved cross tension & structural tearing pressure.
         synthesis_ratio = min(1.0, len(promoted) / max(1.0, float(len(self._loom.lines))))
         tear_pressure = min(1.0, len(torn_crosses) / max(1.0, float(len(self._loom.crosses) or 1)))
-        refutation_pressure = min(
-            1.0,
-            sum(p.refutations for p in self._loom.principles.values()) / max(2.0, float(step)),
-        )
         spectrum = _clamp(
-            (0.65 * mean_res + 0.55 * synthesis_ratio)
-            - (0.75 * mean_tension + 0.30 * tear_pressure + 0.35 * refutation_pressure),
+            (0.65 * mean_res + 0.55 * synthesis_ratio) - (0.85 * mean_tension + 0.35 * tear_pressure),
             -1.0,
             1.0,
         )
@@ -822,7 +622,7 @@ class IntrospectiveLoomLine(CausalLine):
             [
                 0.20 + 0.35 * synthesis_ratio,
                 0.35 + 0.45 * mean_res,
-                0.15 + 0.50 * mean_tension + 0.25 * refutation_pressure,
+                0.15 + 0.60 * mean_tension,
             ]
         )
         return self._record_refraction(
@@ -834,78 +634,29 @@ class IntrospectiveLoomLine(CausalLine):
                 "promoted_rotors": float(len(promoted)),
                 "mean_tension": mean_tension,
                 "mean_resonance": mean_res,
-                "refutation_pressure": refutation_pressure,
             },
             chromatic=chroma,
             evidence={
                 "self_observed_step": int(step),
                 "active_cycles": sum(1 for cy in self._loom.cycles.values() if not cy.is_torn),
-                "principle_revisions": sum(p.revisions for p in self._loom.principles.values()),
             },
             step=step,
         )
 
 
-def _default_principles() -> Dict[str, WeavingPrinciple]:
-    return {
-        "principle::ancestor_redundancy_guard": WeavingPrinciple(
-            principle_id="principle::ancestor_redundancy_guard",
-            name_ko="동일 조상 선 중복 교차 차단",
-            value=1.0,
-            min_val=0.0,
-            max_val=1.0,
-            why_adopted="이미 같은 기저 선을 공유하는 로터끼리 중복 교차해 가짜 조합이 폭발하는 것을 방지",
-        ),
-        "principle::cross_divergence_gate": WeavingPrinciple(
-            principle_id="principle::cross_divergence_gate",
-            name_ko="동일 대상 선 간 어긋남 교차 임계",
-            value=0.65,
-            min_val=0.35,
-            max_val=0.95,
-            why_adopted="두 선이 같은 대상에서 이 이상 다른 극단으로 벌어질 때 교차면을 직조",
-        ),
-        "principle::cycle_tension_gate": WeavingPrinciple(
-            principle_id="principle::cycle_tension_gate",
-            name_ko="외부 탐색 순환 발동 장력 임계",
-            value=0.30,
-            min_val=0.18,
-            max_val=0.65,
-            why_adopted="교차 장력이 이 이상이면 내부 계산 대신 외부 세계 추가 탐색 순환을 직조",
-        ),
-        "principle::rotor_promotion_mass": WeavingPrinciple(
-            principle_id="principle::rotor_promotion_mass",
-            name_ko="상위 스케일 로터 승격 질량 임계",
-            value=1.80,
-            min_val=1.20,
-            max_val=3.50,
-            why_adopted="반복 접촉과 공명으로 검증된 교차만 상위 스케일 축으로 승격",
-        ),
-        "principle::prediction_refutation_gate": WeavingPrinciple(
-            principle_id="principle::prediction_refutation_gate",
-            name_ko="외부 예측-현실 반증 놀람 임계",
-            value=0.45,
-            min_val=0.25,
-            max_val=0.80,
-            why_adopted="예측과 실제 외부 반응 차이가 이 이상이면 기존 사각지대로 판정해 새 선 자생 유도",
-        ),
-    }
-
-
 class SelfWeavingLoom:
     """
     Dynamic Scale-Rotor Loom weaving parallel, cross, cycle, promoted-rotor,
-    emergent-prism, and self-introspective topologies directly from unlabelled external friction.
+    and self-introspective topologies directly from unlabelled external friction.
     """
 
     def __init__(self) -> None:
         self.causal_field = CausalField(dimensions=3)
-        self.principles: Dict[str, WeavingPrinciple] = _default_principles()
         self.lines: Dict[str, CausalLine] = {}
         self.action_lines: Dict[str, Callable[[Dict[str, Any]], Dict[str, Any]]] = {}
         self.crosses: Dict[str, CrossNode] = {}
         self.cycles: Dict[str, CycleWeave] = {}
         self.genesis_log: List[WeaveGenesisRecord] = []
-        self.prediction_history: List[Dict[str, Any]] = []
         self.referent_refractions: Dict[str, Dict[str, LineRefraction]] = {}
         self.referent_snapshots: Dict[str, Dict[str, Any]] = {}
         self.step_count: int = 0
@@ -1063,19 +814,28 @@ class SelfWeavingLoom:
         self.referent_refractions[referent_id] = current
         return current
 
-    def base_ancestors(self, line_id: str, _seen: Optional[set] = None) -> frozenset:
-        """Recursively collects Scale-1 base ancestor IDs so redundant self-crossings are prevented."""
-        seen = _seen if _seen is not None else set()
-        if line_id in seen:
+    def _base_ancestors(self, line_id: str, _visited: Optional[set[str]] = None) -> frozenset[str]:
+        """Recursively resolves a Line or PromotedRotorLine down to its Scale-1 base Line IDs."""
+        visited = set(_visited or ())
+        if line_id in visited:
             return frozenset()
-        seen.add(line_id)
+        visited.add(line_id)
         line = self.lines.get(line_id)
         if line is None or not line.constituent_line_ids:
             return frozenset((line_id,))
-        acc: set = set()
-        for cid in line.constituent_line_ids:
-            acc.update(self.base_ancestors(cid, seen))
-        return frozenset(acc)
+        ancestors: set[str] = set()
+        for child_id in line.constituent_line_ids:
+            ancestors.update(self._base_ancestors(child_id, visited))
+        return frozenset(ancestors) if ancestors else frozenset((line_id,))
+
+    def _shares_subset_ancestors(self, id_a: str, id_b: str) -> bool:
+        """
+        Repulsion boundary: forbids crossing two Lines when one is already wholly composed
+        of the other's base Lines (preventing fake combinatorial self-cloning).
+        """
+        anc_a = self._base_ancestors(id_a)
+        anc_b = self._base_ancestors(id_b)
+        return (anc_a <= anc_b) or (anc_b <= anc_a)
 
     def _maybe_weave_crosses(
         self,
@@ -1084,8 +844,6 @@ class SelfWeavingLoom:
     ) -> List[str]:
         woven_ids: List[str] = []
         active_ids = sorted(current.keys())
-        guard_on = self.principles["principle::ancestor_redundancy_guard"].value >= 0.5
-        div_gate = self.principles["principle::cross_divergence_gate"].value
 
         # A) Cross-referent structural contrast: two referents close on Line A yet divergent on Line B
         for prev_ref_id, prev_map in self.referent_refractions.items():
@@ -1096,13 +854,15 @@ class SelfWeavingLoom:
                     if id_a not in prev_map or id_b not in prev_map:
                         continue
                     pair = _canonical_pair(id_a, id_b)
+                    if self._shares_subset_ancestors(pair[0], pair[1]):
+                        continue
                     cross_id = f"cross::{pair[0]}__{pair[1]}"
                     if cross_id in self.crosses:
                         continue
-                    if guard_on and (self.base_ancestors(pair[0]) & self.base_ancestors(pair[1])):
-                        continue
                     da = abs(current[id_a].spectrum_value - prev_map[id_a].spectrum_value)
                     db = abs(current[id_b].spectrum_value - prev_map[id_b].spectrum_value)
+                    # Case 1: Line A collapsed both (`da <= 0.30`), Line B separated them (`db >= 0.42`)
+                    # Case 2: Line B collapsed both (`db <= 0.30`), Line A separated them (`da >= 0.42`)
                     collapsed_split = (da <= 0.30 and db >= 0.42) or (db <= 0.30 and da >= 0.42)
                     if not collapsed_split:
                         continue
@@ -1131,22 +891,22 @@ class SelfWeavingLoom:
                         criteria_revision=f"교차점 `{cross_id}`를 생성해 2차원 회전면(각/반경/장력)으로 재편",
                     )
 
-        # B) Same-referent divergence between two Lines (`|s_A - s_B| >= div_gate`)
+        # B) Same-referent divergence between two Lines (`|s_A - s_B| >= 0.65`)
         for idx_a, id_a in enumerate(active_ids):
             for id_b in active_ids[idx_a + 1 :]:
                 pair = _canonical_pair(id_a, id_b)
+                if self._shares_subset_ancestors(pair[0], pair[1]):
+                    continue
                 cross_id = f"cross::{pair[0]}__{pair[1]}"
                 if cross_id in self.crosses:
                     continue
-                if guard_on and (self.base_ancestors(pair[0]) & self.base_ancestors(pair[1])):
-                    continue
                 diff = abs(current[pair[0]].spectrum_value - current[pair[1]].spectrum_value)
-                if diff < div_gate:
+                if diff < 0.65:
                     continue
                 line_a, line_b = self.lines[pair[0]], self.lines[pair[1]]
                 why = (
                     f"동일 대상 `{referent_id}`에서 `{pair[0]}`({current[pair[0]].spectrum_value:+.2f})와 "
-                    f"`{pair[1]}`({current[pair[1]].spectrum_value:+.2f})가 크게 어긋남 (차={diff:.2f} >= 기준={div_gate:.2f}) -> 교차 직조"
+                    f"`{pair[1]}`({current[pair[1]].spectrum_value:+.2f})가 크게 어긋남 (차={diff:.2f}) -> 교차 직조"
                 )
                 cross = CrossNode(
                     cross_id=cross_id,
@@ -1214,13 +974,12 @@ class SelfWeavingLoom:
         action_fn = self.action_lines[default_action_id]
         cycle_deltas: List[Dict[str, Any]] = []
 
-        cycle_gate = self.principles["principle::cycle_tension_gate"].value
         # Pick the highest-tension active cross eligible for an external probe cycle
         candidates = [
             c
             for c in self.crosses.values()
             if not c.is_torn
-            and c.tension >= cycle_gate
+            and c.tension >= 0.30
             and c.line_a_id in current
             and c.line_b_id in current
         ]

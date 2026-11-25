@@ -735,3 +735,234 @@ def inspect_image_bytes_summary(image_bytes: bytes) -> Dict[str, Any]:
         "warm_cool_ratio": warm_cool_ratio,
         "dominant_palette_rgb": dominant_palette_rgb,
     }
+
+
+def fetch_live_github_firehose_events(
+    limit: int = 8,
+    fetcher: Optional[HttpFetcher] = None,
+) -> Dict[str, Any]:
+    """
+    Fetches genuinely uncurated, real-time global public GitHub events (`api.github.com/events`)
+    happening right now — completely unknown ahead of time to the developer or LLM.
+    """
+    get_fn = fetcher or default_http_get
+    headers = {"Accept": "application/vnd.github+json"}
+    st_code, raw_bytes, _ = get_fn(
+        f"https://api.github.com/events?per_page={max(1, min(30, int(limit) * 2))}",
+        8.0,
+        headers,
+    )
+    if st_code != 200:
+        return {
+            "ok": False,
+            "status_code": st_code,
+            "error": (
+                f"GitHub Events HTTP {st_code}"
+                if st_code
+                else f"Network error: {raw_bytes.decode('utf-8', 'replace')[:180]}"
+            ),
+            "events": [],
+        }
+    try:
+        arr = json.loads(raw_bytes.decode("utf-8", errors="replace"))
+    except Exception as exc:
+        return {"ok": False, "status_code": st_code, "error": f"JSON parse error: {exc}", "events": []}
+
+    parsed: List[Dict[str, Any]] = []
+    seen_repos: set[str] = set()
+    for ev in arr if isinstance(arr, list) else []:
+        repo_name = str(((ev or {}).get("repo") or {}).get("name") or "").strip()
+        if not repo_name or "/" not in repo_name or repo_name in seen_repos:
+            continue
+        seen_repos.add(repo_name)
+        parsed.append(
+            {
+                "event_id": str(ev.get("id", "")),
+                "event_type": str(ev.get("type", "")),
+                "repo": repo_name,
+                "repo_url": f"https://github.com/{repo_name}",
+                "actor": str(((ev or {}).get("actor") or {}).get("login") or ""),
+                "created_at": str(ev.get("created_at", "")),
+            }
+        )
+        if len(parsed) >= limit:
+            break
+    return {"ok": True, "status_code": st_code, "events": parsed}
+
+
+def fetch_github_repo_tree(
+    owner_repo: str,
+    fetcher: Optional[HttpFetcher] = None,
+) -> Dict[str, Any]:
+    """Inspects top-level files and directories of an unknown public GitHub repository."""
+    get_fn = fetcher or default_http_get
+    headers = {"Accept": "application/vnd.github+json"}
+    st_code, raw_bytes, _ = get_fn(
+        f"https://api.github.com/repos/{owner_repo}/contents",
+        8.0,
+        headers,
+    )
+    if st_code != 200:
+        return {
+            "ok": False,
+            "status_code": st_code,
+            "error": f"GitHub contents HTTP {st_code}",
+            "entries": [],
+        }
+    try:
+        items = json.loads(raw_bytes.decode("utf-8", errors="replace"))
+    except Exception as exc:
+        return {"ok": False, "status_code": st_code, "error": str(exc), "entries": []}
+
+    entries = [
+        {
+            "name": str(it.get("name", "")),
+            "path": str(it.get("path", "")),
+            "type": str(it.get("type", "")),
+            "size": int(it.get("size") or 0),
+        }
+        for it in (items if isinstance(items, list) else [])
+        if isinstance(it, dict)
+    ]
+    return {"ok": True, "status_code": st_code, "entries": entries}
+
+
+def fetch_github_raw_file(
+    owner_repo: str,
+    file_path: str,
+    fetcher: Optional[HttpFetcher] = None,
+) -> Dict[str, Any]:
+    """Fetches actual Base64-decoded source content of a specific file inside an unknown GitHub repo."""
+    get_fn = fetcher or default_http_get
+    headers = {"Accept": "application/vnd.github+json"}
+    st_code, raw_bytes, _ = get_fn(
+        f"https://api.github.com/repos/{owner_repo}/contents/{quote(file_path)}",
+        8.0,
+        headers,
+    )
+    if st_code != 200:
+        return {"ok": False, "status_code": st_code, "error": f"GitHub file HTTP {st_code}", "content": ""}
+    try:
+        payload = json.loads(raw_bytes.decode("utf-8", errors="replace"))
+        b64 = str(payload.get("content", ""))
+        text = base64.b64decode(b64).decode("utf-8", errors="replace") if b64 else ""
+        return {
+            "ok": True,
+            "status_code": st_code,
+            "path": file_path,
+            "size": int(payload.get("size") or len(text)),
+            "content": text[:8000],
+        }
+    except Exception as exc:
+        return {"ok": False, "status_code": st_code, "error": str(exc), "content": ""}
+
+
+def fetch_github_issues(
+    owner_repo: str,
+    limit: int = 3,
+    fetcher: Optional[HttpFetcher] = None,
+) -> Dict[str, Any]:
+    """Fetches real open human discussions/issues inside an unknown GitHub repository."""
+    get_fn = fetcher or default_http_get
+    headers = {"Accept": "application/vnd.github+json"}
+    st_code, raw_bytes, _ = get_fn(
+        f"https://api.github.com/repos/{owner_repo}/issues?state=all&per_page={max(1, min(10, int(limit)))}",
+        8.0,
+        headers,
+    )
+    if st_code != 200:
+        return {"ok": False, "status_code": st_code, "issues": []}
+    try:
+        arr = json.loads(raw_bytes.decode("utf-8", errors="replace"))
+    except Exception:
+        return {"ok": False, "status_code": st_code, "issues": []}
+    issues = [
+        {
+            "number": int(it.get("number") or 0),
+            "title": str(it.get("title") or "")[:140],
+            "state": str(it.get("state") or ""),
+            "body_excerpt": str(it.get("body") or "")[:240],
+        }
+        for it in (arr if isinstance(arr, list) else [])
+        if isinstance(it, dict)
+    ]
+    return {"ok": True, "status_code": st_code, "issues": issues}
+
+
+def interact_with_unknown_github_repo(
+    owner_repo: Optional[str] = None,
+    fetcher: Optional[HttpFetcher] = None,
+) -> Dict[str, Any]:
+    """
+    True multi-turn two-way exploration of a genuinely unknown live GitHub repository:
+      Turn 1: If `owner_repo` is None, pull live uncurated global GitHub events right now.
+      Turn 2: Inspect repository metadata & root file tree.
+      Turn 3: Select a real source/config file from the tree and fetch its actual source text.
+      Turn 4: Inspect real human issues/discussions to ground why this codebase exists.
+    """
+    chosen_repo = str(owner_repo or "").strip()
+    source_event: Dict[str, Any] = {}
+    if not chosen_repo:
+        firehose = fetch_live_github_firehose_events(limit=6, fetcher=fetcher)
+        if not firehose.get("ok") or not firehose.get("events"):
+            return {
+                "ok": False,
+                "stage": "firehose",
+                "error": firehose.get("error", "no_live_github_events"),
+            }
+        source_event = firehose["events"][0]
+        chosen_repo = source_event["repo"]
+
+    repo_obs = fetch_github_target(f"https://github.com/{chosen_repo}", fetcher=fetcher)
+    if repo_obs.blocked:
+        return {
+            "ok": False,
+            "stage": "repo_meta",
+            "repo": chosen_repo,
+            "source_event": source_event,
+            "error": repo_obs.block_reason,
+            "status_code": repo_obs.status_code,
+        }
+
+    tree = fetch_github_repo_tree(chosen_repo, fetcher=fetcher)
+    entries = tree.get("entries") or []
+    # Pick a real non-README source/config file from the actual unknown repo
+    preferred_exts = (".py", ".rs", ".go", ".ts", ".js", ".c", ".cpp", ".java", ".toml", ".json", ".yaml", ".yml", ".md")
+    picked_entry = None
+    for ext in preferred_exts:
+        for ent in entries:
+            if ent.get("type") == "file" and ent.get("name", "").lower().endswith(ext) and ent.get("size", 0) > 0:
+                if ent.get("size", 0) <= 60_000:
+                    picked_entry = ent
+                    break
+        if picked_entry is not None:
+            break
+    if picked_entry is None:
+        for ent in entries:
+            if ent.get("type") == "file" and 0 < ent.get("size", 0) <= 60_000:
+                picked_entry = ent
+                break
+
+    fetched_file: Dict[str, Any] = {}
+    if picked_entry is not None:
+        fetched_file = fetch_github_raw_file(chosen_repo, picked_entry["path"], fetcher=fetcher)
+
+    issues = fetch_github_issues(chosen_repo, limit=3, fetcher=fetcher)
+    return {
+        "ok": True,
+        "repo": chosen_repo,
+        "url": f"https://github.com/{chosen_repo}",
+        "source_event": source_event,
+        "metadata": dict(repo_obs.metadata),
+        "readme_excerpt": repo_obs.text_body[:1200],
+        "outbound_urls": list(repo_obs.outbound_urls[:5]),
+        "tree_count": len(entries),
+        "tree_names": [e["name"] for e in entries[:15]],
+        "inspected_file": {
+            "path": fetched_file.get("path", ""),
+            "size": fetched_file.get("size", 0),
+            "content": fetched_file.get("content", ""),
+            "ok": bool(fetched_file.get("ok", False)),
+        },
+        "issues": issues.get("issues", []),
+    }

@@ -98,7 +98,7 @@ class WindowsForegroundSensor:
 
 @dataclass
 class ScreenFrameSnapshot:
-    """Downsampled retina observation carrying spatial-chromatic energy and focus."""
+    """Downsampled macro retina + high-res steered fovea observation from live screen."""
 
     frame_small: np.ndarray  # (24, 32, 3) float64 in [0, 1]
     visual_vec: np.ndarray  # (48,) float64 in [0, 1]
@@ -109,6 +109,15 @@ class ScreenFrameSnapshot:
     screen_size: Tuple[int, int]
     capture_ok: bool = True
     error: str = ""
+    gaze_xy_norm: Tuple[float, float] = (0.5, 0.5)
+    gaze_shift: float = 0.0
+    fovea_sharpness: float = 0.0
+    fovea_sharpness_gain: float = 0.0
+    fovea_contours: int = 0
+    fovea_box: Tuple[int, int, int, int] = (0, 0, 0, 0)
+    native_operator_level: int = 0
+    native_perceived_units: int = 0
+    native_edge_energy: float = 0.0
 
 
 class ScreenRetinaSensor:
@@ -124,6 +133,165 @@ class ScreenRetinaSensor:
         self._prev_frame: Optional[np.ndarray] = None
         self._last_raw_image: Optional[Image.Image] = None
         self._last_salient_xy: Tuple[float, float] = (0.5, 0.5)
+        self._gaze_xy: Tuple[float, float] = (0.5, 0.5)
+        self._gaze_zoom: float = 3.0
+        self._fovea_integrated: bool = False
+        self._visual_adaptations: int = 0
+        # Continuous Variable-Resistor Visual Scale Dial (`sigma in [0.0, 1.0]`: macro blur <-> micro edge field)
+        self.scale_dial: float = 0.05
+
+    @property
+    def native_operator_level(self) -> int:
+        return int(round(float(np.clip(self.scale_dial, 0.0, 1.0)) * 2.0))
+
+    @native_operator_level.setter
+    def native_operator_level(self, lvl: int) -> None:
+        self.scale_dial = float(np.clip(float(lvl) / 2.0, 0.0, 1.0))
+
+    def measure_native_perception(self, frame_small: np.ndarray, fovea_box: Tuple[int, int, int, int]) -> Dict[str, Any]:
+        """
+        Continuous Scale-Rotor Native Visual Operator (ZERO `if level == 0/1/2` branching!):
+        Applies ONE continuous Gaussian-blur <-> gradient-boundary operator parameterized
+        solely by `self.scale_dial in [0.0, 1.0]` directly onto Elysia's live pixels.
+        """
+        from core.topology.continuous_rotor_spectrum_field import apply_continuous_scale_vision
+
+        if self._last_raw_image is not None and fovea_box != (0, 0, 0, 0):
+            img_arr = np.asarray(self._last_raw_image.crop(fovea_box).convert("RGB"), dtype=np.float64) / 255.0
+        else:
+            img_arr = np.asarray(frame_small, dtype=np.float64)
+        res = apply_continuous_scale_vision(img_arr, self.scale_dial)
+        return {
+            "operator_level": self.native_operator_level,
+            "scale_dial": float(res["scale_dial"]),
+            "native_units": int(res["perceived_units"]),
+            "edge_energy": float(res["edge_energy"]),
+            "mechanism_ko": str(res["mechanism_ko"]),
+        }
+
+    def reconstruct_native_operator_downward(self, external_tool_units: int, current_native_units: int) -> Dict[str, Any]:
+        """
+        Continuous Downward Scale-Dial Tuning (`S4 -> S0`, zero discrete level stairs):
+        Turns Elysia's continuous visual scale dial `sigma` smoothly in proportion to the
+        measured perceptual gap against the external tool, then immediately re-measures on
+        the EXACT SAME pixels to confirm real continuous native gain.
+        """
+        prev_sigma = self.scale_dial
+        prev_level = self.native_operator_level
+        prev_zoom = self._gaze_zoom
+        gap = max(0.0, 1.0 - float(current_native_units) / float(max(1, external_tool_units)))
+        if gap <= 0.15 and self.scale_dial >= 0.92:
+            return {
+                "reconstructed": False,
+                "prev_scale_dial": round(prev_sigma, 4),
+                "new_scale_dial": round(self.scale_dial, 4),
+                "prev_level": prev_level,
+                "new_level": self.native_operator_level,
+                "before_native_units": current_native_units,
+                "after_native_units": current_native_units,
+                "why_ko": "연속 시각 스케일 다이얼이 이미 외부 도구 정밀도에 수렴함",
+            }
+
+        delta_sigma = float(np.clip(0.48 * max(0.35, gap), 0.15, 0.50))
+        self.scale_dial = round(float(np.clip(self.scale_dial + delta_sigma, 0.0, 1.0)), 4)
+        self._gaze_zoom = round(float(np.clip(self._gaze_zoom + 0.30 * gap, 1.5, 5.5)), 2)
+        self._fovea_integrated = True
+        self._visual_adaptations += 1
+
+        fovea = self._inspect_live_fovea()
+        re_native = self.measure_native_perception(
+            self._prev_frame if self._prev_frame is not None else np.zeros((24, 32, 3), dtype=np.float64),
+            fovea["box"],
+        )
+        return {
+            "reconstructed": True,
+            "prev_scale_dial": round(prev_sigma, 4),
+            "new_scale_dial": round(self.scale_dial, 4),
+            "prev_level": prev_level,
+            "new_level": self.native_operator_level,
+            "prev_zoom": prev_zoom,
+            "new_zoom": self._gaze_zoom,
+            "before_native_units": int(current_native_units),
+            "after_native_units": int(re_native["native_units"]),
+            "external_tool_units": int(external_tool_units),
+            "mechanism_ko": re_native["mechanism_ko"],
+            "why_ko": (
+                f"연속 하향 조율(S4->S0): 시각 가변저항 다이얼 σ={prev_sigma:.2f}->{self.scale_dial:.2f} "
+                f"({re_native['mechanism_ko']})로 회전해 동일 픽셀 자체 지각 단위가 "
+                f"{current_native_units}->{re_native['native_units']}개로 연속 확장됨 (외부도구={external_tool_units})"
+            ),
+        }
+
+    def adapt_from_visual_limit(self, native_blocks: int, fovea_contours: int) -> Dict[str, Any]:
+        """
+        Real limit-driven self-adaptation of Elysia's ocular organ:
+        When comparing her native 32x24 low-res blocks against high-res OpenCV contours
+        exposes a resolution ceiling, she actively tightens her foveal zoom and binds
+        high-res foveal edge structure into her ongoing perception instead of staying static.
+        """
+        prev_zoom = self._gaze_zoom
+        if fovea_contours > max(10, native_blocks * 2):
+            self._gaze_zoom = round(float(np.clip(self._gaze_zoom + 0.5, 1.5, 5.5)), 2)
+            self._fovea_integrated = True
+            self._visual_adaptations += 1
+            return {
+                "adapted": True,
+                "prev_zoom": prev_zoom,
+                "new_zoom": self._gaze_zoom,
+                "fovea_integrated": self._fovea_integrated,
+                "adaptations_total": self._visual_adaptations,
+                "why_ko": (
+                    f"저해상도 블록({native_blocks}) 대비 고해상도 윤곽({fovea_contours}) 격차를 한계로 지각해 "
+                    f"실제 중심와 줌을 {prev_zoom:.2f}x -> {self._gaze_zoom:.2f}x로 끌어올리고 고해상도 윤곽 채널을 결합함"
+                ),
+            }
+        return {
+            "adapted": False,
+            "prev_zoom": prev_zoom,
+            "new_zoom": self._gaze_zoom,
+            "fovea_integrated": self._fovea_integrated,
+            "adaptations_total": self._visual_adaptations,
+            "why_ko": "현재 시야 해상도 격차가 추가 줌 조정 임계치 미만임",
+        }
+
+    def steer_gaze(self, target_xy_norm: Tuple[float, float], zoom_factor: Optional[float] = None) -> Tuple[float, float]:
+        """Moves physical ocular gaze smoothly toward a real screen coordinate."""
+        tx = float(np.clip(float(target_xy_norm[0]), 0.05, 0.95))
+        ty = float(np.clip(float(target_xy_norm[1]), 0.05, 0.95))
+        gx, gy = self._gaze_xy
+        # Smooth ocular saccade with physical continuity
+        nx = round(gx + 0.65 * (tx - gx), 4)
+        ny = round(gy + 0.65 * (ty - gy), 4)
+        self._gaze_xy = (nx, ny)
+        if zoom_factor is not None:
+            self._gaze_zoom = float(np.clip(float(zoom_factor), 1.5, 6.0))
+        return self._gaze_xy
+
+    def _inspect_live_fovea(self) -> Dict[str, Any]:
+        """Performs actual high-resolution foveal crop + OpenCV contour analysis around `_gaze_xy`."""
+        if self._last_raw_image is None:
+            return {"sharpness": 0.0, "gain": 0.0, "contours": 0, "box": (0, 0, 0, 0)}
+        crop_info = self.capture_salient_zoom_crop(center_xy_norm=self._gaze_xy, zoom_factor=self._gaze_zoom)
+        if not crop_info.get("ok"):
+            return {"sharpness": 0.0, "gain": 0.0, "contours": 0, "box": (0, 0, 0, 0)}
+        box = tuple(int(v) for v in crop_info.get("crop_box", [0, 0, 0, 0]))
+        contours_count = 0
+        try:
+            import cv2
+
+            cropped = self._last_raw_image.crop(box).convert("RGB")
+            gray = cv2.cvtColor(np.asarray(cropped, dtype=np.uint8), cv2.COLOR_RGB2GRAY)
+            edges = cv2.Canny(gray, 50, 140)
+            cnts, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            contours_count = int(len(cnts))
+        except Exception:
+            contours_count = 0
+        return {
+            "sharpness": float(crop_info.get("crop_edge_sharpness", 0.0)),
+            "gain": float(crop_info.get("sharpness_gain", 0.0)),
+            "contours": contours_count,
+            "box": box,
+        }
 
     def _to_rgb_pil(self, arr: np.ndarray) -> Image.Image:
         """Converts numeric ndarray frames (grayscale/RGBA/float/uint8) cleanly into RGB PIL Image."""
@@ -180,6 +348,15 @@ class ScreenRetinaSensor:
             float((frame_small[..., 0].mean() + 0.1) / (frame_small[..., 2].mean() + 0.1)),
             4,
         )
+        prev_gaze = self._gaze_xy
+        new_gaze = self.steer_gaze(salient_xy_norm) if capture_ok else self._gaze_xy
+        gaze_shift = round(float(np.hypot(new_gaze[0] - prev_gaze[0], new_gaze[1] - prev_gaze[1])), 4)
+        fovea = self._inspect_live_fovea() if capture_ok else {"sharpness": 0.0, "gain": 0.0, "contours": 0, "box": (0, 0, 0, 0)}
+        native_meas = (
+            self.measure_native_perception(frame_small, fovea["box"])
+            if capture_ok
+            else {"operator_level": self.native_operator_level, "native_units": 0, "edge_energy": 0.0}
+        )
         return ScreenFrameSnapshot(
             frame_small=frame_small,
             visual_vec=visual_vec,
@@ -190,6 +367,15 @@ class ScreenRetinaSensor:
             screen_size=screen_size,
             capture_ok=capture_ok,
             error=error,
+            gaze_xy_norm=new_gaze,
+            gaze_shift=gaze_shift,
+            fovea_sharpness=round(float(fovea["sharpness"]), 5),
+            fovea_sharpness_gain=round(float(fovea["gain"]), 5),
+            fovea_contours=int(fovea["contours"]),
+            fovea_box=fovea["box"],
+            native_operator_level=int(native_meas["operator_level"]),
+            native_perceived_units=int(native_meas["native_units"]),
+            native_edge_energy=float(native_meas["edge_energy"]),
         )
 
     def capture(self) -> ScreenFrameSnapshot:
@@ -292,6 +478,58 @@ def _measure_rgb_image_sensory(img: Image.Image) -> Dict[str, Any]:
 
 
 _IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".gif"}
+
+
+@dataclass
+class AudioSnapshot:
+    """Real ambient microphone audio snapshot from this PC's audio hardware."""
+
+    rms_energy: float
+    zero_crossing_rate: float
+    peak_amplitude: float
+    active_sound: bool
+    capture_ok: bool = True
+    error: str = ""
+
+
+class LiveAudioEarSensor:
+    """Senses real ambient acoustic waves via `sounddevice` (graceful fallback if headless/no mic)."""
+
+    def __init__(
+        self,
+        sample_rate: int = 16000,
+        duration_s: float = 0.12,
+        audio_provider: Optional[Callable[[], np.ndarray]] = None,
+    ) -> None:
+        self.sample_rate = int(sample_rate)
+        self.duration_s = float(np.clip(duration_s, 0.04, 0.5))
+        self._audio_provider = audio_provider
+
+    def listen(self) -> AudioSnapshot:
+        try:
+            if self._audio_provider is not None:
+                samples = np.asarray(self._audio_provider(), dtype=np.float64).flatten()
+            else:
+                import sounddevice as sd
+
+                n_frames = max(256, int(self.sample_rate * self.duration_s))
+                rec = sd.rec(n_frames, samplerate=self.sample_rate, channels=1, dtype="float32")
+                sd.wait()
+                samples = np.asarray(rec, dtype=np.float64).flatten()
+            if samples.size == 0:
+                return AudioSnapshot(0.0, 0.0, 0.0, False, capture_ok=False, error="empty_audio")
+            rms = float(np.sqrt(np.mean(samples ** 2)))
+            peak = float(np.max(np.abs(samples)))
+            zcr = float(np.mean(np.abs(np.diff(np.signbit(samples).astype(np.float64))))) if samples.size > 1 else 0.0
+            return AudioSnapshot(
+                rms_energy=round(rms, 5),
+                zero_crossing_rate=round(zcr, 5),
+                peak_amplitude=round(peak, 5),
+                active_sound=bool(rms >= 0.015),
+                capture_ok=True,
+            )
+        except Exception as exc:
+            return AudioSnapshot(0.0, 0.0, 0.0, False, capture_ok=False, error=str(exc))
 
 
 def inspect_local_file_sensory(path: Path | str) -> Dict[str, Any]:

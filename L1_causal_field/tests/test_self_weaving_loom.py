@@ -8,11 +8,9 @@ from core.embodiment.external_reality_lines import (
     LiveScreenLine,
     PythonRuntimeLine,
     external_world_probe_action,
-    extract_raw_external_observables,
 )
 from core.topology.self_weaving_loom import (
     CausalLine,
-    EmergentExternalLine,
     LineRefraction,
     PromotedRotorLine,
     SelfWeavingLoom,
@@ -52,6 +50,7 @@ def test_emergent_poles_without_hardcoded_labels(tmp_path: Path) -> None:
     r1 = loom.encounter("notes.md", {"path": str(prose)})
     r2 = loom.encounter("engine_core.py", {"path": str(code)})
 
+    # Zero labels attached; poles emerge solely from real encountered extremes
     assert "category" not in r1 and "expected" not in r2
     py_line = loom.lines["line::python_runtime"]
     assert py_line.neg_extreme_ref == "notes.md"
@@ -60,6 +59,7 @@ def test_emergent_poles_without_hardcoded_labels(tmp_path: Path) -> None:
 
 
 def test_autonomous_cross_weaving_on_divergent_external_reality(tmp_path: Path) -> None:
+    # Two files that both look symbol-dense on FileSurfaceLine, yet PythonRuntimeLine separates them
     broken_dense = tmp_path / "pseudo_config.txt"
     broken_dense.write_text(
         "    alpha := [10, 20, 30] -> {x: (1 + 2)}\n"
@@ -83,6 +83,7 @@ def test_autonomous_cross_weaving_on_divergent_external_reality(tmp_path: Path) 
 
     assert len(loom.crosses) >= 1
     assert any("cross::" in cid for cid in res["events"]["new_crosses"] or loom.crosses.keys())
+    # Real surface vs python runtime cross must have emerged autonomously
     assert "cross::line::file_surface__line::python_runtime" in loom.crosses
 
 
@@ -100,11 +101,12 @@ def test_autonomous_cycle_weave_runs_external_probe_and_records_delta(tmp_path: 
 
     loom = _setup_real_loom(tmp_path)
     loom.encounter("story_module.py", {"path": str(doc_heavy_py)})
-    loom.encounter("consumer.py", {"path": str(caller_py)})
+    res = loom.encounter("consumer.py", {"path": str(caller_py)})
 
     assert len(loom.cycles) >= 1
     executed = [c for c in loom.cycles.values() if c.executions >= 1]
     assert len(executed) >= 1
+    # Ensure external probe inspected actual files and recorded concrete consequences
     all_consequences = [item for cy in executed for item in cy.external_consequences]
     assert len(all_consequences) >= 1
     assert any(item["produced_new_evidence"] for item in all_consequences)
@@ -113,6 +115,7 @@ def test_autonomous_cycle_weave_runs_external_probe_and_records_delta(tmp_path: 
 def test_recursive_promotion_to_higher_scale_rotor_line_and_scale_descent(tmp_path: Path) -> None:
     loom = _setup_real_loom(tmp_path)
 
+    # Encounter 4 real Python modules that build stable cross mass across FileSurface x PythonRuntime
     for idx in range(4):
         p = tmp_path / f"mod_{idx}.py"
         p.write_text(
@@ -125,12 +128,14 @@ def test_recursive_promotion_to_higher_scale_rotor_line_and_scale_descent(tmp_pa
         )
         loom.encounter(f"mod_{idx}.py", {"path": str(p)})
 
+    # Ensure a resonant cross promoted into a Scale-2 PromotedRotorLine
     promoted = [l for l in loom.lines.values() if isinstance(l, PromotedRotorLine)]
     assert len(promoted) >= 1
     rotor = promoted[0]
     assert rotor.scale >= 2
     assert len(rotor.history) >= 1
 
+    # Now introduce a real SyntaxError-dense artifact that causes strong child divergence on that rotor
     weird = tmp_path / "weird_broken.txt"
     weird.write_text("    [1, 2, 3] :: === ((( broken syntax\n    => {a: b}\n", encoding="utf-8")
     res = loom.encounter("weird_broken.txt", {"path": str(weird)})
@@ -139,6 +144,7 @@ def test_recursive_promotion_to_higher_scale_rotor_line_and_scale_descent(tmp_pa
     assert obs.existence["promoted_rotor_count"] >= 1
     assert obs.existence["max_scale"] >= 2
     assert any(rec.operation == "promote_rotor" for rec in loom.genesis_log)
+    # Either scale_descend logged directly or child spread clearly widened under weird_broken.txt
     assert len(res["events"]["scale_descents"]) >= 1 or any(
         r.last_child_spread >= 0.45 for r in promoted
     )
@@ -149,6 +155,7 @@ def test_full_four_aspect_observability_and_introspective_self_perception(tmp_pa
     sample_py.write_text("def hello(name: str) -> str:\n    return f'hi {name}'\n", encoding="utf-8")
 
     loom = _setup_real_loom(tmp_path)
+    # Also attach LiveScreenLine with synthetic RGB frame
     loom.register_line(LiveScreenLine())
     rgb = np.zeros((48, 64, 3), dtype=np.uint8)
     rgb[:, :32, 0] = 220
@@ -158,11 +165,11 @@ def test_full_four_aspect_observability_and_introspective_self_perception(tmp_pa
     obs = res["observation"]
 
     assert "lines" in obs.existence
-    assert "principles" in obs.existence
     assert "line::introspective_self" in res["refractions"]
     assert "line_velocities" in obs.motion
     assert "scale_distribution" in obs.constitution
     assert len(obs.causal_why) >= 2
+    # Verify 4-axis self-boundary attribution exists on genesis records
     latest_rec = obs.causal_why[-1]
     for axis_key in ("internal_origin", "external_friction", "boundary_ignorance", "criteria_revision"):
         assert latest_rec[axis_key]
@@ -186,6 +193,7 @@ def test_physical_tearing_of_unproductive_cross_and_causal_field_sync() -> None:
     loom = SelfWeavingLoom()
     loom.register_line(_ConstantPoleLine("line::pole_neg", -0.95))
     loom.register_line(_ConstantPoleLine("line::pole_pos", +0.95))
+    # Action probe returns zero new evidence -> unproductive loop must self-tear
     loom.register_action_line("action::noop_probe", lambda _ref: {"produced_new_evidence": False})
 
     for step_idx in range(5):
@@ -196,95 +204,3 @@ def test_physical_tearing_of_unproductive_cross_and_causal_field_sync() -> None:
     assert loom.crosses[cross_id].is_torn is True
     assert any(b.is_broken for b in loom.causal_field.beams)
     assert any(rec.operation == "tear_weave" for rec in loom.genesis_log)
-
-
-def test_ancestor_redundancy_guard_prevents_combinatorial_explosion(tmp_path: Path) -> None:
-    loom = _setup_real_loom(tmp_path)
-    specs = [
-        ("alpha.py", "import os\n\ndef f(a):\n    return a + 1\n"),
-        ("beta.py", "import math\n\ndef g(b):\n    return math.sqrt(b + 1.0)\n"),
-        ("gamma.py", "def h(c):\n    return {'x': c * 2}\n"),
-        ("notes.md", "# Title\n\nJust plain prose without any brackets.\n"),
-        ("broken.txt", "    [1, 2, 3] => ((( bad\n"),
-        ("delta.py", "def k(x, y):\n    return (x + y) / 2.0\n"),
-    ]
-    for name, body in specs:
-        p = tmp_path / name
-        p.write_text(body, encoding="utf-8")
-        loom.encounter(name, {"path": str(p)})
-
-    # No CrossNode should pair two Lines/Rotors that share an underlying Scale-1 base ancestor
-    for cross in loom.crosses.values():
-        anc_a = loom.base_ancestors(cross.line_a_id)
-        anc_b = loom.base_ancestors(cross.line_b_id)
-        assert (anc_a & anc_b) == set()
-
-    promoted = [l for l in loom.lines.values() if isinstance(l, PromotedRotorLine)]
-    assert len(promoted) <= 12
-
-
-def test_external_refutation_spawns_new_emergent_prism_line(tmp_path: Path) -> None:
-    loom = _setup_real_loom(tmp_path)
-
-    # First: narrative markdown with `# ` headings and blank lines -> negative on python_runtime
-    doc = tmp_path / "manifesto.md"
-    doc.write_text(
-        "# Principles\n\nOnly words live here.\n\nNo brackets anywhere at all.\n",
-        encoding="utf-8",
-    )
-    loom.predict_and_confront_reality(
-        "manifesto.md",
-        {"path": str(doc)},
-        target_line_id="line::python_runtime",
-        raw_observable_extractor=extract_raw_external_observables,
-    )
-
-    # Next: looks plain on FileSurfaceLine (low punctuation/indentation), yet IS valid Python!
-    disguised_py = tmp_path / "quoted_valid.py"
-    disguised_py.write_text(
-        '"""\n' + ("Plain English lines inside a triple-quoted string without operators.\n" * 6) + '"""\n'
-        "def answer():\n    return 42\n",
-        encoding="utf-8",
-    )
-    res = loom.predict_and_confront_reality(
-        "quoted_valid.py",
-        {"path": str(disguised_py)},
-        target_line_id="line::python_runtime",
-        raw_observable_extractor=extract_raw_external_observables,
-    )
-
-    assert res["prediction"]["refuted"] is True
-    assert res["spawned_line_id"] is not None
-    emergent = [l for l in loom.lines.values() if isinstance(l, EmergentExternalLine)]
-    assert len(emergent) >= 1
-    assert any(rec.operation == "external_refutation" for rec in loom.genesis_log)
-    assert any(rec.operation == "spawn_line" for rec in loom.genesis_log)
-
-
-def test_self_perception_audits_and_revises_own_governing_principles(tmp_path: Path) -> None:
-    loom = _setup_real_loom(tmp_path)
-    initial_gate = loom.principles["principle::cross_divergence_gate"].value
-
-    # Alternate misleadingly similar surface pairs whose Python runtime reactions contradict predictions
-    files = [
-        ("doc1.md", "# Section\n\nSimple plain text without operators.\n"),
-        ("py1.py", '"""\nSimple plain text without operators.\n"""\ndef f():\n    return 1\n'),
-        ("bad_sym.txt", "    a := (1 + 2)\n    b := ((( broken\n"),
-        ("py2.py", '"""\nAnother quiet prose block.\n"""\ndef g():\n    return 2\n'),
-    ]
-    for name, body in files:
-        p = tmp_path / name
-        p.write_text(body, encoding="utf-8")
-        loom.predict_and_confront_reality(
-            name,
-            {"path": str(p)},
-            target_line_id="line::python_runtime",
-            raw_observable_extractor=extract_raw_external_observables,
-        )
-
-    obs = loom.observe_self()
-    cross_gate = loom.principles["principle::cross_divergence_gate"]
-    assert cross_gate.revisions >= 1
-    assert cross_gate.value < initial_gate
-    assert any(rec.operation == "revise_principle" for rec in loom.genesis_log)
-    assert any(p["revisions"] >= 1 for p in obs.existence["principles"])
