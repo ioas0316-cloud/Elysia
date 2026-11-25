@@ -11,12 +11,14 @@ across ALL scales is a `ScaleRotorNode`:
   - Scale 1: Micro-composites (Hangul syllables composed directly of Scale 0 jamo)
   - Scale 2: Functional units (word stems, operators, endings, spatial regions, audio contours, actions)
   - Scale 3: Modal configurations (utterances, visual frames, causal transitions)
-  - Scale 4: Lived multimodal episodes integrating vision + sound + speech + action + feeling
+  - Scale 4: Lived multimodal episodes & self-assembled protein-like neural clusters
 
 Two universal continuous operations govern the entire hierarchy:
   - **Differentiation:** top-down fractal decomposition (`Scale 4 -> 3 -> 2 -> 1 -> 0`)
-  - **Integration & Cross-Modal Resonance:** bottom-up binding + 2-hop graph spreading +
-    32-D compositional phase signatures + 4-D continuous spectrum coupling.
+  - **Dimensional Rotor Ascent & Structural Docking:** bottom-up binding from
+    Grade-1 physical sensory polarity -> Grade-2 Line bivectors (`a ∧ b`) ->
+    Grade-3 Volume (`a ∧ b ∧ c`) -> `Cl(3,0)` Spacetime Scale Rotor + protein-like
+    structural docking self-assembly (`M_a * M_b~`) without cosine dot-product matching.
 """
 
 from __future__ import annotations
@@ -38,40 +40,27 @@ from core.embodiment.language_scale_rotor import (
     decompose_hangul_jamo,
 )
 from core.orchestration.autonomous_open_explorer import _extract_lexical_tokens
+from core.topology.geometric_rotor_docking import (
+    MV_DIM,
+    batch_clifford_docking_affinity,
+    compose_dimensional_rotor,
+    normalize_multivector,
+    sensory_spectrum_to_point,
+)
+from core.topology.five_sense_prism_rotor import (
+    ContrastiveReflectionReport,
+    FiveSensePrismCortex,
+    RecreationAttempt,
+    WhiteLightGestalt,
+)
+from core.topology.self_expanding_spectrum import (
+    CausalMechanismLink,
+    EmergentSpectrumAxis,
+    SelfExpandingSpectrumCortex,
+)
 
 
-_SIG_DIM = 32
 _CANONICAL_ALLOMORPHS = {"이", "가", "은", "는", "을", "를", "과", "와", "으로", "로", "에", "도", "만", "고", "서", "면"}
-
-
-def _atomic_signature_32d(seed_key: str) -> np.ndarray:
-    """Deterministic 32-D L2-normalized phase signature from harmonic waves seeded via CRC32."""
-    raw = (seed_key or "atom").encode("utf-8")
-    h1 = zlib.crc32(raw) & 0xFFFFFFFF
-    h2 = zlib.crc32(raw + b"::phase") & 0xFFFFFFFF
-    idx = np.arange(_SIG_DIM, dtype=np.float64)
-    freq1 = 1.0 + (h1 % 7) * 0.5
-    freq2 = 1.5 + (h2 % 11) * 0.4
-    ph1 = (h1 % 360) * (math.pi / 180.0)
-    ph2 = (h2 % 360) * (math.pi / 180.0)
-    vec = np.cos(freq1 * idx * (math.pi / 16.0) + ph1) + 0.7 * np.sin(freq2 * idx * (math.pi / 16.0) + ph2)
-    norm = float(np.linalg.norm(vec))
-    if norm > 1e-8:
-        vec /= norm
-    return vec
-
-
-def _compose_signature_32d(child_vecs: Sequence[np.ndarray]) -> np.ndarray:
-    """Order-preserving circular-shift superposition in shared 32-D phase space."""
-    if not child_vecs:
-        return np.zeros(_SIG_DIM, dtype=np.float64)
-    acc = np.zeros(_SIG_DIM, dtype=np.float64)
-    for i, cv in enumerate(child_vecs):
-        acc += np.roll(cv, (i * 3) % _SIG_DIM)
-    norm = float(np.linalg.norm(acc))
-    if norm > 1e-8:
-        acc /= norm
-    return acc
 
 
 @dataclass
@@ -84,7 +73,7 @@ class ScaleRotorNode:
     children: List[str] = field(default_factory=list)
     parents: List[str] = field(default_factory=list)
     spectrum: List[float] = field(default_factory=lambda: [0.33, 0.34, 0.33, 0.0])
-    signature_vec: List[float] = field(default_factory=list)
+    multivector: List[float] = field(default_factory=list)
     mass: float = 1.0
     activations: int = 1
 
@@ -93,17 +82,22 @@ class ScaleRotorNode:
 
     @classmethod
     def from_dict(cls, raw: Dict[str, Any]) -> "ScaleRotorNode":
-        sig = [float(x) for x in raw.get("signature_vec", [])]
-        if len(sig) != _SIG_DIM:
-            sig = [round(float(x), 5) for x in _atomic_signature_32d(str(raw.get("node_id", "")))]
+        spec = [float(s) for s in (raw.get("spectrum") or [0.33, 0.34, 0.33, 0.0])[:4]]
+        while len(spec) < 4:
+            spec.append(0.0)
+        mv_raw = [float(x) for x in raw.get("multivector", [])]
+        if len(mv_raw) == MV_DIM:
+            mv = [round(float(x), 5) for x in normalize_multivector(np.asarray(mv_raw, dtype=np.float64))]
+        else:
+            mv = [round(float(x), 5) for x in sensory_spectrum_to_point(spec)]
         return cls(
             node_id=str(raw.get("node_id", "")),
             scale=int(raw.get("scale", 0)),
             surface=str(raw.get("surface", "")),
             children=[str(c) for c in raw.get("children", [])],
             parents=[str(p) for p in raw.get("parents", [])],
-            spectrum=[float(s) for s in (raw.get("spectrum") or [0.33, 0.34, 0.33, 0.0])[:4]],
-            signature_vec=sig,
+            spectrum=spec,
+            multivector=mv,
             mass=float(raw.get("mass", 1.0)),
             activations=int(raw.get("activations", 1)),
         )
@@ -111,11 +105,11 @@ class ScaleRotorNode:
 
 @dataclass
 class ScaleRotorLink:
-    """Typed weighted relational link uniting constituent, temporal, and causal scales."""
+    """Typed weighted relational link uniting constituent, temporal, causal, and docked scales."""
 
     src_id: str
     dst_id: str
-    relation: str  # "composes" | "precedes" | "causes" | "resonates" | "names"
+    relation: str  # "composes" | "precedes" | "causes" | "resonates" | "names" | "docks"
     weight: float = 1.0
 
     def to_dict(self) -> Dict[str, Any]:
@@ -150,6 +144,8 @@ class ScaleRotorHierarchy:
         self.grounding_cooccurrence: Dict[str, Dict[str, int]] = defaultdict(dict)
         self.unit_scene_counts: Dict[str, int] = {}
         self.obj_scene_counts: Dict[str, int] = {}
+        self.spectrum_cortex = SelfExpandingSpectrumCortex()
+        self.prism_cortex = FiveSensePrismCortex()
 
     @staticmethod
     def _running_spectrum(prev: Sequence[float], count_after: int, new_spec: Sequence[float]) -> List[float]:
@@ -257,18 +253,48 @@ class ScaleRotorHierarchy:
         surface: str,
         scale: int = 0,
         spectrum: Sequence[float] = (0.33, 0.34, 0.33, 0.0),
+        physical_point: Optional[Sequence[float]] = None,
+        *,
+        warm_cool_ratio: Optional[float] = None,
+        motion_flux: Optional[float] = None,
+        contrast_std: Optional[float] = None,
+        rms_energy: Optional[float] = None,
+        zcr: Optional[float] = None,
+        brightness: Optional[float] = None,
     ) -> ScaleRotorNode:
-        """Creates or reinforces an atomic/micro node in the single unified hierarchy."""
+        """Creates or reinforces an atomic/micro node grounded in physical sensory polarity."""
+        if physical_point is not None:
+            pts = np.asarray(physical_point, dtype=np.float64).reshape(-1)
+            if pts.size == 3:
+                mv_arr = normalize_multivector(np.array([0.0, pts[0], pts[1], pts[2], 0.0, 0.0, 0.0, 0.0]))
+            else:
+                mv_arr = normalize_multivector(pts[:MV_DIM])
+        else:
+            mv_arr = sensory_spectrum_to_point(
+                spectrum,
+                warm_cool_ratio=warm_cool_ratio,
+                motion_flux=motion_flux,
+                contrast_std=contrast_std,
+                rms_energy=rms_energy,
+                zcr=zcr,
+                brightness=brightness,
+            )
+
         existing = self.nodes.get(node_id)
         if existing is not None:
             existing.activations += 1
             existing.mass = round(existing.mass + 0.15, 3)
             existing.spectrum = self._running_spectrum(existing.spectrum, existing.activations, spectrum)
+            prev_mv = np.asarray(existing.multivector or mv_arr, dtype=np.float64)
+            w_old = (existing.activations - 1) / float(existing.activations)
+            w_new = 1.0 / float(existing.activations)
+            blended = normalize_multivector(prev_mv * w_old + mv_arr * w_new)
+            existing.multivector = [round(float(x), 5) for x in blended]
             if not existing.surface and surface:
                 existing.surface = surface
             return existing
 
-        sig = [round(float(x), 5) for x in _atomic_signature_32d(node_id)]
+        mv_list = [round(float(x), 5) for x in mv_arr]
         node = ScaleRotorNode(
             node_id=node_id,
             scale=int(scale),
@@ -276,7 +302,7 @@ class ScaleRotorHierarchy:
             children=[],
             parents=[],
             spectrum=[round(float(spectrum[i]) if i < len(spectrum) else 0.0, 4) for i in range(4)],
-            signature_vec=sig,
+            multivector=mv_list,
             mass=1.0,
             activations=1,
         )
@@ -293,11 +319,11 @@ class ScaleRotorHierarchy:
         relation_between_children: str = "precedes",
     ) -> ScaleRotorNode:
         """
-        Universal bottom-up Integration operator: binds ANY constituent nodes (from any
-        modality) into ONE composite `ScaleRotorNode`, updating 32-D phase signature & links.
+        Universal bottom-up Integration operator: binds constituent nodes across any
+        modalities through Point -> Line (`a ∧ b`) -> Volume -> `Cl(3,0)` Spacetime Rotor ascent.
         """
         valid_children: List[str] = []
-        child_vecs: List[np.ndarray] = []
+        child_mvs: List[np.ndarray] = []
         for cid in child_ids:
             if not cid:
                 continue
@@ -305,14 +331,17 @@ class ScaleRotorHierarchy:
                 self.ensure_atom(cid, surface=cid.split("::", 1)[-1], scale=max(0, scale - 1), spectrum=spectrum)
             cnode = self.nodes[cid]
             valid_children.append(cid)
-            child_vecs.append(np.asarray(cnode.signature_vec, dtype=np.float64))
+            cmv = np.asarray(cnode.multivector, dtype=np.float64)
+            if cmv.size != MV_DIM:
+                cmv = sensory_spectrum_to_point(cnode.spectrum)
+            child_mvs.append(cmv)
 
-        comp_vec = (
-            _compose_signature_32d(child_vecs)
-            if child_vecs
-            else _atomic_signature_32d(node_id)
+        comp_mv = (
+            compose_dimensional_rotor(child_mvs, scale=scale)
+            if child_mvs
+            else sensory_spectrum_to_point(spectrum)
         )
-        comp_list = [round(float(x), 5) for x in comp_vec]
+        comp_list = [round(float(x), 5) for x in comp_mv]
 
         existing = self.nodes.get(node_id)
         if existing is not None:
@@ -323,7 +352,7 @@ class ScaleRotorHierarchy:
                 existing.surface = surface
             if valid_children:
                 existing.children = list(valid_children)
-                existing.signature_vec = comp_list
+                existing.multivector = comp_list
             node = existing
         else:
             node = ScaleRotorNode(
@@ -333,7 +362,7 @@ class ScaleRotorHierarchy:
                 children=list(valid_children),
                 parents=[],
                 spectrum=[round(float(spectrum[i]) if i < len(spectrum) else 0.0, 4) for i in range(4)],
-                signature_vec=comp_list,
+                multivector=comp_list,
                 mass=1.0 + 0.1 * len(valid_children),
                 activations=1,
             )
@@ -487,18 +516,27 @@ class ScaleRotorHierarchy:
                 surface="warm" if warm_cool_ratio > 1.08 else "cool",
                 scale=0,
                 spectrum=spectrum,
+                warm_cool_ratio=warm_cool_ratio,
+                motion_flux=motion_flux,
+                contrast_std=contrast_std,
             ).node_id,
             self.ensure_atom(
                 "vis_atom::high_contrast" if contrast_std >= 0.16 else "vis_atom::low_contrast",
                 surface="high_contrast" if contrast_std >= 0.16 else "low_contrast",
                 scale=0,
                 spectrum=spectrum,
+                warm_cool_ratio=warm_cool_ratio,
+                motion_flux=motion_flux,
+                contrast_std=contrast_std,
             ).node_id,
             self.ensure_atom(
                 "vis_atom::motion_high" if motion_flux >= 0.08 else "vis_atom::motion_still",
                 surface="motion_high" if motion_flux >= 0.08 else "motion_still",
                 scale=0,
                 spectrum=spectrum,
+                warm_cool_ratio=warm_cool_ratio,
+                motion_flux=motion_flux,
+                contrast_std=contrast_std,
             ).node_id,
         ]
 
@@ -511,11 +549,15 @@ class ScaleRotorHierarchy:
             code = f"{qb[0]}{qb[1]}{qb[2]}"
             q_code_parts.append(code)
             qid = f"vis_q::{q_idx}::{code}"
+            q_bright = float(rgb.mean())
             bright_atom = self.ensure_atom(
-                "vis_atom::bright" if float(rgb.mean()) >= 0.5 else "vis_atom::dark",
-                surface="bright" if float(rgb.mean()) >= 0.5 else "dark",
+                "vis_atom::bright" if q_bright >= 0.5 else "vis_atom::dark",
+                surface="bright" if q_bright >= 0.5 else "dark",
                 scale=0,
                 spectrum=spectrum,
+                brightness=q_bright,
+                warm_cool_ratio=warm_cool_ratio,
+                motion_flux=motion_flux,
             ).node_id
             self.integrate(
                 qid,
@@ -547,8 +589,22 @@ class ScaleRotorHierarchy:
         zcr = float(prosody.get("zero_cross_rate", 0.0))
         rms_band = "high" if rms >= 0.15 else ("mid" if rms >= 0.05 else "low")
         zcr_band = "sharp" if zcr >= 0.15 else "smooth"
-        a1 = self.ensure_atom(f"aud_atom::rms_{rms_band}", surface=f"rms_{rms_band}", scale=0, spectrum=spectrum).node_id
-        a2 = self.ensure_atom(f"aud_atom::zcr_{zcr_band}", surface=f"zcr_{zcr_band}", scale=0, spectrum=spectrum).node_id
+        a1 = self.ensure_atom(
+            f"aud_atom::rms_{rms_band}",
+            surface=f"rms_{rms_band}",
+            scale=0,
+            spectrum=spectrum,
+            rms_energy=rms,
+            zcr=zcr,
+        ).node_id
+        a2 = self.ensure_atom(
+            f"aud_atom::zcr_{zcr_band}",
+            surface=f"zcr_{zcr_band}",
+            scale=0,
+            spectrum=spectrum,
+            rms_energy=rms,
+            zcr=zcr,
+        ).node_id
         cid = f"aud_contour::{rms_band}_{zcr_band}"
         return self.integrate(cid, [a1, a2], scale=2, spectrum=spectrum, surface=f"{rms_band}_{zcr_band}")
 
@@ -588,18 +644,46 @@ class ScaleRotorHierarchy:
             is_moving = "vis_atom::motion_high" in v_ch
             w_atom = "vis_atom::warm" if is_warm else "vis_atom::cool"
             m_atom = "vis_atom::motion_high" if is_moving else "vis_atom::motion_still"
-            self.ensure_atom(w_atom, surface=w_atom.split("::")[-1], scale=0, spectrum=felt_spectrum)
-            self.ensure_atom(m_atom, surface=m_atom.split("::")[-1], scale=0, spectrum=felt_spectrum)
+            if w_atom not in self.nodes:
+                self.ensure_atom(
+                    w_atom,
+                    surface=w_atom.split("::")[-1],
+                    scale=0,
+                    spectrum=felt_spectrum,
+                    warm_cool_ratio=1.6 if is_warm else 0.45,
+                )
+            if m_atom not in self.nodes:
+                self.ensure_atom(
+                    m_atom,
+                    surface=m_atom.split("::")[-1],
+                    scale=0,
+                    spectrum=felt_spectrum,
+                    motion_flux=0.30 if is_moving else 0.02,
+                )
             vis_oid = f"obj::vis_{'moving' if is_moving else 'still'}_{'warm' if is_warm else 'cool'}"
             _reg_obj(vis_oid, vis_oid.removeprefix("obj::"), [m_atom, w_atom])
             if "vis_atom::high_contrast" in v_ch:
-                self.ensure_atom("vis_atom::high_contrast", surface="high_contrast", scale=0, spectrum=felt_spectrum)
+                if "vis_atom::high_contrast" not in self.nodes:
+                    self.ensure_atom(
+                        "vis_atom::high_contrast",
+                        surface="high_contrast",
+                        scale=0,
+                        spectrum=felt_spectrum,
+                        contrast_std=0.25,
+                    )
                 _reg_obj("obj::vis_high_contrast", "vis_high_contrast", ["vis_atom::high_contrast"])
 
         if audio_node is not None:
             a_ch = set(audio_node.children)
             if "aud_atom::rms_high" in a_ch:
-                self.ensure_atom("aud_atom::rms_high", surface="rms_high", scale=0, spectrum=felt_spectrum)
+                if "aud_atom::rms_high" not in self.nodes:
+                    self.ensure_atom(
+                        "aud_atom::rms_high",
+                        surface="rms_high",
+                        scale=0,
+                        spectrum=felt_spectrum,
+                        rms_energy=0.25,
+                    )
                 _reg_obj("obj::aud_high_energy", "aud_high_energy", ["aud_atom::rms_high"])
             elif "aud_atom::zcr_smooth" in a_ch or "aud_atom::rms_low" in a_ch:
                 c_atoms = [a for a in audio_node.children if a in self.nodes]
@@ -776,7 +860,133 @@ class ScaleRotorHierarchy:
         )
         if utterance_node is not None and obj_nodes:
             self.acquire_naming_links(utterance_node, obj_nodes)
+
+        dock_anchors: List[str] = [scene_node.node_id, act_node.node_id]
+        dock_anchors.extend(o.node_id for o in obj_nodes[:3])
+        if visual_node is not None:
+            dock_anchors.append(visual_node.node_id)
+        if audio_node is not None:
+            dock_anchors.append(audio_node.node_id)
+        if utterance_node is not None:
+            dock_anchors.append(utterance_node.node_id)
+            dock_anchors.extend(
+                [cid for cid in utterance_node.children if cid.startswith("unit::")][:4]
+            )
+        for aid in dict.fromkeys(dock_anchors):
+            self.dock_and_self_assemble(aid)
+
         return scene_node
+
+    def dock_and_self_assemble(
+        self,
+        anchor_node_id: str,
+        min_affinity: float = 0.72,
+        max_torque: float = 0.42,
+        max_partners: int = 6,
+    ) -> Dict[str, Any]:
+        """
+        Protein-folding-like structural self-assembly in `Cl(3,0)` (ZERO cosine similarity):
+        Computes exact Clifford reverse product `M_peer * M_anchor~` to form bidirectional
+        `docks` neural edges with structurally compatible peers, and automatically nucleates
+        or grows emergent `cluster::*` complex rotors once >= 3 structures dock together.
+        """
+        anchor = self.nodes.get(anchor_node_id)
+        if anchor is None or anchor.scale < 2 or anchor_node_id.startswith("cluster::"):
+            return {"anchor": anchor_node_id, "docked_peers": [], "cluster_id": None}
+
+        peers = [
+            nd
+            for nid, nd in self.nodes.items()
+            if nid != anchor_node_id
+            and nd.scale >= 2
+            and not nid.startswith("cluster::")
+        ]
+        if not peers:
+            return {"anchor": anchor_node_id, "docked_peers": [], "cluster_id": None}
+
+        q_mv = np.asarray(anchor.multivector, dtype=np.float64)
+        if q_mv.size != MV_DIM:
+            q_mv = sensory_spectrum_to_point(anchor.spectrum)
+        P_mv = np.stack(
+            [
+                np.asarray(nd.multivector, dtype=np.float64)
+                if len(nd.multivector) == MV_DIM
+                else sensory_spectrum_to_point(nd.spectrum)
+                for nd in peers
+            ],
+            axis=0,
+        )
+        affs, torques = batch_clifford_docking_affinity(P_mv, q_mv)
+
+        compatible: List[Tuple[float, float, ScaleRotorNode]] = []
+        for idx, peer in enumerate(peers):
+            af = float(affs[idx])
+            tq = float(torques[idx])
+            if af >= min_affinity and tq <= max_torque:
+                compatible.append((af, -tq, peer))
+        compatible.sort(key=lambda item: (-item[0], -item[1], -item[2].mass, item[2].node_id))
+
+        docked_ids: List[str] = []
+        for af, _neg_tq, peer in compatible[: max(1, int(max_partners))]:
+            w = max(0.1, round(af, 4))
+            self._set_exact_link(anchor_node_id, peer.node_id, "docks", w)
+            self._set_exact_link(peer.node_id, anchor_node_id, "docks", w)
+            docked_ids.append(peer.node_id)
+
+        # Gather complete docked neighborhood attached to anchor to nucleate/grow cluster
+        existing_docked = [
+            dst
+            for dst, rel, _w in self._out_adj.get(anchor_node_id, ())
+            if rel == "docks" and dst in self.nodes and not dst.startswith("cluster::")
+        ]
+        complex_members = list(dict.fromkeys([anchor_node_id, *existing_docked]))
+        if len(complex_members) < 3:
+            return {"anchor": anchor_node_id, "docked_peers": docked_ids, "cluster_id": None}
+
+        complex_members = complex_members[:24]
+        member_nodes = [self.nodes[mid] for mid in complex_members if mid in self.nodes]
+        complex_mv = compose_dimensional_rotor(
+            [np.asarray(mn.multivector, dtype=np.float64) for mn in member_nodes],
+            scale=4,
+        )
+        complex_spec = np.mean([np.asarray(mn.spectrum[:4], dtype=np.float64) for mn in member_nodes], axis=0)
+
+        # Find structurally compatible existing cluster or nucleate a new emergent cluster
+        existing_clusters = [nd for nid, nd in self.nodes.items() if nid.startswith("cluster::")]
+        target_cluster_id: Optional[str] = None
+        if existing_clusters:
+            C_mv = np.stack([np.asarray(cn.multivector, dtype=np.float64) for cn in existing_clusters], axis=0)
+            c_affs, c_torques = batch_clifford_docking_affinity(C_mv, complex_mv)
+            best_idx = int(np.argmax(c_affs))
+            if float(c_affs[best_idx]) >= min_affinity and float(c_torques[best_idx]) <= max_torque:
+                target_cluster_id = existing_clusters[best_idx].node_id
+
+        if target_cluster_id is None:
+            idx_num = len(existing_clusters) + 1
+            while f"cluster::c_{idx_num}" in self.nodes:
+                idx_num += 1
+            target_cluster_id = f"cluster::c_{idx_num}"
+            merged_members = complex_members
+        else:
+            prev_children = list(self.nodes[target_cluster_id].children)
+            merged_members = list(dict.fromkeys([*prev_children, *complex_members]))[-48:]
+
+        p1 = "warm/long" if complex_mv[1] >= 0.25 else ("cool/short" if complex_mv[1] <= -0.25 else "mid-wave")
+        p2 = "kinetic" if complex_mv[2] >= 0.25 else ("still" if complex_mv[2] <= -0.25 else "balanced")
+        p3 = "resonant" if complex_mv[3] >= 0.25 else ("tense" if complex_mv[3] <= -0.25 else "neutral")
+        self.integrate(
+            target_cluster_id,
+            merged_members,
+            scale=4,
+            spectrum=[float(x) for x in complex_spec],
+            surface=f"complex({p1},{p2},{p3})",
+            relation_between_children="docks",
+        )
+        return {
+            "anchor": anchor_node_id,
+            "docked_peers": docked_ids,
+            "cluster_id": target_cluster_id,
+        }
 
     def _spreading_activation(self, cue_node_ids: Sequence[str], hops: int = 2) -> Dict[str, float]:
         activation: Dict[str, float] = {}
@@ -816,7 +1026,8 @@ class ScaleRotorHierarchy:
     ) -> List[Tuple[ScaleRotorNode, float]]:
         """
         Unified cross-modal resonance over the single hierarchy combining 2-hop
-        spreading activation, vectorized 32-D phase cosine similarity, and 4-D spectrum.
+        spreading activation, exact `Cl(3,0)` Clifford docking (`M_cand * M_query~`),
+        torque harmony, and physical spectral polarity (ZERO cosine dot-product lookup).
         """
         candidates = [
             nd
@@ -830,30 +1041,43 @@ class ScaleRotorHierarchy:
         spread = self._spreading_activation(cue_node_ids, hops=2)
         valid_cues = [self.nodes[cid] for cid in cue_node_ids if cid in self.nodes]
         if valid_cues:
-            q_sig = np.mean([np.asarray(c.signature_vec, dtype=np.float64) for c in valid_cues], axis=0)
-            q_norm = float(np.linalg.norm(q_sig))
-            if q_norm > 1e-8:
-                q_sig /= q_norm
+            cue_mvs = [
+                np.asarray(c.multivector, dtype=np.float64)
+                if len(c.multivector) == MV_DIM
+                else sensory_spectrum_to_point(c.spectrum)
+                for c in valid_cues
+            ]
+            q_mv = compose_dimensional_rotor(cue_mvs, scale=max(c.scale for c in valid_cues))
         else:
-            q_sig = np.zeros(_SIG_DIM, dtype=np.float64)
+            q_mv = sensory_spectrum_to_point(target_spectrum)
 
-        S = np.stack([np.asarray(nd.signature_vec, dtype=np.float64) for nd in candidates], axis=0)
-        sig_sim = np.clip(S @ q_sig, 0.0, 1.0) if float(np.linalg.norm(q_sig)) > 1e-8 else np.zeros(len(candidates))
-
-        q_spec = np.asarray(
-            [float(target_spectrum[i]) if i < len(target_spectrum) else 0.0 for i in range(4)],
-            dtype=np.float64,
+        M = np.stack(
+            [
+                np.asarray(nd.multivector, dtype=np.float64)
+                if len(nd.multivector) == MV_DIM
+                else sensory_spectrum_to_point(nd.spectrum)
+                for nd in candidates
+            ],
+            axis=0,
         )
-        P = np.stack([np.asarray(nd.spectrum[:4], dtype=np.float64) for nd in candidates], axis=0)
-        spec_sim = np.clip(1.0 - np.linalg.norm(P - q_spec[None, :], axis=1) / 2.0, 0.0, 1.0)
+        dock_aff, torque = batch_clifford_docking_affinity(M, q_mv)
+        dock_pos = np.clip((dock_aff + 1.0) * 0.5, 0.0, 1.0)
+        torque_harmony = np.clip(1.0 - torque / 1.4142, 0.0, 1.0)
 
+        P = np.stack([np.asarray(nd.spectrum[:4], dtype=np.float64) for nd in candidates], axis=0)
         spread_arr = np.array([min(1.5, spread.get(nd.node_id, 0.0)) for nd in candidates], dtype=np.float64)
         max_sp = float(np.max(spread_arr)) if spread_arr.size else 0.0
         spread_norm = spread_arr / max(1.0, max_sp)
         mass_arr = np.array([min(1.0, math.log1p(nd.mass) * 0.25) for nd in candidates], dtype=np.float64)
         valence_arr = P[:, 3]
 
-        scores = 0.45 * spread_norm + 0.25 * sig_sim + 0.20 * spec_sim + 0.10 * mass_arr + 0.18 * valence_arr
+        scores = (
+            0.42 * spread_norm
+            + 0.30 * dock_pos
+            + 0.12 * torque_harmony
+            + 0.08 * mass_arr
+            + 0.16 * valence_arr
+        )
         order = np.argsort(-scores)[: max(1, int(top_k))]
         return [(candidates[int(idx)], round(float(scores[int(idx)]), 4)) for idx in order]
 
@@ -1091,11 +1315,72 @@ class ScaleRotorHierarchy:
             "scale_counts": self.scale_summary(),
         }
 
+    def observe_world_phenomenon_and_expand(
+        self,
+        observables: Dict[str, float],
+        tags: Sequence[str] = (),
+        cause_tag: str = "",
+        prev_observables: Optional[Dict[str, float]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Feeds any domain observation into `SelfExpandingSpectrumCortex` and, whenever an
+        unexplained structural axis emerges, materializes an `axis::*` node (Scale 3)
+        and causal/tag links inside the unified graph.
+        """
+        obs_res = self.spectrum_cortex.observe(
+            observables=observables,
+            tags=tags,
+            cause_tag=cause_tag,
+            prev_observables=prev_observables,
+            auto_discover=True,
+        )
+        new_axis: Optional[EmergentSpectrumAxis] = obs_res.get("new_axis")
+        if new_axis is not None:
+            neg_s = "/".join(new_axis.neg_pole_tags[:2]) or "-"
+            pos_s = "/".join(new_axis.pos_pole_tags[:2]) or "+"
+            ax_surf = f"{neg_s} <-> {pos_s}"
+            ax_mv = self.spectrum_cortex.to_context_clifford_rotor(observables)
+            ax_node_id = new_axis.axis_id
+            ax_node = self.ensure_atom(
+                ax_node_id,
+                surface=ax_surf,
+                scale=3,
+                physical_point=ax_mv,
+            )
+            ax_node.scale = 3
+            ax_node.surface = ax_surf
+            for tg in [*new_axis.neg_pole_tags, *new_axis.pos_pole_tags, *tags]:
+                for prefix in ("unit::", "obj::"):
+                    cand_id = f"{prefix}{tg}"
+                    if cand_id in self.nodes and cand_id != ax_node_id:
+                        self._add_or_reinforce_link(cand_id, ax_node_id, "resonates", weight=0.9)
+            if cause_tag:
+                act_id = f"act::{cause_tag}"
+                if act_id in self.nodes:
+                    self._add_or_reinforce_link(act_id, ax_node_id, "causes", weight=0.95)
+        return obs_res
+
     def scale_summary(self) -> Dict[int, int]:
         counts: Dict[int, int] = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0}
         for nd in self.nodes.values():
             counts[nd.scale] = counts.get(nd.scale, 0) + 1
         return counts
+
+    def topology_summary(self) -> Dict[str, Any]:
+        """Summarizes node, link, protein-docking bond, cluster, axis expansion, and symbol grounding counts."""
+        docked_links = sum(1 for lk in self.links if lk.relation == "docks")
+        emergent_clusters = sum(1 for nid in self.nodes if nid.startswith("cluster::"))
+        return {
+            "nodes": len(self.nodes),
+            "links": len(self.links),
+            "scale_counts": self.scale_summary(),
+            "docked_links": docked_links,
+            "emergent_clusters": emergent_clusters,
+            "discovered_axes": self.spectrum_cortex.discovered_axis_count(),
+            "prism_prototypes": len(self.prism_cortex.prototypes),
+            "prism_couplings": len(self.prism_cortex.known_couplings),
+            "grounded_names": self.count_grounded_names(),
+        }
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -1104,6 +1389,8 @@ class ScaleRotorHierarchy:
             "grounding_cooccurrence": {str(k): dict(v) for k, v in self.grounding_cooccurrence.items()},
             "unit_scene_counts": dict(self.unit_scene_counts),
             "obj_scene_counts": dict(self.obj_scene_counts),
+            "spectrum_cortex": self.spectrum_cortex.to_dict(),
+            "prism_cortex": self.prism_cortex.to_dict(),
         }
 
     @classmethod
@@ -1117,6 +1404,10 @@ class ScaleRotorHierarchy:
             obj.grounding_cooccurrence[str(uid)] = {str(ok): int(ov) for ok, ov in (omap or {}).items()}
         obj.unit_scene_counts = {str(k): int(v) for k, v in (raw.get("unit_scene_counts") or {}).items()}
         obj.obj_scene_counts = {str(k): int(v) for k, v in (raw.get("obj_scene_counts") or {}).items()}
+        if raw.get("spectrum_cortex"):
+            obj.spectrum_cortex = SelfExpandingSpectrumCortex.from_dict(raw["spectrum_cortex"])
+        if raw.get("prism_cortex"):
+            obj.prism_cortex = FiveSensePrismCortex.from_dict(raw["prism_cortex"])
         obj._rebuild_indexes()
         return obj
 

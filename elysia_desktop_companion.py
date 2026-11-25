@@ -39,6 +39,7 @@ from core.embodiment import (
     ScreenFrameSnapshot,
     ScreenRetinaSensor,
     UniversalMotorActuator,
+    WindowsForegroundSensor,
     WindowsIdleSensor,
 )
 
@@ -62,6 +63,7 @@ def run_headless_ticks(
 ) -> int:
     retina = ScreenRetinaSensor()
     idle_sensor = WindowsIdleSensor()
+    fg_sensor = WindowsForegroundSensor()
     # Always force dry_run=True when running non-interactively via --headless-ticks
     actuator = UniversalMotorActuator(dry_run=bool(dry_run or True))
     mind = ScaleRotorEmbodiedMind(state_dir)
@@ -84,6 +86,7 @@ def run_headless_ticks(
 
     for i in range(max(1, int(ticks))):
         idle_s = idle_sensor.get_idle_seconds()
+        fg_title = fg_sensor.get_active_window_title()
         snap = retina.capture()
         res = mind.perceive_and_act_tick(
             frame_snap=snap,
@@ -91,15 +94,19 @@ def run_headless_ticks(
             agency_mode=AgencyMode.OBSERVE_AND_CHAT,
             idle_threshold_s=idle_threshold_s,
             actuator=actuator,
+            foreground_window=fg_title,
         )
         c = res["chromatic"]
         f = res["feeling"]
         sc_map = res.get("universe_scales") or {}
+        prec = res.get("prism_recreation") or {}
         print(
-            f"  [Tick {i + 1}] Action={res['action_kind']} | "
+            f"  [Tick {i + 1}] 창='{res.get('foreground_window', '')[:26]}' | Action={res['action_kind']} | "
             f"Chroma(R={c['red']:.2f}, B={c['blue']:.2f}, Y={c['yellow']:.2f}) | "
             f"Feeling={f['dominant_state']}(J={f['joy']:.2f}, B={f['boredom']:.2f}, F={f['frustration']:.2f}) | "
-            f"통합노드 {res.get('universe_nodes', 0)}(S0={sc_map.get(0,0)}..S4={sc_map.get(4,0)}) · 연결 {res.get('universe_links', 0)} | "
+            f"통합노드 {res.get('universe_nodes', 0)}(S0={sc_map.get(0,0)}..S4={sc_map.get(4,0)}) · 연결 {res.get('universe_links', 0)} · "
+            f"도킹={res.get('docked_links', 0)} · 군집={res.get('emergent_clusters', 0)} | "
+            f"프리즘(충실도={prec.get('fidelity', 0.0):.2f}, 원형={res.get('prism_prototypes', 0)}, 상관={res.get('prism_couplings', 0)}, 발견축={res.get('discovered_axes', 0)}) | "
             f"객체={len(res.get('active_objects', []))} · 접지이름={res.get('grounded_names_count', 0)} | "
             f"Knobs={res['knobs_total']} | Idle={idle_s:.1f}s"
         )
@@ -120,7 +127,8 @@ def run_headless_ticks(
             f"유도 스키마={rec.get('used_schema')} | 조립 어근={rec.get('assembled_stems')} | "
             f"원문비복창={rec.get('novel_vs_corpus')} | "
             f"객체={len(chat_res.get('active_objects', []))} · 접지이름={chat_res.get('grounded_names_count', 0)} | "
-            f"통합노드 {chat_res.get('universe_nodes', 0)} · 연결 {chat_res.get('universe_links', 0)}"
+            f"통합노드 {chat_res.get('universe_nodes', 0)} · 연결 {chat_res.get('universe_links', 0)} · "
+            f"도킹={chat_res.get('docked_links', 0)} · 군집={chat_res.get('emergent_clusters', 0)}"
         )
 
     print(f"  [State Persisted] {Path(state_dir).resolve()}")
@@ -141,6 +149,7 @@ class ElysiaFloatingCompanionApp:
         self.mind = ScaleRotorEmbodiedMind(state_dir)
         self.retina = ScreenRetinaSensor()
         self.idle_sensor = WindowsIdleSensor()
+        self.fg_sensor = WindowsForegroundSensor()
         self.actuator = UniversalMotorActuator(dry_run=dry_run)
         self.idle_threshold_s = float(idle_threshold_s)
         self.tick_ms = max(600, int(tick_ms))
@@ -363,12 +372,12 @@ class ElysiaFloatingCompanionApp:
             self.provenance_var.set(f"세상 배우기 마찰: {exc}")
 
     def _refresh_status_line(self, idle_s: float, action_kind: str) -> None:
-        sc_map = self.mind.universe.scale_summary()
-        g_cnt = self.mind.universe.count_grounded_names()
+        topo = self.mind.universe.topology_summary()
+        sc_map = topo["scale_counts"]
         self.status_var.set(
             f"유휴 {idle_s:.0f}s/{self.idle_threshold_s:.0f}s · {action_kind} · "
-            f"통합노드 {len(self.mind.universe.nodes)}(S0:{sc_map.get(0,0)}..S4:{sc_map.get(4,0)}) · "
-            f"연결 {len(self.mind.universe.links)} · 접지이름 {g_cnt}"
+            f"노드 {topo['nodes']}(S0:{sc_map.get(0,0)}..S4:{sc_map.get(4,0)}) · "
+            f"원형 {topo['prism_prototypes']} · 축 {topo['discovered_axes']} · 이름 {topo['grounded_names']}"
         )
 
     def _on_send_chat(self) -> None:
@@ -443,6 +452,7 @@ class ElysiaFloatingCompanionApp:
                     agency_mode=self.agency_mode,
                     idle_threshold_s=self.idle_threshold_s,
                     actuator=self.actuator,
+                    foreground_window=self.fg_sensor.get_active_window_title(),
                 )
                 if res.get("utterance"):
                     self.bubble_var.set(str(res["utterance"]))

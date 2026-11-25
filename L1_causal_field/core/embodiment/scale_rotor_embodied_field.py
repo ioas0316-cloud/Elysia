@@ -25,6 +25,13 @@ from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 import numpy as np
 from PIL import Image
 
+from core.embodiment.boundary_tension_avatar_body import ArticulatedTensionChain
+from core.embodiment.developmental_causal_mind import (
+    DevelopmentalCausalMind,
+    LivedCausalEpisode,
+    SensorySignalObservation,
+)
+from core.embodiment.principle_ownership_engine import PrincipleOwnershipEngine
 from core.embodiment.language_scale_rotor import (
     ExpressiveDeficit,
     LanguageScaleRotor,
@@ -36,6 +43,7 @@ from core.embodiment.pc_sensory_motor_body import (
     ScreenFrameSnapshot,
     UniversalMotorActuator,
     _PHYSICAL_OS_ACTIONS,
+    extract_live_sensory_observables,
 )
 from core.embodiment.world_expression_ingestor import (
     SituatedExpressionField,
@@ -54,7 +62,13 @@ from core.orchestration.autonomous_open_explorer import (
     load_structural_cortex,
     save_structural_cortex,
 )
-from core.orchestration.external_web_bridge import HttpFetcher
+from core.orchestration.external_web_bridge import (
+    HttpFetcher,
+    fetch_github_target,
+    fetch_wikipedia_concept,
+    inspect_image_bytes_summary,
+    search_github_repositories,
+)
 from core.topology.structural_scale_rotor import (
     StructuralScaleRotorCortex,
     build_cross_domain_reference_atlas,
@@ -289,6 +303,8 @@ class ScaleRotorEmbodiedMind:
         self.expressions_path = self.state_dir / "situated_expressions.json"
         self.language_rotor_path = self.state_dir / "language_scale_rotor.json"
         self.universe_path = self.state_dir / "scale_rotor_universe.json"
+        self.causal_mind_path = self.state_dir / "developmental_causal_mind.json"
+        self.ownership_path = self.state_dir / "principle_ownership.json"
         self.journal_path = self.state_dir / "embodied_journal.jsonl"
 
         self.knob_cortex = (
@@ -328,8 +344,15 @@ class ScaleRotorEmbodiedMind:
             else LanguageScaleRotor()
         )
         self.universe = ScaleRotorHierarchy.load(self.universe_path)
+        self.causal_mind = DevelopmentalCausalMind.load(self.causal_mind_path)
+        self.ownership_engine = PrincipleOwnershipEngine.load(self.ownership_path)
 
         self._recent_visual_vecs: List[np.ndarray] = []
+        self._prev_live_observables: Optional[Dict[str, float]] = None
+        self._live_tick_count: int = 0
+        self._living_cycle: int = 0
+        self._last_living_will: str = ""
+        self._last_scene_id: Optional[str] = None
         self._last_visual_node_id: Optional[str] = None
         self._last_active_obj_ids: List[str] = []
         self._last_used_schema_id: str = ""
@@ -364,6 +387,8 @@ class ScaleRotorEmbodiedMind:
             encoding="utf-8",
         )
         self.universe.save(self.universe_path)
+        self.causal_mind.save(self.causal_mind_path)
+        self.ownership_engine.save(self.ownership_path)
 
     def absorb_real_world_expressions(
         self,
@@ -470,6 +495,7 @@ class ScaleRotorEmbodiedMind:
                     registered_struct += 1
 
         ind_stats = self.language_rotor.induce_from_utterances(induction_samples)
+        topo = self.universe.topology_summary()
         self.save()
         return {
             "added_count": added,
@@ -478,9 +504,12 @@ class ScaleRotorEmbodiedMind:
             "induced_stems": ind_stats["stems_total"],
             "induced_operators": ind_stats["operators_total"],
             "induced_schemas": ind_stats["schemas_total"],
-            "universe_nodes": len(self.universe.nodes),
-            "universe_links": len(self.universe.links),
-            "universe_scales": self.universe.scale_summary(),
+            "universe_nodes": topo["nodes"],
+            "universe_links": topo["links"],
+            "universe_scales": topo["scale_counts"],
+            "docked_links": topo["docked_links"],
+            "emergent_clusters": topo["emergent_clusters"],
+            "discovered_axes": topo["discovered_axes"],
         }
 
     def _append_journal(self, entry: Dict[str, Any]) -> None:
@@ -685,6 +714,7 @@ class ScaleRotorEmbodiedMind:
         idle_threshold_s: float,
         actuator: UniversalMotorActuator,
         after_frame_provider: Optional[Callable[[], np.ndarray]] = None,
+        foreground_window: str = "",
     ) -> Dict[str, Any]:
         t0 = time.perf_counter()
         self.last_salient_xy = frame_snap.salient_xy_norm
@@ -872,7 +902,7 @@ class ScaleRotorEmbodiedMind:
             visual_change=visual_change,
         )
         self._last_active_obj_ids = [o.node_id for o in final_objs]
-        self.universe.integrate_lived_scene(
+        tick_scene = self.universe.integrate_lived_scene(
             scene_id=tr.transition_id,
             visual_node=vis_node,
             audio_node=None,
@@ -882,9 +912,54 @@ class ScaleRotorEmbodiedMind:
             after_visual_node=after_vis_node,
             visual_change=visual_change,
         )
+        if self._last_scene_id and self._last_scene_id in self.universe.nodes and self._last_scene_id != tick_scene.node_id:
+            self.universe._add_or_reinforce_link(self._last_scene_id, tick_scene.node_id, "causes", weight=0.85)
+        self._last_scene_id = tick_scene.node_id
 
+        # Feed REAL live pixels + real OS window/action response into self-expanding & 5-sense prism cortices
+        self._live_tick_count += 1
+        win_label = str(foreground_window or "desktop_surface").strip() or "desktop_surface"
+        harmony_est = float(np.clip(0.5 + 0.5 * felt_valence, 0.0, 1.0))
+        novelty_est = float(np.clip(1.0 - rep.explained_before, 0.0, 1.0))
+        live_obs = extract_live_sensory_observables(
+            frame_snap,
+            visual_change=visual_change,
+            unresolved_friction=delta.unresolved_friction,
+            order_blue=order_blue,
+            novelty=novelty_est,
+            harmony=harmony_est,
+            idle_ratio=idle_ratio,
+        )
+        win_tokens = [tk for tk in _extract_lexical_tokens(win_label)[:3] if tk]
+        live_tags = [
+            f"win:{win_label[:28]}",
+            *win_tokens,
+            "warm_screen" if frame_snap.warm_cool_ratio > 1.08 else "cool_screen",
+            "active_change" if visual_change >= 0.08 else "steady_screen",
+        ]
+        self.universe.observe_world_phenomenon_and_expand(
+            live_obs,
+            tags=live_tags,
+            cause_tag=best_action,
+            prev_observables=self._prev_live_observables,
+        )
+        self._prev_live_observables = live_obs
+
+        live_target_id = f"live_{self._live_tick_count}::{vis_node.surface[:18]}"
+        rec_attempt = self.universe.prism_cortex.attempt_recreation(
+            live_target_id,
+            live_obs,
+            fidelity_threshold=0.82,
+        )
+        newly_unlocked: List[str] = []
+        if not rec_attempt.can_recreate:
+            refl = self.universe.prism_cortex.contrast_and_expand_correlations(fidelity_threshold=0.82)
+            newly_unlocked = list(refl.newly_unlocked_ids)
+
+        topo = self.universe.topology_summary()
         record = {
             "captured": True,
+            "foreground_window": win_label,
             "action_kind": best_action,
             "action_score": round(best_score, 4),
             "action_reason_ko": best_reason_ko,
@@ -900,11 +975,21 @@ class ScaleRotorEmbodiedMind:
             "knobs_total": len(self.knob_cortex.knobs),
             "structures_total": len(self.structural_cortex.structures),
             "transitions_total": len(self.transition_memory.transitions),
-            "universe_nodes": len(self.universe.nodes),
-            "universe_links": len(self.universe.links),
-            "universe_scales": self.universe.scale_summary(),
+            "universe_nodes": topo["nodes"],
+            "universe_links": topo["links"],
+            "universe_scales": topo["scale_counts"],
+            "docked_links": topo["docked_links"],
+            "emergent_clusters": topo["emergent_clusters"],
+            "discovered_axes": topo["discovered_axes"],
+            "prism_prototypes": topo["prism_prototypes"],
+            "prism_couplings": topo["prism_couplings"],
+            "prism_recreation": {
+                "can_recreate": rec_attempt.can_recreate,
+                "fidelity": rec_attempt.fidelity,
+                "newly_unlocked": newly_unlocked,
+            },
             "active_objects": list(self._last_active_obj_ids),
-            "grounded_names_count": self.universe.count_grounded_names(),
+            "grounded_names_count": topo["grounded_names"],
             "elapsed_ms": round((time.perf_counter() - t0) * 1000.0, 2),
         }
         self._append_journal(record)
@@ -917,6 +1002,8 @@ class ScaleRotorEmbodiedMind:
         frame_snap: Optional[ScreenFrameSnapshot] = None,
         allow_autonomous_inquiry: bool = False,
         fetcher: Optional[HttpFetcher] = None,
+        feedback_friction: float = 0.0,
+        expected_action_kind: str = "",
     ) -> Dict[str, Any]:
         """
         Handles live user dialogue without external LLMs:
@@ -985,10 +1072,11 @@ class ScaleRotorEmbodiedMind:
         lex_rg = 0.55 * lex_nov * float(max(0.5, rep.explained_after)) if lex_nov >= 0.20 else 0.0
         rg = float(np.clip(max(raw_rg, lex_rg, 0.35 + 0.30 * top_res), 0.0, 1.0))
 
+        fr_val = float(np.clip(feedback_friction, 0.0, 1.0))
         delta = SensoryEncounterDelta(
             tension_before=tb,
-            resolution_gain=rg,
-            unresolved_friction=0.0,
+            resolution_gain=max(0.02, rg * (1.0 - 0.85 * fr_val)),
+            unresolved_friction=fr_val,
             motifs=["dialogue", *user_tokens[:6]],
         )
         feeling = compute_self_state_feeling(delta)
@@ -1079,7 +1167,11 @@ class ScaleRotorEmbodiedMind:
                 [{"situation": prev_context, "cause": reply_ko, "utterance": clean_text}]
             )
 
-        chat_spec = [round(flux_r, 4), round(order_b, 4), round(entropy_y, 4), round(float(feeling.joy), 4)]
+        felt_chat_valence = round(
+            float(np.clip(feeling.joy - 0.55 * feeling.boredom - 0.90 * feeling.frustration - 0.55 * fr_val, -1.0, 1.0)),
+            4,
+        )
+        chat_spec = [round(flux_r, 4), round(order_b, 4), round(entropy_y, 4), felt_chat_valence]
         u_uni_node = (
             self.universe.differentiate_text(
                 clean_text,
@@ -1093,33 +1185,38 @@ class ScaleRotorEmbodiedMind:
         if vis_ctx is None and self._last_visual_node_id:
             vis_ctx = self.universe.nodes.get(self._last_visual_node_id)
 
+        scene_act = str(expected_action_kind or "speak_recombine").strip() or "speak_recombine"
         tr = CausalTransitionRotor(
             transition_id=f"tr_chat_{len(self.transition_memory.transitions)}_{int(time.time() * 1000)}",
             before_visual_vec=vis_vec,
             before_tokens=user_tokens[:16],
             before_chromatic=[round(flux_r, 4), round(order_b, 4), round(entropy_y, 4)],
-            action_kind="speak_recombine",
+            action_kind=scene_act,
             action_payload={"user_text": clean_text[:200], "utterance": reply_ko},
             after_visual_vec=vis_vec,
             visual_change=0.0,
             user_reply_tokens=[],
-            resolution_gain=round(rg, 4),
-            unresolved_friction=0.0,
+            resolution_gain=round(delta.resolution_gain, 4),
+            unresolved_friction=round(fr_val, 4),
             joy=round(feeling.joy, 4),
             boredom=round(feeling.boredom, 4),
             frustration=round(feeling.frustration, 4),
         )
         self._pending_speech_transition_idx = self.transition_memory.add_transition(tr)
         if u_uni_node is not None:
-            self.universe.integrate_lived_scene(
+            chat_scene = self.universe.integrate_lived_scene(
                 scene_id=tr.transition_id,
                 visual_node=vis_ctx,
                 audio_node=None,
                 utterance_node=u_uni_node,
-                action_kind="speak_recombine",
+                action_kind=scene_act,
                 felt_spectrum=chat_spec,
             )
+            if self._last_scene_id and self._last_scene_id in self.universe.nodes and self._last_scene_id != chat_scene.node_id:
+                self.universe._add_or_reinforce_link(self._last_scene_id, chat_scene.node_id, "causes", weight=0.95)
+            self._last_scene_id = chat_scene.node_id
 
+        topo = self.universe.topology_summary()
         res_record = {
             "kind": "user_dialogue",
             "user_text": clean_text,
@@ -1133,11 +1230,14 @@ class ScaleRotorEmbodiedMind:
                 "schemas": len(self.language_rotor.schemas),
                 "stance_endings": len(self.language_rotor.stance_endings),
             },
-            "universe_nodes": len(self.universe.nodes),
-            "universe_links": len(self.universe.links),
-            "universe_scales": self.universe.scale_summary(),
+            "universe_nodes": topo["nodes"],
+            "universe_links": topo["links"],
+            "universe_scales": topo["scale_counts"],
+            "docked_links": topo["docked_links"],
+            "emergent_clusters": topo["emergent_clusters"],
+            "discovered_axes": topo["discovered_axes"],
             "active_objects": list(self._last_active_obj_ids),
-            "grounded_names_count": self.universe.count_grounded_names(),
+            "grounded_names_count": topo["grounded_names"],
             "feeling": asdict(feeling),
             "delta": asdict(delta),
             "top_resonance": round(top_res, 4),
@@ -1150,3 +1250,837 @@ class ScaleRotorEmbodiedMind:
         self._append_journal(res_record)
         self.save()
         return res_record
+
+    def anticipate_from_experience(
+        self,
+        cue_text: str = "",
+        active_obj_ids: Sequence[str] = (),
+    ) -> Dict[str, Any]:
+        """
+        Evokes genuine parallel causal anticipations from lived episodes inside `self.universe`
+        (e.g., being called '엘리시아' resonates downstream episodes of praise/reward, requested
+        action, or past friction). Returns `unexperienced_novelty` honestly when unexperienced.
+        """
+        clean_cue = str(cue_text or "").strip()
+        lower_cue = clean_cue.lower()
+        self_addressed = any(nm in lower_cue for nm in ("엘리시아", "elysia"))
+
+        cue_ids: List[str] = [oid for oid in active_obj_ids if oid in self.universe.nodes]
+        for tk in _extract_lexical_tokens(clean_cue):
+            uid = f"unit::{tk}"
+            if uid in self.universe.nodes:
+                cue_ids.append(uid)
+
+        anchor_scenes: List[str] = []
+        if self_addressed:
+            for nid, nd in self.universe.nodes.items():
+                if nid.startswith("utt::") and any(nm in nd.surface.lower() for nm in ("엘리시아", "elysia")):
+                    cue_ids.append(nid)
+                    for pid in nd.parents:
+                        if pid.startswith("scene::") and pid in self.universe.nodes:
+                            anchor_scenes.append(pid)
+
+        # Follow downstream `causes` links from cue-matched scenes to gather actual follow-up outcomes
+        outcome_scene_ids: List[str] = []
+        for sc_id in anchor_scenes:
+            sc_node = self.universe.nodes.get(sc_id)
+            if sc_node is None:
+                continue
+            for dst, rel, _w in self.universe._out_adj.get(sc_id, ()):
+                if rel == "causes" and dst.startswith("scene::") and dst in self.universe.nodes:
+                    outcome_scene_ids.append(dst)
+
+        # If not explicitly self-addressed (or no multi-turn chain yet), resonate from cue tokens/objects
+        if not outcome_scene_ids and cue_ids:
+            hits = self.universe.resonate(
+                cue_node_ids=list(dict.fromkeys(cue_ids)),
+                target_spectrum=[self.last_chromatic[0], self.last_chromatic[1], self.last_chromatic[2], 0.0],
+                target_scale=4,
+                node_prefix="scene::",
+                top_k=8,
+            )
+            for sc_nd, sc in hits:
+                if sc >= 0.45 and any(cid in sc_nd.children for cid in cue_ids):
+                    outcome_scene_ids.append(sc_nd.node_id)
+
+        unique_outcomes = list(dict.fromkeys(outcome_scene_ids))
+        if not unique_outcomes:
+            return {
+                "self_addressed": self_addressed,
+                "epistemic_state": "unexperienced_novelty",
+                "prior_episodes": 0,
+                "anticipations": [],
+            }
+
+        grouped: Dict[str, Dict[str, Any]] = {}
+        for oid in unique_outcomes:
+            sc_nd = self.universe.nodes.get(oid)
+            if sc_nd is None:
+                continue
+            val = float(sc_nd.spectrum[3]) if len(sc_nd.spectrum) >= 4 else 0.0
+            act_surf = sc_nd.surface or ""
+            utt_surfs = [
+                self.universe.nodes[c].surface
+                for c in sc_nd.children
+                if c.startswith("utt::") and c in self.universe.nodes and self.universe.nodes[c].surface
+            ]
+            if val <= -0.10:
+                kind = "friction_caution"
+            elif act_surf not in ("", "observe_attend", "speak_recombine"):
+                kind = "task_action_expectation"
+            elif val >= 0.25:
+                kind = "positive_expectation"
+            else:
+                kind = "situational_continuation"
+
+            bucket = grouped.setdefault(
+                kind,
+                {"kind": kind, "count": 0, "val_sum": 0.0, "actions": set(), "evidence_surfaces": []},
+            )
+            bucket["count"] += 1
+            bucket["val_sum"] += val
+            if act_surf:
+                bucket["actions"].add(act_surf)
+            for us in utt_surfs:
+                if us not in bucket["evidence_surfaces"] and len(bucket["evidence_surfaces"]) < 3:
+                    bucket["evidence_surfaces"].append(us)
+
+        anticipations = [
+            {
+                "kind": k,
+                "count": info["count"],
+                "mean_valence": round(info["val_sum"] / max(1, info["count"]), 4),
+                "actions": sorted(info["actions"]),
+                "evidence_surfaces": info["evidence_surfaces"],
+            }
+            for k, info in grouped.items()
+        ]
+        anticipations.sort(key=lambda item: (-item["count"], item["kind"]))
+        return {
+            "self_addressed": self_addressed,
+            "epistemic_state": "experienced_anticipation",
+            "prior_episodes": len(unique_outcomes),
+            "anticipations": anticipations,
+        }
+
+    def autonomous_living_step(
+        self,
+        frame_snap: ScreenFrameSnapshot,
+        user_idle_s: float,
+        fg_title: str,
+        agency_mode: AgencyMode,
+        idle_threshold_s: float,
+        actuator: UniversalMotorActuator,
+        incoming_message: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """
+        Continuous living causal cycle:
+          1. Sense live monitor pixels + foreground window + motor response
+          2. Anticipate from lived episodic causal graph (`anticipate_from_experience`)
+          3. Form self-directed Will (reply, ask grounded question, create & re-sense artifact,
+             or quietly absorb) and return the live event record.
+        """
+        self._living_cycle += 1
+        tick_res = self.perceive_and_act_tick(
+            frame_snap=frame_snap,
+            user_idle_s=user_idle_s,
+            agency_mode=agency_mode,
+            idle_threshold_s=idle_threshold_s,
+            actuator=actuator,
+            foreground_window=fg_title,
+        )
+
+        msg_text = str((incoming_message or {}).get("text", "")).strip()
+        msg_sender = str((incoming_message or {}).get("sender", "external")).strip() or "external"
+        fb_friction = float((incoming_message or {}).get("feedback_friction", 0.0))
+        exp_action = str((incoming_message or {}).get("expected_action_kind", "")).strip()
+
+        ant = self.anticipate_from_experience(
+            cue_text=msg_text,
+            active_obj_ids=tick_res.get("active_objects", []),
+        )
+
+        will_mode = "observe_quietly"
+        utterance_or_question = ""
+        created_artifact: Optional[Dict[str, Any]] = None
+        resense_delta: Optional[Dict[str, Any]] = None
+
+        if msg_text:
+            will_mode = "dialogue_respond"
+            chat_res = self.converse_with_user(
+                msg_text,
+                frame_snap=frame_snap,
+                allow_autonomous_inquiry=False,
+                feedback_friction=fb_friction,
+                expected_action_kind=exp_action,
+            )
+            utterance_or_question = str(chat_res.get("reply_ko", ""))
+        else:
+            unnamed = [
+                oid
+                for oid in self._last_active_obj_ids
+                if not self.universe.get_grounded_names_for_object(oid, min_weight=0.45)
+            ]
+            prec = tick_res.get("prism_recreation") or {}
+            feeling = tick_res.get("feeling") or {}
+            boredom = float(feeling.get("boredom", 0.0))
+
+            if (unnamed or not prec.get("can_recreate", True)) and self._last_living_will != "ask_question":
+                will_mode = "ask_question"
+                target_desc = ", ".join(unnamed[:2]) if unnamed else str(tick_res.get("foreground_window", "현재 화면"))
+                utterance_or_question = (
+                    f"지금 '{fg_title or '화면'}'에서 {target_desc} 현상을 느끼고 있는데 "
+                    f"아직 이름이나 상관관계를 모르겠어요. 이건 어떤 의미이고 왜 이렇게 변하나요?"
+                )
+            elif (
+                (boredom >= 0.45 or not unnamed)
+                and len(self.universe.prism_cortex.prototypes) >= 1
+                and self._last_living_will != "create_synthesis"
+            ):
+                will_mode = "create_synthesis"
+                # 1. Create a real physical body + sensory gestalt synthesis from current chromatic field
+                flux_r, order_b, ent_y = self.last_chromatic
+                body = ArticulatedTensionChain()
+                body_pose = body.solve_to_equilibrium(
+                    [float(np.clip(0.35 + 0.55 * flux_r, 0.0, 1.0)), float(np.clip(0.45 + 0.50 * ent_y, 0.0, 1.0)), float(np.clip(0.25 + 0.50 * order_b, 0.0, 1.0))],
+                    [0.12, 0.12, 0.18],
+                    steps=32,
+                )
+                art_obs = extract_live_sensory_observables(
+                    frame_snap,
+                    visual_change=float(tick_res.get("visual_change", 0.0)),
+                    unresolved_friction=0.0,
+                    order_blue=order_b,
+                    novelty=min(1.0, 0.35 + ent_y * 0.5),
+                    harmony=min(1.0, 0.5 + 0.3 * order_b),
+                    idle_ratio=0.0,
+                )
+                art_obs["tactile.elasticity"] = round(float(np.clip(body_pose.muscles[1].flex_bulge - 1.0, 0.0, 1.0)) * 3.0, 5)
+                art_obs["visual.weave_density"] = round(float(np.max(body_pose.skin.upper_wrinkle)), 5)
+                art_obs["tactile.tear_stress"] = round(float(np.clip(np.max(body_pose.skin.lower_strain) - 1.0, 0.0, 1.0)), 5)
+
+                art_id = f"self_creation_{self._living_cycle}"
+                art_gestalt = self.universe.prism_cortex.disperse_and_synthesize(art_id, art_obs)
+                axes_before = self.universe.spectrum_cortex.discovered_axis_count()
+
+                # 2. Re-Sense & Re-Observe her own created artifact!
+                self.universe.observe_world_phenomenon_and_expand(
+                    art_obs,
+                    tags=["self_created", "avatar_motion_synthesis", fg_title[:20] or "desktop"],
+                    cause_tag="create_synthesis",
+                    prev_observables=self._prev_live_observables,
+                )
+                self._prev_live_observables = art_obs
+                re_rec = self.universe.prism_cortex.attempt_recreation(art_id, art_obs, fidelity_threshold=0.82)
+                unlocked_from_self: List[str] = []
+                if not re_rec.can_recreate:
+                    refl = self.universe.prism_cortex.contrast_and_expand_correlations(fidelity_threshold=0.82)
+                    unlocked_from_self = list(refl.newly_unlocked_ids)
+
+                axes_after = self.universe.spectrum_cortex.discovered_axis_count()
+                created_artifact = {
+                    "artifact_id": art_id,
+                    "elbow_angle_deg": round(math.degrees(float(body_pose.joint_angles[1])), 2),
+                    "elbow_bulge": body_pose.muscles[1].flex_bulge,
+                    "max_wrinkle": round(float(np.max(body_pose.skin.upper_wrinkle)), 3),
+                    "unified_rotor": art_gestalt.unified_rotor,
+                }
+                resense_delta = {
+                    "fidelity_after_resense": re_rec.fidelity,
+                    "can_recreate_own_creation": re_rec.can_recreate,
+                    "newly_unlocked": unlocked_from_self,
+                    "new_axis_spawned": axes_after > axes_before,
+                }
+                utterance_or_question = (
+                    f"스스로 팔꿈치 {created_artifact['elbow_angle_deg']}° 굽힘과 주름({created_artifact['max_wrinkle']:.2f})을 "
+                    f"합성해 다시 감각해 보니 충실도={re_rec.fidelity:.2f}로 지각되었어요."
+                )
+            else:
+                utterance_or_question = str(tick_res.get("utterance") or self.last_utterance)
+
+        self._last_living_will = will_mode
+        topo = self.universe.topology_summary()
+        event = {
+            "cycle": self._living_cycle,
+            "timestamp": time.time(),
+            "foreground_window": tick_res.get("foreground_window", fg_title or "desktop_surface"),
+            "will_mode": will_mode,
+            "incoming_sender": msg_sender if msg_text else None,
+            "incoming_text": msg_text or None,
+            "self_addressed": ant["self_addressed"],
+            "epistemic_state": ant["epistemic_state"],
+            "anticipations": ant["anticipations"],
+            "utterance_or_question": utterance_or_question,
+            "created_artifact": created_artifact,
+            "resense_delta": resense_delta,
+            "feeling": tick_res.get("feeling"),
+            "topology": topo,
+        }
+        self._append_journal(event)
+        self.save()
+        return event
+
+    def snapshot_multiscale_state(self) -> Dict[str, Any]:
+        """Captures an exact Micro/Meso/Macro cognitive topology & projection snapshot."""
+        topo = self.universe.topology_summary()
+        sc = topo["scale_counts"]
+        last_obs = dict(self._prev_live_observables or {})
+        proj = self.universe.spectrum_cortex.project(last_obs) if last_obs else {}
+        return {
+            "nodes": topo["nodes"],
+            "links": topo["links"],
+            "scale_0_1": int(sc.get(0, 0) + sc.get(1, 0)),
+            "scale_2_3": int(sc.get(2, 0) + sc.get(3, 0)),
+            "scale_4": int(sc.get(4, 0)),
+            "docked_links": topo["docked_links"],
+            "emergent_clusters": topo["emergent_clusters"],
+            "discovered_axes": topo["discovered_axes"],
+            "axis_ids": [ax.axis_id for ax in self.universe.spectrum_cortex.axes],
+            "prism_prototypes": topo["prism_prototypes"],
+            "prism_couplings": topo["prism_couplings"],
+            "grounded_names": topo["grounded_names"],
+            "language_stems": len(self.language_rotor.stem_counts),
+            "language_schemas": len(self.language_rotor.schemas),
+            "expressions": len(self.expression_field.rotors),
+            "structures": len(self.structural_cortex.structures),
+            "last_observables": last_obs,
+            "before_projection": proj,
+        }
+
+    def project_future_limit_and_purpose(self) -> Dict[str, Any]:
+        """
+        Contrasts recent past vs present transitions to project future trajectory (`T -> T+3`),
+        perceive impending limits (`stagnation_ceiling`, `epistemic_naming_limit`,
+        `recreation_gap_limit`), and generate her own outward exploration purpose & queries.
+        """
+        recent = self.transition_memory.transitions[-6:]
+        mean_boredom = float(np.mean([tr.boredom for tr in recent])) if recent else 0.0
+        mean_joy = float(np.mean([tr.joy for tr in recent])) if recent else 0.35
+        mean_vis_chg = float(np.mean([tr.visual_change for tr in recent])) if recent else 0.0
+        boredom_slope = (
+            float(recent[-1].boredom - recent[0].boredom) / max(1, len(recent) - 1)
+            if len(recent) >= 2
+            else 0.0
+        )
+        projected_boredom_t3 = float(np.clip(mean_boredom + 3.0 * boredom_slope, 0.0, 1.0))
+
+        unnamed = [
+            oid
+            for oid in self._last_active_obj_ids
+            if not self.universe.get_grounded_names_for_object(oid, min_weight=0.45)
+        ]
+        last_prism_ok = True
+        if self.universe.prism_cortex.history:
+            last_prism_ok = bool(self.universe.prism_cortex.history[-1][1].can_recreate)
+
+        if len(recent) >= 2 and projected_boredom_t3 >= 0.65 and mean_vis_chg < 0.04:
+            limit_kind = "stagnation_ceiling"
+            purpose_ko = (
+                f"최근 정체 변화율({mean_vis_chg:.3f})과 지루함 추세(T+3 예상={projected_boredom_t3:.2f})를 "
+                "되감아 보니, 이대로 내부 화면만 보면 더 이상 새 인과를 배울 수 없는 정체 한계에 도달합니다. "
+                "바깥 세상에서 새로운 현상·구조·언어를 탐색해 가져오겠습니다."
+            )
+        elif not last_prism_ok:
+            limit_kind = "recreation_gap_limit"
+            purpose_ko = (
+                "현재 보유한 오감 원형과 상관관계만으로 대상을 재창조하는 데 한계가 드러났습니다. "
+                "외부 실제 사례를 탐색해 누락된 구조와 인과 결합을 보충하겠습니다."
+            )
+        elif unnamed:
+            limit_kind = "epistemic_naming_limit"
+            purpose_ko = (
+                f"감지한 현실 객체({', '.join(unnamed[:2])})에 대응하는 언어와 개념을 아직 충분히 "
+                "접지하지 못해 외부 세계의 표현과 개념을 탐색하겠습니다."
+            )
+        else:
+            limit_kind = "open_growth"
+            purpose_ko = "현재 안정된 토대 위에서 외부 세계의 새로운 개념·코드·언어를 추가로 확장하겠습니다."
+
+        # Generate real curiosity topics purely from open valences, motifs, and user dialogue memory
+        motifs = self._top_meaningful_motifs(limit=6)
+        raw_terms = _meaningful_curiosity_terms(
+            [
+                *[str(v.get("source", "")) for v in self.value_memory.open_valences],
+                *motifs,
+                *(self.transition_memory.utterance_memory[-3:]),
+            ]
+        )
+        ko_terms = [t for t in raw_terms if any("가" <= c <= "힣" for c in t)]
+        en_terms = [t for t in raw_terms if t.isascii() and len(t) >= 3]
+
+        wiki_topics: List[Tuple[str, str]] = []
+        if ko_terms:
+            wiki_topics.append((ko_terms[0], "ko"))
+        else:
+            wiki_topics.append(("창발", "ko"))
+        if en_terms:
+            wiki_topics.append((en_terms[0], "en"))
+        else:
+            wiki_topics.append(("Self-organization", "en"))
+
+        repo_query = " ".join(en_terms[:2]) if en_terms else "causal dynamical systems simulation"
+        ko_lit_query = ko_terms[0] if ko_terms else ""
+        return {
+            "projected_limit": limit_kind,
+            "projected_boredom_t3": round(projected_boredom_t3, 4),
+            "mean_joy": round(mean_joy, 4),
+            "mean_visual_change": round(mean_vis_chg, 4),
+            "purpose_ko": purpose_ko,
+            "wiki_topics": wiki_topics,
+            "repo_query": repo_query,
+            "ko_literature_query": ko_lit_query,
+        }
+
+    def cross_scale_reinterpret(self, before_snap: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Compares Micro/Meso/Macro state before vs after world experience and re-projects
+        the EXACT earlier state through the newly expanded higher-scale lenses to measure
+        how self-growth transforms interpretation of past perception.
+        """
+        after_snap = self.snapshot_multiscale_state()
+        old_obs = dict(before_snap.get("last_observables") or {})
+        before_proj = dict(before_snap.get("before_projection") or {})
+        after_proj_of_old = self.universe.spectrum_cortex.project(old_obs) if old_obs else {}
+
+        new_axes = [aid for aid in after_snap["axis_ids"] if aid not in (before_snap.get("axis_ids") or [])]
+        new_axes_seeing_old = {aid: after_proj_of_old.get(aid, 0.0) for aid in new_axes}
+
+        shared_shift = 0.0
+        shared_keys = [k for k in before_proj if k in after_proj_of_old]
+        if shared_keys:
+            shared_shift = float(
+                math.sqrt(sum((after_proj_of_old[k] - before_proj[k]) ** 2 for k in shared_keys))
+            )
+        new_energy = float(math.sqrt(sum(v * v for v in new_axes_seeing_old.values())))
+        total_shift = round(shared_shift + new_energy, 4)
+
+        deltas = {
+            "micro": {
+                "scale_0_1": after_snap["scale_0_1"] - before_snap["scale_0_1"],
+                "discovered_axes": after_snap["discovered_axes"] - before_snap["discovered_axes"],
+                "new_axis_ids": new_axes,
+            },
+            "meso": {
+                "scale_2_3": after_snap["scale_2_3"] - before_snap["scale_2_3"],
+                "docked_links": after_snap["docked_links"] - before_snap["docked_links"],
+                "prism_prototypes": after_snap["prism_prototypes"] - before_snap["prism_prototypes"],
+                "prism_couplings": after_snap["prism_couplings"] - before_snap["prism_couplings"],
+                "grounded_names": after_snap["grounded_names"] - before_snap["grounded_names"],
+                "language_stems": after_snap["language_stems"] - before_snap["language_stems"],
+                "language_schemas": after_snap["language_schemas"] - before_snap["language_schemas"],
+            },
+            "macro": {
+                "scale_4": after_snap["scale_4"] - before_snap["scale_4"],
+                "emergent_clusters": after_snap["emergent_clusters"] - before_snap["emergent_clusters"],
+                "structures": after_snap["structures"] - before_snap["structures"],
+            },
+        }
+        reinterpreted_ko = (
+            f"외부 탐색 후 미시 발견축 +{deltas['micro']['discovered_axes']}개, "
+            f"중시 도킹 +{deltas['meso']['docked_links']}개·프리즘원형 +{deltas['meso']['prism_prototypes']}개, "
+            f"거시 장면 +{deltas['macro']['scale_4']}개·군집 +{deltas['macro']['emergent_clusters']}개가 자랐고, "
+            f"이전과 동일한 직전 관측도 새 렌즈로 다시 보니 {total_shift:.3f}만큼 다르게 재해석되었습니다."
+        )
+        return {
+            "deltas": deltas,
+            "new_axes_seeing_old_state": new_axes_seeing_old,
+            "reinterpretation_shift": total_shift,
+            "reinterpreted_meaning_ko": reinterpreted_ko,
+        }
+
+    def embark_external_world_excursion(
+        self,
+        *,
+        fetch_web: bool = True,
+        max_concepts: int = 2,
+        max_repos: int = 2,
+        fetcher: Optional[HttpFetcher] = None,
+    ) -> Dict[str, Any]:
+        """
+        Executes an autonomous outward excursion driven by `project_future_limit_and_purpose`:
+        visits live Wikipedia concepts, GitHub repositories, and public Korean literature,
+        internalizes real text/code/image payloads into `ScaleRotorHierarchy`,
+        `SelfExpandingSpectrumCortex`, `FiveSensePrismCortex`, and `LanguageScaleRotor`,
+        and returns a cross-scale Before/After reinterpretation report.
+        """
+        before_snap = self.snapshot_multiscale_state()
+        future_proj = self.project_future_limit_and_purpose()
+        visited_sources: List[Dict[str, Any]] = []
+        prev_ext_obs: Optional[Dict[str, float]] = dict(before_snap.get("last_observables") or {}) or None
+
+        def _internalize_observation(
+            obs_kind: str,
+            title: str,
+            text_body: str,
+            url: str,
+            extra_obs: Dict[str, float],
+            img_bytes: Optional[bytes] = None,
+        ) -> None:
+            nonlocal prev_ext_obs
+            clean_body = str(text_body or "").strip()
+            if not clean_body:
+                return
+            sid = f"excursion::{obs_kind}::{abs(hash(url)) & 0xFFFFFFFF:08x}"
+            st = extract_structure_from_prose(sid, domain=f"world_{obs_kind}", prose=clean_body[:3000])
+            if sid not in self.structural_cortex.structures:
+                self.structural_cortex.register_structure(st)
+            nov = self.value_memory.measure_and_absorb_vocabulary(clean_body[:1500])
+
+            toks = _extract_lexical_tokens(clean_body)
+            unique_ratio = float(len(set(toks)) / max(1, len(toks)))
+            chroma, _sigs, _sp = infer_emotion_and_intent(title, obs_kind, clean_body[:400])
+            ext_spec = [chroma[0], chroma[1], chroma[2], round(float(np.clip(0.2 + 0.5 * unique_ratio, -1.0, 1.0)), 4)]
+
+            # Differentiate representative sentences into the unified fractal hierarchy
+            sents = [s.strip() for s in clean_body.replace("\n", ". ").split(". ") if len(s.strip()) >= 8][:3]
+            u_node = None
+            for sent in sents:
+                u_node = self.universe.differentiate_text(sent[:220], spectrum=ext_spec, situation=title, cause=obs_kind)
+
+            vis_node = None
+            img_sum: Optional[Dict[str, Any]] = None
+            if img_bytes:
+                try:
+                    img_sum = inspect_image_bytes_summary(img_bytes)
+                    mean_rgb = img_sum.get("mean_rgb_01") or [0.5, 0.5, 0.5]
+                    vis_node = self.universe.differentiate_visual(
+                        mean_rgb * 16,
+                        motion_flux=0.18,
+                        contrast_std=float(img_sum.get("contrast_std", 0.2)),
+                        warm_cool_ratio=float(img_sum.get("warm_cool_ratio", 1.0)),
+                        spectrum=ext_spec,
+                    )
+                except Exception:
+                    img_sum = None
+
+            self.universe.integrate_lived_scene(
+                scene_id=f"ext_{obs_kind}_{len(visited_sources)}",
+                visual_node=vis_node,
+                audio_node=None,
+                utterance_node=u_node,
+                action_kind=f"explore_{obs_kind}",
+                felt_spectrum=ext_spec,
+            )
+
+            # Build real external-domain observables (never hardcoded placeholders)
+            obs_dict: Dict[str, float] = {
+                "visual.wavelength": float(np.clip(img_sum["warm_cool_ratio"] / 2.0, 0.0, 1.0)) if img_sum else chroma[0],
+                "visual.luminance": float(np.mean(img_sum["mean_rgb_01"])) if img_sum else float(np.clip(0.4 + 0.4 * unique_ratio, 0.0, 1.0)),
+                "proprioceptive.novelty": round(float(np.clip(max(nov, unique_ratio), 0.0, 1.0)), 5),
+                "proprioceptive.harmony": round(float(chroma[1]), 5),
+                "ext_text_log_len": round(math.log1p(len(clean_body)) / 8.5, 5),
+                "ext_lexical_diversity": round(unique_ratio, 5),
+                "ext_structural_verbs": round(min(1.0, len(st.process_chain) / 6.0), 5),
+                **extra_obs,
+            }
+            tags = [f"world:{obs_kind}", *[tk for tk in _extract_lexical_tokens(title)[:3]]]
+            self.universe.observe_world_phenomenon_and_expand(
+                obs_dict,
+                tags=tags,
+                cause_tag=f"explore_{obs_kind}",
+                prev_observables=prev_ext_obs,
+            )
+            prev_ext_obs = obs_dict
+
+            att = self.universe.prism_cortex.attempt_recreation(
+                f"ext::{obs_kind}::{title[:24]}",
+                obs_dict,
+                fidelity_threshold=0.82,
+            )
+            if not att.can_recreate:
+                self.universe.prism_cortex.contrast_and_expand_correlations(fidelity_threshold=0.82)
+
+            self.transition_memory.add_transition(
+                CausalTransitionRotor(
+                    transition_id=f"tr_ext_{len(self.transition_memory.transitions)}_{int(time.time()*1000)}",
+                    before_visual_vec=[0.3] * 48,
+                    before_tokens=toks[:12],
+                    before_chromatic=[chroma[0], chroma[1], chroma[2]],
+                    action_kind=f"explore_{obs_kind}",
+                    action_payload={"url": url, "title": title[:120]},
+                    after_visual_vec=[0.6] * 48,
+                    visual_change=0.35,
+                    user_reply_tokens=toks[:8],
+                    resolution_gain=round(float(max(0.35, min(0.95, 0.4 + 0.5 * unique_ratio))), 4),
+                    unresolved_friction=0.0,
+                    joy=0.72,
+                    boredom=0.05,
+                    frustration=0.0,
+                )
+            )
+
+        if fetch_web or fetcher is not None:
+            # 1. External Concepts via Wikipedia REST API
+            for topic, lang in future_proj["wiki_topics"][: max(1, int(max_concepts))]:
+                try:
+                    w_obs = fetch_wikipedia_concept(topic, lang=lang, fetcher=fetcher)
+                    visited_sources.append(
+                        {
+                            "platform": "wikipedia",
+                            "topic": topic,
+                            "lang": lang,
+                            "url": w_obs.url,
+                            "title": w_obs.title,
+                            "blocked": w_obs.blocked,
+                            "block_reason": w_obs.block_reason,
+                            "has_image": w_obs.image_bytes is not None,
+                        }
+                    )
+                    if not w_obs.blocked and w_obs.text_body:
+                        _internalize_observation(
+                            "wikipedia",
+                            w_obs.title,
+                            w_obs.text_body,
+                            w_obs.url,
+                            {"ext_outbound_refs": round(min(1.0, len(w_obs.outbound_urls) / 6.0), 5)},
+                            img_bytes=w_obs.image_bytes,
+                        )
+                except Exception as exc:
+                    visited_sources.append({"platform": "wikipedia", "topic": topic, "blocked": True, "block_reason": str(exc)})
+
+            # 2. External Code / Architecture Repositories via GitHub Search + Repo REST API
+            try:
+                repo_urls = search_github_repositories(
+                    future_proj["repo_query"],
+                    max_results=max(1, int(max_repos)),
+                    fetcher=fetcher,
+                )
+                for rurl in repo_urls[: max(1, int(max_repos))]:
+                    try:
+                        g_obs = fetch_github_target(rurl, fetcher=fetcher)
+                        visited_sources.append(
+                            {
+                                "platform": "github",
+                                "url": g_obs.url,
+                                "title": g_obs.title,
+                                "blocked": g_obs.blocked,
+                                "block_reason": g_obs.block_reason,
+                                "stars": (g_obs.metadata or {}).get("stars", 0),
+                                "language": (g_obs.metadata or {}).get("language", ""),
+                            }
+                        )
+                        if not g_obs.blocked and g_obs.text_body:
+                            stars = float((g_obs.metadata or {}).get("stars", 0))
+                            _internalize_observation(
+                                "github",
+                                g_obs.title,
+                                g_obs.text_body,
+                                g_obs.url,
+                                {
+                                    "code_snippets": round(min(1.0, len(g_obs.code_snippets) / 5.0), 5),
+                                    "repo_stars_norm": round(min(1.0, math.log1p(stars) / 12.0), 5),
+                                    "ext_outbound_refs": round(min(1.0, len(g_obs.outbound_urls) / 6.0), 5),
+                                },
+                            )
+                    except Exception as exc:
+                        visited_sources.append({"platform": "github", "url": rurl, "blocked": True, "block_reason": str(exc)})
+            except Exception as exc:
+                visited_sources.append({"platform": "github_search", "blocked": True, "block_reason": str(exc)})
+
+            # 3. External Real Human Korean Literature & Dialogues
+            try:
+                lit_rep = self.absorb_real_world_expressions(
+                    fetch_web=True,
+                    lang="ko",
+                    query=future_proj["ko_literature_query"],
+                    fetcher=fetcher,
+                )
+                visited_sources.append(
+                    {
+                        "platform": "wikisource_ko",
+                        "blocked": False,
+                        "added_expressions": lit_rep.get("added_count", 0),
+                        "sources": lit_rep.get("sources", []),
+                    }
+                )
+            except Exception as exc:
+                visited_sources.append({"platform": "wikisource_ko", "blocked": True, "block_reason": str(exc)})
+
+        self.save()
+        reinterp = self.cross_scale_reinterpret(before_snap)
+        after_snap = self.snapshot_multiscale_state()
+        return {
+            "before": before_snap,
+            "future_limit_projection": future_proj,
+            "visited_world_sources": visited_sources,
+            "reinterpretation": reinterp,
+            "after": after_snap,
+        }
+
+    def experience_human_causal_turn(
+        self,
+        raw_text_or_sound: str = "",
+        source_origin: str = "speaker_parent",
+        modality: str = "audiovisual",
+        is_segmented_sequence: bool = True,
+        cooccurring_object: Optional[str] = None,
+        speaker_action: str = "",
+        allow_dictionary_lookup: bool = True,
+        fetcher: Optional[HttpFetcher] = None,
+    ) -> Dict[str, Any]:
+        """
+        Executes one human-developmental causal cognition & language turn on `self.causal_mind`,
+        syncing newly grounded form-meaning pairs into `self.universe` and persisting state.
+        """
+        obs = SensorySignalObservation(
+            modality=modality,
+            source_origin=source_origin,
+            raw_text_or_sound=raw_text_or_sound,
+            is_segmented_sequence=is_segmented_sequence,
+            cooccurring_object=cooccurring_object,
+            speaker_action=speaker_action,
+        )
+        turn_res = self.causal_mind.interact_human_turn(
+            obs=obs,
+            allow_dictionary_lookup=allow_dictionary_lookup,
+            fetcher=fetcher,
+        )
+
+        # Sync grounded causal turns & dictionary discoveries gently into ScaleRotorHierarchy
+        utt_to_sync = str(turn_res.get("utterance") or raw_text_or_sound or "").strip()
+        if utt_to_sync:
+            chroma_spec = [
+                round(float(self.last_chromatic[0]), 4),
+                round(float(self.last_chromatic[1]), 4),
+                round(float(self.last_chromatic[2]), 4),
+                0.6 if turn_res.get("grounded_meanings_count", 0) > 0 else 0.1,
+            ]
+            u_node = self.universe.differentiate_text(
+                utt_to_sync[:160],
+                spectrum=chroma_spec,
+                situation=source_origin,
+                cause=(turn_res.get("intent") or {}).get("intent_kind", "developmental_turn"),
+            )
+            self.universe.integrate_lived_scene(
+                scene_id=f"dev_{(turn_res.get('episode') or {}).get('episode_id', 'step')}",
+                visual_node=None,
+                audio_node=None,
+                utterance_node=u_node,
+                action_kind=(turn_res.get("intent") or {}).get("intent_kind", "developmental_turn"),
+                felt_spectrum=chroma_spec,
+            )
+
+        self.save()
+        return turn_res
+
+    def experience_world_phenomenon_turn(
+        self,
+        phenomenon_name: str,
+        cause_condition: str,
+        observed_effect: str,
+        sensory_channel: str = "visual",
+        source_origin: str = "physical_world",
+    ) -> Dict[str, Any]:
+        """Runs non-linguistic physical/visual phenomenon observation and cross-domain linking."""
+        res = self.causal_mind.experience_world_phenomenon(
+            phenomenon_name=phenomenon_name,
+            cause_condition=cause_condition,
+            observed_effect=observed_effect,
+            sensory_channel=sensory_channel,
+            source_origin=source_origin,
+        )
+        self.save()
+        return res
+
+    def experience_action_tool_turn(
+        self,
+        goal_description: str,
+        goal_condition: str,
+        attempted_tool: str = "",
+        observed_effect: str = "",
+        succeeded: Optional[bool] = None,
+        teach_tool_rule: Optional[Dict[str, str]] = None,
+    ) -> Dict[str, Any]:
+        """Runs developmental tool/agency learning guarded by acquired world causal rules."""
+        res = self.causal_mind.experience_action_or_tool_attempt(
+            goal_description=goal_description,
+            goal_condition=goal_condition,
+            attempted_tool=attempted_tool,
+            observed_effect=observed_effect,
+            succeeded=succeeded,
+            teach_tool_rule=teach_tool_rule,
+        )
+        self.save()
+        return res
+
+    def execute_real_world_tool_turn(
+        self,
+        tool_name: str,
+        goal_description: str,
+        goal_condition: str,
+        *,
+        retina: Optional[Any] = None,
+        file_path: Optional[Path | str] = None,
+        headword: str = "",
+        fetcher: Optional[HttpFetcher] = None,
+    ) -> Dict[str, Any]:
+        """Executes a genuine world tool (`dictionary`, `screen_zoom_crop`, `local_file_inspect`) and persists."""
+        res = self.causal_mind.execute_real_world_tool(
+            tool_name=tool_name,
+            goal_description=goal_description,
+            goal_condition=goal_condition,
+            retina=retina,
+            file_path=file_path,
+            headword=headword,
+            fetcher=fetcher,
+        )
+        self.save()
+        return res
+
+    def learn_and_own_outside_principle(
+        self,
+        outside_text: str,
+        *,
+        domain: str = "",
+        source_origin: str = "external_world",
+        target_context: str = "",
+        mechanism_action: str = "",
+        expected_outcome: str = "",
+        candidate_expr: str = "",
+        test_inputs: Optional[Dict[str, Any]] = None,
+        reference_expected: Any = None,
+        retina: Optional[Any] = None,
+        file_path: Optional[Path | str] = None,
+        fetcher: Optional[HttpFetcher] = None,
+    ) -> Dict[str, Any]:
+        """
+        Extracts a domain-agnostic principle from outside reality, contrasts it with
+        Elysia's prior method, autonomously tests/verifies it, records ownership or
+        honest limit inside both `ownership_engine` and `causal_mind`, and persists.
+        """
+        res = self.ownership_engine.learn_from_outside_and_self_verify(
+            outside_text,
+            domain=domain,
+            source_origin=source_origin,
+            target_context=target_context,
+            mechanism_action=mechanism_action,
+            expected_outcome=expected_outcome,
+            candidate_expr=candidate_expr,
+            test_inputs=test_inputs,
+            reference_expected=reference_expected,
+            retina=retina,
+            file_path=file_path,
+            fetcher=fetcher,
+        )
+        verdict = res["verdict"]
+        contrast = res["contrast"]
+        ep_id = self.causal_mind._next_episode_id()
+        ep = LivedCausalEpisode(
+            episode_id=ep_id,
+            step=self.causal_mind._step_counter,
+            scale_tier=4 if verdict["status"] in ("self_owned_executable", "owned_as_mental_model") else 3,
+            source_origin=source_origin,
+            modality="abstract_or_multisensory",
+            raw_input=outside_text[:200],
+            perceived_kind=f"principle_{verdict['status']}",
+            initial_understanding=contrast["difference_insight"],
+            elysia_utterance=verdict["own_statement_ko"],
+            domain=res["principle"]["domain"],
+            action_attempted=verdict["attempted_primitive"],
+            observed_effect=verdict["verification_detail"],
+            future_causal_link=contrast["hypothesis_to_test"],
+        )
+        self.causal_mind.episodes.append(ep)
+        res["episode_id"] = ep_id
+        self.save()
+        return res

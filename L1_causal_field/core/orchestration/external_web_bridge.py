@@ -561,6 +561,125 @@ def fetch_wikipedia_concept(
     )
 
 
+def _extract_concise_dictionary_summary(text_body: str, max_chars: int = 260) -> str:
+    """Extracts a clean 1-2 line definition summary from Wiktionary/Wikipedia plain text."""
+    lines: List[str] = []
+    for raw_line in (text_body or "").splitlines():
+        line = re.sub(r"\s+", " ", raw_line).strip()
+        if not line:
+            continue
+        if line.startswith("==") or line.endswith("[편집]"):
+            continue
+        if re.match(r"^(발음|어원|한자|로마자|국어의\s*로마자|IPA)\s*[:：]?", line):
+            continue
+        line = re.sub(r"^(?:\([^)]+\)\s*)?IPA\([^)]*\)\s*[:：]\s*\[[^\]]+\](?:\s*~\s*\[[^\]]+\])?", "", line).strip()
+        line = re.sub(r"발음\s*[:：]\s*\[[^\]]+\]", "", line).strip()
+        if not line:
+            continue
+        # Strip leading numbered sense markers like "1." or "1)"
+        cleaned = re.sub(r"^\d+[.)]\s*", "", line).strip()
+        if len(cleaned) >= 6:
+            lines.append(cleaned)
+        if sum(len(x) for x in lines) >= max_chars or len(lines) >= 2:
+            break
+    joined = " ".join(lines).strip()
+    if not joined:
+        joined = re.sub(r"\s+", " ", (text_body or "")).strip()
+    return joined[:max_chars].strip()
+
+
+def fetch_dictionary_meaning(
+    word: str,
+    lang: str = "ko",
+    fetcher: Optional[HttpFetcher] = None,
+) -> ExternalWebObservation:
+    """
+    Consults live Wiktionary (`{lang}.wiktionary.org`) for a word's lexical meaning,
+    falling back to Wikipedia summary only when Wiktionary lacks a clean entry and
+    network connectivity is available.
+    """
+    clean_word = str(word or "").strip()
+    safe_lang = (lang or "ko").strip().lower() or "ko"
+    wiktionary_url = f"https://{safe_lang}.wiktionary.org/wiki/{quote(clean_word)}"
+    if not clean_word:
+        return ExternalWebObservation(
+            url=wiktionary_url,
+            platform="wiktionary",
+            title=word or wiktionary_url,
+            text_body="",
+            blocked=True,
+            block_reason="Empty dictionary headword",
+            status_code=400,
+        )
+
+    get_fn = fetcher or default_http_get
+    api_url = (
+        f"https://{safe_lang}.wiktionary.org/w/api.php?action=query&prop=extracts"
+        f"&explaintext=1&titles={quote(clean_word)}&format=json"
+    )
+    st_code, raw_bytes, _ = get_fn(api_url, 8.0, {"Accept": "application/json"})
+    if st_code == 0:
+        return ExternalWebObservation(
+            url=wiktionary_url,
+            platform="wiktionary",
+            title=clean_word,
+            text_body="",
+            blocked=True,
+            block_reason=f"Network error: {raw_bytes.decode('utf-8', 'replace')[:180]}",
+            status_code=0,
+        )
+
+    if 200 <= st_code < 400:
+        try:
+            payload = json.loads(raw_bytes.decode("utf-8", errors="replace"))
+            pages = (payload.get("query") or {}).get("pages") or {}
+            for page in pages.values():
+                if not isinstance(page, dict) or "missing" in page:
+                    continue
+                extract_txt = str(page.get("extract") or "").strip()
+                if len(extract_txt) >= 15:
+                    page_title = str(page.get("title") or clean_word)
+                    summary = _extract_concise_dictionary_summary(extract_txt)
+                    return ExternalWebObservation(
+                        url=f"https://{safe_lang}.wiktionary.org/wiki/{quote(page_title)}",
+                        platform="wiktionary",
+                        title=page_title,
+                        text_body=extract_txt[:2500],
+                        outbound_urls=_extract_safe_outbound_urls(extract_txt),
+                        blocked=False,
+                        status_code=st_code,
+                        metadata={
+                            "lang": safe_lang,
+                            "dictionary_source": "wiktionary",
+                            "definition_summary": summary,
+                        },
+                    )
+        except Exception:
+            pass
+
+    wiki_obs = fetch_wikipedia_concept(clean_word, lang=safe_lang, fetcher=fetcher)
+    if not wiki_obs.blocked and wiki_obs.text_body:
+        body_lines = [ln.strip() for ln in wiki_obs.text_body.splitlines() if ln.strip()]
+        if body_lines and body_lines[0].lower() == wiki_obs.title.lower():
+            body_lines = body_lines[1:]
+        wiki_summary = _extract_concise_dictionary_summary("\n".join(body_lines) or wiki_obs.text_body)
+        meta = dict(wiki_obs.metadata or {})
+        meta["dictionary_source"] = "wikipedia_fallback"
+        meta["definition_summary"] = wiki_summary
+        wiki_obs.metadata = meta
+        return wiki_obs
+
+    return ExternalWebObservation(
+        url=wiktionary_url,
+        platform="wiktionary",
+        title=clean_word,
+        text_body="",
+        blocked=True,
+        block_reason=wiki_obs.block_reason or f"Dictionary entry not found (HTTP {st_code})",
+        status_code=wiki_obs.status_code or st_code,
+    )
+
+
 def observe_external_url(
     url: str,
     fetcher: Optional[HttpFetcher] = None,
